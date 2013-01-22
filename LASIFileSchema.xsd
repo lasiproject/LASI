@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema targetNamespace="http://tempuri.org/XMLSchema.xsd"
+    elementFormDefault="qualified"
+    xmlns="http://tempuri.org/XMLSchema.xsd"
+    xmlns:mstns="http://tempuri.org/XMLSchema.xsd"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+>
+  <xs:group name="body">
+    <xs:choice>
+      <xs:element name="heading">
+      </xs:element>
+      <xs:element name ="paragraph">
+      </xs:element>
+      <xs:element  name="table">
+        <xs:complexType>
+          <xs:attribute name="index" use="required"/>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="figure">
+        <xs:complexType>
+          <xs:attribute name="index" use="required"/>
+        </xs:complexType>
+      </xs:element>
+    </xs:choice>
+  </xs:group>
+  <xs:element  name="LASIFile">
+    <xs:complexType mixed="true">
+      <xs:all>
+        <xs:element name="fileHeader">
+          <xs:complexType>
+            <xs:attribute name ="title" use="required"/>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="fileBody">
+          <xs:complexType>
+            <xs:sequence maxOccurs="unbounded">
+              <xs:group maxOccurs="unbounded" ref ="body">
+              </xs:group>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="references">
+          <xs:complexType>
+            <xs:sequence maxOccurs="unbounded">
+              <xs:element name="citation">
+                <xs:complexType mixed="true">
+                  <xs:attribute name="index" type="xs:integer" use="required"></xs:attribute>
+                  <xs:attribute name="text" type="xs:string" use="optional"></xs:attribute>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name ="footer">
+        </xs:element>
+      </xs:all>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

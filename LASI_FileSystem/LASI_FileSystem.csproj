@@ -1,0 +1,120 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{F13D6C6D-A004-45BD-8FB8-E044E20F1204}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>LASI.FileSystem</RootNamespace>
+    <AssemblyName>LASI_FileSystem</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>LasiLogo.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <RunPostBuildEvent>Always</RunPostBuildEvent>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Office.Interop.Word, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="OpenNLP">
+      <HintPath>..\ThirdPartyComponents\TaggingPackage\bin\Debug\OpenNLP.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpEntropy">
+      <HintPath>..\ThirdPartyComponents\TaggingPackage\bin\Debug\SharpEntropy.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpWordNet">
+      <HintPath>..\ThirdPartyComponents\TaggingPackage\bin\Debug\SharpWordNet.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Exceptions\NotLoadedException.cs" />
+    <Compile Include="FileConveters\DocToDocXConverter.cs" />
+    <Compile Include="FileConveters\DocxToTextConverter.cs" />
+    <Compile Include="FileConveters\GenericXMLFile.cs" />
+    <Compile Include="FileConveters\XMLSchemaBasedDocxToText.cs" />
+    <Compile Include="FileManager.cs" />
+    <Compile Include="FileConveters\InputFileConverter.cs" />
+    <Compile Include="TaggerEncapsulation\PosExtractor.cs" />
+    <Compile Include="TaggerEncapsulation\SharpNLPTagger.cs" />
+    <Compile Include="TaggerEncapsulation\SharpNLPTagsetMap.cs" />
+    <Compile Include="TaggerEncapsulation\TaggingOptions.cs" />
+    <Compile Include="TaggerEncapsulation\WordTagParser.cs" />
+    <Compile Include="FileTypes\DocXFile.cs" />
+    <Compile Include="FileTypes\FileData.cs" />
+    <Compile Include="FileTypes\PdfFile.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="FileTypes\InputFile.cs" />
+    <Compile Include="FileTypes\LasiFile.cs" />
+    <Compile Include="FileTypes\TextFile.cs" />
+    <Compile Include="TaggerEncapsulation\TaggedFileParser.cs" />
+    <Compile Include="TaggerEncapsulation\TagsetMap.cs" />
+    <Compile Include="Exceptions\POSTaggerException.cs" />
+    <Compile Include="FileTypes\DocFile.cs" />
+    <Compile Include="TaggerEncapsulation\TextTagPair.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="LasiLogo.ico" />
+    <Content Include="XMLFile1.xml">
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
+    <None Include="ClassDiagram2.cd" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LASI_Algorithm\LASI_Algorithm.csproj">
+      <Project>{8c562a93-a885-4fe9-8b8c-5ce34ccbaec1}</Project>
+      <Name>LASI_Algorithm</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

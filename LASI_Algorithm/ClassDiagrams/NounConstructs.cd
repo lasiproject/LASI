@@ -1,0 +1,162 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="LASI.Algorithm.Noun" Collapsed="true">
+    <Position X="18.5" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAAAAAAAAAAgAAEAAgAQAAAEAAAAQIAAAAAAAE=</HashCode>
+      <FileName>WordTypes\Noun.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="LASI.Algorithm.ProperPluralNoun" Collapsed="true">
+    <Position X="20" Y="8" Width="1.75" />
+    <InheritanceLine Type="LASI.Algorithm.Noun" FixedToPoint="true">
+      <Path>
+        <Point X="19.25" Y="5.691" />
+        <Point X="19.25" Y="8.312" />
+        <Point X="20" Y="8.312" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>WordTypes\ProperPluralNoun.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Algorithm.ProperSingularNoun" Collapsed="true">
+    <Position X="20" Y="7" Width="1.75" />
+    <InheritanceLine Type="LASI.Algorithm.Noun" FixedToPoint="true">
+      <Path>
+        <Point X="19.25" Y="5.691" />
+        <Point X="19.25" Y="7.312" />
+        <Point X="20" Y="7.312" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>WordTypes\ProperSingularNoun.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Algorithm.GenericSingularNoun" Collapsed="true">
+    <Position X="20" Y="6" Width="1.75" />
+    <InheritanceLine Type="LASI.Algorithm.Noun" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="19.25" Y="5.691" />
+        <Point X="19.25" Y="6.312" />
+        <Point X="20" Y="6.312" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAA=</HashCode>
+      <FileName>WordTypes\GenericSingularNoun.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.1" />
+  </Class>
+  <Class Name="LASI.Algorithm.GenericPluralNoun" Collapsed="true">
+    <Position X="20" Y="9" Width="1.75" />
+    <InheritanceLine Type="LASI.Algorithm.Noun" FixedToPoint="true">
+      <Path>
+        <Point X="19.25" Y="5.691" />
+        <Point X="19.25" Y="9.375" />
+        <Point X="20" Y="9.375" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAA=</HashCode>
+      <FileName>WordTypes\GenericPluralNoun.cs</FileName>
+      <NewMemberFileName>GenericSingularNoun.cs</NewMemberFileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="LASI.Algorithm.NounPhrase" Collapsed="true">
+    <Position X="16.25" Y="6" Width="1.5" />
+    <InheritanceLine Type="LASI.Algorithm.Phrase" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="17.125" Y="5.562" />
+        <Point X="17.125" Y="6" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAACAAAAAAAAAAAgAAAAAgAQAAAEAABAQIAAAAAAAE=</HashCode>
+      <FileName>PhraseTypes\NounPhrase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="LASI.Algorithm.Phrase" Collapsed="true">
+    <Position X="16.25" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQEgAAAAAAAAAAAAIAAAAAACAAAAiA=</HashCode>
+      <FileName>PhraseTypes\Phrase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="LASI.Algorithm.Word" Collapsed="true">
+    <Position X="20.25" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQAAAAAAwAoAAEgAAAAAAAAAAAAIAQABAACAAAQiA=</HashCode>
+      <FileName>WordTypes\Word.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="LASI.Algorithm.IEntity" Collapsed="true">
+    <Position X="23" Y="4.25" Width="1.5" />
+    <InheritanceLine Type="LASI.Algorithm.IActionSubject" ManuallyRouted="true">
+      <Path>
+        <Point X="24" Y="3.062" />
+        <Point X="24" Y="3.875" />
+        <Point X="23.75" Y="3.875" />
+        <Point X="23.75" Y="4.25" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GrammaticalInterfaces\IEntity.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="LASI.Algorithm.IEntityGroup" Collapsed="true">
+    <Position X="23" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GrammaticalInterfaces\IEntityGroup.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="LASI.Algorithm.IActionObject" Collapsed="true">
+    <Position X="14.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQIAAAAAAAA=</HashCode>
+      <FileName>GrammaticalInterfaces\IActionObject.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="LASI.Algorithm.IActionSubject" Collapsed="true">
+    <Position X="23.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GrammaticalInterfaces\ISubject.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="LASI.Algorithm.IPronounBindable" Collapsed="true">
+    <Position X="16.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GrammaticalInterfaces\IPronounBindable.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="LASI.Algorithm.IDescribable" Collapsed="true">
+    <Position X="19.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAE=</HashCode>
+      <FileName>GrammaticalInterfaces\IDescribable.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="LASI.Algorithm.IPossesser" Collapsed="true">
+    <Position X="21.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GrammaticalInterfaces\IPossesser.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="System.IEquatable&lt;T&gt;" Collapsed="true">
+    <Position X="18" Y="2.5" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

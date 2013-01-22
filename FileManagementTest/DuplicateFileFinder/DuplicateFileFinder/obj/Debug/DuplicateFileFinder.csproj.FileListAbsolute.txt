@@ -1,0 +1,6 @@
+C:\Users\Aluan\Dropbox\LasiClassFramework\FileManagementTest\DuplicateFileFinder\DuplicateFileFinder\bin\Debug\DuplicateFileFinder.exe.config
+C:\Users\Aluan\Dropbox\LasiClassFramework\FileManagementTest\DuplicateFileFinder\DuplicateFileFinder\obj\Debug\DuplicateFileFinder.csprojResolveAssemblyReference.cache
+C:\Users\Aluan\Dropbox\LasiClassFramework\FileManagementTest\DuplicateFileFinder\DuplicateFileFinder\bin\Debug\DuplicateFileFinder.exe
+C:\Users\Aluan\Dropbox\LasiClassFramework\FileManagementTest\DuplicateFileFinder\DuplicateFileFinder\bin\Debug\DuplicateFileFinder.pdb
+C:\Users\Aluan\Dropbox\LasiClassFramework\FileManagementTest\DuplicateFileFinder\DuplicateFileFinder\obj\Debug\DuplicateFileFinder.exe
+C:\Users\Aluan\Dropbox\LasiClassFramework\FileManagementTest\DuplicateFileFinder\DuplicateFileFinder\obj\Debug\DuplicateFileFinder.pdb

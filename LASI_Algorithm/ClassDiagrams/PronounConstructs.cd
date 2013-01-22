@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="LASI.Algorithm.Word" Collapsed="true">
+    <Position X="1.5" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQAAAAAAwAoAAEAAAAAAAAAAAAAAAQABAACAAAQAA=</HashCode>
+      <FileName>WordTypes\Word.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Algorithm.Pronoun">
+    <Position X="1.5" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAAAAAAAAAAAAAAQAAAQAAAEAAAAQIAAAAAAAA=</HashCode>
+      <FileName>WordTypes\Pronoun.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Orientation="Right" Position="0.89" />
+  </Class>
+  <Class Name="LASI.Algorithm.PossessivePronoun">
+    <Position X="1.5" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>WordTypes\PossessivePronoun.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Algorithm.PronounPhrase" Collapsed="true">
+    <Position X="4.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAAAAAAAAAAAAAAQAAAQAAAEAAAAQIAAAAAAAA=</HashCode>
+      <FileName>PhraseTypes\PronounPhrase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Orientation="Bottom" Position="0.242" />
+  </Class>
+  <Class Name="LASI.Algorithm.Phrase" Collapsed="true">
+    <Position X="4.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAgAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>PhraseTypes\Phrase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="LASI.Algorithm.IEntityReferencer" Collapsed="true">
+    <Position X="9.25" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GrammaticalInterfaces\IEntityReferencer.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="LASI.Algorithm.IEntity" Collapsed="true">
+    <Position X="1.5" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GrammaticalInterfaces\IEntity.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="LASI.Algorithm.IPronounBindable" Collapsed="true">
+    <Position X="1.5" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GrammaticalInterfaces\IPronounBindable.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="LASI.Algorithm.IPossesser" Collapsed="true">
+    <Position X="6.75" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GrammaticalInterfaces\IPossesser.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="LASI.Algorithm.IPossessable" Collapsed="true">
+    <Position X="11" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GrammaticalInterfaces\IPossessable.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="LASI.Algorithm.IDescribable" Collapsed="true">
+    <Position X="4.5" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAE=</HashCode>
+      <FileName>GrammaticalInterfaces\IDescribable.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="LASI.Algorithm.IQuantifiable" Collapsed="true">
+    <Position X="9.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAA=</HashCode>
+      <FileName>GrammaticalInterfaces\IQuantifiable.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

@@ -1,0 +1,178 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{8C562A93-A885-4FE9-8B8C-5CE34CCBAEC1}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>LASI.Algorithm</RootNamespace>
+    <AssemblyName>LASI_Algorithm</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>
+    </DocumentationFile>
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>LasiLogo.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <RunPostBuildEvent>Always</RunPostBuildEvent>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DocumentConstructs\Paragraph.cs" />
+    <Compile Include="Sentence.cs" />
+    <Compile Include="PhraseTypes\UndeterminedPhrase.cs" />
+    <Compile Include="GrammaticalInterfaces\IAdverbial.cs" />
+    <Compile Include="GrammaticalInterfaces\IConflatable.cs" />
+    <Compile Include="GrammaticalInterfaces\IDescriber.cs" />
+    <Compile Include="GrammaticalInterfaces\IEntityReferencer.cs" />
+    <Compile Include="GrammaticalInterfaces\IPossessable.cs" />
+    <Compile Include="GrammaticalInterfaces\IPossesser.cs" />
+    <Compile Include="GrammaticalInterfaces\IQuantifer.cs" />
+    <Compile Include="GrammaticalInterfaces\IModalityModdifiable.cs" />
+    <Compile Include="ParagraphBreak.cs" />
+    <Compile Include="PastParticipleVerbPhrase.cs" />
+    <Compile Include="PastTenseVerbPhrase.cs" />
+    <Compile Include="PresentParticipleVPhrase.cs" />
+    <Compile Include="Thesuari\SynonymSet.cs" />
+    <Compile Include="TransitiveVerbSet.cs" />
+    <Compile Include="TransPresentParticipleVPhrase.cs" />
+    <Compile Include="PresentTenseVerbPhrase.cs" />
+    <Compile Include="TransPastParticplePhrase.cs" />
+    <Compile Include="TransPastTenseVPhrase.cs" />
+    <Compile Include="TransPresentVPhrase.cs" />
+    <Compile Include="WordTypes\VerbConstructs\PastParticipleVerb.cs" />
+    <Compile Include="WordTypes\VerbConstructs\PastTenseVerb.cs" />
+    <Compile Include="PhraseTypes\ConjunctionPhrase.cs" />
+    <Compile Include="PhraseTypes\RoughListPhrase.cs" />
+    <Compile Include="PhraseTypes\ParticlePhrase.cs" />
+    <Compile Include="WordTypes\PreDeterminer.cs" />
+    <Compile Include="GrammaticalInterfaces\IConjunctive.cs" />
+    <Compile Include="WordTypes\VerbConstructs\PresentPrtcplOrGerund.cs" />
+    <Compile Include="WordTypes\VerbConstructs\PresentTenseVerb.cs" />
+    <Compile Include="WordTypes\VerbConstructs\TransPastParticiple.cs" />
+    <Compile Include="WordTypes\VerbConstructs\TransPastTenseVB.cs" />
+    <Compile Include="WordTypes\VerbConstructs\TransPresentParticipleVB.cs" />
+    <Compile Include="WordTypes\VerbConstructs\TransPresentTenseVB.cs" />
+    <Compile Include="WordTypes\AdjectiveConstructs\ComparativeAdjective.cs" />
+    <Compile Include="WordTypes\AdjectiveConstructs\SuperlativeAdjective .cs" />
+    <Compile Include="WordTypes\PossessiveEnding.cs" />
+    <Compile Include="Thesuari\NounThesaurus.cs" />
+    <Compile Include="Thesuari\FileLoadingState.cs" />
+    <Compile Include="WordTypes\AdjectiveConstructs\Adjective.cs" />
+    <Compile Include="PhraseTypes\AdjectivePhrase.cs" />
+    <Compile Include="WordTypes\AdverbConstructs\Adverb.cs" />
+    <Compile Include="PhraseTypes\AdverbPhrase.cs" />
+    <Compile Include="Clause.cs" />
+    <Compile Include="WordTypes\ClauseDelimiter.cs" />
+    <Compile Include="WordTypes\AdverbConstructs\ComparativeAdverb.cs" />
+    <Compile Include="WordTypes\BridgingConstructs\Conjunction.cs" />
+    <Compile Include="WordTypes\Existential.cs" />
+    <Compile Include="WordTypes\ForeignWord.cs" />
+    <Compile Include="WordTypes\NounConstructs\GenericPluralNoun.cs" />
+    <Compile Include="DataNotLoadedException.cs" />
+    <Compile Include="WordTypes\Determiner.cs" />
+    <None Include="ClassDiagram1.cd" />
+    <None Include="ClassDiagram2.cd" />
+    <None Include="ClassDiagram3.cd" />
+    <Compile Include="DocumentConstructs\Document.cs" />
+    <Compile Include="GrammaticalInterfaces\IEntityGroup.cs" />
+    <Compile Include="WordTypes\BridgingConstructs\Interjection.cs" />
+    <Compile Include="PhraseTypes\InterrogativePhrase.cs" />
+    <Compile Include="GrammaticalInterfaces\IActionObject.cs" />
+    <Compile Include="GrammaticalInterfaces\IPronounBindable.cs" />
+    <Compile Include="GrammaticalInterfaces\IModifiable.cs" />
+    <Compile Include="GrammaticalInterfaces\IDescribable.cs" />
+    <Compile Include="GrammaticalInterfaces\IEntity.cs" />
+    <Compile Include="GrammaticalInterfaces\IInderectObjectTaker.cs" />
+    <Compile Include="GrammaticalInterfaces\IIntransitiveAction.cs" />
+    <Compile Include="GrammaticalInterfaces\IPrepositionLinkable.cs" />
+    <Compile Include="GrammaticalInterfaces\IQuantifiable.cs" />
+    <Compile Include="GrammaticalInterfaces\ISubject.cs" />
+    <Compile Include="GrammaticalInterfaces\ISubjectTaker.cs" />
+    <Compile Include="GrammaticalInterfaces\IObjectTaker.cs" />
+    <Compile Include="GrammaticalInterfaces\IPrepositional.cs" />
+    <Compile Include="WordTypes\NounConstructs\GenericSingularNoun.cs" />
+    <Compile Include="WordTypes\Modal.cs" />
+    <Compile Include="WordTypes\Particle.cs" />
+    <Compile Include="WordTypes\PossessivePronoun.cs" />
+    <Compile Include="WordTypes\NounConstructs\ProperPluralNoun.cs" />
+    <Compile Include="WordTypes\Punctuator.cs" />
+    <Compile Include="PhraseTypes\SimpleDeclarativePhrase.cs" />
+    <Compile Include="WordTypes\SentenceDelimiter.cs" />
+    <Compile Include="WordTypes\SingularPronoun.cs" />
+    <Compile Include="WordTypes\AdverbConstructs\SuperlativeAdverb.cs" />
+    <Compile Include="WordTypes\Symbol.cs" />
+    <Compile Include="Thesuari\Thesaurus.cs" />
+    <Compile Include="GrammaticalInterfaces\ITransitiveAction.cs" />
+    <Compile Include="WordTypes\NounConstructs\Noun.cs" />
+    <Compile Include="PhraseTypes\NounPhrase.cs" />
+    <Compile Include="WordTypes\Quantifier.cs" />
+    <Compile Include="PhraseTypes\Phrase.cs" />
+    <Compile Include="WordTypes\BridgingConstructs\Preposition.cs" />
+    <Compile Include="PhraseTypes\PrepositionalPhrase.cs" />
+    <Compile Include="WordTypes\Pronoun.cs" />
+    <Compile Include="PhraseTypes\PronounPhrase.cs" />
+    <Compile Include="WordTypes\NounConstructs\ProperSingularNoun.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WordTypes\BridgingConstructs\ToLinker.cs" />
+    <Compile Include="Thesuari\VerbThesaurus.cs" />
+    <Compile Include="WordTypes\VerbConstructs\TransitiveVerb.cs" />
+    <Compile Include="PhraseTypes\TransitiveVerbPhrase.cs" />
+    <Compile Include="WordTypes\VerbConstructs\Verb.cs" />
+    <Compile Include="PhraseTypes\VerbPhrase.cs" />
+    <Compile Include="VerbSet.cs" />
+    <Compile Include="WordTypes\VerbConstructs\VerbTenses.cs" />
+    <Compile Include="WordTypes\Word.cs" />
+    <Compile Include="WordList.cs" />
+    <None Include="ClassDiagrams\NounConstructs.cd" />
+    <None Include="ClassDiagrams\PronounConstructs.cd" />
+    <None Include="ClassDiagrams\VerbConstructs.cd" />
+    <None Include="GrammaticalInterfaces\GrammaticalInterfaces.cd" />
+    <None Include="PhraseTypes\PhraseConstructs.cd" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagrams\ClassDiagram1.cd" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="LasiLogo.ico" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,6 @@
+C:\Users\Aluan\Dropbox\LasiClassFramework\SVNTestEXE\textEXE\bin\Debug\textEXE.exe.config
+C:\Users\Aluan\Dropbox\LasiClassFramework\SVNTestEXE\textEXE\bin\Debug\textEXE.exe
+C:\Users\Aluan\Dropbox\LasiClassFramework\SVNTestEXE\textEXE\bin\Debug\textEXE.pdb
+C:\Users\Aluan\Dropbox\LasiClassFramework\SVNTestEXE\textEXE\obj\Debug\textEXE.exe
+C:\Users\Aluan\Dropbox\LasiClassFramework\SVNTestEXE\textEXE\obj\Debug\textEXE.pdb
+C:\Users\Aluan\Dropbox\LasiClassFramework\SVNTestEXE\textEXE\obj\Debug\textEXE.csprojResolveAssemblyReference.cache

@@ -1,0 +1,10 @@
+C:\Users\Aluan\Dropbox\LasiClassFramework\FileManagementTest\FileParsingCycleTests\FileParsingCycleTests\bin\Debug\FileParsingCycleTests.exe.config
+C:\Users\Aluan\Dropbox\LasiClassFramework\FileManagementTest\FileParsingCycleTests\FileParsingCycleTests\obj\Debug\FileParsingCycleTests.csprojResolveAssemblyReference.cache
+C:\Users\Aluan\Dropbox\LasiClassFramework\FileManagementTest\FileParsingCycleTests\FileParsingCycleTests\bin\Debug\FileParsingCycleTests.exe
+C:\Users\Aluan\Dropbox\LasiClassFramework\FileManagementTest\FileParsingCycleTests\FileParsingCycleTests\bin\Debug\FileParsingCycleTests.pdb
+C:\Users\Aluan\Dropbox\LasiClassFramework\FileManagementTest\FileParsingCycleTests\FileParsingCycleTests\obj\Debug\FileParsingCycleTests.exe
+C:\Users\Aluan\Dropbox\LasiClassFramework\FileManagementTest\FileParsingCycleTests\FileParsingCycleTests\obj\Debug\FileParsingCycleTests.pdb
+C:\Users\Aluan\Dropbox\LasiClassFramework\FileManagementTest\FileParsingCycleTests\FileParsingCycleTests\bin\Debug\LASI_FileSystem.dll
+C:\Users\Aluan\Dropbox\LasiClassFramework\FileManagementTest\FileParsingCycleTests\FileParsingCycleTests\bin\Debug\LASI_Algorithm.dll
+C:\Users\Aluan\Dropbox\LasiClassFramework\FileManagementTest\FileParsingCycleTests\FileParsingCycleTests\bin\Debug\LASI_FileSystem.pdb
+C:\Users\Aluan\Dropbox\LasiClassFramework\FileManagementTest\FileParsingCycleTests\FileParsingCycleTests\bin\Debug\LASI_Algorithm.pdb
