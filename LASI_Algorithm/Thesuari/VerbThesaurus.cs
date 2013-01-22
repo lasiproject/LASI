@@ -14,7 +14,7 @@ namespace LASI.Algorithm
         /// Initializes a new instance of the VerbThesaurus class.
         /// </summary>
         /// <param name="filePath">The path of the WordNet database file containing the sysnonym data for verbs.</param>
-        public VerbThesaurus(string filePath = @"C:\Users\Aluan\Desktop\dict\data.verb")
+        public VerbThesaurus(string filePath = @"..\..\..\ThesaurusDataFiles\data.verb")
             : base(filePath) {
             FilePath = filePath;
             LoadingStatus = FileLoadingState.NotInitiated;

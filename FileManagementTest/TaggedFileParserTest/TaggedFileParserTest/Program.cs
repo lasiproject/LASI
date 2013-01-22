@@ -19,7 +19,7 @@ namespace TaggedFileParserTest
         }
 
         private static void PhraseParseTest() {
-            string filePath = @"C:\Users\Aluan\Desktop\Draft_Environmental_Assessment.tagged";
+          
             TaggedFileParser testParser = new TaggedFileParser(filePath);
             var phrases = testParser.GetPhrases();
 
@@ -39,9 +39,9 @@ namespace TaggedFileParserTest
             }
 
         }
-
+private static string filePath = @".\Draft_Environmental_Assessment.doc";
         private static void ParagraphParseTest() {
-            string filePath = @"C:\Users\Aluan\Desktop\Draft_Environmental_Assessment.tagged";
+            
             TaggedFileParser testParser = new TaggedFileParser(filePath);
             var paras = testParser.GetParagraphs();
             foreach (var para in paras) {
@@ -69,7 +69,7 @@ namespace TaggedFileParserTest
 
         }
         private static void DisectParagraphTest() {
-            string filePath = @"C:\Users\Aluan\Desktop\Draft_Environmental_Assessment.tagged";
+           
             TaggedFileParser testParser = new TaggedFileParser(filePath);
             var para = testParser.GetParagraphs().ElementAt(new Random().Next(100, 200));
 
