@@ -91,7 +91,9 @@ namespace LASI.Algorithm
                    where tV != null && (compare(tV.IndirectObject, verbObject) || compare(tV.DirectObject, verbObject))
                    select tV;
         }
-        public virtual IEnumerable<TransitiveVerb> GetVerbsByObject(IActionObject verbObject) { 
+        public virtual IEnumerable<TransitiveVerb> GetVerbsByObject(IActionObject verbObject) {
+            throw new NotImplementedException();
+        }
 
         #endregion
 
