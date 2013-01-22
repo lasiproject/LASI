@@ -39,6 +39,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileCycleTest", "FileCycleT
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlgorithmAssemblyUnitTestProject", "AlgorithmAssemblyUnitTestProject\AlgorithmAssemblyUnitTestProject.csproj", "{F4ABC10C-0BE9-4195-99E7-DB027757EC6B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LASI_UserInterface", "LASI_UserInterface\LASI_UserInterface.csproj", "{6C8D6DA8-BD8B-48C8-ACB9-8FDE7E3A672E}"
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = LasiClassFramework.vsmdi
@@ -76,6 +78,10 @@ Global
 		{F4ABC10C-0BE9-4195-99E7-DB027757EC6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F4ABC10C-0BE9-4195-99E7-DB027757EC6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F4ABC10C-0BE9-4195-99E7-DB027757EC6B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6C8D6DA8-BD8B-48C8-ACB9-8FDE7E3A672E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C8D6DA8-BD8B-48C8-ACB9-8FDE7E3A672E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C8D6DA8-BD8B-48C8-ACB9-8FDE7E3A672E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C8D6DA8-BD8B-48C8-ACB9-8FDE7E3A672E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

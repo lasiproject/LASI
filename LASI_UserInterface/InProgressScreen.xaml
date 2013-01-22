@@ -1,0 +1,131 @@
+﻿<Window x:Class="LASI_UserInterface.InProgressScreen"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+        Title="Project - L.A.S.I." Height="525" Width="800" ResizeMode="CanMinimize" Icon="LasiLogo.ico">
+    <Grid>
+        <Menu HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="794">
+            <MenuItem Header="File">
+                <MenuItem Header="New" HorizontalAlignment="Left" Width="200">
+                    <MenuItem Header="Project"/>
+                    <MenuItem Header="File"/>
+                </MenuItem>
+                <MenuItem Header="Open" HorizontalAlignment="Left" Width="200">
+                    <MenuItem Header="Project"/>
+                    <MenuItem Header="File"/>
+                </MenuItem>
+                <MenuItem Header="Add" HorizontalAlignment="Left" Width="200">
+                    <MenuItem Header="File"/>
+                </MenuItem>
+                <MenuItem Header="Save Project As" HorizontalAlignment="Left" Width="200"/>
+                <MenuItem Header="Save Project" HorizontalAlignment="Left" Width="200"/>
+                <MenuItem Header="Exit" Click="MenuItem_Click_3"/>
+            </MenuItem>
+            <MenuItem Header="Edit"/>
+            <MenuItem Header="View"/>
+            <MenuItem Header="Build"/>
+            <MenuItem Header="Help"/>
+            <Separator Width="362" Opacity="0"/>
+            <TextBox Height="20" TextWrapping="Wrap" Width="154" UndoLimit="200" AllowDrop="False" SelectionOpacity="0" Padding="1,1,1,2"/>
+            <Button Content="Search" VerticalAlignment="Top"/>
+        </Menu>
+        <Canvas Margin="0,52,0,0" Height="411" VerticalAlignment="Top">
+            <TabControl HorizontalAlignment="Right" Width="636" Height="412" Canvas.Left="148">
+                <TabItem Header="Document 1">
+                    <Grid Background="#FFE5E5E5" Margin="0,0,1,0">
+                        <ScrollBar Width="Auto" BorderThickness="2,1,1,1" BorderBrush="#FF2B2828" Margin="607,0,1,4"/>
+                        <TextBox TextWrapping="Wrap" Text="The typically small numbers of COIs identified by stakeholders with specific problems should each be accompanied by a similarly small number of effectiveness measures (Sproles, 2002) that stakeholders can use to make binary, 'yes' or 'no,' determinations as to whether or not COI and the problems they characterize have been resolved. Recalling their definition as 'emergent properties that induce rank orderings,' MOEs are truly the 'standards' of the same definition as well as, perhaps most plainly, the variables of 'goodness' described by Dockery (1986, p. 172). Their complete independence from solutions proposed to dispel the problems from which they fundamentally derive represents another of MOEs' most significant features, one reinforced with the Figure 3 that builds on Figure 2 by displaying only those entities - the problem and the COIs characterizing it - to which MOEs may be properly linked." Margin="0,-4,18,4"/>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="Document 2" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="89" Margin="-2,-1,0,0">
+                    <Grid Background="#FFE5E5E5"/>
+                </TabItem>
+            </TabControl>
+            <Rectangle Fill="#FFF6F6F6" Stroke="#FF8C8E94" StrokeThickness="0.5" HorizontalAlignment="Right" Width="146" Height="412" Canvas.Left="-3" Canvas.Top="-1"/>
+            <Rectangle Height="412" Stroke="Black" Width="794" Opacity="0.6" Fill="#FFE4E4E4" Canvas.Top="-1"/>
+            <Rectangle Fill="#FFE4E4E4" Height="262" Canvas.Left="143" Stroke="Black" Canvas.Top="66" Width="499"/>
+            <Image Height="193" Canvas.Left="171" Canvas.Top="83" Width="210" Source="collie1.png"/>
+            <TextBlock Height="35" Canvas.Left="364" TextWrapping="Wrap" Text="IN PROGRESS....." Canvas.Top="166" Width="194" FontFamily="Lao UI" FontSize="16"/>
+            <Image Height="60" Canvas.Left="306" Canvas.Top="251" Width="77" Source="print.png" RenderTransformOrigin="0.5,0.5">
+                <Image.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform Angle="45"/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Image.RenderTransform>
+            </Image>
+            <Image Height="60" Canvas.Left="541" Canvas.Top="94" Width="77" Source="print.png" RenderTransformOrigin="0.5,0.5">
+                <Image.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform Angle="45"/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Image.RenderTransform>
+            </Image>
+            <Image Height="60" Canvas.Left="443" Canvas.Top="94" Width="77" Source="print.png" RenderTransformOrigin="0.5,0.5">
+                <Image.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform Angle="45"/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Image.RenderTransform>
+            </Image>
+            <Image Height="60" Canvas.Left="478" Canvas.Top="169" Width="77" Source="print.png" RenderTransformOrigin="0.5,0.5">
+                <Image.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform Angle="45"/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Image.RenderTransform>
+            </Image>
+            <Image Height="60" Canvas.Left="377" Canvas.Top="175" Width="77" Source="print.png" RenderTransformOrigin="0.5,0.5">
+                <Image.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform Angle="45"/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Image.RenderTransform>
+            </Image>
+            <Image Height="60" Canvas.Left="403" Canvas.Top="240" Width="77" Source="print.png" RenderTransformOrigin="0.241,1.304">
+                <Image.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform Angle="45"/>
+                        <TranslateTransform X="-28.273" Y="-28.23"/>
+                    </TransformGroup>
+                </Image.RenderTransform>
+            </Image>
+            <Button Content="Skip (UI Demo)" Canvas.Left="531" Canvas.Top="291" Width="89" BorderThickness="0" Click="Button_Click_1"/>
+        </Canvas>
+        <TextBlock HorizontalAlignment="Left" Height="24" Margin="44,54,0,0" TextWrapping="Wrap" Text="Toolbar" VerticalAlignment="Top" Width="57" FontSize="14" Opacity="0.5"/>
+        <ProgressBar RenderTransformOrigin="0.5,0.5" Margin="-3,464,0,1">
+            <ProgressBar.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleY="-1"/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </ProgressBar.RenderTransform>
+        </ProgressBar>
+        <Menu Height="22" Margin="0,26,0,0" VerticalAlignment="Top" Background="#FFDDDADA" Opacity="0.85" HorizontalAlignment="Right" Width="792" Padding="10,0,0,0">
+            <MenuItem Background="#FFE8E1E1" Header=" &lt;-" BorderBrush="#FF878787"/>
+            <MenuItem Header=" -&gt;" Margin="10,0,0,0" Background="#FFEBE5E5" BorderBrush="#FF878787"/>
+            <MenuItem Header="I &gt; Start" Margin="10,0,0,0" BorderBrush="#FF999999" Background="#FFEEE9E9" x:Name="StartButton"/>
+            <MenuItem Header="II Pause" Margin ="10,0,0,0" BorderBrush="#FF999999" Background="#FFF1ECEC"/>
+            <MenuItem Header="X Stop" Margin="10,0,0,0" Background="#FFF1ECEC" BorderBrush="#FFA8A8A8" />
+        </Menu>
+    </Grid>
+</Window>
+
+    

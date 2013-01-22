@@ -72,7 +72,7 @@
     <Compile Include="TaggerEncapsulation\PosExtractor.cs" />
     <Compile Include="TaggerEncapsulation\SharpNLPTagger.cs" />
     <Compile Include="TaggerEncapsulation\SharpNLPTagsetMap.cs" />
-    <Compile Include="TaggerEncapsulation\TaggingOptions.cs" />
+    <Compile Include="TaggerEncapsulation\TaggingOption.cs" />
     <Compile Include="TaggerEncapsulation\WordTagParser.cs" />
     <Compile Include="FileTypes\DocXFile.cs" />
     <Compile Include="FileTypes\FileData.cs" />

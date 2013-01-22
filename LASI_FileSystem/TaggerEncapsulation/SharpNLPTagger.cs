@@ -8,7 +8,9 @@ namespace SharpNLPTaggingModule
 
     public class SharpNLPTagger
     {
-
+        /// <summary>
+        /// Based on the example UI code which came with sharp NLP, just added a few way to pass it a file and get a file back and the TaggingOption enum
+        /// </summary>
         private string mModelPath;
 
         private OpenNLP.Tools.SentenceDetect.MaximumEntropySentenceDetector mSentenceDetector;

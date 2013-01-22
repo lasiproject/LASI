@@ -21,8 +21,8 @@ namespace FileCycleTest
 
 
 
-        private static void Asynchronous(string[] args) {
-            var converts = from docpath in args.AsParallel()
+        private static void Asynchronous(string[] filePathes) {
+            var converts = from docpath in filePathes.AsParallel()
                            select TagAsync(ConvertAsync(new DocFile(docpath)).Result);
             foreach (var taggingOperation in converts) {
                 taggingOperation.Wait();
