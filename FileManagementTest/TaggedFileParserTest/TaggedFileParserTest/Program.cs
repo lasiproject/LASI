@@ -39,7 +39,7 @@ namespace TaggedFileParserTest
             }
 
         }
-private static string filePath = @".\Draft_Environmental_Assessment.doc";
+        private static string filePath = @".\..\..\..\..\..\TestDocs\Draft_Environmental_Assessment.tagged";
         private static void ParagraphParseTest() {
             
             TaggedFileParser testParser = new TaggedFileParser(filePath);

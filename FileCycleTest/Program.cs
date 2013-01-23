@@ -10,10 +10,10 @@ namespace FileCycleTest
 {
     class Program
     {
-        static void Main(string[] args) {
+        static void Main() {
             var startTime = new TimeSpan(DateTime.Now.Millisecond);
             // Synchronous(args);
-            Asynchronous(args);
+            Asynchronous(@"..\TestDocs\Draft_Environmental_Assessment.doc");
             var timeElapsed = new TimeSpan((DateTime.Now.Millisecond - startTime.Milliseconds));
             Console.WriteLine(timeElapsed);
             Console.ReadKey();
@@ -21,7 +21,7 @@ namespace FileCycleTest
 
 
 
-        private static void Asynchronous(string[] filePathes) {
+        private static void Asynchronous(params string[] filePathes) {
             var converts = from docpath in filePathes.AsParallel()
                            select TagAsync(ConvertAsync(new DocFile(docpath)).Result);
             foreach (var taggingOperation in converts) {
