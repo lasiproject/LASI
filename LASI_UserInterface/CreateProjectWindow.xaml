@@ -1,4 +1,4 @@
-﻿<Window x:Class="LASI_UserInterface.CreateProjectScreen"
+﻿<Window x:Class="LASI.UserInterface.CreateProjectScreen"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="New Project - L.A.S.I." Height="525" Width="800" ResizeMode="CanMinimize">

@@ -15,7 +15,7 @@ using System.Windows.Shapes;
 using System.IO;
 using System.Diagnostics;
 
-namespace LASI_UserInterface
+namespace LASI.UserInterface
 {
     /// <summary>
     /// Interaction logic for CreateProjectWindow.xaml

@@ -15,7 +15,7 @@ using System.Windows.Shapes;
 using System.Timers;
 using System.Threading;
 
-namespace LASI_UserInterface
+namespace LASI.UserInterface
 {
     /// <summary>
     /// Interaction logic for SplashScreen.xaml

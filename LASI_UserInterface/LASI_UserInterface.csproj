@@ -7,7 +7,7 @@
     <ProjectGuid>{6C8D6DA8-BD8B-48C8-ACB9-8FDE7E3A672E}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>LASI_UserInterface</RootNamespace>
+    <RootNamespace>LASI.UserInterface</RootNamespace>
     <AssemblyName>LASI_UserInterface</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -40,7 +40,7 @@
     <ApplicationIcon>LasiLogo.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>LASI_UserInterface.App</StartupObject>
+    <StartupObject>LASI.UserInterface.App</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />

@@ -13,7 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace LASI_UserInterface
+namespace LASI.UserInterface
 {
     /// <summary>
     /// Interaction logic for ResultsWindow.xaml

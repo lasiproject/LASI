@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace LASI_UserInterface
+namespace LASI.UserInterface
 {
     /// <summary>
     /// This class provides static access to each of the 5 windows defined by the lasi user interface
