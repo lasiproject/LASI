@@ -4,7 +4,7 @@ namespace LASI.FileSystem
     /// <summary>
     /// Stores and differentiates distinct, as well as overlapping, aspects of a file path.
     /// </summary>
-    public struct FileData
+    internal struct FileData
     {
         #region Constructors
 
