@@ -13,6 +13,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+using LASI.Algorithm;
+using LASI.FileSystem;
+
 namespace Brittany_WPF_Experimentation
 {
     /// <summary>
