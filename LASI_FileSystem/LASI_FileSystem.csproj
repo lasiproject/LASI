@@ -75,7 +75,7 @@
     <Compile Include="TaggerEncapsulation\TaggingOption.cs" />
     <Compile Include="TaggerEncapsulation\WordTagParser.cs" />
     <Compile Include="FileTypes\DocXFile.cs" />
-    <Compile Include="FileTypes\FileData.cs" />
+    <Compile Include="FileTypes\Support\FileData.cs" />
     <Compile Include="FileTypes\PdfFile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="FileTypes\InputFile.cs" />

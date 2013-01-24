@@ -27,9 +27,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileCycleTest", "FileCycleT
 		{8C562A93-A885-4FE9-8B8C-5CE34CCBAEC1} = {8C562A93-A885-4FE9-8B8C-5CE34CCBAEC1}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlgorithmAssemblyUnitTestProject", "AlgorithmAssemblyUnitTestProject\AlgorithmAssemblyUnitTestProject.csproj", "{F4ABC10C-0BE9-4195-99E7-DB027757EC6B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlgorithmUnitTests", "AlgorithmAssemblyUnitTestProject\AlgorithmUnitTests.csproj", "{F4ABC10C-0BE9-4195-99E7-DB027757EC6B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LASI_UserInterface", "LASI_UserInterface\LASI_UserInterface.csproj", "{6C8D6DA8-BD8B-48C8-ACB9-8FDE7E3A672E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTestProjects", "UnitTestProjects", "{B3482180-A78D-4A20-B744-81620578B79B}"
 EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
@@ -67,6 +69,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F4ABC10C-0BE9-4195-99E7-DB027757EC6B} = {B3482180-A78D-4A20-B744-81620578B79B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		VisualSVNWorkingCopyRoot = .
