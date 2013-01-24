@@ -8,40 +8,29 @@ namespace TaggedFileParserTest
 {
     class Program
     {
+
+
         static void Main(string[] args) {
 
-            //PhraseParseTest();
             ParagraphParseTest();
-            //DisectParagraphTest();
 
+
+
+
+
+            //Keeps the console window open until the escape key is pressed
+            Console.WriteLine("Press escape to exit");
             for (var k = Console.ReadKey(); k.Key != ConsoleKey.Escape; k = Console.ReadKey()) {
+                Console.WriteLine("Press escape to exit");
             }
         }
 
-        private static void PhraseParseTest() {
-          
-            TaggedFileParser testParser = new TaggedFileParser(filePath);
-            var phrases = testParser.GetPhrases();
-
-
-            var doc = new LASI.Algorithm.Document(from P in phrases
-                                                  from W in P.Words
-                                                  select W);
-
-            doc.PrintByLinkage();
-            var paragraphBreaks = from W in doc.Words
-                                  where W is LASI.Algorithm.ParagraphBreak
-                                  select W;
-            Console.WriteLine("\n\nWord Count: {0}", doc.Words.Count);
-            Console.WriteLine("\n\nParagraph Count: {0}", paragraphBreaks.Count());
-            foreach (var paraBreak in paragraphBreaks) {
-                Console.WriteLine(paraBreak.ID);
-            }
-
-        }
         private static string filePath = @".\..\..\..\..\..\TestDocs\Draft_Environmental_Assessment.tagged";
+
+
+
         private static void ParagraphParseTest() {
-            
+
             TaggedFileParser testParser = new TaggedFileParser(filePath);
             var paras = testParser.GetParagraphs();
             foreach (var para in paras) {
@@ -68,8 +57,11 @@ namespace TaggedFileParserTest
 
 
         }
+
+
+
         private static void DisectParagraphTest() {
-           
+
             TaggedFileParser testParser = new TaggedFileParser(filePath);
             var para = testParser.GetParagraphs().ElementAt(new Random().Next(100, 200));
 
@@ -83,14 +75,27 @@ namespace TaggedFileParserTest
             Console.WriteLine();
         }
 
-        //Console.WriteLine("\n\nWord Count: {0}", (
-        //                                          from S in para.Sentences
-        //                                          from W in S.Words
-        //                                          where !(W is LASI.Algorithm.Punctuator)
-        //                                          select W).Count());
+        private static void PhraseParseTest() {
+
+            TaggedFileParser testParser = new TaggedFileParser(filePath);
+            var phrases = testParser.GetPhrases();
 
 
+            var doc = new LASI.Algorithm.Document(from P in phrases
+                                                  from W in P.Words
+                                                  select W);
 
+            doc.PrintByLinkage();
+            var paragraphBreaks = from W in doc.Words
+                                  where W is LASI.Algorithm.ParagraphBreak
+                                  select W;
+            Console.WriteLine("\n\nWord Count: {0}", doc.Words.Count);
+            Console.WriteLine("\n\nParagraph Count: {0}", paragraphBreaks.Count());
+            foreach (var paraBreak in paragraphBreaks) {
+                Console.WriteLine(paraBreak.ID);
+            }
+
+        }
 
     }
 }
