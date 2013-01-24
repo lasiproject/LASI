@@ -18,33 +18,28 @@ namespace LASI.UserInterface
     /// </summary>
     public partial class InProgressScreen : Window
     {
-        public InProgressScreen()
-        {
+        public InProgressScreen() {
             InitializeComponent();
 
 
         }
-        private void BindEventHandlers()
-        {
+        private void BindEventHandlers() {
 
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
-        {
+        private void Button_Click_1(object sender, RoutedEventArgs e) {
 
             WindowManager.ResultsScreen.PositionAt(this.Left, this.Top);
             WindowManager.ResultsScreen.SetTitle(WindowManager.CreateProjectScreen.LastLoadedProjectName + " - L.A.S.I.");
             WindowManager.ResultsScreen.Show();
             this.Hide();
         }
-        private void MenuItem_Click_3(object sender, RoutedEventArgs e)
-        {
+        private void MenuItem_Click_3(object sender, RoutedEventArgs e) {
             this.Close();
 
         }
 
-        private void TextBox_TextChanged_1(object sender, TextChangedEventArgs e)
-        {
+        private void TextBox_TextChanged_1(object sender, TextChangedEventArgs e) {
 
         }
     }

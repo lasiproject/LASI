@@ -6,7 +6,8 @@ using System.Text;
 namespace LASI.Algorithm
 {
     public class PresentTenseVerbPhrase : VerbPhrase
-    {public PresentTenseVerbPhrase(IEnumerable<Word> composedWords)
+    {
+        public PresentTenseVerbPhrase(IEnumerable<Word> composedWords)
             : base(composedWords) {
         }
     }

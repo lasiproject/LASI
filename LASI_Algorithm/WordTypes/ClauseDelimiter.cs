@@ -18,6 +18,7 @@ namespace LASI.Algorithm
         public ClauseDelimiter(char punc)
             : base(punc) {
         }
-        public ClauseDelimiter(string punctuationText) : base(punctuationText) { }
+        public ClauseDelimiter(string punctuationText) : base(punctuationText) {
+        }
     }
 }

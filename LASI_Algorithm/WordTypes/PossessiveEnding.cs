@@ -25,6 +25,6 @@ namespace LASI.Algorithm
         }
         private ICollection<IPossessable> _possessed = new List<IPossessable>();
 
-        
+
     }
 }

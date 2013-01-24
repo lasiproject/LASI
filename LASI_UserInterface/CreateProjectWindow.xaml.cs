@@ -22,8 +22,7 @@ namespace LASI.UserInterface
     /// </summary>
     public partial class CreateProjectScreen : Window
     {
-        public CreateProjectScreen()
-        {
+        public CreateProjectScreen() {
             InitializeComponent();
             BindWindowEventHandlers();
             LastLoadedProjectName = "";
@@ -31,14 +30,12 @@ namespace LASI.UserInterface
         }
 
 
-        void BindWindowEventHandlers()
-        {
+        void BindWindowEventHandlers() {
             this.Closing += (s, e) => Application.Current.Shutdown();
 
         }
 
-        private void browseForDocButton_Click(object sender, RoutedEventArgs e)
-        {
+        private void browseForDocButton_Click(object sender, RoutedEventArgs e) {
             var openDialog = new OpenFileDialog();
             openDialog.ShowDialog(this);
 
@@ -49,8 +46,7 @@ namespace LASI.UserInterface
 
 
 
-        private void CreateButton_Click(object sender, RoutedEventArgs e)
-        {
+        private void CreateButton_Click(object sender, RoutedEventArgs e) {
             LastLoadedProjectName = EnteredProjectName.Text;
             // this.Content = WindowManager.LoadedProjectScreen.Content;
             this.SwapWith(WindowManager.LoadedProjectScreen);
@@ -59,29 +55,25 @@ namespace LASI.UserInterface
             this.Hide();
         }
 
-        private void CancelButton_Click(object sender, RoutedEventArgs e)
-        {
+        private void CancelButton_Click(object sender, RoutedEventArgs e) {
 
             this.SwapWith(WindowManager.SplashScreen);
         }
 
-        private void SelectProjFolderButton_Click(object sender, RoutedEventArgs e)
-        {
+        private void SelectProjFolderButton_Click(object sender, RoutedEventArgs e) {
             var selectDialog = new OpenFileDialog();
             selectDialog.ShowDialog(this);
 
             var folderPath = selectDialog.FileName;
             projectFolderText.Text = folderPath;
         }
-        private void MenuItem_Click_3(object sender, RoutedEventArgs e)
-        {
+        private void MenuItem_Click_3(object sender, RoutedEventArgs e) {
             this.Close();
 
         }
         #region Properties
 
-        public string LastLoadedProjectName
-        {
+        public string LastLoadedProjectName {
             get;
             set;
         }

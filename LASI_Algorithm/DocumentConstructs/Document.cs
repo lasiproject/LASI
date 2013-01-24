@@ -20,9 +20,9 @@ namespace LASI.Algorithm
         }
         public Document(IEnumerable<Sentence> allSentences) {
             _sentences = allSentences;
-            Words = (WordList)from S in _sentences
-                              from W in S.Words
-                              select W;
+            Words = (WordList) from S in _sentences
+                               from W in S.Words
+                               select W;
             foreach (var w in Words)
                 w.ParentDoc = this;
         }
@@ -31,9 +31,9 @@ namespace LASI.Algorithm
             _sentences = from P in _paragraphs
                          from S in P.Sentences
                          select S;
-            Words = (WordList)from S in _sentences
-                              from W in S.Words
-                              select W;
+            Words = (WordList) from S in _sentences
+                               from W in S.Words
+                               select W;
             foreach (var w in Words)
                 w.ParentDoc = this;
         }

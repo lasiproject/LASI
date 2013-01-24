@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LASI.Algorithm 
+namespace LASI.Algorithm
 {
     public sealed class Paragraph
     {
@@ -12,7 +12,7 @@ namespace LASI.Algorithm
             Sentences = sentences;
             foreach (var S in Sentences)
                 S.EstablishParenthood(this);
-            
+
             ID = IDNumProvider;
             ++IDNumProvider;
         }

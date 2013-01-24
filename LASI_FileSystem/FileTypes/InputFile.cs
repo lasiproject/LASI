@@ -12,7 +12,7 @@ namespace LASI.FileSystem
                 throw new System.IO.FileNotFoundException();
             FInfo = new FileData(absolutePath);
         }
-      private FileData FInfo {
+        private FileData FInfo {
             get;
             set;
         }

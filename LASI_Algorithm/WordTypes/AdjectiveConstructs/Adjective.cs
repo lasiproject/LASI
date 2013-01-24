@@ -43,7 +43,7 @@ namespace LASI.Algorithm
             get {
                 return _modifiers;
             }
-         protected   set {
+            protected set {
                 _modifiers = value;
             }
         }

@@ -22,27 +22,23 @@ namespace LASI.UserInterface
     /// </summary>
     public partial class SplashScreen : Window
     {
-        public SplashScreen()
-        {
+        public SplashScreen() {
             InitializeComponent();
             WindowManager.SplashScreen = this;
             BindWindowEventHandlers();
         }
-        void BindWindowEventHandlers()
-        {
+        void BindWindowEventHandlers() {
             this.MouseLeftButtonDown += (s, e) => DragMove();
         }
 
 
-        private void closeButton_Click(object sender, RoutedEventArgs e)
-        {
+        private void closeButton_Click(object sender, RoutedEventArgs e) {
             Application.Current.Shutdown();
         }
 
 
 
-        private void createProjectButton_Click(object sender, RoutedEventArgs e)
-        {
+        private void createProjectButton_Click(object sender, RoutedEventArgs e) {
             this.Hide();
             WindowManager.CreateProjectScreen.PositionAt(this.Left, this.Top);
             WindowManager.CreateProjectScreen.Show();
