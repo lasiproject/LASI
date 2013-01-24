@@ -33,7 +33,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LASI_UserInterface", "LASI_
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTestProjects", "UnitTestProjects", "{B3482180-A78D-4A20-B744-81620578B79B}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IndividualExperentation", "IndividualExperentation", "{292E3A5A-1499-4291-A903-377BF3167923}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IndividualExperintation", "IndividualExperintation", "{292E3A5A-1499-4291-A903-377BF3167923}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aluan_Experimentation", "Aluan_Experimentation\Aluan_Experimentation.csproj", "{89E28C71-44D2-4810-B4D4-8A2570A16499}"
 EndProject
@@ -48,6 +48,19 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Brittany_Experimentation", "Brittany_Experimentation\Brittany_Experimentation.csproj", "{D2D2723D-5E38-4FB8-8E45-1075DF1A4837}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Brittany_WPF_Experimentation", "Brittany_WPF_Experimentation\Brittany_WPF_Experimentation.csproj", "{26D0FB7C-0EB1-46E8-8352-19858926304E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WordNetThesaurusData", "WordNetThesaurusData", "{20C3B51F-FF54-4452-B69E-67D596843284}"
+	ProjectSection(SolutionItems) = preProject
+		WordNetThesaurusData\data.adj = WordNetThesaurusData\data.adj
+		WordNetThesaurusData\data.adv = WordNetThesaurusData\data.adv
+		WordNetThesaurusData\data.noun = WordNetThesaurusData\data.noun
+		WordNetThesaurusData\data.verb = WordNetThesaurusData\data.verb
+		WordNetThesaurusData\index.adj = WordNetThesaurusData\index.adj
+		WordNetThesaurusData\index.adv = WordNetThesaurusData\index.adv
+		WordNetThesaurusData\index.noun = WordNetThesaurusData\index.noun
+		WordNetThesaurusData\index.sense = WordNetThesaurusData\index.sense
+		WordNetThesaurusData\index.verb = WordNetThesaurusData\index.verb
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
