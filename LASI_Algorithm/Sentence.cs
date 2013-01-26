@@ -8,6 +8,10 @@ namespace LASI.Algorithm
 {
     public class Sentence
     {
+        public Sentence(params Phrase[] phrases) {
+            Clauses = new[] { new Clause(from P in phrases select P) };
+
+        }
         public Sentence(IEnumerable<Phrase> phrases, Punctuator begin = null, Punctuator EOSText = null) {
             Clauses = new[] { new Clause(from P in phrases select P) };
             EndingPunct = EOSText == null ?

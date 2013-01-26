@@ -96,16 +96,12 @@ namespace LASI.FileSystem
             var parsedOut = new List<Algorithm.Phrase>();
             using (var reader = new StreamReader(FilePath, true)) {
                 var data = reader.ReadToEnd();
-                //  System.Diagnostics.Debug. WriteLine("paragraph count = {0}", ParseParagraphs(data).Count());
                 data = PreProcessTextData(data);
                 var chunks = from chunk in data.Split(new[] { "[", "]" }, StringSplitOptions.RemoveEmptyEntries)
                              where !String.IsNullOrWhiteSpace(chunk) && !String.IsNullOrEmpty(chunk)
                              select chunk.Trim();
                 var count = 0;
                 foreach (var chunk in chunks) {
-
-                    //  System.Diagnostics.Debug.WriteLine(count.ToString() + " " + chunk + '\n');
-
                     count++;
                     var reader2 = (new StringReader(chunk));
                     char currentChar = ' ';
@@ -147,7 +143,6 @@ namespace LASI.FileSystem
         /// <param name="taggedContent">The TextTagPair instance which contains the content of a phrase and its Tag.</param>
         /// <returns></returns>
         protected virtual Algorithm.Phrase ParsePhrase(TextTagPair taggedContent) {
-            // System.Diagnostics.Debug.WriteLine("parsing phrase");
             var phraseTag = taggedContent.Tag.Trim();
             var composed = ReadParseCreate(taggedContent.Text);
             switch (phraseTag) {
@@ -200,7 +195,7 @@ namespace LASI.FileSystem
             }
             return parsedWords;
         }
-        protected virtual List<Func<Algorithm.Word>> ParseWordsAsExpressions(string wordData) {
+        protected virtual List<Func<Algorithm.Word>> ReadParse(string wordData) {
             var wordExpressions = new List<Func<Algorithm.Word>>();
             var elements = wordData.Split(new[] { ' ', });
             var posExtractor = new PosExtractor();

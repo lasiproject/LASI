@@ -36,22 +36,27 @@ namespace LASI.FileSystem
         /// </summary>
         /// <param name="tag">A word or punctuation string and its associated  Part Of Speech tag.</param>
         /// <returns>A new instance of the appropriate word type corresponding with the tag and containing the given text.</returns>
-        public Word ReadWord(TextTagPair taggedText) {
+        public Word CreateWord(TextTagPair taggedText) {
             if (string.IsNullOrWhiteSpace(taggedText.Text))
                 return null;
-
-            return Parse(taggedText);
+            return LookupMapping(taggedText)(taggedText.Text);
+        }
+        public Func<Word> ReadWordExpression(TextTagPair taggedText) {
+            if (string.IsNullOrWhiteSpace(taggedText.Text))
+                return null;
+            var Constructor = LookupMapping(taggedText);
+            return () => Constructor(taggedText.Text);
         }
 
-        private Word Parse(TextTagPair taggedText) {
+        private Func<string, Word> LookupMapping(TextTagPair taggedText) {
             var tag = taggedText.Tag.Trim();
             if (tag.Length < 2)
-                return new Punctuator(taggedText.Text.First(c => !Char.IsWhiteSpace(c)));
+                return (s) => new LASI.Algorithm.Punctuator(s.First(c => !Char.IsWhiteSpace(c)));
             try {
                 var constructor = context[tag];
-                return constructor(taggedText.Text);
+                return constructor;
             } catch (UnknownPOSException) {
-                return new LASI.Algorithm.GenericSingularNoun(taggedText.Text);
+                return (s) => new LASI.Algorithm.GenericSingularNoun(taggedText.Text);
                 throw new UnknownPOSException(String.Format("Unable to parse unknown tag\nTag: {0}\nFor text: {1}\n", tag, taggedText.Text));
 
             }

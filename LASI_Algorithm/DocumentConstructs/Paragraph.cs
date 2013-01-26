@@ -8,6 +8,7 @@ namespace LASI.Algorithm
 {
     public sealed class Paragraph
     {
+
         public Paragraph(params  Sentence[] sentences) {
             Sentences = sentences;
             foreach (var S in Sentences)
