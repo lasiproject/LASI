@@ -17,5 +17,14 @@ namespace LASI.Algorithm
         public InterrogativePhrase(IEnumerable<Word> composedWords)
             : base(composedWords) {
         }
+
+        public override Word HeadWord {
+            get {
+                throw new NotImplementedException();
+            }
+            set {
+                throw new NotImplementedException();
+            }
+        }
     }
 }

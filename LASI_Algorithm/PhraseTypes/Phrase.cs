@@ -26,6 +26,12 @@ namespace LASI.Algorithm
             get;
             protected set;
         }
+
+        public abstract Word HeadWord {
+            get;
+            set;
+        }
+
         /// <summary>
         /// Gets the concatenated text content of all of the words which compose the phrase.
         /// </summary>

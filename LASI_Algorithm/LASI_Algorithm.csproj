@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DocumentConstructs\Paragraph.cs" />
+    <Compile Include="PhraseList.cs" />
     <Compile Include="Sentence.cs" />
     <Compile Include="PhraseTypes\UndeterminedPhrase.cs" />
     <Compile Include="GrammaticalInterfaces\IAdverbial.cs" />

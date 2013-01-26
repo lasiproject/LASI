@@ -10,5 +10,14 @@ namespace LASI.Algorithm
         public SimpleDeclarativePhrase(IEnumerable<Word> composedWords)
             : base(composedWords) {
         }
+
+        public override Word HeadWord {
+            get {
+                throw new NotImplementedException();
+            }
+            set {
+                throw new NotImplementedException();
+            }
+        }
     }
 }

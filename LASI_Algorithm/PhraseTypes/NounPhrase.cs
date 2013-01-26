@@ -103,6 +103,15 @@ namespace LASI.Algorithm
 
 
 
+
+        public override Word HeadWord {
+            get {
+                throw new NotImplementedException();
+            }
+            set {
+                throw new NotImplementedException();
+            }
+        }
     }
 }
 

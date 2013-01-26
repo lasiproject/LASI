@@ -28,5 +28,14 @@ namespace LASI.Algorithm
             get;
             set;
         }
+
+        public override Word HeadWord {
+            get {
+                throw new NotImplementedException();
+            }
+            set {
+                throw new NotImplementedException();
+            }
+        }
     }
 }
