@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,6 +23,17 @@ namespace Aluan_Experimentation
             for (var k = Console.ReadKey(); k.Key != ConsoleKey.Escape; k = Console.ReadKey()) {
                 Console.WriteLine("Press escape to exit");
             }
+        }
+    }
+
+    abstract class StoredByTypeWordCollection<Type, WordCollectionType> : KeyedCollection<Type, IEnumerable<Type>>
+        where Type: Word
+    {
+        protected StoredByTypeWordCollection(Type BaseType, IEnumerable<Type> Items) {
+        }
+
+        protected override System.Type GetKeyForItem(IEnumerable<Type> item) {
+            return Items.First().GetType();
         }
     }
 }
