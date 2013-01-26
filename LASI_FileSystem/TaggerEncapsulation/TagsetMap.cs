@@ -34,6 +34,12 @@ namespace LASI.FileSystem
         public abstract Func<string, Word> this[string tag] {
             get;
         }
+
+
+        public abstract string this[Func<string, Word> mappedConstructor] {
+            get;
+        }
+
         /// <summary>
         /// When overriden in a derrived class, Gets a Read Only Dictionary which represents the mapping between Part Of Speech tags and the cunstructors which instantiate their run-time representations.
         /// </summary>

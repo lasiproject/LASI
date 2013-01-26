@@ -15,8 +15,8 @@ namespace LASI.FileSystem
         public UnknownPOSException(string message)
             : base(message) {
         }
-        public UnknownPOSException(string message, Exception innerException)
-            : base(message, innerException) {
+        public UnknownPOSException(string message, Exception inner)
+            : base(message, inner) {
         }
         public UnknownPOSException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
             : base(info, context) {
@@ -32,8 +32,8 @@ namespace LASI.FileSystem
         public UnknownPhraseTypeException(string message)
             : base(message) {
         }
-        public UnknownPhraseTypeException(string message, Exception innerException)
-            : base(message, innerException) {
+        public UnknownPhraseTypeException(string message, Exception inner)
+            : base(message, inner) {
         }
         public UnknownPhraseTypeException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
             : base(info, context) {
@@ -49,10 +49,28 @@ namespace LASI.FileSystem
         public UntaggedElementException(string message)
             : base(message) {
         }
-        public UntaggedElementException(string message, Exception innerException)
-            : base(message, innerException) {
+        public UntaggedElementException(string message, Exception inner)
+            : base(message, inner) {
         }
         public UntaggedElementException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
+            : base(info, context) {
+        }
+    }
+    /// <summary>
+    /// Thrown when attempting to access the key for an unmapped constructor value in the Tagset
+    /// <see cref="TagsetMap"/>
+    /// <seealso cref="SharpNLPTagsetMap"/>
+    /// </summary>
+    [Serializable]
+    class UnmappedWordConstructorException : POSTagException
+    {
+        public UnmappedWordConstructorException(string message)
+            : base(message) {
+        }
+        public UnmappedWordConstructorException(string message, Exception inner)
+            : base(message, inner) {
+        }
+        public UnmappedWordConstructorException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
             : base(info, context) {
         }
     }
@@ -65,8 +83,8 @@ namespace LASI.FileSystem
         public EmptyTagException(string message)
             : base(message) {
         }
-        public EmptyTagException(string message, Exception innerException)
-            : base(message, innerException) {
+        public EmptyTagException(string message, Exception inner)
+            : base(message, inner) {
         }
         public EmptyTagException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
             : base(info, context) {
@@ -82,8 +100,8 @@ namespace LASI.FileSystem
         public UndelimitedPhraseException(string message)
             : base(message) {
         }
-        public UndelimitedPhraseException(string message, Exception innerException)
-            : base(message, innerException) {
+        public UndelimitedPhraseException(string message, Exception inner)
+            : base(message, inner) {
         }
         public UndelimitedPhraseException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
             : base(info, context) {
@@ -100,11 +118,9 @@ namespace LASI.FileSystem
 
         public POSTagException(string message)
             : base(message) {
-
-
         }
-        public POSTagException(string message, Exception innerExcepetion)
-            : base(message, innerExcepetion) {
+        public POSTagException(string message, Exception inner)
+            : base(message, inner) {
         }
         public POSTagException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
             : base(info, context) {

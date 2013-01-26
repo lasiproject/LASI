@@ -105,6 +105,15 @@ namespace LASI.FileSystem
             }
         }
 
+        public override string this[Func<string, Word> mappedConstructor] {
+            get {
+                try {
+                    return typeDictionary.First(pair => pair.Value == mappedConstructor).Key;
+                } catch (InvalidOperationException) {
+                    throw new UnmappedWordConstructorException(String.Format("Word constructor\n{0}\nis not mapped by this Tagset for", mappedConstructor));
+                }
+            }
+        }
         #endregion
 
         #region Constructors
