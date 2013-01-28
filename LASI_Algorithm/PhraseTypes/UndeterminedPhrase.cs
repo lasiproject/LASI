@@ -5,6 +5,10 @@ using System.Text;
 
 namespace LASI.Algorithm
 {
+    /// <summary>
+    /// Represents a Phrase Which does not correspond to a known catregory.
+    /// This may be the result of a Tagging error or a Tag-Parsing error.
+    /// </summary>
     public class UndeterminedPhrase : Phrase
     {
         public UndeterminedPhrase(IEnumerable<Word> composedWords)

@@ -63,16 +63,6 @@ namespace LASI.Algorithm
         }
         #region Operators
 
-        //public static bool operator ==(Phrase A, Phrase B) {
-        //    if (A == null || B == null)
-        //        return A == null && B == null;
-        //    return A.ToString() == B.ToString();
-        //}
-        //public static bool operator !=(Phrase A, Phrase B) {
-        //    return !(A == B);
-        //}
-
-
         #endregion
 
         public bool Equals(Phrase other) {

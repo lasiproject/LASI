@@ -49,7 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DocumentConstructs\Paragraph.cs" />
-    <Compile Include="PhraseList.cs" />
+    <Compile Include="Custom Collections\PhraseList.cs" />
     <Compile Include="Sentence.cs" />
     <Compile Include="PhraseTypes\UndeterminedPhrase.cs" />
     <Compile Include="GrammaticalInterfaces\IAdverbial.cs" />
@@ -61,16 +61,16 @@
     <Compile Include="GrammaticalInterfaces\IQuantifer.cs" />
     <Compile Include="GrammaticalInterfaces\IModalityModdifiable.cs" />
     <Compile Include="ParagraphBreak.cs" />
-    <Compile Include="PastParticipleVerbPhrase.cs" />
-    <Compile Include="PastTenseVerbPhrase.cs" />
-    <Compile Include="PresentParticipleVPhrase.cs" />
+    <Compile Include="PhraseTypes\PastParticipleVerbPhrase.cs" />
+    <Compile Include="PhraseTypes\PastTenseVerbPhrase.cs" />
+    <Compile Include="PhraseTypes\PresentParticipleVPhrase.cs" />
     <Compile Include="Thesuari\SynonymSet.cs" />
-    <Compile Include="TransitiveVerbSet.cs" />
-    <Compile Include="TransPresentParticipleVPhrase.cs" />
-    <Compile Include="PresentTenseVerbPhrase.cs" />
-    <Compile Include="TransPastParticplePhrase.cs" />
-    <Compile Include="TransPastTenseVPhrase.cs" />
-    <Compile Include="TransPresentVPhrase.cs" />
+    <Compile Include="PhraseTypes\TransitiveVerbSet.cs" />
+    <Compile Include="PhraseTypes\TransPresentParticipleVPhrase.cs" />
+    <Compile Include="PhraseTypes\PresentTenseVerbPhrase.cs" />
+    <Compile Include="PhraseTypes\TransPastParticplePhrase.cs" />
+    <Compile Include="PhraseTypes\TransPastTenseVPhrase.cs" />
+    <Compile Include="PhraseTypes\TransPresentVPhrase.cs" />
     <Compile Include="WordTypes\VerbConstructs\PastParticipleVerb.cs" />
     <Compile Include="WordTypes\VerbConstructs\PastTenseVerb.cs" />
     <Compile Include="PhraseTypes\ConjunctionPhrase.cs" />
@@ -151,10 +151,10 @@
     <Compile Include="PhraseTypes\TransitiveVerbPhrase.cs" />
     <Compile Include="WordTypes\VerbConstructs\Verb.cs" />
     <Compile Include="PhraseTypes\VerbPhrase.cs" />
-    <Compile Include="VerbSet.cs" />
+    <Compile Include="Custom Collections\VerbList.cs" />
     <Compile Include="WordTypes\VerbConstructs\VerbTenses.cs" />
     <Compile Include="WordTypes\Word.cs" />
-    <Compile Include="WordList.cs" />
+    <Compile Include="Custom Collections\WordList.cs" />
     <None Include="ClassDiagrams\NounConstructs.cd" />
     <None Include="ClassDiagrams\PronounConstructs.cd" />
     <None Include="ClassDiagrams\VerbConstructs.cd" />

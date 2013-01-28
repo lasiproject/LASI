@@ -5,7 +5,7 @@ using System.Text;
 
 namespace LASI.Algorithm
 {
-    public class TransitiveVerbSet : VerbSet
+    public class TransitiveVerbSet : VerbList
     {
 
         public TransitiveVerbSet(IEnumerable<TransitiveVerb> elements)
