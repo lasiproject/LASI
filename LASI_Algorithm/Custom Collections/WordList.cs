@@ -45,7 +45,6 @@ namespace LASI.Algorithm
                               where word.Text == toMatch.Text
                               select word;
         }
-
         /// <summary>
         /// Retrives all words in the WordList which compare equal to a given Word or any of its provided synonyms
         /// </summary>

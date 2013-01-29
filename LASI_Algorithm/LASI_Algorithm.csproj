@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Custom Collections\TransitiveVerbList.cs" />
     <Compile Include="DocumentConstructs\Paragraph.cs" />
     <Compile Include="Custom Collections\PhraseList.cs" />
     <Compile Include="Sentence.cs" />
