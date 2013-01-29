@@ -72,3 +72,8 @@ namespace LASI.Algorithm
         }
     }
 }
+
+/*
+    Paragraph p1(list of sentences[]);
+    int id = p1.ID;
+*/
