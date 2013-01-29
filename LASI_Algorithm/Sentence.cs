@@ -46,9 +46,9 @@ namespace LASI.Algorithm
         }
         public WordList Words {
             get {
-                return (WordList) from P in Phrases
+                return new WordList( from P in Phrases
                                   from W in P.Words
-                                  select W;
+                                  select W);
             }
         }
         public string Text {

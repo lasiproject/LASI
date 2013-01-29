@@ -14,9 +14,9 @@ namespace LASI.Algorithm
         }
 
         public TransitiveVerbList WithObject(Func<IActionObject, bool> predicate) {
-            return (TransitiveVerbList)from V in TransitiveVerbs
+            return new TransitiveVerbList(from V in TransitiveVerbs
                                        where V.DirectObject != null && predicate(V.DirectObject)
-                                       select V;
+                                       select V);
         }
 
         public new IEnumerator<TransitiveVerb> GetEnumerator() {
