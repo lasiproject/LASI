@@ -62,16 +62,17 @@ namespace LASI.FileSystem
                         var reader2 = (new StringReader(chunk));
                         char tagType = '>';
                         while (reader2.Peek() != '/' && reader2.Peek() != ' ') {
-                            tagType = (char) reader2.Read();
+                            tagType = (char)reader2.Read();
                         }
-                        tagType = (char) reader2.Read();
+                        tagType = (char)reader2.Read();
                         if (tagType == ' ') {
                             var currentPhrase = ParsePhrase(new TextTagPair {
                                 Tag = chunk.Substring(0, chunk.IndexOf(' ')),
                                 Text = chunk.Substring(chunk.IndexOf(' '))
                             });
                             parsedOut.Add(currentPhrase);
-                        } else if (tagType == '/') {
+                        }
+                        else if (tagType == '/') {
                             var words = ReadParseCreate(chunk);
                         }
                     }
@@ -106,16 +107,17 @@ namespace LASI.FileSystem
                     var reader2 = (new StringReader(chunk));
                     char currentChar = ' ';
                     while (reader2.Peek() != '/' && reader2.Peek() != ' ') {
-                        currentChar = (char) reader2.Read();
+                        currentChar = (char)reader2.Read();
                     }
-                    currentChar = (char) reader2.Read();
+                    currentChar = (char)reader2.Read();
                     if (currentChar == ' ') {
                         var currentPhrase = ParsePhrase(new TextTagPair {
                             Tag = chunk.Substring(0, chunk.IndexOf(' ')),
                             Text = chunk.Substring(chunk.IndexOf(' '))
                         });
                         parsedOut.Add(currentPhrase);
-                    } else if (currentChar == '/') {
+                    }
+                    else if (currentChar == '/') {
                         var words = ReadParseCreate(chunk);
                     }
                 }
