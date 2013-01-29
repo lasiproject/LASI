@@ -13,7 +13,10 @@ namespace Aluan_Experimentation
     class Program
     {
         static void Main(string[] args) {
-
+            var localParser = new TaggedFileParser(@"C:\Users\Aluan\Desktop\LASI\LASI_v1\TestDocs\Draft_Environmental_Assessment.tagged");
+            var paras = localParser.GetParagraphs();
+            foreach (var P in paras)
+                Console.WriteLine(P);
 
         }
     }

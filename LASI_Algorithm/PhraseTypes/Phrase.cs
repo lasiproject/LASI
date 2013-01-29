@@ -16,7 +16,7 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="composedWords">The one or more instances of the Word class of which the Phrase is composed.</param>
         public Phrase(IEnumerable<Word> composedWords) {
-            Words = composedWords as WordList;
+            Words = new WordList(composedWords);
         }
 
         /// <summary>
@@ -49,8 +49,8 @@ namespace LASI.Algorithm
         }
 
         public void EstablishParent(Clause clause) {
-            foreach (var W in Words)
-                W.EstablishParent(this);
+            //foreach (var W in Words)
+            //    W.EstablishParent(this);
         }
         public IPrepositional LeftLinkedPrepositional {
             get;
