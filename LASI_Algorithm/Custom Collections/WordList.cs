@@ -41,9 +41,9 @@ namespace LASI.Algorithm
         /// <returns>A WordList containing all words which match the argument</returns>
         /// <see cref="Word"/>
         public virtual WordList GetAllOccurances(Word toMatch) {
-            return (WordList) from word in this
-                              where word.Text == toMatch.Text
-                              select word;
+            return (WordList)from word in this
+                             where word.Text == toMatch.Text
+                             select word;
         }
         /// <summary>
         /// Retrives all words in the WordList which compare equal to a given Word or any of its provided synonyms
@@ -62,7 +62,11 @@ namespace LASI.Algorithm
             throw new NotImplementedException();
         }
 
-
+        public virtual WordList GetAllOccurances(Word toMatch, Func<Word, Word, bool> comparison) {
+            return (WordList)from W in items
+                             where comparison(toMatch, W)
+                             select W;
+        }
 
 
 
@@ -94,10 +98,10 @@ namespace LASI.Algorithm
         }
         public virtual VerbList TransitiveVerbs {
             get {
-                return (VerbList) from word in this
-                                  let tV = word as TransitiveVerb
-                                  where tV != null && tV.DirectObject != null && tV.IndirectObject == null
-                                  select tV;
+                return (VerbList)from word in this
+                                 let tV = word as TransitiveVerb
+                                 where tV != null && tV.DirectObject != null && tV.IndirectObject == null
+                                 select tV;
             }
         }
         /// <summary>
@@ -142,7 +146,8 @@ namespace LASI.Algorithm
             get {
                 try {
                     return items.ToList()[index];
-                } catch (ArgumentOutOfRangeException ex) {
+                }
+                catch (ArgumentOutOfRangeException ex) {
                     throw new ArgumentOutOfRangeException(index >= 0 ?
                         String.Format("The given index: {0}, was > than the last index: {1}, in the WordList.", index, items.Count()) :
                         String.Format("The given index: {0} was negative.", index), ex);
@@ -150,7 +155,7 @@ namespace LASI.Algorithm
             }
         }
 
-       
+
 
         #endregion
 

@@ -9,7 +9,9 @@ namespace LASI.Algorithm
     class TransitiveVerbList : VerbList, IEnumerable<TransitiveVerb>
     {
         public TransitiveVerbList(IEnumerable<TransitiveVerb> elements)
-            : base(elements) { verbs = elements; }
+            : base(elements) {
+            items = elements;
+        }
 
         public TransitiveVerbList WithObject(Func<IActionObject, bool> predicate) {
             return (TransitiveVerbList)from V in TransitiveVerbs
@@ -18,7 +20,7 @@ namespace LASI.Algorithm
         }
 
         public new IEnumerator<TransitiveVerb> GetEnumerator() {
-            throw new NotImplementedException();
+            return TransitiveVerbs.OfType<TransitiveVerb>().GetEnumerator();
         }
 
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() {
