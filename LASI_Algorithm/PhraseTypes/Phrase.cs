@@ -16,13 +16,13 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="composedWords">The one or more instances of the Word class of which the Phrase is composed.</param>
         public Phrase(IEnumerable<Word> composedWords) {
-            Words = composedWords;
+            Words = composedWords as WordList;
         }
 
         /// <summary>
         /// Gets the collection of words which from which the phrase is composed.
         /// </summary>
-        public virtual IEnumerable<Word> Words {
+        public virtual WordList Words {
             get;
             protected set;
         }

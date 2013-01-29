@@ -25,11 +25,11 @@ namespace LASI.Algorithm
         /// <param name="verbSubject">The noun to match with.</param>
         /// <param name="compare">A comparison function taking two Nouns and returning a bool value indicating whether or not they match.</param>
         /// <returns>All verbs whose subjects compared true against the given Noun under the provided comparison.</returns>
-        public IEnumerable<Verb> GetVerbsBySubject(Noun verbSubject, Func<Noun, Noun, bool> compare) {
-            return from v in verbs
-                   let subj = v.BoundSubject as Noun
-                   where subj != null && compare(subj, verbSubject)
-                   select v;
+        public VerbList GetVerbsForSubject(Noun verbSubject, Func<Noun, Noun, bool> compare) {
+            return (VerbList) from v in verbs
+                              let subj = v.BoundSubject as Noun
+                              where subj != null && compare(subj, verbSubject)
+                              select v;
         }
         /// <summary>
         /// Returns all instances of Verbs whose subjects match the given NounPhrase under the provided comparison function.
@@ -37,11 +37,11 @@ namespace LASI.Algorithm
         /// <param name="verbSubject">The NounPhrase to match with.</param>
         /// <param name="compare">A comparison function taking two NounsPhrase and returning a bool value indicating whether or not they match.</param>
         /// <returns>All verbs whose subjects compared true against the given NounPhrase under the provided comparison.</returns>
-        public IEnumerable<Verb> GetVerbsBySubject(NounPhrase verbSubject, Func<NounPhrase, NounPhrase, bool> compare) {
-            return from v in verbs
-                   let subj = v.BoundSubject as NounPhrase
-                   where subj != null && compare(subj, verbSubject)
-                   select v;
+        public VerbList GetVerbsForSubject(NounPhrase verbSubject, Func<NounPhrase, NounPhrase, bool> compare) {
+            return (VerbList) from v in verbs
+                              let subj = v.BoundSubject as NounPhrase
+                              where subj != null && compare(subj, verbSubject)
+                              select v;
         }
         /// <summary>
         /// Returns all instances of Verbs whose subjects match the given Pronoun under the provided comparison function.
@@ -49,23 +49,11 @@ namespace LASI.Algorithm
         /// <param name="verbSubject">The Pronoun to match with.</param>
         /// <param name="compare">A comparison function taking two Pronouns and returning a bool value indicating whether or not they match.</param>
         /// <returns>All verbs whose subjects compared true against the given Pronoun under the provided comparison.</returns>
-        public IEnumerable<Verb> GetVerbsBySubject(Pronoun verbSubject, Func<Pronoun, Pronoun, bool> compare) {
-            return from v in verbs
-                   let subj = v.BoundSubject as Pronoun
-                   where subj != null && compare(subj, verbSubject)
-                   select v;
-        }
-        /// <summary>
-        /// Returns all instances of Verbs whose subjects match the given PronounPhrase under the provided comparison function.
-        /// </summary>
-        /// <param name="verbSubject">The PronounPhrase to match with.</param>
-        /// <param name="compare">A comparison function taking two PronounsPhrase and returning a bool value indicating whether or not they match.</param>
-        /// <returns>All verbs whose subjects compared true against the given PronounPhrase under the provided comparison.</returns>
-        public IEnumerable<Verb> GetVerbsBySubject(PronounPhrase verbSubject, Func<PronounPhrase, PronounPhrase, bool> compare) {
-            return from v in verbs
-                   let subj = v.BoundSubject as PronounPhrase
-                   where subj != null && compare(subj, verbSubject)
-                   select v;
+        public VerbList GetVerbsForSubject(IEntityReferencer verbSubject, Func<IEntityReferencer, IEntityReferencer, bool> compare) {
+            return (VerbList) from v in verbs
+                              let subj = v.BoundSubject as Pronoun
+                              where subj != null && compare(subj, verbSubject)
+                              select v;
         }
         /// <summary>
         /// Returns all instances of Verbs whose subjects match the given IEntity instance under the provided comparison function.
@@ -73,11 +61,11 @@ namespace LASI.Algorithm
         /// <param name="verbSubject">The IEntity instance to match with.</param>
         /// <param name="compare">A comparison function taking two IEntity instances and returning a bool value indicating whether or not they match.</param>
         /// <returns>All verbs whose subjects compared true against the given IEntity under the provided comparison.</returns>
-        public IEnumerable<Verb> GetVerbsBySubject(IEntity verbSubject, Func<IEntity, IEntity, bool> compare) {
-            return from v in verbs
-                   let subj = v.BoundSubject as IEntity
-                   where subj != null && compare(subj, verbSubject)
-                   select v;
+        public VerbList GetVerbsForSubject(IEntity verbSubject, Func<IEntity, IEntity, bool> compare) {
+            return (VerbList) from v in verbs
+                              let subj = v.BoundSubject as IEntity
+                              where subj != null && compare(subj, verbSubject)
+                              select v;
         }
         /// <summary>
         /// Returns all instances of Verbs whose subjects match the given IActionSubject instance under the provided comparison function.
@@ -85,7 +73,7 @@ namespace LASI.Algorithm
         /// <param name="verbSubject">The IActionSubject instnace to match with.</param>
         /// <param name="compare">A comparison function taking two IActionSubject instances and returning a bool value indicating whether or not they match.</param>
         /// <returns>All verbs whose subjects compared true against the given IActionSubject instance under the provided comparison.</returns>
-        public IEnumerable<Verb> GetVerbsWithSubject(IActionSubject verbSubject, Func<IActionSubject, IActionSubject, bool> compare) {
+        public IEnumerable<Verb> GetVerbsForSubject(IActionSubject verbSubject, Func<IActionSubject, IActionSubject, bool> compare) {
             return from verb in verbs
                    where compare(verb.BoundSubject, verbSubject)
                    select verb;
@@ -101,9 +89,9 @@ namespace LASI.Algorithm
         #endregion
 
         #region Properties
-        public TransitiveVerbSet TransitiveVerbs {
+        public TransitiveVerbList TransitiveVerbs {
             get {
-                return new TransitiveVerbSet(verbs.OfType<TransitiveVerb>());
+                return new TransitiveVerbList(verbs.OfType<TransitiveVerb>());
             }
         }
 

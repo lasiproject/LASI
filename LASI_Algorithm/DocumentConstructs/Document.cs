@@ -48,7 +48,7 @@ namespace LASI.Algorithm
             }
 
             var previousWord = Words[Words.Count - 1];
-            if (Words.IndexOf(previousWord) > 0)
+            if (Words.ToList().IndexOf(previousWord) > 0)
                 previousWord.PreviousWord = Words[Words.Count - 2];
             else
                 previousWord.PreviousWord = null;
@@ -64,16 +64,6 @@ namespace LASI.Algorithm
 
         }
 
-        public void AppendElement(Word word) {
-
-            word.NextWord = null;
-            if (Words.Count > 0) {
-                var previousWord = Words[Words.Count - 1];
-                word.PreviousWord = previousWord;
-                previousWord.NextWord = word;
-            }
-            Words.Add(word);
-        }
 
         #endregion
 

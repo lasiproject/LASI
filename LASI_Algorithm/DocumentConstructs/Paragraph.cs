@@ -35,6 +35,15 @@ namespace LASI.Algorithm
             get;
             set;
         }
+
+        public WordList Words {
+            get {
+                return (WordList) from S in Sentences
+                                  from W in S.Words
+                                  select W;
+            }
+        }
+
         /// <summary>
         /// Gets or sets the document the paragraph belongs to.
         /// </summary>

@@ -5,10 +5,10 @@ using System.Text;
 
 namespace LASI.Algorithm
 {
-    public class TransitiveVerbSet : VerbList
+    public class TransitiveVerbList : VerbList
     {
 
-        public TransitiveVerbSet(IEnumerable<TransitiveVerb> elements)
+        public TransitiveVerbList(IEnumerable<TransitiveVerb> elements)
             : base(elements) {
             tVElements = elements;
         }
