@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LASI.DataRepresentation;
 namespace TaggedFileParserTest
 {
     class Program
@@ -51,7 +52,7 @@ namespace TaggedFileParserTest
             Console.WriteLine("\n\nWord Count: {0}", (from P in paras
                                                       from S in P.Sentences
                                                       from W in S.Words
-                                                      where !(W is LASI.Algorithm.Punctuator)
+                                                      where !(W is LASI.DataRepresentation.Punctuator)
                                                       select W).Count());
             Console.WriteLine("\n\nParagraph Count: {0}", paras.Count());
 
@@ -81,13 +82,13 @@ namespace TaggedFileParserTest
             var phrases = testParser.GetPhrases();
 
 
-            var doc = new LASI.Algorithm.Document(from P in phrases
+            var doc = new LASI.DataRepresentation.Document(from P in phrases
                                                   from W in P.Words
                                                   select W);
 
             doc.PrintByLinkage();
             var paragraphBreaks = from W in doc.Words
-                                  where W is LASI.Algorithm.ParagraphBreak
+                                  where W is LASI.DataRepresentation.ParagraphBreak
                                   select W;
             Console.WriteLine("\n\nWord Count: {0}", doc.Words.Count);
             Console.WriteLine("\n\nParagraph Count: {0}", paragraphBreaks.Count());
