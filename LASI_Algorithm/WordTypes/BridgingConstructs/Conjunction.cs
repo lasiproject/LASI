@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LASI.Algorithm
+namespace LASI.DataRepresentation
 {
     /// <summary>
     /// Represents a conjunction word which links two clauses together.

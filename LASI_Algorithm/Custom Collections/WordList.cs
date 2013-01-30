@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LASI.Algorithm
+namespace LASI.DataRepresentation
 {
     /// <summary>
     /// A specialization of System.Collections.Generic.List with provides methods to designed to simplify and facilitate the LASI project

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LASI.Algorithm
+namespace LASI.DataRepresentation
 {
     public class Sentence
     {
@@ -58,6 +58,7 @@ namespace LASI.Algorithm
         }
 
         internal void EstablishParenthood(Paragraph paragraph) {
+            throw new NotImplementedException();
             //OwnerParagraph = paragraph;
             //ParentDoc = paragraph.ParentDoc;
             //foreach (var C in Clauses)

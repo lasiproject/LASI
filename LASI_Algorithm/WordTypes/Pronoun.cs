@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-namespace LASI.Algorithm
+namespace LASI.DataRepresentation
 {
     /// <summary>
     /// Represents a pronoun which gernerally refers to a previously defined Entity, such as a Noun or NounPhrase.

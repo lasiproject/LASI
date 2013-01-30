@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace LASI.Algorithm
+namespace LASI.DataRepresentation
 {
     public class PrepositionalPhrase : Phrase, IPrepositional
     {

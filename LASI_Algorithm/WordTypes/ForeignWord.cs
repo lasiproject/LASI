@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace LASI.Algorithm
+namespace LASI.DataRepresentation
 {
     /// <summary>
     /// Represents a foriegn word embedded in an english written work.

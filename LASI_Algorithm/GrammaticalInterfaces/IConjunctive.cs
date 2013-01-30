@@ -1,5 +1,5 @@
 ﻿using System;
-namespace LASI.Algorithm
+namespace LASI.DataRepresentation
 {
     /// <summary>
     /// Defines the roles of Conjunctive constructs which link two Clauses together.

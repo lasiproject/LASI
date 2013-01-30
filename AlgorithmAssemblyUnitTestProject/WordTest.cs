@@ -1,4 +1,4 @@
-﻿using LASI.Algorithm;
+﻿using LASI.DataRepresentation;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 

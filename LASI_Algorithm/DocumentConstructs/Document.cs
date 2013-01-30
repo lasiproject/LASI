@@ -5,12 +5,15 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace LASI.Algorithm
+namespace LASI.DataRepresentation
 {
     public class Document
     {
         #region Constructors
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="allWords">The collection of words which corresponds to all text in the document.</param>
         public Document(IEnumerable<Word> allWords) {
             Words = new WordList(allWords);
 

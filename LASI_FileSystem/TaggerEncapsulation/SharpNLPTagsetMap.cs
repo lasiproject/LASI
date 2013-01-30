@@ -1,4 +1,4 @@
-﻿using LASI.Algorithm;
+﻿using LASI.DataRepresentation;
 using System;
 using System.Collections.Generic;
 using System.Linq;

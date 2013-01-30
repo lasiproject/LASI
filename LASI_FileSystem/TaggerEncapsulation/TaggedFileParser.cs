@@ -35,23 +35,23 @@ namespace LASI.FileSystem
         /// Returns an instance of Algorithm.Document which contains the run time representation of all of the textual construct in the document, for the Algorithm to analyse.
         /// </summary>
         /// <returns>An traversable, queriable, immutable document object defining the run time representation of the tagged file which the TaggedFileParser governs. </returns>
-        public virtual Algorithm.Document GetDocument() {
-            return new Algorithm.Document(GetParagraphs());
+        public virtual DataRepresentation.Document GetDocument() {
+            return new DataRepresentation.Document(GetParagraphs());
         }
 
         /// <summary>
         /// Returns the run time representations of the sentences, phrases,and words extracted from the tagged file the TaggedFileParser governs.
         /// </summary>
         /// <returns>The run time constructs which represent the text of the document, aggregated into paragraphs.</returns>
-        public virtual IEnumerable<LASI.Algorithm.Paragraph> GetParagraphs() {
+        public virtual IEnumerable<LASI.DataRepresentation.Paragraph> GetParagraphs() {
 
-            var results = new List<Algorithm.Paragraph>();
+            var results = new List<DataRepresentation.Paragraph>();
             using (var reader = new StreamReader(FilePath, Encoding.UTF7)) {
                 var data = reader.ReadToEnd();
                 System.Diagnostics.Debug.WriteLine("paragraph count = {0}", ParseParagraphs(data).Count());
                 data = PreProcessTextData(data);
                 foreach (var paragraph in ParseParagraphs(data)) {
-                    var parsedOut = new List<LASI.Algorithm.Phrase>();
+                    var parsedOut = new List<LASI.DataRepresentation.Phrase>();
                     var chunks = from chunk in paragraph.Split(new[] { "[", "]" }, StringSplitOptions.None)
                                  where !String.IsNullOrWhiteSpace(chunk) && !String.IsNullOrEmpty(chunk)
                                  select chunk.Trim();
@@ -76,14 +76,14 @@ namespace LASI.FileSystem
                             var words = ReadParseCreate(chunk);
                         }
                     }
-                    results.Add(new Algorithm.Paragraph(new Algorithm.Sentence(parsedOut)));
+                    results.Add(new DataRepresentation.Paragraph(new DataRepresentation.Sentence(parsedOut)));
                 }
             }
             return results;
         }
 
 
-        public IEnumerable<Func<Algorithm.Word>> GetWordExpressions() {
+        public IEnumerable<Func<DataRepresentation.Word>> GetWordExpressions() {
             throw new NotImplementedException();
         }
 
@@ -92,9 +92,9 @@ namespace LASI.FileSystem
         /// Returns a collection of Algorithm.Phrase constructs which are the run time representations of the phrases in the tagged file which the TaggedFileParser governs.
         /// </summary>
         /// <returns>A collection of Algorithm.Phrase objects which represent the text of the document, aggregated into phrases.</returns>
-        public virtual IEnumerable<Algorithm.Phrase> GetPhrases() {
+        public virtual IEnumerable<DataRepresentation.Phrase> GetPhrases() {
 
-            var parsedOut = new List<Algorithm.Phrase>();
+            var parsedOut = new List<DataRepresentation.Phrase>();
             using (var reader = new StreamReader(FilePath, true)) {
                 var data = reader.ReadToEnd();
                 data = PreProcessTextData(data);
@@ -144,32 +144,32 @@ namespace LASI.FileSystem
         /// </summary>
         /// <param name="taggedContent">The TextTagPair instance which contains the content of a phrase and its Tag.</param>
         /// <returns></returns>
-        protected virtual Algorithm.Phrase ParsePhrase(TextTagPair taggedContent) {
+        protected virtual DataRepresentation.Phrase ParsePhrase(TextTagPair taggedContent) {
             var phraseTag = taggedContent.Tag.Trim();
             var composed = ReadParseCreate(taggedContent.Text);
             switch (phraseTag) {
                 case "ADVP":
-                    return new Algorithm.AdverbPhrase(composed);
+                    return new DataRepresentation.AdverbPhrase(composed);
                 case "ADJP":
-                    return new Algorithm.AdjectivePhrase(composed);
+                    return new DataRepresentation.AdjectivePhrase(composed);
                 case "PP":
-                    return new Algorithm.PrepositionalPhrase(composed);
+                    return new DataRepresentation.PrepositionalPhrase(composed);
                 case "PRT":
-                    return new Algorithm.ParticlePhrase(composed);
+                    return new DataRepresentation.ParticlePhrase(composed);
                 case "VP":
-                    return new Algorithm.VerbPhrase(composed);
+                    return new DataRepresentation.VerbPhrase(composed);
                 case "NP":
-                    return new Algorithm.NounPhrase(composed);
+                    return new DataRepresentation.NounPhrase(composed);
                 case "S":
-                    return new Algorithm.SimpleDeclarativePhrase(composed);
+                    return new DataRepresentation.SimpleDeclarativePhrase(composed);
                 case "SBAR":
-                    return new Algorithm.PrepositionalPhrase(composed);
+                    return new DataRepresentation.PrepositionalPhrase(composed);
                 case "SBARQ":
-                    return new Algorithm.InterrogativePhrase(composed);
+                    return new DataRepresentation.InterrogativePhrase(composed);
                 case "CONJP":
-                    return new Algorithm.InterrogativePhrase(composed);
+                    return new DataRepresentation.InterrogativePhrase(composed);
                 case "LST":
-                    return new Algorithm.RoughListPhrase(composed);
+                    return new DataRepresentation.RoughListPhrase(composed);
                 default: {
                         throw new UnknownPhraseTypeException(phraseTag);
                     }
@@ -181,8 +181,8 @@ namespace LASI.FileSystem
         /// </summary>
         /// <param name="wordData">A string containing tagged words.</param>
         /// <returns>The collection of Word objects that is their run time representation.</returns>
-        protected virtual List<Algorithm.Word> ReadParseCreate(string wordData) {
-            var parsedWords = new List<Algorithm.Word>();
+        protected virtual List<DataRepresentation.Word> ReadParseCreate(string wordData) {
+            var parsedWords = new List<DataRepresentation.Word>();
             var elements = wordData.Split(new[] { ' ', });
             var posExtractor = new PosExtractor();
 
@@ -197,8 +197,8 @@ namespace LASI.FileSystem
             }
             return parsedWords;
         }
-        protected virtual List<Func<Algorithm.Word>> ReadParse(string wordData) {
-            var wordExpressions = new List<Func<Algorithm.Word>>();
+        protected virtual List<Func<DataRepresentation.Word>> ReadParse(string wordData) {
+            var wordExpressions = new List<Func<DataRepresentation.Word>>();
             var elements = wordData.Split(new[] { ' ', });
             var posExtractor = new PosExtractor();
 

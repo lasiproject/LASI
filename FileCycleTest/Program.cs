@@ -1,4 +1,4 @@
-﻿using LASI.Algorithm;
+﻿using LASI.DataRepresentation;
 using LASI.FileSystem;
 using System;
 using System.Collections.Generic;

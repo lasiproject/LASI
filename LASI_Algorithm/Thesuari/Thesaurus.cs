@@ -1,9 +1,9 @@
-﻿using LASI.Algorithm;
+﻿using LASI.DataRepresentation;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace LASI.Algorithm
+namespace LASI.DataRepresentation
 {
     public abstract class Thesaurus
     {

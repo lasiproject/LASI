@@ -1,4 +1,4 @@
-﻿using LASI.Algorithm;
+﻿using LASI.DataRepresentation;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -51,12 +51,12 @@ namespace LASI.FileSystem
         private Func<string, Word> LookupMapping(TextTagPair taggedText) {
             var tag = taggedText.Tag.Trim();
             if (tag.Length < 2)
-                return (s) => new LASI.Algorithm.Punctuator(s.First(c => !Char.IsWhiteSpace(c)));
+                return (s) => new LASI.DataRepresentation.Punctuator(s.First(c => !Char.IsWhiteSpace(c)));
             try {
                 var constructor = context[tag];
                 return constructor;
             } catch (UnknownPOSException) {
-                return (s) => new LASI.Algorithm.GenericSingularNoun(taggedText.Text);
+                return (s) => new LASI.DataRepresentation.GenericSingularNoun(taggedText.Text);
                 throw new UnknownPOSException(String.Format("Unable to parse unknown tag\nTag: {0}\nFor text: {1}\n", tag, taggedText.Text));
 
             }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using LASI.Algorithm;
+using LASI.DataRepresentation;
 using LASI.FileSystem;
 
 namespace Erik_Experimentation

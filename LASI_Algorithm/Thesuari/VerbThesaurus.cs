@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 
-namespace LASI.Algorithm
+namespace LASI.DataRepresentation
 {
     public class VerbThesaurus : Thesaurus
     {

@@ -1,5 +1,5 @@
 ﻿
-namespace LASI.Algorithm
+namespace LASI.DataRepresentation
 {
     public interface IPrepositional
     {

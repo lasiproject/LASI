@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-namespace LASI.Algorithm
+namespace LASI.DataRepresentation
 {
     /// <summary>
     /// Provides the base class, properties, and behaviors for all word level gramatical constructs.
@@ -20,8 +20,6 @@ namespace LASI.Algorithm
             this.Text = text;
             ID = IDNumProvider;
             ++IDNumProvider;
-            // PreviousWord = ParentDoc.DocBuilder.LastBuilt;
-            //ParentDoc.DocBuilder.Update(this);
         }
         #endregion
 

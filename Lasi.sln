@@ -17,7 +17,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LASI_FileSystem", "LASI_Fil
 		{8C562A93-A885-4FE9-8B8C-5CE34CCBAEC1} = {8C562A93-A885-4FE9-8B8C-5CE34CCBAEC1}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LASI_Algorithm", "LASI_Algorithm\LASI_Algorithm.csproj", "{8C562A93-A885-4FE9-8B8C-5CE34CCBAEC1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LASI_DataRepresentation", "LASI_Algorithm\LASI_DataRepresentation.csproj", "{8C562A93-A885-4FE9-8B8C-5CE34CCBAEC1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaggedFileParserTest", "FileManagementTest\TaggedFileParserTest\TaggedFileParserTest\TaggedFileParserTest.csproj", "{3FEFF1D4-4A82-4735-A237-5321B27BDC62}"
 EndProject
