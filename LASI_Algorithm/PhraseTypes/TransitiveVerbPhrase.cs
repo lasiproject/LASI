@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace LASI.DataRepresentation
+namespace LASI.Algorithm
 {
     /// <summary>
     /// Represents a transative verb phrase in its base tense, a VerbPhrase which can take a direct and an optional indirect object.

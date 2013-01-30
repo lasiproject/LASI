@@ -76,9 +76,9 @@
     <Compile Include="WordTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\LASI_Algorithm\LASI_DataRepresentation.csproj">
+    <ProjectReference Include="..\LASI_Algorithm\LASI_Algorithm.csproj">
       <Project>{8C562A93-A885-4FE9-8B8C-5CE34CCBAEC1}</Project>
-      <Name>LASI_DataRepresentation</Name>
+      <Name>LASI_Algorithm</Name>
     </ProjectReference>
     <ProjectReference Include="..\LASI_FileSystem\LASI_FileSystem.csproj">
       <Project>{F13D6C6D-A004-45BD-8FB8-E044E20F1204}</Project>

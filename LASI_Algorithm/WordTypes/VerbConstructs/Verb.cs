@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LASI.DataRepresentation
+namespace LASI.Algorithm
 {
     /// <summary>
     /// Provides the base class for all word level verb constructs. An instance of this class represents a verb in its base tense.

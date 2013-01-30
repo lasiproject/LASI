@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LASI.DataRepresentation
+namespace LASI.Algorithm
 {
     /// <summary>
     /// Represents an adjective which can describe a Noun, NounPhrase, or other IDescribable

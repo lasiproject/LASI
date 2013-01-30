@@ -103,9 +103,9 @@
     <None Include="ClassDiagram2.cd" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\LASI_Algorithm\LASI_DataRepresentation.csproj">
+    <ProjectReference Include="..\LASI_Algorithm\LASI_Algorithm.csproj">
       <Project>{8c562a93-a885-4fe9-8b8c-5ce34ccbaec1}</Project>
-      <Name>LASI_DataRepresentation</Name>
+      <Name>LASI_Algorithm</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

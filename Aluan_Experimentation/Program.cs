@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using LASI.DataRepresentation;
+using LASI.Algorithm;
 using LASI.FileSystem;
 using SharpNLPTaggingModule;
 
@@ -13,11 +13,17 @@ namespace Aluan_Experimentation
     class Program
     {
         static void Main(string[] args) {
-            var localParser = new TaggedFileParser(@"C:\Users\Aluan\Desktop\LASI\LASI_v1\TestDocs\Draft_Environmental_Assessment.tagged");
-            var paras = localParser.GetParagraphs();
-            foreach (var P in paras)
-                Console.WriteLine(P);
 
+            var verbThesaurus = new VerbThesaurus();
+            verbThesaurus.Load();
+            while (true) {
+                Console.Write("enter a word: ");
+                var input = Console.ReadLine().Trim();
+                if (input == "-1")
+                    break;
+                foreach (var S in verbThesaurus[input])
+                    Console.WriteLine(S);
+            }
         }
     }
 }

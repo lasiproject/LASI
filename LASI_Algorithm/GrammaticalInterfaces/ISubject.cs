@@ -1,5 +1,5 @@
 ﻿
-namespace LASI.DataRepresentation
+namespace LASI.Algorithm
 {
 
     public interface IActionSubject

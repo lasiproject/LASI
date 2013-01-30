@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace LASI.DataRepresentation
+namespace LASI.Algorithm
 {
     public class Document
     {

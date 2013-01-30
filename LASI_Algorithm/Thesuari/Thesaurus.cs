@@ -1,9 +1,9 @@
-﻿using LASI.DataRepresentation;
+﻿using LASI.Algorithm;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace LASI.DataRepresentation
+namespace LASI.Algorithm
 {
     public abstract class Thesaurus
     {
@@ -34,19 +34,13 @@ namespace LASI.DataRepresentation
         /// </summary>
         public abstract Task LoadAsync();
 
-        /// <summary>
-        /// Returns the synonyms of the given word as raw strings
-        /// </summary>
-        /// <param name="code"></param>
-        /// <returns></returns>
-        public abstract SynonymSet GetMatches(Word toMatch);
+        public abstract IEnumerable<string> this[string search] {
+            get;
+        }
 
-        /// <summary>
-        /// Returns the synonyms of the given word as raw strings
-        /// </summary>
-        /// <param name="code"></param>
-        /// <returns></returns>
-        public abstract SynonymSet GetMatches(string toMatch);
+        public abstract IEnumerable<string> this[Word search] {
+            get;
+        }
 
         /// <summary>
         ///gets the current state of the file loading process

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace LASI.DataRepresentation
+namespace LASI.Algorithm
 {
     public class NounThesaurus : Thesaurus
     {
@@ -28,22 +28,18 @@ namespace LASI.DataRepresentation
         public override System.Threading.Tasks.Task LoadAsync() {
             throw new NotImplementedException();
         }
-        /// <summary>
-        /// Gets a RelatedWordSet containing all identified synonyms for the given Noun.
-        /// </summary>
-        /// <param name="toMatch">The Word instance to get synonyms for.</param>
-        /// <returns>The collection of synonyms as strings.</returns>
-        public override SynonymSet GetMatches(Word toMatch) {
-            throw new NotImplementedException();
-        }
-        /// <summary>
-        /// Gets a RelatedWordSet containing all identified synonyms for the given Noun.
-        /// </summary>
-        /// <param name="toMatch">The raw text of a word to get synonyms for.</param>
-        /// <returns>The collection of synonyms as strings.</returns>
-        public override SynonymSet GetMatches(string toMatch) {
-            throw new NotImplementedException();
+
+
+        public override IEnumerable<string> this[string search] {
+            get {
+                throw new NotImplementedException();
+            }
         }
 
+        public override IEnumerable<string> this[Word search] {
+            get {
+                throw new NotImplementedException();
+            }
+        }
     }
 }

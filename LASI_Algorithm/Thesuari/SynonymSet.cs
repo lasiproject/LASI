@@ -4,24 +4,41 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LASI.DataRepresentation
+namespace LASI.Algorithm
 {
     public class SynonymSet : IReadOnlyCollection<string>
     {
+        public SynonymSet(IEnumerable<string> referencedSetIds, IEnumerable<string> memberWords, string index) {
+            _members = memberWords.Distinct();
+            _referencedIndexes = referencedSetIds;
+            IndexCode = index;
+        }
+        public IEnumerable<string> Members {
+            get {
+                return _members;
+            }
+        }
+
+
+        IEnumerable<string> _members;
+        protected IEnumerable<string> _referencedIndexes;
+
+        public IEnumerable<string> ReferencedIndexes {
+            get {
+                return _referencedIndexes;
+            }
+            set {
+                _referencedIndexes = value;
+            }
+        }
+
         public string IndexCode {
             get;
-            set;
+            protected set;
         }
-        public List<string> SynIDCodes {
-            get;
-            set;
-        }
-        public List<string> AntIDCodes {
-            get;
-            set;
-        }
+
         public override string ToString() {
-            return SynIDCodes.Aggregate("", (str, code) => {
+            return "[" + IndexCode + "] " + Members.Aggregate("", (str, code) => {
                 return str + "  " + code;
             });
         }
@@ -29,12 +46,12 @@ namespace LASI.DataRepresentation
 
         public int Count {
             get {
-                return SynIDCodes.Count;
+                return Members.Count();
             }
         }
 
         public IEnumerator<string> GetEnumerator() {
-            return SynIDCodes.GetEnumerator();
+            return Members.GetEnumerator();
         }
 
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() {

@@ -51,9 +51,9 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\LASI_Algorithm\LASI_DataRepresentation.csproj">
+    <ProjectReference Include="..\..\..\LASI_Algorithm\LASI_Algorithm.csproj">
       <Project>{8c562a93-a885-4fe9-8b8c-5ce34ccbaec1}</Project>
-      <Name>LASI_DataRepresentation</Name>
+      <Name>LASI_Algorithm</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\LASI_FileSystem\LASI_FileSystem.csproj">
       <Project>{f13d6c6d-a004-45bd-8fb8-e044e20f1204}</Project>

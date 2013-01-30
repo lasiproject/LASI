@@ -1,4 +1,4 @@
-﻿namespace LASI.DataRepresentation
+﻿namespace LASI.Algorithm
 {
     public interface IIntransitiveAction : ISubjectTaker
     {

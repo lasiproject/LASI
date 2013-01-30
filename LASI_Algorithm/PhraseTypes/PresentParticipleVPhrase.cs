@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace LASI.DataRepresentation
+namespace LASI.Algorithm
 {
     public class PresentPrtcplVPhrase : VerbPhrase, IActionSubject, IActionObject
     {

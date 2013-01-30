@@ -1,6 +1,6 @@
 ﻿
 
-namespace LASI.DataRepresentation
+namespace LASI.Algorithm
 {
     public interface ISubjectTaker
     {

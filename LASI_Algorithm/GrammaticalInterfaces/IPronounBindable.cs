@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace LASI.DataRepresentation
+namespace LASI.Algorithm
 {
     public interface IReferenciable
     {

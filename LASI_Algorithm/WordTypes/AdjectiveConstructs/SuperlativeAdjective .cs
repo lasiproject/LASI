@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LASI.DataRepresentation
+namespace LASI.Algorithm
 {
     /// <summary>
     /// A specialization of the Adjective class, SuperlativeAdjective represents adjectives such as "greenest" and "best".
