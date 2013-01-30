@@ -58,11 +58,11 @@ namespace LASI.Algorithm
         }
 
         internal void EstablishParenthood(Paragraph paragraph) {
-            throw new NotImplementedException();
-            //OwnerParagraph = paragraph;
-            //ParentDoc = paragraph.ParentDoc;
-            //foreach (var C in Clauses)
-            //    C.EstablishParenthood(this);
+          //  throw new NotImplementedException();
+            OwnerParagraph = paragraph;
+            ParentDoc = paragraph.ParentDoc;
+            foreach (var C in Clauses)
+                C.EstablishParenthood(this);
         }
 
         public Paragraph OwnerParagraph {

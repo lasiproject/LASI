@@ -11,8 +11,8 @@ namespace LASI.Algorithm
 
         public Paragraph(params  Sentence[] sentences) {
             Sentences = sentences;
-            //foreach (var S in Sentences)
-            //    S.EstablishParenthood(this);
+            foreach (var S in Sentences)
+                S.EstablishParenthood(this);
 
             ID = IDNumProvider;
             ++IDNumProvider;
