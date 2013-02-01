@@ -1,12 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
-  <Class Name="ThesaurusParsingTest.NotLoadedException" Collapsed="true">
-    <Position X="14" Y="0.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAA=</HashCode>
-      <FileName>Exceptions\NotLoadedException.cs</FileName>
-    </TypeIdentifier>
-  </Class>
   <Class Name="LASI.FileSystem.UnknownPOSException" Collapsed="true">
     <Position X="3" Y="5" Width="1.5" />
     <TypeIdentifier>
@@ -35,13 +28,6 @@
       <FileName>Exceptions\POSTaggerException.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LASI.FileSystem.UnclosedPhraseException" Collapsed="true">
-    <Position X="0.75" Y="5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Exceptions\POSTaggerException.cs</FileName>
-    </TypeIdentifier>
-  </Class>
   <Class Name="LASI.FileSystem.POSTagException" Collapsed="true">
     <Position X="5.25" Y="3.5" Width="1.5" />
     <TypeIdentifier>
@@ -52,14 +38,14 @@
   <Class Name="LASI.FileSystem.DocToDocXConverter" Collapsed="true">
     <Position X="0.5" Y="7.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AIAAAAAAAAAQAAAAAAAAAAAAAIAAAAAAAAAAAAAAQAA=</HashCode>
+      <HashCode>AAAAAAAAQAAQAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>FileConveters\DocToDocXConverter.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="LASI.FileSystem.DocxToTextConverter" Collapsed="true">
     <Position X="2.75" Y="7.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAEAQBAAAAAAAAAAAAIAAAAAAAAAAAAAAQAA=</HashCode>
+      <HashCode>AAAAAAAAQEAQBBAAAAAAAAAAAIAEAAAAAAAAAAgAAAA=</HashCode>
       <FileName>FileConveters\DocxToTextConverter.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -115,22 +101,8 @@
   <Class Name="LASI.FileSystem.InputFileConverter" Collapsed="true">
     <Position X="1.75" Y="6.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAgAQAAAAAAAAAAAAAJAAAAAAAAIAAAAAQAA=</HashCode>
+      <HashCode>AAAAAAAAQAAQAAAAAAAAAAAAAJAAAAAAAAIAAAAAAAQ=</HashCode>
       <FileName>FileConveters\InputFileConverter.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="LASI.FileSystem.TaggedFileLoader" Collapsed="true">
-    <Position X="12.25" Y="1.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGQABAAAAAIAA=</HashCode>
-      <FileName>TaggerEncapsulation\TaggedFileLoader.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="LASI.FileSystem.TagReader" Collapsed="true">
-    <Position X="14" Y="1.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>gAAAQAEABAAAIAECBCABAGBgAwoQAQgAEAAAAAAAAAA=</HashCode>
-      <FileName>TaggerEncapsulation\TagReader.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="SharpNLPTaggingModule.SharpNLPTagger" Collapsed="true">
@@ -140,18 +112,25 @@
       <FileName>TaggerEncapsulation\SharpNLPTagger.cs</FileName>
     </TypeIdentifier>
   </Class>
+  <Class Name="LASI.FileSystem.TaggedFileParser">
+    <Position X="16.25" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAAAAAAAAECAAAAAICAAAAAAAAAAAhAAAAAIRA=</HashCode>
+      <FileName>TaggerEncapsulation\TaggedFileParser.cs</FileName>
+    </TypeIdentifier>
+  </Class>
   <Struct Name="LASI.FileSystem.FileData" Collapsed="true">
     <Position X="12.25" Y="2.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>BAAAgBAAIAAAAAAUgAAACAAAAAAAAIAAAAAAAAAAAiA=</HashCode>
-      <FileName>FileTypes\FileData.cs</FileName>
+      <FileName>FileTypes\Support\FileData.cs</FileName>
     </TypeIdentifier>
   </Struct>
   <Enum Name="TaggingOption" Collapsed="true">
     <Position X="12.25" Y="4" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAEAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>TaggerEncapsulation\TaggingOptions.cs</FileName>
+      <FileName>TaggerEncapsulation\TaggingOption.cs</FileName>
     </TypeIdentifier>
   </Enum>
   <Font Name="Segoe UI" Size="9" />
