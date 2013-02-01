@@ -20,6 +20,8 @@ namespace LASI.Algorithm
             this.Text = text;
             ID = IDNumProvider;
             ++IDNumProvider;
+            // PreviousWord = ParentDoc.DocBuilder.LastBuilt;
+            //ParentDoc.DocBuilder.Update(this);
         }
         #endregion
 
