@@ -53,7 +53,7 @@
       </Path>
     </InheritanceLine>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAQAAAAAAAAAAAAAIAAAAAAAAAAAAAAQAA=</HashCode>
+      <HashCode>AAAAAAAAQAAQAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>FileConveters\DocToDocXConverter.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -68,14 +68,14 @@
       </Path>
     </InheritanceLine>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAEAQBAAAAAAAAAAAAIAAAAAAAAAAAAAAQAA=</HashCode>
+      <HashCode>AAAAAAAAQEAQBBAAAAAAAAAAAIAEAAAAAAAAAAgAAAA=</HashCode>
       <FileName>FileConveters\DocxToTextConverter.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="LASI.FileSystem.InputFileConverter" Collapsed="true">
     <Position X="9" Y="0.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAQAAAAAAAAAgAAAJAAAAAAAAIAAAAAQAA=</HashCode>
+      <HashCode>AAAAAAAAQAAQAAAAAAAAAAAAAJAAAAAAAAIAAAAAAAQ=</HashCode>
       <FileName>FileConveters\InputFileConverter.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -146,15 +146,8 @@
   <Class Name="LASI.FileSystem.TaggedFileParser" Collapsed="true">
     <Position X="6" Y="6.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAIAAAAAAAAAAAAAAAAAAAAAAAAAACQABAAAAAIAA=</HashCode>
+      <HashCode>AAAAIAAAAAAAAAECAAAAAICAAAAAAAAAAAhAAAAAIRA=</HashCode>
       <FileName>TaggerEncapsulation\TaggedFileParser.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="LASI.FileSystem.TaggedWordParser" Collapsed="true">
-    <Position X="10" Y="3.25" Width="1.75" />
-    <TypeIdentifier>
-      <HashCode>AAAiAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>TaggerEncapsulation\TaggedWordParser.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="LASI.FileSystem.TagsetMap" Collapsed="true">
@@ -182,7 +175,7 @@
     <Position X="2.5" Y="6.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAEAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>TaggerEncapsulation\TaggingOptions.cs</FileName>
+      <FileName>TaggerEncapsulation\TaggingOption.cs</FileName>
     </TypeIdentifier>
   </Enum>
   <Font Name="Segoe UI" Size="9" />

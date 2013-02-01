@@ -94,7 +94,7 @@
     <Compile Include="PhraseTypes\AdjectivePhrase.cs" />
     <Compile Include="WordTypes\AdverbConstructs\Adverb.cs" />
     <Compile Include="PhraseTypes\AdverbPhrase.cs" />
-    <Compile Include="Clause.cs" />
+    <Compile Include="DocumentConstructs\Clause.cs" />
     <Compile Include="WordTypes\AdverbConstructs\ComparativeAdverb.cs" />
     <Compile Include="WordTypes\BridgingConstructs\Conjunction.cs" />
     <Compile Include="WordTypes\Existential.cs" />

@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<top xmlns="http://tempuri.org/XMLSchema.xsd" >
+  <content>
+    <projectfile filecount="1" analysiscompleted="false" projectname="test1" relativeparentdirectory="allprojects"></projectfile>
+    <sourcesdocument path="x1"/>
+    <sourcesdocument path="x2"/>
+    <sourcesdocument path="x3"/>
+  </content>
+</top>

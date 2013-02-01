@@ -88,9 +88,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="LasiLogo.ico" />
-    <Content Include="XMLFile1.xml">
-      <SubType>Designer</SubType>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <Content Include="App.config">
