@@ -32,10 +32,8 @@ namespace LASI.Algorithm
                 //Discard file header
                 for (int i = 0; i < HEADER_LENGTH; ++i)
                     reader.ReadLine();
-
-                //   while (!reader.EndOfStream) 
                 {
-                    var fileLines = reader.ReadToEnd().Split(new[]{'\n'},StringSplitOptions.RemoveEmptyEntries);
+                    var fileLines = reader.ReadToEnd().Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
                     foreach (
                     var data in fileLines) {
                         var synset = BuildSynset(data);
@@ -43,17 +41,14 @@ namespace LASI.Algorithm
                         foreach (var word in synset.Members) {
                             try {
                                 AssociationData.Add(word, synset);
-                            } catch (ArgumentException ex) {
+                            } catch (ArgumentException) {
                                 // Debug.WriteLine("previously defined: \n" + AssociationData[word]);
                                 //throw new ArgumentException("previously defined: \n" + AssociationData[word].ToString(),ex);
                                 //var previouslyDefined = 
-                                SynonymSet temp=null;
-                                AssociationData. TryGetValue(word,out temp);
-                                if (temp!= null)
+                                SynonymSet temp = null;
+                                AssociationData.TryGetValue(word, out temp);
+                                if (temp != null)
                                     AssociationData[word] = new SynonymSet(AssociationData[word].ReferencedIndexes.Concat(synset.ReferencedIndexes), AssociationData[word].Members.Concat(synset.Members), synset.IndexCode);
-                                //AssociationData.Remove(word);
-                                //AssociationData.Add(word, new SynonymSet(previouslyDefined.ReferencedIndexes.Concat(synset.ReferencedIndexes), previouslyDefined.Members.Concat(synset.Members), synset.IndexCode));
-
                             }
                         }
                         AssociationData.Add(synset.IndexCode, synset);
@@ -64,21 +59,6 @@ namespace LASI.Algorithm
             }
         }
 
-        public override IEnumerable<string> this[string word] {
-            get {
-                return (from M in AssociationData[word].Members
-                        where M != word
-                        select M).Concat(
-                               from RI in AssociationData[word].ReferencedIndexes
-                               from FM in AssociationData[RI].Members
-                               select FM).Distinct().ToArray();
-            }
-        }
-        public override IEnumerable<string> this[Word search] {
-            get {
-                return this[search.Text];
-            }
-        }
         /// <summary>
         /// Parses the contents of the underlying WordNet database file Asynchronously in a new thread, returning Task object which represents the state of the ongoing operation.
         /// </summary>
@@ -88,11 +68,41 @@ namespace LASI.Algorithm
             LoadingStatus = FileLoadingState.Completed;
         }
 
-        private static SynonymSet BuildSynset(string data) {
-            data = Regex.Replace(data, @"([+]+|;c+)+[\s]+[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+", "");
-            var refRgx = new Regex(@"[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+");
-            var sep = data.Split(new[] { '!', '|' }, StringSplitOptions.RemoveEmptyEntries)[0];
+        /// <summary>
+        /// Retrives the synonyms of the given verb as a collection of strings.
+        /// </summary>
+        /// <param name="search">The text of the verb to look for.</param>
+        /// <returns>A collection of strings containing all of the synonyms of the given verb.</returns>
+        public override IEnumerable<string> this[string search] {
+            get {
+                return (from M in AssociationData[search].Members
+                        where M != search
+                        select M).Concat(
+                               from RI in AssociationData[search].ReferencedIndexes
+                               from FM in AssociationData[RI].Members
+                               select FM).Distinct().ToArray();
+            }
+        }
 
+        /// <summary>
+        /// Retrives the synonyms of the given verb as a collection of strings.
+        /// </summary>
+        /// <param name="search">An instance of Verb</param>
+        /// <returns>A collection of strings containing all of the synonyms of the given verb.</returns>
+        public override IEnumerable<string> this[Word search] {
+            get {
+                return this[search.Text];
+            }
+        }
+
+
+        private SynonymSet BuildSynset(string data) {
+
+            data = Regex.Replace(data, @"([+]+|;c+)+[\s]+[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+", "");
+
+            var refRgx = new Regex(@"[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+");
+
+            var sep = data.Split(new[] { '!', '|' }, StringSplitOptions.RemoveEmptyEntries)[0];
 
             var setRefs = from Match M in refRgx.Matches(sep)
                           select M.Value;
@@ -104,19 +114,7 @@ namespace LASI.Algorithm
             return new SynonymSet(setRefs, setElements, setRefs.First());
         }
 
-
-
-
         const int HEADER_LENGTH = 30;
-
-
-
-
-
-
-
-
-
     }
 }
 

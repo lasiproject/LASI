@@ -18,15 +18,7 @@ namespace LASI.Algorithm
         public TransitiveVerb(string text)
             : base(text, VerbTense.Base) {
         }
-        ///// <summary>
-        ///// Binds the TransitiveVerb to its direct object.
-        ///// </summary>
-        ///// <param name="verbObject">The IActionObject instance that represents the object of the TransitiveVerb.</param>
-        //public virtual void BindToDirectObject(IActionObject verbObject) {
-        //    DirectObject = verbObject;
-        //    verbObject.DirectObjectOf = this;
-        //    verbObject.DirectObjectOf = null;
-        //}
+
         /// <summary>
         /// Gets or sets the directobject of the TransitiveVerb.
         /// </summary>
