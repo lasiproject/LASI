@@ -11,11 +11,5 @@ namespace LASI.Algorithm
         public Particle(string text)
             : base(text) {
         }
-
-        public override string ToString() {
-            return String.Format("{0} is a particle with text \"{1}\"",base.ToString(), Text);
-        }
-
-        //TODO: Implement any additional Particle specific methods or properties.
     }
 }
