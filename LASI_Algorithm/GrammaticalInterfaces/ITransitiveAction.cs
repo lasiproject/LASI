@@ -1,7 +1,7 @@
 ﻿
 namespace LASI.Algorithm
 {
-    public interface ITransitiveAction : IIntransitiveAction, IObjectTaker, IInderectObjectTaker
+    public interface ITransitiveAction : IAction, IObjectTaker, IInderectObjectTaker
     {
 
     }

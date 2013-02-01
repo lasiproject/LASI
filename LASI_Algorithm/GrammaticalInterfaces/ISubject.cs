@@ -4,7 +4,7 @@ namespace LASI.Algorithm
 
     public interface IActionSubject
     {
-        IIntransitiveAction SubjectOf {
+        IAction SubjectOf {
             get;
             set;
         }
