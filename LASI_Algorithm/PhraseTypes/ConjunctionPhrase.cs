@@ -36,9 +36,13 @@ namespace LASI.Algorithm
             get {
                 throw new NotImplementedException();
             }
-            set {
+            protected set {
                 throw new NotImplementedException();
             }
+        }
+
+        public override void DetermineHeadWord() {
+            throw new NotImplementedException();
         }
     }
 }

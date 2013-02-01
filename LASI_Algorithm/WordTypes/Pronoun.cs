@@ -16,8 +16,6 @@ namespace LASI.Algorithm
         /// <param name="text">The literal text content of the pronoun.</param>
         public Pronoun(string text)
             : base(text) {
-            var list = new WordList();
-
         }
 
 

@@ -36,11 +36,11 @@ namespace LASI.Algorithm
             set;
         }
 
-        public WordList Words {
+        public IEnumerable<Word> Words {
             get {
-                return (WordList) from S in Sentences
-                                  from W in S.Words
-                                  select W;
+                return from S in Sentences
+                       from W in S.Words
+                       select W;
             }
         }
 

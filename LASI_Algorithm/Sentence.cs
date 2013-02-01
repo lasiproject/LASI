@@ -44,11 +44,11 @@ namespace LASI.Algorithm
                        select P;
             }
         }
-        public WordList Words {
+        public IEnumerable<Word> Words {
             get {
-                return new WordList( from P in Phrases
-                                  from W in P.Words
-                                  select W);
+                return from P in Phrases
+                       from W in P.Words
+                       select W;
             }
         }
         public string Text {
@@ -58,7 +58,7 @@ namespace LASI.Algorithm
         }
 
         internal void EstablishParenthood(Paragraph paragraph) {
-          //  throw new NotImplementedException();
+            //  throw new NotImplementedException();
             OwnerParagraph = paragraph;
             ParentDoc = paragraph.ParentDoc;
             foreach (var C in Clauses)
