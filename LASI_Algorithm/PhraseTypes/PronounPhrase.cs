@@ -21,7 +21,7 @@ namespace LASI.Algorithm
             }
         }
 
-        public IIntransitiveAction SubjectOf {
+        public IAction SubjectOf {
             get;
             set;
         }

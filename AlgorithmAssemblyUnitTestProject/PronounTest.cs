@@ -206,8 +206,8 @@ namespace AlgorithmAssemblyUnitTestProject
         public void SubjectOfTest() {
             string text = string.Empty; // TODO: Initialize to an appropriate value
             Pronoun target = new Pronoun(text); // TODO: Initialize to an appropriate value
-            IIntransitiveAction expected = null; // TODO: Initialize to an appropriate value
-            IIntransitiveAction actual;
+            IAction expected = null; // TODO: Initialize to an appropriate value
+            IAction actual;
             target.SubjectOf = expected;
             actual = target.SubjectOf;
             Assert.AreEqual(expected, actual);

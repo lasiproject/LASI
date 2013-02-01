@@ -115,7 +115,7 @@
     <Compile Include="GrammaticalInterfaces\IDescribable.cs" />
     <Compile Include="GrammaticalInterfaces\IEntity.cs" />
     <Compile Include="GrammaticalInterfaces\IInderectObjectTaker.cs" />
-    <Compile Include="GrammaticalInterfaces\IIntransitiveAction.cs" />
+    <Compile Include="GrammaticalInterfaces\IAction.cs" />
     <Compile Include="GrammaticalInterfaces\IPrepositionLinkable.cs" />
     <Compile Include="GrammaticalInterfaces\IQuantifiable.cs" />
     <Compile Include="GrammaticalInterfaces\ISubject.cs" />

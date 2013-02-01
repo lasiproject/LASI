@@ -21,7 +21,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// The Verb construct which the Gerund is the subject of.
         /// </summary>
-        public IIntransitiveAction SubjectOf {
+        public IAction SubjectOf {
             get;
             set;
         }

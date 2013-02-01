@@ -30,23 +30,16 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets or sets the directobject of the TransitiveVerb.
         /// </summary>
-        public virtual IActionObject DirectObject {
+        public virtual IEntity DirectObject {
             get;
             set;
         }
-        ///// <summary>
-        ///// Brinds the TransitiveVerb to an optional indirect object.
-        ///// </summary>
-        ///// <param name="verbObject">The IActionObject instance that represents the indirect object of the TransitiveVerb.</param>
-        //public virtual void BindToIndirectObject(IActionObject verbObject) {
-        //    IndirectObject = verbObject;
-        //    verbObject.IndirectObjectOf = this;
-        //    verbObject.IndirectObjectOf = null;
-        //}
+
+
         /// <summary>
         /// Gets or sets the indirect object of the TransitiveVerb.
         /// </summary>
-        public virtual IActionObject IndirectObject {
+        public virtual IEntity IndirectObject {
             get;
             set;
         }

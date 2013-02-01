@@ -63,7 +63,7 @@ namespace LASI.Algorithm
             set;
         }
 
-        public virtual IIntransitiveAction SubjectOf {
+        public virtual IAction SubjectOf {
             get;
             set;
         }

@@ -23,7 +23,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets or sets 
         /// </summary>
-        public virtual IActionObject DirectObject {
+        public virtual IEntity DirectObject {
             get;
             set;
         }
@@ -32,7 +32,7 @@ namespace LASI.Algorithm
             throw new NotImplementedException();
         }
 
-        public virtual IActionObject IndirectObject {
+        public virtual IEntity IndirectObject {
             get;
             set;
         }

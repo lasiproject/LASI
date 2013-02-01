@@ -41,7 +41,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets the ISubjectTaker instance, generally a Verb or VerbPhrase, which the NounPhrase is the subject of.
         /// </summary>
-        public virtual IIntransitiveAction SubjectOf {
+        public virtual IAction SubjectOf {
             get;
             set;
         }

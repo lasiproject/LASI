@@ -9,7 +9,7 @@ namespace LASI.Algorithm
     /// <summary>
     /// Represents a verb phrase.
     /// </summary>
-    public class VerbPhrase : Phrase, ISubjectTaker, IModifiable, IModalityModifiable
+    public class VerbPhrase : Phrase, IAction, IModifiable, IModalityModifiable
     {
         /// <summary>
         /// Initializes a new instance of the VerbPhrase class.
@@ -19,17 +19,11 @@ namespace LASI.Algorithm
             : base(composedWords) {
             Tense = VerbTense.Base;
         }
-        /// <summary>
-        /// Binds the given subject to the VerbPhrase.
-        /// </summary>
-        /// <param name="verbSubject">The IActionSubject to bind to the VerbPhrase.</param>
-        public void BindToSubject(IActionSubject verbSubject) {
-            BoundSubject = verbSubject;
-        }
+
         /// <summary>
         /// Gets or sets the subject of the VerbPhrase.
         /// </summary>
-        public IActionSubject BoundSubject {
+        public IEntity BoundSubject {
             get;
             set;
         }

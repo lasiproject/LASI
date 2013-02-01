@@ -9,7 +9,7 @@ namespace LASI.Algorithm
     /// <summary>
     /// Provides the base class for all word level verb constructs. An instance of this class represents a verb in its base tense.
     /// </summary>
-    public class Verb : Word, IIntransitiveAction, IModifiable, IModalityModifiable, IEquatable<Verb>
+    public class Verb : Word, IAction, IModifiable, IModalityModifiable, IEquatable<Verb>
     {
         /// <summary>
         /// Initializes a new instance of the Verb class which represents the base tense form of a verb.
@@ -20,18 +20,11 @@ namespace LASI.Algorithm
             Modifiers = new List<IAdverbial>();
             Tense = tense;
         }
-        /// <summary>
-        /// Binds the verb to its subject, e.g. an IEntity instance such as a Noun or NounPhrase.
-        /// </summary>
-        /// <param name="verbSubject">The subject to be bound to the verb.</param>
-        public virtual void BindToSubject(IActionSubject verbSubject) {
-            BoundSubject = verbSubject;
-            verbSubject.SubjectOf = this;
-        }
+
         /// <summary>
         /// Gets the subject of the Verb
         /// </summary>
-        public virtual IActionSubject BoundSubject {
+        public virtual IEntity BoundSubject {
             get;
             set;
         }
