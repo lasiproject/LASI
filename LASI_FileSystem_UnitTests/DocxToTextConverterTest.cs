@@ -112,13 +112,11 @@ namespace LASI_FileSystem_UnitTests
         ///</summary>
         [TestMethod()]
         public void ConvertFileAsyncTest() {
-            InputFile infile = null; // TODO: Initialize to an appropriate value
-            DocxToTextConverter target = new DocxToTextConverter(infile); // TODO: Initialize to an appropriate value
-            Task<InputFile> expected = null; // TODO: Initialize to an appropriate value
-            Task<InputFile> actual;
-            actual = target.ConvertFileAsync();
-            Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
+            InputFile infile = new DocXFile(@"..\..\..\TestDocs\Draft_Environmental_Assessment.docx");
+            DocxToTextConverter target = new DocxToTextConverter(infile);
+            InputFile actual;
+            actual = target.ConvertFileAsync().Result;
+            Assert.IsTrue(File.Exists(actual.FullPath));
         }
     }
 }

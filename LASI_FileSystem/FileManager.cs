@@ -17,13 +17,13 @@ namespace LASI.FileSystem
         /// </summary>
         /// <param name="projectDir">The root directory of the current project</param>
         public static void Initialize(string projectDir) {
-            ProjectName = projectDir;
-            ProjectDir = @".\projects\" + projectDir;
+            ProjectName = projectDir.Substring(projectDir.LastIndexOf('\\') + 1);
+            ProjectDir = projectDir;
             InputFilesDir = ProjectDir + @"\input";
             DocFilesDir = InputFilesDir + @"\doc";
             DocxFilesDir = InputFilesDir + @"\docx";
             TextFilesDir = InputFilesDir + @"\text";
-            LASIFilesDir = InputFilesDir + @"\tagged";
+            TaggedFilesDir = InputFilesDir + @"\tagged";
             AnalysisDir = @"\analysis";
             ResultsDir = @"\results";
             CheckProjectDirs();
@@ -33,6 +33,9 @@ namespace LASI.FileSystem
         /// Checks the existing contents of the current project directory and automatically loads the files it finds. Called by initialize
         /// </summary>
         private static void CheckProjectDirs() {
+            if (!Directory.Exists(ProjectDir)) {
+                Directory.CreateDirectory(ProjectDir);
+            }
             if (Directory.Exists(DocFilesDir))
                 foreach (var docPath in Directory.EnumerateFiles(DocFilesDir))
                     docFiles.Add(new DocFile(docPath));
@@ -48,11 +51,11 @@ namespace LASI.FileSystem
                     textFiles.Add(new TextFile(docPath));
             else
                 Directory.CreateDirectory(TextFilesDir);
-            if (Directory.Exists(LASIFilesDir))
-                foreach (var docPath in Directory.EnumerateFiles(LASIFilesDir))
-                    lasiFiles.Add(new LasiFile(docPath));
+            if (Directory.Exists(TaggedFilesDir))
+                foreach (var docPath in Directory.EnumerateFiles(TaggedFilesDir))
+                    TaggedFiles.Add(new TaggedFile(docPath));
             else
-                Directory.CreateDirectory(LASIFilesDir);
+                Directory.CreateDirectory(TaggedFilesDir);
         }
 
         /// <summary>
@@ -61,8 +64,7 @@ namespace LASI.FileSystem
         /// <param name="sourcePath">The path of the file to add</param>
         public static void AddDocFile(string sourcePath) {
             var FD = new FileData(sourcePath);
-
-            var path = DocFilesDir + FD.FileNameWithExt;
+            var path = DocFilesDir + "\\" + FD.FileNameWithExt;
             File.Copy(sourcePath, path);
             var file = new DocFile(path);
             docFiles.Add(file);
@@ -75,7 +77,7 @@ namespace LASI.FileSystem
         public static void AddDocXFile(string sourcePath) {
             var FD = new FileData(sourcePath);
 
-            var path = DocFilesDir + FD.FileNameWithExt;
+            var path = DocxFilesDir + "\\" + FD.FileNameWithExt;
             File.Copy(sourcePath, path);
             var file = new DocXFile(path);
             docXFiles.Add(file);
@@ -88,8 +90,7 @@ namespace LASI.FileSystem
         /// <param name="sourcePath">The path of the file to add</param>
         public static void AddTextFile(string sourcePath) {
             var FD = new FileData(sourcePath);
-
-            var path = DocFilesDir + FD.FileNameWithExt;
+            var path = TextFilesDir + "\\" + FD.FileNameWithExt;
             File.Copy(sourcePath, path);
             var file = new TextFile(path);
             textFiles.Add(file);
@@ -102,17 +103,17 @@ namespace LASI.FileSystem
         public static void AddLasiFile(string sourcePath) {
             var FD = new FileData(sourcePath);
 
-            var path = DocFilesDir + FD.FileNameWithExt;
+            var path = TaggedFilesDir + "\\" + FD.FileNameWithExt;
             File.Copy(sourcePath, path);
-            var file = new LasiFile(path);
-            lasiFiles.Add(file);
+            var file = new TaggedFile(path);
+            TaggedFiles.Add(file);
         }
 
         /// <summary>
         /// Add one or more DocFiles to the project
         /// </summary>
         /// <param name="files">The collection of DocFiles to add</param>
-        public static void AddFile(params DocFile[] files) {
+        public static void AddFiles(params DocFile[] files) {
             foreach (var file in files)
                 AddDocFile(file.FullPath);
         }
@@ -121,7 +122,7 @@ namespace LASI.FileSystem
         /// Add one or more DocXFiles to the project
         /// </summary>
         /// <param name="files">The collection of DocXFiles to add</param>
-        public static void AddFile(params DocXFile[] files) {
+        public static void AddFiles(params DocXFile[] files) {
             foreach (var file in files)
                 AddDocXFile(file.FullPath);
         }
@@ -129,7 +130,7 @@ namespace LASI.FileSystem
         /// Add one or more TextFiles to the project
         /// </summary>
         /// <param name="files">The collection of TextFiles to add</param>
-        public static void AddFile(params TextFile[] files) {
+        public static void AddFiles(params TextFile[] files) {
             foreach (var file in files)
                 AddTextFile(file.FullPath);
         }
@@ -138,7 +139,7 @@ namespace LASI.FileSystem
         /// Add one or more TextFiles to the project
         /// </summary>
         /// <param name="files">The collection of TextFiles to add</param>
-        public static void AddFile(params LasiFile[] files) {
+        public static void AddFiles(params TaggedFile[] files) {
             foreach (var file in files)
                 AddLasiFile(file.FullPath);
         }
@@ -158,9 +159,10 @@ namespace LASI.FileSystem
                                  where dx.NameSansExt == d.NameSansExt
                                  select dx).Count() == 0
                                 select d) {
-                var converter = new DocToDocXConverter(doc, DocxFilesDir);
+                var converter = new DocToDocXConverter(doc);
                 var converted = converter.ConvertFile();
-                docXFiles.Add(converted as DocXFile);
+                AddFiles(converted as DocXFile);
+                File.Delete(converted.FullPath);
             }
         }
         /// <summary>
@@ -195,14 +197,14 @@ namespace LASI.FileSystem
                 files = textFiles.ToArray();
             foreach (var doc in from d in files
                                 where
-                                (from dx in lasiFiles
+                                (from dx in TaggedFiles
                                  where dx.NameSansExt == d.NameSansExt
                                  select dx).Count() == 0
                                 select d) {
                 var tagger = new SharpNLPTaggingModule.SharpNLPTagger(TaggingOption.TagAndAggregate, doc.FullPath, doc.PathSansExt + @".tagged");
                 tagger.ProcessFile();
-                var file = new LasiFile(tagger.OutputFilePath);
-                AddFile(file);
+                var file = new TaggedFile(tagger.OutputFilePath);
+                AddFiles(file);
             }
         }
 
@@ -226,21 +228,21 @@ namespace LASI.FileSystem
         /// </summary>
         public static string ProjectDir {
             get;
-            set;
+            private set;
         }
         /// <summary>
         /// Gets or sets the root of the input file directory
         /// </summary>
         public static string InputFilesDir {
             get;
-            set;
+            private set;
         }
         /// <summary>
         /// Gets or sets the path of the analysis directory which stores temporary files during analysis
         /// </summary>
         public static string AnalysisDir {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
@@ -248,38 +250,37 @@ namespace LASI.FileSystem
         /// </summary>
         public static string ResultsDir {
             get;
-            set;
+            private set;
         }
 
-
         /// <summary>
-        /// Gets or sets the .lasi files directory
+        /// Gets or sets the .tagged files directory
         /// </summary>
-        public static string LASIFilesDir {
+        public static string TaggedFilesDir {
             get;
-            set;
+            private set;
         }
         /// <summary>
         /// Gets or sets the .doc files directory
         /// </summary>
         public static string DocFilesDir {
             get;
-            set;
+            private set;
         }
         /// <summary>
         /// Gets or sets the .docx files directory
         /// </summary>
         public static string DocxFilesDir {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
-        /// Gets or sets the text files directory
+        /// Gets or sets the .txt files directory
         /// </summary>
         public static string TextFilesDir {
             get;
-            set;
+            private set;
         }
         /// <summary>
         /// Gets or sets the name of the current project.
@@ -287,7 +288,7 @@ namespace LASI.FileSystem
         /// </summary>
         public static string ProjectName {
             get;
-            set;
+            private set;
         }
 
 
@@ -298,7 +299,7 @@ namespace LASI.FileSystem
         static List<DocFile> docFiles = new List<DocFile>();
         static List<DocXFile> docXFiles = new List<DocXFile>();
         static List<TextFile> textFiles = new List<TextFile>();
-        static List<LasiFile> lasiFiles = new List<LasiFile>();
+        static List<TaggedFile> TaggedFiles = new List<TaggedFile>();
 
         #endregion
 

@@ -7,10 +7,10 @@ namespace LASI.FileSystem
 {
     public abstract class InputFile
     {
-        public InputFile(string absolutePath) {
-            if (!System.IO.File.Exists(absolutePath))
+        public InputFile(string path) {
+            if (!System.IO.File.Exists(path))
                 throw new System.IO.FileNotFoundException();
-            FInfo = new FileData(absolutePath);
+            FInfo = new FileData(path);
         }
         private FileData FInfo {
             get;

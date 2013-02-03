@@ -1,11 +1,12 @@
 ﻿using LASI.FileSystem;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-
+using System.IO;
+using System.Linq;
 namespace LASI_FileSystem_UnitTests
 {
-    
-    
+
+
     /// <summary>
     ///This is a test class for FileManagerTest and is intended
     ///to contain all FileManagerTest Unit Tests
@@ -35,15 +36,15 @@ namespace LASI_FileSystem_UnitTests
         //You can use the following additional attributes as you write your tests:
         //
         //Use ClassInitialize to run code before running the first test in the class
-        //[ClassInitialize()]
-        //public static void MyClassInitialize(TestContext testContext)
-        //{
-        //}
-        //
-        //Use ClassCleanup to run code after all tests in a class have run
+        [ClassInitialize()]
+        public static void MyClassInitialize(TestContext testContext) {
+            FileManager.Initialize(@"..\..\..\NewProject");
+        }
+
+        ////  Use ClassCleanup to run code after all tests in a class have run
         //[ClassCleanup()]
-        //public static void MyClassCleanup()
-        //{
+        //public static void MyClassCleanup() {
+        //    Directory.Delete(@"..\..\..\NewProject\Input", true);
         //}
         //
         //Use TestInitialize to run code before running each test
@@ -66,9 +67,10 @@ namespace LASI_FileSystem_UnitTests
         ///</summary>
         [TestMethod()]
         public void AddDocFileTest() {
-            string sourcePath = string.Empty; // TODO: Initialize to an appropriate value
+            string sourcePath = @"..\..\..\TestDocs\Draft_Environmental_Assessment.doc";
+
             FileManager.AddDocFile(sourcePath);
-            Assert.Inconclusive("A method that does not return a value cannot be verified.");
+            Assert.IsTrue(File.Exists(FileManager.DocFilesDir + @"\\Draft_Environmental_Assessment.doc"));
         }
 
         /// <summary>
@@ -76,9 +78,9 @@ namespace LASI_FileSystem_UnitTests
         ///</summary>
         [TestMethod()]
         public void AddDocXFileTest() {
-            string sourcePath = string.Empty; // TODO: Initialize to an appropriate value
+            string sourcePath = @"..\..\..\TestDocs\Draft_Environmental_Assessment.docx";
             FileManager.AddDocXFile(sourcePath);
-            Assert.Inconclusive("A method that does not return a value cannot be verified.");
+            Assert.IsTrue(File.Exists(FileManager.DocxFilesDir + @"\\Draft_Environmental_Assessment.docx"));
         }
 
         /// <summary>
@@ -87,7 +89,7 @@ namespace LASI_FileSystem_UnitTests
         [TestMethod()]
         public void AddFileTest() {
             DocFile[] files = null; // TODO: Initialize to an appropriate value
-            FileManager.AddFile(files);
+            FileManager.AddFiles(files);
             Assert.Inconclusive("A method that does not return a value cannot be verified.");
         }
 
@@ -97,7 +99,7 @@ namespace LASI_FileSystem_UnitTests
         [TestMethod()]
         public void AddFileTest1() {
             DocXFile[] files = null; // TODO: Initialize to an appropriate value
-            FileManager.AddFile(files);
+            FileManager.AddFiles(files);
             Assert.Inconclusive("A method that does not return a value cannot be verified.");
         }
 
@@ -107,7 +109,7 @@ namespace LASI_FileSystem_UnitTests
         [TestMethod()]
         public void AddFileTest2() {
             TextFile[] files = null; // TODO: Initialize to an appropriate value
-            FileManager.AddFile(files);
+            FileManager.AddFiles(files);
             Assert.Inconclusive("A method that does not return a value cannot be verified.");
         }
 
@@ -116,8 +118,8 @@ namespace LASI_FileSystem_UnitTests
         ///</summary>
         [TestMethod()]
         public void AddFileTest3() {
-            LasiFile[] files = null; // TODO: Initialize to an appropriate value
-            FileManager.AddFile(files);
+            TaggedFile[] files = null; // TODO: Initialize to an appropriate value
+            FileManager.AddFiles(files);
             Assert.Inconclusive("A method that does not return a value cannot be verified.");
         }
 
@@ -125,10 +127,11 @@ namespace LASI_FileSystem_UnitTests
         ///A test for AddLasiFile
         ///</summary>
         [TestMethod()]
-        public void AddLasiFileTest() {
-            string sourcePath = string.Empty; // TODO: Initialize to an appropriate value
+        public void AddTaggedFileTest() {
+
+            string sourcePath = @"..\..\..\TestDocs\Draft_Environmental_Assessment.tagged";
             FileManager.AddLasiFile(sourcePath);
-            Assert.Inconclusive("A method that does not return a value cannot be verified.");
+            Assert.IsTrue(File.Exists(FileManager.TaggedFilesDir + @"\\Draft_Environmental_Assessment.tagged"));
         }
 
         /// <summary>
@@ -136,9 +139,10 @@ namespace LASI_FileSystem_UnitTests
         ///</summary>
         [TestMethod()]
         public void AddTextFileTest() {
-            string sourcePath = string.Empty; // TODO: Initialize to an appropriate value
+            string sourcePath = @"..\..\..\TestDocs\Draft_Environmental_Assessment.txt";
+
             FileManager.AddTextFile(sourcePath);
-            Assert.Inconclusive("A method that does not return a value cannot be verified.");
+            Assert.IsTrue(File.Exists(FileManager.TextFilesDir + @"\\Draft_Environmental_Assessment.txt"));
         }
 
         /// <summary>
@@ -155,9 +159,11 @@ namespace LASI_FileSystem_UnitTests
         ///</summary>
         [TestMethod()]
         public void ConvertDocFilesTest() {
-            DocFile[] files = null; // TODO: Initialize to an appropriate value
+            DocFile[] files = (from F in Directory.EnumerateFiles(FileManager.DocFilesDir)
+                               select new DocFile(F)).ToArray();
             FileManager.ConvertDocFiles(files);
-            Assert.Inconclusive("A method that does not return a value cannot be verified.");
+            foreach (var F in files)
+                Assert.IsTrue(File.Exists(FileManager.DocxFilesDir + "\\" + F.NameSansExt + ".docx"));
         }
 
         /// <summary>
@@ -175,9 +181,9 @@ namespace LASI_FileSystem_UnitTests
         ///</summary>
         [TestMethod()]
         public void InitializeTest() {
-            string projectDir = string.Empty; // TODO: Initialize to an appropriate value
+            string projectDir = @"..\..\..\NewProject";
             FileManager.Initialize(projectDir);
-            Assert.Inconclusive("A method that does not return a value cannot be verified.");
+            Assert.IsTrue(Directory.Exists(projectDir));
         }
 
         /// <summary>
@@ -191,120 +197,16 @@ namespace LASI_FileSystem_UnitTests
         }
 
         /// <summary>
-        ///A test for AnalysisDir
-        ///</summary>
-        [TestMethod()]
-        public void AnalysisDirTest() {
-            string expected = string.Empty; // TODO: Initialize to an appropriate value
-            string actual;
-            FileManager.AnalysisDir = expected;
-            actual = FileManager.AnalysisDir;
-            Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
-        }
-
-        /// <summary>
-        ///A test for DocFilesDir
-        ///</summary>
-        [TestMethod()]
-        public void DocFilesDirTest() {
-            string expected = string.Empty; // TODO: Initialize to an appropriate value
-            string actual;
-            FileManager.DocFilesDir = expected;
-            actual = FileManager.DocFilesDir;
-            Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
-        }
-
-        /// <summary>
-        ///A test for DocxFilesDir
-        ///</summary>
-        [TestMethod()]
-        public void DocxFilesDirTest() {
-            string expected = string.Empty; // TODO: Initialize to an appropriate value
-            string actual;
-            FileManager.DocxFilesDir = expected;
-            actual = FileManager.DocxFilesDir;
-            Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
-        }
-
-        /// <summary>
-        ///A test for InputFilesDir
-        ///</summary>
-        [TestMethod()]
-        public void InputFilesDirTest() {
-            string expected = string.Empty; // TODO: Initialize to an appropriate value
-            string actual;
-            FileManager.InputFilesDir = expected;
-            actual = FileManager.InputFilesDir;
-            Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
-        }
-
-        /// <summary>
-        ///A test for LASIFilesDir
-        ///</summary>
-        [TestMethod()]
-        public void LASIFilesDirTest() {
-            string expected = string.Empty; // TODO: Initialize to an appropriate value
-            string actual;
-            FileManager.LASIFilesDir = expected;
-            actual = FileManager.LASIFilesDir;
-            Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
-        }
-
-        /// <summary>
-        ///A test for ProjectDir
-        ///</summary>
-        [TestMethod()]
-        public void ProjectDirTest() {
-            string expected = string.Empty; // TODO: Initialize to an appropriate value
-            string actual;
-            FileManager.ProjectDir = expected;
-            actual = FileManager.ProjectDir;
-            Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
-        }
-
-        /// <summary>
         ///A test for ProjectName
         ///</summary>
         [TestMethod()]
         public void ProjectNameTest() {
-            string expected = string.Empty; // TODO: Initialize to an appropriate value
+            FileManager.Initialize(@"..\..\..\NewProject");
+            string expected = "NewProject";
             string actual;
-            FileManager.ProjectName = expected;
             actual = FileManager.ProjectName;
             Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
         }
 
-        /// <summary>
-        ///A test for ResultsDir
-        ///</summary>
-        [TestMethod()]
-        public void ResultsDirTest() {
-            string expected = string.Empty; // TODO: Initialize to an appropriate value
-            string actual;
-            FileManager.ResultsDir = expected;
-            actual = FileManager.ResultsDir;
-            Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
-        }
-
-        /// <summary>
-        ///A test for TextFilesDir
-        ///</summary>
-        [TestMethod()]
-        public void TextFilesDirTest() {
-            string expected = string.Empty; // TODO: Initialize to an appropriate value
-            string actual;
-            FileManager.TextFilesDir = expected;
-            actual = FileManager.TextFilesDir;
-            Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
-        }
     }
 }

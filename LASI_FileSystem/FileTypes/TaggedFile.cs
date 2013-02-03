@@ -7,11 +7,11 @@ using System.Text;
 using System.Threading.Tasks;
 namespace LASI.FileSystem
 {
-    public class LasiFile : InputFile
+    public class TaggedFile : InputFile
     {
 
 
-        public LasiFile(string filePath)
+        public TaggedFile(string filePath)
             : base(filePath) {
 
         }

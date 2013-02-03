@@ -17,13 +17,13 @@ namespace LASI.FileSystem
         /// <param name="filePath">The absosultePath of the pre-POS-tagged file to parse.</param>
         public TaggedFileParser(string filePath) {
             FilePath = filePath;
-            TaggededFile = new LasiFile(filePath);
+            TaggededFile = new TaggedFile(filePath);
         }
         /// <summary>
         /// Initialized a new instance of the TaggedFilerParser class to parse the contents of a specific file.
         /// </summary>
         /// <param name="filePath">The wrapper which encapsulates the path information for the pre-POS-tagged file to parse.</param>
-        public TaggedFileParser(LasiFile file) {
+        public TaggedFileParser(TaggedFile file) {
             TaggededFile = file;
             FilePath = TaggededFile.FullPath;
         }
@@ -248,7 +248,7 @@ namespace LASI.FileSystem
         /// <summary>
         /// Gets the LasiFile object which encapsulates the input file which the TaggedFileParser governs.
         /// </summary>
-        public LasiFile TaggededFile {
+        public TaggedFile TaggededFile {
             get;
             protected set;
         }

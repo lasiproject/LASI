@@ -78,7 +78,7 @@
     <Compile Include="FileTypes\PdfFile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="FileTypes\InputFile.cs" />
-    <Compile Include="FileTypes\LasiFile.cs" />
+    <Compile Include="FileTypes\TaggedFile.cs" />
     <Compile Include="FileTypes\TextFile.cs" />
     <Compile Include="TaggerEncapsulation\TaggedFileParser.cs" />
     <Compile Include="TaggerEncapsulation\TagsetMap.cs" />
