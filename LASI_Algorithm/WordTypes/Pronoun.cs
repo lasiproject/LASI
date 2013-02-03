@@ -27,7 +27,8 @@ namespace LASI.Algorithm
 
 
         public virtual void BindPronoun(IEntityReferencer pro) {
-            throw new NotImplementedException();
+            if (!_indirectReferences.Contains(pro))
+                _indirectReferences.Add(pro);
         }
 
         public override bool Equals(object obj) {

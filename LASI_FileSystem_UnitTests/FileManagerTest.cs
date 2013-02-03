@@ -3,6 +3,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
+
 namespace LASI_FileSystem_UnitTests
 {
 
@@ -38,7 +40,31 @@ namespace LASI_FileSystem_UnitTests
         //Use ClassInitialize to run code before running the first test in the class
         [ClassInitialize()]
         public static void MyClassInitialize(TestContext testContext) {
+            if (Directory.Exists(@"..\..\..\NewProject\input"))
+                Directory.Delete(@"..\..\..\NewProject\input", true);
+            if (Directory.Exists(@"..\..\..\backup\NewProject"))
+                Directory.Delete(@"..\..\..\backup\NewProject", true);
+
             FileManager.Initialize(@"..\..\..\NewProject");
+            foreach (var fileInfo in new DirectoryInfo(@"..\..\..\LASI_FileSystem_UnitTests\testfiles").EnumerateFiles()) {
+                switch (fileInfo.Extension) {
+                    case ".doc":
+                        File.Copy(fileInfo.FullName, @"C:\Users\Aluan\Desktop\LASI\LASI_v1\NewProject\input\doc\" + fileInfo.FullName.Substring(fileInfo.FullName.LastIndexOf('\\') + 1));
+                        break;
+                    case ".docx":
+                        File.Copy(fileInfo.FullName, @"C:\Users\Aluan\Desktop\LASI\LASI_v1\NewProject\input\docx\" + fileInfo.FullName.Substring(fileInfo.FullName.LastIndexOf('\\') + 1));
+                        break;
+                    case ".txt":
+                        File.Copy(fileInfo.FullName, @"C:\Users\Aluan\Desktop\LASI\LASI_v1\NewProject\input\text\" + fileInfo.FullName.Substring(fileInfo.FullName.LastIndexOf('\\') + 1));
+                        break;
+                    case ".tagged":
+                        File.Copy(fileInfo.FullName, @"C:\Users\Aluan\Desktop\LASI\LASI_v1\NewProject\input\tagged\" + fileInfo.FullName.Substring(fileInfo.FullName.LastIndexOf('\\') + 1));
+                        break;
+                    default:
+                        break;
+                }
+            }
+
         }
 
         ////  Use ClassCleanup to run code after all tests in a class have run
@@ -46,7 +72,6 @@ namespace LASI_FileSystem_UnitTests
         //public static void MyClassCleanup() {
         //    Directory.Delete(@"..\..\..\NewProject\Input", true);
         //}
-        //
         //Use TestInitialize to run code before running each test
         //[TestInitialize()]
         //public void MyTestInitialize()
@@ -70,7 +95,7 @@ namespace LASI_FileSystem_UnitTests
             string sourcePath = @"..\..\..\TestDocs\Draft_Environmental_Assessment.doc";
 
             FileManager.AddDocFile(sourcePath);
-            Assert.IsTrue(File.Exists(FileManager.DocFilesDir + @"\\Draft_Environmental_Assessment.doc"));
+            Assert.IsTrue(File.Exists(FileManager.DocFilesDir + @"\Draft_Environmental_Assessment.doc"));
         }
 
         /// <summary>
@@ -80,59 +105,23 @@ namespace LASI_FileSystem_UnitTests
         public void AddDocXFileTest() {
             string sourcePath = @"..\..\..\TestDocs\Draft_Environmental_Assessment.docx";
             FileManager.AddDocXFile(sourcePath);
-            Assert.IsTrue(File.Exists(FileManager.DocxFilesDir + @"\\Draft_Environmental_Assessment.docx"));
+            Assert.IsTrue(File.Exists(FileManager.DocxFilesDir + @"\Draft_Environmental_Assessment.docx"));
         }
 
-        /// <summary>
-        ///A test for AddFile
-        ///</summary>
-        [TestMethod()]
-        public void AddFileTest() {
-            DocFile[] files = null; // TODO: Initialize to an appropriate value
-            FileManager.AddFiles(files);
-            Assert.Inconclusive("A method that does not return a value cannot be verified.");
-        }
 
-        /// <summary>
-        ///A test for AddFile
-        ///</summary>
-        [TestMethod()]
-        public void AddFileTest1() {
-            DocXFile[] files = null; // TODO: Initialize to an appropriate value
-            FileManager.AddFiles(files);
-            Assert.Inconclusive("A method that does not return a value cannot be verified.");
-        }
 
-        /// <summary>
-        ///A test for AddFile
-        ///</summary>
-        [TestMethod()]
-        public void AddFileTest2() {
-            TextFile[] files = null; // TODO: Initialize to an appropriate value
-            FileManager.AddFiles(files);
-            Assert.Inconclusive("A method that does not return a value cannot be verified.");
-        }
 
-        /// <summary>
-        ///A test for AddFile
-        ///</summary>
-        [TestMethod()]
-        public void AddFileTest3() {
-            TaggedFile[] files = null; // TODO: Initialize to an appropriate value
-            FileManager.AddFiles(files);
-            Assert.Inconclusive("A method that does not return a value cannot be verified.");
-        }
 
-        /// <summary>
-        ///A test for AddLasiFile
-        ///</summary>
-        [TestMethod()]
-        public void AddTaggedFileTest() {
+        ///// <summary>
+        /////A test for AddLasiFile
+        /////</summary>
+        //[TestMethod()]
+        //public void AddTaggedFileTest() {
 
-            string sourcePath = @"..\..\..\TestDocs\Draft_Environmental_Assessment.tagged";
-            FileManager.AddLasiFile(sourcePath);
-            Assert.IsTrue(File.Exists(FileManager.TaggedFilesDir + @"\\Draft_Environmental_Assessment.tagged"));
-        }
+        //    string sourcePath = @"..\..\..\TestDocs\Draft_Environmental_Assessment.tagged";
+        //    FileManager.AddTaggedFile(sourcePath);
+        //    Assert.IsTrue(File.Exists(FileManager.TaggedFilesDir + @"\Draft_Environmental_Assessment.tagged"));
+        //}
 
         /// <summary>
         ///A test for AddTextFile
@@ -142,7 +131,7 @@ namespace LASI_FileSystem_UnitTests
             string sourcePath = @"..\..\..\TestDocs\Draft_Environmental_Assessment.txt";
 
             FileManager.AddTextFile(sourcePath);
-            Assert.IsTrue(File.Exists(FileManager.TextFilesDir + @"\\Draft_Environmental_Assessment.txt"));
+            Assert.IsTrue(File.Exists(FileManager.TextFilesDir + @"\Draft_Environmental_Assessment.txt"));
         }
 
         /// <summary>
@@ -151,7 +140,7 @@ namespace LASI_FileSystem_UnitTests
         [TestMethod()]
         public void BackupProjectTest() {
             FileManager.BackupProject();
-            Assert.Inconclusive("A method that does not return a value cannot be verified.");
+            Assert.IsTrue(Directory.Exists(Directory.GetParent(FileManager.ProjectDir).FullName + @"\backup\" + FileManager.ProjectName));
         }
 
         /// <summary>
@@ -167,13 +156,53 @@ namespace LASI_FileSystem_UnitTests
         }
 
         /// <summary>
+        ///A test for ConvertDocFilesAsync
+        ///</summary>
+        [TestMethod()]
+        public void ConvertDocFilesAsyncTest() {
+            DocFile[] files = (from F in Directory.EnumerateFiles(FileManager.DocFilesDir)
+                               select new DocFile(F)).ToArray();
+            Task actual;
+            actual = FileManager.ConvertDocFilesAsync(files);
+            actual.Wait();
+            foreach (var F in files)
+                Assert.IsTrue(File.Exists(FileManager.DocxFilesDir + "\\" + F.NameSansExt + ".docx"));
+        }
+        /// <summary>
         ///A test for ConvertDocxToText
         ///</summary>
         [TestMethod()]
         public void ConvertDocxToTextTest() {
-            DocXFile[] files = null; // TODO: Initialize to an appropriate value
+            DocXFile[] files = (from F in Directory.EnumerateFiles(FileManager.DocxFilesDir)
+                                select new DocXFile(F)).ToArray();
             FileManager.ConvertDocxToText(files);
-            Assert.Inconclusive("A method that does not return a value cannot be verified.");
+
+
+            foreach (var F in files)
+                Assert.IsTrue(File.Exists(FileManager.TextFilesDir + "\\" + F.NameSansExt + ".txt"));
+
+        }
+
+
+        /// <summary>
+        ///A test for ConvertDocxToTextAsync
+        ///</summary>
+        [TestMethod()]
+        public void ConvertDocxToTextAsyncTest() {
+            DocXFile[] files = (from F in Directory.EnumerateFiles(FileManager.DocxFilesDir)
+                                select new DocXFile(F)).ToArray();
+            Task actual;
+            actual = FileManager.ConvertDocxToTextAsync(files);
+            actual.Wait();
+            var timer = new System.Timers.Timer {
+                Interval = 8000,
+                AutoReset = false
+            };
+            timer.Elapsed += (s, e) => {
+                foreach (var F in files)
+                    Assert.IsTrue(File.Exists(FileManager.TaggedFilesDir + "\\" + F.NameSansExt + ".tagged"));
+            };
+            timer.Start();
         }
 
         /// <summary>
@@ -191,9 +220,46 @@ namespace LASI_FileSystem_UnitTests
         ///</summary>
         [TestMethod()]
         public void TagTextFileTest() {
-            TextFile[] files = null; // TODO: Initialize to an appropriate value
-            FileManager.TagTextFile(files);
-            Assert.Inconclusive("A method that does not return a value cannot be verified.");
+            if (Directory.Exists(@"..\..\..\NewProject\input\tagged"))
+                foreach (var tf in Directory.EnumerateFiles(@"..\..\..\NewProject\input\tagged"))
+                    File.Delete(tf);
+            TextFile[] files = (from F in Directory.EnumerateFiles(FileManager.TextFilesDir)
+                                select new TextFile(F)).ToArray();
+            FileManager.TagTextFiles(files);
+            var timer = new System.Timers.Timer {
+                Interval = 8000,
+                AutoReset = false
+            };
+            timer.Elapsed += (s, e) => {
+                foreach (var F in files)
+                    Assert.IsTrue(File.Exists(FileManager.TaggedFilesDir + "\\" + F.NameSansExt + ".tagged"));
+            };
+            timer.Start();
+        }
+
+        /// <summary>
+        ///A test for TagTextFilesAsync
+        ///</summary>
+        [TestMethod()]
+        public void TagTextFilesAsyncTest() {
+            if (Directory.Exists(@"..\..\..\NewProject\input\tagged"))
+                foreach (var tf in Directory.EnumerateFiles(@"..\..\..\NewProject\input\tagged"))
+                    File.Delete(tf);
+            TextFile[] files = (from F in Directory.EnumerateFiles(FileManager.TextFilesDir)
+                                select new TextFile(F)).ToArray();
+            var t = FileManager.TagTextFilesAsync(files);
+            t.Wait();
+            var timer = new System.Timers.Timer {
+                Interval = 8000,
+                AutoReset = false
+            };
+            timer.Elapsed += (s, e) => {
+                foreach (var F in files)
+                    Assert.IsTrue(File.Exists(FileManager.TaggedFilesDir + "\\" + F.NameSansExt + ".tagged"));
+            };
+            timer.Start();
+
+
         }
 
         /// <summary>
@@ -207,6 +273,8 @@ namespace LASI_FileSystem_UnitTests
             actual = FileManager.ProjectName;
             Assert.AreEqual(expected, actual);
         }
+
+
 
     }
 }

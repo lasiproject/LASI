@@ -69,7 +69,7 @@ namespace AlgorithmAssemblyUnitTestProject
         public void PronounConstructorTest() {
             string text = "him";
             Pronoun target = new Pronoun(text);
-            Assert.IsTrue(target.Text == text,"Text property value correctly initialized via parameter");
+            Assert.IsTrue(target.Text == text, "Text property value correctly initialized via parameter");
             //Assert.IsTrue(target.BoundEntity == null,"Bound Entity property was initialized to NULL");
         }
 
@@ -78,11 +78,11 @@ namespace AlgorithmAssemblyUnitTestProject
         ///</summary>
         [TestMethod()]
         public void BindPronounTest() {
-            string text = string.Empty; // TODO: Initialize to an appropriate value
-            Pronoun target = new Pronoun(text); // TODO: Initialize to an appropriate value
-            IEntityReferencer pro = null; // TODO: Initialize to an appropriate value
+            string text = "him";
+            Pronoun target = new Pronoun(text);
+            IEntityReferencer pro = new PronounPhrase(new Word[] { new Pronoun("those"), new Preposition("of"), new Pronoun("them") }); // TODO: Initialize to an appropriate value
             target.BindPronoun(pro);
-            Assert.Inconclusive("A method that does not return a value cannot be verified.");
+            Assert.IsTrue(target.IndirectReferences.Contains(pro));
         }
 
         /// <summary>
@@ -96,20 +96,6 @@ namespace AlgorithmAssemblyUnitTestProject
             bool expected = false; // TODO: Initialize to an appropriate value
             bool actual;
             actual = target.Equals(obj);
-            Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
-        }
-
-        /// <summary>
-        ///A test for GetHashCode
-        ///</summary>
-        [TestMethod()]
-        public void GetHashCodeTest() {
-            string text = string.Empty; // TODO: Initialize to an appropriate value
-            Pronoun target = new Pronoun(text); // TODO: Initialize to an appropriate value
-            int expected = 0; // TODO: Initialize to an appropriate value
-            int actual;
-            actual = target.GetHashCode();
             Assert.AreEqual(expected, actual);
             Assert.Inconclusive("Verify the correctness of this test method.");
         }

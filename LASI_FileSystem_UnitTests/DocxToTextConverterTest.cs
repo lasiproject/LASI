@@ -68,8 +68,8 @@ namespace LASI_FileSystem_UnitTests
         ///</summary>
         [TestMethod()]
         public void DocxToTextConverterConstructorTest() {
-            string sourcePath = @"..\..\..\TestDocs\Draft_Environmental_Assessment.doc";
-            string targetPath = @"..\..\..\TestDocs\Draft_Environmental_Assessment.docx";
+            string sourcePath = @"..\..\..\TestDocs\Draft_Environmental_Assessment.docx";
+            string targetPath = @"..\..\..\TestDocs\Draft_Environmental_Assessment.txt";
             DocxToTextConverter target = new DocxToTextConverter(sourcePath, targetPath);
             Assert.IsTrue(target.Original.FullPath == sourcePath);
         }
@@ -79,7 +79,7 @@ namespace LASI_FileSystem_UnitTests
         ///</summary>
         [TestMethod()]
         public void DocxToTextConverterConstructorTest1() {
-            InputFile infile = new DocXFile(@"..\..\..\TestDocs\Draft_Environmental_Assessment.docx");
+            InputFile infile = new DocXFile(@"..\..\..\LASI_FileSystem_UnitTests\testfiles\Draft_Environmental.docx");
             DocxToTextConverter target = new DocxToTextConverter(infile);
             Assert.IsTrue(target.Original.FullPath == infile.FullPath);
         }
@@ -89,7 +89,7 @@ namespace LASI_FileSystem_UnitTests
         ///</summary>
         [TestMethod()]
         public void DocxToTextConverterConstructorTest2() {
-            InputFile infile = new DocXFile(@"..\..\..\TestDocs\Draft_Environmental_Assessment.docx");
+            InputFile infile = new DocXFile(@"..\..\..\LASI_FileSystem_UnitTests\testfiles\Draft_Environmental.docx");
             string TxtFilesDir = @"C:\Users\Aluan\Desktop\txtFiles";
             DocxToTextConverter target = new DocxToTextConverter(infile, TxtFilesDir);
             Assert.IsTrue(target.Original.FullPath == infile.FullPath);
@@ -100,7 +100,7 @@ namespace LASI_FileSystem_UnitTests
         ///</summary>
         [TestMethod()]
         public void ConvertFileTest() {
-            InputFile infile = new DocXFile(@"..\..\..\TestDocs\Draft_Environmental_Assessment.docx");
+            InputFile infile = new DocXFile(@"..\..\..\LASI_FileSystem_UnitTests\testfiles\Draft_Environmental.docx");
             DocxToTextConverter target = new DocxToTextConverter(infile);
             InputFile actual;
             actual = target.ConvertFile();
@@ -112,11 +112,11 @@ namespace LASI_FileSystem_UnitTests
         ///</summary>
         [TestMethod()]
         public void ConvertFileAsyncTest() {
-            InputFile infile = new DocXFile(@"..\..\..\TestDocs\Draft_Environmental_Assessment.docx");
+            InputFile infile = new DocXFile(@"..\..\..\LASI_FileSystem_UnitTests\testfiles\Draft_Environmental.docx");
             DocxToTextConverter target = new DocxToTextConverter(infile);
-            InputFile actual;
-            actual = target.ConvertFileAsync().Result;
-            Assert.IsTrue(File.Exists(actual.FullPath));
+            var actual = target.ConvertFileAsync();
+            actual.Wait();
+            Assert.IsTrue(File.Exists(actual.Result.FullPath));
         }
     }
 }

@@ -58,7 +58,7 @@ namespace LASI.FileSystem
             File.Copy(Original.FullPath, zipName, true);
             if (Directory.Exists(DestinationInfo.Directory + DestinationInfo.FileNameSansExt))
                 Directory.Delete(DestinationInfo.Directory + DestinationInfo.FileNameSansExt, true);
-            ZipArch = new ZipArchive(new FileStream(zipName, FileMode.Open, FileAccess.Read));
+            ZipArch = new ZipArchive(new FileStream(zipName, FileMode.Open, FileAccess.Read, FileShare.Read, 1024, true), ZipArchiveMode.Read, false);
             ZipArch.ExtractToDirectory(DestinationInfo.Directory + DestinationInfo.FileNameSansExt);
             XmlFile = GetRelevantXMLFile(ZipArch);
             return ZipArch;
@@ -73,7 +73,7 @@ namespace LASI.FileSystem
             DocxToZip();
             XmlFile = new GenericXMLFile(DestinationInfo.Directory + DestinationInfo.FileNameSansExt + @"\word\document.xml");
 
-            using (XmlReader xmlReader = XmlReader.Create(new FileStream(XmlFile.FullPath, FileMode.Open), new XmlReaderSettings {
+            using (XmlReader xmlReader = XmlReader.Create(new FileStream(XmlFile.FullPath, FileMode.Open, FileAccess.Read), new XmlReaderSettings {
                 IgnoreWhitespace = false
             })) {
                 using (var writer = new StreamWriter(DestinationInfo.FullPathSansExt + ".txt")) {

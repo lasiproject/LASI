@@ -103,7 +103,6 @@ namespace LASI_FileSystem_UnitTests
         public void ConvertFileAsyncTest() {
             InputFile infile = new DocFile(@"..\..\..\TestDocs\Draft_Environmental_Assessment.doc");
             DocToDocXConverter target = new DocToDocXConverter(infile);
-            Task<InputFile> expected = null; // TODO: Initialize to an appropriate value
             Task<InputFile> actual;
             actual = target.ConvertFileAsync();
             Assert.IsTrue(File.Exists(actual.Result.FullPath));

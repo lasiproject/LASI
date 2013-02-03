@@ -23,9 +23,9 @@ namespace SharpNLPTaggingModule
 
 
         public SharpNLPTagger(TaggingOption taggingMode, string sourcePath, string destinationPath = null) {
-            mModelPath = ConfigurationManager.AppSettings["MaximumEntropyModelDirectory"];
+            //  mModelPath = ConfigurationManager.AppSettings["MaximumEntropyModelDirectory"];
 
-            // mModelPath = @"..\\..\\..\\ThirdPartyComponents\TaggingPackage\Resources\OpenNLP\OpenNLP\Models\";
+            mModelPath = @"..\\..\\..\\ThirdPartyComponents\TaggingPackage\Resources\OpenNLP\OpenNLP\Models\";
             TaggingMode = taggingMode;
             InputFilePath = sourcePath;
             OutputFilePath = destinationPath != null ? destinationPath :

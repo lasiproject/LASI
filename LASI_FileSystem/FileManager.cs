@@ -24,8 +24,8 @@ namespace LASI.FileSystem
             DocxFilesDir = InputFilesDir + @"\docx";
             TextFilesDir = InputFilesDir + @"\text";
             TaggedFilesDir = InputFilesDir + @"\tagged";
-            AnalysisDir = @"\analysis";
-            ResultsDir = @"\results";
+            AnalysisDir = ProjectDir + @"\analysis";
+            ResultsDir = ProjectDir + @"\results";
             CheckProjectDirs();
         }
 
@@ -35,6 +35,12 @@ namespace LASI.FileSystem
         private static void CheckProjectDirs() {
             if (!Directory.Exists(ProjectDir)) {
                 Directory.CreateDirectory(ProjectDir);
+            }
+            if (!Directory.Exists(AnalysisDir)) {
+                Directory.CreateDirectory(AnalysisDir);
+            }
+            if (!Directory.Exists(ResultsDir)) {
+                Directory.CreateDirectory(ResultsDir);
             }
             if (Directory.Exists(DocFilesDir))
                 foreach (var docPath in Directory.EnumerateFiles(DocFilesDir))
@@ -65,7 +71,7 @@ namespace LASI.FileSystem
         public static void AddDocFile(string sourcePath) {
             var FD = new FileData(sourcePath);
             var path = DocFilesDir + "\\" + FD.FileNameWithExt;
-            File.Copy(sourcePath, path);
+            File.Copy(sourcePath, path, true);
             var file = new DocFile(path);
             docFiles.Add(file);
         }
@@ -76,9 +82,8 @@ namespace LASI.FileSystem
         /// <param name="sourcePath">The path of the file to add</param>
         public static void AddDocXFile(string sourcePath) {
             var FD = new FileData(sourcePath);
-
             var path = DocxFilesDir + "\\" + FD.FileNameWithExt;
-            File.Copy(sourcePath, path);
+            File.Copy(sourcePath, path, true);
             var file = new DocXFile(path);
             docXFiles.Add(file);
         }
@@ -91,58 +96,22 @@ namespace LASI.FileSystem
         public static void AddTextFile(string sourcePath) {
             var FD = new FileData(sourcePath);
             var path = TextFilesDir + "\\" + FD.FileNameWithExt;
-            File.Copy(sourcePath, path);
+            File.Copy(sourcePath, path, true);
             var file = new TextFile(path);
             textFiles.Add(file);
         }
 
-        /// <summary>
-        /// Copies the .lasi file at the given path to the appropriate subfolder of the current project
-        /// </summary>
-        /// <param name="sourcePath">The path of the file to add</param>
-        public static void AddLasiFile(string sourcePath) {
-            var FD = new FileData(sourcePath);
+        ///// <summary>
+        ///// Copies the .lasi file at the given path to the appropriate subfolder of the current project
+        ///// </summary>
+        ///// <param name="sourcePath">The path of the file to add</param>
+        //public static void AddTaggedFile(string sourcePath) {
+        //    var FD = new FileData(sourcePath);
 
-            var path = TaggedFilesDir + "\\" + FD.FileNameWithExt;
-            File.Copy(sourcePath, path);
-            var file = new TaggedFile(path);
-            TaggedFiles.Add(file);
-        }
-
-        /// <summary>
-        /// Add one or more DocFiles to the project
-        /// </summary>
-        /// <param name="files">The collection of DocFiles to add</param>
-        public static void AddFiles(params DocFile[] files) {
-            foreach (var file in files)
-                AddDocFile(file.FullPath);
-        }
-
-        /// <summary>
-        /// Add one or more DocXFiles to the project
-        /// </summary>
-        /// <param name="files">The collection of DocXFiles to add</param>
-        public static void AddFiles(params DocXFile[] files) {
-            foreach (var file in files)
-                AddDocXFile(file.FullPath);
-        }
-        /// <summary>
-        /// Add one or more TextFiles to the project
-        /// </summary>
-        /// <param name="files">The collection of TextFiles to add</param>
-        public static void AddFiles(params TextFile[] files) {
-            foreach (var file in files)
-                AddTextFile(file.FullPath);
-        }
-
-        /// <summary>
-        /// Add one or more TextFiles to the project
-        /// </summary>
-        /// <param name="files">The collection of TextFiles to add</param>
-        public static void AddFiles(params TaggedFile[] files) {
-            foreach (var file in files)
-                AddLasiFile(file.FullPath);
-        }
+        //    var path = TaggedFilesDir + "\\" + FD.FileNameWithExt;
+        //    var file = new TaggedFile(path);
+        //    TaggedFiles.Add(file);
+        //}
 
         /// <summary>
         /// Converts all of the .doc files it recieves into .docx files
@@ -161,10 +130,26 @@ namespace LASI.FileSystem
                                 select d) {
                 var converter = new DocToDocXConverter(doc);
                 var converted = converter.ConvertFile();
-                AddFiles(converted as DocXFile);
+                AddDocXFile(converted.FullPath);
                 File.Delete(converted.FullPath);
             }
         }
+        public static async Task ConvertDocFilesAsync(params DocFile[] files) {
+            if (files.Length == 0)
+                files = docFiles.ToArray();
+            foreach (var doc in from d in files
+                                where (from dx in docXFiles
+                                       where dx.NameSansExt == d.NameSansExt
+                                       select dx).Count() == 0
+                                select d) {
+                var converter = new DocToDocXConverter(doc);
+                var converted = await converter.ConvertFileAsync();
+                AddDocXFile(converted.FullPath);
+                File.Delete(converted.FullPath);
+            }
+
+        }
+
         /// <summary>
         /// Converts all of the .docx files it recieves into text files
         /// If no arguments are supplied, it will instead convert all yet unconverted .docx files in the project directory
@@ -176,23 +161,44 @@ namespace LASI.FileSystem
                 files = docXFiles.ToArray();
             foreach (var doc in from d in files
                                 where
-                                (from dx in docXFiles
+                                (from dx in textFiles
                                  where dx.NameSansExt == d.NameSansExt
                                  select dx).Count() == 0
                                 select d) {
-                var converter = new DocxToTextConverter(doc, TextFilesDir);
+                var converter = new DocxToTextConverter(doc);
                 var converted = converter.ConvertFile();
-                textFiles.Add(converted as TextFile);
+                AddTextFile(converted.FullPath);
+                File.Delete(converted.FullPath);
             }
         }
+        /// <summary>
+        /// Asynchronously converts all of the .docx files it recieves into text files
+        /// If no arguments are supplied, it will instead convert all yet unconverted .docx files in the project directory
+        /// Results are stored in corresponding project directory
+        /// </summary>
+        /// <param name="files">0 or more instances of the DocXFile class which encapsulate .docx files</param>
+        public static async Task ConvertDocxToTextAsync(params DocXFile[] files) {
+            if (files.Length == 0)
+                files = docXFiles.ToArray();
+            foreach (var doc in from d in files
+                                where
+                                (from dx in textFiles
+                                 where dx.NameSansExt == d.NameSansExt
+                                 select dx).Count() == 0
+                                select d) {
+                var converted = await new DocxToTextConverter(doc).ConvertFileAsync();
 
+                AddTextFile(converted.FullPath);
+                File.Delete(converted.FullPath);
+            }
+        }
         /// <summary>
         /// Invoked the POS tagger on the text files it recieves into storing the newly tagged files
         /// If no arguments are supplied, it will instead convert all yet untagged text files in the project directory
         /// Results are stored in corresponding project directory
         /// </summary>
         /// <param name="files">0 or more instances of the TextFile class which encapsulate text files</param>
-        public static void TagTextFile(params TextFile[] files) {
+        public static void TagTextFiles(params TextFile[] files) {
             if (files.Length == 0)
                 files = textFiles.ToArray();
             foreach (var doc in from d in files
@@ -201,10 +207,25 @@ namespace LASI.FileSystem
                                  where dx.NameSansExt == d.NameSansExt
                                  select dx).Count() == 0
                                 select d) {
-                var tagger = new SharpNLPTaggingModule.SharpNLPTagger(TaggingOption.TagAndAggregate, doc.FullPath, doc.PathSansExt + @".tagged");
+                var tagger = new SharpNLPTaggingModule.SharpNLPTagger(TaggingOption.TagAndAggregate, doc.FullPath, TaggedFilesDir + "\\" + doc.NameSansExt + ".tagged");
                 tagger.ProcessFile();
-                var file = new TaggedFile(tagger.OutputFilePath);
-                AddFiles(file);
+                var filePath = tagger.OutputFilePath;
+                TaggedFiles.Add(new TaggedFile(filePath));
+            }
+        }
+        public static async Task TagTextFilesAsync(params TextFile[] files) {
+            if (files.Length == 0)
+                files = textFiles.ToArray();
+            foreach (var doc in from d in files
+                                where
+                                (from dx in TaggedFiles
+                                 where dx.NameSansExt == d.NameSansExt
+                                 select dx).Count() == 0
+                                select d) {
+                var tagger = new SharpNLPTaggingModule.SharpNLPTagger(TaggingOption.TagAndAggregate, doc.FullPath, TaggedFilesDir + "\\" + doc.NameSansExt + ".tagged");
+
+                await Task.Run(() => tagger.ProcessFile());
+                TaggedFiles.Add(new TaggedFile(tagger.OutputFilePath));
             }
         }
 
@@ -212,10 +233,13 @@ namespace LASI.FileSystem
         /// Copies the entire contents of the current project directory to a predetermined, relative path
         /// </summary>
         public static void BackupProject() {
-            var desitination = Directory.CreateDirectory(Directory.GetParent(ProjectDir).Parent + @"\backup\" + ProjectName);
-
+            var projd = new DirectoryInfo(ProjectDir);
+            var pard = new DirectoryInfo(projd.Parent.FullName);
+            var desitination = Directory.CreateDirectory(pard.FullName + "\\backup\\" + ProjectName);
             foreach (var file in new DirectoryInfo(ProjectDir).GetFiles("*", SearchOption.AllDirectories)) {
-                file.CopyTo(desitination.FullName + file.Directory + file.Name, true);
+                if (!Directory.Exists(file.Directory.Name))
+                    desitination.CreateSubdirectory(file.Directory.Parent.Name + "\\" + file.Directory.Name);
+                file.CopyTo(desitination.FullName + "\\" + file.Directory.Parent.Name + "\\" + file.Directory.Name + "\\" + file.Name, true);
             }
         }
 

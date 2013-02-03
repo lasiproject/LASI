@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LASI.Utilities
 {
-    struct Ratio
+    struct Fraction
     {
         public int A {
             get;
@@ -16,10 +16,10 @@ namespace LASI.Utilities
             get;
             private set;
         }
-        public static bool operator ==(Ratio lhs, Ratio rhs) {
+        public static bool operator ==(Fraction lhs, Fraction rhs) {
             return lhs.A == rhs.A && lhs.B == rhs.B;
         }
-        public static bool operator !=(Ratio lhs, Ratio rhs) {
+        public static bool operator !=(Fraction lhs, Fraction rhs) {
             return !(lhs == rhs);
         }
     }
