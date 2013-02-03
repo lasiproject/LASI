@@ -35,7 +35,16 @@ namespace LASI.FileSystem
         public override InputFile ConvertFile() {
             var proc = new Process();
             proc.EnableRaisingEvents = true;
-            proc.StartInfo = new ProcessStartInfo(@"C:\Users\\Aluan\Dropbox\LasiClassFramework\ThirdPartyComponents\FileFormatConversion\doc2x\doc2x.exe", Original.FullPath);
+            proc.StartInfo = new ProcessStartInfo {
+                FileName = @"..\..\..\ThirdPartyComponents\FileFormatConversion\doc2x\doc2x.exe",
+                Arguments = Original.Name,
+                WorkingDirectory = Original.Directory,
+                CreateNoWindow = true,
+                RedirectStandardError = true,
+                RedirectStandardInput = true,
+                RedirectStandardOutput = true,
+                UseShellExecute = false
+            };
             proc.Start();
             proc.WaitForExit();
             Converted = new DocXFile(Original.PathSansExt + ".docx");

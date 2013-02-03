@@ -46,6 +46,12 @@ namespace LASI.FileSystem
                 return FInfo.FullPathSansExt;
             }
         }
+        public static bool operator ==(InputFile lhs, InputFile rhs) {
+            return lhs.Directory == rhs.Directory && lhs.Ext == rhs.Ext && lhs.FullPath == rhs.FullPath && lhs.Name == rhs.Name && lhs.NameSansExt == rhs.NameSansExt && lhs.PathSansExt == rhs.PathSansExt;
+        }
+        public static bool operator !=(InputFile lhs, InputFile rhs) {
+            return lhs != rhs;
+        }
 
     }
 }

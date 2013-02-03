@@ -6,11 +6,11 @@
     <ProductVersion>
     </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{F4ABC10C-0BE9-4195-99E7-DB027757EC6B}</ProjectGuid>
+    <ProjectGuid>{0692264D-B4AF-49DE-BD2E-38CBE7D7BFFD}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AlgorithmAssemblyUnitTestProject</RootNamespace>
-    <AssemblyName>AlgorithmAssemblyUnitTestProject</AssemblyName>
+    <RootNamespace>LASI_FileSystem_UnitTests</RootNamespace>
+    <AssemblyName>LASI_FileSystem_UnitTests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -28,7 +28,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -69,20 +68,19 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AdjectiveTest.cs" />
-    <Compile Include="ParticleTest.cs" />
-    <Compile Include="PronounTest.cs" />
+    <Compile Include="DocToDocXConverterTest.cs" />
+    <Compile Include="DocxToTextConverterTest.cs" />
+    <Compile Include="FileManagerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WordTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\LASI_Algorithm\LASI_Algorithm.csproj">
+    <ProjectReference Include="..\LASI_Algorithm\L_Algorithm.csproj">
       <Project>{8C562A93-A885-4FE9-8B8C-5CE34CCBAEC1}</Project>
-      <Name>LASI_Algorithm</Name>
+      <Name>L_Algorithm</Name>
     </ProjectReference>
-    <ProjectReference Include="..\LASI_FileSystem\LASI_FileSystem.csproj">
+    <ProjectReference Include="..\LASI_FileSystem\L_FileSystem.csproj">
       <Project>{F13D6C6D-A004-45BD-8FB8-E044E20F1204}</Project>
-      <Name>LASI_FileSystem</Name>
+      <Name>L_FileSystem</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>
