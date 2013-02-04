@@ -8,16 +8,7 @@ namespace LASI.Utilities
 {
     public static class FunctionExtensions
     {
-        /// <summary>
-        /// Composes two functions which map to and from a single type
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="f">The first function, must take an argument of type T and return an argument of type T</param>
-        /// <param name="g">The second function, must take an argument of type T and return an argument of type T</param>
-        /// <returns>A function which when invoked produces the result of calling g on the result of calling f. 
-        /// </returns>
-        /// <example></example>for f(x) = 1/x and g(x) = 2x, g(f(x) = 2/x, so g.Compose(f)(3) = 2/3
-        public static Func<T, T> Compose<T>(this Func<T, T> f, Func<T, T> g) {
+        public static Func<U, T> Compose<T, U, R>(this Func<R, T> f, Func<U, R> g) {
             return t => f(g(t));
         }
         public static Func<T, T> Compose<T>(params Func<T, T>[] fs) {
@@ -26,5 +17,6 @@ namespace LASI.Utilities
                 result = f.Compose(result);
             return result;
         }
+
     }
 }

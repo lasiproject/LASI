@@ -79,7 +79,7 @@ namespace LASI_FileSystem_UnitTests
         ///</summary>
         [TestMethod()]
         public void DocxToTextConverterConstructorTest1() {
-            InputFile infile = new DocXFile(@"..\..\..\LASI_FileSystem_UnitTests\testfiles\Draft_Environmental.docx");
+            InputFile infile = new DocXFile(@"..\..\..\TestDocs\Draft_Environmental_Assessment.docx");
             DocxToTextConverter target = new DocxToTextConverter(infile);
             Assert.IsTrue(target.Original.FullPath == infile.FullPath);
         }
@@ -89,7 +89,7 @@ namespace LASI_FileSystem_UnitTests
         ///</summary>
         [TestMethod()]
         public void DocxToTextConverterConstructorTest2() {
-            InputFile infile = new DocXFile(@"..\..\..\LASI_FileSystem_UnitTests\testfiles\Draft_Environmental.docx");
+            InputFile infile = new DocXFile(@"..\..\..\TestDocs\Draft_Environmental_Assessment.docx");
             string TxtFilesDir = @"C:\Users\Aluan\Desktop\txtFiles";
             DocxToTextConverter target = new DocxToTextConverter(infile, TxtFilesDir);
             Assert.IsTrue(target.Original.FullPath == infile.FullPath);
@@ -100,7 +100,7 @@ namespace LASI_FileSystem_UnitTests
         ///</summary>
         [TestMethod()]
         public void ConvertFileTest() {
-            InputFile infile = new DocXFile(@"..\..\..\LASI_FileSystem_UnitTests\testfiles\Draft_Environmental.docx");
+            InputFile infile = new DocXFile(@"..\..\..\TestDocs\Draft_Environmental_Assessment.docx");
             DocxToTextConverter target = new DocxToTextConverter(infile);
             InputFile actual;
             actual = target.ConvertFile();
@@ -112,10 +112,12 @@ namespace LASI_FileSystem_UnitTests
         ///</summary>
         [TestMethod()]
         public void ConvertFileAsyncTest() {
-            InputFile infile = new DocXFile(@"..\..\..\LASI_FileSystem_UnitTests\testfiles\Draft_Environmental.docx");
+            InputFile infile = new DocXFile(@"..\..\..\TestDocs\Draft_Environmental_Assessment.docx");
             DocxToTextConverter target = new DocxToTextConverter(infile);
-            var actual = target.ConvertFileAsync();
-            actual.Wait();
+            Task<InputFile> actual;
+            actual = target.ConvertFileAsync();
+            while (!actual.IsCompleted) {
+            }
             Assert.IsTrue(File.Exists(actual.Result.FullPath));
         }
     }

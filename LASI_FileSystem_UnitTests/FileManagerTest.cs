@@ -108,21 +108,6 @@ namespace LASI_FileSystem_UnitTests
             Assert.IsTrue(File.Exists(FileManager.DocxFilesDir + @"\Draft_Environmental_Assessment.docx"));
         }
 
-
-
-
-
-        ///// <summary>
-        /////A test for AddLasiFile
-        /////</summary>
-        //[TestMethod()]
-        //public void AddTaggedFileTest() {
-
-        //    string sourcePath = @"..\..\..\TestDocs\Draft_Environmental_Assessment.tagged";
-        //    FileManager.AddTaggedFile(sourcePath);
-        //    Assert.IsTrue(File.Exists(FileManager.TaggedFilesDir + @"\Draft_Environmental_Assessment.tagged"));
-        //}
-
         /// <summary>
         ///A test for AddTextFile
         ///</summary>
@@ -164,7 +149,8 @@ namespace LASI_FileSystem_UnitTests
                                select new DocFile(F)).ToArray();
             Task actual;
             actual = FileManager.ConvertDocFilesAsync(files);
-            actual.Wait();
+            while (!actual.IsCompleted) {
+            }
             foreach (var F in files)
                 Assert.IsTrue(File.Exists(FileManager.DocxFilesDir + "\\" + F.NameSansExt + ".docx"));
         }
@@ -176,8 +162,6 @@ namespace LASI_FileSystem_UnitTests
             DocXFile[] files = (from F in Directory.EnumerateFiles(FileManager.DocxFilesDir)
                                 select new DocXFile(F)).ToArray();
             FileManager.ConvertDocxToText(files);
-
-
             foreach (var F in files)
                 Assert.IsTrue(File.Exists(FileManager.TextFilesDir + "\\" + F.NameSansExt + ".txt"));
 
@@ -193,16 +177,11 @@ namespace LASI_FileSystem_UnitTests
                                 select new DocXFile(F)).ToArray();
             Task actual;
             actual = FileManager.ConvertDocxToTextAsync(files);
-            actual.Wait();
-            var timer = new System.Timers.Timer {
-                Interval = 8000,
-                AutoReset = false
-            };
-            timer.Elapsed += (s, e) => {
-                foreach (var F in files)
-                    Assert.IsTrue(File.Exists(FileManager.TaggedFilesDir + "\\" + F.NameSansExt + ".tagged"));
-            };
-            timer.Start();
+            while (!actual.IsCompleted) {
+            }
+            foreach (var F in files)
+                Assert.IsTrue(File.Exists(FileManager.TaggedFilesDir + "\\" + F.NameSansExt + ".tagged"));
+
         }
 
         /// <summary>
@@ -245,23 +224,22 @@ namespace LASI_FileSystem_UnitTests
             if (Directory.Exists(@"..\..\..\NewProject\input\tagged"))
                 foreach (var tf in Directory.EnumerateFiles(@"..\..\..\NewProject\input\tagged"))
                     File.Delete(tf);
-            TextFile[] files = (from F in Directory.EnumerateFiles(FileManager.TextFilesDir)
-                                select new TextFile(F)).ToArray();
-            var t = FileManager.TagTextFilesAsync(files);
-            t.Wait();
-            var timer = new System.Timers.Timer {
-                Interval = 8000,
-                AutoReset = false
-            };
-            timer.Elapsed += (s, e) => {
-                foreach (var F in files)
-                    Assert.IsTrue(File.Exists(FileManager.TaggedFilesDir + "\\" + F.NameSansExt + ".tagged"));
-            };
-            timer.Start();
-
-
+            var files = (from F in Directory.EnumerateFiles(FileManager.TextFilesDir)
+                         let file = new TextFile(F)
+                         select new {
+                             file,
+                             chanedWaiter = new WaitForChangedResult {
+                                 Name = FileManager.TaggedFilesDir + "\\" + file.NameSansExt + ".tagged",
+                                 ChangeType = WatcherChangeTypes.Created
+                             },
+                         }).ToArray();
+            Task actual;
+            actual = FileManager.TagTextFilesAsync((from f in files
+                                                    select f.file).ToArray());
+            foreach (var F in files) {
+                Assert.IsTrue(File.Exists(FileManager.TaggedFilesDir + "\\" + F.file.NameSansExt + ".tagged"));
+            }
         }
-
         /// <summary>
         ///A test for ProjectName
         ///</summary>
