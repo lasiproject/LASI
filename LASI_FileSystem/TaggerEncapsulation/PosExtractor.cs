@@ -14,7 +14,7 @@ namespace LASI.FileSystem
         /// <param name="data">The string to extract from.</param>
         /// <returns>A TextTagPair containing the information or null if the element is null, whitespace, or an empty string.</returns>
         /// <exception cref="UntaggedElementException">Thrown when a text element is present in the string without a tag.</exception>
-        public TextTagPair? ExtractNextPos(string data) {
+        public TaggedWprdObject? ExtractNextPos(string data) {
             if (String.IsNullOrEmpty(data) || String.IsNullOrWhiteSpace(data) || data.Trim() == "]") {
                 return null;
             }
@@ -32,7 +32,7 @@ namespace LASI.FileSystem
             var text = data.Substring(0, tagBegin);
             var tag = data.Substring(tagBegin + 1);
 
-            return new TextTagPair {
+            return new TaggedWprdObject {
                 Text = text,
                 Tag = tag
             };

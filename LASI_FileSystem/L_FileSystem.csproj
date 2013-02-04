@@ -84,7 +84,7 @@
     <Compile Include="TaggerEncapsulation\TagsetMap.cs" />
     <Compile Include="Exceptions\POSTaggerException.cs" />
     <Compile Include="FileTypes\DocFile.cs" />
-    <Compile Include="TaggerEncapsulation\TextTagPair.cs" />
+    <Compile Include="TaggerEncapsulation\TaggedWordObject.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="LasiLogo.ico" />

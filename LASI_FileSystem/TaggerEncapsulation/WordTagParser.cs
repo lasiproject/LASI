@@ -36,19 +36,19 @@ namespace LASI.FileSystem
         /// </summary>
         /// <param name="tag">A word or punctuation string and its associated  Part Of Speech tag.</param>
         /// <returns>A new instance of the appropriate word type corresponding with the tag and containing the given text.</returns>
-        public Word CreateWord(TextTagPair taggedText) {
+        public Word CreateWord(TaggedWprdObject taggedText) {
             if (string.IsNullOrWhiteSpace(taggedText.Text))
                 return null;
             return LookupMapping(taggedText)(taggedText.Text);
         }
-        public Func<Word> ReadWordExpression(TextTagPair taggedText) {
+        public Func<Word> ReadWordExpression(TaggedWprdObject taggedText) {
             if (string.IsNullOrWhiteSpace(taggedText.Text))
                 return null;
             var Constructor = LookupMapping(taggedText);
             return () => Constructor(taggedText.Text);
         }
 
-        private Func<string, Word> LookupMapping(TextTagPair taggedText) {
+        private Func<string, Word> LookupMapping(TaggedWprdObject taggedText) {
             var tag = taggedText.Tag.Trim();
             if (tag.Length < 2)
                 return (s) => new LASI.Algorithm.Punctuator(s.First(c => !Char.IsWhiteSpace(c)));

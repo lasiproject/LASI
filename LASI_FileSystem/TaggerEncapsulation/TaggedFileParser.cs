@@ -66,7 +66,7 @@ namespace LASI.FileSystem
                         }
                         tagType = (char)reader2.Read();
                         if (tagType == ' ') {
-                            var currentPhrase = ParsePhrase(new TextTagPair {
+                            var currentPhrase = ParsePhrase(new TaggedWprdObject {
                                 Tag = chunk.Substring(0, chunk.IndexOf(' ')),
                                 Text = chunk.Substring(chunk.IndexOf(' '))
                             });
@@ -111,7 +111,7 @@ namespace LASI.FileSystem
                     }
                     currentChar = (char)reader2.Read();
                     if (currentChar == ' ') {
-                        var currentPhrase = ParsePhrase(new TextTagPair {
+                        var currentPhrase = ParsePhrase(new TaggedWprdObject {
                             Tag = chunk.Substring(0, chunk.IndexOf(' ')),
                             Text = chunk.Substring(chunk.IndexOf(' '))
                         });
@@ -144,7 +144,7 @@ namespace LASI.FileSystem
         /// </summary>
         /// <param name="taggedContent">The TextTagPair instance which contains the content of a phrase and its Tag.</param>
         /// <returns></returns>
-        protected virtual Algorithm.Phrase ParsePhrase(TextTagPair taggedContent) {
+        protected virtual Algorithm.Phrase ParsePhrase(TaggedWprdObject taggedContent) {
             var phraseTag = taggedContent.Tag.Trim();
             var composed = ReadParseCreate(taggedContent.Text);
             switch (phraseTag) {

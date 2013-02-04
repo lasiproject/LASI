@@ -16,7 +16,7 @@ namespace LASI.FileSystem
     /// myTTPair.Tag= "NN";
     /// because it is easier to read and reduces errors.
     /// </summary>
-    public struct TextTagPair
+    public struct TaggedWprdObject
     {
         /// <summary>
         /// The english text of a tagged elemenet.
