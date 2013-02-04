@@ -12,23 +12,23 @@ namespace LASI.Algorithm
             Clauses = new[] { new Clause(from P in phrases select P) };
 
         }
-        public Sentence(IEnumerable<Phrase> phrases, Punctuator begin = null, Punctuator EOSText = null) {
+        public Sentence(IEnumerable<Phrase> phrases, SentenceDelimiter begin = null, SentenceDelimiter EOSText = null) {
             Clauses = new[] { new Clause(from P in phrases select P) };
             EndingPunct = EOSText == null ?
-            new Punctuator('.') :
+            new SentenceDelimiter('.') :
             EOSText;
         }
-        public Sentence(IEnumerable<Word> words, Punctuator begin = null, Punctuator EOSText = null) {
+        public Sentence(IEnumerable<Word> words, SentenceDelimiter begin = null, SentenceDelimiter EOSText = null) {
             Clauses = new[] { new Clause(from W in words select W) };
             EndingPunct = EOSText == null ?
-            new Punctuator('.') :
+            new SentenceDelimiter('.') :
             EOSText;
         }
         public Sentence(IEnumerable<Clause> clauses) {
             Clauses = clauses;
-            EndingPunct = clauses.Last().Phrases.Last().Words.Last(w => w is Punctuator) as Punctuator;
+            EndingPunct = clauses.Last().Phrases.Last().Words.Last(w => w is SentenceDelimiter) as SentenceDelimiter;
         }
-        public Punctuator EndingPunct {
+        public SentenceDelimiter EndingPunct {
             get;
             protected set;
         }

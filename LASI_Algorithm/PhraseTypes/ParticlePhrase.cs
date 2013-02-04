@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LASI.Algorithm
 {
-    public class ParticlePhrase : Phrase
+    public class ParticlePhrase : Phrase, IPrepositional
     {
         public ParticlePhrase(IEnumerable<Word> composedWords)
             : base(composedWords) {
@@ -23,6 +23,32 @@ namespace LASI.Algorithm
 
         public override void DetermineHeadWord() {
             throw new NotImplementedException();
+        }
+
+        public void LinkToLeft(IPrepositionLinkable toLink) {
+            throw new NotImplementedException();
+        }
+
+        public void LinkToRight(IPrepositionLinkable toLink) {
+            throw new NotImplementedException();
+        }
+
+        public IPrepositionLinkable RightLinked {
+            get {
+                throw new NotImplementedException();
+            }
+            set {
+                throw new NotImplementedException();
+            }
+        }
+
+        public IPrepositionLinkable LeftLinked {
+            get {
+                throw new NotImplementedException();
+            }
+            set {
+                throw new NotImplementedException();
+            }
         }
     }
 }

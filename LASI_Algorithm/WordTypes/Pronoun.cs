@@ -89,7 +89,7 @@ namespace LASI.Algorithm
         /// <param name="B">The Pronoun on the Left hand side of the operator.</param>
         /// <returns>True if the Pronouns are equal and False otherwise.</returns>
         public static bool operator ==(Pronoun A, Pronoun B) {
-            return A == B && (
+            return A.Text == B.Text && (
             A.BoundEntity.Equals(B.BoundEntity) || (A.BoundEntity == null) && B.BoundEntity == null);
         }
         /// <summary>

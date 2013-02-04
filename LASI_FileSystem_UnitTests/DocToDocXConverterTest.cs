@@ -100,12 +100,12 @@ namespace LASI_FileSystem_UnitTests
         ///A test for ConvertFileAsync
         ///</summary>
         [TestMethod()]
-        public void ConvertFileAsyncTest() {
+        public async Task ConvertFileAsyncTest() {
             InputFile infile = new DocFile(@"..\..\..\TestDocs\Draft_Environmental_Assessment.doc");
             DocToDocXConverter target = new DocToDocXConverter(infile);
-            Task<InputFile> actual;
-            actual = target.ConvertFileAsync();
-            Assert.IsTrue(File.Exists(actual.Result.FullPath));
+            InputFile actual;
+            actual = await target.ConvertFileAsync();
+            Assert.IsTrue(File.Exists(actual.FullPath));
         }
     }
 }

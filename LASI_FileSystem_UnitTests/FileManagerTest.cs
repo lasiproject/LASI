@@ -92,10 +92,10 @@ namespace LASI_FileSystem_UnitTests
         ///</summary>
         [TestMethod()]
         public void AddDocFileTest() {
-            string sourcePath = @"..\..\..\TestDocs\Draft_Environmental_Assessment.doc";
+            string sourcePath = @"..\..\..\TestDocs\Draft_Environmental.doc";
 
             FileManager.AddDocFile(sourcePath);
-            Assert.IsTrue(File.Exists(FileManager.DocFilesDir + @"\Draft_Environmental_Assessment.doc"));
+            Assert.IsTrue(File.Exists(FileManager.DocFilesDir + @"\Draft_Environmental.doc"));
         }
 
         /// <summary>
@@ -103,9 +103,9 @@ namespace LASI_FileSystem_UnitTests
         ///</summary>
         [TestMethod()]
         public void AddDocXFileTest() {
-            string sourcePath = @"..\..\..\TestDocs\Draft_Environmental_Assessment.docx";
+            string sourcePath = @"..\..\..\TestDocs\Draft_Environmental.docx";
             FileManager.AddDocXFile(sourcePath);
-            Assert.IsTrue(File.Exists(FileManager.DocxFilesDir + @"\Draft_Environmental_Assessment.docx"));
+            Assert.IsTrue(File.Exists(FileManager.DocxFilesDir + @"\Draft_Environmental.docx"));
         }
 
         /// <summary>
@@ -113,10 +113,10 @@ namespace LASI_FileSystem_UnitTests
         ///</summary>
         [TestMethod()]
         public void AddTextFileTest() {
-            string sourcePath = @"..\..\..\TestDocs\Draft_Environmental_Assessment.txt";
+            string sourcePath = @"..\..\..\TestDocs\Draft_Environmental.txt";
 
             FileManager.AddTextFile(sourcePath);
-            Assert.IsTrue(File.Exists(FileManager.TextFilesDir + @"\Draft_Environmental_Assessment.txt"));
+            Assert.IsTrue(File.Exists(FileManager.TextFilesDir + @"\Draft_Environmental.txt"));
         }
 
         /// <summary>
@@ -144,13 +144,12 @@ namespace LASI_FileSystem_UnitTests
         ///A test for ConvertDocFilesAsync
         ///</summary>
         [TestMethod()]
-        public void ConvertDocFilesAsyncTest() {
+        public async Task  ConvertDocFilesAsyncTest() {
             DocFile[] files = (from F in Directory.EnumerateFiles(FileManager.DocFilesDir)
                                select new DocFile(F)).ToArray();
-            Task actual;
-            actual = FileManager.ConvertDocFilesAsync(files);
-            while (!actual.IsCompleted) {
-            }
+            
+           await FileManager.ConvertDocFilesAsync(files);
+           
             foreach (var F in files)
                 Assert.IsTrue(File.Exists(FileManager.DocxFilesDir + "\\" + F.NameSansExt + ".docx"));
         }
@@ -172,13 +171,12 @@ namespace LASI_FileSystem_UnitTests
         ///A test for ConvertDocxToTextAsync
         ///</summary>
         [TestMethod()]
-        public void ConvertDocxToTextAsyncTest() {
+        public async Task ConvertDocxToTextAsyncTest() {
             DocXFile[] files = (from F in Directory.EnumerateFiles(FileManager.DocxFilesDir)
                                 select new DocXFile(F)).ToArray();
-            Task actual;
-            actual = FileManager.ConvertDocxToTextAsync(files);
-            while (!actual.IsCompleted) {
-            }
+
+            await FileManager.ConvertDocxToTextAsync(files);
+
             foreach (var F in files)
                 Assert.IsTrue(File.Exists(FileManager.TaggedFilesDir + "\\" + F.NameSansExt + ".tagged"));
 
@@ -198,46 +196,30 @@ namespace LASI_FileSystem_UnitTests
         ///A test for TagTextFile
         ///</summary>
         [TestMethod()]
-        public void TagTextFileTest() {
-            if (Directory.Exists(@"..\..\..\NewProject\input\tagged"))
-                foreach (var tf in Directory.EnumerateFiles(@"..\..\..\NewProject\input\tagged"))
-                    File.Delete(tf);
+        public void TagTextFilesTest() {
+            //if (Directory.Exists(@"..\..\..\NewProject\input\tagged"))
+            //    foreach (var tf in Directory.EnumerateFiles(@"..\..\..\NewProject\input\tagged"))
+            //        File.Delete(tf);
             TextFile[] files = (from F in Directory.EnumerateFiles(FileManager.TextFilesDir)
                                 select new TextFile(F)).ToArray();
             FileManager.TagTextFiles(files);
-            var timer = new System.Timers.Timer {
-                Interval = 8000,
-                AutoReset = false
-            };
-            timer.Elapsed += (s, e) => {
-                foreach (var F in files)
-                    Assert.IsTrue(File.Exists(FileManager.TaggedFilesDir + "\\" + F.NameSansExt + ".tagged"));
-            };
-            timer.Start();
+            foreach (var F in files)
+                Assert.IsTrue(File.Exists(FileManager.TaggedFilesDir + "\\" + F.NameSansExt + ".tagged"));
         }
 
         /// <summary>
         ///A test for TagTextFilesAsync
         ///</summary>
         [TestMethod()]
-        public void TagTextFilesAsyncTest() {
-            if (Directory.Exists(@"..\..\..\NewProject\input\tagged"))
-                foreach (var tf in Directory.EnumerateFiles(@"..\..\..\NewProject\input\tagged"))
-                    File.Delete(tf);
+        public async Task TagTextFilesAsyncTest() {
+            //if (Directory.Exists(@"..\..\..\NewProject\input\tagged"))
+            //    foreach (var tf in Directory.EnumerateFiles(@"..\..\..\NewProject\input\tagged"))
+            //        File.Delete(tf);
             var files = (from F in Directory.EnumerateFiles(FileManager.TextFilesDir)
-                         let file = new TextFile(F)
-                         select new {
-                             file,
-                             chanedWaiter = new WaitForChangedResult {
-                                 Name = FileManager.TaggedFilesDir + "\\" + file.NameSansExt + ".tagged",
-                                 ChangeType = WatcherChangeTypes.Created
-                             },
-                         }).ToArray();
-            Task actual;
-            actual = FileManager.TagTextFilesAsync((from f in files
-                                                    select f.file).ToArray());
+                         select new TextFile(F)).ToArray();
+            await FileManager.TagTextFilesAsync(files);
             foreach (var F in files) {
-                Assert.IsTrue(File.Exists(FileManager.TaggedFilesDir + "\\" + F.file.NameSansExt + ".tagged"));
+                Assert.IsTrue(File.Exists(FileManager.TaggedFilesDir + "\\" + F.NameSansExt + ".tagged"));
             }
         }
         /// <summary>

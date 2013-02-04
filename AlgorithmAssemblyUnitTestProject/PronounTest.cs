@@ -90,14 +90,13 @@ namespace AlgorithmAssemblyUnitTestProject
         ///</summary>
         [TestMethod()]
         public void EqualsTest() {
-            string text = string.Empty; // TODO: Initialize to an appropriate value
-            Pronoun target = new Pronoun(text); // TODO: Initialize to an appropriate value
-            object obj = null; // TODO: Initialize to an appropriate value
-            bool expected = false; // TODO: Initialize to an appropriate value
+            string text = "her";
+            Pronoun target = new Pronoun(text);
+            object obj = target as object;
+            bool expected = true;
             bool actual;
             actual = target.Equals(obj);
             Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
         }
 
         /// <summary>
@@ -105,13 +104,18 @@ namespace AlgorithmAssemblyUnitTestProject
         ///</summary>
         [TestMethod()]
         public void op_EqualityTest() {
-            Pronoun A = null; // TODO: Initialize to an appropriate value
-            Pronoun B = null; // TODO: Initialize to an appropriate value
-            bool expected = false; // TODO: Initialize to an appropriate value
+            Pronoun A = new Pronoun("them");
+            Pronoun B = new Pronoun("them");
+            var N = new GenericPluralNoun("players");
+            A.BoundEntity = B.BoundEntity = N;
+            bool expected = true;
             bool actual;
             actual = (A == B);
             Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
+            A.BoundEntity = new GenericPluralNoun("gamers");
+            expected = false;
+            actual = (A == B);
+            Assert.AreEqual(expected, actual);
         }
 
         /// <summary>
@@ -119,13 +123,17 @@ namespace AlgorithmAssemblyUnitTestProject
         ///</summary>
         [TestMethod()]
         public void op_InequalityTest() {
-            Pronoun A = null; // TODO: Initialize to an appropriate value
-            Pronoun B = null; // TODO: Initialize to an appropriate value
-            bool expected = false; // TODO: Initialize to an appropriate value
+            Pronoun A = new Pronoun("them") {
+                BoundEntity = new GenericPluralNoun("players")
+            };
+            Pronoun B = new Pronoun("them") {
+                BoundEntity = new GenericPluralNoun("gamers")
+            };
+            bool expected = true;
             bool actual;
             actual = (A != B);
             Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
+
         }
 
         /// <summary>
@@ -133,14 +141,13 @@ namespace AlgorithmAssemblyUnitTestProject
         ///</summary>
         [TestMethod()]
         public void BoundEntityTest() {
-            string text = string.Empty; // TODO: Initialize to an appropriate value
-            Pronoun target = new Pronoun(text); // TODO: Initialize to an appropriate value
-            IEntity expected = null; // TODO: Initialize to an appropriate value
+            string text = "him";
+            Pronoun target = new Pronoun(text);
+            IEntity expected = new ProperSingularNoun("Aluan");
             IEntity actual;
             target.BoundEntity = expected;
             actual = target.BoundEntity;
             Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
         }
 
         /// <summary>
@@ -148,14 +155,14 @@ namespace AlgorithmAssemblyUnitTestProject
         ///</summary>
         [TestMethod()]
         public void DirectObjectOfTest() {
-            string text = string.Empty; // TODO: Initialize to an appropriate value
-            Pronoun target = new Pronoun(text); // TODO: Initialize to an appropriate value
-            ITransitiveAction expected = null; // TODO: Initialize to an appropriate value
+            string text = "him";
+            Pronoun target = new Pronoun(text);
+            ITransitiveAction expected = new TransPastTenseVerb("frightened");
             ITransitiveAction actual;
             target.DirectObjectOf = expected;
             actual = target.DirectObjectOf;
             Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
+
         }
 
         /// <summary>
@@ -163,14 +170,13 @@ namespace AlgorithmAssemblyUnitTestProject
         ///</summary>
         [TestMethod()]
         public void IndirectObjectOfTest() {
-            string text = string.Empty; // TODO: Initialize to an appropriate value
-            Pronoun target = new Pronoun(text); // TODO: Initialize to an appropriate value
-            ITransitiveAction expected = null; // TODO: Initialize to an appropriate value
+            string text = "him";
+            Pronoun target = new Pronoun(text);
+            ITransitiveAction expected = new TransPastTenseVerb("frightened");
             ITransitiveAction actual;
-            target.IndirectObjectOf = expected;
-            actual = target.IndirectObjectOf;
+            target.DirectObjectOf = expected;
+            actual = target.DirectObjectOf;
             Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
         }
 
         /// <summary>
@@ -178,11 +184,11 @@ namespace AlgorithmAssemblyUnitTestProject
         ///</summary>
         [TestMethod()]
         public void IndirectReferencesTest() {
-            string text = string.Empty; // TODO: Initialize to an appropriate value
-            Pronoun target = new Pronoun(text); // TODO: Initialize to an appropriate value
-            ICollection<IEntityReferencer> actual;
-            actual = target.IndirectReferences;
-            Assert.Inconclusive("Verify the correctness of this test method.");
+            string text = "he";
+            Pronoun target = new Pronoun(text);
+            IEntityReferencer referencer = new PronounPhrase(new Word[] { new Determiner("the"), new Pronoun("former") });
+            target.BindPronoun(referencer);
+            Assert.IsTrue(target.IndirectReferences.Contains(referencer));
         }
 
         /// <summary>
@@ -190,14 +196,14 @@ namespace AlgorithmAssemblyUnitTestProject
         ///</summary>
         [TestMethod()]
         public void SubjectOfTest() {
-            string text = string.Empty; // TODO: Initialize to an appropriate value
-            Pronoun target = new Pronoun(text); // TODO: Initialize to an appropriate value
-            IAction expected = null; // TODO: Initialize to an appropriate value
-            IAction actual;
-            target.SubjectOf = expected;
-            actual = target.SubjectOf;
+            string text = "him";
+            Pronoun target = new Pronoun(text);
+            ITransitiveAction expected = new TransPastTenseVerb("frightened");
+            ITransitiveAction actual;
+            target.DirectObjectOf = expected;
+            actual = target.DirectObjectOf;
             Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
+
         }
     }
 }

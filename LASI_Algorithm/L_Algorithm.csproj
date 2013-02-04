@@ -131,12 +131,12 @@
     <Compile Include="GrammaticalInterfaces\IPrepositional.cs" />
     <Compile Include="WordTypes\NounConstructs\GenericSingularNoun.cs" />
     <Compile Include="WordTypes\Modal.cs" />
-    <Compile Include="WordTypes\Particle.cs" />
+    <Compile Include="WordTypes\BridgingConstructs\Particle.cs" />
     <Compile Include="WordTypes\PossessivePronoun.cs" />
     <Compile Include="WordTypes\NounConstructs\ProperPluralNoun.cs" />
     <Compile Include="WordTypes\Punctuator.cs" />
     <Compile Include="PhraseTypes\SimpleDeclarativePhrase.cs" />
-    <Compile Include="WordTypes\SentenceDelimiter.cs" />
+    <Compile Include="SentenceDelimiter.cs" />
     <Compile Include="WordTypes\SingularPronoun.cs" />
     <Compile Include="WordTypes\AdverbConstructs\SuperlativeAdverb.cs" />
     <Compile Include="WordTypes\Symbol.cs" />

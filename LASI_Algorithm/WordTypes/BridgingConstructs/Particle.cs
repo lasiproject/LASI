@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace LASI.Algorithm
 {
-    public class ToLinker : Word, IPrepositional
+    public class Particle : Word, IPrepositional
     {
-        public ToLinker(string text)
+        public Particle(string text)
             : base(text) {
         }
 

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace LASI.Algorithm
 {
-    public class Punctuator : Word
+    public class Punctuator : Symbol
     {
         /// <summary>
         /// Initializes a new instance of the Punctuator class.

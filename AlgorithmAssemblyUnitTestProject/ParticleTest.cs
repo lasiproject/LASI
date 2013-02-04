@@ -4,8 +4,8 @@ using System;
 
 namespace AlgorithmAssemblyUnitTestProject
 {
-    
-    
+
+
     /// <summary>
     ///This is a test class for ParticleTest and is intended
     ///to contain all ParticleTest Unit Tests
@@ -66,9 +66,9 @@ namespace AlgorithmAssemblyUnitTestProject
         ///</summary>
         [TestMethod()]
         public void ParticleConstructorTest() {
-            string text = string.Empty; // TODO: Initialize to an appropriate value
+            string text = "about";
             Particle target = new Particle(text);
-            Assert.Inconclusive("TODO: Implement code to verify target");
+            Assert.IsTrue(target.Text == text);
         }
     }
 }

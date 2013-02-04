@@ -56,9 +56,11 @@ namespace LASI.FileSystem
         protected virtual ZipArchive DocxToZip() {
             string zipName = DestinationInfo.Directory + DestinationInfo.FileNameSansExt + ".zip";
             File.Copy(Original.FullPath, zipName, true);
-            if (Directory.Exists(DestinationInfo.Directory + DestinationInfo.FileNameSansExt))
+
+            if (Directory.Exists(DestinationInfo.Directory + DestinationInfo.FileNameSansExt)) {
                 Directory.Delete(DestinationInfo.Directory + DestinationInfo.FileNameSansExt, true);
-            ZipArch = new ZipArchive(new FileStream(zipName, FileMode.Open, FileAccess.Read, FileShare.Read, 1024, true), ZipArchiveMode.Read, false);
+            }
+            ZipArch = new ZipArchive(new FileStream(zipName, FileMode.Open), ZipArchiveMode.Read, false);
             ZipArch.ExtractToDirectory(DestinationInfo.Directory + DestinationInfo.FileNameSansExt);
             XmlFile = GetRelevantXMLFile(ZipArch);
             return ZipArch;
