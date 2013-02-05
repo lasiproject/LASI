@@ -78,14 +78,14 @@ namespace LASI.Algorithm
         #region Properties
 
 
-        public IReadOnlyCollection<Sentence> Sentences {
+        public IEnumerable<Sentence> Sentences {
             get {
                 return (from P in _paragraphs
                         select P.Sentences) as IReadOnlyCollection<Sentence>;
             }
 
         }
-        public IReadOnlyCollection<Paragraph> Paragraphs {
+        public IEnumerable<Paragraph> Paragraphs {
             get {
                 return _paragraphs.ToList().AsReadOnly();
             }
