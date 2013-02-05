@@ -12,13 +12,6 @@ namespace LASI.Algorithm.WordBinding
     class WordBinder
     {
         public WordBinder() {
-            NounHelper = new NounBindingHelper();
-            VerbHelper = new VerbBindingHelper();
-            TransitiveVerbHelper = new TransitiveVerbHelper();
-            PronounHelper = new PronounBindingHelper();
-            AdjectiveHelper = new AdjectiveBindingHelper();
-            AdverbHelper = new AdverbBindingHelper();
-
             throw new NotImplementedException();
         }
         public void ProcessNextWord(Word anyWord) {
@@ -48,36 +41,6 @@ namespace LASI.Algorithm.WordBinding
                 ProcessNextWord(word as dynamic);
             }
             return words;
-        }
-
-        protected NounBindingHelper NounHelper {
-            get;
-            set;
-        }
-
-        protected PronounBindingHelper PronounHelper {
-            get;
-            set;
-        }
-
-        protected VerbBindingHelper VerbHelper {
-            get;
-            set;
-        }
-
-        public AdverbBindingHelper AdverbHelper {
-            get;
-            set;
-        }
-
-        public AdjectiveBindingHelper AdjectiveHelper {
-            get;
-            set;
-        }
-
-        public TransitiveVerbHelper TransitiveVerbHelper {
-            get;
-            set;
         }
     }
 }

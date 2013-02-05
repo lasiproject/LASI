@@ -72,12 +72,6 @@
     <Compile Include="PhraseTypes\TransPastParticplePhrase.cs" />
     <Compile Include="PhraseTypes\TransPastTenseVPhrase.cs" />
     <Compile Include="PhraseTypes\TransPresentVPhrase.cs" />
-    <Compile Include="WordBinding\AdjectiveBindingHelper.cs" />
-    <Compile Include="WordBinding\AdverbBindingHelper.cs" />
-    <Compile Include="WordBinding\NounBindingHelper.cs" />
-    <Compile Include="WordBinding\PronounBindingHelper.cs" />
-    <Compile Include="WordBinding\TransitiveVerbHelper.cs" />
-    <Compile Include="WordBinding\VerbHelper.cs" />
     <Compile Include="WordBinding\WordBinder.cs" />
     <Compile Include="WordTypes\VerbConstructs\PastParticipleVerb.cs" />
     <Compile Include="WordTypes\VerbConstructs\PastTenseVerb.cs" />
