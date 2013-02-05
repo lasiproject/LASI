@@ -53,7 +53,7 @@ namespace LASI.Algorithm
         }
         public string Text {
             get {
-                return Clauses.Aggregate(" ", (txt, clause) => txt + clause.Text);
+                return Phrases.Aggregate(" ", (txt, clause) => txt + clause.Text);
             }
         }
 
@@ -74,6 +74,12 @@ namespace LASI.Algorithm
             get;
             set;
         }
+
+        public override string ToString()
+        {
+            return base.ToString() + Text;
+        }
+
     }
 
 }

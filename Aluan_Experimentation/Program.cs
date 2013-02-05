@@ -8,25 +8,25 @@ using LASI.Algorithm;
 using LASI.FileSystem;
 using SharpNLPTaggingModule;
 using System.IO;
-using WebChart;
+
 namespace Aluan_Experimentation
 {
     class Program
     {
         static void Main(string[] args) {
 
-            var tagger = new SharpNLPTagger(TaggingOption.TagAndAggregate, @"C:\Users\Aluan\Desktop\intest1.txt");
+            var tagger = new SharpNLPTagger(TaggingOption.TagAndAggregate, @"C:\Users\Scott\Desktop\TestSentences.txt");
             var tagged = tagger.ProcessFile();
             var paragraphs = new TaggedFileParser(tagged).GetParagraphs();
             var document = new Document(paragraphs);
 
+            var para2 = from p in document.Paragraphs select p;
+            foreach (var p in para2) {
+                var sents = from sent in p.Sentences select sent;
 
-
-
-
-
-            foreach (Word W in document.Words) {
-                Console.WriteLine(W);
+                foreach (var s in sents){
+                    Console.WriteLine(s);
+                }
             }
 
 
