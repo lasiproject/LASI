@@ -34,7 +34,7 @@ namespace SharpNLPTaggingModule
             SourceText = LoadSourceText();//
 
         }
-        public void ProcessFile() {
+        public LASI.FileSystem.TaggedFile ProcessFile() {
             switch (TaggingMode) {
                 case TaggingOption.TagIndividual:
                     POSTag();
@@ -46,10 +46,11 @@ namespace SharpNLPTaggingModule
                     POSTag();
                     break;
             }
+            return new LASI.FileSystem.TaggedFile(OutputFilePath);
         }
 
         private string LoadSourceText() {
-            using (var reader = new StreamReader(new FileStream(InputFilePath, FileMode.Open, FileAccess.Read, FileShare.None, 1024, FileOptions.SequentialScan))) {
+            using (var reader = new StreamReader(new FileStream(InputFilePath, FileMode.Open, FileAccess.Read, FileShare.None, 1024, FileOptions.SequentialScan),Encoding.UTF8)) {
                 return String.Join(" ", reader.ReadToEnd().Split(new[] { ' ', '\t', '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries).ToList().Select(s => s.Trim()));
             }
         }
@@ -71,7 +72,7 @@ namespace SharpNLPTaggingModule
         }
 
         private void WriteToFile(params string[] txtOut) {
-            using (var writer = new StreamWriter(OutputFilePath)) {
+            using (var writer = new StreamWriter(new FileStream( OutputFilePath,FileMode.Create),Encoding.UTF8,200)) {
                 foreach (var line in txtOut) {
                     writer.Write(line);
                 }

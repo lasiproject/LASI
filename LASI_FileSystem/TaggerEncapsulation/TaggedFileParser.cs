@@ -46,37 +46,46 @@ namespace LASI.FileSystem
         public virtual IEnumerable<LASI.Algorithm.Paragraph> GetParagraphs() {
 
             var results = new List<Algorithm.Paragraph>();
-            using (var reader = new StreamReader(FilePath, Encoding.UTF7)) {
+            using (var reader = new StreamReader(FilePath, Encoding.UTF8)) {
                 var data = reader.ReadToEnd();
                 System.Diagnostics.Debug.WriteLine("paragraph count = {0}", ParseParagraphs(data).Count());
                 data = PreProcessTextData(data);
                 foreach (var paragraph in ParseParagraphs(data)) {
-                    var parsedOut = new List<LASI.Algorithm.Phrase>();
-                    var chunks = from chunk in paragraph.Split(new[] { "[", "]" }, StringSplitOptions.None)
-                                 where !String.IsNullOrWhiteSpace(chunk) && !String.IsNullOrEmpty(chunk)
-                                 select chunk.Trim();
-                    var count = 0;
-                    foreach (var chunk in chunks) {
-                        System.Diagnostics.Debug.WriteLine(count.ToString() + " " + chunk + '\n');
-                        count++;
-                        var reader2 = (new StringReader(chunk));
-                        char tagType = '>';
-                        while (reader2.Peek() != '/' && reader2.Peek() != ' ') {
-                            tagType = (char)reader2.Read();
-                        }
-                        tagType = (char)reader2.Read();
-                        if (tagType == ' ') {
-                            var currentPhrase = ParsePhrase(new TaggedWprdObject {
-                                Tag = chunk.Substring(0, chunk.IndexOf(' ')),
-                                Text = chunk.Substring(chunk.IndexOf(' '))
-                            });
-                            parsedOut.Add(currentPhrase);
-                        }
-                        else if (tagType == '/') {
-                            var words = ReadParseCreate(chunk);
-                        }
+                    var parsedSentences = new List<Algorithm.Sentence>();
+                    var sentences = paragraph.Split(new[] { "./.", "!/!", "?/?" }, StringSplitOptions.RemoveEmptyEntries);
+                    foreach (var sent in sentences) {
+                        //var clauses = sent.Split(new[] { ",/,", ";/;", ":/;", ";/:", ":/:" }, StringSplitOptions.RemoveEmptyEntries);
+                        //var parsedClauses = new List<Algorithm.Clause>();
+                       // foreach (var cls in clauses) {
+                            var parsedPhrases = new List<LASI.Algorithm.Phrase>();
+                            var chunks = from chunk in paragraph.Split(new[] { "[", "]" }, StringSplitOptions.None)
+                                         where !String.IsNullOrWhiteSpace(chunk) && !String.IsNullOrEmpty(chunk)
+                                         select chunk.Trim();
+                            var count = 0;
+                            foreach (var chunk in chunks) {
+                                // System.Diagnostics.Debug.WriteLine(count.ToString() + " " + chunk + '\n');
+                                count++;
+                                var reader2 = (new StringReader(chunk));
+                                char tagType = '>';
+                                while (reader2.Peek() != '/' && reader2.Peek() != ' ') {
+                                    tagType = (char)reader2.Read();
+                                }
+                                tagType = (char)reader2.Read();
+                                if (tagType == ' ') {
+                                    var currentPhrase = ParsePhrase(new TaggedWprdObject {
+                                        Tag = chunk.Substring(0, chunk.IndexOf(' ')),
+                                        Text = chunk.Substring(chunk.IndexOf(' '))
+                                    });
+                                    parsedPhrases.Add(currentPhrase);
+                                }
+                                else if (tagType == '/') {
+                                    var words = ReadParseCreate(chunk);
+                                }
+                                // parsedClauses.Add(new Algorithm.Clause(parsedPhrases));
+                            }
+                            parsedSentences.Add(new Algorithm.Sentence(parsedPhrases));
                     }
-                    results.Add(new Algorithm.Paragraph(new Algorithm.Sentence(parsedOut)));
+                    results.Add(new Algorithm.Paragraph(parsedSentences));
                 }
             }
             return results;
@@ -162,9 +171,13 @@ namespace LASI.FileSystem
                     return new Algorithm.NounPhrase(composed);
                 case "S":
                     return new Algorithm.SimpleDeclarativePhrase(composed);
+                case "SINV":
+                    return new Algorithm.SimpleDeclarativePhrase(composed);
                 case "SBAR":
                     return new Algorithm.PrepositionalPhrase(composed);
                 case "SBARQ":
+                    return new Algorithm.InterrogativePhrase(composed);
+                case "SQ":
                     return new Algorithm.InterrogativePhrase(composed);
                 case "CONJP":
                     return new Algorithm.InterrogativePhrase(composed);

@@ -39,6 +39,9 @@
     <RunPostBuildEvent>Always</RunPostBuildEvent>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="NGChart">
+      <HintPath>..\ThirdPartyComponents\ChartingUtilities\NGChart.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -72,7 +75,9 @@
     <Compile Include="PhraseTypes\TransPastParticplePhrase.cs" />
     <Compile Include="PhraseTypes\TransPastTenseVPhrase.cs" />
     <Compile Include="PhraseTypes\TransPresentVPhrase.cs" />
+    <Compile Include="WordBinding\StateType.cs" />
     <Compile Include="WordBinding\WordBinder.cs" />
+    <Compile Include="WordBinding\WordBindingState.cs" />
     <Compile Include="WordTypes\VerbConstructs\PastParticipleVerb.cs" />
     <Compile Include="WordTypes\VerbConstructs\PastTenseVerb.cs" />
     <Compile Include="PhraseTypes\ConjunctionPhrase.cs" />

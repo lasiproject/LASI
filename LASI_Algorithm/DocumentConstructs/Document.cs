@@ -28,9 +28,15 @@ namespace LASI.Algorithm
                      select W).ToList();
             foreach (var w in Words)
                 w.ParentDoc = this;
+            foreach (var P in _paragraphs) {
+                P.EstablishParent(this);
+            }
         }
         public Document(IEnumerable<Paragraph> allParagrpahs) {
             _paragraphs = allParagrpahs;
+            foreach (var P in _paragraphs) {
+                P.EstablishParent(this);
+            }
             _sentences = from P in _paragraphs
                          from S in P.Sentences
                          select S;

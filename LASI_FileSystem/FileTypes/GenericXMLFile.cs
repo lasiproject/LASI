@@ -20,20 +20,20 @@ namespace LASI.FileSystem
 
         public GenericXMLFile(string filePath)
             : base(filePath) {
-            var XMLs = new DataSet {
-                DataSetName = "MicrosoftDocxOpenXML"
-            };
-            XMLs.InferXmlSchema(XmlReader.Create(filePath),
-                (new XmlSchema {
-                    SourceUri = filePath
-                }.Elements.Names.Cast<string>().ToArray()));
-            var datareader = XMLs;
-            var x = datareader.Tables;
-            Tables = new DataTable[x.Count];
-            x.CopyTo(Tables.ToArray(), 0);
-            //foreach (var tr in x) {
-            //    Console.WriteLine(tr);
-            //}
+                //var XMLs = new DataSet {
+                //    DataSetName = "MicrosoftDocxOpenXML"
+                //};
+                //XMLs.InferXmlSchema(XmlReader.Create(filePath),
+                //    (new XmlSchema {
+                //        SourceUri = filePath
+                //    }.Elements.Names.Cast<string>().ToArray()));
+                //var datareader = XMLs;
+                //var x = datareader.Tables;
+                //Tables = new DataTable[x.Count];
+                //x.CopyTo(Tables.ToArray(), 0);
+                ////foreach (var tr in x) {
+                ////    Console.WriteLine(tr);
+                ////}
 
         }
         public virtual IEnumerable<DataTable> Tables {

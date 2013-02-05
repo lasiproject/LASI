@@ -35,7 +35,7 @@ namespace TaggedFileParserTest
             TaggedFileParser testParser = new TaggedFileParser(filePath);
             var paras = testParser.GetParagraphs();
             foreach (var para in paras) {
-
+                Console.WriteLine("\n"+para+"\n");
 
                 foreach (var sen in para.Sentences) {
 

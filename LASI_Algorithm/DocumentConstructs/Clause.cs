@@ -24,7 +24,7 @@ namespace LASI.Algorithm
 
         public string Text {
             get {
-                return Phrases.Aggregate(" ", (txt, phrase) => txt + phrase.Text) + "CLAUSE Punc";
+                return Phrases.Aggregate(" ", (txt, phrase) => txt + phrase.Text) + " CLAUSE Punc ";
             }
         }
         internal void EstablishParenthood(Sentence sentence) {

@@ -26,7 +26,7 @@ namespace LASI.Algorithm
         }
         public Sentence(IEnumerable<Clause> clauses) {
             Clauses = clauses;
-            EndingPunct = clauses.Last().Phrases.Last().Words.Last(w => w is SentenceDelimiter) as SentenceDelimiter;
+            //EndingPunct = clauses.Last().Phrases.Last().Words.Last(w => w is SentenceDelimiter) as SentenceDelimiter;
         }
         public SentenceDelimiter EndingPunct {
             get;
@@ -53,7 +53,7 @@ namespace LASI.Algorithm
         }
         public string Text {
             get {
-                return Clauses.Aggregate(" ", (txt, clause) => txt + clause.Text) + EndingPunct.Text;
+                return Clauses.Aggregate(" ", (txt, clause) => txt + clause.Text);
             }
         }
 

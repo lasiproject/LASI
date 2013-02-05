@@ -67,9 +67,9 @@
     <Compile Include="Exceptions\NotLoadedException.cs" />
     <Compile Include="FileConveters\DocToDocXConverter.cs" />
     <Compile Include="FileConveters\DocxToTextConverter.cs" />
-    <Compile Include="FileConveters\GenericXMLFile.cs" />
+    <Compile Include="FileTypes\GenericXMLFile.cs" />
     <Compile Include="FileManager.cs" />
-    <Compile Include="FileConveters\InputFileConverter.cs" />
+    <Compile Include="FileTypes\InputFileConverter.cs" />
     <Compile Include="TaggerEncapsulation\PosExtractor.cs" />
     <Compile Include="TaggerEncapsulation\SharpNLPTagger.cs" />
     <Compile Include="TaggerEncapsulation\SharpNLPTagsetMap.cs" />

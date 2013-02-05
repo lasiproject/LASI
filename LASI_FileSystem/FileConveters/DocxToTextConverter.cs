@@ -74,31 +74,28 @@ namespace LASI.FileSystem
         public override InputFile ConvertFile() {
             DocxToZip();
             XmlFile = new GenericXMLFile(DestinationInfo.Directory + DestinationInfo.FileNameSansExt + @"\word\document.xml");
-
             using (XmlReader xmlReader = XmlReader.Create(new FileStream(XmlFile.FullPath, FileMode.Open, FileAccess.Read), new XmlReaderSettings {
                 IgnoreWhitespace = false
             })) {
-                using (var writer = new StreamWriter(DestinationInfo.FullPathSansExt + ".txt")) {
+                using (var writer = new StreamWriter(
+                    new FileStream(DestinationInfo.FullPathSansExt+ ".txt",
+                        FileMode.Create),
+                        Encoding.UTF8,100)) {
                     xmlReader.ReadStartElement();
                     while (xmlReader.Read()) {
                         var value = xmlReader.Value;
                         if (!string.IsNullOrWhiteSpace(value)) {
-                            //Console.Write(value);
-                            writer.Write(value);
+                            writer.Write(value);//.Replace('"', ' '));
 
                         }
 
                         if (xmlReader.Name.Contains("tbl"))
                             xmlReader.Skip();
 
-                        if (xmlReader.Name.Trim().StartsWith("<w:p")) {
-
-                            writer.WriteLine("<PARAGRAPH>");
+                        if (xmlReader.Name.Trim().Contains("w:p")) {
                         }
-                        if (xmlReader.Name.Trim().StartsWith("</w:p")) {
-                            writer.WriteLine("</PARAGRAPH>");
-                            writer.WriteLine();
-                            writer.WriteLine();
+                        if (xmlReader.Name.Trim().Contains("w:p")) {
+
                         }
 
                     }

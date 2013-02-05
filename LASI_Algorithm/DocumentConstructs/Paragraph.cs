@@ -9,7 +9,7 @@ namespace LASI.Algorithm
     public sealed class Paragraph
     {
 
-        public Paragraph(params  Sentence[] sentences) {
+        public Paragraph(IEnumerable<Sentence> sentences) {
             Sentences = sentences;
             foreach (var S in Sentences)
                 S.EstablishParenthood(this);
@@ -28,6 +28,11 @@ namespace LASI.Algorithm
             ID = IDNumProvider;
             ++IDNumProvider;
         }
+
+        public void EstablishParent(Document parentDoc) {
+            ParentDoc = parentDoc;
+        }
+
         /// <summary>
         /// Gets or sets the collection of sentences which comprise the paragraph.
         /// </summary>
