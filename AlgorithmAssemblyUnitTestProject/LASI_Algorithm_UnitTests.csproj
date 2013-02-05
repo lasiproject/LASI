@@ -70,6 +70,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AdjectiveTest.cs" />
+    <Compile Include="DocToDocXConverterTest.cs" />
+    <Compile Include="FileManagerTest.cs" />
     <Compile Include="ParticleTest.cs" />
     <Compile Include="PronounTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

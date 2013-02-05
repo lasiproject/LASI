@@ -4,8 +4,8 @@
   <Deployment enabled="false" />
   <Execution hostProcessPlatform="MSIL">
     <Hosts type="VS IDE" skipUnhostableTests="false">
-      <VSSDKTestHostRunConfig name="VS IDE" HiveKind="DevEnv" HiveName="11.0" xmlns="http://microsoft.com/schemas/VisualStudio/SDK/Tools/IdeHostAdapter/2006/06" />
-      <AspNet name="ASP.NET" executionType="WebDev" />
+      <!--<VSSDKTestHostRunConfig name="VS IDE" HiveKind="DevEnv" HiveName="11.0" xmlns="http://microsoft.com/schemas/VisualStudio/SDK/Tools/IdeHostAdapter/2006/06" />
+      <AspNet  name="ASP.NET" executionType="WebDev" />-->
     </Hosts>
     <TestTypeSpecific>
       <UnitTestRunConfig testTypeId="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b">
