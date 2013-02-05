@@ -31,6 +31,8 @@ namespace LASI.Algorithm
 
         public void EstablishParent(Document parentDoc) {
             ParentDoc = parentDoc;
+            foreach (var S in Sentences)
+                S.EstablishParenthood(this);
         }
 
         /// <summary>

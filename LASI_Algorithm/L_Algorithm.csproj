@@ -51,6 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IEnumerableExtensions\IEnumerableOfParagraphExtensions.cs" />
     <Compile Include="IEnumerableExtensions\IEnumerableOfTransitiveVerbExtensions.cs" />
     <Compile Include="DocumentConstructs\Paragraph.cs" />
     <Compile Include="IEnumerableExtensions\IEnumerableOfPhraseExtensions.cs" />

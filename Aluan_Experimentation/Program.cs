@@ -15,16 +15,18 @@ namespace Aluan_Experimentation
     {
         static void Main(string[] args) {
 
-            var tagger = new SharpNLPTagger(TaggingOption.TagAndAggregate, @"C:\Users\Scott\Desktop\TestSentences.txt");
+            var tagger = new SharpNLPTagger(TaggingOption.TagAndAggregate, @"C:\Users\Aluan\Desktop\intest1.txt");
             var tagged = tagger.ProcessFile();
             var paragraphs = new TaggedFileParser(tagged).GetParagraphs();
             var document = new Document(paragraphs);
 
-            var para2 = from p in document.Paragraphs select p;
+            var para2 = from p in document.Paragraphs
+                        select p;
             foreach (var p in para2) {
-                var sents = from sent in p.Sentences select sent;
+                var sents = from sent in p.Sentences
+                            select sent;
 
-                foreach (var s in sents){
+                foreach (var s in sents) {
                     Console.WriteLine(s);
                 }
             }
