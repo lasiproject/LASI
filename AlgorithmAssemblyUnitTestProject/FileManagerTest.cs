@@ -46,7 +46,7 @@ namespace AlgorithmAssemblyUnitTestProject
                 Directory.Delete(@"..\..\..\backup\NewProject", true);
 
             FileManager.Initialize(@"..\..\..\NewProject");
-            foreach (var fileInfo in new DirectoryInfo(@"..\..\..\LASI_FileSystem_UnitTests\testfiles").EnumerateFiles()) {
+            foreach (var fileInfo in new DirectoryInfo(@"..\..\..\AlgorithmAssemblyUnitTestProject\MockUserFiles").EnumerateFiles()) {
                 switch (fileInfo.Extension) {
                     case ".doc":
                         File.Copy(fileInfo.FullName, @"C:\Users\Aluan\Desktop\LASI\LASI_v1\NewProject\input\doc\" + fileInfo.FullName.Substring(fileInfo.FullName.LastIndexOf('\\') + 1));

@@ -29,6 +29,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>AnyCPU</PlatformTarget>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -60,6 +61,7 @@
     <Reference Include="System.IO.Compression" />
     <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
@@ -71,6 +73,7 @@
   <ItemGroup>
     <Compile Include="AdjectiveTest.cs" />
     <Compile Include="DocToDocXConverterTest.cs" />
+    <Compile Include="DocxToTextConverterTest.cs" />
     <Compile Include="FileManagerTest.cs" />
     <Compile Include="ParticleTest.cs" />
     <Compile Include="PronounTest.cs" />
@@ -78,12 +81,16 @@
     <Compile Include="WordTest.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\GuiInterop\L_GuiInterop.csproj">
+      <Project>{06b96679-9758-4b15-8e75-0f46416e68b7}</Project>
+      <Name>L_GuiInterop</Name>
+    </ProjectReference>
     <ProjectReference Include="..\LASI_Algorithm\L_Algorithm.csproj">
-      <Project>{8C562A93-A885-4FE9-8B8C-5CE34CCBAEC1}</Project>
+      <Project>{8c562a93-a885-4fe9-8b8c-5ce34ccbaec1}</Project>
       <Name>L_Algorithm</Name>
     </ProjectReference>
     <ProjectReference Include="..\LASI_FileSystem\L_FileSystem.csproj">
-      <Project>{F13D6C6D-A004-45BD-8FB8-E044E20F1204}</Project>
+      <Project>{f13d6c6d-a004-45bd-8fb8-e044e20f1204}</Project>
       <Name>L_FileSystem</Name>
     </ProjectReference>
   </ItemGroup>
