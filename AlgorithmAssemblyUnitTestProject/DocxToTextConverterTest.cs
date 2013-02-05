@@ -67,8 +67,8 @@ namespace AlgorithmAssemblyUnitTestProject
         ///</summary>
         [TestMethod()]
         public void DocxToTextConverterConstructorTest() {
-            string sourcePath = @"..\..\..\TestDocs\Draft.docx";
-            string targetPath = @"..\..\..\TestDocs\Draft.txt";
+            string sourcePath = @"..\..\..\TestDocs\Draft_Environmental_Assessment.docx";
+            string targetPath = @"..\..\..\TestDocs\Draft_Environmental_Assessment.txt";
             DocxToTextConverter target = new DocxToTextConverter(sourcePath, targetPath);
             Assert.IsTrue(target.Original.FullPath == sourcePath);
         }
@@ -78,7 +78,7 @@ namespace AlgorithmAssemblyUnitTestProject
         ///</summary>
         [TestMethod()]
         public void DocxToTextConverterConstructorTest1() {
-            InputFile infile = new DocXFile(@"..\..\..\TestDocs\Draft.docx");
+            InputFile infile = new DocXFile(@"..\..\..\TestDocs\Draft_Environmental_Assessment.docx");
             DocxToTextConverter target = new DocxToTextConverter(infile);
             Assert.IsTrue(target.Original.FullPath == infile.FullPath);
         }
@@ -88,7 +88,7 @@ namespace AlgorithmAssemblyUnitTestProject
         ///</summary>
         [TestMethod()]
         public void DocxToTextConverterConstructorTest2() {
-            InputFile infile = new DocXFile(@"..\..\..\TestDocs\Draft.docx");
+            InputFile infile = new DocXFile(@"..\..\..\TestDocs\Draft_Environmental_Assessment.docx");
             string TxtFilesDir = @"C:\Users\Aluan\Desktop\txtFiles";
             DocxToTextConverter target = new DocxToTextConverter(infile, TxtFilesDir);
             Assert.IsTrue(target.Original.FullPath == infile.FullPath);
@@ -101,7 +101,7 @@ namespace AlgorithmAssemblyUnitTestProject
         ///</summary>
         [TestMethod()]
         public async Task ConvertFileAsyncTest() {
-            InputFile infile = new DocXFile(@"..\..\..\TestDocs\Draft.docx");
+            InputFile infile = new DocXFile(@"..\..\..\TestDocs\Draft_Environmental_Assessment.docx");
             DocxToTextConverter target = new DocxToTextConverter(infile);
             InputFile actual;
             actual = await target.ConvertFileAsync();
