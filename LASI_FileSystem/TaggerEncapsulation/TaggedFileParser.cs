@@ -56,34 +56,37 @@ namespace LASI.FileSystem
                     foreach (var sent in sentences) {
                         //var clauses = sent.Split(new[] { ",/,", ";/;", ":/;", ";/:", ":/:" }, StringSplitOptions.RemoveEmptyEntries);
                         //var parsedClauses = new List<Algorithm.Clause>();
-                       // foreach (var cls in clauses) {
-                            var parsedPhrases = new List<LASI.Algorithm.Phrase>();
-                            var chunks = from chunk in paragraph.Split(new[] { "[", "]" }, StringSplitOptions.None)
-                                         where !String.IsNullOrWhiteSpace(chunk) && !String.IsNullOrEmpty(chunk)
-                                         select chunk.Trim();
-                            var count = 0;
-                            foreach (var chunk in chunks) {
-                                // System.Diagnostics.Debug.WriteLine(count.ToString() + " " + chunk + '\n');
-                                count++;
-                                var reader2 = (new StringReader(chunk));
-                                char tagType = '>';
-                                while (reader2.Peek() != '/' && reader2.Peek() != ' ') {
-                                    tagType = (char)reader2.Read();
-                                }
+                        // foreach (var cls in clauses) {
+                        var parsedPhrases = new List<LASI.Algorithm.Phrase>();
+                        var chunks = from chunk in paragraph.Split(new[] { "[", "]" }, StringSplitOptions.None)
+                                     where !String.IsNullOrWhiteSpace(chunk) && !String.IsNullOrEmpty(chunk)
+                                     select chunk.Trim();
+                        var count = 0;
+                        foreach (var chunk in chunks) {
+                            // System.Diagnostics.Debug.WriteLine(count.ToString() + " " + chunk + '\n');
+                            count++;
+                            var reader2 = (new StringReader(chunk));
+                            char tagType = '>';
+                            while (reader2.Peek() != '/' && reader2.Peek() != ' ') {
                                 tagType = (char)reader2.Read();
-                                if (tagType == ' ') {
-                                    var currentPhrase = ParsePhrase(new TaggedWprdObject {
-                                        Tag = chunk.Substring(0, chunk.IndexOf(' ')),
-                                        Text = chunk.Substring(chunk.IndexOf(' '))
-                                    });
-                                    parsedPhrases.Add(currentPhrase);
-                                }
-                                else if (tagType == '/') {
-                                    var words = ReadParseCreate(chunk);
-                                }
-                                // parsedClauses.Add(new Algorithm.Clause(parsedPhrases));
                             }
-                            parsedSentences.Add(new Algorithm.Sentence(parsedPhrases));
+                            tagType = (char)reader2.Read();
+                            if (tagType == ' ') {
+                                var currentPhrase = ParsePhrase(new TaggedWprdObject {
+                                    Tag = chunk.Substring(0, chunk.IndexOf(' ')),
+                                    Text = chunk.Substring(chunk.IndexOf(' '))
+                                });
+                                parsedPhrases.Add(currentPhrase);
+                            }
+                            else if (tagType == '/') {
+                                var words = ReadParseCreate(chunk);
+                                var currentPhrase = new Algorithm.UndeterminedPhrase(words);
+                                parsedPhrases.Add(currentPhrase);
+                            }
+
+                            // parsedClauses.Add(new Algorithm.Clause(parsedPhrases));
+                        }
+                        parsedSentences.Add(new Algorithm.Sentence(parsedPhrases));
                     }
                     results.Add(new Algorithm.Paragraph(parsedSentences));
                 }
