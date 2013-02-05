@@ -85,7 +85,7 @@ namespace LASI.Algorithm
             }
 
         }
-        public IReadOnlyCollection<Paragraph> Praragraphs {
+        public IReadOnlyCollection<Paragraph> Paragraphs {
             get {
                 return _paragraphs.ToList().AsReadOnly();
             }

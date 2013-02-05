@@ -18,19 +18,18 @@ namespace Aluan_Experimentation
             var tagger = new SharpNLPTagger(TaggingOption.TagAndAggregate, @"C:\Users\Aluan\Desktop\intest1.txt");
             var tagged = tagger.ProcessFile();
             var paragraphs = new TaggedFileParser(tagged).GetParagraphs();
-            var doc = new Document(paragraphs);
+            var document = new Document(paragraphs);
 
-            
 
-            foreach (var P in doc.Praragraphs) {
-                var words = (from S in P.Sentences
-                             from W in S.Phrases
-                             select W).ToList();
-                foreach (var w in words) {
-                    Console.WriteLine(w);
-                }
+
+
+
+
+            foreach (Word W in document.Words) {
+                Console.WriteLine(W);
             }
-         
+
+
             for (var k = Console.ReadKey(); k.Key != ConsoleKey.Escape; k = Console.ReadKey()) {
             }
         }
