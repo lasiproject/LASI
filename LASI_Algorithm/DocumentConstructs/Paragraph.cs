@@ -57,7 +57,7 @@ namespace LASI.Algorithm
             set;
         }
         public override string ToString() {
-            return base.ToString() + Text;
+            return base.ToString() + Text + '\n';
         }
 
         private static int IDNumProvider = 0;
