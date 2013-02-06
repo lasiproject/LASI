@@ -63,8 +63,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "L_Utilities", "LASI_Utiliti
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "L_GuiInterop", "GuiInterop\L_GuiInterop.csproj", "{06B96679-9758-4B15-8E75-0F46416E68B7}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "StateMachines", "StateMachines", "{5A63AC63-6840-4D2A-A054-2CA4F52E739C}"
-EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = LasiClassFramework.vsmdi
