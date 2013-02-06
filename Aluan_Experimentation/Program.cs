@@ -30,10 +30,11 @@ namespace Aluan_Experimentation
                 foreach (var r in phgrs) {
                     Console.WriteLine(r);
                 }
-
+                var wordstack = new Stack<Word>();
             }
             var POSCounts = from W in document.Words
-                            group W by new {
+                            group W by new
+                            {
                                 Type = W.GetType(),
                                 W.Text,
                             };
