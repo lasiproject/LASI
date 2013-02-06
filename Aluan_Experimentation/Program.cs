@@ -42,9 +42,6 @@ namespace Aluan_Experimentation
             foreach (var group in POSCounts) {
                 Console.WriteLine("Type: {0} : {1}:", group.Key.Type, group.Key.Text, group.Count());
             }
-
-
-
             for (var k = Console.ReadKey(); k.Key != ConsoleKey.Escape; k = Console.ReadKey()) {
             }
         }
@@ -53,15 +50,7 @@ namespace Aluan_Experimentation
 
 
         void ThesaurusCMDLineTest() {
-            //var verbThesaurus = new VerbThesaurus();
-            //verbThesaurus.Load();
-            //while (true) {
-            //    Console.Write("enter a word: ");
-            //    var input = Console.ReadLine().Trim();
-            //    if (input == "-1")
-            //        break;
-            //    foreach (var S in verbThesaurus[input])
-            //        Console.WriteLine(S);}
+
         }
     }
 }
