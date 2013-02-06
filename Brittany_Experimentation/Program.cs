@@ -12,10 +12,16 @@ namespace Brittany_Experimentation
     class Program
     {
         static void Main(string[] args) {
+            //Keeps the console window open until the escape key is pressed
+            Console.WriteLine("Press escape to exit");
+            for (var k = Console.ReadKey(); k.Key != ConsoleKey.Escape; k = Console.ReadKey()) {
+                Console.WriteLine("Press escape to exit");
+            }
+        }
 
 
-
-            var tagger = new SharpNLPTagger(TaggingOption.TagAndAggregate, @"C:\Brittany\Aluan\Desktop\intest1.txt");
+        static void TagExampleFile() {
+            var tagger = new SharpNLPTagger(TaggingOption.TagAndAggregate, @"C:\Brittany\Desktop\intest1.txt");
             var tagged = tagger.ProcessFile();
             var paragraphs = new TaggedFileParser(tagged).GetParagraphs();
             var document = new Document(paragraphs);
@@ -31,13 +37,6 @@ namespace Brittany_Experimentation
                     Console.WriteLine(r);
                 }
 
-            }
-
-
-            //Keeps the console window open until the escape key is pressed
-            Console.WriteLine("Press escape to exit");
-            for (var k = Console.ReadKey(); k.Key != ConsoleKey.Escape; k = Console.ReadKey()) {
-                Console.WriteLine("Press escape to exit");
             }
         }
     }
