@@ -12,6 +12,7 @@ namespace Brittany_Experimentation
     class Program
     {
         static void Main(string[] args) {
+            
             TagExampleFile();
 
             //Keeps the console window open until the escape key is pressed
