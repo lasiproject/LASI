@@ -10,8 +10,9 @@ using SharpNLPTaggingModule;
 namespace Richard_Experimentation
 {
     class Program
-    { static void Main(string[] args) {
-            
+    {
+        static void Main(string[] args) {
+
             TagExampleFile();
 
             //Keeps the console window open until the escape key is pressed
@@ -24,7 +25,7 @@ namespace Richard_Experimentation
 
         static void TagExampleFile() {
 
-                                                                            //Put your windows account name here
+            //Put your windows account name here
             var tagger = new SharpNLPTagger(TaggingOption.TagAndAggregate, @"C:\Richard\Desktop\intest1.txt");
             var tagged = tagger.ProcessFile();
             var paragraphs = new TaggedFileParser(tagged).GetParagraphs();
@@ -42,6 +43,6 @@ namespace Richard_Experimentation
                 }
 
             }
-         }
+        }
     }
 }

@@ -12,4 +12,5 @@ public enum TaggingOption
     /// Assign tags to individual tokens and aggregate them into phrase tagged groups.
     /// </summary>
     TagAndAggregate,
+    Experimental,
 }

@@ -101,6 +101,13 @@ namespace LASI.Algorithm
             get;
             private set;
         }
+        public IEnumerable<Phrase> Phrases {
+            get {
+                return from S in _sentences
+                       from R in S.Phrases
+                       select R;
+            }
+        }
         #endregion
     }
 }

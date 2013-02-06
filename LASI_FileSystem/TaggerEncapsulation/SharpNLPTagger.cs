@@ -24,8 +24,9 @@ namespace SharpNLPTaggingModule
 
         public SharpNLPTagger(TaggingOption taggingMode, string sourcePath, string destinationPath = null) {
             //  mModelPath = ConfigurationManager.AppSettings["MaximumEntropyModelDirectory"];
-
             mModelPath = @"..\\..\\..\\ThirdPartyComponents\TaggingPackage\Resources\OpenNLP\OpenNLP\Models\";
+            mNameFinder = new OpenNLP.Tools.NameFind.EnglishNameFinder(ConfigurationManager.AppSettings["WordnetSearchDirectory"]);
+
             TaggingMode = taggingMode;
             InputFilePath = sourcePath;
             OutputFilePath = destinationPath != null ? destinationPath :
@@ -42,6 +43,9 @@ namespace SharpNLPTaggingModule
                 case TaggingOption.TagAndAggregate:
                     Chunk();
                     break;
+                case TaggingOption.Experimental:
+                    Coreference();
+                    break;
                 default:
                     POSTag();
                     break;
@@ -50,7 +54,7 @@ namespace SharpNLPTaggingModule
         }
 
         private string LoadSourceText() {
-            using (var reader = new StreamReader(new FileStream(InputFilePath, FileMode.Open, FileAccess.Read, FileShare.None, 1024, FileOptions.SequentialScan),Encoding.UTF8)) {
+            using (var reader = new StreamReader(new FileStream(InputFilePath, FileMode.Open, FileAccess.Read, FileShare.None, 1024, FileOptions.SequentialScan), Encoding.UTF8)) {
                 return String.Join(" ", reader.ReadToEnd().Split(new[] { ' ', '\t', '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries).ToList().Select(s => s.Trim()));
             }
         }
@@ -72,7 +76,7 @@ namespace SharpNLPTaggingModule
         }
 
         private void WriteToFile(params string[] txtOut) {
-            using (var writer = new StreamWriter(new FileStream( OutputFilePath,FileMode.Create),Encoding.UTF8,200)) {
+            using (var writer = new StreamWriter(new FileStream(OutputFilePath, FileMode.Create), Encoding.UTF8, 200)) {
                 foreach (var line in txtOut) {
                     writer.Write(line);
                 }
@@ -229,6 +233,8 @@ namespace SharpNLPTaggingModule
                 string findNames = FindNames(sentenceParse);
                 parsedSentences.Add(sentenceParse);
             }
+            //return (from S in parsedSentences
+            //        select S.Text).Aggregate(" ", (str, accum) => accum += str);
             return mCoreferenceFinder.GetCoreferenceParse(parsedSentences.ToArray());
         }
 
@@ -284,7 +290,7 @@ namespace SharpNLPTaggingModule
             WriteToFile(result);
         }
 
-        private void Coreference(object sender, EventArgs e) {
+        private void Coreference() {
             string[] sentences = SplitSentences(SourceText);
 
             var result = IdentifyCoreferents(sentences);
