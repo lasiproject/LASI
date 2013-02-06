@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LASI.Algorithm;
 using LASI.FileSystem;
+using SharpNLPTaggingModule;
 
 namespace Brittany_Experimentation
 {
