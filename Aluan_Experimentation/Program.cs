@@ -23,13 +23,26 @@ namespace Aluan_Experimentation
             var para2 = from p in document.Paragraphs
                         select p;
             foreach (var p in para2) {
-                var sents = from sent in p.Sentences
-                            select sent;
+                var phgrs = from sent in p.Sentences
+                            from r in sent.Phrases
+                            select r;
 
-                foreach (var s in sents) {
-                    Console.WriteLine(s);
+                foreach (var r in phgrs) {
+                    Console.WriteLine(r);
                 }
+
             }
+            var POSCounts = from W in document.Words
+                            group W by new {
+                                Type = W.GetType(),
+                                W.Text,
+                            };
+
+
+            foreach (var group in POSCounts) {
+                Console.WriteLine("Type: {0} : {1}:", group.Key.Type, group.Key.Text, group.Count());
+            }
+
 
 
             for (var k = Console.ReadKey(); k.Key != ConsoleKey.Escape; k = Console.ReadKey()) {

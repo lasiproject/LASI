@@ -80,11 +80,14 @@ namespace LASI.FileSystem
                             }
                             else if (tagType == '/') {
                                 var words = ReadParseCreate(chunk);
-                                var currentPhrase = new Algorithm.UndeterminedPhrase(words);
-                                parsedPhrases.Add(currentPhrase);
+                                if (words.Count == 1 && words.First().Text == "and" || words.First().Text == "or") {
+                                    var currentPhrase = new Algorithm.ConjunctionPhrase(words);
+                                    parsedPhrases.Add(currentPhrase);
+                                }
+
                             }
 
-                            // parsedClauses.Add(new Algorithm.Clause(parsedPhrases));
+                            // parsedClauses.Add(new Algorithm.Clause(par
                         }
                         parsedSentences.Add(new Algorithm.Sentence(parsedPhrases));
                     }
