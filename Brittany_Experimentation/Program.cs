@@ -12,6 +12,8 @@ namespace Brittany_Experimentation
     class Program
     {
         static void Main(string[] args) {
+            TagExampleFile();
+
             //Keeps the console window open until the escape key is pressed
             Console.WriteLine("Press escape to exit");
             for (var k = Console.ReadKey(); k.Key != ConsoleKey.Escape; k = Console.ReadKey()) {
