@@ -74,7 +74,7 @@
     <Compile Include="PhraseTypes\TransPastTenseVPhrase.cs" />
     <Compile Include="PhraseTypes\TransPresentVPhrase.cs" />
     <Compile Include="WordBinding\InvalidStateTransitionException.cs" />
-    <Compile Include="WordBinding\StateType.cs" />
+    <Compile Include="WordBinding\StateKind.cs" />
     <Compile Include="WordBinding\StateMachineConcept.cs" />
     <Compile Include="WordBinding\WordBindingState.cs" />
     <Compile Include="WordTypes\VerbConstructs\PastParticipleVerb.cs" />

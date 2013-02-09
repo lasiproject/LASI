@@ -46,7 +46,7 @@ namespace LASI.Algorithm
         /// </summary>
         public VerbTense Tense {
             get;
-            set;
+            protected set;
         }
         /// <summary>
         /// Gets or sets the Modal word which modifies the VerbPhrase.
@@ -60,7 +60,7 @@ namespace LASI.Algorithm
             get {
                 throw new NotImplementedException();
             }
-           protected set {
+            protected set {
                 throw new NotImplementedException();
             }
         }

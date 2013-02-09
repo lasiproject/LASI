@@ -53,9 +53,9 @@ namespace LASI.Algorithm
             get;
             set;
         }
-        protected VerbTense Tense {
+        public VerbTense Tense {
             get;
-            private set;
+            protected set;
         }
 
         public override bool Equals(object obj) {

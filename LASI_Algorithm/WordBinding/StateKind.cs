@@ -5,12 +5,11 @@ using System.Text;
 
 namespace LASI.Algorithm.WordBinding
 {
-    enum StateType
+    enum StateKind
     : byte
     {
         Initial,
-        ExitAllowed,
-        ExitRequired,
+        Accept,
         Failed
     }
 }

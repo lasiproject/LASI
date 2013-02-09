@@ -16,7 +16,7 @@ namespace LASI.Algorithm.WordBinding
             get;
             protected set;
         }
-        protected readonly StateType stateType;
+        protected readonly StateKind stateKind;
         public abstract WordBindingState Transition(Verb verb);
         public abstract WordBindingState Transition(Noun noun);
 

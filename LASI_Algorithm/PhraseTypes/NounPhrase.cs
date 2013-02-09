@@ -18,9 +18,6 @@ namespace LASI.Algorithm
             IndirectReferences.Add(pro);
         }
 
-        public virtual void BindAdjective(IDescriber adj) {
-            DescribedBy.Add(adj);
-        }
 
         /// <summary>
         /// Gets the ITransitiveAction instance, generally a TransitiveVerb or TransitiveVerbPhrase, which the NounPhrase is the object of.
@@ -87,12 +84,8 @@ namespace LASI.Algorithm
 
 
         public IEntity Possesser {
-            get {
-                throw new NotImplementedException();
-            }
-            set {
-                throw new NotImplementedException();
-            }
+            get;
+            set;
         }
 
 
