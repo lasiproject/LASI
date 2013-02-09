@@ -15,7 +15,7 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="pro">The referencer which refers to the NounPhrase Instance.</param>
         public virtual void BindPronoun(IEntityReferencer pro) {
-            IndirectReferences.Add(pro);
+            _indirectReferences.Add(pro);
         }
 
 
@@ -46,7 +46,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets all of the IEntityReferences instances, generally Pronouns or PronounPhrases, which refer to the NounPhrase Instance.
         /// </summary>
-        public virtual ICollection<IEntityReferencer> IndirectReferences {
+        public virtual IEnumerable<IEntityReferencer> IndirectReferences {
             get {
                 return _indirectReferences;
             }
@@ -55,7 +55,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets all of the IDescriber constructs,generally Adjectives or AdjectivePhrases, which describe the NounPhrase Instance.
         /// </summary>
-        public virtual ICollection<IDescriber> DescribedBy {
+        public virtual IEnumerable<IDescriber> DescribedBy {
             get {
                 return _describedBy;
             }
@@ -65,7 +65,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets all of the IPossessable constructs which the Entity "owns".
         /// </summary>
-        public ICollection<IEntity> Possessed {
+        public IEnumerable<IEntity> Possessed {
             get {
                 throw new NotImplementedException();
             }
@@ -76,7 +76,8 @@ namespace LASI.Algorithm
         }
 
         public void BindDescriber(IDescriber adj) {
-            throw new NotImplementedException();
+            if (!_describedBy.Contains(adj))
+                _describedBy.Add(adj);
         }
         private ICollection<IDescriber> _describedBy = new List<IDescriber>();
         private ICollection<IPossessable> _possessed = new List<IPossessable>();
@@ -107,6 +108,11 @@ namespace LASI.Algorithm
         }
 
         public override void DetermineHeadWord() {
+            throw new NotImplementedException();
+        }
+
+
+        public void AddPossession(IEntity possession) {
             throw new NotImplementedException();
         }
     }

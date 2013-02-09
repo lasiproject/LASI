@@ -18,7 +18,7 @@ namespace LASI.Algorithm
             set;
         }
 
-        public ICollection<IEntity> Possessed {
+        public IEnumerable<IEntity> Possessed {
             get {
                 throw new NotImplementedException();
             }
@@ -26,5 +26,10 @@ namespace LASI.Algorithm
         private ICollection<IPossessable> _possessed = new List<IPossessable>();
 
 
+
+
+        public void AddPossession(IEntity possession) {
+            throw new NotImplementedException();
+        }
     }
 }

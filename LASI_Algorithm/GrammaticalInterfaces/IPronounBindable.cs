@@ -6,7 +6,7 @@ namespace LASI.Algorithm
     {
         void BindPronoun(IEntityReferencer pro);
 
-        ICollection<IEntityReferencer> IndirectReferences {
+        IEnumerable<IEntityReferencer> IndirectReferences {
             get;
         }
     }

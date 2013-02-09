@@ -20,7 +20,7 @@ namespace LASI.Algorithm
 
         public virtual void BindPronoun(IEntityReferencer pro) {
             pro.BoundEntity = this;
-            IndirectReferences.Add(pro);
+            _indirectReferences.Add(pro);
         }
 
 
@@ -36,18 +36,15 @@ namespace LASI.Algorithm
 
         #region Properties
 
-        public virtual ICollection<IEntityReferencer> IndirectReferences {
+        public virtual IEnumerable<IEntityReferencer> IndirectReferences {
             get {
                 return _indirectReferences;
             }
         }
 
-        public virtual ICollection<IDescriber> DescribedBy {
+        public virtual IEnumerable<IDescriber> DescribedBy {
             get {
                 return _describedBy;
-            }
-            set {
-                _describedBy = value;
             }
         }
 
@@ -70,7 +67,7 @@ namespace LASI.Algorithm
 
 
 
-        public virtual ICollection<IEntity> Possessed {
+        public virtual IEnumerable<IEntity> Possessed {
             get {
                 throw new NotImplementedException();
             }
@@ -95,5 +92,10 @@ namespace LASI.Algorithm
 
 
 
+
+
+        public void AddPossession(IEntity possession) {
+            throw new NotImplementedException();
+        }
     }
 }

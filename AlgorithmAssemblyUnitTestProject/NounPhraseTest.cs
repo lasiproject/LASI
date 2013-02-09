@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace AlgorithmAssemblyUnitTestProject
 {
@@ -78,11 +79,11 @@ namespace AlgorithmAssemblyUnitTestProject
         ///</summary>
         [TestMethod()]
         public void BindDescriberTest() {
-            IEnumerable<Word> composedWords = null; // TODO: Initialize to an appropriate value
-            NounPhrase target = new NounPhrase(composedWords); // TODO: Initialize to an appropriate value
-            IDescriber adj = null; // TODO: Initialize to an appropriate value
+            IEnumerable<Word> composedWords = new Word[] { new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians") };
+            NounPhrase target = new NounPhrase(composedWords);
+            IDescriber adj = new AdjectivePhrase(new Word[] { new GenericSingularNoun("peace"), new PresentPrtcplOrGerund("loving") });
             target.BindDescriber(adj);
-            Assert.Inconclusive("A method that does not return a value cannot be verified.");
+            Assert.IsTrue(target.DescribedBy.Contains(adj));
         }
 
         /// <summary>
@@ -97,16 +98,16 @@ namespace AlgorithmAssemblyUnitTestProject
             Assert.Inconclusive("A method that does not return a value cannot be verified.");
         }
 
-        /// <summary>
-        ///A test for DetermineHeadWord
-        ///</summary>
-        [TestMethod()]
-        public void DetermineHeadWordTest() {
-            IEnumerable<Word> composedWords = null; // TODO: Initialize to an appropriate value
-            NounPhrase target = new NounPhrase(composedWords); // TODO: Initialize to an appropriate value
-            target.DetermineHeadWord();
-            Assert.Inconclusive("A method that does not return a value cannot be verified.");
-        }
+        ///// <summary>
+        /////A test for DetermineHeadWord
+        /////</summary>
+        //[TestMethod()]
+        //public void DetermineHeadWordTest() {
+        //    IEnumerable<Word> composedWords = null; // TODO: Initialize to an appropriate value
+        //    NounPhrase target = new NounPhrase(composedWords); // TODO: Initialize to an appropriate value
+        //    target.DetermineHeadWord();
+        //    Assert.Inconclusive("A method that does not return a value cannot be verified.");
+        //}
 
         /// <summary>
         ///A test for Equals
@@ -128,11 +129,15 @@ namespace AlgorithmAssemblyUnitTestProject
         ///</summary>
         [TestMethod()]
         public void DescribedByTest() {
-            IEnumerable<Word> composedWords = null; // TODO: Initialize to an appropriate value
-            NounPhrase target = new NounPhrase(composedWords); // TODO: Initialize to an appropriate value
-            ICollection<IDescriber> actual;
-            actual = target.DescribedBy;
-            Assert.Inconclusive("Verify the correctness of this test method.");
+            IEnumerable<Word> composedWords = new Word[] { new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians") };
+            NounPhrase target = new NounPhrase(composedWords);
+            Assert.IsTrue(target.DescribedBy.Count() == 0);
+            IDescriber adj = new AdjectivePhrase(new Word[] { new GenericSingularNoun("peace"), new PresentPrtcplOrGerund("loving") });
+            target.BindDescriber(adj);
+            Assert.IsTrue(target.DescribedBy.Contains(adj));
+            IDescriber adj2 = new Adjective("proud");
+            target.BindDescriber(adj2);
+            Assert.IsTrue(target.DescribedBy.Contains(adj) && target.DescribedBy.Contains(adj2));
         }
 
         /// <summary>
@@ -172,7 +177,7 @@ namespace AlgorithmAssemblyUnitTestProject
         public void IndirectReferencesTest() {
             IEnumerable<Word> composedWords = null; // TODO: Initialize to an appropriate value
             NounPhrase target = new NounPhrase(composedWords); // TODO: Initialize to an appropriate value
-            ICollection<IEntityReferencer> actual;
+            IEnumerable<IEntityReferencer> actual;
             actual = target.IndirectReferences;
             Assert.Inconclusive("Verify the correctness of this test method.");
         }
@@ -184,7 +189,7 @@ namespace AlgorithmAssemblyUnitTestProject
         public void PossessedTest() {
             IEnumerable<Word> composedWords = null; // TODO: Initialize to an appropriate value
             NounPhrase target = new NounPhrase(composedWords); // TODO: Initialize to an appropriate value
-            ICollection<IEntity> actual;
+            IEnumerable<IEntity> actual;
             actual = target.Possessed;
             Assert.Inconclusive("Verify the correctness of this test method.");
         }
@@ -201,7 +206,7 @@ namespace AlgorithmAssemblyUnitTestProject
             target.Possesser = expected;
             actual = target.Possesser;
             Assert.AreEqual(expected, actual);
-   
+
         }
 
         /// <summary>

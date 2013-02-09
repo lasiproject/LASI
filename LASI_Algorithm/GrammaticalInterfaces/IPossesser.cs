@@ -7,9 +7,9 @@ namespace LASI.Algorithm
 {
     public interface IPossesser
     {
-        ICollection<IEntity> Possessed {
+        IEnumerable<IEntity> Possessed {
             get;
-
         }
+        void AddPossession(IEntity possession);
     }
 }

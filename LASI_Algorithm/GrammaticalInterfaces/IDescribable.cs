@@ -12,7 +12,7 @@ namespace LASI.Algorithm
     public interface IDescribable
     {
         void BindDescriber(IDescriber adj);
-        ICollection<IDescriber> DescribedBy {
+        IEnumerable<IDescriber> DescribedBy {
             get;
         }
     }

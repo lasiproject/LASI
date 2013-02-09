@@ -57,7 +57,7 @@ namespace LASI.Algorithm
             set;
         }
 
-        public virtual ICollection<IEntityReferencer> IndirectReferences {
+        public virtual IEnumerable<IEntityReferencer> IndirectReferences {
             get {
                 return _indirectReferences;
             }

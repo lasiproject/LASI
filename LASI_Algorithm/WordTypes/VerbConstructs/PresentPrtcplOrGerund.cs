@@ -45,10 +45,10 @@ namespace LASI.Algorithm
         /// <param name="pro">The Pronoun or PronounPhrase to bind to the gerund</param>
         public void BindPronoun(IEntityReferencer pro) {
             pro.BoundEntity = this;
-            IndirectReferences.Add(pro);
+            _indirectReferences.Add(pro);
         }
 
-        public ICollection<IEntityReferencer> IndirectReferences {
+        public IEnumerable<IEntityReferencer> IndirectReferences {
             get {
                 return _indirectReferences;
             }
@@ -59,21 +59,15 @@ namespace LASI.Algorithm
             _describedBy.Add(adj);
         }
 
-        public ICollection<IDescriber> DescribedBy {
+        public IEnumerable<IDescriber> DescribedBy {
             get {
                 return _describedBy;
             }
-            set {
-                _describedBy = value;
-            }
         }
 
-        public ICollection<IEntity> Possessed {
+        public IEnumerable<IEntity> Possessed {
             get {
                 return _possessed;
-            }
-            set {
-                _possessed = value;
             }
         }
         public IEntity Possesser {
@@ -92,5 +86,10 @@ namespace LASI.Algorithm
         private ICollection<IEntityReferencer> _indirectReferences = new List<IEntityReferencer>();
 
 
+
+
+        public void AddPossession(IEntity possession) {
+            throw new NotImplementedException();
+        }
     }
 }

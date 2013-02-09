@@ -15,7 +15,7 @@ namespace LASI.Algorithm
             pro.BoundEntity = this;
         }
 
-        public ICollection<IEntityReferencer> IndirectReferences {
+        public IEnumerable<IEntityReferencer> IndirectReferences {
             get {
                 return _indirectReferences;
             }
@@ -39,20 +39,14 @@ namespace LASI.Algorithm
             get;
             set;
         }
-        private ICollection<IEntityReferencer> _indirectReferences = new List<IEntityReferencer>();
+        private IEnumerable<IEntityReferencer> _indirectReferences = new List<IEntityReferencer>();
 
 
         public void BindDescriber(IDescriber adj) {
             throw new NotImplementedException();
         }
 
-        public ICollection<IDescriber> DescribedBy {
-            get {
-                throw new NotImplementedException();
-            }
-        }
-
-        public ICollection<IPossessable> Possessed {
+        public IEnumerable<IDescriber> DescribedBy {
             get {
                 throw new NotImplementedException();
             }
@@ -71,12 +65,6 @@ namespace LASI.Algorithm
             throw new NotImplementedException();
         }
 
-        ICollection<IEntity> IPossesser.Possessed {
-            get {
-                throw new NotImplementedException();
-            }
-        }
-
         public override Word HeadWord {
             get {
                 throw new NotImplementedException();
@@ -88,6 +76,17 @@ namespace LASI.Algorithm
 
         public override void DetermineHeadWord() {
             throw new NotImplementedException();
+        }
+
+
+        public void AddPossession(IEntity possession) {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<IEntity> Possessed {
+            get {
+                throw new NotImplementedException();
+            }
         }
     }
 }

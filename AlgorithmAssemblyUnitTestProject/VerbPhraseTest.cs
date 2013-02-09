@@ -72,16 +72,16 @@ namespace AlgorithmAssemblyUnitTestProject
             Assert.Inconclusive("TODO: Implement code to verify target");
         }
 
-        /// <summary>
-        ///A test for DetermineHeadWord
-        ///</summary>
-        [TestMethod()]
-        public void DetermineHeadWordTest() {
-            IEnumerable<Word> composedWords = null; // TODO: Initialize to an appropriate value
-            VerbPhrase target = new VerbPhrase(composedWords); // TODO: Initialize to an appropriate value
-            target.DetermineHeadWord();
-            Assert.Inconclusive("A method that does not return a value cannot be verified.");
-        }
+        ///// <summary>
+        /////A test for DetermineHeadWord
+        /////</summary>
+        //[TestMethod()]
+        //public void DetermineHeadWordTest() {
+        //    IEnumerable<Word> composedWords = null; // TODO: Initialize to an appropriate value
+        //    VerbPhrase target = new VerbPhrase(composedWords); // TODO: Initialize to an appropriate value
+        //    target.DetermineHeadWord();
+        //    Assert.Inconclusive("A method that does not return a value cannot be verified.");
+        //}
 
         /// <summary>
         ///A test for ModifyWith
