@@ -34,7 +34,7 @@ namespace LASI.Algorithm.WordBinding
             }
             private readonly StateMachineConcept machine;
             public void ProcessNext(Phrase InvalidInput) {
-                throw new InvalidStateTransitionException(String.Format("No Transition Defined from s0 on input = {0}", InvalidInput));
+                throw new InvalidStateTransitionException("State0", InvalidInput);
             }
             public void ProcessNext(NounPhrase nounPhrase) {
                 machine.nounPhraseStack.Push(nounPhrase);
