@@ -16,7 +16,7 @@ namespace LASI.Algorithm
         /// and behaviors of a word-level grammatical element.
         /// </summary>
         /// <param name="text">The literal text content of the word.</param>
-        public Word(string text) {
+        protected Word(string text) {
             this.Text = text;
             ID = IDNumProvider;
             ++IDNumProvider;
