@@ -73,10 +73,10 @@
     <Compile Include="PhraseTypes\TransPastParticplePhrase.cs" />
     <Compile Include="PhraseTypes\TransPastTenseVPhrase.cs" />
     <Compile Include="PhraseTypes\TransPresentVPhrase.cs" />
-    <Compile Include="WordBinding\InvalidStateTransitionException.cs" />
-    <Compile Include="WordBinding\StateKind.cs" />
-    <Compile Include="WordBinding\StateMachineConcept.cs" />
-    <Compile Include="WordBinding\WordBindingState.cs" />
+    <Compile Include="StateMachines\InvalidStateTransitionException.cs" />
+    <Compile Include="StateMachines\StateKind.cs" />
+    <Compile Include="StateMachines\StateMachineConcept.cs" />
+    <Compile Include="StateMachines\WordBindingState.cs" />
     <Compile Include="WordTypes\VerbConstructs\PastParticipleVerb.cs" />
     <Compile Include="WordTypes\VerbConstructs\PastTenseVerb.cs" />
     <Compile Include="PhraseTypes\ConjunctionPhrase.cs" />

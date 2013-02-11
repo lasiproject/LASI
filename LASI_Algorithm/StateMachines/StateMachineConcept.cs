@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LASI.Algorithm.WordBinding
+namespace LASI.Algorithm.StateMachines
 {
     /// <summary>
     /// Binds a collection of words together in linear order
