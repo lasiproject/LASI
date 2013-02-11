@@ -5,8 +5,8 @@ using System.Collections.Generic;
 
 namespace AlgorithmAssemblyUnitTestProject
 {
-    
-    
+
+
     /// <summary>
     ///This is a test class for VerbPhraseTest and is intended
     ///to contain all VerbPhraseTest Unit Tests
@@ -67,9 +67,9 @@ namespace AlgorithmAssemblyUnitTestProject
         ///</summary>
         [TestMethod()]
         public void VerbPhraseConstructorTest() {
-            IEnumerable<Word> composedWords = null; // TODO: Initialize to an appropriate value
+            IEnumerable<Word> composedWords = new Word[] { new PresentPrtcplOrGerund("running"), new Adverb("swiftly"), new Preposition("through") };
             VerbPhrase target = new VerbPhrase(composedWords);
-            Assert.Inconclusive("TODO: Implement code to verify target");
+            Assert.IsTrue(composedWords == target.Words);
         }
 
         ///// <summary>

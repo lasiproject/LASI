@@ -6,8 +6,10 @@ using System.Text;
 using System.Threading.Tasks;
 using LASI.Algorithm;
 using LASI.FileSystem;
+using LASI.Utilities;
 using SharpNLPTaggingModule;
 using System.IO;
+
 
 namespace Aluan_Experimentation
 {
@@ -55,7 +57,26 @@ namespace Aluan_Experimentation
             }
             for (var k = Console.ReadKey(); k.Key != ConsoleKey.Escape; k = Console.ReadKey()) {
             }
+
+            Func<string,string> f = UpperCaseString;
+            Func<string,string> g = Truncate;
+
+
+
         }
+
+
+
+
+        static string UpperCaseString(string str) {
+            return str.ToUpper();
+        }
+
+        static string Truncate(string str) {
+            return str.Substring(0, 4);
+        }
+
+
 
 
 
