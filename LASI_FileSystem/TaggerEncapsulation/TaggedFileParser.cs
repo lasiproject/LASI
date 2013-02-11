@@ -186,7 +186,7 @@ namespace LASI.FileSystem
                 case "SQ":
                     return new Algorithm.InterrogativePhrase(composed);
                 case "CONJP":
-                    return new Algorithm.InterrogativePhrase(composed);
+                    return new Algorithm.ConjunctionPhrase(composed);
                 case "LST":
                     return new Algorithm.RoughListPhrase(composed);
                 default: {

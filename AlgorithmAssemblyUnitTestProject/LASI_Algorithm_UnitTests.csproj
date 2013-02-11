@@ -83,10 +83,6 @@
     <Compile Include="WordTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\GuiInterop\L_GuiInterop.csproj">
-      <Project>{06b96679-9758-4b15-8e75-0f46416e68b7}</Project>
-      <Name>L_GuiInterop</Name>
-    </ProjectReference>
     <ProjectReference Include="..\LASI_Algorithm\L_Algorithm.csproj">
       <Project>{8c562a93-a885-4fe9-8b8c-5ce34ccbaec1}</Project>
       <Name>L_Algorithm</Name>
@@ -94,6 +90,10 @@
     <ProjectReference Include="..\LASI_FileSystem\L_FileSystem.csproj">
       <Project>{f13d6c6d-a004-45bd-8fb8-e044e20f1204}</Project>
       <Name>L_FileSystem</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LASI_Utilities\L_Utilities.csproj">
+      <Project>{BC10A8F0-77FF-46D0-9F9A-38E2FDA22D21}</Project>
+      <Name>L_Utilities</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

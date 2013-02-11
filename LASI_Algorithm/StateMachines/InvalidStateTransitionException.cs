@@ -8,10 +8,10 @@ namespace LASI.Algorithm.StateMachines
     class InvalidStateTransitionException : StateMachineException
     {
         public InvalidStateTransitionException(int stateNumber, Phrase pharse)
-            : base(String.Format("No transition defined from state {0} for phrase type {1}", pharse.GetType().Name)) {
+            : base(String.Format("No transition defined from state \"{0}\" for phrase type {1}", pharse.GetType().Name)) {
         }
         public InvalidStateTransitionException(string stateName, Phrase pharse)
-            : base(String.Format("No transition defined from state {0} for phrase type {1}", pharse.GetType().Name)) {
+            : base(String.Format("No transition defined from state \"{0}\" for phrase type {1}", pharse.GetType().Name)) {
         }
     }
     public class StateMachineException : Exception
