@@ -77,8 +77,9 @@ namespace LASI.Algorithm
 
         public override string ToString()
         {
-            return base.ToString() + Text;
+            return base.ToString() + Text + '\n';
         }
+
 
     }
 
