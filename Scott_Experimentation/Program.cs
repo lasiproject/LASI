@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using LASI.Algorithm;
 using LASI.FileSystem;
 using SharpNLPTaggingModule;
+using LASI.Utilities;
 
 namespace Scott_Experimentation
 {
@@ -16,27 +17,17 @@ namespace Scott_Experimentation
             var tagged = tagger.ProcessFile();
             var paragraphs = new TaggedFileParser(tagged).GetParagraphs();
             var document = new Document(paragraphs);
-            
-           foreach (var p in document.Paragraphs)
+            List<Word> ListOfWords = (List<Word>)document.Words;
+            //var WordStrings = (from w in ListOfWords where w is Noun select w.Type).ToList();
+
+            for (int x = 0; x < ListOfWords.Count; x++)
             {
-                foreach (var p1 in p.Sentences)
-                {
-                    Console.WriteLine(p1);
-                }
+                //if(ListOfWords[x].Text == "actual")
+                    Console.WriteLine("{0}: {1}", x, ListOfWords[x].Text);
             }
 
-            /*var para2 = from p in document.Paragraphs select p;
-             foreach (var p in para2) {
-                 var sents = from sent in p.Sentences select sent;
 
-                 foreach (var s in sents){
-                     Console.WriteLine(s);
-                 }
-             }*/
-           
-            for (var k = Console.ReadKey(); k.Key != ConsoleKey.Escape; k = Console.ReadKey()) {
-                Console.WriteLine("Press escape to exit");
-            }
+           StdIoUtil.WaitForAnyKey();
         }
     }
 }
