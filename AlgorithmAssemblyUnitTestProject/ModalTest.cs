@@ -4,8 +4,8 @@ using System;
 
 namespace AlgorithmAssemblyUnitTestProject
 {
-    
-    
+
+
     /// <summary>
     ///This is a test class for ModalTest and is intended
     ///to contain all ModalTest Unit Tests
@@ -21,14 +21,11 @@ namespace AlgorithmAssemblyUnitTestProject
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
         ///</summary>
-        public TestContext TestContext
-        {
-            get
-            {
+        public TestContext TestContext {
+            get {
                 return testContextInstance;
             }
-            set
-            {
+            set {
                 testContextInstance = value;
             }
         }
@@ -68,27 +65,24 @@ namespace AlgorithmAssemblyUnitTestProject
         ///A test for Modal Constructor
         ///</summary>
         [TestMethod()]
-        public void ModalConstructorTest()
-        {
-            string text = string.Empty; // TODO: Initialize to an appropriate value
+        public void ModalConstructorTest() {
+            string text = "can";
             Modal target = new Modal(text);
-            Assert.Inconclusive("TODO: Implement code to verify target");
+            Assert.IsTrue(target.Modifies == null && target.Text == text);
         }
 
         /// <summary>
         ///A test for Modifies
         ///</summary>
         [TestMethod()]
-        public void ModifiesTest()
-        {
-            string text = string.Empty; // TODO: Initialize to an appropriate value
-            Modal target = new Modal(text); // TODO: Initialize to an appropriate value
-            IModalityModifiable expected = null; // TODO: Initialize to an appropriate value
+        public void ModifiesTest() {
+            string text = "can";
+            Modal target = new Modal(text);
+            IModalityModifiable expected = new PresentTenseVerb("capitulate");
             IModalityModifiable actual;
             target.Modifies = expected;
             actual = target.Modifies;
             Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
         }
     }
 }
