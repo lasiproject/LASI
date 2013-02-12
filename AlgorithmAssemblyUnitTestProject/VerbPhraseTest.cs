@@ -67,7 +67,7 @@ namespace AlgorithmAssemblyUnitTestProject
         ///</summary>
         [TestMethod()]
         public void VerbPhraseConstructorTest() {
-            IEnumerable<Word> composedWords = new Word[] { new PresentPrtcplOrGerund("running"), new Adverb("swiftly"), new Preposition("through") };
+            IEnumerable<Word> composedWords = new Word[] { new PresentTenseVerb("run"), new Adverb("swiftly"), new Preposition("through") };
             VerbPhrase target = new VerbPhrase(composedWords);
             Assert.IsTrue(composedWords == target.Words);
         }
@@ -88,9 +88,9 @@ namespace AlgorithmAssemblyUnitTestProject
         ///</summary>
         [TestMethod()]
         public void ModifyWithTest() {
-            IEnumerable<Word> composedWords = null; // TODO: Initialize to an appropriate value
-            VerbPhrase target = new VerbPhrase(composedWords); // TODO: Initialize to an appropriate value
-            IAdverbial adv = null; // TODO: Initialize to an appropriate value
+            IEnumerable<Word> composedWords = new Word[] { new PresentTenseVerb("run"), new Adverb("swiftly"), new Preposition("through") };
+            VerbPhrase target = new VerbPhrase(composedWords);
+            IAdverbial adv = new Adverb("daringly");
             target.ModifyWith(adv);
             Assert.Inconclusive("A method that does not return a value cannot be verified.");
         }
