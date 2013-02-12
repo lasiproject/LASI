@@ -1,0 +1,9 @@
+C:\Users\Aluan\Dropbox\LasiClassFramework\FileManagementTest\arvitrarycrashtest\arvitrarycrashtest\bin\Debug\arvitrarycrashtest.exe.config
+C:\Users\Aluan\Dropbox\LasiClassFramework\FileManagementTest\arvitrarycrashtest\arvitrarycrashtest\bin\Debug\arvitrarycrashtest.exe
+C:\Users\Aluan\Dropbox\LasiClassFramework\FileManagementTest\arvitrarycrashtest\arvitrarycrashtest\bin\Debug\arvitrarycrashtest.pdb
+C:\Users\Aluan\Dropbox\LasiClassFramework\FileManagementTest\arvitrarycrashtest\arvitrarycrashtest\obj\Debug\arbitrarycrashtest.csprojResolveAssemblyReference.cache
+C:\Users\Aluan\Dropbox\LasiClassFramework\FileManagementTest\arvitrarycrashtest\arvitrarycrashtest\obj\Debug\arvitrarycrashtest.exe
+C:\Users\Aluan\Dropbox\LasiClassFramework\FileManagementTest\arvitrarycrashtest\arvitrarycrashtest\obj\Debug\arvitrarycrashtest.pdb
+C:\Users\Scott\Documents\Visual Studio 2012\Projects\Lasi\FileManagementTest\arvitrarycrashtest\arvitrarycrashtest\bin\Debug\arvitrarycrashtest.exe.config
+C:\Users\Scott\Documents\Visual Studio 2012\Projects\Lasi\FileManagementTest\arvitrarycrashtest\arvitrarycrashtest\obj\Debug\arvitrarycrashtest.exe
+C:\Users\Scott\Documents\Visual Studio 2012\Projects\Lasi\FileManagementTest\arvitrarycrashtest\arvitrarycrashtest\obj\Debug\arvitrarycrashtest.pdb
