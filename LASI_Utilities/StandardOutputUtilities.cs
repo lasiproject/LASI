@@ -42,5 +42,9 @@ namespace LASI.Utilities
             else
                 WaitForInput(waitFor, ignoreCase);
         }
+
+        public static void WaitForAnyKey() {
+            Console.ReadKey();
+        }
     }
 }
