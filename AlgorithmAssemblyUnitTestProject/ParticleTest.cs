@@ -68,7 +68,7 @@ namespace AlgorithmAssemblyUnitTestProject
         public void ParticleConstructorTest() {
             string text = "about";
             Particle target = new Particle(text);
-            Assert.IsTrue(target.Text == text);
+            Assert.IsTrue(target.Text == text && target.LeftLinkedPrepositional == null && target.RightLinkedPrepositional == null);
         }
     }
 }

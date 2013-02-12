@@ -81,11 +81,11 @@ namespace LASI.Algorithm
         /// <param name="A">The Verb on the left of hand side of the comparison operator.</param>
         /// <param name="B">The Verb on the right of hand side of the comparison operator.</param>
         /// <returns>True if the Verb instances meet the equality conditions outlined above.</returns>
-        public static bool operator ==(Verb A, Verb B) {
-            if (A == null || B == null)
-                return A == null && B == null;
-            return A.Text == B.Text && A.Tense == B.Tense && A as TransitiveVerb == B as TransitiveVerb;
-        }
+        //public static bool operator ==(Verb A, Verb B) {
+        //    if (A == null || B == null)
+        //        return A == null && B == null;
+        //    return A.Text == B.Text && A.Tense == B.Tense && A as TransitiveVerb == B as TransitiveVerb;
+        //}
         /// <summary>
         /// Overloads the inequality comparasison operator for the Verb class such that two instances of Verb compare unequal if:
         /// they have different text conent, and or of different tenses, and or one is transitive and the other intransitive.
@@ -93,9 +93,9 @@ namespace LASI.Algorithm
         /// <param name="A">The Verb on the left of hand side of the comparison operator.</param>
         /// <param name="B">The Verb on the right of hand side of the comparison operator.</param>ssss
         /// <returns>True if the Verb instances erb meet the equality conditions outlined above.</returns>
-        public static bool operator !=(Verb A, Verb B) {
-            return !(A == B);
-        }
+        //public static bool operator !=(Verb A, Verb B) {
+        //    return !(A == B);
+        //}
 
         #endregion
     }

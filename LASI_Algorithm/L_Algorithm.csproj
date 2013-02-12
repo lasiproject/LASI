@@ -161,6 +161,7 @@
     <Compile Include="WordTypes\VerbConstructs\VerbTenses.cs" />
     <Compile Include="WordTypes\Word.cs" />
     <Compile Include="IEnumerableExtensions\IEnumerableOfWordExtensions.cs" />
+    <None Include="ClassDiagram5.cd" />
     <None Include="ClassDiagrams\NounConstructs.cd" />
     <None Include="ClassDiagrams\PronounConstructs.cd" />
     <None Include="ClassDiagrams\VerbConstructs.cd" />

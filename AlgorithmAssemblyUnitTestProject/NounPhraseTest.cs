@@ -114,14 +114,9 @@ namespace AlgorithmAssemblyUnitTestProject
         ///</summary>
         [TestMethod()]
         public void EqualsTest() {
-            IEnumerable<Word> composedWords = null; // TODO: Initialize to an appropriate value
+            IEnumerable<Word> composedWords = new Word[] { new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians") };
             NounPhrase target = new NounPhrase(composedWords); // TODO: Initialize to an appropriate value
-            IEntity other = null; // TODO: Initialize to an appropriate value
-            bool expected = false; // TODO: Initialize to an appropriate value
-            bool actual;
-            actual = target.Equals(other);
-            Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
+            Assert.AreEqual(target, target as object);
         }
 
         /// <summary>
@@ -215,7 +210,7 @@ namespace AlgorithmAssemblyUnitTestProject
         [TestMethod()]
         public void SubjectOfTest() {
             IEnumerable<Word> composedWords = new Word[] { new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians") };
-            NounPhrase target = new NounPhrase(composedWords); // TODO: Initialize to an appropriate value
+            NounPhrase target = new NounPhrase(composedWords);
             IAction expected = new Verb("are");
             IAction actual;
             target.SubjectOf = expected;

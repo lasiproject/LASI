@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GuiInterop
+namespace LASI.GuiInterop
 {
-    public class AlgorithmInfoProvidere
+    public class AlgorithmInfoProvider
     {
     }
 }

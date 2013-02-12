@@ -17,8 +17,40 @@ namespace Aluan_Experimentation
     {
         static void Main(string[] args) {
 
+            Word myword = new PastTenseVerb("congregated");
+            Verb myVerb = myword as dynamic;
+            Console.WriteLine(myVerb != null ? myVerb.Text : "conversion failed");
+
+            //List<Word> myList = new Word[] { 
+            //    new GenericPluralNoun("people"),
+            //    new PresentTenseVerb("congregate"), 
+            //    new Pronoun("there") }.ToList();
+
+
+            //foreach (Word w in myList) {
+            //    ToMostDerrived(w as dynamic);
+            //    Console.WriteLine(w);
+            //}
+
+
             StdIoUtil.WaitForKey(ConsoleKey.Escape);
         }
+
+        static Verb ToMostDerrived(Verb v) {
+            Console.WriteLine("verb mthd called");
+            return v;
+        }
+
+        static Noun ToMostDerrived(Noun n) {
+            Console.WriteLine("noun mthd called");
+            return n;
+        }
+
+        static Pronoun ToMostDerrived(Pronoun p) {
+            Console.WriteLine("pronoun mthd called");
+            return p;
+        }
+
 
         private static void TestingDocParser() {
             var tagger = new SharpNLPTagger(TaggingOption.TagAndAggregate, @"C:\Users\Aluan\Desktop\411writtensummary2.txt");
@@ -32,8 +64,7 @@ namespace Aluan_Experimentation
                         select r;
 
             var wordPOSCounts = from W in document.Words.AsParallel()
-                                group W by new
-                                {
+                                group W by new {
                                     Type = W.GetType(),
                                     W.Text,
                                 } into G
@@ -41,8 +72,7 @@ namespace Aluan_Experimentation
                                 select G;
 
             var phrasePOSCounts = from R in document.Phrases
-                                  group R by new
-                                  {
+                                  group R by new {
                                       Type = R.GetType(),
                                       R.Text
                                   } into G
