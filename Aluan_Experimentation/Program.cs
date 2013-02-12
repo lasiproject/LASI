@@ -58,17 +58,18 @@ namespace Aluan_Experimentation
             //
 
 
-            Func<string, string> f = s => s.ToUpper();
-            Func<string, string> g = s => s.Substring(0, 4);
-            Func<string, string> h = s => s.ToLower();
+            //Func<string, string> f = s => s.ToUpper();
+            //Func<string, string> g = s => s.Substring(0, 4);
+            //Func<string, string> h = s => s.ToLower();
 
-            var MF = f.Compose(g, h, f);
-            foreach (var S in new[] { 
-                "Hello there!", 
-                "How are you?", 
-                "Would you like some cheese with that wine?" }) {
-                Console.WriteLine(MF(S));
-            }
+            //var MF = f.Compose(g, h, f);
+            //foreach (var S in new[] { 
+            //    "Hello there!", 
+            //    "How are you?", 
+            //    "Would you like some cheese with that wine?" }) {
+            //    Console.WriteLine(MF(S));
+            //}
+
 
             for (var k = Console.ReadKey(); k.Key != ConsoleKey.Escape; k = Console.ReadKey()) {
             }
