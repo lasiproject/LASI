@@ -1,91 +1,92 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="LASI.Algorithm.AdjectivePhrase" Collapsed="true">
-    <Position X="10.75" Y="1.75" Width="1.5" />
+    <Position X="9.25" Y="5.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAABAABAAAAAAgAAAAAAAAAAAAAAgAAAAAAAAAAAAA=</HashCode>
+      <HashCode>QAAABAABAAAAAAgAAAAAAAAAAAAAAgAIAAAAAAAAAAA=</HashCode>
       <FileName>PhraseTypes\AdjectivePhrase.cs</FileName>
     </TypeIdentifier>
     <Lollipop Orientation="Bottom" Position="0.261" />
   </Class>
   <Class Name="LASI.Algorithm.AdverbPhrase" Collapsed="true">
-    <Position X="14.25" Y="1.75" Width="1.5" />
+    <Position X="12.75" Y="5.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>QAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAA=</HashCode>
       <FileName>PhraseTypes\AdverbPhrase.cs</FileName>
     </TypeIdentifier>
     <Lollipop Orientation="Bottom" Position="0.2" />
   </Class>
   <Class Name="LASI.Algorithm.ConjunctionPhrase" Collapsed="true">
-    <Position X="19.5" Y="1.75" Width="1.5" />
+    <Position X="14.5" Y="5.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAgAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>QAAAAAAgAAAAAAEAAAAAAAAAAAAAAAAIAAAAAAAAAAA=</HashCode>
       <FileName>PhraseTypes\ConjunctionPhrase.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="LASI.Algorithm.InterrogativePhrase" Collapsed="true">
-    <Position X="24.75" Y="1.75" Width="1.5" />
+    <Position X="20" Y="4.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>QAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAA=</HashCode>
       <FileName>PhraseTypes\InterrogativePhrase.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="LASI.Algorithm.NounPhrase" Collapsed="true">
-    <Position X="9" Y="1.75" Width="1.5" />
+    <Position X="7.5" Y="5.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAACAAAAAAAAAAAgAAAAAgAQAAAEAABAQIAAAAAAAE=</HashCode>
+      <HashCode>QAAACAAAAAAAAAAAkAgEAAAAwACAAAAIAQIAAAAAAAE=</HashCode>
       <FileName>PhraseTypes\NounPhrase.cs</FileName>
     </TypeIdentifier>
     <Lollipop Orientation="Bottom" Position="0.309" />
   </Class>
   <Class Name="LASI.Algorithm.ParticlePhrase" Collapsed="true">
-    <Position X="16" Y="1.75" Width="1.5" />
+    <Position X="15.75" Y="1.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>QIAAAAAIAAAAAAAAAAAAAAAAAABAAAAIACAAAAAAAAA=</HashCode>
       <FileName>PhraseTypes\ParticlePhrase.cs</FileName>
     </TypeIdentifier>
+    <Lollipop Position="0.2" />
   </Class>
   <Class Name="LASI.Algorithm.Phrase" Collapsed="true">
     <Position X="17.75" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAQEgAAAAAAAAAAAAIAAAAAACAAAAiA=</HashCode>
+      <HashCode>QAAAAAAAAAAAAAAEgAABAAAAAAAABAAIIQAACAAgAAA=</HashCode>
       <FileName>PhraseTypes\Phrase.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="LASI.Algorithm.PrepositionalPhrase" Collapsed="true">
-    <Position X="26.5" Y="1.75" Width="1.5" />
+    <Position X="21.75" Y="4.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AIAAAAAIAAAAAAAAAAAAAAAAAABAAAAAACAAAAAAAAA=</HashCode>
+      <HashCode>QIAAAAAIAAAAAAAAAAAAAAAAAABAAAAIACAAAAAAAAA=</HashCode>
       <FileName>PhraseTypes\PrepositionalPhrase.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="LASI.Algorithm.PronounPhrase" Collapsed="true">
-    <Position X="12.5" Y="1.75" Width="1.5" />
+    <Position X="11" Y="5.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAACAAAAAAAAAAAAAAAQAAAQAAAEAAAAQIAAAAAAAA=</HashCode>
+      <HashCode>QAAACAAAAAAAAAAAkAgAQAAAwAAAAAAIAQIAAAAAAAE=</HashCode>
       <FileName>PhraseTypes\PronounPhrase.cs</FileName>
     </TypeIdentifier>
     <Lollipop Orientation="Bottom" Position="0.229" />
   </Class>
   <Class Name="LASI.Algorithm.RoughListPhrase" Collapsed="true">
-    <Position X="17.75" Y="1.75" Width="1.5" />
+    <Position X="17.25" Y="1.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>QAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAA=</HashCode>
       <FileName>PhraseTypes\RoughListPhrase.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="LASI.Algorithm.SimpleDeclarativePhrase" Collapsed="true">
-    <Position X="23" Y="1.75" Width="1.5" />
+    <Position X="18.25" Y="4.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>QAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAA=</HashCode>
       <FileName>PhraseTypes\SimpleDeclarativePhrase.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="LASI.Algorithm.TransitiveVerbPhrase" Collapsed="true">
-    <Position X="20.75" Y="3.25" Width="1.5" />
+    <Position X="16.5" Y="5.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAGAAAAAgAAAAA=</HashCode>
       <FileName>PhraseTypes\TransitiveVerbPhrase.cs</FileName>
@@ -93,40 +94,40 @@
     <Lollipop Orientation="Bottom" Position="0.2" />
   </Class>
   <Class Name="LASI.Algorithm.VerbPhrase" Collapsed="true">
-    <Position X="21.25" Y="1.75" Width="1.5" />
+    <Position X="16.5" Y="4.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAABAAAAAAAAAABAAAACAAAABAAAgAAAAAAAAAEAAA=</HashCode>
+      <HashCode>QAAABAAAAAAAAAABAAAACAAAABAAAgAIAAAAAAAAAAA=</HashCode>
       <FileName>PhraseTypes\VerbPhrase.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.907" />
   </Class>
   <Class Name="LASI.Algorithm.PastPrtcplVerbPhrase" Collapsed="true">
-    <Position X="19" Y="3.25" Width="1.5" />
+    <Position X="19" Y="1.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>PastParticipleVerbPhrase.cs</FileName>
+      <FileName>PhraseTypes\PastParticipleVerbPhrase.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="LASI.Algorithm.PastTenseVerbPhrase" Collapsed="true">
-    <Position X="22.5" Y="3.25" Width="1.5" />
+    <Position X="18.25" Y="5.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>PastTenseVerbPhrase.cs</FileName>
+      <FileName>PhraseTypes\PastTenseVerbPhrase.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="LASI.Algorithm.PresentPrtcplVPhrase" Collapsed="true">
-    <Position X="24.25" Y="3.25" Width="1.5" />
+    <Position X="20" Y="5.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAQIAAAAAAAA=</HashCode>
-      <FileName>PresentParticipleVPhrase.cs</FileName>
+      <FileName>PhraseTypes\PresentParticipleVPhrase.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="LASI.Algorithm.PresentTenseVerbPhrase" Collapsed="true">
-    <Position X="26" Y="3.25" Width="1.5" />
+    <Position X="21.75" Y="5.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>PresentTenseVerbPhrase.cs</FileName>
+      <FileName>PhraseTypes\PresentTenseVerbPhrase.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Font Name="Segoe UI" Size="9" />

@@ -107,6 +107,13 @@ namespace LASI.Algorithm
             get;
             set;
         }
+
+        public Type Type {
+            get {
+                return this.GetType();
+            }
+        }
+
         #endregion
 
         #region Static Members

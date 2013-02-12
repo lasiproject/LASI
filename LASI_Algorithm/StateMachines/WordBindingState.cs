@@ -6,19 +6,20 @@ using System.Threading.Tasks;
 using LASI.Utilities;
 namespace LASI.Algorithm.StateMachines
 {
-    abstract class WordBindingState
+    abstract class BindingState
     {
-        public abstract List<WordBindingState> Transitions {
-            get;
-            protected set;
+        protected BindingState(StateKind stateKind, string stateName, KeyedByTypeCollection<Delegate> transitionProvided) {
+            this.stateKind = stateKind;
+            this.stateName = stateName;
         }
-        public abstract WordBindingState PreviousState {
-            get;
-            protected set;
-        }
+        protected readonly string stateName;
         protected readonly StateKind stateKind = StateKind.Initial;
-        public abstract WordBindingState Transition(Verb verb);
-        public abstract WordBindingState Transition(Noun noun);
+    }
 
+    class WordBindingCollection : BindingState
+    {
+        internal WordBindingCollection(StateKind stateKind, string stateName, KeyedByTypeCollection<Delegate> transitionsProvided)
+            : base(stateKind, stateName, transitionsProvided) {
+        }
     }
 }

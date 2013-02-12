@@ -77,6 +77,12 @@ namespace LASI.Algorithm
             protected set;
         }
 
+        public Type Type {
+            get {
+                return this.GetType();
+            }
+        }
+
 
         #endregion
 
