@@ -75,6 +75,7 @@
     <Compile Include="DocToDocXConverterTest.cs" />
     <Compile Include="DocxToTextConverterTest.cs" />
     <Compile Include="FileManagerTest.cs" />
+    <Compile Include="ModalTest.cs" />
     <Compile Include="NounPhraseTest.cs" />
     <Compile Include="ParticleTest.cs" />
     <Compile Include="PronounTest.cs" />
