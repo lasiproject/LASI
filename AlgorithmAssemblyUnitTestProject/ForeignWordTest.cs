@@ -72,7 +72,8 @@ namespace AlgorithmAssemblyUnitTestProject
         {
             string text = "Bonjour"; 
             ForeignWord target = new ForeignWord(text);
-            Assert.Inconclusive("TODO: Implement code to verify target");
+            Assert.IsTrue(target.Text == text);
+            Assert.IsTrue(target.UsedAsType == null);
         }
 
         /// <summary>
@@ -88,7 +89,6 @@ namespace AlgorithmAssemblyUnitTestProject
             target.UsedAsType = expected;
             actual = target.UsedAsType;
             Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
         }
     }
 }
