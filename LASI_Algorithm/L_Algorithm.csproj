@@ -49,10 +49,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IEnumerableExtensions\IEnumerableOfTransitiveVerbPhraseExtensions.cs" />
     <Compile Include="IEnumerableExtensions\IEnumerableOfParagraphExtensions.cs" />
     <Compile Include="IEnumerableExtensions\IEnumerableOfTransitiveVerbExtensions.cs" />
     <Compile Include="DocumentConstructs\Paragraph.cs" />
     <Compile Include="IEnumerableExtensions\IEnumerableOfPhraseExtensions.cs" />
+    <Compile Include="IEnumerableExtensions\IEnumerableOfVerbPhraseExtensions.cs" />
     <Compile Include="Sentence.cs" />
     <Compile Include="PhraseTypes\UndeterminedPhrase.cs" />
     <Compile Include="GrammaticalInterfaces\IAdverbial.cs" />
@@ -68,7 +70,6 @@
     <Compile Include="PhraseTypes\PastTenseVerbPhrase.cs" />
     <Compile Include="PhraseTypes\PresentParticipleVPhrase.cs" />
     <Compile Include="Thesuari\SynonymSet.cs" />
-    <Compile Include="PhraseTypes\TransitiveVerbSet.cs" />
     <Compile Include="PhraseTypes\TransPresentParticipleVPhrase.cs" />
     <Compile Include="PhraseTypes\PresentTenseVerbPhrase.cs" />
     <Compile Include="PhraseTypes\TransPastParticplePhrase.cs" />

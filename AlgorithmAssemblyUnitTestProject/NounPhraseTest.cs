@@ -6,8 +6,6 @@ using System.Linq;
 
 namespace AlgorithmAssemblyUnitTestProject
 {
-
-
     /// <summary>
     ///This is a test class for NounPhraseTest and is intended
     ///to contain all NounPhraseTest Unit Tests

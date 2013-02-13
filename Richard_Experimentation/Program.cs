@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LASI.Algorithm;
+using LASI.Utilities;
 using LASI.FileSystem;
 using SharpNLPTaggingModule;
 
@@ -13,13 +14,34 @@ namespace Richard_Experimentation
     {
         static void Main(string[] args) {
 
-            TagExampleFile();
+            //TagExampleFile();
+
+            Action<IEnumerable<int>> printList = L => {
+                foreach (var i in L)
+                    Console.WriteLine(i);
+            };
+
+
+
+
+            Console.WriteLine("enter divisor");
+
+            int divisor = int.Parse(Console.ReadLine());
+
+            var myInts = new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+
+
+            var results = from i in myInts
+                          where i % divisor == 0
+                          select i;
+
+
+            printList(results);
+
+
 
             //Keeps the console window open until the escape key is pressed
-            Console.WriteLine("Press escape to exit");
-            for (var k = Console.ReadKey(); k.Key != ConsoleKey.Escape; k = Console.ReadKey()) {
-                Console.WriteLine("Press escape to exit");
-            }
+            StdIoUtil.WaitForKey(ConsoleKey.Escape);
         }
 
 
