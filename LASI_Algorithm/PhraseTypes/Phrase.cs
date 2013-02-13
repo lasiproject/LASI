@@ -53,7 +53,7 @@ namespace LASI.Algorithm
         /// </summary>
         public virtual string Text {
             get {
-                return Words.Aggregate("", (str, word) => str + " " + word.Text);
+                return Words.Aggregate("", (str, word) => str + word.Text + " ").Trim();
             }
         }
         /// <summary>
