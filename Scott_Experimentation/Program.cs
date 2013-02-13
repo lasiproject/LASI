@@ -18,7 +18,7 @@ namespace Scott_Experimentation
             var paragraphs = new TaggedFileParser(tagged).GetParagraphs();
             var document = new Document(paragraphs);
             List<Word> ListOfWords = (List<Word>)document.Words;
-            List<Phrase> ListOf
+            List<Phrase> ListOfPhrase = (List<Ph;
             //var WordStrings = (from w in ListOfWords where w is Noun select w.Type).ToList();
 
             for (int x = 0; x < ListOfWords.Count; x++)
