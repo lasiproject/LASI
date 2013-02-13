@@ -66,7 +66,11 @@ namespace AlgorithmAssemblyUnitTestProject
         ///</summary>
         [TestMethod()]
         public void NounPhraseConstructorTest() {
-            IEnumerable<Word> composedWords = new Word[] { new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians") };
+            IEnumerable<Word> composedWords = new Word[] {
+                new ProperPluralNoun("Americans"),
+                new Conjunction("and"), 
+                new ProperPluralNoun("Canadians") 
+            };
             NounPhrase target = new NounPhrase(composedWords);
             Assert.AreEqual(target.Words, composedWords);
         }
@@ -176,18 +180,6 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///A test for Possessed
-        ///</summary>
-        [TestMethod()]
-        public void PossessedTest() {
-            IEnumerable<Word> composedWords = null; // TODO: Initialize to an appropriate value
-            NounPhrase target = new NounPhrase(composedWords); // TODO: Initialize to an appropriate value
-            IEnumerable<IEntity> actual;
-            actual = target.Possessed;
-            Assert.Inconclusive("Verify the correctness of this test method.");
-        }
-
-        /// <summary>
         ///A test for Possesser
         ///</summary>
         [TestMethod()]
@@ -215,6 +207,18 @@ namespace AlgorithmAssemblyUnitTestProject
             actual = target.SubjectOf;
             Assert.AreEqual(expected, actual);
 
+        }
+
+        /// <summary>
+        ///A test for AddPossession
+        ///</summary>
+        [TestMethod()]
+        public void AddPossessionTest() {
+            IEnumerable<Word> composedWords = new Word[] { new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians") };
+            NounPhrase target = new NounPhrase(composedWords); // TODO: Initialize to an appropriate value
+            IEntity possession = new NounPhrase(new Word[] { new Adverb("relatively"), new Adjective("affluent"), new GenericPluralNoun("lifestyles") });
+            target.AddPossession(possession);
+            Assert.IsTrue(target.Possessed.Contains(possession));
         }
     }
 }

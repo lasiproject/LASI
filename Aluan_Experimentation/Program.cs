@@ -37,22 +37,7 @@ namespace Aluan_Experimentation
                             from sent in p.Sentences
                             from r in sent.Phrases
                             select r;
-
-            //var verbPhrases = myPhrases.GetVerbPhrases();
-            //var verbPhrasesWithSubjectLASI = verbPhrases.WithSubject((NounPhrase N) => N.Text == "LASI");
-
-            //var wordPOSCounts = from W in document.Words.AsParallel()
-            //                    group W by new {
-            //                        Type = W.GetType(),
-            //                        W.Text,
-            //                    } into G
-            //                    orderby G.Count()
-            //                    select G;
-
             PerformPhraseTypeAndTextCounts(document);
-
-
-
 
 
 
@@ -101,13 +86,27 @@ namespace Aluan_Experimentation
 //    "Would you like some cheese with that wine?" }) {
 //    Console.WriteLine(MF(S));
 //}
-//var counts = from phrase in document.Phrases
-//             group phrase by phrase.Type;
+
+
+//var counts = from phrase in document.phrases
+//             group phrase by phrase.type;
 //foreach (var grp in counts) {
-//    Console.WriteLine("Category: {0}, count: {1}", grp.Key, grp.Count());
-//    var textGroupsInTypeCategory = from phrase in grp
-//                                   group phrase by phrase.Text;
-//    foreach (var innerGrp in textGroupsInTypeCategory) {
-//        Console.WriteLine("Text: {0}, count: {1}", innerGrp.Key, innerGrp.Count());
+//    console.writeline("category: {0}, count: {1}", grp.key, grp.count());
+//    var textgroupsintypecategory = from phrase in grp
+//                                   group phrase by phrase.text;
+//    foreach (var innergrp in textgroupsintypecategory) {
+//        console.writeline("text: {0}, count: {1}", innergrp.key, innergrp.count());
 //    }
 //}
+
+
+//var verbPhrases = myPhrases.GetVerbPhrases();
+//var verbPhrasesWithSubjectLASI = verbPhrases.WithSubject((NounPhrase N) => N.Text == "LASI");
+
+//var wordPOSCounts = from W in document.Words.AsParallel()
+//                    group W by new {
+//                        Type = W.GetType(),
+//                        W.Text,
+//                    } into G
+//                    orderby G.Count()
+//                    select G;

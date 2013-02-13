@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LASI.Algorithm;
 using LASI.FileSystem;
-
+using LASI.Utilities;
+using SharpNLPTaggingModule;
+using System.IO;
+using LASI.Algorithm.IEnumerableExtensions;
 namespace Dustin_Experimentation
 {
     class Program

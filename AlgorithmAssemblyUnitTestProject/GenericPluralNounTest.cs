@@ -1,18 +1,17 @@
 ﻿using LASI.Algorithm;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using System.Collections.Generic;
 
 namespace AlgorithmAssemblyUnitTestProject
 {
     
     
     /// <summary>
-    ///This is a test class for DocumentTest and is intended
-    ///to contain all DocumentTest Unit Tests
+    ///This is a test class for GenericPluralNounTest and is intended
+    ///to contain all GenericPluralNounTest Unit Tests
     ///</summary>
     [TestClass()]
-    public class DocumentTest
+    public class GenericPluralNounTest
     {
 
 
@@ -22,14 +21,11 @@ namespace AlgorithmAssemblyUnitTestProject
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
         ///</summary>
-        public TestContext TestContext
-        {
-            get
-            {
+        public TestContext TestContext {
+            get {
                 return testContextInstance;
             }
-            set
-            {
+            set {
                 testContextInstance = value;
             }
         }
@@ -65,5 +61,29 @@ namespace AlgorithmAssemblyUnitTestProject
         #endregion
 
 
+        /// <summary>
+        ///A test for GenericPluralNoun Constructor
+        ///</summary>
+        [TestMethod()]
+        public void GenericPluralNounConstructorTest() {
+            string text = "clowns";
+            GenericPluralNoun target = new GenericPluralNoun(text);
+            Assert.IsTrue(target.Text == text);
+        }
+
+        /// <summary>
+        ///A test for Quantifier
+        ///</summary>
+        [TestMethod()]
+        public void QuantifierTest() {
+            string text = string.Empty; // TODO: Initialize to an appropriate value
+            GenericPluralNoun target = new GenericPluralNoun(text); // TODO: Initialize to an appropriate value
+            Quantifier expected = null; // TODO: Initialize to an appropriate value
+            Quantifier actual;
+            target.Quantifier = expected;
+            actual = target.Quantifier;
+            Assert.AreEqual(expected, actual);
+            Assert.Inconclusive("Verify the correctness of this test method.");
+        }
     }
 }

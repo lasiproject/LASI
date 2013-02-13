@@ -9,7 +9,7 @@ namespace LASI.Algorithm
     public interface IModifiable
     {
         void ModifyWith(IAdverbial adv);
-        List<IAdverbial> Modifiers {
+        IEnumerable<IAdverbial> Modifiers {
             get;
         }
     }

@@ -72,11 +72,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AdjectiveTest.cs" />
+    <Compile Include="DeterminerTest.cs" />
     <Compile Include="DocToDocXConverterTest.cs" />
     <Compile Include="DocumentTest.cs" />
     <Compile Include="DocxToTextConverterTest.cs" />
     <Compile Include="FileManagerTest.cs" />
     <Compile Include="ForeignWordTest.cs" />
+    <Compile Include="GenericPluralNounTest.cs" />
     <Compile Include="ModalTest.cs" />
     <Compile Include="NounPhraseTest.cs" />
     <Compile Include="ParticleTest.cs" />

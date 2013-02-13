@@ -32,14 +32,15 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="adv">The Adverbial construct by which to modify the AdjectivePhrase.</param>
         public void ModifyWith(IAdverbial adv) {
-            Modifiers.Add(adv);
+            _modifiers.Add(adv);
         }
         /// <summary>
         /// Gets or sets the List of IAdverbial modifiers which modify the VerbPhrase.
         /// </summary>
-        public List<IAdverbial> Modifiers {
-            get;
-            set;
+        public IEnumerable<IAdverbial> Modifiers {
+            get {
+                return _modifiers;
+            }
         }
         /// <summary>
         /// Gets or sets the tense of the VerbPhrase.
@@ -68,6 +69,9 @@ namespace LASI.Algorithm
         public override void DetermineHeadWord() {
             throw new NotImplementedException();
         }
+        protected IList<IAdverbial> _modifiers = new List<IAdverbial>();
     }
+
+
 }
 

@@ -28,12 +28,9 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets or sets the collection of Adverbial constructs which modify the AdjectivePhrase.
         /// </summary>
-        public virtual List<IAdverbial> Modifiers {
+        public virtual IEnumerable<IAdverbial> Modifiers {
             get {
                 return _modifiers;
-            }
-            set {
-                _modifiers = value;
             }
         }
         /// <summary>

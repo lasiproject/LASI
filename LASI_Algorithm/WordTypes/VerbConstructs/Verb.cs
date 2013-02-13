@@ -35,13 +35,13 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="adv"></param>
         public virtual void ModifyWith(IAdverbial adv) {
-            Modifiers.Add(adv);
+            _modifiers.Add(adv);
             adv.Modiffied = this;
         }
         /// <summary>
         /// Gets or sets the List of IAdverbial modifiers which modify this Verb.
         /// </summary>
-        public virtual List<IAdverbial> Modifiers {
+        public virtual IEnumerable<IAdverbial> Modifiers {
             get;
             set;
         }
@@ -68,7 +68,7 @@ namespace LASI.Algorithm
         public bool Equals(Verb other) {
             return this == other;
         }
-
+        protected IList<IAdverbial> _modifiers = new List<IAdverbial>();
 
 
         #region Operators

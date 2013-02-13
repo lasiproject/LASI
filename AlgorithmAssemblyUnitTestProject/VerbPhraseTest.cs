@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace AlgorithmAssemblyUnitTestProject
 {
@@ -92,7 +93,7 @@ namespace AlgorithmAssemblyUnitTestProject
             VerbPhrase target = new VerbPhrase(composedWords);
             IAdverbial adv = new Adverb("daringly");
             target.ModifyWith(adv);
-            Assert.Inconclusive("A method that does not return a value cannot be verified.");
+            Assert.IsTrue(target.Modifiers.Contains(adv));
         }
 
         /// <summary>
@@ -125,19 +126,6 @@ namespace AlgorithmAssemblyUnitTestProject
             Assert.Inconclusive("Verify the correctness of this test method.");
         }
 
-        /// <summary>
-        ///A test for Modifiers
-        ///</summary>
-        [TestMethod()]
-        public void ModifiersTest() {
-            IEnumerable<Word> composedWords = null; // TODO: Initialize to an appropriate value
-            VerbPhrase target = new VerbPhrase(composedWords); // TODO: Initialize to an appropriate value
-            List<IAdverbial> expected = null; // TODO: Initialize to an appropriate value
-            List<IAdverbial> actual;
-            target.Modifiers = expected;
-            actual = target.Modifiers;
-            Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
-        }
+
     }
 }

@@ -12,9 +12,13 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-
+using System.Collections.ObjectModel;
 using LASI.Algorithm;
 using LASI.FileSystem;
+using LASI.Utilities;
+using SharpNLPTaggingModule;
+using System.IO;
+using LASI.Algorithm.IEnumerableExtensions;
 
 namespace Brittany_WPF_Experimentation
 {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace LASI.Algorithm
 {
@@ -67,7 +68,7 @@ namespace LASI.Algorithm
         /// </summary>
         public IEnumerable<IEntity> Possessed {
             get {
-                throw new NotImplementedException();
+                return _possessed;
             }
         }
 
@@ -79,9 +80,9 @@ namespace LASI.Algorithm
             if (!_describedBy.Contains(adj))
                 _describedBy.Add(adj);
         }
-        private ICollection<IDescriber> _describedBy = new List<IDescriber>();
-        private ICollection<IPossessable> _possessed = new List<IPossessable>();
-        private ICollection<IEntityReferencer> _indirectReferences = new List<IEntityReferencer>();
+        private IList<IDescriber> _describedBy = new List<IDescriber>();
+        private IList<IEntity> _possessed = new List<IEntity>();
+        private IList<IEntityReferencer> _indirectReferences = new List<IEntityReferencer>();
 
 
         public IEntity Possesser {
@@ -113,7 +114,9 @@ namespace LASI.Algorithm
 
 
         public void AddPossession(IEntity possession) {
-            throw new NotImplementedException();
+            if (!_possessed.Contains(possession)) {
+                _possessed.Add(possession);
+            }
         }
     }
 }

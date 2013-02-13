@@ -34,18 +34,16 @@ namespace LASI.Algorithm
             _modifiers.Add(adv);
         }
 
-        private List<IAdverbial> _modifiers = new List<IAdverbial>();
+        private IList<IAdverbial> _modifiers = new List<IAdverbial>();
 
         /// <summary>
         /// Gets or sets the collection of Adverbial constructs which modify the AdjectivePhrase
         /// </summary>
-        public virtual List<IAdverbial> Modifiers {
+        public virtual IEnumerable<IAdverbial> Modifiers {
             get {
                 return _modifiers;
             }
-            protected set {
-                _modifiers = value;
-            }
+
         }
 
     }
