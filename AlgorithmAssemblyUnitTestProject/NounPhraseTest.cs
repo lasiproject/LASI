@@ -62,7 +62,7 @@ namespace AlgorithmAssemblyUnitTestProject
 
 
         /// <summary>
-        ///A test for NounPhrase Constructor
+        ///A test for NounPhrase Constructorf
         ///</summary>
         [TestMethod()]
         public void NounPhraseConstructorTest() {
