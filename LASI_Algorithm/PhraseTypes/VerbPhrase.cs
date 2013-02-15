@@ -9,7 +9,7 @@ namespace LASI.Algorithm
     /// <summary>
     /// Represents a verb phrase.
     /// </summary>
-    public class VerbPhrase : Phrase, IAction, IModifiable, IModalityModifiable
+    public class VerbPhrase : Phrase, IAction, IAdverbialModifiable, IModalityModifiable
     {
         /// <summary>
         /// Initializes a new instance of the VerbPhrase class.

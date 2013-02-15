@@ -9,7 +9,7 @@ namespace LASI.Algorithm
     /// <summary>
     /// Provides the base class for all word level verb constructs. An instance of this class represents a verb in its base tense.
     /// </summary>
-    public class Verb : Word, IAction, IModifiable, IModalityModifiable, IEquatable<Verb>
+    public class Verb : Word, IAction, IAdverbialModifiable, IModalityModifiable, IEquatable<Verb>
     {
         /// <summary>
         /// Initializes a new instance of the Verb class which represents the base tense form of a verb.

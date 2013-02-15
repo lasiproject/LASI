@@ -21,7 +21,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets or sets the word or phrase which the Adverb modiffies
         /// </summary>
-        public virtual IModifiable Modiffied {
+        public virtual IAdverbialModifiable Modiffied {
             get;
             set;
         }

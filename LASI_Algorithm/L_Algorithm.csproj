@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GrammaticalInterfaces\ILexically.cs" />
     <Compile Include="IEnumerableExtensions\IEnumerableOfTransitiveVerbPhraseExtensions.cs" />
     <Compile Include="IEnumerableExtensions\IEnumerableOfParagraphExtensions.cs" />
     <Compile Include="IEnumerableExtensions\IEnumerableOfTransitiveVerbExtensions.cs" />
@@ -125,7 +126,7 @@
     <Compile Include="PhraseTypes\InterrogativePhrase.cs" />
     <Compile Include="GrammaticalInterfaces\IActionObject.cs" />
     <Compile Include="GrammaticalInterfaces\IPronounBindable.cs" />
-    <Compile Include="GrammaticalInterfaces\IModifiable.cs" />
+    <Compile Include="GrammaticalInterfaces\IAdverbialModifiable.cs" />
     <Compile Include="GrammaticalInterfaces\IDescribable.cs" />
     <Compile Include="GrammaticalInterfaces\IEntity.cs" />
     <Compile Include="GrammaticalInterfaces\IInderectObjectTaker.cs" />

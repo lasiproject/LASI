@@ -10,7 +10,7 @@ namespace LASI.Algorithm
     /// Defines the behavior of a Descriptive construct which can Describe an instance of any class which implements the IDescribable Inter
     /// </summary>
     /// <see cref="IDescribable"/>
-    public interface IDescriber
+    public interface IDescriber : LASI.Algorithm.ILexical
     {
         IEntity Describes {
             get;

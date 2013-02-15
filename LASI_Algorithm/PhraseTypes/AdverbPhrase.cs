@@ -10,7 +10,7 @@ namespace LASI.Algorithm
         public AdverbPhrase(IEnumerable<Word> composedWords)
             : base(composedWords) {
         }
-        public virtual IModifiable Modiffied {
+        public virtual IAdverbialModifiable Modiffied {
             get;
             set;
         }

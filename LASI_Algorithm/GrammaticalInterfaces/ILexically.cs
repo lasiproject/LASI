@@ -6,11 +6,10 @@ using System.Threading.Tasks;
 
 namespace LASI.Algorithm
 {
-    interface IConflatable
+    public interface ILexical
     {
-        IConflatable ConflatedWith {
+        string Text {
             get;
-            set;
         }
     }
 }

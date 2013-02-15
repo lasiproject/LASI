@@ -5,9 +5,9 @@ using System.Text;
 
 namespace LASI.Algorithm
 {
-    public interface IAdverbial
+    public interface IAdverbial : ILexical
     {
-        IModifiable Modiffied {
+        IAdverbialModifiable Modiffied {
             get;
             set;
         }

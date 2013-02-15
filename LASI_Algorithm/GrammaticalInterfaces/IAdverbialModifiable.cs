@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LASI.Algorithm
 {
-    public interface IModifiable
+    public interface IAdverbialModifiable
     {
         void ModifyWith(IAdverbial adv);
         IEnumerable<IAdverbial> Modifiers {
