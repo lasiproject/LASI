@@ -25,6 +25,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaggedFileParserTest", "FileManagementTest\TaggedFileParserTest\TaggedFileParserTest\TaggedFileParserTest.csproj", "{3FEFF1D4-4A82-4735-A237-5321B27BDC62}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LASI_Algorithm_UnitTests", "AlgorithmAssemblyUnitTestProject\LASI_Algorithm_UnitTests.csproj", "{F4ABC10C-0BE9-4195-99E7-DB027757EC6B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{06B96679-9758-4B15-8E75-0F46416E68B7} = {06B96679-9758-4B15-8E75-0F46416E68B7}
+		{6C8D6DA8-BD8B-48C8-ACB9-8FDE7E3A672E} = {6C8D6DA8-BD8B-48C8-ACB9-8FDE7E3A672E}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "L_UserInterface", "LASI_UserInterface\L_UserInterface.csproj", "{6C8D6DA8-BD8B-48C8-ACB9-8FDE7E3A672E}"
 EndProject

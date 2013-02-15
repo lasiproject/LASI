@@ -32,13 +32,12 @@
   </DataCollectionRunSettings>
 
   <!-- Adapter Specific sections -->
-
   <!-- MSTest adapter -->
   <MSTest>
     <MapInconclusiveToFailed>True</MapInconclusiveToFailed>
     <CaptureTraceOutput>False</CaptureTraceOutput>
     <DeleteDeploymentDirectoryAfterTestRunIsComplete>False</DeleteDeploymentDirectoryAfterTestRunIsComplete>
-    <DeploymentEnabled>False</DeploymentEnabled>
+    <DeploymentEnabled>True</DeploymentEnabled>
   </MSTest>
 
 </RunSettings>
