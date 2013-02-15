@@ -114,7 +114,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="TestSettings.runsettings" />
     <None Include="TestSettings1.testsettings" />
   </ItemGroup>
   <ItemGroup>
