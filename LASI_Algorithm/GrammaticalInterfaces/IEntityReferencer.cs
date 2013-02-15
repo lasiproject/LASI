@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LASI.Algorithm
 {
-    public interface IEntityReferencer
+    public interface IEntityReferencer : IEntity
     {
         IEntity BoundEntity {
             get;

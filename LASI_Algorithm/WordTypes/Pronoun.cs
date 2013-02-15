@@ -105,5 +105,38 @@ namespace LASI.Algorithm
 
 
 
+
+        public void BindDescriber(IDescriber adj) {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<IDescriber> DescribedBy {
+            get {
+                throw new NotImplementedException();
+            }
+        }
+
+        public IEnumerable<IEntity> Possessed {
+            get {
+                throw new NotImplementedException();
+            }
+        }
+
+        public void AddPossession(IEntity possession) {
+            throw new NotImplementedException();
+        }
+
+        public IEntity Possesser {
+            get {
+                throw new NotImplementedException();
+            }
+            set {
+                throw new NotImplementedException();
+            }
+        }
+
+        public bool Equals(IEntity other) {
+            throw new NotImplementedException();
+        }
     }
 }
