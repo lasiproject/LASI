@@ -8,7 +8,7 @@ namespace LASI.Algorithm
     /// <summary>
     /// Represents a generic, non-proper, singular noun word.
     /// </summary>
-    public class GenericSingularNoun : Noun, IQuantifiable
+    public class GenericSingularNoun : GenericNoun
     {
         /// <summary>
         /// Initializes a new instance of the GenericSingularNounClass.
@@ -18,9 +18,6 @@ namespace LASI.Algorithm
             : base(text) {
         }
 
-        public Quantifier Quantifier {
-            get;
-            set;
-        }
+        
     }
 }

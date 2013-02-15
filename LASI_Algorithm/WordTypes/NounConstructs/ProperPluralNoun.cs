@@ -5,10 +5,19 @@ using System.Text;
 
 namespace LASI.Algorithm
 {
-    public class ProperPluralNoun : Noun
+    public class ProperPluralNoun : ProperNoun, IQuantifiable
     {
         public ProperPluralNoun(string text)
             : base(text) {
+        }
+
+        /// <summary>
+        /// Gets or sets a Qunatifier which specifies the number of units of the ProperNoun which are referred to in this occurance.
+        /// E.g. "[18] Pinkos"
+        /// </summary>
+        public virtual Quantifier Quantifier {
+            get;
+            set;
         }
     }
 }
