@@ -14,7 +14,7 @@ namespace LASI.Algorithm
     /// For Adjectives - 
     /// The adverb will usually lexically precede the adjective it modifies: E.g. John's wardrobe is MORE colorful than Jane's.
     /// </summary>
-    public class ComparativeAdverb : Adverb, IAdverbial
+    public class ComparativeAdverb : Adverb
     {
         /// <summary>
         /// Initializes a new instance of the ComparativeAdverb class.

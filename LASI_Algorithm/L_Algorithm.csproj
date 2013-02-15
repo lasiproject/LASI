@@ -84,6 +84,8 @@
     <Compile Include="StateMachines\StateKind.cs" />
     <Compile Include="StateMachines\StateMachineConcept.cs" />
     <Compile Include="StateMachines\WordBindingState.cs" />
+    <Compile Include="WordTypes\NounConstructs\GenericNoun.cs" />
+    <Compile Include="WordTypes\NounConstructs\ProperNoun.cs" />
     <Compile Include="WordTypes\VerbConstructs\PastParticipleVerb.cs" />
     <Compile Include="WordTypes\VerbConstructs\PastTenseVerb.cs" />
     <Compile Include="PhraseTypes\ConjunctionPhrase.cs" />
@@ -174,6 +176,7 @@
     <None Include="ClassDiagrams\VerbConstructs.cd" />
     <None Include="GrammaticalInterfaces\GrammaticalInterfaces.cd" />
     <None Include="PhraseTypes\PhraseConstructs.cd" />
+    <None Include="WordTypes\WordLevelTypes_ClassDiagram.cd" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagrams\ClassDiagram1.cd" />
