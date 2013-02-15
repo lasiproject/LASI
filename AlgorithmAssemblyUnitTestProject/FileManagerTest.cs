@@ -49,16 +49,16 @@ namespace AlgorithmAssemblyUnitTestProject
             foreach (var fileInfo in new DirectoryInfo(@"..\..\..\AlgorithmAssemblyUnitTestProject\MockUserFiles").EnumerateFiles()) {
                 switch (fileInfo.Extension) {
                     case ".doc":
-                        File.Copy(fileInfo.FullName, @"C:\Users\Aluan\Desktop\LASI\LASI_v1\NewProject\input\doc\" + fileInfo.FullName.Substring(fileInfo.FullName.LastIndexOf('\\') + 1));
+                        File.Copy(fileInfo.FullName, @"..\..\..\NewProject\input\doc\" + fileInfo.FullName.Substring(fileInfo.FullName.LastIndexOf('\\') + 1));
                         break;
                     case ".docx":
-                        File.Copy(fileInfo.FullName, @"C:\Users\Aluan\Desktop\LASI\LASI_v1\NewProject\input\docx\" + fileInfo.FullName.Substring(fileInfo.FullName.LastIndexOf('\\') + 1));
+                        File.Copy(fileInfo.FullName, @"..\..\..\NewProject\input\docx\" + fileInfo.FullName.Substring(fileInfo.FullName.LastIndexOf('\\') + 1));
                         break;
                     case ".txt":
-                        File.Copy(fileInfo.FullName, @"C:\Users\Aluan\Desktop\LASI\LASI_v1\NewProject\input\text\" + fileInfo.FullName.Substring(fileInfo.FullName.LastIndexOf('\\') + 1));
+                        File.Copy(fileInfo.FullName, @"..\..\..\NewProject\input\text\" + fileInfo.FullName.Substring(fileInfo.FullName.LastIndexOf('\\') + 1));
                         break;
                     case ".tagged":
-                        File.Copy(fileInfo.FullName, @"C:\Users\Aluan\Desktop\LASI\LASI_v1\NewProject\input\tagged\" + fileInfo.FullName.Substring(fileInfo.FullName.LastIndexOf('\\') + 1));
+                        File.Copy(fileInfo.FullName, @"..\..\..\NewProject\input\tagged\" + fileInfo.FullName.Substring(fileInfo.FullName.LastIndexOf('\\') + 1));
                         break;
                     default:
                         break;
