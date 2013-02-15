@@ -61,7 +61,7 @@
     <Compile Include="FrequencyHeuristics\SingleDocumentHeuristic.cs" />
     <Compile Include="FrequencyHeuristics\SubjectDrivenHeuristic.cs" />
     <Compile Include="FrequencyHeuristics\PronounAwareSubjectHeuristic.cs" />
-    <Compile Include="Sentence.cs" />
+    <Compile Include="DocumentConstructs\Sentence.cs" />
     <Compile Include="PhraseTypes\UndeterminedPhrase.cs" />
     <Compile Include="GrammaticalInterfaces\IAdverbial.cs" />
     <Compile Include="GrammaticalInterfaces\IConflatable.cs" />
@@ -175,6 +175,7 @@
     <None Include="ClassDiagrams\NounConstructs.cd" />
     <None Include="ClassDiagrams\PronounConstructs.cd" />
     <None Include="ClassDiagrams\VerbConstructs.cd" />
+    <None Include="DocumentConstructs\DocumentComposition.cd" />
     <None Include="GrammaticalInterfaces\GrammaticalInterfaces.cd" />
     <None Include="PhraseTypes\PhraseConstructs.cd" />
     <None Include="WordTypes\WordLevelTypes_ClassDiagram.cd" />

@@ -1,7 +1,7 @@
 ﻿
 namespace LASI.Algorithm
 {
-    public interface IPrepositionLinkable : LASI.Algorithm.ILexical
+    public interface IPrepositionLinkable : ILexical
     {
         IPrepositional LeftLinkedPrepositional {
             get;

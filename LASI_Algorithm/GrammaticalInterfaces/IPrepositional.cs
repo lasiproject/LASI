@@ -1,7 +1,7 @@
 ﻿
 namespace LASI.Algorithm
 {
-    public interface IPrepositional : LASI.Algorithm.ILexical
+    public interface IPrepositional : ILexical
     {
         void LinkToLeft(IPrepositionLinkable toLink);
         void LinkToRight(IPrepositionLinkable toLink);
