@@ -93,14 +93,13 @@ namespace AlgorithmAssemblyUnitTestProject
         [TestMethod()]
         public void TextTest()
         {
-            char puncChar = '\0'; // TODO: Initialize to an appropriate value
-            Punctuator target = new Punctuator(puncChar); // TODO: Initialize to an appropriate value
-            string expected = string.Empty; // TODO: Initialize to an appropriate value
+            char puncChar = '\u0021';
+            Punctuator target = new Punctuator(puncChar);
+            string expected = "!"; 
             string actual;
             target.Text = expected;
             actual = target.Text;
             Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
         }
     }
 }
