@@ -81,9 +81,10 @@ namespace AlgorithmAssemblyUnitTestProject
         [TestMethod()]
         public void PunctuatorConstructorTest1()
         {
-            string puncString = string.Empty; // TODO: Initialize to an appropriate value
+
+            string puncString = "!";
             Punctuator target = new Punctuator(puncString);
-            Assert.Inconclusive("TODO: Implement code to verify target");
+            Assert.IsTrue(target.AliasString == puncString, "Punctuator String Constructor Works!");
         }
 
         /// <summary>
