@@ -4,8 +4,8 @@ using System;
 
 namespace AlgorithmAssemblyUnitTestProject
 {
-    
-    
+
+
     /// <summary>
     ///This is a test class for GenericPluralNounTest and is intended
     ///to contain all GenericPluralNounTest Unit Tests
@@ -76,14 +76,13 @@ namespace AlgorithmAssemblyUnitTestProject
         ///</summary>
         [TestMethod()]
         public void QuantifierTest() {
-            string text = string.Empty; // TODO: Initialize to an appropriate value
-            GenericPluralNoun target = new GenericPluralNoun(text); // TODO: Initialize to an appropriate value
-            Quantifier expected = null; // TODO: Initialize to an appropriate value
+            string text = "clowns";
+            GenericPluralNoun target = new GenericPluralNoun(text);
+            Quantifier expected = new Quantifier("22");
             Quantifier actual;
             target.Quantifier = expected;
             actual = target.Quantifier;
             Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
         }
     }
 }

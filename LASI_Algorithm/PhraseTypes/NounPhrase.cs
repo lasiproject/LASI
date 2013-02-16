@@ -21,6 +21,7 @@ namespace LASI.Algorithm
         /// <param name="pro">The referencer which refers to the NounPhrase Instance.</param>
         public virtual void BindPronoun(IEntityReferencer pro) {
             _indirectReferences.Add(pro);
+            pro.BoundEntity = this;
         }
 
 
@@ -97,6 +98,7 @@ namespace LASI.Algorithm
         public void AddPossession(IEntity possession) {
             if (!_possessed.Contains(possession)) {
                 _possessed.Add(possession);
+                possession.Possesser = this;
             }
         }
         private IList<IDescriber> _describedBy = new List<IDescriber>();
@@ -128,7 +130,7 @@ namespace LASI.Algorithm
         }
 
 
-       
+
     }
 }
 

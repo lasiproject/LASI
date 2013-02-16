@@ -72,18 +72,6 @@ namespace AlgorithmAssemblyUnitTestProject
             VerbPhrase target = new VerbPhrase(composedWords);
             Assert.IsTrue(composedWords == target.Words);
         }
-
-        ///// <summary>
-        /////A test for DetermineHeadWord
-        /////</summary>
-        //[TestMethod()]
-        //public void DetermineHeadWordTest() {
-        //    IEnumerable<Word> composedWords = null; // TODO: Initialize to an appropriate value
-        //    VerbPhrase target = new VerbPhrase(composedWords); // TODO: Initialize to an appropriate value
-        //    target.DetermineHeadWord();
-        //    Assert.Inconclusive("A method that does not return a value cannot be verified.");
-        //}
-
         /// <summary>
         ///A test for ModifyWith
         ///</summary>
@@ -101,14 +89,13 @@ namespace AlgorithmAssemblyUnitTestProject
         ///</summary>
         [TestMethod()]
         public void BoundSubjectTest() {
-            IEnumerable<Word> composedWords = null; // TODO: Initialize to an appropriate value
-            VerbPhrase target = new VerbPhrase(composedWords); // TODO: Initialize to an appropriate value
-            IEntity expected = null; // TODO: Initialize to an appropriate value
+            IEnumerable<Word> composedWords = new Word[] { new PastTenseVerb("ran"), new Adverb("swiftly"), new Preposition("through") };
+            VerbPhrase target = new VerbPhrase(composedWords);
+            IEntity expected = new SingularPronoun("he");
             IEntity actual;
             target.BoundSubject = expected;
             actual = target.BoundSubject;
             Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
         }
 
         /// <summary>
@@ -116,14 +103,13 @@ namespace AlgorithmAssemblyUnitTestProject
         ///</summary>
         [TestMethod()]
         public void ModalityTest() {
-            IEnumerable<Word> composedWords = null; // TODO: Initialize to an appropriate value
-            VerbPhrase target = new VerbPhrase(composedWords); // TODO: Initialize to an appropriate value
-            Modal expected = null; // TODO: Initialize to an appropriate value
+            IEnumerable<Word> composedWords = new Word[] { new PresentTenseVerb("run"), new Adverb("swiftly"), new Preposition("through") };
+            VerbPhrase target = new VerbPhrase(composedWords);
+            Modal expected = new Modal("cannot");
             Modal actual;
             target.Modality = expected;
             actual = target.Modality;
             Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
         }
 
 

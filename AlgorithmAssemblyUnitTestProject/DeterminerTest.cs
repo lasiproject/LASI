@@ -4,8 +4,8 @@ using System;
 
 namespace AlgorithmAssemblyUnitTestProject
 {
-    
-    
+
+
     /// <summary>
     ///This is a test class for DeterminerTest and is intended
     ///to contain all DeterminerTest Unit Tests
@@ -21,14 +21,11 @@ namespace AlgorithmAssemblyUnitTestProject
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
         ///</summary>
-        public TestContext TestContext
-        {
-            get
-            {
+        public TestContext TestContext {
+            get {
                 return testContextInstance;
             }
-            set
-            {
+            set {
                 testContextInstance = value;
             }
         }
@@ -68,27 +65,25 @@ namespace AlgorithmAssemblyUnitTestProject
         ///A test for Determiner Constructor
         ///</summary>
         [TestMethod()]
-        public void DeterminerConstructorTest()
-        {
-            string text = string.Empty; // TODO: Initialize to an appropriate value
+        public void DeterminerConstructorTest() {
+            string text = "the";
             Determiner target = new Determiner(text);
-            Assert.Inconclusive("TODO: Implement code to verify target");
+            Assert.IsTrue(target.Text == text &&
+                target.Determines == null);
         }
 
         /// <summary>
         ///A test for Determines
         ///</summary>
         [TestMethod()]
-        public void DeterminesTest()
-        {
-            string text = string.Empty; // TODO: Initialize to an appropriate value
-            Determiner target = new Determiner(text); // TODO: Initialize to an appropriate value
-            IEntity expected = null; // TODO: Initialize to an appropriate value
+        public void DeterminesTest() {
+            string text = "the";
+            Determiner target = new Determiner(text);
+            IEntity expected = new GenericSingularNoun("organization");
             IEntity actual;
             target.Determines = expected;
             actual = target.Determines;
             Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
         }
     }
 }

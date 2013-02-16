@@ -93,11 +93,11 @@ namespace AlgorithmAssemblyUnitTestProject
         ///</summary>
         [TestMethod()]
         public void BindPronounTest() {
-            IEnumerable<Word> composedWords = null; // TODO: Initialize to an appropriate value
-            NounPhrase target = new NounPhrase(composedWords); // TODO: Initialize to an appropriate value
-            IEntityReferencer pro = null; // TODO: Initialize to an appropriate value
+            IEnumerable<Word> composedWords = new Word[] { new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians") };
+            NounPhrase target = new NounPhrase(composedWords);
+            IEntityReferencer pro = new Pronoun("they");
             target.BindPronoun(pro);
-            Assert.Inconclusive("A method that does not return a value cannot be verified.");
+            Assert.IsTrue(target.IndirectReferences.Contains(pro) && pro.BoundEntity == target);
         }
 
         ///// <summary>
@@ -142,14 +142,13 @@ namespace AlgorithmAssemblyUnitTestProject
         ///</summary>
         [TestMethod()]
         public void DirectObjectOfTest() {
-            IEnumerable<Word> composedWords = null; // TODO: Initialize to an appropriate value
-            NounPhrase target = new NounPhrase(composedWords); // TODO: Initialize to an appropriate value
-            ITransitiveAction expected = null; // TODO: Initialize to an appropriate value
+            IEnumerable<Word> composedWords = new Word[] { new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians") };
+            NounPhrase target = new NounPhrase(composedWords);
+            ITransitiveAction expected = new TransitiveVerb("insult");
             ITransitiveAction actual;
             target.DirectObjectOf = expected;
             actual = target.DirectObjectOf;
             Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
         }
 
         /// <summary>
@@ -157,14 +156,13 @@ namespace AlgorithmAssemblyUnitTestProject
         ///</summary>
         [TestMethod()]
         public void IndirectObjectOfTest() {
-            IEnumerable<Word> composedWords = null; // TODO: Initialize to an appropriate value
-            NounPhrase target = new NounPhrase(composedWords); // TODO: Initialize to an appropriate value
-            ITransitiveAction expected = null; // TODO: Initialize to an appropriate value
+            IEnumerable<Word> composedWords = new Word[] { new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians") };
+            NounPhrase target = new NounPhrase(composedWords);
+            ITransitiveAction expected = new TransitiveVerbPhrase(new Word[] { new PastTenseVerb("gave"), new Adverb("willingly") });
             ITransitiveAction actual;
             target.IndirectObjectOf = expected;
             actual = target.IndirectObjectOf;
             Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
         }
 
         /// <summary>
@@ -172,11 +170,12 @@ namespace AlgorithmAssemblyUnitTestProject
         ///</summary>
         [TestMethod()]
         public void IndirectReferencesTest() {
-            IEnumerable<Word> composedWords = null; // TODO: Initialize to an appropriate value
-            NounPhrase target = new NounPhrase(composedWords); // TODO: Initialize to an appropriate value
-            IEnumerable<IEntityReferencer> actual;
-            actual = target.IndirectReferences;
-            Assert.Inconclusive("Verify the correctness of this test method.");
+            IEnumerable<Word> composedWords = new Word[] { new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians") };
+            NounPhrase target = new NounPhrase(composedWords);
+            Assert.IsTrue(target.IndirectReferences.Count() == 0);
+            Pronoun pro = new Pronoun("they");
+            target.BindPronoun(pro);
+            Assert.IsTrue(target.IndirectReferences.Contains(pro) && pro.BoundEntity == target);
         }
 
         /// <summary>
@@ -218,7 +217,7 @@ namespace AlgorithmAssemblyUnitTestProject
             NounPhrase target = new NounPhrase(composedWords); // TODO: Initialize to an appropriate value
             IEntity possession = new NounPhrase(new Word[] { new Adverb("relatively"), new Adjective("affluent"), new GenericPluralNoun("lifestyles") });
             target.AddPossession(possession);
-            Assert.IsTrue(target.Possessed.Contains(possession));
+            Assert.IsTrue(target.Possessed.Contains(possession) && possession.Possesser == target);
         }
     }
 }
