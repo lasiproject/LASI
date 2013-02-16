@@ -110,6 +110,7 @@
     <Compile Include="ModalTest.cs" />
     <Compile Include="NounPhraseTest.cs" />
     <Compile Include="ParticleTest.cs" />
+    <Compile Include="PastPrtcplVerbTest.cs" />
     <Compile Include="PastTenseVerbTest.cs" />
     <Compile Include="PronounTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
