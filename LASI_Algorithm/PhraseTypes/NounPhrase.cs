@@ -6,6 +6,10 @@ namespace LASI.Algorithm
 {
     public class NounPhrase : Phrase, IEntity
     {
+        /// <summary>
+        /// Initializes a new instance of the NounPhrase class.
+        /// </summary>
+        /// <param name="composedWords">The words which compose to form the NounPhrase.</param>
         public NounPhrase(IEnumerable<Word> composedWords)
             : base(composedWords) {
 
@@ -81,10 +85,19 @@ namespace LASI.Algorithm
         public bool Equals(IEntity other) {
             return this == other as NounPhrase;
         }
+        /// <summary>
+        /// Binds an IDescriber, generally an Adjective or AdjectivePhrase, as a descriptor of the NounPhrase.
+        /// </summary>
+        /// <param name="adjective">The IDescriber instance which will be added to the NounPhrase's descriptors.</param>
+        public void BindDescriber(IDescriber adjective) {
+            if (!_describedBy.Contains(adjective))
+                _describedBy.Add(adjective);
+        }
 
-        public void BindDescriber(IDescriber adj) {
-            if (!_describedBy.Contains(adj))
-                _describedBy.Add(adj);
+        public void AddPossession(IEntity possession) {
+            if (!_possessed.Contains(possession)) {
+                _possessed.Add(possession);
+            }
         }
         private IList<IDescriber> _describedBy = new List<IDescriber>();
         private IList<IEntity> _possessed = new List<IEntity>();
@@ -115,11 +128,7 @@ namespace LASI.Algorithm
         }
 
 
-        public void AddPossession(IEntity possession) {
-            if (!_possessed.Contains(possession)) {
-                _possessed.Add(possession);
-            }
-        }
+       
     }
 }
 
