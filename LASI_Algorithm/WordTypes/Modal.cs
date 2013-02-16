@@ -7,6 +7,7 @@ namespace LASI.Algorithm
 {
     /// <summary>
     /// Represents a Modality modifier which modifies a modality-modifiable construct such as a Verb or VerbPhrase.
+    /// Examples of Modal words are "can", and "might"
     /// </summary>
     public class Modal : Word
     {

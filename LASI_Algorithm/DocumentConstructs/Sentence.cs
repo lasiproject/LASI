@@ -14,13 +14,13 @@ namespace LASI.Algorithm
         }
         public Sentence(IEnumerable<Phrase> phrases, SentenceDelimiter begin = null, SentenceDelimiter EOSText = null) {
             Clauses = new[] { new Clause(from P in phrases select P) };
-            EndingPunct = EOSText == null ?
+            EndingPunctuation = EOSText == null ?
             new SentenceDelimiter('.') :
             EOSText;
         }
         public Sentence(IEnumerable<Word> words, SentenceDelimiter begin = null, SentenceDelimiter EOSText = null) {
             Clauses = new[] { new Clause(from W in words select W) };
-            EndingPunct = EOSText == null ?
+            EndingPunctuation = EOSText == null ?
             new SentenceDelimiter('.') :
             EOSText;
         }
@@ -28,15 +28,23 @@ namespace LASI.Algorithm
             Clauses = clauses;
             //EndingPunct = clauses.Last().Phrases.Last().Words.Last(w => w is SentenceDelimiter) as SentenceDelimiter;
         }
-        public SentenceDelimiter EndingPunct {
+        /// <summary>
+        /// Gets the ending punctuation character of the sentence.
+        /// </summary>
+        public SentenceDelimiter EndingPunctuation {
             get;
             protected set;
         }
-
+        /// <summary>
+        /// Gets the sequence of Clauses which comprise the sentence.
+        /// </summary>
         public IEnumerable<Clause> Clauses {
             get;
             protected set;
         }
+        /// <summary>
+        /// Gets the sequence of Phrases which comprise the sentence.
+        /// </summary>
         public IEnumerable<Phrase> Phrases {
             get {
                 return from C in Clauses
@@ -44,6 +52,9 @@ namespace LASI.Algorithm
                        select P;
             }
         }
+        /// <summary>
+        /// Gets the sequence of Words which comprise the sentence.
+        /// </summary>
         public IEnumerable<Word> Words {
             get {
                 return from P in Phrases
@@ -51,9 +62,12 @@ namespace LASI.Algorithm
                        select W;
             }
         }
+        /// <summary>
+        /// Gets the concatenated text content of all of the Words which compose the Sentence.
+        /// </summary>
         public string Text {
             get {
-                return Phrases.Aggregate(" ", (txt, clause) => txt + clause.Text);
+                return Phrases.Aggregate(" ", (txt, P) => txt + P.Text);
             }
         }
 
@@ -65,15 +79,21 @@ namespace LASI.Algorithm
                 C.EstablishParenthood(this);
         }
 
+        /// <summary>
+        /// Gets or sets the Paragraph to which the Sentence belongs.
+        /// </summary>
         public Paragraph ParentParagraph {
             get;
             set;
         }
-
+        /// <summary>
+        /// Gets or sets the Document to which the Sentence Belongs.
+        /// </summary>
         public Document ParentDocument {
             get;
             set;
         }
+
 
         public override string ToString()
         {
