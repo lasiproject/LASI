@@ -71,7 +71,13 @@ namespace LASI.Algorithm
                 return _possessed;
             }
         }
-
+        /// <summary>
+        /// Gets or sets the Entity which "owns" the instance of the Noun.
+        /// </summary>
+        public IEntity Possesser {
+            get;
+            set;
+        }
         public bool Equals(IEntity other) {
             return this == other as NounPhrase;
         }
@@ -85,10 +91,6 @@ namespace LASI.Algorithm
         private IList<IEntityReferencer> _indirectReferences = new List<IEntityReferencer>();
 
 
-        public IEntity Possesser {
-            get;
-            set;
-        }
 
 
 

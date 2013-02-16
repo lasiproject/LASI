@@ -53,6 +53,9 @@ namespace LASI.Algorithm
             get;
             set;
         }
+        /// <summary>
+        /// Gets the VerbTense of the Verb.
+        /// </summary>
         public VerbTense Tense {
             get;
             protected set;

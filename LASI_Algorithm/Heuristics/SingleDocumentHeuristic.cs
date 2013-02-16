@@ -10,16 +10,21 @@ namespace LASI.Algorithm.Heuristics
     public abstract class SingleDocumentHeuristic : Heuristic
     {
 
-        public SingleDocumentHeuristic(Document toAnalyse, int maxResultsPerCategory) {
+        protected SingleDocumentHeuristic(Document toAnalyse, int maxResultsPerCategory) {
             _sourceDocument = toAnalyse;
             _maxResultsPerCategory = maxResultsPerCategory;
         }
-
+        /// <summary>
+        /// Gets the document which the Heurisitc is to assess.
+        /// </summary>
         public virtual Document SourceMaterial {
             get {
                 return _sourceDocument;
             }
         }
+        /// <summary>
+        /// Gets the maximum number of results, in each category, that the Heuristic will return.
+        /// </summary>
         public override int MaxResultsPerCategory {
             get {
                 return _maxResultsPerCategory;

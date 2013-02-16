@@ -9,7 +9,12 @@ namespace LASI.Algorithm
     public abstract class Noun : Word, IEntity
     {
         #region Constructors
-        public Noun(string text)
+
+        /// <summary>
+        /// Initializes a new instance of the Noun class.
+        /// </summary>
+        /// <param name="text">The literal text content of the Noun.</param>
+        protected Noun(string text)
             : base(text) {
 
         }
@@ -17,13 +22,19 @@ namespace LASI.Algorithm
 
         #region Methods
 
-
+        /// <summary>
+        /// Binds an EntityReferency, generall a Pronoun or PronounPhrase to refer to the Noun.
+        /// </summary>
+        /// <param name="pro">The EntityReferency to bind.</param>
         public virtual void BindPronoun(IEntityReferencer pro) {
             pro.BoundEntity = this;
             _indirectReferences.Add(pro);
         }
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="adjective"></param>
         public virtual void BindDescriber(IDescriber adjective) {
             adjective.Describes = this;
             _describedBy.Add(adjective);
@@ -36,12 +47,19 @@ namespace LASI.Algorithm
 
         #region Properties
 
+
+        /// <summary>
+        /// Gets all of the IEntityReferences instances, generally Pronouns or PronounPhrases, which refer to the Noun Instance.
+        /// </summary>
         public virtual IEnumerable<IEntityReferencer> IndirectReferences {
             get {
                 return _indirectReferences;
             }
         }
 
+        /// <summary>
+        /// Gets all of the IDescriber constructs,generally Adjectives or AdjectivePhrases, which describe the Noun Instance.
+        /// </summary>
         public virtual IEnumerable<IDescriber> DescribedBy {
             get {
                 return _describedBy;
@@ -67,19 +85,21 @@ namespace LASI.Algorithm
 
 
 
+        /// <summary>
+        /// Gets all of the IPossessable constructs which the Entity "owns".
+        /// </summary>
         public virtual IEnumerable<IEntity> Possessed {
             get {
                 throw new NotImplementedException();
             }
         }
 
+        /// <summary>
+        /// Gets or sets the Entity which "owns" the instance of the Noun.
+        /// </summary>
         public IEntity Possesser {
-            get {
-                throw new NotImplementedException();
-            }
-            set {
-                throw new NotImplementedException();
-            }
+            get;
+            set;
         }
         #endregion
 

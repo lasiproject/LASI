@@ -52,7 +52,10 @@ namespace LASI.FileSystem
             get;
             set;
         }
-
+        /// <summary>
+        /// Converts the .docx document into a zip archive, deleting any preexisting conversion to zip.
+        /// </summary>
+        /// <returns>An object referring to the newly created zipfile.</returns>
         protected virtual ZipArchive DocxToZip() {
             string zipName = DestinationInfo.Directory + DestinationInfo.FileNameSansExt + ".zip";
             File.Copy(Original.FullPath, zipName, true);
@@ -107,14 +110,25 @@ namespace LASI.FileSystem
             return Converted;
 
         }
+        /// <summary>
+        /// Gets or sets the XmlFile which contains the significant text of the .docx document.
+        /// </summary>
         protected virtual InputFile XmlFile {
             get;
             set;
         }
+        /// <summary>
+        /// Gets or sets the ziparchive which is created during the conversion process.
+        /// </summary>
         protected virtual ZipArchive ZipArch {
             get;
             set;
         }
+        /// <summary>
+        /// Extracts the xml file containing the significant text of the of the docx file from its corresponding zip file.
+        /// </summary>
+        /// <param name="arch">The object which represents the zip file from which to extract.</param>
+        /// <returns>A instance of GenericXMLFile which wraps the extracted .xml.</returns>
         protected virtual GenericXMLFile GetRelevantXMLFile(ZipArchive arch) {
             var extractedFile = arch.GetEntry(@"word/document.xml");
             var absolutePath = Original.PathSansExt + @"/" + extractedFile.FullName;
