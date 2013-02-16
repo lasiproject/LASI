@@ -10,23 +10,29 @@ using LASI.Utilities;
 using SharpNLPTaggingModule;
 using System.IO;
 using LASI.Algorithm.IEnumerableExtensions;
-
+using LASI.Algorithm.Heuristics;
 
 namespace Aluan_Experimentation
 {
     class Program
     {
         static void Main(string[] args) {
-            TestTagParser(@"C:\Users\Aluan\Desktop\411writtensummary2.txt");
+
+            var conv = new DocxToTextConverter(new DocXFile(@"C:\Users\Aluan\Desktop\411writtensummary.docx")).ConvertFile();
+            var doc = TestTagParser(conv.FullPath);
+            var pronounDrivenResults = new PronounAwareEntityHeuristic(doc, 10).Analyse();
+            foreach (var TR in pronounDrivenResults.MostSignificantEntities)
+                Console.WriteLine("Phrase: {0}, Count: {1}", TR.Entity.Text, TR.Count);
 
 
+            //PerformPhraseTypeAndTextCounts(document);
             StdIoUtil.WaitForKey(ConsoleKey.Escape);
         }
 
 
 
 
-        private static void TestTagParser(string filePath) {
+        private static Document TestTagParser(string filePath) {
             var tagger = new SharpNLPTagger(TaggingOption.TagAndAggregate, filePath);
             var tagged = tagger.ProcessFile();
             var paragraphs = new TaggedFileParser(tagged).GetParagraphs();
@@ -37,15 +43,16 @@ namespace Aluan_Experimentation
                             from sent in p.Sentences
                             from r in sent.Phrases
                             select r;
-            PerformPhraseTypeAndTextCounts(document);
-
+            //
+            return document;
 
 
         }
 
         private static void PerformPhraseTypeAndTextCounts(Document document) {
             var phrasePOSCounts = from R in document.Phrases
-                                  group R by new {
+                                  group R by new
+                                  {
                                       Type = R.GetType(),
                                       R.Text
                                   } into G

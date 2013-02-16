@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LASI.Algorithm.IEnumerableExtensions;
 
-namespace LASI.Algorithm.FrequencyHeuristics
+namespace LASI.Algorithm.Heuristics
 {
     public class SubjectDrivenHeuristic : SingleDocumentHeuristic
     {
@@ -15,22 +15,32 @@ namespace LASI.Algorithm.FrequencyHeuristics
 
         public override Metric Analyse() {
             var subjects = from Entity in SourceMaterial.Phrases.GetNounPhrases()
-                           let nounPhrase = Entity as NounPhrase
-                           where nounPhrase != null && nounPhrase.SubjectOf != null
+                           where Entity.SubjectOf != null
 
                            let SV = new
                            {
-                               nounPhrase,
-                               nounPhrase.SubjectOf
+                               Entity,
+                               Entity.SubjectOf
                            }
-                           group SV by SV.nounPhrase.Text into SVG
+                           group SV by SV.Entity.Text into SVG
                            orderby SVG.Count()
-                           select SVG.First();
+                           select new
+                           {
+                               SV = SVG.First(),
+                               CNT = SVG.Count()
+                           };
             return new Metric {
                 MostSignificantEntities = from S in subjects.Take(MaxResultsPerCategory)
-                                          select S.nounPhrase,
+                                          select new CountedEntityResult {
+                                              Count = S.CNT, Entity = S.SV.Entity
+                                          },
                 MostSignificantActions = from A in subjects
-                                         select A.SubjectOf
+                                         group A by A.SV.SubjectOf.Text into actionGroup
+                                         from a in actionGroup
+                                         select new CountedActionResult {
+                                             Action = a.SV.SubjectOf, Count = actionGroup.Count()
+                                         }
+
             };
         }
 

@@ -56,11 +56,11 @@
     <Compile Include="DocumentConstructs\Paragraph.cs" />
     <Compile Include="IEnumerableExtensions\IEnumerableOfPhraseExtensions.cs" />
     <Compile Include="IEnumerableExtensions\IEnumerableOfVerbPhraseExtensions.cs" />
-    <Compile Include="FrequencyHeuristics\AnalysisMetric.cs" />
-    <Compile Include="FrequencyHeuristics\Heurisitic.cs" />
-    <Compile Include="FrequencyHeuristics\SingleDocumentHeuristic.cs" />
-    <Compile Include="FrequencyHeuristics\SubjectDrivenHeuristic.cs" />
-    <Compile Include="FrequencyHeuristics\PronounAwareSubjectHeuristic.cs" />
+    <Compile Include="Heuristics\AnalysisMetric.cs" />
+    <Compile Include="Heuristics\Heurisitic.cs" />
+    <Compile Include="Heuristics\SingleDocumentHeuristic.cs" />
+    <Compile Include="Heuristics\SubjectDrivenHeuristic.cs" />
+    <Compile Include="Heuristics\PronounAwareSubjectHeuristic.cs" />
     <Compile Include="DocumentConstructs\Sentence.cs" />
     <Compile Include="PhraseTypes\UndeterminedPhrase.cs" />
     <Compile Include="GrammaticalInterfaces\IAdverbial.cs" />

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LASI.Algorithm.IEnumerableExtensions;
 
-namespace LASI.Algorithm.FrequencyHeuristics
+namespace LASI.Algorithm.Heuristics
 {
     public class PronounAwareEntityHeuristic : SingleDocumentHeuristic
     {
@@ -14,36 +14,40 @@ namespace LASI.Algorithm.FrequencyHeuristics
         }
 
         public override Metric Analyse() {
-            var subjects = from Entity in SourceMaterial.Phrases.GetNounPhrases()
-                           let nounPhrase = Entity as NounPhrase
-                           where nounPhrase != null
+            var subjects = from Entity in SourceMaterial.Phrases.GetNounPhrases().AsParallel()
+
+
                            let SB = new
                            {
-                               nounPhrase,
-                               refs = nounPhrase.IndirectReferences
+                               Entity,
+                               refs = Entity.IndirectReferences
                            }
-                           group SB by SB.nounPhrase.Text into lexGroups
+                           group SB by SB.Entity.Text into lexGroups
                            from LG in lexGroups
                            select new
                            {
-                               LG.nounPhrase,
+                               LG.Entity,
                                Freq = (from PRN in LG.refs
                                        select PRN).Count()
                            } into FreqGroups
                            orderby FreqGroups.Freq
                            select FreqGroups;
-            var entityResults = from E in subjects.Take(MaxResultsPerCategory)
-                                select E.nounPhrase;
+            var entityResults = from E in subjects.Take(MaxResultsPerCategory).AsParallel()
+                                select new CountedEntityResult {
+                                    Count = E.Freq, Entity = E.Entity
+                                };
             return new Metric {
                 MostSignificantEntities = entityResults,
                 MostSignificantActions = from E in entityResults
-                                         let Instances = E.IndirectReferences.Concat(new[] { E as IEntity })
+                                         let Instances = E.Entity.IndirectReferences.Concat(new[] { E.Entity as IEntity })
                                          from IE in Instances
                                          from e in Instances
 
                                          select new[] { IE.SubjectOf, IE.IndirectObjectOf, IE.DirectObjectOf } into boundActionsGroup
                                          from A in boundActionsGroup
-                                         select A
+                                         select new CountedActionResult {
+                                             Count = boundActionsGroup.Count(), Action = A
+                                         }
             };
         }
 

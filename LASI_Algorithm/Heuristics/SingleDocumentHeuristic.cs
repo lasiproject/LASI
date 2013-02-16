@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LASI.Algorithm.IEnumerableExtensions;
 
-namespace LASI.Algorithm.FrequencyHeuristics
+namespace LASI.Algorithm.Heuristics
 {
     public abstract class SingleDocumentHeuristic : Heuristic
     {
