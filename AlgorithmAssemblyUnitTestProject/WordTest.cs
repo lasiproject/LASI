@@ -202,15 +202,15 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///A test for ParentDoc
+        ///A test for ParentDocument
         ///</summary>
         [TestMethod()]
         public void ParentDocTest() {
             Word target = CreateWord(); // TODO: Initialize to an appropriate value
             Document expected = new Document(new Word[] { target });// TODO: Initialize to an appropriate value
             Document actual;
-            target.ParentDoc = expected;
-            actual = target.ParentDoc;
+            target.ParentDocument = expected;
+            actual = target.ParentDocument;
             Assert.AreEqual(expected, actual);
         }
 

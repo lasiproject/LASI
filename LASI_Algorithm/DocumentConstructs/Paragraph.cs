@@ -24,13 +24,13 @@ namespace LASI.Algorithm
         /// <param name="sentences">The collection of sentences which comprise the paragraph.</param>
         public Paragraph(Document parentDoc, IEnumerable<Sentence> sentences) {
             Sentences = sentences;
-            ParentDoc = parentDoc;
+            ParentDocument = parentDoc;
             ID = IDNumProvider;
             ++IDNumProvider;
         }
 
         public void EstablishParent(Document parentDoc) {
-            ParentDoc = parentDoc;
+            ParentDocument = parentDoc;
             foreach (var S in Sentences)
                 S.EstablishParenthood(this);
         }
@@ -54,7 +54,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets or sets the document the paragraph belongs to.
         /// </summary>
-        public Document ParentDoc {
+        public Document ParentDocument {
             get;
             set;
         }

@@ -1,41 +1,28 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
-  <Class Name="LASI.Algorithm.Clause" Collapsed="true">
-    <Position X="0.75" Y="1.5" Width="1.5" />
+  <Class Name="LASI.Algorithm.Clause">
+    <Position X="12.75" Y="6" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="true" />
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
     <TypeIdentifier>
-      <HashCode>AAAAAAgAAAAAAAAAAAAAAAAAAAAAIAAAAAAACAAAEAA=</HashCode>
+      <HashCode>AAAAAAgAAAgAAAAAAAAAAAAAAAAAAAAAAAAACAAAEAA=</HashCode>
       <FileName>DocumentConstructs\Clause.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
-      <Property Name="ParentDoc" />
+      <Property Name="ParentDocument" />
     </ShowAsAssociation>
     <ShowAsCollectionAssociation>
       <Property Name="Phrases" />
     </ShowAsCollectionAssociation>
   </Class>
-  <Class Name="LASI.Algorithm.Document" Collapsed="true">
-    <Position X="8.25" Y="0.5" Width="1.5" />
+  <Class Name="LASI.Algorithm.Document">
+    <Position X="14.75" Y="0.5" Width="1.5" />
     <Compartments>
       <Compartment Name="Fields" Collapsed="true" />
       <Compartment Name="Methods" Collapsed="true" />
     </Compartments>
-    <AssociationLine Name="Sentences" Type="LASI.Algorithm.Sentence" ManuallyRouted="true">
-      <Path>
-        <Point X="9.125" Y="1.062" />
-        <Point X="9.125" Y="2.54" />
-        <Point X="8.583" Y="2.54" Type="JumpStart" />
-        <Point X="8.26" Y="2.54" Type="JumpEnd" />
-        <Point X="6.972" Y="2.54" Type="JumpStart" />
-        <Point X="6.805" Y="2.54" Type="JumpEnd" />
-        <Point X="6.16" Y="2.54" Type="JumpStart" />
-        <Point X="5.993" Y="2.54" Type="JumpEnd" />
-        <Point X="4.519" Y="2.54" />
-        <Point X="4.519" Y="3.117" />
-        <Point X="3.583" Y="3.117" Type="JumpStart" />
-        <Point X="3.417" Y="3.117" Type="JumpEnd" />
-        <Point X="2.25" Y="3.117" />
-      </Path>
-    </AssociationLine>
     <TypeIdentifier>
       <HashCode>AgABAAgAAAAAAAAAAAAIAAAAAAAgAAAAAAAFAAAgAAA=</HashCode>
       <FileName>DocumentConstructs\Document.cs</FileName>
@@ -47,49 +34,38 @@
       <Property Name="Phrases" />
     </ShowAsCollectionAssociation>
   </Class>
-  <Class Name="LASI.Algorithm.Paragraph" Collapsed="true">
-    <Position X="0.75" Y="3.75" Width="1.5" />
+  <Class Name="LASI.Algorithm.Paragraph">
+    <Position X="12.75" Y="2" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+      <Compartment Name="Properties" Collapsed="true" />
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
     <TypeIdentifier>
-      <HashCode>AgAAAAAAAAAAoAAEAAAAAAAAAAAAIAAAIAAACAAgAAA=</HashCode>
+      <HashCode>AgAAAAAAAAgAoAAEAAAAAAAAAAAAAAAAIAAACAAgAAA=</HashCode>
       <FileName>DocumentConstructs\Paragraph.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
-      <Property Name="ParentDoc" />
+      <Property Name="ParentDocument" />
     </ShowAsAssociation>
     <ShowAsCollectionAssociation>
       <Property Name="Sentences" />
       <Property Name="Words" />
     </ShowAsCollectionAssociation>
   </Class>
-  <Class Name="LASI.Algorithm.Sentence" Collapsed="true">
-    <Position X="0.75" Y="2.75" Width="1.5" />
+  <Class Name="LASI.Algorithm.Sentence">
+    <Position X="10" Y="4" Width="1.5" />
     <Compartments>
       <Compartment Name="Methods" Collapsed="true" />
+      <Compartment Name="Properties" Collapsed="true" />
     </Compartments>
-    <AssociationLine Name="ParentDoc" Type="LASI.Algorithm.Document" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="2.25" Y="2.825" />
-        <Point X="3.417" Y="2.825" Type="JumpStart" />
-        <Point X="3.583" Y="2.825" Type="JumpEnd" />
-        <Point X="4.435" Y="2.825" Type="JumpStart" />
-        <Point X="4.602" Y="2.825" Type="JumpEnd" />
-        <Point X="4.622" Y="2.825" />
-        <Point X="4.622" Y="3.101" />
-        <Point X="6.805" Y="3.101" Type="JumpStart" />
-        <Point X="6.972" Y="3.101" Type="JumpEnd" />
-        <Point X="8.26" Y="3.101" Type="JumpStart" />
-        <Point X="8.583" Y="3.101" Type="JumpEnd" />
-        <Point X="9.438" Y="3.101" />
-        <Point X="9.438" Y="1.062" />
-      </Path>
-    </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAAAAAgAAAAAAAAEAAAAAAAABIAAIAAAAAAACAAgEEA=</HashCode>
+      <HashCode>AAAQAAgAAAgAAAAEAAAAAAAABAAAAAAAAAAACAAgEEA=</HashCode>
       <FileName>DocumentConstructs\Sentence.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
-      <Property Name="ParentDoc" />
-      <Property Name="OwnerParagraph" />
+      <Property Name="ParentDocument" />
+      <Property Name="ParentParagraph" />
     </ShowAsAssociation>
     <ShowAsCollectionAssociation>
       <Property Name="Clauses" />
@@ -97,10 +73,11 @@
       <Property Name="Phrases" />
     </ShowAsCollectionAssociation>
   </Class>
-  <Class Name="LASI.Algorithm.Phrase" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="2.75" Y="0.5" Width="1.5" />
+  <Class Name="LASI.Algorithm.Phrase" BaseTypeListCollapsed="true">
+    <Position X="16.25" Y="6" Width="1.5" />
     <Compartments>
       <Compartment Name="Methods" Collapsed="true" />
+      <Compartment Name="Properties" Collapsed="true" />
     </Compartments>
     <TypeIdentifier>
       <HashCode>QAAAAAAAAAAAAAAEgAABAAAAAAAABAAIIQAACAAgAAA=</HashCode>
@@ -109,37 +86,26 @@
     <ShowAsCollectionAssociation>
       <Property Name="Words" />
     </ShowAsCollectionAssociation>
-    <Lollipop Position="0.2" Collapsed="true" />
+    <Lollipop Orientation="Right" Position="0.826" Collapsed="true" />
   </Class>
-  <Class Name="LASI.Algorithm.Word" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="5.75" Y="0.5" Width="1.5" />
+  <Class Name="LASI.Algorithm.Word" BaseTypeListCollapsed="true">
+    <Position X="18.5" Y="3.25" Width="1.5" />
     <Compartments>
       <Compartment Name="Fields" Collapsed="true" />
       <Compartment Name="Methods" Collapsed="true" />
+      <Compartment Name="Properties" Collapsed="true" />
     </Compartments>
-    <AssociationLine Name="ParentDoc" Type="LASI.Algorithm.Document" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="6.465" Y="1.062" />
-        <Point X="6.465" Y="1.437" />
-        <Point X="6.805" Y="1.437" Type="JumpStart" />
-        <Point X="6.972" Y="1.437" Type="JumpEnd" />
-        <Point X="8.26" Y="1.437" Type="JumpStart" />
-        <Point X="8.583" Y="1.437" Type="JumpEnd" />
-        <Point X="8.812" Y="1.437" />
-        <Point X="8.812" Y="1.062" />
-      </Path>
-    </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AABQAAAAAAAAoAAEgAABAAAAAAAAJIAAIRAACAAAAiA=</HashCode>
+      <HashCode>AABQAAAAAAgAoAAEgAABAAAAAAAABIAAIRAACAAAAiA=</HashCode>
       <FileName>WordTypes\Word.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
       <Property Name="NextWord" />
       <Property Name="PreviousWord" />
-      <Property Name="ParentDoc" />
+      <Property Name="ParentDocument" />
       <Property Name="ParentPhrase" />
     </ShowAsAssociation>
-    <Lollipop Position="0.2" Collapsed="true" />
+    <Lollipop Orientation="Right" Position="1.23" Collapsed="true" />
   </Class>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>

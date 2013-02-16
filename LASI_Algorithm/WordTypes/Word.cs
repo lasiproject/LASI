@@ -20,8 +20,8 @@ namespace LASI.Algorithm
             this.Text = text;
             ID = IDNumProvider;
             ++IDNumProvider;
-            // PreviousWord = ParentDoc.DocBuilder.LastBuilt;
-            //ParentDoc.DocBuilder.Update(this);
+            // PreviousWord = ParentDocument.DocBuilder.LastBuilt;
+            //ParentDocument.DocBuilder.Update(this);
         }
         #endregion
 
@@ -73,7 +73,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets the document instance to which the word belongs.
         /// </summary>
-        public Document ParentDoc {
+        public Document ParentDocument {
             get;
             set;
         }

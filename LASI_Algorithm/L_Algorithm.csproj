@@ -177,6 +177,7 @@
     <None Include="ClassDiagrams\VerbConstructs.cd" />
     <None Include="DocumentConstructs\DocumentComposition.cd" />
     <None Include="GrammaticalInterfaces\GrammaticalInterfaces.cd" />
+    <None Include="IEnumerableExtensions\IEnumerableExtensions.cd" />
     <None Include="PhraseTypes\PhraseConstructs.cd" />
     <None Include="WordTypes\WordLevelTypes_ClassDiagram.cd" />
   </ItemGroup>

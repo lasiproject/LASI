@@ -28,12 +28,12 @@ namespace LASI.Algorithm
             }
         }
         internal void EstablishParenthood(Sentence sentence) {
-            ParentDoc = sentence.ParentDoc;
+            ParentDocument = sentence.ParentDocument;
             foreach (var P in Phrases)
                 P.EstablishParent(this);
         }
 
-        public Document ParentDoc {
+        public Document ParentDocument {
             get;
             set;
         }

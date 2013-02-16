@@ -19,7 +19,7 @@ namespace LASI.Algorithm
 
             EstablishLexicalLinks();
             foreach (var w in allWords)
-                w.ParentDoc = this;
+                w.ParentDocument = this;
         }
         public Document(IEnumerable<Sentence> allSentences) {
             _sentences = allSentences;
@@ -27,7 +27,7 @@ namespace LASI.Algorithm
                      from W in S.Words
                      select W).ToList();
             foreach (var w in Words)
-                w.ParentDoc = this;
+                w.ParentDocument = this;
             foreach (var P in _paragraphs) {
                 P.EstablishParent(this);
             }
@@ -44,7 +44,7 @@ namespace LASI.Algorithm
                      from W in S.Words
                      select W).ToList();
             foreach (var w in Words)
-                w.ParentDoc = this;
+                w.ParentDocument = this;
         }
 
         #endregion
