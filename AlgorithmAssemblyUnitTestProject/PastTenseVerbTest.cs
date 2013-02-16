@@ -7,11 +7,11 @@ namespace AlgorithmAssemblyUnitTestProject
     
     
     /// <summary>
-    ///This is a test class for PunctuatorTest and is intended
-    ///to contain all PunctuatorTest Unit Tests
+    ///This is a test class for PastTenseVerbTest and is intended
+    ///to contain all PastTenseVerbTest Unit Tests
     ///</summary>
     [TestClass()]
-    public class PunctuatorTest
+    public class PastTenseVerbTest
     {
 
 
@@ -65,40 +65,16 @@ namespace AlgorithmAssemblyUnitTestProject
 
 
         /// <summary>
-        ///A test for Punctuator Constructor
+        ///A test for PastTenseVerb Constructor
         ///</summary>
         [TestMethod()]
-        public void PunctuatorConstructorTest()
+        public void PastTenseVerbConstructorTest()
         {
-            char puncChar = '\u0021';
-            Punctuator target = new Punctuator(puncChar);
-            Assert.IsTrue(target.ActualCharacter == puncChar, "Punctuator Character Constructor Works!");
-        }
-
-        /// <summary>
-        ///A test for Punctuator Constructor
-        ///</summary>
-        [TestMethod()]
-        public void PunctuatorConstructorTest1()
-        {
-            string puncString = "!";
-            Punctuator target = new Punctuator(puncString);
-            Assert.IsTrue(target.AliasString == puncString, "Punctuator String Constructor Works!"); //possibly?
-        }
-
-        /// <summary>
-        ///A test for Text
-        ///</summary>
-        [TestMethod()]
-        public void TextTest()
-        {
-            char puncChar = '\u0021';
-            Punctuator target = new Punctuator(puncChar);
-            string expected = "!"; 
-            string actual;
-            target.Text = expected;
-            actual = target.Text;
-            Assert.AreEqual(expected, actual);
+            string text = "had";
+            VerbTense past = VerbTense.Past;
+            PastTenseVerb target = new PastTenseVerb(text);
+            Assert.IsTrue(target.Text == text);
+            Assert.IsTrue(target.Tense == past); 
         }
     }
 }
