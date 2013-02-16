@@ -84,7 +84,7 @@ namespace AlgorithmAssemblyUnitTestProject
 
             string puncString = "!";
             Punctuator target = new Punctuator(puncString);
-            Assert.IsTrue(target.AliasString == puncString, "Punctuator String Constructor Works!");
+            Assert.IsTrue(target.AliasString == puncString, "Punctuator String Constructor Works!"); //possibly?
         }
 
         /// <summary>
