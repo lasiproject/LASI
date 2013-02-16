@@ -7,6 +7,9 @@ using LASI.Algorithm.IEnumerableExtensions;
 
 namespace LASI.Algorithm.Heuristics
 {
+    /// <summary>
+    /// Provides the base class for Teir 1 Heuristics which perform analysis on individual document.
+    /// </summary>
     public abstract class SingleDocumentHeuristic : Heuristic
     {
 

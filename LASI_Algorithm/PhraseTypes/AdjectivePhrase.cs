@@ -40,7 +40,9 @@ namespace LASI.Algorithm
             get;
             set;
         }
-
+        /// <summary>
+        /// Gets the Word which of the phrase. The head word determines the syntactic role of the entire phrase via its intra-phrase associations.
+        /// </summary>
         public override Word HeadWord {
             get {
                 throw new NotImplementedException();
@@ -49,7 +51,11 @@ namespace LASI.Algorithm
                 throw new NotImplementedException();
             }
         }
-
+        /// <summary>
+        /// Determines the head word of the phrase, the word which determines the syntactic role of the entire phrase via its intra-phrase associations.
+        /// One determined, the head word can be retrived via the HeadWord Property.
+        /// </summary>
+        /// <see cref="HeadWord"/>
         public override void DetermineHeadWord() {
             throw new NotImplementedException();
         }
