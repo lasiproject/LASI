@@ -197,9 +197,6 @@ namespace AlgorithmAssemblyUnitTestProject
         ///</summary>
         [TestMethod()]
         public void TagTextFilesTest() {
-            //if (Directory.Exists(@"..\..\..\NewProject\input\tagged"))
-            //    foreach (var tf in Directory.EnumerateFiles(@"..\..\..\NewProject\input\tagged"))
-            //        File.Delete(tf);
             TextFile[] files = (from F in Directory.EnumerateFiles(FileManager.TextFilesDir)
                                 select new TextFile(F)).ToArray();
             FileManager.TagTextFiles(files);
@@ -212,9 +209,6 @@ namespace AlgorithmAssemblyUnitTestProject
         ///</summary>
         [TestMethod()]
         public async Task TagTextFilesAsyncTest() {
-            //if (Directory.Exists(@"..\..\..\NewProject\input\tagged"))
-            //    foreach (var tf in Directory.EnumerateFiles(@"..\..\..\NewProject\input\tagged"))
-            //        File.Delete(tf);
             var files = (from F in Directory.EnumerateFiles(FileManager.TextFilesDir)
                          select new TextFile(F)).ToArray();
             await FileManager.TagTextFilesAsync(files);

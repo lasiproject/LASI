@@ -71,7 +71,7 @@ namespace AlgorithmAssemblyUnitTestProject
         ///</summary>
         [TestMethod()]
         public void EqualsTest() {
-            Word target = CreateWord(); // TODO: Initialize to an appropriate value
+            Word target = CreateWord();
             object obj = CreateWord();
             bool expected = false;
             bool actual;
@@ -109,8 +109,8 @@ namespace AlgorithmAssemblyUnitTestProject
         ///</summary>
         [TestMethod()]
         public void EstablishParentTest() {
-            Word target = CreateWord(); // TODO: Initialize to an appropriate value
-            Phrase phrase = new VerbPhrase(new Word[] { }); // TODO: Initialize to an appropriate value
+            Word target = CreateWord(); 
+            Phrase phrase = new VerbPhrase(new Word[] { });
             target.EstablishParent(phrase);
             Assert.IsTrue(target.ParentPhrase == phrase);
         }
@@ -120,7 +120,7 @@ namespace AlgorithmAssemblyUnitTestProject
         ///</summary>
         [TestMethod()]
         public void GetHashCodeTest() {
-            Word target = CreateWord(); // TODO: Initialize to an appropriate value
+            Word target = CreateWord(); 
             int expected = (target).GetHashCode();
             int actual;
             actual = target.GetHashCode();
@@ -151,8 +151,12 @@ namespace AlgorithmAssemblyUnitTestProject
             bool actual;
             actual = A == B && B == A;
             Assert.AreEqual(expected, actual);
-            A = CreateWord();
-            B = CreateWord();
+            A = new GenericSingularNoun("dog");
+            B = new Verb("dog");
+            expected = false;
+            actual = A == B && B == A;
+            Assert.AreEqual(expected, actual);
+            B = new GenericSingularNoun("dog");
             expected = true;
             actual = A == B && B == A;
             Assert.AreEqual(expected, actual);
@@ -193,8 +197,8 @@ namespace AlgorithmAssemblyUnitTestProject
         ///</summary>
         [TestMethod()]
         public void NextWordTest() {
-            Word target = CreateWord(); // TODO: Initialize to an appropriate value
-            Word expected = new ToLinker("to"); // TODO: Initialize to an appropriate value
+            Word target = CreateWord(); 
+            Word expected = new ToLinker("to"); 
             Word actual;
             target.NextWord = expected;
             actual = target.NextWord;
@@ -206,8 +210,8 @@ namespace AlgorithmAssemblyUnitTestProject
         ///</summary>
         [TestMethod()]
         public void ParentDocTest() {
-            Word target = CreateWord(); // TODO: Initialize to an appropriate value
-            Document expected = new Document(new Word[] { target });// TODO: Initialize to an appropriate value
+            Word target = CreateWord(); 
+            Document expected = new Document(new Word[] { target });
             Document actual;
             target.ParentDocument = expected;
             actual = target.ParentDocument;
@@ -219,7 +223,7 @@ namespace AlgorithmAssemblyUnitTestProject
         ///</summary>
         [TestMethod()]
         public void ParentPhraseTest() {
-            Word target = CreateWord(); // TODO: Initialize to an appropriate value
+            Word target = CreateWord();
             Phrase expected = new VerbPhrase(new Word[] { });
             Phrase actual;
             target.ParentPhrase = expected;
@@ -233,7 +237,7 @@ namespace AlgorithmAssemblyUnitTestProject
         ///</summary>
         [TestMethod()]
         public void PreviousWordTest() {
-            Word target = CreateWord(); // TODO: Initialize to an appropriate value
+            Word target = CreateWord(); 
             Word expected = new Determiner("the");
             Word actual;
             target.PreviousWord = expected;

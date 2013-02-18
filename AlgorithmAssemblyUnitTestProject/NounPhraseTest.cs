@@ -100,16 +100,6 @@ namespace AlgorithmAssemblyUnitTestProject
             Assert.IsTrue(target.IndirectReferences.Contains(pro) && pro.BoundEntity == target);
         }
 
-        ///// <summary>
-        /////A test for DetermineHeadWord
-        /////</summary>
-        //[TestMethod()]
-        //public void DetermineHeadWordTest() {
-        //    IEnumerable<Word> composedWords = null; // TODO: Initialize to an appropriate value
-        //    NounPhrase target = new NounPhrase(composedWords); // TODO: Initialize to an appropriate value
-        //    target.DetermineHeadWord();
-        //    Assert.Inconclusive("A method that does not return a value cannot be verified.");
-        //}
 
         /// <summary>
         ///A test for Equals

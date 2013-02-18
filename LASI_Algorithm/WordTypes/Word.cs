@@ -17,11 +17,10 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="text">The literal text content of the word.</param>
         protected Word(string text) {
-            this.Text = text;
+            Text = text;
             ID = IDNumProvider;
             ++IDNumProvider;
-            // PreviousWord = ParentDocument.DocBuilder.LastBuilt;
-            //ParentDocument.DocBuilder.Update(this);
+
         }
         #endregion
 
@@ -114,8 +113,6 @@ namespace LASI.Algorithm
             set;
         }
 
-
-
         #endregion
 
         #region Static Members
@@ -124,17 +121,31 @@ namespace LASI.Algorithm
 
         #region Operators
 
-        //public static bool operator ==(Word A, Word B) {
+        /// <summary>
+        /// Overlaods the equality comparison operator such that two words compare equal if and only if they have the same text content and 
+        /// are instances of the same Word subtype.
+        /// </summary>
+        /// <param name="A">The word on the left-hand-side of the operator</param>
+        /// <param name="B">The word on the right-hand-side of the operator</param>
+        /// <returns>A boolean value indicating the result of the comparison</returns>
+        public static bool operator ==(Word A, Word B) {
 
-        //    if (A as object == null || B as object == null) {
-        //        var bothNull = A as Object == null && B as Object == null;
-        //        return bothNull;
-        //    }
-        //    return A.Text == B.Text;
-        //}
-        //public static bool operator !=(Word A, Word B) {
-        //    return !(A == B);
-        //}
+            if (A as object == null || B as object == null) {
+                var bothNull = A as Object == null && B as Object == null;
+                return bothNull;
+            }
+            return A.Text == B.Text && A.GetType() == B.GetType();
+        }
+        /// <summary>
+        /// Overlaods the inequality comparison operator such that two words compare not equal unless they have the same text content and 
+        /// are instances of the same Word subtype.
+        /// </summary>
+        /// <param name="A">The word on the left-hand-side of the operator</param>
+        /// <param name="B">The word on the right-hand-side of the operator</param>
+        /// <returns>A boolean value indicating the result of the comparison</returns>
+        public static bool operator !=(Word A, Word B) {
+            return !(A == B);
+        }
 
         #endregion
 
