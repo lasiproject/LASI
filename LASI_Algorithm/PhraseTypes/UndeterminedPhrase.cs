@@ -15,6 +15,12 @@ namespace LASI.Algorithm
             : base(composedWords) {
         }
 
+
+
+        public override void DetermineHeadWord() {
+            throw new NotImplementedException();
+        }
+        #region Properties
         public override Word HeadWord {
             get {
                 throw new NotImplementedException();
@@ -23,9 +29,7 @@ namespace LASI.Algorithm
                 throw new NotImplementedException();
             }
         }
+        #endregion
 
-        public override void DetermineHeadWord() {
-            throw new NotImplementedException();
-        }
     }
 }

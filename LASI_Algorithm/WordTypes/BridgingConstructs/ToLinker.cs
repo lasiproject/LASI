@@ -5,36 +5,34 @@ using System.Text;
 
 namespace LASI.Algorithm
 {
+
     public class ToLinker : Word, IPrepositional
     {
-        public ToLinker(string text)
-            : base(text) {
+        #region Constructors
+
+        public ToLinker()
+            : base("to") {
         }
 
-        public void LinkToLeft(IPrepositionLinkable toLink) {
-            throw new NotImplementedException();
-        }
+        #endregion
 
-        public void LinkToRight(IPrepositionLinkable toLink) {
-            throw new NotImplementedException();
-        }
+        #region Properties
 
+        /// <summary>
+        /// Gets or sets the IprepositionLinkable construct on the right-hand-side of the Preposition.
+        /// </summary>
         public IPrepositionLinkable RightLinked {
-            get {
-                throw new NotImplementedException();
-            }
-            set {
-                throw new NotImplementedException();
-            }
+            get;
+            set;
+        }
+        /// <summary>
+        /// Gets or sets the IprepositionLinkable construct on the left-hand-side of the Preposition.
+        /// </summary>
+        public IPrepositionLinkable LeftLinked {
+            get;
+            set;
         }
 
-        public IPrepositionLinkable LeftLinked {
-            get {
-                throw new NotImplementedException();
-            }
-            set {
-                throw new NotImplementedException();
-            }
-        }
+        #endregion
     }
 }

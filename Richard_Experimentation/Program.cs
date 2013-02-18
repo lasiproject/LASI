@@ -41,7 +41,7 @@ namespace Richard_Experimentation
 
 
             //Keeps the console window open until the escape key is pressed
-            StdIoUtil.WaitForKey(ConsoleKey.Escape);
+            StdIO.WaitForKey(ConsoleKey.Escape);
         }
 
 

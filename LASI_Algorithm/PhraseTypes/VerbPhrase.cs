@@ -11,6 +11,8 @@ namespace LASI.Algorithm
     /// </summary>
     public class VerbPhrase : Phrase, IAction, IAdverbialModifiable, IModalityModifiable
     {
+        #region Constructors
+
         /// <summary>
         /// Initializes a new instance of the VerbPhrase class.
         /// </summary>
@@ -20,13 +22,10 @@ namespace LASI.Algorithm
             Tense = VerbTense.Base;
         }
 
-        /// <summary>
-        /// Gets or sets the subject of the VerbPhrase.
-        /// </summary>
-        public IEntity BoundSubject {
-            get;
-            set;
-        }
+        #endregion
+
+        #region Methods
+
         /// <summary>
         /// Attaches an Adverbial construct, such as an Adverb or AdverbPhrase, as a modifier of the Verb.
         /// </summary>
@@ -34,6 +33,27 @@ namespace LASI.Algorithm
         public void ModifyWith(IAdverbial adv) {
             _modifiers.Add(adv);
         }
+
+        public virtual void AttachObjectViaPreposition(IPrepositional prep) {
+            throw new NotImplementedException();
+        }
+
+
+        public override void DetermineHeadWord() {
+            throw new NotImplementedException();
+        }
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets or sets the subject of the VerbPhrase.
+        /// </summary>
+        public IEntity BoundSubject {
+            get;
+            set;
+        }
+
         /// <summary>
         /// Gets or sets the List of IAdverbial modifiers which modify the VerbPhrase.
         /// </summary>
@@ -42,6 +62,7 @@ namespace LASI.Algorithm
                 return _modifiers;
             }
         }
+
         /// <summary>
         /// Gets or sets the tense of the VerbPhrase.
         /// </summary>
@@ -49,6 +70,7 @@ namespace LASI.Algorithm
             get;
             protected set;
         }
+
         /// <summary>
         /// Gets or sets the Modal word which modifies the VerbPhrase.
         /// </summary>
@@ -57,6 +79,10 @@ namespace LASI.Algorithm
             set;
         }
 
+        public virtual ILexical ObjectViaPreposition {
+            get;
+            protected set;
+        }
         public override Word HeadWord {
             get {
                 throw new NotImplementedException();
@@ -66,12 +92,14 @@ namespace LASI.Algorithm
             }
         }
 
-        public override void DetermineHeadWord() {
-            throw new NotImplementedException();
-        }
+
+        #endregion
+
+        #region Fields
+
         protected IList<IAdverbial> _modifiers = new List<IAdverbial>();
+
+        #endregion
     }
-
-
 }
 

@@ -11,12 +11,22 @@ namespace LASI.Algorithm
     /// </summary>
     public class TransitiveVerb : Verb, ITransitiveAction
     {
+        #region Constructors
+
         /// <summary>
         /// Initializes a new instance of the TransitiveVerb class.
         /// </summary>
         /// <param name="text">The literal text content of the verb.</param>
         public TransitiveVerb(string text)
             : base(text, VerbTense.Base) {
+        }
+
+        #endregion
+
+        #region Properties
+
+        public virtual void AttachObjectViaPreposition(IPrepositional prep) {
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -35,5 +45,6 @@ namespace LASI.Algorithm
             get;
             set;
         }
+        #endregion
     }
 }

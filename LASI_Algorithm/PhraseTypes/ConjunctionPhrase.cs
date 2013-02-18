@@ -10,6 +10,8 @@ namespace LASI.Algorithm
     /// </summary>
     public class ConjunctionPhrase : Phrase, IConjunctive
     {
+        #region Constructors
+
         /// <summary>
         /// Initializes a new instance of the ConjunctionPhrase class.
         /// </summary>
@@ -17,21 +19,33 @@ namespace LASI.Algorithm
         public ConjunctionPhrase(IEnumerable<Word> composedWords)
             : base(composedWords) {
         }
-        /// <summary>
-        /// Gets or sets the clause on the left hand side of the ConjunctionPhrase.
-        /// </summary>
-        public virtual Clause OnLeft {
-            get;
-            set;
-        }
-        /// <summary>
-        /// Gets or sets the clause on the right hand side of the ConjunctionPhrase.
-        /// </summary>
-        public virtual Clause OnRight {
-            get;
-            set;
+
+        #endregion
+
+        #region Methods
+
+        public override void DetermineHeadWord() {
+            throw new NotImplementedException();
         }
 
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets or sets the Word, Phrase, or Clause on the right hand side of the ConjunctionPhrase.
+        /// </summary>
+        public ILexical OnRight {
+            get;
+            set;
+        }
+        /// <summary>
+        /// Gets or sets the Word, Phrase, or Clause on the left hand side of the ConjunctionPhrase.
+        /// </summary>
+        public ILexical OnLeft {
+            get;
+            set;
+        }
         public override Word HeadWord {
             get {
                 throw new NotImplementedException();
@@ -41,8 +55,6 @@ namespace LASI.Algorithm
             }
         }
 
-        public override void DetermineHeadWord() {
-            throw new NotImplementedException();
-        }
+        #endregion
     }
 }

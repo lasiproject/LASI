@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 namespace LASI.Algorithm
 {
-    public class Clause
+    public class Clause : ILexical
     {
         /// <summary>
         /// Initializes a new instnace of the Clause class, by composing the given linear sequence of phrases.

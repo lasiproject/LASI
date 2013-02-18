@@ -9,7 +9,6 @@ using LASI.FileSystem;
 using LASI.Utilities;
 using SharpNLPTaggingModule;
 using System.IO;
-using LASI.Algorithm.IEnumerableExtensions;
 using LASI.Algorithm.Heuristics;
 
 namespace Aluan_Experimentation
@@ -17,8 +16,9 @@ namespace Aluan_Experimentation
     class Program
     {
         static void Main(string[] args) {
-            ParseThreaded();
-            StdIoUtil.WaitForKey(ConsoleKey.Escape);
+            ThesaurusCMDLineTest();
+            //ParseThreaded();
+            StdIO.WaitForKey(ConsoleKey.Escape);
         }
 
         private static void ParseThreaded() {
@@ -31,7 +31,7 @@ namespace Aluan_Experimentation
 
         private static async Task<Document> MakeDocumentFromTaggedFile(string filePath) {
 
-            return await Task.Run(async() => await new TaggedFileParser(filePath).GetDocumentAsync());
+            return await Task.Run(async () => await new TaggedFileParser(filePath).GetDocumentAsync());
 
 
         }
@@ -55,8 +55,21 @@ namespace Aluan_Experimentation
             });
         }
 
-        void ThesaurusCMDLineTest() {
+      static  void ThesaurusCMDLineTest() {
+            var verbLookUp = new VerbThesaurus();
+            verbLookUp.Load();
+            Console.Write("Enter a Verb:    ");
+            var input = Console.ReadLine();
+            while (input != "~") {
+                
 
+                foreach (var v in verbLookUp[input]) {
+                    Console.Write(v + ", ");
+                }
+                Console.WriteLine();
+                Console.Write("Enter a Verb:    ");
+                input = Console.ReadLine();
+            }
         }
         private static string[] pathes = new[]{@"C:\Users\Aluan\Desktop\Draft_Environmental_Assessment - Copy (10).tagged",
  @"C:\Users\Aluan\Desktop\Draft_Environmental_Assessment - Copy (11).tagged",

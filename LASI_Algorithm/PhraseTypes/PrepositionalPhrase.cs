@@ -8,22 +8,16 @@ namespace LASI.Algorithm
         public PrepositionalPhrase(IEnumerable<Word> composedWords)
             : base(composedWords) {
         }
-
-
-
-        public virtual void LinkToLeft(IPrepositionLinkable toLink) {
-            throw new NotImplementedException();
-        }
-
-        public virtual void LinkToRight(IPrepositionLinkable toLink) {
-            throw new NotImplementedException();
-        }
-
+        /// <summary>
+        /// Gets or sets the IprepositionLinkable construct on the right-hand-side of the Preposition.
+        /// </summary>
         public virtual IPrepositionLinkable RightLinked {
             get;
             set;
         }
-
+        /// <summary>
+        /// Gets or sets the IprepositionLinkable construct on the left-hand-side of the Preposition.
+        /// </summary>
         public virtual IPrepositionLinkable LeftLinked {
             get;
             set;

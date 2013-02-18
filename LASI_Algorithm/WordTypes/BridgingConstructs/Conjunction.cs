@@ -11,6 +11,8 @@ namespace LASI.Algorithm
     /// </summary>
     public class Conjunction : Word, IConjunctive
     {
+        #region Constructors
+
         /// <summary>
         /// Initializes a new instance of the Conjunction class.
         /// </summary>
@@ -18,20 +20,26 @@ namespace LASI.Algorithm
         public Conjunction(string text)
             : base(text) {
         }
-        /// <summary>
-        /// Gets or sets the clause on the left hand side of conjunction.
-        /// </summary>
-        public virtual Clause OnLeft {
-            get;
-            set;
-        }
+
+        #endregion
+
+        #region Properties
+
         /// <summary>
         /// Gets or sets the clause on the right hand side of conjunction.
         /// </summary>
-        public virtual Clause OnRight {
+        public virtual ILexical OnRight {
+            get;
+            set;
+        } /// <summary>
+        /// Gets or sets the clause on the left hand side of conjunction.
+        /// </summary>
+        public virtual ILexical OnLeft {
             get;
             set;
         }
+
+        #endregion
 
     }
 }

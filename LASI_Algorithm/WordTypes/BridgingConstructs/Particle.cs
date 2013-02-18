@@ -8,34 +8,35 @@ namespace LASI.Algorithm
 {
     public class Particle : Word, IPrepositional
     {
+        #region Constructors
+
+        /// <summary>
+        /// Initializes a new instance of the Particle class.
+        /// </summary>
+        /// <param name="text">The literal text content of the particle.</param>
         public Particle(string text)
             : base(text) {
         }
 
-        public void LinkToLeft(IPrepositionLinkable toLink) {
-            throw new NotImplementedException();
-        }
+        #endregion
 
-        public void LinkToRight(IPrepositionLinkable toLink) {
-            throw new NotImplementedException();
-        }
+        #region Properties
 
+        /// <summary>
+        /// Gets or sets the IprepositionLinkable construct on the right-hand-side of the Preposition.
+        /// </summary>
         public IPrepositionLinkable RightLinked {
-            get {
-                throw new NotImplementedException();
-            }
-            set {
-                throw new NotImplementedException();
-            }
+            get;
+            set;
+        }
+        /// <summary>
+        /// Gets or sets the IprepositionLinkable construct on the left-hand-side of the Preposition.
+        /// </summary>
+        public IPrepositionLinkable LeftLinked {
+            get;
+            set;
         }
 
-        public IPrepositionLinkable LeftLinked {
-            get {
-                throw new NotImplementedException();
-            }
-            set {
-                throw new NotImplementedException();
-            }
-        }
+        #endregion
     }
 }

@@ -20,14 +20,9 @@ namespace LASI.Algorithm
             Modifiers = new List<IAdverbial>();
             Tense = tense;
         }
+        #region Methods
 
-        /// <summary>
-        /// Gets the subject of the Verb
-        /// </summary>
-        public virtual IEntity BoundSubject {
-            get;
-            set;
-        }
+
         /// <summary>
         /// Attaches an Adverbial construct, such as an Adverb or AdverbPhrase, as a modifier of the Verb.
         /// </summary>
@@ -38,6 +33,36 @@ namespace LASI.Algorithm
             _modifiers.Add(adv);
             adv.Modiffied = this;
         }
+
+        /// <summary>
+        /// Binds an 
+        /// </summary>
+        /// <param name="prep"></param>
+        public virtual void AttachObjectViaPreposition(IPrepositional prep) {
+            ObjectViaPreposition = this as object == prep.LeftLinked as object && prep.RightLinked != null ? prep.RightLinked : null;
+        }
+        public override bool Equals(object obj) {
+            return base.Equals(obj);
+        }
+
+        public override int GetHashCode() {
+            return base.GetHashCode();
+        }
+        public virtual bool Equals(Verb other) {
+            return this == other;
+        }
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets the subject of the Verb
+        /// </summary>
+        public virtual IEntity BoundSubject {
+            get;
+            set;
+        }
+
         /// <summary>
         /// Gets or sets the List of IAdverbial modifiers which modify this Verb.
         /// </summary>
@@ -60,18 +85,14 @@ namespace LASI.Algorithm
             get;
             protected set;
         }
-
-        public override bool Equals(object obj) {
-            return base.Equals(obj);
+        public virtual ILexical ObjectViaPreposition {
+            get;
+            protected set;
         }
 
-        public override int GetHashCode() {
-            return base.GetHashCode();
-        }
-        public bool Equals(Verb other) {
-            return this == other;
-        }
-        protected IList<IAdverbial> _modifiers = new List<IAdverbial>();
+
+
+        #endregion
 
 
         #region Operators
@@ -101,5 +122,12 @@ namespace LASI.Algorithm
         //}
 
         #endregion
+
+        #region Fields
+        protected IList<IAdverbial> _modifiers = new List<IAdverbial>();
+        #endregion
+
+
+
     }
 }

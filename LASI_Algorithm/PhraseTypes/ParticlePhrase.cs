@@ -12,6 +12,21 @@ namespace LASI.Algorithm
             : base(composedWords) {
         }
 
+        /// <summary>
+        /// Gets or sets the IprepositionLinkable construct on the right-hand-side of the Preposition.
+        /// </summary>
+        public IPrepositionLinkable RightLinked {
+            get;
+            set;
+        }
+        /// <summary>
+        /// Gets or sets the IprepositionLinkable construct on the left-hand-side of the Preposition.
+        /// </summary>
+        public IPrepositionLinkable LeftLinked {
+            get;
+            set;
+        }
+
         public override Word HeadWord {
             get {
                 throw new NotImplementedException();
@@ -23,32 +38,6 @@ namespace LASI.Algorithm
 
         public override void DetermineHeadWord() {
             throw new NotImplementedException();
-        }
-
-        public void LinkToLeft(IPrepositionLinkable toLink) {
-            throw new NotImplementedException();
-        }
-
-        public void LinkToRight(IPrepositionLinkable toLink) {
-            throw new NotImplementedException();
-        }
-
-        public IPrepositionLinkable RightLinked {
-            get {
-                throw new NotImplementedException();
-            }
-            set {
-                throw new NotImplementedException();
-            }
-        }
-
-        public IPrepositionLinkable LeftLinked {
-            get {
-                throw new NotImplementedException();
-            }
-            set {
-                throw new NotImplementedException();
-            }
         }
     }
 }

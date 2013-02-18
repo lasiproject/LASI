@@ -9,7 +9,6 @@ using LASI.FileSystem;
 using LASI.Utilities;
 using SharpNLPTaggingModule;
 using System.IO;
-using LASI.Algorithm.IEnumerableExtensions;
 
 namespace Scott_Experimentation
 {
@@ -31,7 +30,7 @@ namespace Scott_Experimentation
             }
 
 
-           StdIoUtil.WaitForAnyKey();
+           StdIO.WaitForAnyKey();
         }
     }
 }

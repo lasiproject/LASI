@@ -75,6 +75,7 @@
     <Compile Include="PhraseTypes\PastParticipleVerbPhrase.cs" />
     <Compile Include="PhraseTypes\PastTenseVerbPhrase.cs" />
     <Compile Include="PhraseTypes\PresentParticipleVPhrase.cs" />
+    <Compile Include="StateMachines\TentativeStateMachineBaseClass.cs" />
     <Compile Include="Thesuari\SynonymSet.cs" />
     <Compile Include="PhraseTypes\TransPresentParticipleVPhrase.cs" />
     <Compile Include="PhraseTypes\PresentTenseVerbPhrase.cs" />

@@ -17,7 +17,7 @@ namespace LASI.Algorithm
         /// Initializes a new instance of the Phrase class.
         /// </summary>
         /// <param name="composedWords">The one or more instances of the Word class of which the Phrase is composed.</param>
-        public Phrase(IEnumerable<Word> composedWords) {
+        protected Phrase(IEnumerable<Word> composedWords) {
             Words = composedWords;
         }
 
@@ -47,13 +47,28 @@ namespace LASI.Algorithm
         #endregion
 
         #region Properties
+        
+        /// <summary>
+        /// Gets or sets the Prepositional construct which is lexically to the right of the Word.
+        /// </summary>
+        public IPrepositional RightLinkedPrepositional {
+            get;
+            set;
+        }
+        /// <summary>
+        /// Gets or sets the Prepositional construct which is lexically to the left of the Phrase.
+        /// </summary>
+        public IPrepositional LeftLinkedPrepositional {
+            get;
+            set;
+        }
 
         /// <summary>
         /// Gets the concatenated text content of all of the words which compose the phrase.
         /// </summary>
         public virtual string Text {
             get {
-                return Words.Aggregate("", (str, word) => str +" "+ word.Text ).Trim();
+                return Words.Aggregate("", (str, word) => str + " " + word.Text).Trim();
             }
         }
         /// <summary>
@@ -63,14 +78,7 @@ namespace LASI.Algorithm
             get;
             protected set;
         }
-        public IPrepositional LeftLinkedPrepositional {
-            get;
-            set;
-        }
-        public IPrepositional RightLinkedPrepositional {
-            get;
-            set;
-        }
+
 
         public abstract Word HeadWord {
             get;

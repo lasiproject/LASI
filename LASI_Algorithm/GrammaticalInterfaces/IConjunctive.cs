@@ -2,15 +2,16 @@
 namespace LASI.Algorithm
 {
     /// <summary>
-    /// Defines the roles of Conjunctive constructs which link two Clauses or Phrases together.
+    /// Defines the roles of Conjunctive constructs which link two Clauses or Phrases or Words together.
     /// </summary>
     public interface IConjunctive : ILexical
     {
-        Clause OnLeft {
+
+        ILexical OnRight {
             get;
             set;
         }
-        Clause OnRight {
+        ILexical OnLeft {
             get;
             set;
         }

@@ -4,17 +4,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using System.Reflection.Emit;
 namespace LASI.Utilities
 {
+
     /// <summary>
     /// Defines static methods which facilitate common Console IO procedures
     /// </summary>
-    public static class StdIoUtil
+    public static class StdIO
     {
+
         /// <summary>
         /// Waits for the user to enter a key before continuing. Provides analogous functionality to the infamous system("pause") command in C++, but is safe and platform independent.
         /// </summary>
         public static void Wait() {
+
+
             Console.WriteLine("Press any key to continue...");
             Console.ReadLine();
         }

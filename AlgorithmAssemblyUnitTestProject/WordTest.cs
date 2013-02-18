@@ -198,7 +198,7 @@ namespace AlgorithmAssemblyUnitTestProject
         [TestMethod()]
         public void NextWordTest() {
             Word target = CreateWord(); 
-            Word expected = new ToLinker("to"); 
+            Word expected = new ToLinker(); 
             Word actual;
             target.NextWord = expected;
             actual = target.NextWord;

@@ -28,9 +28,6 @@ namespace LASI.Algorithm
             set;
         }
 
-        public virtual void BindToIndirectObject(IActionObject verbObject) {
-            throw new NotImplementedException();
-        }
 
         public virtual IEntity IndirectObject {
             get;

@@ -9,7 +9,6 @@ using LASI.FileSystem;
 using LASI.Utilities;
 using SharpNLPTaggingModule;
 using System.IO;
-using LASI.Algorithm.IEnumerableExtensions;
 namespace Brittany_Experimentation
 {
     class Program

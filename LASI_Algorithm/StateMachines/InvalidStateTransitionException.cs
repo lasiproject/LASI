@@ -5,6 +5,7 @@ using System.Text;
 
 namespace LASI.Algorithm.StateMachines
 {
+    [Serializable]
     class InvalidStateTransitionException : StateMachineException
     {
         public InvalidStateTransitionException(int stateNumber, Phrase pharse)
@@ -14,6 +15,7 @@ namespace LASI.Algorithm.StateMachines
             : base(String.Format("No transition defined from state \"{0}\" for phrase type {1}", pharse.GetType().Name)) {
         }
     }
+    [Serializable]
     public class StateMachineException : Exception
     {
         public StateMachineException(string message)

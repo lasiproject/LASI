@@ -10,7 +10,8 @@ namespace LASI.Algorithm
     /// Examples of Modal words are "can", and "might"
     /// </summary>
     public class Modal : Word
-    {
+    { 
+        #region Constructors
         /// <summary>
         /// Initializes a new instance of the Modal class
         /// </summary>
@@ -18,6 +19,11 @@ namespace LASI.Algorithm
         public Modal(string text)
             : base(text) {
         }
+
+        #endregion
+
+        #region Properties
+
         /// <summary>
         /// Gets or sets the modality-modifiable construct such as a Verb or VerbPhrase, which this Modal Modifies
         /// </summary>
@@ -25,5 +31,7 @@ namespace LASI.Algorithm
             get;
             set;
         }
+
+        #endregion
     }
 }

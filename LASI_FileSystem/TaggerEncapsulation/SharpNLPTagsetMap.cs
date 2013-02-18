@@ -73,7 +73,7 @@ namespace LASI.FileSystem
             //Additional mappings
             { "RP", t => new Particle(t) }, //Particle
             { "SYM", t => new Symbol(t) }, //Symbol
-            { "TO", t => new ToLinker(t) }, //'to'
+            { "TO", t=> new ToLinker() }, //'To'
             { "UH", t => new Interjection(t) }, //Interjection
         };
 

@@ -74,62 +74,36 @@ namespace LASI.Algorithm.StateMachines
         public State1(StateMachineConcept owner) {
             machine = owner;
         }
+
         public void ProcessNext(AdjectivePhrase adjectivePhrase) {
             throw new NotImplementedException();
         }
-        static VerbPhrase TransitionWith(VerbPhrase v) {
-            Console.WriteLine("verb mthd called");
-            return v;
-        }
-
-        static NounPhrase TransitionWith(NounPhrase n) {
-            Console.WriteLine("noun mthd called");
-            return n;
-        }
-
-        static PronounPhrase TransitionWith(PronounPhrase p) {
-            Console.WriteLine("pronoun mthd called");
-            return p;
-        }
-        static ParticlePhrase TransitionWith(ParticlePhrase p) {
-            Console.WriteLine("particle mthd called");
-            return p;
-        }
-        static AdverbPhrase TransitionWith(AdverbPhrase a) {
-            Console.WriteLine("adverb mthd called");
-            return a;
-        }
-        static AdjectivePhrase TransitionWith(AdjectivePhrase a) {
-            Console.WriteLine("adjective mthd called");
-            return a;
-        }
-        static PrepositionalPhrase TransitionWith(PrepositionalPhrase a) {
-            Console.WriteLine("prepositional mthd called");
-            return a;
-        }
-        static ConjunctionPhrase TransitionWith(ConjunctionPhrase a) {
-            Console.WriteLine("conjunction mthd called");
-            return a;
-        }
-        static RoughListPhrase TransitionWith(RoughListPhrase a) {
-            Console.WriteLine("list mthd called");
-            return a;
-        }
     }
 
-
+    /// <summary>
+    /// An input stream of Phrases. This provides forward only access to the Phrases.
+    /// </summary>
     internal class InputPhraseStream
     {
         public InputPhraseStream(IEnumerable<Phrase> phrases) {
             phraseStack = new Stack<Phrase>(phrases);
         }
-        public InputPhraseStream(Sentence phrases) {
-            phraseStack = new Stack<Phrase>(phrases.Phrases);
-        }
-        public InputPhraseStream(Clause phrases) {
-            phraseStack = new Stack<Phrase>(phrases.Phrases);
+        public InputPhraseStream(Clause clause) {
+            phraseStack = new Stack<Phrase>(clause.Phrases);
 
         }
+
+        public InputPhraseStream(Sentence sentence) {
+            phraseStack = new Stack<Phrase>(sentence.Phrases);
+        }
+
+        /// <summary>
+        /// Gets the next Phrase from the input stream dynamically such that, at runtime, the type of the returned Phrase will be its actually, most derrived, type.
+        /// </summary>
+        /// <remarks>Gets the next phrase from the input stream as a dynamically typed object. Be extremely careful with this.
+        /// In particular, do not reassign the result or attempt to access any of its Properties or Methods.
+        /// Instead, make use of the return value by feeding it directly to an overloaded function which will access it as a normal object.
+        /// </remarks>
         public dynamic Next {
             get {
                 return phraseStack.Pop();
