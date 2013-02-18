@@ -46,5 +46,40 @@ namespace LASI.Algorithm
             set;
         }
         #endregion
+
+        #region Static Methods
+        
+        /// <summary>
+        /// Promotes an instance of intransitive Verb to an instance of TransitiveVerb.
+        /// The transformation is total and irreversible, as reference is reassigned and the original Verb deleted.
+        /// </summary>
+        /// <param name="verb">A reference to a presumably intransitive Verb.</param>
+        /// <remarks>The must be explicitely Passed By Reference via the ref keyword.</remarks>
+        /// <returns>A reference to the newly constructed TransitiveVerb or, if the given Verb is already transitive, a reference to it as a TransitiveVerb.</returns>
+        public static TransitiveVerb PromoteIntransitive(ref Verb verb) {
+            //If the verb is already an instance of TransitiveVerb or one of its descendents, return it as is
+            var toTransitive = verb as TransitiveVerb;
+            if (toTransitive != null)
+                return toTransitive;
+            //Otherwise, assign verb to a new TransitiveVerb, copying over all of the common properties verbatim
+            else
+                verb = new TransitiveVerb(verb.Text) {
+                    BoundSubject = verb.BoundSubject,
+                    Modality = verb.Modality,
+                    ID = verb.ID,
+                    Modifiers = verb.Modifiers,
+                    RightLinkedPrepositional = verb.RightLinkedPrepositional,
+                    LeftLinkedPrepositional = verb.LeftLinkedPrepositional,
+                    NextWord = verb.NextWord,
+                    PreviousWord = verb.PreviousWord,
+                    ParentPhrase = verb.ParentPhrase,
+                    ParentDocument = verb.ParentDocument,
+                    Tense = verb.Tense
+                };
+            return verb as TransitiveVerb;
+        }
+
+        #endregion
+
     }
 }
