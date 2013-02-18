@@ -25,7 +25,7 @@ namespace LASI.Algorithm
 
         #region Properties
 
-        public virtual void AttachObjectViaPreposition(IPrepositional prep) {
+        public override void AttachObjectViaPreposition(IPrepositional prep) {
             throw new NotImplementedException();
         }
 
