@@ -17,103 +17,72 @@ namespace Aluan_Experimentation
     class Program
     {
         static void Main(string[] args) {
-
-            var conv = new DocxToTextConverter(new DocXFile(@"C:\Users\Aluan\Desktop\411writtensummary.docx")).ConvertFile();
-            var doc = TestTagParser(conv.FullPath);
-            var pronounDrivenResults = new PronounAwareEntityHeuristic(doc, 10).Analyse();
-            foreach (var TR in pronounDrivenResults.MostSignificantEntities)
-                Console.WriteLine("Phrase: {0}, Count: {1}", TR.Entity.Text, TR.Count);
-
-
-            //PerformPhraseTypeAndTextCounts(document);
+            ParseThreaded();
             StdIoUtil.WaitForKey(ConsoleKey.Escape);
         }
 
+        private static void ParseThreaded() {
 
+            var tasks = (from p in pathes.AsParallel()
+                         select CountByTypeAndText(MakeDocumentFromTaggedFile(p).Result));
+            foreach (var t in tasks)
+                t.Wait();
+        }
 
+        private static async Task<Document> MakeDocumentFromTaggedFile(string filePath) {
 
-        private static Document TestTagParser(string filePath) {
-            var tagger = new SharpNLPTagger(TaggingOption.TagAndAggregate, filePath);
-            var tagged = tagger.ProcessFile();
-            var paragraphs = new TaggedFileParser(tagged).GetParagraphs();
-            var document = new Document(paragraphs);
-
-
-            var myPhrases = from p in document.Paragraphs
-                            from sent in p.Sentences
-                            from r in sent.Phrases
-                            select r;
-            //
-            return document;
+            return await Task.Run(async() => await new TaggedFileParser(filePath).GetDocumentAsync());
 
 
         }
 
-        private static void PerformPhraseTypeAndTextCounts(Document document) {
-            var phrasePOSCounts = from R in document.Phrases
-                                  group R by new
-                                  {
-                                      Type = R.GetType(),
-                                      R.Text
-                                  } into G
-                                  orderby G.Count()
-                                  select G;
-            foreach (var group in phrasePOSCounts) {
-                Console.WriteLine("{0} : \"{1}\"; with count: {2}:", group.Key.Type.Name, group.Key.Text, group.Count());
-            }
+        private static async Task CountByTypeAndText(Document document) {
+            await Task.Run(() => {
+                var phrasePOSCounts = from R in document.Phrases.AsParallel()
+                                      // where !(R is IPrepositional || R is IConjunctive || R is ParticlePhrase || R is IEntityReferencer)
+                                      group R by new
+                                      {
+                                          Type = R.GetType(),
+                                          R.Text
+                                      } into G
+                                      orderby G.Count()
+                                      select G;
+                foreach (var group in phrasePOSCounts) {
+                    Console.WriteLine("{0} : \"{1}\"; with count: {2}:", group.Key.Type.Name, group.Key.Text, group.Count());
+
+
+                }
+            });
         }
 
         void ThesaurusCMDLineTest() {
 
         }
-        static Verb ToMostDerrived(Verb v) {
-            Console.WriteLine("verb mthd called");
-            return v;
-        }
+        private static string[] pathes = new[]{@"C:\Users\Aluan\Desktop\Draft_Environmental_Assessment - Copy (10).tagged",
+ @"C:\Users\Aluan\Desktop\Draft_Environmental_Assessment - Copy (11).tagged",
+ @"C:\Users\Aluan\Desktop\Draft_Environmental_Assessment - Copy (12).tagged",
+ @"C:\Users\Aluan\Desktop\Draft_Environmental_Assessment - Copy (13).tagged",
+ @"C:\Users\Aluan\Desktop\Draft_Environmental_Assessment - Copy (14).tagged",
+ @"C:\Users\Aluan\Desktop\Draft_Environmental_Assessment - Copy (15).tagged",
+ @"C:\Users\Aluan\Desktop\Draft_Environmental_Assessment - Copy (16).tagged",
+ @"C:\Users\Aluan\Desktop\Draft_Environmental_Assessment - Copy (17).tagged",
+ @"C:\Users\Aluan\Desktop\Draft_Environmental_Assessment - Copy (18).tagged",
+ @"C:\Users\Aluan\Desktop\Draft_Environmental_Assessment - Copy (19).tagged",
+ @"C:\Users\Aluan\Desktop\Draft_Environmental_Assessment - Copy (2).tagged",
+ @"C:\Users\Aluan\Desktop\Draft_Environmental_Assessment - Copy (20).tagged",
+ @"C:\Users\Aluan\Desktop\Draft_Environmental_Assessment - Copy (21).tagged",
+ @"C:\Users\Aluan\Desktop\Draft_Environmental_Assessment - Copy (22).tagged",
+ @"C:\Users\Aluan\Desktop\Draft_Environmental_Assessment - Copy (3).tagged",
+ @"C:\Users\Aluan\Desktop\Draft_Environmental_Assessment - Copy (4).tagged",
+ @"C:\Users\Aluan\Desktop\Draft_Environmental_Assessment - Copy (5).tagged",
+ @"C:\Users\Aluan\Desktop\Draft_Environmental_Assessment - Copy (6).tagged",
+ @"C:\Users\Aluan\Desktop\Draft_Environmental_Assessment - Copy (7).tagged",
+ @"C:\Users\Aluan\Desktop\Draft_Environmental_Assessment - Copy (8).tagged",
+ @"C:\Users\Aluan\Desktop\Draft_Environmental_Assessment - Copy (9).tagged",
+ @"C:\Users\Aluan\Desktop\Draft_Environmental_Assessment - Copy.tagged",
+ @"C:\Users\Aluan\Desktop\Draft_Environmental_Assessment.tagged",
 
-        static Noun ToMostDerrived(Noun n) {
-            Console.WriteLine("noun mthd called");
-            return n;
-        }
-
-        static Pronoun ToMostDerrived(Pronoun p) {
-            Console.WriteLine("pronoun mthd called");
-            return p;
-        }
+            
+          };
     }
 }
-//Func<string, string> f = s => s.ToUpper();
-//Func<string, string> g = s => s.Substring(0, 4);
-//Func<string, string> h = s => s.ToLower();
-
-//var MF = f.Compose(g, h, f);
-//foreach (var S in new[] { 
-//    "Hello there!", 
-//    "How are you?", 
-//    "Would you like some cheese with that wine?" }) {
-//    Console.WriteLine(MF(S));
-//}
-
-
-//var counts = from phrase in document.phrases
-//             group phrase by phrase.type;
-//foreach (var grp in counts) {
-//    console.writeline("category: {0}, count: {1}", grp.key, grp.count());
-//    var textgroupsintypecategory = from phrase in grp
-//                                   group phrase by phrase.text;
-//    foreach (var innergrp in textgroupsintypecategory) {
-//        console.writeline("text: {0}, count: {1}", innergrp.key, innergrp.count());
-//    }
-//}
-
-
-//var verbPhrases = myPhrases.GetVerbPhrases();
-//var verbPhrasesWithSubjectLASI = verbPhrases.WithSubject((NounPhrase N) => N.Text == "LASI");
-
-//var wordPOSCounts = from W in document.Words.AsParallel()
-//                    group W by new {
-//                        Type = W.GetType(),
-//                        W.Text,
-//                    } into G
-//                    orderby G.Count()
-//                    select G;

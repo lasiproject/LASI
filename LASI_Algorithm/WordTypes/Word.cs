@@ -98,21 +98,23 @@ namespace LASI.Algorithm
             get;
             set;
         }
+        /// <summary>
+        /// Gets or sets the Prepositional construct which is lexically to the left of the Word.
+        /// </summary>
         public IPrepositional LeftLinkedPrepositional {
             get;
             set;
         }
 
+        /// <summary>
+        /// Gets or sets the Prepositional construct which is lexically to the right of the Word.
+        /// </summary>
         public IPrepositional RightLinkedPrepositional {
             get;
             set;
         }
 
-        public Type Type {
-            get {
-                return this.GetType();
-            }
-        }
+
 
         #endregion
 
@@ -122,17 +124,17 @@ namespace LASI.Algorithm
 
         #region Operators
 
-        public static bool operator ==(Word A, Word B) {
+        //public static bool operator ==(Word A, Word B) {
 
-            if (A as object == null || B as object == null) {
-                var bothNull = A as Object == null && B as Object == null;
-                return bothNull;
-            }
-            return A.Text == B.Text;
-        }
-        public static bool operator !=(Word A, Word B) {
-            return !(A == B);
-        }
+        //    if (A as object == null || B as object == null) {
+        //        var bothNull = A as Object == null && B as Object == null;
+        //        return bothNull;
+        //    }
+        //    return A.Text == B.Text;
+        //}
+        //public static bool operator !=(Word A, Word B) {
+        //    return !(A == B);
+        //}
 
         #endregion
 

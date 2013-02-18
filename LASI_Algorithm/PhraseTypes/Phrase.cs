@@ -53,7 +53,7 @@ namespace LASI.Algorithm
         /// </summary>
         public virtual string Text {
             get {
-                return Words.Aggregate("", (str, word) => str + word.Text + " ").Trim();
+                return Words.Aggregate("", (str, word) => str +" "+ word.Text ).Trim();
             }
         }
         /// <summary>
@@ -75,12 +75,6 @@ namespace LASI.Algorithm
         public abstract Word HeadWord {
             get;
             protected set;
-        }
-
-        public Type Type {
-            get {
-                return this.GetType();
-            }
         }
 
 

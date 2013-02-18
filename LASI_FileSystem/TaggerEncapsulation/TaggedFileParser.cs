@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 
 namespace LASI.FileSystem
@@ -34,21 +35,28 @@ namespace LASI.FileSystem
         /// <summary>
         /// Returns an instance of Algorithm.Document which contains the run time representation of all of the textual construct in the document, for the Algorithm to analyse.
         /// </summary>
-        /// <returns>An traversable, queriable, immutable document object defining the run time representation of the tagged file which the TaggedFileParser governs. </returns>
+        /// <returns>A traversable, queriable document object defining the run time representation of the tagged file which the TaggedFileParser governs. </returns>
         public virtual Algorithm.Document GetDocument() {
             return new Algorithm.Document(GetParagraphs());
+        }
+        public virtual async Task<Algorithm.Document> GetDocumentAsync() {
+            return new Algorithm.Document( await GetParagraphsAsync());
+        }
+
+        public virtual async Task<IEnumerable<Algorithm.Paragraph>> GetParagraphsAsync() {
+            return await Task.Run(() => GetParagraphs());
         }
 
         /// <summary>
         /// Returns the run time representations of the sentences, phrases,and words extracted from the tagged file the TaggedFileParser governs.
         /// </summary>
         /// <returns>The run time constructs which represent the text of the document, aggregated into paragraphs.</returns>
-        public virtual IEnumerable<LASI.Algorithm.Paragraph> GetParagraphs() {
+        public virtual IEnumerable<Algorithm.Paragraph> GetParagraphs() {
 
             var results = new List<Algorithm.Paragraph>();
             using (var reader = new StreamReader(FilePath, Encoding.UTF8)) {
                 var data = reader.ReadToEnd();
-                System.Diagnostics.Debug.WriteLine("paragraph count = {0}", ParseParagraphs(data).Count());
+                //  System.Diagnostics.Debug.WriteLine("paragraph count = {0}", ParseParagraphs(data).Count());
                 data = PreProcessTextData(data);
                 foreach (var paragraph in ParseParagraphs(data)) {
                     var parsedSentences = new List<Algorithm.Sentence>();
@@ -57,8 +65,8 @@ namespace LASI.FileSystem
                         //var clauses = sent.Split(new[] { ",/,", ";/;", ":/;", ";/:", ":/:" }, StringSplitOptions.RemoveEmptyEntries);
                         //var parsedClauses = new List<Algorithm.Clause>();
                         // foreach (var cls in clauses) {
-                        var parsedPhrases = new List<LASI.Algorithm.Phrase>();
-                        var chunks = from chunk in paragraph.Split(new[] { "[", "]" }, StringSplitOptions.None)
+                        var parsedPhrases = new List<Algorithm.Phrase>();
+                        var chunks = from chunk in paragraph.Split(new[] { "[", "]" }, StringSplitOptions.None).AsParallel()
                                      where !String.IsNullOrWhiteSpace(chunk) && !String.IsNullOrEmpty(chunk)
                                      select chunk.Trim();
                         var count = 0;
@@ -68,19 +76,18 @@ namespace LASI.FileSystem
                             var reader2 = (new StringReader(chunk));
                             char tagType = '>';
                             while (reader2.Peek() != '/' && reader2.Peek() != ' ') {
-                                tagType = (char)reader2.Read();
+                                tagType = (char) reader2.Read();
                             }
-                            tagType = (char)reader2.Read();
+                            tagType = (char) reader2.Read();
                             if (tagType == ' ') {
-                                var currentPhrase = ParsePhrase(new TaggedWprdObject {
+                                var currentPhrase = ParsePhrase(new TaggedWordObject {
                                     Tag = chunk.Substring(0, chunk.IndexOf(' ')),
                                     Text = chunk.Substring(chunk.IndexOf(' '))
                                 });
                                 parsedPhrases.Add(currentPhrase);
-                            }
-                            else if (tagType == '/') {
-                                var words = ReadParseCreate(chunk);
-                                if (words.Count == 1 && words.First().Text == "and" || words.First().Text == "or") {
+                            } else if (tagType == '/') {
+                                var words = ReadParseConstruct(chunk);
+                                if (words.Count == 1 && words.First() != null && (words.First().Text == "and" || words.First().Text == "or")) {
                                     var currentPhrase = new Algorithm.ConjunctionPhrase(words);
                                     parsedPhrases.Add(currentPhrase);
                                 }
@@ -98,47 +105,6 @@ namespace LASI.FileSystem
         }
 
 
-        public IEnumerable<Func<Algorithm.Word>> GetWordExpressions() {
-            throw new NotImplementedException();
-        }
-
-
-        /// <summary>
-        /// Returns a collection of Algorithm.Phrase constructs which are the run time representations of the phrases in the tagged file which the TaggedFileParser governs.
-        /// </summary>
-        /// <returns>A collection of Algorithm.Phrase objects which represent the text of the document, aggregated into phrases.</returns>
-        public virtual IEnumerable<Algorithm.Phrase> GetPhrases() {
-
-            var parsedOut = new List<Algorithm.Phrase>();
-            using (var reader = new StreamReader(FilePath, true)) {
-                var data = reader.ReadToEnd();
-                data = PreProcessTextData(data);
-                var chunks = from chunk in data.Split(new[] { "[", "]" }, StringSplitOptions.RemoveEmptyEntries)
-                             where !String.IsNullOrWhiteSpace(chunk) && !String.IsNullOrEmpty(chunk)
-                             select chunk.Trim();
-                var count = 0;
-                foreach (var chunk in chunks) {
-                    count++;
-                    var reader2 = (new StringReader(chunk));
-                    char currentChar = ' ';
-                    while (reader2.Peek() != '/' && reader2.Peek() != ' ') {
-                        currentChar = (char)reader2.Read();
-                    }
-                    currentChar = (char)reader2.Read();
-                    if (currentChar == ' ') {
-                        var currentPhrase = ParsePhrase(new TaggedWprdObject {
-                            Tag = chunk.Substring(0, chunk.IndexOf(' ')),
-                            Text = chunk.Substring(chunk.IndexOf(' '))
-                        });
-                        parsedOut.Add(currentPhrase);
-                    }
-                    else if (currentChar == '/') {
-                        var words = ReadParseCreate(chunk);
-                    }
-                }
-            }
-            return parsedOut;
-        }
 
 
         /// <summary>
@@ -159,9 +125,9 @@ namespace LASI.FileSystem
         /// </summary>
         /// <param name="taggedContent">The TextTagPair instance which contains the content of a phrase and its Tag.</param>
         /// <returns></returns>
-        protected virtual Algorithm.Phrase ParsePhrase(TaggedWprdObject taggedContent) {
+        protected virtual Algorithm.Phrase ParsePhrase(TaggedWordObject taggedContent) {
             var phraseTag = taggedContent.Tag.Trim();
-            var composed = ReadParseCreate(taggedContent.Text);
+            var composed = ReadParseConstruct(taggedContent.Text);
             switch (phraseTag) {
                 case "ADVP":
                     return new Algorithm.AdverbPhrase(composed);
@@ -196,11 +162,13 @@ namespace LASI.FileSystem
         }
 
         /// <summary>
-        /// Parses a string of text containing tagged words e.g. "LASI/NNP can/MD sniff-out/VBP the/DT problem/NN" into a collection of Part of Speech subtyped Word instances which represent them.
+        /// Parses a string of text containing tagged words 
+        /// e.g. "LASI/NNP can/MD sniff-out/VBP the/DT problem/NN" 
+        /// into a collection of Part of Speech subtyped Word instances which represent them.
         /// </summary>
         /// <param name="wordData">A string containing tagged words.</param>
         /// <returns>The collection of Word objects that is their run time representation.</returns>
-        protected virtual List<Algorithm.Word> ReadParseCreate(string wordData) {
+        protected virtual List<Algorithm.Word> ReadParseConstruct(string wordData) {
             var parsedWords = new List<Algorithm.Word>();
             var elements = wordData.Split(new[] { ' ', });
             var posExtractor = new PosExtractor();
@@ -216,6 +184,14 @@ namespace LASI.FileSystem
             }
             return parsedWords;
         }
+        /// <summary>
+        /// Parses a string of text containing tagged words,
+        /// e.g. "LASI/NNP can/MD sniff-out/VBP the/DT problem/NN",
+        /// and returns of a collection containing, for each word, a function which will create a Part of Speech subtyped Word instance
+        /// representing that word.
+        /// </summary>
+        /// <param name="wordData">A string containing tagged words.</param>
+        /// <returns>A List of constructor function instances which, when invoked, create run time objects which represent each word in the source</returns>
         protected virtual List<Func<Algorithm.Word>> ReadParse(string wordData) {
             var wordExpressions = new List<Func<Algorithm.Word>>();
             var elements = wordData.Split(new[] { ' ', });
@@ -233,7 +209,8 @@ namespace LASI.FileSystem
 
 
         /// <summary>
-        /// Breaks a string of text containing multiple paragraphs into a collection of strings each representing an individual paragraph. Paragraphs are delimited using the default regular expression pattern "[\r\n]+[^]*[\r\n]+"
+        /// Breaks a string of text containing multiple paragraphs into a collection of strings each representing an individual paragraph.
+        /// Paragraphs are delimited using the default regular expression pattern "[\r\n]+[^]*[\r\n]+"
         /// </summary>
         /// <param name="data">A string containing the text to be broken down.</param>
         /// <returns>A collection of strings, each entry corresponding to the entire content of a single paragraph.</returns>
@@ -243,16 +220,7 @@ namespace LASI.FileSystem
 
         }
 
-        /// <summary>
-        /// Breaks a string of text containing multiple paragraphs into a collection of strings each representing an individual paragraph. Paragraphs are delimited using the given regular expression pattern.
-        /// </summary>
-        /// <param name="data">A string containing the text to be broken down.</param>
-        /// <param name="regexPattern">The regular expression used delimit and split paragraphs.</param>
-        /// <returns>A collection of strings, each entry corresponding to the entire content of a single paragraph.</returns>
-        protected IEnumerable<string> ParseParagraphs(string data, string regexPattern) {
-            var results = Regex.Split(data, regexPattern, RegexOptions.Multiline);
-            return results;
-        }
+
 
         #endregion
 
@@ -276,3 +244,13 @@ namespace LASI.FileSystem
 
     }
 }
+///// <summary>
+///// Breaks a string of text containing multiple paragraphs into a collection of strings each representing an individual paragraph. Paragraphs are delimited using the given regular expression pattern.
+///// </summary>
+///// <param name="data">A string containing the text to be broken down.</param>
+///// <param name="regexPattern">The regular expression used delimit and split paragraphs.</param>
+///// <returns>A collection of strings, each entry corresponding to the entire content of a single paragraph.</returns>
+//protected IEnumerable<string> ParseParagraphs(string data, string regexPattern) {
+//    var results = Regex.Split(data, regexPattern, RegexOptions.Multiline);
+//    return results;
+//}

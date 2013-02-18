@@ -77,6 +77,44 @@ namespace LASI.Algorithm.StateMachines
         public void ProcessNext(AdjectivePhrase adjectivePhrase) {
             throw new NotImplementedException();
         }
+        static VerbPhrase TransitionWith(VerbPhrase v) {
+            Console.WriteLine("verb mthd called");
+            return v;
+        }
+
+        static NounPhrase TransitionWith(NounPhrase n) {
+            Console.WriteLine("noun mthd called");
+            return n;
+        }
+
+        static PronounPhrase TransitionWith(PronounPhrase p) {
+            Console.WriteLine("pronoun mthd called");
+            return p;
+        }
+        static ParticlePhrase TransitionWith(ParticlePhrase p) {
+            Console.WriteLine("particle mthd called");
+            return p;
+        }
+        static AdverbPhrase TransitionWith(AdverbPhrase a) {
+            Console.WriteLine("adverb mthd called");
+            return a;
+        }
+        static AdjectivePhrase TransitionWith(AdjectivePhrase a) {
+            Console.WriteLine("adjective mthd called");
+            return a;
+        }
+        static PrepositionalPhrase TransitionWith(PrepositionalPhrase a) {
+            Console.WriteLine("prepositional mthd called");
+            return a;
+        }
+        static ConjunctionPhrase TransitionWith(ConjunctionPhrase a) {
+            Console.WriteLine("conjunction mthd called");
+            return a;
+        }
+        static RoughListPhrase TransitionWith(RoughListPhrase a) {
+            Console.WriteLine("list mthd called");
+            return a;
+        }
     }
 
 
