@@ -3,10 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using LASI.Algorithm;
 namespace LASI.GuiInterop
 {
-    public class AlgorithmInfoProvider
+    public interface AlgorithmResultProvider<T> where T : ILexical, IEnumerable<T>
     {
+
+        IEnumerator<T> GetEnumerator();
+
+
     }
 }
+

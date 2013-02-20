@@ -30,7 +30,7 @@
             <Button x:Name="SearchButton" Content="Search" VerticalAlignment="Top" Click="SearchButton_Click_1"/>
         </Menu>
         <Canvas Margin="0,52,0,0" Height="411" VerticalAlignment="Top">
-            <TabControl HorizontalAlignment="Right" Width="636" Height="412" Canvas.Left="148"  >
+            <TabControl HorizontalAlignment="Right" Width="636" Height="412" Canvas.Left="148" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto"  >
                 <TabItem Header="Top Results">
                     <Grid Background="#FFE5E5E5" Margin="0,0,1,0">
                         <TabControl HorizontalAlignment="Left" Height="380" VerticalAlignment="Top" Width="625">

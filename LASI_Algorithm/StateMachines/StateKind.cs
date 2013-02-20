@@ -9,7 +9,10 @@ namespace LASI.Algorithm.StateMachines
     : byte
     {
         Initial,
+        InitialOrAccept,
         Accept,
+        Continue,
+        ContinueOrAccept,
         Failed
     }
 }

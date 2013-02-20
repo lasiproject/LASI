@@ -65,6 +65,12 @@ namespace LASI.FileSystem
         }
 
         /// <summary>
+        /// Performs the necessary conversions, based on the format of all files within the project
+        /// </summary>
+        public static void ConvertAsNeeded() {
+        }
+
+        /// <summary>
         /// Copies the .doc file at the given path to the appropriate subfolder of the current project
         /// </summary>
         /// <param name="sourcePath">The path of the file to add</param>
@@ -101,17 +107,6 @@ namespace LASI.FileSystem
             textFiles.Add(file);
         }
 
-        ///// <summary>
-        ///// Copies the .lasi file at the given path to the appropriate subfolder of the current project
-        ///// </summary>
-        ///// <param name="sourcePath">The path of the file to add</param>
-        //public static void AddTaggedFile(string sourcePath) {
-        //    var FD = new FileData(sourcePath);
-
-        //    var path = TaggedFilesDir + "\\" + FD.FileNameWithExt;
-        //    var file = new TaggedFile(path);
-        //    TaggedFiles.Add(file);
-        //}
 
         /// <summary>
         /// Converts all of the .doc files it recieves into .docx files

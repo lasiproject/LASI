@@ -45,10 +45,17 @@ namespace LASI.Algorithm
         /// Gets the ISubjectTaker instance, generally a Verb or VerbPhrase, which the NounPhrase is the subject of.
         /// </summary>
         public virtual IAction SubjectOf {
-            get;
-            set;
+            get {
+                return _subjectOf;
+            }
+            set {
+                _subjectOf = value;
+                foreach (var N in Words.GetNouns()) {
+                    N.SubjectOf = _subjectOf;
+                }
+            }
         }
-
+        protected IAction _subjectOf;
         /// <summary>
         /// Gets all of the IEntityReferences instances, generally Pronouns or PronounPhrases, which refer to the NounPhrase Instance.
         /// </summary>
