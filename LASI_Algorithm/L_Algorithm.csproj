@@ -81,10 +81,6 @@
     <Compile Include="PhraseTypes\TransPastParticplePhrase.cs" />
     <Compile Include="PhraseTypes\TransPastTenseVPhrase.cs" />
     <Compile Include="PhraseTypes\TransPresentVPhrase.cs" />
-    <Compile Include="StateMachines\InvalidStateTransitionException.cs" />
-    <Compile Include="StateMachines\StateKind.cs" />
-    <Compile Include="StateMachines\StateMachineConcept.cs" />
-    <Compile Include="StateMachines\WordBindingState.cs" />
     <Compile Include="WordTypes\NounConstructs\GenericNoun.cs" />
     <Compile Include="WordTypes\NounConstructs\ProperNoun.cs" />
     <Compile Include="WordTypes\VerbConstructs\PastParticipleVerb.cs" />
@@ -192,6 +188,9 @@
       <Project>{bc10a8f0-77ff-46d0-9f9a-38e2fda22d21}</Project>
       <Name>L_Utilities</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="StateMachines\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
