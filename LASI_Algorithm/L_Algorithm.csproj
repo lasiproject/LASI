@@ -75,15 +75,12 @@
     <Compile Include="PhraseTypes\PastParticipleVerbPhrase.cs" />
     <Compile Include="PhraseTypes\PastTenseVerbPhrase.cs" />
     <Compile Include="PhraseTypes\PresentParticipleVPhrase.cs" />
-    <Compile Include="StateMachines\VerbObjectLinkinG\IStateTransition.cs" />
     <Compile Include="Thesuari\SynonymSet.cs" />
     <Compile Include="PhraseTypes\TransPresentParticipleVPhrase.cs" />
     <Compile Include="PhraseTypes\PresentTenseVerbPhrase.cs" />
     <Compile Include="PhraseTypes\TransPastParticplePhrase.cs" />
     <Compile Include="PhraseTypes\TransPastTenseVPhrase.cs" />
     <Compile Include="PhraseTypes\TransPresentVPhrase.cs" />
-    <Compile Include="StateMachines\InvalidStateTransitionException.cs" />
-    <Compile Include="StateMachines\StateKind.cs" />
     <Compile Include="WordTypes\NounConstructs\GenericNoun.cs" />
     <Compile Include="WordTypes\NounConstructs\ProperNoun.cs" />
     <Compile Include="WordTypes\VerbConstructs\PastParticipleVerb.cs" />
