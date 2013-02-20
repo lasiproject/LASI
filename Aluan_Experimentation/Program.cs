@@ -17,12 +17,8 @@ namespace Aluan_Experimentation
     {
         static void Main(string[] args) {
             //ThesaurusCMDLineTest();
-            // ParseThreaded();
-            var resultProvider = new results();
-            //          foreach (var v in resultProvider) {
-            //
-            Console.WriteLine(resultProvider);
-            //}
+
+            
 
 
             StdIO.WaitForKey(ConsoleKey.Escape);
@@ -40,20 +36,7 @@ namespace Aluan_Experimentation
         }
 
 
-        
-        public class results
-        {
-            private KeyedByTypeCollection<Word> myItems = new KeyedByTypeCollection<Word>();
-            public IEnumerable<Word > this[Type T] {
-                get {
-                    return myItems[T];
-                }
-
-
-            }
-
-        }
-
+       
         private static async Task<Document> MakeDocumentFromTaggedFile(string filePath) {
 
             return await Task.Run(async () => await new TaggedFileParser(filePath).GetDocumentAsync());
