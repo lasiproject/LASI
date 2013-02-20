@@ -56,7 +56,7 @@ namespace LASI.Algorithm
         /// <param name="verb">A reference to a presumably intransitive Verb.</param>
         /// <remarks>The argument must be explicitely Passed By Reference via the ref keyword.</remarks>
         /// <returns>A reference to the newly constructed TransitiveVerb or, if the given Verb is already transitive, a reference to it as a TransitiveVerb.</returns>
-        public static TransitiveVerb PromoteIntransitive(ref Verb verb) {
+        public static TransitiveVerb PromoteToTransitive(ref Verb verb) {
             //If the verb is already an instance of TransitiveVerb or one of its descendents, return it as is
             var toTransitive = verb as TransitiveVerb;
             if (toTransitive != null)
