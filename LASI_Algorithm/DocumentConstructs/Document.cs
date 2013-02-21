@@ -72,6 +72,15 @@ namespace LASI.Algorithm
             }
         }
 
+        public int ParaCount()
+        {
+            return _paragraphs.Count();
+        }
+
+        public int SentCount()
+        {
+            return _sentences.Count();
+        }
 
         #endregion
 
