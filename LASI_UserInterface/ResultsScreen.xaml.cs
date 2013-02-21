@@ -28,10 +28,15 @@ namespace LASI.UserInterface
         }
 
         private void BuildAssociatedView() {
-            var brushes = new[] { Brushes.Orange, Brushes.Teal, Brushes.IndianRed };//Some colors
+            var colors = new[] { Brushes.Orange, Brushes.Teal, Brushes.IndianRed, Brushes.CadetBlue, Brushes.DarkCyan };//Some colors
 
-            var tokens = @"
-  The typically small numbers of COIs identified by stakeholders with specific problems should each be accompanied by a similarly small number ` effectiveness measures (Sproles, 2002) that stakeholders can use to make binary, 'yes' or 'no,' determinations as to whether or not COI and the problems they characterize have been resolved. Recalling their definition as 'emergent properties that induce rank orderings,' MOEs are truly the 'standards' of the same definition as well as, perhaps most plainly, the variables of 'goodness' described by Dockery (1986, p. 172). Their complete independence from solutions proposed to dispel the problems from which they fundamentally derive represents another of MOEs' most significant features, one reinforced with the Figure 3 that builds on Figure 2 by displaying only those entities - the problem and the COIs characterizing it - to which MOEs may be properly linked.".Split('\r', '\n', '\t', ' ');
+            var tokens = @"The typically small numbers of COIs identified by stakeholders with specific problems should each be accompanied by a similarly small number
+` effectiveness measures (Sproles, 2002) that stakeholders can use to make binary, 'yes' or 'no,' determinations as to whether or not COI and 
+the problems they characterize have been resolved. Recalling their definition as 'emergent properties that induce rank orderings,' 
+MOEs are truly the 'standards' of the same definition as well as, perhaps most plainly, the variables of 'goodness' described by Dockery (1986, p. 172).
+Their complete independence from solutions proposed to dispel the problems from which they fundamentally derive represents another of MOEs' 
+most significant features, one reinforced with the Figure 3 that builds on Figure 2 by displaying only those entities - the problem and 
+the COIs characterizing it - to which MOEs may be properly linked.".Split('\r', '\n', '\t', ' ');
             foreach (string T in tokens) {
                 Label wordLabel = new Label {
                     Content = T,
@@ -42,25 +47,15 @@ namespace LASI.UserInterface
                 var menuItem1 = new MenuItem {
                     Header = "Change Color",
                 };
-                //var menuItem2 = new MenuItem {
-                //    Header = "google it"
-                //};
-                //menuItem2.Click += (sender, e) => {
-                //    var browser = new WebBrowser();
-                //    browser.BeginInit();
-                //    browser.Loaded += (sss, eee) => browser.Source = new Uri(@"http://www.google.com/search?as_q" + T);
-                //    browser.Visibility = Visibility.Visible;
-                //};
-                menuItem1.Click += (sender, e) => wordLabel.Foreground = brushes[new Random().Next(0, brushes.Length)];// change text to random color from
+                menuItem1.Click += (sender, e) => wordLabel.Foreground = colors[new Random().Next(0, colors.Length)];// change text to random color from the colors array
                 wordLabel.ContextMenu.Items.Add(menuItem1);
-                //wordLabel.ContextMenu.Items.Add(menuItem2);
                 wordLabel.MouseDoubleClick += (sender, e) => {
                     MessageBox.Show(wordLabel.Content.ToString());
                 };
                 wordsWrapPanel.Children.Add(wordLabel);
-                wordsWrapPanel.Children.Add(new VerbNodeControl(new Algorithm.TransitiveVerb("playing") {
-                    BoundSubject = new Algorithm.ProperPluralNoun("Scott"), DirectObject = new Algorithm.GenericPluralNoun("nipples")
-                }));
+                //wordsWrapPanel.Children.Add(new VerbNodeControl(new Algorithm.TransitiveVerb("playing") {
+                //    BoundSubject = new Algorithm.ProperPluralNoun("Scott"), DirectObject = new Algorithm.GenericPluralNoun("nipples")
+                //}));
             }
 
 
