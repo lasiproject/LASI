@@ -13,15 +13,21 @@ namespace SharpNLPTaggingModule
         /// </summary>
         private string mModelPath;
 
-        private OpenNLP.Tools.SentenceDetect.MaximumEntropySentenceDetector mSentenceDetector;
-        private OpenNLP.Tools.Tokenize.EnglishMaximumEntropyTokenizer mTokenizer;
-        private OpenNLP.Tools.PosTagger.EnglishMaximumEntropyPosTagger mPosTagger;
-        private OpenNLP.Tools.Chunker.EnglishTreebankChunker mChunker;
-        private OpenNLP.Tools.Parser.EnglishTreebankParser mParser;
-        private OpenNLP.Tools.NameFind.EnglishNameFinder mNameFinder;
-        private OpenNLP.Tools.Lang.English.TreebankLinker mCoreferenceFinder;
+        protected OpenNLP.Tools.SentenceDetect.MaximumEntropySentenceDetector mSentenceDetector;
+        protected OpenNLP.Tools.Tokenize.EnglishMaximumEntropyTokenizer mTokenizer;
+        protected OpenNLP.Tools.PosTagger.EnglishMaximumEntropyPosTagger mPosTagger;
+        protected OpenNLP.Tools.Chunker.EnglishTreebankChunker mChunker;
+        protected OpenNLP.Tools.Parser.EnglishTreebankParser mParser;
+        protected OpenNLP.Tools.NameFind.EnglishNameFinder mNameFinder;
+        protected OpenNLP.Tools.Lang.English.TreebankLinker mCoreferenceFinder;
 
+        public SharpNLPTagger(TaggingOption taggingMode) {
+            mModelPath = @"..\\..\\..\\ThirdPartyComponents\TaggingPackage\Resources\OpenNLP\OpenNLP\Models\";
+            mNameFinder = new OpenNLP.Tools.NameFind.EnglishNameFinder(ConfigurationManager.AppSettings["WordnetSearchDirectory"]);
 
+            TaggingMode = taggingMode;
+
+        }
         public SharpNLPTagger(TaggingOption taggingMode, string sourcePath, string destinationPath = null) {
             //  mModelPath = ConfigurationManager.AppSettings["MaximumEntropyModelDirectory"];
             mModelPath = @"..\\..\\..\\ThirdPartyComponents\TaggingPackage\Resources\OpenNLP\OpenNLP\Models\";
@@ -35,25 +41,37 @@ namespace SharpNLPTaggingModule
             SourceText = LoadSourceText();//
 
         }
-        public LASI.FileSystem.TaggedFile ProcessFile() {
+
+        public virtual LASI.FileSystem.TaggedFile ProcessFile() {
+            WriteToFile(ParseViaTaggingMode());
+            return new LASI.FileSystem.TaggedFile(OutputFilePath);
+
+        }
+
+        protected string ParseViaTaggingMode() {
+            string result = "";
             switch (TaggingMode) {
                 case TaggingOption.TagIndividual:
                     POSTag();
-                    break;
+                    WriteToFile(result);
+                    return
+"done";
                 case TaggingOption.TagAndAggregate:
-                    Chunk();
-                    break;
+                    result = Chunk();
+                    return "Done";
+
                 case TaggingOption.Experimental:
                     Coreference();
-                    break;
+                    return "Done";
+
                 default:
                     POSTag();
-                    break;
+                    return "Done";
+                //break;
             }
-            return new LASI.FileSystem.TaggedFile(OutputFilePath);
         }
 
-        private string LoadSourceText() {
+        public virtual string LoadSourceText() {
             using (var reader = new StreamReader(new FileStream(InputFilePath, FileMode.Open, FileAccess.Read, FileShare.None, 1024, FileOptions.SequentialScan), Encoding.UTF8)) {
                 return String.Join(" ", reader.ReadToEnd().Split(new[] { ' ', '\t', '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries).ToList().Select(s => s.Trim()));
             }
@@ -68,14 +86,15 @@ namespace SharpNLPTaggingModule
 
         #region Button click events
 
-        private void SplitIntoSentences() {
+        protected void SplitIntoSentences() {
             string[] sentences = SplitSentences(SourceText);
 
             var result = String.Join("\r\n\r\n", sentences);
             WriteToFile(result);
         }
 
-        private void WriteToFile(params string[] txtOut) {
+        public virtual
+void WriteToFile(params string[] txtOut) {
             using (var writer = new StreamWriter(new FileStream(OutputFilePath, FileMode.Create), Encoding.UTF8, 200)) {
                 foreach (var line in txtOut) {
                     writer.Write(line);
@@ -83,7 +102,7 @@ namespace SharpNLPTaggingModule
             }
         }
 
-        private void Tokenize() {
+        protected virtual void Tokenize() {
             StringBuilder output = new StringBuilder();
 
             string[] sentences = SplitSentences(SourceText);
@@ -97,7 +116,7 @@ namespace SharpNLPTaggingModule
 
         }
 
-        private void POSTag() {
+        private string POSTag() {
             StringBuilder output = new StringBuilder();
 
             string[] sentences = SplitSentences(SourceText);
@@ -115,9 +134,10 @@ namespace SharpNLPTaggingModule
 
             var result = output.ToString();
             WriteToFile(result);
+            return result;
         }
 
-        private void Chunk() {
+        private string Chunk() {
             StringBuilder output = new StringBuilder();
 
             string[] sentences = SplitSentences(SourceText);
@@ -130,7 +150,7 @@ namespace SharpNLPTaggingModule
             }
 
             var result = output.ToString();
-            WriteToFile(result);
+            return result;
         }
 
         private void Parse() {
@@ -179,7 +199,8 @@ namespace SharpNLPTaggingModule
             return mTokenizer.Tokenize(sentence);
         }
 
-        private string[] PosTagTokens(string[] tokens) {
+        protected virtual
+string[] PosTagTokens(string[] tokens) {
             if (mPosTagger == null) {
                 mPosTagger = new OpenNLP.Tools.PosTagger.EnglishMaximumEntropyPosTagger(mModelPath + "EnglishPOS.nbin", mModelPath + @"\Parser\tagdict");
             }
@@ -187,7 +208,8 @@ namespace SharpNLPTaggingModule
             return mPosTagger.Tag(tokens);
         }
 
-        private string ChunkSentence(string[] tokens, string[] tags) {
+        protected virtual
+string ChunkSentence(string[] tokens, string[] tags) {
             if (mChunker == null) {
                 mChunker = new OpenNLP.Tools.Chunker.EnglishTreebankChunker(mModelPath + "EnglishChunk.nbin");
             }
@@ -195,7 +217,8 @@ namespace SharpNLPTaggingModule
             return mChunker.GetChunks(tokens, tags);
         }
 
-        private OpenNLP.Tools.Parser.Parse ParseSentence(string sentence) {
+        protected virtual
+OpenNLP.Tools.Parser.Parse ParseSentence(string sentence) {
             if (mParser == null) {
                 mParser = new OpenNLP.Tools.Parser.EnglishTreebankParser(mModelPath, true, false);
             }
@@ -212,7 +235,8 @@ namespace SharpNLPTaggingModule
             return mNameFinder.GetNames(models, sentence);
         }
 
-        private string FindNames(OpenNLP.Tools.Parser.Parse sentenceParse) {
+        protected virtual
+string FindNames(OpenNLP.Tools.Parser.Parse sentenceParse) {
             if (mNameFinder == null) {
                 mNameFinder = new OpenNLP.Tools.NameFind.EnglishNameFinder(mModelPath + "namefind\\");
             }
@@ -240,7 +264,7 @@ namespace SharpNLPTaggingModule
 
         #endregion
 
-        private void Gender(object sender, EventArgs e) {
+        protected virtual void Gender(object sender, EventArgs e) {
             StringBuilder output = new StringBuilder();
 
             string[] sentences = SplitSentences(SourceText);
@@ -265,7 +289,7 @@ namespace SharpNLPTaggingModule
             WriteToFile(result);
         }
 
-        private void Similarity() {
+        protected virtual void Similarity() {
             StringBuilder output = new StringBuilder();
 
             string[] sentences = SplitSentences(SourceText);
@@ -311,7 +335,7 @@ namespace SharpNLPTaggingModule
 
         public string SourceText {
             get;
-            private set;
+            protected set;
         }
 
         public TaggingOption TaggingMode {

@@ -18,10 +18,16 @@ namespace Aluan_Experimentation
         static void Main(string[] args) {
             //ThesaurusCMDLineTest();
 
-            
 
+            TestTaggerHelper();
 
             StdIO.WaitForKey(ConsoleKey.Escape);
+        }
+
+        private static void TestTaggerHelper() {
+            var simpleTag = new StringTagger(TaggingOption.TagAndAggregate);
+            var result = simpleTag.TagString("Hello I am Working a linguistic analysis project with 5 other people");
+            print(result);
         }
 
         public static IEnumerable<string> ParseThreaded() {
@@ -36,7 +42,7 @@ namespace Aluan_Experimentation
         }
 
 
-       
+
         private static async Task<Document> MakeDocumentFromTaggedFile(string filePath) {
 
             return await Task.Run(async () => await new TaggedFileParser(filePath).GetDocumentAsync());
@@ -104,5 +110,7 @@ namespace Aluan_Experimentation
 
             
           };
+
+        static Action<object> print = (o) => Console.WriteLine(o);
     }
 }
