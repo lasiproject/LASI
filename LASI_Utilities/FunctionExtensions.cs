@@ -23,14 +23,20 @@ namespace LASI.Utilities
         }
 
         public static Func<T, T> Compose<T>(this Func<T, T> func, params Func<T, T>[] fs) {
-            Func<T, T> result = func;
-            foreach (var f in fs)
+
+
+
+            Func<T, T> result = fs.First();
+            foreach (var f in fs.Take(1))
                 result = f.Compose(result);
-            return result;
+            return result.Compose(func);
         }
 
         public static T Identity<T>(this T value) {
             return value;
+        }
+        public static IEnumerable<T> AsEnumerable<T>(this T t) {
+            return new[] { t };
         }
     }
 }
