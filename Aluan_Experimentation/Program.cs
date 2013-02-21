@@ -19,9 +19,15 @@ namespace Aluan_Experimentation
             //ThesaurusCMDLineTest();
 
 
-            TestTaggerHelper();
+            //TestTaggerHelper();
+            var categoryResults = ParseThreaded();
 
+            foreach (var item in categoryResults) {
+                Console.WriteLine(item);
+            }
             StdIO.WaitForKey(ConsoleKey.Escape);
+
+
         }
 
         private static void TestTaggerHelper() {
@@ -84,29 +90,8 @@ namespace Aluan_Experimentation
             }
         }
         private static string[] pathes = new[]{
-//@"C:\Users\Aluan\Desktop\Draft_Environmental_Assessment - Copy (10).tagged",
-// @"C:\Users\Aluan\Desktop\Draft_Environmental_Assessment - Copy (11).tagged",
-// @"C:\Users\Aluan\Desktop\Draft_Environmental_Assessment - Copy (12).tagged",
-// @"C:\Users\Aluan\Desktop\Draft_Environmental_Assessment - Copy (13).tagged",
-// @"C:\Users\Aluan\Desktop\Draft_Environmental_Assessment - Copy (14).tagged",
-// @"C:\Users\Aluan\Desktop\Draft_Environmental_Assessment - Copy (15).tagged",
-// @"C:\Users\Aluan\Desktop\Draft_Environmental_Assessment - Copy (16).tagged",
-// @"C:\Users\Aluan\Desktop\Draft_Environmental_Assessment - Copy (17).tagged",
-// @"C:\Users\Aluan\Desktop\Draft_Environmental_Assessment - Copy (18).tagged",
-// @"C:\Users\Aluan\Desktop\Draft_Environmental_Assessment - Copy (19).tagged",
-// @"C:\Users\Aluan\Desktop\Draft_Environmental_Assessment - Copy (2).tagged",
-// @"C:\Users\Aluan\Desktop\Draft_Environmental_Assessment - Copy (20).tagged",
-// @"C:\Users\Aluan\Desktop\Draft_Environmental_Assessment - Copy (21).tagged",
-// @"C:\Users\Aluan\Desktop\Draft_Environmental_Assessment - Copy (22).tagged",
-// @"C:\Users\Aluan\Desktop\Draft_Environmental_Assessment - Copy (3).tagged",
-// @"C:\Users\Aluan\Desktop\Draft_Environmental_Assessment - Copy (4).tagged",
-// @"C:\Users\Aluan\Desktop\Draft_Environmental_Assessment - Copy (5).tagged",
-// @"C:\Users\Aluan\Desktop\Draft_Environmental_Assessment - Copy (6).tagged",
-// @"C:\Users\Aluan\Desktop\Draft_Environmental_Assessment - Copy (7).tagged",
-// @"C:\Users\Aluan\Desktop\Draft_Environmental_Assessment - Copy (8).tagged",
-// @"C:\Users\Aluan\Desktop\Draft_Environmental_Assessment - Copy (9).tagged",
-// @"C:\Users\Aluan\Desktop\Draft_Environmental_Assessment - Copy.tagged",
- @"C:\Users\Aluan\Desktop\411writtensummary2.tagged",
+
+ @"C:\Users\Aluan\Desktop\411writtensummary.tagged",
 
             
           };

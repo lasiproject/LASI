@@ -58,6 +58,9 @@ namespace LASI.UserInterface
                     MessageBox.Show(wordLabel.Content.ToString());
                 };
                 wordsWrapPanel.Children.Add(wordLabel);
+                wordsWrapPanel.Children.Add(new VerbNodeControl(new Algorithm.TransitiveVerb("playing") {
+                    BoundSubject = new Algorithm.ProperPluralNoun("Scott"), DirectObject = new Algorithm.GenericPluralNoun("nipples")
+                }));
             }
 
 
@@ -83,19 +86,15 @@ namespace LASI.UserInterface
             this.Close();
 
         }
-
         private void SearchButton_Click_1(object sender, RoutedEventArgs e) {
             var searchText = SearchTextBox.Text;
             foreach (Label label in wordsWrapPanel.Children) {
-                if (label.Content.ToString() == searchText)
-                    label.Foreground = Brushes.WhiteSmoke;
+                if (label.Content.ToString().Contains(searchText))
+                    label.Foreground = Brushes.Blue;
                 else
                     label.Foreground = Brushes.Black;
             }
         }
-
-
-
 
     }
 }
