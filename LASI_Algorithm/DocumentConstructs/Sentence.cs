@@ -35,6 +35,32 @@ namespace LASI.Algorithm
             get;
             set;
         }
+
+
+        ///<summary>
+        /// Returns the number of Words in a sentence
+        /// </summary>
+        public int GetWordCount()
+        {
+            return Words.Count();
+        }
+
+        /// <summary>
+        /// Returns the number of Clauses in a sentence
+        /// </summary>
+        public int GetClauseCount()
+        {
+            return Clauses.Count();
+        }
+
+        /// <summary>
+        /// Returns the number of Phrases in a sentence
+        /// </summary>
+        public int GetPhraseCount()
+        {
+            return Phrases.Count();
+        }
+
         /// <summary>
         /// Gets the sequence of Clauses which comprise the sentence.
         /// </summary>
@@ -45,6 +71,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets the sequence of Phrases which comprise the sentence.
         /// </summary>
+        /// 
         public IEnumerable<Phrase> Phrases {
             get {
                 return from C in Clauses
