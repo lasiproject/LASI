@@ -3,11 +3,11 @@ namespace LASI.Algorithm
 {
     public interface IPrepositional : ILexical
     {
-        IPrepositionLinkable RightLinked {
+        IPrepositionLinkable OnRightSide {
             get;
             set;
         }
-        IPrepositionLinkable LeftLinked {
+        IPrepositionLinkable OnLeftSide {
             get;
             set;
         }

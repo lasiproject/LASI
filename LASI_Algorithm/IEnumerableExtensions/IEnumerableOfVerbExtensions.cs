@@ -10,83 +10,36 @@ namespace LASI.Algorithm
     {
 
         /// <summary>
-        /// Returns all instances of Verbs whose subjects match the given Noun under the provided comparison function.
+        /// Filters the sequence of verbs based returning those whose subjects match the provided subject testing function.
         /// </summary>
-        /// <param name="verbSubject">The noun to match with.</param>
-        /// <param name="compare">A comparison function taking two Nouns and returning a bool value indicating whether or not they match.</param>
-        /// <returns>All verbs whose subjects compared true against the given Noun under the provided comparison.</returns>
-        public static IEnumerable<Verb> WithSubject(this IEnumerable<Verb> verbs, Noun verbSubject, Func<Noun, Noun, bool> compare) {
-            return from v in verbs
-                   let subj = v.BoundSubject as Noun
-                   where subj != null && compare(subj, verbSubject)
-                   select v;
-        }
-        /// <summary>
-        /// Returns all instances of Verbs whose subjects match the given NounPhrase under the provided comparison function.
-        /// </summary>
-        /// <param name="verbSubject">The NounPhrase to match with.</param>
-        /// <param name="compare">A comparison function taking two NounsPhrase and returning a bool value indicating whether or not they match.</param>
-        /// <returns>All verbs whose subjects compared true against the given NounPhrase under the provided comparison.</returns>
-        public static IEnumerable<Verb> WithSubject(this IEnumerable<Verb> verbs, NounPhrase verbSubject, Func<NounPhrase, NounPhrase, bool> compare) {
-            return from v in verbs
-                   let subj = v.BoundSubject as NounPhrase
-                   where subj != null && compare(subj, verbSubject)
-                   select v;
-        }
-        /// <summary>
-        /// Returns all instances of Verbs whose subjects match the given Pronoun under the provided comparison function.
-        /// </summary>
-        /// <param name="verbSubject">The Pronoun to match with.</param>
-        /// <param name="compare">A comparison function taking two Pronouns and returning a bool value indicating whether or not they match.</param>
-        /// <returns>All verbs whose subjects compared true against the given Pronoun under the provided comparison.</returns>
-        public static IEnumerable<Verb> WithSubject(this IEnumerable<Verb> verbs, IEntityReferencer verbSubject, Func<IEntityReferencer, IEntityReferencer, bool> compare) {
-            return from v in verbs
-                   let subj = v.BoundSubject as Pronoun
-                   where subj != null && compare(subj, verbSubject)
-                   select v;
-        }
-        /// <summary>
-        /// Returns all instances of Verbs whose subjects match the given IEntity instance under the provided comparison function.
-        /// </summary>
-        /// <param name="verbSubject">The IEntity instance to match with.</param>
-        /// <param name="compare">A comparison function taking two IEntity instances and returning a bool value indicating whether or not they match.</param>
-        /// <returns>All verbs whose subjects compared true against the given IEntity under the provided comparison.</returns>
-        public static IEnumerable<Verb> WithSubject(this IEnumerable<Verb> verbs, IEntity verbSubject, Func<IEntity, IEntity, bool> compare) {
-            return from v in verbs
-                   let subj = v.BoundSubject as IEntity
-                   where subj != null && compare(subj, verbSubject)
-                   select v;
-        }
-        /// <summary>
-        /// Returns all instances of Verbs whose subjects match return true for the provided comparison function.
-        /// </summary>
-        /// <param name="verbSubject">The a function which tests the subjects of each verb in the VerbList.</param>
-        /// <param name="compare">A comparison function taking two IActionSubject instances and returning a bool value indicating whether or not they match.</param>
-        /// <returns>All verbs whose subjects compared true against the given IActionSubject instance under the provided comparison.</returns>
-        public static IEnumerable<Verb> WithSubject(this IEnumerable<Verb> verbs, IActionSubject verbSubject, Func<IActionSubject, IActionSubject, bool> compare) {
-            return from verb in verbs
-                   where compare(verb.BoundSubject, verbSubject)
-                   select verb;
-        }
-
-        public static IEnumerable<Verb> WhereSubject(this IEnumerable<Verb> verbs, Func<Noun, bool> predicate) {
+        /// <param name="verbs">The Enumerable of Verb objects to filter</param>
+        /// <param name="subjectMatcher">Any function which takes a Noun and return a bool.</param>
+        /// <returns>All verbs for which the subjectMatcher function returns true.</returns>
+        /// The argument may be either a named function or a lambda expression.
+        /// <example> Demonstrates how to use this method.
+        /// <code>
+        /// var filtered = myVerbs.WhereSubject((Noun noun)=>noun.Text == "banana");
+        /// </code>
+        /// </example>       
+        /// <remarks>This provided function is used to filter the verbs based on their subjects.
+        /// </remarks>
+        public static IEnumerable<Verb> WhereSubject(this IEnumerable<Verb> verbs, Func<Noun, bool> subjectMatcher) {
             return from V in verbs
                    let subject = V.BoundSubject as Noun
-                   where subject != null && predicate(subject)
+                   where subject != null && subjectMatcher(subject)
                    select V;
         }
-        public static IEnumerable<Verb> WhereSubject(this IEnumerable<Verb> verbs, Func<NounPhrase, bool> predicate) {
+        public static IEnumerable<Verb> WhereSubject(this IEnumerable<Verb> verbs, Func<NounPhrase, bool> subjectMatcher) {
             return from V in verbs
                    let subject = V.BoundSubject as NounPhrase
-                   where subject != null && predicate(subject)
+                   where subject != null && subjectMatcher(subject)
                    select V;
         }
-        public static IEnumerable<Verb> WhereSubject(this IEnumerable<Verb> verbs, Func<IActionSubject, bool> predicate) {
+        public static IEnumerable<Verb> WhereSubject(this IEnumerable<Verb> verbs, Func<IEntity, bool> subjectMatcher) {
             return from V in verbs
-                   where V.BoundSubject != null && predicate(V.BoundSubject)
+                   where V.BoundSubject != null && subjectMatcher(V.BoundSubject)
                    select V;
         }
-
         public static IEnumerable<TransitiveVerb> GetTransitiveVerbs(this IEnumerable<Verb> verbs) {
             return verbs.OfType<TransitiveVerb>();
         }

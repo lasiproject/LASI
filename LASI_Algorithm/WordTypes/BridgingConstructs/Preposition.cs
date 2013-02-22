@@ -25,14 +25,14 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets or sets the PrepositionLinkable construct on the right-hand-side of the Preposition.
         /// </summary>
-        public virtual IPrepositionLinkable RightLinked {
+        public virtual IPrepositionLinkable OnRightSide {
             get;
             set;
         }
         /// <summary>
         /// Gets or sets the PrepositionLinkable construct on the left-hand-side of the Preposition.
         /// </summary>
-        public virtual IPrepositionLinkable LeftLinked {
+        public virtual IPrepositionLinkable OnLeftSide {
             get;
             set;
         }

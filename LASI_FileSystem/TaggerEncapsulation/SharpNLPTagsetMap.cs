@@ -1,10 +1,10 @@
-﻿using LASI.Algorithm;
+﻿
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using LASI.Algorithm;
 namespace LASI.FileSystem
 {
     /// <summary>
@@ -52,7 +52,7 @@ namespace LASI.FileSystem
             //Pronoun mappings
             { "PDT", t => new PreDeterminer(t) }, //Predeterminer
             { "POS", t => new PossessiveEnding(t) }, //Possessive ending
-            { "PRP", t => new SingularPronoun(t) }, //Personal pronoun
+            { "PRP", t => new PersonalPronoun(t) }, //Personal pronoun
             { "PRP$", t => new PossessivePronoun(t) }, //Possessive pronoun
             //Adverb mappings
             { "RB", t => new Adverb(t) }, //Adverb
@@ -67,8 +67,8 @@ namespace LASI.FileSystem
             { "VBZ", t => new PresentTenseVerb(t) }, //Verb, 3rd person singular present
             //WH-word mappings
             { "WDT", t => new Determiner(t) }, //Wh-determiner
-            { "WP", t => new Pronoun(t) }, //Wh-pronoun
-            { "WP$", t => new PossessivePronoun(t) }, //Possessive wh-pronoun
+            { "WP", t => new WhPronoun(t) }, //Wh-pronoun
+            { "WP$", t => new WhPossessivePronoun(t) }, //Possessive wh-pronoun
             { "WRB", t => new Adverb(t) }, //Wh-adverb
             //Additional mappings
             { "RP", t => new Particle(t) }, //Particle

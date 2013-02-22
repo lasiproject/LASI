@@ -26,6 +26,7 @@ namespace LASI.Algorithm
             Words = (from S in _sentences
                      from W in S.Words
                      select W).ToList();
+            EstablishLexicalLinks();
             foreach (var w in Words)
                 w.ParentDocument = this;
             foreach (var P in _paragraphs) {
@@ -45,23 +46,24 @@ namespace LASI.Algorithm
                      select W).ToList();
             foreach (var w in Words)
                 w.ParentDocument = this;
+            EstablishLexicalLinks();
         }
 
         #endregion
 
         #region Methods
         private void EstablishLexicalLinks() {
-            for (int i = 1; i < Words.Count() - 1; ++i) {
+            for (int i = 1; i < Words.Count() ; ++i) {
                 Words[i].PreviousWord = Words[i - 1];
                 Words[i - 1].NextWord = Words[i];
             }
 
-            var previousWord = Words[Words.Count - 1];
-            if (Words.ToList().IndexOf(previousWord) > 0)
-                previousWord.PreviousWord = Words[Words.Count - 2];
+            var lastWord = Words[Words.Count - 1];
+            if (Words.IndexOf(lastWord) > 0)
+                lastWord.PreviousWord = Words[Words.Count - 1];
             else
-                previousWord.PreviousWord = null;
-            previousWord.NextWord = null;
+                lastWord.PreviousWord = null;
+            lastWord.NextWord = null;
         }
 
         public void PrintByLinkage() {
@@ -70,15 +72,14 @@ namespace LASI.Algorithm
                 Console.Write(W.Text + " ");
                 W = W.NextWord;
             }
+            Console.WriteLine();
         }
 
-        public int ParaCount()
-        {
+        public int ParaCount() {
             return _paragraphs.Count();
         }
 
-        public int SentCount()
-        {
+        public int SentCount() {
             return _sentences.Count();
         }
 

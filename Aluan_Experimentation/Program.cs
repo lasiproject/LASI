@@ -19,21 +19,34 @@ namespace Aluan_Experimentation
             //ThesaurusCMDLineTest();
 
 
-            //TestTaggerHelper();
-            var categoryResults = ParseThreaded();
-
-            foreach (var item in categoryResults) {
-                Console.WriteLine(item);
-            }
+            var doc = TestTaggerHelper("Hello I am Working a linguistic analysis project with 5 other people. They are Brittany, Dustin, Richard, Scott, and Erik.");
+           doc.PrintByLinkage();
+           foreach (var phrase in doc.Phrases) {
+               phrase.Words.ToList().ForEach(w => print(w));
+               
+           }
+           doc.Phrases.ToList().ForEach(p => print(p));
+            //var categoryResults = ParseThreaded();
+            //foreach (var item in categoryResults) {
+            //    Console.WriteLine(item);
+            //}
             StdIO.WaitForKey(ConsoleKey.Escape);
 
 
         }
 
-        private static void TestTaggerHelper() {
-            var simpleTag = new StringTagger(TaggingOption.TagAndAggregate);
-            var result = simpleTag.TagString("Hello I am Working a linguistic analysis project with 5 other people");
-            print(result);
+        //private static string ParseSynch() {
+        //    foreach (var p in pathes) {
+        //        var doc=MakeDocumentFromTaggedFile(
+        //    }
+        //}
+
+        private static Document TestTaggerHelper(string str) {
+            var simpleTagger = new StringTagger(TaggingOption.TagAndAggregate);
+            var tagged = simpleTagger.TagString(str);
+            var taggedParser = new TaggedFileParser(tagged);
+            return taggedParser.GetDocument();
+            //print(result);
         }
 
         public static IEnumerable<string> ParseThreaded() {
@@ -51,7 +64,7 @@ namespace Aluan_Experimentation
 
         private static async Task<Document> MakeDocumentFromTaggedFile(string filePath) {
 
-            return await Task.Run(async () => await new TaggedFileParser(filePath).GetDocumentAsync());
+            return await Task.Run(async () => await new TaggedFileParser(new TaggedFile(filePath)).GetDocumentAsync());
 
 
         }

@@ -113,7 +113,7 @@
     <Compile Include="ParticleTest.cs" />
     <Compile Include="PastPrtcplVerbTest.cs" />
     <Compile Include="PastTenseVerbTest.cs" />
-    <Compile Include="PronounTest.cs" />
+    <Compile Include="PersonalPronounTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PunctuatorTest.cs" />
     <Compile Include="Settings.cs" />

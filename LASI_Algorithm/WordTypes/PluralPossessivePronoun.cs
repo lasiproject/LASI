@@ -5,11 +5,10 @@ using System.Text;
 
 namespace LASI.Algorithm
 {
-    public class SingularPronoun : PersonalPronoun
+    public class PluralPossessivePronoun : PossessivePronoun
     {
-        public SingularPronoun(string text)
+        public PluralPossessivePronoun(string text)
             : base(text) {
-
         }
     }
 }

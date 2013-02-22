@@ -39,7 +39,7 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="prep"></param>
         public virtual void AttachObjectViaPreposition(IPrepositional prep) {
-            ObjectViaPreposition = this as object == prep.LeftLinked as object && prep.RightLinked != null ? prep.RightLinked : null;
+            ObjectViaPreposition = this as object == prep.OnLeftSide as object && prep.OnRightSide != null ? prep.OnRightSide : null;
         }
         public override bool Equals(object obj) {
             return base.Equals(obj);

@@ -16,22 +16,36 @@ namespace LASI.FileSystem
         /// Initialized a new instance of the TaggedFilerParser class to parse the contents of a specific file.
         /// </summary>
         /// <param name="filePath">The absosultePath of the pre-POS-tagged file to parse.</param>
-        public TaggedFileParser(string filePath) {
-            FilePath = filePath;
-            TaggededFile = new TaggedFile(filePath);
-        }
+        //public TaggedFileParser(string filePath) {
+        //    FilePath = filePath;
+        //    TaggededDocumentFile = new TaggedFile(filePath);
+        //    TaggedInputData = LoadDocumentFile();
+        //}
         /// <summary>
         /// Initialized a new instance of the TaggedFilerParser class to parse the contents of a specific file.
         /// </summary>
         /// <param name="filePath">The wrapper which encapsulates the path information for the pre-POS-tagged file to parse.</param>
         public TaggedFileParser(TaggedFile file) {
-            TaggededFile = file;
-            FilePath = TaggededFile.FullPath;
+            TaggededDocumentFile = file;
+            FilePath = TaggededDocumentFile.FullPath;
+            TaggedInputData = LoadDocumentFile();
         }
+        public TaggedFileParser(string taggedText) {
+            TaggedInputData = taggedText;
+        }
+
+
         #endregion
 
         #region Methods
 
+
+
+        private string LoadDocumentFile() {
+            using (var reader = new StreamReader(FilePath, Encoding.UTF8)) {
+                return reader.ReadToEnd();
+            }
+        }
         /// <summary>
         /// Returns an instance of Algorithm.Document which contains the run time representation of all of the textual construct in the document, for the Algorithm to analyse.
         /// </summary>
@@ -40,7 +54,7 @@ namespace LASI.FileSystem
             return new Algorithm.Document(GetParagraphs());
         }
         public virtual async Task<Algorithm.Document> GetDocumentAsync() {
-            return new Algorithm.Document( await GetParagraphsAsync());
+            return new Algorithm.Document(await GetParagraphsAsync());
         }
 
         public virtual async Task<IEnumerable<Algorithm.Paragraph>> GetParagraphsAsync() {
@@ -52,55 +66,49 @@ namespace LASI.FileSystem
         /// </summary>
         /// <returns>The run time constructs which represent the text of the document, aggregated into paragraphs.</returns>
         public virtual IEnumerable<Algorithm.Paragraph> GetParagraphs() {
-
             var results = new List<Algorithm.Paragraph>();
-            using (var reader = new StreamReader(FilePath, Encoding.UTF8)) {
-                var data = reader.ReadToEnd();
-                //  System.Diagnostics.Debug.WriteLine("paragraph count = {0}", ParseParagraphs(data).Count());
-                data = PreProcessTextData(data);
-                foreach (var paragraph in ParseParagraphs(data)) {
-                    var parsedSentences = new List<Algorithm.Sentence>();
-                    var sentences = paragraph.Split(new[] { "./.", "!/!", "?/?" }, StringSplitOptions.RemoveEmptyEntries);
-                    foreach (var sent in sentences) {
-                        //var clauses = sent.Split(new[] { ",/,", ";/;", ":/;", ";/:", ":/:" }, StringSplitOptions.RemoveEmptyEntries);
-                        //var parsedClauses = new List<Algorithm.Clause>();
-                        // foreach (var cls in clauses) {
-                        var parsedPhrases = new List<Algorithm.Phrase>();
-                        var chunks = from chunk in paragraph.Split(new[] { "[", "]" }, StringSplitOptions.None).AsParallel()
-                                     where !String.IsNullOrWhiteSpace(chunk) && !String.IsNullOrEmpty(chunk)
-                                     select chunk.Trim();
-                        var count = 0;
-                        foreach (var chunk in chunks) {
-                            // System.Diagnostics.Debug.WriteLine(count.ToString() + " " + chunk + '\n');
-                            count++;
-                            var reader2 = (new StringReader(chunk));
-                            char tagType = '>';
-                            while (reader2.Peek() != '/' && reader2.Peek() != ' ') {
-                                tagType = (char) reader2.Read();
-                            }
+
+            var data = PreProcessTextData(TaggedInputData);
+            foreach (var paragraph in ParseParagraphs(data)) {
+                var parsedSentences = new List<Algorithm.Sentence>();
+                var sentences = paragraph.Split(new[] { "./.", "!/!", "?/?" }, StringSplitOptions.RemoveEmptyEntries);
+                foreach (var sent in sentences) {
+
+                    var parsedPhrases = new List<Algorithm.Phrase>();
+                    var chunks = from chunk in paragraph.Split(new[] { "[", "]" }, StringSplitOptions.None).AsParallel()
+                                 where !String.IsNullOrWhiteSpace(chunk) && !String.IsNullOrEmpty(chunk)
+                                 select chunk.Trim();
+                    var count = 0;
+                    foreach (var chunk in chunks) {
+
+                        count++;
+                        var reader2 = (new StringReader(chunk));
+                        char tagType = '>';
+                        while (reader2.Peek() != '/' && reader2.Peek() != ' ') {
                             tagType = (char) reader2.Read();
-                            if (tagType == ' ') {
-                                var currentPhrase = ParsePhrase(new TaggedWordObject {
-                                    Tag = chunk.Substring(0, chunk.IndexOf(' ')),
-                                    Text = chunk.Substring(chunk.IndexOf(' '))
-                                });
+                        }
+                        tagType = (char) reader2.Read();
+                        if (tagType == ' ') {
+                            var currentPhrase = ParsePhrase(new TaggedWordObject {
+                                Tag = chunk.Substring(0, chunk.IndexOf(' ')),
+                                Text = chunk.Substring(chunk.IndexOf(' '))
+                            });
+                            parsedPhrases.Add(currentPhrase);
+                        } else if (tagType == '/') {
+                            var words = ReadParseConstruct(chunk);
+                            if (words.Count == 1 && words.First() != null && (words.First().Text == "and" || words.First().Text == "or")) {
+                                var currentPhrase = new Algorithm.ConjunctionPhrase(words);
                                 parsedPhrases.Add(currentPhrase);
-                            } else if (tagType == '/') {
-                                var words = ReadParseConstruct(chunk);
-                                if (words.Count == 1 && words.First() != null && (words.First().Text == "and" || words.First().Text == "or")) {
-                                    var currentPhrase = new Algorithm.ConjunctionPhrase(words);
-                                    parsedPhrases.Add(currentPhrase);
-                                }
-
                             }
 
-                            // parsedClauses.Add(new Algorithm.Clause(par
                         }
-                        parsedSentences.Add(new Algorithm.Sentence(parsedPhrases));
+
                     }
-                    results.Add(new Algorithm.Paragraph(parsedSentences));
+                    parsedSentences.Add(new Algorithm.Sentence(parsedPhrases));
                 }
+                results.Add(new Algorithm.Paragraph(parsedSentences));
             }
+
             return results;
         }
 
@@ -235,10 +243,16 @@ namespace LASI.FileSystem
         /// <summary>
         /// Gets the LasiFile object which encapsulates the input file which the TaggedFileParser governs.
         /// </summary>
-        public TaggedFile TaggededFile {
+        public TaggedFile TaggededDocumentFile {
             get;
             protected set;
         }
+
+        protected string TaggedInputData {
+            get;
+            set;
+        }
+
         #endregion
 
 

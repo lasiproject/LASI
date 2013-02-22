@@ -41,7 +41,6 @@ namespace SharpNLPTaggingModule
             SourceText = LoadSourceText();//
 
         }
-
         public virtual LASI.FileSystem.TaggedFile ProcessFile() {
             WriteToFile(ParseViaTaggingMode());
             return new LASI.FileSystem.TaggedFile(OutputFilePath);
@@ -49,30 +48,29 @@ namespace SharpNLPTaggingModule
         }
 
         protected string ParseViaTaggingMode() {
-            string result = "";
             switch (TaggingMode) {
                 case TaggingOption.TagIndividual:
-                    POSTag();
-                    WriteToFile(result);
-                    return
-"done";
+                    return POSTag();// WriteToFile(result);
                 case TaggingOption.TagAndAggregate:
-                    result = Chunk();
-                    return "Done";
-
+                    return Chunk();
                 case TaggingOption.Experimental:
-                    Coreference();
-                    return "Done";
-
+                    return Coreference();
                 default:
-                    POSTag();
-                    return "Done";
-                //break;
+                    return POSTag();
             }
         }
 
         public virtual string LoadSourceText() {
-            using (var reader = new StreamReader(new FileStream(InputFilePath, FileMode.Open, FileAccess.Read, FileShare.None, 1024, FileOptions.SequentialScan), Encoding.UTF8)) {
+            using (
+                var reader = new StreamReader(
+                new FileStream(
+                    InputFilePath,
+                    FileMode.Open,
+                    FileAccess.Read,
+                    FileShare.None, 1024,
+                    FileOptions.SequentialScan),
+                    Encoding.UTF8
+                    )) {
                 return String.Join(" ", reader.ReadToEnd().Split(new[] { ' ', '\t', '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries).ToList().Select(s => s.Trim()));
             }
         }
@@ -86,15 +84,14 @@ namespace SharpNLPTaggingModule
 
         #region Button click events
 
-        protected void SplitIntoSentences() {
+        protected string SplitIntoSentences() {
             string[] sentences = SplitSentences(SourceText);
 
             var result = String.Join("\r\n\r\n", sentences);
-            WriteToFile(result);
+            return result;
         }
 
-        public virtual
-void WriteToFile(params string[] txtOut) {
+        public virtual void WriteToFile(params string[] txtOut) {
             using (var writer = new StreamWriter(new FileStream(OutputFilePath, FileMode.Create), Encoding.UTF8, 200)) {
                 foreach (var line in txtOut) {
                     writer.Write(line);
@@ -102,7 +99,7 @@ void WriteToFile(params string[] txtOut) {
             }
         }
 
-        protected virtual void Tokenize() {
+        protected virtual string Tokenize() {
             StringBuilder output = new StringBuilder();
 
             string[] sentences = SplitSentences(SourceText);
@@ -113,6 +110,7 @@ void WriteToFile(params string[] txtOut) {
             }
 
             var result = output.ToString();
+            return result;
 
         }
 
@@ -133,7 +131,7 @@ void WriteToFile(params string[] txtOut) {
             }
 
             var result = output.ToString();
-            WriteToFile(result);
+            //WriteToFile(result);
             return result;
         }
 
@@ -153,7 +151,7 @@ void WriteToFile(params string[] txtOut) {
             return result;
         }
 
-        private void Parse() {
+        private string Parse() {
             StringBuilder output = new StringBuilder();
 
             string[] sentences = SplitSentences(SourceText);
@@ -163,10 +161,10 @@ void WriteToFile(params string[] txtOut) {
             }
 
             var result = output.ToString();
-            WriteToFile(result);
+            return result;
         }
 
-        private void NameFind() {
+        private string NameFind() {
             StringBuilder output = new StringBuilder();
 
             string[] sentences = SplitSentences(SourceText);
@@ -176,7 +174,7 @@ void WriteToFile(params string[] txtOut) {
             }
 
             var result = output.ToString();
-            WriteToFile(result);
+            return result;
         }
 
         #endregion
@@ -264,7 +262,7 @@ string FindNames(OpenNLP.Tools.Parser.Parse sentenceParse) {
 
         #endregion
 
-        protected virtual void Gender(object sender, EventArgs e) {
+        protected virtual string Gender(object sender, EventArgs e) {
             StringBuilder output = new StringBuilder();
 
             string[] sentences = SplitSentences(SourceText);
@@ -286,10 +284,10 @@ string FindNames(OpenNLP.Tools.Parser.Parse sentenceParse) {
             }
 
             var result = output.ToString();
-            WriteToFile(result);
+            return result;
         }
 
-        protected virtual void Similarity() {
+        protected virtual string Similarity() {
             StringBuilder output = new StringBuilder();
 
             string[] sentences = SplitSentences(SourceText);
@@ -311,14 +309,14 @@ string FindNames(OpenNLP.Tools.Parser.Parse sentenceParse) {
             }
 
             var result = output.ToString();
-            WriteToFile(result);
+            return result;
         }
 
-        private void Coreference() {
+        private string Coreference() {
             string[] sentences = SplitSentences(SourceText);
 
             var result = IdentifyCoreferents(sentences);
-            WriteToFile(result);
+            return result;
         }
 
         #region Properties

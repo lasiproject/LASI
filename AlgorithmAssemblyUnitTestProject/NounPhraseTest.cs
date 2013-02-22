@@ -95,7 +95,7 @@ namespace AlgorithmAssemblyUnitTestProject
         public void BindPronounTest() {
             IEnumerable<Word> composedWords = new Word[] { new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians") };
             NounPhrase target = new NounPhrase(composedWords);
-            IEntityReferencer pro = new Pronoun("they");
+            IEntityReferencer pro = new PluralPronoun("they");
             target.BindPronoun(pro);
             Assert.IsTrue(target.IndirectReferences.Contains(pro) && pro.BoundEntity == target);
         }
@@ -163,7 +163,7 @@ namespace AlgorithmAssemblyUnitTestProject
             IEnumerable<Word> composedWords = new Word[] { new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians") };
             NounPhrase target = new NounPhrase(composedWords);
             Assert.IsTrue(target.IndirectReferences.Count() == 0);
-            Pronoun pro = new Pronoun("they");
+            Pronoun pro = new PluralPronoun("they");
             target.BindPronoun(pro);
             Assert.IsTrue(target.IndirectReferences.Contains(pro) && pro.BoundEntity == target);
         }

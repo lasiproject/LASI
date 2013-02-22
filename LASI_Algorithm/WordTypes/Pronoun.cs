@@ -8,20 +8,19 @@ namespace LASI.Algorithm
     /// <summary>
     /// Represents a pronoun which gernerally refers to a previously defined Entity, such as a Noun or NounPhrase.
     /// </summary>
-    public class Pronoun : Word, IEntityReferencer, IActionObject, IActionSubject, IReferenciable
+    public abstract class Pronoun : Word, IEntityReferencer, IReferenciable
     {
+        #region Constructors
+
         /// <summary>
         /// Initializes a new instance of the Pronoun class.
         /// </summary>
         /// <param name="text">The literal text content of the pronoun.</param>
-        public Pronoun(string text)
+        protected Pronoun(string text)
             : base(text) {
         }
 
-
-        private ICollection<IEntityReferencer> _indirectReferences = new List<IEntityReferencer>();
-
-
+        #endregion
 
         #region Methods
 
@@ -45,7 +44,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets or sets the Entity which the Pronoun references.
         /// </summary>
-        public IEntity BoundEntity {
+        public virtual IEntity BoundEntity {
             get;
             set;
         }
@@ -77,6 +76,42 @@ namespace LASI.Algorithm
             get;
             set;
         }
+        public virtual void BindDescriber(IDescriber adj) {
+            throw new NotImplementedException();
+        }
+
+        public virtual IEnumerable<IDescriber> DescribedBy {
+            get {
+                throw new NotImplementedException();
+            }
+        }
+
+        public virtual IEnumerable<IEntity> Possessed {
+            get {
+                throw new NotImplementedException();
+            }
+        }
+
+
+        public virtual void AddPossession(IEntity possession) {
+            if (!_possessed.Contains(possession)) {
+
+                _possessed.Add(possession);
+            }
+        }
+
+        public virtual IEntity Possesser {
+            get {
+                throw new NotImplementedException();
+            }
+            set {
+                throw new NotImplementedException();
+            }
+        }
+
+        public virtual bool Equals(IEntity other) {
+            throw new NotImplementedException();
+        }
 
         #endregion
 
@@ -103,40 +138,10 @@ namespace LASI.Algorithm
         }
         #endregion
 
+        #region Fields
+        protected ICollection<IEntity> _possessed = new List<IEntity>();
+        protected ICollection<IEntityReferencer> _indirectReferences = new List<IEntityReferencer>();
 
-
-
-        public void BindDescriber(IDescriber adj) {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<IDescriber> DescribedBy {
-            get {
-                throw new NotImplementedException();
-            }
-        }
-
-        public IEnumerable<IEntity> Possessed {
-            get {
-                throw new NotImplementedException();
-            }
-        }
-
-        public void AddPossession(IEntity possession) {
-            throw new NotImplementedException();
-        }
-
-        public IEntity Possesser {
-            get {
-                throw new NotImplementedException();
-            }
-            set {
-                throw new NotImplementedException();
-            }
-        }
-
-        public bool Equals(IEntity other) {
-            throw new NotImplementedException();
-        }
+        #endregion
     }
 }

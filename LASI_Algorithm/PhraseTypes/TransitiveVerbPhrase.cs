@@ -65,8 +65,8 @@ namespace LASI.Algorithm
                 var modiffiers = verbPhrase.Modifiers;
                 verbPhrase = new TransitiveVerbPhrase(verbPhrase.Words) {
                     BoundSubject = verbPhrase.BoundSubject,
-                    LeftLinkedPrepositional = verbPhrase.LeftLinkedPrepositional,
-                    RightLinkedPrepositional = verbPhrase.RightLinkedPrepositional,
+                    PrepositionOnLeft = verbPhrase.PrepositionOnLeft,
+                    PrepositionOnRight = verbPhrase.PrepositionOnRight,
                     Modality = verbPhrase.Modality,
                     ObjectViaPreposition = verbPhrase.ObjectViaPreposition,
                     Tense = verbPhrase.Tense

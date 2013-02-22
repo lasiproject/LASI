@@ -31,6 +31,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\Algorithm.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>LasiLogo.ico</ApplicationIcon>
@@ -49,7 +50,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="SuntInterfaces\ILexical.cs" />
+    <Compile Include="PossessivePronoun.cs" />
+    <Compile Include="WhPossessivePronoun.cs" />
+    <Compile Include="WordTypes\PluralPronoun.cs" />
+    <Compile Include="WordTypes\PluralPossessivePronoun.cs" />
+    <Compile Include="WordTypes\SingularPronoun.cs" />
+    <Compile Include="SyntacticInterfaces\ILexical.cs" />
     <Compile Include="IEnumerableExtensions\IEnumerableOfTransitiveVerbPhraseExtensions.cs" />
     <Compile Include="IEnumerableExtensions\IEnumerableOfParagraphExtensions.cs" />
     <Compile Include="IEnumerableExtensions\IEnumerableOfTransitiveVerbExtensions.cs" />
@@ -63,14 +69,14 @@
     <Compile Include="Heuristics\PronounAwareSubjectHeuristic.cs" />
     <Compile Include="DocumentConstructs\Sentence.cs" />
     <Compile Include="PhraseTypes\UndeterminedPhrase.cs" />
-    <Compile Include="SuntInterfaces\IAdverbial.cs" />
-    <Compile Include="SuntInterfaces\IConflatable.cs" />
-    <Compile Include="SuntInterfaces\IDescriber.cs" />
-    <Compile Include="SuntInterfaces\IEntityReferencer.cs" />
-    <Compile Include="SuntInterfaces\IPossessable.cs" />
-    <Compile Include="SuntInterfaces\IPossesser.cs" />
-    <Compile Include="SuntInterfaces\IQuantifer.cs" />
-    <Compile Include="SuntInterfaces\IModalityModdifiable.cs" />
+    <Compile Include="SyntacticInterfaces\IAdverbial.cs" />
+    <Compile Include="SyntacticInterfaces\IConflatable.cs" />
+    <Compile Include="SyntacticInterfaces\IDescriber.cs" />
+    <Compile Include="SyntacticInterfaces\IEntityReferencer.cs" />
+    <Compile Include="SyntacticInterfaces\IPossessable.cs" />
+    <Compile Include="SyntacticInterfaces\IPossesser.cs" />
+    <Compile Include="SyntacticInterfaces\IQuantifer.cs" />
+    <Compile Include="SyntacticInterfaces\IModalityModdifiable.cs" />
     <Compile Include="ParagraphBreak.cs" />
     <Compile Include="PhraseTypes\PastParticipleVerbPhrase.cs" />
     <Compile Include="PhraseTypes\PastTenseVerbPhrase.cs" />
@@ -81,6 +87,7 @@
     <Compile Include="PhraseTypes\TransPastParticplePhrase.cs" />
     <Compile Include="PhraseTypes\TransPastTenseVPhrase.cs" />
     <Compile Include="PhraseTypes\TransPresentVPhrase.cs" />
+    <Compile Include="WordTypes\WhPronoun.cs" />
     <Compile Include="WordTypes\NounConstructs\GenericNoun.cs" />
     <Compile Include="WordTypes\NounConstructs\ProperNoun.cs" />
     <Compile Include="WordTypes\VerbConstructs\PastParticipleVerb.cs" />
@@ -89,7 +96,7 @@
     <Compile Include="PhraseTypes\RoughListPhrase.cs" />
     <Compile Include="PhraseTypes\ParticlePhrase.cs" />
     <Compile Include="WordTypes\PreDeterminer.cs" />
-    <Compile Include="SuntInterfaces\IConjunctive.cs" />
+    <Compile Include="SyntacticInterfaces\IConjunctive.cs" />
     <Compile Include="WordTypes\VerbConstructs\PresentPrtcplOrGerund.cs" />
     <Compile Include="WordTypes\VerbConstructs\PresentTenseVerb.cs" />
     <Compile Include="WordTypes\VerbConstructs\TransPastParticiple.cs" />
@@ -117,22 +124,22 @@
     <None Include="ClassDiagram2.cd" />
     <None Include="ClassDiagram3.cd" />
     <Compile Include="DocumentConstructs\Document.cs" />
-    <Compile Include="SuntInterfaces\IEntityGroup.cs" />
+    <Compile Include="SyntacticInterfaces\IEntityGroup.cs" />
     <Compile Include="WordTypes\BridgingConstructs\Interjection.cs" />
     <Compile Include="PhraseTypes\InterrogativePhrase.cs" />
-    <Compile Include="SuntInterfaces\IActionObject.cs" />
-    <Compile Include="SuntInterfaces\IPronounBindable.cs" />
-    <Compile Include="SuntInterfaces\IAdverbialModifiable.cs" />
-    <Compile Include="SuntInterfaces\IDescribable.cs" />
-    <Compile Include="SuntInterfaces\IEntity.cs" />
-    <Compile Include="SuntInterfaces\IInderectObjectTaker.cs" />
-    <Compile Include="SuntInterfaces\IAction.cs" />
-    <Compile Include="SuntInterfaces\IPrepositionLinkable.cs" />
-    <Compile Include="SuntInterfaces\IQuantifiable.cs" />
-    <Compile Include="SuntInterfaces\ISubject.cs" />
-    <Compile Include="SuntInterfaces\ISubjectTaker.cs" />
-    <Compile Include="SuntInterfaces\IObjectTaker.cs" />
-    <Compile Include="SuntInterfaces\IPrepositional.cs" />
+    <Compile Include="SyntacticInterfaces\IActionObject.cs" />
+    <Compile Include="SyntacticInterfaces\IPronounBindable.cs" />
+    <Compile Include="SyntacticInterfaces\IAdverbialModifiable.cs" />
+    <Compile Include="SyntacticInterfaces\IDescribable.cs" />
+    <Compile Include="SyntacticInterfaces\IEntity.cs" />
+    <Compile Include="SyntacticInterfaces\IInderectObjectTaker.cs" />
+    <Compile Include="SyntacticInterfaces\IAction.cs" />
+    <Compile Include="SyntacticInterfaces\IPrepositionLinkable.cs" />
+    <Compile Include="SyntacticInterfaces\IQuantifiable.cs" />
+    <Compile Include="SyntacticInterfaces\ISubject.cs" />
+    <Compile Include="SyntacticInterfaces\ISubjectTaker.cs" />
+    <Compile Include="SyntacticInterfaces\IObjectTaker.cs" />
+    <Compile Include="SyntacticInterfaces\IPrepositional.cs" />
     <Compile Include="WordTypes\NounConstructs\GenericSingularNoun.cs" />
     <Compile Include="WordTypes\Modal.cs" />
     <Compile Include="WordTypes\BridgingConstructs\Particle.cs" />
@@ -141,11 +148,11 @@
     <Compile Include="WordTypes\Punctuator.cs" />
     <Compile Include="PhraseTypes\SimpleDeclarativePhrase.cs" />
     <Compile Include="SentenceDelimiter.cs" />
-    <Compile Include="WordTypes\SingularPronoun.cs" />
+    <Compile Include="WordTypes\PersonalPronoun.cs" />
     <Compile Include="WordTypes\AdverbConstructs\SuperlativeAdverb.cs" />
     <Compile Include="WordTypes\Symbol.cs" />
     <Compile Include="Thesuari\Thesaurus.cs" />
-    <Compile Include="SuntInterfaces\ITransitiveAction.cs" />
+    <Compile Include="SyntacticInterfaces\ITransitiveAction.cs" />
     <Compile Include="WordTypes\NounConstructs\Noun.cs" />
     <Compile Include="PhraseTypes\NounPhrase.cs" />
     <Compile Include="WordTypes\Quantifier.cs" />
@@ -172,7 +179,7 @@
     <None Include="ClassDiagrams\PronounConstructs.cd" />
     <None Include="ClassDiagrams\VerbConstructs.cd" />
     <None Include="DocumentConstructs\DocumentComposition.cd" />
-    <None Include="SuntInterfaces\GrammaticalInterfaces.cd" />
+    <None Include="SyntacticInterfaces\GrammaticalInterfaces.cd" />
     <None Include="IEnumerableExtensions\IEnumerableExtensions.cd" />
     <None Include="PhraseTypes\PhraseConstructs.cd" />
     <None Include="WordTypes\WordLevelTypes_ClassDiagram.cd" />

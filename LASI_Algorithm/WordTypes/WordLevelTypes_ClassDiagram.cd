@@ -1,15 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="LASI.Algorithm.Adjective" Collapsed="true">
-    <Position X="34.75" Y="3.5" Width="1.5" />
-    <InheritanceLine Type="LASI.Algorithm.Word" ManuallyRouted="true" FixedToPoint="true">
-      <Path>
-        <Point X="29" Y="1.312" />
-        <Point X="29" Y="1.687" />
-        <Point X="35.312" Y="1.687" />
-        <Point X="35.312" Y="3.5" />
-      </Path>
-    </InheritanceLine>
+    <Position X="71.75" Y="2" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAABAABAAAAAAgAAAAAAAAAAAAAAgAAAAAAAAAAAAA=</HashCode>
       <FileName>WordTypes\AdjectiveConstructs\Adjective.cs</FileName>
@@ -17,31 +9,21 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="LASI.Algorithm.ComparativeAdjective" Collapsed="true">
-    <Position X="33.75" Y="5" Width="1.5" />
+    <Position X="70.5" Y="3.5" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>WordTypes\AdjectiveConstructs\ComparativeAdjective.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="LASI.Algorithm.SuperlativeAdjective" Collapsed="true">
-    <Position X="35.5" Y="5" Width="1.5" />
+    <Position X="73" Y="3.5" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>WordTypes\AdjectiveConstructs\SuperlativeAdjective .cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="LASI.Algorithm.Conjunction" Collapsed="true">
-    <Position X="23.5" Y="10.5" Width="1.5" />
-    <InheritanceLine Type="LASI.Algorithm.Word" FixedFromPoint="true">
-      <Path>
-        <Point X="28.562" Y="1.312" />
-        <Point X="28.562" Y="1.687" />
-        <Point X="23.398" Y="1.687" />
-        <Point X="23.398" Y="10.346" />
-        <Point X="24.25" Y="10.346" />
-        <Point X="24.25" Y="10.5" />
-      </Path>
-    </InheritanceLine>
+    <Position X="23.5" Y="2" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAgAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>WordTypes\BridgingConstructs\Conjunction.cs</FileName>
@@ -49,123 +31,59 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="LASI.Algorithm.Interjection" Collapsed="true">
-    <Position X="30.5" Y="2.75" Width="1.5" />
+    <Position X="58.5" Y="2" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>WordTypes\BridgingConstructs\Interjection.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="LASI.Algorithm.Particle" Collapsed="true">
-    <Position X="23.5" Y="7.25" Width="1.5" />
-    <InheritanceLine Type="LASI.Algorithm.Word" FixedFromPoint="true">
-      <Path>
-        <Point X="28.5" Y="1.312" />
-        <Point X="28.5" Y="1.687" />
-        <Point X="23.398" Y="1.687" />
-        <Point X="23.398" Y="6.875" />
-        <Point X="24.25" Y="6.875" />
-        <Point X="24.25" Y="7.25" />
-      </Path>
-    </InheritanceLine>
+    <Position X="25.75" Y="2" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AIAAAAAIAAAAAAAAAAAAAAAAAABAAAAAACAAAAAAAAA=</HashCode>
+      <HashCode>AAAgAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>WordTypes\BridgingConstructs\Particle.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="LASI.Algorithm.Preposition" Collapsed="true">
-    <Position X="23.5" Y="8.5" Width="1.5" />
-    <InheritanceLine Type="LASI.Algorithm.Word" ManuallyRouted="true" FixedFromPoint="true">
-      <Path>
-        <Point X="28.5" Y="1.312" />
-        <Point X="28.5" Y="1.687" />
-        <Point X="23.398" Y="1.687" />
-        <Point X="23.398" Y="8.2" />
-        <Point X="24.25" Y="8.2" />
-        <Point X="24.25" Y="8.5" />
-      </Path>
-    </InheritanceLine>
+    <Position X="28" Y="2" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AIAAAAAIAAAAAAAAAAAAAAAAAABAAAAAACAAAAAAAAA=</HashCode>
+      <HashCode>AAAgAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>WordTypes\BridgingConstructs\Preposition.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="LASI.Algorithm.ToLinker" Collapsed="true">
-    <Position X="23.5" Y="9.5" Width="1.5" />
-    <InheritanceLine Type="LASI.Algorithm.Word" FixedFromPoint="true">
-      <Path>
-        <Point X="28.5" Y="1.312" />
-        <Point X="28.5" Y="1.687" />
-        <Point X="23.398" Y="1.687" />
-        <Point X="23.398" Y="9.346" />
-        <Point X="24.25" Y="9.346" />
-        <Point X="24.25" Y="9.5" />
-      </Path>
-    </InheritanceLine>
+    <Position X="30.25" Y="2" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AIAAAAAIAAAAAAAAAAAAAAAAAABAAAAAACAAAAAAAAA=</HashCode>
+      <HashCode>AAAgAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>WordTypes\BridgingConstructs\ToLinker.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="LASI.Algorithm.Determiner" Collapsed="true">
-    <Position X="26" Y="7.25" Width="1.5" />
-    <InheritanceLine Type="LASI.Algorithm.Word" FixedFromPoint="true">
-      <Path>
-        <Point X="28.5" Y="1.312" />
-        <Point X="28.5" Y="1.687" />
-        <Point X="26.75" Y="1.687" />
-        <Point X="26.75" Y="7.25" />
-      </Path>
-    </InheritanceLine>
+    <Position X="34.75" Y="2" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAA=</HashCode>
       <FileName>WordTypes\Determiner.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="LASI.Algorithm.Existential" Collapsed="true">
-    <Position X="26" Y="9.25" Width="1.5" />
-    <InheritanceLine Type="LASI.Algorithm.Word" FixedFromPoint="true">
-      <Path>
-        <Point X="28.5" Y="1.312" />
-        <Point X="28.5" Y="1.687" />
-        <Point X="25.474" Y="1.687" />
-        <Point X="25.474" Y="9" />
-        <Point X="26.75" Y="9" />
-        <Point X="26.75" Y="9.25" />
-      </Path>
-    </InheritanceLine>
+    <Position X="37" Y="2" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>WordTypes\Existential.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="LASI.Algorithm.ForeignWord" Collapsed="true">
-    <Position X="28.5" Y="2.75" Width="1.5" />
-    <InheritanceLine Type="LASI.Algorithm.Word" FixedFromPoint="true">
-      <Path>
-        <Point X="28.938" Y="1.312" />
-        <Point X="28.938" Y="2.375" />
-        <Point X="29.25" Y="2.375" />
-        <Point X="29.25" Y="2.75" />
-      </Path>
-    </InheritanceLine>
+    <Position X="56.25" Y="2" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>WordTypes\ForeignWord.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="LASI.Algorithm.GenericPluralNoun" Collapsed="true">
-    <Position X="29" Y="9.25" Width="1.5" />
-    <InheritanceLine Type="LASI.Algorithm.GenericNoun" ManuallyRouted="true">
-      <Path>
-        <Point X="30.938" Y="8.441" />
-        <Point X="30.938" Y="8.875" />
-        <Point X="29.938" Y="8.875" />
-        <Point X="29.938" Y="9.25" />
-      </Path>
-    </InheritanceLine>
+    <Position X="60.75" Y="5" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAA=</HashCode>
       <FileName>WordTypes\NounConstructs\GenericPluralNoun.cs</FileName>
@@ -173,22 +91,14 @@
     <Lollipop Orientation="Left" Position="0.367" />
   </Class>
   <Class Name="LASI.Algorithm.GenericSingularNoun" Collapsed="true">
-    <Position X="30.75" Y="9.25" Width="1.5" />
+    <Position X="63.25" Y="5" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>WordTypes\NounConstructs\GenericSingularNoun.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="LASI.Algorithm.Noun" Collapsed="true">
-    <Position X="32" Y="5" Width="1.5" />
-    <InheritanceLine Type="LASI.Algorithm.Word" FixedFromPoint="true">
-      <Path>
-        <Point X="29.375" Y="1.312" />
-        <Point X="29.375" Y="1.687" />
-        <Point X="32.75" Y="1.687" />
-        <Point X="32.75" Y="5" />
-      </Path>
-    </InheritanceLine>
+    <Position X="64.5" Y="2" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAACAAAAAAAAAAAkAgEAAAAwACAAAAAAQIAAAAAAAE=</HashCode>
       <FileName>WordTypes\NounConstructs\Noun.cs</FileName>
@@ -196,7 +106,7 @@
     <Lollipop Orientation="Left" Position="0.128" />
   </Class>
   <Class Name="LASI.Algorithm.ProperPluralNoun" Collapsed="true">
-    <Position X="32.5" Y="9.25" Width="1.5" />
+    <Position X="65.75" Y="5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAA=</HashCode>
       <FileName>WordTypes\NounConstructs\ProperPluralNoun.cs</FileName>
@@ -204,129 +114,133 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="LASI.Algorithm.ProperSingularNoun" Collapsed="true">
-    <Position X="32.5" Y="7.75" Width="1.5" />
+    <Position X="68" Y="5" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>WordTypes\NounConstructs\ProperSingularNoun.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="LASI.Algorithm.PossessiveEnding" Collapsed="true">
-    <Position X="28.25" Y="7.75" Width="1.5" />
-    <InheritanceLine Type="LASI.Algorithm.Word" FixedFromPoint="true">
-      <Path>
-        <Point X="28.5" Y="1.312" />
-        <Point X="28.5" Y="2.5" />
-        <Point X="27.875" Y="2.5" />
-        <Point X="27.875" Y="7.596" />
-        <Point X="29" Y="7.596" />
-        <Point X="29" Y="7.75" />
-      </Path>
-    </InheritanceLine>
+    <Position X="41.5" Y="2" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAkAAAAAAAAACAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>WordTypes\PossessiveEnding.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
-  <Class Name="LASI.Algorithm.PossessivePronoun" Collapsed="true">
-    <Position X="28.25" Y="6.75" Width="1.5" />
+  <Class Name="LASI.Algorithm.SingularPossessivePronoun" Collapsed="true">
+    <Position X="48.25" Y="5" Width="2.25" />
     <TypeIdentifier>
-      <HashCode>AAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAIAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>WordTypes\PossessivePronoun.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="LASI.Algorithm.PreDeterminer" Collapsed="true">
-    <Position X="26" Y="8.25" Width="1.5" />
+    <Position X="34.75" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>WordTypes\PreDeterminer.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="LASI.Algorithm.Pronoun" Collapsed="true">
-    <Position X="28.25" Y="4.75" Width="1.5" />
-    <InheritanceLine Type="LASI.Algorithm.Word" FixedFromPoint="true">
-      <Path>
-        <Point X="28.5" Y="1.312" />
-        <Point X="28.5" Y="2.5" />
-        <Point X="27.875" Y="2.5" />
-        <Point X="27.875" Y="4.375" />
-        <Point X="29" Y="4.375" />
-        <Point X="29" Y="4.75" />
-      </Path>
-    </InheritanceLine>
+    <Position X="48.75" Y="2" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAACAAAAAAAAAAAkAgAQAAAwAAAAIAAAQIAAAAAAiE=</HashCode>
+      <HashCode>AAAACAAAAAAAAAAAkAgAQAAAwACAAIAAAQIAAAAAAiE=</HashCode>
       <FileName>WordTypes\Pronoun.cs</FileName>
     </TypeIdentifier>
-    <Lollipop Position="0.259" />
+    <Lollipop Orientation="Right" Position="0.111" />
   </Class>
   <Class Name="LASI.Algorithm.Punctuator" Collapsed="true">
-    <Position X="23.75" Y="5" Width="1.5" />
+    <Position X="32.5" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAABCAAAAAAAAAAAAAAAAAAAAgACAAAAAA=</HashCode>
       <FileName>WordTypes\Punctuator.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="LASI.Algorithm.Quantifier" Collapsed="true">
-    <Position X="26" Y="10.25" Width="1.5" />
-    <InheritanceLine Type="LASI.Algorithm.Word" FixedFromPoint="true">
-      <Path>
-        <Point X="28.5" Y="1.312" />
-        <Point X="28.5" Y="1.687" />
-        <Point X="25.474" Y="1.687" />
-        <Point X="25.474" Y="10.096" />
-        <Point X="26.75" Y="10.096" />
-        <Point X="26.75" Y="10.25" />
-      </Path>
-    </InheritanceLine>
+    <Position X="39.25" Y="2" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAA=</HashCode>
       <FileName>WordTypes\Quantifier.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
-  <Class Name="LASI.Algorithm.SingularPronoun" Collapsed="true">
-    <Position X="28.25" Y="5.75" Width="1.5" />
+  <Class Name="LASI.Algorithm.PersonalPronoun" Collapsed="true">
+    <Position X="44.75" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>WordTypes\SingularPronoun.cs</FileName>
+      <FileName>WordTypes\PersonalPronoun.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="LASI.Algorithm.Symbol" Collapsed="true">
-    <Position X="23.75" Y="4" Width="1.5" />
-    <InheritanceLine Type="LASI.Algorithm.Word" FixedFromPoint="true">
-      <Path>
-        <Point X="28.5" Y="1.312" />
-        <Point X="28.5" Y="1.687" />
-        <Point X="24.5" Y="1.687" />
-        <Point X="24.5" Y="4" />
-      </Path>
-    </InheritanceLine>
+    <Position X="32.5" Y="2" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>WordTypes\Symbol.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="LASI.Algorithm.Word" Collapsed="true">
-    <Position X="28.25" Y="0.75" Width="1.5" />
+    <Position X="48.25" Y="0.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AABQAAAAAAAAoAAEgAABAAAAAAAAJIAAIRAACAAAAiA=</HashCode>
+      <HashCode>AABQAAAAAAgAoAAEhCAAAAAAAAAAAIAAIBAACAAAAiA=</HashCode>
       <FileName>WordTypes\Word.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="LASI.Algorithm.GenericNoun" Collapsed="true">
-    <Position X="30.25" Y="7.75" Width="1.5" />
+    <Position X="62" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>WordTypes\NounConstructs\GenericNoun.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="LASI.Algorithm.ProperNoun" Collapsed="true">
-    <Position X="32.5" Y="6.5" Width="1.5" />
+    <Position X="67" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>WordTypes\NounConstructs\ProperNoun.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Algorithm.SingularPronoun">
+    <Position X="43.75" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>WordTypes\SingularPronoun.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Algorithm.WhPronoun" Collapsed="true">
+    <Position X="54" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>WordTypes\WhPronoun.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Algorithm.PluralPronoun" Collapsed="true">
+    <Position X="46" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>WordTypes\PluralPronoun.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Algorithm.PluralPossessivePronoun">
+    <Position X="51.25" Y="5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>WordTypes\PluralPossessivePronoun.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Algorithm.PossessivePronoun" Collapsed="true">
+    <Position X="50" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>PossessivePronoun.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Algorithm.WhPossessivePronoun">
+    <Position X="54" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>WhPossessivePronoun.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Font Name="Segoe UI" Size="9" />

@@ -91,7 +91,7 @@ namespace AlgorithmAssemblyUnitTestProject
         public void BoundSubjectTest() {
             IEnumerable<Word> composedWords = new Word[] { new PastTenseVerb("ran"), new Adverb("swiftly"), new Preposition("through") };
             VerbPhrase target = new VerbPhrase(composedWords);
-            IEntity expected = new SingularPronoun("he");
+            IEntity expected = new PersonalPronoun("he");
             IEntity actual;
             target.BoundSubject = expected;
             actual = target.BoundSubject;

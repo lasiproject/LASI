@@ -9,21 +9,26 @@ namespace LASI.Algorithm
     /// Represents a possessive pronoun word such as "his" or "hers"
     /// A possessive pronoun associates establishes an owned - owner relationships linking to entities.
     /// </summary>
-    public class PossessivePronoun : Pronoun
+    public class SingularPossessivePronoun : PossessivePronoun
     {
         /// <summary>
-        /// Initialiazes a new instance of the PossessivePronoun class.
+        /// Initialiazes a new instance of the SingularPossessivePronoun class.
         /// </summary>
-        /// <param name="text">The literal text content of the PossessivePronoun.</param>
-        public PossessivePronoun(string text)
+        /// <param name="text">The literal text content of the SingularPossessivePronoun.</param>
+        public SingularPossessivePronoun(string text)
             : base(text) {
         }
         /// <summary>
-        /// The Entity the PossessivePronoun possesses.
+        /// The Entity the SingularPossessivePronoun possesses.
         /// </summary>
         public virtual IEntity PossessedEntity {
             get;
             set;
+        }
+        public override void AddPossession(IEntity possession) {
+            if (BoundEntity != null) {
+                BoundEntity.AddPossession(possession);
+            }
         }
     }
 }
