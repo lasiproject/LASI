@@ -19,14 +19,14 @@ namespace Scott_Experimentation
             var tagged = tagger.ProcessFile();
             var paragraphs = new TaggedFileParser(tagged).ConstructParagraphs();
             var document = new Document(paragraphs);
-            List<Word> ListOfWords = (List<Word>)document.Words;
-            
-            //var WordStrings = (from w in ListOfWords where w is Noun select w.Type).ToList();
 
-            for (int x = 0; x < ListOfWords.Count; x++)
+            for (var x = 0; x < 1/*document.Words.Count()*/; x++)
             {
-                if(ListOfWords[x] is Verb)
-                    Console.WriteLine("{0}: {1}", x, ListOfWords[x].Text);
+                for (var y = 0; y < document.Sentences.ElementAt(x).GetWordCount(); y++)
+                {
+                    Console.WriteLine("y: {0}, {1}", y, document.Sentences.ElementAt(x).Words.ElementAt(y));
+                }
+                Console.WriteLine("\n****************** end of sentence ****************\n");
             }
 
 
