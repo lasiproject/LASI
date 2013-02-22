@@ -47,7 +47,7 @@ namespace LASI.Algorithm
         #endregion
 
         #region Properties
-        
+
         /// <summary>
         /// Gets or sets the Prepositional construct which is lexically to the right of the Word.
         /// </summary>
@@ -62,7 +62,10 @@ namespace LASI.Algorithm
             get;
             set;
         }
-
+        public virtual Punctuator EndingPunction {
+            get;
+            set;
+        }
         /// <summary>
         /// Gets the concatenated text content of all of the words which compose the phrase.
         /// </summary>

@@ -83,23 +83,27 @@ namespace LASI.FileSystem
 
                         count++;
                         var reader2 = (new StringReader(chunk));
-                        char tagType = '>';
+                        char token = '>';
                         while (reader2.Peek() != '/' && reader2.Peek() != ' ') {
-                            tagType = (char) reader2.Read();
+                            token = (char) reader2.Read();
                         }
-                        tagType = (char) reader2.Read();
-                        if (tagType == ' ') {
+                        token = (char) reader2.Read();
+                        if (token == ' ') {
                             var currentPhrase = ParsePhrase(new TaggedWordObject {
                                 Tag = chunk.Substring(0, chunk.IndexOf(' ')),
                                 Text = chunk.Substring(chunk.IndexOf(' '))
                             });
                             parsedPhrases.Add(currentPhrase);
-                        } else if (tagType == '/') {
+                        } else if (token == '/') {
                             var words = ReadParseConstruct(chunk);
-                            if (words.Count == 1 && words.First() != null && (words.First().Text == "and" || words.First().Text == "or")) {
-                                var currentPhrase = new Algorithm.ConjunctionPhrase(words);
-                                parsedPhrases.Add(currentPhrase);
-                            }
+                            if (words.Count == 1 && words.First() != null)
+                                if (words.First().Text == "and" || words.First().Text == "or") {
+                                    var currentPhrase = new Algorithm.ConjunctionPhrase(words);
+                                    parsedPhrases.Add(currentPhrase);
+                                } else if (words.First() is Algorithm.Punctuator) {
+                                   // parsedPhrases.Last().EndingPunction = words.First() as Algorithm.Punctuator;
+
+                                }
 
                         }
 
