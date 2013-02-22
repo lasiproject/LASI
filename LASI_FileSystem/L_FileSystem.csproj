@@ -70,6 +70,7 @@
     <Compile Include="FileTypes\GenericXMLFile.cs" />
     <Compile Include="FileManager.cs" />
     <Compile Include="FileTypes\InputFileConverter.cs" />
+    <Compile Include="FileTypes\Support\TaggedToXMLConverter.cs" />
     <Compile Include="TaggerEncapsulation\PosExtractor.cs" />
     <Compile Include="TaggerEncapsulation\SharpNLPTagger.cs" />
     <Compile Include="TaggerEncapsulation\SharpNLPTagsetMap.cs" />

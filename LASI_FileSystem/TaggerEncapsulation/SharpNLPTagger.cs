@@ -54,7 +54,7 @@ namespace SharpNLPTaggingModule
                 case TaggingOption.TagAndAggregate:
                     return Chunk();
                 case TaggingOption.Experimental:
-                    return Coreference();
+                    return Parse();
                 default:
                     return POSTag();
             }
@@ -197,8 +197,7 @@ namespace SharpNLPTaggingModule
             return mTokenizer.Tokenize(sentence);
         }
 
-        protected virtual
-string[] PosTagTokens(string[] tokens) {
+        protected virtual string[] PosTagTokens(string[] tokens) {
             if (mPosTagger == null) {
                 mPosTagger = new OpenNLP.Tools.PosTagger.EnglishMaximumEntropyPosTagger(mModelPath + "EnglishPOS.nbin", mModelPath + @"\Parser\tagdict");
             }
@@ -206,8 +205,7 @@ string[] PosTagTokens(string[] tokens) {
             return mPosTagger.Tag(tokens);
         }
 
-        protected virtual
-string ChunkSentence(string[] tokens, string[] tags) {
+        protected virtual string ChunkSentence(string[] tokens, string[] tags) {
             if (mChunker == null) {
                 mChunker = new OpenNLP.Tools.Chunker.EnglishTreebankChunker(mModelPath + "EnglishChunk.nbin");
             }
@@ -215,8 +213,7 @@ string ChunkSentence(string[] tokens, string[] tags) {
             return mChunker.GetChunks(tokens, tags);
         }
 
-        protected virtual
-OpenNLP.Tools.Parser.Parse ParseSentence(string sentence) {
+        protected virtual OpenNLP.Tools.Parser.Parse ParseSentence(string sentence) {
             if (mParser == null) {
                 mParser = new OpenNLP.Tools.Parser.EnglishTreebankParser(mModelPath, true, false);
             }
@@ -233,8 +230,7 @@ OpenNLP.Tools.Parser.Parse ParseSentence(string sentence) {
             return mNameFinder.GetNames(models, sentence);
         }
 
-        protected virtual
-string FindNames(OpenNLP.Tools.Parser.Parse sentenceParse) {
+        protected virtual string FindNames(OpenNLP.Tools.Parser.Parse sentenceParse) {
             if (mNameFinder == null) {
                 mNameFinder = new OpenNLP.Tools.NameFind.EnglishNameFinder(mModelPath + "namefind\\");
             }

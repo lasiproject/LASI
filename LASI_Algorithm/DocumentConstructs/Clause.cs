@@ -14,8 +14,9 @@ namespace LASI.Algorithm
         public Clause(IEnumerable<Phrase> phrases) {
             Phrases = phrases;
         }
-        public Clause(IEnumerable<Phrase> phrases, Punctuator endingPunc) {
+        public Clause(IEnumerable<Phrase> phrases, ClauseTypes clauseType) {
             Phrases = phrases;
+            Kind = clauseType;
         }
         /// <summary>
         ///Initializes a new instnace of the Clause class, by composing the given linear sequence of words       
@@ -37,7 +38,7 @@ namespace LASI.Algorithm
         /// </summary>
         public string Text {
             get {
-                return Phrases.Aggregate(" ", (txt, phrase) => txt + phrase.Text) + " CLAUSE Punc ";
+                return Phrases.Aggregate(" ", (txt, phrase) => txt + phrase.Text) + " CLAUSE Tag ";
             }
         }
         internal void EstablishParenthood(Sentence sentence) {
@@ -58,5 +59,19 @@ namespace LASI.Algorithm
             get;
             protected set;
         }
+
+        public ClauseTypes Kind {
+            get;
+            set;
+        }
+    }
+
+    public enum ClauseTypes
+    {
+        S,
+        SINV,
+        SBAR,
+        SBARQ,
+        SQ
     }
 }

@@ -129,4 +129,12 @@ namespace LASI.FileSystem
 
 
     }
+
+
+    class UnknownClauseTypeException : POSTagException
+    {
+        public UnknownClauseTypeException(string message)
+            : base(message) {
+        }
+    }
 }

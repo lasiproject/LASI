@@ -94,7 +94,7 @@ namespace LASI.Algorithm
         /// </summary>
         public string Text {
             get {
-                return Phrases.Aggregate("", (txt, P) => txt + " " + P.Text) + EndingPunctuation.Text;
+                return Phrases.Aggregate("", (txt, P) => txt + " " + P.Text);
             }
         }
 

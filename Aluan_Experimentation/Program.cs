@@ -10,7 +10,7 @@ using LASI.Utilities;
 using SharpNLPTaggingModule;
 using System.IO;
 using LASI.Algorithm.Heuristics;
-
+using System.Xml;
 namespace Aluan_Experimentation
 {
     public class Program
@@ -19,12 +19,13 @@ namespace Aluan_Experimentation
             //ThesaurusCMDLineTest();
 
 
-       //     var doc = TestTaggerHelper("Hello there! How are you? I am Working on a linguistic analysis project with a skilled, professional team of 6 people. They are Brittany, Dustin, Richard, Scott, and Erik.");
-            //doc.PrintByLinkage();
-            //foreach (var p in doc.Paragraphs) {
-            //    print(p);
-
-            //}
+//            var doc = TestTaggerHelper("Hello there! How are you? I am Working on a linguistic analysis project (for Dr. Hester) with a skilled, professional team of 6 people. They are Brittany, Dustin, Richard, Scott, and Erik.");
+//            //doc.PrintByLinkage();
+//            foreach (var p in doc.Words) {
+//                print(p);
+                
+//            }
+//// ParseThreaded();
             var doc = MakeDocumentFromTaggedFile(pathes[0]).Result;
             print(doc.Paragraphs.Count());
             print("\n");
@@ -52,7 +53,13 @@ namespace Aluan_Experimentation
         private static Document TestTaggerHelper(string str) {
             var simpleTagger = new StringTagger(TaggingOption.TagAndAggregate);
             var tagged = simpleTagger.TagString(str);
-            print(tagged);
+           // print(tagged);
+            //var XMLText = tagged.Replace('(', '<').Replace(')', '>');
+            //var xmlfrag = new XmlDocument();
+            //var xmlb = xmlfrag.CreateTextNode(XMLText);
+            //var xmlw = XmlWriter.Create(@"C:\Users\Aluan\Desktop\xmlconverted.xml");
+            //xmlw.WriteStartDocument(true);
+            //xmlw.WriteElementString(xmlb.LocalName, xmlb.Value);
             var taggedParser = new TaggedFileParser(tagged);
             return taggedParser.ConstructDocument();
             //print(result);

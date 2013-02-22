@@ -53,17 +53,19 @@ namespace LASI.Algorithm
 
         #region Methods
         private void EstablishLexicalLinks() {
-            for (int i = 1; i < Words.Count() ; ++i) {
-                Words[i].PreviousWord = Words[i - 1];
-                Words[i - 1].NextWord = Words[i];
-            }
+            if (Words.Count > 1) {
+                for (int i = 1; i < Words.Count(); ++i) {
+                    Words[i].PreviousWord = Words[i - 1];
+                    Words[i - 1].NextWord = Words[i];
+                }
 
-            var lastWord = Words[Words.Count - 1];
-            if (Words.IndexOf(lastWord) > 0)
-                lastWord.PreviousWord = Words[Words.Count - 1];
-            else
-                lastWord.PreviousWord = null;
-            lastWord.NextWord = null;
+                var lastWord = Words[Words.Count - 1];
+                if (Words.IndexOf(lastWord) > 0)
+                    lastWord.PreviousWord = Words[Words.Count - 1];
+                else
+                    lastWord.PreviousWord = null;
+                lastWord.NextWord = null;
+            }
         }
 
         public void PrintByLinkage() {
