@@ -74,6 +74,7 @@ namespace LASI.Algorithm
             }
             Console.WriteLine();
         }
+       
         #endregion
 
         #region Properties
