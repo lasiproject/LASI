@@ -10,6 +10,5 @@ namespace LASI.Algorithm
         public PossessivePronoun(string text)
             : base(text) {
         }
-        
     }
 }

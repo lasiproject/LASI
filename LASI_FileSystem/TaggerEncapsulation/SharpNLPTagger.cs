@@ -127,7 +127,7 @@ namespace SharpNLPTaggingModule
                     output.Append(tokens[currentTag]).Append("/").Append(tags[currentTag]).Append(" ");
                 }
 
-                output.Append("\r\n\r\n");
+                //output.Append("\r\n\r\n");
             }
 
             var result = output.ToString();
@@ -144,7 +144,7 @@ namespace SharpNLPTaggingModule
                 string[] tokens = TokenizeSentence(sentence);
                 string[] tags = PosTagTokens(tokens);
 
-                output.Append(ChunkSentence(tokens, tags)).Append("\r\n");
+                output.Append(ChunkSentence(tokens, tags));//.Append("\r\n");
             }
 
             var result = output.ToString();

@@ -24,6 +24,8 @@ namespace LASI.Algorithm
         /// <param name="sentences">The collection of sentences which comprise the paragraph.</param>
         public Paragraph(Document parentDoc, IEnumerable<Sentence> sentences) {
             Sentences = sentences;
+            foreach (var S in Sentences)
+                S.EstablishParenthood(this);
             ParentDocument = parentDoc;
             ID = IDNumProvider;
             ++IDNumProvider;
@@ -59,7 +61,7 @@ namespace LASI.Algorithm
             set;
         }
         public override string ToString() {
-            return base.ToString() + Text + '\n';
+            return base.ToString() +" "+ Sentences.Count() + " sentences\n" + Text;
         }
 
         private static int IDNumProvider = 0;

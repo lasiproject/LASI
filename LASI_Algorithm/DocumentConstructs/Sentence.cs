@@ -12,13 +12,13 @@ namespace LASI.Algorithm
             Clauses = new[] { new Clause(from P in phrases select P) };
 
         }
-        public Sentence(IEnumerable<Phrase> phrases, SentenceDelimiter begin = null, SentenceDelimiter EOSText = null) {
+        public Sentence(IEnumerable<Phrase> phrases, SentenceDelimiter EOSText = null) {
             Clauses = new[] { new Clause(from P in phrases select P) };
             EndingPunctuation = EOSText == null ?
             new SentenceDelimiter('.') :
             EOSText;
         }
-        public Sentence(IEnumerable<Word> words, SentenceDelimiter begin = null, SentenceDelimiter EOSText = null) {
+        public Sentence(IEnumerable<Word> words, SentenceDelimiter EOSText = null) {
             Clauses = new[] { new Clause(from W in words select W) };
             EndingPunctuation = EOSText == null ?
             new SentenceDelimiter('.') :
@@ -33,7 +33,7 @@ namespace LASI.Algorithm
         /// </summary>
         public SentenceDelimiter EndingPunctuation {
             get;
-            protected set;
+            set;
         }
         /// <summary>
         /// Gets the sequence of Clauses which comprise the sentence.
@@ -67,7 +67,7 @@ namespace LASI.Algorithm
         /// </summary>
         public string Text {
             get {
-                return Phrases.Aggregate(" ", (txt, P) => txt + P.Text);
+                return Phrases.Aggregate("", (txt, P) => txt + " " + P.Text) + EndingPunctuation.Text;
             }
         }
 
@@ -95,9 +95,8 @@ namespace LASI.Algorithm
         }
 
 
-        public override string ToString()
-        {
-            return base.ToString() + Text + '\n';
+        public override string ToString() {
+            return base.ToString() + Text;
         }
 
 

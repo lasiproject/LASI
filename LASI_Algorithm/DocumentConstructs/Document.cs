@@ -74,15 +74,6 @@ namespace LASI.Algorithm
             }
             Console.WriteLine();
         }
-
-        public int ParaCount() {
-            return _paragraphs.Count();
-        }
-
-        public int SentCount() {
-            return _sentences.Count();
-        }
-
         #endregion
 
         #region Properties
@@ -90,8 +81,9 @@ namespace LASI.Algorithm
 
         public IEnumerable<Sentence> Sentences {
             get {
-                return (from P in _paragraphs
-                        select P.Sentences) as IReadOnlyCollection<Sentence>;
+                return from P in _paragraphs
+                       from S in P.Sentences
+                       select S;
             }
 
         }

@@ -19,13 +19,21 @@ namespace Aluan_Experimentation
             //ThesaurusCMDLineTest();
 
 
-            var doc = TestTaggerHelper("Hello I am Working a linguistic analysis project with 5 other people. They are Brittany, Dustin, Richard, Scott, and Erik.");
-           doc.PrintByLinkage();
-           foreach (var phrase in doc.Phrases) {
-               phrase.Words.ToList().ForEach(w => print(w));
-               
-           }
-           doc.Phrases.ToList().ForEach(p => print(p));
+       //     var doc = TestTaggerHelper("Hello there! How are you? I am Working on a linguistic analysis project with a skilled, professional team of 6 people. They are Brittany, Dustin, Richard, Scott, and Erik.");
+            //doc.PrintByLinkage();
+            //foreach (var p in doc.Paragraphs) {
+            //    print(p);
+
+            //}
+            var doc = MakeDocumentFromTaggedFile(pathes[0]).Result;
+            print(doc.Paragraphs.Count());
+            print("\n");
+            foreach (var p in doc.Phrases) {
+                print(p);
+                //print("\n");
+            }
+
+            // doc.Phrases.ToList().ForEach(p => print(p));
             //var categoryResults = ParseThreaded();
             //foreach (var item in categoryResults) {
             //    Console.WriteLine(item);
@@ -44,8 +52,9 @@ namespace Aluan_Experimentation
         private static Document TestTaggerHelper(string str) {
             var simpleTagger = new StringTagger(TaggingOption.TagAndAggregate);
             var tagged = simpleTagger.TagString(str);
+            print(tagged);
             var taggedParser = new TaggedFileParser(tagged);
-            return taggedParser.GetDocument();
+            return taggedParser.ConstructDocument();
             //print(result);
         }
 

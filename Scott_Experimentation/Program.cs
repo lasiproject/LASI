@@ -17,7 +17,7 @@ namespace Scott_Experimentation
         static void Main(string[] args) {
             var tagger = new SharpNLPTagger(TaggingOption.TagAndAggregate, @"C:\Users\Scott\Desktop\TestSentences.txt");
             var tagged = tagger.ProcessFile();
-            var paragraphs = new TaggedFileParser(tagged).GetParagraphs();
+            var paragraphs = new TaggedFileParser(tagged).ConstructParagraphs();
             var document = new Document(paragraphs);
             List<Word> ListOfWords = (List<Word>)document.Words;
             

@@ -50,8 +50,12 @@ namespace LASI.FileSystem
 
         private Func<string, Word> LookupMapping(TaggedWordObject taggedText) {
             var tag = taggedText.Tag.Trim();
+            var text = taggedText.Text.Trim();
             if (tag.Length < 2)
-                return (s) => new LASI.Algorithm.Punctuator(s.First(c => !Char.IsWhiteSpace(c)));
+                return
+                    text == "." || text == "!" || text == "?" ?
+                    new Func<string, Word>((s) => new LASI.Algorithm.SentenceDelimiter(s.First(c => !Char.IsWhiteSpace(c)))) :
+                    new Func<string, Word>((s) => new LASI.Algorithm.Punctuator(s.First(c => !Char.IsWhiteSpace(c))));
             try {
                 var constructor = context[tag];
                 return constructor;

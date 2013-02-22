@@ -14,7 +14,9 @@ namespace LASI.Algorithm
         public Clause(IEnumerable<Phrase> phrases) {
             Phrases = phrases;
         }
-
+        public Clause(IEnumerable<Phrase> phrases, Punctuator endingPunc) {
+            Phrases = phrases;
+        }
         /// <summary>
         ///Initializes a new instnace of the Clause class, by composing the given linear sequence of words       
         ///As the words are bare in this context, that is not members of a known phrase object, they are subsequently implanted in an UndeterminedPhrase instance whose syntactic role should be determined contextually in the future.
@@ -50,6 +52,11 @@ namespace LASI.Algorithm
         public Document ParentDocument {
             get;
             set;
+        }
+
+        public Punctuator ClauseDelimiter {
+            get;
+            protected set;
         }
     }
 }
