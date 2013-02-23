@@ -33,15 +33,25 @@ namespace LASI.Algorithm
         public void ModifyWith(IAdverbial adv) {
             _modifiers.Add(adv);
         }
-
+        /// <summary>
+        /// Binds the verb to its object via a propisitional construnct such as a Pronoun or Pronounphrase.
+        /// Example: He "ran" to work. where "work" is the object of ran via the prepositional construct "to"
+        /// </summary>
+        /// <param name="prep">The prepositional</param>
         public virtual void AttachObjectViaPreposition(IPrepositional prep) {
-            throw new NotImplementedException();
+            ObjectViaPreposition =
+                prep.OnRightSide != null ?
+                prep.OnRightSide :
+                prep.OnLeftSide;
+
         }
 
 
         public override void DetermineHeadWord() {
             throw new NotImplementedException();
         }
+
+
         #endregion
 
         #region Properties
@@ -78,7 +88,9 @@ namespace LASI.Algorithm
             get;
             set;
         }
-
+        /// <summary>
+        /// Gets the VerbPhrases's object, If the VerbPhrase (instransitive) has an object bound indirectly via a Prepositional construct.
+        /// </summary>
         public virtual ILexical ObjectViaPreposition {
             get;
             protected set;

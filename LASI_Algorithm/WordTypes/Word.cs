@@ -32,9 +32,9 @@ namespace LASI.Algorithm
         }
 
         /// <summary>
-        /// Returns a string representation of the Word instance.
+        /// Returns a string representation of the Word.
         /// </summary>
-        /// <returns>The string representation of the Word instance.</returns>
+        /// <returns>A string containing its underlying type and its text content.</returns>
         public override string ToString() {
             return GetType().Name + " \"" + Text + "\"";
         }

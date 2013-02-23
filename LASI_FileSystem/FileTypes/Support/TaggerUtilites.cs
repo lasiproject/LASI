@@ -29,7 +29,7 @@ namespace LASI.FileSystem
 
         private static string QuickTag(string[] strs) {
             var documentContent = String.Join(" ", strs);
-            var simpleTagger = new StringTagger(TaggingOption.TagAndAggregate);
+            var simpleTagger = new QuickTagger(TaggingOption.TagAndAggregate);
             var tagged = simpleTagger.TagString(documentContent);
             return tagged;
         }

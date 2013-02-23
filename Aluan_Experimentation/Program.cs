@@ -23,7 +23,7 @@ namespace Aluan_Experimentation
                                         linguistic analysis project (for Dr. Hester) with a skilled, 
                                         professional team of 6 people. They are Brittany, Dustin, Richard, Scott, and Erik."
                 );
-            foreach (var p in doc.Words) {
+            foreach (var p in doc.Phrases) {
                 print(p);
 
             }

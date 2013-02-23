@@ -23,8 +23,29 @@ namespace LASI.Algorithm
             _indirectReferences.Add(pro);
             pro.BoundEntity = this;
         }
-
-
+        /// <summary>
+        /// Binds an IDescriber, generally an Adjective or AdjectivePhrase, as a descriptor of the NounPhrase.
+        /// </summary>
+        /// <param name="adjective">The IDescriber instance which will be added to the NounPhrase's descriptors.</param>
+        public void BindDescriber(IDescriber adjective) {
+            if (!_describedBy.Contains(adjective))
+                _describedBy.Add(adjective);
+        }
+        /// <summary>
+        /// Adds an IPossessible construct, such as a person place or thing, to the collection of the NounPhrase "Owns",
+        /// and sets its owner to be the NounPhrase.
+        /// If the item is already possessed by the current instance, this method has no effect.
+        /// </summary>
+        /// <param name="possession"></param>
+        public void AddPossession(IEntity possession) {
+            if (!_possessed.Contains(possession)) {
+                _possessed.Add(possession);
+                possession.Possesser = this;
+            }
+        }
+        public bool Equals(IEntity other) {
+            return this == other as NounPhrase;
+        }
         /// <summary>
         /// Gets the ITransitiveAction instance, generally a TransitiveVerb or TransitiveVerbPhrase, which the NounPhrase is the object of.
         /// </summary>
@@ -90,24 +111,8 @@ namespace LASI.Algorithm
             get;
             set;
         }
-        public bool Equals(IEntity other) {
-            return this == other as NounPhrase;
-        }
-        /// <summary>
-        /// Binds an IDescriber, generally an Adjective or AdjectivePhrase, as a descriptor of the NounPhrase.
-        /// </summary>
-        /// <param name="adjective">The IDescriber instance which will be added to the NounPhrase's descriptors.</param>
-        public void BindDescriber(IDescriber adjective) {
-            if (!_describedBy.Contains(adjective))
-                _describedBy.Add(adjective);
-        }
 
-        public void AddPossession(IEntity possession) {
-            if (!_possessed.Contains(possession)) {
-                _possessed.Add(possession);
-                possession.Possesser = this;
-            }
-        }
+
         private IList<IDescriber> _describedBy = new List<IDescriber>();
         private IList<IEntity> _possessed = new List<IEntity>();
         private IList<IEntityReferencer> _indirectReferences = new List<IEntityReferencer>();

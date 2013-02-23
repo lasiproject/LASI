@@ -13,6 +13,9 @@ namespace LASI.FileSystem
 
         public TaggedFile(string filePath)
             : base(filePath) {
+            if (Ext != ".tagged") {
+                throw new IOException(String.Format("File extension \"{0}\" does not match InputFile type: {1}", Ext, GetType()));
+            }
 
         }
     }

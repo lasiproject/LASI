@@ -109,7 +109,7 @@ namespace AlgorithmAssemblyUnitTestProject
         ///</summary>
         [TestMethod()]
         public void EstablishParentTest() {
-            Word target = CreateWord(); 
+            Word target = CreateWord();
             Phrase phrase = new VerbPhrase(new Word[] { });
             target.EstablishParent(phrase);
             Assert.IsTrue(target.ParentPhrase == phrase);
@@ -120,7 +120,7 @@ namespace AlgorithmAssemblyUnitTestProject
         ///</summary>
         [TestMethod()]
         public void GetHashCodeTest() {
-            Word target = CreateWord(); 
+            Word target = CreateWord();
             int expected = (target).GetHashCode();
             int actual;
             actual = target.GetHashCode();
@@ -134,7 +134,7 @@ namespace AlgorithmAssemblyUnitTestProject
         [TestMethod()]
         public void ToStringTest() {
             Word target = CreateWord();
-            string expected = "LASI.Algorithm.GenericSingularNoun " + target.Text;
+            string expected = "GenericSingularNoun " + "\"" + target.Text + "\"";
             string actual;
             actual = target.ToString();
             Assert.AreEqual(expected, actual);
@@ -197,8 +197,8 @@ namespace AlgorithmAssemblyUnitTestProject
         ///</summary>
         [TestMethod()]
         public void NextWordTest() {
-            Word target = CreateWord(); 
-            Word expected = new ToLinker(); 
+            Word target = CreateWord();
+            Word expected = new ToLinker();
             Word actual;
             target.NextWord = expected;
             actual = target.NextWord;
@@ -210,7 +210,7 @@ namespace AlgorithmAssemblyUnitTestProject
         ///</summary>
         [TestMethod()]
         public void ParentDocTest() {
-            Word target = CreateWord(); 
+            Word target = CreateWord();
             Document expected = new Document(new Word[] { target });
             Document actual;
             target.ParentDocument = expected;
@@ -237,7 +237,7 @@ namespace AlgorithmAssemblyUnitTestProject
         ///</summary>
         [TestMethod()]
         public void PreviousWordTest() {
-            Word target = CreateWord(); 
+            Word target = CreateWord();
             Word expected = new Determiner("the");
             Word actual;
             target.PreviousWord = expected;

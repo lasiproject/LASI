@@ -30,7 +30,7 @@ namespace LASI.Algorithm
         /// </summary>
         /// <returns>A string containing the type information of the instance as well as the textual representations of the words it is composed of.</returns>
         public override string ToString() {
-            return base.ToString() + String.Format("\n{0}", Text);
+            return GetType().Name + " \"" + Text + "\"";
         }
 
         public void EstablishParent(Clause clause) {
@@ -63,6 +63,27 @@ namespace LASI.Algorithm
             set;
         }
         public virtual Punctuator EndingPunction {
+            get;
+            set;
+        }
+        /// <summary>
+        /// Gets, lexically speaking, the next Phrase in the Document to which the instance belongs.
+        /// </summary>
+        public Phrase NextPhrase {
+            get;
+            set;
+        }
+        /// <summary>
+        /// Gets, lexically speaking, the previous Phrase in the Document to which the instance belongs.
+        /// </summary>
+        public Phrase PreviousPhrase {
+            get;
+            set;
+        }
+        /// <summary>
+        /// Gets or sets the Phrase the Word belongs to.
+        /// </summary>
+        public Sentence ParentSentence {
             get;
             set;
         }

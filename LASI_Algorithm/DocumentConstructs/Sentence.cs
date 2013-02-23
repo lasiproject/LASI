@@ -40,24 +40,21 @@ namespace LASI.Algorithm
         ///<summary>
         /// Returns the number of Words in a sentence
         /// </summary>
-        public int GetWordCount()
-        {
+        public int GetWordCount() {
             return Words.Count();
         }
 
         /// <summary>
         /// Returns the number of Clauses in a sentence
         /// </summary>
-        public int GetClauseCount()
-        {
+        public int GetClauseCount() {
             return Clauses.Count();
         }
 
         /// <summary>
         /// Returns the number of Phrases in a sentence
         /// </summary>
-        public int GetPhraseCount()
-        {
+        public int GetPhraseCount() {
             return Phrases.Count();
         }
 
@@ -123,7 +120,7 @@ namespace LASI.Algorithm
 
 
         public override string ToString() {
-            return base.ToString() + Text;
+            return base.ToString() + "\"" + Text + "\"";
         }
 
 

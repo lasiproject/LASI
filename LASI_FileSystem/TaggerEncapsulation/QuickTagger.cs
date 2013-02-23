@@ -6,9 +6,9 @@ using System.Linq;
 namespace SharpNLPTaggingModule
 {
 
-    public class StringTagger : SharpNLPTagger
+    public class QuickTagger : SharpNLPTagger
     {
-        public StringTagger(TaggingOption option)
+        public QuickTagger(TaggingOption option)
             : base(option) {
 
         }

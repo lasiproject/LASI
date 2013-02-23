@@ -76,7 +76,7 @@
     <Compile Include="TaggerEncapsulation\WordExtractor.cs" />
     <Compile Include="TaggerEncapsulation\SharpNLPTagger.cs" />
     <Compile Include="TaggerEncapsulation\SharpNLPTagsetMap.cs" />
-    <Compile Include="TaggerEncapsulation\SnlpStringTagger.cs" />
+    <Compile Include="TaggerEncapsulation\QuickTagger.cs" />
     <Compile Include="TaggerEncapsulation\TaggingOption.cs" />
     <Compile Include="TaggerEncapsulation\WordTagParser.cs" />
     <Compile Include="FileTypes\DocXFile.cs" />

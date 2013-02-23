@@ -91,6 +91,22 @@ namespace LASI.FileSystem
         }
     }
     /// <summary>
+    /// Throw when attempting to parse an unknown clause tag.
+    /// </summary>
+    [Serializable]
+    class UnknownClauseTypeException : POSTagException
+    {
+        public UnknownClauseTypeException(string message)
+            : base(message) {
+        }
+        public UnknownClauseTypeException(string message, Exception inner)
+            : base(message, inner) {
+        }
+        public UnknownClauseTypeException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
+            : base(info, context) {
+        }
+    }
+    /// <summary>
     /// Thrown when attempting to parse an improperly delimited phrase
     /// </summary>
     [Serializable]
@@ -131,10 +147,4 @@ namespace LASI.FileSystem
     }
 
 
-    class UnknownClauseTypeException : POSTagException
-    {
-        public UnknownClauseTypeException(string message)
-            : base(message) {
-        }
-    }
 }
