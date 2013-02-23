@@ -24,7 +24,7 @@ namespace LASI.FileSystem
         private static Document DocFromTagged(params string[] tagged) {
             var documentContent = String.Join(" ", tagged);
             var taggedParser = new TaggedFileParser(documentContent);
-            return taggedParser.ConstructDocument();
+            return taggedParser.LoadDocument();
         }
 
         private static string QuickTag(string[] strs) {
