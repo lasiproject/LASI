@@ -23,7 +23,7 @@ namespace LASI.Algorithm
         protected void GetEntityTypeInfo() {
             System.Text.RegularExpressions.Regex regex = new System.Text.RegularExpressions.Regex(@"<([^>]+)>");
             var found = regex.Match(Text).Value ?? "";
-            var newText = Text.Substring(found.Length, Text.LastIndexOf('<') - found.Length);
+            Text = found.Length > 0 ? Text.Substring(found.Length, Text.LastIndexOf('<') - found.Length):Text;
             ProcessEntityTypeInfo(found);
         }
 
