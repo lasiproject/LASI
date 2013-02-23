@@ -43,7 +43,13 @@ namespace Scott_Experimentation
             {
                 Console.WriteLine("{0}: {1}\n", x, document.SentenceTextAt(x));
             }
-           
+            Console.WriteLine(sep);
+
+            Console.WriteLine("{0} => {1}", document.WordAt(11).Text, document.WordAt(11).GetType());
+            if (document.WordAt(11).TypeAsString() == "LASI.Algorithm.Adverb")
+                Console.WriteLine("Match");
+            else
+                Console.WriteLine("No Match");
 
             StdIO.WaitForAnyKey();
         }

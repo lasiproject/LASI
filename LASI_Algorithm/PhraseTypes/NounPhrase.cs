@@ -28,7 +28,12 @@ namespace LASI.Algorithm
                                 group noun by noun.EntityType into typeGrps
                                 orderby typeGrps.Count() descending
                                 select typeGrps;
-            EntityType = internalTypes.First().Key;
+            /**
+             * I'm not sure why this is causing my program to crash.
+             * But when I comment it out my program works.
+             * - Scott
+             */
+            //EntityType = internalTypes.First().Key;
         }
 
         /// <summary>
