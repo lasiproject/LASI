@@ -308,12 +308,12 @@ namespace SharpNLPTaggingModule
             return result;
         }
 
-        private string Coreference() {
-            string[] sentences = SplitSentences(SourceText);
+        //private string Coreference() {
+        //    string[] sentences = SplitSentences(SourceText);
 
-            var result = IdentifyCoreferents(sentences);
-            return result;
-        }
+        //    var result = IdentifyCoreferents(sentences);
+        //    return result;
+        //}
 
         #region Properties
 

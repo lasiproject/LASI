@@ -5,7 +5,7 @@ using System.Text;
 
 namespace LASI.Algorithm
 {
-    public class ParagraphBreak : Word
+    public class ParagraphBreak : Punctuator
     {
         public ParagraphBreak()
             : base("END_OF_PARAGRAPH") {

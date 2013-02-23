@@ -28,8 +28,7 @@ namespace LASI.Algorithm
             AliasString = puncString;
             try {
                 ActualCharacter = PUNCTUATION_ALIAS_MAP[AliasString];
-            }
-            catch (KeyNotFoundException) {
+            } catch (KeyNotFoundException) {
                 System.Diagnostics.Debug.WriteLine("Punctuation Character  {0} has no defined text alias", ActualCharacter);
             }
 
@@ -44,26 +43,27 @@ namespace LASI.Algorithm
         }
         public override string Text {
             get {
-                return  ActualCharacter.ToString();
+                return ActualCharacter.ToString();
             }
             set {
                 base.Text = value;
             }
         }
-        protected static PunctuationAliasMap PUNCTUATION_ALIAS_MAP = new PunctuationAliasMap();
+        private static PunctuationAliasMap PUNCTUATION_ALIAS_MAP = new PunctuationAliasMap();
 
-        
+
 
     }
 
 
 
-    public class PunctuationAliasMap
+    internal class PunctuationAliasMap
     {
         private Dictionary<string, char> aliasMap = new Dictionary<string, char> {
-            {"LEFT_SQUARE_BRACKET",'['},
-            {"RIGHT_SQUARE_BRACKET",']'},
-            {"PERIOD_CHARACTER_SYMBOL",'.'}
+            {  "LEFT_SQUARE_BRACKET", '[' },
+            { "RIGHT_SQUARE_BRACKET", ']' },
+            { "PERIOD_CHARACTER_SYMBOL", '.' },
+            { "END_OF_PARAGRAPH", '\n' }
         };
         public virtual char this[string alias] {
             get {

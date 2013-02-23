@@ -19,51 +19,20 @@ namespace Aluan_Experimentation
             //ThesaurusCMDLineTest();
 
 
-//            var doc = TestTaggerHelper("Hello there! How are you? I am Working on a linguistic analysis project (for Dr. Hester) with a skilled, professional team of 6 people. They are Brittany, Dustin, Richard, Scott, and Erik.");
-//            //doc.PrintByLinkage();
-//            foreach (var p in doc.Words) {
-//                print(p);
-                
-//            }
-//// ParseThreaded();
-            var doc = MakeDocumentFromTaggedFile(pathes[0]).Result;
-            print(doc.Paragraphs.Count());
-            print("\n");
-            foreach (var p in doc.Phrases) {
+            var doc = PosUtil.MakeLASIDoc(@"Hello there! How are you? I am Working on a 
+                                        linguistic analysis project (for Dr. Hester) with a skilled, 
+                                        professional team of 6 people. They are Brittany, Dustin, Richard, Scott, and Erik."
+                );
+            foreach (var p in doc.Words) {
                 print(p);
-                //print("\n");
+
             }
 
-            // doc.Phrases.ToList().ForEach(p => print(p));
-            //var categoryResults = ParseThreaded();
-            //foreach (var item in categoryResults) {
-            //    Console.WriteLine(item);
-            //}
             StdIO.WaitForKey(ConsoleKey.Escape);
 
 
         }
 
-        //private static string ParseSynch() {
-        //    foreach (var p in pathes) {
-        //        var doc=MakeDocumentFromTaggedFile(
-        //    }
-        //}
-
-        private static Document TestTaggerHelper(string str) {
-            var simpleTagger = new StringTagger(TaggingOption.TagAndAggregate);
-            var tagged = simpleTagger.TagString(str);
-           // print(tagged);
-            //var XMLText = tagged.Replace('(', '<').Replace(')', '>');
-            //var xmlfrag = new XmlDocument();
-            //var xmlb = xmlfrag.CreateTextNode(XMLText);
-            //var xmlw = XmlWriter.Create(@"C:\Users\Aluan\Desktop\xmlconverted.xml");
-            //xmlw.WriteStartDocument(true);
-            //xmlw.WriteElementString(xmlb.LocalName, xmlb.Value);
-            var taggedParser = new TaggedFileParser(tagged);
-            return taggedParser.ConstructDocument();
-            //print(result);
-        }
 
         public static IEnumerable<string> ParseThreaded() {
 

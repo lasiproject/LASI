@@ -71,7 +71,9 @@
     <Compile Include="FileManager.cs" />
     <Compile Include="FileTypes\InputFileConverter.cs" />
     <Compile Include="FileTypes\Support\TaggedToXMLConverter.cs" />
-    <Compile Include="TaggerEncapsulation\PosExtractor.cs" />
+    <Compile Include="FileTypes\Support\TaggerUtilites.cs" />
+    <Compile Include="TaggerEncapsulation\PhraseExtractor.cs" />
+    <Compile Include="TaggerEncapsulation\WordExtractor.cs" />
     <Compile Include="TaggerEncapsulation\SharpNLPTagger.cs" />
     <Compile Include="TaggerEncapsulation\SharpNLPTagsetMap.cs" />
     <Compile Include="TaggerEncapsulation\SnlpStringTagger.cs" />

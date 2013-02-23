@@ -50,11 +50,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="WordTypes\VerbConstructs\PossessivePronoun.cs" />
-    <Compile Include="WordTypes\VerbConstructs\WhPossessivePronoun.cs" />
-    <Compile Include="WordTypes\VerbConstructs\PluralPronoun.cs" />
-    <Compile Include="WordTypes\VerbConstructs\PluralPossessivePronoun.cs" />
-    <Compile Include="WordTypes\VerbConstructs\SingularPronoun.cs" />
+    <Compile Include="PhraseTypes\InterjectionPhrase.cs" />
+    <Compile Include="WordTypes\PronounConstructs\PossessivePronoun.cs" />
+    <Compile Include="WordTypes\PronounConstructs\WhPossessivePronoun.cs" />
+    <Compile Include="WordTypes\PronounConstructs\PluralPronoun.cs" />
+    <Compile Include="WordTypes\PronounConstructs\PluralPossessivePronoun.cs" />
+    <Compile Include="WordTypes\PronounConstructs\SingularPronoun.cs" />
     <Compile Include="SyntacticInterfaces\ILexical.cs" />
     <Compile Include="IEnumerableExtensions\IEnumerableOfTransitiveVerbPhraseExtensions.cs" />
     <Compile Include="IEnumerableExtensions\IEnumerableOfParagraphExtensions.cs" />
@@ -87,7 +88,7 @@
     <Compile Include="PhraseTypes\TransPastParticplePhrase.cs" />
     <Compile Include="PhraseTypes\TransPastTenseVPhrase.cs" />
     <Compile Include="PhraseTypes\TransPresentVPhrase.cs" />
-    <Compile Include="WordTypes\VerbConstructs\WhPronoun.cs" />
+    <Compile Include="WordTypes\PronounConstructs\WhPronoun.cs" />
     <Compile Include="WordTypes\NounConstructs\GenericNoun.cs" />
     <Compile Include="WordTypes\NounConstructs\ProperNoun.cs" />
     <Compile Include="WordTypes\VerbConstructs\PastParticipleVerb.cs" />
@@ -143,12 +144,12 @@
     <Compile Include="WordTypes\NounConstructs\GenericSingularNoun.cs" />
     <Compile Include="WordTypes\Modal.cs" />
     <Compile Include="WordTypes\BridgingConstructs\Particle.cs" />
-    <Compile Include="WordTypes\VerbConstructs\SingularPossessivePronoun.cs" />
+    <Compile Include="WordTypes\PronounConstructs\SingularPossessivePronoun.cs" />
     <Compile Include="WordTypes\NounConstructs\ProperPluralNoun.cs" />
     <Compile Include="WordTypes\Punctuator.cs" />
     <Compile Include="PhraseTypes\SimpleDeclarativePhrase.cs" />
     <Compile Include="WordTypes\SentenceDelimiter.cs" />
-    <Compile Include="WordTypes\VerbConstructs\PersonalPronoun.cs" />
+    <Compile Include="WordTypes\PronounConstructs\PersonalPronoun.cs" />
     <Compile Include="WordTypes\AdverbConstructs\SuperlativeAdverb.cs" />
     <Compile Include="WordTypes\Symbol.cs" />
     <Compile Include="Thesuari\Thesaurus.cs" />
@@ -159,7 +160,7 @@
     <Compile Include="PhraseTypes\Phrase.cs" />
     <Compile Include="WordTypes\BridgingConstructs\Preposition.cs" />
     <Compile Include="PhraseTypes\PrepositionalPhrase.cs" />
-    <Compile Include="WordTypes\Pronoun.cs" />
+    <Compile Include="WordTypes\PronounConstructs\Pronoun.cs" />
     <Compile Include="PhraseTypes\PronounPhrase.cs" />
     <Compile Include="WordTypes\NounConstructs\ProperSingularNoun.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -197,7 +198,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="WordTypes\PronounConstructs\" />
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

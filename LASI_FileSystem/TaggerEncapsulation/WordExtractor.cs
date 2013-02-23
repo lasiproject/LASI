@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LASI.FileSystem
 {
-    public class PosExtractor
+    public class WordExtractor
     {
         /// <summary>
         /// Extracts a text and tag pair from the given string.

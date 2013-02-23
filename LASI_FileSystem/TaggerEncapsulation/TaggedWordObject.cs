@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace LASI.FileSystem
 {
     /// <summary>
-    /// Holds a pair of strings representing a piece of natural language text and its NLP tag.
+    /// Holds a pair of strings representing a piece of natural language text and its NLP word tag.
     /// Note, use with the elegant object initializer sytnax when creating an instance.
     /// eg. var myTTPair = new TextTagPair{ Text = "collie", Tag = "NN" }; 
     /// as opposed to
@@ -19,14 +19,51 @@ namespace LASI.FileSystem
     public struct TaggedWordObject
     {
         /// <summary>
-        /// The english text of a tagged elemenet.
+        /// The english text of a tagged word.
         /// </summary>
         public string Text {
             get;
             set;
         }
         /// <summary>
-        /// The text of pos tag associated with the element.
+        /// The text of the pos tag associated with the word.
+        /// </summary>
+        public string Tag {
+            get;
+            set;
+        }
+    }
+    /// <summary>
+    /// Holds a pair of strings representing the internal text of a phrase and its NLP phrase tag.
+    /// </summary>
+    public struct TaggedPhraseObject
+    {
+        /// <summary>
+        /// The inner text content of the phrase, presumably consisting of one or more words.
+        /// </summary>
+        public string Text {
+            get;
+            set;
+        }
+        /// <summary>
+        /// The text of pos tag associated with the phrase.
+        /// </summary>
+        public string Tag {
+            get;
+            set;
+        }
+    }
+    public struct TaggedClauseObject
+    {
+        /// <summary>
+        /// The inner text content of the clause, presumably consisting of one or more phrases.
+        /// </summary>
+        public string Text {
+            get;
+            set;
+        }
+        /// <summary>
+        /// The text of pos tag associated with the clause.
         /// </summary>
         public string Tag {
             get;

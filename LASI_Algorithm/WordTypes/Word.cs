@@ -36,7 +36,7 @@ namespace LASI.Algorithm
         /// </summary>
         /// <returns>The string representation of the Word instance.</returns>
         public override string ToString() {
-            return base.ToString() + " " + Text;
+            return GetType().Name + " \"" + Text + "\"";
         }
 
         public override bool Equals(object obj) {
