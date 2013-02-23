@@ -94,13 +94,22 @@ namespace LASI.Algorithm
         /// Returns the word instance at x location in the document 
         public Word WordAt(int loc)
         {
-            return this.Words.ElementAt(loc);
+            Word wrd = new Word("NoWordAtLoc");
+            if (loc < this.Words.Count)
+                return this.Words.ElementAt(loc);
+            else
+                return wrd;
         }
 
         /// Returns the text  of word instance at x location in the document
-        public String WordTextAt(int loc)
+        public string WordTextAt(int loc)
         {
-            return this.Words.ElementAt(loc).Text;
+            string strng = "NoWordAtLoc";
+            if(loc < this.Words.Count)
+                return this.Words.ElementAt(loc).Text;
+            else
+                return strng;
+
         }
 
         /// Returns the sentence instance at x location 
