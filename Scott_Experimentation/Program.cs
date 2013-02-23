@@ -29,14 +29,19 @@ namespace Scott_Experimentation
 
             Sentence sent1 = document.SentenceAt(1);
             Console.WriteLine("Sentence at 1: {0}", sent1.Text);
-            string strng2 = document.SentenceTextAt(1);
+            string strng2 = document.SentenceTextAt(1000);
             Console.WriteLine("Sentence text at 1: {0}{1}", strng2, sep);
 
             
             for (var x = 0; x <= document.Words.Count(); x++)
             {
-                //Console.WriteLine("Word at {0}: {1}", x, document.WordTextAt(x)); 
-                Console.WriteLine("{0}: {1}",x, document.WordTextAt(x));
+                Console.WriteLine("{0}: {1} => {2}",x, document.WordTextAt(x), document.WordAt(x).GetType());
+            }
+            Console.WriteLine(sep);
+
+            for (var x = 0; x < document.Sentences.Count(); x++)
+            {
+                Console.WriteLine("{0}: {1}\n", x, document.SentenceTextAt(x));
             }
            
 

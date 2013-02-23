@@ -115,7 +115,14 @@ namespace LASI.Algorithm
         /// Returns the sentence instance at x location 
         public Sentence SentenceAt(int loc)
         {
-            Sentence s1 = new Sentence();
+            List<Word> sent = new List<Word>();
+            sent.Add(new Word("No"));
+            sent.Add(new Word("Sentence"));
+            sent.Add(new Word("At"));
+            sent.Add(new Word("This"));
+            sent.Add(new Word("Location."));
+
+            Sentence s1 = new Sentence(sent);
             if (loc < this.Sentences.Count())
                 return this.Sentences.ElementAt(loc);
             else
