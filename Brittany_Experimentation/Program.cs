@@ -14,7 +14,7 @@ namespace Brittany_Experimentation
     class Program
     {
         static void Main(string[] args) {
-            
+
             TagExampleFile();
 
             //Keeps the console window open until the escape key is pressed
@@ -28,7 +28,7 @@ namespace Brittany_Experimentation
         static void TagExampleFile() {
             var tagger = new SharpNLPTagger(TaggingOption.TagAndAggregate, @"C:\Brittany\Desktop\intest1.txt");
             var tagged = tagger.ProcessFile();
-            var paragraphs = new TaggedFileParser(tagged).ConstructParagraphs();
+            var paragraphs = new TaggedFileParser(tagged).LoadParagraphs();
             var document = new Document(paragraphs);
 
             var para2 = from p in document.Paragraphs

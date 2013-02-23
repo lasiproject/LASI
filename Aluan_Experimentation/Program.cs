@@ -27,6 +27,10 @@ namespace Aluan_Experimentation
                 print(p);
 
             }
+            var document2 = MakeDocumentFromTaggedFile(pathes[0]).Result;
+            foreach (var p in document2.Phrases)
+                print(p);
+
 
             StdIO.WaitForKey(ConsoleKey.Escape);
 
@@ -49,7 +53,7 @@ namespace Aluan_Experimentation
 
         private static async Task<Document> MakeDocumentFromTaggedFile(string filePath) {
 
-            return await Task.Run(async () => await new TaggedFileParser(new TaggedFile(filePath)).GetDocumentAsync());
+            return await Task.Run(async () => await new TaggedFileParser(new TaggedFile(filePath)).LoadDocumentAsync());
 
 
         }

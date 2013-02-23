@@ -53,11 +53,11 @@ namespace LASI.FileSystem
         public virtual Algorithm.Document LoadDocument() {
             return new Algorithm.Document(LoadParagraphs());
         }
-        public virtual async Task<Algorithm.Document> GetDocumentAsync() {
-            return new Algorithm.Document(await GetParagraphsAsync());
+        public virtual async Task<Algorithm.Document> LoadDocumentAsync() {
+            return new Algorithm.Document(await LoadParagraphsAsync());
         }
 
-        public virtual async Task<IEnumerable<Algorithm.Paragraph>> GetParagraphsAsync() {
+        public virtual async Task<IEnumerable<Algorithm.Paragraph>> LoadParagraphsAsync() {
             return await Task.Run(() => LoadParagraphs());
         }
 
@@ -75,7 +75,7 @@ namespace LASI.FileSystem
                 foreach (var sent in sentences) {
 
                     var parsedPhrases = new List<Algorithm.Phrase>();
-                    var chunks = from chunk in paragraph.Split(new[] { "[", "]" }, StringSplitOptions.None).AsParallel()
+                    var chunks = from chunk in sent.Split(new[] { "[", "]" }, StringSplitOptions.None).AsParallel()
                                  where !String.IsNullOrWhiteSpace(chunk) && !String.IsNullOrEmpty(chunk)
                                  select chunk.Trim();
                     var count = 0;
