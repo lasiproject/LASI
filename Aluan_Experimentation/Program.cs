@@ -19,10 +19,10 @@ namespace Aluan_Experimentation
             //ThesaurusCMDLineTest();
 
 
-            var doc = PosUtil.MakeLASIDoc(@"Hello there! How are you? I am Working on a 
+            var doc = TaggerUtil.DocObjectFromRawString(new[]{@"Hello there! How are you? I am Working on a 
                                         linguistic analysis project (for Dr. Hester) with a skilled, 
                                         professional team of 6 people. They are Brittany, Dustin, Richard, Scott, and Erik."
-                );
+            });
             foreach (var p in doc.Phrases) {
                 print(p);
 
