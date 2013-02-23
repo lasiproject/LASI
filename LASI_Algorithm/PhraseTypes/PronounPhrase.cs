@@ -36,11 +36,16 @@ namespace LASI.Algorithm
             set;
         }
         public IEntity BoundEntity {
-            get;
-            set;
+            get {
+                return _boundEntity;
+            }
+            set {
+                _boundEntity = value;
+                this.EntityType = BoundEntity.EntityType;
+            }
         }
         private IEnumerable<IEntityReferencer> _indirectReferences = new List<IEntityReferencer>();
-
+        private IEntity _boundEntity;
 
         public void BindDescriber(IDescriber adj) {
             throw new NotImplementedException();
@@ -87,6 +92,11 @@ namespace LASI.Algorithm
             get {
                 throw new NotImplementedException();
             }
+        }
+
+        public EntityKind EntityType {
+            get;
+            protected set;
         }
     }
 }

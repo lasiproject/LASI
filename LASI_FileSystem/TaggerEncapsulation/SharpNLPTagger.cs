@@ -53,8 +53,13 @@ namespace SharpNLPTaggingModule
                     return POSTag();// WriteToFile(result);
                 case TaggingOption.TagAndAggregate:
                     return Chunk();
-                case TaggingOption.Experimental:
+                case TaggingOption.ExperimentalClauseNesting:
                     return Parse();
+                case TaggingOption.GenderFind:
+                 
+                    return Gender();
+                case TaggingOption.NameFind:
+                    return NameFind();
                 default:
                     return POSTag();
             }
@@ -74,15 +79,6 @@ namespace SharpNLPTaggingModule
                 return String.Join(" ", reader.ReadToEnd().Split(new[] { ' ', '\t', '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries).ToList().Select(s => s.Trim()));
             }
         }
-
-
-
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
-
-
-        #region Button click events
 
         protected string SplitIntoSentences() {
             string[] sentences = SplitSentences(SourceText);
@@ -177,8 +173,6 @@ namespace SharpNLPTaggingModule
             return result;
         }
 
-        #endregion
-
         #region NLP methods
 
         private string[] SplitSentences(string paragraph) {
@@ -258,7 +252,7 @@ namespace SharpNLPTaggingModule
 
         #endregion
 
-        protected virtual string Gender(object sender, EventArgs e) {
+        protected virtual string Gender() {
             StringBuilder output = new StringBuilder();
 
             string[] sentences = SplitSentences(SourceText);

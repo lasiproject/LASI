@@ -19,5 +19,24 @@ namespace LASI.Algorithm
             get;
             set;
         }
+
+        protected override void ProcessEntityTypeInfo(string found) {
+
+            switch (found) {
+                case "person":
+                    EntityType = EntityKind.Person;
+                    break;
+                case "location":
+                    EntityType = EntityKind.Location;
+                    break;
+                case "organization":
+                    EntityType = EntityKind.Organization;
+                    break;
+                default:
+                    EntityType = EntityKind.Location;
+                    break;
+
+            }
+        }
     }
 }

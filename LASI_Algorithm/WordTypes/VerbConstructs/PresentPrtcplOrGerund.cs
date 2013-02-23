@@ -16,8 +16,41 @@ namespace LASI.Algorithm
         /// <param name="text">The literal text content of the Verb.</param>
         public PresentPrtcplOrGerund(string text)
             : base(text) {
+            EntityType = EntityKind.Activitiy;
+        }
+        #region Methods
+
+        /// <summary>
+        /// Binds a Pronoun or PronounPhrase to refer to the gerund.
+        /// </summary>
+        /// <param name="pro">The Pronoun or PronounPhrase to bind to the gerund</param>
+        public void BindPronoun(IEntityReferencer pro) {
+            pro.BoundEntity = this;
+            _indirectReferences.Add(pro);
         }
 
+
+
+        public void BindDescriber(IDescriber adj) {
+            adj.Describes = this;
+            _describedBy.Add(adj);
+        }
+        public void AddPossession(IEntity possession) {
+            throw new NotImplementedException();
+        }
+
+        public bool Equals(IEntity other) {
+            return this == other as PresentPrtcplOrGerund;
+        }
+        #endregion
+
+        #region Properties
+
+        public IEnumerable<IEntityReferencer> IndirectReferences {
+            get {
+                return _indirectReferences;
+            }
+        }
         /// <summary>
         /// The Verb construct which the Gerund is the subject of.
         /// </summary>
@@ -39,26 +72,6 @@ namespace LASI.Algorithm
             get;
             set;
         }
-        /// <summary>
-        /// Binds a Pronoun or PronounPhrase to refer to the gerund.
-        /// </summary>
-        /// <param name="pro">The Pronoun or PronounPhrase to bind to the gerund</param>
-        public void BindPronoun(IEntityReferencer pro) {
-            pro.BoundEntity = this;
-            _indirectReferences.Add(pro);
-        }
-
-        public IEnumerable<IEntityReferencer> IndirectReferences {
-            get {
-                return _indirectReferences;
-            }
-        }
-
-        public void BindDescriber(IDescriber adj) {
-            adj.Describes = this;
-            _describedBy.Add(adj);
-        }
-
         public IEnumerable<IDescriber> DescribedBy {
             get {
                 return _describedBy;
@@ -78,18 +91,23 @@ namespace LASI.Algorithm
                 throw new NotImplementedException();
             }
         }
-        public bool Equals(IEntity other) {
-            return this == other as PresentPrtcplOrGerund;
+        public EntityKind EntityType {
+            get;
+            private set;
         }
+
+        #endregion
+
+        #region Fields
+
         private ICollection<IDescriber> _describedBy = new List<IDescriber>();
         private ICollection<IEntity> _possessed = new List<IEntity>();
         private ICollection<IEntityReferencer> _indirectReferences = new List<IEntityReferencer>();
 
+        #endregion
 
 
 
-        public void AddPossession(IEntity possession) {
-            throw new NotImplementedException();
-        }
+
     }
 }

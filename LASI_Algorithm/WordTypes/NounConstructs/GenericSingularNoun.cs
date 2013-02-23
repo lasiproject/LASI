@@ -17,7 +17,7 @@ namespace LASI.Algorithm
         public GenericSingularNoun(string text)
             : base(text) {
         }
+       
 
-        
     }
 }

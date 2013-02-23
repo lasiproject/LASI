@@ -16,8 +16,18 @@ namespace LASI.Algorithm
         /// <param name="text">The literal text content of the Noun.</param>
         protected Noun(string text)
             : base(text) {
-
+            EntityType = EntityKind.Unknown;
+            GetEntityTypeInfo();
         }
+
+        protected void GetEntityTypeInfo() {
+            System.Text.RegularExpressions.Regex regex = new System.Text.RegularExpressions.Regex(@"<([^>]+)>");
+            var found = regex.Match(Text).Value ?? "";
+            var newText = Text.Substring(found.Length, Text.LastIndexOf('<') - found.Length);
+            ProcessEntityTypeInfo(found);
+        }
+
+        protected abstract void ProcessEntityTypeInfo(string found);
         #endregion
 
         #region Methods
@@ -112,6 +122,10 @@ namespace LASI.Algorithm
             get;
             set;
         }
+        public EntityKind EntityType {
+            get;
+            set;
+        }
         #endregion
 
         #region Fields
@@ -125,6 +139,8 @@ namespace LASI.Algorithm
 
 
 
-        
+
+
+
     }
 }

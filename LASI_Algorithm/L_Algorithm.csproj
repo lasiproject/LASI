@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="PhraseTypes\InterjectionPhrase.cs" />
+    <Compile Include="WordTypes\Class1.cs" />
     <Compile Include="WordTypes\PronounConstructs\PossessivePronoun.cs" />
     <Compile Include="WordTypes\PronounConstructs\WhPossessivePronoun.cs" />
     <Compile Include="WordTypes\PronounConstructs\PluralPronoun.cs" />

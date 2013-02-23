@@ -110,6 +110,7 @@
     <Compile Include="GenericPluralNounTest.cs" />
     <Compile Include="ModalTest.cs" />
     <Compile Include="NounPhraseTest.cs" />
+    <Compile Include="NounTest.cs" />
     <Compile Include="ParticleTest.cs" />
     <Compile Include="PastPrtcplVerbTest.cs" />
     <Compile Include="PastTenseVerbTest.cs" />

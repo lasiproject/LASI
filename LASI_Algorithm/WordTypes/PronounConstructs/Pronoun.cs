@@ -36,6 +36,9 @@ namespace LASI.Algorithm
         public override int GetHashCode() {
             return base.GetHashCode();
         }
+        public virtual bool Equals(IEntity other) {
+            throw new NotImplementedException();
+        }
 
         #endregion
 
@@ -45,8 +48,13 @@ namespace LASI.Algorithm
         /// Gets or sets the Entity which the Pronoun references.
         /// </summary>
         public virtual IEntity BoundEntity {
-            get;
-            set;
+            get {
+                return _boundEntity;
+            }
+            set {
+                _boundEntity = value;
+                this.EntityType = BoundEntity.EntityType;
+            }
         }
         /// <summary>
         /// Gets the ITransitiveAction instance, generally a TransitiveVerb or TransitiveVerbPhrase, which the Pronoun is the object of.
@@ -105,12 +113,12 @@ namespace LASI.Algorithm
                 throw new NotImplementedException();
             }
             set {
-                throw new NotImplementedException();
+                throw new NotImplementedException() ;
             }
         }
-
-        public virtual bool Equals(IEntity other) {
-            throw new NotImplementedException();
+        public virtual EntityKind EntityType {
+            get;
+            set;
         }
 
         #endregion
@@ -141,7 +149,10 @@ namespace LASI.Algorithm
         #region Fields
         protected ICollection<IEntity> _possessed = new List<IEntity>();
         protected ICollection<IEntityReferencer> _indirectReferences = new List<IEntityReferencer>();
+        private IEntity _boundEntity;
 
         #endregion
+
+
     }
 }

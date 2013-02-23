@@ -18,7 +18,8 @@ namespace LASI.Algorithm
         /// <exception cref="ArgumentException">Thrown when a character not within the specified set of valid values is passed to the constructor.</exception>
         public SentenceDelimiter(char eos)
             : base(eos) {
-            if (eos != '.' && eos != '!' && eos != '?')
+            if (eos != '.' && eos != '!' &&                                                                         
+                eos != '?')
                 throw new ArgumentException(String.Format("A sentence cannot end with the character {0}", eos));
         }
     }

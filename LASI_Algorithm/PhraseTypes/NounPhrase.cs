@@ -1,18 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace LASI.Algorithm
 {
     public class NounPhrase : Phrase, IEntity
     {
+        #region Constructors
         /// <summary>
         /// Initializes a new instance of the NounPhrase class.
         /// </summary>
         /// <param name="composedWords">The words which compose to form the NounPhrase.</param>
         public NounPhrase(IEnumerable<Word> composedWords)
             : base(composedWords) {
+            determineEntityType();
+        }
+        #endregion
 
+
+        /// <summary>
+        /// Current,  somewhat sloppy determination of the type, person, place, thing etc, of nounphrase by 
+        /// selecting the most common type between its nouns and from its bound pronouns 
+        /// </summary>
+        protected virtual void determineEntityType() {
+            var internalTypes = from noun in Words.GetNouns().Concat<IEntity>(Words.GetPronouns().Where(p => p.BoundEntity != null))
+                                group noun by noun.EntityType into typeGrps
+                                orderby typeGrps.Count() descending
+                                select typeGrps;
+            EntityType = internalTypes.First().Key;
         }
 
         /// <summary>
@@ -46,6 +62,11 @@ namespace LASI.Algorithm
         public bool Equals(IEntity other) {
             return this == other as NounPhrase;
         }
+
+        public override void DetermineHeadWord() {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         /// Gets the ITransitiveAction instance, generally a TransitiveVerb or TransitiveVerbPhrase, which the NounPhrase is the object of.
         /// </summary>
@@ -112,6 +133,18 @@ namespace LASI.Algorithm
             set;
         }
 
+        public EntityKind EntityType {
+            get;
+            set;
+        }
+        public override Word HeadWord {
+            get {
+                throw new NotImplementedException();
+            }
+            protected set {
+                throw new NotImplementedException();
+            }
+        }
 
         private IList<IDescriber> _describedBy = new List<IDescriber>();
         private IList<IEntity> _possessed = new List<IEntity>();
@@ -128,18 +161,9 @@ namespace LASI.Algorithm
 
 
 
-        public override Word HeadWord {
-            get {
-                throw new NotImplementedException();
-            }
-            protected set {
-                throw new NotImplementedException();
-            }
-        }
 
-        public override void DetermineHeadWord() {
-            throw new NotImplementedException();
-        }
+
+
 
 
 

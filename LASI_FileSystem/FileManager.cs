@@ -220,6 +220,7 @@ namespace LASI.FileSystem
                 var tagger = new SharpNLPTaggingModule.SharpNLPTagger(TaggingOption.TagAndAggregate, doc.FullPath, TaggedFilesDir + "\\" + doc.NameSansExt + ".tagged");
 
                 await Task.Run(() => tagger.ProcessFile());
+
                 TaggedFiles.Add(new TaggedFile(tagger.OutputFilePath));
             }
         }

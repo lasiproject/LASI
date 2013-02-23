@@ -18,18 +18,23 @@ namespace Aluan_Experimentation
         static void Main(string[] args) {
             //ThesaurusCMDLineTest();
 
-
-            var doc = TaggerUtil.DocObjectFromRawString(new[]{@"Hello there! How are you? I am Working on a 
-                                        linguistic analysis project (for Dr. Hester) with a skilled, 
-                                        professional team of 6 people. They are Brittany, Dustin, Richard, Scott, and Erik."
+            TaggerUtil.TaggerOption = TaggingOption.NameFind;
+            var str = TaggerUtil.TaggedStringFromString(new[]{@"Hello there! How are you? I am Working on a 
+                                        linguistic analysis project with a skilled, 
+                                        professional team of 6 people. They are Brittany, Dustin, Richard, Scott, and Erik. We all work at ODU."
             });
-            foreach (var p in doc.Phrases) {
-                print(p);
+            TaggerUtil.TaggerOption = TaggingOption.TagAndAggregate;
+            str = TaggerUtil.TaggedStringFromString(str);
+            printfl(str);
+            //TaggerUtil.TaggerOption = TaggingOption.ExperimentalClauseNesting;
+            //printfl(TaggerUtil.TaggedStringFromString(str));
+            //foreach (var p in doc.Phrases) {
+            //    print(p);
 
-            }
-            var document2 = MakeDocumentFromTaggedFile(pathes[0]).Result;
-            foreach (var p in document2.Phrases)
-                print(p);
+            //}
+            //var document2 = MakeDocumentFromTaggedFile(pathes[0]).Result;
+            //foreach (var p in document2.Phrases)
+            //    print(p);
 
 
             StdIO.WaitForKey(ConsoleKey.Escape);
@@ -99,5 +104,10 @@ namespace Aluan_Experimentation
           };
 
         static Action<object> print = (o) => Console.WriteLine(o);
+        static Action<object> printfl = (o) => {
+            using (var writer = new StreamWriter(@"C:\Users\Aluan\Desktop\taggingModeTesting.txt", true)) {
+                writer.WriteLine(o);
+            }
+        };
     }
 }
