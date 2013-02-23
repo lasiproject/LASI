@@ -92,8 +92,7 @@ namespace LASI.Algorithm
         }
 
         /// Returns the word instance at x location in the document 
-        public Word WordAt(int loc)
-        {
+        public Word WordAt(int loc) {
             Word wrd = new Word("NoWordAtLoc");
             if (loc < this.Words.Count)
                 return this.Words.ElementAt(loc);
@@ -102,10 +101,9 @@ namespace LASI.Algorithm
         }
 
         /// Returns the text  of word instance at x location in the document
-        public string WordTextAt(int loc)
-        {
+        public string WordTextAt(int loc) {
             string strng = "NoWordAtLoc";
-            if(loc < this.Words.Count)
+            if (loc < this.Words.Count)
                 return this.Words.ElementAt(loc).Text;
             else
                 return strng;
@@ -113,29 +111,27 @@ namespace LASI.Algorithm
         }
 
         /// Returns the sentence instance at x location 
-        public Sentence SentenceAt(int loc)
-        {
-            List<Word> sent = new List<Word>();
-            sent.Add(new Word("No"));
-            sent.Add(new Word("Sentence"));
-            sent.Add(new Word("At"));
-            sent.Add(new Word("This"));
-            sent.Add(new Word("Location."));
+        public Sentence SentenceAt(int loc) {
+            //List<Word> sent = new List<Word>();
+            //sent.Add(new Word("No"));
+            //sent.Add(new Word("Sentence"));
+            //sent.Add(new Word("At"));
+            //sent.Add(new Word("This"));
+            //sent.Add(new Word("Location."));
 
-            Sentence s1 = new Sentence(sent);
+            //Sentence s1 = new Sentence(sent);
             if (loc < this.Sentences.Count())
                 return this.Sentences.ElementAt(loc);
             else
-                return s1;
+                throw new ArgumentOutOfRangeException("loc", loc, "Index cannot be greater than the number of sentences in the document");
         }
 
         ///  Returns the sentence instance text at x location
-        public string SentenceTextAt(int loc)
-        {
+        public string SentenceTextAt(int loc) {
             if (loc < this.Sentences.Count())
                 return this.Sentences.ElementAt(loc).Text;
             else
-                return "No Sentence at this Location.";
+                throw new ArgumentOutOfRangeException("loc", loc, "Index cannot be greater than the number of sentences in the document");
         }
 
         /// <summary>
