@@ -32,12 +32,13 @@ namespace Scott_Experimentation
             string strng2 = document.SentenceTextAt(1);
             Console.WriteLine("Sentence text at 1: {0}{1}", strng2, sep);
 
-            /*
-            for (var x = 0; x < document.Words.Count(); x++)
+            
+            for (var x = 0; x <= document.Words.Count(); x++)
             {
-                Console.WriteLine("Word at {0}: {1}", x, document.WordTextAt(x)); 
+                //Console.WriteLine("Word at {0}: {1}", x, document.WordTextAt(x)); 
+                Console.WriteLine("{0}: {1}",x, document.WordTextAt(x));
             }
-           */
+           
 
             StdIO.WaitForAnyKey();
         }
