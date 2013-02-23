@@ -20,13 +20,14 @@ namespace Scott_Experimentation
             var paragraphs = new TaggedFileParser(tagged).LoadParagraphs();
             var document = new Document(paragraphs);
 
+
             for (var x = 0; x < 1/*document.Words.Count()*/; x++) {
                 for (var y = 0; y < document.Sentences.ElementAt(x).GetWordCount(); y++) {
                     Console.WriteLine("y: {0}, {1}", y, document.Sentences.ElementAt(x).Words.ElementAt(y));
                 }
                 Console.WriteLine("\n****************** end of sentence ****************\n");
             }
-
+            
 
             StdIO.WaitForAnyKey();
         }
