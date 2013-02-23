@@ -91,6 +91,18 @@ namespace LASI.Algorithm
 
         }
 
+        /// Returns the word instance at x location in the document 
+        public Word WordAt(int loc)
+        {
+            return this.Words.ElementAt(loc);
+        }
+
+        /// Returns the text  of word instance at x location in the document
+        public String WordTextAt(int loc)
+        {
+            return this.Words.ElementAt(loc).Text;
+        }
+
         /// <summary>
         /// Prints out the entire contents of the document, from left to right, by using the using the lexical links of each of its words.
         /// </summary>
