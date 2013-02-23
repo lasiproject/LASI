@@ -103,6 +103,25 @@ namespace LASI.Algorithm
             return this.Words.ElementAt(loc).Text;
         }
 
+        /// Returns the sentence instance at x location 
+        public Sentence SentenceAt(int loc)
+        {
+            Sentence s1 = new Sentence();
+            if (loc < this.Sentences.Count())
+                return this.Sentences.ElementAt(loc);
+            else
+                return s1;
+        }
+
+        ///  Returns the sentence instance text at x location
+        public string SentenceTextAt(int loc)
+        {
+            if (loc < this.Sentences.Count())
+                return this.Sentences.ElementAt(loc).Text;
+            else
+                return "No Sentence at this Location.";
+        }
+
         /// <summary>
         /// Prints out the entire contents of the document, from left to right, by using the using the lexical links of each of its words.
         /// </summary>
