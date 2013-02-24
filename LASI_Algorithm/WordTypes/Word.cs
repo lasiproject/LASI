@@ -9,9 +9,9 @@ namespace LASI.Algorithm
     /// <summary>
     /// Provides the base class, properties, and behaviors for all word level gramatical constructs.
     /// </summary>
-    
+
     // made Word class a normal class instead of an abstract class
-    public /*abstract*/ class Word : IEquatable<Word>, IPrepositionLinkable
+    public abstract class Word : IEquatable<Word>, IPrepositionLinkable
     {
         #region Constructors
         /// <summary>
@@ -19,21 +19,19 @@ namespace LASI.Algorithm
         /// and behaviors of a word-level grammatical element.
         /// </summary>
         /// <param name="text">The literal text content of the word.</param>
-        
-        // Commented out to make a public constructor
-        /*protected Word(string text) {
+        protected Word(string text) {
             Text = text;
             ID = IDNumProvider;
             ++IDNumProvider;
 
-        }*/
-
-        public Word(string text)
-        {
-            Text = text;
-            ID = IDNumProvider;
-            ++IDNumProvider;
         }
+
+        //public Word(string text)
+        //{
+        //    Text = text;
+        //    ID = IDNumProvider;
+        //    ++IDNumProvider;
+        //}
 
         #endregion
 
@@ -51,8 +49,7 @@ namespace LASI.Algorithm
             return GetType().Name + " \"" + Text + "\"";
         }
 
-        public string TypeAsString()
-        {
+        public string TypeAsString() {
             return this.GetType().ToString();
         }
         public override bool Equals(object obj) {

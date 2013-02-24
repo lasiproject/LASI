@@ -16,7 +16,7 @@ namespace LASI.Algorithm
         /// <param name="text">The literal text content of the Verb.</param>
         public PresentPrtcplOrGerund(string text)
             : base(text) {
-            EntityType = EntityKind.Activitiy;
+            EntityType = EntityType.Activitiy;
         }
         #region Methods
 
@@ -91,7 +91,7 @@ namespace LASI.Algorithm
                 throw new NotImplementedException();
             }
         }
-        public EntityKind EntityType {
+        public EntityType EntityType {
             get;
             private set;
         }

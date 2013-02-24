@@ -24,16 +24,16 @@ namespace LASI.Algorithm
 
             switch (found) {
                 case "person":
-                    EntityType = EntityKind.Person;
+                    EntityType = EntityType.Person;
                     break;
                 case "location":
-                    EntityType = EntityKind.Location;
+                    EntityType = EntityType.Location;
                     break;
                 case "organization":
-                    EntityType = EntityKind.Organization;
+                    EntityType = EntityType.Organization;
                     break;
                 default:
-                    EntityType = EntityKind.Location;
+                    EntityType = EntityType.Location;
                     break;
 
             }

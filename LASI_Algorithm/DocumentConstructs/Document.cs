@@ -93,20 +93,18 @@ namespace LASI.Algorithm
 
         /// Returns the word instance at x location in the document 
         public Word WordAt(int loc) {
-            Word wrd = new Word("NoWordAtLoc");
             if (loc < this.Words.Count)
                 return this.Words.ElementAt(loc);
             else
-                return wrd;
+                throw new ArgumentOutOfRangeException("loc", loc, "Index cannot be greater than the number of words in the document");
         }
 
         /// Returns the text  of word instance at x location in the document
         public string WordTextAt(int loc) {
-            string strng = "NoWordAtLoc";
             if (loc < this.Words.Count)
                 return this.Words.ElementAt(loc).Text;
             else
-                return strng;
+                throw new ArgumentOutOfRangeException("loc", loc, "Index cannot be greater than the number of words in the document");
 
         }
 

@@ -146,8 +146,8 @@ namespace AlgorithmAssemblyUnitTestProject
         [TestMethod()]
         public void EntityTypeTest() {
             Noun target = CreateNoun(); // TODO: Initialize to an appropriate value
-            EntityKind expected = new EntityKind(); // TODO: Initialize to an appropriate value
-            EntityKind actual;
+            EntityType expected = new EntityType(); // TODO: Initialize to an appropriate value
+            EntityType actual;
             target.EntityType = expected;
             actual = target.EntityType;
             Assert.AreEqual(expected, actual);

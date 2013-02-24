@@ -94,7 +94,7 @@ namespace LASI.Algorithm
             }
         }
 
-        public EntityKind EntityType {
+        public EntityType EntityType {
             get;
             protected set;
         }

@@ -116,7 +116,7 @@ namespace LASI.Algorithm
                 throw new NotImplementedException() ;
             }
         }
-        public virtual EntityKind EntityType {
+        public virtual EntityType EntityType {
             get;
             set;
         }

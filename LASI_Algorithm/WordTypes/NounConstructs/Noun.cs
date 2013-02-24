@@ -16,7 +16,7 @@ namespace LASI.Algorithm
         /// <param name="text">The literal text content of the Noun.</param>
         protected Noun(string text)
             : base(text) {
-            EntityType = EntityKind.Unknown;
+            EntityType = EntityType.Unknown;
             GetEntityTypeInfo();
         }
 
@@ -122,7 +122,7 @@ namespace LASI.Algorithm
             get;
             set;
         }
-        public EntityKind EntityType {
+        public EntityType EntityType {
             get;
             set;
         }
