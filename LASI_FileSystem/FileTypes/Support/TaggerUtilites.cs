@@ -19,9 +19,9 @@ namespace LASI.FileSystem
         /// <param name="strs">The untagged, raw string data to parse.</param>
         /// <returns>The runtime representation of the string(s) provided as a fully fledged LASI Document instance.</returns>
         /// <remarks>No files are created when calling this function.</remarks>
-        public static Document DocObjectFromRawString(params string[] strs) {
-            var tagged = TaggedStringFromString(strs);
-            return DocObjectFromTaggedString(tagged);
+        public static Document UntaggedToDoc(params string[] strs) {
+            var tagged = TagString(strs);
+            return TaggedToDoc(tagged);
         }
 
         /// <summary>
@@ -30,7 +30,7 @@ namespace LASI.FileSystem
         /// <param name="tagged">The pre-tagged, raw string data to parse.</param>
         /// <returns>The runtime representation of the string(s) provided as a fully fledged LASI Document instance.</returns>
         /// <remarks>No files are created when calling this function.</remarks>
-        public static Document DocObjectFromTaggedString(params string[] tagged) {
+        public static Document TaggedToDoc(params string[] tagged) {
             var documentContent = String.Join(" ", tagged);
             var taggedParser = new TaggedFileParser(documentContent);
             return taggedParser.LoadDocument();
@@ -42,7 +42,7 @@ namespace LASI.FileSystem
         /// <param name="strs">The untagged, raw string data to parse.</param>
         /// <returns>The tagged input string as it would appear in a tagged file.</returns>
         /// <remarks>No files are created when calling this function.</remarks>
-        public static string TaggedStringFromString(params string[] strs) {
+        public static string TagString(params string[] strs) {
             var documentContent = String.Join(" ", strs);
             var simpleTagger = new QuickTagger(TaggerOption);
             var tagged = simpleTagger.TagString(documentContent);

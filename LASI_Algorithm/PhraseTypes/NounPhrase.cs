@@ -24,16 +24,21 @@ namespace LASI.Algorithm
         /// selecting the most common type between its nouns and from its bound pronouns 
         /// </summary>
         protected virtual void determineEntityType() {
-            var internalTypes = from noun in Words.GetNouns().Concat<IEntity>(Words.GetPronouns().Where(p => p.BoundEntity as Noun != null).Select(p => p.BoundEntity))
-                                group noun by noun.KindOfEntity into typeGroups
-                                orderby typeGroups.Count() descending
-                                select typeGroups;
+            var kindsOfNouns = from N in Words.GetNouns()
+                               select N.KindOfEntity;
+            var kindsOfPronouns = from P in Words.GetPronouns()
+                                  select P.KindOfEntity;
+            var internalKinds = from K in kindsOfNouns.Concat(kindsOfPronouns)
+                                group K by K into KindGroup
+                                orderby KindGroup.Count()
+                                select KindGroup;
             /**
              * I'm not sure why this is causing my program to crash.
              * But when I comment it out my program works.
              * - Scott
              */
-            KindOfEntity = internalTypes.First().Key;
+            if (internalKinds.Count() > 0)
+                KindOfEntity = internalKinds.First().Key;
         }
 
         /// <summary>

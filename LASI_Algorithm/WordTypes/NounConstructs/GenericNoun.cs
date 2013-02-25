@@ -15,22 +15,7 @@ namespace LASI.Algorithm
         protected GenericNoun(string text)
             : base(text) {
         }
-        protected override void ProcessKind(string found) {
-            switch (found) {
-                case "person":
-                    KindOfEntity = EntityKind.Person;
-                    break;
-                case "location":
-                    KindOfEntity = EntityKind.Location;
-                    break;
-                case "organization":
-                    KindOfEntity = EntityKind.Organization;
-                    break;
-                default:
-                    KindOfEntity = EntityKind.Thing;
-                    break;
-            }
-        }
+        
 
     }
 }

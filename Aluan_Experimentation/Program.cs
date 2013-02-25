@@ -19,13 +19,26 @@ namespace Aluan_Experimentation
             //ThesaurusCMDLineTest();
 
             TaggerUtil.TaggerOption = TaggingOption.NameFind;
-            var str = TaggerUtil.TaggedStringFromString(new[]{@"Hello there! How are you? I am Working on a 
-                                        linguistic analysis project with a skilled, 
-                                        professional team of 6 people. They are Brittany, Dustin, Richard, Scott, and Erik. We all work at ODU."
+            var str = TaggerUtil.TagString(new[]{
+                @"Hello there!",
+                "How are you?",
+                "I am working on a linguistic analysis project with a skilled, professional team of 6 people.",
+                "They are Brittany, Dustin, Richard, Scott, and Erik.",
+                "We all work together here at Dominion.",
+                "Dustin is working on determing the relationships between nouns and verbs.",
+            "Brittany is working on the user interface.",
             });
+
+            print(str);
             TaggerUtil.TaggerOption = TaggingOption.TagAndAggregate;
-            str = TaggerUtil.TaggedStringFromString(str);
+            str = TaggerUtil.TagString(str);
+
             printFile(str);
+
+            var document = TaggerUtil.TaggedToDoc(str);
+            foreach (var S in CountByTypeAndText(document).Result) {
+                print(S);
+            }
             StdIO.WaitForKey(ConsoleKey.Escape);
 
 
@@ -54,7 +67,7 @@ namespace Aluan_Experimentation
 
         private static async Task<IEnumerable<string>> CountByTypeAndText(Document document) {
             return await Task.Run(() => {
-                var phrasePOSCounts = from R in document.Phrases.AsParallel()
+                var phrasePOSCounts = from R in document.Phrases
                                       group R by new
                                       {
                                           Type = R.GetType(),

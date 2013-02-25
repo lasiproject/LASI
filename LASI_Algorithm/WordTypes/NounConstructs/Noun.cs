@@ -23,11 +23,9 @@ namespace LASI.Algorithm
         private void DetermineKind() {
             System.Text.RegularExpressions.Regex regex = new System.Text.RegularExpressions.Regex(@"<([^>]+)>");
             var found = regex.Match(Text).Value ?? "";
-            Text = found.Length > 0 ? Text.Substring(found.Length, Text.LastIndexOf('<') - found.Length) : Text;
-            ProcessKind(found);
+            Text = found.Length > 0 ? new string(Text.Skip(found.Length).TakeWhile(c => c != '<').ToArray()) : Text;
         }
 
-        protected abstract void ProcessKind(string found);
         #endregion
 
         #region Methods

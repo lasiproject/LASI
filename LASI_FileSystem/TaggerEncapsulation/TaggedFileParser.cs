@@ -260,13 +260,3 @@ namespace LASI.FileSystem
 
     }
 }
-///// <summary>
-///// Breaks a string of text containing multiple paragraphs into a collection of strings each representing an individual paragraph. Paragraphs are delimited using the given regular expression pattern.
-///// </summary>
-///// <param name="data">A string containing the text to be broken down.</param>
-///// <param name="regexPattern">The regular expression used delimit and split paragraphs.</param>
-///// <returns>A collection of strings, each entry corresponding to the entire content of a single paragraph.</returns>
-//protected IEnumerable<string> ParseParagraphs(string data, string regexPattern) {
-//    var results = Regex.Split(data, regexPattern, RegexOptions.Multiline);
-//    return results;
-//}
