@@ -69,7 +69,7 @@ namespace AlgorithmAssemblyUnitTestProject
         public void IndirectObjectTest() {
             IEnumerable<Word> componentWords = new Word[] { new Adverb("quickly"), new TransitiveVerb("attack", VerbTense.Base) };
             TransitiveVerbPhrase target = new TransitiveVerbPhrase(componentWords);
-            IEntity expected = new PluralPronoun("them");
+            IEntity expected = new PersonalPronoun("them");
             IEntity actual;
             target.IndirectObject = expected;
             actual = target.IndirectObject;

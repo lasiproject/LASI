@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace LASI.Algorithm
 {
     /// <summary>
-    /// Represents determiner words such as "the", "a", and "those".
+    /// Represents determiner words such as "the" and "a"
     /// </summary>
     public class Determiner : Word
     {

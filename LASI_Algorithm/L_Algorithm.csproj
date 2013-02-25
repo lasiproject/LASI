@@ -58,9 +58,6 @@
     <Compile Include="WordTypes\EntityType.cs" />
     <Compile Include="WordTypes\PronounConstructs\PossessivePronoun.cs" />
     <Compile Include="WordTypes\PronounConstructs\WhPossessivePronoun.cs" />
-    <Compile Include="WordTypes\PronounConstructs\PluralPronoun.cs" />
-    <Compile Include="WordTypes\PronounConstructs\PossessivePluralPronoun.cs" />
-    <Compile Include="WordTypes\PronounConstructs\SingularPronoun.cs" />
     <Compile Include="SyntacticInterfaces\ILexical.cs" />
     <Compile Include="IEnumerableExtensions\IEnumerableOfTransitiveActionExtensions.cs" />
     <Compile Include="IEnumerableExtensions\IEnumerableOfParagraphExtensions.cs" />
@@ -76,7 +73,6 @@
     <Compile Include="SyntacticInterfaces\IPossesser.cs" />
     <Compile Include="SyntacticInterfaces\IQuantifer.cs" />
     <Compile Include="SyntacticInterfaces\IModalityModdifiable.cs" />
-    <Compile Include="ParagraphBreak.cs" />
     <Compile Include="PhraseTypes\PastParticipleVerbPhrase.cs" />
     <Compile Include="PhraseTypes\PastTenseVerbPhrase.cs" />
     <Compile Include="PhraseTypes\PresentParticipleVPhrase.cs" />
@@ -92,14 +88,14 @@
     <Compile Include="PhraseTypes\ConjunctionPhrase.cs" />
     <Compile Include="PhraseTypes\RoughListPhrase.cs" />
     <Compile Include="PhraseTypes\ParticlePhrase.cs" />
-    <Compile Include="WordTypes\PreDeterminer.cs" />
+    <Compile Include="WordTypes\SpecifyingConstructs\PreDeterminer.cs" />
     <Compile Include="SyntacticInterfaces\IConjunctive.cs" />
     <Compile Include="WordTypes\VerbConstructs\PastParticipleVerb.cs" />
     <Compile Include="WordTypes\VerbConstructs\PastTenseVerb.cs" />
     <Compile Include="WordTypes\VerbConstructs\PresentParticipleGerund.cs" />
     <Compile Include="WordTypes\AdjectiveConstructs\ComparativeAdjective.cs" />
     <Compile Include="WordTypes\AdjectiveConstructs\SuperlativeAdjective .cs" />
-    <Compile Include="WordTypes\PossessiveEnding.cs" />
+    <Compile Include="WordTypes\SpecifyingConstructs\PossessiveEnding.cs" />
     <Compile Include="Thesuari\NounThesaurus.cs" />
     <Compile Include="Thesuari\FileLoadingState.cs" />
     <Compile Include="WordTypes\AdjectiveConstructs\Adjective.cs" />
@@ -112,9 +108,7 @@
     <Compile Include="WordTypes\Existential.cs" />
     <Compile Include="WordTypes\ForeignWord.cs" />
     <Compile Include="WordTypes\NounConstructs\GenericPluralNoun.cs" />
-    <Compile Include="DataNotLoadedException.cs" />
-    <Compile Include="WordTypes\Determiner.cs" />
-    <None Include="ClassDiagram1.cd" />
+    <Compile Include="WordTypes\SpecifyingConstructs\Determiner.cs" />
     <Compile Include="DocumentConstructs\Document.cs" />
     <Compile Include="SyntacticInterfaces\IEntityGroup.cs" />
     <Compile Include="WordTypes\BridgingConstructs\Interjection.cs" />
@@ -133,9 +127,8 @@
     <Compile Include="SyntacticInterfaces\IObjectTaker.cs" />
     <Compile Include="SyntacticInterfaces\IPrepositional.cs" />
     <Compile Include="WordTypes\NounConstructs\GenericSingularNoun.cs" />
-    <Compile Include="WordTypes\Modal.cs" />
+    <Compile Include="WordTypes\VerbConstructs\Modal.cs" />
     <Compile Include="WordTypes\BridgingConstructs\Particle.cs" />
-    <Compile Include="WordTypes\PronounConstructs\PossessiveSingularPronoun.cs" />
     <Compile Include="WordTypes\NounConstructs\ProperPluralNoun.cs" />
     <Compile Include="WordTypes\Punctuator.cs" />
     <Compile Include="PhraseTypes\SimpleDeclarativePhrase.cs" />
@@ -147,7 +140,7 @@
     <Compile Include="SyntacticInterfaces\ITransitiveAction.cs" />
     <Compile Include="WordTypes\NounConstructs\Noun.cs" />
     <Compile Include="PhraseTypes\NounPhrase.cs" />
-    <Compile Include="WordTypes\Quantifier.cs" />
+    <Compile Include="WordTypes\SpecifyingConstructs\Quantifier.cs" />
     <Compile Include="PhraseTypes\Phrase.cs" />
     <Compile Include="WordTypes\BridgingConstructs\Preposition.cs" />
     <Compile Include="PhraseTypes\PrepositionalPhrase.cs" />
@@ -172,7 +165,6 @@
     <None Include="SyntacticInterfaces\GrammaticalInterfaces.cd" />
     <None Include="IEnumerableExtensions\IEnumerableExtensions.cd" />
     <None Include="PhraseTypes\PhraseConstructs.cd" />
-    <None Include="WordTypes\WordLevelTypes_ClassDiagram.cd" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagrams\ClassDiagram1.cd" />

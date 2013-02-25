@@ -27,8 +27,6 @@ namespace LASI.FileSystem
 
         private readonly Dictionary<string, Func<string, Word>> typeDictionary = new Dictionary<string, Func<string, Word>>() {
             { "", t => { throw new EmptyTagException(String.Format("the tag for word: {0}\nis empty",t)); } },  
-            { "\r\n\r\n", t => new ParagraphBreak() }, //Paragraph break with preriod
-            { ".\r\n\r\n", t => new ParagraphBreak() }, //Paragraph break
             { "CC", t => new Conjunction(t) }, //Coordinating conjunction
             { "CD", t => new Quantifier(t) }, //Cardinal number
             { "DT", t => new Determiner(t) }, //Determiner
