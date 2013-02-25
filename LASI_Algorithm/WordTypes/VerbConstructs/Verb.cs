@@ -9,7 +9,7 @@ namespace LASI.Algorithm
     /// <summary>
     /// Provides the base class for all word level verb constructs. An instance of this class represents a verb in its base tense.
     /// </summary>
-    public class Verb : Word, IAction, IAdverbialModifiable, IModalityModifiable, IEquatable<Verb>
+    public class Verb : Word, ITransitiveAction, IAdverbialModifiable, IModalityModifiable, IEquatable<Verb>
     {
         /// <summary>
         /// Initializes a new instance of the Verb class which represents the base tense form of a verb.
@@ -89,8 +89,16 @@ namespace LASI.Algorithm
             get;
             protected set;
         }
+    
 
 
+        /// <summary>
+        /// Gets or sets the indirect object of the TransitiveVerb.
+        /// </summary>
+        public virtual IEntity IndirectObject {
+            get;
+            set;
+        }
 
         #endregion
 
@@ -129,5 +137,14 @@ namespace LASI.Algorithm
 
 
 
+
+        public IEntity DirectObject {
+            get {
+                throw new NotImplementedException();
+            }
+            set {
+                throw new NotImplementedException();
+            }
+        }
     }
 }

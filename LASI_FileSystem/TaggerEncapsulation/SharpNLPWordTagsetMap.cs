@@ -57,12 +57,12 @@ namespace LASI.FileSystem
             { "RBR", t => new ComparativeAdverb(t) }, //Adverb, comparative
             { "RBS", t => new SuperlativeAdverb(t) }, //Adverb, superlative
             //Verb mappings
-            { "VB", t => new TransitiveVerb(t,VerbTense.Base) }, //Verb, base form
-            { "VBD", t => new TransitiveVerb(t,VerbTense.Past) }, //Verb, past tense
-            { "VBG", t => new TransitiveVerb(t,VerbTense.PresentParticiple) }, //Verb, gerund or present participle
-            { "VBN", t => new TransitiveVerb(t,VerbTense.PastParticiple) }, //Verb, past participle
-            { "VBP", t => new TransitiveVerb(t,VerbTense.SingularPresent) }, //Verb, non-3rd person singular present
-            { "VBZ", t => new TransitiveVerb(t,VerbTense.ThirdPersonSingularPresent) }, //Verb, 3rd person singular present
+            { "VB", t => new Verb(t,VerbTense.Base) }, //Verb, base form
+            { "VBD", t => new Verb(t,VerbTense.Past) }, //Verb, past tense
+            { "VBG", t => new Verb(t,VerbTense.PresentParticiple) }, //Verb, gerund or present participle
+            { "VBN", t => new Verb(t,VerbTense.PastParticiple) }, //Verb, past participle
+            { "VBP", t => new Verb(t,VerbTense.SingularPresent) }, //Verb, non-3rd person singular present
+            { "VBZ", t => new Verb(t,VerbTense.ThirdPersonSingularPresent) }, //Verb, 3rd person singular present
             //WH-word mappings
             { "WDT", t => new Determiner(t) }, //Wh-determiner
             { "WP", t => new WhPronoun(t) }, //Wh-pronoun

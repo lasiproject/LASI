@@ -29,8 +29,8 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="phrases">The sequence of phrases to filter</param>
         /// <returns>All TransitiveVerbPhrases in the sequence</returns>
-        public static IEnumerable<TransitiveVerbPhrase> GetVerbPhrases(this IEnumerable<Phrase> phrases) {
-            return phrases.OfType<TransitiveVerbPhrase>();
+        public static IEnumerable<VerbPhrase> GetVerbPhrases(this IEnumerable<Phrase> phrases) {
+            return phrases.OfType<VerbPhrase>();
         }
         /// <summary>
         /// Returns all AdverbPhrases in the sequence.

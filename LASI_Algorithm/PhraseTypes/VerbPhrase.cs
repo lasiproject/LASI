@@ -9,7 +9,7 @@ namespace LASI.Algorithm
     /// <summary>
     /// Represents a verb phrase.
     /// </summary>
-    public class VerbPhrase : Phrase, IAction, IAdverbialModifiable, IModalityModifiable
+    public class VerbPhrase : Phrase, ITransitiveAction, IAdverbialModifiable, IModalityModifiable
     {
         #region Constructors
 
@@ -23,7 +23,24 @@ namespace LASI.Algorithm
         }
 
         #endregion
+        #region Methods
 
+
+        #endregion
+
+        /// <summary>
+        /// Gets or sets 
+        /// </summary>
+        public virtual IEntity DirectObject {
+            get;
+            set;
+        }
+
+
+        public virtual IEntity IndirectObject {
+            get;
+            set;
+        }
         #region Methods
 
         /// <summary>
@@ -46,7 +63,9 @@ namespace LASI.Algorithm
 
         }
 
-
+        public virtual void BindToDirectObject(IActionObject verbObject) {
+            throw new NotImplementedException();
+        }
         public override void DetermineHeadWord() {
             throw new NotImplementedException();
         }

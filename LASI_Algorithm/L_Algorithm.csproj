@@ -77,11 +77,7 @@
     <Compile Include="PhraseTypes\PastTenseVerbPhrase.cs" />
     <Compile Include="PhraseTypes\PresentParticipleVPhrase.cs" />
     <Compile Include="Thesuari\SynonymSet.cs" />
-    <Compile Include="PhraseTypes\TransPresentParticipleVPhrase.cs" />
     <Compile Include="PhraseTypes\PresentTenseVerbPhrase.cs" />
-    <Compile Include="PhraseTypes\TransPastParticplePhrase.cs" />
-    <Compile Include="PhraseTypes\TransPastTenseVPhrase.cs" />
-    <Compile Include="PhraseTypes\TransPresentVPhrase.cs" />
     <Compile Include="WordTypes\PronounConstructs\WhPronoun.cs" />
     <Compile Include="WordTypes\NounConstructs\GenericNoun.cs" />
     <Compile Include="WordTypes\NounConstructs\ProperNoun.cs" />
@@ -149,8 +145,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WordTypes\BridgingConstructs\ToLinker.cs" />
     <Compile Include="Thesuari\VerbThesaurus.cs" />
-    <Compile Include="WordTypes\VerbConstructs\TransitiveVerb.cs" />
-    <Compile Include="PhraseTypes\TransitiveVerbPhrase.cs" />
     <Compile Include="WordTypes\VerbConstructs\Verb.cs" />
     <Compile Include="PhraseTypes\VerbPhrase.cs" />
     <Compile Include="IEnumerableExtensions\IEnumerableOfIActionExtensions.cs" />

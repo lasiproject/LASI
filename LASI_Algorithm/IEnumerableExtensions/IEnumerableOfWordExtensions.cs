@@ -72,8 +72,8 @@ namespace LASI.Algorithm
         //public static IEnumerable<Verb> GetVerbs(this IEnumerable<Word> words) {
         //    return words.OfType<Verb>();
         //}
-        public static IEnumerable<TransitiveVerb> GetTransitive(this IEnumerable<Word> words) {
-            return words.OfType<TransitiveVerb>();
+        public static IEnumerable<Verb> GetTransitive(this IEnumerable<Word> words) {
+            return words.OfType<Verb>();
         }
 
         //public static string GetText(this IEnumerable<Word> words, string separater = " ") {

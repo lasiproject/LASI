@@ -134,7 +134,7 @@ namespace AlgorithmAssemblyUnitTestProject
         public void DirectObjectOfTest() {
             IEnumerable<Word> composedWords = new Word[] { new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians") };
             NounPhrase target = new NounPhrase(composedWords);
-            ITransitiveAction expected = new TransitiveVerb("insult", VerbTense.Base);
+            ITransitiveAction expected = new Verb("insult", VerbTense.Base);
             ITransitiveAction actual;
             target.DirectObjectOf = expected;
             actual = target.DirectObjectOf;
@@ -148,7 +148,7 @@ namespace AlgorithmAssemblyUnitTestProject
         public void IndirectObjectOfTest() {
             IEnumerable<Word> composedWords = new Word[] { new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians") };
             NounPhrase target = new NounPhrase(composedWords);
-            ITransitiveAction expected = new TransitiveVerbPhrase(new Word[] { new TransitiveVerb("gave", VerbTense.Base), new Adverb("willingly") });
+            ITransitiveAction expected = new VerbPhrase(new Word[] { new Verb("gave", VerbTense.Base), new Adverb("willingly") });
             ITransitiveAction actual;
             target.IndirectObjectOf = expected;
             actual = target.IndirectObjectOf;

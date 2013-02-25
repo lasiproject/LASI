@@ -10,7 +10,7 @@ namespace LASI.FileSystem.TaggerEncapsulation
     {
         #region Fields
         private readonly Dictionary<string, Func<IEnumerable<Word>, Phrase>> typeDictionary = new Dictionary<string, Func<IEnumerable<Word>, Phrase>> {
-            { "VP", words => new TransitiveVerbPhrase(words) },
+            { "VP", words => new VerbPhrase(words) },
             { "NP", words => new NounPhrase(words) },
             { "PP", words => new PrepositionalPhrase(words) },
             { "ADVP", words => new AdverbPhrase(words) },

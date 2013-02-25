@@ -68,7 +68,7 @@ namespace AlgorithmAssemblyUnitTestProject
         ///</summary>
         [TestMethod()]
         public void VerbPhraseConstructorTest() {
-            IEnumerable<Word> composedWords = new Word[] { new TransitiveVerb("run", VerbTense.Base), new Adverb("swiftly"), new Preposition("through") };
+            IEnumerable<Word> composedWords = new Word[] { new Verb("run", VerbTense.Base), new Adverb("swiftly"), new Preposition("through") };
             VerbPhrase target = new VerbPhrase(composedWords);
             Assert.IsTrue(composedWords == target.Words);
         }
@@ -77,7 +77,7 @@ namespace AlgorithmAssemblyUnitTestProject
         ///</summary>
         [TestMethod()]
         public void ModifyWithTest() {
-            IEnumerable<Word> composedWords = new Word[] { new TransitiveVerb("run", VerbTense.Base), new Adverb("swiftly"), new Preposition("through") };
+            IEnumerable<Word> composedWords = new Word[] { new Verb("run", VerbTense.Base), new Adverb("swiftly"), new Preposition("through") };
             VerbPhrase target = new VerbPhrase(composedWords);
             IAdverbial adv = new Adverb("daringly");
             target.ModifyWith(adv);
@@ -89,7 +89,7 @@ namespace AlgorithmAssemblyUnitTestProject
         ///</summary>
         [TestMethod()]
         public void BoundSubjectTest() {
-            IEnumerable<Word> composedWords = new Word[] { new TransitiveVerb("ran", VerbTense.Past), new Adverb("swiftly"), new Preposition("through") };
+            IEnumerable<Word> composedWords = new Word[] { new Verb("ran", VerbTense.Past), new Adverb("swiftly"), new Preposition("through") };
             VerbPhrase target = new VerbPhrase(composedWords);
             IEntity expected = new PersonalPronoun("he");
             IEntity actual;
@@ -103,7 +103,7 @@ namespace AlgorithmAssemblyUnitTestProject
         ///</summary>
         [TestMethod()]
         public void ModalityTest() {
-            IEnumerable<Word> composedWords = new Word[] { new TransitiveVerb("run", VerbTense.Base), new Adverb("swiftly"), new Preposition("through") };
+            IEnumerable<Word> composedWords = new Word[] { new Verb("run", VerbTense.Base), new Adverb("swiftly"), new Preposition("through") };
             VerbPhrase target = new VerbPhrase(composedWords);
             Modal expected = new Modal("cannot");
             Modal actual;

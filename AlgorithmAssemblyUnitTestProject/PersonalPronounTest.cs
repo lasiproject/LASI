@@ -158,7 +158,7 @@ namespace AlgorithmAssemblyUnitTestProject
         public void DirectObjectOfTest() {
             string text = "him";
             PersonalPronoun target = new PersonalPronoun(text);
-            ITransitiveAction expected = new TransitiveVerb("frightened", VerbTense.Past);
+            ITransitiveAction expected = new Verb("frightened", VerbTense.Past);
             ITransitiveAction actual;
             target.DirectObjectOf = expected;
             actual = target.DirectObjectOf;
@@ -173,7 +173,7 @@ namespace AlgorithmAssemblyUnitTestProject
         public void IndirectObjectOfTest() {
             string text = "him";
             PersonalPronoun target = new PersonalPronoun(text);
-            ITransitiveAction expected = new TransitiveVerb("frightened", VerbTense.Past);
+            ITransitiveAction expected = new Verb("frightened", VerbTense.Past);
             ITransitiveAction actual;
             target.DirectObjectOf = expected;
             actual = target.DirectObjectOf;
@@ -187,7 +187,7 @@ namespace AlgorithmAssemblyUnitTestProject
         public void IndirectReferencesTest() {
             string text = "he";
             PersonalPronoun target = new PersonalPronoun(text);
-            Pronoun referencer = new PersonalPronoun("Himslef");
+            Pronoun referencer = new PersonalPronoun("himslef");
             target.BindPronoun(referencer);
             Assert.IsTrue(target.BoundPronouns.Contains(referencer));
         }
@@ -199,7 +199,7 @@ namespace AlgorithmAssemblyUnitTestProject
         public void SubjectOfTest() {
             string text = "him";
             PersonalPronoun target = new PersonalPronoun(text);
-            ITransitiveAction expected = new TransitiveVerb("frightened", VerbTense.Past);
+            ITransitiveAction expected = new Verb("frightened", VerbTense.Past);
             ITransitiveAction actual;
             target.DirectObjectOf = expected;
             actual = target.DirectObjectOf;

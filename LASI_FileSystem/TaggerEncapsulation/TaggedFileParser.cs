@@ -41,8 +41,6 @@ namespace LASI.FileSystem
 
         #region Methods
 
-
-
         private string LoadDocumentFile() {
             using (var reader = new StreamReader(FilePath, Encoding.UTF8)) {
                 return reader.ReadToEnd();
@@ -200,11 +198,7 @@ namespace LASI.FileSystem
         /// <returns>A collection of strings, each entry corresponding to the entire content of a single paragraph.</returns>
         protected IEnumerable<string> ParseParagraphs(string data) {
             return data.Split(new[] { "\r\n\r\n" }, StringSplitOptions.RemoveEmptyEntries);
-
-
         }
-
-
 
         #endregion
 
@@ -228,6 +222,8 @@ namespace LASI.FileSystem
             get;
             set;
         }
+        private readonly WordTagsetMap WordTagset = new SharpNLPWordTagsetMap();
+
         private readonly PhraseTagsetMap PhraseTagset = new SharpNLPPhraseTagsetMap();
         #endregion
 

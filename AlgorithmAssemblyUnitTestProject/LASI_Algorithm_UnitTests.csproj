@@ -118,7 +118,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PunctuatorTest.cs" />
     <Compile Include="Settings.cs" />
-    <Compile Include="TransitiveVerbPhraseTest.cs" />
     <Compile Include="TransitiveVerbTest.cs" />
     <Compile Include="VerbPhraseTest.cs" />
     <Compile Include="WordTest.cs" />
