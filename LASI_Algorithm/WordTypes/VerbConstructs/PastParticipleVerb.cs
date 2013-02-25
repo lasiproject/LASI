@@ -2,19 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace LASI.Algorithm
 {
-    /// <summary>
-    /// Represents a Verb in its past participle tense.
-    /// </summary>
-    public class PastPrtcplVerb : Verb
+    public class PastParticipleVerb : Verb
     {
-        /// <summary>
-        /// Initializes a new instance of the PastPrtcplVerb class.
-        /// </summary>
-        /// <param name="text">The literal text content of the Verb.</param>
-        public PastPrtcplVerb(string text)
+        public PastParticipleVerb(string text)
             : base(text, VerbTense.PastParticiple) {
         }
     }

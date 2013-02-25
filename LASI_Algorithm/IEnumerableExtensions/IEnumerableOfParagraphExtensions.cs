@@ -8,18 +8,17 @@ namespace LASI.Algorithm
 {
     static class IEnumerableOfParagraphExtensions
     {
+        public static IEnumerable<Sentence> GetSentences(this IEnumerable<Paragraph> paragraphs) {
+            return from p in paragraphs
+                   from s in p.Sentences
+                   select s;
+        }
         public static IEnumerable<Phrase> GetPhrases(this IEnumerable<Paragraph> paragraphs) {
             return from p in paragraphs
                    from s in p.Sentences
                    from r in s.Phrases
                    select r;
         }
-        public static IEnumerable<Sentence> GetSentences(this IEnumerable<Paragraph> paragraphs) {
-            return from p in paragraphs
-                   from s in p.Sentences
-                   select s;
-        }
-
         public static IEnumerable<Word> GetWords(this IEnumerable<Paragraph> paragraphs) {
             return from p in paragraphs
                    from s in p.Sentences

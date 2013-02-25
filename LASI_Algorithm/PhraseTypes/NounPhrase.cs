@@ -24,24 +24,24 @@ namespace LASI.Algorithm
         /// selecting the most common type between its nouns and from its bound pronouns 
         /// </summary>
         protected virtual void determineEntityType() {
-            var internalTypes = from noun in Words.GetNouns().Concat<IEntity>(Words.GetPronouns().Where(p => p.BoundEntity != null))
-                                group noun by noun.EntityType into typeGrps
-                                orderby typeGrps.Count() descending
-                                select typeGrps;
+            var internalTypes = from noun in Words.GetNouns().Concat<IEntity>(Words.GetPronouns().Where(p => p.BoundEntity as Noun != null).Select(p => p.BoundEntity))
+                                group noun by noun.KindOfEntity into typeGroups
+                                orderby typeGroups.Count() descending
+                                select typeGroups;
             /**
              * I'm not sure why this is causing my program to crash.
              * But when I comment it out my program works.
              * - Scott
              */
-            //EntityType = internalTypes.First().Key;
+            KindOfEntity = internalTypes.First().Key;
         }
 
         /// <summary>
         /// Binds a Pronoun or PronounPhrase as a reference to the NounPhrase Instance.
         /// </summary>
         /// <param name="pro">The referencer which refers to the NounPhrase Instance.</param>
-        public virtual void BindPronoun(IEntityReferencer pro) {
-            _indirectReferences.Add(pro);
+        public virtual void BindPronoun(Pronoun pro) {
+            _boundPronouns.Add(pro);
             pro.BoundEntity = this;
         }
         /// <summary>
@@ -106,9 +106,9 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets all of the IEntityReferences instances, generally Pronouns or PronounPhrases, which refer to the NounPhrase Instance.
         /// </summary>
-        public virtual IEnumerable<IEntityReferencer> IndirectReferences {
+        public virtual IEnumerable<Pronoun> BoundPronouns {
             get {
-                return _indirectReferences;
+                return _boundPronouns;
             }
         }
 
@@ -138,7 +138,7 @@ namespace LASI.Algorithm
             set;
         }
 
-        public EntityType EntityType {
+        public EntityKind KindOfEntity {
             get;
             set;
         }
@@ -153,7 +153,7 @@ namespace LASI.Algorithm
 
         private IList<IDescriber> _describedBy = new List<IDescriber>();
         private IList<IEntity> _possessed = new List<IEntity>();
-        private IList<IEntityReferencer> _indirectReferences = new List<IEntityReferencer>();
+        private IList<Pronoun> _boundPronouns = new List<Pronoun>();
 
 
 

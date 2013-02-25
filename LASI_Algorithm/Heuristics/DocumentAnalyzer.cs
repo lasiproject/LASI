@@ -10,29 +10,31 @@ namespace LASI.Algorithm.Heuristics
     /// <summary>
     /// A analyser which attempts to return the significant constructs in a document based on the Pronoun bolsterd frequency of the Entities therein.
     /// </summary>
-    public class PronounAwareEntityHeuristic : SingleDocumentHeuristic
+    public class DocumentAnalyzer : LASI.Algorithm.Heuristics.IDocumentAnalyzer
     {
+
         /// <summary>
         /// Initializes a new instance of the PronounAwareEntityHeuristic class.
         /// </summary>
-        /// <param name="toAnalyse">The Document object which the Heuristic will assess.</param>
-        /// <param name="maxResultsPerCategory">The maximum number of results to retain in each results group.</param>
+        /// <param name="document">The Document object which the Heuristic will assess.</param>
+        /// <param name="maxResults">The maximum number of results to retain in each results group.</param>
         /// <remarks>Providing large values for maxResultsPerCategory may drastically impact performance.</remarks>
-        public PronounAwareEntityHeuristic(Document toAnalyse, int maxResultsPerCategory)
-            : base(toAnalyse, maxResultsPerCategory) {
+        public DocumentAnalyzer(Document document, int maxResults, PronounMode pronounMode) {
+            SourceDocument = document;
+            MaxResults = maxResults;
+            PronounMode = pronounMode;
+
         }
         /// <summary>
         /// Analyses the Document object referenced by this instance and returns a collection of statistical results based primarily on the Pronoun bolsterd frequency of the Entities therein.
         /// </summary>
         /// <returns>An object containing the most significant Entities and Actions occuring in the document, according to the Heuristic's methodology.</returns>
-        public override Metric Analyse() {
-            var subjects = from Entity in SourceMaterial.Phrases.GetNounPhrases().AsParallel()
-
-
+        public Metric Analyse() {
+            var subjects = from Entity in SourceDocument.Phrases.GetNounPhrases().AsParallel()
                            let SB = new
                            {
                                Entity,
-                               refs = Entity.IndirectReferences
+                               refs = Entity.BoundPronouns
                            }
                            group SB by SB.Entity.Text into lexGroups
                            from LG in lexGroups
@@ -44,23 +46,15 @@ namespace LASI.Algorithm.Heuristics
                            } into FreqGroups
                            orderby FreqGroups.Freq
                            select FreqGroups;
-            var entityResults = from E in subjects.Take(MaxResultsPerCategory).AsParallel()
-                                select new CountedEntityResult {
-                                    Count = E.Freq, Entity = E.Entity
+            var entityResults = from E in subjects.Take(MaxResults).AsParallel()
+                                select new
+                                {
+                                    Count = E.Freq,
+                                    Entity = E.Entity
                                 };
-            return new Metric {
-                MostSignificantEntities = entityResults,
-                MostSignificantActions = from E in entityResults
-                                         let Instances = E.Entity.IndirectReferences.Concat(new[] { E.Entity as IEntity })
-                                         from IE in Instances
-                                         from e in Instances
+            throw new NotImplementedException();
 
-                                         select new[] { IE.SubjectOf, IE.IndirectObjectOf, IE.DirectObjectOf } into boundActionsGroup
-                                         from A in boundActionsGroup
-                                         select new CountedActionResult {
-                                             Count = boundActionsGroup.Count(), Action = A
-                                         }
-            };
+
         }
 
 
@@ -69,8 +63,23 @@ namespace LASI.Algorithm.Heuristics
         /// The assessment is performed asynchronously on a background thread.
         /// </summary>
         /// <returns>A Task of Metric object which, results in a task which contains the most significant Entities and Actions occuring in the document, according to the Heuristic's methodology.</returns>
-        public override async Task<Metric> AnalyseAsync() {
+        public async Task<Metric> AnalyseAsync() {
             return await Task.Run(() => Analyse());
+        }
+
+        public int MaxResults {
+            get;
+            set;
+        }
+
+
+        public Document SourceDocument {
+            get;
+            set;
+        }
+        public PronounMode PronounMode {
+            get;
+            set;
         }
     }
 }

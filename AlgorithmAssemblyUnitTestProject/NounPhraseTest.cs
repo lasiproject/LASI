@@ -83,7 +83,7 @@ namespace AlgorithmAssemblyUnitTestProject
         public void BindDescriberTest() {
             IEnumerable<Word> composedWords = new Word[] { new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians") };
             NounPhrase target = new NounPhrase(composedWords);
-            IDescriber adj = new AdjectivePhrase(new Word[] { new GenericSingularNoun("peace"), new PresentPrtcplOrGerund("loving") });
+            IDescriber adj = new AdjectivePhrase(new Word[] { new GenericSingularNoun("peace"), new PresentParticipleGerund("loving") });
             target.BindDescriber(adj);
             Assert.IsTrue(target.DescribedBy.Contains(adj));
         }
@@ -95,9 +95,9 @@ namespace AlgorithmAssemblyUnitTestProject
         public void BindPronounTest() {
             IEnumerable<Word> composedWords = new Word[] { new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians") };
             NounPhrase target = new NounPhrase(composedWords);
-            IEntityReferencer pro = new PluralPronoun("they");
+            Pronoun pro = new PluralPronoun("they");
             target.BindPronoun(pro);
-            Assert.IsTrue(target.IndirectReferences.Contains(pro) && pro.BoundEntity == target);
+            Assert.IsTrue(target.BoundPronouns.Contains(pro) && pro.BoundEntity == target);
         }
 
 
@@ -119,7 +119,7 @@ namespace AlgorithmAssemblyUnitTestProject
             IEnumerable<Word> composedWords = new Word[] { new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians") };
             NounPhrase target = new NounPhrase(composedWords);
             Assert.IsTrue(target.DescribedBy.Count() == 0);
-            IDescriber adj = new AdjectivePhrase(new Word[] { new GenericSingularNoun("peace"), new PresentPrtcplOrGerund("loving") });
+            IDescriber adj = new AdjectivePhrase(new Word[] { new GenericSingularNoun("peace"), new PresentParticipleGerund("loving") });
             target.BindDescriber(adj);
             Assert.IsTrue(target.DescribedBy.Contains(adj));
             IDescriber adj2 = new Adjective("proud");
@@ -134,7 +134,7 @@ namespace AlgorithmAssemblyUnitTestProject
         public void DirectObjectOfTest() {
             IEnumerable<Word> composedWords = new Word[] { new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians") };
             NounPhrase target = new NounPhrase(composedWords);
-            ITransitiveAction expected = new TransitiveVerb("insult");
+            ITransitiveAction expected = new TransitiveVerb("insult", VerbTense.Base);
             ITransitiveAction actual;
             target.DirectObjectOf = expected;
             actual = target.DirectObjectOf;
@@ -148,7 +148,7 @@ namespace AlgorithmAssemblyUnitTestProject
         public void IndirectObjectOfTest() {
             IEnumerable<Word> composedWords = new Word[] { new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians") };
             NounPhrase target = new NounPhrase(composedWords);
-            ITransitiveAction expected = new TransitiveVerbPhrase(new Word[] { new PastTenseVerb("gave"), new Adverb("willingly") });
+            ITransitiveAction expected = new TransitiveVerbPhrase(new Word[] { new TransitiveVerb("gave", VerbTense.Base), new Adverb("willingly") });
             ITransitiveAction actual;
             target.IndirectObjectOf = expected;
             actual = target.IndirectObjectOf;
@@ -162,10 +162,10 @@ namespace AlgorithmAssemblyUnitTestProject
         public void IndirectReferencesTest() {
             IEnumerable<Word> composedWords = new Word[] { new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians") };
             NounPhrase target = new NounPhrase(composedWords);
-            Assert.IsTrue(target.IndirectReferences.Count() == 0);
+            Assert.IsTrue(target.BoundPronouns.Count() == 0);
             Pronoun pro = new PluralPronoun("they");
             target.BindPronoun(pro);
-            Assert.IsTrue(target.IndirectReferences.Contains(pro) && pro.BoundEntity == target);
+            Assert.IsTrue(target.BoundPronouns.Contains(pro) && pro.BoundEntity == target);
         }
 
         /// <summary>
@@ -190,7 +190,7 @@ namespace AlgorithmAssemblyUnitTestProject
         public void SubjectOfTest() {
             IEnumerable<Word> composedWords = new Word[] { new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians") };
             NounPhrase target = new NounPhrase(composedWords);
-            IAction expected = new Verb("are");
+            IAction expected = new Verb("are", VerbTense.Base);
             IAction actual;
             target.SubjectOf = expected;
             actual = target.SubjectOf;

@@ -72,7 +72,7 @@ namespace AlgorithmAssemblyUnitTestProject
         {
             string text = "gone";
             VerbTense pastprt = VerbTense.PastParticiple;
-            PastPrtcplVerb target = new PastPrtcplVerb(text);
+            PastParticipleVerb target = new PastParticipleVerb(text);
             Assert.IsTrue(target.Text == text);
             Assert.IsTrue(target.Tense == pastprt); 
         }

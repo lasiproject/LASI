@@ -11,7 +11,8 @@ namespace LASI.Algorithm
         Past,
         PastParticiple,
         PresentParticiple,
-        SingularPresent
+        SingularPresent,
+        ThirdPersonSingularPresent
 
     }
 

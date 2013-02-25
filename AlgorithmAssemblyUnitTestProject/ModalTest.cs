@@ -78,7 +78,7 @@ namespace AlgorithmAssemblyUnitTestProject
         public void ModifiesTest() {
             string text = "can";
             Modal target = new Modal(text);
-            IModalityModifiable expected = new PresentTenseVerb("capitulate");
+            IModalityModifiable expected = new TransitiveVerb("capitulate",VerbTense.Base);
             IModalityModifiable actual;
             target.Modifies = expected;
             actual = target.Modifies;

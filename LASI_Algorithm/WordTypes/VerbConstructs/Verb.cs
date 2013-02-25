@@ -15,7 +15,7 @@ namespace LASI.Algorithm
         /// Initializes a new instance of the Verb class which represents the base tense form of a verb.
         /// </summary>
         /// <param name="text">The literal text content of the verb.</param>
-        public Verb(string text, VerbTense tense = VerbTense.Base)
+        public Verb(string text, VerbTense tense)
             : base(text) {
             Modifiers = new List<IAdverbial>();
             Tense = tense;

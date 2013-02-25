@@ -59,14 +59,7 @@ namespace LASI.Algorithm
             }
         }
 
-        /// <summary>
-        /// Parses the contents of the underlying WordNet database file Asynchronously in a new thread, returning Task object which represents the state of the ongoing operation.
-        /// </summary>
-        public override async Task LoadAsync() {
-            LoadingStatus = FileLoadingState.Initiated;
-            await Task.Run(() => Load());
-            LoadingStatus = FileLoadingState.Completed;
-        }
+  
 
         /// <summary>
         /// Retrives the synonyms of the given verb as a collection of strings.

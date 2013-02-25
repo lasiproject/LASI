@@ -155,6 +155,14 @@ namespace LASI.Algorithm
             Console.WriteLine();
         }
 
+
+        public IEnumerable<ITransitiveAction> GetTransitiveActions() {
+            var wordResults = from ITransitiveAction V in Words.GetTransitive()
+                              select V;
+            var phraseResults = from ITransitiveAction VP in Phrases.GetVerbPhrases()
+                                select VP;
+            return wordResults.Concat(phraseResults);
+        }
         #endregion
 
         #region Properties
@@ -191,6 +199,7 @@ namespace LASI.Algorithm
                        select R;
             }
         }
+
 
         #endregion
 

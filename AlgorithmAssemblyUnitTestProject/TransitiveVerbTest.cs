@@ -66,7 +66,7 @@ namespace AlgorithmAssemblyUnitTestProject
         ///</summary>
         [TestMethod()]
         public void PromoteToTransitiveTest() {
-            Verb verb = new Verb("walk");
+            Verb verb = new Verb("walk", VerbTense.Base);
             TransitiveVerb actual = TransitiveVerb.PromoteToTransitive(ref verb);
             Assert.AreEqual(verb, verb);
             Assert.AreEqual(actual, verb as TransitiveVerb);

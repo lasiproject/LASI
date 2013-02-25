@@ -17,8 +17,8 @@ namespace LASI.Algorithm
         /// Initializes a new instance of the TransitiveVerb class.
         /// </summary>
         /// <param name="text">The literal text content of the verb.</param>
-        public TransitiveVerb(string text)
-            : base(text, VerbTense.Base) {
+        public TransitiveVerb(string text, VerbTense tense)
+            : base(text, tense) {
         }
 
         #endregion
@@ -48,7 +48,7 @@ namespace LASI.Algorithm
         #endregion
 
         #region Static Methods
-        
+
         /// <summary>
         /// Promotes an instance of an intransitive Verb to an instance of TransitiveVerb.
         /// The transformation is total and irreversible, as reference is reassigned and the original Verb deleted.
@@ -63,7 +63,7 @@ namespace LASI.Algorithm
                 return toTransitive;
             //Otherwise, assign verb to a new TransitiveVerb, copying over all of the common properties verbatim
             else
-                verb = new TransitiveVerb(verb.Text) {
+                verb = new TransitiveVerb(verb.Text, verb.Tense) {
                     BoundSubject = verb.BoundSubject,
                     Modality = verb.Modality,
                     ID = verb.ID,

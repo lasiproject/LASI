@@ -10,19 +10,19 @@ namespace LASI.Algorithm
         public ProperSingularNoun(string text)
             : base(text) {
         }
-        protected override void ProcessEntityTypeInfo(string found) {
+        protected override void ProcessKind(string found) {
             switch (found) {
                 case "person":
-                    EntityType = EntityType.Person;
+                    KindOfEntity = EntityKind.Person;
                     break;
                 case "location":
-                    EntityType = EntityType.Location;
+                    KindOfEntity = EntityKind.Location;
                     break;
                 case "organization":
-                    EntityType = EntityType.Organization;
+                    KindOfEntity = EntityKind.Organization;
                     break;
                 default:
-                    EntityType = EntityType.Person;
+                    KindOfEntity = EntityKind.Person;
                     break;
             }
         }

@@ -152,7 +152,7 @@ namespace AlgorithmAssemblyUnitTestProject
             actual = A == B && B == A;
             Assert.AreEqual(expected, actual);
             A = new GenericSingularNoun("dog");
-            B = new Verb("dog");
+            B = new Verb("dog", VerbTense.Base);
             expected = false;
             actual = A == B && B == A;
             Assert.AreEqual(expected, actual);
@@ -250,7 +250,7 @@ namespace AlgorithmAssemblyUnitTestProject
         ///</summary>
         [TestMethod()]
         public void TextTest() {
-            Word target = new Verb("run");
+            Word target = new Verb("run",VerbTense.Base);
             string expected = "run";
             string actual;
             target.Text = expected;

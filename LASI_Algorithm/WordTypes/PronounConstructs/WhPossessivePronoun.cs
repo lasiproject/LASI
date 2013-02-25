@@ -5,7 +5,7 @@ using System.Text;
 
 namespace LASI.Algorithm
 {
-    public class WhPossessivePronoun : WhPronoun
+    public class WhPossessivePronoun : Pronoun
     {
         public WhPossessivePronoun(string text)
             : base(text) {

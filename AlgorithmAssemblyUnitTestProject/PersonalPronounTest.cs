@@ -81,9 +81,9 @@ namespace AlgorithmAssemblyUnitTestProject
         public void BindPronounTest() {
             string text = "him";
             PersonalPronoun target = new PersonalPronoun(text);
-            IEntityReferencer pro = new PronounPhrase(new Word[] { new PersonalPronoun("those"), new Preposition("of"), new PersonalPronoun("them") }); // TODO: Initialize to an appropriate value
+            Pronoun pro = new PersonalPronoun("them");
             target.BindPronoun(pro);
-            Assert.IsTrue(target.IndirectReferences.Contains(pro));
+            Assert.IsTrue(target.BoundPronouns.Contains(pro));
         }
 
         /// <summary>
@@ -158,7 +158,7 @@ namespace AlgorithmAssemblyUnitTestProject
         public void DirectObjectOfTest() {
             string text = "him";
             PersonalPronoun target = new PersonalPronoun(text);
-            ITransitiveAction expected = new TransPastTenseVerb("frightened");
+            ITransitiveAction expected = new TransitiveVerb("frightened", VerbTense.Past);
             ITransitiveAction actual;
             target.DirectObjectOf = expected;
             actual = target.DirectObjectOf;
@@ -173,7 +173,7 @@ namespace AlgorithmAssemblyUnitTestProject
         public void IndirectObjectOfTest() {
             string text = "him";
             PersonalPronoun target = new PersonalPronoun(text);
-            ITransitiveAction expected = new TransPastTenseVerb("frightened");
+            ITransitiveAction expected = new TransitiveVerb("frightened", VerbTense.Past);
             ITransitiveAction actual;
             target.DirectObjectOf = expected;
             actual = target.DirectObjectOf;
@@ -187,9 +187,9 @@ namespace AlgorithmAssemblyUnitTestProject
         public void IndirectReferencesTest() {
             string text = "he";
             PersonalPronoun target = new PersonalPronoun(text);
-            IEntityReferencer referencer = new PronounPhrase(new Word[] { new Determiner("the"), new PersonalPronoun("former") });
+            Pronoun referencer = new PersonalPronoun("Himslef");
             target.BindPronoun(referencer);
-            Assert.IsTrue(target.IndirectReferences.Contains(referencer));
+            Assert.IsTrue(target.BoundPronouns.Contains(referencer));
         }
 
         /// <summary>
@@ -199,7 +199,7 @@ namespace AlgorithmAssemblyUnitTestProject
         public void SubjectOfTest() {
             string text = "him";
             PersonalPronoun target = new PersonalPronoun(text);
-            ITransitiveAction expected = new TransPastTenseVerb("frightened");
+            ITransitiveAction expected = new TransitiveVerb("frightened", VerbTense.Past);
             ITransitiveAction actual;
             target.DirectObjectOf = expected;
             actual = target.DirectObjectOf;

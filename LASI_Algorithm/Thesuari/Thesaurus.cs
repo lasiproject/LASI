@@ -28,11 +28,11 @@ namespace LASI.Algorithm
         /// </summary>
         public abstract void Load();
 
-        /// <summary>
-        /// When overriden in a derrived class, this method
-        /// Loads the database file and performs additional initialization asynchronously
-        /// </summary>
-        public abstract Task LoadAsync();
+        public virtual async Task LoadAsync() {
+            LoadingStatus = FileLoadingState.Initiated;
+            await Task.Run(() => Load());
+            LoadingStatus = FileLoadingState.Completed;
+        }
 
         public abstract IEnumerable<string> this[string search] {
             get;

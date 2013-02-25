@@ -8,23 +8,23 @@ namespace LASI.Algorithm
     /// <summary>
     /// Represents the present participle/gerund form of a verb. As such takes the behavior of both a verb and an entity.
     /// </summary>
-    public class PresentPrtcplOrGerund : Verb, IEntity
+    public class PresentParticipleGerund : Verb, IEntity
     {
         /// <summary>
         /// Initializes a new instance of the PresentPrtcplVerb class.
         /// </summary>
         /// <param name="text">The literal text content of the Verb.</param>
-        public PresentPrtcplOrGerund(string text)
-            : base(text) {
-            EntityType = EntityType.Activitiy;
-        }
+        public PresentParticipleGerund(string text)
+            : base(text, VerbTense.PresentParticiple) {
+            KindOfEntity = EntityKind.Activitiy;
+        } 
         #region Methods
 
         /// <summary>
         /// Binds a Pronoun or PronounPhrase to refer to the gerund.
         /// </summary>
         /// <param name="pro">The Pronoun or PronounPhrase to bind to the gerund</param>
-        public void BindPronoun(IEntityReferencer pro) {
+        public void BindPronoun(Pronoun pro) {
             pro.BoundEntity = this;
             _indirectReferences.Add(pro);
         }
@@ -40,13 +40,13 @@ namespace LASI.Algorithm
         }
 
         public bool Equals(IEntity other) {
-            return this == other as PresentPrtcplOrGerund;
+            return this == other as PresentParticipleGerund;
         }
         #endregion
 
         #region Properties
 
-        public IEnumerable<IEntityReferencer> IndirectReferences {
+        public IEnumerable<Pronoun> BoundPronouns {
             get {
                 return _indirectReferences;
             }
@@ -91,7 +91,7 @@ namespace LASI.Algorithm
                 throw new NotImplementedException();
             }
         }
-        public EntityType EntityType {
+        public EntityKind KindOfEntity {
             get;
             private set;
         }
@@ -102,7 +102,7 @@ namespace LASI.Algorithm
 
         private ICollection<IDescriber> _describedBy = new List<IDescriber>();
         private ICollection<IEntity> _possessed = new List<IEntity>();
-        private ICollection<IEntityReferencer> _indirectReferences = new List<IEntityReferencer>();
+        private ICollection<Pronoun> _indirectReferences = new List<Pronoun>();
 
         #endregion
 

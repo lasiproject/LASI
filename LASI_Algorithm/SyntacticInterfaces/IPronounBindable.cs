@@ -2,11 +2,11 @@
 
 namespace LASI.Algorithm
 {
-    public interface IReferenciable
+    public interface IPronounBindable
     {
-        void BindPronoun(IEntityReferencer pro);
+        void BindPronoun(Pronoun pro);
 
-        IEnumerable<IEntityReferencer> IndirectReferences {
+        IEnumerable<Pronoun> BoundPronouns {
             get;
         }
     }

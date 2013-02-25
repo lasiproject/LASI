@@ -5,9 +5,9 @@ using System.Text;
 
 namespace LASI.Algorithm
 {
-    public class PluralPossessivePronoun : PossessivePronoun
+    public class PossessivePluralPronoun : PossessivePronoun
     {
-        public PluralPossessivePronoun(string text)
+        public PossessivePluralPronoun(string text)
             : base(text) {
         }
     }

@@ -87,6 +87,7 @@
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAA=</HashCode>
       <FileName>WordTypes\NounConstructs\GenericPluralNoun.cs</FileName>
+      <NewMemberFileName>GenericSingularNoun.cs</NewMemberFileName>
     </TypeIdentifier>
     <Lollipop Orientation="Left" Position="0.367" />
   </Class>
@@ -100,7 +101,7 @@
   <Class Name="LASI.Algorithm.Noun" Collapsed="true">
     <Position X="64.5" Y="2" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAACAAAAAAAAAAAkAgEAAAAwACAAAAAAQIAAAAAAAE=</HashCode>
+      <HashCode>AAAAKAAAAAAAAAAAkAgEEAAAYACAAAAAAQIAAAQAAAE=</HashCode>
       <FileName>WordTypes\NounConstructs\Noun.cs</FileName>
     </TypeIdentifier>
     <Lollipop Orientation="Left" Position="0.128" />
@@ -108,7 +109,7 @@
   <Class Name="LASI.Algorithm.ProperPluralNoun" Collapsed="true">
     <Position X="65.75" Y="5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAACAAAAAAA=</HashCode>
       <FileName>WordTypes\NounConstructs\ProperPluralNoun.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -116,7 +117,7 @@
   <Class Name="LASI.Algorithm.ProperSingularNoun" Collapsed="true">
     <Position X="68" Y="5" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>WordTypes\NounConstructs\ProperSingularNoun.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -128,13 +129,6 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
-  <Class Name="LASI.Algorithm.SingularPossessivePronoun" Collapsed="true">
-    <Position X="48.25" Y="5" Width="2.25" />
-    <TypeIdentifier>
-      <HashCode>AAIAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>WordTypes\PossessivePronoun.cs</FileName>
-    </TypeIdentifier>
-  </Class>
   <Class Name="LASI.Algorithm.PreDeterminer" Collapsed="true">
     <Position X="34.75" Y="3.5" Width="1.5" />
     <TypeIdentifier>
@@ -145,8 +139,8 @@
   <Class Name="LASI.Algorithm.Pronoun" Collapsed="true">
     <Position X="48.75" Y="2" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAACAAAAAAAAAAAkAgAQAAAwACAAIAAAQIAAAAAAiE=</HashCode>
-      <FileName>WordTypes\Pronoun.cs</FileName>
+      <HashCode>AAAAKAAAAAAAAgAAkAAAQAAAYACAAIJAAQIAAAQAAiE=</HashCode>
+      <FileName>WordTypes\PronounConstructs\Pronoun.cs</FileName>
     </TypeIdentifier>
     <Lollipop Orientation="Right" Position="0.111" />
   </Class>
@@ -169,7 +163,7 @@
     <Position X="44.75" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>WordTypes\PersonalPronoun.cs</FileName>
+      <FileName>WordTypes\PronounConstructs\PersonalPronoun.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="LASI.Algorithm.Symbol" Collapsed="true">
@@ -182,7 +176,7 @@
   <Class Name="LASI.Algorithm.Word" Collapsed="true">
     <Position X="48.25" Y="0.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AABQAAAAAAgAoAAEhCAAAAAAAAAAAIAAIBAACAAAAiA=</HashCode>
+      <HashCode>AABQAAAAAAgAoAAEhCAAAAAAAAAAAIAAIJAACAAAAiA=</HashCode>
       <FileName>WordTypes\Word.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -190,7 +184,7 @@
   <Class Name="LASI.Algorithm.GenericNoun" Collapsed="true">
     <Position X="62" Y="3.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>WordTypes\NounConstructs\GenericNoun.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -205,42 +199,49 @@
     <Position X="43.75" Y="5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>WordTypes\SingularPronoun.cs</FileName>
+      <FileName>WordTypes\PronounConstructs\SingularPronoun.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="LASI.Algorithm.WhPronoun" Collapsed="true">
     <Position X="54" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>WordTypes\WhPronoun.cs</FileName>
+      <FileName>WordTypes\PronounConstructs\WhPronoun.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="LASI.Algorithm.PluralPronoun" Collapsed="true">
     <Position X="46" Y="5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>WordTypes\PluralPronoun.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="LASI.Algorithm.PluralPossessivePronoun">
-    <Position X="51.25" Y="5" Width="2" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>WordTypes\PluralPossessivePronoun.cs</FileName>
+      <FileName>WordTypes\PronounConstructs\PluralPronoun.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="LASI.Algorithm.PossessivePronoun" Collapsed="true">
     <Position X="50" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>PossessivePronoun.cs</FileName>
+      <FileName>WordTypes\PronounConstructs\PossessivePronoun.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="LASI.Algorithm.WhPossessivePronoun">
     <Position X="54" Y="5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>WhPossessivePronoun.cs</FileName>
+      <FileName>WordTypes\PronounConstructs\WhPossessivePronoun.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Algorithm.PossessiveSingularPronoun">
+    <Position X="48.25" Y="5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>WordTypes\PronounConstructs\PossessiveSingularPronoun.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Algorithm.PossessivePluralPronoun">
+    <Position X="51.25" Y="5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>WordTypes\PronounConstructs\PossessivePluralPronoun.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Font Name="Segoe UI" Size="9" />

@@ -16,18 +16,18 @@ namespace LASI.Algorithm
         /// <param name="text">The literal text content of the Noun.</param>
         protected Noun(string text)
             : base(text) {
-            EntityType = EntityType.Unknown;
-            GetEntityTypeInfo();
+            KindOfEntity = EntityKind.Unknown;
+            DetermineKind();
         }
 
-        protected void GetEntityTypeInfo() {
+        private void DetermineKind() {
             System.Text.RegularExpressions.Regex regex = new System.Text.RegularExpressions.Regex(@"<([^>]+)>");
             var found = regex.Match(Text).Value ?? "";
-            Text = found.Length > 0 ? Text.Substring(found.Length, Text.LastIndexOf('<') - found.Length):Text;
-            ProcessEntityTypeInfo(found);
+            Text = found.Length > 0 ? Text.Substring(found.Length, Text.LastIndexOf('<') - found.Length) : Text;
+            ProcessKind(found);
         }
 
-        protected abstract void ProcessEntityTypeInfo(string found);
+        protected abstract void ProcessKind(string found);
         #endregion
 
         #region Methods
@@ -36,9 +36,9 @@ namespace LASI.Algorithm
         /// Binds an EntityReferency, generall a Pronoun or PronounPhrase to refer to the Noun.
         /// </summary>
         /// <param name="pro">The EntityReferency to bind.</param>
-        public virtual void BindPronoun(IEntityReferencer pro) {
+        public virtual void BindPronoun(Pronoun pro) {
             pro.BoundEntity = this;
-            _indirectReferences.Add(pro);
+            _boundPronouns.Add(pro);
         }
 
         /// <summary>
@@ -66,9 +66,9 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets all of the IEntityReferences instances, generally Pronouns or PronounPhrases, which refer to the Noun Instance.
         /// </summary>
-        public virtual IEnumerable<IEntityReferencer> IndirectReferences {
+        public virtual IEnumerable<Pronoun> BoundPronouns {
             get {
-                return _indirectReferences;
+                return _boundPronouns;
             }
         }
 
@@ -122,7 +122,7 @@ namespace LASI.Algorithm
             get;
             set;
         }
-        public EntityType EntityType {
+        public EntityKind KindOfEntity {
             get;
             set;
         }
@@ -131,7 +131,7 @@ namespace LASI.Algorithm
         #region Fields
         private ICollection<IDescriber> _describedBy = new List<IDescriber>();
         private ICollection<IPossessable> _possessed = new List<IPossessable>();
-        private ICollection<IEntityReferencer> _indirectReferences = new List<IEntityReferencer>();
+        private ICollection<Pronoun> _boundPronouns = new List<Pronoun>();
         #endregion
 
 

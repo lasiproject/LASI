@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 namespace LASI.Algorithm
 {
-    public interface IEntity : IActionObject, IActionSubject, IReferenciable, IDescribable, IPossesser, IPossessable, IEquatable<IEntity>, ILexical
+    public interface IEntity : IActionObject, IActionSubject, IPronounBindable, IDescribable, IPossesser, IPossessable, IEquatable<IEntity>, ILexical
     {
-        EntityType EntityType {
+        EntityKind KindOfEntity {
             get;
         }
     }

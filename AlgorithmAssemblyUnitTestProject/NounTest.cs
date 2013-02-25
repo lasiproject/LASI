@@ -96,7 +96,7 @@ namespace AlgorithmAssemblyUnitTestProject
         [TestMethod()]
         public void BindPronounTest() {
             Noun target = CreateNoun(); // TODO: Initialize to an appropriate value
-            IEntityReferencer pro = null; // TODO: Initialize to an appropriate value
+            Pronoun pro = null; // TODO: Initialize to an appropriate value
             target.BindPronoun(pro);
             Assert.Inconclusive("A method that does not return a value cannot be verified.");
         }
@@ -146,10 +146,10 @@ namespace AlgorithmAssemblyUnitTestProject
         [TestMethod()]
         public void EntityTypeTest() {
             Noun target = CreateNoun(); // TODO: Initialize to an appropriate value
-            EntityType expected = new EntityType(); // TODO: Initialize to an appropriate value
-            EntityType actual;
-            target.EntityType = expected;
-            actual = target.EntityType;
+            EntityKind expected = new EntityKind(); // TODO: Initialize to an appropriate value
+            EntityKind actual;
+            target.KindOfEntity = expected;
+            actual = target.KindOfEntity;
             Assert.AreEqual(expected, actual);
             Assert.Inconclusive("Verify the correctness of this test method.");
         }
@@ -174,8 +174,8 @@ namespace AlgorithmAssemblyUnitTestProject
         [TestMethod()]
         public void IndirectReferencesTest() {
             Noun target = CreateNoun(); // TODO: Initialize to an appropriate value
-            IEnumerable<IEntityReferencer> actual;
-            actual = target.IndirectReferences;
+            IEnumerable<Pronoun> actual;
+            actual = target.BoundPronouns;
             Assert.Inconclusive("Verify the correctness of this test method.");
         }
 
