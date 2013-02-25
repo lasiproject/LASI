@@ -15,8 +15,16 @@ namespace Aluan_Experimentation
 {
     public class Program
     {
-        static void Main(string[] args) {
-            //ThesaurusCMDLineTest();
+        static void Main(string[] args)
+        {
+            ThesaurusCMDLineTest();
+            //ParseAndCreate();
+
+
+        }
+
+        private static void ParseAndCreate()
+        {
 
             TaggerUtil.TaggerOption = TaggingOption.NameFind;
             var str = TaggerUtil.TagString(new[]{
@@ -36,16 +44,16 @@ namespace Aluan_Experimentation
             printFile(str);
 
             var document = TaggerUtil.TaggedToDoc(str);
-            foreach (var S in CountByTypeAndText(document).Result) {
+            foreach (var S in CountByTypeAndText(document).Result)
+            {
                 print(S);
             }
             StdIO.WaitForKey(ConsoleKey.Escape);
-
-
         }
 
 
-        public static IEnumerable<string> ParseThreaded() {
+        public static IEnumerable<string> ParseThreaded()
+        {
 
             return (from p in pathes.AsParallel()
 
@@ -58,17 +66,21 @@ namespace Aluan_Experimentation
 
 
 
-        private static async Task<Document> MakeDocumentFromTaggedFile(string filePath) {
+        private static async Task<Document> MakeDocumentFromTaggedFile(string filePath)
+        {
 
             return await Task.Run(async () => await new TaggedFileParser(new TaggedFile(filePath)).LoadDocumentAsync());
 
 
         }
 
-        private static async Task<IEnumerable<string>> CountByTypeAndText(Document document) {
-            return await Task.Run(() => {
+        private static async Task<IEnumerable<string>> CountByTypeAndText(Document document)
+        {
+            return await Task.Run(() =>
+            {
                 var phrasePOSCounts = from R in document.Phrases
-                                      group R by new {
+                                      group R by new
+                                      {
                                           Type = R.GetType(),
                                           R.Text
                                       } into G
@@ -81,15 +93,18 @@ namespace Aluan_Experimentation
             });
         }
 
-        void ThesaurusCMDLineTest() {
-            var verbLookUp = new VerbThesaurus();
+        static void ThesaurusCMDLineTest()
+        {
+            var verbLookUp = new VerbThesaurus(@"..\..\..\WordNetThesaurusData\data.verb");
             verbLookUp.Load();
             Console.Write("Enter a Verb:    ");
             var input = Console.ReadLine();
-            while (input != "~") {
+            while (input != "~")
+            {
 
 
-                foreach (var v in verbLookUp[input]) {
+                foreach (var v in verbLookUp[input])
+                {
                     Console.Write(v + ", ");
                 }
                 Console.WriteLine();
@@ -105,8 +120,10 @@ namespace Aluan_Experimentation
           };
 
         static Action<object> print = (o) => Console.WriteLine(o);
-        static Action<object> printFile = (o) => {
-            using (var writer = new StreamWriter(@"C:\Users\Aluan\Desktop\taggingModeTesting.txt", true)) {
+        static Action<object> printFile = (o) =>
+        {
+            using (var writer = new StreamWriter(@"..\..\..\..\Desktop\taggingModeTesting.txt", true))
+            {
                 writer.WriteLine(o);
             }
         };
