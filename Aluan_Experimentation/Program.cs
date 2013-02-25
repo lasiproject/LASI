@@ -68,8 +68,7 @@ namespace Aluan_Experimentation
         private static async Task<IEnumerable<string>> CountByTypeAndText(Document document) {
             return await Task.Run(() => {
                 var phrasePOSCounts = from R in document.Phrases
-                                      group R by new
-                                      {
+                                      group R by new {
                                           Type = R.GetType(),
                                           R.Text
                                       } into G
