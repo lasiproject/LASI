@@ -14,18 +14,18 @@ namespace LASI.FileSystem
     /// the tagset used by SharpNLP, a derrivative of the Brown Tagset.
     /// This class is sealed and thus may not be extended.
     /// If a new tagset is to be implemented, extend the base class, TaggingContext.
-    /// <see cref="TagsetMap"/>
+    /// <see cref="WordTagsetMap"/>
     ///<see cref="WordTagParser"/>
     /// <example>
     /// var constructorFunction = myContext["TAG"];
     /// var runtimeWord = constructorFunction(itemText);
     /// </example>
     /// </summary>
-    public sealed class SharpNLPTagsetMap : TagsetMap
+    public sealed class SharpNLPWordTagsetMap : WordTagsetMap
     {
         #region Fields
 
-        private readonly Dictionary<string, Func<string, Word>> typeDictionary = new Dictionary<string, Func<string, Word>>() {
+        private readonly Dictionary<string, Func<string, Word>> typeDictionary = new Dictionary<string, Func<string, Word>> {
             { "", t => { throw new EmptyTagException(String.Format("the tag for word: {0}\nis empty",t)); } },  
             { "CC", t => new Conjunction(t) }, //Coordinating conjunction
             { "CD", t => new Quantifier(t) }, //Cardinal number
@@ -91,13 +91,14 @@ namespace LASI.FileSystem
         /// Provides POS-Tag indexed access to a constructor function which can be invoked to create an instance of the class which provides its run-time representation.
         /// </summary>
         /// <param name="tag">The textual representation of a Part Of Speech tag.</param>
-        /// <returns>A function which creates an isntance of the run-time type associated with the textual tag.</returns>
+        /// <returns>A function which creates an instance of the run-time type associated with the textual tag.</returns>
         /// <exception cref="UnknownPOSException">Thrown when the indexing tag string is not defined by the tagset.</exception>
         public override Func<string, Word> this[string tag] {
             get {
                 try {
                     return typeDictionary[tag];
-                } catch (KeyNotFoundException) {
+                }
+                catch (KeyNotFoundException) {
                     throw new UnknownPOSException(String.Format("The tag {0} is not defined by this Tagset", tag));
                 }
             }
@@ -107,18 +108,11 @@ namespace LASI.FileSystem
             get {
                 try {
                     return typeDictionary.First(pair => pair.Value == mappedConstructor).Key;
-                } catch (InvalidOperationException) {
+                }
+                catch (InvalidOperationException) {
                     throw new UnmappedWordConstructorException(String.Format("Word constructor\n{0}\nis not mapped by this Tagset for", mappedConstructor));
                 }
             }
-        }
-        #endregion
-
-        #region Constructors
-        /// <summary>
-        /// Initializes a new instance of the SNLPTaggingContext class.
-        /// </summary>
-        public SharpNLPTagsetMap() {
         }
         #endregion
     }

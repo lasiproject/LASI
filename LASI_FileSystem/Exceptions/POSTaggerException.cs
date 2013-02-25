@@ -58,8 +58,8 @@ namespace LASI.FileSystem
     }
     /// <summary>
     /// Thrown when attempting to access the key for an unmapped constructor value in the Tagset
-    /// <see cref="TagsetMap"/>
-    /// <seealso cref="SharpNLPTagsetMap"/>
+    /// <see cref="WordTagsetMap"/>
+    /// <seealso cref="SharpNLPWordTagsetMap"/>
     /// </summary>
     [Serializable]
     class UnmappedWordConstructorException : POSTagException
@@ -145,6 +145,19 @@ namespace LASI.FileSystem
 
 
     }
+    class UnmappedPhraseConstructorException : POSTagException
+    {
+        public UnmappedPhraseConstructorException(string message)
+            : base(message) {
+        }
+        public UnmappedPhraseConstructorException(string message, Exception inner)
+            : base(message, inner) {
+        }
+        public UnmappedPhraseConstructorException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
+            : base(info, context) {
+
+        }
 
 
+    }
 }

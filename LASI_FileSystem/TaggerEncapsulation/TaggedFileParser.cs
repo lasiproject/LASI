@@ -1,4 +1,5 @@
 ﻿using LASI.Algorithm;
+using LASI.FileSystem.TaggerEncapsulation;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -86,8 +87,9 @@ namespace LASI.FileSystem
                                 Text = chunk.Substring(chunk.IndexOf(' '))
                             });
                             parsedPhrases.Add(currentPhrase);
-                        } else if (token == '/') {
-                            var words = ReadParseConstruct(chunk);
+                        }
+                        else if (token == '/') {
+                            var words = CreateWords(chunk);
                             if (words.Count == 1 && words.First() != null)
                                 if (words.First().Text == "and" || words.First().Text == "or") {
                                     var currentPhrase = new ConjunctionPhrase(words);
@@ -108,9 +110,9 @@ namespace LASI.FileSystem
             var reader2 = (new StringReader(chunk));
             char token = '`';
             while (reader2.Peek() != '/' && reader2.Peek() != ' ') {
-                token = (char) reader2.Read();
+                token = (char)reader2.Read();
             }
-            token = (char) reader2.Read();
+            token = (char)reader2.Read();
             return token;
         }
 
@@ -137,39 +139,11 @@ namespace LASI.FileSystem
         /// <returns></returns>
         protected virtual Phrase ParsePhrase(TaggedPhraseObject taggedContent) {
             var phraseTag = taggedContent.Tag.Trim();
-            var composed = ReadParseConstruct(taggedContent.Text);
-            switch (phraseTag) {
-                case "ADVP":
-                    return new AdverbPhrase(composed);
-                case "ADJP":
-                    return new AdjectivePhrase(composed);
-                case "PP":
-                    return new PrepositionalPhrase(composed);
-                case "PRT":
-                    return new ParticlePhrase(composed);
-                case "VP":
-                    return new VerbPhrase(composed);
-                case "NP":
-                    return new NounPhrase(composed);
-                case "S":
-                    return new SimpleDeclarativePhrase(composed);
-                case "SINV":
-                    return new SimpleDeclarativePhrase(composed);
-                case "SBAR":
-                    return new PrepositionalPhrase(composed);
-                case "SBARQ":
-                    return new InterrogativePhrase(composed);
-                case "SQ":
-                    return new InterrogativePhrase(composed);
-                case "CONJP":
-                    return new ConjunctionPhrase(composed);
-                case "LST":
-                    return new RoughListPhrase(composed);
-                default: {
-                        throw new UnknownPhraseTypeException(phraseTag);
-                    }
-            }
+            var composed = CreateWords(taggedContent.Text);
+            var phraseConstructor = PhraseTagset[phraseTag];
+            return phraseConstructor(composed);
         }
+
 
         /// <summary>
         /// Parses a string of text containing tagged words 
@@ -178,7 +152,7 @@ namespace LASI.FileSystem
         /// </summary>
         /// <param name="wordData">A string containing tagged words.</param>
         /// <returns>The collection of Word objects that is their run time representation.</returns>
-        protected virtual List<Word> ReadParseConstruct(string wordData) {
+        protected virtual List<Word> CreateWords(string wordData) {
             var parsedWords = new List<Word>();
             var elements = wordData.Split(new[] { ' ', });
             var posExtractor = new WordExtractor();
@@ -202,7 +176,7 @@ namespace LASI.FileSystem
         /// </summary>
         /// <param name="wordData">A string containing tagged words.</param>
         /// <returns>A List of constructor function instances which, when invoked, create run time objects which represent each word in the source</returns>
-        protected virtual List<Func<Word>> ReadParse(string wordData) {
+        protected virtual List<Func<Word>> CreateWordExpressions(string wordData) {
             var wordExpressions = new List<Func<Word>>();
             var elements = wordData.Split(new[] { ' ', });
             var posExtractor = new WordExtractor();
@@ -254,7 +228,7 @@ namespace LASI.FileSystem
             get;
             set;
         }
-
+        private readonly PhraseTagsetMap PhraseTagset = new SharpNLPPhraseTagsetMap();
         #endregion
 
 

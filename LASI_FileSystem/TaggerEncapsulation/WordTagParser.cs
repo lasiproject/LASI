@@ -18,16 +18,16 @@ namespace LASI.FileSystem
     {
         /// <summary>
         /// Initializes an instance of the TaggedWordParser class using the default Tagset (SharpNLP).
-        /// <see cref="SharpNLPTagsetMap"/>
+        /// <see cref="SharpNLPWordTagsetMap"/>
         /// </summary>
         public WordTagParser() {
-            context = new SharpNLPTagsetMap();
+            context = new SharpNLPWordTagsetMap();
         }
         /// <summary>
         /// Initialized an instance of the TaggedWordParser class using the Tagset provided defined by the TaggingContext argument.
         /// </summary>
         /// <param name="taggingContext">The tagset-to-runtime-type mapping which will define how new word instances will be instantiated.</param>
-        public WordTagParser(TagsetMap taggingContext) {
+        public WordTagParser(WordTagsetMap taggingContext) {
             context = taggingContext;
         }
 
@@ -65,6 +65,6 @@ namespace LASI.FileSystem
 
             }
         }
-        private TagsetMap context;
+        private WordTagsetMap context;
     }
 }

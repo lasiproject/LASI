@@ -13,7 +13,7 @@ namespace LASI.FileSystem
     /// This class represents the tagset => runtime-type mapping for
     /// the tagset used SharpNLP, a derrivative of the Brown Tagset, and may not be extended.
     /// If a new tagset is to be used, derrive from the base class TaggingContext
-    /// <see cref="TagsetMap"/>
+    /// <see cref="WordTagsetMap"/>
     ///<see cref="WordTagParser"/>
     /// <example>
     /// 
@@ -22,7 +22,7 @@ namespace LASI.FileSystem
     /// 
     /// </example>
     /// </summary>
-    public abstract class TagsetMap
+    public abstract class WordTagsetMap
     {
         #region Properties and Indexers
         /// <summary>
@@ -48,12 +48,5 @@ namespace LASI.FileSystem
         }
         #endregion
 
-        #region Constructors
-        /// <summary>
-        /// Initializes a new instance of the TaggingContext class.
-        /// </summary>
-        public TagsetMap() {
-        }
-        #endregion
     }
 }
