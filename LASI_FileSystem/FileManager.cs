@@ -74,10 +74,10 @@ namespace LASI.FileSystem
         /// Copies the .doc file at the given path to the appropriate subfolder of the current project
         /// </summary>
         /// <param name="sourcePath">The path of the file to add</param>
-        public static void AddDocFile(string sourcePath) {
+        public static void AddDocFile(string sourcePath, bool overwrite = false) {
             var FD = new FileData(sourcePath);
             var path = DocFilesDir + "\\" + FD.FileNameWithExt;
-            File.Copy(sourcePath, path, true);
+            File.Copy(sourcePath, path, overwrite);
             var file = new DocFile(path);
             docFiles.Add(file);
         }
@@ -86,10 +86,10 @@ namespace LASI.FileSystem
         /// Copies the .docx file at the given path to the appropriate subfolder of the current project
         /// </summary>
         /// <param name="sourcePath">The path of the file to add</param>
-        public static void AddDocXFile(string sourcePath) {
+        public static void AddDocXFile(string sourcePath, bool overwrite = false) {
             var FD = new FileData(sourcePath);
             var path = DocxFilesDir + "\\" + FD.FileNameWithExt;
-            File.Copy(sourcePath, path, true);
+            File.Copy(sourcePath, path, overwrite);
             var file = new DocXFile(path);
             docXFiles.Add(file);
         }
@@ -99,10 +99,10 @@ namespace LASI.FileSystem
         /// Copies the text file at the given path to the appropriate subfolder of the current project
         /// </summary>
         /// <param name="sourcePath">The path of the file to add</param>
-        public static void AddTextFile(string sourcePath) {
+        public static void AddTextFile(string sourcePath, bool overwrite = false) {
             var FD = new FileData(sourcePath);
             var path = TextFilesDir + "\\" + FD.FileNameWithExt;
-            File.Copy(sourcePath, path, true);
+            File.Copy(sourcePath, path, overwrite);
             var file = new TextFile(path);
             textFiles.Add(file);
         }

@@ -17,8 +17,8 @@ namespace Aluan_Experimentation
     {
         static void Main(string[] args)
         {
-            ThesaurusCMDLineTest();
-            //ParseAndCreate();
+            //ThesaurusCMDLineTest();
+            ParseAndCreate();
 
 
         }
@@ -28,20 +28,14 @@ namespace Aluan_Experimentation
 
             TaggerUtil.TaggerOption = TaggingOption.NameFind;
             var str = TaggerUtil.TagString(new[]{
-                @"Hello there!",
-                "How are you?",
-                "I am working on a linguistic analysis project with a skilled, professional team of 6 people.",
-                "They are Brittany, Dustin, Richard, Scott, and Erik.",
-                "We all work together here at Dominion.",
-                "Dustin is working on determing the relationships between nouns and verbs.",
-            "Brittany is working on the user interface.",
+                @"Add one plus one."
             });
 
             print(str);
             TaggerUtil.TaggerOption = TaggingOption.TagAndAggregate;
             str = TaggerUtil.TagString(str);
 
-            printFile(str);
+            print(str);
 
             var document = TaggerUtil.TaggedToDoc(str);
             foreach (var S in CountByTypeAndText(document).Result)
@@ -88,8 +82,6 @@ namespace Aluan_Experimentation
                                       select G;
                 return from g in phrasePOSCounts
                        select String.Format("{0} : \"{1}\"; with count: {2}:", g.Key.Type.Name, g.Key.Text, g.Count());
-
-
             });
         }
 

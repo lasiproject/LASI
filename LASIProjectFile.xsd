@@ -1,35 +1,56 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <xs:schema targetNamespace="http://tempuri.org/XMLSchema.xsd"
-    elementFormDefault="qualified"
-    xmlns="http://tempuri.org/XMLSchema.xsd"
-    xmlns:mstns="http://tempuri.org/XMLSchema.xsd"
-    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           elementFormDefault="qualified"
+           xmlns="http://tempuri.org/XMLSchema.xsd"
+           xmlns:mstns="http://tempuri.org/XMLSchema.xsd"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
 >
   <xs:group name="sourcesdocument">
     <xs:choice>
       <xs:element name="sourcesdocument">
         <xs:complexType>
-          <xs:attribute name="path" use="required" type="xs:string"></xs:attribute>
+          <xs:attribute  name="id"
+                         use="required"
+                         type="xs:int"></xs:attribute>
+          <xs:attribute  name="localSourcePath"
+                         use="required"
+                         type="xs:string"></xs:attribute>
+          <xs:attribute name="taggedFilePath"
+                        use="required"
+                        type="xs:string"></xs:attribute>
+          <xs:attribute name="rawTextFilePath"
+                        use="required"
+                        type="xs:string"></xs:attribute>
         </xs:complexType>
       </xs:element>
     </xs:choice>
   </xs:group>
   <xs:group  name="elements">
     <xs:choice>
-      <xs:element name="projectfile" maxOccurs="1" minOccurs="1">
-        <xs:complexType id="fileinfo" mixed="true">
+      <xs:element name="projectfile"
+                  maxOccurs="1"
+                  minOccurs="1">
+        <xs:complexType id="fileinfo"
+                        mixed="true">
 
-          <xs:attribute use="required" name="relativeparentdirectory" type="xs:string" ></xs:attribute>
-          <xs:attribute name="projectname" type="xs:string" use="required"></xs:attribute>
-          <xs:attribute  name="filecount" use="required" >
+          <xs:attribute use="required"
+                        name="relativeparentdirectory"
+                        type="xs:string" ></xs:attribute>
+          <xs:attribute name="projectname"
+                        type="xs:string"
+                        use="required"></xs:attribute>
+          <xs:attribute  name="filecount"
+                         use="required" >
             <xs:simpleType>
               <xs:restriction base="xs:nonNegativeInteger">
                 <xs:minExclusive value="0"></xs:minExclusive>
-                <xs:maxExclusive value="5"></xs:maxExclusive>
+                <xs:maxExclusive value="10"></xs:maxExclusive>
               </xs:restriction>
             </xs:simpleType>
           </xs:attribute>
-          <xs:attribute name="analysiscompleted" type="xs:boolean" use="required"></xs:attribute>
+          <xs:attribute name="analysiscompleted"
+                        type="xs:boolean"
+                        use="required"></xs:attribute>
         </xs:complexType>
       </xs:element>
     </xs:choice>
@@ -39,13 +60,22 @@
       <xs:all maxOccurs="1">
         <xs:element name ="content" >
           <xs:complexType  mixed="true">
-            <xs:sequence minOccurs="1" maxOccurs="1">
-              <xs:choice  minOccurs="1" maxOccurs="1" id="t1r1">
-                <xs:group  id="t1"  maxOccurs="1"  ref="mstns:elements">
+            <xs:sequence minOccurs="1"
+                         maxOccurs="1">
+              <xs:choice  minOccurs="1"
+                          maxOccurs="1"
+                          id="t1r1">
+                <xs:group  id="t1"
+                           maxOccurs="1"
+                           ref="mstns:elements">
                 </xs:group>
               </xs:choice>
-              <xs:choice minOccurs="0" maxOccurs="unbounded">
-                <xs:group id="t2" minOccurs="0" ref="sourcesdocument" maxOccurs="unbounded" >
+              <xs:choice minOccurs="0"
+                         maxOccurs="unbounded">
+                <xs:group id="t2"
+                          minOccurs="0"
+                          ref="sourcesdocument"
+                          maxOccurs="unbounded" >
                 </xs:group>
               </xs:choice>
             </xs:sequence>
