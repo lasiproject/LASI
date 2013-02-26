@@ -30,13 +30,7 @@ namespace LASI.UserInterface
         private void BuildAssociatedView() {
             var colors = new[] { Brushes.Orange, Brushes.Teal, Brushes.IndianRed, Brushes.CadetBlue, Brushes.DarkCyan };//Some colors
 
-            var tokens = @"The typically small numbers of COIs identified by stakeholders with specific problems should each be accompanied by a similarly small number
-` effectiveness measures (Sproles, 2002) that stakeholders can use to make binary, 'yes' or 'no,' determinations as to whether or not COI and 
-the problems they characterize have been resolved. Recalling their definition as 'emergent properties that induce rank orderings,' 
-MOEs are truly the 'standards' of the same definition as well as, perhaps most plainly, the variables of 'goodness' described by Dockery (1986, p. 172).
-Their complete independence from solutions proposed to dispel the problems from which they fundamentally derive represents another of MOEs' 
-most significant features, one reinforced with the Figure 3 that builds on Figure 2 by displaying only those entities - the problem and 
-the COIs characterizing it - to which MOEs may be properly linked.".Split('\r', '\n', '\t', ' ');
+
             foreach (string T in tokens) {
                 Label wordLabel = new Label {
                     Content = T,
@@ -53,9 +47,6 @@ the COIs characterizing it - to which MOEs may be properly linked.".Split('\r', 
                     MessageBox.Show(wordLabel.Content.ToString());
                 };
                 wordsWrapPanel.Children.Add(wordLabel);
-                //wordsWrapPanel.Children.Add(new VerbNodeControl(new Algorithm.TransitiveVerb("playing") {
-                //    BoundSubject = new Algorithm.ProperPluralNoun("Scott"), DirectObject = new Algorithm.GenericPluralNoun("nipples")
-                //}));
             }
 
 
@@ -68,15 +59,6 @@ the COIs characterizing it - to which MOEs may be properly linked.".Split('\r', 
             this.SwapWith(WindowManager.CreateProjectScreen);
         }
 
-        private void AlphaSortButton_Click_1(object sender, RoutedEventArgs e) {
-            var a = from abc in Frequency.Text.Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries)
-                    orderby abc[0]
-                    select abc;
-
-            Frequency = new TextBlock();
-            Frequency.Text = (from abc in a
-                              select a).SelectMany((s) => s + "\n").ToString();
-        }
         private void MenuItem_Click_3(object sender, RoutedEventArgs e) {
             this.Close();
 
@@ -85,11 +67,19 @@ the COIs characterizing it - to which MOEs may be properly linked.".Split('\r', 
             var searchText = SearchTextBox.Text;
             foreach (Label label in wordsWrapPanel.Children) {
                 if (label.Content.ToString().Contains(searchText))
-                    label.Foreground = Brushes.Blue;
+                    label.Foreground = Brushes.Red;
                 else
                     label.Foreground = Brushes.Black;
             }
         }
+
+        List<string> tokens = @"The typically small numbers of COIs identified by stakeholders with specific problems should each be accompanied by a similarly small number
+` effectiveness measures (Sproles, 2002) that stakeholders can use to make binary, 'yes' or 'no,' determinations as to whether or not COI and 
+the problems they characterize have been resolved. Recalling their definition as 'emergent properties that induce rank orderings,' 
+MOEs are truly the 'standards' of the same definition as well as, perhaps most plainly, the variables of 'goodness' described by Dockery (1986, p. 172).
+Their complete independence from solutions proposed to dispel the problems from which they fundamentally derive represents another of MOEs' 
+most significant features, one reinforced with the Figure 3 that builds on Figure 2 by displaying only those entities - the problem and 
+the COIs characterizing it - to which MOEs may be properly linked.".Split('\r', '\n', '\t', ' ').ToList();
 
     }
 }

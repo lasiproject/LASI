@@ -93,7 +93,7 @@
                 </TabItem>
                 <TabItem x:Name="TestView" Header="TestView" Padding="6,1" Margin="-2,-2,2,-1">
                     <WrapPanel x:Name="wordsWrapPanel" HorizontalAlignment="Left" Height="380" VerticalAlignment="Top" UseLayoutRounding="True">
-                        </WrapPanel>
+                    </WrapPanel>
                 </TabItem>
                 <!--<Grid Height="100" Width="100"/>-->
             </TabControl>
