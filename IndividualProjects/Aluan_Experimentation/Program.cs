@@ -42,6 +42,12 @@ namespace Aluan_Experimentation
             {
                 print(S);
             }
+
+            var actions = document.GetActions();
+
+            foreach (var A in actions) {
+                print(A);
+            }
             StdIO.WaitForKey(ConsoleKey.Escape);
         }
 
