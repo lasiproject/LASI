@@ -23,7 +23,7 @@
       </xs:element>
     </xs:choice>
   </xs:group>
-  <xs:element  name="LASIFile">
+  <xs:element name="DocumentFile">
     <xs:complexType mixed="true">
       <xs:all>
         <xs:element name="fileHeader">

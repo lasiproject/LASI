@@ -5,13 +5,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		ThirdPartyComponents\FileFormatConversion\doc2x\doc2x.exe = ThirdPartyComponents\FileFormatConversion\doc2x\doc2x.exe
 		LasiClassFramework.vsmdi = LasiClassFramework.vsmdi
-		LASIFileSchema.xsd = LASIFileSchema.xsd
 		LASI_FileSystem\LasiLogo.ico = LASI_FileSystem\LasiLogo.ico
-		LASIProjectFile.xsd = LASIProjectFile.xsd
 		Performance1.psess = Performance1.psess
-		ProjectFileEx.xml = ProjectFileEx.xml
 		TestSettings.runsettings = TestSettings.runsettings
-		LASI_FileSystem\XMLFile1.xml = LASI_FileSystem\XMLFile1.xml
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "L_FileSystem", "LASI_FileSystem\L_FileSystem.csproj", "{F13D6C6D-A004-45BD-8FB8-E044E20F1204}"
@@ -69,7 +65,19 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WordNetThesaurusData", "Wor
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "L_Utilities", "LASI_Utilities\L_Utilities.csproj", "{BC10A8F0-77FF-46D0-9F9A-38E2FDA22D21}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "L_GuiInterop", "GuiInterop\L_GuiInterop.csproj", "{06B96679-9758-4B15-8E75-0F46416E68B7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "L_InteropLayer", "GuiInterop\L_InteropLayer.csproj", "{06B96679-9758-4B15-8E75-0F46416E68B7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "XMLShemas", "XMLShemas", "{BB8A5BF2-C41F-4330-B55B-D1097569B529}"
+	ProjectSection(SolutionItems) = preProject
+		documentStructure.xsd = documentStructure.xsd
+		dotLasiFile.xsd = dotLasiFile.xsd
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SchemaTestFiles", "SchemaTestFiles", "{8829F489-A966-4321-BD4A-FDC4536D0BBA}"
+	ProjectSection(SolutionItems) = preProject
+		ProjectFileEx.xml = ProjectFileEx.xml
+		LASI_FileSystem\XMLFile1.xml = LASI_FileSystem\XMLFile1.xml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
@@ -146,6 +154,7 @@ Global
 		{B2BE9B07-C647-4208-9463-A7C1B9EF5A11} = {292E3A5A-1499-4291-A903-377BF3167923}
 		{D2D2723D-5E38-4FB8-8E45-1075DF1A4837} = {292E3A5A-1499-4291-A903-377BF3167923}
 		{26D0FB7C-0EB1-46E8-8352-19858926304E} = {292E3A5A-1499-4291-A903-377BF3167923}
+		{8829F489-A966-4321-BD4A-FDC4536D0BBA} = {BB8A5BF2-C41F-4330-B55B-D1097569B529}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		VisualSVNWorkingCopyRoot = .
