@@ -94,7 +94,7 @@ namespace LASI.Algorithm
         }
 
         /// <summary>
-        /// Gets the ISubjectTaker instance, generally a Verb or VerbPhrase, which the NounPhrase is the subject of.
+        /// Gets the IAction instance, generally a Verb or VerbPhrase, which the NounPhrase is the subject of.
         /// </summary>
         public virtual IAction SubjectOf {
             get {
@@ -147,14 +147,7 @@ namespace LASI.Algorithm
             get;
             set;
         }
-        public override Word HeadWord {
-            get {
-                throw new NotImplementedException();
-            }
-            protected set {
-                throw new NotImplementedException();
-            }
-        }
+
 
         private IList<IDescriber> _describedBy = new List<IDescriber>();
         private IList<IEntity> _possessed = new List<IEntity>();

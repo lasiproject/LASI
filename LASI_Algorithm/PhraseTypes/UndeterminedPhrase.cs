@@ -11,25 +11,20 @@ namespace LASI.Algorithm
     /// </summary>
     public class UndeterminedPhrase : Phrase
     {
+        /// <summary>
+        /// Initializes a new instance of the UndeterminedPhrase class.
+        /// </summary>
+        /// <param name="composedWords">The words which compose to form the UndeterminedPhrase.</param>
         public UndeterminedPhrase(IEnumerable<Word> composedWords)
             : base(composedWords) {
         }
 
 
-
+        /// <summary>
+        /// Determines the Head Word of the UndeterminedPhrase.
+        /// </summary>
         public override void DetermineHeadWord() {
             throw new NotImplementedException();
         }
-        #region Properties
-        public override Word HeadWord {
-            get {
-                throw new NotImplementedException();
-            }
-            protected set {
-                throw new NotImplementedException();
-            }
-        }
-        #endregion
-
     }
 }

@@ -5,8 +5,15 @@ using System.Text;
 
 namespace LASI.Algorithm
 {
+    /// <summary>
+    /// Represents a generic, proper, singular noun word.
+    /// </summary>
     public class GenericPluralNoun : GenericNoun, IQuantifiable
     {
+        /// <summary>
+        /// Initializes a new instances of the GenericPluralNoun class.
+        /// </summary>
+        /// <param name="text">The literal text content of the GenericPluralNoun</param>
         public GenericPluralNoun(string text)
             : base(text) {
         }

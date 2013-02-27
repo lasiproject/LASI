@@ -6,6 +6,11 @@ using System.Threading.Tasks;
 
 namespace LASI.Algorithm
 {
+    /// <summary>
+    /// Provides the base class and functionality for classes which represent Generic Nouns.
+    /// </summary>
+    /// <seealso cref="GenericSingularNoun"/>
+    /// <seealso cref="GenericPluralNoun"/>
     public abstract class GenericNoun : Noun
     {
         /// <summary>

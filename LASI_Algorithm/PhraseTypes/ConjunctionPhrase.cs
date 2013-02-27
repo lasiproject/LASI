@@ -6,7 +6,7 @@ using System.Text;
 namespace LASI.Algorithm
 {
     /// <summary>
-    /// Represents a conjunction phrase which links two clauses together.
+    /// Represents a conjunction phrase which links two Clauses, Words or Phrases together.
     /// </summary>
     public class ConjunctionPhrase : Phrase, IConjunctive
     {
@@ -46,14 +46,7 @@ namespace LASI.Algorithm
             get;
             set;
         }
-        public override Word HeadWord {
-            get {
-                throw new NotImplementedException();
-            }
-            protected set {
-                throw new NotImplementedException();
-            }
-        }
+     
 
         #endregion
     }

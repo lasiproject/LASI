@@ -10,7 +10,7 @@ namespace LASI.Algorithm
     /// <summary>
     /// Provides static management of known occurances of EntityKinds.
     /// </summary>
-    /// <see cref="EntityKind"/>The EntityKind enumeration defining all the kinds of entities. 
+    /// <seealso cref="EntityKind"/>The EntityKind enumeration defining all the kinds of entities. 
     public static class EntityKindLookup
     {
         /// <summary>

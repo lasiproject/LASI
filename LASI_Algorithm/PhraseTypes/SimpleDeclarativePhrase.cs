@@ -11,14 +11,7 @@ namespace LASI.Algorithm
             : base(composedWords) {
         }
 
-        public override Word HeadWord {
-            get {
-                throw new NotImplementedException();
-            }
-            protected set {
-                throw new NotImplementedException();
-            }
-        }
+       
 
         public override void DetermineHeadWord() {
             throw new NotImplementedException();

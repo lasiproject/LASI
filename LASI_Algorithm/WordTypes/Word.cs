@@ -11,7 +11,7 @@ namespace LASI.Algorithm
     /// </summary>
 
     // made Word class a normal class instead of an abstract class
-    public abstract class Word : IEquatable<Word>, IPrepositionLinkable
+    public abstract class Word : IPrepositionLinkable, IEquatable<Word>
     {
         #region Constructors
         /// <summary>
@@ -26,12 +26,6 @@ namespace LASI.Algorithm
 
         }
 
-        //public Word(string text)
-        //{
-        //    Text = text;
-        //    ID = IDNumProvider;
-        //    ++IDNumProvider;
-        //}
 
         #endregion
 
@@ -39,6 +33,7 @@ namespace LASI.Algorithm
 
         public void EstablishParent(Phrase phrase) {
             ParentPhrase = phrase;
+            ParentDocument = phrase.ParentDocument;
         }
 
         /// <summary>
@@ -49,9 +44,6 @@ namespace LASI.Algorithm
             return GetType().Name + " \"" + Text + "\"";
         }
 
-        public string TypeAsString() {
-            return this.GetType().ToString();
-        }
         public override bool Equals(object obj) {
             return base.Equals(obj);
         }
@@ -91,14 +83,14 @@ namespace LASI.Algorithm
             set;
         }
         /// <summary>
-        /// Gets, lexically speaking, the next Word in the Document to which the instance belongs.
+        /// Gets, lexically speaking, the next Word in the ParentDocument to which the instance belongs.
         /// </summary>
         public Word NextWord {
             get;
             set;
         }
         /// <summary>
-        /// Gets, lexically speaking, the previous Word in the Document to which the instance belongs.
+        /// Gets, lexically speaking, the previous Word in the ParentDocument to which the instance belongs.
         /// </summary>
         public Word PreviousWord {
             get;

@@ -17,25 +17,25 @@ namespace LASI.Algorithm
     {
         #region Constructors
         /// <summary>
-        /// Initializes a new instance of the Document class.
+        /// Initializes a new instance of the ParentDocument class.
         /// </summary>
         /// <param name="allWords">The collection of words which corresponds to all text in the document.</param>
         public Document(IEnumerable<Word> allWords) {
-            Words = allWords.ToList();
+            _words = allWords.ToList();
 
             EstablishLexicalLinks();
             foreach (var w in allWords)
                 w.ParentDocument = this;
         }
         /// <summary>
-        /// Initializes a new instance of the Document class.
+        /// Initializes a new instance of the ParentDocument class.
         /// </summary>
         /// <param name="allWords">The collection of sentences which contain all text in the document.</param>
         public Document(IEnumerable<Sentence> allSentences) {
             _sentences = allSentences;
-            Words = (from S in _sentences
-                     from W in S.Words
-                     select W).ToList();
+            _words = (from S in _sentences
+                      from W in S.Words
+                      select W).ToList();
             EstablishLexicalLinks();
             foreach (var w in Words)
                 w.ParentDocument = this;
@@ -44,7 +44,7 @@ namespace LASI.Algorithm
             }
         }
         /// <summary>
-        /// Initializes a new instance of the Document class.
+        /// Initializes a new instance of the ParentDocument class.
         /// </summary>
         /// <param name="allWords">The collection of paragraphs which contain all text in the document.</param>
         public Document(IEnumerable<Paragraph> allParagrpahs) {
@@ -55,9 +55,9 @@ namespace LASI.Algorithm
             _sentences = from P in _paragraphs
                          from S in P.Sentences
                          select S;
-            Words = (from S in _sentences
-                     from W in S.Words
-                     select W).ToList();
+            _words = (from S in _sentences
+                      from W in S.Words
+                      select W).ToList();
             foreach (var w in Words)
                 w.ParentDocument = this;
             EstablishLexicalLinks();
@@ -68,15 +68,15 @@ namespace LASI.Algorithm
         #region Methods
 
         private void EstablishLexicalLinks() {
-            if (Words.Count > 1) {
+            if (_words.Count > 1) {
                 for (int i = 1; i < Words.Count(); ++i) {
-                    Words[i].PreviousWord = Words[i - 1];
-                    Words[i - 1].NextWord = Words[i];
+                    _words[i].PreviousWord = _words[i - 1];
+                    _words[i - 1].NextWord = _words[i];
                 }
 
-                var lastWord = Words[Words.Count - 1];
-                if (Words.IndexOf(lastWord) > 0)
-                    lastWord.PreviousWord = Words[Words.Count - 1];
+                var lastWord = _words[_words.Count - 1];
+                if (_words.IndexOf(lastWord) > 0)
+                    lastWord.PreviousWord = _words[_words.Count - 1];
                 else
                     lastWord.PreviousWord = null;
                 lastWord.NextWord = null;
@@ -93,7 +93,7 @@ namespace LASI.Algorithm
 
         /// Returns the word instance at x location in the document 
         public Word WordAt(int loc) {
-            if (loc < this.Words.Count)
+            if (loc < this._words.Count)
                 return this.Words.ElementAt(loc);
             else
                 throw new ArgumentOutOfRangeException("loc", loc, "Index cannot be greater than the number of words in the document");
@@ -101,7 +101,7 @@ namespace LASI.Algorithm
 
         /// Returns the text  of word instance at x location in the document
         public string WordTextAt(int loc) {
-            if (loc < this.Words.Count)
+            if (loc < this._words.Count)
                 return this.Words.ElementAt(loc).Text;
             else
                 throw new ArgumentOutOfRangeException("loc", loc, "Index cannot be greater than the number of words in the document");
@@ -110,14 +110,7 @@ namespace LASI.Algorithm
 
         /// Returns the sentence instance at x location 
         public Sentence SentenceAt(int loc) {
-            //List<Word> sent = new List<Word>();
-            //sent.Add(new Word("No"));
-            //sent.Add(new Word("Sentence"));
-            //sent.Add(new Word("At"));
-            //sent.Add(new Word("This"));
-            //sent.Add(new Word("Location."));
 
-            //Sentence s1 = new Sentence(sent);
             if (loc < this.Sentences.Count())
                 return this.Sentences.ElementAt(loc);
             else
@@ -156,12 +149,14 @@ namespace LASI.Algorithm
         }
 
 
-        public IEnumerable<ITransitiveAction> GetTransitiveActions() {
-            var wordResults = from ITransitiveAction V in Words.GetTransitive()
+        public IEnumerable<ITransitiveAction> GetActions() {
+            var wordResults = from ITransitiveAction V in Words.GetVerbs()
                               select V;
             var phraseResults = from ITransitiveAction VP in Phrases.GetVerbPhrases()
                                 select VP;
-            return wordResults.Concat(phraseResults);
+            return from A in wordResults.Concat(phraseResults)
+                   orderby A as Word == null ? (A as Word).ID : (A as Phrase).Words.Last().ID ascending
+                   select A;
         }
         #endregion
 
@@ -173,9 +168,11 @@ namespace LASI.Algorithm
         /// </summary>
         public IEnumerable<Sentence> Sentences {
             get {
-                return from P in _paragraphs
-                       from S in P.Sentences
-                       select S;
+                if (_sentences == null)
+                    _sentences = from P in _paragraphs
+                                 from S in P.Sentences
+                                 select S;
+                return _sentences;
             }
 
         }
@@ -185,7 +182,7 @@ namespace LASI.Algorithm
         /// </summary>
         public IEnumerable<Paragraph> Paragraphs {
             get {
-                return _paragraphs.ToList().AsReadOnly();
+                return _paragraphs;
             }
         }
 
@@ -194,23 +191,36 @@ namespace LASI.Algorithm
         /// </summary>
         public IEnumerable<Phrase> Phrases {
             get {
-                return from S in _sentences
-                       from R in S.Phrases
-                       select R;
+                if (_phrases == null)
+                    _phrases = from S in Sentences
+                               from R in S.Phrases
+                               select R;
+                return _phrases;
             }
         }
-
+        /// <summary>
+        /// Gets the Words the document contains in linear, left to right order.
+        /// </summary>
+        public IEnumerable<Word> Words {
+            get {
+                if (_words == null)
+                    _words = (from P in Paragraphs
+                              from S in P.Sentences
+                              from W in S.Words
+                              select W).ToList();
+                return _words;
+            }
+        }
 
         #endregion
 
         #region Fields
+        private IList<Word> _words;
+        private IEnumerable<Phrase> _phrases;
+        private IEnumerable<Sentence> _sentences;
+        private IEnumerable<Paragraph> _paragraphs;
 
-        private IEnumerable<Paragraph> _paragraphs = new List<Paragraph>();
-        private IEnumerable<Sentence> _sentences = new List<Sentence>();
-        public List<Word> Words {
-            get;
-            private set;
-        }
+
 
 
         #endregion

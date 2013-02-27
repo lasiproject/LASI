@@ -66,29 +66,47 @@ namespace LASI.Algorithm
         public static IEnumerable<Pronoun> GetPronouns(this IEnumerable<Word> words) {
             return words.OfType<Pronoun>();
         }
-        ///// <summary>
-        ///// Returns all Verbs in the collection
-        ///// </summary>
-        //public static IEnumerable<Verb> GetVerbs(this IEnumerable<Word> words) {
-        //    return words.OfType<Verb>();
-        //}
-        public static IEnumerable<Verb> GetTransitive(this IEnumerable<Word> words) {
+        /// <summary>
+        /// Returns all Verbs in the collection
+        /// </summary>
+        public static IEnumerable<Verb> GetVerbs(this IEnumerable<Word> words) {
             return words.OfType<Verb>();
         }
-
-        //public static string GetText(this IEnumerable<Word> words, string separater = " ") {
-        //    return words.Aggregate("", (result, word) => result = result + separater + word.Text);
-        //}
 
 
         /// <summary>
         /// Returns all Pronouns in the collection that are bound to some entity
         /// </summary>
         /// <param name="refererring"></param>
-        /// <returns></returns>
+        /// <returns>All Pronouns in the collection that are attached to refer an entity.</returns>
         public static IEnumerable<Pronoun> Referencing(this IEnumerable<Pronoun> refererring) {
             return from ER in refererring
-                   where ER.BoundEntity.Text != null
+                   where ER.BoundEntity != null
+                   select ER;
+        }
+        /// <summary>
+        /// Returns all Pronouns in the collection that refer to the given entity.
+        /// </summary>
+        /// <param name="refererring"></param>
+        /// <param name="referenced">The entity whose referencng pronouns will be returned.</param>
+        /// <returns>All Pronouns in the collection that refer to the given entity</returns>
+        public static IEnumerable<Pronoun> Referencing(this IEnumerable<Pronoun> refererring, IEntity referenced) {
+            return from ER in refererring
+                   where ER.BoundEntity == referenced
+                   select ER;
+        }
+        /// <summary>
+        /// Returns all Pronouns in the collection that refer to any entity matching the given test condition.
+        /// </summary>
+        /// <param name="refererring"></param>
+        /// <param name="referenced">The entity whose referencng pronouns will be returned.</param>
+        /// <returns>All Pronouns in the collection that refer to the given entity</returns>
+        public static IEnumerable<Pronoun> Referencing(
+            this IEnumerable<Pronoun> refererring,
+            Func<IEntity, bool> condition
+            ) {
+            return from ER in refererring
+                   where ER.BoundEntity != null && condition(ER.BoundEntity)
                    select ER;
         }
     }

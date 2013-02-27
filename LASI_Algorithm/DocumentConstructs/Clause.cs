@@ -8,7 +8,7 @@ namespace LASI.Algorithm
     public class Clause : ILexical
     {
         /// <summary>
-        /// This class is currently experimental and is not a tier in the Document objects created by the tagged file parsers
+        /// This class is currently experimental and is not a tier in the ParentDocument objects created by the tagged file parsers
         /// Initializes a new instnace of the Clause class, by composing the given linear sequence of phrases.
         /// </summary>
         /// <param name="phrases">The linear sequence of Phrases which compose to form the Clause.</param>
@@ -42,7 +42,7 @@ namespace LASI.Algorithm
                 return Phrases.Aggregate(" ", (txt, phrase) => txt + phrase.Text) + " CLAUSE Tag ";
             }
         }
-        internal void EstablishParenthood(Sentence sentence) {
+        internal void EstablishParent(Sentence sentence) {
             ParentDocument = sentence.ParentDocument;
             foreach (var P in Phrases)
                 P.EstablishParent(this);
@@ -53,7 +53,7 @@ namespace LASI.Algorithm
         /// </summary>
         public Document ParentDocument {
             get;
-            set;
+            protected set;
         }
 
         public Punctuator ClauseDelimiter {

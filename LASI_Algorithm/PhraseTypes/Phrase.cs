@@ -34,6 +34,7 @@ namespace LASI.Algorithm
         }
 
         public void EstablishParent(Clause clause) {
+            ParentDocument = clause.ParentDocument;
             foreach (var W in Words)
                 W.EstablishParent(this);
         }
@@ -67,25 +68,32 @@ namespace LASI.Algorithm
             set;
         }
         /// <summary>
-        /// Gets, lexically speaking, the next Phrase in the Document to which the instance belongs.
+        /// Gets, lexically speaking, the next Phrase in the ParentDocument to which the instance belongs.
         /// </summary>
         public Phrase NextPhrase {
             get;
             set;
         }
         /// <summary>
-        /// Gets, lexically speaking, the previous Phrase in the Document to which the instance belongs.
+        /// Gets, lexically speaking, the previous Phrase in the ParentDocument to which the instance belongs.
         /// </summary>
         public Phrase PreviousPhrase {
             get;
             set;
         }
         /// <summary>
-        /// Gets or sets the Phrase the Word belongs to.
+        /// Gets or sets the Sentence the Phrase belongs to.
         /// </summary>
         public Sentence ParentSentence {
             get;
             set;
+        }
+        /// <summary>
+        /// Gets or set the Document instance to which the Phrase belongs.
+        /// </summary>
+        public Document ParentDocument {
+            get;
+            private set;
         }
         /// <summary>
         /// Gets the concatenated text content of all of the words which compose the phrase.
@@ -103,8 +111,10 @@ namespace LASI.Algorithm
             protected set;
         }
 
-
-        public abstract Word HeadWord {
+        /// <summary>
+        /// Gets the Word which of the phrase. The head word determines the syntactic role of the entire phrase via its intra-phrase associations.
+        /// </summary>
+        public Word HeadWord {
             get;
             protected set;
         }

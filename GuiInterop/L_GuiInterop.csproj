@@ -41,7 +41,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AlgorithmInfoProvidere.cs" />
+    <Compile Include="DefaultResultProvider.cs" />
+    <Compile Include="IProcessInfoProvider.cs" />
+    <Compile Include="IResultProvider.cs" />
+    <Compile Include="IResultSerializer.cs" />
     <Compile Include="ProcessingState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

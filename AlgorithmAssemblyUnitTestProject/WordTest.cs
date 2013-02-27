@@ -1,6 +1,8 @@
 ﻿using LASI.Algorithm;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Xml;
+using System.Xml.Schema;
 
 namespace AlgorithmAssemblyUnitTestProject
 {
@@ -250,7 +252,7 @@ namespace AlgorithmAssemblyUnitTestProject
         ///</summary>
         [TestMethod()]
         public void TextTest() {
-            Word target = new Verb("run",VerbTense.Base);
+            Word target = new Verb("run", VerbTense.Base);
             string expected = "run";
             string actual;
             target.Text = expected;
@@ -258,5 +260,6 @@ namespace AlgorithmAssemblyUnitTestProject
             Assert.AreEqual(expected, actual);
 
         }
+
     }
 }

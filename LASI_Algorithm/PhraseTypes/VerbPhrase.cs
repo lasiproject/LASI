@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace LASI.Algorithm
 {
     /// <summary>
-    /// Represents a verb phrase.
+    /// Represents a Verb Phrase, a Phrase with the syntactic role of a verb.
     /// </summary>
     public class VerbPhrase : Phrase, ITransitiveAction, IAdverbialModifiable, IModalityModifiable
     {
@@ -23,24 +23,6 @@ namespace LASI.Algorithm
         }
 
         #endregion
-        #region Methods
-
-
-        #endregion
-
-        /// <summary>
-        /// Gets or sets 
-        /// </summary>
-        public virtual IEntity DirectObject {
-            get;
-            set;
-        }
-
-
-        public virtual IEntity IndirectObject {
-            get;
-            set;
-        }
         #region Methods
 
         /// <summary>
@@ -62,16 +44,14 @@ namespace LASI.Algorithm
                 prep.OnLeftSide;
 
         }
-
-        public virtual void BindToDirectObject(IActionObject verbObject) {
-            throw new NotImplementedException();
-        }
         public override void DetermineHeadWord() {
             throw new NotImplementedException();
         }
 
 
         #endregion
+
+
 
         #region Properties
 
@@ -84,7 +64,23 @@ namespace LASI.Algorithm
         }
 
         /// <summary>
-        /// Gets or sets the List of IAdverbial modifiers which modify the VerbPhrase.
+        /// Gets or sets the direct object of the VerbPhrase.
+        /// </summary>
+        public virtual IEntity DirectObject {
+            get;
+            set;
+        }
+
+
+        /// <summary>
+        /// Gets or sets the indirect object of the VerbPhrase.
+        /// </summary>
+        public virtual IEntity IndirectObject {
+            get;
+            set;
+        }
+        /// <summary>
+        /// Gets the collection of IAdverbial modifiers which modify the VerbPhrase.
         /// </summary>
         public IEnumerable<IAdverbial> Modifiers {
             get {
@@ -93,7 +89,8 @@ namespace LASI.Algorithm
         }
 
         /// <summary>
-        /// Gets or sets the tense of the VerbPhrase.
+        /// Gets or sets the Tense of the VerbPhrase.
+        /// <see cref="VerbTense"/>
         /// </summary>
         public VerbTense Tense {
             get;
@@ -108,20 +105,13 @@ namespace LASI.Algorithm
             set;
         }
         /// <summary>
-        /// Gets the VerbPhrases's object, If the VerbPhrase (instransitive) has an object bound indirectly via a Prepositional construct.
+        /// Gets the VerbPhrases's object, If the VerbPhrase has an object bound via a Prepositional construct.
         /// </summary>
         public virtual ILexical ObjectViaPreposition {
             get;
             protected set;
         }
-        public override Word HeadWord {
-            get {
-                throw new NotImplementedException();
-            }
-            protected set {
-                throw new NotImplementedException();
-            }
-        }
+        
 
 
         #endregion

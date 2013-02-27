@@ -46,7 +46,7 @@ namespace Scott_Experimentation
             Console.WriteLine(sep);
 
             Console.WriteLine("{0} => {1}", document.WordAt(11).Text, document.WordAt(11).GetType());
-            if (document.WordAt(11).TypeAsString() == "LASI.Algorithm.Adverb")
+            if (document.WordAt(11)is Adverb)
                 Console.WriteLine("Match");
             else
                 Console.WriteLine("No Match");

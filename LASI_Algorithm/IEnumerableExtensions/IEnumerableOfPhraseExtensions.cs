@@ -16,19 +16,12 @@ namespace LASI.Algorithm
         public static IEnumerable<NounPhrase> GetNounPhrases(this IEnumerable<Phrase> phrases) {
             return phrases.OfType<NounPhrase>();
         }
-        ///// <summary>
-        ///// Returns all VerbPhrases in the sequence.
-        ///// </summary>
-        ///// <param name="phrases">The sequence of phrases to filter</param>
-        ///// <returns>All VerbPhrases in the sequence</returns>
-        //public static IEnumerable<VerbPhrase> GetVerbPhrases(this IEnumerable<Phrase> phrases) {
-        //    return phrases.OfType<VerbPhrase>();
-        //}
+      
         /// <summary>
-        /// Returns all TransitiveVerbPhrases in the sequence.
+        /// Returns all VerbPhrases in the sequence.
         /// </summary>
-        /// <param name="phrases">The sequence of phrases to filter</param>
-        /// <returns>All TransitiveVerbPhrases in the sequence</returns>
+        /// <param name="phrases">The sequence of phrases to filter.</param>
+        /// <returns>All VerbPhrases in the sequence</returns>
         public static IEnumerable<VerbPhrase> GetVerbPhrases(this IEnumerable<Phrase> phrases) {
             return phrases.OfType<VerbPhrase>();
         }

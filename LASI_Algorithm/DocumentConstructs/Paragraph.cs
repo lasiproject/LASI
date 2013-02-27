@@ -18,9 +18,9 @@ namespace LASI.Algorithm
             ++IDNumProvider;
         }
         /// <summary>
-        /// Initializes a new instance of the Paragraph class containing the given sentences and belonging to the given Document.
+        /// Initializes a new instance of the Paragraph class containing the given sentences and belonging to the given ParentDocument.
         /// </summary>
-        /// <param name="parentDoc">The Document instance the paragraph belongs to.</param>
+        /// <param name="parentDoc">The ParentDocument instance the paragraph belongs to.</param>
         /// <param name="sentences">The collection of sentences which comprise the paragraph.</param>
         public Paragraph(Document parentDoc, IEnumerable<Sentence> sentences) {
             Sentences = sentences;

@@ -42,6 +42,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization.Formatters.Soap" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -56,7 +57,7 @@
     <Compile Include="Heuristics\IDocumentAnalyzer.cs" />
     <Compile Include="Heuristics\Metric.cs" />
     <Compile Include="PhraseTypes\InterjectionPhrase.cs" />
-    <Compile Include="WordTypes\EntityType.cs" />
+    <Compile Include="WordTypes\EntityKind.cs" />
     <Compile Include="WordTypes\PronounConstructs\PossessivePronoun.cs" />
     <Compile Include="WordTypes\PronounConstructs\WhPossessivePronoun.cs" />
     <Compile Include="SyntacticInterfaces\ILexical.cs" />

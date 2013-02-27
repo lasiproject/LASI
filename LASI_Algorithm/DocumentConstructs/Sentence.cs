@@ -100,7 +100,7 @@ namespace LASI.Algorithm
             ParentParagraph = paragraph;
             ParentDocument = paragraph.ParentDocument;
             foreach (var C in Clauses)
-                C.EstablishParenthood(this);
+                C.EstablishParent(this);
         }
 
         /// <summary>
@@ -111,7 +111,7 @@ namespace LASI.Algorithm
             set;
         }
         /// <summary>
-        /// Gets or sets the Document to which the Sentence Belongs.
+        /// Gets or sets the ParentDocument to which the Sentence Belongs.
         /// </summary>
         public Document ParentDocument {
             get;

@@ -47,7 +47,7 @@ namespace LASI.FileSystem
             }
         }
         /// <summary>
-        /// Returns an instance of Document which contains the run time representation of all of the textual construct in the document, for the Algorithm to analyse.
+        /// Returns an instance of ParentDocument which contains the run time representation of all of the textual construct in the document, for the Algorithm to analyse.
         /// </summary>
         /// <returns>A traversable, queriable document object defining the run time representation of the tagged file which the TaggedFileParser governs. </returns>
         public virtual Document LoadDocument() {

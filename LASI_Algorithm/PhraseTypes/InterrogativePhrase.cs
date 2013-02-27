@@ -6,27 +6,19 @@ using System.Text;
 namespace LASI.Algorithm
 {
     /// <summary>
-    /// Represents an interrogative phrase or clause.
+    /// Represents a phrase signalling the beginning of an interrogative clause.
     /// </summary>
     public class InterrogativePhrase : Phrase
     {
         /// <summary>
-        /// Initializes a new instance of the ConjunctionPhrase class.
+        /// Initializes a new instance of the InterrogativePhrase class.
         /// </summary>
-        /// <param name="composedWords">The words which compose to form the ConjunctionPhrase.</param>
+        /// <param name="composedWords">The words which compose to form the InterrogativePhrase.</param>
         public InterrogativePhrase(IEnumerable<Word> composedWords)
             : base(composedWords) {
         }
 
-        public override Word HeadWord {
-            get {
-                throw new NotImplementedException();
-            }
-            protected set {
-                throw new NotImplementedException();
-            }
-        }
-
+     
         public override void DetermineHeadWord() {
             throw new NotImplementedException();
         }
