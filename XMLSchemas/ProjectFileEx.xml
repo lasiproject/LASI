@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<top xmlns="http://tempuri.org/XMLSchema.xsd" >
+  <content>
+    <projectfile projectname="hello"
+                 analysiscompleted="false"
+                 filecount="3"
+                 relativeparentdirectory="..\"/>
+    <sourcesdocument id="1" localSourcePath="hello/input/docx/file1.docx"
+                     rawTextFilePath="hello/input/text/file1.txt"
+                     taggedFilePath="hello/input/text/file1.tagged"/>
+    <sourcesdocument id ="2"
+                     localSourcePath="hello/input/docx/file2.docx"
+                     rawTextFilePath="hello/input/text/file2.txt"
+                     taggedFilePath="hello/input/text/file2.tagged"/>
+    <sourcesdocument id ="3"
+                     localSourcePath="hello/input/docx/file3.docx"
+                     rawTextFilePath="hello/input/text/file3.txt"
+                     taggedFilePath="hello/input/text/file3.tagged"/>
+  </content>
+</top>
