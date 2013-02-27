@@ -22,15 +22,14 @@ namespace SharpNLPTaggingModule
         protected OpenNLP.Tools.Lang.English.TreebankLinker mCoreferenceFinder;
 
         public SharpNLPTagger(TaggingOption taggingMode) {
-            mModelPath = @"..\\..\\..\\ThirdPartyComponents\TaggingPackage\Resources\OpenNLP\OpenNLP\Models\";
+            mModelPath = ConfigurationManager.AppSettings["MaximumEntropyModelDirectory"];
             mNameFinder = new OpenNLP.Tools.NameFind.EnglishNameFinder(ConfigurationManager.AppSettings["WordnetSearchDirectory"]);
 
             TaggingMode = taggingMode;
 
         }
         public SharpNLPTagger(TaggingOption taggingMode, string sourcePath, string destinationPath = null) {
-            //  mModelPath = ConfigurationManager.AppSettings["MaximumEntropyModelDirectory"];
-            mModelPath = @"..\\..\\..\\ThirdPartyComponents\TaggingPackage\Resources\OpenNLP\OpenNLP\Models\";
+            mModelPath = ConfigurationManager.AppSettings["MaximumEntropyModelDirectory"];
             mNameFinder = new OpenNLP.Tools.NameFind.EnglishNameFinder(ConfigurationManager.AppSettings["WordnetSearchDirectory"]);
 
             TaggingMode = taggingMode;
@@ -56,7 +55,7 @@ namespace SharpNLPTaggingModule
                 case TaggingOption.ExperimentalClauseNesting:
                     return Parse();
                 case TaggingOption.GenderFind:
-                 
+
                     return Gender();
                 case TaggingOption.NameFind:
                     return NameFind();

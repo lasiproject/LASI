@@ -19,8 +19,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "L_Algorithm", "LASI_Algorit
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LASI_Algorithm_UnitTests", "AlgorithmAssemblyUnitTestProject\LASI_Algorithm_UnitTests.csproj", "{F4ABC10C-0BE9-4195-99E7-DB027757EC6B}"
 	ProjectSection(ProjectDependencies) = postProject
+		{B2BE9B07-C647-4208-9463-A7C1B9EF5A11} = {B2BE9B07-C647-4208-9463-A7C1B9EF5A11}
+		{D2D2723D-5E38-4FB8-8E45-1075DF1A4837} = {D2D2723D-5E38-4FB8-8E45-1075DF1A4837}
+		{89E28C71-44D2-4810-B4D4-8A2570A16499} = {89E28C71-44D2-4810-B4D4-8A2570A16499}
 		{06B96679-9758-4B15-8E75-0F46416E68B7} = {06B96679-9758-4B15-8E75-0F46416E68B7}
+		{26D0FB7C-0EB1-46E8-8352-19858926304E} = {26D0FB7C-0EB1-46E8-8352-19858926304E}
+		{0370D490-EBED-498C-BB3C-0BBDEE7B2DDD} = {0370D490-EBED-498C-BB3C-0BBDEE7B2DDD}
 		{6C8D6DA8-BD8B-48C8-ACB9-8FDE7E3A672E} = {6C8D6DA8-BD8B-48C8-ACB9-8FDE7E3A672E}
+		{091092AB-20E7-4626-BED0-4B87A15505D2} = {091092AB-20E7-4626-BED0-4B87A15505D2}
+		{BE3B8ED0-F9B7-475C-9ED4-D35F96D0AE59} = {BE3B8ED0-F9B7-475C-9ED4-D35F96D0AE59}
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "L_UserInterface", "LASI_UserInterface\L_UserInterface.csproj", "{6C8D6DA8-BD8B-48C8-ACB9-8FDE7E3A672E}"
@@ -28,15 +35,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTestProjects", "UnitTestProjects", "{B3482180-A78D-4A20-B744-81620578B79B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IndividualExperintation", "IndividualExperintation", "{292E3A5A-1499-4291-A903-377BF3167923}"
-	ProjectSection(SolutionItems) = preProject
-		IndividualProjects\Aluan_Experimentation\Aluan_Experimentation.csproj = IndividualProjects\Aluan_Experimentation\Aluan_Experimentation.csproj
-		IndividualProjects\Brittany_Experimentation\Brittany_Experimentation.csproj = IndividualProjects\Brittany_Experimentation\Brittany_Experimentation.csproj
-		IndividualProjects\Brittany_WPF_Experimentation\Brittany_WPF_Experimentation.csproj = IndividualProjects\Brittany_WPF_Experimentation\Brittany_WPF_Experimentation.csproj
-		IndividualProjects\Dustin_Experimentation\Dustin_Experimentation.csproj = IndividualProjects\Dustin_Experimentation\Dustin_Experimentation.csproj
-		IndividualProjects\Erik_Experimentation\Erik_Experimentation.csproj = IndividualProjects\Erik_Experimentation\Erik_Experimentation.csproj
-		IndividualProjects\Richard_Experimentation\Richard_Experimentation.csproj = IndividualProjects\Richard_Experimentation\Richard_Experimentation.csproj
-		IndividualProjects\Scott_Experimentation\Scott_Experimentation.csproj = IndividualProjects\Scott_Experimentation\Scott_Experimentation.csproj
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WordNetThesaurusData", "WordNetThesaurusData", "{20C3B51F-FF54-4452-B69E-67D596843284}"
 	ProjectSection(SolutionItems) = preProject
@@ -66,6 +64,20 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SchemaTestFiles", "SchemaTe
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "L_InteropLayer", "LASI_InteropLayer\L_InteropLayer.csproj", "{06B96679-9758-4B15-8E75-0F46416E68B7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Brittany_Experimentation", "IndividualProjects\Brittany_Experimentation\Brittany_Experimentation.csproj", "{D2D2723D-5E38-4FB8-8E45-1075DF1A4837}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Brittany_WPF_Experimentation", "IndividualProjects\Brittany_WPF_Experimentation\Brittany_WPF_Experimentation.csproj", "{26D0FB7C-0EB1-46E8-8352-19858926304E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dustin_Experimentation", "IndividualProjects\Dustin_Experimentation\Dustin_Experimentation.csproj", "{0370D490-EBED-498C-BB3C-0BBDEE7B2DDD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Erik_Experimentation", "IndividualProjects\Erik_Experimentation\Erik_Experimentation.csproj", "{BE3B8ED0-F9B7-475C-9ED4-D35F96D0AE59}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Richard_Experimentation", "IndividualProjects\Richard_Experimentation\Richard_Experimentation.csproj", "{091092AB-20E7-4626-BED0-4B87A15505D2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Scott_Experimentation", "IndividualProjects\Scott_Experimentation\Scott_Experimentation.csproj", "{B2BE9B07-C647-4208-9463-A7C1B9EF5A11}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aluan_Experimentation", "IndividualProjects\Aluan_Experimentation\Aluan_Experimentation.csproj", "{89E28C71-44D2-4810-B4D4-8A2570A16499}"
 EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
@@ -100,12 +112,47 @@ Global
 		{06B96679-9758-4B15-8E75-0F46416E68B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{06B96679-9758-4B15-8E75-0F46416E68B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{06B96679-9758-4B15-8E75-0F46416E68B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D2D2723D-5E38-4FB8-8E45-1075DF1A4837}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D2D2723D-5E38-4FB8-8E45-1075DF1A4837}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D2D2723D-5E38-4FB8-8E45-1075DF1A4837}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D2D2723D-5E38-4FB8-8E45-1075DF1A4837}.Release|Any CPU.Build.0 = Release|Any CPU
+		{26D0FB7C-0EB1-46E8-8352-19858926304E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{26D0FB7C-0EB1-46E8-8352-19858926304E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{26D0FB7C-0EB1-46E8-8352-19858926304E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{26D0FB7C-0EB1-46E8-8352-19858926304E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0370D490-EBED-498C-BB3C-0BBDEE7B2DDD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0370D490-EBED-498C-BB3C-0BBDEE7B2DDD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0370D490-EBED-498C-BB3C-0BBDEE7B2DDD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0370D490-EBED-498C-BB3C-0BBDEE7B2DDD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BE3B8ED0-F9B7-475C-9ED4-D35F96D0AE59}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE3B8ED0-F9B7-475C-9ED4-D35F96D0AE59}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE3B8ED0-F9B7-475C-9ED4-D35F96D0AE59}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE3B8ED0-F9B7-475C-9ED4-D35F96D0AE59}.Release|Any CPU.Build.0 = Release|Any CPU
+		{091092AB-20E7-4626-BED0-4B87A15505D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{091092AB-20E7-4626-BED0-4B87A15505D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{091092AB-20E7-4626-BED0-4B87A15505D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{091092AB-20E7-4626-BED0-4B87A15505D2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B2BE9B07-C647-4208-9463-A7C1B9EF5A11}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2BE9B07-C647-4208-9463-A7C1B9EF5A11}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2BE9B07-C647-4208-9463-A7C1B9EF5A11}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2BE9B07-C647-4208-9463-A7C1B9EF5A11}.Release|Any CPU.Build.0 = Release|Any CPU
+		{89E28C71-44D2-4810-B4D4-8A2570A16499}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{89E28C71-44D2-4810-B4D4-8A2570A16499}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{89E28C71-44D2-4810-B4D4-8A2570A16499}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{89E28C71-44D2-4810-B4D4-8A2570A16499}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{F4ABC10C-0BE9-4195-99E7-DB027757EC6B} = {B3482180-A78D-4A20-B744-81620578B79B}
+		{D2D2723D-5E38-4FB8-8E45-1075DF1A4837} = {292E3A5A-1499-4291-A903-377BF3167923}
+		{26D0FB7C-0EB1-46E8-8352-19858926304E} = {292E3A5A-1499-4291-A903-377BF3167923}
+		{0370D490-EBED-498C-BB3C-0BBDEE7B2DDD} = {292E3A5A-1499-4291-A903-377BF3167923}
+		{BE3B8ED0-F9B7-475C-9ED4-D35F96D0AE59} = {292E3A5A-1499-4291-A903-377BF3167923}
+		{091092AB-20E7-4626-BED0-4B87A15505D2} = {292E3A5A-1499-4291-A903-377BF3167923}
+		{B2BE9B07-C647-4208-9463-A7C1B9EF5A11} = {292E3A5A-1499-4291-A903-377BF3167923}
+		{89E28C71-44D2-4810-B4D4-8A2570A16499} = {292E3A5A-1499-4291-A903-377BF3167923}
 		{8829F489-A966-4321-BD4A-FDC4536D0BBA} = {BB8A5BF2-C41F-4330-B55B-D1097569B529}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
