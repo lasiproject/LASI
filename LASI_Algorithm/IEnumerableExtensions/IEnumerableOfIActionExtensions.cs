@@ -9,9 +9,9 @@ namespace LASI.Algorithm
     public static class IEnumerableOfIActionExtensions
     {
         /// <summary>
-        /// Filters the sequence of verbs selecting those with bound, not-null, subjects.
+        /// Filters the sequence of actions selecting those with bound, not-null, subjects.
         /// </summary>
-        /// <param name="verbs">The Enumerable of Verb objects to filter.</param>
+        /// <param name="actions">The Enumerable of Verb objects to filter.</param>
         /// <returns></returns>
         public static IEnumerable<IAction> WithSubject(this IEnumerable<IAction> verbs) {
             return from V in verbs
@@ -19,45 +19,23 @@ namespace LASI.Algorithm
                    select V;
         }
         /// <summary>
-        /// Filters the sequence of verbs based returning those whose subjects match the provided subject testing function.
+        /// Filters the sequence of actions based returning those whose subjects match the provided subject testing function.
         /// </summary>
-        /// <param name="verbs">The Enumerable of Verb objects to filter.</param>
-        /// <param name="condition">The function specifying the match condition. Any function which takes a Noun and return a bool.</param>
-        /// <returns>All verbs whose subject match the condition.</returns>
+        /// <param name="actions">The Enumerable of Verb objects to filter.</param>
+        /// <param name="condition">The function specifying the match condition. Any function which takes an IEntity and return a bool.</param>
+        /// <returns>All actions whose subject match the condition.</returns>
         /// The argument may be either a named function or a lambda expression.
         /// <example> Demonstrates how to use this method.
         /// <code>
-        /// var filtered = myVerbs.WithSubject((Noun N)=>N.Text == "banana");
+        /// var filtered = myVerbs.WithSubject(N => N.Text == "banana");
         /// </code>
         /// </example>       
-        /// <remarks>This provided function is used to filter the verbs based on their subjects.
+        /// <remarks>This provided function is used to filter the actions based on their subjects.
         /// </remarks>
-        public static IEnumerable<IAction> WithSubject(this IEnumerable<IAction> verbs, Func<Noun, bool> condition) {
-            return from V in verbs
-                   let subject = V.BoundSubject as Noun
-                   where subject != null && condition(subject)
-                   select V;
+        public static IEnumerable<IAction> WithSubject(this IEnumerable<IAction> actions, Func<IEntity, bool> condition) {
+            return from A in actions.WithSubject()
+                   where condition(A.BoundSubject)
+                   select A;
         }
-        /// <summary>
-        /// Filters the sequence of verbs based returning those whose subjects match the provided subject testing function.
-        /// </summary>
-        /// <param name="verbs">The Enumerable of Verb objects to filter.</param>
-        /// <param name="condition">The function specifying the match condition. Any function which takes a NounPhrase and return a bool.</param>
-        /// <returns>All verbs whose subject match the condition.</returns>
-        /// The argument may be either a named function or a lambda expression.
-        /// <example> Demonstrates how to use this method.
-        /// <code>
-        /// var filtered = myVerbs.WithSubject((NounPhrase NP)=>NP.Words.Count() >=3);
-        /// </code>
-        /// </example>       
-        /// <remarks>This provided function is used to filter the verbs based on their subjects.
-        /// </remarks>
-        public static IEnumerable<IAction> WithSubject(this IEnumerable<IAction> verbs, Func<NounPhrase, bool> condition) {
-            return from V in verbs
-                   let subject = V.BoundSubject as NounPhrase
-                   where subject != null && condition(subject)
-                   select V;
-        }
-
     }
 }

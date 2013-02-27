@@ -155,13 +155,19 @@ namespace LASI.Algorithm
             var phraseResults = from ITransitiveAction VP in Phrases.GetVerbPhrases()
                                 select VP;
             return from A in wordResults.Concat(phraseResults)
-                   orderby A as Word == null ? (A as Word).ID : (A as Phrase).Words.Last().ID ascending
+                   orderby A as Word != null ? (A as Word).ID : (A as Phrase).Words.Last().ID ascending
                    select A;
         }
+
+        public IEnumerable<IEntity> GetEntities() {
+            return from E in Words.OfType<IEntity>().Concat<IEntity>(Phrases.OfType<IEntity>())
+                   orderby E is Word ? (E as Word).ID : (E as Phrase).Words.Last().ID ascending
+                   select E;
+        }
+
         #endregion
 
         #region Properties
-
 
         /// <summary>
         /// Gets the Sentences the document contains in linear, left to right order.

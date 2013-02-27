@@ -9,46 +9,38 @@ namespace LASI.Algorithm
     public static class IEnumerableOfTransitiveActionExtensions
     {
         public static IEnumerable<ITransitiveAction> WithDirectObject(
-            this IEnumerable<ITransitiveAction> transitiveVerbPhrases,
-            Func<NounPhrase, bool> matchCondition
-            ) {
-            return from TVP in transitiveVerbPhrases
-                   let vobject = TVP.DirectObject as NounPhrase
-                   where vobject != null && matchCondition(vobject)
-                   select TVP;
+            this IEnumerable<ITransitiveAction> transitiveVerbPhrases) {
+            return from TA in transitiveVerbPhrases
+                   where TA.DirectObject != null
+                   select TA;
         }
         /// <summary>
         /// Filters a collection of Transitive Actions, returning those whose direct objects match the provided object testing function
         /// </summary>
-        /// <param name="transitiveVerbPhrases">A collection of elements which implements the ITRansitiveAction interface.</param>
-        /// <param name="matchCondition"></param>
+        /// <param name="transitives">A collection of elements which implements the ITRansitiveAction interface.</param>
+        /// <param name="condition"></param>
         /// <returns></returns>
         public static IEnumerable<ITransitiveAction> WithDirectObject(
-           this IEnumerable<ITransitiveAction> transitiveVerbPhrases,
-           Func<Noun, bool> matchCondition
+           this IEnumerable<ITransitiveAction> transitives,
+           Func<IEntity, bool> condition
             ) {
-            return from TVP in transitiveVerbPhrases
-                   let vobject = TVP.DirectObject as Noun
-                   where vobject != null && matchCondition(vobject)
-                   select TVP;
+            return from TA in transitives.WithDirectObject()
+                   where condition(TA.BoundSubject)
+                   select TA;
         }
-        public static IEnumerable<ITransitiveAction> WithIndirectDirectObject(
-            this IEnumerable<ITransitiveAction> transitiveVerbPhrases,
-            Func<NounPhrase, bool> matchCondition
-            ) {
-            return from TVP in transitiveVerbPhrases
-                   let vobject = TVP.IndirectObject as NounPhrase
-                   where vobject != null && matchCondition(vobject)
-                   select TVP;
+        public static IEnumerable<ITransitiveAction> WithIndirectObject(
+           this IEnumerable<ITransitiveAction> transitives) {
+            return from TA in transitives
+                   where TA.IndirectObject != null
+                   select TA;
         }
-        public static IEnumerable<ITransitiveAction> WithIndirectDirectObject(
-           this IEnumerable<ITransitiveAction> transitiveVerbPhrases,
-           Func<Noun, bool> matchCondition
+        public static IEnumerable<ITransitiveAction> WithIndirectObject(
+            this IEnumerable<ITransitiveAction> transitives,
+            Func<IEntity, bool> condition
             ) {
-            return from TVP in transitiveVerbPhrases
-                   let vobject = TVP.IndirectObject as Noun
-                   where vobject != null && matchCondition(vobject)
-                   select TVP;
+            return from TA in transitives.WithIndirectObject()
+                   where condition(TA.IndirectObject)
+                   select TA;
         }
     }
 }
