@@ -83,5 +83,11 @@ Their complete independence from solutions proposed to dispel the problems from 
 most significant features, one reinforced with the Figure 3 that builds on Figure 2 by displaying only those entities - the problem and 
 the COIs characterizing it - to which MOEs may be properly linked.".Split('\r', '\n', '\t', ' ').ToList();
 
+        private void printButton_Click_1(object sender, RoutedEventArgs e) {
+            var printDialog = new PrintDialog();
+            printDialog.ShowDialog();
+            printDialog.PrintVisual(resultsGrid, "Current View");
+        }
+
     }
 }
