@@ -4,15 +4,24 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LASI.Algorithm
+namespace LASI.Algorithm.Thesauri
 {
-    public class SynonymSet : IReadOnlyCollection<string>
+    /// <summary>
+    /// Represents a Synonym set entry corresponding to a line in a WordNet thesaurus file.
+    /// This type is used within the various Thesauri implementations to compose and query the contents of the WordNet database files.
+    /// This class is internal forbidding instantiation outside of the Thesauri Namespace.
+    /// </summary>
+    internal class SynonymSet : IReadOnlyCollection<string>
     {
         public SynonymSet(IEnumerable<string> referencedSetIds, IEnumerable<string> memberWords, string index) {
             _members = memberWords.Distinct();
             _referencedIndexes = referencedSetIds;
             IndexCode = index;
         }
+
+        /// <summary>
+        /// Gets the members directly contained within the SynonymSet.
+        /// </summary>
         public IEnumerable<string> Members {
             get {
                 return _members;
@@ -20,9 +29,13 @@ namespace LASI.Algorithm
         }
 
 
-        IEnumerable<string> _members;
-        protected IEnumerable<string> _referencedIndexes;
+        private IEnumerable<string> _members;
+        
+        private IEnumerable<string> _referencedIndexes;
 
+        /// <summary>
+        /// Gets or sets the collection of SynonymSet-index-codes corresponding to referenced SynonymSets.
+        /// </summary>
         public IEnumerable<string> ReferencedIndexes {
             get {
                 return _referencedIndexes;
@@ -31,25 +44,36 @@ namespace LASI.Algorithm
                 _referencedIndexes = value;
             }
         }
-
+        /// <summary>
+        /// Gets the IndexCode which identifies the SynonymSet.
+        /// </summary>
         public string IndexCode {
             get;
             protected set;
         }
-
+        /// <summary>
+        /// Returns a single string representing the members of the SynonymSet.
+        /// </summary>
+        /// <returns>A single string representing the members of the SynonymSet.</returns>
         public override string ToString() {
             return "[" + IndexCode + "] " + Members.Aggregate("", (str, code) => {
                 return str + "  " + code;
             });
         }
 
-
+        /// <summary>
+        /// Gets the number of direct members contained in the SynonymSet.
+        /// </summary>
         public int Count {
             get {
                 return Members.Count();
             }
         }
 
+        /// <summary>
+        /// Exposes an enumerator exposes the direct members when the SynonymSet is enumerated.
+        /// </summary>
+        /// <returns></returns>
         public IEnumerator<string> GetEnumerator() {
             return Members.GetEnumerator();
         }

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace LASI.Algorithm
 {
-    public enum FileLoadingState
+    public enum ThesaurusLoadingState
     {
         Completed,
         Initiated,

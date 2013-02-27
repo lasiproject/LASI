@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace LASI.Algorithm
+namespace LASI.Algorithm.Thesauri
 {
     public abstract class Thesaurus
     {
@@ -29,9 +29,9 @@ namespace LASI.Algorithm
         public abstract void Load();
 
         public virtual async Task LoadAsync() {
-            LoadingStatus = FileLoadingState.Initiated;
+            LoadingStatus = ThesaurusLoadingState.Initiated;
             await Task.Run(() => Load());
-            LoadingStatus = FileLoadingState.Completed;
+            LoadingStatus = ThesaurusLoadingState.Completed;
         }
 
         public abstract IEnumerable<string> this[string search] {
@@ -45,7 +45,7 @@ namespace LASI.Algorithm
         /// <summary>
         ///gets the current state of the file loading process
         /// </summary>
-        public virtual FileLoadingState LoadingStatus {
+        public virtual ThesaurusLoadingState LoadingStatus {
             get;
             protected set;
         }
@@ -53,7 +53,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// gets or sets all of the synsets in the Thesaurus
         /// </summary>
-        protected virtual IDictionary<string, SynonymSet> AssociationData {
+        internal virtual IDictionary<string, SynonymSet> AssociationData {
             get;
             set;
         }

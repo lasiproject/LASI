@@ -95,7 +95,7 @@
     <Compile Include="WordTypes\AdjectiveConstructs\SuperlativeAdjective .cs" />
     <Compile Include="WordTypes\SpecifyingConstructs\PossessiveEnding.cs" />
     <Compile Include="Thesuari\NounThesaurus.cs" />
-    <Compile Include="Thesuari\FileLoadingState.cs" />
+    <Compile Include="Thesuari\ThesaurusLoadingState.cs" />
     <Compile Include="WordTypes\AdjectiveConstructs\Adjective.cs" />
     <Compile Include="PhraseTypes\AdjectivePhrase.cs" />
     <Compile Include="WordTypes\AdverbConstructs\Adverb.cs" />

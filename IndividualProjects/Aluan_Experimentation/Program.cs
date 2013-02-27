@@ -85,7 +85,7 @@ namespace Aluan_Experimentation
         }
 
         static void ThesaurusCMDLineTest() {
-            var verbLookUp = new VerbThesaurus(@"..\..\..\WordNetThesaurusData\data.verb");
+            var verbLookUp = new LASI.Algorithm.Thesauri.VerbThesaurus(@"..\..\..\WordNetThesaurusData\data.verb");
             verbLookUp.Load();
             Console.Write("Enter a Verb:    ");
             var input = Console.ReadLine();

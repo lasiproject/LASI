@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 
-namespace LASI.Algorithm
+namespace LASI.Algorithm.Thesauri
 {
     public class VerbThesaurus : Thesaurus
     {
@@ -18,7 +18,7 @@ namespace LASI.Algorithm
         public VerbThesaurus(string filePath = @"C:\Users\Aluan\Desktop\LASI\LASI_v1\WordNetThesaurusData\data.verb")
             : base(filePath) {
             FilePath = filePath;
-            LoadingStatus = FileLoadingState.NotInitiated;
+            LoadingStatus = ThesaurusLoadingState.NotInitiated;
             AssociationData = new SortedList<string, SynonymSet>(13000);
         }
 
@@ -26,7 +26,7 @@ namespace LASI.Algorithm
         /// Parses the contents of the underlying WordNet database file.
         /// </summary>
         public override void Load() {
-            LoadingStatus = FileLoadingState.Initiated;
+            LoadingStatus = ThesaurusLoadingState.Initiated;
             using (var fileStream = new FileStream(FilePath, FileMode.Open, FileAccess.Read, FileShare.None, 10024, FileOptions.SequentialScan)) {
                 var reader = new StreamReader(fileStream);
                 //Discard file header
@@ -55,7 +55,7 @@ namespace LASI.Algorithm
 
                     }
                 }
-                LoadingStatus = FileLoadingState.Completed;
+                LoadingStatus = ThesaurusLoadingState.Completed;
             }
         }
 
