@@ -148,8 +148,8 @@ namespace AlgorithmAssemblyUnitTestProject
             Noun target = CreateNoun(); // TODO: Initialize to an appropriate value
             EntityKind expected = new EntityKind(); // TODO: Initialize to an appropriate value
             EntityKind actual;
-            target.KindOfEntity = expected;
-            actual = target.KindOfEntity;
+            target.EntityKind = expected;
+            actual = target.EntityKind;
             Assert.AreEqual(expected, actual);
             Assert.Inconclusive("Verify the correctness of this test method.");
         }

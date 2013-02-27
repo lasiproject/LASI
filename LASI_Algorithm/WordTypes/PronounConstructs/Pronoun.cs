@@ -53,7 +53,7 @@ namespace LASI.Algorithm
             }
             set {
                 _boundEntity = value;
-                _entityKind = BoundEntity.KindOfEntity;
+                _entityKind = BoundEntity.EntityKind;
             }
         }
         /// <summary>
@@ -114,7 +114,7 @@ namespace LASI.Algorithm
             get;
             set;
         }
-        public virtual EntityKind KindOfEntity {
+        public virtual EntityKind EntityKind {
             get {
                 return _entityKind;
             }

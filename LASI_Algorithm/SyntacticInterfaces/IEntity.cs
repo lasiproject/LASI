@@ -7,7 +7,7 @@ namespace LASI.Algorithm
 {
     public interface IEntity : IActionObject, IActionSubject, IPronounBindable, IDescribable, IPossesser, IPossessable, IEquatable<IEntity>, ILexical
     {
-        EntityKind KindOfEntity {
+        EntityKind EntityKind {
             get;
         }
     }

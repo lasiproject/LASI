@@ -25,9 +25,9 @@ namespace LASI.Algorithm
         /// </summary>
         protected virtual void determineEntityType() {
             var kindsOfNouns = from N in Words.GetNouns()
-                               select N.KindOfEntity;
+                               select N.EntityKind;
             var kindsOfPronouns = from P in Words.GetPronouns()
-                                  select P.KindOfEntity;
+                                  select P.EntityKind;
             var internalKinds = from K in kindsOfNouns.Concat(kindsOfPronouns)
                                 group K by K into KindGroup
                                 orderby KindGroup.Count()
@@ -38,7 +38,7 @@ namespace LASI.Algorithm
              * - Scott
              */
             if (internalKinds.Count() > 0)
-                KindOfEntity = internalKinds.First().Key;
+                EntityKind = internalKinds.First().Key;
         }
 
         /// <summary>
@@ -143,7 +143,7 @@ namespace LASI.Algorithm
             set;
         }
 
-        public EntityKind KindOfEntity {
+        public EntityKind EntityKind {
             get;
             set;
         }

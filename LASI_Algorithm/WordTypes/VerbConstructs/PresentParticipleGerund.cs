@@ -16,7 +16,7 @@ namespace LASI.Algorithm
         /// <param name="text">The literal text content of the Verb.</param>
         public PresentParticipleGerund(string text)
             : base(text, VerbTense.PresentParticiple) {
-            KindOfEntity = EntityKind.Activitiy;
+            EntityKind = EntityKind.Activitiy;
         } 
         #region Methods
 
@@ -91,7 +91,7 @@ namespace LASI.Algorithm
                 throw new NotImplementedException();
             }
         }
-        public EntityKind KindOfEntity {
+        public EntityKind EntityKind {
             get;
             private set;
         }

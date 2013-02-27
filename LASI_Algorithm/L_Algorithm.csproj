@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="Binding\EntityReferenceBinder.cs" />
     <Compile Include="Binding\EntityStream.cs" />
+    <Compile Include="EntityKindLookup.cs" />
     <Compile Include="Heuristics\IDocumentAnalyzer.cs" />
     <Compile Include="Heuristics\Metric.cs" />
     <Compile Include="PhraseTypes\InterjectionPhrase.cs" />

@@ -66,7 +66,9 @@ namespace LASI.UserInterface
         private void SearchButton_Click_1(object sender, RoutedEventArgs e) {
             var searchText = SearchTextBox.Text;
             foreach (Label label in wordsWrapPanel.Children) {
-                if (label.Content.ToString().Contains(searchText))
+                if (String.Compare(label.Content.ToString(),
+                    searchText,
+                    StringComparison.OrdinalIgnoreCase) == 0)
                     label.Foreground = Brushes.Red;
                 else
                     label.Foreground = Brushes.Black;
