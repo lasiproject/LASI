@@ -8,8 +8,12 @@ namespace LASI.Algorithm
 {
     public static class IEnumerableOfTransitiveActionExtensions
     {
-        public static IEnumerable<ITransitiveAction> WithDirectObject(
-            this IEnumerable<ITransitiveAction> transitiveVerbPhrases) {
+        /// <summary>
+        /// Filters the sequence of actions selecting those with bound, not-null, direct objects.
+        /// </summary>
+        /// <param name="actions">The Enumerable of Verb objects to filter.</param>
+        /// <returns>The subset bound to a direct object.</returns>
+        public static IEnumerable<ITransitiveAction> WithDirectObject(this IEnumerable<ITransitiveAction> transitiveVerbPhrases) {
             return from TA in transitiveVerbPhrases
                    where TA.DirectObject != null
                    select TA;
@@ -20,23 +24,18 @@ namespace LASI.Algorithm
         /// <param name="transitives">A collection of elements which implements the ITRansitiveAction interface.</param>
         /// <param name="condition"></param>
         /// <returns></returns>
-        public static IEnumerable<ITransitiveAction> WithDirectObject(
-           this IEnumerable<ITransitiveAction> transitives,
-           Func<IEntity, bool> condition
+        public static IEnumerable<ITransitiveAction> WithDirectObject(this IEnumerable<ITransitiveAction> transitives, Func<IEntity, bool> condition
             ) {
             return from TA in transitives.WithDirectObject()
                    where condition(TA.BoundSubject)
                    select TA;
         }
-        public static IEnumerable<ITransitiveAction> WithIndirectObject(
-           this IEnumerable<ITransitiveAction> transitives) {
+        public static IEnumerable<ITransitiveAction> WithIndirectObject(this IEnumerable<ITransitiveAction> transitives) {
             return from TA in transitives
                    where TA.IndirectObject != null
                    select TA;
         }
-        public static IEnumerable<ITransitiveAction> WithIndirectObject(
-            this IEnumerable<ITransitiveAction> transitives,
-            Func<IEntity, bool> condition
+        public static IEnumerable<ITransitiveAction> WithIndirectObject(this IEnumerable<ITransitiveAction> transitives, Func<IEntity, bool> condition
             ) {
             return from TA in transitives.WithIndirectObject()
                    where condition(TA.IndirectObject)

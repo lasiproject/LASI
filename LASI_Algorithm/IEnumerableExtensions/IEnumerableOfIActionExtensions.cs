@@ -12,7 +12,7 @@ namespace LASI.Algorithm
         /// Filters the sequence of actions selecting those with bound, not-null, subjects.
         /// </summary>
         /// <param name="actions">The Enumerable of Verb objects to filter.</param>
-        /// <returns></returns>
+        /// <returns>The subset bound to a subject.</returns>
         public static IEnumerable<IAction> WithSubject(this IEnumerable<IAction> verbs) {
             return from V in verbs
                    where V.BoundSubject != null
