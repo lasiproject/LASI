@@ -11,7 +11,7 @@ namespace LASI.FileSystem
         /// <summary>
         /// Extracts a text and tag pair from the given string.
         /// </summary>
-        /// <param name="data">The string to extract from.</param>
+        /// <param name="line">The string to extract from.</param>
         /// <returns>A TextTagPair containing the information or null if the element is null, whitespace, or an empty string.</returns>
         /// <exception cref="UntaggedElementException">Thrown when a text element is present in the string without a tag.</exception>
         public TaggedWordObject? ExtractNextPos(string data) {
@@ -24,7 +24,7 @@ namespace LASI.FileSystem
 
                 //throw new UntaggedElementException(String.Format(
                 //   "The given text section, \"{0}\", contains no POS tags",
-                //   data));
+                //   line));
                 return null;
             }
 

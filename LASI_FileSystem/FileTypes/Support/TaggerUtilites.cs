@@ -16,7 +16,7 @@ namespace LASI.FileSystem
         /// <summary>
         /// Parses an untagged string or string[] and constructs a new ParentDocument instance from their content
         /// </summary>
-        /// <param name="strs">The untagged, raw string data to parse.</param>
+        /// <param name="strs">The untagged, raw string line to parse.</param>
         /// <returns>The runtime representation of the string(s) provided as a fully fledged LASI ParentDocument instance.</returns>
         /// <remarks>No files are created when calling this function.</remarks>
         public static Document UntaggedToDoc(params string[] strs) {
@@ -27,7 +27,7 @@ namespace LASI.FileSystem
         /// <summary>
         /// Parses a pre-tagged string or string[] and constructs a new ParentDocument instance from their content
         /// </summary>
-        /// <param name="tagged">The pre-tagged, raw string data to parse.</param>
+        /// <param name="tagged">The pre-tagged, raw string line to parse.</param>
         /// <returns>The runtime representation of the string(s) provided as a fully fledged LASI ParentDocument instance.</returns>
         /// <remarks>No files are created when calling this function.</remarks>
         public static Document TaggedToDoc(params string[] tagged) {
@@ -39,7 +39,7 @@ namespace LASI.FileSystem
         /// <summary>
         /// Parses an untagged string or string[] with the SharpNLP tagger and returns a single string containing the result.
         /// </summary>
-        /// <param name="strs">The untagged, raw string data to parse.</param>
+        /// <param name="strs">The untagged, raw string line to parse.</param>
         /// <returns>The tagged input string as it would appear in a tagged file.</returns>
         /// <remarks>No files are created when calling this function.</remarks>
         public static string TagString(params string[] strs) {

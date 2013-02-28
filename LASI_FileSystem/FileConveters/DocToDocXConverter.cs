@@ -8,7 +8,7 @@ namespace LASI.FileSystem
 {
     /// <summary>
     /// Converts Microsoft Word .doc binary files to modern Microsoft Word .docx open XML files
-    /// This allows for easy extraction of the raw textual data which must be passed to the tagging module
+    /// This allows for easy extraction of the raw textual line which must be passed to the tagging module
     /// </summary>
     public class DocToDocXConverter : InputFileConverter
     {

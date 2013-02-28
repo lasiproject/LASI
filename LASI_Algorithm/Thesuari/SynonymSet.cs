@@ -13,10 +13,10 @@ namespace LASI.Algorithm.Thesauri
     /// </summary>
     internal class SynonymSet : IReadOnlyCollection<string>
     {
-        public SynonymSet(IEnumerable<string> referencedSetIds, IEnumerable<string> memberWords, string index) {
+        public SynonymSet(IEnumerable<string> referencedSetIds, IEnumerable<string> memberWords) {
             _members = memberWords.Distinct();
             _referencedIndexes = referencedSetIds;
-            IndexCode = index;
+            IndexCode = referencedSetIds.First();
         }
 
         /// <summary>
@@ -30,7 +30,7 @@ namespace LASI.Algorithm.Thesauri
 
 
         private IEnumerable<string> _members;
-        
+
         private IEnumerable<string> _referencedIndexes;
 
         /// <summary>

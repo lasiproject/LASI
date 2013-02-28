@@ -14,12 +14,12 @@ namespace LASI.Algorithm.Thesauri
         /// <summary>
         /// Initializes a new instance of the VerbThesaurus class.
         /// </summary>
-        /// <param name="filePath">The path of the WordNet database file containing the sysnonym data for actions.</param>
-        public VerbThesaurus(string filePath = @"C:\Users\Aluan\Desktop\LASI\LASI_v1\WordNetThesaurusData\data.verb")
+        /// <param name="filePath">The path of the WordNet database file containing the sysnonym line for actions.</param>
+        public VerbThesaurus(string filePath)
             : base(filePath) {
             FilePath = filePath;
             LoadingStatus = ThesaurusLoadingState.NotInitiated;
-            AssociationData = new SortedList<string, SynonymSet>(13000);
+            AssociationData = new SortedList<string, SynonymSet>(25327);//Not a great practice, but the length of the file is fixed, making this a useful, but ugly optemization.
         }
 
         /// <summary>
@@ -29,37 +29,36 @@ namespace LASI.Algorithm.Thesauri
             LoadingStatus = ThesaurusLoadingState.Initiated;
             using (var fileStream = new FileStream(FilePath, FileMode.Open, FileAccess.Read, FileShare.None, 10024, FileOptions.SequentialScan)) {
                 var reader = new StreamReader(fileStream);
-                //Discard file header
-                for (int i = 0; i < HEADER_LENGTH; ++i)
-                    reader.ReadLine();
-                {
-                    var fileLines = reader.ReadToEnd().Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
-                    foreach (
-                    var data in fileLines) {
-                        var synset = BuildSynset(data);
 
-                        foreach (var word in synset.Members) {
-                            try {
-                                AssociationData.Add(word, synset);
-                            } catch (ArgumentException) {
-                                // Debug.WriteLine("previously defined: \n" + AssociationData[word]);
-                                //throw new ArgumentException("previously defined: \n" + AssociationData[word].ToString(),ex);
-                                //var previouslyDefined = 
-                                SynonymSet temp = null;
-                                AssociationData.TryGetValue(word, out temp);
-                                if (temp != null)
-                                    AssociationData[word] = new SynonymSet(AssociationData[word].ReferencedIndexes.Concat(synset.ReferencedIndexes), AssociationData[word].Members.Concat(synset.Members), synset.IndexCode);
-                            }
+                for (int i = 0; i < HEADER_LENGTH; ++i) {//Discard file header
+                    reader.ReadLine();
+                }
+
+                var fileLines = reader.ReadToEnd().Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
+
+                foreach (var line in fileLines) {
+
+                    var synset = BuildSynset(line);
+
+                    foreach (var word in synset.Members) {
+                        sizeTest.Add(word);
+                        if (AssociationData.ContainsKey(word)) {
+                            AssociationData[word] = new SynonymSet(
+                                AssociationData[word].ReferencedIndexes.Concat(synset.ReferencedIndexes),
+                                AssociationData[word].Members.Concat(synset.Members));
+                        } else {
+                            AssociationData.Add(word, synset);
                         }
-                        AssociationData.Add(synset.IndexCode, synset);
 
                     }
+                    AssociationData.Add(synset.IndexCode, synset);
+
                 }
                 LoadingStatus = ThesaurusLoadingState.Completed;
             }
         }
 
-  
+
 
         /// <summary>
         /// Retrives the synonyms of the given verb as a collection of strings.
@@ -68,14 +67,34 @@ namespace LASI.Algorithm.Thesauri
         /// <returns>A collection of strings containing all of the synonyms of the given verb.</returns>
         public override IEnumerable<string> this[string search] {
             get {
-                return (from M in AssociationData[search].Members
+                if (!cachedData.ContainsKey(search)) {
+                    cachedData.Add(search, (from M in AssociationData[search].ReferencedIndexes
+                                            select M into Temp
+                                            let data = Temp
+                                            join R in AssociationData on Temp equals R.Key into ReferencedSets
+                                            from R in ReferencedSets
+                                            from RM in R.Value.Members
+                                            select RM).Distinct());
+                }
+                return cachedData[search];
+            }
+
+        }
+
+
+        /*
+         * return (from M in AssociationData[search].Members
                         where M != search
                         select M).Concat(
                                from RI in AssociationData[search].ReferencedIndexes
                                from FM in AssociationData[RI].Members
                                select FM).Distinct().ToArray();
-            }
-        }
+         
+         
+         */
+
+
+
 
         /// <summary>
         /// Retrives the synonyms of the given verb as a collection of strings.
@@ -97,15 +116,19 @@ namespace LASI.Algorithm.Thesauri
 
             var sep = data.Split(new[] { '!', '|' }, StringSplitOptions.RemoveEmptyEntries)[0];
 
-            var setRefs = from Match M in refRgx.Matches(sep)
-                          select M.Value;
+            var setReferences = from Match M in refRgx.Matches(sep)
+                                select M.Value;
             var elementRgx = new Regex(@"\b[A-Za-z-_]{2,}");
 
-            var setElements = from Match WT in elementRgx.Matches(sep.Substring(17))
-                              select WT.Value;
+            var setElements = from Match ContainedWord in elementRgx.Matches(sep.Substring(17))
+                              select ContainedWord.Value.Replace('_', '-');
 
-            return new SynonymSet(setRefs, setElements, setRefs.First());
+            return new SynonymSet(setReferences, setElements);
         }
+
+        public List<string> sizeTest = new List<string>();
+
+        private SortedList<String, IEnumerable<string>> cachedData = new SortedList<string, IEnumerable<string>>(32000);
 
         const int HEADER_LENGTH = 30;
     }

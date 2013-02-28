@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace LASI.Algorithm
 {
     /// <summary>
-    /// A data structure containing all of he paragraph, sentence, phrase, and word objects in a document.
+    /// A line structure containing all of he paragraph, sentence, phrase, and word objects in a document.
     /// Provides overalapping direct and indirect access to all of its children, 
     /// E.g. such as myDoc.Paragraphs.Sentences.Phrases.Words will get all the words in the document in linear order
     /// comparatively: myDoc.Words; yields the same collection.

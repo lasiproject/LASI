@@ -16,8 +16,8 @@ namespace Aluan_Experimentation
     public class Program
     {
         static void Main(string[] args) {
-            //ThesaurusCMDLineTest();
-            ParseAndCreate();
+            ThesaurusCMDLineTest();
+            //   ParseAndCreate();
 
 
         }
@@ -85,9 +85,14 @@ namespace Aluan_Experimentation
         }
 
         static void ThesaurusCMDLineTest() {
-            var verbLookUp = new LASI.Algorithm.Thesauri.VerbThesaurus(@"..\..\..\WordNetThesaurusData\data.verb");
+            var verbLookUp = new LASI.Algorithm.Thesauri.VerbThesaurus(@"..\..\..\..\WordNetThesaurusData\data.verb");
             verbLookUp.Load();
+
             Console.Write("Enter a Verb:    ");
+            foreach (var verbString in verbLookUp.sizeTest) {
+                var t = verbLookUp[verbString];
+            }
+
             var input = Console.ReadLine();
             while (input != "~") {
 

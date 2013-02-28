@@ -118,9 +118,9 @@ namespace LASI.FileSystem
 
 
         /// <summary>
-        /// Pre-processes the data read from the file by replacing some instances of problematic text such as square brackets, with tokens that are easier to reliably parse.
+        /// Pre-processes the line read from the file by replacing some instances of problematic text such as square brackets, with tokens that are easier to reliably parse.
         /// </summary>
-        /// <param name="data">The string containing raw SharpNLP tagged-text to process.</param>
+        /// <param name="line">The string containing raw SharpNLP tagged-text to process.</param>
         /// <returns>The string containing the processed text.</returns>
         protected virtual string PreProcessTextData(string data) {
 
@@ -194,7 +194,7 @@ namespace LASI.FileSystem
         /// Breaks a string of text containing multiple paragraphs into a collection of strings each representing an individual paragraph.
         /// Paragraphs are delimited using the default regular expression pattern "[\r\n]+[^]*[\r\n]+"
         /// </summary>
-        /// <param name="data">A string containing the text to be broken down.</param>
+        /// <param name="line">A string containing the text to be broken down.</param>
         /// <returns>A collection of strings, each entry corresponding to the entire content of a single paragraph.</returns>
         protected IEnumerable<string> ParseParagraphs(string data) {
             return data.Split(new[] { "\r\n\r\n" }, StringSplitOptions.RemoveEmptyEntries);
