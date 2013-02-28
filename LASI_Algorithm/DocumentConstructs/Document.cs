@@ -96,7 +96,7 @@ namespace LASI.Algorithm
             if (loc < this._words.Count)
                 return this.Words.ElementAt(loc);
             else
-                throw new ArgumentOutOfRangeException("loc", loc, "Index cannot be greater than the number of words in the document");
+                throw new ArgumentOutOfRangeException("Document.WordAt");
         }
 
         /// Returns the text  of word instance at x location in the document
@@ -104,8 +104,7 @@ namespace LASI.Algorithm
             if (loc < this._words.Count)
                 return this.Words.ElementAt(loc).Text;
             else
-                throw new ArgumentOutOfRangeException("loc", loc, "Index cannot be greater than the number of words in the document");
-
+                throw new ArgumentOutOfRangeException("Document.WordTextAt"); 
         }
 
         /// Returns the sentence instance at x location 
@@ -114,7 +113,7 @@ namespace LASI.Algorithm
             if (loc < this.Sentences.Count())
                 return this.Sentences.ElementAt(loc);
             else
-                throw new ArgumentOutOfRangeException("loc", loc, "Index cannot be greater than the number of sentences in the document");
+                throw new ArgumentOutOfRangeException("Document.SentenceAt");
         }
 
         ///  Returns the sentence instance text at x location
@@ -122,7 +121,7 @@ namespace LASI.Algorithm
             if (loc < this.Sentences.Count())
                 return this.Sentences.ElementAt(loc).Text;
             else
-                throw new ArgumentOutOfRangeException("loc", loc, "Index cannot be greater than the number of sentences in the document");
+                throw new ArgumentOutOfRangeException("Document.SentenceTextAt");
         }
 
         /// <summary>
