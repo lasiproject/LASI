@@ -20,6 +20,7 @@ namespace LASI.Algorithm.Thesauri
             FilePath = filePath;
             LoadingStatus = ThesaurusLoadingState.NotInitiated;
             AssociationData = new SortedList<string, SynonymSet>(25327);//Not a great practice, but the length of the file is fixed, making this a useful, but ugly optemization.
+            cachedData = new SortedList<string, IEnumerable<string>>(32000);//Again this is ugly, but its fairly performant at the moment.
         }
 
         /// <summary>
@@ -41,7 +42,6 @@ namespace LASI.Algorithm.Thesauri
                     var synset = BuildSynset(line);
 
                     foreach (var word in synset.Members) {
-                        sizeTest.Add(word);
                         if (AssociationData.ContainsKey(word)) {
                             AssociationData[word] = new SynonymSet(
                                 AssociationData[word].ReferencedIndexes.Concat(synset.ReferencedIndexes),
@@ -66,13 +66,19 @@ namespace LASI.Algorithm.Thesauri
         /// <param name="search">The text of the verb to look for.</param>
         /// <returns>A collection of strings containing all of the synonyms of the given verb.</returns>
         public override IEnumerable<string> this[string search] {
+            /*
+             *   First, access the synset(s) which literally contain the search string text.
+             *   Next, aggregate their external set keys and perform a lookup.
+             *   Finally, merge the synsets yielded from these lookups aggregating their members as strings.
+             * 
+             */
+
             get {
                 if (!cachedData.ContainsKey(search)) {
                     cachedData.Add(search, (from M in AssociationData[search].ReferencedIndexes
                                             select M into Temp
-                                            let data = Temp
                                             join R in AssociationData on Temp equals R.Key into ReferencedSets
-                                            from R in ReferencedSets
+                                            from R in ReferencedSets.Distinct()
                                             from RM in R.Value.Members
                                             select RM).Distinct());
                 }
@@ -80,18 +86,6 @@ namespace LASI.Algorithm.Thesauri
             }
 
         }
-
-
-        /*
-         * return (from M in AssociationData[search].Members
-                        where M != search
-                        select M).Concat(
-                               from RI in AssociationData[search].ReferencedIndexes
-                               from FM in AssociationData[RI].Members
-                               select FM).Distinct().ToArray();
-         
-         
-         */
 
 
 
@@ -126,13 +120,23 @@ namespace LASI.Algorithm.Thesauri
             return new SynonymSet(setReferences, setElements);
         }
 
-        public List<string> sizeTest = new List<string>();
-
-        private SortedList<String, IEnumerable<string>> cachedData = new SortedList<string, IEnumerable<string>>(32000);
+        private SortedList<String, IEnumerable<string>> cachedData;
 
         const int HEADER_LENGTH = 30;
     }
 }
+
+/*
+ * return (from M in AssociationData[search].Members
+                where M != search
+                select M).Concat(
+                       from RI in AssociationData[search].ReferencedIndexes
+                       from FM in AssociationData[RI].Members
+                       select FM).Distinct().ToArray();
+         
+         
+ */
+
 
 
 

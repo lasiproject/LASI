@@ -49,18 +49,6 @@ namespace Aluan_Experimentation
         }
 
 
-        public static IEnumerable<string> ParseThreaded() {
-
-            return (from p in pathes.AsParallel()
-
-                    let counts = (CountByTypeAndText(MakeDocumentFromTaggedFile(p).Result)).Result
-                    from s in counts
-
-                    select s);
-
-        }
-
-
 
         private static async Task<Document> MakeDocumentFromTaggedFile(string filePath) {
 
@@ -89,28 +77,22 @@ namespace Aluan_Experimentation
             verbLookUp.Load();
 
             Console.Write("Enter a Verb:    ");
-            foreach (var verbString in verbLookUp.sizeTest) {
-                var t = verbLookUp[verbString];
-            }
-
             var input = Console.ReadLine();
             while (input != "~") {
 
-
-                foreach (var v in verbLookUp[input]) {
-                    Console.Write(v + ", ");
+                try {
+                    foreach (var v in verbLookUp[input]) {
+                        Console.Write(v + ", ");
+                    }
+                } catch (KeyNotFoundException) {
+                    Console.WriteLine(String.Format("No synonyms recognized for \"{0}\" : as verb", input));
                 }
                 Console.WriteLine();
                 Console.Write("Enter a Verb:    ");
                 input = Console.ReadLine();
             }
         }
-        private static string[] pathes = new[]{
 
- @"C:\Users\Aluan\Desktop\411writtensummary.tagged",
-
-            
-          };
 
         static Action<object> print = (o) => Console.WriteLine(o);
         static Action<object> printFile = (o) => {
