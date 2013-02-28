@@ -22,8 +22,16 @@ namespace Scott_Experimentation
 
             string sep = "\n***************************************************************\n";
 
-            Word w1 = document.WordAt(2003736);
-            Console.WriteLine("Word at 5: {0}", w1.Text);
+            try
+            {
+                Word w1 = document.WordAt(2003736);
+                Console.WriteLine("Word at 5: {0}", w1.Text);
+            }
+            catch (ArgumentOutOfRangeException ex)
+            {
+                Console.WriteLine("Exception: {0}", ex.Message);
+            }
+            /*
             var strng1 = document.WordTextAt(500);
             Console.WriteLine("Word Text at 5: {0}{1}", strng1, sep);
 
@@ -50,7 +58,14 @@ namespace Scott_Experimentation
                 Console.WriteLine("Match");
             else
                 Console.WriteLine("No Match");
+             */
 
+            /*
+            foreach(var wrd in document.Words)
+            {
+                Console.WriteLine(wrd);
+            }
+            */
             StdIO.WaitForAnyKey();
         }
     }
