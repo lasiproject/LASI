@@ -6,17 +6,30 @@ using System.Threading.Tasks;
 
 namespace LASI.Algorithm.Weighting
 {
-    public struct Weight
+    public class Weight
     {
+        #region Constructors
+
+        public Weight(double rawWeight, double multiplier) {
+        }
+
+        #endregion
+
+
+        #region Properties
+
         public double RawWeight {
             get;
-            set;
+            protected set;
         }
         public double Multiplier {
             get;
-            set;
+            protected set;
         }
 
+        #endregion
+
+        #region Operators
 
         public static bool operator ==(Weight A, Weight B) {
             return A.RawWeight * A.Multiplier == B.RawWeight * B.Multiplier;
@@ -44,11 +57,17 @@ namespace LASI.Algorithm.Weighting
             return (A.RawWeight * A.Multiplier) / (B.RawWeight * B.Multiplier);
         }
 
+        #endregion
+
+        #region Methods
+
         public override bool Equals(object obj) {
             return base.Equals(obj);
         }
         public override int GetHashCode() {
             return base.GetHashCode();
         }
+
+        #endregion
     }
 }

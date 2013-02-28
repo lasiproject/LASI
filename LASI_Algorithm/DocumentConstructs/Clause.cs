@@ -76,9 +76,6 @@ namespace LASI.Algorithm
             get {
                 throw new NotImplementedException();
             }
-            set {
-                throw new NotImplementedException();
-            }
         }
     }
 

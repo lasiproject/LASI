@@ -13,7 +13,6 @@ namespace LASI.Algorithm
         }
         Dictionary<Weighting.WeightKind, Weighting.Weight> Weights {
             get;
-            set;
         }
     }
 }

@@ -18,10 +18,13 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="composedWords">The one or more instances of the Word class of which the Phrase is composed.</param>
         protected Phrase(IEnumerable<Word> composedWords) {
-            ++PhrasesCreated;
+            GUID = GUIDProvider;
             Words = composedWords;
 
-            Weights = new Dictionary<Weighting.WeightKind, Weighting.Weight>();
+            Weights = new Dictionary<Weighting.WeightKind, Weighting.Weight> {
+                { Weighting.WeightKind.Individual, null },
+                { Weighting.WeightKind.Meta, null }
+            };
         }
 
         #endregion
@@ -130,7 +133,13 @@ namespace LASI.Algorithm
             get;
             private set;
         }
-
+        /// <summary>
+        /// Gets the globally-unique identification number associated with the Phrase instance.
+        /// </summary>
+        public int GUID {
+            get;
+            private set;
+        }
         public Dictionary<Weighting.WeightKind, Weighting.Weight> Weights {
             get;
             set;
@@ -141,7 +150,7 @@ namespace LASI.Algorithm
 
         #region Static Members
 
-        private static int PhrasesCreated;
+        private static int GUIDProvider;
 
         #endregion
 

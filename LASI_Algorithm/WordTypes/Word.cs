@@ -20,9 +20,12 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="text">The literal text content of the word.</param>
         protected Word(string text) {
-            ++WordsCreated;
+            GUID = GUIDProvider++;
             Text = text;
-            Weights = new Dictionary<Weighting.WeightKind, Weighting.Weight>();
+            Weights = new Dictionary<Weighting.WeightKind, Weighting.Weight> {
+                { Weighting.WeightKind.Individual, null },
+                { Weighting.WeightKind.Meta, null }
+            };
         }
 
 
@@ -76,6 +79,14 @@ namespace LASI.Algorithm
             private set;
         }
         /// <summary>
+        /// Gets the globally-unique identification number associated with the Word instance.
+        /// </summary>
+        public int GUID {
+            get;
+            private set;
+        }
+
+        /// <summary>
         /// Gets the document instance to which the word belongs.
         /// </summary>
         public Document ParentDocument {
@@ -123,7 +134,7 @@ namespace LASI.Algorithm
 
         #region Static Members
 
-        private static int WordsCreated;
+        private static int GUIDProvider;
 
         #endregion
 
@@ -161,7 +172,7 @@ namespace LASI.Algorithm
 
         public Dictionary<Weighting.WeightKind, Weighting.Weight> Weights {
             get;
-            set;
+            private set;
         }
     }
 }
