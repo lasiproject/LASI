@@ -65,6 +65,21 @@ namespace LASI.Algorithm
             get;
             set;
         }
+
+        string ILexical.Text {
+            get {
+                throw new NotImplementedException();
+            }
+        }
+
+        Dictionary<Weighting.WeightKind, Weighting.Weight> ILexical.Weights {
+            get {
+                throw new NotImplementedException();
+            }
+            set {
+                throw new NotImplementedException();
+            }
+        }
     }
 
     public enum ClauseTypes

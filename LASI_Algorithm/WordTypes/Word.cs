@@ -20,10 +20,9 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="text">The literal text content of the word.</param>
         protected Word(string text) {
+            ++WordsCreated;
             Text = text;
-            ID = IDNumProvider;
-            ++IDNumProvider;
-
+            Weights = new Dictionary<Weighting.WeightKind, Weighting.Weight>();
         }
 
 
@@ -34,6 +33,7 @@ namespace LASI.Algorithm
         public void EstablishParent(Phrase phrase) {
             ParentPhrase = phrase;
             ParentDocument = phrase.ParentDocument;
+            ID = ParentDocument.Words.ToList().IndexOf(this);
         }
 
         /// <summary>
@@ -69,11 +69,11 @@ namespace LASI.Algorithm
         }
 
         /// <summary>
-        /// Gets the unique identification number associated with the Word instance.
+        /// Gets the document-unique identification number associated with the Word instance.
         /// </summary>
         public int ID {
             get;
-            protected set;
+            private set;
         }
         /// <summary>
         /// Gets the document instance to which the word belongs.
@@ -122,38 +122,46 @@ namespace LASI.Algorithm
         #endregion
 
         #region Static Members
-        private static int IDNumProvider = 0;
+
+        private static int WordsCreated;
+
         #endregion
 
         #region Operators
 
-        /// <summary>
-        /// Overlaods the equality comparison operator such that two words compare equal if and only if they have the same text content and 
-        /// are instances of the same Word subtype.
-        /// </summary>
-        /// <param name="A">The word on the left-hand-side of the operator</param>
-        /// <param name="B">The word on the right-hand-side of the operator</param>
-        /// <returns>A boolean value indicating the result of the comparison</returns>
-        public static bool operator ==(Word A, Word B) {
+        ///// <summary>
+        ///// Overlaods the equality comparison operator such that two words compare equal if and only if they have the same text content and 
+        ///// are instances of the same Word subtype.
+        ///// </summary>
+        ///// <param name="A">The word on the left-hand-side of the operator</param>
+        ///// <param name="B">The word on the right-hand-side of the operator</param>
+        ///// <returns>A boolean value indicating the result of the comparison</returns>
+        //public static bool operator ==(Word A, Word B) {
 
-            if (A as object == null || B as object == null) {
-                var bothNull = A as Object == null && B as Object == null;
-                return bothNull;
-            }
-            return A.Text == B.Text && A.GetType() == B.GetType();
-        }
-        /// <summary>
-        /// Overlaods the inequality comparison operator such that two words compare not equal unless they have the same text content and 
-        /// are instances of the same Word subtype.
-        /// </summary>
-        /// <param name="A">The word on the left-hand-side of the operator</param>
-        /// <param name="B">The word on the right-hand-side of the operator</param>
-        /// <returns>A boolean value indicating the result of the comparison</returns>
-        public static bool operator !=(Word A, Word B) {
-            return !(A == B);
-        }
+        //    if (A as object == null || B as object == null) {
+        //        var bothNull = A as Object == null && B as Object == null;
+        //        return bothNull;
+        //    }
+        //    return A.Text == B.Text && A.GetType() == B.GetType();
+        //}
+        ///// <summary>
+        ///// Overlaods the inequality comparison operator such that two words compare not equal unless they have the same text content and 
+        ///// are instances of the same Word subtype.
+        ///// </summary>
+        ///// <param name="A">The word on the left-hand-side of the operator</param>
+        ///// <param name="B">The word on the right-hand-side of the operator</param>
+        ///// <returns>A boolean value indicating the result of the comparison</returns>
+        //public static bool operator !=(Word A, Word B) {
+        //    return !(A == B);
+        //}
 
         #endregion
 
+
+
+        public Dictionary<Weighting.WeightKind, Weighting.Weight> Weights {
+            get;
+            set;
+        }
     }
 }

@@ -57,6 +57,8 @@
     <Compile Include="Heuristics\IDocumentAnalyzer.cs" />
     <Compile Include="Heuristics\Metric.cs" />
     <Compile Include="PhraseTypes\InterjectionPhrase.cs" />
+    <Compile Include="Weighting\WeightKind.cs" />
+    <Compile Include="Weighting\Weight.cs" />
     <Compile Include="WordTypes\EntityKind.cs" />
     <Compile Include="WordTypes\PronounConstructs\PossessivePronoun.cs" />
     <Compile Include="WordTypes\PronounConstructs\WhPossessivePronoun.cs" />

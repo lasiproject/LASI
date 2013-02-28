@@ -19,20 +19,12 @@ namespace LASI.Algorithm
         /// <summary>
         /// Initializes a new instance of the ParentDocument class.
         /// </summary>
-        /// <param name="allWords">The collection of words which corresponds to all text in the document.</param>
-        public Document(IEnumerable<Word> allWords) {
-            _words = allWords.ToList();
-
-            EstablishLexicalLinks();
-            foreach (var w in allWords)
-                w.ParentDocument = this;
-        }
-        /// <summary>
-        /// Initializes a new instance of the ParentDocument class.
-        /// </summary>
         /// <param name="allWords">The collection of sentences which contain all text in the document.</param>
-        public Document(IEnumerable<Sentence> allSentences) {
+        protected Document(IEnumerable<Sentence> allSentences) {
             _sentences = allSentences;
+            _phrases = from S in Sentences
+                       from R in S.Phrases
+                       select R;
             _words = (from S in _sentences
                       from W in S.Words
                       select W).ToList();
@@ -43,23 +35,28 @@ namespace LASI.Algorithm
                 P.EstablishParent(this);
             }
         }
+
+
         /// <summary>
-        /// Initializes a new instance of the ParentDocument class.
+        /// Initializes a new instance of the Document class.
         /// </summary>
         /// <param name="allWords">The collection of paragraphs which contain all text in the document.</param>
         public Document(IEnumerable<Paragraph> allParagrpahs) {
             _paragraphs = allParagrpahs;
-            foreach (var P in _paragraphs) {
-                P.EstablishParent(this);
-            }
-            _sentences = from P in _paragraphs
+            _sentences = from P in Paragraphs
                          from S in P.Sentences
                          select S;
-            _words = (from S in _sentences
+            _phrases = from S in Sentences
+                       from R in S.Phrases
+                       select R;
+            _words = (from S in Sentences
                       from W in S.Words
                       select W).ToList();
             foreach (var w in Words)
                 w.ParentDocument = this;
+            foreach (var P in _paragraphs) {
+                P.EstablishParent(this);
+            }
             EstablishLexicalLinks();
         }
 
@@ -104,7 +101,7 @@ namespace LASI.Algorithm
             if (loc < this._words.Count)
                 return this.Words.ElementAt(loc).Text;
             else
-                throw new ArgumentOutOfRangeException("Document.WordTextAt"); 
+                throw new ArgumentOutOfRangeException("Document.WordTextAt");
         }
 
         /// Returns the sentence instance at x location 
@@ -173,10 +170,7 @@ namespace LASI.Algorithm
         /// </summary>
         public IEnumerable<Sentence> Sentences {
             get {
-                if (_sentences == null)
-                    _sentences = from P in _paragraphs
-                                 from S in P.Sentences
-                                 select S;
+
                 return _sentences;
             }
 
@@ -196,10 +190,8 @@ namespace LASI.Algorithm
         /// </summary>
         public IEnumerable<Phrase> Phrases {
             get {
-                if (_phrases == null)
-                    _phrases = from S in Sentences
-                               from R in S.Phrases
-                               select R;
+
+
                 return _phrases;
             }
         }
@@ -208,11 +200,7 @@ namespace LASI.Algorithm
         /// </summary>
         public IEnumerable<Word> Words {
             get {
-                if (_words == null)
-                    _words = (from P in Paragraphs
-                              from S in P.Sentences
-                              from W in S.Words
-                              select W).ToList();
+
                 return _words;
             }
         }

@@ -11,5 +11,9 @@ namespace LASI.Algorithm
         string Text {
             get;
         }
+        Dictionary<Weighting.WeightKind, Weighting.Weight> Weights {
+            get;
+            set;
+        }
     }
 }

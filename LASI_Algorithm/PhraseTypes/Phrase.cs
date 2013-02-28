@@ -18,7 +18,10 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="composedWords">The one or more instances of the Word class of which the Phrase is composed.</param>
         protected Phrase(IEnumerable<Word> composedWords) {
+            ++PhrasesCreated;
             Words = composedWords;
+
+            Weights = new Dictionary<Weighting.WeightKind, Weighting.Weight>();
         }
 
         #endregion
@@ -35,6 +38,7 @@ namespace LASI.Algorithm
 
         public void EstablishParent(Clause clause) {
             ParentDocument = clause.ParentDocument;
+            ID = ParentDocument.Phrases.ToList().IndexOf(this);
             foreach (var W in Words)
                 W.EstablishParent(this);
         }
@@ -119,6 +123,25 @@ namespace LASI.Algorithm
             protected set;
         }
 
+        /// <summary>
+        /// Gets the document-unique identification number associated with the Phrase instance.
+        /// </summary>
+        public int ID {
+            get;
+            private set;
+        }
+
+        public Dictionary<Weighting.WeightKind, Weighting.Weight> Weights {
+            get;
+            set;
+        }
+
+
+        #endregion
+
+        #region Static Members
+
+        private static int PhrasesCreated;
 
         #endregion
 
