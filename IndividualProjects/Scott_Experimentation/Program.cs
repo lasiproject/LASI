@@ -21,26 +21,37 @@ namespace Scott_Experimentation
             var document = new Document(paragraphs);
 
             string sep = "\n***************************************************************\n";
-
-            try
-            {
-                Word w1 = document.WordAt(2003736);
+            
+            try{
+                Word w1 = document.WordAt(5000);
                 Console.WriteLine("Word at 5: {0}", w1.Text);
-            }
-            catch (ArgumentOutOfRangeException ex)
-            {
+            }catch (ArgumentOutOfRangeException ex){
                 Console.WriteLine("Exception: {0}", ex.Message);
             }
-            /*
-            var strng1 = document.WordTextAt(500);
-            Console.WriteLine("Word Text at 5: {0}{1}", strng1, sep);
 
-            Sentence sent1 = document.SentenceAt(1);
-            Console.WriteLine("Sentence at 1: {0}", sent1.Text);
-            string strng2 = document.SentenceTextAt(1000);
-            Console.WriteLine("Sentence text at 1: {0}{1}", strng2, sep);
+            try{
+                var strng1 = document.WordTextAt(500);
+                Console.WriteLine("Word Text at 5: {0}{1}", strng1, sep);
+            }catch (ArgumentOutOfRangeException ex){
+                Console.WriteLine("Exception: {0}", ex.Message);
+            }
 
+
+            try{
+                Sentence sent1 = document.SentenceAt(18947348);
+                Console.WriteLine("Sentence at 1: {0}", sent1.Text);
+            } catch (ArgumentOutOfRangeException ex){
+                Console.WriteLine(ex.Message);
+            }
             
+            try{
+                string strng2 = document.SentenceTextAt(1000);
+                Console.WriteLine("Sentence text at 1: {0}{1}", strng2, sep);
+            }catch(ArgumentOutOfRangeException ex){
+                Console.WriteLine(ex.Message);
+            }
+            
+            /*
             for (var x = 0; x <= document.Words.Count(); x++)
             {
                 Console.WriteLine("{0}: {1} => {2}",x, document.WordTextAt(x), document.WordAt(x).GetType());
@@ -60,12 +71,13 @@ namespace Scott_Experimentation
                 Console.WriteLine("No Match");
              */
 
-            /*
+            
             foreach(var wrd in document.Words)
             {
-                Console.WriteLine(wrd);
+                if(wrd is Adjective)
+                    Console.WriteLine(wrd);
             }
-            */
+            
             StdIO.WaitForAnyKey();
         }
     }
