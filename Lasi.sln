@@ -80,6 +80,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Scott_Experimentation", "In
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aluan_Experimentation", "IndividualProjects\Aluan_Experimentation\Aluan_Experimentation.csproj", "{89E28C71-44D2-4810-B4D4-8A2570A16499}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aluan_WPF_Experimentation", "IndividualProjects\Aluan_WPF_Experimentation\Aluan_WPF_Experimentation.csproj", "{9DFC647F-B664-4452-9AC2-0A057DF06DCF}"
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = LasiClassFramework.vsmdi
@@ -141,6 +143,10 @@ Global
 		{89E28C71-44D2-4810-B4D4-8A2570A16499}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{89E28C71-44D2-4810-B4D4-8A2570A16499}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{89E28C71-44D2-4810-B4D4-8A2570A16499}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9DFC647F-B664-4452-9AC2-0A057DF06DCF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9DFC647F-B664-4452-9AC2-0A057DF06DCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9DFC647F-B664-4452-9AC2-0A057DF06DCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9DFC647F-B664-4452-9AC2-0A057DF06DCF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -154,6 +160,7 @@ Global
 		{091092AB-20E7-4626-BED0-4B87A15505D2} = {292E3A5A-1499-4291-A903-377BF3167923}
 		{B2BE9B07-C647-4208-9463-A7C1B9EF5A11} = {292E3A5A-1499-4291-A903-377BF3167923}
 		{89E28C71-44D2-4810-B4D4-8A2570A16499} = {292E3A5A-1499-4291-A903-377BF3167923}
+		{9DFC647F-B664-4452-9AC2-0A057DF06DCF} = {292E3A5A-1499-4291-A903-377BF3167923}
 		{8829F489-A966-4321-BD4A-FDC4536D0BBA} = {BB8A5BF2-C41F-4330-B55B-D1097569B529}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
