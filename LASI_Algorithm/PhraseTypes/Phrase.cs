@@ -18,13 +18,10 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="composedWords">The one or more instances of the Word class of which the Phrase is composed.</param>
         protected Phrase(IEnumerable<Word> composedWords) {
-            GUID = GUIDProvider;
+            GUID = GUIDProvider++;
             Words = composedWords;
 
-            Weights = new Dictionary<Weighting.WeightKind, Weighting.Weight> {
-                { Weighting.WeightKind.Individual, null },
-                { Weighting.WeightKind.Meta, null }
-            };
+            Weights = new Dictionary<Weighting.WeightKind, Weighting.Weight>();
         }
 
         #endregion
@@ -145,7 +142,7 @@ namespace LASI.Algorithm
         }
         public Dictionary<Weighting.WeightKind, Weighting.Weight> Weights {
             get;
-            set;
+            private set;
         }
 
 

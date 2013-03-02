@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 
 namespace LASI.Algorithm.Weighting
 {
-    public class Weight
+    public struct Weight
     {
         #region Constructors
 
-        public Weight(double rawWeight, double multiplier) {
+        public Weight(double rawWeight, double multiplier)
+            : this() {
         }
 
         #endregion
@@ -20,11 +21,11 @@ namespace LASI.Algorithm.Weighting
 
         public double RawWeight {
             get;
-            protected set;
+            private set;
         }
         public double Multiplier {
             get;
-            protected set;
+            private set;
         }
 
         #endregion

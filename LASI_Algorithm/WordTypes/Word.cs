@@ -22,10 +22,7 @@ namespace LASI.Algorithm
         protected Word(string text) {
             GUID = GUIDProvider++;
             Text = text;
-            Weights = new Dictionary<Weighting.WeightKind, Weighting.Weight> {
-                { Weighting.WeightKind.Individual, null },
-                { Weighting.WeightKind.Meta, null }
-            };
+            Weights = new Dictionary<Weighting.WeightKind, Weighting.Weight>();
         }
 
 
