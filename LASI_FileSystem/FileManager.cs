@@ -5,8 +5,13 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LASI.FileSystem.FileTypes;
 namespace LASI.FileSystem
 {
+    /// <summary>
+    /// A static class which encapsulates the operations necessary to manage the working directory of the current user progress.
+    /// Client code must call the Initialialize method prior to using any of the other methods in this class. 
+    /// </summary>
     public static class FileManager
     {
         #region Methods
@@ -129,6 +134,12 @@ namespace LASI.FileSystem
                 File.Delete(converted.FullPath);
             }
         }
+        /// <summary>
+        /// Asynchronously converts all of the .doc files it recieves into .docx files
+        /// If no arguments are supplied, it will instead convert all yet unconverted .doc files in the project directory
+        /// Results are stored in corresponding project directory
+        /// </summary>
+        /// <param name="files">0 or more instances of the DocFile class which encapsulate .doc files</param>
         public static async Task ConvertDocFilesAsync(params DocFile[] files) {
             if (files.Length == 0)
                 files = docFiles.ToArray();
@@ -188,7 +199,7 @@ namespace LASI.FileSystem
             }
         }
         /// <summary>
-        /// Invoked the POS tagger on the text files it recieves into storing the newly tagged files
+        /// Invokes the POS tagger on the text files it recieves into storing the newly tagged files
         /// If no arguments are supplied, it will instead convert all yet untagged text files in the project directory
         /// Results are stored in corresponding project directory
         /// </summary>
@@ -208,6 +219,12 @@ namespace LASI.FileSystem
                 TaggedFiles.Add(new TaggedFile(filePath));
             }
         }
+        /// <summary>
+        ///Asynchronously Invokes the POS tagger on the text files it recieves into storing the newly tagged files
+        /// If no arguments are supplied, it will instead convert all yet untagged text files in the project directory
+        /// Results are stored in corresponding project directory
+        /// </summary>
+        /// <param name="files">0 or more instances of the TextFile class which encapsulate text files</param>
         public static async Task TagTextFilesAsync(params TextFile[] files) {
             if (files.Length == 0)
                 files = textFiles.ToArray();

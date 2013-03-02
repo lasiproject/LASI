@@ -11,14 +11,15 @@ namespace LASI.FileSystem
     /// Represents a tagset-to-runtime-type-mapping context which translates between The SharpNLP Tagger's tagset and the classes whose instances provide 
     /// the runtime representations of the tag. 
     /// This class represents the tagset => runtime-type mapping for
-    /// the tagset used by SharpNLP, a derrivative of the Brown Tagset.
+    /// the tagset used by SharpNLP, a derrivative of the Penn Tagset.
     /// This class is sealed and thus may not be extended.
     /// If a new tagset is to be implemented, extend the base class, TaggingContext.
     /// <see cref="WordTagsetMap"/>
-    ///<see cref="WordTagParser"/>
-    /// <example>
+    ///<see cref="WordMapper"/>
+    /// <example><code>
     /// var constructorFunction = myContext["TAG"];
     /// var runtimeWord = constructorFunction(itemText);
+    /// </code>
     /// </example>
     /// </summary>
     public sealed class SharpNLPWordTagsetMap : WordTagsetMap
@@ -97,8 +98,7 @@ namespace LASI.FileSystem
             get {
                 try {
                     return typeDictionary[tag];
-                }
-                catch (KeyNotFoundException) {
+                } catch (KeyNotFoundException) {
                     throw new UnknownPOSException(String.Format("The tag {0} is not defined by this Tagset", tag));
                 }
             }
@@ -108,8 +108,7 @@ namespace LASI.FileSystem
             get {
                 try {
                     return typeDictionary.First(pair => pair.Value == mappedConstructor).Key;
-                }
-                catch (InvalidOperationException) {
+                } catch (InvalidOperationException) {
                     throw new UnmappedWordConstructorException(String.Format("Word constructor\n{0}\nis not mapped by this Tagset for", mappedConstructor));
                 }
             }

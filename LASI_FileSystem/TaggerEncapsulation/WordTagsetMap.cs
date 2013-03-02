@@ -10,16 +10,14 @@ namespace LASI.FileSystem
     /// <summary>
     /// Represents a tagset-to-runtime-type-mapping context which translates between a Part Of Speech
     /// Tagger's provided tags and their runtime type equivalents. 
-    /// This class represents the tagset => runtime-type mapping for
-    /// the tagset used SharpNLP, a derrivative of the Brown Tagset, and may not be extended.
-    /// If a new tagset is to be used, derrive from the base class TaggingContext
+    /// This class represents the tagset => runtime-type mapping for word occurances
     /// <see cref="WordTagsetMap"/>
-    ///<see cref="WordTagParser"/>
+    ///<seealso cref="WordMapper"/>
     /// <example>
-    /// 
+    ///<code> 
     /// var constructorFunction = myContext["TAG"];
     /// var runtimeWord = constructorFunction(itemText);
-    /// 
+    /// </code>
     /// </example>
     /// </summary>
     public abstract class WordTagsetMap

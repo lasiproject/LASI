@@ -40,9 +40,9 @@ namespace SharpNLPTaggingModule
             SourceText = LoadSourceText();//
 
         }
-        public virtual LASI.FileSystem.TaggedFile ProcessFile() {
+        public virtual LASI.FileSystem.FileTypes.TaggedFile ProcessFile() {
             WriteToFile(ParseViaTaggingMode());
-            return new LASI.FileSystem.TaggedFile(OutputFilePath);
+            return new LASI.FileSystem.FileTypes.TaggedFile(OutputFilePath);
 
         }
 

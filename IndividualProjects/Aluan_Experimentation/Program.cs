@@ -12,6 +12,7 @@ using System.IO;
 using LASI.Algorithm.Heuristics;
 using System.Xml;
 using LASI.Algorithm.Weighting;
+using LASI.FileSystem.FileTypes;
 namespace Aluan_Experimentation
 {
     public class Program

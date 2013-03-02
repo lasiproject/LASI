@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LASI.FileSystem.FileTypes;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
@@ -8,8 +9,13 @@ using System.Threading.Tasks;
 using System.Xml;
 namespace LASI.FileSystem
 {
+    /// <summary>
+    /// An input file converter specialized to extract the written content from a .docx (Microsoft Word 2003+ open XML file format)
+    /// and create a text file storing this content as raw text.
+    /// </summary>
     public class DocxToTextConverter : InputFileConverter
     {
+        #region Constructors
 
         /// <summary>
         /// Constructs a new instance which will govern the conversion of the file indicated by the provided path.
@@ -28,8 +34,8 @@ namespace LASI.FileSystem
         /// Constructs a new instance which will govern the conversion InputFile instance provided.
         /// The converted file will be placed in the same diretory as the original.
         /// </summary>
-        /// <param name="infile">Indicates the file to convert</param>
-        public DocxToTextConverter(InputFile infile) :
+        /// <param name="infile">The DocXFile instance representing the document to convert.</param>
+        public DocxToTextConverter(DocXFile infile) :
             base(infile) {
             DestinationInfo = new FileData(destinationDir + infile.Name);
         }
@@ -37,21 +43,17 @@ namespace LASI.FileSystem
         /// <summary>
         /// Constructs a new instance which will govern the of the InputFile instance provided, and will place the converted file in the indicated directory.
         /// </summary>
-        /// <param name="infile">Indicates the file to convert</param>
+        /// <param name="infile">The DocFile instance representing the document to convert.</param>
         /// <param name="TxtFilesDir">Indicated the directory in which the converted file is to be placed</param>
-        public DocxToTextConverter(InputFile infile, string TxtFilesDir)
+        public DocxToTextConverter(DocXFile infile, string TxtFilesDir)
             : base(infile, TxtFilesDir) {
             DestinationInfo = new FileData(destinationDir);
         }
 
+        #endregion
 
-        /// <summary>
-        /// Utility object containing information specifying details about the converted file before it is created.
-        /// </summary>
-        private FileData DestinationInfo {
-            get;
-            set;
-        }
+        #region Methods
+
         /// <summary>
         /// Converts the .docx document into a zip archive, deleting any preexisting conversion to zip.
         /// </summary>
@@ -81,9 +83,9 @@ namespace LASI.FileSystem
                 IgnoreWhitespace = false
             })) {
                 using (var writer = new StreamWriter(
-                    new FileStream(DestinationInfo.FullPathSansExt+ ".txt",
+                    new FileStream(DestinationInfo.FullPathSansExt + ".txt",
                         FileMode.Create),
-                        Encoding.UTF8,100)) {
+                        Encoding.UTF8, 100)) {
                     xmlReader.ReadStartElement();
                     while (xmlReader.Read()) {
                         var value = xmlReader.Value;
@@ -111,20 +113,6 @@ namespace LASI.FileSystem
 
         }
         /// <summary>
-        /// Gets or sets the XmlFile which contains the significant text of the .docx document.
-        /// </summary>
-        protected virtual InputFile XmlFile {
-            get;
-            set;
-        }
-        /// <summary>
-        /// Gets or sets the ziparchive which is created during the conversion process.
-        /// </summary>
-        protected virtual ZipArchive ZipArch {
-            get;
-            set;
-        }
-        /// <summary>
         /// Extracts the xml file containing the significant text of the of the docx file from its corresponding zip file.
         /// </summary>
         /// <param name="arch">The object which represents the zip file from which to extract.</param>
@@ -144,6 +132,34 @@ namespace LASI.FileSystem
         public async override Task<InputFile> ConvertFileAsync() {
             return await Task.Run(() => ConvertFile());
         }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Utility object containing information specifying details about the converted file before it is created.
+        /// </summary>
+        private FileData DestinationInfo {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// Gets or sets the XmlFile which contains the significant text of the .docx document.
+        /// </summary>
+        protected virtual InputFile XmlFile {
+            get;
+            set;
+        }
+        /// <summary>
+        /// Gets or sets the ziparchive which is created during the conversion process.
+        /// </summary>
+        protected virtual ZipArchive ZipArch {
+            get;
+            set;
+        }
+
         /// <summary>
         /// Gets the document object which is the fruit of the conversion process
         /// This additional method of accessing the new document is primarily provided to facilitate asynchronous programming
@@ -153,5 +169,7 @@ namespace LASI.FileSystem
             get;
             protected set;
         }
+
+        #endregion
     }
 }

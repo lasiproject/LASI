@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LASI.FileSystem.FileTypes;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -7,22 +8,27 @@ using System.Threading.Tasks;
 namespace LASI.FileSystem
 {
     /// <summary>
-    /// Converts Microsoft Word .doc binary files to modern Microsoft Word .docx open XML files
-    /// This allows for easy extraction of the raw textual line which must be passed to the tagging module
+    /// Converts Microsoft Word .doc binary files to modern Microsoft Word .docx open XML files.
+    /// This allows for easy extraction of the raw textual content which must be passed to a tagging module.
     /// </summary>
     public class DocToDocXConverter : InputFileConverter
     {
 
         /// <summary>
-        /// Creates a new instance of DocToDocXConverter which will handle the conversion of a given .doc document
+        /// Initializes a new instance of DocToDocXConverter which will handle the conversion of the given .doc document.
         /// </summary>
-        /// <param name="sourcePaths">The InputDocument instance representing the document to convert</param>
-        public DocToDocXConverter(InputFile infile)
+        /// <param name="infile">The DocFile instance representing the document to convert.</param>
+        public DocToDocXConverter(DocFile infile)
             : base(infile) {
 
         }
 
-        public DocToDocXConverter(InputFile infile, string DocxFilesDir)
+        /// <summary>
+        /// Initializes a new instance of DocToDocXConverter which will handle the conversion of the given .doc document
+        /// </summary>
+        /// <param name="infile">The DocFile instance representing the document to convert.</param>
+        /// <param name="DocxFilesDir">The path of the directory in which to store the converted file.</param>
+        public DocToDocXConverter(DocFile infile, string DocxFilesDir)
             : base(infile, DocxFilesDir) {
         }
 

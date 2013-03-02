@@ -1,4 +1,5 @@
 ﻿using LASI.Algorithm;
+using LASI.FileSystem.FileTypes;
 using LASI.FileSystem.TaggerEncapsulation;
 using System;
 using System.Collections.Generic;
@@ -11,18 +12,9 @@ using System.Threading.Tasks;
 
 namespace LASI.FileSystem
 {
-    public class TaggedFileParser
+    public class TaggedFileParser : LASI.FileSystem.TaggerEncapsulation.TagParser
     {
         #region Construtors
-        /// <summary>
-        /// Initialized a new instance of the TaggedFilerParser class to parse the contents of a specific file.
-        /// </summary>
-        /// <param name="filePath">The absosultePath of the pre-POS-tagged file to parse.</param>
-        //public TaggedFileParser(string filePath) {
-        //    FilePath = filePath;
-        //    TaggededDocumentFile = new TaggedFile(filePath);
-        //    TaggedInputData = LoadDocumentFile();
-        //}
         /// <summary>
         /// Initialized a new instance of the TaggedFilerParser class to parse the contents of a specific file.
         /// </summary>
@@ -50,28 +42,21 @@ namespace LASI.FileSystem
         /// Returns an instance of ParentDocument which contains the run time representation of all of the textual construct in the document, for the Algorithm to analyse.
         /// </summary>
         /// <returns>A traversable, queriable document object defining the run time representation of the tagged file which the TaggedFileParser governs. </returns>
-        public virtual Document LoadDocument() {
+        public override Document LoadDocument() {
             return new Document(LoadParagraphs());
-        }
-        public virtual async Task<Document> LoadDocumentAsync() {
-            return new Document(await LoadParagraphsAsync());
-        }
-
-        public virtual async Task<IEnumerable<Paragraph>> LoadParagraphsAsync() {
-            return await Task.Run(() => LoadParagraphs());
         }
 
         /// <summary>
         /// Returns the run time representations of the sentences, phrases,and words extracted from the tagged file the TaggedFileParser governs.
         /// </summary>
         /// <returns>The run time constructs which represent the text of the document, aggregated into paragraphs.</returns>
-        public virtual IEnumerable<Paragraph> LoadParagraphs() {
+        public override IEnumerable<Paragraph> LoadParagraphs() {
             var results = new List<Paragraph>();
 
             var data = PreProcessTextData(TaggedInputData);
             foreach (var paragraph in ParseParagraphs(data)) {
                 var parsedSentences = new List<Sentence>();
-                var sentences = paragraph.Split(new[] { "./.", "!/!", "?/?" }, StringSplitOptions.RemoveEmptyEntries);
+                var sentences = SplitIntoSentences(paragraph);
                 foreach (var sent in sentences) {
                     var parsedPhrases = new List<Phrase>();
                     var chunks = from chunk in sent.Split(new[] { "[", "]" }, StringSplitOptions.None).AsParallel()
@@ -85,8 +70,7 @@ namespace LASI.FileSystem
                                 Text = chunk.Substring(chunk.IndexOf(' '))
                             });
                             parsedPhrases.Add(currentPhrase);
-                        }
-                        else if (token == '/') {
+                        } else if (token == '/') {
                             var words = CreateWords(chunk);
                             if (words.Count == 1 && words.First() != null)
                                 if (words.First().Text == "and" || words.First().Text == "or") {
@@ -104,13 +88,18 @@ namespace LASI.FileSystem
             return results;
         }
 
+        private static string[] SplitIntoSentences(string paragraph) {
+            var sentences = paragraph.Split(new[] { "./.", "!/.", "?/." }, StringSplitOptions.RemoveEmptyEntries);
+            return sentences;
+        }
+
         private static char SkipToNextElement(string chunk) {
             var reader2 = (new StringReader(chunk));
             char token = '`';
             while (reader2.Peek() != '/' && reader2.Peek() != ' ') {
-                token = (char)reader2.Read();
+                token = (char) reader2.Read();
             }
-            token = (char)reader2.Read();
+            token = (char) reader2.Read();
             return token;
         }
 
@@ -155,7 +144,7 @@ namespace LASI.FileSystem
             var elements = wordData.Split(new[] { ' ', });
             var posExtractor = new WordExtractor();
 
-            var tagParser = new WordTagParser();
+            var tagParser = new WordMapper();
             foreach (var tagged in elements) {
                 var e = posExtractor.ExtractNextPos(tagged);
                 if (e != null) {
@@ -179,7 +168,7 @@ namespace LASI.FileSystem
             var elements = wordData.Split(new[] { ' ', });
             var posExtractor = new WordExtractor();
 
-            var tagParser = new WordTagParser();
+            var tagParser = new WordMapper();
             foreach (var tagged in elements) {
                 var e = posExtractor.ExtractNextPos(tagged);
                 if (e != null) {
@@ -190,38 +179,10 @@ namespace LASI.FileSystem
         }
 
 
-        /// <summary>
-        /// Breaks a string of text containing multiple paragraphs into a collection of strings each representing an individual paragraph.
-        /// Paragraphs are delimited using the default regular expression pattern "[\r\n]+[^]*[\r\n]+"
-        /// </summary>
-        /// <param name="line">A string containing the text to be broken down.</param>
-        /// <returns>A collection of strings, each entry corresponding to the entire content of a single paragraph.</returns>
-        protected IEnumerable<string> ParseParagraphs(string data) {
-            return data.Split(new[] { "\r\n\r\n" }, StringSplitOptions.RemoveEmptyEntries);
-        }
-
         #endregion
 
         #region Properties
-        /// <summary>
-        /// Gets the path of the tagged file which the TaggedFileParser governs.
-        /// </summary>
-        protected string FilePath {
-            get;
-            set;
-        }
-        /// <summary>
-        /// Gets the LasiFile object which encapsulates the input file which the TaggedFileParser governs.
-        /// </summary>
-        public TaggedFile TaggededDocumentFile {
-            get;
-            protected set;
-        }
 
-        protected string TaggedInputData {
-            get;
-            set;
-        }
         private readonly WordTagsetMap WordTagset = new SharpNLPWordTagsetMap();
 
         private readonly PhraseTagsetMap PhraseTagset = new SharpNLPPhraseTagsetMap();

@@ -5,16 +5,14 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-namespace LASI.FileSystem
+namespace LASI.FileSystem.FileTypes
 {
     public class TaggedFile : InputFile
     {
-
-
         public TaggedFile(string filePath)
             : base(filePath) {
-            if (Ext != ".tagged") {
-                throw new IOException(String.Format("File extension \"{0}\" does not match InputFile type: {1}", Ext, GetType()));
+            if (this.Ext != ".tagged" && this.Ext != ".TAGGED") {
+                throw new LASI.FileSystem.FileTypes.FileTypeWrapperMismatchException(GetType().ToString(), Ext);
             }
 
         }

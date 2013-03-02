@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-namespace LASI.FileSystem
+namespace LASI.FileSystem.FileTypes
 {
     public class PdfFile : InputFile
     {

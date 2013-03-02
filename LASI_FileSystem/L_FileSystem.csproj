@@ -67,11 +67,14 @@
     <Compile Include="Exceptions\NotLoadedException.cs" />
     <Compile Include="FileConveters\DocToDocXConverter.cs" />
     <Compile Include="FileConveters\DocxToTextConverter.cs" />
+    <Compile Include="FileTypes\FileTypeWrapperMismatchException.cs" />
     <Compile Include="FileTypes\GenericXMLFile.cs" />
     <Compile Include="FileManager.cs" />
     <Compile Include="FileTypes\InputFileConverter.cs" />
     <Compile Include="FileTypes\Support\TaggedToXMLConverter.cs" />
     <Compile Include="FileTypes\Support\TaggerUtilites.cs" />
+    <Compile Include="TaggerEncapsulation\ExperimentalTaggedParser.cs" />
+    <Compile Include="TaggerEncapsulation\TagParser.cs" />
     <Compile Include="TaggerEncapsulation\PhraseExtractor.cs" />
     <Compile Include="TaggerEncapsulation\PhraseTagsetMap.cs" />
     <Compile Include="TaggerEncapsulation\SharpNLPPhraseTagsetMap.cs" />
@@ -80,7 +83,7 @@
     <Compile Include="TaggerEncapsulation\SharpNLPWordTagsetMap.cs" />
     <Compile Include="TaggerEncapsulation\QuickTagger.cs" />
     <Compile Include="TaggerEncapsulation\TaggingOption.cs" />
-    <Compile Include="TaggerEncapsulation\WordTagParser.cs" />
+    <Compile Include="TaggerEncapsulation\WordMapper.cs" />
     <Compile Include="FileTypes\DocXFile.cs" />
     <Compile Include="FileTypes\Support\FileData.cs" />
     <Compile Include="FileTypes\PdfFile.cs" />

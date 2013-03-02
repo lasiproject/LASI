@@ -26,8 +26,8 @@ namespace LASI.Algorithm.Binding
 
         }
 
-        protected IEntity directObject;
-        protected IEntity indirectObject;
+        protected IEntity directObject = null;
+        protected IEntity indirectObject = null;
         protected Stack<NounPhrase> entities = new Stack<NounPhrase>();
         protected bool directObjectFound, indirectObjectFound;
         protected Stack<Phrase> inputstream;
