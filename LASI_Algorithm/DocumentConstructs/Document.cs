@@ -20,21 +20,21 @@ namespace LASI.Algorithm
         /// Initializes a new instance of the ParentDocument class.
         /// </summary>
         /// <param name="allWords">The collection of sentences which contain all text in the document.</param>
-        protected Document(IEnumerable<Sentence> allSentences) {
-            _sentences = allSentences;
-            _phrases = from S in Sentences
-                       from R in S.Phrases
-                       select R;
-            _words = (from S in _sentences
-                      from W in S.Words
-                      select W).ToList();
-            EstablishLexicalLinks();
-            foreach (var w in Words)
-                w.ParentDocument = this;
-            foreach (var P in _paragraphs) {
-                P.EstablishParent(this);
-            }
-        }
+        //protected Document(IEnumerable<Sentence> allSentences) {
+        //    _sentences = allSentences;
+        //    _phrases = from S in Sentences
+        //               from R in S.Phrases
+        //               select R;
+        //    _words = (from S in _sentences
+        //              from W in S.Words
+        //              select W).ToList();
+        //    EstablishLexicalLinks();
+        //    foreach (var w in Words)
+        //        w.ParentDocument = this;
+        //    foreach (var P in _paragraphs) {
+        //        P.EstablishParent(this);
+        //    }
+        //}
 
 
         /// <summary>

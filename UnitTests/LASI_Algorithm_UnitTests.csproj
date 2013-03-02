@@ -88,6 +88,7 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.IO.Compression" />
     <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.Runtime.Serialization.Formatters.Soap" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml" />
@@ -120,6 +121,7 @@
     <Compile Include="Settings.cs" />
     <Compile Include="TransitiveVerbTest.cs" />
     <Compile Include="VerbPhraseTest.cs" />
+    <Compile Include="WeightTest.cs" />
     <Compile Include="WordTest.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -12,6 +12,8 @@ namespace LASI.Algorithm.Weighting
 
         public Weight(double rawWeight, double multiplier)
             : this() {
+            RawWeight = rawWeight;
+            Multiplier = multiplier;
         }
 
         #endregion
@@ -49,7 +51,7 @@ namespace LASI.Algorithm.Weighting
             return A.RawWeight * A.Multiplier + B.RawWeight * B.Multiplier;
         }
         public static double operator -(Weight A, Weight B) {
-            return A.RawWeight * A.Multiplier + B.RawWeight * B.Multiplier;
+            return A.RawWeight * A.Multiplier - B.RawWeight * B.Multiplier;
         }
         public static double operator *(Weight A, Weight B) {
             return A.RawWeight * A.Multiplier * B.RawWeight * B.Multiplier;
@@ -63,7 +65,7 @@ namespace LASI.Algorithm.Weighting
         #region Methods
 
         public override bool Equals(object obj) {
-            return base.Equals(obj);
+            return this == (Weight) obj;
         }
         public override int GetHashCode() {
             return base.GetHashCode();
