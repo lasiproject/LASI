@@ -29,7 +29,7 @@
             <MenuItem Header="Help"/>
             <Separator Width="362" Opacity="0"/>
         </Menu>
-        <Canvas Margin="0,52,0,0" Height="411" VerticalAlignment="Top">
+        <Canvas Name="mainCanvas" Margin="0,52,0,0" Height="411" VerticalAlignment="Top">
             <Canvas Height="273" Canvas.Left="136" Canvas.Top="72" Width="492">
 
                 <Rectangle Fill="#FFE9E9E9" Height="273" Stroke="Black" Width="492"/>
@@ -40,13 +40,15 @@
                 <TextBlock Height="27" Canvas.Left="42" TextWrapping="Wrap" Text="Name:" Canvas.Top="54" Width="47" TextAlignment="Center" LineHeight="6" FontSize="14" RenderTransformOrigin="0.099,0.298"/>
                 <TextBox x:Name="projectFolderText" Height="27" Canvas.Left="169" TextWrapping="Wrap" Canvas.Top="89" Width="174" MaxLines="1"/>
                 <TextBlock Height="25" Canvas.Left="42" TextWrapping="Wrap" Text="Location:" Canvas.Top="91" Width="62" TextAlignment="Center" LineHeight="6" FontSize="14"/>
-                <Button x:Name ="SelectProjFolderButton" Content="Browse" Height="27" Canvas.Left="348" Canvas.Top="91" Width="50" RenderTransformOrigin="0.5,0.5" Click="SelectProjFolderButton_Click" />
+                <Button x:Name ="SelectProjFolderButton" Content="Browse" Height="27" Canvas.Left="348" Canvas.Top="91" Width="50" RenderTransformOrigin="0.5,0.5" />
                 <Button x:Name="browseForDocButton" Content="Browse" Height="27" Canvas.Left="348" Canvas.Top="127" Width="50" RenderTransformOrigin="0.8,0.476" Click="browseForDocButton_Click"/>
                 <Button x:Name="CreateButton" Content="Create" Height="27" Canvas.Left="304" Canvas.Top="224" Width="58" Click="CreateButton_Click" />
                 <Button x:Name="CancelButton" Content="Cancel" Height="27" Canvas.Left="384" Canvas.Top="224" Width="58" RenderTransformOrigin="0.035,1.507" Click="CancelButton_Click" />
                 <Button Content="+" Height="27" Canvas.Left="415" Canvas.Top="127" Width="38" FontSize="16"/>
+                <ListBox Name="documentsAdded" Height="100" Canvas.Left="10" Canvas.Top="163" Width="197"/>
 
             </Canvas>
+            <WrapPanel Name="dynamicContent" Height="157" Width="131"/>
         </Canvas>
         <ProgressBar RenderTransformOrigin="0.5,0.5" Margin="-3,464,0,1">
             <ProgressBar.RenderTransform>

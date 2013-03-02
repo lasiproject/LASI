@@ -13,7 +13,7 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="actions">The Enumerable of Verb objects to filter.</param>
         /// <returns>The subset bound to a subject.</returns>
-        public static IEnumerable<IAction> WithSubject(this IEnumerable<IAction> verbs) {
+        public static IEnumerable<ITransitiveAction> WithSubject(this IEnumerable<ITransitiveAction> verbs) {
             return from V in verbs
                    where V.BoundSubject != null
                    select V;
@@ -32,7 +32,7 @@ namespace LASI.Algorithm
         /// </example>       
         /// <remarks>This provided function is used to filter the actions based on their subjects.
         /// </remarks>
-        public static IEnumerable<IAction> WithSubject(this IEnumerable<IAction> actions, Func<IEntity, bool> condition) {
+        public static IEnumerable<ITransitiveAction> WithSubject(this IEnumerable<ITransitiveAction> actions, Func<IEntity, bool> condition) {
             return from A in actions.WithSubject()
                    where condition(A.BoundSubject)
                    select A;

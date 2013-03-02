@@ -30,13 +30,15 @@
             <Button x:Name="SearchButton" Content="Search" VerticalAlignment="Top" Click="SearchButton_Click_1"/>
         </Menu>
         <Canvas Margin="0,52,0,0" Height="411" VerticalAlignment="Top">
-            <TabControl HorizontalAlignment="Right" Width="636" Height="412" Canvas.Left="148" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto"  >
-                <TabItem Header="Top Results">
+            <TabControl HorizontalAlignment="Right" Width="636" Height="412" Canvas.Left="148" ScrollViewer.HorizontalScrollBarVisibility="Auto" 
+                        ScrollViewer.VerticalScrollBarVisibility="Auto" >
+                <TabItem Name="topResultsTab" Header="Top Results">
                     <Grid Background="#FFE5E5E5" Margin="0,0,1,0">
                         <TabControl HorizontalAlignment="Left" Height="380" VerticalAlignment="Top" Width="625">
                             <TabItem Header="Document 1">
-                                <Grid Name= "resultsGrid" Background="White">
+                                <Grid Name= "resultsGrid" Background="White" >
                                     <Image HorizontalAlignment="Left" Height="282" VerticalAlignment="Top" Width="506" Source="tornadoresults.png" Margin="33,36,0,0"/>
+                                    <Grid HorizontalAlignment="Left" Height="100" Margin="10,10,0,0" VerticalAlignment="Top" Width="100"/>
                                 </Grid>
                             </TabItem>
                             <TabItem Header="Document 2" HorizontalAlignment="Left" Height="20" VerticalAlignment="Bottom" Width="79" Margin="-2,-2,-20,2">
@@ -95,7 +97,7 @@
                     <WrapPanel x:Name="wordsWrapPanel" HorizontalAlignment="Left" Height="380" VerticalAlignment="Top" UseLayoutRounding="True">
                     </WrapPanel>
                 </TabItem>
-                <!--<Grid Height="100" Width="100"/>-->
+                <Image Source="Image1.png" Stretch="Fill" Margin="0,0,0,-21"/>
             </TabControl>
             <Rectangle Fill="#FFF6F6F6" Stroke="#FF8C8E94" StrokeThickness="0.5" HorizontalAlignment="Right" Width="146" Height="412" Canvas.Left="2"/>
             <Button Name="printButton" Content="Print" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Canvas.Left="34" Canvas.Top="26" Click="printButton_Click_1"/>

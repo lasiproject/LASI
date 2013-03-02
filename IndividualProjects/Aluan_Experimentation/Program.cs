@@ -11,6 +11,7 @@ using SharpNLPTaggingModule;
 using System.IO;
 using LASI.Algorithm.Heuristics;
 using System.Xml;
+using LASI.Algorithm.Weighting;
 namespace Aluan_Experimentation
 {
     public class Program
@@ -21,7 +22,17 @@ namespace Aluan_Experimentation
 
 
         }
-
+        class Theme
+        {
+            public IEntity Subject {
+                get;
+                set;
+            }
+            public ITransitiveAction Verb {
+                get;
+                set;
+            }
+        }
         private static void ParseAndCreate() {
 
             TaggerUtil.TaggerOption = TaggingOption.NameFind;
@@ -40,11 +51,31 @@ namespace Aluan_Experimentation
                 print(S);
             }
 
+
+
+
+
+
             var actions = document.GetActions();
-            actions.WithSubject(e => e.Text == null);
-            foreach (var A in actions) {
-                print(A);
-            }
+
+            var themes = from A in actions.WithSubject(
+                             S => S.Weights[WeightKind.Individual].RawWeight > 10 &&
+                             S.Text == "banana")
+                         select new Theme {
+                             Verb = A,
+                             Subject = A.BoundSubject
+                         };
+
+
+
+
+
+
+
+
+
+
+
             StdIO.WaitForKey(ConsoleKey.Escape);
         }
 

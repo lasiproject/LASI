@@ -24,16 +24,29 @@ namespace LASI.UserInterface
     {
         public CreateProjectScreen() {
             InitializeComponent();
-            BindWindowEventHandlers();
             LastLoadedProjectName = "";
+            CreateButtons();
+        }
+
+        void CreateButtons() {
+            for (var i = 0; i < 10; ++i) {
+                var num = i;
+                var button = new Button {
+                    Content = i.ToString()
+                };
+
+                button.Click += (sender, e) => {
+                    MessageBox.Show(string.Format("num: {0}: even?: {1}", num, (num % 2 == 0)));
+                };
+
+                dynamicContent.Children.Add(button);
+            }
+
 
         }
 
 
-        void BindWindowEventHandlers() {
-            this.Closing += (s, e) => Application.Current.Shutdown();
-
-        }
+        #region EventHandlers
 
         private void browseForDocButton_Click(object sender, RoutedEventArgs e) {
             var openDialog = new OpenFileDialog();
@@ -41,6 +54,15 @@ namespace LASI.UserInterface
 
             var docPath = openDialog.FileName;
             lastDocPath.Text = docPath;
+
+            var docEntry = new ListViewItem {
+                Content = docPath
+            };
+            docEntry.MouseDoubleClick += (s, args) => documentsAdded.Items.Remove(docEntry);
+
+
+            documentsAdded.Items.Add(docEntry);
+
 
         }
 
@@ -55,11 +77,6 @@ namespace LASI.UserInterface
             this.Hide();
         }
 
-        private void CancelButton_Click(object sender, RoutedEventArgs e) {
-
-            this.SwapWith(WindowManager.SplashScreen);
-        }
-
         private void SelectProjFolderButton_Click(object sender, RoutedEventArgs e) {
             var selectDialog = new OpenFileDialog();
             selectDialog.ShowDialog(this);
@@ -71,6 +88,13 @@ namespace LASI.UserInterface
             this.Close();
 
         }
+        private void CancelButton_Click(object sender, RoutedEventArgs e) {
+
+            this.SwapWith(WindowManager.SplashScreen);
+        }
+        #endregion
+
+
         #region Properties
 
         public string LastLoadedProjectName {
