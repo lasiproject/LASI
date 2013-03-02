@@ -5,13 +5,13 @@ using System.Text;
 
 namespace LASI.Algorithm.Binding
 {
-    internal class EntityStream
+    internal class WordStream
     {
-        private IEnumerable<ILexical> sourceSequence;
+        private IEnumerable<Word> sourceSequence;
         private int resultsFed;
 
 
-        internal EntityStream(IEnumerable<ILexical> source) {
+        internal WordStream(IEnumerable<Word> source) {
             sourceSequence = source;
 
         }
@@ -26,9 +26,9 @@ namespace LASI.Algorithm.Binding
                 }
             });
         }
-        public IEnumerable<ILexical> SourceSequence {
+        public IReadOnlyCollection<ILexical> SourceSequence {
             get {
-                return sourceSequence;
+                return sourceSequence.ToList().AsReadOnly();
             }
         }
     }

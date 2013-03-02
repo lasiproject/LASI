@@ -52,7 +52,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Binding\EntityReferenceBinder.cs" />
-    <Compile Include="Binding\EntityStream.cs" />
+    <Compile Include="Binding\InvalidStateTransitionException.cs" />
+    <Compile Include="Binding\ObjectBinding.cs" />
+    <Compile Include="Binding\WordStream.cs" />
     <Compile Include="EntityKindLookup.cs" />
     <Compile Include="Heuristics\IDocumentAnalyzer.cs" />
     <Compile Include="Heuristics\Metric.cs" />

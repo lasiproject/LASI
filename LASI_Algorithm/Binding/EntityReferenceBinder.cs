@@ -8,24 +8,47 @@ namespace LASI.Algorithm.Binding
 {
     class EntityReferenceBinder
     {
-        public EntityReferenceBinder(EntityStream stream) {
-            Stream = stream;
+        Stack<GenericSingularNoun> genericSingular = new Stack<GenericSingularNoun>();
+        Stack<GenericPluralNoun> genericPlural = new Stack<GenericPluralNoun>();
+        Stack<ProperSingularNoun> properSingular = new Stack<ProperSingularNoun>();
+        Stack<ProperPluralNoun> properPlural = new Stack<ProperPluralNoun>();
+        Stack<PresentParticipleGerund> gerund = new Stack<PresentParticipleGerund>();
+
+        public EntityReferenceBinder(IEnumerable<Word> stream) {
+            Stream = new WordStream(stream);
+            BeginProcess();
+        }
+        protected virtual void BeginProcess() {
+
         }
 
-        private static void NextTyped(GenericSingularNoun entity) {
+        protected virtual void ProcessNext(GenericSingularNoun entity) {
+            genericSingular.Push(entity);
+        }
+        protected virtual void ProcessNext(GenericPluralNoun entity) {
+            genericPlural.Push(entity);
+        }
+        protected virtual void ProcessNext(ProperSingularNoun entity) {
+            properSingular.Push(entity);
+        }
+        protected virtual void ProcessNext(ProperPluralNoun entity) {
+            properPlural.Push(entity);
+        }
+        protected virtual void ProcessNext(PresentParticipleGerund entity) {
+            gerund.Push(entity);
         }
 
         private static double ComputeLikelyhood() {
             throw new NotImplementedException();
         }
 
-        public EntityStream Stream {
+        protected WordStream Stream {
             get;
-            protected set;
+            set;
         }
 
 
-        
+
 
         enum PronounGender
         {
@@ -34,5 +57,8 @@ namespace LASI.Algorithm.Binding
             Thing,
             Group
         }
+
+        protected readonly string[] malePronounText = new[] { "he", "him", "himself", "hisself", "his" };
+        protected readonly string[] femalePronounText = new[] { "she", "her", "herself", "hers" };
     }
 }
