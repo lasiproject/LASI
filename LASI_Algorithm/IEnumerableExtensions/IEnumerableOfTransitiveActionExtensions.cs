@@ -27,7 +27,8 @@ namespace LASI.Algorithm
         /// <returns>The subset bound to direct objects matching the condition.</returns>
         public static IEnumerable<ITransitiveAction> WithDirectObject(this IEnumerable<ITransitiveAction> transitives, Func<IEntity, bool> condition) {
             return from TA in transitives.WithDirectObject()
-                   where condition(TA.BoundSubject)
+                   let P = TA.DirectObject as Pronoun
+                   where condition(TA.DirectObject) || P != null && condition(P.BoundEntity)
                    select TA;
         }
 
@@ -50,7 +51,8 @@ namespace LASI.Algorithm
         /// <returns>The subset bound to direct objects matching the condition.</returns>
         public static IEnumerable<ITransitiveAction> WithIndirectObject(this IEnumerable<ITransitiveAction> transitives, Func<IEntity, bool> condition) {
             return from TA in transitives.WithIndirectObject()
-                   where condition(TA.IndirectObject)
+                   let P = TA.IndirectObject as Pronoun
+                   where condition(TA.IndirectObject) || P != null && condition(P.BoundEntity)
                    select TA;
         }
     }

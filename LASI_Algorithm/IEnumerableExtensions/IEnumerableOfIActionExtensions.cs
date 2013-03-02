@@ -34,7 +34,8 @@ namespace LASI.Algorithm
         /// </remarks>
         public static IEnumerable<ITransitiveAction> WithSubject(this IEnumerable<ITransitiveAction> actions, Func<IEntity, bool> condition) {
             return from A in actions.WithSubject()
-                   where condition(A.BoundSubject)
+                   let P = A.BoundSubject as Pronoun
+                   where condition(A.BoundSubject) || P != null && condition(P.BoundEntity)
                    select A;
         }
     }
