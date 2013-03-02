@@ -48,6 +48,7 @@ namespace LASI.Algorithm
         }
         internal void EstablishParent(Sentence sentence) {
             ParentDocument = sentence.ParentDocument;
+            ParentSentence = sentence;
             foreach (var P in Phrases)
                 P.EstablishParent(this);
         }
@@ -80,6 +81,11 @@ namespace LASI.Algorithm
             get {
                 throw new NotImplementedException();
             }
+        }
+
+        public Sentence ParentSentence {
+            get;
+            set;
         }
     }
 

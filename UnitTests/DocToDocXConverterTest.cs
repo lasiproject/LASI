@@ -1,4 +1,5 @@
 ﻿using LASI.FileSystem;
+using LASI.FileSystem.FileTypes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.IO;
@@ -69,7 +70,7 @@ namespace AlgorithmAssemblyUnitTestProject
         ///</summary>
         [TestMethod()]
         public void DocToDocXConverterConstructorTest() {
-            InputFile infile = new DocFile(@"..\..\..\TestDocs\Draft_Environmental_Assessment.doc");
+            var infile = new DocFile(@"..\..\..\TestDocs\Draft_Environmental_Assessment.doc");
             DocToDocXConverter target = new DocToDocXConverter(infile);
             Assert.IsTrue(target.Original == infile);
         }
@@ -79,7 +80,7 @@ namespace AlgorithmAssemblyUnitTestProject
         ///</summary>
         [TestMethod()]
         public void DocToDocXConverterConstructorTest1() {
-            InputFile infile = new DocFile(@"..\..\..\TestDocs\Draft_Environmental_Assessment.doc");
+            var infile = new DocFile(@"..\..\..\TestDocs\Draft_Environmental_Assessment.doc");
             string DocxFilesDir = @"C:\Users\Aluan\Desktop\docXfiles";
             DocToDocXConverter target = new DocToDocXConverter(infile, DocxFilesDir);
             Assert.IsTrue(target.Original == infile);
@@ -90,7 +91,7 @@ namespace AlgorithmAssemblyUnitTestProject
         ///</summary>
         [TestMethod()]
         public void ConvertFileTest() {
-            InputFile infile = new DocFile(@"..\..\..\TestDocs\Draft_Environmental_Assessment.doc");
+            var infile = new DocFile(@"..\..\..\TestDocs\Draft_Environmental_Assessment.doc");
             DocToDocXConverter target = new DocToDocXConverter(infile);
             InputFile actual;
             actual = target.ConvertFile();
@@ -102,7 +103,7 @@ namespace AlgorithmAssemblyUnitTestProject
         ///</summary>
         [TestMethod()]
         public async Task ConvertFileAsyncTest() {
-            InputFile infile = new DocFile(@"..\..\..\TestDocs\Draft_Environmental_Assessment.doc");
+            var infile = new DocFile(@"..\..\..\TestDocs\Draft_Environmental_Assessment.doc");
             DocToDocXConverter target = new DocToDocXConverter(infile);
             InputFile actual;
             actual = await target.ConvertFileAsync();

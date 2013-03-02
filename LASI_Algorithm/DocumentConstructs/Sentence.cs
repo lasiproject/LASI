@@ -26,6 +26,8 @@ namespace LASI.Algorithm
         }
         public Sentence(IEnumerable<Clause> clauses) {
             Clauses = clauses;
+            EndingPunctuation =
+                new SentenceDelimiter('.');
             //EndingPunct = clauses.Last().Phrases.Last().Words.Last(w => w is SentenceDelimiter) as SentenceDelimiter;
         }
         /// <summary>
@@ -95,7 +97,7 @@ namespace LASI.Algorithm
             }
         }
 
-        internal void EstablishParenthood(Paragraph paragraph) {
+        public void EstablishParenthood(Paragraph paragraph) {
             //  throw new NotImplementedException();
             ParentParagraph = paragraph;
             ParentDocument = paragraph.ParentDocument;

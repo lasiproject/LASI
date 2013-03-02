@@ -1,4 +1,5 @@
 ﻿using LASI.FileSystem;
+using LASI.FileSystem.FileTypes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.IO;
@@ -46,7 +47,7 @@ namespace AlgorithmAssemblyUnitTestProject
                 Directory.Delete(@"..\..\..\backup\NewProject", true);
 
             FileManager.Initialize(@"..\..\..\NewProject");
-            foreach (var fileInfo in new DirectoryInfo(@"..\..\..\AlgorithmAssemblyUnitTestProject\MockUserFiles").EnumerateFiles()) {
+            foreach (var fileInfo in new DirectoryInfo(@"..\..\..\UnitTests\MockUserFiles").EnumerateFiles()) {
                 switch (fileInfo.Extension) {
                     case ".doc":
                         File.Copy(fileInfo.FullName, @"..\..\..\NewProject\input\doc\" + fileInfo.FullName.Substring(fileInfo.FullName.LastIndexOf('\\') + 1));
@@ -94,7 +95,7 @@ namespace AlgorithmAssemblyUnitTestProject
         public void AddDocFileTest() {
             string sourcePath = @"..\..\..\TestDocs\Draft_Environmental_Assessment.doc";
 
-            FileManager.AddDocFile(sourcePath);
+            FileManager.AddDocFile(sourcePath, true);
             Assert.IsTrue(File.Exists(FileManager.DocFilesDir + @"\Draft_Environmental_Assessment.doc"));
         }
 
@@ -104,7 +105,7 @@ namespace AlgorithmAssemblyUnitTestProject
         [TestMethod()]
         public void AddDocXFileTest() {
             string sourcePath = @"..\..\..\TestDocs\Draft_Environmental_Assessment.docx";
-            FileManager.AddDocXFile(sourcePath);
+            FileManager.AddDocXFile(sourcePath,true);
             Assert.IsTrue(File.Exists(FileManager.DocxFilesDir + @"\Draft_Environmental_Assessment.docx"));
         }
 
@@ -115,7 +116,7 @@ namespace AlgorithmAssemblyUnitTestProject
         public void AddTextFileTest() {
             string sourcePath = @"..\..\..\TestDocs\Draft_Environmental_Assessment.txt";
 
-            FileManager.AddTextFile(sourcePath);
+            FileManager.AddTextFile(sourcePath,true);
             Assert.IsTrue(File.Exists(FileManager.TextFilesDir + @"\Draft_Environmental_Assessment.txt"));
         }
 

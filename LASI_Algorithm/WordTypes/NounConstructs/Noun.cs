@@ -49,7 +49,9 @@ namespace LASI.Algorithm
         }
 
         public void AddPossession(IEntity possession) {
-            throw new NotImplementedException();
+            if (!_possessed.Contains(possession))
+                _possessed.Add(possession);
+            possession.Possesser = this;
         }
 
         public bool Equals(IEntity other) {
@@ -109,7 +111,7 @@ namespace LASI.Algorithm
         /// </summary>
         public virtual IEnumerable<IEntity> Possessed {
             get {
-                throw new NotImplementedException();
+                return _possessed;
             }
         }
 
@@ -128,7 +130,7 @@ namespace LASI.Algorithm
 
         #region Fields
         private ICollection<IDescriber> _describedBy = new List<IDescriber>();
-        private ICollection<IPossessable> _possessed = new List<IPossessable>();
+        private ICollection<IEntity> _possessed = new List<IEntity>();
         private ICollection<Pronoun> _boundPronouns = new List<Pronoun>();
         #endregion
 

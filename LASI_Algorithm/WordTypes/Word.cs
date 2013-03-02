@@ -33,7 +33,9 @@ namespace LASI.Algorithm
         public void EstablishParent(Phrase phrase) {
             ParentPhrase = phrase;
             ParentDocument = phrase.ParentDocument;
-            ID = ParentDocument.Words.ToList().IndexOf(this);
+            if (ParentDocument != null) {
+                ID = ParentDocument.Words.ToList().IndexOf(this);
+            }
         }
 
         /// <summary>

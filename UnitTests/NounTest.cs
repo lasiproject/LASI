@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace AlgorithmAssemblyUnitTestProject
 {
@@ -63,8 +64,7 @@ namespace AlgorithmAssemblyUnitTestProject
 
 
         internal virtual Noun CreateNoun() {
-            // TODO: Instantiate an appropriate concrete class.
-            Noun target = null;
+            Noun target = new GenericSingularNoun("dog");
             return target;
         }
 
@@ -73,10 +73,10 @@ namespace AlgorithmAssemblyUnitTestProject
         ///</summary>
         [TestMethod()]
         public void AddPossessionTest() {
-            Noun target = CreateNoun(); // TODO: Initialize to an appropriate value
-            IEntity possession = null; // TODO: Initialize to an appropriate value
+            Noun target = CreateNoun();
+            IEntity possession = new NounPhrase(new[] { new GenericSingularNoun("chew"), new GenericSingularNoun("toy") });
             target.AddPossession(possession);
-            Assert.Inconclusive("A method that does not return a value cannot be verified.");
+            Assert.IsTrue(target.Possessed.Contains(possession) && possession.Possesser == target);
         }
 
         /// <summary>
@@ -84,10 +84,10 @@ namespace AlgorithmAssemblyUnitTestProject
         ///</summary>
         [TestMethod()]
         public void BindDescriberTest() {
-            Noun target = CreateNoun(); // TODO: Initialize to an appropriate value
-            IDescriber adjective = null; // TODO: Initialize to an appropriate value
+            Noun target = CreateNoun();
+            IDescriber adjective = new Adjective("rambunctious");
             target.BindDescriber(adjective);
-            Assert.Inconclusive("A method that does not return a value cannot be verified.");
+            Assert.IsTrue(target.DescribedBy.Contains(adjective) && adjective.Describes == target);
         }
 
         /// <summary>
@@ -95,35 +95,34 @@ namespace AlgorithmAssemblyUnitTestProject
         ///</summary>
         [TestMethod()]
         public void BindPronounTest() {
-            Noun target = CreateNoun(); // TODO: Initialize to an appropriate value
-            Pronoun pro = null; // TODO: Initialize to an appropriate value
+            Noun target = CreateNoun();
+            Pronoun pro = new PersonalPronoun("it");
             target.BindPronoun(pro);
-            Assert.Inconclusive("A method that does not return a value cannot be verified.");
+            Assert.IsTrue(target.BoundPronouns.Contains(pro) && pro.BoundEntity == target);
         }
 
-        /// <summary>
-        ///A test for Equals
-        ///</summary>
-        [TestMethod()]
-        public void EqualsTest() {
-            Noun target = CreateNoun(); // TODO: Initialize to an appropriate value
-            IEntity other = null; // TODO: Initialize to an appropriate value
-            bool expected = false; // TODO: Initialize to an appropriate value
-            bool actual;
-            actual = target.Equals(other);
-            Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
-        }
+        ///// <summary>
+        /////A test for Equals
+        /////</summary>
+        //[TestMethod()]
+        //public void EqualsTest() {
+        //    Noun target = CreateNoun(); // TODO: Initialize to an appropriate value
+        //    IEntity other = null; // TODO: Initialize to an appropriate value
+        //    bool expected = false; // TODO: Initialize to an appropriate value
+        //    bool actual;
+        //    actual = target.Equals(other);
+        //    Assert.AreEqual(expected, actual);
+        //    Assert.Inconclusive("Verify the correctness of this test method.");
+        //}
 
         /// <summary>
         ///A test for DescribedBy
         ///</summary>
         [TestMethod()]
         public void DescribedByTest() {
-            Noun target = CreateNoun(); // TODO: Initialize to an appropriate value
-            IEnumerable<IDescriber> actual;
-            actual = target.DescribedBy;
-            Assert.Inconclusive("Verify the correctness of this test method.");
+            Noun target = CreateNoun();
+
+            Assert.IsTrue(target.DescribedBy != null && target.DescribedBy.Count() == 0);
         }
 
         /// <summary>
@@ -131,13 +130,12 @@ namespace AlgorithmAssemblyUnitTestProject
         ///</summary>
         [TestMethod()]
         public void DirectObjectOfTest() {
-            Noun target = CreateNoun(); // TODO: Initialize to an appropriate value
-            ITransitiveAction expected = null; // TODO: Initialize to an appropriate value
+            Noun target = CreateNoun();
+            ITransitiveAction expected = new PastTenseVerb("walked");
             ITransitiveAction actual;
             target.DirectObjectOf = expected;
             actual = target.DirectObjectOf;
             Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
         }
 
         /// <summary>
@@ -145,13 +143,12 @@ namespace AlgorithmAssemblyUnitTestProject
         ///</summary>
         [TestMethod()]
         public void EntityTypeTest() {
-            Noun target = CreateNoun(); // TODO: Initialize to an appropriate value
-            EntityKind expected = new EntityKind(); // TODO: Initialize to an appropriate value
+            Noun target = CreateNoun();
+            EntityKind expected = EntityKind.Thing;
             EntityKind actual;
             target.EntityKind = expected;
             actual = target.EntityKind;
             Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
         }
 
         /// <summary>
@@ -159,13 +156,12 @@ namespace AlgorithmAssemblyUnitTestProject
         ///</summary>
         [TestMethod()]
         public void IndirectObjectOfTest() {
-            Noun target = CreateNoun(); // TODO: Initialize to an appropriate value
-            ITransitiveAction expected = null; // TODO: Initialize to an appropriate value
+            Noun target = CreateNoun();
+            ITransitiveAction expected = new PastTenseVerb("gave");
             ITransitiveAction actual;
             target.IndirectObjectOf = expected;
             actual = target.IndirectObjectOf;
             Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
         }
 
         /// <summary>
@@ -173,10 +169,10 @@ namespace AlgorithmAssemblyUnitTestProject
         ///</summary>
         [TestMethod()]
         public void IndirectReferencesTest() {
-            Noun target = CreateNoun(); // TODO: Initialize to an appropriate value
+            Noun target = CreateNoun();
             IEnumerable<Pronoun> actual;
             actual = target.BoundPronouns;
-            Assert.Inconclusive("Verify the correctness of this test method.");
+            Assert.IsTrue(actual != null && actual.Count() == 0);
         }
 
         /// <summary>
@@ -184,10 +180,10 @@ namespace AlgorithmAssemblyUnitTestProject
         ///</summary>
         [TestMethod()]
         public void PossessedTest() {
-            Noun target = CreateNoun(); // TODO: Initialize to an appropriate value
+            Noun target = CreateNoun();
             IEnumerable<IEntity> actual;
             actual = target.Possessed;
-            Assert.Inconclusive("Verify the correctness of this test method.");
+            Assert.IsTrue(actual != null && actual.Count() == 0);
         }
 
         /// <summary>
@@ -196,12 +192,11 @@ namespace AlgorithmAssemblyUnitTestProject
         [TestMethod()]
         public void PossesserTest() {
             Noun target = CreateNoun(); // TODO: Initialize to an appropriate value
-            IEntity expected = null; // TODO: Initialize to an appropriate value
+            IEntity expected = new NounPhrase(new Word[] { new Adjective("Red"), new GenericSingularNoun("Team") });
             IEntity actual;
             target.Possesser = expected;
             actual = target.Possesser;
             Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
         }
 
         /// <summary>
@@ -209,13 +204,12 @@ namespace AlgorithmAssemblyUnitTestProject
         ///</summary>
         [TestMethod()]
         public void SubjectOfTest() {
-            Noun target = CreateNoun(); // TODO: Initialize to an appropriate value
-            IAction expected = null; // TODO: Initialize to an appropriate value
+            Noun target = CreateNoun();
+            IAction expected = new Verb("runs", VerbTense.SingularPresent);
             IAction actual;
             target.SubjectOf = expected;
             actual = target.SubjectOf;
             Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
         }
     }
 }
