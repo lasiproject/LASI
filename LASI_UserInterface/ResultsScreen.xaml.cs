@@ -44,10 +44,12 @@ namespace LASI.UserInterface
                     ContextMenu = new ContextMenu()
                 };
                 var menuItem1 = new MenuItem {
-                    Header = "Change Color",
+                    Header = "view definition",
                 };
-                menuItem1.Click +=
-                    (sender, e) => wordLabel.Foreground = colors[new Random().Next(0, colors.Length)];
+                menuItem1.Click += (sender, e) => {
+                    Process.Start(String.Format("http://www.dictionary.reference.com/browse/{0}?s=t", T));
+                  
+                };
 
                 // change text to random color from the colors array
                 wordLabel.ContextMenu.Items.Add(menuItem1);
@@ -67,7 +69,7 @@ namespace LASI.UserInterface
 
 
 
-                wordsWrapPanel.Children.Add(wordLabel);
+                testViewWrap.Children.Add(wordLabel);
             }
 
 
@@ -84,9 +86,15 @@ namespace LASI.UserInterface
             this.Close();
 
         }
+
+
+
+
+
+
         private void SearchButton_Click_1(object sender, RoutedEventArgs e) {
             var searchText = SearchTextBox.Text;
-            foreach (Label label in wordsWrapPanel.Children) {
+            foreach (Label label in testViewWrap.Children) {
                 if (String.Compare(label.Content.ToString(),
                     searchText,
                     StringComparison.OrdinalIgnoreCase) == 0)
@@ -95,6 +103,15 @@ namespace LASI.UserInterface
                     label.Foreground = Brushes.Black;
             }
         }
+
+
+
+
+
+
+
+
+
 
         List<string> tokens = @"The typically small numbers of COIs identified by stakeholders with specific problems should each be accompanied by a similarly small number
 ` effectiveness measures (Sproles, 2002) that stakeholders can use to make binary, 'yes' or 'no,' determinations as to whether or not COI and 
@@ -113,7 +130,7 @@ the COIs characterizing it - to which MOEs may be properly linked.".Split('\r', 
         }
 
         private void Grid_MouseDown_1(object sender, MouseButtonEventArgs e) {
-            
+
         }
 
 
