@@ -25,5 +25,9 @@ namespace LASI.Algorithm
             get;
             set;
         }
+
+        public override System.Xml.Linq.XElement Serialize() {
+            throw new NotImplementedException();
+        }
     }
 }

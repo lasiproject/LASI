@@ -45,6 +45,10 @@ namespace LASI.Algorithm
             return base.Equals(obj);
         }
 
+
+        public override System.Xml.Linq.XElement Serialize() {
+            throw new NotImplementedException();
+        }
         public override int GetHashCode() {
             return base.GetHashCode();
         }
@@ -89,7 +93,7 @@ namespace LASI.Algorithm
             get;
             protected set;
         }
-    
+
 
 
         /// <summary>
@@ -146,5 +150,7 @@ namespace LASI.Algorithm
                 throw new NotImplementedException();
             }
         }
+
+
     }
 }

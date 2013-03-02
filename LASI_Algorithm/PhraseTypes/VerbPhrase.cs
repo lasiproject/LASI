@@ -23,6 +23,8 @@ namespace LASI.Algorithm
         }
 
         #endregion
+
+
         #region Methods
 
         /// <summary>
@@ -48,9 +50,10 @@ namespace LASI.Algorithm
             throw new NotImplementedException();
         }
 
-
+        public override System.Xml.Linq.XElement Serialize() {
+            throw new NotImplementedException();
+        }
         #endregion
-
 
 
         #region Properties
@@ -121,6 +124,8 @@ namespace LASI.Algorithm
         protected IList<IAdverbial> _modifiers = new List<IAdverbial>();
 
         #endregion
+
+
     }
 }
 

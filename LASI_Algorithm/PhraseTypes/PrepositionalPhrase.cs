@@ -28,5 +28,9 @@ namespace LASI.Algorithm
         public override void DetermineHeadWord() {
             throw new NotImplementedException();
         }
+
+        public override System.Xml.Linq.XElement Serialize() {
+            throw new NotImplementedException();
+        }
     }
 }

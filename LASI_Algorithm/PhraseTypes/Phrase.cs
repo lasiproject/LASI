@@ -50,6 +50,9 @@ namespace LASI.Algorithm
             return this == other;
         }
 
+
+        public abstract System.Xml.Linq.XElement Serialize();
+
         public abstract void DetermineHeadWord();
 
         #endregion

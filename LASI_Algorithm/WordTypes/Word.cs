@@ -51,6 +51,8 @@ namespace LASI.Algorithm
             return base.Equals(obj);
         }
 
+        public abstract System.Xml.Linq.XElement Serialize();
+
 
         public bool Equals(Word other) {
             return this == other;
@@ -59,6 +61,7 @@ namespace LASI.Algorithm
         public override int GetHashCode() {
             return base.GetHashCode();
         }
+
         #endregion
 
         #region Properties

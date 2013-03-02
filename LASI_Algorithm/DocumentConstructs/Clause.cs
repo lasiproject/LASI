@@ -7,6 +7,10 @@ namespace LASI.Algorithm
 {
     public class Clause : ILexical
     {
+        System.Xml.Linq.XElement ILexical.Serialize() {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         /// This class is currently experimental and is not a tier in the ParentDocument objects created by the tagged file parsers
         /// Initializes a new instnace of the Clause class, by composing the given linear sequence of phrases.

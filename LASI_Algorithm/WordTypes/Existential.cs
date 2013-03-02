@@ -10,5 +10,9 @@ namespace LASI.Algorithm
         public Existential(string text)
             : base(text) {
         }
+
+        public override System.Xml.Linq.XElement Serialize() {
+            throw new NotImplementedException();
+        }
     }
 }

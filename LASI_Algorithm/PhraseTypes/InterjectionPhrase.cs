@@ -18,6 +18,10 @@ namespace LASI.Algorithm
             throw new NotImplementedException();
         }
 
- 
+
+
+        public override System.Xml.Linq.XElement Serialize() {
+            throw new NotImplementedException();
+        }
     }
 }

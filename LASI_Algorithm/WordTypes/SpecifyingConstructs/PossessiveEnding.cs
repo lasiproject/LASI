@@ -31,5 +31,9 @@ namespace LASI.Algorithm
         public void AddPossession(IEntity possession) {
             throw new NotImplementedException();
         }
+
+        public override System.Xml.Linq.XElement Serialize() {
+            throw new NotImplementedException();
+        }
     }
 }
