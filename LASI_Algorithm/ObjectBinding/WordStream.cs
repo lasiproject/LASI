@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace LASI.Algorithm.Binding
+namespace LASI.Algorithm.ObjectBinding
 {
     internal class WordStream
     {
+
         private IEnumerable<Word> sourceSequence;
+
+        
         private int resultsFed;
 
 
@@ -15,6 +18,7 @@ namespace LASI.Algorithm.Binding
             sourceSequence = source;
 
         }
+
 
         protected dynamic NextEntity() {
             resultsFed++;
