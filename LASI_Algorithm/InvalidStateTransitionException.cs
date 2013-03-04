@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace LASI.Algorithm.ObjectBinding
+namespace LASI.Algorithm
 {
     class InvalidStateTransitionException : Exception
     {
