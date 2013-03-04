@@ -51,10 +51,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ObjectBinding\EntityReferenceBinder.cs" />
-    <Compile Include="InvalidStateTransitionException.cs" />
-    <Compile Include="ObjectBinding\ObjectBinding.cs" />
-    <Compile Include="ObjectBinding\WordStream.cs" />
+    <Compile Include="Binding\EntityReferenceBinder.cs" />
+    <Compile Include="Binding\InvalidStateTransitionException.cs" />
+    <Compile Include="Binding\ObjectBinding.cs" />
+    <Compile Include="Binding\WordStream.cs" />
+    <Compile Include="EntityKind.cs" />
     <Compile Include="EntityKindLookup.cs" />
     <Compile Include="Heuristics\IDocumentAnalyzer.cs" />
     <Compile Include="Heuristics\Metric.cs" />
@@ -62,7 +63,7 @@
     <Compile Include="SubjectBind.cs" />
     <Compile Include="Weighting\WeightKind.cs" />
     <Compile Include="Weighting\Weight.cs" />
-    <Compile Include="WordTypes\EntityKind.cs" />
+    <Compile Include="WordTypes\NounConstructs\EntityThemeMemberKind.cs" />
     <Compile Include="WordTypes\PronounConstructs\PossessivePronoun.cs" />
     <Compile Include="WordTypes\PronounConstructs\WhPossessivePronoun.cs" />
     <Compile Include="SyntacticInterfaces\ILexical.cs" />

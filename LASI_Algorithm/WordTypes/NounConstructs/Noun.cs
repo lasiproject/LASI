@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using LASI.Algorithm;
 
 namespace LASI.Algorithm
 {
@@ -153,9 +154,6 @@ namespace LASI.Algorithm
         }
 
 
-        /// <summary>
-        /// Gets or sets the Theme Member kind; subject or object, associated with the Noun.
-        /// </summary>
         public EntityThemeMemberKind ThemeMemberKind {
             get;
             set;

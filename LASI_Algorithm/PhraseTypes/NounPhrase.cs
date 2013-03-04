@@ -144,9 +144,7 @@ namespace LASI.Algorithm
             get;
             set;
         }
-        /// <summary>
-        /// Gets or sets the Entity Kind; Person, Place, Thing, Organization, or Activity, associated with the NounPhrase.
-        /// </summary>
+
         public EntityKind EntityKind {
             get;
             set;
@@ -180,12 +178,13 @@ namespace LASI.Algorithm
         }
 
 
-        /// <summary>
-        /// Gets or sets the Theme Member kind; subject or object, associated with the NounPhrase.
-        /// </summary>
         public EntityThemeMemberKind ThemeMemberKind {
-            get;
-            set;
+            get {
+                throw new NotImplementedException();
+            }
+            set {
+                throw new NotImplementedException();
+            }
         }
     }
 }

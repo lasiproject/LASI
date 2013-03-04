@@ -1,5 +1,4 @@
 ﻿using LASI.Algorithm;
-using LASI.FileSystem;
 using SharpNLPTaggingModule;
 using System;
 using System.Collections.Generic;
@@ -7,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LASI.Algorithm
+namespace LASI.FileSystem
 {
     /// <summary>
     /// Provides dynamic, non file driven, access to the functionality of the POS Tagger and TaggedFileParser.
