@@ -14,18 +14,31 @@ namespace LASI.Algorithm.Weighting
             : this() {
             RawWeight = rawWeight;
             Multiplier = multiplier;
+            ScaledWeight = multiplier * rawWeight;
         }
 
         #endregion
 
 
         #region Properties
-
+        /// <summary>
+        /// Gets the Raw Weight.
+        /// </summary>
         public double RawWeight {
             get;
             private set;
         }
+        /// <summary>
+        /// Gets the Multiplier.
+        /// </summary>
         public double Multiplier {
+            get;
+            private set;
+        }
+        /// <summary>
+        /// Gets the scaled weight computed as the product of the Multiplier and the RawWeight of the Weight.
+        /// </summary>
+        public double ScaledWeight {
             get;
             private set;
         }
