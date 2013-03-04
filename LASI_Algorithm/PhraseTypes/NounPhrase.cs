@@ -16,7 +16,6 @@ namespace LASI.Algorithm
         public NounPhrase(IEnumerable<Word> composedWords)
             : base(composedWords) {
             determineEntityType();
-            this.ThemeMemberKind = EntityThemeMemberKind.Subject;
         }
         #endregion
 

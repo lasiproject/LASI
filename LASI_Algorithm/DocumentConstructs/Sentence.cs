@@ -98,7 +98,6 @@ namespace LASI.Algorithm
         }
 
         public void EstablishParenthood(Paragraph paragraph) {
-            //  throw new NotImplementedException();
             ParentParagraph = paragraph;
             ParentDocument = paragraph.ParentDocument;
             foreach (var C in Clauses)
