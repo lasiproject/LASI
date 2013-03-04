@@ -28,7 +28,6 @@ namespace LASI.Algorithm
             Clauses = clauses;
             EndingPunctuation =
                 new SentenceDelimiter('.');
-            //EndingPunct = clauses.Last().Phrases.Last().Words.Last(w => w is SentenceDelimiter) as SentenceDelimiter;
         }
         /// <summary>
         /// Gets the ending punctuation character of the sentence.
@@ -97,6 +96,7 @@ namespace LASI.Algorithm
             }
         }
 
+
         public void EstablishParenthood(Paragraph paragraph) {
             ParentParagraph = paragraph;
             ParentDocument = paragraph.ParentDocument;
@@ -119,7 +119,10 @@ namespace LASI.Algorithm
             set;
         }
 
-
+        /// <summary>
+        /// Returns a string representation of the Sentence.
+        /// </summary>
+        /// <returns>A string representation of the Sentence.</returns>
         public override string ToString() {
             return base.ToString() + "\"" + Text + "\"";
         }

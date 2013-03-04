@@ -84,7 +84,7 @@ namespace LASI.Algorithm
 
 
         /// <summary>
-        ///Gets or sets the IAction instance the Noun is the direct object of.
+        ///Gets or sets the ITRansitiveAction instance, usually a Verb or VerbPhrase, which the Noun is the direct object of.
         /// </summary>
         public virtual ITransitiveAction DirectObjectOf {
             get;
@@ -123,6 +123,10 @@ namespace LASI.Algorithm
             get;
             set;
         }
+
+        /// <summary>
+        /// Gets or sets the Entity Kind; Person, Place, Thing, Organization, or Activity, associated with the Noun.
+        /// </summary>
         public EntityKind EntityKind {
             get;
             set;
@@ -150,12 +154,8 @@ namespace LASI.Algorithm
 
 
         public EntityThemeMemberKind ThemeMemberKind {
-            get {
-                throw new NotImplementedException();
-            }
-            set {
-                throw new NotImplementedException();
-            }
+            get;
+            set;
         }
     }
 }
