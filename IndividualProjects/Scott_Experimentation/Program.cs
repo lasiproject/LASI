@@ -50,6 +50,7 @@ namespace Scott_Experimentation
             }catch(ArgumentOutOfRangeException ex){
                 Console.WriteLine(ex.Message);
             }
+            //End
             
             /*
             for (var x = 0; x <= document.Words.Count(); x++)
