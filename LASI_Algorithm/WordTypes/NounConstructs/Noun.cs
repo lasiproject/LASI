@@ -147,5 +147,15 @@ namespace LASI.Algorithm
         public override XElement Serialize() {
             throw new NotImplementedException();
         }
+
+
+        public EntityThemeMemberKind ThemeMemberKind {
+            get {
+                throw new NotImplementedException();
+            }
+            set {
+                throw new NotImplementedException();
+            }
+        }
     }
 }

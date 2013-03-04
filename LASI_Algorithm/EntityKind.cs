@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LASI.Algorithm
 {
-    public enum EntityKind : byte
+    public enum EntityKind
     {
         Person,
         Location,

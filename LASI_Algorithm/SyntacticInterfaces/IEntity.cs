@@ -10,5 +10,10 @@ namespace LASI.Algorithm
         EntityKind EntityKind {
             get;
         }
+
+        EntityThemeMemberKind ThemeMemberKind {
+            get;
+            set;
+        }
     }
 }

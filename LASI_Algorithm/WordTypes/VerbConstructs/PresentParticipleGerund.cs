@@ -109,5 +109,15 @@ namespace LASI.Algorithm
 
 
 
+
+
+        public EntityThemeMemberKind ThemeMemberKind {
+            get {
+                throw new NotImplementedException();
+            }
+            set {
+                throw new NotImplementedException();
+            }
+        }
     }
 }

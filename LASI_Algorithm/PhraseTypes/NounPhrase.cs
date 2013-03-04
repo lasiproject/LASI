@@ -16,6 +16,7 @@ namespace LASI.Algorithm
         public NounPhrase(IEnumerable<Word> composedWords)
             : base(composedWords) {
             determineEntityType();
+            this.ThemeMemberKind = EntityThemeMemberKind.Subject;
         }
         #endregion
 
@@ -41,6 +42,7 @@ namespace LASI.Algorithm
             if (internalKinds.Count() > 0)
                 EntityKind = internalKinds.First().Key;
         }
+
 
         /// <summary>
         /// Binds a Pronoun or PronounPhrase as a reference to the NounPhrase Instance.
@@ -174,6 +176,16 @@ namespace LASI.Algorithm
 
         public override XElement Serialize() {
             throw new NotImplementedException();
+        }
+
+
+        public EntityThemeMemberKind ThemeMemberKind {
+            get {
+                throw new NotImplementedException();
+            }
+            set {
+                throw new NotImplementedException();
+            }
         }
     }
 }
