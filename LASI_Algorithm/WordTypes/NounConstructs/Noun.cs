@@ -153,6 +153,9 @@ namespace LASI.Algorithm
         }
 
 
+        /// <summary>
+        /// Gets or sets the Theme Member kind; subject or object, associated with the Noun.
+        /// </summary>
         public EntityThemeMemberKind ThemeMemberKind {
             get;
             set;
