@@ -50,15 +50,41 @@ namespace Scott_Experimentation
             }catch(ArgumentOutOfRangeException ex){
                 Console.WriteLine(ex.Message);
             }
-            //End
+
+            Console.WriteLine(sep);
             
-            /*
+            
             for (var x = 0; x <= document.Words.Count(); x++)
             {
-                Console.WriteLine("{0}: {1} => {2}",x, document.WordTextAt(x), document.WordAt(x).GetType());
+                try{
+                    Console.WriteLine("{0}: {1} => {2}", x, document.WordTextAt(x), document.WordAt(x).GetType());
+                }catch (ArgumentOutOfRangeException ex){
+                    Console.WriteLine("ERROR Loc: {0}, [{1}]", x, ex.Message);
+                }
             }
+
+           
             Console.WriteLine(sep);
 
+            string TestString = "This is a string of text to test.";
+            var DocTest = TaggerUtil.UntaggedToDoc(TestString);
+
+            NounPhrase np1 = null;
+            int NpCtrl = 0;
+            foreach (var v in DocTest.Phrases.GetNounPhrases())
+            {
+                if (NpCtrl == 1)
+                {
+                    np1 = v;
+                }
+                NpCtrl++;
+            }
+
+            Console.WriteLine(np1);
+
+            
+            
+            /*
             for (var x = 0; x < document.Sentences.Count(); x++)
             {
                 Console.WriteLine("{0}: {1}\n", x, document.SentenceTextAt(x));
@@ -72,7 +98,8 @@ namespace Scott_Experimentation
                 Console.WriteLine("No Match");
              */
 
-            
+            Console.WriteLine(sep);
+
             foreach(var wrd in document.Words)
             {
                 if(wrd is Adjective)
