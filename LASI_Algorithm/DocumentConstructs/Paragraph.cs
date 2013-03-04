@@ -22,10 +22,13 @@ namespace LASI.Algorithm
         public Paragraph(Document parentDoc, IEnumerable<Sentence> sentences) {
             Sentences = sentences;
             ParentDocument = parentDoc;
-            ID = IDNumProvider;
-            ++IDNumProvider;
+            ID = IDNumProvider++;
         }
 
+        /// <summary>
+        /// Establish the nested links between the paragraph, its parent document, and the sentencies comprising it.
+        /// </summary>
+        /// <param name="parentDoc">The document instance to identified as the paragraph's parent.</param>
         public void EstablishParent(Document parentDoc) {
             ParentDocument = parentDoc;
             foreach (var S in Sentences)
@@ -59,12 +62,19 @@ namespace LASI.Algorithm
             return base.ToString() + " " + Sentences.Count() + " sentences\n" + Text;
         }
 
-        private static int IDNumProvider = 0;
+        private static int IDNumProvider;
+
+        private static int GUIDProvider;
 
         /// <summary>
         /// Returns the paragraphs unique identification number.
         /// </summary>
         public int ID {
+            get;
+            private set;
+        }
+
+        public int GUI {
             get;
             private set;
         }

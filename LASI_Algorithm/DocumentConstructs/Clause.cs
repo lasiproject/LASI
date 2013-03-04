@@ -45,6 +45,11 @@ namespace LASI.Algorithm
                 return Phrases.Aggregate(" ", (txt, phrase) => txt + phrase.Text) + " CLAUSE Tag ";
             }
         }
+
+        /// <summary>
+        /// Establishes the nested links between the clause, its parent sentence and phrases which comprise it.
+        /// </summary>
+        /// <param name="sentence"></param>
         internal void EstablishParent(Sentence sentence) {
             ParentDocument = sentence.ParentDocument;
             ParentSentence = sentence;
