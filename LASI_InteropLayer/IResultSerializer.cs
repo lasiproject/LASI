@@ -4,13 +4,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.Serialization;
+using LASI.Algorithm;
 namespace LASI.GuiInterop
 {
-    class IResultSerializer
+    interface IWordSerializer
     {
-        IEnumerable<ISerializationSurrogate> WordSerializations {
-            get;
+        void Serialize();
+
+        Task<string> SerializeAsync();
+        IEnumerable<Word> WordData {
             set;
+        }
+        IEnumerable<string> WordSerializations {
+            get;
         }
 
     }

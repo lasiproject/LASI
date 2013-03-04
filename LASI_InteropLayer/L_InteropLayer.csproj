@@ -43,10 +43,11 @@
   <ItemGroup>
     <Compile Include="DefaultResultProvider.cs" />
     <Compile Include="IProcessInfoProvider.cs" />
-    <Compile Include="IResultProvider.cs" />
     <Compile Include="IResultSerializer.cs" />
+    <Compile Include="NounSerializer.cs" />
     <Compile Include="ProcessingState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WordSerializationException.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LASI_Algorithm\L_Algorithm.csproj">

@@ -9,7 +9,7 @@ using LASI.Algorithm;
 namespace LASI.GuiInterop
 {
 
-    public class DefaultResultProvider : IResultProvider
+    public class DefaultProgressProvider: IProgressUpdateProvider
     {
         private KeyedByTypeCollection<IEnumerable<ILexical>> lexicalItems = new KeyedByTypeCollection<IEnumerable<ILexical>>();
         public IEnumerable<ILexical> this[Type T] {
@@ -17,6 +17,10 @@ namespace LASI.GuiInterop
                 return lexicalItems[T];
             }
         }
+
+        public event EventHandler CompilationFinished;
+
+        public event EventHandler ProgressUpdated;
     }
 
 }

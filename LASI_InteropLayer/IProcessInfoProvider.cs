@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace LASI.GuiInterop
 {
-    interface IProcessInfoProvider
+    interface IProgressUpdateProvider
     {
         event EventHandler CompilationFinished;
         event EventHandler ProgressUpdated;
-
     }
 }
