@@ -1,15 +1,14 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Xml.Linq;
+
 namespace LASI.Algorithm
 {
     public class Clause : ILexical
     {
-        System.Xml.Linq.XElement ILexical.Serialize() {
-            throw new NotImplementedException();
-        }
+
 
         /// <summary>
         /// This class is currently experimental and is not a tier in the ParentDocument objects created by the tagged file parsers
@@ -86,6 +85,11 @@ namespace LASI.Algorithm
         public Sentence ParentSentence {
             get;
             set;
+        }
+
+
+        XElement ILexical.Serialize() {
+            throw new NotImplementedException();
         }
     }
 

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LASI.Algorithm.Weighting;
+using System.Xml.Linq;
 
 namespace LASI.Algorithm
 {
@@ -51,7 +52,7 @@ namespace LASI.Algorithm
             return base.Equals(obj);
         }
 
-        public abstract System.Xml.Linq.XElement Serialize();
+        public abstract XElement Serialize();
 
 
 

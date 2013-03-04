@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace LASI.Algorithm
 {
@@ -49,10 +50,7 @@ namespace LASI.Algorithm
 
 
 
-        public override System.Xml.Linq.XElement Serialize() {
-
-            if (this.Weights[WeightKind.Meta] != null) {
-            }
+        public override XElement Serialize() {
             throw new NotImplementedException();
         }
 
@@ -124,7 +122,7 @@ namespace LASI.Algorithm
 
 
 
-       
+
 
         #region Fields
         protected IList<IAdverbial> _modifiers = new List<IAdverbial>();

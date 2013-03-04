@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Xml.Linq;
 
 namespace LASI.Algorithm
 {
@@ -29,7 +30,7 @@ namespace LASI.Algorithm
             throw new NotImplementedException();
         }
 
-        public override System.Xml.Linq.XElement Serialize() {
+        public override XElement Serialize() {
             throw new NotImplementedException();
         }
     }

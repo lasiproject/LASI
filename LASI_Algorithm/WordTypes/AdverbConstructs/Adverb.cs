@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
+
 namespace LASI.Algorithm
 {
     /// <summary>
@@ -26,7 +28,7 @@ namespace LASI.Algorithm
             set;
         }
 
-        public override System.Xml.Linq.XElement Serialize() {
+        public override XElement Serialize() {
             throw new NotImplementedException();
         }
     }

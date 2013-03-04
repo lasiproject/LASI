@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LASI.Utilities;
+using System.Xml.Linq;
 
 namespace LASI.Algorithm
 {
@@ -54,7 +55,7 @@ namespace LASI.Algorithm
             throw new NotImplementedException();
         }
 
-        public override System.Xml.Linq.XElement Serialize() {
+        public override XElement Serialize() {
             throw new NotImplementedException();
         }
     }

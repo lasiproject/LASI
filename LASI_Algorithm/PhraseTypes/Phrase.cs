@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Xml.Linq;
 
 namespace LASI.Algorithm
 {
@@ -48,7 +49,7 @@ namespace LASI.Algorithm
         }
 
 
-        public abstract System.Xml.Linq.XElement Serialize();
+        public abstract XElement Serialize();
 
         public abstract void DetermineHeadWord();
 
