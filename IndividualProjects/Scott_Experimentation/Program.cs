@@ -74,27 +74,13 @@ namespace Scott_Experimentation
             //Console.WriteLine(np1);
             
             SubjectBinder sb1 = new SubjectBinder();
-            sb1.bind(document);
-            sb1.display();
-    
-            
-
-            
-            
-            /*
-            for (var x = 0; x < document.Sentences.Count(); x++)
+            foreach (Sentence s in document.Sentences)
             {
-                Console.WriteLine("{0}: {1}\n", x, document.SentenceTextAt(x));
+                sb1.bind(s);
             }
-            Console.WriteLine(sep);
+            //sb1.display();
 
-            Console.WriteLine("{0} => {1}", document.WordAt(11).Text, document.WordAt(11).GetType());
-            if (document.WordAt(11)is Adverb)
-                Console.WriteLine("Match");
-            else
-                Console.WriteLine("No Match");
-             */
-
+            
             Console.WriteLine(sep);
 
             foreach(var wrd in document.Words)
