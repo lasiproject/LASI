@@ -79,7 +79,7 @@ namespace LASI.UserInterface
 
             xbuttons.Children.Add(button);
             documentsAdded.Items.Add(docEntry);
-
+            lastDocPath.Text = string.Empty;
 
         }
 
@@ -120,5 +120,7 @@ namespace LASI.UserInterface
         }
 
         #endregion
+
+        
     }
 }

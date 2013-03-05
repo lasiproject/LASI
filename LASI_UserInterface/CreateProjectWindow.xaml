@@ -34,7 +34,7 @@
 
                 <Rectangle Fill="#FFE9E9E9" Height="273" Stroke="Black" Width="492"/>
                 <TextBlock Height="39" Canvas.Left="158" TextWrapping="Wrap" Text="Create New Project" Width="176" FontSize="20"/>
-                <TextBox x:Name="lastDocPath" Height="27" Canvas.Left="169" Canvas.Top="127" Width="174" MaxLines="1" HorizontalAlignment="Left"/>
+                <TextBox x:Name="lastDocPath" Height="27" Canvas.Left="169" Canvas.Top="127" Width="174" MaxLines="1" HorizontalAlignment="Left" />
                 <TextBlock Height="27" Canvas.Left="42" TextWrapping="Wrap" Text="Add Document:" Canvas.Top="127" Width="104" TextAlignment="Center" LineHeight="6" FontSize="14"/>
                 <TextBox x:Name="EnteredProjectName"  Height="27" Canvas.Left="169" TextWrapping="Wrap" Canvas.Top="54" Width="174" MaxLines="1"/>
                 <TextBlock Height="27" Canvas.Left="42" TextWrapping="Wrap" Text="Name:" Canvas.Top="54" Width="47" TextAlignment="Center" LineHeight="6" FontSize="14" RenderTransformOrigin="0.099,0.298"/>
