@@ -69,10 +69,15 @@ namespace Scott_Experimentation
             string TestString = "This is a string of text to test.";
             var DocTest = LASI.Utilities.TaggerUtil.UntaggedToDoc(TestString);
 
-            NounPhrase np1 = null;
-            np1 = DocTest.Phrases.GetNounPhrases().First();       
-          
-            Console.WriteLine(np1);
+            //NounPhrase np1 = null;
+            //np1 = DocTest.Phrases.GetNounPhrases().First();       
+            //Console.WriteLine(np1);
+            
+            SubjectBinder sb1 = new SubjectBinder();
+            sb1.bind(DocTest);
+            sb1.display();
+    
+            
 
             
             
