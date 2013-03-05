@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 namespace LASI.Algorithm
 {
+    /// <summary>
+    /// Represents a particle such as "about". Note that the distintion between particle and prepositions can sometimes be tricky and is heavily dependent on nuances of grammatical usage.
+    /// </summary>
     public class Particle : Word, IPrepositional
     {
         #region Constructors

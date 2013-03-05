@@ -6,6 +6,10 @@ using System.Xml.Linq;
 
 namespace LASI.Algorithm
 {
+    /// <summary>
+    /// Represents a noun phrase such as "The Pinko-Commy Conspiracy".
+    /// Note that noun phrases are the constructs which wrap both nouns and pronouns at the phrase level.
+    /// </summary>
     public class NounPhrase : Phrase, IEntity
     {
         #region Constructors

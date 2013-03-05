@@ -5,6 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 namespace LASI.Algorithm
 {
+    /// <summary>
+    /// Defines the role requirements for Entity type constructs, including Nouns, NounPhrases, and Gerunds. 
+    /// Along with the other interfaces in the Syntactic Interfaces Library, the IEntity interface provides for generalization and abstraction over many otherwise disparate element types and type heirarchies.
+    /// </summary>
     public interface IEntity : IActionObject, IActionSubject, IPronounBindable, IDescribable, IPossesser, IPossessable, IEquatable<IEntity>, ILexical
     {
         /// <summary>

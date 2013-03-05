@@ -8,6 +8,9 @@ using LASI.Algorithm;
 
 namespace LASI.Algorithm
 {
+    /// <summary>
+    /// Provides the base class, shared properties, and shared behaviors for all noun words.
+    /// </summary>
     public abstract class Noun : Word, IEntity
     {
         #region Constructors

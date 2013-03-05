@@ -6,6 +6,9 @@ using System.Xml.Linq;
 
 namespace LASI.Algorithm
 {
+    /// <summary>
+    /// Represents an interjection phrase such as "by jove".
+    /// </summary>
     public class InterjectionPhrase : Phrase
     {
 

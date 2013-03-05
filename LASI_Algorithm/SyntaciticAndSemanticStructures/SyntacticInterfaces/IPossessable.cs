@@ -6,7 +6,8 @@ using System.Text;
 namespace LASI.Algorithm
 {
     /// <summary>
-    /// Defines the behavioral contract for constructs, generally IEntity Implementors, which are "possessable" by other Entities.
+    /// Defines the role requirements for constructs; generally Nouns, Nounphrases or Pronouns; which are "possessable" by other Entities.
+    /// Along with the other interfaces in the Syntactic Interfaces Library, the IPossessable interface provides for generalization and abstraction over Word and Phrase types.
     /// </summary>
     public interface IPossessable
     {

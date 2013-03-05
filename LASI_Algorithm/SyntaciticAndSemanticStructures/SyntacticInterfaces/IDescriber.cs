@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 namespace LASI.Algorithm
 {
     /// <summary>
-    /// Defines the behavior of a Descriptive construct which can Describe an instance of any class which implements the IDescribable interface
+    /// Defines the role requirements for Descriptive constructs which can Describe an instance of any class which implements the IDescribable interface.
+    /// Along with the other interfaces in the Syntactic Interfaces Library, the IDescriber interface provides for generalization and abstraction over Word and Phrase types.
     /// </summary>
     /// <see cref="IDescribable"/>
     public interface IDescriber : ILexical

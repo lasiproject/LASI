@@ -6,7 +6,7 @@ using System.Text;
 namespace LASI.Algorithm
 {
     /// <summary>
-    /// Represents a generic, non-proper, singular noun w.
+    /// Represents a generic, non-proper, singular noun.
     /// </summary>
     public class GenericSingularNoun : GenericNoun
     {

@@ -4,6 +4,11 @@ using System.Xml.Linq;
 
 namespace LASI.Algorithm
 {
+    /// <summary>
+    /// Represents a prepositional phrase, an object which has Prepositional properties at the phrase level.
+    /// <see cref="IPrepositional"/>
+    /// <seealso cref="Preposition"/>
+    /// </summary>
     public class PrepositionalPhrase : Phrase, IPrepositional
     {
         /// <summary>

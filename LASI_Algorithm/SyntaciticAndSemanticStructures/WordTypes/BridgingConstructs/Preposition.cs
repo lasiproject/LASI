@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 namespace LASI.Algorithm
 {
+    /// <summary>
+    /// Represents a preposition such as "into", "through", or "for".
+    /// </summary>
     public class Preposition : Word, IPrepositional
     {
         #region Constructors

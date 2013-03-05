@@ -125,7 +125,7 @@
     <Compile Include="SyntaciticAndSemanticStructures\SyntacticInterfaces\IQuantifiable.cs" />
     <Compile Include="SyntaciticAndSemanticStructures\SyntacticInterfaces\IActionSubject.cs" />
     <Compile Include="SyntaciticAndSemanticStructures\SyntacticInterfaces\ISubjectTaker.cs" />
-    <Compile Include="SyntaciticAndSemanticStructures\SyntacticInterfaces\IObjectTaker.cs" />
+    <Compile Include="SyntaciticAndSemanticStructures\SyntacticInterfaces\IDirectObjectTaker.cs" />
     <Compile Include="SyntaciticAndSemanticStructures\SyntacticInterfaces\IPrepositional.cs" />
     <Compile Include="SyntaciticAndSemanticStructures\WordTypes\NounConstructs\GenericSingularNoun.cs" />
     <Compile Include="SyntaciticAndSemanticStructures\WordTypes\VerbConstructs\Modal.cs" />
