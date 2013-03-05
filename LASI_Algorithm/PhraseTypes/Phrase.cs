@@ -36,6 +36,11 @@ namespace LASI.Algorithm
         public override string ToString() {
             return GetType().Name + " \"" + Text + "\"";
         }
+        public virtual string ToString(bool verbose) {
+            return ToString();
+
+
+        }
 
         public void EstablishParent(Clause clause) {
             ParentDocument = clause.ParentDocument;
