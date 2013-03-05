@@ -18,7 +18,7 @@ namespace LASI.Algorithm.Thesauri
         /// <summary>
         /// gets or sets the path of the WordNet database file which this thesaurus is built on
         /// </summary>
-        protected virtual string FilePath {
+        protected string FilePath {
             get;
             set;
         }

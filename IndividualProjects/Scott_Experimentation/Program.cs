@@ -67,7 +67,7 @@ namespace Scott_Experimentation
             Console.WriteLine(sep);
 
             string TestString = "This is a string of text to test.";
-            var DocTest = TaggerUtil.UntaggedToDoc(TestString);
+            var DocTest = LASI.Utilities.TaggerUtil.UntaggedToDoc(TestString);
 
             NounPhrase np1 = null;
             int NpCtrl = 0;

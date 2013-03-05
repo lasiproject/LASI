@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LASI.Algorithm;
+
 namespace LASI.FileSystem.TaggerEncapsulation
 {
     public sealed class SharpNLPPhraseTagsetMap : PhraseTagsetMap

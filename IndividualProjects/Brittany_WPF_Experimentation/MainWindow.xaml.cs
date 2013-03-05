@@ -32,7 +32,7 @@ namespace Brittany_WPF_Experimentation
         }
 
         private void Taggit_Button_Click_1(object sender, RoutedEventArgs e) {
-            var tagged = LASI.FileSystem.TaggerUtil.TagString(input.Text);
+            var tagged = TaggerUtil.TagString(input.Text);
             output.Text = tagged;
         }
     }

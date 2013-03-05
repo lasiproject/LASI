@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace LASI.Algorithm
 {
     /// <summary>
-    /// A line structure containing all of he paragraph, sentence, phrase, and word objects in a document.
+    /// A line structure containing all of he paragraph, sentence, phrase, and w objects in a document.
     /// Provides overalapping direct and indirect access to all of its children, 
     /// E.g. such as myDoc.Paragraphs.Sentences.Phrases.Words will get all the words in the document in linear order
     /// comparatively: myDoc.Words; yields the same collection.
@@ -16,26 +16,6 @@ namespace LASI.Algorithm
     public class Document
     {
         #region Constructors
-        /// <summary>
-        /// Initializes a new instance of the ParentDocument class.
-        /// </summary>
-        /// <param name="allWords">The collection of sentences which contain all text in the document.</param>
-        //protected Document(IEnumerable<Sentence> allSentences) {
-        //    _sentences = allSentences;
-        //    _phrases = from S in Sentences
-        //               from R in S.Phrases
-        //               select R;
-        //    _words = (from S in _sentences
-        //              from W in S.Words
-        //              select W).ToList();
-        //    EstablishLexicalLinks();
-        //    foreach (var w in Words)
-        //        w.ParentDocument = this;
-        //    foreach (var p in _paragraphs) {
-        //        p.EstablishParent(this);
-        //    }
-        //}
-
 
         /// <summary>
         /// Initializes a new instance of the Document class.
@@ -88,7 +68,7 @@ namespace LASI.Algorithm
 
         }
 
-        /// Returns the word instance at x location in the document 
+        /// Returns the w instance at x location in the document 
         public Word WordAt(int loc) {
             if (loc < this._words.Count)
                 return this.Words.ElementAt(loc);
@@ -96,7 +76,7 @@ namespace LASI.Algorithm
                 throw new ArgumentOutOfRangeException("Document.WordAt");
         }
 
-        /// Returns the text  of word instance at x location in the document
+        /// Returns the text  of w instance at x location in the document
         public string WordTextAt(int loc) {
             if (loc < this._words.Count)
                 return this.Words.ElementAt(loc).Text;
@@ -144,7 +124,10 @@ namespace LASI.Algorithm
             Console.WriteLine();
         }
 
-
+        /// <summary>
+        /// Returns all of the Action identified within the docimument.
+        /// </summary>
+        /// <returns>all of the Action identified within the docimument.</returns>
         public IEnumerable<ITransitiveAction> GetActions() {
             var wordResults = from ITransitiveAction V in Words.GetVerbs()
                               select V;
@@ -155,6 +138,10 @@ namespace LASI.Algorithm
                    select A;
         }
 
+        /// <summary>
+        /// Returns all of the word and phrase level entities identified in the document.
+        /// </summary>
+        /// <returns> All of the word and phrase level entities identified in the document.</returns>
         public IEnumerable<IEntity> GetEntities() {
             return from E in Words.OfType<IEntity>().Concat<IEntity>(Phrases.OfType<IEntity>())
                    orderby E is Word ? (E as Word).ID : (E as Phrase).Words.Last().ID ascending
@@ -208,6 +195,7 @@ namespace LASI.Algorithm
         #endregion
 
         #region Fields
+
         private IList<Word> _words;
         private IEnumerable<Phrase> _phrases;
         private IEnumerable<Sentence> _sentences;

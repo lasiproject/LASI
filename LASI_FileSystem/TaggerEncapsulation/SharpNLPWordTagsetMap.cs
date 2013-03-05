@@ -32,7 +32,7 @@ namespace LASI.FileSystem
             { "CD", t => new Quantifier(t) }, //Cardinal number
             { "DT", t => new Determiner(t) }, //Determiner
             { "EX", t => new Existential(t) }, //Existential 'there'
-            { "FW", t => new ForeignWord(t) }, //Foreign word
+            { "FW", t => new ForeignWord(t) }, //Foreign w
             { "IN", t => new Preposition(t) }, //Preposition or subordinating conjunction
             //Adjective mappings
             { "JJ", t => new Adjective(t) }, //Adjective
@@ -64,7 +64,7 @@ namespace LASI.FileSystem
             { "VBN", t => new Verb(t,VerbTense.PastParticiple) }, //Verb, past participle
             { "VBP", t => new Verb(t,VerbTense.SingularPresent) }, //Verb, non-3rd person singular present
             { "VBZ", t => new Verb(t,VerbTense.ThirdPersonSingularPresent) }, //Verb, 3rd person singular present
-            //WH-word mappings
+            //WH-w mappings
             { "WDT", t => new Determiner(t) }, //Wh-determiner
             { "WP", t => new WhPronoun(t) }, //Wh-pronoun
             { "WP$", t => new WhPossessivePronoun(t) }, //Possessive wh-pronoun

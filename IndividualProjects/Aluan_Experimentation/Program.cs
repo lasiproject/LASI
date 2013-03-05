@@ -19,10 +19,10 @@ namespace Aluan_Experimentation
         static void Main(string[] args) {
 
 
-            TaggerUtil.TaggerOption = TaggingOption.TagAndAggregate;
-            var str = LASI.FileSystem.TaggerUtil.TagString("The wind hit a pale green mitten and a fluffy dog to me.");
+            LASI.Utilities.TaggerUtil.TaggerOption = TaggingOption.TagAndAggregate;
+            var str = TaggerUtil.TagString("The wind hit a pale green mitten and a fluffy dog to me.");
             Console.WriteLine(str);
-            var doc = LASI.FileSystem.TaggerUtil.TaggedToDoc(str);
+            var doc = TaggerUtil.TaggedToDoc(str);
 
             PhraseWiseObjectBinder binder = new PhraseWiseObjectBinder(doc.Phrases.ToList()[1] as VerbPhrase, doc.Phrases.Skip(2));
             foreach (var phrase in doc.Phrases)

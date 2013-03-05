@@ -5,6 +5,7 @@ using System.Text;
 
 namespace LASI.InteropLayer
 {
+    [Serializable]
     class WordSerializationException : Exception
     {
         public WordSerializationException(string message)

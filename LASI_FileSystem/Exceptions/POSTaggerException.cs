@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace LASI.FileSystem
 {
     /// <summary>
-    /// Thrown when attempting to parse an unknown word Tag
+    /// Thrown when attempting to parse an unknown w Tag
     /// </summary>
     [Serializable]
     class UnknownPOSException : POSTagException
@@ -41,7 +41,7 @@ namespace LASI.FileSystem
 
     }
     /// <summary>
-    /// Thrown when attempting to parse an untagged word
+    /// Thrown when attempting to parse an untagged w
     /// </summary>
     [Serializable]
     class UntaggedElementException : POSTagException
@@ -145,6 +145,7 @@ namespace LASI.FileSystem
 
 
     }
+    [Serializable]
     class UnmappedPhraseConstructorException : POSTagException
     {
         public UnmappedPhraseConstructorException(string message)

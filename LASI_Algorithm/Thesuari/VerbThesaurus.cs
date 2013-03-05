@@ -126,17 +126,5 @@ namespace LASI.Algorithm.Thesauri
     }
 }
 
-/*
- * return (from M in AssociationData[search].Members
-                where M != search
-                select M).Concat(
-                       from RI in AssociationData[search].ReferencedIndexes
-                       from FM in AssociationData[RI].Members
-                       select FM).Distinct().ToArray();
-         
-         
- */
-
-
 
 

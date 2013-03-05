@@ -72,7 +72,6 @@
     <Compile Include="FileManager.cs" />
     <Compile Include="FileTypes\InputFileConverter.cs" />
     <Compile Include="FileTypes\Support\TaggedToXMLConverter.cs" />
-    <Compile Include="FileTypes\Support\TaggerUtilites.cs" />
     <Compile Include="TaggerEncapsulation\ExperimentalTaggedParser.cs" />
     <Compile Include="TaggerEncapsulation\TagParser.cs" />
     <Compile Include="TaggerEncapsulation\PhraseExtractor.cs" />
@@ -114,10 +113,6 @@
     <ProjectReference Include="..\LASI_Algorithm\L_Algorithm.csproj">
       <Project>{8c562a93-a885-4fe9-8b8c-5ce34ccbaec1}</Project>
       <Name>L_Algorithm</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\LASI_Utilities\L_Utilities.csproj">
-      <Project>{bc10a8f0-77ff-46d0-9f9a-38e2fda22d21}</Project>
-      <Name>L_Utilities</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -65,7 +65,7 @@ namespace SharpNLPTaggingModule
             }
         }
 
-        public virtual string LoadSourceText() {
+        protected string LoadSourceText() {
             using (
                 var reader = new StreamReader(
                 new FileStream(
@@ -87,7 +87,7 @@ namespace SharpNLPTaggingModule
             return result;
         }
 
-        public virtual void WriteToFile(params string[] txtOut) {
+        protected void WriteToFile(params string[] txtOut) {
             using (var writer = new StreamWriter(new FileStream(OutputFilePath, FileMode.Create), Encoding.UTF8, 200)) {
                 foreach (var line in txtOut) {
                     writer.Write(line);
@@ -95,7 +95,7 @@ namespace SharpNLPTaggingModule
             }
         }
 
-        protected virtual string Tokenize() {
+        protected string Tokenize() {
             StringBuilder output = new StringBuilder();
 
             string[] sentences = SplitSentences(SourceText);
@@ -110,7 +110,7 @@ namespace SharpNLPTaggingModule
 
         }
 
-        private string POSTag() {
+        protected string POSTag() {
             StringBuilder output = new StringBuilder();
 
             string[] sentences = SplitSentences(SourceText);
@@ -123,15 +123,13 @@ namespace SharpNLPTaggingModule
                     output.Append(tokens[currentTag]).Append("/").Append(tags[currentTag]).Append(" ");
                 }
 
-                //output.Append("\r\n\r\n");
             }
 
             var result = output.ToString();
-            //WriteToFile(result);
             return result;
         }
 
-        private string Chunk() {
+        protected string Chunk() {
             StringBuilder output = new StringBuilder();
 
             string[] sentences = SplitSentences(SourceText);
@@ -147,7 +145,7 @@ namespace SharpNLPTaggingModule
             return result;
         }
 
-        private string Parse() {
+        protected string Parse() {
             StringBuilder output = new StringBuilder();
 
             string[] sentences = SplitSentences(SourceText);
@@ -160,7 +158,7 @@ namespace SharpNLPTaggingModule
             return result;
         }
 
-        private string NameFind() {
+        protected string NameFind() {
             StringBuilder output = new StringBuilder();
 
             string[] sentences = SplitSentences(SourceText);
@@ -175,7 +173,7 @@ namespace SharpNLPTaggingModule
 
         #region NLP methods
 
-        private string[] SplitSentences(string paragraph) {
+        protected string[] SplitSentences(string paragraph) {
             if (mSentenceDetector == null) {
                 mSentenceDetector = new OpenNLP.Tools.SentenceDetect.EnglishMaximumEntropySentenceDetector(mModelPath + "EnglishSD.nbin");
             }
@@ -183,7 +181,7 @@ namespace SharpNLPTaggingModule
             return mSentenceDetector.SentenceDetect(paragraph);
         }
 
-        private string[] TokenizeSentence(string sentence) {
+        protected string[] TokenizeSentence(string sentence) {
             if (mTokenizer == null) {
                 mTokenizer = new OpenNLP.Tools.Tokenize.EnglishMaximumEntropyTokenizer(mModelPath + "EnglishTok.nbin");
             }
@@ -191,7 +189,7 @@ namespace SharpNLPTaggingModule
             return mTokenizer.Tokenize(sentence);
         }
 
-        protected virtual string[] PosTagTokens(string[] tokens) {
+        protected string[] PosTagTokens(string[] tokens) {
             if (mPosTagger == null) {
                 mPosTagger = new OpenNLP.Tools.PosTagger.EnglishMaximumEntropyPosTagger(mModelPath + "EnglishPOS.nbin", mModelPath + @"\Parser\tagdict");
             }
@@ -199,7 +197,7 @@ namespace SharpNLPTaggingModule
             return mPosTagger.Tag(tokens);
         }
 
-        protected virtual string ChunkSentence(string[] tokens, string[] tags) {
+        protected string ChunkSentence(string[] tokens, string[] tags) {
             if (mChunker == null) {
                 mChunker = new OpenNLP.Tools.Chunker.EnglishTreebankChunker(mModelPath + "EnglishChunk.nbin");
             }
@@ -207,7 +205,7 @@ namespace SharpNLPTaggingModule
             return mChunker.GetChunks(tokens, tags);
         }
 
-        protected virtual OpenNLP.Tools.Parser.Parse ParseSentence(string sentence) {
+        protected OpenNLP.Tools.Parser.Parse ParseSentence(string sentence) {
             if (mParser == null) {
                 mParser = new OpenNLP.Tools.Parser.EnglishTreebankParser(mModelPath, true, false);
             }
@@ -215,7 +213,7 @@ namespace SharpNLPTaggingModule
             return mParser.DoParse(sentence);
         }
 
-        private string FindNames(string sentence) {
+        protected string FindNames(string sentence) {
             if (mNameFinder == null) {
                 mNameFinder = new OpenNLP.Tools.NameFind.EnglishNameFinder(mModelPath + "namefind\\");
             }
@@ -233,7 +231,7 @@ namespace SharpNLPTaggingModule
             return mNameFinder.GetNames(models, sentenceParse);
         }
 
-        private string IdentifyCoreferents(string[] sentences) {
+        protected string IdentifyCoreferents(string[] sentences) {
             if (mCoreferenceFinder == null) {
                 mCoreferenceFinder = new OpenNLP.Tools.Lang.English.TreebankLinker(mModelPath + "coref");
             }
@@ -245,14 +243,12 @@ namespace SharpNLPTaggingModule
                 string findNames = FindNames(sentenceParse);
                 parsedSentences.Add(sentenceParse);
             }
-            //return (from S in parsedSentences
-            //        select S.Text).Aggregate(" ", (str, accum) => accum += str);
             return mCoreferenceFinder.GetCoreferenceParse(parsedSentences.ToArray());
         }
 
         #endregion
 
-        protected virtual string Gender() {
+        protected string Gender() {
             StringBuilder output = new StringBuilder();
 
             string[] sentences = SplitSentences(SourceText);
@@ -277,7 +273,7 @@ namespace SharpNLPTaggingModule
             return result;
         }
 
-        protected virtual string Similarity() {
+        protected string Similarity() {
             StringBuilder output = new StringBuilder();
 
             string[] sentences = SplitSentences(SourceText);
