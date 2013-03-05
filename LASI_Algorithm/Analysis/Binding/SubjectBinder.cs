@@ -11,15 +11,12 @@ namespace LASI.Algorithm
         List<State> stateList = new List<State>();
 
         public void bind(Sentence s) {
-            State s1 = new State();
+            //State s1 = new State();
             VerbPhrase v1 = null;
-            s1.S = StateType.Initial;
+            //s1.S = StateType.Initial;
             
 
-            s1.S = StateType.Initial;
-            
-
-            stateList.Add(s1);
+            //stateList.Add(s1);
 
             //stateList.Add(s1);
 
