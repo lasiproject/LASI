@@ -51,6 +51,21 @@ namespace LASI.Algorithm
             throw new NotImplementedException();
         }
 
+
+        public override string ToString(bool verbose) {
+            if (verbose) {
+                var result = base.ToString() + "\n";
+                result += DirectObject != null ? "Direct Object: " + DirectObject.ToString() + "\n" : "";
+                result += IndirectObject != null ? "Indirect Object: " + IndirectObject.ToString() + "\n" : "";
+                result += BoundSubject != null ? "Subject: " + BoundSubject.ToString() + "\n" : "";
+                foreach (var mod in _modifiers) {
+                    result += "\n" + mod.ToString();
+                }
+                return result;
+            }
+            else
+                return ToString();
+        }
         public override XElement Serialize() {
             throw new NotImplementedException();
         }
@@ -115,7 +130,7 @@ namespace LASI.Algorithm
             get;
             protected set;
         }
-        
+
 
 
         #endregion
