@@ -26,6 +26,7 @@ namespace LASI.UserInterface
             InitializeComponent();
             LastLoadedProjectName = "";
             CreateButtons();
+            this.Closing += (s, e) => Application.Current.Shutdown();
         }
 
         void CreateButtons() {
@@ -36,12 +37,14 @@ namespace LASI.UserInterface
                 };
 
                 button.Click += (sender, e) => {
-                    MessageBox.Show(string.Format("num: {0}: even?: {1}", num, (num % 2 == 0)));
+                    //MessageBox.Show(string.Format("num: {0}: even?: {1}", num, (num % 2 == 0)));
+                    button.MouseDoubleClick += (s, args) => dynamicContent.Children.Remove(button);
+              
                 };
 
                 dynamicContent.Children.Add(button);
-            }
-
+                
+ }
 
         }
 
@@ -55,12 +58,26 @@ namespace LASI.UserInterface
             var docPath = openDialog.FileName;
             lastDocPath.Text = docPath;
 
+            var num = "x";
+            var button = new Button
+            {
+                Content = num.ToString()
+            };
+
             var docEntry = new ListViewItem {
                 Content = docPath
             };
-            docEntry.MouseDoubleClick += (s, args) => documentsAdded.Items.Remove(docEntry);
 
+            button.Click += (s, args) =>
+            {
+                //MessageBox.Show(string.Format("num: {0}: even?: {1}", num, (num % 2 == 0)));
+                documentsAdded.Items.Remove(docEntry);
+                xbuttons.Children.Remove(button);
 
+            };
+          //  docEntry.MouseDoubleClick += (s, args) => documentsAdded.Items.Remove(docEntry);
+
+            xbuttons.Children.Add(button);
             documentsAdded.Items.Add(docEntry);
 
 
