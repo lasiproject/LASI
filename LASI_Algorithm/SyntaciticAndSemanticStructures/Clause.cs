@@ -73,7 +73,7 @@ namespace LASI.Algorithm
 
 
         /// <summary>
-        /// Gets a string containing the text of the Clause's  constituents.
+        /// Gets a string containing the text of the Clause'd  constituents.
         /// </summary>
         string ILexical.Text {
             get {

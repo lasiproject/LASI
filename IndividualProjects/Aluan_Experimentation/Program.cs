@@ -20,7 +20,7 @@ namespace Aluan_Experimentation
 
 
             LASI.Utilities.TaggerUtil.TaggerOption = TaggingOption.TagAndAggregate;
-            var str = TaggerUtil.TagString("The wind hit a pale green mitten and a fluffy dog to me.");
+            var str = TaggerUtil.TagString("The wind blew a pale green mitten and a fluffy dog at me.");
             Console.WriteLine(str);
             var doc = TaggerUtil.TaggedToDoc(str);
 
@@ -32,54 +32,55 @@ namespace Aluan_Experimentation
 
         }
 
-        //private static void ParseAndCreate() {
+        private static void ParseAndCreate() {
 
-        //    TaggerUtil.TaggerOption = TaggingOption.NameFind;
-        //    var str = TaggerUtil.TagString(new[]{
-        //        @"Add one plus one."
-        //    });
+            TaggerUtil.TaggerOption = TaggingOption.NameFind;
+            var str = TaggerUtil.TagString(new[]{
+                @"Add one plus one."
+            });
 
-        //    print(str);
-        //    TaggerUtil.TaggerOption = TaggingOption.TagAndAggregate;
-        //    str = TaggerUtil.TagString(str);
+            print(str);
+            TaggerUtil.TaggerOption = TaggingOption.TagAndAggregate;
+            str = TaggerUtil.TagString(str);
 
-        //    print(str);
+            print(str);
 
-        //    var document = TaggerUtil.TaggedToDoc(str);
-        //    foreach (var S in CountByTypeAndText(document).Result) {
-        //        print(S);
-        //    }
+            var document = TaggerUtil.TaggedToDoc(str);
+            foreach (var S in CountByTypeAndText(document).Result) {
+                print(S);
+            }
 
-        //    var actions = document.GetActions();
-        //    actions.WithSubject(e => e.Text == null);
-        //    foreach (var A in actions) {
-        //        print(A);
-        //    }
-        //    StdIO.WaitForKey(ConsoleKey.Escape);
-        //}
-
-
-
-        //private static async Task<Document> MakeDocumentFromTaggedFile(string filePath) {
-
-        //    return await Task.Run(async () => await new TaggedFileParser(new TaggedFile(filePath)).LoadDocumentAsync());
+            var actions = document.GetActions();
+            actions.WithSubject(e => e.Text == null);
+            foreach (var A in actions) {
+                print(A);
+            }
+            StdIO.WaitForKey(ConsoleKey.Escape);
+        }
 
 
-        //}
 
-        //private static async Task<IEnumerable<string>> CountByTypeAndText(Document document) {
-        //    return await Task.Run(() => {
-        //        var phrasePOSCounts = from R in document.Phrases
-        //                              group R by new {
-        //                                  Type = R.GetType(),
-        //                                  R.Text
-        //                              } into G
-        //                              orderby G.Count()
-        //                              select G;
-        //        return from g in phrasePOSCounts
-        //               select String.Format("{0} : \"{1}\"; with count: {2}:", g.Key.Type.Name, g.Key.Text, g.Count());
-        //    });
-        //}
+        private static async Task<Document> MakeDocumentFromTaggedFile(string filePath) {
+
+            return await Task.Run(async () => await new TaggedFileParser(new TaggedFile(filePath)).LoadDocumentAsync());
+
+
+        }
+
+        private static async Task<IEnumerable<string>> CountByTypeAndText(Document document) {
+            return await Task.Run(() => {
+                var phrasePOSCounts = from R in document.Phrases
+                                      group R by new
+                                      {
+                                          Type = R.GetType(),
+                                          R.Text
+                                      } into G
+                                      orderby G.Count()
+                                      select G;
+                return from g in phrasePOSCounts
+                       select String.Format("{0} : \"{1}\"; with count: {2}:", g.Key.Type.Name, g.Key.Text, g.Count());
+            });
+        }
 
         static void ThesaurusCMDLineTest() {
             var verbLookUp = new LASI.Algorithm.Thesauri.VerbThesaurus(@"..\..\..\..\WordNetThesaurusData\data.verb");

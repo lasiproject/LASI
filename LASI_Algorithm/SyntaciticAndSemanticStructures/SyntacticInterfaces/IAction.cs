@@ -4,9 +4,10 @@
     {
         void AttachObjectViaPreposition(IPrepositional prep);
 
-        IEntity BoundSubject {
+        void BindSubject(IEntity subject);
+
+        System.Collections.Generic.IEnumerable<IEntity> BoundSubjects {
             get;
-            set;
         }
 
         ILexical ObjectViaPreposition {

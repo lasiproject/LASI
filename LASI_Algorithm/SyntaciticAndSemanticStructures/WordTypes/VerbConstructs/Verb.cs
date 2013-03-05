@@ -44,16 +44,50 @@ namespace LASI.Algorithm
         public virtual void AttachObjectViaPreposition(IPrepositional prep) {
             ObjectViaPreposition = this as object == prep.OnLeftSide as object && prep.OnRightSide != null ? prep.OnRightSide : null;
         }
+
+        /// <summary>
+        /// Binds the given Entity as a subject of the Verb instance.
+        /// </summary>
+        /// <param name="subject">The Entity to attach to the Verb as a subject.</param>
+        public virtual void BindSubject(IEntity subject) {
+            if (!_boundSubjects.Contains(subject)) {
+                _boundSubjects.Add(subject);
+                subject.SubjectOf = this;
+            }
+        }
+
+        /// <summary>
+        /// Binds the given Entity as a direct object of the Verb instance.
+        /// </summary>
+        /// <param name="subject">The Entity to attach to the Verb as a direct object.</param>
+        public virtual void BindDirectObject(IEntity directObject) {
+            if (!_boundDirectObjects.Contains(directObject)) {
+                _boundDirectObjects.Add(directObject);
+                directObject.DirectObjectOf = this;
+            }
+        }
+        /// <summary>
+        /// Binds the given Entity as an indirect object of the Verb instance.
+        /// </summary>
+        /// <param name="subject">The Entity to attach to the Verb as an indirect object.</param>
+        public virtual void BindIndirectObject(IEntity indirectObject) {
+            if (!_boundIndirectObjects.Contains(indirectObject)) {
+                _boundIndirectObjects.Add(indirectObject);
+                indirectObject.IndirectObjectOf = this;
+            }
+        }
+
+
         public override bool Equals(object obj) {
             return base.Equals(obj);
         }
 
 
 
-
         public override XElement Serialize() {
             throw new NotImplementedException();
         }
+
 
 
 
@@ -74,12 +108,14 @@ namespace LASI.Algorithm
         #region Properties
 
         /// <summary>
-        /// Gets the subject of the Verb
+        /// Gets the subjects of the Verb.
         /// </summary>
-        public virtual IEntity BoundSubject {
-            get;
-            set;
+        public IEnumerable<IEntity> BoundSubjects {
+            get {
+                throw new NotImplementedException();
+            }
         }
+
 
         /// <summary>
         /// Gets or sets the List of IAdverbial modifiers which modify this Verb.
@@ -104,7 +140,7 @@ namespace LASI.Algorithm
             protected set;
         }
         /// <summary>
-        /// Gets the VerbPhrases's object, If the VerbPhrase has an object bound via a Prepositional construct.
+        /// Gets the VerbPhrases'd object, If the VerbPhrase has an object bound via a Prepositional construct.
         /// </summary>
         public virtual ILexical ObjectViaPreposition {
             get;
@@ -114,20 +150,22 @@ namespace LASI.Algorithm
 
 
         /// <summary>
-        /// Gets or sets the indirect object of the TransitiveVerb.
+        /// Gets the indirect objects of the Verb.
         /// </summary>
-        public virtual IEntity IndirectObject {
-            get;
-            set;
+        public virtual IEnumerable<IEntity> IndirectObjects {
+            get {
+                return _boundIndirectObjects;
+            }
+
         }
         /// <summary>
-        /// Gets or sets the direct object of the Verb.
+        /// Gets the direct objects of the Verb.
         /// </summary>
-        public IEntity DirectObject {
-            get;
-            set;
+        public virtual IEnumerable<IEntity> DirectObjects {
+            get {
+                return _boundDirectObjects;
+            }
         }
-
 
 
 
@@ -144,8 +182,14 @@ namespace LASI.Algorithm
 
 
         #region Fields
-        protected IList<IAdverbial> _modifiers = new List<IAdverbial>();
+        private IList<IAdverbial> _modifiers = new List<IAdverbial>();
+        private ICollection<IEntity> _boundSubjects = new List<IEntity>();
+        private ICollection<IEntity> _boundDirectObjects = new List<IEntity>();
+        private ICollection<IEntity> _boundIndirectObjects = new List<IEntity>();
         #endregion
+
+
+
 
 
 

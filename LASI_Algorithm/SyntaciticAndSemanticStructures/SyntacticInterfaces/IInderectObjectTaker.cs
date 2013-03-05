@@ -3,9 +3,9 @@ namespace LASI.Algorithm
 {
     public interface IInderectObjectTaker
     {
-        IEntity IndirectObject {
+        void BindIndirectObject(IEntity indirectObject);
+        System.Collections.Generic.IEnumerable<IEntity> IndirectObjects {
             get;
-            set;
         }
     }
 }

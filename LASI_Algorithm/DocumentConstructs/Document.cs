@@ -10,7 +10,7 @@ namespace LASI.Algorithm
     /// <summary>
     /// A line structure containing all of he paragraph, sentence, phrase, and w objects in a document.
     /// Provides overalapping direct and indirect access to all of its children, 
-    /// E.g. such as myDoc.Paragraphs.Sentences.Phrases.Words will get all the words in the document in linear order
+    /// e.g. such as myDoc.Paragraphs.Sentences.Phrases.Words will get all the words in the document in linear order
     /// comparatively: myDoc.Words; yields the same collection.
     /// </summary>
     public class Document

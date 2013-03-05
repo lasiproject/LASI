@@ -3,10 +3,11 @@ namespace LASI.Algorithm
 {
     public interface IObjectTaker
     {
-        IEntity DirectObject {
+        void BindDirectObject(IEntity directObject);
+        System.Collections.Generic.IEnumerable<IEntity> DirectObjects {
             get;
-            set;
         }
+
     }
 
 }

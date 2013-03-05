@@ -67,7 +67,7 @@ namespace LASI.Algorithm.Thesauri
         /// <returns>A collection of strings containing all of the synonyms of the given verb.</returns>
         public override IEnumerable<string> this[string search] {
             /*
-             *   First, access the synset(s) which literally contain the search string text.
+             *   First, access the synset(d) which literally contain the search string text.
              *   Next, aggregate their external set keys and perform a lookup.
              *   Finally, merge the synsets yielded from these lookups aggregating their members as strings.
              * 

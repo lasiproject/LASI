@@ -28,7 +28,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Establish the nested links between the paragraph, its parent document, and the sentencies comprising it.
         /// </summary>
-        /// <param name="parentDoc">The document instance to identified as the paragraph's parent.</param>
+        /// <param name="parentDoc">The document instance to identified as the paragraph'd parent.</param>
         public void EstablishParent(Document parentDoc) {
             ParentDocument = parentDoc;
             foreach (var S in Sentences)

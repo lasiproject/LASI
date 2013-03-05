@@ -6,7 +6,7 @@ using System.Text;
 namespace LASI.Algorithm
 {
     /// <summary>
-    /// Represents a possessive ending such as 's which indicates that the noun it follows has a possessive relationship with respect to the following Entity
+    /// Represents a possessive ending such as 'd which indicates that the noun it follows has a possessive relationship with respect to the following Entity
     /// </summary>
     public class PossessiveEnding : Word, IPossesser
     {

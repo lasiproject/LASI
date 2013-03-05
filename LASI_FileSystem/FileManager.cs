@@ -321,7 +321,7 @@ namespace LASI.FileSystem
         }
         /// <summary>
         /// Gets or sets the name of the current project.
-        /// This will be the project name displayed to the user and it corresponds to the project's top level directory
+        /// This will be the project name displayed to the user and it corresponds to the project'd top level directory
         /// </summary>
         public static string ProjectName {
             get;

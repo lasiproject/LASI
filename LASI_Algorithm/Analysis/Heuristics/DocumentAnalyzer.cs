@@ -28,7 +28,7 @@ namespace LASI.Algorithm.Heuristics
         /// <summary>
         /// Analyses the ParentDocument object referenced by this instance and returns a collection of statistical results based primarily on the Pronoun bolsterd frequency of the Entities therein.
         /// </summary>
-        /// <returns>An object containing the most significant Entities and Actions occuring in the document, according to the Heuristic's methodology.</returns>
+        /// <returns>An object containing the most significant Entities and Actions occuring in the document, according to the Heuristic'd methodology.</returns>
         public Metric Analyse() {
             var subjects = from Entity in SourceDocument.Phrases.GetNounPhrases().AsParallel()
                            let SB = new
@@ -62,7 +62,7 @@ namespace LASI.Algorithm.Heuristics
         /// Analyses the ParentDocument object referenced by this instance and returns a collection of statistical results based primarily on the Pronoun bolsterd frequency of the Entities therein.
         /// The assessment is performed asynchronously on a background thread.
         /// </summary>
-        /// <returns>A Task of Metric object which, results in a task which contains the most significant Entities and Actions occuring in the document, according to the Heuristic's methodology.</returns>
+        /// <returns>A Task of Metric object which, results in a task which contains the most significant Entities and Actions occuring in the document, according to the Heuristic'd methodology.</returns>
         public async Task<Metric> AnalyseAsync() {
             return await Task.Run(() => Analyse());
         }

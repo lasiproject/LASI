@@ -47,14 +47,51 @@ namespace LASI.Algorithm
                 prep.OnLeftSide;
 
         }
+        /// <summary>
+        /// Binds the given Entity as a subject of the VerbPhrase instance.
+        /// </summary>
+        /// <param name="subject">The Entity to attach to the VerbPhrase as a subject.</param>
+        public virtual void BindSubject(IEntity subject) {
+            if (!_boundSubjects.Contains(subject)) {
+                _boundSubjects.Add(subject);
+                subject.SubjectOf = this;
+            }
+        }
+
+        /// <summary>
+        /// Binds the given Entity as a direct object of the VerbPhrase instance.
+        /// </summary>
+        /// <param name="subject">The Entity to attach to the VerbPhrase as a direct object.</param>
+        public virtual void BindDirectObject(IEntity directObject) {
+            if (!_boundDirectObjects.Contains(directObject)) {
+                _boundDirectObjects.Add(directObject);
+                directObject.DirectObjectOf = this;
+            }
+        }
+        /// <summary>
+        /// Binds the given Entity as an indirect object of the VerbPhrase instance.
+        /// </summary>
+        /// <param name="subject">The Entity to attach to the VerbPhrase as an indirect object.</param>
+        public virtual void BindIndirectObject(IEntity indirectObject) {
+            if (!_boundIndirectObjects.Contains(indirectObject)) {
+                _boundIndirectObjects.Add(indirectObject);
+                indirectObject.IndirectObjectOf = this;
+            }
+        }
 
 
         public override string ToString(bool verbose) {
             if (verbose) {
                 var result = base.ToString() + "\n";
-                result += DirectObject != null ? "Direct Object: " + DirectObject.ToString() + "\n" : "";
-                result += IndirectObject != null ? "Indirect Object: " + IndirectObject.ToString() + "\n" : "";
-                result += BoundSubject != null ? "Subject: " + BoundSubject.ToString() + "\n" : "";
+                foreach (var d in DirectObjects) {
+                    result += d != null ? "Direct Object: " + d.ToString() + "\n" : "";
+                }
+                foreach (var i in IndirectObjects) {
+                    result += i != null ? "Indirect Object: " + i.ToString() + "\n" : "";
+                }
+                foreach (var s in BoundSubjects) {
+                    result += s != null ? "Subject: " + s.ToString() + "\n" : "";
+                }
                 foreach (var mod in _modifiers) {
                     result += "\n" + mod.ToString();
                 }
@@ -71,28 +108,31 @@ namespace LASI.Algorithm
         #region Properties
 
         /// <summary>
-        /// Gets or sets the subject of the VerbPhrase.
+        /// Gets the subjects of the VerbPhrase.
         /// </summary>
-        public IEntity BoundSubject {
-            get;
-            set;
+        public IEnumerable<IEntity> BoundSubjects {
+            get {
+                return _boundSubjects;
+            }
         }
 
         /// <summary>
-        /// Gets or sets the direct object of the VerbPhrase.
+        /// Gets the direct objects of the VerbPhrase.
         /// </summary>
-        public virtual IEntity DirectObject {
-            get;
-            set;
+        public virtual IEnumerable<IEntity> DirectObjects {
+            get {
+                return _boundDirectObjects;
+            }
         }
 
 
         /// <summary>
-        /// Gets or sets the indirect object of the VerbPhrase.
+        /// Gets the indirect objects of the VerbPhrase.
         /// </summary>
-        public virtual IEntity IndirectObject {
-            get;
-            set;
+        public virtual IEnumerable<IEntity> IndirectObjects {
+            get {
+                return _boundIndirectObjects;
+            }
         }
         /// <summary>
         /// Gets the collection of IAdverbial modifiers which modify the VerbPhrase.
@@ -120,7 +160,7 @@ namespace LASI.Algorithm
             set;
         }
         /// <summary>
-        /// Gets the VerbPhrases's object, If the VerbPhrase has an object bound via a Prepositional construct.
+        /// Gets the VerbPhrases'd object, If the VerbPhrase has an object bound via a Prepositional construct.
         /// </summary>
         public virtual ILexical ObjectViaPreposition {
             get;
@@ -137,9 +177,14 @@ namespace LASI.Algorithm
 
         #region Fields
 
-        protected IList<IAdverbial> _modifiers = new List<IAdverbial>();
-
+        private IList<IAdverbial> _modifiers = new List<IAdverbial>();
+        private ICollection<IEntity> _boundSubjects = new List<IEntity>();
+        private ICollection<IEntity> _boundDirectObjects = new List<IEntity>();
+        private ICollection<IEntity> _boundIndirectObjects = new List<IEntity>();
         #endregion
+
+
+
 
 
 

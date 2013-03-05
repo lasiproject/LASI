@@ -9,50 +9,53 @@ namespace LASI.Algorithm
     public static class IEnumerableOfTransitiveActionExtensions
     {
         /// <summary>
-        /// Filters the sequence of actions selecting those with bound, not-null, direct objects.
+        /// Filters the sequence of Transitive Action instances selecting those with at least one bound direct object.
         /// </summary>
-        /// <param name="actions">The Enumerable of Verb objects to filter.</param>
-        /// <returns>The subset bound to a direct object.</returns>
-        public static IEnumerable<ITransitiveAction> WithDirectObject(this IEnumerable<ITransitiveAction> transitiveVerbPhrases) {
-            return from TA in transitiveVerbPhrases
-                   where TA.DirectObject != null
+        /// <param name="actions">The Enumerable of Transitive Action instances to filter.</param>
+        /// <returns>The subset of actions bound to at least one direct object.</returns>
+        public static IEnumerable<ITransitiveAction> WithDirectObject(this IEnumerable<ITransitiveAction> actions) {
+            return from TA in actions
+                   where TA.DirectObjects.Count(o => o != null) > 0
                    select TA;
         }
 
         /// <summary>
-        /// Filters a collection of Transitive Actions, returning those whose direct objects match the provided object testing function
+        /// Filters a collection of Transitive Action instances, returning those who have at least one direct object matching the provided object testing function.
         /// </summary>
-        /// <param name="transitives">A collection of elements which implement the ITransitiveAction interface.</param>
+        /// <param name="actions">The Enumerable of Transitive Action instances to filter.</param>
         /// <param name="condition">The function specifying the match condition. Any function which takes an IEntity and return a bool is compatible.</param>
-        /// <returns>The subset bound to direct objects matching the condition.</returns>
-        public static IEnumerable<ITransitiveAction> WithDirectObject(this IEnumerable<ITransitiveAction> transitives, Func<IEntity, bool> condition) {
-            return from TA in transitives.WithDirectObject()
-                   let P = TA.DirectObject as Pronoun
-                   where condition(TA.DirectObject) || P != null && condition(P.BoundEntity)
+        /// <returns>The subset of actions bound to at least one direct object which matches the conidition.</returns>
+        public static IEnumerable<ITransitiveAction> WithDirectObject(this IEnumerable<ITransitiveAction> actions, Func<IEntity, bool> condition) {
+            return from TA in actions.WithDirectObject()
+                   where TA.DirectObjects.Count(o => {
+                       var p = o as Pronoun;
+                       return condition(o) || p != null && condition(p.BoundEntity);
+                   }) > 0
                    select TA;
         }
 
         /// <summary>
-        /// Filters the sequence of actions selecting those with bound, not-null, indirect objects.
-        /// </summary>
+        /// Filters the sequence of Transitive Action instances selecting those with at least one bound indirect object.
         /// <param name="actions">The Enumerable of Verb objects to filter.</param>
         /// <returns>The subset bound to an indirect object.</returns>
-        public static IEnumerable<ITransitiveAction> WithIndirectObject(this IEnumerable<ITransitiveAction> transitives) {
-            return from TA in transitives
-                   where TA.IndirectObject != null
+        public static IEnumerable<ITransitiveAction> WithIndirectObject(this IEnumerable<ITransitiveAction> actions) {
+            return from TA in actions
+                   where TA.IndirectObjects.Count(o => o != null) > 0
                    select TA;
         }
 
         /// <summary>
-        /// Filters a collection of Transitive Actions, returning those whose indirect objects match the provided object testing function
+        /// Filters a collection of Transitive Actions, returning those who have at k those who have at least one indirect object which matches the provided object testing function
         /// </summary>
-        /// <param name="transitives">A collection of elements which implement the ITransitiveAction interface.</param>
+        /// <param name="actions">The Enumerable of Transitive Action instances to filter.</param>
         /// <param name="condition">The function specifying the match condition. Any function which takes an IEntity and return a bool is compatible.</param>
-        /// <returns>The subset bound to direct objects matching the condition.</returns>
-        public static IEnumerable<ITransitiveAction> WithIndirectObject(this IEnumerable<ITransitiveAction> transitives, Func<IEntity, bool> condition) {
-            return from TA in transitives.WithIndirectObject()
-                   let P = TA.IndirectObject as Pronoun
-                   where condition(TA.IndirectObject) || P != null && condition(P.BoundEntity)
+        /// <returns>The subset of actuibs bound to at least one indirect object which matches the condition.</returns>
+        public static IEnumerable<ITransitiveAction> WithIndirectObject(this IEnumerable<ITransitiveAction> actions, Func<IEntity, bool> condition) {
+            return from TA in actions.WithIndirectObject()
+                   where TA.IndirectObjects.Count(o => {
+                       var p = o as Pronoun;
+                       return condition(o) || p != null && condition(p.BoundEntity);
+                   }) > 0
                    select TA;
         }
     }

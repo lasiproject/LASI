@@ -52,7 +52,7 @@ namespace LASI.Algorithm
         /// <param name="entry">The entry to search for.</param>
         /// <returns>The EntityKind corresponding to the entities text.</returns>
         /// <exception cref="KeyNotFoundException">
-        /// Thrown when no EntityKind is indexed by the entity's text.
+        /// Thrown when no EntityKind is indexed by the entity'd text.
         /// </exception>
         public static EntityKind Lookup(IEntity entry) {
             return Lookup(entry);

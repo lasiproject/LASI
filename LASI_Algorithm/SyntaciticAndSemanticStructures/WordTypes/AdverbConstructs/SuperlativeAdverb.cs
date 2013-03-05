@@ -8,10 +8,10 @@ namespace LASI.Algorithm
     /// <summary>
     /// Represents an adverb which 'absolutely' specifies a verb or adjective relative to all comparable occurances of that verb or adjective.
     /// For Verbs - 
-    /// If modifying an instransitive verb it will usually lexically follow the the verb: E.g. "Jane performed BEST.
-    /// If modifying a transitive verb it will usually lexically follow the verb object: E.g. "Jane played poker BEST.
+    /// If modifying an instransitive verb it will usually lexically follow the the verb: e.g. "Jane performed BEST.
+    /// If modifying a transitive verb it will usually lexically follow the verb object: e.g. "Jane played poker BEST.
     /// For Adjectives - 
-    /// The adverb will usually lexically precede the adjective it modifies: E.g. John's wardrobe is MOST colorful than Jane's.
+    /// The adverb will usually lexically precede the adjective it modifies: e.g. John'd wardrobe is MOST colorful than Jane'd.
     /// </summary>
     public class SuperlativeAdverb : Adverb
     {

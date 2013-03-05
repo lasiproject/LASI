@@ -21,9 +21,8 @@ namespace LASI.Algorithm.Binding
         }
 
         private void DirectObjectFound() {
-            foreach (var E in entities) {
-                E.DirectObjectOf = _bindingTarget;
-                _bindingTarget.DirectObject = E;
+            foreach (var e in entities) {
+                _bindingTarget.BindDirectObject(e);
             }
             entities.Clear();
             ConjunctNounPhrases.Clear();
@@ -31,9 +30,8 @@ namespace LASI.Algorithm.Binding
         }
 
         private void IndirectObjectFound() {
-            foreach (var E in entities) {
-                E.IndirectObjectOf = _bindingTarget;
-                _bindingTarget.IndirectObject = E;
+            foreach (var e in entities) {
+                _bindingTarget.BindIndirectObject(e);
             }
             entities.Clear();
             ConjunctNounPhrases.Clear();

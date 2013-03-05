@@ -75,7 +75,7 @@ namespace LASI.UserInterface
                 xbuttons.Children.Remove(button);
 
             };
-          //  docEntry.MouseDoubleClick += (s, args) => documentsAdded.Items.Remove(docEntry);
+          //  docEntry.MouseDoubleClick += (d, args) => documentsAdded.Items.Remove(docEntry);
 
             xbuttons.Children.Add(button);
             documentsAdded.Items.Add(docEntry);

@@ -9,7 +9,7 @@ namespace LASI.FileSystem
 {
     /// <summary>
     /// Represents a tagset-to-runtime-type-mapping context which translates between a Part Of Speech
-    /// Tagger's provided tags and their runtime type equivalents. 
+    /// Tagger'd provided tags and their runtime type equivalents. 
     /// This class represents the tagset => runtime-type mapping for w occurances
     /// <see cref="WordTagsetMap"/>
     ///<seealso cref="WordMapper"/>

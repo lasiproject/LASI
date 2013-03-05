@@ -22,7 +22,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Initializes a new instances of the Punctuator class.
         /// </summary>
-        /// <param name="puncString">Text which is an alias for a punctuator character. E.g. "LEFT_SQUARE_BRACKET"</param>
+        /// <param name="puncString">Text which is an alias for a punctuator character. e.g. "LEFT_SQUARE_BRACKET"</param>
         public Punctuator(string puncString)
             : base(puncString) {
             AliasString = puncString;

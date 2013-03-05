@@ -21,7 +21,7 @@ namespace LASI.Algorithm
             : base(text) {
         }
         /// <summary>
-        /// Gets or sets the equivalent English w type if it can be inferred from the ForeignWord's usage.
+        /// Gets or sets the equivalent English w type if it can be inferred from the ForeignWord'd usage.
         /// </summary>
         public virtual Type UsedAsType {
             get;
