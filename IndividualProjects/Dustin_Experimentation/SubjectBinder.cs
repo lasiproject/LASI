@@ -14,7 +14,7 @@ namespace Dustin_Experimentation
         
         public void bind()
         {
-            string str = TaggerUtil.TagString("Running quickly through the field, Dustin and Aluan were coding.");
+            string str = TaggerUtil.TagString("Running quickly through the field, Dustin and Aluan were coding for CS 411.");
             Console.WriteLine(str);
             Document doc = TaggerUtil.TaggedToDoc(str);
             State s1 = new State();
