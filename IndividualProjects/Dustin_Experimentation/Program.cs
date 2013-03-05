@@ -18,9 +18,13 @@ namespace Dustin_Experimentation
             Console.WriteLine(str);
             Document doc = TaggerUtil.TaggedToDoc(str);
 
+
             SubjectBinder s = new SubjectBinder();
-            s.bind(doc);
-            s.display();
+            foreach (Sentence i in doc.Sentences)
+            {
+                s.bind(i);
+                s.display();
+            }
             Console.WriteLine("Press escape to exit");
             for (var k = Console.ReadKey(); k.Key != ConsoleKey.Escape; k = Console.ReadKey())
             {

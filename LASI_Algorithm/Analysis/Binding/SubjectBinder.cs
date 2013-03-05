@@ -10,13 +10,13 @@ namespace LASI.Algorithm
     {
         List<State> stateList = new List<State>();
 
-        public void bind(Document doc) {
+        public void bind(Sentence s) {
             State s1 = new State();
 
             s1.S = StateType.Initial;
 
             stateList.Add(s1);
-            foreach (var i in doc.Phrases) {
+            foreach (var i in s.Phrases) {
                 if (i is AdjectivePhrase) {
                     State s2 = new State();
                     s2.StatePhrase = i;
