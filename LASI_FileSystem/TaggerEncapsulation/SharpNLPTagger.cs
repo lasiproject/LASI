@@ -21,13 +21,14 @@ namespace SharpNLPTaggingModule
         protected OpenNLP.Tools.NameFind.EnglishNameFinder mNameFinder;
         protected OpenNLP.Tools.Lang.English.TreebankLinker mCoreferenceFinder;
 
-        public SharpNLPTagger(TaggingOption taggingMode) {
+        public SharpNLPTagger(TaggingOption taggingMode, string resourcePath = @"..\\..\\..\\ThirdPartyComponents\TaggingPackage\Resources\") {
+
             mModelPath = ConfigurationManager.AppSettings["MaximumEntropyModelDirectory"];
             mNameFinder = new OpenNLP.Tools.NameFind.EnglishNameFinder(ConfigurationManager.AppSettings["WordnetSearchDirectory"]);
 
-            TaggingMode = taggingMode;
-
         }
+
+
         public SharpNLPTagger(TaggingOption taggingMode, string sourcePath, string destinationPath = null) {
             mModelPath = ConfigurationManager.AppSettings["MaximumEntropyModelDirectory"];
             mNameFinder = new OpenNLP.Tools.NameFind.EnglishNameFinder(ConfigurationManager.AppSettings["WordnetSearchDirectory"]);

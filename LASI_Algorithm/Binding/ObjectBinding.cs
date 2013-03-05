@@ -22,9 +22,7 @@ namespace LASI.Algorithm.Binding
             St6 = new State6(this);
 
             ConjunctNounPhrases = new List<NounPhrase>();
-            if (inputstream.Count < 1) {
-                return;
-            }
+            CheckForExitEnd();
             St0.ProcessNext(inputstream.PopDynamic());
 
         }
@@ -94,7 +92,6 @@ namespace LASI.Algorithm.Binding
                     _machine = value;
                 }
             }
-
             protected int StateNumber {
                 get {
                     return stateNumber;
@@ -222,8 +219,7 @@ namespace LASI.Algorithm.Binding
             }
             public void ProcessNext(AdjectivePhrase phrase) {
                 Machine.lastAdjectivals.Add(phrase);
-                if (Stream.Count < 1)
-                    return;
+                Machine.CheckForExitEnd();
                 St5.ProcessNext(Stream.PopDynamic());
             }
             private State2 St2;

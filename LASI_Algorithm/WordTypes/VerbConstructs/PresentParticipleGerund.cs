@@ -17,7 +17,7 @@ namespace LASI.Algorithm
         public PresentParticipleGerund(string text)
             : base(text, VerbTense.PresentParticiple) {
             EntityKind = EntityKind.Activitiy;
-        } 
+        }
         #region Methods
 
         /// <summary>
@@ -108,16 +108,9 @@ namespace LASI.Algorithm
 
 
 
-
-
-
         public EntityThemeMemberKind ThemeMemberKind {
-            get {
-                throw new NotImplementedException();
-            }
-            set {
-                throw new NotImplementedException();
-            }
+            get;
+            set;
         }
     }
 }
