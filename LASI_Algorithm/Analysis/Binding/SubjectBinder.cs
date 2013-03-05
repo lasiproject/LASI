@@ -11,11 +11,11 @@ namespace LASI.Algorithm
         List<State> stateList = new List<State>();
 
         public void bind(Sentence s) {
-            State s1 = new State();
+            //State s1 = new State();
+            VerbPhrase v1 = null;
+            //s1.S = StateType.Initial;
 
-            s1.S = StateType.Initial;
-
-            stateList.Add(s1);
+            //stateList.Add(s1);
             foreach (var i in s.Phrases) {
                 if (i is AdjectivePhrase) {
                     State s2 = new State();
@@ -31,6 +31,8 @@ namespace LASI.Algorithm
                     State s4 = new State();
                     s4.StatePhrase = i;
                     stateList.Add(s4);
+                    v1 = s4.StatePhrase as VerbPhrase;
+                    break;
                 }
                 if (i is ConjunctionPhrase) {
                     State s5 = new State();
@@ -40,8 +42,10 @@ namespace LASI.Algorithm
                 if (i is VerbPhrase && i.Words.Count(n => n is PresentParticipleGerund) == 0) {
                     State s6 = new State();
                     s6.StatePhrase = i;
+                    s6.S = StateType.Final;
                     stateList.Add(s6);
-                    break;
+                    v1 = s6.StatePhrase as VerbPhrase;
+                    break;                    
                 }
                 if (i is AdverbPhrase) {
                     State s7 = new State();
@@ -64,6 +68,11 @@ namespace LASI.Algorithm
                     stateList.Add(s10);
                 }
 
+            }
+            foreach (var i in stateList)
+            {
+                if(i.StatePhrase is NounPhrase)
+                    v1.BindSubject(i.StatePhrase as NounPhrase);
             }
         }
         public void display() {
