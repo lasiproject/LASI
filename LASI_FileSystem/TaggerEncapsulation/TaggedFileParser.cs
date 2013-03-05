@@ -59,7 +59,7 @@ namespace LASI.FileSystem
                 var sentences = SplitIntoSentences(paragraph);
                 foreach (var sent in sentences) {
                     var parsedPhrases = new List<Phrase>();
-                    var chunks = from chunk in sent.Split(new[] { "[", "]" }, StringSplitOptions.None).AsParallel()
+                    var chunks = from chunk in sent.Split(new[] { "[", "]" }, StringSplitOptions.None)
                                  where !String.IsNullOrWhiteSpace(chunk) && !String.IsNullOrEmpty(chunk)
                                  select chunk.Trim();
                     foreach (var chunk in chunks) {
@@ -70,7 +70,8 @@ namespace LASI.FileSystem
                                 Text = chunk.Substring(chunk.IndexOf(' '))
                             });
                             parsedPhrases.Add(currentPhrase);
-                        } else if (token == '/') {
+                        }
+                        else if (token == '/') {
                             var words = CreateWords(chunk);
                             if (words.Count == 1 && words.First() != null)
                                 if (words.First().Text == "and" || words.First().Text == "or") {
@@ -97,9 +98,9 @@ namespace LASI.FileSystem
             var reader2 = (new StringReader(chunk));
             char token = '`';
             while (reader2.Peek() != '/' && reader2.Peek() != ' ') {
-                token = (char) reader2.Read();
+                token = (char)reader2.Read();
             }
-            token = (char) reader2.Read();
+            token = (char)reader2.Read();
             return token;
         }
 
