@@ -21,7 +21,7 @@ namespace Scott_Experimentation
             var document = new Document(paragraphs);
 
             string sep = "\n***************************************************************\n";
-            
+           /* 
             try{
                 Word w1 = document.WordAt(5000);
                 Console.WriteLine("Word at 5: {0}", w1.Text);
@@ -62,7 +62,7 @@ namespace Scott_Experimentation
                     Console.WriteLine("ERROR Loc: {0}, [{1}]", x, ex.Message);
                 }
             }
-
+            */
            
             Console.WriteLine(sep);
 
@@ -74,7 +74,7 @@ namespace Scott_Experimentation
             //Console.WriteLine(np1);
             
             SubjectBinder sb1 = new SubjectBinder();
-            sb1.bind(DocTest);
+            sb1.bind(document);
             sb1.display();
     
             
