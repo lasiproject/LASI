@@ -22,11 +22,11 @@ namespace LASI.Algorithm.Binding
             St6 = new State6(this);
 
             ConjunctNounPhrases = new List<NounPhrase>();
-            try {
-                St0.ProcessNext(inputstream.PopDynamic());
+            if (inputstream.Count < 1) {
+                return;
             }
-            catch {
-            }
+            St0.ProcessNext(inputstream.PopDynamic());
+
         }
 
         protected IEntity directObject = null;
@@ -51,6 +51,12 @@ namespace LASI.Algorithm.Binding
             }
             set {
                 lastConjunctive = value;
+            }
+        }
+        public void CheckForExitEnd() {
+            if (inputstream.Count < 1) {
+                _bindingTarget.IndirectObject = indirectObject;
+                _bindingTarget.DirectObject = directObject;
             }
         }
         private void BindBuiltupAdjectivePhrases(NounPhrase phrase) {
@@ -123,6 +129,7 @@ namespace LASI.Algorithm.Binding
             }
             public virtual void ProcessNext(NounPhrase phrase) {
                 Machine.entities.Push(phrase);
+                Machine.CheckForExitEnd();
                 St2.ProcessNext(Stream.PopDynamic());
             }
             public virtual void ProcessNext(AdjectivePhrase phrase) {
@@ -146,6 +153,7 @@ namespace LASI.Algorithm.Binding
             public void ProcessNext(NounPhrase phrase) {
                 Machine.entities.Push(phrase);
                 Machine.BindBuiltupAdjectivePhrases(phrase);
+                Machine.CheckForExitEnd();
                 St2.ProcessNext(Stream.PopDynamic());
             }
             private State2 St2;
@@ -162,6 +170,7 @@ namespace LASI.Algorithm.Binding
                 phrase.OnLeft = Machine.entities.Peek();
                 Machine.LastConjunctive = phrase;
                 Machine.ConjunctNounPhrases.Add(Machine.entities.Pop());
+                Machine.CheckForExitEnd();
                 St4.ProcessNext(Stream.PopDynamic());
             }
             public void ProcessNext(AdjectivePhrase phrase) {
@@ -208,10 +217,13 @@ namespace LASI.Algorithm.Binding
                 Machine.entities.Push(phrase);
                 Machine.ConjunctNounPhrases.Add(phrase);
                 Machine.lastConjunctive.OnRight = phrase;
+                Machine.CheckForExitEnd();
                 St2.ProcessNext(Stream.PopDynamic());
             }
             public void ProcessNext(AdjectivePhrase phrase) {
                 Machine.lastAdjectivals.Add(phrase);
+                if (Stream.Count < 1)
+                    return;
                 St5.ProcessNext(Stream.PopDynamic());
             }
             private State2 St2;
@@ -230,12 +242,13 @@ namespace LASI.Algorithm.Binding
                 Machine.ConjunctNounPhrases.Add(phrase);
                 Machine.entities.Push(phrase);
                 Machine.BindBuiltupAdjectivePhrases(phrase);
-                //if (phrase
+                Machine.CheckForExitEnd();
                 St2.ProcessNext(Stream.PopDynamic());
             }
             public void ProcessNext(ConjunctionPhrase phrase) {
                 phrase.OnLeft = Machine.lastAdjectivals.Last();
                 Machine.LastConjunctive = phrase;
+                Machine.CheckForExitEnd();
                 St6.ProcessNext(Stream.PopDynamic());
             }
             private State2 St2;
@@ -256,6 +269,7 @@ namespace LASI.Algorithm.Binding
             public void ProcessNext(AdjectivePhrase phrase) {
                 Machine.lastAdjectivals.Add(phrase);
                 Machine.lastConjunctive.OnRight = phrase;
+                Machine.CheckForExitEnd();
                 St5.ProcessNext(Stream.PopDynamic());
             }
             public void ProcessNext(NounPhrase phrase) {
@@ -263,15 +277,18 @@ namespace LASI.Algorithm.Binding
                 Machine.ConjunctNounPhrases.Add(phrase);
                 Machine.lastConjunctive.OnRight = phrase;
                 Machine.BindBuiltupAdjectivePhrases(phrase);
+                Machine.CheckForExitEnd();
                 St2.ProcessNext(Stream.PopDynamic());
             }
+
 
             private State2 St2;
             private State5 St5;
 
         }
-    }
 
+
+    }
 
     static class DynamicStackExtensions
     {

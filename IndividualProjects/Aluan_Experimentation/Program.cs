@@ -18,13 +18,17 @@ namespace Aluan_Experimentation
     public class Program
     {
         static void Main(string[] args) {
-            var doc = TaggerUtil.UntaggedToDoc("Aluan works for them.");
-            VerbPhrase vp = new VerbPhrase(new Word[] { new Verb("ran", VerbTense.Past), new Adverb("quickly") });
-            NounPhrase np = new NounPhrase(new Word[] { new ProperSingularNoun("Dustin"), new Conjunction("and"), new ProperSingularNoun("Aluan") });
-            vp.BoundSubject = np;
-            print(vp.ToString(true));
-            StdIO.WaitForKey();
-            PhraseWiseObjectBinder binder = new PhraseWiseObjectBinder(doc.Phrases.ToList()[0] as VerbPhrase, doc.Phrases.Skip(2));
+            //var doc = TaggerUtil.UntaggedToDoc("Aluan works for them.");
+            //VerbPhrase vp = new VerbPhrase(new Word[] { new Verb("ran", VerbTense.Past), new Adverb("quickly") });
+            //NounPhrase np = new NounPhrase(new Word[] { new ProperSingularNoun("Dustin"), new Conjunction("and"), new ProperSingularNoun("Aluan") });
+            //vp.BoundSubject = np;
+
+
+            var str = TaggerUtil.TagString("Running quickly through the field, Dustin and Aluan were coding the Lasi Project.");
+            Console.WriteLine(str);
+            var doc = TaggerUtil.TaggedToDoc(str);
+
+            PhraseWiseObjectBinder binder = new PhraseWiseObjectBinder(doc.Phrases.ToList()[5] as VerbPhrase, doc.Phrases.Skip(6));
             foreach (var phrase in doc.Phrases)
                 print(phrase.ToString(true));
             StdIO.WaitForKey();
