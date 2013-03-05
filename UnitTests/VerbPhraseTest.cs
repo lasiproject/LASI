@@ -113,5 +113,23 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
 
+
+        /// <summary>
+        ///A test for ToString
+        ///</summary>
+        [TestMethod()]
+        public void ToStringTest() {
+            IEnumerable<Word> composedWords = new Word[] { new Verb("ran", VerbTense.Past), new Adverb("quickly") };
+            NounPhrase np = new NounPhrase(new Word[] { new ProperSingularNoun("Dustin"), new Conjunction("and"), new ProperSingularNoun("Aluan") });
+            VerbPhrase target = new VerbPhrase(composedWords);
+            target.BoundSubject = np;
+            bool verbose = true;
+
+            string actual;
+            actual = target.ToString(verbose);
+            string expected = string.Empty;
+            Assert.AreEqual(expected, actual);
+            Assert.Inconclusive("Verify the correctness of this test method.");
+        }
     }
 }

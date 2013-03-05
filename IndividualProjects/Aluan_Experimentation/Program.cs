@@ -12,13 +12,22 @@ using System.IO;
 using LASI.Algorithm.Heuristics;
 using System.Xml;
 using LASI.FileSystem.FileTypes;
+using LASI.Algorithm.Binding;
 namespace Aluan_Experimentation
 {
     public class Program
     {
         static void Main(string[] args) {
-            ThesaurusCMDLineTest();
-            //   ParseAndCreate();
+            var doc = TaggerUtil.UntaggedToDoc("Aluan works for them.");
+            VerbPhrase vp = new VerbPhrase(new Word[] { new Verb("ran", VerbTense.Past), new Adverb("quickly") });
+            NounPhrase np = new NounPhrase(new Word[] { new ProperSingularNoun("Dustin"), new Conjunction("and"), new ProperSingularNoun("Aluan") });
+            vp.BoundSubject = np;
+            print(vp.ToString(true));
+            StdIO.WaitForKey();
+            PhraseWiseObjectBinder binder = new PhraseWiseObjectBinder(doc.Phrases.ToList()[0] as VerbPhrase, doc.Phrases.Skip(2));
+            foreach (var phrase in doc.Phrases)
+                print(phrase.ToString(true));
+            StdIO.WaitForKey();
 
 
         }
@@ -61,8 +70,7 @@ namespace Aluan_Experimentation
         private static async Task<IEnumerable<string>> CountByTypeAndText(Document document) {
             return await Task.Run(() => {
                 var phrasePOSCounts = from R in document.Phrases
-                                      group R by new
-                                      {
+                                      group R by new {
                                           Type = R.GetType(),
                                           R.Text
                                       } into G
@@ -85,7 +93,8 @@ namespace Aluan_Experimentation
                     foreach (var v in verbLookUp[input]) {
                         Console.Write(v + ", ");
                     }
-                } catch (KeyNotFoundException) {
+                }
+                catch (KeyNotFoundException) {
                     Console.WriteLine(String.Format("No synonyms recognized for \"{0}\" : as verb", input));
                 }
                 Console.WriteLine();

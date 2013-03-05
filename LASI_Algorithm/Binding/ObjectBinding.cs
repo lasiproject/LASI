@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 namespace LASI.Algorithm.Binding
 {
-    class PhraseWiseObjectBinder
+    public class PhraseWiseObjectBinder
     {
         public PhraseWiseObjectBinder(VerbPhrase bindingTarget, IEnumerable<Phrase> remainingPhrases) {
             _bindingTarget = bindingTarget;
+
 
             inputstream = new Stack<Phrase>(remainingPhrases);
 
@@ -21,9 +22,11 @@ namespace LASI.Algorithm.Binding
             St6 = new State6(this);
 
             ConjunctNounPhrases = new List<NounPhrase>();
-
-            St0.ProcessNext(inputstream.PopDynamic());
-
+            try {
+                St0.ProcessNext(inputstream.PopDynamic());
+            }
+            catch {
+            }
         }
 
         protected IEntity directObject = null;
@@ -34,13 +37,13 @@ namespace LASI.Algorithm.Binding
         protected VerbPhrase _bindingTarget;
         protected List<AdjectivePhrase> lastAdjectivals = new List<AdjectivePhrase>();
         protected List<NounPhrase> ConjunctNounPhrases;
-        protected State0 St0;
-        protected State1 St1;
-        protected State2 St2;
-        protected State4 St4;
-        protected State5 St5;
+        private State0 St0;
+        private State1 St1;
+        private State2 St2;
+        private State4 St4;
+        private State5 St5;
         private ConjunctionPhrase lastConjunctive;
-        protected State6 St6;
+        private State6 St6;
 
         public ConjunctionPhrase LastConjunctive {
             get {
@@ -58,7 +61,7 @@ namespace LASI.Algorithm.Binding
         }
 
 
-        internal abstract class State
+        abstract class State
         {
             protected State(PhraseWiseObjectBinder machine) {
                 _machine = machine;
@@ -111,7 +114,7 @@ namespace LASI.Algorithm.Binding
                 }
             }
         }
-        internal class State0 : State
+        class State0 : State
         {
             public State0(PhraseWiseObjectBinder machine)
                 : base(machine) {
@@ -131,7 +134,7 @@ namespace LASI.Algorithm.Binding
         }
 
 
-        internal class State1 : State
+        class State1 : State
         {
 
 
@@ -147,7 +150,7 @@ namespace LASI.Algorithm.Binding
             }
             private State2 St2;
         }
-        internal class State2 : State
+        class State2 : State
         {
 
 
@@ -192,7 +195,7 @@ namespace LASI.Algorithm.Binding
             }
             private State4 St4;
         }
-        internal class State4 : State
+        class State4 : State
         {
 
 
@@ -214,7 +217,7 @@ namespace LASI.Algorithm.Binding
             private State2 St2;
             private State5 St5;
         }
-        internal class State5 : State
+        class State5 : State
         {
             public State5(PhraseWiseObjectBinder machine)
                 : base(machine) {
@@ -227,6 +230,7 @@ namespace LASI.Algorithm.Binding
                 Machine.ConjunctNounPhrases.Add(phrase);
                 Machine.entities.Push(phrase);
                 Machine.BindBuiltupAdjectivePhrases(phrase);
+                if (phrase
                 St2.ProcessNext(Stream.PopDynamic());
             }
             public void ProcessNext(ConjunctionPhrase phrase) {
@@ -240,7 +244,7 @@ namespace LASI.Algorithm.Binding
 
 
         }
-        internal class State6 : State
+        class State6 : State
         {
 
 

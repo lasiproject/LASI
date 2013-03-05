@@ -64,8 +64,6 @@ namespace LASI.Algorithm
 
         private static int IDNumProvider;
 
-        private static int GUIDProvider;
-
         /// <summary>
         /// Returns the paragraphs unique identification number.
         /// </summary>

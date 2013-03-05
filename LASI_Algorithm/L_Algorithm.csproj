@@ -59,6 +59,7 @@
     <Compile Include="EntityKindLookup.cs" />
     <Compile Include="Heuristics\IDocumentAnalyzer.cs" />
     <Compile Include="Heuristics\Metric.cs" />
+    <Compile Include="PhraseTypes\GerundVerbPhrase.cs" />
     <Compile Include="PhraseTypes\InterjectionPhrase.cs" />
     <Compile Include="Weighting\WeightKind.cs" />
     <Compile Include="Weighting\Weight.cs" />
