@@ -73,6 +73,7 @@ namespace LASI.Algorithm
                 Console.Write(stateList[i].StatePhrase);
                 Console.Write("\n");
             }
+            //Console.WriteLine("~~~~~~~~~~~~~~~~~~~~~~~~~~");
         }
         class State
         {
