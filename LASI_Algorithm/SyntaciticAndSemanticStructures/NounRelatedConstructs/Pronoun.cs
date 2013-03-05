@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace LASI.Algorithm
 {
     /// <summary>
-    /// Represents a pronoun which gernerally refers to a previously defined Entity, such as a Noun or NounPhrase.
+    /// Represents a pronoun which gernerally refers back to a previously defined Entity, such as a Noun or NounPhrase.
     /// </summary>
     public abstract class Pronoun : Word, IEntity, IPronounBindable
     {

@@ -5,8 +5,16 @@ using System.Text;
 
 namespace LASI.Algorithm
 {
+
+    /// <summary>
+    /// Represents a Proper Plural Noun.
+    /// </summary>
     public class ProperPluralNoun : ProperNoun, IQuantifiable
     {
+        /// <summary>
+        /// Initializes a new instance of the ProperPluralNoun class.
+        /// </summary>
+        /// <param name="text">The literal text content of the ProperPluralNoun.</param>
         public ProperPluralNoun(string text)
             : base(text) {
         }

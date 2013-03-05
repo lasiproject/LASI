@@ -6,6 +6,11 @@ using System.Threading.Tasks;
 
 namespace LASI.Algorithm
 {
+    /// <summary>
+    /// Provides the base class and functionality for classes which represent Proper Nouns.
+    /// </summary>
+    /// <seealso cref="ProperSingularNoun"/>
+    /// <seealso cref="ProperPluralNoun"/>
     public abstract class ProperNoun : Noun
     {
         /// <summary>

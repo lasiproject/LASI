@@ -5,7 +5,10 @@ using System.Text;
 
 namespace LASI.Algorithm
 {
-    public class PossessivePronoun : Pronoun
+    /// <summary>
+    /// Represents a Possessive Pronoun such as his, hers, its, or theirs. Possessive Pronouns provide contextual ownership semantics.
+    /// </summary>
+    public class PossessivePronoun : Pronoun, IPossesser
     {
 
         /// <summary>
@@ -15,13 +18,7 @@ namespace LASI.Algorithm
         public PossessivePronoun(string text)
             : base(text) {
         }
-        /// <summary>
-        /// The Entity the PossessiveSingularPronoun possesses.
-        /// </summary>
-        public virtual IEntity PossessedEntity {
-            get;
-            set;
-        }
+
         public override void AddPossession(IEntity possession) {
             if (BoundEntity != null) {
                 BoundEntity.AddPossession(possession);
