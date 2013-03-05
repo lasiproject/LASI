@@ -14,7 +14,7 @@ namespace LASI.Algorithm
             State s1 = new State();
             VerbPhrase v1 = null;
             s1.S = StateType.Initial;
-
+            
 
             s1.S = StateType.Initial;
             
