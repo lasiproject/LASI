@@ -61,7 +61,7 @@ namespace LASI.UserInterface
             var num = "x";
             var button = new Button
             {
-                Content = num.ToString()
+                Content = num.ToString(),Height = 20, Width = 20
             };
 
             var docEntry = new ListViewItem {
