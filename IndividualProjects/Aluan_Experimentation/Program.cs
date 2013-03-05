@@ -17,17 +17,14 @@ namespace Aluan_Experimentation
     public class Program
     {
         static void Main(string[] args) {
-            //var doc = TaggerUtil.UntaggedToDoc("Aluan works for them.");
-            VerbPhrase vp = new VerbPhrase(new Word[] { new Verb("ran", VerbTense.Past), new Adverb("quickly") });
-            NounPhrase np = new NounPhrase(new Word[] { new ProperSingularNoun("Dustin"), new Conjunction("and"), new ProperSingularNoun("Aluan") });
-            vp.BoundSubject = np;
+
 
             TaggerUtil.TaggerOption = TaggingOption.TagAndAggregate;
-            var str = LASI.FileSystem.TaggerUtil.TagString("Running quickly through the field, Dustin and Aluan were coding the Lasi Project.");
+            var str = LASI.FileSystem.TaggerUtil.TagString("The wind hit a pale green mitten and a fluffy dog to me.");
             Console.WriteLine(str);
             var doc = LASI.FileSystem.TaggerUtil.TaggedToDoc(str);
 
-            //PhraseWiseObjectBinder binder = new PhraseWiseObjectBinder(doc.Phrases.ToList()[5] as VerbPhrase, doc.Phrases.Skip(6));
+            PhraseWiseObjectBinder binder = new PhraseWiseObjectBinder(doc.Phrases.ToList()[1] as VerbPhrase, doc.Phrases.Skip(2));
             foreach (var phrase in doc.Phrases)
                 print(phrase.ToString(true));
             StdIO.WaitForKey();
@@ -96,8 +93,7 @@ namespace Aluan_Experimentation
                     foreach (var v in verbLookUp[input]) {
                         Console.Write(v + ", ");
                     }
-                }
-                catch (KeyNotFoundException) {
+                } catch (KeyNotFoundException) {
                     Console.WriteLine(String.Format("No synonyms recognized for \"{0}\" : as verb", input));
                 }
                 Console.WriteLine();

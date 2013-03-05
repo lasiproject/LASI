@@ -10,5 +10,8 @@ namespace LASI.Algorithm.Binding
         public InvalidStateTransitionException(int stateNumber, ILexical errorOn)
             : base(String.Format("Invalid Transition\nAt State {0}\nOn {1}", stateNumber, errorOn)) {
         }
+        public InvalidStateTransitionException(string stateName, ILexical errorOn)
+            : base(String.Format("Invalid Transition\nAt State {0}\nOn {1}", stateName, errorOn)) {
+        }
     }
 }

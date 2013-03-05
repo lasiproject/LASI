@@ -109,7 +109,7 @@ namespace LASI.Algorithm
                 }
             }
         }
-        protected IAction _subjectOf;
+        private IAction _subjectOf;
         /// <summary>
         /// Gets all of the IEntityReferences instances, generally Pronouns or PronounPhrases, which refer to the NounPhrase Instance.
         /// </summary>
@@ -159,7 +159,7 @@ namespace LASI.Algorithm
 
 
 
-        
+
 
 
 
@@ -184,6 +184,53 @@ namespace LASI.Algorithm
                 throw new NotImplementedException();
             }
         }
+    }
+    public class AggregateNounPhrase : NounPhrase
+    {
+        public AggregateNounPhrase(IEnumerable<Phrase> members)
+            : base(from m in members
+                   from w in m.Words
+                   select w) {
+            MemberNounPhrases = members.GetNounPhrases();
+        }
+        public override ITransitiveAction DirectObjectOf {
+            get {
+                return _directObjectOf;
+            }
+            set {
+                _directObjectOf = value;
+                foreach (var n in MemberNounPhrases)
+                    n.DirectObjectOf = value;
+            }
+        }
+        public override ITransitiveAction IndirectObjectOf {
+            get {
+                return _indirectObjectOf;
+            }
+            set {
+                _indirectObjectOf = value;
+                foreach (var n in MemberNounPhrases)
+                    n.IndirectObjectOf = value;
+            }
+        }
+        public override IAction SubjectOf {
+            get {
+                return _subjectOf;
+            }
+            set {
+                _subjectOf = value;
+                foreach (var n in MemberNounPhrases)
+                    n.SubjectOf = value;
+            }
+        }
+        public IEnumerable<NounPhrase> MemberNounPhrases {
+            get;
+            protected set;
+        }
+
+        private ITransitiveAction _directObjectOf;
+        private ITransitiveAction _indirectObjectOf;
+        private IAction _subjectOf;
     }
 }
 

@@ -117,7 +117,7 @@ namespace LASI.Algorithm
             }
         }
         /// <summary>
-        /// Gets the collection of words which from which the phrase is composed.
+        /// Gets the collection of words which comprise the phrase.
         /// </summary>
         public virtual IEnumerable<Word> Words {
             get;

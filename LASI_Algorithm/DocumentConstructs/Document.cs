@@ -31,8 +31,8 @@ namespace LASI.Algorithm
         //    EstablishLexicalLinks();
         //    foreach (var w in Words)
         //        w.ParentDocument = this;
-        //    foreach (var P in _paragraphs) {
-        //        P.EstablishParent(this);
+        //    foreach (var p in _paragraphs) {
+        //        p.EstablishParent(this);
         //    }
         //}
 
