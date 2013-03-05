@@ -21,55 +21,47 @@ namespace LASI.Algorithm
                     State s2 = new State();
                     s2.StatePhrase = i;
                     stateList.Add(s2);
-                    Console.WriteLine(i);
                 }
                 if (i is NounPhrase) {
                     State s3 = new State();
                     s3.StatePhrase = i;
                     stateList.Add(s3);
-                    Console.WriteLine(i);
                 }
                 if (i is VerbPhrase && i.Words.Count(n => n is PresentParticipleGerund) > 0) {
                     State s4 = new State();
                     s4.StatePhrase = i;
                     stateList.Add(s4);
-                    Console.WriteLine(i);
                 }
                 if (i is ConjunctionPhrase) {
                     State s5 = new State();
                     s5.StatePhrase = i;
                     stateList.Add(s5);
-                    Console.WriteLine(i);
                 }
                 if (i is VerbPhrase && i.Words.Count(n => n is PresentParticipleGerund) == 0) {
                     State s6 = new State();
                     s6.StatePhrase = i;
                     stateList.Add(s6);
-                    Console.WriteLine(i);
+                    break;
                 }
                 if (i is AdverbPhrase) {
                     State s7 = new State();
                     s7.StatePhrase = i;
                     stateList.Add(s7);
-                    Console.WriteLine(i);
                 }
                 if (i is PrepositionalPhrase) {
                     State s8 = new State();
                     s8.StatePhrase = i;
                     stateList.Add(s8);
-                    Console.WriteLine(i);
                 }
                 if (i is ParticlePhrase) {
                     State s9 = new State();
                     stateList.Add(s9);
                     s9.StatePhrase = i;
-                    Console.WriteLine(i);
                 }
                 if (i is InterjectionPhrase) {
                     State s10 = new State();
                     s10.StatePhrase = i;
                     stateList.Add(s10);
-                    Console.WriteLine(i);
                 }
 
             }

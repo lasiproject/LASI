@@ -14,20 +14,18 @@ namespace Dustin_Experimentation
     class Program
     {
         static void Main(string[] args) {
-            string str = TaggerUtil.TagString("Running quickly through the field, Dustin and Aluan were coding for CS 411.");
+            string str = TaggerUtil.TagString("Dustin and Aluan were coding for CS 411.");
             Console.WriteLine(str);
             Document doc = TaggerUtil.TaggedToDoc(str);
 
-            for (; ; ) {
-                SubjectBinder s = new SubjectBinder();
-                s.bind(doc);
-                s.display();
-                StdIO.WaitForKey();
+            SubjectBinder s = new SubjectBinder();
+            s.bind(doc);
+            s.display();
+            Console.WriteLine("Press escape to exit");
+            for (var k = Console.ReadKey(); k.Key != ConsoleKey.Escape; k = Console.ReadKey())
+            {
+                Console.WriteLine("Press escape to exit");
             }
-            //Console.WriteLine("Press escape to exit");
-            //for (var k = Console.ReadKey(); k.Key != ConsoleKey.Escape; k = Console.ReadKey()) {
-            //Console.WriteLine("Press escape to exit");
-            //}
         }
     }
 }
