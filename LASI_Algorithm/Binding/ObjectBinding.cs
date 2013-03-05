@@ -230,7 +230,7 @@ namespace LASI.Algorithm.Binding
                 Machine.ConjunctNounPhrases.Add(phrase);
                 Machine.entities.Push(phrase);
                 Machine.BindBuiltupAdjectivePhrases(phrase);
-                if (phrase
+                //if (phrase
                 St2.ProcessNext(Stream.PopDynamic());
             }
             public void ProcessNext(ConjunctionPhrase phrase) {

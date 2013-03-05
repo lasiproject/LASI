@@ -15,13 +15,17 @@ namespace Dustin_Experimentation
     {
         static void Main(string[] args) 
         {
-            SubjectBinder s = new SubjectBinder();
-            s.bind();
-            s.display();
-            Console.WriteLine("Press escape to exit");
-            for (var k = Console.ReadKey(); k.Key != ConsoleKey.Escape; k = Console.ReadKey()) {
-                Console.WriteLine("Press escape to exit");
+            for (; ; )
+            {
+                SubjectBinder s = new SubjectBinder();
+                s.bind();
+                s.display();
+                StdIO.WaitForKey();
             }
+            //Console.WriteLine("Press escape to exit");
+            //for (var k = Console.ReadKey(); k.Key != ConsoleKey.Escape; k = Console.ReadKey()) {
+                //Console.WriteLine("Press escape to exit");
+            //}
         }
     }
 }
