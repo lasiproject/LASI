@@ -20,7 +20,7 @@ namespace LASI.Algorithm.Binding
             St0.ProcessNext(inputstream.PopDynamic());
         }
 
-        private void DirectObjectFound() {
+        private void AssociateDirectObject() {
             foreach (var e in entities) {
                 _bindingTarget.BindDirectObject(e);
             }
@@ -123,7 +123,7 @@ namespace LASI.Algorithm.Binding
                 Machine.entities.Push(phrase);
                 if (Machine.inputstream.Count < 1) {
                     if (Machine.directObject == null)
-                        Machine.DirectObjectFound();
+                        Machine.AssociateDirectObject();
                     else
                         Machine.IndirectObjectFound();
 
@@ -151,7 +151,7 @@ namespace LASI.Algorithm.Binding
                 Machine.BindBuiltupAdjectivePhrases(phrase);
                 if (Machine.inputstream.Count < 1) {
                     if (Machine.directObject == null)
-                        Machine.DirectObjectFound();
+                        Machine.AssociateDirectObject();
                     else
                         Machine.IndirectObjectFound();
 
@@ -175,7 +175,7 @@ namespace LASI.Algorithm.Binding
                 Machine.ConjunctNounPhrases.Add(Machine.entities.Peek());
                 if (Machine.inputstream.Count < 1) {
                     if (Machine.directObject == null)
-                        Machine.DirectObjectFound();
+                        Machine.AssociateDirectObject();
                     else
                         Machine.IndirectObjectFound();
 
@@ -189,7 +189,7 @@ namespace LASI.Algorithm.Binding
             }
 
             public void ProcessNext(PrepositionalPhrase phrase) {
-                Machine.DirectObjectFound();
+                Machine.AssociateDirectObject();
                 Machine.St0.ProcessNext(Stream.PopDynamic());
             }
 
@@ -210,7 +210,7 @@ namespace LASI.Algorithm.Binding
                 Machine.lastConjunctive.OnRight = phrase;
                 if (Machine.inputstream.Count < 1) {
                     if (Machine.directObject == null)
-                        Machine.DirectObjectFound();
+                        Machine.AssociateDirectObject();
                     else
                         Machine.IndirectObjectFound();
 
@@ -222,7 +222,7 @@ namespace LASI.Algorithm.Binding
                 Machine.lastAdjectivals.Add(phrase);
                 if (Machine.inputstream.Count < 1) {
                     if (Machine.directObject == null)
-                        Machine.DirectObjectFound();
+                        Machine.AssociateDirectObject();
                     else
                         Machine.IndirectObjectFound();
 
@@ -244,7 +244,7 @@ namespace LASI.Algorithm.Binding
                 Machine.BindBuiltupAdjectivePhrases(phrase);
                 if (Machine.inputstream.Count < 1) {
                     if (Machine.directObject == null)
-                        Machine.DirectObjectFound();
+                        Machine.AssociateDirectObject();
                     else
                         Machine.IndirectObjectFound();
 
@@ -257,7 +257,7 @@ namespace LASI.Algorithm.Binding
                 Machine.lastConjunctive = phrase;
                 if (Machine.inputstream.Count < 1) {
                     if (Machine.directObject == null)
-                        Machine.DirectObjectFound();
+                        Machine.AssociateDirectObject();
                     else
                         Machine.IndirectObjectFound();
 
@@ -280,7 +280,7 @@ namespace LASI.Algorithm.Binding
                 Machine.lastConjunctive.OnRight = phrase;
                 if (Machine.inputstream.Count < 1) {
                     if (Machine.directObject == null)
-                        Machine.DirectObjectFound();
+                        Machine.AssociateDirectObject();
                     else
                         Machine.IndirectObjectFound();
 
@@ -295,7 +295,7 @@ namespace LASI.Algorithm.Binding
                 Machine.BindBuiltupAdjectivePhrases(phrase);
                 if (Machine.inputstream.Count < 1) {
                     if (Machine.directObject == null)
-                        Machine.DirectObjectFound();
+                        Machine.AssociateDirectObject();
                     else
                         Machine.IndirectObjectFound();
 
