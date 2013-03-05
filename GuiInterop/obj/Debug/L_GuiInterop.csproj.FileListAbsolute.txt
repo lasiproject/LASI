@@ -1,0 +1,17 @@
+C:\Users\Scott\Documents\Visual Studio 2012\Projects\LASI\GuiInterop\bin\Debug\App.config
+C:\Users\Scott\Documents\Visual Studio 2012\Projects\LASI\GuiInterop\bin\Debug\GuiInterop.dll
+C:\Users\Scott\Documents\Visual Studio 2012\Projects\LASI\GuiInterop\bin\Debug\GuiInterop.pdb
+C:\Users\Scott\Documents\Visual Studio 2012\Projects\LASI\GuiInterop\bin\Debug\Algorithm.dll
+C:\Users\Scott\Documents\Visual Studio 2012\Projects\LASI\GuiInterop\bin\Debug\FileSystem.dll
+C:\Users\Scott\Documents\Visual Studio 2012\Projects\LASI\GuiInterop\bin\Debug\LASI_Utilities.dll
+C:\Users\Scott\Documents\Visual Studio 2012\Projects\LASI\GuiInterop\bin\Debug\UserInterface.exe
+C:\Users\Scott\Documents\Visual Studio 2012\Projects\LASI\GuiInterop\bin\Debug\OpenNLP.dll
+C:\Users\Scott\Documents\Visual Studio 2012\Projects\LASI\GuiInterop\bin\Debug\SharpEntropy.dll
+C:\Users\Scott\Documents\Visual Studio 2012\Projects\LASI\GuiInterop\bin\Debug\SharpWordNet.dll
+C:\Users\Scott\Documents\Visual Studio 2012\Projects\LASI\GuiInterop\bin\Debug\Algorithm.pdb
+C:\Users\Scott\Documents\Visual Studio 2012\Projects\LASI\GuiInterop\bin\Debug\FileSystem.pdb
+C:\Users\Scott\Documents\Visual Studio 2012\Projects\LASI\GuiInterop\bin\Debug\UserInterface.pdb
+C:\Users\Scott\Documents\Visual Studio 2012\Projects\LASI\GuiInterop\bin\Debug\LASI_Utilities.pdb
+C:\Users\Scott\Documents\Visual Studio 2012\Projects\LASI\GuiInterop\obj\Debug\L_GuiInterop.csprojResolveAssemblyReference.cache
+C:\Users\Scott\Documents\Visual Studio 2012\Projects\LASI\GuiInterop\obj\Debug\GuiInterop.dll
+C:\Users\Scott\Documents\Visual Studio 2012\Projects\LASI\GuiInterop\obj\Debug\GuiInterop.pdb
