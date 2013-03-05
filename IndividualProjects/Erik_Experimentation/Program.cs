@@ -14,10 +14,24 @@ namespace Erik_Experimentation
 {
     class Program
     {
+        class SynSet
+        {
+            public string setId;
+            public List<string> words = new List<string>();
+            public List<string> referencedCodes = new List<string>();
+        }
         static void Main(string[] args) {
 
+            Word w = null;
+            List<SynSet> synsets = new List<SynSet>();
 
 
+            var results = from sn in synsets
+                          where sn.words.Contains(w.Text)
+                          select sn.referencedCodes;
+            var referencedFlat = from R in results
+                                 from r in R
+                                 select r;
 
 
 

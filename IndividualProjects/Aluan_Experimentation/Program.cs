@@ -16,7 +16,13 @@ namespace Aluan_Experimentation
 {
     public class Program
     {
+        
         static void Main(string[] args) {
+           
+           
+
+
+
 
 
             LASI.Utilities.TaggerUtil.TaggerOption = TaggingOption.TagAndAggregate;
@@ -70,8 +76,7 @@ namespace Aluan_Experimentation
         private static async Task<IEnumerable<string>> CountByTypeAndText(Document document) {
             return await Task.Run(() => {
                 var phrasePOSCounts = from R in document.Phrases
-                                      group R by new
-                                      {
+                                      group R by new {
                                           Type = R.GetType(),
                                           R.Text
                                       } into G
@@ -94,7 +99,8 @@ namespace Aluan_Experimentation
                     foreach (var v in verbLookUp[input]) {
                         Console.Write(v + ", ");
                     }
-                } catch (KeyNotFoundException) {
+                }
+                catch (KeyNotFoundException) {
                     Console.WriteLine(String.Format("No synonyms recognized for \"{0}\" : as verb", input));
                 }
                 Console.WriteLine();

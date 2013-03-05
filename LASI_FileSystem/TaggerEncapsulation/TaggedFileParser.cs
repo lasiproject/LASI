@@ -53,7 +53,7 @@ namespace LASI.FileSystem
         public override IEnumerable<Paragraph> LoadParagraphs() {
             var results = new List<Paragraph>();
 
-            var data = PreProcessTextData(TaggedInputData);
+            var data = PreProcessTextData(TaggedInputData.Trim());
             foreach (var paragraph in ParseParagraphs(data)) {
                 var parsedSentences = new List<Sentence>();
                 var sentences = SplitIntoSentences(paragraph);

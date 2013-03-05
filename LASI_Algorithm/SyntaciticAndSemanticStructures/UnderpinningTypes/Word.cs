@@ -9,10 +9,8 @@ using System.Xml.Linq;
 namespace LASI.Algorithm
 {
     /// <summary>
-    /// Provides the base class, properties, and behaviors for all w level gramatical constructs.
+    /// Provides the base class, properties, and behaviors for all word level gramatical constructs.
     /// </summary>
-
-    // made Word class a normal class instead of an abstract class
     public abstract class Word : IPrepositionLinkable, IEquatable<Word>
     {
         #region Constructors
