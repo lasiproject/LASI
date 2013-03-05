@@ -70,16 +70,8 @@ namespace Scott_Experimentation
             var DocTest = LASI.Utilities.TaggerUtil.UntaggedToDoc(TestString);
 
             NounPhrase np1 = null;
-            int NpCtrl = 0;
-            foreach (var v in DocTest.Phrases.GetNounPhrases())
-            {
-                if (NpCtrl == 1)
-                {
-                    np1 = v;
-                }
-                NpCtrl++;
-            }
-
+            np1 = DocTest.Phrases.GetNounPhrases().First();       
+          
             Console.WriteLine(np1);
 
             
