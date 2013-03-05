@@ -13,15 +13,11 @@ namespace Dustin_Experimentation
 {
     class Program
     {
-        static void Main(string[] args) {
-
-
-
-
-
-
-
-            //Keeps the console window open until the escape key is pressed
+        static void Main(string[] args) 
+        {
+            SubjectBinder s = new SubjectBinder();
+            s.bind();
+            s.display();
             Console.WriteLine("Press escape to exit");
             for (var k = Console.ReadKey(); k.Key != ConsoleKey.Escape; k = Console.ReadKey()) {
                 Console.WriteLine("Press escape to exit");

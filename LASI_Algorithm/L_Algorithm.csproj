@@ -60,7 +60,6 @@
     <Compile Include="Heuristics\IDocumentAnalyzer.cs" />
     <Compile Include="Heuristics\Metric.cs" />
     <Compile Include="PhraseTypes\InterjectionPhrase.cs" />
-    <Compile Include="SubjectBind.cs" />
     <Compile Include="Weighting\WeightKind.cs" />
     <Compile Include="Weighting\Weight.cs" />
     <Compile Include="WordTypes\NounConstructs\EntityThemeMemberKind.cs" />
