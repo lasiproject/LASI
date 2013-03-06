@@ -75,8 +75,10 @@ namespace LASI.Algorithm
             }
             foreach (var i in stateList)
             {
-                if(i.StatePhrase is NounPhrase)
-                    v1.BindSubject(i.StatePhrase as NounPhrase);
+                if (i.StatePhrase is NounPhrase)
+                {
+                        v1.BindSubject(i.StatePhrase as NounPhrase);
+                }
             }
         }
         public void display() {

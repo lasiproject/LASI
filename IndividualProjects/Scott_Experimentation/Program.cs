@@ -9,6 +9,7 @@ using LASI.FileSystem;
 using LASI.Utilities;
 using SharpNLPTaggingModule;
 using System.IO;
+using LASI.Algorithm.Binding;
 
 namespace Scott_Experimentation
 {
@@ -68,17 +69,21 @@ namespace Scott_Experimentation
 
             string TestString = "This is a string of text to test.";
             var DocTest = LASI.Utilities.TaggerUtil.UntaggedToDoc(TestString);
-
-            //NounPhrase np1 = null;
-            //np1 = DocTest.Phrases.GetNounPhrases().First();       
-            //Console.WriteLine(np1);
             
             SubjectBinder sb1 = new SubjectBinder();
-            foreach (Sentence s in document.Sentences)
+            
+            foreach (Sentence s in DocTest.Sentences)
             {
-                sb1.bind(s);
+                    sb1.bind(s);
             }
-            //sb1.display();
+
+            var ctrl = 0;
+            foreach (var phrs in DocTest.Phrases)
+            {
+                Console.WriteLine("{0}, {1}",ctrl, phrs.ToString(true));
+                ctrl++;
+            }
+            
 
             
             Console.WriteLine(sep);

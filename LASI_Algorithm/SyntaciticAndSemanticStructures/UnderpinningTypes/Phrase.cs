@@ -38,8 +38,6 @@ namespace LASI.Algorithm
         }
         public virtual string ToString(bool verbose) {
             return ToString();
-
-
         }
 
         public void EstablishParent(Clause clause) {
