@@ -13,6 +13,8 @@ using LASI.Algorithm.Binding;
 using LASI.Algorithm;
 using LASI.FileSystem;
 using LASI.Algorithm.Weighting;
+using LASI.Algorithm;
+using LASI.Algorithm.Thesauri;
 namespace Aluan_Experimentation
 {
     public class Program
@@ -21,7 +23,6 @@ namespace Aluan_Experimentation
         static void Main(string[] args) {
 
 
-            var myword = new ProperSingularNoun("Scott");
 
 
 
@@ -39,15 +40,36 @@ namespace Aluan_Experimentation
 
 
 
-            var wordWeight = properNoun.Weights[WeightKind.Individual];
             LASI.Utilities.TaggerUtil.TaggerOption = TaggingOption.TagAndAggregate;
-            var str = TaggerUtil.TagString("The wind blew a pale green mitten and a fluffy dog at me.");
+            var str = TaggerUtil.TagString("The wind blew a pale green mitten and a fluffy dog at me. I had a pale green mitten when I was a boy.");
             Console.WriteLine(str);
             var doc = TaggerUtil.TaggedToDoc(str);
 
-            PhraseWiseObjectBinder binder = new PhraseWiseObjectBinder(doc.Phrases.ToList()[1] as VerbPhrase, doc.Phrases.Skip(2));
+            //PhraseWiseObjectBinder binder = new PhraseWiseObjectBinder(doc.Phrases.ToList()[1] as VerbPhrase, doc.Phrases.Skip(2));
             foreach (var phrase in doc.Phrases)
                 print(phrase.ToString(true));
+            var myThesaurus = new NounThesaurus("");
+
+
+            List<Word> considering = new List<Word>();
+
+
+            var w1 = doc.Words.First();
+            doc.Words.FindAllOccurances(w1);
+
+            foreach (var w in doc.Words.AsParallel()) {
+
+                var count = doc.Words.Count((Word wd) => {
+                    return (considering.Contains(wd) && wd.GetType() == w.GetType())
+                        && (wd.Text == w.Text || myThesaurus[w].Contains(wd.Text));
+                });
+
+
+
+
+                Console.WriteLine(string.Format("for word: {0}, count is {1}", w, count));
+            }
+
             StdIO.WaitForKey();
 
 

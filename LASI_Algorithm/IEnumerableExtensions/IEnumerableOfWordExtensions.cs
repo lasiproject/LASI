@@ -16,13 +16,15 @@ namespace LASI.Algorithm
         /// <param name="toMatch">The Word to match</param>
         /// <returns>A WordList containing all words which match the argument</returns>
         /// <see cref="Word"/>
-        public static IEnumerable<Word> GetAllOccurances(this IEnumerable<Word> words, Word toMatch) {
+        public static IEnumerable<Word> FindAllOccurances(this IEnumerable<Word> words,
+            Word toMatch) {
             return from word in words
-                   where word == toMatch
+                   where word.Text == toMatch.Text && word.GetType() == toMatch.GetType()
                    select word;
         }
 
-        public static IEnumerable<Word> GetAllOccurances(this IEnumerable<Word> words, Word toMatch, Func<Word, Word, bool> comparison) {
+        public static IEnumerable<Word> FindAllOccurances(this IEnumerable<Word> words,
+            Word toMatch, Func<Word, Word, bool> comparison) {
             return from W in words
                    where comparison(toMatch, W)
                    select W;
