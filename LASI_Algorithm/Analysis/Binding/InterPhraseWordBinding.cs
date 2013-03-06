@@ -10,7 +10,10 @@ namespace LASI.Algorithm
     {
         public void InterNounPhrase(NounPhrase np)
         {
-            Console.WriteLine(np);
+            if (np.Words.Count() > 1)
+            {
+                Console.WriteLine(np);
+            }
         }
     }
 }
