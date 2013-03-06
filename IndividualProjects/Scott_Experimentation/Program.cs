@@ -83,15 +83,14 @@ namespace Scott_Experimentation
                 Console.WriteLine("{0}, {1}",ctrl, phrs.ToString(true));
                 ctrl++;
             }
-            
+
 
             
             Console.WriteLine(sep);
-
-            foreach(var wrd in document.Words)
+            InterPhraseWordBinding ip1 = new InterPhraseWordBinding();
+            foreach(var phrs in DocTest.Phrases.GetNounPhrases())
             {
-                if(wrd is Adjective)
-                    Console.WriteLine(wrd);
+                ip1.InterNounPhrase(phrs);
             }
             
             StdIO.WaitForAnyKey();
