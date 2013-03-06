@@ -23,8 +23,8 @@ namespace Dustin_Experimentation
             foreach (Sentence i in doc.Sentences)
             {
                 s.bind(i);
-                s.display();
             }
+            s.display();
             Console.WriteLine("Press escape to exit");
             for (var k = Console.ReadKey(); k.Key != ConsoleKey.Escape; k = Console.ReadKey())
             {
