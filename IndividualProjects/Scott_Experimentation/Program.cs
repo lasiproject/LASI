@@ -72,13 +72,13 @@ namespace Scott_Experimentation
             
             SubjectBinder sb1 = new SubjectBinder();
             
-            foreach (Sentence s in DocTest.Sentences)
+            foreach (Sentence s in document.Sentences)
             {
                     sb1.bind(s);
             }
 
             var ctrl = 0;
-            foreach (var phrs in DocTest.Phrases)
+            foreach (var phrs in document.Phrases)
             {
                 Console.WriteLine("{0}, {1}",ctrl, phrs.ToString(true));
                 ctrl++;
