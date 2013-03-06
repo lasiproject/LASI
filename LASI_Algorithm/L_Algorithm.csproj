@@ -53,7 +53,7 @@
   <ItemGroup>
     <Compile Include="Analysis\Binding\EntityReferenceBinder.cs" />
     <Compile Include="Analysis\Binding\InvalidStateTransitionException.cs" />
-    <Compile Include="Analysis\Binding\ObjectBinding.cs" />
+    <Compile Include="Analysis\Binding\PhraseWiseObjectBinder.cs" />
     <Compile Include="Analysis\Binding\SubjectBinder.cs" />
     <Compile Include="Analysis\Binding\WordStream.cs" />
     <Compile Include="SyntaciticAndSemanticStructures\NounRelatedConstructs\EntityKind.cs" />

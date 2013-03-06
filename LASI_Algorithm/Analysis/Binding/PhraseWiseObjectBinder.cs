@@ -10,7 +10,7 @@ namespace LASI.Algorithm.Binding
     {
         public PhraseWiseObjectBinder(VerbPhrase bindingTarget, IEnumerable<Phrase> remainingPhrases) {
             _bindingTarget = bindingTarget;
-            inputstream = new Stack<Phrase>(remainingPhrases);
+            inputstream = new Stack<Phrase>(remainingPhrases.Reverse());
             St0 = new State0(this);
             St1 = new State1(this);
             St2 = new State2(this);
@@ -189,7 +189,8 @@ namespace LASI.Algorithm.Binding
             }
 
             public void ProcessNext(PrepositionalPhrase phrase) {
-                Machine.AssociateDirectObject();
+                foreach (var e in Machine.entities)
+                    Machine._bindingTarget.BindDirectObject(e);
                 Machine.St0.ProcessNext(Stream.PopDynamic());
             }
 

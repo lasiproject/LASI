@@ -12,19 +12,34 @@ using LASI.FileSystem.FileTypes;
 using LASI.Algorithm.Binding;
 using LASI.Algorithm;
 using LASI.FileSystem;
+using LASI.Algorithm.Weighting;
 namespace Aluan_Experimentation
 {
     public class Program
     {
-        
+
         static void Main(string[] args) {
-           
-           
+
+
+            var myword = new ProperSingularNoun("Scott");
 
 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+            var wordWeight = properNoun.Weights[WeightKind.Individual];
             LASI.Utilities.TaggerUtil.TaggerOption = TaggingOption.TagAndAggregate;
             var str = TaggerUtil.TagString("The wind blew a pale green mitten and a fluffy dog at me.");
             Console.WriteLine(str);
