@@ -9,7 +9,10 @@ namespace LASI.Algorithm
     public class SubjectBinder
     {
         List<State> stateList = new List<State>();
-
+        /// <summary>
+        /// This is the bind function 
+        /// </summary>
+        /// <param name="s"></param>
         public void bind(Sentence s) {
             
             VerbPhrase v1 = null;
