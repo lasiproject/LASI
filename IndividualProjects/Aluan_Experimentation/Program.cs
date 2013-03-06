@@ -23,52 +23,22 @@ namespace Aluan_Experimentation
         static void Main(string[] args) {
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
             LASI.Utilities.TaggerUtil.TaggerOption = TaggingOption.TagAndAggregate;
-            var str = TaggerUtil.TagString("The wind blew a pale green mitten and a fluffy dog at me. I had a pale green mitten when I was a boy.");
+            var str = TaggerUtil.TagString("The red team worked hard yesterday.");
             Console.WriteLine(str);
             var doc = TaggerUtil.TaggedToDoc(str);
-
-            //PhraseWiseObjectBinder binder = new PhraseWiseObjectBinder(doc.Phrases.ToList()[1] as VerbPhrase, doc.Phrases.Skip(2));
+            SubjectBinder subjectBinder = new LASI.Algorithm.SubjectBinder();
+            subjectBinder.bind(doc.Sentences.First());
+            PhraseWiseObjectBinder objectBinder = new PhraseWiseObjectBinder(doc.Phrases.ToList()[1] as VerbPhrase, doc.Phrases.Skip(2));
             foreach (var phrase in doc.Phrases)
                 print(phrase.ToString(true));
-            var myThesaurus = new NounThesaurus("");
-
-
-            List<Word> considering = new List<Word>();
-
-
-            var w1 = doc.Words.First();
-            doc.Words.FindAllOccurances(w1);
-
-            foreach (var w in doc.Words.AsParallel()) {
-
-                var count = doc.Words.Count((Word wd) => {
-                    return (considering.Contains(wd) && wd.GetType() == w.GetType())
-                        && (wd.Text == w.Text || myThesaurus[w].Contains(wd.Text));
-                });
 
 
 
 
-                Console.WriteLine(string.Format("for word: {0}, count is {1}", w, count));
-            }
+
+
+
 
             StdIO.WaitForKey();
 

@@ -32,8 +32,8 @@ namespace Brittany_WPF_Experimentation
         }
 
         private void Taggit_Button_Click_1(object sender, RoutedEventArgs e) {
-            var tagged = TaggerUtil.TagString(input.Text);
-            output.Text = tagged;
+            var doc = TaggerUtil.TagString(input.Text);
+
         }
     }
 }
