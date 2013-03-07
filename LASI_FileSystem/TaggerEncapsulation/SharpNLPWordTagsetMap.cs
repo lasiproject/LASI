@@ -32,7 +32,7 @@ namespace LASI.FileSystem
             { "CD", t => new Quantifier(t) }, //Cardinal number
             { "DT", t => new Determiner(t) }, //Determiner
             { "EX", t => new Existential(t) }, //Existential 'there'
-            { "FW", t => new ForeignWord(t) }, //Foreign w
+            { "FW", t => new ForeignWord(t) }, //Foreign word
             { "IN", t => new Preposition(t) }, //Preposition or subordinating conjunction
             //Adjective mappings
             { "JJ", t => new Adjective(t) }, //Adjective

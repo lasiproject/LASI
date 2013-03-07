@@ -22,7 +22,7 @@ namespace LASI.FileSystem.TaggerEncapsulation
             { "SINV", words => new SimpleDeclarativePhrase(words) },
             { "SQ", words => new InterrogativePhrase(words) },
             { "SBARQ", words => new InterrogativePhrase(words) },
-            { "SBAR", words => new PrepositionalPhrase(words) },
+            { "SBAR", words => new SubordinateClauseBeginPhrase(words) },
             { "LST", words => new RoughListPhrase(words) },
 
         };
@@ -35,8 +35,7 @@ namespace LASI.FileSystem.TaggerEncapsulation
             get {
                 try {
                     return typeDictionary[tag];
-                }
-                catch (KeyNotFoundException) {
+                } catch (KeyNotFoundException) {
                     throw new UnknownPhraseTypeException(String.Format("The phrase tag {0} is not defined by this Tagset", tag));
                 }
             }
@@ -47,8 +46,7 @@ namespace LASI.FileSystem.TaggerEncapsulation
             get {
                 try {
                     return typeDictionary.First(pair => pair.Value == mappedConstructor).Key;
-                }
-                catch (InvalidOperationException) {
+                } catch (InvalidOperationException) {
                     throw new UnmappedPhraseConstructorException(String.Format("Phrase constructor\n{0}\nis not mapped by this Tagset for", mappedConstructor));
                 }
             }

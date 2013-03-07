@@ -38,7 +38,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Binds an EntityReferency, generall a Pronoun or PronounPhrase to refer to the Noun.
         /// </summary>
-        /// <param name="pro">The EntityReferency to bind.</param>
+        /// <param name="pro">The EntityReferency to Bind.</param>
         public virtual void BindPronoun(Pronoun pro) {
             pro.BoundEntity = this;
             _boundPronouns.Add(pro);

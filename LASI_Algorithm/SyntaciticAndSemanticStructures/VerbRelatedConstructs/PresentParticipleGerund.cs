@@ -23,7 +23,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Binds a Pronoun or PronounPhrase to refer to the gerund.
         /// </summary>
-        /// <param name="pro">The Pronoun or PronounPhrase to bind to the gerund</param>
+        /// <param name="pro">The Pronoun or PronounPhrase to Bind to the gerund</param>
         public void BindPronoun(Pronoun pro) {
             pro.BoundEntity = this;
             _indirectReferences.Add(pro);

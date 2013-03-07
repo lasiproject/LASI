@@ -12,27 +12,33 @@ namespace LASI.Algorithm
             Clauses = new[] { new Clause(from P in phrases select P) };
 
         }
-        public Sentence(IEnumerable<Phrase> phrases, SentenceDelimiter EOSText = null) {
+        public Sentence(IEnumerable<Phrase> phrases, SentencePunctuation sentencePunctuation = null) {
             Clauses = new[] { new Clause(from P in phrases select P) };
-            EndingPunctuation = EOSText == null ?
-            new SentenceDelimiter('.') :
-            EOSText;
+            EndingPunctuation = sentencePunctuation == null ?
+            new SentencePunctuation('.') :
+            sentencePunctuation;
         }
-        public Sentence(IEnumerable<Word> words, SentenceDelimiter EOSText = null) {
+        public Sentence(IEnumerable<Word> words, SentencePunctuation sentencePunctuation = null) {
             Clauses = new[] { new Clause(from W in words select W) };
-            EndingPunctuation = EOSText == null ?
-            new SentenceDelimiter('.') :
-            EOSText;
+            EndingPunctuation = sentencePunctuation == null ?
+               new SentencePunctuation('.') :
+               sentencePunctuation;
         }
         public Sentence(IEnumerable<Clause> clauses) {
             Clauses = clauses;
             EndingPunctuation =
-                new SentenceDelimiter('.');
+                new SentencePunctuation('.');
+        }
+        public Sentence(IEnumerable<Clause> clauses, SentencePunctuation sentencePunctuation = null) {
+            Clauses = clauses;
+            EndingPunctuation = sentencePunctuation == null ?
+                new SentencePunctuation('.') :
+                sentencePunctuation;
         }
         /// <summary>
         /// Gets the ending punctuation character of the sentence.
         /// </summary>
-        public SentenceDelimiter EndingPunctuation {
+        public SentencePunctuation EndingPunctuation {
             get;
             set;
         }
@@ -82,7 +88,8 @@ namespace LASI.Algorithm
         /// </summary>
         public IEnumerable<Word> Words {
             get {
-                return from P in Phrases
+                return from c in Clauses
+                       from P in Phrases
                        from W in P.Words
                        select W;
             }
@@ -92,7 +99,7 @@ namespace LASI.Algorithm
         /// </summary>
         public string Text {
             get {
-                return Phrases.Aggregate("", (txt, P) => txt + P.Text + " ").Trim();
+                return (Phrases.Aggregate("", (txt, P) => txt + " " + P.Text) + EndingPunctuation.Text).Trim();
             }
         }
 

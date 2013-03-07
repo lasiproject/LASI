@@ -73,10 +73,7 @@ namespace LASI.Algorithm
             get;
             set;
         }
-        public virtual Punctuator EndingPunction {
-            get;
-            set;
-        }
+
         /// <summary>
         /// Gets, lexically speaking, the next Phrase in the ParentDocument to which the instance belongs.
         /// </summary>

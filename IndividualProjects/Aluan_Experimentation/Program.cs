@@ -23,12 +23,13 @@ namespace Aluan_Experimentation
 
 
             LASI.Utilities.TaggerUtil.TaggerOption = TaggingOption.TagAndAggregate;
-            var str = TaggerUtil.TagString("The red team worked hard yesterday.");
+            var str = TaggerUtil.TagString("He gave it to her.");
             Console.WriteLine(str);
             var doc = TaggerUtil.TaggedToDoc(str);
             SubjectBinder subjectBinder = new LASI.Algorithm.SubjectBinder();
-            subjectBinder.bind(doc.Sentences.First());
-            PhraseWiseObjectBinder objectBinder = new PhraseWiseObjectBinder(doc.Phrases.ToList()[1] as VerbPhrase, doc.Phrases.Skip(2));
+            subjectBinder.Bind(doc.Sentences.First());
+            ObjectBinder objectBinder = new ObjectBinder();
+            objectBinder.Bind(doc.Sentences.First());
             foreach (var phrase in doc.Phrases)
                 print(phrase.ToString(true));
 
@@ -82,7 +83,8 @@ namespace Aluan_Experimentation
         private static async Task<IEnumerable<string>> CountByTypeAndText(Document document) {
             return await Task.Run(() => {
                 var phrasePOSCounts = from R in document.Phrases
-                                      group R by new {
+                                      group R by new
+                                      {
                                           Type = R.GetType(),
                                           R.Text
                                       } into G
@@ -105,8 +107,7 @@ namespace Aluan_Experimentation
                     foreach (var v in verbLookUp[input]) {
                         Console.Write(v + ", ");
                     }
-                }
-                catch (KeyNotFoundException) {
+                } catch (KeyNotFoundException) {
                     Console.WriteLine(String.Format("No synonyms recognized for \"{0}\" : as verb", input));
                 }
                 Console.WriteLine();

@@ -58,30 +58,44 @@ namespace LASI.FileSystem
                 var parsedSentences = new List<Sentence>();
                 var sentences = SplitIntoSentences(paragraph);
                 foreach (var sent in sentences) {
+                    var parsedClauses = new List<Clause>();
                     var parsedPhrases = new List<Phrase>();
                     var chunks = from chunk in sent.Split(new[] { "[", "]" }, StringSplitOptions.None)
                                  where !String.IsNullOrWhiteSpace(chunk) && !String.IsNullOrEmpty(chunk)
                                  select chunk.Trim();
+                    SentencePunctuation sentencePunctuation = null;
+
                     foreach (var chunk in chunks) {
                         char token = SkipToNextElement(chunk);
                         if (token == ' ') {
                             var currentPhrase = ParsePhrase(new TaggedPhraseObject {
-                                Tag = chunk.Substring(0, chunk.IndexOf(' ')),
-                                Text = chunk.Substring(chunk.IndexOf(' '))
+                                Text = chunk.Substring(chunk.IndexOf(' ')), Tag = chunk.Substring(0, chunk.IndexOf(' '))
                             });
                             parsedPhrases.Add(currentPhrase);
-                        }
-                        else if (token == '/') {
+
+                            if (currentPhrase is SubordinateClauseBeginPhrase) {
+                                parsedClauses.Add(new Clause(parsedPhrases.Take(parsedPhrases.Count - 1)));
+                                parsedPhrases = new List<Phrase>();
+                                parsedPhrases.Add(currentPhrase);
+                            }
+
+                        } else if (token == '/') {
                             var words = CreateWords(chunk);
                             if (words.Count == 1 && words.First() != null)
                                 if (words.First().Text == "and" || words.First().Text == "or") {
                                     var currentPhrase = new ConjunctionPhrase(words);
                                     parsedPhrases.Add(currentPhrase);
+                                } else if (words.Count() == 1 && words.First() is SentencePunctuation) {
+                                    sentencePunctuation = words.First() as SentencePunctuation;
+                                    parsedClauses.Add(new Clause(parsedPhrases.Take(parsedPhrases.Count)));
+                                    parsedPhrases = new List<Phrase>();
+                                } else {
+                                    parsedPhrases.Add(new UndeterminedPhrase(words));
                                 }
                         }
 
                     }
-                    parsedSentences.Add(new Sentence(parsedPhrases));
+                    parsedSentences.Add(new Sentence(parsedClauses, sentencePunctuation));
                 }
                 results.Add(new Paragraph(parsedSentences));
             }
@@ -89,18 +103,20 @@ namespace LASI.FileSystem
             return results;
         }
 
-        private static string[] SplitIntoSentences(string paragraph) {
-            var sentences = paragraph.Split(new[] { "./.", "!/.", "?/." }, StringSplitOptions.RemoveEmptyEntries);
-            return sentences;
+        private static IEnumerable<string> SplitIntoSentences(string paragraph) {
+            //var sentences = paragraph.Split(new[] { "./.", "!/.", "?/." }, StringSplitOptions.RemoveEmptyEntries);
+            Regex sentencesExtractor = new Regex(@"[\S\s]+[\.|\?|\!]+", RegexOptions.Multiline);
+            return from Match m in sentencesExtractor.Matches(paragraph)
+                   select m.Value;
         }
 
         private static char SkipToNextElement(string chunk) {
             var reader2 = (new StringReader(chunk));
             char token = '`';
             while (reader2.Peek() != '/' && reader2.Peek() != ' ') {
-                token = (char)reader2.Read();
+                token = (char) reader2.Read();
             }
-            token = (char)reader2.Read();
+            token = (char) reader2.Read();
             return token;
         }
 

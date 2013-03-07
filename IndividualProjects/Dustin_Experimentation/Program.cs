@@ -22,7 +22,7 @@ namespace Dustin_Experimentation
             SubjectBinder s = new SubjectBinder();
             foreach (Sentence i in doc.Sentences)
             {
-                s.bind(i);
+                s.Bind(i);
             }
             s.display();
             Console.WriteLine("Press escape to exit");

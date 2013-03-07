@@ -10,10 +10,10 @@ namespace LASI.Algorithm
     {
         List<State> stateList = new List<State>();
         /// <summary>
-        /// This is the bind function 
+        /// This is the Bind function 
         /// </summary>
         /// <param name="s"></param>
-        public void bind(Sentence s) {
+        public void Bind(Sentence s) {
             
             VerbPhrase v1 = null;
             foreach (var i in s.Phrases) {

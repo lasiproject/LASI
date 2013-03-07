@@ -82,16 +82,18 @@ namespace LASI.Algorithm
 
         public override string ToString(bool verbose) {
             if (verbose) {
+
                 var result = base.ToString() + "\n";
+                foreach (var s in BoundSubjects) {
+                    result += s != null ? "Subject: " + s.ToString() + "\n" : "";
+                }
                 foreach (var d in DirectObjects) {
                     result += d != null ? "Direct Object: " + d.ToString() + "\n" : "";
                 }
                 foreach (var i in IndirectObjects) {
                     result += i != null ? "Indirect Object: " + i.ToString() + "\n" : "";
                 }
-                foreach (var s in BoundSubjects) {
-                    result += s != null ? "Subject: " + s.ToString() + "\n" : "";
-                }
+                result += _modifiers.Count > 0 ? "Modifiers" : "\n";
                 foreach (var mod in _modifiers) {
                     result += "\n" + mod.ToString();
                 }

@@ -9,14 +9,14 @@ namespace LASI.Algorithm
     /// <summary>
     /// A specialization of Punctuator which represents character which demarkate the end of a sentence.
     /// </summary>
-    public class SentenceDelimiter : Punctuator
+    public class SentencePunctuation : Punctuator
     {
         /// <summary>
-        /// Initializes a new instance of the SentenceDelimiter class.
+        /// Initializes a new instance of the SentencePunctuation class.
         /// </summary>
         /// <param name="eos">A character which denotes the end of a sentence (valid values are '?', '!', and '.'</param>
         /// <exception cref="ArgumentException">Thrown when a character not within the specified set of valid values is passed to the constructor.</exception>
-        public SentenceDelimiter(char eos)
+        public SentencePunctuation(char eos)
             : base(eos) {
             if (eos != '.' && eos != '!' &&                                                                         
                 eos != '?')

@@ -30,7 +30,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Binds a modifier to the Adjective, modifying it.
         /// </summary>
-        /// <param name="adv">The IModifier instance (probably an Adverb or AdverbPhrase) to bind to the Adjective.</param>
+        /// <param name="adv">The IModifier instance (probably an Adverb or AdverbPhrase) to Bind to the Adjective.</param>
         public virtual void ModifyWith(IAdverbial adv) {
             _modifiers.Add(adv);
         }

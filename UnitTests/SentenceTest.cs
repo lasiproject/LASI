@@ -4,8 +4,8 @@ using System;
 
 namespace AlgorithmAssemblyUnitTestProject
 {
-    
-    
+
+
     /// <summary>
     ///This is a test class for SentenceTest and is intended
     ///to contain all SentenceTest Unit Tests
@@ -21,14 +21,11 @@ namespace AlgorithmAssemblyUnitTestProject
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
         ///</summary>
-        public TestContext TestContext
-        {
-            get
-            {
+        public TestContext TestContext {
+            get {
                 return testContextInstance;
             }
-            set
-            {
+            set {
                 testContextInstance = value;
             }
         }
@@ -71,10 +68,10 @@ namespace AlgorithmAssemblyUnitTestProject
         public void ToStringTest()
         {
             Phrase[] phrases = new Phrase[] {new NounPhrase(new Word[] {new ProperSingularNoun("LASI")}), new VerbPhrase (new Word[] {new PastTenseVerb ("found")}), new NounPhrase (new Word[] {new ProperPluralNoun ("TIMIS")})};
-            Sentence target = new Sentence(phrases);
-            string expected = "LASI.Algorithm.Sentence \"LASI found TIMIS\"";
+            Sentence target = new Sentence(phrases, new SentencePunctuation('.'));
+            string expected = "LASI.Algorithm.Sentence \"LASI found TIMIS.\"";
             string actual = target.ToString();
             Assert.AreEqual(expected, actual);
-        } 
+        }
     }
 }

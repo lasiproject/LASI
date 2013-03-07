@@ -106,11 +106,11 @@ namespace LASI.Algorithm.Thesauri
 
             data = Regex.Replace(data, @"([+]+|;c+)+[\s]+[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+", "");
 
-            var refRgx = new Regex(@"[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+");
+            var setIDsReferenced  = new Regex(@"[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+");
 
             var sep = data.Split(new[] { '!', '|' }, StringSplitOptions.RemoveEmptyEntries)[0];
 
-            var setReferences = from Match M in refRgx.Matches(sep)
+            var setReferences = from Match M in setIDsReferenced.Matches(sep)
                                 select M.Value;
             var elementRgx = new Regex(@"\b[A-Za-z-_]{2,}");
 

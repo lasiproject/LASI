@@ -74,7 +74,7 @@ namespace Scott_Experimentation
             
             foreach (Sentence s in document.Sentences)
             {
-                    sb1.bind(s);
+                    sb1.Bind(s);
             }
 
             var ctrl = 0;
