@@ -92,7 +92,7 @@ namespace LASI.Algorithm
         /// </summary>
         public string Text {
             get {
-                return Phrases.Aggregate("", (txt, P) => txt + " " + P.Text);
+                return Phrases.Aggregate("", (txt, P) => txt + P.Text +" " );
             }
         }
 
