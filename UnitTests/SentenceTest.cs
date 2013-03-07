@@ -70,9 +70,9 @@ namespace AlgorithmAssemblyUnitTestProject
         [TestMethod()]
         public void ToStringTest()
         {
-            Phrase[] phrases = new Phrase[] {new NounPhrase(new Word[] {new ProperSingularNoun("LASI")}), new VerbPhrase (new Word[] {new PastTenseVerb ("found")}), new NounPhrase (new Word[] {new ProperPluralNoun ("TIMIS")})}; // TODO: Initialize to an appropriate value
+            Phrase[] phrases = new Phrase[] {new NounPhrase(new Word[] {new ProperSingularNoun("LASI")}), new VerbPhrase (new Word[] {new PastTenseVerb ("found")}), new NounPhrase (new Word[] {new ProperPluralNoun ("TIMIS")})};
             Sentence target = new Sentence(phrases);
-            string expected = "LASI found TIMIS";
+            string expected = "\"LASI found TIMIS\"";
             string actual = target.ToString();
             Assert.AreEqual(expected, actual);
         } 
