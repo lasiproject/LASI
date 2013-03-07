@@ -124,7 +124,7 @@ namespace LASI.Algorithm
         /// </summary>
         /// <returns>A string representation of the Sentence.</returns>
         public override string ToString() {
-            return base.ToString() + "\" " + Text + "\"";
+            return base.ToString() + " \"" + Text + "\"";
         }
 
 

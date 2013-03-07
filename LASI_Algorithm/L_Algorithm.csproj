@@ -75,7 +75,7 @@
     <Compile Include="IEnumerableExtensions\IEnumerableOfPhraseExtensions.cs" />
     <Compile Include="Analysis\Heuristics\DocumentAnalyzer.cs" />
     <Compile Include="DocumentConstructs\Sentence.cs" />
-    <Compile Include="SyntaciticAndSemanticStructures\MiscLanguageConstructs\UndeterminedPhrase.cs" />
+    <Compile Include="SyntaciticAndSemanticStructures\NounRelatedConstructs\UndeterminedPhrase.cs" />
     <Compile Include="SyntaciticAndSemanticStructures\AdverbRelatedConstructs\IAdverbial.cs" />
     <Compile Include="SyntaciticAndSemanticStructures\MiscLanguageConstructs\IConflatable.cs" />
     <Compile Include="SyntaciticAndSemanticStructures\AdjectiveRelatedConstructs\IDescriber.cs" />
