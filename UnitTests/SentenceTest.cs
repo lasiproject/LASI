@@ -70,9 +70,9 @@ namespace AlgorithmAssemblyUnitTestProject
         [TestMethod()]
         public void ToStringTest()
         {
-            Phrase[] phrases = {new NounPhrase(new Word ( new ProperSingularNoun("LASI"))), new VerbPhrase (new Word (new PastTenseVerb ("found"))), new NounPhrase (new Word (new ProperPluralNoun ("TIMIS")))}; // TODO: Initialize to an appropriate value
+            Phrase[] phrases = new[] {new NounPhrase[]{new Word[] {new ProperSingularNoun("LASI")}}, new VerbPhrase[] {new Word[] {new PastTenseVerb ("found")}}, new NounPhrase[] {new Word[] {new ProperPluralNoun ("TIMIS")}}}; // TODO: Initialize to an appropriate value
             Sentence target = new Sentence(phrases); // TODO: Initialize to an appropriate value
-            string expected = "LASI finds TIMIS"; // TODO
+            string expected = "LASI found TIMIS"; // TODO
             Assert.AreEqual(expected, actual);
             //Assert.Inconclusive("Verify the correctness of this test method.");
         } 
