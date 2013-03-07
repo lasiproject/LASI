@@ -100,6 +100,7 @@
     <Compile Include="PersonalPronounTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PunctuatorTest.cs" />
+    <Compile Include="SentenceTest.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="TransitiveVerbTest.cs" />
     <Compile Include="VerbPhraseTest.cs" />
@@ -132,6 +133,7 @@
     <None Include="app.config">
       <SubType>Designer</SubType>
     </None>
+    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
