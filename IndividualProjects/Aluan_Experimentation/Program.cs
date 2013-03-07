@@ -10,7 +10,6 @@ using System.IO;
 using System.Xml;
 using LASI.FileSystem.FileTypes;
 using LASI.Algorithm.Binding;
-using LASI.Algorithm;
 using LASI.FileSystem;
 using LASI.Algorithm.Weighting;
 using LASI.Algorithm;

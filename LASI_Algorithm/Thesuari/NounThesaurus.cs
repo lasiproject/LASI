@@ -124,8 +124,7 @@ namespace LASI.Algorithm.Thesauri
 
                 Console.WriteLine(tester);
 
-           }
-            //console view
+           }//console view
         }
 
         public override IEnumerable<string> this[string search] {
