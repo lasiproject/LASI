@@ -99,6 +99,7 @@
     <Compile Include="SyntaciticAndSemanticStructures\AdjectiveRelatedConstructs\SuperlativeAdjective .cs" />
     <Compile Include="SyntaciticAndSemanticStructures\ConstrainingSemanticConstructs\PossessiveEnding.cs" />
     <Compile Include="Thesuari\NounThesaurus.cs" />
+    <Compile Include="Thesuari\SynSet.cs" />
     <Compile Include="Thesuari\ThesaurusLoadingState.cs" />
     <Compile Include="SyntaciticAndSemanticStructures\AdjectiveRelatedConstructs\Adjective.cs" />
     <Compile Include="SyntaciticAndSemanticStructures\AdjectiveRelatedConstructs\AdjectivePhrase.cs" />
