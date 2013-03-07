@@ -38,8 +38,8 @@ namespace LASI.Algorithm.Thesauri
 
                 string line;
 
-                for (int i = 0; i < 30; ++i)
-                {//Discard file header
+                for (int i = 0; i < 30; ++i) //stole this from Aluan
+                {
                     r.ReadLine();
                 }
 
