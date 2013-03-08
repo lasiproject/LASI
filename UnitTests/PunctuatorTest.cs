@@ -4,8 +4,8 @@ using System;
 
 namespace AlgorithmAssemblyUnitTestProject
 {
-    
-    
+
+
     /// <summary>
     ///This is a test class for PunctuatorTest and is intended
     ///to contain all PunctuatorTest Unit Tests
@@ -21,14 +21,11 @@ namespace AlgorithmAssemblyUnitTestProject
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
         ///</summary>
-        public TestContext TestContext
-        {
-            get
-            {
+        public TestContext TestContext {
+            get {
                 return testContextInstance;
             }
-            set
-            {
+            set {
                 testContextInstance = value;
             }
         }
@@ -68,8 +65,7 @@ namespace AlgorithmAssemblyUnitTestProject
         ///A test for Punctuator Constructor
         ///</summary>
         [TestMethod()]
-        public void PunctuatorConstructorTest()
-        {
+        public void PunctuatorConstructorTest() {
             char puncChar = '\u0021';
             Punctuator target = new Punctuator(puncChar);
             Assert.IsTrue(target.ActualCharacter == puncChar, "Punctuator Character Constructor Works!");
@@ -79,8 +75,7 @@ namespace AlgorithmAssemblyUnitTestProject
         ///A test for Punctuator Constructor
         ///</summary>
         [TestMethod()]
-        public void PunctuatorConstructorTest1()
-        {
+        public void PunctuatorConstructorTest1() {
             string puncString = "!";
             Punctuator target = new Punctuator(puncString);
             Assert.IsTrue(target.AliasString == puncString, "Punctuator String Constructor Works!"); //possibly?
@@ -90,13 +85,11 @@ namespace AlgorithmAssemblyUnitTestProject
         ///A test for Text
         ///</summary>
         [TestMethod()]
-        public void TextTest()
-        {
+        public void TextTest() {
             char puncChar = '\u0021';
             Punctuator target = new Punctuator(puncChar);
-            string expected = "!"; 
+            string expected = "!";
             string actual;
-            target.Text = expected;
             actual = target.Text;
             Assert.AreEqual(expected, actual);
         }

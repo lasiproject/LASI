@@ -69,7 +69,24 @@ namespace AlgorithmAssemblyUnitTestProject
         ///</summary>
         [TestMethod()]
         public void DocumentConstructorTest() {
-            IEnumerable<Paragraph> allParagrpahs = new[] { new Paragraph(new[] { new Sentence(new Clause[] { new Clause(new Phrase[] { new NounPhrase(new Word[] { new PersonalPronoun("We") }), new VerbPhrase(new Word[] { new Modal("must"), new Verb("attack", VerbTense.Base) }), new NounPhrase(new Word[] { new Adjective("blue"), new GenericSingularNoun("team") }) }) }) }) };
+            IEnumerable<Paragraph> allParagrpahs = new Paragraph[] { 
+                new Paragraph(new Sentence[] { 
+                    new Sentence(new Clause[] {
+                        new Clause(new Phrase[] { 
+                            new NounPhrase(new Word[] {    
+                                new PersonalPronoun("We") 
+                            }),
+                            new VerbPhrase(new Word[] { 
+                                new Modal("must"),
+                                new Verb("attack", VerbTense.Base) 
+                            }),
+                            new NounPhrase(new Word[] { 
+                                new Adjective("blue"), 
+                                new GenericSingularNoun("team") }
+                                ) }
+                            ) }
+                        ) }
+                    ) };
             Document target = new Document(allParagrpahs);
             Assert.Inconclusive("Verify the correctness of this test method.");
         }

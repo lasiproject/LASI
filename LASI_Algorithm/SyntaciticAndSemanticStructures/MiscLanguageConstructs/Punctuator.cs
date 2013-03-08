@@ -45,7 +45,7 @@ namespace LASI.Algorithm
             get {
                 return ActualCharacter.ToString();
             }
-            set {
+            protected set {
                 base.Text = value;
             }
         }

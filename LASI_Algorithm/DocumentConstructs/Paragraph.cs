@@ -65,18 +65,16 @@ namespace LASI.Algorithm
         private static int IDNumProvider;
 
         /// <summary>
-        /// Returns the paragraphs unique identification number.
+        /// Returns the document-unique identification number of the Paragraph.
         /// </summary>
         public int ID {
             get;
             private set;
         }
 
-        public int GUI {
-            get;
-            private set;
-        }
-
+        /// <summary>
+        /// Gets the textual content of the paragraph
+        /// </summary>
         public string Text {
             get {
                 return Sentences.Aggregate("", (str, sent) => str + " " + sent.Text);

@@ -169,7 +169,6 @@ namespace AlgorithmAssemblyUnitTestProject
             Word target = new Verb("run", VerbTense.Base);
             string expected = "run";
             string actual;
-            target.Text = expected;
             actual = target.Text;
             Assert.AreEqual(expected, actual);
 

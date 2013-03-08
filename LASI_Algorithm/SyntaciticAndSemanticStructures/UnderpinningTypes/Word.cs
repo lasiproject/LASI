@@ -68,11 +68,11 @@ namespace LASI.Algorithm
         #region Properties
 
         /// <summary>
-        /// Gets or sets the text content of the Word instance.
+        /// Gets the text content of the Word instance.
         /// </summary>
         public virtual string Text {
             get;
-            set;
+            protected set;
         }
 
         /// <summary>
