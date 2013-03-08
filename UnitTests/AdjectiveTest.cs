@@ -91,8 +91,8 @@ namespace AlgorithmAssemblyUnitTestProject
         ///</summary>
         [TestMethod()]
         public void DescribesTest() {
-            string text = "funny"; // TODO: Initialize to an appropriate value
-            Adjective target = new Adjective(text); // TODO: Initialize to an appropriate value
+            string text = "funny";
+            Adjective target = new Adjective(text);
             IEntity expected = new GenericSingularNoun("man");
             IEntity actual;
             target.Describes = expected;
