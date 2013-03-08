@@ -59,6 +59,7 @@
     <Compile Include="Analysis\Binding\SubjectBinder.cs" />
     <Compile Include="Analysis\Binding\WordStream.cs" />
     <Compile Include="DocumentConstructs\SubordinateClauseBeginPhrase.cs" />
+    <Compile Include="IEnumerableExtensions\IEnumerableOfIEntityExtensions.cs" />
     <Compile Include="SyntaciticAndSemanticStructures\MiscLanguageConstructs\UndeterminedPhrase.cs" />
     <Compile Include="SyntaciticAndSemanticStructures\NounRelatedConstructs\EntityKind.cs" />
     <Compile Include="SyntaciticAndSemanticStructures\NounRelatedConstructs\EntityKindLookup.cs" />
