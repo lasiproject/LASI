@@ -32,8 +32,6 @@ namespace LASI.Algorithm
             _words = (from S in Sentences
                       from W in S.Words
                       select W).ToList();
-            foreach (var w in Words)
-                w.ParentDocument = this;
             foreach (var P in _paragraphs) {
                 P.EstablishParent(this);
             }

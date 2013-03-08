@@ -2,11 +2,12 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace AlgorithmAssemblyUnitTestProject
 {
-    
-    
+
+
     /// <summary>
     ///This is a test class for DocumentTest and is intended
     ///to contain all DocumentTest Unit Tests
@@ -22,14 +23,11 @@ namespace AlgorithmAssemblyUnitTestProject
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
         ///</summary>
-        public TestContext TestContext
-        {
-            get
-            {
+        public TestContext TestContext {
+            get {
                 return testContextInstance;
             }
-            set
-            {
+            set {
                 testContextInstance = value;
             }
         }
@@ -71,9 +69,9 @@ namespace AlgorithmAssemblyUnitTestProject
         ///</summary>
         [TestMethod()]
         public void DocumentConstructorTest() {
-            IEnumerable<Paragraph> allParagrpahs = null; // TODO: Initialize to an appropriate value
+            IEnumerable<Paragraph> allParagrpahs = new[] { new Paragraph(new[] { new Sentence(new Clause[] { new Clause(new Phrase[] { new NounPhrase(new Word[] { new PersonalPronoun("We") }), new VerbPhrase(new Word[] { new Modal("must"), new Verb("attack", VerbTense.Base) }), new NounPhrase(new Word[] { new Adjective("blue"), new GenericSingularNoun("team") }) }) }) }) };
             Document target = new Document(allParagrpahs);
-            Assert.Inconclusive("TODO: Implement code to verify target");
+            Assert.Inconclusive("Verify the correctness of this test method.");
         }
 
         /// <summary>

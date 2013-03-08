@@ -64,7 +64,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Exceptions\NotLoadedException.cs" />
     <Compile Include="FileConveters\DocToDocXConverter.cs" />
     <Compile Include="FileConveters\DocxToTextConverter.cs" />
     <Compile Include="FileTypes\FileTypeWrapperMismatchException.cs" />

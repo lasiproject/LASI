@@ -85,26 +85,7 @@ namespace AlgorithmAssemblyUnitTestProject
             Assert.AreEqual(expected, actual);
         }
 
-        ///// <summary>
-        /////A test for Equals
-        /////</summary>
-        //[TestMethod()]
-        //public void EqualsTest1() {
-        //    Word target = CreateWord();
-        //    Word other = new GenericSingularNoun("dog");
-        //    bool expected = true;
-        //    bool actual;
-        //    actual = target.Equals(other);
-        //    Assert.AreEqual(expected, actual);
-        //    other = new GenericSingularNoun("cat");
-        //    expected = false;
-        //    actual = target.Equals(other);
-        //    Assert.AreEqual(expected, actual);
-        //    other = null;
-        //    expected = false;
-        //    actual = target.Equals(other);
-        //    Assert.AreEqual(expected, actual);
-        //}
+    
 
         /// <summary>
         ///A test for EstablishParent
@@ -112,7 +93,7 @@ namespace AlgorithmAssemblyUnitTestProject
         [TestMethod()]
         public void EstablishParentTest() {
             Word target = CreateWord();
-            Phrase phrase = new VerbPhrase(new Word[] { });
+            Phrase phrase = new NounPhrase(new Word[] { new Adjective("Psychotic"), target });
             target.EstablishParent(phrase);
             Assert.IsTrue(target.ParentPhrase == phrase);
         }
@@ -142,58 +123,6 @@ namespace AlgorithmAssemblyUnitTestProject
             Assert.AreEqual(expected, actual);
         }
 
-        ///// <summary>
-        /////A test for op_Equality
-        /////</summary>
-        //[TestMethod()]
-        //public void op_EqualityTest() {
-        //    Word A = null;
-        //    Word B = null;
-        //    bool expected = true;
-        //    bool actual;
-        //    actual = A == B && B == A;
-        //    Assert.AreEqual(expected, actual);
-        //    A = new GenericSingularNoun("dog");
-        //    B = new Verb("dog", VerbTense.Base);
-        //    expected = false;
-        //    actual = A == B && B == A;
-        //    Assert.AreEqual(expected, actual);
-        //    B = new GenericSingularNoun("dog");
-        //    expected = true;
-        //    actual = A == B && B == A;
-        //    Assert.AreEqual(expected, actual);
-        //    A = null;
-        //    B = CreateWord();
-        //    expected = false;
-        //    actual = A == B && B == A;
-        //    Assert.AreEqual(expected, actual);
-
-        //}
-
-        ///// <summary>
-        /////A test for op_Inequality
-        /////</summary>
-        //[TestMethod()]
-        //public void op_InequalityTest() {
-        //    Word A = CreateWord();
-        //    Word B = CreateWord();
-        //    bool expected = false;
-        //    bool actual;
-        //    actual = A != B;
-        //    Assert.AreEqual(expected, actual);
-        //    A = null;
-        //    B = null;
-        //    expected = false;
-        //    actual = A != B;
-        //    Assert.AreEqual(expected, actual);
-
-        //    B = null;
-        //    A = CreateWord();
-        //    expected = true;
-        //    actual = A != B;
-        //    Assert.AreEqual(actual, expected);
-        //}
-
         /// <summary>
         ///A test for NextWord
         ///</summary>
@@ -217,20 +146,6 @@ namespace AlgorithmAssemblyUnitTestProject
             Document actual;
             actual = target.ParentDocument;
             Assert.AreEqual(expected, actual);
-        }
-
-        /// <summary>
-        ///A test for ParentPhrase
-        ///</summary>
-        [TestMethod()]
-        public void ParentPhraseTest() {
-            Word target = CreateWord();
-            Phrase expected = new VerbPhrase(new Word[] { });
-            Phrase actual;
-            target.ParentPhrase = expected;
-            actual = target.ParentPhrase;
-            Assert.AreEqual(expected, actual);
-
         }
 
         /// <summary>

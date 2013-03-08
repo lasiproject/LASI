@@ -75,12 +75,16 @@ namespace LASI.Algorithm.Thesauri
 
             get {
                 if (!cachedData.ContainsKey(search)) {
-                    cachedData.Add(search, (from M in AssociationData[search].ReferencedIndexes
-                                            select M into Temp
-                                            join R in AssociationData on Temp equals R.Key into ReferencedSets
-                                            from R in ReferencedSets.Distinct()
-                                            from RM in R.Value.Members
-                                            select RM).Distinct());
+                    try {
+                        cachedData.Add(search, (from M in AssociationData[search].ReferencedIndexes
+                                                select M into Temp
+                                                join R in AssociationData on Temp equals R.Key into ReferencedSets
+                                                from R in ReferencedSets.Distinct()
+                                                from RM in R.Value.Members
+                                                select RM).Distinct());
+                    } catch (KeyNotFoundException) {
+                        cachedData.Add(search, new List<string>());
+                    }
                 }
                 return cachedData[search];
             }
@@ -106,7 +110,7 @@ namespace LASI.Algorithm.Thesauri
 
             data = Regex.Replace(data, @"([+]+|;c+)+[\s]+[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+", "");
 
-            var setIDsReferenced  = new Regex(@"[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+");
+            var setIDsReferenced = new Regex(@"[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+");
 
             var sep = data.Split(new[] { '!', '|' }, StringSplitOptions.RemoveEmptyEntries)[0];
 

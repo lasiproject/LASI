@@ -95,7 +95,7 @@ namespace LASI.Algorithm
         /// </summary>
         public Document ParentDocument {
             get;
-            set;
+            private set;
         }
         /// <summary>
         /// Gets, lexically speaking, the next Word in the ParentDocument to which the instance belongs.
@@ -116,7 +116,7 @@ namespace LASI.Algorithm
         /// </summary>
         public Phrase ParentPhrase {
             get;
-            set;
+            private set;
         }
         /// <summary>
         /// Gets or sets the Prepositional construct which is lexically to the left of the Word.
