@@ -57,7 +57,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// The Verb construct which the Gerund is the subject of.
         /// </summary>
-        public IAction SubjectOf {
+        public ITransitiveAction SubjectOf {
             get;
             set;
         }

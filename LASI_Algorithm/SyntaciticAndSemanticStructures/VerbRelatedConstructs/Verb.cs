@@ -1,10 +1,11 @@
-﻿using LASI.Algorithm.Weighting;
+﻿
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using LASI.Algorithm.Weighting;
 
 namespace LASI.Algorithm
 {
@@ -21,6 +22,7 @@ namespace LASI.Algorithm
             : base(text) {
             Modifiers = new List<IAdverbial>();
             Tense = tense;
+            DetermineIsPossessive();
         }
         #region Methods
 
@@ -64,6 +66,11 @@ namespace LASI.Algorithm
             if (!_boundDirectObjects.Contains(directObject)) {
                 _boundDirectObjects.Add(directObject);
                 directObject.DirectObjectOf = this;
+                if (Possessive) {
+                    foreach (var s in this.BoundSubjects) {
+                        s.AddPossession(directObject);
+                    }
+                }
             }
         }
         /// <summary>
@@ -74,22 +81,25 @@ namespace LASI.Algorithm
             if (!_boundIndirectObjects.Contains(indirectObject)) {
                 _boundIndirectObjects.Add(indirectObject);
                 indirectObject.IndirectObjectOf = this;
+
             }
         }
-
 
         public override bool Equals(object obj) {
             return base.Equals(obj);
         }
 
 
+        protected virtual void DetermineIsPossessive() {
+            if (LASI.Algorithm.Thesauri.Thesauri.VerbThesaurus[this].Contains("have")) {
+                possessive = true;
+            }
+        }
+
 
         public override XElement Serialize() {
             throw new NotImplementedException();
         }
-
-
-
 
 
 
@@ -186,6 +196,16 @@ namespace LASI.Algorithm
         private ICollection<IEntity> _boundSubjects = new List<IEntity>();
         private ICollection<IEntity> _boundDirectObjects = new List<IEntity>();
         private ICollection<IEntity> _boundIndirectObjects = new List<IEntity>();
+        private bool possessive;
+
+        public bool Possessive {
+            get {
+                return possessive;
+            }
+            protected set {
+                possessive = value;
+            }
+        }
         #endregion
 
 

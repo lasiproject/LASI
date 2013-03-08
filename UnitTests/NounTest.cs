@@ -205,8 +205,8 @@ namespace AlgorithmAssemblyUnitTestProject
         [TestMethod()]
         public void SubjectOfTest() {
             Noun target = CreateNoun();
-            IAction expected = new Verb("runs", VerbTense.SingularPresent);
-            IAction actual;
+            ITransitiveAction expected = new Verb("runs", VerbTense.SingularPresent);
+            ITransitiveAction actual;
             target.SubjectOf = expected;
             actual = target.SubjectOf;
             Assert.AreEqual(expected, actual);

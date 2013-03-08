@@ -82,7 +82,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets the ISubjectTaker instance, generally a Verb or VerbPhrase, which the Pronoun is the subject of.
         /// </summary>
-        public virtual IAction SubjectOf {
+        public virtual ITransitiveAction SubjectOf {
             get;
             set;
         }

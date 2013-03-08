@@ -101,6 +101,7 @@
     <Compile Include="SyntaciticAndSemanticStructures\ConstrainingSemanticConstructs\PossessiveEnding.cs" />
     <Compile Include="Thesuari\NounThesaurus.cs" />
     <Compile Include="Thesuari\SynSet.cs" />
+    <Compile Include="Thesuari\Thesauri.cs" />
     <Compile Include="Thesuari\ThesaurusLoadingState.cs" />
     <Compile Include="SyntaciticAndSemanticStructures\AdjectiveRelatedConstructs\Adjective.cs" />
     <Compile Include="SyntaciticAndSemanticStructures\AdjectiveRelatedConstructs\AdjectivePhrase.cs" />
@@ -162,15 +163,11 @@
     <None Include="ClassDiagram1.cd" />
     <None Include="ClassDiagram7.cd" />
     <None Include="ClassDiagrams\NounConstructs.cd" />
-    <None Include="ClassDiagrams\PronounConstructs.cd" />
     <None Include="ClassDiagrams\VerbConstructs.cd" />
     <None Include="DocumentConstructs\DocumentComposition.cd" />
     <None Include="GrammaticalInterfaces.cd" />
     <None Include="IEnumerableExtensions\IEnumerableExtensions.cd" />
     <None Include="SyntaciticAndSemanticStructures\MiscLanguageConstructs\PhraseConstructs.cd" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ClassDiagrams\ClassDiagram1.cd" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="LasiLogo.ico" />

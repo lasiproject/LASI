@@ -68,7 +68,7 @@ namespace LASI.Algorithm
         /// and sets its owner to be the NounPhrase.
         /// If the item is already possessed by the current instance, this method has no effect.
         /// </summary>
-        /// <param name="possession"></param>
+        /// <param name="possession">The possession to add.</param>
         public void AddPossession(IEntity possession) {
             if (!_possessed.Contains(possession)) {
                 _possessed.Add(possession);
@@ -78,7 +78,18 @@ namespace LASI.Algorithm
         public bool Equals(IEntity other) {
             return this == other as NounPhrase;
         }
-
+        public override string ToString(bool verbose) {
+            var result = this.ToString();
+            if (verbose && Possessed.Count() > 0) {
+                result += "\n\tpossessions:\n";
+                foreach (var s in Possessed) {
+                    result += s + "\n";
+                }
+            }
+            if (Possesser != null)
+                result += "\n\towned By:\n\t\t" + Possesser.ToString();
+            return result;
+        }
 
 
         /// <summary>
@@ -100,7 +111,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets the IAction instance, generally a Verb or VerbPhrase, which the NounPhrase is the subject of.
         /// </summary>
-        public virtual IAction SubjectOf {
+        public virtual ITransitiveAction SubjectOf {
             get {
                 return _subjectOf;
             }
@@ -111,7 +122,7 @@ namespace LASI.Algorithm
                 }
             }
         }
-        private IAction _subjectOf;
+        private ITransitiveAction _subjectOf;
         /// <summary>
         /// Gets all of the IEntityReferences instances, generally Pronouns or PronounPhrases, which refer to the NounPhrase Instance.
         /// </summary>
@@ -143,9 +154,17 @@ namespace LASI.Algorithm
         /// Gets or sets the Entity which "owns" the instance of the Noun.
         /// </summary>
         public IEntity Possesser {
-            get;
-            set;
+            get {
+                return _possessor;
+            }
+            set {
+                _possessor = value;
+                foreach (var item in this.Words.GetNouns().Concat<IEntity>(this.Words.GetPronouns())) {
+                    value.AddPossession(item);
+                }
+            }
         }
+
         /// <summary>
         /// Gets or sets the Entity Kind; Person, Place, Thing, Organization, or Activity; of the NounPhrase.
         /// </summary>
@@ -158,6 +177,7 @@ namespace LASI.Algorithm
         private IList<IDescriber> _describedBy = new List<IDescriber>();
         private IList<IEntity> _possessed = new List<IEntity>();
         private IList<Pronoun> _boundPronouns = new List<Pronoun>();
+        private IEntity _possessor;
 
 
 

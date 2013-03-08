@@ -190,8 +190,8 @@ namespace AlgorithmAssemblyUnitTestProject
         public void SubjectOfTest() {
             IEnumerable<Word> composedWords = new Word[] { new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians") };
             NounPhrase target = new NounPhrase(composedWords);
-            IAction expected = new Verb("are", VerbTense.Base);
-            IAction actual;
+            ITransitiveAction expected = new Verb("are", VerbTense.Base);
+            ITransitiveAction actual;
             target.SubjectOf = expected;
             actual = target.SubjectOf;
             Assert.AreEqual(expected, actual);

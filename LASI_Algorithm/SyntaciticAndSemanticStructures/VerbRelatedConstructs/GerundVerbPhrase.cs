@@ -33,7 +33,7 @@ namespace LASI.Algorithm.PhraseTypes
             set;
         }
 
-        public IAction SubjectOf {
+        public ITransitiveAction SubjectOf {
             get;
             set;
         }

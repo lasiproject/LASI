@@ -21,9 +21,10 @@ namespace Aluan_Experimentation
 
         static void Main(string[] args) {
 
-
+            var vT = LASI.Algorithm.Thesauri.Thesauri.VerbThesaurus;
+            var nT = LASI.Algorithm.Thesauri.Thesauri.NounThesaurus;
             LASI.Utilities.TaggerUtil.TaggerOption = TaggingOption.TagAndAggregate;
-            var str = TaggerUtil.TagString("He gave it to her.");
+            var str = TaggerUtil.TagString("He will have a blue ball.");
             Console.WriteLine(str);
             var doc = TaggerUtil.TaggedToDoc(str);
             SubjectBinder subjectBinder = new LASI.Algorithm.SubjectBinder();

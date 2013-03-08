@@ -21,6 +21,7 @@ namespace LASI.Algorithm
         public VerbPhrase(IEnumerable<Word> composedWords)
             : base(composedWords) {
             Tense = VerbTense.Base;
+            DetermineIsPossessive();
         }
 
         #endregion
@@ -66,6 +67,11 @@ namespace LASI.Algorithm
             if (!_boundDirectObjects.Contains(directObject)) {
                 _boundDirectObjects.Add(directObject);
                 directObject.DirectObjectOf = this;
+                if (Possessive) {
+                    foreach (var s in this.BoundSubjects) {
+                        s.AddPossession(directObject);
+                    }
+                }
             }
         }
         /// <summary>
@@ -85,15 +91,15 @@ namespace LASI.Algorithm
 
                 var result = base.ToString() + "\n";
                 foreach (var s in BoundSubjects) {
-                    result += s != null ? "Subject: " + s.ToString() + "\n" : "";
+                    result += s != null ? "\tSubject: " + s.ToString() + "\n" : "";
                 }
                 foreach (var d in DirectObjects) {
-                    result += d != null ? "Direct Object: " + d.ToString() + "\n" : "";
+                    result += d != null ? "\tDirect Object: " + d.ToString() + "\n" : "";
                 }
                 foreach (var i in IndirectObjects) {
-                    result += i != null ? "Indirect Object: " + i.ToString() + "\n" : "";
+                    result += i != null ? "\tIndirect Object: " + i.ToString() + "\n" : "";
                 }
-                result += _modifiers.Count > 0 ? "Modifiers" : "\n";
+                result += _modifiers.Count > 0 ? "\t\tModifiers" : "\n";
                 foreach (var mod in _modifiers) {
                     result += "\n" + mod.ToString();
                 }
@@ -101,6 +107,17 @@ namespace LASI.Algorithm
             } else
                 return ToString();
         }
+
+
+
+        protected virtual void DetermineIsPossessive() {
+            if (LASI.Algorithm.Thesauri.Thesauri.VerbThesaurus[this.Words.Last()].Contains("have")) {
+                possessive = true;
+            }
+        }
+
+
+
         public override XElement Serialize() {
             throw new NotImplementedException();
         }
@@ -183,6 +200,16 @@ namespace LASI.Algorithm
         private ICollection<IEntity> _boundSubjects = new List<IEntity>();
         private ICollection<IEntity> _boundDirectObjects = new List<IEntity>();
         private ICollection<IEntity> _boundIndirectObjects = new List<IEntity>();
+        private bool possessive;
+
+        public bool Possessive {
+            get {
+                return possessive;
+            }
+            protected set {
+                possessive = value;
+            }
+        }
         #endregion
 
 

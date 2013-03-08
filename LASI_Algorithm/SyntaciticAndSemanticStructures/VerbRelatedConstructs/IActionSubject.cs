@@ -7,7 +7,7 @@ namespace LASI.Algorithm
     /// </summary>
     public interface IActionSubject
     {
-        IAction SubjectOf {
+        ITransitiveAction SubjectOf {
             get;
             set;
         }

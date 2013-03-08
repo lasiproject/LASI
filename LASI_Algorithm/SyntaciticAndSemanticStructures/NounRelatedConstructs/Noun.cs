@@ -104,7 +104,7 @@ namespace LASI.Algorithm
         /// <summary>
         ///Gets or sets the IAction instance the Noun is the subject of.
         /// </summary>
-        public virtual IAction SubjectOf {
+        public virtual ITransitiveAction SubjectOf {
             get;
             set;
         }
