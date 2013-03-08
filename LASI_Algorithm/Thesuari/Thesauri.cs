@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Configuration;
 
 namespace LASI.Algorithm.Thesauri
 {
     public static class Thesauri
     {
-        private const string nounThesaurusFilePath = @"..\..\..\..\WordNetThesaurusData\data.noun";
-        private const string verbThesaurusFilePath = @"..\..\..\..\WordNetThesaurusData\data.verb";
+        private static readonly string nounThesaurusFilePath = ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "data.noun";
+        private static readonly string verbThesaurusFilePath = ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "data.verb";
         static Thesauri() {
             NounThesaurus = new LASI.Algorithm.Thesauri.NounThesaurus(nounThesaurusFilePath);
             NounThesaurus.Load();
