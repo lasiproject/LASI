@@ -19,8 +19,5 @@ namespace LASI.Algorithm
             : base(composedWords) {
         }
 
-        public override XElement Serialize() {
-            throw new NotImplementedException();
-        }
     }
 }

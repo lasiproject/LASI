@@ -14,9 +14,6 @@ namespace LASI.Algorithm
         void deterimineEndOfClause() {
             EndOfClause = ParentSentence.Words.SkipWhile(w => w != Words.Last()).First(w => w is Punctuator) as Punctuator;
         }
-        public override System.Xml.Linq.XElement Serialize() {
-            throw new NotImplementedException();
-        }
 
         public Punctuator EndOfClause {
             get;

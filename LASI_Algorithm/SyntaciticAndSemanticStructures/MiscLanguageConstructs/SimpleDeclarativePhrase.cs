@@ -13,9 +13,5 @@ namespace LASI.Algorithm
         }
 
        
-
-        public override XElement Serialize() {
-            throw new NotImplementedException();
-        }
     }
 }

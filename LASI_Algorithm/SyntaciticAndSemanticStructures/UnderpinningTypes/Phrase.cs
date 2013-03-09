@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LASI.Algorithm.FundamentalSyntacticInterfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -52,7 +53,6 @@ namespace LASI.Algorithm
         }
 
 
-        public abstract XElement Serialize();
 
 
         #endregion

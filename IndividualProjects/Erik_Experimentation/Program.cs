@@ -13,7 +13,6 @@ using LASI.Algorithm.Binding;
 using LASI.Algorithm;
 using LASI.FileSystem;
 using LASI.Algorithm.Weighting;
-using LASI.Algorithm;
 using LASI.Algorithm.Thesauri;
 
 

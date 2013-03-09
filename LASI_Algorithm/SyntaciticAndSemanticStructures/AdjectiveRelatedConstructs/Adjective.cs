@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LASI.Algorithm.FundamentalSyntacticInterfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,7 +24,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets or sets the Descriabable construct the Adjective describes
         /// </summary>
-        public virtual IEntity Describes {
+        public virtual IEntity Described {
             get;
             set;
         }
@@ -48,9 +49,6 @@ namespace LASI.Algorithm
         }
 
 
-        public override XElement Serialize() {
-            throw new NotImplementedException();
-        }
     }
 
 

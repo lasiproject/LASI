@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace LASI.Algorithm
+namespace LASI.Algorithm.FundamentalSyntacticInterfaces
 {
     /// <summary>
     /// Defines the role reqirements for Adverbial elements, generally Adverbs or or AdvebPhrases, which may modify the meaning of IAdverbialModifiable elememts such as Verbs, VerbPhrases, Adjectives, and AdjectivePhrases.
@@ -11,7 +11,7 @@ namespace LASI.Algorithm
     /// </summary>
     public interface IAdverbial : ILexical
     {
-        IAdverbialModifiable Modiffied {
+        IVerbial Modiffied {
             get;
             set;
         }

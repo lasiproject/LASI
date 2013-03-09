@@ -127,6 +127,8 @@ namespace LASI.Algorithm.Thesauri
         private SortedList<String, IEnumerable<string>> cachedData;
 
         const int HEADER_LENGTH = 30;
+       
+
     }
 }
 

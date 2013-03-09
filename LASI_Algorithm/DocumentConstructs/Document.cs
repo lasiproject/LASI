@@ -126,10 +126,10 @@ namespace LASI.Algorithm
         /// Returns all of the Action identified within the docimument.
         /// </summary>
         /// <returns>all of the Action identified within the docimument.</returns>
-        public IEnumerable<ITransitiveAction> GetActions() {
-            var wordResults = from ITransitiveAction V in Words.GetVerbs()
+        public IEnumerable<ITransitiveVerbial> GetActions() {
+            var wordResults = from ITransitiveVerbial V in Words.GetVerbs()
                               select V;
-            var phraseResults = from ITransitiveAction VP in Phrases.GetVerbPhrases()
+            var phraseResults = from ITransitiveVerbial VP in Phrases.GetVerbPhrases()
                                 select VP;
             return from A in wordResults.Concat(phraseResults)
                    orderby A as Word != null ? (A as Word).ID : (A as Phrase).Words.Last().ID ascending

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace LASI.Algorithm
+namespace LASI.Algorithm.FundamentalSyntacticInterfaces
 {
     /// <summary>
     /// Defines the role requirements for constructs, generally Actions, which can be modiffied by modal words such as "can" or "shalt".
@@ -12,9 +12,9 @@ namespace LASI.Algorithm
     public interface IModalityModifiable
     {
         /// <summary>
-        /// Gets or sets the Modal w which modifies this instance.
+        /// Gets or sets the ModalAuxilary w which modifies this instance.
         /// </summary>
-        Modal Modality {
+        ModalAuxilary Modality {
             get;
             set;
         }

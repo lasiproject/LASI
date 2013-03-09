@@ -87,7 +87,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///A test for Describes
+        ///A test for Described
         ///</summary>
         [TestMethod()]
         public void DescribesTest() {
@@ -95,12 +95,12 @@ namespace AlgorithmAssemblyUnitTestProject
             Adjective target = new Adjective(text);
             IEntity expected = new GenericSingularNoun("man");
             IEntity actual;
-            target.Describes = expected;
-            actual = target.Describes;
+            target.Described = expected;
+            actual = target.Described;
             Assert.AreEqual(expected, actual);
             expected = new NounPhrase(new Word[] { new Determiner("the"), new GenericSingularNoun("woman") });
-            target.Describes = expected;
-            actual = target.Describes;
+            target.Described = expected;
+            actual = target.Described;
             Assert.AreEqual(expected, actual);
         }
     }

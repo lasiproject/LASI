@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LASI.Algorithm.FundamentalSyntacticInterfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,16 +8,16 @@ namespace LASI.Algorithm
 {
     /// <summary>
     /// Represents a Modality modifier which modifies a modality-modifiable construct such as a Verb or VerbPhrase.
-    /// Examples of Modal words are "can", and "might"
+    /// Examples of ModalAuxilary words are "can", and "might"
     /// </summary>
-    public class Modal : Word
+    public class ModalAuxilary : Word
     { 
         #region Constructors
         /// <summary>
-        /// Initializes a new instance of the Modal class
+        /// Initializes a new instance of the ModalAuxilary class
         /// </summary>
         /// <param name="text">The literal text content of the w.</param>
-        public Modal(string text)
+        public ModalAuxilary(string text)
             : base(text) {
         }
 
@@ -25,7 +26,7 @@ namespace LASI.Algorithm
         #region Properties
 
         /// <summary>
-        /// Gets or sets the modality-modifiable construct such as a Verb or VerbPhrase, which this Modal Modifies
+        /// Gets or sets the modality-modifiable construct such as a Verb or VerbPhrase, which this ModalAuxilary Modifies
         /// </summary>
         public virtual IModalityModifiable Modifies {
             get;
@@ -34,8 +35,5 @@ namespace LASI.Algorithm
 
         #endregion
 
-        public override System.Xml.Linq.XElement Serialize() {
-            throw new NotImplementedException();
-        }
     }
 }

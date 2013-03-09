@@ -13,14 +13,14 @@ namespace LASI.Algorithm
 
         /// <summary>
         /// This class is currently experimental and is not a tier in the ParentDocument objects created by the tagged file parsers
-        /// Initializes a new instnace of the Clause class, by composing the given linear sequence of phrases.
+        /// Initializes a new instance of the Clause class, by composing the given linear sequence of phrases.
         /// </summary>
         /// <param name="phrases">The linear sequence of Phrases which compose to form the Clause.</param>
         public Clause(IEnumerable<Phrase> phrases) {
             Phrases = phrases;
         }
         /// <summary>
-        ///Initializes a new instnace of the Clause class, by composing the given linear sequence of words       
+        ///Initializes a new instance of the Clause class, by composing the given linear sequence of words       
         ///As the words are bare in this context, that is not members of a known phrase object, they are subsequently implanted in an UndeterminedPhrase instance whose syntactic role should be determined contextually in the future.
         /// </summary>
         /// <param name="words">The linear sequence of Words which compose to form the single UndeterminedPhrase which will comprise the Clause.</param>
@@ -95,9 +95,6 @@ namespace LASI.Algorithm
         }
 
 
-        public XElement Serialize() {
-            throw new NotImplementedException();
-        }
     }
 
 }

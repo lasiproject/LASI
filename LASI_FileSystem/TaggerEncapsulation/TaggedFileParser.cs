@@ -82,7 +82,7 @@ namespace LASI.FileSystem
                         } else if (token == '/') {
                             var words = CreateWords(chunk);
                             if (words.Count == 1 && words.First() != null)
-                                if (words.First().Text == "and" || words.First().Text == "or") {
+                                if (words.First() is Conjunction) {
                                     var currentPhrase = new ConjunctionPhrase(words);
                                     parsedPhrases.Add(currentPhrase);
                                 } else if (words.Count() == 1 && words.First() is SentencePunctuation) {
@@ -159,11 +159,11 @@ namespace LASI.FileSystem
         protected virtual List<Word> CreateWords(string wordData) {
             var parsedWords = new List<Word>();
             var elements = wordData.Split(new[] { ' ', });
-            var posExtractor = new WordExtractor();
+            var wordExtractor = new WordExtractor();
 
             var tagParser = new WordMapper();
             foreach (var tagged in elements) {
-                var e = posExtractor.ExtractNextPos(tagged);
+                var e = wordExtractor.ExtractNextPos(tagged);
                 if (e != null) {
 
                     var word = (tagParser.CreateWord(e.Value));

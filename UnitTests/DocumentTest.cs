@@ -77,7 +77,7 @@ namespace AlgorithmAssemblyUnitTestProject
                                 new PersonalPronoun("We") 
                             }),
                             new VerbPhrase(new Word[] { 
-                                new Modal("must"),
+                                new ModalAuxilary("must"),
                                 new Verb("attack", VerbTense.Base) 
                             }),
                             new NounPhrase(new Word[] { 
@@ -98,8 +98,8 @@ namespace AlgorithmAssemblyUnitTestProject
         public void GetActionsTest() {
             IEnumerable<Paragraph> allParagrpahs = null; // TODO: Initialize to an appropriate value
             Document target = new Document(allParagrpahs); // TODO: Initialize to an appropriate value
-            IEnumerable<ITransitiveAction> expected = null; // TODO: Initialize to an appropriate value
-            IEnumerable<ITransitiveAction> actual;
+            IEnumerable<ITransitiveVerbial> expected = null; // TODO: Initialize to an appropriate value
+            IEnumerable<ITransitiveVerbial> actual;
             actual = target.GetActions();
             Assert.AreEqual(expected, actual);
             Assert.Inconclusive("Verify the correctness of this test method.");

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LASI.Algorithm.FundamentalSyntacticInterfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -39,11 +40,29 @@ namespace LASI.Algorithm
             get;
             set;
         }
+        /// <summary>
+        /// Gets the object of the IPrepositional construct.
+        /// </summary>
+        public ILexical PrepositionalObject {
+            get;
+            protected set;
+        }
+        #endregion
+        #region Methods
+
+        /// <summary>
+        /// Binds an ILexical construct as the object of the ToLinker. 
+        /// Lexical constructs include Word, Phrase, and Clause Types.
+        /// </summary>
+        /// <param name="prepositionalObject">The ILexical construct as the object of the Particle.</param>
+        public void BindObjectOfPreposition(ILexical prepositionalObject) {
+            PrepositionalObject = prepositionalObject;
+        }
+
 
         #endregion
 
-        public override XElement Serialize() {
-            throw new NotImplementedException();
-        }
+
+
     }
 }

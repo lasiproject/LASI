@@ -1,4 +1,5 @@
 ﻿using LASI.Algorithm;
+using LASI.Algorithm.FundamentalSyntacticInterfaces;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 
@@ -62,12 +63,12 @@ namespace AlgorithmAssemblyUnitTestProject
 
 
         /// <summary>
-        ///A test for Modal Constructor
+        ///A test for ModalAuxilary Constructor
         ///</summary>
         [TestMethod()]
         public void ModalConstructorTest() {
             string text = "can";
-            Modal target = new Modal(text);
+            ModalAuxilary target = new ModalAuxilary(text);
             Assert.IsTrue(target.Modifies == null && target.Text == text);
         }
 
@@ -77,7 +78,7 @@ namespace AlgorithmAssemblyUnitTestProject
         [TestMethod()]
         public void ModifiesTest() {
             string text = "can";
-            Modal target = new Modal(text);
+            ModalAuxilary target = new ModalAuxilary(text);
             IModalityModifiable expected = new Verb("capitulate",VerbTense.Base);
             IModalityModifiable actual;
             target.Modifies = expected;

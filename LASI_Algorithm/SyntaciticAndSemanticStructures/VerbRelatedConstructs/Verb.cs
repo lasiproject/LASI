@@ -6,13 +6,15 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using LASI.Algorithm.Weighting;
+using LASI.Algorithm.FundamentalSyntacticInterfaces;
+using LASI.Algorithm.ClauseTypes;
 
 namespace LASI.Algorithm
 {
     /// <summary>
     /// Provides the base class for all w level verb constructs. An instance of this class represents a verb in its base tense.
     /// </summary>
-    public class Verb : Word, ITransitiveAction, IAdverbialModifiable, IModalityModifiable, IEquatable<Verb>
+    public class Verb : Word, ITransitiveVerbial, IAdverbialModifiable, IModalityModifiable, IEquatable<Verb>
     {
         /// <summary>
         /// Initializes a new instance of the Verb class which represents the base tense form of a verb.
@@ -97,10 +99,6 @@ namespace LASI.Algorithm
         }
 
 
-        public override XElement Serialize() {
-            throw new NotImplementedException();
-        }
-
 
 
 
@@ -136,9 +134,9 @@ namespace LASI.Algorithm
         }
 
         /// <summary>
-        /// Gets or sets the Modal w which modifies the Verb.
+        /// Gets or sets the ModalAuxilary w which modifies the Verb.
         /// </summary>
-        public Modal Modality {
+        public ModalAuxilary Modality {
             get;
             set;
         }
@@ -179,9 +177,9 @@ namespace LASI.Algorithm
 
 
 
-        public Clause GivenExposition {
+        public ILexical GivenExposition {
             get;
-            set;
+            protected set;
         }
 
         #endregion

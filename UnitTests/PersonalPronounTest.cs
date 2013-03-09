@@ -158,8 +158,8 @@ namespace AlgorithmAssemblyUnitTestProject
         public void DirectObjectOfTest() {
             string text = "him";
             PersonalPronoun target = new PersonalPronoun(text);
-            ITransitiveAction expected = new Verb("frightened", VerbTense.Past);
-            ITransitiveAction actual;
+            ITransitiveVerbial expected = new Verb("frightened", VerbTense.Past);
+            ITransitiveVerbial actual;
             target.DirectObjectOf = expected;
             actual = target.DirectObjectOf;
             Assert.AreEqual(expected, actual);
@@ -173,8 +173,8 @@ namespace AlgorithmAssemblyUnitTestProject
         public void IndirectObjectOfTest() {
             string text = "him";
             PersonalPronoun target = new PersonalPronoun(text);
-            ITransitiveAction expected = new Verb("frightened", VerbTense.Past);
-            ITransitiveAction actual;
+            ITransitiveVerbial expected = new Verb("frightened", VerbTense.Past);
+            ITransitiveVerbial actual;
             target.DirectObjectOf = expected;
             actual = target.DirectObjectOf;
             Assert.AreEqual(expected, actual);
@@ -199,8 +199,8 @@ namespace AlgorithmAssemblyUnitTestProject
         public void SubjectOfTest() {
             string text = "him";
             PersonalPronoun target = new PersonalPronoun(text);
-            ITransitiveAction expected = new Verb("frightened", VerbTense.Past);
-            ITransitiveAction actual;
+            ITransitiveVerbial expected = new Verb("frightened", VerbTense.Past);
+            ITransitiveVerbial actual;
             target.DirectObjectOf = expected;
             actual = target.DirectObjectOf;
             Assert.AreEqual(expected, actual);

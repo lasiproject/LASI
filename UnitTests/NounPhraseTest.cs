@@ -1,4 +1,5 @@
 ﻿using LASI.Algorithm;
+using LASI.Algorithm.FundamentalSyntacticInterfaces;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -134,8 +135,8 @@ namespace AlgorithmAssemblyUnitTestProject
         public void DirectObjectOfTest() {
             IEnumerable<Word> composedWords = new Word[] { new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians") };
             NounPhrase target = new NounPhrase(composedWords);
-            ITransitiveAction expected = new Verb("insult", VerbTense.Base);
-            ITransitiveAction actual;
+            ITransitiveVerbial expected = new Verb("insult", VerbTense.Base);
+            ITransitiveVerbial actual;
             target.DirectObjectOf = expected;
             actual = target.DirectObjectOf;
             Assert.AreEqual(expected, actual);
@@ -148,8 +149,8 @@ namespace AlgorithmAssemblyUnitTestProject
         public void IndirectObjectOfTest() {
             IEnumerable<Word> composedWords = new Word[] { new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians") };
             NounPhrase target = new NounPhrase(composedWords);
-            ITransitiveAction expected = new VerbPhrase(new Word[] { new Verb("gave", VerbTense.Base), new Adverb("willingly") });
-            ITransitiveAction actual;
+            ITransitiveVerbial expected = new VerbPhrase(new Word[] { new Verb("gave", VerbTense.Base), new Adverb("willingly") });
+            ITransitiveVerbial actual;
             target.IndirectObjectOf = expected;
             actual = target.IndirectObjectOf;
             Assert.AreEqual(expected, actual);
@@ -190,8 +191,8 @@ namespace AlgorithmAssemblyUnitTestProject
         public void SubjectOfTest() {
             IEnumerable<Word> composedWords = new Word[] { new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians") };
             NounPhrase target = new NounPhrase(composedWords);
-            ITransitiveAction expected = new Verb("are", VerbTense.Base);
-            ITransitiveAction actual;
+            ITransitiveVerbial expected = new Verb("are", VerbTense.Base);
+            ITransitiveVerbial actual;
             target.SubjectOf = expected;
             actual = target.SubjectOf;
             Assert.AreEqual(expected, actual);

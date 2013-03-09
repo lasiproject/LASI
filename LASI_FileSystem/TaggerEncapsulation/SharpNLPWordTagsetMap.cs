@@ -29,6 +29,7 @@ namespace LASI.FileSystem
         private readonly Dictionary<string, Func<string, Word>> typeDictionary = new Dictionary<string, Func<string, Word>> {
             { "", t => { throw new EmptyTagException(String.Format("the tag for word: {0}\nis empty",t)); } },  
             { "CC", t => new Conjunction(t) }, //Coordinating conjunction
+            { ",", t => new Conjunction(t) }, //Coordinating conjunction
             { "CD", t => new Quantifier(t) }, //Cardinal number
             { "DT", t => new Determiner(t) }, //Determiner
             { "EX", t => new Existential(t) }, //Existential 'there'
@@ -42,7 +43,7 @@ namespace LASI.FileSystem
             { "-LRB-", t => new Punctuator(t) }, //Left Bracket
             { "-RRB-", t => new Punctuator(t) },  //Right Bracket
             { "''", t => new Punctuator(t) }, //Single quote * should be remapped
-            { "MD", t => new Modal(t) }, //Modal
+            { "MD", t => new ModalAuxilary(t) }, //ModalAuxilary
             //Noun mappings
             { "NN", t => new GenericSingularNoun(t) }, //Noun, singular or mass
             { "NNS", t => new GenericPluralNoun(t) }, //Noun, plural

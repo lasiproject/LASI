@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LASI.Algorithm.FundamentalSyntacticInterfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,7 +8,8 @@ using System.Xml.Linq;
 namespace LASI.Algorithm
 {
     /// <summary>
-    /// Represents a preposition such as "into", "through", or "for".
+    /// Represents a preposition such as "below", "atop", "into", "through", "by", "via", or "for".
+    /// Example: The duplicitous blue bird, via its trecherous machinations, betrayed the ardent, hard-working dog.
     /// </summary>
     public class Preposition : Word, IPrepositional
     {
@@ -41,9 +43,25 @@ namespace LASI.Algorithm
         }
 
         #endregion
-
-        public override XElement Serialize() {
-            throw new NotImplementedException();
+        /// <summary>
+        /// Binds an ILexical construct as the object of the Preposition. 
+        /// Lexical constructs include Word, Phrase, and Clause Types.
+        /// </summary>
+        /// <param name="prepositionalObject">The ILexical construct as the object of the Preposition.</param>
+        public void BindObjectOfPreposition(ILexical prepositionalObject) {
+            PrepositionalObject = prepositionalObject;
         }
+        #region Methods
+
+        #endregion
+
+        /// <summary>
+        /// Gets the object of the IPrepositional construct.
+        /// </summary>
+        public ILexical PrepositionalObject {
+            get;
+            protected set;
+        }
+
     }
 }

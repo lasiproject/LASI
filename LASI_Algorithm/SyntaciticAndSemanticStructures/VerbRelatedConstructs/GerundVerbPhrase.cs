@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LASI.Algorithm.FundamentalSyntacticInterfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,17 +24,17 @@ namespace LASI.Algorithm.PhraseTypes
             set;
         }
 
-        public ITransitiveAction DirectObjectOf {
+        public ITransitiveVerbial DirectObjectOf {
             get;
             set;
         }
 
-        public ITransitiveAction IndirectObjectOf {
+        public ITransitiveVerbial IndirectObjectOf {
             get;
             set;
         }
 
-        public ITransitiveAction SubjectOf {
+        public ITransitiveVerbial SubjectOf {
             get;
             set;
         }
@@ -53,7 +54,7 @@ namespace LASI.Algorithm.PhraseTypes
 
         public void BindDescriber(IDescriber adj) {
             if (!_describers.Contains(adj)) {
-                adj.Describes = this;
+                adj.Described = this;
                 _describers.Add(adj);
             }
         }

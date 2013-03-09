@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LASI.Algorithm.FundamentalSyntacticInterfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -39,15 +40,12 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets the Entity which the AdjectivePhrase describes.
         /// </summary>
-        public virtual IEntity Describes {
+        public virtual IEntity Described {
             get;
             set;
         }
 
        
 
-        public override XElement Serialize() {
-            throw new NotImplementedException();
-        }
     }
 }

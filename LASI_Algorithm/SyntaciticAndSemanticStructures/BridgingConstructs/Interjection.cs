@@ -20,8 +20,6 @@ namespace LASI.Algorithm
             : base(text) {
         }
 
-        public override XElement Serialize() {
-            throw new NotImplementedException();
-        }
+
     }
 }

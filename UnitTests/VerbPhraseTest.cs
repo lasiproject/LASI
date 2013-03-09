@@ -1,4 +1,5 @@
 ﻿using LASI.Algorithm;
+using LASI.Algorithm.FundamentalSyntacticInterfaces;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -105,8 +106,8 @@ namespace AlgorithmAssemblyUnitTestProject
         public void ModalityTest() {
             IEnumerable<Word> composedWords = new Word[] { new Verb("run", VerbTense.Base), new Adverb("swiftly"), new Preposition("through") };
             VerbPhrase target = new VerbPhrase(composedWords);
-            Modal expected = new Modal("cannot");
-            Modal actual;
+            ModalAuxilary expected = new ModalAuxilary("cannot");
+            ModalAuxilary actual;
             target.Modality = expected;
             actual = target.Modality;
             Assert.AreEqual(expected, actual);

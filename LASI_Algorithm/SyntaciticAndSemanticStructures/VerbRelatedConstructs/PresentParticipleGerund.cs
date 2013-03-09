@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LASI.Algorithm.FundamentalSyntacticInterfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -32,7 +33,7 @@ namespace LASI.Algorithm
 
 
         public void BindDescriber(IDescriber adj) {
-            adj.Describes = this;
+            adj.Described = this;
             _describedBy.Add(adj);
         }
         public void AddPossession(IEntity possession) {
@@ -57,21 +58,21 @@ namespace LASI.Algorithm
         /// <summary>
         /// The Verb construct which the Gerund is the subject of.
         /// </summary>
-        public ITransitiveAction SubjectOf {
+        public ITransitiveVerbial SubjectOf {
             get;
             set;
         }
         /// <summary>
         /// The Verb construct which the gerund is the direct object of.
         /// </summary>
-        public ITransitiveAction DirectObjectOf {
+        public ITransitiveVerbial DirectObjectOf {
             get;
             set;
         }
         /// <summary>
         /// The Verb construct which the gerund is the indirect object of.
         /// </summary>
-        public ITransitiveAction IndirectObjectOf {
+        public ITransitiveVerbial IndirectObjectOf {
             get;
             set;
         }

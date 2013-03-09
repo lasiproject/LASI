@@ -1,4 +1,6 @@
-﻿using System;
+﻿using LASI.Algorithm.ClauseTypes;
+using LASI.Algorithm.FundamentalSyntacticInterfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +12,7 @@ namespace LASI.Algorithm
     /// <summary>
     /// Represents a Verb Phrase, a Phrase with the syntactic role of a verb.
     /// </summary>
-    public class VerbPhrase : Phrase, ITransitiveAction, IAdverbialModifiable, IModalityModifiable
+    public class VerbPhrase : Phrase, ITransitiveVerbial, IAdverbialModifiable, IModalityModifiable
     {
         #region Constructors
 
@@ -118,9 +120,7 @@ namespace LASI.Algorithm
 
 
 
-        public override XElement Serialize() {
-            throw new NotImplementedException();
-        }
+
         #endregion
 
 
@@ -172,9 +172,9 @@ namespace LASI.Algorithm
         }
 
         /// <summary>
-        /// Gets or sets the Modal w which modifies the VerbPhrase.
+        /// Gets or sets the ModalAuxilary w which modifies the VerbPhrase.
         /// </summary>
-        public Modal Modality {
+        public ModalAuxilary Modality {
             get;
             set;
         }
@@ -187,9 +187,9 @@ namespace LASI.Algorithm
         }
 
 
-        public Clause GivenExposition {
+        public ILexical GivenExposition {
             get;
-            set;
+            protected set;
         }
 
         #endregion

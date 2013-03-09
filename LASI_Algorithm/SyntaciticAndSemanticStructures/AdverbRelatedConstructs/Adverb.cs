@@ -1,4 +1,5 @@
 ﻿
+using LASI.Algorithm.FundamentalSyntacticInterfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,13 +24,10 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets or sets the w or phrase which the Adverb modiffies
         /// </summary>
-        public virtual IAdverbialModifiable Modiffied {
+        public virtual IVerbial Modiffied {
             get;
             set;
         }
 
-        public override XElement Serialize() {
-            throw new NotImplementedException();
-        }
     }
 }

@@ -42,8 +42,7 @@ namespace LASI.Algorithm
         #endregion
 
 
-        public override XElement Serialize() {
-            throw new NotImplementedException();
-        }
+
+        //enum ConjunctionKind:byte {coordinating,subordinating
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LASI.Algorithm.FundamentalSyntacticInterfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -59,9 +60,9 @@ namespace LASI.Algorithm
             }
         }
         /// <summary>
-        /// Gets the ITransitiveAction instance, generally a TransitiveVerb or TransitiveVerbPhrase, which the Pronoun is the object of.
+        /// Gets the ITransitiveVerbial instance, generally a TransitiveVerb or TransitiveVerbPhrase, which the Pronoun is the object of.
         /// </summary>
-        public virtual ITransitiveAction DirectObjectOf {
+        public virtual ITransitiveVerbial DirectObjectOf {
             get;
             set;
         }
@@ -73,16 +74,16 @@ namespace LASI.Algorithm
 
         }
         /// <summary>
-        /// Gets the ITransitiveAction instance, generally a TransitiveVerb or TransitiveVerbPhrase, which the Pronoun is the INDIRECT object of.
+        /// Gets the ITransitiveVerbial instance, generally a TransitiveVerb or TransitiveVerbPhrase, which the Pronoun is the INDIRECT object of.
         /// </summary>
-        public virtual ITransitiveAction IndirectObjectOf {
+        public virtual ITransitiveVerbial IndirectObjectOf {
             get;
             set;
         }
         /// <summary>
         /// Gets the ISubjectTaker instance, generally a Verb or VerbPhrase, which the Pronoun is the subject of.
         /// </summary>
-        public virtual ITransitiveAction SubjectOf {
+        public virtual ITransitiveVerbial SubjectOf {
             get;
             set;
         }
@@ -167,11 +168,6 @@ namespace LASI.Algorithm
 
 
 
-
-
-        public override System.Xml.Linq.XElement Serialize() {
-            throw new NotImplementedException();
-        }
 
     }
 }

@@ -45,7 +45,7 @@ namespace LASI.Algorithm.Thesauri
         /// <summary>
         ///gets the current state of the file loading process
         /// </summary>
-        public virtual ThesaurusLoadingState LoadingStatus {
+        public  ThesaurusLoadingState LoadingStatus {
             get;
             protected set;
         }
@@ -53,7 +53,7 @@ namespace LASI.Algorithm.Thesauri
         /// <summary>
         /// gets or sets all of the synsets in the Thesaurus
         /// </summary>
-        internal virtual IDictionary<string, SynonymSet> AssociationData {
+        internal  IDictionary<string, SynonymSet> AssociationData {
             get;
             set;
         }

@@ -51,16 +51,16 @@ namespace LASI.FileSystem
         private Func<string, Word> LookupMapping(TaggedWordObject taggedText) {
             var tag = taggedText.Tag.Trim();
             var text = taggedText.Text.Trim();
-            if (tag.Length < 2)
+            if (tag.Length < 2 && text != ",")
                 return
-                    text == "." || text == "!" || text == "?" ?
+                    (text == "." || text == "!" || text == "?") ?
                     new Func<string, Word>((s) => new LASI.Algorithm.SentencePunctuation(s.First(c => !Char.IsWhiteSpace(c)))) :
                     new Func<string, Word>((s) => new LASI.Algorithm.Punctuator(s.First(c => !Char.IsWhiteSpace(c))));
             try {
                 var constructor = context[tag];
                 return constructor;
             } catch (UnknownPOSException) {
-                return (s) => new LASI.Algorithm.GenericSingularNoun(taggedText.Text);
+                //return (s) => new LASI.Algorithm.GenericSingularNoun(taggedText.Text);
                 throw new UnknownPOSException(String.Format("Unable to parse unknown tag\nTag: {0}\nFor text: {1}\n", tag, taggedText.Text));
 
             }

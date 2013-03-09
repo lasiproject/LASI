@@ -24,10 +24,5 @@ namespace LASI.Algorithm
         Dictionary<Weighting.WeightKind, Weighting.Weight> Weights {
             get;
         }
-        /// <summary>
-        /// Serializes the ILexical instance into an XML format storing its relevant information. The result is returned as an instance of the System.Xml.linq.XElement class.
-        /// </summary>
-        /// <returns>A System.Xml.Linq.XElement instance reflecting the current state and nature of the ILexical instance.</returns>
-        System.Xml.Linq.XElement Serialize();
     }
 }

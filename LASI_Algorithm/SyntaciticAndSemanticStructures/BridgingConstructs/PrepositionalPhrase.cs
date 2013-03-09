@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LASI.Algorithm.FundamentalSyntacticInterfaces;
+using System;
 using System.Collections.Generic;
 using System.Xml.Linq;
 
@@ -36,8 +37,22 @@ namespace LASI.Algorithm
 
 
 
-        public override XElement Serialize() {
-            throw new NotImplementedException();
+
+
+        /// <summary>
+        /// Gets the object of the IPrepositional construct.
+        /// </summary>
+        public ILexical PrepositionalObject {
+            get;
+            protected set;
+        }
+        /// <summary>
+        /// Binds an ILexical construct as the object of the PrepositionalPhrase. 
+        /// Lexical constructs include Word, Phrase, and Clause Types.
+        /// </summary>
+        /// <param name="prepositionalObject">The ILexical construct as the object of the PrepositionalPhrase.</param>
+        public void BindObjectOfPreposition(ILexical prepositionalObject) {
+            PrepositionalObject = prepositionalObject;
         }
     }
 }

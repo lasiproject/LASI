@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using LASI.Algorithm;
+using LASI.Algorithm.FundamentalSyntacticInterfaces;
 
 namespace LASI.Algorithm
 {
@@ -49,7 +50,7 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="adjective">The IDescriber instance which will be added to the Noun'd descriptors.</param>
         public virtual void BindDescriber(IDescriber adjective) {
-            adjective.Describes = this;
+            adjective.Described = this;
             _describedBy.Add(adjective);
         }
 
@@ -90,21 +91,21 @@ namespace LASI.Algorithm
         /// <summary>
         ///Gets or sets the ITRansitiveAction instance, usually a Verb or VerbPhrase, which the Noun is the direct object of.
         /// </summary>
-        public virtual ITransitiveAction DirectObjectOf {
+        public virtual ITransitiveVerbial DirectObjectOf {
             get;
             set;
         }
         /// <summary>
-        ///Gets or sets the IAction instance the Noun is the indirect object of.
+        ///Gets or sets the IVerbial instance the Noun is the indirect object of.
         /// </summary>
-        public virtual ITransitiveAction IndirectObjectOf {
+        public virtual ITransitiveVerbial IndirectObjectOf {
             get;
             set;
         }
         /// <summary>
-        ///Gets or sets the IAction instance the Noun is the subject of.
+        ///Gets or sets the IVerbial instance the Noun is the subject of.
         /// </summary>
-        public virtual ITransitiveAction SubjectOf {
+        public virtual ITransitiveVerbial SubjectOf {
             get;
             set;
         }
@@ -156,10 +157,6 @@ namespace LASI.Algorithm
 
 
 
-
-        public override XElement Serialize() {
-            throw new NotImplementedException();
-        }
 
 
 
