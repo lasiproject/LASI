@@ -28,8 +28,8 @@ namespace LASI.FileSystem.TaggerEncapsulation
         }
 
         public override IEnumerable<Paragraph> LoadParagraphs() {
-            var fileText = LoadDocumentFile();
-            var textParagraphs = ParseParagraphs(fileText);
+
+            var textParagraphs = ParseParagraphs(TaggedInputData);
             foreach (var paraText in textParagraphs) {
                 Paragraph para = CreateParagraph(paraText);
             }
@@ -61,8 +61,12 @@ namespace LASI.FileSystem.TaggerEncapsulation
         }
 
         private Clause CreateClause(string data) {
+            Console.WriteLine(data);
             var phrases = new List<Phrase>();
-
+            while (data.Contains("(")) {
+                var currentPhraseString = new PhraseExtractor().ExtractAndConsume(ref data);
+                Console.WriteLine(currentPhraseString);
+            }
             throw new NotImplementedException();
         }
 
