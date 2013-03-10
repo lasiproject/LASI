@@ -69,7 +69,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///A test for Equals
+        ///a test for Equals
         ///</summary>
         [TestMethod()]
         public void EqualsTest() {
@@ -88,7 +88,7 @@ namespace AlgorithmAssemblyUnitTestProject
     
 
         /// <summary>
-        ///A test for EstablishParent
+        ///a test for EstablishParent
         ///</summary>
         [TestMethod()]
         public void EstablishParentTest() {
@@ -99,7 +99,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///A test for GetHashCode
+        ///a test for GetHashCode
         ///</summary>
         [TestMethod()]
         public void GetHashCodeTest() {
@@ -112,7 +112,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///A test for ToString
+        ///a test for ToString
         ///</summary>
         [TestMethod()]
         public void ToStringTest() {
@@ -124,7 +124,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///A test for NextWord
+        ///a test for NextWord
         ///</summary>
         [TestMethod()]
         public void NextWordTest() {
@@ -137,7 +137,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///A test for ParentDocument
+        ///a test for ParentDocument
         ///</summary>
         [TestMethod()]
         public void ParentDocTest() {
@@ -149,7 +149,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///A test for PreviousWord
+        ///a test for PreviousWord
         ///</summary>
         [TestMethod()]
         public void PreviousWordTest() {
@@ -162,7 +162,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///A test for Text
+        ///a test for Text
         ///</summary>
         [TestMethod()]
         public void TextTest() {

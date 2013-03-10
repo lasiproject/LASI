@@ -134,7 +134,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// This Pronoun specialized implementation of the Equality Operator returns True if and only if its operands refer to the same Entity instance and are composed of the same text.
         /// </summary>
-        /// <param name="A">The Pronoun on the Left hand side of the operator.</param>
+        /// <param name="a">The Pronoun on the Left hand side of the operator.</param>
         /// <param name="B">The Pronoun on the Left hand side of the operator.</param>
         /// <returns>True if the Pronouns are equal and False otherwise.</returns>
         public static bool operator ==(Pronoun A, Pronoun B) {
@@ -144,7 +144,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// This Pronoun specialized implementation of the Inquality Operator returns True if its operands refer to different entities and or are composed of different text.
         /// </summary>
-        /// <param name="A">The Pronoun on the Left hand side of the operator.</param>
+        /// <param name="a">The Pronoun on the Left hand side of the operator.</param>
         /// <param name="B">The Pronoun on the Left hand side of the operator.</param>
         /// <returns>True if the Pronouns are not equal and False otherwise.</returns>
         public static bool operator !=(Pronoun A, Pronoun B) {

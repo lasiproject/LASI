@@ -65,7 +65,7 @@ namespace AlgorithmAssemblyUnitTestProject
 
 
         /// <summary>
-        ///A test for VerbPhrase Constructor
+        ///a test for VerbPhrase Constructor
         ///</summary>
         [TestMethod()]
         public void VerbPhraseConstructorTest() {
@@ -74,7 +74,7 @@ namespace AlgorithmAssemblyUnitTestProject
             Assert.IsTrue(composedWords == target.Words);
         }
         /// <summary>
-        ///A test for ModifyWith
+        ///a test for ModifyWith
         ///</summary>
         [TestMethod()]
         public void ModifyWithTest() {
@@ -86,7 +86,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///A test for BoundSubject
+        ///a test for BoundSubject
         ///</summary>
         [TestMethod()]
         public void BoundSubjectTest() {
@@ -100,7 +100,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///A test for Modality
+        ///a test for Modality
         ///</summary>
         [TestMethod()]
         public void ModalityTest() {

@@ -44,6 +44,12 @@ namespace LASI.Algorithm
         }
 
 
+        public void EstablishParenthood(Paragraph paragraph) {
+            ParentParagraph = paragraph;
+            foreach (var C in Clauses)
+                C.EstablishParent(this);
+        }
+
         ///<summary>
         /// Returns the number of Words in a sentence
         /// </summary>
@@ -104,32 +110,27 @@ namespace LASI.Algorithm
         }
 
 
-        public void EstablishParenthood(Paragraph paragraph) {
-            ParentParagraph = paragraph;
-            ParentDocument = paragraph.ParentDocument;
-            foreach (var C in Clauses)
-                C.EstablishParent(this);
-        }
 
         /// <summary>
         /// Gets or sets the Paragraph to which the Sentence belongs.
         /// </summary>
         public Paragraph ParentParagraph {
             get;
-            set;
+            private set;
         }
         /// <summary>
         /// Gets or sets the ParentDocument to which the Sentence Belongs.
         /// </summary>
         public Document ParentDocument {
-            get;
-            set;
+            get {
+                return ParentParagraph.ParentDocument;
+            }
         }
 
         /// <summary>
         /// Returns a string representation of the Sentence.
         /// </summary>
-        /// <returns>A string representation of the Sentence.</returns>
+        /// <returns>a string representation of the Sentence.</returns>
         public override string ToString() {
             return base.ToString() + " \"" + Text + "\"";
         }

@@ -65,7 +65,7 @@ namespace AlgorithmAssemblyUnitTestProject
 
 
         /// <summary>
-        ///A test for Document Constructor
+        ///a test for Document Constructor
         ///</summary>
         [TestMethod()]
         public void DocumentConstructorTest() {
@@ -92,7 +92,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///A test for GetActions
+        ///a test for GetActions
         ///</summary>
         [TestMethod()]
         public void GetActionsTest() {
@@ -106,7 +106,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///A test for GetEntities
+        ///a test for GetEntities
         ///</summary>
         [TestMethod()]
         public void GetEntitiesTest() {
@@ -120,7 +120,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///A test for PrintByPhraseLinkage
+        ///a test for PrintByPhraseLinkage
         ///</summary>
         [TestMethod()]
         public void PrintByPhraseLinkageTest() {
@@ -131,7 +131,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///A test for PrintByWordLinkage
+        ///a test for PrintByWordLinkage
         ///</summary>
         [TestMethod()]
         public void PrintByWordLinkageTest() {
@@ -142,7 +142,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///A test for SentenceAt
+        ///a test for SentenceAt
         ///</summary>
         [TestMethod()]
         public void SentenceAtTest() {
@@ -157,7 +157,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///A test for SentenceTextAt
+        ///a test for SentenceTextAt
         ///</summary>
         [TestMethod()]
         public void SentenceTextAtTest() {
@@ -172,7 +172,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///A test for WordAt
+        ///a test for WordAt
         ///</summary>
         [TestMethod()]
         public void WordAtTest() {
@@ -187,7 +187,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///A test for WordTextAt
+        ///a test for WordTextAt
         ///</summary>
         [TestMethod()]
         public void WordTextAtTest() {
@@ -202,7 +202,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///A test for Paragraphs
+        ///a test for Paragraphs
         ///</summary>
         [TestMethod()]
         public void ParagraphsTest() {
@@ -214,7 +214,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///A test for Phrases
+        ///a test for Phrases
         ///</summary>
         [TestMethod()]
         public void PhrasesTest() {
@@ -226,7 +226,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///A test for Sentences
+        ///a test for Sentences
         ///</summary>
         [TestMethod()]
         public void SentencesTest() {
@@ -238,7 +238,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///A test for Words
+        ///a test for Words
         ///</summary>
         [TestMethod()]
         public void WordsTest() {

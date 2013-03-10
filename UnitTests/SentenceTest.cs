@@ -62,7 +62,7 @@ namespace AlgorithmAssemblyUnitTestProject
 
 
         /// <summary>
-        ///A test for ToString
+        ///a test for ToString
         ///</summary>
         [TestMethod()]
         public void ToStringTest()

@@ -42,7 +42,7 @@ namespace LASI.FileSystem
         /// <summary>
         /// Returns an instance of ParentDocument which contains the run time representation of all of the textual construct in the document, for the Algorithm to analyse.
         /// </summary>
-        /// <returns>A traversable, queriable document object defining the run time representation of the tagged file which the TaggedFileParser governs. </returns>
+        /// <returns>a traversable, queriable document object defining the run time representation of the tagged file which the TaggedFileParser governs. </returns>
         public override Document LoadDocument() {
             return new Document(LoadParagraphs());
         }
@@ -55,68 +55,85 @@ namespace LASI.FileSystem
             var results = new List<Paragraph>();
 
             var data = PreProcessTextData(TaggedInputData.Trim());
-            foreach (var paragraph in ParseParagraphs(data)) {
-                var parsedSentences = new List<Sentence>();
-                var sentences = from s in SplitIntoSentences(paragraph)
-                                select s.Trim();
-                foreach (var sent in from s in sentences
-                                     where !string.IsNullOrEmpty(s) && !string.IsNullOrWhiteSpace(s)
-                                     select s) {
-                    //Debug.WriteLine(sent);
-                    //Console.WriteLine(sent);
-                    var parsedClauses = new List<Clause>();
-                    var parsedPhrases = new List<Phrase>();
-                    var chunks = from chunk in sent.Split(new[] { "[", "]" }, StringSplitOptions.RemoveEmptyEntries)
-                                 let c = chunk.Trim()
-                                 where !String.IsNullOrWhiteSpace(c) && !String.IsNullOrEmpty(c)
-                                 select c;
-                    SentencePunctuation sentencePunctuation = null;
-
-                    foreach (var chunk in chunks) {
-                        if (!string.IsNullOrEmpty(chunk) && !string.IsNullOrWhiteSpace(chunk) && chunk.Contains('/')) {
-                            char token = SkipToNextElement(chunk);
-                            if (token == ' ') {
-                                var currentPhrase = ParsePhrase(new TaggedPhraseObject {
-                                    Text = chunk.Substring(chunk.IndexOf(' ')), Tag = chunk.Substring(0, chunk.IndexOf(' '))
-                                });
-                                if (currentPhrase.Words.Count(w => !string.IsNullOrWhiteSpace(w.Text)) > 0)
-                                    parsedPhrases.Add(currentPhrase);
-
-                                if (currentPhrase is SubordinateClauseBeginPhrase) {
-                                    parsedClauses.Add(new Clause(parsedPhrases.Take(parsedPhrases.Count - 1)));
-                                    parsedPhrases = new List<Phrase>();
-                                    parsedPhrases.Add(currentPhrase);
-                                }
-
-                            } else if (token == '/') {
-                                var words = CreateWords(chunk);
-                                if (words.First() != null)
-                                    if (words.Count(w => w is Conjunction) == words.Count) {
-                                        var currentPhrase = new ConjunctionPhrase(words);
-                                        parsedPhrases.Add(currentPhrase);
-                                    } else if (words.Count() == 1 && words.First() is SentencePunctuation) {
-                                        sentencePunctuation = words.First() as SentencePunctuation;
-                                        parsedClauses.Add(new Clause(parsedPhrases.Take(parsedPhrases.Count)));
-                                        parsedPhrases = new List<Phrase>();
-                                    } else {
-
-                                        //parsedPhrases.Add(new UndeterminedPhrase(words));
-                                    }
-                            }
-
-                        }
-                        if (parsedClauses.Find(c => c.Text != "") != null)
-                            parsedSentences.Add(new Sentence(parsedClauses, sentencePunctuation));
-                    }
-                }
-                results.Add(new Paragraph(parsedSentences));
-            }
+            foreach (var paragraph in ParseParagraphs(data))
+                results.Add(LoadParagraph(paragraph));
 
             return results;
         }
 
+        public override async Task<IEnumerable<Paragraph>> LoadParagraphsAsync() {
+            var data = TaggedInputData.Trim();
+            var results = new List<Paragraph>();
+            var tsks = from para in ParseParagraphs(data)
+                       select Task.Run(async () => {
+                           return await LoadParagraphAsync(await PreProcessTextDataAsync(para));
+                       });
+            results.AddRange(from t in tsks.Select(s => s.Result)
+                             select t);
+            return results;
+
+        }
+        private async Task<Paragraph> LoadParagraphAsync(string paragraph) {
+            return await Task.Run(() => LoadParagraph(paragraph));
+        }
+        private Paragraph LoadParagraph(string paragraph) {
+            var parsedSentences = new List<Sentence>();
+            var sentences = from s in SplitIntoSentences(paragraph)
+                            select s.Trim();
+            foreach (var sent in from s in sentences
+                                 where !string.IsNullOrEmpty(s) && !string.IsNullOrWhiteSpace(s)
+                                 select s) {
+
+                var parsedClauses = new List<Clause>();
+                var parsedPhrases = new List<Phrase>();
+                var chunks = from chunk in sent.Split(new[] { "[", "]" }, StringSplitOptions.RemoveEmptyEntries)
+                             let c = chunk.Trim()
+                             where !String.IsNullOrWhiteSpace(c) && !String.IsNullOrEmpty(c)
+                             select c;
+                SentencePunctuation sentencePunctuation = null;
+
+                foreach (var chunk in chunks) {
+                    if (!string.IsNullOrEmpty(chunk) && !string.IsNullOrWhiteSpace(chunk) && chunk.Contains('/')) {
+                        char token = SkipToNextElement(chunk);
+                        if (token == ' ') {
+                            var currentPhrase = ParsePhraseAsync(new TaggedPhraseObject {
+                                Text = chunk.Substring(chunk.IndexOf(' ')), Tag = chunk.Substring(0, chunk.IndexOf(' '))
+                            }).Result;
+                            if (currentPhrase.Words.Count(w => !string.IsNullOrWhiteSpace(w.Text)) > 0)
+                                parsedPhrases.Add(currentPhrase);
+
+                            if (currentPhrase is SubordinateClauseBeginPhrase) {
+                                parsedClauses.Add(new Clause(parsedPhrases.Take(parsedPhrases.Count - 1)));
+                                parsedPhrases = new List<Phrase>();
+                                parsedPhrases.Add(currentPhrase);
+                            }
+
+                        } else if (token == '/') {
+                            var words = CreateWords(chunk);
+                            if (words.First() != null)
+                                if (words.Count(w => w is Conjunction) == words.Count) {
+                                    var currentPhrase = new ConjunctionPhrase(words);
+                                    parsedPhrases.Add(currentPhrase);
+                                } else if (words.Count() == 1 && words.First() is SentencePunctuation) {
+                                    sentencePunctuation = words.First() as SentencePunctuation;
+                                    parsedClauses.Add(new Clause(parsedPhrases.Take(parsedPhrases.Count)));
+                                    parsedPhrases = new List<Phrase>();
+                                } else {
+
+                                    //parsedPhrases.Add(new UndeterminedPhrase(words));
+                                }
+                        }
+
+                    }
+                    if (parsedClauses.Find(c => c.Text != "") != null)
+                        parsedSentences.Add(new Sentence(parsedClauses, sentencePunctuation));
+                }
+            }
+            return new Paragraph(parsedSentences);
+        }
+
         private static IEnumerable<string> SplitIntoSentences(string paragraph) {
-            return paragraph.Split(new[] { "./.", "!/.", "?/." }, StringSplitOptions.RemoveEmptyEntries);
+            return paragraph.Split(new[] { "<sentence>", "</sentence>" }, StringSplitOptions.RemoveEmptyEntries);
         }
 
         private static char SkipToNextElement(string chunk) {
@@ -143,6 +160,18 @@ namespace LASI.FileSystem
 
             data = data.Replace("]/-RRB- ", "RIGHT_SQUARE_BRACKET/-RRB- ");
             return data;
+        }/// <summary>
+        /// Asynchronously Pre-processes the line read from the file by replacing some instances of problematic text such as square brackets, with tokens that are easier to reliably parse.
+        /// </summary>
+        /// <param name="line">The string containing raw SharpNLP tagged-text to process.</param>
+        /// <returns>The string containing the processed text.</returns>
+        protected virtual async Task<string> PreProcessTextDataAsync(string data) {
+            return await Task.Run(() => {
+                data = data.Replace(" [/-LRB-", " LEFT_SQUARE_BRACKET/-LRB-");
+
+                data = data.Replace("]/-RRB- ", "RIGHT_SQUARE_BRACKET/-RRB- ");
+                return data;
+            });
         }
 
         /// <summary>
@@ -156,14 +185,27 @@ namespace LASI.FileSystem
             var phraseConstructor = PhraseTagset[phraseTag];
             return phraseConstructor(composed);
         }
-
+        /// <summary>
+        /// Reads a [NP Square Brack Delimited Phrase Chunk] and returns a phrase tag determined subtype of LASI.Phrase which in turn contains all the run time representations of the individual words within it.
+        /// </summary>
+        /// <param name="taggedContent">The TextTagPair instance which contains the content of a phrase and its Tag.</param>
+        /// <returns></returns>
+        protected virtual async Task<Phrase> ParsePhraseAsync(TaggedPhraseObject taggedContent) {
+            var phraseTag = taggedContent.Tag.Trim();
+            var composed = await CreateWordsAsync(taggedContent.Text);
+            var phraseConstructor = PhraseTagset[phraseTag];
+            return phraseConstructor(composed);
+        }
+        protected virtual async Task<List<Word>> CreateWordsAsync(string wordData) {
+            return await Task.Run(() => CreateWords(wordData));
+        }
 
         /// <summary>
         /// Parses a string of text containing tagged words 
         /// e.g. "LASI/NNP can/MD sniff-out/VBP the/DT problem/NN" 
         /// into a collection of Part of Speech subtyped Word instances which represent them.
         /// </summary>
-        /// <param name="wordData">A string containing tagged words.</param>
+        /// <param name="wordData">a string containing tagged words.</param>
         /// <returns>The collection of Word objects that is their run time representation.</returns>
         protected virtual List<Word> CreateWords(string wordData) {
             var parsedWords = new List<Word>();
@@ -187,8 +229,8 @@ namespace LASI.FileSystem
         /// and returns of a collection containing, for each w, a function which will create a Part of Speech subtyped Word instance
         /// representing that w.
         /// </summary>
-        /// <param name="wordData">A string containing tagged words.</param>
-        /// <returns>A List of constructor function instances which, when invoked, create run time objects which represent each w in the source</returns>
+        /// <param name="wordData">a string containing tagged words.</param>
+        /// <returns>a List of constructor function instances which, when invoked, create run time objects which represent each w in the source</returns>
         protected virtual List<Func<Word>> CreateWordExpressions(string wordData) {
             var wordExpressions = new List<Func<Word>>();
             var elements = wordData.Split(new[] { ' ', }, StringSplitOptions.RemoveEmptyEntries);

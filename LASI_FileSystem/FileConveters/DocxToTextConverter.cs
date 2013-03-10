@@ -116,7 +116,7 @@ namespace LASI.FileSystem
         /// Extracts the xml file containing the significant text of the of the docx file from its corresponding zip file.
         /// </summary>
         /// <param name="arch">The object which represents the zip file from which to extract.</param>
-        /// <returns>A instance of GenericXMLFile which wraps the extracted .xml.</returns>
+        /// <returns>a instance of GenericXMLFile which wraps the extracted .xml.</returns>
         protected virtual GenericXMLFile GetRelevantXMLFile(ZipArchive arch) {
             var extractedFile = arch.GetEntry(@"word/document.xml");
             var absolutePath = Original.PathSansExt + @"/" + extractedFile.FullName;
@@ -126,7 +126,7 @@ namespace LASI.FileSystem
         /// This method invokes the file conversion routine asynchronously, gernerally in a serparate thread.
         /// Use with the await operator in an asnyc method to retrieve the new file object and specify a continuation function to be executed when the conversion is complete.
         /// </summary>
-        /// <returns>A Task of InputFile object which functions as a proxy for the actual InputFile while the conversion routine is in progress.
+        /// <returns>a Task of InputFile object which functions as a proxy for the actual InputFile while the conversion routine is in progress.
         /// Access the internal input file encapsulated by the Task by using syntax such as : var file = await myConverter.ConvertFileAsync()
         /// </returns>
         public async override Task<InputFile> ConvertFileAsync() {

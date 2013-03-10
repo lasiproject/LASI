@@ -24,7 +24,7 @@ namespace LASI.Algorithm
             : base(text) {
             Modifiers = new List<IAdverbial>();
             Tense = tense;
-            DetermineIsPossessive();
+
         }
         #region Methods
 
@@ -68,7 +68,7 @@ namespace LASI.Algorithm
             if (!_boundDirectObjects.Contains(directObject)) {
                 _boundDirectObjects.Add(directObject);
                 directObject.DirectObjectOf = this;
-                if (Possessive) {
+                if (IsPossessive) {
                     foreach (var s in this.BoundSubjects) {
                         s.AddPossession(directObject);
                     }
@@ -92,8 +92,9 @@ namespace LASI.Algorithm
         }
 
 
-        protected virtual void DetermineIsPossessive() {
-            if (LASI.Algorithm.Thesauri.Thesauri.VerbThesaurus[this].Contains("have")) {
+        public virtual void DetermineIsPossessive() {
+            var syns = LASI.Algorithm.Thesauri.Thesauri.VerbThesaurus[this];
+            if (syns != null && syns.Contains("have")) {
                 possessive = true;
             }
         }
@@ -196,7 +197,7 @@ namespace LASI.Algorithm
         private ICollection<IEntity> _boundIndirectObjects = new List<IEntity>();
         private bool possessive;
 
-        public bool Possessive {
+        public bool IsPossessive {
             get {
                 return possessive;
             }

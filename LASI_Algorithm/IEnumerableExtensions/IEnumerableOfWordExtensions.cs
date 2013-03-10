@@ -14,7 +14,7 @@ namespace LASI.Algorithm
         /// Retrives all words in the Word collection which compare equal to a given Word
         /// </summary>
         /// <param name="toMatch">The Word to match</param>
-        /// <returns>A WordList containing all words which match the argument</returns>
+        /// <returns>a WordList containing all words which match the argument</returns>
         /// <see cref="Word"/>
         public static IEnumerable<Word> FindAllOccurances(this IEnumerable<Word> words,
             Word toMatch) {
@@ -119,7 +119,7 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="toMatch">The w to match</param>
         /// <param name="synonymProvider">The Thesaurus instance which provides the synonyms to also match against.</param>
-        /// <returns>A WordList containing all words which match the argument or any of its provided synonyms.</returns>
+        /// <returns>a WordList containing all words which match the argument or any of its provided synonyms.</returns>
         /// <see cref="Word"/>
         /// <seealso cref="Thesaurus"/>
         public static IEnumerable<Word> TextMatching(this IEnumerable<Word> words, ILexical toMatch, Thesaurus synonymProvider) {

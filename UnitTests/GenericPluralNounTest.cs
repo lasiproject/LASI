@@ -62,7 +62,7 @@ namespace AlgorithmAssemblyUnitTestProject
 
 
         /// <summary>
-        ///A test for GenericPluralNoun Constructor
+        ///a test for GenericPluralNoun Constructor
         ///</summary>
         [TestMethod()]
         public void GenericPluralNounConstructorTest() {
@@ -72,7 +72,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///A test for Quantifier
+        ///a test for Quantifier
         ///</summary>
         [TestMethod()]
         public void QuantifierTest() {

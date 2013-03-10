@@ -54,7 +54,7 @@ namespace LASI.Algorithm.Thesauri
         /// <summary>
         /// Returns a single string representing the members of the SynonymSet.
         /// </summary>
-        /// <returns>A single string representing the members of the SynonymSet.</returns>
+        /// <returns>a single string representing the members of the SynonymSet.</returns>
         public override string ToString() {
             return "[" + IndexCode + "] " + Members.Aggregate("", (str, code) => {
                 return str + "  " + code;

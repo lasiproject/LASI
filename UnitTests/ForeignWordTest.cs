@@ -65,7 +65,7 @@ namespace AlgorithmAssemblyUnitTestProject
 
 
         /// <summary>
-        ///A test for ForeignWord Constructor
+        ///a test for ForeignWord Constructor
         ///</summary>
         [TestMethod()]
         public void ForeignWordConstructorTest()
@@ -77,7 +77,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///A test for UsedAsType
+        ///a test for UsedAsType
         ///</summary>
         [TestMethod()]
         public void UsedAsTypeTest()

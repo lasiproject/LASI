@@ -64,7 +64,7 @@ namespace AlgorithmAssemblyUnitTestProject
 
 
         /// <summary>
-        ///A test for Adjective Constructor
+        ///a test for Adjective Constructor
         ///</summary>
         [TestMethod()]
         public void AdjectiveConstructorTest() {
@@ -74,7 +74,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///A test for ModifyWith
+        ///a test for ModifyWith
         ///</summary>
         [TestMethod()]
         public void ModifyWithTest() {
@@ -87,7 +87,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///A test for Described
+        ///a test for Described
         ///</summary>
         [TestMethod()]
         public void DescribesTest() {

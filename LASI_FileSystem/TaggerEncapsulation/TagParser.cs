@@ -24,10 +24,13 @@ namespace LASI.FileSystem.TaggerEncapsulation
         /// Breaks a string of text containing multiple paragraphs into a collection of strings each representing an individual paragraph.
         /// Paragraphs are delimited using the default regular expression pattern "[\r\n]+[^]*[\r\n]+"
         /// </summary>
-        /// <param name="line">A string containing the text to be broken down.</param>
-        /// <returns>A collection of strings, each entry corresponding to the entire content of a single paragraph.</returns>
+        /// <param name="line">a string containing the text to be broken down.</param>
+        /// <returns>a collection of strings, each entry corresponding to the entire content of a single paragraph.</returns>
         protected virtual IEnumerable<string> ParseParagraphs(string data) {
             return data.Split(new[] { "\r\n\r\n" }, StringSplitOptions.RemoveEmptyEntries);
+        }
+        protected async virtual Task<IEnumerable<string>> ParseParagraphsAsync(string data) {
+            return await Task.Run(() => data.Split(new[] { "\r\n\r\n" }, StringSplitOptions.RemoveEmptyEntries));
         }
 
         /// <summary>

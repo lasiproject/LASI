@@ -62,7 +62,7 @@ namespace AlgorithmAssemblyUnitTestProject
 
 
         /// <summary>
-        ///A test for Particle Constructor
+        ///a test for Particle Constructor
         ///</summary>
         [TestMethod()]
         public void ParticleConstructorTest() {

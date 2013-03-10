@@ -21,38 +21,30 @@ namespace Aluan_Experimentation
 
         static void Main(string[] args) {
 
-            //var vT = LASI.Algorithm.Thesauri.Thesauri.VerbThesaurus;
-            //var nT = LASI.Algorithm.Thesauri.Thesauri.NounThesaurus;
-            //LASI.Utilities.TaggerUtil.TaggerOption = TaggingOption.TagAndAggregate;
-            //var str = TaggerUtil.TagString("He will have a blue ball, a red ball, a green ball, and a black ball.");
-            //Console.WriteLine(str);
-            //var doc = TaggerUtil.TaggedToDoc(str);
-            //SubjectBinder subjectBinder = new LASI.Algorithm.SubjectBinder();
-            //subjectBinder.Bind(doc.Sentences.First());
-            //ObjectBinder objectBinder = new ObjectBinder();
-            //objectBinder.Bind(doc.Sentences.First());
-            //foreach (var phrase in doc.Phrases)
-            //    print(phrase.ToString(true));
+            TestSubjectObject();
 
-            //var path = @"C:\Users\Aluan\LASI_Repo\LASI_v1\TestDocs\Draft_Environmental_Assessment.txt";
-            //new SharpNLPTagger(TaggingOption.TagAndAggregate, path).ProcessFile();
+
+        }
+
+        private static Document LoadDoc() {
             var doc = new TaggedFileParser(new TaggedFile(@"C:\Users\Aluan\LASI_Repo\LASI_v1\TestDocs\Draft_Environmental_Assessment.tagged")).LoadDocument();
-
-            //var prepBinder = new LASI.Algorithm.Analysis.Binding.PrepositionBinder();
-            //foreach (var s in doc.Sentences) {
-            //    prepBinder.Bind(s);
-            //}
-
-            foreach (var p in from r in doc.Phrases
-                              where r.Text == ""
-                              select r)
-                print(p);
+            return doc;
+        }
 
 
-
-                StdIO.WaitForKey();
-
-
+        private static void TestSubjectObject() {
+            var vT = LASI.Algorithm.Thesauri.Thesauri.VerbThesaurus;
+            var nT = LASI.Algorithm.Thesauri.Thesauri.NounThesaurus;
+            LASI.Utilities.TaggerUtil.TaggerOption = TaggingOption.TagAndAggregate;
+            var str = TaggerUtil.TagString("He will have a blue ball, a red ball, a green ball, and a black ball.");
+            Console.WriteLine(str);
+            var doc = TaggerUtil.TaggedToDoc(str);
+            SubjectBinder subjectBinder = new LASI.Algorithm.SubjectBinder();
+            subjectBinder.Bind(doc.Sentences.First());
+            ObjectBinder objectBinder = new ObjectBinder();
+            objectBinder.Bind(doc.Sentences.First());
+            foreach (var phrase in doc.Phrases)
+                print(phrase.ToString(true));
         }
 
         private static void ParseAndCreate() {

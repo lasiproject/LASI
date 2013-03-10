@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace LASI.Algorithm
 {
     /// <summary>
-    /// A specialization of the Adjective class, ComparativeAdjective represents adjectives such as "greener" and "better".
+    /// a specialization of the Adjective class, ComparativeAdjective represents adjectives such as "greener" and "better".
     /// </summary>
     public class ComparativeAdjective : Adjective
     {

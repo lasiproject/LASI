@@ -63,7 +63,7 @@ namespace AlgorithmAssemblyUnitTestProject
 
 
         /// <summary>
-        ///A test for ModalAuxilary Constructor
+        ///a test for ModalAuxilary Constructor
         ///</summary>
         [TestMethod()]
         public void ModalConstructorTest() {
@@ -73,7 +73,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///A test for Modifies
+        ///a test for Modifies
         ///</summary>
         [TestMethod()]
         public void ModifiesTest() {

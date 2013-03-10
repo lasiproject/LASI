@@ -62,7 +62,7 @@ namespace AlgorithmAssemblyUnitTestProject
 
 
         /// <summary>
-        ///A test for Weight Constructor
+        ///a test for Weight Constructor
         ///</summary>
         [TestMethod()]
         public void WeightConstructorTest() {
@@ -74,7 +74,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///A test for Equals
+        ///a test for Equals
         ///</summary>
         [TestMethod()]
         public void EqualsTest() {
@@ -87,7 +87,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///A test for GetHashCode
+        ///a test for GetHashCode
         ///</summary>
         [TestMethod()]
         public void GetHashCodeTest() {
@@ -99,7 +99,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///A test for op_Addition
+        ///a test for op_Addition
         ///</summary>
         [TestMethod()]
         public void op_AdditionTest() {
@@ -112,7 +112,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///A test for op_Division
+        ///a test for op_Division
         ///</summary>
         [TestMethod()]
         public void op_DivisionTest() {
@@ -125,7 +125,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///A test for op_Equality
+        ///a test for op_Equality
         ///</summary>
         [TestMethod()]
         public void op_EqualityTest() {
@@ -138,7 +138,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///A test for op_GreaterThan
+        ///a test for op_GreaterThan
         ///</summary>
         [TestMethod()]
         public void op_GreaterThanTest() {
@@ -151,7 +151,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///A test for op_Inequality
+        ///a test for op_Inequality
         ///</summary>
         [TestMethod()]
         public void op_InequalityTest() {
@@ -164,7 +164,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///A test for op_LessThan
+        ///a test for op_LessThan
         ///</summary>
         [TestMethod()]
         public void op_LessThanTest() {
@@ -177,7 +177,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///A test for op_Multiply
+        ///a test for op_Multiply
         ///</summary>
         [TestMethod()]
         public void op_MultiplyTest() {
@@ -190,7 +190,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///A test for op_Subtraction
+        ///a test for op_Subtraction
         ///</summary>
         [TestMethod()]
         public void op_SubtractionTest() {

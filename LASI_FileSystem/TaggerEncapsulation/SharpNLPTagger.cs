@@ -130,6 +130,7 @@ namespace SharpNLPTaggingModule
         }
 
         protected string Chunk() {
+             
             StringBuilder output = new StringBuilder();
 
             string[] sentences = SplitSentences(SourceText);
@@ -138,7 +139,7 @@ namespace SharpNLPTaggingModule
                 string[] tokens = TokenizeSentence(sentence);
                 string[] tags = PosTagTokens(tokens);
 
-                output.Append(ChunkSentence(tokens, tags));
+                output.Append(String.Format("<sentence>{0}</sentence>", ChunkSentence(tokens, tags))).Append("\r\n\r\n");
             }
 
             var result = output.ToString();

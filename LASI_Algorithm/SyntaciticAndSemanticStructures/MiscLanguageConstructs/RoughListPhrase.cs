@@ -7,7 +7,7 @@ using System.Xml.Linq;
 namespace LASI.Algorithm
 {
     /// <summary>
-    /// A rought representation of a listed (bulleted or numbered) lexical element.
+    /// a rought representation of a listed (bulleted or numbered) lexical element.
     /// </summary>
     public class RoughListPhrase : Phrase
     {

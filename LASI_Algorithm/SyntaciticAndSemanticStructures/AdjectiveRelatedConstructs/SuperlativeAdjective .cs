@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace LASI.Algorithm
 {
     /// <summary>
-    /// A specialization of the Adjective class, SuperlativeAdjective represents adjectives such as "greenest" and "best".
+    /// a specialization of the Adjective class, SuperlativeAdjective represents adjectives such as "greenest" and "best".
     /// </summary>
     public class SuperlativeAdjective : Adjective
     {

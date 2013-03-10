@@ -64,7 +64,7 @@ namespace LASI.Algorithm.Thesauri
         /// Retrives the synonyms of the given verb as a collection of strings.
         /// </summary>
         /// <param name="search">The text of the verb to look for.</param>
-        /// <returns>A collection of strings containing all of the synonyms of the given verb.</returns>
+        /// <returns>a collection of strings containing all of the synonyms of the given verb.</returns>
         public override IEnumerable<string> this[string search] {
             /*
              *   First, access the synset(d) which literally contain the search string text.
@@ -98,7 +98,7 @@ namespace LASI.Algorithm.Thesauri
         /// Retrives the synonyms of the given verb as a collection of strings.
         /// </summary>
         /// <param name="search">An instance of Verb</param>
-        /// <returns>A collection of strings containing all of the synonyms of the given verb.</returns>
+        /// <returns>a collection of strings containing all of the synonyms of the given verb.</returns>
         public override IEnumerable<string> this[Word search] {
             get {
                 return this[search.Text];
@@ -127,7 +127,7 @@ namespace LASI.Algorithm.Thesauri
         private SortedList<String, IEnumerable<string>> cachedData;
 
         const int HEADER_LENGTH = 30;
-       
+
 
     }
 }

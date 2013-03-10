@@ -23,7 +23,7 @@ namespace LASI.Algorithm
         public VerbPhrase(IEnumerable<Word> composedWords)
             : base(composedWords) {
             Tense = VerbTense.Base;
-            DetermineIsPossessive();
+
         }
 
         #endregion
@@ -112,10 +112,10 @@ namespace LASI.Algorithm
 
 
 
-        protected virtual void DetermineIsPossessive() {
-            //if (Words.Count() > 0 && LASI.Algorithm.Thesauri.Thesauri.VerbThesaurus[this.Words.Last()].Contains("have")) {
-            //    possessive = true;
-            //}
+        public virtual void DetermineIsPossessive() {
+            if (Words.GetVerbs().Count() > 0 && Words.GetVerbs().Last().IsPossessive == true) {
+                possessive = true;
+            }
         }
 
 
@@ -187,6 +187,10 @@ namespace LASI.Algorithm
         }
 
 
+        public bool Possessive {
+            get;
+            protected set;
+        }
         public ILexical GivenExposition {
             get;
             protected set;
@@ -202,21 +206,8 @@ namespace LASI.Algorithm
         private ICollection<IEntity> _boundIndirectObjects = new List<IEntity>();
         private bool possessive;
 
-        public bool Possessive {
-            get {
-                return possessive;
-            }
-            protected set {
-                possessive = value;
-            }
-        }
+
         #endregion
-
-
-
-
-
-
 
     }
 }

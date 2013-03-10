@@ -89,7 +89,7 @@ namespace AlgorithmAssemblyUnitTestProject
 
 
         /// <summary>
-        ///A test for AddDocFile
+        ///a test for AddDocFile
         ///</summary>
         [TestMethod()]
         public void AddDocFileTest() {
@@ -100,7 +100,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///A test for AddDocXFile
+        ///a test for AddDocXFile
         ///</summary>
         [TestMethod()]
         public void AddDocXFileTest() {
@@ -110,7 +110,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///A test for AddTextFile
+        ///a test for AddTextFile
         ///</summary>
         [TestMethod()]
         public void AddTextFileTest() {
@@ -121,7 +121,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///A test for BackupProject
+        ///a test for BackupProject
         ///</summary>
         [TestMethod()]
         public void BackupProjectTest() {
@@ -130,7 +130,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///A test for ConvertDocFiles
+        ///a test for ConvertDocFiles
         ///</summary>
         [TestMethod()]
         public void ConvertDocFilesTest() {
@@ -142,7 +142,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///A test for ConvertDocFilesAsync
+        ///a test for ConvertDocFilesAsync
         ///</summary>
         [TestMethod()]
         public async Task ConvertDocFilesAsyncTest() {
@@ -155,7 +155,7 @@ namespace AlgorithmAssemblyUnitTestProject
                 Assert.IsTrue(File.Exists(FileManager.DocxFilesDir + "\\" + F.NameSansExt + ".docx"));
         }
         /// <summary>
-        ///A test for ConvertDocxToText
+        ///a test for ConvertDocxToText
         ///</summary>
         [TestMethod()]
         public void ConvertDocxToTextTest() {
@@ -169,7 +169,7 @@ namespace AlgorithmAssemblyUnitTestProject
 
 
         /// <summary>
-        ///A test for ConvertDocxToTextAsync
+        ///a test for ConvertDocxToTextAsync
         ///</summary>
         [TestMethod()]
         public async Task ConvertDocxToTextAsyncTest() {
@@ -184,7 +184,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///A test for Initialize
+        ///a test for Initialize
         ///</summary>
         [TestMethod()]
         public void InitializeTest() {
@@ -194,7 +194,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///A test for TagTextFile
+        ///a test for TagTextFile
         ///</summary>
         [TestMethod()]
         public void TagTextFilesTest() {
@@ -206,7 +206,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///A test for TagTextFilesAsync
+        ///a test for TagTextFilesAsync
         ///</summary>
         [TestMethod()]
         public async Task TagTextFilesAsyncTest() {
@@ -218,7 +218,7 @@ namespace AlgorithmAssemblyUnitTestProject
             }
         }
         /// <summary>
-        ///A test for ProjectName
+        ///a test for ProjectName
         ///</summary>
         [TestMethod()]
         public void ProjectNameTest() {

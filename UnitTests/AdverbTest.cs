@@ -63,7 +63,7 @@ namespace AlgorithmAssemblyUnitTestProject
 
 
         /// <summary>
-        ///A test for Modiffied
+        ///a test for Modiffied
         ///</summary>
         [TestMethod()]
         public void ModiffiedTest() {
@@ -77,7 +77,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///A test for Adverb Constructor
+        ///a test for Adverb Constructor
         ///</summary>
         [TestMethod()]
         public void AdverbConstructorTest() {

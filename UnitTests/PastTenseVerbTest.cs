@@ -65,7 +65,7 @@ namespace AlgorithmAssemblyUnitTestProject
 
 
         /// <summary>
-        ///A test for PastTenseVerb Constructor
+        ///a test for PastTenseVerb Constructor
         ///</summary>
         [TestMethod()]
         public void PastTenseVerbConstructorTest()

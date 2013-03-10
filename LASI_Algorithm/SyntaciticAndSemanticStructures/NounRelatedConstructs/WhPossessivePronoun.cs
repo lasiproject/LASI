@@ -6,7 +6,7 @@ using System.Text;
 namespace LASI.Algorithm
 {
     /// <summary>
-    /// Represents a Possessive WH Pronoun such as "whose". Possessive WH Pronouns provide contextual ownership semantics.
+    /// Represents a IsPossessive WH Pronoun such as "whose". IsPossessive WH Pronouns provide contextual ownership semantics.
     /// </summary>
     public class WhPossessivePronoun : Pronoun, IPossesser
     {

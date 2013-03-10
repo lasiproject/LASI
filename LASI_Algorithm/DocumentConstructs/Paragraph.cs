@@ -56,7 +56,7 @@ namespace LASI.Algorithm
         /// </summary>
         public Document ParentDocument {
             get;
-            set;
+            private set;
         }
         public override string ToString() {
             return base.ToString() + " " + Sentences.Count() + " sentences\n" + Text;

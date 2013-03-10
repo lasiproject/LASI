@@ -48,10 +48,9 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="sentence"></param>
         internal void EstablishParent(Sentence sentence) {
-            ParentDocument = sentence.ParentDocument;
             ParentSentence = sentence;
-            foreach (var P in Phrases)
-                P.EstablishParent(this);
+            foreach (var r in Phrases)
+                r.EstablishParent(this);
             Weights = new Dictionary<WeightKind, Weight>();
         }
 
@@ -59,8 +58,9 @@ namespace LASI.Algorithm
         /// Gets or set the Document instance to which the Clause belongs.
         /// </summary>
         public Document ParentDocument {
-            get;
-            protected set;
+            get {
+                return ParentSentence.ParentDocument;
+            }
         }
 
         /// <summary>

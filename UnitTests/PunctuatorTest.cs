@@ -62,7 +62,7 @@ namespace AlgorithmAssemblyUnitTestProject
 
 
         /// <summary>
-        ///A test for Punctuator Constructor
+        ///a test for Punctuator Constructor
         ///</summary>
         [TestMethod()]
         public void PunctuatorConstructorTest() {
@@ -72,7 +72,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///A test for Punctuator Constructor
+        ///a test for Punctuator Constructor
         ///</summary>
         [TestMethod()]
         public void PunctuatorConstructorTest1() {
@@ -82,7 +82,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///A test for Text
+        ///a test for Text
         ///</summary>
         [TestMethod()]
         public void TextTest() {

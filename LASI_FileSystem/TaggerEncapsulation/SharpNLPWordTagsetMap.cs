@@ -51,9 +51,9 @@ namespace LASI.FileSystem
             { "NNPS", t => new ProperPluralNoun(t) }, //Proper noun, plural
             //Pronoun mappings
             { "PDT", t => new PreDeterminer(t) }, //Predeterminer
-            { "POS", t => new PossessiveEnding(t) }, //Possessive ending
+            { "POS", t => new PossessiveEnding(t) }, //IsPossessive ending
             { "PRP", t => new PersonalPronoun(t) }, //Personal pronoun
-            { "PRP$", t => new PossessivePronoun(t) }, //Possessive pronoun
+            { "PRP$", t => new PossessivePronoun(t) }, //IsPossessive pronoun
             //Adverb mappings
             { "RB", t => new Adverb(t) }, //Adverb
             { "RBR", t => new ComparativeAdverb(t) }, //Adverb, comparative
@@ -68,7 +68,7 @@ namespace LASI.FileSystem
             //WH-w mappings
             { "WDT", t => new Determiner(t) }, //Wh-determiner
             { "WP", t => new WhPronoun(t) }, //Wh-pronoun
-            { "WP$", t => new WhPossessivePronoun(t) }, //Possessive wh-pronoun
+            { "WP$", t => new WhPossessivePronoun(t) }, //IsPossessive wh-pronoun
             { "WRB", t => new Adverb(t) }, //Wh-adverb
             //Additional mappings
             { "RP", t => new Particle(t) }, //Particle
@@ -93,7 +93,7 @@ namespace LASI.FileSystem
         /// Provides POS-Tag indexed access to a constructor function which can be invoked to create an instance of the class which provides its run-time representation.
         /// </summary>
         /// <param name="tag">The textual representation of a Part Of Speech tag.</param>
-        /// <returns>A function which creates an instance of the run-time type associated with the textual tag.</returns>
+        /// <returns>a function which creates an instance of the run-time type associated with the textual tag.</returns>
         /// <exception cref="UnknownPOSException">Thrown when the indexing tag string is not defined by the tagset.</exception>
         public override Func<string, Word> this[string tag] {
             get {

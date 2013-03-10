@@ -66,7 +66,7 @@ namespace AlgorithmAssemblyUnitTestProject
 
 
         /// <summary>
-        ///A test for DocToDocXConverter Constructor
+        ///a test for DocToDocXConverter Constructor
         ///</summary>
         [TestMethod()]
         public void DocToDocXConverterConstructorTest() {
@@ -76,7 +76,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///A test for DocToDocXConverter Constructor
+        ///a test for DocToDocXConverter Constructor
         ///</summary>
         [TestMethod()]
         public void DocToDocXConverterConstructorTest1() {
@@ -87,7 +87,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///A test for ConvertFile
+        ///a test for ConvertFile
         ///</summary>
         [TestMethod()]
         public void ConvertFileTest() {
@@ -99,7 +99,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///A test for ConvertFileAsync
+        ///a test for ConvertFileAsync
         ///</summary>
         [TestMethod()]
         public async Task ConvertFileAsyncTest() {

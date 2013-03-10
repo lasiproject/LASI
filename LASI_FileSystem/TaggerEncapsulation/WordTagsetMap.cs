@@ -27,7 +27,7 @@ namespace LASI.FileSystem
         /// When overriden in a derrived class, Provides POS-Tag indexed access to a constructor function which can be invoked to create an instance of the class which provides its run-time representation.
         /// </summary>
         /// <param name="tag">The textual representation of a Part Of Speech tag.</param>
-        /// <returns>A function which creates an isntance of the run-time type associated with the textual tag.</returns>
+        /// <returns>a function which creates an isntance of the run-time type associated with the textual tag.</returns>
         /// <exception cref="UnknownPOSException">Implementors should Throw this exception if and only if when the index string is not a tag defined by the tagset being provided.</exception>
         public abstract Func<string, Word> this[string tag] {
             get;

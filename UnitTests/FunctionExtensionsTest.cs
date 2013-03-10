@@ -62,7 +62,7 @@ namespace AlgorithmAssemblyUnitTestProject
 
 
         /// <summary>
-        ///A test for Identity
+        ///a test for Identity
         ///</summary>
         public void IdentityTestHelper<T>() {
             T value = default(T);
@@ -78,7 +78,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///A test for Compose
+        ///a test for Compose
         ///</summary>
         public void ComposeTestHelper<T>() {
 
@@ -102,7 +102,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///A test for Compose
+        ///a test for Compose
         ///</summary>
         public void ComposeTest1Helper<T, U, R>() {
             Func<R, T> f = r => default(T);
@@ -120,7 +120,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///A test for AsEnumerable
+        ///a test for AsEnumerable
         ///</summary>
         public void AsEnumerableTestHelper<T>() {
             T t = default(T);

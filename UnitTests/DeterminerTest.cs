@@ -62,7 +62,7 @@ namespace AlgorithmAssemblyUnitTestProject
 
 
         /// <summary>
-        ///A test for Determiner Constructor
+        ///a test for Determiner Constructor
         ///</summary>
         [TestMethod()]
         public void DeterminerConstructorTest() {
@@ -73,7 +73,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///A test for Determines
+        ///a test for Determines
         ///</summary>
         [TestMethod()]
         public void DeterminesTest() {

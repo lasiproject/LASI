@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace LASI.Algorithm.Heuristics
 {
     /// <summary>
-    /// A analyser which attempts to return the significant constructs in a document based on the Pronoun bolsterd frequency of the Entities therein.
+    /// a analyser which attempts to return the significant constructs in a document based on the Pronoun bolsterd frequency of the Entities therein.
     /// </summary>
     public class DocumentAnalyzer : LASI.Algorithm.Heuristics.IDocumentAnalyzer
     {
@@ -62,7 +62,7 @@ namespace LASI.Algorithm.Heuristics
         /// Analyses the ParentDocument object referenced by this instance and returns a collection of statistical results based primarily on the Pronoun bolsterd frequency of the Entities therein.
         /// The assessment is performed asynchronously on a background thread.
         /// </summary>
-        /// <returns>A Task of Metric object which, results in a task which contains the most significant Entities and Actions occuring in the document, according to the Heuristic'd methodology.</returns>
+        /// <returns>a Task of Metric object which, results in a task which contains the most significant Entities and Actions occuring in the document, according to the Heuristic'd methodology.</returns>
         public async Task<Metric> AnalyseAsync() {
             return await Task.Run(() => Analyse());
         }

@@ -37,7 +37,7 @@ namespace LASI.Algorithm.ClauseTypes
         /// <summary>
         /// Returns a string representation of the subordinate clause.
         /// </summary>
-        /// <returns>A string representation of the subordinate clause.</returns>
+        /// <returns>a string representation of the subordinate clause.</returns>
         public override string ToString() {
             return base.ToString() +
                 Described != null ?

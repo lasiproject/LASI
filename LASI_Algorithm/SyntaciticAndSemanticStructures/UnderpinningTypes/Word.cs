@@ -21,7 +21,7 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="text">The literal text content of the w.</param>
         protected Word(string text) {
-            GUID = GUIDProvider++;
+            ID = IDProvider++;
             Text = text;
             Weights = new Dictionary<Weighting.WeightKind, Weighting.Weight>();
         }
@@ -33,16 +33,12 @@ namespace LASI.Algorithm
 
         public void EstablishParent(Phrase phrase) {
             ParentPhrase = phrase;
-            ParentDocument = phrase.ParentDocument;
-            //if (ParentDocument != null) {
-            //    ID = ParentDocument.Words.ToList().IndexOf(this);
-            //}
         }
 
         /// <summary>
         /// Returns a string representation of the Word.
         /// </summary>
-        /// <returns>A string containing its underlying type and its text content.</returns>
+        /// <returns>a string containing its underlying type and its text content.</returns>
         public override string ToString() {
             return GetType().Name + " \"" + Text + "\"";
         }
@@ -71,16 +67,9 @@ namespace LASI.Algorithm
         }
 
         /// <summary>
-        /// Gets the document-unique identification number associated with the Word instance.
-        /// </summary>
-        public int ID {
-            get;
-            private set;
-        }
-        /// <summary>
         /// Gets the globally-unique identification number associated with the Word instance.
         /// </summary>
-        public int GUID {
+        public int ID {
             get;
             private set;
         }
@@ -89,8 +78,9 @@ namespace LASI.Algorithm
         /// Gets the document instance to which the w belongs.
         /// </summary>
         public Document ParentDocument {
-            get;
-            private set;
+            get {
+                return ParentSentence.ParentDocument;
+            }
         }
         /// <summary>
         /// Gets, lexically speaking, the next Word in the ParentDocument to which the instance belongs.
@@ -107,12 +97,20 @@ namespace LASI.Algorithm
             set;
         }
         /// <summary>
-        /// Gets or sets the Phrase the Word belongs to.
+        /// Gets or the Phrase the Word belongs to.
         /// </summary>
         public Phrase ParentPhrase {
             get;
             private set;
         }
+        /// <summary>
+        /// Gets or the Sentence the Word belongs to.
+        /// </summary>
+        public Sentence ParentSentence {
+            get;
+            private set;
+        }
+
         /// <summary>
         /// Gets or sets the Prepositional construct which is lexically to the left of the Word.
         /// </summary>
@@ -129,20 +127,21 @@ namespace LASI.Algorithm
             set;
         }
 
-        #endregion
-
-        #region Static Members
-
-        private static int GUIDProvider;
-
-        #endregion
-
-
-
 
         public Dictionary<WeightKind, Weight> Weights {
             get;
             private set;
         }
+
+        #endregion
+
+        #region Static Members
+
+        private static int IDProvider;
+
+        #endregion
+
+
+
     }
 }

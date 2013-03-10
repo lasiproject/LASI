@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace LASI.Algorithm
 {
     /// <summary>
-    /// A line structure containing all of he paragraph, sentence, phrase, and w objects in a document.
+    /// a line structure containing all of he paragraph, sentence, phrase, and w objects in a document.
     /// Provides overalapping direct and indirect access to all of its children, 
     /// e.g. such as myDoc.Paragraphs.Sentences.Phrases.Words will get all the words in the document in linear order
     /// comparatively: myDoc.Words; yields the same collection.
@@ -22,18 +22,18 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="allWords">The collection of paragraphs which contain all text in the document.</param>
         public Document(IEnumerable<Paragraph> allParagrpahs) {
-            _paragraphs = allParagrpahs;
-            _sentences = from P in Paragraphs
-                         from S in P.Sentences
-                         select S;
-            _phrases = from S in Sentences
-                       from R in S.Phrases
-                       select R;
-            _words = (from S in Sentences
-                      from W in S.Words
-                      select W).ToList();
-            foreach (var P in _paragraphs) {
-                P.EstablishParent(this);
+            _paragraphs = allParagrpahs.ToList();
+            _sentences = (from p in Paragraphs
+                          from s in p.Sentences
+                          select s).ToList();
+            _phrases = (from s in Sentences
+                        from r in s.Phrases
+                        select r).ToList();
+            _words = (from s in Sentences
+                      from w in s.Words
+                      select w).ToList();
+            foreach (var p in _paragraphs) {
+                p.EstablishParent(this);
             }
             EstablishLexicalLinks();
         }
@@ -103,10 +103,10 @@ namespace LASI.Algorithm
         /// Prints out the entire contents of the document, from left to right, by using the using the lexical links of each of its words.
         /// </summary>
         public void PrintByWordLinkage() {
-            var W = Words.First();
-            while (W != null) {
-                Console.Write(W.Text + " ");
-                W = W.NextWord;
+            var w = Words.First();
+            while (w != null) {
+                Console.Write(w.Text + " ");
+                w = w.NextWord;
             }
             Console.WriteLine();
         }
@@ -114,10 +114,10 @@ namespace LASI.Algorithm
         /// Prints out the entire contents of the document, from left to right, by using the using the lexical links of each of its phrases.
         /// </summary>
         public void PrintByPhraseLinkage() {
-            var P = Phrases.First();
-            while (P != null) {
-                Console.Write(P.Text + " ");
-                P = P.NextPhrase;
+            var r = Phrases.First();
+            while (r != null) {
+                Console.Write(r.Text + " ");
+                r = r.NextPhrase;
             }
             Console.WriteLine();
         }
@@ -127,13 +127,13 @@ namespace LASI.Algorithm
         /// </summary>
         /// <returns>all of the Action identified within the docimument.</returns>
         public IEnumerable<ITransitiveVerbial> GetActions() {
-            var wordResults = from ITransitiveVerbial V in Words.GetVerbs()
-                              select V;
-            var phraseResults = from ITransitiveVerbial VP in Phrases.GetVerbPhrases()
-                                select VP;
-            return from A in wordResults.Concat(phraseResults)
-                   orderby A as Word != null ? (A as Word).ID : (A as Phrase).Words.Last().ID ascending
-                   select A;
+            var wordResults = from ITransitiveVerbial v in Words.GetVerbs()
+                              select v;
+            var phraseResults = from ITransitiveVerbial vp in Phrases.GetVerbPhrases()
+                                select vp;
+            return from a in wordResults.Concat(phraseResults)
+                   orderby a as Word != null ? (a as Word).ID : (a as Phrase).Words.Last().ID ascending
+                   select a;
         }
 
         /// <summary>
@@ -141,9 +141,9 @@ namespace LASI.Algorithm
         /// </summary>
         /// <returns> All of the word and phrase level entities identified in the document.</returns>
         public IEnumerable<IEntity> GetEntities() {
-            return from E in Words.OfType<IEntity>().Concat<IEntity>(Phrases.OfType<IEntity>())
-                   orderby E is Word ? (E as Word).ID : (E as Phrase).Words.Last().ID ascending
-                   select E;
+            return from e in Words.OfType<IEntity>().Concat<IEntity>(Phrases.OfType<IEntity>())
+                   orderby e is Word ? (e as Word).ID : (e as Phrase).Words.Last().ID ascending
+                   select e;
         }
 
         #endregion
@@ -195,12 +195,9 @@ namespace LASI.Algorithm
         #region Fields
 
         private IList<Word> _words;
-        private IEnumerable<Phrase> _phrases;
-        private IEnumerable<Sentence> _sentences;
-        private IEnumerable<Paragraph> _paragraphs;
-
-
-
+        private IList<Phrase> _phrases;
+        private IList<Sentence> _sentences;
+        private IList<Paragraph> _paragraphs;
 
         #endregion
     }

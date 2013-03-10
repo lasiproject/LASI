@@ -63,7 +63,7 @@ namespace AlgorithmAssemblyUnitTestProject
 
 
         /// <summary>
-        ///A test for NounPhrase Constructorf
+        ///a test for NounPhrase Constructorf
         ///</summary>
         [TestMethod()]
         public void NounPhraseConstructorTest() {
@@ -78,7 +78,7 @@ namespace AlgorithmAssemblyUnitTestProject
 
 
         /// <summary>
-        ///A test for BindDescriber
+        ///a test for BindDescriber
         ///</summary>
         [TestMethod()]
         public void BindDescriberTest() {
@@ -90,7 +90,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///A test for BindPronoun
+        ///a test for BindPronoun
         ///</summary>
         [TestMethod()]
         public void BindPronounTest() {
@@ -103,7 +103,7 @@ namespace AlgorithmAssemblyUnitTestProject
 
 
         /// <summary>
-        ///A test for Equals
+        ///a test for Equals
         ///</summary>
         [TestMethod()]
         public void EqualsTest() {
@@ -113,7 +113,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///A test for DescribedBy
+        ///a test for DescribedBy
         ///</summary>
         [TestMethod()]
         public void DescribedByTest() {
@@ -129,7 +129,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///A test for DirectObjectOf
+        ///a test for DirectObjectOf
         ///</summary>
         [TestMethod()]
         public void DirectObjectOfTest() {
@@ -143,7 +143,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///A test for IndirectObjectOf
+        ///a test for IndirectObjectOf
         ///</summary>
         [TestMethod()]
         public void IndirectObjectOfTest() {
@@ -157,7 +157,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///A test for IndirectReferences
+        ///a test for IndirectReferences
         ///</summary>
         [TestMethod()]
         public void IndirectReferencesTest() {
@@ -170,7 +170,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///A test for AssociatedEntity
+        ///a test for AssociatedEntity
         ///</summary>
         [TestMethod()]
         public void PossesserTest() {
@@ -185,7 +185,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///A test for SubjectOf
+        ///a test for SubjectOf
         ///</summary>
         [TestMethod()]
         public void SubjectOfTest() {
@@ -200,7 +200,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///A test for AddPossession
+        ///a test for AddPossession
         ///</summary>
         [TestMethod()]
         public void AddPossessionTest() {
