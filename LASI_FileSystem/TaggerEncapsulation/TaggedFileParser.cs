@@ -3,6 +3,7 @@ using LASI.FileSystem.FileTypes;
 using LASI.FileSystem.TaggerEncapsulation;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -34,7 +35,7 @@ namespace LASI.FileSystem
         #region Methods
 
         private string LoadDocumentFile() {
-            using (var reader = new StreamReader(FilePath, Encoding.UTF8)) {
+            using (var reader = new StreamReader(FilePath, Encoding.Unicode)) {
                 return reader.ReadToEnd();
             }
         }
@@ -56,46 +57,57 @@ namespace LASI.FileSystem
             var data = PreProcessTextData(TaggedInputData.Trim());
             foreach (var paragraph in ParseParagraphs(data)) {
                 var parsedSentences = new List<Sentence>();
-                var sentences = SplitIntoSentences(paragraph);
-                foreach (var sent in sentences) {
+                var sentences = from s in SplitIntoSentences(paragraph)
+                                select s.Trim();
+                foreach (var sent in from s in sentences
+                                     where !string.IsNullOrEmpty(s) && !string.IsNullOrWhiteSpace(s)
+                                     select s) {
+                    //Debug.WriteLine(sent);
+                    //Console.WriteLine(sent);
                     var parsedClauses = new List<Clause>();
                     var parsedPhrases = new List<Phrase>();
-                    var chunks = from chunk in sent.Split(new[] { "[", "]" }, StringSplitOptions.None)
-                                 where !String.IsNullOrWhiteSpace(chunk) && !String.IsNullOrEmpty(chunk)
-                                 select chunk.Trim();
+                    var chunks = from chunk in sent.Split(new[] { "[", "]" }, StringSplitOptions.RemoveEmptyEntries)
+                                 let c = chunk.Trim()
+                                 where !String.IsNullOrWhiteSpace(c) && !String.IsNullOrEmpty(c)
+                                 select c;
                     SentencePunctuation sentencePunctuation = null;
 
                     foreach (var chunk in chunks) {
-                        char token = SkipToNextElement(chunk);
-                        if (token == ' ') {
-                            var currentPhrase = ParsePhrase(new TaggedPhraseObject {
-                                Text = chunk.Substring(chunk.IndexOf(' ')), Tag = chunk.Substring(0, chunk.IndexOf(' '))
-                            });
-                            parsedPhrases.Add(currentPhrase);
+                        if (!string.IsNullOrEmpty(chunk) && !string.IsNullOrWhiteSpace(chunk) && chunk.Contains('/')) {
+                            char token = SkipToNextElement(chunk);
+                            if (token == ' ') {
+                                var currentPhrase = ParsePhrase(new TaggedPhraseObject {
+                                    Text = chunk.Substring(chunk.IndexOf(' ')), Tag = chunk.Substring(0, chunk.IndexOf(' '))
+                                });
+                                if (currentPhrase.Words.Count(w => !string.IsNullOrWhiteSpace(w.Text)) > 0)
+                                    parsedPhrases.Add(currentPhrase);
 
-                            if (currentPhrase is SubordinateClauseBeginPhrase) {
-                                parsedClauses.Add(new Clause(parsedPhrases.Take(parsedPhrases.Count - 1)));
-                                parsedPhrases = new List<Phrase>();
-                                parsedPhrases.Add(currentPhrase);
+                                if (currentPhrase is SubordinateClauseBeginPhrase) {
+                                    parsedClauses.Add(new Clause(parsedPhrases.Take(parsedPhrases.Count - 1)));
+                                    parsedPhrases = new List<Phrase>();
+                                    parsedPhrases.Add(currentPhrase);
+                                }
+
+                            } else if (token == '/') {
+                                var words = CreateWords(chunk);
+                                if (words.First() != null)
+                                    if (words.Count(w => w is Conjunction) == words.Count) {
+                                        var currentPhrase = new ConjunctionPhrase(words);
+                                        parsedPhrases.Add(currentPhrase);
+                                    } else if (words.Count() == 1 && words.First() is SentencePunctuation) {
+                                        sentencePunctuation = words.First() as SentencePunctuation;
+                                        parsedClauses.Add(new Clause(parsedPhrases.Take(parsedPhrases.Count)));
+                                        parsedPhrases = new List<Phrase>();
+                                    } else {
+
+                                        //parsedPhrases.Add(new UndeterminedPhrase(words));
+                                    }
                             }
 
-                        } else if (token == '/') {
-                            var words = CreateWords(chunk);
-                            if (words.Count == 1 && words.First() != null)
-                                if (words.First() is Conjunction) {
-                                    var currentPhrase = new ConjunctionPhrase(words);
-                                    parsedPhrases.Add(currentPhrase);
-                                } else if (words.Count() == 1 && words.First() is SentencePunctuation) {
-                                    sentencePunctuation = words.First() as SentencePunctuation;
-                                    parsedClauses.Add(new Clause(parsedPhrases.Take(parsedPhrases.Count)));
-                                    parsedPhrases = new List<Phrase>();
-                                } else {
-                                    parsedPhrases.Add(new UndeterminedPhrase(words));
-                                }
                         }
-
+                        if (parsedClauses.Find(c => c.Text != "") != null)
+                            parsedSentences.Add(new Sentence(parsedClauses, sentencePunctuation));
                     }
-                    parsedSentences.Add(new Sentence(parsedClauses, sentencePunctuation));
                 }
                 results.Add(new Paragraph(parsedSentences));
             }
@@ -104,16 +116,13 @@ namespace LASI.FileSystem
         }
 
         private static IEnumerable<string> SplitIntoSentences(string paragraph) {
-            //var sentences = paragraph.Split(new[] { "./.", "!/.", "?/." }, StringSplitOptions.RemoveEmptyEntries);
-            Regex sentencesExtractor = new Regex(@"[\S\s]+[\.|\?|\!]+", RegexOptions.Multiline);
-            return from Match m in sentencesExtractor.Matches(paragraph)
-                   select m.Value;
+            return paragraph.Split(new[] { "./.", "!/.", "?/." }, StringSplitOptions.RemoveEmptyEntries);
         }
 
         private static char SkipToNextElement(string chunk) {
             var reader2 = (new StringReader(chunk));
-            char token = '`';
-            while (reader2.Peek() != '/' && reader2.Peek() != ' ') {
+            char token = '~';
+            while (reader2.Peek() != ' ' && reader2.Peek() != '/') {
                 token = (char) reader2.Read();
             }
             token = (char) reader2.Read();
@@ -158,7 +167,7 @@ namespace LASI.FileSystem
         /// <returns>The collection of Word objects that is their run time representation.</returns>
         protected virtual List<Word> CreateWords(string wordData) {
             var parsedWords = new List<Word>();
-            var elements = wordData.Split(new[] { ' ', });
+            var elements = wordData.Split(new[] { ' ', }, StringSplitOptions.RemoveEmptyEntries);
             var wordExtractor = new WordExtractor();
 
             var tagParser = new WordMapper();
@@ -182,7 +191,7 @@ namespace LASI.FileSystem
         /// <returns>A List of constructor function instances which, when invoked, create run time objects which represent each w in the source</returns>
         protected virtual List<Func<Word>> CreateWordExpressions(string wordData) {
             var wordExpressions = new List<Func<Word>>();
-            var elements = wordData.Split(new[] { ' ', });
+            var elements = wordData.Split(new[] { ' ', }, StringSplitOptions.RemoveEmptyEntries);
             var posExtractor = new WordExtractor();
 
             var tagParser = new WordMapper();
