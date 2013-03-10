@@ -56,6 +56,7 @@
     <Compile Include="Analysis\Binding\InterPhraseWordBinding.cs" />
     <Compile Include="Analysis\Binding\InvalidStateTransitionException.cs" />
     <Compile Include="Analysis\Binding\ObjectBinder.cs" />
+    <Compile Include="Analysis\Binding\PrepositionBinder.cs" />
     <Compile Include="Analysis\Binding\SubjectBinder.cs" />
     <Compile Include="Analysis\Binding\WordStream.cs" />
     <Compile Include="DocumentConstructs\SubordinateClauseBeginPhrase.cs" />

@@ -113,9 +113,9 @@ namespace LASI.Algorithm
 
 
         protected virtual void DetermineIsPossessive() {
-            if (LASI.Algorithm.Thesauri.Thesauri.VerbThesaurus[this.Words.Last()].Contains("have")) {
-                possessive = true;
-            }
+            //if (Words.Count() > 0 && LASI.Algorithm.Thesauri.Thesauri.VerbThesaurus[this.Words.Last()].Contains("have")) {
+            //    possessive = true;
+            //}
         }
 
 

@@ -16,7 +16,7 @@ namespace LASI.Algorithm
         public static IEnumerable<NounPhrase> GetNounPhrases(this IEnumerable<Phrase> phrases) {
             return phrases.OfType<NounPhrase>();
         }
-      
+
         /// <summary>
         /// Returns all VerbPhrases in the sequence.
         /// </summary>
@@ -40,6 +40,14 @@ namespace LASI.Algorithm
         /// <returns>All ConjunctionPhrases in the sequence</returns>
         public static IEnumerable<ConjunctionPhrase> GetConjunctionPhrases(this IEnumerable<Phrase> phrases) {
             return phrases.OfType<ConjunctionPhrase>();
+        }
+        /// <summary>
+        /// Returns all PrepositionalPhrases in the sequence.
+        /// </summary>
+        /// <param name="phrases">The sequence of phrases to filter</param>
+        /// <returns>All PrepositionalPhrases in the sequence</returns>
+        public static IEnumerable<PrepositionalPhrase> GetPrepositionalPhrases(this IEnumerable<Phrase> phrases) {
+            return phrases.OfType<PrepositionalPhrase>();
         }
         /// <summary>
         /// Returns all AdjectivePhrases in the sequence.

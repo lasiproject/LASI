@@ -11,7 +11,7 @@ namespace LASI.Algorithm
     /// <summary>
     /// Provides the base class, properties, and behaviors for all phrase level gramatical constructs.
     /// </summary>
-    public abstract class Phrase : IEquatable<Phrase>, IPrepositionLinkable
+    public abstract class Phrase : IPrepositionLinkable
     {
         #region Constructors
 
@@ -48,9 +48,7 @@ namespace LASI.Algorithm
                 W.EstablishParent(this);
         }
 
-        public virtual bool Equals(Phrase other) {
-            return this == other;
-        }
+
 
 
 

@@ -12,7 +12,7 @@ namespace LASI.Algorithm
     /// <summary>
     /// Provides the base class, properties, and behaviors for all word level gramatical constructs.
     /// </summary>
-    public abstract class Word : IPrepositionLinkable, IEquatable<Word>
+    public abstract class Word : IPrepositionLinkable
     {
         #region Constructors
         /// <summary>
@@ -34,9 +34,9 @@ namespace LASI.Algorithm
         public void EstablishParent(Phrase phrase) {
             ParentPhrase = phrase;
             ParentDocument = phrase.ParentDocument;
-            if (ParentDocument != null) {
-                ID = ParentDocument.Words.ToList().IndexOf(this);
-            }
+            //if (ParentDocument != null) {
+            //    ID = ParentDocument.Words.ToList().IndexOf(this);
+            //}
         }
 
         /// <summary>
@@ -53,9 +53,6 @@ namespace LASI.Algorithm
 
 
 
-        public bool Equals(Word other) {
-            return this == other;
-        }
 
         public override int GetHashCode() {
             return base.GetHashCode();

@@ -47,23 +47,7 @@ namespace SharpNLPTaggingModule
 
         }
 
-        protected string ParseViaTaggingMode() {
-            switch (TaggingMode) {
-                case TaggingOption.TagIndividual:
-                    return POSTag();// WriteToFile(result);
-                case TaggingOption.TagAndAggregate:
-                    return Chunk();
-                case TaggingOption.ExperimentalClauseNesting:
-                    return Parse();
-                case TaggingOption.GenderFind:
 
-                    return Gender();
-                case TaggingOption.NameFind:
-                    return NameFind();
-                default:
-                    return POSTag();
-            }
-        }
 
         protected string LoadSourceText() {
             using (
@@ -79,7 +63,23 @@ namespace SharpNLPTaggingModule
                 return String.Join(" ", reader.ReadToEnd().Split(new[] { ' ', '\t', '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries).ToList().Select(s => s.Trim()));
             }
         }
+        protected string ParseViaTaggingMode() {
+            switch (TaggingMode) {
+                case TaggingOption.TagIndividual:
+                    return POSTag();
+                case TaggingOption.TagAndAggregate:
+                    return Chunk();
+                case TaggingOption.ExperimentalClauseNesting:
+                    return Parse();
+                case TaggingOption.GenderFind:
 
+                    return Gender();
+                case TaggingOption.NameFind:
+                    return NameFind();
+                default:
+                    return POSTag();
+            }
+        }
         protected string SplitIntoSentences() {
             string[] sentences = SplitSentences(SourceText);
 
@@ -88,7 +88,7 @@ namespace SharpNLPTaggingModule
         }
 
         protected void WriteToFile(params string[] txtOut) {
-            using (var writer = new StreamWriter(new FileStream(OutputFilePath, FileMode.Create), Encoding.UTF8, 200)) {
+            using (var writer = new StreamWriter(new FileStream(OutputFilePath, FileMode.Create), Encoding.Unicode, 200)) {
                 foreach (var line in txtOut) {
                     writer.Write(line);
                 }
@@ -138,7 +138,7 @@ namespace SharpNLPTaggingModule
                 string[] tokens = TokenizeSentence(sentence);
                 string[] tags = PosTagTokens(tokens);
 
-                output.Append(ChunkSentence(tokens, tags));//.Append("\r\n");
+                output.Append(ChunkSentence(tokens, tags));
             }
 
             var result = output.ToString();
@@ -146,12 +146,14 @@ namespace SharpNLPTaggingModule
         }
 
         protected string Parse() {
+            var sentenceID = 0;
             StringBuilder output = new StringBuilder();
 
             string[] sentences = SplitSentences(SourceText);
 
             foreach (string sentence in sentences) {
-                output.Append(ParseSentence(sentence).Show()).Append("\r\n\r\n");
+
+                output.Append(String.Format("<sentence id = \"{0}\">{1}</sentence>", sentenceID++, ParseSentence(sentence).Show())).Append("\r\n\r\n");
             }
 
             var result = output.ToString();

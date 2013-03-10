@@ -38,42 +38,59 @@ namespace LASI.FileSystem
         /// Checks the existing contents of the current project directory and automatically loads the files it finds. Called by initialize
         /// </summary>
         private static void CheckProjectDirs() {
-            if (!Directory.Exists(ProjectDir)) {
-                Directory.CreateDirectory(ProjectDir);
-            }
-            if (!Directory.Exists(AnalysisDir)) {
-                Directory.CreateDirectory(AnalysisDir);
-            }
-            if (!Directory.Exists(ResultsDir)) {
-                Directory.CreateDirectory(ResultsDir);
-            }
-            if (Directory.Exists(DocFilesDir))
-                foreach (var docPath in Directory.EnumerateFiles(DocFilesDir))
-                    docFiles.Add(new DocFile(docPath));
-            else
-                Directory.CreateDirectory(DocFilesDir);
-            if (Directory.Exists(DocxFilesDir))
-                foreach (var docPath in Directory.EnumerateFiles(DocxFilesDir))
-                    docXFiles.Add(new DocXFile(docPath));
-            else
-                Directory.CreateDirectory(DocxFilesDir);
-            if (Directory.Exists(TextFilesDir))
-                foreach (var docPath in Directory.EnumerateFiles(TextFilesDir))
-                    textFiles.Add(new TextFile(docPath));
-            else
-                Directory.CreateDirectory(TextFilesDir);
-            if (Directory.Exists(TaggedFilesDir))
-                foreach (var docPath in Directory.EnumerateFiles(TaggedFilesDir))
-                    TaggedFiles.Add(new TaggedFile(docPath));
-            else
-                Directory.CreateDirectory(TaggedFilesDir);
+            CheckProjectDirExistence();
+            CheckForInputDirectories();
         }
 
         /// <summary>
-        /// Performs the necessary conversions, based on the format of all files within the project
+        /// Checks for the existence of the extension statiffied input file project sub-directories and creates them if they do not exist.
+        /// </summary>
+        private static void CheckForInputDirectories() {
+            foreach (var docPath in Directory.EnumerateFiles(DocFilesDir))
+                docFiles.Add(new DocFile(docPath));
+            foreach (var docPath in Directory.EnumerateFiles(DocxFilesDir))
+                docXFiles.Add(new DocXFile(docPath));
+            foreach (var docPath in Directory.EnumerateFiles(TextFilesDir))
+                textFiles.Add(new TextFile(docPath));
+            foreach (var docPath in Directory.EnumerateFiles(TaggedFilesDir))
+                TaggedFiles.Add(new TaggedFile(docPath));
+        }
+        /// <summary>
+        /// Checks for the existence of the project sub-directories and creates them if they do not exist.
+        /// </summary>
+        private static void CheckProjectDirExistence() {
+            foreach (var path in new[] { ProjectDir,
+                InputFilesDir,
+                AnalysisDir, 
+                ResultsDir, 
+                DocFilesDir, 
+                DocxFilesDir, 
+                TaggedFilesDir, 
+                TextFilesDir, 
+            }) {
+                if (!Directory.Exists(path))
+                    Directory.CreateDirectory(path);
+            }
+        }
+
+        /// <summary>
+        /// Performs the necessary conversions, based on the format of all files within the project.
         /// </summary>
         public static void ConvertAsNeeded() {
+            ConvertDocFiles();
+            ConvertDocxToText();
+            TagTextFiles();
         }
+
+        /// <summary>
+        /// Asynchronously performs the necessary conversions, based on the format of all files within the project.
+        /// </summary>
+        public static async Task ConvertAsNeededAsync() {
+            await ConvertDocFilesAsync();
+            await ConvertDocxToTextAsync();
+            await TagTextFilesAsync();
+        }
+
 
         /// <summary>
         /// Copies the .doc file at the given path to the appropriate subfolder of the current project
@@ -283,7 +300,7 @@ namespace LASI.FileSystem
         }
 
         /// <summary>
-        /// Gets or sets the result files directory
+        /// Gets the result files directory
         /// </summary>
         public static string ResultsDir {
             get;
@@ -291,21 +308,21 @@ namespace LASI.FileSystem
         }
 
         /// <summary>
-        /// Gets or sets the .tagged files directory
+        /// Gets the .tagged files directory
         /// </summary>
         public static string TaggedFilesDir {
             get;
             private set;
         }
         /// <summary>
-        /// Gets or sets the .doc files directory
+        /// Gets the .doc files directory
         /// </summary>
         public static string DocFilesDir {
             get;
             private set;
         }
         /// <summary>
-        /// Gets or sets the .docx files directory
+        /// Gets the .docx files directory
         /// </summary>
         public static string DocxFilesDir {
             get;
@@ -313,14 +330,14 @@ namespace LASI.FileSystem
         }
 
         /// <summary>
-        /// Gets or sets the .txt files directory
+        /// Gets the .txt files directory
         /// </summary>
         public static string TextFilesDir {
             get;
             private set;
         }
         /// <summary>
-        /// Gets or sets the name of the current project.
+        /// Gets the name of the current project.
         /// This will be the project name displayed to the user and it corresponds to the project'd top level directory
         /// </summary>
         public static string ProjectName {
