@@ -118,7 +118,6 @@ namespace SharpNLPTaggingModule
             foreach (string sentence in sentences) {
                 string[] tokens = TokenizeSentence(sentence);
                 string[] tags = PosTagTokens(tokens);
-
                 for (int currentTag = 0; currentTag < tags.Length; currentTag++) {
                     output.Append(tokens[currentTag]).Append("/").Append(tags[currentTag]).Append(" ");
                 }
@@ -130,7 +129,7 @@ namespace SharpNLPTaggingModule
         }
 
         protected string Chunk() {
-             
+
             StringBuilder output = new StringBuilder();
 
             string[] sentences = SplitSentences(SourceText);
@@ -138,8 +137,7 @@ namespace SharpNLPTaggingModule
             foreach (string sentence in sentences) {
                 string[] tokens = TokenizeSentence(sentence);
                 string[] tags = PosTagTokens(tokens);
-
-                output.Append(String.Format("<sentence>{0}</sentence>", ChunkSentence(tokens, tags))).Append("\r\n\r\n");
+                output.Append(String.Format("<sentence>{0}</sentence>", ChunkSentence(tokens, tags)));
             }
 
             var result = output.ToString();

@@ -32,13 +32,17 @@ namespace Aluan_Experimentation
 
             foreach (var r in doc.Phrases)
                 print(r.ToString(true));
+            StdIO.WaitForKey();
         }
 
         private static Document LoadDoc() {
+
             var doc = new TaggedFileParser(new TaggedFile(@"C:\Users\Aluan\Desktop\sec2-2.tagged")).LoadDocument();
             return doc;
         }
         private static void TagDoc() {
+            var docxConverter = new DocxToTextConverter(new DocXFile(@"C:\Users\Aluan\Desktop\sec2-2.docx"));
+            docxConverter.ConvertFile();
             var tagger = new SharpNLPTagger(TaggingOption.TagAndAggregate, @"C:\Users\Aluan\Desktop\sec2-2.txt");
             tagger.ProcessFile();
         }

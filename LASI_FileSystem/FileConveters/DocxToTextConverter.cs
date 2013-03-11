@@ -88,6 +88,9 @@ namespace LASI.FileSystem
                         Encoding.UTF8, 100)) {
                     xmlReader.ReadStartElement();
                     while (xmlReader.Read()) {
+                        if (xmlReader.Name.Trim().Contains("w:p")) {
+                            writer.Write("<paragraph>");
+                        }
                         var value = xmlReader.Value;
                         if (!string.IsNullOrWhiteSpace(value)) {
                             writer.Write(value);//.Replace('"', ' '));
@@ -97,10 +100,9 @@ namespace LASI.FileSystem
                         if (xmlReader.Name.Contains("tbl"))
                             xmlReader.Skip();
 
-                        if (xmlReader.Name.Trim().Contains("w:p")) {
-                        }
-                        if (xmlReader.Name.Trim().Contains("w:p")) {
 
+                        if (xmlReader.Name.Trim().Contains("w:p")) {
+                            writer.Write("</paragraph>");
                         }
 
                     }

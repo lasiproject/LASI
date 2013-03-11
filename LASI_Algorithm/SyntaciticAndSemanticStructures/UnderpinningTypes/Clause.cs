@@ -39,7 +39,7 @@ namespace LASI.Algorithm
         /// </summary>
         public string Text {
             get {
-                return Phrases.Aggregate(" ", (txt, phrase) => txt + phrase.Text) + " CLAUSE Tag ";
+                return Phrases.Aggregate(" ", (txt, phrase) => txt + phrase.Text);
             }
         }
 
