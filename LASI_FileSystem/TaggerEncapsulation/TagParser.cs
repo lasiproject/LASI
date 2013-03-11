@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 namespace LASI.FileSystem.TaggerEncapsulation
@@ -27,10 +28,11 @@ namespace LASI.FileSystem.TaggerEncapsulation
         /// <param name="line">a string containing the text to be broken down.</param>
         /// <returns>a collection of strings, each entry corresponding to the entire content of a single paragraph.</returns>
         protected virtual IEnumerable<string> ParseParagraphs(string data) {
-            return data.Split(new[] { "\r\n\r\n" }, StringSplitOptions.RemoveEmptyEntries);
+            return from d in data.Split(new[] { "\r\n\r\n" }, StringSplitOptions.RemoveEmptyEntries)
+                   select d.Trim();
         }
         protected async virtual Task<IEnumerable<string>> ParseParagraphsAsync(string data) {
-            return await Task.Run(() => data.Split(new[] { "\r\n\r\n" }, StringSplitOptions.RemoveEmptyEntries));
+            return await Task.Run(() => ParseParagraphs(data));
         }
 
         /// <summary>

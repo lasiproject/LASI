@@ -1,19 +1,19 @@
-﻿using System;
+﻿using LASI.Algorithm;
+using LASI.Algorithm.Binding;
+using LASI.Algorithm.Thesauri;
+using LASI.Algorithm.Weighting;
+using LASI.FileSystem;
+using LASI.FileSystem.FileTypes;
+using LASI.Utilities;
+using SharpNLPTaggingModule;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using LASI.Utilities;
-using SharpNLPTaggingModule;
-using System.IO;
 using System.Xml;
-using LASI.FileSystem.FileTypes;
-using LASI.Algorithm.Binding;
-using LASI.FileSystem;
-using LASI.Algorithm.Weighting;
-using LASI.Algorithm;
-using LASI.Algorithm.Thesauri;
 namespace Aluan_Experimentation
 {
     public class Program
@@ -21,16 +21,27 @@ namespace Aluan_Experimentation
 
         static void Main(string[] args) {
 
-            TestSubjectObject();
 
+            TagDoc();
+            var doc = LoadDoc();
 
+            //SubjectBinder subjectBinder = new LASI.Algorithm.SubjectBinder();
+            //foreach (var s in doc.Sentences) {
+            //    subjectBinder.Bind(s);
+            //}
+
+            foreach (var r in doc.Phrases)
+                print(r.ToString(true));
         }
 
         private static Document LoadDoc() {
-            var doc = new TaggedFileParser(new TaggedFile(@"C:\Users\Aluan\LASI_Repo\LASI_v1\TestDocs\Draft_Environmental_Assessment.tagged")).LoadDocument();
+            var doc = new TaggedFileParser(new TaggedFile(@"C:\Users\Aluan\Desktop\sec2-2.tagged")).LoadDocument();
             return doc;
         }
-
+        private static void TagDoc() {
+            var tagger = new SharpNLPTagger(TaggingOption.TagAndAggregate, @"C:\Users\Aluan\Desktop\sec2-2.txt");
+            tagger.ProcessFile();
+        }
 
         private static void TestSubjectObject() {
             var vT = LASI.Algorithm.Thesauri.Thesauri.VerbThesaurus;

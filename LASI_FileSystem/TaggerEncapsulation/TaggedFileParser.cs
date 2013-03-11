@@ -23,7 +23,7 @@ namespace LASI.FileSystem
         public TaggedFileParser(TaggedFile file) {
             TaggededDocumentFile = file;
             FilePath = TaggededDocumentFile.FullPath;
-            TaggedInputData = LoadDocumentFile();
+            TaggedInputData = LoadDocumentFile().Trim();
         }
         public TaggedFileParser(string taggedText) {
             TaggedInputData = taggedText;
@@ -35,7 +35,7 @@ namespace LASI.FileSystem
         #region Methods
 
         private string LoadDocumentFile() {
-            using (var reader = new StreamReader(FilePath, Encoding.Unicode)) {
+            using (var reader = new StreamReader(FilePath, Encoding.UTF8)) {
                 return reader.ReadToEnd();
             }
         }
@@ -64,11 +64,11 @@ namespace LASI.FileSystem
         public override async Task<IEnumerable<Paragraph>> LoadParagraphsAsync() {
             var data = TaggedInputData.Trim();
             var results = new List<Paragraph>();
-            var tsks = from para in ParseParagraphs(data)
-                       select Task.Run(async () => {
-                           return await LoadParagraphAsync(await PreProcessTextDataAsync(para));
-                       });
-            results.AddRange(from t in tsks.Select(s => s.Result)
+            var paragraphTasks = from p in ParseParagraphs(data)
+                                 select Task.Run(async () => {
+                                     return await LoadParagraphAsync(await PreProcessTextDataAsync(p));
+                                 });
+            results.AddRange(from t in paragraphTasks.Select(s => s.Result)
                              select t);
             return results;
 
@@ -96,9 +96,9 @@ namespace LASI.FileSystem
                     if (!string.IsNullOrEmpty(chunk) && !string.IsNullOrWhiteSpace(chunk) && chunk.Contains('/')) {
                         char token = SkipToNextElement(chunk);
                         if (token == ' ') {
-                            var currentPhrase = ParsePhraseAsync(new TaggedPhraseObject {
+                            var currentPhrase = ParsePhrase(new TaggedPhraseObject {
                                 Text = chunk.Substring(chunk.IndexOf(' ')), Tag = chunk.Substring(0, chunk.IndexOf(' '))
-                            }).Result;
+                            });
                             if (currentPhrase.Words.Count(w => !string.IsNullOrWhiteSpace(w.Text)) > 0)
                                 parsedPhrases.Add(currentPhrase);
 
@@ -125,9 +125,10 @@ namespace LASI.FileSystem
                         }
 
                     }
-                    if (parsedClauses.Find(c => c.Text != "") != null)
-                        parsedSentences.Add(new Sentence(parsedClauses, sentencePunctuation));
+                    //if (parsedClauses.Find(c => c.Text != "") != null)
+
                 }
+                parsedSentences.Add(new Sentence(parsedClauses, sentencePunctuation));
             }
             return new Paragraph(parsedSentences);
         }
