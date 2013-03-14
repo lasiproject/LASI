@@ -10,7 +10,7 @@ namespace LASI.Algorithm
     {
         List<State> stateList = new List<State>();
         /// <summary>
-        /// This is the Bind function 
+        /// This is the Bind function for the Subject Class 
         /// </summary>
         /// <param name="s"></param>
         public void Bind(Sentence s) {
@@ -84,7 +84,7 @@ namespace LASI.Algorithm
                 Console.Write(stateList[i].StatePhrase);
                 Console.Write("\n");
             }
-            //Console.WriteLine("~~~~~~~~~~~~~~~~~~~~~~~~~~");
+
         }
         class State
         {
