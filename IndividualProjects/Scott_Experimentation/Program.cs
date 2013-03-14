@@ -88,7 +88,7 @@ namespace Scott_Experimentation
             
             Console.WriteLine(sep);
             InterPhraseWordBinding ip1 = new InterPhraseWordBinding();
-            foreach(var phrs in DocTest.Phrases.GetNounPhrases())
+            foreach(var phrs in document.Phrases.GetNounPhrases())
             {
                 ip1.InterNounPhrase(phrs);
             }
