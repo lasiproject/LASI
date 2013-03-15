@@ -14,17 +14,15 @@ namespace Dustin_Experimentation
     class Program
     {
         static void Main(string[] args) {
-            string str = TaggerUtil.TagString("Dustin and Aluan were coding for CS 411.");
-            Console.WriteLine(str);
-            Document doc = TaggerUtil.TaggedToDoc(str);
+            var tagger = new SharpNLPTagger(TaggingOption.TagAndAggregate, @"C:\Users\Dustin\Downloads\411test.txt");
+            var tagged = tagger.ProcessFile();
+            var paragraphs = new TaggedFileParser(tagged).LoadParagraphs();
+            var document = new Document(paragraphs);
 
-
-            SubjectBinder s = new SubjectBinder();
-            foreach (Sentence i in doc.Sentences)
+            foreach (var i in document.Words)
             {
-                s.Bind(i);
+                Console.WriteLine(i);
             }
-            s.display();
             Console.WriteLine("Press escape to exit");
             for (var k = Console.ReadKey(); k.Key != ConsoleKey.Escape; k = Console.ReadKey())
             {
