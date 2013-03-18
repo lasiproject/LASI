@@ -97,7 +97,8 @@ namespace LASI.FileSystem
                         char token = SkipToNextElement(chunk);
                         if (token == ' ') {
                             var currentPhrase = ParsePhrase(new TaggedPhraseObject {
-                                Text = chunk.Substring(chunk.IndexOf(' ')), Tag = chunk.Substring(0, chunk.IndexOf(' '))
+                                Text = chunk.Substring(chunk.IndexOf(' ')),
+                                Tag = chunk.Substring(0, chunk.IndexOf(' '))
                             });
                             if (currentPhrase.Words.Count(w => !string.IsNullOrWhiteSpace(w.Text)) > 0)
                                 parsedPhrases.Add(currentPhrase);
@@ -108,17 +109,20 @@ namespace LASI.FileSystem
                                 parsedPhrases.Add(currentPhrase);
                             }
 
-                        } else if (token == '/') {
+                        }
+                        else if (token == '/') {
                             var words = CreateWords(chunk);
                             if (words.First() != null)
                                 if (words.Count(w => w is Conjunction) == words.Count) {
                                     var currentPhrase = new ConjunctionPhrase(words);
                                     parsedPhrases.Add(currentPhrase);
-                                } else if (words.Count() == 1 && words.First() is SentencePunctuation) {
+                                }
+                                else if (words.Count() == 1 && words.First() is SentencePunctuation) {
                                     sentencePunctuation = words.First() as SentencePunctuation;
                                     parsedClauses.Add(new Clause(parsedPhrases.Take(parsedPhrases.Count)));
                                     parsedPhrases = new List<Phrase>();
-                                } else {
+                                }
+                                else {
 
                                     //parsedPhrases.Add(new UndeterminedPhrase(words));
                                 }
@@ -141,9 +145,9 @@ namespace LASI.FileSystem
             var reader2 = (new StringReader(chunk));
             char token = '~';
             while (reader2.Peek() != ' ' && reader2.Peek() != '/') {
-                token = (char) reader2.Read();
+                token = (char)reader2.Read();
             }
-            token = (char) reader2.Read();
+            token = (char)reader2.Read();
             return token;
         }
 

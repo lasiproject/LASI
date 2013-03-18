@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace LASI.Algorithm.Analysis.Binding
 {
-    public class PrepositionBinder
+    public class ConjunctionBinder
     {
-        public PrepositionBinder() {
+        public ConjunctionBinder() {
         }
         public void Bind(Sentence sentence) {
             foreach (var p in sentence.Phrases.GetPrepositionalPhrases()) {
-                p.OnLeftSide = p.PreviousPhrase;
-                p.OnRightSide = p.NextPhrase;
+                p.OnLeftSide = p.PreviousPhrase is ConjunctionPhrase ? p.PreviousPhrase.PreviousPhrase : p.PreviousPhrase;
+                p.OnRightSide = p.NextPhrase is ConjunctionPhrase ? p.NextPhrase.NextPhrase : p.NextPhrase;
             }
         }
     }

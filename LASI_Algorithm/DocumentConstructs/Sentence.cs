@@ -10,7 +10,6 @@ namespace LASI.Algorithm
     {
         public Sentence(params Phrase[] phrases) {
             Clauses = new[] { new Clause(from P in phrases select P) };
-
         }
         public Sentence(IEnumerable<Phrase> phrases, SentencePunctuation sentencePunctuation = null) {
             Clauses = new[] { new Clause(from P in phrases select P) };

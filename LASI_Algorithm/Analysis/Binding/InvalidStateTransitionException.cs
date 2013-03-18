@@ -6,7 +6,7 @@ using System.Text;
 namespace LASI.Algorithm.Binding
 {
     [Serializable]
-    class InvalidStateTransitionException : Exception
+    public class InvalidStateTransitionException : Exception
     {
         public InvalidStateTransitionException(int stateNumber, ILexical errorOn)
             : base(String.Format("Invalid Transition\nAt State {0}\nOn {1}", stateNumber, errorOn)) {

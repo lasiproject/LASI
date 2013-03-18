@@ -55,6 +55,7 @@ namespace LASI.Algorithm.Binding
 
         protected List<AdjectivePhrase> lastAdjectivals = new List<AdjectivePhrase>();
         protected List<NounPhrase> ConjunctNounPhrases = new List<NounPhrase>();
+        protected List<AdjectivePhrase> ConjunctAdjectivePhrases = new List<AdjectivePhrase>();
         protected Stack<NounPhrase> entities = new Stack<NounPhrase>();
         private State0 St0;
         private State1 St1;
@@ -84,6 +85,10 @@ namespace LASI.Algorithm.Binding
 
             public virtual void ProcessNext(Phrase phrase) {
                 throw new InvalidStateTransitionException(StateName, phrase);
+            }
+
+            protected void Universal(Phrase Phrase) {
+                Machine.LastPhrase = Phrase;
             }
 
             protected string StateName {
@@ -130,7 +135,11 @@ namespace LASI.Algorithm.Binding
                 StateName = "s0";
 
             }
-
+            public virtual void ProcessNext(AdverbPhrase phrase) {
+                Machine._bindingTarget.ModifyWith(phrase);
+                Universal(phrase);
+                Machine.St0.ProcessNext(Stream.PopDynamic());
+            }
             public virtual void ProcessNext(NounPhrase phrase) {
                 if (Machine.lastPrepositional != null) {
                     phrase.PrepositionOnLeft = Machine.lastPrepositional;
@@ -145,10 +154,14 @@ namespace LASI.Algorithm.Binding
 
                     return;
                 }
+                Universal(phrase);
+
                 Machine.St2.ProcessNext(Stream.PopDynamic());
             }
             public virtual void ProcessNext(AdjectivePhrase phrase) {
                 Machine.lastAdjectivals.Add(phrase);
+                Universal(phrase);
+
                 Machine.St1.ProcessNext(Stream.PopDynamic());
             }
         }
@@ -156,8 +169,6 @@ namespace LASI.Algorithm.Binding
 
         class State1 : State
         {
-
-
             public State1(ObjectBinder machine)
                 : base(machine) {
                 StateName = "s1";
@@ -173,7 +184,13 @@ namespace LASI.Algorithm.Binding
 
                     return;
                 }
+                Universal(phrase);
+
                 Machine.St2.ProcessNext(Stream.PopDynamic());
+            }
+            public void ProcessNext(ConjunctionPhrase phrase) {
+                Machine.lastConjunctive = phrase;
+                Universal(phrase);
             }
         }
         class State2 : State
@@ -197,10 +214,14 @@ namespace LASI.Algorithm.Binding
 
                     return;
                 }
+                Universal(phrase);
+
                 Machine.St4.ProcessNext(Stream.PopDynamic());
             }
             public void ProcessNext(AdjectivePhrase phrase) {
                 Machine.AssociateIndirect();
+                Universal(phrase);
+
                 Machine.St4.ProcessNext(Stream.PopDynamic());
             }
 
@@ -214,6 +235,8 @@ namespace LASI.Algorithm.Binding
                 Machine.entities.Clear();
                 Machine.directFound = true;
                 Machine.ConjunctNounPhrases.Clear();
+                Universal(phrase);
+
                 Machine.St0.ProcessNext(Stream.PopDynamic());
             }
             public void ProcessNext(NounPhrase phrase) {
@@ -230,11 +253,15 @@ namespace LASI.Algorithm.Binding
                     Machine.AssociateDirect();
                     return;
                 }
+                Universal(phrase);
+
                 Machine.St0.ProcessNext(Stream.PopDynamic());
             }
             public void ProcessNext(SubordinateClauseBeginPhrase phrase) {
                 Machine.AssociateDirect();
                 Machine.AssociateIndirect();
+                Universal(phrase);
+
             }
 
 
@@ -260,6 +287,8 @@ namespace LASI.Algorithm.Binding
 
                     return;
                 }
+                Universal(phrase);
+
                 Machine.St2.ProcessNext(Stream.PopDynamic());
             }
             public void ProcessNext(AdjectivePhrase phrase) {
@@ -272,6 +301,8 @@ namespace LASI.Algorithm.Binding
 
                     return;
                 }
+                Universal(phrase);
+
                 Machine.St5.ProcessNext(Stream.PopDynamic());
             }
         }
@@ -294,6 +325,8 @@ namespace LASI.Algorithm.Binding
 
                     return;
                 }
+                Universal(phrase);
+
                 Machine.St2.ProcessNext(Stream.PopDynamic());
             }
             public void ProcessNext(ConjunctionPhrase phrase) {
@@ -307,6 +340,8 @@ namespace LASI.Algorithm.Binding
 
                     return;
                 }
+                Universal(phrase);
+
                 Machine.St6.ProcessNext(Stream.PopDynamic());
             }
 
@@ -330,6 +365,8 @@ namespace LASI.Algorithm.Binding
 
                     return;
                 }
+                Universal(phrase);
+
                 Machine.St5.ProcessNext(Stream.PopDynamic());
             }
             public void ProcessNext(NounPhrase phrase) {
@@ -345,6 +382,8 @@ namespace LASI.Algorithm.Binding
 
                     return;
                 }
+                Universal(phrase);
+
                 Machine.St2.ProcessNext(Stream.PopDynamic());
             }
 
@@ -352,6 +391,11 @@ namespace LASI.Algorithm.Binding
         }
 
 
+
+        public Phrase LastPhrase {
+            get;
+            set;
+        }
     }
 
     static class DynamicStackExtensions

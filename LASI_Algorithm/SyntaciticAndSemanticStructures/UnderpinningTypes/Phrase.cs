@@ -37,9 +37,6 @@ namespace LASI.Algorithm
         public override string ToString() {
             return GetType().Name + " \"" + Text + "\"";
         }
-        public virtual string ToString(bool verbose) {
-            return ToString();
-        }
 
         public void EstablishParent(Clause clause) {
             ParentSentence = clause.ParentSentence;
@@ -102,9 +99,12 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets the concatenated text content of all of the words which compose the phrase.
         /// </summary>
-        public virtual string Text {
+        public string Text {
             get {
-                return Words.Aggregate("", (str, word) => str + " " + word.Text).Trim();
+                if (Words.Count(w => !string.IsNullOrWhiteSpace(w.Text)) > 0)
+                    return Words.Aggregate("", (str, word) => str + " " + word.Text).Trim();
+                else
+                    return "";
             }
         }
         /// <summary>
@@ -131,7 +131,22 @@ namespace LASI.Algorithm
 
         #endregion
 
-        #region Static Members
+        #region Static Methods
+
+        static Phrase() {
+            VerboseOutput = true;
+        }
+
+        #endregion
+
+        #region Static Properties
+        public static bool VerboseOutput {
+            get;
+            set;
+        }
+        #endregion
+
+        #region Static Fields
 
         private static int IDProvider;
 

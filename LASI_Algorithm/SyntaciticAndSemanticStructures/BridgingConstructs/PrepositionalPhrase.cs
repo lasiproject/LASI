@@ -35,7 +35,17 @@ namespace LASI.Algorithm
         }
 
 
-
+        public override string ToString() {
+            if (Phrase.VerboseOutput) {
+                var result = base.ToString();
+                if (OnLeftSide != null)
+                    result += "\n\tleft linked: " + OnLeftSide.ToString();
+                if (OnRightSide != null)
+                    result += "\n\tright linked: " + OnRightSide.ToString();
+                return result;
+            }
+            return base.ToString();
+        }
 
 
 

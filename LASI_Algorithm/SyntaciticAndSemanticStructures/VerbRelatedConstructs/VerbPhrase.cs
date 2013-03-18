@@ -88,8 +88,8 @@ namespace LASI.Algorithm
         }
 
 
-        public override string ToString(bool verbose) {
-            if (verbose) {
+        public override string ToString() {
+            if (Phrase.VerboseOutput) {
 
                 var result = base.ToString() + "\n";
                 foreach (var s in BoundSubjects) {
@@ -106,15 +106,16 @@ namespace LASI.Algorithm
                     result += "\n" + mod.ToString();
                 }
                 return result;
-            } else
-                return ToString();
+            }
+            else
+                return base.ToString();
         }
 
 
 
         public virtual void DetermineIsPossessive() {
             if (Words.GetVerbs().Count() > 0 && Words.GetVerbs().Last().IsPossessive == true) {
-                possessive = true;
+                Possessive = true;
             }
         }
 
@@ -204,8 +205,6 @@ namespace LASI.Algorithm
         private ICollection<IEntity> _boundSubjects = new List<IEntity>();
         private ICollection<IEntity> _boundDirectObjects = new List<IEntity>();
         private ICollection<IEntity> _boundIndirectObjects = new List<IEntity>();
-        private bool possessive;
-
 
         #endregion
 

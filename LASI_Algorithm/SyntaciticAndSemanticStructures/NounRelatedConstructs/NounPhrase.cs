@@ -79,9 +79,9 @@ namespace LASI.Algorithm
         public bool Equals(IEntity other) {
             return this == other as NounPhrase;
         }
-        public override string ToString(bool verbose) {
-            var result = this.ToString();
-            if (verbose && Possessed.Count() > 0) {
+        public override string ToString() {
+            var result = base.ToString();
+            if (Phrase.VerboseOutput && Possessed.Count() > 0) {
                 result += "\n\tpossessions:\n";
                 foreach (var s in Possessed) {
                     result += s + "\n";

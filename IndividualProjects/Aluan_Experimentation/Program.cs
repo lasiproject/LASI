@@ -21,17 +21,20 @@ namespace Aluan_Experimentation
 
         static void Main(string[] args) {
 
+            var docString = TaggerUtil.TagString(@"The American stewards pretend well.");
+            print(docString);
+            var doc = TaggerUtil.TaggedToDoc(docString);
+            SubjectBinder subjectBinder = new LASI.Algorithm.SubjectBinder();
+            ObjectBinder objectBinder = new ObjectBinder();
 
-            TagDoc();
-            var doc = LoadDoc();
+            foreach (var s in doc.Sentences) {
+                subjectBinder.Bind(s);
+                objectBinder.Bind(s);
+            }
 
-            //SubjectBinder subjectBinder = new LASI.Algorithm.SubjectBinder();
-            //foreach (var s in doc.Sentences) {
-            //    subjectBinder.Bind(s);
-            //}
 
             foreach (var r in doc.Phrases)
-                print(r.ToString(true));
+                print(r);
             StdIO.WaitForKey();
         }
 
@@ -59,7 +62,7 @@ namespace Aluan_Experimentation
             ObjectBinder objectBinder = new ObjectBinder();
             objectBinder.Bind(doc.Sentences.First());
             foreach (var phrase in doc.Phrases)
-                print(phrase.ToString(true));
+                print(phrase);
         }
 
         private static void ParseAndCreate() {
@@ -100,8 +103,7 @@ namespace Aluan_Experimentation
         private static async Task<IEnumerable<string>> CountByTypeAndText(Document document) {
             return await Task.Run(() => {
                 var phrasePOSCounts = from R in document.Phrases
-                                      group R by new
-                                      {
+                                      group R by new {
                                           Type = R.GetType(),
                                           R.Text
                                       } into G
@@ -124,7 +126,8 @@ namespace Aluan_Experimentation
                     foreach (var v in verbLookUp[input]) {
                         Console.Write(v + ", ");
                     }
-                } catch (KeyNotFoundException) {
+                }
+                catch (KeyNotFoundException) {
                     Console.WriteLine(String.Format("No synonyms recognized for \"{0}\" : as verb", input));
                 }
                 Console.WriteLine();
