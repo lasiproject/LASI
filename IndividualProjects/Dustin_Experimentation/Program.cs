@@ -18,11 +18,13 @@ namespace Dustin_Experimentation
             var tagged = tagger.ProcessFile();
             var paragraphs = new TaggedFileParser(tagged).LoadParagraphs();
             var document = new Document(paragraphs);
+            StreamWriter file = new StreamWriter(@"C:\Users\Dustin\Downloads\411output.txt");
 
             foreach (var i in document.Words)
             {
-                Console.WriteLine(i);
+                file.WriteLine(i);
             }
+            file.WriteLine("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
             Console.WriteLine("Press escape to exit");
             for (var k = Console.ReadKey(); k.Key != ConsoleKey.Escape; k = Console.ReadKey())
             {
