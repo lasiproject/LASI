@@ -21,7 +21,7 @@ namespace Aluan_Experimentation
 
         static void Main(string[] args) {
 
-            var docString = TaggerUtil.TagString(@"You are now leaving an official website of the Federal Emergency Management Agency.");
+            var docString = TaggerUtil.TagString(@"The students are happy about their good grades.");
             print(docString);
             var doc = TaggerUtil.TaggedToDoc(docString);
             SubjectBinder subjectBinder = new LASI.Algorithm.SubjectBinder();
@@ -33,7 +33,7 @@ namespace Aluan_Experimentation
             }
 
 
-            foreach (var r in doc.GetActions())
+            foreach (var r in doc.Phrases)
                 print(r);
             StdIO.WaitForKey();
         }
@@ -126,8 +126,7 @@ namespace Aluan_Experimentation
                     foreach (var v in verbLookUp[input]) {
                         Console.Write(v + ", ");
                     }
-                }
-                catch (KeyNotFoundException) {
+                } catch (KeyNotFoundException) {
                     Console.WriteLine(String.Format("No synonyms recognized for \"{0}\" : as verb", input));
                 }
                 Console.WriteLine();

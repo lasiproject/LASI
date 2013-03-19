@@ -12,7 +12,7 @@ namespace LASI.Algorithm
     /// <summary>
     /// Provides the base class, shared properties, and shared behaviors for all noun words.
     /// </summary>
-    public abstract class Noun : Word, IEntity
+    public abstract class Noun : Word, IEntity, IDeterminable
     {
         #region Constructors
 
@@ -23,21 +23,33 @@ namespace LASI.Algorithm
         protected Noun(string text)
             : base(text) {
             EntityKind = EntityKind.Unknown;
-            DetermineKind();
+            EstablishKind();
         }
 
-        private void DetermineKind() {
-            System.Text.RegularExpressions.Regex regex = new System.Text.RegularExpressions.Regex(@"<([^>]+)>");
-            var found = regex.Match(Text).Value ?? "";
-            Text = found.Length > 0 ? new string(Text.Skip(found.Length).TakeWhile(c => c != '<').ToArray()) : Text;
-        }
+
 
         #endregion
 
         #region Methods
 
+        private void EstablishKind() {
+            System.Text.RegularExpressions.Regex regex = new System.Text.RegularExpressions.Regex(@"<([^>]+)>");
+            var found = regex.Match(Text).Value ?? "";
+            Text = found.Length > 0 ? new string(Text.Skip(found.Length).TakeWhile(c => c != '<').ToArray()) : Text;
+        }
+
+
         /// <summary>
-        /// Binds an EntityReferency, generall a Pronoun or PronounPhrase to refer to the Noun.
+        /// Binds the given Determiner to The Noun. 
+        /// </summary>
+        /// <param name="determiner">The Determiner which to bind.</param>
+        public virtual void BindDeterminer(Determiner determiner) {
+            determiner.Determines = this;
+            DeterminedBy = determiner;
+        }
+
+        /// <summary>
+        /// Binds an EntityReferencer, generall a Pronoun or PronounPhrase to refer to the Noun.
         /// </summary>
         /// <param name="pro">The EntityReferency to Bind.</param>
         public virtual void BindPronoun(Pronoun pro) {
@@ -110,8 +122,6 @@ namespace LASI.Algorithm
             set;
         }
 
-
-
         /// <summary>
         /// Gets all of the IPossessable constructs which the Entity "owns".
         /// </summary>
@@ -140,6 +150,32 @@ namespace LASI.Algorithm
             get;
             set;
         }
+        /// <summary>
+        /// Gets the single Determiner which determines the noun.
+        /// </summary>
+        public Determiner DeterminedBy {
+            get;
+            protected set;
+        }
+        /// <summary>
+        /// Gets or sets the single Noun which directly, in terms of reading order, specifies the current Noun instance.
+        /// For example, consider the noun phrase "Felis Catus", the taxonomic nomenclature of the common domestic cat 
+        /// by its genus and species.
+        /// While both "Felis" and "Catus" are individual nouns, the first implicitelly specifies the second.
+        /// Catus is a species of the genus Felis,
+        /// but Felis also contains the species "Silvestris", commonly called a wildcat.
+        /// </summary>
+        public Noun SuperTaxonomicNoun {
+            get;
+            set;
+        }
+        /// <summary>
+        /// Gets or sets the single Noun which this Noun directly, in terms of reading order, specifies.
+        /// </summary>
+        public Noun SubTaxonomicNoun {
+            get;
+            set;
+        }
 
         #endregion
 
@@ -148,6 +184,10 @@ namespace LASI.Algorithm
         private ICollection<IEntity> _possessed = new List<IEntity>();
         private ICollection<Pronoun> _boundPronouns = new List<Pronoun>();
         #endregion
+
+
+
+
 
 
 

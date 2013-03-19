@@ -27,6 +27,10 @@ namespace LASI.Algorithm
                     determiner.Determines = n;
                 }*/
             }
+
+            foreach (var noun in np.Words.GetNouns()) {
+                
+            }
         }
     }
 }
