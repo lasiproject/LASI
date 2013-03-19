@@ -91,23 +91,22 @@ namespace LASI.Algorithm
         public override string ToString() {
             if (Phrase.VerboseOutput) {
 
-                var result = base.ToString() + "\n";
+                var result = base.ToString();
                 foreach (var s in BoundSubjects) {
-                    result += s != null ? "\tSubject: " + s.ToString() + "\n" : "";
+                    result += s != null ? "\n\tSubject: " + s.ToString() : "";
                 }
                 foreach (var d in DirectObjects) {
-                    result += d != null ? "\tDirect Object: " + d.ToString() + "\n" : "";
+                    result += d != null ? "\n\tDirect Object:" + d.ToString() : "";
                 }
                 foreach (var i in IndirectObjects) {
-                    result += i != null ? "\tIndirect Object: " + i.ToString() + "\n" : "";
+                    result += i != null ? "\n\tIndirect Object: " + i.ToString() : "";
                 }
                 foreach (var mod in _modifiers) {
-                    result += _modifiers.Count > 0 ? "\t\tModifier: " + mod.ToString() + "\n" : "";
-                     
+                    result += _modifiers.Count > 0 ? "\n\tModifier: " + mod.ToString() : "";
+
                 }
                 return result;
-            }
-            else
+            } else
                 return base.ToString();
         }
 
