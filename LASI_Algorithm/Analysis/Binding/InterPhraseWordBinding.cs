@@ -14,6 +14,18 @@ namespace LASI.Algorithm
             if (np.Words.Count() > 1)
             {
                 Console.WriteLine(np);
+                /*
+                 * Go through words.
+                 * and set specific properties
+                 */
+               /* var nouns = np.Words.GetNouns();
+
+               
+                var determiner = np.Words.FirstOrDefault(w => w is Determiner) as Determiner;
+                foreach (var n in nouns)
+                {
+                    determiner.Determines = n;
+                }*/
             }
         }
     }

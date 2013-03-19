@@ -16,7 +16,7 @@ namespace Scott_Experimentation
     class Program
     {
         static void Main(string[] args) {
-            var tagger = new SharpNLPTagger(TaggingOption.TagAndAggregate, @"C:\Users\Scott\Desktop\TestSentences.txt");
+            var tagger = new SharpNLPTagger(TaggingOption.TagAndAggregate, @"C:\Users\Scott\Desktop\TestSentences2.txt");
             var tagged = tagger.ProcessFile();
             var paragraphs = new TaggedFileParser(tagged).LoadParagraphs();
             var document = new Document(paragraphs);
@@ -63,7 +63,7 @@ namespace Scott_Experimentation
                      Console.WriteLine("ERROR Loc: {0}, [{1}]", x, ex.Message);
                  }
              }
-             */
+             
 
             Console.WriteLine(sep);
 
@@ -85,9 +85,21 @@ namespace Scott_Experimentation
 
 
             Console.WriteLine(sep);
+            Console.WriteLine("~~~~~~~~~~~~~~~~~~~~  Below Are NounPhrases ~~~~~~~~~~~~~~~~~~~~~~");
             InterPhraseWordBinding ip1 = new InterPhraseWordBinding();
-            foreach (var phrs in DocTest.Phrases.GetNounPhrases()) {
+            foreach (var phrs in document.Phrases.GetNounPhrases()) {
                 ip1.InterNounPhrase(phrs);
+            }
+            */
+
+            foreach (var phrs in document.Phrases)
+            {
+                Console.WriteLine(phrs);
+                var N_list = phrs.Words.GetNouns();
+                Noun noun1 = N_list.Last();
+                
+                
+
             }
 
             StdIO.WaitForAnyKey();
