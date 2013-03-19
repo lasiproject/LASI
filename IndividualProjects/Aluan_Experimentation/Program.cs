@@ -21,7 +21,7 @@ namespace Aluan_Experimentation
 
         static void Main(string[] args) {
 
-            var docString = TaggerUtil.TagString(@"The American stewards pretend well.");
+            var docString = TaggerUtil.TagString(@"You are now leaving an official website of the Federal Emergency Management Agency.");
             print(docString);
             var doc = TaggerUtil.TaggedToDoc(docString);
             SubjectBinder subjectBinder = new LASI.Algorithm.SubjectBinder();
@@ -33,7 +33,7 @@ namespace Aluan_Experimentation
             }
 
 
-            foreach (var r in doc.Phrases)
+            foreach (var r in doc.GetActions())
                 print(r);
             StdIO.WaitForKey();
         }

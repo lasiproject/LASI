@@ -101,9 +101,9 @@ namespace LASI.Algorithm
                 foreach (var i in IndirectObjects) {
                     result += i != null ? "\tIndirect Object: " + i.ToString() + "\n" : "";
                 }
-                result += _modifiers.Count > 0 ? "\t\tModifiers" : "\n";
                 foreach (var mod in _modifiers) {
-                    result += "\n" + mod.ToString();
+                    result += _modifiers.Count > 0 ? "\t\tModifier: " + mod.ToString() + "\n" : "";
+                     
                 }
                 return result;
             }

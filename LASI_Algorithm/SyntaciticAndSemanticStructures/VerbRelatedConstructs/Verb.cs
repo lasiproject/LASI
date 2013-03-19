@@ -121,7 +121,7 @@ namespace LASI.Algorithm
         /// </summary>
         public IEnumerable<IEntity> BoundSubjects {
             get {
-                throw new NotImplementedException();
+                return _boundSubjects;
             }
         }
 
