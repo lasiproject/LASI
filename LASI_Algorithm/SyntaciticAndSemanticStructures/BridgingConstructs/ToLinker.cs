@@ -42,7 +42,7 @@ namespace LASI.Algorithm
 
         #endregion
 
-       
+
 
         /// <summary>
         /// Gets the object of the IPrepositional construct.
@@ -58,6 +58,15 @@ namespace LASI.Algorithm
         /// <param name="prepositionalObject">The ILexical construct as the object of the ToLinker.</param>
         public void BindObjectOfPreposition(ILexical prepositionalObject) {
             PrepositionalObject = prepositionalObject;
+        }
+
+        /// <summary>
+        /// Gets or sets the contextually extrapolated role of the ToLinker.
+        /// </summary>
+        /// <see cref="PrepositionalRole"/>
+        public PrepositionalRole ContextualRole {
+            get;
+            set;
         }
     }
 }

@@ -49,5 +49,14 @@ namespace LASI.Algorithm
         public void BindObjectOfPreposition(ILexical prepositionalObject) {
             PrepositionalObject = prepositionalObject;
         }
+
+        /// <summary>
+        /// Gets or sets the contextually extrapolated role of the ParticlePhrase.
+        /// </summary>
+        /// <see cref="PrepositionalRole"/>
+        public PrepositionalRole ContextualRole {
+            get;
+            set;
+        }
     }
 }

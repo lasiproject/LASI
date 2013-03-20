@@ -41,7 +41,13 @@ namespace LASI.Algorithm
             get;
             set;
         }
-
+        /// <summary>
+        /// Gets the object of the IPrepositional construct.
+        /// </summary>
+        public ILexical PrepositionalObject {
+            get;
+            protected set;
+        }
         #endregion
         /// <summary>
         /// Binds an ILexical construct as the object of the Preposition. 
@@ -55,13 +61,19 @@ namespace LASI.Algorithm
 
         #endregion
 
-        /// <summary>
-        /// Gets the object of the IPrepositional construct.
-        /// </summary>
-        public ILexical PrepositionalObject {
-            get;
-            protected set;
-        }
+        #region Fields
 
+
+
+        #endregion
+
+        /// <summary>
+        /// Gets or sets the contextually extrapolated role of the Preposition.
+        /// </summary>
+        /// <see cref="PrepositionalRole"/>
+        public PrepositionalRole ContextualRole {
+            get;
+            set;
+        }
     }
 }

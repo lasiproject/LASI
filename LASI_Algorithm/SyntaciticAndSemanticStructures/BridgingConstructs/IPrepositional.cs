@@ -23,6 +23,16 @@ namespace LASI.Algorithm.FundamentalSyntacticInterfaces
         ILexical PrepositionalObject {
             get;
         }
+
+        /// <summary>
+        /// Gets or sets the contextually extrapolated role of the PrepositionalConstruct.
+        /// </summary>
+        /// <see cref="PrepositionalRole"/>
+        PrepositionalRole ContextualRole {
+            get;
+            set;
+        }
+
         /// <summary>
         /// Binds an ILexical construct as the object of the IPrepositional. 
         /// Lexical constructs include Word, Phrase, and Clause Types.

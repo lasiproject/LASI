@@ -16,6 +16,7 @@ namespace LASI.Algorithm.Binding
             St0 = new State0(this);
             St1 = new State1(this);
             St2 = new State2(this);
+            St3 = new State3(this);
             St4 = new State4(this);
             St5 = new State5(this);
             St6 = new State6(this);
@@ -64,12 +65,14 @@ namespace LASI.Algorithm.Binding
         private State0 St0;
         private State1 St1;
         private State2 St2;
+        private State3 St3;
         private State4 St4;
         private State5 St5;
         private State6 St6;
         private ConjunctionPhrase lastConjunctive;
         private PrepositionalPhrase lastPrepositional;
         public bool indirectFound;
+
 
 
         private void BindBuiltupAdjectivePhrases(NounPhrase phrase) {
@@ -209,6 +212,20 @@ namespace LASI.Algorithm.Binding
                 Machine.lastConjunctive = phrase;
                 Universal(phrase);
             }
+            public void ProcessNext(PrepositionalPhrase phrase) {
+                Machine.lastPrepositional = phrase;
+
+                Universal(phrase);
+                Machine.St0.ProcessNext(Stream.PopDynamic());
+            }
+        }
+        class State3 : State
+        {
+            public State3(ObjectBinder machine)
+                : base(machine) {
+                StateName = "s3";
+            }
+
         }
         class State2 : State
         {
