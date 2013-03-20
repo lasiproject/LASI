@@ -19,7 +19,15 @@ namespace Aluan_Experimentation
     public class Program
     {
 
+
+
         static void Main(string[] args) {
+
+
+
+
+
+
 
             var docString = TaggerUtil.TagString(@"The students are happy about their good grades.");
             print(docString);
