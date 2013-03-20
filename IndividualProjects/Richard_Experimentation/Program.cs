@@ -10,9 +10,11 @@ using SharpNLPTaggingModule;
 
 namespace Richard_Experimentation
 {
-    class Program
-    {
-        static void Main(string[] args) {
+
+
+
+        //Aluan's examples
+        /*static void Main(string[] args) {
 
             //TagExampleFile();
 
@@ -66,5 +68,5 @@ namespace Richard_Experimentation
 
             }
         }
-    }
+    }*/
 }

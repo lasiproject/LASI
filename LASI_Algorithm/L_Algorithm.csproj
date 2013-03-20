@@ -168,11 +168,9 @@
     <Compile Include="SyntaciticAndSemanticStructures\UnderpinningTypes\Word.cs" />
     <Compile Include="IEnumerableExtensions\IEnumerableOfWordExtensions.cs" />
     <None Include="ClassDiagram1.cd" />
-    <None Include="ClassDiagram7.cd" />
     <None Include="ClassDiagrams\NounConstructs.cd" />
     <None Include="ClassDiagrams\VerbConstructs.cd" />
     <None Include="DocumentConstructs\DocumentComposition.cd" />
-    <None Include="GrammaticalInterfaces.cd" />
     <None Include="IEnumerableExtensions\IEnumerableExtensions.cd" />
     <None Include="SyntaciticAndSemanticStructures\MiscLanguageConstructs\PhraseConstructs.cd" />
   </ItemGroup>

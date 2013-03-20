@@ -105,8 +105,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <None Include="ClassDiagram1.cd" />
-    <None Include="ClassDiagram2.cd" />
+    <None Include="ClassDiagram3.cd" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LASI_Algorithm\L_Algorithm.csproj">
