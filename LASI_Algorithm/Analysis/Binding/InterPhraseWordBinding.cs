@@ -13,25 +13,13 @@ namespace LASI.Algorithm
             //Accounts for there being more than one word in a phrase
             if (np.Words.Count() > 1)
             {
-                Console.WriteLine(np);
-                /*
-                 * Go through words.
-                 * and set specific properties
-                 */
-               /* var nouns = np.Words.GetNouns();
+                Noun LastNoun = np.Words.OfType<Noun>().Last();
+                Determiner det1 = np.Words.OfType<Determiner>().FirstOrDefault();
+                if (det1 != null)
+                    LastNoun.BindDeterminer(det1);
 
-               
-                var determiner = np.Words.FirstOrDefault(w => w is Determiner) as Determiner;
-                foreach (var n in nouns)
-                {
-                    determiner.Determines = n;
-                }*/
-            }
-
-            foreach (var noun in np.Words.GetNouns()) {
-                
-            }
+                Console.WriteLine("Last Noun: {0}, Determined By: {1}", LastNoun, LastNoun.DeterminedBy);
+           }
         }
     }
 }
-        

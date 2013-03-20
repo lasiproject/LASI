@@ -82,7 +82,7 @@ namespace Scott_Experimentation
                 ctrl++;
             }
 
-
+            */
 
             Console.WriteLine(sep);
             Console.WriteLine("~~~~~~~~~~~~~~~~~~~~  Below Are NounPhrases ~~~~~~~~~~~~~~~~~~~~~~");
@@ -90,17 +90,7 @@ namespace Scott_Experimentation
             foreach (var phrs in document.Phrases.GetNounPhrases()) {
                 ip1.InterNounPhrase(phrs);
             }
-            */
-
-            foreach (var phrs in document.Phrases)
-            {
-                Console.WriteLine(phrs);
-                var N_list = phrs.Words.GetNouns();
-                Noun noun1 = N_list.Last();
-                
-                
-
-            }
+            
 
             StdIO.WaitForAnyKey();
         }
