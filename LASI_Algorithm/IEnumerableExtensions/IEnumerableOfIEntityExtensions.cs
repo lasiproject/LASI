@@ -8,33 +8,33 @@ namespace LASI.Algorithm
 {
     public static class IEnumerableOfIEntityExtensions
     {
-        public static IEnumerable<IEntity> AsSubject(this IEnumerable<IEntity> entities) {
+        public static IEnumerable<IEntity> InSubjectRole(this IEnumerable<IEntity> entities) {
             return from e in entities
                    where e.SubjectOf != null
                    select e;
         }
-        public static IEnumerable<IEntity> AsSubject(this IEnumerable<IEntity> entities, Func<ITransitiveVerbial, bool> condition) {
-            return from e in entities.AsSubject()
+        public static IEnumerable<IEntity> InSubjectRole(this IEnumerable<IEntity> entities, Func<ITransitiveVerbial, bool> condition) {
+            return from e in entities.InSubjectRole()
                    where condition(e.SubjectOf)
                    select e;
         }
-        public static IEnumerable<IEntity> AsDirectObject(this IEnumerable<IEntity> entities) {
+        public static IEnumerable<IEntity> InDirectObjectRole(this IEnumerable<IEntity> entities) {
             return from e in entities
                    where e.DirectObjectOf != null
                    select e;
         }
-        public static IEnumerable<IEntity> AsDirectObject(this IEnumerable<IEntity> entities, Func<ITransitiveVerbial, bool> condition) {
-            return from e in entities.AsDirectObject()
+        public static IEnumerable<IEntity> InDirectObjectRole(this IEnumerable<IEntity> entities, Func<ITransitiveVerbial, bool> condition) {
+            return from e in entities.InDirectObjectRole()
                    where condition(e.DirectObjectOf)
                    select e;
         }
-        public static IEnumerable<IEntity> AsIndirectObject(this IEnumerable<IEntity> entities) {
+        public static IEnumerable<IEntity> InIndirectObjectRole(this IEnumerable<IEntity> entities) {
             return from e in entities
                    where e.IndirectObjectOf != null
                    select e;
         }
-        public static IEnumerable<IEntity> AsIndirectObject(this IEnumerable<IEntity> entities, Func<ITransitiveVerbial, bool> condition) {
-            return from e in entities.AsIndirectObject()
+        public static IEnumerable<IEntity> InIndirectObjectRole(this IEnumerable<IEntity> entities, Func<ITransitiveVerbial, bool> condition) {
+            return from e in entities.InIndirectObjectRole()
                    where condition(e.IndirectObjectOf)
                    select e;
         }

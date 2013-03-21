@@ -29,7 +29,7 @@ namespace Aluan_Experimentation
 
 
 
-            var docString = TaggerUtil.TagString(@"We students are happy about our good grades.");
+            var docString = TaggerUtil.TagString(@"He ordered the fifth infantry unit under his command to attack at dawn.");
             print(docString);
             var doc = TaggerUtil.TaggedToDoc(docString);
             SubjectBinder subjectBinder = new LASI.Algorithm.SubjectBinder();

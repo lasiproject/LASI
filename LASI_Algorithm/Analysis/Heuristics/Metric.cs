@@ -5,12 +5,19 @@ using System.Text;
 
 namespace LASI.Algorithm.Heuristics
 {
-    public struct Metric
+    public struct ResultSet
     {
-    }
-    public enum PronounMode
-    {
-        Included,
-        Excluded
+        public IEnumerable<IEntity> TopEntities {
+            get;
+            set;
+        }
+        public IEnumerable<ITransitiveVerbial> TopActions {
+            get;
+            set;
+        }
+        public IEnumerable<ILexical> TopMiscelaneous {
+            get;
+            set;
+        }
     }
 }
