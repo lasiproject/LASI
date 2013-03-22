@@ -52,31 +52,24 @@ namespace LASI.FileSystem
         /// </summary>
         /// <returns>The run time constructs which represent the text of the document, aggregated into paragraphs.</returns>
         public override IEnumerable<Paragraph> LoadParagraphs() {
-            var results = new List<Paragraph>();
 
             var data = PreProcessTextData(TaggedInputData.Trim());
+            var results = new List<Paragraph>();
             foreach (var paragraph in ParseParagraphs(data))
-                results.Add(LoadParagraph(paragraph));
+                results.Add(BuildParagraph(paragraph));
 
             return results;
         }
 
         public override async Task<IEnumerable<Paragraph>> LoadParagraphsAsync() {
-            var data = TaggedInputData.Trim();
-            var results = new List<Paragraph>();
-            var paragraphTasks = from p in ParseParagraphs(data)
-                                 select Task.Run(async () => {
-                                     return await LoadParagraphAsync(await PreProcessTextDataAsync(p));
-                                 });
-            results.AddRange(from t in paragraphTasks.Select(s => s.Result)
-                             select t);
-            return results;
+
+            return await Task.Run(() => LoadParagraphs());
 
         }
-        private async Task<Paragraph> LoadParagraphAsync(string paragraph) {
-            return await Task.Run(() => LoadParagraph(paragraph));
+        private async Task<Paragraph> BuildParagraphAsync(string paragraph) {
+            return await Task.Run(() => BuildParagraph(paragraph));
         }
-        private Paragraph LoadParagraph(string paragraph) {
+        private Paragraph BuildParagraph(string paragraph) {
             var parsedSentences = new List<Sentence>();
             var sentences = from s in SplitIntoSentences(paragraph)
                             select s.Trim();
@@ -109,20 +102,17 @@ namespace LASI.FileSystem
                                 parsedPhrases.Add(currentPhrase);
                             }
 
-                        }
-                        else if (token == '/') {
+                        } else if (token == '/') {
                             var words = CreateWords(chunk);
                             if (words.First() != null)
                                 if (words.Count(w => w is Conjunction) == words.Count) {
                                     var currentPhrase = new ConjunctionPhrase(words);
                                     parsedPhrases.Add(currentPhrase);
-                                }
-                                else if (words.Count() == 1 && words.First() is SentencePunctuation) {
+                                } else if (words.Count() == 1 && words.First() is SentencePunctuation) {
                                     sentencePunctuation = words.First() as SentencePunctuation;
                                     parsedClauses.Add(new Clause(parsedPhrases.Take(parsedPhrases.Count)));
                                     parsedPhrases = new List<Phrase>();
-                                }
-                                else {
+                                } else {
 
                                     //parsedPhrases.Add(new UndeterminedPhrase(words));
                                 }
@@ -145,9 +135,9 @@ namespace LASI.FileSystem
             var reader2 = (new StringReader(chunk));
             char token = '~';
             while (reader2.Peek() != ' ' && reader2.Peek() != '/') {
-                token = (char)reader2.Read();
+                token = (char) reader2.Read();
             }
-            token = (char)reader2.Read();
+            token = (char) reader2.Read();
             return token;
         }
 
@@ -180,9 +170,9 @@ namespace LASI.FileSystem
         }
 
         /// <summary>
-        /// Reads a [NP Square Brack Delimited Phrase Chunk] and returns a phrase tag determined subtype of LASI.Phrase which in turn contains all the run time representations of the individual words within it.
+        /// Reads a [NP Square Brack Delimited Phrase Chunk] and returns a entity tag determined subtype of LASI.Phrase which in turn contains all the run time representations of the individual words within it.
         /// </summary>
-        /// <param name="taggedContent">The TextTagPair instance which contains the content of a phrase and its Tag.</param>
+        /// <param name="taggedContent">The TextTagPair instance which contains the content of a entity and its Tag.</param>
         /// <returns></returns>
         protected virtual Phrase ParsePhrase(TaggedPhraseObject taggedContent) {
             var phraseTag = taggedContent.Tag.Trim();
@@ -191,9 +181,9 @@ namespace LASI.FileSystem
             return phraseConstructor(composed);
         }
         /// <summary>
-        /// Reads a [NP Square Brack Delimited Phrase Chunk] and returns a phrase tag determined subtype of LASI.Phrase which in turn contains all the run time representations of the individual words within it.
+        /// Reads a [NP Square Brack Delimited Phrase Chunk] and returns a entity tag determined subtype of LASI.Phrase which in turn contains all the run time representations of the individual words within it.
         /// </summary>
-        /// <param name="taggedContent">The TextTagPair instance which contains the content of a phrase and its Tag.</param>
+        /// <param name="taggedContent">The TextTagPair instance which contains the content of a entity and its Tag.</param>
         /// <returns></returns>
         protected virtual async Task<Phrase> ParsePhraseAsync(TaggedPhraseObject taggedContent) {
             var phraseTag = taggedContent.Tag.Trim();
@@ -264,3 +254,12 @@ namespace LASI.FileSystem
 
     }
 }
+//var data = TaggedInputData.Trim();
+//var results = new List<Paragraph>();
+//var paragraphTasks = from p in ParseParagraphs(data)
+//                     select Task.Run(async () => {
+//                         return await BuildParagraphAsync(await PreProcessTextDataAsync(p));
+//                     });
+//results.AddRange(from t in paragraphTasks.Select(s => s.Result)
+//                 select t);
+//return results;

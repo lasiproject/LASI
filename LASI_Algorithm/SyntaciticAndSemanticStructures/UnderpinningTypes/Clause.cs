@@ -21,7 +21,7 @@ namespace LASI.Algorithm
         }
         /// <summary>
         ///Initializes a new instance of the Clause class, by composing the given linear sequence of words       
-        ///As the words are bare in this context, that is not members of a known phrase object, they are subsequently implanted in an UndeterminedPhrase instance whose syntactic role should be determined contextually in the future.
+        ///As the words are bare in this context, that is not members of a known entity object, they are subsequently implanted in an UndeterminedPhrase instance whose syntactic role should be determined contextually in the future.
         /// </summary>
         /// <param name="words">The linear sequence of Words which compose to form the single UndeterminedPhrase which will comprise the Clause.</param>
         public Clause(IEnumerable<Word> words) {
@@ -95,6 +95,12 @@ namespace LASI.Algorithm
         }
 
 
+
+
+        public int ID {
+            get;
+            private set;
+        }
     }
 
 }

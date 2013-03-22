@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LASI.Algorithm.Analysis.Binding
+namespace LASI.Algorithm.Binding
 {
     public class ConjunctionBinder
     {

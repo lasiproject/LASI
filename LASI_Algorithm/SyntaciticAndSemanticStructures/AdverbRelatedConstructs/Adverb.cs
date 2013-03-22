@@ -22,7 +22,7 @@ namespace LASI.Algorithm
             : base(text) {
         }
         /// <summary>
-        /// Gets or sets the w or phrase which the Adverb modiffies
+        /// Gets or sets the w or entity which the Adverb modiffies
         /// </summary>
         public virtual IVerbial Modiffied {
             get;

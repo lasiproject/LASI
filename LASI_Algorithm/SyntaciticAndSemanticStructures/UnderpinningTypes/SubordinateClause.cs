@@ -13,6 +13,7 @@ namespace LASI.Algorithm.ClauseTypes
     /// </summary>
     public class SubordinateClause : Clause, IDescriber, IAdverbial
     {
+
         #region Constructors
         /// <summary>
         /// Initializes a new instance of the SubordinateClause class, by composing the given linear sequence of phrases.
@@ -54,42 +55,46 @@ namespace LASI.Algorithm.ClauseTypes
         /// Gets or sets the Verbial construct which the subordinate clause modifies.
         /// </summary>
         public IVerbial Modiffied {
-            get {
-                return _modiffied;
-            }
-            set {
-                if (Described == null)
-                    _modiffied = value;
-                else
-                    throw new ConflictingClauseRoleException(String.Format(@"Cannot bind {0}\n
-                                        as an Action discriptive modifier of {1}\n
-                                        because it is already indicated as an Action
-                                        descriptive modifier of\n{2}", this, value, Described));
-            }
+            get;
+            set;
+            //            get {
+            //                return _modiffied;
+            //            }
+            //            set {
+            //                if (Described == null)
+            //                    _modiffied = value;
+            //                else
+            //                    throw new ConflictingClauseRoleException(String.Format(@"Cannot bind {0}\n
+            //                                        as an Action discriptive modifier of {1}\n
+            //                                        because it is already indicated as an Action
+            //                                        descriptive modifier of\n{2}", this, value, Described));
+            //            }
         }
         /// <summary>
         /// Gets or sets the Entity construct which the subordinate clause describes.
         /// </summary>
         public IEntity Described {
-            get {
-                return _described;
-            }
-            set {
-                if (Modiffied == null)
-                    _described = value;
-                else
-                    throw new ConflictingClauseRoleException(
-                        String.Format(@"Cannot bind {0}\n
-                                        as an Entitiy discriptive modifier of {1}\n
-                                        because it is already indicated as an Action
-                                        descriptive modifier of\n{2}", this, value, Modiffied));
-            }
+            get;
+            set;
+            //            get {
+            //                return _described;
+            //            }
+            //            set {
+            //                if (Modiffied == null)
+            //                    _described = value;
+            //                else
+            //                    throw new ConflictingClauseRoleException(
+            //                        String.Format(@"Cannot bind {0}\n
+            //                                        as an Entitiy discriptive modifier of {1}\n
+            //                                        because it is already indicated as an Action
+            //                                        descriptive modifier of\n{2}", this, value, Modiffied));
+            //            }
         }
         #endregion
 
         #region Fields
-        private IEntity _described;
-        private IVerbial _modiffied;
+        //private IEntity _described;
+        //private IVerbial _modiffied;
         #endregion
 
     }

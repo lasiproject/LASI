@@ -24,7 +24,7 @@ namespace LASI.FileSystem
 
     }
     /// <summary>
-    /// Thrown when attempting to parse an unknown phrase Tag
+    /// Thrown when attempting to parse an unknown entity Tag
     /// </summary>
     [Serializable]
     class UnknownPhraseTypeException : POSTagException
@@ -107,7 +107,7 @@ namespace LASI.FileSystem
         }
     }
     /// <summary>
-    /// Thrown when attempting to parse an improperly delimited phrase
+    /// Thrown when attempting to parse an improperly delimited entity
     /// </summary>
     [Serializable]
     class UndelimitedPhraseException : POSTagException

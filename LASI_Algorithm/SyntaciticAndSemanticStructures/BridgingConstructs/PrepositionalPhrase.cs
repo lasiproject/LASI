@@ -6,7 +6,7 @@ using System.Xml.Linq;
 namespace LASI.Algorithm
 {
     /// <summary>
-    /// Represents a prepositional phrase, an object which has Prepositional properties at the phrase level.
+    /// Represents a prepositional entity, an object which has Prepositional properties at the entity level.
     /// <see cref="IPrepositional"/>
     /// <seealso cref="Preposition"/>
     /// </summary>

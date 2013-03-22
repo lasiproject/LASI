@@ -82,7 +82,7 @@
     <Compile Include="IEnumerableExtensions\IEnumerableOfParagraphExtensions.cs" />
     <Compile Include="DocumentConstructs\Paragraph.cs" />
     <Compile Include="IEnumerableExtensions\IEnumerableOfPhraseExtensions.cs" />
-    <Compile Include="Analysis\Heuristics\DocumentAnalyzer.cs" />
+    <Compile Include="Analysis\Heuristics\BasicDocumentAnalyser.cs" />
     <Compile Include="DocumentConstructs\Sentence.cs" />
     <Compile Include="SyntaciticAndSemanticStructures\AdverbRelatedConstructs\IAdverbial.cs" />
     <Compile Include="SyntaciticAndSemanticStructures\MiscLanguageConstructs\IConflatable.cs" />

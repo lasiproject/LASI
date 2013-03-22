@@ -10,7 +10,7 @@ namespace LASI.Algorithm.Heuristics
         int MaxResults {
             get;
         }
-        Document SourceDocument {
+        System.Collections.Generic.IEnumerable<ILexical> SourceDocument {
             get;
         }
     }

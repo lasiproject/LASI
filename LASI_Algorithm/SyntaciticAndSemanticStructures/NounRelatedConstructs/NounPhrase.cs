@@ -8,8 +8,8 @@ using System.Xml.Linq;
 namespace LASI.Algorithm
 {
     /// <summary>
-    /// Represents a noun phrase such as "The Pinko-Commy Conspiracy".
-    /// Note that noun phrases are the constructs which wrap both nouns and pronouns at the phrase level.
+    /// Represents a noun entity such as "The Pinko-Commy Conspiracy".
+    /// Note that noun phrases are the constructs which wrap both nouns and pronouns at the entity level.
     /// </summary>
     public class NounPhrase : Phrase, IEntity
     {
@@ -179,29 +179,6 @@ namespace LASI.Algorithm
         private IList<IEntity> _possessed = new List<IEntity>();
         private IList<Pronoun> _boundPronouns = new List<Pronoun>();
         private IEntity _possessor;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        public EntityThemeMemberKind ThemeMemberKind {
-            get;
-            set;
-        }
     }
 }
 

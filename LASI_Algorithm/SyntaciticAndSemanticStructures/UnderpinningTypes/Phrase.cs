@@ -9,7 +9,7 @@ namespace LASI.Algorithm
 {
 
     /// <summary>
-    /// Provides the base class, properties, and behaviors for all phrase level gramatical constructs.
+    /// Provides the base class, properties, and behaviors for all entity level gramatical constructs.
     /// </summary>
     public abstract class Phrase : IPrepositionLinkable
     {
@@ -97,7 +97,7 @@ namespace LASI.Algorithm
             private set;
         }
         /// <summary>
-        /// Gets the concatenated text content of all of the words which compose the phrase.
+        /// Gets the concatenated text content of all of the words which compose the entity.
         /// </summary>
         public string Text {
             get {
@@ -108,7 +108,7 @@ namespace LASI.Algorithm
             }
         }
         /// <summary>
-        /// Gets the collection of words which comprise the phrase.
+        /// Gets the collection of words which comprise the entity.
         /// </summary>
         public virtual IEnumerable<Word> Words {
             get;

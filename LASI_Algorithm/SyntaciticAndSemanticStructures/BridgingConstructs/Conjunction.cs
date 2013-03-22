@@ -41,8 +41,5 @@ namespace LASI.Algorithm
 
         #endregion
 
-
-
-        //enum ConjunctionKind:byte {coordinating,subordinating
     }
 }

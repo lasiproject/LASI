@@ -1,4 +1,4 @@
-﻿using LASI.Algorithm.ClauseTypes;
+﻿
 using LASI.Algorithm.FundamentalSyntacticInterfaces;
 namespace LASI.Algorithm
 {

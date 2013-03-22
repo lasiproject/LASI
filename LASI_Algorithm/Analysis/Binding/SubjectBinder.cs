@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LASI.Algorithm
+namespace LASI.Algorithm.Binding
 {
     public class SubjectBinder
     {
@@ -14,7 +14,7 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="s"></param>
         public void Bind(Sentence s) {
-            
+
             VerbPhrase v1 = null;
             foreach (var i in s.Phrases) {
                 if (i is AdjectivePhrase) {
@@ -45,7 +45,7 @@ namespace LASI.Algorithm
                     s6.S = StateType.Final;
                     stateList.Add(s6);
                     v1 = s6.StatePhrase as VerbPhrase;
-                    break;                    
+                    break;
                 }
                 if (i is AdverbPhrase) {
                     State s7 = new State();
@@ -69,11 +69,9 @@ namespace LASI.Algorithm
                 }
 
             }
-            foreach (var i in stateList)
-            {
-                if (i.StatePhrase is NounPhrase)
-                {
-                        v1.BindSubject(i.StatePhrase as NounPhrase);
+            foreach (var i in stateList) {
+                if (i.StatePhrase is NounPhrase) {
+                    v1.BindSubject(i.StatePhrase as NounPhrase);
                 }
             }
         }

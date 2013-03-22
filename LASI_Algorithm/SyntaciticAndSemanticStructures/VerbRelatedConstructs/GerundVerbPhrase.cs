@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LASI.Algorithm.PhraseTypes
+namespace LASI.Algorithm
 {
     class GerundVerbPhrase : VerbPhrase, IEntity
     {
@@ -84,7 +84,7 @@ namespace LASI.Algorithm.PhraseTypes
         }
 
         public bool Equals(IEntity other) {
-            return this == other;
+            return this == other as GerundVerbPhrase;
         }
 
         #region Fields

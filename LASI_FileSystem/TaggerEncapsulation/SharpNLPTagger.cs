@@ -29,16 +29,16 @@ namespace SharpNLPTaggingModule
         }
 
 
-        public SharpNLPTagger(TaggingOption taggingMode, string sourcePath, string destinationPath = null) {
-            mModelPath = ConfigurationManager.AppSettings["MaximumEntropyModelDirectory"];
-            mNameFinder = new OpenNLP.Tools.NameFind.EnglishNameFinder(ConfigurationManager.AppSettings["WordnetSearchDirectory"]);
+        public SharpNLPTagger(TaggingOption taggingMode, string sourcePath, string destinationPath = null)
+            : this(taggingMode) {
 
-            TaggingMode = taggingMode;
+
+
             InputFilePath = sourcePath;
             OutputFilePath = destinationPath != null ? destinationPath :
                 new FileInfo(sourcePath).DirectoryName + @"\" + new FileInfo(sourcePath.Substring(0, sourcePath.LastIndexOf('.'))).Name + @".tagged";
 
-            SourceText = LoadSourceText();//
+            SourceText = LoadSourceText();
 
         }
         public virtual LASI.FileSystem.FileTypes.TaggedFile ProcessFile() {

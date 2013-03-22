@@ -22,7 +22,10 @@ namespace LASI.Algorithm
         /// <param name="composedWords">The words which compose to form the VerbPhrase.</param>
         public VerbPhrase(IEnumerable<Word> composedWords)
             : base(composedWords) {
-            Tense = VerbTense.Base;
+            Tense = (from v in composedWords.GetVerbs()
+                     group v.Tense by v.Tense into tenseGroup
+                     orderby tenseGroup.Count()
+                     select tenseGroup).First().Key;
 
         }
 
@@ -118,8 +121,12 @@ namespace LASI.Algorithm
             }
         }
 
-
-
+        public override bool Equals(object obj) {
+            return base.Equals(obj);
+        }
+        public override int GetHashCode() {
+            return base.GetHashCode();
+        }
 
         #endregion
 
@@ -205,6 +212,15 @@ namespace LASI.Algorithm
         private ICollection<IEntity> _boundDirectObjects = new List<IEntity>();
         private ICollection<IEntity> _boundIndirectObjects = new List<IEntity>();
 
+        #endregion
+
+        #region Operators
+        public static bool operator ==(VerbPhrase lhs, VerbPhrase rhs) {
+            return lhs.Text == rhs.Text && lhs.Tense == rhs.Tense;
+        }
+        public static bool operator !=(VerbPhrase lhs, VerbPhrase rhs) {
+            return !(lhs == rhs);
+        }
         #endregion
 
     }

@@ -43,7 +43,7 @@ namespace LASI.FileSystem
         }
 
         /// <summary>
-        /// Checks for the existence of the extension statiffied input file project sub-directories and creates them if they do not exist.
+        /// Checks for the existence of the extension statiffied input file project subject-directories and creates them if they do not exist.
         /// </summary>
         private static void CheckForInputDirectories() {
             foreach (var docPath in Directory.EnumerateFiles(DocFilesDir))
@@ -56,7 +56,7 @@ namespace LASI.FileSystem
                 TaggedFiles.Add(new TaggedFile(docPath));
         }
         /// <summary>
-        /// Checks for the existence of the project sub-directories and creates them if they do not exist.
+        /// Checks for the existence of the project subject-directories and creates them if they do not exist.
         /// </summary>
         private static void CheckProjectDirExistence() {
             foreach (var path in new[] { ProjectDir,

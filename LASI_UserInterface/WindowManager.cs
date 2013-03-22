@@ -9,7 +9,7 @@ namespace LASI.UserInterface
 {
     /// <summary>
     /// This class provides static access to each of the 5 windows defined by the lasi user interface
-    /// In addition to this, it defines some useful extension methods which _stream the manipulation of windows
+    /// In addition to this, it defines some useful extension methods which stream the manipulation of windows
     /// </summary>
     internal static class WindowManager
     {
