@@ -19,9 +19,14 @@ namespace LASI.Algorithm.Thesauri
             : base(filePath) {
             FilePath = filePath;
             LoadingStatus = ThesaurusLoadingState.NotInitiated;
-            AssociationData = new SortedList<string, SynonymSet>(25327);//Not a great practice, but the length of the file is fixed, making this a useful, but ugly optemization.
-            cachedData = new SortedList<string, IEnumerable<string>>(32000);//Again this is ugly, but its fairly performant at the moment.
+            AssociationData = new SortedList<string, SynonymSet>(AssociationDataMinCount);//Not a great practice, but the length of the file is fixed, making this a useful, but ugly optemization.
+            cachedData = new SortedList<string, IEnumerable<string>>(CachedDataMinCount);//Again this is ugly, but its fairly performant at the moment.
         }
+
+        private const int CachedDataMinCount= 32000;
+        
+
+        private const int AssociationDataMinCount = 25327;
 
         /// <summary>
         /// Parses the contents of the underlying WordNet database file.
@@ -29,32 +34,41 @@ namespace LASI.Algorithm.Thesauri
         public override void Load() {
             LoadingStatus = ThesaurusLoadingState.Initiated;
             using (var fileStream = new FileStream(FilePath, FileMode.Open, FileAccess.Read, FileShare.None, 10024, FileOptions.SequentialScan)) {
-                var reader = new StreamReader(fileStream);
+                using (var reader = new StreamReader(fileStream)) {
 
-                for (int i = 0; i < HEADER_LENGTH; ++i) {//Discard file header
-                    reader.ReadLine();
-                }
+                    for (int i = 0; i < HEADER_LENGTH; ++i) {//Discard file header
+                        reader.ReadLine();
+                    }
 
-                var fileLines = reader.ReadToEnd().Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
+                    var fileLines = reader.ReadToEnd().Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
 
-                foreach (var line in fileLines) {
+                    foreach (var line in fileLines) {
 
-                    var synset = BuildSynset(line);
-
-                    foreach (var word in synset.Members) {
-                        if (AssociationData.ContainsKey(word)) {
-                            AssociationData[word] = new SynonymSet(
-                                AssociationData[word].ReferencedIndexes.Concat(synset.ReferencedIndexes),
-                                AssociationData[word].Members.Concat(synset.Members));
-                        } else {
-                            AssociationData.Add(word, synset);
-                        }
+                        ParseLine(line);
 
                     }
-                    AssociationData.Add(synset.IndexCode, synset);
-
+                    LoadingStatus = ThesaurusLoadingState.Completed;
                 }
-                LoadingStatus = ThesaurusLoadingState.Completed;
+            }
+        }
+
+        private void ParseLine(string line) {
+            var synset = BuildSynset(line);
+
+            LinkSynset(synset);
+            AssociationData.Add(synset.IndexCode, synset);
+        }
+
+        private void LinkSynset(SynonymSet synset) {
+            foreach (var word in synset.Members) {
+                if (AssociationData.ContainsKey(word)) {
+                    AssociationData[word] = new SynonymSet(
+                        AssociationData[word].ReferencedIndexes.Concat(synset.ReferencedIndexes),
+                        AssociationData[word].Members.Concat(synset.Members));
+                } else {
+                    AssociationData.Add(word, synset);
+                }
+
             }
         }
 
