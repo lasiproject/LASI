@@ -13,7 +13,6 @@ namespace LASI.Algorithm.Thesuari
         public VerbConjugator(string exceptionsFilePath) {
             LoadExceptionFile(exceptionsFilePath);
 
-
         }
 
         private void LoadExceptionFile(string filePath) {

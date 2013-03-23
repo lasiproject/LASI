@@ -12,7 +12,7 @@ namespace Aluan_Experimentation
         //private static string textFilePath = @"C:\Users\Aluan\Desktop\sec2-2.txt";
         //private static string docxFilePath = @"C:\Users\Aluan\Desktop\sec2-2.docx";
         //private static string taggedFilePath = @"C:\Users\Aluan\Desktop\sec2-2.tagged";
-        static string testSentence = @"He ordered the fifth infantry unit under his command to attack at dawn.";
+        //static string testSentence = @"He ordered the fifth infantry unit under his command to attack at dawn.";
 
         static void Main(string[] args) {
             print("enter verb: ");

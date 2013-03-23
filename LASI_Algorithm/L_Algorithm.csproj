@@ -168,6 +168,7 @@
     <Compile Include="SyntaciticAndSemanticStructures\VerbRelatedConstructs\VerbTenses.cs" />
     <Compile Include="SyntaciticAndSemanticStructures\UnderpinningTypes\Word.cs" />
     <Compile Include="IEnumerableExtensions\IEnumerableOfWordExtensions.cs" />
+    <Compile Include="Thesuari\WordNetLexNames.cs" />
     <None Include="ClassDiagram1.cd" />
     <None Include="ClassDiagrams\NounConstructs.cd" />
     <None Include="ClassDiagrams\VerbConstructs.cd" />

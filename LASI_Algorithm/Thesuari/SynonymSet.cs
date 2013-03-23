@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LASI.Algorithm.Thesuari;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,9 +14,10 @@ namespace LASI.Algorithm.Thesauri
     /// </summary>
     internal class SynonymSet : IReadOnlyCollection<string>
     {
-        public SynonymSet(IEnumerable<string> referencedSetIds, IEnumerable<string> memberWords) {
+        public SynonymSet(IEnumerable<string> referencedSetIds, IEnumerable<string> memberWords, WordNetVerbLex lexName) {
             _members = memberWords.Distinct();
             _referencedIndexes = referencedSetIds;
+            LexName = lexName;
             IndexCode = referencedSetIds.First();
         }
 
@@ -80,6 +82,11 @@ namespace LASI.Algorithm.Thesauri
 
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() {
             throw new NotImplementedException();
+        }
+
+        public WordNetVerbLex LexName {
+            get;
+            set;
         }
     }
 }

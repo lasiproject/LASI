@@ -136,7 +136,6 @@
     <None Include="app.config">
       <SubType>Designer</SubType>
     </None>
-    <Shadow Include="Test References\Algorithm.accessor" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
