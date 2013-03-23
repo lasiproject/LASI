@@ -23,8 +23,8 @@ namespace LASI.Algorithm.Thesauri
             cachedData = new SortedList<string, IEnumerable<string>>(CachedDataMinCount);//Again this is ugly, but its fairly performant at the moment.
         }
 
-        private const int CachedDataMinCount= 32000;
-        
+        private const int CachedDataMinCount = 32000;
+
 
         private const int AssociationDataMinCount = 25327;
 
@@ -143,6 +143,31 @@ namespace LASI.Algorithm.Thesauri
         const int HEADER_LENGTH = 30;
 
 
+    }
+
+    sealed class VerbConjugator
+    {
+        VerbConjugator(string exceptionsFilePath) {
+            LoadExceptionFile(exceptionsFilePath);
+        }
+
+        private void LoadExceptionFile(string filePath) {
+            using (var reader = new StreamReader(filePath)) {
+                while (!reader.EndOfStream) {
+                    var keyVal = ProcessLine(reader.ReadLine());
+                    exceptionData.Add(keyVal.Key, keyVal.Value);
+                }
+            }
+        }
+
+        private KeyValuePair<string, string> ProcessLine(string exceptionLine) {
+            var kvstr = exceptionLine.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            return new KeyValuePair<string, string>(kvstr[1], kvstr[0]);
+        }
+        private readonly Dictionary<string, string> exceptionData = new Dictionary<string, string>();
+        public override string ToString() {
+            return exceptionData.Aggregate("", (accumulator, data) => accumulator += String.Format("{0} -> {1}\n", data.Key, data.Value));
+        }
     }
 }
 

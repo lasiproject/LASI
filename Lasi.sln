@@ -35,6 +35,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WordNetThesaurusData", "Wor
 		WordNetThesaurusData\index.noun = WordNetThesaurusData\index.noun
 		WordNetThesaurusData\index.sense = WordNetThesaurusData\index.sense
 		WordNetThesaurusData\index.verb = WordNetThesaurusData\index.verb
+		WordNetThesaurusData\verb.exc = WordNetThesaurusData\verb.exc
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "L_Utilities", "LASI_Utilities\L_Utilities.csproj", "{BC10A8F0-77FF-46D0-9F9A-38E2FDA22D21}"
