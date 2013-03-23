@@ -160,6 +160,7 @@
     <Compile Include="SyntaciticAndSemanticStructures\NounRelatedConstructs\ProperSingularNoun.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SyntaciticAndSemanticStructures\BridgingConstructs\ToLinker.cs" />
+    <Compile Include="Thesuari\VerbConjugator.cs" />
     <Compile Include="Thesuari\VerbThesaurus.cs" />
     <Compile Include="SyntaciticAndSemanticStructures\VerbRelatedConstructs\Verb.cs" />
     <Compile Include="SyntaciticAndSemanticStructures\VerbRelatedConstructs\VerbPhrase.cs" />

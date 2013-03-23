@@ -49,7 +49,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Returns the EntityKind indexed by the text of the entry.
         /// </summary>
-        /// <param name="entry">The entry to search for.</param>
+        /// <param name="entry">The entry to conjugated for.</param>
         /// <returns>The EntityKind corresponding to the entities text.</returns>
         /// <exception cref="KeyNotFoundException">
         /// Thrown when no EntityKind is indexed by the entity'd text.
@@ -60,7 +60,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Returns the EntityKind indexed by the given text.
         /// </summary>
-        /// <param name="entry">The text key to search for.</param>
+        /// <param name="entry">The text key to conjugated for.</param>
         /// <returns>The EntityKind corresponding to the provided text.</returns>
         /// <exception cref="KeyNotFoundException">
         /// Thrown when no EntityKind is indexed by the privded text.

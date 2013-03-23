@@ -105,6 +105,7 @@
     <Compile Include="SentenceTest.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="TransitiveVerbTest.cs" />
+    <Compile Include="VerbConjugatorTest.cs" />
     <Compile Include="VerbPhraseTest.cs" />
     <Compile Include="WeightTest.cs" />
     <Compile Include="WordTest.cs" />
@@ -135,6 +136,7 @@
     <None Include="app.config">
       <SubType>Designer</SubType>
     </None>
+    <Shadow Include="Test References\Algorithm.accessor" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

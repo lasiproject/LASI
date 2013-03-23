@@ -3,6 +3,7 @@ using LASI.Algorithm.Binding;
 using LASI.Algorithm.Thesauri;
 using LASI.Utilities;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 namespace Aluan_Experimentation
 {
@@ -14,9 +15,21 @@ namespace Aluan_Experimentation
         static string testSentence = @"He ordered the fifth infantry unit under his command to attack at dawn.";
 
         static void Main(string[] args) {
-            var docString = TaggerUtil.TagString(testSentence);
-       
-            BindAll(TaggerUtil.TaggedToDoc(docString));
+            print("enter verb: ");
+            for (var k = Console.ReadLine(); ; ) {
+                try {
+                    print(Thesauri.VerbThesaurus[k].OrderBy(o=>o).Aggregate("", (aggr, s) => s.PadRight(30)+", "+aggr));
+                } catch (ArgumentNullException) {
+                    print("no synonyms returned");
+                }
+                print("enter verb: ");
+                k = Console.ReadLine();
+            }
+
+
+            //var docString = TaggerUtil.TagString(testSentence);
+
+            //BindAll(TaggerUtil.TaggedToDoc(docString));
         }
 
         static void BindAll(Document doc) {

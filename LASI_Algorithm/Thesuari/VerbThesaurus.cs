@@ -1,5 +1,7 @@
-﻿using System;
+﻿using LASI.Algorithm.Thesuari;
+using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -88,22 +90,38 @@ namespace LASI.Algorithm.Thesauri
              */
 
             get {
-                if (!cachedData.ContainsKey(search)) {
+                foreach (var root in conjugator.TryExtractRoot(search)) {
+                    if (!cachedData.ContainsKey(root)) {
+                        try {
+
+                            cachedData.Add(root, (from M in AssociationData[root].ReferencedIndexes
+                                                    select M into Temp
+                                                    join R in AssociationData on Temp equals R.Key into ReferencedSets
+                                                    from R in ReferencedSets.Distinct()
+                                                    from RM in R.Value.Members
+                                                    select RM into RMG
+                                                    select new string[] { RMG }.Concat(conjugator.TryComputeConjugations(RMG)) into CJRM
+                                                    from C in CJRM
+                                                    select C).Distinct());
+                        } catch (KeyNotFoundException) {
+
+                        }
+
+                    }
+
+
                     try {
-                        cachedData.Add(search, (from M in AssociationData[search].ReferencedIndexes
-                                                select M into Temp
-                                                join R in AssociationData on Temp equals R.Key into ReferencedSets
-                                                from R in ReferencedSets.Distinct()
-                                                from RM in R.Value.Members
-                                                select RM).Distinct());
-                    } catch (KeyNotFoundException) {
-                        cachedData.Add(search, new List<string>());
+                        return cachedData[root];
+                    } catch (KeyNotFoundException ex) {
+                        Debug.WriteLine("No entry present in VerbThesaurus for {0}\n{1}", root, ex.Message);
+
                     }
                 }
-                return cachedData[search];
+                return null;
             }
-
         }
+
+
 
 
 
@@ -141,34 +159,12 @@ namespace LASI.Algorithm.Thesauri
         private SortedList<String, IEnumerable<string>> cachedData;
 
         const int HEADER_LENGTH = 30;
-
+        private VerbConjugator conjugator = new VerbConjugator(ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "verb.exc");
 
     }
 
-    sealed class VerbConjugator
-    {
-        VerbConjugator(string exceptionsFilePath) {
-            LoadExceptionFile(exceptionsFilePath);
-        }
 
-        private void LoadExceptionFile(string filePath) {
-            using (var reader = new StreamReader(filePath)) {
-                while (!reader.EndOfStream) {
-                    var keyVal = ProcessLine(reader.ReadLine());
-                    exceptionData.Add(keyVal.Key, keyVal.Value);
-                }
-            }
-        }
 
-        private KeyValuePair<string, string> ProcessLine(string exceptionLine) {
-            var kvstr = exceptionLine.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-            return new KeyValuePair<string, string>(kvstr[1], kvstr[0]);
-        }
-        private readonly Dictionary<string, string> exceptionData = new Dictionary<string, string>();
-        public override string ToString() {
-            return exceptionData.Aggregate("", (accumulator, data) => accumulator += String.Format("{0} -> {1}\n", data.Key, data.Value));
-        }
-    }
 }
 
 

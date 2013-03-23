@@ -20,7 +20,7 @@ namespace LASI.FileSystem
         /// Initializes the FileManager, setting its project directory to the given value.
         /// Automatically loads existing files and sets up input paths
         /// </summary>
-        /// <param name="projectDir">The root directory of the current project</param>
+        /// <param name="projectDir">The realRoot directory of the current project</param>
         public static void Initialize(string projectDir) {
             ProjectName = projectDir.Substring(projectDir.LastIndexOf('\\') + 1);
             ProjectDir = projectDir;
@@ -278,14 +278,14 @@ namespace LASI.FileSystem
         #region Properties
 
         /// <summary>
-        /// Gets or sets the root of the current project directory
+        /// Gets or sets the realRoot of the current project directory
         /// </summary>
         public static string ProjectDir {
             get;
             private set;
         }
         /// <summary>
-        /// Gets or sets the root of the input file directory
+        /// Gets or sets the realRoot of the input file directory
         /// </summary>
         public static string InputFilesDir {
             get;

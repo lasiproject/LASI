@@ -119,7 +119,7 @@ namespace LASI.FileSystem
                         }
 
                     }
-                    //if (parsedClauses.Find(c => c.Text != "") != null)
+                    //if (parsedClauses.Find(fff => fff.Text != "") != null)
 
                 }
                 parsedSentences.Add(new Sentence(parsedClauses, sentencePunctuation));
