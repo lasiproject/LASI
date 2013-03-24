@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using LASI.Algorithm.Weighting;
 using System.Xml.Linq;
 using LASI.Algorithm.FundamentalSyntacticInterfaces;
 
@@ -23,7 +22,6 @@ namespace LASI.Algorithm
         protected Word(string text) {
             ID = IDProvider++;
             Text = text;
-            Weights = new Dictionary<Weighting.WeightKind, Weighting.Weight>();
         }
 
 
@@ -128,9 +126,12 @@ namespace LASI.Algorithm
         }
 
 
-        public Dictionary<WeightKind, Weight> Weights {
+        /// <summary>
+        /// Gets the or sets the double precision numeric weight of the Word.
+        /// </summary>
+        public double Weight {
             get;
-            private set;
+            set;
         }
 
         #endregion
@@ -140,6 +141,7 @@ namespace LASI.Algorithm
         private static int IDProvider;
 
         #endregion
+
 
 
 

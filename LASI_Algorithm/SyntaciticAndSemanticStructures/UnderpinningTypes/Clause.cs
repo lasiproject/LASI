@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
-using LASI.Algorithm.Weighting;
 
 namespace LASI.Algorithm
 {
@@ -51,7 +50,6 @@ namespace LASI.Algorithm
             ParentSentence = sentence;
             foreach (var r in Phrases)
                 r.EstablishParent(this);
-            Weights = new Dictionary<WeightKind, Weight>();
         }
 
         /// <summary>
@@ -83,9 +81,13 @@ namespace LASI.Algorithm
             }
         }
 
-        public Dictionary<WeightKind, Weight> Weights {
+
+        /// <summary>
+        /// Gets the or sets the double precision numeric weight of the Clause.
+        /// </summary>
+        public double Weight {
             get;
-            protected set;
+            set;
         }
 
 

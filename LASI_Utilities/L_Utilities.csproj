@@ -50,6 +50,7 @@
     </Compile>
     <Compile Include="StandardOutputUtilities.cs" />
     <Compile Include="TaggerUtilites.cs" />
+    <Compile Include="Weight.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">

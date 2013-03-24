@@ -19,10 +19,11 @@ namespace LASI.Algorithm
             get;
         }
         /// <summary>
-        /// Gets the dictionary of Weight objects, indexed by weight kind, which stores all of the computed weights of the ILexical.
+        /// Gets the or sets the double precision numeric weight of the ILexical construct.
         /// </summary>
-        Dictionary<Weighting.WeightKind, Weighting.Weight> Weights {
+        double Weight {
             get;
+            set;
         }
     }
 }

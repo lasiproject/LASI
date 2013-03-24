@@ -1,4 +1,5 @@
-﻿using LASI.Algorithm.Weighting;
+﻿
+using LASI.Utilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LASI.Algorithm.Weighting
+namespace LASI.Utilities
 {
     public struct Weight
     {
@@ -85,5 +85,15 @@ namespace LASI.Algorithm.Weighting
         }
 
         #endregion
+    }
+}
+
+
+namespace LASI.Algorithm.Weighting
+{
+    public enum WeightKind
+    {
+        Individual,
+        Meta,
     }
 }

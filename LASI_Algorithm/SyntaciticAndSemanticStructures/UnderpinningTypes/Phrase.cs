@@ -23,7 +23,7 @@ namespace LASI.Algorithm
             ID = IDProvider++;
             Words = composedWords;
 
-            Weights = new Dictionary<Weighting.WeightKind, Weighting.Weight>();
+
         }
 
         #endregion
@@ -123,9 +123,12 @@ namespace LASI.Algorithm
             private set;
         }
 
-        public Dictionary<Weighting.WeightKind, Weighting.Weight> Weights {
+        /// <summary>
+        /// Gets the or sets the double precision numeric weight of the Phrase.
+        /// </summary>
+        public double Weight {
             get;
-            private set;
+            set;
         }
 
 

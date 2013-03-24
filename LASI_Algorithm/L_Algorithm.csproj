@@ -72,8 +72,6 @@
     <Compile Include="SyntaciticAndSemanticStructures\UnderpinningTypes\SubordinateClause.cs" />
     <Compile Include="SyntaciticAndSemanticStructures\VerbRelatedConstructs\GerundVerbPhrase.cs" />
     <Compile Include="SyntaciticAndSemanticStructures\MiscLanguageConstructs\InterjectionPhrase.cs" />
-    <Compile Include="Analysis\Weighting\WeightKind.cs" />
-    <Compile Include="Analysis\Weighting\Weight.cs" />
     <Compile Include="SyntaciticAndSemanticStructures\NounRelatedConstructs\EntityThemeMemberKind.cs" />
     <Compile Include="SyntaciticAndSemanticStructures\NounRelatedConstructs\PossessivePronoun.cs" />
     <Compile Include="SyntaciticAndSemanticStructures\NounRelatedConstructs\WhPossessivePronoun.cs" />
