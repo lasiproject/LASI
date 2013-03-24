@@ -188,7 +188,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///a test for AssociatedEntity
+        ///a test for PossessesFor
         ///</summary>
         [TestMethod()]
         public void PossesserTest() {

@@ -8,7 +8,7 @@ namespace LASI.Algorithm
     /// <summary>
     /// Represents a possessive ending such as 'd which indicates that the noun it follows has a possessive relationship with respect to the following Entity
     /// </summary>
-    public class PossessiveEnding : Word, IPossesser
+    public class PossessiveEnding : Word, IWeakPossessor
     {
         #region Constructors
         /// <summary>
@@ -27,20 +27,30 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="possession">The possession to add.</param>
         public void AddPossession(IEntity possession) {
-            if (!_possessed.Contains(possession)) {
-                possession.Possesser = AssociatedEntity;
+
+            if (PossessesFor != null) {
+                PossessesFor.AddPossession(possession);
+            } else if (!_possessed.Contains(possession)) {
                 _possessed.Add(possession);
             }
         }
+
 
         #region Properties
 
         /// <summary>
         /// Gets or sets the possessing the entity the Posssessive ending is attached to.
         /// </summary>
-        public IEntity AssociatedEntity {
-            get;
-            set;
+        public IEntity PossessesFor {
+            get {
+                return _possessedFor;
+            }
+            set {
+                _possessedFor = value;
+                foreach (var possession in _possessed)
+                    _possessedFor.AddPossession(possession);
+                _possessed.Clear();
+            }
         }
 
         /// <summary>
@@ -59,7 +69,10 @@ namespace LASI.Algorithm
         #endregion
 
         #region Fields
+
         private ICollection<IEntity> _possessed = new List<IEntity>();
+        private IEntity _possessedFor;
+
         #endregion
 
 

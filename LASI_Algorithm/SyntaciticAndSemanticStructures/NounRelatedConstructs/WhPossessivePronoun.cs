@@ -8,7 +8,7 @@ namespace LASI.Algorithm
     /// <summary>
     /// Represents a IsPossessive WH Pronoun such as "whose". IsPossessive WH Pronouns provide contextual ownership semantics.
     /// </summary>
-    public class WhPossessivePronoun : Pronoun, IPossesser
+    public class WhPossessivePronoun : PossessivePronoun
     {
         /// <summary>
         /// Initialiazes a new instance of the WhPossessivePronoun class.
@@ -18,10 +18,6 @@ namespace LASI.Algorithm
             : base(text) {
         }
 
-        public override void AddPossession(IEntity possession) {
-            if (BoundEntity != null) {
-                BoundEntity.AddPossession(possession);
-            }
-        }
+
     }
 }

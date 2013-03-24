@@ -68,6 +68,7 @@
     <Compile Include="SyntaciticAndSemanticStructures\NounRelatedConstructs\EntityKindLookup.cs" />
     <Compile Include="Analysis\Heuristics\IDocumentAnalyzer.cs" />
     <Compile Include="Analysis\Heuristics\Metric.cs" />
+    <Compile Include="SyntaciticAndSemanticStructures\NounRelatedConstructs\IWeakPossessor.cs" />
     <Compile Include="SyntaciticAndSemanticStructures\UnderpinningTypes\ConflictingClauseRoleException.cs" />
     <Compile Include="SyntaciticAndSemanticStructures\UnderpinningTypes\SubordinateClause.cs" />
     <Compile Include="SyntaciticAndSemanticStructures\VerbRelatedConstructs\GerundVerbPhrase.cs" />
