@@ -12,13 +12,13 @@ namespace LASI.Algorithm.Binding
             //Accounts for there being more than one word in a entity
             if (np.Words.Count() > 1) {
 
-                /*
+                
                 foreach (Word w in np.Words)
                 {
                     Console.Write("[{0}] ", w);
                 }
                 Console.Write("\n------\n");
-                */
+                
 
 
 
@@ -44,25 +44,24 @@ namespace LASI.Algorithm.Binding
                 {
                     foreach (Adjective adj in ListOfAdjectives)
                     {
-                        //Console.WriteLine(adj);
                         LastNoun.BindDescriber(adj);
                         adj.Described = LastNoun;
                     }
 
                     /*
-                    Console.Write("Last Noun: {0}, Described By: ", LastNoun);
+                    Console.Write("Last Noun: {0}, Described By: ", LastNoun.Text);
                     foreach (Adjective adj in LastNoun.DescribedBy)
                     {
-                        Console.Write("{0}, ", adj);
+                        Console.Write("{0}, ", adj.Text);
                     }
                     Console.WriteLine('\n');
-                     */
-                    /*
+                     
+                    
                     foreach (Adjective adj in ListOfAdjectives)
                     {
-                        Console.WriteLine("Adjective: {0}, Describes: {1}", adj, adj.Described);
+                        Console.WriteLine("Adjective: {0}, Describes: {1}", adj.Text, adj.Described.Text);
                     }
-                     */ 
+                    */ 
                 }
 
 
