@@ -5,6 +5,7 @@ using LASI.Utilities;
 using System;
 using System.Linq;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 namespace Aluan_Experimentation
 {
     public class Program
@@ -15,16 +16,22 @@ namespace Aluan_Experimentation
         static string testSentence = @"He ordered the fifty infantry units under his command to attack at dawn.";
 
         static void Main(string[] args) {
-            thes();
 
 
-            var docString = TaggerUtil.TagString(testSentence);
-            print(docString);
-           BindAll(TaggerUtil.TaggedToDoc(docString));
-           StdIO.WaitForKey();
+
+            //TestBinders();
+            TestThesaurus();
+            StdIO.WaitForKey();
         }
 
-        private static void thes() {
+        private static void TestBinders() {
+            var docString = TaggerUtil.TagString(testSentence);
+            print(docString);
+            BindAll(TaggerUtil.TaggedToDoc(docString));
+        }
+
+        private static async void TestThesaurus() {
+             await ThesaurusManager.LoadAllAsync() ;
             print("enter verb: ");
             for (var k = Console.ReadLine(); ; ) {
                 try {

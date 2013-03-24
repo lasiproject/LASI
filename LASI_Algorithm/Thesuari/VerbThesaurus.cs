@@ -52,6 +52,7 @@ namespace LASI.Algorithm.Thesauri
 
             LinkSynset(synset);
             AssociationData.Add(synset.IndexCode, synset);
+            //Console.Write("V ");
         }
 
         private void LinkSynset(SynonymSet synset) {
