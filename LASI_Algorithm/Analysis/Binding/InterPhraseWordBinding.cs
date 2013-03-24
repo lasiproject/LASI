@@ -76,6 +76,7 @@ namespace LASI.Algorithm.Binding
                 if (PosNoun != null)
                 {
                     Console.WriteLine("Pronoun: {0} => ", PosNoun.Text);
+                    LastNoun.Possesses = PosNoun;
                 }
 
 
