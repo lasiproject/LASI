@@ -12,6 +12,12 @@ namespace LASI.Algorithm.Binding
             //Accounts for there being more than one word in a entity
             if (np.Words.Count() > 1) {
 
+                /**
+                 * Noun Phrase Assumption:  The Last Noun in a Noun Phrase is the important one
+                 */
+                Noun LastNoun = np.Words.OfType<Noun>().Last();
+                
+
                 
                 foreach (Word w in np.Words)
                 {
@@ -25,7 +31,6 @@ namespace LASI.Algorithm.Binding
                 /**
                  * Binding determiners to last noun
                  */
-                Noun LastNoun = np.Words.OfType<Noun>().Last();
                 Determiner det1 = np.Words.OfType<Determiner>().FirstOrDefault();
                 if (det1 != null)
                 {
@@ -49,20 +54,34 @@ namespace LASI.Algorithm.Binding
                     }
 
                     /*
-                    Console.Write("Last Noun: {0}, Described By: ", LastNoun.Text);
+                    Console.Write("Last Noun: {0} => Described By: ", LastNoun.Text);
                     foreach (Adjective adj in LastNoun.DescribedBy)
                     {
                         Console.Write("{0}, ", adj.Text);
                     }
                     Console.WriteLine('\n');
-                     
-                    
+                    */ 
+                    /*
                     foreach (Adjective adj in ListOfAdjectives)
                     {
                         Console.WriteLine("Adjective: {0}, Describes: {1}", adj.Text, adj.Described.Text);
                     }
                     */ 
+
+
                 }
+
+                /**
+                 *  Binding first posessive pronoun to last noun
+                 */
+                 
+                if(np.Words.GetPronouns().FirstOrDefault() != null)
+                {
+                    Pronoun PosNoun = np.Words.GetPronouns().FirstOrDefault();
+                    Console.Write("Pronoun: {0}", PosNoun);
+                }
+
+
 
 
             }
