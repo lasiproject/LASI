@@ -12,8 +12,9 @@ namespace LASI.Algorithm
     /// <summary>
     /// Represents an adverb which can be bound as a modiffier to either a verb construct or an adjective construct.
     /// </summary>
-    public class Adverb : Word, IAdverbial
+    public class Adverb : Word, IAdverbial, IAdverbialModifiable
     {
+
         /// <summary>
         /// Initializes a new instance of the Adverb class.
         /// </summary>
@@ -29,5 +30,18 @@ namespace LASI.Algorithm
             set;
         }
 
+
+        public void ModifyWith(IAdverbial adv) {
+            if (!_modifiers.Contains(adv)) {
+                _modifiers.Add(adv);
+            }
+        }
+
+        public IEnumerable<IAdverbial> Modifiers {
+            get {
+                return _modifiers;
+            }
+        }
+        private ICollection<IAdverbial> _modifiers = new List<IAdverbial>();
     }
 }
