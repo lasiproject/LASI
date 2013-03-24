@@ -22,7 +22,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets or sets the IAdverbialModifiable construct; such as an Adjective, AdjectivePhrase, Verb, or VerbPhrase; which the AdverPhrase Modifies. 
         /// </summary>
-        public virtual IVerbial Modiffied {
+        public virtual IVerbial Modified {
             get;
             set;
         }

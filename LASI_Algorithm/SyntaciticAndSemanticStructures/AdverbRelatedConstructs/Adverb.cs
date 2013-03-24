@@ -25,7 +25,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets or sets the w or entity which the Adverb modiffies
         /// </summary>
-        public virtual IVerbial Modiffied {
+        public virtual IVerbial Modified {
             get;
             set;
         }

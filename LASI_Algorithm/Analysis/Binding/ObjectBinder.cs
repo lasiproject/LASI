@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LASI.Utilities;
 
 namespace LASI.Algorithm.Binding
 {
@@ -23,10 +24,13 @@ namespace LASI.Algorithm.Binding
 
         }
         public void Bind(Sentence sentence) {
+            this.Bind(sentence.Phrases);
+        }
+        public void Bind(IEnumerable<Phrase> contiguousPhrases) {
 
-            var phrases = sentence.Phrases.ToList();
+            var phrases = contiguousPhrases.ToList();
             var verbPhraseIndex = phrases.FindIndex(r => r is VerbPhrase);
-            _bindingTarget = sentence.Phrases.ElementAt(verbPhraseIndex) as VerbPhrase;
+            bindingTarget = contiguousPhrases.ElementAt(verbPhraseIndex) as VerbPhrase;
             var remainingPhrases = phrases.Skip(verbPhraseIndex + 1).Reverse();
             if (remainingPhrases.Count() > 0) {
                 inputstream.PushAll(remainingPhrases);
@@ -37,7 +41,7 @@ namespace LASI.Algorithm.Binding
         }
         private void AssociateDirect() {
             foreach (var e in entities) {
-                _bindingTarget.BindDirectObject(e);
+                bindingTarget.BindDirectObject(e);
             }
             entities.Clear();
             ConjunctNounPhrases.Clear();
@@ -46,14 +50,14 @@ namespace LASI.Algorithm.Binding
 
         private void AssociateIndirect() {
             foreach (var e in entities) {
-                _bindingTarget.BindIndirectObject(e);
+                bindingTarget.BindIndirectObject(e);
             }
             entities.Clear();
             ConjunctNounPhrases.Clear();
 
         }
         protected Stack<Phrase> inputstream = new Stack<Phrase>();
-        protected VerbPhrase _bindingTarget;
+        protected VerbPhrase bindingTarget;
         protected IEntity directObject;
         protected IEntity indirectObject;
         protected bool directFound = false;
@@ -147,11 +151,17 @@ namespace LASI.Algorithm.Binding
                 Machine.St0.ProcessNext(Stream.PopDynamic());
             }
             public virtual void ProcessNext(VerbPhrase phrase) {
-                new ObjectBinder().Bind(new Sentence(new[] { phrase }.Concat(Stream.ToList())));
+                new ObjectBinder().Bind(phrase.AsEnumerable().Concat(Stream.ToList()));
+            }
+            public virtual void ProcessNext(SubordinateClauseBeginPhrase phrase) {
+                var remainingPhrases = phrase.AsEnumerable().Concat(Stream.ToList());
+                var subClause = new ClauseTypes.SubordinateClause(remainingPhrases);
+                Machine.bindingTarget.ModifyWith(subClause);
+                new ObjectBinder().Bind(remainingPhrases);
             }
 
             public virtual void ProcessNext(AdverbPhrase phrase) {
-                Machine._bindingTarget.ModifyWith(phrase);
+                Machine.bindingTarget.ModifyWith(phrase);
                 Universal(phrase);
                 if (Stream.Count < 1)
                     return;
@@ -162,7 +172,7 @@ namespace LASI.Algorithm.Binding
                 if (Machine.lastPrepositional != null) {
                     phrase.PrepositionOnLeft = Machine.lastPrepositional;
                     Machine.lastPrepositional.OnRightSide = phrase;
-                    Machine._bindingTarget.AttachObjectViaPreposition(phrase.PrepositionOnLeft);
+                    Machine.bindingTarget.AttachObjectViaPreposition(phrase.PrepositionOnLeft);
                 }
                 Machine.entities.Push(phrase);
                 if (Machine.inputstream.Count < 1) {
@@ -261,7 +271,7 @@ namespace LASI.Algorithm.Binding
 
             public void ProcessNext(PrepositionalPhrase phrase) {
                 foreach (var e in Machine.entities)
-                    Machine._bindingTarget.BindDirectObject(e);
+                    Machine.bindingTarget.BindDirectObject(e);
                 Machine.lastPrepositional = phrase;
 
                 Machine.entities.Last().PrepositionOnRight = Machine.lastPrepositional;
@@ -275,7 +285,7 @@ namespace LASI.Algorithm.Binding
             }
             public void ProcessNext(NounPhrase phrase) {
                 foreach (var e in Machine.entities)
-                    Machine._bindingTarget.BindIndirectObject(e);
+                    Machine.bindingTarget.BindIndirectObject(e);
                 Machine.entities.Clear();
                 Machine.indirectFound = true;
                 Machine.ConjunctNounPhrases.Clear();
@@ -298,12 +308,12 @@ namespace LASI.Algorithm.Binding
 
             }
             public virtual void ProcessNext(AdverbPhrase phrase) {
-                Machine._bindingTarget.ModifyWith(phrase);
+                Machine.bindingTarget.ModifyWith(phrase);
                 Universal(phrase);
                 foreach (var e in Machine.entities) if (!Machine.directFound)
-                        Machine._bindingTarget.BindDirectObject(e);
+                        Machine.bindingTarget.BindDirectObject(e);
                     else
-                        Machine._bindingTarget.BindIndirectObject(e);
+                        Machine.bindingTarget.BindIndirectObject(e);
                 if (Stream.Count < 1)
                     return;
                 Machine.St0.ProcessNext(Stream.PopDynamic());

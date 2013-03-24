@@ -38,7 +38,7 @@ namespace LASI.Algorithm
         /// </summary>
         public string Text {
             get {
-                return Phrases.Aggregate(" ", (txt, phrase) => txt + phrase.Text);
+                return Phrases.Aggregate("", (txt, phrase) => txt += " " + phrase.Text).Trim();
             }
         }
 
@@ -70,18 +70,19 @@ namespace LASI.Algorithm
         }
 
 
-        /// <summary>
-        /// Gets a string containing the text of the Clause'd  constituents.
-        /// </summary>
-        string ILexical.Text {
-            get {
-                return (from r in Phrases
-                        from w in r.Words
-                        select w).Aggregate("", (sum, w) => sum += w.Text);
-            }
+        ///// <summary>
+        ///// Gets a string containing the text of the Clause'd  constituents.
+        ///// </summary>
+        //string ILexical.Text {
+        //    get {
+        //        return (from r in Phrases
+        //                select r).Aggregate("", (sum, r) => sum = sum+" "+r.Text).Trim();
+        //    }
+        //}
+
+        public override string ToString() {
+            return base.ToString() + " \"" + Text + "\"";
         }
-
-
         /// <summary>
         /// Gets the or sets the double precision numeric weight of the Clause.
         /// </summary>

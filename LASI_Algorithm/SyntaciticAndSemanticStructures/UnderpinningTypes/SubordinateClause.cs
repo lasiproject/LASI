@@ -39,14 +39,14 @@ namespace LASI.Algorithm.ClauseTypes
         /// Returns a string representation of the subordinate clause.
         /// </summary>
         /// <returns>a string representation of the subordinate clause.</returns>
-        public override string ToString() {
-            return base.ToString() +
-                Described != null ?
-                "\ndescribes" + Described.ToString() :
-                Modiffied != null ?
-                "\nmodifies: " + Modiffied.ToString() :
-                String.Empty;
-        }
+        //public override string ToString() {
+        //    var result = "";
+        //    if (Described != null)
+        //        result += "\ndescribes" + Described.ToString();
+        //    else if (Modified != null)
+        //        result += "\nmodifies: " + Modified.ToString();
+        //    return result;
+        //}
 
         #endregion
 
@@ -54,47 +54,46 @@ namespace LASI.Algorithm.ClauseTypes
         /// <summary>
         /// Gets or sets the Verbial construct which the subordinate clause modifies.
         /// </summary>
-        public IVerbial Modiffied {
-            get;
-            set;
-            //            get {
-            //                return _modiffied;
-            //            }
-            //            set {
-            //                if (Described == null)
-            //                    _modiffied = value;
-            //                else
-            //                    throw new ConflictingClauseRoleException(String.Format(@"Cannot bind {0}\n
-            //                                        as an Action discriptive modifier of {1}\n
-            //                                        because it is already indicated as an Action
-            //                                        descriptive modifier of\n{2}", this, value, Described));
-            //            }
+        public IVerbial Modified {
+            //get;
+            //set;
+            get {
+                return _modified;
+            }
+            set {
+                if (_described == null)
+                    _modified = value;
+                else
+                    throw new ConflictingClauseRoleException(String.Format(@"Cannot bind {0}\n
+                                                    as an Action discriptive modifier of {1}\n
+                                                    because it is already indicated as an Action
+                                                    descriptive modifier of\n{2}", this, value, _described));
+            }
         }
         /// <summary>
         /// Gets or sets the Entity construct which the subordinate clause describes.
         /// </summary>
         public IEntity Described {
-            get;
-            set;
-            //            get {
-            //                return _described;
-            //            }
-            //            set {
-            //                if (Modiffied == null)
-            //                    _described = value;
-            //                else
-            //                    throw new ConflictingClauseRoleException(
-            //                        String.Format(@"Cannot bind {0}\n
-            //                                        as an Entitiy discriptive modifier of {1}\n
-            //                                        because it is already indicated as an Action
-            //                                        descriptive modifier of\n{2}", this, value, Modiffied));
-            //            }
+
+            get {
+                return _described;
+            }
+            set {
+                if (_modified == null)
+                    _described = value;
+                else
+                    throw new ConflictingClauseRoleException(
+                        String.Format(@"Cannot bind {0}\n
+                                                    as an Entitiy discriptive modifier of {1}\n
+                                                    because it is already indicated as an Action
+                                                    descriptive modifier of\n{2}", this, value, _modified));
+            }
         }
         #endregion
 
         #region Fields
-        //private IEntity _described;
-        //private IVerbial _modiffied;
+        private IEntity _described;
+        private IVerbial _modified;
         #endregion
 
     }

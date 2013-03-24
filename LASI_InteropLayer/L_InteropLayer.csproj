@@ -61,10 +61,6 @@
       <Project>{6c8d6da8-bd8b-48c8-acb9-8fde7e3a672e}</Project>
       <Name>L_UserInterface</Name>
     </ProjectReference>
-    <ProjectReference Include="..\LASI_Utilities\L_Utilities.csproj">
-      <Project>{bc10a8f0-77ff-46d0-9f9a-38e2fda22d21}</Project>
-      <Name>L_Utilities</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

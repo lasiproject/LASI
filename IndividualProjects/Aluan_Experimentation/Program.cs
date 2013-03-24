@@ -1,9 +1,9 @@
 ﻿using LASI.Algorithm;
 using LASI.Algorithm.Binding;
 using LASI.Algorithm.Thesauri;
-using LASI.Utilities;
 using System;
 using System.Linq;
+using LASI.Utilities;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 namespace Aluan_Experimentation
@@ -13,14 +13,14 @@ namespace Aluan_Experimentation
         //private static string textFilePath = @"C:\Users\Aluan\Desktop\sec2-2.txt";
         //private static string docxFilePath = @"C:\Users\Aluan\Desktop\sec2-2.docx";
         //private static string taggedFilePath = @"C:\Users\Aluan\Desktop\sec2-2.tagged";
-        static string testSentence = @"He ordered the fifty infantry units under his command to attack at dawn.";
+        static string testSentence = @"The roughly and deeply trodden path gave way before him quickly as he hurried onwards.";
 
         static void Main(string[] args) {
 
 
 
-            //TestBinders();
-            TestThesaurus();
+            TestBinders();
+            //TestThesaurus();
             StdIO.WaitForKey();
         }
 
@@ -31,7 +31,7 @@ namespace Aluan_Experimentation
         }
 
         private static async void TestThesaurus() {
-             await ThesaurusManager.LoadAllAsync() ;
+            await ThesaurusManager.LoadAllAsync();
             print("enter verb: ");
             for (var k = Console.ReadLine(); ; ) {
                 try {

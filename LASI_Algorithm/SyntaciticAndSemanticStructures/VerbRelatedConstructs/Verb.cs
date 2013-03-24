@@ -35,7 +35,7 @@ namespace LASI.Algorithm
         /// <param name="adv"></param>
         public virtual void ModifyWith(IAdverbial adv) {
             _modifiers.Add(adv);
-            adv.Modiffied = this;
+            adv.Modified = this;
         }
 
         /// <summary>

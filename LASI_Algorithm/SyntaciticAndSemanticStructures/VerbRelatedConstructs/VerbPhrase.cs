@@ -40,6 +40,7 @@ namespace LASI.Algorithm
         /// <param name="adv">The Adverbial construct by which to modify the AdjectivePhrase.</param>
         public void ModifyWith(IAdverbial adv) {
             _modifiers.Add(adv);
+            adv.Modified = this;
         }
         /// <summary>
         /// Binds the VerbPhrase to an object via a propisitional construct such as a Prepositon or or PrepositionalPhrase.

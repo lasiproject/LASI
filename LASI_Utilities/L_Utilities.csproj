@@ -49,7 +49,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="StandardOutputUtilities.cs" />
-    <Compile Include="TaggerUtilites.cs" />
     <Compile Include="Weight.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -60,16 +59,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\LASI_Algorithm\L_Algorithm.csproj">
-      <Project>{8c562a93-a885-4fe9-8b8c-5ce34ccbaec1}</Project>
-      <Name>L_Algorithm</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\LASI_FileSystem\L_FileSystem.csproj">
-      <Project>{f13d6c6d-a004-45bd-8fb8-e044e20f1204}</Project>
-      <Name>L_FileSystem</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -63,7 +63,7 @@ namespace AlgorithmAssemblyUnitTestProject
 
 
         /// <summary>
-        ///a test for Modiffied
+        ///a test for Modified
         ///</summary>
         [TestMethod()]
         public void ModiffiedTest() {
@@ -71,8 +71,8 @@ namespace AlgorithmAssemblyUnitTestProject
             Adverb target = new Adverb(text);
             IVerbial expected = new Verb("run", VerbTense.Base);
             IVerbial actual;
-            target.Modiffied = expected;
-            actual = target.Modiffied;
+            target.Modified = expected;
+            actual = target.Modified;
             Assert.AreEqual(expected, actual);
         }
 
@@ -83,7 +83,7 @@ namespace AlgorithmAssemblyUnitTestProject
         public void AdverbConstructorTest() {
             string text = "quickly";
             Adverb target = new Adverb(text);
-            Assert.IsTrue(target.Text == "quickly" && target.Modiffied == null);
+            Assert.IsTrue(target.Text == "quickly" && target.Modified == null);
         }
     }
 }
