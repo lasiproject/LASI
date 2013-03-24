@@ -40,7 +40,7 @@ namespace LASI.Algorithm
         }
 
         public virtual bool Equals(IEntity other) {
-            return (Pronoun) other == this;
+            return other as Pronoun == this;
         }
 
         #endregion
@@ -138,8 +138,13 @@ namespace LASI.Algorithm
         /// <param name="B">The Pronoun on the Left hand side of the operator.</param>
         /// <returns>True if the Pronouns are equal and False otherwise.</returns>
         public static bool operator ==(Pronoun A, Pronoun B) {
+            if (A as object == null)
+                return B as object== null;
+            if (B as object == null)
+                return A as object== null;
+
             return A.Text == B.Text && (
-            A.BoundEntity.Equals(B.BoundEntity) || (A.BoundEntity == null) && B.BoundEntity == null);
+        (A.BoundEntity == null) && B.BoundEntity == null) && A.BoundEntity.Equals(B.BoundEntity);
         }
         /// <summary>
         /// This Pronoun specialized implementation of the Inquality Operator returns True if its operands refer to different entities and or are composed of different text.
