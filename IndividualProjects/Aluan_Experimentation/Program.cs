@@ -13,7 +13,7 @@ namespace Aluan_Experimentation
         //private static string textFilePath = @"C:\Users\Aluan\Desktop\sec2-2.txt";
         //private static string docxFilePath = @"C:\Users\Aluan\Desktop\sec2-2.docx";
         //private static string taggedFilePath = @"C:\Users\Aluan\Desktop\sec2-2.tagged";
-        static string testSentence = @"The roughly and deeply trodden path gave way before him quickly as he hurried onwards.";
+        static string testSentence = @"The Boy rides his big bold bike up a large steep hill.  The tiny brown dog watched.";
 
         static void Main(string[] args) {
 
@@ -21,6 +21,11 @@ namespace Aluan_Experimentation
 
             TestBinders();
             //TestThesaurus();
+
+            //var doc = TaggerUtil.UntaggedToDoc(testSentence);
+            //foreach (var r in doc.Phrases)
+            //    foreach (var w in doc.Words)
+            //        print(w);
             StdIO.WaitForKey();
         }
 
@@ -45,15 +50,21 @@ namespace Aluan_Experimentation
         }
 
         static void BindAll(Document doc) {
-            var subjectBinder = new SubjectBinder();
+
             var objectBinder = new ObjectBinder();
 
             foreach (var sentence in doc.Sentences) {
-                subjectBinder.Bind(sentence);
+                new SubjectBinder().Bind(sentence);
                 objectBinder.Bind(sentence);
             }
-            foreach (var phrase in doc.Phrases)
-                print(phrase);
+            var nounBinder = new LASI.Algorithm.Binding.InterPhraseWordBinding();
+            foreach (var phrase in doc.Phrases.GetNounPhrases())
+                nounBinder.InterNounPhrase(phrase);
+            foreach (var sentence in doc.Sentences) {
+                foreach (var phrase in sentence.Phrases)
+                    print(phrase);
+                print("\n");
+            }
 
         }
 
