@@ -1,4 +1,4 @@
-﻿namespace LASI.Algorithm.Thesuari
+﻿namespace LASI.Algorithm.Thesauri
 {
     public enum WordNetVerbLex
     {

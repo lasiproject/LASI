@@ -12,24 +12,29 @@ namespace Aluan_Experimentation
         //private static string textFilePath = @"C:\Users\Aluan\Desktop\sec2-2.txt";
         //private static string docxFilePath = @"C:\Users\Aluan\Desktop\sec2-2.docx";
         //private static string taggedFilePath = @"C:\Users\Aluan\Desktop\sec2-2.tagged";
-        //static string testSentence = @"He ordered the fifth infantry unit under his command to attack at dawn.";
+        static string testSentence = @"He ordered the fifty infantry units under his command to attack at dawn.";
 
         static void Main(string[] args) {
+            thes();
+
+
+            var docString = TaggerUtil.TagString(testSentence);
+            print(docString);
+           BindAll(TaggerUtil.TaggedToDoc(docString));
+           StdIO.WaitForKey();
+        }
+
+        private static void thes() {
             print("enter verb: ");
             for (var k = Console.ReadLine(); ; ) {
                 try {
-                    print(Thesauri.VerbThesaurus[k].OrderBy(o=>o).Aggregate("", (aggr, s) => s.PadRight(30)+", "+aggr));
+                    print(ThesaurusManager.VerbThesaurus[k].OrderBy(o => o).Aggregate("", (aggr, s) => s.PadRight(30) + ", " + aggr));
                 } catch (ArgumentNullException) {
                     print("no synonyms returned");
                 }
                 print("enter verb: ");
                 k = Console.ReadLine();
             }
-
-
-            //var docString = TaggerUtil.TagString(testSentence);
-
-            //BindAll(TaggerUtil.TaggedToDoc(docString));
         }
 
         static void BindAll(Document doc) {

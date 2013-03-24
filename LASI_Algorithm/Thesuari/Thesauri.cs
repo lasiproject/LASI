@@ -7,23 +7,28 @@ using System.Configuration;
 
 namespace LASI.Algorithm.Thesauri
 {
-    public static class Thesauri
+    public static class ThesaurusManager
     {
         private static readonly string nounThesaurusFilePath = ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "data.noun";
         private static readonly string verbThesaurusFilePath = ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "data.verb";
-        static Thesauri() {
-            NounThesaurus = new LASI.Algorithm.Thesauri.NounThesaurus(nounThesaurusFilePath);
+        static ThesaurusManager() {
+            NounThesaurus = new NounThesaurus(nounThesaurusFilePath);
             NounThesaurus.Load();
-            VerbThesaurus = new LASI.Algorithm.Thesauri.VerbThesaurus(verbThesaurusFilePath);
+            VerbThesaurus = new VerbThesaurus(verbThesaurusFilePath);
             VerbThesaurus.Load();
         }
-
-        public static LASI.Algorithm.Thesauri.NounThesaurus NounThesaurus {
+        public static IEnumerable<string> Lookup(Verb verb) {
+            return VerbThesaurus[verb];
+        }
+        public static IEnumerable<string> Lookup(Noun verb) {
+            throw new NotImplementedException();
+        }
+        public static NounThesaurus NounThesaurus {
             get;
             private set;
         }
 
-        public static LASI.Algorithm.Thesauri.VerbThesaurus VerbThesaurus {
+        public static VerbThesaurus VerbThesaurus {
             get;
             private set;
         }

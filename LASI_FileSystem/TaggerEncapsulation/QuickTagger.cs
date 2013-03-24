@@ -15,7 +15,7 @@ namespace SharpNLPTaggingModule
         }
 
         public string TagString(string source) {
-            SourceText = source;
+            SourceText =base.PreProcessText( source);
             return base.ParseViaTaggingMode();
 
         }

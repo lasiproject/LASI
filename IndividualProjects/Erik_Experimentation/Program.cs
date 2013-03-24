@@ -13,7 +13,7 @@ using LASI.Algorithm.Binding;
 using LASI.Algorithm;
 using LASI.FileSystem;
 using LASI.Algorithm.Weighting;
-using LASI.Algorithm.Thesauri;
+using LASI.Algorithm.Thesuari;
 
 
 namespace Erik_Experimentation
@@ -24,7 +24,7 @@ namespace Erik_Experimentation
         static void Main(string[] args)
         {
 
-                   //var nounTest = new LASI.Algorithm.Thesauri.NounThesaurus(@"..\..\..\..\WordNetThesaurusData\data.noun");
+                   //var nounTest = new LASI.Algorithm.Thesuari.NounThesaurus(@"..\..\..\..\WordNetThesaurusData\data.noun");
                    //nounTest.Load();
                    //string key = "walk";
                    //nounTest.SearchFor(key);

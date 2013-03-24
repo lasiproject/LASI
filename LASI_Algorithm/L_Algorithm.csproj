@@ -109,7 +109,6 @@
     <Compile Include="Thesuari\NounThesaurus.cs" />
     <Compile Include="Thesuari\SynSet.cs" />
     <Compile Include="Thesuari\Thesauri.cs" />
-    <Compile Include="Thesuari\ThesaurusLoadingState.cs" />
     <Compile Include="SyntaciticAndSemanticStructures\AdjectiveRelatedConstructs\Adjective.cs" />
     <Compile Include="SyntaciticAndSemanticStructures\AdjectiveRelatedConstructs\AdjectivePhrase.cs" />
     <Compile Include="SyntaciticAndSemanticStructures\AdverbRelatedConstructs\Adverb.cs" />

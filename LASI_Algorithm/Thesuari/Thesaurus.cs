@@ -29,9 +29,7 @@ namespace LASI.Algorithm.Thesauri
         public abstract void Load();
 
         public virtual async Task LoadAsync() {
-            LoadingStatus = ThesaurusLoadingState.Initiated;
             await Task.Run(() => Load());
-            LoadingStatus = ThesaurusLoadingState.Completed;
         }
 
         public abstract IEnumerable<string> this[string search] {
@@ -41,19 +39,10 @@ namespace LASI.Algorithm.Thesauri
         public abstract IEnumerable<string> this[Word search] {
             get;
         }
-
-        /// <summary>
-        ///gets the current state of the file loading process
-        /// </summary>
-        public  ThesaurusLoadingState LoadingStatus {
-            get;
-            protected set;
-        }
-
         /// <summary>
         /// gets or sets all of the synsets in the Thesaurus
         /// </summary>
-        internal  IDictionary<string, SynonymSet> AssociationData {
+        internal IDictionary<string, SynonymSet> AssociationData {
             get;
             set;
         }

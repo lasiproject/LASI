@@ -20,9 +20,8 @@ namespace LASI.Algorithm.Thesauri
         public VerbThesaurus(string filePath, bool constrainByCategory = false)
             : base(filePath) {
             FilePath = filePath;
-            LoadingStatus = ThesaurusLoadingState.NotInitiated;
-            AssociationData = new SortedList<string, SynonymSet>(AssociationDataMinCount);//Not a great practice, but the length of the file is fixed, making this a useful, but ugly optemization.
-            cachedData = new SortedList<string, IEnumerable<string>>(CachedDataMinCount);//Again this is ugly, but its fairly performant at the moment.
+            AssociationData = new SortedDictionary<string, SynonymSet>();//Not a great practice, but the length of the file is fixed, making this a useful, but ugly optemization.
+            cachedData = new SortedDictionary<string, IEnumerable<string>>();//Again this is ugly, but its fairly performant at the moment.
             lexRestrict = constrainByCategory;
         }
 
@@ -35,22 +34,15 @@ namespace LASI.Algorithm.Thesauri
         /// Parses the contents of the underlying WordNet database file.
         /// </summary>
         public override void Load() {
-            LoadingStatus = ThesaurusLoadingState.Initiated;
             using (var fileStream = new FileStream(FilePath, FileMode.Open, FileAccess.Read, FileShare.None, 10024, FileOptions.SequentialScan)) {
                 using (var reader = new StreamReader(fileStream)) {
-
                     for (int i = 0; i < HEADER_LENGTH; ++i) {//Discard file header
                         reader.ReadLine();
                     }
-
                     var fileLines = reader.ReadToEnd().Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
-
                     foreach (var line in fileLines) {
-
                         ParseLine(line);
-
                     }
-                    LoadingStatus = ThesaurusLoadingState.Completed;
                 }
             }
         }
@@ -83,13 +75,6 @@ namespace LASI.Algorithm.Thesauri
         /// <param name="search">The text of the verb to look for.</param>
         /// <returns>a collection of strings containing all of the synonyms of the given verb.</returns>
         public override IEnumerable<string> this[string search] {
-            /*
-             *   First, access the synset(d) which literally contain the search string text.
-             *   Next, aggregate their external set keys and perform a lookup.
-             *   Finally, merge the synsets yielded from these lookups aggregating their members as strings.
-             * 
-             */
-
             get {
                 foreach (var root in conjugator.TryExtractRoot(search)) {
                     if (!cachedData.ContainsKey(root)) {
@@ -97,14 +82,14 @@ namespace LASI.Algorithm.Thesauri
                             cachedData.Add(root, (from REF in AssociationData[root].ReferencedIndexes //Get all set reference indeces stored directly within 
                                                   select new {                                        //The synset indexed by the word
                                                       ind = REF,                                      //Store the LexName for restrictive comparison if enabled
-                                                      lex = AssociationData[root].LexName
+                                                      lex = lexRestrict ? AssociationData[root].LexName : WordNetVerbLex.ARBITRARY
                                                   } into Temp
                                                   join REF in AssociationData on new {                //Now group join all synsets in the entire 
                                                       Temp.ind,                                       //thesaurus which reference the set above 
                                                       Temp.lex
                                                   } equals new {
                                                       ind = REF.Key,
-                                                      lex = REF.Value.LexName
+                                                      lex = lexRestrict ? REF.Value.LexName : WordNetVerbLex.ARBITRARY
                                                   } into ReferencedSets                                //The result of our group join contains all referenced sets
                                                   from R in ReferencedSets.Distinct()
                                                   from RM in R.Value.Members                           //Now aggregate all words directly contained within the group
@@ -113,17 +98,12 @@ namespace LASI.Algorithm.Thesauri
                                                   from C in CJRM                                       //Now simply remove any duplicates
                                                   select C).Distinct());
                         } catch (KeyNotFoundException) {
-
                         }
-
                     }
-
-
                     try {
                         return cachedData[root];
                     } catch (KeyNotFoundException ex) {
                         Debug.WriteLine("No entry present in VerbThesaurus for {0}\n{1}", root, ex.Message);
-
                     }
                 }
                 return null;
@@ -149,7 +129,7 @@ namespace LASI.Algorithm.Thesauri
 
         private SynonymSet BuildSynset(string data) {
 
-            var WNlexNameCode = lexRestrict ? (WordNetVerbLex) Int32.Parse(data.Substring(9, 2)) : WordNetVerbLex.ARBITRARY;
+            var WNlexNameCode = (WordNetVerbLex) Int32.Parse(data.Substring(9, 2));
 
             data = Regex.Replace(data, @"([+]+|;c+)+[\s]+[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+", "");
 
@@ -167,7 +147,7 @@ namespace LASI.Algorithm.Thesauri
             return new SynonymSet(setReferences, setElements, WNlexNameCode);
         }
 
-        private SortedList<String, IEnumerable<string>> cachedData;
+        private SortedDictionary<String, IEnumerable<string>> cachedData;
 
         const int HEADER_LENGTH = 30;
         private VerbConjugator conjugator = new VerbConjugator(ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "verb.exc");
