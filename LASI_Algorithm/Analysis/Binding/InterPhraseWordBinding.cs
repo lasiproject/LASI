@@ -17,7 +17,6 @@ namespace LASI.Algorithm.Binding
                  */
                 Noun LastNoun = np.Words.OfType<Noun>().Last();
                 
-
                 
                 foreach (Word w in np.Words)
                 {
@@ -25,7 +24,6 @@ namespace LASI.Algorithm.Binding
                 }
                 Console.Write("\n------\n");
                 
-
 
 
                 /**
@@ -67,18 +65,17 @@ namespace LASI.Algorithm.Binding
                         Console.WriteLine("Adjective: {0}, Describes: {1}", adj.Text, adj.Described.Text);
                     }
                     */ 
-
-
                 }
+
+
 
                 /**
                  *  Binding first posessive pronoun to last noun
                  */
-                 
-                if(np.Words.GetPronouns().FirstOrDefault() != null)
+                var PosNoun = np.Words.OfType<PossessivePronoun>().FirstOrDefault();
+                if (PosNoun != null)
                 {
-                    Pronoun PosNoun = np.Words.GetPronouns().FirstOrDefault();
-                    Console.Write("Pronoun: {0}", PosNoun);
+                    Console.WriteLine("Pronoun: {0} => ", PosNoun.Text);
                 }
 
 
