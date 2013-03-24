@@ -84,10 +84,14 @@ namespace Scott_Experimentation
 
             */
 
+            string TestString = "The Boy rides his big bold bike up a large steep hill.  The tiny brown dog watched.";
+            var DocTest = LASI.Utilities.TaggerUtil.UntaggedToDoc(TestString);
+
             Console.WriteLine(sep);
-            Console.WriteLine("~~~~~~~~~~~~~~~~~~~~  Below Are NounPhrases ~~~~~~~~~~~~~~~~~~~~~~");
+            Console.WriteLine("NounPhrases:\n");
             InterPhraseWordBinding ip1 = new InterPhraseWordBinding();
-            foreach (var phrs in document.Phrases.GetNounPhrases()) {
+            foreach (var phrs in DocTest.Phrases.GetNounPhrases())
+            {
                 ip1.InterNounPhrase(phrs);
             }
             
