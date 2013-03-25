@@ -15,6 +15,7 @@ namespace LASI.Algorithm.Binding
                 /**
                  * Noun Phrase Assumption:  The Last Noun in a Noun Phrase is the important one
                  */
+       
                 Noun LastNoun = np.Words.OfType<Noun>().Last();
                 
                 
@@ -22,6 +23,7 @@ namespace LASI.Algorithm.Binding
                 {
                     Console.Write("[{0}] ", w);
                 }
+                Console.Write("\nLast Noun: {0}", LastNoun);
                 Console.Write("\n------\n");
                 
 
@@ -34,7 +36,7 @@ namespace LASI.Algorithm.Binding
                 {
                     LastNoun.BindDeterminer(det1);
                     det1.Determines = LastNoun;
-                    //Console.WriteLine("Last Noun: {0}, Determined By: {1}", LastNoun, LastNoun.DeterminedBy);
+                    //Console.WriteLine("Last Noun: {0}, Determined By: {1}", LastNoun.Text, LastNoun.DeterminedBy.Text);
                     //Console.WriteLine("Determiner: {0}, Determines: {1}", det1, det1.Determines);
                 }
 
@@ -58,13 +60,13 @@ namespace LASI.Algorithm.Binding
                         Console.Write("{0}, ", adj.Text);
                     }
                     Console.WriteLine('\n');
-                    */ 
+                    */
                     /*
                     foreach (Adjective adj in ListOfAdjectives)
                     {
                         Console.WriteLine("Adjective: {0}, Describes: {1}", adj.Text, adj.Described.Text);
                     }
-                    */ 
+                    */
                 }
 
 
@@ -75,7 +77,17 @@ namespace LASI.Algorithm.Binding
                 var PosNoun = np.Words.OfType<PossessivePronoun>().FirstOrDefault();
                 if (PosNoun != null)
                 {
-                    Console.WriteLine("Pronoun: {0} => ", PosNoun.Text);
+                    PosNoun.AddPossession(LastNoun);
+                    
+                    
+                    /*
+                    Console.Write("Pronoun: {0} => ", PosNoun.Text);
+                    foreach (var p in PosNoun.Possessed)
+                    {
+                        Console.Write("  {0}", p.Text);
+                    }
+                    Console.Write("\n");
+                     */
                 }
 
 
