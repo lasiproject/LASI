@@ -81,7 +81,7 @@ namespace LASI.UserInterface
                 ProjCreateErrorLabel.Visibility = Visibility.Visible;
                 ProjNameErrorLabel.Visibility = Visibility.Visible;
                 
-                //Create an event handler as a local variable.
+                //Create an event handler as a local variable. The reason for this is so that it can refer to itself later
                 TextChangedEventHandler resetErrorFunc = null;
                 //Set the value of that event handler to a function which does two things when invoked
                 //1. It hides the error labels
@@ -89,7 +89,7 @@ namespace LASI.UserInterface
                 resetErrorFunc = (S, E) => {
                     ProjNameErrorLabel.Visibility = Visibility.Hidden;
                     ProjCreateErrorLabel.Visibility = Visibility.Hidden;
-                    EnteredProjectName.TextChanged -= resetErrorFunc;
+                    EnteredProjectName.TextChanged -= resetErrorFunc; //The function refers to itself by name, allowing it to remove itself.
                 };
                 //Add the self removing function to the invocation list of EnteredProjectName's TextChanged event
                 EnteredProjectName.TextChanged += resetErrorFunc;
