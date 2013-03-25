@@ -25,11 +25,10 @@ namespace LASI.UserInterface
         public CreateProjectScreen() {
             InitializeComponent();
             LastLoadedProjectName = "";
-
             this.Closing += (s, e) => Application.Current.Shutdown();
         }
 
-
+    
 
 
         #region EventHandlers
@@ -72,6 +71,7 @@ namespace LASI.UserInterface
         private void CreateButton_Click(object sender, RoutedEventArgs e) {
             if (ValidateProjectNameField()) {
                 LastLoadedProjectName = EnteredProjectName.Text;
+                // this.Content = WindowManager.LoadedProjectScreen.Content;
                 this.SwapWith(WindowManager.LoadedProjectScreen);
                 WindowManager.LoadedProjectScreen.SetTitle(LastLoadedProjectName + " - L.A.S.I.");
                 WindowManager.LoadedProjectScreen.Show();
@@ -80,20 +80,19 @@ namespace LASI.UserInterface
                 ProjCreateErrorLabel.Content = "Project must have a name";
                 ProjCreateErrorLabel.Visibility = Visibility.Visible;
                 ProjNameErrorLabel.Visibility = Visibility.Visible;
-
-                //Function to hide the error labels. This is a named event handler so that we can remove it by name
-                TextChangedEventHandler resetErrorFunc = (S, E) => {
+                
+                //Create an event handler as a local variable.
+                TextChangedEventHandler resetErrorFunc = null;
+                //Set the value of that event handler to a function which does two things when invoked
+                //1. It hides the error labels
+                //2. It removes itself from the invocation list of the event it will be added to
+                resetErrorFunc = (S, E) => {
                     ProjNameErrorLabel.Visibility = Visibility.Hidden;
                     ProjCreateErrorLabel.Visibility = Visibility.Hidden;
+                    EnteredProjectName.TextChanged -= resetErrorFunc;
                 };
-                //Add the eventhandler function above to be called when the text is changed in the name entry box
+                //Add the self removing function to the invocation list of EnteredProjectName's TextChanged event
                 EnteredProjectName.TextChanged += resetErrorFunc;
-                //Add another function to the name entry box's TextChanged event.
-                //This function removes the resetErrorFunc function from the event handler list. 
-                //Multiple functions can be bound to the same event, and they get called in the order they are added.
-                EnteredProjectName.TextChanged += (S, E) => {
-                    EnteredProjectName.TextChanged -= (resetErrorFunc);
-                };
             }
         }
 
