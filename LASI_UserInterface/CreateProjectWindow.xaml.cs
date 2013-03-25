@@ -72,7 +72,6 @@ namespace LASI.UserInterface
         private void CreateButton_Click(object sender, RoutedEventArgs e) {
             if (ValidateProjectNameField()) {
                 LastLoadedProjectName = EnteredProjectName.Text;
-                // this.Content = WindowManager.LoadedProjectScreen.Content;
                 this.SwapWith(WindowManager.LoadedProjectScreen);
                 WindowManager.LoadedProjectScreen.SetTitle(LastLoadedProjectName + " - L.A.S.I.");
                 WindowManager.LoadedProjectScreen.Show();
@@ -82,13 +81,16 @@ namespace LASI.UserInterface
                 ProjCreateErrorLabel.Visibility = Visibility.Visible;
                 ProjNameErrorLabel.Visibility = Visibility.Visible;
 
+                //Function to hide the error labels. This is a named event handler so that we can remove it by name
                 TextChangedEventHandler resetErrorFunc = (S, E) => {
                     ProjNameErrorLabel.Visibility = Visibility.Hidden;
                     ProjCreateErrorLabel.Visibility = Visibility.Hidden;
                 };
-
+                //Add the eventhandler function above to be called when the text is changed in the name entry box
                 EnteredProjectName.TextChanged += resetErrorFunc;
-
+                //Add another function to the name entry box's TextChanged event.
+                //This function removes the resetErrorFunc function from the event handler list. 
+                //Multiple functions can be bound to the same event, and they get called in the order they are added.
                 EnteredProjectName.TextChanged += (S, E) => {
                     EnteredProjectName.TextChanged -= (resetErrorFunc);
                 };
