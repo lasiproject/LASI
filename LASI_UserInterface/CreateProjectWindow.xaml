@@ -47,6 +47,9 @@
                 <Button Content="+" Height="27" Canvas.Left="415" Canvas.Top="127" Width="38" FontSize="16"/>
                 <ListBox Name="documentsAdded" Height="100" Canvas.Left="10" Canvas.Top="163" Width="216"/>
                 <WrapPanel Name="xbuttons" Height="98" Canvas.Left="231" Canvas.Top="165" Width="20"/>
+                <Label Name="ProjNameErrorLabel" Content="Error" Canvas.Left="109" Canvas.Top="51" Height="27" Width="41" Foreground="Red" Visibility="Hidden"/>
+                <Label Name="ProjLocationErrorLabel" Content="Error" Canvas.Left="109" Canvas.Top="88" Height="27" Width="41" Foreground="Red" Visibility="Hidden"/>
+                <Label Name="ProjCreateErrorLabel" Content="Label" Canvas.Left="304" Canvas.Top="181" Height="28" Width="178" Foreground="Red" Visibility="Hidden"/>
 
             </Canvas>
             <WrapPanel Name="dynamicContent" Height="157" Width="90" Canvas.Left="10" Canvas.Top="10"/>

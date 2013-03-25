@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LASI.Algorithm.Thesuari
+namespace LASI.Algorithm.Thesauri
 {
     public class VerbConjugator
     {
@@ -40,15 +40,18 @@ namespace LASI.Algorithm.Thesuari
             }
         }
 
-        public List<string> TryComputeConjugations(string root) { var hyphIndex = root.IndexOf('-');List<string> except; var realRoot = hyphIndex > -1 ? root.Substring(0, hyphIndex ) : root;
-                       exceptionData.TryGetValue(realRoot,out except);
+        public List<string> TryComputeConjugations(string root) {
+            var hyphIndex = root.IndexOf('-');
+            List<string> except;
+            var realRoot = hyphIndex > -1 ? root.Substring(0, hyphIndex) : root;
+            exceptionData.TryGetValue(realRoot, out except);
             if (except != null)
-                return except; 
+                return except;
 
-           
-           
 
-            
+
+
+
             var results = new List<string>();
             for (var i = 0; i < VERB_ENDINGS.Length; i++) {
                 if (realRoot.EndsWith(VERB_ENDINGS[i]) || VERB_ENDINGS[i] == "") {

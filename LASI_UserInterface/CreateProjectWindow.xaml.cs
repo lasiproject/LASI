@@ -39,12 +39,12 @@ namespace LASI.UserInterface
                 button.Click += (sender, e) => {
                     //MessageBox.Show(string.Format("num: {0}: even?: {1}", num, (num % 2 == 0)));
                     button.MouseDoubleClick += (s, args) => dynamicContent.Children.Remove(button);
-              
+
                 };
 
                 dynamicContent.Children.Add(button);
-                
- }
+
+            }
 
         }
 
@@ -54,28 +54,29 @@ namespace LASI.UserInterface
         private void browseForDocButton_Click(object sender, RoutedEventArgs e) {
             var openDialog = new OpenFileDialog();
             openDialog.ShowDialog(this);
-
             var docPath = openDialog.FileName;
+            if (String.IsNullOrEmpty(docPath))
+                return;
             lastDocPath.Text = docPath;
 
             var num = "x";
-            var button = new Button
-            {
-                Content = num.ToString(),Height = 20, Width = 20
+            var button = new Button {
+                Content = num.ToString(),
+                Height = 20,
+                Width = 20
             };
 
             var docEntry = new ListViewItem {
                 Content = docPath
             };
 
-            button.Click += (s, args) =>
-            {
+            button.Click += (s, args) => {
                 //MessageBox.Show(string.Format("num: {0}: even?: {1}", num, (num % 2 == 0)));
                 documentsAdded.Items.Remove(docEntry);
                 xbuttons.Children.Remove(button);
 
             };
-          //  docEntry.MouseDoubleClick += (d, args) => documentsAdded.Items.Remove(docEntry);
+            //  docEntry.MouseDoubleClick += (d, args) => documentsAdded.Items.Remove(docEntry);
 
             xbuttons.Children.Add(button);
             documentsAdded.Items.Add(docEntry);
@@ -86,12 +87,38 @@ namespace LASI.UserInterface
 
 
         private void CreateButton_Click(object sender, RoutedEventArgs e) {
-            LastLoadedProjectName = EnteredProjectName.Text;
-            // this.Content = WindowManager.LoadedProjectScreen.Content;
-            this.SwapWith(WindowManager.LoadedProjectScreen);
-            WindowManager.LoadedProjectScreen.SetTitle(LastLoadedProjectName + " - L.A.S.I.");
-            WindowManager.LoadedProjectScreen.Show();
-            this.Hide();
+            if (ValidateProjectNameField()) {
+                LastLoadedProjectName = EnteredProjectName.Text;
+                // this.Content = WindowManager.LoadedProjectScreen.Content;
+                this.SwapWith(WindowManager.LoadedProjectScreen);
+                WindowManager.LoadedProjectScreen.SetTitle(LastLoadedProjectName + " - L.A.S.I.");
+                WindowManager.LoadedProjectScreen.Show();
+                this.Hide();
+            } else {
+                ProjCreateErrorLabel.Content = "Project must have a name";
+                ProjCreateErrorLabel.Visibility = Visibility.Visible;
+                ProjNameErrorLabel.Visibility = Visibility.Visible;
+                TextChangedEventHandler resetErrorFunc = null;
+                resetErrorFunc = (S, E) => {
+                    ProjNameErrorLabel.Visibility = Visibility.Hidden;
+                    ProjCreateErrorLabel.Visibility = Visibility.Hidden;
+                    EnteredProjectName.TextChanged -= resetErrorFunc;
+                };
+                EnteredProjectName.TextChanged += resetErrorFunc;
+            }
+        }
+
+
+        private bool ValidateProjectNameField() {
+            if (String.IsNullOrWhiteSpace(EnteredProjectName.Text)
+                || String.IsNullOrEmpty(EnteredProjectName.Text)) {
+                EnteredProjectName.ToolTip = new ToolTip {
+                    Visibility = Visibility.Visible,
+                    Content = "You must enter a name for your new project"
+                };
+                return false;
+            }
+            return true;
         }
 
         private void SelectProjFolderButton_Click(object sender, RoutedEventArgs e) {
@@ -121,6 +148,6 @@ namespace LASI.UserInterface
 
         #endregion
 
-        
+
     }
 }

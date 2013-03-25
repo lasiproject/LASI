@@ -33,10 +33,13 @@ namespace LASI.Algorithm.Thesauri
             sw.Stop();
             Console.WriteLine("Async thesaurus loading took {0} milliseconds", sw.ElapsedMilliseconds);
         }
+        public static IEnumerable<string> Lookup(Word word) {
+            return VerbThesaurus[word];
+        }
         public static IEnumerable<string> Lookup(Verb verb) {
             return VerbThesaurus[verb];
         }
-        public static IEnumerable<string> Lookup(Noun verb) {
+        public static IEnumerable<string> Lookup(Noun noun) {
             throw new NotImplementedException();
         }
         public static NounThesaurus NounThesaurus {

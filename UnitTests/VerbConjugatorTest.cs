@@ -1,4 +1,4 @@
-﻿using LASI.Algorithm.Thesuari;
+﻿using LASI.Algorithm.Thesauri;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Linq;

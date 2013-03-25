@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LASI.Algorithm.Thesauri;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -48,12 +49,13 @@ namespace LASI.UserInterface
                 };
                 menuItem1.Click += (sender, e) => {
                     Process.Start(String.Format("http://www.dictionary.reference.com/browse/{0}?s=t", T));
-                  
+
                 };
+
+
 
                 // change text to random color from the colors array
                 wordLabel.ContextMenu.Items.Add(menuItem1);
-
 
 
 
@@ -62,13 +64,7 @@ namespace LASI.UserInterface
                     wordLabel.Foreground = colors[new Random().Next(0, colors.Length)];
 
                 };
-
-
-
-
-
-
-
+                wordLabels.Add(wordLabel);
                 testViewWrap.Children.Add(wordLabel);
             }
 
@@ -76,6 +72,8 @@ namespace LASI.UserInterface
 
 
         }
+
+        private List<Label> wordLabels = new List<Label>();
 
         private void MenuItem_Click_2(object sender, RoutedEventArgs e) {
 
@@ -137,3 +135,29 @@ the COIs characterizing it - to which MOEs may be properly linked.".Split('\r', 
 
     }
 }
+
+
+/*
+  var menuItem2 = new MenuItem {
+                    Header = "highligh synonyms"
+                };
+                menuItem2.Click += (sender, e) => {
+                    try {
+                        var synonyms =
+                            ThesaurusManager.
+                            VerbThesaurus[wordLabel.Content.ToString().ToLower()];
+                        foreach (var syn in synonyms) {
+                            var applicableLabels = from l in wordLabels
+                                                   where synonyms.Contains(l.Content.ToString())
+                                                   select new Label {
+                                                       Content = l.Content,
+                                                       ContextMenu = l.ContextMenu,
+                                                       Background = Brushes.Azure
+                                                   };
+
+                        }
+                    } catch (NullReferenceException) {
+                        menuItem2.RaiseEvent(e);
+                    }
+                };
+ */
