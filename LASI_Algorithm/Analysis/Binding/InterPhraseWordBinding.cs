@@ -10,22 +10,24 @@ namespace LASI.Algorithm.Binding
     {
         public void InterNounPhrase(NounPhrase np) {
             //Accounts for there being more than one word in a entity
-            if (np.Words.Count() > 1) {
 
-                /**
-                 * Noun Phrase Assumption:  The Last Noun in a Noun Phrase is the important one
-                 */
-       
-                Noun LastNoun = np.Words.OfType<Noun>().Last();
+            /**
+            * Noun Phrase Assumption:  The Last Noun in a Noun Phrase is the important one
+            */
+            Noun LastNoun = np.Words.OfType<Noun>().LastOrDefault();
+
+
+            if (np.Words.Count() > 1 && LastNoun != null) {
                 
-                
+
+                /*
                 foreach (Word w in np.Words)
                 {
                     Console.Write("[{0}] ", w);
                 }
                 Console.Write("\nLast Noun: {0}", LastNoun);
                 Console.Write("\n------\n");
-                
+                */
 
 
                 /**
@@ -80,14 +82,14 @@ namespace LASI.Algorithm.Binding
                     PosNoun.AddPossession(LastNoun);
                     
                     
-                    /*
+                    
                     Console.Write("Pronoun: {0} => ", PosNoun.Text);
                     foreach (var p in PosNoun.Possessed)
                     {
                         Console.Write("  {0}", p.Text);
                     }
                     Console.Write("\n");
-                     */
+                    
                 }
 
 
