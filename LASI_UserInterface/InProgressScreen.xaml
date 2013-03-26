@@ -45,7 +45,7 @@
             <Rectangle Fill="#FFE4E4E4" Height="262" Canvas.Left="143" Stroke="Black" Canvas.Top="66" Width="499"/>
             <Image Height="193" Canvas.Left="171" Canvas.Top="83" Width="210" Source="collie1.png"/>
             <TextBlock Height="35" Canvas.Left="364" TextWrapping="Wrap" Text="IN PROGRESS....." Canvas.Top="166" Width="194" FontFamily="Lao UI" FontSize="16"/>
-            <Image Height="60" Canvas.Left="306" Canvas.Top="251" Width="77" Source="print.png" RenderTransformOrigin="0.5,0.5">
+            <Image Name="pawPrintImg1" Height="60" Canvas.Left="306" Canvas.Top="251" Width="77" Source="print.png" RenderTransformOrigin="0.5,0.5">
                 <Image.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform/>
@@ -55,7 +55,7 @@
                     </TransformGroup>
                 </Image.RenderTransform>
             </Image>
-            <Image Height="60" Canvas.Left="541" Canvas.Top="94" Width="77" Source="print.png" RenderTransformOrigin="0.5,0.5">
+            <Image Name="pawPrintImg6" Height="60" Canvas.Left="541" Canvas.Top="94" Width="77" Source="print.png" RenderTransformOrigin="0.5,0.5">
                 <Image.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform/>
@@ -65,7 +65,7 @@
                     </TransformGroup>
                 </Image.RenderTransform>
             </Image>
-            <Image Height="60" Canvas.Left="443" Canvas.Top="94" Width="77" Source="print.png" RenderTransformOrigin="0.5,0.5">
+            <Image Name="pawPrintImg5" Height="60" Canvas.Left="443" Canvas.Top="94" Width="77" Source="print.png" RenderTransformOrigin="0.5,0.5">
                 <Image.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform/>
@@ -75,7 +75,7 @@
                     </TransformGroup>
                 </Image.RenderTransform>
             </Image>
-            <Image Height="60" Canvas.Left="478" Canvas.Top="169" Width="77" Source="print.png" RenderTransformOrigin="0.5,0.5">
+            <Image Name="pawPrintImg4" Height="60" Canvas.Left="478" Canvas.Top="169" Width="77" Source="print.png" RenderTransformOrigin="0.5,0.5">
                 <Image.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform/>
@@ -85,7 +85,7 @@
                     </TransformGroup>
                 </Image.RenderTransform>
             </Image>
-            <Image Height="60" Canvas.Left="377" Canvas.Top="175" Width="77" Source="print.png" RenderTransformOrigin="0.5,0.5">
+            <Image Name="pawPrintImg3" Height="60" Canvas.Left="377" Canvas.Top="175" Width="77" Source="print.png" RenderTransformOrigin="0.5,0.5">
                 <Image.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform/>
@@ -95,7 +95,7 @@
                     </TransformGroup>
                 </Image.RenderTransform>
             </Image>
-            <Image Height="60" Canvas.Left="403" Canvas.Top="240" Width="77" Source="print.png" RenderTransformOrigin="0.241,1.304">
+            <Image Name="pawPrintImg2" Height="60" Canvas.Left="403" Canvas.Top="240" Width="77" Source="print.png" RenderTransformOrigin="0.241,1.304">
                 <Image.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform/>
@@ -105,7 +105,7 @@
                     </TransformGroup>
                 </Image.RenderTransform>
             </Image>
-            <Button Content="Skip (UI Demo)" Canvas.Left="531" Canvas.Top="291" Width="89" BorderThickness="0" Click="Button_Click_1"/>
+            <Button Content="Skip (UI Demo)" Canvas.Left="531" Canvas.Top="291" Width="89" BorderThickness="0" Click="SkipUIDemoButton_Click"/>
         </Canvas>
         <TextBlock HorizontalAlignment="Left" Height="24" Margin="44,54,0,0" TextWrapping="Wrap" Text="Toolbar" VerticalAlignment="Top" Width="57" FontSize="14" Opacity="0.5"/>
         <ProgressBar RenderTransformOrigin="0.5,0.5" Margin="-3,464,0,1">
