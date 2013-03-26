@@ -72,7 +72,7 @@ namespace LASI.Algorithm.Thesauri
         void CreateSet(string line) {
 
             //Aluan: This line gets extracts word category info I noticed was present in the DB files
-            //Erik:  Gotcha, I'll try to decipher what it means.
+            //Erik:  Gotcha, I'll try to decipher its meaning.
             WordNetNounLex lexCategory = (WordNetNounLex) Int32.Parse(line.Substring(9, 2));
 
             String frontPart = line.Split('|')[0];

@@ -14,7 +14,7 @@ namespace LASI.Algorithm.Thesuari
     {
 
         /// <summary>
-        /// Initializes a new instance of the NounThesaurus class.
+        /// Initializes a new instance of the AdjectiveThesaurus class.
         /// </summary>
         /// <param name="filePath">The path of the WordNet database file containing the sysnonym line for nouns.</param>
         public AdjectiveThesaurus(string filePath)
@@ -77,8 +77,7 @@ namespace LASI.Algorithm.Thesuari
         void CreateSet(string line)
         {
 
-            //Aluan: This line gets extracts word category info I noticed was present in the DB files
-            //Erik:  Gotcha, I'll try to decipher what it means.
+            
             WordNetNounLex lexCategory = (WordNetNounLex)Int32.Parse(line.Substring(9, 2));
 
             String frontPart = line.Split('|')[0];
