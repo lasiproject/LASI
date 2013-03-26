@@ -75,7 +75,7 @@ namespace LASI.Algorithm.Thesauri
             //Erik:  Gotcha, I'll try to decipher its meaning.
             WordNetNounLex lexCategory = (WordNetNounLex) Int32.Parse(line.Substring(9, 2));
 
-            String frontPart = line.Split('|')[0];
+            String frontPart = line.Split('|', '!')[0];
             MatchCollection numbers = Regex.Matches(frontPart, @"(?<id>\d{8})");
             MatchCollection words = Regex.Matches(frontPart, @"(?<word>[A-Za-z_\-]{2,})");
 

@@ -14,6 +14,7 @@ using LASI.Algorithm;
 using LASI.FileSystem;
 using LASI.Algorithm.Weighting;
 using LASI.Algorithm.Thesuari;
+using LASI.Algorithm.Thesauri;
 
 
 namespace Erik_Experimentation
@@ -23,21 +24,26 @@ namespace Erik_Experimentation
 
         static void Main(string[] args) {
 
-            //var nounTest = new NounThesaurus(@"..\..\..\..\WordNetThesaurusData\data.noun");
-            //nounTest.Load();
-            //string key = "walk";
-            //nounTest.SearchFor(key);
+            var nounTest = new NounThesaurus(@"..\..\..\..\WordNetThesaurusData\data.noun");
+            nounTest.Load();
+            string key = "best";
+            nounTest.SearchFor(key);
 
-            var adjTest = new AdjectiveThesaurus(@"..\..\..\..\WordNetThesaurusData\data.adj");
-            adjTest.Load();
-            string key = "able";
-            adjTest.SearchFor(key);
+            //var adjTest = new AdjectiveThesaurus(@"..\..\..\..\WordNetThesaurusData\data.adj");
+            //adjTest.Load();
+            //string key = "able";
+            //adjTest.SearchFor(key);
 
+            //var advTest = new AdverbThesaurus(@"..\..\..\..\WordNetThesaurusData\data.adv");
+            //advTest.Load();
+            //string key = "vastly";
+            //advTest.SearchFor(key);
 
             //Keeps the console window open until the escape key is pressed
             Console.WriteLine("Press escape to exit");
-            for (var k = Console.ReadKey(); k.Key != ConsoleKey.Escape; k = Console.ReadKey()) {
-            Console.WriteLine("Press escape to exit");
+            for (var k = Console.ReadKey(); k.Key != ConsoleKey.Escape; k = Console.ReadKey())
+            {
+                Console.WriteLine("Press escape to exit");
             }
 
             //var tagger = new SharpNLPTagger(TaggingOption.TagAndAggregate, @"C:\Users\CynosureEPR\Desktop\test.txt");

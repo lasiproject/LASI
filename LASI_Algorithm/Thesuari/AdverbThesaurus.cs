@@ -7,17 +7,16 @@ using System.IO;
 using System.Text.RegularExpressions;
 using LASI.Algorithm.Thesauri;
 
-
 namespace LASI.Algorithm.Thesuari
 {
-    public class AdjectiveThesaurus : Thesaurus
+    public class AdverbThesaurus : Thesaurus
     {
 
-        /// <summary>
+         /// <summary>
         /// Initializes a new instance of the AdjectiveThesaurus class.
         /// </summary>
         /// <param name="filePath">The path of the WordNet database file containing the sysnonym line for nouns.</param>
-        public AdjectiveThesaurus(string filePath)
+        public AdverbThesaurus(string filePath)
             : base(filePath)
         {
             FilePath = filePath;
