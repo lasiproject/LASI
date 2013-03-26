@@ -25,7 +25,7 @@ namespace LASI.UserInterface
         public CreateProjectScreen() {
             InitializeComponent();
             LastLoadedProjectName = "";
-        
+
             this.Closing += (s, e) => Application.Current.Shutdown();
         }
 
@@ -34,34 +34,39 @@ namespace LASI.UserInterface
         #region EventHandlers
 
         private void browseForDocButton_Click(object sender, RoutedEventArgs e) {
-            var openDialog = new OpenFileDialog();
+            var openDialog = new OpenFileDialog {
+                Filter = "LASI Inputs|*.docx; *.doc; *.txt"
+            };
             openDialog.ShowDialog(this);
-
+            if (openDialog.FileNames.Count() <= 0) {
+                return;
+            }
             var docPath = openDialog.FileName;
+
             lastDocPath.Text = docPath;
-           
+
             var num = "x";
-            var button = new Button
-            {
-                Content = num.ToString(),Height = 20, Width = 20
+            var button = new Button {
+                Content = num.ToString(),
+                Height = 20,
+                Width = 20
             };
 
             var docEntry = new ListViewItem {
                 Content = docPath
             };
 
-            button.Click += (s, args) =>
-            {
-            
+            button.Click += (s, args) => {
+
                 documentsAdded.Items.Remove(docEntry);
                 xbuttons.Children.Remove(button);
                 NumberOfDocuments--;
                 if (NumberOfDocuments == 0)
                     documentsAdded.Visibility = Visibility.Hidden;
-                
+
 
             };
-      
+
 
             xbuttons.Children.Add(button);
             documentsAdded.Items.Add(docEntry);
@@ -73,36 +78,30 @@ namespace LASI.UserInterface
         }
 
 
-        private void CreateButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (ValidateProjectNameField() && ValidateProjectLocationField() && ValidateProjectDocumentField())
-            {
+        private void CreateButton_Click(object sender, RoutedEventArgs e) {
+            if (ValidateProjectNameField() && ValidateProjectLocationField() && ValidateProjectDocumentField()) {
                 LastLoadedProjectName = EnteredProjectName.Text;
-                
+
                 this.SwapWith(WindowManager.LoadedProjectScreen);
                 WindowManager.LoadedProjectScreen.SetTitle(LastLoadedProjectName + " - L.A.S.I.");
                 WindowManager.LoadedProjectScreen.Show();
                 this.Hide();
             }
-            else
-            {
+            else {
 
-                if (ValidateProjectNameField() == false)
-                {
+                if (ValidateProjectNameField() == false) {
                     ProjNameErrorLabel.Visibility = Visibility.Visible;
                 }
                 else
                     ProjNameErrorLabel.Visibility = Visibility.Hidden;
 
-                if (ValidateProjectLocationField() == false)
-                {
+                if (ValidateProjectLocationField() == false) {
                     ProjLocationErrorLabel.Visibility = Visibility.Visible;
                 }
                 else
                     ProjLocationErrorLabel.Visibility = Visibility.Hidden;
 
-                if (ValidateProjectDocumentField() == false)
-                {
+                if (ValidateProjectDocumentField() == false) {
                     ProjDocumentErrorLabel.Visibility = Visibility.Visible;
                 }
                 else
@@ -111,30 +110,28 @@ namespace LASI.UserInterface
 
                 ProjCreateErrorLabel.Content = "All fields must be filled out.";
                 ProjCreateErrorLabel.Visibility = Visibility.Visible;
-                
+
                 TextChangedEventHandler resetErrorFunc = null;
-                resetErrorFunc = (S, E) =>
-                {
-                   //
+                resetErrorFunc = (S, E) => {
+                    //
                     ProjCreateErrorLabel.Visibility = Visibility.Hidden;
-                   // ProjLocationErrorLabel.Visibility = Visibility.Hidden;
+                    // ProjLocationErrorLabel.Visibility = Visibility.Hidden;
                     //ProjDocumentErrorLabel.Visibility = Visibility.Hidden;
-                   // EnteredProjectName.TextChanged -= resetErrorFunc;
-                   // projectFolderText.TextChanged -= resetErrorFunc;
-                    
-                    
+                    // EnteredProjectName.TextChanged -= resetErrorFunc;
+                    // projectFolderText.TextChanged -= resetErrorFunc;
+
+
 
 
 
                 };
-               // EnteredProjectName.TextChanged += resetErrorFunc;
-              //  projectFolderText.TextChanged += resetErrorFunc;
+                // EnteredProjectName.TextChanged += resetErrorFunc;
+                //  projectFolderText.TextChanged += resetErrorFunc;
 
             }
         }
 
-        private void SelectProjFolderButton_Click(object sender, RoutedEventArgs e)
-        {
+        private void SelectProjFolderButton_Click(object sender, RoutedEventArgs e) {
 
 
             var selectDialog = new OpenFileDialog();
@@ -146,13 +143,10 @@ namespace LASI.UserInterface
         }
 
 
-        private bool ValidateProjectNameField()
-        {
+        private bool ValidateProjectNameField() {
             if (String.IsNullOrWhiteSpace(EnteredProjectName.Text)
-            || String.IsNullOrEmpty(EnteredProjectName.Text))
-            {
-                EnteredProjectName.ToolTip = new ToolTip
-                {
+            || String.IsNullOrEmpty(EnteredProjectName.Text)) {
+                EnteredProjectName.ToolTip = new ToolTip {
                     Visibility = Visibility.Visible,
                     Content = "You must enter a name for your new project"
                 };
@@ -162,14 +156,11 @@ namespace LASI.UserInterface
         }
 
 
-        private bool ValidateProjectLocationField()
-        {
+        private bool ValidateProjectLocationField() {
             if (String.IsNullOrWhiteSpace(projectFolderText.Text)
-            || String.IsNullOrEmpty(projectFolderText.Text))
-            {
+            || String.IsNullOrEmpty(projectFolderText.Text)) {
 
-                projectFolderText.ToolTip = new ToolTip
-                {
+                projectFolderText.ToolTip = new ToolTip {
                     Visibility = Visibility.Visible,
                     Content = "You must enter a location for your new project"
                 };
@@ -179,19 +170,17 @@ namespace LASI.UserInterface
 
         }
 
-        private bool ValidateProjectDocumentField()
-        {
-            if (NumberOfDocuments == 0)
-            {
-                lastDocPath.ToolTip = new ToolTip 
-                {
+        private bool ValidateProjectDocumentField() {
+            if (NumberOfDocuments == 0) {
+                lastDocPath.ToolTip = new ToolTip {
                     Visibility = Visibility.Visible,
                     Content = "You must have documents for your new project"
                 };
                 return false;
 
-            } return true;
-        
+            }
+            return true;
+
         }
 
 
@@ -216,15 +205,14 @@ namespace LASI.UserInterface
             set;
         }
 
-        public int NumberOfDocuments
-        {
+        public int NumberOfDocuments {
             get;
             set;
         }
         #endregion
 
-  
 
-        
+
+
     }
 }
