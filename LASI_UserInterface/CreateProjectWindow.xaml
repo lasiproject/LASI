@@ -45,7 +45,7 @@
                 <Button x:Name="CreateButton" Content="Create" Height="27" Canvas.Left="304" Canvas.Top="224" Width="58" Click="CreateButton_Click" />
                 <Button x:Name="CancelButton" Content="Cancel" Height="27" Canvas.Left="384" Canvas.Top="224" Width="58" RenderTransformOrigin="0.035,1.507" Click="CancelButton_Click" />
 
-                <ListBox Name="documentsAdded" Height="100" Canvas.Left="10" Canvas.Top="163" Width="220" Visibility="Visible"/>
+                <ListBox Name="documentsAdded" Height="100" Canvas.Left="10" Canvas.Top="163" Width="220" Visibility="Hidden"/>
                 <WrapPanel Name="xbuttons" Height="98" Canvas.Left="235" Canvas.Top="165" Width="20"/>
                 <Label Name="ProjNameErrorLabel" Content="*" Canvas.Left="150" Canvas.Top="52" Height="27" Width="14" Foreground="Red" Visibility="Visible" RenderTransformOrigin="0.5,0.5"/>
                 <Label Name="ProjLocationErrorLabel" Content="*" Canvas.Left="150" Canvas.Top="88" Height="27" Width="14" Foreground="Red" Visibility="Visible"/>
