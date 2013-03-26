@@ -111,6 +111,15 @@ namespace LASI.Algorithm.Thesauri
             var flatPointers = from R in tempResults
                                from r in R
                                select r;
+            var tempWords = from sw in allSets
+                            where sw.setWords.Contains(word)
+                            select sw.setWords;
+            var flatWords = from Q in tempWords
+                            from q in Q
+                            select q;
+
+            results.AddRange(flatWords);
+            
 
             //gets related words from above pointers
             foreach (var t in flatPointers) {
