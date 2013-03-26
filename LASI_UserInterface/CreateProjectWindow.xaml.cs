@@ -58,6 +58,7 @@ namespace LASI.UserInterface
                 NumberOfDocuments--;
                 if (NumberOfDocuments == 0)
                     documentsAdded.Visibility = Visibility.Hidden;
+                
 
             };
       
@@ -68,15 +69,16 @@ namespace LASI.UserInterface
             NumberOfDocuments++;
             if (!documentsAdded.IsVisible)
                 documentsAdded.Visibility = Visibility.Visible;
+
         }
 
 
         private void CreateButton_Click(object sender, RoutedEventArgs e)
         {
-            if (ValidateProjectNameField())
+            if (ValidateProjectNameField() && ValidateProjectLocationField() && ValidateProjectDocumentField())
             {
                 LastLoadedProjectName = EnteredProjectName.Text;
-                // this.Content = WindowManager.LoadedProjectScreen.Content;
+                
                 this.SwapWith(WindowManager.LoadedProjectScreen);
                 WindowManager.LoadedProjectScreen.SetTitle(LastLoadedProjectName + " - L.A.S.I.");
                 WindowManager.LoadedProjectScreen.Show();
@@ -84,18 +86,63 @@ namespace LASI.UserInterface
             }
             else
             {
-                ProjCreateErrorLabel.Content = "Project must have a name";
+
+                if (ValidateProjectNameField() == false)
+                {
+                    ProjNameErrorLabel.Visibility = Visibility.Visible;
+                }
+                else
+                    ProjNameErrorLabel.Visibility = Visibility.Hidden;
+
+                if (ValidateProjectLocationField() == false)
+                {
+                    ProjLocationErrorLabel.Visibility = Visibility.Visible;
+                }
+                else
+                    ProjLocationErrorLabel.Visibility = Visibility.Hidden;
+
+                if (ValidateProjectDocumentField() == false)
+                {
+                    ProjDocumentErrorLabel.Visibility = Visibility.Visible;
+                }
+                else
+                    ProjDocumentErrorLabel.Visibility = Visibility.Hidden;
+
+
+                ProjCreateErrorLabel.Content = "All fields must be filled out.";
                 ProjCreateErrorLabel.Visibility = Visibility.Visible;
-                ProjNameErrorLabel.Visibility = Visibility.Visible;
+                
                 TextChangedEventHandler resetErrorFunc = null;
                 resetErrorFunc = (S, E) =>
                 {
-                    ProjNameErrorLabel.Visibility = Visibility.Hidden;
+                   //
                     ProjCreateErrorLabel.Visibility = Visibility.Hidden;
-                    EnteredProjectName.TextChanged -= resetErrorFunc;
+                   // ProjLocationErrorLabel.Visibility = Visibility.Hidden;
+                    //ProjDocumentErrorLabel.Visibility = Visibility.Hidden;
+                   // EnteredProjectName.TextChanged -= resetErrorFunc;
+                   // projectFolderText.TextChanged -= resetErrorFunc;
+                    
+                    
+
+
+
                 };
-                EnteredProjectName.TextChanged += resetErrorFunc;
+               // EnteredProjectName.TextChanged += resetErrorFunc;
+              //  projectFolderText.TextChanged += resetErrorFunc;
+
             }
+        }
+
+        private void SelectProjFolderButton_Click(object sender, RoutedEventArgs e)
+        {
+
+
+            var selectDialog = new OpenFileDialog();
+            selectDialog.ShowDialog(this);
+
+            var folderPath = selectDialog.FileName;
+            projectFolderText.Text = folderPath;
+
         }
 
 
@@ -115,17 +162,42 @@ namespace LASI.UserInterface
         }
 
 
+        private bool ValidateProjectLocationField()
+        {
+            if (String.IsNullOrWhiteSpace(projectFolderText.Text)
+            || String.IsNullOrEmpty(projectFolderText.Text))
+            {
 
+                projectFolderText.ToolTip = new ToolTip
+                {
+                    Visibility = Visibility.Visible,
+                    Content = "You must enter a location for your new project"
+                };
+                return false;
+            }
+            return true;
 
-
-
-        private void SelectProjFolderButton_Click(object sender, RoutedEventArgs e) {
-            var selectDialog = new OpenFileDialog();
-            selectDialog.ShowDialog(this);
-
-            var folderPath = selectDialog.FileName;
-            projectFolderText.Text = folderPath;
         }
+
+        private bool ValidateProjectDocumentField()
+        {
+            if (NumberOfDocuments == 0)
+            {
+                lastDocPath.ToolTip = new ToolTip 
+                {
+                    Visibility = Visibility.Visible,
+                    Content = "You must have documents for your new project"
+                };
+                return false;
+
+            } return true;
+        
+        }
+
+
+
+
+
         private void MenuItem_Click_3(object sender, RoutedEventArgs e) {
             this.Close();
 
@@ -150,6 +222,8 @@ namespace LASI.UserInterface
             set;
         }
         #endregion
+
+  
 
         
     }
