@@ -90,6 +90,7 @@
     <Compile Include="SyntaciticAndSemanticStructures\NounRelatedConstructs\IPossesser.cs" />
     <Compile Include="SyntaciticAndSemanticStructures\NounRelatedConstructs\IQuantifer.cs" />
     <Compile Include="SyntaciticAndSemanticStructures\VerbRelatedConstructs\IModalityModdifiable.cs" />
+    <Compile Include="Thesuari\AdjectiveThesaurus.cs" />
     <Compile Include="Thesuari\SynonymSet.cs" />
     <Compile Include="SyntaciticAndSemanticStructures\NounRelatedConstructs\WhPronoun.cs" />
     <Compile Include="SyntaciticAndSemanticStructures\NounRelatedConstructs\GenericNoun.cs" />

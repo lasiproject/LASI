@@ -8,16 +8,18 @@ using System.Text.RegularExpressions;
 using LASI.Algorithm.Thesauri;
 
 
-namespace LASI.Algorithm.Thesauri
+namespace LASI.Algorithm.Thesuari
 {
-    public class NounThesaurus : Thesaurus
+    public class AdjectiveThesaurus : Thesaurus
     {
+
         /// <summary>
         /// Initializes a new instance of the NounThesaurus class.
         /// </summary>
         /// <param name="filePath">The path of the WordNet database file containing the sysnonym line for nouns.</param>
-        public NounThesaurus(string filePath)
-            : base(filePath) {
+        public AdjectiveThesaurus(string filePath)
+            : base(filePath)
+        {
             FilePath = filePath;
         }
 
@@ -26,13 +28,15 @@ namespace LASI.Algorithm.Thesauri
         /// <summary>
         /// Parses the contents of the underlying WordNet database file.
         /// </summary>
-        public override void Load() {
+        public override void Load()
+        {
             //throw new NotImplementedException();
 
 
             List<string> lines = new List<string>();
 
-            using (StreamReader r = new StreamReader(FilePath)) {
+            using (StreamReader r = new StreamReader(FilePath))
+            {
 
 
 
@@ -52,7 +56,8 @@ namespace LASI.Algorithm.Thesauri
                 //test 5 lines without having to wait
 
 
-                while ((line = r.ReadLine()) != null) {
+                while ((line = r.ReadLine()) != null)
+                {
 
                     CreateSet(line);
 
@@ -69,11 +74,12 @@ namespace LASI.Algorithm.Thesauri
             }
         }
 
-        void CreateSet(string line) {
+        void CreateSet(string line)
+        {
 
             //Aluan: This line gets extracts word category info I noticed was present in the DB files
             //Erik:  Gotcha, I'll try to decipher what it means.
-            WordNetNounLex lexCategory = (WordNetNounLex) Int32.Parse(line.Substring(9, 2));
+            WordNetNounLex lexCategory = (WordNetNounLex)Int32.Parse(line.Substring(9, 2));
 
             String frontPart = line.Split('|')[0];
             MatchCollection numbers = Regex.Matches(frontPart, @"(?<id>\d{8})");
@@ -100,7 +106,8 @@ namespace LASI.Algorithm.Thesauri
             //console view
         }
 
-        public void SearchFor(string word) {
+        public void SearchFor(string word)
+        {
             List<string> results = new List<string>();
             //gets pointers of searched word
             var tempResults = from sn in allSets
@@ -111,11 +118,14 @@ namespace LASI.Algorithm.Thesauri
                                select r;
 
             //gets related words from above pointers
-            foreach (var t in flatPointers) {
+            foreach (var t in flatPointers)
+            {
 
-                foreach (SynSet s in allSets) {
+                foreach (SynSet s in allSets)
+                {
 
-                    if (t == s.setID) {
+                    if (t == s.setID)
+                    {
                         results.AddRange(s.setWords);
                     }
 
@@ -126,22 +136,27 @@ namespace LASI.Algorithm.Thesauri
 
 
 
-            foreach (string tester in results) {
+            foreach (string tester in results)
+            {
 
                 Console.WriteLine(tester);
 
             }//console view
         }
 
-        public override IEnumerable<string> this[string search] {
-            get {
+        public override IEnumerable<string> this[string search]
+        {
+            get
+            {
                 throw new NotImplementedException();
             }
         }
 
 
-        public override IEnumerable<string> this[Word search] {
-            get {
+        public override IEnumerable<string> this[Word search]
+        {
+            get
+            {
                 throw new NotImplementedException();
             }
         }
