@@ -77,12 +77,14 @@ namespace LASI.Algorithm.Thesauri
 
             String frontPart = line.Split('|', '!')[0];
             MatchCollection numbers = Regex.Matches(frontPart, @"(?<id>\d{8})");
-            MatchCollection words = Regex.Matches(frontPart, @"(?<word>[A-Za-z_\-]{2,})");
+            MatchCollection words = Regex.Matches(frontPart, @"(?<word>[A-Za-z_\-]{3,})");
 
 
             List<string> numbersList = numbers.Cast<Match>().Select(m => m.Value).Distinct().ToList();
             string id = numbersList[0];
             numbersList.Remove(id);
+
+            //somethin's amiss here.
             List<string> wordList = words.Cast<Match>().Select(m => m.Value).Distinct().ToList();
 
             SynSet temp = new SynSet(id, wordList, numbersList, lexCategory);

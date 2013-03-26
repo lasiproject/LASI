@@ -26,7 +26,7 @@ namespace Erik_Experimentation
 
             var nounTest = new NounThesaurus(@"..\..\..\..\WordNetThesaurusData\data.noun");
             nounTest.Load();
-            string key = "best";
+            string key = "object";
             nounTest.SearchFor(key);
 
             //var adjTest = new AdjectiveThesaurus(@"..\..\..\..\WordNetThesaurusData\data.adj");
