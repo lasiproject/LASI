@@ -115,6 +115,7 @@ namespace LASI.Algorithm.Thesuari
             var flatPointers = from R in tempResults
                                from r in R
                                select r;
+            //gets words of searched word
             var tempWords = from sw in allSets
                             where sw.setWords.Contains(word)
                             select sw.setWords;
