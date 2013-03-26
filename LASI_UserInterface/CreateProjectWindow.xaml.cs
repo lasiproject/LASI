@@ -25,10 +25,10 @@ namespace LASI.UserInterface
         public CreateProjectScreen() {
             InitializeComponent();
             LastLoadedProjectName = "";
+        
             this.Closing += (s, e) => Application.Current.Shutdown();
         }
 
-    
 
 
         #region EventHandlers
@@ -36,71 +36,76 @@ namespace LASI.UserInterface
         private void browseForDocButton_Click(object sender, RoutedEventArgs e) {
             var openDialog = new OpenFileDialog();
             openDialog.ShowDialog(this);
-            var docPath = openDialog.FileName;
-            if (String.IsNullOrEmpty(docPath))
-                return;
-            lastDocPath.Text = docPath;
 
+            var docPath = openDialog.FileName;
+            lastDocPath.Text = docPath;
+           
             var num = "x";
-            var button = new Button {
-                Content = num.ToString(),
-                Height = 20,
-                Width = 20
+            var button = new Button
+            {
+                Content = num.ToString(),Height = 20, Width = 20
             };
 
             var docEntry = new ListViewItem {
                 Content = docPath
             };
 
-            button.Click += (s, args) => {
-                //MessageBox.Show(string.Format("num: {0}: even?: {1}", num, (num % 2 == 0)));
+            button.Click += (s, args) =>
+            {
+            
                 documentsAdded.Items.Remove(docEntry);
                 xbuttons.Children.Remove(button);
+                NumberOfDocuments--;
+                if (NumberOfDocuments == 0)
+                    documentsAdded.Visibility = Visibility.Hidden;
 
             };
-            //  docEntry.MouseDoubleClick += (d, args) => documentsAdded.Items.Remove(docEntry);
+      
 
             xbuttons.Children.Add(button);
             documentsAdded.Items.Add(docEntry);
             lastDocPath.Text = string.Empty;
-
+            NumberOfDocuments++;
+            if (!documentsAdded.IsVisible)
+                documentsAdded.Visibility = Visibility.Visible;
         }
 
 
-
-        private void CreateButton_Click(object sender, RoutedEventArgs e) {
-            if (ValidateProjectNameField()) {
+        private void CreateButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (ValidateProjectNameField())
+            {
                 LastLoadedProjectName = EnteredProjectName.Text;
                 // this.Content = WindowManager.LoadedProjectScreen.Content;
                 this.SwapWith(WindowManager.LoadedProjectScreen);
                 WindowManager.LoadedProjectScreen.SetTitle(LastLoadedProjectName + " - L.A.S.I.");
                 WindowManager.LoadedProjectScreen.Show();
                 this.Hide();
-            } else {
+            }
+            else
+            {
                 ProjCreateErrorLabel.Content = "Project must have a name";
                 ProjCreateErrorLabel.Visibility = Visibility.Visible;
                 ProjNameErrorLabel.Visibility = Visibility.Visible;
-                
-                //Create an event handler as a local variable. The reason for this is so that it can refer to itself later
                 TextChangedEventHandler resetErrorFunc = null;
-                //Set the value of that event handler to a function which does two things when invoked
-                //1. It hides the error labels
-                //2. It removes itself from the invocation list of the event it will be added to
-                resetErrorFunc = (S, E) => {
+                resetErrorFunc = (S, E) =>
+                {
                     ProjNameErrorLabel.Visibility = Visibility.Hidden;
                     ProjCreateErrorLabel.Visibility = Visibility.Hidden;
-                    EnteredProjectName.TextChanged -= resetErrorFunc; //The function refers to itself by name, allowing it to remove itself.
+                    EnteredProjectName.TextChanged -= resetErrorFunc;
                 };
-                //Add the self removing function to the invocation list of EnteredProjectName's TextChanged event
                 EnteredProjectName.TextChanged += resetErrorFunc;
             }
         }
 
 
-        private bool ValidateProjectNameField() {
+        private bool ValidateProjectNameField()
+        {
             if (String.IsNullOrWhiteSpace(EnteredProjectName.Text)
-                || String.IsNullOrEmpty(EnteredProjectName.Text)) {
-                EnteredProjectName.ToolTip = new ToolTip {
+            || String.IsNullOrEmpty(EnteredProjectName.Text))
+            {
+                EnteredProjectName.ToolTip = new ToolTip
+                {
                     Visibility = Visibility.Visible,
                     Content = "You must enter a name for your new project"
                 };
@@ -108,6 +113,11 @@ namespace LASI.UserInterface
             }
             return true;
         }
+
+
+
+
+
 
         private void SelectProjFolderButton_Click(object sender, RoutedEventArgs e) {
             var selectDialog = new OpenFileDialog();
@@ -134,8 +144,13 @@ namespace LASI.UserInterface
             set;
         }
 
+        public int NumberOfDocuments
+        {
+            get;
+            set;
+        }
         #endregion
 
-
+        
     }
 }
