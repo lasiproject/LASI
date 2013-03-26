@@ -20,14 +20,14 @@ namespace LASI.Algorithm.Binding
             if (np.Words.Count() > 1 && LastNoun != null) {
                 
 
-                /*
+                
                 foreach (Word w in np.Words)
                 {
                     Console.Write("[{0}] ", w);
                 }
                 Console.Write("\nLast Noun: {0}", LastNoun);
                 Console.Write("\n------\n");
-                */
+                
 
 
                 /**
@@ -39,7 +39,7 @@ namespace LASI.Algorithm.Binding
                     LastNoun.BindDeterminer(det1);
                     det1.Determines = LastNoun;
                     //Console.WriteLine("Last Noun: {0}, Determined By: {1}", LastNoun.Text, LastNoun.DeterminedBy.Text);
-                    //Console.WriteLine("Determiner: {0}, Determines: {1}", det1, det1.Determines);
+                    //Console.WriteLine("Determiner: {0}, Determines: {1}", det1.Text, det1.Determines.Text);
                 }
 
             
@@ -82,14 +82,14 @@ namespace LASI.Algorithm.Binding
                     PosNoun.AddPossession(LastNoun);
                     
                     
-                    
+                    /*
                     Console.Write("Pronoun: {0} => ", PosNoun.Text);
                     foreach (var p in PosNoun.Possessed)
                     {
                         Console.Write("  {0}", p.Text);
                     }
                     Console.Write("\n");
-                    
+                    */
                 }
 
 
