@@ -5,7 +5,6 @@ using System.Text;
 
 using System.IO;
 using System.Text.RegularExpressions;
-using LASI.Algorithm.Thesauri;
 
 
 namespace LASI.Algorithm.Thesauri

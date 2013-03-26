@@ -5,10 +5,9 @@ using System.Text;
 
 using System.IO;
 using System.Text.RegularExpressions;
-using LASI.Algorithm.Thesauri;
 
 
-namespace LASI.Algorithm.Thesuari
+namespace LASI.Algorithm.Thesauri
 {
     public class AdjectiveThesaurus : Thesaurus
     {
