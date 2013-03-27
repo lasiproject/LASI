@@ -145,16 +145,23 @@ namespace LASI.FileSystem
         }
 
         public static void RemoveFile(InputFile file) {
-            foreach (var f in from f in new DirectoryInfo(InputFilesDir).EnumerateFiles(String.Format("{0}.*", file.NameSansExt), SearchOption.AllDirectories)
+            DeleteAlikeFromDir(file.NameSansExt);
+
+            RemoveFile(file as dynamic);
+        }
+
+        private static void DeleteAlikeFromDir(string file) {
+            foreach (var f in from f in new DirectoryInfo(InputFilesDir).EnumerateFiles(String.Format("{0}.*", file), SearchOption.AllDirectories)
                               select f) {
                 f.Delete();
             }
-
-            RemoveFile(file as dynamic);
-
-
-
         }
+        public static void RemoveFile(string fileName) {
+            textFiles.RemoveAll(f => f.NameSansExt == fileName);
+            docFiles.RemoveAll(f => f.NameSansExt == fileName);
+            docXFiles.RemoveAll(f => f.NameSansExt == fileName);
+        }
+
         public static void RemoveFile(TextFile file) {
             textFiles.Remove(file);
         }
