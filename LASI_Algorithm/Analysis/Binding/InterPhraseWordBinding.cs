@@ -8,7 +8,7 @@ namespace LASI.Algorithm.Binding
 {
     public class InterPhraseWordBinding
     {
-        public void InterNounPhrase(NounPhrase np) {
+        public void IntraNounPhrase(NounPhrase np) {
             //Accounts for there being more than one word in a entity
 
             /**
@@ -96,6 +96,15 @@ namespace LASI.Algorithm.Binding
 
 
             }
+        }
+
+        public void IntraVerbPhrase(VerbPhrase vp)
+        {
+            foreach (Word w in vp.Words)
+            {
+                Console.Write("\"{0}\", ",w.Text);
+            }
+            Console.WriteLine("\n~~~~~~~~~~~~~~~~~\n");
         }
     }
 }

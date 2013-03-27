@@ -90,9 +90,15 @@ namespace Scott_Experimentation
             Console.WriteLine(sep);
             Console.WriteLine("NounPhrases:\n");
             InterPhraseWordBinding ip1 = new InterPhraseWordBinding();
+            /*
             foreach (var phrs in DocTest.Phrases.GetNounPhrases())
             {
-                ip1.InterNounPhrase(phrs);
+                ip1.IntraNounPhrase(phrs);
+            }
+            */
+            foreach (var vbphrs in DocTest.Phrases.GetVerbPhrases())
+            {
+                ip1.IntraVerbPhrase(vbphrs);
             }
             
 
