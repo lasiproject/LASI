@@ -25,7 +25,7 @@ namespace LASI.UserInterface
         }
 
         private async Task InitPawPrintAlternation() {
-            var pawPrints = new[] { pawPrintImg1, pawPrintImg3, pawPrintImg5, pawPrintImg2, pawPrintImg4, pawPrintImg6 }.ToList();
+            var pawPrints = new[] { pawPrintImg1, pawPrintImg3, pawPrintImg2, pawPrintImg4, pawPrintImg5, pawPrintImg6 }.ToList();
             pawPrints.ForEach(pp => pp.Opacity = 0);
             foreach (var pp in pawPrints) {
                 FadeImage(pp);

@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.IO;
 using System.Diagnostics;
+using LASI.FileSystem;
 
 namespace LASI.UserInterface
 {
@@ -96,10 +97,17 @@ namespace LASI.UserInterface
             if (ValidateProjectNameField() && ValidateProjectLocationField() && ValidateProjectDocumentField()) {
                 LastLoadedProjectName = EnteredProjectName.Text;
 
+
                 this.SwapWith(WindowManager.LoadedProjectScreen);
                 WindowManager.LoadedProjectScreen.SetTitle(LastLoadedProjectName + " - L.A.S.I.");
                 WindowManager.LoadedProjectScreen.Show();
+
+                FileManager.Initialize(ProjectLocation + @"\" + EnteredProjectName.Text);
                 this.Hide();
+
+
+
+
             }
             else {
 
@@ -159,7 +167,7 @@ namespace LASI.UserInterface
 
         private bool ValidateProjectLocationField() {
             if (String.IsNullOrWhiteSpace(LocationTextBox.Text)
-            || String.IsNullOrEmpty(LocationTextBox.Text) || !Directory.Exists(LocationTextBox.Text)) {
+            || String.IsNullOrEmpty(LocationTextBox.Text) || !Directory.Exists(LocationTextBox.Text.Substring(0,LocationTextBox.Text.LastIndexOf("\\")))) {
 
                 LocationTextBox.ToolTip = new ToolTip {
                     Visibility = Visibility.Visible,
