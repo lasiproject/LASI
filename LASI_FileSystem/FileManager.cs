@@ -95,24 +95,26 @@ namespace LASI.FileSystem
         /// Copies the .doc file at the given path to the appropriate subfolder of the current project
         /// </summary>
         /// <param name="sourcePath">The path of the file to add</param>
-        public static void AddDocFile(string sourcePath, bool overwrite = false) {
+        public static DocFile AddDocFile(string sourcePath, bool overwrite = false) {
             var FD = new FileData(sourcePath);
             var path = DocFilesDir + "\\" + FD.FileNameWithExt;
             File.Copy(sourcePath, path, overwrite);
             var file = new DocFile(path);
             docFiles.Add(file);
+            return file;
         }
 
         /// <summary>
         /// Copies the .docx file at the given path to the appropriate subfolder of the current project
         /// </summary>
         /// <param name="sourcePath">The path of the file to add</param>
-        public static void AddDocXFile(string sourcePath, bool overwrite = false) {
+        public static DocXFile AddDocXFile(string sourcePath, bool overwrite = false) {
             var FD = new FileData(sourcePath);
             var path = DocxFilesDir + "\\" + FD.FileNameWithExt;
             File.Copy(sourcePath, path, overwrite);
             var file = new DocXFile(path);
             docXFiles.Add(file);
+            return file;
         }
 
 
@@ -120,25 +122,26 @@ namespace LASI.FileSystem
         /// Copies the text file at the given path to the appropriate subfolder of the current project
         /// </summary>
         /// <param name="sourcePath">The path of the file to add</param>
-        public static void AddTextFile(string sourcePath, bool overwrite = false) {
+        public static TextFile AddTextFile(string sourcePath, bool overwrite = false) {
             var FD = new FileData(sourcePath);
             var path = TextFilesDir + "\\" + FD.FileNameWithExt;
             File.Copy(sourcePath, path, overwrite);
             var file = new TextFile(path);
             textFiles.Add(file);
+            return file;
         }
 
-        public static void AddFile(string path, bool overwrite = false) {
+        public static InputFile AddFile(string path, bool overwrite = false) {
             switch (path.Substring(path.LastIndexOf('.')).ToLower()) {
                 case ".txt":
-                    AddTextFile(path, overwrite);
-                    break;
+                    return AddTextFile(path, overwrite);
+
                 case ".docx":
-                    AddDocXFile(path, overwrite);
-                    break;
+                    return AddDocXFile(path, overwrite);
+
                 case ".doc":
-                    AddDocFile(path, overwrite);
-                    break;
+                    return AddDocFile(path, overwrite);
+
                 default:
                     throw new InvalidOperationException();
             }
