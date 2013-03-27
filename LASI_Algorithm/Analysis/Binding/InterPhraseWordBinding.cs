@@ -12,8 +12,8 @@ namespace LASI.Algorithm.Binding
             //Accounts for there being more than one word in a entity
 
             /**
-            * Noun Phrase Assumption:  The Last Noun in a Noun Phrase is the important one
-            */
+             * Noun Phrase Assumption:  The Last Noun in a Noun Phrase is the important one
+             */
             Noun LastNoun = np.Words.OfType<Noun>().LastOrDefault();
 
 
@@ -100,11 +100,15 @@ namespace LASI.Algorithm.Binding
 
         public void IntraVerbPhrase(VerbPhrase vp)
         {
-            foreach (Word w in vp.Words)
+            Verb LastVerb = vp.Words.OfType<Verb>().LastOrDefault();
+            if (vp.Words.Count() > 0 && LastVerb != null)
             {
-                Console.Write("\"{0}\", ",w.Text);
+                foreach (Word w in vp.Words)
+                {
+                    Console.Write("{0}, ", w);
+                }
+                Console.WriteLine("\n~~~~~~~~~~~~~~~~~\n");
             }
-            Console.WriteLine("\n~~~~~~~~~~~~~~~~~\n");
         }
     }
 }

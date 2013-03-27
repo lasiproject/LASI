@@ -16,7 +16,7 @@ namespace Scott_Experimentation
     class Program
     {
         static void Main(string[] args) {
-            var tagger = new SharpNLPTagger(TaggingOption.TagAndAggregate, @"C:\Users\Scott\Desktop\LasiTests\TestSentences2.txt");
+            var tagger = new SharpNLPTagger(TaggingOption.TagAndAggregate, @"C:\Users\Scott\Desktop\LasiTests\TestSentences3.txt");
             var tagged = tagger.ProcessFile();
             var paragraphs = new TaggedFileParser(tagged).LoadParagraphs();
             var document = new Document(paragraphs);
@@ -96,7 +96,7 @@ namespace Scott_Experimentation
                 ip1.IntraNounPhrase(phrs);
             }
             */
-            foreach (var vbphrs in DocTest.Phrases.GetVerbPhrases())
+            foreach (var vbphrs in document.Phrases.GetVerbPhrases())
             {
                 ip1.IntraVerbPhrase(vbphrs);
             }
