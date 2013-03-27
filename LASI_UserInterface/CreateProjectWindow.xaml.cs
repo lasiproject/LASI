@@ -24,7 +24,14 @@ namespace LASI.UserInterface
     {
         public CreateProjectScreen() {
             InitializeComponent();
+            ProjectLocation = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\LASI_Projects";
+            if (!Directory.Exists(ProjectLocation)) {
+                Directory.CreateDirectory(ProjectLocation);
+            }
+
+            LocationTextBox.Text = ProjectLocation;
             LastLoadedProjectName = "";
+
 
             this.Closing += (s, e) => Application.Current.Shutdown();
         }
@@ -124,11 +131,12 @@ namespace LASI.UserInterface
 
 
             var locationSelectDialog = new System.Windows.Forms.FolderBrowserDialog {
-                RootFolder = System.Environment.SpecialFolder.UserProfile
+                SelectedPath = ProjectLocation
             };
+
             System.Windows.Forms.DialogResult dirResult = locationSelectDialog.ShowDialog();
             if (dirResult == System.Windows.Forms.DialogResult.OK) {
-                projectFolderTextBox.Text = locationSelectDialog.SelectedPath;
+                LocationTextBox.Text = locationSelectDialog.SelectedPath;
             }
 
 
@@ -150,10 +158,10 @@ namespace LASI.UserInterface
 
 
         private bool ValidateProjectLocationField() {
-            if (String.IsNullOrWhiteSpace(projectFolderTextBox.Text)
-            || String.IsNullOrEmpty(projectFolderTextBox.Text)) {
+            if (String.IsNullOrWhiteSpace(LocationTextBox.Text)
+            || String.IsNullOrEmpty(LocationTextBox.Text) || !Directory.Exists(LocationTextBox.Text)) {
 
-                projectFolderTextBox.ToolTip = new ToolTip {
+                LocationTextBox.ToolTip = new ToolTip {
                     Visibility = Visibility.Visible,
                     Content = "You must enter a location for your new project"
                 };
@@ -208,6 +216,10 @@ namespace LASI.UserInterface
             set;
         }
         #endregion
+
+        private void EnteredProjectName_TextChanged(object sender, TextChangedEventArgs e) {
+            LocationTextBox.Text = ProjectLocation + @"\" + EnteredProjectName.Text;
+        }
 
 
 
