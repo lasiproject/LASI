@@ -23,8 +23,7 @@ namespace LASI.FileSystem
         /// <param name="sourcePath">The absolute path of the file to be converted</param>
         /// <param name="targetPath">The an abosulte file path which will correspond to the newly converted version of the file</param>
         public DocxToTextConverter(string sourcePath, string targetPath = null)
-            : base(new DocXFile(sourcePath))
-        {
+            : base(new DocXFile(sourcePath)) {
             if (targetPath == null)
                 destinationDir = Original.Directory + Original.NameSansExt + ".txt";
             else
@@ -37,8 +36,7 @@ namespace LASI.FileSystem
         /// </summary>
         /// <param name="infile">The DocXFile instance representing the document to convert.</param>
         public DocxToTextConverter(DocXFile infile) :
-            base(infile)
-        {
+            base(infile) {
             DestinationInfo = new FileData(destinationDir + infile.Name);
         }
 
@@ -48,8 +46,7 @@ namespace LASI.FileSystem
         /// <param name="infile">The DocFile instance representing the document to convert.</param>
         /// <param name="TxtFilesDir">Indicated the directory in which the converted file is to be placed</param>
         public DocxToTextConverter(DocXFile infile, string TxtFilesDir)
-            : base(infile, TxtFilesDir)
-        {
+            : base(infile, TxtFilesDir) {
             DestinationInfo = new FileData(destinationDir);
         }
 
@@ -61,13 +58,11 @@ namespace LASI.FileSystem
         /// Converts the .docx document into a zip archive, deleting any preexisting conversion to zip.
         /// </summary>
         /// <returns>An object referring to the newly created zipfile.</returns>
-        protected virtual ZipArchive DocxToZip()
-        {
+        protected virtual ZipArchive DocxToZip() {
             string zipName = DestinationInfo.Directory + DestinationInfo.FileNameSansExt + ".zip";
             File.Copy(Original.FullPath, zipName, true);
 
-            if (Directory.Exists(DestinationInfo.Directory + DestinationInfo.FileNameSansExt))
-            {
+            if (Directory.Exists(DestinationInfo.Directory + DestinationInfo.FileNameSansExt)) {
                 Directory.Delete(DestinationInfo.Directory + DestinationInfo.FileNameSansExt, true);
             }
             ZipArch = new ZipArchive(new FileStream(zipName, FileMode.Open), ZipArchiveMode.Read, false);
@@ -81,47 +76,44 @@ namespace LASI.FileSystem
         /// </summary>
         /// <returns>An input document object representing the newly converted file
         /// Note that both the original and converted document objects can be also be accessed independtly via instance properties</returns>
-        public override InputFile ConvertFile()
-        {
+        public override InputFile ConvertFile() {
             DocxToZip();
             XmlFile = new GenericXMLFile(DestinationInfo.Directory + DestinationInfo.FileNameSansExt + @"\word\document.xml");
-            using (XmlReader xmlReader = XmlReader.Create(new FileStream(XmlFile.FullPath, FileMode.Open, FileAccess.Read), new XmlReaderSettings
-            {
+            using (XmlReader xmlReader = XmlReader.Create(new FileStream(XmlFile.FullPath, FileMode.Open, FileAccess.Read), new XmlReaderSettings {
                 IgnoreWhitespace = false
-            }))
-            {
+            })) {
                 using (var writer = new StreamWriter(
                     new FileStream(DestinationInfo.FullPathSansExt + ".txt",
                         FileMode.Create),
-                        Encoding.UTF8, 100))
-                {
+                        Encoding.UTF8, 100)) {
                     xmlReader.ReadStartElement();
-                    while (xmlReader.Read())
-                    {
+                    while (xmlReader.Read()) {
 
-                        var value = xmlReader.Value;
-                        if (!string.IsNullOrWhiteSpace(value))
-                        {
-                            if (xmlReader.Name.Trim().Contains("<w:p"))
-                            {
-                                writer.Write("<paragraph>");
+                        while (xmlReader.Read()) {
+                            var name = xmlReader.Name;
+                            if (name == "w:t") {
+                                var value = xmlReader.Value;
+                                if (!string.IsNullOrWhiteSpace(value)) {
+                                    if (xmlReader.Name.Trim().Contains("<w:p")) {
+                                        writer.Write("<paragraph>");
+                                    }
+                                    writer.Write(value);
+                                    if (xmlReader.Name.Trim().Contains("</w:p>")) {
+                                        writer.Write("</paragraph>");
+                                    }
+
+                                }
+
+
+
+                                if (xmlReader.Name.Contains("tbl"))
+                                    xmlReader.Skip();
+
+
+
+
                             }
-                            writer.Write(value);
-                        if (xmlReader.Name.Trim().Contains("</w:p>"))
-                        {
-                            writer.Write("</paragraph>");
                         }
-
-                        }
-
-
-
-                        if (xmlReader.Name.Contains("tbl"))
-                            xmlReader.Skip();
-
-
-
-
                     }
 
                 }
@@ -136,8 +128,7 @@ namespace LASI.FileSystem
         /// </summary>
         /// <param name="arch">The object which represents the zip file from which to extract.</param>
         /// <returns>a instance of GenericXMLFile which wraps the extracted .xml.</returns>
-        protected virtual GenericXMLFile GetRelevantXMLFile(ZipArchive arch)
-        {
+        protected virtual GenericXMLFile GetRelevantXMLFile(ZipArchive arch) {
             var extractedFile = arch.GetEntry(@"word/document.xml");
             var absolutePath = Original.PathSansExt + @"/" + extractedFile.FullName;
             return new GenericXMLFile(absolutePath);
@@ -149,8 +140,7 @@ namespace LASI.FileSystem
         /// <returns>a Task of InputFile object which functions as a proxy for the actual InputFile while the conversion routine is in progress.
         /// Access the internal input file encapsulated by the Task by using syntax such as : var file = await myConverter.ConvertFileAsync()
         /// </returns>
-        public async override Task<InputFile> ConvertFileAsync()
-        {
+        public async override Task<InputFile> ConvertFileAsync() {
             return await Task.Run(() => ConvertFile());
         }
 
@@ -161,8 +151,7 @@ namespace LASI.FileSystem
         /// <summary>
         /// Utility object containing information specifying details about the converted file before it is created.
         /// </summary>
-        private FileData DestinationInfo
-        {
+        private FileData DestinationInfo {
             get;
             set;
         }
@@ -170,16 +159,14 @@ namespace LASI.FileSystem
         /// <summary>
         /// Gets or sets the XmlFile which contains the significant text of the .docx document.
         /// </summary>
-        protected virtual InputFile XmlFile
-        {
+        protected virtual InputFile XmlFile {
             get;
             set;
         }
         /// <summary>
         /// Gets or sets the ziparchive which is created during the conversion process.
         /// </summary>
-        protected virtual ZipArchive ZipArch
-        {
+        protected virtual ZipArchive ZipArch {
             get;
             set;
         }
@@ -189,8 +176,7 @@ namespace LASI.FileSystem
         /// This additional method of accessing the new document is primarily provided to facilitate asynchronous programming
         /// and any access attempts before the conversion is complete will raise a NullReferenceException.
         /// </summary>
-        public override InputFile Converted
-        {
+        public override InputFile Converted {
             get;
             protected set;
         }
