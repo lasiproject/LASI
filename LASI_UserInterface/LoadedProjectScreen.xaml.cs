@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LASI.FileSystem;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,10 +25,13 @@ namespace LASI.UserInterface
             if (titleText != null)
                 Title = titleText;
             BindEventHandlers();
+
         }
+
         private void BindEventHandlers() {
 
             this.Closing += (s, e) => Application.Current.Shutdown();
+
         }
         private void MenuItem_Click_1(object sender, RoutedEventArgs e) {
             WindowManager.InProgressScreen.PositionAt(this.Left, this.Top);

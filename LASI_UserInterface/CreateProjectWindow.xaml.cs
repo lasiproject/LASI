@@ -32,7 +32,7 @@ namespace LASI.UserInterface
 
             LocationTextBox.Text = ProjectLocation;
             LastLoadedProjectName = "";
-
+            LocationTextBox.TextChanged += (sender, e) => LocationTextBox.ScrollToEnd();
 
             this.Closing += (s, e) => Application.Current.Shutdown();
         }
@@ -93,20 +93,24 @@ namespace LASI.UserInterface
         }
 
 
-        private void CreateButton_Click(object sender, RoutedEventArgs e) {
+        private async void CreateButton_Click(object sender, RoutedEventArgs e) {
             if (ValidateProjectNameField() && ValidateProjectLocationField() && ValidateProjectDocumentField()) {
                 LastLoadedProjectName = EnteredProjectName.Text;
 
 
-                this.SwapWith(WindowManager.LoadedProjectScreen);
+
                 WindowManager.LoadedProjectScreen.SetTitle(LastLoadedProjectName + " - L.A.S.I.");
                 WindowManager.LoadedProjectScreen.Show();
 
                 FileManager.Initialize(ProjectLocation + @"\" + EnteredProjectName.Text);
-                this.Hide();
+
+                foreach (var file in documentsAdded.Items) {
+                    FileManager.AddFile((file as ListViewItem).Content.ToString(), true);
+                }
 
 
-
+                this.SwapWith(WindowManager.LoadedProjectScreen);
+                await FileManager.ConvertAsNeededAsync();
 
             }
             else {
@@ -167,7 +171,7 @@ namespace LASI.UserInterface
 
         private bool ValidateProjectLocationField() {
             if (String.IsNullOrWhiteSpace(LocationTextBox.Text)
-            || String.IsNullOrEmpty(LocationTextBox.Text) || !Directory.Exists(LocationTextBox.Text.Substring(0,LocationTextBox.Text.LastIndexOf("\\")))) {
+            || String.IsNullOrEmpty(LocationTextBox.Text) || !Directory.Exists(LocationTextBox.Text.Substring(0, LocationTextBox.Text.LastIndexOf("\\")))) {
 
                 LocationTextBox.ToolTip = new ToolTip {
                     Visibility = Visibility.Visible,

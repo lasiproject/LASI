@@ -129,7 +129,21 @@ namespace LASI.FileSystem
             textFiles.Add(file);
         }
 
-
+        public static void AddFile(string path, bool overwrite = false) {
+            switch (path.Substring(path.LastIndexOf('.')).ToLower()) {
+                case ".txt":
+                    AddTextFile(path, overwrite);
+                    break;
+                case ".docx":
+                    AddDocXFile(path, overwrite);
+                    break;
+                case ".doc":
+                    AddDocFile(path, overwrite);
+                    break;
+                default:
+                    throw new InvalidOperationException();
+            }
+        }
         /// <summary>
         /// Converts all of the .doc files it recieves into .docx files
         /// If no arguments are supplied, it will instead convert all yet unconverted .doc files in the project directory
