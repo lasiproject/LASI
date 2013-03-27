@@ -35,7 +35,7 @@ namespace LASI.UserInterface
 
         private void browseForDocButton_Click(object sender, RoutedEventArgs e) {
             var openDialog = new OpenFileDialog {
-                Filter = "LASI Inputs|*.docx; *.doc; *.txt"
+                Filter = "LASI File Types|*.docx; *.doc; *.txt"
             };
             openDialog.ShowDialog(this);
             if (openDialog.FileNames.Count() <= 0) {
@@ -62,7 +62,9 @@ namespace LASI.UserInterface
                 xbuttons.Children.Remove(button);
                 NumberOfDocuments--;
                 if (NumberOfDocuments == 0)
-                    documentsAdded.Visibility = Visibility.Hidden;
+                 documentsAdded.Visibility = Visibility.Hidden; 
+               
+                browseForDocButton.IsEnabled = true;
 
 
             };
@@ -73,7 +75,10 @@ namespace LASI.UserInterface
             lastDocPath.Text = string.Empty;
             NumberOfDocuments++;
             if (!documentsAdded.IsVisible)
-                documentsAdded.Visibility = Visibility.Visible;
+            { documentsAdded.Visibility = Visibility.Visible; }
+
+            if (NumberOfDocuments == 5)
+            { browseForDocButton.IsEnabled = false; }
 
         }
 

@@ -47,9 +47,9 @@
 
                 <ListBox Name="documentsAdded" Height="100" Canvas.Left="10" Canvas.Top="163" Width="220" Visibility="Hidden"/>
                 <WrapPanel Name="xbuttons" Height="98" Canvas.Left="235" Canvas.Top="165" Width="20"/>
-                <Label Name="ProjNameErrorLabel" Content="*" Canvas.Left="150" Canvas.Top="52" Height="27" Width="14" Foreground="Red" Visibility="Visible" RenderTransformOrigin="0.5,0.5"/>
-                <Label Name="ProjLocationErrorLabel" Content="*" Canvas.Left="150" Canvas.Top="88" Height="27" Width="14" Foreground="Red" Visibility="Visible"/>
-                <Label Name="ProjDocumentErrorLabel" Content="*" Canvas.Left="150" Canvas.Top="125" Height="27" Width="14" Foreground="Red" Visibility="Visible"/>
+                <Label Name="ProjNameErrorLabel" Content="*" Canvas.Left="150" Canvas.Top="52" Height="27" Width="14" Foreground="Red" Visibility="Hidden" />
+                <Label Name="ProjLocationErrorLabel" Content="*" Canvas.Left="150" Canvas.Top="88" Height="27" Width="14" Foreground="Red" Visibility="Hidden"/>
+                <Label Name="ProjDocumentErrorLabel" Content="*" Canvas.Left="150" Canvas.Top="125" Height="27" Width="14" Foreground="Red" Visibility="Hidden"/>
                 <Label Name="ProjCreateErrorLabel" Content="Label" Canvas.Left="304" Canvas.Top="181" Height="28" Width="178" Foreground="Red" Visibility="Hidden"/>
 
             </Canvas>

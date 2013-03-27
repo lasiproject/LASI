@@ -26,6 +26,7 @@ namespace LASI.UserInterface
             InitializeComponent();
             WindowManager.SplashScreen = this;
             BindWindowEventHandlers();
+            WindowStartupLocation = WindowStartupLocation.CenterScreen;
         }
         void BindWindowEventHandlers() {
             this.MouseLeftButtonDown += (s, e) => DragMove();
@@ -40,7 +41,7 @@ namespace LASI.UserInterface
 
         private void createProjectButton_Click(object sender, RoutedEventArgs e) {
             this.Hide();
-            WindowManager.CreateProjectScreen.PositionAt(this.Left, this.Top);
+            WindowManager.CreateProjectScreen.PositionAt(this.Left, Math.Abs((this.Height - WindowManager.CreateProjectScreen.Height) / 2));
             WindowManager.CreateProjectScreen.Show();
 
         }
