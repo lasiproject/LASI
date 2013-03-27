@@ -88,7 +88,6 @@ namespace LASI.FileSystem
         public static async Task ConvertAsNeededAsync() {
             await ConvertDocFilesAsync();
             await ConvertDocxToTextAsync();
-            await TagTextFilesAsync();
         }
 
 
@@ -365,8 +364,35 @@ namespace LASI.FileSystem
         #region Fields
 
         static List<DocFile> docFiles = new List<DocFile>();
+
+        public static List<DocFile> DocFiles {
+            get {
+                return FileManager.docFiles;
+            }
+            set {
+                FileManager.docFiles = value;
+            }
+        }
         static List<DocXFile> docXFiles = new List<DocXFile>();
+
+        public static List<DocXFile> DocXFiles {
+            get {
+                return FileManager.docXFiles;
+            }
+            set {
+                FileManager.docXFiles = value;
+            }
+        }
         static List<TextFile> textFiles = new List<TextFile>();
+
+        public static List<TextFile> TextFiles {
+            get {
+                return FileManager.textFiles;
+            }
+            set {
+                FileManager.textFiles = value;
+            }
+        }
         static List<TaggedFile> TaggedFiles = new List<TaggedFile>();
 
         #endregion
