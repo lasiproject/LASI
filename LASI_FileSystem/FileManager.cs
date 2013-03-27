@@ -160,6 +160,7 @@ namespace LASI.FileSystem
             textFiles.RemoveAll(f => f.NameSansExt == fileName);
             docFiles.RemoveAll(f => f.NameSansExt == fileName);
             docXFiles.RemoveAll(f => f.NameSansExt == fileName);
+            DeleteAlikeFromDir(fileName);
         }
 
         public static void RemoveFile(TextFile file) {
