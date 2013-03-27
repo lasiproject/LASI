@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.IO;
+using LASI.FileSystem.FileTypes;
+using System.Threading.Tasks;
 
 namespace LASI.UserInterface
 {
@@ -27,46 +29,54 @@ namespace LASI.UserInterface
             if (titleText != null)
                 Title = titleText;
             BindEventHandlers();
-
+            this.Closing += (s, e) => Application.Current.Shutdown();
         }
 
 
 
-        public void LoadDocumentPreviews()
+        public async void LoadDocumentPreviews()
         {
 
             foreach (var textfile in FileManager.TextFiles)
             {
-                using (StreamReader reader = new StreamReader(textfile.FullPath))
-                {
-
-                    var docu = reader.ReadToEnd();
-                   docu = docu.Replace("\r\n\r\n", "");
-                   docu = docu.Replace("<paragraph>", "\n");
-                   docu = docu.Replace("</paragraph>", "");
-                   
-                    var item = new TabItem
-                    {
-                        Header = textfile.NameSansExt,
-                        Content = new TextBox
-                        {
-                            IsReadOnly = true,
-                            VerticalScrollBarVisibility = ScrollBarVisibility.Auto,
-                            TextWrapping = TextWrapping.Wrap,
-                            Text = docu
-
-
-                        },
-                        Focusable = true
-                    };
-                    DocumentPreview.Items.Add(item);
-                }
+                 await LoadTextandTab(textfile);
 
 
             }
             DocumentPreview.SelectedIndex = 0;
-            
 
+
+        }
+
+        private async Task LoadTextandTab(FileSystem.FileTypes.TextFile textfile)
+        {
+            using (StreamReader reader = new StreamReader(textfile.FullPath))
+            {
+
+                var docu = await reader.ReadToEndAsync();
+                docu = docu.Replace("\r\n\r\n", "");
+                docu = docu.Replace("<paragraph>", "\n");
+                docu = docu.Replace("</paragraph>", "");
+
+                var item = new TabItem
+                {
+                    Header = textfile.NameSansExt,
+                    Content = new TextBox
+                    {
+                        IsReadOnly = true,
+                        VerticalScrollBarVisibility = ScrollBarVisibility.Auto,
+                        TextWrapping = TextWrapping.Wrap,
+                        Text = docu
+
+
+                    },
+                    Focusable = true
+                    
+                    
+                };
+                DocumentPreview.Items.Add(item);
+                DocumentPreview.SelectedItem = item;
+            }
         }
 
 
@@ -84,9 +94,9 @@ namespace LASI.UserInterface
             WindowManager.InProgressScreen.Show();
             this.Hide();
             await FileManager.TagTextFilesAsync();
-            
-            
-            
+
+
+
         }
 
         private void backButton_Click_1(object sender, RoutedEventArgs e)
@@ -116,6 +126,38 @@ namespace LASI.UserInterface
         private void TextBox_TextChanged_1(object sender, TextChangedEventArgs e)
         {
 
+        }
+
+        private void RemoveCurrentDocument_Click(object sender, RoutedEventArgs e)
+        {
+            var docSelected = DocumentPreview.SelectedItem;
+            if (docSelected != null)
+            {
+                DocumentPreview.Items.Remove(docSelected);
+                FileManager.RemoveFile((docSelected as TabItem).Header as string);
+            }
+        }
+
+        private async void AddNewDocument_Click(object sender, RoutedEventArgs e)
+        {
+            var openDialog = new Microsoft.Win32.OpenFileDialog
+            {
+                Filter = "LASI File Types|*.docx; *.doc; *.txt"
+            };
+            openDialog.ShowDialog(this);
+            if (openDialog.FileNames.Count() <= 0)
+            {
+                return;
+            }
+            var docPath = openDialog.FileName;
+            var chosenFile = FileManager.AddFile(docPath, true);
+            
+            await FileManager.ConvertAsNeededAsync();
+            
+            var textfile = FileManager.TextFiles.Where(f => f.NameSansExt == chosenFile.NameSansExt).First();
+
+           await LoadTextandTab(textfile);
+           
         }
     }
 }

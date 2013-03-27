@@ -26,6 +26,7 @@ namespace LASI.UserInterface
             InitializeComponent();
             this.Closed += (s, e) => Application.Current.Shutdown();
             BuildAssociatedView();
+          
         }
 
 

@@ -22,6 +22,7 @@ namespace LASI.UserInterface
         public InProgressScreen() {
             InitializeComponent();
             this.IsVisibleChanged += async (s, e) => await InitPawPrintAlternation();
+            this.Closing += (s, e) => Application.Current.Shutdown();
         }
 
         private async Task InitPawPrintAlternation() {

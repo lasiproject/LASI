@@ -154,10 +154,10 @@ namespace LASI.FileSystem
         }
 
         private static void DeleteAlikeFromDir(string file) {
-            foreach (var f in from f in new DirectoryInfo(InputFilesDir).EnumerateFiles(String.Format("{0}.*", file), SearchOption.AllDirectories)
-                              select f) {
-                f.Delete();
-            }
+            //foreach (var f in from f in new DirectoryInfo(InputFilesDir).EnumerateFiles(String.Format("{0}.*", file), SearchOption.AllDirectories)
+            //                  select f) {
+            //    f.Delete();
+            //}
         }
         public static void RemoveFile(string fileName) {
             textFiles.RemoveAll(f => f.NameSansExt == fileName);

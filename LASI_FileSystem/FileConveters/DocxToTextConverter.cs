@@ -110,11 +110,11 @@ namespace LASI.FileSystem
                 }
             }
             Converted = new TextFile(Original.PathSansExt + ".txt");
-            foreach (var f in from f in new DirectoryInfo(destinationDir).EnumerateFiles()
-                              where f.FullName != Converted.FullPath
-                              select f) {
-                f.Delete();
-            }
+            //foreach (var f in from f in new DirectoryInfo(destinationDir).EnumerateFiles()
+            //                  where f.FullName != Converted.FullPath
+            //                  select f) {
+            //    f.Delete();
+            //}
             return Converted;
 
         }
