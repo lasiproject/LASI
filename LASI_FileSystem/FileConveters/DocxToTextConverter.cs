@@ -98,23 +98,23 @@ namespace LASI.FileSystem
                     xmlReader.ReadStartElement();
                     while (xmlReader.Read())
                     {
-                        if (xmlReader.Name.Trim().Contains("w:p"))
-                        {
-                            writer.Write("<paragraph>");
-                        }
+
                         var value = xmlReader.Value;
-                        if (!string.IsNullOrWhiteSpace(value) && !string.IsNullOrEmpty(value))
+                        if (!string.IsNullOrWhiteSpace(value))
                         {
-
+                            if (xmlReader.Name.Trim().Contains("<w:p"))
+                            {
+                                writer.Write("<paragraph>");
+                            }
                             writer.Write(value);
-
-
-                        }
-
-                        if (xmlReader.Name.Trim().Contains("/w:p"))
+                        if (xmlReader.Name.Trim().Contains("</w:p>"))
                         {
                             writer.Write("</paragraph>");
                         }
+
+                        }
+
+
 
                         if (xmlReader.Name.Contains("tbl"))
                             xmlReader.Skip();
