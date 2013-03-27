@@ -88,12 +88,17 @@ namespace LASI.FileSystem
                         Encoding.UTF8, 100)) {
                     xmlReader.ReadStartElement();
                     while (xmlReader.Read()) {
-                        if (xmlReader.Name.Trim().Contains("w:p")) {
-                            writer.Write("<paragraph>");
-                        }
+
                         var value = xmlReader.Value;
-                        if (!string.IsNullOrWhiteSpace(value)) {
-                            writer.Write(value);//.Replace('"', ' '));
+                        if (!string.IsNullOrWhiteSpace(value) && !string.IsNullOrEmpty(value)) {
+                            if (xmlReader.Name.Trim().Contains("w:p")) {
+                                writer.Write("<paragraph>");
+                            }
+                            writer.Write(value);
+                            if (xmlReader.Name.Trim().Contains("w:p")) {
+                                writer.Write("</paragraph>");
+                            }
+
 
                         }
 
@@ -101,9 +106,7 @@ namespace LASI.FileSystem
                             xmlReader.Skip();
 
 
-                        if (xmlReader.Name.Trim().Contains("w:p")) {
-                            writer.Write("</paragraph>");
-                        }
+
 
                     }
 
