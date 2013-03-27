@@ -12,9 +12,9 @@
                 <MenuItem Header="Open" HorizontalAlignment="Left" Width="200">
                     <MenuItem Header="Project"/>
                     <MenuItem Header="File"/>
-                    
+
                 </MenuItem>
-                <MenuItem Header="Add" HorizontalAlignment="Left" Width="200">
+                <MenuItem Name="FileMenuAdd" Header="Add" HorizontalAlignment="Left" Width="200" Click="AddNewDocument_Click">
                     <MenuItem Header="File"/>
                 </MenuItem>
                 <MenuItem Header="Save Project As" HorizontalAlignment="Left" Width="200"/>
@@ -32,7 +32,7 @@
         <Canvas Margin="0,52,0,0" Height="411" VerticalAlignment="Top" Background="#FFF6F6F6">
             <TabControl x:Name ="DocumentPreview" HorizontalAlignment="Right" Width="636" Height="412" Canvas.Left="148"></TabControl>
             <Button x:Name ="RemoveCurrentDocument" Content="Remove" Canvas.Left="40" Canvas.Top="45" Click="RemoveCurrentDocument_Click" />
-            <Button x:Name ="AddNewDocument" Content="Add" Canvas.Left="40" Canvas.Top="106" Height="26" Width="47" Click="AddNewDocument_Click"/>
+            <Button x:Name ="AddNewDocumentButton" Content="Add" Canvas.Left="40" Canvas.Top="106" Height="26" Width="47" Click="AddNewDocument_Click"/>
         </Canvas>
         <TextBlock HorizontalAlignment="Left" Height="24" Margin="44,54,0,0" TextWrapping="Wrap" Text="Toolbar" VerticalAlignment="Top" Width="57" FontSize="14"/>
         <ProgressBar RenderTransformOrigin="0.5,0.5" Margin="-3,464,0,1">

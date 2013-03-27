@@ -22,8 +22,7 @@ namespace LASI.UserInterface
     /// </summary>
     public partial class LoadedProjectScreen : Window
     {
-        public LoadedProjectScreen()
-        {
+        public LoadedProjectScreen() {
             InitializeComponent();
             var titleText = WindowManager.CreateProjectScreen.LastLoadedProjectName;
             if (titleText != null)
@@ -34,12 +33,10 @@ namespace LASI.UserInterface
 
 
 
-        public async void LoadDocumentPreviews()
-        {
+        public async void LoadDocumentPreviews() {
 
-            foreach (var textfile in FileManager.TextFiles)
-            {
-                 await LoadTextandTab(textfile);
+            foreach (var textfile in FileManager.TextFiles) {
+                await LoadTextandTab(textfile);
 
 
             }
@@ -48,21 +45,17 @@ namespace LASI.UserInterface
 
         }
 
-        private async Task LoadTextandTab(FileSystem.FileTypes.TextFile textfile)
-        {
-            using (StreamReader reader = new StreamReader(textfile.FullPath))
-            {
+        private async Task LoadTextandTab(FileSystem.FileTypes.TextFile textfile) {
+            using (StreamReader reader = new StreamReader(textfile.FullPath)) {
 
                 var docu = await reader.ReadToEndAsync();
                 docu = docu.Replace("\r\n\r\n", "");
                 docu = docu.Replace("<paragraph>", "\n");
                 docu = docu.Replace("</paragraph>", "");
 
-                var item = new TabItem
-                {
+                var item = new TabItem {
                     Header = textfile.NameSansExt,
-                    Content = new TextBox
-                    {
+                    Content = new TextBox {
                         IsReadOnly = true,
                         VerticalScrollBarVisibility = ScrollBarVisibility.Auto,
                         TextWrapping = TextWrapping.Wrap,
@@ -71,8 +64,8 @@ namespace LASI.UserInterface
 
                     },
                     Focusable = true
-                    
-                    
+
+
                 };
                 DocumentPreview.Items.Add(item);
                 DocumentPreview.SelectedItem = item;
@@ -81,14 +74,12 @@ namespace LASI.UserInterface
 
 
 
-        private void BindEventHandlers()
-        {
+        private void BindEventHandlers() {
 
             this.Closing += (s, e) => Application.Current.Shutdown();
 
         }
-        private async void StartButton_Click(object sender, RoutedEventArgs e)
-        {
+        private async void StartButton_Click(object sender, RoutedEventArgs e) {
             WindowManager.InProgressScreen.PositionAt(this.Left, this.Top);
             WindowManager.InProgressScreen.SetTitle(WindowManager.CreateProjectScreen.LastLoadedProjectName + " - L.A.S.I.");
             WindowManager.InProgressScreen.Show();
@@ -99,65 +90,67 @@ namespace LASI.UserInterface
 
         }
 
-        private void backButton_Click_1(object sender, RoutedEventArgs e)
-        {
+        private void backButton_Click_1(object sender, RoutedEventArgs e) {
             WindowManager.CreateProjectScreen.PositionAt(this.Left, this.Top);
             WindowManager.CreateProjectScreen.Show();
             this.Hide();
         }
 
-        private void forwardButton_Click_1(object sender, RoutedEventArgs e)
-        {
+        private void forwardButton_Click_1(object sender, RoutedEventArgs e) {
             this.forwardButton.IsManipulationEnabled = false;
             this.backButton.IsManipulationEnabled = true;
         }
 
-        private void MenuItem_Click_2(object sender, RoutedEventArgs e)
-        {
+        private void MenuItem_Click_2(object sender, RoutedEventArgs e) {
 
         }
 
-        private void MenuItem_Click_3(object sender, RoutedEventArgs e)
-        {
+        private void MenuItem_Click_3(object sender, RoutedEventArgs e) {
             this.Close();
 
         }
 
-        private void TextBox_TextChanged_1(object sender, TextChangedEventArgs e)
-        {
+        private void TextBox_TextChanged_1(object sender, TextChangedEventArgs e) {
 
         }
 
-        private void RemoveCurrentDocument_Click(object sender, RoutedEventArgs e)
-        {
+        private void RemoveCurrentDocument_Click(object sender, RoutedEventArgs e) {
             var docSelected = DocumentPreview.SelectedItem;
-            if (docSelected != null)
-            {
+            if (docSelected != null) {
                 DocumentPreview.Items.Remove(docSelected);
                 FileManager.RemoveFile((docSelected as TabItem).Header as string);
+                CheckIfAddingAllowed();
             }
+
         }
 
-        private async void AddNewDocument_Click(object sender, RoutedEventArgs e)
-        {
-            var openDialog = new Microsoft.Win32.OpenFileDialog
-            {
-                Filter = "LASI File Types|*.docx; *.doc; *.txt"
+        private async void AddNewDocument_Click(object sender, RoutedEventArgs e) {
+            var openDialog = new Microsoft.Win32.OpenFileDialog {
+                Filter = "LASI File Types|*.docx; *.doc; *.txt",
+
             };
             openDialog.ShowDialog(this);
-            if (openDialog.FileNames.Count() <= 0)
-            {
+            if (openDialog.FileNames.Count() <= 0) {
                 return;
             }
+
+
             var docPath = openDialog.FileName;
             var chosenFile = FileManager.AddFile(docPath, true);
-            
+
             await FileManager.ConvertAsNeededAsync();
-            
+
             var textfile = FileManager.TextFiles.Where(f => f.NameSansExt == chosenFile.NameSansExt).First();
 
-           await LoadTextandTab(textfile);
-           
+            await LoadTextandTab(textfile);
+            CheckIfAddingAllowed();
+
+        }
+
+        private void CheckIfAddingAllowed() {
+            var addingEnabled = DocumentPreview.Items.Count ==5 ? false : true;
+            AddNewDocumentButton.IsEnabled = addingEnabled;
+            FileMenuAdd.IsEnabled = addingEnabled;
         }
     }
 }
