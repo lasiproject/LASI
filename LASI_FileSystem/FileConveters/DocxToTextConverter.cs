@@ -88,8 +88,8 @@ namespace LASI.FileSystem
                         Encoding.UTF8, 100)) {
                     xmlReader.ReadStartElement();
                     while (xmlReader.Read()) {
-                        var name = xmlReader.Name;
-                        if (name == "w:p") {
+                        var n = xmlReader.Name;
+                        if (n == "w:p") {
                             while (xmlReader.Read()) {
                                 var name = xmlReader.Name;
                                 if (name == "w:t") {
