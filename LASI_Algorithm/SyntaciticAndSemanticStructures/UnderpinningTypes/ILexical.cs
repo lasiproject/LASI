@@ -21,7 +21,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets the or sets the double precision numeric weight of the ILexical construct.
         /// </summary>
-        double Weight {
+        decimal Weight {
             get;
             set;
         }

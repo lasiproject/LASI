@@ -86,7 +86,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets the or sets the double precision numeric weight of the Clause.
         /// </summary>
-        public double Weight {
+        public decimal Weight {
             get;
             set;
         }

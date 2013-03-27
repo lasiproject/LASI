@@ -28,12 +28,12 @@ namespace LASI.UserInterface
             var pawPrints = new[] { pawPrintImg1, pawPrintImg3, pawPrintImg5, pawPrintImg2, pawPrintImg4, pawPrintImg6 }.ToList();
             pawPrints.ForEach(pp => pp.Opacity = 0);
             foreach (var pp in pawPrints) {
-                FadeImageOut(pp);
-                await Task.Delay(2500);
+                FadeImage(pp);
+                await Task.Delay(2700);
             }
 
         }
-        private async void FadeImageOut(Image img) {
+        private async void FadeImage(Image img) {
             while (img.Opacity > 0.0) {
                 img.Opacity -= 0.01;
                 await Task.Delay(10);
@@ -43,7 +43,7 @@ namespace LASI.UserInterface
                 img.Opacity += 0.01;
                 await Task.Delay(10);
             }
-            FadeImageOut(img);
+            FadeImage(img);
 
 
 

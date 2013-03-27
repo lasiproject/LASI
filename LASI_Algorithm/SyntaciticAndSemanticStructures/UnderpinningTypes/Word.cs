@@ -11,7 +11,7 @@ namespace LASI.Algorithm
     /// <summary>
     /// Provides the base class, properties, and behaviors for all word level gramatical constructs.
     /// </summary>
-    public abstract class Word : IPrepositionLinkable
+    public abstract class Word : IPrepositionLinkable, ILexical
     {
         #region Constructors
         /// <summary>
@@ -129,7 +129,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets the or sets the double precision numeric weight of the Word.
         /// </summary>
-        public double Weight {
+        public decimal Weight {
             get;
             set;
         }
