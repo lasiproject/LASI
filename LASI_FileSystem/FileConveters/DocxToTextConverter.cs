@@ -101,6 +101,8 @@ namespace LASI.FileSystem
 
 
                         }
+                        else
+                            xmlReader.Skip();
 
                         if (xmlReader.Name.Contains("tbl"))
                             xmlReader.Skip();
