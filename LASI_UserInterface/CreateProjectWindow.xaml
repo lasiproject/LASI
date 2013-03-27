@@ -38,9 +38,9 @@
                 <TextBlock Height="27" Canvas.Left="42" TextWrapping="Wrap" Text="Add Document:" Canvas.Top="127" Width="104" TextAlignment="Center" LineHeight="6" FontSize="14"/>
                 <TextBox x:Name="EnteredProjectName"  Height="22" Canvas.Left="169" TextWrapping="Wrap" Canvas.Top="54" Width="174" MaxLines="1" />
                 <TextBlock Height="27" Canvas.Left="42" TextWrapping="Wrap" Text="Name:" Canvas.Top="54" Width="47" TextAlignment="Center" LineHeight="6" FontSize="14" RenderTransformOrigin="0.099,0.298"/>
-                <TextBox x:Name="projectFolderText" Height="22" Canvas.Left="169" TextWrapping="Wrap" Canvas.Top="89" Width="174" MaxLines="1"/>
+                <TextBox x:Name="projectFolderTextBox" Height="22" Canvas.Left="169" TextWrapping="Wrap" Canvas.Top="89" Width="174" MaxLines="1"/>
                 <TextBlock Height="25" Canvas.Left="42" TextWrapping="Wrap" Text="Location:" Canvas.Top="91" Width="62" TextAlignment="Center" LineHeight="6" FontSize="14"/>
-                <Button x:Name ="SelectProjFolderButton" Content="Browse" Height="25" Canvas.Left="348" Canvas.Top="87" Width="50" RenderTransformOrigin="0.5,0.5" />
+                <Button x:Name ="SelectProjFolderButton" Content="Browse" Height="25" Canvas.Left="348" Canvas.Top="87" Width="50" RenderTransformOrigin="0.5,0.5" Click="SelectProjFolderButton_Click"  />
                 <Button x:Name="browseForDocButton" Content="Browse" Height="25" Canvas.Left="348" Canvas.Top="126" Width="50" RenderTransformOrigin="0.8,0.476" Click="browseForDocButton_Click"/>
                 <Button x:Name="CreateButton" Content="Create" Height="27" Canvas.Left="304" Canvas.Top="224" Width="58" Click="CreateButton_Click" />
                 <Button x:Name="CancelButton" Content="Cancel" Height="27" Canvas.Left="384" Canvas.Top="224" Width="58" RenderTransformOrigin="0.035,1.507" Click="CancelButton_Click" />
