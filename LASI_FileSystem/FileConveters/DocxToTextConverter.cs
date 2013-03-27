@@ -88,32 +88,36 @@ namespace LASI.FileSystem
                         Encoding.UTF8, 100)) {
                     xmlReader.ReadStartElement();
                     while (xmlReader.Read()) {
+                        var name = xmlReader.Name;
+                        if (name == "w:p") {
+                            while (xmlReader.Read()) {
+                                var name = xmlReader.Name;
+                                if (name == "w:t") {
+                                    var value = xmlReader.Value;
+                                    if (!string.IsNullOrWhiteSpace(value)) {
+                                        if (xmlReader.Name.Trim().Contains("<w:p")) {
+                                            writer.Write("<paragraph>");
+                                        }
+                                        writer.Write(value);
+                                        if (xmlReader.Name.Trim().Contains("</w:p>")) {
+                                            writer.Write("</paragraph>");
+                                        }
 
-                        while (xmlReader.Read()) {
-                            var name = xmlReader.Name;
-                            if (name == "w:t") {
-                                var value = xmlReader.Value;
-                                if (!string.IsNullOrWhiteSpace(value)) {
-                                    if (xmlReader.Name.Trim().Contains("<w:p")) {
-                                        writer.Write("<paragraph>");
                                     }
-                                    writer.Write(value);
-                                    if (xmlReader.Name.Trim().Contains("</w:p>")) {
-                                        writer.Write("</paragraph>");
-                                    }
+
+
+
+                                    if (xmlReader.Name.Contains("tbl"))
+                                        xmlReader.Skip();
+
+
+
 
                                 }
-
-
-
-                                if (xmlReader.Name.Contains("tbl"))
-                                    xmlReader.Skip();
-
-
-
-
                             }
                         }
+                        else
+                            xmlReader.Skip();
                     }
 
                 }
