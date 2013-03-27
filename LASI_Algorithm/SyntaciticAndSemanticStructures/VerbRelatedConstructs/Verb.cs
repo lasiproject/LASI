@@ -205,12 +205,6 @@ namespace LASI.Algorithm
         }
         #endregion
 
-        public static bool operator ==(Verb lhs, Verb rhs) {
-            return lhs.Text == rhs.Text && lhs.Tense == lhs.Tense;
-        }
-        public static bool operator !=(Verb lhs, Verb rhs) {
-            return !(lhs == rhs);
-        }
 
 
 
