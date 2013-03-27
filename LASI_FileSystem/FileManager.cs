@@ -143,6 +143,27 @@ namespace LASI.FileSystem
                     throw new InvalidOperationException();
             }
         }
+
+        public static void RemoveFile(InputFile file) {
+            foreach (var f in from f in new DirectoryInfo(InputFilesDir).EnumerateFiles(String.Format("{0}.*", file.NameSansExt), SearchOption.AllDirectories)
+                              select f) {
+                f.Delete();
+            }
+
+            RemoveFile(file as dynamic);
+
+
+
+        }
+        public static void RemoveFile(TextFile file) {
+            textFiles.Remove(file);
+        }
+        public static void RemoveFile(DocFile file) {
+            docFiles.Remove(file);
+        }
+        public static void RemoveFile(DocXFile file) {
+            docXFiles.Remove(file);
+        }
         /// <summary>
         /// Converts all of the .doc files it recieves into .docx files
         /// If no arguments are supplied, it will instead convert all yet unconverted .doc files in the project directory
