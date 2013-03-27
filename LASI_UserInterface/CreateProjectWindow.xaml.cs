@@ -111,6 +111,8 @@ namespace LASI.UserInterface
 
                 this.SwapWith(WindowManager.LoadedProjectScreen);
                 await FileManager.ConvertAsNeededAsync();
+                WindowManager.LoadedProjectScreen.LoadDocumentPreviews();
+
 
             }
             else {

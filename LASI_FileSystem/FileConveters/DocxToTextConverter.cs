@@ -80,7 +80,7 @@ namespace LASI.FileSystem
             DocxToZip();
             XmlFile = new GenericXMLFile(DestinationInfo.Directory + DestinationInfo.FileNameSansExt + @"\word\document.xml");
             using (XmlReader xmlReader = XmlReader.Create(new FileStream(XmlFile.FullPath, FileMode.Open, FileAccess.Read), new XmlReaderSettings {
-                IgnoreWhitespace = false
+                IgnoreWhitespace = true
             })) {
                 using (var writer = new StreamWriter(
                     new FileStream(DestinationInfo.FullPathSansExt + ".txt",
@@ -88,36 +88,23 @@ namespace LASI.FileSystem
                         Encoding.UTF8, 100)) {
                     xmlReader.ReadStartElement();
                     while (xmlReader.Read()) {
-                        var n = xmlReader.LocalName;
-                        if (n == "w:p") {
-                            while (xmlReader.Read()) {
-                                var name = xmlReader.LocalName;
-                                if (name == "w:t") {
-                                    var value = xmlReader.Value;
-                                    if (!string.IsNullOrWhiteSpace(value)) {
-                                        if (xmlReader.Name.Trim().Contains("<w:p")) {
-                                            writer.Write("<paragraph>");
-                                        }
-                                        writer.Write(value);
-                                        if (xmlReader.Name.Trim().Contains("</w:p>")) {
-                                            writer.Write("</paragraph>");
-                                        }
-
-                                    }
-
-
-
-                                    if (xmlReader.Name.Contains("tbl"))
-                                        xmlReader.Skip();
-
-
-
-
-                                }
-                            }
+                        if (xmlReader.Name == "w:p") {
+                            writer.Write("<paragraph>");
                         }
-                        else
+                        var value = xmlReader.Value;
+                        if (!string.IsNullOrWhiteSpace(value)) {
+                            writer.Write(value);
+
+                        }
+
+                        if (xmlReader.Name.Contains("tbl"))
                             xmlReader.Skip();
+
+
+                        if (xmlReader.Name == "w:p") {
+                            writer.Write("</paragraph>");
+                        }
+
                     }
 
                 }
