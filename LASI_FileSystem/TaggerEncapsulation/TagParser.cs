@@ -36,7 +36,7 @@ namespace LASI.FileSystem.TaggerEncapsulation
         }
 
         /// <summary>
-        /// Gets the path of the tagged file which the TaggedFileParser governs.
+        /// Gets the newPath of the tagged file which the TaggedFileParser governs.
         /// </summary>
         public string FilePath {
             get;

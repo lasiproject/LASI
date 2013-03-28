@@ -14,7 +14,6 @@ using LASI.Algorithm;
 using LASI.FileSystem;
 using LASI.Algorithm.Weighting;
 using LASI.Algorithm.Thesauri;
-using LASI.Algorithm.Thesauri;
 
 
 namespace Erik_Experimentation
@@ -41,8 +40,7 @@ namespace Erik_Experimentation
 
             //Keeps the console window open until the escape key is pressed
             Console.WriteLine("Press escape to exit");
-            for (var k = Console.ReadKey(); k.Key != ConsoleKey.Escape; k = Console.ReadKey())
-            {
+            for (var k = Console.ReadKey(); k.Key != ConsoleKey.Escape; k = Console.ReadKey()) {
                 Console.WriteLine("Press escape to exit");
             }
 
@@ -53,11 +51,11 @@ namespace Erik_Experimentation
             //StreamWriter file = new StreamWriter(@"C:\Users\CynosureEPR\Desktop\output.txt");
 
             //foreach (var i in document.Phrases) {
-                //Console.WriteLine(i);
+            //Console.WriteLine(i);
             //}
             //Console.WriteLine("Press escape to exit");
             //for (var k = Console.ReadKey(); k.Key != ConsoleKey.Escape; k = Console.ReadKey()) {
-               // Console.WriteLine("Press escape to exit");
+            // Console.WriteLine("Press escape to exit");
             //}
         }
     }

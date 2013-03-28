@@ -6,7 +6,7 @@ using System.Text;
 namespace LASI.FileSystem.FileTypes
 {
     [Serializable]
-    class FileTypeWrapperMismatchException : Exception
+    class FileTypeWrapperMismatchException : FileSystemException
     {
         public FileTypeWrapperMismatchException(string message)
             : base(message) {

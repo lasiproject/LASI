@@ -88,37 +88,37 @@ namespace AlgorithmAssemblyUnitTestProject
         #endregion
 
 
-        /// <summary>
-        ///a test for AddDocFile
-        ///</summary>
-        [TestMethod()]
-        public void AddDocFileTest() {
-            string sourcePath = @"..\..\..\TestDocs\Draft_Environmental_Assessment.doc";
+        ///// <summary>
+        /////a test for AddDocFile
+        /////</summary>
+        //[TestMethod()]
+        //public void AddDocFileTest() {
+        //    string sourcePath = @"..\..\..\TestDocs\Draft_Environmental_Assessment.doc";
 
-            FileManager.AddDocFile(sourcePath, true);
-            Assert.IsTrue(File.Exists(FileManager.DocFilesDir + @"\Draft_Environmental_Assessment.doc"));
-        }
+        //    FileManager.AddDocFile(sourcePath, true);
+        //    Assert.IsTrue(File.Exists(FileManager.DocFilesDir + @"\Draft_Environmental_Assessment.doc"));
+        //}
 
-        /// <summary>
-        ///a test for AddDocXFile
-        ///</summary>
-        [TestMethod()]
-        public void AddDocXFileTest() {
-            string sourcePath = @"..\..\..\TestDocs\Draft_Environmental_Assessment.docx";
-            FileManager.AddDocXFile(sourcePath,true);
-            Assert.IsTrue(File.Exists(FileManager.DocxFilesDir + @"\Draft_Environmental_Assessment.docx"));
-        }
+        ///// <summary>
+        /////a test for AddDocXFile
+        /////</summary>
+        //[TestMethod()]
+        //public void AddDocXFileTest() {
+        //    string sourcePath = @"..\..\..\TestDocs\Draft_Environmental_Assessment.docx";
+        //    FileManager.AddDocXFile(sourcePath,true);
+        //    Assert.IsTrue(File.Exists(FileManager.DocxFilesDir + @"\Draft_Environmental_Assessment.docx"));
+        //}
 
-        /// <summary>
-        ///a test for AddTextFile
-        ///</summary>
-        [TestMethod()]
-        public void AddTextFileTest() {
-            string sourcePath = @"..\..\..\TestDocs\Draft_Environmental_Assessment.txt";
+        ///// <summary>
+        /////a test for AddTextFile
+        /////</summary>
+        //[TestMethod()]
+        //public void AddTextFileTest() {
+        //    string sourcePath = @"..\..\..\TestDocs\Draft_Environmental_Assessment.txt";
 
-            FileManager.AddTextFile(sourcePath,true);
-            Assert.IsTrue(File.Exists(FileManager.TextFilesDir + @"\Draft_Environmental_Assessment.txt"));
-        }
+        //    FileManager.AddTextFile(sourcePath,true);
+        //    Assert.IsTrue(File.Exists(FileManager.TextFilesDir + @"\Draft_Environmental_Assessment.txt"));
+        //}
 
         /// <summary>
         ///a test for BackupProject

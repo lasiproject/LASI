@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Timers;
+using System.Configuration;
 using System.Threading;
 
 namespace LASI.UserInterface
@@ -27,9 +28,14 @@ namespace LASI.UserInterface
             WindowManager.SplashScreen = this;
             BindWindowEventHandlers();
             WindowStartupLocation = WindowStartupLocation.CenterScreen;
+
+
         }
         void BindWindowEventHandlers() {
             this.MouseLeftButtonDown += (s, e) => DragMove();
+            if (ConfigurationManager.AppSettings["AutoDebugCleanupOn"] == "true") {
+                App.Current.Exit += (sender, e) => FileSystem.FileManager.DecimateProject();
+            }
         }
 
 

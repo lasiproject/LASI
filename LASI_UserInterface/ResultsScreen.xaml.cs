@@ -1,4 +1,6 @@
-﻿using LASI.Algorithm.Thesauri;
+﻿using LASI.Algorithm;
+using LASI.Algorithm.Thesauri;
+using LASI.FileSystem;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -25,8 +27,8 @@ namespace LASI.UserInterface
 
             InitializeComponent();
             this.Closed += (s, e) => Application.Current.Shutdown();
-            BuildAssociatedView();
-          
+
+
         }
 
 
@@ -34,13 +36,19 @@ namespace LASI.UserInterface
 
 
 
-        private void BuildAssociatedView() {
-            var colors = new[] { Brushes.Orange, Brushes.Teal, Brushes.IndianRed, Brushes.CadetBlue, Brushes.DarkCyan };//Some colors
+        public void BuildAssociatedView() {
+            ThesaurusManager.LoadAll();
 
 
-            foreach (string T in tokens) {
+            var doc = new TaggedFileParser(FileManager.TaggedFiles.First()).LoadDocument();
+
+
+
+
+            foreach (var word in doc.Words) {
                 var wordLabel = new Label {
-                    Content = T,
+                    Tag = word,
+                    Content = word.Text,
                     Foreground = Brushes.Black,
                     Padding = new Thickness(1, 1, 1, 1),
                     ContextMenu = new ContextMenu()
@@ -48,21 +56,35 @@ namespace LASI.UserInterface
                 var menuItem1 = new MenuItem {
                     Header = "view definition",
                 };
+
                 menuItem1.Click += (sender, e) => {
-                    Process.Start(String.Format("http://www.dictionary.reference.com/browse/{0}?s=t", T));
-
+                    Process.Start(String.Format("http://www.dictionary.reference.com/browse/{0}?s=t", word.Text));
                 };
-
-
 
                 // change text to random color from the colors array
                 wordLabel.ContextMenu.Items.Add(menuItem1);
 
 
 
-                wordLabel.MouseDoubleClick += (sender, e) => {
-                    wordLabel.Content = wordLabel.Content.ToString().ToUpper();
-                    wordLabel.Foreground = colors[new Random().Next(0, colors.Length)];
+
+                wordLabel.MouseDown += (sender, e) => {
+                    var intraPhraseLabels = from w in (wordLabel.Tag as Word).ParentPhrase.Words
+                                            join l in wordLabels on w.ID equals (l.Tag as Word).ID
+                                            select l;
+                    foreach (var l in intraPhraseLabels) {
+                        if (l.Background != Brushes.Green && wordLabel.Foreground != Brushes.Red) {
+                            l.Foreground = Brushes.White;
+                            l.Background = Brushes.Green;
+                            wordLabel.Foreground = Brushes.Black;
+                            wordLabel.Background = Brushes.Red;
+
+                        } else {
+                            l.Background = Brushes.White;
+                            l.Foreground = Brushes.Black;
+                            wordLabel.Foreground = Brushes.Black;
+                            wordLabel.Background = Brushes.White;
+                        }
+                    }
 
                 };
                 wordLabels.Add(wordLabel);

@@ -19,7 +19,7 @@ namespace LASI.FileSystem
         /// <summary>
         /// Initialized a new instance of the TaggedFilerParser class to parse the contents of a specific file.
         /// </summary>
-        /// <param name="filePath">The wrapper which encapsulates the path information for the pre-POS-tagged file to parse.</param>
+        /// <param name="filePath">The wrapper which encapsulates the newPath information for the pre-POS-tagged file to parse.</param>
         public TaggedFileParser(TaggedFile file) {
             TaggededDocumentFile = file;
             FilePath = TaggededDocumentFile.FullPath;

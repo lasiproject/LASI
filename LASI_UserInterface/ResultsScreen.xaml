@@ -95,7 +95,7 @@
                         </TabControl>
                     </Grid>
                 </TabItem>
-                <TabItem x:Name="TestView" Header="TestView" Padding="6,1" Margin="-2,-2,2,-1">
+                <TabItem x:Name="TestView" Header="TestView" Padding="6,1" Margin="-2,-2,-4,-1">
                     <WrapPanel x:Name="testViewWrap" HorizontalAlignment="Left" Height="380" VerticalAlignment="Top" UseLayoutRounding="True">
                     </WrapPanel>
                 </TabItem>

@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 namespace LASI.FileSystem
 {
     /// <summary>
-    /// This class serves as a wrapper around a file path, providing for direct access to the indvidual components of the path.
+    /// This class serves as a wrapper around a file newPath, providing for direct access to the indvidual components of the newPath.
     /// </summary>
     public abstract class InputFile
     {
         /// <summary>
         /// Initializes a new instance of the InputFile class.
         /// </summary>
-        /// <param name="path"></param>
+        /// <param name="newPath"></param>
         public InputFile(string path) {
             if (!System.IO.File.Exists(path))
                 throw new System.IO.FileNotFoundException();
@@ -24,7 +24,7 @@ namespace LASI.FileSystem
             set;
         }
         /// <summary>
-        /// Gets the full path, including the file name and extension of the file.
+        /// Gets the full newPath, including the file name and extension of the file.
         /// </summary>
         public string FullPath {
             get {
@@ -32,7 +32,7 @@ namespace LASI.FileSystem
             }
         }
         /// <summary>
-        /// Gets the path, including the file name, but not the extension, of the file.
+        /// Gets the newPath, including the file name, but not the extension, of the file.
         /// </summary>
         public string PathSansExt {
             get {
@@ -64,14 +64,14 @@ namespace LASI.FileSystem
             }
         }
         /// <summary>
-        /// Gets the path of the full path of the directory in which the file resides.
+        /// Gets the newPath of the full newPath of the directory in which the file resides.
         /// </summary>
         public string Directory {
             get {
                 return FInfo.Directory;
             }
         }
-        
+
         public override bool Equals(object obj) {
             return base.Equals(obj);
         }
@@ -79,7 +79,7 @@ namespace LASI.FileSystem
         public override int GetHashCode() {
             return base.GetHashCode();
         }
-        
+
         public override string ToString() {
             return FullPath;
         }
@@ -89,6 +89,7 @@ namespace LASI.FileSystem
         public static bool operator !=(InputFile lhs, InputFile rhs) {
             return lhs != rhs;
         }
+
 
     }
 }

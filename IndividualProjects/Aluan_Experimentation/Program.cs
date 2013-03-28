@@ -57,7 +57,7 @@ namespace Aluan_Experimentation
             }
             var nounBinder = new LASI.Algorithm.Binding.InterPhraseWordBinding();
             foreach (var phrase in doc.Phrases.GetNounPhrases())
-                nounBinder.InterNounPhrase(phrase);
+                nounBinder.IntraNounPhrase(phrase);
             foreach (var sentence in doc.Sentences) {
                 foreach (var phrase in sentence.Phrases)
                     print(phrase);

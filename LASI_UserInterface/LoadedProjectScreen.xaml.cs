@@ -118,7 +118,8 @@ namespace LASI.UserInterface
             var docSelected = DocumentPreview.SelectedItem;
             if (docSelected != null) {
                 DocumentPreview.Items.Remove(docSelected);
-                FileManager.RemoveFile((docSelected as TabItem).Header as string);
+                FileManager.RemoveAllNotIn(from TabItem d in DocumentPreview.Items
+                                           select d.Header as string);
                 CheckIfAddingAllowed();
             }
 
@@ -148,7 +149,7 @@ namespace LASI.UserInterface
         }
 
         private void CheckIfAddingAllowed() {
-            var addingEnabled = DocumentPreview.Items.Count ==5 ? false : true;
+            var addingEnabled = DocumentPreview.Items.Count == 5 ? false : true;
             AddNewDocumentButton.IsEnabled = addingEnabled;
             FileMenuAdd.IsEnabled = addingEnabled;
         }

@@ -60,6 +60,7 @@ namespace LASI.UserInterface
             WindowManager.ResultsScreen.SetTitle(WindowManager.CreateProjectScreen.LastLoadedProjectName + " - L.A.S.I.");
             WindowManager.ResultsScreen.Show();
             this.Hide();
+            WindowManager.ResultsScreen.BuildAssociatedView();
         }
         private void MenuItem_Click_3(object sender, RoutedEventArgs e) {
             this.Close();
