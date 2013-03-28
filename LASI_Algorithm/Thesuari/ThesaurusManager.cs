@@ -24,6 +24,14 @@ namespace LASI.Algorithm.Thesauri
             Console.WriteLine("Sync thesaurus loading took {0} milliseconds", sw.ElapsedMilliseconds);
         }
         public static async Task LoadAllAsync() {
+            await LoadAllParallelLinqTest();
+        }
+
+        private static async Task LoadAllParallelLinqTest() {
+            await Task.Run(() => new Thesaurus[] { NounThesaurus, VerbThesaurus }.AsParallel().ForAll(t => t.Load()));
+        }
+
+        private static async Task LoadAllTaskLevelParallelTest() {
             var sw = Stopwatch.StartNew();
             await Task.WhenAll(
                 NounThesaurus.LoadAsync().ContinueWith(

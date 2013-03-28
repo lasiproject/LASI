@@ -28,7 +28,6 @@ namespace LASI.UserInterface
             InitializeComponent();
             this.Closed += (s, e) => Application.Current.Shutdown();
 
-
         }
 
 
@@ -37,7 +36,7 @@ namespace LASI.UserInterface
 
 
         public void BuildAssociatedView() {
-            ThesaurusManager.LoadAll();
+
 
 
             var doc = new TaggedFileParser(FileManager.TaggedFiles.First()).LoadDocument();

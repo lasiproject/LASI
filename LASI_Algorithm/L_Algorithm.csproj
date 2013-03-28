@@ -56,7 +56,6 @@
     <Compile Include="Analysis\Binding\InterPhraseWordBinding.cs" />
     <Compile Include="Analysis\Binding\InvalidStateTransitionException.cs" />
     <Compile Include="Analysis\Binding\ObjectBinder.cs" />
-    <Compile Include="Analysis\Binding\PrepositionBinder.cs" />
     <Compile Include="Analysis\Binding\SubjectBinder.cs" />
     <Compile Include="Analysis\Binding\WordStream.cs" />
     <Compile Include="DocumentConstructs\SubordinateClauseBeginPhrase.cs" />
@@ -64,6 +63,7 @@
     <Compile Include="SyntaciticAndSemanticStructures\BridgingConstructs\PrepositionalRole.cs" />
     <Compile Include="SyntaciticAndSemanticStructures\ConstrainingSemanticConstructs\IDeterminable.cs" />
     <Compile Include="SyntaciticAndSemanticStructures\MiscLanguageConstructs\UndeterminedPhrase.cs" />
+    <Compile Include="SyntaciticAndSemanticStructures\NounRelatedConstructs\NPAggregateSubjectObject.cs" />
     <Compile Include="SyntaciticAndSemanticStructures\NounRelatedConstructs\EntityKind.cs" />
     <Compile Include="SyntaciticAndSemanticStructures\NounRelatedConstructs\EntityKindLookup.cs" />
     <Compile Include="Analysis\Heuristics\IDocumentAnalyzer.cs" />
@@ -177,6 +177,7 @@
     <None Include="SyntaciticAndSemanticStructures\MiscLanguageConstructs\PhraseConstructs.cd" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Analysis\Binding\SubordinatingConjunctionsTest.txt" />
     <Content Include="LasiLogo.ico" />
   </ItemGroup>
   <ItemGroup>

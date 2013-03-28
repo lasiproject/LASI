@@ -56,11 +56,11 @@ namespace LASI.UserInterface
 
         private void SkipUIDemoButton_Click(object sender, RoutedEventArgs e) {
 
-            WindowManager.ResultsScreen.PositionAt(this.Left, this.Top);
+
             WindowManager.ResultsScreen.SetTitle(WindowManager.CreateProjectScreen.LastLoadedProjectName + " - L.A.S.I.");
-            WindowManager.ResultsScreen.Show();
-            this.Hide();
+            this.SwapWith(WindowManager.ResultsScreen);
             WindowManager.ResultsScreen.BuildAssociatedView();
+
         }
         private void MenuItem_Click_3(object sender, RoutedEventArgs e) {
             this.Close();

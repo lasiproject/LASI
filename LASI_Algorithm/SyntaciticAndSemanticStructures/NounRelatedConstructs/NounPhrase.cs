@@ -94,7 +94,7 @@ namespace LASI.Algorithm
 
 
         /// <summary>
-        /// Gets the ITransitiveVerbial instance, generally a TransitiveVerb or TransitiveVerbPhrase, which the NounPhrase is the object of.
+        /// Gets the ITransitiveVerbial instance, generally a TransitiveVerb or TransitiveVerbPhrase, which the NounPhrase is the DIRECT object of.
         /// </summary>
         public virtual ITransitiveVerbial DirectObjectOf {
             get;
@@ -110,7 +110,7 @@ namespace LASI.Algorithm
         }
 
         /// <summary>
-        /// Gets the IVerbial instance, generally a Verb or VerbPhrase, which the NounPhrase is the subject of.
+        /// Gets the ITransitiveVerbial instance, generally a Verb or VerbPhrase, which the NounPhrase is the subject of.
         /// </summary>
         public virtual ITransitiveVerbial SubjectOf {
             get {
@@ -152,7 +152,7 @@ namespace LASI.Algorithm
             }
         }
         /// <summary>
-        /// Gets or sets the Entity which "owns" the instance of the Noun.
+        /// Gets or sets the Entity which "owns" the instance of the NounPhrase.
         /// </summary>
         public IEntity Possesser {
             get {
