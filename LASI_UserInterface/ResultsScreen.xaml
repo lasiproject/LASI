@@ -98,12 +98,10 @@
                         <chartingToolkit:Chart.DataContext>
                             <PointCollection>1,10 2,20 3,30 4,40</PointCollection>
                         </chartingToolkit:Chart.DataContext>
-                        <chartingToolkit:BarSeries  Name="TornadoChartTopPhrases" DependentValuePath="X" IndependentValuePath="Y" />
-                        <chartingToolkit:PieSeries>
+                        <chartingToolkit:BarSeries  Name="TornadoChartTopPhrases" DependentValuePath="X" IndependentValuePath="Y" ItemsSource="{Binding}" />
 
-                        </chartingToolkit:PieSeries>
                     </chartingToolkit:Chart>
-                   
+
                 </TabItem>
 
             </TabControl>

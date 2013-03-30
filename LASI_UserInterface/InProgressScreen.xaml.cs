@@ -61,6 +61,7 @@ namespace LASI.UserInterface
             this.SwapWith(WindowManager.ResultsScreen);
             WindowManager.ResultsScreen.BuildAssociatedView();
 
+            WindowManager.ResultsScreen.BuildAssociatedView();
         }
         private void MenuItem_Click_3(object sender, RoutedEventArgs e) {
             this.Close();

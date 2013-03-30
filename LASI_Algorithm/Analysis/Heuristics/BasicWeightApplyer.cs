@@ -13,7 +13,9 @@ namespace LASI.Algorithm.Heuristics
 
         public ResultSet Analyse() {
 
-            Action<ILexical> typedWeighter = (ILexical l) =>
+            //Action<ILexical> typedWeighter = 
+            SourceLexicals.AsParallel().ForAll((ILexical l) => {
+
                 new Switch(l)
                     .Case<Word>(w => {
                         w.Weight = 10;
@@ -24,7 +26,18 @@ namespace LASI.Algorithm.Heuristics
                     .Default<ILexical>(unknown => {
                         throw new UnknownLexicalConstructException(unknown.Text);
                     });
-            SourceLexicals.AsParallel().ForAll(typedWeighter);
+
+            });
+
+
+            //foreach (var l in SourceLexicals) {
+
+
+
+
+
+
+
 
             var topActions = from l in SourceLexicals
                              where l is ITransitiveVerbial
