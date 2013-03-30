@@ -51,7 +51,7 @@ namespace LASI.UserInterface
 
 
             tornadoChartData = dataPoints;
-            TornadoChartTopPhrases.ItemsSource = tornadoChartData;
+            //  TornadoChartTopPhrases.ItemsSource = tornadoChartData;
         }
 
 

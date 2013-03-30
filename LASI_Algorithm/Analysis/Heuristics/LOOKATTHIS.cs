@@ -12,8 +12,6 @@ namespace LASI.Algorithm.Heuristics
     {
 
         public ResultSet Analyse() {
-
-            //Action<ILexical> typedWeighter = 
             SourceLexicals.AsParallel().ForAll((ILexical l) => {
 
                 new Switch(l)
@@ -28,16 +26,6 @@ namespace LASI.Algorithm.Heuristics
                     });
 
             });
-
-
-            //foreach (var l in SourceLexicals) {
-
-
-
-
-
-
-
 
             var topActions = from l in SourceLexicals
                              where l is ITransitiveVerbial

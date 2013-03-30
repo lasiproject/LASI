@@ -94,15 +94,10 @@
                     </Grid>
                 </TabItem>
                 <TabItem x:Name="TestView" Header="TestView" Padding="6,1" Margin="2,0,-8,-3">
-                    <chartingToolkit:Chart Title="Top Phrases" Margin="0,0,0,-2">
-                        <chartingToolkit:Chart.DataContext>
-                            <PointCollection>1,10 2,20 3,30 4,40</PointCollection>
-                        </chartingToolkit:Chart.DataContext>
-                        <chartingToolkit:BarSeries  Name="TornadoChartTopPhrases" DependentValuePath="X" IndependentValuePath="Y" ItemsSource="{Binding}" />
 
-                    </chartingToolkit:Chart>
 
                 </TabItem>
+
 
             </TabControl>
             <Rectangle Fill="#FFF6F6F6" Stroke="#FF8C8E94" StrokeThickness="0.5" HorizontalAlignment="Right" Width="146" Height="412" Canvas.Left="2"/>
