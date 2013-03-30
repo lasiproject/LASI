@@ -1,11 +1,20 @@
-﻿using System;
+﻿/*
+ * Concepts and tutorials for these customized switch statement functions were provided 
+ * by Bart De Smet via his exceptional programming blog. 
+ * Entry: A FUNCTIONAL C# (TYPE)SWITCH  http://community.bartdesmet.net/blogs/bart/archive/2008/03/30/a-functional-c-type-switch.aspx
+ * Main Blog: http://community.bartdesmet.net/blogs/bart/default.aspx
+ * Thank you!
+ */
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LASI.Utilities.TypedSwitchExtensions
+
+namespace LASI.Utilities.TypedSwitch
 {
+
     #region Non Generic Switch Components
 
     public class Switch
@@ -15,21 +24,6 @@ namespace LASI.Utilities.TypedSwitchExtensions
         }
 
         public object SwitchOn {
-            get;
-            private set;
-        }
-
-
-    }
-
-
-    public class Switch<T>
-    {
-        public Switch(T switchOn) {
-            SwitchOn = switchOn;
-        }
-
-        public T SwitchOn {
             get;
             private set;
         }
@@ -62,76 +56,16 @@ namespace LASI.Utilities.TypedSwitchExtensions
             return s;
         }
 
-    }
-    #endregion
 
 
-
-    #region Non Generic Switch Components
-
-
-
-
-    public static class SwitchExtensions1
-    {
-        public static Switch Case(this  Switch s, object switchOn, Action<object> action) {
-            return Case(s, switchOn, action, false);
-        }
-        public static Switch Case(this  Switch s, object switchOn, Action<object> action, bool fallThrough) {
-            return Case(s, x => object.Equals(x, switchOn), action, fallThrough);
-        }
-        public static Switch Case(this  Switch s, Func<object, bool> condition, Action<object> action) {
-            return Case(s, condition, action, false);
-        }
-        public static Switch Case(this Switch s, Func<object, bool> condition, Action<object> action, bool fallThrough) {
-            if (s == null) {
-                return null;
-            } else if (condition(s.SwitchOn)) {
-                action(s.SwitchOn);
-                return fallThrough ? s : null;
-            }
-            return s;
-        }
-        public static void Default(this LASI.Utilities.TypedSwitchExtensions.Switch s, Action<object> action) {
+        public static void Default(this Switch s, Action<object> action) {
             if (s != null)
                 action(s.SwitchOn);
         }
+        public static void Default<T>(this Switch s, Action<T> action) where T : class {
+            if (s != null && s.SwitchOn as T != null)
+                action(s.SwitchOn as T);
+        }
     }
     #endregion
-
-
-
-
-    #region Generic Switch Components
-
-
-    public static class SwitchExtensions2
-    {
-        public static Switch<T> Case<T>(this Switch<T> s, T SwitchOn, Action<T> action) {
-            return Case(s, SwitchOn, action, false);
-        }
-        public static Switch<T> Case<T>(this Switch<T> s, T SwitchOn, Action<T> action, bool fallThrough) {
-            return Case(s, x => Object.Equals(x, SwitchOn), action, fallThrough);
-        }
-        public static Switch<T> Case<T>(this Switch<T> s, Func<T, bool> condition, Action<T> action) {
-            return Case(s, condition, action, false);
-        }
-        public static Switch<T> Case<T>(this Switch<T> s, Func<T, bool> condition, Action<T> action, bool fallThrough) {
-            if (s == null) {
-                return null;
-            } else if (condition(s.SwitchOn)) {
-                action(s.SwitchOn);
-                return fallThrough ? s : null;
-            }
-            return s;
-        }
-        public static void Default<T>(this Switch<T> s, Action<T> action) {
-            if (s != null)
-                action(s.SwitchOn);
-        }
-
-
-
-    #endregion
-    }
 }

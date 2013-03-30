@@ -10,7 +10,7 @@ namespace LASI.Algorithm.Heuristics
     public class BasicDocumentAnalyser : IDocumentAnalyzer
     {
         public BasicDocumentAnalyser(IList<ILexical> document, int maxResults) {
-            SourceDocument = document;
+            SourceLexicals = document;
             MaxResults = maxResults;
         }
 
@@ -19,13 +19,13 @@ namespace LASI.Algorithm.Heuristics
         }
 
         public virtual ResultSet DetermineTopVerbials(VerbComparisonFlags verbFlags) {
-            var temp = from entity in SourceDocument.OfType<Phrase>().GetNounPhrases().InSubjectRole()
+            var temp = from entity in SourceLexicals.OfType<Phrase>().GetNounPhrases().InSubjectRole()
                        group entity by entity.SubjectOf into knownSubjects
                        orderby knownSubjects.Count() descending
                        select knownSubjects into bySubjectsTopVerbials
                        from subject in bySubjectsTopVerbials
                        join dirObject in
-                           from entity in SourceDocument.OfType<Phrase>().GetNounPhrases().InDirectObjectRole()
+                           from entity in SourceLexicals.OfType<Phrase>().GetNounPhrases().InDirectObjectRole()
                            group entity
                              by entity.DirectObjectOf.Text
                                into knownObjects
@@ -58,7 +58,7 @@ namespace LASI.Algorithm.Heuristics
             protected set;
         }
 
-        public IEnumerable<ILexical> SourceDocument {
+        public IEnumerable<ILexical> SourceLexicals {
             get;
             protected set;
         }

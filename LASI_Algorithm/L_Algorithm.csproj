@@ -59,6 +59,8 @@
     <Compile Include="Analysis\Binding\SubjectBinder.cs" />
     <Compile Include="Analysis\Binding\UnknownEntityCompatibleWordTypeException.cs" />
     <Compile Include="Analysis\Binding\WordStream.cs" />
+    <Compile Include="Analysis\Heuristics\BasicWeightApplyer.cs" />
+    <Compile Include="Analysis\Heuristics\UnknownLexicalConstructException.cs" />
     <Compile Include="DocumentConstructs\SubordinateClauseBeginPhrase.cs" />
     <Compile Include="IEnumerableExtensions\IEnumerableOfIEntityExtensions.cs" />
     <Compile Include="SyntaciticAndSemanticStructures\BridgingConstructs\PrepositionalRole.cs" />
