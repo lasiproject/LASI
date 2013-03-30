@@ -57,6 +57,7 @@
     <Compile Include="Analysis\Binding\InvalidStateTransitionException.cs" />
     <Compile Include="Analysis\Binding\ObjectBinder.cs" />
     <Compile Include="Analysis\Binding\SubjectBinder.cs" />
+    <Compile Include="Analysis\Binding\UnknownEntityCompatibleWordTypeException.cs" />
     <Compile Include="Analysis\Binding\WordStream.cs" />
     <Compile Include="DocumentConstructs\SubordinateClauseBeginPhrase.cs" />
     <Compile Include="IEnumerableExtensions\IEnumerableOfIEntityExtensions.cs" />
@@ -179,9 +180,6 @@
   <ItemGroup>
     <Content Include="Analysis\Binding\SubordinatingConjunctionsTest.txt" />
     <Content Include="LasiLogo.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LASI_Utilities\L_Utilities.csproj">
