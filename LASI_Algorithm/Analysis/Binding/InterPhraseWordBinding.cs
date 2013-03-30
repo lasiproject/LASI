@@ -91,17 +91,14 @@ namespace LASI.Algorithm.Binding
                     Console.Write("\n");
                     */
                 }
-
-
-
-
             }
         }
+
 
         public void IntraVerbPhrase(VerbPhrase vp)
         {
             Verb LastVerb = vp.Words.OfType<Verb>().LastOrDefault();
-            if (vp.Words.Count() > 0 && LastVerb != null)
+            if (vp.Words.Count() > 1 && LastVerb != null)
             {
                 foreach (Word w in vp.Words)
                 {
