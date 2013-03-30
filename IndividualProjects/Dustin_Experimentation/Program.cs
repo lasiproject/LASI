@@ -14,17 +14,21 @@ namespace Dustin_Experimentation
     class Program
     {
         static void Main(string[] args) {
-            var tagger = new SharpNLPTagger(TaggingOption.TagAndAggregate, @"C:\Users\Dustin\Downloads\411test.txt");
+            var tagger = new SharpNLPTagger(TaggingOption.TagAndAggregate, @"C:\Users\Dustin\Downloads\example.txt");
             var tagged = tagger.ProcessFile();
             var paragraphs = new TaggedFileParser(tagged).LoadParagraphs();
             var document = new Document(paragraphs);
-            StreamWriter file = new StreamWriter(@"C:\Users\Dustin\Downloads\411output.txt");
+            //StreamWriter file = new StreamWriter(@"C:\Users\Dustin\Downloads\411output.txt");
 
-            foreach (var i in document.Words)
+            foreach (var i in document.Sentences)
             {
-                file.WriteLine(i);
+                foreach (var j in i.Words)
+                {
+                    Console.WriteLine(j);
+                }
+                Console.WriteLine("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
             }
-            file.WriteLine("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+            Console.WriteLine("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
             Console.WriteLine("Press escape to exit");
             for (var k = Console.ReadKey(); k.Key != ConsoleKey.Escape; k = Console.ReadKey())
             {
