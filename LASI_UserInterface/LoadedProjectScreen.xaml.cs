@@ -49,7 +49,7 @@ namespace LASI.UserInterface
             using (StreamReader reader = new StreamReader(textfile.FullPath)) {
 
                 var docu = await reader.ReadToEndAsync();
-                docu = docu.Replace("\r\n\r\n", "");
+                docu = docu.Replace("\r\n\r\n", "\n\n");
                 docu = docu.Replace("<paragraph>", "\n");
                 docu = docu.Replace("</paragraph>", "");
 

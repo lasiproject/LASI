@@ -25,6 +25,9 @@ namespace LASI.UserInterface
     {
         public CreateProjectScreen() {
             InitializeComponent();
+            WindowManager.CreateProjectScreen = this;
+            BindWindowEventHandlers();
+
             ProjectLocation = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\LASI_Projects";
             if (!Directory.Exists(ProjectLocation)) {
                 Directory.CreateDirectory(ProjectLocation);
@@ -34,7 +37,17 @@ namespace LASI.UserInterface
             LastLoadedProjectName = "";
             LocationTextBox.TextChanged += (sender, e) => LocationTextBox.ScrollToEnd();
 
-            this.Closing += (s, e) => Application.Current.Shutdown();
+           
+        }
+
+        void BindWindowEventHandlers()
+        {
+            this.MouseLeftButtonDown += (s, e) => DragMove();
+        }
+
+        private void closeButton_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
         }
 
 
