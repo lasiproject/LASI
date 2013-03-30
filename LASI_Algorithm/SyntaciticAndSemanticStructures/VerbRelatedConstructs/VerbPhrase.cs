@@ -22,10 +22,11 @@ namespace LASI.Algorithm
         /// <param name="composedWords">The words which compose to form the VerbPhrase.</param>
         public VerbPhrase(IEnumerable<Word> composedWords)
             : base(composedWords) {
-            Tense = (from v in composedWords.GetVerbs()
-                     group v.Tense by v.Tense into tenseGroup
-                     orderby tenseGroup.Count()
-                     select tenseGroup).First().Key;
+
+            Tense = composedWords.GetVerbs().Count() > 0 ? (from v in composedWords.GetVerbs()
+                                                            group v.Tense by v.Tense into tenseGroup
+                                                            orderby tenseGroup.Count()
+                                                            select tenseGroup).First().Key : VerbTense.Base;
 
         }
 

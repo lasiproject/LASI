@@ -26,6 +26,7 @@ namespace LASI.FileSystem
             ProjectDir = projectDir;
             InitializeDirProperties();
             CheckProjectDirs();
+            Initialized = true;
         }
 
         private static void InitializeDirProperties() {
@@ -482,6 +483,11 @@ namespace LASI.FileSystem
 
 
         #region Fields
+
+        public static bool Initialized {
+            get;
+            set;
+        }
 
         static HashSet<string> localDocumentNames = new HashSet<string>();
 

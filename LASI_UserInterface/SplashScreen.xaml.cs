@@ -34,7 +34,10 @@ namespace LASI.UserInterface
         void BindWindowEventHandlers() {
             this.MouseLeftButtonDown += (s, e) => DragMove();
             if (ConfigurationManager.AppSettings["AutoDebugCleanupOn"] == "true") {
-                App.Current.Exit += (sender, e) => FileSystem.FileManager.DecimateProject();
+                App.Current.Exit += (sender, e) => {
+                    if (FileSystem.FileManager.Initialized)
+                        FileSystem.FileManager.DecimateProject();
+                };
             }
         }
 
