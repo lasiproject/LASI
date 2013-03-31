@@ -6,6 +6,7 @@ using System.Linq;
 using LASI.Utilities;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using LASI.Utilities.TypedSwitch;
 namespace Aluan_Experimentation
 {
     public class Program
@@ -22,11 +23,45 @@ namespace Aluan_Experimentation
 
         static string tagtest =
 @"I enjoy jumping whereas he enjoys climbing.";
+
+        static string testPath = @"C:\Users\Aluan\Desktop\test1.txt";
+
         static void Main(string[] args) {
 
+            var doc = TaggerUtil.LoadTextFileAsync(new LASI.FileSystem.FileTypes.TextFile(testPath)).Result;
 
+            foreach (var r in doc.Phrases) {
+                var wordBinder = new InterPhraseWordBinding();
+                new Switch(r)
+                .Case<NounPhrase>(np => {
+                    wordBinder.IntraNounPhrase(np);
+                })
+                .Case<VerbPhrase>(vp => {
+                    wordBinder.IntraVerbPhrase(vp);
+                })
+                .Default(a => {
+                });
+            }
+            foreach (var s in doc.Sentences) {
+                var subjectBinder = new SubjectBinder();
+                var objectBinder = new ObjectBinder();
+                try {
+                    subjectBinder.Bind(s);
+                }
+                catch (NullReferenceException) {
+                }
+                try {
+                    objectBinder.Bind(s);
+                }
+                catch (InvalidStateTransitionException) {
+                }
+                catch (VerblessPhrasalSequenceException) {
+                }
+            }
 
-            print(TaggerUtil.TagString(tagtest));
+            foreach (var r in doc.Phrases) {
+                print(r);
+            }
 
             StdIO.WaitForKey();
         }
@@ -50,7 +85,8 @@ namespace Aluan_Experimentation
             for (var k = Console.ReadLine(); ; ) {
                 try {
                     print(ThesaurusManager.VerbThesaurus[k].OrderBy(o => o).Aggregate("", (aggr, s) => s.PadRight(30) + ", " + aggr));
-                } catch (ArgumentNullException) {
+                }
+                catch (ArgumentNullException) {
                     print("no synonyms returned");
                 }
                 print("enter verb: ");
