@@ -60,7 +60,7 @@ namespace LASI.UserInterface
 
 
 
-            FocusedDocument = new TaggedFileParser(FileManager.TaggedFiles.First()).LoadDocument();
+           // FocusedDocument = new TaggedFileParser(FileManager.TaggedFiles.First()).LoadDocument();
 
 
 
@@ -110,7 +110,7 @@ namespace LASI.UserInterface
             //    wordLabels.Add(wordLabel);
             //    testViewWrap.Children.Add(wordLabel);
             //}
-            DrawBasicDataVisualizations(FocusedDocument.Phrases);
+           // DrawBasicDataVisualizations(FocusedDocument.Phrases);
 
 
 
@@ -189,6 +189,11 @@ the COIs characterizing it - to which MOEs may be properly linked.".Split('\r', 
         }
 
         private void Grid_MouseDown_1(object sender, MouseButtonEventArgs e) {
+
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
 
         }
 
