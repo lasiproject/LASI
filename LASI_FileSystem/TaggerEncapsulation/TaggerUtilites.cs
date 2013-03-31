@@ -1,5 +1,6 @@
 ﻿using LASI.Algorithm;
 using LASI.FileSystem;
+using LASI.FileSystem.FileTypes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -55,7 +56,18 @@ namespace LASI.Utilities
             get;
             set;
         }
+        public static async Task<Document> LoadDocumentAsync(DocXFile document) {
+            var txt = await new DocxToTextConverter(document).ConvertFileAsync();
+            return await LoadTextFileAsync(txt);
 
+        }
+
+        public static async Task<Document> LoadTextFileAsync(InputFile txt) {
+
+            var tagger = new SharpNLPTaggingModule.SharpNLPTagger(TaggingOption.TagAndAggregate, txt.FullPath);
+            var tagged = await tagger.ProcessFileAsync();
+            return await new TaggedFileParser(tagged).LoadDocumentAsync();
+        }
         static TaggerUtil() {
             TaggerOption = TaggingOption.TagAndAggregate;
         }

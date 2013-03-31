@@ -55,8 +55,11 @@ namespace SharpNLPTaggingModule
             return new LASI.FileSystem.FileTypes.TaggedFile(OutputFilePath);
 
         }
+        public virtual async System.Threading.Tasks.Task<LASI.FileSystem.FileTypes.TaggedFile> ProcessFileAsync() {
+            return await System.Threading.Tasks.Task.Run(() => ProcessFile());
 
 
+        }
 
         protected string LoadSourceText() {
             using (
