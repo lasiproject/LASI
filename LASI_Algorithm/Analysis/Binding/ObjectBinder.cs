@@ -27,7 +27,8 @@ namespace LASI.Algorithm.Binding
             this.Bind(sentence.Phrases);
         }
         public void Bind(IEnumerable<Phrase> contiguousPhrases) {
-
+            if (contiguousPhrases.GetVerbPhrases().Count() == 0)
+                throw new VerblessPhrasalSequenceException();
             var phrases = contiguousPhrases.ToList();
             var verbPhraseIndex = phrases.FindIndex(r => r is VerbPhrase);
             bindingTarget = contiguousPhrases.ElementAt(verbPhraseIndex) as VerbPhrase;

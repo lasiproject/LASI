@@ -21,4 +21,14 @@ namespace LASI.Algorithm.Binding
             : base(info, context) {
         }
     }
+    [Serializable]
+    public class VerblessPhrasalSequenceException : Exception
+    {
+        public VerblessPhrasalSequenceException()
+            : base("No verb phrases in sequence") {
+        }
+        public VerblessPhrasalSequenceException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
+            : base(info, context) {
+        }
+    }
 }
