@@ -72,15 +72,16 @@ namespace LASI.Algorithm.Thesauri
 
             //Aluan: This line gets extracts word category info I noticed was present in the DB files
             //Erik:  Gotcha, I'll try to decipher its meaning.
-            WordNetNounLex lexCategory = (WordNetNounLex) Int32.Parse(line.Substring(9, 2));
+                    
+        WordNetNounLex lexCategory = (WordNetNounLex)Int32.Parse(line.Substring(9, 2));
 
-            String frontPart = line.Split('|', '!')[0];
-            MatchCollection numbers = Regex.Matches(frontPart, @"(?<id>\d{8})");
-            MatchCollection words = Regex.Matches(frontPart, @"(?<word>[A-Za-z_\-]{3,})");
+        String frontPart = line.Split('|', '!')[0];
+        MatchCollection numbers = Regex.Matches(frontPart, @"(?<id>\d{8})");
+        MatchCollection words = Regex.Matches(frontPart, @"(?<word>[A-Za-z_\-]{3,})");
 
 
-            List<string> numbersList = numbers.Cast<Match>().Select(m => m.Value).Distinct().ToList();
-            string id = numbersList[0];
+        List<string> numbersList = numbers.Cast<Match>().Select(m => m.Value).Distinct().ToList();
+        string id = numbersList[0];
             numbersList.Remove(id);
 
             //somethin's amiss here.
@@ -101,7 +102,7 @@ namespace LASI.Algorithm.Thesauri
             //console view
         }
 
-        public void SearchFor(string word) {
+        public IEnumerable<string> SearchFor(string word) {
             List<string> results = new List<string>();
             //gets pointers of searched word
             var tempResults = from sn in allSets
@@ -119,7 +120,7 @@ namespace LASI.Algorithm.Thesauri
                             select q;
 
             results.AddRange(flatWords);
-            
+
 
             //gets related words from above pointers
             foreach (var t in flatPointers) {
@@ -134,19 +135,19 @@ namespace LASI.Algorithm.Thesauri
 
             }
 
+            return results;
 
 
+            //foreach (string tester in results) {
 
-            foreach (string tester in results) {
+            //    Console.WriteLine(tester);
 
-                Console.WriteLine(tester);
-
-            }//console view
+            //}//console view
         }
 
         public override IEnumerable<string> this[string search] {
             get {
-                throw new NotImplementedException();
+                return SearchFor(search);
             }
         }
 

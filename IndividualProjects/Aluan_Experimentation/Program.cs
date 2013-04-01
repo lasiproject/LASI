@@ -21,27 +21,31 @@ namespace Aluan_Experimentation
 
 
 
-        static string tagtest =
-@"I enjoy jumping whereas he enjoys climbing.";
+        static string tagtest = @"I enjoy jumping whereas he enjoys climbing.";
 
         static string testPath = @"C:\Users\Aluan\Desktop\test1.txt";
 
         static void Main(string[] args) {
 
+            //TestWordAndPhraseBindings();
+
+            TestThesaurus();
+
+            StdIO.WaitForKey();
+        }
+
+        private static void TestWordAndPhraseBindings() {
             var doc = TaggerUtil.LoadTextFileAsync(new LASI.FileSystem.FileTypes.TextFile(testPath)).Result;
 
+            PerformIntraPhraseBinding(doc);
+            PerformSVOBinding(doc);
+
             foreach (var r in doc.Phrases) {
-                var wordBinder = new InterPhraseWordBinding();
-                new Switch(r)
-                .Case<NounPhrase>(np => {
-                    wordBinder.IntraNounPhrase(np);
-                })
-                .Case<VerbPhrase>(vp => {
-                    wordBinder.IntraVerbPhrase(vp);
-                })
-                .Default(a => {
-                });
+                print(r);
             }
+        }
+
+        private static void PerformSVOBinding(Document doc) {
             foreach (var s in doc.Sentences) {
                 var subjectBinder = new SubjectBinder();
                 var objectBinder = new ObjectBinder();
@@ -58,38 +62,37 @@ namespace Aluan_Experimentation
                 catch (VerblessPhrasalSequenceException) {
                 }
             }
+        }
 
+        private static void PerformIntraPhraseBinding(Document doc) {
             foreach (var r in doc.Phrases) {
-                print(r);
+                var wordBinder = new InterPhraseWordBinding();
+                new Switch(r)
+                .Case<NounPhrase>(np => {
+                    wordBinder.IntraNounPhrase(np);
+                })
+                .Case<VerbPhrase>(vp => {
+                    wordBinder.IntraVerbPhrase(vp);
+                })
+                .Default(a => {
+                });
             }
-
-            StdIO.WaitForKey();
         }
 
-        private static void PrintWords() {
-            var doc = TaggerUtil.UntaggedToDoc(testText);
-            foreach (var r in doc.Phrases)
-                foreach (var w in doc.Words)
-                    print(w);
-        }
 
-        private static void TestBinders() {
-            var docString = TaggerUtil.TagString(testText);
-            print(docString);
-            BindAll(TaggerUtil.TaggedToDoc(docString));
-        }
 
-        private static async void TestThesaurus() {
-            await ThesaurusManager.LoadAllAsync();
-            print("enter verb: ");
+
+        private static void TestThesaurus() {
+            ThesaurusManager.LoadAll();
+            print("enter noun: ");
             for (var k = Console.ReadLine(); ; ) {
                 try {
-                    print(ThesaurusManager.VerbThesaurus[k].OrderBy(o => o).Aggregate("", (aggr, s) => s.PadRight(30) + ", " + aggr));
+                    print(ThesaurusManager.NounThesaurus[k].OrderBy(o => o).Aggregate("", (aggr, s) => s.PadRight(30) + ", " + aggr));
                 }
                 catch (ArgumentNullException) {
                     print("no synonyms returned");
                 }
-                print("enter verb: ");
+                print("enter noun: ");
                 k = Console.ReadLine();
             }
         }
@@ -117,7 +120,6 @@ namespace Aluan_Experimentation
             Console.WriteLine(o);
         }
 
-        static string testText = @"He who must not be named gave my friend a red speckled dog quickly.";
 
 
     }

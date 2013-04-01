@@ -21,7 +21,7 @@ namespace LASI.Algorithm.Thesauri
             NounThesaurus.Load();
             VerbThesaurus.Load();
             sw.Stop();
-            Console.WriteLine("Sync thesaurus loading took {0} milliseconds", sw.ElapsedMilliseconds);
+            //Console.WriteLine("Sync thesaurus loading took {0} milliseconds", sw.ElapsedMilliseconds);
         }
         public static async Task LoadAllAsync() {
             await LoadAllParallelLinqTest();
@@ -35,11 +35,15 @@ namespace LASI.Algorithm.Thesauri
             var sw = Stopwatch.StartNew();
             await Task.WhenAll(
                 NounThesaurus.LoadAsync().ContinueWith(
-                (t) => Console.WriteLine("NounThesausus Loaded")),
+                (t) => {
+                    // Console.WriteLine("NounThesausus Loaded");
+                }),
                 VerbThesaurus.LoadAsync().ContinueWith(
-                (t) => Console.WriteLine("VerbThesausus Loaded")));
+                (t) => {
+                    // Console.WriteLine("VerbThesausus Loaded");
+                }));
             sw.Stop();
-            Console.WriteLine("Async thesaurus loading took {0} milliseconds", sw.ElapsedMilliseconds);
+            //Console.WriteLine("Async thesaurus loading took {0} milliseconds", sw.ElapsedMilliseconds);
         }
         public static IEnumerable<string> Lookup(Word word) {
             return VerbThesaurus[word];
