@@ -11,7 +11,7 @@ namespace LASI.Utilities
     /// <summary>
     /// Defines static methods which facilitate common Console IO procedures
     /// </summary>
-    public static class StdIO
+    public static class Input
     {
 
         /// <summary>

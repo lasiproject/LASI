@@ -102,7 +102,7 @@ namespace Scott_Experimentation
             }
             
 
-            StdIO.WaitForAnyKey();
+            Input.WaitForAnyKey();
         }
     }
 }

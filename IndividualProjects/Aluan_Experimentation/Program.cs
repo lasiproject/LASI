@@ -26,13 +26,16 @@ namespace Aluan_Experimentation
         static string testPath = @"C:\Users\Aluan\Desktop\TestSentences3.txt";
 
         static void Main(string[] args) {
-            Logger.SetToDebug();
+            Output.SetToDebug();
             TestWordAndPhraseBindings();
 
-            // TestThesaurus();
 
-            StdIO.WaitForKey();
+            Input.WaitForKey();
         }
+
+
+
+
 
         private static void TestWordAndPhraseBindings() {
             var doc = TaggerUtil.LoadTextFileAsync(new LASI.FileSystem.FileTypes.TextFile(testPath)).Result;
@@ -41,7 +44,7 @@ namespace Aluan_Experimentation
             PerformSVOBinding(doc);
 
             foreach (var r in doc.Phrases) {
-                Logger.WriteLine(r);
+                Output.WriteLine(r);
             }
         }
 
@@ -51,12 +54,15 @@ namespace Aluan_Experimentation
                 var objectBinder = new ObjectBinder();
                 try {
                     subjectBinder.Bind(s);
-                } catch (NullReferenceException) {
+                }
+                catch (NullReferenceException) {
                 }
                 try {
                     objectBinder.Bind(s);
-                } catch (InvalidStateTransitionException) {
-                } catch (VerblessPhrasalSequenceException) {
+                }
+                catch (InvalidStateTransitionException) {
+                }
+                catch (VerblessPhrasalSequenceException) {
                 }
             }
         }
@@ -81,14 +87,15 @@ namespace Aluan_Experimentation
 
         private static void TestThesaurus() {
             ThesaurusManager.LoadAll();
-            Logger.WriteLine("enter noun: ");
+            Output.WriteLine("enter noun: ");
             for (var k = Console.ReadLine(); ; ) {
                 try {
-                    Logger.WriteLine(ThesaurusManager.NounThesaurus[k].OrderBy(o => o).Aggregate("", (aggr, s) => s.PadRight(30) + ", " + aggr));
-                } catch (ArgumentNullException) {
-                    Logger.WriteLine("no synonyms returned");
+                    Output.WriteLine(ThesaurusManager.NounThesaurus[k].OrderBy(o => o).Aggregate("", (aggr, s) => s.PadRight(30) + ", " + aggr));
                 }
-                Logger.WriteLine("enter noun: ");
+                catch (ArgumentNullException) {
+                    Output.WriteLine("no synonyms returned");
+                }
+                Output.WriteLine("enter noun: ");
                 k = Console.ReadLine();
             }
         }
@@ -106,8 +113,8 @@ namespace Aluan_Experimentation
                 nounBinder.IntraNounPhrase(phrase);
             foreach (var sentence in doc.Sentences) {
                 foreach (var phrase in sentence.Phrases)
-                    Logger.WriteLine(phrase);
-                Logger.WriteLine("\n");
+                    Output.WriteLine(phrase);
+                Output.WriteLine("\n");
             }
 
         }
