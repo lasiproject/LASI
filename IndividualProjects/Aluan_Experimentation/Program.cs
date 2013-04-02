@@ -32,7 +32,7 @@ namespace Aluan_Experimentation
             Output.SetToDebug();
             TestWordAndPhraseBindings();
 
- 
+
 
 
 
@@ -60,15 +60,12 @@ namespace Aluan_Experimentation
                 var objectBinder = new ObjectBinder();
                 try {
                     subjectBinder.Bind(s);
-                }
-                catch (NullReferenceException) {
+                } catch (NullReferenceException) {
                 }
                 try {
                     objectBinder.Bind(s);
-                }
-                catch (InvalidStateTransitionException) {
-                }
-                catch (VerblessPhrasalSequenceException) {
+                } catch (InvalidStateTransitionException) {
+                } catch (VerblessPhrasalSequenceException) {
                 }
             }
         }
@@ -97,8 +94,7 @@ namespace Aluan_Experimentation
             for (var k = Console.ReadLine(); ; ) {
                 try {
                     Output.WriteLine(ThesaurusManager.NounThesaurus[k].OrderBy(o => o).Aggregate("", (aggr, s) => s.PadRight(30) + ", " + aggr));
-                }
-                catch (ArgumentNullException) {
+                } catch (ArgumentNullException) {
                     Output.WriteLine("no synonyms returned");
                 }
                 Output.WriteLine("enter noun: ");
@@ -106,7 +102,140 @@ namespace Aluan_Experimentation
             }
         }
 
-        static void BindAll(Document doc) {
+
+
+
+
+
+
+
+
+        //
+
+
+
+
+
+
+
+
+
+
+        static void WeightAll(Document doc) {
+
+
+
+
+            //ASSIGN BASE WEIGHTS TO WORDS
+            foreach (var N in doc.Words.GetNouns()) {
+                N.Weight = 100;
+            }
+            foreach (var V in doc.Words.GetVerbs()) {
+                V.Weight = 90;
+            }
+            foreach (var A in doc.Words.GetAdjectives()) {
+                A.Weight = 85;
+            }
+            foreach (var A in doc.Words.GetAdverbs()) {
+                A.Weight = 77;
+            }
+
+
+
+            //ASSUMING RELEVANT GROUP OF NOUNS HAS TEXT "DOG"
+
+
+            var wordsGroupedByText = from n in doc.Words
+                                     group n by new {
+                                         n.Text,
+                                         Type = n.GetType()
+                                     };
+
+            foreach (var wGroup in wordsGroupedByText) {
+                foreach (var w in wGroup) {
+                    w.Weight = wGroup.Count();
+                }
+            }
+
+
+
+            var byWeight = from w in doc.Words
+                           orderby w.Weight
+                           select w;
+
+            IEnumerable<Word> resultsToDisplay =
+                byWeight.GetNouns().Take(100)
+                .Concat<Word>(byWeight.GetVerbs().Take(50))
+                .Concat<Word>(byWeight.GetAdjectives().Take(25));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            foreach (var NP in doc.Phrases.GetNounPhrases()) {
+                NP.Weight = 1;
+            }
+
+            IEnumerable<IGrouping<string, NounPhrase>> nounPhraseGroups
+                = from NP in doc.Phrases.GetNounPhrases()
+                  group NP by NP.Text;
+
+            foreach (IGrouping<string, NounPhrase> group in nounPhraseGroups) {
+                foreach (NounPhrase NP in group) {
+                    NP.Weight += group.Count();
+                }
+            }
+
+            //SYNONYM APPROACH
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
             var objectBinder = new ObjectBinder();
 

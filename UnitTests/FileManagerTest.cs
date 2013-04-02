@@ -50,16 +50,16 @@ namespace AlgorithmAssemblyUnitTestProject
             foreach (var fileInfo in new DirectoryInfo(@"..\..\..\UnitTests\MockUserFiles").EnumerateFiles()) {
                 switch (fileInfo.Extension) {
                     case ".doc":
-                        File.Copy(fileInfo.FullName, @"..\..\..\NewProject\input\doc\" + fileInfo.FullName.Substring(fileInfo.FullName.LastIndexOf('\\') + 1));
+                        File.Copy(fileInfo.FullName, @"..\..\..\NewProject\input\doc\" + fileInfo.FullName.Substring(fileInfo.FullName.LastIndexOf('\\') + 1), true);
                         break;
                     case ".docx":
-                        File.Copy(fileInfo.FullName, @"..\..\..\NewProject\input\docx\" + fileInfo.FullName.Substring(fileInfo.FullName.LastIndexOf('\\') + 1));
+                        File.Copy(fileInfo.FullName, @"..\..\..\NewProject\input\docx\" + fileInfo.FullName.Substring(fileInfo.FullName.LastIndexOf('\\') + 1), true);
                         break;
                     case ".txt":
-                        File.Copy(fileInfo.FullName, @"..\..\..\NewProject\input\text\" + fileInfo.FullName.Substring(fileInfo.FullName.LastIndexOf('\\') + 1));
+                        File.Copy(fileInfo.FullName, @"..\..\..\NewProject\input\text\" + fileInfo.FullName.Substring(fileInfo.FullName.LastIndexOf('\\') + 1), true);
                         break;
                     case ".tagged":
-                        File.Copy(fileInfo.FullName, @"..\..\..\NewProject\input\tagged\" + fileInfo.FullName.Substring(fileInfo.FullName.LastIndexOf('\\') + 1));
+                        File.Copy(fileInfo.FullName, @"..\..\..\NewProject\input\tagged\" + fileInfo.FullName.Substring(fileInfo.FullName.LastIndexOf('\\') + 1), true);
                         break;
                     default:
                         break;
@@ -69,10 +69,10 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         ////  Use ClassCleanup to run code after all tests in a class have run
-        //[ClassCleanup()]
-        //public static void MyClassCleanup() {
-        //    Directory.Delete(@"..\..\..\NewProject\Input", true);
-        //}
+        [ClassCleanup()]
+        public static void MyClassCleanup() {
+            Directory.Delete(@"..\..\..\NewProject\Input", true);
+        }
         //Use TestInitialize to run code before running each test
         //[TestInitialize()]
         //public void MyTestInitialize()
@@ -80,10 +80,9 @@ namespace AlgorithmAssemblyUnitTestProject
         //}
         //
         //Use TestCleanup to run code after each test has run
-        //[TestCleanup()]
-        //public void MyTestCleanup()
-        //{
-        //}
+        [TestCleanup()]
+        public void MyTestCleanup() {
+        }
         //
         #endregion
 

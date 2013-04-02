@@ -62,13 +62,9 @@ namespace AlgorithmAssemblyUnitTestProject
         //
         #endregion
 
+        #region Testing Helpers
 
-
-        /// <summary>
-        ///a test for Document Constructor
-        ///</summary>
-        [TestMethod()]
-        public void DocumentConstructorTest() {
+        private static Document BuildDocumentManually() {
             IEnumerable<Paragraph> allParagrpahs = new Paragraph[] { 
                 new Paragraph(new Sentence[] { 
                     new Sentence(new Clause[] {
@@ -83,12 +79,37 @@ namespace AlgorithmAssemblyUnitTestProject
                             new NounPhrase(new Word[] { 
                                 new Adjective("blue"), 
                                 new GenericSingularNoun("team") }
-                                ) }
-                            ) }
-                        ) }
-                    ) };
-            Document target = new Document(allParagrpahs);
-            Assert.Inconclusive("Verify the correctness of this test method.");
+                                )}
+                            )}, new SentencePunctuation('!')),
+                        new Sentence(new Clause[]{new Clause( new Phrase[]{
+                            new NounPhrase(new Word[]{
+                                new PersonalPronoun("We")}),
+                            new VerbPhrase(new Word[] { 
+                                new ModalAuxilary("must"),
+                                new Verb("do", VerbTense.Base)
+                            }),
+                        new NounPhrase(new Word[]{  
+                            new PersonalPronoun("this")
+                        }),
+                        new AdverbPhrase(new Word [] {
+                            new Adverb("quickly")
+                        })
+                    })}, new SentencePunctuation('!'))
+                })
+            };
+            return new Document(allParagrpahs);
+        }
+
+
+        #endregion
+
+        /// <summary>
+        ///a test for Document Constructor
+        ///</summary>
+        //[TestMethod()]
+        public void DocumentConstructorTest() {
+            Document doc = BuildDocumentManually();
+            Assert.IsTrue(doc != null);
         }
 
         /// <summary>
@@ -96,8 +117,8 @@ namespace AlgorithmAssemblyUnitTestProject
         ///</summary>
         [TestMethod()]
         public void GetActionsTest() {
-            IEnumerable<Paragraph> allParagrpahs = null; // TODO: Initialize to an appropriate value
-            Document target = new Document(allParagrpahs); // TODO: Initialize to an appropriate value
+
+            Document target = BuildDocumentManually();
             IEnumerable<ITransitiveVerbial> expected = null; // TODO: Initialize to an appropriate value
             IEnumerable<ITransitiveVerbial> actual;
             actual = target.GetActions();
@@ -110,8 +131,8 @@ namespace AlgorithmAssemblyUnitTestProject
         ///</summary>
         [TestMethod()]
         public void GetEntitiesTest() {
-            IEnumerable<Paragraph> allParagrpahs = null; // TODO: Initialize to an appropriate value
-            Document target = new Document(allParagrpahs); // TODO: Initialize to an appropriate value
+
+            Document target = BuildDocumentManually();
             IEnumerable<IEntity> expected = null; // TODO: Initialize to an appropriate value
             IEnumerable<IEntity> actual;
             actual = target.GetEntities();
@@ -124,8 +145,8 @@ namespace AlgorithmAssemblyUnitTestProject
         ///</summary>
         [TestMethod()]
         public void PrintByPhraseLinkageTest() {
-            IEnumerable<Paragraph> allParagrpahs = null; // TODO: Initialize to an appropriate value
-            Document target = new Document(allParagrpahs); // TODO: Initialize to an appropriate value
+
+            Document target = BuildDocumentManually();
             target.PrintByPhraseLinkage();
             Assert.Inconclusive("A method that does not return a value cannot be verified.");
         }
@@ -135,8 +156,8 @@ namespace AlgorithmAssemblyUnitTestProject
         ///</summary>
         [TestMethod()]
         public void PrintByWordLinkageTest() {
-            IEnumerable<Paragraph> allParagrpahs = null; // TODO: Initialize to an appropriate value
-            Document target = new Document(allParagrpahs); // TODO: Initialize to an appropriate value
+
+            Document target = BuildDocumentManually();
             target.PrintByWordLinkage();
             Assert.Inconclusive("A method that does not return a value cannot be verified.");
         }
@@ -146,8 +167,8 @@ namespace AlgorithmAssemblyUnitTestProject
         ///</summary>
         [TestMethod()]
         public void SentenceAtTest() {
-            IEnumerable<Paragraph> allParagrpahs = null; // TODO: Initialize to an appropriate value
-            Document target = new Document(allParagrpahs); // TODO: Initialize to an appropriate value
+
+            Document target = BuildDocumentManually();
             int loc = 0; // TODO: Initialize to an appropriate value
             Sentence expected = null; // TODO: Initialize to an appropriate value
             Sentence actual;
@@ -161,8 +182,8 @@ namespace AlgorithmAssemblyUnitTestProject
         ///</summary>
         [TestMethod()]
         public void SentenceTextAtTest() {
-            IEnumerable<Paragraph> allParagrpahs = null; // TODO: Initialize to an appropriate value
-            Document target = new Document(allParagrpahs); // TODO: Initialize to an appropriate value
+
+            Document target = BuildDocumentManually();
             int loc = 0; // TODO: Initialize to an appropriate value
             string expected = string.Empty; // TODO: Initialize to an appropriate value
             string actual;
@@ -176,8 +197,8 @@ namespace AlgorithmAssemblyUnitTestProject
         ///</summary>
         [TestMethod()]
         public void WordAtTest() {
-            IEnumerable<Paragraph> allParagrpahs = null; // TODO: Initialize to an appropriate value
-            Document target = new Document(allParagrpahs); // TODO: Initialize to an appropriate value
+
+            Document target = BuildDocumentManually();
             int loc = 0; // TODO: Initialize to an appropriate value
             Word expected = null; // TODO: Initialize to an appropriate value
             Word actual;
@@ -191,8 +212,8 @@ namespace AlgorithmAssemblyUnitTestProject
         ///</summary>
         [TestMethod()]
         public void WordTextAtTest() {
-            IEnumerable<Paragraph> allParagrpahs = null; // TODO: Initialize to an appropriate value
-            Document target = new Document(allParagrpahs); // TODO: Initialize to an appropriate value
+
+            Document target = BuildDocumentManually();
             int loc = 0; // TODO: Initialize to an appropriate value
             string expected = string.Empty; // TODO: Initialize to an appropriate value
             string actual;
@@ -206,8 +227,8 @@ namespace AlgorithmAssemblyUnitTestProject
         ///</summary>
         [TestMethod()]
         public void ParagraphsTest() {
-            IEnumerable<Paragraph> allParagrpahs = null; // TODO: Initialize to an appropriate value
-            Document target = new Document(allParagrpahs); // TODO: Initialize to an appropriate value
+
+            Document target = BuildDocumentManually();
             IEnumerable<Paragraph> actual;
             actual = target.Paragraphs;
             Assert.Inconclusive("Verify the correctness of this test method.");
@@ -218,11 +239,12 @@ namespace AlgorithmAssemblyUnitTestProject
         ///</summary>
         [TestMethod()]
         public void PhrasesTest() {
-            IEnumerable<Paragraph> allParagrpahs = null; // TODO: Initialize to an appropriate value
-            Document target = new Document(allParagrpahs); // TODO: Initialize to an appropriate value
+
+            Document target = BuildDocumentManually();
             IEnumerable<Phrase> actual;
             actual = target.Phrases;
-            Assert.Inconclusive("Verify the correctness of this test method.");
+            var expectedResult = actual.Zip(new[] { "We", "must attack", "blue team", "We", "must do", "this", "quickly" }, (r, s) => r.Text == s).Aggregate(true, (aggr, val) => aggr &= val);
+            Assert.IsTrue(expectedResult);
         }
 
         /// <summary>
@@ -230,8 +252,7 @@ namespace AlgorithmAssemblyUnitTestProject
         ///</summary>
         [TestMethod()]
         public void SentencesTest() {
-            IEnumerable<Paragraph> allParagrpahs = null; // TODO: Initialize to an appropriate value
-            Document target = new Document(allParagrpahs); // TODO: Initialize to an appropriate value
+            Document target = BuildDocumentManually();
             IEnumerable<Sentence> actual;
             actual = target.Sentences;
             Assert.Inconclusive("Verify the correctness of this test method.");
@@ -242,11 +263,13 @@ namespace AlgorithmAssemblyUnitTestProject
         ///</summary>
         [TestMethod()]
         public void WordsTest() {
-            IEnumerable<Paragraph> allParagrpahs = null; // TODO: Initialize to an appropriate value
-            Document target = new Document(allParagrpahs); // TODO: Initialize to an appropriate value
+            Document target = BuildDocumentManually();
             IEnumerable<Word> actual;
             actual = target.Words;
-            Assert.Inconclusive("Verify the correctness of this test method.");
+            string[] expectedLexicalMatches = new[]{
+                "We", "must", "attack", "blue", "team", "We", "must", "do", "this", "quickly"};
+            var expectedResult = actual.Zip(expectedLexicalMatches, (w, s) => w.Text == s).Aggregate(true, (aggr, val) => aggr &= val);
+            Assert.IsTrue(expectedResult);
         }
     }
 }
