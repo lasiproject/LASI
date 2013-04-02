@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using System.Configuration;
 namespace LASI.Algorithm
 {
     /// <summary>
@@ -13,6 +14,7 @@ namespace LASI.Algorithm
     /// </summary>
     public class Preposition : Word, IPrepositional
     {
+
         #region Constructors
 
         /// <summary>
@@ -59,9 +61,10 @@ namespace LASI.Algorithm
         }
         #region Methods
 
-        #endregion
+        #endregion`
 
         #region Fields
+
 
 
 
@@ -74,6 +77,21 @@ namespace LASI.Algorithm
         public PrepositionalRole ContextualRole {
             get;
             set;
+        }
+
+
+        static Preposition() {
+            using (var reader = new System.IO.StreamReader(ConfigurationManager.AppSettings["PrepositionDataFilePath"]))
+                for (var l = reader.ReadLine(); !reader.EndOfStream; l = reader.ReadLine())
+                    knownLexicalMembers.Add(new string(new string(l.TakeWhile(c => c != '/').ToArray()).Trim().TakeWhile(c => c != ' ').ToArray()));
+            knownLexicalMembers = knownLexicalMembers.Distinct().ToList();
+        }
+
+        private static List<string> knownLexicalMembers = new List<string>();
+        public static IReadOnlyList<string> KnownLexicalMembers {
+            get {
+                return knownLexicalMembers;
+            }
         }
     }
 }

@@ -1,11 +1,4 @@
-﻿A: List of Most frequent			B:
-Subordinating	Conjunctions		How the tagger tagged each in a simple one clause sentences
-									
-									Note that [SBAR] indicates the beginning of a subordinate
-									clause but lack an equivalent ending delim
-
-
-after
+﻿after //List of Most SubordinatingConjunctions How the tagger tagged each in a simple one clause Note that [SBAR] indicates the beginning of a subordinate clause but lack an equivalent ending delim
 although
 as
 as if

@@ -5,13 +5,16 @@ using System.Text;
 
 namespace LASI.Algorithm.Analysis.Binding
 {
+    [Serializable]
     public class UnknownEntityCompatibleWordTypeException : Exception
     {
-        private string p;
+        public UnknownEntityCompatibleWordTypeException(Word word)
+            : base(String.Format("{0} has Type : {1} which is incompatible with its usage", word.Text, word.GetType())) {
 
-        public UnknownEntityCompatibleWordTypeException(string p) {
-            // TODO: Complete member initialization
-            this.p = p;
+        }
+        public UnknownEntityCompatibleWordTypeException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
+            : base(info, context) {
+
         }
     }
 }

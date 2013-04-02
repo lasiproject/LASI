@@ -28,44 +28,29 @@ namespace LASI.Algorithm.Binding
             foreach (var word in stream) {
 
                 new Switch(word)
-
-                    .Case<GenericSingularNoun>(e => genericSingular.Push(e))
-
-                    .Case<GenericPluralNoun>(e => genericPlural.Push(e))
-
-                    .Case<ProperSingularNoun>(e => properSingular.Push(e))
-
-                    .Case<ProperPluralNoun>(e => properPlural.Push(e))
-
-                    .Case<PresentParticipleGerund>(vbn => gerund.Push(vbn))
-
-                    .Default(u => {
-                        throw new UnknownEntityCompatibleWordTypeException(string.Format("{0} : {1}", u.GetType()));
+                    .Case<GenericSingularNoun>(e => {
+                        genericSingular.Push(e);
+                    })
+                    .Case<GenericPluralNoun>(e => {
+                        genericPlural.Push(e);
+                    })
+                    .Case<ProperSingularNoun>(e => {
+                        properSingular.Push(e);
+                    })
+                    .Case<ProperPluralNoun>(e => {
+                        properPlural.Push(e);
+                    })
+                    .Case<PresentParticipleGerund>(vbn => {
+                        gerund.Push(vbn);
+                    })
+                    .Default<Word>(u => {
+                        throw new UnknownEntityCompatibleWordTypeException(u);
                     });
 
 
 
             }
         }
-
-        protected virtual void Transition(GenericSingularNoun entity) {
-
-
-        }
-        protected virtual void Transition(GenericPluralNoun entity) {
-            genericPlural.Push(entity);
-        }
-        protected virtual void Transition(ProperSingularNoun entity) {
-            properSingular.Push(entity);
-        }
-        protected virtual void Transition(ProperPluralNoun entity) {
-            properPlural.Push(entity);
-        }
-        protected virtual void Transition(PresentParticipleGerund entity) {
-            gerund.Push(entity);
-        }
-
-
 
 
         internal enum PronounGender

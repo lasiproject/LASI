@@ -84,9 +84,17 @@ namespace LASI.Algorithm
             return base.ToString() + " \"" + Text + "\"";
         }
         /// <summary>
-        /// Gets the or sets the double precision numeric weight of the Clause.
+        /// Gets or sets the numeric weight of the Phrase within the context of its document.
         /// </summary>
         public decimal Weight {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// Gets or sets the numeric weight of the Phrase over the context of all extant documents.
+        /// </summary>
+        public decimal MetaWeight {
             get;
             set;
         }

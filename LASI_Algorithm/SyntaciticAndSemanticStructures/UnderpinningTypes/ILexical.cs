@@ -19,9 +19,16 @@ namespace LASI.Algorithm
             get;
         }
         /// <summary>
-        /// Gets the or sets the double precision numeric weight of the ILexical construct.
+        /// Gets or sets the numeric weight of the ILexical construct within its document.
         /// </summary>
         decimal Weight {
+            get;
+            set;
+        }
+        /// <summary>
+        /// Gets or sets the numeric weight of the ILexical construct over the context of all extant documents.
+        /// </summary>
+        decimal MetaWeight {
             get;
             set;
         }

@@ -7,6 +7,7 @@ using LASI.Utilities;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using LASI.Utilities.TypedSwitch;
+using LASI.Algorithm.Analysis.Heuristics;
 namespace Aluan_Experimentation
 {
     public class Program
@@ -23,11 +24,16 @@ namespace Aluan_Experimentation
 
 
 
-        static string testPath = @"C:\Users\Aluan\Desktop\TestSentences3.txt";
+        static string testPath = @"C:\Users\Aluan\Desktop\test1.txt";
 
         static void Main(string[] args) {
+
+
             Output.SetToDebug();
             TestWordAndPhraseBindings();
+
+ 
+
 
 
             Input.WaitForKey();
