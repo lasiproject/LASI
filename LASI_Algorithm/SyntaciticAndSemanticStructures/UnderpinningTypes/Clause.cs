@@ -60,7 +60,14 @@ namespace LASI.Algorithm
                 return ParentSentence.ParentDocument;
             }
         }
-
+        /// <summary>
+        /// Gets or set the Paragraph instance to which the Clause belongs.
+        /// </summary>
+        public Paragraph ParentParagraph {
+            get {
+                return ParentSentence.ParentParagraph;
+            }
+        }
         /// <summary>
         /// Gets the punctuation, if any, which ends the clause.
         /// </summary>

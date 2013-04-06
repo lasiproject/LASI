@@ -60,12 +60,15 @@ namespace Aluan_Experimentation
                 var objectBinder = new ObjectBinder();
                 try {
                     subjectBinder.Bind(s);
-                } catch (NullReferenceException) {
+                }
+                catch (NullReferenceException) {
                 }
                 try {
                     objectBinder.Bind(s);
-                } catch (InvalidStateTransitionException) {
-                } catch (VerblessPhrasalSequenceException) {
+                }
+                catch (InvalidStateTransitionException) {
+                }
+                catch (VerblessPhrasalSequenceException) {
                 }
             }
         }
@@ -94,7 +97,8 @@ namespace Aluan_Experimentation
             for (var k = Console.ReadLine(); ; ) {
                 try {
                     Output.WriteLine(ThesaurusManager.NounThesaurus[k].OrderBy(o => o).Aggregate("", (aggr, s) => s.PadRight(30) + ", " + aggr));
-                } catch (ArgumentNullException) {
+                }
+                catch (ArgumentNullException) {
                     Output.WriteLine("no synonyms returned");
                 }
                 Output.WriteLine("enter noun: ");
@@ -159,15 +163,24 @@ namespace Aluan_Experimentation
 
 
 
-            var byWeight = from w in doc.Words
-                           orderby w.Weight
-                           select w;
+            var words = from w in doc.Words
+                        select w;
 
-            IEnumerable<Word> resultsToDisplay =
-                byWeight.GetNouns().Take(100)
-                .Concat<Word>(byWeight.GetVerbs().Take(50))
-                .Concat<Word>(byWeight.GetAdjectives().Take(25));
 
+
+            var results =
+                        words.GetNouns()
+                        .OrderBy(n => n.Weight)
+                        .Take(100)
+                        .Concat<Word>(words.GetVerbs()
+                        .OrderBy(v => v.Weight)
+                        .Take(50))
+                        .Concat<Word>(words.GetAdjectives()
+                        .OrderBy(a => a.Weight)
+                        .Take(25))
+                        .Concat<Word>(words.GetAdverbs()
+                        .OrderBy(a => a.Weight)
+                        .Take(15));
 
 
 

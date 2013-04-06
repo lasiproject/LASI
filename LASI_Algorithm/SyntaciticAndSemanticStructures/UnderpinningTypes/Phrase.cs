@@ -89,6 +89,11 @@ namespace LASI.Algorithm
             get;
             set;
         }
+        public Paragraph ParentParagraph {
+            get {
+                return ParentSentence.ParentParagraph;
+            }
+        }
         /// <summary>
         /// Gets or set the Document instance to which the Phrase belongs.
         /// </summary>
