@@ -89,8 +89,8 @@
     <Compile Include="InProgressScreen.xaml.cs">
       <DependentUpon>InProgressScreen.xaml</DependentUpon>
     </Compile>
-    <Compile Include="LoadedProjectScreen.xaml.cs">
-      <DependentUpon>LoadedProjectScreen.xaml</DependentUpon>
+    <Compile Include="ProjectPreviewScreen.xaml.cs">
+      <DependentUpon>ProjectPreviewScreen.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControl1.xaml.cs">
       <DependentUpon>UserControl1.xaml</DependentUpon>
@@ -104,7 +104,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SplashScreen.xaml">
+    <Page Include="StartupScreen.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -118,15 +118,15 @@
     <Compile Include="ResultsScreen.xaml.cs">
       <DependentUpon>ResultsScreen.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SplashScreen.xaml.cs">
-      <DependentUpon>SplashScreen.xaml</DependentUpon>
+    <Compile Include="StartupScreen.xaml.cs">
+      <DependentUpon>StartupScreen.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Page Include="InProgressScreen.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="LoadedProjectScreen.xaml">
+    <Page Include="ProjectPreviewScreen.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

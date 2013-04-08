@@ -20,9 +20,9 @@ namespace LASI.UserInterface
     /// <summary>
     /// Interaction logic for Window1.xaml
     /// </summary>
-    public partial class LoadedProjectScreen : Window
+    public partial class ProjectPreviewScreen : Window
     {
-        public LoadedProjectScreen() {
+        public ProjectPreviewScreen() {
             InitializeComponent();
             var titleText = WindowManager.CreateProjectScreen.LastLoadedProjectName;
             if (titleText != null)

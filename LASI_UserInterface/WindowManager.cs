@@ -15,7 +15,7 @@ namespace LASI.UserInterface
     {
         static WindowManager() {
             CreateProjectScreen = new CreateProjectScreen();
-            LoadedProjectScreen = new LoadedProjectScreen();
+            LoadedProjectScreen = new ProjectPreviewScreen();
             InProgressScreen = new InProgressScreen();
             ResultsScreen = new ResultsScreen();
         }
@@ -25,7 +25,7 @@ namespace LASI.UserInterface
             set;
         }
 
-        public static SplashScreen SplashScreen {
+        public static StartupScreen StartupScreen {
             get;
             set;
         }
@@ -41,7 +41,7 @@ namespace LASI.UserInterface
             set;
         }
 
-        public static LoadedProjectScreen LoadedProjectScreen {
+        public static ProjectPreviewScreen LoadedProjectScreen {
             get;
             set;
         }

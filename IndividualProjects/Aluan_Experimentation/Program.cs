@@ -29,7 +29,7 @@ namespace Aluan_Experimentation
         static void Main(string[] args) {
 
 
-            Output.SetToDebug();
+
             TestWordAndPhraseBindings();
 
 
@@ -44,13 +44,26 @@ namespace Aluan_Experimentation
 
 
         private static void TestWordAndPhraseBindings() {
-            var doc = TaggerUtil.LoadTextFileAsync(new LASI.FileSystem.FileTypes.TextFile(testPath)).Result;
-
+            var doc = TaggerUtil.UntaggedToDoc(@"
+The twenty-first regiment sneered at the twenty-second. 
+The twenty-first then resolved hate the twenty-second for all eternity.");
             PerformIntraPhraseBinding(doc);
             PerformSVOBinding(doc);
 
+            var topVerbPhrases = from v in doc.Phrases.GetVerbPhrases()
+                                 group v by v.DirectObjects.Aggregate("", (sum, s) => s.Text) into vGroups
+                                 orderby vGroups.Count()
+                                 select new {
+                                     VP = vGroups.First().DirectObjects.First(),
+                                     Count = vGroups.Count()
+                                 };
+            foreach (var v in topVerbPhrases) {
+                Output.WriteLine("{0} : with count = {1}", v.VP, v.Count);
+            }
             foreach (var r in doc.Phrases) {
                 Output.WriteLine(r);
+                foreach (var w in r.Words)
+                    Output.WriteLine(w);
             }
         }
 
@@ -149,13 +162,18 @@ namespace Aluan_Experimentation
             //ASSUMING RELEVANT GROUP OF NOUNS HAS TEXT "DOG"
 
 
-            var wordsGroupedByText = from n in doc.Words
+            var wordsByTypeAndText = from n in doc.Words
                                      group n by new {
                                          n.Text,
-                                         Type = n.GetType()
+                                         n.Type
                                      };
 
-            foreach (var wGroup in wordsGroupedByText) {
+
+
+
+
+
+            foreach (var wGroup in wordsByTypeAndText) {
                 foreach (var w in wGroup) {
                     w.Weight = wGroup.Count();
                 }

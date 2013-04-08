@@ -173,6 +173,7 @@
     <Compile Include="IEnumerableExtensions\IEnumerableOfWordExtensions.cs" />
     <Compile Include="Thesuari\WordNetLexNames.cs" />
     <None Include="ClassDiagram1.cd" />
+    <None Include="ClassDiagram2.cd" />
     <None Include="ClassDiagrams\NounConstructs.cd" />
     <None Include="ClassDiagrams\VerbConstructs.cd" />
     <None Include="DocumentConstructs\DocumentComposition.cd" />

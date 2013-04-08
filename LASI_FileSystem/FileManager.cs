@@ -202,7 +202,8 @@ namespace LASI.FileSystem
                 localDocumentNames.Add(newFile.NameSansExt);
                 AddToTypedList(newFile as dynamic);
                 return originalFile;
-            } catch (KeyNotFoundException ex) {
+            }
+            catch (KeyNotFoundException ex) {
                 throw new UnsupportedFileTypeAddedException(ext, ex);
             }
         }
@@ -325,15 +326,15 @@ namespace LASI.FileSystem
             if (files.Length == 0)
                 files = textFiles.ToArray();
             foreach (var doc in from d in files
-                                where
-                                (from dx in taggedFiles
-                                 where dx.NameSansExt == d.NameSansExt
-                                 select dx).Count() == 0
+                                where (from dx in taggedFiles
+                                       where dx.NameSansExt == d.NameSansExt
+                                       select dx).Count() == 0
                                 select d) {
-                var tagger = new SharpNLPTaggingModule.SharpNLPTagger(TaggingOption.TagAndAggregate, doc.FullPath, TaggedFilesDir + "\\" + doc.NameSansExt + ".tagged");
+                var tagger = new SharpNLPTaggingModule.SharpNLPTagger(
+                    TaggingOption.TagAndAggregate, doc.FullPath,
+                    TaggedFilesDir + "\\" + doc.NameSansExt + ".tagged");
                 var tf = tagger.ProcessFile();
-                AddFile(tf.FullPath);//tagger.OutputFilePath;
-                //taggedFiles.Add(new TaggedFile(filePath));
+                AddFile(tf.FullPath);
             }
         }
         /// <summary>

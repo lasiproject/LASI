@@ -223,7 +223,7 @@ namespace LASI.UserInterface
         }
         private void CancelButton_Click(object sender, RoutedEventArgs e) {
 
-            this.SwapWith(WindowManager.SplashScreen);
+            this.SwapWith(WindowManager.StartupScreen);
         }
         #endregion
 

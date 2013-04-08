@@ -19,13 +19,13 @@ using System.Threading;
 namespace LASI.UserInterface
 {
     /// <summary>
-    /// Interaction logic for SplashScreen.xaml
+    /// Interaction logic for StartupScreen.xaml
     /// </summary>
-    public partial class SplashScreen : Window
+    public partial class StartupScreen : Window
     {
-        public SplashScreen() {
+        public StartupScreen() {
             InitializeComponent();
-            WindowManager.SplashScreen = this;
+            WindowManager.StartupScreen = this;
             BindWindowEventHandlers();
             WindowStartupLocation = WindowStartupLocation.CenterScreen;
 

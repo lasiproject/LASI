@@ -40,6 +40,25 @@ namespace LASI.FileSystem
         }
 
     }
+
+    /// <summary>
+    /// Thrown when attempting to parse an unknown entity Tag
+    /// </summary>
+    [Serializable]
+    class EmptyPhraseTagException : POSTagException
+    {
+        public EmptyPhraseTagException(string message)
+            : base(message) {
+        }
+        public EmptyPhraseTagException(string message, Exception inner)
+            : base(message, inner) {
+        }
+        public EmptyPhraseTagException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
+            : base(info, context) {
+        }
+
+    }
+
     /// <summary>
     /// Thrown when attempting to parse an untagged w
     /// </summary>

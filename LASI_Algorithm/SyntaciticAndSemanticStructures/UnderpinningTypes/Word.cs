@@ -125,6 +125,11 @@ namespace LASI.Algorithm
             set;
         }
 
+        public Type Type {
+            get {
+                return GetType();
+            }
+        }
 
         /// <summary>
         /// Gets or sets the numeric weight of the Word within the context of its parent document.

@@ -20,9 +20,10 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="composedWords">The one or more instances of the Word class of which the Phrase is composed.</param>
         protected Phrase(IEnumerable<Word> composedWords) {
-            ID = IDProvider++;
+            //if (composedWords.Count() == 0)
+            //    throw new EmptyPhraseTagException();
             Words = composedWords;
-
+            ID = IDProvider++;
 
         }
 
