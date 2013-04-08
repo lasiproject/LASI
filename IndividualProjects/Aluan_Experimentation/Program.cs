@@ -44,22 +44,41 @@ namespace Aluan_Experimentation
 
 
         private static void TestWordAndPhraseBindings() {
-            var doc = TaggerUtil.UntaggedToDoc(@"
-The twenty-first regiment sneered at the twenty-second. 
-The twenty-first then resolved hate the twenty-second for all eternity.");
+            var doc = TaggerUtil.LoadTextFile(new LASI.FileSystem.FileTypes.TextFile(testPath));
             PerformIntraPhraseBinding(doc);
             PerformSVOBinding(doc);
 
-            var topVerbPhrases = from v in doc.Phrases.GetVerbPhrases()
-                                 group v by v.DirectObjects.Aggregate("", (sum, s) => s.Text) into vGroups
-                                 orderby vGroups.Count()
-                                 select new {
-                                     VP = vGroups.First().DirectObjects.First(),
-                                     Count = vGroups.Count()
-                                 };
-            foreach (var v in topVerbPhrases) {
-                Output.WriteLine("{0} : with count = {1}", v.VP, v.Count);
+            var nounPhrasesByActionsPerformed = from np in doc.Phrases.GetNounPhrases().InSubjectRole()
+                                                group np by np.SubjectOf.Text into actionGroups
+                                                orderby actionGroups.Count()
+                                                select actionGroups;
+            var nounPhrasesByActionsReceived = from np in doc.Phrases.GetNounPhrases().InDirectObjectRole()
+                                               group np by np.DirectObjectOf.Text into recipientGroup
+                                               orderby recipientGroup.Count()
+                                               select recipientGroup;
+
+
+            foreach (var actionGroup in nounPhrasesByActionsPerformed) {
+                Output.WriteLine("Performs -> action: {0}", actionGroup.Key);
+                foreach (var n in actionGroup) {
+                    Output.WriteLine("\t{0}", n);
+                }
             }
+            Output.WriteLine();
+            Output.WriteLine();
+            foreach (var actionGroup in nounPhrasesByActionsReceived) {
+                Output.WriteLine("Recevies -> action: {0}", actionGroup.Key);
+                foreach (var n in actionGroup) {
+                    Output.WriteLine("\t{0}", n);
+                }
+            }
+
+
+
+            //PrintDocument(doc);
+        }
+
+        private static void PrintDocument(Document doc) {
             foreach (var r in doc.Phrases) {
                 Output.WriteLine(r);
                 foreach (var w in r.Words)

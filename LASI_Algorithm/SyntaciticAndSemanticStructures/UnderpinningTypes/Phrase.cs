@@ -24,6 +24,8 @@ namespace LASI.Algorithm
             //    throw new EmptyPhraseTagException();
             Words = composedWords;
             ID = IDProvider++;
+            Weight = 1;
+            MetaWeight = 1;
 
         }
 

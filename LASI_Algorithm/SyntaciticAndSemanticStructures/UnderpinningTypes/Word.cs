@@ -22,6 +22,8 @@ namespace LASI.Algorithm
         protected Word(string text) {
             ID = IDProvider++;
             Text = text;
+            Weight = 1;
+            MetaWeight = 1;
         }
 
 

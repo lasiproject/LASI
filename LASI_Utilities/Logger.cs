@@ -157,7 +157,12 @@ namespace LASI.Utilities
         #endregion
 
         #region WriteLine Methods
-
+        public static void WriteLine() {
+            if (OutputMode != OutputMode.Debug)
+                CurrentStream.WriteLine();
+            else
+                Debug.WriteLine("\n");
+        }
 
         public static void WriteLine(bool value) {
             if (OutputMode != OutputMode.Debug)

@@ -339,8 +339,6 @@ namespace SharpNLPTaggingModule
 
         #region Fields
         private static readonly Dictionary<string, string> textToNumeralMap = new Dictionary<string, string> {
-        { " zero " , " 0 " },
-        {  " one " , " 1 " },
         {  " two " , " 2 " },
         {  " three " , " 3 " },
         {  " four " , " 4 " },

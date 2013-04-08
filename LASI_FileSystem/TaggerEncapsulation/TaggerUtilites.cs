@@ -61,7 +61,11 @@ namespace LASI.Utilities
             return await LoadTextFileAsync(txt);
 
         }
-
+        public static Document LoadTextFile(InputFile txt) {
+            var tagger = new SharpNLPTaggingModule.SharpNLPTagger(TaggingOption.TagAndAggregate, txt.FullPath);
+            var tagged = tagger.ProcessFile();
+            return new TaggedFileParser(tagged).LoadDocument();
+        }
         public static async Task<Document> LoadTextFileAsync(InputFile txt) {
 
             var tagger = new SharpNLPTaggingModule.SharpNLPTagger(TaggingOption.TagAndAggregate, txt.FullPath);
