@@ -17,15 +17,20 @@ namespace LASI.Algorithm.Binding
             Noun LastNoun = np.Words.OfType<Noun>().LastOrDefault();
 
 
-            if (np.Words.Count() > 1 && LastNoun != null) {
-                
+            if (np.Words.Count() > 1 && LastNoun != null) 
+            {
 
-                
+                var PrevWrd = LastNoun.PreviousWord;
+                if (PrevWrd is Noun)
+                {
+                    Console.WriteLine("Prev Word: {0}", PrevWrd.Text);
+                }
+
                 foreach (Word w in np.Words)
                 {
                     Console.Write("[{0}] ", w);
                 }
-                //Console.Write("\nLast Noun: {0}", LastNoun.Text);
+                Console.WriteLine("\nLast Noun: {0}", LastNoun.Text);
                 //Console.Write("\n------\n");
                 
 
@@ -38,7 +43,7 @@ namespace LASI.Algorithm.Binding
                 {
                     LastNoun.BindDeterminer(det1);
                     det1.Determines = LastNoun;
-                    Console.WriteLine("Last Noun: {0}, Determined By: {1}", LastNoun.Text, LastNoun.DeterminedBy.Text);
+                    //Console.WriteLine("Last Noun: {0}, Determined By: {1}", LastNoun.Text, LastNoun.DeterminedBy.Text);
                     Console.WriteLine("Determiner: {0}, Determines: {1}", det1.Text, det1.Determines.Text);
                 }
 
