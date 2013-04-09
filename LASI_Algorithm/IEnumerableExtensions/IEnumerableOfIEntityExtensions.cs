@@ -13,7 +13,10 @@ namespace LASI.Algorithm
                    where e.SubjectOf != null
                    select e;
         }
-        public static IEnumerable<IEntity> InSubjectRole(this IEnumerable<IEntity> entities, Func<ITransitiveVerbial, bool> condition) {
+        public static IEnumerable<IEntity> InSubjectRole(
+            this IEnumerable<IEntity> entities,
+            Func<ITransitiveVerbial, bool> condition
+            ) {
             return from e in entities.InSubjectRole()
                    where condition(e.SubjectOf)
                    select e;

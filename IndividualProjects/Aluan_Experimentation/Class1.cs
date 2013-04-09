@@ -22,9 +22,7 @@ namespace Aluan_Experimentation
                     n.Weight = 15;
                 })
                 .Default<Word>(w => {
-                    w.Weight = 1;
                 });
-
             }
         }
     }

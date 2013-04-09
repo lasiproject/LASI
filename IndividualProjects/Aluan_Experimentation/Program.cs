@@ -48,17 +48,20 @@ namespace Aluan_Experimentation
             PerformIntraPhraseBinding(doc);
             PerformSVOBinding(doc);
 
-            var nounPhrasesByActionsPerformed = from np in doc.Phrases.GetNounPhrases().InSubjectRole()
-                                                group np by np.SubjectOf.Text into actionGroups
-                                                orderby actionGroups.Count()
-                                                select actionGroups;
-            var nounPhrasesByActionsReceived = from np in doc.Phrases.GetNounPhrases().InDirectObjectRole()
-                                               group np by np.DirectObjectOf.Text into recipientGroup
-                                               orderby recipientGroup.Count()
-                                               select recipientGroup;
+            var NPsByActionsPerformed =
+                from np in doc.Phrases.GetNounPhrases().InSubjectRole()
+                group np by np.SubjectOf.Text into performerGroups
+                orderby performerGroups.Count()
+                select performerGroups;
+
+            var NPsByActionsReceived =
+                from np in doc.Phrases.GetNounPhrases().InDirectObjectRole()
+                group np by np.DirectObjectOf.Text into recipientGroups
+                orderby recipientGroups.Count()
+                select recipientGroups;
 
 
-            foreach (var actionGroup in nounPhrasesByActionsPerformed) {
+            foreach (var actionGroup in NPsByActionsPerformed) {
                 Output.WriteLine("Performs -> action: {0}", actionGroup.Key);
                 foreach (var n in actionGroup) {
                     Output.WriteLine("\t{0}", n);
@@ -66,7 +69,7 @@ namespace Aluan_Experimentation
             }
             Output.WriteLine();
             Output.WriteLine();
-            foreach (var actionGroup in nounPhrasesByActionsReceived) {
+            foreach (var actionGroup in NPsByActionsReceived) {
                 Output.WriteLine("Recevies -> action: {0}", actionGroup.Key);
                 foreach (var n in actionGroup) {
                     Output.WriteLine("\t{0}", n);

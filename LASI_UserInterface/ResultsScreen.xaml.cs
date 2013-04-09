@@ -201,29 +201,3 @@ the COIs characterizing it - to which MOEs may be properly linked.".Split('\r', 
 
     }
 }
-
-
-/*
-  var menuItem2 = new MenuItem {
-                    Header = "highligh synonyms"
-                };
-                menuItem2.Click += (sender, e) => {
-                    try {
-                        var synonyms =
-                            ThesaurusManager.
-                            VerbThesaurus[wordLabel.Content.ToString().ToLower()];
-                        foreach (var syn in synonyms) {
-                            var applicableLabels = from l in wordLabels
-                                                   where synonyms.Contains(l.Content.ToString())
-                                                   select new Label {
-                                                       Content = l.Content,
-                                                       ContextMenu = l.ContextMenu,
-                                                       Background = Brushes.Azure
-                                                   };
-
-                        }
-                    } catch (NullReferenceException) {
-                        menuItem2.RaiseEvent(e);
-                    }
-                };
- */
