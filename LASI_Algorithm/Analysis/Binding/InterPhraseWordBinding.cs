@@ -20,10 +20,12 @@ namespace LASI.Algorithm.Binding
             if (np.Words.Count() > 1 && LastNoun != null) 
             {
 
-                var PrevWrd = LastNoun.PreviousWord;
-                if (PrevWrd is Noun)
+               
+                if (LastNoun.PreviousWord is Noun)
                 {
+                    Noun PrevWrd = LastNoun.PreviousWord;
                     Console.WriteLine("Prev Word: {0}", PrevWrd.Text);
+                    LastNoun.SuperTaxonomicNoun = PrevWrd;
                 }
 
                 foreach (Word w in np.Words)

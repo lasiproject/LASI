@@ -106,8 +106,6 @@ namespace Scott_Experimentation
             Console.WriteLine("NounPhrases:\n");
             InterPhraseWordBinding ip1 = new InterPhraseWordBinding();
 
-
-            
             foreach (var phrs in document4.Phrases.GetNounPhrases())
             {
                 ip1.IntraNounPhrase(phrs);
