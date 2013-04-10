@@ -19,24 +19,25 @@ namespace LASI.Algorithm.Binding
 
             if (np.Words.Count() > 1 && LastNoun != null) 
             {
-
-               
-                if (LastNoun.PreviousWord is Noun)
-                {
-                    Noun PrevWrd = LastNoun.PreviousWord;
-                    Console.WriteLine("Prev Word: {0}", PrevWrd.Text);
-                    LastNoun.SuperTaxonomicNoun = PrevWrd;
-                }
-
+                
                 foreach (Word w in np.Words)
                 {
                     Console.Write("[{0}] ", w);
                 }
                 Console.WriteLine("\nLast Noun: {0}", LastNoun.Text);
-                //Console.Write("\n------\n");
-                
+               
 
+               /**
+                *  if word prior to LastNoun is also a Noun associate them
+                */
+                if (LastNoun.PreviousWord is Noun)
+                {
+                    var PrevWrd = LastNoun.PreviousWord;
+                    LastNoun.SuperTaxonomicNoun = (PrevWrd as Noun);
+                    (PrevWrd as Noun).SubTaxonomicNoun = LastNoun;
+                }
 
+               
                 /**
                  * Binding determiners to last noun
                  */
@@ -60,23 +61,23 @@ namespace LASI.Algorithm.Binding
                     {
                         LastNoun.BindDescriber(adj);
                         adj.Described = LastNoun;
-                    }
 
-                    /*
-                    Console.Write("Last Noun: {0} => Described By: ", LastNoun.Text);
-                    foreach (Adjective adj in LastNoun.DescribedBy)
-                    {
-                        Console.Write("{0}, ", adj.Text);
-                    }
-                    Console.WriteLine('\n');
-                    */
-                    
+                       /* if (adj.PreviousWord is Adverb)
+                        {
+                            var PreWord = adj.PreviousWord;
+                            adj
+                        }*/
+                    }           
+                     
                     foreach (Adjective adj in ListOfAdjectives)
                     {
                         Console.WriteLine("Adjective: {0}, Describes: {1}", adj.Text, adj.Described.Text);
                     }
                     
                 }
+
+                
+
 
 
 
