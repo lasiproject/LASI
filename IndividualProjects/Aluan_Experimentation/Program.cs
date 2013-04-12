@@ -19,7 +19,7 @@ namespace Aluan_Experimentation
 
 
 
-            TestThesaurus();
+            TestWordAndPhraseBindings();
 
 
 
@@ -66,8 +66,8 @@ namespace Aluan_Experimentation
             }
 
 
-
-            //PrintDocument(doc);
+            Output.WriteLine("\n\n\n\n\n");
+            PrintDocument(doc);
         }
 
         private static void PrintDocument(Document doc) {
