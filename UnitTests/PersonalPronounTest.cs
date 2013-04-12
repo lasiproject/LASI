@@ -100,42 +100,9 @@ namespace AlgorithmAssemblyUnitTestProject
             Assert.AreEqual(expected, actual);
         }
 
-        /// <summary>
-        ///a test for op_Equality
-        ///</summary>
-        [TestMethod()]
-        public void op_EqualityTest() {
-            PersonalPronoun A = new PersonalPronoun("them");
-            PersonalPronoun B = new PersonalPronoun("them");
-            var N = new GenericPluralNoun("players");
-            A.BoundEntity = B.BoundEntity = N;
-            bool expected = true;
-            bool actual;
-            actual = (A == B);
-            Assert.AreEqual(expected, actual);
-            A.BoundEntity = new GenericPluralNoun("gamers");
-            expected = false;
-            actual = (A == B);
-            Assert.AreEqual(expected, actual);
-        }
 
-        /// <summary>
-        ///a test for op_Inequality
-        ///</summary>
-        [TestMethod()]
-        public void op_InequalityTest() {
-            PersonalPronoun A = new PersonalPronoun("them") {
-                BoundEntity = new GenericPluralNoun("players")
-            };
-            PersonalPronoun B = new PersonalPronoun("them") {
-                BoundEntity = new GenericPluralNoun("gamers")
-            };
-            bool expected = true;
-            bool actual;
-            actual = (A != B);
-            Assert.AreEqual(expected, actual);
 
-        }
+     
 
         /// <summary>
         ///a test for BoundEntity

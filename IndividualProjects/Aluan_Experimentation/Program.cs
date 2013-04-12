@@ -13,24 +13,13 @@ namespace Aluan_Experimentation
     public class Program
     {
 
-
-
-
-
-
-
-
-
-
-
-
         static string testPath = @"C:\Users\Aluan\Desktop\test1.txt";
 
         static void Main(string[] args) {
 
 
 
-            TestWordAndPhraseBindings();
+            TestThesaurus();
 
 
 
@@ -95,15 +84,12 @@ namespace Aluan_Experimentation
                 var objectBinder = new ObjectBinder();
                 try {
                     subjectBinder.Bind(s);
-                }
-                catch (NullReferenceException) {
+                } catch (NullReferenceException) {
                 }
                 try {
                     objectBinder.Bind(s);
-                }
-                catch (InvalidStateTransitionException) {
-                }
-                catch (VerblessPhrasalSequenceException) {
+                } catch (InvalidStateTransitionException) {
+                } catch (VerblessPhrasalSequenceException) {
                 }
             }
         }
@@ -128,15 +114,14 @@ namespace Aluan_Experimentation
 
         private static void TestThesaurus() {
             ThesaurusManager.LoadAll();
-            Output.WriteLine("enter noun: ");
+            Output.WriteLine("enter verb: ");
             for (var k = Console.ReadLine(); ; ) {
                 try {
-                    Output.WriteLine(ThesaurusManager.NounThesaurus[k].OrderBy(o => o).Aggregate("", (aggr, s) => s.PadRight(30) + ", " + aggr));
-                }
-                catch (ArgumentNullException) {
+                    Output.WriteLine(ThesaurusManager.VerbThesaurus[k].OrderBy(o => o).Aggregate("", (aggr, s) => s.PadRight(30) + ", " + aggr));
+                } catch (ArgumentNullException) {
                     Output.WriteLine("no synonyms returned");
                 }
-                Output.WriteLine("enter noun: ");
+                Output.WriteLine("enter verb: ");
                 k = Console.ReadLine();
             }
         }

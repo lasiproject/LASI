@@ -28,9 +28,8 @@ namespace LASI.Algorithm.FundamentalSyntacticInterfaces
         /// Gets or sets the contextually extrapolated role of the PrepositionalConstruct.
         /// </summary>
         /// <see cref="PrepositionalRole"/>
-        PrepositionalRole ContextualRole {
+        PrepositionalRole PrepositionalRole {
             get;
-            set;
         }
 
         /// <summary>

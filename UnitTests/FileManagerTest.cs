@@ -41,6 +41,10 @@ namespace AlgorithmAssemblyUnitTestProject
         //Use ClassInitialize to run code before running the first test in the class
         [ClassInitialize()]
         public static void MyClassInitialize(TestContext testContext) {
+            CleanDirectories();
+        }
+
+        private static void CleanDirectories() {
             if (Directory.Exists(@"..\..\..\NewProject\input"))
                 Directory.Delete(@"..\..\..\NewProject\input", true);
             if (Directory.Exists(@"..\..\..\backup\NewProject"))
@@ -65,7 +69,6 @@ namespace AlgorithmAssemblyUnitTestProject
                         break;
                 }
             }
-
         }
 
         ////  Use ClassCleanup to run code after all tests in a class have run
@@ -75,49 +78,50 @@ namespace AlgorithmAssemblyUnitTestProject
         }
         //Use TestInitialize to run code before running each test
         //[TestInitialize()]
-        //public void MyTestInitialize()
-        //{
-        //}
+        public void MyTestInitialize() {
+            CleanDirectories();
+        }
         //
         //Use TestCleanup to run code after each test has run
         [TestCleanup()]
         public void MyTestCleanup() {
+            //  Directory.Delete(@"..\..\..\NewProject\Input", true);
         }
         //
         #endregion
 
 
-        ///// <summary>
-        /////a test for AddDocFile
-        /////</summary>
-        //[TestMethod()]
-        //public void AddDocFileTest() {
-        //    string sourcePath = @"..\..\..\TestDocs\Draft_Environmental_Assessment.doc";
+        /// <summary>
+        ///a test for AddDocFile
+        ///</summary>
+        [TestMethod()]
+        public void AddDocFileTest() {
+            string sourcePath = @"..\..\..\TestDocs\Draft_Environmental_Assessment.doc";
 
-        //    FileManager.AddDocFile(sourcePath, true);
-        //    Assert.IsTrue(File.Exists(FileManager.DocFilesDir + @"\Draft_Environmental_Assessment.doc"));
-        //}
+            FileManager.AddFile(sourcePath, true);
+            Assert.IsTrue(File.Exists(FileManager.DocFilesDir + @"\Draft_Environmental_Assessment.doc"));
+        }
 
-        ///// <summary>
-        /////a test for AddDocXFile
-        /////</summary>
-        //[TestMethod()]
-        //public void AddDocXFileTest() {
-        //    string sourcePath = @"..\..\..\TestDocs\Draft_Environmental_Assessment.docx";
-        //    FileManager.AddDocXFile(sourcePath,true);
-        //    Assert.IsTrue(File.Exists(FileManager.DocxFilesDir + @"\Draft_Environmental_Assessment.docx"));
-        //}
+        /// <summary>
+        ///a test for AddDocXFile
+        ///</summary>
+        [TestMethod()]
+        public void AddDocXFileTest() {
+            string sourcePath = @"..\..\..\TestDocs\Draft_Environmental_Assessment.docx";
+            FileManager.AddFile(sourcePath, true);
+            Assert.IsTrue(File.Exists(FileManager.DocxFilesDir + @"\Draft_Environmental_Assessment.docx"));
+        }
 
-        ///// <summary>
-        /////a test for AddTextFile
-        /////</summary>
-        //[TestMethod()]
-        //public void AddTextFileTest() {
-        //    string sourcePath = @"..\..\..\TestDocs\Draft_Environmental_Assessment.txt";
+        /// <summary>
+        ///a test for AddTextFile
+        ///</summary>
+        [TestMethod()]
+        public void AddTextFileTest() {
+            string sourcePath = @"..\..\..\TestDocs\Draft_Environmental_Assessment.txt";
 
-        //    FileManager.AddTextFile(sourcePath,true);
-        //    Assert.IsTrue(File.Exists(FileManager.TextFilesDir + @"\Draft_Environmental_Assessment.txt"));
-        //}
+            FileManager.AddFile(sourcePath, true);
+            Assert.IsTrue(File.Exists(FileManager.TextFilesDir + @"\Draft_Environmental_Assessment.txt"));
+        }
 
         /// <summary>
         ///a test for BackupProject

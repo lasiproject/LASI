@@ -18,6 +18,7 @@ namespace LASI.Algorithm
         /// <param name="composedWords">The words which compose to form the PrepositionalPhrase.</param>
         public PrepositionalPhrase(IEnumerable<Word> composedWords)
             : base(composedWords) {
+            PrepositionalRole = Algorithm.PrepositionalRole.Undetermined;
         }
         /// <summary>
         /// Gets or sets the IprepositionLinkable construct on the right-hand-side of the Preposition.
@@ -69,9 +70,9 @@ namespace LASI.Algorithm
         /// Gets or sets the contextually extrapolated role of the PrepositionalPhrase.
         /// </summary>
         /// <see cref="PrepositionalRole"/>
-        public PrepositionalRole ContextualRole {
+        public PrepositionalRole PrepositionalRole {
             get;
-            set;
+            protected set;
         }
     }
 }

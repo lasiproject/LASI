@@ -1,17 +1,17 @@
 ﻿using LASI.Algorithm;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-
+using System.Linq;
 namespace AlgorithmAssemblyUnitTestProject
 {
 
 
     /// <summary>
-    ///This is a test class for SentenceTest and is intended
-    ///to contain all SentenceTest Unit Tests
+    ///This is a test class for ProperPluralNounTest and is intended
+    ///to contain all ProperPluralNounTest Unit Tests
     ///</summary>
     [TestClass()]
-    public class SentenceTest
+    public class ProperPluralNounTest
     {
 
 
@@ -62,15 +62,28 @@ namespace AlgorithmAssemblyUnitTestProject
 
 
         /// <summary>
-        ///a test for ToString
+        ///A test for ProperPluralNoun Constructor
         ///</summary>
         [TestMethod()]
-        public void ToStringTest() {
-            Phrase[] phrases = new Phrase[] { new NounPhrase(new Word[] { new ProperSingularNoun("LASI") }), new VerbPhrase(new Word[] { new PastTenseVerb("found") }), new NounPhrase(new Word[] { new ProperPluralNoun("TIMIS") }) };
-            Sentence target = new Sentence(phrases, new SentencePunctuation('.'));
-            string expected = "LASI.Algorithm.Sentence \"LASI found TIMIS.\"";
-            string actual = target.ToString();
+        public void ProperPluralNounConstructorTest() {
+            string text = "Canadians";
+            ProperPluralNoun target = new ProperPluralNoun(text);
+            Assert.IsTrue(target.Text == text);
+        }
+
+        /// <summary>
+        ///A test for Quantifier
+        ///</summary>
+        [TestMethod()]
+        public void QuantifierTest() {
+            string text = "Canadians";
+            ProperPluralNoun target = new ProperPluralNoun(text);
+            Quantifier expected = new Quantifier("5");
+            Quantifier actual;
+            target.Quantifier = expected;
+            actual = target.Quantifier;
             Assert.AreEqual(expected, actual);
+
         }
     }
 }

@@ -142,7 +142,8 @@ namespace AlgorithmAssemblyUnitTestProject
         [TestMethod()]
         public void ParentDocTest() {
             Word target = CreateWord();
-            Document expected = new Document(new[] { new Paragraph(new[] { new Sentence(new[] { new Clause(new[] { new NounPhrase(new Word[] { target }) }) }) }) });
+            Document parent = new Document(new[] { new Paragraph(new[] { new Sentence(new[] { new Clause(new[] { new NounPhrase(new Word[] { target }) }) }) }) });
+            Document expected = parent;
             Document actual;
             actual = target.ParentDocument;
             Assert.AreEqual(expected, actual);

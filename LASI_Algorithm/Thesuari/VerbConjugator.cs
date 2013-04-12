@@ -30,7 +30,7 @@ namespace LASI.Algorithm.Thesauri
         }
 
         public List<string> FindRoot(string conjugated) {
-            return new List<string> { CheckExceptionList(conjugated) } ?? TryExtractRoot(conjugated);
+            return TryExtractRoot(conjugated) ?? new List<string> { CheckSpecialFormsList(conjugated) };
         }
         public List<string> GetConjugations(string root) {
             try {
@@ -63,7 +63,7 @@ namespace LASI.Algorithm.Thesauri
 
         public List<string> TryExtractRoot(string search) {
             var results = new List<string>();
-            var except = CheckExceptionList(search);
+            var except = CheckSpecialFormsList(search);
             if (except != null) {
                 results.Add(except);
                 return results;
@@ -81,12 +81,12 @@ namespace LASI.Algorithm.Thesauri
             return results;
         }
 
-        public string CheckExceptionList(string search) {
+        private string CheckSpecialFormsList(string search) {
             return (from verbExceptKVs in exceptionData
                     where verbExceptKVs.Value.Contains(search)
                     select verbExceptKVs.Key).FirstOrDefault();
         }
-        public KeyValuePair<string, List<string>> ProcessLine(string exceptionLine) {
+        private KeyValuePair<string, List<string>> ProcessLine(string exceptionLine) {
             var kvstr = exceptionLine.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
             return new KeyValuePair<string, List<string>>(kvstr.Last(), kvstr.Take(kvstr.Count() - 1).ToList());
         }

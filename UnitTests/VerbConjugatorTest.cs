@@ -87,42 +87,17 @@ namespace AlgorithmAssemblyUnitTestProject
         public void TryComputeConjugationsTest() {
             string exceptionsFilePath = ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "verb.exc";
             VerbConjugator target = new VerbConjugator(exceptionsFilePath);
-            string root = string.Empty; // TODO: Initialize to an appropriate value
-            List<string> expected = null; // TODO: Initialize to an appropriate value
+            string root = "walk";
+            List<string> expected = new[] { "walks", "walking", "walked" }.ToList();
             List<string> actual;
             actual = target.TryComputeConjugations(root);
-            Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
+            foreach (var conjugation in expected) {
+                Assert.IsTrue(actual.Contains(conjugation));
+            }
         }
 
-        /// <summary>
-        ///A test for ToString
-        ///</summary>
-        [TestMethod()]
-        public void ToStringTest() {
-            string exceptionsFilePath = ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "verb.exc";
-            VerbConjugator target = new VerbConjugator(exceptionsFilePath);
-            string expected = string.Empty; // TODO: Initialize to an appropriate value
-            string actual;
-            actual = target.ToString();
-            Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
-        }
 
-        /// <summary>
-        ///A test for ProcessLine
-        ///</summary>
-        [TestMethod()]
-        public void ProcessLineTest() {
-            string exceptionsFilePath = ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "verb.exc";
-            VerbConjugator target = new VerbConjugator(exceptionsFilePath);
-            string exceptionLine = string.Empty; // TODO: Initialize to an appropriate value
-            KeyValuePair<string, List<string>> expected = new KeyValuePair<string, List<string>>(); // TODO: Initialize to an appropriate value
-            KeyValuePair<string, List<string>> actual;
-            actual = target.ProcessLine(exceptionLine);
-            Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
-        }
+
 
         /// <summary>
         ///A test for GetConjugations
@@ -151,9 +126,9 @@ namespace AlgorithmAssemblyUnitTestProject
             VerbConjugator target = new VerbConjugator(exceptionsFilePath);
             var conjugated = new[] { "walked", "walking", "walks" };
             List<string> expected = new[] { "walk" }.ToList();
-            List<string> actual = null;
+            List<string> actual = new List<string>();
             foreach (var c in conjugated) {
-                actual = target.FindRoot(c);
+                actual.AddRange(target.FindRoot(c));
 
             }
             Assert.IsTrue((from f in expected
@@ -162,29 +137,16 @@ namespace AlgorithmAssemblyUnitTestProject
 
         }
 
-        /// <summary>
-        ///A test for CheckExceptionList
-        ///</summary>
-        [TestMethod()]
-        public void CheckExceptionListTest() {
-            string exceptionsFilePath = ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "verb.exc";
-            VerbConjugator target = new VerbConjugator(exceptionsFilePath);
-            string search = string.Empty; // TODO: Initialize to an appropriate value
-            string expected = string.Empty; // TODO: Initialize to an appropriate value
-            string actual;
-            actual = target.CheckExceptionList(search);
-            Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
-        }
 
-        /// <summary>
-        ///A test for VerbConjugator Constructor
-        ///</summary>
-        [TestMethod()]
-        public void VerbConjugatorConstructorTest() {
-            string exceptionsFilePath = ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "verb.exc";
-            VerbConjugator target = new VerbConjugator(exceptionsFilePath);
-            Assert.Inconclusive("TODO: Implement code to verify target");
-        }
+        //    /// <summary>
+        //    ///A test for VerbConjugator Constructor
+        //    ///</summary>
+        //    [TestMethod()]
+        //    public void VerbConjugatorConstructorTest() {
+        //        string exceptionsFilePath = ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "verb.exc";
+        //        VerbConjugator target = new VerbConjugator(exceptionsFilePath);
+        //        Assert.Inconclusive("TODO: Implement code to verify target");
+        //    }
+        //}
     }
 }

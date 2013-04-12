@@ -59,7 +59,7 @@ namespace LASI.Algorithm
             private set;
         }
         public override string ToString() {
-            return base.ToString() + " " + Sentences.Count() + " sentences\n" + Text;
+            return base.ToString() + " " + Sentences.Count() + " sentences\n\"" + Text + "\"";
         }
 
         private static int IDNumProvider;

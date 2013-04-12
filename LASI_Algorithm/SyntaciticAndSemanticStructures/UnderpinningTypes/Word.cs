@@ -33,6 +33,7 @@ namespace LASI.Algorithm
 
         public void EstablishParent(Phrase phrase) {
             ParentPhrase = phrase;
+
         }
 
         /// <summary>
@@ -79,7 +80,7 @@ namespace LASI.Algorithm
         /// </summary>
         public Document ParentDocument {
             get {
-                return ParentSentence.ParentDocument;
+                return ParentPhrase.ParentDocument;
             }
         }
         /// <summary>

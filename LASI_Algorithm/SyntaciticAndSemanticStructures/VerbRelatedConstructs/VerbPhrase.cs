@@ -27,7 +27,7 @@ namespace LASI.Algorithm
                                                             group v.Tense by v.Tense into tenseGroup
                                                             orderby tenseGroup.Count()
                                                             select tenseGroup).First().Key : VerbTense.Base;
-
+            Arity = VerbialArity.Undetermined;
         }
 
         #endregion
@@ -225,6 +225,11 @@ namespace LASI.Algorithm
         }
         #endregion
 
+
+        public VerbialArity Arity {
+            get;
+            protected set;
+        }
     }
 }
 

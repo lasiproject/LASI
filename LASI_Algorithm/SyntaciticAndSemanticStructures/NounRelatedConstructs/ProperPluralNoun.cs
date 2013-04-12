@@ -28,7 +28,7 @@ namespace LASI.Algorithm
             set;
         }
 
-      
+
 
     }
 }

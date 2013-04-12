@@ -89,7 +89,7 @@ namespace AlgorithmAssemblyUnitTestProject
 
             Paragraph target = new Paragraph(sentences);
 
-            string expected = "LASI.Algorithm.Paragraph \"LASI found TIMIS. LASI SNIFd them. Richard did this.\"";
+            string expected = String.Format("LASI.Algorithm.Paragraph {0} sentences\n\"LASI found TIMIS. LASI SNIFd them. Richard did awesome.\"", sentences.Length);
             string actual;
             actual = target.ToString();
             Assert.AreEqual(expected, actual);
@@ -123,7 +123,7 @@ namespace AlgorithmAssemblyUnitTestProject
 
             Paragraph target = new Paragraph(sentences);
 
-            string expected = "\"LASI found TIMIS. LASI SNIFd them. Richard did this.\"";
+            string expected = "LASI found TIMIS. LASI SNIFd them. Richard did awesome.";
             string actual;
             actual = target.Text;
             Assert.AreEqual(expected, actual);

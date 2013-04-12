@@ -16,6 +16,19 @@ namespace LASI.Algorithm
         public Quantifier(string text)
             : base(text) {
         }
+
+        #region Methods
+        public override bool Equals(object obj) {
+            return base.Equals(obj);
+        }
+        public override int GetHashCode() {
+            return base.GetHashCode();
+        }
+
+        #endregion
+
+
+        #region Properties
         /// <summary>
         /// Gets or sets the 
         /// </summary>
@@ -24,6 +37,21 @@ namespace LASI.Algorithm
             set;
         }
 
+        #endregion
+
+
+
+        #region Operators
+
+        public static bool operator ==(Quantifier lhs, Quantifier rhs) {
+            return lhs == null ? rhs == null ? true : false : lhs.Text == rhs.Text;
+        }
+        public static bool operator !=(Quantifier lhs, Quantifier rhs) {
+
+            return !(lhs == rhs);
+        }
+
+        #endregion
 
 
     }

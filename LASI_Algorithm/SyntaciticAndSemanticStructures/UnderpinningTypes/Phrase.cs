@@ -43,6 +43,7 @@ namespace LASI.Algorithm
 
         public void EstablishParent(Clause clause) {
             ParentSentence = clause.ParentSentence;
+            ParentDocument = ParentSentence.ParentDocument;
             foreach (var w in Words)
                 w.EstablishParent(this);
         }

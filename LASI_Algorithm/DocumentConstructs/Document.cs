@@ -21,15 +21,17 @@ namespace LASI.Algorithm
         /// Initializes a new instance of the Document class.
         /// </summary>
         /// <param name="allWords">The collection of paragraphs which contain all text in the document.</param>
-        public Document(IEnumerable<Paragraph> paragrpahs) { _paragraphs = paragrpahs.ToList();
-            AssignMembers(paragrpahs);foreach (var p in _paragraphs) {
+        public Document(IEnumerable<Paragraph> paragrpahs) {
+            _paragraphs = paragrpahs.ToList();
+            AssignMembers(paragrpahs);
+            foreach (var p in _paragraphs) {
                 p.EstablishParent(this);
             }
             EstablishLexicalLinks();
         }
 
         private void AssignMembers(IEnumerable<Paragraph> paragrpahs) {
-           
+
             _sentences = (from p in _paragraphs
                           from s in p.Sentences
                           select s).ToList();
@@ -39,7 +41,7 @@ namespace LASI.Algorithm
             _words = (from s in _sentences
                       from w in s.Words
                       select w).ToList();
-            
+
         }
 
         #endregion
@@ -103,22 +105,22 @@ namespace LASI.Algorithm
                 throw new ArgumentOutOfRangeException("Document.SentenceTextAt");
         }
 
-        /// <summary>
-        /// Prints out the entire contents of the document, from left to right, by using the using the lexical links of each of its words.
-        /// </summary>
-        public void PrintByWordLinkage() {
-            for (var w = _words.First(); w != null; w = w.NextWord)
-                Console.Write(w.Text + " ");
+        ///// <summary>
+        ///// Prints out the entire contents of the document, from left to right, by using the using the lexical links of each of its words.
+        ///// </summary>
+        //public void PrintByWordLinkage() {
+        //    for (var w = _words.First(); w != null; w = w.NextWord)
+        //        Console.Write(w.Text + " ");
 
-        }
-        /// <summary>
-        /// Prints out the entire contents of the document, from left to right, by using the using the lexical links of each of its phrases.
-        /// </summary>
-        public void PrintByPhraseLinkage() {
+        //}
+        ///// <summary>
+        ///// Prints out the entire contents of the document, from left to right, by using the using the lexical links of each of its phrases.
+        ///// </summary>
+        //public void PrintByPhraseLinkage() {
 
-            for (var r = _phrases.First(); r != null; r = r.NextPhrase)
-                Console.Write(r.Text + " ");
-        }
+        //    for (var r = _phrases.First(); r != null; r = r.NextPhrase)
+        //        Console.Write(r.Text + " ");
+        //}
 
         /// <summary>
         /// Returns all of the Action identified within the docimument.

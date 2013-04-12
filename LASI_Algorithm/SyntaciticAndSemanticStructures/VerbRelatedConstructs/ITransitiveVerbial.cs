@@ -1,4 +1,5 @@
 ﻿using LASI.Algorithm.FundamentalSyntacticInterfaces;
+
 namespace LASI.Algorithm
 {
     /// <summary>
@@ -9,6 +10,21 @@ namespace LASI.Algorithm
     /// </summary>
     public interface ITransitiveVerbial : IVerbial, IDirectObjectTaker, IInderectObjectTaker
     {
+        VerbialArity Arity {
+            get;
+        }
+    }
+}
 
+namespace LASI.Algorithm
+{
+    public enum VerbialArity
+    {
+        Undetermined,
+        Nullary,
+        Unary,
+        Binary,
+        Ternary,
+        Quarternary
     }
 }

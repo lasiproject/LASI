@@ -23,6 +23,7 @@ namespace LASI.Algorithm
         /// <param name="text">The literal text content of the Preposition.</param>
         public Preposition(string text)
             : base(text) {
+            PrepositionalRole = Algorithm.PrepositionalRole.Undetermined;
         }
 
         #endregion
@@ -74,9 +75,9 @@ namespace LASI.Algorithm
         /// Gets or sets the contextually extrapolated role of the Preposition.
         /// </summary>
         /// <see cref="PrepositionalRole"/>
-        public PrepositionalRole ContextualRole {
+        public PrepositionalRole PrepositionalRole {
             get;
-            set;
+            protected set;
         }
 
 
@@ -88,7 +89,7 @@ namespace LASI.Algorithm
         }
 
         private static List<string> knownLexicalMembers = new List<string>();
-        public static IReadOnlyList<string> KnownLexicalMembers {
+        protected static IReadOnlyList<string> KnownLexicalMembers {
             get {
                 return knownLexicalMembers;
             }

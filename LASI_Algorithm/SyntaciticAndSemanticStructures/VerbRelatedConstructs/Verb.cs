@@ -20,8 +20,8 @@ namespace LASI.Algorithm
         /// <param name="text">The literal text content of the verb.</param>
         public Verb(string text, VerbTense tense)
             : base(text) {
-            Modifiers = new List<IAdverbial>();
             Tense = tense;
+            Arity = VerbialArity.Undetermined;
 
         }
         #region Methods
@@ -44,7 +44,8 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="prep"></param>
         public virtual void AttachObjectViaPreposition(IPrepositional prep) {
-            ObjectViaPreposition = this as object == prep.OnLeftSide as object && prep.OnRightSide != null ? prep.OnRightSide : null;
+            //ObjectViaPreposition = this as object == prep.OnLeftSide as object && prep.OnRightSide != null ? prep.OnRightSide : null;
+            ObjectViaPreposition = prep.PrepositionalObject;
         }
 
         /// <summary>
@@ -85,12 +86,9 @@ namespace LASI.Algorithm
             }
         }
 
-        public override bool Equals(object obj) {
-            return base.Equals(obj);
-        }
-
 
         public virtual void DetermineIsPossessive() {
+
             var syns = LASI.Algorithm.Thesauri.ThesaurusManager.VerbThesaurus[this];
             if (syns != null && syns.Contains("have")) {
                 possessive = true;
@@ -103,10 +101,6 @@ namespace LASI.Algorithm
 
 
 
-
-        public override int GetHashCode() {
-            return base.GetHashCode();
-        }
         public virtual bool Equals(Verb other) {
             return this == other;
         }
@@ -128,8 +122,9 @@ namespace LASI.Algorithm
         /// Gets or sets the List of IAdverbial modifiers which modify this Verb.
         /// </summary>
         public virtual IEnumerable<IAdverbial> Modifiers {
-            get;
-            set;
+            get {
+                return _modifiers;
+            }
         }
 
         /// <summary>
@@ -209,5 +204,10 @@ namespace LASI.Algorithm
 
 
 
+
+        public VerbialArity Arity {
+            get;
+            protected set;
+        }
     }
 }

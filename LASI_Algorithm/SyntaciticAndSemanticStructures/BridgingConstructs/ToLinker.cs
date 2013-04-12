@@ -64,7 +64,7 @@ namespace LASI.Algorithm
         /// Gets or sets the contextually extrapolated role of the ToLinker.
         /// </summary>
         /// <see cref="PrepositionalRole"/>
-        public PrepositionalRole ContextualRole {
+        public PrepositionalRole PrepositionalRole {
             get;
             set;
         }

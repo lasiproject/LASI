@@ -1,6 +1,7 @@
 ﻿using LASI.Algorithm;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Collections.Generic;
 using LASI.Algorithm.FundamentalSyntacticInterfaces;
 
 namespace AlgorithmAssemblyUnitTestProject
@@ -8,11 +9,11 @@ namespace AlgorithmAssemblyUnitTestProject
 
 
     /// <summary>
-    ///This is a test class for ParticleTest and is intended
-    ///to contain all ParticleTest Unit Tests
+    ///This is a test class for PrepositionTest and is intended
+    ///to contain all PrepositionTest Unit Tests
     ///</summary>
     [TestClass()]
-    public class ParticleTest
+    public class PrepositionTest
     {
 
 
@@ -21,7 +22,7 @@ namespace AlgorithmAssemblyUnitTestProject
         /// <summary>
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
-        ///</summary>C:\Users\Aluan\Desktop\LASI\LASI_v1\AlgorithmAssemblyUnitTestProject\ParticleTest.cs
+        ///</summary>
         public TestContext TestContext {
             get {
                 return testContextInstance;
@@ -63,40 +64,41 @@ namespace AlgorithmAssemblyUnitTestProject
 
 
         /// <summary>
-        ///a test for Particle Constructor
+        ///A test for Preposition Constructor
         ///</summary>
         [TestMethod()]
-        public void ParticleConstructorTest() {
-            string text = "about";
-            Particle target = new Particle(text);
-            Assert.IsTrue(target.Text == "about" && target.OnLeftSide == null && target.OnRightSide == null && target.PrepositionalObject == null);
+        public void PrepositionConstructorTest() {
+            string text = "into";
+            Preposition target = new Preposition(text);
+            Assert.IsTrue(target.Text == "into" && target.OnLeftSide == null && target.OnRightSide == null && target.PrepositionalObject == null);
         }
-
 
         /// <summary>
         ///A test for BindObjectOfPreposition
         ///</summary>
         [TestMethod()]
         public void BindObjectOfPrepositionTest() {
-            string text = "about";
-            Particle target = new Particle(text);
-            ILexical prepositionalObject = new NounPhrase(new[] { new ProperSingularNoun("Ayn"), new ProperSingularNoun("Rand") });
+            string text = "into";
+            Preposition target = new Preposition(text);
+            ILexical prepositionalObject = new NounPhrase(new Word[] { new Determiner("the"), new GenericSingularNoun("drawer") });
             target.BindObjectOfPreposition(prepositionalObject);
             Assert.IsTrue(target.PrepositionalObject == prepositionalObject);
         }
+
 
         /// <summary>
         ///A test for OnLeftSide
         ///</summary>
         [TestMethod()]
         public void OnLeftSideTest() {
-            string text = "about";
-            Particle target = new Particle(text);
-            IPrepositionLinkable expected = new VerbPhrase(new[] { new PastTenseVerb("walked") });
+            string text = "into";
+            Preposition target = new Preposition(text); // TODO: Initialize to an appropriate value
+            IPrepositionLinkable expected = new PastTenseVerb("gazed");
             IPrepositionLinkable actual;
             target.OnLeftSide = expected;
             actual = target.OnLeftSide;
             Assert.AreEqual(expected, actual);
+
         }
 
         /// <summary>
@@ -104,21 +106,21 @@ namespace AlgorithmAssemblyUnitTestProject
         ///</summary>
         [TestMethod()]
         public void OnRightSideTest() {
-            string text = "about";
-            Particle target = new Particle(text);
-            IPrepositionLinkable expected = new NounPhrase(new Word[] { new Determiner("the"), new GenericPluralNoun("grounds") });
+            string text = "inside";
+            Preposition target = new Preposition(text);
+            IPrepositionLinkable expected = new NounPhrase(new Word[] { new PossessivePronoun("your"), new GenericSingularNoun("soul") });
             IPrepositionLinkable actual;
             target.OnRightSide = expected;
             actual = target.OnRightSide;
             Assert.AreEqual(expected, actual);
-        }
 
+        }
         /// <summary>
         ///A test for PrepositionalRole
         ///</summary>
         [TestMethod()]
         public void PrepositionalRoleTest() {
-            string text = "about";
+            string text = "inside";
             Particle target = new Particle(text);
             PrepositionalRole expected = PrepositionalRole.Undetermined;
             PrepositionalRole actual;

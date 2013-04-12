@@ -69,7 +69,7 @@ namespace LASI.Algorithm
         /// Gets or sets the contextually extrapolated role of the Particle.
         /// </summary>
         /// <see cref="PrepositionalRole"/>
-        public PrepositionalRole ContextualRole {
+        public PrepositionalRole PrepositionalRole {
             get;
             set;
         }
