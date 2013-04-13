@@ -161,7 +161,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Returns all ToLinkers in the collection
         /// </summary>
-        public static IEnumerable<ToLinker> GetVerbs(this IEnumerable<Word> words) {
+        public static IEnumerable<ToLinker> GetToLinkers(this IEnumerable<Word> words) {
             return words.OfType<ToLinker>();
         }
 
