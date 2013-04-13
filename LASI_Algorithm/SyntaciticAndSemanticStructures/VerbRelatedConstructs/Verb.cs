@@ -32,7 +32,6 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="adv">The Adverbial construct by which to modify the AdjectivePhrase.</param>
         /// </summary>
-        /// <param name="adv"></param>
         public virtual void ModifyWith(IAdverbial adv) {
             _modifiers.Add(adv);
             adv.Modified = this;
