@@ -52,6 +52,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Analysis\Binding\AttributiveNounPhraseBinder.cs" />
     <Compile Include="Analysis\Binding\EntityReferenceBinder.cs" />
     <Compile Include="Analysis\Binding\InterPhraseWordBinding.cs" />
     <Compile Include="Analysis\Binding\InvalidStateTransitionException.cs" />
@@ -64,6 +65,7 @@
     <Compile Include="DocumentConstructs\SubordinateClauseBeginPhrase.cs" />
     <Compile Include="IEnumerableExtensions\IEnumerableOfIEntityExtensions.cs" />
     <Compile Include="SyntaciticAndSemanticStructures\BridgingConstructs\PrepositionalRole.cs" />
+    <Compile Include="SyntaciticAndSemanticStructures\ConstrainingSemanticConstructs\DeterminerKind.cs" />
     <Compile Include="SyntaciticAndSemanticStructures\ConstrainingSemanticConstructs\IDeterminable.cs" />
     <Compile Include="SyntaciticAndSemanticStructures\MiscLanguageConstructs\UndeterminedPhrase.cs" />
     <Compile Include="SyntaciticAndSemanticStructures\NounRelatedConstructs\NPAggregateSubjectObject.cs" />

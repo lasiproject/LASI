@@ -87,9 +87,19 @@ namespace LASI.Algorithm
                     result += s + "\n";
                 }
             }
-            if (Possesser != null)
-                result += "\n\towned By:\n\t\t" + Possesser.ToString();
+            if (Phrase.VerboseOutput) {
+                if (Possesser != null)
+                    result += "\n\towned By:\n\t\t" + Possesser.ToString();
+
+                if (InnerAttributed != null) {
+                    result += "\n\tDefines:\n\t\t" + InnerAttributed;
+                }
+                if (OuterAttributive != null) {
+                    result += "\n\tDefines:\n\t\t" + OuterAttributive;
+                }
+            }
             return result;
+
         }
 
 
@@ -164,6 +174,15 @@ namespace LASI.Algorithm
                     value.AddPossession(item);
                 }
             }
+        }
+
+        public NounPhrase OuterAttributive {
+            get;
+            set;
+        }
+        public NounPhrase InnerAttributed {
+            get;
+            set;
         }
 
         /// <summary>

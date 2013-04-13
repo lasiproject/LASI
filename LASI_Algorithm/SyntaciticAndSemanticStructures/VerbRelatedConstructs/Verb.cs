@@ -36,6 +36,10 @@ namespace LASI.Algorithm
             _modifiers.Add(adv);
             adv.Modified = this;
         }
+        //public virtual void ModifyWith(ITransitiveVerbial verbialModifier) {
+        //    _modifiers.Add(verbialModifier);
+        //    verbialModifier.Modified = this;
+        //}
 
         /// <summary>
         /// Binds the Verb to an object via a propisitional construct such as a Prepositon or or PrepositionalPhrase.

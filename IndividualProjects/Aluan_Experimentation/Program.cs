@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using LASI.Utilities.TypedSwitch;
 using LASI.Algorithm.Analysis.Heuristics;
+using LASI.Algorithm.Analysis.Binding;
 namespace Aluan_Experimentation
 {
     public class Program
@@ -17,7 +18,7 @@ namespace Aluan_Experimentation
 
         static void Main(string[] args) {
 
-
+            Phrase.VerboseOutput = true;
 
             TestWordAndPhraseBindings();
 
@@ -35,38 +36,11 @@ namespace Aluan_Experimentation
         private static void TestWordAndPhraseBindings() {
             var doc = TaggerUtil.LoadTextFile(new LASI.FileSystem.FileTypes.TextFile(testPath));
             PerformIntraPhraseBinding(doc);
+            PerformAttributeNounPhraseBinding(doc);
             PerformSVOBinding(doc);
 
-            var NPsByActionsPerformed =
-                from np in doc.Phrases.GetNounPhrases().InSubjectRole()
-                group np by np.SubjectOf.Text into performerGroups
-                orderby performerGroups.Count()
-                select performerGroups;
-
-            var NPsByActionsReceived =
-                from np in doc.Phrases.GetNounPhrases().InDirectObjectRole()
-                group np by np.DirectObjectOf.Text into recipientGroups
-                orderby recipientGroups.Count()
-                select recipientGroups;
 
 
-            foreach (var actionGroup in NPsByActionsPerformed) {
-                Output.WriteLine("Performs -> action: {0}", actionGroup.Key);
-                foreach (var n in actionGroup) {
-                    Output.WriteLine("\t{0}", n);
-                }
-            }
-            Output.WriteLine();
-            Output.WriteLine();
-            foreach (var actionGroup in NPsByActionsReceived) {
-                Output.WriteLine("Recevies -> action: {0}", actionGroup.Key);
-                foreach (var n in actionGroup) {
-                    Output.WriteLine("\t{0}", n);
-                }
-            }
-
-
-            Output.WriteLine("\n\n\n\n\n");
             PrintDocument(doc);
         }
 
@@ -77,19 +51,26 @@ namespace Aluan_Experimentation
                     Output.WriteLine(w);
             }
         }
-
+        private static void PerformAttributeNounPhraseBinding(Document doc) {
+            foreach (var s in doc.Sentences) {
+                var attributiveBinder = new AttributiveNounPhraseBinder(s);
+            }
+        }
         private static void PerformSVOBinding(Document doc) {
             foreach (var s in doc.Sentences) {
                 var subjectBinder = new SubjectBinder();
                 var objectBinder = new ObjectBinder();
                 try {
                     subjectBinder.Bind(s);
-                } catch (NullReferenceException) {
+                }
+                catch (NullReferenceException) {
                 }
                 try {
                     objectBinder.Bind(s);
-                } catch (InvalidStateTransitionException) {
-                } catch (VerblessPhrasalSequenceException) {
+                }
+                catch (InvalidStateTransitionException) {
+                }
+                catch (VerblessPhrasalSequenceException) {
                 }
             }
         }
@@ -118,7 +99,8 @@ namespace Aluan_Experimentation
             for (var k = Console.ReadLine(); ; ) {
                 try {
                     Output.WriteLine(ThesaurusManager.VerbThesaurus[k].OrderBy(o => o).Aggregate("", (aggr, s) => s.PadRight(30) + ", " + aggr));
-                } catch (ArgumentNullException) {
+                }
+                catch (ArgumentNullException) {
                     Output.WriteLine("no synonyms returned");
                 }
                 Output.WriteLine("enter verb: ");
@@ -154,7 +136,7 @@ namespace Aluan_Experimentation
             foreach (var N in doc.Words.GetNouns()) {
                 N.Weight = 100;
             }
-            foreach (var V in doc.Words.GetVerbs()) {
+            foreach (var V in doc.Words.GetToLinkers()) {
                 V.Weight = 90;
             }
             foreach (var A in doc.Words.GetAdjectives()) {
@@ -197,7 +179,7 @@ namespace Aluan_Experimentation
                         words.GetNouns()
                         .OrderBy(n => n.Weight)
                         .Take(100)
-                        .Concat<Word>(words.GetVerbs()
+                        .Concat<Word>(words.GetToLinkers()
                         .OrderBy(v => v.Weight)
                         .Take(50))
                         .Concat<Word>(words.GetAdjectives()

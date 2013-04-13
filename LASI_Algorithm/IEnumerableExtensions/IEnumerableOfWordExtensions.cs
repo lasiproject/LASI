@@ -161,10 +161,15 @@ namespace LASI.Algorithm
         /// <summary>
         /// Returns all ToLinkers in the collection
         /// </summary>
-        public static IEnumerable<ToLinker> GetToLinkers(this IEnumerable<Word> words) {
+        public static IEnumerable<ToLinker> GetToDeterminers(this IEnumerable<Word> words) {
             return words.OfType<ToLinker>();
         }
-
+        /// <summary>
+        /// Returns all Determiners in the collection
+        /// </summary>
+        public static IEnumerable<Determiner> GetToLinkers(this IEnumerable<Word> words) {
+            return words.OfType<Determiner>();
+        }
 
         /// <summary>
         /// Returns all Pronouns in the collection that are bound to some entity

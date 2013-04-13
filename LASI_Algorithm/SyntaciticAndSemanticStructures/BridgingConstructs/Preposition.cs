@@ -77,7 +77,7 @@ namespace LASI.Algorithm
         /// <see cref="PrepositionalRole"/>
         public PrepositionalRole PrepositionalRole {
             get;
-            protected set;
+            set;
         }
 
 

@@ -42,7 +42,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Binds the given Determiner to The Noun. 
         /// </summary>
-        /// <param name="determiner">The Determiner which to bind.</param>
+        /// <param name="leftNPDeterminer">The Determiner which to bind.</param>
         public virtual void BindDeterminer(Determiner determiner) {
             determiner.Determines = this;
             DeterminedBy = determiner;

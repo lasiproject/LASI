@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
+
 namespace LASI.Algorithm
 {
     /// <summary>
-    /// Represents determiner words such as "the" and "a"
+    /// Represents leftNPDeterminer words such as "the" and "a"
     /// </summary>
     public class Determiner : Word
     {
@@ -16,6 +18,10 @@ namespace LASI.Algorithm
         /// <param name="text">the literal text content of the w.</param>
         public Determiner(string text)
             : base(text) {
+            if (string.Compare(text, "the", true) == 0)
+                DeterminerKind = DeterminerKind.Definite;
+            else
+                DeterminerKind = DeterminerKind.Indefinite;
         }
         /// <summary>
         /// Gets or sets the Entity Determined by the Determiner.
@@ -24,7 +30,10 @@ namespace LASI.Algorithm
             get;
             set;
         }
-
+        public DeterminerKind DeterminerKind {
+            get;
+            protected set;
+        }
 
     }
 }

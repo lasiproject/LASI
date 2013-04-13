@@ -66,7 +66,7 @@ namespace LASI.FileSystem
             { "VBP", t => new Verb(t,VerbTense.SingularPresent) }, //Verb, non-3rd person singular present
             { "VBZ", t => new Verb(t,VerbTense.ThirdPersonSingularPresent) }, //Verb, 3rd person singular present
             //WH-w mappings
-            { "WDT", t => new Determiner(t) }, //Wh-determiner
+            { "WDT", t => new Determiner(t) }, //Wh-leftNPDeterminer
             { "WP", t => new WhPronoun(t) }, //Wh-pronoun
             { "WP$", t => new WhPossessivePronoun(t) }, //IsPossessive wh-pronoun
             { "WRB", t => new Adverb(t) }, //Wh-adverb
