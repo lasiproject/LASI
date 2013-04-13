@@ -158,6 +158,12 @@ namespace LASI.Algorithm
         public static IEnumerable<Verb> GetVerbs(this IEnumerable<Word> words) {
             return words.OfType<Verb>();
         }
+        /// <summary>
+        /// Returns all ToLinkers in the collection
+        /// </summary>
+        public static IEnumerable<ToLinker> GetVerbs(this IEnumerable<Word> words) {
+            return words.OfType<ToLinker>();
+        }
 
 
         /// <summary>
