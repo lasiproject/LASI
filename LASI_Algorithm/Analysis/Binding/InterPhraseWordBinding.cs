@@ -98,53 +98,44 @@ namespace LASI.Algorithm.Binding
             Verb LastVerb = vp.Words.OfType<Verb>().LastOrDefault();
 
             if (vp.Words.Count() > 1 && LastVerb != null) {
-                
+
                 foreach (Word w in vp.Words) {
                     Output.Write("{0}, ", w);
                 }
                 Output.WriteLine("\n");
 
                 // Adverb linking to NEXT verb
-                var adverbList = vp.Words.GetAdverbs(); 
-                if (adverbList.Count() > 0)
-                {
-                    foreach (var advrb in adverbList)
-                    {
+                var adverbList = vp.Words.GetAdverbs();
+                if (adverbList.Count() > 0) {
+                    foreach (var advrb in adverbList) {
                         Output.WriteLine("adverb: {0}", advrb.Text);
                         var tempWrd = advrb.NextWord;
-                        while (!(tempWrd is Verb))
-                        {
+                        while (!(tempWrd is Verb)) {
                             tempWrd = tempWrd.NextWord;
                         }
                         var nextVerb = tempWrd as Verb;
                         nextVerb.ModifyWith(advrb);
                         Output.WriteLine("Next Verb: {0}", nextVerb.Text);
-                    } 
+                    }
                 }
 
-                // ToLinker Binding
+                ToLinker Binding;
                 var toLinkerList = vp.Words.GetToLinkers();
-                if (toLinkerList.Count() > 0)
-                {
-                    foreach (var toLink in toLinkerList)
-                    {
+                if (toLinkerList.Count() > 0) {
+                    foreach (var toLink in toLinkerList) {
                         Output.WriteLine("To Linker: {0}", toLink.Text);
                         var prevWord = toLink.PreviousWord as Verb;
                         var nextWord = toLink.NextWord as Verb;
-                        
-                        if (prevWord != null && nextWord != null)
-                        {
+
+                        if (prevWord != null && nextWord != null) {
                             toLink.BindObjectOfPreposition(nextWord);
                             prevWord.AttachObjectViaPreposition(toLink);
 
-                            if (nextWord != LastVerb)
-                            {
+                            if (nextWord != LastVerb) {
                                 toLink.BindObjectOfPreposition(LastVerb);
                             }
                             Output.WriteLine("Prev: {0}, Next: {1}: , Last Verb: {2}", prevWord, nextWord, LastVerb);
-                        }
-                        else
-                        {
+                        } else {
                             toLink.BindObjectOfPreposition(LastVerb);
                         }
                     }

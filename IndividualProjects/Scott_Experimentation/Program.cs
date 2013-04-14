@@ -102,20 +102,18 @@ namespace Scott_Experimentation
             string TestString = "The Boy rides his big bold bike up a large steep hill. The tiny brown dog watched. I saw her book on your table. What's mine is yours, my friend. Johnny, Steve and I went to the old corner store to purchase some potently strong perfume.";
             var DocTest = LASI.Utilities.TaggerUtil.UntaggedToDoc(TestString);
 
-           
+
             InterPhraseWordBinding ip1 = new InterPhraseWordBinding();
-            foreach (var phrs in document2.Phrases.GetNounPhrases())
-            {
+            foreach (var phrs in document2.Phrases.GetNounPhrases()) {
                 ip1.IntraNounPhrase(phrs);
             }
 
 
             Output.WriteLine("Verb Phrases:\n");
-            foreach (var vbphrs in document1.Phrases.GetVerbPhrases())
-            {
+            foreach (var vbphrs in document1.Phrases.GetVerbPhrases()) {
                 ip1.IntraVerbPhrase(vbphrs);
             }
-            
+
 
             Input.WaitForAnyKey();
         }
