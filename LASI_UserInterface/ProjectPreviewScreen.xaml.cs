@@ -85,6 +85,7 @@ namespace LASI.UserInterface
             WindowManager.InProgressScreen.Show();
             this.Hide();
             await FileManager.TagTextFilesAsync();
+            WindowManager.InProgressScreen.InitProgressBar();
 
 
 

@@ -88,13 +88,13 @@ namespace AlgorithmAssemblyUnitTestProject
         [TestMethod()]
         public void ComposeTest() {
             Func<int, int> func = x => x * x * x;//cubes an int, a value type
-            Func<int, int>[] fs = new Func<int, int>[] { x => x / x, x => x + 1, x => x * 3 }; 
+            Func<int, int>[] fs = new Func<int, int>[] { x => x / x, x => x + 1, x => x * 3 };
             var function = FunctionExtensions.Compose(func, fs);
             for (int i = 1; i < 100; i++) {
                 int k = i % 2 == 0 ? new Random().Next(1, 200) : new Random().Next(-199, -1);
-                int a=i*3;
-                int b= a+1;
-                int c= b/b;
+                int a = i * 3;
+                int b = a + 1;
+                int c = b / b;
                 int expected = c * c * c;
                 Assert.AreEqual(expected, function(k));
 
@@ -132,6 +132,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         [TestMethod()]
+
         public void AsEnumerableTest() {
             AsEnumerableTestHelper<GenericParameterHelper>();
         }

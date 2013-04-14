@@ -6,12 +6,14 @@ using System.Threading.Tasks;
 
 namespace LASI.GuiInterop
 {
-    public enum ProcessingState : short
+    public enum ProcessingState
     {
+        Pending,
         ConvertingFiles,
         ParsingWordTags,
         AggregatingPhrases,
         ComputingMetrics,
-        CrossReferencing
+        CrossReferencing,
+        Done
     }
 }

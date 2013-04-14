@@ -194,6 +194,14 @@
       <Project>{F13D6C6D-A004-45BD-8FB8-E044E20F1204}</Project>
       <Name>L_FileSystem</Name>
     </ProjectReference>
+    <ProjectReference Include="..\LASI_InteropLayer\L_InteropLayer.csproj">
+      <Project>{06b96679-9758-4b15-8e75-0f46416e68b7}</Project>
+      <Name>L_InteropLayer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LASI_Utilities\L_Utilities.csproj">
+      <Project>{bc10a8f0-77ff-46d0-9f9a-38e2fda22d21}</Project>
+      <Name>L_Utilities</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">

@@ -9,19 +9,23 @@ using LASI.Algorithm;
 namespace LASI.GuiInterop
 {
 
-    //public class DefaultProgressProvider: IProgressUpdateProvider
-    //{
-    //    private KeyedByTypeCollection<IEnumerable<ILexical>> lexicalItems = new KeyedByTypeCollection<IEnumerable<ILexical>>();
-    //    public IEnumerable<ILexical> this[Type T] {
-    //        get {
-    //            return lexicalItems[T];
-    //        }
-    //    }
+    public static class DefaultProgressProvider
+    {
+        //private KeyedByTypeCollection<IEnumerable<ILexical>> lexicalItems = new KeyedByTypeCollection<IEnumerable<ILexical>>();
+        //public IEnumerable<ILexical> this[Type T] {
+        //    get {
+        //        return lexicalItems[T];
+        //    }
+        //}
 
-    //    public event EventHandler CompilationFinished;
 
-    //    public event EventHandler ProgressUpdated;
-    //}
+        //static ProcessingState lastState = ProcessingState.ConvertingFiles;
+        //public static async Task<ProcessingState> GetAnalysisStatus() {
+        //    var status = await AlgorithmInfoProvider.ProgressIncremented;
+        //}
+
+
+    }
 
 }
 

@@ -11,7 +11,9 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-
+using LASI.Utilities;
+using LASI.InteropLayer;
+using LASI.GuiInterop;
 namespace LASI.UserInterface
 {
     /// <summary>
@@ -23,7 +25,13 @@ namespace LASI.UserInterface
             InitializeComponent();
             this.IsVisibleChanged += async (s, e) => await InitPawPrintAlternation();
             this.Closing += (s, e) => Application.Current.Shutdown();
+            SteppedProgressBar.Value = 1;
         }
+
+
+        #region Visual Feedback Functions
+
+        #region Animation
 
         private async Task InitPawPrintAlternation() {
             var pawPrints = new[] { pawPrintImg1, pawPrintImg3, pawPrintImg2, pawPrintImg4, pawPrintImg5, pawPrintImg6 }.ToList();
@@ -46,14 +54,31 @@ namespace LASI.UserInterface
             }
             FadeImage(img);
 
+        }
 
+        #endregion
+
+        #region Progress Bar
+
+     AlgorithmInfoProvider.Status status = new AlgorithmInfoProvider.Status();
+
+        public async Task InitProgressBar() {
+
+       
+
+            SteppedProgressBar.Value += 20;
+
+            var msg = await status.GetStatus();
+
+            SteppedProgressBar.ToolTip = msg.ToString();
+
+            await InitProgressBar();
 
         }
 
-        private void BindEventHandlers() {
+        #endregion
 
-        }
-
+        #endregion
         private void SkipUIDemoButton_Click(object sender, RoutedEventArgs e) {
 
 
