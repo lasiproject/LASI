@@ -14,10 +14,11 @@ using System.Windows.Shapes;
 using LASI.Utilities;
 using LASI.InteropLayer;
 using LASI.GuiInterop;
+using LASI.UserInterface.Dialogs;
 namespace LASI.UserInterface
 {
     /// <summary>
-    /// Interaction logic for Window1.xaml
+    /// Interaction logic for DialogToProcedeToResults.xaml
     /// </summary>
     public partial class InProgressScreen : Window
     {
@@ -25,7 +26,8 @@ namespace LASI.UserInterface
             InitializeComponent();
             this.IsVisibleChanged += async (s, e) => await InitPawPrintAlternation();
             this.Closing += (s, e) => Application.Current.Shutdown();
-            SteppedProgressBar.Value = 1;
+            ProgressBar.Value = 0;
+            ProgressLabel.Content = ProcessingState.Initializing;
         }
 
 
@@ -60,19 +62,40 @@ namespace LASI.UserInterface
 
         #region Progress Bar
 
-     AlgorithmInfoProvider.Status status = new AlgorithmInfoProvider.Status();
+        StatusProvider status = new StatusProvider();
 
         public async Task InitProgressBar() {
 
-       
-
-            SteppedProgressBar.Value += 20;
-
             var msg = await status.GetStatus();
 
-            SteppedProgressBar.ToolTip = msg.ToString();
+            ProgressBar.ToolTip = msg.ToString();
+            ProgressLabel.Content = msg.ToString();
+            for (var i = 0; i < 20; i++) {
+                await Task.Delay(20);
+                ProgressBar.Value++;
+            }
+            if (ProgressBar.Value < 100) {
+                await InitProgressBar();
+            } else {
+                await Task.Delay(100);
+                DisplayProceedDialog();
+            }
 
-            await InitProgressBar();
+
+        }
+
+        private void DisplayProceedDialog() {
+
+            var procedeDialog = new DialogToProcedeToResults();
+
+            procedeDialog.Topmost = true;
+
+            procedeDialog.PositionAt(this.Left, this.Top);
+
+            procedeDialog.ContinueButton.Click += (sender, e) => ProceedToResultsView();
+
+            //Shows the window as a modal dialog
+            procedeDialog.ShowDialog();
 
         }
 
@@ -82,6 +105,10 @@ namespace LASI.UserInterface
         private void SkipUIDemoButton_Click(object sender, RoutedEventArgs e) {
 
 
+            ProceedToResultsView();
+        }
+
+        private void ProceedToResultsView() {
             WindowManager.ResultsScreen.SetTitle(WindowManager.CreateProjectScreen.LastLoadedProjectName + " - L.A.S.I.");
             this.SwapWith(WindowManager.ResultsScreen);
             WindowManager.ResultsScreen.BuildAssociatedView();

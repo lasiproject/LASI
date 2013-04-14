@@ -199,5 +199,10 @@ the COIs characterizing it - to which MOEs may be properly linked.".Split('\r', 
 
 
 
+
+        public bool AutoExport {
+            get;
+            set;
+        }
     }
 }

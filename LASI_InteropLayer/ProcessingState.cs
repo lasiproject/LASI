@@ -8,12 +8,12 @@ namespace LASI.GuiInterop
 {
     public enum ProcessingState
     {
-        Pending,
+        Initializing,
         ConvertingFiles,
         ParsingWordTags,
         AggregatingPhrases,
         ComputingMetrics,
         CrossReferencing,
-        Done
+        Completed
     }
 }

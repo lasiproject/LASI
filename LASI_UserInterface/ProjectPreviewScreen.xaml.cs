@@ -18,7 +18,7 @@ using System.Threading.Tasks;
 namespace LASI.UserInterface
 {
     /// <summary>
-    /// Interaction logic for Window1.xaml
+    /// Interaction logic for DialogToProcedeToResults.xaml
     /// </summary>
     public partial class ProjectPreviewScreen : Window
     {

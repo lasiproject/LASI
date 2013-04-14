@@ -86,6 +86,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Dialogs\DialogToProcedeToResults.xaml.cs">
+      <DependentUpon>DialogToProcedeToResults.xaml</DependentUpon>
+    </Compile>
     <Compile Include="InProgressScreen.xaml.cs">
       <DependentUpon>InProgressScreen.xaml</DependentUpon>
     </Compile>
@@ -97,6 +100,10 @@
     </Compile>
     <Compile Include="WindowManager.cs" />
     <Page Include="CreateProjectWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\DialogToProcedeToResults.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
