@@ -20,7 +20,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Initializes a new instance of the Document class.
         /// </summary>
-        /// <param name="allWords">The collection of paragraphs which contain all text in the document.</param>
+        /// <param name="paragrpahs">The collection of paragraphs which contain all text in the document.</param>
         public Document(IEnumerable<Paragraph> paragrpahs) {
             _paragraphs = paragrpahs.ToList();
             AssignMembers(paragrpahs);

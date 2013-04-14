@@ -18,6 +18,7 @@ namespace LASI.Algorithm
         /// Initializes a new instance of the Verb class which represents the base tense form of a verb.
         /// </summary>
         /// <param name="text">The literal text content of the verb.</param>
+        /// <param name="tense">The tense of the verb</param>
         public Verb(string text, VerbTense tense)
             : base(text) {
             Tense = tense;
@@ -28,8 +29,7 @@ namespace LASI.Algorithm
 
 
         /// <summary>
-        /// Attaches an Adverbial construct, such as an Adverb or AdverbPhrase, as a modifier of the Verb.
-        /// </summary>
+        /// Attaches an Adverbial construct, such as an Adverb or AdverbPhrase, as a modifier of the Verb
         /// <param name="adv">The Adverbial construct by which to modify the AdjectivePhrase.</param>
         /// </summary>
         public virtual void ModifyWith(IAdverbial adv) {
@@ -65,7 +65,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Binds the given Entity as a direct object of the Verb instance.
         /// </summary>
-        /// <param name="subject">The Entity to attach to the Verb as a direct object.</param>
+        /// <param name="directObject">The Entity to attach to the Verb as a direct object.</param>
         public virtual void BindDirectObject(IEntity directObject) {
             if (!_boundDirectObjects.Contains(directObject)) {
                 _boundDirectObjects.Add(directObject);
@@ -80,7 +80,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Binds the given Entity as an indirect object of the Verb instance.
         /// </summary>
-        /// <param name="subject">The Entity to attach to the Verb as an indirect object.</param>
+        /// <param name="indirectObject">The Entity to attach to the Verb as an indirect object.</param>
         public virtual void BindIndirectObject(IEntity indirectObject) {
             if (!_boundIndirectObjects.Contains(indirectObject)) {
                 _boundIndirectObjects.Add(indirectObject);

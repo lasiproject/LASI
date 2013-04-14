@@ -96,6 +96,7 @@
     <Compile Include="NounPhraseTest.cs" />
     <Compile Include="NounTest.cs" />
     <Compile Include="ParagraphTest.cs" />
+    <Compile Include="ParticlePhraseTest.cs" />
     <Compile Include="ParticleTest.cs" />
     <Compile Include="PastPrtcplVerbTest.cs" />
     <Compile Include="PastTenseVerbTest.cs" />

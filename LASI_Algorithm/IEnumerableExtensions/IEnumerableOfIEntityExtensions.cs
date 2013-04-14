@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace LASI.Algorithm
 {
+    /// <summary>
+    /// Provides facilities to aid in the querying of IEnumerableCollections of IEntities.
+    /// </summary>
     public static class IEnumerableOfIEntityExtensions
     {
         public static IEnumerable<IEntity> InSubjectRole(this IEnumerable<IEntity> entities) {

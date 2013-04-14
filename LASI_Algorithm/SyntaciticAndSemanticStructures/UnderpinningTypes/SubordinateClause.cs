@@ -18,7 +18,7 @@ namespace LASI.Algorithm.ClauseTypes
         /// <summary>
         /// Initializes a new instance of the SubordinateClause class, by composing the given linear sequence of phrases.
         /// </summary>
-        /// <param name="phrases">The linear sequence of Phrases which compose to form the Clause.</param>
+        /// <param name="composed">The linear sequence of Phrases which compose to form the Clause.</param>
         public SubordinateClause(IEnumerable<Phrase> composed)
             : base(composed) {
 
@@ -26,7 +26,7 @@ namespace LASI.Algorithm.ClauseTypes
         /// <summary>
         /// Initializes a new instance of the SubordinateClause class, by composing the given linear sequence of Words.
         /// </summary>
-        /// <param name="phrases">The linear sequence of Words which compose to form the Clause.</param>
+        /// <param name="words">The linear sequence of Words which compose to form the Clause.</param>
         public SubordinateClause(IEnumerable<Word> words)
             : base(words) {
 

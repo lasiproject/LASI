@@ -460,7 +460,7 @@ namespace LASI.Algorithm.Binding
         /// An extension method which pops the next item from the stack, but returns it as a an object of Type dynamic.
         /// This allows the overloaded methods present in each state to be correctly selected based on the run time type of the phrase.
         /// </summary>
-        /// <param name="stack">The Stack<LASI.Algorithm.Phrase> instances from which to pop.</param>
+        /// <param name="stack">The Stack instances from which to pop.</param>
         /// <returns>The Phrase at the top of the stack typed as dynamic.</returns>
         /// <exception cref="System.InvalidOperationException">Thrown if the Stack is empty.</exception>
         internal static dynamic PopDynamic(this Stack<Phrase> stack) {

@@ -15,8 +15,7 @@ namespace LASI.Algorithm
 
         /// <summary>
         /// Initializes a new instance of the ToLinker class.
-        /// </summary>
-        /// <param name="text">The literal text content of the particle.</param>
+        /// </summary> 
         public ToLinker()
             : base("to") {
         }

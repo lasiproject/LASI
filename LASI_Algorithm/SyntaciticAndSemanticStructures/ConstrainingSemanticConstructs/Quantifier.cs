@@ -12,7 +12,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Represents a quantifier which specifies the value, count, or degree, of some IQuantifiabe such as a GenericSingularNoun
         /// </summary>
-        /// <param name="text">/// <param name="text">the literal text content of the quantifer.</param></param>
+        /// <param name="text">the literal text content of the quantifer.</param> 
         public Quantifier(string text)
             : base(text) {
         }

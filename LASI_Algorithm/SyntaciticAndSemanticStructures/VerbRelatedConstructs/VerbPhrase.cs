@@ -69,7 +69,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Binds the given Entity as a direct object of the VerbPhrase instance.
         /// </summary>
-        /// <param name="subject">The Entity to attach to the VerbPhrase as a direct object.</param>
+        /// <param name="directObject">The Entity to attach to the VerbPhrase as a direct object.</param>
         public virtual void BindDirectObject(IEntity directObject) {
             if (!_boundDirectObjects.Contains(directObject)) {
                 _boundDirectObjects.Add(directObject);
@@ -84,7 +84,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Binds the given Entity as an indirect object of the VerbPhrase instance.
         /// </summary>
-        /// <param name="subject">The Entity to attach to the VerbPhrase as an indirect object.</param>
+        /// <param name="indirectObject">The Entity to attach to the VerbPhrase as an indirect object.</param>
         public virtual void BindIndirectObject(IEntity indirectObject) {
             if (!_boundIndirectObjects.Contains(indirectObject)) {
                 _boundIndirectObjects.Add(indirectObject);

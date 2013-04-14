@@ -12,6 +12,6 @@ namespace LASI.Algorithm
             : base(composedWords) {
         }
 
-       
+
     }
 }

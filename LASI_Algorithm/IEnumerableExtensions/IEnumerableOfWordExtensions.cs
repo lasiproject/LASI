@@ -7,13 +7,16 @@ using LASI.Algorithm.Thesauri;
 namespace LASI.Algorithm
 {
 
-
+    /// <summary>
+    /// Provides facilities to aid in the querying of IEnumerableCollections of Words.
+    /// </summary>
     public static class IEnumerableOfWordExtensions
     {
         /// <summary>
         /// Retrives all words in the Word collection which compare equal to a given Word
         /// </summary>
         /// <param name="toMatch">The Word to match</param>
+        /// <param name="words">A sequence of Word objects</param>
         /// <returns>a WordList containing all words which match the argument</returns>
         /// <see cref="Word"/>
         public static IEnumerable<Word> FindAllOccurances(this IEnumerable<Word> words,
@@ -117,6 +120,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Retrives all words in the collection which compare equal to a given Word or any of its provided synonyms.
         /// </summary>
+        /// <param name="words"></param>
         /// <param name="toMatch">The w to match</param>
         /// <param name="synonymProvider">The Thesaurus instance which provides the synonyms to also match against.</param>
         /// <returns>a WordList containing all words which match the argument or any of its provided synonyms.</returns>
@@ -170,7 +174,6 @@ namespace LASI.Algorithm
         public static IEnumerable<Determiner> GetToDeterminers(this IEnumerable<Word> words) {
             return words.OfType<Determiner>();
         }
-
         /// <summary>
         /// Returns all Pronouns in the collection that are bound to some entity
         /// </summary>
@@ -194,10 +197,11 @@ namespace LASI.Algorithm
         }
         /// <summary>
         /// Returns all Pronouns in the collection that refer to any entity matching the given test condition.
-        /// </summary>
+
         /// <param name="refererring"></param>
         /// <param name="referenced">The entity whose referencing pronouns will be returned.</param>
         /// <returns>All Pronouns in the collection that refer to the given entity</returns>
+        /// </summary>
         public static IEnumerable<Pronoun> Referencing(
             this IEnumerable<Pronoun> refererring,
             Func<IEntity, bool> condition
