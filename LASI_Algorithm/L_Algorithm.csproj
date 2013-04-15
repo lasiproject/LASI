@@ -62,6 +62,7 @@
     <Compile Include="Analysis\Binding\WordStream.cs" />
     <Compile Include="Analysis\Heuristics\LOOKATTHIS.cs" />
     <Compile Include="Analysis\Heuristics\UnknownLexicalConstructException.cs" />
+    <Compile Include="Analysis\Weighter.cs" />
     <Compile Include="DocumentConstructs\SubordinateClauseBeginPhrase.cs" />
     <Compile Include="IEnumerableExtensions\IEnumerableOfIEntityExtensions.cs" />
     <Compile Include="SyntaciticAndSemanticStructures\BridgingConstructs\PrepositionalRole.cs" />

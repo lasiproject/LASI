@@ -22,10 +22,6 @@ namespace Aluan_Experimentation
 
             TestWordAndPhraseBindings();
 
-
-
-
-
             Input.WaitForKey();
         }
 
@@ -38,6 +34,9 @@ namespace Aluan_Experimentation
             PerformIntraPhraseBinding(doc);
             PerformAttributeNounPhraseBinding(doc);
             PerformSVOBinding(doc);
+
+
+
 
 
 
@@ -73,6 +72,9 @@ namespace Aluan_Experimentation
                 catch (VerblessPhrasalSequenceException) {
                 }
             }
+
+
+
         }
 
         private static void PerformIntraPhraseBinding(Document doc) {

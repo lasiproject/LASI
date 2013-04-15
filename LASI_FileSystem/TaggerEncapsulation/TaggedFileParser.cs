@@ -102,17 +102,20 @@ namespace LASI.FileSystem
                                 parsedPhrases.Add(currentPhrase);
                             }
 
-                        } else if (token == '/') {
+                        }
+                        else if (token == '/') {
                             var words = CreateWords(chunk);
                             if (words.First() != null)
                                 if (words.Count(w => w is Conjunction) == words.Count) {
                                     var currentPhrase = new ConjunctionPhrase(words);
                                     parsedPhrases.Add(currentPhrase);
-                                } else if (words.Count() == 1 && words.First() is SentencePunctuation) {
+                                }
+                                else if (words.Count() == 1 && words.First() is SentencePunctuation) {
                                     sentencePunctuation = words.First() as SentencePunctuation;
                                     parsedClauses.Add(new Clause(parsedPhrases.Take(parsedPhrases.Count)));
                                     parsedPhrases = new List<Phrase>();
-                                } else {
+                                }
+                                else {
 
                                     //parsedPhrases.Add(new UndeterminedPhrase(words));
                                 }
@@ -128,16 +131,17 @@ namespace LASI.FileSystem
         }
 
         private static IEnumerable<string> SplitIntoSentences(string paragraph) {
-            return paragraph.Split(new[] { "<sentence>", "</sentence>" }, StringSplitOptions.RemoveEmptyEntries);
+            return paragraph.Split(new[] { "<sentence>", "</sentence>" }, StringSplitOptions.RemoveEmptyEntries).Select(t => t.Replace("</sentence>", "").Replace("<sentence>", ""));
+
         }
 
         private static char SkipToNextElement(string chunk) {
             var reader2 = (new StringReader(chunk));
             char token = '~';
             while (reader2.Peek() != ' ' && reader2.Peek() != '/') {
-                token = (char) reader2.Read();
+                token = (char)reader2.Read();
             }
-            token = (char) reader2.Read();
+            token = (char)reader2.Read();
             return token;
         }
 
@@ -177,8 +181,15 @@ namespace LASI.FileSystem
         protected virtual Phrase ParsePhrase(TaggedPhraseObject taggedContent) {
             var phraseTag = taggedContent.Tag.Trim();
             var composed = CreateWords(taggedContent.Text);
-            var phraseConstructor = PhraseTagset[phraseTag];
-            return phraseConstructor(composed);
+            if (phraseTag == "NP" && composed.All(w => w is Adverb)) {
+                var phraseConstructor = PhraseTagset["ADVP"];
+                return phraseConstructor(composed);
+            }
+            else {
+                var phraseConstructor = PhraseTagset[phraseTag];
+
+                return phraseConstructor(composed);
+            }
         }
         /// <summary>
         /// Reads a [NP Square Brack Delimited Phrase Chunk] and returns a entity tag determined subtype of LASI.Phrase which in turn contains all the run time representations of the individual words within it.
@@ -250,7 +261,7 @@ namespace LASI.FileSystem
 
         private readonly PhraseTagsetMap PhraseTagset = new SharpNLPPhraseTagsetMap();
 
-  
+
 
         #endregion
 

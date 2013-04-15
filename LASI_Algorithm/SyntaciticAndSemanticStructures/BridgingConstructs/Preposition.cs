@@ -81,12 +81,12 @@ namespace LASI.Algorithm
         }
 
 
-        static Preposition() {
-            using (var reader = new System.IO.StreamReader(ConfigurationManager.AppSettings["PrepositionDataFilePath"]))
-                for (var l = reader.ReadLine(); !reader.EndOfStream; l = reader.ReadLine())
-                    knownLexicalMembers.Add(new string(new string(l.TakeWhile(c => c != '/').ToArray()).Trim().TakeWhile(c => c != ' ').ToArray()));
-            knownLexicalMembers = knownLexicalMembers.Distinct().ToList();
-        }
+        //static Preposition() {
+        //    using (var reader = new System.IO.StreamReader(ConfigurationManager.AppSettings["PrepositionDataFilePath"]))
+        //        for (var l = reader.ReadLine(); !reader.EndOfStream; l = reader.ReadLine())
+        //            knownLexicalMembers.Add(new string(new string(l.TakeWhile(c => c != '/').ToArray()).Trim().TakeWhile(c => c != ' ').ToArray()));
+        //    knownLexicalMembers = knownLexicalMembers.Distinct().ToList();
+        //}
 
         private static List<string> knownLexicalMembers = new List<string>();
         protected static IReadOnlyList<string> KnownLexicalMembers {
