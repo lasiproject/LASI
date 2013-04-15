@@ -291,6 +291,7 @@ namespace LASI.Utilities
         #endregion
 
     }
+
     public enum OutputMode
     {
         Console,
