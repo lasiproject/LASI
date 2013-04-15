@@ -168,6 +168,14 @@ namespace LASI.Algorithm
         public static IEnumerable<ToLinker> GetToLinkers(this IEnumerable<Word> words) {
             return words.OfType<ToLinker>();
         }
+
+        /// <summary>
+        /// Returns all ModalAuxilaries in the collection
+        /// </summary>
+        public static IEnumerable<ModalAuxilary> GetModalAuxilaries(this IEnumerable<Word> words) {
+            return words.OfType<ModalAuxilary>();
+        }
+
         /// <summary>
         /// Returns all Determiners in the collection
         /// </summary>
