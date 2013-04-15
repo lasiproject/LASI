@@ -72,16 +72,16 @@ namespace LASI.Algorithm.Thesauri
 
             //Aluan: This line gets extracts word category info I noticed was present in the DB files
             //Erik:  Gotcha, I'll try to decipher its meaning.
-                    
-        WordNetNounLex lexCategory = (WordNetNounLex)Int32.Parse(line.Substring(9, 2));
 
-        String frontPart = line.Split('|', '!')[0];
-        MatchCollection numbers = Regex.Matches(frontPart, @"(?<id>\d{8})");
-        MatchCollection words = Regex.Matches(frontPart, @"(?<word>[A-Za-z_\-]{3,})");
+            WordNetNounLex lexCategory = (WordNetNounLex)Int32.Parse(line.Substring(9, 2));
+
+            String frontPart = line.Split('|', '!')[0];
+            MatchCollection numbers = Regex.Matches(frontPart, @"(?<id>\d{8})");
+            MatchCollection words = Regex.Matches(frontPart, @"(?<word>[A-Za-z_\-]{3,})");
 
 
-        List<string> numbersList = numbers.Cast<Match>().Select(m => m.Value).Distinct().ToList();
-        string id = numbersList[0];
+            List<string> numbersList = numbers.Cast<Match>().Select(m => m.Value).Distinct().ToList();
+            string id = numbersList[0];
             numbersList.Remove(id);
 
             //somethin's amiss here.
@@ -154,7 +154,7 @@ namespace LASI.Algorithm.Thesauri
 
         public override IEnumerable<string> this[Word search] {
             get {
-                throw new NotImplementedException();
+                return this[search.Text];
             }
         }
     }
