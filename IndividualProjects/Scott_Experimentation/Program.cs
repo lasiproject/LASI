@@ -56,7 +56,6 @@ namespace Scott_Experimentation
             }
 
             //Verb Phrase Binding
-            Output.WriteLine("Verb Phrases:\n");
             foreach (var vbphrs in document5.Phrases.GetVerbPhrases()) {
                 ip1.IntraVerbPhrase(vbphrs);
             }
