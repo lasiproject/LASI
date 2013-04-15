@@ -16,7 +16,7 @@ namespace LASI.Algorithm.Analysis
         {
             var wordsByCount = from w in doc.Words group w by new { w.Type, w.Text };
             var phraseByCount = from p in doc.Phrases group p by new { Type = p.GetType(), p.Text };
-            var nounsynonymgroups = from w in doc.Words.GetNouns()
+            var nounSynonymGroups = from w in doc.Words.GetNouns()
                                     let synstrings = Thesauri.ThesaurusManager.NounThesaurus[w]
                                     from t in doc.Words.GetNouns()
                                     where synstrings.Contains(t.Text)
@@ -27,7 +27,9 @@ namespace LASI.Algorithm.Analysis
                                     where synstrings.Contains(t.Text)
                                     group t by w;
 
+            var basicPhraseCount = from p in doc.
 
+            //basic word count by part of speech 
             foreach (var grp in wordsByCount)
             {
                 foreach (var w in grp)
@@ -36,6 +38,7 @@ namespace LASI.Algorithm.Analysis
                 }
             }
 
+            //basic phrase count by part of speech
             foreach (var grp in phraseByCount)
             {
                 foreach (var p in grp)
@@ -43,8 +46,18 @@ namespace LASI.Algorithm.Analysis
                     p.Weight = grp.Count();
                 }
             }
-            
 
+            //noun synonyms increase weight of individual nouns
+            foreach (var grp in nounSynonymGroups)
+            {
+                grp.Key.Weight += 0.7m * grp.Count();
+            }
+
+            //verb synonyms increase weight of individual verbs 
+            foreach (var grp in verbsynonymgroups)
+            {
+                grp.Key.Weight += 0.7m * grp.Count();
+            }
         }
     }
 }
