@@ -76,8 +76,7 @@
                           minOccurs="0"
                           ref="sourcesdocument"
                           maxOccurs="unbounded" >
-                </xs:group>
-              </xs:choice>
+               </xs:choice>
             </xs:sequence>
           </xs:complexType>
         </xs:element>

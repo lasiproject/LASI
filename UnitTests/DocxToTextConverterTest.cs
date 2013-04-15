@@ -23,11 +23,14 @@ namespace AlgorithmAssemblyUnitTestProject
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
         ///</summary>
-        public TestContext TestContext {
-            get {
+        public TestContext TestContext
+        {
+            get
+            {
                 return testContextInstance;
             }
-            set {
+            set
+            {
                 testContextInstance = value;
             }
         }
@@ -62,24 +65,44 @@ namespace AlgorithmAssemblyUnitTestProject
         //
         #endregion
 
+        string sourcePath = @"..\..\..\TestDocs\Draft_Environmental_Assessment.docx";
+        string txtFilesDir = @"..\..\..\NewProject\input\text";
 
+        public string TxtFilesDir
+        {
+            get { return txtFilesDir; }
+            set { txtFilesDir = value; }
+        }
+        public string SourcePath
+        {
+            get { return sourcePath; }
+            set { sourcePath = value; }
+        } string targetPath = @"..\..\..\NewProject\input\text\Draft_Environmental_Assessment.txt";
+
+        public string TargetPath
+        {
+            get { return targetPath; }
+            set { targetPath = value; }
+        }
         /// <summary>
         ///a test for DocxToTextConverter Constructor
         ///</summary>
         [TestMethod()]
-        public void DocxToTextConverterConstructorTest() {
-            string sourcePath = @"..\..\..\TestDocs\Draft_Environmental_Assessment.docx";
-            string targetPath = @"..\..\..\TestDocs\Draft_Environmental_Assessment.txt";
-            DocxToTextConverter target = new DocxToTextConverter(sourcePath, targetPath);
-            Assert.IsTrue(target.Original.FullPath == sourcePath);
+        public void DocxToTextConverterConstructorTest()
+        {
+
+
+            DocxToTextConverter target = new DocxToTextConverter(SourcePath, TargetPath);
+            Assert.IsTrue(target.Original.FullPath == SourcePath);
         }
 
         /// <summary>
         ///a test for DocxToTextConverter Constructor
         ///</summary>
         [TestMethod()]
-        public void DocxToTextConverterConstructorTest1() {
-            var infile = new DocXFile(@"..\..\..\TestDocs\Draft_Environmental_Assessment.docx");
+        public void DocxToTextConverterConstructorTest1()
+        {
+            var infile = InitInputFileWrapper();
             DocxToTextConverter target = new DocxToTextConverter(infile);
             Assert.IsTrue(target.Original.FullPath == infile.FullPath);
         }
@@ -88,11 +111,18 @@ namespace AlgorithmAssemblyUnitTestProject
         ///a test for DocxToTextConverter Constructor
         ///</summary>
         [TestMethod()]
-        public void DocxToTextConverterConstructorTest2() {
-            var infile = new DocXFile(@"..\..\..\TestDocs\Draft_Environmental_Assessment.docx");
-            string TxtFilesDir = @"C:\Users\Aluan\Desktop\txtFiles";
+        public void DocxToTextConverterConstructorTest2()
+        {
+            var infile = InitInputFileWrapper();
+
             DocxToTextConverter target = new DocxToTextConverter(infile, TxtFilesDir);
             Assert.IsTrue(target.Original.FullPath == infile.FullPath);
+        }
+
+        private static DocXFile InitInputFileWrapper()
+        {
+            var infile = new DocXFile(@"..\..\MockUserFiles\Draft_Environmental_Assessment.docx");
+            return infile;
         }
 
 
@@ -101,8 +131,9 @@ namespace AlgorithmAssemblyUnitTestProject
         ///a test for ConvertFileAsync
         ///</summary>
         [TestMethod()]
-        public async Task ConvertFileAsyncTest() {
-            var infile = new DocXFile(@"..\..\..\TestDocs\Draft_Environmental_Assessment.docx");
+        public async Task ConvertFileAsyncTest()
+        {
+            var infile = InitInputFileWrapper();
             DocxToTextConverter target = new DocxToTextConverter(infile);
             InputFile actual;
             actual = await target.ConvertFileAsync();

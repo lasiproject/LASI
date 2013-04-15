@@ -94,7 +94,7 @@
                     </Grid>
                 </TabItem>
                 <TabItem x:Name="TestView" Header="TestView" Padding="6,1" Margin="2,0,-8,-3">
-
+                    <WrapPanel Name="TestViewPanel"></WrapPanel>
 
                 </TabItem>
 

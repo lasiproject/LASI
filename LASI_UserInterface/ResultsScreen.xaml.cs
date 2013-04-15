@@ -25,7 +25,8 @@ namespace LASI.UserInterface
     /// </summary>
     public partial class ResultsScreen : Window
     {
-        public ResultsScreen() {
+        public ResultsScreen()
+        {
 
             InitializeComponent();
             this.Closed += (s, e) => Application.Current.Shutdown();
@@ -33,18 +34,21 @@ namespace LASI.UserInterface
         }
 
 
-        private void DrawBasicDataVisualizations(IEnumerable<ILexical> topResults) {
+        private void DrawBasicDataVisualizations(IEnumerable<ILexical> topResults)
+        {
 
 
 
 
             var dataPoints = from r in topResults
-                             group r by new {
+                             group r by new
+                             {
                                  Text = r.Text,
                                  Type = r.GetType()
                              } into g
                              orderby g.Count()
-                             select new BarDataPoint {
+                             select new BarDataPoint
+                             {
                                  ActualIndependentValue = g.Key.Text,
                                  ActualDependentValue = g.Count()
                              };
@@ -56,61 +60,71 @@ namespace LASI.UserInterface
 
 
 
-        public void BuildAssociatedView() {
+        public void BuildAssociatedView()
+        {
 
 
 
-           // FocusedDocument = new TaggedFileParser(FileManager.TaggedFiles.First()).LoadDocument();
-
-
-
-
-            //  foreach (var word in doc.Words) //{
-            //    var wordLabel = new Label {
-            //        Tag = word,
-            //        Content = word.Text,
-            //        Foreground = Brushes.Black,
-            //        Padding = new Thickness(1, 1, 1, 1),
-            //        ContextMenu = new ContextMenu()
-            //    };
-            //    var menuItem1 = new MenuItem {
-            //        Header = "view definition",
-            //    };
-
-            //    menuItem1.Click += (sender, e) => {
-            //        Process.Start(String.Format("http://www.dictionary.reference.com/browse/{0}?s=t", word.Text));
-            //    };
-
-            //    // change text to random color from the colors array
-            //    wordLabel.ContextMenu.Items.Add(menuItem1);
+            FocusedDocument = new TaggedFileParser(FileManager.TaggedFiles.First()).LoadDocument();
 
 
 
 
-            //    wordLabel.MouseDown += (sender, e) => {
-            //        var intraPhraseLabels = from w in (wordLabel.Tag as Word).ParentPhrase.Words
-            //                                join l in wordLabels on w.ID equals (l.Tag as Word).ID
-            //                                select l;
-            //        foreach (var l in intraPhraseLabels) {
-            //            if (l.Background != Brushes.Green && wordLabel.Foreground != Brushes.Red) {
-            //                l.Foreground = Brushes.White;
-            //                l.Background = Brushes.Green;
-            //                wordLabel.Foreground = Brushes.Black;
-            //                wordLabel.Background = Brushes.Red;
+            foreach (var word in FocusedDocument.Words)
+            {
+                var wordLabel = new Label
+                {
+                    Tag = word,
+                    Content = word.Text,
+                    Foreground = Brushes.Black,
+                    Padding = new Thickness(1, 1, 1, 1),
+                    ContextMenu = new ContextMenu()
+                };
+                var menuItem1 = new MenuItem
+                {
+                    Header = "view definition",
+                };
 
-            //            } else {
-            //                l.Background = Brushes.White;
-            //                l.Foreground = Brushes.Black;
-            //                wordLabel.Foreground = Brushes.Black;
-            //                wordLabel.Background = Brushes.White;
-            //            }
-            //        }
+                menuItem1.Click += (sender, e) =>
+                {
+                    Process.Start(String.Format("http://www.dictionary.reference.com/browse/{0}?s=t", word.Text));
+                };
 
-            //    };
-            //    wordLabels.Add(wordLabel);
-            //    testViewWrap.Children.Add(wordLabel);
-            //}
-           // DrawBasicDataVisualizations(FocusedDocument.Phrases);
+                // change text to random color from the colors array
+                wordLabel.ContextMenu.Items.Add(menuItem1);
+
+
+
+
+                wordLabel.MouseDown += (sender, e) =>
+                {
+                    var intraPhraseLabels = from w in (wordLabel.Tag as Word).ParentPhrase.Words
+                                            join l in wordLabels on w.ID equals (l.Tag as Word).ID
+                                            select l;
+                    foreach (var l in intraPhraseLabels)
+                    {
+                        if (l.Background != Brushes.Green && wordLabel.Foreground != Brushes.Red)
+                        {
+                            l.Foreground = Brushes.White;
+                            l.Background = Brushes.Green;
+                            wordLabel.Foreground = Brushes.Black;
+                            wordLabel.Background = Brushes.Red;
+
+                        }
+                        else
+                        {
+                            l.Background = Brushes.White;
+                            l.Foreground = Brushes.Black;
+                            wordLabel.Foreground = Brushes.Black;
+                            wordLabel.Background = Brushes.White;
+                        }
+                    }
+
+                };
+                wordLabels.Add(wordLabel);
+                TestViewPanel.Children.Add(wordLabel);
+            }
+            //  DrawBasicDataVisualizations(FocusedDocument.Phrases);
 
 
 
@@ -119,12 +133,14 @@ namespace LASI.UserInterface
 
         private List<Label> wordLabels = new List<Label>();
 
-        private void MenuItem_Click_2(object sender, RoutedEventArgs e) {
+        private void MenuItem_Click_2(object sender, RoutedEventArgs e)
+        {
 
             this.SwapWith(WindowManager.CreateProjectScreen);
         }
 
-        private void MenuItem_Click_3(object sender, RoutedEventArgs e) {
+        private void MenuItem_Click_3(object sender, RoutedEventArgs e)
+        {
             this.Close();
 
         }
@@ -150,21 +166,27 @@ namespace LASI.UserInterface
 
         Document focusedDocument;
 
-        public Document FocusedDocument {
-            get {
+        public Document FocusedDocument
+        {
+            get
+            {
                 return focusedDocument;
             }
-            set {
+            set
+            {
                 focusedDocument = value;
             }
         }
         IEnumerable<BarDataPoint> tornadoChartData = new List<BarDataPoint>();
 
-        public IEnumerable<BarDataPoint> TornadoChartData {
-            get {
+        public IEnumerable<BarDataPoint> TornadoChartData
+        {
+            get
+            {
                 return tornadoChartData;
             }
-            set {
+            set
+            {
                 tornadoChartData = value;
             }
         }
@@ -182,13 +204,15 @@ the COIs characterizing it - to which MOEs may be properly linked.".Split('\r', 
 
 
 
-        private void printButton_Click_1(object sender, RoutedEventArgs e) {
+        private void printButton_Click_1(object sender, RoutedEventArgs e)
+        {
             var printDialog = new PrintDialog();
             printDialog.ShowDialog();
             printDialog.PrintVisual(resultsGrid, "Current View");
         }
 
-        private void Grid_MouseDown_1(object sender, MouseButtonEventArgs e) {
+        private void Grid_MouseDown_1(object sender, MouseButtonEventArgs e)
+        {
 
         }
 
