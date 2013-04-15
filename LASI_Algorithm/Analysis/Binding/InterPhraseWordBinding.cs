@@ -98,32 +98,35 @@ namespace LASI.Algorithm.Binding
             Verb LastVerb = vp.Words.OfType<Verb>().LastOrDefault();
 
             if (vp.Words.Count() > 1 && LastVerb != null) {
-
+                
                 foreach (Word w in vp.Words) {
                     Output.Write("{0}, ", w);
                 }
                 Output.WriteLine("\n");
+                
+
 
                 // Adverb linking to NEXT verb
                 var adverbList = vp.Words.GetAdverbs();
                 if (adverbList.Count() > 0) {
                     foreach (var advrb in adverbList) {
-                        Output.WriteLine("adverb: {0}", advrb.Text);
+                        //Output.WriteLine("adverb: {0}", advrb.Text);
                         var tempWrd = advrb.NextWord;
                         while (!(tempWrd is Verb)) {
                             tempWrd = tempWrd.NextWord;
                         }
                         var nextVerb = tempWrd as Verb;
                         nextVerb.ModifyWith(advrb);
-                        Output.WriteLine("Next Verb: {0}", nextVerb.Text);
+                        //Output.WriteLine("Next Verb: {0}", nextVerb.Text);
                     }
                 }
 
+                // "To" binding
                 ToLinker Binding;
                 var toLinkerList = vp.Words.GetToLinkers();
                 if (toLinkerList.Count() > 0) {
                     foreach (var toLink in toLinkerList) {
-                        Output.WriteLine("To Linker: {0}", toLink.Text);
+                        //Output.WriteLine("To Linker: {0}", toLink.Text);
                         var prevWord = toLink.PreviousWord as Verb;
                         var nextWord = toLink.NextWord as Verb;
 
@@ -134,12 +137,39 @@ namespace LASI.Algorithm.Binding
                             if (nextWord != LastVerb) {
                                 toLink.BindObjectOfPreposition(LastVerb);
                             }
-                            Output.WriteLine("Prev: {0}, Next: {1}: , Last Verb: {2}", prevWord, nextWord, LastVerb);
+                            //Output.WriteLine("Prev: {0}, Next: {1}: , Last Verb: {2}", prevWord, nextWord, LastVerb);
                         } else {
                             toLink.BindObjectOfPreposition(LastVerb);
                         }
                     }
                 }
+
+                //  Binds all Modal Aux's to last verb
+                var ModalAuxList = vp.Words.GetModalAuxilaries();
+                if (ModalAuxList.Count() > 0)
+                {
+                    foreach (var ma in ModalAuxList)
+                    {
+                        LastVerb.Modality = ma;
+                        ma.Modifies = LastVerb;
+                    }
+                }
+
+                //Binds other verbs to last verb
+                /*
+                var VerbList = vp.Words.GetVerbs();
+                if (VerbList.Count() > 0)
+                {
+                    foreach (var vrb in VerbList)
+                    {
+                        if (vrb != LastVerb)
+                        {
+                            Output.WriteLine("Verb: {0}", vrb.Text);
+                        }
+                    }
+                }
+                */
+
 
                 Output.WriteLine("\n~~~~~~~~~~~~~~~~~\n");
             }
