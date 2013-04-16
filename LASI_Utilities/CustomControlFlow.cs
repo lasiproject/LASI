@@ -44,7 +44,8 @@ namespace LASI.Utilities.TypedSwitch
         public static Switch Case<T>(this Switch s, Func<T, bool> condition, Action<T> action, bool fallThrough) where T : class {
             if (s == null) {
                 return null;
-            } else {
+            }
+            else {
                 T tCasted = s.SwitchOn as T;
                 if (tCasted != null) {
                     if (condition(tCasted)) {

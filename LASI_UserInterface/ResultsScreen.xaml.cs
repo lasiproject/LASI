@@ -17,7 +17,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Windows.Controls.DataVisualization.Charting;
 using System.Collections.ObjectModel;
-
+using LASI.Algorithm.Binding;
+using LASI.Algorithm.Analysis.Binding;
+using LASI.Utilities.TypedSwitch;
 
 namespace LASI.UserInterface
 {
@@ -34,15 +36,130 @@ namespace LASI.UserInterface
         }
 
 
+        public void BuildAssociationTextView() {
+            var doc = new TaggedFileParser(FileManager.TaggedFiles.First()).LoadDocument();
+            TestWordAndPhraseBindings(doc);
+            LASI.Algorithm.Analysis.Weighter.weight(doc);
+            foreach (var phrase in doc.Phrases) {
+                var phraseLabel = new Label {
+                    Content = phrase.Text,
+                    Tag = phrase,
+                    Foreground = Brushes.Black,
+                    Padding = new Thickness(1, 1, 1, 1),
+                    ContextMenu = new ContextMenu(),
+                    ToolTip = phrase.GetType().Name,
+                };
+                var vP = phrase as VerbPhrase;
+                if (vP != null && vP.BoundSubjects.Count() > 0) {
+                    var visitSubjectMI = new MenuItem {
+                        Header = "view subjects"
+                    };
+                    visitSubjectMI.Click += (sender, e) => {
+                        var objlabels = from r in vP.BoundSubjects
+                                        join l in phraseLabels on r equals l.Tag
+                                        select l;
+                        foreach (var l in objlabels) {
+                            l.Foreground = Brushes.Black;
+                            l.Background = Brushes.Red;
+                        }
+                    };
+                    phraseLabel.ContextMenu.Items.Add(visitSubjectMI);
+                }
+                if (vP != null && vP.DirectObjects.Count() > 0) {
+                    var visitSubjectMI = new MenuItem {
+                        Header = "view direct objects"
+                    };
+                    visitSubjectMI.Click += (sender, e) => {
+                        var objlabels = from r in vP.DirectObjects
+                                        join l in phraseLabels on r equals l.Tag
+                                        select l;
+                        foreach (var l in objlabels) {
+                            l.Foreground = Brushes.Black;
+                            l.Background = Brushes.Red;
+                        }
+                    };
+                    phraseLabel.ContextMenu.Items.Add(visitSubjectMI);
+                }
+                phraseLabels.Add(phraseLabel);
+            }
+            foreach (var l in phraseLabels) {
+                AssociationPhrasePanal.Children.Add(l);
+            }
+        }
+        private static void TestWordAndPhraseBindings(Document doc) {
 
-        public void BuildAssociatedView() {
+            PerformIntraPhraseBinding(doc);
+            PerformAttributeNounPhraseBinding(doc);
+            PerformSVOBinding(doc);
+
+
+
+
+
+
+        }
+
+
+        private static void PerformAttributeNounPhraseBinding(Document doc) {
+            foreach (var s in doc.Sentences) {
+                var attributiveBinder = new AttributiveNounPhraseBinder(s);
+            }
+        }
+        private static void PerformSVOBinding(Document doc) {
+            foreach (var s in doc.Sentences) {
+                var subjectBinder = new SubjectBinder();
+                var objectBinder = new ObjectBinder();
+                try {
+                    subjectBinder.Bind(s);
+                }
+                catch (NullReferenceException) {
+                }
+                try {
+                    objectBinder.Bind(s);
+                }
+                catch (InvalidStateTransitionException) {
+                }
+                catch (VerblessPhrasalSequenceException) {
+                }
+            }
+
+
+
+        }
+
+        private static void PerformIntraPhraseBinding(Document doc) {
+            foreach (var r in doc.Phrases) {
+                var wordBinder = new InterPhraseWordBinding();
+                new LASI.Utilities.TypedSwitch.Switch(r)
+                .Case<NounPhrase>(np => {
+                    wordBinder.IntraNounPhrase(np);
+                })
+                .Case<VerbPhrase>(vp => {
+                    wordBinder.IntraVerbPhrase(vp);
+                })
+                .Default(a => {
+                });
+            }
+        }
+
+
+        public void BuildFullSortedView() {
+
 
             var doc = new TaggedFileParser(FileManager.TaggedFiles.First()).LoadDocument();
+
+
             LASI.Algorithm.Analysis.Weighter.weight(doc);
-            foreach (var word in doc.Words.GetNouns().Concat<Word>(doc.Words.GetAdverbs()).Concat<Word>(doc.Words.GetAdjectives()).Concat<Word>(doc.Words.GetVerbs()).GroupBy(w => new {
-                w.Text,
-                w.Type
-            }).Select(g => g.First())) {
+
+
+            var words = doc.Words.GetNouns().Concat<Word>(doc.Words.GetAdverbs()).
+                 Concat<Word>(doc.Words.GetAdjectives()).Concat<Word>(doc.Words.GetVerbs()).
+                 GroupBy(w => new {
+                     w.Text,
+                     w.Type
+                 }).Select(g => g.First());
+
+            foreach (var word in words) {
                 var wordLabel = MakeWordLabel(word);
                 var menuItem1 = new MenuItem {
                     Header = "view definition",
@@ -56,6 +173,15 @@ namespace LASI.UserInterface
 
 
             }
+
+            ValueList = new List<KeyValuePair<string, int>>();
+            ValueList.AddRange(
+                (from w in words
+                 orderby w.Weight descending
+                 select new KeyValuePair<string, int>(w.Text, (int)w.Weight)).Take(15).ToList());
+            ValueList.Reverse();
+            lineChart.DataContext = ValueList;
+
             foreach (var l in from w in wordLabels
                               orderby (w.Tag as Word).Weight descending
                               select w) {
@@ -65,6 +191,10 @@ namespace LASI.UserInterface
 
 
 
+        }
+        public List<KeyValuePair<string, int>> ValueList {
+            get;
+            private set;
         }
 
         private static Label MakeWordLabel(Word word) {
@@ -104,6 +234,7 @@ namespace LASI.UserInterface
         }
 
         private List<Label> wordLabels = new List<Label>();
+        private List<Label> phraseLabels = new List<Label>();
 
         private void MenuItem_Click_2(object sender, RoutedEventArgs e) {
 

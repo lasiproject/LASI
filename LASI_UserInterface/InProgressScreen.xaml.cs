@@ -76,7 +76,8 @@ namespace LASI.UserInterface
             }
             if (ProgressBar.Value < 100) {
                 await InitProgressBar();
-            } else {
+            }
+            else {
                 await Task.Delay(100);
                 DisplayProceedDialog();
             }
@@ -102,18 +103,12 @@ namespace LASI.UserInterface
         #endregion
 
         #endregion
-        private void SkipUIDemoButton_Click(object sender, RoutedEventArgs e) {
 
-
-            ProceedToResultsView();
-        }
 
         private void ProceedToResultsView() {
             WindowManager.ResultsScreen.SetTitle(WindowManager.CreateProjectScreen.LastLoadedProjectName + " - L.A.S.I.");
             this.SwapWith(WindowManager.ResultsScreen);
-            WindowManager.ResultsScreen.BuildAssociatedView();
-
-            WindowManager.ResultsScreen.BuildAssociatedView();
+            WindowManager.ResultsScreen.BuildAssociationTextView();
         }
         private void MenuItem_Click_3(object sender, RoutedEventArgs e) {
             this.Close();

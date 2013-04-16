@@ -70,6 +70,10 @@
                             <TabItem Header="All Documents">
                                 <Grid Background="#FFE5E5E5"/>
                             </TabItem>
+
+                            <TabItem Name="testassoci" Header="testassoci">
+                                <WrapPanel Name="AssociationPhrasePanal"></WrapPanel>
+                            </TabItem>
                         </TabControl>
                     </Grid>
                 </TabItem>
@@ -106,16 +110,16 @@
                     </Grid>
 
                 </TabItem>
-                <TabItem  Header="TestChart" Margin="11,0,-11,-3"/>
-                <Grid>
+                <TabItem  Header="TestChart" Margin="11,0,-11,-3">
 
-                    <chartingToolkit:Chart Name="TestChart" Title="Word Count"  >
-                        <chartingToolkit:Chart.Axes>
-                            <chartingToolkit:LinearAxis Orientation="Y" ></chartingToolkit:LinearAxis>
-                        </chartingToolkit:Chart.Axes>
-
+                    <chartingToolkit:Chart  Name="lineChart" Title="Line Series Demo" 
+		VerticalAlignment="Top" Height="346"  >
+                        <chartingToolkit:BarSeries  DependentValuePath="Value" 
+		IndependentValuePath="Key" ItemsSource="{Binding}" 
+		IsSelectionEnabled="True"  />
                     </chartingToolkit:Chart>
-                </Grid>
+
+                </TabItem>
 
 
 

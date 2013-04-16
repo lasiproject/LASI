@@ -111,7 +111,8 @@ namespace LASI.Algorithm
 
                 }
                 return result;
-            } else
+            }
+            else
                 return base.ToString();
         }
 
@@ -217,12 +218,7 @@ namespace LASI.Algorithm
         #endregion
 
         #region Operators
-        public static bool operator ==(VerbPhrase lhs, VerbPhrase rhs) {
-            return lhs.Text == rhs.Text && lhs.Tense == rhs.Tense;
-        }
-        public static bool operator !=(VerbPhrase lhs, VerbPhrase rhs) {
-            return !(lhs == rhs);
-        }
+
         #endregion
 
 
