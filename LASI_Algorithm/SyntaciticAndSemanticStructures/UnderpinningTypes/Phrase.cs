@@ -132,6 +132,12 @@ namespace LASI.Algorithm
             private set;
         }
 
+        public Type Type {
+            get {
+                return GetType();
+            }
+        }
+
         /// <summary>
         /// Gets or sets the numeric weight of the Phrase within the context of its document.
         /// </summary>

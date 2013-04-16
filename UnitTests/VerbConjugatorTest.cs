@@ -132,7 +132,7 @@ namespace AlgorithmAssemblyUnitTestProject
 
             }
             Assert.IsTrue((from f in expected
-                           select actual.Contains(f)).Aggregate(true, (aggr, tf) => aggr &= tf));
+                           select actual.Contains(f)).Aggregate(true, (aggr, tf) => aggr &= tf)); 
 
 
         }

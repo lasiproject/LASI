@@ -86,10 +86,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="CountedWordList.cs" />
     <Compile Include="Dialogs\DialogToProcedeToResults.xaml.cs">
       <DependentUpon>DialogToProcedeToResults.xaml</DependentUpon>
     </Compile>
+    <Compile Include="GuiILexicalExtensions\IVerbialExtensions.cs" />
     <Compile Include="InProgressScreen.xaml.cs">
       <DependentUpon>InProgressScreen.xaml</DependentUpon>
     </Compile>
@@ -242,6 +242,7 @@
   <ItemGroup>
     <Resource Include="Button Images\remove-document.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

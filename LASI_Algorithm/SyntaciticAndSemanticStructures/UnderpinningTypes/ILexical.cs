@@ -18,6 +18,11 @@ namespace LASI.Algorithm
         string Text {
             get;
         }
+
+        Type Type {
+            get;
+        }
+
         /// <summary>
         /// Gets or sets the numeric weight of the ILexical construct within its document.
         /// </summary>

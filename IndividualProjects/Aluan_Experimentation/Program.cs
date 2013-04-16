@@ -18,11 +18,16 @@ namespace Aluan_Experimentation
 
         static void Main(string[] args) {
 
-            Phrase.VerboseOutput = true;
+            //Phrase.VerboseOutput = true;
 
-            TestWordAndPhraseBindings();
-
-            Input.WaitForKey();
+            //TestWordAndPhraseBindings();
+            Task.Run(() => Thesaurus.LoadAllAsync()).Wait();
+            try {
+                Thesaurus.InternalLookup(new Adverb("quickly"));
+            } catch (LASI.Algorithm.Thesuari.NoSynonymLookupForTypeException ex) {
+                Output.WriteLine(ex.Message);
+                Input.WaitForKey();
+            }
         }
 
 
@@ -61,15 +66,12 @@ namespace Aluan_Experimentation
                 var objectBinder = new ObjectBinder();
                 try {
                     subjectBinder.Bind(s);
-                }
-                catch (NullReferenceException) {
+                } catch (NullReferenceException) {
                 }
                 try {
                     objectBinder.Bind(s);
-                }
-                catch (InvalidStateTransitionException) {
-                }
-                catch (VerblessPhrasalSequenceException) {
+                } catch (InvalidStateTransitionException) {
+                } catch (VerblessPhrasalSequenceException) {
                 }
             }
 
@@ -96,13 +98,12 @@ namespace Aluan_Experimentation
 
 
         private static void TestThesaurus() {
-            ThesaurusManager.LoadAll();
+            Thesaurus.LoadAll();
             Output.WriteLine("enter verb: ");
             for (var k = Console.ReadLine(); ; ) {
                 try {
-                    Output.WriteLine(ThesaurusManager.VerbThesaurus[k].OrderBy(o => o).Aggregate("", (aggr, s) => s.PadRight(30) + ", " + aggr));
-                }
-                catch (ArgumentNullException) {
+                    Output.WriteLine(Thesaurus.VerbProvider[k].OrderBy(o => o).Aggregate("", (aggr, s) => s.PadRight(30) + ", " + aggr));
+                } catch (ArgumentNullException) {
                     Output.WriteLine("no synonyms returned");
                 }
                 Output.WriteLine("enter verb: ");

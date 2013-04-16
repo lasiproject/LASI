@@ -8,8 +8,8 @@ namespace LASI.Algorithm.Thesauri
 {
     /// <summary>
     /// Represents a Synonym set entry corresponding to a line in a WordNet thesaurus file.
-    /// This type is used within the various ThesaurusManager implementations to compose and query the contents of the WordNet database files.
-    /// This class is internal forbidding instantiation outside of the ThesaurusManager Namespace.
+    /// This type is used within the various Thesaurus implementations to compose and query the contents of the WordNet database files.
+    /// This class is internal forbidding instantiation outside of the Thesaurus Namespace.
     /// </summary>
     internal class SynonymSet : IReadOnlyCollection<string>
     {

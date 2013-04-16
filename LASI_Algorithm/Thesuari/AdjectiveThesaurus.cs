@@ -9,7 +9,7 @@ using System.Text.RegularExpressions;
 
 namespace LASI.Algorithm.Thesauri
 {
-    public class AdjectiveThesaurus : Thesaurus
+    public class AdjectiveThesaurus : ThesaurusBase
     {
 
         /// <summary>

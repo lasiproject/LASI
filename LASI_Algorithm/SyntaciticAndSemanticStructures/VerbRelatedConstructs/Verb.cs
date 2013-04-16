@@ -92,7 +92,7 @@ namespace LASI.Algorithm
 
         public virtual void DetermineIsPossessive() {
 
-            var syns = LASI.Algorithm.Thesauri.ThesaurusManager.VerbThesaurus[this];
+            var syns = LASI.Algorithm.Thesauri.Thesaurus.VerbProvider[this];
             if (syns != null && syns.Contains("have")) {
                 possessive = true;
             }

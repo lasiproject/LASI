@@ -10,10 +10,10 @@ using System.Threading.Tasks;
 
 namespace LASI.Algorithm.Thesauri
 {
-    public class VerbThesaurus : Thesaurus
+    public class VerbThesaurus : ThesaurusBase
     {
         /// <summary>
-        /// Initializes a new instance of the VerbThesaurus class.
+        /// Initializes a new instance of the VerbProvider class.
         ///<param name="constrainByCategory"></param>
         /// <param name="filePath">The path of the WordNet database file containing the sysnonym line for actions.</param>
         /// </summary>

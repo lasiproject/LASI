@@ -98,6 +98,7 @@
     <Compile Include="SyntaciticAndSemanticStructures\VerbRelatedConstructs\IModalityModdifiable.cs" />
     <Compile Include="Thesuari\AdjectiveThesaurus.cs" />
     <Compile Include="Thesuari\AdverbThesaurus.cs" />
+    <Compile Include="Thesuari\NoSynonymLookupForTypeException.cs" />
     <Compile Include="Thesuari\SynonymSet.cs" />
     <Compile Include="SyntaciticAndSemanticStructures\NounRelatedConstructs\WhPronoun.cs" />
     <Compile Include="SyntaciticAndSemanticStructures\NounRelatedConstructs\GenericNoun.cs" />
@@ -115,7 +116,7 @@
     <Compile Include="SyntaciticAndSemanticStructures\ConstrainingSemanticConstructs\PossessiveEnding.cs" />
     <Compile Include="Thesuari\NounThesaurus.cs" />
     <Compile Include="Thesuari\SynSet.cs" />
-    <Compile Include="Thesuari\ThesaurusManager.cs" />
+    <Compile Include="Thesuari\Thesaurus.cs" />
     <Compile Include="SyntaciticAndSemanticStructures\AdjectiveRelatedConstructs\Adjective.cs" />
     <Compile Include="SyntaciticAndSemanticStructures\AdjectiveRelatedConstructs\AdjectivePhrase.cs" />
     <Compile Include="SyntaciticAndSemanticStructures\AdverbRelatedConstructs\Adverb.cs" />
@@ -154,7 +155,7 @@
     <Compile Include="SyntaciticAndSemanticStructures\NounRelatedConstructs\PersonalPronoun.cs" />
     <Compile Include="SyntaciticAndSemanticStructures\AdverbRelatedConstructs\SuperlativeAdverb.cs" />
     <Compile Include="SyntaciticAndSemanticStructures\MiscLanguageConstructs\Symbol.cs" />
-    <Compile Include="Thesuari\Thesaurus.cs" />
+    <Compile Include="Thesuari\ThesaurusBase.cs" />
     <Compile Include="SyntaciticAndSemanticStructures\VerbRelatedConstructs\ITransitiveVerbial.cs" />
     <Compile Include="SyntaciticAndSemanticStructures\NounRelatedConstructs\Noun.cs" />
     <Compile Include="SyntaciticAndSemanticStructures\NounRelatedConstructs\NounPhrase.cs" />

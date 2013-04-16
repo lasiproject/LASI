@@ -122,11 +122,11 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="words"></param>
         /// <param name="toMatch">The w to match</param>
-        /// <param name="synonymProvider">The Thesaurus instance which provides the synonyms to also match against.</param>
+        /// <param name="synonymProvider">The ThesaurusBase instance which provides the synonyms to also match against.</param>
         /// <returns>a WordList containing all words which match the argument or any of its provided synonyms.</returns>
         /// <see cref="Word"/>
-        /// <seealso cref="Thesaurus"/>
-        public static IEnumerable<Word> TextMatching(this IEnumerable<Word> words, ILexical toMatch, Thesaurus synonymProvider) {
+        /// <seealso cref="ThesaurusBase"/>
+        public static IEnumerable<Word> TextMatching(this IEnumerable<Word> words, ILexical toMatch, ThesaurusBase synonymProvider) {
             var matchTexts = synonymProvider[toMatch.Text];
             return from W in words
                    where matchTexts.Contains(W.Text)

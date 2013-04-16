@@ -141,5 +141,115 @@ namespace LASI.Algorithm
 
         #endregion
 
+
+        EntityKind IEntity.EntityKind {
+            get {
+                throw new NotImplementedException();
+            }
+        }
+
+        ITransitiveVerbial IVerbialObject.DirectObjectOf {
+            get {
+                throw new NotImplementedException();
+            }
+            set {
+                throw new NotImplementedException();
+            }
+        }
+
+        ITransitiveVerbial IVerbialObject.IndirectObjectOf {
+            get {
+                throw new NotImplementedException();
+            }
+            set {
+                throw new NotImplementedException();
+            }
+        }
+
+        ITransitiveVerbial IVerbialSubject.SubjectOf {
+            get {
+                throw new NotImplementedException();
+            }
+            set {
+                throw new NotImplementedException();
+            }
+        }
+
+        void IPronounBindable.BindPronoun(Pronoun pro) {
+            throw new NotImplementedException();
+        }
+
+        IEnumerable<Pronoun> IPronounBindable.BoundPronouns {
+            get {
+                throw new NotImplementedException();
+            }
+        }
+
+        void IDescribable.BindDescriber(IDescriber adj) {
+            throw new NotImplementedException();
+        }
+
+        IEnumerable<IDescriber> IDescribable.DescribedBy {
+            get {
+                throw new NotImplementedException();
+            }
+        }
+
+        IEnumerable<IEntity> IPossesser.Possessed {
+            get {
+                throw new NotImplementedException();
+            }
+        }
+
+        void IPossesser.AddPossession(IEntity possession) {
+            throw new NotImplementedException();
+        }
+
+        IEntity IPossessable.Possesser {
+            get {
+                throw new NotImplementedException();
+            }
+            set {
+                throw new NotImplementedException();
+            }
+        }
+
+        string ILexical.Text {
+            get {
+                throw new NotImplementedException();
+            }
+        }
+
+        Type ILexical.Type {
+            get {
+                throw new NotImplementedException();
+            }
+        }
+
+        decimal ILexical.Weight {
+            get {
+                throw new NotImplementedException();
+            }
+            set {
+                throw new NotImplementedException();
+            }
+        }
+
+        decimal ILexical.MetaWeight {
+            get {
+                throw new NotImplementedException();
+            }
+            set {
+                throw new NotImplementedException();
+            }
+        }
+
+        bool IEquatable<IEntity>.Equals(IEntity other) {
+            throw new NotImplementedException();
+        }
+
+        IEnumerator<IEntity> IEnumerable<IEntity>.GetEnumerator() {
+            throw new NotImplementedException();
+        }
     }
 }

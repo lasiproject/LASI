@@ -30,14 +30,14 @@ namespace LASI.Algorithm.Analysis
                                 };
 
             var nounSynonymGroups = from w in doc.Words.GetNouns()
-                                    let synstrings = Thesauri.ThesaurusManager.NounThesaurus[w]
+                                    let synstrings = Thesauri.Thesaurus.NounProvider[w]
                                     from t in doc.Words.GetNouns()
                                     where synstrings != null
                                     where synstrings.Contains(t.Text)
                                     group t by w;
 
             var verbsynonymgroups = from w in doc.Words.GetVerbs()
-                                    let synstrings = Thesauri.ThesaurusManager.VerbThesaurus[w]
+                                    let synstrings = Thesauri.Thesaurus.VerbProvider[w]
                                     from t in doc.Words.GetVerbs()
                                     where synstrings != null
                                     where synstrings.Contains(t.Text)

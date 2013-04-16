@@ -1,50 +1,76 @@
-﻿using LASI.Algorithm;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
+using System.Configuration;
+using LASI.Utilities;
+using System.Dynamic;
 
 namespace LASI.Algorithm.Thesauri
 {
-    public abstract class Thesaurus
+    public static class Thesaurus
     {
-        /// <summary>
-        /// Constructor accessible only to derrived classes.
-        /// Provides common initialization logic.
-        /// </summary>
-        /// <param name="filePath">The path of WordNet database file which provides the synonym line (form should be line.pos, e.g. line.verb)</param>
-        protected Thesaurus(string filePath) {
-            FilePath = filePath;
+        private static readonly string nounThesaurusFilePath = ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "data.noun";
+        private static readonly string verbThesaurusFilePath = ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "data.verb";
+        static Thesaurus() {
+            NounProvider = new NounThesaurus(nounThesaurusFilePath);
+            VerbProvider = new VerbThesaurus(verbThesaurusFilePath);
         }
-        /// <summary>
-        /// gets or sets the path of the WordNet database file which this thesaurus is built on
-        /// </summary>
-        protected string FilePath {
-            get;
-            set;
+        public static void LoadAll() {
+            var sw = Stopwatch.StartNew();
+            NounProvider.Load();
+            VerbProvider.Load();
+            //sw.Stop();
+            //Console.WriteLine("Sync thesaurus loading took {0} milliseconds", sw.ElapsedMilliseconds);
         }
-        /// <summary>
-        /// When overriden in a derrived class, this method
-        /// Loads the database file and performs additional initialization
-        /// </summary>
-        public abstract void Load();
-
-        public virtual async Task LoadAsync() {
-            await Task.Run(() => Load());
+        public static async Task LoadAllAsync() {
+            await LoadAllParallelLinqTest();
         }
 
-        public abstract IEnumerable<string> this[string search] {
-            get;
+        private static async Task LoadAllParallelLinqTest() {
+            await Task.Run(() => new ThesaurusBase[] { NounProvider, VerbProvider }.AsParallel().ForAll(t => t.Load()));
         }
 
-        public abstract IEnumerable<string> this[Word search] {
-            get;
+        private static async Task LoadAllTaskLevelParallelTest() {
+            var sw = Stopwatch.StartNew();
+            await Task.WhenAll(
+                NounProvider.LoadAsync().ContinueWith(
+                (t) => {
+                    Output.WriteLine("NounThesausus Loaded");
+                }),
+                VerbProvider.LoadAsync().ContinueWith(
+                (t) => {
+                    Output.WriteLine("VerbThesausus Loaded");
+                }));
+            sw.Stop();
+            //Console.WriteLine("Async thesaurus loading took {0} milliseconds", sw.ElapsedMilliseconds);
         }
-        /// <summary>
-        /// gets or sets all of the synsets in the Thesaurus
-        /// </summary>
-        internal IDictionary<string, SynonymSet> AssociationData {
+        public static IEnumerable<string> Lookup(Word word) {
+
+            return InternalLookup(word as dynamic);
+
+        }
+        public static IEnumerable<string> InternalLookup(Verb verb) {
+            return VerbProvider[verb];
+        }
+        public static IEnumerable<string> InternalLookup(Noun noun) {
+            return NounProvider[noun];
+        }
+
+        public static IEnumerable<string> InternalLookup(Word word) {
+            throw new LASI.Algorithm.Thesuari.NoSynonymLookupForTypeException(word) {
+            };
+        }
+        public static NounThesaurus NounProvider {
             get;
-            set;
+            private set;
+        }
+
+        public static VerbThesaurus VerbProvider {
+            get;
+            private set;
         }
     }
 }

@@ -119,6 +119,28 @@ namespace LASI.Algorithm
             get;
             private set;
         }
+
+        string ILexical.Text {
+            get {
+                throw new NotImplementedException();
+            }
+        }
+
+        Type ILexical.Type {
+            get {
+                return GetType();
+            }
+        }
+
+        decimal ILexical.Weight {
+            get;
+            set;
+        }
+
+        decimal ILexical.MetaWeight {
+            get;
+            set;
+        }
     }
 
 }

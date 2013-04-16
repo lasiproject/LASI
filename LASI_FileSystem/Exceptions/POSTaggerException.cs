@@ -10,9 +10,9 @@ namespace LASI.FileSystem
     /// Thrown when attempting to parse an unknown w Tag
     /// </summary>
     [Serializable]
-    class UnknownPOSException : POSTagException
+public     class UnknownPOSException : POSTagException
     {
-        public UnknownPOSException(string message)
+       public UnknownPOSException(string message)
             : base(message) {
         }
         public UnknownPOSException(string message, Exception inner)
@@ -27,7 +27,7 @@ namespace LASI.FileSystem
     /// Thrown when attempting to parse an unknown entity Tag
     /// </summary>
     [Serializable]
-    class UnknownPhraseTypeException : POSTagException
+    public class UnknownPhraseTypeException : POSTagException
     {
         public UnknownPhraseTypeException(string message)
             : base(message) {
@@ -45,7 +45,7 @@ namespace LASI.FileSystem
     /// Thrown when attempting to parse an unknown entity Tag
     /// </summary>
     [Serializable]
-    class EmptyPhraseTagException : POSTagException
+    public class EmptyPhraseTagException : POSTagException
     {
         public EmptyPhraseTagException(string message)
             : base(message) {
@@ -63,7 +63,7 @@ namespace LASI.FileSystem
     /// Thrown when attempting to parse an untagged w
     /// </summary>
     [Serializable]
-    class UntaggedElementException : POSTagException
+    public class UntaggedElementException : POSTagException
     {
         public UntaggedElementException(string message)
             : base(message) {
@@ -81,7 +81,7 @@ namespace LASI.FileSystem
     /// <seealso cref="SharpNLPWordTagsetMap"/>
     /// </summary>
     [Serializable]
-    class UnmappedWordConstructorException : POSTagException
+    public class UnmappedWordConstructorException : POSTagException
     {
         public UnmappedWordConstructorException(string message)
             : base(message) {
@@ -97,7 +97,7 @@ namespace LASI.FileSystem
     /// Thrown when attempting to parse an empty Tag
     /// </summary>
     [Serializable]
-    class EmptyTagException : POSTagException
+    public class EmptyTagException : POSTagException
     {
         public EmptyTagException(string message)
             : base(message) {
@@ -113,7 +113,7 @@ namespace LASI.FileSystem
     /// Throw when attempting to parse an unknown clause tag.
     /// </summary>
     [Serializable]
-    class UnknownClauseTypeException : POSTagException
+    public class UnknownClauseTypeException : POSTagException
     {
         public UnknownClauseTypeException(string message)
             : base(message) {
@@ -129,7 +129,7 @@ namespace LASI.FileSystem
     /// Thrown when attempting to parse an improperly delimited entity
     /// </summary>
     [Serializable]
-    class UndelimitedPhraseException : POSTagException
+    public class UndelimitedPhraseException : POSTagException
     {
 
         public UndelimitedPhraseException(string message)
@@ -148,16 +148,16 @@ namespace LASI.FileSystem
     /// If one encounters an exception not suited for one of its derrived types, a new exception class should be derrived from it
     /// </summary>
     [Serializable]
-    abstract class POSTagException : Exception
+    public abstract class POSTagException : Exception
     {
 
-        public POSTagException(string message)
+        protected POSTagException(string message)
             : base(message) {
         }
-        public POSTagException(string message, Exception inner)
+        protected POSTagException(string message, Exception inner)
             : base(message, inner) {
         }
-        public POSTagException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
+        protected POSTagException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
             : base(info, context) {
 
         }
@@ -165,7 +165,7 @@ namespace LASI.FileSystem
 
     }
     [Serializable]
-    class UnmappedPhraseConstructorException : POSTagException
+    public class UnmappedPhraseConstructorException : POSTagException
     {
         public UnmappedPhraseConstructorException(string message)
             : base(message) {

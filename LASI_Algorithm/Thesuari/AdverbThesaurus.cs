@@ -8,7 +8,7 @@ using System.Text.RegularExpressions;
 
 namespace LASI.Algorithm.Thesauri
 {
-    public class AdverbThesaurus : Thesaurus
+    public class AdverbThesaurus : ThesaurusBase
     {
 
          /// <summary>
