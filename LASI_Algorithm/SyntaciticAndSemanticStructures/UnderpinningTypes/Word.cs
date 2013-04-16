@@ -24,6 +24,9 @@ namespace LASI.Algorithm
             Text = text;
             Weight = 1;
             MetaWeight = 1;
+            FrequencyCurrent = 0;
+            FrequencyAcross = 0;
+            Synonyms = 0;
         }
 
 
@@ -73,6 +76,33 @@ namespace LASI.Algorithm
         public int ID {
             get;
             private set;
+        }
+
+        /// <summary>
+        /// Gets the frequency of the word in the current document.
+        /// </summary>
+        public int FrequencyCurrent
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// Gets the normalized frequency of word across all documents.
+        /// </summary>
+        public int FrequencyAcross
+        {
+            get;
+            set;
+        }
+        
+        /// <summary>
+        /// Gets the normalized frequency of word across all documents.
+        /// </summary>
+        public int Synonyms
+        {
+            get;
+            set;
         }
 
         /// <summary>
