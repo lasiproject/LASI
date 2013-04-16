@@ -34,6 +34,13 @@ namespace LASI.Algorithm
                 new SentencePunctuation('.') :
                 sentencePunctuation;
         }
+
+        public IEnumerable<Phrase> GetPhrasesAfter(Phrase phrase) {
+            return Phrases.SkipWhile(r => r != phrase).Skip(1);
+        }
+
+
+
         /// <summary>
         /// Gets the ending punctuation character of the sentence.
         /// </summary>
