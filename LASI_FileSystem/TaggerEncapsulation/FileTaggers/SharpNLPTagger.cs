@@ -39,17 +39,16 @@ namespace SharpNLPTaggingModule
             OutputFilePath = destinationPath != null ? destinationPath :
                 new FileInfo(sourcePath).DirectoryName + @"\" + new FileInfo(sourcePath.Substring(0, sourcePath.LastIndexOf('.'))).Name + @".tagged";
 
-            SourceTextParagraphs = PreProcessText(LoadSourceText());
+            SourceText = PreProcessText(LoadSourceText());
 
         }
 
-        protected IEnumerable<string> PreProcessText(string p) {
+        protected string PreProcessText(string p) {
             foreach (var rr in textToNumeralMap) {
                 p = p.Replace(rr.Key, rr.Value);
-            }
-            return from para in p.Split(new[] { "<paragraph>", "</paragraph>" }, StringSplitOptions.RemoveEmptyEntries)
-                   select para.Trim();
 
+            }
+            return p;
         }
         public virtual LASI.FileSystem.FileTypes.TaggedFile ProcessFile() {
             WriteToFile(ParseViaTaggingMode());
@@ -94,7 +93,7 @@ namespace SharpNLPTaggingModule
             }
         }
         protected string SplitIntoSentences() {
-            string[] sentences = SplitSentences(SourceTextParagraphs);
+            string[] sentences = SplitSentences(SourceText);
 
             var result = String.Join("\r\n\r\n", sentences);
             return result;
@@ -111,7 +110,7 @@ namespace SharpNLPTaggingModule
         protected string Tokenize() {
             StringBuilder output = new StringBuilder();
 
-            string[] sentences = SplitSentences(SourceTextParagraphs);
+            string[] sentences = SplitSentences(SourceText);
 
             foreach (string sentence in sentences) {
                 string[] tokens = TokenizeSentence(sentence);
@@ -126,7 +125,7 @@ namespace SharpNLPTaggingModule
         protected string POSTag() {
             StringBuilder output = new StringBuilder();
 
-            string[] sentences = SplitSentences(SourceTextParagraphs);
+            string[] sentences = SplitSentences(SourceText);
 
             foreach (string sentence in sentences) {
                 string[] tokens = TokenizeSentence(sentence);
@@ -145,7 +144,7 @@ namespace SharpNLPTaggingModule
 
             StringBuilder output = new StringBuilder();
 
-            string[] sentences = SplitSentences(SourceTextParagraphs);
+            string[] sentences = SplitSentences(SourceText);
 
             foreach (string sentence in sentences) {
                 string[] tokens = TokenizeSentence(sentence);
@@ -161,7 +160,7 @@ namespace SharpNLPTaggingModule
             var sentenceID = 0;
             StringBuilder output = new StringBuilder();
 
-            string[] sentences = SplitSentences(SourceTextParagraphs);
+            string[] sentences = SplitSentences(SourceText);
 
             foreach (string sentence in sentences) {
 
@@ -174,8 +173,8 @@ namespace SharpNLPTaggingModule
 
         protected string NameFind() {
             StringBuilder output = new StringBuilder();
-             foreach (var para in SourceTextParagraphs){
-            string[] sentences = SplitSentences(para);
+
+            string[] sentences = SplitSentences(SourceText);
 
             foreach (string sentence in sentences) {
                 output.Append(FindNames(sentence)).Append("\r\n");
@@ -260,63 +259,56 @@ namespace SharpNLPTaggingModule
 
         protected string Gender() {
             StringBuilder output = new StringBuilder();
-            foreach (var para in SourceTextParagraphs) {
-                string[] sentences = SplitSentences(para);
 
-                foreach (string sentence in sentences) {
-                    string[] tokens = TokenizeSentence(sentence);
-                    string[] tags = PosTagTokens(tokens);
+            string[] sentences = SplitSentences(SourceText);
 
-                    string posTaggedSentence = string.Empty;
+            foreach (string sentence in sentences) {
+                string[] tokens = TokenizeSentence(sentence);
+                string[] tags = PosTagTokens(tokens);
 
-                    for (int currentTag = 0; currentTag < tags.Length; currentTag++) {
-                        posTaggedSentence += tokens[currentTag] + @"/" + tags[currentTag] + " ";
-                    }
+                string posTaggedSentence = string.Empty;
 
-                    output.Append(posTaggedSentence);
-                    output.Append("\r\n");
-                    output.Append(OpenNLP.Tools.Coreference.Similarity.GenderModel.GenderMain(mModelPath + "coref\\gen", posTaggedSentence));
-                    output.Append("\r\n\r\n");
+                for (int currentTag = 0; currentTag < tags.Length; currentTag++) {
+                    posTaggedSentence += tokens[currentTag] + @"/" + tags[currentTag] + " ";
                 }
-                output.Insert(0, "<paragraph>");
-                output.Append("</paragraph>");
+
+                output.Append(posTaggedSentence);
+                output.Append("\r\n");
+                output.Append(OpenNLP.Tools.Coreference.Similarity.GenderModel.GenderMain(mModelPath + "coref\\gen", posTaggedSentence));
+                output.Append("\r\n\r\n");
             }
 
-            return output.ToString();
+            var result = output.ToString();
+            return result;
         }
 
         protected string Similarity() {
             StringBuilder output = new StringBuilder();
 
-            foreach (var para in SourceTextParagraphs) {
+            string[] sentences = SplitSentences(SourceText);
 
-                string[] sentences = SplitSentences(para).ToArray();
+            foreach (string sentence in sentences) {
+                string[] tokens = TokenizeSentence(sentence);
+                string[] tags = PosTagTokens(tokens);
 
-                foreach (string sentence in sentences) {
-                    string[] tokens = TokenizeSentence(sentence);
-                    string[] tags = PosTagTokens(tokens);
+                string posTaggedSentence = string.Empty;
 
-                    string posTaggedSentence = string.Empty;
-
-                    for (int currentTag = 0; currentTag < tags.Length; currentTag++) {
-                        posTaggedSentence += tokens[currentTag] + @"/" + tags[currentTag] + " ";
-                    }
-
-                    output.Append(posTaggedSentence);
-                    output.Append("\r\n");
-                    output.Append(OpenNLP.Tools.Coreference.Similarity.SimilarityModel.SimilarityMain(mModelPath + "coref\\sim", posTaggedSentence));
-                    output.Append("\r\n\r\n");
+                for (int currentTag = 0; currentTag < tags.Length; currentTag++) {
+                    posTaggedSentence += tokens[currentTag] + @"/" + tags[currentTag] + " ";
                 }
-                output.Insert(0, "<paragraph>");
-                output.Append("</paragraph>");
+
+                output.Append(posTaggedSentence);
+                output.Append("\r\n");
+                output.Append(OpenNLP.Tools.Coreference.Similarity.SimilarityModel.SimilarityMain(mModelPath + "coref\\sim", posTaggedSentence));
+                output.Append("\r\n\r\n");
             }
 
-            return output.ToString();
-
+            var result = output.ToString();
+            return result;
         }
 
         //private string Coreference() {
-        //    string[] sentences = SplitSentences(SourceTextParagraphs);
+        //    string[] sentences = SplitSentences(SourceText);
 
         //    var result = IdentifyCoreferents(sentences);
         //    return result;
@@ -334,7 +326,7 @@ namespace SharpNLPTaggingModule
             private set;
         }
 
-        public string[] SourceTextParagraphs {
+        public string SourceText {
             get;
             protected set;
         }

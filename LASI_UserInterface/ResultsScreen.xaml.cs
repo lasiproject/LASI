@@ -37,10 +37,20 @@ namespace LASI.UserInterface
 
 
         public void BuildAssociationTextView() {
-            var doc = new TaggedFileParser(FileManager.TaggedFiles.First()).LoadDocument();
-            TestWordAndPhraseBindings(doc);
-            LASI.Algorithm.Analysis.Weighter.weight(doc);
-            foreach (var phrase in doc.Phrases) {
+
+
+
+            TestDocument1 = new TaggedFileParser(FileManager.TaggedFiles.First()).LoadDocument();
+
+
+            TestWordAndPhraseBindings(TestDocument1);
+
+
+            LASI.Algorithm.Analysis.Weighter.weight(TestDocument1);
+
+
+
+            foreach (var phrase in TestDocument1.Phrases) {
                 var phraseLabel = new Label {
                     Content = phrase.Text,
                     Tag = phrase,
@@ -71,6 +81,21 @@ namespace LASI.UserInterface
                     };
                     visitSubjectMI.Click += (sender, e) => {
                         var objlabels = from r in vP.DirectObjects
+                                        join l in phraseLabels on r equals l.Tag
+                                        select l;
+                        foreach (var l in objlabels) {
+                            l.Foreground = Brushes.Black;
+                            l.Background = Brushes.Red;
+                        }
+                    };
+                    phraseLabel.ContextMenu.Items.Add(visitSubjectMI);
+                }
+                if (vP != null && vP.IndirectObjects.Count() > 0) {
+                    var visitSubjectMI = new MenuItem {
+                        Header = "view indirect objects"
+                    };
+                    visitSubjectMI.Click += (sender, e) => {
+                        var objlabels = from r in vP.IndirectObjects
                                         join l in phraseLabels on r equals l.Tag
                                         select l;
                         foreach (var l in objlabels) {
@@ -111,15 +136,12 @@ namespace LASI.UserInterface
                 var objectBinder = new ObjectBinder();
                 try {
                     subjectBinder.Bind(s);
-                }
-                catch (NullReferenceException) {
+                } catch (NullReferenceException) {
                 }
                 try {
                     objectBinder.Bind(s);
-                }
-                catch (InvalidStateTransitionException) {
-                }
-                catch (VerblessPhrasalSequenceException) {
+                } catch (InvalidStateTransitionException) {
+                } catch (VerblessPhrasalSequenceException) {
                 }
             }
 
@@ -142,18 +164,21 @@ namespace LASI.UserInterface
             }
         }
 
-
+        Document TestDocument1 {
+            get;
+            set;
+        }
         public void BuildFullSortedView() {
 
 
-            var doc = new TaggedFileParser(FileManager.TaggedFiles.First()).LoadDocument();
+            TestDocument1 = new TaggedFileParser(FileManager.TaggedFiles.First()).LoadDocument();
 
 
-            LASI.Algorithm.Analysis.Weighter.weight(doc);
+            LASI.Algorithm.Analysis.Weighter.weight(TestDocument1);
 
 
-            var words = doc.Words.GetNouns().Concat<Word>(doc.Words.GetAdverbs()).
-                 Concat<Word>(doc.Words.GetAdjectives()).Concat<Word>(doc.Words.GetVerbs()).
+            var words = TestDocument1.Words.GetNouns().Concat<Word>(TestDocument1.Words.GetAdverbs()).
+                 Concat<Word>(TestDocument1.Words.GetAdjectives()).Concat<Word>(TestDocument1.Words.GetVerbs()).
                  GroupBy(w => new {
                      w.Text,
                      w.Type
@@ -178,7 +203,7 @@ namespace LASI.UserInterface
             ValueList.AddRange(
                 (from w in words
                  orderby w.Weight descending
-                 select new KeyValuePair<string, int>(w.Text, (int)w.Weight)).Take(15).ToList());
+                 select new KeyValuePair<string, int>(w.Text, (int) w.Weight)).Take(15).ToList());
             ValueList.Reverse();
             lineChart.DataContext = ValueList;
 
@@ -221,8 +246,7 @@ namespace LASI.UserInterface
                         wordLabel.Foreground = Brushes.Black;
                         wordLabel.Background = Brushes.Red;
 
-                    }
-                    else {
+                    } else {
                         l.Background = Brushes.White;
                         l.Foreground = Brushes.Black;
                         wordLabel.Foreground = Brushes.Black;
