@@ -1,4 +1,7 @@
-﻿<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:chartingToolkit="clr-namespace:System.Windows.Controls.DataVisualization.Charting;assembly=System.Windows.Controls.DataVisualization.Toolkit" x:Class="LASI.UserInterface.ResultsScreen"
+﻿<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+        xmlns:chartingToolkit="clr-namespace:System.Windows.Controls.DataVisualization.Charting;assembly=System.Windows.Controls.DataVisualization.Toolkit"
+        x:Name="window"
+        x:Class="LASI.UserInterface.ResultsScreen"
         Title="Results - L.A.S.I." Height="525" Width="800" ResizeMode="CanMinimize" Icon="LasiLogo.ico">
     <Grid>
         <TextBlock HorizontalAlignment="Left" Height="24" Margin="44,54,0,0" TextWrapping="Wrap" Text="Toolbar" VerticalAlignment="Top" Width="57" FontSize="14"/>
@@ -25,7 +28,7 @@
             <MenuItem Header="Help"/>
             <Separator Width="362" Opacity="0"/>
             <TextBox x:Name="SearchTextBox" FontSize="10" Height="20" TextWrapping="Wrap" Width="154" UndoLimit="200" AllowDrop="False" SelectionOpacity="0" Padding="1,1,1,2"/>
-            <Button x:Name="SearchButton" Content="Search" VerticalAlignment="Top"  />
+            <Button x:Name="SearchButton" Content="Search" VerticalAlignment="Top"  Click="SearchButton_Click_1" />
         </Menu>
         <Canvas Margin="0,52,0,0" Height="411" VerticalAlignment="Top">
             <TabControl x:Name="ResultsTabControl" HorizontalAlignment="Right" Width="636" Height="412" Canvas.Left="148" ScrollViewer.HorizontalScrollBarVisibility="Auto" 
@@ -94,10 +97,26 @@
                     </Grid>
                 </TabItem>
                 <TabItem x:Name="TestView" Header="TestView" Padding="6,1" Margin="2,0,-8,-3" >
-                    <StackPanel  Name="TestView1"                   >
-                    </StackPanel>
+
+                    <Grid>
+                        <ScrollViewer>
+                            <StackPanel  Name="TopWeightedView">
+                            </StackPanel>
+                        </ScrollViewer>
+                    </Grid>
 
                 </TabItem>
+                <TabItem  Header="TestChart" Margin="11,0,-11,-3"/>
+                <Grid>
+
+                    <chartingToolkit:Chart Name="TestChart" Title="Word Count"  >
+                        <chartingToolkit:Chart.Axes>
+                            <chartingToolkit:LinearAxis Orientation="Y" ></chartingToolkit:LinearAxis>
+                        </chartingToolkit:Chart.Axes>
+
+                    </chartingToolkit:Chart>
+                </Grid>
+
 
 
             </TabControl>

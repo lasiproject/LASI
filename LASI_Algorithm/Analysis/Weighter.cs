@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LASI.Algorithm.FundamentalSyntacticInterfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,9 +15,9 @@ namespace LASI.Algorithm.Analysis
         /// <param name="doc"></param>
         static public void weight(Document doc) {
             var wordsByCount = from w in doc.Words
-                               where !(w is Preposition)
+                               where !(w is IPrepositional)
                                where !(w is Determiner)
-                               where !(w is Conjunction)
+                               where !(w is IConjunctive)
                                group w by new {
                                    w.Type,
                                    w.Text

@@ -86,6 +86,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="CountedWordList.cs" />
     <Compile Include="Dialogs\DialogToProcedeToResults.xaml.cs">
       <DependentUpon>DialogToProcedeToResults.xaml</DependentUpon>
     </Compile>

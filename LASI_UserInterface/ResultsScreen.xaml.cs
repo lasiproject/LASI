@@ -16,6 +16,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Windows.Controls.DataVisualization.Charting;
+using System.Collections.ObjectModel;
 
 
 namespace LASI.UserInterface
@@ -33,88 +34,73 @@ namespace LASI.UserInterface
         }
 
 
-        private void DrawBasicDataVisualizations(IEnumerable<ILexical> topResults) {
-
-
-
-
-            var dataPoints = from r in topResults
-                             group r by new {
-                                 Text = r.Text,
-                                 Type = r.GetType()
-                             } into g
-                             orderby g.Count()
-                             select new BarDataPoint {
-                                 ActualIndependentValue = g.Key.Text,
-                                 ActualDependentValue = g.Count()
-                             };
-
-
-            tornadoChartData = dataPoints;
-            //  TornadoChartTopPhrases.ItemsSource = tornadoChartData;
-        }
-
-
 
         public void BuildAssociatedView() {
 
-
-
             var doc = new TaggedFileParser(FileManager.TaggedFiles.First()).LoadDocument();
             LASI.Algorithm.Analysis.Weighter.weight(doc);
-
-
-
-            foreach (var word in doc.Words) {
-                var wordLabel = new Label {
-                    Tag = word,
-                    Content = String.Format("Count : {0}  \"{1}\"", word.Weight, word.Text),
-                    Foreground = Brushes.Black,
-                    Padding = new Thickness(1, 1, 1, 1),
-                    ContextMenu = new ContextMenu()
-                };
+            foreach (var word in doc.Words.GetNouns().Concat<Word>(doc.Words.GetAdverbs()).Concat<Word>(doc.Words.GetAdjectives()).Concat<Word>(doc.Words.GetVerbs()).GroupBy(w => new {
+                w.Text,
+                w.Type
+            }).Select(g => g.First())) {
+                var wordLabel = MakeWordLabel(word);
                 var menuItem1 = new MenuItem {
                     Header = "view definition",
                 };
-
                 menuItem1.Click += (sender, e) => {
                     Process.Start(String.Format("http://www.dictionary.reference.com/browse/{0}?s=t", word.Text));
                 };
-
                 wordLabel.ContextMenu.Items.Add(menuItem1);
-
-
-
-
-                //wordLabel.MouseDown += (sender, e) => {
-                //    var intraPhraseLabels = from w in (wordLabel.Tag as Word).ParentPhrase.Words
-                //                            join l in wordLabels on w.ID equals (l.Tag as Word).ID
-                //                            select l;
-                //    foreach (var l in intraPhraseLabels) {
-                //        if (l.Background != Brushes.Green && wordLabel.Foreground != Brushes.Red) {
-                //            l.Foreground = Brushes.White;
-                //            l.Background = Brushes.Green;
-                //            wordLabel.Foreground = Brushes.Black;
-                //            wordLabel.Background = Brushes.Red;
-
-                //        }
-                //        else {
-                //            l.Background = Brushes.White;
-                //            l.Foreground = Brushes.Black;
-                //            wordLabel.Foreground = Brushes.Black;
-                //            wordLabel.Background = Brushes.White;
-                //        }
-                //    }
-
-                //};
+                //BuildUniqueClickAction(wordLabel);
                 wordLabels.Add(wordLabel);
-                TestView1.Children.Add(wordLabel);
+
+
             }
-            //DrawBasicDataVisualizations(FocusedDocument.Phrases);
+            foreach (var l in from w in wordLabels
+                              orderby (w.Tag as Word).Weight descending
+                              select w) {
+                TopWeightedView.Children.Add(l);
+            }
 
 
 
 
+        }
+
+        private static Label MakeWordLabel(Word word) {
+            var wordLabel = new Label {
+                Tag = word,
+                Content = String.Format("Weight : {0}  \"{1}\"", word.Weight, word.Text),
+                Foreground = Brushes.Black,
+                Padding = new Thickness(1, 1, 1, 1),
+                ContextMenu = new ContextMenu(),
+                ToolTip = word.Type.Name,
+            };
+            return wordLabel;
+        }
+
+        private void BuildUniqueClickAction(Label wordLabel) {
+            wordLabel.MouseDown += (sender, e) => {
+                var intraPhraseLabels = from w in (wordLabel.Tag as Word).ParentPhrase.Words
+                                        join l in wordLabels on w.ID equals (l.Tag as Word).ID
+                                        select l;
+                foreach (var l in intraPhraseLabels) {
+                    if (l.Background != Brushes.Green && wordLabel.Foreground != Brushes.Red) {
+                        l.Foreground = Brushes.White;
+                        l.Background = Brushes.Green;
+                        wordLabel.Foreground = Brushes.Black;
+                        wordLabel.Background = Brushes.Red;
+
+                    }
+                    else {
+                        l.Background = Brushes.White;
+                        l.Foreground = Brushes.Black;
+                        wordLabel.Foreground = Brushes.Black;
+                        wordLabel.Background = Brushes.White;
+                    }
+                }
+
+            };
         }
 
         private List<Label> wordLabels = new List<Label>();
@@ -134,40 +120,16 @@ namespace LASI.UserInterface
 
 
 
-        //private void SearchButton_Click_1(object sender, RoutedEventArgs e) {
-        //    var searchText = SearchTextBox.Text;
-        //    foreach (Label label in testViewWrap.Children) {
-        //        if (String.Compare(label.Content.ToString(),
-        //            searchText,
-        //            StringComparison.OrdinalIgnoreCase) == 0)
-        //            label.Foreground = Brushes.Red;
-        //        else
-        //            label.Foreground = Brushes.Black;
-        //    }
-        //}
-
-
-
-        Document focusedDocument;
-
-        public Document FocusedDocument {
-            get {
-                return focusedDocument;
-            }
-            set {
-                focusedDocument = value;
+        private void SearchButton_Click_1(object sender, RoutedEventArgs e) {
+            var searchText = SearchTextBox.Text;
+            foreach (Label label in wordLabels) {
+                if ((label.Tag as ILexical).Text.ToLower() == searchText.ToLower())
+                    label.Foreground = Brushes.Red;
+                else
+                    label.Foreground = Brushes.Black;
             }
         }
-        IEnumerable<BarDataPoint> tornadoChartData = new List<BarDataPoint>();
 
-        public IEnumerable<BarDataPoint> TornadoChartData {
-            get {
-                return tornadoChartData;
-            }
-            set {
-                tornadoChartData = value;
-            }
-        }
 
 
 
