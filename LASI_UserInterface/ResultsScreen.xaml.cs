@@ -36,19 +36,9 @@ namespace LASI.UserInterface
 
 
         public void BuildAssociationTextView() {
-
-
-
-            TestDocument1 = new TaggedFileParser(FileManager.TaggedFiles.First()).LoadDocument();
-
-
+            var TestDocument1 = new TaggedFileParser(FileManager.TaggedFiles.First()).LoadDocument();
             TestWordAndPhraseBindings(TestDocument1);
-
-
             LASI.Algorithm.Analysis.Weighter.weight(TestDocument1);
-
-
-
             foreach (var phrase in TestDocument1.Phrases) {
                 var phraseLabel = new Label {
                     Content = phrase.Text,
@@ -56,7 +46,7 @@ namespace LASI.UserInterface
                     Foreground = Brushes.Black,
                     Padding = new Thickness(1, 1, 1, 1),
                     ContextMenu = new ContextMenu(),
-                    ToolTip = phrase.GetType().Name,
+                    ToolTip = phrase.Type.Name,
                 };
                 var vP = phrase as VerbPhrase;
                 if (vP != null && vP.BoundSubjects.Count() > 0) {
@@ -111,26 +101,18 @@ namespace LASI.UserInterface
             }
         }
         private static void TestWordAndPhraseBindings(Document doc) {
-
             PerformIntraPhraseBinding(doc);
             PerformAttributeNounPhraseBinding(doc);
             PerformSVOBinding(doc);
-
-
-
-
-
-
         }
-
 
         private static void PerformAttributeNounPhraseBinding(Document doc) {
-            foreach (var s in doc.Sentences) {
+            doc.Sentences.AsParallel().ForAll(s => {
                 var attributiveBinder = new AttributiveNounPhraseBinder(s);
-            }
+            });
         }
         private static void PerformSVOBinding(Document doc) {
-            foreach (var s in doc.Sentences) {
+            doc.Sentences.AsParallel().ForAll(s => {
                 var subjectBinder = new SubjectBinder();
                 var objectBinder = new ObjectBinder();
                 try {
@@ -142,14 +124,18 @@ namespace LASI.UserInterface
                 } catch (InvalidStateTransitionException) {
                 } catch (VerblessPhrasalSequenceException) {
                 }
-            }
+            });
 
 
 
         }
 
         private static void PerformIntraPhraseBinding(Document doc) {
-            foreach (var r in doc.Phrases) {
+
+
+            var phrases = from r in doc.Phrases.AsParallel()
+                          select r;
+            phrases.ForAll(r => {
                 var wordBinder = new InterPhraseWordBinding();
                 new LASI.Utilities.TypedSwitch.Switch(r)
                 .Case<NounPhrase>(np => {
@@ -160,24 +146,14 @@ namespace LASI.UserInterface
                 })
                 .Default(a => {
                 });
-            }
+            });
         }
 
-        Document TestDocument1 {
-            get;
-            set;
-        }
         public void BuildFullSortedView() {
-
             foreach (var doc in from doc in FileManager.TaggedFiles.AsParallel()
                                 select new TaggedFileParser(doc).LoadDocument()) {
-
-
                 var wordLabels = new List<Label>();
-
                 LASI.Algorithm.Analysis.Weighter.weight(doc);
-
-
                 var words = doc.Words.GetNouns().Concat<Word>(doc.Words.GetAdverbs()).
                      Concat<Word>(doc.Words.GetAdjectives()).Concat<Word>(doc.Words.GetVerbs()).
                      GroupBy(w => new {
@@ -194,7 +170,7 @@ namespace LASI.UserInterface
                         Process.Start(String.Format("http://www.dictionary.reference.com/browse/{0}?s=t", word.Text));
                     };
                     wordLabel.ContextMenu.Items.Add(menuItem1);
-                    //BuildUniqueClickAction(wordLabel);
+
                     wordLabels.Add(wordLabel);
 
 

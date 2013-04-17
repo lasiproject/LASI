@@ -29,16 +29,16 @@ namespace LASI.Algorithm.Analysis
                                     p.Text
                                 };
 
-            var nounSynonymGroups = from w in doc.Words.GetNouns()
+            var nounSynonymGroups = from w in doc.Words.GetNouns().AsParallel()
                                     let synstrings = Thesauri.Thesaurus.NounProvider[w]
-                                    from t in doc.Words.GetNouns()
+                                    from t in doc.Words.GetNouns().AsParallel()
                                     where synstrings != null
                                     where synstrings.Contains(t.Text)
                                     group t by w;
 
-            var verbsynonymgroups = from w in doc.Words.GetVerbs()
+            var verbsynonymgroups = from w in doc.Words.GetVerbs().AsParallel()
                                     let synstrings = Thesauri.Thesaurus.VerbProvider[w]
-                                    from t in doc.Words.GetVerbs()
+                                    from t in doc.Words.GetVerbs().AsParallel()
                                     where synstrings != null
                                     where synstrings.Contains(t.Text)
                                     group t by w;

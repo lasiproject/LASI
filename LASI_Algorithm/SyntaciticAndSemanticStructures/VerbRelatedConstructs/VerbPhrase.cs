@@ -111,8 +111,7 @@ namespace LASI.Algorithm
 
                 }
                 return result;
-            }
-            else
+            } else
                 return base.ToString();
         }
 
