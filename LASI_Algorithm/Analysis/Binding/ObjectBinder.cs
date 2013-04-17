@@ -186,13 +186,13 @@ namespace LASI.Algorithm.Binding
                 }
                 Universal(phrase);
 
-                Machine.St2.Transition(Stream.PopDynamic());
+                try{Machine.St2.Transition(Stream.PopDynamic());}catch(Exception){}
             }
             public virtual void Transition(AdjectivePhrase phrase) {
                 Machine.lastAdjectivals.Add(phrase);
                 Universal(phrase);
                 if (Machine.inputstream.Count > 0) {
-                    Machine.St1.Transition(Stream.PopDynamic());
+                    try{Machine.St1.Transition(Stream.PopDynamic());}catch(Exception){}
                 }
             }
         }
@@ -217,7 +217,7 @@ namespace LASI.Algorithm.Binding
                 }
                 Universal(phrase);
 
-                Machine.St2.Transition(Stream.PopDynamic());
+                try{Machine.St2.Transition(Stream.PopDynamic());}catch(Exception){}
             }
             public void Transition(ConjunctionPhrase phrase) {
                 Machine.lastConjunctive = phrase;
@@ -261,13 +261,13 @@ namespace LASI.Algorithm.Binding
                 }
                 Universal(phrase);
 
-                Machine.St4.Transition(Stream.PopDynamic());
+                try{try{Machine.St4.Transition(Stream.PopDynamic());}catch(Exception){}}catch(Exception){}
             }
             public void Transition(AdjectivePhrase phrase) {
                 Machine.AssociateIndirect();
                 Universal(phrase);
 
-                Machine.St4.Transition(Stream.PopDynamic());
+                try{try{Machine.St4.Transition(Stream.PopDynamic());}catch(Exception){}}catch(Exception){}
             }
 
             public void Transition(PrepositionalPhrase phrase) {
@@ -345,7 +345,7 @@ namespace LASI.Algorithm.Binding
                 }
                 Universal(phrase);
 
-                Machine.St2.Transition(Stream.PopDynamic());
+                try{Machine.St2.Transition(Stream.PopDynamic());}catch(Exception){}
             }
             public void Transition(AdjectivePhrase phrase) {
                 Machine.lastAdjectivals.Add(phrase);
@@ -359,7 +359,7 @@ namespace LASI.Algorithm.Binding
                 }
                 Universal(phrase);
 
-                Machine.St5.Transition(Stream.PopDynamic());
+                try{Machine.St5.Transition(Stream.PopDynamic());}catch(Exception){}
             }
         }
         class State5 : State
@@ -383,7 +383,7 @@ namespace LASI.Algorithm.Binding
                 }
                 Universal(phrase);
 
-                Machine.St2.Transition(Stream.PopDynamic());
+                try{Machine.St2.Transition(Stream.PopDynamic());}catch(Exception){}
             }
             public void Transition(ConjunctionPhrase phrase) {
                 phrase.OnLeft = Machine.lastAdjectivals.Last();
@@ -398,7 +398,7 @@ namespace LASI.Algorithm.Binding
                 }
                 Universal(phrase);
 
-                Machine.St6.Transition(Stream.PopDynamic());
+                try{Machine.St6.Transition(Stream.PopDynamic());}catch(Exception){}
             }
 
         }
@@ -423,7 +423,7 @@ namespace LASI.Algorithm.Binding
                 }
                 Universal(phrase);
 
-                Machine.St5.Transition(Stream.PopDynamic());
+                try{Machine.St5.Transition(Stream.PopDynamic());}catch(Exception){}
             }
             public void Transition(NounPhrase phrase) {
                 Machine.entities.Push(phrase);
@@ -439,8 +439,8 @@ namespace LASI.Algorithm.Binding
                     return;
                 }
                 Universal(phrase);
-
-                Machine.St2.Transition(Stream.PopDynamic());
+                
+                try{Machine.St2.Transition(Stream.PopDynamic());}catch(Exception){}
             }
 
 

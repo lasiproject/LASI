@@ -19,7 +19,7 @@ namespace LASI.Algorithm.Thesauri
             VerbProvider = new VerbThesaurus(verbThesaurusFilePath);
         }
         public static void LoadAll() {
-            var sw = Stopwatch.StartNew();
+            // var sw = Stopwatch.StartNew();
             NounProvider.Load();
             VerbProvider.Load();
             //sw.Stop();
@@ -34,7 +34,7 @@ namespace LASI.Algorithm.Thesauri
         }
 
         private static async Task LoadAllTaskLevelParallelTest() {
-            var sw = Stopwatch.StartNew();
+            //var sw = Stopwatch.StartNew();
             await Task.WhenAll(
                 NounProvider.LoadAsync().ContinueWith(
                 (t) => {
@@ -44,7 +44,7 @@ namespace LASI.Algorithm.Thesauri
                 (t) => {
                     Output.WriteLine("VerbThesausus Loaded");
                 }));
-            sw.Stop();
+            //sw.Stop();
             //Console.WriteLine("Async thesaurus loading took {0} milliseconds", sw.ElapsedMilliseconds);
         }
         public static IEnumerable<string> Lookup(Word word) {

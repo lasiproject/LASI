@@ -19,12 +19,14 @@ namespace LASI.Algorithm.Thesauri
             using (var reader = new StreamReader(filePath)) {
                 while (!reader.EndOfStream) {
                     var keyVal = ProcessLine(reader.ReadLine());
-                    try {
+                    //try {
+                    if (!exceptionData.ContainsKey(keyVal.Key)) {
                         exceptionData.Add(keyVal.Key, keyVal.Value);
-                    } catch (ArgumentException ex) {
-                        Debug.WriteLine(string.Format("Verb: {0} already present\n{1}", keyVal.Key, ex.Message));
-                        exceptionData[keyVal.Key].AddRange(keyVal.Value);
                     }
+                    //} catch (ArgumentException ex) {
+                    //    Debug.WriteLine(string.Format("Verb: {0} already present\n{1}", keyVal.Key, ex.Message));
+                    //    exceptionData[keyVal.Key].AddRange(keyVal.Value);
+                    //}
                 }
             }
         }

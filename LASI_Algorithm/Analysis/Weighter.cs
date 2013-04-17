@@ -43,7 +43,7 @@ namespace LASI.Algorithm.Analysis
                                     where synstrings.Contains(t.Text)
                                     group t by w;
 
-            var phraseWeightPairs = from p in doc.Phrases.AsParallel()
+            var phraseWeightPairs = from p in doc.Phrases
                                     let weight = p.Words.Average(w => w.Weight)
                                     select new {
                                         p,

@@ -101,11 +101,11 @@ namespace LASI.Algorithm.Thesauri
                         } catch (KeyNotFoundException) {
                         }
                     }
-                    try {
-                        return cachedData[root];
-                    } catch (KeyNotFoundException ex) {
-                        Debug.WriteLine("No entry present in VerbThesaurus for {0}\n{1}", root, ex.Message);
-                    }
+                    //try {
+                        return cachedData.ContainsKey(root) ? cachedData[root] : null;
+                    //} catch (KeyNotFoundException ex) {
+                    //    //  Debug.WriteLine("No entry present in VerbThesaurus for {0}\n{1}", root, ex.Message);
+                    //}
                 }
                 return null;
             }

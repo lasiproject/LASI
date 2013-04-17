@@ -86,7 +86,7 @@ namespace LASI.UserInterface
             this.Hide();
             await FileManager.TagTextFilesAsync();
             await WindowManager.InProgressScreen.InitProgressBar();
-
+            await Task.Run(async () => await LASI.Algorithm.Thesauri.Thesaurus.LoadAllAsync());
 
 
         }

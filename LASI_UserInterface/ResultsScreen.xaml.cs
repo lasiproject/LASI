@@ -1,5 +1,4 @@
 using LASI.Algorithm;
-using LASI.Algorithm.Thesauri;
 using LASI.FileSystem;
 using System;
 using System.Collections.Generic;
@@ -172,10 +171,9 @@ namespace LASI.UserInterface
 
             foreach (var doc in from doc in FileManager.TaggedFiles.AsParallel()
                                 select new TaggedFileParser(doc).LoadDocument()) {
+
+
                 var wordLabels = new List<Label>();
-
-
-
 
                 LASI.Algorithm.Analysis.Weighter.weight(doc);
 
@@ -249,30 +247,29 @@ namespace LASI.UserInterface
             return wordLabel;
         }
 
-        private void BuildUniqueClickAction(Label wordLabel) {
-            wordLabel.MouseDown += (sender, e) => {
-                var intraPhraseLabels = from w in (wordLabel.Tag as Word).ParentPhrase.Words
-                                        join l in wordLabels on w.ID equals (l.Tag as Word).ID
-                                        select l;
-                foreach (var l in intraPhraseLabels) {
-                    if (l.Background != Brushes.Green && wordLabel.Foreground != Brushes.Red) {
-                        l.Foreground = Brushes.White;
-                        l.Background = Brushes.Green;
-                        wordLabel.Foreground = Brushes.Black;
-                        wordLabel.Background = Brushes.Red;
+        //private void BuildUniqueClickAction(Label wordLabel) {
+        //    wordLabel.MouseDown += (sender, e) => {
+        //        var intraPhraseLabels = from w in (wordLabel.Tag as Word).ParentPhrase.Words
+        //                                join l in wordLabels on w.ID equals (l.Tag as Word).ID
+        //                                select l;
+        //        foreach (var l in intraPhraseLabels) {
+        //            if (l.Background != Brushes.Green && wordLabel.Foreground != Brushes.Red) {
+        //                l.Foreground = Brushes.White;
+        //                l.Background = Brushes.Green;
+        //                wordLabel.Foreground = Brushes.Black;
+        //                wordLabel.Background = Brushes.Red;
 
-                    } else {
-                        l.Background = Brushes.White;
-                        l.Foreground = Brushes.Black;
-                        wordLabel.Foreground = Brushes.Black;
-                        wordLabel.Background = Brushes.White;
-                    }
-                }
+        //            } else {
+        //                l.Background = Brushes.White;
+        //                l.Foreground = Brushes.Black;
+        //                wordLabel.Foreground = Brushes.Black;
+        //                wordLabel.Background = Brushes.White;
+        //            }
+        //        }
 
-            };
-        }
+        //    };
+        //}
 
-        private List<Label> wordLabels = new List<Label>();
         private List<Label> phraseLabels = new List<Label>();
 
         private void MenuItem_Click_2(object sender, RoutedEventArgs e) {
@@ -284,25 +281,6 @@ namespace LASI.UserInterface
             this.Close();
 
         }
-
-
-
-
-
-
-        private void SearchButton_Click_1(object sender, RoutedEventArgs e) {
-            var searchText = SearchTextBox.Text;
-            foreach (Label label in wordLabels) {
-                if ((label.Tag as ILexical).Text.ToLower() == searchText.ToLower())
-                    label.Foreground = Brushes.Red;
-                else
-                    label.Foreground = Brushes.Black;
-            }
-        }
-
-
-
-
 
         List<string> tokens = @"The typically small numbers of COIs identified by stakeholders with specific problems should each be accompanied by a similarly small number
 ` effectiveness measures (Sproles, 2002) that stakeholders can use to make binary, 'yes' or 'no,' determinations as to whether or not COI and 
