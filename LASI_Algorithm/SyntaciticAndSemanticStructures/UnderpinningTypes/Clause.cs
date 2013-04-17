@@ -43,9 +43,9 @@ namespace LASI.Algorithm
         }
 
         /// <summary>
-        /// Establishes the nested links between the clause, its parent sentence and phrases which comprise it.
+        /// Establishes the nested links between the Clause, its parent Sentence and Phrases which comprise it.
         /// </summary>
-        /// <param name="sentence"></param>
+        /// <param name="sentence">The Sentence containing the Clause.</param>
         internal void EstablishParent(Sentence sentence) {
             ParentSentence = sentence;
             foreach (var r in Phrases)
@@ -106,14 +106,13 @@ namespace LASI.Algorithm
             set;
         }
 
-
+        /// <summary>
+        /// Gets the Sentence which contains The Clause.
+        /// </summary>
         public Sentence ParentSentence {
             get;
             protected set;
         }
-
-
-
 
         public int ID {
             get;
@@ -125,7 +124,9 @@ namespace LASI.Algorithm
                 throw new NotImplementedException();
             }
         }
-
+        /// <summary>
+        /// Gets the type of the ILexical.
+        /// </summary>
         Type ILexical.Type {
             get {
                 return GetType();

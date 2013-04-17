@@ -52,6 +52,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Analysis\Binder.cs" />
     <Compile Include="Analysis\Binding\AttributiveNounPhraseBinder.cs" />
     <Compile Include="Analysis\Binding\EntityReferenceBinder.cs" />
     <Compile Include="Analysis\Binding\InterPhraseWordBinding.cs" />

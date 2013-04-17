@@ -6,35 +6,65 @@ using System.Threading.Tasks;
 
 namespace LASI.Algorithm
 {
+    /// <summary>
+    /// Represents a complete sentence in an English written work.
+    /// </summary>
     public class Sentence
     {
+        /// <summary>
+        /// Initializes a new instance of the Sentence class who contents are the given Phrases.
+        /// </summary>
+        /// <param name="phrases">The 0 or more Phrases which comprise the Sentence.</param>
         public Sentence(params Phrase[] phrases) {
             Clauses = new[] { new Clause(from P in phrases select P) };
         }
+        /// <summary>
+        /// Initializes a new instance of the Sentence class who contents are the given phrases and ends with the given SentencePunctuator.
+        /// </summary>
+        /// <param name="phrases">The sequence of Phrases which comprises the sentence.</param>
+        ///<param name="sentencePunctuation">The SentencePunctuator which terminates the Sentence. If not provided, the default value of "." will be substituted.</param>
         public Sentence(IEnumerable<Phrase> phrases, SentencePunctuation sentencePunctuation = null) {
             Clauses = new[] { new Clause(from P in phrases select P) };
             EndingPunctuation = sentencePunctuation == null ?
             new SentencePunctuation('.') :
             sentencePunctuation;
         }
+        /// <summary>
+        /// Initializes a new instance of the Sentence class who contents are the given words and ends with the given SentencePunctuator.
+        /// </summary>
+        /// <param name="words">The sequence of Words which comprises the Sentence.</param>
+        /// <param name="sentencePunctuation">The SentencePunctuator which terminates the Sentence. If not provided, the default value of "." will be substituted.</param>
         public Sentence(IEnumerable<Word> words, SentencePunctuation sentencePunctuation = null) {
             Clauses = new[] { new Clause(from W in words select W) };
             EndingPunctuation = sentencePunctuation == null ?
                new SentencePunctuation('.') :
                sentencePunctuation;
         }
+        /// <summary>
+        /// Initializes a new instance of the Sentence class who contents are the given Clauses.
+        /// </summary>
+        /// <param name="clauses">The sequence of Clauses which comprises the Sentence.</param>
         public Sentence(IEnumerable<Clause> clauses) {
             Clauses = clauses;
             EndingPunctuation =
                 new SentencePunctuation('.');
         }
+        /// <summary>
+        /// Initializes a new instance of the Sentence class who contents are the given Clauses.
+        /// </summary>
+        /// <param name="clauses">The sequence of Clauses which comprises the Sentence.</param>
+        /// /// <param name="sentencePunctuation">The SentencePunctuator which terminates the Sentence. If not provided, the default value of "." will be substituted.</param>
         public Sentence(IEnumerable<Clause> clauses, SentencePunctuation sentencePunctuation = null) {
             Clauses = clauses;
             EndingPunctuation = sentencePunctuation == null ?
                 new SentencePunctuation('.') :
                 sentencePunctuation;
         }
-
+        /// <summary>
+        /// Gets all Phrases within the Sentence that lexically come after the given Phrase.
+        /// </summary>
+        /// <param name="phrase">The Phrase from which to start.</param>
+        /// <returns>all Phrases within the Sentence that lexically come after the provided Phrase</returns>
         public IEnumerable<Phrase> GetPhrasesAfter(Phrase phrase) {
             return Phrases.SkipWhile(r => r != phrase).Skip(1);
         }
@@ -49,7 +79,10 @@ namespace LASI.Algorithm
             set;
         }
 
-
+        /// <summary>
+        /// Establishes the nested links between the Sentence, its parent Paragraph and the clauses which comprise it.
+        /// </summary>
+        /// <param name="paragraph">The Paragraph containing the Sentence.</param>
         public void EstablishParenthood(Paragraph paragraph) {
             ParentParagraph = paragraph;
             foreach (var C in Clauses)
