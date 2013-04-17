@@ -73,7 +73,7 @@ namespace LASI.FileSystem
         }
 
         public override bool Equals(object obj) {
-            return base.Equals(obj);
+            return this == obj as InputFile;
         }
 
         public override int GetHashCode() {
@@ -84,10 +84,15 @@ namespace LASI.FileSystem
             return FullPath;
         }
         public static bool operator ==(InputFile lhs, InputFile rhs) {
-            return lhs.Directory == rhs.Directory && lhs.Ext == rhs.Ext && lhs.FullPath == rhs.FullPath && lhs.Name == rhs.Name && lhs.NameSansExt == rhs.NameSansExt && lhs.PathSansExt == rhs.PathSansExt;
+            if (lhs as object == null && rhs as object == null)
+                return true;
+            else if (rhs as object == null || lhs as object == null)
+                return false;
+            else
+                return lhs.Directory == rhs.Directory && lhs.Ext == rhs.Ext && lhs.FullPath == rhs.FullPath && lhs.Name == rhs.Name && lhs.NameSansExt == rhs.NameSansExt && lhs.PathSansExt == rhs.PathSansExt;
         }
         public static bool operator !=(InputFile lhs, InputFile rhs) {
-            return lhs != rhs;
+            return !(lhs == rhs);
         }
 
 

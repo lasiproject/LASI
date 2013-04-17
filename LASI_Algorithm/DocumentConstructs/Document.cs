@@ -182,6 +182,14 @@ namespace LASI.Algorithm
             }
         }
 
+        /// <summary>
+        /// The name of the file the Document instance was parsed from.
+        /// </summary>
+        public string FileName {
+            get;
+            set;
+        }
+
         #endregion
 
         #region Fields
@@ -190,6 +198,8 @@ namespace LASI.Algorithm
         private IList<Phrase> _phrases;
         private IList<Sentence> _sentences;
         private IList<Paragraph> _paragraphs;
+
+
 
         #endregion
 

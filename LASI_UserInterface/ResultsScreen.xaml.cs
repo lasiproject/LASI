@@ -170,51 +170,66 @@ namespace LASI.UserInterface
         }
         public void BuildFullSortedView() {
 
-
-            TestDocument1 = new TaggedFileParser(FileManager.TaggedFiles.First()).LoadDocument();
-
-
-            LASI.Algorithm.Analysis.Weighter.weight(TestDocument1);
+            foreach (var doc in from doc in FileManager.TaggedFiles.AsParallel()
+                                select new TaggedFileParser(doc).LoadDocument()) {
+                var wordLabels = new List<Label>();
 
 
-            var words = TestDocument1.Words.GetNouns().Concat<Word>(TestDocument1.Words.GetAdverbs()).
-                 Concat<Word>(TestDocument1.Words.GetAdjectives()).Concat<Word>(TestDocument1.Words.GetVerbs()).
-                 GroupBy(w => new {
-                     w.Text,
-                     w.Type
-                 }).Select(g => g.First());
 
-            foreach (var word in words) {
-                var wordLabel = MakeWordLabel(word);
-                var menuItem1 = new MenuItem {
-                    Header = "view definition",
+
+                LASI.Algorithm.Analysis.Weighter.weight(doc);
+
+
+                var words = doc.Words.GetNouns().Concat<Word>(doc.Words.GetAdverbs()).
+                     Concat<Word>(doc.Words.GetAdjectives()).Concat<Word>(doc.Words.GetVerbs()).
+                     GroupBy(w => new {
+                         w.Text,
+                         w.Type
+                     }).Select(g => g.First());
+
+                foreach (var word in words) {
+                    var wordLabel = MakeWordLabel(word);
+                    var menuItem1 = new MenuItem {
+                        Header = "view definition",
+                    };
+                    menuItem1.Click += (sender, e) => {
+                        Process.Start(String.Format("http://www.dictionary.reference.com/browse/{0}?s=t", word.Text));
+                    };
+                    wordLabel.ContextMenu.Items.Add(menuItem1);
+                    //BuildUniqueClickAction(wordLabel);
+                    wordLabels.Add(wordLabel);
+
+
+                }
+
+                ValueList = new List<KeyValuePair<string, int>>();
+                ValueList.AddRange(
+                    (from w in words
+                     orderby w.Weight descending
+                     select new KeyValuePair<string, int>(w.Text, (int) w.Weight)).Take(15).ToList());
+                ValueList.Reverse();
+                lineChart.DataContext = ValueList;
+
+
+
+
+                var s = new ScrollViewer();
+                var stackPanel = new StackPanel();
+                s.Content = stackPanel;
+                var grid = new Grid();
+                grid.Children.Add(s);
+                var tabItem = new TabItem {
+                    Header = doc.FileName,
+                    Content = grid
                 };
-                menuItem1.Click += (sender, e) => {
-                    Process.Start(String.Format("http://www.dictionary.reference.com/browse/{0}?s=t", word.Text));
-                };
-                wordLabel.ContextMenu.Items.Add(menuItem1);
-                //BuildUniqueClickAction(wordLabel);
-                wordLabels.Add(wordLabel);
-
+                foreach (var l in from w in wordLabels
+                                  orderby (w.Tag as Word).Weight descending
+                                  select w) {
+                    stackPanel.Children.Add(l);
+                }
+                TestView.Items.Add(tabItem);
 
             }
-
-            ValueList = new List<KeyValuePair<string, int>>();
-            ValueList.AddRange(
-                (from w in words
-                 orderby w.Weight descending
-                 select new KeyValuePair<string, int>(w.Text, (int) w.Weight)).Take(15).ToList());
-            ValueList.Reverse();
-            lineChart.DataContext = ValueList;
-
-            foreach (var l in from w in wordLabels
-                              orderby (w.Tag as Word).Weight descending
-                              select w) {
-                TopWeightedView.Children.Add(l);
-            }
-
-
-
 
         }
         public List<KeyValuePair<string, int>> ValueList {

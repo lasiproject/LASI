@@ -49,9 +49,9 @@ namespace LASI.UserInterface
             using (StreamReader reader = new StreamReader(textfile.FullPath)) {
 
                 var docu = await reader.ReadToEndAsync();
-                docu = docu.Replace("\r\n\r\n", "\n\n");
-                docu = docu.Replace("<paragraph>", "\n");
+                docu = docu.Replace("\r\n", "\n\t").Replace("\n\n", "\r\n\t").Replace("\r\n\r\n", "\n\t");
                 docu = docu.Replace("</paragraph>", "");
+                docu = "\t" + docu.Replace("<paragraph>", "\r\n\t").Trim();
 
                 var item = new TabItem {
                     Header = textfile.NameSansExt,
@@ -85,7 +85,7 @@ namespace LASI.UserInterface
             WindowManager.InProgressScreen.Show();
             this.Hide();
             await FileManager.TagTextFilesAsync();
-            WindowManager.InProgressScreen.InitProgressBar();
+            await WindowManager.InProgressScreen.InitProgressBar();
 
 
 

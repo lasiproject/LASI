@@ -100,14 +100,10 @@
                         </TabControl>
                     </Grid>
                 </TabItem>
-                <TabItem x:Name="TestView" Header="TestView" Padding="6,1" Margin="2,0,-8,-3" >
+                <TabItem  Header="TestView" Padding="6,1" Margin="2,0,-8,-3" >
+                    <TabControl x:Name="TestView">
 
-                    <Grid>
-                        <ScrollViewer>
-                            <StackPanel  Name="TopWeightedView">
-                            </StackPanel>
-                        </ScrollViewer>
-                    </Grid>
+                    </TabControl>
 
                 </TabItem>
                 <TabItem  Header="TestChart" Margin="11,0,-11,-3">

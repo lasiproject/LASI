@@ -143,15 +143,19 @@ namespace SharpNLPTaggingModule
         protected string Chunk() {
 
             StringBuilder output = new StringBuilder();
+            var paragraphs = from p in SourceText.Split(new[] { "<paragraph>", "</paragraph>" }, StringSplitOptions.RemoveEmptyEntries)
+                             select p;
+            foreach (var p in paragraphs) {
 
-            string[] sentences = SplitSentences(SourceText);
+                string[] sentences = SplitSentences(p);
 
-            foreach (string sentence in sentences) {
-                string[] tokens = TokenizeSentence(sentence);
-                string[] tags = PosTagTokens(tokens);
-                output.Append(String.Format("<sentence>{0}</sentence>", ChunkSentence(tokens, tags)));
+                foreach (string sentence in sentences) {
+                    string[] tokens = TokenizeSentence(sentence);
+                    string[] tags = PosTagTokens(tokens);
+                    output.Append(String.Format("<sentence>{0}</sentence>", ChunkSentence(tokens, tags)));
+                }
+                output.Insert(0, "<paragraph>").Append("</paragraph>");
             }
-
             var result = output.ToString();
             return result;
         }
