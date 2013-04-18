@@ -67,9 +67,9 @@ namespace Erik_Experimentation
 
 
             //SIX PHASES
-            //PHASE 1 - Standard word weight based on part of speech (standardization)
+            //PHASE 1 - Standard word weight based on part of speech (standardization) - COMPLETE
             //PHASE 2 - Word weight based on part of speech and neighbors' (+2) part of speech
-            //PHASE 3 - Standard phrase weight based on phrase part of speech (standardization)
+            //PHASE 3 - Standard phrase weight based on phrase part of speech (standardization) - COMPLETE
             //PHASE 4 - Phrase weight based on part of speech and neibhors' (full sentence) part of speech
             //PHASE 5 - FREQUENCIES
             // .1 - Frequency of Word/Phrase in document
@@ -139,86 +139,129 @@ namespace Erik_Experimentation
             // WORKS, BUT
             // NEED FORMULAS FOR MODIFIER VARIABLES - WHAT SHOULD THESE BE?
 
-            foreach (Sentence s in document.Sentences)
-            {
-                //Console.WriteLine(s);
+            //foreach (Sentence s in document.Sentences)
+            //{
+            //    //Console.WriteLine(s);
 
-                foreach (Word w in s.Words)
-                {
+            //    foreach (Word w in s.Words)
+            //    {
 
-                    Word next = w ?? w.NextWord;
-                    Word nextNext = next ?? next.NextWord;
+            //        Word next = w ?? w.NextWord;
+            //        Word nextNext = next ?? next.NextWord;
 
-                    Word prev = w ?? w.PreviousWord;
-                    Word prevPrev = prev ?? prev.PreviousWord;
+            //        Word prev = w ?? w.PreviousWord;
+            //        Word prevPrev = prev ?? prev.PreviousWord;
 
 
-                    new Switch(w)
-                       .Case<Noun>(n =>
-                       {
-                            new Switch(next)
-                                   .Case<Noun>(nn =>
-                                   {
-                                       w.Weight = primary;
+            //        new Switch(w)
+            //           .Case<Noun>(n =>
+            //           {
+            //                new Switch(next)
+            //                       .Case<Noun>(nn =>
+            //                       {
+            //                           w.Weight = primary;
 
-                                   })
-                                   .Case<Verb>(vn =>
-                                   {
-                                       w.Weight = secondary;
-                                   })
-                                   .Case<Adjective>(adjn =>
-                                   {
-                                       w.Weight = tertiary;
-                                   })
-                                   .Case<Adverb>(advn =>
-                                   {
-                                       w.Weight = quaternary;
-                                   })
-                                   .Case<Pronoun>(pnn =>
-                                   {
-                                       w.Weight = quinary;
-                                   })
-                                   .Default(def =>
-                                   {
-                                       w.Weight = senary;
-                                   });
+            //                       })
+            //                       .Case<Verb>(vn =>
+            //                       {
+            //                           w.Weight = secondary;
+            //                       })
+            //                       .Case<Adjective>(adjn =>
+            //                       {
+            //                           w.Weight = tertiary;
+            //                       })
+            //                       .Case<Adverb>(advn =>
+            //                       {
+            //                           w.Weight = quaternary;
+            //                       })
+            //                       .Case<Pronoun>(pnn =>
+            //                       {
+            //                           w.Weight = quinary;
+            //                       })
+            //                       .Default(def =>
+            //                       {
+            //                           w.Weight = senary;
+            //                       });
 
-                       })
-                       .Case<Verb>(v =>
-                       {
-                           w.Weight = secondary;
-                       })
-                       .Case<Adjective>(adj =>
-                       {
-                           w.Weight = tertiary;
-                       })
-                       .Case<Adverb>(adv =>
-                       {
-                           w.Weight = quaternary;
-                       })
-                       .Case<Pronoun>(pn =>
-                       {
-                           w.Weight = quinary;
-                       })
-                       .Default(def =>
-                       {
-                           w.Weight = senary;
-                       });
-                    //nouns
+            //           })
+            //           .Case<Verb>(v =>
+            //           {
+            //               w.Weight = secondary;
+            //           })
+            //           .Case<Adjective>(adj =>
+            //           {
+            //               w.Weight = tertiary;
+            //           })
+            //           .Case<Adverb>(adv =>
+            //           {
+            //               w.Weight = quaternary;
+            //           })
+            //           .Case<Pronoun>(pn =>
+            //           {
+            //               w.Weight = quinary;
+            //           })
+            //           .Default(def =>
+            //           {
+            //               w.Weight = senary;
+            //           });
+            //        //nouns
                     
 
                    
 
-                }
+            //    }
 
 
-            }
+            //}
 
 
 
 
             //PHASE 3 - Standard phrase weight based on phrase part of speech (standardization)
+            //COMPLETE - easy peasy.
 
+            Console.WriteLine("Standard Word weight based on POS:");
+            foreach (Sentence s in document.Sentences)
+            {
+                //Console.WriteLine(s);
+
+                foreach (Phrase p in s.Phrases)
+                {
+                    Console.WriteLine(p);
+
+                    new Switch(p)
+                        .Case<NounPhrase>(n =>
+                        {
+                            p.Weight = primary;
+
+                        })
+                        .Case<VerbPhrase>(v =>
+                        {
+                            p.Weight = secondary;
+                        })
+                        .Case<AdjectivePhrase>(adj =>
+                        {
+                            p.Weight = tertiary;
+                        })
+                        .Case<AdverbPhrase>(adv =>
+                        {
+                            p.Weight = quaternary;
+                        })
+                        .Case<SimpleDeclarativePhrase>(pn =>
+                        {
+                            p.Weight = quinary;
+                        })
+                        .Default(def =>
+                        {
+                            p.Weight = senary;
+                        });
+
+                    Console.WriteLine(p.Weight);
+
+                }
+
+
+            }
 
 
 
@@ -228,34 +271,34 @@ namespace Erik_Experimentation
 
             //PHASE 5 - FREQUENCIES
             // .1 - Frequency of Word in document
-            Console.WriteLine(" ");
-            Console.WriteLine("Word Frequencies in Document:");
+            //Console.WriteLine(" ");
+            //Console.WriteLine("Word Frequencies in Document:");
 
-            foreach (Word w in document.Words)
-            {
-
-
-
-                foreach (Word w1 in document.Words)
-                {
-
-                    if (w.Text == w1.Text)  //why doesn't 'w1.Equals(current)' work?
-                    {
-                        w1.FrequencyCurrent += 1;
-                    }
-                }
+            //foreach (Word w in document.Words)
+            //{
 
 
 
-            }
+            //    foreach (Word w1 in document.Words)
+            //    {
 
-            foreach (Word w in document.Words)
-            {
-                Console.WriteLine(w);
-                Console.WriteLine(w.FrequencyCurrent); //integrate with existing
-                float percentID = (w.FrequencyCurrent / (float)document.Words.Count());
-                Console.WriteLine("Frequency % in document:" + percentID);
-            } //NEED FORMULA TO MODIFY WEIGHT
+            //        if (w.Text == w1.Text)  //why doesn't 'w1.Equals(current)' work?
+            //        {
+            //            w1.FrequencyCurrent += 1;
+            //        }
+            //    }
+
+
+
+            //}
+
+            //foreach (Word w in document.Words)
+            //{
+            //    Console.WriteLine(w);
+            //    Console.WriteLine(w.FrequencyCurrent); //integrate with existing
+            //    float percentID = (w.FrequencyCurrent / (float)document.Words.Count());
+            //    Console.WriteLine("Frequency % in document:" + percentID);
+            //} //NEED FORMULA TO MODIFY WEIGHT
 
 
 
