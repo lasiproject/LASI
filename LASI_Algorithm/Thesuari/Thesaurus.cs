@@ -58,7 +58,12 @@ namespace LASI.Algorithm.Thesauri
         public static IEnumerable<string> InternalLookup(Noun noun) {
             return NounProvider[noun];
         }
-
+        public static IEnumerable<string> InternalLookup(Adverb verb) {
+            return AdverbProvider[verb];
+        }
+        public static IEnumerable<string> InternalLookup(Adjective verb) {
+            return AdjectiveProvider[verb];
+        }
         public static IEnumerable<string> InternalLookup(Word word) {
             throw new LASI.Algorithm.Thesuari.NoSynonymLookupForTypeException(word) {
             };
@@ -71,6 +76,26 @@ namespace LASI.Algorithm.Thesauri
         public static VerbThesaurus VerbProvider {
             get;
             private set;
+        }
+        public static AdjectiveThesaurus AdjectiveProvider {
+            get;
+            private set;
+        }
+        public static AdverbThesaurus AdverbProvider {
+            get;
+            private set;
+        }
+
+
+
+        public static bool IsSynonymFor(this Word word, Word other) {
+            return (
+                word is Noun && other is Noun ||
+                word is Verb && other is Verb ||
+                word is Adverb && other is Adverb ||
+                word is Adjective && other is Adjective
+                )
+                && Lookup(other).Contains(word.Text);
         }
     }
 }

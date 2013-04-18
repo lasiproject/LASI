@@ -1,5 +1,4 @@
-﻿using LASI.Algorithm.Analysis.Binding;
-using LASI.Algorithm.Binding;
+﻿using LASI.Algorithm.Binding;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace LASI.Algorithm.Analysis.Binding
+namespace LASI.Algorithm.Binding
 {
     [Serializable]
     public class UnknownEntityCompatibleWordTypeException : Exception

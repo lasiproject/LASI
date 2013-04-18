@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LASI.Utilities;
-using LASI.Algorithm.Analysis.Binding;
 using LASI.Utilities.TypedSwitch;
 
 namespace LASI.Algorithm.Binding

@@ -17,7 +17,6 @@ using System.Windows.Shapes;
 using System.Windows.Controls.DataVisualization.Charting;
 using System.Collections.ObjectModel;
 using LASI.Algorithm.Binding;
-using LASI.Algorithm.Analysis.Binding;
 using LASI.Utilities.TypedSwitch;
 using LASI.Algorithm.Analysis;
 

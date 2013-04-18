@@ -8,7 +8,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using LASI.Utilities.TypedSwitch;
 using LASI.Algorithm.Analysis.Heuristics;
-using LASI.Algorithm.Analysis.Binding;
 namespace Aluan_Experimentation
 {
     public class Program

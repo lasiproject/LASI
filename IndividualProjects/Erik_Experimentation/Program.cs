@@ -84,7 +84,7 @@ namespace Erik_Experimentation
             int based = 20;
             primary = (secondary = (tertiary = (quaternary = (quinary = (senary = 0) + based) + based) + based) + based) + based;
 
-           
+
             //PHASE 1 - Standard word weight based on part of speech (standardization)
             //COMPLETE - easy peasy.
 
@@ -205,9 +205,9 @@ namespace Erik_Experimentation
             //               w.Weight = senary;
             //           });
             //        //nouns
-                    
 
-                   
+
+
 
             //    }
 
@@ -338,7 +338,7 @@ namespace Erik_Experimentation
 
 
 
-                    //NEED REAL FORMULA FOR WEIGHT MODIFICATION
+            //NEED REAL FORMULA FOR WEIGHT MODIFICATION
             //        w.Weight += w.Synonyms;
 
 
@@ -364,10 +364,10 @@ namespace Erik_Experimentation
             //advTest.SearchFor(key);
 
             // .2 - Frequency of Word in document compared to other documents in set
-          
-         
 
-            
+
+
+
 
 
 
