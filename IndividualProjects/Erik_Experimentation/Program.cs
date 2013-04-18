@@ -220,7 +220,7 @@ namespace Erik_Experimentation
             //PHASE 3 - Standard phrase weight based on phrase part of speech (standardization)
             //COMPLETE - easy peasy.
 
-            Console.WriteLine("Standard Word weight based on POS:");
+            Console.WriteLine("Standard Phrase weight based on POS:");
             foreach (Sentence s in document.Sentences)
             {
                 //Console.WriteLine(s);
