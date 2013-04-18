@@ -71,6 +71,7 @@ namespace Aluan_Experimentation
                     objectBinder.Bind(s);
                 } catch (InvalidStateTransitionException) {
                 } catch (VerblessPhrasalSequenceException) {
+                } catch (InvalidOperationException) {
                 }
             }
 
@@ -259,11 +260,12 @@ namespace Aluan_Experimentation
 
 
 
-            var objectBinder = new ObjectBinder();
+
 
             foreach (var sentence in doc.Sentences) {
                 new SubjectBinder().Bind(sentence);
-                objectBinder.Bind(sentence);
+                new ObjectBinder().Bind(sentence);
+
             }
             var nounBinder = new LASI.Algorithm.Binding.InterPhraseWordBinding();
             foreach (var phrase in doc.Phrases.GetNounPhrases())

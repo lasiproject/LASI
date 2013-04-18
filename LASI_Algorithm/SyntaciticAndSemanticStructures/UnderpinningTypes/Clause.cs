@@ -91,7 +91,7 @@ namespace LASI.Algorithm
             return base.ToString() + " \"" + Text + "\"";
         }
         /// <summary>
-        /// Gets or sets the numeric weight of the Phrase within the context of its document.
+        /// Gets or sets the numeric Weight of the Phrase within the context of its document.
         /// </summary>
         public decimal Weight {
             get;
@@ -99,7 +99,7 @@ namespace LASI.Algorithm
         }
 
         /// <summary>
-        /// Gets or sets the numeric weight of the Phrase over the context of all extant documents.
+        /// Gets or sets the numeric Weight of the Phrase over the context of all extant documents.
         /// </summary>
         public decimal MetaWeight {
             get;

@@ -29,7 +29,10 @@ namespace LASI.Algorithm
                    where e.DirectObjectOf != null
                    select e;
         }
-        public static IEnumerable<IEntity> InDirectObjectRole(this IEnumerable<IEntity> entities, Func<ITransitiveVerbial, bool> condition) {
+        public static IEnumerable<IEntity> InDirectObjectRole(
+            this IEnumerable<IEntity> entities,
+            Func<ITransitiveVerbial, bool> condition
+            ) {
             return from e in entities.InDirectObjectRole()
                    where condition(e.DirectObjectOf)
                    select e;
@@ -39,7 +42,10 @@ namespace LASI.Algorithm
                    where e.IndirectObjectOf != null
                    select e;
         }
-        public static IEnumerable<IEntity> InIndirectObjectRole(this IEnumerable<IEntity> entities, Func<ITransitiveVerbial, bool> condition) {
+        public static IEnumerable<IEntity> InIndirectObjectRole(
+            this IEnumerable<IEntity> entities,
+            Func<ITransitiveVerbial, bool> condition
+            ) {
             return from e in entities.InIndirectObjectRole()
                    where condition(e.IndirectObjectOf)
                    select e;

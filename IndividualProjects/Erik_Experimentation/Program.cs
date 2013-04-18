@@ -67,10 +67,10 @@ namespace Erik_Experimentation
 
 
             //SIX PHASES
-            //PHASE 1 - Standard word weight based on part of speech (standardization) - COMPLETE
-            //PHASE 2 - Word weight based on part of speech and neighbors' (+2) part of speech
-            //PHASE 3 - Standard phrase weight based on phrase part of speech (standardization) - COMPLETE
-            //PHASE 4 - Phrase weight based on part of speech and neibhors' (full sentence) part of speech
+            //PHASE 1 - Standard word Weight based on part of speech (standardization) - COMPLETE
+            //PHASE 2 - Word Weight based on part of speech and neighbors' (+2) part of speech
+            //PHASE 3 - Standard phrase Weight based on phrase part of speech (standardization) - COMPLETE
+            //PHASE 4 - Phrase Weight based on part of speech and neibhors' (full sentence) part of speech
             //PHASE 5 - FREQUENCIES
             // .1 - Frequency of Word/Phrase in document
             // .2 - Frequency of Word/Phrase in document compared to other documents in set - EXCLUDED FOR DEMO
@@ -85,10 +85,10 @@ namespace Erik_Experimentation
             primary = (secondary = (tertiary = (quaternary = (quinary = (senary = 0) + based) + based) + based) + based) + based;
 
 
-            //PHASE 1 - Standard word weight based on part of speech (standardization)
+            //PHASE 1 - Standard word Weight based on part of speech (standardization)
             //COMPLETE - easy peasy.
 
-            //Console.WriteLine("Standard Word weight based on POS:");
+            //Console.WriteLine("Standard Word Weight based on POS:");
             //foreach (Sentence s in document.Sentences)
             //{
             //    //Console.WriteLine(s);
@@ -135,7 +135,7 @@ namespace Erik_Experimentation
 
 
 
-            //PHASE 2 - Word weight based on part of speech and neighbors' (+2) part of speech
+            //PHASE 2 - Word Weight based on part of speech and neighbors' (+2) part of speech
             // WORKS, BUT
             // NEED FORMULAS FOR MODIFIER VARIABLES - WHAT SHOULD THESE BE?
 
@@ -217,10 +217,10 @@ namespace Erik_Experimentation
 
 
 
-            //PHASE 3 - Standard phrase weight based on phrase part of speech (standardization)
+            //PHASE 3 - Standard phrase Weight based on phrase part of speech (standardization)
             //COMPLETE - easy peasy.
 
-            //Console.WriteLine("Standard Phrase weight based on POS:");
+            //Console.WriteLine("Standard Phrase Weight based on POS:");
             //foreach (Sentence s in document.Sentences)
             //{
             //    //Console.WriteLine(s);
@@ -265,7 +265,7 @@ namespace Erik_Experimentation
 
 
 
-            //PHASE 4 - Phrase weight based on part of speech and neibhors' (full sentence) part of speech
+            //PHASE 4 - Phrase Weight based on part of speech and neibhors' (full sentence) part of speech
 
 
 

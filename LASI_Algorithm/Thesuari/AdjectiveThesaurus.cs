@@ -99,7 +99,7 @@ namespace LASI.Algorithm.Thesauri
             //console view
         }
 
-        public void SearchFor(string word) {
+        public HashSet<string> SearchFor(string word) {
             List<string> results = new List<string>();
             //gets pointers of searched word
             var tempResults = from sn in allSets
@@ -135,24 +135,25 @@ namespace LASI.Algorithm.Thesauri
 
 
 
+            return new HashSet<string>(results);
 
-            foreach (string tester in results) {
+            //foreach (string tester in results) {
 
-                Console.WriteLine(tester);
+            //    Console.WriteLine(tester);
 
-            }//console view
+            //}//console view
         }
 
-        public override IEnumerable<string> this[string search] {
+        public override HashSet<string> this[string search] {
             get {
-                throw new NotImplementedException();
+                return SearchFor(search);
             }
         }
 
 
-        public override IEnumerable<string> this[Word search] {
+        public override HashSet<string> this[Word search] {
             get {
-                throw new NotImplementedException();
+                return this[search.Text];
             }
         }
     }

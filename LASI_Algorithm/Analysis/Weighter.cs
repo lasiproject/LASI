@@ -9,11 +9,15 @@ namespace LASI.Algorithm.Analysis
 {
     static public class Weighter
     {
+
+        public static async Task WeightAsync(Document doc) {
+            await Task.Run(() => Weight(doc));
+        }
         /// <summary>
-        /// Weighting algorithm assigns weight to each word and phrase in a document
+        /// Weighting algorithm assigns Weight to each word and phrase in a document
         /// </summary>
         /// <param name="doc"></param>
-        static public void weight(Document doc) {
+        static public void Weight(Document doc) {
             var wordsByCount = from w in doc.Words
                                where !(w is IPrepositional)
                                where !(w is Determiner)
@@ -58,12 +62,12 @@ namespace LASI.Algorithm.Analysis
                 }
             }
 
-            //noun synonyms increase weight of individual nouns
+            //noun synonyms increase Weight of individual nouns
             foreach (var grp in nounSynonymGroups) {
                 grp.Key.Weight += 0.7m * grp.Count();
             }
 
-            //verb synonyms increase weight of individual verbs 
+            //verb synonyms increase Weight of individual verbs 
             foreach (var grp in verbsynonymgroups) {
                 grp.Key.Weight += 0.7m * grp.Count();
             }
@@ -73,7 +77,7 @@ namespace LASI.Algorithm.Analysis
                 pair.p.Weight = pair.weight;
             }
 
-            //increment weight of identical phrases
+            //increment Weight of identical phrases
             foreach (var grp in phraseByCount) {
                 foreach (var p in grp) {
                     p.Weight += grp.Count();

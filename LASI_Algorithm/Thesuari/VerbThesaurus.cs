@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Diagnostics;
@@ -20,8 +21,8 @@ namespace LASI.Algorithm.Thesauri
         public VerbThesaurus(string filePath, bool constrainByCategory = false)
             : base(filePath) {
             FilePath = filePath;
-            AssociationData = new SortedDictionary<string, SynonymSet>();//Not a great practice, but the length of the file is fixed, making this a useful, but ugly optemization.
-            cachedData = new SortedDictionary<string, IEnumerable<string>>();//Again this is ugly, but its fairly performant at the moment.
+            AssociationData = new Dictionary<string, SynonymSet>();//Not a great practice, but the length of the file is fixed, making this a useful, but ugly optemization.
+            cachedData = new ConcurrentDictionary<string, HashSet<string>>();//Again this is ugly, but its fairly performant at the moment.
             lexRestrict = constrainByCategory;
         }
 
@@ -75,37 +76,40 @@ namespace LASI.Algorithm.Thesauri
         /// </summary>
         /// <param name="search">The text of the verb to look for.</param>
         /// <returns>a collection of strings containing all of the synonyms of the given verb.</returns>
-        public override IEnumerable<string> this[string search] {
+        public override HashSet<string> this[string search] {
             get {
                 foreach (var root in conjugator.TryExtractRoot(search)) {
-                    if (!cachedData.ContainsKey(root)) {
-                        try {
-                            cachedData.Add(root, (from REF in AssociationData[root].ReferencedIndexes //Get all set reference indeces stored directly within 
-                                                  select new {                                        //The synset indexed by the word
-                                                      ind = REF,                                      //Store the LexName for restrictive comparison if enabled
-                                                      lex = lexRestrict ? AssociationData[root].LexName : WordNetVerbLex.ARBITRARY
-                                                  } into Temp
-                                                  join REF in AssociationData on new {                //Now group join all synsets in the entire 
-                                                      Temp.ind,                                       //thesaurus which reference the set above 
-                                                      Temp.lex
-                                                  } equals new {
-                                                      ind = REF.Key,
-                                                      lex = lexRestrict ? REF.Value.LexName : WordNetVerbLex.ARBITRARY
-                                                  } into ReferencedSets                                //The result of our group join contains all referenced sets
-                                                  from R in ReferencedSets.Distinct()
-                                                  from RM in R.Value.Members                           //Now aggregate all words directly contained within the group
-                                                  select RM into RMG                                   //concatanting them with their various morphs
-                                                  select new string[] { RMG }.Concat(conjugator.TryComputeConjugations(RMG)) into CJRM
-                                                  from C in CJRM                                       //Now simply remove any duplicates
-                                                  select C).Distinct());
-                        } catch (KeyNotFoundException) {
-                        }
+                    //if (!cachedData.ContainsKey(root)) {
+                    try {
+                        return new HashSet<string>((from REF in AssociationData[root].ReferencedIndexes //Get all set reference indeces stored directly within 
+                                                    select new {                                        //The synset indexed by the word
+                                                        ind = REF,                                      //Store the LexName for restrictive comparison if enabled
+                                                        lex = lexRestrict ? AssociationData[root].LexName : WordNetVerbLex.ARBITRARY
+                                                    } into Temp
+                                                    join REF in AssociationData on new {                //Now group join all synsets in the entire 
+                                                        Temp.ind,                                       //thesaurus which reference the set above 
+                                                        Temp.lex
+                                                    } equals new {
+                                                        ind = REF.Key,
+                                                        lex = lexRestrict ? REF.Value.LexName : WordNetVerbLex.ARBITRARY
+                                                    } into ReferencedSets                                //The result of our group join contains all referenced sets
+                                                    from R in ReferencedSets.Distinct()
+                                                    from RM in R.Value.Members                           //Now aggregate all words directly contained within the group
+                                                    select RM into RMG                                   //concatanting them with their various morphs
+                                                    select new string[] { RMG }.Concat(conjugator.TryComputeConjugations(RMG)) into CJRM
+                                                    from C in CJRM                                       //Now simply remove any duplicates
+                                                    select C).Distinct());
+                    } catch (KeyNotFoundException) {
                     }
-                    //try {
-                        return cachedData.ContainsKey(root) ? cachedData[root] : null;
-                    //} catch (KeyNotFoundException ex) {
-                    //    //  Debug.WriteLine("No entry present in VerbThesaurus for {0}\n{1}", root, ex.Message);
+
                     //}
+                    //    //try {
+                    //    return cachedData.ContainsKey(root) ? cachedData[root] : null;
+                    //    //} catch (KeyNotFoundException ex) {
+                    //    //    //  Debug.WriteLine("No entry present in VerbThesaurus for {0}\n{1}", root, ex.Message);
+                    //    //}
+                    //}
+                    //return null;
                 }
                 return null;
             }
@@ -121,7 +125,7 @@ namespace LASI.Algorithm.Thesauri
         /// </summary>
         /// <param name="search">An instance of Verb</param>
         /// <returns>a collection of strings containing all of the synonyms of the given verb.</returns>
-        public override IEnumerable<string> this[Word search] {
+        public override HashSet<string> this[Word search] {
             get {
                 return this[search.Text];
             }
@@ -148,7 +152,7 @@ namespace LASI.Algorithm.Thesauri
             return new SynonymSet(setReferences, setElements, WNlexNameCode);
         }
 
-        private SortedDictionary<String, IEnumerable<string>> cachedData;
+        private ConcurrentDictionary<String, HashSet<string>> cachedData;
 
         const int HEADER_LENGTH = 30;
         private VerbConjugator conjugator = new VerbConjugator(ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "verb.exc");

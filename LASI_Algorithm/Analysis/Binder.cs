@@ -10,10 +10,16 @@ namespace LASI.Algorithm.Analysis
 {
     public static class Binder
     {
+        public static async Task BindAsync(Document doc) {
+            await Task.Run(() => Bind(doc));
+        }
         public static void Bind(Document doc) {
-            PerformIntraPhraseBinding(doc);
-            PerformAttributeNounPhraseBinding(doc);
-            PerformSVOBinding(doc);
+            try {
+                PerformIntraPhraseBinding(doc);
+                PerformAttributeNounPhraseBinding(doc);
+                PerformSVOBinding(doc);
+            } catch (VerblessPhrasalSequenceException) {
+            }
         }
 
 
@@ -26,14 +32,16 @@ namespace LASI.Algorithm.Analysis
         }
         private static void PerformSVOBinding(Document doc) {
             doc.Sentences.AsParallel().ForAll(s => {
-                var subjectBinder = new SubjectBinder();
-                var objectBinder = new ObjectBinder();
+
+
                 try {
-                    subjectBinder.Bind(s);
+                    new SubjectBinder().Bind(s);
                 } catch (NullReferenceException) {
                 }
                 try {
-                    objectBinder.Bind(s);
+                    if (s.Phrases.GetVerbPhrases().Count() > 0) {
+                        new ObjectBinder().Bind(s);
+                    }
                 } catch (InvalidStateTransitionException) {
                 } catch (VerblessPhrasalSequenceException) {
                 }

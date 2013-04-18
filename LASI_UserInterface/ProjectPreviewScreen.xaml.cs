@@ -84,9 +84,7 @@ namespace LASI.UserInterface
             WindowManager.InProgressScreen.SetTitle(WindowManager.CreateProjectScreen.LastLoadedProjectName + " - L.A.S.I.");
             WindowManager.InProgressScreen.Show();
             this.Hide();
-            await FileManager.TagTextFilesAsync();
             await WindowManager.InProgressScreen.InitProgressBar();
-            await Task.Run(async () => await LASI.Algorithm.Thesauri.Thesaurus.LoadAllAsync());
 
 
         }

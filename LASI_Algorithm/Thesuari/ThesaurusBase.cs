@@ -32,11 +32,11 @@ namespace LASI.Algorithm.Thesauri
             await Task.Run(() => Load());
         }
 
-        public abstract IEnumerable<string> this[string search] {
+        public abstract HashSet<string> this[string search] {
             get;
         }
 
-        public abstract IEnumerable<string> this[Word search] {
+        public abstract HashSet<string> this[Word search] {
             get;
         }
         /// <summary>

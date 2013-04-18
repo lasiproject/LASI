@@ -14,38 +14,74 @@ namespace LASI.Algorithm.Thesauri
     {
         private static readonly string nounThesaurusFilePath = ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "data.noun";
         private static readonly string verbThesaurusFilePath = ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "data.verb";
+        private static readonly string adverbThesaurusFilePath = ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "data.adv";
+        private static readonly string adjectiveThesaurusFilePath = ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "data.adj";
         static Thesaurus() {
             NounProvider = new NounThesaurus(nounThesaurusFilePath);
             VerbProvider = new VerbThesaurus(verbThesaurusFilePath);
+            AdverbProvider = new AdverbThesaurus(adverbThesaurusFilePath);
+            AdjectiveProvider = new AdjectiveThesaurus(adjectiveThesaurusFilePath);
         }
         public static void LoadAll() {
-            // var sw = Stopwatch.StartNew();
+            var sw = Stopwatch.StartNew();
             NounProvider.Load();
             VerbProvider.Load();
-            //sw.Stop();
-            //Console.WriteLine("Sync thesaurus loading took {0} milliseconds", sw.ElapsedMilliseconds);
+            AdverbProvider.Load();
+            AdjectiveProvider.Load();
+            sw.Stop();
+            Output.WriteLine("Sync thesaurus loading took {0} milliseconds", sw.ElapsedMilliseconds);
         }
         public static async Task LoadAllAsync() {
-            await LoadAllParallelLinqTest();
+
+            await LoadAllTaskLevelParallelTest();
+
         }
 
         private static async Task LoadAllParallelLinqTest() {
-            await Task.Run(() => new ThesaurusBase[] { NounProvider, VerbProvider }.AsParallel().ForAll(t => t.Load()));
+            var sw = Stopwatch.StartNew();
+            await Task.Run(() => new ThesaurusBase[] { NounProvider, VerbProvider, AdverbProvider, AdjectiveProvider }.AsParallel().ForAll(t => t.Load()));
+            Output.WriteLine("Async  PLINQ thesaurus loading took {0} milliseconds", sw.ElapsedMilliseconds);
         }
 
         private static async Task LoadAllTaskLevelParallelTest() {
-            //var sw = Stopwatch.StartNew();
+            var sw = Stopwatch.StartNew();
             await Task.WhenAll(
-                NounProvider.LoadAsync().ContinueWith(
-                (t) => {
-                    Output.WriteLine("NounThesausus Loaded");
-                }),
-                VerbProvider.LoadAsync().ContinueWith(
-                (t) => {
-                    Output.WriteLine("VerbThesausus Loaded");
-                }));
-            //sw.Stop();
-            //Console.WriteLine("Async thesaurus loading took {0} milliseconds", sw.ElapsedMilliseconds);
+               Task.Run(async () => {
+                   var s = Stopwatch.StartNew();
+                   await NounProvider.LoadAsync();
+                   s.Stop();
+                   Output.WriteLine("NounThesausus Loaded in{0}", s.ElapsedMilliseconds);
+               }), Task.Run(async () => {
+                   var s = Stopwatch.StartNew();
+                   await AdverbProvider.LoadAsync();
+                   s.Stop();
+                   Output.WriteLine("AdverbThesausus Loaded in{0}", s.ElapsedMilliseconds);
+               }), Task.Run(async () => {
+                   var s = Stopwatch.StartNew();
+                   await AdjectiveProvider.LoadAsync();
+                   s.Stop();
+                   Output.WriteLine("AdjectiveThesausus Loaded in{0}", s.ElapsedMilliseconds);
+               }), Task.Run(async () => {
+                   var s = Stopwatch.StartNew();
+                   await VerbProvider.LoadAsync();
+                   s.Stop();
+                   Output.WriteLine("VerbThesausus Loaded in{0}", s.ElapsedMilliseconds);
+               }));
+            //   }));
+            //    VerbProvider.LoadAsync().ContinueWith(
+            //    (t) => {
+            //        Output.WriteLine("VerbThesausus Loaded");
+            //    }),
+            //    AdverbProvider.LoadAsync().ContinueWith(
+            //    (t) => {
+            //        Output.WriteLine("AdverbThesausus Loaded");
+            //    }),
+            //    AdjectiveProvider.LoadAsync().ContinueWith(
+            //    (t) => {
+            //        Output.WriteLine("AdjectiveThesausus Loaded");
+            //    }));
+            sw.Stop();
+            Output.WriteLine("Async TPLI loading took {0} milliseconds", sw.ElapsedMilliseconds);
         }
         public static IEnumerable<string> Lookup(Word word) {
 

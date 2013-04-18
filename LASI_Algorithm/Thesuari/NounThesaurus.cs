@@ -73,7 +73,7 @@ namespace LASI.Algorithm.Thesauri
             //Aluan: This line gets extracts word category info I noticed was present in the DB files
             //Erik:  Gotcha, I'll try to decipher its meaning.
 
-            WordNetNounLex lexCategory = (WordNetNounLex)Int32.Parse(line.Substring(9, 2));
+            WordNetNounLex lexCategory = (WordNetNounLex) Int32.Parse(line.Substring(9, 2));
 
             String frontPart = line.Split('|', '!')[0];
             MatchCollection numbers = Regex.Matches(frontPart, @"(?<id>\d{8})");
@@ -102,7 +102,7 @@ namespace LASI.Algorithm.Thesauri
             //console view
         }
 
-        public IEnumerable<string> SearchFor(string word) {
+        public HashSet<string> SearchFor(string word) {
             List<string> results = new List<string>();
             //gets pointers of searched word
             var tempResults = from sn in allSets
@@ -135,7 +135,7 @@ namespace LASI.Algorithm.Thesauri
 
             }
 
-            return results;
+            return new HashSet<string>(results);
 
 
             //foreach (string tester in results) {
@@ -145,14 +145,14 @@ namespace LASI.Algorithm.Thesauri
             //}//console view
         }
 
-        public override IEnumerable<string> this[string search] {
+        public override HashSet<string> this[string search] {
             get {
                 return SearchFor(search);
             }
         }
 
 
-        public override IEnumerable<string> this[Word search] {
+        public override HashSet<string> this[Word search] {
             get {
                 return this[search.Text];
             }

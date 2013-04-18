@@ -10,10 +10,14 @@ namespace LASI.GuiInterop
     {
         Initializing,
         ConvertingFiles,
-        ParsingWordTags,
+        ParsingTaggedData,
         AggregatingPhrases,
         ComputingMetrics,
         CrossReferencing,
-        Completed
+        Completed,
+        Completing,
+        LoadingThesauri,
+        TaggingData,
+        BuildingAssociations
     }
 }

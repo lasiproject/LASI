@@ -36,68 +36,67 @@ namespace LASI.UserInterface
 
 
         public void BuildAssociationTextView() {
-            var TestDocument1 = new TaggedFileParser(FileManager.TaggedFiles.First()).LoadDocument();
-            Binder.Bind(TestDocument1);
-            LASI.Algorithm.Analysis.Weighter.weight(TestDocument1);
-            foreach (var phrase in TestDocument1.Phrases) {
-                var phraseLabel = new Label {
-                    Content = phrase.Text,
-                    Tag = phrase,
-                    Foreground = Brushes.Black,
-                    Padding = new Thickness(1, 1, 1, 1),
-                    ContextMenu = new ContextMenu(),
-                    ToolTip = phrase.Type.Name,
-                };
-                var vP = phrase as VerbPhrase;
-                if (vP != null && vP.BoundSubjects.Count() > 0) {
-                    var visitSubjectMI = new MenuItem {
-                        Header = "view subjects"
+            foreach (var doc in documents) {
+                foreach (var phrase in doc.Phrases) {
+                    var phraseLabel = new Label {
+                        Content = phrase.Text,
+                        Tag = phrase,
+                        Foreground = Brushes.Black,
+                        Padding = new Thickness(1, 1, 1, 1),
+                        ContextMenu = new ContextMenu(),
+                        ToolTip = phrase.Type.Name,
                     };
-                    visitSubjectMI.Click += (sender, e) => {
-                        var objlabels = from r in vP.BoundSubjects
-                                        join l in phraseLabels on r equals l.Tag
-                                        select l;
-                        foreach (var l in objlabels) {
-                            l.Foreground = Brushes.Black;
-                            l.Background = Brushes.Red;
-                        }
-                    };
-                    phraseLabel.ContextMenu.Items.Add(visitSubjectMI);
+                    var vP = phrase as VerbPhrase;
+                    if (vP != null && vP.BoundSubjects.Count() > 0) {
+                        var visitSubjectMI = new MenuItem {
+                            Header = "view subjects"
+                        };
+                        visitSubjectMI.Click += (sender, e) => {
+                            var objlabels = from r in vP.BoundSubjects
+                                            join l in phraseLabels on r equals l.Tag
+                                            select l;
+                            foreach (var l in objlabels) {
+                                l.Foreground = Brushes.Black;
+                                l.Background = Brushes.Red;
+                            }
+                        };
+                        phraseLabel.ContextMenu.Items.Add(visitSubjectMI);
+                    }
+                    if (vP != null && vP.DirectObjects.Count() > 0) {
+                        var visitSubjectMI = new MenuItem {
+                            Header = "view direct objects"
+                        };
+                        visitSubjectMI.Click += (sender, e) => {
+                            var objlabels = from r in vP.DirectObjects
+                                            join l in phraseLabels on r equals l.Tag
+                                            select l;
+                            foreach (var l in objlabels) {
+                                l.Foreground = Brushes.Black;
+                                l.Background = Brushes.Red;
+                            }
+                        };
+                        phraseLabel.ContextMenu.Items.Add(visitSubjectMI);
+                    }
+                    if (vP != null && vP.IndirectObjects.Count() > 0) {
+                        var visitSubjectMI = new MenuItem {
+                            Header = "view indirect objects"
+                        };
+                        visitSubjectMI.Click += (sender, e) => {
+                            var objlabels = from r in vP.IndirectObjects
+                                            join l in phraseLabels on r equals l.Tag
+                                            select l;
+                            foreach (var l in objlabels) {
+                                l.Foreground = Brushes.Black;
+                                l.Background = Brushes.Red;
+                            }
+                        };
+                        phraseLabel.ContextMenu.Items.Add(visitSubjectMI);
+                    }
+                    phraseLabels.Add(phraseLabel);
                 }
-                if (vP != null && vP.DirectObjects.Count() > 0) {
-                    var visitSubjectMI = new MenuItem {
-                        Header = "view direct objects"
-                    };
-                    visitSubjectMI.Click += (sender, e) => {
-                        var objlabels = from r in vP.DirectObjects
-                                        join l in phraseLabels on r equals l.Tag
-                                        select l;
-                        foreach (var l in objlabels) {
-                            l.Foreground = Brushes.Black;
-                            l.Background = Brushes.Red;
-                        }
-                    };
-                    phraseLabel.ContextMenu.Items.Add(visitSubjectMI);
+                foreach (var l in phraseLabels) {
+                    AssociationPhrasePanal.Children.Add(l);
                 }
-                if (vP != null && vP.IndirectObjects.Count() > 0) {
-                    var visitSubjectMI = new MenuItem {
-                        Header = "view indirect objects"
-                    };
-                    visitSubjectMI.Click += (sender, e) => {
-                        var objlabels = from r in vP.IndirectObjects
-                                        join l in phraseLabels on r equals l.Tag
-                                        select l;
-                        foreach (var l in objlabels) {
-                            l.Foreground = Brushes.Black;
-                            l.Background = Brushes.Red;
-                        }
-                    };
-                    phraseLabel.ContextMenu.Items.Add(visitSubjectMI);
-                }
-                phraseLabels.Add(phraseLabel);
-            }
-            foreach (var l in phraseLabels) {
-                AssociationPhrasePanal.Children.Add(l);
             }
         }
 
@@ -106,11 +105,8 @@ namespace LASI.UserInterface
 
 
         public void BuildFullSortedView() {
-            foreach (var doc in from doc in FileManager.TaggedFiles.AsParallel()
-                                select new TaggedFileParser(doc).LoadDocument()) {
+            foreach (var doc in documents) {
                 var wordLabels = new List<Label>();
-                Binder.Bind(doc);
-                Weighter.weight(doc);
                 var words = doc.Words.GetNouns().Concat<Word>(doc.Words.GetAdverbs()).
                      Concat<Word>(doc.Words.GetAdjectives()).Concat<Word>(doc.Words.GetVerbs()).
                      GroupBy(w => new {
@@ -160,6 +156,7 @@ namespace LASI.UserInterface
                 }
                 TestView.Items.Add(tabItem);
 
+
             }
 
         }
@@ -202,6 +199,18 @@ namespace LASI.UserInterface
 
         //    };
         //}
+
+
+        private List<Document> documents = new List<Document>();
+
+        public List<Document> Documents {
+            get {
+                return documents;
+            }
+            set {
+                documents = value;
+            }
+        }
 
         private List<Label> phraseLabels = new List<Label>();
 

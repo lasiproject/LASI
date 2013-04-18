@@ -165,7 +165,7 @@ namespace LASI.Algorithm
         }
 
         /// <summary>
-        /// Gets or sets the numeric weight of the Word within the context of its parent document.
+        /// Gets or sets the numeric Weight of the Word within the context of its parent document.
         /// </summary>
         public decimal Weight {
             get;
@@ -173,7 +173,7 @@ namespace LASI.Algorithm
         }
 
         /// <summary>
-        /// Gets or sets the numeric weight of the Word over the context of all extant documents.
+        /// Gets or sets the numeric Weight of the Word over the context of all extant documents.
         /// </summary>
         public decimal MetaWeight {
             get;

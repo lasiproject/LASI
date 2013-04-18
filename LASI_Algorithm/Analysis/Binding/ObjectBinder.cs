@@ -24,9 +24,15 @@ namespace LASI.Algorithm.Binding
 
         }
         public void Bind(Sentence sentence) {
-            this.Bind(sentence.Phrases);
+            try {
+                this.Bind(sentence.Phrases);
+            } catch (VerblessPhrasalSequenceException) {
+            }
         }
         public void Bind(IEnumerable<Phrase> contiguousPhrases) {
+            if (contiguousPhrases.Count() < 1) {
+                throw new InvalidOperationException("No Phrases to bind");
+            }
             if (contiguousPhrases.GetVerbPhrases().Count() == 0)
                 throw new VerblessPhrasalSequenceException();
             var phrases = contiguousPhrases.ToList();
@@ -35,9 +41,10 @@ namespace LASI.Algorithm.Binding
             var remainingPhrases = phrases.Skip(verbPhraseIndex + 1).Reverse();
             if (remainingPhrases.Count() > 0) {
                 inputstream.PushAll(remainingPhrases);
-
-                St0.Transition(inputstream.PopDynamic());
-
+                try {
+                    St0.Transition(inputstream.PopDynamic());
+                } catch (InvalidOperationException) {
+                }
             }
         }
         private void AssociateDirect() {
@@ -149,19 +156,25 @@ namespace LASI.Algorithm.Binding
             public void Transition(PrepositionalPhrase phrase) {
                 Machine.lastPrepositional = phrase;
                 try {
-                    if (Machine.inputstream.Count < 1)
-                        Machine.St0.Transition(Stream.PopDynamic());
+                    //if (Machine.inputstream.Count < 1)
+                    Machine.St0.Transition(Stream.PopDynamic());
                 } catch (InvalidOperationException) {
                 }
             }
             public virtual void Transition(VerbPhrase phrase) {
-                new ObjectBinder().Bind(phrase.AsEnumerable().Concat(Stream.ToList()));
+                var remainingPhrases = phrase.AsEnumerable().Concat(Stream.ToList());
+                if (remainingPhrases.GetVerbPhrases().Count() > 1)
+                    new ObjectBinder().Bind(remainingPhrases);
+
             }
             public virtual void Transition(SubordinateClauseBeginPhrase phrase) {
                 var remainingPhrases = phrase.AsEnumerable().Concat(Stream.ToList());
+
                 var subClause = new ClauseTypes.SubordinateClause(remainingPhrases);
                 Machine.bindingTarget.ModifyWith(subClause);
-                new ObjectBinder().Bind(remainingPhrases);
+                if (remainingPhrases.GetVerbPhrases().Count() > 0)
+                    new ObjectBinder().Bind(remainingPhrases);
+
             }
 
             public virtual void Transition(AdverbPhrase phrase) {
@@ -194,7 +207,7 @@ namespace LASI.Algorithm.Binding
 
                 try {
                     Machine.St2.Transition(Stream.PopDynamic());
-                } catch (Exception) {
+                } catch (InvalidOperationException) {
                 }
             }
             public virtual void Transition(AdjectivePhrase phrase) {
@@ -203,7 +216,7 @@ namespace LASI.Algorithm.Binding
                 if (Machine.inputstream.Count > 0) {
                     try {
                         Machine.St1.Transition(Stream.PopDynamic());
-                    } catch (Exception) {
+                    } catch (InvalidOperationException) {
                     }
                 }
             }
@@ -231,7 +244,7 @@ namespace LASI.Algorithm.Binding
 
                 try {
                     Machine.St2.Transition(Stream.PopDynamic());
-                } catch (Exception) {
+                } catch (InvalidOperationException) {
                 }
             }
             public void Transition(ConjunctionPhrase phrase) {
@@ -282,7 +295,7 @@ namespace LASI.Algorithm.Binding
 
                 try {
                     Machine.St4.Transition(Stream.PopDynamic());
-                } catch (Exception) {
+                } catch (InvalidOperationException) {
                 }
 
             }
@@ -292,7 +305,7 @@ namespace LASI.Algorithm.Binding
 
                 try {
                     Machine.St4.Transition(Stream.PopDynamic());
-                } catch (Exception) {
+                } catch (InvalidOperationException) {
                 }
 
             }
@@ -383,7 +396,7 @@ namespace LASI.Algorithm.Binding
 
                 try {
                     Machine.St2.Transition(Stream.PopDynamic());
-                } catch (Exception) {
+                } catch (InvalidOperationException) {
                 }
             }
             public void Transition(AdjectivePhrase phrase) {
@@ -400,7 +413,7 @@ namespace LASI.Algorithm.Binding
 
                 try {
                     Machine.St5.Transition(Stream.PopDynamic());
-                } catch (Exception) {
+                } catch (InvalidOperationException) {
                 }
             }
         }
@@ -427,7 +440,7 @@ namespace LASI.Algorithm.Binding
 
                 try {
                     Machine.St2.Transition(Stream.PopDynamic());
-                } catch (Exception) {
+                } catch (InvalidOperationException) {
                 }
             }
             public void Transition(ConjunctionPhrase phrase) {
@@ -445,7 +458,7 @@ namespace LASI.Algorithm.Binding
 
                 try {
                     Machine.St6.Transition(Stream.PopDynamic());
-                } catch (Exception) {
+                } catch (InvalidOperationException) {
                 }
             }
 
@@ -473,7 +486,7 @@ namespace LASI.Algorithm.Binding
 
                 try {
                     Machine.St5.Transition(Stream.PopDynamic());
-                } catch (Exception) {
+                } catch (InvalidOperationException) {
                 }
             }
             public void Transition(NounPhrase phrase) {
@@ -493,7 +506,7 @@ namespace LASI.Algorithm.Binding
 
                 try {
                     Machine.St2.Transition(Stream.PopDynamic());
-                } catch (Exception) {
+                } catch (InvalidOperationException) {
                 }
             }
 

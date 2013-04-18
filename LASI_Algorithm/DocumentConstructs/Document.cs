@@ -16,7 +16,7 @@ namespace LASI.Algorithm
     public sealed class Document
     {
         #region Constructors
-
+        private List<Word> SynonymousGroups = new List<Word>();
         /// <summary>
         /// Initializes a new instance of the Document class.
         /// </summary>

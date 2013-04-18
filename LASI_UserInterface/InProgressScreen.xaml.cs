@@ -24,6 +24,7 @@ namespace LASI.UserInterface
     {
         public InProgressScreen() {
             InitializeComponent();
+            Output.SetToSilent();
             this.IsVisibleChanged += async (s, e) => await InitPawPrintAlternation();
             this.Closing += (s, e) => Application.Current.Shutdown();
             ProgressBar.Value = 0;
@@ -62,26 +63,20 @@ namespace LASI.UserInterface
 
         #region Progress Bar
 
-        StatusProvider status = new StatusProvider();
+        ProcessController status = new ProcessController();
 
         public async Task InitProgressBar() {
 
-            var msg = await status.GetStatus();
-
-            ProgressBar.ToolTip = msg.ToString();
-            ProgressLabel.Content = msg.ToString();
-            for (var i = 0; i < 20; i++) {
-                await Task.Delay(20);
-                ProgressBar.Value++;
-            }
-            if (ProgressBar.Value < 100) {
-                await InitProgressBar();
-            } else {
-                await Task.Delay(100);
-                DisplayProceedDialog();
-            }
+            //await Task.WhenAll(new Task[] { new Task(async () => { while (ProgressBar.Value < 20) 
+            //{ ProgressBar.Value++; await Task.Delay(1000); } }), Task.Factory.FromAsync(status.LoadAndAnalyseAllDocuments(ProgressBar, ProgressLabel), (t) => { }) });
+            var msg = await status.LoadAndAnalyseAllDocuments(ProgressBar, ProgressLabel);
+            ProgressBar.Value = 100;
+            ProgressBar.ToolTip = "Complete";
+            ProgressLabel.Content = "Complete";
+            WindowManager.ResultsScreen.Documents = msg.ToList();
 
 
+            DisplayProceedDialog();
         }
 
         private void DisplayProceedDialog() {
