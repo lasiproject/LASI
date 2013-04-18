@@ -15,6 +15,7 @@ using LASI.FileSystem;
 using LASI.Algorithm.Weighting;
 using LASI.Algorithm.Thesauri;
 using System.Text.RegularExpressions;
+using LASI.Utilities.TypedSwitch;
 
 
 namespace Erik_Experimentation
@@ -80,7 +81,7 @@ namespace Erik_Experimentation
 
 
             int primary, secondary, tertiary, quaternary, quinary, senary;
-            int based = 10;
+            int based = 20;
             primary = (secondary = (tertiary = (quaternary = (quinary = (senary = 0) + based) + based) + based) + based) + based;
 
             //PHASE 1 - Standard word weight based on part of speech (standardization)
@@ -94,35 +95,32 @@ namespace Erik_Experimentation
                 {
                     Console.WriteLine(w);
 
+                    new Switch(w)
+                        .Case<Noun>(np =>
+                        {
+                            w.Weight = primary;
 
-
-                    if (w is Noun)
-                    {
-                        w.Weight = primary;
-                    }
-                    else if (w is Verb || w is PastParticipleVerb)
-                    {
-                        w.Weight = secondary;
-                    }
-                    else if (w is Adjective)
-                    {
-                        w.Weight = tertiary;
-                    }
-                    else if (w is Adverb)
-                    {
-                        w.Weight = quaternary;
-                    }
-                    else if (w is Pronoun)
-                    {
-                        w.Weight = quinary;
-                    }
-                    else
-                    {
-                        w.Weight = senary;
-                    }
-
-
-
+                        })
+                        .Case<Verb>(vp =>
+                        {
+                            w.Weight = secondary;
+                        })
+                        .Case<Adjective>(vp =>
+                        {
+                            w.Weight = tertiary;
+                        })
+                        .Case<Adverb>(vp =>
+                        {
+                            w.Weight = quaternary;
+                        })
+                        .Case<Pronoun>(vp =>
+                        {
+                            w.Weight = quinary;
+                        })
+                        .Default(a =>
+                        {
+                            w.Weight = senary;
+                        });
 
                     Console.WriteLine(w.Weight);
 
