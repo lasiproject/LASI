@@ -137,45 +137,80 @@ namespace Erik_Experimentation
             // WORKS, BUT
             // NEED FORMULAS FOR MODIFIER VARIABLES - WHAT SHOULD THESE BE?
 
-            //foreach (Sentence s in document.Sentences)
-            //{
-            //    //Console.WriteLine(s);
+            foreach (Sentence s in document.Sentences)
+            {
+                //Console.WriteLine(s);
 
-            //    foreach (Word w in s.Words)
-            //    {
+                foreach (Word w in s.Words)
+                {
 
-            //        Word next = w ?? w.NextWord;
-            //        Word nextNext = next ?? next.NextWord;
+                    Word next = w ?? w.NextWord;
+                    Word nextNext = next ?? next.NextWord;
 
-            //        Word prev = w ?? w.PreviousWord;
-            //        Word prevPrev = prev ?? prev.PreviousWord;
-
-            //        //nouns
-            //        if (w is Noun)
-            //        {
-            //            if (next == w)
-            //            {
-
-            //            }
-            //            else if (next is Noun)
-            //            {
-            //                w.Weight = next.Weight = CompoundNounModifier;
-            //            }
-            //            else if (next is Verb)
-            //            {
-            //                w.Weight = next.Weight = NounActionModifier;
-            //            }
-            //            else if (next is Adverb)
-            //            {
-            //                w.Weight = next.Weight = NounAActionModifier;
-            //            }
-
-            //        }
-
-            //    }
+                    Word prev = w ?? w.PreviousWord;
+                    Word prevPrev = prev ?? prev.PreviousWord;
 
 
-            //}
+                    new Switch(w)
+                       .Case<Noun>(n =>
+                       {
+                            new Switch(next)
+                                   .Case<Noun>(nn =>
+                                   {
+                                       w.Weight = primary;
+
+                                   })
+                                   .Case<Verb>(vn =>
+                                   {
+                                       w.Weight = secondary;
+                                   })
+                                   .Case<Adjective>(adjn =>
+                                   {
+                                       w.Weight = tertiary;
+                                   })
+                                   .Case<Adverb>(advn =>
+                                   {
+                                       w.Weight = quaternary;
+                                   })
+                                   .Case<Pronoun>(pnn =>
+                                   {
+                                       w.Weight = quinary;
+                                   })
+                                   .Default(def =>
+                                   {
+                                       w.Weight = senary;
+                                   });
+
+                       })
+                       .Case<Verb>(v =>
+                       {
+                           w.Weight = secondary;
+                       })
+                       .Case<Adjective>(adj =>
+                       {
+                           w.Weight = tertiary;
+                       })
+                       .Case<Adverb>(adv =>
+                       {
+                           w.Weight = quaternary;
+                       })
+                       .Case<Pronoun>(pn =>
+                       {
+                           w.Weight = quinary;
+                       })
+                       .Default(def =>
+                       {
+                           w.Weight = senary;
+                       });
+                    //nouns
+                    
+
+                   
+
+                }
+
+
+            }
 
 
 
