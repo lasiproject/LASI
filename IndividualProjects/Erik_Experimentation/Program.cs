@@ -73,10 +73,10 @@ namespace Erik_Experimentation
             //PHASE 4 - Phrase weight based on part of speech and neibhors' (full sentence) part of speech
             //PHASE 5 - FREQUENCIES
             // .1 - Frequency of Word/Phrase in document
-            // .2 - Frequency of Word/Phrase in document compared to other documents in set
+            // .2 - Frequency of Word/Phrase in document compared to other documents in set - EXCLUDED FOR DEMO
             //PHASE 6 - SYNONYMS
             // .1 - Frequency of Word (/Phrase?) in document
-            // .2 - Frequency of Word (/Phrase?) in document compared to other documents in set
+            // .2 - Frequency of Word (/Phrase?) in document compared to other documents in set - EXCLUDED FOR DEMO
 
 
 
@@ -220,48 +220,48 @@ namespace Erik_Experimentation
             //PHASE 3 - Standard phrase weight based on phrase part of speech (standardization)
             //COMPLETE - easy peasy.
 
-            Console.WriteLine("Standard Phrase weight based on POS:");
-            foreach (Sentence s in document.Sentences)
-            {
-                //Console.WriteLine(s);
+            //Console.WriteLine("Standard Phrase weight based on POS:");
+            //foreach (Sentence s in document.Sentences)
+            //{
+            //    //Console.WriteLine(s);
 
-                foreach (Phrase p in s.Phrases)
-                {
-                    Console.WriteLine(p);
+            //    foreach (Phrase p in s.Phrases)
+            //    {
+            //        Console.WriteLine(p);
 
-                    new Switch(p)
-                        .Case<NounPhrase>(n =>
-                        {
-                            p.Weight = primary;
+            //        new Switch(p)
+            //            .Case<NounPhrase>(n =>
+            //            {
+            //                p.Weight = primary;
 
-                        })
-                        .Case<VerbPhrase>(v =>
-                        {
-                            p.Weight = secondary;
-                        })
-                        .Case<AdjectivePhrase>(adj =>
-                        {
-                            p.Weight = tertiary;
-                        })
-                        .Case<AdverbPhrase>(adv =>
-                        {
-                            p.Weight = quaternary;
-                        })
-                        .Case<SimpleDeclarativePhrase>(pn =>
-                        {
-                            p.Weight = quinary;
-                        })
-                        .Default(def =>
-                        {
-                            p.Weight = senary;
-                        });
+            //            })
+            //            .Case<VerbPhrase>(v =>
+            //            {
+            //                p.Weight = secondary;
+            //            })
+            //            .Case<AdjectivePhrase>(adj =>
+            //            {
+            //                p.Weight = tertiary;
+            //            })
+            //            .Case<AdverbPhrase>(adv =>
+            //            {
+            //                p.Weight = quaternary;
+            //            })
+            //            .Case<SimpleDeclarativePhrase>(pn =>
+            //            {
+            //                p.Weight = quinary;
+            //            })
+            //            .Default(def =>
+            //            {
+            //                p.Weight = senary;
+            //            });
 
-                    Console.WriteLine(p.Weight);
+            //        Console.WriteLine(p.Weight);
 
-                }
+            //    }
 
 
-            }
+            //}
 
 
 
