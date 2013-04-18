@@ -96,28 +96,28 @@ namespace Erik_Experimentation
                     Console.WriteLine(w);
 
                     new Switch(w)
-                        .Case<Noun>(np =>
+                        .Case<Noun>(n =>
                         {
                             w.Weight = primary;
 
                         })
-                        .Case<Verb>(vp =>
+                        .Case<Verb>(v =>
                         {
                             w.Weight = secondary;
                         })
-                        .Case<Adjective>(vp =>
+                        .Case<Adjective>(adj =>
                         {
                             w.Weight = tertiary;
                         })
-                        .Case<Adverb>(vp =>
+                        .Case<Adverb>(adv =>
                         {
                             w.Weight = quaternary;
                         })
-                        .Case<Pronoun>(vp =>
+                        .Case<Pronoun>(pn =>
                         {
                             w.Weight = quinary;
                         })
-                        .Default(a =>
+                        .Default(def =>
                         {
                             w.Weight = senary;
                         });
