@@ -84,50 +84,52 @@ namespace Erik_Experimentation
             int based = 20;
             primary = (secondary = (tertiary = (quaternary = (quinary = (senary = 0) + based) + based) + based) + based) + based;
 
+           
             //PHASE 1 - Standard word weight based on part of speech (standardization)
+            //COMPLETE - easy peasy.
 
-            Console.WriteLine("Standard Word weight based on POS:");
-            foreach (Sentence s in document.Sentences)
-            {
-                //Console.WriteLine(s);
+            //Console.WriteLine("Standard Word weight based on POS:");
+            //foreach (Sentence s in document.Sentences)
+            //{
+            //    //Console.WriteLine(s);
 
-                foreach (Word w in s.Words)
-                {
-                    Console.WriteLine(w);
+            //    foreach (Word w in s.Words)
+            //    {
+            //        Console.WriteLine(w);
 
-                    new Switch(w)
-                        .Case<Noun>(n =>
-                        {
-                            w.Weight = primary;
+            //        new Switch(w)
+            //            .Case<Noun>(n =>
+            //            {
+            //                w.Weight = primary;
 
-                        })
-                        .Case<Verb>(v =>
-                        {
-                            w.Weight = secondary;
-                        })
-                        .Case<Adjective>(adj =>
-                        {
-                            w.Weight = tertiary;
-                        })
-                        .Case<Adverb>(adv =>
-                        {
-                            w.Weight = quaternary;
-                        })
-                        .Case<Pronoun>(pn =>
-                        {
-                            w.Weight = quinary;
-                        })
-                        .Default(def =>
-                        {
-                            w.Weight = senary;
-                        });
+            //            })
+            //            .Case<Verb>(v =>
+            //            {
+            //                w.Weight = secondary;
+            //            })
+            //            .Case<Adjective>(adj =>
+            //            {
+            //                w.Weight = tertiary;
+            //            })
+            //            .Case<Adverb>(adv =>
+            //            {
+            //                w.Weight = quaternary;
+            //            })
+            //            .Case<Pronoun>(pn =>
+            //            {
+            //                w.Weight = quinary;
+            //            })
+            //            .Default(def =>
+            //            {
+            //                w.Weight = senary;
+            //            });
 
-                    Console.WriteLine(w.Weight);
+            //        Console.WriteLine(w.Weight);
 
-                }
+            //    }
 
 
-            }
+            //}
 
 
 
