@@ -75,6 +75,7 @@ namespace LASI.Algorithm.Binding
                 }
             }
         }
+
         public void display() {
 
             for (int i = 0; i < stateList.Count; i++) {

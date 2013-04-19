@@ -14,7 +14,7 @@ namespace LASI.Algorithm
     /// </summary>
     /// <see cref="IEntityGroup"/>
     /// <seealso cref="IEntity"/>
-    class NPAggregateSubjectObject : IEntityGroup
+    public class NPAggregateSubjectObject : IEntityGroup
     {
         public NPAggregateSubjectObject(IEnumerable<IEntity> aggregates) {
             AggregatesEntities = aggregates;
@@ -249,7 +249,7 @@ namespace LASI.Algorithm
         }
 
         IEnumerator<IEntity> IEnumerable<IEntity>.GetEnumerator() {
-            throw new NotImplementedException();
+            return AggregatesEntities.GetEnumerator();
         }
     }
 }

@@ -43,6 +43,8 @@ namespace LASI.Algorithm
                     result += "\n\tleft linked: " + OnLeftSide.ToString();
                 if (OnRightSide != null)
                     result += "\n\tright linked: " + OnRightSide.ToString();
+                if (PrepositionalObject != null)
+                    result += "\n\tObject: " + PrepositionalObject.ToString();
                 return result;
             }
             return base.ToString();

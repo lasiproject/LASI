@@ -47,12 +47,15 @@ namespace LASI.Algorithm
         /// Binds the VerbPhrase to an object via a propisitional construct such as a Prepositon or or PrepositionalPhrase.
         /// Example: He "ran" to work. where "work" is the object of ran via the prepositional construct "to"
         /// </summary>
-        /// <param name="prep"></param>
+        /// <param name="prep">The IPrepositional construct through which the Object is associated.</param>
         public virtual void AttachObjectViaPreposition(IPrepositional prep) {
-            ObjectViaPreposition =
-                prep.OnRightSide != null ?
-                prep.OnRightSide :
-                prep.OnLeftSide;
+            if (!DirectObjects.Contains(prep.PrepositionalObject) && !IndirectObjects.Contains(prep.PrepositionalObject)) {
+                ObjectViaPreposition =
+                    prep.OnRightSide != null ?
+                    prep.OnRightSide :
+                    prep.OnLeftSide;
+            }
+
 
         }
         /// <summary>
@@ -71,7 +74,7 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="directObject">The Entity to attach to the VerbPhrase as a direct object.</param>
         public virtual void BindDirectObject(IEntity directObject) {
-            if (!_boundDirectObjects.Contains(directObject)) {
+            if (ObjectViaPreposition != directObject && !_boundDirectObjects.Contains(directObject)) {
                 _boundDirectObjects.Add(directObject);
                 directObject.DirectObjectOf = this;
                 if (Possessive) {
@@ -86,7 +89,7 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="indirectObject">The Entity to attach to the VerbPhrase as an indirect object.</param>
         public virtual void BindIndirectObject(IEntity indirectObject) {
-            if (!_boundIndirectObjects.Contains(indirectObject)) {
+            if (ObjectViaPreposition != indirectObject && !_boundIndirectObjects.Contains(indirectObject)) {
                 _boundIndirectObjects.Add(indirectObject);
                 indirectObject.IndirectObjectOf = this;
             }
@@ -106,12 +109,16 @@ namespace LASI.Algorithm
                 foreach (var i in IndirectObjects) {
                     result += i != null ? "\n\tIndirect Object: " + i.ToString() : "";
                 }
+                if (ObjectViaPreposition != null) {
+                    result += "\n\tVia Preposition Object" + ObjectViaPreposition.ToString();
+                }
                 foreach (var mod in _modifiers) {
                     result += _modifiers.Count > 0 ? "\n\tModifier: " + mod.ToString() : "";
 
                 }
                 return result;
-            } else
+            }
+            else
                 return base.ToString();
         }
 

@@ -13,13 +13,20 @@ namespace Aluan_Experimentation
     public class Program
     {
 
-        static string testPath = @"C:\Users\Aluan\Desktop\test1.txt";
+        static string testPath = @"C:\Users\Aluan\Desktop\411writtensummary2.txt";
 
         static void Main(string[] args) {
 
             //Phrase.VerboseOutput = true;
 
-            TestWordAndPhraseBindings();
+            foreach (var s in TaggerUtil.LoadTextFile(new LASI.FileSystem.FileTypes.TextFile(testPath)).Sentences) {
+                var k = new LASI.Algorithm.Analysis.Binding.PhraseWiseEntityGroupBinder();
+                k.Bind(s);
+                foreach (var r in k.EntityGroups) {
+                    foreach (var n in r)
+                        Console.WriteLine(n);
+                }
+            }
             //Task.Run(() => Thesaurus.LoadAllAsync()).Wait();
             //try {
             //    Thesaurus.InternalLookup(new Adverb("quickly"));
