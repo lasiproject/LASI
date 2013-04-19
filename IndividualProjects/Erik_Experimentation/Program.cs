@@ -25,10 +25,15 @@ namespace Erik_Experimentation
 
         static void Main(string[] args) {
 
-            //var nounTest = new NounThesaurus(@"..\..\..\..\WordNetThesaurusData\data.noun");
-            //nounTest.Load();
-            //string key = "object";
-            //nounTest.SearchFor(key);
+            //var nounTest2 = new NounThesaurus(@"..\..\..\..\WordNetThesaurusData\data.noun");
+            //nounTest2.Load();
+            //string key = "man";
+            //HashSet<string> synonyms2;
+            //synonyms2 = nounTest2.SearchFor(key);
+            //foreach (var s in synonyms2)
+            //{
+            //    Console.WriteLine(s);
+            //}
 
             //var adjTest = new AdjectiveThesaurus(@"..\..\..\..\WordNetThesaurusData\data.adj");
             //adjTest.Load();
@@ -39,6 +44,7 @@ namespace Erik_Experimentation
             //advTest.Load();
             //string key = "vastly";
             //advTest.SearchFor(key);
+
 
             //Keeps the console window open until the escape key is pressed
             //Console.WriteLine("Press escape to exit");
@@ -75,7 +81,7 @@ namespace Erik_Experimentation
             // .1 - Frequency of Word/Phrase in document
             // .2 - Frequency of Word/Phrase in document compared to other documents in set - EXCLUDED FOR DEMO
             //PHASE 6 - SYNONYMS
-            // .1 - Frequency of Word (/Phrase?) in document
+//ALLUAN READ:            // .1 - Frequency of Word (/Phrase?) in document - COMPLETE MINUS VERBS (couldn't search the verb thesaurus in any way)
             // .2 - Frequency of Word (/Phrase?) in document compared to other documents in set - EXCLUDED FOR DEMO
 
 
@@ -351,12 +357,17 @@ namespace Erik_Experimentation
 
             //PHASE 6 - SYNONYMS
             // .1 - Frequency of Word in document
-
+            // COMPLETE - minus Aluan's verb lookup!
+            
             //Console.WriteLine(" ");
             //Console.WriteLine("Word Synonyms in Document:");
             //IEnumerable<Noun> nouns = document.Words.GetNouns();
+            //IEnumerable<Verb> verbs = document.Words.GetVerbs();
+            //IEnumerable<Adjective> adjectives = document.Words.GetAdjectives();
+            //IEnumerable<Adverb> adverbs = document.Words.GetAdverbs();
 
-            //IEnumerable<string> synonyms;
+            //HashSet<string> synonyms;
+
 
             //foreach (var n in nouns)
             //{
@@ -368,17 +379,94 @@ namespace Erik_Experimentation
 
 
 
-            //    foreach (Word w in document.Words)
+            //    foreach (var n1 in nouns)
             //    {
             //        foreach (var s in synonyms)
             //        {
-            //            if (w.Text == s)
+            //            if (n1.Text == s)
             //            {
-            //                w.Synonyms += 1;
+            //                n1.Synonyms += 1;
             //            }
             //        }
+            //        Console.WriteLine(n1.Text);
+            //        Console.WriteLine(n1.Synonyms);
+            //    }
+            //}
 
 
+            //foreach (var a in adjectives)
+            //{
+            //    var adjTest = new AdjectiveThesaurus(@"..\..\..\..\WordNetThesaurusData\data.adj");
+
+            //    adjTest.Load();
+            //    synonyms = adjTest.SearchFor(a.Text);
+
+
+
+
+            //    foreach (var a1 in adjectives)
+            //    {
+            //        foreach (var s in synonyms)
+            //        {
+            //            if (a1.Text == s)
+            //            {
+            //                a1.Synonyms += 1;
+            //            }
+            //        }
+            //        Console.WriteLine(a1.Text);
+            //        Console.WriteLine(a1.Synonyms);
+            //    }
+            //}
+
+
+            //foreach (var av in adverbs)
+            //{
+            //    var advTest = new AdverbThesaurus(@"..\..\..\..\WordNetThesaurusData\data.adv");
+
+            //    advTest.Load();
+            //    synonyms = advTest.SearchFor(av.Text);
+
+
+
+
+            //    foreach (var av1 in adverbs)
+            //    {
+            //        foreach (var s in synonyms)
+            //        {
+            //            if (av1.Text == s)
+            //            {
+            //                av1.Synonyms += 1;
+            //            }
+            //        }
+            //        Console.WriteLine(av1.Text);
+            //        Console.WriteLine(av1.Synonyms);
+            //    }
+            //}
+
+//ALUAN: HELP NEEDED for your verb lookup
+            //foreach (var v in verbs)
+            //{
+            //    var verbTest = new VerbThesaurus(@"..\..\..\..\WordNetThesaurusData\data.verb");
+
+            //    verbTest.Load();
+            //    IEnumerable<string> synonyms2 = Thesaurus.Lookup(v);  //Can't search through your verbs?
+                
+
+
+
+            //    foreach (var v1 in verbs)
+            //    {
+            //        foreach (var s in synonyms2)
+            //        {
+            //            if (v1.Text == s)
+            //            {
+            //                v1.Synonyms += 1;
+            //            }
+            //        }
+            //        Console.WriteLine(v1.Text);
+            //        Console.WriteLine(v1.Synonyms);
+            //    }
+            //}
 
 
 
@@ -389,8 +477,7 @@ namespace Erik_Experimentation
 
 
             //        Console.WriteLine(w);
-            //        Console.WriteLine(w.Synonyms);
-            //        Console.WriteLine(w.Weight);
+                  
 
             //    }
             //}

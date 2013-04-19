@@ -26,7 +26,7 @@ namespace LASI.Algorithm
             MetaWeight = 1;
             FrequencyCurrent = 0;
             FrequencyAcross = 0;
-            Synonyms = 0;
+            Synonyms = -1;
         }
 
 
