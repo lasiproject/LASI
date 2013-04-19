@@ -47,11 +47,11 @@ namespace LASI.UserInterface
 
         private async Task LoadTextandTab(FileSystem.FileTypes.TextFile textfile) {
             using (StreamReader reader = new StreamReader(textfile.FullPath)) {
-
-                var docu = await reader.ReadToEndAsync();
-                docu = docu.Replace("\r\n", "\n\t").Replace("\n\n", "\r\n\t").Replace("\r\n\r\n", "\n\t");
-                docu = docu.Replace("</paragraph>", "");
-                docu = "\t" + docu.Replace("<paragraph>", "\r\n\t").Trim();
+                var data = reader.ReadToEnd();
+                var docu = await reader.ReadToEndAsync().ContinueWith((t) => {
+                    return (from d in data.Split(new[] { "\r\n\r\n", "<paragraph>", "</paragraph>" }, StringSplitOptions.RemoveEmptyEntries)
+                            select d.Trim()).ToList().Aggregate("", (sum, s) => sum += "\n\t" + s);
+                });
 
                 var item = new TabItem {
                     Header = textfile.NameSansExt,
