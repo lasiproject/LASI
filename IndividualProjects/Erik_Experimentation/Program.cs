@@ -174,13 +174,17 @@ namespace Erik_Experimentation
                                   {
                                       modOne = 0; //compound noun
                                   })
-                                  .Case<ToLinker>(lnk =>
+                                  .Case<ToLinker>(lnkn =>
                                   {
                                       modOne = 0; //noun to link
                                   })
+                                  .Case<Preposition>(pren =>
+                                  {
+                                      modOne = 0; //noun position
+                                  })
                                   .Default(def =>
                                   {
-                                      w.Weight = senary;
+                                      modOne = 0;
                                   });
 
                        })
