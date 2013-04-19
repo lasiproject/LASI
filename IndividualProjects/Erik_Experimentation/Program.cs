@@ -150,6 +150,7 @@ namespace Erik_Experimentation
                     Word next = w ?? w.NextWord;
                     Word nextNext = next ?? next.NextWord;
 
+                    //cut?
                     Word prev = w ?? w.PreviousWord;
                     Word prevPrev = prev ?? prev.PreviousWord;
 
@@ -165,6 +166,10 @@ namespace Erik_Experimentation
                                   .Case<Verb>(vn =>
                                   {
                                       modOne = 0; //noun action or descriptor
+                                      if (next is PastParticipleVerb)
+                                      {
+                                          modOne = 0; //noun action-ed
+                                      }
                                   })
                                   .Case<Adverb>(advn =>
                                   {
@@ -182,6 +187,10 @@ namespace Erik_Experimentation
                                   {
                                       modOne = 0; //noun position
                                   })
+                                  .Case<Conjunction>(pren =>
+                                  {
+                                      modOne = 0; //noun phrase to be
+                                  })
                                   .Default(def =>
                                   {
                                       modOne = 0;
@@ -190,7 +199,39 @@ namespace Erik_Experimentation
                        })
                        .Case<Verb>(v =>
                        {
-                           w.Weight = secondary;
+                           new Switch(next)
+                                  .Case<Noun>(nn =>
+                                  {
+                                      modOne = 0; //verb actor
+                                  })
+                                  .Case<PastParticipleVerb>(vn =>
+                                  {
+                                      modOne = 0; //verb-verb descriptor
+                                  })
+                                  .Case<Adjective>(advn =>
+                                  {
+                                      modOne = 0;  //verb state
+                                  })
+                                  .Case<Adverb>(advn =>
+                                  {
+                                      modOne = 0;  //perfect adverb
+                                  })
+                                  .Case<Pronoun>(pnn =>
+                                  {
+                                      modOne = 0; //verb actor
+                                  })
+                                  .Case<ToLinker>(lnkn =>
+                                  {
+                                      modOne = 0; //verb directional
+                                  })
+                                  .Case<Preposition>(pren =>
+                                  {
+                                      modOne = 0; //verb-verb descriptor
+                                  })
+                                  .Default(def =>
+                                  {
+                                      modOne = 0;
+                                  });
                        })
                        .Case<Adjective>(adj =>
                        {
