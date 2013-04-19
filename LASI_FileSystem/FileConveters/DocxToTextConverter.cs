@@ -102,7 +102,7 @@ namespace LASI.FileSystem
 
 
                         if (xmlReader.Name == "w:p") {
-                            writer.Write("</paragraph>");
+                            writer.Write("</paragraph>\n");
                         }
 
                     }

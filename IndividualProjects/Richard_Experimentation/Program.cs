@@ -7,10 +7,33 @@ using LASI.Algorithm;
 using LASI.Utilities;
 using LASI.FileSystem;
 using SharpNLPTaggingModule;
-
+using LASI.Utilities.TypedSwitch;
 namespace Richard_Experimentation
 {
 
+    public class PronounBinder
+    {
+        private Document SourceDocument;
+        public void Bind(Document documennt) {
+            SourceDocument = documennt;
+            foreach (var word in documennt.Words) {
+                new Switch(word)
+                    .Case<Pronoun>(p => {
+                        Output.WriteLine(p.Text);
+                    }).Case<GenericSingularNoun>(n => {
+                        LastGenericSingularNoun = n;
+                        Output.WriteLine(n.Text);
+                    }).Default<Word>(w => {
+                    });
+            }
+        }
+
+
+        public GenericSingularNoun LastGenericSingularNoun {
+            get;
+            set;
+        }
+    }
 
     public class Program
     {
