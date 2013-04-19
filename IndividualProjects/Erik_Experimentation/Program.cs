@@ -138,81 +138,81 @@ namespace Erik_Experimentation
             //PHASE 2 - Word Weight based on part of speech and neighbors' (+2) part of speech
             // WORKS, BUT
             // NEED FORMULAS FOR MODIFIER VARIABLES - WHAT SHOULD THESE BE?
+            float modOne, modTwo, modThree, modFour;
 
-            //foreach (Sentence s in document.Sentences)
-            //{
-            //    //Console.WriteLine(s);
+            foreach (Sentence s in document.Sentences)
+            {
+                //Console.WriteLine(s);
 
-            //    foreach (Word w in s.Words)
-            //    {
+                foreach (Word w in s.Words)
+                {
 
-            //        Word next = w ?? w.NextWord;
-            //        Word nextNext = next ?? next.NextWord;
+                    Word next = w ?? w.NextWord;
+                    Word nextNext = next ?? next.NextWord;
 
-            //        Word prev = w ?? w.PreviousWord;
-            //        Word prevPrev = prev ?? prev.PreviousWord;
-
-
-            //        new Switch(w)
-            //           .Case<Noun>(n =>
-            //           {
-            //                new Switch(next)
-            //                       .Case<Noun>(nn =>
-            //                       {
-            //                           w.Weight = primary;
-
-            //                       })
-            //                       .Case<Verb>(vn =>
-            //                       {
-            //                           w.Weight = secondary;
-            //                       })
-            //                       .Case<Adjective>(adjn =>
-            //                       {
-            //                           w.Weight = tertiary;
-            //                       })
-            //                       .Case<Adverb>(advn =>
-            //                       {
-            //                           w.Weight = quaternary;
-            //                       })
-            //                       .Case<Pronoun>(pnn =>
-            //                       {
-            //                           w.Weight = quinary;
-            //                       })
-            //                       .Default(def =>
-            //                       {
-            //                           w.Weight = senary;
-            //                       });
-
-            //           })
-            //           .Case<Verb>(v =>
-            //           {
-            //               w.Weight = secondary;
-            //           })
-            //           .Case<Adjective>(adj =>
-            //           {
-            //               w.Weight = tertiary;
-            //           })
-            //           .Case<Adverb>(adv =>
-            //           {
-            //               w.Weight = quaternary;
-            //           })
-            //           .Case<Pronoun>(pn =>
-            //           {
-            //               w.Weight = quinary;
-            //           })
-            //           .Default(def =>
-            //           {
-            //               w.Weight = senary;
-            //           });
-            //        //nouns
+                    Word prev = w ?? w.PreviousWord;
+                    Word prevPrev = prev ?? prev.PreviousWord;
 
 
+                    new Switch(w)
+                       .Case<Noun>(n =>
+                       {
+                           new Switch(next)
+                                  .Case<Noun>(nn =>
+                                  {
+                                      modOne = 0; //compound noun
+                                  })
+                                  .Case<Verb>(vn =>
+                                  {
+                                      modOne = 0; //noun action or descriptor
+                                  })
+                                  .Case<Adverb>(advn =>
+                                  {
+                                      modOne = 0;  //noun amplifier
+                                  })
+                                  .Case<Pronoun>(pnn =>
+                                  {
+                                      modOne = 0; //compound noun
+                                  })
+                                  .Case<ToLinker>(lnk =>
+                                  {
+                                      modOne = 0; //noun to link
+                                  })
+                                  .Default(def =>
+                                  {
+                                      w.Weight = senary;
+                                  });
+
+                       })
+                       .Case<Verb>(v =>
+                       {
+                           w.Weight = secondary;
+                       })
+                       .Case<Adjective>(adj =>
+                       {
+                           w.Weight = tertiary;
+                       })
+                       .Case<Adverb>(adv =>
+                       {
+                           w.Weight = quaternary;
+                       })
+                       .Case<Pronoun>(pn =>
+                       {
+                           w.Weight = quinary;
+                       })
+                       .Default(def =>
+                       {
+                           w.Weight = senary;
+                       });
+                    //nouns
 
 
-            //    }
 
 
-            //}
+                }
+
+
+            }
 
 
 
