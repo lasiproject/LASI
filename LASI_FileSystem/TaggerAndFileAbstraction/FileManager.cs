@@ -202,7 +202,8 @@ namespace LASI.FileSystem
                 localDocumentNames.Add(newFile.NameSansExt);
                 AddToTypedList(newFile as dynamic);
                 return originalFile;
-            } catch (KeyNotFoundException ex) {
+            }
+            catch (KeyNotFoundException ex) {
                 throw new UnsupportedFileTypeAddedException(ext, ex);
             }
         }
@@ -509,7 +510,6 @@ namespace LASI.FileSystem
         }
 
         #endregion
-
     }
     #region Exception Types
 

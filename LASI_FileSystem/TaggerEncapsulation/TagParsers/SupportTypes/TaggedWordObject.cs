@@ -36,7 +36,7 @@ namespace LASI.FileSystem
     /// <summary>
     /// Holds a pair of strings representing the internal text of a entity and its NLP entity tag.
     /// </summary>
-    public struct TaggedPhraseObject
+    public struct TextTagPair
     {
         /// <summary>
         /// The inner text content of the entity, presumably consisting of one or more words.

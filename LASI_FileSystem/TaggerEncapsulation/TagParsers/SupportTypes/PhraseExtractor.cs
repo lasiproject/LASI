@@ -14,7 +14,7 @@ namespace LASI.FileSystem.TaggerEncapsulation
             var tagEnd = phraseString.Substring(tagStart).IndexOf(" (");
             if (tagEnd == -1 || tagEnd < tagStart) {
                 var tt = phraseString.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                var result = new TaggedPhraseObject {
+                var result = new TextTagPair {
                     Tag = tt[0], Text = tt[1]
                 };
                 phraseString = "";
@@ -27,7 +27,7 @@ namespace LASI.FileSystem.TaggerEncapsulation
             var innerText = phraseString.Substring(tagEnd + 1, innerTextLen);
             if (innerText.Count(c => c == '(') > 0) {
                 phraseString = phraseString.Substring(tagLength + innerText.Length).Trim();
-                var result = new TaggedPhraseObject {
+                var result = new TextTagPair {
                     Tag = tag, Text = innerText
                 };
                 var r2 = new TextNode(result.Tag + ":  " + result.Text);
@@ -35,7 +35,7 @@ namespace LASI.FileSystem.TaggerEncapsulation
                 return r2;
             } else {
                 phraseString = phraseString.Substring(innerTextEnd + 1).Trim();
-                var result = new TaggedPhraseObject {
+                var result = new TextTagPair {
                     Tag = "X", Text = String.Format("({0} {1})", tag, innerText)
                 };
                 var r3 = new TextNode(result.Tag + ":  " + result.Text);

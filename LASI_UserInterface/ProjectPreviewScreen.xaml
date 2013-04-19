@@ -44,6 +44,7 @@
             <TextBox Height="20" HorizontalAlignment ="Right" TextWrapping="Wrap" Width="154" UndoLimit="200" AllowDrop="False" SelectionOpacity="0" Padding="1,1,1,2"/>
             <Button Content="Search" VerticalAlignment="Top" HorizontalAlignment="Right"/>
         </Menu>
+        <RadioButton Content="RadioButton" HorizontalAlignment="Left" VerticalAlignment="Top"/>
     </Grid>
 </Window>
 

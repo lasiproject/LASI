@@ -70,6 +70,7 @@
     <Compile Include="SyntaciticAndSemanticStructures\BridgingConstructs\PrepositionalRole.cs" />
     <Compile Include="SyntaciticAndSemanticStructures\ConstrainingSemanticConstructs\DeterminerKind.cs" />
     <Compile Include="SyntaciticAndSemanticStructures\ConstrainingSemanticConstructs\IDeterminable.cs" />
+    <Compile Include="SyntaciticAndSemanticStructures\MiscLanguageConstructs\PunctuatorPhrase.cs" />
     <Compile Include="SyntaciticAndSemanticStructures\MiscLanguageConstructs\UndeterminedPhrase.cs" />
     <Compile Include="SyntaciticAndSemanticStructures\NounRelatedConstructs\NPAggregateSubjectObject.cs" />
     <Compile Include="SyntaciticAndSemanticStructures\NounRelatedConstructs\EntityKind.cs" />

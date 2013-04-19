@@ -19,14 +19,14 @@ namespace Aluan_Experimentation
 
             //Phrase.VerboseOutput = true;
 
-            //TestWordAndPhraseBindings();
-            Task.Run(() => Thesaurus.LoadAllAsync()).Wait();
-            try {
-                Thesaurus.InternalLookup(new Adverb("quickly"));
-            } catch (LASI.Algorithm.Thesuari.NoSynonymLookupForTypeException ex) {
-                Output.WriteLine(ex.Message);
-                Input.WaitForKey();
-            }
+            TestWordAndPhraseBindings();
+            //Task.Run(() => Thesaurus.LoadAllAsync()).Wait();
+            //try {
+            //    Thesaurus.InternalLookup(new Adverb("quickly"));
+            //} catch (LASI.Algorithm.Thesuari.NoSynonymLookupForTypeException ex) {
+            //    Output.WriteLine(ex.Message);
+            Input.WaitForKey();
+            //}
         }
 
 
@@ -65,13 +65,15 @@ namespace Aluan_Experimentation
                 var objectBinder = new ObjectBinder();
                 try {
                     subjectBinder.Bind(s);
-                } catch (NullReferenceException) {
+                }
+                catch (NullReferenceException) {
                 }
                 try {
                     objectBinder.Bind(s);
-                } catch (InvalidStateTransitionException) {
-                } catch (VerblessPhrasalSequenceException) {
-                } catch (InvalidOperationException) {
+                }
+                //catch (InvalidStateTransitionException) {
+                //}
+                catch (VerblessPhrasalSequenceException) {
                 }
             }
 
@@ -103,7 +105,8 @@ namespace Aluan_Experimentation
             for (var k = Console.ReadLine(); ; ) {
                 try {
                     Output.WriteLine(Thesaurus.VerbProvider[k].OrderBy(o => o).Aggregate("", (aggr, s) => s.PadRight(30) + ", " + aggr));
-                } catch (ArgumentNullException) {
+                }
+                catch (ArgumentNullException) {
                     Output.WriteLine("no synonyms returned");
                 }
                 Output.WriteLine("enter verb: ");

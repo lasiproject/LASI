@@ -29,7 +29,7 @@ namespace LASI.FileSystem
         private readonly Dictionary<string, Func<string, Word>> typeDictionary = new Dictionary<string, Func<string, Word>> {
             { "", t => { throw new EmptyTagException(String.Format("the tag for word: {0}\nis empty",t)); } },  
             { "CC", t => new Conjunction(t) }, //Coordinating conjunction
-            { ",", t => new Conjunction(t) }, //Coordinating conjunction
+            { ",", t => new Punctuator(t) }, //Coordinating conjunction
             { "CD", t => new Quantifier(t) }, //Cardinal number
             { "DT", t => new Determiner(t) }, //Determiner
             { "EX", t => new Existential(t) }, //Existential 'there'
@@ -99,7 +99,8 @@ namespace LASI.FileSystem
             get {
                 try {
                     return typeDictionary[tag];
-                } catch (KeyNotFoundException) {
+                }
+                catch (KeyNotFoundException) {
                     throw new UnknownPOSException(String.Format("The tag {0} is not defined by this Tagset", tag));
                 }
             }
@@ -109,7 +110,8 @@ namespace LASI.FileSystem
             get {
                 try {
                     return typeDictionary.First(pair => pair.Value == mappedConstructor).Key;
-                } catch (InvalidOperationException) {
+                }
+                catch (InvalidOperationException) {
                     throw new UnmappedWordConstructorException(String.Format("Word constructor\n{0}\nis not mapped by this Tagset for", mappedConstructor));
                 }
             }

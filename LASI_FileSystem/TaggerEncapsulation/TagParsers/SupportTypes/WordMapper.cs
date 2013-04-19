@@ -51,7 +51,7 @@ namespace LASI.FileSystem
         private Func<string, Word> LookupMapping(TaggedWordObject taggedText) {
             var tag = taggedText.Tag.Trim();
             var text = taggedText.Text.Trim();
-            if (tag.Length < 2 && text != ",")
+            if (tag.Length < 2)
                 return
                     (text == "." || text == "!" || text == "?") ?
                     new Func<string, Word>((s) => new LASI.Algorithm.SentencePunctuation(s.First(c => !Char.IsWhiteSpace(c)))) :

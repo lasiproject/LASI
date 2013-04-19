@@ -1,4 +1,5 @@
 ﻿using LASI.Algorithm;
+using LASI.Algorithm.SyntaciticAndSemanticStructures;
 using LASI.FileSystem.FileTypes;
 using LASI.FileSystem.TaggerEncapsulation;
 using System;
@@ -91,7 +92,7 @@ namespace LASI.FileSystem
                     if (!string.IsNullOrEmpty(chunk) && !string.IsNullOrWhiteSpace(chunk) && chunk.Contains('/')) {
                         char token = SkipToNextElement(chunk);
                         if (token == ' ') {
-                            var currentPhrase = ParsePhrase(new TaggedPhraseObject {
+                            var currentPhrase = ParsePhrase(new TextTagPair {
                                 Text = chunk.Substring(chunk.IndexOf(' ')),
                                 Tag = chunk.Substring(0, chunk.IndexOf(' '))
                             });
@@ -104,25 +105,27 @@ namespace LASI.FileSystem
                                 parsedPhrases.Add(currentPhrase);
                             }
 
-                        } else if (token == '/') {
+                        }
+                        else if (token == '/') {
                             var words = CreateWords(chunk);
-                            if (words.First() != null)
+                            if (words.First() != null) {
                                 if (words.Count(w => w is Conjunction) == words.Count) {
-                                    var currentPhrase = new ConjunctionPhrase(words);
-                                    parsedPhrases.Add(currentPhrase);
-                                } else if (words.Count() == 1 && words.First() is SentencePunctuation) {
+                                    parsedPhrases.Add(new ConjunctionPhrase(words));
+                                }
+                                else if (words.Count() == 1 && words.First() is SentencePunctuation) {
                                     sentencePunctuation = words.First() as SentencePunctuation;
                                     parsedClauses.Add(new Clause(parsedPhrases.Take(parsedPhrases.Count)));
                                     parsedPhrases = new List<Phrase>();
-                                } else {
-
-                                    //parsedPhrases.Add(new UndeterminedPhrase(words));
                                 }
+                                else if (words.Count(w => w is Punctuator) == words.Count) {
+                                    parsedPhrases.Add(new PunctuatorPhrase(words));
+                                }
+                                else {
+                                    parsedPhrases.Add(new UndeterminedPhrase(words));
+                                }
+                            }
                         }
-
                     }
-                    //if (parsedClauses.Find(fff => fff.Text != "") != null)
-
                 }
                 parsedSentences.Add(new Sentence(parsedClauses, sentencePunctuation));
             }
@@ -130,7 +133,9 @@ namespace LASI.FileSystem
         }
 
         private static IEnumerable<string> SplitIntoSentences(string paragraph) {
-            return paragraph.Split(new[] { "<sentence>", "</sentence>" }, StringSplitOptions.RemoveEmptyEntries).Select(t => t.Replace("</sentence>", "").Replace("<sentence>", ""));
+            return paragraph.Split(new[] { 
+                "<sentence>", "</sentence>" },
+                StringSplitOptions.RemoveEmptyEntries).Select(t => t.Replace("</sentence>", "").Replace("<sentence>", ""));
 
         }
 
@@ -138,9 +143,9 @@ namespace LASI.FileSystem
             var reader2 = (new StringReader(chunk));
             char token = '~';
             while (reader2.Peek() != ' ' && reader2.Peek() != '/') {
-                token = (char) reader2.Read();
+                token = (char)reader2.Read();
             }
-            token = (char) reader2.Read();
+            token = (char)reader2.Read();
             return token;
         }
 
@@ -177,13 +182,14 @@ namespace LASI.FileSystem
         /// </summary>
         /// <param name="taggedContent">The TextTagPair instance which contains the content of a entity and its Tag.</param>
         /// <returns></returns>
-        protected virtual Phrase ParsePhrase(TaggedPhraseObject taggedContent) {
+        protected virtual Phrase ParsePhrase(TextTagPair taggedContent) {
             var phraseTag = taggedContent.Tag.Trim();
             var composed = CreateWords(taggedContent.Text);
             if (phraseTag == "NP" && composed.All(w => w is Adverb)) {
                 var phraseConstructor = PhraseTagset["ADVP"];
                 return phraseConstructor(composed);
-            } else {
+            }
+            else {
                 var phraseConstructor = PhraseTagset[phraseTag];
 
                 return phraseConstructor(composed);
@@ -194,7 +200,7 @@ namespace LASI.FileSystem
         /// </summary>
         /// <param name="taggedContent">The TextTagPair instance which contains the content of a entity and its Tag.</param>
         /// <returns></returns>
-        protected virtual async Task<Phrase> ParsePhraseAsync(TaggedPhraseObject taggedContent) {
+        protected virtual async Task<Phrase> ParsePhraseAsync(TextTagPair taggedContent) {
             var phraseTag = taggedContent.Tag.Trim();
             var composed = await CreateWordsAsync(taggedContent.Text);
             var phraseConstructor = PhraseTagset[phraseTag];
