@@ -138,126 +138,126 @@ namespace Erik_Experimentation
             //PHASE 2 - Word Weight based on part of speech and neighbors' (+2) part of speech
             // WORKS, BUT
             // NEED FORMULAS FOR MODIFIER VARIABLES - WHAT SHOULD THESE BE?
-            float modOne, modTwo, modThree, modFour;
+            //float modOne, modTwo, modThree, modFour;
 
-            foreach (Sentence s in document.Sentences)
-            {
-                //Console.WriteLine(s);
+            //foreach (Sentence s in document.Sentences)
+            //{
+            //    //Console.WriteLine(s);
 
-                foreach (Word w in s.Words)
-                {
+            //    foreach (Word w in s.Words)
+            //    {
 
-                    Word next = w ?? w.NextWord;
-                    Word nextNext = next ?? next.NextWord;
+            //        Word next = w ?? w.NextWord;
+            //        Word nextNext = next ?? next.NextWord;
 
-                    //cut?
-                    Word prev = w ?? w.PreviousWord;
-                    Word prevPrev = prev ?? prev.PreviousWord;
-
-
-                    new Switch(w)
-                       .Case<Noun>(n =>
-                       {
-                           new Switch(next)
-                                  .Case<Noun>(nn =>
-                                  {
-                                      modOne = 0; //compound noun
-                                  })
-                                  .Case<Verb>(vn =>
-                                  {
-                                      modOne = 0; //noun action or descriptor
-                                      if (next is PastParticipleVerb)
-                                      {
-                                          modOne = 0; //noun action-ed
-                                      }
-                                  })
-                                  .Case<Adverb>(advn =>
-                                  {
-                                      modOne = 0;  //noun amplifier
-                                  })
-                                  .Case<Pronoun>(pnn =>
-                                  {
-                                      modOne = 0; //compound noun
-                                  })
-                                  .Case<ToLinker>(lnkn =>
-                                  {
-                                      modOne = 0; //noun to link
-                                  })
-                                  .Case<Preposition>(pren =>
-                                  {
-                                      modOne = 0; //noun position
-                                  })
-                                  .Case<Conjunction>(pren =>
-                                  {
-                                      modOne = 0; //noun phrase to be
-                                  })
-                                  .Default(def =>
-                                  {
-                                      modOne = 0;
-                                  });
-
-                       })
-                       .Case<Verb>(v =>
-                       {
-                           new Switch(next)
-                                  .Case<Noun>(nn =>
-                                  {
-                                      modOne = 0; //verb actor
-                                  })
-                                  .Case<PastParticipleVerb>(vn =>
-                                  {
-                                      modOne = 0; //verb-verb descriptor
-                                  })
-                                  .Case<Adjective>(advn =>
-                                  {
-                                      modOne = 0;  //verb state
-                                  })
-                                  .Case<Adverb>(advn =>
-                                  {
-                                      modOne = 0;  //perfect adverb
-                                  })
-                                  .Case<Pronoun>(pnn =>
-                                  {
-                                      modOne = 0; //verb actor
-                                  })
-                                  .Case<ToLinker>(lnkn =>
-                                  {
-                                      modOne = 0; //verb directional
-                                  })
-                                  .Case<Preposition>(pren =>
-                                  {
-                                      modOne = 0; //verb-verb descriptor
-                                  })
-                                  .Default(def =>
-                                  {
-                                      modOne = 0;
-                                  });
-                       })
-                       .Case<Adjective>(adj =>
-                       {
-                           w.Weight = tertiary;
-                       })
-                       .Case<Adverb>(adv =>
-                       {
-                           w.Weight = quaternary;
-                       })
-                       .Case<Pronoun>(pn =>
-                       {
-                           w.Weight = quinary;
-                       })
-                       .Default(def =>
-                       {
-                           w.Weight = senary;
-                       });
-                    //nouns
+            //        //cut?
+            //        Word prev = w ?? w.PreviousWord;
+            //        Word prevPrev = prev ?? prev.PreviousWord;
 
 
+            //        new Switch(w)
+            //           .Case<Noun>(n =>
+            //           {
+            //               new Switch(next)
+            //                      .Case<Noun>(nn =>
+            //                      {
+            //                          modOne = 0; //compound noun
+            //                      })
+            //                      .Case<Verb>(vn =>
+            //                      {
+            //                          modOne = 0; //noun action or descriptor
+            //                          if (next is PastParticipleVerb)
+            //                          {
+            //                              modOne = 0; //noun action-ed
+            //                          }
+            //                      })
+            //                      .Case<Adverb>(advn =>
+            //                      {
+            //                          modOne = 0;  //noun amplifier
+            //                      })
+            //                      .Case<Pronoun>(pnn =>
+            //                      {
+            //                          modOne = 0; //compound noun
+            //                      })
+            //                      .Case<ToLinker>(lnkn =>
+            //                      {
+            //                          modOne = 0; //noun to link
+            //                      })
+            //                      .Case<Preposition>(pren =>
+            //                      {
+            //                          modOne = 0; //noun position
+            //                      })
+            //                      .Case<Conjunction>(pren =>
+            //                      {
+            //                          modOne = 0; //noun phrase to be
+            //                      })
+            //                      .Default(def =>
+            //                      {
+            //                          modOne = 0;
+            //                      });
+
+            //           })
+            //           .Case<Verb>(v =>
+            //           {
+            //               new Switch(next)
+            //                      .Case<Noun>(nn =>
+            //                      {
+            //                          modOne = 0; //verb actor
+            //                      })
+            //                      .Case<PastParticipleVerb>(vn =>
+            //                      {
+            //                          modOne = 0; //verb-verb descriptor
+            //                      })
+            //                      .Case<Adjective>(advn =>
+            //                      {
+            //                          modOne = 0;  //verb state
+            //                      })
+            //                      .Case<Adverb>(advn =>
+            //                      {
+            //                          modOne = 0;  //perfect adverb
+            //                      })
+            //                      .Case<Pronoun>(pnn =>
+            //                      {
+            //                          modOne = 0; //verb actor
+            //                      })
+            //                      .Case<ToLinker>(lnkn =>
+            //                      {
+            //                          modOne = 0; //verb directional
+            //                      })
+            //                      .Case<Preposition>(pren =>
+            //                      {
+            //                          modOne = 0; //verb-verb descriptor
+            //                      })
+            //                      .Default(def =>
+            //                      {
+            //                          modOne = 0;
+            //                      });
+            //           })
+            //           .Case<Adjective>(adj =>
+            //           {
+            //               w.Weight = tertiary;
+            //           })
+            //           .Case<Adverb>(adv =>
+            //           {
+            //               w.Weight = quaternary;
+            //           })
+            //           .Case<Pronoun>(pn =>
+            //           {
+            //               w.Weight = quinary;
+            //           })
+            //           .Default(def =>
+            //           {
+            //               w.Weight = senary;
+            //           });
+            //        //nouns
 
 
-                }
 
 
-            }
+            //    }
+
+
+            //}
 
 
 
@@ -348,7 +348,6 @@ namespace Erik_Experimentation
 
 
             // .2 - Frequency of Word in document compared to other documents in set
-            // NEED FORUMULA FOR THIS
 
             //PHASE 6 - SYNONYMS
             // .1 - Frequency of Word in document
