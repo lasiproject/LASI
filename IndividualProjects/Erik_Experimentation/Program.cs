@@ -81,7 +81,7 @@ namespace Erik_Experimentation
             // .1 - Frequency of Word/Phrase in document
             // .2 - Frequency of Word/Phrase in document compared to other documents in set - EXCLUDED FOR DEMO
             //PHASE 6 - SYNONYMS
-//ALLUAN READ:            // .1 - Frequency of Word (/Phrase?) in document - COMPLETE MINUS VERBS (couldn't search the verb thesaurus in any way)
+            //ALLUAN READ:            // .1 - Frequency of Word (/Phrase?) in document - COMPLETE MINUS VERBS (couldn't search the verb thesaurus in any way)
             // .2 - Frequency of Word (/Phrase?) in document compared to other documents in set - EXCLUDED FOR DEMO
 
 
@@ -358,11 +358,11 @@ namespace Erik_Experimentation
             //PHASE 6 - SYNONYMS
             // .1 - Frequency of Word in document
             // COMPLETE - minus Aluan's verb lookup!
-            
+
             //Console.WriteLine(" ");
             //Console.WriteLine("Word Synonyms in Document:");
             //IEnumerable<Noun> nouns = document.Words.GetNouns();
-            //IEnumerable<Verb> verbs = document.Words.GetVerbs();
+            IEnumerable<Verb> verbs = document.Words.GetVerbs();
             //IEnumerable<Adjective> adjectives = document.Words.GetAdjectives();
             //IEnumerable<Adverb> adverbs = document.Words.GetAdverbs();
 
@@ -443,30 +443,37 @@ namespace Erik_Experimentation
             //    }
             //}
 
-//ALUAN: HELP NEEDED for your verb lookup
-            //foreach (var v in verbs)
-            //{
-            //    var verbTest = new VerbThesaurus(@"..\..\..\..\WordNetThesaurusData\data.verb");
-
-            //    verbTest.Load();
-            //    IEnumerable<string> synonyms2 = Thesaurus.Lookup(v);  //Can't search through your verbs?
-                
+            //ALUAN: HELP NEEDED for your verb lookup
+            foreach (var v in verbs) {
+                //Erik, You are creating another instance of VerbThesaurus with this call, instead of using the one you call below.
+                var verbTest = new VerbThesaurus(@"..\..\..\..\WordNetThesaurusData\data.verb");
 
 
+                verbTest.Load();
 
-            //    foreach (var v1 in verbs)
-            //    {
-            //        foreach (var s in synonyms2)
-            //        {
-            //            if (v1.Text == s)
-            //            {
-            //                v1.Synonyms += 1;
-            //            }
-            //        }
-            //        Console.WriteLine(v1.Text);
-            //        Console.WriteLine(v1.Synonyms);
-            //    }
-            //}
+                //This call searches using the static lookup method of the Thesaurus class as intended, 
+                //but the Load() above initializes the instance "verbTest".
+                //Sorry I should have documented this better. The class Thesaurus is a static wrapper which provides synonym lookups, 
+                //internally  it has one instance of each type of thesaurus.
+                //You don't need to create a VerbThesaurus instance and load it, you just need to call:
+                //Thesaurus.LoadAll();
+                //or
+                //Thesaurus.LoadAllAsync().Wait();
+                IEnumerable<string> synonyms2 = Thesaurus.Lookup(v);  //Can't search through your verbs?
+
+
+
+
+                foreach (var v1 in verbs) {
+                    foreach (var s in synonyms2) {
+                        if (v1.Text == s) {
+                            v1.Synonyms += 1;
+                        }
+                    }
+                    Console.WriteLine(v1.Text);
+                    Console.WriteLine(v1.Synonyms);
+                }
+            }
 
 
 
@@ -477,7 +484,7 @@ namespace Erik_Experimentation
 
 
             //        Console.WriteLine(w);
-                  
+
 
             //    }
             //}
