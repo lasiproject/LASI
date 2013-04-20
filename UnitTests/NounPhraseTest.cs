@@ -210,5 +210,19 @@ namespace AlgorithmAssemblyUnitTestProject
             target.AddPossession(possession);
             Assert.IsTrue(target.Possessed.Contains(possession) && possession.Possesser == target);
         }
+
+        /// <summary>
+        ///A test for ToString
+        ///</summary>
+        [TestMethod()]
+        public void ToStringTest()
+        {
+            IEnumerable<Word> composedWords = new Word[] { new ProperSingularNoun("LASI"), new Conjunction("and"), new ProperSingularNoun("Timmy") };
+            NounPhrase target = new NounPhrase(composedWords);
+            string expected = "NounPhrase \"LASI and Timmy\"";
+            string actual;
+            actual = target.ToString();
+            Assert.AreEqual(expected, actual);//TODO: Implement Verbosity test also!
+        }
     }
 }

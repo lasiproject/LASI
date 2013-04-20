@@ -22,11 +22,14 @@ namespace AlgorithmAssemblyUnitTestProject
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
         ///</summary>
-        public TestContext TestContext {
-            get {
+        public TestContext TestContext
+        {
+            get
+            {
                 return testContextInstance;
             }
-            set {
+            set
+            {
                 testContextInstance = value;
             }
         }
@@ -66,7 +69,8 @@ namespace AlgorithmAssemblyUnitTestProject
         ///A test for ToString
         ///</summary>
         [TestMethod()]
-        public void ToStringTest() {
+        public void ToStringTest()
+        {
             Phrase[] phrases1 = new Phrase[] { 
                 new NounPhrase(new Word[] { new ProperSingularNoun("LASI") }), 
                 new VerbPhrase(new Word[] { new PastTenseVerb("found") }),
@@ -100,7 +104,8 @@ namespace AlgorithmAssemblyUnitTestProject
         ///A test for Text
         ///</summary>
         [TestMethod()]
-        public void TextTest() {
+        public void TextTest()
+        {
             Phrase[] phrases1 = new Phrase[] { 
                 new NounPhrase(new Word[] { new ProperSingularNoun("LASI") }),
                 new VerbPhrase(new Word[] { new PastTenseVerb("found")}),
@@ -129,5 +134,38 @@ namespace AlgorithmAssemblyUnitTestProject
             Assert.AreEqual(expected, actual);
             //Assert.Inconclusive("Verify the correctness of this test method.");
         }
+
+        /// <summary>
+        ///A test for EstablishParent
+        ///</summary>
+        //[TestMethod()]
+        /*   public void EstablishParentTest()
+           {
+               Phrase[] phrases1 = new Phrase[] { 
+                   new NounPhrase(new Word[] { new ProperSingularNoun("LASI") }),
+                   new VerbPhrase(new Word[] { new PastTenseVerb("found")}),
+                   new NounPhrase(new Word[] { new ProperPluralNoun("TIMIS")})
+               };
+               Sentence[] sentences = new Sentence[3];
+               sentences[0] = new Sentence(phrases1, new SentencePunctuation('.'));
+               Phrase[] phrases2 = new Phrase[] { 
+                   new NounPhrase(new Word[] { new ProperSingularNoun("LASI") }), 
+                   new VerbPhrase(new Word[] { new PastTenseVerb("SNIFd") }), 
+                   new NounPhrase(new Word[] { new ProperPluralNoun("them") })
+               };
+               sentences[1] = new Sentence(phrases2, new SentencePunctuation('.'));
+               Phrase[] phrases3 = new Phrase[] {
+                   new NounPhrase(new Word[] { new ProperSingularNoun("Richard") }),
+                   new VerbPhrase(new Word[] { new PastTenseVerb("did") }),
+                   new NounPhrase(new Word[] { new ProperPluralNoun("awesome") }) 
+               };
+               sentences[2] = new Sentence(phrases3, new SentencePunctuation('.'));
+
+               Paragraph target = new Paragraph(sentences);
+               Document parentDoc = new Document(target) ; // TODO: Initialize to an appropriate value
+               target.EstablishParent(parentDoc);
+               Assert.AreEqual(target.ParentDocument, parentDoc);
+           }*/
+       }
+
     }
-}

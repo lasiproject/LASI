@@ -7,11 +7,11 @@ using LASI.Algorithm;
 using LASI.Utilities;
 using LASI.FileSystem;
 using SharpNLPTaggingModule;
-using LASI.Utilities.TypedSwitch;
+
 namespace Richard_Experimentation
 {
 
-    public class PronounBinder
+ /*   public class PronounBinder
     {
         private Document SourceDocument;
         public void Bind(Document documennt) {
@@ -34,13 +34,19 @@ namespace Richard_Experimentation
             set;
         }
     }
-
+*/
     public class Program
     {
 
 
 
         static void Main(string[] args) {
+            Phrase[] phrases = new Phrase[] { new NounPhrase(new Word[] { new ProperSingularNoun("LASI") }), new VerbPhrase(new Word[] { new PastTenseVerb("found") }), new NounPhrase(new Word[] { new ProperPluralNoun("TIMIS") }) };
+            Sentence target = new Sentence(phrases, new SentencePunctuation('.'));
+            string test;
+            test = target.Text;
+            Console.WriteLine(test);
+            Console.ReadLine();
         }
     }
 }

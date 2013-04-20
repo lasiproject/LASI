@@ -339,5 +339,6 @@ namespace AlgorithmAssemblyUnitTestProject
             var expectedResult = actual.Zip(expectedLexicalMatches, (w, s) => w.Text == s).Aggregate(true, (aggr, val) => aggr &= val);
             Assert.IsTrue(expectedResult);
         }
+
     }
 }

@@ -72,5 +72,18 @@ namespace AlgorithmAssemblyUnitTestProject
             string actual = target.ToString();
             Assert.AreEqual(expected, actual);
         }
+
+        /// <summary>
+        ///A test for Text
+        ///</summary>
+        [TestMethod()]
+        public void TextTest()
+        {
+            Phrase[] phrases = new Phrase[] { new NounPhrase(new Word[] { new ProperSingularNoun("LASI") }), new VerbPhrase(new Word[] { new PastTenseVerb("found") }), new NounPhrase(new Word[] { new ProperPluralNoun("TIMIS") }) };
+            Sentence target = new Sentence(phrases, new SentencePunctuation('.'));
+            string expected = "LASI found TIMIS.";
+            string actual = target.Text;
+            Assert.AreEqual(expected, actual);
+        }
     }
 }
