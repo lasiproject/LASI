@@ -65,6 +65,9 @@ namespace LASI.Algorithm.Analysis
             //noun synonyms increase Weight of individual nouns
             foreach (var grp in nounSynonymGroups) {
                 grp.Key.Weight += 0.7m * grp.Count();
+                var pn = grp.Key;
+                pn.Weight *= pn is ProperNoun ? 5 : 0;
+
             }
 
             //verb synonyms increase Weight of individual verbs 

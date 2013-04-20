@@ -104,6 +104,7 @@ namespace LASI.UserInterface
             this.SwapWith(WindowManager.ResultsScreen);
             //WindowManager.ResultsScreen.BuildAssociationTextView();
             WindowManager.ResultsScreen.BuildFullSortedView();
+            WindowManager.ResultsScreen.BuildAssociationTextView();
         }
         private void MenuItem_Click_3(object sender, RoutedEventArgs e) {
             this.Close();

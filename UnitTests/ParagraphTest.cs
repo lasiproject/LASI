@@ -138,7 +138,7 @@ namespace AlgorithmAssemblyUnitTestProject
         /// <summary>
         ///A test for EstablishParent
         ///</summary>
-        [TestMethod()]
+        //[TestMethod()]
       /*     public void EstablishParentTest()
            {
                Phrase[] phrases1 = new Phrase[] { 
