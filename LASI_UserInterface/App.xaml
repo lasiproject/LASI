@@ -9,11 +9,12 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
                         <Grid>
+                            <Border x:Name="Background"  BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="2"  />
                             <Grid.OpacityMask>
-                                <ImageBrush ImageSource="Button Images/printButton.png" Stretch="Uniform"/>
+                                <ImageBrush ImageSource="Button Images/printButton.png" Stretch="UniformToFill"  />
                             </Grid.OpacityMask>
                             <Grid.Background>
-                                <ImageBrush ImageSource="Button Images/printButton.png" Stretch="Uniform"/>
+                                <ImageBrush ImageSource="Button Images/printButton.png" Stretch="UniformToFill"/>
                             </Grid.Background>
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroup x:Name="ValidationStates">
@@ -70,7 +71,78 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <Style x:Key="ChangeChartTypeColumn" TargetType="{x:Type Button}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid>
+                            <Border x:Name="Background2"  BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="1" Padding="4" />
+                            
+                            <Grid.OpacityMask>
+                                <ImageBrush ImageSource="Button Images/columngraph.png" Stretch="Uniform"/>
+                            </Grid.OpacityMask>
+                            <Grid.Background>
+                                <ImageBrush ImageSource="Button Images/columngraph.png" Stretch="Uniform"/>
+                            </Grid.Background>
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="ValidationStates">
+                                    <VisualState x:Name="InvalidFocused"/>
+                                    <VisualState x:Name="InvalidUnfocused"/>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="ChangeChartTypeBar" TargetType="{x:Type Button}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid>
+                            <Border x:Name="Background2"  BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="1" Padding="4" />
 
+                            <Grid.OpacityMask>
+                                <ImageBrush ImageSource="Button Images/bargraph.png" Stretch="Uniform"/>
+                            </Grid.OpacityMask>
+                            <Grid.Background>
+                                <ImageBrush ImageSource="Button Images/bargraph.png" Stretch="Uniform"/>
+                            </Grid.Background>
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="ValidationStates">
+                                    <VisualState x:Name="InvalidFocused"/>
+                                    <VisualState x:Name="InvalidUnfocused"/>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="ChangeChartTypePie" TargetType="{x:Type Button}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid>
+                            <Border x:Name="Background2"  BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="1" Padding="4" />
+
+                            <Grid.OpacityMask>
+                                <ImageBrush ImageSource="Button Images/piechart2.png" Stretch="Uniform"/>
+                            </Grid.OpacityMask>
+                            <Grid.Background>
+                                <ImageBrush ImageSource="Button Images/piechart2.png" Stretch="Uniform"/>
+                            </Grid.Background>
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="ValidationStates">
+                                    <VisualState x:Name="InvalidFocused"/>
+                                    <VisualState x:Name="InvalidUnfocused"/>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
 
 
     </Application.Resources>

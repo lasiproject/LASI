@@ -40,6 +40,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -242,7 +243,24 @@
   <ItemGroup>
     <Resource Include="Button Images\remove-document.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="lasisplash1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Button Images\columngraphbutton.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Button Images\columngraph.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Button Images\bargraph.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Button Images\piechart.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Button Images\piechart2.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

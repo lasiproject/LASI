@@ -22,7 +22,7 @@
 
         <Grid   Background="#FFE8E8E8" Width="660">
 
-            <Image Margin="0,0,223,0" >
+            <Image Margin="0,0,223,0" Stretch="UniformToFill" >
                 <Image.OpacityMask>
                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                         <GradientStop Color="Black" Offset="0"/>
@@ -30,12 +30,16 @@
                     </LinearGradientBrush>
                 </Image.OpacityMask>
                 <Image.Source>
-                    <ImageSource>SplashPicture.PNG</ImageSource>
+                    <ImageSource>lasisplash1.png</ImageSource>
                 </Image.Source>
             </Image>
-            <Button x:Name="createProjectButton" Content="Create Project" Margin="452,102,0,117" FontSize="20" Click="createProjectButton_Click" HorizontalAlignment="Left" Width="141"/>
-            <Button x:Name="loadProjectButton" Content="Load Project" Margin="452,161,0,58" FontSize="20" HorizontalAlignment="Left" Width="141"/>
-            <Button x:Name="closeButton" Content="X" HorizontalAlignment="Center" Margin="603,10,10,0" VerticalAlignment="Top" Width="38" Height="35" FontWeight="Bold" FontSize="22" FontStretch="Expanded" TextOptions.TextFormattingMode="Display" TextOptions.TextHintingMode="Fixed" UseLayoutRounding="True" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Background="{DynamicResource {x:Static SystemColors.ControlDarkBrushKey}}" BorderThickness="1" TabIndex="2" IsHitTestVisible="True" AllowDrop="True" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" IsManipulationEnabled="True" Click="closeButton_Click"/>
+            <Button x:Name="createProjectButton" Content="Create" Margin="487,102,0,117" FontSize="20" Foreground="Black" Click="createProjectButton_Click" HorizontalAlignment="Left" Width="106" FontFamily="Segoe Script" RenderTransformOrigin="1,0" Background="#FFDDDDDD" BorderBrush="#FF636366">
+              
+            </Button>
+            <Button x:Name="loadProjectButton" Content="Load " Margin="487,179,0,40" FontSize="20" HorizontalAlignment="Left" Width="106" FontFamily="Segoe Script" RenderTransformOrigin="0.5,0.5" Background="#FFDDDDDD" BorderBrush="#FF636366">
+               
+            </Button>
+            <Button x:Name="closeButton" Content="X" HorizontalAlignment="Center" Margin="603,10,10,0" VerticalAlignment="Top" Width="38" Height="35" FontWeight="Bold" FontSize="20" FontStretch="Expanded" TextOptions.TextFormattingMode="Display" TextOptions.TextHintingMode="Fixed" UseLayoutRounding="True" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Background="#FFDDDDDD" BorderThickness="1" TabIndex="2" IsHitTestVisible="True" AllowDrop="True" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" IsManipulationEnabled="True" Click="closeButton_Click" FontFamily="Segoe Script"/>
         </Grid>
 
 
