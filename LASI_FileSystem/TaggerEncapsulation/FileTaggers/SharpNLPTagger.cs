@@ -149,7 +149,9 @@ namespace SharpNLPTaggingModule
 
                 string[] sentences = SplitSentences(p);
 
-                foreach (string sentence in sentences) {
+                foreach (string sentence in from s in sentences
+                                            where !(String.IsNullOrWhiteSpace(s) || String.IsNullOrEmpty(s))
+                                            select s) {
                     string[] tokens = TokenizeSentence(sentence);
                     string[] tags = PosTagTokens(tokens);
                     output.Append(String.Format("<sentence>{0}</sentence>", ChunkSentence(tokens, tags)));

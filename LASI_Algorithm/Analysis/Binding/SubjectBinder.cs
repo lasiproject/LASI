@@ -39,16 +39,15 @@ namespace LASI.Algorithm.Binding
                     s5.StatePhrase = i;
                     stateList.Add(s5);
                 }
-                if (i is VerbPhrase && i.Words.Count(n => n is PresentParticipleGerund) == 0)
-                {
+                if (i is VerbPhrase && i.Words.Count(n => n is PresentParticipleGerund) == 0) {
                     State s6 = new State();
                     s6.StatePhrase = i;
                     s6.S = StateType.Final;
                     stateList.Add(s6);
                     //subject for normal sentence.
-                    if((i.PreviousPhrase is NounPhrase) && (i.PreviousPhrase.ParentSentence == i.ParentSentence))
+                    if ((i.PreviousPhrase is NounPhrase) && (i.PreviousPhrase.ParentSentence == i.ParentSentence))
                         (i as VerbPhrase).BindSubject(i.PreviousPhrase as NounPhrase);
-                    if((i.PreviousPhrase.PreviousPhrase is NounPhrase) && (i.PreviousPhrase.PreviousPhrase.ParentSentence == i.ParentSentence))
+                    if ((i.PreviousPhrase.PreviousPhrase is NounPhrase) && (i.PreviousPhrase.PreviousPhrase.ParentSentence == i.ParentSentence))
                         (i as VerbPhrase).BindSubject(i.PreviousPhrase.PreviousPhrase as NounPhrase);
 
                     //if the last verb, you can't find any more subjects
@@ -58,8 +57,7 @@ namespace LASI.Algorithm.Binding
 
                 //handle case of inverted sentence (http://en.wikipedia.org/wiki/Inverted_sentence)
                 if ((i is AdverbPhrase) && (i.NextPhrase is VerbPhrase) && (i.NextPhrase.NextPhrase is NounPhrase)
-                    && (i.ParentSentence == i.NextPhrase.NextPhrase.ParentSentence))
-                { 
+                    && (i.ParentSentence == i.NextPhrase.NextPhrase.ParentSentence)) {
                     (i.NextPhrase as VerbPhrase).BindSubject(i.NextPhrase.NextPhrase as NounPhrase);
                     s.isStandard = false;
                 }
@@ -86,13 +84,12 @@ namespace LASI.Algorithm.Binding
                 }
 
             }
-          
+        }
 
-        public void display()
-        {
 
-            for (int i = 0; i < stateList.Count; i++)
-            {
+        public void display() {
+
+            for (int i = 0; i < stateList.Count; i++) {
 
                 Console.Write(stateList[i].StatePhrase);
                 Console.Write("\n");
@@ -101,22 +98,18 @@ namespace LASI.Algorithm.Binding
         }
         class State
         {
-            public State()
-            {
+            public State() {
                 S = StateType.Default;
             }
-            public StateType S
-            {
+            public StateType S {
                 get;
                 set;
             }
-            public int count
-            {
+            public int count {
                 get;
                 private set;
             }
-            public Phrase StatePhrase
-            {
+            public Phrase StatePhrase {
                 get;
                 set;
             }
