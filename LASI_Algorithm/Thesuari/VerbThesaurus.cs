@@ -78,60 +78,80 @@ namespace LASI.Algorithm.Thesauri
         /// <param name="search">The text of the verb to look for.</param>
         /// <returns>a collection of strings containing all of the synonyms of the given verb.</returns>
         public override HashSet<string> this[string search] {
-            get {
-                foreach (var root in conjugator.TryExtractRoot(search)) {
-                    //if (!cachedData.ContainsKey(root)) {
-                    try {
+            get
+            {
+                try
+                {
+                    foreach (var root in conjugator.TryExtractRoot(search))
+                    {
+                        //if (!cachedData.ContainsKey(root)) {
+                        try
+                        {
 
 
 
 
-                        return new HashSet<string>((from REF in AssociationData[root].ReferencedIndexes //Get all set reference indeces stored directly within 
-                                                    select new {                                        //The synset indexed by the word
-                                                        ind = REF,                                      //Store the LexName for restrictive comparison if enabled
-                                                        lex = lexRestrict ? AssociationData[root].LexName : WordNetVerbLex.ARBITRARY
-                                                    } into Temp
-                                                    join REF in AssociationData on new {                //Now group join all synsets in the entire 
-                                                        Temp.ind,                                       //thesaurus which reference the set above 
-                                                        Temp.lex
-                                                    } equals new {
-                                                        ind = REF.Key,
-                                                        lex = lexRestrict ? REF.Value.LexName : WordNetVerbLex.ARBITRARY
-                                                    } into ReferencedSets                                //The result of our group join contains all referenced sets
-                                                    from R in ReferencedSets.Distinct()
-                                                    from RM in R.Value.Members                           //Now aggregate all words directly contained within the group
-                                                    select RM into RMG                                   //concatanting them with their various morphs
-                                                    select new string[] { RMG }.Concat(conjugator.TryComputeConjugations(RMG)) into CJRM
-                                                    from C in CJRM                                       //Now simply remove any duplicates
-                                                    select C).Distinct());
+                            return new HashSet<string>((from REF in AssociationData[root].ReferencedIndexes //Get all set reference indeces stored directly within 
+                                                        select new
+                                                        {                                        //The synset indexed by the word
+                                                            ind = REF,                                      //Store the LexName for restrictive comparison if enabled
+                                                            lex = lexRestrict ? AssociationData[root].LexName : WordNetVerbLex.ARBITRARY
+                                                        } into Temp
+                                                        join REF in AssociationData on new
+                                                        {                //Now group join all synsets in the entire 
+                                                            Temp.ind,                                       //thesaurus which reference the set above 
+                                                            Temp.lex
+                                                        } equals new
+                                                        {
+                                                            ind = REF.Key,
+                                                            lex = lexRestrict ? REF.Value.LexName : WordNetVerbLex.ARBITRARY
+                                                        } into ReferencedSets                                //The result of our group join contains all referenced sets
+                                                        from R in ReferencedSets.Distinct()
+                                                        from RM in R.Value.Members                           //Now aggregate all words directly contained within the group
+                                                        select RM into RMG                                   //concatanting them with their various morphs
+                                                        select new string[] { RMG }.Concat(conjugator.TryComputeConjugations(RMG)) into CJRM
+                                                        from C in CJRM                                       //Now simply remove any duplicates
+                                                        select C).Distinct());
+                        }
+
+
+
+
+
+
+
+
+
+
+                        catch (ArgumentOutOfRangeException)
+                        {
+                        }
+                        catch (KeyNotFoundException)
+                        {
+                        }
+
+
+                        //}
+                        //    //try {
+                        //    return cachedData.ContainsKey(root) ? cachedData[root] : null;
+                        //    //} catch (KeyNotFoundException ex) {
+                        //    //    //  Debug.WriteLine("No entry present in VerbThesaurus for {0}\n{1}", root, ex.Message);
+                        //    //}
+                        //}
+                        //return null;
                     }
-
-
-
-
-
-
-
-
-
-
-
-                    catch (KeyNotFoundException) {
-                    }
-                    catch (ArgumentOutOfRangeException) {
-                    }
-
-                    //}
-                    //    //try {
-                    //    return cachedData.ContainsKey(root) ? cachedData[root] : null;
-                    //    //} catch (KeyNotFoundException ex) {
-                    //    //    //  Debug.WriteLine("No entry present in VerbThesaurus for {0}\n{1}", root, ex.Message);
-                    //    //}
-                    //}
-                    //return null;
+                    return null;
                 }
-                return null;
-            }
+                catch (ArgumentOutOfRangeException)
+                {
+                }
+                catch (KeyNotFoundException)
+                {
+                }
+
+
+               return null; 
+            } 
         }
 
 
