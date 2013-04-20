@@ -211,7 +211,7 @@ namespace LASI.UserInterface
             var chart = new Chart
             {
                 Name = docu.FileName,
-                Title = docu.FileName + "Top Words",
+                Title = docu.FileName + " Top Words",
 
 
             };
