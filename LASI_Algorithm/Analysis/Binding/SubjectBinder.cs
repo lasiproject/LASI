@@ -45,11 +45,17 @@ namespace LASI.Algorithm.Binding
                     s6.StatePhrase = i;
                     s6.S = StateType.Final;
                     stateList.Add(s6);
+                    //subject for normal sentence.
+                    if((i.PreviousPhrase is NounPhrase) && (i.PreviousPhrase.ParentSentence == i.ParentSentence))
+                        (i as VerbPhrase).BindSubject(i.PreviousPhrase as NounPhrase);
+                    if((i.PreviousPhrase.PreviousPhrase is NounPhrase) && (i.PreviousPhrase.PreviousPhrase.ParentSentence == i.ParentSentence))
+                        (i as VerbPhrase).BindSubject(i.PreviousPhrase.PreviousPhrase as NounPhrase);
 
-                    //break if this is the last verb in the sentence
+                    //if the last verb, you can't find any more subjects
                     if (s.GetPhrasesAfter(i).GetVerbPhrases().Count() == 0)
                         break;
                 }
+
                 //handle case of inverted sentence (http://en.wikipedia.org/wiki/Inverted_sentence)
                 if ((i is AdverbPhrase) && (i.NextPhrase is VerbPhrase) && (i.NextPhrase.NextPhrase is NounPhrase)
                     && (i.ParentSentence == i.NextPhrase.NextPhrase.ParentSentence))
@@ -80,28 +86,10 @@ namespace LASI.Algorithm.Binding
                 }
 
             }
-            
-            if(s.isStandard)
-            {
-                foreach (var v in v1)
-                {
-                    foreach (var i in stateList)
-                    {
-                        if (i.StatePhrase is NounPhrase)
-                        {
-                            v.BindSubject(i.StatePhrase as NounPhrase);
-                        }
-                    }
-                }
-            }
-        }
-<<<<<<< .mine
+          
+
         public void display()
         {
-=======
-
-        public void display() {
->>>>>>> .r510
 
             for (int i = 0; i < stateList.Count; i++)
             {
