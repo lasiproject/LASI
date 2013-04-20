@@ -93,6 +93,7 @@
     <Compile Include="ForeignWordTest.cs" />
     <Compile Include="FunctionExtensionsTest.cs" />
     <Compile Include="GenericPluralNounTest.cs" />
+    <Compile Include="GenericSingularNounTest.cs" />
     <Compile Include="ModalTest.cs" />
     <Compile Include="NounPhraseTest.cs" />
     <Compile Include="NounTest.cs" />
