@@ -15,7 +15,8 @@ namespace LASI.Algorithm.Binding
         /// <param name="s"></param>
         public void Bind(Sentence s) {
 
-            VerbPhrase v1 = null;
+            List<VerbPhrase> v1 = new List<VerbPhrase>(s.Phrases.GetVerbPhrases());
+
             foreach (var i in s.Phrases) {
                 if (i is AdjectivePhrase) {
                     State s2 = new State();
@@ -31,7 +32,6 @@ namespace LASI.Algorithm.Binding
                     State s4 = new State();
                     s4.StatePhrase = i;
                     stateList.Add(s4);
-                    v1 = s4.StatePhrase as VerbPhrase;
                     break;
                 }
                 if (i is ConjunctionPhrase) {
@@ -39,14 +39,25 @@ namespace LASI.Algorithm.Binding
                     s5.StatePhrase = i;
                     stateList.Add(s5);
                 }
-                if (i is VerbPhrase && i.Words.Count(n => n is PresentParticipleGerund) == 0) {
+                if (i is VerbPhrase && i.Words.Count(n => n is PresentParticipleGerund) == 0)
+                {
                     State s6 = new State();
                     s6.StatePhrase = i;
                     s6.S = StateType.Final;
                     stateList.Add(s6);
-                    v1 = s6.StatePhrase as VerbPhrase;
-                    break;
+
+                    //break if this is the last verb in the sentence
+                    if (s.GetPhrasesAfter(i).GetVerbPhrases().Count() == 0)
+                        break;
                 }
+                //handle case of inverted sentence (http://en.wikipedia.org/wiki/Inverted_sentence)
+                if ((i is AdverbPhrase) && (i.NextPhrase is VerbPhrase) && (i.NextPhrase.NextPhrase is NounPhrase)
+                    && (i.ParentSentence == i.NextPhrase.NextPhrase.ParentSentence))
+                { 
+                    (i.NextPhrase as VerbPhrase).BindSubject(i.NextPhrase.NextPhrase as NounPhrase);
+                    s.isStandard = false;
+                }
+
                 if (i is AdverbPhrase) {
                     State s7 = new State();
                     s7.StatePhrase = i;
@@ -69,16 +80,31 @@ namespace LASI.Algorithm.Binding
                 }
 
             }
-            foreach (var i in stateList) {
-                if (i.StatePhrase is NounPhrase) {
-                    v1.BindSubject(i.StatePhrase as NounPhrase);
+            
+            if(s.isStandard)
+            {
+                foreach (var v in v1)
+                {
+                    foreach (var i in stateList)
+                    {
+                        if (i.StatePhrase is NounPhrase)
+                        {
+                            v.BindSubject(i.StatePhrase as NounPhrase);
+                        }
+                    }
                 }
             }
         }
+<<<<<<< .mine
+        public void display()
+        {
+=======
 
         public void display() {
+>>>>>>> .r510
 
-            for (int i = 0; i < stateList.Count; i++) {
+            for (int i = 0; i < stateList.Count; i++)
+            {
 
                 Console.Write(stateList[i].StatePhrase);
                 Console.Write("\n");
@@ -87,18 +113,22 @@ namespace LASI.Algorithm.Binding
         }
         class State
         {
-            public State() {
+            public State()
+            {
                 S = StateType.Default;
             }
-            public StateType S {
+            public StateType S
+            {
                 get;
                 set;
             }
-            public int count {
+            public int count
+            {
                 get;
                 private set;
             }
-            public Phrase StatePhrase {
+            public Phrase StatePhrase
+            {
                 get;
                 set;
             }
