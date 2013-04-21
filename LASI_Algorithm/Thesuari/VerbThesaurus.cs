@@ -78,31 +78,24 @@ namespace LASI.Algorithm.Thesauri
         /// <param name="search">The text of the verb to look for.</param>
         /// <returns>a collection of strings containing all of the synonyms of the given verb.</returns>
         public override HashSet<string> this[string search] {
-            get
-            {
-                try
-                {
-                    foreach (var root in conjugator.TryExtractRoot(search))
-                    {
+            get {
+                try {
+                    foreach (var root in conjugator.TryExtractRoot(search)) {
                         //if (!cachedData.ContainsKey(root)) {
-                        try
-                        {
+                        try {
 
 
 
 
                             return new HashSet<string>((from REF in AssociationData[root].ReferencedIndexes //Get all set reference indeces stored directly within 
-                                                        select new
-                                                        {                                        //The synset indexed by the word
+                                                        select new {                                        //The synset indexed by the word
                                                             ind = REF,                                      //Store the LexName for restrictive comparison if enabled
                                                             lex = lexRestrict ? AssociationData[root].LexName : WordNetVerbLex.ARBITRARY
                                                         } into Temp
-                                                        join REF in AssociationData on new
-                                                        {                //Now group join all synsets in the entire 
+                                                        join REF in AssociationData on new {                //Now group join all synsets in the entire 
                                                             Temp.ind,                                       //thesaurus which reference the set above 
                                                             Temp.lex
-                                                        } equals new
-                                                        {
+                                                        } equals new {
                                                             ind = REF.Key,
                                                             lex = lexRestrict ? REF.Value.LexName : WordNetVerbLex.ARBITRARY
                                                         } into ReferencedSets                                //The result of our group join contains all referenced sets
@@ -123,11 +116,9 @@ namespace LASI.Algorithm.Thesauri
 
 
 
-                        catch (ArgumentOutOfRangeException)
-                        {
+                        catch (ArgumentOutOfRangeException) {
                         }
-                        catch (KeyNotFoundException)
-                        {
+                        catch (KeyNotFoundException) {
                         }
 
 
@@ -142,16 +133,14 @@ namespace LASI.Algorithm.Thesauri
                     }
                     return null;
                 }
-                catch (ArgumentOutOfRangeException)
-                {
+                catch (ArgumentOutOfRangeException) {
                 }
-                catch (KeyNotFoundException)
-                {
+                catch (KeyNotFoundException) {
                 }
 
 
-               return null; 
-            } 
+                return null;
+            }
         }
 
 
