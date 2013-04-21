@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LASI.Algorithm;
+using LASI.Algorithm.LexicalStructures;
 
 namespace LASI.FileSystem.TaggerEncapsulation
 {
@@ -12,7 +13,10 @@ namespace LASI.FileSystem.TaggerEncapsulation
         #region Fields
         private readonly Dictionary<string, Func<IEnumerable<Word>, Phrase>> typeDictionary = new Dictionary<string, Func<IEnumerable<Word>, Phrase>> {
             { "VP", words => new VerbPhrase(words) },
-            { "NP", words => new NounPhrase(words) },
+            { "NP", words => 
+                words.GetPronouns().Count()!=words.Count()?
+                new NounPhrase(words):
+                new PronounPhrase(words) },
             { "PP", words => new PrepositionalPhrase(words) },
             { "ADVP", words => new AdverbPhrase(words) },
             { "ADJP", words => new AdjectivePhrase(words) },
