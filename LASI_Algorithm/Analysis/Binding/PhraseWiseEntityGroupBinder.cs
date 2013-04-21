@@ -76,10 +76,4 @@ namespace LASI.Algorithm.Analysis.Binding
             }
         }
     }
-    internal static class PhraseExtensions
-    {
-        internal static IEnumerable<Phrase> Between(this Phrase phrase, Phrase other) {
-            return phrase.ParentSentence.GetPhrasesAfter(phrase).TakeWhile(r => !r.Equals(other)).ToList();
-        }
-    }
 }

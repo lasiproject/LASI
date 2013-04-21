@@ -342,7 +342,7 @@ namespace LASI.Algorithm.Binding
                 }
 
             }
-            public void Transition(PunctuatorPhrase phrase) {
+            new public void Transition(PunctuatorPhrase phrase) {
                 if (Stream.Count > 0) {
 
                     Transition(Stream.PopDynamic());
