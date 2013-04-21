@@ -37,7 +37,7 @@ namespace LASI.UserInterface
 
         //WORD RELATIONSHIPS TAB//
 
-        public void BuildAssociationTextView() {  // This is for the word relationships tab
+        public void BuildAssociationTextView() {  // This is for the lexial relationships tab
             foreach (var doc in documents) {
                 var panel = new WrapPanel();
                 var tab = new TabItem {
@@ -111,9 +111,31 @@ namespace LASI.UserInterface
                 }
                 ResultsTabControl.Items.Add(tab);
             }
-        } // end word relationships
+        } // end lexial relationships
+    
+        async Task ToPieCharts() {
+            foreach (var c in FrequencyCharts.Items) {
+                var chart = ((c as TabItem).Content as Chart).Tag as IEnumerable<KeyValuePair<string, int>>;
+
+                var items = (from i in chart.ToArray()
+
+                             select new KeyValuePair<string, int>(i.Key.ToString(), (int)i.Value)).ToList();
 
 
+                var series = new PieSeries {
+
+                    DependentValuePath = "Value",
+                    IndependentValuePath = "Key",
+                    ItemsSource = items,
+                    IsSelectionEnabled = true,
+                };
+                ((c as TabItem).Content as Chart).Series.Clear();
+                ((c as TabItem).Content as Chart).Series.Add(series);
+
+
+            }
+            await Task.Delay(1);
+        }
 
 
         public void BuildFullSortedView() { //Build 
@@ -127,7 +149,7 @@ namespace LASI.UserInterface
                    }).Select(g => g.First());
 
                 foreach (var word in words) {
-                    var wordLabel = MakeWordLabel(word);
+                    var wordLabel = MakeLexicalLabel(word);
                     var menuItem1 = new MenuItem {
                         Header = "view definition",
                     };
@@ -195,13 +217,6 @@ namespace LASI.UserInterface
 
 
             valueList.Reverse();
-
-            var chart = new Chart {
-                Name = docu.FileName,
-                Title = docu.FileName + " Top Words",
-
-
-            };
             Series series = new BarSeries {
 
                 DependentValuePath = "Value",
@@ -210,33 +225,41 @@ namespace LASI.UserInterface
                 IsSelectionEnabled = true,
 
             };
+            var chart = new Chart {
+                Name = docu.FileName,
+                Title = docu.FileName + " Top Words",
+                Tag = valueList.ToArray()
+
+            };
+
             chart.Series.Add(series);
 
             var tabItem = new TabItem {
                 Header = docu.FileName,
-                Content = chart
+                Content = chart,
+                Tag = chart
             };
             FrequencyCharts.Items.Add(tabItem);
         }
 
 
         /// <summary>
-        /// Creates a label UI element for a word
+        /// Creates a label UI element for a lexial
         /// </summary>
-        /// <param name="word"></param>
+        /// <param name="lexial"></param>
         /// <returns>
-        /// New label element whose tag properties is assigned to the given word
+        /// New label element whose tag properties is assigned to the given lexial
         /// </returns>
 
 
-        private static Label MakeWordLabel(ILexical word) {
+        private static Label MakeLexicalLabel(ILexical lexial) {
             var wordLabel = new Label {
-                Tag = word,
-                Content = String.Format("Weight : {0}  \"{1}\"", word.Weight, word.Text),
+                Tag = lexial,
+                Content = String.Format("Weight : {0}  \"{1}\"", lexial.Weight, lexial.Text),
                 Foreground = Brushes.Black,
                 Padding = new Thickness(1, 1, 1, 1),
                 ContextMenu = new ContextMenu(),
-                ToolTip = word.Type.Name,
+                ToolTip = lexial.Type.Name,
             };
             return wordLabel;
         }
@@ -300,6 +323,10 @@ namespace LASI.UserInterface
 
         private void changeChartType_Column_Click(object sender, RoutedEventArgs e) {
 
+        }
+
+        private async void SetToPieChartButton_Click(object sender, RoutedEventArgs e) {
+            await ToPieCharts();
         }
     }
 }
