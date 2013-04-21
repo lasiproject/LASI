@@ -12,9 +12,9 @@ namespace LASI.GuiInterop
     public static class DefaultProgressProvider
     {
         //private KeyedByTypeCollection<IEnumerable<ILexical>> lexicalItems = new KeyedByTypeCollection<IEnumerable<ILexical>>();
-        //public IEnumerable<ILexical> this[Type T] {
+        //public IEnumerable<ILexical> this[Type S] {
         //    get {
-        //        return lexicalItems[T];
+        //        return lexicalItems[S];
         //    }
         //}
 

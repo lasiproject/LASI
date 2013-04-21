@@ -1,25 +1,24 @@
-﻿'TaggerAssemblyTest.vshost.exe' (Managed (v4.0.30319)): Loaded 'C:\Windows\Microsoft.Net\assembly\GAC_64\mscorlib\v4.0_4.0.0.0__b77a5c561934e089\mscorlib.dll', Skipped loading symbols. Module is optimized and the debugger option 'Just My Code' is enabled.
-'TaggerAssemblyTest.vshost.exe' (Managed (v4.0.30319)): Loaded 'C:\Windows\assembly\GAC_MSIL\Microsoft.VisualStudio.HostingProcess.Utilities\11.0.0.0__b03f5f7f11d50a3a\Microsoft.VisualStudio.HostingProcess.Utilities.dll', Skipped loading symbols. Module is optimized and the debugger option 'Just My Code' is enabled.
-'TaggerAssemblyTest.vshost.exe' (Managed (v4.0.30319)): Loaded 'C:\Windows\Microsoft.Net\assembly\GAC_MSIL\System.Windows.Forms\v4.0_4.0.0.0__b77a5c561934e089\System.Windows.Forms.dll', Skipped loading symbols. Module is optimized and the debugger option 'Just My Code' is enabled.
-'TaggerAssemblyTest.vshost.exe' (Managed (v4.0.30319)): Loaded 'C:\Windows\Microsoft.Net\assembly\GAC_MSIL\System.Drawing\v4.0_4.0.0.0__b03f5f7f11d50a3a\System.Drawing.dll', Skipped loading symbols. Module is optimized and the debugger option 'Just My Code' is enabled.
-'TaggerAssemblyTest.vshost.exe' (Managed (v4.0.30319)): Loaded 'C:\Windows\Microsoft.Net\assembly\GAC_MSIL\System\v4.0_4.0.0.0__b77a5c561934e089\System.dll', Skipped loading symbols. Module is optimized and the debugger option 'Just My Code' is enabled.
-'TaggerAssemblyTest.vshost.exe' (Managed (v4.0.30319)): Loaded 'C:\Windows\assembly\GAC_MSIL\Microsoft.VisualStudio.HostingProcess.Utilities.Sync\11.0.0.0__b03f5f7f11d50a3a\Microsoft.VisualStudio.HostingProcess.Utilities.Sync.dll', Skipped loading symbols. Module is optimized and the debugger option 'Just My Code' is enabled.
-'TaggerAssemblyTest.vshost.exe' (Managed (v4.0.30319)): Loaded 'C:\Windows\assembly\GAC_MSIL\Microsoft.VisualStudio.Debugger.Runtime\11.0.0.0__b03f5f7f11d50a3a\Microsoft.VisualStudio.Debugger.Runtime.dll', Skipped loading symbols. Module is optimized and the debugger option 'Just My Code' is enabled.
-'TaggerAssemblyTest.vshost.exe' (Managed (v4.0.30319)): Loaded 'C:\Users\Aluan\Dropbox\LasiClassFramework\TaggerAssemblyTest\bin\Debug\TaggerAssemblyTest.vshost.exe', Skipped loading symbols. Module is optimized and the debugger option 'Just My Code' is enabled.
-'TaggerAssemblyTest.vshost.exe' (Managed (v4.0.30319)): Loaded 'C:\Windows\Microsoft.Net\assembly\GAC_MSIL\System.Core\v4.0_4.0.0.0__b77a5c561934e089\System.Core.dll', Skipped loading symbols. Module is optimized and the debugger option 'Just My Code' is enabled.
-'TaggerAssemblyTest.vshost.exe' (Managed (v4.0.30319)): Loaded 'C:\Windows\Microsoft.Net\assembly\GAC_MSIL\System.Xml.Linq\v4.0_4.0.0.0__b77a5c561934e089\System.Xml.Linq.dll', Skipped loading symbols. Module is optimized and the debugger option 'Just My Code' is enabled.
-'TaggerAssemblyTest.vshost.exe' (Managed (v4.0.30319)): Loaded 'C:\Windows\Microsoft.Net\assembly\GAC_MSIL\System.Data.DataSetExtensions\v4.0_4.0.0.0__b77a5c561934e089\System.Data.DataSetExtensions.dll', Skipped loading symbols. Module is optimized and the debugger option 'Just My Code' is enabled.
-'TaggerAssemblyTest.vshost.exe' (Managed (v4.0.30319)): Loaded 'C:\Windows\Microsoft.Net\assembly\GAC_MSIL\Microsoft.CSharp\v4.0_4.0.0.0__b03f5f7f11d50a3a\Microsoft.CSharp.dll', Skipped loading symbols. Module is optimized and the debugger option 'Just My Code' is enabled.
-'TaggerAssemblyTest.vshost.exe' (Managed (v4.0.30319)): Loaded 'C:\Windows\Microsoft.Net\assembly\GAC_64\System.Data\v4.0_4.0.0.0__b77a5c561934e089\System.Data.dll', Skipped loading symbols. Module is optimized and the debugger option 'Just My Code' is enabled.
-'TaggerAssemblyTest.vshost.exe' (Managed (v4.0.30319)): Loaded 'C:\Windows\Microsoft.Net\assembly\GAC_MSIL\System.Xml\v4.0_4.0.0.0__b77a5c561934e089\System.Xml.dll', Skipped loading symbols. Module is optimized and the debugger option 'Just My Code' is enabled.
-The thread 'vshost.NotifyLoad' (0x1844) has exited with code 0 (0x0).
-The thread 'vshost.LoadReference' (0x1414) has exited with code 0 (0x0).
-'TaggerAssemblyTest.vshost.exe' (Managed (v4.0.30319)): Loaded 'C:\Users\Aluan\Dropbox\LasiClassFramework\TaggerAssemblyTest\bin\Debug\TaggerAssemblyTest.exe', Symbols loaded.
-'TaggerAssemblyTest.vshost.exe' (Managed (v4.0.30319)): Loaded 'C:\Users\Aluan\Dropbox\LasiClassFramework\TaggerAssemblyTest\bin\Debug\LASI_FileSystem.dll', Symbols loaded.
-'TaggerAssemblyTest.vshost.exe' (Managed (v4.0.30319)): Loaded 'C:\Windows\Microsoft.Net\assembly\GAC_MSIL\System.Configuration\v4.0_4.0.0.0__b03f5f7f11d50a3a\System.Configuration.dll', Skipped loading symbols. Module is optimized and the debugger option 'Just My Code' is enabled.
-'TaggerAssemblyTest.vshost.exe' (Managed (v4.0.30319)): Loaded 'C:\Users\Aluan\Dropbox\LasiClassFramework\TaggerAssemblyTest\bin\Debug\OpenNLP.dll'
-'TaggerAssemblyTest.vshost.exe' (Managed (v4.0.30319)): Loaded 'C:\Users\Aluan\Dropbox\LasiClassFramework\TaggerAssemblyTest\bin\Debug\SharpEntropy.dll'
-The thread 'vshost.RunParkingWindow' (0xefc) has exited with code 0 (0x0).
-The thread '<No Name>' (0x3e8) has exited with code 0 (0x0).
-The program '[2628] TaggerAssemblyTest.vshost.exe: Program Trace' has exited with code 0 (0x0).
-The program '[2628] TaggerAssemblyTest.vshost.exe: Managed (v4.0.30319)' has exited with code 0 (0x0).
+﻿1>------ Build started: Project: L_FileSystem, Configuration: Debug Any CPU ------
+1>  L_FileSystem -> C:\Users\Aluan\LASI_Repo\LASI_v1\LASI_FileSystem\bin\Debug\FileSystem.dll
+2>------ Build started: Project: L_InteropLayer, Configuration: Debug Any CPU ------
+3>------ Build started: Project: LASI_Algorithm_UnitTests, Configuration: Debug Any CPU ------
+4>------ Build started: Project: Aluan_Experimentation, Configuration: Debug Any CPU ------
+5>------ Build started: Project: Brittany_Experimentation, Configuration: Debug Any CPU ------
+6>------ Build started: Project: Brittany_WPF_Experimentation, Configuration: Debug Any CPU ------
+7>------ Build started: Project: Dustin_Experimentation, Configuration: Debug Any CPU ------
+8>------ Build started: Project: Erik_Experimentation, Configuration: Debug Any CPU ------
+9>------ Build started: Project: Richard_Experimentation, Configuration: Debug Any CPU ------
+10>------ Build started: Project: Scott_Experimentation, Configuration: Debug Any CPU ------
+2>  L_InteropLayer -> C:\Users\Aluan\LASI_Repo\LASI_v1\LASI_InteropLayer\bin\Debug\InteropLayer.dll
+11>------ Build started: Project: L_UserInterface, Configuration: Debug Any CPU ------
+8>C:\Users\Aluan\LASI_Repo\LASI_v1\IndividualProjects\Erik_Experimentation\Program.cs(89,68,89,74): warning CS0219: The variable 'senary' is assigned but its value is never used
+8>  Erik_Experimentation -> C:\Users\Aluan\LASI_Repo\LASI_v1\IndividualProjects\Erik_Experimentation\bin\Debug\Erik_Experimentation.exe
+5>  Brittany_Experimentation -> C:\Users\Aluan\LASI_Repo\LASI_v1\IndividualProjects\Brittany_Experimentation\bin\Debug\Brittany_Experimentation.exe
+9>  Richard_Experimentation -> C:\Users\Aluan\LASI_Repo\LASI_v1\IndividualProjects\Richard_Experimentation\bin\Debug\Richard_Experimentation.exe
+4>  Aluan_Experimentation -> C:\Users\Aluan\LASI_Repo\LASI_v1\IndividualProjects\Aluan_Experimentation\bin\Debug\Aluan_Experimentation.exe
+7>  Dustin_Experimentation -> C:\Users\Aluan\LASI_Repo\LASI_v1\IndividualProjects\Dustin_Experimentation\bin\Debug\Dustin_Experimentation.exe
+10>  Scott_Experimentation -> C:\Users\Aluan\LASI_Repo\LASI_v1\IndividualProjects\Scott_Experimentation\bin\Debug\Scott_Experimentation.exe
+3>  LASI_Algorithm_UnitTests -> C:\Users\Aluan\LASI_Repo\LASI_v1\UnitTests\bin\Debug\AlgorithmAssemblyUnitTestProject.dll
+6>  Brittany_WPF_Experimentation -> C:\Users\Aluan\LASI_Repo\LASI_v1\IndividualProjects\Brittany_WPF_Experimentation\bin\Debug\Brittany_WPF_Experimentation.exe
+11>  L_UserInterface -> C:\Users\Aluan\LASI_Repo\LASI_v1\LASI_UserInterface\bin\Debug\UserInterface.exe
+========== Build: 11 succeeded, 0 failed, 2 up-to-date, 0 skipped ==========

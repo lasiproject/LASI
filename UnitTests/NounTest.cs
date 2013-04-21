@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using LASI.Algorithm;
 using LASI.Algorithm.FundamentalSyntacticInterfaces;
+using LASI.Algorithm.LexicalStructures.NounRelatedConstructs;
 
 namespace AlgorithmAssemblyUnitTestProject
 {
@@ -171,7 +172,7 @@ namespace AlgorithmAssemblyUnitTestProject
         [TestMethod()]
         public void IndirectReferencesTest() {
             Noun target = CreateNoun();
-            IEnumerable<Pronoun> actual;
+            IEnumerable<IPronoun> actual;
             actual = target.BoundPronouns;
             Assert.IsTrue(actual != null && actual.Count() == 0);
         }

@@ -25,8 +25,7 @@ namespace LASI.UserInterface
     /// </summary>
     public partial class StartupScreen : Window
     {
-        public StartupScreen()
-        {
+        public StartupScreen() {
             InitializeComponent();
             WindowManager.StartupScreen = this;
             BindWindowEventHandlers();
@@ -34,13 +33,10 @@ namespace LASI.UserInterface
 
 
         }
-        void BindWindowEventHandlers()
-        {
+        void BindWindowEventHandlers() {
             this.MouseLeftButtonDown += (s, e) => DragMove();
-            if (ConfigurationManager.AppSettings["AutoDebugCleanupOn"] == "true")
-            {
-                App.Current.Exit += (sender, e) =>
-                {
+            if (ConfigurationManager.AppSettings["AutoDebugCleanupOn"] == "true") {
+                App.Current.Exit += (sender, e) => {
                     if (FileSystem.FileManager.Initialized)
                         FileSystem.FileManager.DecimateProject();
                 };
@@ -48,92 +44,84 @@ namespace LASI.UserInterface
         }
 
 
-        private void closeButton_Click(object sender, RoutedEventArgs e)
-        {
+        private void closeButton_Click(object sender, RoutedEventArgs e) {
             Application.Current.Shutdown();
         }
 
 
 
-        private async void createProjectButton_Click(object sender, RoutedEventArgs e)
-        {
-           
-            await SetUpDirectory(); 
-            
-            if (Height == 250 && !isExpanding)
-            {
-                isExpanding = true;
-                for (var i = 0; i < 300; i += 10)
-                {
-                    Height += i;
-                    await Task.Delay(16);
+        private async void createProjectButton_Click(object sender, RoutedEventArgs e) {
+
+
+            await SetUpDirectory();
+
+            if (Height == 250) {
+                for (var i = 0; i < 300; i += 10) {
+                    Height += 10;
+                    await Task.Delay(8);
                 }
-                isExpanding = false;
-            }
-            else
-            {
-                Height = 250;
-     
+
+            } else {
+                if (Height == 550) {
+                    for (var i = 0; i < 300 && Height > 250; i += 10) {
+                        Height -= 10;
+                        await Task.Delay(8);
+                    }
+                }
+
             }
 
 
         }
 
-        private async Task SetUpDirectory()
-        {
+        private async Task SetUpDirectory() {
+            ProjectLocation = await Task.Run(() => {
+                var location = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\LASI_Projects";
+                if (!Directory.Exists(location)) {
+                    Directory.CreateDirectory(location);
+                }
 
-            ProjectLocation = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\LASI_Projects";
-            if (!Directory.Exists(ProjectLocation))
-            {
-                Directory.CreateDirectory(ProjectLocation);
-            }
 
+                return location;
+
+            });
             LocationTextBox.Text = ProjectLocation;
-            LastLoadedProjectName = "";
             LocationTextBox.TextChanged += (sender2, e2) => LocationTextBox.ScrollToEnd();
-
         }
 
 
 
         #region EventHandlers
 
-        private void browseForDocButton_Click(object sender, RoutedEventArgs e)
-        {
-            var openDialog = new Microsoft.Win32.OpenFileDialog
-            {
+        private void browseForDocButton_Click(object sender, RoutedEventArgs e) {
+            var openDialog = new Microsoft.Win32.OpenFileDialog {
                 Filter = "LASI File Types|*.docx; *.doc; *.txt",
             };
             openDialog.ShowDialog(this);
-            if (openDialog.FileNames.Count() <= 0)
-            {
+            if (openDialog.FileNames.Count() <= 0) {
                 return;
             }
             var docPath = openDialog.FileName;
 
             lastDocPath.Text = docPath;
+            var docEntry = new ListViewItem {
+                Content = docPath
+            };
 
             var num = "x";
-            var button = new Button
-            {
+            var button = new Button {
                 Content = num.ToString(),
                 Height = 20,
                 Width = 20
             };
 
-            var docEntry = new ListViewItem
-            {
-                Content = docPath
-            };
 
-            button.Click += (s, args) =>
-            {
+            button.Click += (s, args) => {
 
                 documentsAdded.Items.Remove(docEntry);
                 xbuttons.Children.Remove(button);
                 NumberOfDocuments--;
-                if (NumberOfDocuments == 0)
-                {
+                if (NumberOfDocuments == 0) {
                     //  documentsAdded.Visibility = Visibility.Hidden;
                     documentsAdded.Opacity = 0.25;
                 }
@@ -148,67 +136,55 @@ namespace LASI.UserInterface
             documentsAdded.Items.Add(docEntry);
             lastDocPath.Text = string.Empty;
             NumberOfDocuments++;
-            if (NumberOfDocuments > 0)
-            {
+            if (NumberOfDocuments > 0) {
                 //documentsAdded.Visibility = Visibility.Visible;
                 documentsAdded.Opacity = 100;
             }
 
-            if (NumberOfDocuments == 5)
-            {
+            if (NumberOfDocuments == 5) {
                 browseForDocButton.IsEnabled = false;
             }
 
         }
 
 
-        private async void CreateButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (ValidateProjectNameField() && ValidateProjectLocationField() && ValidateProjectDocumentField())
-            {
-                LastLoadedProjectName = EnteredProjectName.Text;
+        private async void CreateButton_Click(object sender, RoutedEventArgs e) {
+            if (ValidateProjectNameField() && ValidateProjectLocationField() && ValidateProjectDocumentField()) {
+                Resources["CurrentProjectName"] = EnteredProjectName.Text;
 
 
 
-                WindowManager.LoadedProjectScreen.SetTitle(LastLoadedProjectName + " - L.A.S.I.");
+                WindowManager.LoadedProjectScreen.SetTitle(Resources["CurrentProjectName"] + " - L.A.S.I.");
                 WindowManager.LoadedProjectScreen.Show();
 
                 FileManager.Initialize(ProjectLocation + @"\" + EnteredProjectName.Text);
 
-                foreach (var file in documentsAdded.Items)
-                {
+                foreach (var file in documentsAdded.Items) {
                     FileManager.AddFile((file as ListViewItem).Content.ToString(), true);
                 }
 
                 await FileManager.ConvertAsNeededAsync();
-                this.SwapWith(WindowManager.LoadedProjectScreen);
 
                 WindowManager.LoadedProjectScreen.LoadDocumentPreviews();
+                this.SwapWith(WindowManager.LoadedProjectScreen);
 
 
-            }
-            else
-            {
 
-                if (ValidateProjectNameField() == false)
-                {
+            } else {
+
+                if (ValidateProjectNameField() == false) {
                     ProjNameErrorLabel.Visibility = Visibility.Visible;
-                }
-                else
+                } else
                     ProjNameErrorLabel.Visibility = Visibility.Hidden;
 
-                if (ValidateProjectLocationField() == false)
-                {
+                if (ValidateProjectLocationField() == false) {
                     ProjLocationErrorLabel.Visibility = Visibility.Visible;
-                }
-                else
+                } else
                     ProjLocationErrorLabel.Visibility = Visibility.Hidden;
 
-                if (ValidateProjectDocumentField() == false)
-                {
+                if (ValidateProjectDocumentField() == false) {
                     ProjDocumentErrorLabel.Visibility = Visibility.Visible;
-                }
-                else
+                } else
                     ProjDocumentErrorLabel.Visibility = Visibility.Hidden;
 
 
@@ -218,18 +194,15 @@ namespace LASI.UserInterface
 
         }
 
-        private void SelectProjFolderButton_Click(object sender, RoutedEventArgs e)
-        {
+        private void SelectProjFolderButton_Click(object sender, RoutedEventArgs e) {
 
 
-            var locationSelectDialog = new System.Windows.Forms.FolderBrowserDialog
-            {
+            var locationSelectDialog = new System.Windows.Forms.FolderBrowserDialog {
                 SelectedPath = ProjectLocation
             };
 
             System.Windows.Forms.DialogResult dirResult = locationSelectDialog.ShowDialog();
-            if (dirResult == System.Windows.Forms.DialogResult.OK)
-            {
+            if (dirResult == System.Windows.Forms.DialogResult.OK) {
                 LocationTextBox.Text = locationSelectDialog.SelectedPath;
             }
 
@@ -238,13 +211,10 @@ namespace LASI.UserInterface
         }
 
 
-        private bool ValidateProjectNameField()
-        {
+        private bool ValidateProjectNameField() {
             if (String.IsNullOrWhiteSpace(EnteredProjectName.Text)
-            || String.IsNullOrEmpty(EnteredProjectName.Text))
-            {
-                EnteredProjectName.ToolTip = new ToolTip
-                {
+            || String.IsNullOrEmpty(EnteredProjectName.Text)) {
+                EnteredProjectName.ToolTip = new ToolTip {
                     Visibility = Visibility.Visible,
                     Content = "You must enter a name for your new project"
                 };
@@ -254,14 +224,11 @@ namespace LASI.UserInterface
         }
 
 
-        private bool ValidateProjectLocationField()
-        {
+        private bool ValidateProjectLocationField() {
             if (String.IsNullOrWhiteSpace(LocationTextBox.Text)
-            || String.IsNullOrEmpty(LocationTextBox.Text) || !Directory.Exists(LocationTextBox.Text.Substring(0, LocationTextBox.Text.LastIndexOf("\\"))))
-            {
+            || String.IsNullOrEmpty(LocationTextBox.Text) || !Directory.Exists(LocationTextBox.Text.Substring(0, LocationTextBox.Text.LastIndexOf("\\")))) {
 
-                LocationTextBox.ToolTip = new ToolTip
-                {
+                LocationTextBox.ToolTip = new ToolTip {
                     Visibility = Visibility.Visible,
                     Content = "You must enter a location for your new project"
                 };
@@ -271,12 +238,9 @@ namespace LASI.UserInterface
 
         }
 
-        private bool ValidateProjectDocumentField()
-        {
-            if (NumberOfDocuments == 0)
-            {
-                lastDocPath.ToolTip = new ToolTip
-                {
+        private bool ValidateProjectDocumentField() {
+            if (NumberOfDocuments == 0) {
+                lastDocPath.ToolTip = new ToolTip {
                     Visibility = Visibility.Visible,
                     Content = "You must have documents for your new project"
                 };
@@ -291,13 +255,11 @@ namespace LASI.UserInterface
 
 
 
-        private void MenuItem_Click_3(object sender, RoutedEventArgs e)
-        {
+        private void MenuItem_Click_3(object sender, RoutedEventArgs e) {
             this.Close();
 
         }
-        private void CancelButton_Click(object sender, RoutedEventArgs e)
-        {
+        private void CancelButton_Click(object sender, RoutedEventArgs e) {
 
             this.SwapWith(WindowManager.StartupScreen);
         }
@@ -306,31 +268,33 @@ namespace LASI.UserInterface
 
         #region Properties
 
-        public string ProjectLocation
-        {
+        public string ProjectLocation {
             get;
             private set;
         }
+        //private string lastLoadedProjectName = string.Empty;
 
-        public string LastLoadedProjectName
-        {
-            get;
-            private set;
-        }
+        //public string LastLoadedProjectName {
+        //    get {
+        //        return lastLoadedProjectName;
+        //    }
+        //    private set {
+        //        lastLoadedProjectName = value;
+        //    }
+        //}
 
-        private int NumberOfDocuments
-        {
+
+        private int NumberOfDocuments {
             get;
             set;
         }
 
-        private bool isExpanding;
+
 
 
         #endregion
 
-        private void EnteredProjectName_TextChanged(object sender, TextChangedEventArgs e)
-        {
+        private void EnteredProjectName_TextChanged(object sender, TextChangedEventArgs e) {
             LocationTextBox.Text = ProjectLocation + @"\" + EnteredProjectName.Text;
         }
 

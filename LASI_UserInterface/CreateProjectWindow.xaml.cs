@@ -38,16 +38,14 @@ namespace LASI.UserInterface
             LastLoadedProjectName = "";
             LocationTextBox.TextChanged += (sender, e) => LocationTextBox.ScrollToEnd();
 
-           
+
         }
 
-        void BindWindowEventHandlers()
-        {
+        void BindWindowEventHandlers() {
             this.MouseLeftButtonDown += (s, e) => DragMove();
         }
 
-        private void closeButton_Click(object sender, RoutedEventArgs e)
-        {
+        private void closeButton_Click(object sender, RoutedEventArgs e) {
             Application.Current.Shutdown();
         }
 
@@ -83,8 +81,7 @@ namespace LASI.UserInterface
                 documentsAdded.Items.Remove(docEntry);
                 xbuttons.Children.Remove(button);
                 NumberOfDocuments--;
-                if (NumberOfDocuments == 0)
-                {
+                if (NumberOfDocuments == 0) {
                     documentsAdded.Visibility = Visibility.Hidden;
                     documentsAdded.Opacity = 0.25;
                 }
@@ -129,25 +126,21 @@ namespace LASI.UserInterface
                 WindowManager.LoadedProjectScreen.LoadDocumentPreviews();
 
 
-            }
-            else {
+            } else {
 
                 if (ValidateProjectNameField() == false) {
                     ProjNameErrorLabel.Visibility = Visibility.Visible;
-                }
-                else
+                } else
                     ProjNameErrorLabel.Visibility = Visibility.Hidden;
 
                 if (ValidateProjectLocationField() == false) {
                     ProjLocationErrorLabel.Visibility = Visibility.Visible;
-                }
-                else
+                } else
                     ProjLocationErrorLabel.Visibility = Visibility.Hidden;
 
                 if (ValidateProjectDocumentField() == false) {
                     ProjDocumentErrorLabel.Visibility = Visibility.Visible;
-                }
-                else
+                } else
                     ProjDocumentErrorLabel.Visibility = Visibility.Hidden;
 
 

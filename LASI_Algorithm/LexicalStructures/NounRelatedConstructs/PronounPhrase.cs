@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LASI.Algorithm.LexicalStructures
+namespace LASI.Algorithm
 {
     public class PronounPhrase : NounPhrase, IPronounBindable, LASI.Algorithm.LexicalStructures.NounRelatedConstructs.IPronoun
     {

@@ -14,6 +14,7 @@ namespace LASI.UserInterface
     internal static class WindowManager
     {
         static WindowManager() {
+
             CreateProjectScreen = new CreateProjectScreen();
             LoadedProjectScreen = new ProjectPreviewScreen();
             InProgressScreen = new InProgressScreen();

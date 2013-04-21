@@ -56,7 +56,7 @@ namespace LASI.Algorithm
             get {
                 return _boundEntity;
             }
-            private set {
+            set {
                 _boundEntity = value;
                 _entityKind = BoundEntity.EntityKind;
             }
