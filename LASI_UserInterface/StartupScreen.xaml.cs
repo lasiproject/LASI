@@ -171,25 +171,51 @@ namespace LASI.UserInterface
 
 
             } else {
+               
+                threepaws.Visibility = Visibility.Hidden;
 
-                if (ValidateProjectNameField() == false) {
+                if (ValidateProjectNameField() == false && ValidateProjectDocumentField() == false)
+                {
+                 //   ProjCreateErrorLabel.Content = "All fields must be filled out.";
+                   // ProjCreateErrorLabel.Visibility = Visibility.Visible;
+                    NothingFilledImage.Visibility = Visibility.Visible;
+                    
+                }
+                else
+                {
+                    //ProjCreateErrorLabel.Visibility = Visibility.Hidden;
+                    NothingFilledImage.Visibility = Visibility.Hidden;
+                
+                }
+                if (ValidateProjectNameField() == false && ValidateProjectDocumentField() == true)
+                {
                     ProjNameErrorLabel.Visibility = Visibility.Visible;
-                } else
-                    ProjNameErrorLabel.Visibility = Visibility.Hidden;
-
-                if (ValidateProjectLocationField() == false) {
+                    ProjNameErrorImage.Visibility = Visibility.Visible;
                     ProjLocationErrorLabel.Visibility = Visibility.Visible;
-                } else
+                }
+                else
+                {
+                
                     ProjLocationErrorLabel.Visibility = Visibility.Hidden;
-
-                if (ValidateProjectDocumentField() == false) {
+                    ProjNameErrorLabel.Visibility = Visibility.Hidden;
+                    ProjNameErrorImage.Visibility = Visibility.Hidden;
+                }
+                
+                if (ValidateProjectNameField() == true && ValidateProjectDocumentField() == false)
+                {
                     ProjDocumentErrorLabel.Visibility = Visibility.Visible;
-                } else
+                    NoDocumentsImage.Visibility = Visibility.Visible;
+                }
+                else
+                {
                     ProjDocumentErrorLabel.Visibility = Visibility.Hidden;
+                    NoDocumentsImage.Visibility = Visibility.Hidden;
+                }
 
 
-                ProjCreateErrorLabel.Content = "All fields must be filled out.";
-                ProjCreateErrorLabel.Visibility = Visibility.Visible;
+
+               
+              
             }
 
         }

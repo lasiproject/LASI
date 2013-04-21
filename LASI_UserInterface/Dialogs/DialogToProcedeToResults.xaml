@@ -1,7 +1,7 @@
 ﻿<Window x:Name="AnalysisCompleteDialog" x:Class="LASI.UserInterface.Dialogs.DialogToProcedeToResults"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Analysis Complete" Height="210" Width="300" WindowStyle="ToolWindow">
+        Title="Analysis Complete" Height="305" Width="481" WindowStyle="None">
     <Grid Height="179" VerticalAlignment="Top">
         <Label Content="&#x9;Analysis Has Been Completed&#xD;&#xA;&#xD;&#xA;            Click Proceed to View the Results" HorizontalAlignment="Left" Margin="10,24,0,91" Width="272"/>
         <CheckBox Content="Automatically Export Results" HorizontalAlignment="Left" Margin="64,103,0,0" VerticalAlignment="Top" Height="18" Width="170" ToolTip="You will be given the option again before closing"/>

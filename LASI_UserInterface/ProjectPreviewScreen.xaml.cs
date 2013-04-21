@@ -80,12 +80,13 @@ namespace LASI.UserInterface
 
         }
         private async void StartButton_Click(object sender, RoutedEventArgs e) {
-            WindowManager.InProgressScreen.PositionAt(this.Left, this.Top);
-            WindowManager.InProgressScreen.SetTitle(WindowManager.CreateProjectScreen.LastLoadedProjectName + " - L.A.S.I.");
-            WindowManager.InProgressScreen.Show();
-            this.Hide();
-            await WindowManager.InProgressScreen.InitProgressBar();
 
+            WindowManager.InProgressScreen.Show();
+            WindowManager.InProgressScreen.Topmost = true;
+          
+            await WindowManager.InProgressScreen.InitProgressBar();
+            WindowManager.InProgressScreen.Hide();
+            ProceedToResultsView();
 
         }
 
@@ -152,5 +153,19 @@ namespace LASI.UserInterface
             AddNewDocumentButton.IsEnabled = addingEnabled;
             FileMenuAdd.IsEnabled = addingEnabled;
         }
+
+        private void ProceedToResultsView()
+        {
+            WindowManager.ResultsScreen.SetTitle(WindowManager.CreateProjectScreen.LastLoadedProjectName + " - L.A.S.I.");
+            this.SwapWith(WindowManager.ResultsScreen);
+            //WindowManager.ResultsScreen.BuildAssociationTextView();
+           // WindowManager.ResultsScreen.BuildFullSortedView();
+            WindowManager.ResultsScreen.BuildAssociationTextView();
+            WindowManager.ResultsScreen.CreateInteractiveViews();
+            
+        }
+      
+
+
     }
 }

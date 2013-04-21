@@ -26,12 +26,8 @@
             <TextBox x:Name="SearchTextBox" HorizontalAlignment="Right" FontSize="10" Height="20" TextWrapping="Wrap" Width="154" UndoLimit="200" AllowDrop="False" SelectionOpacity="0" Padding="1,1,1,2" />
             <Button x:Name="SearchButton" Content="Search" VerticalAlignment="Top" HorizontalAlignment="Right" />
         </Menu>
-        <Menu Height="25" Margin="0,26,0,0" VerticalAlignment="Top" VerticalContentAlignment="Center" Background="#FFDDDADA" Padding="10,4,0,4">
-            <MenuItem Background="#FFE8E1E1" Header=" &lt;-" BorderBrush="#FF878787" VerticalContentAlignment="Center" Height="17" Width="28" />
-            <MenuItem Header=" -&gt;" Margin="10,0,0,0" Background="#FFEBE5E5" BorderBrush="#FF878787" />
-            <MenuItem Header="I &gt; Start" Margin="10,0,0,0" BorderBrush="#FF999999" Background="#FFEEE9E9" />
-        </Menu>
-        <Canvas Background="#FFF6F6F6" Margin="0,50,0,0">
+      
+        <Canvas Background="#FFF6F6F6" Margin="0,26,0,0">
 
 
             <Button x:Name="backtodocview" Content="View Documents" HorizontalAlignment="Center" VerticalAlignment="Top" Width="115" Canvas.Left="18" Canvas.Top="69" />

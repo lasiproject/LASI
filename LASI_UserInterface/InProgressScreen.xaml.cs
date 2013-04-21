@@ -76,36 +76,36 @@ namespace LASI.UserInterface
             WindowManager.ResultsScreen.Documents = msg.ToList();
 
 
-            DisplayProceedDialog();
+        //    DisplayProceedDialog();
         }
+        
+        //private void DisplayProceedDialog() {
 
-        private void DisplayProceedDialog() {
+        //    var procedeDialog = new DialogToProcedeToResults();
 
-            var procedeDialog = new DialogToProcedeToResults();
+        //    procedeDialog.Topmost = true;
 
-            procedeDialog.Topmost = true;
+        //    procedeDialog.PositionAt(this.Left, this.Top);
 
-            procedeDialog.PositionAt(this.Left, this.Top);
+        //    procedeDialog.ContinueButton.Click += (sender, e) => ProceedToResultsView();
 
-            procedeDialog.ContinueButton.Click += (sender, e) => ProceedToResultsView();
-
-            //Shows the window as a modal dialog
-            procedeDialog.ShowDialog();
-
-        }
+        //    //Shows the window as a modal dialog
+        //    //procedeDialog.ShowDialog();
+        
+        //}
 
         #endregion
 
         #endregion
 
 
-        private async void ProceedToResultsView() {
-            WindowManager.ResultsScreen.SetTitle(WindowManager.CreateProjectScreen.LastLoadedProjectName + " - L.A.S.I.");
-            this.SwapWith(WindowManager.ResultsScreen);
-            //WindowManager.ResultsScreen.BuildAssociationTextView();
-            WindowManager.ResultsScreen.CreateInteractiveViews();
-            WindowManager.ResultsScreen.BuildAssociationTextView();
-        }
+        //private async void ProceedToResultsView() {
+        //    WindowManager.ResultsScreen.SetTitle(WindowManager.CreateProjectScreen.LastLoadedProjectName + " - L.A.S.I.");
+        //    this.SwapWith(WindowManager.ResultsScreen);
+        //    //WindowManager.ResultsScreen.BuildAssociationTextView();
+        //    WindowManager.ResultsScreen.CreateInteractiveViews();
+        //    WindowManager.ResultsScreen.BuildAssociationTextView();
+        //}
         private void MenuItem_Click_3(object sender, RoutedEventArgs e) {
             this.Close();
 
