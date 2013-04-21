@@ -84,10 +84,10 @@ namespace LASI.UserInterface
                 xbuttons.Children.Remove(button);
                 NumberOfDocuments--;
                 if (NumberOfDocuments == 0)
+                {
                     documentsAdded.Visibility = Visibility.Hidden;
-
-                browseForDocButton.IsEnabled = true;
-
+                    documentsAdded.Opacity = 0.25;
+                }
 
             };
 
@@ -98,6 +98,7 @@ namespace LASI.UserInterface
             NumberOfDocuments++;
             if (!documentsAdded.IsVisible) {
                 documentsAdded.Visibility = Visibility.Visible;
+                documentsAdded.Opacity = 1.00;
             }
 
             if (NumberOfDocuments == 5) {

@@ -281,6 +281,8 @@ namespace LASI.UserInterface
             var printDialog = new PrintDialog();
             printDialog.ShowDialog();
             // printDialog.PrintVisual(resultsGrid, "Current View");
+           
+           
         }
 
         private void Grid_MouseDown_1(object sender, MouseButtonEventArgs e) {

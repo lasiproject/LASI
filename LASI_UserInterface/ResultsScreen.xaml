@@ -4,6 +4,7 @@
         x:Class="LASI.UserInterface.ResultsScreen"
         Title="Results - L.A.S.I." Height="525" Width="800" ResizeMode="CanResizeWithGrip" Icon="LasiLogo.ico" WindowStartupLocation="Manual" WindowState="Maximized">
     <Grid>
+     
         <Menu Height="26" VerticalAlignment="Top" HorizontalAlignment="Stretch">
             <MenuItem Header="File" HorizontalAlignment="Left">
                 <MenuItem Header="New" HorizontalAlignment="Left" Width="200">
@@ -29,13 +30,18 @@
             <TextBox x:Name="SearchTextBox" HorizontalAlignment="Right" FontSize="10" Height="20" TextWrapping="Wrap" Width="154" UndoLimit="200" AllowDrop="False" SelectionOpacity="0" Padding="1,1,1,2"/>
             <Button x:Name="SearchButton" Content="Search" VerticalAlignment="Top" HorizontalAlignment="Right"/>
         </Menu>
-        <Canvas Background="#FFF6F6F6" Margin="0,50,0,-5">
+        <Menu Height="25" Margin="0,26,0,0"  VerticalAlignment="Top" VerticalContentAlignment="Center" Background="#FFDDDADA" Padding="10,4,0,4">
+            <MenuItem Background="#FFE8E1E1" Header=" &lt;-" BorderBrush="#FF878787" VerticalContentAlignment="Center" Height="17" Width="28" />
+            <MenuItem Header=" -&gt;" Margin="10,0,0,0" Background="#FFEBE5E5" BorderBrush="#FF878787"/>
+            <MenuItem Header="I &gt; Start" Margin="10,0,0,0" BorderBrush="#FF999999" Background="#FFEEE9E9"/>
+        </Menu>
+        <Canvas Background="#FFF6F6F6" Margin="0,50,0,0">
 
 
             <Button x:Name="backtodocview" Content="View Documents" HorizontalAlignment="Center" VerticalAlignment="Top" Width="115" Canvas.Left="18" Canvas.Top="69"/>
             <Button x:Name="exportButton" Content="Export" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Canvas.Left="36" Canvas.Top="160"  />
-            <Button Content="Button" Height="33" Canvas.Left="37" Canvas.Top="225" Width="35" Style="{DynamicResource ControlStyle1}" Click="printButton_Click_1" />
-            <Button x:Name="changeChartType_Column" Height="35" Canvas.Left="18" Canvas.Top="24" Width="35" Click="changeChartType_Column_Click" Style="{DynamicResource ChangeChartTypeColumn}" MaxWidth="50" MaxHeight="50" Margin="0" Padding="10,1,1,1" BorderThickness="0.5,0.5,0.55,0.5" ClipToBounds="True" Background="#FFDDDDDD">
+            <Button x:Name ="printButton" Height="33" Canvas.Left="45" Canvas.Top="231" Width="35"   Style="{DynamicResource ControlStyle1}" Click="printButton_Click_1"/>
+            <Button x:Name="changeChartType_Column" Content="Print" Height="35" Canvas.Left="18" Canvas.Top="24" Width="35" Click="changeChartType_Column_Click" Style="{DynamicResource ChangeChartTypeColumn}" MaxWidth="50" MaxHeight="50" Margin="0" Padding="10,1,1,1" BorderThickness="0.5,0.5,0.55,0.5" ClipToBounds="True" Background="#FFDDDDDD" ClickMode="Press">
                 <Button.BorderBrush>
                     <SolidColorBrush Color="#FF707070" Opacity="0.3"/>
                 </Button.BorderBrush>
@@ -52,62 +58,42 @@
 
             </Button>
         </Canvas>
-        <Grid Margin="0,0,0,-5"/>
-        <TabControl x:Name="ResultsTabControl" Canvas.Left="148" ScrollViewer.HorizontalScrollBarVisibility="Auto" 
+        <Grid Margin="0,0,0,0"/>
+        
+        <TabControl x:Name="ResultsTabControl" ScrollViewer.HorizontalScrollBarVisibility="Auto" 
                         ScrollViewer.VerticalScrollBarVisibility="Auto" Margin="158,51,45,19" >
+            
             <TabItem x:Name="topResultsTab" Header="Top Results">
                 <Grid Background="#FFE5E5E5" Margin="0,0,1,0">
                     <TabControl x:Name="FrequencyCharts" >
                     </TabControl>
                 </Grid>
             </TabItem>
-            <TabItem Header="Word Relationships" BorderBrush="#FF8C8E94">
-                <Grid Background="#FFE5E5E5" >
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
+            
+            
+            <TabItem Header="Word Relationships">
+                <Grid Background="#FFE5E5E5" Margin="0,0,1,0" >
                     <TabControl Height="380" VerticalAlignment="Top" Margin="0,0,-52,0">
-                        <TabItem Header="Document 1">
-                            <Grid Background="#FFE5E5E5">
-                                <WrapPanel Orientation="Vertical">
-                                   
-                                </WrapPanel>
-                            </Grid>
-                        </TabItem>
-                        <TabItem Header="Document 2" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="78" Margin="-2,-2,-19,0">
-                            <Grid Background="#FFE5E5E5"/>
-                        </TabItem>
-                        <TabItem Header="All Documents">
-                            <Grid Background="#FFE5E5E5" Margin="0,0,51,0"/>
-                        </TabItem>
-
+                        
                         <TabItem Name="testassoci" Header="testassoci">
                             <WrapPanel Name="AssociationPhrasePanal"></WrapPanel>
                         </TabItem>
                     </TabControl>
                 </Grid>
             </TabItem>
+            
+            
             <TabItem   Header="Word Count and Weighting">
                 <Grid Background="#FFE5E5E5">
-
-                    <TabControl Name="WordCountLists" Grid.ColumnSpan="2" Margin="0,-1,0,0">
-
-
-                    </TabControl>
+                    <TabControl Name="WordCountLists" Grid.ColumnSpan="2" Margin="0,-1,0,0"/>
                 </Grid>
             </TabItem>
+            
+            
             <TabItem  Header="TestView"  >
-                <TabControl x:Name="TestView" Margin="0,-2,0,0">
-
-                </TabControl>
-
+                <TabControl x:Name="TestView" Margin="0,-2,0,0"/>
             </TabItem>
 
         </TabControl>
-        <Menu Height="25" Margin="0,26,0,0"  VerticalAlignment="Top" VerticalContentAlignment="Center" Background="#FFDDDADA" Padding="10,4,0,4">
-            <MenuItem Background="#FFE8E1E1" Header=" &lt;-" BorderBrush="#FF878787" />
-            <MenuItem Header=" -&gt;" Margin="10,0,0,0" Background="#FFEBE5E5" BorderBrush="#FF878787"/>
-            <MenuItem Header="I &gt; Start" Margin="10,0,0,0" BorderBrush="#FF999999" Background="#FFEEE9E9"/>
-        </Menu>
     </Grid>
 </Window>

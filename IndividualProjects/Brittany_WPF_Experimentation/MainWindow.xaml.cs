@@ -31,9 +31,24 @@ namespace Brittany_WPF_Experimentation
             InitializeComponent();
         }
 
-        private void Taggit_Button_Click_1(object sender, RoutedEventArgs e) {
-            var doc = TaggerUtil.TagString(input.Text);
+        private void Button_Click(object sender, RoutedEventArgs e) {
+            if(ExpandoGrid.Height == 250)
+            {
+            ExpandoGrid.Height = 200;
+            Height = 450;
+            }
+            else
+            {
+                Height = 250;
+                ExpandoGrid.Height = 250;
 
+            }
+            
         }
     }
+
+
+
+
+
 }
