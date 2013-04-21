@@ -83,9 +83,6 @@ namespace LASI.Algorithm.Thesauri
                         //if (!cachedData.ContainsKey(root)) {
                         try {
 
-
-
-
                             return new HashSet<string>((from REF in AssociationData[root].ReferencedIndexes //Get all set reference indeces stored directly within 
                                                         select new {                                        //The synset indexed by the word
                                                             ind = REF,                                      //Store the LexName for restrictive comparison if enabled
@@ -120,6 +117,7 @@ namespace LASI.Algorithm.Thesauri
                     return null;
                 } catch (ArgumentOutOfRangeException) {
                 } catch (KeyNotFoundException) {
+                } catch (IndexOutOfRangeException) {
                 }
 
 

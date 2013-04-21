@@ -31,7 +31,7 @@
 
 
             <Button x:Name="backtodocview" Content="View Documents" HorizontalAlignment="Center" VerticalAlignment="Top" Width="115" Canvas.Left="18" Canvas.Top="69" />
-            <Button x:Name="exportButton" Content="Export" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Canvas.Left="36" Canvas.Top="160" />
+            <Button x:Name="exportButton" Content="Export" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Canvas.Left="36" Canvas.Top="160" Click="exportButton_Click"/>
             <Button x:Name="printButton" Height="33" Canvas.Left="45" Canvas.Top="231" Width="35" Style="{DynamicResource ControlStyle1}" Click="printButton_Click_1" />
             <Button x:Name="changeToColumnChartButton" Height="35" Canvas.Left="18" Canvas.Top="24" Width="35" Style="{DynamicResource ChangeChartTypeColumn}" MaxWidth="50" MaxHeight="50" Margin="0" Padding="10,1,1,1" BorderThickness="0.5,0.5,0.55,0.5" ClipToBounds="True" Background="#FFDDDDDD" ClickMode="Press">
                 <Button.BorderBrush>

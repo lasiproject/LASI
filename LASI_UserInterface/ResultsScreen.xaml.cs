@@ -388,6 +388,22 @@ namespace LASI.UserInterface
         }
 
 
+
+        private async void exportButton_Click(object sender, RoutedEventArgs e) {
+            foreach (var doc in documents) {
+                using (
+                    var docWriter = new LASI.FileSystem.Serialization.XML.SimpleLexicalSerializer(
+                    FileManager.ResultsDir + System.IO.Path.DirectorySeparatorChar + new string(
+                    doc.FileName.TakeWhile(c => c != '.').ToArray()) + ".xml")) {
+                     docWriter.Write(from S in doc.Sentences
+                                                     from R in S.Phrases
+                                                     select R, doc.FileName, FileSystem.Serialization.XML.DegreeOfOutput.Comprehensive);
+                }
+            }
+        }
+
+
+
         public bool AutoExport {
             get;
             set;

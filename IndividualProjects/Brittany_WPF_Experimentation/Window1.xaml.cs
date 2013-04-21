@@ -22,19 +22,10 @@ namespace Brittany_WPF_Experimentation
     /// </summary>
     public partial class Window1 : Window
     {
-        public Window1()
-        {
+        public Window1() {
             InitializeComponent();
         }
 
-        private async void StartButton_Click(object sender, RoutedEventArgs e)
-        {
-          
-            
-            this.Hide();
-            await WindowManager.InProgressScreen.InitProgressBar();
 
-
-        }
     }
 }

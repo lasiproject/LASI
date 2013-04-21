@@ -24,27 +24,36 @@ namespace LASI.FileSystem.Serialization.XML
             Target = XmlWriter.Create(textWriter);
         }
         public void Write(IEnumerable<ILexical> resultSet, string resultSetTitle, DegreeOfOutput degreeOfOutput) {
+
             var serializedResults =
-                Serialize(resultSet, resultSetTitle, degreeOfOutput);
+                SerializeDoc(resultSet, resultSetTitle, degreeOfOutput);
             serializedResults.Save(Target);
+
         }
 
-        private XElement Serialize(IEnumerable<ILexical> resultSet, string resultSetTitle, DegreeOfOutput degreeOfOutput) {
+        public XElement Serialize(IEnumerable<ILexical> resultSet, string resultSetTitle, DegreeOfOutput degreeOfOutput) {
+
             return new XElement("Root",
-                            new XElement("Results",
-                                new XAttribute("Title", resultSetTitle),
-                                new XAttribute("Range", degreeOfOutput),
-                            from l in resultSet
-                            select new XElement(l.Type.Name,
-                                new XAttribute("Text", l.Text),
-                                new XElement("Weights",
-                                    new XElement("Weight",
-                                        new XAttribute("Level", "Document"), l.Weight),
-                                new XElement("Weight",
-                                    new XAttribute("Level", "Crossed"), l.MetaWeight)
-                                    )
-                                )
-                            )
+                             new XElement("Results",
+                                 new XAttribute("Title", resultSetTitle),
+                                 new XAttribute("Range", degreeOfOutput),
+                             from l in resultSet
+                             select new XElement(l.Type.Name,
+                                 new XAttribute("Text", l.Text),
+                                 new XElement("Weights",
+                                     new XElement("Weight",
+                                         new XAttribute("Level", "Document"), decimal.Round(l.Weight, 2)),
+                                 new XElement("Weight",
+                                     new XAttribute("Level", "Crossed"), decimal.Round(l.MetaWeight, 2))
+                                     )
+                                 )
+                             )
+
+                         );
+        }
+        public XDocument SerializeDoc(IEnumerable<ILexical> resultSet, string resultSetTitle, DegreeOfOutput degreeOfOutput) {
+            return new XDocument(new XDeclaration("1.0", "UTF-8", "yes"),
+            Serialize(resultSet, resultSetTitle, degreeOfOutput)
                         );
         }
 
