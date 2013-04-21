@@ -37,21 +37,17 @@
             <Button x:Name="backtodocview" Content="View Documents" HorizontalAlignment="Center" VerticalAlignment="Top" Width="115" Canvas.Left="18" Canvas.Top="69" />
             <Button x:Name="exportButton" Content="Export" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Canvas.Left="36" Canvas.Top="160" />
             <Button x:Name="printButton" Height="33" Canvas.Left="45" Canvas.Top="231" Width="35" Style="{DynamicResource ControlStyle1}" Click="printButton_Click_1" />
-            <Button x:Name="changeChartType_Column" Content="Print" Height="35" Canvas.Left="18" Canvas.Top="24" Width="35" 
-                    Click="ChangeToColumnChartButton_Click" 
-                    Style="{DynamicResource ChangeChartTypeColumn}" MaxWidth="50" MaxHeight="50" Margin="0" Padding="10,1,1,1" BorderThickness="0.5,0.5,0.55,0.5" ClipToBounds="True" Background="#FFDDDDDD" ClickMode="Press">
+            <Button x:Name="changeToColumnChartButton" Height="35" Canvas.Left="18" Canvas.Top="24" Width="35" Style="{DynamicResource ChangeChartTypeColumn}" MaxWidth="50" MaxHeight="50" Margin="0" Padding="10,1,1,1" BorderThickness="0.5,0.5,0.55,0.5" ClipToBounds="True" Background="#FFDDDDDD" ClickMode="Press">
                 <Button.BorderBrush>
                     <SolidColorBrush Color="#FF707070" Opacity="0.3" />
                 </Button.BorderBrush>
             </Button>
-            <Button Content="Button" Height="35" Canvas.Left="58" Canvas.Top="24" Width="35" Style="{DynamicResource ChangeChartTypeBar}" Padding="10,1,1,1" BorderThickness="0.5,0.5,0.55,0.5" ClipToBounds="True" 
-                    Click="ChangeToBarChartButton_Click">
+            <Button x:Name="changeToBarChartButton" Content="Button" Height="35" Canvas.Left="58" Canvas.Top="24" Width="35" Style="{DynamicResource ChangeChartTypeBar}" Padding="10,1,1,1" BorderThickness="0.5,0.5,0.55,0.5" ClipToBounds="True">
                 <Button.BorderBrush>
                     <SolidColorBrush Color="#FF707070" Opacity="0.3" />
                 </Button.BorderBrush>
             </Button>
-            <Button Content="Button" Height="35" Canvas.Left="98" Canvas.Top="24" Width="35" Style="{DynamicResource ChangeChartTypePie}" 
-                    Click="ChangeToPieChartButton_Click">
+            <Button x:Name="changeToPieChartButton" Height="35" Canvas.Left="98" Canvas.Top="24" Width="35" Style="{DynamicResource ChangeChartTypePie}">
                 <Button.BorderBrush>
                     <SolidColorBrush Color="#FF707070" Opacity="0.3" />
                 </Button.BorderBrush>

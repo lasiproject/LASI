@@ -34,23 +34,31 @@ namespace LASI.UserInterface
             this.Closed += (s, e) => Application.Current.Shutdown();
 
         }
-        public void ReconstructDocumentsWithDataEmbedded() { //Build 
+        public async void CreateInteractiveViews() {
+            //await Task.WhenAll((from doc in documents
+            //                    select Task.Factory.StartNew(() => {
             foreach (var doc in documents) {
-                var wordLabels = new List<Label>();
-                var words = doc.Phrases.GetNounPhrases().Concat<Phrase>(doc.Phrases.GetAdverbPhrases()).
+                var documentElements = doc.Phrases.GetNounPhrases().Concat<Phrase>(doc.Phrases.GetAdverbPhrases()).
                    Concat<Phrase>(doc.Phrases.GetAdjectivePhrases()).Concat<Phrase>(doc.Phrases.GetVerbPhrases()).
                    GroupBy(w => new {
                        w.Text,
                        w.Type
                    }).Select(g => g.First());
-
-                foreach (var word in words) {
-                    var wordLabel = MakeLexicalLabel(word);
+                var elementLabels = new List<Label>();
+                foreach (var e in documentElements) {
+                    var wordLabel = new Label {
+                        Tag = e,
+                        Content = String.Format("Weight : {0}  \"{1}\"", e.Weight, e.Text),
+                        Foreground = Brushes.Black,
+                        Padding = new Thickness(1, 1, 1, 1),
+                        ContextMenu = new ContextMenu(),
+                        ToolTip = e.Type.Name,
+                    };
                     var menuItem1 = new MenuItem {
                         Header = "view definition",
                     };
-                    menuItem1.Click += (sender, e) => {
-                        Process.Start(String.Format("http://www.dictionary.reference.com/browse/{0}?s=t", word.Text));
+                    menuItem1.Click += (sender, ee) => {
+                        Process.Start(String.Format("http://www.dictionary.reference.com/browse/{0}?s=t", e.Text));
                     };
                     var menuItem2 = new MenuItem {
                         Header = "Copy Text"
@@ -58,41 +66,50 @@ namespace LASI.UserInterface
                     menuItem2.Click += (se, ee) => Clipboard.SetText((wordLabel.Tag as ILexical).Text);
                     wordLabel.ContextMenu.Items.Add(menuItem1);
                     wordLabel.ContextMenu.Items.Add(menuItem2);
-
-                    wordLabels.Add(wordLabel);
-
-
+                    elementLabels.Add(wordLabel);
                 }
 
-
-                DefaultBarChartFrequencyDisplay(doc);
-
-
-
-                var s = new ScrollViewer();
+                var scrollViewer = new ScrollViewer();
                 var stackPanel = new StackPanel();
-                s.Content = stackPanel;
+                scrollViewer.Content = stackPanel;
                 var grid = new Grid();
-                grid.Children.Add(s);
+                grid.Children.Add(scrollViewer);
                 var tabItem = new TabItem {
                     Header = doc.FileName,
                     Content = grid
                 };
 
-                foreach (var l in from w in wordLabels
+                foreach (var l in from w in elementLabels
                                   orderby (w.Tag as ILexical).Weight descending
                                   select w) {
                     stackPanel.Children.Add(l);
                 }
                 WordCountLists.Items.Add(tabItem);
-
+                BuildDefaultBarChartDisplay(doc);
 
             }
 
-        } //end build assorted view
+            BindChartViewControls();
+        }
+
+        //private Label SetupElementFunctionality(ILexical word) {
+        //    var wordLabel = MakeLexicalLabel(word);
+        //    var menuItem1 = new MenuItem {
+        //        Header = "view definition",
+        //    };
+        //    menuItem1.Click += (sender, e) => {
+        //        Process.Start(String.Format("http://www.dictionary.reference.com/browse/{0}?s=t", word.Text));
+        //    };
+        //    var menuItem2 = new MenuItem {
+        //        Header = "Copy Text"
+        //    };
+        //    menuItem2.Click += (se, ee) => Clipboard.SetText((wordLabel.Tag as ILexical).Text);
+        //    wordLabel.ContextMenu.Items.Add(menuItem1);
+        //    wordLabel.ContextMenu.Items.Add(menuItem2);
+        //    return wordLabel;
+        //}
 
 
-        //WORD RELATIONSHIPS TAB//
 
         public void BuildAssociationTextView() {  // This is for the lexial relationships tab
             foreach (var doc in documents) {
@@ -168,12 +185,33 @@ namespace LASI.UserInterface
                 }
                 ResultsTabControl.Items.Add(tab);
             }
-        } // end lexial relationships
+        }
 
+        public void BuildDefaultBarChartDisplay(Document document) {
 
+            var valueList = ProjectToChartItemSource(document);
+            Series series = new BarSeries {
+                DependentValuePath = "Value",
+                IndependentValuePath = "Key",
+                ItemsSource = valueList,
+                IsSelectionEnabled = true,
 
+            };
+            var chart = new Chart {
+                //Name = "ChartForDoc" + document.FileName,
+                Title = document.FileName + " Top Words",
+                Tag = valueList.ToArray()
+            };
 
+            chart.Series.Add(series);
 
+            var tabItem = new TabItem {
+                Header = document.FileName,
+                Content = chart,
+                Tag = chart
+            };
+            FrequencyCharts.Items.Add(tabItem);
+        }
         #region Chart Transposing Methods
 
 
@@ -253,31 +291,7 @@ namespace LASI.UserInterface
 
 
 
-        public void DefaultBarChartFrequencyDisplay(Document document) {
 
-            var valueList = ProjectToChartItemSource(document);
-            Series series = new BarSeries {
-                DependentValuePath = "Value",
-                IndependentValuePath = "Key",
-                ItemsSource = valueList,
-                IsSelectionEnabled = true,
-
-            };
-            var chart = new Chart {
-                Name = "ChartForDoc" + document.FileName,
-                Title = document.FileName + " Top Words",
-                Tag = valueList.ToArray()
-            };
-
-            chart.Series.Add(series);
-
-            var tabItem = new TabItem {
-                Header = document.FileName,
-                Content = chart,
-                Tag = chart
-            };
-            FrequencyCharts.Items.Add(tabItem);
-        }
 
         private List<KeyValuePair<string, int>> ProjectToChartItemSource(Document document) {
             var topResultsForChart = document.Phrases.GetNounPhrases().Concat<Phrase>(document.Phrases.GetAdverbPhrases()).
@@ -300,32 +314,11 @@ namespace LASI.UserInterface
         }
 
 
-        /// <summary>
-        /// Creates a label UI element for a lexial
-        /// </summary>
-        /// <param name="lexial"></param>
-        /// <returns>
-        /// New label element whose tag properties is assigned to the given lexial
-        /// </returns>
-
-
-        private static Label MakeLexicalLabel(ILexical lexial) {
-            var wordLabel = new Label {
-                Tag = lexial,
-                Content = String.Format("Weight : {0}  \"{1}\"", lexial.Weight, lexial.Text),
-                Foreground = Brushes.Black,
-                Padding = new Thickness(1, 1, 1, 1),
-                ContextMenu = new ContextMenu(),
-                ToolTip = lexial.Type.Name,
-            };
-            return wordLabel;
-        }
 
 
 
 
         private List<Document> documents = new List<Document>();
-
         public List<Document> Documents {
             get {
                 return documents;
@@ -360,8 +353,11 @@ namespace LASI.UserInterface
         private void printButton_Click_1(object sender, RoutedEventArgs e) {
             var printDialog = new PrintDialog();
             printDialog.ShowDialog();
-            // printDialog.PrintVisual(resultsGrid, "Current View");
-
+            var focusedChart = (FrequencyCharts.SelectedItem as TabItem).Content as Visual;
+            try {
+                printDialog.PrintVisual(focusedChart, "Current View");
+            } catch (NullReferenceException) {
+            }
 
         }
 
@@ -385,7 +381,11 @@ namespace LASI.UserInterface
             await ToPieCharts();
         }
 
-
+        private void BindChartViewControls() {
+            changeToBarChartButton.Click += ChangeToBarChartButton_Click;
+            changeToColumnChartButton.Click += ChangeToColumnChartButton_Click;
+            changeToPieChartButton.Click += ChangeToPieChartButton_Click;
+        }
 
 
         public bool AutoExport {

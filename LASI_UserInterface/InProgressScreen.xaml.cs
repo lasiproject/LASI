@@ -99,11 +99,11 @@ namespace LASI.UserInterface
         #endregion
 
 
-        private void ProceedToResultsView() {
+        private async void ProceedToResultsView() {
             WindowManager.ResultsScreen.SetTitle(WindowManager.CreateProjectScreen.LastLoadedProjectName + " - L.A.S.I.");
             this.SwapWith(WindowManager.ResultsScreen);
             //WindowManager.ResultsScreen.BuildAssociationTextView();
-            WindowManager.ResultsScreen.ReconstructDocumentsWithDataEmbedded();
+            WindowManager.ResultsScreen.CreateInteractiveViews();
             WindowManager.ResultsScreen.BuildAssociationTextView();
         }
         private void MenuItem_Click_3(object sender, RoutedEventArgs e) {

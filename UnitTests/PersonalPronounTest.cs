@@ -102,7 +102,7 @@ namespace AlgorithmAssemblyUnitTestProject
 
 
 
-     
+
 
         /// <summary>
         ///a test for BoundEntity

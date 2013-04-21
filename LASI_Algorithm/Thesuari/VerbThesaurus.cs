@@ -62,8 +62,7 @@ namespace LASI.Algorithm.Thesauri
                     AssociationData[word] = new SynonymSet(
                         AssociationData[word].ReferencedIndexes.Concat(synset.ReferencedIndexes),
                         AssociationData[word].Members.Concat(synset.Members), AssociationData[word].LexName);
-                }
-                else {
+                } else {
                     AssociationData.Add(word, synset);
                 }
 
@@ -105,22 +104,9 @@ namespace LASI.Algorithm.Thesauri
                                                         select new string[] { RMG }.Concat(conjugator.TryComputeConjugations(RMG)) into CJRM
                                                         from C in CJRM                                       //Now simply remove any duplicates
                                                         select C).Distinct());
+                        } catch (KeyNotFoundException) {
+                        } catch (ArgumentOutOfRangeException) {
                         }
-
-
-
-
-
-
-
-
-
-
-                        catch (ArgumentOutOfRangeException) {
-                        }
-                        catch (KeyNotFoundException) {
-                        }
-
 
                         //}
                         //    //try {
@@ -132,10 +118,8 @@ namespace LASI.Algorithm.Thesauri
                         //return null;
                     }
                     return null;
-                }
-                catch (ArgumentOutOfRangeException) {
-                }
-                catch (KeyNotFoundException) {
+                } catch (ArgumentOutOfRangeException) {
+                } catch (KeyNotFoundException) {
                 }
 
 
@@ -162,7 +146,7 @@ namespace LASI.Algorithm.Thesauri
 
         private SynonymSet BuildSynset(string data) {
 
-            var WNlexNameCode = (WordNetVerbLex)Int32.Parse(data.Substring(9, 2));
+            var WNlexNameCode = (WordNetVerbLex) Int32.Parse(data.Substring(9, 2));
 
             data = Regex.Replace(data, @"([+]+|;c+)+[\s]+[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+", "");
 
