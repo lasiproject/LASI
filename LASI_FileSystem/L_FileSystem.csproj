@@ -67,8 +67,10 @@
   <ItemGroup>
     <Compile Include="FileConveters\DocToDocXConverter.cs" />
     <Compile Include="FileConveters\DocxToTextConverter.cs" />
+    <Compile Include="Serialization\XML\ILexicalWriter.cs" />
     <Compile Include="FileTypes\FileTypeWrapperMismatchException.cs" />
     <Compile Include="FileTypes\GenericXMLFile.cs" />
+    <Compile Include="Serialization\XML\SimpleLexicalSerializer.cs" />
     <Compile Include="TaggerAndFileAbstraction\FileManager.cs" />
     <Compile Include="FileTypes\InputFileConverter.cs" />
     <Compile Include="FileTypes\Support\TaggedToXMLConverter.cs" />
@@ -119,6 +121,7 @@
       <Name>L_Utilities</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
