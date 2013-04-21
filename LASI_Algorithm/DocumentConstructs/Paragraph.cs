@@ -17,8 +17,8 @@ namespace LASI.Algorithm
         /// <summary>
         /// Initializes a new instance of the Paragraph class containing the given sentences and belonging to the given ParentDocument.
         /// </summary>
-        /// <param name="parentDoc">The ParentDocument instance the paragraph belongs to.</param>
-        /// <param name="sentences">The collection of sentences which comprise the paragraph.</param>
+        /// <param name="parentDoc">The ParentDocument instance the g belongs to.</param>
+        /// <param name="sentences">The collection of sentences which comprise the g.</param>
         public Paragraph(Document parentDoc, IEnumerable<Sentence> sentences) {
             Sentences = sentences;
             ParentDocument = parentDoc;
@@ -26,17 +26,19 @@ namespace LASI.Algorithm
         }
 
         /// <summary>
-        /// Establish the nested links between the paragraph, its parent document, and the sentencies comprising it.
+        /// Establish the nested links between the g, its parent document, and the sentencies comprising it.
         /// </summary>
-        /// <param name="parentDoc">The document instance to identified as the paragraph'd parent.</param>
+        /// <param name="parentDoc">The document instance to identified as the g'd parent.</param>
         public void EstablishParent(Document parentDoc) {
             ParentDocument = parentDoc;
             foreach (var S in Sentences)
                 S.EstablishParenthood(this);
         }
-
+        public IEnumerable<Phrase> GetPhrasesAfter(Phrase phrase) {
+            return Phrases.SkipWhile(r => r != phrase).Skip(1);
+        }
         /// <summary>
-        /// Gets or sets the collection of sentences which comprise the paragraph.
+        /// Gets or sets the collection of sentences which comprise the g.
         /// </summary>
         public IEnumerable<Sentence> Sentences {
             get;
@@ -50,9 +52,16 @@ namespace LASI.Algorithm
                        select W;
             }
         }
+        public IEnumerable<Phrase> Phrases {
+            get {
+                return from S in Sentences
+                       from R in S.Phrases
+                       select R;
+            }
+        }
 
         /// <summary>
-        /// Gets or sets the document the paragraph belongs to.
+        /// Gets or sets the document the g belongs to.
         /// </summary>
         public Document ParentDocument {
             get;
@@ -73,7 +82,7 @@ namespace LASI.Algorithm
         }
 
         /// <summary>
-        /// Gets the textual content of the paragraph
+        /// Gets the textual content of the g
         /// </summary>
         public string Text {
             get {
