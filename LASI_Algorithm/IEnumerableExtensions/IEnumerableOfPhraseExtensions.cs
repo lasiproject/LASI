@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LASI.Algorithm.LexicalStructures;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,12 @@ namespace LASI.Algorithm
 {
     public static class IEnumerableOfPhraseExtensions
     {
+        public static IEnumerable<Phrase> Between(this Phrase phrase, Phrase other) {
+            return phrase.ParentSentence.GetPhrasesAfter(phrase).TakeWhile(r => !r.Equals(other)).ToList();
+        }
+        public static IEnumerable<Phrase> GetPhrasesAfter(this IEnumerable<Phrase> phrases, Phrase phrase) {
+            return phrases.SkipWhile(r => r != phrase).Skip(1);
+        }
         /// <summary>
         /// Returns all NounPhrases in the sequence.
         /// </summary>
@@ -48,6 +55,14 @@ namespace LASI.Algorithm
         /// <returns>All PrepositionalPhrases in the sequence</returns>
         public static IEnumerable<PrepositionalPhrase> GetPrepositionalPhrases(this IEnumerable<Phrase> phrases) {
             return phrases.OfType<PrepositionalPhrase>();
+        }
+        /// <summary>
+        /// Returns all PronounPhrase in the sequence.
+        /// </summary>
+        /// <param name="phrases">The sequence of phrases to filter</param>
+        /// <returns>All PronounPhrase in the sequence</returns>
+        public static IEnumerable<PronounPhrase> GetPronounPhrases(this IEnumerable<Phrase> phrases) {
+            return phrases.OfType<PronounPhrase>();
         }
         /// <summary>
         /// Returns all AdjectivePhrases in the sequence.
