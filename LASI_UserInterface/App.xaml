@@ -1,35 +1,33 @@
-﻿<Application x:Class="LASI.UserInterface.App"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             StartupUri="StartupScreen.xaml">
+﻿<Application x:Class="LASI.UserInterface.App" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" StartupUri="StartupScreen.xaml">
     <Application.Resources>
-
-
-        <Style x:Key="ControlStyle1"  TargetType="{x:Type Button}">
+        <AccessText x:Key="CurrentProjectName">
+            <Binding />
+        </AccessText>
+        <Style x:Key="ControlStyle1" TargetType="{x:Type Button}">
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
                         <Grid>
-                            <Border x:Name="Background2"  BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="1" Padding="4" />
+                            <Border x:Name="Background2" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="1" Padding="4" />
                             <Button>
-                                   <Image Source="Button Images/printButton.png" Stretch="UniformToFill"/>
+                                <Image Source="Button Images/printButton.png" Stretch="UniformToFill" />
                             </Button>
                         </Grid>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
-        
+
         <Style x:Key="AddDocumentStyle" TargetType="{x:Type Button}">
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
                         <Grid>
-                            <Border x:Name="Background2"  BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="1" Padding="4" />
+                            <Border x:Name="Background2" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="1" Padding="4" />
                             <Button>
-                               
-                                <Image Source="Button Images/add-document.png" Stretch="Uniform"/>
-                        
+
+                                <Image Source="Button Images/add-document.png" Stretch="Uniform" />
+
                             </Button>
                         </Grid>
                     </ControlTemplate>
@@ -41,10 +39,10 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
                         <Grid>
-                            <Border x:Name="Background2"  BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="1" Padding="4" />
+                            <Border x:Name="Background2" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="1" Padding="4" />
                             <Button>
-                                <Image Source="Button Images/remove-document.png" Stretch="Uniform"/>
-                       </Button> 
+                                <Image Source="Button Images/remove-document.png" Stretch="Uniform" />
+                            </Button>
                         </Grid>
                     </ControlTemplate>
                 </Setter.Value>
@@ -55,10 +53,10 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
                         <Grid>
-                            <Border x:Name="Background2"  BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="1" Padding="4" />
+                            <Border x:Name="Background2" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="1" Padding="4" />
                             <Button>
-                                <Image Source="Button Images/columngraph.png" Stretch="Uniform"/>
-                            </Button> 
+                                <Image Source="Button Images/columngraph.png" Stretch="Uniform" />
+                            </Button>
                         </Grid>
                     </ControlTemplate>
                 </Setter.Value>
@@ -69,9 +67,9 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
                         <Grid>
-                            <Border x:Name="Background2"  BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="1" Padding="4" />
+                            <Border x:Name="Background2" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="1" Padding="4" />
                             <Button>
-                                    <Image Source="Button Images/bargraph.png" Stretch="Uniform"/>
+                                <Image Source="Button Images/bargraph.png" Stretch="Uniform" />
                             </Button>
                         </Grid>
                     </ControlTemplate>
@@ -83,9 +81,9 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
                         <Grid>
-                            <Border x:Name="Background2"  BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="1" Padding="4" />
+                            <Border x:Name="Background2" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="1" Padding="4" />
                             <Button>
-                                <Image Source ="Button Images/piechart2.png" Stretch="Uniform"/>
+                                <Image Source="Button Images/piechart2.png" Stretch="Uniform" />
                             </Button>
                         </Grid>
                     </ControlTemplate>
