@@ -5,7 +5,7 @@ using System.Text;
 
 namespace LASI.Algorithm.Heuristics
 {
-    public struct ResultSet
+    public class ResultSet
     {
         public IEnumerable<IEntity> TopEntities {
             get;
