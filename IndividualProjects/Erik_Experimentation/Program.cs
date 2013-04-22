@@ -170,86 +170,14 @@ namespace Erik_Experimentation
                                       modOne = 0; //compound noun
 
                                       //second (Noun -> Noun)
-                                      new Switch(nextNext)
-                                          .Case<Noun>(nnn =>
-                                          {
-                                              modTwo = 0; //triple compound noun
-                                          })
-                                          .Case<PastParticipleVerb>(nnpv =>
-                                          {
-                                              modTwo = 0; //compound noun-verb descriptor (possible?)
-                                          })
-                                          .Case<Adjective>(nnadj =>
-                                          {
-                                              modTwo = 0;  //compound noun-adjective
-                                          })
-                                          .Case<Adverb>(nnadv =>
-                                          {
-                                              modTwo = 0;  //compound noun-adverb
-                                          })
-                                          .Case<Pronoun>(nnpn =>
-                                          {
-                                              modTwo = 0; //triple compound noun
-                                          })
-                                          .Case<ToLinker>(nnlnk =>
-                                          {
-                                              modTwo = 0; //compound noun directional
-                                          })
-                                          .Case<Preposition>(nnpre =>
-                                          {
-                                              modTwo = 0; //compound noun positional
-                                          })
-                                          .Case<Determiner>(nnd =>
-                                          {
-                                              modTwo = 0; //compound noun determiner
-                                          })
-                                          .Default(nnu =>
-                                          {
-                                              modTwo = 0;
-                                          });
+                                      modTwo = NounNoun(nextNext);
                                   })
                                   .Case<Adjective>(nadj =>
                                   {
                                       modOne = 0; //possessive
 
                                       //second (Noun -> Adjective)
-                                      new Switch(nextNext)
-                                          .Case<Noun>(nadjn =>
-                                          {
-                                              modTwo = 0; //noun-adjective-noun
-                                          })
-                                          .Case<PastParticipleVerb>(nadjpv =>
-                                          {
-                                              modTwo = 0; //noun-adjective-verb descriptor (possible?)
-                                          })
-                                          .Case<Adjective>(nadjadj =>
-                                          {
-                                              modTwo = 0;  //noun-adjective-adjective
-                                          })
-                                          .Case<Adverb>(nadjav =>
-                                          {
-                                              modTwo = 0;  //noun-adjective-adverb
-                                          })
-                                          .Case<Pronoun>(nadjn =>
-                                          {
-                                              modTwo = 0; //noun-adjective-noun
-                                          })
-                                          .Case<ToLinker>(nadjlnk =>
-                                          {
-                                              modTwo = 0; //noun-adjective directional
-                                          })
-                                          .Case<Preposition>(nadjpre =>
-                                          {
-                                              modTwo = 0; //noun-adjective positional
-                                          })
-                                          .Case<Determiner>(nadjd =>
-                                          {
-                                              modTwo = 0; //noun-adjective determiner
-                                          })
-                                          .Default(nadju =>
-                                          {
-                                              modTwo = 0;
-                                          });
+                                      modTwo = NounAdjective(nextNext);
                                   })
                                   .Case<Verb>(nv =>
                                   {
@@ -260,129 +188,21 @@ namespace Erik_Experimentation
                                       }
 
                                       //second (Noun -> Verb)
-                                      new Switch(nextNext)
-                                          .Case<Noun>(nvn =>
-                                          {
-                                              modTwo = 0; //noun-verb-noun
-                                          })
-                                          .Case<PastParticipleVerb>(nvpv =>
-                                          {
-                                              modTwo = 0; //noun-verb-verb descriptor (possible?)
-                                          })
-                                          .Case<Adjective>(nvadj =>
-                                          {
-                                              modTwo = 0;  //noun-verb-adjective
-                                          })
-                                          .Case<Adverb>(nvadv =>
-                                          {
-                                              modTwo = 0;  //noun-verb-adverb
-                                          })
-                                          .Case<Pronoun>(nvpn =>
-                                          {
-                                              modTwo = 0; //noun-verb-noun
-                                          })
-                                          .Case<ToLinker>(nvlnk =>
-                                          {
-                                              modTwo = 0; //noun-verb directional
-                                          })
-                                          .Case<Preposition>(nvpre =>
-                                          {
-                                              modTwo = 0; //noun-verb positional
-                                          })
-                                          .Case<Determiner>(nvd =>
-                                          {
-                                              modTwo = 0; //noun-verb determiner
-                                          })
-                                          .Default(nvu =>
-                                          {
-                                              modTwo = 0;
-                                          });
+                                      modTwo = NounVerb(nextNext);
                                   })
                                   .Case<Adverb>(advn =>
                                   {
                                       modOne = 0;  //noun amplifier
 
                                       //second (Noun -> Adverb)
-                                      new Switch(nextNext)
-                                          .Case<Noun>(nadvn =>
-                                          {
-                                              modTwo = 0; //noun-adverb-noun
-                                          })
-                                          .Case<PastParticipleVerb>(nadvpv =>
-                                          {
-                                              modTwo = 0; //noun-adverb-verb descriptor (possible?)
-                                          })
-                                          .Case<Adjective>(nadvadj =>
-                                          {
-                                              modTwo = 0;  //noun-adverb-adjective
-                                          })
-                                          .Case<Adverb>(nadvadv =>
-                                          {
-                                              modTwo = 0;  //noun-adverb-adverb
-                                          })
-                                          .Case<Pronoun>(nadvpn =>
-                                          {
-                                              modTwo = 0; //noun-adverb-noun
-                                          })
-                                          .Case<ToLinker>(nadvlnk =>
-                                          {
-                                              modTwo = 0; //noun-adverb directional
-                                          })
-                                          .Case<Preposition>(nadvpre =>
-                                          {
-                                              modTwo = 0; //noun-adverb positional
-                                          })
-                                          .Case<Determiner>(nadvd =>
-                                          {
-                                              modTwo = 0; //noun-adverb determiner
-                                          })
-                                          .Default(nadvu =>
-                                          {
-                                              modTwo = 0;
-                                          });
+                                      modTwo = NounAdverb(nextNext);
                                   })
                                   .Case<Pronoun>(pnn =>
                                   {
                                       modOne = 0; //compound noun
 
                                       //second (Noun -> Pronoun)
-                                      new Switch(nextNext)
-                                          .Case<Noun>(npnn =>
-                                          {
-                                              modTwo = 0; //triple compound noun
-                                          })
-                                          .Case<PastParticipleVerb>(npnpv =>
-                                          {
-                                              modTwo = 0; //compound noun-verb descriptor (possible?)
-                                          })
-                                          .Case<Adjective>(npnadj =>
-                                          {
-                                              modTwo = 0;  //compound noun-adjective
-                                          })
-                                          .Case<Adverb>(npnadv =>
-                                          {
-                                              modTwo = 0;  //compound noun-adverb
-                                          })
-                                          .Case<Pronoun>(npnpn =>
-                                          {
-                                              modTwo = 0; //triple compound noun
-                                          })
-                                          .Case<ToLinker>(npnlnk =>
-                                          {
-                                              modTwo = 0; //compound noun directional
-                                          })
-                                          .Case<Preposition>(npnpre =>
-                                          {
-                                              modTwo = 0; //compound noun positional
-                                          })
-                                          .Case<Determiner>(npnd =>
-                                          {
-                                              modTwo = 0; //compound noun determiner
-                                          })
-                                          .Default(npnu =>
-                                          {
-                                              modTwo = 0;
-                                          });
+                                      modTwo = NounPronoun(nextNext);
 
 
                                   })
@@ -391,172 +211,28 @@ namespace Erik_Experimentation
                                       modOne = 0; //noun to link
 
                                       //second (Noun -> ToLinker)
-                                      new Switch(nextNext)
-                                          .Case<Noun>(nlnkn =>
-                                          {
-                                              modTwo = 0; //noun-tolinker-noun
-                                          })
-                                          .Case<PastParticipleVerb>(nlnkpv =>
-                                          {
-                                              modTwo = 0; //noun-tolinker-verb descriptor (possible?)
-                                          })
-                                          .Case<Adjective>(nlnkadj =>
-                                          {
-                                              modTwo = 0;  //noun-tolinker-adjective
-                                          })
-                                          .Case<Adverb>(nlnkadv =>
-                                          {
-                                              modTwo = 0;  //noun-tolinker-adverb
-                                          })
-                                          .Case<Pronoun>(nlnkpn =>
-                                          {
-                                              modTwo = 0; //noun-tolinker-noun
-                                          })
-                                          .Case<ToLinker>(nlnklnk =>
-                                          {
-                                              modTwo = 0; //noun-tolinker directional
-                                          })
-                                          .Case<Preposition>(nlnkp =>
-                                          {
-                                              modTwo = 0; //noun-tolinker positional
-                                          })
-                                          .Case<Determiner>(nlnkd =>
-                                          {
-                                              modTwo = 0; //noun-tolinker determiner
-                                          })
-                                          .Default(nlinku =>
-                                          {
-                                              modTwo = 0;
-                                          });
+                                      modTwo = NounToLinker(nextNext);
                                   })
                                   .Case<Preposition>(pren =>
                                   {
                                       modOne = 0; //noun positional
 
                                       //second (Noun -> Preposition)
-                                      new Switch(nextNext)
-                                          .Case<Noun>(npn =>
-                                          {
-                                              modTwo = 0; //noun-preposition-noun
-                                          })
-                                          .Case<PastParticipleVerb>(nppv =>
-                                          {
-                                              modTwo = 0; //noun-preposition-verb descriptor (possible?)
-                                          })
-                                          .Case<Adjective>(npadj =>
-                                          {
-                                              modTwo = 0;  //noun-preposition-adjective
-                                          })
-                                          .Case<Adverb>(npadv =>
-                                          {
-                                              modTwo = 0;  //noun-preposition-adverb
-                                          })
-                                          .Case<Pronoun>(nppn =>
-                                          {
-                                              modTwo = 0; //noun-preposition-noun
-                                          })
-                                          .Case<ToLinker>(nplnk =>
-                                          {
-                                              modTwo = 0; //noun-preposition directional
-                                          })
-                                          .Case<Preposition>(npp =>
-                                          {
-                                              modTwo = 0; //noun-preposition positional
-                                          })
-                                          .Case<Determiner>(npd =>
-                                          {
-                                              modTwo = 0; //noun-preposition determiner
-                                          })
-                                          .Default(npu =>
-                                          {
-                                              modTwo = 0;
-                                          });
+                                      modTwo = NounPreposition(nextNext);
                                   })
                                   .Case<Determiner>(dn =>
                                   {
                                       modOne = 0; //determiner
 
                                       //second (Noun -> Determiner)
-                                      new Switch(nextNext)
-                                          .Case<Noun>(ndn =>
-                                          {
-                                              modTwo = 0; //noun-determiner-noun
-                                          })
-                                          .Case<PastParticipleVerb>(ndpv =>
-                                          {
-                                              modTwo = 0; //noun-determiner-verb descriptor (possible?)
-                                          })
-                                          .Case<Adjective>(ndadj =>
-                                          {
-                                              modTwo = 0;  //noun-determiner-adjective
-                                          })
-                                          .Case<Adverb>(ndav =>
-                                          {
-                                              modTwo = 0;  //noun-determiner-adverb
-                                          })
-                                          .Case<Pronoun>(ndpn =>
-                                          {
-                                              modTwo = 0; //noun-determiner-noun
-                                          })
-                                          .Case<ToLinker>(ndlnk =>
-                                          {
-                                              modTwo = 0; //noun-determiner directional
-                                          })
-                                          .Case<Preposition>(ndp =>
-                                          {
-                                              modTwo = 0; //noun-determiner positional
-                                          })
-                                          .Case<Determiner>(ndd =>
-                                          {
-                                              modTwo = 0; //noun-determiner determiner
-                                          })
-                                          .Default(ndu =>
-                                          {
-                                              modTwo = 0;
-                                          });
+                                      modTwo = NounDeterminer(nextNext);
                                   })
                                   .Default(def =>
                                   {
                                       modOne = 0;
 
                                       //second (Noun -> UNCAUGHT)
-                                      new Switch(nextNext)
-                                          .Case<Noun>(nun =>
-                                          {
-                                              modTwo = 0; //noun-uncaught-noun
-                                          })
-                                          .Case<PastParticipleVerb>(nupv =>
-                                          {
-                                              modTwo = 0; //noun-uncaught-pastverb 
-                                          })
-                                          .Case<Adjective>(nuadj =>
-                                          {
-                                              modTwo = 0;  //noun-uncaught-adjective
-                                          })
-                                          .Case<Adverb>(nuadv =>
-                                          {
-                                              modTwo = 0;  //noun-uncaught-adverb
-                                          })
-                                          .Case<Pronoun>(nupn =>
-                                          {
-                                              modTwo = 0; //noun -> uncaught -> noun 
-                                          })
-                                          .Case<ToLinker>(nulnk =>
-                                          {
-                                              modTwo = 0; //noun-uncaught directional 
-                                          })
-                                          .Case<Preposition>(nup =>
-                                          {
-                                              modTwo = 0; //noun-uncaught positional
-                                          })
-                                          .Case<Determiner>(nud =>
-                                          {
-                                              modTwo = 0; //noun-uncaught determiner
-                                          })
-                                          .Default(nuu =>
-                                          {
-                                              modTwo = 0;
-                                          });
+                                      modTwo = NounUncaught(nextNext);
                                   });
 
                        })
@@ -568,387 +244,63 @@ namespace Erik_Experimentation
                                       modOne = 0; //verb actor
 
                                       //second (Verb -> Noun)
-                                      new Switch(nextNext)
-                                          .Case<Noun>(nn =>
-                                          {
-                                              modTwo = 0; //verb -> compound noun
-                                          })
-                                          .Case<PastParticipleVerb>(vn =>
-                                          {
-                                              modTwo = 0; //verb-noun-verb descriptor (possible?)
-                                          })
-                                          .Case<Adjective>(advn =>
-                                          {
-                                              modTwo = 0;  //verb-noun-adjective
-                                          })
-                                          .Case<Adverb>(advn =>
-                                          {
-                                              modTwo = 0;  //verb-noun-adverb
-                                          })
-                                          .Case<Pronoun>(pnn =>
-                                          {
-                                              modTwo = 0; //verb -> compound (possessive) noun
-                                          })
-                                          .Case<ToLinker>(lnkn =>
-                                          {
-                                              modTwo = 0; //verb-noun directional
-                                          })
-                                          .Case<Preposition>(pren =>
-                                          {
-                                              modTwo = 0; //verb-noun positional
-                                          })
-                                          .Case<Determiner>(dn =>
-                                          {
-                                              modTwo = 0; //verb-noun determiner
-                                          })
-                                          .Default(def =>
-                                          {
-                                              modTwo = 0;
-                                          });
+                                      modTwo = VerbNoun(nextNext);
                                   })
                                   .Case<PastParticipleVerb>(vn =>
                                   {
                                       modOne = 0; //verb-verb descriptor
 
                                       //second (Verb -> PastParticipleVerb)
-                                      new Switch(nextNext)
-                                          .Case<Noun>(nn =>
-                                          {
-                                              modTwo = 0; //verb-pastverb -> compound noun
-                                          })
-                                          .Case<PastParticipleVerb>(vn =>
-                                          {
-                                              modTwo = 0; //verb-pastverb-pastverb
-                                          })
-                                          .Case<Adjective>(advn =>
-                                          {
-                                              modTwo = 0;  //verb-pastverb-adjective
-                                          })
-                                          .Case<Adverb>(advn =>
-                                          {
-                                              modTwo = 0;  //verb-pastverb-adverb
-                                          })
-                                          .Case<Pronoun>(pnn =>
-                                          {
-                                              modTwo = 0; //verb -> pastverb -> compound (possessive) noun
-                                          })
-                                          .Case<ToLinker>(lnkn =>
-                                          {
-                                              modTwo = 0; //verb-pastverb directional
-                                          })
-                                          .Case<Preposition>(pren =>
-                                          {
-                                              modTwo = 0; //verb-pastverb positional
-                                          })
-                                          .Case<Determiner>(dn =>
-                                          {
-                                              modTwo = 0; //verb-pastverb determiner
-                                          })
-                                          .Default(def =>
-                                          {
-                                              modTwo = 0;
-                                          });
+                                      modTwo = VerbPastParticipleVerb(nextNext);
                                   })
                                   .Case<Adjective>(advn =>
                                   {
                                       modOne = 0;  //verb state
 
                                       //second (Verb -> Adjective)
-                                      new Switch(nextNext)
-                                          .Case<Noun>(nn =>
-                                          {
-                                              modTwo = 0; //verb-adjective-noun
-                                          })
-                                          .Case<PastParticipleVerb>(vn =>
-                                          {
-                                              modTwo = 0; //verb-adjective-pastverb
-                                          })
-                                          .Case<Adjective>(advn =>
-                                          {
-                                              modTwo = 0;  //verb-adjective-adjective
-                                          })
-                                          .Case<Adverb>(advn =>
-                                          {
-                                              modTwo = 0;  //verb-adjective-adverb
-                                          })
-                                          .Case<Pronoun>(pnn =>
-                                          {
-                                              modTwo = 0; //verb -> adjective -> noun
-                                          })
-                                          .Case<ToLinker>(lnkn =>
-                                          {
-                                              modTwo = 0; //verb-adjective directional
-                                          })
-                                          .Case<Preposition>(pren =>
-                                          {
-                                              modTwo = 0; //verb-adjective positional
-                                          })
-                                          .Case<Determiner>(dn =>
-                                          {
-                                              modTwo = 0; //verb-adjective determiner
-                                          })
-                                          .Default(def =>
-                                          {
-                                              modTwo = 0;
-                                          });
+                                      modTwo = VerbAdjective(nextNext);
                                   })
                                   .Case<Adverb>(advn =>
                                   {
                                       modOne = 0;  //perfect adverb
 
                                       //second (Verb -> Adverb)
-                                      new Switch(nextNext)
-                                          .Case<Noun>(nn =>
-                                          {
-                                              modTwo = 0; //verb-adverb-noun
-                                          })
-                                          .Case<PastParticipleVerb>(vn =>
-                                          {
-                                              modTwo = 0; //verb-adverb-pastverb
-                                          })
-                                          .Case<Adjective>(advn =>
-                                          {
-                                              modTwo = 0;  //verb-adverb-adjective
-                                          })
-                                          .Case<Adverb>(advn =>
-                                          {
-                                              modTwo = 0;  //verb-adverb-adverb
-                                          })
-                                          .Case<Pronoun>(pnn =>
-                                          {
-                                              modTwo = 0; //verb -> adverb -> noun
-                                          })
-                                          .Case<ToLinker>(lnkn =>
-                                          {
-                                              modTwo = 0; //verb-aadverb directional
-                                          })
-                                          .Case<Preposition>(pren =>
-                                          {
-                                              modTwo = 0; //verb-adverb positional
-                                          })
-                                          .Case<Determiner>(dn =>
-                                          {
-                                              modTwo = 0; //verb-adverb determiner
-                                          })
-                                          .Default(def =>
-                                          {
-                                              modTwo = 0;
-                                          });
+                                      modTwo = VerbAdverb(nextNext);
                                   })
                                   .Case<Pronoun>(pnn =>
                                   {
                                       modOne = 0; //verb actor
 
                                       //second (Verb -> Pronoun)
-                                      new Switch(nextNext)
-                                          .Case<Noun>(nn =>
-                                          {
-                                              modTwo = 0; //verb-pronoun-noun (compound)
-                                          })
-                                          .Case<PastParticipleVerb>(vn =>
-                                          {
-                                              modTwo = 0; //verb-pronoun-pastverb
-                                          })
-                                          .Case<Adjective>(advn =>
-                                          {
-                                              modTwo = 0;  //verb-pronoun-adjective
-                                          })
-                                          .Case<Adverb>(advn =>
-                                          {
-                                              modTwo = 0;  //verb-pronoun-adverb
-                                          })
-                                          .Case<Pronoun>(pnn =>
-                                          {
-                                              modTwo = 0; //verb -> pronoun -> noun  (compound)
-                                          })
-                                          .Case<ToLinker>(lnkn =>
-                                          {
-                                              modTwo = 0; //verb-pronoun directional
-                                          })
-                                          .Case<Preposition>(pren =>
-                                          {
-                                              modTwo = 0; //verb-pronoun positional
-                                          })
-                                          .Case<Determiner>(dn =>
-                                          {
-                                              modTwo = 0; //verb-pronoun determiner
-                                          })
-                                          .Default(def =>
-                                          {
-                                              modTwo = 0;
-                                          });
+                                      modTwo = VerbPronoun(nextNext);
                                   })
                                   .Case<ToLinker>(lnkn =>
                                   {
                                       modOne = 0; //verb directional
 
                                       //second (Verb -> ToLinker)
-                                      new Switch(nextNext)
-                                          .Case<Noun>(nn =>
-                                          {
-                                              modTwo = 0; //verb-tolinker-noun
-                                          })
-                                          .Case<PastParticipleVerb>(vn =>
-                                          {
-                                              modTwo = 0; //verb-tolinker-pastverb (possible?)
-                                          })
-                                          .Case<Adjective>(advn =>
-                                          {
-                                              modTwo = 0;  //verb-tolinker-adjective
-                                          })
-                                          .Case<Adverb>(advn =>
-                                          {
-                                              modTwo = 0;  //verb-tolinker-adverb
-                                          })
-                                          .Case<Pronoun>(pnn =>
-                                          {
-                                              modTwo = 0; //verb -> tolinker -> noun 
-                                          })
-                                          .Case<ToLinker>(lnkn =>
-                                          {
-                                              modTwo = 0; //verb-tolinker directional (possible?)
-                                          })
-                                          .Case<Preposition>(pren =>
-                                          {
-                                              modTwo = 0; //verb-tolinker positional
-                                          })
-                                          .Case<Determiner>(dn =>
-                                          {
-                                              modTwo = 0; //verb-tolinker determiner
-                                          })
-                                          .Default(def =>
-                                          {
-                                              modTwo = 0;
-                                          });
+                                      modTwo = VerbToLinker(nextNext);
                                   })
                                   .Case<Preposition>(pren =>
                                   {
                                       modOne = 0; //verb-verb positional
 
                                       //second (Verb -> Preposition)
-                                      new Switch(nextNext)
-                                          .Case<Noun>(nn =>
-                                          {
-                                              modTwo = 0; //verb-preposition-noun
-                                          })
-                                          .Case<PastParticipleVerb>(vn =>
-                                          {
-                                              modTwo = 0; //verb-preposition-pastverb 
-                                          })
-                                          .Case<Adjective>(advn =>
-                                          {
-                                              modTwo = 0;  //verb-preposition-adjective
-                                          })
-                                          .Case<Adverb>(advn =>
-                                          {
-                                              modTwo = 0;  //verb-preposition-adverb
-                                          })
-                                          .Case<Pronoun>(pnn =>
-                                          {
-                                              modTwo = 0; //verb -> preposition -> noun 
-                                          })
-                                          .Case<ToLinker>(lnkn =>
-                                          {
-                                              modTwo = 0; //verb-preposition directional 
-                                          })
-                                          .Case<Preposition>(pren =>
-                                          {
-                                              modTwo = 0; //verb-preposition positional
-                                          })
-                                          .Case<Determiner>(dn =>
-                                          {
-                                              modTwo = 0; //verb-preposition determiner
-                                          })
-                                          .Default(def =>
-                                          {
-                                              modTwo = 0;
-                                          });
+                                      modTwo = VerbPreposition(nextNext);
                                   })
                                   .Case<Determiner>(dn =>
                                   {
                                       modOne = 0; //determiner
 
                                       //second (Verb -> Determiner)
-                                      new Switch(nextNext)
-                                          .Case<Noun>(nn =>
-                                          {
-                                              modTwo = 0; //verb-determiner-noun
-                                          })
-                                          .Case<PastParticipleVerb>(vn =>
-                                          {
-                                              modTwo = 0; //verb-determiner-pastverb 
-                                          })
-                                          .Case<Adjective>(advn =>
-                                          {
-                                              modTwo = 0;  //verb-determiner-adjective
-                                          })
-                                          .Case<Adverb>(advn =>
-                                          {
-                                              modTwo = 0;  //verb-determiner-adverb
-                                          })
-                                          .Case<Pronoun>(pnn =>
-                                          {
-                                              modTwo = 0; //verb -> determiner -> noun 
-                                          })
-                                          .Case<ToLinker>(lnkn =>
-                                          {
-                                              modTwo = 0; //verb-determiner directional 
-                                          })
-                                          .Case<Preposition>(pren =>
-                                          {
-                                              modTwo = 0; //verb-determiner positional
-                                          })
-                                          .Case<Determiner>(dn =>
-                                          {
-                                              modTwo = 0; //verb-determiner determiner
-                                          })
-                                          .Default(def =>
-                                          {
-                                              modTwo = 0;
-                                          });
+                                      modTwo = VerbDeterminer(nextNext);
                                   })
                                   .Default(def =>
                                   {
                                       modOne = 0;
 
                                       //second (Verb -> UNCAUGHT)
-                                      new Switch(nextNext)
-                                          .Case<Noun>(nn =>
-                                          {
-                                              modTwo = 0; //verb-uncaught-noun
-                                          })
-                                          .Case<PastParticipleVerb>(vn =>
-                                          {
-                                              modTwo = 0; //verb-uncaught-pastverb 
-                                          })
-                                          .Case<Adjective>(advn =>
-                                          {
-                                              modTwo = 0;  //verb-uncaught-adjective
-                                          })
-                                          .Case<Adverb>(advn =>
-                                          {
-                                              modTwo = 0;  //verb-uncaught-adverb
-                                          })
-                                          .Case<Pronoun>(pnn =>
-                                          {
-                                              modTwo = 0; //verb -> uncaught -> noun 
-                                          })
-                                          .Case<ToLinker>(lnkn =>
-                                          {
-                                              modTwo = 0; //verb-uncaught directional 
-                                          })
-                                          .Case<Preposition>(pren =>
-                                          {
-                                              modTwo = 0; //verb-uncaught positional
-                                          })
-                                          .Case<Determiner>(dn =>
-                                          {
-                                              modTwo = 0; //verb-uncaught determiner
-                                          })
-                                          .Default(def =>
-                                          {
-                                              modTwo = 0;
-                                          });
+                                      modTwo = VerbUncaught(nextNext);
                                   });
                        })
                        .Case<Adjective>(adj =>
@@ -959,344 +311,56 @@ namespace Erik_Experimentation
                                       modOne = 0; //noun descriptor
 
                                       //second (Adjective -> Noun)
-                                      new Switch(nextNext)
-                                          .Case<Noun>(nn =>
-                                          {
-                                              modTwo = 0; //adjective -> compound noun
-                                          })
-                                          .Case<PastParticipleVerb>(vn =>
-                                          {
-                                              modTwo = 0; //adjective-noun-verb descriptor (possible?)
-                                          })
-                                          .Case<Adjective>(advn =>
-                                          {
-                                              modTwo = 0;  //adjective-noun-adjective
-                                          })
-                                          .Case<Adverb>(advn =>
-                                          {
-                                              modTwo = 0;  //adjective-noun-adverb
-                                          })
-                                          .Case<Pronoun>(pnn =>
-                                          {
-                                              modTwo = 0; //adjective -> compound (possessive) noun
-                                          })
-                                          .Case<ToLinker>(lnkn =>
-                                          {
-                                              modTwo = 0; //adjective-noun directional
-                                          })
-                                          .Case<Preposition>(pren =>
-                                          {
-                                              modTwo = 0; //adjective-noun positional
-                                          })
-                                          .Case<Determiner>(dn =>
-                                          {
-                                              modTwo = 0; //adjective-noun determiner
-                                          })
-                                          .Default(def =>
-                                          {
-                                              modTwo = 0;
-                                          });
+                                      modTwo = AdjectiveNoun(nextNext);
                                   })
                                   .Case<Adjective>(advn =>
                                   {
                                       modOne = 0;  //double descriptor
 
                                       //second (Adjective -> Adjective)
-                                      new Switch(nextNext)
-                                          .Case<Noun>(nn =>
-                                          {
-                                              modTwo = 0; //compound adjective -> noun
-                                          })
-                                          .Case<PastParticipleVerb>(vn =>
-                                          {
-                                              modTwo = 0; //compound adjective -> verb descriptor
-                                          })
-                                          .Case<Adjective>(advn =>
-                                          {
-                                              modTwo = 0;  //compound adjective -> adjective (triple compound)
-                                          })
-                                          .Case<Adverb>(advn =>
-                                          {
-                                              modTwo = 0;  //compound adjective -> adverb
-                                          })
-                                          .Case<Pronoun>(pnn =>
-                                          {
-                                              modTwo = 0; //compound adjective -> noun
-                                          })
-                                          .Case<ToLinker>(lnkn =>
-                                          {
-                                              modTwo = 0; //compound adjective -> directional
-                                          })
-                                          .Case<Preposition>(pren =>
-                                          {
-                                              modTwo = 0; //compound adjective -> positional
-                                          })
-                                          .Case<Determiner>(dn =>
-                                          {
-                                              modTwo = 0; //compound adjective -> determiner
-                                          })
-                                          .Default(def =>
-                                          {
-                                              modTwo = 0;
-                                          });
+                                      modTwo = AdjectiveAdjective(nextNext);
                                   })
                                   .Case<Adverb>(advn =>
                                   {
                                       modOne = 0;  //coloured brilliantly
 
                                       //second (Adjective -> Adverb)
-                                      new Switch(nextNext)
-                                          .Case<Noun>(nn =>
-                                          {
-                                              modTwo = 0; //adjective-adverb-noun
-                                          })
-                                          .Case<PastParticipleVerb>(vn =>
-                                          {
-                                              modTwo = 0; //adjective-adverb-verb descriptor
-                                          })
-                                          .Case<Adjective>(advn =>
-                                          {
-                                              modTwo = 0;  //adjective-adverb-adjective (triple compound)
-                                          })
-                                          .Case<Adverb>(advn =>
-                                          {
-                                              modTwo = 0;  //adjective-adverb-adverb
-                                          })
-                                          .Case<Pronoun>(pnn =>
-                                          {
-                                              modTwo = 0; //adjective-adverb-noun
-                                          })
-                                          .Case<ToLinker>(lnkn =>
-                                          {
-                                              modTwo = 0; //adjective-adverb-directional
-                                          })
-                                          .Case<Preposition>(pren =>
-                                          {
-                                              modTwo = 0; //adjective-adverb positional
-                                          })
-                                          .Case<Determiner>(dn =>
-                                          {
-                                              modTwo = 0; //adjective-adverb determiner
-                                          })
-                                          .Default(def =>
-                                          {
-                                              modTwo = 0;
-                                          });
+                                      modTwo = AdjectiveAdverb(nextNext);
                                   })
                                   .Case<Pronoun>(pnn =>
                                   {
                                       modOne = 0; //noun descriptor
 
                                       //second (Adjective -> Noun)
-                                      new Switch(nextNext)
-                                          .Case<Noun>(nn =>
-                                          {
-                                              modTwo = 0; //adjective -> compound noun
-                                          })
-                                          .Case<PastParticipleVerb>(vn =>
-                                          {
-                                              modTwo = 0; //adjective-noun-verb descriptor (possible?)
-                                          })
-                                          .Case<Adjective>(advn =>
-                                          {
-                                              modTwo = 0;  //adjective-noun-adjective
-                                          })
-                                          .Case<Adverb>(advn =>
-                                          {
-                                              modTwo = 0;  //adjective-noun-adverb
-                                          })
-                                          .Case<Pronoun>(pnn =>
-                                          {
-                                              modTwo = 0; //adjective -> compound (possessive) noun
-                                          })
-                                          .Case<ToLinker>(lnkn =>
-                                          {
-                                              modTwo = 0; //adjective-noun directional
-                                          })
-                                          .Case<Preposition>(pren =>
-                                          {
-                                              modTwo = 0; //adjective-noun positional
-                                          })
-                                          .Case<Determiner>(dn =>
-                                          {
-                                              modTwo = 0; //adjective-noun determiner
-                                          })
-                                          .Default(def =>
-                                          {
-                                              modTwo = 0;
-                                          });
+                                      modTwo = AdjectivePronoun(nextNext);
                                   })
                                   .Case<ToLinker>(lnkn =>
                                   {
                                       modOne = 0; //adjective directional
 
                                       //second (Adjective -> ToLinker)
-                                      new Switch(nextNext)
-                                          .Case<Noun>(nn =>
-                                          {
-                                              modTwo = 0; //adjective-tolinker-noun
-                                          })
-                                          .Case<PastParticipleVerb>(vn =>
-                                          {
-                                              modTwo = 0; //adjective-tolinker descriptor 
-                                          })
-                                          .Case<Adjective>(advn =>
-                                          {
-                                              modTwo = 0;  //adjective-tolinker-adjective
-                                          })
-                                          .Case<Adverb>(advn =>
-                                          {
-                                              modTwo = 0;  //adjective-tolinker-adverb
-                                          })
-                                          .Case<Pronoun>(pnn =>
-                                          {
-                                              modTwo = 0; //adjective-tolinker-noun
-                                          })
-                                          .Case<ToLinker>(lnkn =>
-                                          {
-                                              modTwo = 0; //adjective-tolinker directional
-                                          })
-                                          .Case<Preposition>(pren =>
-                                          {
-                                              modTwo = 0; //adjective-tolinker positional
-                                          })
-                                          .Case<Determiner>(dn =>
-                                          {
-                                              modTwo = 0; //adjective-tolinker determiner
-                                          })
-                                          .Default(def =>
-                                          {
-                                              modTwo = 0;
-                                          });
+                                      modTwo = AdjectiveToLinker(nextNext);
                                   })
                                   .Case<Preposition>(pren =>
                                   {
                                       modOne = 0; //adjective positional
 
                                       //second (Adjective -> Prepositional)
-                                      new Switch(nextNext)
-                                          .Case<Noun>(nn =>
-                                          {
-                                              modTwo = 0; //adjective-prepositional-noun
-                                          })
-                                          .Case<PastParticipleVerb>(vn =>
-                                          {
-                                              modTwo = 0; //adjective-prepositional descriptor 
-                                          })
-                                          .Case<Adjective>(advn =>
-                                          {
-                                              modTwo = 0;  //adjective-prepositional-adjective
-                                          })
-                                          .Case<Adverb>(advn =>
-                                          {
-                                              modTwo = 0;  //adjective-prepositional-adverb
-                                          })
-                                          .Case<Pronoun>(pnn =>
-                                          {
-                                              modTwo = 0; //adjective-prepositional-noun
-                                          })
-                                          .Case<ToLinker>(lnkn =>
-                                          {
-                                              modTwo = 0; //adjective-prepositional directional
-                                          })
-                                          .Case<Preposition>(pren =>
-                                          {
-                                              modTwo = 0; //adjective-prepositional positional
-                                          })
-                                          .Case<Determiner>(dn =>
-                                          {
-                                              modTwo = 0; //adjective-prepositional determiner
-                                          })
-                                          .Default(def =>
-                                          {
-                                              modTwo = 0;
-                                          });
+                                      modTwo = AdjectivePreposition(nextNext);
                                   })
                                   .Case<Determiner>(dn =>
                                   {
                                       modOne = 0; //determiner
 
                                       //second (Adjective -> Determiner)
-                                      new Switch(nextNext)
-                                          .Case<Noun>(nn =>
-                                          {
-                                              modTwo = 0; //adjective-determiner-noun
-                                          })
-                                          .Case<PastParticipleVerb>(vn =>
-                                          {
-                                              modTwo = 0; //adjective-determiner descriptor 
-                                          })
-                                          .Case<Adjective>(advn =>
-                                          {
-                                              modTwo = 0;  //adjective-determiner-adjective
-                                          })
-                                          .Case<Adverb>(advn =>
-                                          {
-                                              modTwo = 0;  //adjective-determiner-adverb
-                                          })
-                                          .Case<Pronoun>(pnn =>
-                                          {
-                                              modTwo = 0; //adjective-determiner-noun
-                                          })
-                                          .Case<ToLinker>(lnkn =>
-                                          {
-                                              modTwo = 0; //adjective-determiner directional
-                                          })
-                                          .Case<Preposition>(pren =>
-                                          {
-                                              modTwo = 0; //adjective-determiner positional
-                                          })
-                                          .Case<Determiner>(dn =>
-                                          {
-                                              modTwo = 0; //adjective-determiner determiner
-                                          })
-                                          .Default(def =>
-                                          {
-                                              modTwo = 0;
-                                          });
+                                      modTwo = AdjectiveDeterminer(nextNext);
                                   })
                                   .Default(def =>
                                   {
                                       modOne = 0;
 
                                       //second (Adjective -> UNCAUGHT)
-                                      new Switch(nextNext)
-                                          .Case<Noun>(nn =>
-                                          {
-                                              modTwo = 0; //adjective-uncaught-noun
-                                          })
-                                          .Case<PastParticipleVerb>(vn =>
-                                          {
-                                              modTwo = 0; //adjective-uncaught-pastverb 
-                                          })
-                                          .Case<Adjective>(advn =>
-                                          {
-                                              modTwo = 0;  //adjective-uncaught-adjective
-                                          })
-                                          .Case<Adverb>(advn =>
-                                          {
-                                              modTwo = 0;  //adjective-uncaught-adverb
-                                          })
-                                          .Case<Pronoun>(pnn =>
-                                          {
-                                              modTwo = 0; //adjective -> uncaught -> noun 
-                                          })
-                                          .Case<ToLinker>(lnkn =>
-                                          {
-                                              modTwo = 0; //adjective-uncaught directional 
-                                          })
-                                          .Case<Preposition>(pren =>
-                                          {
-                                              modTwo = 0; //adjective-uncaught positional
-                                          })
-                                          .Case<Determiner>(dn =>
-                                          {
-                                              modTwo = 0; //adjective-uncaught determiner
-                                          })
-                                          .Default(def =>
-                                          {
-                                              modTwo = 0;
-                                          });
+                                      modTwo = AdjectiveUncaught(nextNext);
                                   });
                        })
                        .Case<Adverb>(adv =>
@@ -1307,344 +371,56 @@ namespace Erik_Experimentation
                                       modOne = 0; //adverbial noun
 
                                       //second (Adverb -> Noun)
-                                      new Switch(nextNext)
-                                          .Case<Noun>(nn =>
-                                          {
-                                              modTwo = 0; //adverb -> compound noun
-                                          })
-                                          .Case<PastParticipleVerb>(vn =>
-                                          {
-                                              modTwo = 0; //adverb-noun-verb descriptor (possible?)
-                                          })
-                                          .Case<Adjective>(advn =>
-                                          {
-                                              modTwo = 0;  //adverb-noun-adjective
-                                          })
-                                          .Case<Adverb>(advn =>
-                                          {
-                                              modTwo = 0;  //adverb-noun-adverb
-                                          })
-                                          .Case<Pronoun>(pnn =>
-                                          {
-                                              modTwo = 0; //adverb -> compound (possessive) noun
-                                          })
-                                          .Case<ToLinker>(lnkn =>
-                                          {
-                                              modTwo = 0; //adverb-noun directional
-                                          })
-                                          .Case<Preposition>(pren =>
-                                          {
-                                              modTwo = 0; //adverb-noun positional
-                                          })
-                                          .Case<Determiner>(dn =>
-                                          {
-                                              modTwo = 0; //adverb-noun determiner
-                                          })
-                                          .Default(def =>
-                                          {
-                                              modTwo = 0;
-                                          });
+                                      modTwo = AdverbNoun(nextNext);
                                   })
                                   .Case<Adjective>(advn =>
                                   {
                                       modOne = 0;  //normal adv-adj
 
                                       //second (Adverb -> Adjective)
-                                      new Switch(nextNext)
-                                          .Case<Noun>(nn =>
-                                          {
-                                              modTwo = 0; //adverb-adjective-noun
-                                          })
-                                          .Case<PastParticipleVerb>(vn =>
-                                          {
-                                              modTwo = 0; //adverb-adjective-verb descriptor
-                                          })
-                                          .Case<Adjective>(advn =>
-                                          {
-                                              modTwo = 0;  //adverb-adjective-adjective
-                                          })
-                                          .Case<Adverb>(advn =>
-                                          {
-                                              modTwo = 0;  //adverb-adjective-adverb
-                                          })
-                                          .Case<Pronoun>(pnn =>
-                                          {
-                                              modTwo = 0; //adverb-adjective-noun
-                                          })
-                                          .Case<ToLinker>(lnkn =>
-                                          {
-                                              modTwo = 0; //adverb-adjective directional
-                                          })
-                                          .Case<Preposition>(pren =>
-                                          {
-                                              modTwo = 0; //adverb-adjective positional
-                                          })
-                                          .Case<Determiner>(dn =>
-                                          {
-                                              modTwo = 0; //adverb-adjective determiner
-                                          })
-                                          .Default(def =>
-                                          {
-                                              modTwo = 0;
-                                          });
+                                      modTwo = AdverbAdjective(nextNext);
                                   })
                                   .Case<Adverb>(advn =>
                                   {
                                       modOne = 0;  //bi-adverbial
 
                                       //second (Adverb -> Adverb)
-                                      new Switch(nextNext)
-                                          .Case<Noun>(nn =>
-                                          {
-                                              modTwo = 0; //adverb-adverb-noun
-                                          })
-                                          .Case<PastParticipleVerb>(vn =>
-                                          {
-                                              modTwo = 0; //adverb-adverb-verb descriptor
-                                          })
-                                          .Case<Adjective>(advn =>
-                                          {
-                                              modTwo = 0;  //adverb-adverb-adjective
-                                          })
-                                          .Case<Adverb>(advn =>
-                                          {
-                                              modTwo = 0;  //tri adverbial
-                                          })
-                                          .Case<Pronoun>(pnn =>
-                                          {
-                                              modTwo = 0; //adverb-adverb-noun
-                                          })
-                                          .Case<ToLinker>(lnkn =>
-                                          {
-                                              modTwo = 0; //adverb-adverb directional
-                                          })
-                                          .Case<Preposition>(pren =>
-                                          {
-                                              modTwo = 0; //adverb-adverb positional
-                                          })
-                                          .Case<Determiner>(dn =>
-                                          {
-                                              modTwo = 0; //adverb-adverb determiner
-                                          })
-                                          .Default(def =>
-                                          {
-                                              modTwo = 0;
-                                          });
+                                      modTwo = AdverbAdverb(nextNext);
                                   })
                                   .Case<Pronoun>(pnn =>
                                   {
                                       modOne = 0; //adverbial pronoun
 
                                       //second (Adverb -> Noun)
-                                      new Switch(nextNext)
-                                          .Case<Noun>(nn =>
-                                          {
-                                              modTwo = 0; //adverb compound noun
-                                          })
-                                          .Case<PastParticipleVerb>(vn =>
-                                          {
-                                              modTwo = 0; //adverb-noun-verb descriptor
-                                          })
-                                          .Case<Adjective>(advn =>
-                                          {
-                                              modTwo = 0;  //adverb-noun-adjective
-                                          })
-                                          .Case<Adverb>(advn =>
-                                          {
-                                              modTwo = 0;  //adverb-noun-adverb
-                                          })
-                                          .Case<Pronoun>(pnn =>
-                                          {
-                                              modTwo = 0; //adverb compound noun
-                                          })
-                                          .Case<ToLinker>(lnkn =>
-                                          {
-                                              modTwo = 0; //adverb-noun directional
-                                          })
-                                          .Case<Preposition>(pren =>
-                                          {
-                                              modTwo = 0; //adverb-noun positional
-                                          })
-                                          .Case<Determiner>(dn =>
-                                          {
-                                              modTwo = 0; //adverb-noun determiner
-                                          })
-                                          .Default(def =>
-                                          {
-                                              modTwo = 0;
-                                          });
+                                      modTwo = AdverbPronoun(nextNext);
                                   })
                                   .Case<ToLinker>(lnkn =>
                                   {
                                       modOne = 0; //adverb directional
 
                                       //second (Adverb -> ToLinker)
-                                      new Switch(nextNext)
-                                          .Case<Noun>(nn =>
-                                          {
-                                              modTwo = 0; //adverb-tolinker-noun
-                                          })
-                                          .Case<PastParticipleVerb>(vn =>
-                                          {
-                                              modTwo = 0; //adverb-tolinker-verb descriptor
-                                          })
-                                          .Case<Adjective>(advn =>
-                                          {
-                                              modTwo = 0;  //adverb-tolinker-adjective
-                                          })
-                                          .Case<Adverb>(advn =>
-                                          {
-                                              modTwo = 0;  //adverb-tolinker-adverb
-                                          })
-                                          .Case<Pronoun>(pnn =>
-                                          {
-                                              modTwo = 0; //adverb-tolinker-noun
-                                          })
-                                          .Case<ToLinker>(lnkn =>
-                                          {
-                                              modTwo = 0; //adverb-tolinker directional
-                                          })
-                                          .Case<Preposition>(pren =>
-                                          {
-                                              modTwo = 0; //adverb-tolinker positional
-                                          })
-                                          .Case<Determiner>(dn =>
-                                          {
-                                              modTwo = 0; //adverb-tolinker determiner
-                                          })
-                                          .Default(def =>
-                                          {
-                                              modTwo = 0;
-                                          });
+                                      modTwo = AdverbToLinker(nextNext);
                                   })
                                   .Case<Preposition>(pren =>
                                   {
                                       modOne = 0; //adverb positional
 
                                       //second (Adverb -> Preposition)
-                                      new Switch(nextNext)
-                                          .Case<Noun>(nn =>
-                                          {
-                                              modTwo = 0; //adverb-preposition-noun
-                                          })
-                                          .Case<PastParticipleVerb>(vn =>
-                                          {
-                                              modTwo = 0; //adverb-preposition-verb descriptor
-                                          })
-                                          .Case<Adjective>(advn =>
-                                          {
-                                              modTwo = 0;  //adverb-preposition-adjective
-                                          })
-                                          .Case<Adverb>(advn =>
-                                          {
-                                              modTwo = 0;  //adverb-preposition-adverb
-                                          })
-                                          .Case<Pronoun>(pnn =>
-                                          {
-                                              modTwo = 0; //adverb-preposition-noun
-                                          })
-                                          .Case<ToLinker>(lnkn =>
-                                          {
-                                              modTwo = 0; //adverb-preposition directional
-                                          })
-                                          .Case<Preposition>(pren =>
-                                          {
-                                              modTwo = 0; //adverb-preposition positional
-                                          })
-                                          .Case<Determiner>(dn =>
-                                          {
-                                              modTwo = 0; //adverb-preposition determiner
-                                          })
-                                          .Default(def =>
-                                          {
-                                              modTwo = 0;
-                                          });
+                                      modTwo = AdverbPreposition(nextNext);
                                   })
                                   .Case<Determiner>(dn =>
                                   {
                                       modOne = 0; //determiner
 
                                       //second (Adverb -> Determiner)
-                                      new Switch(nextNext)
-                                          .Case<Noun>(nn =>
-                                          {
-                                              modTwo = 0; //adverb-determiner-noun
-                                          })
-                                          .Case<PastParticipleVerb>(vn =>
-                                          {
-                                              modTwo = 0; //adverb-determiner-verb descriptor
-                                          })
-                                          .Case<Adjective>(advn =>
-                                          {
-                                              modTwo = 0;  //adverb-determiner-adjective
-                                          })
-                                          .Case<Adverb>(advn =>
-                                          {
-                                              modTwo = 0;  //adverb-determiner-adverb
-                                          })
-                                          .Case<Pronoun>(pnn =>
-                                          {
-                                              modTwo = 0; //adverb-determiner-noun
-                                          })
-                                          .Case<ToLinker>(lnkn =>
-                                          {
-                                              modTwo = 0; //adverb-determiner directional
-                                          })
-                                          .Case<Preposition>(pren =>
-                                          {
-                                              modTwo = 0; //adverb-determiner positional
-                                          })
-                                          .Case<Determiner>(dn =>
-                                          {
-                                              modTwo = 0; //adverb-determiner determiner
-                                          })
-                                          .Default(def =>
-                                          {
-                                              modTwo = 0;
-                                          });
+                                      modTwo = AdverbDeterminer(nextNext);
                                   })
                                   .Default(def =>
                                   {
                                       modOne = 0;
 
                                       //second (Adverb -> UNCAUGHT)
-                                      new Switch(nextNext)
-                                          .Case<Noun>(nn =>
-                                          {
-                                              modTwo = 0; //adverb-uncaught-noun
-                                          })
-                                          .Case<PastParticipleVerb>(vn =>
-                                          {
-                                              modTwo = 0; //adverb-uncaught-pastverb 
-                                          })
-                                          .Case<Adjective>(advn =>
-                                          {
-                                              modTwo = 0;  //adverb-uncaught-adjective
-                                          })
-                                          .Case<Adverb>(advn =>
-                                          {
-                                              modTwo = 0;  //adverb-uncaught-adverb
-                                          })
-                                          .Case<Pronoun>(pnn =>
-                                          {
-                                              modTwo = 0; //adverb-uncaught-noun 
-                                          })
-                                          .Case<ToLinker>(lnkn =>
-                                          {
-                                              modTwo = 0; //adverb-uncaught directional 
-                                          })
-                                          .Case<Preposition>(pren =>
-                                          {
-                                              modTwo = 0; //adverb-uncaught positional
-                                          })
-                                          .Case<Determiner>(dn =>
-                                          {
-                                              modTwo = 0; //adverb-uncaught determiner
-                                          })
-                                          .Default(def =>
-                                          {
-                                              modTwo = 0;
-                                          });
+                                      modTwo = AdverbUncaught(nextNext);
                                   });
                        })
                        .Case<Pronoun>(pn =>
@@ -1655,344 +431,56 @@ namespace Erik_Experimentation
                                       modOne = 0; //compound noun/pronoun / possessed by pronoun
 
                                       //second (Pronoun -> Noun)
-                                      new Switch(nextNext)
-                                          .Case<Noun>(nn =>
-                                          {
-                                              modTwo = 0; //triple compound noun
-                                          })
-                                          .Case<PastParticipleVerb>(vn =>
-                                          {
-                                              modTwo = 0; //compound noun-verb descriptor (possible?)
-                                          })
-                                          .Case<Adjective>(advn =>
-                                          {
-                                              modTwo = 0;  //compound noun-adjective
-                                          })
-                                          .Case<Adverb>(advn =>
-                                          {
-                                              modTwo = 0;  //compound noun-adverb
-                                          })
-                                          .Case<Pronoun>(pnn =>
-                                          {
-                                              modTwo = 0; //triple compound (possessive) noun
-                                          })
-                                          .Case<ToLinker>(lnkn =>
-                                          {
-                                              modTwo = 0; //compound noun directional
-                                          })
-                                          .Case<Preposition>(pren =>
-                                          {
-                                              modTwo = 0; //compound noun positional
-                                          })
-                                          .Case<Determiner>(dn =>
-                                          {
-                                              modTwo = 0; //compound noun determiner
-                                          })
-                                          .Default(def =>
-                                          {
-                                              modTwo = 0;
-                                          });
+                                      modTwo = PronounNoun(nextNext);
                                   })
                                   .Case<Adjective>(advn =>
                                   {
                                       modOne = 0;  //possessed/descriptor 
 
                                       //second (Pronoun -> Adjective)
-                                      new Switch(nextNext)
-                                          .Case<Noun>(nn =>
-                                          {
-                                              modTwo = 0; //pronoun-adjective-noun
-                                          })
-                                          .Case<PastParticipleVerb>(vn =>
-                                          {
-                                              modTwo = 0; //pronoun-adjective-verb descriptor
-                                          })
-                                          .Case<Adjective>(advn =>
-                                          {
-                                              modTwo = 0;  //pronoun-adjective-adjective
-                                          })
-                                          .Case<Adverb>(advn =>
-                                          {
-                                              modTwo = 0;  //pronoun-adjective-adverb
-                                          })
-                                          .Case<Pronoun>(pnn =>
-                                          {
-                                              modTwo = 0; //pronoun-adjective-noun
-                                          })
-                                          .Case<ToLinker>(lnkn =>
-                                          {
-                                              modTwo = 0; //pronoun-adjective directional
-                                          })
-                                          .Case<Preposition>(pren =>
-                                          {
-                                              modTwo = 0; //pronoun-adjective positional
-                                          })
-                                          .Case<Determiner>(dn =>
-                                          {
-                                              modTwo = 0; //pronoun-adjective determiner
-                                          })
-                                          .Default(def =>
-                                          {
-                                              modTwo = 0;
-                                          });
+                                      modTwo = PronounAdjective(nextNext);
                                   })
                                   .Case<Adverb>(advn =>
                                   {
                                       modOne = 0;  //pronoun amplifier
 
                                       //second (Pronoun -> Adverb)
-                                      new Switch(nextNext)
-                                          .Case<Noun>(nn =>
-                                          {
-                                              modTwo = 0; //pronoun-adverb-noun
-                                          })
-                                          .Case<PastParticipleVerb>(vn =>
-                                          {
-                                              modTwo = 0; //pronoun-adverb-verb descriptor
-                                          })
-                                          .Case<Adjective>(advn =>
-                                          {
-                                              modTwo = 0;  //pronoun-adverb-adjective
-                                          })
-                                          .Case<Adverb>(advn =>
-                                          {
-                                              modTwo = 0;  //pronoun-adverb-adverb
-                                          })
-                                          .Case<Pronoun>(pnn =>
-                                          {
-                                              modTwo = 0; //pronoun-adverb-noun
-                                          })
-                                          .Case<ToLinker>(lnkn =>
-                                          {
-                                              modTwo = 0; //pronoun-adverb directional
-                                          })
-                                          .Case<Preposition>(pren =>
-                                          {
-                                              modTwo = 0; //pronoun-adverb positional
-                                          })
-                                          .Case<Determiner>(dn =>
-                                          {
-                                              modTwo = 0; //pronoun-adverb determiner
-                                          })
-                                          .Default(def =>
-                                          {
-                                              modTwo = 0;
-                                          });
+                                      modTwo = PronounAdverb(nextNext);
                                   })
                                   .Case<Pronoun>(pnn =>
                                   {
                                       modOne = 0; //compound pronoun
 
                                       //second (Pronoun -> Noun)
-                                      new Switch(nextNext)
-                                          .Case<Noun>(nn =>
-                                          {
-                                              modTwo = 0; //triple compound noun
-                                          })
-                                          .Case<PastParticipleVerb>(vn =>
-                                          {
-                                              modTwo = 0; //compound noun-verb descriptor (possible?)
-                                          })
-                                          .Case<Adjective>(advn =>
-                                          {
-                                              modTwo = 0;  //compound noun-adjective
-                                          })
-                                          .Case<Adverb>(advn =>
-                                          {
-                                              modTwo = 0;  //compound noun-adverb
-                                          })
-                                          .Case<Pronoun>(pnn =>
-                                          {
-                                              modTwo = 0; //triple compound (possessive) noun
-                                          })
-                                          .Case<ToLinker>(lnkn =>
-                                          {
-                                              modTwo = 0; //compound noun directional
-                                          })
-                                          .Case<Preposition>(pren =>
-                                          {
-                                              modTwo = 0; //compound noun positional
-                                          })
-                                          .Case<Determiner>(dn =>
-                                          {
-                                              modTwo = 0; //compound noun determiner
-                                          })
-                                          .Default(def =>
-                                          {
-                                              modTwo = 0;
-                                          });
+                                      modTwo = PronounPronoun(nextNext);
                                   })
                                   .Case<ToLinker>(lnkn =>
                                   {
                                       modOne = 0; //pronoun directional
 
                                       //second (Pronoun -> ToLinker)
-                                      new Switch(nextNext)
-                                          .Case<Noun>(nn =>
-                                          {
-                                              modTwo = 0; //pronoun-tolinker-noun
-                                          })
-                                          .Case<PastParticipleVerb>(vn =>
-                                          {
-                                              modTwo = 0; //pronoun-tolinker-verb descriptor
-                                          })
-                                          .Case<Adjective>(advn =>
-                                          {
-                                              modTwo = 0;  //pronoun-tolinker-adjective
-                                          })
-                                          .Case<Adverb>(advn =>
-                                          {
-                                              modTwo = 0;  //pronoun-tolinker-adverb
-                                          })
-                                          .Case<Pronoun>(pnn =>
-                                          {
-                                              modTwo = 0; //pronoun-tolinker-noun
-                                          })
-                                          .Case<ToLinker>(lnkn =>
-                                          {
-                                              modTwo = 0; //pronoun-tolinker directional
-                                          })
-                                          .Case<Preposition>(pren =>
-                                          {
-                                              modTwo = 0; //pronoun-tolinker positional
-                                          })
-                                          .Case<Determiner>(dn =>
-                                          {
-                                              modTwo = 0; //pronoun-tolinker determiner
-                                          })
-                                          .Default(def =>
-                                          {
-                                              modTwo = 0;
-                                          });
+                                      modTwo = PronounToLinker(nextNext);
                                   })
                                   .Case<Preposition>(pren =>
                                   {
                                       modOne = 0; //pronoun positional
 
                                       //second (Pronoun -> Preposition)
-                                      new Switch(nextNext)
-                                          .Case<Noun>(nn =>
-                                          {
-                                              modTwo = 0; //pronoun-preposition-noun
-                                          })
-                                          .Case<PastParticipleVerb>(vn =>
-                                          {
-                                              modTwo = 0; //pronoun-preposition-verb descriptor
-                                          })
-                                          .Case<Adjective>(advn =>
-                                          {
-                                              modTwo = 0;  //pronoun-preposition-adjective
-                                          })
-                                          .Case<Adverb>(advn =>
-                                          {
-                                              modTwo = 0;  //pronoun-preposition-adverb
-                                          })
-                                          .Case<Pronoun>(pnn =>
-                                          {
-                                              modTwo = 0; //pronoun-preposition-noun
-                                          })
-                                          .Case<ToLinker>(lnkn =>
-                                          {
-                                              modTwo = 0; //pronoun-preposition directional
-                                          })
-                                          .Case<Preposition>(pren =>
-                                          {
-                                              modTwo = 0; //pronoun-preposition positional
-                                          })
-                                          .Case<Determiner>(dn =>
-                                          {
-                                              modTwo = 0; //pronoun-preposition determiner
-                                          })
-                                          .Default(def =>
-                                          {
-                                              modTwo = 0;
-                                          });
+                                      modTwo = PronounPreposition(nextNext);
                                   })
                                   .Case<Determiner>(dn =>
                                   {
                                       modOne = 0; //determiner
 
                                       //second (Pronoun -> Determiner)
-                                      new Switch(nextNext)
-                                          .Case<Noun>(nn =>
-                                          {
-                                              modTwo = 0; //pronoun-determiner-noun
-                                          })
-                                          .Case<PastParticipleVerb>(vn =>
-                                          {
-                                              modTwo = 0; //pronoun-determiner-verb descriptor
-                                          })
-                                          .Case<Adjective>(advn =>
-                                          {
-                                              modTwo = 0;  //pronoun-determiner-adjective
-                                          })
-                                          .Case<Adverb>(advn =>
-                                          {
-                                              modTwo = 0;  //pronoun-determiner-adverb
-                                          })
-                                          .Case<Pronoun>(pnn =>
-                                          {
-                                              modTwo = 0; //pronoun-determiner-noun
-                                          })
-                                          .Case<ToLinker>(lnkn =>
-                                          {
-                                              modTwo = 0; //pronoun-determiner directional
-                                          })
-                                          .Case<Preposition>(pren =>
-                                          {
-                                              modTwo = 0; //pronoun-determiner positional
-                                          })
-                                          .Case<Determiner>(dn =>
-                                          {
-                                              modTwo = 0; //pronoun-determiner determiner
-                                          })
-                                          .Default(def =>
-                                          {
-                                              modTwo = 0;
-                                          });
+                                      modTwo = PronounDeterminer(nextNext);
                                   })
                                   .Default(def =>
                                   {
                                       modOne = 0;
 
                                       //second (Pronoun -> UNCAUGHT)
-                                      new Switch(nextNext)
-                                          .Case<Noun>(nn =>
-                                          {
-                                              modTwo = 0; //pronoun-uncaught-noun
-                                          })
-                                          .Case<PastParticipleVerb>(vn =>
-                                          {
-                                              modTwo = 0; //pronoun-uncaught-pastverb 
-                                          })
-                                          .Case<Adjective>(advn =>
-                                          {
-                                              modTwo = 0;  //pronoun-uncaught-adjective
-                                          })
-                                          .Case<Adverb>(advn =>
-                                          {
-                                              modTwo = 0;  //pronoun-uncaught-adverb
-                                          })
-                                          .Case<Pronoun>(pnn =>
-                                          {
-                                              modTwo = 0; //pronoun-uncaught-noun 
-                                          })
-                                          .Case<ToLinker>(lnkn =>
-                                          {
-                                              modTwo = 0; //pronoun-uncaught directional 
-                                          })
-                                          .Case<Preposition>(pren =>
-                                          {
-                                              modTwo = 0; //pronoun-uncaught positional
-                                          })
-                                          .Case<Determiner>(dn =>
-                                          {
-                                              modTwo = 0; //pronoun-uncaught determiner
-                                          })
-                                          .Default(def =>
-                                          {
-                                              modTwo = 0;
-                                          });
+                                      modTwo = PronounUncaught(nextNext);
                                   });
                        })
 
@@ -2004,172 +492,28 @@ namespace Erik_Experimentation
                                       modOne = 0; // 
 
                                       //second (Preposition -> Noun)
-                                      new Switch(nextNext)
-                                          .Case<Noun>(nn =>
-                                          {
-                                              modTwo = 0; //preposition-compound noun
-                                          })
-                                          .Case<PastParticipleVerb>(vn =>
-                                          {
-                                              modTwo = 0; //preposition-noun-verb descriptor
-                                          })
-                                          .Case<Adjective>(advn =>
-                                          {
-                                              modTwo = 0;  //preposition-noun-adjective
-                                          })
-                                          .Case<Adverb>(advn =>
-                                          {
-                                              modTwo = 0;  //preposition-noun-adverb
-                                          })
-                                          .Case<Pronoun>(pnn =>
-                                          {
-                                              modTwo = 0; //preposition-compound noun
-                                          })
-                                          .Case<ToLinker>(lnkn =>
-                                          {
-                                              modTwo = 0; //preposition-noun directional
-                                          })
-                                          .Case<Preposition>(pren =>
-                                          {
-                                              modTwo = 0; //preposition-noun positional
-                                          })
-                                          .Case<Determiner>(dn =>
-                                          {
-                                              modTwo = 0; //preposition-noun determiner
-                                          })
-                                          .Default(def =>
-                                          {
-                                              modTwo = 0;
-                                          });
+                                      modTwo = PrepositionNoun(nextNext);
                                   })
                                   .Case<Pronoun>(pnn =>
                                   {
                                       modOne = 0; // 
 
                                       //second (Preposition -> Noun)
-                                      new Switch(nextNext)
-                                          .Case<Noun>(nn =>
-                                          {
-                                              modTwo = 0; //preposition-compound noun
-                                          })
-                                          .Case<PastParticipleVerb>(vn =>
-                                          {
-                                              modTwo = 0; //preposition-noun-verb descriptor
-                                          })
-                                          .Case<Adjective>(advn =>
-                                          {
-                                              modTwo = 0;  //preposition-noun-adjective
-                                          })
-                                          .Case<Adverb>(advn =>
-                                          {
-                                              modTwo = 0;  //preposition-noun-adverb
-                                          })
-                                          .Case<Pronoun>(pnn =>
-                                          {
-                                              modTwo = 0; //preposition-compound noun
-                                          })
-                                          .Case<ToLinker>(lnkn =>
-                                          {
-                                              modTwo = 0; //preposition-noun directional
-                                          })
-                                          .Case<Preposition>(pren =>
-                                          {
-                                              modTwo = 0; //preposition-noun positional
-                                          })
-                                          .Case<Determiner>(dn =>
-                                          {
-                                              modTwo = 0; //preposition-noun determiner
-                                          })
-                                          .Default(def =>
-                                          {
-                                              modTwo = 0;
-                                          });
+                                      modTwo = PrepositionPronoun(nextNext);
                                   })
                                   .Case<Determiner>(dn =>
                                   {
                                       modOne = 0; //determiner
 
                                       //second (Preposition -> Determiner)
-                                      new Switch(nextNext)
-                                          .Case<Noun>(nn =>
-                                          {
-                                              modTwo = 0; //preposition-determiner-noun
-                                          })
-                                          .Case<PastParticipleVerb>(vn =>
-                                          {
-                                              modTwo = 0; //preposition-determiner-verb descriptor
-                                          })
-                                          .Case<Adjective>(advn =>
-                                          {
-                                              modTwo = 0;  //preposition-determiner-adjective
-                                          })
-                                          .Case<Adverb>(advn =>
-                                          {
-                                              modTwo = 0;  //preposition-determiner-adverb
-                                          })
-                                          .Case<Pronoun>(pnn =>
-                                          {
-                                              modTwo = 0; //preposition-determiner-noun
-                                          })
-                                          .Case<ToLinker>(lnkn =>
-                                          {
-                                              modTwo = 0; //preposition-determiner directional
-                                          })
-                                          .Case<Preposition>(pren =>
-                                          {
-                                              modTwo = 0; //preposition-determiner positional
-                                          })
-                                          .Case<Determiner>(dn =>
-                                          {
-                                              modTwo = 0; //preposition-determiner determiner
-                                          })
-                                          .Default(def =>
-                                          {
-                                              modTwo = 0;
-                                          });
+                                      modTwo = PrepositionDeterminer(nextNext);
                                   })
                                   .Default(def =>
                                   {
                                       modOne = 0;
 
                                       //second (Preposition -> UNCAUGHT)
-                                      new Switch(nextNext)
-                                          .Case<Noun>(nn =>
-                                          {
-                                              modTwo = 0; //preposition-uncaught-noun
-                                          })
-                                          .Case<PastParticipleVerb>(vn =>
-                                          {
-                                              modTwo = 0; //preposition-uncaught-pastverb 
-                                          })
-                                          .Case<Adjective>(advn =>
-                                          {
-                                              modTwo = 0;  //preposition-uncaught-adjective
-                                          })
-                                          .Case<Adverb>(advn =>
-                                          {
-                                              modTwo = 0;  //preposition-uncaught-adverb
-                                          })
-                                          .Case<Pronoun>(pnn =>
-                                          {
-                                              modTwo = 0; //preposition-uncaught-noun 
-                                          })
-                                          .Case<ToLinker>(lnkn =>
-                                          {
-                                              modTwo = 0; //preposition-uncaught directional 
-                                          })
-                                          .Case<Preposition>(pren =>
-                                          {
-                                              modTwo = 0; //preposition-uncaught positional
-                                          })
-                                          .Case<Determiner>(dn =>
-                                          {
-                                              modTwo = 0; //preposition-uncaught determiner
-                                          })
-                                          .Default(def =>
-                                          {
-                                              modTwo = 0;
-                                          });
+                                      modTwo = PrepositionUncaught(nextNext);
                                   });
                        })
                        .Default(def =>
@@ -2177,43 +521,7 @@ namespace Erik_Experimentation
                            modOne = 0;
 
                            //second (UNCAUGHT -> UNCAUGHT)
-                           new Switch(nextNext)
-                               .Case<Noun>(nn =>
-                               {
-                                   modTwo = 0; //uncaught-uncaught-noun
-                               })
-                               .Case<PastParticipleVerb>(vn =>
-                               {
-                                   modTwo = 0; //uncaught-uncaught-pastverb 
-                               })
-                               .Case<Adjective>(advn =>
-                               {
-                                   modTwo = 0;  //uncaught-uncaught-adjective
-                               })
-                               .Case<Adverb>(advn =>
-                               {
-                                   modTwo = 0;  //uncaught-uncaught-adverb
-                               })
-                               .Case<Pronoun>(pnn =>
-                               {
-                                   modTwo = 0; //uncaught-uncaught-noun 
-                               })
-                               .Case<ToLinker>(lnkn =>
-                               {
-                                   modTwo = 0; //uncaught-uncaught directional 
-                               })
-                               .Case<Preposition>(pren =>
-                               {
-                                   modTwo = 0; //uncaught-uncaught positional
-                               })
-                               .Case<Determiner>(dn =>
-                               {
-                                   modTwo = 0; //uncaught-uncaught determiner
-                               })
-                               .Default(def =>
-                               {
-                                   modTwo = 0; //uncaught-uncaught-uncaught (epic fail)
-                               });
+                           modTwo = UncaughtUncaught(nextNext);
                        });
 
 
@@ -2491,6 +799,2027 @@ namespace Erik_Experimentation
             // Console.WriteLine("Press escape to exit");
             //}
 
+        }
+
+        private static float UncaughtUncaught(Word nextNext)
+        {
+            float modTwo;
+            new Switch(nextNext)
+                .Case<Noun>(nn =>
+                {
+                    modTwo = 0; //uncaught-uncaught-noun
+                })
+                .Case<PastParticipleVerb>(vn =>
+                {
+                    modTwo = 0; //uncaught-uncaught-pastverb 
+                })
+                .Case<Adjective>(advn =>
+                {
+                    modTwo = 0;  //uncaught-uncaught-adjective
+                })
+                .Case<Adverb>(advn =>
+                {
+                    modTwo = 0;  //uncaught-uncaught-adverb
+                })
+                .Case<Pronoun>(pnn =>
+                {
+                    modTwo = 0; //uncaught-uncaught-noun 
+                })
+                .Case<ToLinker>(lnkn =>
+                {
+                    modTwo = 0; //uncaught-uncaught directional 
+                })
+                .Case<Preposition>(pren =>
+                {
+                    modTwo = 0; //uncaught-uncaught positional
+                })
+                .Case<Determiner>(dn =>
+                {
+                    modTwo = 0; //uncaught-uncaught determiner
+                })
+                .Default(def =>
+                {
+                    modTwo = 0; //uncaught-uncaught-uncaught (epic fail)
+                });
+            return modTwo;
+        }
+
+        private static float PrepositionUncaught(Word nextNext)
+        {
+            float modTwo;
+            new Switch(nextNext)
+                .Case<Noun>(nn =>
+                {
+                    modTwo = 0; //preposition-uncaught-noun
+                })
+                .Case<PastParticipleVerb>(vn =>
+                {
+                    modTwo = 0; //preposition-uncaught-pastverb 
+                })
+                .Case<Adjective>(advn =>
+                {
+                    modTwo = 0;  //preposition-uncaught-adjective
+                })
+                .Case<Adverb>(advn =>
+                {
+                    modTwo = 0;  //preposition-uncaught-adverb
+                })
+                .Case<Pronoun>(pnn =>
+                {
+                    modTwo = 0; //preposition-uncaught-noun 
+                })
+                .Case<ToLinker>(lnkn =>
+                {
+                    modTwo = 0; //preposition-uncaught directional 
+                })
+                .Case<Preposition>(pren =>
+                {
+                    modTwo = 0; //preposition-uncaught positional
+                })
+                .Case<Determiner>(dn =>
+                {
+                    modTwo = 0; //preposition-uncaught determiner
+                })
+                .Default(def =>
+                {
+                    modTwo = 0;
+                });
+            return modTwo;
+        }
+
+        private static float PrepositionDeterminer(Word nextNext)
+        {
+            float modTwo;
+            new Switch(nextNext)
+                .Case<Noun>(nn =>
+                {
+                    modTwo = 0; //preposition-determiner-noun
+                })
+                .Case<PastParticipleVerb>(vn =>
+                {
+                    modTwo = 0; //preposition-determiner-verb descriptor
+                })
+                .Case<Adjective>(advn =>
+                {
+                    modTwo = 0;  //preposition-determiner-adjective
+                })
+                .Case<Adverb>(advn =>
+                {
+                    modTwo = 0;  //preposition-determiner-adverb
+                })
+                .Case<Pronoun>(pnn =>
+                {
+                    modTwo = 0; //preposition-determiner-noun
+                })
+                .Case<ToLinker>(lnkn =>
+                {
+                    modTwo = 0; //preposition-determiner directional
+                })
+                .Case<Preposition>(pren =>
+                {
+                    modTwo = 0; //preposition-determiner positional
+                })
+                .Case<Determiner>(dn =>
+                {
+                    modTwo = 0; //preposition-determiner determiner
+                })
+                .Default(def =>
+                {
+                    modTwo = 0;
+                });
+            return modTwo;
+        }
+
+        private static float PrepositionPronoun(Word nextNext)
+        {
+            float modTwo;
+            new Switch(nextNext)
+                .Case<Noun>(nn =>
+                {
+                    modTwo = 0; //preposition-compound noun
+                })
+                .Case<PastParticipleVerb>(vn =>
+                {
+                    modTwo = 0; //preposition-noun-verb descriptor
+                })
+                .Case<Adjective>(advn =>
+                {
+                    modTwo = 0;  //preposition-noun-adjective
+                })
+                .Case<Adverb>(advn =>
+                {
+                    modTwo = 0;  //preposition-noun-adverb
+                })
+                .Case<Pronoun>(pnn =>
+                {
+                    modTwo = 0; //preposition-compound noun
+                })
+                .Case<ToLinker>(lnkn =>
+                {
+                    modTwo = 0; //preposition-noun directional
+                })
+                .Case<Preposition>(pren =>
+                {
+                    modTwo = 0; //preposition-noun positional
+                })
+                .Case<Determiner>(dn =>
+                {
+                    modTwo = 0; //preposition-noun determiner
+                })
+                .Default(def =>
+                {
+                    modTwo = 0;
+                });
+            return modTwo;
+        }
+
+        private static float PrepositionNoun(Word nextNext)
+        {
+            float modTwo;
+            new Switch(nextNext)
+                .Case<Noun>(nn =>
+                {
+                    modTwo = 0; //preposition-compound noun
+                })
+                .Case<PastParticipleVerb>(vn =>
+                {
+                    modTwo = 0; //preposition-noun-verb descriptor
+                })
+                .Case<Adjective>(advn =>
+                {
+                    modTwo = 0;  //preposition-noun-adjective
+                })
+                .Case<Adverb>(advn =>
+                {
+                    modTwo = 0;  //preposition-noun-adverb
+                })
+                .Case<Pronoun>(pnn =>
+                {
+                    modTwo = 0; //preposition-compound noun
+                })
+                .Case<ToLinker>(lnkn =>
+                {
+                    modTwo = 0; //preposition-noun directional
+                })
+                .Case<Preposition>(pren =>
+                {
+                    modTwo = 0; //preposition-noun positional
+                })
+                .Case<Determiner>(dn =>
+                {
+                    modTwo = 0; //preposition-noun determiner
+                })
+                .Default(def =>
+                {
+                    modTwo = 0;
+                });
+            return modTwo;
+        }
+
+        private static float PronounUncaught(Word nextNext)
+        {
+            float modTwo;
+            new Switch(nextNext)
+                .Case<Noun>(nn =>
+                {
+                    modTwo = 0; //pronoun-uncaught-noun
+                })
+                .Case<PastParticipleVerb>(vn =>
+                {
+                    modTwo = 0; //pronoun-uncaught-pastverb 
+                })
+                .Case<Adjective>(advn =>
+                {
+                    modTwo = 0;  //pronoun-uncaught-adjective
+                })
+                .Case<Adverb>(advn =>
+                {
+                    modTwo = 0;  //pronoun-uncaught-adverb
+                })
+                .Case<Pronoun>(pnn =>
+                {
+                    modTwo = 0; //pronoun-uncaught-noun 
+                })
+                .Case<ToLinker>(lnkn =>
+                {
+                    modTwo = 0; //pronoun-uncaught directional 
+                })
+                .Case<Preposition>(pren =>
+                {
+                    modTwo = 0; //pronoun-uncaught positional
+                })
+                .Case<Determiner>(dn =>
+                {
+                    modTwo = 0; //pronoun-uncaught determiner
+                })
+                .Default(def =>
+                {
+                    modTwo = 0;
+                });
+            return modTwo;
+        }
+
+        private static float PronounDeterminer(Word nextNext)
+        {
+            float modTwo;
+            new Switch(nextNext)
+                .Case<Noun>(nn =>
+                {
+                    modTwo = 0; //pronoun-determiner-noun
+                })
+                .Case<PastParticipleVerb>(vn =>
+                {
+                    modTwo = 0; //pronoun-determiner-verb descriptor
+                })
+                .Case<Adjective>(advn =>
+                {
+                    modTwo = 0;  //pronoun-determiner-adjective
+                })
+                .Case<Adverb>(advn =>
+                {
+                    modTwo = 0;  //pronoun-determiner-adverb
+                })
+                .Case<Pronoun>(pnn =>
+                {
+                    modTwo = 0; //pronoun-determiner-noun
+                })
+                .Case<ToLinker>(lnkn =>
+                {
+                    modTwo = 0; //pronoun-determiner directional
+                })
+                .Case<Preposition>(pren =>
+                {
+                    modTwo = 0; //pronoun-determiner positional
+                })
+                .Case<Determiner>(dn =>
+                {
+                    modTwo = 0; //pronoun-determiner determiner
+                })
+                .Default(def =>
+                {
+                    modTwo = 0;
+                });
+            return modTwo;
+        }
+
+        private static float PronounPreposition(Word nextNext)
+        {
+            float modTwo;
+            new Switch(nextNext)
+                .Case<Noun>(nn =>
+                {
+                    modTwo = 0; //pronoun-preposition-noun
+                })
+                .Case<PastParticipleVerb>(vn =>
+                {
+                    modTwo = 0; //pronoun-preposition-verb descriptor
+                })
+                .Case<Adjective>(advn =>
+                {
+                    modTwo = 0;  //pronoun-preposition-adjective
+                })
+                .Case<Adverb>(advn =>
+                {
+                    modTwo = 0;  //pronoun-preposition-adverb
+                })
+                .Case<Pronoun>(pnn =>
+                {
+                    modTwo = 0; //pronoun-preposition-noun
+                })
+                .Case<ToLinker>(lnkn =>
+                {
+                    modTwo = 0; //pronoun-preposition directional
+                })
+                .Case<Preposition>(pren =>
+                {
+                    modTwo = 0; //pronoun-preposition positional
+                })
+                .Case<Determiner>(dn =>
+                {
+                    modTwo = 0; //pronoun-preposition determiner
+                })
+                .Default(def =>
+                {
+                    modTwo = 0;
+                });
+            return modTwo;
+        }
+
+        private static float PronounToLinker(Word nextNext)
+        {
+            float modTwo;
+            new Switch(nextNext)
+                .Case<Noun>(nn =>
+                {
+                    modTwo = 0; //pronoun-tolinker-noun
+                })
+                .Case<PastParticipleVerb>(vn =>
+                {
+                    modTwo = 0; //pronoun-tolinker-verb descriptor
+                })
+                .Case<Adjective>(advn =>
+                {
+                    modTwo = 0;  //pronoun-tolinker-adjective
+                })
+                .Case<Adverb>(advn =>
+                {
+                    modTwo = 0;  //pronoun-tolinker-adverb
+                })
+                .Case<Pronoun>(pnn =>
+                {
+                    modTwo = 0; //pronoun-tolinker-noun
+                })
+                .Case<ToLinker>(lnkn =>
+                {
+                    modTwo = 0; //pronoun-tolinker directional
+                })
+                .Case<Preposition>(pren =>
+                {
+                    modTwo = 0; //pronoun-tolinker positional
+                })
+                .Case<Determiner>(dn =>
+                {
+                    modTwo = 0; //pronoun-tolinker determiner
+                })
+                .Default(def =>
+                {
+                    modTwo = 0;
+                });
+            return modTwo;
+        }
+
+        private static float PronounPronoun(Word nextNext)
+        {
+            float modTwo;
+            new Switch(nextNext)
+                .Case<Noun>(nn =>
+                {
+                    modTwo = 0; //triple compound noun
+                })
+                .Case<PastParticipleVerb>(vn =>
+                {
+                    modTwo = 0; //compound noun-verb descriptor (possible?)
+                })
+                .Case<Adjective>(advn =>
+                {
+                    modTwo = 0;  //compound noun-adjective
+                })
+                .Case<Adverb>(advn =>
+                {
+                    modTwo = 0;  //compound noun-adverb
+                })
+                .Case<Pronoun>(pnn =>
+                {
+                    modTwo = 0; //triple compound (possessive) noun
+                })
+                .Case<ToLinker>(lnkn =>
+                {
+                    modTwo = 0; //compound noun directional
+                })
+                .Case<Preposition>(pren =>
+                {
+                    modTwo = 0; //compound noun positional
+                })
+                .Case<Determiner>(dn =>
+                {
+                    modTwo = 0; //compound noun determiner
+                })
+                .Default(def =>
+                {
+                    modTwo = 0;
+                });
+            return modTwo;
+        }
+
+        private static float PronounAdverb(Word nextNext)
+        {
+            float modTwo;
+            new Switch(nextNext)
+                .Case<Noun>(nn =>
+                {
+                    modTwo = 0; //pronoun-adverb-noun
+                })
+                .Case<PastParticipleVerb>(vn =>
+                {
+                    modTwo = 0; //pronoun-adverb-verb descriptor
+                })
+                .Case<Adjective>(advn =>
+                {
+                    modTwo = 0;  //pronoun-adverb-adjective
+                })
+                .Case<Adverb>(advn =>
+                {
+                    modTwo = 0;  //pronoun-adverb-adverb
+                })
+                .Case<Pronoun>(pnn =>
+                {
+                    modTwo = 0; //pronoun-adverb-noun
+                })
+                .Case<ToLinker>(lnkn =>
+                {
+                    modTwo = 0; //pronoun-adverb directional
+                })
+                .Case<Preposition>(pren =>
+                {
+                    modTwo = 0; //pronoun-adverb positional
+                })
+                .Case<Determiner>(dn =>
+                {
+                    modTwo = 0; //pronoun-adverb determiner
+                })
+                .Default(def =>
+                {
+                    modTwo = 0;
+                });
+            return modTwo;
+        }
+
+        private static float PronounAdjective(Word nextNext)
+        {
+            float modTwo;
+            new Switch(nextNext)
+                .Case<Noun>(nn =>
+                {
+                    modTwo = 0; //pronoun-adjective-noun
+                })
+                .Case<PastParticipleVerb>(vn =>
+                {
+                    modTwo = 0; //pronoun-adjective-verb descriptor
+                })
+                .Case<Adjective>(advn =>
+                {
+                    modTwo = 0;  //pronoun-adjective-adjective
+                })
+                .Case<Adverb>(advn =>
+                {
+                    modTwo = 0;  //pronoun-adjective-adverb
+                })
+                .Case<Pronoun>(pnn =>
+                {
+                    modTwo = 0; //pronoun-adjective-noun
+                })
+                .Case<ToLinker>(lnkn =>
+                {
+                    modTwo = 0; //pronoun-adjective directional
+                })
+                .Case<Preposition>(pren =>
+                {
+                    modTwo = 0; //pronoun-adjective positional
+                })
+                .Case<Determiner>(dn =>
+                {
+                    modTwo = 0; //pronoun-adjective determiner
+                })
+                .Default(def =>
+                {
+                    modTwo = 0;
+                });
+            return modTwo;
+        }
+
+        private static float PronounNoun(Word nextNext)
+        {
+            float modTwo;
+            new Switch(nextNext)
+                .Case<Noun>(nn =>
+                {
+                    modTwo = 0; //triple compound noun
+                })
+                .Case<PastParticipleVerb>(vn =>
+                {
+                    modTwo = 0; //compound noun-verb descriptor (possible?)
+                })
+                .Case<Adjective>(advn =>
+                {
+                    modTwo = 0;  //compound noun-adjective
+                })
+                .Case<Adverb>(advn =>
+                {
+                    modTwo = 0;  //compound noun-adverb
+                })
+                .Case<Pronoun>(pnn =>
+                {
+                    modTwo = 0; //triple compound (possessive) noun
+                })
+                .Case<ToLinker>(lnkn =>
+                {
+                    modTwo = 0; //compound noun directional
+                })
+                .Case<Preposition>(pren =>
+                {
+                    modTwo = 0; //compound noun positional
+                })
+                .Case<Determiner>(dn =>
+                {
+                    modTwo = 0; //compound noun determiner
+                })
+                .Default(def =>
+                {
+                    modTwo = 0;
+                });
+            return modTwo;
+        }
+
+        private static float AdverbUncaught(Word nextNext)
+        {
+            float modTwo;
+            new Switch(nextNext)
+                .Case<Noun>(nn =>
+                {
+                    modTwo = 0; //adverb-uncaught-noun
+                })
+                .Case<PastParticipleVerb>(vn =>
+                {
+                    modTwo = 0; //adverb-uncaught-pastverb 
+                })
+                .Case<Adjective>(advn =>
+                {
+                    modTwo = 0;  //adverb-uncaught-adjective
+                })
+                .Case<Adverb>(advn =>
+                {
+                    modTwo = 0;  //adverb-uncaught-adverb
+                })
+                .Case<Pronoun>(pnn =>
+                {
+                    modTwo = 0; //adverb-uncaught-noun 
+                })
+                .Case<ToLinker>(lnkn =>
+                {
+                    modTwo = 0; //adverb-uncaught directional 
+                })
+                .Case<Preposition>(pren =>
+                {
+                    modTwo = 0; //adverb-uncaught positional
+                })
+                .Case<Determiner>(dn =>
+                {
+                    modTwo = 0; //adverb-uncaught determiner
+                })
+                .Default(def =>
+                {
+                    modTwo = 0;
+                });
+            return modTwo;
+        }
+
+        private static float AdverbDeterminer(Word nextNext)
+        {
+            float modTwo;
+            new Switch(nextNext)
+                .Case<Noun>(nn =>
+                {
+                    modTwo = 0; //adverb-determiner-noun
+                })
+                .Case<PastParticipleVerb>(vn =>
+                {
+                    modTwo = 0; //adverb-determiner-verb descriptor
+                })
+                .Case<Adjective>(advn =>
+                {
+                    modTwo = 0;  //adverb-determiner-adjective
+                })
+                .Case<Adverb>(advn =>
+                {
+                    modTwo = 0;  //adverb-determiner-adverb
+                })
+                .Case<Pronoun>(pnn =>
+                {
+                    modTwo = 0; //adverb-determiner-noun
+                })
+                .Case<ToLinker>(lnkn =>
+                {
+                    modTwo = 0; //adverb-determiner directional
+                })
+                .Case<Preposition>(pren =>
+                {
+                    modTwo = 0; //adverb-determiner positional
+                })
+                .Case<Determiner>(dn =>
+                {
+                    modTwo = 0; //adverb-determiner determiner
+                })
+                .Default(def =>
+                {
+                    modTwo = 0;
+                });
+            return modTwo;
+        }
+
+        private static float AdverbPreposition(Word nextNext)
+        {
+            float modTwo;
+            new Switch(nextNext)
+                .Case<Noun>(nn =>
+                {
+                    modTwo = 0; //adverb-preposition-noun
+                })
+                .Case<PastParticipleVerb>(vn =>
+                {
+                    modTwo = 0; //adverb-preposition-verb descriptor
+                })
+                .Case<Adjective>(advn =>
+                {
+                    modTwo = 0;  //adverb-preposition-adjective
+                })
+                .Case<Adverb>(advn =>
+                {
+                    modTwo = 0;  //adverb-preposition-adverb
+                })
+                .Case<Pronoun>(pnn =>
+                {
+                    modTwo = 0; //adverb-preposition-noun
+                })
+                .Case<ToLinker>(lnkn =>
+                {
+                    modTwo = 0; //adverb-preposition directional
+                })
+                .Case<Preposition>(pren =>
+                {
+                    modTwo = 0; //adverb-preposition positional
+                })
+                .Case<Determiner>(dn =>
+                {
+                    modTwo = 0; //adverb-preposition determiner
+                })
+                .Default(def =>
+                {
+                    modTwo = 0;
+                });
+            return modTwo;
+        }
+
+        private static float AdverbToLinker(Word nextNext)
+        {
+            float modTwo;
+            new Switch(nextNext)
+                .Case<Noun>(nn =>
+                {
+                    modTwo = 0; //adverb-tolinker-noun
+                })
+                .Case<PastParticipleVerb>(vn =>
+                {
+                    modTwo = 0; //adverb-tolinker-verb descriptor
+                })
+                .Case<Adjective>(advn =>
+                {
+                    modTwo = 0;  //adverb-tolinker-adjective
+                })
+                .Case<Adverb>(advn =>
+                {
+                    modTwo = 0;  //adverb-tolinker-adverb
+                })
+                .Case<Pronoun>(pnn =>
+                {
+                    modTwo = 0; //adverb-tolinker-noun
+                })
+                .Case<ToLinker>(lnkn =>
+                {
+                    modTwo = 0; //adverb-tolinker directional
+                })
+                .Case<Preposition>(pren =>
+                {
+                    modTwo = 0; //adverb-tolinker positional
+                })
+                .Case<Determiner>(dn =>
+                {
+                    modTwo = 0; //adverb-tolinker determiner
+                })
+                .Default(def =>
+                {
+                    modTwo = 0;
+                });
+            return modTwo;
+        }
+
+        private static float AdverbPronoun(Word nextNext)
+        {
+            float modTwo;
+            new Switch(nextNext)
+                .Case<Noun>(nn =>
+                {
+                    modTwo = 0; //adverb compound noun
+                })
+                .Case<PastParticipleVerb>(vn =>
+                {
+                    modTwo = 0; //adverb-noun-verb descriptor
+                })
+                .Case<Adjective>(advn =>
+                {
+                    modTwo = 0;  //adverb-noun-adjective
+                })
+                .Case<Adverb>(advn =>
+                {
+                    modTwo = 0;  //adverb-noun-adverb
+                })
+                .Case<Pronoun>(pnn =>
+                {
+                    modTwo = 0; //adverb compound noun
+                })
+                .Case<ToLinker>(lnkn =>
+                {
+                    modTwo = 0; //adverb-noun directional
+                })
+                .Case<Preposition>(pren =>
+                {
+                    modTwo = 0; //adverb-noun positional
+                })
+                .Case<Determiner>(dn =>
+                {
+                    modTwo = 0; //adverb-noun determiner
+                })
+                .Default(def =>
+                {
+                    modTwo = 0;
+                });
+            return modTwo;
+        }
+
+        private static float AdverbAdverb(Word nextNext)
+        {
+            float modTwo;
+            new Switch(nextNext)
+                .Case<Noun>(nn =>
+                {
+                    modTwo = 0; //adverb-adverb-noun
+                })
+                .Case<PastParticipleVerb>(vn =>
+                {
+                    modTwo = 0; //adverb-adverb-verb descriptor
+                })
+                .Case<Adjective>(advn =>
+                {
+                    modTwo = 0;  //adverb-adverb-adjective
+                })
+                .Case<Adverb>(advn =>
+                {
+                    modTwo = 0;  //tri adverbial
+                })
+                .Case<Pronoun>(pnn =>
+                {
+                    modTwo = 0; //adverb-adverb-noun
+                })
+                .Case<ToLinker>(lnkn =>
+                {
+                    modTwo = 0; //adverb-adverb directional
+                })
+                .Case<Preposition>(pren =>
+                {
+                    modTwo = 0; //adverb-adverb positional
+                })
+                .Case<Determiner>(dn =>
+                {
+                    modTwo = 0; //adverb-adverb determiner
+                })
+                .Default(def =>
+                {
+                    modTwo = 0;
+                });
+            return modTwo;
+        }
+
+        private static float AdverbAdjective(Word nextNext)
+        {
+            float modTwo;
+            new Switch(nextNext)
+                .Case<Noun>(nn =>
+                {
+                    modTwo = 0; //adverb-adjective-noun
+                })
+                .Case<PastParticipleVerb>(vn =>
+                {
+                    modTwo = 0; //adverb-adjective-verb descriptor
+                })
+                .Case<Adjective>(advn =>
+                {
+                    modTwo = 0;  //adverb-adjective-adjective
+                })
+                .Case<Adverb>(advn =>
+                {
+                    modTwo = 0;  //adverb-adjective-adverb
+                })
+                .Case<Pronoun>(pnn =>
+                {
+                    modTwo = 0; //adverb-adjective-noun
+                })
+                .Case<ToLinker>(lnkn =>
+                {
+                    modTwo = 0; //adverb-adjective directional
+                })
+                .Case<Preposition>(pren =>
+                {
+                    modTwo = 0; //adverb-adjective positional
+                })
+                .Case<Determiner>(dn =>
+                {
+                    modTwo = 0; //adverb-adjective determiner
+                })
+                .Default(def =>
+                {
+                    modTwo = 0;
+                });
+            return modTwo;
+        }
+
+        private static float AdverbNoun(Word nextNext)
+        {
+            float modTwo;
+            new Switch(nextNext)
+                .Case<Noun>(nn =>
+                {
+                    modTwo = 0; //adverb -> compound noun
+                })
+                .Case<PastParticipleVerb>(vn =>
+                {
+                    modTwo = 0; //adverb-noun-verb descriptor (possible?)
+                })
+                .Case<Adjective>(advn =>
+                {
+                    modTwo = 0;  //adverb-noun-adjective
+                })
+                .Case<Adverb>(advn =>
+                {
+                    modTwo = 0;  //adverb-noun-adverb
+                })
+                .Case<Pronoun>(pnn =>
+                {
+                    modTwo = 0; //adverb -> compound (possessive) noun
+                })
+                .Case<ToLinker>(lnkn =>
+                {
+                    modTwo = 0; //adverb-noun directional
+                })
+                .Case<Preposition>(pren =>
+                {
+                    modTwo = 0; //adverb-noun positional
+                })
+                .Case<Determiner>(dn =>
+                {
+                    modTwo = 0; //adverb-noun determiner
+                })
+                .Default(def =>
+                {
+                    modTwo = 0;
+                });
+            return modTwo;
+        }
+
+        private static float AdjectiveUncaught(Word nextNext)
+        {
+            float modTwo;
+            new Switch(nextNext)
+                .Case<Noun>(nn =>
+                {
+                    modTwo = 0; //adjective-uncaught-noun
+                })
+                .Case<PastParticipleVerb>(vn =>
+                {
+                    modTwo = 0; //adjective-uncaught-pastverb 
+                })
+                .Case<Adjective>(advn =>
+                {
+                    modTwo = 0;  //adjective-uncaught-adjective
+                })
+                .Case<Adverb>(advn =>
+                {
+                    modTwo = 0;  //adjective-uncaught-adverb
+                })
+                .Case<Pronoun>(pnn =>
+                {
+                    modTwo = 0; //adjective -> uncaught -> noun 
+                })
+                .Case<ToLinker>(lnkn =>
+                {
+                    modTwo = 0; //adjective-uncaught directional 
+                })
+                .Case<Preposition>(pren =>
+                {
+                    modTwo = 0; //adjective-uncaught positional
+                })
+                .Case<Determiner>(dn =>
+                {
+                    modTwo = 0; //adjective-uncaught determiner
+                })
+                .Default(def =>
+                {
+                    modTwo = 0;
+                });
+            return modTwo;
+        }
+
+        private static float AdjectiveDeterminer(Word nextNext)
+        {
+            float modTwo;
+            new Switch(nextNext)
+                .Case<Noun>(nn =>
+                {
+                    modTwo = 0; //adjective-determiner-noun
+                })
+                .Case<PastParticipleVerb>(vn =>
+                {
+                    modTwo = 0; //adjective-determiner descriptor 
+                })
+                .Case<Adjective>(advn =>
+                {
+                    modTwo = 0;  //adjective-determiner-adjective
+                })
+                .Case<Adverb>(advn =>
+                {
+                    modTwo = 0;  //adjective-determiner-adverb
+                })
+                .Case<Pronoun>(pnn =>
+                {
+                    modTwo = 0; //adjective-determiner-noun
+                })
+                .Case<ToLinker>(lnkn =>
+                {
+                    modTwo = 0; //adjective-determiner directional
+                })
+                .Case<Preposition>(pren =>
+                {
+                    modTwo = 0; //adjective-determiner positional
+                })
+                .Case<Determiner>(dn =>
+                {
+                    modTwo = 0; //adjective-determiner determiner
+                })
+                .Default(def =>
+                {
+                    modTwo = 0;
+                });
+            return modTwo;
+        }
+
+        private static float AdjectivePreposition(Word nextNext)
+        {
+            float modTwo;
+            new Switch(nextNext)
+                .Case<Noun>(nn =>
+                {
+                    modTwo = 0; //adjective-prepositional-noun
+                })
+                .Case<PastParticipleVerb>(vn =>
+                {
+                    modTwo = 0; //adjective-prepositional descriptor 
+                })
+                .Case<Adjective>(advn =>
+                {
+                    modTwo = 0;  //adjective-prepositional-adjective
+                })
+                .Case<Adverb>(advn =>
+                {
+                    modTwo = 0;  //adjective-prepositional-adverb
+                })
+                .Case<Pronoun>(pnn =>
+                {
+                    modTwo = 0; //adjective-prepositional-noun
+                })
+                .Case<ToLinker>(lnkn =>
+                {
+                    modTwo = 0; //adjective-prepositional directional
+                })
+                .Case<Preposition>(pren =>
+                {
+                    modTwo = 0; //adjective-prepositional positional
+                })
+                .Case<Determiner>(dn =>
+                {
+                    modTwo = 0; //adjective-prepositional determiner
+                })
+                .Default(def =>
+                {
+                    modTwo = 0;
+                });
+            return modTwo;
+        }
+
+        private static float AdjectiveToLinker(Word nextNext)
+        {
+            float modTwo;
+            new Switch(nextNext)
+                .Case<Noun>(nn =>
+                {
+                    modTwo = 0; //adjective-tolinker-noun
+                })
+                .Case<PastParticipleVerb>(vn =>
+                {
+                    modTwo = 0; //adjective-tolinker descriptor 
+                })
+                .Case<Adjective>(advn =>
+                {
+                    modTwo = 0;  //adjective-tolinker-adjective
+                })
+                .Case<Adverb>(advn =>
+                {
+                    modTwo = 0;  //adjective-tolinker-adverb
+                })
+                .Case<Pronoun>(pnn =>
+                {
+                    modTwo = 0; //adjective-tolinker-noun
+                })
+                .Case<ToLinker>(lnkn =>
+                {
+                    modTwo = 0; //adjective-tolinker directional
+                })
+                .Case<Preposition>(pren =>
+                {
+                    modTwo = 0; //adjective-tolinker positional
+                })
+                .Case<Determiner>(dn =>
+                {
+                    modTwo = 0; //adjective-tolinker determiner
+                })
+                .Default(def =>
+                {
+                    modTwo = 0;
+                });
+            return modTwo;
+        }
+
+        private static float AdjectivePronoun(Word nextNext)
+        {
+            float modTwo;
+            new Switch(nextNext)
+                .Case<Noun>(nn =>
+                {
+                    modTwo = 0; //adjective -> compound noun
+                })
+                .Case<PastParticipleVerb>(vn =>
+                {
+                    modTwo = 0; //adjective-noun-verb descriptor (possible?)
+                })
+                .Case<Adjective>(advn =>
+                {
+                    modTwo = 0;  //adjective-noun-adjective
+                })
+                .Case<Adverb>(advn =>
+                {
+                    modTwo = 0;  //adjective-noun-adverb
+                })
+                .Case<Pronoun>(pnn =>
+                {
+                    modTwo = 0; //adjective -> compound (possessive) noun
+                })
+                .Case<ToLinker>(lnkn =>
+                {
+                    modTwo = 0; //adjective-noun directional
+                })
+                .Case<Preposition>(pren =>
+                {
+                    modTwo = 0; //adjective-noun positional
+                })
+                .Case<Determiner>(dn =>
+                {
+                    modTwo = 0; //adjective-noun determiner
+                })
+                .Default(def =>
+                {
+                    modTwo = 0;
+                });
+            return modTwo;
+        }
+
+        private static float AdjectiveAdverb(Word nextNext)
+        {
+            float modTwo;
+            new Switch(nextNext)
+                .Case<Noun>(nn =>
+                {
+                    modTwo = 0; //adjective-adverb-noun
+                })
+                .Case<PastParticipleVerb>(vn =>
+                {
+                    modTwo = 0; //adjective-adverb-verb descriptor
+                })
+                .Case<Adjective>(advn =>
+                {
+                    modTwo = 0;  //adjective-adverb-adjective (triple compound)
+                })
+                .Case<Adverb>(advn =>
+                {
+                    modTwo = 0;  //adjective-adverb-adverb
+                })
+                .Case<Pronoun>(pnn =>
+                {
+                    modTwo = 0; //adjective-adverb-noun
+                })
+                .Case<ToLinker>(lnkn =>
+                {
+                    modTwo = 0; //adjective-adverb-directional
+                })
+                .Case<Preposition>(pren =>
+                {
+                    modTwo = 0; //adjective-adverb positional
+                })
+                .Case<Determiner>(dn =>
+                {
+                    modTwo = 0; //adjective-adverb determiner
+                })
+                .Default(def =>
+                {
+                    modTwo = 0;
+                });
+            return modTwo;
+        }
+
+        private static float AdjectiveAdjective(Word nextNext)
+        {
+            float modTwo;
+            new Switch(nextNext)
+                .Case<Noun>(nn =>
+                {
+                    modTwo = 0; //compound adjective -> noun
+                })
+                .Case<PastParticipleVerb>(vn =>
+                {
+                    modTwo = 0; //compound adjective -> verb descriptor
+                })
+                .Case<Adjective>(advn =>
+                {
+                    modTwo = 0;  //compound adjective -> adjective (triple compound)
+                })
+                .Case<Adverb>(advn =>
+                {
+                    modTwo = 0;  //compound adjective -> adverb
+                })
+                .Case<Pronoun>(pnn =>
+                {
+                    modTwo = 0; //compound adjective -> noun
+                })
+                .Case<ToLinker>(lnkn =>
+                {
+                    modTwo = 0; //compound adjective -> directional
+                })
+                .Case<Preposition>(pren =>
+                {
+                    modTwo = 0; //compound adjective -> positional
+                })
+                .Case<Determiner>(dn =>
+                {
+                    modTwo = 0; //compound adjective -> determiner
+                })
+                .Default(def =>
+                {
+                    modTwo = 0;
+                });
+            return modTwo;
+        }
+
+        private static float AdjectiveNoun(Word nextNext)
+        {
+            float modTwo;
+            new Switch(nextNext)
+                .Case<Noun>(nn =>
+                {
+                    modTwo = 0; //adjective -> compound noun
+                })
+                .Case<PastParticipleVerb>(vn =>
+                {
+                    modTwo = 0; //adjective-noun-verb descriptor (possible?)
+                })
+                .Case<Adjective>(advn =>
+                {
+                    modTwo = 0;  //adjective-noun-adjective
+                })
+                .Case<Adverb>(advn =>
+                {
+                    modTwo = 0;  //adjective-noun-adverb
+                })
+                .Case<Pronoun>(pnn =>
+                {
+                    modTwo = 0; //adjective -> compound (possessive) noun
+                })
+                .Case<ToLinker>(lnkn =>
+                {
+                    modTwo = 0; //adjective-noun directional
+                })
+                .Case<Preposition>(pren =>
+                {
+                    modTwo = 0; //adjective-noun positional
+                })
+                .Case<Determiner>(dn =>
+                {
+                    modTwo = 0; //adjective-noun determiner
+                })
+                .Default(def =>
+                {
+                    modTwo = 0;
+                });
+            return modTwo;
+        }
+
+        private static float VerbUncaught(Word nextNext)
+        {
+            float modTwo;
+            new Switch(nextNext)
+                .Case<Noun>(nn =>
+                {
+                    modTwo = 0; //verb-uncaught-noun
+                })
+                .Case<PastParticipleVerb>(vn =>
+                {
+                    modTwo = 0; //verb-uncaught-pastverb 
+                })
+                .Case<Adjective>(advn =>
+                {
+                    modTwo = 0;  //verb-uncaught-adjective
+                })
+                .Case<Adverb>(advn =>
+                {
+                    modTwo = 0;  //verb-uncaught-adverb
+                })
+                .Case<Pronoun>(pnn =>
+                {
+                    modTwo = 0; //verb -> uncaught -> noun 
+                })
+                .Case<ToLinker>(lnkn =>
+                {
+                    modTwo = 0; //verb-uncaught directional 
+                })
+                .Case<Preposition>(pren =>
+                {
+                    modTwo = 0; //verb-uncaught positional
+                })
+                .Case<Determiner>(dn =>
+                {
+                    modTwo = 0; //verb-uncaught determiner
+                })
+                .Default(def =>
+                {
+                    modTwo = 0;
+                });
+            return modTwo;
+        }
+
+        private static float VerbDeterminer(Word nextNext)
+        {
+            float modTwo;
+            new Switch(nextNext)
+                .Case<Noun>(nn =>
+                {
+                    modTwo = 0; //verb-determiner-noun
+                })
+                .Case<PastParticipleVerb>(vn =>
+                {
+                    modTwo = 0; //verb-determiner-pastverb 
+                })
+                .Case<Adjective>(advn =>
+                {
+                    modTwo = 0;  //verb-determiner-adjective
+                })
+                .Case<Adverb>(advn =>
+                {
+                    modTwo = 0;  //verb-determiner-adverb
+                })
+                .Case<Pronoun>(pnn =>
+                {
+                    modTwo = 0; //verb -> determiner -> noun 
+                })
+                .Case<ToLinker>(lnkn =>
+                {
+                    modTwo = 0; //verb-determiner directional 
+                })
+                .Case<Preposition>(pren =>
+                {
+                    modTwo = 0; //verb-determiner positional
+                })
+                .Case<Determiner>(dn =>
+                {
+                    modTwo = 0; //verb-determiner determiner
+                })
+                .Default(def =>
+                {
+                    modTwo = 0;
+                });
+            return modTwo;
+        }
+
+        private static float VerbPreposition(Word nextNext)
+        {
+            float modTwo;
+            new Switch(nextNext)
+                .Case<Noun>(nn =>
+                {
+                    modTwo = 0; //verb-preposition-noun
+                })
+                .Case<PastParticipleVerb>(vn =>
+                {
+                    modTwo = 0; //verb-preposition-pastverb 
+                })
+                .Case<Adjective>(advn =>
+                {
+                    modTwo = 0;  //verb-preposition-adjective
+                })
+                .Case<Adverb>(advn =>
+                {
+                    modTwo = 0;  //verb-preposition-adverb
+                })
+                .Case<Pronoun>(pnn =>
+                {
+                    modTwo = 0; //verb -> preposition -> noun 
+                })
+                .Case<ToLinker>(lnkn =>
+                {
+                    modTwo = 0; //verb-preposition directional 
+                })
+                .Case<Preposition>(pren =>
+                {
+                    modTwo = 0; //verb-preposition positional
+                })
+                .Case<Determiner>(dn =>
+                {
+                    modTwo = 0; //verb-preposition determiner
+                })
+                .Default(def =>
+                {
+                    modTwo = 0;
+                });
+            return modTwo;
+        }
+
+        private static float VerbToLinker(Word nextNext)
+        {
+            float modTwo;
+            new Switch(nextNext)
+                .Case<Noun>(nn =>
+                {
+                    modTwo = 0; //verb-tolinker-noun
+                })
+                .Case<PastParticipleVerb>(vn =>
+                {
+                    modTwo = 0; //verb-tolinker-pastverb (possible?)
+                })
+                .Case<Adjective>(advn =>
+                {
+                    modTwo = 0;  //verb-tolinker-adjective
+                })
+                .Case<Adverb>(advn =>
+                {
+                    modTwo = 0;  //verb-tolinker-adverb
+                })
+                .Case<Pronoun>(pnn =>
+                {
+                    modTwo = 0; //verb -> tolinker -> noun 
+                })
+                .Case<ToLinker>(lnkn =>
+                {
+                    modTwo = 0; //verb-tolinker directional (possible?)
+                })
+                .Case<Preposition>(pren =>
+                {
+                    modTwo = 0; //verb-tolinker positional
+                })
+                .Case<Determiner>(dn =>
+                {
+                    modTwo = 0; //verb-tolinker determiner
+                })
+                .Default(def =>
+                {
+                    modTwo = 0;
+                });
+            return modTwo;
+        }
+
+        private static float VerbPronoun(Word nextNext)
+        {
+            float modTwo;
+            new Switch(nextNext)
+                .Case<Noun>(nn =>
+                {
+                    modTwo = 0; //verb-pronoun-noun (compound)
+                })
+                .Case<PastParticipleVerb>(vn =>
+                {
+                    modTwo = 0; //verb-pronoun-pastverb
+                })
+                .Case<Adjective>(advn =>
+                {
+                    modTwo = 0;  //verb-pronoun-adjective
+                })
+                .Case<Adverb>(advn =>
+                {
+                    modTwo = 0;  //verb-pronoun-adverb
+                })
+                .Case<Pronoun>(pnn =>
+                {
+                    modTwo = 0; //verb -> pronoun -> noun  (compound)
+                })
+                .Case<ToLinker>(lnkn =>
+                {
+                    modTwo = 0; //verb-pronoun directional
+                })
+                .Case<Preposition>(pren =>
+                {
+                    modTwo = 0; //verb-pronoun positional
+                })
+                .Case<Determiner>(dn =>
+                {
+                    modTwo = 0; //verb-pronoun determiner
+                })
+                .Default(def =>
+                {
+                    modTwo = 0;
+                });
+            return modTwo;
+        }
+
+        private static float VerbAdverb(Word nextNext)
+        {
+            float modTwo;
+            new Switch(nextNext)
+                .Case<Noun>(nn =>
+                {
+                    modTwo = 0; //verb-adverb-noun
+                })
+                .Case<PastParticipleVerb>(vn =>
+                {
+                    modTwo = 0; //verb-adverb-pastverb
+                })
+                .Case<Adjective>(advn =>
+                {
+                    modTwo = 0;  //verb-adverb-adjective
+                })
+                .Case<Adverb>(advn =>
+                {
+                    modTwo = 0;  //verb-adverb-adverb
+                })
+                .Case<Pronoun>(pnn =>
+                {
+                    modTwo = 0; //verb -> adverb -> noun
+                })
+                .Case<ToLinker>(lnkn =>
+                {
+                    modTwo = 0; //verb-aadverb directional
+                })
+                .Case<Preposition>(pren =>
+                {
+                    modTwo = 0; //verb-adverb positional
+                })
+                .Case<Determiner>(dn =>
+                {
+                    modTwo = 0; //verb-adverb determiner
+                })
+                .Default(def =>
+                {
+                    modTwo = 0;
+                });
+            return modTwo;
+        }
+
+        private static float VerbAdjective(Word nextNext)
+        {
+            float modTwo;
+            new Switch(nextNext)
+                .Case<Noun>(nn =>
+                {
+                    modTwo = 0; //verb-adjective-noun
+                })
+                .Case<PastParticipleVerb>(vn =>
+                {
+                    modTwo = 0; //verb-adjective-pastverb
+                })
+                .Case<Adjective>(advn =>
+                {
+                    modTwo = 0;  //verb-adjective-adjective
+                })
+                .Case<Adverb>(advn =>
+                {
+                    modTwo = 0;  //verb-adjective-adverb
+                })
+                .Case<Pronoun>(pnn =>
+                {
+                    modTwo = 0; //verb -> adjective -> noun
+                })
+                .Case<ToLinker>(lnkn =>
+                {
+                    modTwo = 0; //verb-adjective directional
+                })
+                .Case<Preposition>(pren =>
+                {
+                    modTwo = 0; //verb-adjective positional
+                })
+                .Case<Determiner>(dn =>
+                {
+                    modTwo = 0; //verb-adjective determiner
+                })
+                .Default(def =>
+                {
+                    modTwo = 0;
+                });
+            return modTwo;
+        }
+
+        private static float VerbPastParticipleVerb(Word nextNext)
+        {
+            float modTwo;
+            new Switch(nextNext)
+                .Case<Noun>(nn =>
+                {
+                    modTwo = 0; //verb-pastverb -> compound noun
+                })
+                .Case<PastParticipleVerb>(vn =>
+                {
+                    modTwo = 0; //verb-pastverb-pastverb
+                })
+                .Case<Adjective>(advn =>
+                {
+                    modTwo = 0;  //verb-pastverb-adjective
+                })
+                .Case<Adverb>(advn =>
+                {
+                    modTwo = 0;  //verb-pastverb-adverb
+                })
+                .Case<Pronoun>(pnn =>
+                {
+                    modTwo = 0; //verb -> pastverb -> compound (possessive) noun
+                })
+                .Case<ToLinker>(lnkn =>
+                {
+                    modTwo = 0; //verb-pastverb directional
+                })
+                .Case<Preposition>(pren =>
+                {
+                    modTwo = 0; //verb-pastverb positional
+                })
+                .Case<Determiner>(dn =>
+                {
+                    modTwo = 0; //verb-pastverb determiner
+                })
+                .Default(def =>
+                {
+                    modTwo = 0;
+                });
+            return modTwo;
+        }
+
+        private static float VerbNoun(Word nextNext)
+        {
+            float modTwo;
+            new Switch(nextNext)
+                .Case<Noun>(nn =>
+                {
+                    modTwo = 0; //verb -> compound noun
+                })
+                .Case<PastParticipleVerb>(vn =>
+                {
+                    modTwo = 0; //verb-noun-verb descriptor (possible?)
+                })
+                .Case<Adjective>(advn =>
+                {
+                    modTwo = 0;  //verb-noun-adjective
+                })
+                .Case<Adverb>(advn =>
+                {
+                    modTwo = 0;  //verb-noun-adverb
+                })
+                .Case<Pronoun>(pnn =>
+                {
+                    modTwo = 0; //verb -> compound (possessive) noun
+                })
+                .Case<ToLinker>(lnkn =>
+                {
+                    modTwo = 0; //verb-noun directional
+                })
+                .Case<Preposition>(pren =>
+                {
+                    modTwo = 0; //verb-noun positional
+                })
+                .Case<Determiner>(dn =>
+                {
+                    modTwo = 0; //verb-noun determiner
+                })
+                .Default(def =>
+                {
+                    modTwo = 0;
+                });
+            return modTwo;
+        }
+
+        private static float NounUncaught(Word nextNext)
+        {
+            float modTwo;
+            new Switch(nextNext)
+                .Case<Noun>(nun =>
+                {
+                    modTwo = 0; //noun-uncaught-noun
+                })
+                .Case<PastParticipleVerb>(nupv =>
+                {
+                    modTwo = 0; //noun-uncaught-pastverb 
+                })
+                .Case<Adjective>(nuadj =>
+                {
+                    modTwo = 0;  //noun-uncaught-adjective
+                })
+                .Case<Adverb>(nuadv =>
+                {
+                    modTwo = 0;  //noun-uncaught-adverb
+                })
+                .Case<Pronoun>(nupn =>
+                {
+                    modTwo = 0; //noun -> uncaught -> noun 
+                })
+                .Case<ToLinker>(nulnk =>
+                {
+                    modTwo = 0; //noun-uncaught directional 
+                })
+                .Case<Preposition>(nup =>
+                {
+                    modTwo = 0; //noun-uncaught positional
+                })
+                .Case<Determiner>(nud =>
+                {
+                    modTwo = 0; //noun-uncaught determiner
+                })
+                .Default(nuu =>
+                {
+                    modTwo = 0;
+                });
+            return modTwo;
+        }
+
+        private static float NounDeterminer(Word nextNext)
+        {
+            float modTwo;
+            new Switch(nextNext)
+                .Case<Noun>(ndn =>
+                {
+                    modTwo = 0; //noun-determiner-noun
+                })
+                .Case<PastParticipleVerb>(ndpv =>
+                {
+                    modTwo = 0; //noun-determiner-verb descriptor (possible?)
+                })
+                .Case<Adjective>(ndadj =>
+                {
+                    modTwo = 0;  //noun-determiner-adjective
+                })
+                .Case<Adverb>(ndav =>
+                {
+                    modTwo = 0;  //noun-determiner-adverb
+                })
+                .Case<Pronoun>(ndpn =>
+                {
+                    modTwo = 0; //noun-determiner-noun
+                })
+                .Case<ToLinker>(ndlnk =>
+                {
+                    modTwo = 0; //noun-determiner directional
+                })
+                .Case<Preposition>(ndp =>
+                {
+                    modTwo = 0; //noun-determiner positional
+                })
+                .Case<Determiner>(ndd =>
+                {
+                    modTwo = 0; //noun-determiner determiner
+                })
+                .Default(ndu =>
+                {
+                    modTwo = 0;
+                });
+            return modTwo;
+        }
+
+        private static float NounPreposition(Word nextNext)
+        {
+            float modTwo;
+            new Switch(nextNext)
+                .Case<Noun>(npn =>
+                {
+                    modTwo = 0; //noun-preposition-noun
+                })
+                .Case<PastParticipleVerb>(nppv =>
+                {
+                    modTwo = 0; //noun-preposition-verb descriptor (possible?)
+                })
+                .Case<Adjective>(npadj =>
+                {
+                    modTwo = 0;  //noun-preposition-adjective
+                })
+                .Case<Adverb>(npadv =>
+                {
+                    modTwo = 0;  //noun-preposition-adverb
+                })
+                .Case<Pronoun>(nppn =>
+                {
+                    modTwo = 0; //noun-preposition-noun
+                })
+                .Case<ToLinker>(nplnk =>
+                {
+                    modTwo = 0; //noun-preposition directional
+                })
+                .Case<Preposition>(npp =>
+                {
+                    modTwo = 0; //noun-preposition positional
+                })
+                .Case<Determiner>(npd =>
+                {
+                    modTwo = 0; //noun-preposition determiner
+                })
+                .Default(npu =>
+                {
+                    modTwo = 0;
+                });
+            return modTwo;
+        }
+
+        private static float NounToLinker(Word nextNext)
+        {
+            float modTwo;
+            new Switch(nextNext)
+                .Case<Noun>(nlnkn =>
+                {
+                    modTwo = 0; //noun-tolinker-noun
+                })
+                .Case<PastParticipleVerb>(nlnkpv =>
+                {
+                    modTwo = 0; //noun-tolinker-verb descriptor (possible?)
+                })
+                .Case<Adjective>(nlnkadj =>
+                {
+                    modTwo = 0;  //noun-tolinker-adjective
+                })
+                .Case<Adverb>(nlnkadv =>
+                {
+                    modTwo = 0;  //noun-tolinker-adverb
+                })
+                .Case<Pronoun>(nlnkpn =>
+                {
+                    modTwo = 0; //noun-tolinker-noun
+                })
+                .Case<ToLinker>(nlnklnk =>
+                {
+                    modTwo = 0; //noun-tolinker directional
+                })
+                .Case<Preposition>(nlnkp =>
+                {
+                    modTwo = 0; //noun-tolinker positional
+                })
+                .Case<Determiner>(nlnkd =>
+                {
+                    modTwo = 0; //noun-tolinker determiner
+                })
+                .Default(nlinku =>
+                {
+                    modTwo = 0;
+                });
+            return modTwo;
+        }
+
+        private static float NounPronoun(Word nextNext)
+        {
+            float modTwo;
+            new Switch(nextNext)
+                .Case<Noun>(npnn =>
+                {
+                    modTwo = 0; //triple compound noun
+                })
+                .Case<PastParticipleVerb>(npnpv =>
+                {
+                    modTwo = 0; //compound noun-verb descriptor (possible?)
+                })
+                .Case<Adjective>(npnadj =>
+                {
+                    modTwo = 0;  //compound noun-adjective
+                })
+                .Case<Adverb>(npnadv =>
+                {
+                    modTwo = 0;  //compound noun-adverb
+                })
+                .Case<Pronoun>(npnpn =>
+                {
+                    modTwo = 0; //triple compound noun
+                })
+                .Case<ToLinker>(npnlnk =>
+                {
+                    modTwo = 0; //compound noun directional
+                })
+                .Case<Preposition>(npnpre =>
+                {
+                    modTwo = 0; //compound noun positional
+                })
+                .Case<Determiner>(npnd =>
+                {
+                    modTwo = 0; //compound noun determiner
+                })
+                .Default(npnu =>
+                {
+                    modTwo = 0;
+                });
+            return modTwo;
+        }
+
+        private static float NounAdverb(Word nextNext)
+        {
+            float modTwo;
+            new Switch(nextNext)
+                .Case<Noun>(nadvn =>
+                {
+                    modTwo = 0; //noun-adverb-noun
+                })
+                .Case<PastParticipleVerb>(nadvpv =>
+                {
+                    modTwo = 0; //noun-adverb-verb descriptor (possible?)
+                })
+                .Case<Adjective>(nadvadj =>
+                {
+                    modTwo = 0;  //noun-adverb-adjective
+                })
+                .Case<Adverb>(nadvadv =>
+                {
+                    modTwo = 0;  //noun-adverb-adverb
+                })
+                .Case<Pronoun>(nadvpn =>
+                {
+                    modTwo = 0; //noun-adverb-noun
+                })
+                .Case<ToLinker>(nadvlnk =>
+                {
+                    modTwo = 0; //noun-adverb directional
+                })
+                .Case<Preposition>(nadvpre =>
+                {
+                    modTwo = 0; //noun-adverb positional
+                })
+                .Case<Determiner>(nadvd =>
+                {
+                    modTwo = 0; //noun-adverb determiner
+                })
+                .Default(nadvu =>
+                {
+                    modTwo = 0;
+                });
+            return modTwo;
+        }
+
+        private static float NounVerb(Word nextNext)
+        {
+            float modTwo;
+            new Switch(nextNext)
+                .Case<Noun>(nvn =>
+                {
+                    modTwo = 0; //noun-verb-noun
+                })
+                .Case<PastParticipleVerb>(nvpv =>
+                {
+                    modTwo = 0; //noun-verb-verb descriptor (possible?)
+                })
+                .Case<Adjective>(nvadj =>
+                {
+                    modTwo = 0;  //noun-verb-adjective
+                })
+                .Case<Adverb>(nvadv =>
+                {
+                    modTwo = 0;  //noun-verb-adverb
+                })
+                .Case<Pronoun>(nvpn =>
+                {
+                    modTwo = 0; //noun-verb-noun
+                })
+                .Case<ToLinker>(nvlnk =>
+                {
+                    modTwo = 0; //noun-verb directional
+                })
+                .Case<Preposition>(nvpre =>
+                {
+                    modTwo = 0; //noun-verb positional
+                })
+                .Case<Determiner>(nvd =>
+                {
+                    modTwo = 0; //noun-verb determiner
+                })
+                .Default(nvu =>
+                {
+                    modTwo = 0;
+                });
+            return modTwo;
+        }
+
+        private static float NounAdjective(Word nextNext)
+        {
+            float modTwo;
+            new Switch(nextNext)
+                .Case<Noun>(nadjn =>
+                {
+                    modTwo = 0; //noun-adjective-noun
+                })
+                .Case<PastParticipleVerb>(nadjpv =>
+                {
+                    modTwo = 0; //noun-adjective-verb descriptor (possible?)
+                })
+                .Case<Adjective>(nadjadj =>
+                {
+                    modTwo = 0;  //noun-adjective-adjective
+                })
+                .Case<Adverb>(nadjav =>
+                {
+                    modTwo = 0;  //noun-adjective-adverb
+                })
+                .Case<Pronoun>(nadjn =>
+                {
+                    modTwo = 0; //noun-adjective-noun
+                })
+                .Case<ToLinker>(nadjlnk =>
+                {
+                    modTwo = 0; //noun-adjective directional
+                })
+                .Case<Preposition>(nadjpre =>
+                {
+                    modTwo = 0; //noun-adjective positional
+                })
+                .Case<Determiner>(nadjd =>
+                {
+                    modTwo = 0; //noun-adjective determiner
+                })
+                .Default(nadju =>
+                {
+                    modTwo = 0;
+                });
+            return modTwo;
+        }
+
+        private static float NounNoun(Word nextNext)
+        {
+            float modTwo;
+            new Switch(nextNext)
+                .Case<Noun>(nnn =>
+                {
+                    modTwo = 0; //triple compound noun
+                })
+                .Case<PastParticipleVerb>(nnpv =>
+                {
+                    modTwo = 0; //compound noun-verb descriptor (possible?)
+                })
+                .Case<Adjective>(nnadj =>
+                {
+                    modTwo = 0;  //compound noun-adjective
+                })
+                .Case<Adverb>(nnadv =>
+                {
+                    modTwo = 0;  //compound noun-adverb
+                })
+                .Case<Pronoun>(nnpn =>
+                {
+                    modTwo = 0; //triple compound noun
+                })
+                .Case<ToLinker>(nnlnk =>
+                {
+                    modTwo = 0; //compound noun directional
+                })
+                .Case<Preposition>(nnpre =>
+                {
+                    modTwo = 0; //compound noun positional
+                })
+                .Case<Determiner>(nnd =>
+                {
+                    modTwo = 0; //compound noun determiner
+                })
+                .Default(nnu =>
+                {
+                    modTwo = 0;
+                });
+            return modTwo;
         }
     }
 }
