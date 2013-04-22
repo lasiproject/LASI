@@ -1607,7 +1607,7 @@ namespace Erik_Experimentation
             decimal modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nn => {
-                    modTwo = 0; //adjective-uncaught-noun
+                    modTwo = 0.4m; //adjective-uncaught-noun
                 })
                 .Case<PastParticipleVerb>(vn => {
                     modTwo = 0; //adjective-uncaught-pastverb 
