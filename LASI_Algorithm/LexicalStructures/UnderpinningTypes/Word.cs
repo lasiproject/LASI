@@ -171,6 +171,7 @@ namespace LASI.Algorithm
             get;
             set;
         }
+    
 
         /// <summary>
         /// Gets or sets the numeric Weight of the Word over the context of all extant documents.

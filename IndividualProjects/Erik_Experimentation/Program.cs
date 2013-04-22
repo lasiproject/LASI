@@ -144,8 +144,8 @@ namespace Erik_Experimentation
             //PHASE 2 - Word Weight based on part of speech and neighbors' (+2) part of speech
             // WORKS, BUT
             // NEED FORMULAS FOR MODIFIER VARIABLES - WHAT SHOULD THESE BE?
-            float modOne, modTwo, modThree, modFour;
-
+            decimal modOne, modTwo, modThree, modFour;
+            modOne = modTwo = 0;
             foreach (Sentence s in document.Sentences)
             {
                 //Console.WriteLine(s);
@@ -525,7 +525,7 @@ namespace Erik_Experimentation
                        });
 
 
-
+                    w.Weight += (w.Weight * (modOne * modTwo)) / 3;
 
                 }
 
@@ -615,7 +615,7 @@ namespace Erik_Experimentation
             //{
             //    Console.WriteLine(w);
             //    Console.WriteLine(w.FrequencyCurrent); //integrate with existing
-            //    float percentID = (w.FrequencyCurrent / (float)document.Words.Count());
+            //    decimal percentID = (w.FrequencyCurrent / (decimal)document.Words.Count());
             //    Console.WriteLine("Frequency % in document:" + percentID);
             //} //NEED FORMULA TO MODIFY WEIGHT
 
@@ -801,9 +801,9 @@ namespace Erik_Experimentation
 
         }
 
-        private static float UncaughtUncaught(Word nextNext)
+        private static decimal UncaughtUncaught(Word nextNext)
         {
-            float modTwo;
+            decimal modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nn =>
                 {
@@ -844,9 +844,9 @@ namespace Erik_Experimentation
             return modTwo;
         }
 
-        private static float PrepositionUncaught(Word nextNext)
+        private static decimal PrepositionUncaught(Word nextNext)
         {
-            float modTwo;
+            decimal modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nn =>
                 {
@@ -887,9 +887,9 @@ namespace Erik_Experimentation
             return modTwo;
         }
 
-        private static float PrepositionDeterminer(Word nextNext)
+        private static decimal PrepositionDeterminer(Word nextNext)
         {
-            float modTwo;
+            decimal modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nn =>
                 {
@@ -930,9 +930,9 @@ namespace Erik_Experimentation
             return modTwo;
         }
 
-        private static float PrepositionPronoun(Word nextNext)
+        private static decimal PrepositionPronoun(Word nextNext)
         {
-            float modTwo;
+            decimal modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nn =>
                 {
@@ -973,9 +973,9 @@ namespace Erik_Experimentation
             return modTwo;
         }
 
-        private static float PrepositionNoun(Word nextNext)
+        private static decimal PrepositionNoun(Word nextNext)
         {
-            float modTwo;
+            decimal modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nn =>
                 {
@@ -1016,9 +1016,9 @@ namespace Erik_Experimentation
             return modTwo;
         }
 
-        private static float PronounUncaught(Word nextNext)
+        private static decimal PronounUncaught(Word nextNext)
         {
-            float modTwo;
+            decimal modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nn =>
                 {
@@ -1059,9 +1059,9 @@ namespace Erik_Experimentation
             return modTwo;
         }
 
-        private static float PronounDeterminer(Word nextNext)
+        private static decimal PronounDeterminer(Word nextNext)
         {
-            float modTwo;
+            decimal modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nn =>
                 {
@@ -1102,9 +1102,9 @@ namespace Erik_Experimentation
             return modTwo;
         }
 
-        private static float PronounPreposition(Word nextNext)
+        private static decimal PronounPreposition(Word nextNext)
         {
-            float modTwo;
+            decimal modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nn =>
                 {
@@ -1145,9 +1145,9 @@ namespace Erik_Experimentation
             return modTwo;
         }
 
-        private static float PronounToLinker(Word nextNext)
+        private static decimal PronounToLinker(Word nextNext)
         {
-            float modTwo;
+            decimal modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nn =>
                 {
@@ -1188,9 +1188,9 @@ namespace Erik_Experimentation
             return modTwo;
         }
 
-        private static float PronounPronoun(Word nextNext)
+        private static decimal PronounPronoun(Word nextNext)
         {
-            float modTwo;
+            decimal modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nn =>
                 {
@@ -1231,9 +1231,9 @@ namespace Erik_Experimentation
             return modTwo;
         }
 
-        private static float PronounAdverb(Word nextNext)
+        private static decimal PronounAdverb(Word nextNext)
         {
-            float modTwo;
+            decimal modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nn =>
                 {
@@ -1274,9 +1274,9 @@ namespace Erik_Experimentation
             return modTwo;
         }
 
-        private static float PronounAdjective(Word nextNext)
+        private static decimal PronounAdjective(Word nextNext)
         {
-            float modTwo;
+            decimal modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nn =>
                 {
@@ -1317,9 +1317,9 @@ namespace Erik_Experimentation
             return modTwo;
         }
 
-        private static float PronounNoun(Word nextNext)
+        private static decimal PronounNoun(Word nextNext)
         {
-            float modTwo;
+            decimal modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nn =>
                 {
@@ -1360,9 +1360,9 @@ namespace Erik_Experimentation
             return modTwo;
         }
 
-        private static float AdverbUncaught(Word nextNext)
+        private static decimal AdverbUncaught(Word nextNext)
         {
-            float modTwo;
+            decimal modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nn =>
                 {
@@ -1403,9 +1403,9 @@ namespace Erik_Experimentation
             return modTwo;
         }
 
-        private static float AdverbDeterminer(Word nextNext)
+        private static decimal AdverbDeterminer(Word nextNext)
         {
-            float modTwo;
+            decimal modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nn =>
                 {
@@ -1446,9 +1446,9 @@ namespace Erik_Experimentation
             return modTwo;
         }
 
-        private static float AdverbPreposition(Word nextNext)
+        private static decimal AdverbPreposition(Word nextNext)
         {
-            float modTwo;
+            decimal modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nn =>
                 {
@@ -1489,9 +1489,9 @@ namespace Erik_Experimentation
             return modTwo;
         }
 
-        private static float AdverbToLinker(Word nextNext)
+        private static decimal AdverbToLinker(Word nextNext)
         {
-            float modTwo;
+            decimal modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nn =>
                 {
@@ -1532,9 +1532,9 @@ namespace Erik_Experimentation
             return modTwo;
         }
 
-        private static float AdverbPronoun(Word nextNext)
+        private static decimal AdverbPronoun(Word nextNext)
         {
-            float modTwo;
+            decimal modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nn =>
                 {
@@ -1575,9 +1575,9 @@ namespace Erik_Experimentation
             return modTwo;
         }
 
-        private static float AdverbAdverb(Word nextNext)
+        private static decimal AdverbAdverb(Word nextNext)
         {
-            float modTwo;
+            decimal modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nn =>
                 {
@@ -1618,9 +1618,9 @@ namespace Erik_Experimentation
             return modTwo;
         }
 
-        private static float AdverbAdjective(Word nextNext)
+        private static decimal AdverbAdjective(Word nextNext)
         {
-            float modTwo;
+            decimal modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nn =>
                 {
@@ -1661,9 +1661,9 @@ namespace Erik_Experimentation
             return modTwo;
         }
 
-        private static float AdverbNoun(Word nextNext)
+        private static decimal AdverbNoun(Word nextNext)
         {
-            float modTwo;
+            decimal modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nn =>
                 {
@@ -1704,9 +1704,9 @@ namespace Erik_Experimentation
             return modTwo;
         }
 
-        private static float AdjectiveUncaught(Word nextNext)
+        private static decimal AdjectiveUncaught(Word nextNext)
         {
-            float modTwo;
+            decimal modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nn =>
                 {
@@ -1747,9 +1747,9 @@ namespace Erik_Experimentation
             return modTwo;
         }
 
-        private static float AdjectiveDeterminer(Word nextNext)
+        private static decimal AdjectiveDeterminer(Word nextNext)
         {
-            float modTwo;
+            decimal modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nn =>
                 {
@@ -1790,9 +1790,9 @@ namespace Erik_Experimentation
             return modTwo;
         }
 
-        private static float AdjectivePreposition(Word nextNext)
+        private static decimal AdjectivePreposition(Word nextNext)
         {
-            float modTwo;
+            decimal modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nn =>
                 {
@@ -1833,9 +1833,9 @@ namespace Erik_Experimentation
             return modTwo;
         }
 
-        private static float AdjectiveToLinker(Word nextNext)
+        private static decimal AdjectiveToLinker(Word nextNext)
         {
-            float modTwo;
+            decimal modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nn =>
                 {
@@ -1876,9 +1876,9 @@ namespace Erik_Experimentation
             return modTwo;
         }
 
-        private static float AdjectivePronoun(Word nextNext)
+        private static decimal AdjectivePronoun(Word nextNext)
         {
-            float modTwo;
+            decimal modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nn =>
                 {
@@ -1919,9 +1919,9 @@ namespace Erik_Experimentation
             return modTwo;
         }
 
-        private static float AdjectiveAdverb(Word nextNext)
+        private static decimal AdjectiveAdverb(Word nextNext)
         {
-            float modTwo;
+            decimal modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nn =>
                 {
@@ -1962,9 +1962,9 @@ namespace Erik_Experimentation
             return modTwo;
         }
 
-        private static float AdjectiveAdjective(Word nextNext)
+        private static decimal AdjectiveAdjective(Word nextNext)
         {
-            float modTwo;
+            decimal modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nn =>
                 {
@@ -2005,9 +2005,9 @@ namespace Erik_Experimentation
             return modTwo;
         }
 
-        private static float AdjectiveNoun(Word nextNext)
+        private static decimal AdjectiveNoun(Word nextNext)
         {
-            float modTwo;
+            decimal modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nn =>
                 {
@@ -2048,9 +2048,9 @@ namespace Erik_Experimentation
             return modTwo;
         }
 
-        private static float VerbUncaught(Word nextNext)
+        private static decimal VerbUncaught(Word nextNext)
         {
-            float modTwo;
+            decimal modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nn =>
                 {
@@ -2091,9 +2091,9 @@ namespace Erik_Experimentation
             return modTwo;
         }
 
-        private static float VerbDeterminer(Word nextNext)
+        private static decimal VerbDeterminer(Word nextNext)
         {
-            float modTwo;
+            decimal modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nn =>
                 {
@@ -2134,9 +2134,9 @@ namespace Erik_Experimentation
             return modTwo;
         }
 
-        private static float VerbPreposition(Word nextNext)
+        private static decimal VerbPreposition(Word nextNext)
         {
-            float modTwo;
+            decimal modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nn =>
                 {
@@ -2177,9 +2177,9 @@ namespace Erik_Experimentation
             return modTwo;
         }
 
-        private static float VerbToLinker(Word nextNext)
+        private static decimal VerbToLinker(Word nextNext)
         {
-            float modTwo;
+            decimal modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nn =>
                 {
@@ -2220,9 +2220,9 @@ namespace Erik_Experimentation
             return modTwo;
         }
 
-        private static float VerbPronoun(Word nextNext)
+        private static decimal VerbPronoun(Word nextNext)
         {
-            float modTwo;
+            decimal modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nn =>
                 {
@@ -2263,9 +2263,9 @@ namespace Erik_Experimentation
             return modTwo;
         }
 
-        private static float VerbAdverb(Word nextNext)
+        private static decimal VerbAdverb(Word nextNext)
         {
-            float modTwo;
+            decimal modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nn =>
                 {
@@ -2306,9 +2306,9 @@ namespace Erik_Experimentation
             return modTwo;
         }
 
-        private static float VerbAdjective(Word nextNext)
+        private static decimal VerbAdjective(Word nextNext)
         {
-            float modTwo;
+            decimal modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nn =>
                 {
@@ -2349,9 +2349,9 @@ namespace Erik_Experimentation
             return modTwo;
         }
 
-        private static float VerbPastParticipleVerb(Word nextNext)
+        private static decimal VerbPastParticipleVerb(Word nextNext)
         {
-            float modTwo;
+            decimal modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nn =>
                 {
@@ -2392,9 +2392,9 @@ namespace Erik_Experimentation
             return modTwo;
         }
 
-        private static float VerbNoun(Word nextNext)
+        private static decimal VerbNoun(Word nextNext)
         {
-            float modTwo;
+            decimal modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nn =>
                 {
@@ -2435,9 +2435,9 @@ namespace Erik_Experimentation
             return modTwo;
         }
 
-        private static float NounUncaught(Word nextNext)
+        private static decimal NounUncaught(Word nextNext)
         {
-            float modTwo;
+            decimal modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nun =>
                 {
@@ -2478,9 +2478,9 @@ namespace Erik_Experimentation
             return modTwo;
         }
 
-        private static float NounDeterminer(Word nextNext)
+        private static decimal NounDeterminer(Word nextNext)
         {
-            float modTwo;
+            decimal modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(ndn =>
                 {
@@ -2521,9 +2521,9 @@ namespace Erik_Experimentation
             return modTwo;
         }
 
-        private static float NounPreposition(Word nextNext)
+        private static decimal NounPreposition(Word nextNext)
         {
-            float modTwo;
+            decimal modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(npn =>
                 {
@@ -2564,9 +2564,9 @@ namespace Erik_Experimentation
             return modTwo;
         }
 
-        private static float NounToLinker(Word nextNext)
+        private static decimal NounToLinker(Word nextNext)
         {
-            float modTwo;
+            decimal modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nlnkn =>
                 {
@@ -2607,9 +2607,9 @@ namespace Erik_Experimentation
             return modTwo;
         }
 
-        private static float NounPronoun(Word nextNext)
+        private static decimal NounPronoun(Word nextNext)
         {
-            float modTwo;
+            decimal modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(npnn =>
                 {
@@ -2650,9 +2650,9 @@ namespace Erik_Experimentation
             return modTwo;
         }
 
-        private static float NounAdverb(Word nextNext)
+        private static decimal NounAdverb(Word nextNext)
         {
-            float modTwo;
+            decimal modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nadvn =>
                 {
@@ -2693,9 +2693,9 @@ namespace Erik_Experimentation
             return modTwo;
         }
 
-        private static float NounVerb(Word nextNext)
+        private static decimal NounVerb(Word nextNext)
         {
-            float modTwo;
+            decimal modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nvn =>
                 {
@@ -2736,9 +2736,9 @@ namespace Erik_Experimentation
             return modTwo;
         }
 
-        private static float NounAdjective(Word nextNext)
+        private static decimal NounAdjective(Word nextNext)
         {
-            float modTwo;
+            decimal modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nadjn =>
                 {
@@ -2779,9 +2779,9 @@ namespace Erik_Experimentation
             return modTwo;
         }
 
-        private static float NounNoun(Word nextNext)
+        private static decimal NounNoun(Word nextNext)
         {
-            float modTwo;
+            decimal modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nnn =>
                 {
