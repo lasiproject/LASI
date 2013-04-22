@@ -222,7 +222,7 @@ namespace LASI.Algorithm
             get;
             set;
         }
-
+        public bool wasBound = false;
 
         private IList<IDescriber> _describedBy = new List<IDescriber>();
         private IList<IEntity> _possessed = new List<IEntity>();

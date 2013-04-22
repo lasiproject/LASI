@@ -10,7 +10,7 @@ namespace LASI.Algorithm.Binding
     {
         List<State> stateList = new List<State>();
         /// <summary>
-        /// This is the Bind function for the Subject Class 
+        /// This is the Bind function for the SubjectBinder Class 
         /// </summary>
         /// <param name="s"></param>
         public void Bind(Sentence s) {
@@ -45,10 +45,22 @@ namespace LASI.Algorithm.Binding
                     s6.S = StateType.Final;
                     stateList.Add(s6);
                     //subject for normal sentence.
-                    if ((i.PreviousPhrase is NounPhrase) && (i.PreviousPhrase.ParentSentence == i.ParentSentence))
+                    if ((i.PreviousPhrase is NounPhrase) && 
+                        (i.PreviousPhrase.ParentSentence == i.ParentSentence) && 
+                        !(i.PreviousPhrase as NounPhrase).wasBound)
+                    {
+                        
                         (i as VerbPhrase).BindSubject(i.PreviousPhrase as NounPhrase);
-                    if ((i.PreviousPhrase.PreviousPhrase is NounPhrase) && (i.PreviousPhrase.PreviousPhrase.ParentSentence == i.ParentSentence))
+                        (i.PreviousPhrase as NounPhrase).wasBound = true;
+                    }
+                    if ((i.PreviousPhrase.PreviousPhrase is NounPhrase) && 
+                        (i.PreviousPhrase.PreviousPhrase.ParentSentence == i.ParentSentence) && 
+                        !(i.PreviousPhrase.PreviousPhrase as NounPhrase).wasBound)
+                    {
                         (i as VerbPhrase).BindSubject(i.PreviousPhrase.PreviousPhrase as NounPhrase);
+                        (i.PreviousPhrase.PreviousPhrase as NounPhrase).wasBound = true;
+                    }
+
 
                     //if the last verb, you can't find any more subjects
                     if (s.GetPhrasesAfter(i).GetVerbPhrases().Count() == 0)
@@ -57,9 +69,12 @@ namespace LASI.Algorithm.Binding
 
                 //handle case of inverted sentence (http://en.wikipedia.org/wiki/Inverted_sentence)
                 if ((i is AdverbPhrase) && (i.NextPhrase is VerbPhrase) && (i.NextPhrase.NextPhrase is NounPhrase)
-                    && (i.ParentSentence == i.NextPhrase.NextPhrase.ParentSentence)) {
+                    && (i.ParentSentence == i.NextPhrase.NextPhrase.ParentSentence)
+                    && !(i.NextPhrase.NextPhrase as NounPhrase).wasBound)
+                {
                     (i.NextPhrase as VerbPhrase).BindSubject(i.NextPhrase.NextPhrase as NounPhrase);
                     s.isStandard = false;
+                    (i.NextPhrase.NextPhrase as NounPhrase).wasBound = true;
                 }
 
                 if (i is AdverbPhrase) {
