@@ -138,8 +138,8 @@ namespace AlgorithmAssemblyUnitTestProject
         /// <summary>
         ///A test for EstablishParent
         ///</summary>
-        //[TestMethod()]
-      /*     public void EstablishParentTest()
+        [TestMethod()]
+           public void EstablishParentTest()
            {
                Phrase[] phrases1 = new Phrase[] { 
                    new NounPhrase(new Word[] { new ProperSingularNoun("LASI") }),
@@ -161,11 +161,11 @@ namespace AlgorithmAssemblyUnitTestProject
                };
                sentences[2] = new Sentence(phrases3, new SentencePunctuation('.'));
 
-               Paragraph target[] = {new Paragraph(sentences)};
+               Paragraph[] target = {new Paragraph(sentences)};
                Document parentDoc = new Document(target) ;
-               target.EstablishParent(parentDoc);
-               Assert.AreEqual(target.ParentDocument, parentDoc);
-           }*/
+               target[0].EstablishParent(parentDoc);
+               Assert.AreEqual(target[0].ParentDocument, parentDoc);
+           }
        }
 
     }

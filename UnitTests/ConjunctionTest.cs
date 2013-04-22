@@ -70,7 +70,7 @@ namespace AlgorithmAssemblyUnitTestProject
         [TestMethod()]
         public void ConjunctionConstructorTest()
         {
-            string text = "and" ; // TODO: Initialize to an appropriate value
+            string text = "and" ;
             Conjunction target = new Conjunction(text);
             Assert.AreEqual(target.Text, text );
         }
