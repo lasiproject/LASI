@@ -371,6 +371,7 @@ namespace LASI.UserInterface
                                let SV = new KeyValuePair<string, int>(string.Format("{0} -> {1}", s.Text, v.Text), (int)s.Weight)
                                group SV by SV into svg
                                select svg.Key;
+                        data = data.Take(15);
                         break;
                 }
                 pair.Key.Series.Clear();
