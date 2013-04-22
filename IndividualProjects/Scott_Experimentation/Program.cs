@@ -57,6 +57,7 @@ namespace Scott_Experimentation
             }
             */
 
+
             // Test Case Demonstrations
             string TestString = "Virginia is a state located on the east coast in the USA.  It is one of the original thirteen colonies.  It has both mountains and beaches.  It is known as the Land of the Presidents and the state motto is Virginia is for Lovers.";
             var DocTest = LASI.Utilities.TaggerUtil.UntaggedToDoc(TestString);
