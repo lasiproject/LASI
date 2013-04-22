@@ -17,11 +17,12 @@ namespace LASI.Algorithm.Binding
 
             if (np.Words.Count() > 1 && LastNoun != null) {
 
-
+                /*
                 foreach (Word w in np.Words) {
                     Output.Write("[{0}] ", w);
                 }
                 Output.WriteLine("\nLast Noun: {0}", LastNoun.Text);
+                */
 
 
                 /**
@@ -31,8 +32,6 @@ namespace LASI.Algorithm.Binding
                     var PrevWrd = LastNoun.PreviousWord;
                     LastNoun.SuperTaxonomicNoun = (PrevWrd as Noun);
                     (PrevWrd as Noun).SubTaxonomicNoun = LastNoun;
-
-
                 }
 
 
@@ -43,7 +42,7 @@ namespace LASI.Algorithm.Binding
                 if (det1 != null) {
                     LastNoun.BindDeterminer(det1);
                     det1.Determines = LastNoun;
-                }
+               }
 
 
                 /**
@@ -53,7 +52,7 @@ namespace LASI.Algorithm.Binding
                 if (ListOfAdjectives.Count() > 0) {
                     foreach (Adjective adj in ListOfAdjectives) {
                         LastNoun.BindDescriber(adj);
-                        adj.Described = LastNoun;
+                        adj.Described = LastNoun;                       
                     }
                 }
 
@@ -64,7 +63,7 @@ namespace LASI.Algorithm.Binding
                 var PosNoun = np.Words.OfType<PossessivePronoun>().FirstOrDefault();
                 if (PosNoun != null) {
                     PosNoun.AddPossession(LastNoun);
-                }
+                }              
             }
         }
 
@@ -110,8 +109,7 @@ namespace LASI.Algorithm.Binding
                                 toLink.BindObjectOfPreposition(LastVerb);
                             }
                             //Output.WriteLine("Prev: {0}, Next: {1}: , Last Verb: {2}", prevWord, nextWord, LastVerb);
-                        }
-                        else {
+                        } else {
                             toLink.BindObjectOfPreposition(LastVerb);
                         }
                     }
@@ -119,8 +117,10 @@ namespace LASI.Algorithm.Binding
 
                 //  Binds all Modal Aux's to last verb
                 var ModalAuxList = vp.Words.GetModalAuxilaries();
-                if (ModalAuxList.Count() > 0) {
-                    foreach (var ma in ModalAuxList) {
+                if (ModalAuxList.Count() > 0)
+                {
+                    foreach (var ma in ModalAuxList)
+                    {
                         LastVerb.Modality = ma;
                         ma.Modifies = LastVerb;
                     }
