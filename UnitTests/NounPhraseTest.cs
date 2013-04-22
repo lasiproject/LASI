@@ -215,8 +215,7 @@ namespace AlgorithmAssemblyUnitTestProject
         ///A test for ToString
         ///</summary>
         [TestMethod()]
-        public void ToStringTest()
-        {
+        public void ToStringTest() {
             IEnumerable<Word> composedWords = new Word[] { new ProperSingularNoun("LASI"), new Conjunction("and"), new ProperSingularNoun("Timmy") };
             NounPhrase target = new NounPhrase(composedWords);
             string expected = "NounPhrase \"LASI and Timmy\"";

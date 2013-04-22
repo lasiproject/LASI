@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using LASI.Utilities.TypedSwitch;
 using LASI.Algorithm.Analysis.Heuristics;
+using LASI.Algorithm.Analysis.Binding;
 namespace Aluan_Experimentation
 {
     public class Program
@@ -19,14 +20,13 @@ namespace Aluan_Experimentation
 
             //Phrase.VerboseOutput = true;
 
-            foreach (var s in TaggerUtil.LoadTextFile(new LASI.FileSystem.FileTypes.TextFile(testPath)).Sentences) {
-                var k = new LASI.Algorithm.Analysis.Binding.PhraseWiseEntityGroupBinder();
-                k.Bind(s);
-                foreach (var r in k.EntityGroups) {
-                    foreach (var n in r)
-                        Console.WriteLine(n);
-                }
-            }
+            var s = TaggerUtil.LoadTextFile(new LASI.FileSystem.FileTypes.TextFile(testPath));
+            var k = new LASI.Algorithm.Analysis.Binding.PronounBinder();
+            k.Bind(s);
+            foreach (var p in s.Phrases.GetPronounPhrases())
+                Output.WriteLine(p);
+
+
             //Task.Run(() => Thesaurus.LoadAllAsync()).Wait();
             //try {
             //    Thesaurus.InternalLookup(new Adverb("quickly"));
@@ -43,8 +43,12 @@ namespace Aluan_Experimentation
         private static void TestWordAndPhraseBindings() {
             var doc = TaggerUtil.LoadTextFile(new LASI.FileSystem.FileTypes.TextFile(testPath));
             PerformIntraPhraseBinding(doc);
-            PerformAttributeNounPhraseBinding(doc);
             PerformSVOBinding(doc);
+            new PronounBinder().Bind(doc);
+            foreach (var p in doc.Phrases.GetPronounPhrases())
+                Output.WriteLine(p);
+
+            PerformAttributeNounPhraseBinding(doc);
 
 
 
