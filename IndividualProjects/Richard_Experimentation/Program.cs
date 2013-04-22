@@ -45,8 +45,7 @@ namespace Richard_Experimentation
             Sentence target = new Sentence(phrases, new SentencePunctuation('.'));
             string test;
             test = target.Text;
-            Console.WriteLine(test);
-            Console.ReadLine();
+            Output.WriteLine(phrases.ToString());
         }
     }
 }
