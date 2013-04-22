@@ -36,22 +36,16 @@ ProcessingState.ComputingMetrics, ProcessingState.CrossReferencing, ProcessingSt
             progressLabel.Content = ProcessingState.ParsingTaggedData.ToString();
             var docs = await InstantiateDocuments();
             progressBar.Value += 25;
-            progressBar.ToolTip = ProcessingState.BuildingAssociations.ToString();
-            progressLabel.Content = ProcessingState.BuildingAssociations.ToString();
-            var k = await Task.WhenAll(from file in FileManager.TaggedFiles
-                                       select Task.Run(async () => await new TaggedFileParser(file).LoadDocumentAsync()).ContinueWith(async ds => {
-                                           var d = await ds;
-                                           Binder.Bind(d);
-                                           Weighter.Weight(d);
-                                           return d;
-                                       }));
-            return await Task.WhenAll(k);
-            //, TaskContinuationOptions.LongRunning);//    doc=> (from t in docs
-            //                   select Task.Run(async () => await Task.Run(() => Binder.Bind(t)).ContinueWith(async f => await Task.Run(() => Weighter.Weight(t)))));
-            //progressBar.Value += 40;
+            await BindLexicals(docs);
+            progressBar.ToolTip = ProcessingState.ParsingTaggedData.ToString();
+            progressLabel.Content = ProcessingState.ParsingTaggedData.ToString();
+            progressBar.Value += 20;
+            await WeightAllDocs(docs);
+            progressBar.ToolTip = ProcessingState.ParsingTaggedData.ToString();
+            progressLabel.Content = ProcessingState.ParsingTaggedData.ToString();
+            progressBar.Value += 20;
 
-            //return docs;
-
+            return docs;
         }
 
         private static async Task WeightAllDocs(IEnumerable<Document> docs) {
