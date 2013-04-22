@@ -61,7 +61,7 @@ namespace LASI.UserInterface
                         TextWrapping = TextWrapping.Wrap,
                         Text = docu,
                         FontSize = 12
-                        
+
 
 
                     },
@@ -84,11 +84,11 @@ namespace LASI.UserInterface
         private async void StartButton_Click(object sender, RoutedEventArgs e) {
             this.Hide();
             WindowManager.InProgressScreen.Show();
-           // WindowManager.InProgressScreen.Topmost = true;
-          
+            // WindowManager.InProgressScreen.Topmost = true;
+
             await WindowManager.InProgressScreen.InitProgressBar();
             //WindowManager.InProgressScreen.Hide();
-            
+
 
         }
 
@@ -120,8 +120,7 @@ namespace LASI.UserInterface
             var docSelected = DocumentPreview.SelectedItem;
             if (docSelected != null) {
                 DocumentPreview.Items.Remove(docSelected);
-                FileManager.RemoveAllNotIn(from TabItem d in DocumentPreview.Items
-                                           select d.Header as string);
+                FileManager.RemoveFile((docSelected as TabItem).Header.ToString());
                 CheckIfAddingAllowed();
             }
 
@@ -157,8 +156,7 @@ namespace LASI.UserInterface
         }
 
 
-        private void ProceedToResultsView()
-        {
+        private void ProceedToResultsView() {
             WindowManager.ResultsScreen.SetTitle(WindowManager.CreateProjectScreen.LastLoadedProjectName + " - L.A.S.I.");
             this.SwapWith(WindowManager.ResultsScreen);
             //WindowManager.ResultsScreen.BuildAssociationTextView();
