@@ -3,18 +3,25 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Project - L.A.S.I."  ResizeMode="CanResizeWithGrip" Icon="LasiLogo.ico" WindowState="Maximized" WindowStartupLocation="Manual"   >
     <Grid>
-        <Canvas Background="#FFF6F6F6" Margin="0,47,0,0">
-            <Button x:Name ="RemoveCurrentDocument" Content="Remove" Canvas.Left="40" Canvas.Top="45" Height="35" Width="35" Click="RemoveCurrentDocument_Click" Style="{DynamicResource RemoveDocumentStyle}" />
-            <Button x:Name ="AddNewDocumentButton" Content="Add" Canvas.Left="40" Canvas.Top="106" Height="35" Width="35" Click="AddNewDocument_Click" Style="{DynamicResource AddDocumentStyle}" />
-        </Canvas>
-        <Grid/>
+        <Canvas Background="#FFF6F6F6" Margin="0,51,0,0">
+            <Grid Height="443" Canvas.Top="10" Width="159"/>
+            
+      
+       </Canvas>
+        <Grid>
+            <Canvas Background="#FFE5E5E5" OpacityMask="#FF5A5A62" Canvas.Left ="44" Margin="10,86,0,14" HorizontalAlignment="Left" Width="140">
+                
+            <Button x:Name ="RemoveCurrentDocument" Content="Remove" Canvas.Left="26" Canvas.Top="40" Height="35" Width="35" Click="RemoveCurrentDocument_Click" Style="{DynamicResource RemoveDocumentStyle}" />
+            <Button x:Name ="AddNewDocumentButton" Content="Add" Canvas.Left="80" Canvas.Top="40" Height="35" Width="35" Click="AddNewDocument_Click" Style="{DynamicResource AddDocumentStyle}" OpacityMask="#FFDDDDDD" />
+            </Canvas>
+        </Grid>  
         <Menu Height="25" Margin="0,26,0,0" Background="#FFDDDADA" Opacity="0.85" Padding="10,4,0,4" VerticalAlignment="Top">
             <MenuItem x:Name="backButton" Background="#FFE8E1E1" Header=" &lt;-" BorderBrush="#FF878787" Click="backButton_Click_1"/>
             <MenuItem x:Name="forwardButton" Header=" -&gt;" Margin="10,0,0,0" Background="#FFEBE5E5" BorderBrush="#FF878787" Click="forwardButton_Click_1"/>
             <MenuItem x:Name ="startProcessingButton" Header="I &gt; Start" Margin="10,0,0,0" BorderBrush="#FF999999" Background="#FFEEE9E9" Click="StartButton_Click"/>
         </Menu>
-        <TabControl x:Name ="DocumentPreview" Margin="158,54,45,10"/>
-        <Menu Height="26" VerticalAlignment="Top" Margin="0,0,-2,0" >
+        <TabControl x:Name ="DocumentPreview" Margin="158,70,45,10"/>
+        <Menu Height="26" VerticalAlignment="Top" >
             <MenuItem Header="File">
                 <MenuItem Header="New" HorizontalAlignment="Left" Width="200">
                     <MenuItem Header="Project" Click="backButton_Click_1"/>
@@ -36,9 +43,7 @@
             <MenuItem Header="View"/>
             <MenuItem Header="Build"/>
             <MenuItem Header="Help"/>
-            <Border Width="320" >
-                <Separator Opacity="0" Margin="0,0,0,-1"/>
-            </Border>
+            <Separator/>
             <TextBox Height="20" HorizontalAlignment ="Right" TextWrapping="Wrap" Width="154" UndoLimit="200" AllowDrop="False" SelectionOpacity="0" Padding="1,1,1,2"/>
             <Button Content="Search" VerticalAlignment="Top" HorizontalAlignment="Right"/>
         </Menu>
