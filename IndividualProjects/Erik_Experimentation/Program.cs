@@ -1343,31 +1343,31 @@ namespace Erik_Experimentation
             decimal modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nn => {
-                    modTwo = 0; //adverb-uncaught-noun
+                    modTwo = 0.5m; //adverb-uncaught-noun
                 })
                 .Case<PastParticipleVerb>(vn => {
-                    modTwo = 0; //adverb-uncaught-pastverb 
+                    modTwo = 0.4m; //adverb-uncaught-pastverb 
                 })
                 .Case<Adjective>(advn => {
-                    modTwo = 0;  //adverb-uncaught-adjective
+                    modTwo = 0.3m;  //adverb-uncaught-adjective
                 })
                 .Case<Adverb>(advn => {
-                    modTwo = 0;  //adverb-uncaught-adverb
+                    modTwo = 0.3m;  //adverb-uncaught-adverb
                 })
                 .Case<Pronoun>(pnn => {
-                    modTwo = 0; //adverb-uncaught-noun 
+                    modTwo = 0.5m; //adverb-uncaught-noun 
                 })
                 .Case<ToLinker>(lnkn => {
-                    modTwo = 0; //adverb-uncaught directional 
+                    modTwo = 0.3m; //adverb-uncaught directional 
                 })
                 .Case<Preposition>(pren => {
-                    modTwo = 0; //adverb-uncaught positional
+                    modTwo = 0.2m; //adverb-uncaught positional
                 })
                 .Case<Determiner>(dn => {
-                    modTwo = 0; //adverb-uncaught determiner
+                    modTwo = 0.3m; //adverb-uncaught determiner
                 })
                 .Default(def => {
-                    modTwo = 0;
+                    modTwo = 0.1m;
                 });
             return modTwo;
         }
@@ -1376,31 +1376,31 @@ namespace Erik_Experimentation
             decimal modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nn => {
-                    modTwo = 0; //adverb-determiner-noun
+                    modTwo = 0.9m; //adverb-determiner-noun
                 })
                 .Case<PastParticipleVerb>(vn => {
-                    modTwo = 0; //adverb-determiner-verb descriptor
+                    modTwo = 0.3m; //adverb-determiner-verb descriptor
                 })
                 .Case<Adjective>(advn => {
-                    modTwo = 0;  //adverb-determiner-adjective
+                    modTwo = 0.8m;  //adverb-determiner-adjective
                 })
                 .Case<Adverb>(advn => {
-                    modTwo = 0;  //adverb-determiner-adverb
+                    modTwo = 0.7m;  //adverb-determiner-adverb
                 })
                 .Case<Pronoun>(pnn => {
-                    modTwo = 0; //adverb-determiner-noun
+                    modTwo = 0.9m; //adverb-determiner-noun
                 })
                 .Case<ToLinker>(lnkn => {
                     modTwo = 0; //adverb-determiner directional
                 })
                 .Case<Preposition>(pren => {
-                    modTwo = 0; //adverb-determiner positional
+                    modTwo = 0.3m; //adverb-determiner positional
                 })
                 .Case<Determiner>(dn => {
                     modTwo = 0; //adverb-determiner determiner
                 })
                 .Default(def => {
-                    modTwo = 0;
+                    modTwo = 0.1m;
                 });
             return modTwo;
         }
@@ -1442,31 +1442,31 @@ namespace Erik_Experimentation
             decimal modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nn => {
-                    modTwo = 0; //adverb-tolinker-noun
+                    modTwo = 0.9m; //adverb-tolinker-noun
                 })
                 .Case<PastParticipleVerb>(vn => {
-                    modTwo = 0; //adverb-tolinker-verb descriptor
+                    modTwo = 0.8m; //adverb-tolinker-verb descriptor
                 })
                 .Case<Adjective>(advn => {
-                    modTwo = 0;  //adverb-tolinker-adjective
+                    modTwo = 0.7m;  //adverb-tolinker-adjective
                 })
                 .Case<Adverb>(advn => {
-                    modTwo = 0;  //adverb-tolinker-adverb
+                    modTwo = 0.6m;  //adverb-tolinker-adverb
                 })
                 .Case<Pronoun>(pnn => {
-                    modTwo = 0; //adverb-tolinker-noun
+                    modTwo = 0.9m; //adverb-tolinker-noun
                 })
                 .Case<ToLinker>(lnkn => {
                     modTwo = 0; //adverb-tolinker directional
                 })
                 .Case<Preposition>(pren => {
-                    modTwo = 0; //adverb-tolinker positional
+                    modTwo = 0.3m; //adverb-tolinker positional
                 })
                 .Case<Determiner>(dn => {
-                    modTwo = 0; //adverb-tolinker determiner
+                    modTwo = 0.4m; //adverb-tolinker determiner
                 })
                 .Default(def => {
-                    modTwo = 0;
+                    modTwo = 0.1m;
                 });
             return modTwo;
         }
@@ -1475,31 +1475,31 @@ namespace Erik_Experimentation
             decimal modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nn => {
-                    modTwo = 0; //adverb compound noun
+                    modTwo = 0.5m; //adverb compound noun
                 })
                 .Case<PastParticipleVerb>(vn => {
-                    modTwo = 0; //adverb-noun-verb descriptor
+                    modTwo = 0.4m; //adverb-noun-verb descriptor
                 })
                 .Case<Adjective>(advn => {
-                    modTwo = 0;  //adverb-noun-adjective
+                    modTwo = 0.3m;  //adverb-noun-adjective
                 })
                 .Case<Adverb>(advn => {
                     modTwo = 0;  //adverb-noun-adverb
                 })
                 .Case<Pronoun>(pnn => {
-                    modTwo = 0; //adverb compound noun
+                    modTwo = 0.5m; //adverb compound noun
                 })
                 .Case<ToLinker>(lnkn => {
-                    modTwo = 0; //adverb-noun directional
+                    modTwo = 0.6m; //adverb-noun directional
                 })
                 .Case<Preposition>(pren => {
-                    modTwo = 0; //adverb-noun positional
+                    modTwo = 0.4m; //adverb-noun positional
                 })
                 .Case<Determiner>(dn => {
-                    modTwo = 0; //adverb-noun determiner
+                    modTwo = 0.4m; //adverb-noun determiner
                 })
                 .Default(def => {
-                    modTwo = 0;
+                    modTwo = 0.1m;
                 });
             return modTwo;
         }
@@ -1508,31 +1508,31 @@ namespace Erik_Experimentation
             decimal modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nn => {
-                    modTwo = 0; //adverb-adverb-noun
+                    modTwo = 0.3m; //adverb-adverb-noun
                 })
                 .Case<PastParticipleVerb>(vn => {
-                    modTwo = 0; //adverb-adverb-verb descriptor
+                    modTwo = 0.3m; //adverb-adverb-verb descriptor
                 })
                 .Case<Adjective>(advn => {
-                    modTwo = 0;  //adverb-adverb-adjective
+                    modTwo = 0.3m;  //adverb-adverb-adjective
                 })
                 .Case<Adverb>(advn => {
-                    modTwo = 0;  //tri adverbial
+                    modTwo = 0.1m;  //tri adverbial
                 })
                 .Case<Pronoun>(pnn => {
-                    modTwo = 0; //adverb-adverb-noun
+                    modTwo = 0.3m; //adverb-adverb-noun
                 })
                 .Case<ToLinker>(lnkn => {
-                    modTwo = 0; //adverb-adverb directional
+                    modTwo = 0.3m; //adverb-adverb directional
                 })
                 .Case<Preposition>(pren => {
-                    modTwo = 0; //adverb-adverb positional
+                    modTwo = 0.2m; //adverb-adverb positional
                 })
                 .Case<Determiner>(dn => {
-                    modTwo = 0; //adverb-adverb determiner
+                    modTwo = 0.3m; //adverb-adverb determiner
                 })
                 .Default(def => {
-                    modTwo = 0;
+                    modTwo = 0.1m;
                 });
             return modTwo;
         }
@@ -1541,31 +1541,31 @@ namespace Erik_Experimentation
             decimal modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nn => {
-                    modTwo = 0; //adverb-adjective-noun
+                    modTwo = 0.6m; //adverb-adjective-noun
                 })
                 .Case<PastParticipleVerb>(vn => {
-                    modTwo = 0; //adverb-adjective-verb descriptor
+                    modTwo = 0.4m; //adverb-adjective-verb descriptor
                 })
                 .Case<Adjective>(advn => {
-                    modTwo = 0;  //adverb-adjective-adjective
+                    modTwo = 0.5m;  //adverb-adjective-adjective
                 })
                 .Case<Adverb>(advn => {
-                    modTwo = 0;  //adverb-adjective-adverb
+                    modTwo = 0.4m;  //adverb-adjective-adverb
                 })
                 .Case<Pronoun>(pnn => {
-                    modTwo = 0; //adverb-adjective-noun
+                    modTwo = 0.6m; //adverb-adjective-noun
                 })
                 .Case<ToLinker>(lnkn => {
-                    modTwo = 0; //adverb-adjective directional
+                    modTwo = 0.5m; //adverb-adjective directional
                 })
                 .Case<Preposition>(pren => {
-                    modTwo = 0; //adverb-adjective positional
+                    modTwo = 0.4m; //adverb-adjective positional
                 })
                 .Case<Determiner>(dn => {
-                    modTwo = 0; //adverb-adjective determiner
+                    modTwo = 0.3m; //adverb-adjective determiner
                 })
                 .Default(def => {
-                    modTwo = 0;
+                    modTwo = 0.1m;
                 });
             return modTwo;
         }
@@ -1574,31 +1574,31 @@ namespace Erik_Experimentation
             decimal modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nn => {
-                    modTwo = 0; //adverb -> compound noun
+                    modTwo = 0.5m; //adverb -> compound noun
                 })
                 .Case<PastParticipleVerb>(vn => {
-                    modTwo = 0; //adverb-noun-verb descriptor (possible?)
+                    modTwo = 0.4m; //adverb-noun-verb descriptor (possible?)
                 })
                 .Case<Adjective>(advn => {
-                    modTwo = 0;  //adverb-noun-adjective
+                    modTwo = 0.3m;  //adverb-noun-adjective
                 })
                 .Case<Adverb>(advn => {
-                    modTwo = 0;  //adverb-noun-adverb
+                    modTwo = 0.3m;  //adverb-noun-adverb
                 })
                 .Case<Pronoun>(pnn => {
-                    modTwo = 0; //adverb -> compound (possessive) noun
+                    modTwo = 0.5m; //adverb -> compound (possessive) noun
                 })
                 .Case<ToLinker>(lnkn => {
-                    modTwo = 0; //adverb-noun directional
+                    modTwo = 0.3m; //adverb-noun directional
                 })
                 .Case<Preposition>(pren => {
-                    modTwo = 0; //adverb-noun positional
+                    modTwo = 0.4m; //adverb-noun positional
                 })
                 .Case<Determiner>(dn => {
-                    modTwo = 0; //adverb-noun determiner
+                    modTwo = 0.2m; //adverb-noun determiner
                 })
                 .Default(def => {
-                    modTwo = 0;
+                    modTwo = 0.1m;
                 });
             return modTwo;
         }
