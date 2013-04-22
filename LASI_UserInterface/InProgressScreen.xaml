@@ -93,6 +93,9 @@
                     </TransformGroup>
                 </ProgressBar.RenderTransform>
             </ProgressBar>
+            <Button Name="ProcedetoResultsButton" Content="Procede" Height="35" Canvas.Left="525" Canvas.Top="269" Width="71" Click="ProcedetoResultsButton_Click" Visibility="Hidden"/>
+            <Button x:Name="closeButton" Content="X" HorizontalAlignment="Center" VerticalAlignment="Top" Width="35" Height="32" FontWeight="Bold" FontSize="20"  UseLayoutRounding="True" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Background="#FFDDDDDD" BorderThickness="1" TabIndex="2" IsHitTestVisible="True" AllowDrop="True" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" IsManipulationEnabled="True" Click="closeButton_Click" FontFamily="Segoe Script" Canvas.Left="610" Canvas.Top="10" BorderBrush="#FF636366"/>
+            <Button x:Name="minButton" Content="-" HorizontalAlignment="Center" VerticalAlignment="Top" Width="35" Height="32" FontWeight="Bold" FontSize="20"  UseLayoutRounding="True" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Background="#FFDDDDDD" BorderThickness="1" TabIndex="2" IsHitTestVisible="True" AllowDrop="True" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" IsManipulationEnabled="True" Click="minButton_Click" FontFamily="Segoe Script" Canvas.Left="561" Canvas.Top="10" BorderBrush="#FF636366"/>
         </Canvas>
 
     </Grid>

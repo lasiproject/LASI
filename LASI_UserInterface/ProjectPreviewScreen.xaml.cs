@@ -82,13 +82,13 @@ namespace LASI.UserInterface
 
         }
         private async void StartButton_Click(object sender, RoutedEventArgs e) {
-
+            this.Hide();
             WindowManager.InProgressScreen.Show();
-            WindowManager.InProgressScreen.Topmost = true;
+           // WindowManager.InProgressScreen.Topmost = true;
           
             await WindowManager.InProgressScreen.InitProgressBar();
-            WindowManager.InProgressScreen.Hide();
-            ProceedToResultsView();
+            //WindowManager.InProgressScreen.Hide();
+            
 
         }
 
@@ -156,17 +156,17 @@ namespace LASI.UserInterface
             FileMenuAdd.IsEnabled = addingEnabled;
         }
 
+
         private void ProceedToResultsView()
         {
             WindowManager.ResultsScreen.SetTitle(WindowManager.CreateProjectScreen.LastLoadedProjectName + " - L.A.S.I.");
             this.SwapWith(WindowManager.ResultsScreen);
             //WindowManager.ResultsScreen.BuildAssociationTextView();
-           // WindowManager.ResultsScreen.BuildFullSortedView();
+            // WindowManager.ResultsScreen.BuildFullSortedView();
             WindowManager.ResultsScreen.BuildAssociationTextView();
             WindowManager.ResultsScreen.CreateInteractiveViews();
-            
+
         }
-      
 
 
     }

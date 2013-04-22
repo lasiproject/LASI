@@ -32,7 +32,7 @@ namespace LASI.UserInterface
             WindowStartupLocation = WindowStartupLocation.Manual;
             this.WindowStartupLocation = WindowStartupLocation.Manual;
             this.Left = (System.Windows.SystemParameters.WorkArea.Width - this.Width)/2;
-            this.Top = System.Windows.SystemParameters.WorkArea.Height - this.MaxHeight;
+            this.Top = (System.Windows.SystemParameters.WorkArea.Height - this.MaxHeight)/2;
 
 
         }

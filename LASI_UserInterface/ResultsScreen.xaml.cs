@@ -15,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Windows.Controls.DataVisualization.Charting;
+using System.Windows.Controls.DataVisualization;
 using System.Collections.ObjectModel;
 using LASI.Algorithm.Binding;
 using LASI.Utilities.TypedSwitch;
@@ -183,7 +184,7 @@ namespace LASI.UserInterface
                 foreach (var l in phraseLabels) {
                     panel.Children.Add(l);
                 }
-                ResultsTabControl.Items.Add(tab);
+                wordRelationshipsTab.Items.Add(tab);
             }
         }
 
@@ -195,12 +196,15 @@ namespace LASI.UserInterface
                 IndependentValuePath = "Key",
                 ItemsSource = valueList,
                 IsSelectionEnabled = true,
+                
+                
 
             };
             var chart = new Chart {
                 //Name = "ChartForDoc" + document.FileName,
                 Title = document.FileName + " Top Words",
                 Tag = valueList.ToArray()
+               
             };
 
             chart.Series.Add(series);
@@ -208,7 +212,9 @@ namespace LASI.UserInterface
             var tabItem = new TabItem {
                 Header = document.FileName,
                 Content = chart,
-                Tag = chart
+                Tag = chart,
+                
+               
             };
             FrequencyCharts.Items.Add(tabItem);
         }
@@ -226,7 +232,9 @@ namespace LASI.UserInterface
                     DependentValuePath = "Value",
                     IndependentValuePath = "Key",
                     ItemsSource = items,
-                    IsSelectionEnabled = true,
+                    IsSelectionEnabled = true
+                    
+                    
                 };
                 ResetChartContent(chart, series);
             }
@@ -261,6 +269,44 @@ namespace LASI.UserInterface
             foreach (var chart in FrequencyCharts.Items) {
                 var items = GetItemSourceFor(chart);
                 var series = new BarSeries {
+                    DependentValuePath = "Value",
+                    IndependentValuePath = "Key",
+                    ItemsSource = items,
+                    IsSelectionEnabled = true,
+                };
+                ResetChartContent(chart, series);
+            }
+            await Task.Delay(1);
+        }
+        /// <summary>
+        /// Reconfigures all charts to an Area perspective
+        /// </summary>
+        /// <returns>A Task which completes on the successful reconstruction of all charts</returns>
+        async Task ToAreaCharts()
+        {
+            foreach (var chart in FrequencyCharts.Items)
+            {
+                var items = GetItemSourceFor(chart);
+                var series = new AreaSeries
+                {
+                    DependentValuePath = "Value",
+                    IndependentValuePath = "Key",
+                    ItemsSource = items,
+                    IsSelectionEnabled = true,
+                };
+                ResetChartContent(chart, series);
+            }
+            await Task.Delay(1);
+        }
+
+
+        async Task ToLineCharts()
+        {
+            foreach (var chart in FrequencyCharts.Items)
+            {
+                var items = GetItemSourceFor(chart);
+                var series = new LineSeries
+                {
                     DependentValuePath = "Value",
                     IndependentValuePath = "Key",
                     ItemsSource = items,
@@ -305,7 +351,7 @@ namespace LASI.UserInterface
             valueList.AddRange(
                 (from w in topResultsForChart
                  orderby w.Weight descending
-                 select new KeyValuePair<string, int>(w.Text, (int) w.Weight))
+                 select new KeyValuePair<string, int>(w.Text, (int) w.Weight ))
                 .Take(15)
                 .ToList());
 
@@ -380,11 +426,20 @@ namespace LASI.UserInterface
         private async void ChangeToPieChartButton_Click(object sender, RoutedEventArgs e) {
             await ToPieCharts();
         }
+        private async void ChangeToAreaChartButton_Click(object sender, RoutedEventArgs e){
+            await ToAreaCharts();
+        }
+        private async void ChangeToLineChartButton_Click(object sender, RoutedEventArgs e)
+        {
+            await ToLineCharts();
+        }
 
         private void BindChartViewControls() {
             changeToBarChartButton.Click += ChangeToBarChartButton_Click;
             changeToColumnChartButton.Click += ChangeToColumnChartButton_Click;
             changeToPieChartButton.Click += ChangeToPieChartButton_Click;
+            changeToAreaChartButton.Click += ChangeToAreaChartButton_Click;
+            changeToLineChartButton.Click += ChangeToLineChartButton_Click;
         }
 
 

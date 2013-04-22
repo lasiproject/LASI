@@ -47,8 +47,9 @@
                 <Button.BorderBrush>
                     <SolidColorBrush Color="#FF707070" Opacity="0.3" />
                 </Button.BorderBrush>
-
             </Button>
+            <Button x:Name="changeToAreaChartButton" Content="Button" Height="45" Canvas.Left="58" Canvas.Top="94" Width="53"/>
+            <Button x:Name="changeToLineChartButton" Content="Button" Height="35" Canvas.Left="98" Canvas.Top="189" Width="35"/>
         </Canvas>
         <Grid Margin="0,0,0,0" />
 
@@ -64,12 +65,7 @@
 
             <TabItem Header="Word Relationships">
                 <Grid Background="#FFE5E5E5" Margin="0,0,1,0">
-                    <TabControl Height="380" VerticalAlignment="Top" Margin="0,0,-52,0">
-
-                        <TabItem Name="testassoci" Header="testassoci">
-                            <WrapPanel Name="AssociationPhrasePanal"></WrapPanel>
-                        </TabItem>
-                    </TabControl>
+                    <TabControl Name="wordRelationshipsTab"/>
                 </Grid>
             </TabItem>
 
