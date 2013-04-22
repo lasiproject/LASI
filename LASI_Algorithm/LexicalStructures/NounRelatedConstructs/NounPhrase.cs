@@ -205,6 +205,24 @@ namespace LASI.Algorithm
             set;
         }
 
+        /// <summary>
+        /// Gets or sets Noun to Nounphrase
+        /// </summary>
+        public Noun BindNoun
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// Gets or sets NounPhrase to NounPhrase
+        /// </summary>
+        public NounPhrase BindNounPhrase
+        {
+            get;
+            set;
+        }
+
 
         private IList<IDescriber> _describedBy = new List<IDescriber>();
         private IList<IEntity> _possessed = new List<IEntity>();

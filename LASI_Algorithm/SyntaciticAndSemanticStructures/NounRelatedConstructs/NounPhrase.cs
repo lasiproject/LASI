@@ -56,6 +56,7 @@ namespace LASI.Algorithm
             _boundPronouns.Add(pro);
             pro.BoundEntity = this;
         }
+
         /// <summary>
         /// Binds an IDescriber, generally an Adjective or AdjectivePhrase, as a descriptor of the NounPhrase.
         /// </summary>
@@ -115,6 +116,25 @@ namespace LASI.Algorithm
         /// Gets the ITransitiveVerbial instance, generally a TransitiveVerb or TransitiveVerbPhrase, which the NounPhrase is the INDIRECT object of.
         /// </summary>
         public virtual ITransitiveVerbial IndirectObjectOf {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// Function just for testing purposes: binds nounphrase to nounphrase
+        /// </summary>
+        /// <param name="nounPhrs"></param>
+        public NounPhrase BindNounPhrase
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// Function just for testing purposes: binds noun to nounphrase
+        /// </summary>
+        public Noun BindNoun
+        {
             get;
             set;
         }

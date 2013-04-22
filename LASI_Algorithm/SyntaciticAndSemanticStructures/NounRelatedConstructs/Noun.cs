@@ -173,6 +173,14 @@ namespace LASI.Algorithm
             set;
         }
 
+        /// <summary>
+        /// Gets or sets Noun Phrase 
+        /// </summary>
+        public NounPhrase BindNounPhrase
+        {
+            get;
+            set;
+        }
         #endregion
 
         #region Fields

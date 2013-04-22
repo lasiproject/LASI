@@ -16,6 +16,7 @@ namespace Scott_Experimentation
     class Program
     {
         static void Main(string[] args) {
+            /*
             var tagger1 = new SharpNLPTagger(TaggingOption.TagAndAggregate, @"C:\Users\Scott\Desktop\LasiTests\TestSentences.txt");
             var tagged1 = tagger1.ProcessFile();
             var paragraphs1 = new TaggedFileParser(tagged1).LoadParagraphs();
@@ -44,11 +45,6 @@ namespace Scott_Experimentation
             string TestString = "The Boy rides his big bold bike up a large steep hill. The tiny brown dog watched. I saw her book on your table. What's mine is yours, my friend. Johnny, Steve and I went to the old corner store to purchase some potently strong perfume.";
             var DocTest = LASI.Utilities.TaggerUtil.UntaggedToDoc(TestString);
 
-            
-
-
-
-
             //Noun Phrase Binding
             InterPhraseWordBinding ip1 = new InterPhraseWordBinding();
             foreach (var phrs in document5.Phrases.GetNounPhrases()) {
@@ -59,6 +55,43 @@ namespace Scott_Experimentation
             foreach (var vbphrs in document5.Phrases.GetVerbPhrases()) {
                 ip1.IntraVerbPhrase(vbphrs);
             }
+            */
+
+            // Test Case Demonstrations
+            string TestString = "Virginia is a state located on the east coast in the USA.  It is one of the original thirteen colonies.  It has both mountains and beaches.  It is known as the Land of the Presidents and the state motto is Virginia is for Lovers.";
+            var DocTest = LASI.Utilities.TaggerUtil.UntaggedToDoc(TestString);
+
+            var wrd1 = DocTest.Words.GetNouns().FirstOrDefault();
+            var phrs1 = DocTest.Phrases.GetNounPhrases().LastOrDefault();
+
+            Output.WriteLine("Word: {0}: ", wrd1);
+            Output.WriteLine("Word Weight Before Associations: {0}", wrd1.Weight);
+
+            wrd1.BindNounPhrase = phrs1;
+            wrd1.Weight++;
+
+            Output.WriteLine("Word Weight After Phrase Association: {0}", wrd1.Weight);
+
+            var nounWrd = DocTest.Words.GetNouns().LastOrDefault();
+            wrd1.SubTaxonomicNoun = nounWrd;
+            wrd1.Weight++;
+
+            Output.WriteLine("Word Weight After Word Association: {0}", wrd1.Weight);
+
+            Output.WriteLine("\nPhrase: {0}", phrs1);
+            Output.WriteLine("Phrase Weight Before Associations: {0}", phrs1.Weight);
+
+            phrs1.BindNoun = nounWrd;
+            phrs1.Weight++;
+
+            Output.WriteLine("Phrase Weight After Word Association: {0}", phrs1.Weight);
+
+            var nounPhrs = DocTest.Phrases.GetNounPhrases().FirstOrDefault();
+            phrs1.BindNounPhrase = nounPhrs;
+            phrs1.Weight++;
+
+            Output.WriteLine("Phrase Weight After Phrase Association: {0}", phrs1.Weight);
+
 
            
 

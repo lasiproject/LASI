@@ -154,6 +154,13 @@ namespace LASI.Algorithm
             get;
             protected set;
         }
+
+
+        public NounPhrase BindNounPhrase
+        {
+            get;
+            set;
+        }
         /// <summary>
         /// Gets or sets the single Noun which directly, in terms of reading order, specifies the current Noun instance.
         /// For example, consider the noun entity "Felis Catus", the taxonomic nomenclature of the common domestic cat 
