@@ -59,7 +59,9 @@ namespace LASI.UserInterface
                         IsReadOnly = true,
                         VerticalScrollBarVisibility = ScrollBarVisibility.Auto,
                         TextWrapping = TextWrapping.Wrap,
-                        Text = docu
+                        Text = docu,
+                        FontSize = 12
+                        
 
 
                     },

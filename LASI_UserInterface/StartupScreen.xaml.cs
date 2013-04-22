@@ -29,7 +29,10 @@ namespace LASI.UserInterface
             InitializeComponent();
             WindowManager.StartupScreen = this;
             BindWindowEventHandlers();
-            WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            WindowStartupLocation = WindowStartupLocation.Manual;
+            this.WindowStartupLocation = WindowStartupLocation.Manual;
+            this.Left = (System.Windows.SystemParameters.WorkArea.Width - this.Width)/2;
+            this.Top = System.Windows.SystemParameters.WorkArea.Height - this.MaxHeight;
 
 
         }
@@ -56,24 +59,29 @@ namespace LASI.UserInterface
             await SetUpDirectory();
 
             if (Height == 250) {
-                for (var i = 0; i < 300; i += 10) {
+                for (var i = 0; i < 270; i += 10) {
                     Height += 10;
                     await Task.Delay(8);
                 }
 
-            } else {
-                if (Height == 550) {
-                    for (var i = 0; i < 300 && Height > 250; i += 10) {
-                        Height -= 10;
-                        await Task.Delay(8);
-                    }
-                }
+            
 
             }
 
 
         }
+        private async void CancelButton_Click(object sender, RoutedEventArgs e)
+        {
 
+            if (Height == 520)
+            {
+                for (var i = 0; i < 270 && Height > 250; i += 10)
+                {
+                    Height -= 10;
+                    await Task.Delay(8);
+                }
+            }
+        }
         private async Task SetUpDirectory() {
             ProjectLocation = await Task.Run(() => {
                 var location = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\LASI_Projects";
@@ -112,7 +120,8 @@ namespace LASI.UserInterface
             var button = new Button {
                 Content = num.ToString(),
                 Height = 20,
-                Width = 20
+                Width = 20,
+                Style = FindResource("xButton") as Style
             };
 
 
@@ -285,10 +294,7 @@ namespace LASI.UserInterface
             this.Close();
 
         }
-        private void CancelButton_Click(object sender, RoutedEventArgs e) {
 
-            this.SwapWith(WindowManager.StartupScreen);
-        }
         #endregion
 
 

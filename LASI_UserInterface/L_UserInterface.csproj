@@ -274,9 +274,6 @@
     <Resource Include="inprogress.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="NameErrorImage.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="NothingFilledError.png" />
   </ItemGroup>
   <ItemGroup>
@@ -285,7 +282,9 @@
   <ItemGroup>
     <Resource Include="3paws.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="NameErrorImage.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
