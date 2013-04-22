@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Project - L.A.S.I."  ResizeMode="CanResizeWithGrip" Icon="LasiLogo.ico" WindowState="Maximized" WindowStartupLocation="Manual"   >
     <Grid>
-        <Canvas Background="#FFF6F6F6" Margin="0,51,0,0">
+        <Canvas Background="#FFF6F6F6" Margin="0,56,0,0">
             <Grid Height="443" Canvas.Top="10" Width="159"/>
             
       
@@ -15,7 +15,7 @@
             <Button x:Name ="AddNewDocumentButton" Content="Add" Canvas.Left="80" Canvas.Top="40" Height="35" Width="35" Click="AddNewDocument_Click" Style="{DynamicResource AddDocumentStyle}" OpacityMask="#FFDDDDDD" />
             </Canvas>
         </Grid>  
-        <Menu Height="25" Margin="0,26,0,0" Background="#FFDDDADA" Opacity="0.85" Padding="10,4,0,4" VerticalAlignment="Top">
+        <Menu Height="30" Margin="0,26,0,0" Background="#FFDDDADA" Opacity="0.85" Padding="10,4,0,4" VerticalAlignment="Top">
             <MenuItem x:Name="backButton" Background="#FFE8E1E1" Header=" &lt;-" BorderBrush="#FF878787" Click="backButton_Click_1"/>
             <MenuItem x:Name="forwardButton" Header=" -&gt;" Margin="10,0,0,0" Background="#FFEBE5E5" BorderBrush="#FF878787" Click="forwardButton_Click_1"/>
             <MenuItem x:Name ="startProcessingButton" Header="I &gt; Start" Margin="10,0,0,0" BorderBrush="#FF999999" Background="#FFEEE9E9" Click="StartButton_Click"/>
