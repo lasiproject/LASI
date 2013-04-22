@@ -188,7 +188,7 @@ namespace LASI.UserInterface
                 wordRelationshipsTab.Items.Add(tab);
             }
         }
-
+        Dictionary<Chart, Document> documetnsByChart = new Dictionary<Chart, Document>();
         public void BuildDefaultBarChartDisplay(Document document) {
 
             var valueList = ProjectToChartItemSource(document);
@@ -197,25 +197,27 @@ namespace LASI.UserInterface
                 IndependentValuePath = "Key",
                 ItemsSource = valueList,
                 IsSelectionEnabled = true,
-                
-                
+                Tag = document
+
 
             };
+
+
             var chart = new Chart {
                 //Name = "ChartForDoc" + document.FileName,
                 Title = document.FileName + " Top Words",
                 Tag = valueList.ToArray()
-               
-            };
 
+            };
+            documetnsByChart.Add(chart, document);
             chart.Series.Add(series);
 
             var tabItem = new TabItem {
                 Header = document.FileName,
                 Content = chart,
-                Tag = chart,
-                
-               
+                Tag = chart
+
+
             };
             FrequencyCharts.Items.Add(tabItem);
         }
@@ -234,8 +236,8 @@ namespace LASI.UserInterface
                     IndependentValuePath = "Key",
                     ItemsSource = items,
                     IsSelectionEnabled = true
-                    
-                    
+
+
                 };
                 ResetChartContent(chart, series);
             }
@@ -283,13 +285,10 @@ namespace LASI.UserInterface
         /// Reconfigures all charts to an Area perspective
         /// </summary>
         /// <returns>A Task which completes on the successful reconstruction of all charts</returns>
-        async Task ToAreaCharts()
-        {
-            foreach (var chart in FrequencyCharts.Items)
-            {
+        async Task ToAreaCharts() {
+            foreach (var chart in FrequencyCharts.Items) {
                 var items = GetItemSourceFor(chart);
-                var series = new AreaSeries
-                {
+                var series = new AreaSeries {
                     DependentValuePath = "Value",
                     IndependentValuePath = "Key",
                     ItemsSource = items,
@@ -301,13 +300,10 @@ namespace LASI.UserInterface
         }
 
 
-        async Task ToLineCharts()
-        {
-            foreach (var chart in FrequencyCharts.Items)
-            {
+        async Task ToLineCharts() {
+            foreach (var chart in FrequencyCharts.Items) {
                 var items = GetItemSourceFor(chart);
-                var series = new LineSeries
-                {
+                var series = new LineSeries {
                     DependentValuePath = "Value",
                     IndependentValuePath = "Key",
                     ItemsSource = items,
@@ -330,7 +326,7 @@ namespace LASI.UserInterface
         private List<KeyValuePair<string, int>> GetItemSourceFor(object chart) {
             var chartSource = ((chart as TabItem).Content as Chart).Tag as IEnumerable<KeyValuePair<string, int>>;
             var items = (from i in chartSource.ToArray()
-                         select new KeyValuePair<string, int>(i.Key.ToString(), (int) i.Value)).ToList();
+                         select new KeyValuePair<string, int>(i.Key.ToString(), (int)i.Value)).ToList();
             return items;
         }
 
@@ -352,7 +348,7 @@ namespace LASI.UserInterface
             valueList.AddRange(
                 (from w in topResultsForChart
                  orderby w.Weight descending
-                 select new KeyValuePair<string, int>(w.Text, (int) w.Weight ))
+                 select new KeyValuePair<string, int>(w.Text, (int)w.Weight))
                 .Take(15)
                 .ToList());
 
@@ -363,8 +359,30 @@ namespace LASI.UserInterface
 
 
 
+        private void SetChartSource(GraphResultKind kind) {
+            foreach (var pair in documetnsByChart) {
+                IEnumerable<KeyValuePair<string, int>> data = null;
+                switch (kind) {
+                    case GraphResultKind.SubjectVerb:
 
-
+                        data = from v in pair.Value.Phrases.GetVerbPhrases().WithSubject()
+                               from s in v.BoundSubjects
+                               orderby s.Weight + v.Weight
+                               let SV = new KeyValuePair<string, int>(string.Format("{0} -> {1}", s.Text, v.Text), (int)s.Weight)
+                               group SV by SV into svg
+                               select svg.Key;
+                        break;
+                }
+                pair.Key.Series.Clear();
+                pair.Key.Series.Add(new BarSeries {
+                    DependentValuePath = "Value",
+                    IndependentValuePath = "Key",
+                    ItemsSource = data,
+                    IsSelectionEnabled = true
+                });
+                pair.Key.Title = string.Format("Key Relationships in {0}", pair.Value.FileName);
+            }
+        }
         private List<Document> documents = new List<Document>();
         public List<Document> Documents {
             get {
@@ -403,7 +421,8 @@ namespace LASI.UserInterface
             var focusedChart = (FrequencyCharts.SelectedItem as TabItem).Content as Visual;
             try {
                 printDialog.PrintVisual(focusedChart, "Current View");
-            } catch (NullReferenceException) {
+            }
+            catch (NullReferenceException) {
             }
 
         }
@@ -427,11 +446,10 @@ namespace LASI.UserInterface
         private async void ChangeToPieChartButton_Click(object sender, RoutedEventArgs e) {
             await ToPieCharts();
         }
-        private async void ChangeToAreaChartButton_Click(object sender, RoutedEventArgs e){
+        private async void ChangeToAreaChartButton_Click(object sender, RoutedEventArgs e) {
             await ToAreaCharts();
         }
-        private async void ChangeToLineChartButton_Click(object sender, RoutedEventArgs e)
-        {
+        private async void ChangeToLineChartButton_Click(object sender, RoutedEventArgs e) {
             await ToLineCharts();
         }
 
@@ -451,13 +469,13 @@ namespace LASI.UserInterface
                     var docWriter = new LASI.FileSystem.Serialization.XML.SimpleLexicalSerializer(
                     FileManager.ResultsDir + System.IO.Path.DirectorySeparatorChar + new string(
                     doc.FileName.TakeWhile(c => c != '.').ToArray()) + ".xml")) {
-                     docWriter.Write(from S in doc.Sentences
-                                                     from R in S.Phrases
-                                                     select R, doc.FileName, FileSystem.Serialization.XML.DegreeOfOutput.Comprehensive);
+                    docWriter.Write(from S in doc.Sentences
+                                    from R in S.Phrases
+                                    select R, doc.FileName, FileSystem.Serialization.XML.DegreeOfOutput.Comprehensive);
                 }
             }
             var exportDialog = new DialogToProcedeToResults();
-         exportDialog.ShowDialog();
+            exportDialog.ShowDialog();
         }
 
 
@@ -465,6 +483,10 @@ namespace LASI.UserInterface
         public bool AutoExport {
             get;
             set;
+        }
+
+        private void SetChartSourceButton_Click(object sender, RoutedEventArgs e) {
+            SetChartSource(GraphResultKind.SubjectVerb);
         }
     }
 }

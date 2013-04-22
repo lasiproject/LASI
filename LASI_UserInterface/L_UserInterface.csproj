@@ -90,6 +90,7 @@
     <Compile Include="Dialogs\DialogToProcedeToResults.xaml.cs">
       <DependentUpon>DialogToProcedeToResults.xaml</DependentUpon>
     </Compile>
+    <Compile Include="GraphResultKind.cs" />
     <Compile Include="GuiILexicalExtensions\IVerbialExtensions.cs" />
     <Compile Include="InProgressScreen.xaml.cs">
       <DependentUpon>InProgressScreen.xaml</DependentUpon>

@@ -32,6 +32,7 @@
     
         <Canvas Background="#FFF6F6F6" Margin="0,26,0,0">
             <Grid Height="459" Canvas.Top="10" Canvas.Left="-2" Width="159"/>
+            <Button Content="Set Source" Canvas.Left="545" Canvas.Top="20" Width="75" Click="SetChartSourceButton_Click"/>
 
 
         </Canvas>
