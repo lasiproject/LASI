@@ -41,11 +41,7 @@ namespace Richard_Experimentation
 
 
         static void Main(string[] args) {
-            Phrase[] phrases = new Phrase[] { new NounPhrase(new Word[] { new ProperSingularNoun("LASI") }), new VerbPhrase(new Word[] { new PastTenseVerb("found") }), new NounPhrase(new Word[] { new ProperPluralNoun("TIMIS") }) };
-            Sentence target = new Sentence(phrases, new SentencePunctuation('.'));
-            string test;
-            test = target.Text;
-            Output.WriteLine(phrases.ToString());
+     
         }
     }
 }

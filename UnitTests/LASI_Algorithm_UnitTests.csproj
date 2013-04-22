@@ -104,6 +104,7 @@
     <Compile Include="PastPrtcplVerbTest.cs" />
     <Compile Include="PastTenseVerbTest.cs" />
     <Compile Include="PersonalPronounTest.cs" />
+    <Compile Include="PhraseTest.cs" />
     <Compile Include="PrepositionalPhraseTest.cs" />
     <Compile Include="PrepositionTest.cs" />
     <Compile Include="ProperPluralNounTest.cs" />
