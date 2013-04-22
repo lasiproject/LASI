@@ -223,7 +223,9 @@ namespace LASI.FileSystem
 
             RemoveFile(file as dynamic);
         }
-
+        public static void RemoveFile(string file) {
+            RemoveAllAlikeFiles(file);
+        }
 
         static void RemoveFile(TextFile file) {
             textFiles.Remove(file);
