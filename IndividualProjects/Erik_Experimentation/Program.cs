@@ -164,76 +164,7 @@ namespace Erik_Experimentation
                     new Switch(w)
                        .Case<Noun>(n =>
                        {
-                           new Switch(next)
-                                  .Case<Noun>(nn =>
-                                  {
-                                      modOne = 0; //compound noun
-
-                                      //second (Noun -> Noun)
-                                      modTwo = NounNoun(nextNext);
-                                  })
-                                  .Case<Adjective>(nadj =>
-                                  {
-                                      modOne = 0; //possessive
-
-                                      //second (Noun -> Adjective)
-                                      modTwo = NounAdjective(nextNext);
-                                  })
-                                  .Case<Verb>(nv =>
-                                  {
-                                      modOne = 0; //noun action or descriptor
-                                      if (next is PastParticipleVerb)
-                                      {
-                                          modOne = 0; //noun action-ed
-                                      }
-
-                                      //second (Noun -> Verb)
-                                      modTwo = NounVerb(nextNext);
-                                  })
-                                  .Case<Adverb>(advn =>
-                                  {
-                                      modOne = 0;  //noun amplifier
-
-                                      //second (Noun -> Adverb)
-                                      modTwo = NounAdverb(nextNext);
-                                  })
-                                  .Case<Pronoun>(pnn =>
-                                  {
-                                      modOne = 0; //compound noun
-
-                                      //second (Noun -> Pronoun)
-                                      modTwo = NounPronoun(nextNext);
-
-
-                                  })
-                                  .Case<ToLinker>(lnkn =>
-                                  {
-                                      modOne = 0; //noun to link
-
-                                      //second (Noun -> ToLinker)
-                                      modTwo = NounToLinker(nextNext);
-                                  })
-                                  .Case<Preposition>(pren =>
-                                  {
-                                      modOne = 0; //noun positional
-
-                                      //second (Noun -> Preposition)
-                                      modTwo = NounPreposition(nextNext);
-                                  })
-                                  .Case<Determiner>(dn =>
-                                  {
-                                      modOne = 0; //determiner
-
-                                      //second (Noun -> Determiner)
-                                      modTwo = NounDeterminer(nextNext);
-                                  })
-                                  .Default(def =>
-                                  {
-                                      modOne = 0;
-
-                                      //second (Noun -> UNCAUGHT)
-                                      modTwo = NounUncaught(nextNext);
-                                  });
+                           Noun(next, nextNext, out modOne, out modTwo);
 
                        })
                        .Case<Verb>(v =>
@@ -799,6 +730,80 @@ namespace Erik_Experimentation
             // Console.WriteLine("Press escape to exit");
             //}
 
+        }
+
+        private static void Noun(Word next, Word nextNext, out decimal modOne, out decimal modTwo)
+        {
+            new Switch(next)
+                   .Case<Noun>(nn =>
+                   {
+                       modOne = 0; //compound noun
+
+                       //second (Noun -> Noun)
+                       modTwo = NounNoun(nextNext);
+                   })
+                   .Case<Adjective>(nadj =>
+                   {
+                       modOne = 0; //possessive
+
+                       //second (Noun -> Adjective)
+                       modTwo = NounAdjective(nextNext);
+                   })
+                   .Case<Verb>(nv =>
+                   {
+                       modOne = 0; //noun action or descriptor
+                       if (next is PastParticipleVerb)
+                       {
+                           modOne = 0; //noun action-ed
+                       }
+
+                       //second (Noun -> Verb)
+                       modTwo = NounVerb(nextNext);
+                   })
+                   .Case<Adverb>(advn =>
+                   {
+                       modOne = 0;  //noun amplifier
+
+                       //second (Noun -> Adverb)
+                       modTwo = NounAdverb(nextNext);
+                   })
+                   .Case<Pronoun>(pnn =>
+                   {
+                       modOne = 0; //compound noun
+
+                       //second (Noun -> Pronoun)
+                       modTwo = NounPronoun(nextNext);
+
+
+                   })
+                   .Case<ToLinker>(lnkn =>
+                   {
+                       modOne = 0; //noun to link
+
+                       //second (Noun -> ToLinker)
+                       modTwo = NounToLinker(nextNext);
+                   })
+                   .Case<Preposition>(pren =>
+                   {
+                       modOne = 0; //noun positional
+
+                       //second (Noun -> Preposition)
+                       modTwo = NounPreposition(nextNext);
+                   })
+                   .Case<Determiner>(dn =>
+                   {
+                       modOne = 0; //determiner
+
+                       //second (Noun -> Determiner)
+                       modTwo = NounDeterminer(nextNext);
+                   })
+                   .Default(def =>
+                   {
+                       modOne = 0;
+
+                       //second (Noun -> UNCAUGHT)
+                       modTwo = NounUncaught(nextNext);
+                   });
         }
 
         private static decimal UncaughtUncaught(Word nextNext)
