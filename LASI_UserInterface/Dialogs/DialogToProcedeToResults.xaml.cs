@@ -23,11 +23,9 @@ namespace LASI.UserInterface.Dialogs
             InitializeComponent();
         }
 
-        private void ContinueButton_Click(object sender, RoutedEventArgs e) {
+        private void OkButton_Click(object sender, RoutedEventArgs e) {
             this.Close();
-            if (this.Owner == WindowManager.InProgressScreen) {
-                WindowManager.ResultsScreen.AutoExport = true;
-            }
+            
         }
     }
 }

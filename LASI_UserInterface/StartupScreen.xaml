@@ -21,7 +21,7 @@
  <Rectangle Fill="#FFEAEAEC" Margin="10,0" Stroke="#FF636366" ClipToBounds="True" StrokeThickness="3" Opacity="0.5" Height="262" VerticalAlignment="Top"  />
 
 
-            <TextBlock TextWrapping="Wrap" FontSize="27" Canvas.Left="159" FontFamily="Segoe Script" Text="Create New Project" Foreground="#FFC21300" FontWeight="Bold" Margin="34,28,322,0" Height="50" VerticalAlignment="Top" />
+            <TextBlock TextWrapping="Wrap" FontSize="27" Canvas.Left="159" FontFamily="Segoe Print" Text="Create New Project" Foreground="#FFC21300" FontWeight="Bold" Margin="34,28,322,0" Height="50" VerticalAlignment="Top" />
 
             <TextBlock Height="16" Canvas.Left="42" TextWrapping="Wrap" Text="Name:" Canvas.Top="154" TextAlignment="Left" LineHeight="6" Margin="30,117,577,0" VerticalAlignment="Top" FontFamily="Segoe UI Semilight" />
             <TextBox x:Name="EnteredProjectName" Canvas.Left="178" TextWrapping="Wrap" Canvas.Top="54" MaxLines="1" TextChanged="EnteredProjectName_TextChanged" Margin="109,117,404,0" Height="19" VerticalAlignment="Top" FontSize="12" UseLayoutRounding="True" />
@@ -54,7 +54,7 @@
             <Label x:Name="ProjCreateErrorLabel" Content="Label" Canvas.Left="304" Canvas.Top="181" Height="28" Width="178" Foreground="Red" Visibility="Hidden" Margin="60,176,423,96"/>
             <Image x:Name="NothingFilledImage" HorizontalAlignment="Left" Height="78" Margin="366,28,0,0" VerticalAlignment="Top" Width="263" Source="NothingFilledError.png" Visibility="Hidden" />
             <Button x:Name="CancelButton" Content="Cancel" Canvas.Left="455" Canvas.Top="224" RenderTransformOrigin="0.035,1.507" Click="CancelButton_Click" Margin="285,225,322,0" Height="27" VerticalAlignment="Top" Style="{DynamicResource cancelButton}" />
-            <Image x:Name="NoDocumentsImage" HorizontalAlignment="Left" Height="78" Margin="393,39,0,0" VerticalAlignment="Top" Width="242" Source="nodocumentserror.png" Visibility="Hidden"/>
+            <Image x:Name="NoDocumentsImage" HorizontalAlignment="Left" Height="89" Margin="375,28,0,0" VerticalAlignment="Top" Width="260" Source="nodocumentserror.png" Visibility="Hidden"/>
             <Image x:Name="threepaws" HorizontalAlignment="Left" Height="68" Margin="385,28,0,0" VerticalAlignment="Top" Width="238" Source="3paws.png" Visibility="Visible"/>
 
 
@@ -64,8 +64,8 @@
         <Canvas Background="#FFE8E8E8" Margin="0,0,0,3">
             <Button x:Name="closeButton" Content="X" HorizontalAlignment="Center" VerticalAlignment="Top" Width="35" Height="32" FontWeight="Bold" FontSize="20"  UseLayoutRounding="True" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Background="#FFDDDDDD" BorderThickness="1" TabIndex="2" IsHitTestVisible="True" AllowDrop="True" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" IsManipulationEnabled="True" Click="closeButton_Click" FontFamily="Segoe Script" Canvas.Left="610" Canvas.Top="10" BorderBrush="#FF636366"/>
 
-                <Button x:Name="createProjectButton" Content="Create" Margin="487,102,0,117" FontSize="20" Foreground="Black" Click="createProjectButton_Click" HorizontalAlignment="Left" Width="106" FontFamily="Segoe Script" RenderTransformOrigin="1,0" Background="#FFDDDDDD" BorderBrush="#FF636366" Style="{DynamicResource CreateButton}"/>
-            <Button x:Name="loadProjectButton" Content="Load " Margin="487,179,0,40" FontSize="20" HorizontalAlignment="Left" Width="106" FontFamily="Segoe Script" RenderTransformOrigin="0.5,0.5" Background="#FFDDDDDD" BorderBrush="#FF636366" Style="{DynamicResource loadButton}"/>
+                <Button x:Name="createProjectButton" Content="Create" Margin="487,102,0,117" FontSize="20" Foreground="Black" Click="createProjectButton_Click" HorizontalAlignment="Left" Width="106" FontFamily="Segoe Print" RenderTransformOrigin="1,0" Background="#FFDDDDDD" BorderBrush="#FF636366" Style="{DynamicResource CreateButton}"/>
+            <Button x:Name="loadProjectButton" Content="Load " Margin="487,179,0,40" FontSize="20" HorizontalAlignment="Left" Width="106" FontFamily="Segoe Print" RenderTransformOrigin="0.5,0.5" Background="#FFDDDDDD" BorderBrush="#FF636366" Style="{DynamicResource loadButton}"/>
                 <Image Height="250" Canvas.Left="5" Width="482" Source="lasisplash1.png" Stretch="UniformToFill"/>
 
         </Canvas>

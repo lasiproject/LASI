@@ -23,8 +23,6 @@
             <MenuItem Header="Build" HorizontalAlignment="Left" />
             <MenuItem Header="Help" HorizontalAlignment="Left" />
             <Separator HorizontalAlignment="Stretch" />
-            <TextBox x:Name="SearchTextBox" HorizontalAlignment="Right" FontSize="10" Height="20" TextWrapping="Wrap" Width="154" UndoLimit="200" AllowDrop="False" SelectionOpacity="0" Padding="1,1,1,2" />
-            <Button x:Name="SearchButton" Content="Search" VerticalAlignment="Top" HorizontalAlignment="Right" />
         </Menu>
         <Canvas Background="#FFF6F6F6" Margin="0,51,0,0">
             <Grid Height="433" Canvas.Top="10" Width="159"/>
@@ -39,7 +37,7 @@
         </Canvas>
         
         <Grid Margin="0,0,0,0" >
-            <Canvas Background="#FFE5E5E5" OpacityMask="#FF5A5A62" Margin="8,68,644,33">
+            <Canvas Background="#FFE5E5E5" OpacityMask="#FF5A5A62" Margin="8,68,0,33" HorizontalAlignment="Left" Width="140">
                 <Button x:Name="exportButton" Content="Export" HorizontalAlignment="Left" VerticalAlignment="Top" Width="35" Canvas.Left="53" Canvas.Top="122" Click="exportButton_Click" Height="35" FontSize="9" Background="#FFEBEBEB"/>
                 <Button x:Name="printButton" Height="35" Canvas.Left="11" Canvas.Top="122" Width="35" Style="{DynamicResource ControlStyle1}" Click="printButton_Click_1" />
                 <Button x:Name="changeToColumnChartButton" Height="35" Canvas.Left="11" Canvas.Top="40" Width="35" Style="{DynamicResource ChangeChartTypeColumn}" MaxWidth="50" MaxHeight="50" Margin="0" Padding="10,1,1,1" BorderThickness="0.5,0.5,0.55,0.5" ClipToBounds="True" Background="#FFDDDDDD" ClickMode="Press">

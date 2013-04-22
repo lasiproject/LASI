@@ -281,16 +281,16 @@
     <Resource Include="inprogress.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="NothingFilledError.png" />
+    <Resource Include="3paws.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="NameErrorImage.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="nodocumentserror.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="3paws.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="NameErrorImage.png" />
+    <Resource Include="NothingFilledError.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

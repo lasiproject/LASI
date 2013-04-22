@@ -21,6 +21,7 @@ using LASI.Algorithm.Binding;
 using LASI.Utilities.TypedSwitch;
 using LASI.Algorithm.Analysis;
 using LASI.Utilities;
+using LASI.UserInterface.Dialogs;
 
 namespace LASI.UserInterface
 {
@@ -455,6 +456,8 @@ namespace LASI.UserInterface
                                                      select R, doc.FileName, FileSystem.Serialization.XML.DegreeOfOutput.Comprehensive);
                 }
             }
+            var exportDialog = new DialogToProcedeToResults();
+         exportDialog.ShowDialog();
         }
 
 
