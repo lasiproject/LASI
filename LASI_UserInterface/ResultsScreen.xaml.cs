@@ -205,7 +205,7 @@ namespace LASI.UserInterface
 
             var chart = new Chart {
                 //Name = "ChartForDoc" + document.FileName,
-                Title = document.FileName + " Top Words",
+                Title = string.Format("Key Relationships in {0}", document.FileName),
                 Tag = valueList.ToArray()
 
             };
@@ -259,6 +259,10 @@ namespace LASI.UserInterface
                     ItemsSource = items,
                     IsSelectionEnabled = true,
                 };
+                series.IsMouseCaptureWithinChanged += (sender, e) => {
+                    series.ToolTip = (series.SelectedItem as DataPoint).DependentValue;
+                };
+
                 ResetChartContent(chart, series);
             }
             await Task.Delay(1);
@@ -326,7 +330,7 @@ namespace LASI.UserInterface
         private List<KeyValuePair<string, int>> GetItemSourceFor(object chart) {
             var chartSource = ((chart as TabItem).Content as Chart).Tag as IEnumerable<KeyValuePair<string, int>>;
             var items = (from i in chartSource.ToArray()
-                         select new KeyValuePair<string, int>(i.Key.ToString(), (int)i.Value)).ToList();
+                         select new KeyValuePair<string, int>(i.Key.ToString(), (int) i.Value)).ToList();
             return items;
         }
 
@@ -337,54 +341,52 @@ namespace LASI.UserInterface
 
 
         private List<KeyValuePair<string, int>> ProjectToChartItemSource(Document document) {
-            var topResultsForChart = document.Phrases.GetNounPhrases().Concat<Phrase>(document.Phrases.GetAdverbPhrases()).
-                   Concat<Phrase>(document.Phrases.GetAdjectivePhrases()).Concat<Phrase>(document.Phrases.GetVerbPhrases()).
-                   GroupBy(w => new {
-                       w.Text,
-                       w.Type
-                   }).Select(g => g.First());
 
-            var valueList = new List<KeyValuePair<string, int>>();
-            valueList.AddRange(
-                (from w in topResultsForChart
-                 orderby w.Weight descending
-                 select new KeyValuePair<string, int>(w.Text, (int)w.Weight))
-                .Take(15)
-                .ToList());
 
-            valueList.Reverse();
-            return valueList;
+            return GetSVData(document).Take(15).ToList();
         }
 
 
 
 
-        private void SetChartSource(GraphResultKind kind) {
+        private void ChangeChartKind(ChartKind chartKind) {
             foreach (var pair in documetnsByChart) {
-                IEnumerable<KeyValuePair<string, int>> data = null;
-                switch (kind) {
-                    case GraphResultKind.SubjectVerb:
 
-                        data = from v in pair.Value.Phrases.GetVerbPhrases().WithSubject()
-                               from s in v.BoundSubjects
-                               orderby s.Weight + v.Weight
-                               let SV = new KeyValuePair<string, int>(string.Format("{0} -> {1}", s.Text, v.Text), (int)s.Weight)
-                               group SV by SV into svg
-                               orderby svg.Sum(s => s.Value)
-                               select svg.Key;
+                switch (chartKind) {
+                    case ChartKind.SubjectVerb:
+                        Document doc = pair.Value;
+                        Chart chart = pair.Key;
+
+                        IEnumerable<KeyValuePair<string, int>> data = GetSVData(doc);
                         data = data.Take(15);
+                        pair.Key.Series.Clear();
+                        pair.Key.Series.Add(new BarSeries {
+                            DependentValuePath = "Value",
+                            IndependentValuePath = "Key",
+                            ItemsSource = data,
+                            IsSelectionEnabled = true
+                        });
+                        chart.Title = string.Format("Key Relationships in {0}", pair.Value.FileName);
                         break;
                 }
-                pair.Key.Series.Clear();
-                pair.Key.Series.Add(new BarSeries {
-                    DependentValuePath = "Value",
-                    IndependentValuePath = "Key",
-                    ItemsSource = data,
-                    IsSelectionEnabled = true
-                });
-                pair.Key.Title = string.Format("Key Relationships in {0}", pair.Value.FileName);
             }
         }
+
+        private static IEnumerable<KeyValuePair<string, int>> GetSVData(Document doc) {
+            IEnumerable<KeyValuePair<string, int>> data =
+                from v in doc.Phrases.GetVerbPhrases().WithSubject()
+                from s in v.BoundSubjects
+                let relationWeight = s.Weight + v.Weight
+                orderby relationWeight
+                let SV = new KeyValuePair<string, int>(string.Format("{0} -> {1}", s.Text, v.Text), (int) relationWeight)
+                group SV by SV into svg
+                orderby svg.Sum(s => s.Value)
+                select svg.Key;
+            return data;
+        }
+
+
+
         private List<Document> documents = new List<Document>();
         public List<Document> Documents {
             get {
@@ -396,14 +398,6 @@ namespace LASI.UserInterface
         }
 
         private List<Series> DocumentDatapointRanges = new List<Series>();
-
-
-
-
-
-
-
-
 
         private void MenuItem_Click_2(object sender, RoutedEventArgs e) {
 
@@ -423,8 +417,7 @@ namespace LASI.UserInterface
             var focusedChart = (FrequencyCharts.SelectedItem as TabItem).Content as Visual;
             try {
                 printDialog.PrintVisual(focusedChart, "Current View");
-            }
-            catch (NullReferenceException) {
+            } catch (NullReferenceException) {
             }
 
         }
@@ -488,7 +481,18 @@ namespace LASI.UserInterface
         }
 
         private void SetChartSourceButton_Click(object sender, RoutedEventArgs e) {
-            SetChartSource(GraphResultKind.SubjectVerb);
+            ChangeChartKind(ChartKind.SubjectVerb);
         }
     }
 }
+//var topResultsForChart = document.Phrases.GetNounPhrases().Concat<Phrase>(document.Phrases.GetAdverbPhrases()).
+//       Concat<Phrase>(document.Phrases.GetAdjectivePhrases()).Concat<Phrase>(document.Phrases.GetVerbPhrases()).
+//       GroupBy(w => new {
+//           w.Text,
+//           w.Type
+//       }).Select(g => g.First());
+//var valueList = new List<KeyValuePair<string, int>>();
+//valueList.AddRange(
+//    (from w in topResultsForChart
+//     orderby w.Weight descending
+//     select new KeyValuePair<string, int>(w.Text, (int) w.Weight))

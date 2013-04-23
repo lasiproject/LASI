@@ -5,8 +5,9 @@ using System.Text;
 
 namespace LASI.UserInterface
 {
-    enum GraphResultKind
+    enum ChartKind
     {
-        SubjectVerb
+        SubjectVerb,
+        SubjectVerbObject,
     }
 }
