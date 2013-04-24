@@ -29,7 +29,7 @@ namespace LASI.Algorithm.Thesauri
             //throw new NotImplementedException();
 
 
-            List<string> lines = new List<string>();
+            HashSet<string> lines = new HashSet<string>();
 
             using (StreamReader r = new StreamReader(FilePath)) {
 
