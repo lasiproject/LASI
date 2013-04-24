@@ -9,9 +9,11 @@ namespace LASI.Algorithm.Thesauri
     public class SynSet
     {
 
-        public string setID;
-        public List<string> setWords;
-        public List<string> setPointers;
+        private string setID;
+
+
+        private HashSet<string> setWords;
+        private HashSet<string> setPointers;
 
 
         //Aluan: I added this field to store some additional information I found in the WordNet files
@@ -29,20 +31,20 @@ namespace LASI.Algorithm.Thesauri
 
         //Aluan: I added this constructor to include some additional information I found in the WordNet files
 
-        public SynSet(string ID, List<string> words, List<string> pointers, WordNetNounLex lexCategory) {
+        public SynSet(string ID, IEnumerable<string> words, IEnumerable<string> pointers, WordNetNounLex lexCategory) {
 
             setID = ID;
-            setWords = words;
-            setPointers = pointers;
+            setWords = new HashSet<string>(words);
+            setPointers = new HashSet<string>(pointers);
             lexName = lexCategory;
 
         }
 
-        public SynSet(string ID, List<string> words, List<string> pointers) {
+        public SynSet(string ID, IEnumerable<string> words, IEnumerable<string> pointers) {
 
             setID = ID;
-            setWords = words;
-            setPointers = pointers;
+            setWords = new HashSet<string>(words);
+            setPointers = new HashSet<string>(pointers);
 
         }
 
@@ -54,20 +56,27 @@ namespace LASI.Algorithm.Thesauri
         }
 
 
-        public List<string> Words {
+        public HashSet<string> SetWords {
             get {
                 return setWords;
             }
 
         }
 
-        public List<string> Pointers {
+        public HashSet<string> SetPointers {
             get {
                 return setPointers;
             }
         }
 
-
+        public string SetID {
+            get {
+                return setID;
+            }
+            set {
+                setID = value;
+            }
+        }
 
     }
 }

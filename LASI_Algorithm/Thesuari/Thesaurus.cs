@@ -67,26 +67,12 @@ namespace LASI.Algorithm.Thesauri
                    s.Stop();
                    Output.WriteLine("VerbThesausus Loaded in{0}", s.ElapsedMilliseconds);
                }));
-            //   }));
-            //    VerbProvider.LoadAsync().ContinueWith(
-            //    (t) => {
-            //        Output.WriteLine("VerbThesausus Loaded");
-            //    }),
-            //    AdverbProvider.LoadAsync().ContinueWith(
-            //    (t) => {
-            //        Output.WriteLine("AdverbThesausus Loaded");
-            //    }),
-            //    AdjectiveProvider.LoadAsync().ContinueWith(
-            //    (t) => {
-            //        Output.WriteLine("AdjectiveThesausus Loaded");
-            //    }));
+            
             sw.Stop();
             Output.WriteLine("Async TPLI loading took {0} milliseconds", sw.ElapsedMilliseconds);
         }
         public static IEnumerable<string> Lookup(Word word) {
-
             return InternalLookup(word as dynamic);
-
         }
         public static IEnumerable<string> InternalLookup(Verb verb) {
             return VerbProvider[verb];
@@ -101,14 +87,13 @@ namespace LASI.Algorithm.Thesauri
             return AdjectiveProvider[verb];
         }
         public static IEnumerable<string> InternalLookup(Word word) {
-            throw new LASI.Algorithm.Thesuari.NoSynonymLookupForTypeException(word) {
+            throw new NoSynonymLookupForTypeException(word) {
             };
         }
         public static NounThesaurus NounProvider {
             get;
             private set;
         }
-
         public static VerbThesaurus VerbProvider {
             get;
             private set;
@@ -121,9 +106,6 @@ namespace LASI.Algorithm.Thesauri
             get;
             private set;
         }
-
-
-
         public static bool IsSynonymFor(this Word word, Word other) {
             return (
                 word is Noun && other is Noun ||
@@ -135,3 +117,21 @@ namespace LASI.Algorithm.Thesauri
         }
     }
 }
+
+
+
+
+
+//   }));
+//    VerbProvider.LoadAsync().ContinueWith(
+//    (t) => {
+//        Output.WriteLine("VerbThesausus Loaded");
+//    }),
+//    AdverbProvider.LoadAsync().ContinueWith(
+//    (t) => {
+//        Output.WriteLine("AdverbThesausus Loaded");
+//    }),
+//    AdjectiveProvider.LoadAsync().ContinueWith(
+//    (t) => {
+//        Output.WriteLine("AdjectiveThesausus Loaded");
+//    }));

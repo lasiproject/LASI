@@ -21,15 +21,12 @@ namespace LASI.Algorithm.Thesauri
         public VerbThesaurus(string filePath, bool constrainByCategory = false)
             : base(filePath) {
             FilePath = filePath;
-            AssociationData = new Dictionary<string, SynonymSet>();//Not a great practice, but the length of the file is fixed, making this a useful, but ugly optemization.
-            cachedData = new ConcurrentDictionary<string, HashSet<string>>();//Again this is ugly, but its fairly performant at the moment.
+            AssociationData = new ConcurrentDictionary<string, SynonymSet>();//Not a great practice, but the length of the file is fixed, making this a useful, but ugly optemization.
+            //cachedData = new ConcurrentDictionary<string, HashSet<string>>();//Again this is ugly, but its fairly performant at the moment.
             lexRestrict = constrainByCategory;
         }
 
-        private const int CachedDataMinCount = 32000;
 
-
-        private const int AssociationDataMinCount = 25327;
 
         /// <summary>
         /// Parses the contents of the underlying WordNet database file.
@@ -80,7 +77,6 @@ namespace LASI.Algorithm.Thesauri
             get {
                 try {
                     foreach (var root in conjugator.TryExtractRoot(search)) {
-                        //if (!cachedData.ContainsKey(root)) {
                         try {
 
                             return new HashSet<string>((from REF in AssociationData[root].ReferencedIndexes //Get all set reference indeces stored directly within 
@@ -100,19 +96,12 @@ namespace LASI.Algorithm.Thesauri
                                                         select RM into RMG                                   //concatanting them with their various morphs
                                                         select new string[] { RMG }.Concat(conjugator.TryComputeConjugations(RMG)) into CJRM
                                                         from C in CJRM                                       //Now simply remove any duplicates
-                                                        select C).Distinct());
+                                                        select C));
                         } catch (KeyNotFoundException) {
                         } catch (ArgumentOutOfRangeException) {
                         }
 
-                        //}
-                        //    //try {
-                        //    return cachedData.ContainsKey(root) ? cachedData[root] : null;
-                        //    //} catch (KeyNotFoundException ex) {
-                        //    //    //  Debug.WriteLine("No entry present in VerbThesaurus for {0}\n{1}", root, ex.Message);
-                        //    //}
-                        //}
-                        //return null;
+
                     }
                     return null;
                 } catch (ArgumentOutOfRangeException) {
@@ -162,7 +151,7 @@ namespace LASI.Algorithm.Thesauri
             return new SynonymSet(setReferences, setElements, WNlexNameCode);
         }
 
-        private ConcurrentDictionary<String, HashSet<string>> cachedData;
+        //private ConcurrentDictionary<String, HashSet<string>> cachedData;
 
         const int HEADER_LENGTH = 30;
         private VerbConjugator conjugator = new VerbConjugator(ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "verb.exc");
@@ -177,3 +166,11 @@ namespace LASI.Algorithm.Thesauri
 
 
 
+//}
+//    //try {
+//    return cachedData.ContainsKey(root) ? cachedData[root] : null;
+//    //} catch (KeyNotFoundException ex) {
+//    //    //  Debug.WriteLine("No entry present in VerbThesaurus for {0}\n{1}", root, ex.Message);
+//    //}
+//}
+//return null;

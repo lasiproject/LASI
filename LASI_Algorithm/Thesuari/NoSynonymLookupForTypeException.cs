@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LASI.Algorithm.Thesuari
+namespace LASI.Algorithm.Thesauri
 {
     /// <summary>
     /// The Exception to be thrown if and when an attempt is made to lookup a Word of a syntactic category has no corresponding thesaurus.

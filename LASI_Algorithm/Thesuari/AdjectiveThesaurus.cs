@@ -21,20 +21,15 @@ namespace LASI.Algorithm.Thesauri
             FilePath = filePath;
         }
 
-        List<SynSet> allSets = new List<SynSet>();
+        HashSet<SynSet> allSets = new HashSet<SynSet>();
 
         /// <summary>
         /// Parses the contents of the underlying WordNet database file.
         /// </summary>
         public override void Load() {
-            //throw new NotImplementedException();
-
-
             List<string> lines = new List<string>();
 
             using (StreamReader r = new StreamReader(FilePath)) {
-
-
 
                 string line;
 
@@ -42,42 +37,19 @@ namespace LASI.Algorithm.Thesauri
                 {
                     r.ReadLine();
                 }
-
-                /*for (int i = 0; i < 5; i++)
-                {
-                    line = r.ReadLine();
-                    //Console.WriteLine(line);
-                    CreateSet(line);
-                }*/
-                //test 5 lines without having to wait
-
-
                 while ((line = r.ReadLine()) != null) {
-
                     CreateSet(line);
-
                 }
-
-
-
-
-
-
-
-
-
             }
         }
 
         void CreateSet(string line) {
-
 
             WordNetNounLex lexCategory = (WordNetNounLex) Int32.Parse(line.Substring(9, 2));
 
             String frontPart = line.Split('|', '!')[0];
             MatchCollection numbers = Regex.Matches(frontPart, @"(?<id>\d{8})");
             MatchCollection words = Regex.Matches(frontPart, @"(?<word>[A-Za-z_\-]{2,})");
-
 
             List<string> numbersList = numbers.Cast<Match>().Select(m => m.Value).Distinct().ToList();
             string id = numbersList[0];
@@ -86,71 +58,48 @@ namespace LASI.Algorithm.Thesauri
 
             SynSet temp = new SynSet(id, wordList, numbersList, lexCategory);
 
-            //SynSet temp = new SynSet(id, wordList, numbersList);
-
-
             allSets.Add(temp);
 
-            /*foreach (string tester in numbersList){
-
-                Console.WriteLine(tester);
-
-           }*/
-            //console view
         }
-
         public HashSet<string> SearchFor(string word) {
-            List<string> results = new List<string>();
+
+
+            //gets words of searched word
+            var tempWords = from sw in allSets
+                            where sw.SetWords.Contains(word)
+                            select sw.SetWords;
+            HashSet<string> results = new HashSet<string>(
+                (from Q in tempWords
+                 from q in Q
+                 select q).Distinct());
+
+
             //gets pointers of searched word
             var tempResults = from sn in allSets
-                              where sn.setWords.Contains(word)
-                              select sn.setPointers;
+                              where sn.SetWords.Contains(word)
+                              select sn.SetPointers;
             var flatPointers = from R in tempResults
                                from r in R
                                select r;
-            //gets words of searched word
-            var tempWords = from sw in allSets
-                            where sw.setWords.Contains(word)
-                            select sw.setWords;
-            var flatWords = from Q in tempWords
-                            from q in Q
-                            select q;
-
-            results.AddRange(flatWords);
-
-
             //gets related words from above pointers
-            foreach (var t in flatPointers) {
 
+            foreach (var t in flatPointers) {
                 foreach (SynSet s in allSets) {
 
-                    if (t == s.setID) {
-                        results.AddRange(s.setWords);
+                    if (t == s.SetID) {
+                        results.Union(s.SetWords);
                     }
 
                 }
-
             }
+            return results;
 
-
-
-
-            return new HashSet<string>(results);
-
-            //foreach (string tester in results) {
-
-            //    Console.WriteLine(tester);
-
-            //}//console view
         }
-
         public override HashSet<string> this[string search] {
             get {
                 return SearchFor(search);
             }
         }
-
-
         public override HashSet<string> this[Word search] {
             get {
                 return this[search.Text];

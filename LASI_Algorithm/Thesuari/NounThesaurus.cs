@@ -20,7 +20,7 @@ namespace LASI.Algorithm.Thesauri
             FilePath = filePath;
         }
 
-        List<SynSet> allSets = new List<SynSet>();
+        HashSet<SynSet> allSets = new HashSet<SynSet>();
 
         /// <summary>
         /// Parses the contents of the underlying WordNet database file.
@@ -42,13 +42,6 @@ namespace LASI.Algorithm.Thesauri
                     r.ReadLine();
                 }
 
-                /*for (int i = 0; i < 5; i++)
-                {
-                    line = r.ReadLine();
-                    //Console.WriteLine(line);
-                    CreateSet(line);
-                }*/
-                //test 5 lines without having to wait
 
 
                 while ((line = r.ReadLine()) != null) {
@@ -56,15 +49,6 @@ namespace LASI.Algorithm.Thesauri
                     CreateSet(line);
 
                 }
-
-
-
-
-
-
-
-
-
             }
         }
 
@@ -94,32 +78,26 @@ namespace LASI.Algorithm.Thesauri
 
             allSets.Add(temp);
 
-            /*foreach (string tester in numbersList){
-
-                Console.WriteLine(tester);
-
-           }*/
-            //console view
         }
 
         public HashSet<string> SearchFor(string word) {
-            List<string> results = new List<string>();
+
             //gets pointers of searched word
             var tempResults = from sn in allSets
-                              where sn.setWords.Contains(word)
-                              select sn.setPointers;
+                              where sn.SetWords.Contains(word)
+                              select sn.SetPointers;
             var flatPointers = from R in tempResults
                                from r in R
                                select r;
             //gets words of searched word
             var tempWords = from sw in allSets
-                            where sw.setWords.Contains(word)
-                            select sw.setWords;
-            var flatWords = from Q in tempWords
-                            from q in Q
-                            select q;
+                            where sw.SetWords.Contains(word)
+                            select sw.SetWords;
+            HashSet<string> results = new HashSet<string>(
+                from Q in tempWords
+                from q in Q
+                select q);
 
-            results.AddRange(flatWords);
 
 
             //gets related words from above pointers
@@ -127,8 +105,8 @@ namespace LASI.Algorithm.Thesauri
 
                 foreach (SynSet s in allSets) {
 
-                    if (t == s.setID) {
-                        results.AddRange(s.setWords);
+                    if (t == s.SetID) {
+                        results.Union(s.SetWords);
                     }
 
                 }
@@ -137,12 +115,6 @@ namespace LASI.Algorithm.Thesauri
 
             return new HashSet<string>(results);
 
-
-            //foreach (string tester in results) {
-
-            //    Console.WriteLine(tester);
-
-            //}//console view
         }
 
         public override HashSet<string> this[string search] {

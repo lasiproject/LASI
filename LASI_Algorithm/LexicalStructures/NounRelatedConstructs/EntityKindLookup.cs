@@ -22,12 +22,11 @@ namespace LASI.Algorithm
         public static void AddEntry(IEntity entry) {
             try {
                 _lexicalMapping.Add(entry.Text, entry.EntityKind);
-            }
-            catch (ArgumentException) {
-                Debug.WriteLine(String.Format(
-                    "EntityKindLookup: An entry for {0} -> {1} is already present in the ",
-                    entry.Text,
-                    entry.EntityKind));
+            } catch (ArgumentException) {
+                //Debug.WriteLine(String.Format(
+                //    "EntityKindLookup: An entry for {0} -> {1} is already present in the ",
+                //    entry.Text,
+                //    entry.EntityKind));
             }
         }
         /// <summary>
@@ -38,12 +37,11 @@ namespace LASI.Algorithm
         public static void AddEntry(string textKey, EntityKind kind) {
             try {
                 _lexicalMapping.Add(textKey, kind);
-            }
-            catch (ArgumentException) {
-                Debug.WriteLine(String.Format(
-                    "EntityKindLookup: An entry for {0} -> {1} is already present in the ",
-                    textKey,
-                    kind));
+            } catch (ArgumentException) {
+                //Debug.WriteLine(String.Format(
+                //    "EntityKindLookup: An entry for {0} -> {1} is already present in the ",
+                //    textKey,
+                //    kind));
             }
         }
         /// <summary>
@@ -68,11 +66,10 @@ namespace LASI.Algorithm
         public static EntityKind Lookup(string entry) {
             try {
                 return _lexicalMapping[entry];
-            }
-            catch (KeyNotFoundException) {
-                Debug.WriteLine(
-                    String.Format(
-                    "EntityKindLookup: no entry presently defined for {0}", entry));
+            } catch (KeyNotFoundException) {
+                //Debug.WriteLine(
+                //    String.Format(
+                //    "EntityKindLookup: no entry presently defined for {0}", entry));
                 throw;
             }
         }
