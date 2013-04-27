@@ -380,17 +380,13 @@ namespace LASI.UserInterface
             return data;
         }
 
-        private struct SVPair
-        {
-            public NounPhrase NP {
-                get;
-                set;
-            }
-            public VerbPhrase VP {
-                get;
-                set;
-            }
-        }
+
+        #region Result Selector Helper Structs
+        /// <summary>
+        /// A little data type which defines a predicate function which is passed to the "Distinct()" method call above
+        /// It is defined because distinct does not support lambda(read function) arguments like my query operatorrs do.
+        /// Pay this type little heed
+        /// </summary>
         private struct SVComparer : IEqualityComparer<SVPair>
         {
             public bool Equals(SVPair x, SVPair y) {
@@ -402,6 +398,23 @@ namespace LASI.UserInterface
                 return obj.GetHashCode();
             }
         }
+        /// <summary>
+        /// Sometimes an anonymous type simple will not do. So this little struct is defined to 
+        /// store temporary query data from transposed tables. god it is late. I can't document properly.
+        /// </summary>
+        private struct SVPair
+        {
+            public NounPhrase NP {
+                get;
+                set;
+            }
+            public VerbPhrase VP {
+                get;
+                set;
+            }
+        }
+
+        #endregion
 
 
         private List<Document> documents = new List<Document>();
