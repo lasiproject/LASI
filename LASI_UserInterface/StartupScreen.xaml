@@ -24,7 +24,7 @@
             <TextBlock TextWrapping="Wrap" FontSize="27" Canvas.Left="159" FontFamily="Segoe Print" Text="Create New Project" Foreground="#FFC21300" FontWeight="Bold" Margin="34,28,322,0" Height="50" VerticalAlignment="Top" />
 
             <TextBlock Height="16" Canvas.Left="42" TextWrapping="Wrap" Text="Name:" Canvas.Top="154" TextAlignment="Left" LineHeight="6" Margin="30,117,577,0" VerticalAlignment="Top" FontFamily="Segoe UI Semilight" />
-            <TextBox x:Name="EnteredProjectName" Canvas.Left="178" TextWrapping="Wrap" Canvas.Top="54" MaxLines="1" TextChanged="EnteredProjectName_TextChanged" Margin="109,117,404,0" Height="19" VerticalAlignment="Top" FontSize="12" UseLayoutRounding="True" />
+            <TextBox x:Name="ProjectNameTextBox" Canvas.Left="178" TextWrapping="Wrap" Canvas.Top="54" MaxLines="1" TextChanged="EnteredProjectName_TextChanged" Margin="109,117,404,0" Height="19" VerticalAlignment="Top" FontSize="12" UseLayoutRounding="True" />
             <Label x:Name="ProjNameErrorLabel" Content="*" Canvas.Left="150" Canvas.Top="52" Width="14" Foreground="Red" Visibility="Visible" Margin="92,116,550,162" />
             <Image x:Name="ProjNameErrorImage"  HorizontalAlignment="Left" Height="78" Margin="352,28,0,0" VerticalAlignment="Top" Width="271" Source="NameErrorImage.png" Visibility="Hidden"/>
 

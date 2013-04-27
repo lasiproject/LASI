@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using LASI.Algorithm;
 using LASI.Utilities;
 using LASI.Utilities.TypedSwitch;
+using LASI.Algorithm.DocumentConstructs;
 
 namespace Aluan_Experimentation
 {

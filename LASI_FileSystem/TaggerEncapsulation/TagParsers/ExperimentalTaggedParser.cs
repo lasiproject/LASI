@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LASI.Algorithm;
 using LASI.FileSystem.FileTypes;
+using LASI.Algorithm.DocumentConstructs;
 namespace LASI.FileSystem.TaggerEncapsulation
 {
     public class ExperimentalTaggedParser : TagParser

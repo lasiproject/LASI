@@ -86,7 +86,7 @@ namespace LASI.UserInterface
             WindowManager.InProgressScreen.Show();
             // WindowManager.InProgressScreen.Topmost = true;
 
-            await WindowManager.InProgressScreen.InitProgressBar();
+            await WindowManager.InProgressScreen.InitializeParsing();
             //WindowManager.InProgressScreen.Hide();
 
 

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace LASI.Algorithm
+namespace LASI.Algorithm.DocumentConstructs
 {
     /// <summary>
     /// a line structure containing all of he g, sentence, entity, and w objects in a document.
@@ -23,6 +23,11 @@ namespace LASI.Algorithm
         /// <param name="paragrpahs">The collection of paragraphs which contain all text in the document.</param>
         public Document(IEnumerable<Paragraph> paragrpahs) {
             _paragraphs = paragrpahs.ToList();
+
+            _enumContainingParagraphs = from p in _paragraphs
+                                        where p.ParagraphKind == ParagraphKind.EnumerationContent
+                                        select p;
+
             AssignMembers(paragrpahs);
             foreach (var p in _paragraphs) {
                 p.EstablishParent(this);
@@ -164,6 +169,11 @@ namespace LASI.Algorithm
                 return _paragraphs;
             }
         }
+        public IEnumerable<Paragraph> EnumContainingParagraphs {
+            get {
+                return _enumContainingParagraphs;
+            }
+        }
 
         /// <summary>
         /// Gets the Phrases the document contains in linear, left to right order.
@@ -198,6 +208,7 @@ namespace LASI.Algorithm
         private IList<Phrase> _phrases;
         private IList<Sentence> _sentences;
         private IList<Paragraph> _paragraphs;
+        private IEnumerable<Paragraph> _enumContainingParagraphs;
 
 
 

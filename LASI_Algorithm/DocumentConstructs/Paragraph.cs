@@ -3,27 +3,33 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LASI.Algorithm.DocumentConstructs;
 
 namespace LASI.Algorithm
 {
     public sealed class Paragraph
     {
+        private ParagraphKind paragraphKind;
 
-        public Paragraph(IEnumerable<Sentence> sentences) {
+        public ParagraphKind ParagraphKind {
+            get {
+                return paragraphKind;
+            }
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the Paragraph class containing the given sentences and belonging to the given ParentDocument.
+        /// </summary>
+        /// <param name="sentences">The collection of sentences which comprise the Paragraph.</param>
+        ///<param name="paraKind">Argument indicating the kind of paragraph.</param>
+        public Paragraph(IEnumerable<Sentence> sentences, ParagraphKind paraKind = ParagraphKind.Default) {
+            paragraphKind = paraKind;
             Sentences = sentences;
             ID = IDNumProvider;
             ++IDNumProvider;
         }
-        /// <summary>
-        /// Initializes a new instance of the Paragraph class containing the given sentences and belonging to the given ParentDocument.
-        /// </summary>
-        /// <param name="parentDoc">The ParentDocument instance the g belongs to.</param>
-        /// <param name="sentences">The collection of sentences which comprise the g.</param>
-        public Paragraph(Document parentDoc, IEnumerable<Sentence> sentences) {
-            Sentences = sentences;
-            ParentDocument = parentDoc;
-            ID = IDNumProvider++;
-        }
+
+
 
         /// <summary>
         /// Establish the nested links between the g, its parent document, and the sentencies comprising it.
@@ -96,3 +102,12 @@ namespace LASI.Algorithm
     Paragraph p1(list of sentences[]);
     int id = p1.ID;
 */
+namespace LASI.Algorithm.DocumentConstructs
+{
+    public enum ParagraphKind
+    {
+        Default,
+        EnumerationContent,
+        Heading
+    }
+}

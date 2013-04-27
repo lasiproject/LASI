@@ -25,60 +25,51 @@ namespace LASI.UserInterface
     /// </summary>
     public partial class InProgressScreen : Window
     {
-        public InProgressScreen()
-        {
+        public InProgressScreen() {
             InitializeComponent();
             BindWindowEventHandlers();
             WindowManager.InProgressScreen = this;
             WindowStartupLocation = WindowStartupLocation.CenterScreen;
 
-            
+
             Output.SetToSilent();
             this.IsVisibleChanged += async (s, e) => await InitPawPrintAlternation();
             this.Closing += (s, e) => Application.Current.Shutdown();
             ProgressBar.Value = 0;
             ProgressLabel.Content = ProcessingState.Initializing;
-           
+
 
         }
 
-        void BindWindowEventHandlers()
-        {
+        void BindWindowEventHandlers() {
             this.MouseLeftButtonDown += (s, e) => DragMove();
-            if (ConfigurationManager.AppSettings["AutoDebugCleanupOn"] == "true")
-            {
-                App.Current.Exit += (sender, e) =>
-                {
+            if (ConfigurationManager.AppSettings["AutoDebugCleanupOn"] == "true") {
+                App.Current.Exit += (sender, e) => {
                     if (FileSystem.FileManager.Initialized)
                         FileSystem.FileManager.DecimateProject();
                 };
             }
         }
-        #region Visual Feedback Functions
+
 
         #region Animation
 
-        private async Task InitPawPrintAlternation()
-        {
+        private async Task InitPawPrintAlternation() {
             var pawPrints = new[] { pawPrintImg1, pawPrintImg3, pawPrintImg2, pawPrintImg4, pawPrintImg5, pawPrintImg6 }.ToList();
             pawPrints.ForEach(pp => pp.Opacity = 0);
-            foreach (var pp in pawPrints)
-            {
+            foreach (var pp in pawPrints) {
                 FadeImage(pp);
                 await Task.Delay(2700);
             }
 
         }
-        private async void FadeImage(Image img)
-        {
-            while (img.Opacity > 0.0)
-            {
+        private async void FadeImage(Image img) {
+            while (img.Opacity > 0.0) {
                 img.Opacity -= 0.01;
                 await Task.Delay(10);
             }
             await Task.Delay(500);
-            while (img.Opacity < 1.0)
-            {
+            while (img.Opacity < 1.0) {
                 img.Opacity += 0.01;
                 await Task.Delay(10);
             }
@@ -88,15 +79,18 @@ namespace LASI.UserInterface
 
         #endregion
 
-        #region Progress Bar
+
+
+
+        #region Process Control
+
 
         ProcessController status = new ProcessController();
 
-        public async Task InitProgressBar()
-        {
 
-            //await Task.WhenAll(new Task[] { new Task(async () => { while (ProgressBar.Value < 20) 
-            //{ ProgressBar.Value++; await Task.Delay(1000); } }), Task.Factory.FromAsync(status.LoadAndAnalyseAllDocuments(ProgressBar, ProgressLabel), (t) => { }) });
+        public async Task InitializeParsing() {
+
+
             var msg = await status.LoadAndAnalyseAllDocuments(ProgressBar, ProgressLabel);
             ProgressBar.Value = 100;
             ProgressBar.ToolTip = "Complete";
@@ -104,60 +98,42 @@ namespace LASI.UserInterface
             WindowManager.ResultsScreen.Documents = msg.ToList();
             ProcedetoResultsButton.Visibility = Visibility.Visible;
 
-            //    DisplayProceedDialog();
+
         }
 
-        //private void DisplayProceedDialog() {
 
-        //    var procedeDialog = new DialogToProcedeToResults();
 
-        //    procedeDialog.Topmost = true;
 
-        //    procedeDialog.PositionAt(this.Left, this.Top);
-
-        //    procedeDialog.ContinueButton.Click += (sender, e) => ProceedToResultsView();
-
-        //    //Shows the window as a modal dialog
-        //    //procedeDialog.ShowDialog();
-
-        //}
-
-        #endregion
 
         #endregion
 
 
-        private async void ProceedToResultsView()
-        {
+        private async Task ProceedToResultsView() {
             WindowManager.ResultsScreen.SetTitle(WindowManager.CreateProjectScreen.LastLoadedProjectName + " - L.A.S.I.");
-            this.SwapWith(WindowManager.ResultsScreen);
-             
-            WindowManager.ResultsScreen.CreateInteractiveViews();
+
+
+            await WindowManager.ResultsScreen.CreateInteractiveViews();
             WindowManager.ResultsScreen.BuildAssociationTextView();
+            this.SwapWith(WindowManager.ResultsScreen);
         }
-        private void MenuItem_Click_3(object sender, RoutedEventArgs e)
-        {
+        private void MenuItem_Click_3(object sender, RoutedEventArgs e) {
             this.Close();
 
         }
 
-        private void TextBox_TextChanged_1(object sender, TextChangedEventArgs e)
-        {
+        private void TextBox_TextChanged_1(object sender, TextChangedEventArgs e) {
 
         }
 
-        private void ProcedetoResultsButton_Click(object sender, RoutedEventArgs e)
-        {
-            ProceedToResultsView();
+        private async void ProcedetoResultsButton_Click(object sender, RoutedEventArgs e) {
+            await ProceedToResultsView();
 
         }
 
-        private void minButton_Click(object sender, RoutedEventArgs e)
-        {
+        private void minButton_Click(object sender, RoutedEventArgs e) {
             this.WindowState = WindowState.Minimized;
         }
-        private void closeButton_Click(object sender, RoutedEventArgs e)
-        {
+        private void closeButton_Click(object sender, RoutedEventArgs e) {
             Application.Current.Shutdown();
         }
     }

@@ -89,7 +89,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets or sets the Sentence the Phrase belongs to.
         /// </summary>
-        public Sentence ParentSentence {
+        public LASI.Algorithm.DocumentConstructs.Sentence ParentSentence {
             get;
             set;
         }
@@ -101,7 +101,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets or set the Document instance to which the Phrase belongs.
         /// </summary>
-        public Document ParentDocument {
+        public LASI.Algorithm.DocumentConstructs.Document ParentDocument {
             get;
             protected set;
         }

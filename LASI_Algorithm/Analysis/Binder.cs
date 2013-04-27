@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using LASI.Utilities.TypedSwitch;
 using System.Threading.Tasks;
+using LASI.Algorithm.DocumentConstructs;
 
 namespace LASI.Algorithm.Analysis
 {
@@ -18,8 +19,10 @@ namespace LASI.Algorithm.Analysis
                 PerformIntraPhraseBinding(doc);
                 PerformAttributeNounPhraseBinding(doc);
                 PerformSVOBinding(doc);
-            } catch (VerblessPhrasalSequenceException) {
-            } catch (InvalidOperationException) {
+            }
+            catch (VerblessPhrasalSequenceException) {
+            }
+            catch (InvalidOperationException) {
             }
         }
 
@@ -27,27 +30,37 @@ namespace LASI.Algorithm.Analysis
         #region Private Static Methods
 
         private static void PerformAttributeNounPhraseBinding(Document doc) {
-            doc.Sentences.AsParallel().ForAll(s => {
-                var attributiveBinder = new AttributiveNounPhraseBinder(s);
-            });
+            doc.Sentences
+                .Where(s => s.ParentParagraph.ParagraphKind == ParagraphKind.Default)
+                .AsParallel()
+                .ForAll(
+                s => {
+                    var attributiveBinder = new AttributiveNounPhraseBinder(s);
+                });
         }
         private static void PerformSVOBinding(Document doc) {
             try {
-                doc.Sentences.AsParallel().ForAll(s => {
-
-                    try {
-                        new SubjectBinder().Bind(s);
-                    } catch (NullReferenceException) {
-                    }
-                    try {
-                        if (s.Phrases.GetVerbPhrases().Count() > 0) {
-                            new ObjectBinder().Bind(s);
+                doc.Sentences
+                    .Where(s => s.ParentParagraph.ParagraphKind == ParagraphKind.Default)
+                    .AsParallel().ForAll(
+                    s => {
+                        try {
+                            new SubjectBinder().Bind(s);
                         }
-                    } catch (InvalidStateTransitionException) {
-                    } catch (VerblessPhrasalSequenceException) {
-                    }
-                });
-            } catch {
+                        catch (NullReferenceException) {
+                        }
+                        try {
+                            if (s.Phrases.GetVerbPhrases().Count() > 0) {
+                                new ObjectBinder().Bind(s);
+                            }
+                        }
+                        catch (InvalidStateTransitionException) {
+                        }
+                        catch (VerblessPhrasalSequenceException) {
+                        }
+                    });
+            }
+            catch {
             }
         }
 

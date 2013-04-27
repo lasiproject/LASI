@@ -46,7 +46,7 @@ namespace LASI.Algorithm
         /// Establishes the nested links between the Clause, its parent Sentence and Phrases which comprise it.
         /// </summary>
         /// <param name="sentence">The Sentence containing the Clause.</param>
-        internal void EstablishParent(Sentence sentence) {
+        internal void EstablishParent(LASI.Algorithm.DocumentConstructs.Sentence sentence) {
             ParentSentence = sentence;
             foreach (var r in Phrases)
                 r.EstablishParent(this);
@@ -55,7 +55,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets or set the Document instance to which the Clause belongs.
         /// </summary>
-        public Document ParentDocument {
+        public LASI.Algorithm.DocumentConstructs.Document ParentDocument {
             get {
                 return ParentSentence.ParentDocument;
             }
@@ -109,7 +109,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets the Sentence which contains The Clause.
         /// </summary>
-        public Sentence ParentSentence {
+        public LASI.Algorithm.DocumentConstructs.Sentence ParentSentence {
             get;
             protected set;
         }

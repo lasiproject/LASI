@@ -1,4 +1,5 @@
 ﻿using LASI.Algorithm;
+using LASI.Algorithm.DocumentConstructs;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 

@@ -2,6 +2,7 @@
 using LASI.Algorithm.Analysis.Binding;
 using LASI.Algorithm.Analysis.Heuristics;
 using LASI.Algorithm.Binding;
+using LASI.Algorithm.DocumentConstructs;
 using LASI.Algorithm.Thesauri;
 using LASI.Utilities;
 using LASI.Utilities.TypedSwitch;

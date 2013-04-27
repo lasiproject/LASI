@@ -1,4 +1,5 @@
-﻿using LASI.Algorithm.FundamentalSyntacticInterfaces;
+﻿using LASI.Algorithm.DocumentConstructs;
+using LASI.Algorithm.FundamentalSyntacticInterfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;

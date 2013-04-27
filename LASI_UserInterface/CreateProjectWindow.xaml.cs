@@ -126,21 +126,25 @@ namespace LASI.UserInterface
                 WindowManager.LoadedProjectScreen.LoadDocumentPreviews();
 
 
-            } else {
+            }
+            else {
 
                 if (ValidateProjectNameField() == false) {
                     ProjNameErrorLabel.Visibility = Visibility.Visible;
-                } else
+                }
+                else
                     ProjNameErrorLabel.Visibility = Visibility.Hidden;
 
                 if (ValidateProjectLocationField() == false) {
                     ProjLocationErrorLabel.Visibility = Visibility.Visible;
-                } else
+                }
+                else
                     ProjLocationErrorLabel.Visibility = Visibility.Hidden;
 
                 if (ValidateProjectDocumentField() == false) {
                     ProjDocumentErrorLabel.Visibility = Visibility.Visible;
-                } else
+                }
+                else
                     ProjDocumentErrorLabel.Visibility = Visibility.Hidden;
 
 
@@ -159,11 +163,11 @@ namespace LASI.UserInterface
 
             System.Windows.Forms.DialogResult dirResult = locationSelectDialog.ShowDialog();
             if (dirResult == System.Windows.Forms.DialogResult.OK) {
-                LocationTextBox.Text = locationSelectDialog.SelectedPath;
+                LocationTextBox.Text = locationSelectDialog.SelectedPath + @"\" + EnteredProjectName.Text;
             }
 
 
-            ProjectLocation = locationSelectDialog.SelectedPath;
+            ProjectLocation = locationSelectDialog.SelectedPath + @"\" + EnteredProjectName.Text;
         }
 
 

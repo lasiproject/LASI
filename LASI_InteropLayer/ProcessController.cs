@@ -1,5 +1,6 @@
 ﻿using LASI.Algorithm;
 using LASI.Algorithm.Analysis;
+using LASI.Algorithm.DocumentConstructs;
 using LASI.Algorithm.Thesauri;
 using LASI.FileSystem;
 using LASI.GuiInterop;
@@ -16,7 +17,7 @@ namespace LASI.InteropLayer
 
     public class ProcessController
     {
-        ProcessingState[] statuses = new[] { ProcessingState.ConvertingFiles, ProcessingState.ParsingTaggedData, ProcessingState.AggregatingPhrases, 
+        ProcessingState[] statuses = new[] { ProcessingState.ConvertingFiles, ProcessingState.TransformingTextualRepresentations, ProcessingState.AggregatingPhrases, 
 ProcessingState.ComputingMetrics, ProcessingState.CrossReferencing, ProcessingState.Completing };
 
         public async Task<IEnumerable<Document>> LoadAndAnalyseAllDocuments(ProgressBar progressBar, Label progressLabel) {
@@ -28,21 +29,22 @@ ProcessingState.ComputingMetrics, ProcessingState.CrossReferencing, ProcessingSt
             progressLabel.Content = ProcessingState.ConvertingFiles.ToString();
             await FileManager.ConvertAsNeededAsync();
             progressBar.Value += 5;
-            progressBar.ToolTip = ProcessingState.TaggingData.ToString();
-            progressLabel.Content = ProcessingState.TaggingData.ToString();
+            progressBar.ToolTip = ProcessingState.IdentifyingSyntacticRoles.ToString();
+            progressLabel.Content = ProcessingState.IdentifyingSyntacticRoles.ToString();
             await FileManager.TagTextFilesAsync();
             progressBar.Value += 15;
-            progressBar.ToolTip = ProcessingState.ParsingTaggedData.ToString();
-            progressLabel.Content = ProcessingState.ParsingTaggedData.ToString();
+            progressBar.ToolTip = ProcessingState.TransformingTextualRepresentations.ToString();
+            progressLabel.Content = ProcessingState.TransformingTextualRepresentations.ToString();
             var docs = await InstantiateDocuments();
             progressBar.Value += 25;
+
+            progressBar.ToolTip = ProcessingState.BindingTextualStructures.ToString();
+            progressLabel.Content = ProcessingState.BindingTextualStructures.ToString();
             await BindLexicals(docs);
-            progressBar.ToolTip = ProcessingState.ParsingTaggedData.ToString();
-            progressLabel.Content = ProcessingState.ParsingTaggedData.ToString();
             progressBar.Value += 20;
+            progressBar.ToolTip = ProcessingState.ComputingMetrics.ToString();
+            progressLabel.Content = ProcessingState.ComputingMetrics.ToString();
             await WeightAllDocs(docs);
-            progressBar.ToolTip = ProcessingState.ParsingTaggedData.ToString();
-            progressLabel.Content = ProcessingState.ParsingTaggedData.ToString();
             progressBar.Value += 20;
 
             return docs;

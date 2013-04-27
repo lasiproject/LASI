@@ -108,7 +108,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets the document instance to which the w belongs.
         /// </summary>
-        public Document ParentDocument {
+        public LASI.Algorithm.DocumentConstructs.Document ParentDocument {
             get {
                 return ParentPhrase.ParentDocument;
             }
@@ -137,7 +137,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets or the Sentence the Word belongs to.
         /// </summary>
-        public Sentence ParentSentence {
+        public LASI.Algorithm.DocumentConstructs.Sentence ParentSentence {
             get;
             private set;
         }

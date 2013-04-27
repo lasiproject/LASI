@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LASI.Utilities;
 using LASI.Utilities.TypedSwitch;
+using LASI.Algorithm.DocumentConstructs;
 
 namespace LASI.Algorithm.Binding
 {

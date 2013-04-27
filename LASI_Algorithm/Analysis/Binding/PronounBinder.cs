@@ -7,6 +7,7 @@ using LASI.Utilities.TypedSwitch;
 using LASI.Algorithm;
 using LASI.Utilities;
 using LASI.Algorithm.LexicalStructures;
+using LASI.Algorithm.DocumentConstructs;
 namespace LASI.Algorithm.Analysis.Binding
 {
     public class PronounBinder

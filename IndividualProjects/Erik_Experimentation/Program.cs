@@ -16,6 +16,7 @@ using LASI.Algorithm.Weighting;
 using LASI.Algorithm.Thesauri;
 using System.Text.RegularExpressions;
 using LASI.Utilities.TypedSwitch;
+using LASI.Algorithm.DocumentConstructs;
 
 
 namespace Erik_Experimentation

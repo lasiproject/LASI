@@ -23,6 +23,7 @@ using LASI.Algorithm.Analysis;
 using LASI.Utilities;
 using LASI.UserInterface.Dialogs;
 using LASI.Algorithm.Thesauri;
+using LASI.Algorithm.DocumentConstructs;
 
 namespace LASI.UserInterface
 {
@@ -37,7 +38,7 @@ namespace LASI.UserInterface
             this.Closed += (s, e) => Application.Current.Shutdown();
 
         }
-        public async void CreateInteractiveViews() {
+        public async Task CreateInteractiveViews() {
             //await Task.WhenAll((from doc in documents
             //                    select Task.Factory.StartNew(() => {
             foreach (var doc in documents) {
@@ -319,7 +320,7 @@ namespace LASI.UserInterface
         private List<KeyValuePair<string, int>> GetItemSourceFor(object chart) {
             var chartSource = ((chart as TabItem).Content as Chart).Tag as IEnumerable<KeyValuePair<string, int>>;
             var items = (from i in chartSource.ToArray()
-                         select new KeyValuePair<string, int>(i.Key.ToString(), (int) i.Value)).ToList();
+                         select new KeyValuePair<string, int>(i.Key.ToString(), (int)i.Value)).ToList();
             return items;
         }
 
@@ -373,7 +374,7 @@ namespace LASI.UserInterface
                 select svPair into svs
                 let relationWeight = svs.VP.Weight + svs.NP.Weight
                 orderby relationWeight
-                let SV = new KeyValuePair<string, int>(string.Format("{0} -> {1}", svs.NP.Text, svs.VP.Text), (int) relationWeight)
+                let SV = new KeyValuePair<string, int>(string.Format("{0} -> {1}", svs.NP.Text, svs.VP.Text), (int)relationWeight)
                 group SV by SV into svg
                 orderby svg.Sum(s => s.Value)
                 select svg.Key;
@@ -447,7 +448,8 @@ namespace LASI.UserInterface
             var focusedChart = (FrequencyCharts.SelectedItem as TabItem).Content as Visual;
             try {
                 printDialog.PrintVisual(focusedChart, "Current View");
-            } catch (NullReferenceException) {
+            }
+            catch (NullReferenceException) {
             }
 
         }

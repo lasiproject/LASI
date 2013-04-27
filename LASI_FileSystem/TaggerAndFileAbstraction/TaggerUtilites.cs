@@ -1,4 +1,5 @@
 ﻿using LASI.Algorithm;
+using LASI.Algorithm.DocumentConstructs;
 using LASI.FileSystem;
 using LASI.FileSystem.FileTypes;
 using System;

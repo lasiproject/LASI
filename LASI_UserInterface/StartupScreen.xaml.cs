@@ -31,8 +31,8 @@ namespace LASI.UserInterface
             BindWindowEventHandlers();
             WindowStartupLocation = WindowStartupLocation.Manual;
             this.WindowStartupLocation = WindowStartupLocation.Manual;
-            this.Left = (System.Windows.SystemParameters.WorkArea.Width - this.Width)/2;
-            this.Top = (System.Windows.SystemParameters.WorkArea.Height - this.MaxHeight)/2;
+            this.Left = (System.Windows.SystemParameters.WorkArea.Width - this.Width) / 2;
+            this.Top = (System.Windows.SystemParameters.WorkArea.Height - this.MaxHeight) / 2;
 
 
         }
@@ -64,19 +64,16 @@ namespace LASI.UserInterface
                     await Task.Delay(8);
                 }
 
-            
+
 
             }
 
 
         }
-        private async void CancelButton_Click(object sender, RoutedEventArgs e)
-        {
+        private async void CancelButton_Click(object sender, RoutedEventArgs e) {
 
-            if (Height == 520)
-            {
-                for (var i = 0; i < 270 && Height > 250; i += 10)
-                {
+            if (Height == 520) {
+                for (var i = 0; i < 270 && Height > 250; i += 10) {
                     Height -= 10;
                     await Task.Delay(8);
                 }
@@ -159,14 +156,14 @@ namespace LASI.UserInterface
 
         private async void CreateButton_Click(object sender, RoutedEventArgs e) {
             if (ValidateProjectNameField() && ValidateProjectLocationField() && ValidateProjectDocumentField()) {
-                Resources["CurrentProjectName"] = EnteredProjectName.Text;
+                Resources["CurrentProjectName"] = ProjectNameTextBox.Text;
 
 
 
                 WindowManager.LoadedProjectScreen.SetTitle(Resources["CurrentProjectName"] + " - L.A.S.I.");
                 WindowManager.LoadedProjectScreen.Show();
 
-                FileManager.Initialize(ProjectLocation + @"\" + EnteredProjectName.Text);
+                FileManager.Initialize(ProjectLocation + @"\" + ProjectNameTextBox.Text);
 
                 foreach (var file in documentsAdded.Items) {
                     FileManager.AddFile((file as ListViewItem).Content.ToString(), true);
@@ -179,52 +176,47 @@ namespace LASI.UserInterface
 
 
 
-            } else {
-               
+            }
+            else {
+
                 threepaws.Visibility = Visibility.Hidden;
 
-                if (ValidateProjectNameField() == false && ValidateProjectDocumentField() == false)
-                {
-                 //   ProjCreateErrorLabel.Content = "All fields must be filled out.";
-                   // ProjCreateErrorLabel.Visibility = Visibility.Visible;
+                if (ValidateProjectNameField() == false && ValidateProjectDocumentField() == false) {
+                    //   ProjCreateErrorLabel.Content = "All fields must be filled out.";
+                    // ProjCreateErrorLabel.Visibility = Visibility.Visible;
                     NothingFilledImage.Visibility = Visibility.Visible;
-                    
+
                 }
-                else
-                {
+                else {
                     //ProjCreateErrorLabel.Visibility = Visibility.Hidden;
                     NothingFilledImage.Visibility = Visibility.Hidden;
-                
+
                 }
-                if (ValidateProjectNameField() == false && ValidateProjectDocumentField() == true)
-                {
+                if (ValidateProjectNameField() == false && ValidateProjectDocumentField() == true) {
                     ProjNameErrorLabel.Visibility = Visibility.Visible;
                     ProjNameErrorImage.Visibility = Visibility.Visible;
                     ProjLocationErrorLabel.Visibility = Visibility.Visible;
                 }
-                else
-                {
-                
+                else {
+
                     ProjLocationErrorLabel.Visibility = Visibility.Hidden;
                     ProjNameErrorLabel.Visibility = Visibility.Hidden;
                     ProjNameErrorImage.Visibility = Visibility.Hidden;
                 }
-                
-                if (ValidateProjectNameField() == true && ValidateProjectDocumentField() == false)
-                {
+
+                if (ValidateProjectNameField() == true && ValidateProjectDocumentField() == false) {
                     ProjDocumentErrorLabel.Visibility = Visibility.Visible;
                     NoDocumentsImage.Visibility = Visibility.Visible;
                 }
-                else
-                {
+                else {
                     ProjDocumentErrorLabel.Visibility = Visibility.Hidden;
                     NoDocumentsImage.Visibility = Visibility.Hidden;
                 }
 
 
 
-               
-              
+
+
             }
 
         }
@@ -238,18 +230,16 @@ namespace LASI.UserInterface
 
             System.Windows.Forms.DialogResult dirResult = locationSelectDialog.ShowDialog();
             if (dirResult == System.Windows.Forms.DialogResult.OK) {
-                LocationTextBox.Text = locationSelectDialog.SelectedPath;
+                LocationTextBox.Text = locationSelectDialog.SelectedPath + @"\" + ProjectNameTextBox.Text;
             }
-
-
             ProjectLocation = locationSelectDialog.SelectedPath;
         }
 
 
         private bool ValidateProjectNameField() {
-            if (String.IsNullOrWhiteSpace(EnteredProjectName.Text)
-            || String.IsNullOrEmpty(EnteredProjectName.Text)) {
-                EnteredProjectName.ToolTip = new ToolTip {
+            if (String.IsNullOrWhiteSpace(ProjectNameTextBox.Text)
+            || String.IsNullOrEmpty(ProjectNameTextBox.Text)) {
+                ProjectNameTextBox.ToolTip = new ToolTip {
                     Visibility = Visibility.Visible,
                     Content = "You must enter a name for your new project"
                 };
@@ -327,7 +317,7 @@ namespace LASI.UserInterface
         #endregion
 
         private void EnteredProjectName_TextChanged(object sender, TextChangedEventArgs e) {
-            LocationTextBox.Text = ProjectLocation + @"\" + EnteredProjectName.Text;
+            LocationTextBox.Text = ProjectLocation + @"\" + ProjectNameTextBox.Text;
         }
 
 
