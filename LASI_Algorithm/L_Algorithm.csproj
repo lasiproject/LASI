@@ -35,6 +35,7 @@
     <DocumentationFile>
     </DocumentationFile>
     <PlatformTarget>x64</PlatformTarget>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>LasiLogo.ico</ApplicationIcon>
@@ -196,7 +197,6 @@
     <None Include="DocumentConstructs\DocumentComposition.cd" />
     <None Include="IEnumerableExtensions\IEnumerableExtensions.cd" />
     <None Include="LexicalStructures\MiscLanguageConstructs\PhraseConstructs.cd" />
-    <None Include="Thesuari\noun.exc" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Analysis\Binding\SubordinatingConjunctionsTest.txt" />

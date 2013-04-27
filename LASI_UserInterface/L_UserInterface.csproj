@@ -43,14 +43,16 @@
     <UseVSHostingProcess>true</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x64</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>
+    </DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>LasiLogo.ico</ApplicationIcon>
@@ -182,6 +184,291 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\acronyms">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\cmodel.nbin">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\cmodel_nr.nbin">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\acronyms">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\cmodel.nbin">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\cmodel_nr.nbin">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\date.nbin">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\defmodel.nbin">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\defmodel_nr.nbin">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\fmodel.nbin">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\fmodel_nr.nbin">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\gen.fem">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\gen.mal">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\gen.nbin">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\imodel.nbin">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\imodel_nr.nbin">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\location.nbin">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\money.nbin">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\num.nbin">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\organization.nbin">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\percentage.nbin">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\person.nbin">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\plmodel.nbin">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\plmodel_nr.nbin">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\pmodel.nbin">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\pmodel_nr.nbin">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\pnmodel.nbin">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\pnmodel_nr.nbin">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\sim.nbin">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\time.nbin">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\tmodel.nbin">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\tmodel_nr.nbin">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\defmodel.nbin">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\defmodel_nr.nbin">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\EnglishChunk.nbin">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\EnglishPOS.nbin">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\EnglishSD.nbin">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\EnglishTok.nbin">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\fmodel.nbin">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\fmodel_nr.nbin">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\gen.fem">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\gen.mal">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\gen.nbin">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\imodel.nbin">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\acronyms">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\cmodel.nbin">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\cmodel_nr.nbin">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\defmodel.nbin">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\defmodel_nr.nbin">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\fmodel.nbin">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\fmodel_nr.nbin">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\gen.fem">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\gen.mal">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\gen.nbin">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\imodel.nbin">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\imodel_nr.nbin">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\num.nbin">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\plmodel.nbin">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\plmodel_nr.nbin">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\pmodel.nbin">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\pmodel_nr.nbin">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\pnmodel.nbin">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\pnmodel_nr.nbin">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\sim.nbin">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\tmodel.nbin">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\tmodel_nr.nbin">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\num.nbin">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\parser\build.nbin">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\parser\check.nbin">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\parser\chunk.nbin">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\parser\head_rules">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\parser\percentage.nbin">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\parser\tag.nbin">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\parser\tagdict">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\parser\time.nbin">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\plmodel.nbin">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\plmodel_nr.nbin">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\pmodel.nbin">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\pmodel_nr.nbin">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\pnmodel.nbin">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\pnmodel_nr.nbin">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\sim.nbin">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\tmodel.nbin">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\tmodel_nr.nbin">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\WordNetThesaurusData\data.adj">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\WordNetThesaurusData\data.adv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\WordNetThesaurusData\data.noun">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\WordNetThesaurusData\data.verb">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\WordNetThesaurusData\index.adj">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\WordNetThesaurusData\index.adv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\WordNetThesaurusData\index.noun">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\WordNetThesaurusData\index.sense">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\WordNetThesaurusData\index.verb">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\WordNetThesaurusData\noun.exc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\WordNetThesaurusData\verb.exc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -295,6 +582,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="NothingFilledError.png" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <None Include="Resources\LASICustom\Binding\SubordinatingConjunctionsTest.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
