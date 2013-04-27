@@ -33,16 +33,16 @@ namespace LASI.Algorithm.Analysis
                                     p.Text
                                 };
 
-            var nounSynonymGroups = from w in doc.Words.GetNouns().AsParallel().WithDegreeOfParallelism(4)
+            var nounSynonymGroups = from w in doc.Words.GetNouns().AsParallel().WithDegreeOfParallelism(3)
                                     let synstrings = Thesauri.Thesaurus.NounProvider[w]
-                                    from t in doc.Words.GetNouns()
+                                    from t in doc.Words.GetNouns().AsParallel().WithDegreeOfParallelism(3)
                                     where synstrings != null
                                     where synstrings.Contains(t.Text)
                                     group t by w;
 
-            var verbsynonymgroups = from w in doc.Words.GetVerbs().AsParallel().WithDegreeOfParallelism(4)
+            var verbsynonymgroups = from w in doc.Words.GetVerbs().AsParallel().WithDegreeOfParallelism(3)
                                     let synstrings = Thesauri.Thesaurus.VerbProvider[w]
-                                    from t in doc.Words.GetVerbs()
+                                    from t in doc.Words.GetVerbs().AsParallel().WithDegreeOfParallelism(3)
                                     where synstrings != null
                                     where synstrings.Contains(t.Text)
                                     group t by w;
@@ -66,7 +66,7 @@ namespace LASI.Algorithm.Analysis
             foreach (var grp in nounSynonymGroups) {
                 grp.Key.Weight += 0.7m * grp.Count();
                 var pn = grp.Key;
-                pn.Weight *= pn is ProperNoun ? 3 : 1;
+                pn.Weight *= pn is ProperNoun ? 5 : 0;
 
             }
 
