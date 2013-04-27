@@ -22,6 +22,7 @@ using LASI.Utilities.TypedSwitch;
 using LASI.Algorithm.Analysis;
 using LASI.Utilities;
 using LASI.UserInterface.Dialogs;
+using LASI.Algorithm.Thesauri;
 
 namespace LASI.UserInterface
 {
@@ -94,20 +95,7 @@ namespace LASI.UserInterface
             BindChartViewControls();
         }
 
-        //private Label SetupElementFunctionality(ILexical word) {
-        //    var wordLabel = MakeLexicalLabel(word);
-        //    var menuItem1 = new MenuItem {
-        //        Header = "view definition",
-        //    };
-        //    menuItem1.Click += (sender, e) => {
-        //        Process.Start(String.Format("http://www.dictionary.reference.com/browse/{0}?s=t", word.Text));
-        //    };
-        //    var menuItem2 = new MenuItem {
-        //        Header = "Copy Text"
-        //    };
-        //    menuItem2.Click += (se, ee) => Clipboard.SetText((wordLabel.Tag as ILexical).Text);
-        //    wordLabel.ContextMenu.Items.Add(menuItem1);
-        //    wordLabel.ContextMenu.Items.Add(menuItem2);
+
         //    return wordLabel;
         //}
 
@@ -220,6 +208,7 @@ namespace LASI.UserInterface
 
             };
             FrequencyCharts.Items.Add(tabItem);
+            ToBarCharts();
         }
         #region Chart Transposing Methods
 
@@ -374,17 +363,45 @@ namespace LASI.UserInterface
 
         private static IEnumerable<KeyValuePair<string, int>> GetSVData(Document doc) {
             IEnumerable<KeyValuePair<string, int>> data =
-                from v in doc.Phrases.GetVerbPhrases().WithSubject()
-                from s in v.BoundSubjects
-                let relationWeight = s.Weight + v.Weight
+                from svPair in
+                    (from v in doc.Phrases.GetVerbPhrases().WithSubject()
+                     from s in v.BoundSubjects
+                     select new SVPair {
+                         NP = s as NounPhrase,
+                         VP = v as VerbPhrase
+                     }).Distinct(new SVComparer())
+                select svPair into svs
+                let relationWeight = svs.VP.Weight + svs.NP.Weight
                 orderby relationWeight
-                let SV = new KeyValuePair<string, int>(string.Format("{0} -> {1}", s.Text, v.Text), (int) relationWeight)
+                let SV = new KeyValuePair<string, int>(string.Format("{0} -> {1}", svs.NP.Text, svs.VP.Text), (int) relationWeight)
                 group SV by SV into svg
                 orderby svg.Sum(s => s.Value)
                 select svg.Key;
             return data;
         }
 
+        private struct SVPair
+        {
+            public NounPhrase NP {
+                get;
+                set;
+            }
+            public VerbPhrase VP {
+                get;
+                set;
+            }
+        }
+        private struct SVComparer : IEqualityComparer<SVPair>
+        {
+            public bool Equals(SVPair x, SVPair y) {
+                return x.NP.Text == y.NP.Text || x.NP.IsSimilarTo(y.NP) &&
+                    x.VP.Text == y.VP.Text || x.VP.IsSimilarTo(y.VP);
+            }
+
+            public int GetHashCode(SVPair obj) {
+                return obj.GetHashCode();
+            }
+        }
 
 
         private List<Document> documents = new List<Document>();
@@ -485,14 +502,3 @@ namespace LASI.UserInterface
         }
     }
 }
-//var topResultsForChart = document.Phrases.GetNounPhrases().Concat<Phrase>(document.Phrases.GetAdverbPhrases()).
-//       Concat<Phrase>(document.Phrases.GetAdjectivePhrases()).Concat<Phrase>(document.Phrases.GetVerbPhrases()).
-//       GroupBy(w => new {
-//           w.Text,
-//           w.Type
-//       }).Select(g => g.First());
-//var valueList = new List<KeyValuePair<string, int>>();
-//valueList.AddRange(
-//    (from w in topResultsForChart
-//     orderby w.Weight descending
-//     select new KeyValuePair<string, int>(w.Text, (int) w.Weight))

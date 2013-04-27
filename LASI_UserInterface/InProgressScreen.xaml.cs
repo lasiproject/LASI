@@ -131,7 +131,7 @@ namespace LASI.UserInterface
         {
             WindowManager.ResultsScreen.SetTitle(WindowManager.CreateProjectScreen.LastLoadedProjectName + " - L.A.S.I.");
             this.SwapWith(WindowManager.ResultsScreen);
-            //WindowManager.ResultsScreen.BuildAssociationTextView();
+             
             WindowManager.ResultsScreen.CreateInteractiveViews();
             WindowManager.ResultsScreen.BuildAssociationTextView();
         }

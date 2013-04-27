@@ -65,11 +65,13 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
+    <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.IO.Compression" />
     <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.Management" />
     <Reference Include="System.Runtime.Serialization.Formatters.Soap" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Web.Extensions" />
@@ -96,6 +98,7 @@
     <Compile Include="GenericPluralNounTest.cs" />
     <Compile Include="GenericSingularNounTest.cs" />
     <Compile Include="ModalTest.cs" />
+    <Compile Include="NounConjugatorTest.cs" />
     <Compile Include="NounPhraseTest.cs" />
     <Compile Include="NounTest.cs" />
     <Compile Include="ParagraphTest.cs" />

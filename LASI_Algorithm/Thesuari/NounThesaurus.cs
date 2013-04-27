@@ -5,6 +5,7 @@ using System.Text;
 
 using System.IO;
 using System.Text.RegularExpressions;
+using System.Configuration;
 
 
 namespace LASI.Algorithm.Thesauri
@@ -117,6 +118,11 @@ namespace LASI.Algorithm.Thesauri
 
         }
 
+
+
+
+
+
         public override HashSet<string> this[string search] {
             get {
                 return SearchFor(search);
@@ -129,5 +135,7 @@ namespace LASI.Algorithm.Thesauri
                 return this[search.Text];
             }
         }
+        private NounConjugator conjugator = new NounConjugator(ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "noun.exc");
+
     }
 }

@@ -107,6 +107,7 @@
     <Compile Include="LexicalStructures\VerbRelatedConstructs\IModalityModdifiable.cs" />
     <Compile Include="Thesuari\AdjectiveThesaurus.cs" />
     <Compile Include="Thesuari\AdverbThesaurus.cs" />
+    <Compile Include="Thesuari\NounConjugator.cs" />
     <Compile Include="Thesuari\NoSynonymLookupForTypeException.cs" />
     <Compile Include="Thesuari\SynonymSet.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\WhPronoun.cs" />

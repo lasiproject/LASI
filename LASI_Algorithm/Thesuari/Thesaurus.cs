@@ -118,31 +118,33 @@ namespace LASI.Algorithm.Thesauri
         public static bool IsSimilarTo(this NounPhrase lhs, NounPhrase rhs) {
             List<Noun> leftHandNouns = lhs.Words.GetNouns().ToList();
             List<Noun> rightHandNouns = rhs.Words.GetNouns().ToList();
+
             bool result = leftHandNouns.Count == rightHandNouns.Count;
+
             if (result) {
                 for (var i = 0; i < leftHandNouns.Count; ++i) {
                     result &= leftHandNouns[i].IsSynonymFor(rightHandNouns[i]);
                 }
             }
+
+            return result;
+        }
+
+        public static bool IsSimilarTo(this VerbPhrase lhs, VerbPhrase rhs) {
+            List<Verb> leftHandVerbs = lhs.Words.GetVerbs().ToList();
+            List<Verb> rightHandVerbs = rhs.Words.GetVerbs().ToList();
+
+            bool result = leftHandVerbs.Count == rightHandVerbs.Count;
+
+            if (result) {
+                for (var i = 0; i < leftHandVerbs.Count; ++i) {
+                    result &= leftHandVerbs[i].IsSynonymFor(rightHandVerbs[i]);
+                }
+            }
+
             return result;
         }
     }
 }
 
 
-
-
-
-//   }));
-//    VerbProvider.LoadAsync().ContinueWith(
-//    (t) => {
-//        Output.WriteLine("VerbThesausus Loaded");
-//    }),
-//    AdverbProvider.LoadAsync().ContinueWith(
-//    (t) => {
-//        Output.WriteLine("AdverbThesausus Loaded");
-//    }),
-//    AdjectiveProvider.LoadAsync().ContinueWith(
-//    (t) => {
-//        Output.WriteLine("AdjectiveThesausus Loaded");
-//    }));

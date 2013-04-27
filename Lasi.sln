@@ -35,6 +35,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WordNetThesaurusData", "Wor
 		WordNetThesaurusData\index.noun = WordNetThesaurusData\index.noun
 		WordNetThesaurusData\index.sense = WordNetThesaurusData\index.sense
 		WordNetThesaurusData\index.verb = WordNetThesaurusData\index.verb
+		..\..\Desktop\WordNet-3.0\dict\noun.exc = ..\..\Desktop\WordNet-3.0\dict\noun.exc
 		WordNetThesaurusData\verb.exc = WordNetThesaurusData\verb.exc
 	EndProjectSection
 EndProject
