@@ -9,7 +9,7 @@ using System.Xml.Linq;
 namespace LASI.Algorithm
 {
     /// <summary>
-    /// Represents an adjective which can describe a Noun, NounPhrase, or other IDescribable
+    /// Represents an adjective which can describe a Noun, NounPhrase, or rhs IDescribable
     /// </summary>
     public class Adjective : Word, IAdverbialModifiable, IDescriber
     {

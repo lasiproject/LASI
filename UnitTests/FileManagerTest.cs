@@ -49,6 +49,8 @@ namespace AlgorithmAssemblyUnitTestProject
                 Directory.Delete(@"..\..\..\NewProject\input", true);
             if (Directory.Exists(@"..\..\..\backup\NewProject"))
                 Directory.Delete(@"..\..\..\backup\NewProject", true);
+            if (Directory.Exists(@"..\..\..\NewProject"))
+                Directory.Delete(@"..\..\..\NewProject", true);
 
             FileManager.Initialize(@"..\..\..\NewProject");
             foreach (var fileInfo in new DirectoryInfo(@"..\..\..\UnitTests\MockUserFiles").EnumerateFiles()) {
@@ -85,7 +87,10 @@ namespace AlgorithmAssemblyUnitTestProject
         //Use TestCleanup to run code after each test has run
         [TestCleanup()]
         public void MyTestCleanup() {
-            //  Directory.Delete(@"..\..\..\NewProject\Input", true);
+            //Directory.Delete(@"..\..\..\NewProject\Input\docx", true);
+            //Directory.Delete(@"..\..\..\NewProject\Input\doc", true);
+            //Directory.Delete(@"..\..\..\NewProject\Input\text", true);
+            //Directory.Delete(@"..\..\..\NewProject\Input\tagged", true);
         }
         //
         #endregion

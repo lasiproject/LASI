@@ -67,7 +67,7 @@ namespace LASI.Algorithm.Thesauri
                    s.Stop();
                    Output.WriteLine("VerbThesausus Loaded in{0}", s.ElapsedMilliseconds);
                }));
-            
+
             sw.Stop();
             Output.WriteLine("Async TPLI loading took {0} milliseconds", sw.ElapsedMilliseconds);
         }
@@ -114,6 +114,17 @@ namespace LASI.Algorithm.Thesauri
                 word is Adjective && other is Adjective
                 )
                 && Lookup(other).Contains(word.Text);
+        }
+        public static bool IsSimilarTo(this NounPhrase lhs, NounPhrase rhs) {
+            List<Noun> leftHandNouns = lhs.Words.GetNouns().ToList();
+            List<Noun> rightHandNouns = rhs.Words.GetNouns().ToList();
+            bool result = leftHandNouns.Count == rightHandNouns.Count;
+            if (result) {
+                for (var i = 0; i < leftHandNouns.Count; ++i) {
+                    result &= leftHandNouns[i].IsSynonymFor(rightHandNouns[i]);
+                }
+            }
+            return result;
         }
     }
 }

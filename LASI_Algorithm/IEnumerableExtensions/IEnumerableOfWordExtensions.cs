@@ -205,11 +205,10 @@ namespace LASI.Algorithm
         }
         /// <summary>
         /// Returns all Pronouns in the collection that refer to any entity matching the given test condition.
-
+        /// </summary>
         /// <param name="refererring"></param>
         /// <param name="referenced">The entity whose referencing pronouns will be returned.</param>
         /// <returns>All Pronouns in the collection that refer to the given entity</returns>
-        /// </summary>
         public static IEnumerable<Pronoun> Referencing(
             this IEnumerable<Pronoun> refererring,
             Func<IEntity, bool> condition

@@ -126,7 +126,7 @@ namespace LASI.Algorithm.Binding
                     }
                 }
 
-                //Binds other verbs to last verb
+                //Binds rhs verbs to last verb
                 /*
                 var VerbList = vp.Words.GetVerbs();
                 if (VerbList.Count() > 0)

@@ -105,22 +105,18 @@ namespace LASI.FileSystem
                                 parsedPhrases.Add(currentPhrase);
                             }
 
-                        }
-                        else if (token == '/') {
+                        } else if (token == '/') {
                             var words = CreateWords(chunk);
                             if (words.First() != null) {
                                 if (words.Count(w => w is Conjunction) == words.Count) {
                                     parsedPhrases.Add(new ConjunctionPhrase(words));
-                                }
-                                else if (words.Count() == 1 && words.First() is SentencePunctuation) {
+                                } else if (words.Count() == 1 && words.First() is SentencePunctuation) {
                                     sentencePunctuation = words.First() as SentencePunctuation;
                                     parsedClauses.Add(new Clause(parsedPhrases.Take(parsedPhrases.Count)));
                                     parsedPhrases = new List<Phrase>();
-                                }
-                                else if (words.Count(w => w is Punctuator) == words.Count) {
-                                    parsedPhrases.Add(new PunctuatorPhrase(words));
-                                }
-                                else {
+                                } else if (words.Count(w => w is Punctuator) == words.Count && (words.Count(w => w is Punctuator) + words.Count(w => w is Conjunction)) == words.Count) {
+                                    parsedPhrases.Add(new ConjunctionPhrase(words));
+                                } else {
                                     parsedPhrases.Add(new UndeterminedPhrase(words));
                                 }
                             }
@@ -143,9 +139,9 @@ namespace LASI.FileSystem
             var reader2 = (new StringReader(chunk));
             char token = '~';
             while (reader2.Peek() != ' ' && reader2.Peek() != '/') {
-                token = (char)reader2.Read();
+                token = (char) reader2.Read();
             }
-            token = (char)reader2.Read();
+            token = (char) reader2.Read();
             return token;
         }
 
@@ -188,8 +184,7 @@ namespace LASI.FileSystem
             if (phraseTag == "NP" && composed.All(w => w is Adverb)) {
                 var phraseConstructor = PhraseTagset["ADVP"];
                 return phraseConstructor(composed);
-            }
-            else {
+            } else {
                 var phraseConstructor = PhraseTagset[phraseTag];
 
                 return phraseConstructor(composed);

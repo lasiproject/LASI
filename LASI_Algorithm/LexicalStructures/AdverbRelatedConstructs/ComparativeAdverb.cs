@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace LASI.Algorithm
 {
     /// <summary>
-    /// Represents an adverb which specifies a verb or adjective in a context presumably relative to some other occurance of the verb or adjective.
+    /// Represents an adverb which specifies a verb or adjective in a context presumably relative to some rhs occurance of the verb or adjective.
     /// For Verbs - 
     /// If modifying an instransitive verb it will usually lexically follow the the verb: e.g. "Jane plays BETTER than John.
     /// If modifying a transitive verb it will usually lexically follow the verb object: e.g. "Jane plays poker "BETTER" than John.

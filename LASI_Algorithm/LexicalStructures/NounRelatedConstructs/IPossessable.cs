@@ -6,8 +6,8 @@ using System.Text;
 namespace LASI.Algorithm
 {
     /// <summary>
-    /// Defines the role requirements for constructs; generally Nouns, Nounphrases or Pronouns; which are "possessable" by other Entities.
-    /// Along with the other interfaces in the Syntactic Interfaces Library, the IPossessable interface provides for generalization and abstraction over Word and Phrase types.
+    /// Defines the role requirements for constructs; generally Nouns, Nounphrases or Pronouns; which are "possessable" by rhs Entities.
+    /// Along with the rhs interfaces in the Syntactic Interfaces Library, the IPossessable interface provides for generalization and abstraction over Word and Phrase types.
     /// </summary>
     public interface IPossessable
     {

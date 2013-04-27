@@ -79,10 +79,10 @@ namespace Erik_Experimentation
             //PHASE 4 - Phrase Weight based on part of speech and neibhors' (full sentence) part of speech
             //PHASE 5 - FREQUENCIES
             // .1 - Frequency of Word/Phrase in document
-            // .2 - Frequency of Word/Phrase in document compared to other documents in set -EXCLUDED FOR 1-DOCUMENT DEMO
+            // .2 - Frequency of Word/Phrase in document compared to rhs documents in set -EXCLUDED FOR 1-DOCUMENT DEMO
             //PHASE 6 - SYNONYMS
             //ALLUAN READ:            // .1 - Frequency of Word (/Phrase?) in document - COMPLETE MINUS VERBS (couldn't search the verb thesaurus in any way)
-            // .2 - Frequency of Word (/Phrase?) in document compared to other documents in set -EXCLUDED FOR 1-DOCUMENT DEMO
+            // .2 - Frequency of Word (/Phrase?) in document compared to rhs documents in set -EXCLUDED FOR 1-DOCUMENT DEMO
 
 
 
@@ -284,7 +284,7 @@ namespace Erik_Experimentation
 
 
 
-            // .2 - Frequency of Word in document compared to other documents in set - EXCLUDED FOR 1-DOCUMENT DEMO
+            // .2 - Frequency of Word in document compared to rhs documents in set - EXCLUDED FOR 1-DOCUMENT DEMO
 
             //PHASE 6 - SYNONYMS
             // .1 - Frequency of Word in document
@@ -418,7 +418,7 @@ namespace Erik_Experimentation
 
 
 
-            // .2 - Frequency of Word in document compared to other documents in set - EXCLUDED FOR 1-DOCUMENT DEMO
+            // .2 - Frequency of Word in document compared to rhs documents in set - EXCLUDED FOR 1-DOCUMENT DEMO
 
 
 

@@ -9,7 +9,7 @@ namespace LASI.Algorithm
 {
     /// <summary>
     /// Defines the role requirements for Entity type constructs, including Nouns, NounPhrases, and Gerunds. 
-    /// Along with the other interfaces in the Syntactic Interfaces Library, the IEntity interface provides for generalization and abstraction over many otherwise disparate element types and type heirarchies.
+    /// Along with the rhs interfaces in the Syntactic Interfaces Library, the IEntity interface provides for generalization and abstraction over many otherwise disparate element types and type heirarchies.
     /// </summary>
     public interface IEntity : IVerbialObject, IVerbialSubject, IPronounBindable, IDescribable, IPossesser, IPossessable, ILexical, IEquatable<IEntity>
     {
