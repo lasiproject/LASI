@@ -1,14 +1,15 @@
 ﻿using LASI.Algorithm;
+using LASI.Algorithm.Analysis.Binding;
+using LASI.Algorithm.Analysis.Heuristics;
 using LASI.Algorithm.Binding;
 using LASI.Algorithm.Thesauri;
-using System;
-using System.Linq;
 using LASI.Utilities;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using LASI.Utilities.TypedSwitch;
-using LASI.Algorithm.Analysis.Heuristics;
-using LASI.Algorithm.Analysis.Binding;
+using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Linq;
+using System.Threading.Tasks;
 namespace Aluan_Experimentation
 {
     public class Program
@@ -18,22 +19,13 @@ namespace Aluan_Experimentation
 
         static void Main(string[] args) {
 
-            //Phrase.VerboseOutput = true;
-
-            var s = TaggerUtil.LoadTextFile(new LASI.FileSystem.FileTypes.TextFile(testPath));
-            var k = new LASI.Algorithm.Analysis.Binding.PronounBinder();
-            k.Bind(s);
-            foreach (var p in s.Phrases.GetPronounPhrases())
-                Output.WriteLine(p);
-
-
-            //Task.Run(() => Thesaurus.LoadAllAsync()).Wait();
-            //try {
-            //    Thesaurus.InternalLookup(new Adverb("quickly"));
-            //} catch (LASI.Algorithm.Thesuari.NoSynonymLookupForTypeException ex) {
-            //    Output.WriteLine(ex.Message);
+            NounConjugator conjugator = new NounConjugator(ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "noun.exc");
+            Output.WriteLine(conjugator);
+            var conjugations = conjugator.GetConjugations("cat");
+            var bases = conjugator.TryExtractRoot("women");
+            conjugations.ForEach(c => Output.WriteLine(c));
+            bases.ForEach(c => Output.WriteLine(c));
             Input.WaitForKey();
-            //}
         }
 
 
@@ -76,14 +68,13 @@ namespace Aluan_Experimentation
                 var objectBinder = new ObjectBinder();
                 try {
                     subjectBinder.Bind(s);
-                }
-                catch (NullReferenceException) {
+                } catch (NullReferenceException) {
                 }
                 try {
                     objectBinder.Bind(s);
                 }
-                //catch (InvalidStateTransitionException) {
-                //}
+                    //catch (InvalidStateTransitionException) {
+                    //}
                 catch (VerblessPhrasalSequenceException) {
                 }
             }
@@ -116,32 +107,13 @@ namespace Aluan_Experimentation
             for (var k = Console.ReadLine(); ; ) {
                 try {
                     Output.WriteLine(Thesaurus.VerbProvider[k].OrderBy(o => o).Aggregate("", (aggr, s) => s.PadRight(30) + ", " + aggr));
-                }
-                catch (ArgumentNullException) {
+                } catch (ArgumentNullException) {
                     Output.WriteLine("no synonyms returned");
                 }
                 Output.WriteLine("enter verb: ");
                 k = Console.ReadLine();
             }
         }
-
-
-
-
-
-
-
-
-
-        //
-
-
-
-
-
-
-
-
 
 
         static void WeightAll(Document doc) {
@@ -187,36 +159,6 @@ namespace Aluan_Experimentation
 
 
 
-            var words = from w in doc.Words
-                        select w;
-
-
-
-            var results =
-                        words.GetNouns()
-                        .OrderBy(n => n.Weight)
-                        .Take(100)
-                        .Concat<Word>(words.GetToLinkers()
-                        .OrderBy(v => v.Weight)
-                        .Take(50))
-                        .Concat<Word>(words.GetAdjectives()
-                        .OrderBy(a => a.Weight)
-                        .Take(25))
-                        .Concat<Word>(words.GetAdverbs()
-                        .OrderBy(a => a.Weight)
-                        .Take(15));
-
-
-
-
-
-
-
-
-
-
-
-
 
             foreach (var NP in doc.Phrases.GetNounPhrases()) {
                 NP.Weight = 1;
@@ -231,47 +173,6 @@ namespace Aluan_Experimentation
                     NP.Weight += group.Count();
                 }
             }
-
-            //SYNONYM APPROACH
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

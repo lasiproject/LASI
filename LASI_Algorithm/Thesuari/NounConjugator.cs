@@ -39,7 +39,7 @@ namespace LASI.Algorithm.Thesauri
         #endregion
 
         public List<string> FindRoot(string conjugated) {
-            return TryExtractRoot(conjugated) ?? new List<string> { CheckSpecialFormsList(conjugated) };
+            return (TryExtractRoot(conjugated)).AsEnumerable().ToList() ?? new List<string> { CheckSpecialFormsList(conjugated) };
         }
         public List<string> GetConjugations(string root) {
             try {
@@ -56,44 +56,58 @@ namespace LASI.Algorithm.Thesauri
             exceptionData.TryGetValue(realRoot, out except);
             if (except != null)
                 return except;
-
-
-
-
-
             var results = new List<string>();
-            for (var i = 0; i < VERB_ENDINGS.Length; i++) {
-                if (realRoot.EndsWith(VERB_ENDINGS[i]) || VERB_ENDINGS[i] == "") {
-                    results.Add(realRoot.Substring(0, realRoot.Length - VERB_ENDINGS[i].Length) + VERB_SUFFICIES[i] + (hyphIndex > -1 ? root.Substring(hyphIndex) : ""));
+            for (var i = 0; i < NOUN_ENDINGS.Length; i++) {
+                if (realRoot.EndsWith(NOUN_ENDINGS[i]) || NOUN_ENDINGS[i] == "") {
+                    results.Add(realRoot.Substring(0, realRoot.Length - NOUN_ENDINGS[i].Length) + NOUN_SUFFICIES[i] + (hyphIndex > -1 ? root.Substring(hyphIndex) : ""));
                 }
             }
             return results;
         }
+
+        //public List<string> TryExtractRoot(string search) {
+        //    var results = new List<string>();
+        //    string except = CheckSpecialFormsList(search);
+        //    if (except != null) {
+        //        results.Add(except);
+        //        return results;
+        //    }
+        //    for (int i = 0; i < NOUN_ENDINGS.Length; ++i) {
+        //        if (search.EndsWith(NOUN_SUFFICIES[i], StringComparison.InvariantCulture)) {
+        //            var possibleRoot = search.Substring(0, search.Length - NOUN_SUFFICIES[i].Length);
+        //            if ((possibleRoot).EndsWith(NOUN_ENDINGS[i])) {
+        //                results.Add(possibleRoot);
+        //            }
+        //        }
+        //    }
+        //    if (results.Count == 0)
+        //        results.Add(search);
+        //    return results;
+        //}
+
 
         public List<string> TryExtractRoot(string search) {
-            var results = new List<string>();
-            var except = CheckSpecialFormsList(search);
-            if (except != null) {
-                results.Add(except);
-                return results;
+            List<string> result = new List<string>(new[] { CheckSpecialFormsList(search) });
+            if (result != null) {
+                return result;
             }
-            for (int i = 0; i < VERB_ENDINGS.Length; ++i) {
-                if (search.EndsWith(VERB_SUFFICIES[i], StringComparison.InvariantCulture)) {
-                    var possibleRoot = search.Substring(0, search.Length - VERB_SUFFICIES[i].Length);
-                    if ((possibleRoot).EndsWith(VERB_ENDINGS[i])) {
-                        results.Add(possibleRoot);
-                    }
+            for (int i = 0; i < NOUN_SUFFICIES.Length; ++i) {
+                if (search.EndsWith(NOUN_SUFFICIES[i])) {
+                    result.Add(search.Substring(0, search.Length - NOUN_ENDINGS[i].Length) + NOUN_ENDINGS[i]);
+                    break;
                 }
             }
-            if (results.Count == 0)
-                results.Add(search);
-            return results;
+
+            if (result.Count == 0)
+                result.Add(search);
+            return result;
         }
 
+
         private string CheckSpecialFormsList(string search) {
-            return (from verbExceptKVs in exceptionData
-                    where verbExceptKVs.Value.Contains(search)
-                    select verbExceptKVs.Key).FirstOrDefault();
+            return (from nounExceptKVs in exceptionData
+                    where nounExceptKVs.Value.Contains(search)
+                    select nounExceptKVs.Key).FirstOrDefault();
         }
 
 
@@ -101,8 +115,15 @@ namespace LASI.Algorithm.Thesauri
 
         private readonly Dictionary<string, List<string>> exceptionData = new Dictionary<string, List<string>>();
 
-        private readonly string[] VERB_SUFFICIES = new[] { "s", "ies", "es", "es", "ed", "ed", "ing", "ing" };
-        private readonly string[] VERB_ENDINGS = new[] { "", "y", "e", "", "e", "", "e", "" };
+        public Dictionary<string, List<string>> ExceptionData {
+            get {
+                return exceptionData;
+            }
+        }
+
+
+        private readonly string[] NOUN_SUFFICIES = new[] { "s", "ses", "xes", "zes", "ches", "shes", "men", "ies" };
+        private readonly string[] NOUN_ENDINGS = new[] { "", "s", "x", "z", "ch", "sh", "man", "y", };
         public override string ToString() {
             return exceptionData.Aggregate("",
                 (accumulator, data) => accumulator +=
