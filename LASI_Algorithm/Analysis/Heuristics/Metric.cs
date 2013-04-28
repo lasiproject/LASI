@@ -2,22 +2,26 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using LASI.Algorithm.Analysis;
 
 namespace LASI.Algorithm.Heuristics
 {
     public class ResultSet
     {
-        public IEnumerable<IEntity> TopEntities {
-            get;
-            set;
+        public ResultSet(DocumentConstructs.Document document) {
+            source = document;
         }
-        public IEnumerable<ITransitiveVerbial> TopActions {
-            get;
-            set;
+        private List<SubjectVerbObjectResult> svoTripples = new List<SubjectVerbObjectResult>();
+
+        public List<SubjectVerbObjectResult> SvoTripples {
+            get {
+                return svoTripples;
+            }
+            set {
+                svoTripples = value;
+            }
         }
-        public IEnumerable<ILexical> TopMiscelaneous {
-            get;
-            set;
-        }
+
+        private DocumentConstructs.Document source;
     }
 }

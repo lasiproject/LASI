@@ -70,6 +70,7 @@
     <Compile Include="Analysis\Binding\UnknownEntityCompatibleWordTypeException.cs" />
     <Compile Include="Analysis\Binding\WordStream.cs" />
     <Compile Include="Analysis\Heuristics\LOOKATTHIS.cs" />
+    <Compile Include="Analysis\Heuristics\SubjectVerbObjectResult.cs" />
     <Compile Include="Analysis\Heuristics\UnknownLexicalConstructException.cs" />
     <Compile Include="Analysis\Weighter.cs" />
     <Compile Include="DocumentConstructs\SubordinateClauseBeginPhrase.cs" />
