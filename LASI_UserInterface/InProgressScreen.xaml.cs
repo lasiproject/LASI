@@ -31,7 +31,6 @@ namespace LASI.UserInterface
             WindowManager.InProgressScreen = this;
             WindowStartupLocation = WindowStartupLocation.CenterScreen;
 
-
             Output.SetToSilent();
             this.IsVisibleChanged += async (s, e) => await InitPawPrintAlternation();
             this.Closing += (s, e) => Application.Current.Shutdown();
@@ -85,13 +84,13 @@ namespace LASI.UserInterface
         #region Process Control
 
 
-        ProcessController status = new ProcessController();
+        ProcessController processController = new ProcessController();
 
 
         public async Task InitializeParsing() {
 
 
-            var msg = await status.LoadAndAnalyseAllDocuments(ProgressBar, ProgressLabel);
+            var msg = await processController.LoadAndAnalyseAllDocuments(ProgressBar, ProgressLabel);
             ProgressBar.Value = 100;
             ProgressBar.ToolTip = "Complete";
             ProgressLabel.Content = "Complete";
@@ -132,6 +131,7 @@ namespace LASI.UserInterface
 
         private void minButton_Click(object sender, RoutedEventArgs e) {
             this.WindowState = WindowState.Minimized;
+            PerformanceManager.PerformanceMode = PerformanceMode.HiddenLongRunning;
         }
         private void closeButton_Click(object sender, RoutedEventArgs e) {
             Application.Current.Shutdown();

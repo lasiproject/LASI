@@ -34,16 +34,16 @@ namespace LASI.Algorithm.Analysis
                                     p.Text
                                 };
 
-            var nounSynonymGroups = from w in doc.Words.GetNouns().AsParallel().WithDegreeOfParallelism(3)
+            var nounSynonymGroups = from w in doc.Words.GetNouns().AsParallel().WithDegreeOfParallelism(PerformanceController.MaxParallellism)
                                     let synstrings = Thesauri.Thesaurus.NounProvider[w]
-                                    from t in doc.Words.GetNouns().AsParallel().WithDegreeOfParallelism(3)
+                                    from t in doc.Words.GetNouns().AsParallel().WithDegreeOfParallelism(PerformanceController.MaxParallellism)
                                     where synstrings != null
                                     where synstrings.Contains(t.Text)
                                     group t by w;
 
-            var verbsynonymgroups = from w in doc.Words.GetVerbs().AsParallel().WithDegreeOfParallelism(3)
+            var verbsynonymgroups = from w in doc.Words.GetVerbs().AsParallel().WithDegreeOfParallelism(PerformanceController.MaxParallellism)
                                     let synstrings = Thesauri.Thesaurus.VerbProvider[w]
-                                    from t in doc.Words.GetVerbs().AsParallel().WithDegreeOfParallelism(3)
+                                    from t in doc.Words.GetVerbs().AsParallel().WithDegreeOfParallelism(PerformanceController.MaxParallellism)
                                     where synstrings != null
                                     where synstrings.Contains(t.Text)
                                     group t by w;

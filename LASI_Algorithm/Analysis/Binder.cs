@@ -19,10 +19,8 @@ namespace LASI.Algorithm.Analysis
                 PerformIntraPhraseBinding(doc);
                 PerformAttributeNounPhraseBinding(doc);
                 PerformSVOBinding(doc);
-            }
-            catch (VerblessPhrasalSequenceException) {
-            }
-            catch (InvalidOperationException) {
+            } catch (VerblessPhrasalSequenceException) {
+            } catch (InvalidOperationException) {
             }
         }
 
@@ -32,7 +30,7 @@ namespace LASI.Algorithm.Analysis
         private static void PerformAttributeNounPhraseBinding(Document doc) {
             doc.Sentences
               .Where(s => s.ParentParagraph.ParagraphKind == ParagraphKind.Default)
-                .AsParallel()
+                .AsParallel().WithDegreeOfParallelism(PerformanceController.MaxParallellism)
                 .ForAll(
                 s => {
                     var attributiveBinder = new AttributiveNounPhraseBinder(s);
@@ -42,25 +40,22 @@ namespace LASI.Algorithm.Analysis
             try {
                 doc.Sentences
                  .Where(s => s.ParentParagraph.ParagraphKind == ParagraphKind.Default)
-                    .AsParallel().ForAll(
+                    .AsParallel().WithDegreeOfParallelism(PerformanceController.MaxParallellism)
+                    .ForAll(
                     s => {
                         try {
                             new SubjectBinder().Bind(s);
-                        }
-                        catch (NullReferenceException) {
+                        } catch (NullReferenceException) {
                         }
                         try {
                             if (s.Phrases.GetVerbPhrases().Count() > 0) {
                                 new ObjectBinder().Bind(s);
                             }
-                        }
-                        catch (InvalidStateTransitionException) {
-                        }
-                        catch (VerblessPhrasalSequenceException) {
+                        } catch (InvalidStateTransitionException) {
+                        } catch (VerblessPhrasalSequenceException) {
                         }
                     });
-            }
-            catch {
+            } catch {
             }
         }
 
@@ -69,18 +64,19 @@ namespace LASI.Algorithm.Analysis
 
             var phrases = from r in doc.Phrases.AsParallel()
                           select r;
-            phrases.ForAll(r => {
-                var wordBinder = new InterPhraseWordBinding();
-                new LASI.Utilities.TypedSwitch.Switch(r)
-                .Case<NounPhrase>(np => {
-                    wordBinder.IntraNounPhrase(np);
-                })
-                .Case<VerbPhrase>(vp => {
-                    wordBinder.IntraVerbPhrase(vp);
-                })
-                .Default(a => {
+            phrases.WithDegreeOfParallelism(PerformanceController.MaxParallellism)
+                .ForAll(r => {
+                    var wordBinder = new InterPhraseWordBinding();
+                    new LASI.Utilities.TypedSwitch.Switch(r)
+                    .Case<NounPhrase>(np => {
+                        wordBinder.IntraNounPhrase(np);
+                    })
+                    .Case<VerbPhrase>(vp => {
+                        wordBinder.IntraVerbPhrase(vp);
+                    })
+                    .Default(a => {
+                    });
                 });
-            });
         }
 
         #endregion

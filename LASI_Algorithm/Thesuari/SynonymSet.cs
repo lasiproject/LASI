@@ -14,8 +14,8 @@ namespace LASI.Algorithm.Thesauri
     internal class SynonymSet : IReadOnlyCollection<string>
     {
         public SynonymSet(IEnumerable<string> referencedSetIds, IEnumerable<string> memberWords, WordNetVerbLex lexName) {
-            _members = memberWords.Distinct();
-            _referencedIndexes = referencedSetIds;
+            _members = new HashSet<string>(memberWords);
+            _referencedIndexes = new HashSet<string>(referencedSetIds);
             LexName = lexName;
             IndexCode = referencedSetIds.First();
         }
@@ -30,9 +30,9 @@ namespace LASI.Algorithm.Thesauri
         }
 
 
-        private IEnumerable<string> _members;
+        private HashSet<string> _members;
 
-        private IEnumerable<string> _referencedIndexes;
+        private HashSet<string> _referencedIndexes;
 
         /// <summary>
         /// Gets or sets the collection of SynonymSet-index-codes corresponding to referenced SynonymSets.
@@ -41,9 +41,7 @@ namespace LASI.Algorithm.Thesauri
             get {
                 return _referencedIndexes;
             }
-            set {
-                _referencedIndexes = value;
-            }
+
         }
         /// <summary>
         /// Gets the IndexCode which identifies the SynonymSet.

@@ -22,7 +22,6 @@ namespace LASI.Algorithm.Thesauri
             : base(filePath) {
             FilePath = filePath;
             AssociationData = new ConcurrentDictionary<string, SynonymSet>();//Not a great practice, but the length of the file is fixed, making this a useful, but ugly optemization.
-            //cachedData = new ConcurrentDictionary<string, HashSet<string>>();//Again this is ugly, but its fairly performant at the moment.
             lexRestrict = constrainByCategory;
         }
 
@@ -39,18 +38,17 @@ namespace LASI.Algorithm.Thesauri
                     }
                     var fileLines = reader.ReadToEnd().Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
                     foreach (var line in fileLines) {
-                        ParseLine(line);
+                        ParseLineAndAddToSets(line);
                     }
                 }
             }
         }
 
-        private void ParseLine(string line) {
+        private void ParseLineAndAddToSets(string line) {
             var synset = BuildSynset(line);
 
             LinkSynset(synset);
             AssociationData.Add(synset.IndexCode, synset);
-            //Console.Write("V ");
         }
 
         private void LinkSynset(SynonymSet synset) {
@@ -59,8 +57,7 @@ namespace LASI.Algorithm.Thesauri
                     AssociationData[word] = new SynonymSet(
                         AssociationData[word].ReferencedIndexes.Concat(synset.ReferencedIndexes),
                         AssociationData[word].Members.Concat(synset.Members), AssociationData[word].LexName);
-                }
-                else {
+                } else {
                     AssociationData.Add(word, synset);
                 }
 
@@ -79,7 +76,6 @@ namespace LASI.Algorithm.Thesauri
                 try {
                     foreach (var root in conjugator.TryExtractRoot(search)) {
                         try {
-
                             return new HashSet<string>((from REF in AssociationData[root].ReferencedIndexes //Get all set reference indeces stored directly within 
                                                         select new {                                        //The synset indexed by the word
                                                             ind = REF,                                      //Store the LexName for restrictive comparison if enabled
@@ -92,27 +88,22 @@ namespace LASI.Algorithm.Thesauri
                                                             ind = REF.Key,
                                                             lex = lexRestrict ? REF.Value.LexName : WordNetVerbLex.ARBITRARY
                                                         } into ReferencedSets                                //The result of our group join contains all referenced sets
-                                                        from R in ReferencedSets.Distinct()
+                                                        from R in ReferencedSets
                                                         from RM in R.Value.Members                           //Now aggregate all words directly contained within the group
                                                         select RM into RMG                                   //concatanting them with their various morphs
                                                         select new string[] { RMG }.Concat(conjugator.TryComputeConjugations(RMG)) into CJRM
                                                         from C in CJRM                                       //Now simply remove any duplicates
                                                         select C));
-                        }
-                        catch (KeyNotFoundException) {
-                        }
-                        catch (ArgumentOutOfRangeException) {
+                        } catch (KeyNotFoundException) {
+                        } catch (ArgumentOutOfRangeException) {
                         }
 
 
                     }
                     return null;
-                }
-                catch (ArgumentOutOfRangeException) {
-                }
-                catch (KeyNotFoundException) {
-                }
-                catch (IndexOutOfRangeException) {
+                } catch (ArgumentOutOfRangeException) {
+                } catch (KeyNotFoundException) {
+                } catch (IndexOutOfRangeException) {
                 }
 
 
@@ -139,7 +130,7 @@ namespace LASI.Algorithm.Thesauri
 
         private SynonymSet BuildSynset(string data) {
 
-            var WNlexNameCode = (WordNetVerbLex)Int32.Parse(data.Substring(9, 2));
+            var WNlexNameCode = (WordNetVerbLex) Int32.Parse(data.Substring(9, 2));
 
             data = Regex.Replace(data, @"([+]+|;c+)+[\s]+[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+", "");
 
@@ -157,7 +148,7 @@ namespace LASI.Algorithm.Thesauri
             return new SynonymSet(setReferences, setElements, WNlexNameCode);
         }
 
-        //private ConcurrentDictionary<String, HashSet<string>> cachedData;
+        //private ConcurrentDictionary<int, SynonymSet> allSynonymSets = new ConcurrentDictionary<int, SynonymSet>();
 
         const int HEADER_LENGTH = 30;
         private VerbConjugator conjugator = new VerbConjugator(ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "verb.exc");
@@ -169,14 +160,3 @@ namespace LASI.Algorithm.Thesauri
 
 
 }
-
-
-
-//}
-//    //try {
-//    return cachedData.ContainsKey(root) ? cachedData[root] : null;
-//    //} catch (KeyNotFoundException ex) {
-//    //    //  Debug.WriteLine("No entry present in VerbThesaurus for {0}\n{1}", root, ex.Message);
-//    //}
-//}
-//return null;

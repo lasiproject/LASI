@@ -48,6 +48,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="PerformanceManager.cs" />
     <Compile Include="ProcessController.cs" />
     <Compile Include="DefaultResultProvider.cs" />
     <Compile Include="IProcessInfoProvider.cs" />

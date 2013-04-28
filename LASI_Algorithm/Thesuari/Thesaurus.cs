@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Configuration;
 using LASI.Utilities;
 using System.Dynamic;
+using System.Collections.Concurrent;
 
 namespace LASI.Algorithm.Thesauri
 {
@@ -75,10 +76,14 @@ namespace LASI.Algorithm.Thesauri
             return InternalLookup(word as dynamic);
         }
         public static IEnumerable<string> InternalLookup(Verb verb) {
-            return VerbProvider[verb];
+            if (!cachedVerbData.ContainsKey(verb.Text))
+                cachedVerbData[verb.Text] = VerbProvider[verb];
+            return cachedVerbData[verb.Text];
         }
         public static IEnumerable<string> InternalLookup(Noun noun) {
-            return NounProvider[noun];
+            if (!cachedNounData.ContainsKey(noun.Text))
+                cachedNounData[noun.Text] = NounProvider[noun];
+            return cachedNounData[noun.Text];
         }
         public static IEnumerable<string> InternalLookup(Adverb verb) {
             return AdverbProvider[verb];
@@ -144,6 +149,9 @@ namespace LASI.Algorithm.Thesauri
 
             return result;
         }
+        private static ConcurrentDictionary<string, IEnumerable<string>> cachedNounData = new ConcurrentDictionary<string, IEnumerable<string>>();
+        private static ConcurrentDictionary<string, IEnumerable<string>> cachedVerbData = new ConcurrentDictionary<string, IEnumerable<string>>();
+
     }
 }
 
