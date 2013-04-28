@@ -36,9 +36,10 @@ namespace LASI.Algorithm.Binding
             var remainingPhrases = phrases.Skip(verbPhraseIndex + 1).Reverse();
             if (remainingPhrases.Count() > 0) {
                 inputstream.PushAll(remainingPhrases);
-
-                St0.Transition(inputstream.PopDynamic());
-
+                try {
+                    St0.Transition(inputstream.PopDynamic());
+                } catch (InvalidOperationException) {
+                }
             }
         }
         private void AssociateDirect() {
@@ -151,7 +152,7 @@ namespace LASI.Algorithm.Binding
             public void Transition(PrepositionalPhrase phrase) {
                 Machine.lastPrepositional = phrase;
                 try {
-                    if (Machine.inputstream.Count < 1)
+                    if (Machine.inputstream.Count > 1)
                         Machine.St0.Transition(Stream.PopDynamic());
                 } catch (InvalidOperationException) {
                 }

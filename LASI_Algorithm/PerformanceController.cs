@@ -6,15 +6,21 @@ using System.Threading.Tasks;
 
 namespace LASI.Algorithm
 {
-    public static class PerformanceController
+    public static class Concurrency
     {
-        static PerformanceController() {
-            MaxParallellism = 3;
+        static Concurrency() {
+
+            CurrentMax = GetDefaultParallellMax();
         }
 
-        public static int MaxParallellism {
+        public static int CurrentMax {
             get;
             set;
         }
+        private static int GetDefaultParallellMax() {
+            var logicalCPUs = System.Environment.ProcessorCount;
+            return logicalCPUs > 4 ? logicalCPUs - 2 : logicalCPUs - 2;
+        }
+
     }
 }

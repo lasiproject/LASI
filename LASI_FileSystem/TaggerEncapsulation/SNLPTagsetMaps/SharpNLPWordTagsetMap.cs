@@ -65,7 +65,7 @@ namespace LASI.FileSystem
             { "VBN", t => new Verb(t,VerbTense.PastParticiple) }, //Verb, past participle
             { "VBP", t => new Verb(t,VerbTense.SingularPresent) }, //Verb, non-3rd person singular present
             { "VBZ", t => new Verb(t,VerbTense.ThirdPersonSingularPresent) }, //Verb, 3rd person singular present
-            //WH-w mappings
+            //WH-verb mappings
             { "WDT", t => new Determiner(t) }, //Wh-leftNPDeterminer
             { "WP", t => new WhPronoun(t) }, //Wh-pronoun
             { "WP$", t => new WhPossessivePronoun(t) }, //IsPossessive wh-pronoun

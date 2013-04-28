@@ -208,38 +208,38 @@ namespace Erik_Experimentation
             //{
             //    //Console.WriteLine(s);
 
-            //    foreach (Phrase p in s.Phrases)
+            //    foreach (Phrase phrase in s.Phrases)
             //    {
-            //        Console.WriteLine(p);
+            //        Console.WriteLine(phrase);
 
-            //        new Switch(p)
+            //        new Switch(phrase)
             //            .Case<NounPhrase>(n =>
             //            {
-            //                p.Weight = primary;
+            //                phrase.Weight = primary;
 
             //            })
-            //            .Case<VerbPhrase>(v =>
+            //            .Case<VerbPhrase>(verb =>
             //            {
-            //                p.Weight = secondary;
+            //                phrase.Weight = secondary;
             //            })
             //            .Case<AdjectivePhrase>(adj =>
             //            {
-            //                p.Weight = tertiary;
+            //                phrase.Weight = tertiary;
             //            })
             //            .Case<AdverbPhrase>(adv =>
             //            {
-            //                p.Weight = quaternary;
+            //                phrase.Weight = quaternary;
             //            })
             //            .Case<SimpleDeclarativePhrase>(pn =>
             //            {
-            //                p.Weight = quinary;
+            //                phrase.Weight = quinary;
             //            })
             //            .Default(def =>
             //            {
-            //                p.Weight = senary;
+            //                phrase.Weight = senary;
             //            });
 
-            //        Console.WriteLine(p.Weight);
+            //        Console.WriteLine(phrase.Weight);
 
             //    }
 
@@ -257,7 +257,7 @@ namespace Erik_Experimentation
             //Console.WriteLine(" ");
             //Console.WriteLine("Word Frequencies in Document:");
 
-            //foreach (Word w in document.Words)
+            //foreach (Word verb in document.Words)
             //{
 
 
@@ -265,7 +265,7 @@ namespace Erik_Experimentation
             //    foreach (Word w1 in document.Words)
             //    {
 
-            //        if (w.Text == w1.Text)  //why doesn't 'w1.Equals(current)' work?
+            //        if (verb.Text == w1.Text)  //why doesn't 'w1.Equals(current)' work?
             //        {
             //            w1.FrequencyCurrent += 1;
             //        }
@@ -275,11 +275,11 @@ namespace Erik_Experimentation
 
             //}
 
-            //foreach (Word w in document.Words)
+            //foreach (Word verb in document.Words)
             //{
-            //    Console.WriteLine(w);
-            //    Console.WriteLine(w.FrequencyCurrent); //integrate with existing
-            //    decimal percentID = (w.FrequencyCurrent / (decimal)document.Words.Count());
+            //    Console.WriteLine(verb);
+            //    Console.WriteLine(verb.FrequencyCurrent); //integrate with existing
+            //    decimal percentID = (verb.FrequencyCurrent / (decimal)document.Words.Count());
             //    Console.WriteLine("Frequency % in document:" + percentID);
             //} //NEED FORMULA TO MODIFY WEIGHT
 
@@ -377,12 +377,12 @@ namespace Erik_Experimentation
 
 
             //ALUAN: HELP NEEDED for your verb lookup
-            //foreach (var v in verbs)
+            //foreach (var verb in verbs)
             //{
             //    var verbTest = new VerbThesaurus(@"..\..\..\..\WordNetThesaurusData\data.verb");
 
             //    verbTest.Load();
-            //    IEnumerable<string> synonyms2 = Thesaurus.Lookup(v);  //Can't search through your verbs?
+            //    IEnumerable<string> synonyms2 = Thesaurus.Lookup(verb);  //Can't search through your verbs?
 
 
 
@@ -404,12 +404,12 @@ namespace Erik_Experimentation
 
 
             //NEED REAL FORMULA FOR WEIGHT MODIFICATION
-            //        w.Weight += w.Synonyms;
+            //        verb.Weight += verb.Synonyms;
 
 
 
 
-            //        Console.WriteLine(w);
+            //        Console.WriteLine(verb);
 
 
             //    }

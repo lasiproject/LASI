@@ -7,6 +7,7 @@ using LASI.GuiInterop;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,6 +22,8 @@ namespace LASI.InteropLayer
 ProcessingState.ComputingMetrics, ProcessingState.CrossReferencing, ProcessingState.Completing };
 
         public async Task<IEnumerable<Document>> LoadAndAnalyseAllDocuments(ProgressBar progressBar, Label progressLabel) {
+            var sw = Stopwatch.StartNew();
+
             progressBar.ToolTip = ProcessingState.LoadingThesauri.ToString();
             progressLabel.Content = ProcessingState.LoadingThesauri.ToString();
             await Thesaurus.LoadAllAsync();
@@ -46,7 +49,7 @@ ProcessingState.ComputingMetrics, ProcessingState.CrossReferencing, ProcessingSt
             progressLabel.Content = ProcessingState.ComputingMetrics.ToString();
             await WeightAllDocs(docs);
             progressBar.Value += 20;
-
+            progressBar.ToolTip = sw.ElapsedMilliseconds / 1000f;
             return docs;
         }
 

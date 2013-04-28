@@ -30,7 +30,7 @@ namespace LASI.Algorithm.Analysis
         private static void PerformAttributeNounPhraseBinding(Document doc) {
             doc.Sentences
               .Where(s => s.ParentParagraph.ParagraphKind == ParagraphKind.Default)
-                .AsParallel().WithDegreeOfParallelism(PerformanceController.MaxParallellism)
+                .AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
                 .ForAll(
                 s => {
                     var attributiveBinder = new AttributiveNounPhraseBinder(s);
@@ -40,7 +40,7 @@ namespace LASI.Algorithm.Analysis
             try {
                 doc.Sentences
                  .Where(s => s.ParentParagraph.ParagraphKind == ParagraphKind.Default)
-                    .AsParallel().WithDegreeOfParallelism(PerformanceController.MaxParallellism)
+                    .AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
                     .ForAll(
                     s => {
                         try {
@@ -53,6 +53,7 @@ namespace LASI.Algorithm.Analysis
                             }
                         } catch (InvalidStateTransitionException) {
                         } catch (VerblessPhrasalSequenceException) {
+                        } catch (InvalidOperationException) {
                         }
                     });
             } catch {
@@ -64,7 +65,7 @@ namespace LASI.Algorithm.Analysis
 
             var phrases = from r in doc.Phrases.AsParallel()
                           select r;
-            phrases.WithDegreeOfParallelism(PerformanceController.MaxParallellism)
+            phrases.WithDegreeOfParallelism(Concurrency.CurrentMax)
                 .ForAll(r => {
                     var wordBinder = new InterPhraseWordBinding();
                     new LASI.Utilities.TypedSwitch.Switch(r)

@@ -18,12 +18,12 @@ namespace Richard_Experimentation
             SourceDocument = documennt;
             foreach (var word in documennt.Words) {
                 new Switch(word)
-                    .Case<Pronoun>(p => {
-                        Output.WriteLine(p.Text);
+                    .Case<Pronoun>(phrase => {
+                        Output.WriteLine(phrase.Text);
                     }).Case<GenericSingularNoun>(n => {
                         LastGenericSingularNoun = n;
                         Output.WriteLine(n.Text);
-                    }).Default<Word>(w => {
+                    }).Default<Word>(verb => {
                     });
             }
         }
@@ -87,10 +87,10 @@ static void TagExampleFile() {
     var paragraphs = new TaggedFileParser(tagged).LoadParagraphs();
     var document = new Document(paragraphs);
 
-    var para2 = from p in document.Paragraphs
-                select p;
-    foreach (var p in para2) {
-        var phgrs = from sent in p.Sentences
+    var para2 = from phrase in document.Paragraphs
+                select phrase;
+    foreach (var phrase in para2) {
+        var phgrs = from sent in phrase.Sentences
                     from r in sent.Phrases
                     select r;
 

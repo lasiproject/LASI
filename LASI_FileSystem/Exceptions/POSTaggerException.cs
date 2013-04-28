@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace LASI.FileSystem
 {
     /// <summary>
-    /// Thrown when attempting to parse an unknown w Tag
+    /// Thrown when attempting to parse an unknown verb Tag
     /// </summary>
     [Serializable]
 public     class UnknownPOSException : POSTagException
@@ -60,7 +60,7 @@ public     class UnknownPOSException : POSTagException
     }
 
     /// <summary>
-    /// Thrown when attempting to parse an untagged w
+    /// Thrown when attempting to parse an untagged verb
     /// </summary>
     [Serializable]
     public class UntaggedElementException : POSTagException

@@ -12,13 +12,13 @@ namespace LASI.InteropLayer
             set {
                 switch (value) {
                     case PerformanceMode.Forground:
-                        Algorithm.PerformanceController.MaxParallellism = 3;
+                        Algorithm.Concurrency.CurrentMax = 3;
                         break;
                     case PerformanceMode.Minimized:
-                        Algorithm.PerformanceController.MaxParallellism = 2;
+                        Algorithm.Concurrency.CurrentMax = 2;
                         break;
                     case PerformanceMode.HiddenLongRunning:
-                        Algorithm.PerformanceController.MaxParallellism = 1;
+                        Algorithm.Concurrency.CurrentMax = 1;
                         break;
                 }
             }

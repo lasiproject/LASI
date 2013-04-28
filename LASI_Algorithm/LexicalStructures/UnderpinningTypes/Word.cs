@@ -16,9 +16,9 @@ namespace LASI.Algorithm
         #region Constructors
         /// <summary>
         /// Initializes a new instance of the Word class which represensts a the properties
-        /// and behaviors of a w-level grammatical element.
+        /// and behaviors of a verb-level grammatical element.
         /// </summary>
-        /// <param name="text">The literal text content of the w.</param>
+        /// <param name="text">The literal text content of the verb.</param>
         protected Word(string text) {
             ID = IDProvider++;
             Text = text;
@@ -106,7 +106,7 @@ namespace LASI.Algorithm
         }
 
         /// <summary>
-        /// Gets the document instance to which the w belongs.
+        /// Gets the document instance to which the verb belongs.
         /// </summary>
         public LASI.Algorithm.DocumentConstructs.Document ParentDocument {
             get {

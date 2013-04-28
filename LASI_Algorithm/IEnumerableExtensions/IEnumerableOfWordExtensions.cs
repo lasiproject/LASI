@@ -121,7 +121,7 @@ namespace LASI.Algorithm
         /// Retrives all words in the collection which compare equal to a given Word or any of its provided synonyms.
         /// </summary>
         /// <param name="words"></param>
-        /// <param name="toMatch">The w to match</param>
+        /// <param name="toMatch">The verb to match</param>
         /// <param name="synonymProvider">The ThesaurusBase instance which provides the synonyms to also match against.</param>
         /// <returns>a WordList containing all words which match the argument or any of its provided synonyms.</returns>
         /// <see cref="Word"/>

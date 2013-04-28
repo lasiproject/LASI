@@ -12,7 +12,7 @@ namespace LASI.Algorithm.FundamentalSyntacticInterfaces
     public interface IModalityModifiable
     {
         /// <summary>
-        /// Gets or sets the ModalAuxilary w which modifies this instance.
+        /// Gets or sets the ModalAuxilary verb which modifies this instance.
         /// </summary>
         ModalAuxilary Modality {
             get;

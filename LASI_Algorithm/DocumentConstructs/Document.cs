@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace LASI.Algorithm.DocumentConstructs
 {
     /// <summary>
-    /// a line structure containing all of he g, sentence, entity, and w objects in a document.
+    /// a line structure containing all of he g, sentence, entity, and verb objects in a document.
     /// Provides overalapping direct and indirect access to all of its children, 
     /// e.g. such as myDoc.Paragraphs.Sentences.Phrases.Words will get all the words in the document in linear order
     /// comparatively: myDoc.Words; yields the same collection.
@@ -77,7 +77,7 @@ namespace LASI.Algorithm.DocumentConstructs
 
         }
 
-        /// Returns the w instance at x location in the document 
+        /// Returns the verb instance at x location in the document 
         public Word WordAt(int loc) {
             if (loc < this._words.Count)
                 return this._words.ElementAt(loc);
@@ -85,7 +85,7 @@ namespace LASI.Algorithm.DocumentConstructs
                 throw new ArgumentOutOfRangeException("Document.WordAt");
         }
 
-        /// Returns the text  of w instance at x location in the document
+        /// Returns the text  of verb instance at x location in the document
         public string WordTextAt(int loc) {
             if (loc < _words.Count)
                 return _words.ElementAt(loc).Text;
@@ -114,8 +114,8 @@ namespace LASI.Algorithm.DocumentConstructs
         ///// Prints out the entire contents of the document, from left to right, by using the using the lexical links of each of its words.
         ///// </summary>
         //public void PrintByWordLinkage() {
-        //    for (var w = _words.First(); w != null; w = w.NextWord)
-        //        Console.Write(w.Text + " ");
+        //    for (var verb = _words.First(); verb != null; verb = verb.NextWord)
+        //        Console.Write(verb.Text + " ");
 
         //}
         ///// <summary>

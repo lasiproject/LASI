@@ -188,7 +188,7 @@ namespace LASI.Algorithm
         }
 
         /// <summary>
-        /// Gets or sets the ModalAuxilary w which modifies the VerbPhrase.
+        /// Gets or sets the ModalAuxilary verb which modifies the VerbPhrase.
         /// </summary>
         public ModalAuxilary Modality {
             get;

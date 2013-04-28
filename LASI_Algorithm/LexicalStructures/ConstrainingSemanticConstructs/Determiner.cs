@@ -15,7 +15,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Initializes a new instance of the Determiner class.
         /// </summary>
-        /// <param name="text">the literal text content of the w.</param>
+        /// <param name="text">the literal text content of the verb.</param>
         public Determiner(string text)
             : base(text) {
             if (string.Compare(text, "the", true) == 0)

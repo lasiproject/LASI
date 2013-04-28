@@ -14,7 +14,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Initializes a new instance of the SuperalitiveAdjective class
         /// </summary>
-        /// <param name="text">The literal text content of the w.</param>
+        /// <param name="text">The literal text content of the verb.</param>
         public SuperlativeAdjective(string text)
             : base(text) {
         }

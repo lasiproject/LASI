@@ -18,8 +18,8 @@ namespace LASI.FileSystem
             if (String.IsNullOrEmpty(data) || String.IsNullOrWhiteSpace(data) || data.Trim() == "]") {
                 return null;
             }
-            //If there are no forward-slashes, the string contains no w level tags.
-            //Although there may be more slashes than w-level-tags, there there are at least as many forward-slashes as w-level-tags
+            //If there are no forward-slashes, the string contains no verb level tags.
+            //Although there may be more slashes than verb-level-tags, there there are at least as many forward-slashes as verb-level-tags
             if (data.Count(c => c == '/') == 0) {
 
                 //throw new UntaggedElementException(String.Format(

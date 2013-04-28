@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LASI.Algorithm.Thesauri;
 
 namespace LASI.Algorithm.Analysis
 {
@@ -15,80 +16,141 @@ namespace LASI.Algorithm.Analysis
             await Task.Run(() => Weight(doc));
         }
         /// <summary>
-        /// Weighting algorithm assigns Weight to each word and phrase in a document
+        /// Weighting algorithm assigns Weight to each word and phrase in a Document
         /// </summary>
-        /// <param name="doc"></param>
+        /// <param name="doc">The Document whose elements are to be weighted</param>
         static public void Weight(Document doc) {
-            var wordsByCount = from w in doc.Words
-                               where !(w is IPrepositional)
-                               where !(w is Determiner)
-                               where !(w is IConjunctive)
-                               group w by new {
-                                   w.Type,
-                                   w.Text
-                               };
+    
 
-            var phraseByCount = from p in doc.Phrases
-                                group p by new {
-                                    Type = p.GetType(),
-                                    p.Text
-                                };
+            AssignBaseWordWeights(doc, typeof(Determiner), typeof(IConjunctive), typeof(IPrepositional));
 
-            var nounSynonymGroups = from w in doc.Words.GetNouns().AsParallel().WithDegreeOfParallelism(PerformanceController.MaxParallellism)
-                                    let synstrings = Thesauri.Thesaurus.NounProvider[w]
-                                    from t in doc.Words.GetNouns().AsParallel().WithDegreeOfParallelism(PerformanceController.MaxParallellism)
+            modifyNounWeightsBySynonyms(doc);
+
+            modifyVerbWeightsBySynonyms(doc);
+
+            WeightPhrasesByAVGWordWeight(doc);
+
+            WeightPhrasesByLiteralFrequency(doc);
+
+
+        }
+
+        private static void modifyVerbWeightsBySynonyms(Document doc) {
+
+            var verbsynonymgroups = from verb in doc.Words.GetVerbs().AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
+                                    let synstrings = Thesaurus.Lookup(verb)
+                                    from t in doc.Words.GetVerbs().AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
                                     where synstrings != null
                                     where synstrings.Contains(t.Text)
-                                    group t by w;
+                                    group t by verb;
 
-            var verbsynonymgroups = from w in doc.Words.GetVerbs().AsParallel().WithDegreeOfParallelism(PerformanceController.MaxParallellism)
-                                    let synstrings = Thesauri.Thesaurus.VerbProvider[w]
-                                    from t in doc.Words.GetVerbs().AsParallel().WithDegreeOfParallelism(PerformanceController.MaxParallellism)
-                                    where synstrings != null
-                                    where synstrings.Contains(t.Text)
-                                    group t by w;
 
-            var phraseWeightPairs = from p in doc.Phrases
-                                    let weight = p.Words.Average(w => w.Weight)
+
+
+
+            //verb synonyms increase Weight of individual verbs 
+            //foreach (var grp in verbsynonymgroups) {
+            //    grp.Key.Weight += 0.7m * grp.Count();
+            //}
+
+            verbsynonymgroups.ForAll(grp => {
+                grp.Key.Weight += 0.7m * grp.Count();
+            });
+        }
+
+        private static void WeightPhrasesByAVGWordWeight(Document doc) {
+
+            var phraseWeightPairs = from phrase in doc.Phrases.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
+                                    let weight = phrase.Words.Average(w => w.Weight)
                                     select new {
-                                        p,
+                                        p = phrase,
                                         weight
                                     };
 
 
-            //basic word count by part of speech ignoring determiners and conjunctions
+            //assign weights to phrases 
+            //foreach (var pair in phraseWeightPairs) {
+            //    pair.phrase.Weight = pair.weight;
+            //}
+
+            phraseWeightPairs.ForAll(pWPair => {
+                pWPair.p.Weight = pWPair.weight;
+            });
+        }
+
+        private static void WeightPhrasesByLiteralFrequency(Document doc) {
+            var phraseByCount = from phrase in doc.Phrases.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
+                                group phrase by new {
+                                    Type = phrase.GetType(),
+                                    phrase.Text
+                                };
+
+
+            //increment Weight of identical phrases
+            //sequential enumeration of parallel query
+            //foreach (var grp in phraseByCount) {
+            //    foreach (var phrase in grp) {
+            //        phrase.Weight += grp.Count();
+            //    }
+            //}
+
+            //increment Weight of identical phrases
+            //parallell enumeration of parallel query
+            //Basic idea here is. 
+            //Instead of the syntax: foreach (var obj in collection) { do shit with obj...}
+            //We use the syntaxt: parallellCollection.ForAll( obj => { do shit with obj...} );
+            //Note phraseByCount is a parallelCollection
+
+            phraseByCount.ForAll(grp => {
+                foreach (var p in grp) { //inner loop is just normal.
+                    p.Weight += grp.Count();
+                }
+            });
+        }
+        /// <summary>
+        /// Increase noun weights in a document by abstracting over synonyms
+        /// </summary>
+        /// <param name="doc">the Document whose noun weights may be modiffied</param>
+        private static void modifyNounWeightsBySynonyms(Document doc) {
+            var nounSynonymGroups = from noun in doc.Words.GetNouns().AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
+                                    let synstrings = Thesaurus.Lookup(noun)
+                                    from t in doc.Words.GetNouns().AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
+                                    where synstrings != null
+                                    where synstrings.Contains(t.Text)
+                                    group t by noun;
+
+            ////noun synonyms increase Weight of individual nouns
+            //foreach (var grp in nounSynonymGroups) {
+            //    grp.Key.Weight += 0.7m * grp.Count();
+            //    var pn = grp.Key;
+            //    pn.Weight *= pn is ProperNoun ? 3 : 1;
+            //}
+
+            nounSynonymGroups.ForAll(grp => {
+                grp.Key.Weight += 0.7m * grp.Count();
+                var pn = grp.Key;
+                pn.Weight *= pn is ProperNoun ? 3 : 1;
+
+            });
+        }
+        /// <summary>basic word count by part of speech ignoring determiners and conjunctions</summary>
+        /// <param name="doc">the Document whose words to weight</param>
+        /// <param name="excluded">zero or more types to exlcude from weighting</param>
+        private static void AssignBaseWordWeights(Document doc, params Type[] excluded) {
+            var wordsByCount = from word in doc.Words.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
+                               where ((from type in excluded
+                                       where word.Type == type
+                                       select type).Count() == 0)
+                               group word by new {
+                                   word.Type,
+                                   word.Text
+                               };
+
             foreach (var grp in wordsByCount) {
                 foreach (var w in grp) {
                     w.Weight = grp.Count();
                 }
             }
-
-            //noun synonyms increase Weight of individual nouns
-            foreach (var grp in nounSynonymGroups) {
-                grp.Key.Weight += 0.7m * grp.Count();
-                var pn = grp.Key;
-                pn.Weight *= pn is ProperNoun ? 5 : 0;
-
-            }
-
-            //verb synonyms increase Weight of individual verbs 
-            foreach (var grp in verbsynonymgroups) {
-                grp.Key.Weight += 0.7m * grp.Count();
-            }
-
-            //assign weights to phrases 
-            foreach (var pair in phraseWeightPairs) {
-                pair.p.Weight = pair.weight;
-            }
-
-            //increment Weight of identical phrases
-            foreach (var grp in phraseByCount) {
-                foreach (var p in grp) {
-                    p.Weight += grp.Count();
-                }
-            }
-
-
         }
     }
 }

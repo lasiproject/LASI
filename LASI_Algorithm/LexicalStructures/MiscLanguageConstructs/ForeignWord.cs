@@ -9,7 +9,7 @@ using System.Xml.Linq;
 namespace LASI.Algorithm
 {
     /// <summary>
-    /// Represents a foriegn w embedded in an english written work.
+    /// Represents a foriegn verb embedded in an english written work.
     /// </summary>
     public class ForeignWord : Word
     {
@@ -21,7 +21,7 @@ namespace LASI.Algorithm
             : base(text) {
         }
         /// <summary>
-        /// Gets or sets the equivalent English w type if it can be inferred from the ForeignWord'd usage.
+        /// Gets or sets the equivalent English verb type if it can be inferred from the ForeignWord'd usage.
         /// </summary>
         public virtual Type UsedAsType {
             get;

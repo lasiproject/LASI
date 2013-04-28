@@ -239,11 +239,11 @@ namespace LASI.FileSystem
         /// <summary>
         /// Parses a string of text containing tagged words,
         /// e.g. "LASI/NNP can/MD sniff-out/VBP the/DT problem/NN",
-        /// and returns of a collection containing, for each w, a function which will create a Part of Speech subtyped Word instance
-        /// representing that w.
+        /// and returns of a collection containing, for each verb, a function which will create a Part of Speech subtyped Word instance
+        /// representing that verb.
         /// </summary>
         /// <param name="wordData">a string containing tagged words.</param>
-        /// <returns>a List of constructor function instances which, when invoked, create run time objects which represent each w in the source</returns>
+        /// <returns>a List of constructor function instances which, when invoked, create run time objects which represent each verb in the source</returns>
         protected virtual List<Func<Word>> CreateWordExpressions(string wordData) {
             var wordExpressions = new List<Func<Word>>();
             var elements = wordData.Split(new[] { ' ', }, StringSplitOptions.RemoveEmptyEntries);

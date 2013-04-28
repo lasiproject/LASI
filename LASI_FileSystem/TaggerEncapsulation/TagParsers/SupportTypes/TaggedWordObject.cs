@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace LASI.FileSystem
 {
     /// <summary>
-    /// Holds a pair of strings representing a piece of natural language text and its NLP w tag.
+    /// Holds a pair of strings representing a piece of natural language text and its NLP verb tag.
     /// Note, use with the elegant object initializer sytnax when creating an instance.
     /// eg. var myTTPair = new TextTagPair{ Text = "collie", Tag = "NN" }; 
     /// as opposed to
@@ -19,14 +19,14 @@ namespace LASI.FileSystem
     public struct TaggedWordObject
     {
         /// <summary>
-        /// The english text of a tagged w.
+        /// The english text of a tagged verb.
         /// </summary>
         public string Text {
             get;
             set;
         }
         /// <summary>
-        /// The text of the pos tag associated with the w.
+        /// The text of the pos tag associated with the verb.
         /// </summary>
         public string Tag {
             get;

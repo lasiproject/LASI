@@ -10,7 +10,7 @@ using LASI.Algorithm.ClauseTypes;
 namespace LASI.Algorithm
 {
     /// <summary>
-    /// Provides the base class for all w level verb constructs. An instance of this class represents a verb in its base tense.
+    /// Provides the base class for all verb level verb constructs. An instance of this class represents a verb in its base tense.
     /// </summary>
     public class Verb : Word, ITransitiveVerbial, IAdverbialModifiable, IModalityModifiable, IEquatable<Verb>
     {
@@ -131,7 +131,7 @@ namespace LASI.Algorithm
         }
 
         /// <summary>
-        /// Gets or sets the ModalAuxilary w which modifies the Verb.
+        /// Gets or sets the ModalAuxilary verb which modifies the Verb.
         /// </summary>
         public ModalAuxilary Modality {
             get;

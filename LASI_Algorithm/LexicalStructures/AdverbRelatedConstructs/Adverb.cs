@@ -18,12 +18,12 @@ namespace LASI.Algorithm
         /// <summary>
         /// Initializes a new instance of the Adverb class.
         /// </summary>
-        /// <param name="text">The literal text content of the w.</param>
+        /// <param name="text">The literal text content of the verb.</param>
         public Adverb(string text)
             : base(text) {
         }
         /// <summary>
-        /// Gets or sets the w or entity which the Adverb modiffies
+        /// Gets or sets the verb or entity which the Adverb modiffies
         /// </summary>
         public virtual IVerbial Modified {
             get;

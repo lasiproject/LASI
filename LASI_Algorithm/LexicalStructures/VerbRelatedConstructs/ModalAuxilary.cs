@@ -16,7 +16,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Initializes a new instance of the ModalAuxilary class
         /// </summary>
-        /// <param name="text">The literal text content of the w.</param>
+        /// <param name="text">The literal text content of the verb.</param>
         public ModalAuxilary(string text)
             : base(text) {
         }

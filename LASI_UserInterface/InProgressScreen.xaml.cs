@@ -92,7 +92,7 @@ namespace LASI.UserInterface
 
             var msg = await processController.LoadAndAnalyseAllDocuments(ProgressBar, ProgressLabel);
             ProgressBar.Value = 100;
-            ProgressBar.ToolTip = "Complete";
+            //ProgressBar.ToolTip = "Complete";
             ProgressLabel.Content = "Complete";
             WindowManager.ResultsScreen.Documents = msg.ToList();
             ProcedetoResultsButton.Visibility = Visibility.Visible;
