@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LASI.Utilities;
-using LASI.Algorithm.SyntaciticAndSemanticStructures;
 using LASI.Algorithm.DocumentConstructs;
 
 namespace LASI.Algorithm.Binding
@@ -26,16 +25,9 @@ namespace LASI.Algorithm.Binding
 
         }
         public void Bind(Sentence sentence) {
-            try {
-                this.Bind(sentence.Phrases);
-            }
-            catch (VerblessPhrasalSequenceException) {
-            }
+            this.Bind(sentence.Phrases);
         }
         public void Bind(IEnumerable<Phrase> contiguousPhrases) {
-            if (contiguousPhrases.Count() < 1) {
-                throw new InvalidOperationException("No Phrases to bind");
-            }
             if (contiguousPhrases.GetVerbPhrases().Count() == 0)
                 throw new VerblessPhrasalSequenceException();
             var phrases = contiguousPhrases.ToList();
@@ -44,13 +36,9 @@ namespace LASI.Algorithm.Binding
             var remainingPhrases = phrases.Skip(verbPhraseIndex + 1).Reverse();
             if (remainingPhrases.Count() > 0) {
                 inputstream.PushAll(remainingPhrases);
-                try {
-                    St0.Transition(inputstream.PopDynamic());
-                }
-                catch (InvalidOperationException) {
-                }
-                catch (Microsoft.CSharp.RuntimeBinder.RuntimeBinderException) {
-                }
+
+                St0.Transition(inputstream.PopDynamic());
+
             }
         }
         private void AssociateDirect() {
@@ -70,15 +58,16 @@ namespace LASI.Algorithm.Binding
             ConjunctNounPhrases.Clear();
 
         }
-        private Stack<Phrase> inputstream = new Stack<Phrase>();
-        private VerbPhrase bindingTarget;
+        protected Stack<Phrase> inputstream = new Stack<Phrase>();
+        protected VerbPhrase bindingTarget;
+        protected IEntity directObject;
+        protected IEntity indirectObject;
+        protected bool directFound = false;
 
-        private bool directFound = false;
-
-        private List<AdjectivePhrase> lastAdjectivals = new List<AdjectivePhrase>();
-        private List<NounPhrase> ConjunctNounPhrases = new List<NounPhrase>();
-        private List<AdjectivePhrase> ConjunctAdjectivePhrases = new List<AdjectivePhrase>();
-        private Stack<NounPhrase> entities = new Stack<NounPhrase>();
+        protected List<AdjectivePhrase> lastAdjectivals = new List<AdjectivePhrase>();
+        protected List<NounPhrase> ConjunctNounPhrases = new List<NounPhrase>();
+        protected List<AdjectivePhrase> ConjunctAdjectivePhrases = new List<AdjectivePhrase>();
+        protected Stack<NounPhrase> entities = new Stack<NounPhrase>();
         private State0 St0;
         private State1 St1;
         private State2 St2;
@@ -106,20 +95,10 @@ namespace LASI.Algorithm.Binding
                 _machine = machine;
                 _stream = machine.inputstream;
             }
-            public void Transition(PunctuatorPhrase phrase) {
-                if (Stream.Count > 0) {
 
-                    Transition(Stream.PopDynamic());
-                }
-                else {
-                    Machine.AssociateDirect();
-                    Machine.AssociateIndirect();
-                }
-            }
             public virtual void Transition(Phrase phrase) {
                 throw new InvalidStateTransitionException(StateName, phrase);
             }
-
 
             protected void Universal(Phrase Phrase) {
                 Machine.LastPhrase = Phrase;
@@ -172,26 +151,19 @@ namespace LASI.Algorithm.Binding
             public void Transition(PrepositionalPhrase phrase) {
                 Machine.lastPrepositional = phrase;
                 try {
-                    if (Machine.inputstream.Count > 0)
+                    if (Machine.inputstream.Count < 1)
                         Machine.St0.Transition(Stream.PopDynamic());
-                }
-                catch (InvalidOperationException) {
+                } catch (InvalidOperationException) {
                 }
             }
             public virtual void Transition(VerbPhrase phrase) {
-                var remainingPhrases = Stream.ToList();
-                if (remainingPhrases.GetVerbPhrases().Count() > 1)
-                    new ObjectBinder().Bind(remainingPhrases);
-
+                new ObjectBinder().Bind(phrase.AsEnumerable().Concat(Stream.ToList()));
             }
             public virtual void Transition(SubordinateClauseBeginPhrase phrase) {
-                var remainingPhrases = phrase.AsEnumerable().Concat<Phrase>(Stream);
-
+                var remainingPhrases = phrase.AsEnumerable().Concat(Stream.ToList());
                 var subClause = new ClauseTypes.SubordinateClause(remainingPhrases);
                 Machine.bindingTarget.ModifyWith(subClause);
-                if (remainingPhrases.GetVerbPhrases().Count() > 0)
-                    new ObjectBinder().Bind(remainingPhrases);
-
+                new ObjectBinder().Bind(remainingPhrases);
             }
 
             public virtual void Transition(AdverbPhrase phrase) {
@@ -201,8 +173,7 @@ namespace LASI.Algorithm.Binding
                     return;
                 try {
                     Machine.St0.Transition(Stream.PopDynamic());
-                }
-                catch (InvalidOperationException) {
+                } catch (InvalidOperationException) {
                 }
 
             }
@@ -225,8 +196,7 @@ namespace LASI.Algorithm.Binding
 
                 try {
                     Machine.St2.Transition(Stream.PopDynamic());
-                }
-                catch (InvalidOperationException) {
+                } catch (Exception) {
                 }
             }
             public virtual void Transition(AdjectivePhrase phrase) {
@@ -235,8 +205,7 @@ namespace LASI.Algorithm.Binding
                 if (Machine.inputstream.Count > 0) {
                     try {
                         Machine.St1.Transition(Stream.PopDynamic());
-                    }
-                    catch (InvalidOperationException) {
+                    } catch (Exception) {
                     }
                 }
             }
@@ -264,8 +233,7 @@ namespace LASI.Algorithm.Binding
 
                 try {
                     Machine.St2.Transition(Stream.PopDynamic());
-                }
-                catch (InvalidOperationException) {
+                } catch (Exception) {
                 }
             }
             public void Transition(ConjunctionPhrase phrase) {
@@ -278,8 +246,7 @@ namespace LASI.Algorithm.Binding
                 Universal(phrase);
                 try {
                     Machine.St0.Transition(Stream.PopDynamic());
-                }
-                catch (InvalidOperationException) {
+                } catch (InvalidOperationException) {
                 }
             }
         }
@@ -300,18 +267,6 @@ namespace LASI.Algorithm.Binding
                 StateName = "s2";
 
             }
-            //public void Transition(PunctuatorPhrase phrase) {
-            //    var betweenPunctuators = phrase.ParentSentence.GetPhrasesAfter(phrase).TakeWhile(r => !(r is PunctuatorPhrase));
-
-            //    if (betweenPunctuators.Count(r => r is VerbPhrase) != 0) {
-            //        new ObjectBinder().Bind(betweenPunctuators);
-            //    }
-            //    else {
-            //        new ObjectBinder().Bind(Stream.Skip(betweenPunctuators.Count() + 1));
-            //    }
-
-
-            //}
             public void Transition(ConjunctionPhrase phrase) {
                 phrase.OnLeft = Machine.entities.Peek();
                 Machine.lastConjunctive = phrase;
@@ -329,8 +284,7 @@ namespace LASI.Algorithm.Binding
 
                 try {
                     Machine.St4.Transition(Stream.PopDynamic());
-                }
-                catch (InvalidOperationException) {
+                } catch (Exception) {
                 }
 
             }
@@ -340,21 +294,11 @@ namespace LASI.Algorithm.Binding
 
                 try {
                     Machine.St4.Transition(Stream.PopDynamic());
-                }
-                catch (InvalidOperationException) {
+                } catch (Exception) {
                 }
 
             }
-            new public void Transition(PunctuatorPhrase phrase) {
-                if (Stream.Count > 0) {
 
-                    Transition(Stream.PopDynamic());
-                }
-                else {
-                    Machine.AssociateDirect();
-                    Machine.AssociateIndirect();
-                }
-            }
             public void Transition(PrepositionalPhrase phrase) {
                 foreach (var e in Machine.entities)
                     Machine.bindingTarget.BindDirectObject(e);
@@ -367,26 +311,10 @@ namespace LASI.Algorithm.Binding
                 Machine.ConjunctNounPhrases.Clear();
                 Universal(phrase);
 
-                if (Stream.Count < 1) {
-
-                    Machine.AssociateDirect();
-                    return;
-                }
-                Universal(phrase);
-
                 try {
                     Machine.St0.Transition(Stream.PopDynamic());
+                } catch (InvalidOperationException) {
                 }
-                catch (InvalidOperationException) {
-                }
-            }
-            public void Transition(VerbPhrase phrase) {
-                var remainingPhrases = phrase.AsEnumerable().Concat<Phrase>(Stream);
-                if (!Machine.directFound)
-                    Machine.AssociateDirect();
-                else
-                    Machine.AssociateIndirect();
-                new ObjectBinder().Bind(remainingPhrases);
             }
             public void Transition(NounPhrase phrase) {
                 foreach (var e in Machine.entities)
@@ -406,8 +334,7 @@ namespace LASI.Algorithm.Binding
 
                 try {
                     Machine.St0.Transition(Stream.PopDynamic());
-                }
-                catch (InvalidOperationException) {
+                } catch (InvalidOperationException) {
                 }
             }
             public void Transition(SubordinateClauseBeginPhrase phrase) {
@@ -427,8 +354,7 @@ namespace LASI.Algorithm.Binding
                     return;
                 try {
                     Machine.St0.Transition(Stream.PopDynamic());
-                }
-                catch (InvalidOperationException) {
+                } catch (InvalidOperationException) {
                 }
 
             }
@@ -459,8 +385,7 @@ namespace LASI.Algorithm.Binding
 
                 try {
                     Machine.St2.Transition(Stream.PopDynamic());
-                }
-                catch (InvalidOperationException) {
+                } catch (Exception) {
                 }
             }
             public void Transition(AdjectivePhrase phrase) {
@@ -477,8 +402,7 @@ namespace LASI.Algorithm.Binding
 
                 try {
                     Machine.St5.Transition(Stream.PopDynamic());
-                }
-                catch (InvalidOperationException) {
+                } catch (Exception) {
                 }
             }
         }
@@ -505,8 +429,7 @@ namespace LASI.Algorithm.Binding
 
                 try {
                     Machine.St2.Transition(Stream.PopDynamic());
-                }
-                catch (InvalidOperationException) {
+                } catch (Exception) {
                 }
             }
             public void Transition(ConjunctionPhrase phrase) {
@@ -524,8 +447,7 @@ namespace LASI.Algorithm.Binding
 
                 try {
                     Machine.St6.Transition(Stream.PopDynamic());
-                }
-                catch (InvalidOperationException) {
+                } catch (Exception) {
                 }
             }
 
@@ -553,8 +475,7 @@ namespace LASI.Algorithm.Binding
 
                 try {
                     Machine.St5.Transition(Stream.PopDynamic());
-                }
-                catch (InvalidOperationException) {
+                } catch (Exception) {
                 }
             }
             public void Transition(NounPhrase phrase) {
@@ -574,8 +495,7 @@ namespace LASI.Algorithm.Binding
 
                 try {
                     Machine.St2.Transition(Stream.PopDynamic());
-                }
-                catch (InvalidOperationException) {
+                } catch (Exception) {
                 }
             }
 
@@ -600,10 +520,7 @@ namespace LASI.Algorithm.Binding
         /// <returns>The Phrase at the top of the stack typed as dynamic.</returns>
         /// <exception cref="System.InvalidOperationException">Thrown if the Stack is empty.</exception>
         internal static dynamic PopDynamic(this Stack<Phrase> stack) {
-            if (stack.Count > 0)
-                return stack.Pop();
-            else
-                return null;
+            return stack.Pop();
         }
         internal static void PushAll(this Stack<Phrase> stack, IEnumerable<Phrase> items) {
             foreach (var i in items)

@@ -143,7 +143,6 @@ namespace SharpNLPTaggingModule
         protected string Chunk() {
 
             StringBuilder output = new StringBuilder();
-
             var paragraphs = from p in SourceText.Split(new[] { "<paragraph>", "</paragraph>" }, StringSplitOptions.RemoveEmptyEntries)
                              select p;
             foreach (var p in paragraphs) {
@@ -157,14 +156,11 @@ namespace SharpNLPTaggingModule
                     string[] tags = PosTagTokens(tokens);
                     output.Append(String.Format("<sentence>{0}</sentence>", ChunkSentence(tokens, tags)));
                 }
-
-                output.Insert(0, p.Contains("<enumeration>") ? "<enumeration>" : "" + "<paragraph>").Append("</paragraph>" + (p.Contains("</enumeration>") ? "</enumeration>" : ""));
+                output.Insert(0, "<paragraph>").Append("</paragraph>");
             }
             var result = output.ToString();
             return result;
         }
-
-
 
         protected string Parse() {
             var sentenceID = 0;
@@ -199,7 +195,7 @@ namespace SharpNLPTaggingModule
                 mSentenceDetector = new OpenNLP.Tools.SentenceDetect.EnglishMaximumEntropySentenceDetector(mModelPath + "EnglishSD.nbin");
             }
 
-            return mSentenceDetector.SentenceDetect(paragraph.Replace("<enumeration>", "").Replace("</enumeration>", ""));
+            return mSentenceDetector.SentenceDetect(paragraph);
         }
 
         protected string[] TokenizeSentence(string sentence) {
@@ -318,7 +314,7 @@ namespace SharpNLPTaggingModule
         }
 
         //private string Coreference() {
-        //    string[] sentences = SplitSentences(sourceText);
+        //    string[] sentences = SplitSentences(SourceText);
 
         //    var result = IdentifyCoreferents(sentences);
         //    return result;

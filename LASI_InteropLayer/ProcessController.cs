@@ -50,7 +50,7 @@ ProcessingState.ComputingMetrics, ProcessingState.CrossReferencing, ProcessingSt
             return docs;
         }
 
-        private static async Task WeightAllDocs(IEnumerable<Document> docs) {
+        private static async Task WeightAllDocs(IEnumerable<LASI.Algorithm.DocumentConstructs.Document> docs) {
             foreach (var doc in docs) {
                 await Task.Run(() => Weighter.Weight(doc));
                 await Task.Yield();
@@ -58,14 +58,14 @@ ProcessingState.ComputingMetrics, ProcessingState.CrossReferencing, ProcessingSt
 
         }
 
-        private static async Task BindLexicals(IEnumerable<Document> docs) {
+        private static async Task BindLexicals(IEnumerable<LASI.Algorithm.DocumentConstructs.Document> docs) {
             foreach (var doc in docs) {
                 await Task.Run(() => Binder.Bind(doc));
                 await Task.Yield();
             }
         }
         private async Task<IEnumerable<Document>> InstantiateDocuments() {
-            var result = new ConcurrentBag<Document>();
+            var result = new ConcurrentBag<LASI.Algorithm.DocumentConstructs.Document>();
             foreach (var doc in FileManager.TaggedFiles) {
                 result.Add(await new TaggedFileParser(doc).LoadDocumentAsync());
                 await Task.Yield();

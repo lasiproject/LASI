@@ -24,9 +24,9 @@ namespace LASI.Algorithm.DocumentConstructs
         public Document(IEnumerable<Paragraph> paragrpahs) {
             _paragraphs = paragrpahs.ToList();
 
-            _enumContainingParagraphs = from p in _paragraphs
-                                        where p.ParagraphKind == ParagraphKind.EnumerationContent
-                                        select p;
+            _enumContainingParagraphs = (from p in _paragraphs
+                                         where p.ParagraphKind == ParagraphKind.EnumerationContent
+                                         select p);
 
             AssignMembers(paragrpahs);
             foreach (var p in _paragraphs) {

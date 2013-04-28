@@ -49,12 +49,12 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="prep">The IPrepositional construct through which the Object is associated.</param>
         public virtual void AttachObjectViaPreposition(IPrepositional prep) {
-            if (!DirectObjects.Contains(prep.PrepositionalObject) && !IndirectObjects.Contains(prep.PrepositionalObject)) {
+           // if (!DirectObjects.Contains(prep.PrepositionalObject) && !IndirectObjects.Contains(prep.PrepositionalObject)) {
                 ObjectViaPreposition =
                     prep.OnRightSide != null ?
                     prep.OnRightSide :
                     prep.OnLeftSide;
-            }
+            
 
 
         }
@@ -74,7 +74,7 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="directObject">The Entity to attach to the VerbPhrase as a direct object.</param>
         public virtual void BindDirectObject(IEntity directObject) {
-            if (ObjectViaPreposition != directObject && !_boundDirectObjects.Contains(directObject)) {
+            if (!_boundDirectObjects.Contains(directObject)) {
                 _boundDirectObjects.Add(directObject);
                 directObject.DirectObjectOf = this;
                 if (Possessive) {

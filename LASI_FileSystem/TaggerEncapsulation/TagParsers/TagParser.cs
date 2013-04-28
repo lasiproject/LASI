@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using LASI.Algorithm.DocumentConstructs;
 namespace LASI.FileSystem.TaggerEncapsulation
 {
     public abstract class TagParser

@@ -11,7 +11,7 @@ namespace LASI.Algorithm.Analysis
 {
     public static class Binder
     {
-        public static async Task BindAsync(Document doc) {
+        public static async Task BindAsync(LASI.Algorithm.DocumentConstructs.Document doc) {
             await Task.Run(() => Bind(doc));
         }
         public static void Bind(Document doc) {
@@ -31,7 +31,7 @@ namespace LASI.Algorithm.Analysis
 
         private static void PerformAttributeNounPhraseBinding(Document doc) {
             doc.Sentences
-                .Where(s => s.ParentParagraph.ParagraphKind == ParagraphKind.Default)
+              .Where(s => s.ParentParagraph.ParagraphKind == ParagraphKind.Default)
                 .AsParallel()
                 .ForAll(
                 s => {
@@ -41,7 +41,7 @@ namespace LASI.Algorithm.Analysis
         private static void PerformSVOBinding(Document doc) {
             try {
                 doc.Sentences
-                    .Where(s => s.ParentParagraph.ParagraphKind == ParagraphKind.Default)
+                 .Where(s => s.ParentParagraph.ParagraphKind == ParagraphKind.Default)
                     .AsParallel().ForAll(
                     s => {
                         try {

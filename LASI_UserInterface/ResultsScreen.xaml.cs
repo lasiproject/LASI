@@ -39,8 +39,6 @@ namespace LASI.UserInterface
 
         }
         public async Task CreateInteractiveViews() {
-            //await Task.WhenAll((from doc in documents
-            //                    select Task.Factory.StartNew(() => {
             foreach (var doc in documents) {
                 var documentElements = doc.Phrases.GetNounPhrases().Concat<Phrase>(doc.Phrases.GetAdverbPhrases()).
                    Concat<Phrase>(doc.Phrases.GetAdjectivePhrases()).Concat<Phrase>(doc.Phrases.GetVerbPhrases()).
@@ -97,8 +95,6 @@ namespace LASI.UserInterface
         }
 
 
-        //    return wordLabel;
-        //}
 
 
 
@@ -157,10 +153,23 @@ namespace LASI.UserInterface
                         };
                         visitSubjectMI.Click += (sender, e) => {
                             var objlabels = from r in
-                                                vP.IndirectObjects.Concat<ILexical>(from f in new object[] { }
-                                                                                    where vP.ObjectViaPreposition != null
-                                                                                    select vP.ObjectViaPreposition)
+                                                vP.IndirectObjects
                                             join l in phraseLabels on r equals l.Tag
+                                            select l;
+                            foreach (var l in objlabels) {
+                                l.Foreground = Brushes.Black;
+                                l.Background = Brushes.Red;
+                            }
+                        };
+                        phraseLabel.ContextMenu.Items.Add(visitSubjectMI);
+                    }
+                    if (vP != null && vP.ObjectViaPreposition != null) {
+                        var visitSubjectMI = new MenuItem {
+                            Header = "view prepositional object"
+                        };
+                        visitSubjectMI.Click += (sender, e) => {
+                            var objlabels = from l in phraseLabels
+                                            where l.Tag.Equals(vP.ObjectViaPreposition)
                                             select l;
                             foreach (var l in objlabels) {
                                 l.Foreground = Brushes.Black;
@@ -177,8 +186,8 @@ namespace LASI.UserInterface
                 wordRelationshipsTab.Items.Add(tab);
             }
         }
-        Dictionary<Chart, Document> documetnsByChart = new Dictionary<Chart, Document>();
-        public void BuildDefaultBarChartDisplay(Document document) {
+        Dictionary<Chart, Document> documentsByChart = new Dictionary<Chart, Document>();
+        public async void BuildDefaultBarChartDisplay(Document document) {
 
             var valueList = ProjectToChartItemSource(document);
             Series series = new BarSeries {
@@ -198,7 +207,7 @@ namespace LASI.UserInterface
                 Tag = valueList.ToArray()
 
             };
-            documetnsByChart.Add(chart, document);
+            documentsByChart.Add(chart, document);
             chart.Series.Add(series);
 
             var tabItem = new TabItem {
@@ -209,7 +218,7 @@ namespace LASI.UserInterface
 
             };
             FrequencyCharts.Items.Add(tabItem);
-            ToBarCharts();
+            await ToBarCharts();
         }
         #region Chart Transposing Methods
 
@@ -340,7 +349,7 @@ namespace LASI.UserInterface
 
 
         private void ChangeChartKind(ChartKind chartKind) {
-            foreach (var pair in documetnsByChart) {
+            foreach (var pair in documentsByChart) {
 
                 switch (chartKind) {
                     case ChartKind.SubjectVerb:
@@ -367,14 +376,16 @@ namespace LASI.UserInterface
                 from svPair in
                     (from v in doc.Phrases.GetVerbPhrases().WithSubject()
                      from s in v.BoundSubjects
+                     from dobj in v.DirectObjects
                      select new SVPair {
                          NP = s as NounPhrase,
-                         VP = v as VerbPhrase
-                     }).Distinct(new SVComparer())
+                         VP = v as VerbPhrase,
+                         DO = dobj as NounPhrase,
+                     })
                 select svPair into svs
-                let relationWeight = svs.VP.Weight + svs.NP.Weight
+                let relationWeight = svs.VP.Weight + svs.NP.Weight + svs.DO.Weight
                 orderby relationWeight
-                let SV = new KeyValuePair<string, int>(string.Format("{0} -> {1}", svs.NP.Text, svs.VP.Text), (int)relationWeight)
+                let SV = new KeyValuePair<string, int>(string.Format("{0}\n{1}\n", svs.NP.Text, svs.VP.Text) + (svs.DO != null ? svs.DO.Text : ""), (int)relationWeight)
                 group SV by SV into svg
                 orderby svg.Sum(s => s.Value)
                 select svg.Key;
@@ -406,6 +417,10 @@ namespace LASI.UserInterface
         private struct SVPair
         {
             public NounPhrase NP {
+                get;
+                set;
+            }
+            public NounPhrase DO {
                 get;
                 set;
             }
