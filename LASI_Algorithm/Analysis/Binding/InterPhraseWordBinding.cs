@@ -93,7 +93,6 @@ namespace LASI.Algorithm.Binding
                 }
 
                 // "To" binding
-                ToLinker Binding;
                 var toLinkerList = vp.Words.GetToLinkers();
                 if (toLinkerList.Count() > 0) {
                     foreach (var toLink in toLinkerList) {
