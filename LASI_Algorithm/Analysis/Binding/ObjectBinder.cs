@@ -167,6 +167,8 @@ namespace LASI.Algorithm.Binding
                     if (Machine.inputstream.Count > 1)
                         Machine.St0.Transition(Stream.PopDynamic());
                 } catch (InvalidOperationException) {
+                    Machine.AssociateDirect();
+                    Machine.AssociateIndirect();
                 }
             }
             public void Transition(VerbPhrase phrase) {
@@ -187,6 +189,8 @@ namespace LASI.Algorithm.Binding
                 try {
                     Machine.St0.Transition(Stream.PopDynamic());
                 } catch (InvalidOperationException) {
+                    Machine.AssociateDirect();
+                    Machine.AssociateIndirect();
                 }
 
             }
@@ -212,6 +216,8 @@ namespace LASI.Algorithm.Binding
                 try {
                     Machine.St2.Transition(Stream.PopDynamic());
                 } catch (InvalidOperationException) {
+                    Machine.AssociateDirect();
+                    Machine.AssociateIndirect();
                 }
 
             }
@@ -237,6 +243,8 @@ namespace LASI.Algorithm.Binding
                 try {
                     Machine.St2.Transition(Stream.PopDynamic());
                 } catch (InvalidOperationException) {
+                    Machine.AssociateDirect();
+                    Machine.AssociateIndirect();
                 }
             }
             public void Transition(AdjectivePhrase phrase) {
@@ -246,6 +254,8 @@ namespace LASI.Algorithm.Binding
                     try {
                         Machine.St1.Transition(Stream.PopDynamic());
                     } catch (InvalidOperationException) {
+                        Machine.AssociateDirect();
+                        Machine.AssociateIndirect();
                     }
                 }
             }
@@ -265,6 +275,8 @@ namespace LASI.Algorithm.Binding
                 try {
                     Machine.St1.Transition(Stream.PopDynamic());
                 } catch (InvalidOperationException) {
+                    Machine.AssociateDirect();
+                    Machine.AssociateIndirect();
                 }
             }
             public void Transition(NounPhrase phrase) {
@@ -283,6 +295,8 @@ namespace LASI.Algorithm.Binding
                 try {
                     Machine.St2.Transition(Stream.PopDynamic());
                 } catch (InvalidOperationException) {
+                    Machine.AssociateDirect();
+                    Machine.AssociateIndirect();
                 }
             }
             public void Transition(ConjunctionPhrase phrase) {
@@ -296,6 +310,8 @@ namespace LASI.Algorithm.Binding
                 try {
                     Machine.St0.Transition(Stream.PopDynamic());
                 } catch (InvalidOperationException) {
+                    Machine.AssociateDirect();
+                    Machine.AssociateIndirect();
                 }
             }
         }
@@ -334,6 +350,8 @@ namespace LASI.Algorithm.Binding
                 try {
                     Machine.St4.Transition(Stream.PopDynamic());
                 } catch (InvalidOperationException) {
+                    Machine.AssociateDirect();
+                    Machine.AssociateIndirect();
                 }
 
             }
@@ -344,6 +362,8 @@ namespace LASI.Algorithm.Binding
                 try {
                     Machine.St4.Transition(Stream.PopDynamic());
                 } catch (InvalidOperationException) {
+                    Machine.AssociateDirect();
+                    Machine.AssociateIndirect();
                 }
 
             }
@@ -351,9 +371,12 @@ namespace LASI.Algorithm.Binding
             public void Transition(PrepositionalPhrase phrase) {
                 foreach (var e in Machine.entities)
                     Machine.bindingTarget.BindDirectObject(e);
-                Machine.lastPrepositional = phrase;
+                try {
+                    Machine.lastPrepositional = phrase;
 
-                Machine.entities.Last().PrepositionOnRight = Machine.lastPrepositional;
+                    Machine.entities.Last().PrepositionOnRight = Machine.lastPrepositional;
+                } catch (InvalidOperationException) {
+                }
                 phrase.OnLeftSide = Machine.entities.Last();
                 Machine.entities.Clear();
                 Machine.directFound = true;
@@ -363,6 +386,8 @@ namespace LASI.Algorithm.Binding
                 try {
                     Machine.St0.Transition(Stream.PopDynamic());
                 } catch (InvalidOperationException) {
+                    Machine.AssociateDirect();
+                    Machine.AssociateIndirect();
                 }
             }
             public void Transition(NounPhrase phrase) {
@@ -384,6 +409,8 @@ namespace LASI.Algorithm.Binding
                 try {
                     Machine.St0.Transition(Stream.PopDynamic());
                 } catch (InvalidOperationException) {
+                    Machine.AssociateDirect();
+                    Machine.AssociateIndirect();
                 }
             }
             public void Transition(SubordinateClauseBeginPhrase phrase) {
@@ -404,6 +431,8 @@ namespace LASI.Algorithm.Binding
                 try {
                     Machine.St0.Transition(Stream.PopDynamic());
                 } catch (InvalidOperationException) {
+                    Machine.AssociateDirect();
+                    Machine.AssociateIndirect();
                 }
 
             }
@@ -435,6 +464,8 @@ namespace LASI.Algorithm.Binding
                 try {
                     Machine.St2.Transition(Stream.PopDynamic());
                 } catch (InvalidOperationException) {
+                    Machine.AssociateDirect();
+                    Machine.AssociateIndirect();
                 }
             }
             public void Transition(AdjectivePhrase phrase) {
@@ -452,6 +483,8 @@ namespace LASI.Algorithm.Binding
                 try {
                     Machine.St5.Transition(Stream.PopDynamic());
                 } catch (InvalidOperationException) {
+                    Machine.AssociateDirect();
+                    Machine.AssociateIndirect();
                 }
             }
         }
@@ -479,6 +512,8 @@ namespace LASI.Algorithm.Binding
                 try {
                     Machine.St2.Transition(Stream.PopDynamic());
                 } catch (InvalidOperationException) {
+                    Machine.AssociateDirect();
+                    Machine.AssociateIndirect();
                 }
             }
             public void Transition(ConjunctionPhrase phrase) {
@@ -497,6 +532,8 @@ namespace LASI.Algorithm.Binding
                 try {
                     Machine.St6.Transition(Stream.PopDynamic());
                 } catch (InvalidOperationException) {
+                    Machine.AssociateDirect();
+                    Machine.AssociateIndirect();
                 }
             }
 
@@ -525,6 +562,8 @@ namespace LASI.Algorithm.Binding
                 try {
                     Machine.St5.Transition(Stream.PopDynamic());
                 } catch (InvalidOperationException) {
+                    Machine.AssociateDirect();
+                    Machine.AssociateIndirect();
                 }
             }
             public void Transition(NounPhrase phrase) {
@@ -545,6 +584,8 @@ namespace LASI.Algorithm.Binding
                 try {
                     Machine.St2.Transition(Stream.PopDynamic());
                 } catch (InvalidOperationException) {
+                    Machine.AssociateDirect();
+                    Machine.AssociateIndirect();
                 }
             }
 
