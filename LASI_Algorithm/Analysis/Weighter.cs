@@ -153,12 +153,11 @@ namespace LASI.Algorithm.Analysis
             }
         }
 
-        //static double InverserDocumentFrequency(IEnumerable<Document> documentGroup) {
-        //    var numDocs = ;
-        //    foreach (var doc in documentGroup) {
-        //        numwords += doc.Words.Count(w => w.Text == "searchText");
-        //    }
+        //static double InverserDocumentFrequency(IEnumerable<Document> documentGroup, bool useSynonyms = false) {
+        //    var numDocs = documentGroup.Count();
+        //    var wordsWithFreqPairs = from doc in documentGroup  from word in doc.Words group word by word.Text 
         //}
+
 
     }
 }

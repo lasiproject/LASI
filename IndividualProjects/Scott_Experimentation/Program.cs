@@ -18,7 +18,7 @@ namespace Scott_Experimentation
     class Program
     {
         static void Main(string[] args) {
-            
+
             var tagger1 = new SharpNLPTagger(TaggingOption.TagAndAggregate, @"C:\Users\Scott\Desktop\LasiTests\TestSentences.txt");
             var tagged1 = tagger1.ProcessFile();
             var paragraphs1 = new TaggedFileParser(tagged1).LoadParagraphs();
@@ -45,13 +45,13 @@ namespace Scott_Experimentation
             var tagged5 = tagger5.ProcessFile();
             
             var paragraphs5 = new TaggedFileParser(tagged5).LoadParagraphs();
-            var document5 = new Document(paragraphs5); 
+            var document5 = new Document(paragraphs5);
 
             //string TestString = "The Boy rides his big bold bike up a large steep hill. The tiny brown dog watched. I saw her book on your table. What's mine is yours, my friend. Johnny, Steve and I went to the old corner store to purchase some potently strong perfume.";
             string TestString = "The Boy rides his big bold bike up a large steep hill.  He fell over when he reached the top.  The Boy then got up and rode down the other side.";
             var DocTest = LASI.Utilities.TaggerUtil.UntaggedToDoc(TestString);
 
-            
+
             //Noun Phrase Binding
             InterPhraseWordBinding ip1 = new InterPhraseWordBinding();
             foreach (var phrs in document5.Phrases.GetNounPhrases()){ 
@@ -79,7 +79,7 @@ namespace Scott_Experimentation
             }
             */
 
-           
+
 
             Input.WaitForAnyKey();
         }
