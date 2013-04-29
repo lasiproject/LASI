@@ -20,7 +20,7 @@ namespace LASI.Algorithm.Analysis
         /// </summary>
         /// <param name="doc">The Document whose elements are to be weighted</param>
         static public void Weight(Document doc) {
-    
+
 
             AssignBaseWordWeights(doc, typeof(Determiner), typeof(IConjunctive), typeof(IPrepositional));
 
@@ -152,5 +152,13 @@ namespace LASI.Algorithm.Analysis
                 }
             }
         }
+
+        //static double InverserDocumentFrequency(IEnumerable<Document> documentGroup) {
+        //    var numDocs = ;
+        //    foreach (var doc in documentGroup) {
+        //        numwords += doc.Words.Count(w => w.Text == "searchText");
+        //    }
+        //}
+
     }
 }

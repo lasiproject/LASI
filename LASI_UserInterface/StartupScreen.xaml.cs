@@ -100,7 +100,7 @@ namespace LASI.UserInterface
 
         private void browseForDocButton_Click(object sender, RoutedEventArgs e) {
             var openDialog = new Microsoft.Win32.OpenFileDialog {
-                Filter = "LASI File Types|*.docx; *.doc; *.txt",
+                Filter = "LASI File Types|*.docx; *.txt",
             };
             openDialog.ShowDialog(this);
             if (openDialog.FileNames.Count() <= 0) {
@@ -176,7 +176,8 @@ namespace LASI.UserInterface
 
 
 
-            } else {
+            }
+            else {
 
                 threepaws.Visibility = Visibility.Hidden;
 
@@ -185,7 +186,8 @@ namespace LASI.UserInterface
                     // ProjCreateErrorLabel.Visibility = Visibility.Visible;
                     NothingFilledImage.Visibility = Visibility.Visible;
 
-                } else {
+                }
+                else {
                     //ProjCreateErrorLabel.Visibility = Visibility.Hidden;
                     NothingFilledImage.Visibility = Visibility.Hidden;
 
@@ -194,7 +196,8 @@ namespace LASI.UserInterface
                     ProjNameErrorLabel.Visibility = Visibility.Visible;
                     ProjNameErrorImage.Visibility = Visibility.Visible;
                     ProjLocationErrorLabel.Visibility = Visibility.Visible;
-                } else {
+                }
+                else {
 
                     ProjLocationErrorLabel.Visibility = Visibility.Hidden;
                     ProjNameErrorLabel.Visibility = Visibility.Hidden;
@@ -204,7 +207,8 @@ namespace LASI.UserInterface
                 if (ValidateProjectNameField() == true && ValidateProjectDocumentField() == false) {
                     ProjDocumentErrorLabel.Visibility = Visibility.Visible;
                     NoDocumentsImage.Visibility = Visibility.Visible;
-                } else {
+                }
+                else {
                     ProjDocumentErrorLabel.Visibility = Visibility.Hidden;
                     NoDocumentsImage.Visibility = Visibility.Hidden;
                 }
