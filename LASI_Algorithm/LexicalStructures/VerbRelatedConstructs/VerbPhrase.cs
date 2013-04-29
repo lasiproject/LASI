@@ -177,6 +177,11 @@ namespace LASI.Algorithm
             }
         }
 
+        public IDescriber AdjectivalModifier {
+            get;
+            set;
+        }
+
         /// <summary>
         /// Gets the prevailing Tense of the VerbPhrase.
         /// <see cref="VerbTense"/>
@@ -219,6 +224,7 @@ namespace LASI.Algorithm
         private ICollection<IEntity> _boundSubjects = new List<IEntity>();
         private ICollection<IEntity> _boundDirectObjects = new List<IEntity>();
         private ICollection<IEntity> _boundIndirectObjects = new List<IEntity>();
+
 
         #endregion
 

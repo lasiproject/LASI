@@ -160,7 +160,6 @@ namespace LASI.Algorithm.Binding
             public State0(ObjectBinder machine)
                 : base(machine) {
                 StateName = "s0";
-
             }
             public void Transition(PrepositionalPhrase phrase) {
                 Machine.lastPrepositional = phrase;
@@ -170,17 +169,17 @@ namespace LASI.Algorithm.Binding
                 } catch (InvalidOperationException) {
                 }
             }
-            public virtual void Transition(VerbPhrase phrase) {
+            public void Transition(VerbPhrase phrase) {
                 new ObjectBinder().Bind(phrase.AsEnumerable().Concat(Stream.ToList()));
             }
-            public virtual void Transition(SubordinateClauseBeginPhrase phrase) {
+            public void Transition(SubordinateClauseBeginPhrase phrase) {
                 var remainingPhrases = phrase.AsEnumerable().Concat(Stream.ToList());
                 var subClause = new ClauseTypes.SubordinateClause(remainingPhrases);
                 Machine.bindingTarget.ModifyWith(subClause);
                 new ObjectBinder().Bind(remainingPhrases);
             }
 
-            public virtual void Transition(AdverbPhrase phrase) {
+            public void Transition(AdverbPhrase phrase) {
                 Machine.bindingTarget.ModifyWith(phrase);
                 Universal(phrase);
                 if (Stream.Count < 1)
@@ -191,7 +190,34 @@ namespace LASI.Algorithm.Binding
                 }
 
             }
-            public virtual void Transition(NounPhrase phrase) {
+
+
+            public void Transition(ConjunctionPhrase phrase) {
+                if (Machine.lastPrepositional != null) {
+                    phrase.PrepositionOnLeft = Machine.lastPrepositional;
+                    Machine.lastPrepositional.OnRightSide = phrase;
+                    Machine.bindingTarget.AttachObjectViaPreposition(phrase.PrepositionOnLeft);
+                }
+                //Machine(phrase);
+                if (Machine.inputstream.Count < 1) {
+                    if (!Machine.directFound)
+                        Machine.AssociateDirect();
+                    else
+                        Machine.AssociateIndirect();
+
+                    return;
+                }
+                Universal(phrase);
+
+                try {
+                    Machine.St2.Transition(Stream.PopDynamic());
+                } catch (InvalidOperationException) {
+                }
+
+            }
+
+
+            public void Transition(NounPhrase phrase) {
                 if (Machine.lastPrepositional != null) {
                     phrase.PrepositionOnLeft = Machine.lastPrepositional;
                     Machine.lastPrepositional.OnRightSide = phrase;
@@ -213,7 +239,7 @@ namespace LASI.Algorithm.Binding
                 } catch (InvalidOperationException) {
                 }
             }
-            public virtual void Transition(AdjectivePhrase phrase) {
+            public void Transition(AdjectivePhrase phrase) {
                 Machine.lastAdjectivals.Add(phrase);
                 Universal(phrase);
                 if (Machine.inputstream.Count > 0) {
@@ -234,7 +260,12 @@ namespace LASI.Algorithm.Binding
             }
 
             public void Transition(VerbPhrase phrase) {
-
+                phrase.AdjectivalModifier = Machine.lastAdjectivals.Last();
+                Machine.lastAdjectivals.Clear();
+                try {
+                    Machine.St1.Transition(Stream.PopDynamic());
+                } catch (InvalidOperationException) {
+                }
             }
             public void Transition(NounPhrase phrase) {
                 Machine.entities.Push(phrase);
