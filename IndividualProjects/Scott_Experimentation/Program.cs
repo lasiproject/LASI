@@ -11,6 +11,7 @@ using SharpNLPTaggingModule;
 using System.IO;
 using LASI.Algorithm.Binding;
 using LASI.Algorithm.Analysis;
+using LASI.Algorithm.DocumentConstructs;
 
 namespace Scott_Experimentation
 {
@@ -38,8 +39,11 @@ namespace Scott_Experimentation
             var paragraphs4 = new TaggedFileParser(tagged4).LoadParagraphs();
             var document4 = new Document(paragraphs4);
 
-            var tagger5 = new SharpNLPTagger(TaggingOption.TagAndAggregate, @"C:\Users\Scott\Desktop\HesterTestDocs\CapabilitiesBasedPlanningProcessOverview.docx");
+            //var txtDoc = TaggerUtil.LoadDocumentAsync(new LASI.FileSystem.FileTypes.DocXFile(@"C:\Users\Scott\Desktop\HesterTestDocs\CapabilitiesBasedPlanningProcessOverview.docx")).Wait();
+            var converter = new DocxToTextConverter(new LASI.FileSystem.FileTypes.DocXFile(@"C:\Users\Scott\Desktop\HesterTestDocs\CapabilitiesBasedPlanningProcessOverview.docx"));
+            var tagger5 = new SharpNLPTagger(TaggingOption.TagAndAggregate, converter.ConvertFile().FullPath);
             var tagged5 = tagger5.ProcessFile();
+            
             var paragraphs5 = new TaggedFileParser(tagged5).LoadParagraphs();
             var document5 = new Document(paragraphs5); 
 
@@ -50,7 +54,7 @@ namespace Scott_Experimentation
             
             //Noun Phrase Binding
             InterPhraseWordBinding ip1 = new InterPhraseWordBinding();
-            foreach (var phrs in document5.Phrases.GetNounPhrases()) {
+            foreach (var phrs in document5.Phrases.GetNounPhrases()){ 
                 ip1.IntraNounPhrase(phrs);
             }
 
