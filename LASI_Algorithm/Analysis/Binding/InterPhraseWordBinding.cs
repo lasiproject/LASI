@@ -16,7 +16,7 @@ namespace LASI.Algorithm.Binding
             Noun LastNoun = np.Words.OfType<Noun>().LastOrDefault();
 
             if (np.Words.Count() > 1 && LastNoun != null) {
-
+                Output.WriteLine(np);
                 /*
                 foreach (Word verb in np.Words) {
                     Output.Write("[{0}] ", verb);
