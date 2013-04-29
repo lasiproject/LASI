@@ -15,18 +15,38 @@ namespace Aluan_Experimentation
 {
     public class Program
     {
+        static string sourceText = @"LASI has been designed to run as a standalone, text analysis engine. 
 
+
+As such, it will be able to run on business grade laptop and desktop computers as well as high grade consumer PCs.
+
+
+Roughly speaking, a quad-core processor, 8 gigabytes of low latency DDR3 SRDAM, and a solid state based storage medium comprise the hardware requirements.";
         static string testPath = @"C:\Users\Aluan\Desktop\411writtensummary2.txt";
 
         static void Main(string[] args) {
 
+            var doc = TaggerUtil.UntaggedToDoc(sourceText);
+
+
+            foreach (var s in doc.Sentences) {
+                new SubjectBinder().Bind(s);
+                new ObjectBinder().Bind(s);
+            }
+            foreach (var phrase in doc.Phrases) {
+                Output.WriteLine(phrase);
+            }
+
+            Input.WaitForKey();
+        }
+
+        private static void TestNounConjugator() {
             NounConjugator conjugator = new NounConjugator(ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "noun.exc");
             Output.WriteLine(conjugator);
             var conjugations = conjugator.GetConjugations("cat");
             var bases = conjugator.TryExtractRoot("women");
             conjugations.ForEach(c => Output.WriteLine(c));
             bases.ForEach(c => Output.WriteLine(c));
-            Input.WaitForKey();
         }
 
 

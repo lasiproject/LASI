@@ -49,12 +49,12 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="prep">The IPrepositional construct through which the Object is associated.</param>
         public virtual void AttachObjectViaPreposition(IPrepositional prep) {
-           // if (!DirectObjects.Contains(prep.PrepositionalObject) && !IndirectObjects.Contains(prep.PrepositionalObject)) {
-                ObjectViaPreposition =
-                    prep.OnRightSide != null ?
-                    prep.OnRightSide :
-                    prep.OnLeftSide;
-            
+            // if (!DirectObjects.Contains(prep.PrepositionalObject) && !IndirectObjects.Contains(prep.PrepositionalObject)) {
+            ObjectViaPreposition =
+                prep.OnRightSide != null ?
+                prep.OnRightSide :
+                prep.OnLeftSide;
+
 
 
         }
@@ -117,8 +117,7 @@ namespace LASI.Algorithm
 
                 }
                 return result;
-            }
-            else
+            } else
                 return base.ToString();
         }
 

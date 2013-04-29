@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LASI.Utilities;
 
 
 namespace LASI.Algorithm.DocumentConstructs
@@ -44,7 +45,7 @@ namespace LASI.Algorithm.DocumentConstructs
                         from r in s.Phrases
                         select r).ToList();
             _words = (from s in _sentences
-                      from w in s.Words
+                      from w in s.Words.Concat(s.EndingPunctuation.AsEnumerable())
                       select w).ToList();
 
         }
