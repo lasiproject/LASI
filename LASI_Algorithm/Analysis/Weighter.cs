@@ -41,6 +41,31 @@ namespace LASI.Algorithm.Analysis
 
             WeightSimilarNounPhrases(doc);
 
+            normalizeWeights(doc);
+        }
+
+        private static void normalizeWeights(Document doc)
+        {
+            decimal TotPhraseWeight = 0;
+            decimal MaxWeight = 0;
+            foreach (var w in doc.Phrases)
+            {
+                TotPhraseWeight += w.Weight;
+
+                if (w.Weight > MaxWeight)
+                    MaxWeight = w.Weight;
+            }
+
+            var AvgPhrsWeigh = TotPhraseWeight / doc.Phrases.Count();
+            Output.WriteLine("Total Weight: {0}, Avg Weight: {1}, Max Weight: {2}", TotPhraseWeight, AvgPhrsWeigh, MaxWeight);
+
+            var ratio = 100 / MaxWeight;
+            foreach (var p in doc.Phrases)
+            {
+                p.Weight = Math.Round(p.Weight * ratio, 3);
+
+            }
+
 
         }
 
@@ -179,12 +204,12 @@ namespace LASI.Algorithm.Analysis
             //PHASE 1 - Standard word Weight based on part of speech (standardization)
             //COMPLETE - easy peasy.
 
-            Output.WriteLine("Standard Word Weight based on POS:");
+            //Output.WriteLine("Standard Word Weight based on POS:");
             foreach (Sentence s in doc.Sentences) {
-                //Console.WriteLine(s);
+                //////Output.WriteLine(s);
 
                 foreach (Word w in s.Words) {
-                    Output.WriteLine(w);
+                    //Output.WriteLine(w);
 
                     new Switch(w)
                         .Case<Noun>(n => {
@@ -207,7 +232,7 @@ namespace LASI.Algorithm.Analysis
                             w.Weight = senary;
                         });
 
-                    Output.WriteLine(w.Weight);
+                    //Output.WriteLine(w.Weight);
 
                 }
 
@@ -224,7 +249,7 @@ namespace LASI.Algorithm.Analysis
             decimal modOne, modTwo, modThree, modFour;
             modOne = modTwo = 0;
             foreach (Sentence s in doc.Sentences.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)) {
-                //Console.WriteLine(s);
+                //////Output.WriteLine(s);
 
                 foreach (Word w in s.Words) {
 
@@ -285,14 +310,14 @@ namespace LASI.Algorithm.Analysis
             //PHASE 3 - Standard phrase Weight based on phrase part of speech (standardization)
             //COMPLETE - easy peasy.
 
-            //Console.WriteLine("Standard Phrase Weight based on POS:");
+            //////Output.WriteLine("Standard Phrase Weight based on POS:");
             //foreach (Sentence s in document.Sentences)
             //{
-            //    //Console.WriteLine(s);
+            //    //////Output.WriteLine(s);
 
             //    foreach (Phrase phrase in s.Phrases)
             //    {
-            //        Console.WriteLine(phrase);
+            //        ////Output.WriteLine(phrase);
 
             //        new Switch(phrase)
             //            .Case<NounPhrase>(n =>
@@ -321,7 +346,7 @@ namespace LASI.Algorithm.Analysis
             //                phrase.Weight = senary;
             //            });
 
-            //        Console.WriteLine(phrase.Weight);
+            //        ////Output.WriteLine(phrase.Weight);
 
             //    }
 
@@ -336,8 +361,8 @@ namespace LASI.Algorithm.Analysis
 
             //PHASE 5 - FREQUENCIES
             // .1 - Frequency of Word in document
-            //Console.WriteLine(" ");
-            //Console.WriteLine("Word Frequencies in Document:");
+            //////Output.WriteLine(" ");
+            //////Output.WriteLine("Word Frequencies in Document:");
 
             //foreach (Word verb in document.Words)
             //{
@@ -359,10 +384,10 @@ namespace LASI.Algorithm.Analysis
 
             //foreach (Word verb in document.Words)
             //{
-            //    Console.WriteLine(verb);
-            //    Console.WriteLine(verb.FrequencyCurrent); //integrate with existing
+            //    ////Output.WriteLine(verb);
+            //    ////Output.WriteLine(verb.FrequencyCurrent); //integrate with existing
             //    decimal percentID = (verb.FrequencyCurrent / (decimal)document.Words.Count());
-            //    Console.WriteLine("Frequency % in document:" + percentID);
+            //    ////Output.WriteLine("Frequency % in document:" + percentID);
             //} //NEED FORMULA TO MODIFY WEIGHT
 
 
@@ -373,8 +398,8 @@ namespace LASI.Algorithm.Analysis
             // .1 - Frequency of Word in document
             // COMPLETE - minus Aluan's verb lookup!
 
-            //Console.WriteLine(" ");
-            //Console.WriteLine("Word Synonyms in Document:");
+            //////Output.WriteLine(" ");
+            //////Output.WriteLine("Word Synonyms in Document:");
             //IEnumerable<Noun> nouns = document.Words.GetNouns();
             //IEnumerable<Verb> verbs = document.Words.GetVerbs();
             //IEnumerable<Adjective> adjectives = document.Words.GetAdjectives();
@@ -402,8 +427,8 @@ namespace LASI.Algorithm.Analysis
             //                n1.Synonyms += 1;
             //            }
             //        }
-            //        Console.WriteLine(n1.Text);
-            //        Console.WriteLine(n1.Synonyms);
+            //        ////Output.WriteLine(n1.Text);
+            //        ////Output.WriteLine(n1.Synonyms);
             //    }
             //}
 
@@ -427,8 +452,8 @@ namespace LASI.Algorithm.Analysis
             //                a1.Synonyms += 1;
             //            }
             //        }
-            //        Console.WriteLine(a1.Text);
-            //        Console.WriteLine(a1.Synonyms);
+            //        ////Output.WriteLine(a1.Text);
+            //        ////Output.WriteLine(a1.Synonyms);
             //    }
             //}
 
@@ -452,8 +477,8 @@ namespace LASI.Algorithm.Analysis
             //                av1.Synonyms += 1;
             //            }
             //        }
-            //        Console.WriteLine(av1.Text);
-            //        Console.WriteLine(av1.Synonyms);
+            //        ////Output.WriteLine(av1.Text);
+            //        ////Output.WriteLine(av1.Synonyms);
             //    }
             //}
 
@@ -478,8 +503,8 @@ namespace LASI.Algorithm.Analysis
             //                v1.Synonyms += 1;
             //            }
             //        }
-            //        Console.WriteLine(v1.Text);
-            //        Console.WriteLine(v1.Synonyms);
+            //        ////Output.WriteLine(v1.Text);
+            //        ////Output.WriteLine(v1.Synonyms);
             //    }
             //}
 
@@ -491,7 +516,7 @@ namespace LASI.Algorithm.Analysis
 
 
 
-            //        Console.WriteLine(verb);
+            //        ////Output.WriteLine(verb);
 
 
             //    }

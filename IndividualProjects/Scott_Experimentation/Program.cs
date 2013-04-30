@@ -39,8 +39,8 @@ namespace Scott_Experimentation
             var paragraphs4 = new TaggedFileParser(tagged4).LoadParagraphs();
             var document4 = new Document(paragraphs4);
 
-            //var txtDoc = TaggerUtil.LoadDocumentAsync(new LASI.FileSystem.FileTypes.DocXFile(@"C:\Users\Scott\Desktop\HesterTestDocs\CapabilitiesBasedPlanningProcessOverview.docx")).Wait();
-            var converter = new DocxToTextConverter(new LASI.FileSystem.FileTypes.DocXFile(@"C:\Users\Scott\Desktop\HesterTestDocs\411writtensummary2.docx"));
+            //var converter = new DocxToTextConverter(new LASI.FileSystem.FileTypes.DocXFile(@"C:\Users\Scott\Desktop\HesterTestDocs\411writtensummary2.docx"));
+            var converter = new DocxToTextConverter(new LASI.FileSystem.FileTypes.DocXFile(@"C:\Users\Scott\Desktop\HesterTestDocs\CapabilitiesBasedPlanningProcessOverview.docx"));
             var tagger5 = new SharpNLPTagger(TaggingOption.TagAndAggregate, converter.ConvertFile().FullPath);
             var tagged5 = tagger5.ProcessFile();
             var paragraphs5 = new TaggedFileParser(tagged5).LoadParagraphs();
@@ -65,33 +65,21 @@ namespace Scott_Experimentation
             */
 
             Binder.Bind(document5);
-            
             Weighter.Weight(document5);
            
             //var wrd = document5.Words.FirstOrDefault();
 
-            var sm = (from t in document5.Words
-                      where document5.Words.Count() > 0
-                      select t).OrderBy(c=>c.Weight);
+            var sm = from t in document5.Phrases //.Words
+                      where document5.Phrases.Count() > 0 //.Words.Count() > 0
+                      orderby t.Weight descending 
+                     select t;//.OrderBy(c=>c.Weight);
 
-            var HighPropNoun = sm.GetNouns().OfType<ProperNoun>().LastOrDefault();
-            Output.WriteLine(HighPropNoun);
-
-            var blah = HighPropNoun.SubjectOf;
-            if (blah != null)
-                Output.WriteLine("blah: {0}", blah.Text);
-
-            var blah2 = blah.IndirectObjects.FirstOrDefault();// .DirectObjects.FirstOrDefault();
-            if (blah2 != null)
-                Output.WriteLine("blah2: {0}", blah2.Text);
-
-            /*
-            foreach (var w in sm.GetNouns().OfType<ProperNoun>() )
+            
+            foreach (var w in sm.GetNounPhrases()) //sm.GetNouns().OfType<ProperNoun>())
             {
-                Output.WriteLine("{0} => {1}", w, w.Weight);
+                    Output.WriteLine("{0} => {1}", w, w.Weight);
             }
-            */
-
+             
 
 
             Input.WaitForAnyKey();
