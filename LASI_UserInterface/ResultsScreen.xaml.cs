@@ -40,12 +40,16 @@ namespace LASI.UserInterface
         }
         public async Task CreateInteractiveViews() {
             foreach (var doc in documents) {
-                var documentElements = doc.Phrases.GetNounPhrases().Concat<Phrase>(doc.Phrases.GetAdverbPhrases()).
-                   Concat<Phrase>(doc.Phrases.GetAdjectivePhrases()).Concat<Phrase>(doc.Phrases.GetVerbPhrases()).
-                   GroupBy(w => new {
-                       w.Text,
-                       w.Type
-                   }).Select(g => g.First());
+                var documentElements = (from de in doc.Paragraphs.Except(doc.EnumContainingParagraphs)
+                                        select de.Phrases into phraseElements
+                                        from phrase in phraseElements
+                                        select phrase)
+                                       .GetNounPhrases().Concat<Phrase>(doc.Phrases.GetAdverbPhrases()).
+                                           Concat<Phrase>(doc.Phrases.GetAdjectivePhrases()).Concat<Phrase>(doc.Phrases.GetVerbPhrases()).
+                                           GroupBy(w => new {
+                                               w.Text,
+                                               w.Type
+                                           }).Select(g => g.First());
                 var elementLabels = new List<Label>();
                 foreach (var e in documentElements) {
                     var wordLabel = new Label {
@@ -329,7 +333,7 @@ namespace LASI.UserInterface
         private List<KeyValuePair<string, int>> GetItemSourceFor(object chart) {
             var chartSource = ((chart as TabItem).Content as Chart).Tag as IEnumerable<KeyValuePair<string, int>>;
             var items = (from i in chartSource.ToArray()
-                         select new KeyValuePair<string, int>(i.Key.ToString(), (int) i.Value)).ToList();
+                         select new KeyValuePair<string, int>(i.Key.ToString(), (int)i.Value)).ToList();
             return items;
         }
 
@@ -342,7 +346,7 @@ namespace LASI.UserInterface
         private List<KeyValuePair<string, int>> ProjectToChartItemSource(Document document) {
 
 
-            return GetSVData(document).Take(15).ToList();
+            return GetPhraseData(document).Take(15).ToList();
         }
 
 
@@ -356,7 +360,7 @@ namespace LASI.UserInterface
                         Document doc = pair.Value;
                         Chart chart = pair.Key;
 
-                        IEnumerable<KeyValuePair<string, int>> data = GetSVData(doc);
+                        IEnumerable<KeyValuePair<string, int>> data = GetPhraseData(doc);
                         data = data.Take(15);
                         pair.Key.Series.Clear();
                         pair.Key.Series.Add(new BarSeries {
@@ -385,13 +389,18 @@ namespace LASI.UserInterface
                 select svPair into svs
                 let relationWeight = svs.VP.Weight + svs.NP.Weight + svs.DO.Weight
                 orderby relationWeight
-                let SV = new KeyValuePair<string, int>(string.Format("{0}\n{1}\n", svs.NP.Text, svs.VP.Text) + (svs.DO != null ? svs.DO.Text : ""), (int) relationWeight)
+                let SV = new KeyValuePair<string, int>(string.Format("{0}\n{1}\n", svs.NP.Text, svs.VP.Text) + (svs.DO != null ? svs.DO.Text : ""), (int)relationWeight)
                 group SV by SV into svg
                 orderby svg.Sum(s => s.Value)
                 select svg.Key;
             return data;
         }
 
+        private static IEnumerable<KeyValuePair<string, int>> GetPhraseData(Document doc) {
+            return from NP in doc.Phrases.GetNounPhrases()
+                   orderby NP.Weight
+                   select new KeyValuePair<string, int>(NP.Text, (int)NP.Weight);
+        }
 
         #region Result Selector Helper Structs
         /// <summary>
@@ -463,7 +472,8 @@ namespace LASI.UserInterface
             var focusedChart = (FrequencyCharts.SelectedItem as TabItem).Content as Visual;
             try {
                 printDialog.PrintVisual(focusedChart, "Current View");
-            } catch (NullReferenceException) {
+            }
+            catch (NullReferenceException) {
             }
 
         }

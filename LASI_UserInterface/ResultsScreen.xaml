@@ -29,14 +29,14 @@
 
 
         </Canvas>
-    
+
         <Canvas Background="#FFF6F6F6" Margin="0,26,0,0">
             <Grid Height="459" Canvas.Top="10" Canvas.Left="-2" Width="159"/>
             <Button Content="Set Source" Canvas.Left="545" Canvas.Top="20" Width="75" Click="SetChartSourceButton_Click"/>
 
 
         </Canvas>
-        
+
         <Grid Margin="0,0,0,0" >
             <Canvas Background="#FFE5E5E5" OpacityMask="#FF5A5A62" Margin="8,68,0,33" HorizontalAlignment="Left" Width="140">
                 <Button x:Name="exportButton" Content="Export" HorizontalAlignment="Left" VerticalAlignment="Top" Width="35" Canvas.Left="53" Canvas.Top="122" Click="exportButton_Click" Height="35" FontSize="9" Background="#FFEBEBEB"/>
@@ -66,7 +66,12 @@
 
             <TabItem x:Name="topResultsTab" Header="Top Results">
                 <Grid Background="#FFE5E5E5" Margin="0,0,1,0">
-                    <TabControl x:Name="FrequencyCharts">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="363*"/>
+                        <ColumnDefinition Width="9*"/>
+                        <ColumnDefinition Width="206*"/>
+                    </Grid.ColumnDefinitions>
+                    <TabControl x:Name="FrequencyCharts" Grid.ColumnSpan="3">
                     </TabControl>
                 </Grid>
             </TabItem>
@@ -88,6 +93,14 @@
 
             <TabItem Header="TestView" Visibility="Hidden">
                 <TabControl x:Name="TestView" Margin="0,-2,0,0" />
+            </TabItem>
+            <TabItem Header="TabItem" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="57" Margin="-60,0,0,0">
+                <Grid Background="#FFE5E5E5">
+                    <DataGrid x:Name="svdiGrid" HorizontalAlignment="Left" VerticalAlignment="Top" Width="67" Height="38"  >
+
+
+                    </DataGrid>
+                </Grid>
             </TabItem>
 
         </TabControl>
