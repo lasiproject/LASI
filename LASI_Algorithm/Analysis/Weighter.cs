@@ -142,9 +142,9 @@ namespace LASI.Algorithm.Analysis
 
             foreach (var o in np) {
                 foreach (var i in np)
-                    if (i != o) {
-                        o.Weight += (decimal) Thesaurus.getSimilarityRatio(i, o) * o.Weight;
-                        
+                    if (i != o && i.Words.GetNouns().Any() && o.Words.GetNouns().Any()) {
+                        o.Weight += (decimal)((float)Thesaurus.getSimilarityRatio(i, o) * (float)(o.Weight));
+
                     }
             }
         }

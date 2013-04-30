@@ -24,9 +24,10 @@ namespace LASI.UserInterface
 
             InitializeComponent();
             this.Closed += (s, e) => Application.Current.Shutdown();
-
+            chartKind = ChartKind.NounPhrasesOnly;
         }
         public async Task CreateInteractiveViews() {
+
             foreach (var doc in documents) {
                 var documentElements = (from de in doc.Paragraphs.Except(doc.EnumContainingParagraphs)
                                         select de.Phrases into phraseElements
@@ -74,7 +75,7 @@ namespace LASI.UserInterface
                 };
 
                 foreach (var l in from w in elementLabels
-                                  orderby (w.Tag as ILexical).Weight descending
+                                  orderby (w.Tag as ILexical).Weight
                                   select w) {
                     stackPanel.Children.Add(l);
                 }
@@ -184,7 +185,7 @@ namespace LASI.UserInterface
         Dictionary<Chart, Document> documentsByChart = new Dictionary<Chart, Document>();
         public async void BuildDefaultBarChartDisplay(Document document) {
 
-            var valueList = GetNounPhraseData(document).Take(ChartItemLimit);
+            var valueList = GetAppropriateDataSet(document);
             Series series = new BarSeries {
                 DependentValuePath = "Value",
                 IndependentValuePath = "Key",
@@ -214,6 +215,11 @@ namespace LASI.UserInterface
             };
             FrequencyCharts.Items.Add(tabItem);
             await ToBarCharts();
+        }
+
+        private IEnumerable<KeyValuePair<string, float>> GetAppropriateDataSet(Document document) {
+            var valueList = chartKind == ChartKind.NounPhrasesOnly ? GetNounPhraseData(document) : chartKind == ChartKind.SubjectVerbObject ? GetSVOIData(document) : GetSVOIData(document);
+            return valueList;
         }
         #region Chart Transposing Methods
 
@@ -268,7 +274,7 @@ namespace LASI.UserInterface
         /// <returns>A Task which completes on the successful reconstruction of all charts</returns>
         async Task ToBarCharts() {
             foreach (var chart in FrequencyCharts.Items) {
-                var items = GetItemSourceFor(chart);
+                var items = GetAppropriateDataSet(documentsByChart[chart as Chart]);
                 var series = new BarSeries {
                     DependentValuePath = "Value",
                     IndependentValuePath = "Key",
@@ -285,7 +291,7 @@ namespace LASI.UserInterface
         /// <returns>A Task which completes on the successful reconstruction of all charts</returns>
         async Task ToAreaCharts() {
             foreach (var chart in FrequencyCharts.Items) {
-                var items = GetItemSourceFor(chart);
+                var items = GetAppropriateDataSet(documentsByChart[chart as Chart]);
                 var series = new AreaSeries {
                     DependentValuePath = "Value",
                     IndependentValuePath = "Key",
@@ -300,7 +306,7 @@ namespace LASI.UserInterface
 
         async Task ToLineCharts() {
             foreach (var chart in FrequencyCharts.Items) {
-                var items = GetItemSourceFor(chart);
+                var items = GetAppropriateDataSet(documentsByChart[chart as Chart]);
                 var series = new LineSeries {
                     DependentValuePath = "Value",
                     IndependentValuePath = "Key",
@@ -352,7 +358,7 @@ namespace LASI.UserInterface
                         data = GetNounPhraseData(doc);
                         break;
                 }
-                data = data.Take(ChartItemLimit).Reverse();
+                data = data.Take(ChartItemLimit);
                 chart.Series.Clear();
                 chart.Series.Add(new BarSeries {
                     DependentValuePath = "Value",
@@ -372,7 +378,7 @@ namespace LASI.UserInterface
             return from svs in data
 
                    let SV = new KeyValuePair<string, float>(string.Format("{0} -> {1}\n", svs.Subject.Text, svs.Verbial.Text) + (svs.Direct != null ? " -> " + svs.Direct.Text : "") + (svs.Indirect != null ? " -> " + svs.Indirect.Text : ""),
-                       (float) Math.Round(svs.SumWeight, 2))
+                       (float)Math.Round(svs.SumWeight, 2))
                    group SV by SV into svg
                    select svg.Key;
 
@@ -411,7 +417,7 @@ namespace LASI.UserInterface
                    } into NP
                    select NP.Key into master
                    orderby master.Weight descending
-                   select new KeyValuePair<string, float>(master.Text, (float) Math.Round(master.Weight, 2));
+                   select new KeyValuePair<string, float>(master.Text, (float)Math.Round(master.Weight, 2));
         }
 
         #region Result Selector Helper Structs
@@ -487,7 +493,8 @@ namespace LASI.UserInterface
             var focusedChart = (FrequencyCharts.SelectedItem as TabItem).Content as Visual;
             try {
                 printDialog.PrintVisual(focusedChart, "Current View");
-            } catch (NullReferenceException) {
+            }
+            catch (NullReferenceException) {
             }
 
         }
@@ -622,6 +629,7 @@ namespace LASI.UserInterface
 
         }
         private ChartStyle ChartStyle = ChartStyle.Bar;
+        private ChartKind chartKind;
 
 
     }

@@ -107,18 +107,22 @@ namespace LASI.FileSystem
                                 parsedPhrases.Add(currentPhrase);
                             }
 
-                        } else if (token == '/') {
+                        }
+                        else if (token == '/') {
                             var words = CreateWords(chunk);
                             if (words.First() != null) {
                                 if (words.Count(w => w is Conjunction) == words.Count || (words.Count == 2 && words[0] is Punctuator && words[1] is Conjunction)) {
                                     parsedPhrases.Add(new ConjunctionPhrase(words));
-                                } else if (words.Count() == 1 && words.First() is SentencePunctuation) {
+                                }
+                                else if (words.Count() == 1 && words.First() is SentencePunctuation) {
                                     sentencePunctuation = words.First() as SentencePunctuation;
                                     parsedClauses.Add(new Clause(parsedPhrases.Take(parsedPhrases.Count)));
                                     parsedPhrases = new List<Phrase>();
-                                } else if (words.Count(w => w is Punctuator) == words.Count && (words.Count(w => w is Punctuator) + words.Count(w => w is Conjunction)) == words.Count) {
+                                }
+                                else if (words.Count(w => w is Punctuator) == words.Count && (words.Count(w => w is Punctuator) + words.Count(w => w is Conjunction)) == words.Count) {
                                     parsedPhrases.Add(new ConjunctionPhrase(words));
-                                } else {
+                                }
+                                else {
                                     parsedPhrases.Add(new UndeterminedPhrase(words));
                                 }
                             }
@@ -142,9 +146,9 @@ namespace LASI.FileSystem
             var reader2 = (new StringReader(chunk));
             char token = '~';
             while (reader2.Peek() != ' ' && reader2.Peek() != '/') {
-                token = (char) reader2.Read();
+                token = (char)reader2.Read();
             }
-            token = (char) reader2.Read();
+            token = (char)reader2.Read();
             return token;
         }
 
@@ -160,7 +164,7 @@ namespace LASI.FileSystem
 
             data = data.Replace(" [/-LRB-", " LEFT_SQUARE_BRACKET/-LRB-");
 
-            data = data.Replace("]/-RRB- ", "RIGHT_SQUARE_BRACKET/-RRB- ");
+            data = data.Replace("]/-RRB- ", "RIGHT_SQUARE_BRACKET/-RRB- ").Replace("<enumeration>", "").Replace("</enumeration>","");
             return data;
         }/// <summary>
         /// Asynchronously Pre-processes the line read from the file by replacing some instances of problematic text such as square brackets, with tokens that are easier to reliably parse.
@@ -187,7 +191,8 @@ namespace LASI.FileSystem
             if (phraseTag == "NP" && composed.All(w => w is Adverb)) {
                 var phraseConstructor = PhraseTagset["ADVP"];
                 return phraseConstructor(composed);
-            } else {
+            }
+            else {
                 var phraseConstructor = PhraseTagset[phraseTag];
 
                 return phraseConstructor(composed);
@@ -217,7 +222,7 @@ namespace LASI.FileSystem
         /// <returns>The collection of Word objects that is their run time representation.</returns>
         protected virtual List<Word> CreateWords(string wordData) {
             var parsedWords = new List<Word>();
-            var elements = wordData.Split(new[] { ' ', }, StringSplitOptions.RemoveEmptyEntries);
+            var elements = GetTaggedWordLevelTokens(wordData);
             var wordExtractor = new WordExtractor();
 
             var tagParser = new WordMapper();
@@ -231,6 +236,11 @@ namespace LASI.FileSystem
             }
             return parsedWords;
         }
+
+        private static string[] GetTaggedWordLevelTokens(string wordData) {
+            var elements = wordData.Split(new[] { ' ', '\r', '\n', '\t' }, StringSplitOptions.RemoveEmptyEntries);
+            return elements;
+        }
         /// <summary>
         /// Parses a string of text containing tagged words,
         /// e.g. "LASI/NNP can/MD sniff-out/VBP the/DT problem/NN",
@@ -241,7 +251,7 @@ namespace LASI.FileSystem
         /// <returns>a List of constructor function instances which, when invoked, create run time objects which represent each verb in the source</returns>
         protected virtual List<Func<Word>> CreateWordExpressions(string wordData) {
             var wordExpressions = new List<Func<Word>>();
-            var elements = wordData.Split(new[] { ' ', }, StringSplitOptions.RemoveEmptyEntries);
+            var elements = GetTaggedWordLevelTokens(wordData);
             var posExtractor = new WordExtractor();
 
             var tagParser = new WordMapper();

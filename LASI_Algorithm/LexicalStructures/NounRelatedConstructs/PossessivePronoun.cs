@@ -24,7 +24,8 @@ namespace LASI.Algorithm
         public virtual void AddPossession(IEntity possession) {
             if (PossessesFor != null) {
                 PossessesFor.AddPossession(possession);
-            } else if (!_possessed.Contains(possession)) {
+            }
+            else if (!_possessed.Contains(possession)) {
                 _possessed.Add(possession);
             }
         }

@@ -161,18 +161,15 @@ namespace LASI.Algorithm.Thesauri
             if (a.Words.Count() >= b.Words.Count()) {
                 outer = a;
                 inner = b;
-            } 
+            }
             else {
                 outer = b;
                 inner = a;
             }
 
-            if ((outer.Words.GetNouns().Count() != 0) && (inner.Words.GetNouns().Count() != 0))
-            {
-                foreach (var o in outer.Words.GetNouns())
-                {
-                    foreach (var i in inner.Words.GetNouns())
-                    {
+            if ((outer.Words.GetNouns().Count() != 0) && (inner.Words.GetNouns().Count() != 0)) {
+                foreach (var o in outer.Words.GetNouns()) {
+                    foreach (var i in inner.Words.GetNouns()) {
                         if (i.IsSynonymFor(o))
                             similarCount += 0.7;
                         else if (i.Text == o.Text)
@@ -180,9 +177,10 @@ namespace LASI.Algorithm.Thesauri
                     }
                 }
 
-                return similarCount / (inner.Words.GetNouns().Count() * outer.Words.GetNouns().Count());
+                return (float)similarCount / (float)(inner.Words.GetNouns().Count() * (float)outer.Words.GetNouns().Count());
             }
-            else return 1;
+            else
+                return 1;
 
         }
 
