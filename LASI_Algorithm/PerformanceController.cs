@@ -19,7 +19,7 @@ namespace LASI.Algorithm
         }
         private static int GetDefaultParallellMax() {
             var logicalCPUs = System.Environment.ProcessorCount;
-            return logicalCPUs > 4 ? logicalCPUs - 2 : logicalCPUs - 2;
+            return logicalCPUs < 3 ? logicalCPUs : logicalCPUs - 2;
         }
 
     }

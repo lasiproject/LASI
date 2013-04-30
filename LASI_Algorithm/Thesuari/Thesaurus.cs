@@ -132,6 +132,7 @@ namespace LASI.Algorithm.Thesauri
         }
 
         public static bool IsSimilarTo(this VerbPhrase lhs, VerbPhrase rhs) {
+            //Look into refining this
             List<Verb> leftHandVerbs = lhs.Words.GetVerbs().ToList();
             List<Verb> rightHandVerbs = rhs.Words.GetVerbs().ToList();
 

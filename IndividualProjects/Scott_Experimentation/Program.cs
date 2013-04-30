@@ -40,10 +40,9 @@ namespace Scott_Experimentation
             var document4 = new Document(paragraphs4);
 
             //var txtDoc = TaggerUtil.LoadDocumentAsync(new LASI.FileSystem.FileTypes.DocXFile(@"C:\Users\Scott\Desktop\HesterTestDocs\CapabilitiesBasedPlanningProcessOverview.docx")).Wait();
-            var converter = new DocxToTextConverter(new LASI.FileSystem.FileTypes.DocXFile(@"C:\Users\Scott\Desktop\HesterTestDocs\CapabilitiesBasedPlanningProcessOverview.docx"));
+            var converter = new DocxToTextConverter(new LASI.FileSystem.FileTypes.DocXFile(@"C:\Users\Scott\Desktop\HesterTestDocs\411writtensummary2.docx"));
             var tagger5 = new SharpNLPTagger(TaggingOption.TagAndAggregate, converter.ConvertFile().FullPath);
             var tagged5 = tagger5.ProcessFile();
-            
             var paragraphs5 = new TaggedFileParser(tagged5).LoadParagraphs();
             var document5 = new Document(paragraphs5);
 
@@ -51,13 +50,13 @@ namespace Scott_Experimentation
             string TestString = "The Boy rides his big bold bike up a large steep hill.  He fell over when he reached the top.  The Boy then got up and rode down the other side.";
             var DocTest = LASI.Utilities.TaggerUtil.UntaggedToDoc(TestString);
 
-
+            /*
             //Noun Phrase Binding
             InterPhraseWordBinding ip1 = new InterPhraseWordBinding();
             foreach (var phrs in document5.Phrases.GetNounPhrases()){ 
                 ip1.IntraNounPhrase(phrs);
             }
-
+            */
             /*
             //Verb Phrase Binding
             foreach (var vbphrs in document5.Phrases.GetVerbPhrases()) {
@@ -65,17 +64,31 @@ namespace Scott_Experimentation
             }
             */
 
-            /*
-            Weighter.Weight(DocTest);
-            var wrd = DocTest.Words.FirstOrDefault();
+            Binder.Bind(document5);
+            
+            Weighter.Weight(document5);
+           
+            //var wrd = document5.Words.FirstOrDefault();
 
-            var sm = (from t in DocTest.Words
-                      where DocTest.Words.Count() > 0
+            var sm = (from t in document5.Words
+                      where document5.Words.Count() > 0
                       select t).OrderBy(c=>c.Weight);
 
-            foreach (var w in sm)
+            var HighPropNoun = sm.GetNouns().OfType<ProperNoun>().LastOrDefault();
+            Output.WriteLine(HighPropNoun);
+
+            var blah = HighPropNoun.SubjectOf;
+            if (blah != null)
+                Output.WriteLine("blah: {0}", blah.Text);
+
+            var blah2 = blah.IndirectObjects.FirstOrDefault();// .DirectObjects.FirstOrDefault();
+            if (blah2 != null)
+                Output.WriteLine("blah2: {0}", blah2.Text);
+
+            /*
+            foreach (var w in sm.GetNouns().OfType<ProperNoun>() )
             {
-                Output.WriteLine("{0}, {1}", w.Text, w.Weight);
+                Output.WriteLine("{0} => {1}", w, w.Weight);
             }
             */
 
