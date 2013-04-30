@@ -120,19 +120,15 @@ namespace LASI.Algorithm.Thesauri
                 )
                 && Lookup(other).Contains(word.Text);
         }
+        /// <summary>
+        /// This takes two noun phrases and determines if they are similar.
+        /// </summary>
+        /// <param name="lhs"></param>
+        /// <param name="rhs"></param>
+        /// <returns></returns>
         public static bool IsSimilarTo(this NounPhrase lhs, NounPhrase rhs) {
-            List<Noun> leftHandNouns = lhs.Words.GetNouns().ToList();
-            List<Noun> rightHandNouns = rhs.Words.GetNouns().ToList();
 
-            bool result = leftHandNouns.Count == rightHandNouns.Count;
-
-            if (result) {
-                for (var i = 0; i < leftHandNouns.Count; ++i) {
-                    result &= leftHandNouns[i].IsSynonymFor(rightHandNouns[i]);
-                }
-            }
-
-            return result;
+            return getSimilarityRatio(lhs, rhs) >= 0.8;
         }
 
         public static bool IsSimilarTo(this VerbPhrase lhs, VerbPhrase rhs) {
@@ -149,6 +145,47 @@ namespace LASI.Algorithm.Thesauri
 
             return result;
         }
+
+        /// <summary>
+        /// Determine if two noun phrases are similar
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        public static double getSimilarityRatio(NounPhrase a, NounPhrase b)
+        {
+            NounPhrase outer = null;
+            NounPhrase inner = null;
+            double similarCount = 0;
+
+            if (a.Words.Count() >= b.Words.Count())
+            {
+                outer = a;
+                inner = b;
+            }
+            else
+            {
+                outer = b;
+                inner = a;
+            }
+
+            foreach (var o in outer.Words.GetNouns())
+            {
+                foreach (var i in inner.Words.GetNouns())
+                {
+                    if (i.IsSynonymFor(o))
+                        similarCount += 0.7;
+                    else if (i.Text == o.Text)
+                        similarCount++; 
+                }
+            }
+
+            return similarCount / (inner.Words.GetNouns().Count() * outer.Words.GetNouns().Count());
+
+            
+               
+        }
+
         private static ConcurrentDictionary<string, IEnumerable<string>> cachedNounData = new ConcurrentDictionary<string, IEnumerable<string>>();
         private static ConcurrentDictionary<string, IEnumerable<string>> cachedVerbData = new ConcurrentDictionary<string, IEnumerable<string>>();
 

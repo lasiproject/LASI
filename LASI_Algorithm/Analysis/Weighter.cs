@@ -32,6 +32,7 @@ namespace LASI.Algorithm.Analysis
 
             WeightPhrasesByLiteralFrequency(doc);
 
+            WeightSimilarNounPhrases(doc);
 
         }
 
@@ -153,6 +154,26 @@ namespace LASI.Algorithm.Analysis
             }
         }
 
+        /// <summary>
+        /// For each noun phrase in a document that is similar to another noun phrase, increase the weight of that noun
+        /// </summary>
+        /// <param name="doc">Document containing the phrases to weight</param>
+        public static void WeightSimilarNounPhrases(Document doc)
+        {
+            var np = doc.Phrases.GetNounPhrases();
+
+            foreach (var o in np)
+            {
+                foreach(var i in np)
+                    if (i != o)
+                    {
+                        if (i.IsSimilarTo(o))
+                        {
+                            o.Weight += (decimal)Thesaurus.getSimilarityRatio(i, o) * o.Weight;
+                        }
+                    }
+            }
+        }
         //static double InverserDocumentFrequency(IEnumerable<Document> documentGroup, bool useSynonyms = false) {
         //    var numDocs = documentGroup.Count();
         //    var wordsWithFreqPairs = from doc in documentGroup  from word in doc.Words group word by word.Text 
