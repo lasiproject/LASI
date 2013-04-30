@@ -21,7 +21,7 @@ namespace LASI.UserInterface.GuiILexicalExtensions
     public static class IVerbialExtensions
     {
         /// <summary>
-        /// Transforms the Verbial Construct in a GUI Label which includes role specialized context menus, tooltips, and a direct Link to the Verbial as a Lexical.
+        /// Transforms the Verbial Construct in Subjects GUI Label which includes role specialized context menus, tooltips, and Subjects direct Link to the Verbial as Subjects Lexical.
         /// </summary>
         /// <param name="verbial">The ITransitiveVerbial construct to transforms</param>
         /// <returns>A Specialized Label representing the given Verbial.</returns>
@@ -33,7 +33,7 @@ namespace LASI.UserInterface.GuiILexicalExtensions
             };
         }
         /// <summary>
-        /// Constructs the context menus for a Verbial Lexical Label.
+        /// Constructs the context menus for Subjects Verbial Lexical Label.
         /// </summary>
         /// <param name="verbial">The verbial which the lexical Label does or will wrap.</param>
         /// <returns>A new context menu containing functionality specific the verbial instance, its associations, and their own LexicalLabels.</returns>

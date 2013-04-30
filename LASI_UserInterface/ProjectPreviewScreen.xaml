@@ -37,7 +37,7 @@
                 </MenuItem>
                 <MenuItem Header="Save Project As" HorizontalAlignment="Left" Width="200"/>
                 <MenuItem Header="Save Project" HorizontalAlignment="Left" Width="200"/>
-                <MenuItem Header="Exit" Click="MenuItem_Click_3"/>
+                <MenuItem Header="Exit" Click="FileExitMenuItem_Click"/>
             </MenuItem>
             <MenuItem Header="Edit"/>
             <MenuItem Header="View"/>

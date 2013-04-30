@@ -40,8 +40,7 @@ namespace LASI.Algorithm.Binding
                 inputstream.PushAll(remainingPhrases);
                 try {
                     St0.Transition(inputstream.PopDynamic());
-                }
-                catch (InvalidOperationException) {
+                } catch (InvalidOperationException) {
                 }
             }
         }
@@ -167,8 +166,7 @@ namespace LASI.Algorithm.Binding
                 try {
                     if (Machine.inputstream.Count > 1)
                         Machine.St0.Transition(Stream.PopDynamic());
-                }
-                catch (InvalidOperationException) {
+                } catch (InvalidOperationException) {
                     Machine.AssociateDirect();
                     Machine.AssociateIndirect();
                 }
@@ -177,10 +175,17 @@ namespace LASI.Algorithm.Binding
                 new ObjectBinder().Bind(phrase.AsEnumerable().Concat(Stream.ToList()));
             }
             public void Transition(SubordinateClauseBeginPhrase phrase) {
-                var remainingPhrases = phrase.AsEnumerable().Concat(Stream.ToList());
-                var subClause = new ClauseTypes.SubordinateClause(remainingPhrases);
+                var subordinateClauseConstituents = new List<Phrase> {
+                    phrase};
+                for (var r = Stream.Count > 0 ? Stream.Pop() : null; !(r.Words.First() is Punctuator) && Stream.Count > 0; r = Stream.Pop()) {
+                    subordinateClauseConstituents.Add(r);
+                }
+
+
+                //var subordinateClausePhrases = phrase.AsEnumerable().Concat(Stream.TakeWhile(r => !(r.Words.First() is Punctuator)));
+                var subClause = new ClauseTypes.SubordinateClause(subordinateClauseConstituents);
                 Machine.bindingTarget.ModifyWith(subClause);
-                new ObjectBinder().Bind(remainingPhrases);
+                new ObjectBinder().Bind(subordinateClauseConstituents);
             }
 
             public void Transition(AdverbPhrase phrase) {
@@ -190,8 +195,7 @@ namespace LASI.Algorithm.Binding
                     return;
                 try {
                     Machine.St0.Transition(Stream.PopDynamic());
-                }
-                catch (InvalidOperationException) {
+                } catch (InvalidOperationException) {
                     Machine.AssociateDirect();
                     Machine.AssociateIndirect();
                 }
@@ -218,8 +222,7 @@ namespace LASI.Algorithm.Binding
 
                 try {
                     Machine.St2.Transition(Stream.PopDynamic());
-                }
-                catch (InvalidOperationException) {
+                } catch (InvalidOperationException) {
                     Machine.AssociateDirect();
                     Machine.AssociateIndirect();
                 }
@@ -246,8 +249,7 @@ namespace LASI.Algorithm.Binding
 
                 try {
                     Machine.St2.Transition(Stream.PopDynamic());
-                }
-                catch (InvalidOperationException) {
+                } catch (InvalidOperationException) {
                     Machine.AssociateDirect();
                     Machine.AssociateIndirect();
                 }
@@ -258,8 +260,7 @@ namespace LASI.Algorithm.Binding
                 if (Machine.inputstream.Count > 0) {
                     try {
                         Machine.St1.Transition(Stream.PopDynamic());
-                    }
-                    catch (InvalidOperationException) {
+                    } catch (InvalidOperationException) {
                         Machine.AssociateDirect();
                         Machine.AssociateIndirect();
                     }
@@ -280,8 +281,7 @@ namespace LASI.Algorithm.Binding
                 Machine.lastAdjectivals.Clear();
                 try {
                     Machine.St1.Transition(Stream.PopDynamic());
-                }
-                catch (InvalidOperationException) {
+                } catch (InvalidOperationException) {
                     Machine.AssociateDirect();
                     Machine.AssociateIndirect();
                 }
@@ -301,8 +301,7 @@ namespace LASI.Algorithm.Binding
 
                 try {
                     Machine.St2.Transition(Stream.PopDynamic());
-                }
-                catch (InvalidOperationException) {
+                } catch (InvalidOperationException) {
                     Machine.AssociateDirect();
                     Machine.AssociateIndirect();
                 }
@@ -317,8 +316,7 @@ namespace LASI.Algorithm.Binding
                 Universal(phrase);
                 try {
                     Machine.St0.Transition(Stream.PopDynamic());
-                }
-                catch (InvalidOperationException) {
+                } catch (InvalidOperationException) {
                     Machine.AssociateDirect();
                     Machine.AssociateIndirect();
                 }
@@ -358,8 +356,7 @@ namespace LASI.Algorithm.Binding
 
                 try {
                     Machine.St4.Transition(Stream.PopDynamic());
-                }
-                catch (InvalidOperationException) {
+                } catch (InvalidOperationException) {
                     Machine.AssociateDirect();
                     Machine.AssociateIndirect();
                 }
@@ -371,8 +368,7 @@ namespace LASI.Algorithm.Binding
 
                 try {
                     Machine.St4.Transition(Stream.PopDynamic());
-                }
-                catch (InvalidOperationException) {
+                } catch (InvalidOperationException) {
                     Machine.AssociateDirect();
                     Machine.AssociateIndirect();
                 }
@@ -386,8 +382,7 @@ namespace LASI.Algorithm.Binding
                     Machine.lastPrepositional = phrase;
 
                     Machine.entities.Last().PrepositionOnRight = Machine.lastPrepositional;
-                }
-                catch (InvalidOperationException) {
+                } catch (InvalidOperationException) {
                 }
                 phrase.OnLeftSide = Machine.entities.Last();
                 Machine.entities.Clear();
@@ -397,8 +392,7 @@ namespace LASI.Algorithm.Binding
 
                 try {
                     Machine.St0.Transition(Stream.PopDynamic());
-                }
-                catch (InvalidOperationException) {
+                } catch (InvalidOperationException) {
                     Machine.AssociateDirect();
                     Machine.AssociateIndirect();
                 }
@@ -421,8 +415,7 @@ namespace LASI.Algorithm.Binding
 
                 try {
                     Machine.St0.Transition(Stream.PopDynamic());
-                }
-                catch (InvalidOperationException) {
+                } catch (InvalidOperationException) {
                     Machine.AssociateDirect();
                     Machine.AssociateIndirect();
                 }
@@ -444,8 +437,7 @@ namespace LASI.Algorithm.Binding
                     return;
                 try {
                     Machine.St0.Transition(Stream.PopDynamic());
-                }
-                catch (InvalidOperationException) {
+                } catch (InvalidOperationException) {
                     Machine.AssociateDirect();
                     Machine.AssociateIndirect();
                 }
@@ -478,8 +470,7 @@ namespace LASI.Algorithm.Binding
 
                 try {
                     Machine.St2.Transition(Stream.PopDynamic());
-                }
-                catch (InvalidOperationException) {
+                } catch (InvalidOperationException) {
                     Machine.AssociateDirect();
                     Machine.AssociateIndirect();
                 }
@@ -498,8 +489,7 @@ namespace LASI.Algorithm.Binding
 
                 try {
                     Machine.St5.Transition(Stream.PopDynamic());
-                }
-                catch (InvalidOperationException) {
+                } catch (InvalidOperationException) {
                     Machine.AssociateDirect();
                     Machine.AssociateIndirect();
                 }
@@ -528,8 +518,7 @@ namespace LASI.Algorithm.Binding
 
                 try {
                     Machine.St2.Transition(Stream.PopDynamic());
-                }
-                catch (InvalidOperationException) {
+                } catch (InvalidOperationException) {
                     Machine.AssociateDirect();
                     Machine.AssociateIndirect();
                 }
@@ -549,8 +538,7 @@ namespace LASI.Algorithm.Binding
 
                 try {
                     Machine.St6.Transition(Stream.PopDynamic());
-                }
-                catch (InvalidOperationException) {
+                } catch (InvalidOperationException) {
                     Machine.AssociateDirect();
                     Machine.AssociateIndirect();
                 }
@@ -580,8 +568,7 @@ namespace LASI.Algorithm.Binding
 
                 try {
                     Machine.St5.Transition(Stream.PopDynamic());
-                }
-                catch (InvalidOperationException) {
+                } catch (InvalidOperationException) {
                     Machine.AssociateDirect();
                     Machine.AssociateIndirect();
                 }
@@ -603,8 +590,7 @@ namespace LASI.Algorithm.Binding
 
                 try {
                     Machine.St2.Transition(Stream.PopDynamic());
-                }
-                catch (InvalidOperationException) {
+                } catch (InvalidOperationException) {
                     Machine.AssociateDirect();
                     Machine.AssociateIndirect();
                 }

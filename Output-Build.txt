@@ -1,24 +1,7 @@
 ﻿1>------ Build started: Project: L_FileSystem, Configuration: Debug Any CPU ------
 1>  L_FileSystem -> C:\Users\Aluan\LASI_Repo\LASI_v1\LASI_FileSystem\bin\Debug\FileSystem.dll
-2>------ Build started: Project: L_InteropLayer, Configuration: Debug Any CPU ------
-3>------ Build started: Project: LASI_Algorithm_UnitTests, Configuration: Debug Any CPU ------
-4>------ Build started: Project: Aluan_Experimentation, Configuration: Debug Any CPU ------
-5>------ Build started: Project: Brittany_Experimentation, Configuration: Debug Any CPU ------
-6>------ Build started: Project: Brittany_WPF_Experimentation, Configuration: Debug Any CPU ------
-7>------ Build started: Project: Dustin_Experimentation, Configuration: Debug Any CPU ------
-8>------ Build started: Project: Erik_Experimentation, Configuration: Debug Any CPU ------
-9>------ Build started: Project: Richard_Experimentation, Configuration: Debug Any CPU ------
-10>------ Build started: Project: Scott_Experimentation, Configuration: Debug Any CPU ------
-2>  L_InteropLayer -> C:\Users\Aluan\LASI_Repo\LASI_v1\LASI_InteropLayer\bin\Debug\InteropLayer.dll
-11>------ Build started: Project: L_UserInterface, Configuration: Debug Any CPU ------
-8>C:\Users\Aluan\LASI_Repo\LASI_v1\IndividualProjects\Erik_Experimentation\Program.cs(89,68,89,74): warning CS0219: The variable 'senary' is assigned but its value is never used
-8>  Erik_Experimentation -> C:\Users\Aluan\LASI_Repo\LASI_v1\IndividualProjects\Erik_Experimentation\bin\Debug\Erik_Experimentation.exe
-5>  Brittany_Experimentation -> C:\Users\Aluan\LASI_Repo\LASI_v1\IndividualProjects\Brittany_Experimentation\bin\Debug\Brittany_Experimentation.exe
-9>  Richard_Experimentation -> C:\Users\Aluan\LASI_Repo\LASI_v1\IndividualProjects\Richard_Experimentation\bin\Debug\Richard_Experimentation.exe
-4>  Aluan_Experimentation -> C:\Users\Aluan\LASI_Repo\LASI_v1\IndividualProjects\Aluan_Experimentation\bin\Debug\Aluan_Experimentation.exe
-7>  Dustin_Experimentation -> C:\Users\Aluan\LASI_Repo\LASI_v1\IndividualProjects\Dustin_Experimentation\bin\Debug\Dustin_Experimentation.exe
-10>  Scott_Experimentation -> C:\Users\Aluan\LASI_Repo\LASI_v1\IndividualProjects\Scott_Experimentation\bin\Debug\Scott_Experimentation.exe
-3>  LASI_Algorithm_UnitTests -> C:\Users\Aluan\LASI_Repo\LASI_v1\UnitTests\bin\Debug\AlgorithmAssemblyUnitTestProject.dll
-6>  Brittany_WPF_Experimentation -> C:\Users\Aluan\LASI_Repo\LASI_v1\IndividualProjects\Brittany_WPF_Experimentation\bin\Debug\Brittany_WPF_Experimentation.exe
-11>  L_UserInterface -> C:\Users\Aluan\LASI_Repo\LASI_v1\LASI_UserInterface\bin\Debug\UserInterface.exe
-========== Build: 11 succeeded, 0 failed, 2 up-to-date, 0 skipped ==========
+2>------ Build started: Project: L_UserInterface, Configuration: Debug Any CPU ------
+2>C:\Users\Aluan\LASI_Repo\LASI_v1\LASI_UserInterface\ResultsScreen.xaml.cs(522,28,522,46): warning CS1998: This async method lacks 'await' operators and will run synchronously. Consider using the 'await' operator to await non-blocking API calls, or 'await Task.Run(...)' to do CPU-bound work on a background thread.
+2>C:\Users\Aluan\LASI_Repo\LASI_v1\LASI_UserInterface\ResultsScreen.xaml.cs(522,28,522,46): warning CS1998: This async method lacks 'await' operators and will run synchronously. Consider using the 'await' operator to await non-blocking API calls, or 'await Task.Run(...)' to do CPU-bound work on a background thread.
+2>  L_UserInterface -> C:\Users\Aluan\LASI_Repo\LASI_v1\LASI_UserInterface\bin\Debug\LASI.exe
+========== Build: 2 succeeded, 0 failed, 11 up-to-date, 0 skipped ==========

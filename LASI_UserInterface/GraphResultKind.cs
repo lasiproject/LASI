@@ -9,5 +9,6 @@ namespace LASI.UserInterface
     {
         SubjectVerb,
         SubjectVerbObject,
+        NounPhrasesOnly,
     }
 }

@@ -23,7 +23,7 @@ namespace LASI.Utilities
         /// <remarks>No files are created when calling this function.</remarks>
         public static Document UntaggedToDoc(params string[] strs) {
             var tagged = TagString(strs);
-            return TaggedToDoc(tagged);
+            return TaggedToDoc(tagged); 
         }
 
         /// <summary>

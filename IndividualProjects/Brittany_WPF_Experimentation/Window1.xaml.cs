@@ -14,7 +14,6 @@ using System.Windows.Shapes;
 using LASI.FileSystem;
 using System.IO;
 using LASI.FileSystem.FileTypes;
-using System.Threading.Tasks;
 namespace Brittany_WPF_Experimentation
 {
     /// <summary>

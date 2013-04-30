@@ -32,7 +32,6 @@
 
         <Canvas Background="#FFF6F6F6" Margin="0,26,0,0">
             <Grid Height="459" Canvas.Top="10" Canvas.Left="-2" Width="159" />
-            <Button Content="Set Source" Canvas.Left="545" Canvas.Top="20" Width="75" Click="SetChartSourceButton_Click" />
 
 
         </Canvas>
@@ -58,6 +57,7 @@
                 </Button>
                 <Button x:Name="changeToAreaChartButton" Content="Button" Height="45" Canvas.Left="58" Canvas.Top="94" Width="53" Visibility="Hidden" />
                 <Button x:Name="changeToLineChartButton" Content="Button" Height="35" Canvas.Left="98" Canvas.Top="189" Width="35" Visibility="Hidden" />
+                <Button x:Name="toggleChartSourceButton" Content="Toggle Data&#xD;&#xA;" Canvas.Left="12" Width="118" Click="ToggleEntitiesAndRelationshipsButton_Click" Height="25" Canvas.Top="10" />
 
             </Canvas>
         </Grid>
@@ -67,37 +67,29 @@
             <TabItem x:Name="topResultsTab" Header="Top Results">
                 <Grid Background="#FFE5E5E5" Margin="0,0,1,0">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="363*" />
-                        <ColumnDefinition Width="9*" />
+
                         <ColumnDefinition Width="206*" />
                     </Grid.ColumnDefinitions>
-                    <TabControl x:Name="FrequencyCharts" Grid.ColumnSpan="3">
-
-                    </TabControl>
+                    <TabControl x:Name="FrequencyCharts" Grid.ColumnSpan="3" />
                 </Grid>
             </TabItem>
 
 
-            <TabItem Header="Word Relationships">
+            <TabItem Header="Recomposed Documents">
                 <Grid Background="#FFE5E5E5" Margin="0,0,1,0">
-                    <TabControl Name="wordRelationshipsTab" />
+                    <TabControl x:Name="recomposedDocumentsTabControl" />
                 </Grid>
             </TabItem>
-
 
             <TabItem Header="Word Count and Weighting">
                 <Grid Background="#FFE5E5E5">
-                    <TabControl Name="WordCountLists" Grid.ColumnSpan="2" Margin="0,-1,0,0" />
+                    <TabControl x:Name="WordCountLists" Grid.ColumnSpan="2" Margin="0,-1,0,0" />
                 </Grid>
             </TabItem>
 
-
-            <TabItem Header="TestView" Visibility="Hidden">
-                <TabControl x:Name="TestView" Margin="0,-2,0,0" />
-            </TabItem>
-            <TabItem Name="svdiGrid" Header="TabItem" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="57" Margin="-60,1,0,-1">
+            <TabItem Header="Key Relationships" Height="20" VerticalAlignment="Top" Margin="0" HorizontalAlignment="Left" Width="107">
                 <Grid Background="#FFE5E5E5">
-
+                    <TabControl x:Name="SVODResultsTabControl"></TabControl>
                 </Grid>
             </TabItem>
 

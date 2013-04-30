@@ -84,10 +84,8 @@ namespace LASI.UserInterface
         private async void StartButton_Click(object sender, RoutedEventArgs e) {
             this.Hide();
             WindowManager.InProgressScreen.Show();
-            // WindowManager.InProgressScreen.Topmost = true;
 
             await WindowManager.InProgressScreen.InitializeParsing();
-            //WindowManager.InProgressScreen.Hide();
 
 
         }
@@ -107,9 +105,8 @@ namespace LASI.UserInterface
 
         }
 
-        private void MenuItem_Click_3(object sender, RoutedEventArgs e) {
+        private void FileExitMenuItem_Click(object sender, RoutedEventArgs e) {
             this.Close();
-
         }
 
         private void TextBox_TextChanged_1(object sender, TextChangedEventArgs e) {
@@ -156,13 +153,11 @@ namespace LASI.UserInterface
         }
 
 
-        private void ProceedToResultsView() {
-            WindowManager.ResultsScreen.SetTitle(WindowManager.CreateProjectScreen.LastLoadedProjectName + " - L.A.S.I.");
+        private async void ProceedToResultsView() {
+            WindowManager.ResultsScreen.SetTitle(App.Current.Resources["CurrentProjectName"] + " - L.A.S.I.");
             this.SwapWith(WindowManager.ResultsScreen);
-            //WindowManager.ResultsScreen.BuildAssociationTextView();
-            // WindowManager.ResultsScreen.BuildFullSortedView();
             WindowManager.ResultsScreen.BuildAssociationTextView();
-            WindowManager.ResultsScreen.CreateInteractiveViews();
+            await WindowManager.ResultsScreen.CreateInteractiveViews();
 
         }
 

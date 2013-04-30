@@ -1,29 +1,17 @@
 using LASI.Algorithm;
+using LASI.Algorithm.DocumentConstructs;
+using LASI.Algorithm.Thesauri;
 using LASI.FileSystem;
+using LASI.UserInterface.Dialogs;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using System.Windows.Controls.DataVisualization.Charting;
-using System.Windows.Controls.DataVisualization;
-using System.Collections.ObjectModel;
-using LASI.Algorithm.Binding;
-using LASI.Utilities.TypedSwitch;
-using LASI.Algorithm.Analysis;
-using LASI.Utilities;
-using LASI.UserInterface.Dialogs;
-using LASI.Algorithm.Thesauri;
-using LASI.Algorithm.DocumentConstructs;
+using System.Windows.Media;
 
 namespace LASI.UserInterface
 {
@@ -92,7 +80,7 @@ namespace LASI.UserInterface
                 }
                 WordCountLists.Items.Add(tabItem);
                 BuildDefaultBarChartDisplay(doc);
-                FillChart(doc);
+                await BuildSVOChartsAsync(doc);
             }
 
             BindChartViewControls();
@@ -187,13 +175,13 @@ namespace LASI.UserInterface
                 foreach (var l in phraseLabels) {
                     panel.Children.Add(l);
                 }
-                wordRelationshipsTab.Items.Add(tab);
+                recomposedDocumentsTabControl.Items.Add(tab);
             }
         }
         Dictionary<Chart, Document> documentsByChart = new Dictionary<Chart, Document>();
         public async void BuildDefaultBarChartDisplay(Document document) {
 
-            var valueList = ProjectToChartItemSource(document);
+            var valueList = GetPhraseData(document).Take(ChartItemLimit);
             Series series = new BarSeries {
                 DependentValuePath = "Value",
                 IndependentValuePath = "Key",
@@ -204,11 +192,13 @@ namespace LASI.UserInterface
             };
 
             var chart = new Chart {
-                //Name = "ChartForDoc" + document.FileName,
-                Title = string.Format("Key Relationships in {0}", document.FileName),
+                Title = string.Format("Key Subjects in {0}", document.FileName),
                 Tag = valueList.ToArray()
             };
 
+            series.MouseMove += (sender, e) => {
+                series.ToolTip = (e.Source as DataPoint).IndependentValue;
+            };
             documentsByChart.Add(chart, document);
             chart.Series.Add(series);
 
@@ -226,7 +216,7 @@ namespace LASI.UserInterface
 
 
         /// <summary>
-        /// Reconfigures all charts to a Column perspective
+        /// Reconfigures all charts to Subjects Column perspective
         /// </summary>
         /// <returns>A Task which completes on the successful reconstruction of all charts</returns>
         async Task ToColumnCharts() {
@@ -248,7 +238,7 @@ namespace LASI.UserInterface
 
 
         /// <summary>
-        /// Reconfigures all charts to a Pie perspective
+        /// Reconfigures all charts to Subjects Pie perspective
         /// </summary>
         /// <returns>A Task which completes on the successful reconstruction of all charts</returns>
         async Task ToPieCharts() {
@@ -270,7 +260,7 @@ namespace LASI.UserInterface
         }
 
         /// <summary>
-        /// Reconfigures all charts to a Bar perspective
+        /// Reconfigures all charts to Subjects Bar perspective
         /// </summary>
         /// <returns>A Task which completes on the successful reconstruction of all charts</returns>
         async Task ToBarCharts() {
@@ -328,10 +318,10 @@ namespace LASI.UserInterface
             ((c as TabItem).Content as Chart).Series.Add(series);
         }
 
-        private List<KeyValuePair<string, int>> GetItemSourceFor(object chart) {
-            var chartSource = ((chart as TabItem).Content as Chart).Tag as IEnumerable<KeyValuePair<string, int>>;
+        private List<KeyValuePair<string, float>> GetItemSourceFor(object chart) {
+            var chartSource = ((chart as TabItem).Content as Chart).Tag as IEnumerable<KeyValuePair<string, float>>;
             var items = (from i in chartSource.ToArray()
-                         select new KeyValuePair<string, int>(i.Key.ToString(), (int) i.Value)).ToList();
+                         select new KeyValuePair<string, float>(i.Key.ToString(), i.Value)).ToList();
             return items;
         }
 
@@ -341,79 +331,97 @@ namespace LASI.UserInterface
 
 
 
-        private List<KeyValuePair<string, int>> ProjectToChartItemSource(Document document) {
-
-
-            return GetPhraseData(document).Take(15).ToList();
-        }
-
-
-
 
         private void ChangeChartKind(ChartKind chartKind) {
             foreach (var pair in documentsByChart) {
 
-                switch (chartKind) {
-                    case ChartKind.SubjectVerb:
-                        Document doc = pair.Value;
-                        Chart chart = pair.Key;
+                Document doc = pair.Value;
+                Chart chart = pair.Key;
 
-                        IEnumerable<KeyValuePair<string, int>> data = GetPhraseData(doc);
-                        data = data.Take(15);
-                        pair.Key.Series.Clear();
-                        pair.Key.Series.Add(new BarSeries {
-                            DependentValuePath = "Value",
-                            IndependentValuePath = "Key",
-                            ItemsSource = data,
-                            IsSelectionEnabled = true
-                        });
-                        chart.Title = string.Format("Key Relationships in {0}", pair.Value.FileName);
+                IEnumerable<KeyValuePair<string, float>> data = null;
+
+                switch (chartKind) {
+
+                    case ChartKind.SubjectVerbObject:
+                        data = GetSVOIData(doc);
+                        break;
+                    case ChartKind.NounPhrasesOnly:
+                        data = GetPhraseData(doc);
                         break;
                 }
+                data = data.Take(ChartItemLimit);
+                chart.Series.Clear();
+                chart.Series.Add(new BarSeries {
+                    DependentValuePath = "Value",
+                    IndependentValuePath = "Key",
+                    ItemsSource = data,
+                    IsSelectionEnabled = true,
+
+                });
+                chart.Title = string.Format("Key Relationships in {0}", doc.FileName);
+                break;
             }
         }
 
-        private static IEnumerable<KeyValuePair<string, int>> GetSVData(Document doc) {
-            IEnumerable<KeyValuePair<string, int>> data =
-                from svPair in
-                    (from v in doc.Phrases.GetVerbPhrases().WithSubject()
-                     from s in v.BoundSubjects
-                     from dobj in v.DirectObjects
-                     select new SVPair {
-                         NP = s as NounPhrase,
-                         VP = v as VerbPhrase,
-                         DO = dobj as NounPhrase,
-                     })
-                select svPair into svs
-                let relationWeight = svs.VP.Weight + svs.NP.Weight + svs.DO.Weight
-                orderby relationWeight
-                let SV = new KeyValuePair<string, int>(string.Format("{0}\n{1}\n", svs.NP.Text, svs.VP.Text) + (svs.DO != null ? svs.DO.Text : ""), (int) relationWeight)
-                group SV by SV into svg
-                orderby svg.Sum(s => s.Value)
-                select svg.Key;
-            return data;
+
+        private static IEnumerable<KeyValuePair<string, float>> GetSVOIData(Document doc) {
+            var data = GetVerbWiseAssociationData(doc);
+            return from svs in data
+
+                   let SV = new KeyValuePair<string, float>(string.Format("{0} -> {1}\n", svs.Subject.Text, svs.Verbial.Text) + (svs.Direct != null ? " -> " + svs.Direct.Text : "") + (svs.Indirect != null ? " -> " + svs.Indirect.Text : ""),
+                       (float) Math.Round(svs.SumWeight / 4.0m, 2))
+                   group SV by SV into svg
+
+                   select svg.Key;
+
         }
 
-        private static IEnumerable<KeyValuePair<string, int>> GetPhraseData(Document doc) {
-            return from NP in doc.Phrases.GetNounPhrases()
-                   orderby NP.Weight
-                   select new KeyValuePair<string, int>(NP.Text, (int) NP.Weight);
+        private static IEnumerable<NpVpNpNpQuatruple> GetVerbWiseAssociationData(Document doc) {
+            var data =
+                 from svPair in
+                     (from v in doc.Phrases.GetVerbPhrases().WithSubject()
+                      from s in v.BoundSubjects
+                      from dobj in v.DirectObjects
+                      from iobj in v.IndirectObjects
+                      let relationshipWeight = s.Weight + v.Weight + dobj.Weight + iobj.Weight
+                      orderby relationshipWeight
+                      select new NpVpNpNpQuatruple {
+                          Subject = s as NounPhrase ?? null,
+                          Verbial = v as VerbPhrase ?? null,
+                          Direct = dobj as NounPhrase ?? null,
+                          Indirect = iobj as NounPhrase ?? null,
+                          SumWeight = relationshipWeight
+                      })
+                 select svPair;
+            return data.ToArray();
+        }
+
+        private static IEnumerable<KeyValuePair<string, float>> GetPhraseData(Document doc) {
+            return from NP in doc.Phrases.GetNounPhrases().Except(doc.Phrases.GetPronounPhrases())
+
+                   group NP by new {
+                       NP.Text,
+                       NP.Weight
+                   } into NP
+                   select NP.Key into master
+                   orderby master.Weight
+                   select new KeyValuePair<string, float>(master.Text, (float) Math.Round(master.Weight, 2));
         }
 
         #region Result Selector Helper Structs
         /// <summary>
-        /// A little data type which defines a predicate function which is passed to the "Distinct()" method call above
+        /// A little data type which defines Subjects predicate function which is passed to the "Distinct()" method call above
         /// It is defined because distinct does not support lambda(read function) arguments like my query operatorrs do.
         /// Pay this type little heed
         /// </summary>
-        private struct SVComparer : IEqualityComparer<SVPair>
+        private struct SVComparer : IEqualityComparer<NpVpNpNpQuatruple>
         {
-            public bool Equals(SVPair x, SVPair y) {
-                return x.NP.Text == y.NP.Text || x.NP.IsSimilarTo(y.NP) &&
-                    x.VP.Text == y.VP.Text || x.VP.IsSimilarTo(y.VP);
+            public bool Equals(NpVpNpNpQuatruple x, NpVpNpNpQuatruple y) {
+                return x.Subject.Text == y.Subject.Text || x.Subject.IsSimilarTo(y.Subject) &&
+                    x.Verbial.Text == y.Verbial.Text || x.Verbial.IsSimilarTo(y.Verbial);
             }
 
-            public int GetHashCode(SVPair obj) {
+            public int GetHashCode(NpVpNpNpQuatruple obj) {
                 return obj.GetHashCode();
             }
         }
@@ -421,26 +429,36 @@ namespace LASI.UserInterface
         /// Sometimes an anonymous type simple will not do. So this little struct is defined to 
         /// store temporary query data from transposed tables. god it is late. I can't document properly.
         /// </summary>
-        private struct SVPair
+        private struct NpVpNpNpQuatruple
         {
-            public NounPhrase NP {
+            public NounPhrase Subject {
                 get;
                 set;
             }
-            public NounPhrase DO {
+            public VerbPhrase Verbial {
                 get;
                 set;
             }
-            public VerbPhrase VP {
+            public NounPhrase Direct {
                 get;
                 set;
             }
+            public NounPhrase Indirect {
+                get;
+                set;
+            }
+            public decimal SumWeight {
+                get;
+                set;
+            }
+
         }
 
         #endregion
 
 
         private List<Document> documents = new List<Document>();
+        private const int ChartItemLimit = 14;
         public List<Document> Documents {
             get {
                 return documents;
@@ -448,13 +466,6 @@ namespace LASI.UserInterface
             set {
                 documents = value;
             }
-        }
-
-        private List<Series> DocumentDatapointRanges = new List<Series>();
-
-        private void MenuItem_Click_2(object sender, RoutedEventArgs e) {
-
-            this.SwapWith(WindowManager.CreateProjectScreen);
         }
 
 
@@ -475,13 +486,6 @@ namespace LASI.UserInterface
 
         }
 
-        private void Grid_MouseDown_1(object sender, MouseButtonEventArgs e) {
-
-        }
-
-        private void Button_Click_1(object sender, RoutedEventArgs e) {
-
-        }
 
         private async void ChangeToBarChartButton_Click(object sender, RoutedEventArgs e) {
             await ToBarCharts();
@@ -528,13 +532,18 @@ namespace LASI.UserInterface
 
 
 
-        public bool AutoExport {
-            get;
-            set;
-        }
 
-        private void SetChartSourceButton_Click(object sender, RoutedEventArgs e) {
-            ChangeChartKind(ChartKind.SubjectVerb);
+        private void ToggleEntitiesAndRelationshipsButton_Click(object sender, RoutedEventArgs e) {
+            ChangeChartKind(ChartKind.SubjectVerbObject);
+            toggleChartSourceButton.Click -= ToggleEntitiesAndRelationshipsButton_Click;
+            RoutedEventHandler togglefunction = null;
+            togglefunction = (sen, evt) => {
+                ChangeChartKind(ChartKind.NounPhrasesOnly);
+                toggleChartSourceButton.Click -= togglefunction;
+                toggleChartSourceButton.Click += ToggleEntitiesAndRelationshipsButton_Click;
+
+            };
+            toggleChartSourceButton.Click += togglefunction;
         }
 
         private static IEnumerable<string> topIndirectObjects(Document doc) {
@@ -561,32 +570,35 @@ namespace LASI.UserInterface
                    select string.Format("{0}  [{1}]", s.Text, Math.Round(s.Weight, 2));
         }
 
-        void FillChart(Document doc) {
-            DataGrid dg = new DataGrid {
-                ItemsSource =
-                   from i in topSubjects(doc).Zip(topVerbs(doc), (a, b) => new {
-                       a,
-                       b
-                   })
-                   .Zip(topDirectObjects(doc), (ab, c) => new {
-                       ab.a,
-                       ab.b,
-                       c
-                   })
-                   .Zip(topIndirectObjects(doc), (abc, d) => new {
-                       abc.a,
-                       abc.b,
-                       abc.c,
-                       d
-                   })
-                   select i
 
+
+        private static IEnumerable<object> CreateStringListsForData(IEnumerable<NpVpNpNpQuatruple> elementsToSerialize) {
+            var dataRows = from result in elementsToSerialize
+                           orderby result.SumWeight
+                           select new {
+                               Subject = result.Subject != null ? result.Subject.Text : string.Empty,
+                               Verbial = result.Verbial != null ? result.Verbial.Text : string.Empty,
+                               Direct = result.Direct != null ? result.Direct.Text : string.Empty,
+                               Indirect = result.Indirect != null ? result.Indirect.Text : string.Empty,
+
+                           };
+            return dataRows;
+        }
+        private async Task BuildSVOChartsAsync(Document doc) {
+
+            var transformedData = await Task.Factory.StartNew(() => {
+                return CreateStringListsForData(GetVerbWiseAssociationData(doc));
+            });
+            var wpfToolKitDataGrid = new Microsoft.Windows.Controls.DataGrid {
+                ItemsSource = transformedData,
             };
-            svdiGrid.Content = dg;
-
+            var tab = new TabItem {
+                Header = doc.FileName,
+                Content = wpfToolKitDataGrid
+            };
+            SVODResultsTabControl.Items.Add(tab);
 
         }
-
 
     }
 }
