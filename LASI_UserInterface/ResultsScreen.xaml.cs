@@ -252,7 +252,7 @@ namespace LASI.UserInterface
         /// <returns>A Task which completes on the successful reconstruction of all charts</returns>
         async Task ToPieCharts() {
             foreach (var chart in FrequencyCharts.Items) {
-                var items = GetItemSourceFor(chart);
+                var items = GetAppropriateDataSet(documentsByChart[chart as Chart]);
                 var series = new PieSeries {
                     DependentValuePath = "Value",
                     IndependentValuePath = "Key",
@@ -274,7 +274,7 @@ namespace LASI.UserInterface
         /// <returns>A Task which completes on the successful reconstruction of all charts</returns>
         async Task ToBarCharts() {
             foreach (var chart in FrequencyCharts.Items) {
-                var items = GetAppropriateDataSet(documentsByChart[chart as Chart]);
+                var items = GetAppropriateData(chart);
                 var series = new BarSeries {
                     DependentValuePath = "Value",
                     IndependentValuePath = "Key",
@@ -291,7 +291,7 @@ namespace LASI.UserInterface
         /// <returns>A Task which completes on the successful reconstruction of all charts</returns>
         async Task ToAreaCharts() {
             foreach (var chart in FrequencyCharts.Items) {
-                var items = GetAppropriateDataSet(documentsByChart[chart as Chart]);
+                var items = GetAppropriateData(chart);
                 var series = new AreaSeries {
                     DependentValuePath = "Value",
                     IndependentValuePath = "Key",
@@ -303,10 +303,15 @@ namespace LASI.UserInterface
             await Task.Delay(1);
         }
 
+        private IEnumerable<KeyValuePair<string, float>> GetAppropriateData(object chart) {
+            var items = GetAppropriateDataSet(documentsByChart[((chart as TabItem).Content as Chart)]);
+            return items;
+        }
+
 
         async Task ToLineCharts() {
             foreach (var chart in FrequencyCharts.Items) {
-                var items = GetAppropriateDataSet(documentsByChart[chart as Chart]);
+                var items = GetAppropriateData(chart);
                 var series = new LineSeries {
                     DependentValuePath = "Value",
                     IndependentValuePath = "Key",
