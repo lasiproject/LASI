@@ -56,17 +56,12 @@ namespace LASI.Algorithm.Analysis
                     MaxWeight = w.Weight;
             }
 
-            var AvgPhrsWeigh = TotPhraseWeight / doc.Phrases.Count();
-            Output.WriteLine("Total Weight: {0}, Avg Weight: {1}, Max Weight: {2}", TotPhraseWeight, AvgPhrsWeigh, MaxWeight);
-
             var ratio = 100 / MaxWeight;
             foreach (var p in doc.Phrases)
             {
                 p.Weight = Math.Round(p.Weight * ratio, 3);
 
             }
-
-
         }
 
         private static void modifyVerbWeightsBySynonyms(Document doc) {
