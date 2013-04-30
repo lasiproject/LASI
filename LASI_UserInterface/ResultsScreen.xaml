@@ -96,7 +96,7 @@
             </TabItem>
             <TabItem Header="TabItem" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="57" Margin="-60,0,0,0">
                 <Grid Background="#FFE5E5E5">
-                    <DataGrid x:Name="svdiGrid" HorizontalAlignment="Left" VerticalAlignment="Top" Width="67" Height="38"  >
+                    <DataGrid Name="svdiGrid" HorizontalAlignment="Left" VerticalAlignment="Top" Width="67" Height="38"  >
 
 
                     </DataGrid>
