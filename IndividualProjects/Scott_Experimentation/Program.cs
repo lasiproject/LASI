@@ -50,20 +50,6 @@ namespace Scott_Experimentation
             string TestString = "The Boy rides his big bold bike up a large steep hill.  He fell over when he reached the top.  The Boy then got up and rode down the other side.";
             var DocTest = LASI.Utilities.TaggerUtil.UntaggedToDoc(TestString);
 
-            /*
-            //Noun Phrase Binding
-            InterPhraseWordBinding ip1 = new InterPhraseWordBinding();
-            foreach (var phrs in document5.Phrases.GetNounPhrases()){ 
-                ip1.IntraNounPhrase(phrs);
-            }
-            */
-            /*
-            //Verb Phrase Binding
-            foreach (var vbphrs in document5.Phrases.GetVerbPhrases()) {
-                ip1.IntraVerbPhrase(vbphrs);
-            }
-            */
-
             Binder.Bind(document4);
             Weighter.Weight(document4);
            
@@ -72,7 +58,7 @@ namespace Scott_Experimentation
             var sm = from t in document4.Phrases //.Words
                       where document4.Phrases.Count() > 0 //.Words.Count() > 0
                       orderby t.Weight ascending 
-                     select t;//.OrderBy(c=>c.Weight);
+                     select t;
 
             Output.WriteLine("Start Here: ");
             foreach (var w in sm.GetNounPhrases()) //.GetNouns().OfType<ProperNoun>()) //sm.GetNouns().OfType<ProperNoun>())
