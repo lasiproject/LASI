@@ -199,18 +199,16 @@ namespace LASI.UserInterface
                 IndependentValuePath = "Key",
                 ItemsSource = valueList,
                 IsSelectionEnabled = true,
-                Tag = document
-
+                Tag = document,
 
             };
-
 
             var chart = new Chart {
                 //Name = "ChartForDoc" + document.FileName,
                 Title = string.Format("Key Relationships in {0}", document.FileName),
                 Tag = valueList.ToArray()
-
             };
+
             documentsByChart.Add(chart, document);
             chart.Series.Add(series);
 
@@ -333,7 +331,7 @@ namespace LASI.UserInterface
         private List<KeyValuePair<string, int>> GetItemSourceFor(object chart) {
             var chartSource = ((chart as TabItem).Content as Chart).Tag as IEnumerable<KeyValuePair<string, int>>;
             var items = (from i in chartSource.ToArray()
-                         select new KeyValuePair<string, int>(i.Key.ToString(), (int)i.Value)).ToList();
+                         select new KeyValuePair<string, int>(i.Key.ToString(), (int) i.Value)).ToList();
             return items;
         }
 
@@ -389,7 +387,7 @@ namespace LASI.UserInterface
                 select svPair into svs
                 let relationWeight = svs.VP.Weight + svs.NP.Weight + svs.DO.Weight
                 orderby relationWeight
-                let SV = new KeyValuePair<string, int>(string.Format("{0}\n{1}\n", svs.NP.Text, svs.VP.Text) + (svs.DO != null ? svs.DO.Text : ""), (int)relationWeight)
+                let SV = new KeyValuePair<string, int>(string.Format("{0}\n{1}\n", svs.NP.Text, svs.VP.Text) + (svs.DO != null ? svs.DO.Text : ""), (int) relationWeight)
                 group SV by SV into svg
                 orderby svg.Sum(s => s.Value)
                 select svg.Key;
@@ -399,7 +397,7 @@ namespace LASI.UserInterface
         private static IEnumerable<KeyValuePair<string, int>> GetPhraseData(Document doc) {
             return from NP in doc.Phrases.GetNounPhrases()
                    orderby NP.Weight
-                   select new KeyValuePair<string, int>(NP.Text, (int)NP.Weight);
+                   select new KeyValuePair<string, int>(NP.Text, (int) NP.Weight);
         }
 
         #region Result Selector Helper Structs
@@ -472,8 +470,7 @@ namespace LASI.UserInterface
             var focusedChart = (FrequencyCharts.SelectedItem as TabItem).Content as Visual;
             try {
                 printDialog.PrintVisual(focusedChart, "Current View");
-            }
-            catch (NullReferenceException) {
+            } catch (NullReferenceException) {
             }
 
         }
@@ -543,37 +540,53 @@ namespace LASI.UserInterface
         private static IEnumerable<string> topIndirectObjects(Document doc) {
             return from io in doc.Phrases.GetNounPhrases().InIndirectObjectRole()
                    orderby io.Weight descending
-                   select string.Format("{0} {1}", io.Text, io.Weight);
+                   select string.Format("{0}  [{1}]", io.Text, Math.Round(io.Weight, 2));
         }
 
         private static IEnumerable<string> topDirectObjects(Document doc) {
             return from dO in doc.Phrases.GetNounPhrases().InDirectObjectRole()
                    orderby dO.Weight descending
-                   select string.Format("{0} {1}", dO.Text, dO.Weight);
+                   select string.Format("{0}  [{1}]", dO.Text, Math.Round(dO.Weight, 2));
             ;
         }
 
         private static IEnumerable<string> topVerbs(Document doc) {
             return from v in doc.Phrases.GetVerbPhrases().WithSubject()
-                   select string.Format("{0} {1}", v.Text, v.Weight);
+                   select string.Format("{0}  [{1}]", v.Text, Math.Round(v.Weight, 2));
         }
 
         private static IEnumerable<string> topSubjects(Document doc) {
             return from s in doc.Phrases.GetNounPhrases().InSubjectRole()
                    orderby s.Weight descending
-                   select string.Format("          {0} {1}", s.Text, s.Weight);
+                   select string.Format("{0}  [{1}]", s.Text, Math.Round(s.Weight, 2));
         }
 
         void FillChart(Document doc) {
-            svdiGrid.ItemsSource = topSubjects(doc).ToList();
-        }//{
-        //        Header = "Subjects",
+            DataGrid dg = new DataGrid {
+                ItemsSource =
+                   from i in topSubjects(doc).Zip(topVerbs(doc), (a, b) => new {
+                       a,
+                       b
+                   })
+                   .Zip(topDirectObjects(doc), (ab, c) => new {
+                       ab.a,
+                       ab.b,
+                       c
+                   })
+                   .Zip(topIndirectObjects(doc), (abc, d) => new {
+                       abc.a,
+                       abc.b,
+                       abc.c,
+                       d
+                   })
+                   select i
 
-        //        Binding = new Binding() {
-        //            Source = topSubjects(doc)
-        //        }
-        //    }};
-        //}//, new DataGridTextColumn { topVerbs(doc) as BindingBase }, new DataGridTextColumn { topDirectObjects(doc) as BindingBase }, new DataGridTextColumn { topIndirectObjects(doc) as BindingBase } };
+            };
+            svdiGrid.Content = dg;
+
+
+        }
+
 
     }
 }
