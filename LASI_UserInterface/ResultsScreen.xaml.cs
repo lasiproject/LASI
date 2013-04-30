@@ -80,7 +80,8 @@ namespace LASI.UserInterface
                 }
                 WordCountLists.Items.Add(tabItem);
                 BuildDefaultBarChartDisplay(doc);
-                await BuildSVOChartsAsync(doc);
+                await BuildSVOIGridViewAsync(doc);
+
             }
 
             BindChartViewControls();
@@ -95,7 +96,9 @@ namespace LASI.UserInterface
                 var panel = new WrapPanel();
                 var tab = new TabItem {
                     Header = doc.FileName,
-                    Content = panel
+                    Content = new ScrollViewer {
+                        Content = panel
+                    }
 
                 };
                 var phraseLabels = new List<Label>();
@@ -181,7 +184,7 @@ namespace LASI.UserInterface
         Dictionary<Chart, Document> documentsByChart = new Dictionary<Chart, Document>();
         public async void BuildDefaultBarChartDisplay(Document document) {
 
-            var valueList = GetPhraseData(document).Take(ChartItemLimit);
+            var valueList = GetNounPhraseData(document).Take(ChartItemLimit);
             Series series = new BarSeries {
                 DependentValuePath = "Value",
                 IndependentValuePath = "Key",
@@ -346,10 +349,10 @@ namespace LASI.UserInterface
                         data = GetSVOIData(doc);
                         break;
                     case ChartKind.NounPhrasesOnly:
-                        data = GetPhraseData(doc);
+                        data = GetNounPhraseData(doc);
                         break;
                 }
-                data = data.Take(ChartItemLimit);
+                data = data.Take(ChartItemLimit).Reverse();
                 chart.Series.Clear();
                 chart.Series.Add(new BarSeries {
                     DependentValuePath = "Value",
@@ -369,9 +372,8 @@ namespace LASI.UserInterface
             return from svs in data
 
                    let SV = new KeyValuePair<string, float>(string.Format("{0} -> {1}\n", svs.Subject.Text, svs.Verbial.Text) + (svs.Direct != null ? " -> " + svs.Direct.Text : "") + (svs.Indirect != null ? " -> " + svs.Indirect.Text : ""),
-                       (float) Math.Round(svs.SumWeight / 4.0m, 2))
+                       (float) Math.Round(svs.SumWeight, 2))
                    group SV by SV into svg
-
                    select svg.Key;
 
         }
@@ -384,19 +386,23 @@ namespace LASI.UserInterface
                       from dobj in v.DirectObjects
                       from iobj in v.IndirectObjects
                       let relationshipWeight = s.Weight + v.Weight + dobj.Weight + iobj.Weight
-                      orderby relationshipWeight
+
                       select new NpVpNpNpQuatruple {
                           Subject = s as NounPhrase ?? null,
                           Verbial = v as VerbPhrase ?? null,
                           Direct = dobj as NounPhrase ?? null,
                           Indirect = iobj as NounPhrase ?? null,
                           SumWeight = relationshipWeight
-                      })
-                 select svPair;
+                      }).Distinct(new SVComparer())
+                 select svPair into svps
+
+                 orderby svps.SumWeight
+
+                 select svps;
             return data.ToArray();
         }
 
-        private static IEnumerable<KeyValuePair<string, float>> GetPhraseData(Document doc) {
+        private static IEnumerable<KeyValuePair<string, float>> GetNounPhraseData(Document doc) {
             return from NP in doc.Phrases.GetNounPhrases().Except(doc.Phrases.GetPronounPhrases())
 
                    group NP by new {
@@ -404,7 +410,7 @@ namespace LASI.UserInterface
                        NP.Weight
                    } into NP
                    select NP.Key into master
-                   orderby master.Weight
+                   orderby master.Weight descending
                    select new KeyValuePair<string, float>(master.Text, (float) Math.Round(master.Weight, 2));
         }
 
@@ -535,15 +541,31 @@ namespace LASI.UserInterface
 
         private void ToggleEntitiesAndRelationshipsButton_Click(object sender, RoutedEventArgs e) {
             ChangeChartKind(ChartKind.SubjectVerbObject);
+            PreserveStyle();
             toggleChartSourceButton.Click -= ToggleEntitiesAndRelationshipsButton_Click;
             RoutedEventHandler togglefunction = null;
             togglefunction = (sen, evt) => {
                 ChangeChartKind(ChartKind.NounPhrasesOnly);
+                PreserveStyle();
                 toggleChartSourceButton.Click -= togglefunction;
                 toggleChartSourceButton.Click += ToggleEntitiesAndRelationshipsButton_Click;
 
             };
             toggleChartSourceButton.Click += togglefunction;
+        }
+
+        private async void PreserveStyle() {
+            switch (ChartStyle) {
+                case ChartStyle.Bar:
+                    await ToBarCharts();
+                    break;
+                case ChartStyle.Col:
+                    await ToColumnCharts();
+                    break;
+                case ChartStyle.Pie:
+                    await ToPieCharts();
+                    break;
+            }
         }
 
         private static IEnumerable<string> topIndirectObjects(Document doc) {
@@ -584,7 +606,7 @@ namespace LASI.UserInterface
                            };
             return dataRows;
         }
-        private async Task BuildSVOChartsAsync(Document doc) {
+        private async Task BuildSVOIGridViewAsync(Document doc) {
 
             var transformedData = await Task.Factory.StartNew(() => {
                 return CreateStringListsForData(GetVerbWiseAssociationData(doc));
@@ -599,6 +621,14 @@ namespace LASI.UserInterface
             SVODResultsTabControl.Items.Add(tab);
 
         }
+        private ChartStyle ChartStyle = ChartStyle.Bar;
 
+
+    }
+    enum ChartStyle
+    {
+        Bar,
+        Col,
+        Pie
     }
 }
