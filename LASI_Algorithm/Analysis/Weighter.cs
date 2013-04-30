@@ -30,6 +30,8 @@ namespace LASI.Algorithm.Analysis
             WeightWordsBySyntacticSequence(doc);
 
 
+            WeightPhrasesByAVGWordWeight(doc);
+
             modifyNounWeightsBySynonyms(doc);
 
 
@@ -39,7 +41,6 @@ namespace LASI.Algorithm.Analysis
 
             WeightSimilarNounPhrases(doc);
 
-            WeightPhrasesByAVGWordWeight(doc);
 
         }
 
