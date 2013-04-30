@@ -8,44 +8,76 @@ using LASI.Algorithm;
 using LASI.Utilities;
 using LASI.Algorithm.LexicalStructures;
 using LASI.Algorithm.DocumentConstructs;
+
 namespace LASI.Algorithm.Analysis.Binding
 {
     public class PronounBinder
     {
-        public void Bind(Document documennt) {
+        public void Bind(Document document)
+        {
 
-            foreach (var g in documennt.Paragraphs) {
-                NounPhrase lastTarg = null;
-                foreach (var f in g.Phrases.GetPhrasesAfter(lastTarg ?? g.Phrases.First()).GetNounPhrases().Where(n => !(n is PronounPhrase))) {
-                    var pairs = from i in g.Phrases.GetPhrasesAfter(f).GetPronounPhrases()
+            //foreach (var g in documennt.Paragraphs) {
+            //    NounPhrase lastTarg = null;
+            //    foreach (var f in g.Phrases.GetPhrasesAfter(lastTarg ?? g.Phrases.First()).GetNounPhrases().Where(n => !(n is PronounPhrase))) {
+            //        var pairs = from i in g.Phrases.GetPhrasesAfter(f).GetPronounPhrases()
 
-                                select new {
-                                    np = f,
-                                    pro = i
-                                };
-                    foreach (var n in pairs.Where(r => r.pro.PronounKind == PronounKind.GenderNeurtral || r.pro.PronounKind == PronounKind.Inanimate))
+            //                    select new {
+            //                        np = f,
+            //                        pro = i
+            //                    };
+            //        foreach (var n in pairs.Where(r => r.pro.PronounKind == PronounKind.GenderNeurtral || r.pro.PronounKind == PronounKind.Inanimate))
 
-                    //.GetNounPhrases().Where(
-                    //   )
+            //        //.GetNounPhrases().Where(
+            //        //   )
 
+            //    {
+
+            //            if (n.pro != null) {
+            //                n.np.BindPronoun(n.pro);
+            //                n.pro.BindToIEntity(n.np);
+            //            }
+
+            //        }
+            //        lastTarg = f;
+            //    }
+            //}
+
+            possessivePronounBinderWithinSentence(document);
+
+        }
+
+        /// <summary>
+        /// Bind posessive pronouns located in the objects of a sentence to the proper noun in the subject of that sentence. 
+        /// Example Sentence that this applies to:
+        /// "LASI binds it's pronouns."
+        /// Pronoun "it's" binds to the proper noun "LASI"
+        /// </summary>
+        /// <param name="doc">Document for analysis</param>
+        public void possessivePronounBinderWithinSentence(Document doc)
+        {
+            foreach (var s in doc.Sentences)
+            {
+                foreach (VerbPhrase vp in from VerbPhrase p in s.Phrases.GetVerbPhrases() 
+                                     where p.DirectObjects.Any() || p.IndirectObjects.Any() 
+                                     where p.DirectObjects.Any((IEntity dirobj) => dirobj is PossessivePronoun) || 
+                                           p.IndirectObjects.Any((IEntity indirobj) => indirobj is PossessivePronoun)
+                                     where p.BoundSubjects.Any((IEntity subject) => subject is ProperNoun)
+                                     select p)
                 {
+                    var pronounsInDO = from pn in vp.DirectObjects let pos = pn as PossessivePronoun where pos != null select pos;
+                    var pronounsInIO = from pn in vp.IndirectObjects let pos = pn as PossessivePronoun where pos != null select pos;
+                    var propernounsInSubject = from propn in vp.BoundSubjects let pos = propn as ProperNoun where pos != null select pos;
 
-                        if (n.pro != null) {
-                            n.np.BindPronoun(n.pro);
-                            n.pro.BindToIEntity(n.np);
+                    foreach (var pronoun in pronounsInDO.Concat(pronounsInIO))
+                    {
+                        foreach (var propernoun in propernounsInSubject)
+                        {
+                            pronoun.PossessesFor = propernoun;
                         }
-
                     }
-                    lastTarg = f;
                 }
             }
         }
-        static bool RoleEquivalent(NounPhrase a, NounPhrase b) {
-
-            return false;
-        }
-
-
 
 
     }
