@@ -143,9 +143,8 @@ namespace LASI.Algorithm.Analysis
             foreach (var o in np) {
                 foreach (var i in np)
                     if (i != o) {
-                        if (i.IsSimilarTo(o)) {
-                            o.Weight += (decimal) Thesaurus.getSimilarityRatio(i, o) * o.Weight;
-                        }
+                        o.Weight += (decimal) Thesaurus.getSimilarityRatio(i, o) * o.Weight;
+                        
                     }
             }
         }
