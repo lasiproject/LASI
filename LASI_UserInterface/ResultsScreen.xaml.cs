@@ -529,5 +529,25 @@ namespace LASI.UserInterface
         private void SetChartSourceButton_Click(object sender, RoutedEventArgs e) {
             ChangeChartKind(ChartKind.SubjectVerb);
         }
+
+        private static IEnumerable<string> topIndirectObjects(Document doc)
+        {
+            return from io in doc.Phrases.GetNounPhrases().InIndirectObjectRole() orderby io.Weight descending select string.Format("{0} {1}", io.Text, io.Weight);
+        }
+
+        private static IEnumerable<string> topDirectObjects(Document doc)
+        {
+            return from dO in doc.Phrases.GetNounPhrases().InDirectObjectRole() orderby dO.Weight descending select string.Format("{0} {1}", dO.Text, dO.Weight); ;
+        }
+
+        private static IEnumerable<string> topVerbs(Document doc)
+        {
+            return from v in doc.Phrases.GetVerbPhrases().WithSubject() select string.Format("{0} {1}", v.Text, v.Weight);
+        }
+
+        private static IEnumerable<string> topSubjects(Document doc)
+        {
+            return from s in doc.Phrases.GetNounPhrases().InSubjectRole() orderby s.Weight descending select string.Format("{0} {1}", s.Text, s.Weight);
+        }
     }
 }
