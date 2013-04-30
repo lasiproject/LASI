@@ -94,9 +94,9 @@
             <TabItem Header="TestView" Visibility="Hidden">
                 <TabControl x:Name="TestView" Margin="0,-2,0,0" />
             </TabItem>
-            <TabItem Header="TabItem" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="57" Margin="-60,0,0,0">
+            <TabItem Header="TabItem" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="57" Margin="-60,1,0,-1">
                 <Grid Background="#FFE5E5E5">
-                    <DataGrid Name="svdiGrid" HorizontalAlignment="Left" VerticalAlignment="Top" Width="67" Height="38"  >
+                    <DataGrid Name="svdiGrid" HorizontalAlignment="Left" VerticalAlignment="Top"  AutoGenerateColumns="True" Margin="0,1,0,0" Height="392" Width="579">
 
 
 

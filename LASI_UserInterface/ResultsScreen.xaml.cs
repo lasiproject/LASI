@@ -561,10 +561,19 @@ namespace LASI.UserInterface
         private static IEnumerable<string> topSubjects(Document doc) {
             return from s in doc.Phrases.GetNounPhrases().InSubjectRole()
                    orderby s.Weight descending
-                   select string.Format("{0} {1}", s.Text, s.Weight);
+                   select string.Format("          {0} {1}", s.Text, s.Weight);
         }
+
         void FillChart(Document doc) {
-            svdiGrid.ItemsSource = new[] { topSubjects(doc), topVerbs(doc), topDirectObjects(doc), topIndirectObjects(doc) };
-        }
+            svdiGrid.ItemsSource = topSubjects(doc).ToList();
+        }//{
+        //        Header = "Subjects",
+
+        //        Binding = new Binding() {
+        //            Source = topSubjects(doc)
+        //        }
+        //    }};
+        //}//, new DataGridTextColumn { topVerbs(doc) as BindingBase }, new DataGridTextColumn { topDirectObjects(doc) as BindingBase }, new DataGridTextColumn { topIndirectObjects(doc) as BindingBase } };
+
     }
 }
