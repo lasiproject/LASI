@@ -39,8 +39,8 @@ namespace Scott_Experimentation
             var paragraphs4 = new TaggedFileParser(tagged4).LoadParagraphs();
             var document4 = new Document(paragraphs4);
 
-            var converter = new DocxToTextConverter(new LASI.FileSystem.FileTypes.DocXFile(@"C:\Users\Scott\Desktop\HesterTestDocs\411writtensummary2.docx"));
-            //var converter = new DocxToTextConverter(new LASI.FileSystem.FileTypes.DocXFile(@"C:\Users\Scott\Desktop\HesterTestDocs\CapabilitiesBasedPlanningProcessOverview.docx"));
+            //var converter = new DocxToTextConverter(new LASI.FileSystem.FileTypes.DocXFile(@"C:\Users\Scott\Desktop\HesterTestDocs\411writtensummary2.docx"));
+            var converter = new DocxToTextConverter(new LASI.FileSystem.FileTypes.DocXFile(@"C:\Users\Scott\Desktop\HesterTestDocs\CapabilitiesBasedPlanningProcessOverview.docx"));
             var tagger5 = new SharpNLPTagger(TaggingOption.TagAndAggregate, converter.ConvertFile().FullPath);
             var tagged5 = tagger5.ProcessFile();
             var paragraphs5 = new TaggedFileParser(tagged5).LoadParagraphs();
@@ -50,13 +50,13 @@ namespace Scott_Experimentation
             string TestString = "The Boy rides his big bold bike up a large steep hill.  He fell over when he reached the top.  The Boy then got up and rode down the other side.";
             var DocTest = LASI.Utilities.TaggerUtil.UntaggedToDoc(TestString);
 
-            Binder.Bind(document4);
-            Weighter.Weight(document4);
+            Binder.Bind(document5);
+            Weighter.Weight(document5);
            
             //var wrd = document5.Words.FirstOrDefault();
 
-            var sm = from t in document4.Phrases //.Words
-                      where document4.Phrases.Count() > 0 //.Words.Count() > 0
+            var sm = from t in document5.Phrases //.Words
+                      where document5.Phrases.Count() > 0 //.Words.Count() > 0
                       orderby t.Weight ascending 
                      select t;
 
