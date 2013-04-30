@@ -39,8 +39,8 @@ namespace Scott_Experimentation
             var paragraphs4 = new TaggedFileParser(tagged4).LoadParagraphs();
             var document4 = new Document(paragraphs4);
 
-            //var converter = new DocxToTextConverter(new LASI.FileSystem.FileTypes.DocXFile(@"C:\Users\Scott\Desktop\HesterTestDocs\411writtensummary2.docx"));
-            var converter = new DocxToTextConverter(new LASI.FileSystem.FileTypes.DocXFile(@"C:\Users\Scott\Desktop\HesterTestDocs\CapabilitiesBasedPlanningProcessOverview.docx"));
+            var converter = new DocxToTextConverter(new LASI.FileSystem.FileTypes.DocXFile(@"C:\Users\Scott\Desktop\HesterTestDocs\411writtensummary2.docx"));
+            //var converter = new DocxToTextConverter(new LASI.FileSystem.FileTypes.DocXFile(@"C:\Users\Scott\Desktop\HesterTestDocs\CapabilitiesBasedPlanningProcessOverview.docx"));
             var tagger5 = new SharpNLPTagger(TaggingOption.TagAndAggregate, converter.ConvertFile().FullPath);
             var tagged5 = tagger5.ProcessFile();
             var paragraphs5 = new TaggedFileParser(tagged5).LoadParagraphs();
@@ -64,18 +64,18 @@ namespace Scott_Experimentation
             }
             */
 
-            Binder.Bind(document5);
-            Weighter.Weight(document5);
+            Binder.Bind(document4);
+            Weighter.Weight(document4);
            
             //var wrd = document5.Words.FirstOrDefault();
 
-            var sm = from t in document5.Phrases //.Words
-                      where document5.Phrases.Count() > 0 //.Words.Count() > 0
-                      orderby t.Weight descending 
+            var sm = from t in document4.Phrases //.Words
+                      where document4.Phrases.Count() > 0 //.Words.Count() > 0
+                      orderby t.Weight ascending 
                      select t;//.OrderBy(c=>c.Weight);
 
-            
-            foreach (var w in sm.GetNounPhrases()) //sm.GetNouns().OfType<ProperNoun>())
+            Output.WriteLine("Start Here: ");
+            foreach (var w in sm.GetNounPhrases()) //.GetNouns().OfType<ProperNoun>()) //sm.GetNouns().OfType<ProperNoun>())
             {
                     Output.WriteLine("{0} => {1}", w, w.Weight);
             }
