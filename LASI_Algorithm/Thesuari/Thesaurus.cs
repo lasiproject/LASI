@@ -166,7 +166,8 @@ namespace LASI.Algorithm.Thesauri
                 outer = b;
                 inner = a;
             }
-            if (outer != null && inner != null)
+
+            if ((outer.Words.GetNouns().Count() != 0) && (inner.Words.GetNouns().Count() != 0))
             {
                 foreach (var o in outer.Words.GetNouns())
                 {
@@ -181,8 +182,7 @@ namespace LASI.Algorithm.Thesauri
 
                 return similarCount / (inner.Words.GetNouns().Count() * outer.Words.GetNouns().Count());
             }
-            else return 0;
-
+            else return 1;
 
         }
 
