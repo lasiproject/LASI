@@ -44,13 +44,11 @@ namespace LASI.Algorithm.Analysis
             normalizeWeights(doc);
         }
 
-        private static void normalizeWeights(Document doc)
-        {
+        private static void normalizeWeights(Document doc) {
             decimal TotPhraseWeight = 0.0m;
             decimal MaxWeight = 0.0m;
             int NonZeroWghts = 0;
-            foreach (var w in doc.Phrases)
-            {
+            foreach (var w in doc.Phrases) {
                 TotPhraseWeight += w.Weight;
 
                 if (w.Weight > 0)
@@ -63,10 +61,9 @@ namespace LASI.Algorithm.Analysis
             var AvgWght = TotPhraseWeight / NonZeroWghts;
             var ratio = 100 / MaxWeight;
 
-            //Output.WriteLine("Max Weight: {0}", MaxWeight);
+            Output.WriteLine("Max Weight: {0}", MaxWeight);
 
-            foreach (var p in doc.Phrases)
-            {
+            foreach (var p in doc.Phrases) {
                 p.Weight = Math.Round(p.Weight * ratio, 3);
             }
         }
@@ -164,6 +161,16 @@ namespace LASI.Algorithm.Analysis
         /// For each noun phrase in a document that is similar to another noun phrase, increase the weight of that noun
         /// </summary>
         /// <param name="doc">Document containing the phrases to weight</param>
+<<<<<<< .mine
+        private static void WeightSimilarNounPhrases(Document doc) {
+            /*
+            //var np = doc.Phrases.GetNounPhrases();
+            //var inp = doc.Phrases.GetNounPhrases();
+            //foreach (var o in np) {
+            //    foreach (var i in inp)
+            //        if (i != o && i.Words.GetNouns().Any() && o.Words.GetNouns().Any()) {
+            //            o.Weight += (decimal) (Thesaurus.getSimilarityRatio(i, o) * (double) (o.Weight));
+=======
         private static void WeightSimilarNounPhrases(Document doc)
         {
             var np = doc.Phrases.GetNounPhrases();
@@ -185,38 +192,34 @@ namespace LASI.Algorithm.Analysis
                     }
                 }
             }
+>>>>>>> .r620
 
-            /*
-            foreach (var o in np) 
-            {
-                foreach (var i in inp)
-                {
-                    if (i != o && i.Words.GetNouns().Any() && o.Words.GetNouns().Any())
-                    {
-                        var temp = (Thesaurus.getSimilarityRatio(i, o));
-                        var temp2 = o.Weight * (decimal)temp;
-                        //Output.WriteLine(temp2);
-                        o.Weight += temp2;
-                        //Output.WriteLine(o.Weight);
-                    }
-                }
-                if (o.Text == firstNounPhrase.Text)
-                    Output.WriteLine("First: {0}, {1}", firstNounPhrase, firstNounPhrase.Weight);
-            }
-             */
- 
+            //        }
+            //}
+            */
+            var similarNounPhraseLookup = (from NP in doc.Phrases.GetNounPhrases().AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
+                                           select NP).ToLookup(value => value, new NounPhraseComparer());
+
         }
         //static double InverserDocumentFrequency(IEnumerable<Document> documentGroup, bool useSynonyms = false) {
         //    var numDocs = documentGroup.Count();
         //    var wordsWithFreqPairs = from doc in documentGroup  from word in doc.Words group word by word.Text 
         //}
-
-        private static void WeightWordsBySyntacticSequence(Document doc)
+        private struct NounPhraseComparer : IEqualityComparer<NounPhrase>
         {
+            public bool Equals(NounPhrase x, NounPhrase y) {
+                return x.IsSimilarTo(y);
+            }
+
+            public int GetHashCode(NounPhrase obj) {
+                return (obj as object).GetHashCode();
+            }
+        }
+        private static void WeightWordsBySyntacticSequence(Document doc) {
 
 
             //SIX PHASES
-                
+
             //PHASE 2 - Word Weight based on part of speech and neighbors' (+2) part of speech
             //PHASE 3 - Standard phrase Weight based on phrase part of speech (standardization) - COMPLETE
             //PHASE 4 - Phrase Weight based on part of speech and neibhors' (full sentence) part of speech
