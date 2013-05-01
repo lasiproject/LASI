@@ -44,7 +44,8 @@ namespace LASI.Algorithm.Analysis
             normalizeWeights(doc);
         }
 
-        private static void normalizeWeights(Document doc) {
+        private static void normalizeWeights(Document doc)
+        {
             decimal TotPhraseWeight = 0.0m;
             decimal MaxWeight = 0.0m;
             int NonZeroWghts = 0;
@@ -61,7 +62,7 @@ namespace LASI.Algorithm.Analysis
             var AvgWght = TotPhraseWeight / NonZeroWghts;
             var ratio = 100 / MaxWeight;
 
-            Output.WriteLine("Max Weight: {0}", MaxWeight);
+            //Output.WriteLine("Max Weight: {0}", MaxWeight);
 
             foreach (var p in doc.Phrases) {
                 p.Weight = Math.Round(p.Weight * ratio, 3);
