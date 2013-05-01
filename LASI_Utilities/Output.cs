@@ -41,6 +41,10 @@ namespace LASI.Utilities
             CurrentStream = new FileInfo(path).AppendText();
 
         }
+        public static void SetToStringWriter(StringBuilder sb) {
+            OutputMode = OutputMode.StringWriterObject;
+            CurrentStream = new StringWriter(sb);
+        }
 
         /// <summary>
         /// Sets the current output stream to Debug.Out, the default.
@@ -375,6 +379,7 @@ namespace LASI.Utilities
         Console,
         Debug,
         File,
+        StringWriterObject,
         Silent
     }
 }

@@ -24,8 +24,14 @@ namespace Erik_Experimentation
 
     public class Track
     {
-        public Word word { get; set; }
-        public int freq { get; set; }
+        public Word word {
+            get;
+            set;
+        }
+        public int freq {
+            get;
+            set;
+        }
     }
     public class Program
     {
@@ -60,17 +66,16 @@ namespace Erik_Experimentation
             var documents = new Document[] { document1, document2 };
 
             //List<Dictionary<String, int>> master = new List<Dictionary<string, int>>();
-            
-            
+
+
             List<Track> master = new List<Track>();
 
             foreach (var d in documents) {
                 master.AddRange(IndividualDocumentFrequency(d));
-                
+
             }
 
-            foreach (var m in master)
-            {
+            foreach (var m in master) {
                 Console.WriteLine(m.word);
                 Console.WriteLine(m.freq);
 
@@ -91,23 +96,22 @@ namespace Erik_Experimentation
 
         }
 
-     
+
         public static List<Track> IndividualDocumentFrequency(Document d) {
 
             //Dictionary<String, int> wordsIndex = new Dictionary<String, int>();
             List<Track> wordsIndex2 = new List<Track>();
             IEnumerable<int> allWordCountsE = from searchWord in d.Words
-                                             select d.Words.Count(wordToCompare => wordToCompare.Text == searchWord.Text);
+                                              select d.Words.Count(wordToCompare => wordToCompare.Text == searchWord.Text);
 
-          
+
 
             List<int> allWordCounts = allWordCountsE.ToList();
             List<Word> allWords = d.Words.ToList();
-            
-            for(int i = 0; i < d.Words.Count(); i++){
 
-                wordsIndex2.Add(new Track
-                {
+            for (int i = 0; i < d.Words.Count(); i++) {
+
+                wordsIndex2.Add(new Track {
                     word = allWords[i],
                     freq = allWordCounts[i]
                 });
@@ -120,10 +124,8 @@ namespace Erik_Experimentation
             //                         .Select(x => x.First()).ToList();
 
             List<Track> query = new List<Track>();
-            foreach (Track t in wordsIndex2)
-            {
-                if (!query.Contains(t))
-                {
+            foreach (Track t in wordsIndex2) {
+                if (!query.Contains(t)) {
                     query.Add(t);
 
                 }
@@ -136,7 +138,7 @@ namespace Erik_Experimentation
             //{
             //    wordsIndex2.Remove(i);
             //}
-            
+
             //foreach (Word w in d.Words)
             //{
 
@@ -146,7 +148,7 @@ namespace Erik_Experimentation
             //    }
             //}
 
-            
+
             //foreach (KeyValuePair<string, int> pair in wordsIndex)
             //{
             //    Console.WriteLine("{0}, {1}",
@@ -155,7 +157,7 @@ namespace Erik_Experimentation
             //}
 
             return query;
-            
+
 
 
 

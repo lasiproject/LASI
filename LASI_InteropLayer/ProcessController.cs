@@ -3,6 +3,7 @@ using LASI.Algorithm.Analysis;
 using LASI.Algorithm.DocumentConstructs;
 using LASI.Algorithm.Thesauri;
 using LASI.FileSystem;
+using LASI.Utilities;
 using LASI.GuiInterop;
 using System;
 using System.Collections.Concurrent;
@@ -18,16 +19,17 @@ namespace LASI.InteropLayer
 
     public class ProcessController
     {
-        ProcessingState[] statuses = new[] { ProcessingState.ConvertingFiles, ProcessingState.TransformingTextualRepresentations, ProcessingState.AggregatingPhrases, 
-ProcessingState.ComputingMetrics, ProcessingState.CrossReferencing, ProcessingState.Completing };
+        public StringBuilder InfoProvider {
+            get;
+            private set;
+        }
 
         public async Task<IEnumerable<Document>> LoadAndAnalyseAllDocuments(ProgressBar progressBar, Label progressLabel) {
             var sw = Stopwatch.StartNew();
+            Output.SetToStringWriter(InfoProvider);
 
-            progressBar.ToolTip = ProcessingState.LoadingThesauri.ToString();
-            progressLabel.Content = ProcessingState.LoadingThesauri.ToString();
-            await Thesaurus.LoadAllAsync();
-            progressBar.Value = 15;
+            await LoadThesauri(progressBar, progressLabel);
+
             progressBar.ToolTip = ProcessingState.ConvertingFiles.ToString();
             progressLabel.Content = ProcessingState.ConvertingFiles.ToString();
             await FileManager.ConvertAsNeededAsync();
@@ -51,6 +53,13 @@ ProcessingState.ComputingMetrics, ProcessingState.CrossReferencing, ProcessingSt
             progressBar.Value += 20;
             progressBar.ToolTip = sw.ElapsedMilliseconds / 1000f;
             return docs;
+        }
+
+        private static async Task LoadThesauri(ProgressBar progressBar, Label progressLabel) {
+            progressBar.ToolTip = ProcessingState.LoadingThesauri.ToString();
+            progressLabel.Content = ProcessingState.LoadingThesauri.ToString();
+            await Thesaurus.LoadAllAsync();
+            progressBar.Value = 15;
         }
 
         private static async Task WeightAllDocs(IEnumerable<LASI.Algorithm.DocumentConstructs.Document> docs) {
@@ -77,24 +86,46 @@ ProcessingState.ComputingMetrics, ProcessingState.CrossReferencing, ProcessingSt
         }
     }
 
-    internal class AsyncWorkItem
-    {
 
-        public Task WorkToDo {
-            get;
-            set;
-        }
-        public AsyncWorkItem() {
-
-        }
-        public async Task BeginTask() {
-            await WorkToDo;
-        }
-
-        public ProcessingState CompletionMessage {
-            get;
-            set;
-        }
-    }
 
 }
+
+
+#region deprecated
+//internal class AsyncWorkItem
+//{
+
+//    public Task WorkToDo {
+//        get;
+//        set;
+//    }
+//    public AsyncWorkItem() {
+
+//    }
+//    public async Task BeginTask() {
+//        await WorkToDo;
+//    }
+
+//    public ProcessingState CompletionMessage {
+//        get;
+//        set;
+//    }
+//    ProcessingState[] statuses = new[] { 
+//            ProcessingState.ConvertingFiles,
+//            ProcessingState.TransformingTextualRepresentations,
+//            ProcessingState.AggregatingPhrases, 
+//ProcessingState.ComputingMetrics, 
+//ProcessingState.CrossReferencing, 
+//ProcessingState.Completing };
+
+//    public ProcessingState[] Statuses {
+//        get {
+//            return statuses;
+//        }
+//        protected set {
+//            statuses = value;
+//        }
+//    }
+//}
+
+#endregion

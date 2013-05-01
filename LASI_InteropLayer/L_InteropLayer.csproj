@@ -50,7 +50,6 @@
   <ItemGroup>
     <Compile Include="PerformanceManager.cs" />
     <Compile Include="ProcessController.cs" />
-    <Compile Include="DefaultResultProvider.cs" />
     <Compile Include="IResultSerializer.cs" />
     <Compile Include="ProcessingState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -64,6 +63,10 @@
     <ProjectReference Include="..\LASI_FileSystem\L_FileSystem.csproj">
       <Project>{f13d6c6d-a004-45bd-8fb8-e044e20f1204}</Project>
       <Name>L_FileSystem</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LASI_Utilities\L_Utilities.csproj">
+      <Project>{bc10a8f0-77ff-46d0-9f9a-38e2fda22d21}</Project>
+      <Name>L_Utilities</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

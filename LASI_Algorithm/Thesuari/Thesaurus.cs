@@ -161,8 +161,7 @@ namespace LASI.Algorithm.Thesauri
             if (a.Words.Count() >= b.Words.Count()) {
                 outer = a;
                 inner = b;
-            }
-            else {
+            } else {
                 outer = b;
                 inner = a;
             }
@@ -178,8 +177,7 @@ namespace LASI.Algorithm.Thesauri
                 }
 
                 return (similarCount / (inner.Words.GetNouns().Count() * outer.Words.GetNouns().Count()));
-            }
-            else
+            } else
                 return 1;
 
         }

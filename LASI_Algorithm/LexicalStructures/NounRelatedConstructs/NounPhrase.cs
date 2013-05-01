@@ -111,12 +111,12 @@ namespace LASI.Algorithm
         /// </summary>
         public virtual ITransitiveVerbial DirectObjectOf {
             get {
-                return _indirecObjectOf;
+                return _direcObjectOf;
             }
             set {
                 _indirecObjectOf = value;
                 foreach (var N in Words.OfType<IVerbialObject>()) {
-                    N.DirectObjectOf = _subjectOf;
+                    N.DirectObjectOf = _direcObjectOf;
                 }
             }
         }
@@ -131,7 +131,7 @@ namespace LASI.Algorithm
             set {
                 _indirecObjectOf = value;
                 foreach (var N in Words.OfType<IVerbialObject>()) {
-                    N.IndirectObjectOf = _subjectOf;
+                    N.IndirectObjectOf = IndirectObjectOf;
                 }
             }
         }
@@ -222,8 +222,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets or sets Noun to Nounphrase
         /// </summary>
-        public Noun BindNoun
-        {
+        public Noun BindNoun {
             get;
             set;
         }
@@ -231,8 +230,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets or sets NounPhrase to NounPhrase
         /// </summary>
-        public NounPhrase BindNounPhrase
-        {
+        public NounPhrase BindNounPhrase {
             get;
             set;
         }
