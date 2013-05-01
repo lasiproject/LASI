@@ -33,8 +33,7 @@ namespace LASI.UserInterface
                                         select de.Phrases into phraseElements
                                         from phrase in phraseElements
                                         select phrase)
-                                       .GetNounPhrases().Concat<Phrase>(doc.Phrases.GetAdverbPhrases()).
-                                           Concat<Phrase>(doc.Phrases.GetAdjectivePhrases()).Concat<Phrase>(doc.Phrases.GetVerbPhrases()).
+                                       .GetNounPhrases().
                                            GroupBy(w => new {
                                                w.Text,
                                                w.Type
