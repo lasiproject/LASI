@@ -61,6 +61,7 @@ namespace Erik_Experimentation
 
             //List<Dictionary<String, int>> master = new List<Dictionary<string, int>>();
             List<Track> master = new List<Track>();
+
             foreach (var d in documents) {
                 master.Add(IndividualDocumentFrequency(d));
             }
