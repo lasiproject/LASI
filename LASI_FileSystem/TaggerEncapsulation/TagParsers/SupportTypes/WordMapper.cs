@@ -57,9 +57,7 @@ namespace LASI.FileSystem
                     new Func<string, Word>((s) => new LASI.Algorithm.SentencePunctuation(s.First(c => !Char.IsWhiteSpace(c)))) :
                     new Func<string, Word>((s) => new LASI.Algorithm.Punctuator(s.First(c => !Char.IsWhiteSpace(c))));
             try {
-                if (tag == "NNP") {
-                    tag = checkThesaurusForGeneric(text) ? "NN" : tag;
-                }
+
                 var constructor = context[tag];
                 return constructor;
             }
