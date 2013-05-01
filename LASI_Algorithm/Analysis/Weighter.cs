@@ -221,7 +221,7 @@ namespace LASI.Algorithm.Analysis
                 {
                     foreach(var subject in vp.BoundSubjects)
                     {
-                        subject.Weight += (decimal)0.8;
+                        subject.Weight += (decimal)190;
                     }
                 }
             }
