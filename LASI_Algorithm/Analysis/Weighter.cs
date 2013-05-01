@@ -41,6 +41,8 @@ namespace LASI.Algorithm.Analysis
 
             WeightSimilarNounPhrases(doc);
 
+            HackSubjectPropernounImportance(doc);
+
             normalizeWeights(doc);
         }
 
@@ -210,6 +212,21 @@ namespace LASI.Algorithm.Analysis
                 return (obj as object).GetHashCode();
             }
         }
+
+        public static void HackSubjectPropernounImportance(Document doc)
+        {
+            foreach( var s in doc.Sentences)
+            {
+                foreach (VerbPhrase vp in from VerbPhrase p in s.Phrases.GetVerbPhrases() where p.BoundSubjects.Any((IEntity subject) => subject is ProperNoun) select p)
+                {
+                    foreach(var subject in vp.BoundSubjects)
+                    {
+                        subject.Weight += (decimal)0.8;
+                    }
+                }
+            }
+        }
+
         private static void WeightWordsBySyntacticSequence(Document doc) {
 
 
