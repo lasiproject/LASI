@@ -212,7 +212,19 @@ namespace LASI.Algorithm.Analysis
             }
         }
 
-        public static void HackSubjectPropernounImportance(Document doc) {
+        public static void HackSubjectPropernounImportance(Document doc)
+        {
+            foreach (var p in doc.Phrases)
+            {
+                var PropNoun = p.Words.GetNouns().OfType<ProperNoun>().LastOrDefault();
+                if (PropNoun != null)
+                {
+                    Output.WriteLine("Before: {0}, {1}",PropNoun, PropNoun.Weight);
+                    p.Weight *= 100;
+                    Output.WriteLine("After: {0}, {1}\n", PropNoun, PropNoun.Weight);
+                }
+            }
+            /*
             foreach (var s in doc.Sentences) {
                 foreach (VerbPhrase vp in from VerbPhrase p in s.Phrases.GetVerbPhrases()
                                           where p.BoundSubjects.Any((IEntity subject) => subject is ProperNoun)
@@ -224,6 +236,7 @@ namespace LASI.Algorithm.Analysis
                     }
                 }
             }
+             */
         }
 
         private static void WeightWordsBySyntacticSequence(Document doc) {
