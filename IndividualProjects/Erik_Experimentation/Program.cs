@@ -54,10 +54,11 @@ namespace Erik_Experimentation
             var documents = new Document[] { document1, document2 };
 
 
-                    
-
-            
-
+            foreach (var d in documents)
+            {
+                InverseDocumentFrequency(d);
+            }
+       
             
 
 
@@ -74,5 +75,22 @@ namespace Erik_Experimentation
             
 
         }
+
+        private static void InverseDocumentFrequency(Document d)
+        {
+            int numbers = d.Words.Count(w => w.Text == w.Text);
+
+
+            
+        }
+
+
+       
+
     }
+
+
+
 }
+
+
