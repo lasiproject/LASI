@@ -44,13 +44,11 @@ namespace LASI.Algorithm.Analysis
             normalizeWeights(doc);
         }
 
-        private static void normalizeWeights(Document doc)
-        {
-            decimal TotPhraseWeight = 0;
-            decimal MaxWeight = 0;
+        private static void normalizeWeights(Document doc) {
+            decimal TotPhraseWeight = 0.0m;
+            decimal MaxWeight = 0.0m;
             int NonZeroWghts = 0;
-            foreach (var w in doc.Phrases)
-            {
+            foreach (var w in doc.Phrases) {
                 TotPhraseWeight += w.Weight;
 
                 if (w.Weight > 0)
@@ -65,8 +63,7 @@ namespace LASI.Algorithm.Analysis
 
             Output.WriteLine("Max Weight: {0}", MaxWeight);
 
-            foreach (var p in doc.Phrases)
-            {
+            foreach (var p in doc.Phrases) {
                 p.Weight = Math.Round(p.Weight * ratio, 3);
             }
         }
@@ -137,7 +134,6 @@ namespace LASI.Algorithm.Analysis
             nounSynonymGroups.ForAll(grp => {
                 grp.Key.Weight += 0.7m * grp.Count();
                 var pn = grp.Key;
-                pn.Weight *= pn is ProperNoun ? 3 : 1;
 
             });
         }
@@ -166,12 +162,12 @@ namespace LASI.Algorithm.Analysis
         /// </summary>
         /// <param name="doc">Document containing the phrases to weight</param>
         private static void WeightSimilarNounPhrases(Document doc) {
-            var np = doc.Phrases.GetNounPhrases().AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax);
-
+            var np = doc.Phrases.GetNounPhrases();
+            var inp = doc.Phrases.GetNounPhrases();
             foreach (var o in np) {
-                foreach (var i in np)
+                foreach (var i in inp)
                     if (i != o && i.Words.GetNouns().Any() && o.Words.GetNouns().Any()) {
-                        o.Weight += (decimal)((float)Thesaurus.getSimilarityRatio(i, o) * (float)(o.Weight));
+                        o.Weight += (decimal)(Thesaurus.getSimilarityRatio(i, o) * (double)(o.Weight));
 
                     }
             }
@@ -185,7 +181,7 @@ namespace LASI.Algorithm.Analysis
 
 
             //SIX PHASES
-            //PHASE 1 - Standard word Weight based on part of speech (standardization) - COMPLETE
+                
             //PHASE 2 - Word Weight based on part of speech and neighbors' (+2) part of speech
             //PHASE 3 - Standard phrase Weight based on phrase part of speech (standardization) - COMPLETE
             //PHASE 4 - Phrase Weight based on part of speech and neibhors' (full sentence) part of speech

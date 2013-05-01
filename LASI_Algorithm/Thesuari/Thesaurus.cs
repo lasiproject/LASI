@@ -128,7 +128,7 @@ namespace LASI.Algorithm.Thesauri
         /// <returns></returns>
         public static bool IsSimilarTo(this NounPhrase lhs, NounPhrase rhs) {
 
-            return getSimilarityRatio(lhs, rhs) >= 0.6;
+            return getSimilarityRatio(lhs, rhs) > 0.6;
         }
 
         public static bool IsSimilarTo(this VerbPhrase lhs, VerbPhrase rhs) {
@@ -177,7 +177,7 @@ namespace LASI.Algorithm.Thesauri
                     }
                 }
 
-                return similarCount / (inner.Words.GetNouns().Count() * outer.Words.GetNouns().Count());
+                return (similarCount / (inner.Words.GetNouns().Count() * outer.Words.GetNouns().Count()));
             }
             else
                 return 1;
