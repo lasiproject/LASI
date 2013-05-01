@@ -57,13 +57,21 @@ namespace LASI.FileSystem
                     new Func<string, Word>((s) => new LASI.Algorithm.SentencePunctuation(s.First(c => !Char.IsWhiteSpace(c)))) :
                     new Func<string, Word>((s) => new LASI.Algorithm.Punctuator(s.First(c => !Char.IsWhiteSpace(c))));
             try {
+                if (tag == "NNP") {
+                    tag = checkThesaurusForGeneric(text) ? "NP" : tag;
+                }
                 var constructor = context[tag];
                 return constructor;
-            } catch (UnknownPOSException) {
+            }
+            catch (UnknownPOSException) {
                 return (s) => new LASI.Algorithm.GenericSingularNoun(taggedText.Text);
                 throw new UnknownPOSException(String.Format("Unable to parse unknown tag\nTag: {0}\nFor text: {1}\n", tag, taggedText.Text));
 
             }
+        }
+
+        private bool checkThesaurusForGeneric(string text) {
+            return LASI.Algorithm.Thesauri.Thesaurus.NounProvider[text.ToLower()].Any();
         }
         private WordTagsetMap context;
     }
