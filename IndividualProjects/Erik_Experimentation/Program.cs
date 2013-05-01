@@ -60,12 +60,21 @@ namespace Erik_Experimentation
             var documents = new Document[] { document1, document2 };
 
             //List<Dictionary<String, int>> master = new List<Dictionary<string, int>>();
+            
+            
             List<Track> master = new List<Track>();
 
             foreach (var d in documents) {
-                master = (IndividualDocumentFrequency(d));
+                master.AddRange(IndividualDocumentFrequency(d));
+                
             }
 
+            foreach (var m in master)
+            {
+                Console.WriteLine(m.word);
+                Console.WriteLine(m.freq);
+
+            }
 
 
 
@@ -106,6 +115,27 @@ namespace Erik_Experimentation
                 //wordsIndex.Add(allWords[i].Text, allWordCounts[i]); DICTIONARY WAS WRONG YOU IDIOT
 
             }
+
+            //var query = wordsIndex2.GroupBy(x => x.word)
+            //                         .Select(x => x.First()).ToList();
+
+            List<Track> query = new List<Track>();
+            foreach (Track t in wordsIndex2)
+            {
+                if (!query.Contains(t))
+                {
+                    query.Add(t);
+
+                }
+            }
+
+            //List<Track> duplicateItems = new List<Track>();
+            //duplicateItems = (List<Track>)wordsIndex2.GroupBy(x => x).Where(x => x.Count() > 1).Select(x => x.Key);
+
+            //foreach (var i in wordsIndex2.ToList())
+            //{
+            //    wordsIndex2.Remove(i);
+            //}
             
             //foreach (Word w in d.Words)
             //{
@@ -124,7 +154,7 @@ namespace Erik_Experimentation
             //    pair.Value);
             //}
 
-            return wordsIndex2;
+            return query;
             
 
 
