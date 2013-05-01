@@ -24,7 +24,7 @@ namespace LASI.UserInterface
 
             InitializeComponent();
             this.Closed += (s, e) => Application.Current.Shutdown();
-            chartKind = ChartKind.NounPhrasesOnly;
+            chartKind = ChartKind.SubjectVerbObject;
         }
         public async Task CreateInteractiveViews() {
 
@@ -217,7 +217,7 @@ namespace LASI.UserInterface
             await ToBarCharts();
         }
 
-        private IEnumerable<KeyValuePair<string, float>> GetAppropriateDataSet(Document document) {
+        private IEnumerable<KeyValuePair<string, int>> GetAppropriateDataSet(Document document) {
             var valueList = chartKind == ChartKind.NounPhrasesOnly ? GetNounPhraseData(document) : chartKind == ChartKind.SubjectVerbObject ? GetSVOIData(document) : GetSVOIData(document);
             return valueList;
         }
@@ -303,7 +303,7 @@ namespace LASI.UserInterface
             await Task.Delay(1);
         }
 
-        private IEnumerable<KeyValuePair<string, float>> GetAppropriateData(object chart) {
+        private IEnumerable<KeyValuePair<string, int>> GetAppropriateData(object chart) {
             var items = GetAppropriateDataSet(documentsByChart[((chart as TabItem).Content as Chart)]);
             return items;
         }
@@ -332,10 +332,10 @@ namespace LASI.UserInterface
             ((c as TabItem).Content as Chart).Series.Add(series);
         }
 
-        private List<KeyValuePair<string, float>> GetItemSourceFor(object chart) {
+        private List<KeyValuePair<string, int>> GetItemSourceFor(object chart) {
             var chartSource = ((chart as TabItem).Content as Chart).Tag as IEnumerable<KeyValuePair<string, float>>;
             var items = (from i in chartSource.ToArray()
-                         select new KeyValuePair<string, float>(i.Key.ToString(), i.Value)).ToList();
+                         select new KeyValuePair<string, int>(i.Key.ToString(), (int)i.Value)).ToList();
             return items;
         }
 
@@ -352,7 +352,7 @@ namespace LASI.UserInterface
                 Document doc = pair.Value;
                 Chart chart = pair.Key;
 
-                IEnumerable<KeyValuePair<string, float>> data = null;
+                IEnumerable<KeyValuePair<string, int>> data = null;
 
                 switch (chartKind) {
 
@@ -378,12 +378,12 @@ namespace LASI.UserInterface
         }
 
 
-        private static IEnumerable<KeyValuePair<string, float>> GetSVOIData(Document doc) {
+        private static IEnumerable<KeyValuePair<string, int>> GetSVOIData(Document doc) {
             var data = GetVerbWiseAssociationData(doc);
             return from svs in data
 
-                   let SV = new KeyValuePair<string, float>(string.Format("{0} -> {1}\n", svs.Subject.Text, svs.Verbial.Text) + (svs.Direct != null ? " -> " + svs.Direct.Text : "") + (svs.Indirect != null ? " -> " + svs.Indirect.Text : ""),
-                       (float)Math.Round(svs.SumWeight, 2))
+                   let SV = new KeyValuePair<string, int>(string.Format("{0} -> {1}\n", svs.Subject.Text, svs.Verbial.Text) + (svs.Direct != null ? " -> " + svs.Direct.Text : "") + (svs.Indirect != null ? " -> " + svs.Indirect.Text : ""),
+                       (int)Math.Round(svs.SumWeight, 2))
                    group SV by SV into svg
                    select svg.Key;
 
@@ -413,16 +413,19 @@ namespace LASI.UserInterface
             return data.ToArray();
         }
 
-        private static IEnumerable<KeyValuePair<string, float>> GetNounPhraseData(Document doc) {
+        private static IEnumerable<KeyValuePair<string, int>> GetNounPhraseData(Document doc) {
             return from NP in doc.Phrases.GetNounPhrases().Except(doc.Phrases.GetPronounPhrases())
 
                    group NP by new {
                        NP.Text,
                        NP.Weight
                    } into NP
-                   select NP.Key into master
-                   orderby master.Weight descending
-                   select new KeyValuePair<string, float>(master.Text, (float)Math.Round(master.Weight, 2));
+                   select new {
+                       NounPhrase = NP.Key,
+                       Weight = NP.Sum(np => np.Weight)
+                   } into master
+                   orderby master.Weight
+                   select new KeyValuePair<string, int>(master.NounPhrase.Text, (int)Math.Round(master.Weight, 4));
         }
 
         #region Result Selector Helper Structs

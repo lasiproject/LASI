@@ -88,12 +88,8 @@ namespace LASI.FileSystem
                         Encoding.UTF8, 100)) {
                     xmlReader.ReadStartElement();
                     while (xmlReader.Read()) {
-
                         if (xmlReader.Name == "w:p") {
                             writer.Write("<paragraph>");
-                        }
-                        if (xmlReader.Name == "w:numPr") {
-                            writer.Write("<enumeration>");
                         }
                         var value = xmlReader.Value;
                         if (!string.IsNullOrWhiteSpace(value)) {
@@ -105,13 +101,10 @@ namespace LASI.FileSystem
                             xmlReader.Skip();
 
 
-
-                        if (xmlReader.Name == "w:numPr") {
-                            writer.Write("</enumeration>\n");
-                        }
                         if (xmlReader.Name == "w:p") {
                             writer.Write("</paragraph>\n");
                         }
+
                     }
 
                 }

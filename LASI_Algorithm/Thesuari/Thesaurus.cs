@@ -177,7 +177,7 @@ namespace LASI.Algorithm.Thesauri
                     }
                 }
 
-                return (float)similarCount / (float)(inner.Words.GetNouns().Count() * (float)outer.Words.GetNouns().Count());
+                return similarCount / (inner.Words.GetNouns().Count() * outer.Words.GetNouns().Count());
             }
             else
                 return 1;

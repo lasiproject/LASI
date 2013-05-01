@@ -22,7 +22,7 @@ namespace LASI.Algorithm.Analysis.Binding
             //        var pairs = from i in g.Phrases.GetPhrasesAfter(f).GetPronounPhrases()
 
             //                    select new {
-            //                        np = f,
+            //                        nps = f,
             //                        pro = i
             //                    };
             //        foreach (var n in pairs.Where(r => r.pro.PronounKind == PronounKind.GenderNeurtral || r.pro.PronounKind == PronounKind.Inanimate))
@@ -33,8 +33,8 @@ namespace LASI.Algorithm.Analysis.Binding
             //    {
 
             //            if (n.pro != null) {
-            //                n.np.BindPronoun(n.pro);
-            //                n.pro.BindToIEntity(n.np);
+            //                n.nps.BindPronoun(n.pro);
+            //                n.pro.BindToIEntity(n.nps);
             //            }
 
             //        }
