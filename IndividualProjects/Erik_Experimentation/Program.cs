@@ -145,7 +145,13 @@ namespace Erik_Experimentation
             return cnt;
         }
 
+
+        /// <summary>
+        /// Example with data
+        /// </summary>
         static void DrugsAreInteresting() {
+        
+            
             var someDrugs = new[] {
                 new { Name = "LSD", Category = "Hallucinogen" },
                 new { Name = "Aderal", Category = "Amphetamine" },
