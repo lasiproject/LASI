@@ -48,19 +48,26 @@ namespace LASI.Algorithm.Analysis
         {
             decimal TotPhraseWeight = 0;
             decimal MaxWeight = 0;
+            int NonZeroWghts = 0;
             foreach (var w in doc.Phrases)
             {
                 TotPhraseWeight += w.Weight;
+
+                if (w.Weight > 0)
+                    NonZeroWghts++;
 
                 if (w.Weight > MaxWeight)
                     MaxWeight = w.Weight;
             }
 
+            var AvgWght = TotPhraseWeight / NonZeroWghts;
             var ratio = 100 / MaxWeight;
+
+            Output.WriteLine("Max Weight: {0}", MaxWeight);
+
             foreach (var p in doc.Phrases)
             {
                 p.Weight = Math.Round(p.Weight * ratio, 3);
-
             }
         }
 
