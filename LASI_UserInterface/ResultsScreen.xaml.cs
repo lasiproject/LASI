@@ -128,10 +128,13 @@ namespace LASI.UserInterface
                         Padding = new Thickness(1, 1, 1, 1),
                         ContextMenu = new ContextMenu(),
                         ToolTip = phrase.Type.Name,
+                      
+
                     };
                     var vP = phrase as VerbPhrase;
+                    
                     if (vP != null && vP.BoundSubjects.Count() > 0)
-                    {
+                    {  
                         var visitSubjectMI = new MenuItem
                         {
                             Header = "view subjects"
@@ -397,9 +400,9 @@ namespace LASI.UserInterface
         {
             var chartSource = ((chart as TabItem).Content as Chart).Tag as IEnumerable<KeyValuePair<string, float>>;
             var items = (from i in chartSource.ToArray()
-                         orderby i.Value descending 
-                         
-                         select new KeyValuePair<string, float>(i.Key.ToString(), i.Value)).Take(20).ToList();
+                       
+                         orderby i.Value descending
+                         select new KeyValuePair<string, float>(i.Key.ToString(), i.Value)).Take(10).ToList();
             return items;
         }
 
@@ -486,7 +489,7 @@ namespace LASI.UserInterface
 
         private static IEnumerable<KeyValuePair<string, float>> GetNounPhraseData(Document doc)
         {
-            return from NP in doc.Phrases.GetNounPhrases().Except(doc.Phrases.GetPronounPhrases())
+            return from NP in doc.Phrases.GetNounPhrases().Distinct() //.Except(doc.Phrases.GetPronounPhrases()) 
 
                    group NP by new
                    {
