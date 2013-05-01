@@ -219,9 +219,9 @@ namespace LASI.Algorithm.Analysis
             {
                 foreach (VerbPhrase vp in from VerbPhrase p in s.Phrases.GetVerbPhrases() where p.BoundSubjects.Any((IEntity subject) => subject is ProperNoun) select p)
                 {
-                    foreach(var subject in vp.BoundSubjects)
+                    foreach(var subject in from ProperNoun propn in vp.BoundSubjects where vp.BoundSubjects.Any((IEntity Word) => propn is ProperNoun) select propn)
                     {
-                        subject.Weight += (decimal)190;
+                        subject.Weight += 10;
                     }
                 }
             }
