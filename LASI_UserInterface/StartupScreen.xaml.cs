@@ -238,7 +238,13 @@ namespace LASI.UserInterface
 
         private bool ValidateProjectNameField() {
             if (String.IsNullOrWhiteSpace(ProjectNameTextBox.Text)
-            || String.IsNullOrEmpty(ProjectNameTextBox.Text)) {
+            || String.IsNullOrEmpty(ProjectNameTextBox.Text) && !(
+            from char c1 in ProjectNameTextBox.Text
+            join c2 in System.IO.Path.GetInvalidFileNameChars()
+            on c1 equals c2
+            select false).Any()
+                
+                ) {
                 ProjectNameTextBox.ToolTip = new ToolTip {
                     Visibility = Visibility.Visible,
                     Content = "You must enter a name for your new project"

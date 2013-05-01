@@ -29,16 +29,7 @@ namespace LASI.UserInterface
         public async Task CreateInteractiveViews() {
 
             foreach (var doc in documents) {
-                var documentElements = (from de in doc.Paragraphs.Except(doc.EnumContainingParagraphs)
-                                        select de.Phrases into phraseElements
-                                        from phrase in phraseElements
-                                        select phrase)
-                                       .GetNounPhrases().Concat<Phrase>(doc.Phrases.GetAdverbPhrases()).
-                                           Concat<Phrase>(doc.Phrases.GetAdjectivePhrases()).Concat<Phrase>(doc.Phrases.GetVerbPhrases()).
-                                           GroupBy(w => new {
-                                               w.Text,
-                                               w.Type
-                                           }).Select(g => g.First());
+                var documentElements = GetSignificantPhrasesInDoc(doc);
                 var elementLabels = new List<Label>();
                 foreach (var e in documentElements) {
                     var wordLabel = new Label {
@@ -86,6 +77,20 @@ namespace LASI.UserInterface
             }
 
             BindChartViewControls();
+        }
+
+        private static IEnumerable<Phrase> GetSignificantPhrasesInDoc(Document doc) {
+            var documentElements = (from de in doc.Paragraphs.Except(doc.EnumContainingParagraphs)
+                                    select de.Phrases into phraseElements
+                                    from phrase in phraseElements
+                                    select phrase)
+                                   .GetNounPhrases().Concat<Phrase>(doc.Phrases.GetAdverbPhrases()).
+                                       Concat<Phrase>(doc.Phrases.GetAdjectivePhrases()).Concat<Phrase>(doc.Phrases.GetVerbPhrases()).
+                                       GroupBy(w => new {
+                                           w.Text,
+                                           w.Type
+                                       }).Select(g => g.First());
+            return documentElements;
         }
 
 
@@ -224,7 +229,8 @@ namespace LASI.UserInterface
         }
 
         private IEnumerable<KeyValuePair<string, float>> GetAppropriateDataSet(Document document) {
-            var valueList = chartKind == ChartKind.NounPhrasesOnly ? GetNounPhraseData(document) : chartKind == ChartKind.SubjectVerbObject ? GetSVOIData(document) : GetSVOIData(document);
+            var valueList = chartKind == ChartKind.NounPhrasesOnly ? from np in GetSignificantPhrasesInDoc(document).GetNounPhrases()
+                                                                     select new KeyValuePair<string, float>(np.Text, (float)np.Weight) : chartKind == ChartKind.SubjectVerbObject ? GetSVOIData(document) : GetSVOIData(document);
             return valueList;
         }
         #region Chart Transposing Methods
