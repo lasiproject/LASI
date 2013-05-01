@@ -54,16 +54,23 @@ namespace Scott_Experimentation
             Weighter.Weight(document5);
            
             //var wrd = document5.Words.FirstOrDefault();
-
+            
+            
             var sm = from t in document5.Phrases //.Words
                       where document5.Phrases.Count() > 0 //.Words.Count() > 0
                       orderby t.Weight ascending 
                      select t;
-
+            
+            /*
+            var sm = from t in document5.Words
+                     where document5.Words.Count() > 0
+                     orderby t.Weight ascending
+                     select t;
+            */
             Output.WriteLine("Start Here: ");
             foreach (var w in sm.GetNounPhrases()) //.GetNouns().OfType<ProperNoun>()) //sm.GetNouns().OfType<ProperNoun>())
             {
-                    Output.WriteLine("{0} => {1}", w, w.Weight);
+                    Output.WriteLine("{0} => {1}", w.Words.GetNouns().LastOrDefault(), w.Weight);
             }
              
 
