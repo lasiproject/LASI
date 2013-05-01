@@ -181,7 +181,7 @@ namespace LASI.FileSystem
         }
 
         /// <summary>
-        /// Reads a [NP Square Brack Delimited Phrase Chunk] and returns a entity tag determined subtype of LASI.Phrase which in turn contains all the run time representations of the individual words within it.
+        /// Reads a [outerNP Square Brack Delimited Phrase Chunk] and returns a entity tag determined subtype of LASI.Phrase which in turn contains all the run time representations of the individual words within it.
         /// </summary>
         /// <param name="taggedContent">The TextTagPair instance which contains the content of a entity and its Tag.</param>
         /// <returns></returns>
@@ -199,7 +199,7 @@ namespace LASI.FileSystem
             }
         }
         /// <summary>
-        /// Reads a [NP Square Brack Delimited Phrase Chunk] and returns a entity tag determined subtype of LASI.Phrase which in turn contains all the run time representations of the individual words within it.
+        /// Reads a [outerNP Square Brack Delimited Phrase Chunk] and returns a entity tag determined subtype of LASI.Phrase which in turn contains all the run time representations of the individual words within it.
         /// </summary>
         /// <param name="taggedContent">The TextTagPair instance which contains the content of a entity and its Tag.</param>
         /// <returns></returns>
