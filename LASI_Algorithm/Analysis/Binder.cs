@@ -6,6 +6,7 @@ using System.Text;
 using LASI.Utilities.TypedSwitch;
 using System.Threading.Tasks;
 using LASI.Algorithm.DocumentConstructs;
+using LASI.Algorithm.Analysis.Binding;
 
 namespace LASI.Algorithm.Analysis
 {
@@ -22,6 +23,7 @@ namespace LASI.Algorithm.Analysis
                 PerformIntraPhraseBinding(doc);
                 PerformAttributeNounPhraseBinding(doc);
                 PerformSVOBinding(doc);
+                PerformPronounBinding(doc);
             }
             catch (VerblessPhrasalSequenceException)
             {
@@ -29,6 +31,14 @@ namespace LASI.Algorithm.Analysis
             catch (InvalidOperationException)
             {
             }
+        }
+
+        private static void PerformPronounBinding(Document doc) {
+             doc.Sentences
+                 .Where(s => s.ParentParagraph.ParagraphKind == ParagraphKind.Default)
+                    .AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
+                    .ForAll(
+                    s => new PronounBinder().Bind(doc));
         }
 
 

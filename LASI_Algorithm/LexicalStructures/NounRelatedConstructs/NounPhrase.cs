@@ -110,16 +110,30 @@ namespace LASI.Algorithm
         /// Gets the ITransitiveVerbial instance, generally a TransitiveVerb or TransitiveVerbPhrase, which the NounPhrase is the DIRECT object of.
         /// </summary>
         public virtual ITransitiveVerbial DirectObjectOf {
-            get;
-            set;
+            get {
+                return _indirecObjectOf;
+            }
+            set {
+                _indirecObjectOf = value;
+                foreach (var N in Words.OfType<IVerbialObject>()) {
+                    N.DirectObjectOf = _subjectOf;
+                }
+            }
         }
 
         /// <summary>
         /// Gets the ITransitiveVerbial instance, generally a TransitiveVerb or TransitiveVerbPhrase, which the NounPhrase is the INDIRECT object of.
         /// </summary>
         public virtual ITransitiveVerbial IndirectObjectOf {
-            get;
-            set;
+            get {
+                return _indirecObjectOf;
+            }
+            set {
+                _indirecObjectOf = value;
+                foreach (var N in Words.OfType<IVerbialObject>()) {
+                    N.IndirectObjectOf = _subjectOf;
+                }
+            }
         }
 
         /// <summary>
@@ -131,7 +145,7 @@ namespace LASI.Algorithm
             }
             set {
                 _subjectOf = value;
-                foreach (var N in Words.GetNouns()) {
+                foreach (var N in Words.OfType<IVerbialSubject>()) {
                     N.SubjectOf = _subjectOf;
                 }
             }
@@ -228,6 +242,8 @@ namespace LASI.Algorithm
         private IList<IEntity> _possessed = new List<IEntity>();
         private IList<IPronoun> _boundPronouns = new List<IPronoun>();
         private IEntity _possessor;
+        private ITransitiveVerbial _direcObjectOf;
+        private ITransitiveVerbial _indirecObjectOf;
 
 
     }
