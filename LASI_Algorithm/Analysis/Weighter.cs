@@ -29,6 +29,7 @@ namespace LASI.Algorithm.Analysis
             //Erik, your weighting is applied by the next call
             WeightWordsBySyntacticSequence(doc);
 
+            HackSubjectPropernounImportance(doc);
 
             WeightPhrasesByAVGWordWeight(doc);
 
@@ -41,12 +42,11 @@ namespace LASI.Algorithm.Analysis
 
             WeightSimilarNounPhrases(doc);
 
-            HackSubjectPropernounImportance(doc);
-
             normalizeWeights(doc);
         }
 
-        private static void normalizeWeights(Document doc) {
+        private static void normalizeWeights(Document doc)
+        {
             decimal TotPhraseWeight = 0.0m;
             decimal MaxWeight = 0.0m;
             int NonZeroWghts = 0;
@@ -190,8 +190,8 @@ namespace LASI.Algorithm.Analysis
                                      where potentialM.similarityRatio >= 0.6
                                      select potentialM;
                 foreach (var match in similarPhrases) {
-                    match.NP.Weight += match.innerNP.Weight * (decimal)match.similarityRatio;
-                    match.innerNP.Weight += match.NP.Weight * (decimal)match.similarityRatio;
+                    match.NP.Weight += match.innerNP.Weight * (decimal) match.similarityRatio;
+                    match.innerNP.Weight += match.NP.Weight * (decimal) match.similarityRatio;
 
                 }
             }
@@ -204,7 +204,7 @@ namespace LASI.Algorithm.Analysis
         private struct NounPhraseComparer : IEqualityComparer<NounPhrase>
         {
             public bool Equals(NounPhrase x, NounPhrase y) {
-                return x == null || y == null ? false : x.IsSimilarTo(y);
+              return x==null||y==null?false:   x.IsSimilarTo(y);
             }
 
             public int GetHashCode(NounPhrase obj) {
@@ -214,29 +214,20 @@ namespace LASI.Algorithm.Analysis
 
         public static void HackSubjectPropernounImportance(Document doc)
         {
-            foreach (var p in doc.Phrases)
+
+            foreach (var n in doc.Phrases.GetNounPhrases().InSubjectRole())
             {
-                var PropNoun = p.Words.GetNouns().OfType<ProperNoun>().LastOrDefault();
-                if (PropNoun != null)
+                if ((n as NounPhrase).Words.Any(i => i is ProperNoun))
+                    n.Weight *= 2;
+            }
+            foreach (var n in doc.Phrases)
+            {
+                if ((n as NounPhrase).Words.Any(i => i is ProperNoun))
                 {
-                    Output.WriteLine("Before: {0}, {1}",PropNoun, PropNoun.Weight);
-                    p.Weight *= 100;
-                    Output.WriteLine("After: {0}, {1}\n", PropNoun, PropNoun.Weight);
+                    n.Weight *= (decimal)1.5;
                 }
             }
-            /*
-            foreach (var s in doc.Sentences) {
-                foreach (VerbPhrase vp in from VerbPhrase p in s.Phrases.GetVerbPhrases()
-                                          where p.BoundSubjects.Any((IEntity subject) => subject is ProperNoun)
-                                          select p) {
-                    foreach (var subject in from ProperNoun propn in vp.BoundSubjects
-                                            where vp.BoundSubjects.Any((IEntity Word) => propn is ProperNoun)
-                                            select propn) {
-                        subject.Weight += 10;
-                    }
-                }
-            }
-             */
+
         }
 
         private static void WeightWordsBySyntacticSequence(Document doc) {
