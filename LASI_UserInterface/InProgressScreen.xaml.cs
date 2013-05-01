@@ -21,7 +21,7 @@ using System.Configuration;
 namespace LASI.UserInterface
 {
     /// <summary>
-    /// Interaction logic for DialogToProcedeToResults.xaml
+    /// Interaction logic for DialogToProceedToResults.xaml
     /// </summary>
     public partial class InProgressScreen : Window
     {
@@ -95,7 +95,7 @@ namespace LASI.UserInterface
             //ProgressBar.ToolTip = "Complete";
             ProgressLabel.Content = "Complete";
             WindowManager.ResultsScreen.Documents = msg.ToList();
-            ProcedetoResultsButton.Visibility = Visibility.Visible;
+            ProceedtoResultsButton.Visibility = Visibility.Visible;
 
 
         }
@@ -124,7 +124,7 @@ namespace LASI.UserInterface
 
         }
 
-        private async void ProcedetoResultsButton_Click(object sender, RoutedEventArgs e) {
+        private async void ProceedtoResultsButton_Click(object sender, RoutedEventArgs e) {
             await ProceedToResultsView();
 
         }

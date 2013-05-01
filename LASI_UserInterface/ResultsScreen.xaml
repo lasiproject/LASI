@@ -74,18 +74,18 @@
                 </Grid>
             </TabItem>
 
-
+            <TabItem Header="Word Count and Weighting">
+                <Grid Background="#FFE5E5E5">
+                    <TabControl x:Name="WordCountLists" Grid.ColumnSpan="2" Margin="0,-1,0,0" />
+                </Grid>
+            </TabItem>
             <TabItem Header="Recomposed Documents">
                 <Grid Background="#FFE5E5E5" Margin="0,0,1,0">
                     <TabControl x:Name="recomposedDocumentsTabControl" />
                 </Grid>
             </TabItem>
 
-            <TabItem Header="Word Count and Weighting">
-                <Grid Background="#FFE5E5E5">
-                    <TabControl x:Name="WordCountLists" Grid.ColumnSpan="2" Margin="0,-1,0,0" />
-                </Grid>
-            </TabItem>
+           
 
             <TabItem Header="Key Relationships" Height="20" VerticalAlignment="Top" Margin="0" HorizontalAlignment="Left" Width="107">
                 <Grid Background="#FFE5E5E5">
