@@ -1,23 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using LASI.GuiInterop;
+using LASI.InteropLayer;
+using LASI.Utilities;
+using System;
+using System.Configuration;
 using System.Linq;
-using System.Text;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using LASI.Utilities;
-using LASI.InteropLayer;
-using LASI.GuiInterop;
-using LASI.UserInterface.Dialogs;
-using System.IO;
-using System.Windows.Navigation;
-using System.Configuration;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 namespace LASI.UserInterface
 {
     /// <summary>
@@ -84,9 +88,73 @@ namespace LASI.UserInterface
         #region Process Control
 
 
+
+        [DllImport("user32.dll")]
+
+        [return: MarshalAs(UnmanagedType.Bool)]
+
+        static extern bool FlashWindowEx(ref FLASHWINFO pwfi);
+
+
+        public const UInt32 FLASHW_ALL = 3;
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FLASHWINFO
+        {
+
+            public System.UInt32 cbSize;
+
+            public System.IntPtr hwnd;
+
+            public System.UInt32 dwFlags;
+
+            public System.UInt32 uCount;
+
+            public System.UInt32 dwTimeout;
+
+        }
+
+        void startflashing() {
+            {
+                FLASHWINFO fInfo = new FLASHWINFO();
+                fInfo.cbSize = System.Convert.ToUInt32(Marshal.SizeOf(fInfo));
+
+                fInfo.hwnd = new System.Windows.Interop.WindowInteropHelper(this).Handle;
+
+                fInfo.dwFlags = FLASHW_ALL;
+
+                fInfo.uCount = System.UInt32.MaxValue;
+
+                fInfo.dwTimeout = 0;
+
+
+
+                FlashWindowEx(ref fInfo);
+            }
+            this.GotFocus += (s, e) => {
+
+                stopflashing();
+
+            };
+        }
+        void stopflashing() {
+            FLASHWINFO fInfo = new FLASHWINFO();
+
+
+            fInfo.cbSize = System.Convert.ToUInt32(Marshal.SizeOf(fInfo));
+
+            fInfo.hwnd = new System.Windows.Interop.WindowInteropHelper(this).Handle;
+
+            fInfo.dwFlags = 0;
+
+            fInfo.uCount = System.UInt32.MaxValue;
+
+            fInfo.dwTimeout = 0;
+
+
+
+            FlashWindowEx(ref fInfo);
+        }
         ProcessController processController = new ProcessController();
-
-
         public async Task InitializeParsing() {
 
 
@@ -96,6 +164,11 @@ namespace LASI.UserInterface
             ProgressLabel.Content = "Complete";
             WindowManager.ResultsScreen.Documents = msg.ToList();
             ProceedtoResultsButton.Visibility = Visibility.Visible;
+
+
+            startflashing();
+
+
 
 
         }

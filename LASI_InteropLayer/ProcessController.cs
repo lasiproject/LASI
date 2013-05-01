@@ -26,9 +26,10 @@ namespace LASI.InteropLayer
 
         public async Task<IEnumerable<Document>> LoadAndAnalyseAllDocuments(ProgressBar progressBar, Label progressLabel) {
             var sw = Stopwatch.StartNew();
-            Output.SetToStringWriter(InfoProvider);
-
-            await LoadThesauri(progressBar, progressLabel);
+            progressBar.ToolTip = ProcessingState.LoadingThesauri.ToString();
+            progressLabel.Content = ProcessingState.LoadingThesauri.ToString();
+            await Thesaurus.LoadAllAsync();
+            progressBar.Value = 15;
 
             progressBar.ToolTip = ProcessingState.ConvertingFiles.ToString();
             progressLabel.Content = ProcessingState.ConvertingFiles.ToString();
@@ -56,10 +57,7 @@ namespace LASI.InteropLayer
         }
 
         private static async Task LoadThesauri(ProgressBar progressBar, Label progressLabel) {
-            progressBar.ToolTip = ProcessingState.LoadingThesauri.ToString();
-            progressLabel.Content = ProcessingState.LoadingThesauri.ToString();
-            await Thesaurus.LoadAllAsync();
-            progressBar.Value = 15;
+
         }
 
         private static async Task WeightAllDocs(IEnumerable<LASI.Algorithm.DocumentConstructs.Document> docs) {

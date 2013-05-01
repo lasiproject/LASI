@@ -57,7 +57,6 @@
                 </Button>
                 <Button x:Name="changeToAreaChartButton" Content="Button" Height="45" Canvas.Left="58" Canvas.Top="94" Width="53" Visibility="Hidden" />
                 <Button x:Name="changeToLineChartButton" Content="Button" Height="35" Canvas.Left="98" Canvas.Top="189" Width="35" Visibility="Hidden" />
-                <Button x:Name="toggleChartSourceButton" Content="Toggle Data&#xD;&#xA;" Canvas.Left="12" Width="118" Click="ToggleEntitiesAndRelationshipsButton_Click" Height="25" Canvas.Top="10" />
 
             </Canvas>
         </Grid>

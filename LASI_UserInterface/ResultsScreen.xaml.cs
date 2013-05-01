@@ -237,6 +237,7 @@ namespace LASI.UserInterface
         async Task ToColumnCharts() {
             foreach (var chart in FrequencyCharts.Items) {
                 var items = GetItemSourceFor(chart);
+                items.Reverse();
                 var series = new ColumnSeries {
                     DependentValuePath = "Value",
                     IndependentValuePath = "Key",
@@ -259,6 +260,7 @@ namespace LASI.UserInterface
         async Task ToPieCharts() {
             foreach (var chart in FrequencyCharts.Items) {
                 var items = GetItemSourceFor(chart);
+                items.Reverse();
                 var series = new PieSeries {
                     DependentValuePath = "Value",
                     IndependentValuePath = "Key",
@@ -281,6 +283,7 @@ namespace LASI.UserInterface
         async Task ToBarCharts() {
             foreach (var chart in FrequencyCharts.Items) {
                 var items = GetItemSourceFor(chart);
+                items.Reverse();
                 var series = new BarSeries {
                     DependentValuePath = "Value",
                     IndependentValuePath = "Key",
@@ -298,6 +301,7 @@ namespace LASI.UserInterface
         async Task ToAreaCharts() {
             foreach (var chart in FrequencyCharts.Items) {
                 var items = GetAppropriateData(chart);
+                items.Reverse();
                 var series = new AreaSeries {
                     DependentValuePath = "Value",
                     IndependentValuePath = "Key",
@@ -318,6 +322,7 @@ namespace LASI.UserInterface
         async Task ToLineCharts() {
             foreach (var chart in FrequencyCharts.Items) {
                 var items = GetAppropriateData(chart);
+                items.Reverse();
                 var series = new LineSeries {
                     DependentValuePath = "Value",
                     IndependentValuePath = "Key",
@@ -391,7 +396,7 @@ namespace LASI.UserInterface
             return from svs in data
 
                    let SV = new KeyValuePair<string, float>(string.Format("{0} -> {1}\n", svs.Subject.Text, svs.Verbial.Text) + (svs.Direct != null ? " -> " + svs.Direct.Text : "") + (svs.Indirect != null ? " -> " + svs.Indirect.Text : ""),
-                       (float) Math.Round(svs.SumWeight, 2))
+                       (float)Math.Round(svs.SumWeight, 2))
                    group SV by SV into svg
                    select svg.Key;
 
@@ -430,7 +435,7 @@ namespace LASI.UserInterface
                    } into NP
                    select NP.Key into master
                    orderby master.Weight descending
-                   select new KeyValuePair<string, float>(master.Text, (float) Math.Round(master.Weight, 2));
+                   select new KeyValuePair<string, float>(master.Text, (float)Math.Round(master.Weight, 2));
         }
 
         #region Result Selector Helper Structs
@@ -506,7 +511,8 @@ namespace LASI.UserInterface
             var focusedChart = (FrequencyCharts.SelectedItem as TabItem).Content as Visual;
             try {
                 printDialog.PrintVisual(focusedChart, "Current View");
-            } catch (NullReferenceException) {
+            }
+            catch (NullReferenceException) {
             }
 
         }
@@ -558,20 +564,7 @@ namespace LASI.UserInterface
 
 
 
-        private void ToggleEntitiesAndRelationshipsButton_Click(object sender, RoutedEventArgs e) {
-            ChangeChartKind(ChartKind.SubjectVerbObject);
-            PreserveStyle();
-            toggleChartSourceButton.Click -= ToggleEntitiesAndRelationshipsButton_Click;
-            RoutedEventHandler togglefunction = null;
-            togglefunction = (sen, evt) => {
-                ChangeChartKind(ChartKind.NounPhrasesOnly);
-                PreserveStyle();
-                toggleChartSourceButton.Click -= togglefunction;
-                toggleChartSourceButton.Click += ToggleEntitiesAndRelationshipsButton_Click;
 
-            };
-            toggleChartSourceButton.Click += togglefunction;
-        }
 
         private async void PreserveStyle() {
             switch (ChartStyle) {
