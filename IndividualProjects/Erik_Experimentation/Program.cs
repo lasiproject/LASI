@@ -87,6 +87,15 @@ namespace Erik_Experimentation
 
 
         }
+        static int Count(this IEnumerable<Word> someWords, Func<Word, bool> comparisonFunction) {
+            int cnt = 0;
+            foreach (var word in someWords) {
+                if (comparisonFunction(word)) {
+                    cnt++;
+                }
+            }
+            return cnt;
+        }
 
 
 
