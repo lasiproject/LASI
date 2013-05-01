@@ -47,29 +47,67 @@ namespace Erik_Experimentation
             //advTest.SearchFor(key);
 
 
-            //Keeps the console window open until the escape key is pressed
-            //Console.WriteLine("Press escape to exit");
-            //for (var k = Console.ReadKey(); k.Key != ConsoleKey.Escape; k = Console.ReadKey())
-            //{
-            //    Console.WriteLine("Press escape to exit");
-            //}
 
             var tagger = new SharpNLPTagger(TaggingOption.TagAndAggregate, @"C:\Users\CynosureEPR\Desktop\weight2.txt");
+            var tagger2 = new SharpNLPTagger(TaggingOption.TagAndAggregate, @"C:\Users\CynosureEPR\Desktop\weight3.txt");
             var tagged = tagger.ProcessFile();
+            var tagged2 = tagger2.ProcessFile();
             var paragraphs = new TaggedFileParser(tagged).LoadParagraphs();
             var document = new Document(paragraphs);
+            var paragraphs2 = new TaggedFileParser(tagged2).LoadParagraphs();
+            var document2 = new Document(paragraphs2);
 
-            //foreach (var i in document.Phrases)
+            List<Document> documentsList = new List<Document>();
+
+            documentsList.Add(document);
+            documentsList.Add(document2);
+
+            int numDocs = documentsList.Count();
+
+            foreach (Word w in document.Words)
+            {
+                Console.WriteLine(w.Text);
+            }
+
+            //for (int i = 0; i < documentsList.Count(); i++)
             //{
-            //    Console.WriteLine(i);
+            //    Document currentDoc = documentsList[i];
+            //    List<Word> currentWords = currentDoc.Words.ToList();
+
+            //    foreach (Word w in currentWords)
+            //    {
+            //        foreach (Word w1 in currentWords)
+            //        {
+            //            if (w.Text == w1.Text)
+            //            {
+            //                w1.FrequencyCurrent += 1;
+            //                w1.FrequencyAcross += w1.FrequencyCurrent;
+            //            }
+            //        }
+
+
+                    
+
+            //    }
+
+
+
             //}
 
-            //foreach (var i in document.Words)
-            //{
-            //    Console.WriteLine(i);
-            //}
+            
 
 
+
+            //Keeps the console window open until the escape key is pressed
+            Console.WriteLine("Press escape to exit");
+            for (var k = Console.ReadKey(); k.Key != ConsoleKey.Escape; k = Console.ReadKey())
+            {
+                Console.WriteLine("Press escape to exit");
+            }
+
+
+
+            
 
         }
     }
