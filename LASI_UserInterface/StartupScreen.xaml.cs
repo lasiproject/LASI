@@ -243,7 +243,7 @@ namespace LASI.UserInterface
             join c2 in System.IO.Path.GetInvalidFileNameChars()
             on c1 equals c2
             select false).Any()
-                
+
                 ) {
                 ProjectNameTextBox.ToolTip = new ToolTip {
                     Visibility = Visibility.Visible,

@@ -39,6 +39,9 @@ namespace LASI.UserInterface
                                                w.Text,
                                                w.Type
                                            }).Select(g => g.First());
+                var nps = documentElements.GetNounPhrases();
+                var vps = documentElements.GetVerbPhrases();
+                var advps = documentElements.GetAdverbPhrases();
                 var elementLabels = new List<Label>();
                 foreach (var e in documentElements) {
                     var wordLabel = new Label {
