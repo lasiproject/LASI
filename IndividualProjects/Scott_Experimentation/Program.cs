@@ -40,7 +40,8 @@ namespace Scott_Experimentation
             var document4 = new Document(paragraphs4);
 
             //var converter = new DocxToTextConverter(new LASI.FileSystem.FileTypes.DocXFile(@"C:\Users\Scott\Desktop\HesterTestDocs\411writtensummary2.docx"));
-            var converter = new DocxToTextConverter(new LASI.FileSystem.FileTypes.DocXFile(@"C:\Users\Scott\Desktop\HesterTestDocs\CapabilitiesBasedPlanningProcessOverview.docx"));
+            //var converter = new DocxToTextConverter(new LASI.FileSystem.FileTypes.DocXFile(@"C:\Users\Scott\Desktop\HesterTestDocs\CapabilitiesBasedPlanningProcessOverview.docx"));
+            var converter = new DocxToTextConverter(new LASI.FileSystem.FileTypes.DocXFile(@"C:\Users\Scott\Desktop\HesterTestDocs\BTSDraftNeedsandStrategy.docx"));
             var tagger5 = new SharpNLPTagger(TaggingOption.TagAndAggregate, converter.ConvertFile().FullPath);
             var tagged5 = tagger5.ProcessFile();
             var paragraphs5 = new TaggedFileParser(tagged5).LoadParagraphs();
@@ -50,30 +51,86 @@ namespace Scott_Experimentation
             string TestString = "The Boy rides his big bold bike up a large steep hill.  He fell over when he reached the top.  The Boy then got up and rode down the other side.";
             var DocTest = LASI.Utilities.TaggerUtil.UntaggedToDoc(TestString);
 
+
+
+
             Binder.Bind(document5);
             Weighter.Weight(document5);
-           
-            //var wrd = document5.Words.FirstOrDefault();
-            
-            
-            var sm = from t in document5.Phrases //.Words
-                      where document5.Phrases.Count() > 0 //.Words.Count() > 0
-                      orderby t.Weight ascending 
-                     select t;
-            
-            /*
-            var sm = from t in document5.Words
-                     where document5.Words.Count() > 0
-                     orderby t.Weight ascending
-                     select t;
-            */
-            Output.WriteLine("Start Here: ");
-            foreach (var w in sm.GetNounPhrases()) //.GetNouns().OfType<ProperNoun>()) //sm.GetNouns().OfType<ProperNoun>())
-            {
-                    Output.WriteLine("{0} => {1}", w.Words.GetNouns().LastOrDefault(), w.Weight);
-            }
-             
 
+            var sm = from t in document5.Phrases //.GetNounPhrases() //.Words
+                      where document5.Phrases.Count() > 0 //.GetNounPhrases().Count() > 0 //.Words.Count() > 0
+                      orderby t.Weight descending 
+                     select t;
+
+            //foreach (var i in sm.GetNounPhrases())
+            for(var x = 0; x < 30; x++)
+            {
+                //Output.WriteLine("{0}, {1}", i, i.Weight);
+                Output.WriteLine("{0}, {1}", sm.ElementAt(x), sm.ElementAt(x).Weight);
+            }
+            
+
+            /*
+            var NP = sm.GetNounPhrases();
+            List<Phrase> UniqueNounPhrases = new List<Phrase>();
+            //inserts first noun phrase into list
+            UniqueNounPhrases.Add(NP.ElementAt(0));
+            //Output.WriteLine("{0}, {1}", NP.Count(), UniqueNounPhrases.Count());
+            bool match = false;
+            for(int x = 0; x < NP.Count(); x++)
+            {
+                for (int y = 0; y < UniqueNounPhrases.Count(); y++)
+                {
+                    //compare whole text
+                    if (NP.ElementAt(x).Text.ToUpper() == UniqueNounPhrases.ElementAt(y).Text.ToUpper())
+                    {
+                        match = true;
+                    }
+
+                    //compare last noun in noun phrase
+                    if((NP.ElementAt(x).Words.GetNouns().LastOrDefault() != null) &&
+                        (UniqueNounPhrases.ElementAt(y).Words.GetNouns().LastOrDefault() != null) &&
+                        (NP.ElementAt(x).Words.GetNouns().LastOrDefault().Text.ToUpper() == UniqueNounPhrases.ElementAt(y).Words.GetNouns().LastOrDefault().Text.ToUpper())
+                    )
+                    {
+                        match = true;
+                    }
+
+                    //Removes certain words and chars
+                    if (NP.ElementAt(x).Text == "\"" || 
+                        NP.ElementAt(x).Text.ToLower() == "the" ||
+                        NP.ElementAt(x).Text.ToLower() == "a" ||
+                        NP.ElementAt(x).Text.ToLower() == "an" ||
+                        NP.ElementAt(x).Text.ToLower() == "or" ||
+                        NP.ElementAt(x).Text.ToLower() == "were" ||
+                        NP.ElementAt(x).Text.ToLower() == "is" ||
+                        NP.ElementAt(x).Text.ToLower() == "what" ||
+                        NP.ElementAt(x).Text.ToLower() == "that" ||
+                        NP.ElementAt(x).Text.ToLower() == "which" ||
+                        NP.ElementAt(x).Text.ToLower() == "these" ||
+                        NP.ElementAt(x).Text.ToLower() == "there" ||
+                        NP.ElementAt(x).Text.ToLower() == "those"
+                     )
+                    {
+                        match = true;
+                    }
+                    
+                }
+                if (match == false)
+                {
+                    //stick in list
+                    if(NP.ElementAt(x) is NounPhrase)
+                        UniqueNounPhrases.Add(NP.ElementAt(x)); //sm.GetNounPhrases().ElementAt(x));
+                }
+                match = false;
+            }
+
+            Output.WriteLine("\n\nAnother Output: ");
+            foreach (var p in UniqueNounPhrases)
+            {
+                Output.WriteLine("{0} => {1}", p, p.Weight);
+            }
+           */
 
             Input.WaitForAnyKey();
         }
