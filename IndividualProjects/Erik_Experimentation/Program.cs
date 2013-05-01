@@ -63,7 +63,7 @@ namespace Erik_Experimentation
             List<Track> master = new List<Track>();
 
             foreach (var d in documents) {
-                master.Add(IndividualDocumentFrequency(d));
+                master = (IndividualDocumentFrequency(d));
             }
 
 
