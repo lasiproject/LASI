@@ -51,7 +51,6 @@
     <Compile Include="PerformanceManager.cs" />
     <Compile Include="ProcessController.cs" />
     <Compile Include="DefaultResultProvider.cs" />
-    <Compile Include="IProcessInfoProvider.cs" />
     <Compile Include="IResultSerializer.cs" />
     <Compile Include="ProcessingState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
