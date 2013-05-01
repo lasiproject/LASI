@@ -54,38 +54,42 @@ namespace Erik_Experimentation
             var documents = new Document[] { document1, document2 };
 
 
-            foreach (var d in documents)
-            {
+            foreach (var d in documents) {
                 InverseDocumentFrequency(d);
             }
-       
-            
+
+
 
 
 
             //Keeps the console window open until the escape key is pressed
             Console.WriteLine("Press escape to exit");
-            for (var k = Console.ReadKey(); k.Key != ConsoleKey.Escape; k = Console.ReadKey())
-            {
+            for (var k = Console.ReadKey(); k.Key != ConsoleKey.Escape; k = Console.ReadKey()) {
                 Console.WriteLine("Press escape to exit");
             }
 
 
 
-            
+
 
         }
 
-        private static void InverseDocumentFrequency(Document d)
-        {
-            int numbers = d.Words.Count(w => w.Text == w.Text);
+        private static void InverseDocumentFrequency(Document d) {
 
 
-            
+            IEnumerable<int> allWordCounts = from searchWord in d.Words
+                                             select d.Words.Count(wordToCompare => wordToCompare.Text == searchWord.Text);
+
+
+
+            //int numbers = d.Words.Count(w => w.Text == w.Text);
+
+
+
         }
 
 
-       
+
 
     }
 
