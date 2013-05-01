@@ -56,6 +56,7 @@ namespace Erik_Experimentation
 
             foreach (var d in documents) {
                 InverseDocumentFrequency(d);
+
             }
 
 
@@ -77,25 +78,29 @@ namespace Erik_Experimentation
         private static void InverseDocumentFrequency(Document d) {
 
 
-            IEnumerable<int> allWordCounts = from searchWord in d.Words
-                                             select d.Words.Count(wordToCompare => wordToCompare.Text == searchWord.Text);
+            //IEnumerable<int> allWordCounts = from searchWord in d.Words
+            //                                 select d.Words.Count(wordToCompare => wordToCompare.Text == searchWord.Text);
 
+            foreach (Word w in d.Words)
+            {
+                w.FrequencyCurrent = d.Words.Count(wordCompare => wordCompare.Text == w.Text);
 
-
-            //int numbers = d.Words.Count(w => w.Text == w.Text);
-
-
-
-        }
-        static int Count(this IEnumerable<Word> someWords, Func<Word, bool> comparisonFunction) {
-            int cnt = 0;
-            foreach (var word in someWords) {
-                if (comparisonFunction(word)) {
-                    cnt++;
-                }
+                Console.WriteLine("Word : " + w + "Count: " + w.FrequencyCurrent);
             }
-            return cnt;
+
+
+
+
         }
+        //static int Count(this IEnumerable<Word> someWords, Func<Word, bool> comparisonFunction) {
+        //    int cnt = 0;
+        //    foreach (var word in someWords) {
+        //        if (comparisonFunction(word)) {
+        //            cnt++;
+        //        }
+        //    }
+        //    return cnt;
+        //}
 
 
 
