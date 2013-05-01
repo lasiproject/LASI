@@ -150,8 +150,8 @@ namespace Erik_Experimentation
         /// Example with data
         /// </summary>
         static void DrugsAreInteresting() {
-        
-            
+
+
             var someDrugs = new[] {
                 new { Name = "LSD", Category = "Hallucinogen" },
                 new { Name = "Aderal", Category = "Amphetamine" },
@@ -176,7 +176,7 @@ namespace Erik_Experimentation
                 .Where(drug => someGuy.DrugPreferences
                     .Any(dr => dr.Category == drug.Category));
 
-            var canGetHighToday = drugsSomeGuyWillLike.Count();
+            var canGetHighToday = drugsSomeGuyWillLike.Count() > 0;
 
 
         }
