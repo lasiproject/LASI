@@ -51,16 +51,12 @@ namespace Erik_Experimentation
             var document1 = TaggerUtil.LoadTextFile(new TextFile(@"C:\Users\CynosureEPR\Desktop\weight2.txt"));
             var document2 = TaggerUtil.LoadTextFile(new TextFile(@"C:\Users\CynosureEPR\Desktop\weight3.txt"));
 
-         
+            var documents = new Document[] { document1, document2 };
 
 
                     
 
-            //    }
-
-
-
-            //}
+            
 
             
 
