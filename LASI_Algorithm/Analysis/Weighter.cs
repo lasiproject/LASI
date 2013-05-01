@@ -39,7 +39,7 @@ namespace LASI.Algorithm.Analysis
 
             WeightPhrasesByLiteralFrequency(doc);
 
-            //WeightSimilarNounPhrases(doc);
+            WeightSimilarNounPhrases(doc);
 
             normalizeWeights(doc);
         }
@@ -170,14 +170,17 @@ namespace LASI.Algorithm.Analysis
             var inp = doc.Phrases.GetNounPhrases();
             for (int x = 0; x < np.Count(); x++)
             {
-                for (int y = x+1; y < np.Count(); y++)
+                if ((x + 1) < np.Count())
                 {
-                    if(np.ElementAt(x) != np.ElementAt(y) && (np.ElementAt(x).Words.Count() != 0))
+                    for (int y = x + 1; y < np.Count(); y++)
                     {
-                        var ratio = (Thesaurus.getSimilarityRatio(np.ElementAt(x), np.ElementAt(y)));
-                        if (ratio > .8)
+                        if (np.ElementAt(x) != np.ElementAt(y) && (np.ElementAt(x).Words.Count() != 0))
                         {
-                            np.ElementAt(x).Weight++;
+                            var ratio = Thesaurus.getSimilarityRatio(np.ElementAt(x), np.ElementAt(y));
+                            if (ratio > .8)
+                            {
+                                np.ElementAt(x).Weight++;
+                            }
                         }
                     }
                 }
