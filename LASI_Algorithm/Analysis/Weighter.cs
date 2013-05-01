@@ -161,7 +161,6 @@ namespace LASI.Algorithm.Analysis
         /// For each noun phrase in a document that is similar to another noun phrase, increase the weight of that noun
         /// </summary>
         /// <param name="doc">Document containing the phrases to weight</param>
-<<<<<<< .mine
         private static void WeightSimilarNounPhrases(Document doc) {
             /*
             //var np = doc.Phrases.GetNounPhrases();
@@ -170,35 +169,30 @@ namespace LASI.Algorithm.Analysis
             //    foreach (var i in inp)
             //        if (i != o && i.Words.GetNouns().Any() && o.Words.GetNouns().Any()) {
             //            o.Weight += (decimal) (Thesaurus.getSimilarityRatio(i, o) * (double) (o.Weight));
-=======
-        private static void WeightSimilarNounPhrases(Document doc)
-        {
-            var np = doc.Phrases.GetNounPhrases();
-            var inp = doc.Phrases.GetNounPhrases();
-            for (int x = 0; x < np.Count(); x++)
-            {
-                if ((x + 1) < np.Count())
-                {
-                    for (int y = x + 1; y < np.Count(); y++)
-                    {
-                        if (np.ElementAt(x) != np.ElementAt(y) && (np.ElementAt(x).Words.Count() != 0))
-                        {
-                            var ratio = Thesaurus.getSimilarityRatio(np.ElementAt(x), np.ElementAt(y));
-                            if (ratio > .8)
-                            {
-                                np.ElementAt(x).Weight++;
-                            }
-                        }
-                    }
-                }
-            }
->>>>>>> .r620
 
             //        }
             //}
             */
             var similarNounPhraseLookup = (from NP in doc.Phrases.GetNounPhrases().AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
-                                           select NP).ToLookup(value => value, new NounPhraseComparer());
+                                           select NP)
+                                           .ToLookup(key => key,
+                                            new NounPhraseComparer());
+            foreach (var outerNP in doc.Phrases.GetNounPhrases().AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)) {
+                var similarPhrases = from potentialM in
+                                         (from innerNP in similarNounPhraseLookup[outerNP]
+                                          select new {
+                                              NP = outerNP,
+                                              innerNP,
+                                              similarityRatio = Thesaurus.getSimilarityRatio(outerNP, innerNP)
+                                          })
+                                     where potentialM.similarityRatio >= 0.6
+                                     select potentialM;
+                foreach (var match in similarPhrases) {
+                    match.NP.Weight += match.innerNP.Weight * (decimal) match.similarityRatio;
+                    match.innerNP.Weight += match.NP.Weight * (decimal) match.similarityRatio;
+
+                }
+            }
 
         }
         //static double InverserDocumentFrequency(IEnumerable<Document> documentGroup, bool useSynonyms = false) {
@@ -208,7 +202,7 @@ namespace LASI.Algorithm.Analysis
         private struct NounPhraseComparer : IEqualityComparer<NounPhrase>
         {
             public bool Equals(NounPhrase x, NounPhrase y) {
-                return x.IsSimilarTo(y);
+              return x==null||y==null?false:   x.IsSimilarTo(y);
             }
 
             public int GetHashCode(NounPhrase obj) {
