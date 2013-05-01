@@ -48,42 +48,10 @@ namespace Erik_Experimentation
 
 
 
-            var tagger = new SharpNLPTagger(TaggingOption.TagAndAggregate, @"C:\Users\CynosureEPR\Desktop\weight2.txt");
-            var tagger2 = new SharpNLPTagger(TaggingOption.TagAndAggregate, @"C:\Users\CynosureEPR\Desktop\weight3.txt");
-            var tagged = tagger.ProcessFile();
-            var tagged2 = tagger2.ProcessFile();
-            var paragraphs = new TaggedFileParser(tagged).LoadParagraphs();
-            var document = new Document(paragraphs);
-            var paragraphs2 = new TaggedFileParser(tagged2).LoadParagraphs();
-            var document2 = new Document(paragraphs2);
+            var document1 = TaggerUtil.LoadTextFile(new TextFile(@"C:\Users\CynosureEPR\Desktop\weight2.txt"));
+            var document2 = TaggerUtil.LoadTextFile(new TextFile(@"C:\Users\CynosureEPR\Desktop\weight3.txt"));
 
-            List<Document> documentsList = new List<Document>();
-
-            documentsList.Add(document);
-            documentsList.Add(document2);
-
-            int numDocs = documentsList.Count();
-
-            foreach (Word w in document.Words)
-            {
-                Console.WriteLine(w.Text);
-            }
-
-            //for (int i = 0; i < documentsList.Count(); i++)
-            //{
-            //    Document currentDoc = documentsList[i];
-            //    List<Word> currentWords = currentDoc.Words.ToList();
-
-            //    foreach (Word w in currentWords)
-            //    {
-            //        foreach (Word w1 in currentWords)
-            //        {
-            //            if (w.Text == w1.Text)
-            //            {
-            //                w1.FrequencyCurrent += 1;
-            //                w1.FrequencyAcross += w1.FrequencyCurrent;
-            //            }
-            //        }
+         
 
 
                     
