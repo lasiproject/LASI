@@ -26,8 +26,8 @@ namespace LASI.InteropLayer
 
         public async Task<IEnumerable<Document>> LoadAndAnalyseAllDocuments(ProgressBar progressBar, Label progressLabel) {
             var sw = Stopwatch.StartNew();
-            progressBar.ToolTip = ProcessingState.LoadingThesauri.ToString();
-            progressLabel.Content = ProcessingState.LoadingThesauri.ToString();
+            progressBar.ToolTip = ProcessingState.LoadingResources.ToString();
+            progressLabel.Content = ProcessingState.LoadingResources.ToString();
             await Thesaurus.LoadAllAsync();
             progressBar.Value = 15;
 
@@ -54,10 +54,6 @@ namespace LASI.InteropLayer
             progressBar.Value += 20;
             progressBar.ToolTip = sw.ElapsedMilliseconds / 1000f;
             return docs;
-        }
-
-        private static async Task LoadThesauri(ProgressBar progressBar, Label progressLabel) {
-
         }
 
         private static async Task WeightAllDocs(IEnumerable<LASI.Algorithm.DocumentConstructs.Document> docs) {

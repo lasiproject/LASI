@@ -16,8 +16,9 @@ namespace LASI.GuiInterop
         CrossReferencing,
         Completed,
         Completing,
-        LoadingThesauri,
+        LoadingResources,
         IdentifyingSyntacticRoles,
-        BindingTextualStructures
+        BindingTextualStructures,
+        ComputingSynonymContexts
     }
 }

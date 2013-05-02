@@ -457,7 +457,9 @@ namespace LASI.Algorithm.Binding
             public void Transition(NounPhrase phrase) {
                 Machine.entities.Push(phrase);
                 Machine.ConjunctNounPhrases.Add(phrase);
-                Machine.lastConjunctive.OnRight = phrase;
+                if (Machine.lastConjunctive != null) {
+                    Machine.lastConjunctive.OnRight = phrase;
+                }
                 if (Machine.inputstream.Count < 1) {
                     if (!Machine.directFound)
                         Machine.AssociateDirect();
