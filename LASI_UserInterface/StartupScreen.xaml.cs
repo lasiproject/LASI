@@ -99,7 +99,8 @@ namespace LASI.UserInterface
         #region EventHandlers
 
         private void browseForDocButton_Click(object sender, RoutedEventArgs e) {
-            var openDialog = new Microsoft.Win32.OpenFileDialog {
+            var openDialog = new Microsoft.Win32.OpenFileDialog
+            {
                 Filter = "LASI File Types|*.docx; *.txt",
             };
             openDialog.ShowDialog(this);
@@ -109,12 +110,14 @@ namespace LASI.UserInterface
             var docPath = openDialog.FileName;
 
             lastDocPath.Text = docPath;
-            var docEntry = new ListViewItem {
+            var docEntry = new ListViewItem
+            {
                 Content = docPath
             };
 
             var num = "x";
-            var button = new Button {
+            var button = new Button
+            {
                 Content = num.ToString(),
                 Height = 20,
                 Width = 20,
@@ -176,8 +179,7 @@ namespace LASI.UserInterface
 
 
 
-            }
-            else {
+            } else {
 
                 threepaws.Visibility = Visibility.Hidden;
 
@@ -186,8 +188,7 @@ namespace LASI.UserInterface
                     // ProjCreateErrorLabel.Visibility = Visibility.Visible;
                     NothingFilledImage.Visibility = Visibility.Visible;
 
-                }
-                else {
+                } else {
                     //ProjCreateErrorLabel.Visibility = Visibility.Hidden;
                     NothingFilledImage.Visibility = Visibility.Hidden;
 
@@ -196,8 +197,7 @@ namespace LASI.UserInterface
                     ProjNameErrorLabel.Visibility = Visibility.Visible;
                     ProjNameErrorImage.Visibility = Visibility.Visible;
                     ProjLocationErrorLabel.Visibility = Visibility.Visible;
-                }
-                else {
+                } else {
 
                     ProjLocationErrorLabel.Visibility = Visibility.Hidden;
                     ProjNameErrorLabel.Visibility = Visibility.Hidden;
@@ -207,8 +207,7 @@ namespace LASI.UserInterface
                 if (ValidateProjectNameField() == true && ValidateProjectDocumentField() == false) {
                     ProjDocumentErrorLabel.Visibility = Visibility.Visible;
                     NoDocumentsImage.Visibility = Visibility.Visible;
-                }
-                else {
+                } else {
                     ProjDocumentErrorLabel.Visibility = Visibility.Hidden;
                     NoDocumentsImage.Visibility = Visibility.Hidden;
                 }
@@ -224,7 +223,8 @@ namespace LASI.UserInterface
         private void SelectProjFolderButton_Click(object sender, RoutedEventArgs e) {
 
 
-            var locationSelectDialog = new System.Windows.Forms.FolderBrowserDialog {
+            var locationSelectDialog = new System.Windows.Forms.FolderBrowserDialog
+            {
                 SelectedPath = ProjectLocation
             };
 
@@ -245,7 +245,8 @@ namespace LASI.UserInterface
             select false).Any()
 
                 ) {
-                ProjectNameTextBox.ToolTip = new ToolTip {
+                ProjectNameTextBox.ToolTip = new ToolTip
+                {
                     Visibility = Visibility.Visible,
                     Content = "You must enter a name for your new project"
                 };
@@ -259,7 +260,8 @@ namespace LASI.UserInterface
             if (String.IsNullOrWhiteSpace(LocationTextBox.Text)
             || String.IsNullOrEmpty(LocationTextBox.Text) || !Directory.Exists(LocationTextBox.Text.Substring(0, LocationTextBox.Text.LastIndexOf("\\")))) {
 
-                LocationTextBox.ToolTip = new ToolTip {
+                LocationTextBox.ToolTip = new ToolTip
+                {
                     Visibility = Visibility.Visible,
                     Content = "You must enter a location for your new project"
                 };
@@ -271,7 +273,8 @@ namespace LASI.UserInterface
 
         private bool ValidateProjectDocumentField() {
             if (NumberOfDocuments == 0) {
-                lastDocPath.ToolTip = new ToolTip {
+                lastDocPath.ToolTip = new ToolTip
+                {
                     Visibility = Visibility.Visible,
                     Content = "You must have documents for your new project"
                 };
