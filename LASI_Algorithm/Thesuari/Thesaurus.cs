@@ -92,7 +92,8 @@ namespace LASI.Algorithm.Thesauri
             return AdjectiveProvider[verb];
         }
         public static IEnumerable<string> InternalLookup(Word word) {
-            throw new NoSynonymLookupForTypeException(word) {
+            throw new NoSynonymLookupForTypeException(word)
+            {
             };
         }
         public static NounThesaurus NounProvider {

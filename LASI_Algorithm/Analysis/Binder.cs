@@ -12,109 +12,79 @@ namespace LASI.Algorithm.Analysis
 {
     public static class Binder
     {
-        public static async Task BindAsync(LASI.Algorithm.DocumentConstructs.Document doc)
-        {
+        public static async Task BindAsync(LASI.Algorithm.DocumentConstructs.Document doc) {
             await Task.Run(() => Bind(doc));
         }
-        public static void Bind(Document doc)
-        {
-            try
-            {
+        public static void Bind(Document doc) {
+            try {
                 PerformIntraPhraseBinding(doc);
                 PerformAttributeNounPhraseBinding(doc);
                 PerformSVOBinding(doc);
                 PerformPronounBinding(doc);
-            }
-            catch (VerblessPhrasalSequenceException)
-            {
-            }
-            catch (InvalidOperationException)
-            {
+            } catch (VerblessPhrasalSequenceException) {
+            } catch (InvalidOperationException) {
             }
         }
 
         private static void PerformPronounBinding(Document doc) {
-             doc.Sentences
-                 .Where(s => s.ParentParagraph.ParagraphKind == ParagraphKind.Default)
-                    .AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
-                    .ForAll(
-                    s => new PronounBinder().Bind(doc));
+            doc.Sentences
+                .Where(s => s.ParentParagraph.ParagraphKind == ParagraphKind.Default)
+                   .AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
+                   .ForAll(
+                   s => new PronounBinder().Bind(doc));
         }
 
 
         #region Private Static Methods
 
-        private static void PerformAttributeNounPhraseBinding(Document doc)
-        {
+        private static void PerformAttributeNounPhraseBinding(Document doc) {
             doc.Sentences
               .Where(s => s.ParentParagraph.ParagraphKind == ParagraphKind.Default)
                 .AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
                 .ForAll(
-                s =>
-                {
+                s => {
                     var attributiveBinder = new AttributiveNounPhraseBinder(s);
                 });
         }
-        private static void PerformSVOBinding(Document doc)
-        {
-            try
-            {
+        private static void PerformSVOBinding(Document doc) {
+            try {
                 doc.Sentences
                  .Where(s => s.ParentParagraph.ParagraphKind == ParagraphKind.Default)
                     .AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
                     .ForAll(
-                    s =>
-                    {
-                        try
-                        {
+                    s => {
+                        try {
                             new SubjectBinder().Bind(s);
+                        } catch (NullReferenceException) {
                         }
-                        catch (NullReferenceException)
-                        {
-                        }
-                        try
-                        {
-                            if (s.Phrases.GetVerbPhrases().Count() > 0)
-                            {
+                        try {
+                            if (s.Phrases.GetVerbPhrases().Count() > 0) {
                                 new ObjectBinder().Bind(s);
                             }
-                        }
-                        catch (InvalidStateTransitionException)
-                        {
-                        }
-                        catch (VerblessPhrasalSequenceException)
-                        {
-                        }
-                        catch (InvalidOperationException)
-                        {
+                        } catch (InvalidStateTransitionException) {
+                        } catch (VerblessPhrasalSequenceException) {
+                        } catch (InvalidOperationException) {
                         }
                     });
-            }
-            catch
-            {
+            } catch {
             }
         }
 
-        private static void PerformIntraPhraseBinding(Document doc)
-        {
+        private static void PerformIntraPhraseBinding(Document doc) {
 
 
 
 
-            foreach (var r in doc.Phrases)
-            {
+            foreach (var r in doc.Phrases) {
                 var wordBinder = new InterPhraseWordBinding();
                 new LASI.Utilities.TypedSwitch.Switch(r)
-                .Case<NounPhrase>(np =>
-                {
+                .Case<NounPhrase>(np => {
                     wordBinder.IntraNounPhrase(np);
                 })
-                .Case<VerbPhrase>(vp =>
-                {
+                .Case<VerbPhrase>(vp => {
                     wordBinder.IntraVerbPhrase(vp);
                 })
-                .Default(a =>
-                {
+                .Default(a => {
                 });
             }
 
