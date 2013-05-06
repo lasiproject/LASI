@@ -81,7 +81,7 @@ namespace LASI.UserInterface
         }
         private async Task SetUpDirectory() {
             ProjectLocation = await Task.Run(() => {
-                var location = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\LASI_Projects";
+                var location = System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.DesktopDirectory, System.Environment.SpecialFolderOption.Create), "LASI_Projects");
                 if (!Directory.Exists(location)) {
                     Directory.CreateDirectory(location);
                 }
@@ -166,7 +166,7 @@ namespace LASI.UserInterface
                 WindowManager.LoadedProjectScreen.SetTitle(Resources["CurrentProjectName"] + " - L.A.S.I.");
                 WindowManager.LoadedProjectScreen.Show();
 
-                FileManager.Initialize(ProjectLocation + @"\" + ProjectNameTextBox.Text);
+                FileManager.Initialize(System.IO.Path.Combine(ProjectLocation, ProjectNameTextBox.Text));
 
                 foreach (var file in documentsAdded.Items) {
                     FileManager.AddFile((file as ListViewItem).Content.ToString(), true);
