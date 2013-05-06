@@ -157,10 +157,9 @@ namespace LASI.UserInterface
         ProcessController processController = new ProcessController();
         public async Task InitializeParsing() {
 
-
+            var progressPercentage = Resources["AnalysisProgressPercentage"];
             var msg = await processController.LoadAndAnalyseAllDocuments(ProgressBar, ProgressLabel);
             ProgressBar.Value = 100;
-            //ProgressBar.ToolTip = "Complete";
             ProgressLabel.Content = "Complete";
             WindowManager.ResultsScreen.Documents = msg.ToList();
             ProceedtoResultsButton.Visibility = Visibility.Visible;
