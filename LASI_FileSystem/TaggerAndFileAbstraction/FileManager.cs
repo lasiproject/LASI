@@ -123,7 +123,7 @@ namespace LASI.FileSystem
         /// Asynchronously performs the necessary conversions, based on the format of all files within the project.
         /// </summary>
         public static async Task ConvertAsNeededAsync() {
-            await ConvertDocFilesAsync();
+            //await ConvertDocFilesAsync();
             await ConvertDocxToTextAsync();
         }
 
@@ -202,8 +202,7 @@ namespace LASI.FileSystem
                 localDocumentNames.Add(newFile.NameSansExt);
                 AddToTypedList(newFile as dynamic);
                 return originalFile;
-            }
-            catch (KeyNotFoundException ex) {
+            } catch (KeyNotFoundException ex) {
                 throw new UnsupportedFileTypeAddedException(ext, ex);
             }
         }
@@ -312,11 +311,15 @@ namespace LASI.FileSystem
                                  where dx.NameSansExt == d.NameSansExt
                                  select dx).Count() == 0
                                 select d) {
-                var converted = await new DocxToTextConverter(doc).ConvertFileAsync();
-
-                AddFile(converted.FullPath);
-                File.Delete(converted.FullPath);
+                await TextConvertAsync(doc);
             }
+        }
+
+        private static async Task TextConvertAsync(DocXFile doc) {
+            var converted = await new DocxToTextConverter(doc).ConvertFileAsync();
+
+            AddFile(converted.FullPath);
+            File.Delete(converted.FullPath);
         }
         /// <summary>
         /// Invokes the POS tagger on the text files it recieves into storing the newly tagged files

@@ -39,7 +39,7 @@ namespace SharpNLPTaggingModule
             OutputFilePath = destinationPath != null ? destinationPath :
                 new FileInfo(sourcePath).DirectoryName + @"\" + new FileInfo(sourcePath.Substring(0, sourcePath.LastIndexOf('.'))).Name + @".tagged";
 
-            SourceText = PreProcessText(LoadSourceText());
+            SourceText =LoadSourceText();
 
         }
 
