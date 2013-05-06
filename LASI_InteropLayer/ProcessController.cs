@@ -24,51 +24,89 @@ namespace LASI.InteropLayer
             private set;
         }
 
+        private ProgressBar ProgressBar = null;
+        private Label ProgressLabel = null;
+        private int documentStepRatio;
         public async Task<IEnumerable<Document>> LoadAndAnalyseAllDocuments(ProgressBar progressBar, Label progressLabel) {
-            var sw = Stopwatch.StartNew();
+            ProgressBar = progressBar;
+            ProgressLabel = progressLabel;
             progressBar.ToolTip = ProcessingState.LoadingResources.ToString();
             progressLabel.Content = ProcessingState.LoadingResources.ToString();
             await Thesaurus.LoadAllAsync();
-            progressBar.Value = 15;
+            progressBar.Value = 5;
 
             progressBar.ToolTip = ProcessingState.ConvertingFiles.ToString();
             progressLabel.Content = ProcessingState.ConvertingFiles.ToString();
             await FileManager.ConvertAsNeededAsync();
             progressBar.Value += 5;
-            progressBar.ToolTip = ProcessingState.IdentifyingSyntacticRoles.ToString();
-            progressLabel.Content = ProcessingState.IdentifyingSyntacticRoles.ToString();
-            await FileManager.TagTextFilesAsync();
-            progressBar.Value += 15;
-            progressBar.ToolTip = ProcessingState.TransformingTextualRepresentations.ToString();
-            progressLabel.Content = ProcessingState.TransformingTextualRepresentations.ToString();
-            var docs = await InstantiateDocuments();
-            progressBar.Value += 25;
+            UpdateProgressDisplay("Transforming Data");
+            documentStepRatio = 13 / FileManager.TextFiles.Count();
+            var docs = new ConcurrentBag<LASI.Algorithm.DocumentConstructs.Document>();
+            foreach (var textFile in FileManager.TextFiles) { docs.Add(await (BindParseWeight(await TagDocumentFile(textFile)))); }
 
-            progressBar.ToolTip = ProcessingState.BindingTextualStructures.ToString();
-            progressLabel.Content = ProcessingState.BindingTextualStructures.ToString();
-            await BindLexicals(docs);
-            progressBar.Value += 20;
-            progressBar.ToolTip = ProcessingState.ComputingMetrics.ToString();
-            progressLabel.Content = ProcessingState.ComputingMetrics.ToString();
-            await WeightAllDocs(docs);
-            progressBar.Value += 20;
-            progressBar.ToolTip = sw.ElapsedMilliseconds / 1000f;
             return docs;
         }
 
-        private static async Task WeightAllDocs(IEnumerable<LASI.Algorithm.DocumentConstructs.Document> docs) {
-            foreach (var doc in docs) {
-                await Task.Run(() => Weighter.Weight(doc));
-                await Task.Yield();
-            }
+        private async Task<Document> TagDocumentFile(FileSystem.FileTypes.TextFile textFile) {
+            var statusMessage = string.Format("{0}: Embedding Syntactic Annotations", textFile.NameSansExt);
+            UpdateProgressDisplay(statusMessage);
+            ProgressBar.Value += documentStepRatio;
+            var taggedFile = await new SharpNLPTaggingModule.SharpNLPTagger(TaggingOption.TagAndAggregate, textFile.FullPath).ProcessFileAsync();
+            statusMessage = string.Format("{0}: Transforming Data", taggedFile.NameSansExt);
+            UpdateProgressDisplay(statusMessage);
+            ProgressBar.Value += documentStepRatio;
+            return await new TaggedFileParser(taggedFile).LoadDocumentAsync();
+        }
+
+        private async Task<Document> BindParseWeight(Document doc) {
+            var statusMessage = string.Format("{0}: Analyzing Structures", doc.FileName);
+            UpdateProgressDisplay(statusMessage);
+            await Binder.BindAsync(doc);
+            statusMessage = string.Format("{0}: Weighting Significances", doc.FileName);
+            UpdateProgressDisplay(statusMessage);
+            await Weighter.WeightAsync(doc);
+            UpdateProgressDisplay(statusMessage);
+            return doc;
+        }
+
+        private void UpdateProgressDisplay(string statusMessage) {
+            ProgressLabel.Content = statusMessage;
+            ProgressBar.ToolTip = statusMessage;
+            ProgressBar.Value += documentStepRatio;
+        }
+
+        private async Task WeightAllDocs(IEnumerable<LASI.Algorithm.DocumentConstructs.Document> docs) {
+
+            await Task.WhenAll((docs.ToList().Select(doc => {
+
+                return Task.Factory.StartNew(async () => {
+                    await Weighter.WeightAsync(doc);
+                    var statusMessage = string.Format("Document Scoped Weighting Completed for {0}", doc.FileName);
+                    ProgressLabel.Content = statusMessage;
+                    ProgressBar.ToolTip = statusMessage;
+                    ProgressBar.Value += documentStepRatio;
+                }, System.Threading.CancellationToken.None, TaskCreationOptions.None, TaskScheduler.FromCurrentSynchronizationContext());
+            })).ToArray());
 
         }
 
-        private static async Task BindLexicals(IEnumerable<LASI.Algorithm.DocumentConstructs.Document> docs) {
-            foreach (var doc in docs) {
-                await Task.Run(() => Binder.Bind(doc));
-                await Task.Yield();
-            }
+        private async Task BindLexicals(IEnumerable<LASI.Algorithm.DocumentConstructs.Document> docs) {
+
+            await Task.WhenAll((docs.ToList().Select(doc => {
+
+                return Task.Factory.StartNew(async () => {
+                    await Binder.BindAsync(doc);
+                    var statusMessage = string.Format("Bound Lexicals in {0}", doc.FileName);
+                    ProgressLabel.Content = statusMessage;
+                    ProgressBar.ToolTip = statusMessage;
+                    ProgressBar.Value += documentStepRatio;
+                }, System.Threading.CancellationToken.None, TaskCreationOptions.None, TaskScheduler.FromCurrentSynchronizationContext());
+            })).ToArray());
+
+
+
+
+
         }
         private async Task<IEnumerable<Document>> InstantiateDocuments() {
             var result = new ConcurrentBag<LASI.Algorithm.DocumentConstructs.Document>();
@@ -78,6 +116,7 @@ namespace LASI.InteropLayer
             }
             return result;
         }
+
     }
 
 
