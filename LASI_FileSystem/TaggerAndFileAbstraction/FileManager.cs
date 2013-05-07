@@ -351,19 +351,24 @@ namespace LASI.FileSystem
         public static async Task TagTextFilesAsync(params TextFile[] files) {
             if (files.Length == 0)
                 files = textFiles.ToArray();
-            foreach (var doc in from d in files
-                                where
-                                (from dx in taggedFiles
-                                 where dx.NameSansExt == d.NameSansExt
-                                 select dx).Count() == 0
-                                select d) {
-                var tagger = new SharpNLPTaggingModule.SharpNLPTagger(TaggingOption.TagAndAggregate, doc.FullPath, TaggedFilesDir + "\\" + doc.NameSansExt + ".tagged");
+            var tasks = (from d in files
+                         where
+                         (from dx in taggedFiles
+                          where dx.NameSansExt == d.NameSansExt
+                          select dx).Count() == 0
+                         select
+                             new SharpNLPTaggingModule.SharpNLPTagger(TaggingOption.TagAndAggregate, d.FullPath, TaggedFilesDir + "\\" + d.NameSansExt + ".tagged").ProcessFileAsync()).ToList();
 
-                await Task.Run(() => tagger.ProcessFile());
 
-                taggedFiles.Add(new TaggedFile(tagger.OutputFilePath));
+            while (tasks.Count() > 0) {
+                var tagged = await Task.WhenAny(tasks);
+                tasks.Remove(tagged);
+                taggedFiles.Add(await tagged);
             }
+
+
         }
+
 
         /// <summary>
         /// Copies the entire contents of the current project directory to a predetermined, relative newPath

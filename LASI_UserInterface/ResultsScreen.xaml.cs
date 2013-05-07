@@ -34,7 +34,8 @@ namespace LASI.UserInterface
                                         from phrase in phraseElements
                                         select phrase)
                                        .GetNounPhrases().
-                                           GroupBy(w => new {
+                                           GroupBy(w => new
+                                           {
                                                w.Text,
                                                w.Type
                                            }).Select(g => g.First());
@@ -43,26 +44,7 @@ namespace LASI.UserInterface
                 var advps = documentElements.GetAdverbPhrases();
                 var elementLabels = new List<Label>();
                 foreach (var e in documentElements) {
-                    var wordLabel = new Label {
-                        Tag = e,
-                        Content = String.Format("Weight : {0}  \"{1}\"", e.Weight, e.Text),
-                        Foreground = Brushes.Black,
-                        Padding = new Thickness(1, 1, 1, 1),
-                        ContextMenu = new ContextMenu(),
-                        ToolTip = e.Type.Name,
-                    };
-                    var menuItem1 = new MenuItem {
-                        Header = "view definition",
-                    };
-                    menuItem1.Click += (sender, ee) => {
-                        Process.Start(String.Format("http://www.dictionary.reference.com/browse/{0}?s=t", e.Text));
-                    };
-                    var menuItem2 = new MenuItem {
-                        Header = "Copy Text"
-                    };
-                    menuItem2.Click += (se, ee) => Clipboard.SetText((wordLabel.Tag as ILexical).Text);
-                    wordLabel.ContextMenu.Items.Add(menuItem1);
-                    wordLabel.ContextMenu.Items.Add(menuItem2);
+                    var wordLabel = CreateWeightedNounPhraseLabel(e);
                     elementLabels.Add(wordLabel);
                 }
 
@@ -71,7 +53,8 @@ namespace LASI.UserInterface
                 scrollViewer.Content = stackPanel;
                 var grid = new Grid();
                 grid.Children.Add(scrollViewer);
-                var tabItem = new TabItem {
+                var tabItem = new TabItem
+                {
                     Header = doc.FileName,
                     Content = grid
                 };
@@ -90,6 +73,33 @@ namespace LASI.UserInterface
             BindChartViewControls();
         }
 
+        private static Label CreateWeightedNounPhraseLabel(NounPhrase e) {
+            var wordLabel = new Label
+            {
+                Tag = e,
+                Content = String.Format("Weight : {0}  \"{1}\"", e.Weight, e.Text),
+                Foreground = Brushes.Black,
+                Padding = new Thickness(1, 1, 1, 1),
+                ContextMenu = new ContextMenu(),
+                ToolTip = e.Type.Name,
+            };
+            var menuItem1 = new MenuItem
+            {
+                Header = "view definition",
+            };
+            menuItem1.Click += (sender, ee) => {
+                Process.Start(String.Format("http://www.dictionary.reference.com/browse/{0}?s=t", e.Text));
+            };
+            var menuItem2 = new MenuItem
+            {
+                Header = "Copy Text"
+            };
+            menuItem2.Click += (se, ee) => Clipboard.SetText((wordLabel.Tag as ILexical).Text);
+            wordLabel.ContextMenu.Items.Add(menuItem1);
+            wordLabel.ContextMenu.Items.Add(menuItem2);
+            return wordLabel;
+        }
+
 
 
 
@@ -97,16 +107,19 @@ namespace LASI.UserInterface
         public void BuildAssociationTextView() {  // This is for the lexial relationships tab
             foreach (var doc in documents) {
                 var panel = new WrapPanel();
-                var tab = new TabItem {
+                var tab = new TabItem
+                {
                     Header = doc.FileName,
-                    Content = new ScrollViewer {
+                    Content = new ScrollViewer
+                    {
                         Content = panel
                     }
 
                 };
                 var phraseLabels = new List<Label>();
                 foreach (var phrase in doc.Phrases) {
-                    var phraseLabel = new Label {
+                    var phraseLabel = new Label
+                    {
                         Content = phrase.Text,
                         Tag = phrase,
                         Foreground = Brushes.Black,
@@ -119,7 +132,8 @@ namespace LASI.UserInterface
                     var vP = phrase as VerbPhrase;
 
                     if (vP != null && vP.BoundSubjects.Count() > 0) {
-                        var visitSubjectMI = new MenuItem {
+                        var visitSubjectMI = new MenuItem
+                        {
                             Header = "view subjects"
                         };
                         visitSubjectMI.Click += (sender, e) => {
@@ -134,7 +148,8 @@ namespace LASI.UserInterface
                         phraseLabel.ContextMenu.Items.Add(visitSubjectMI);
                     }
                     if (vP != null && vP.DirectObjects.Count() > 0) {
-                        var visitSubjectMI = new MenuItem {
+                        var visitSubjectMI = new MenuItem
+                        {
                             Header = "view direct objects"
                         };
                         visitSubjectMI.Click += (sender, e) => {
@@ -149,7 +164,8 @@ namespace LASI.UserInterface
                         phraseLabel.ContextMenu.Items.Add(visitSubjectMI);
                     }
                     if (vP != null && vP.IndirectObjects.Count() > 0) {
-                        var visitSubjectMI = new MenuItem {
+                        var visitSubjectMI = new MenuItem
+                        {
                             Header = "view indirect objects"
                         };
                         visitSubjectMI.Click += (sender, e) => {
@@ -165,7 +181,8 @@ namespace LASI.UserInterface
                         phraseLabel.ContextMenu.Items.Add(visitSubjectMI);
                     }
                     if (vP != null && vP.ObjectViaPreposition != null) {
-                        var visitSubjectMI = new MenuItem {
+                        var visitSubjectMI = new MenuItem
+                        {
                             Header = "view prepositional object"
                         };
                         visitSubjectMI.Click += (sender, e) => {
@@ -194,7 +211,8 @@ namespace LASI.UserInterface
         public async void BuildDefaultBarChartDisplay(Document document) {
 
             var valueList = GetAppropriateDataSet(document);
-            Series series = new BarSeries {
+            Series series = new BarSeries
+            {
                 DependentValuePath = "Value",
                 IndependentValuePath = "Key",
                 ItemsSource = valueList,
@@ -203,7 +221,8 @@ namespace LASI.UserInterface
 
             };
 
-            var chart = new Chart {
+            var chart = new Chart
+            {
                 Title = string.Format("Key Subjects in {0}", document.FileName),
                 Tag = valueList.ToArray()
             };
@@ -214,7 +233,8 @@ namespace LASI.UserInterface
             documentsByChart.Add(chart, document);
             chart.Series.Add(series);
 
-            var tabItem = new TabItem {
+            var tabItem = new TabItem
+            {
                 Header = document.FileName,
                 Content = chart,
                 Tag = chart
@@ -240,7 +260,8 @@ namespace LASI.UserInterface
             foreach (var chart in FrequencyCharts.Items) {
                 var items = GetItemSourceFor(chart);
                 items.Reverse();
-                var series = new ColumnSeries {
+                var series = new ColumnSeries
+                {
                     DependentValuePath = "Value",
                     IndependentValuePath = "Key",
                     ItemsSource = items,
@@ -263,7 +284,8 @@ namespace LASI.UserInterface
             foreach (var chart in FrequencyCharts.Items) {
                 var items = GetItemSourceFor(chart);
                 items.Reverse();
-                var series = new PieSeries {
+                var series = new PieSeries
+                {
                     DependentValuePath = "Value",
                     IndependentValuePath = "Key",
                     ItemsSource = items,
@@ -286,7 +308,8 @@ namespace LASI.UserInterface
             foreach (var chart in FrequencyCharts.Items) {
                 var items = GetItemSourceFor(chart);
                 items.Reverse();
-                var series = new BarSeries {
+                var series = new BarSeries
+                {
                     DependentValuePath = "Value",
                     IndependentValuePath = "Key",
                     ItemsSource = items,
@@ -296,45 +319,12 @@ namespace LASI.UserInterface
             }
             await Task.Delay(1);
         }
-        /// <summary>
-        /// Reconfigures all charts to an Area perspective
-        /// </summary>
-        /// <returns>A Task which completes on the successful reconstruction of all charts</returns>
-        async Task ToAreaCharts() {
-            foreach (var chart in FrequencyCharts.Items) {
-                var items = GetAppropriateData(chart);
-                items.Reverse();
-                var series = new AreaSeries {
-                    DependentValuePath = "Value",
-                    IndependentValuePath = "Key",
-                    ItemsSource = items,
-                    IsSelectionEnabled = true,
-                };
-                ResetChartContent(chart, series);
-            }
-            await Task.Delay(1);
-        }
-
         private IEnumerable<KeyValuePair<string, float>> GetAppropriateData(object chart) {
             var items = GetAppropriateDataSet(documentsByChart[((chart as TabItem).Content as Chart)]);
             return items;
         }
 
 
-        async Task ToLineCharts() {
-            foreach (var chart in FrequencyCharts.Items) {
-                var items = GetAppropriateData(chart);
-                items.Reverse();
-                var series = new LineSeries {
-                    DependentValuePath = "Value",
-                    IndependentValuePath = "Key",
-                    ItemsSource = items,
-                    IsSelectionEnabled = true,
-                };
-                ResetChartContent(chart, series);
-            }
-            await Task.Delay(1);
-        }
 
         #endregion
 
@@ -380,7 +370,8 @@ namespace LASI.UserInterface
                 }
                 data = data.Take(ChartItemLimit);
                 chart.Series.Clear();
-                chart.Series.Add(new BarSeries {
+                chart.Series.Add(new BarSeries
+                {
                     DependentValuePath = "Value",
                     IndependentValuePath = "Key",
                     ItemsSource = data,
@@ -398,7 +389,7 @@ namespace LASI.UserInterface
             return from svs in data
 
                    let SV = new KeyValuePair<string, float>(string.Format("{0} -> {1}\n", svs.Subject.Text, svs.Verbial.Text) + (svs.Direct != null ? " -> " + svs.Direct.Text : "") + (svs.Indirect != null ? " -> " + svs.Indirect.Text : ""),
-                       (float)Math.Round(svs.SumWeight, 2))
+                       (float) Math.Round(svs.RelationshipWeight, 2))
                    group SV by SV into svg
                    select svg.Key;
 
@@ -407,22 +398,22 @@ namespace LASI.UserInterface
         private static IEnumerable<NpVpNpNpQuatruple> GetVerbWiseAssociationData(Document doc) {
             var data =
                  from svPair in
-                     (from v in doc.Phrases.GetVerbPhrases().WithSubject()
-                      from s in v.BoundSubjects
-                      from dobj in v.DirectObjects
-                      from iobj in v.IndirectObjects
-                      let relationshipWeight = s.Weight + v.Weight + dobj.Weight + iobj.Weight
+                     (from v in doc.Phrases.GetVerbPhrases().AsParallel().WithSubject()
+                      from s in v.BoundSubjects.AsParallel()
+                      from dobj in v.DirectObjects.DefaultIfEmpty()
+                      from iobj in v.IndirectObjects.DefaultIfEmpty()
 
-                      select new NpVpNpNpQuatruple {
+                      select new NpVpNpNpQuatruple
+                      {
                           Subject = s as NounPhrase ?? null,
                           Verbial = v as VerbPhrase ?? null,
                           Direct = dobj as NounPhrase ?? null,
                           Indirect = iobj as NounPhrase ?? null,
-                          SumWeight = relationshipWeight
+                          RelationshipWeight = s.Weight + v.Weight + (dobj != null ? dobj.Weight : 0) + (iobj != null ? iobj.Weight : 0)
                       }).Distinct(new SVComparer())
                  select svPair into svps
 
-                 orderby svps.SumWeight
+                 orderby svps.RelationshipWeight
 
                  select svps;
             return data.ToArray();
@@ -431,13 +422,14 @@ namespace LASI.UserInterface
         private static IEnumerable<KeyValuePair<string, float>> GetNounPhraseData(Document doc) {
             return from NP in doc.Phrases.GetNounPhrases().Distinct() //.Except(doc.Phrases.GetPronounPhrases()) 
 
-                   group NP by new {
+                   group NP by new
+                   {
                        NP.Text,
                        NP.Weight
                    } into NP
                    select NP.Key into master
                    orderby master.Weight descending
-                   select new KeyValuePair<string, float>(master.Text, (float)Math.Round(master.Weight, 2));
+                   select new KeyValuePair<string, float>(master.Text, (float) Math.Round(master.Weight, 2));
         }
 
         #region Result Selector Helper Structs
@@ -479,7 +471,7 @@ namespace LASI.UserInterface
                 get;
                 set;
             }
-            public decimal SumWeight {
+            public decimal RelationshipWeight {
                 get;
                 set;
             }
@@ -513,8 +505,7 @@ namespace LASI.UserInterface
             var focusedChart = (FrequencyCharts.SelectedItem as TabItem).Content as Visual;
             try {
                 printDialog.PrintVisual(focusedChart, "Current View");
-            }
-            catch (NullReferenceException) {
+            } catch (NullReferenceException) {
             }
 
         }
@@ -531,19 +522,12 @@ namespace LASI.UserInterface
         private async void ChangeToPieChartButton_Click(object sender, RoutedEventArgs e) {
             await ToPieCharts();
         }
-        private async void ChangeToAreaChartButton_Click(object sender, RoutedEventArgs e) {
-            await ToAreaCharts();
-        }
-        private async void ChangeToLineChartButton_Click(object sender, RoutedEventArgs e) {
-            await ToLineCharts();
-        }
+
 
         private void BindChartViewControls() {
             changeToBarChartButton.Click += ChangeToBarChartButton_Click;
             changeToColumnChartButton.Click += ChangeToColumnChartButton_Click;
             changeToPieChartButton.Click += ChangeToPieChartButton_Click;
-            changeToAreaChartButton.Click += ChangeToAreaChartButton_Click;
-            changeToLineChartButton.Click += ChangeToLineChartButton_Click;
         }
 
 
@@ -554,9 +538,9 @@ namespace LASI.UserInterface
                     var docWriter = new LASI.FileSystem.Serialization.XML.SimpleLexicalSerializer(
                     FileManager.ResultsDir + System.IO.Path.DirectorySeparatorChar + new string(
                     doc.FileName.TakeWhile(c => c != '.').ToArray()) + ".xml")) {
-                    docWriter.Write(from S in doc.Sentences
-                                    from R in S.Phrases
-                                    select R, doc.FileName, FileSystem.Serialization.XML.DegreeOfOutput.Comprehensive);
+                    await docWriter.WriteAsync(from S in doc.Sentences
+                                               from R in S.Phrases
+                                               select R, doc.FileName, FileSystem.Serialization.XML.DegreeOfOutput.Comprehensive);
                 }
             }
             var exportDialog = new DialogToProcedeToResults();
@@ -568,50 +552,15 @@ namespace LASI.UserInterface
 
 
 
-        private async void PreserveStyle() {
-            switch (ChartStyle) {
-                case ChartStyle.Bar:
-                    await ToBarCharts();
-                    break;
-                case ChartStyle.Col:
-                    await ToColumnCharts();
-                    break;
-                case ChartStyle.Pie:
-                    await ToPieCharts();
-                    break;
-            }
-        }
 
-        private static IEnumerable<string> topIndirectObjects(Document doc) {
-            return from io in doc.Phrases.GetNounPhrases().InIndirectObjectRole()
-                   orderby io.Weight descending
-                   select string.Format("{0}  [{1}]", io.Text, Math.Round(io.Weight, 2));
-        }
-
-        private static IEnumerable<string> topDirectObjects(Document doc) {
-            return from dO in doc.Phrases.GetNounPhrases().InDirectObjectRole()
-                   orderby dO.Weight descending
-                   select string.Format("{0}  [{1}]", dO.Text, Math.Round(dO.Weight, 2));
-            ;
-        }
-
-        private static IEnumerable<string> topVerbs(Document doc) {
-            return from v in doc.Phrases.GetVerbPhrases().WithSubject()
-                   select string.Format("{0}  [{1}]", v.Text, Math.Round(v.Weight, 2));
-        }
-
-        private static IEnumerable<string> topSubjects(Document doc) {
-            return from s in doc.Phrases.GetNounPhrases().InSubjectRole()
-                   orderby s.Weight descending
-                   select string.Format("{0}  [{1}]", s.Text, Math.Round(s.Weight, 2));
-        }
 
 
 
         private static IEnumerable<object> CreateStringListsForData(IEnumerable<NpVpNpNpQuatruple> elementsToSerialize) {
             var dataRows = from result in elementsToSerialize
-                           orderby result.SumWeight
-                           select new {
+                           orderby result.RelationshipWeight
+                           select new
+                           {
                                Subject = result.Subject != null ? result.Subject.Text : string.Empty,
                                Verbial = result.Verbial != null ? result.Verbial.Text : string.Empty,
                                Direct = result.Direct != null ? result.Direct.Text : string.Empty,
@@ -625,17 +574,19 @@ namespace LASI.UserInterface
             var transformedData = await Task.Factory.StartNew(() => {
                 return CreateStringListsForData(GetVerbWiseAssociationData(doc));
             });
-            var wpfToolKitDataGrid = new Microsoft.Windows.Controls.DataGrid {
+            var wpfToolKitDataGrid = new Microsoft.Windows.Controls.DataGrid
+            {
                 ItemsSource = transformedData,
             };
-            var tab = new TabItem {
+            var tab = new TabItem
+            {
                 Header = doc.FileName,
                 Content = wpfToolKitDataGrid
             };
             SVODResultsTabControl.Items.Add(tab);
 
         }
-        private ChartStyle ChartStyle = ChartStyle.Bar;
+
         private ChartKind chartKind;
 
 

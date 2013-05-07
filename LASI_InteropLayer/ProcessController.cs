@@ -26,46 +26,46 @@ namespace LASI.InteropLayer
 
         private ProgressBar ProgressBar = null;
         private Label ProgressLabel = null;
-        private int documentStepRatio;
+        private float documentStepRatio;
         public async Task<IEnumerable<Document>> LoadAndAnalyseAllDocuments(ProgressBar progressBar, Label progressLabel) {
             ProgressBar = progressBar;
             ProgressLabel = progressLabel;
-            progressBar.ToolTip = ProcessingState.LoadingResources.ToString();
-            progressLabel.Content = ProcessingState.LoadingResources.ToString();
+            UpdateProgressDisplay("Loading Thesauri");
             await Thesaurus.LoadAllAsync();
             progressBar.Value = 5;
+            UpdateProgressDisplay("Tagging Documents");
 
-            progressBar.ToolTip = ProcessingState.ConvertingFiles.ToString();
-            progressLabel.Content = ProcessingState.ConvertingFiles.ToString();
-            await FileManager.ConvertAsNeededAsync();
+            await FileManager.TagTextFilesAsync();
             progressBar.Value += 5;
-            UpdateProgressDisplay("Transforming Data");
-            documentStepRatio = 13 / FileManager.TextFiles.Count();
+
+            documentStepRatio = 19f / FileManager.TextFiles.Count();
             var docs = new ConcurrentBag<LASI.Algorithm.DocumentConstructs.Document>();
-            foreach (var textFile in FileManager.TextFiles) { docs.Add(await (BindParseWeight(await TagDocumentFile(textFile)))); }
+
+
+            foreach (var doc in FileManager.TaggedFiles) {
+
+                docs.Add(await ParseDocument(await LoadTaggedDocument(doc)));
+            }
+
 
             return docs;
         }
 
-        private async Task<Document> TagDocumentFile(FileSystem.FileTypes.TextFile textFile) {
-            var statusMessage = string.Format("{0}: Embedding Syntactic Annotations", textFile.NameSansExt);
+        private async Task<Document> LoadTaggedDocument(FileSystem.FileTypes.TaggedFile taggedFile) {
+
+
+            var statusMessage = string.Format("{0}: Transforming Data", taggedFile.NameSansExt);
             UpdateProgressDisplay(statusMessage);
-            ProgressBar.Value += documentStepRatio;
-            var taggedFile = await new SharpNLPTaggingModule.SharpNLPTagger(TaggingOption.TagAndAggregate, textFile.FullPath).ProcessFileAsync();
-            statusMessage = string.Format("{0}: Transforming Data", taggedFile.NameSansExt);
-            UpdateProgressDisplay(statusMessage);
-            ProgressBar.Value += documentStepRatio;
             return await new TaggedFileParser(taggedFile).LoadDocumentAsync();
         }
 
-        private async Task<Document> BindParseWeight(Document doc) {
-            var statusMessage = string.Format("{0}: Analyzing Structures", doc.FileName);
+        private async Task<Document> ParseDocument(Document doc) {
+            var statusMessage = string.Format("{0}: Binding Structures", doc.FileName);
             UpdateProgressDisplay(statusMessage);
             await Binder.BindAsync(doc);
-            statusMessage = string.Format("{0}: Weighting Significances", doc.FileName);
+            statusMessage = string.Format("{0}: Weighting Relationships", doc.FileName);
             UpdateProgressDisplay(statusMessage);
             await Weighter.WeightAsync(doc);
-            UpdateProgressDisplay(statusMessage);
             return doc;
         }
 
@@ -124,41 +124,3 @@ namespace LASI.InteropLayer
 }
 
 
-#region deprecated
-//internal class AsyncWorkItem
-//{
-
-//    public Task WorkToDo {
-//        get;
-//        set;
-//    }
-//    public AsyncWorkItem() {
-
-//    }
-//    public async Task BeginTask() {
-//        await WorkToDo;
-//    }
-
-//    public ProcessingState CompletionMessage {
-//        get;
-//        set;
-//    }
-//    ProcessingState[] statuses = new[] { 
-//            ProcessingState.ConvertingFiles,
-//            ProcessingState.TransformingTextualRepresentations,
-//            ProcessingState.AggregatingPhrases, 
-//ProcessingState.ComputingMetrics, 
-//ProcessingState.CrossReferencing, 
-//ProcessingState.Completing };
-
-//    public ProcessingState[] Statuses {
-//        get {
-//            return statuses;
-//        }
-//        protected set {
-//            statuses = value;
-//        }
-//    }
-//}
-
-#endregion
