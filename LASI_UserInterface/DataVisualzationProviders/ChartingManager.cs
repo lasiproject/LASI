@@ -340,6 +340,9 @@ namespace LASI.UserInterface.DataVisualzationProviders
         public override int GetHashCode() {
             return base.GetHashCode();
         }
+        public override bool Equals(object obj) {
+            return this == obj as NpVpNpNpQuatruple;
+        }
         public static bool operator ==(NpVpNpNpQuatruple lhs, NpVpNpNpQuatruple rhs) {
             return lhs.ToString() == rhs.ToString() ||
                  lhs.Subject.IsSimilarTo(rhs.Subject) && lhs.Verbial.IsSimilarTo(rhs.Verbial);
