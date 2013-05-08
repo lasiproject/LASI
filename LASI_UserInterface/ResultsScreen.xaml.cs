@@ -67,7 +67,7 @@ namespace LASI.UserInterface
                 }
                 WordCountLists.Items.Add(tabItem);
                 ChartingManager.BuildDefaultBarChartDisplay(doc);
-                await BuildSVOIGridViewAsync(doc);
+                await ChartingManager.BuildSVOIGridViewAsync(doc);
 
             }
 
@@ -292,36 +292,8 @@ namespace LASI.UserInterface
 
 
 
-        private static IEnumerable<object> CreateStringListsForData(IEnumerable<NpVpNpNpQuatruple> elementsToSerialize) {
-            var dataRows = from result in elementsToSerialize
-                           orderby result.RelationshipWeight
-                           select new
-                           {
-                               Subject = result.Subject != null ? result.Subject.Text : string.Empty,
-                               Verbial = result.Verbial != null ? result.Verbial.Text : string.Empty,
-                               Direct = result.Direct != null ? result.Direct.Text : string.Empty,
-                               Indirect = result.Indirect != null ? result.Indirect.Text : string.Empty,
 
-                           };
-            return dataRows;
-        }
-        private async Task BuildSVOIGridViewAsync(Document doc) {
 
-            var transformedData = await Task.Factory.StartNew(() => {
-                return CreateStringListsForData(ChartingManager.GetVerbWiseAssociationData(doc));
-            });
-            var wpfToolKitDataGrid = new Microsoft.Windows.Controls.DataGrid
-            {
-                ItemsSource = transformedData,
-            };
-            var tab = new TabItem
-            {
-                Header = doc.FileName,
-                Content = wpfToolKitDataGrid
-            };
-            SVODResultsTabControl.Items.Add(tab);
-
-        }
 
 
 

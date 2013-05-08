@@ -120,7 +120,6 @@ namespace LASI.UserInterface.DataVisualzationProviders
             var items = ChartingManager.GetAppropriateDataSet(documentsByChart[((chart as TabItem).Content as Chart)]);
             return items;
         }
-
         public static async void BuildDefaultBarChartDisplay(Document document) {
 
             var valueList = ChartingManager.GetAppropriateDataSet(document);
@@ -188,7 +187,7 @@ namespace LASI.UserInterface.DataVisualzationProviders
                    select svg.Key;
 
         }
-        public static IEnumerable<NpVpNpNpQuatruple> GetVerbWiseAssociationData(Document doc) {
+        private static IEnumerable<NpVpNpNpQuatruple> GetVerbWiseAssociationData(Document doc) {
             var data =
                  from svPair in
                      (from v in doc.Phrases.GetVerbPhrases().AsParallel().WithSubject()
@@ -203,7 +202,12 @@ namespace LASI.UserInterface.DataVisualzationProviders
                           Direct = dobj as NounPhrase ?? null,
                           Indirect = iobj as NounPhrase ?? null,
                           RelationshipWeight = s.Weight + v.Weight + (dobj != null ? dobj.Weight : 0) + (iobj != null ? iobj.Weight : 0)
-                      }).Distinct(new SVComparer())
+                      } into tupple
+                      where
+                        tupple.Direct != null ||
+                        tupple.Indirect != null &&
+                        tupple.Subject.Text != (tupple.Direct ?? tupple.Indirect).Text
+                      select tupple).Distinct()
                  select svPair into svps
 
                  orderby svps.RelationshipWeight
@@ -228,7 +232,35 @@ namespace LASI.UserInterface.DataVisualzationProviders
             var valueList = chartKind == ChartKind.NounPhrasesOnly ? GetNounPhraseData(document) : chartKind == ChartKind.SubjectVerbObject ? GetSVOIData(document) : GetSVOIData(document);
             return valueList;
         }
+        public static async Task BuildSVOIGridViewAsync(Document doc) {
 
+            var transformedData = await Task.Factory.StartNew(() => {
+                return CreateStringListsForData(ChartingManager.GetVerbWiseAssociationData(doc));
+            });
+            var wpfToolKitDataGrid = new Microsoft.Windows.Controls.DataGrid
+            {
+                ItemsSource = transformedData,
+            };
+            var tab = new TabItem
+            {
+                Header = doc.FileName,
+                Content = wpfToolKitDataGrid
+            };
+            WindowManager.ResultsScreen.SVODResultsTabControl.Items.Add(tab);
+
+        }
+        private static IEnumerable<object> CreateStringListsForData(IEnumerable<NpVpNpNpQuatruple> elementsToSerialize) {
+            var dataRows = from result in elementsToSerialize
+                           orderby result.RelationshipWeight
+                           select new
+                           {
+                               Subject = result.Subject != null ? result.Subject.Text : string.Empty,
+                               Verbial = result.Verbial != null ? result.Verbial.Text : string.Empty,
+                               Direct = result.Direct != null ? result.Direct.Text : string.Empty,
+                               Indirect = result.Indirect != null ? result.Indirect.Text : string.Empty,
+                           };
+            return dataRows;
+        }
         private static Dictionary<Chart, Document> documentsByChart = new Dictionary<Chart, Document>();
 
 
@@ -255,11 +287,10 @@ namespace LASI.UserInterface.DataVisualzationProviders
     /// It is defined because distinct does not support lambda(read function) arguments like my query operatorrs do.
     /// Pay this type little heed
     /// </summary>
-    public struct SVComparer : IEqualityComparer<NpVpNpNpQuatruple>
+    struct CompositionComparer : IEqualityComparer<NpVpNpNpQuatruple>
     {
         public bool Equals(NpVpNpNpQuatruple x, NpVpNpNpQuatruple y) {
-            return x.Subject.Text == y.Subject.Text || x.Subject.IsSimilarTo(y.Subject) &&
-                x.Verbial.Text == y.Verbial.Text || x.Verbial.IsSimilarTo(y.Verbial);
+            return x == y;
         }
 
         public int GetHashCode(NpVpNpNpQuatruple obj) {
@@ -267,10 +298,10 @@ namespace LASI.UserInterface.DataVisualzationProviders
         }
     }
     /// <summary>
-    /// Sometimes an anonymous type simple will not do. So this little struct is defined to 
+    /// Sometimes an anonymous type simple will not do. So this little class is defined to 
     /// store temporary query data from transposed tables. god it is late. I can't document properly.
     /// </summary>
-    public struct NpVpNpNpQuatruple
+    class NpVpNpNpQuatruple
     {
         public NounPhrase Subject {
             get;
@@ -291,6 +322,30 @@ namespace LASI.UserInterface.DataVisualzationProviders
         public decimal RelationshipWeight {
             get;
             set;
+        }
+        /// <summary>
+        /// Returns a textual representation of the NpVpNpNpQuatruple.
+        /// </summary>
+        /// <returns>a textual representation of the NpVpNpNpQuatruple.</returns>
+        public override string ToString() {
+            var result = Subject.Text + Verbial.Text;
+            if (Direct != null) {
+                result += Direct.Text;
+            }
+            if (Indirect != null) {
+                result += Indirect.Text;
+            }
+            return result;
+        }
+        public override int GetHashCode() {
+            return base.GetHashCode();
+        }
+        public static bool operator ==(NpVpNpNpQuatruple lhs, NpVpNpNpQuatruple rhs) {
+            return lhs.ToString() == rhs.ToString() ||
+                 lhs.Subject.IsSimilarTo(rhs.Subject) && lhs.Verbial.IsSimilarTo(rhs.Verbial);
+        }
+        public static bool operator !=(NpVpNpNpQuatruple lhs, NpVpNpNpQuatruple rhs) {
+            return !(lhs == rhs);
         }
 
     }
