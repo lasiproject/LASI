@@ -184,7 +184,7 @@ namespace LASI.UserInterface
 
 
             await WindowManager.ResultsScreen.CreateInteractiveViews();
-            WindowManager.ResultsScreen.BuildAssociationTextView();
+            WindowManager.ResultsScreen.BuildReconstructedDocumentViews();
             this.SwapWith(WindowManager.ResultsScreen);
         }
         private void MenuItem_Click_3(object sender, RoutedEventArgs e) {

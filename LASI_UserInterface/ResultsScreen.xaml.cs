@@ -12,6 +12,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.DataVisualization.Charting;
 using System.Windows.Media;
+using LASI.UserInterface.DataVisualzationProviders;
 
 namespace LASI.UserInterface
 {
@@ -24,7 +25,7 @@ namespace LASI.UserInterface
 
             InitializeComponent();
             this.Closed += (s, e) => Application.Current.Shutdown();
-            chartKind = ChartKind.NounPhrasesOnly;
+            ChartingManager.chartKind = ChartKind.NounPhrasesOnly;
         }
         public async Task CreateInteractiveViews() {
 
@@ -65,7 +66,7 @@ namespace LASI.UserInterface
                     stackPanel.Children.Add(l);
                 }
                 WordCountLists.Items.Add(tabItem);
-                BuildDefaultBarChartDisplay(doc);
+                ChartingManager.BuildDefaultBarChartDisplay(doc);
                 await BuildSVOIGridViewAsync(doc);
 
             }
@@ -104,7 +105,7 @@ namespace LASI.UserInterface
 
 
 
-        public void BuildAssociationTextView() {  // This is for the lexial relationships tab
+        public void BuildReconstructedDocumentViews() {  // This is for the lexial relationships tab
             foreach (var doc in documents) {
                 var panel = new WrapPanel();
                 var tab = new TabItem
@@ -204,285 +205,20 @@ namespace LASI.UserInterface
                 recomposedDocumentsTabControl.Items.Add(tab);
             }
         }
-        Dictionary<Chart, Document> documentsByChart = new Dictionary<Chart, Document>();
-
-
-
-        public async void BuildDefaultBarChartDisplay(Document document) {
-
-            var valueList = GetAppropriateDataSet(document);
-            Series series = new BarSeries
-            {
-                DependentValuePath = "Value",
-                IndependentValuePath = "Key",
-                ItemsSource = valueList,
-                IsSelectionEnabled = true,
-                Tag = document,
-
-            };
-
-            var chart = new Chart
-            {
-                Title = string.Format("Key Subjects in {0}", document.FileName),
-                Tag = valueList.ToArray()
-            };
-
-            series.MouseMove += (sender, e) => {
-                series.ToolTip = (e.Source as DataPoint).IndependentValue;
-            };
-            documentsByChart.Add(chart, document);
-            chart.Series.Add(series);
-
-            var tabItem = new TabItem
-            {
-                Header = document.FileName,
-                Content = chart,
-                Tag = chart
-
-
-            };
-            FrequencyCharts.Items.Add(tabItem);
-            await ToBarCharts();
-        }
-
-        private IEnumerable<KeyValuePair<string, float>> GetAppropriateDataSet(Document document) {
-            var valueList = chartKind == ChartKind.NounPhrasesOnly ? GetNounPhraseData(document) : chartKind == ChartKind.SubjectVerbObject ? GetSVOIData(document) : GetSVOIData(document);
-            return valueList;
-        }
-        #region Chart Transposing Methods
-
-
-        /// <summary>
-        /// Reconfigures all charts to Subjects Column perspective
-        /// </summary>
-        /// <returns>A Task which completes on the successful reconstruction of all charts</returns>
-        async Task ToColumnCharts() {
-            foreach (var chart in FrequencyCharts.Items) {
-                var items = GetItemSourceFor(chart);
-                items.Reverse();
-                var series = new ColumnSeries
-                {
-                    DependentValuePath = "Value",
-                    IndependentValuePath = "Key",
-                    ItemsSource = items,
-                    IsSelectionEnabled = true
-
-
-                };
-                ResetChartContent(chart, series);
-            }
-            await Task.Delay(1);
-        }
-
-
-
-        /// <summary>
-        /// Reconfigures all charts to Subjects Pie perspective
-        /// </summary>
-        /// <returns>A Task which completes on the successful reconstruction of all charts</returns>
-        async Task ToPieCharts() {
-            foreach (var chart in FrequencyCharts.Items) {
-                var items = GetItemSourceFor(chart);
-                items.Reverse();
-                var series = new PieSeries
-                {
-                    DependentValuePath = "Value",
-                    IndependentValuePath = "Key",
-                    ItemsSource = items,
-                    IsSelectionEnabled = true,
-                };
-                series.IsMouseCaptureWithinChanged += (sender, e) => {
-                    series.ToolTip = (series.SelectedItem as DataPoint).DependentValue;
-                };
-
-                ResetChartContent(chart, series);
-            }
-            await Task.Delay(1);
-        }
-
-        /// <summary>
-        /// Reconfigures all charts to Subjects Bar perspective
-        /// </summary>
-        /// <returns>A Task which completes on the successful reconstruction of all charts</returns>
-        async Task ToBarCharts() {
-            foreach (var chart in FrequencyCharts.Items) {
-                var items = GetItemSourceFor(chart);
-                items.Reverse();
-                var series = new BarSeries
-                {
-                    DependentValuePath = "Value",
-                    IndependentValuePath = "Key",
-                    ItemsSource = items,
-                    IsSelectionEnabled = true,
-                };
-                ResetChartContent(chart, series);
-            }
-            await Task.Delay(1);
-        }
-        private IEnumerable<KeyValuePair<string, float>> GetAppropriateData(object chart) {
-            var items = GetAppropriateDataSet(documentsByChart[((chart as TabItem).Content as Chart)]);
-            return items;
-        }
-
-
-
-        #endregion
-
-        #region General Chart Rebuilding Methods
-
-        private static void ResetChartContent(object c, DataPointSeries series) {
-            ((c as TabItem).Content as Chart).Series.Clear();
-            ((c as TabItem).Content as Chart).Series.Add(series);
-        }
-
-        private List<KeyValuePair<string, float>> GetItemSourceFor(object chart) {
-            var chartSource = ((chart as TabItem).Content as Chart).Tag as IEnumerable<KeyValuePair<string, float>>;
-            var items = (from i in chartSource.ToArray()
-
-                         orderby i.Value descending
-                         select new KeyValuePair<string, float>(i.Key.ToString(), i.Value)).Take(10).ToList();
-            return items;
-        }
-
-        #endregion
 
 
 
 
 
 
-        private void ChangeChartKind(ChartKind chartKind) {
-            foreach (var pair in documentsByChart) {
-
-                Document doc = pair.Value;
-                Chart chart = pair.Key;
-
-                IEnumerable<KeyValuePair<string, float>> data = null;
-
-                switch (chartKind) {
-
-                    case ChartKind.SubjectVerbObject:
-                        data = GetSVOIData(doc);
-                        break;
-                    case ChartKind.NounPhrasesOnly:
-                        data = GetNounPhraseData(doc);
-                        break;
-                }
-                data = data.Take(ChartItemLimit);
-                chart.Series.Clear();
-                chart.Series.Add(new BarSeries
-                {
-                    DependentValuePath = "Value",
-                    IndependentValuePath = "Key",
-                    ItemsSource = data,
-                    IsSelectionEnabled = true,
-
-                });
-                chart.Title = string.Format("Key Relationships in {0}", doc.FileName);
-                break;
-            }
-        }
 
 
-        private static IEnumerable<KeyValuePair<string, float>> GetSVOIData(Document doc) {
-            var data = GetVerbWiseAssociationData(doc);
-            return from svs in data
 
-                   let SV = new KeyValuePair<string, float>(string.Format("{0} -> {1}\n", svs.Subject.Text, svs.Verbial.Text) + (svs.Direct != null ? " -> " + svs.Direct.Text : "") + (svs.Indirect != null ? " -> " + svs.Indirect.Text : ""),
-                       (float) Math.Round(svs.RelationshipWeight, 2))
-                   group SV by SV into svg
-                   select svg.Key;
 
-        }
-
-        private static IEnumerable<NpVpNpNpQuatruple> GetVerbWiseAssociationData(Document doc) {
-            var data =
-                 from svPair in
-                     (from v in doc.Phrases.GetVerbPhrases().AsParallel().WithSubject()
-                      from s in v.BoundSubjects.AsParallel()
-                      from dobj in v.DirectObjects.DefaultIfEmpty()
-                      from iobj in v.IndirectObjects.DefaultIfEmpty()
-
-                      select new NpVpNpNpQuatruple
-                      {
-                          Subject = s as NounPhrase ?? null,
-                          Verbial = v as VerbPhrase ?? null,
-                          Direct = dobj as NounPhrase ?? null,
-                          Indirect = iobj as NounPhrase ?? null,
-                          RelationshipWeight = s.Weight + v.Weight + (dobj != null ? dobj.Weight : 0) + (iobj != null ? iobj.Weight : 0)
-                      }).Distinct(new SVComparer())
-                 select svPair into svps
-
-                 orderby svps.RelationshipWeight
-
-                 select svps;
-            return data.ToArray();
-        }
-
-        private static IEnumerable<KeyValuePair<string, float>> GetNounPhraseData(Document doc) {
-            return from NP in doc.Phrases.GetNounPhrases().Distinct() //.Except(doc.Phrases.GetPronounPhrases()) 
-
-                   group NP by new
-                   {
-                       NP.Text,
-                       NP.Weight
-                   } into NP
-                   select NP.Key into master
-                   orderby master.Weight descending
-                   select new KeyValuePair<string, float>(master.Text, (float) Math.Round(master.Weight, 2));
-        }
-
-        #region Result Selector Helper Structs
-        /// <summary>
-        /// A little data type which defines Subjects predicate function which is passed to the "Distinct()" method call above
-        /// It is defined because distinct does not support lambda(read function) arguments like my query operatorrs do.
-        /// Pay this type little heed
-        /// </summary>
-        private struct SVComparer : IEqualityComparer<NpVpNpNpQuatruple>
-        {
-            public bool Equals(NpVpNpNpQuatruple x, NpVpNpNpQuatruple y) {
-                return x.Subject.Text == y.Subject.Text || x.Subject.IsSimilarTo(y.Subject) &&
-                    x.Verbial.Text == y.Verbial.Text || x.Verbial.IsSimilarTo(y.Verbial);
-            }
-
-            public int GetHashCode(NpVpNpNpQuatruple obj) {
-                return obj.GetHashCode();
-            }
-        }
-        /// <summary>
-        /// Sometimes an anonymous type simple will not do. So this little struct is defined to 
-        /// store temporary query data from transposed tables. god it is late. I can't document properly.
-        /// </summary>
-        private struct NpVpNpNpQuatruple
-        {
-            public NounPhrase Subject {
-                get;
-                set;
-            }
-            public VerbPhrase Verbial {
-                get;
-                set;
-            }
-            public NounPhrase Direct {
-                get;
-                set;
-            }
-            public NounPhrase Indirect {
-                get;
-                set;
-            }
-            public decimal RelationshipWeight {
-                get;
-                set;
-            }
-
-        }
-
-        #endregion
 
 
         private List<Document> documents = new List<Document>();
-        private const int ChartItemLimit = 14;
+
         public List<Document> Documents {
             get {
                 return documents;
@@ -512,15 +248,15 @@ namespace LASI.UserInterface
 
 
         private async void ChangeToBarChartButton_Click(object sender, RoutedEventArgs e) {
-            await ToBarCharts();
+            await ChartingManager.ToBarCharts();
         }
 
         private async void ChangeToColumnChartButton_Click(object sender, RoutedEventArgs e) {
-            await ToColumnCharts();
+            await ChartingManager.ToColumnCharts();
         }
 
         private async void ChangeToPieChartButton_Click(object sender, RoutedEventArgs e) {
-            await ToPieCharts();
+            await ChartingManager.ToPieCharts();
         }
 
 
@@ -572,7 +308,7 @@ namespace LASI.UserInterface
         private async Task BuildSVOIGridViewAsync(Document doc) {
 
             var transformedData = await Task.Factory.StartNew(() => {
-                return CreateStringListsForData(GetVerbWiseAssociationData(doc));
+                return CreateStringListsForData(ChartingManager.GetVerbWiseAssociationData(doc));
             });
             var wpfToolKitDataGrid = new Microsoft.Windows.Controls.DataGrid
             {
@@ -587,14 +323,8 @@ namespace LASI.UserInterface
 
         }
 
-        private ChartKind chartKind;
 
 
     }
-    enum ChartStyle
-    {
-        Bar,
-        Col,
-        Pie
-    }
+
 }

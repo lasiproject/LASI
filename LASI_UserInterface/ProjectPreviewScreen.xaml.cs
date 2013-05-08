@@ -156,7 +156,7 @@ namespace LASI.UserInterface
         private async void ProceedToResultsView() {
             WindowManager.ResultsScreen.SetTitle(App.Current.Resources["CurrentProjectName"] + " - L.A.S.I.");
             this.SwapWith(WindowManager.ResultsScreen);
-            WindowManager.ResultsScreen.BuildAssociationTextView();
+            WindowManager.ResultsScreen.BuildReconstructedDocumentViews();
             await WindowManager.ResultsScreen.CreateInteractiveViews();
 
         }

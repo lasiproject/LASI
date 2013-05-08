@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace LASI.UserInterface
+namespace LASI.UserInterface.DataVisualzationProviders
 {
-    enum ChartKind
+    public enum ChartKind
     {
         SubjectVerb,
         SubjectVerbObject,
