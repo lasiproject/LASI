@@ -27,6 +27,8 @@ namespace LASI.UserInterface
             this.Closed += (s, e) => Application.Current.Shutdown();
             ChartingManager.chartKind = ChartKind.NounPhrasesOnly;
         }
+
+
         public async Task CreateInteractiveViews() {
 
             foreach (var doc in documents) {
@@ -34,12 +36,12 @@ namespace LASI.UserInterface
                                         select de.Phrases into phraseElements
                                         from phrase in phraseElements
                                         select phrase)
-                                       .GetNounPhrases().
-                                           GroupBy(w => new
-                                           {
-                                               w.Text,
-                                               w.Type
-                                           }).Select(g => g.First());
+                                       .GetNounPhrases()
+                                       .GroupBy(w => new
+                                        {
+                                            w.Text,
+                                            w.Type
+                                        }).Select(g => g.First());
                 var nps = documentElements.GetNounPhrases();
                 var vps = documentElements.GetVerbPhrases();
                 var advps = documentElements.GetAdverbPhrases();
@@ -241,7 +243,7 @@ namespace LASI.UserInterface
             var focusedChart = (FrequencyCharts.SelectedItem as TabItem).Content as Visual;
             try {
                 printDialog.PrintVisual(focusedChart, "Current View");
-            } catch (NullReferenceException) {
+            } catch (NullReferenceException) { // There is no chart selected by the user.
             }
 
         }
@@ -259,7 +261,10 @@ namespace LASI.UserInterface
             await ChartingManager.ToPieCharts();
         }
 
-
+        /// <summary>
+        /// This function associates The buttons which allow the user to modify various aspects of the chart views with their respective functionality.
+        /// This is done to allow the functionality to be exposed only after the charts have been 
+        /// </summary>
         private void BindChartViewControls() {
             changeToBarChartButton.Click += ChangeToBarChartButton_Click;
             changeToColumnChartButton.Click += ChangeToColumnChartButton_Click;

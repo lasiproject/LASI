@@ -114,7 +114,7 @@ namespace LASI.Algorithm
                 return _direcObjectOf;
             }
             set {
-                _indirecObjectOf = value;
+                _direcObjectOf = value;
                 foreach (var N in Words.OfType<IVerbialObject>()) {
                     N.DirectObjectOf = _direcObjectOf;
                 }

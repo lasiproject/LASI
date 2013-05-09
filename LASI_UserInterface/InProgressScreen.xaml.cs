@@ -9,19 +9,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 namespace LASI.UserInterface
 {
     /// <summary>
@@ -31,7 +18,7 @@ namespace LASI.UserInterface
     {
         public InProgressScreen() {
             InitializeComponent();
-            BindWindowEventHandlers();
+            BindControlsAndSettings();
             WindowManager.InProgressScreen = this;
             WindowStartupLocation = WindowStartupLocation.CenterScreen;
 
@@ -44,7 +31,7 @@ namespace LASI.UserInterface
 
         }
 
-        void BindWindowEventHandlers() {
+        void BindControlsAndSettings() {
             this.MouseLeftButtonDown += (s, e) => DragMove();
             if (ConfigurationManager.AppSettings["AutoDebugCleanupOn"] == "true") {
                 App.Current.Exit += (sender, e) => {
@@ -88,9 +75,55 @@ namespace LASI.UserInterface
         #region Process Control
 
 
+        ProcessController processController = new ProcessController();
+        public async Task InitializeParsing() {
+
+            var progressPercentage = Resources["AnalysisProgressPercentage"];
+            var analyzedDocuments = await processController.LoadAndAnalyseAllDocuments(ProgressBar, ProgressLabel);
+            ProgressBar.Value = 100;
+            ProgressLabel.Content = "Complete";
+            WindowManager.ResultsScreen.Documents = analyzedDocuments.ToList();
+            ProceedtoResultsButton.Visibility = Visibility.Visible;
+            startflashing();
+
+        }
+
+
+
+
+
+        #endregion
+
+
+        private async Task ProceedToResultsView() {
+            WindowManager.ResultsScreen.SetTitle(WindowManager.CreateProjectScreen.LastLoadedProjectName + " - L.A.S.I.");
+
+
+            await WindowManager.ResultsScreen.CreateInteractiveViews();
+            WindowManager.ResultsScreen.BuildReconstructedDocumentViews();
+            this.SwapWith(WindowManager.ResultsScreen);
+        }
+
+        private void ExitMenuItem_Click_3(object sender, RoutedEventArgs e) {
+            Application.Current.Shutdown();
+
+        }
+        private async void ProceedtoResultsButton_Click(object sender, RoutedEventArgs e) {
+            await ProceedToResultsView();
+        }
+
+        private void minButton_Click(object sender, RoutedEventArgs e) {
+            this.WindowState = WindowState.Minimized;
+            PerformanceManager.PerformanceMode = PerformanceMode.HiddenLongRunning;
+        }
+        private void closeButton_Click(object sender, RoutedEventArgs e) {
+            Application.Current.Shutdown();
+        }
+
+
+        #region Taskbar Flashing
 
         [DllImport("user32.dll")]
-
         [return: MarshalAs(UnmanagedType.Bool)]
 
         static extern bool FlashWindowEx(ref FLASHWINFO pwfi);
@@ -154,59 +187,7 @@ namespace LASI.UserInterface
 
             FlashWindowEx(ref fInfo);
         }
-        ProcessController processController = new ProcessController();
-        public async Task InitializeParsing() {
-
-            var progressPercentage = Resources["AnalysisProgressPercentage"];
-            var msg = await processController.LoadAndAnalyseAllDocuments(ProgressBar, ProgressLabel);
-            ProgressBar.Value = 100;
-            ProgressLabel.Content = "Complete";
-            WindowManager.ResultsScreen.Documents = msg.ToList();
-            ProceedtoResultsButton.Visibility = Visibility.Visible;
-
-
-            startflashing();
-
-
-
-
-        }
-
-
-
-
 
         #endregion
-
-
-        private async Task ProceedToResultsView() {
-            WindowManager.ResultsScreen.SetTitle(WindowManager.CreateProjectScreen.LastLoadedProjectName + " - L.A.S.I.");
-
-
-            await WindowManager.ResultsScreen.CreateInteractiveViews();
-            WindowManager.ResultsScreen.BuildReconstructedDocumentViews();
-            this.SwapWith(WindowManager.ResultsScreen);
-        }
-        private void MenuItem_Click_3(object sender, RoutedEventArgs e) {
-            this.Close();
-
-        }
-
-        private void TextBox_TextChanged_1(object sender, TextChangedEventArgs e) {
-
-        }
-
-        private async void ProceedtoResultsButton_Click(object sender, RoutedEventArgs e) {
-            await ProceedToResultsView();
-
-        }
-
-        private void minButton_Click(object sender, RoutedEventArgs e) {
-            this.WindowState = WindowState.Minimized;
-            PerformanceManager.PerformanceMode = PerformanceMode.HiddenLongRunning;
-        }
-        private void closeButton_Click(object sender, RoutedEventArgs e) {
-            Application.Current.Shutdown();
-        }
     }
 }
