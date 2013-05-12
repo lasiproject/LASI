@@ -1,4 +1,4 @@
-﻿<Window x:Class="LASI.UserInterface.StartupScreen" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Height="250" Width="660" MaxHeight="550" ResizeMode="NoResize" IsManipulationEnabled="True" ShowActivated="False" DataContext="{DynamicResource {x:Static SystemParameters.DragFullWindowsKey}}" Foreground="Black" BorderThickness="2" Icon="LasiLogo.ico" WindowStyle="None" Background="#FFE8E8E8" WindowStartupLocation="CenterOwner">
+﻿<Window x:Class="LASI.UserInterface.StartupScreen" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Height="250" Width="660" MaxHeight="550" ResizeMode="NoResize" IsManipulationEnabled="True" ShowActivated="False" DataContext="{DynamicResource {x:Static SystemParameters.DragFullWindowsKey}}" Foreground="Black" BorderThickness="2" Icon="MiscImages\LasiLogo.ico" WindowStyle="None" Background="#FFE8E8E8" WindowStartupLocation="CenterOwner">
 
 
 
@@ -24,7 +24,7 @@
             <TextBlock Height="16" Canvas.Left="42" TextWrapping="Wrap" Text="Name:" Canvas.Top="154" TextAlignment="Left" LineHeight="6" Margin="30,117,577,0" VerticalAlignment="Top" FontFamily="Segoe UI Semilight" />
             <TextBox x:Name="ProjectNameTextBox" Canvas.Left="178" TextWrapping="Wrap" Canvas.Top="54" MaxLines="1" TextChanged="EnteredProjectName_TextChanged" Margin="109,117,404,0" Height="19" VerticalAlignment="Top" FontSize="12" UseLayoutRounding="True" />
             <Label x:Name="ProjNameErrorLabel" Content="*" Canvas.Left="150" Canvas.Top="52" Width="14" Foreground="Red" Visibility="Visible" Margin="92,116,550,162" />
-            <Image x:Name="ProjNameErrorImage" HorizontalAlignment="Left" Height="78" Margin="352,28,0,0" VerticalAlignment="Top" Width="271" Source="NameErrorImage.png" Visibility="Hidden" />
+            <Image x:Name="ProjNameErrorImage" HorizontalAlignment="Left" Height="78" Margin="352,28,0,0" VerticalAlignment="Top" Width="271" Source="MiscImages\NameErrorImage.png" Visibility="Hidden" />
 
             <TextBlock Height="16" Canvas.Left="42" TextWrapping="Wrap" Text="Location:" Canvas.Top="91" TextAlignment="Left" LineHeight="6" Margin="30,148,577,0" VerticalAlignment="Top" RenderTransformOrigin="-0.017,0.48" FontFamily="Segoe UI Semilight" />
             <TextBox x:Name="LocationTextBox" Canvas.Left="178" Canvas.Top="89" MaxLines="1" Margin="109,147,342,0" Height="19" VerticalAlignment="Top" FontSize="12" />
@@ -40,7 +40,7 @@
 
 
             <Label x:Name="ProjDocumentErrorLabel" Content="*" Canvas.Left="150" Canvas.Top="125" Foreground="Red" Visibility="Visible" Margin="92,171,550,105" />
-            <Image x:Name="DocumentErrorImage" Height="75" Margin="385,42,27,0" VerticalAlignment="Top" Source="arrow-docgohere.png" Visibility="Hidden" />
+            <Image x:Name="DocumentErrorImage" Height="75" Margin="385,42,27,0" VerticalAlignment="Top" Source="MiscImages\arrow-docgohere.png" Visibility="Hidden" />
 
 
 
@@ -50,10 +50,10 @@
 
             <Button x:Name="CreateButton" Content="Create" Canvas.Left="385" Canvas.Top="224" Click="CreateButton_Click" Margin="200,225,404,0" Height="27" VerticalAlignment="Top" Style="{DynamicResource CreateButton}" />
             <Label x:Name="ProjCreateErrorLabel" Content="Label" Canvas.Left="304" Canvas.Top="181" Height="28" Width="178" Foreground="Red" Visibility="Hidden" Margin="60,176,423,96" />
-            <Image x:Name="NothingFilledImage" HorizontalAlignment="Left" Height="78" Margin="366,28,0,0" VerticalAlignment="Top" Width="263" Source="NothingFilledError.png" Visibility="Hidden" />
+            <Image x:Name="NothingFilledImage" HorizontalAlignment="Left" Height="78" Margin="366,28,0,0" VerticalAlignment="Top" Width="263" Source="MiscImages\NothingFilledError.png" Visibility="Hidden" />
             <Button x:Name="CancelButton" Content="Cancel" Canvas.Left="455" Canvas.Top="224" RenderTransformOrigin="0.035,1.507" Click="CancelButton_Click" Margin="285,225,322,0" Height="27" VerticalAlignment="Top" Style="{DynamicResource cancelButton}" />
-            <Image x:Name="NoDocumentsImage" HorizontalAlignment="Left" Height="89" Margin="375,28,0,0" VerticalAlignment="Top" Width="260" Source="nodocumentserror.png" Visibility="Hidden" />
-            <Image x:Name="threepaws" HorizontalAlignment="Left" Height="68" Margin="385,28,0,0" VerticalAlignment="Top" Width="238" Source="3paws.png" Visibility="Visible" />
+            <Image x:Name="NoDocumentsImage" HorizontalAlignment="Left" Height="89" Margin="375,28,0,0" VerticalAlignment="Top" Width="260" Source="MiscImages\nodocumentserror.png" Visibility="Hidden" />
+            <Image x:Name="threepaws" HorizontalAlignment="Left" Height="68" Margin="385,28,0,0" VerticalAlignment="Top" Width="238" Source="MiscImages\3paws.png" Visibility="Visible" />
 
 
 
@@ -64,7 +64,7 @@
 
             <Button x:Name="createProjectButton" Content="Create" Margin="487,102,0,117" FontSize="20" Foreground="Black" Click="createProjectButton_Click" HorizontalAlignment="Left" Width="106" FontFamily="Segoe Print" RenderTransformOrigin="1,0" Background="#FFDDDDDD" BorderBrush="#FF636366" Style="{DynamicResource CreateButton}" />
             <Button x:Name="loadProjectButton" Content="Load " Margin="487,179,0,40" FontSize="20" HorizontalAlignment="Left" Width="106" FontFamily="Segoe Print" RenderTransformOrigin="0.5,0.5" Background="#FFDDDDDD" BorderBrush="#FF636366" Style="{DynamicResource loadButton}" />
-            <Image Height="250" Canvas.Left="5" Width="482" Source="lasisplash1.png" Stretch="UniformToFill" />
+            <Image Height="250" Canvas.Left="5" Width="482" Source="MiscImages\lasisplash1.png" Stretch="UniformToFill" />
 
         </Canvas>
 

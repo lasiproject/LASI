@@ -13,6 +13,10 @@ namespace LASI.UserInterface.DataVisualzationProviders
 {
     public static class ChartingManager
     {
+
+
+        #region Chart Transposing Methods
+
         public static void ChangeChartKind(ChartKind chartKind) {
             foreach (var pair in documentsByChart) {
 
@@ -45,9 +49,6 @@ namespace LASI.UserInterface.DataVisualzationProviders
         }
 
 
-        #region Chart Transposing Methods
-
-
         /// <summary>
         /// Reconfigures all charts to Subjects Column perspective
         /// </summary>
@@ -63,8 +64,6 @@ namespace LASI.UserInterface.DataVisualzationProviders
                     IndependentValuePath = "Key",
                     ItemsSource = items,
                     IsSelectionEnabled = true
-
-
                 };
                 ResetChartContent(chart, series);
             }
@@ -120,7 +119,21 @@ namespace LASI.UserInterface.DataVisualzationProviders
             var items = ChartingManager.GetAppropriateDataSet(documentsByChart[((chart as TabItem).Content as Chart)]);
             return items;
         }
-        public static async void BuildDefaultBarChartDisplay(Document document) {
+        public static async void BuildMainChartDisplay(Document document) {
+            var chart = BuildBarChart(document);
+            documentsByChart.Add(chart, document);
+            var tabItem = new TabItem
+            {
+                Header = document.FileName,
+                Content = chart,
+                Tag = chart
+            };
+            WindowManager.ResultsScreen.FrequencyCharts.Items.Add(tabItem);
+            await ChartingManager.ToBarCharts();
+        }
+
+
+        private static Chart BuildBarChart(Document document) {
 
             var valueList = ChartingManager.GetAppropriateDataSet(document);
             Series series = new BarSeries
@@ -142,20 +155,53 @@ namespace LASI.UserInterface.DataVisualzationProviders
             series.MouseMove += (sender, e) => {
                 series.ToolTip = (e.Source as DataPoint).IndependentValue;
             };
-            documentsByChart.Add(chart, document);
-            chart.Series.Add(series);
 
-            var tabItem = new TabItem
-            {
-                Header = document.FileName,
-                Content = chart,
-                Tag = chart
-            };
-            WindowManager.ResultsScreen.FrequencyCharts.Items.Add(tabItem);
-            await ChartingManager.ToBarCharts();
+            chart.Series.Add(series);
+            return chart;
         }
 
+        /// <summary>
+        /// This needs to be modified
+        /// </summary>
+        /// <param name="document"></param>
+        /// <returns></returns>
+        public static Chart BuildEntityActionEntityChart(Document document) {
+            var verticalTopEntites = from np in
+                                         (from np in document.Phrases.GetNounPhrases().InSubjectRole()
+                                          orderby np.Weight
+                                          select np).Take(20)
+                                     select new KeyValuePair<string, string>(np.Text, np.SubjectOf.Text);
+            var horizontalTopEntites = from np in
+                                           (from np in document.Phrases.GetNounPhrases().InDirectObjectRole()
+                                            orderby np.Weight
+                                            select np).Take(20)
+                                       select new KeyValuePair<string, string>(np.Text, np.SubjectOf.Text);
+            var horizontalEntitySeries = new LineSeries
+            {
+                IndependentValuePath = "Key",
+                DependentValuePath = "Value",
+                ItemsSource = horizontalTopEntites,
+                IsEnabled = true,
+                Tag = document
+            };
+            var verticalEntitySeries = new LineSeries
+            {
+                IndependentValuePath = "Key",
+                DependentValuePath = "Value",
+                ItemsSource = verticalTopEntites,
+                IsEnabled = true,
+                Tag = document
+            };
 
+
+            var chart = new Chart
+            {
+                Title = string.Format("E A E Relationships in{0}", document.FileName)
+            };
+            chart.Series.Add(horizontalEntitySeries);
+            chart.Series.Add(verticalEntitySeries);
+            return chart;
+        }
 
 
         #endregion

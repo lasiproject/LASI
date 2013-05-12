@@ -27,8 +27,6 @@ namespace LASI.UserInterface
             this.Closed += (s, e) => Application.Current.Shutdown();
             ChartingManager.chartKind = ChartKind.NounPhrasesOnly;
         }
-
-
         public async Task CreateInteractiveViews() {
 
             foreach (var doc in documents) {
@@ -61,14 +59,13 @@ namespace LASI.UserInterface
                     Header = doc.FileName,
                     Content = grid
                 };
-
                 foreach (var l in from w in elementLabels
                                   orderby (w.Tag as ILexical).Weight descending
                                   select w) {
                     stackPanel.Children.Add(l);
                 }
                 WordCountLists.Items.Add(tabItem);
-                ChartingManager.BuildDefaultBarChartDisplay(doc);
+                ChartingManager.BuildMainChartDisplay(doc);
                 await ChartingManager.BuildSVOIGridViewAsync(doc);
 
             }
@@ -209,16 +206,6 @@ namespace LASI.UserInterface
         }
 
 
-
-
-
-
-
-
-
-
-
-
         private List<Document> documents = new List<Document>();
 
         public List<Document> Documents {
@@ -229,14 +216,10 @@ namespace LASI.UserInterface
                 documents = value;
             }
         }
-
-
         private void MenuItem_Click_3(object sender, RoutedEventArgs e) {
             this.Close();
 
         }
-
-
         private void printButton_Click_1(object sender, RoutedEventArgs e) {
             var printDialog = new PrintDialog();
             printDialog.ShowDialog();
@@ -287,20 +270,6 @@ namespace LASI.UserInterface
             var exportDialog = new DialogToProcedeToResults();
             exportDialog.ShowDialog();
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     }
 
