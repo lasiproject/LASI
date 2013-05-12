@@ -336,7 +336,7 @@ namespace AlgorithmAssemblyUnitTestProject
             IEnumerable<Word> actual;
             actual = target.Words;
             string[] expectedLexicalMatches = new[]{
-                "We", "must", "attack", "blue", "team", "We", "must", "do", "this", "quickly"};
+                "We", "must", "attack", "blue", "team","!", "We", "must", "do", "this", "quickly","!"};
             var expectedResult = actual.Zip(expectedLexicalMatches, (w, s) => w.Text == s).Aggregate(true, (aggr, val) => aggr &= val);
             Assert.IsTrue(expectedResult);
         }

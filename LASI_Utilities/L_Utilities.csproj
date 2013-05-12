@@ -52,7 +52,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="StandardOutputUtilities.cs" />
+    <Compile Include="Input.cs" />
     <Compile Include="Weight.cs" />
   </ItemGroup>
   <ItemGroup>

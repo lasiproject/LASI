@@ -55,7 +55,7 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>LasiLogo.ico</ApplicationIcon>
+    <ApplicationIcon>MiscImages\LasiLogo.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>LASI.UserInterface.App</StartupObject>
@@ -487,23 +487,23 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="LasiLogo.ico">
+    <Resource Include="MiscImages\LasiLogo.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="SplashPicture.PNG">
+    <Resource Include="MiscImages\SplashPicture.PNG">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="print.png" />
+    <Resource Include="MiscImages\print.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="collie1.png" />
+    <Resource Include="MiscImages\collie1.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="tornadoresults.png" />
+    <Resource Include="MiscImages\tornadoresults.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LASI_Algorithm\L_Algorithm.csproj">
@@ -541,7 +541,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Image1.png" />
+    <Resource Include="MiscImages\Image1.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Button Images\printButton.png">
@@ -555,7 +555,7 @@
     <Resource Include="Button Images\remove-document.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="lasisplash1.png" />
+    <Resource Include="MiscImages\lasisplash1.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Button Images\columngraphbutton.png" />
@@ -573,28 +573,28 @@
     <Resource Include="Button Images\piechart2.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="arrow.png" />
+    <Resource Include="MiscImages\arrow.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="arrow-docgohere.png" />
+    <Resource Include="MiscImages\arrow-docgohere.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="collie2.png" />
+    <Resource Include="MiscImages\collie2.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="inprogress.png" />
+    <Resource Include="MiscImages\inprogress.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="3paws.png" />
+    <Resource Include="MiscImages\3paws.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="NameErrorImage.png" />
+    <Resource Include="MiscImages\NameErrorImage.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="nodocumentserror.png" />
+    <Resource Include="MiscImages\nodocumentserror.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="NothingFilledError.png" />
+    <Resource Include="MiscImages\NothingFilledError.png" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
