@@ -31,6 +31,16 @@ namespace LASI.Algorithm
                    where comparison(toMatch, W)
                    select W;
         }
+        /// <summary>
+        /// Returns all words in the Word collection which come after the given Word.
+        /// </summary>
+        /// <param name="words">A sequence of Word objects</param>
+        /// <param name="word">The delimiting Word</param>
+        /// <returns></returns>
+        public static IEnumerable<Word> GetAllAfter(this IEnumerable<Word> words, Word word) {
+            return words.SkipWhile(w => w != word).Skip(1);
+        }
+
 
         #region Verb Enumerable Overloads
 

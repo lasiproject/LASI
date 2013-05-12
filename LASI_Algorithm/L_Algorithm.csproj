@@ -66,6 +66,7 @@
     <Compile Include="Analysis\Binding\ObjectBinder.cs" />
     <Compile Include="Analysis\Binding\PhraseWiseEntityGroupBinder.cs" />
     <Compile Include="Analysis\Binding\PronounBinder.cs" />
+    <Compile Include="Analysis\Binding\PronounBounding\WordWisePronounBinder.cs" />
     <Compile Include="Analysis\Binding\SubjectBinder.cs" />
     <Compile Include="Analysis\Binding\UnknownEntityCompatibleWordTypeException.cs" />
     <Compile Include="Analysis\Binding\WordStream.cs" />
