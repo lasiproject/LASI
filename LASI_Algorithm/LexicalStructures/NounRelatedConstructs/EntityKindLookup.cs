@@ -30,7 +30,7 @@ namespace LASI.Algorithm
             }
         }
         /// <summary>
-        ///  Inserts a mapping from the given text to the given kind.
+        ///  Inserts entity mapping from the given text to the given kind.
         /// </summary>
         /// <param name="textKey">the text key for the entry</param>
         /// <param name="kind">the EntityKind value for the entry</param>

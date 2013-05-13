@@ -11,16 +11,16 @@ namespace LASI.Algorithm
 
 
         /// <summary>
-        /// This class is currently experimental and is not a tier in the ParentDocument objects created by the tagged file parsers
-        /// Initializes a new instance of the Clause class, by composing the given linear sequence of phrases.
+        /// This class is currently experimental and is not entity tier in the ParentDocument objects created by the tagged file parsers
+        /// Initializes entity new instance of the Clause class, by composing the given linear sequence of phrases.
         /// </summary>
         /// <param name="phrases">The linear sequence of Phrases which compose to form the Clause.</param>
         public Clause(IEnumerable<Phrase> phrases) {
             Phrases = phrases;
         }
         /// <summary>
-        ///Initializes a new instance of the Clause class, by composing the given linear sequence of words       
-        ///As the words are bare in this context, that is not members of a known entity object, they are subsequently implanted in an UndeterminedPhrase instance whose syntactic role should be determined contextually in the future.
+        ///Initializes entity new instance of the Clause class, by composing the given linear sequence of words       
+        ///As the words are bare in this context, that is not members of entity known entity object, they are subsequently implanted in an UndeterminedPhrase instance whose syntactic role should be determined contextually in the future.
         /// </summary>
         /// <param name="words">The linear sequence of Words which compose to form the single UndeterminedPhrase which will comprise the Clause.</param>
         public Clause(IEnumerable<Word> words) {
@@ -78,7 +78,7 @@ namespace LASI.Algorithm
 
 
         ///// <summary>
-        ///// Gets a string containing the text of the Clause'd  constituents.
+        ///// Gets entity string containing the text of the Clause'd  constituents.
         ///// </summary>
         //string ILexical.Text {
         //    get {

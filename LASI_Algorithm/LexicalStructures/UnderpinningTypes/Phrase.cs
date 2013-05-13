@@ -16,7 +16,7 @@ namespace LASI.Algorithm
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the Phrase class.
+        /// Initializes entity new instance of the Phrase class.
         /// </summary>
         /// <param name="composedWords">The one or more instances of the Word class of which the Phrase is composed.</param>
         protected Phrase(IEnumerable<Word> composedWords) {
@@ -36,7 +36,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Overrides the ToString method to augment the string representation of Phrase to include the text of the words it is composed of.
         /// </summary>
-        /// <returns>a string containing the type information of the instance as well as the textual representations of the words it is composed of.</returns>
+        /// <returns>entity string containing the type information of the instance as well as the textual representations of the words it is composed of.</returns>
         public override string ToString() {
             return GetType().Name + " \"" + Text + "\"";
         }

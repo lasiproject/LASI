@@ -7,7 +7,7 @@ namespace AlgorithmAssemblyUnitTestProject
 
 
     /// <summary>
-    ///This is a test class for GenericPluralNounTest and is intended
+    ///This is entity test class for GenericPluralNounTest and is intended
     ///to contain all GenericPluralNounTest Unit Tests
     ///</summary>
     [TestClass()]
@@ -40,7 +40,7 @@ namespace AlgorithmAssemblyUnitTestProject
         //{
         //}
         //
-        //Use ClassCleanup to run code after all tests in a class have run
+        //Use ClassCleanup to run code after all tests in entity class have run
         //[ClassCleanup()]
         //public static void MyClassCleanup()
         //{
@@ -62,7 +62,7 @@ namespace AlgorithmAssemblyUnitTestProject
 
 
         /// <summary>
-        ///a test for GenericPluralNoun Constructor
+        ///entity test for GenericPluralNoun Constructor
         ///</summary>
         [TestMethod()]
         public void GenericPluralNounConstructorTest() {
@@ -72,7 +72,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///a test for Quantifier
+        ///entity test for Quantifier
         ///</summary>
         [TestMethod()]
         public void QuantifierTest() {

@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 namespace LASI.FileSystem
 {
     /// <summary>
-    /// This class serves as a wrapper around a file newPath, providing for direct access to the indvidual components of the newPath.
+    /// This class serves as entity wrapper around entity file newPath, providing for direct access to the indvidual components of the newPath.
     /// </summary>
     public abstract class InputFile
     {
         /// <summary>
-        /// Initializes a new instance of the InputFile class.
+        /// Initializes entity new instance of the InputFile class.
         /// </summary>
         /// <param name="newPath"></param>
         public InputFile(string path) {

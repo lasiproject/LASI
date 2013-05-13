@@ -9,13 +9,13 @@ namespace LASI.FileSystem
 {
     /// <summary>
     /// Converts Microsoft Word .doc binary files to modern Microsoft Word .docx open XML files.
-    /// This allows for easy extraction of the raw textual content which must be passed to a tagging module.
+    /// This allows for easy extraction of the raw textual content which must be passed to entity tagging module.
     /// </summary>
     public class DocToDocXConverter : InputFileConverter
     {
 
         /// <summary>
-        /// Initializes a new instance of DocToDocXConverter which will handle the conversion of the given .doc document.
+        /// Initializes entity new instance of DocToDocXConverter which will handle the conversion of the given .doc document.
         /// </summary>
         /// <param name="infile">The DocFile instance representing the document to convert.</param>
         public DocToDocXConverter(DocFile infile)
@@ -24,7 +24,7 @@ namespace LASI.FileSystem
         }
 
         /// <summary>
-        /// Initializes a new instance of DocToDocXConverter which will handle the conversion of the given .doc document
+        /// Initializes entity new instance of DocToDocXConverter which will handle the conversion of the given .doc document
         /// </summary>
         /// <param name="infile">The DocFile instance representing the document to convert.</param>
         /// <param name="DocxFilesDir">The path of the directory in which to store the converted file.</param>
@@ -58,10 +58,10 @@ namespace LASI.FileSystem
         }
 
         /// <summary>
-        /// This method invokes the file conversion routine asynchronously, gernerally in a serparate thread.
-        /// Use with the await operator in an asnyc method to retrieve the new file object and specify a continuation function to be executed when the conversion is complete.
+        /// This method invokes the file conversion routine asynchronously, gernerally in entity serparate thread.
+        /// Use with the await operator in an asnyc method to retrieve the new file object and specify entity continuation function to be executed when the conversion is complete.
         /// </summary>
-        /// <returns>a Task of InputFile object which functions as a proxy for the actual InputFile while the conversion routine is in progress.
+        /// <returns>entity Task of InputFile object which functions as entity proxy for the actual InputFile while the conversion routine is in progress.
         /// Access the internal input file encapsulated by the Task by using syntax such as : var file = await myConverter.ConvertFileAsync()
         /// </returns>
         public override async Task<InputFile> ConvertFileAsync() {
@@ -72,7 +72,7 @@ namespace LASI.FileSystem
         /// <summary>
         /// Gets the document object which is the fruit of the conversion process
         /// This additional method of accessing the new document is primarily provided to facilitate asynchronous programming
-        /// and any access attempts before the conversion is complete will raise a NullReferenceException.
+        /// and any access attempts before the conversion is complete will raise entity NullReferenceException.
         /// </summary>
         public override InputFile Converted {
             get;

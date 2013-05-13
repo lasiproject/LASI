@@ -11,7 +11,7 @@ namespace AlgorithmAssemblyUnitTestProject
 
 
     /// <summary>
-    ///This is a test class for NounTest and is intended
+    ///This is entity test class for NounTest and is intended
     ///to contain all NounTest Unit Tests
     ///</summary>
     [TestClass()]
@@ -44,7 +44,7 @@ namespace AlgorithmAssemblyUnitTestProject
         //{
         //}
         //
-        //Use ClassCleanup to run code after all tests in a class have run
+        //Use ClassCleanup to run code after all tests in entity class have run
         //[ClassCleanup()]
         //public static void MyClassCleanup()
         //{
@@ -71,7 +71,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///a test for AddPossession
+        ///entity test for AddPossession
         ///</summary>
         [TestMethod()]
         public void AddPossessionTest() {
@@ -82,7 +82,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///a test for BindDescriber
+        ///entity test for BindDescriber
         ///</summary>
         [TestMethod()]
         public void BindDescriberTest() {
@@ -93,7 +93,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///a test for BindPronoun
+        ///entity test for BindPronoun
         ///</summary>
         [TestMethod()]
         public void BindPronounTest() {
@@ -104,7 +104,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         ///// <summary>
-        /////a test for Equals
+        /////entity test for Equals
         /////</summary>
         //[TestMethod()]
         //public void EqualsTest() {
@@ -118,7 +118,7 @@ namespace AlgorithmAssemblyUnitTestProject
         //}
 
         /// <summary>
-        ///a test for DescribedBy
+        ///entity test for DescribedBy
         ///</summary>
         [TestMethod()]
         public void DescribedByTest() {
@@ -128,7 +128,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///a test for DirectObjectOf
+        ///entity test for DirectObjectOf
         ///</summary>
         [TestMethod()]
         public void DirectObjectOfTest() {
@@ -141,7 +141,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///a test for EntityType
+        ///entity test for EntityType
         ///</summary>
         [TestMethod()]
         public void EntityTypeTest() {
@@ -154,7 +154,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///a test for IndirectObjectOf
+        ///entity test for IndirectObjectOf
         ///</summary>
         [TestMethod()]
         public void IndirectObjectOfTest() {
@@ -167,7 +167,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///a test for IndirectReferences
+        ///entity test for IndirectReferences
         ///</summary>
         [TestMethod()]
         public void IndirectReferencesTest() {
@@ -178,7 +178,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///a test for Possessed
+        ///entity test for Possessed
         ///</summary>
         [TestMethod()]
         public void PossessedTest() {
@@ -189,7 +189,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///a test for PossessesFor
+        ///entity test for PossessesFor
         ///</summary>
         [TestMethod()]
         public void PossesserTest() {
@@ -202,7 +202,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///a test for SubjectOf
+        ///entity test for SubjectOf
         ///</summary>
         [TestMethod()]
         public void SubjectOfTest() {

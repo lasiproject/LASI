@@ -7,7 +7,7 @@ namespace AlgorithmAssemblyUnitTestProject
     
     
     /// <summary>
-    ///This is a test class for ForeignWordTest and is intended
+    ///This is entity test class for ForeignWordTest and is intended
     ///to contain all ForeignWordTest Unit Tests
     ///</summary>
     [TestClass()]
@@ -43,7 +43,7 @@ namespace AlgorithmAssemblyUnitTestProject
         //{
         //}
         //
-        //Use ClassCleanup to run code after all tests in a class have run
+        //Use ClassCleanup to run code after all tests in entity class have run
         //[ClassCleanup()]
         //public static void MyClassCleanup()
         //{
@@ -65,7 +65,7 @@ namespace AlgorithmAssemblyUnitTestProject
 
 
         /// <summary>
-        ///a test for ForeignWord Constructor
+        ///entity test for ForeignWord Constructor
         ///</summary>
         [TestMethod()]
         public void ForeignWordConstructorTest()
@@ -77,7 +77,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///a test for UsedAsType
+        ///entity test for UsedAsType
         ///</summary>
         [TestMethod()]
         public void UsedAsTypeTest()

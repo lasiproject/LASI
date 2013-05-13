@@ -10,19 +10,19 @@ namespace LASI.Algorithm
 {
  
     /// <summary>
-    /// Represents an adjective entity which describes an Entity such as a Noun or NounPhrase construct.
+    /// Represents an adjective entity which describes an Entity such as entity Noun or NounPhrase construct.
     /// </summary>
     public class AdjectivePhrase : Phrase, IDescriber, IAdverbialModifiable
     {  
         /// <summary>
-        /// Initializes a new instance of the AdjectivePhrase class.
+        /// Initializes entity new instance of the AdjectivePhrase class.
         /// </summary>
         /// <param name="composedWords">The words which compose to form the AdjectivePhrase.</param>
         public AdjectivePhrase(IEnumerable<Word> composedWords)
             : base(composedWords) {
         }
         /// <summary>
-        /// Attaches an Adverbial construct, such as an Adverb or AdverbPhrase, as a modifier of the AdjectivePhrase.
+        /// Attaches an Adverbial construct, such as an Adverb or AdverbPhrase, as entity modifier of the AdjectivePhrase.
         /// </summary>
         /// <param name="adv">The Adverbial construct by which to modify the AdjectivePhrase.</param>
         public virtual void ModifyWith(IAdverbial adv) {

@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 namespace LASI.Algorithm
 {
     /// <summary>
-    /// Reprepsents a verb in its simple past-tense form.
+    /// Reprepsents entity verb in its simple past-tense form.
     /// </summary>
     public class PastTenseVerb : Verb
     {
         /// <summary>
-        /// Initializes a new instance of the PastTenseVerb class.
+        /// Initializes entity new instance of the PastTenseVerb class.
         /// </summary>
         /// <param name="text">The literal text content of the PastTenseVerb.</param>
         public PastTenseVerb(string text)

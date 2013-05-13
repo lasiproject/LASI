@@ -10,7 +10,7 @@ namespace AlgorithmAssemblyUnitTestProject
 
 
     /// <summary>
-    ///This is a test class for WordTest and is intended
+    ///This is entity test class for WordTest and is intended
     ///to contain all WordTest Unit Tests
     ///</summary>
     [TestClass()]
@@ -43,7 +43,7 @@ namespace AlgorithmAssemblyUnitTestProject
         //{
         //}
         //
-        //Use ClassCleanup to run code after all tests in a class have run
+        //Use ClassCleanup to run code after all tests in entity class have run
         //[ClassCleanup()]
         //public static void MyClassCleanup()
         //{
@@ -70,7 +70,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///a test for Equals
+        ///entity test for Equals
         ///</summary>
         [TestMethod()]
         public void EqualsTest() {
@@ -89,7 +89,7 @@ namespace AlgorithmAssemblyUnitTestProject
 
 
         /// <summary>
-        ///a test for EstablishParent
+        ///entity test for EstablishParent
         ///</summary>
         [TestMethod()]
         public void EstablishParentTest() {
@@ -100,7 +100,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///a test for GetHashCode
+        ///entity test for GetHashCode
         ///</summary>
         [TestMethod()]
         public void GetHashCodeTest() {
@@ -113,7 +113,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///a test for ToString
+        ///entity test for ToString
         ///</summary>
         [TestMethod()]
         public void ToStringTest() {
@@ -125,7 +125,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///a test for NextWord
+        ///entity test for NextWord
         ///</summary>
         [TestMethod()]
         public void NextWordTest() {
@@ -138,7 +138,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///a test for ParentDocument
+        ///entity test for ParentDocument
         ///</summary>
         [TestMethod()]
         public void ParentDocTest() {
@@ -151,7 +151,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///a test for PreviousWord
+        ///entity test for PreviousWord
         ///</summary>
         [TestMethod()]
         public void PreviousWordTest() {
@@ -164,7 +164,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///a test for Text
+        ///entity test for Text
         ///</summary>
         [TestMethod()]
         public void TextTest() {

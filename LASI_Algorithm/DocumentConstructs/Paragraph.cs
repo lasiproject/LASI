@@ -18,7 +18,7 @@ namespace LASI.Algorithm
         }
 
         /// <summary>
-        /// Initializes a new instance of the Paragraph class containing the given sentences and belonging to the given ParentDocument.
+        /// Initializes entity new instance of the Paragraph class containing the given sentences and belonging to the given ParentDocument.
         /// </summary>
         /// <param name="sentences">The collection of sentences which comprise the Paragraph.</param>
         ///<param name="paraKind">Argument indicating the kind of paragraph.</param>

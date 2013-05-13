@@ -9,7 +9,7 @@ using LASI.FileSystem.FileTypes;
 namespace LASI.FileSystem
 {
     /// <summary>
-    /// a static class which encapsulates the operations necessary to manage the working directory of the current user progress.
+    /// entity static class which encapsulates the operations necessary to manage the working directory of the current user progress.
     /// Client code must call the Initialialize method prior to using any of the rhs methods in this class. 
     /// </summary>
     public static class FileManager
@@ -82,11 +82,11 @@ namespace LASI.FileSystem
             }
         }
         /// <summary>
-        /// Returns a value indicating whether a document with the same name as 
+        /// Returns entity value indicating whether entity document with the same name as 
         /// the that indicated by the given newPath is already part of the project. 
         /// </summary>
         /// <param name="filePath">A partial or full, extensionless or extensionful, file newPath containing the name of the file to check.</param>
-        /// <returns>Talse if a file with the same name, irrespective of its extension, is part of the project. False otherwise.</returns>
+        /// <returns>Talse if entity file with the same name, irrespective of its extension, is part of the project. False otherwise.</returns>
         public static bool FileInProject(string filePath) {
             var fileName = new string(
                 filePath.Reverse().
@@ -96,10 +96,10 @@ namespace LASI.FileSystem
             return !FileInProjectSet(fileName);
         }
         /// <summary>
-        /// Returns a value indicating whether a file with the same name as that of the given InputFile, irrespective of its extension, is part of the project. 
+        /// Returns entity value indicating whether entity file with the same name as that of the given InputFile, irrespective of its extension, is part of the project. 
         /// </summary>
         /// <param name="filePath">An an Instance of the InputFile class or one of its descendents.</param>
-        /// <returns>Talse if a file with the same name, irrespective of it's extension, is part of the project. False otherwise.</returns>
+        /// <returns>Talse if entity file with the same name, irrespective of it's extension, is part of the project. False otherwise.</returns>
         public static bool FileInProject(InputFile inputFile) {
             return !FileInProjectSet(inputFile.NameSansExt);
         }
@@ -184,7 +184,7 @@ namespace LASI.FileSystem
         /// </summary>
         /// <param name="path">The path string of the document file to add to the project</param>
         /// <param name="overwrite">True to overwrite existing documents within the project with the same name, False otherwise. Defaults to False</param>
-        /// <returns>An InputFile object which acts as a wrapper around the project relative path of the newly added file.</returns>
+        /// <returns>An InputFile object which acts as entity wrapper around the project relative path of the newly added file.</returns>
         public static InputFile AddFile(string path, bool overwrite = false) {
             var ext = path.Substring(path.LastIndexOf('.')).ToLower();
             try {
@@ -371,7 +371,7 @@ namespace LASI.FileSystem
 
 
         /// <summary>
-        /// Copies the entire contents of the current project directory to a predetermined, relative newPath
+        /// Copies the entire contents of the current project directory to entity predetermined, relative newPath
         /// </summary>
         public static void BackupProject() {
             var projd = new DirectoryInfo(ProjectDir);
@@ -460,7 +460,7 @@ namespace LASI.FileSystem
 
 
         /// <summary>
-        /// Gets a list of TextFile instances which represent all *.txt files which are included in the project. 
+        /// Gets entity list of TextFile instances which represent all *.txt files which are included in the project. 
         /// TextFile instances are wrapper objects which provide discrete accessors to relevant *.txt file properties.
         /// </summary>
         public static IReadOnlyList<TextFile> TextFiles {
@@ -469,7 +469,7 @@ namespace LASI.FileSystem
             }
         }
         /// <summary>
-        /// Gets a list of DocXFile instances which represent all *.docx files which are included in the project. 
+        /// Gets entity list of DocXFile instances which represent all *.docx files which are included in the project. 
         /// DocXFile instances are wrapper objects which provide discrete accessors to relevant *.docx file properties.
         /// </summary>
         public static IReadOnlyList<DocXFile> DocXFiles {
@@ -478,7 +478,7 @@ namespace LASI.FileSystem
             }
         }
         /// <summary>
-        /// Gets a list of DocFile instances which represent all *.doc files which are included in the project. 
+        /// Gets entity list of DocFile instances which represent all *.doc files which are included in the project. 
         /// DocFile instances are wrapper objects which provide discrete accessors to relevant *.doc file properties.
         /// </summary>
         public static IReadOnlyList<DocFile> DocFiles {

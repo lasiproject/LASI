@@ -10,14 +10,14 @@ using System.Xml.Linq;
 namespace LASI.Algorithm
 {
     /// <summary>
-    /// Represents a noun entity such as "The Pinko-Commy Conspiracy".
+    /// Represents entity noun entity such as "The Pinko-Commy Conspiracy".
     /// Note that noun phrases are the constructs which wrap both nouns and pronouns at the entity level.
     /// </summary>
     public class NounPhrase : Phrase, IEntity
     {
         #region Constructors
         /// <summary>
-        /// Initializes a new instance of the NounPhrase class.
+        /// Initializes entity new instance of the NounPhrase class.
         /// </summary>
         /// <param name="composedWords">The words which compose to form the NounPhrase.</param>
         public NounPhrase(IEnumerable<Word> composedWords)
@@ -52,7 +52,7 @@ namespace LASI.Algorithm
 
 
         /// <summary>
-        /// Binds a Pronoun or PronounPhrase as a reference to the NounPhrase Instance.
+        /// Binds entity Pronoun or PronounPhrase as entity reference to the NounPhrase Instance.
         /// </summary>
         /// <param name="pro">The referencer which refers to the NounPhrase Instance.</param>
         public virtual void BindPronoun(LASI.Algorithm.LexicalStructures.NounRelatedConstructs.IPronoun pro) {
@@ -60,7 +60,7 @@ namespace LASI.Algorithm
             pro.BindToIEntity(this);
         }
         /// <summary>
-        /// Binds an IDescriber, generally an Adjective or AdjectivePhrase, as a descriptor of the NounPhrase.
+        /// Binds an IDescriber, generally an Adjective or AdjectivePhrase, as entity descriptor of the NounPhrase.
         /// </summary>
         /// <param name="adjective">The IDescriber instance which will be added to the NounPhrase'd descriptors.</param>
         public void BindDescriber(IDescriber adjective) {
@@ -68,7 +68,7 @@ namespace LASI.Algorithm
                 _describedBy.Add(adjective);
         }
         /// <summary>
-        /// Adds an IPossessible construct, such as a person place or thing, to the collection of the NounPhrase "Owns",
+        /// Adds an IPossessible construct, such as entity person place or thing, to the collection of the NounPhrase "Owns",
         /// and sets its owner to be the NounPhrase.
         /// If the item is already possessed by the current instance, this method has no effect.
         /// </summary>
@@ -107,7 +107,7 @@ namespace LASI.Algorithm
 
 
         /// <summary>
-        /// Gets the ITransitiveVerbial instance, generally a TransitiveVerb or TransitiveVerbPhrase, which the NounPhrase is the DIRECT object of.
+        /// Gets the ITransitiveVerbial instance, generally entity TransitiveVerb or TransitiveVerbPhrase, which the NounPhrase is the DIRECT object of.
         /// </summary>
         public virtual ITransitiveVerbial DirectObjectOf {
             get {
@@ -122,7 +122,7 @@ namespace LASI.Algorithm
         }
 
         /// <summary>
-        /// Gets the ITransitiveVerbial instance, generally a TransitiveVerb or TransitiveVerbPhrase, which the NounPhrase is the INDIRECT object of.
+        /// Gets the ITransitiveVerbial instance, generally entity TransitiveVerb or TransitiveVerbPhrase, which the NounPhrase is the INDIRECT object of.
         /// </summary>
         public virtual ITransitiveVerbial IndirectObjectOf {
             get {
@@ -137,7 +137,7 @@ namespace LASI.Algorithm
         }
 
         /// <summary>
-        /// Gets the ITransitiveVerbial instance, generally a Verb or VerbPhrase, which the NounPhrase is the subject of.
+        /// Gets the ITransitiveVerbial instance, generally entity Verb or VerbPhrase, which the NounPhrase is the subject of.
         /// </summary>
         public virtual ITransitiveVerbial SubjectOf {
             get {

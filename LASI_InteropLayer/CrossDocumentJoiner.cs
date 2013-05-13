@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LASI.Algorithm;
 using LASI.Algorithm.DocumentConstructs;
+using LASI.Algorithm.PredefinedComparers;
 using LASI.Algorithm.Thesauri;
 
 namespace LASI.InteropLayer
@@ -26,14 +27,16 @@ namespace LASI.InteropLayer
                                                    where (from s in allSets
                                                           select s.Contains(vp, new VPComparer())).Aggregate(true, (product, result) => product &= result)
                                                    select vp;
-            return from c in cominalities
-                   select new NVNN
-                   {
-                       Verbial = c,
-                       Direct = c.DirectObjects.OfType<NounPhrase>().FirstOrDefault(),
-                       Indirect = c.IndirectObjects.OfType<NounPhrase>().FirstOrDefault(),
-                       Subject = c.BoundSubjects.OfType<NounPhrase>().FirstOrDefault(),
-                   };
+            return (from v in cominalities
+                    select new NVNN
+                    {
+                        Verbial = v,
+                        Direct = v.DirectObjects.OfType<NounPhrase>().FirstOrDefault(),
+                        Indirect = v.IndirectObjects.OfType<NounPhrase>().FirstOrDefault(),
+                        Subject = v.BoundSubjects.OfType<NounPhrase>().FirstOrDefault(),
+                    } into com
+                    group com by com into result
+                    select result.Key);
 
         }
 
@@ -47,6 +50,7 @@ namespace LASI.InteropLayer
                 return obj.GetHashCode();
             }
         }
+
 
         public class NVNN
         {
@@ -98,9 +102,9 @@ namespace LASI.InteropLayer
                 protected set;
             }
             /// <summary>
-            /// Returns a textual representation of the NpVpNpNpQuatruple.
+            /// Returns entity textual representation of the NpVpNpNpQuatruple.
             /// </summary>
-            /// <returns>a textual representation of the NpVpNpNpQuatruple.</returns>
+            /// <returns>entity textual representation of the NpVpNpNpQuatruple.</returns>
             public override string ToString() {
                 var result = Subject.Text + Verbial.Text;
                 if (Direct != null) {
@@ -118,9 +122,19 @@ namespace LASI.InteropLayer
                 return this == obj as NVNN;
             }
             public static bool operator ==(NVNN lhs, NVNN rhs) {
-                return lhs.ToString() == rhs.ToString() ||
-                     lhs.Subject.IsSimilarTo(rhs.Subject) && lhs.Verbial.IsSimilarTo(rhs.Verbial);
+                bool result = lhs.Verbial.Text == rhs.Verbial.Text || lhs.Verbial.IsSimilarTo(rhs.Verbial);
+                result &= NounPhraseComparers.AliasOrSimilarity.Equals(lhs.Subject, rhs.Subject);
+                if (lhs.Direct != null && rhs.Direct != null) {
+                    result &= NounPhraseComparers.AliasOrSimilarity.Equals(lhs.Direct, rhs.Direct);
+                } else if (lhs.Direct == null || rhs.Direct == null)
+                    return false;
+                if (lhs.Indirect != null && rhs.Indirect != null) {
+                    result &= NounPhraseComparers.AliasOrSimilarity.Equals(lhs.Indirect, rhs.Indirect);
+                } else if (lhs.Indirect == null || rhs.Indirect == null)
+                    return false;
+                return result;
             }
+
             public static bool operator !=(NVNN lhs, NVNN rhs) {
                 return !(lhs == rhs);
             }

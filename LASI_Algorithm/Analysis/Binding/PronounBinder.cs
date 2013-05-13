@@ -23,7 +23,7 @@ namespace LASI.Algorithm.Analysis.Binding
 
 
         /// <summary>
-        /// Bind posessive pronouns located in the objects of a sentence to the proper noun in the subject of that sentence. 
+        /// Bind posessive pronouns located in the objects of entity sentence to the proper noun in the subject of that sentence. 
         /// Example Sentence that this applies to:
         /// "LASI binds it's pronouns."
         /// Pronoun "it's" binds to the proper noun "LASI"

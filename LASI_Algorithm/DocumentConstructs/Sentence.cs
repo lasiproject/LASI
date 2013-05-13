@@ -65,7 +65,7 @@ namespace LASI.Algorithm.DocumentConstructs
         }
 
         ///<summary>
-        /// Returns the number of Words in a sentence
+        /// Returns the number of Words in entity sentence
         /// </summary>
         public int GetWordCount()
         {
@@ -73,7 +73,7 @@ namespace LASI.Algorithm.DocumentConstructs
         }
 
         /// <summary>
-        /// Returns the number of Clauses in a sentence
+        /// Returns the number of Clauses in entity sentence
         /// </summary>
         public int GetClauseCount()
         {
@@ -81,7 +81,7 @@ namespace LASI.Algorithm.DocumentConstructs
         }
 
         /// <summary>
-        /// Returns the number of Phrases in a sentence
+        /// Returns the number of Phrases in entity sentence
         /// </summary>
         public int GetPhraseCount()
         {
@@ -155,9 +155,9 @@ namespace LASI.Algorithm.DocumentConstructs
         }
 
         /// <summary>
-        /// Returns a string representation of the Sentence.
+        /// Returns entity string representation of the Sentence.
         /// </summary>
-        /// <returns>a string representation of the Sentence.</returns>
+        /// <returns>entity string representation of the Sentence.</returns>
         public override string ToString()
         {
             return base.ToString() + " \"" + Text + "\"";

@@ -8,14 +8,14 @@ using System.Xml.Linq;
 namespace LASI.Algorithm
 {
     /// <summary>
-    /// Represents a particle such as "about". Note that the distintion between particle and prepositions can sometimes be tricky and is heavily dependent on nuances of grammatical usage.
+    /// Represents entity particle such as "about". Note that the distintion between particle and prepositions can sometimes be tricky and is heavily dependent on nuances of grammatical usage.
     /// </summary>
     public class Particle : Word, IPrepositional
     {
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the Particle class.
+        /// Initializes entity new instance of the Particle class.
         /// </summary>
         /// <param name="text">The literal text content of the particle.</param>
         public Particle(string text)

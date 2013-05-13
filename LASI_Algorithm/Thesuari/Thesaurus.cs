@@ -151,8 +151,8 @@ namespace LASI.Algorithm.Thesauri
         /// <summary>
         /// Determine if two noun phrases are similar
         /// </summary>
-        /// <param name="a"></param>
-        /// <param name="b"></param>
+        /// <param name="entity"></param>
+        /// <param name="other"></param>
         /// <returns></returns>
         public static double getSimilarityRatio(NounPhrase a, NounPhrase b) {
             NounPhrase outer = null;

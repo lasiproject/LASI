@@ -13,7 +13,7 @@ namespace LASI.Algorithm.Thesauri
     public class NounThesaurus : ThesaurusBase
     {
         /// <summary>
-        /// Initializes a new instance of the NounProvider class.
+        /// Initializes entity new instance of the NounProvider class.
         /// </summary>
         /// <param name="filePath">The path of the WordNet database file containing the sysnonym line for nouns.</param>
         public NounThesaurus(string filePath)

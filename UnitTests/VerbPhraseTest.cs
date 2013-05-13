@@ -10,7 +10,7 @@ namespace AlgorithmAssemblyUnitTestProject
 
 
     /// <summary>
-    ///This is a test class for VerbPhraseTest and is intended
+    ///This is entity test class for VerbPhraseTest and is intended
     ///to contain all VerbPhraseTest Unit Tests
     ///</summary>
     [TestClass()]
@@ -43,7 +43,7 @@ namespace AlgorithmAssemblyUnitTestProject
         //{
         //}
         //
-        //Use ClassCleanup to run code after all tests in a class have run
+        //Use ClassCleanup to run code after all tests in entity class have run
         //[ClassCleanup()]
         //public static void MyClassCleanup()
         //{
@@ -65,7 +65,7 @@ namespace AlgorithmAssemblyUnitTestProject
 
 
         /// <summary>
-        ///a test for VerbPhrase Constructor
+        ///entity test for VerbPhrase Constructor
         ///</summary>
         [TestMethod()]
         public void VerbPhraseConstructorTest() {
@@ -74,7 +74,7 @@ namespace AlgorithmAssemblyUnitTestProject
             Assert.IsTrue(composedWords == target.Words);
         }
         /// <summary>
-        ///a test for ModifyWith
+        ///entity test for ModifyWith
         ///</summary>
         [TestMethod()]
         public void ModifyWithTest() {
@@ -86,7 +86,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///a test for BoundSubject
+        ///entity test for BoundSubject
         ///</summary>
         [TestMethod()]
         public void BoundSubjectTest() {
@@ -100,7 +100,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///a test for Modality
+        ///entity test for Modality
         ///</summary>
         [TestMethod()]
         public void ModalityTest() {

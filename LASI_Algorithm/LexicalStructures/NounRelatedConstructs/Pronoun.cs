@@ -9,14 +9,14 @@ using System.Threading.Tasks;
 namespace LASI.Algorithm
 {
     /// <summary>
-    /// Represents a pronoun which gernerally refers back to a previously defined Entity, such as a Noun or NounPhrase.
+    /// Represents entity pronoun which gernerally refers back to entity previously defined Entity, such as entity Noun or NounPhrase.
     /// </summary>
     public abstract class Pronoun : Word, IPronounBindable, IPronoun
     {
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the Pronoun class.
+        /// Initializes entity new instance of the Pronoun class.
         /// </summary>
         /// <param name="text">The literal text content of the pronoun.</param>
         protected Pronoun(string text)
@@ -62,7 +62,7 @@ namespace LASI.Algorithm
             }
         }
         /// <summary>
-        /// Gets the ITransitiveVerbial instance, generally a TransitiveVerb or TransitiveVerbPhrase, which the Pronoun is the object of.
+        /// Gets the ITransitiveVerbial instance, generally entity TransitiveVerb or TransitiveVerbPhrase, which the Pronoun is the object of.
         /// </summary>
         public virtual ITransitiveVerbial DirectObjectOf {
             get;
@@ -76,14 +76,14 @@ namespace LASI.Algorithm
 
         }
         /// <summary>
-        /// Gets the ITransitiveVerbial instance, generally a TransitiveVerb or TransitiveVerbPhrase, which the Pronoun is the INDIRECT object of.
+        /// Gets the ITransitiveVerbial instance, generally entity TransitiveVerb or TransitiveVerbPhrase, which the Pronoun is the INDIRECT object of.
         /// </summary>
         public virtual ITransitiveVerbial IndirectObjectOf {
             get;
             set;
         }
         /// <summary>
-        /// Gets the ISubjectTaker instance, generally a Verb or VerbPhrase, which the Pronoun is the subject of.
+        /// Gets the ISubjectTaker instance, generally entity Verb or VerbPhrase, which the Pronoun is the subject of.
         /// </summary>
         public virtual ITransitiveVerbial SubjectOf {
             get;
@@ -140,7 +140,7 @@ namespace LASI.Algorithm
         ///// <summary>
         ///// This Pronoun specialized implementation of the Equality Operator returns True if and only if its operands refer to the same Entity instance and are composed of the same text.
         ///// </summary>
-        ///// <param name="a">The Pronoun on the Left hand side of the operator.</param>
+        ///// <param name="entity">The Pronoun on the Left hand side of the operator.</param>
         ///// <param name="B">The Pronoun on the Left hand side of the operator.</param>
         ///// <returns>True if the Pronouns are equal and False otherwise.</returns>
         //public static bool operator ==(Pronoun A, Pronoun B) {
@@ -155,7 +155,7 @@ namespace LASI.Algorithm
         ///// <summary>
         ///// This Pronoun specialized implementation of the Inquality Operator returns True if its operands refer to different entities and or are composed of different text.
         ///// </summary>
-        ///// <param name="a">The Pronoun on the Left hand side of the operator.</param>
+        ///// <param name="entity">The Pronoun on the Left hand side of the operator.</param>
         ///// <param name="B">The Pronoun on the Left hand side of the operator.</param>
         ///// <returns>True if the Pronouns are not equal and False otherwise.</returns>
         //public static bool operator !=(Pronoun A, Pronoun B) {

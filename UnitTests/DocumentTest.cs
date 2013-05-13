@@ -10,7 +10,7 @@ namespace AlgorithmAssemblyUnitTestProject
 
 
     /// <summary>
-    ///This is a test class for DocumentTest and is intended
+    ///This is entity test class for DocumentTest and is intended
     ///to contain all DocumentTest Unit Tests
     ///</summary>
     [TestClass()]
@@ -43,7 +43,7 @@ namespace AlgorithmAssemblyUnitTestProject
         //{
         //}
         //
-        //Use ClassCleanup to run code after all tests in a class have run
+        //Use ClassCleanup to run code after all tests in entity class have run
         //[ClassCleanup()]
         //public static void MyClassCleanup()
         //{
@@ -110,7 +110,7 @@ namespace AlgorithmAssemblyUnitTestProject
         #endregion
 
         /// <summary>
-        ///a test for Document Constructor
+        ///entity test for Document Constructor
         ///</summary>
         //[TestMethod()]
         public void DocumentConstructorTest() {
@@ -119,7 +119,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///a test for GetActions
+        ///entity test for GetActions
         ///</summary>
         [TestMethod()]
         public void GetActionsTest() {
@@ -160,7 +160,7 @@ namespace AlgorithmAssemblyUnitTestProject
             }
         }
         /// <summary>
-        ///a test for GetEntities
+        ///entity test for GetEntities
         ///</summary>
         [TestMethod()]
         public void GetEntitiesTest() {
@@ -193,7 +193,7 @@ namespace AlgorithmAssemblyUnitTestProject
 
 
         /// <summary>
-        ///a test for SentenceAt
+        ///entity test for SentenceAt
         ///</summary>
         [TestMethod()]
         public void SentenceAtTest() {
@@ -209,7 +209,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///a test for SentenceTextAt
+        ///entity test for SentenceTextAt
         ///</summary>
         [TestMethod()]
         public void SentenceTextAtTest() {
@@ -223,7 +223,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///a test for WordAt
+        ///entity test for WordAt
         ///</summary>
         [TestMethod()]
         public void WordAtTest() {
@@ -238,7 +238,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///a test for WordTextAt
+        ///entity test for WordTextAt
         ///</summary>
         [TestMethod()]
         public void WordTextAtTest() {
@@ -253,7 +253,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///a test for Paragraphs
+        ///entity test for Paragraphs
         ///</summary>
         [TestMethod()]
         public void ParagraphsTest() {
@@ -268,7 +268,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///a test for Phrases
+        ///entity test for Phrases
         ///</summary>
         [TestMethod()]
         public void PhrasesTest() {
@@ -283,7 +283,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///a test for Sentences
+        ///entity test for Sentences
         ///</summary>
         [TestMethod()]
         public void SentencesTest() {
@@ -328,7 +328,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///a test for Words
+        ///entity test for Words
         ///</summary>
         [TestMethod()]
         public void WordsTest() {

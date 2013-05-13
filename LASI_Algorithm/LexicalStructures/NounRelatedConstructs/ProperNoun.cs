@@ -14,7 +14,7 @@ namespace LASI.Algorithm
     public abstract class ProperNoun : Noun
     {
         /// <summary>
-        /// Initializes a new instances of the ProperNoun class.
+        /// Initializes entity new instances of the ProperNoun class.
         /// </summary>
         /// <param name="text">The literal text content of the ProperNoun</param>
         protected ProperNoun(string text)

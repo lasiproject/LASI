@@ -12,7 +12,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets the linear aggregation of all Sentence instances contained within the sequence of Paragraph instances.
         /// </summary>
-        /// <param name="paragraphs">a sequence of Paragraph instances.</param>
+        /// <param name="paragraphs">entity sequence of Paragraph instances.</param>
         /// <returns>The linear aggregation of all Sentence instances contained within the sequence of Paragraph instances.</returns>
         public static IEnumerable<Sentence> GetSentences(this IEnumerable<Paragraph> paragraphs) {
             return from p in paragraphs
@@ -22,7 +22,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets the linear aggregation of all Phrase instances contained within the sequence of Paragraph instances.
         /// </summary>
-        /// <param name="paragraphs">a sequence of Paragraph instances.</param>
+        /// <param name="paragraphs">entity sequence of Paragraph instances.</param>
         /// <returns>The linear aggregation of all Phrase instances contained within the sequence of Paragraph instances.</returns>
         public static IEnumerable<Phrase> GetPhrases(this IEnumerable<Paragraph> paragraphs) {
             return from p in paragraphs
@@ -33,7 +33,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets the linear aggregation of all Word instances contained within the sequence of Paragraph instances.
         /// </summary>
-        /// <param name="paragraphs">a sequence of Paragraph instances.</param>
+        /// <param name="paragraphs">entity sequence of Paragraph instances.</param>
         /// <returns>The linear aggregation of all Word instances contained within the sequence of Paragraph instances.</returns>
         public static IEnumerable<Word> GetWords(this IEnumerable<Paragraph> paragraphs) {
             return from p in paragraphs

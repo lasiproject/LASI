@@ -6,14 +6,14 @@ using System.Xml.Linq;
 namespace LASI.Algorithm
 {
     /// <summary>
-    /// Represents a prepositional entity, an object which has Prepositional properties at the entity level.
+    /// Represents entity prepositional entity, an object which has Prepositional properties at the entity level.
     /// <see cref="IPrepositional"/>
     /// <seealso cref="Preposition"/>
     /// </summary>
     public class PrepositionalPhrase : Phrase, IPrepositional
     {
         /// <summary>
-        /// Initializes a new instance of the PrepositionalPhrase class.
+        /// Initializes entity new instance of the PrepositionalPhrase class.
         /// </summary>
         /// <param name="composedWords">The words which compose to form the PrepositionalPhrase.</param>
         public PrepositionalPhrase(IEnumerable<Word> composedWords)

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace LASI.Algorithm.Thesauri
 {
     /// <summary>
-    /// The Exception to be thrown if and when an attempt is made to lookup a Word of a syntactic category has no corresponding thesaurus.
+    /// The Exception to be thrown if and when an attempt is made to lookup entity Word of entity syntactic category has no corresponding thesaurus.
     /// </summary>
     [Serializable]
     public class NoSynonymLookupForTypeException : ArgumentException

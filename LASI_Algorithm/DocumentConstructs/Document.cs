@@ -9,7 +9,7 @@ using LASI.Utilities;
 namespace LASI.Algorithm.DocumentConstructs
 {
     /// <summary>
-    /// a line structure containing all of he g, sentence, entity, and verb objects in a document.
+    /// entity line structure containing all of he g, sentence, entity, and verb objects in entity document.
     /// Provides overalapping direct and indirect access to all of its children, 
     /// e.g. such as myDoc.Paragraphs.Sentences.Phrases.Words will get all the words in the document in linear order
     /// comparatively: myDoc.Words; yields the same collection.
@@ -19,7 +19,7 @@ namespace LASI.Algorithm.DocumentConstructs
         #region Constructors
         private List<Word> SynonymousGroups = new List<Word>();
         /// <summary>
-        /// Initializes a new instance of the Document class.
+        /// Initializes entity new instance of the Document class.
         /// </summary>
         /// <param name="paragrpahs">The collection of paragraphs which contain all text in the document.</param>
         public Document(IEnumerable<Paragraph> paragrpahs) {

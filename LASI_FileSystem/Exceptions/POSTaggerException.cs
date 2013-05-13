@@ -145,7 +145,7 @@ public     class UnknownPOSException : POSTagException
     /// <summary>
     /// Base of the tag parsing exception heirarchy.
     /// Cannot be instantiated and thus cannot be explicitely thrown
-    /// If one encounters an exception not suited for one of its derrived types, a new exception class should be derrived from it
+    /// If one encounters an exception not suited for one of its derrived types, entity new exception class should be derrived from it
     /// </summary>
     [Serializable]
     public abstract class POSTagException : Exception

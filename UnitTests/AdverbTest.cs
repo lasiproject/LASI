@@ -8,7 +8,7 @@ namespace AlgorithmAssemblyUnitTestProject
 
 
     /// <summary>
-    ///This is a test class for AdverbTest and is intended
+    ///This is entity test class for AdverbTest and is intended
     ///to contain all AdverbTest Unit Tests
     ///</summary>
     [TestClass()]
@@ -41,7 +41,7 @@ namespace AlgorithmAssemblyUnitTestProject
         //{
         //}
         //
-        //Use ClassCleanup to run code after all tests in a class have run
+        //Use ClassCleanup to run code after all tests in entity class have run
         //[ClassCleanup()]
         //public static void MyClassCleanup()
         //{
@@ -63,7 +63,7 @@ namespace AlgorithmAssemblyUnitTestProject
 
 
         /// <summary>
-        ///a test for Modified
+        ///entity test for Modified
         ///</summary>
         [TestMethod()]
         public void ModiffiedTest() {
@@ -77,7 +77,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///a test for Adverb Constructor
+        ///entity test for Adverb Constructor
         ///</summary>
         [TestMethod()]
         public void AdverbConstructorTest() {

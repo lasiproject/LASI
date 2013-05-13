@@ -14,7 +14,7 @@ namespace LASI.Algorithm
     public abstract class GenericNoun : Noun
     {
         /// <summary>
-        /// Initializes a new instances of the GenericNoun class.
+        /// Initializes entity new instances of the GenericNoun class.
         /// </summary>
         /// <param name="text">The literal text content of the GenericNoun</param>
         protected GenericNoun(string text)

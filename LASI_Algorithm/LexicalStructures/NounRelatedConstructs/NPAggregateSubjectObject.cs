@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace LASI.Algorithm
 {
     /// <summary>
-    /// Represents an collection of usually contiguous NounPhrases which combine to form a single subject or object.
+    /// Represents an collection of usually contiguous NounPhrases which combine to form entity single subject or object.
     /// As provides both the behaviors of an entity and an Enumerable collection of entities. That is to say that you can use an instance of this class in 
     /// situtation where an IEntity is Expected, but also enumerate it, via foreach(var in ...) or (from e in ...)
     /// </summary>
@@ -36,21 +36,21 @@ namespace LASI.Algorithm
             set;
         }
         /// <summary>
-        /// Gets the ITransitiveVerbial instance, generally a TransitiveVerb or TransitiveVerbPhrase, which the NPAggregateSubjectObject is the DIRECT object of.
+        /// Gets the ITransitiveVerbial instance, generally entity TransitiveVerb or TransitiveVerbPhrase, which the NPAggregateSubjectObject is the DIRECT object of.
         /// </summary>
         public ITransitiveVerbial DirectObjectOf {
             get;
             set;
         }
         /// <summary>
-        /// Gets the ITransitiveVerbial instance, generally a TransitiveVerb or TransitiveVerbPhrase, which the NPAggregateSubjectObject is the INDIRECT object of.
+        /// Gets the ITransitiveVerbial instance, generally entity TransitiveVerb or TransitiveVerbPhrase, which the NPAggregateSubjectObject is the INDIRECT object of.
         /// </summary>
         public ITransitiveVerbial IndirectObjectOf {
             get;
             set;
         }
         /// <summary>
-        /// Gets the ITransitiveVerbial instance, generally a Verb or VerbPhrase, which the NPAggregateSubjectObject is the subject of.
+        /// Gets the ITransitiveVerbial instance, generally entity Verb or VerbPhrase, which the NPAggregateSubjectObject is the subject of.
         /// </summary>
         public ITransitiveVerbial SubjectOf {
             get;

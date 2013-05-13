@@ -7,14 +7,14 @@ using System.Text;
 namespace LASI.Algorithm
 {
     /// <summary>
-    /// Represents a Modality modifier which modifies a modality-modifiable construct such as a Verb or VerbPhrase.
+    /// Represents entity Modality modifier which modifies entity modality-modifiable construct such as entity Verb or VerbPhrase.
     /// Examples of ModalAuxilary words are "can", and "might"
     /// </summary>
     public class ModalAuxilary : Word
     { 
         #region Constructors
         /// <summary>
-        /// Initializes a new instance of the ModalAuxilary class
+        /// Initializes entity new instance of the ModalAuxilary class
         /// </summary>
         /// <param name="text">The literal text content of the verb.</param>
         public ModalAuxilary(string text)
@@ -26,7 +26,7 @@ namespace LASI.Algorithm
         #region Properties
 
         /// <summary>
-        /// Gets or sets the modality-modifiable construct such as a Verb or VerbPhrase, which this ModalAuxilary Modifies
+        /// Gets or sets the modality-modifiable construct such as entity Verb or VerbPhrase, which this ModalAuxilary Modifies
         /// </summary>
         public virtual IModalityModifiable Modifies {
             get;

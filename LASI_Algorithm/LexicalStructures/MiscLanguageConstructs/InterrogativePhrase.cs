@@ -7,12 +7,12 @@ using System.Xml.Linq;
 namespace LASI.Algorithm
 {
     /// <summary>
-    /// Represents a entity signalling the beginning of an interrogative clause.
+    /// Represents entity entity signalling the beginning of an interrogative clause.
     /// </summary>
     public class InterrogativePhrase : Phrase
     {
         /// <summary>
-        /// Initializes a new instance of the InterrogativePhrase class.
+        /// Initializes entity new instance of the InterrogativePhrase class.
         /// </summary>
         /// <param name="composedWords">The words which compose to form the InterrogativePhrase.</param>
         public InterrogativePhrase(IEnumerable<Word> composedWords)

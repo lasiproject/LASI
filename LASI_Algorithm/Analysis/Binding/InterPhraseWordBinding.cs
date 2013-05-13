@@ -11,7 +11,7 @@ namespace LASI.Algorithm.Binding
     {
         public void IntraNounPhrase(NounPhrase np) {
             /**
-             * Noun Phrase Assumption:  The Last Noun in a Noun Phrase is the important one
+             * Noun Phrase Assumption:  The Last Noun in entity Noun Phrase is the important one
              */
             Noun LastNoun = np.Words.OfType<Noun>().LastOrDefault();
 
@@ -26,7 +26,7 @@ namespace LASI.Algorithm.Binding
 
 
                 /**
-                 *  if word prior to LastNoun is also a Noun associate them
+                 *  if word prior to LastNoun is also entity Noun associate them
                  */
                 if (LastNoun.PreviousWord is Noun) {
                     var PrevWrd = LastNoun.PreviousWord;

@@ -13,7 +13,7 @@ namespace LASI.Algorithm
     {
 
         /// <summary>
-        /// Initializes a new instance of the InterjectionPhrase class.
+        /// Initializes entity new instance of the InterjectionPhrase class.
         /// </summary>
         /// <param name="composed">The words which compose to form the InterjectionPhrase.</param>
         public InterjectionPhrase(List<Word> composed)

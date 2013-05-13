@@ -8,7 +8,7 @@ namespace AlgorithmAssemblyUnitTestProject
 
 
     /// <summary>
-    ///This is a test class for WeightTest and is intended
+    ///This is entity test class for WeightTest and is intended
     ///to contain all WeightTest Unit Tests
     ///</summary>
     [TestClass()]
@@ -41,7 +41,7 @@ namespace AlgorithmAssemblyUnitTestProject
         //{
         //}
         //
-        //Use ClassCleanup to run code after all tests in a class have run
+        //Use ClassCleanup to run code after all tests in entity class have run
         //[ClassCleanup()]
         //public static void MyClassCleanup()
         //{
@@ -63,7 +63,7 @@ namespace AlgorithmAssemblyUnitTestProject
 
 
         /// <summary>
-        ///a test for Weight Constructor
+        ///entity test for Weight Constructor
         ///</summary>
         [TestMethod()]
         public void WeightConstructorTest() {
@@ -75,7 +75,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///a test for Equals
+        ///entity test for Equals
         ///</summary>
         [TestMethod()]
         public void EqualsTest() {
@@ -88,7 +88,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///a test for GetHashCode
+        ///entity test for GetHashCode
         ///</summary>
         [TestMethod()]
         public void GetHashCodeTest() {
@@ -100,7 +100,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///a test for op_Addition
+        ///entity test for op_Addition
         ///</summary>
         [TestMethod()]
         public void op_AdditionTest() {
@@ -113,7 +113,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///a test for op_Division
+        ///entity test for op_Division
         ///</summary>
         [TestMethod()]
         public void op_DivisionTest() {
@@ -126,7 +126,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///a test for op_Equality
+        ///entity test for op_Equality
         ///</summary>
         [TestMethod()]
         public void op_EqualityTest() {
@@ -139,7 +139,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///a test for op_GreaterThan
+        ///entity test for op_GreaterThan
         ///</summary>
         [TestMethod()]
         public void op_GreaterThanTest() {
@@ -152,7 +152,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///a test for op_Inequality
+        ///entity test for op_Inequality
         ///</summary>
         [TestMethod()]
         public void op_InequalityTest() {
@@ -165,7 +165,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///a test for op_LessThan
+        ///entity test for op_LessThan
         ///</summary>
         [TestMethod()]
         public void op_LessThanTest() {
@@ -178,7 +178,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///a test for op_Multiply
+        ///entity test for op_Multiply
         ///</summary>
         [TestMethod()]
         public void op_MultiplyTest() {
@@ -191,7 +191,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///a test for op_Subtraction
+        ///entity test for op_Subtraction
         ///</summary>
         [TestMethod()]
         public void op_SubtractionTest() {

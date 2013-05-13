@@ -10,13 +10,13 @@ using System.Xml.Linq;
 namespace LASI.Algorithm
 {
     /// <summary>
-    /// Represents an adverb which can be bound as a modiffier to either a verb construct or an adjective construct.
+    /// Represents an adverb which can be bound as entity modiffier to either entity verb construct or an adjective construct.
     /// </summary>
     public class Adverb : Word, IAdverbial, IAdverbialModifiable
     {
 
         /// <summary>
-        /// Initializes a new instance of the Adverb class.
+        /// Initializes entity new instance of the Adverb class.
         /// </summary>
         /// <param name="text">The literal text content of the verb.</param>
         public Adverb(string text)

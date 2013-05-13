@@ -7,7 +7,7 @@ using System.Linq;
 namespace AlgorithmAssemblyUnitTestProject
 {
     /// <summary>
-    ///This is a test class for FunctionExtensionsTest and is intended
+    ///This is entity test class for FunctionExtensionsTest and is intended
     ///to contain all FunctionExtensionsTest Unit Tests
     ///</summary>
     [TestClass()]
@@ -40,7 +40,7 @@ namespace AlgorithmAssemblyUnitTestProject
         //{
         //}
         //
-        //Use ClassCleanup to run code after all tests in a class have run
+        //Use ClassCleanup to run code after all tests in entity class have run
         //[ClassCleanup()]
         //public static void MyClassCleanup()
         //{
@@ -62,7 +62,7 @@ namespace AlgorithmAssemblyUnitTestProject
 
 
         /// <summary>
-        ///a test for Identity
+        ///entity test for Identity
         ///</summary>
         public void IdentityTestHelper<T>() {
             T value = default(T);
@@ -78,7 +78,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///a test for Compose
+        ///entity test for Compose
         ///</summary>
         public void ComposeTestHelper<T>() {
 
@@ -87,7 +87,7 @@ namespace AlgorithmAssemblyUnitTestProject
 
         [TestMethod()]
         public void ComposeTest() {
-            Func<int, int> func = x => x * x * x;//cubes an int, a value type
+            Func<int, int> func = x => x * x * x;//cubes an int, entity value type
             Func<int, int>[] fs = new Func<int, int>[] { x => x / x, x => x + 1, x => x * 3 };
             var function = FunctionExtensions.Compose(func, fs);
             for (int i = 1; i < 100; i++) {
@@ -102,7 +102,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///a test for Compose
+        ///entity test for Compose
         ///</summary>
         public void ComposeTest1Helper<T, U, R>() {
             Func<R, T> f = r => default(T);
@@ -120,7 +120,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///a test for AsEnumerable
+        ///entity test for AsEnumerable
         ///</summary>
         public void AsEnumerableTestHelper<T>() {
             T t = default(T);

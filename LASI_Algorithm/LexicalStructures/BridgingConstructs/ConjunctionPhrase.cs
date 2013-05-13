@@ -7,14 +7,14 @@ using System.Xml.Linq;
 namespace LASI.Algorithm
 {
     /// <summary>
-    /// Represents a conjunction entity which links two Clauses, Words or Phrases together.
+    /// Represents entity conjunction entity which links two Clauses, Words or Phrases together.
     /// </summary>
     public class ConjunctionPhrase : Phrase, IConjunctive
     {
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the ConjunctionPhrase class.
+        /// Initializes entity new instance of the ConjunctionPhrase class.
         /// </summary>
         /// <param name="composedWords">The words which compose to form the ConjunctionPhrase.</param>
         public ConjunctionPhrase(IEnumerable<Word> composedWords)

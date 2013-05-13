@@ -10,12 +10,12 @@ using LASI.Algorithm.ClauseTypes;
 namespace LASI.Algorithm
 {
     /// <summary>
-    /// Provides the base class for all verb level verb constructs. An instance of this class represents a verb in its base tense.
+    /// Provides the base class for all verb level verb constructs. An instance of this class represents entity verb in its base tense.
     /// </summary>
     public class Verb : Word, ITransitiveVerbial, IAdverbialModifiable, IModalityModifiable, IEquatable<Verb>
     {
         /// <summary>
-        /// Initializes a new instance of the Verb class which represents the base tense form of a verb.
+        /// Initializes entity new instance of the Verb class which represents the base tense form of entity verb.
         /// </summary>
         /// <param name="text">The literal text content of the verb.</param>
         /// <param name="tense">The tense of the verb</param>
@@ -29,7 +29,7 @@ namespace LASI.Algorithm
 
 
         /// <summary>
-        /// Attaches an Adverbial construct, such as an Adverb or AdverbPhrase, as a modifier of the Verb
+        /// Attaches an Adverbial construct, such as an Adverb or AdverbPhrase, as entity modifier of the Verb
         /// <param name="adv">The Adverbial construct by which to modify the AdjectivePhrase.</param>
         /// </summary>
         public virtual void ModifyWith(IAdverbial adv) {
@@ -42,7 +42,7 @@ namespace LASI.Algorithm
         //}
 
         /// <summary>
-        /// Binds the Verb to an object via a propisitional construct such as a Prepositon or or PrepositionalPhrase.
+        /// Binds the Verb to an object via entity propisitional construct such as entity Prepositon or or PrepositionalPhrase.
         /// Example: He "ran" to work. where "work" is the object of ran via the prepositional construct "to"
         /// </summary>
         /// <param name="prep"></param>
@@ -52,9 +52,9 @@ namespace LASI.Algorithm
         }
 
         /// <summary>
-        /// Binds the given Entity as a subject of the Verb instance.
+        /// Binds the given Entity as entity subject of the Verb instance.
         /// </summary>
-        /// <param name="subject">The Entity to attach to the Verb as a subject.</param>
+        /// <param name="subject">The Entity to attach to the Verb as entity subject.</param>
         public virtual void BindSubject(IEntity subject) {
             if (!_boundSubjects.Contains(subject)) {
                 _boundSubjects.Add(subject);
@@ -63,9 +63,9 @@ namespace LASI.Algorithm
         }
 
         /// <summary>
-        /// Binds the given Entity as a direct object of the Verb instance.
+        /// Binds the given Entity as entity direct object of the Verb instance.
         /// </summary>
-        /// <param name="directObject">The Entity to attach to the Verb as a direct object.</param>
+        /// <param name="directObject">The Entity to attach to the Verb as entity direct object.</param>
         public virtual void BindDirectObject(IEntity directObject) {
             if (!_boundDirectObjects.Contains(directObject)) {
                 _boundDirectObjects.Add(directObject);
@@ -145,7 +145,7 @@ namespace LASI.Algorithm
             protected set;
         }
         /// <summary>
-        /// Gets the VerbPhrases'd object, If the VerbPhrase has an object bound via a Prepositional construct.
+        /// Gets the VerbPhrases'd object, If the VerbPhrase has an object bound via entity Prepositional construct.
         /// </summary>
         public virtual ILexical ObjectViaPreposition {
             get;

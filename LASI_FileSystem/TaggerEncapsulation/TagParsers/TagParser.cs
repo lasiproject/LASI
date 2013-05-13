@@ -23,11 +23,11 @@ namespace LASI.FileSystem.TaggerEncapsulation
             protected set;
         }
         /// <summary>
-        /// Breaks a string of text containing multiple paragraphs into a collection of strings each representing an individual paragraph.
+        /// Breaks entity string of text containing multiple paragraphs into entity collection of strings each representing an individual paragraph.
         /// Paragraphs are delimited using the default regular expression pattern "[\r\n]+[^]*[\r\n]+"
         /// </summary>
-        /// <param name="line">a string containing the text to be broken down.</param>
-        /// <returns>a collection of strings, each entry corresponding to the entire content of a single paragraph.</returns>
+        /// <param name="line">entity string containing the text to be broken down.</param>
+        /// <returns>entity collection of strings, each entry corresponding to the entire content of entity single paragraph.</returns>
         protected virtual IEnumerable<string> ParseParagraphs(string data) {
             return from d in data.Split(new[] { "\r\n\r\n", "<paragraph>", "</paragraph>" }, StringSplitOptions.RemoveEmptyEntries)
                    select d.Trim();

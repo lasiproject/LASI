@@ -11,7 +11,7 @@ namespace AlgorithmAssemblyUnitTestProject
 
 
     /// <summary>
-    ///This is a test class for FileManagerTest and is intended
+    ///This is entity test class for FileManagerTest and is intended
     ///to contain all FileManagerTest Unit Tests
     ///</summary>
     [TestClass()]
@@ -73,7 +73,7 @@ namespace AlgorithmAssemblyUnitTestProject
             }
         }
 
-        ////  Use ClassCleanup to run code after all tests in a class have run
+        ////  Use ClassCleanup to run code after all tests in entity class have run
         [ClassCleanup()]
         public static void MyClassCleanup() {
             Directory.Delete(@"..\..\..\NewProject\Input", true);
@@ -97,7 +97,7 @@ namespace AlgorithmAssemblyUnitTestProject
 
 
         /// <summary>
-        ///a test for AddDocFile
+        ///entity test for AddDocFile
         ///</summary>
         [TestMethod()]
         public void AddDocFileTest() {
@@ -108,7 +108,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///a test for AddDocXFile
+        ///entity test for AddDocXFile
         ///</summary>
         [TestMethod()]
         public void AddDocXFileTest() {
@@ -118,7 +118,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///a test for AddTextFile
+        ///entity test for AddTextFile
         ///</summary>
         [TestMethod()]
         public void AddTextFileTest() {
@@ -129,7 +129,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///a test for BackupProject
+        ///entity test for BackupProject
         ///</summary>
         [TestMethod()]
         public void BackupProjectTest() {
@@ -138,7 +138,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///a test for ConvertDocFiles
+        ///entity test for ConvertDocFiles
         ///</summary>
         [TestMethod()]
         public void ConvertDocFilesTest() {
@@ -150,7 +150,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///a test for ConvertDocFilesAsync
+        ///entity test for ConvertDocFilesAsync
         ///</summary>
         [TestMethod()]
         public async Task ConvertDocFilesAsyncTest() {
@@ -163,7 +163,7 @@ namespace AlgorithmAssemblyUnitTestProject
                 Assert.IsTrue(File.Exists(FileManager.DocxFilesDir + "\\" + F.NameSansExt + ".docx"));
         }
         /// <summary>
-        ///a test for ConvertDocxToText
+        ///entity test for ConvertDocxToText
         ///</summary>
         [TestMethod()]
         public void ConvertDocxToTextTest() {
@@ -177,7 +177,7 @@ namespace AlgorithmAssemblyUnitTestProject
 
 
         /// <summary>
-        ///a test for ConvertDocxToTextAsync
+        ///entity test for ConvertDocxToTextAsync
         ///</summary>
         [TestMethod()]
         public async Task ConvertDocxToTextAsyncTest() {
@@ -192,7 +192,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///a test for Initialize
+        ///entity test for Initialize
         ///</summary>
         [TestMethod()]
         public void InitializeTest() {
@@ -202,7 +202,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///a test for TagTextFile
+        ///entity test for TagTextFile
         ///</summary>
         [TestMethod()]
         public void TagTextFilesTest() {
@@ -214,7 +214,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///a test for TagTextFilesAsync
+        ///entity test for TagTextFilesAsync
         ///</summary>
         [TestMethod()]
         public async Task TagTextFilesAsyncTest() {
@@ -226,7 +226,7 @@ namespace AlgorithmAssemblyUnitTestProject
             }
         }
         /// <summary>
-        ///a test for ProjectName
+        ///entity test for ProjectName
         ///</summary>
         [TestMethod()]
         public void ProjectNameTest() {

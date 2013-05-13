@@ -2,18 +2,18 @@
 namespace LASI.FileSystem
 {
     /// <summary>
-    /// Stores and differentiates distinct, as well as overlapping, aspects of a file newPath.
+    /// Stores and differentiates distinct, as well as overlapping, aspects of entity file newPath.
     /// </summary>
     internal struct FileData
     {
         #region Constructors
 
         /// <summary>
-        /// Constructs a new instance from the given pararameters.
+        /// Constructs entity new instance from the given pararameters.
         /// </summary>
-        /// <param name="directory">The full newPath to a file, not including the file name itself.</param>
-        /// <param name="fileName">The name of a file, not including the file extension.</param>
-        /// <param name="fileExt">The extension of a file.</param>
+        /// <param name="directory">The full newPath to entity file, not including the file name itself.</param>
+        /// <param name="fileName">The name of entity file, not including the file extension.</param>
+        /// <param name="fileExt">The extension of entity file.</param>
         public FileData(string directory, string fileName, string fileExt)
             : this() {
             Directory = directory;
@@ -24,10 +24,10 @@ namespace LASI.FileSystem
             FullPathSansExt = directory + fileName;
         }
         /// <summary>
-        /// Constructs a new instance from the given pararameters.
+        /// Constructs entity new instance from the given pararameters.
         /// </summary>
-        /// <param name="directory">The full newPath to a file, not including the file name itself.</param>
-        /// <param name="fileNameWithExt">The name of a file, including the file extension.</param>
+        /// <param name="directory">The full newPath to entity file, not including the file name itself.</param>
+        /// <param name="fileNameWithExt">The name of entity file, including the file extension.</param>
         public FileData(string directory, string fileNameWithExt)
             : this() {
             Directory = directory;
@@ -46,9 +46,9 @@ namespace LASI.FileSystem
             FullPathSansExt = Directory + FileNameSansExt;
         }
         /// <summary>
-        /// Constructs a new instance from the given pararameters.
+        /// Constructs entity new instance from the given pararameters.
         /// </summary>
-        /// <param name="fileNameWithPathAndExt">The full newPath, filename, and file extension of a file as single, non escaped, string.</param>
+        /// <param name="fileNameWithPathAndExt">The full newPath, filename, and file extension of entity file as single, non escaped, string.</param>
         public FileData(string fileNameWithPathAndExt)
             : this() {
             Directory = fileNameWithPathAndExt.Substring(0, fileNameWithPathAndExt.LastIndexOf('\\') + 1);

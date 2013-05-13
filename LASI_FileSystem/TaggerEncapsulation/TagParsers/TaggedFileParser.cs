@@ -19,7 +19,7 @@ namespace LASI.FileSystem
     {
         #region Construtors
         /// <summary>
-        /// Initialized a new instance of the TaggedFilerParser class to parse the contents of a specific file.
+        /// Initialized entity new instance of the TaggedFilerParser class to parse the contents of entity specific file.
         /// </summary>
         /// <param name="filePath">The wrapper which encapsulates the newPath information for the pre-POS-tagged file to parse.</param>
         public TaggedFileParser(TaggedFile file) {
@@ -44,7 +44,7 @@ namespace LASI.FileSystem
         /// <summary>
         /// Returns an instance of ParentDocument which contains the run time representation of all of the textual construct in the document, for the Algorithm to analyse.
         /// </summary>
-        /// <returns>a traversable, queriable document object defining the run time representation of the tagged file which the TaggedFileParser governs. </returns>
+        /// <returns>entity traversable, queriable document object defining the run time representation of the tagged file which the TaggedFileParser governs. </returns>
         public override Document LoadDocument() {
             return new Document(LoadParagraphs()) {
                 FileName = TaggededDocumentFile != null ? TaggededDocumentFile.NameSansExt : "Untitled"
@@ -177,9 +177,9 @@ namespace LASI.FileSystem
         }
 
         /// <summary>
-        /// Reads a [outerNP Square Brack Delimited Phrase Chunk] and returns a entity tag determined subtype of LASI.Phrase which in turn contains all the run time representations of the individual words within it.
+        /// Reads entity [outerNP Square Brack Delimited Phrase Chunk] and returns entity entity tag determined subtype of LASI.Phrase which in turn contains all the run time representations of the individual words within it.
         /// </summary>
-        /// <param name="taggedContent">The TextTagPair instance which contains the content of a entity and its Tag.</param>
+        /// <param name="taggedContent">The TextTagPair instance which contains the content of entity entity and its Tag.</param>
         /// <returns></returns>
         protected virtual Phrase ParsePhrase(TextTagPair taggedContent) {
             var phraseTag = taggedContent.Tag.Trim();
@@ -194,9 +194,9 @@ namespace LASI.FileSystem
             }
         }
         /// <summary>
-        /// Reads a [outerNP Square Brack Delimited Phrase Chunk] and returns a entity tag determined subtype of LASI.Phrase which in turn contains all the run time representations of the individual words within it.
+        /// Reads entity [outerNP Square Brack Delimited Phrase Chunk] and returns entity entity tag determined subtype of LASI.Phrase which in turn contains all the run time representations of the individual words within it.
         /// </summary>
-        /// <param name="taggedContent">The TextTagPair instance which contains the content of a entity and its Tag.</param>
+        /// <param name="taggedContent">The TextTagPair instance which contains the content of entity entity and its Tag.</param>
         /// <returns></returns>
         protected virtual async Task<Phrase> ParsePhraseAsync(TextTagPair taggedContent) {
             var phraseTag = taggedContent.Tag.Trim();
@@ -209,11 +209,11 @@ namespace LASI.FileSystem
         }
 
         /// <summary>
-        /// Parses a string of text containing tagged words 
+        /// Parses entity string of text containing tagged words 
         /// e.g. "LASI/NNP can/MD sniff-out/VBP the/DT problem/NN" 
-        /// into a collection of Part of Speech subtyped Word instances which represent them.
+        /// into entity collection of Part of Speech subtyped Word instances which represent them.
         /// </summary>
-        /// <param name="wordData">a string containing tagged words.</param>
+        /// <param name="wordData">entity string containing tagged words.</param>
         /// <returns>The collection of Word objects that is their run time representation.</returns>
         protected virtual List<Word> CreateWords(string wordData) {
             var parsedWords = new List<Word>();
@@ -237,13 +237,13 @@ namespace LASI.FileSystem
             return elements;
         }
         /// <summary>
-        /// Parses a string of text containing tagged words,
+        /// Parses entity string of text containing tagged words,
         /// e.g. "LASI/NNP can/MD sniff-out/VBP the/DT problem/NN",
-        /// and returns of a collection containing, for each verb, a function which will create a Part of Speech subtyped Word instance
+        /// and returns of entity collection containing, for each verb, entity function which will create entity Part of Speech subtyped Word instance
         /// representing that verb.
         /// </summary>
-        /// <param name="wordData">a string containing tagged words.</param>
-        /// <returns>a List of constructor function instances which, when invoked, create run time objects which represent each verb in the source</returns>
+        /// <param name="wordData">entity string containing tagged words.</param>
+        /// <returns>entity List of constructor function instances which, when invoked, create run time objects which represent each verb in the source</returns>
         protected virtual List<Func<Word>> CreateWordExpressions(string wordData) {
             var wordExpressions = new List<Func<Word>>();
             var elements = GetTaggedWordLevelTokens(wordData);
