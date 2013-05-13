@@ -8,6 +8,7 @@ using System.Windows.Controls.DataVisualization.Charting;
 using LASI.Algorithm;
 using LASI.Algorithm.DocumentConstructs;
 using LASI.Algorithm.Thesauri;
+using LASI.InteropLayer;
 
 namespace LASI.UserInterface.DataVisualzationProviders
 {
@@ -295,7 +296,20 @@ namespace LASI.UserInterface.DataVisualzationProviders
             WindowManager.ResultsScreen.SVODResultsTabControl.Items.Add(tab);
 
         }
-        private static IEnumerable<object> CreateStringListsForData(IEnumerable<NpVpNpNpQuatruple> elementsToSerialize) {
+
+        public static IEnumerable<object> CreateStringListsForData(IEnumerable<CrossDocumentJoiner.NVNN> elementsToSerialize) {
+            return CreateStringListsForData(from e in elementsToSerialize
+                                            select new NpVpNpNpQuatruple
+                                            {
+                                                Direct = e.Direct,
+                                                Indirect = e.Indirect,
+                                                Subject = e.Subject,
+                                                Verbial = e.Verbial,
+                                                RelationshipWeight = e.RelationshipWeight
+                                            });
+        }
+
+        public static IEnumerable<object> CreateStringListsForData(IEnumerable<NpVpNpNpQuatruple> elementsToSerialize) {
             var dataRows = from result in elementsToSerialize
                            orderby result.RelationshipWeight
                            select new
@@ -347,7 +361,7 @@ namespace LASI.UserInterface.DataVisualzationProviders
     /// Sometimes an anonymous type simple will not do. So this little class is defined to 
     /// store temporary query data from transposed tables. god it is late. I can't document properly.
     /// </summary>
-    class NpVpNpNpQuatruple
+    public class NpVpNpNpQuatruple
     {
         public NounPhrase Subject {
             get;

@@ -103,6 +103,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="DataVisualzationProviders\ChartingManager.cs" />
+    <Compile Include="Dialogs\CrossJoinSelectDialog.xaml.cs">
+      <DependentUpon>CrossJoinSelectDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\DialogToProcedeToResults.xaml.cs">
       <DependentUpon>DialogToProcedeToResults.xaml</DependentUpon>
     </Compile>
@@ -122,6 +125,10 @@
     </Compile>
     <Compile Include="WindowManager.cs" />
     <Page Include="CreateProjectWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\CrossJoinSelectDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

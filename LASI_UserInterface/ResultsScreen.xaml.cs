@@ -13,6 +13,7 @@ using System.Windows.Controls;
 using System.Windows.Controls.DataVisualization.Charting;
 using System.Windows.Media;
 using LASI.UserInterface.DataVisualzationProviders;
+using LASI.InteropLayer;
 
 namespace LASI.UserInterface
 {
@@ -269,6 +270,23 @@ namespace LASI.UserInterface
             }
             var exportDialog = new DialogToProcedeToResults();
             exportDialog.ShowDialog();
+        }
+
+        private async void documentJoinButton_Click(object sender, RoutedEventArgs e) {
+            var documentJoinDialog = new CrossJoinSelectDialog(this);
+
+            bool? dialogResult = documentJoinDialog.ShowDialog();
+            if (dialogResult ?? false) {
+                var selectedDocument = documentJoinDialog.SelectDocuments;
+                CrossDocumentJoiner joiner = new CrossDocumentJoiner(selectedDocument, new ProgressBar());
+                var crossResults = await joiner.JoinDocuments();
+                CreateMetaResultsView(crossResults);
+            }
+        }
+
+        private void CreateMetaResultsView(IEnumerable<CrossDocumentJoiner.NVNN> crossResults) {
+            var data = ChartingManager.CreateStringListsForData(crossResults);
+            metaRelationshipsDataGrid.ItemsSource = data;
         }
 
     }
