@@ -34,9 +34,7 @@ namespace LASI.InteropLayer
                         Direct = v.DirectObjects.OfType<NounPhrase>().FirstOrDefault(),
                         Indirect = v.IndirectObjects.OfType<NounPhrase>().FirstOrDefault(),
                         Subject = v.BoundSubjects.OfType<NounPhrase>().FirstOrDefault(),
-                    } into com
-                    group com by com into result
-                    select result.Key);
+                    }).Distinct();
 
         }
 
@@ -47,7 +45,7 @@ namespace LASI.InteropLayer
             }
 
             public int GetHashCode(VerbPhrase obj) {
-                return obj.GetHashCode();
+                return 1;
             }
         }
 
@@ -116,23 +114,30 @@ namespace LASI.InteropLayer
                 return result;
             }
             public override int GetHashCode() {
-                return base.GetHashCode();
+                return 1;
             }
             public override bool Equals(object obj) {
+
                 return this == obj as NVNN;
             }
             public static bool operator ==(NVNN lhs, NVNN rhs) {
-                bool result = lhs.Verbial.Text == rhs.Verbial.Text || lhs.Verbial.IsSimilarTo(rhs.Verbial);
-                result &= NounPhraseComparers.AliasOrSimilarity.Equals(lhs.Subject, rhs.Subject);
-                if (lhs.Direct != null && rhs.Direct != null) {
-                    result &= NounPhraseComparers.AliasOrSimilarity.Equals(lhs.Direct, rhs.Direct);
-                } else if (lhs.Direct == null || rhs.Direct == null)
+                if ((lhs as object != null || rhs as object == null) || (lhs as object == null || rhs as object != null))
                     return false;
-                if (lhs.Indirect != null && rhs.Indirect != null) {
-                    result &= NounPhraseComparers.AliasOrSimilarity.Equals(lhs.Indirect, rhs.Indirect);
-                } else if (lhs.Indirect == null || rhs.Indirect == null)
-                    return false;
-                return result;
+                else if (lhs as object == null && rhs as object == null)
+                    return true;
+                else {
+                    bool result = lhs.Verbial.Text == rhs.Verbial.Text || lhs.Verbial.IsSimilarTo(rhs.Verbial);
+                    result &= NounPhraseComparers.AliasOrSimilarity.Equals(lhs.Subject, rhs.Subject);
+                    if (lhs.Direct != null && rhs.Direct != null) {
+                        result &= NounPhraseComparers.AliasOrSimilarity.Equals(lhs.Direct, rhs.Direct);
+                    } else if (lhs.Direct == null || rhs.Direct == null)
+                        return false;
+                    if (lhs.Indirect != null && rhs.Indirect != null) {
+                        result &= NounPhraseComparers.AliasOrSimilarity.Equals(lhs.Indirect, rhs.Indirect);
+                    } else if (lhs.Indirect == null || rhs.Indirect == null)
+                        return false;
+                    return result;
+                }
             }
 
             public static bool operator !=(NVNN lhs, NVNN rhs) {

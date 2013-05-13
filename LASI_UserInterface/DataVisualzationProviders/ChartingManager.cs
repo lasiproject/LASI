@@ -9,6 +9,7 @@ using LASI.Algorithm;
 using LASI.Algorithm.DocumentConstructs;
 using LASI.Algorithm.Thesauri;
 using LASI.InteropLayer;
+using LASI.Algorithm.PredefinedComparers;
 
 namespace LASI.UserInterface.DataVisualzationProviders
 {
@@ -349,12 +350,32 @@ namespace LASI.UserInterface.DataVisualzationProviders
     /// </summary>
     struct CompositionComparer : IEqualityComparer<NpVpNpNpQuatruple>
     {
-        public bool Equals(NpVpNpNpQuatruple x, NpVpNpNpQuatruple y) {
-            return x == y;
+        public bool Equals(NpVpNpNpQuatruple lhs, NpVpNpNpQuatruple rhs) {
+            if ((lhs as object != null || rhs as object == null) || (lhs as object == null || rhs as object != null))
+                return false;
+            else if (lhs as object == null && rhs as object == null)
+                return true;
+            if ((lhs as object != null || rhs as object == null) || (lhs as object == null || rhs as object != null))
+                return false;
+            else if (lhs as object == null && rhs as object == null)
+                return true;
+            else {
+                bool result = lhs.Verbial.Text == rhs.Verbial.Text || lhs.Verbial.IsSimilarTo(rhs.Verbial);
+                result &= NounPhraseComparers.AliasOrSimilarity.Equals(lhs.Subject, rhs.Subject);
+                if (lhs.Direct != null && rhs.Direct != null) {
+                    result &= NounPhraseComparers.AliasOrSimilarity.Equals(lhs.Direct, rhs.Direct);
+                } else if (lhs.Direct == null || rhs.Direct == null)
+                    return false;
+                if (lhs.Indirect != null && rhs.Indirect != null) {
+                    result &= NounPhraseComparers.AliasOrSimilarity.Equals(lhs.Indirect, rhs.Indirect);
+                } else if (lhs.Indirect == null || rhs.Indirect == null)
+                    return false;
+                return result;
+            }
         }
 
         public int GetHashCode(NpVpNpNpQuatruple obj) {
-            return obj.GetHashCode();
+            return 1;
         }
     }
     /// <summary>
@@ -398,14 +419,33 @@ namespace LASI.UserInterface.DataVisualzationProviders
             return result;
         }
         public override int GetHashCode() {
-            return base.GetHashCode();
+            return 1;
         }
         public override bool Equals(object obj) {
             return this == obj as NpVpNpNpQuatruple;
         }
         public static bool operator ==(NpVpNpNpQuatruple lhs, NpVpNpNpQuatruple rhs) {
-            return lhs.ToString() == rhs.ToString() ||
-                 lhs.Subject.IsSimilarTo(rhs.Subject) && lhs.Verbial.IsSimilarTo(rhs.Verbial);
+            if ((lhs as object != null || rhs as object == null) || (lhs as object == null || rhs as object != null))
+                return false;
+            else if (lhs as object == null && rhs as object == null)
+                return true;
+            if ((lhs as object != null || rhs as object == null) || (lhs as object == null || rhs as object != null))
+                return false;
+            else if (lhs as object == null && rhs as object == null)
+                return true;
+            else {
+                bool result = lhs.Verbial.Text == rhs.Verbial.Text || lhs.Verbial.IsSimilarTo(rhs.Verbial);
+                result &= NounPhraseComparers.AliasOrSimilarity.Equals(lhs.Subject, rhs.Subject);
+                if (lhs.Direct != null && rhs.Direct != null) {
+                    result &= NounPhraseComparers.AliasOrSimilarity.Equals(lhs.Direct, rhs.Direct);
+                } else if (lhs.Direct == null || rhs.Direct == null)
+                    return false;
+                if (lhs.Indirect != null && rhs.Indirect != null) {
+                    result &= NounPhraseComparers.AliasOrSimilarity.Equals(lhs.Indirect, rhs.Indirect);
+                } else if (lhs.Indirect == null || rhs.Indirect == null)
+                    return false;
+                return result;
+            }
         }
         public static bool operator !=(NpVpNpNpQuatruple lhs, NpVpNpNpQuatruple rhs) {
             return !(lhs == rhs);

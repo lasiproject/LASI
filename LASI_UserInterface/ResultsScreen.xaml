@@ -94,7 +94,7 @@
             </TabItem>
             <TabItem x:Name="metaViewTab" Header="MetaView" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="73" Margin="-2,-2,-14,0">
                 <Grid Background="#FFE5E5E5">
-                    <Custom:DataGrid x:Name="metaRelationshipsDataGrid" HorizontalAlignment="Left" VerticalAlignment="Top" Height="393" Width="579" />
+                    <Custom:DataGrid x:Name="metaRelationshipsDataGrid" />
                 </Grid>
             </TabItem>
 

@@ -57,7 +57,7 @@ namespace LASI.Algorithm.PredefinedComparers
         }
 
         public int GetHashCode(NounPhrase obj) {
-            return obj.GetHashCode();
+            return 1;
         }
     }
     public class Similarity : IEqualityComparer<NounPhrase>
@@ -69,7 +69,7 @@ namespace LASI.Algorithm.PredefinedComparers
         }
 
         public int GetHashCode(NounPhrase obj) {
-            return obj.GetHashCode();
+            return 1;
         }
     }
     public class Alias : IEqualityComparer<NounPhrase>
@@ -81,7 +81,7 @@ namespace LASI.Algorithm.PredefinedComparers
         }
 
         public int GetHashCode(NounPhrase obj) {
-            return obj.GetHashCode();
+            return 1;
         }
     }
     public class AliasOrSimilarity : IEqualityComparer<NounPhrase>
@@ -93,7 +93,7 @@ namespace LASI.Algorithm.PredefinedComparers
         }
 
         public int GetHashCode(NounPhrase obj) {
-            return obj.GetHashCode();
+            return 1;
         }
     }
 
