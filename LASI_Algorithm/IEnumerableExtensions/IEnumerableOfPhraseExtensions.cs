@@ -18,7 +18,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Returns all NounPhrases in the sequence.
         /// </summary>
-        /// <param name="phrases">The sequence of phrases to filter</param>
+        /// <param name="componentPhrases">The sequence of componentPhrases to filter</param>
         /// <returns>All NounPhrases in the sequence</returns>
         public static IEnumerable<NounPhrase> GetNounPhrases(this IEnumerable<Phrase> phrases) {
             return phrases.OfType<NounPhrase>();
@@ -27,7 +27,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Returns all VerbPhrases in the sequence.
         /// </summary>
-        /// <param name="phrases">The sequence of phrases to filter.</param>
+        /// <param name="componentPhrases">The sequence of componentPhrases to filter.</param>
         /// <returns>All VerbPhrases in the sequence</returns>
         public static IEnumerable<VerbPhrase> GetVerbPhrases(this IEnumerable<Phrase> phrases) {
             return phrases.OfType<VerbPhrase>();
@@ -35,7 +35,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Returns all AdverbPhrases in the sequence.
         /// </summary>
-        /// <param name="phrases">The sequence of phrases to filter</param>
+        /// <param name="componentPhrases">The sequence of componentPhrases to filter</param>
         /// <returns>All AdverbPhrases in the sequence</returns>
         public static IEnumerable<AdverbPhrase> GetAdverbPhrases(this IEnumerable<Phrase> phrases) {
             return phrases.OfType<AdverbPhrase>();
@@ -43,7 +43,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Returns all ConjunctionPhrases in the sequence.
         /// </summary>
-        /// <param name="phrases">The sequence of phrases to filter</param>
+        /// <param name="componentPhrases">The sequence of componentPhrases to filter</param>
         /// <returns>All ConjunctionPhrases in the sequence</returns>
         public static IEnumerable<ConjunctionPhrase> GetConjunctionPhrases(this IEnumerable<Phrase> phrases) {
             return phrases.OfType<ConjunctionPhrase>();
@@ -51,7 +51,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Returns all PrepositionalPhrases in the sequence.
         /// </summary>
-        /// <param name="phrases">The sequence of phrases to filter</param>
+        /// <param name="componentPhrases">The sequence of componentPhrases to filter</param>
         /// <returns>All PrepositionalPhrases in the sequence</returns>
         public static IEnumerable<PrepositionalPhrase> GetPrepositionalPhrases(this IEnumerable<Phrase> phrases) {
             return phrases.OfType<PrepositionalPhrase>();
@@ -59,7 +59,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Returns all PronounPhrase in the sequence.
         /// </summary>
-        /// <param name="phrases">The sequence of phrases to filter</param>
+        /// <param name="componentPhrases">The sequence of componentPhrases to filter</param>
         /// <returns>All PronounPhrase in the sequence</returns>
         public static IEnumerable<PronounPhrase> GetPronounPhrases(this IEnumerable<Phrase> phrases) {
             return phrases.OfType<PronounPhrase>();
@@ -67,7 +67,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Returns all AdjectivePhrases in the sequence.
         /// </summary>
-        /// <param name="phrases">The sequence of phrases to filter</param>
+        /// <param name="componentPhrases">The sequence of componentPhrases to filter</param>
         /// <returns>All AdjectivePhrases in the sequence</returns>
         public static IEnumerable<AdjectivePhrase> GetAdjectivePhrases(this IEnumerable<Phrase> phrases) {
             return phrases.OfType<AdjectivePhrase>();

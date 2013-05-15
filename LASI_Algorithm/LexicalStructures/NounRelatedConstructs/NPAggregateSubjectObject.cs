@@ -36,23 +36,23 @@ namespace LASI.Algorithm
             set;
         }
         /// <summary>
-        /// Gets the ITransitiveVerbial instance, generally entity TransitiveVerb or TransitiveVerbPhrase, which the NPAggregateSubjectObject is the DIRECT object of.
+        /// Gets the ITransitiveVerbal instance, generally entity TransitiveVerb or TransitiveVerbPhrase, which the NPAggregateSubjectObject is the DIRECT object of.
         /// </summary>
-        public ITransitiveVerbial DirectObjectOf {
+        public ITransitiveVerbal DirectObjectOf {
             get;
             set;
         }
         /// <summary>
-        /// Gets the ITransitiveVerbial instance, generally entity TransitiveVerb or TransitiveVerbPhrase, which the NPAggregateSubjectObject is the INDIRECT object of.
+        /// Gets the ITransitiveVerbal instance, generally entity TransitiveVerb or TransitiveVerbPhrase, which the NPAggregateSubjectObject is the INDIRECT object of.
         /// </summary>
-        public ITransitiveVerbial IndirectObjectOf {
+        public ITransitiveVerbal IndirectObjectOf {
             get;
             set;
         }
         /// <summary>
-        /// Gets the ITransitiveVerbial instance, generally entity Verb or VerbPhrase, which the NPAggregateSubjectObject is the subject of.
+        /// Gets the ITransitiveVerbal instance, generally entity Verb or VerbPhrase, which the NPAggregateSubjectObject is the subject of.
         /// </summary>
-        public ITransitiveVerbial SubjectOf {
+        public ITransitiveVerbal SubjectOf {
             get;
             set;
         }

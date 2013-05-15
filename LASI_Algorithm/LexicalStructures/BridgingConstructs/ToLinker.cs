@@ -7,7 +7,7 @@ using System.Xml.Linq;
 namespace LASI.Algorithm
 {
     /// <summary>
-    /// Represents the word "TO", entity dynamic prepositional construct which can link words, phrases and clauses together.
+    /// Represents the word "TO", entity dynamic prepositional construct which can link words, componentPhrases and clauses together.
     /// </summary>
     public class ToLinker : Word, IPrepositional
     {

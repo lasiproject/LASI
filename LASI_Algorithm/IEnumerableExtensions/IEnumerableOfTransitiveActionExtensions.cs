@@ -13,7 +13,7 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="actions">The Enumerable of Transitive Action instances to filter.</param>
         /// <returns>The subset of actions bound to at least one direct object.</returns>
-        public static IEnumerable<ITransitiveVerbial> WithDirectObject(this IEnumerable<ITransitiveVerbial> actions) {
+        public static IEnumerable<ITransitiveVerbal> WithDirectObject(this IEnumerable<ITransitiveVerbal> actions) {
             return from TA in actions
                    where TA.DirectObjects.Count(o => o != null) > 0
                    select TA;
@@ -25,7 +25,7 @@ namespace LASI.Algorithm
         /// <param name="actions">The Enumerable of Transitive Action instances to filter.</param>
         /// <param name="condition">The function specifying the match condition. Any function which takes an IEntity and return entity bool is compatible.</param>
         /// <returns>The subset of actions bound to at least one direct object which matches the conidition.</returns>
-        public static IEnumerable<ITransitiveVerbial> WithDirectObject(this IEnumerable<ITransitiveVerbial> actions, Func<IEntity, bool> condition) {
+        public static IEnumerable<ITransitiveVerbal> WithDirectObject(this IEnumerable<ITransitiveVerbal> actions, Func<IEntity, bool> condition) {
             return from TA in actions.WithDirectObject()
                    where TA.DirectObjects.Count(o => {
                        var p = o as Pronoun;
@@ -38,7 +38,7 @@ namespace LASI.Algorithm
         /// Filters the sequence of Transitive Action instances selecting those with at least one bound indirect object.
         /// <param name="actions">The Enumerable of Verb objects to filter.</param>
         /// <returns>The subset bound to an indirect object.</returns>
-        public static IEnumerable<ITransitiveVerbial> WithIndirectObject(this IEnumerable<ITransitiveVerbial> actions) {
+        public static IEnumerable<ITransitiveVerbal> WithIndirectObject(this IEnumerable<ITransitiveVerbal> actions) {
             return from TA in actions
                    where TA.IndirectObjects.Count(o => o != null) > 0
                    select TA;
@@ -50,7 +50,7 @@ namespace LASI.Algorithm
         /// <param name="actions">The Enumerable of Transitive Action instances to filter.</param>
         /// <param name="condition">The function specifying the match condition. Any function which takes an IEntity and return entity bool is compatible.</param>
         /// <returns>The subset of actuibs bound to at least one indirect object which matches the condition.</returns>
-        public static IEnumerable<ITransitiveVerbial> WithIndirectObject(this IEnumerable<ITransitiveVerbial> actions, Func<IEntity, bool> condition) {
+        public static IEnumerable<ITransitiveVerbal> WithIndirectObject(this IEnumerable<ITransitiveVerbal> actions, Func<IEntity, bool> condition) {
             return from TA in actions.WithIndirectObject()
                    where TA.IndirectObjects.Count(o => {
                        var p = o as Pronoun;

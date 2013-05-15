@@ -120,7 +120,7 @@ namespace LASI.Algorithm.DocumentConstructs
 
         //}
         ///// <summary>
-        ///// Prints out the entire contents of the document, from left to right, by using the using the lexical links of each of its phrases.
+        ///// Prints out the entire contents of the document, from left to right, by using the using the lexical links of each of its componentPhrases.
         ///// </summary>
         //public void PrintByPhraseLinkage() {
 
@@ -132,8 +132,8 @@ namespace LASI.Algorithm.DocumentConstructs
         /// Returns all of the Action identified within the docimument.
         /// </summary>
         /// <returns>all of the Action identified within the docimument.</returns>
-        public IEnumerable<ITransitiveVerbial> GetActions() {
-            return from a in _words.GetVerbs().Concat<ITransitiveVerbial>(_phrases.GetVerbPhrases())
+        public IEnumerable<ITransitiveVerbal> GetActions() {
+            return from a in _words.GetVerbs().Concat<ITransitiveVerbal>(_phrases.GetVerbPhrases())
                    orderby a is Word ? (a as Word).ID : (a as Phrase).Words.Last().ID ascending
                    select a;
         }

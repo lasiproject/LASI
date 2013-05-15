@@ -122,7 +122,7 @@ namespace LASI.Algorithm.Thesauri
                 && Lookup(other).Contains(word.Text);
         }
         /// <summary>
-        /// This takes two noun phrases and determines if they are similar.
+        /// This takes two noun componentPhrases and determines if they are similar.
         /// </summary>
         /// <param name="lhs"></param>
         /// <param name="rhs"></param>
@@ -149,7 +149,7 @@ namespace LASI.Algorithm.Thesauri
         }
 
         /// <summary>
-        /// Determine if two noun phrases are similar
+        /// Determine if two noun componentPhrases are similar
         /// </summary>
         /// <param name="entity"></param>
         /// <param name="other"></param>

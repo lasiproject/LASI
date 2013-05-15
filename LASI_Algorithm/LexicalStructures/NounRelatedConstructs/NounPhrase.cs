@@ -11,7 +11,7 @@ namespace LASI.Algorithm
 {
     /// <summary>
     /// Represents entity noun entity such as "The Pinko-Commy Conspiracy".
-    /// Note that noun phrases are the constructs which wrap both nouns and pronouns at the entity level.
+    /// Note that noun componentPhrases are the constructs which wrap both nouns and pronouns at the entity level.
     /// </summary>
     public class NounPhrase : Phrase, IEntity
     {
@@ -107,9 +107,9 @@ namespace LASI.Algorithm
 
 
         /// <summary>
-        /// Gets the ITransitiveVerbial instance, generally entity TransitiveVerb or TransitiveVerbPhrase, which the NounPhrase is the DIRECT object of.
+        /// Gets the ITransitiveVerbal instance, generally entity TransitiveVerb or TransitiveVerbPhrase, which the NounPhrase is the DIRECT object of.
         /// </summary>
-        public virtual ITransitiveVerbial DirectObjectOf {
+        public virtual ITransitiveVerbal DirectObjectOf {
             get {
                 return _direcObjectOf;
             }
@@ -122,9 +122,9 @@ namespace LASI.Algorithm
         }
 
         /// <summary>
-        /// Gets the ITransitiveVerbial instance, generally entity TransitiveVerb or TransitiveVerbPhrase, which the NounPhrase is the INDIRECT object of.
+        /// Gets the ITransitiveVerbal instance, generally entity TransitiveVerb or TransitiveVerbPhrase, which the NounPhrase is the INDIRECT object of.
         /// </summary>
-        public virtual ITransitiveVerbial IndirectObjectOf {
+        public virtual ITransitiveVerbal IndirectObjectOf {
             get {
                 return _indirecObjectOf;
             }
@@ -137,20 +137,20 @@ namespace LASI.Algorithm
         }
 
         /// <summary>
-        /// Gets the ITransitiveVerbial instance, generally entity Verb or VerbPhrase, which the NounPhrase is the subject of.
+        /// Gets the ITransitiveVerbal instance, generally entity Verb or VerbPhrase, which the NounPhrase is the subject of.
         /// </summary>
-        public virtual ITransitiveVerbial SubjectOf {
+        public virtual ITransitiveVerbal SubjectOf {
             get {
                 return _subjectOf;
             }
             set {
                 _subjectOf = value;
-                foreach (var N in Words.OfType<IVerbialSubject>()) {
+                foreach (var N in Words.OfType<IVerbalSubject>()) {
                     N.SubjectOf = _subjectOf;
                 }
             }
         }
-        private ITransitiveVerbial _subjectOf;
+        private ITransitiveVerbal _subjectOf;
         /// <summary>
         /// Gets all of the IEntityReferences instances, generally Pronouns or PronounPhrases, which refer to the NounPhrase Instance.
         /// </summary>
@@ -240,8 +240,8 @@ namespace LASI.Algorithm
         private IList<IEntity> _possessed = new List<IEntity>();
         private IList<IPronoun> _boundPronouns = new List<IPronoun>();
         private IEntity _possessor;
-        private ITransitiveVerbial _direcObjectOf;
-        private ITransitiveVerbial _indirecObjectOf;
+        private ITransitiveVerbal _direcObjectOf;
+        private ITransitiveVerbal _indirecObjectOf;
 
 
     }

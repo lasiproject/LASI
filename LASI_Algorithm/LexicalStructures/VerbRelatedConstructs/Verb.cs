@@ -12,7 +12,7 @@ namespace LASI.Algorithm
     /// <summary>
     /// Provides the base class for all verb level verb constructs. An instance of this class represents entity verb in its base tense.
     /// </summary>
-    public class Verb : Word, ITransitiveVerbial, IAdverbialModifiable, IModalityModifiable, IEquatable<Verb>
+    public class Verb : Word, ITransitiveVerbal, IAdverbialModifiable, IModalityModifiable, IEquatable<Verb>
     {
         /// <summary>
         /// Initializes entity new instance of the Verb class which represents the base tense form of entity verb.
@@ -22,7 +22,7 @@ namespace LASI.Algorithm
         public Verb(string text, VerbTense tense)
             : base(text) {
             Tense = tense;
-            Arity = VerbialArity.Undetermined;
+            Arity = VerbalArity.Undetermined;
 
         }
         #region Methods
@@ -36,7 +36,7 @@ namespace LASI.Algorithm
             _modifiers.Add(adv);
             adv.Modified = this;
         }
-        //public virtual void ModifyWith(ITransitiveVerbial verbialModifier) {
+        //public virtual void ModifyWith(ITransitiveVerbal verbialModifier) {
         //    _modifiers.Add(verbialModifier);
         //    verbialModifier.Modified = this;
         //}
@@ -208,7 +208,7 @@ namespace LASI.Algorithm
 
 
 
-        public VerbialArity Arity {
+        public VerbalArity Arity {
             get;
             protected set;
         }

@@ -7,11 +7,11 @@ namespace LASI.Algorithm.FundamentalSyntacticInterfaces
     /// </summary>
     public interface IVerbialObject
     {
-        ITransitiveVerbial DirectObjectOf {
+        ITransitiveVerbal DirectObjectOf {
             get;
             set;
         }
-        ITransitiveVerbial IndirectObjectOf {
+        ITransitiveVerbal IndirectObjectOf {
             get;
             set;
         }

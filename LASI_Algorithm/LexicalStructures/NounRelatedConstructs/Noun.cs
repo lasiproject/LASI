@@ -104,21 +104,21 @@ namespace LASI.Algorithm
         /// <summary>
         ///Gets or sets the ITRansitiveAction instance, usually entity Verb or VerbPhrase, which the Noun is the direct object of.
         /// </summary>
-        public virtual ITransitiveVerbial DirectObjectOf {
+        public virtual ITransitiveVerbal DirectObjectOf {
             get;
             set;
         }
         /// <summary>
-        ///Gets or sets the IVerbial instance the Noun is the indirect object of.
+        ///Gets or sets the IVerbal instance the Noun is the indirect object of.
         /// </summary>
-        public virtual ITransitiveVerbial IndirectObjectOf {
+        public virtual ITransitiveVerbal IndirectObjectOf {
             get;
             set;
         }
         /// <summary>
-        ///Gets or sets the IVerbial instance the Noun is the subject of.
+        ///Gets or sets the IVerbal instance the Noun is the subject of.
         /// </summary>
-        public virtual ITransitiveVerbial SubjectOf {
+        public virtual ITransitiveVerbal SubjectOf {
             get;
             set;
         }

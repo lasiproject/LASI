@@ -59,21 +59,21 @@ namespace LASI.Algorithm
         /// <summary>
         /// The Verb construct which the Gerund is the subject of.
         /// </summary>
-        public ITransitiveVerbial SubjectOf {
+        public ITransitiveVerbal SubjectOf {
             get;
             set;
         }
         /// <summary>
         /// The Verb construct which the gerund is the direct object of.
         /// </summary>
-        public ITransitiveVerbial DirectObjectOf {
+        public ITransitiveVerbal DirectObjectOf {
             get;
             set;
         }
         /// <summary>
         /// The Verb construct which the gerund is the indirect object of.
         /// </summary>
-        public ITransitiveVerbial IndirectObjectOf {
+        public ITransitiveVerbal IndirectObjectOf {
             get;
             set;
         }

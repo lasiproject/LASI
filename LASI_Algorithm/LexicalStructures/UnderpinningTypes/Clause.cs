@@ -12,9 +12,9 @@ namespace LASI.Algorithm
 
         /// <summary>
         /// This class is currently experimental and is not entity tier in the ParentDocument objects created by the tagged file parsers
-        /// Initializes entity new instance of the Clause class, by composing the given linear sequence of phrases.
+        /// Initializes entity new instance of the Clause class, by composing the given linear sequence of componentPhrases.
         /// </summary>
-        /// <param name="phrases">The linear sequence of Phrases which compose to form the Clause.</param>
+        /// <param name="componentPhrases">The linear sequence of Phrases which compose to form the Clause.</param>
         public Clause(IEnumerable<Phrase> phrases) {
             Phrases = phrases;
         }

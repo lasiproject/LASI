@@ -15,7 +15,7 @@ namespace LASI.Algorithm
 
 
         public override string ToString() {
-            return Text + (BoundEntity != null ? " referring to -> " + BoundEntity.Text : "");
+            return base.ToString() + (BoundEntity != null ? " referring to -> " + BoundEntity.Text : "");
         }
 
         public IEntity BoundEntity {

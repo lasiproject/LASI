@@ -15,27 +15,27 @@ namespace Aluan_Experimentation
 {
     public class Program
     {
-        static string sourceText = @"LASI has been designed to run as a standalone, text analysis engine. 
-
-
-As such, it will be able to run on business grade laptop and desktop computers as well as high grade consumer PCs.
-
-
-Roughly speaking, a quad-core processor, 8 gigabytes of low latency DDR3 SRDAM, and a solid state based storage medium comprise the hardware requirements.";
+        static string sourceText = @"To bed someone is the most important thing you can do.";
         static string testPath = @"C:\Users\Aluan\Desktop\411writtensummary2.txt";
 
         static void Main(string[] args) {
 
-            var doc = TaggerUtil.UntaggedToDoc(sourceText);
-
-
+            var taggedText = TaggerUtil.TagString(sourceText);
+            Output.WriteLine(taggedText);
+            var doc = TaggerUtil.TaggedToDoc(taggedText);
+            Phrase.VerboseOutput = false;
+            Word.VerboseOutput = false;
             foreach (var s in doc.Sentences) {
                 new SubjectBinder().Bind(s);
                 new ObjectBinder().Bind(s);
             }
+            foreach (var word in doc.Words) {
+                Output.WriteLine(word);
+            }
             foreach (var phrase in doc.Phrases) {
                 Output.WriteLine(phrase);
             }
+
 
             Input.WaitForKey();
         }
@@ -89,13 +89,14 @@ Roughly speaking, a quad-core processor, 8 gigabytes of low latency DDR3 SRDAM, 
                 var objectBinder = new ObjectBinder();
                 try {
                     subjectBinder.Bind(s);
-                } catch (NullReferenceException) {
+                }
+                catch (NullReferenceException) {
                 }
                 try {
                     objectBinder.Bind(s);
                 }
-                    //catch (InvalidStateTransitionException) {
-                    //}
+                //catch (InvalidStateTransitionException) {
+                //}
                 catch (VerblessPhrasalSequenceException) {
                 }
             }
@@ -128,7 +129,8 @@ Roughly speaking, a quad-core processor, 8 gigabytes of low latency DDR3 SRDAM, 
             for (var k = Console.ReadLine(); ; ) {
                 try {
                     Output.WriteLine(Thesaurus.VerbProvider[k].OrderBy(o => o).Aggregate("", (aggr, s) => s.PadRight(30) + ", " + aggr));
-                } catch (ArgumentNullException) {
+                }
+                catch (ArgumentNullException) {
                     Output.WriteLine("no synonyms returned");
                 }
                 Output.WriteLine("enter verb: ");

@@ -16,7 +16,7 @@ namespace LASI.Algorithm.ClauseTypes
 
         #region Constructors
         /// <summary>
-        /// Initializes entity new instance of the SubordinateClause class, by composing the given linear sequence of phrases.
+        /// Initializes entity new instance of the SubordinateClause class, by composing the given linear sequence of componentPhrases.
         /// </summary>
         /// <param name="composed">The linear sequence of Phrases which compose to form the Clause.</param>
         public SubordinateClause(IEnumerable<Phrase> composed)
@@ -54,7 +54,7 @@ namespace LASI.Algorithm.ClauseTypes
         /// <summary>
         /// Gets or sets the Verbial construct which the subordinate clause modifies.
         /// </summary>
-        public IVerbial Modified {
+        public IVerbal Modified {
             //get;
             //set;
             get {
@@ -93,7 +93,7 @@ namespace LASI.Algorithm.ClauseTypes
 
         #region Fields
         private IEntity _described;
-        private IVerbial _modified;
+        private IVerbal _modified;
         #endregion
 
     }

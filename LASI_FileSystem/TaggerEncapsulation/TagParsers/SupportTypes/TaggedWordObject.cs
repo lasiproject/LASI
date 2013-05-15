@@ -56,7 +56,7 @@ namespace LASI.FileSystem
     public struct TaggedClauseObject
     {
         /// <summary>
-        /// The inner text content of the clause, presumably consisting of one or more phrases.
+        /// The inner text content of the clause, presumably consisting of one or more componentPhrases.
         /// </summary>
         public string Text {
             get;

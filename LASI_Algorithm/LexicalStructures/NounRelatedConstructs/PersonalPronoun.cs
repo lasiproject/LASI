@@ -17,7 +17,9 @@ namespace LASI.Algorithm
         public PersonalPronoun(string text)
             : base(text) {
             var t = text.ToLower();
-            PronounKind = t == "him" || t == "he" ? PronounKind.Male : t == "her" || t == "she" ? PronounKind.Female : t == "it" || t == "that" || t == "this" ? PronounKind.GenderNeurtral : PronounKind.Ambiguous;
+            PronounKind = t == "him" || t == "he" ? PronounKind.Male : t == "her"
+                || t == "she" ? PronounKind.Female : t == "it" || t == "that" ||
+                t == "this" ? PronounKind.GenderNeurtral : PronounKind.Ambiguous;
         }
     }
 }

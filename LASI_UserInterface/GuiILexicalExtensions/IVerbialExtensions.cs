@@ -23,9 +23,9 @@ namespace LASI.UserInterface.GuiILexicalExtensions
         /// <summary>
         /// Transforms the Verbial Construct in Subjects GUI Label which includes role specialized context menus, tooltips, and Subjects direct Link to the Verbial as Subjects Lexical.
         /// </summary>
-        /// <param name="verbial">The ITransitiveVerbial construct to transforms</param>
+        /// <param name="verbial">The ITransitiveVerbal construct to transforms</param>
         /// <returns>A Specialized Label representing the given Verbial.</returns>
-        public static LexicalLabel ToLabel(this ITransitiveVerbial verbial) {
+        public static LexicalLabel ToLabel(this ITransitiveVerbal verbial) {
             return new LexicalLabel {
                 VisualizedLexical = verbial,
                 Content = verbial.Text,
@@ -37,7 +37,7 @@ namespace LASI.UserInterface.GuiILexicalExtensions
         /// </summary>
         /// <param name="verbial">The verbial which the lexical Label does or will wrap.</param>
         /// <returns>A new context menu containing functionality specific the verbial instance, its associations, and their own LexicalLabels.</returns>
-        private static ContextMenu CreateContextMenu(ITransitiveVerbial verbial) {
+        private static ContextMenu CreateContextMenu(ITransitiveVerbal verbial) {
             var result = new ContextMenu();
             if (verbial.BoundSubjects.Count() > 0) {
                 var referencedSubjectCMI = new MenuItem {

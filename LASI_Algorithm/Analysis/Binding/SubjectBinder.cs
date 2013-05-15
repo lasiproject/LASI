@@ -54,9 +54,9 @@ namespace LASI.Algorithm.Binding
                         (i as VerbPhrase).BindSubject(i.PreviousPhrase as NounPhrase);
                         (i.PreviousPhrase as NounPhrase).wasBound = true;
                     }
-                    if ((i.PreviousPhrase.PreviousPhrase is NounPhrase) && 
+                    if (i.PreviousPhrase!=null&&((i.PreviousPhrase.PreviousPhrase is NounPhrase) && 
                         (i.PreviousPhrase.PreviousPhrase.ParentSentence == i.ParentSentence) && 
-                        !(i.PreviousPhrase.PreviousPhrase as NounPhrase).wasBound)
+                        !(i.PreviousPhrase.PreviousPhrase as NounPhrase).wasBound))
                     {
                         (i as VerbPhrase).BindSubject(i.PreviousPhrase.PreviousPhrase as NounPhrase);
                         (i.PreviousPhrase.PreviousPhrase as NounPhrase).wasBound = true;

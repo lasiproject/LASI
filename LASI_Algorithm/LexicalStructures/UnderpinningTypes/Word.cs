@@ -81,8 +81,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets the frequency of the word in the current document.
         /// </summary>
-        public int FrequencyCurrent
-        {
+        public int FrequencyCurrent {
             get;
             set;
         }
@@ -90,17 +89,15 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets the normalized frequency of word across all documents.
         /// </summary>
-        public int FrequencyAcross
-        {
+        public int FrequencyAcross {
             get;
             set;
         }
-        
+
         /// <summary>
         /// Gets the normalized frequency of word across all documents.
         /// </summary>
-        public int Synonyms
-        {
+        public int Synonyms {
             get;
             set;
         }
@@ -171,7 +168,7 @@ namespace LASI.Algorithm
             get;
             set;
         }
-    
+
 
         /// <summary>
         /// Gets or sets the numeric Weight of the Word over the context of all extant documents.
@@ -186,7 +183,13 @@ namespace LASI.Algorithm
         #region Static Members
 
         private static int IDProvider;
-
+        public static bool VerboseOutput {
+            get;
+            set;
+        }
+        static Word() {
+            VerboseOutput = true;
+        }
         #endregion
 
 

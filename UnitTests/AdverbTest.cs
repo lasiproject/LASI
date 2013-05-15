@@ -69,8 +69,8 @@ namespace AlgorithmAssemblyUnitTestProject
         public void ModiffiedTest() {
             string text = "quickly";
             Adverb target = new Adverb(text);
-            IVerbial expected = new Verb("run", VerbTense.Base);
-            IVerbial actual;
+            IVerbal expected = new Verb("run", VerbTense.Base);
+            IVerbal actual;
             target.Modified = expected;
             actual = target.Modified;
             Assert.AreEqual(expected, actual);

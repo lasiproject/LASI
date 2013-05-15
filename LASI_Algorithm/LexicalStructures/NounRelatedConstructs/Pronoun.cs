@@ -27,6 +27,16 @@ namespace LASI.Algorithm
 
         #region Methods
 
+        public override string Text {
+            get {
+                var result = base.Text;
+                result += VerboseOutput ? " " + PronounKind.ToString() : "";
+                return result;
+            }
+            protected set {
+                base.Text = value;
+            }
+        }
 
         public virtual void BindPronoun(IPronoun pro) {
             if (!_boundPronouns.Contains(pro))
@@ -62,9 +72,9 @@ namespace LASI.Algorithm
             }
         }
         /// <summary>
-        /// Gets the ITransitiveVerbial instance, generally entity TransitiveVerb or TransitiveVerbPhrase, which the Pronoun is the object of.
+        /// Gets the ITransitiveVerbal instance, generally entity TransitiveVerb or TransitiveVerbPhrase, which the Pronoun is the object of.
         /// </summary>
-        public virtual ITransitiveVerbial DirectObjectOf {
+        public virtual ITransitiveVerbal DirectObjectOf {
             get;
             set;
         }
@@ -76,16 +86,16 @@ namespace LASI.Algorithm
 
         }
         /// <summary>
-        /// Gets the ITransitiveVerbial instance, generally entity TransitiveVerb or TransitiveVerbPhrase, which the Pronoun is the INDIRECT object of.
+        /// Gets the ITransitiveVerbal instance, generally entity TransitiveVerb or TransitiveVerbPhrase, which the Pronoun is the INDIRECT object of.
         /// </summary>
-        public virtual ITransitiveVerbial IndirectObjectOf {
+        public virtual ITransitiveVerbal IndirectObjectOf {
             get;
             set;
         }
         /// <summary>
         /// Gets the ISubjectTaker instance, generally entity Verb or VerbPhrase, which the Pronoun is the subject of.
         /// </summary>
-        public virtual ITransitiveVerbial SubjectOf {
+        public virtual ITransitiveVerbal SubjectOf {
             get;
             set;
         }

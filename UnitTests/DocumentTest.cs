@@ -125,27 +125,27 @@ namespace AlgorithmAssemblyUnitTestProject
         public void GetActionsTest() {
 
             Document target = BuildDocumentManually();
-            IEnumerable<ITransitiveVerbial> expected = new ITransitiveVerbial[]{new VerbPhrase(new Word[] { 
+            IEnumerable<ITransitiveVerbal> expected = new ITransitiveVerbal[]{new VerbPhrase(new Word[] { 
                                 new ModalAuxilary("must"),
                                 new Verb("attack", VerbTense.Base) 
                             }),new Verb("attack", VerbTense.Base),  new VerbPhrase(new Word[] { 
                                 new ModalAuxilary("must"),
                                 new Verb("do", VerbTense.Base)
                             }),new Verb("do", VerbTense.Base)};
-            IEnumerable<ITransitiveVerbial> actual;
+            IEnumerable<ITransitiveVerbal> actual;
             actual = target.GetActions();
             foreach (var e in expected) {
                 Assert.IsTrue(actual.Contains(e, new VerbialEquater()));
             }
 
         }
-        private struct VerbialEquater : IEqualityComparer<ITransitiveVerbial>
+        private struct VerbialEquater : IEqualityComparer<ITransitiveVerbal>
         {
-            public bool Equals(ITransitiveVerbial a, ITransitiveVerbial b) {
+            public bool Equals(ITransitiveVerbal a, ITransitiveVerbal b) {
                 return a.Text == b.Text && a.GetType() == b.GetType();
             }
 
-            public int GetHashCode(ITransitiveVerbial obj) {
+            public int GetHashCode(ITransitiveVerbal obj) {
                 throw new NotImplementedException();
             }
         }

@@ -18,7 +18,7 @@ namespace LASI.Algorithm
         }
         public static IEnumerable<IEntity> InSubjectRole(
             this IEnumerable<IEntity> entities,
-            Func<ITransitiveVerbial, bool> condition
+            Func<ITransitiveVerbal, bool> condition
             ) {
             return from e in entities.InSubjectRole()
                    where condition(e.SubjectOf)
@@ -31,7 +31,7 @@ namespace LASI.Algorithm
         }
         public static IEnumerable<IEntity> InDirectObjectRole(
             this IEnumerable<IEntity> entities,
-            Func<ITransitiveVerbial, bool> condition
+            Func<ITransitiveVerbal, bool> condition
             ) {
             return from e in entities.InDirectObjectRole()
                    where condition(e.DirectObjectOf)
@@ -44,7 +44,7 @@ namespace LASI.Algorithm
         }
         public static IEnumerable<IEntity> InIndirectObjectRole(
             this IEnumerable<IEntity> entities,
-            Func<ITransitiveVerbial, bool> condition
+            Func<ITransitiveVerbal, bool> condition
             ) {
             return from e in entities.InIndirectObjectRole()
                    where condition(e.IndirectObjectOf)

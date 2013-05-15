@@ -28,9 +28,9 @@
 //            });
 
 //            var topActions = from l in SourceLexicals
-//                             where l is ITransitiveVerbial
+//                             where l is ITransitiveVerbal
 //                             orderby l.Weight
-//                             select l as ITransitiveVerbial;
+//                             select l as ITransitiveVerbal;
 
 //            var topEntities = from l in SourceLexicals
 //                              where l is IEntity

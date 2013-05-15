@@ -108,7 +108,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets the concatenated text content of all of the words which compose the entity.
         /// </summary>
-        public string Text {
+        public virtual string Text {
             get {
                 if (Words.Count(w => !string.IsNullOrWhiteSpace(w.Text)) > 0)
                     return Words.Aggregate("", (str, word) => str + " " + word.Text).Trim();

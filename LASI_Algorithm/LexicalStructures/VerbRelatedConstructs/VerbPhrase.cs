@@ -12,7 +12,7 @@ namespace LASI.Algorithm
     /// <summary>
     /// Represents entity Verb Phrase, entity Phrase with the syntactic role of entity verb.
     /// </summary>
-    public class VerbPhrase : Phrase, ITransitiveVerbial, IAdverbialModifiable, IModalityModifiable
+    public class VerbPhrase : Phrase, ITransitiveVerbal, IAdverbialModifiable, IModalityModifiable
     {
         #region Constructors
 
@@ -27,7 +27,7 @@ namespace LASI.Algorithm
                                                             group v.Tense by v.Tense into tenseGroup
                                                             orderby tenseGroup.Count()
                                                             select tenseGroup).First().Key : VerbTense.Base;
-            Arity = VerbialArity.Undetermined;
+            Arity = VerbalArity.Undetermined;
         }
 
         #endregion
@@ -117,7 +117,8 @@ namespace LASI.Algorithm
 
                 }
                 return result;
-            } else
+            }
+            else
                 return base.ToString();
         }
 
@@ -233,7 +234,7 @@ namespace LASI.Algorithm
         #endregion
 
 
-        public VerbialArity Arity {
+        public VerbalArity Arity {
             get;
             protected set;
         }

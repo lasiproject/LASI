@@ -95,8 +95,7 @@ namespace LASI.Algorithm.Analysis
 
             var phraseWeightPairs = from phrase in doc.Phrases.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
                                     let weight = phrase.Words.Average(w => w.Weight)
-                                    select new
-                                    {
+                                    select new {
                                         p = phrase,
                                         weight
                                     };
@@ -110,8 +109,7 @@ namespace LASI.Algorithm.Analysis
 
         private static void WeightPhrasesByLiteralFrequency(Document doc) {
             var phraseByCount = from phrase in doc.Phrases.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
-                                group phrase by new
-                                {
+                                group phrase by new {
                                     Type = phrase.GetType(),
                                     phrase.Text
                                 };
@@ -152,8 +150,7 @@ namespace LASI.Algorithm.Analysis
                                where ((from type in excluded
                                        where word.Type == type
                                        select type).Count() == 0)
-                               group word by new
-                               {
+                               group word by new {
                                    word.Type,
                                    word.Text
                                };
@@ -168,7 +165,7 @@ namespace LASI.Algorithm.Analysis
         /// <summary>
         /// For each noun phrase in entity document that is similar to another noun phrase, increase the weight of that noun
         /// </summary>
-        /// <param name="doc">Document containing the phrases to weight</param>
+        /// <param name="doc">Document containing the componentPhrases to weight</param>
         private static void WeightSimilarNounPhrases(Document doc) {
             /*
             //var np = doc.Phrases.GetNounPhrases();
@@ -188,8 +185,7 @@ namespace LASI.Algorithm.Analysis
             foreach (var outerNP in doc.Phrases.GetNounPhrases().AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)) {
                 var similarPhrases = from potentialM in
                                          (from innerNP in similarNounPhraseLookup[outerNP]
-                                          select new
-                                          {
+                                          select new {
                                               NP = outerNP,
                                               innerNP,
                                               similarityRatio = Thesaurus.getSimilarityRatio(outerNP, innerNP)
@@ -197,8 +193,8 @@ namespace LASI.Algorithm.Analysis
                                      where potentialM.similarityRatio >= 0.6
                                      select potentialM;
                 foreach (var match in similarPhrases) {
-                    match.NP.Weight += match.innerNP.Weight * (decimal) match.similarityRatio;
-                    match.innerNP.Weight += match.NP.Weight * (decimal) match.similarityRatio;
+                    match.NP.Weight += match.innerNP.Weight * (decimal)match.similarityRatio;
+                    match.innerNP.Weight += match.NP.Weight * (decimal)match.similarityRatio;
 
                 }
             }

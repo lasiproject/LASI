@@ -6,11 +6,11 @@ namespace LASI.Algorithm
     /// Defines the role reqirements for Transitive elements, generally Verbs or VerbPhrases,
     /// which can be bound to one or more Direct objects and to one or more Indirect objects .
     /// Along with the rhs interfaces in the Syntactic Interfaces Library,
-    /// the ITransitiveVerbial interface provides for generalization and abstraction over Word and Phrase types.
+    /// the ITransitiveVerbal interface provides for generalization and abstraction over Word and Phrase types.
     /// </summary>
-    public interface ITransitiveVerbial : IVerbial, IDirectObjectTaker, IInderectObjectTaker
+    public interface ITransitiveVerbal : IVerbal, IDirectObjectTaker, IInderectObjectTaker
     {
-        VerbialArity Arity {
+        VerbalArity Arity {
             get;
         }
     }
@@ -18,7 +18,7 @@ namespace LASI.Algorithm
 
 namespace LASI.Algorithm
 {
-    public enum VerbialArity
+    public enum VerbalArity
     {
         Undetermined,
         Nullary,

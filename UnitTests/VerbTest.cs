@@ -81,7 +81,7 @@ namespace AlgorithmAssemblyUnitTestProject
             Assert.IsTrue(target.Modality == null);
             Assert.IsTrue(target.IsPossessive == false);
             Assert.IsTrue(target.GivenExposition == null);
-            Assert.IsTrue(target.Arity == VerbialArity.Undetermined);
+            Assert.IsTrue(target.Arity == VerbalArity.Undetermined);
         }
 
         /// <summary>

@@ -133,8 +133,8 @@ namespace AlgorithmAssemblyUnitTestProject
         [TestMethod()]
         public void DirectObjectOfTest() {
             Noun target = CreateNoun();
-            ITransitiveVerbial expected = new PastTenseVerb("walked");
-            ITransitiveVerbial actual;
+            ITransitiveVerbal expected = new PastTenseVerb("walked");
+            ITransitiveVerbal actual;
             target.DirectObjectOf = expected;
             actual = target.DirectObjectOf;
             Assert.AreEqual(expected, actual);
@@ -159,8 +159,8 @@ namespace AlgorithmAssemblyUnitTestProject
         [TestMethod()]
         public void IndirectObjectOfTest() {
             Noun target = CreateNoun();
-            ITransitiveVerbial expected = new PastTenseVerb("gave");
-            ITransitiveVerbial actual;
+            ITransitiveVerbal expected = new PastTenseVerb("gave");
+            ITransitiveVerbal actual;
             target.IndirectObjectOf = expected;
             actual = target.IndirectObjectOf;
             Assert.AreEqual(expected, actual);
@@ -207,8 +207,8 @@ namespace AlgorithmAssemblyUnitTestProject
         [TestMethod()]
         public void SubjectOfTest() {
             Noun target = CreateNoun();
-            ITransitiveVerbial expected = new Verb("runs", VerbTense.SingularPresent);
-            ITransitiveVerbial actual;
+            ITransitiveVerbal expected = new Verb("runs", VerbTense.SingularPresent);
+            ITransitiveVerbal actual;
             target.SubjectOf = expected;
             actual = target.SubjectOf;
             Assert.AreEqual(expected, actual);
