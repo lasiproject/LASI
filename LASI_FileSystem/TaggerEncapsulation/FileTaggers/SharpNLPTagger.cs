@@ -161,6 +161,32 @@ namespace SharpNLPTaggingModule
             var result = output.ToString();
             return result;
         }
+        protected string Gender() {
+            StringBuilder output = new StringBuilder();
+            var paragraphs = from p in SourceText.Split(new[] { "<paragraph>", "</paragraph>" }, StringSplitOptions.RemoveEmptyEntries)
+                             select p;
+            foreach (var p in paragraphs) {
+                string[] sentences = SplitSentences(p);
+
+                foreach (string sentence in sentences) {
+                    string[] tokens = TokenizeSentence(sentence);
+                    string[] tags = PosTagTokens(tokens);
+
+                    string posTaggedSentence = string.Empty;
+
+                    for (int currentTag = 0; currentTag < tags.Length; currentTag++) {
+                        posTaggedSentence += tokens[currentTag] + @"/" + tags[currentTag] + " ";
+                    }
+
+                    output.Append(posTaggedSentence);
+                    output.Append("\r\n");
+                    output.Append(OpenNLP.Tools.Coreference.Similarity.GenderModel.GenderMain(mModelPath + "coref\\gen", posTaggedSentence));
+                    output.Append("\r\n\r\n");
+                }
+            }
+            var result = output.ToString();
+            return result;
+        }
 
         protected string Parse() {
             var sentenceID = 0;
@@ -263,30 +289,6 @@ namespace SharpNLPTaggingModule
             return mCoreferenceFinder.GetCoreferenceParse(parsedSentences.ToArray());
         }
 
-        protected string Gender() {
-            StringBuilder output = new StringBuilder();
-
-            string[] sentences = SplitSentences(SourceText);
-
-            foreach (string sentence in sentences) {
-                string[] tokens = TokenizeSentence(sentence);
-                string[] tags = PosTagTokens(tokens);
-
-                string posTaggedSentence = string.Empty;
-
-                for (int currentTag = 0; currentTag < tags.Length; currentTag++) {
-                    posTaggedSentence += tokens[currentTag] + @"/" + tags[currentTag] + " ";
-                }
-
-                output.Append(posTaggedSentence);
-                output.Append("\r\n");
-                output.Append(OpenNLP.Tools.Coreference.Similarity.GenderModel.GenderMain(mModelPath + "coref\\gen", posTaggedSentence));
-                output.Append("\r\n\r\n");
-            }
-
-            var result = output.ToString();
-            return result;
-        }
 
         protected string Similarity() {
             StringBuilder output = new StringBuilder();

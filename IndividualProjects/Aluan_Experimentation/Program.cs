@@ -15,22 +15,24 @@ namespace Aluan_Experimentation
 {
     public class Program
     {
-        static string sourceText = @"To bed someone is the most important thing you can do.";
+        static string sourceText = @"When a woman is the most important thing in your life, you are fucked.";
         static string testPath = @"C:\Users\Aluan\Desktop\411writtensummary2.txt";
 
         static void Main(string[] args) {
-
+            TaggerUtil.TaggerOption = TaggingOption.TagAndAggregate;
             var taggedText = TaggerUtil.TagString(sourceText);
             Output.WriteLine(taggedText);
+
             var doc = TaggerUtil.TaggedToDoc(taggedText);
             Phrase.VerboseOutput = false;
             Word.VerboseOutput = false;
             foreach (var s in doc.Sentences) {
-                new SubjectBinder().Bind(s);
-                new ObjectBinder().Bind(s);
-            }
-            foreach (var word in doc.Words) {
-                Output.WriteLine(word);
+                try {
+                    new SubjectBinder().Bind(s);
+                    new ObjectBinder().Bind(s);
+                }
+                catch (VerblessPhrasalSequenceException) {
+                }
             }
             foreach (var phrase in doc.Phrases) {
                 Output.WriteLine(phrase);

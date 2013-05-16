@@ -78,7 +78,7 @@ namespace LASI.Algorithm.Thesauri
         public static IEnumerable<string> InternalLookup(Verb verb) {
             if (!cachedVerbData.ContainsKey(verb.Text))
                 cachedVerbData[verb.Text] = VerbProvider[verb];
-            return cachedVerbData[verb.Text];
+            return cachedVerbData[verb.Text] ?? new List<string>();
         }
         public static IEnumerable<string> InternalLookup(Noun noun) {
             if (!cachedNounData.ContainsKey(noun.Text))
@@ -92,8 +92,7 @@ namespace LASI.Algorithm.Thesauri
             return AdjectiveProvider[verb];
         }
         public static IEnumerable<string> InternalLookup(Word word) {
-            throw new NoSynonymLookupForTypeException(word)
-            {
+            throw new NoSynonymLookupForTypeException(word) {
             };
         }
         public static NounThesaurus NounProvider {
@@ -113,6 +112,10 @@ namespace LASI.Algorithm.Thesauri
             private set;
         }
         public static bool IsSynonymFor(this Word word, Word other) {
+            if (word == null || other == null) {
+                return false;
+            }
+
             return (
                 word is Noun && other is Noun ||
                 word is Verb && other is Verb ||
@@ -120,6 +123,8 @@ namespace LASI.Algorithm.Thesauri
                 word is Adjective && other is Adjective
                 )
                 && Lookup(other).Contains(word.Text);
+
+
         }
         /// <summary>
         /// This takes two noun componentPhrases and determines if they are similar.
@@ -140,8 +145,13 @@ namespace LASI.Algorithm.Thesauri
             bool result = leftHandVerbs.Count == rightHandVerbs.Count;
 
             if (result) {
-                for (var i = 0; i < leftHandVerbs.Count; ++i) {
-                    result &= leftHandVerbs[i].IsSynonymFor(rightHandVerbs[i]);
+                try {
+                    for (var i = 0; i < leftHandVerbs.Count; ++i) {
+                        result &= leftHandVerbs[i].IsSynonymFor(rightHandVerbs[i]);
+                    }
+                }
+                catch (NullReferenceException) {
+                    return false;
                 }
             }
 
@@ -162,7 +172,8 @@ namespace LASI.Algorithm.Thesauri
             if (a.Words.Count() >= b.Words.Count()) {
                 outer = a;
                 inner = b;
-            } else {
+            }
+            else {
                 outer = b;
                 inner = a;
             }
@@ -178,7 +189,8 @@ namespace LASI.Algorithm.Thesauri
                 }
 
                 return (similarCount / (inner.Words.GetNouns().Count() * outer.Words.GetNouns().Count()));
-            } else
+            }
+            else
                 return 1;
 
         }
