@@ -188,7 +188,7 @@ namespace LASI.Algorithm
             set;
         }
         static Word() {
-            VerboseOutput = true;
+            VerboseOutput = false;
         }
         #endregion
 

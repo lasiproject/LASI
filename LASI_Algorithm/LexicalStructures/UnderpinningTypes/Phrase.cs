@@ -161,7 +161,7 @@ namespace LASI.Algorithm
         #region Static Methods
 
         static Phrase() {
-            VerboseOutput = true;
+            VerboseOutput = false;
         }
 
         #endregion
