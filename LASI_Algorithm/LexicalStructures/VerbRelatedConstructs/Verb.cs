@@ -49,6 +49,7 @@ namespace LASI.Algorithm
         public virtual void AttachObjectViaPreposition(IPrepositional prep) {
             //ObjectViaPreposition = this as object == prep.OnLeftSide as object && prep.OnRightSide != null ? prep.OnRightSide : null;
             ObjectViaPreposition = prep.PrepositionalObject;
+            PrepositionLinkingTarget = prep;
         }
 
         /// <summary>
@@ -211,6 +212,12 @@ namespace LASI.Algorithm
         public VerbalArity Arity {
             get;
             protected set;
+        }
+
+
+        public IPrepositional PrepositionLinkingTarget {
+            get;
+            set;
         }
     }
 }

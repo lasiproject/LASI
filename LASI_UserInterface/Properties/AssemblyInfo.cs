@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 using System.Windows;
 
 // General Information about an assembly is controlled through the following 
-// set of attributes. Change these attribute values to modify the information
+// outSet of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("LASI_UserInterface")]
 [assembly: AssemblyDescription("")]
@@ -18,13 +18,13 @@ using System.Windows;
 
 // Setting ComVisible to false makes the types in this assembly not visible 
 // to COM components.  If you need to access Subjects type in this assembly from 
-// COM, set the ComVisible attribute to true on that type.
+// COM, outSet the ComVisible attribute to true on that type.
 [assembly: ComVisible(false)]
 
-//In order to begin building localizable applications, set 
+//In order to begin building localizable applications, outSet 
 //<UICulture>CultureYouAreCodingWith</UICulture> in your .csproj file
 //inside Subjects <PropertyGroup>.  For example, if you are using US english
-//in your source files, set the <UICulture> to en-US.  Then uncomment
+//in your source files, outSet the <UICulture> to en-US.  Then uncomment
 //the NeutralResourceLanguage attribute below.  Update the "en-US" in
 //the line below to match the UICulture setting in the project file.
 

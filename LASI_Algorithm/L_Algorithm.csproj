@@ -80,6 +80,7 @@
     <Compile Include="DocumentConstructs\SubordinateClauseBeginPhrase.cs" />
     <Compile Include="EntityAliasMap.cs" />
     <Compile Include="IEnumerableExtensions\IEnumerableOfIEntityExtensions.cs" />
+    <Compile Include="IEnumerableExtensions\IEnumerableOfILexicalExtensions.cs" />
     <Compile Include="LexicalStructures\BridgingConstructs\PrepositionalRole.cs" />
     <Compile Include="LexicalStructures\ConstrainingSemanticConstructs\DeterminerKind.cs" />
     <Compile Include="LexicalStructures\ConstrainingSemanticConstructs\IDeterminable.cs" />

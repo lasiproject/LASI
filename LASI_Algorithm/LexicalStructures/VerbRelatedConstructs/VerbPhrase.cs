@@ -54,7 +54,7 @@ namespace LASI.Algorithm
                 prep.OnRightSide != null ?
                 prep.OnRightSide :
                 prep.OnLeftSide;
-
+            PrepositionLinkingTarget = prep;
 
 
         }
@@ -117,8 +117,7 @@ namespace LASI.Algorithm
 
                 }
                 return result;
-            }
-            else
+            } else
                 return base.ToString();
         }
 
@@ -237,6 +236,12 @@ namespace LASI.Algorithm
         public VerbalArity Arity {
             get;
             protected set;
+        }
+
+
+        public IPrepositional PrepositionLinkingTarget {
+            get;
+            set;
         }
     }
 }

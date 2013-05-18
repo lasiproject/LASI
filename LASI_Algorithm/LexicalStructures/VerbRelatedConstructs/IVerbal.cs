@@ -19,5 +19,8 @@ namespace LASI.Algorithm
         ILexical GivenExposition {
             get;
         }
+        IPrepositional PrepositionLinkingTarget {
+            get;
+        }
     }
 }

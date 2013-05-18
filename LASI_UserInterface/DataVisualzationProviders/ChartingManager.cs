@@ -249,6 +249,7 @@ namespace LASI.UserInterface.DataVisualzationProviders
                           Verbial = v as VerbPhrase ?? null,
                           Direct = dobj as NounPhrase ?? null,
                           Indirect = iobj as NounPhrase ?? null,
+                          ViaPreposition = v.ObjectViaPreposition ?? null,
                           RelationshipWeight = s.Weight + v.Weight + (dobj != null ? dobj.Weight : 0) + (iobj != null ? iobj.Weight : 0)
                       } into tupple
                       where
@@ -305,7 +306,8 @@ namespace LASI.UserInterface.DataVisualzationProviders
                                                 Direct = e.Direct,
                                                 Indirect = e.Indirect,
                                                 Subject = e.Subject,
-                                                Verbial = e.Verbial,
+                                                Verbial = e.Verbal,
+                                                ViaPreposition = e.ViaPreposition,
                                                 RelationshipWeight = e.RelationshipWeight
                                             });
         }
@@ -319,6 +321,7 @@ namespace LASI.UserInterface.DataVisualzationProviders
                                Verbial = result.Verbial != null ? result.Verbial.Text : string.Empty,
                                Direct = result.Direct != null ? result.Direct.Text : string.Empty,
                                Indirect = result.Indirect != null ? result.Indirect.Text : string.Empty,
+                               ViaPrepositional = result.ViaPreposition != null ? result.Verbial.PrepositionLinkingTarget.Text + " " + result.ViaPreposition.Text : string.Empty
                            };
             return dataRows;
         }
@@ -397,6 +400,10 @@ namespace LASI.UserInterface.DataVisualzationProviders
             set;
         }
         public NounPhrase Indirect {
+            get;
+            set;
+        }
+        public ILexical ViaPreposition {
             get;
             set;
         }

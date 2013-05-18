@@ -309,7 +309,7 @@ namespace LASI.UserInterface
         //    get {
         //        return lastLoadedProjectName;
         //    }
-        //    private set {
+        //    private outSet {
         //        lastLoadedProjectName = value;
         //    }
         //}
