@@ -12,7 +12,7 @@ namespace LASI.FileSystem.TaggerEncapsulation
     {
         #region Fields
         private readonly Dictionary<string, Func<IEnumerable<Word>, Phrase>> typeDictionary = new Dictionary<string, Func<IEnumerable<Word>, Phrase>> {
-            { "VP", words => !words.Any(w=> w is Punctuator) ?
+            { "VP", words => !words.Any(w=> w is Punctuation) ?
                 new VerbPhrase(words) as Phrase:
                 new PunctuatorPhrase(words) as Phrase },
             { "NP", words => 

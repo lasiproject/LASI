@@ -88,7 +88,7 @@ namespace LASI.FileSystem
                              let c = chunk.Trim()
                              where !String.IsNullOrWhiteSpace(c) && !String.IsNullOrEmpty(c)
                              select c;
-                SentencePunctuation sentencePunctuation = null;
+                SentenceDelimiter sentencePunctuation = null;
 
                 foreach (var chunk in chunks) {
                     if (!string.IsNullOrEmpty(chunk) && !string.IsNullOrWhiteSpace(chunk) && chunk.Contains('/')) {
@@ -111,15 +111,15 @@ namespace LASI.FileSystem
                         else if (token == '/') {
                             var words = CreateWords(chunk);
                             if (words.First() != null) {
-                                if (words.Count(w => w is Conjunction) == words.Count || (words.Count == 2 && words[0] is Punctuator && words[1] is Conjunction)) {
+                                if (words.Count(w => w is Conjunction) == words.Count || (words.Count == 2 && words[0] is Punctuation && words[1] is Conjunction)) {
                                     parsedPhrases.Add(new ConjunctionPhrase(words));
                                 }
-                                else if (words.Count() == 1 && words.First() is SentencePunctuation) {
-                                    sentencePunctuation = words.First() as SentencePunctuation;
+                                else if (words.Count() == 1 && words.First() is SentenceDelimiter) {
+                                    sentencePunctuation = words.First() as SentenceDelimiter;
                                     parsedClauses.Add(new Clause(parsedPhrases.Take(parsedPhrases.Count)));
                                     parsedPhrases = new List<Phrase>();
                                 }
-                                else if (words.Count(w => w is Punctuator) == words.Count && (words.Count(w => w is Punctuator) + words.Count(w => w is Conjunction)) == words.Count) {
+                                else if (words.Count(w => w is Punctuation) == words.Count && (words.Count(w => w is Punctuation) + words.Count(w => w is Conjunction)) == words.Count) {
                                     parsedPhrases.Add(new ConjunctionPhrase(words));
                                 }
                                 else {

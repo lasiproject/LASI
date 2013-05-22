@@ -71,7 +71,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets the punctuation, if any, which ends the clause.
         /// </summary>
-        public Punctuator EndingPunctuation {
+        public Punctuation EndingPunctuation {
             get;
             protected set;
         }

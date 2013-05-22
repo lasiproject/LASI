@@ -39,10 +39,10 @@ namespace LASI.FileSystem
             { "JJ", t => new Adjective(t) }, //Adjective
             { "JJR", t => new ComparativeAdjective(t) }, //Adjective, comparative
             { "JJS", t => new SuperlativeAdjective(t) }, //Adjective, superlative
-            { "LS", t => new Punctuator(t) }, //List item marker
-            { "-LRB-", t => new Punctuator(t) }, //Left Bracket
-            { "-RRB-", t => new Punctuator(t) },  //Right Bracket
-            { "''", t => new Punctuator(t) }, //Single quote * should be remapped
+            { "LS", t => new Punctuation(t) }, //List item marker
+            { "-LRB-", t => new Punctuation(t) }, //Left Bracket
+            { "-RRB-", t => new Punctuation(t) },  //Right Bracket
+            { "''", t => new Punctuation(t) }, //Single quote * should be remapped
             { "MD", t => new ModalAuxilary(t) }, //ModalAuxilary
             //Noun mappings
             { "NN", t => new GenericSingularNoun(t) }, //Noun, singular or mass

@@ -11,10 +11,10 @@ namespace LASI.Algorithm.SyntaciticAndSemanticStructures
         public PunctuatorPhrase(IEnumerable<Word> composedWords)
             : base(composedWords) {
 
-            SignificantPunctution = composedWords.Last(p => p is Punctuator) as Punctuator;
+            SignificantPunctution = composedWords.Last(p => p is Punctuation) as Punctuation;
         }
 
-        public Punctuator SignificantPunctution {
+        public Punctuation SignificantPunctution {
             get;
             protected set;
         }

@@ -40,6 +40,7 @@ namespace LASI.Algorithm.DocumentConstructs
 
             _sentences = (from p in _paragraphs
                           from s in p.Sentences
+                          where s.Words.GetVerbs().Count() > 0
                           select s).ToList();
             _phrases = (from s in _sentences
                         from r in s.Phrases

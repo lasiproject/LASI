@@ -12,10 +12,10 @@ namespace LASI.Algorithm
             : base(composedWords) {
         }
         void deterimineEndOfClause() {
-            EndOfClause = ParentSentence.Words.SkipWhile(w => w != Words.Last()).First(w => w is Punctuator) as Punctuator;
+            EndOfClause = ParentSentence.Words.SkipWhile(w => w != Words.Last()).First(w => w is Punctuation) as Punctuation;
         }
 
-        public Punctuator EndOfClause {
+        public Punctuation EndOfClause {
             get;
             set;
         }

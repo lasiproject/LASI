@@ -181,12 +181,9 @@ namespace LASI.Algorithm.Binding
             public void Transition(SubordinateClauseBeginPhrase phrase) {
                 var subordinateClauseConstituents = new List<Phrase> {
                     phrase};
-                for (var r = Stream.Count > 0 ? Stream.Pop() : null; !(r.Words.First() is Punctuator) && Stream.Count > 0; r = Stream.Pop()) {
+                for (var r = Stream.Count > 0 ? Stream.Pop() : null; !(r.Words.First() is Punctuation) && Stream.Count > 0; r = Stream.Pop()) {
                     subordinateClauseConstituents.Add(r);
                 }
-
-
-                //var subordinateClausePhrases = phrase.AsEnumerable().Concat(Stream.TakeWhile(r => !(r.Words.First() is Punctuator)));
                 var subClause = new ClauseTypes.SubordinateClause(subordinateClauseConstituents);
                 Machine.bindingTarget.ModifyWith(subClause);
                 new ObjectBinder().Bind(subordinateClauseConstituents);
@@ -388,7 +385,7 @@ namespace LASI.Algorithm.Binding
 
             }
             public void Transition(VerbPhrase phrase) {
-                InfinitivePhraseConstruct infinitive = new InfinitivePhraseConstruct(
+                InfinitivePhrase infinitive = new InfinitivePhrase(
                     phrase.AsEnumerable()
                     .Concat(phrase.ParentSentence.GetPhrasesAfter(phrase)
                     .TakeWhile(w => !(w is IConjunctive || w is IPrepositional))));

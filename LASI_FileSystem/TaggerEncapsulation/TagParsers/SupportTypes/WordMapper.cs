@@ -54,8 +54,8 @@ namespace LASI.FileSystem
             if (tag.Length < 2)
                 return
                     (text == "." || text == "!" || text == "?") ?
-                    new Func<string, Word>((s) => new LASI.Algorithm.SentencePunctuation(s.First(c => !Char.IsWhiteSpace(c)))) :
-                    new Func<string, Word>((s) => new LASI.Algorithm.Punctuator(s.First(c => !Char.IsWhiteSpace(c))));
+                    new Func<string, Word>((s) => new LASI.Algorithm.SentenceDelimiter(s.First(c => !Char.IsWhiteSpace(c)))) :
+                    new Func<string, Word>((s) => new LASI.Algorithm.Punctuation(s.First(c => !Char.IsWhiteSpace(c))));
             try {
 
                 var constructor = context[tag];

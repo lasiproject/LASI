@@ -78,19 +78,19 @@ namespace AlgorithmAssemblyUnitTestProject
                 new NounPhrase(new Word[] { new ProperPluralNoun("TIMIS") })
             };
             Sentence[] sentences = new Sentence[3];
-            sentences[0] = new Sentence(phrases1, new SentencePunctuation('.'));
+            sentences[0] = new Sentence(phrases1, new SentenceDelimiter('.'));
             Phrase[] phrases2 = new Phrase[] { 
                 new NounPhrase(new Word[] { new ProperSingularNoun("LASI") }),
                 new VerbPhrase(new Word[] { new PastTenseVerb("SNIFd") }),
                 new NounPhrase(new Word[] { new ProperPluralNoun("them") })
             };
-            sentences[1] = new Sentence(phrases2, new SentencePunctuation('.'));
+            sentences[1] = new Sentence(phrases2, new SentenceDelimiter('.'));
             Phrase[] phrases3 = new Phrase[] {
                 new NounPhrase(new Word[] { new ProperSingularNoun("Richard") }),
                 new VerbPhrase(new Word[] { new PastTenseVerb("did") }), 
                 new NounPhrase(new Word[] { new ProperPluralNoun("awesome") }) 
             };
-            sentences[2] = new Sentence(phrases3, new SentencePunctuation('.'));
+            sentences[2] = new Sentence(phrases3, new SentenceDelimiter('.'));
 
             Paragraph target = new Paragraph(sentences);
 
@@ -113,19 +113,19 @@ namespace AlgorithmAssemblyUnitTestProject
                 new NounPhrase(new Word[] { new ProperPluralNoun("TIMIS")})
             };
             Sentence[] sentences = new Sentence[3];
-            sentences[0] = new Sentence(phrases1, new SentencePunctuation('.'));
+            sentences[0] = new Sentence(phrases1, new SentenceDelimiter('.'));
             Phrase[] phrases2 = new Phrase[] { 
                 new NounPhrase(new Word[] { new ProperSingularNoun("LASI") }), 
                 new VerbPhrase(new Word[] { new PastTenseVerb("SNIFd") }), 
                 new NounPhrase(new Word[] { new ProperPluralNoun("them") })
             };
-            sentences[1] = new Sentence(phrases2, new SentencePunctuation('.'));
+            sentences[1] = new Sentence(phrases2, new SentenceDelimiter('.'));
             Phrase[] phrases3 = new Phrase[] {
                 new NounPhrase(new Word[] { new ProperSingularNoun("Richard") }),
                 new VerbPhrase(new Word[] { new PastTenseVerb("did") }),
                 new NounPhrase(new Word[] { new ProperPluralNoun("awesome") }) 
             };
-            sentences[2] = new Sentence(phrases3, new SentencePunctuation('.'));
+            sentences[2] = new Sentence(phrases3, new SentenceDelimiter('.'));
 
             Paragraph target = new Paragraph(sentences);
 
@@ -148,19 +148,19 @@ namespace AlgorithmAssemblyUnitTestProject
                    new NounPhrase(new Word[] { new ProperPluralNoun("TIMIS")})
                };
                Sentence[] sentences = new Sentence[3];
-               sentences[0] = new Sentence(phrases1, new SentencePunctuation('.'));
+               sentences[0] = new Sentence(phrases1, new SentenceDelimiter('.'));
                Phrase[] phrases2 = new Phrase[] { 
                    new NounPhrase(new Word[] { new ProperSingularNoun("LASI") }), 
                    new VerbPhrase(new Word[] { new PastTenseVerb("SNIFd") }), 
                    new NounPhrase(new Word[] { new ProperPluralNoun("them") })
                };
-               sentences[1] = new Sentence(phrases2, new SentencePunctuation('.'));
+               sentences[1] = new Sentence(phrases2, new SentenceDelimiter('.'));
                Phrase[] phrases3 = new Phrase[] {
                    new NounPhrase(new Word[] { new ProperSingularNoun("Richard") }),
                    new VerbPhrase(new Word[] { new PastTenseVerb("did") }),
                    new NounPhrase(new Word[] { new ProperPluralNoun("awesome") }) 
                };
-               sentences[2] = new Sentence(phrases3, new SentencePunctuation('.'));
+               sentences[2] = new Sentence(phrases3, new SentenceDelimiter('.'));
 
                Paragraph[] target = {new Paragraph(sentences)};
                Document parentDoc = new Document(target) ;

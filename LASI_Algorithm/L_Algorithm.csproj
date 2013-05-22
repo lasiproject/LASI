@@ -62,7 +62,7 @@
     <Compile Include="Analysis\Binding\AttributiveNounPhraseBinder.cs" />
     <Compile Include="Analysis\Binding\EntityReferenceBinder.cs" />
     <Compile Include="Analysis\Binding\InfinitivePhraseAttributer.cs" />
-    <Compile Include="Analysis\Binding\InfinitivePhraseConstruct.cs" />
+    <Compile Include="LexicalStructures\VerbRelatedConstructs\InfinitivePhrase.cs" />
     <Compile Include="Analysis\Binding\InterPhraseWordBinding.cs" />
     <Compile Include="Analysis\Binding\InvalidInfinitePhraseConstructedException.cs" />
     <Compile Include="Analysis\Binding\InvalidStateTransitionException.cs" />
@@ -172,7 +172,7 @@
     <Compile Include="LexicalStructures\VerbRelatedConstructs\ModalAuxilary.cs" />
     <Compile Include="LexicalStructures\BridgingConstructs\Particle.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\ProperPluralNoun.cs" />
-    <Compile Include="LexicalStructures\MiscLanguageConstructs\Punctuator.cs" />
+    <Compile Include="LexicalStructures\MiscLanguageConstructs\Punctuation.cs" />
     <Compile Include="LexicalStructures\MiscLanguageConstructs\SimpleDeclarativePhrase.cs" />
     <Compile Include="LexicalStructures\MiscLanguageConstructs\SentenceDelimiter.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\PersonalPronoun.cs" />

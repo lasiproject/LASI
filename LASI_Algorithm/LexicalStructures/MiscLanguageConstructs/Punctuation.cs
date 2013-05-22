@@ -5,13 +5,13 @@ using System.Text;
 
 namespace LASI.Algorithm
 {
-    public class Punctuator : Symbol
+    public class Punctuation : Symbol
     {
         /// <summary>
-        /// Initializes entity new instance of the Punctuator class.
+        /// Initializes entity new instance of the Punctuation class.
         /// </summary>
         /// <param name="puncChar">The punctuation character symbol.</param>
-        public Punctuator(char puncChar)
+        public Punctuation(char puncChar)
             : base(puncChar.ToString()) {
             ActualCharacter = puncChar;
 
@@ -20,14 +20,14 @@ namespace LASI.Algorithm
         }
 
         /// <summary>
-        /// Initializes entity new instances of the Punctuator class.
+        /// Initializes entity new instances of the Punctuation class.
         /// </summary>
         /// <param name="puncString">Text which is an alias for entity punctuator character. e.g. "LEFT_SQUARE_BRACKET"</param>
-        public Punctuator(string puncString)
+        public Punctuation(string puncString)
             : base(puncString) {
             AliasString = puncString;
             //try {
-                ActualCharacter = PUNCTUATION_ALIAS_MAP[AliasString];
+            ActualCharacter = PUNCTUATION_ALIAS_MAP[AliasString];
             //}
             //catch (KeyNotFoundException) {
             //    System.Diagnostics.Debug.WriteLine("Punctuation Character  {0} has no defined text alias", ActualCharacter);
@@ -58,10 +58,13 @@ namespace LASI.Algorithm
 
 
 
+    /// <summary>
+    /// Maps between certain punctuation characters and alias text.
+    /// </summary>
     internal class PunctuationAliasMap
     {
         private Dictionary<string, char> aliasMap = new Dictionary<string, char> {
-        {  "COMMA", ',' },
+            {  "COMMA", ',' },
             {  "LEFT_SQUARE_BRACKET", '[' },
             { "RIGHT_SQUARE_BRACKET", ']' },
             { "PERIOD_CHARACTER_SYMBOL", '.' },

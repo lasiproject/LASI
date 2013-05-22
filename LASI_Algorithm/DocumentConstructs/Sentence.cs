@@ -12,31 +12,31 @@ namespace LASI.Algorithm.DocumentConstructs
         {
             Clauses = new[] { new Clause(from P in phrases select P) };
         }
-        public Sentence(IEnumerable<Phrase> phrases, SentencePunctuation sentencePunctuation = null)
+        public Sentence(IEnumerable<Phrase> phrases, SentenceDelimiter sentencePunctuation = null)
         {
             Clauses = new[] { new Clause(from P in phrases select P) };
             EndingPunctuation = sentencePunctuation == null ?
-            new SentencePunctuation('.') :
+            new SentenceDelimiter('.') :
             sentencePunctuation;
         }
-        public Sentence(IEnumerable<Word> words, SentencePunctuation sentencePunctuation = null)
+        public Sentence(IEnumerable<Word> words, SentenceDelimiter sentencePunctuation = null)
         {
             Clauses = new[] { new Clause(from W in words select W) };
             EndingPunctuation = sentencePunctuation == null ?
-               new SentencePunctuation('.') :
+               new SentenceDelimiter('.') :
                sentencePunctuation;
         }
         public Sentence(IEnumerable<Clause> clauses)
         {
             Clauses = clauses;
             EndingPunctuation =
-                new SentencePunctuation('.');
+                new SentenceDelimiter('.');
         }
-        public Sentence(IEnumerable<Clause> clauses, SentencePunctuation sentencePunctuation = null)
+        public Sentence(IEnumerable<Clause> clauses, SentenceDelimiter sentencePunctuation = null)
         {
             Clauses = clauses;
             EndingPunctuation = sentencePunctuation == null ?
-                new SentencePunctuation('.') :
+                new SentenceDelimiter('.') :
                 sentencePunctuation;
         }
 
@@ -50,7 +50,7 @@ namespace LASI.Algorithm.DocumentConstructs
         /// <summary>
         /// Gets the ending punctuation character of the sentence.
         /// </summary>
-        public SentencePunctuation EndingPunctuation
+        public SentenceDelimiter EndingPunctuation
         {
             get;
             set;
