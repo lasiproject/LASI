@@ -1,0 +1,157 @@
+﻿
+Generalizing Overloading for C++2000 
+Bjarne Stroustrup 
+AT&T Labs, Florham Park, NJ, USA 
+Abstract 
+This paper outlines the proposal for generalizing the overloading rules for Standard C++ that is expected 
+to become part of the next revision of the standard. The focus is on general ideas rather than technical 
+details (which can be found in AT&T Labs Technical Report no. 42, April 1,1998). 
+Introduction 
+With the acceptance of the ISO C++ standard, the time has come to consider new directions for the C++ 
+language and to revise the facilities already provided to make them more complete and consistent. 
+A good example of a current facility that can be generalized into something much more powerful and 
+useful is overloading.  The aim of overloading is to accurately reflect the notations used in application 
+areas. For example, overloading of + and * allows us to use the conventional notation for arithmetic 
+operations for a variety of data types such as integers, floating point numbers (for built-in types), complex 
+numbers, and infinite precision numbers (user-defined types). This existing C++ facility can be 
+generalized to handle user-defined operators and overloaded whitespace. 
+The facilities for defining new operators, such as :::, <>, pow , and abs  are described in a companion 
+paper [B. Stroustrup: "User-defined operators for fun and profit," Overload April, 1998]. 
+Basically, this mechanism builds on experience from Algol68 and ML to allow the programmer to assign 
+useful  - and often conventional - meaning to expressions such as 
+double d = z pow 2 + abs y; 
+and 
+if (z <> ns:::2) //  205 
+This facility is conceptually simple, type safe, conventional, and very simple to implement. 
+Basic Whitespace Overloading 
+Here, I describe the more innovative and powerful mechanism for overloading whitespace. Consider x*y. 
+In programming languages (e.g. Fortran, Pascal, and C++), this is the conventional  notation for 
+multiplying two values. However, mathematicians and physicists traditionally do not use the operator *. 
+Instead they use simple juxtaposition to indicate multiplication. That is, for variables x and y of suitable 
+types, 
+x y   
+Thus whitespace between two C-style string literals  is interpreted as concatenation. The facility was 
+missing in K&R C, introduced into ANSI C, and adopted by C++ in the ARM (Ellis and Stroustrup: "The 
+Annotated C++ Reference Manual, " Addison-Wesley 1989). 
+Overloading Separate Forms of Whitespace 
+There are of course several forms of whitespace, such as space, tab, // comments, and /* */ comments. A 
+comment is considered a single whitespace character. For example, 
+/* this comment is considered a single character 
+   for overloading purposes 
+*/ 
+ It was soon discovered that it was essential to be able to overload the different forms of whitespace 
+differently. For example, several heavy users of whitespace overloading found overloading of newline 
+('\n'), tab ('\t'), and comments as the same arithmetic operator is counterintuitive and error  prone. 
+Consider: 
+double z1 = x y; 
+// obvious 
+double z2 = x 
+y; 
+// obscure 
+double z3 = x /* asking for trouble */ y; 
+In addition, different overloading of different whitespace characters can be used to mirror conventional 
+two-dimensional layout of computations (see below). 
+Stavtrup claimed that it was important to distinguish between different number of adjacent whitespace 
+characters, but we did not find that mechanism useful. In fact, we determined it to be error-prone and 
+omitted for Standard C++. 
+Overloading Missing Whitespace 
+After some experimentation, it was discovered that the overloading mechanism described so far did not go 
+far enough. When using the mechanism, the physicists tended to omit the space character and write 
+xy 
+rather than 
+x y 
+This problem persisted even after the overloading rules had been clearly and repeatedly explained. What 
+was needed wasn't just the ability to overload explicit use of whitespace, but also implicit application. This 
+is easily achieved by modifying the lexical analyzer to recognize 
+xy 
+as the two tokens 
+x y   
+Phone  
+% 
+; 
+% 
+& 
+(); 
+// take phone ( 
+% 
+) off hook ( 
+& 
+) 
+It is also common to overload newline to mean application without arguments, that is (), so that what used 
+to be the long-winded and ugly 
+my_phone->off_hook(); 
+becomes plain and simple 
+% 
+& 
+; 
+Finally, semicolon is most often redundant as a statement terminator so the grammar has been improved 
+to make it optional in most context. Thus, we get: 
+% 
+& 
+Extensive use of such special characters together with imaginative and thoughtful use of whitespace 
+overloading  has had an immense impact on maintenance cost. 
+Should you feel the need for longer names - for example, if you don't have a high-resolution screen with a 
+suitable large character set available  - you can explicitly specify one using the multi-character identifier 
+operator $: 
+double $xy = 0.0; 
+// explicitly multi-character name 
+double x, y; 
+double  
+F 
+ = xy x y; 
+// xy times x times y 
+Naturally this is best avoided. For compatibility, a $ as the first character of a translation unit means that 
+every identifier can be implicitly multi-character. This has proven immensely useful during transition 
+from the old to the new rules. As an alternative to $ as the first character, the header <> can be included: 
+#include<> 
+Overloading \\ (double backslash) to mean "everything before this is a comment" has proven another 
+useful transition tool. It allows old-style and new-style code to coexist: 
+my_phone->off_hook(); // \\  
+% 
+& 
+Given a new-style compiler, everything up until the  
+% 
+ is ignored whereas an old-style compile ignores 
+everything after the ; 
+Composite Operators 
+As described in the companion paper, C++2000 adopts a variant of the overloading of composite operators 
+described in the ARM.  This implies that we can define the meaning of 
+x = a*b + c;  
+directly by a single 
+operator = * + (Vector&, const Matrix&, const Vector&, const Vector&); 
+rather than achieving this indirectly though function objects as described in Stroustrup: The C++ 
+Programming Language (3 
+rd 
+ edition). Addison-Wesley 1997. 
+Naturally, a composite operator can contain whitespace operators. For example, 
+x = ab + c; 
+can be handled by 
+operator = ' ' + (Vector&, const 
+ Matrix&, const Vector&, const Vector&); 
+where multiplication  is as usual represented by concatenation (missing whitespace). Some people go 
+further by representing addition by newline to match the common convention of listing numbers in a 
+column before adding them. Doing that we can define: 
+operator = ' ' '\n' (Vector&, const Matrix&, const Vector&, const Vector&); 
+to handle 
+x = ab 
+        c; 
+// old-style: x = a*b+c 
+This convention is not universally appreciated and more experience is needed to estimate its impact on 
+maintainability. 
+Availability 
+The generalized overloading mechanism described here has been in experimental use for some time and it 
+is expected that most major C++ compiler vendors will ship it as an integral part of new releases in the 
+near future. A preprocessor that implements the facility for any current C++ implementation can be freely 
+downloaded from http://www.research.att.com/~bs/whitespace.html. 
+In addition to the overloading of missing whitespace, etc., this distributed version includes overloading 
+based on the color of identifiers. Due to the limitations of the printing process used for this article, I 
+cannot give examples, but basically a red x is obviously a different identifier to a green x. This is most 
+useful for making scope differences obvious. For example, I use black for keywords, red for global 
+variables (as a warning), blue for member names, and green for local variables. In all, a given character 
+can be of one of 256 colors. Naturally, this again reduces the need for multiple-character identifiers while 
+increasing readability. The lack of universal availability of color printers and problems of color blind 
+programmers caused me to leave this feature out of the standard. 
+Current and Future Work 
+In preparation for standardization, formal specifications of the overloading mechanism in VDF and Z are 
+being constructed. In addition, a simplified teaching environment is being constructed where operators 
+such as *, +, and -> have been eliminated in favor of overloaded whitespace. Initial results indicates that   
