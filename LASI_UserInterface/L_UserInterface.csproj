@@ -110,7 +110,6 @@
       <DependentUpon>DialogToProcedeToResults.xaml</DependentUpon>
     </Compile>
     <Compile Include="DataVisualzationManagement\ChartKind.cs" />
-    <Compile Include="GuiILexicalExtensions\IVerbialExtensions.cs" />
     <Compile Include="InProgressScreen.xaml.cs">
       <DependentUpon>InProgressScreen.xaml</DependentUpon>
     </Compile>
