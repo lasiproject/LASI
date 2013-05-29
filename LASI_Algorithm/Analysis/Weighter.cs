@@ -212,7 +212,7 @@ namespace LASI.Algorithm.Analysis
             }
 
             public int GetHashCode(NounPhrase obj) {
-                return (obj as object).GetHashCode();
+                return obj != null ? 1 : 0;
             }
         }
 

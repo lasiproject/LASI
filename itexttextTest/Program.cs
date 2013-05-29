@@ -11,7 +11,7 @@ namespace itexttextTest
     class Program
     {
         static void Main(string[] args) {
-            new PDFParser().ExtractText(@"..\whitespace98.pdf", @"..\whitespace98.txt");
+            new PDFParser().ExtractText(@"..\..\whitespace98.pdf", @"..\..\whitespace98.txt");
 
         }
 
@@ -20,10 +20,10 @@ namespace itexttextTest
 
     }
 
-	// Found this on CodeProject.com, no strings attached, it works really well except that it always seems to skip the last page.
-	// I thought it was a page index issue at first, but I debugged it and it definitely hits the last page 
-	// but it doesn't output it for some reason. There is probably a simple fix.
-	
+    // Found this on CodeProject.com, no strings attached, it works really well except that it always seems to skip the last page.
+    // I thought it was a page index issue at first, but I debugged it and it definitely hits the last page 
+    // but it doesn't output it for some reason. There is probably a simple fix.
+
     /// <summary>
     /// Parses a PDF file and extracts the text from it.
     /// </summary>
@@ -41,7 +41,7 @@ namespace itexttextTest
         /// <summary>
         /// The number of characters to keep, when extracting text.
         /// </summary>
-        private static int _numberOfCharsToKeep = 15;
+        private const int _numberOfCharsToKeep = 15;
         #endregion
 
         #endregion
@@ -85,117 +85,129 @@ namespace itexttextTest
             if (input == null || input.Length == 0)
                 return "";
 
-            try {
-                string resultString = "";
+            //try {
+            string resultString = "";
 
-                // Flag showing if we are we currently inside a text object
-                bool inTextObject = false;
+            // Flag showing if we are we currently inside a text object
+            bool inTextObject = false;
 
-                // Flag showing if the next character is literal 
-                // e.g. '\\' to get a '\' character or '\(' to get '('
-                bool nextLiteral = false;
+            // Flag showing if the next character is literal 
+            // e.g. '\\' to get a '\' character or '\(' to get '('
+            bool nextLiteral = false;
 
-                // () Bracket nesting level. Text appears inside ()
-                int bracketDepth = 0;
+            // () Bracket nesting level. Text appears inside ()
+            int bracketDepth = 0;
 
-                // Keep previous chars to get extract numbers etc.:
-                char[] previousCharacters = new char[_numberOfCharsToKeep];
-                for (int j = 0; j < _numberOfCharsToKeep; j++)
-                    previousCharacters[j] = ' ';
+            // Keep previous chars to get extract numbers etc.:
+            char[] previousCharacters = new char[_numberOfCharsToKeep];
+            for (int j = 0; j < _numberOfCharsToKeep; j++)
+                previousCharacters[j] = ' ';
 
 
-                for (int i = 0; i < input.Length; i++) {
-                    char c = (char) input[i];
+            for (int i = 0; i < input.Length; i++) {
+                char c = (char)input[i];
 
-                    if (inTextObject) {
-                        // Position the text
-                        if (bracketDepth == 0) {
-                            if (CheckToken(new string[] { "TD", "Td" }, previousCharacters)) {
-                                resultString += "\n\r";
-                            } else {
-                                if (CheckToken(new string[] { "'", "T*", "\"" }, previousCharacters)) {
-                                    resultString += "\n";
-                                } else {
-                                    if (CheckToken(new string[] { "Tj" }, previousCharacters)) {
-                                        resultString += " ";
-                                    }
+                if (inTextObject) {
+                    // Position the text
+                    if (bracketDepth == 0) {
+                        if (CheckToken(new string[] { "TD", "Td" }, previousCharacters, 15)) {
+                            resultString += "\n\r";
+                        }
+                        else {
+                            if (CheckToken(new string[] { "'", "T*", "\"" }, previousCharacters, 15)) {
+                                resultString += "\n";
+                            }
+                            else {
+                                if (CheckToken(new string[] { "Tj" }, previousCharacters, 15)) {
+                                    resultString += " ";
                                 }
                             }
                         }
+                    }
 
-                        // End of a text object, also go to a new line.
-                        if (bracketDepth == 0 &&
-                            CheckToken(new string[] { "ET" }, previousCharacters)) {
+                    // End of a text object, also go to a new line.
+                    if (bracketDepth == 0 &&
+                        CheckToken(new string[] { "ET" }, previousCharacters, 15)) {
 
-                            inTextObject = false;
-                            resultString += " ";
-                        } else {
-                            // Start outputting text
-                            if ((c == '(') && (bracketDepth == 0) && (!nextLiteral)) {
-                                bracketDepth = 1;
-                            } else {
-                                // Stop outputting text
-                                if ((c == ')') && (bracketDepth == 1) && (!nextLiteral)) {
-                                    bracketDepth = 0;
-                                } else {
-                                    // Just a normal text character:
-                                    if (bracketDepth == 1) {
-                                        // Only print out next character no matter what. 
-                                        // Do not interpret.
-                                        if (c == '\\' && !nextLiteral) {
-                                            nextLiteral = true;
-                                        } else {
-                                            if (((c >= ' ') && (c <= '~')) ||
-                                                ((c >= 128) && (c < 255))) {
-                                                resultString += c.ToString();
-                                            }
-
-                                            nextLiteral = false;
+                        inTextObject = false;
+                        resultString += " ";
+                    }
+                    else {
+                        // Start outputting text
+                        if ((c == '(') && (bracketDepth == 0) && (!nextLiteral)) {
+                            bracketDepth = 1;
+                        }
+                        else {
+                            // Stop outputting text
+                            if ((c == ')') && (bracketDepth == 1) && (!nextLiteral)) {
+                                bracketDepth = 0;
+                            }
+                            else {
+                                // Just a normal text character:
+                                if (bracketDepth == 1) {
+                                    // Only print out next character no matter what. 
+                                    // Do not interpret.
+                                    if (c == '\\' && !nextLiteral) {
+                                        nextLiteral = true;
+                                    }
+                                    else {
+                                        if (((c >= ' ') && (c <= '~')) ||
+                                            ((c >= 128) && (c < 255))) {
+                                            resultString += c.ToString();
                                         }
+
+                                        nextLiteral = false;
                                     }
                                 }
                             }
                         }
-                    }
-
-                    // Store the recent characters for 
-                    // when we have to go back for a checking
-                    for (int j = 0; j < _numberOfCharsToKeep - 1; j++) {
-                        previousCharacters[j] = previousCharacters[j + 1];
-                    }
-                    previousCharacters[_numberOfCharsToKeep - 1] = c;
-
-                    // Start of a text object
-                    if (!inTextObject && CheckToken(new string[] { "BT" }, previousCharacters)) {
-                        inTextObject = true;
                     }
                 }
-                return resultString;
-            } catch {
-                return "";
+
+                // Store the recent characters for 
+                // when we have to go back for a checking
+                for (int j = 0; j < _numberOfCharsToKeep - 1; j++) {
+                    previousCharacters[j] = previousCharacters[j + 1];
+                }
+                previousCharacters[_numberOfCharsToKeep - 1] = c;
+
+                // Start of a text object
+                if (!inTextObject && CheckToken(new string[] { "BT" }, previousCharacters, 15)) {
+                    inTextObject = true;
+                }
             }
+            return resultString;
+            //}
+            //catch (Exception) {
+            //    return "";
+            //}
         }
         #endregion
 
         #region CheckToken
         /// <summary>
-        /// Check if a certain 2 character token just came along (e.g. BT)
+        /// Check if a certain 2 character currentCharacterToken just came along (e.g. BT)
         /// </summary>
-        /// <param name="search">the searched token</param>
+        /// <param name="search">the searched currentCharacterToken</param>
         /// <param name="recent">the recent character array</param>
         /// <returns></returns>
-        private bool CheckToken(string[] tokens, char[] recent) {
-            foreach (string token in tokens) {
-                if ((recent[_numberOfCharsToKeep - 3] == token[0]) &&
-                    (recent[_numberOfCharsToKeep - 2] == token[1]) &&
-                    ((recent[_numberOfCharsToKeep - 1] == ' ') ||
-                    (recent[_numberOfCharsToKeep - 1] == 0x0d) ||
-                    (recent[_numberOfCharsToKeep - 1] == 0x0a)) &&
-                    ((recent[_numberOfCharsToKeep - 4] == ' ') ||
-                    (recent[_numberOfCharsToKeep - 4] == 0x0d) ||
-                    (recent[_numberOfCharsToKeep - 4] == 0x0a))
-                    ) {
-                    return true;
+        private bool CheckToken(string[] tokens, char[] recent, int _numberOfCharsToKeep) {
+            foreach (string currentCharacterToken in tokens) {
+                try {
+                    if ((recent[_numberOfCharsToKeep - 3] == currentCharacterToken[0]) &&
+                        (recent[_numberOfCharsToKeep - 2] == currentCharacterToken[1]) &&
+                        ((recent[_numberOfCharsToKeep - 1] == ' ') ||
+                        (recent[_numberOfCharsToKeep - 1] == 0x0d) ||
+                        (recent[_numberOfCharsToKeep - 1] == 0x0a)) &&
+                        ((recent[_numberOfCharsToKeep - 4] == ' ') ||
+                        (recent[_numberOfCharsToKeep - 4] == 0x0d) ||
+                        (recent[_numberOfCharsToKeep - 4] == 0x0a))
+                        ) {
+                        return true;
+                    }
+                }
+                catch (IndexOutOfRangeException) {
+                    return false;
                 }
             }
             return false;

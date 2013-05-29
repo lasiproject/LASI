@@ -34,8 +34,7 @@ namespace LASI.InteropLayer
                                            select innerSet.Contains(np, NounPhraseComparers.Similarity)).Aggregate((product, result) => product &= result)
                                     select np;
             return from n in nounCommonalities.InSubjectRole()
-                   select new NVNN
-                   {
+                   select new NVNN {
                        Subject = n,
                        Verbal = n.SubjectOf as VerbPhrase,
                        Direct = n.SubjectOf.DirectObjects.OfType<NounPhrase>().FirstOrDefault(),
@@ -56,8 +55,7 @@ namespace LASI.InteropLayer
                                             select s.Contains(vp, new VPComparer())).Aggregate(true, (product, result) => product &= result)
                                      select vp;
             return (from v in verbalCominalities
-                    select new NVNN
-                    {
+                    select new NVNN {
                         Verbal = v,
                         Direct = v.DirectObjects.OfType<NounPhrase>().FirstOrDefault(),
                         Indirect = v.IndirectObjects.OfType<NounPhrase>().FirstOrDefault(),
@@ -92,7 +90,7 @@ namespace LASI.InteropLayer
 
                 smp.Content = statusMessage;
             }
-            ProgressBar.Value += (float) Documents.Count() / 100;
+            ProgressBar.Value += (float)Documents.Count() / 100;
         }
 
         public IEnumerable<Document> Documents {
@@ -193,11 +191,13 @@ namespace LASI.InteropLayer
                     result &= NounPhraseComparers.AliasOrSimilarity.Equals(lhs.Subject, rhs.Subject);
                     if (lhs.Direct != null && rhs.Direct != null) {
                         result &= NounPhraseComparers.AliasOrSimilarity.Equals(lhs.Direct, rhs.Direct);
-                    } else if (lhs.Direct == null || rhs.Direct == null)
+                    }
+                    else if (lhs.Direct == null || rhs.Direct == null)
                         return false;
                     if (lhs.Indirect != null && rhs.Indirect != null) {
                         result &= NounPhraseComparers.AliasOrSimilarity.Equals(lhs.Indirect, rhs.Indirect);
-                    } else if (lhs.Indirect == null || rhs.Indirect == null)
+                    }
+                    else if (lhs.Indirect == null || rhs.Indirect == null)
                         return false;
                     return result;
                 }
@@ -221,7 +221,7 @@ namespace LASI.InteropLayer
             }
 
             public int GetHashCode(ITransitiveVerbal obj) {
-                return 1;
+                return obj != null ? 1 : 0;
             }
         }
 

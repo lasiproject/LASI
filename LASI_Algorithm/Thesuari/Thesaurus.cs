@@ -17,12 +17,12 @@ namespace LASI.Algorithm.Thesauri
         private static readonly string verbThesaurusFilePath = ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "data.verb";
         private static readonly string adverbThesaurusFilePath = ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "data.adv";
         private static readonly string adjectiveThesaurusFilePath = ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "data.adj";
-        static Thesaurus() {
-            NounProvider = new NounThesaurus(nounThesaurusFilePath);
-            VerbProvider = new VerbThesaurus(verbThesaurusFilePath);
-            AdverbProvider = new AdverbThesaurus(adverbThesaurusFilePath);
-            AdjectiveProvider = new AdjectiveThesaurus(adjectiveThesaurusFilePath);
-        }
+        //static Thesaurus() {
+        //    NounProvider = new NounThesaurus(nounThesaurusFilePath);
+        //    VerbProvider = new VerbThesaurus(verbThesaurusFilePath);
+        //    AdverbProvider = new AdverbThesaurus(adverbThesaurusFilePath);
+        //    AdjectiveProvider = new AdjectiveThesaurus(adjectiveThesaurusFilePath);
+        //}
         public static void LoadAll() {
             var sw = Stopwatch.StartNew();
             NounProvider.Load();
@@ -96,20 +96,31 @@ namespace LASI.Algorithm.Thesauri
             };
         }
         public static NounThesaurus NounProvider {
-            get;
-            private set;
+            get {
+                return nounProvider.Value;
+            }
+
         }
+
+        private static Lazy<NounThesaurus> nounProvider = new Lazy<NounThesaurus>(() => new NounThesaurus(nounThesaurusFilePath), true);
+        private static Lazy<VerbThesaurus> verbProvider = new Lazy<VerbThesaurus>(() => new VerbThesaurus(verbThesaurusFilePath), true);
+        private static Lazy<AdjectiveThesaurus> adjectiveProvider = new Lazy<AdjectiveThesaurus>(() => new AdjectiveThesaurus(adjectiveThesaurusFilePath), true);
+        private static Lazy<AdverbThesaurus> adverbProvider = new Lazy<AdverbThesaurus>(() => new AdverbThesaurus(adverbThesaurusFilePath), true);
+
         public static VerbThesaurus VerbProvider {
-            get;
-            private set;
+            get {
+                return verbProvider.Value;
+            }
         }
         public static AdjectiveThesaurus AdjectiveProvider {
-            get;
-            private set;
+            get {
+                return adjectiveProvider.Value;
+            }
         }
         public static AdverbThesaurus AdverbProvider {
-            get;
-            private set;
+            get {
+                return adverbProvider.Value;
+            }
         }
         public static bool IsSynonymFor(this Word word, Word other) {
             if (word == null || other == null) {

@@ -31,7 +31,7 @@ namespace LASI.InteropLayer
             ProgressBar = progressBar;
             ProgressLabel = progressLabel;
             UpdateProgressDisplay("Loading Thesauri");
-            await Thesaurus.LoadAllAsync();
+            //await Thesaurus.LoadAllAsync();
             progressBar.Value = 5;
             UpdateProgressDisplay("Tagging Documents");
 

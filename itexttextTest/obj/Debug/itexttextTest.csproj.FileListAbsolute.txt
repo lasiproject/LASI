@@ -7,3 +7,10 @@ C:\Users\Aluan\Desktop\itexttextTest\bin\Debug\itextsharp.pdb
 C:\Users\Aluan\Desktop\itexttextTest\bin\Debug\itextsharp.xml
 C:\Users\Aluan\Desktop\itexttextTest\obj\Debug\itexttextTest.exe
 C:\Users\Aluan\Desktop\itexttextTest\obj\Debug\itexttextTest.pdb
+C:\Users\Aluan\Desktop\LASI\LASI_v1\itexttextTest\bin\Debug\itexttextTest.exe.config
+C:\Users\Aluan\Desktop\LASI\LASI_v1\itexttextTest\obj\Debug\itexttextTest.exe
+C:\Users\Aluan\Desktop\LASI\LASI_v1\itexttextTest\obj\Debug\itexttextTest.pdb
+C:\Users\Aluan\Desktop\LASI\LASI_v1\itexttextTest\obj\Debug\itexttextTest.csprojResolveAssemblyReference.cache
+C:\Users\Aluan\Desktop\LASI\LASI_v1\itexttextTest\bin\Debug\itexttextTest.exe
+C:\Users\Aluan\Desktop\LASI\LASI_v1\itexttextTest\bin\Debug\itexttextTest.pdb
+C:\Users\Aluan\Desktop\LASI\LASI_v1\itexttextTest\bin\Debug\itextsharp.dll
