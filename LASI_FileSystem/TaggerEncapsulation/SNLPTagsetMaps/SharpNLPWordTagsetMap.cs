@@ -8,7 +8,7 @@ using LASI.Algorithm;
 namespace LASI.FileSystem
 {
     /// <summary>
-    /// Represents a tagset-to-runtime-type-mapping context which translates between The SharpNLP Tagger'd tagset and the classes whose instances provide 
+    /// Represents a tagset-to-runtime-type-mapping context which translates between The SharpNLP Tagger's tagset and the classes whose instances provide 
     /// the runtime representations of the tag. 
     /// This class represents the tagset => runtime-type mapping for
     /// the tagset used by SharpNLP, a derrivative of the Penn Tagset.

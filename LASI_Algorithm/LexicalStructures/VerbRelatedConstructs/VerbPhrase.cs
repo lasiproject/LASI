@@ -199,7 +199,7 @@ namespace LASI.Algorithm
             set;
         }
         /// <summary>
-        /// Gets the VerbPhrases'd object, If the VerbPhrase has an object bound via a Prepositional construct.
+        /// Gets the VerbPhrases's object, If the VerbPhrase has an object bound via a Prepositional construct.
         /// </summary>
         public virtual ILexical ObjectViaPreposition {
             get;
