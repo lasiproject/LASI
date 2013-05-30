@@ -115,7 +115,7 @@ namespace LASI.Algorithm
             }
             set {
                 _direcObjectOf = value;
-                foreach (var N in Words.OfType<IVerbialObject>()) {
+                foreach (var N in Words.OfType<IVerbalObject>()) {
                     N.DirectObjectOf = _direcObjectOf;
                 }
             }
@@ -130,7 +130,7 @@ namespace LASI.Algorithm
             }
             set {
                 _indirecObjectOf = value;
-                foreach (var N in Words.OfType<IVerbialObject>()) {
+                foreach (var N in Words.OfType<IVerbalObject>()) {
                     N.IndirectObjectOf = IndirectObjectOf;
                 }
             }

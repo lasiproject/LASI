@@ -79,8 +79,8 @@ namespace LASI.Algorithm.Binding
         #region Fields
         protected Stack<Phrase> inputstream = new Stack<Phrase>();
         protected VerbPhrase bindingTarget;
-        protected IVerbialObject directObject;
-        protected IVerbialObject indirectObject;
+        protected IVerbalObject directObject;
+        protected IVerbalObject indirectObject;
         protected bool directFound = false;
 
         protected List<AdjectivePhrase> lastAdjectivals = new List<AdjectivePhrase>();
@@ -386,9 +386,9 @@ namespace LASI.Algorithm.Binding
             }
             public void Transition(VerbPhrase phrase) {
                 InfinitivePhrase infinitive = new InfinitivePhrase(
-                    phrase.AsEnumerable()
-                    .Concat(phrase.ParentSentence.GetPhrasesAfter(phrase)
-                    .TakeWhile(w => !(w is IConjunctive || w is IPrepositional))));
+                    phrase.AsEnumerable().GetWords().Concat(
+                   phrase.ParentSentence.GetPhrasesAfter(phrase)
+                    .TakeWhile(w => !(w is IConjunctive || w is IPrepositional)).GetWords()));
                 Machine.directObject = infinitive;
 
             }

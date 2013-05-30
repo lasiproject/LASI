@@ -58,11 +58,11 @@ namespace LASI.Algorithm.Thesauri
             //Aluan: This line gets extracts word category info I noticed was present in the DB files
             //Erik:  Gotcha, I'll try to decipher its meaning.
 
-            WordNetNounLex lexCategory = (WordNetNounLex) Int32.Parse(line.Substring(9, 2));
+            WordNetNounLex lexCategory = (WordNetNounLex)Int32.Parse(line.Substring(9, 2));
 
             String frontPart = line.Split('|', '!')[0];
             MatchCollection numbers = Regex.Matches(frontPart, @"(?<id>\d{8})");
-            MatchCollection words = Regex.Matches(frontPart, @"(?<word>[A-Za-z_\-]{3,})");
+            MatchCollection words = Regex.Matches(frontPart, @"(?<word>[\'A-Za-z_\-]{3,})");
 
 
             List<string> numbersList = numbers.Cast<Match>().Select(m => m.Value).Distinct().ToList();
@@ -72,7 +72,7 @@ namespace LASI.Algorithm.Thesauri
             //somethin's amiss here.
             List<string> wordList = words.Cast<Match>().Select(m => m.Value).Distinct().ToList();
 
-            SynSet temp = new SynSet(id, wordList, numbersList, lexCategory);
+            SynSet temp = new SynSet(id, wordList.Select(ws => ws.Replace('_', '-')), numbersList, lexCategory);
 
             //SynSet temp = new SynSet(id, wordList, numbersList);
 
@@ -81,12 +81,43 @@ namespace LASI.Algorithm.Thesauri
 
         }
 
+        public HashSet<string> SearchFor(string word, WordNetNounLex category) {
+
+            //gets pointers of searched word
+            var externalPointers = AggregateExternals(word);
+
+
+            var result = AggregateExternals(word);
+            result.Add(word);
+            return result;
+        }
+
+        private HashSet<string> AggregateExternals(string word) {
+            var referenced = (from set in allSets
+                              group set by set.SetWords.Contains(word) into g
+                              select g.First().SetPointers.AsEnumerable()).Aggregate((all, current) => all.Concat(from c in current
+                                                                                                                  select c));
+            var temp = from lptr in referenced
+                       join rptr in allSets on lptr equals rptr.SetID
+                       select rptr.SetWords;
+            return new HashSet<string>(from t in temp
+                                       from s in t
+                                       select s);
+
+        }
+
         public HashSet<string> SearchFor(string word) {
 
             //gets pointers of searched word
-            var tempResults = from sn in allSets
-                              where sn.SetWords.Contains(word)
-                              select sn.SetPointers;
+            var externalPointers = AggregateExternals(word);
+
+
+            var result = AggregateExternals(word);
+            result.Add(word);
+            return result;
+        }
+
+        private HashSet<string> FlattenResults(string word, IEnumerable<HashSet<string>> tempResults) {
             var flatPointers = from R in tempResults
                                from r in R
                                select r;
@@ -115,7 +146,6 @@ namespace LASI.Algorithm.Thesauri
             }
 
             return new HashSet<string>(results);
-
         }
 
 
@@ -123,16 +153,25 @@ namespace LASI.Algorithm.Thesauri
 
 
 
+        public HashSet<string> this[string search, WordNetNounLex category] {
+            get {
+                return SearchFor(search, category);
+            }
+        }
         public override HashSet<string> this[string search] {
             get {
                 return SearchFor(search);
             }
         }
 
-
         public override HashSet<string> this[Word search] {
             get {
                 return this[search.Text];
+            }
+        }
+        public HashSet<string> this[Word search, WordNetNounLex category] {
+            get {
+                return this[search.Text, category];
             }
         }
         private NounConjugator conjugator = new NounConjugator(ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "noun.exc");

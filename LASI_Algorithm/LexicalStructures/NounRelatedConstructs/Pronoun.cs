@@ -43,13 +43,6 @@ namespace LASI.Algorithm
                 _boundPronouns.Add(pro);
         }
 
-        public override bool Equals(object obj) {
-            return base.Equals(obj);
-        }
-
-        public override int GetHashCode() {
-            return base.GetHashCode();
-        }
 
         public virtual bool Equals(IEntity other) {
             return other as object == this as object;
@@ -145,33 +138,6 @@ namespace LASI.Algorithm
 
         #endregion
 
-        #region Operators
-
-        ///// <summary>
-        ///// This Pronoun specialized implementation of the Equality Operator returns True if and only if its operands refer to the same Entity instance and are composed of the same text.
-        ///// </summary>
-        ///// <param name="entity">The Pronoun on the Left hand side of the operator.</param>
-        ///// <param name="B">The Pronoun on the Left hand side of the operator.</param>
-        ///// <returns>True if the Pronouns are equal and False otherwise.</returns>
-        //public static bool operator ==(Pronoun A, Pronoun B) {
-        //    if (A as object == null)
-        //        return B as object== null;
-        //    if (B as object == null)
-        //        return A as object== null;
-
-        //    return A.Text == B.Text && (
-        //(A.BoundEntity == null) && B.BoundEntity == null) && A.BoundEntity.Equals(B.BoundEntity);
-        //}
-        ///// <summary>
-        ///// This Pronoun specialized implementation of the Inquality Operator returns True if its operands refer to different entities and or are composed of different text.
-        ///// </summary>
-        ///// <param name="entity">The Pronoun on the Left hand side of the operator.</param>
-        ///// <param name="B">The Pronoun on the Left hand side of the operator.</param>
-        ///// <returns>True if the Pronouns are not equal and False otherwise.</returns>
-        //public static bool operator !=(Pronoun A, Pronoun B) {
-        //    return !(A == B);
-        //}
-        #endregion
 
         #region Fields
         private ICollection<IDescriber> _describers = new List<IDescriber>();

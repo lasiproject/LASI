@@ -1,24 +1,23 @@
-﻿using System;
+﻿using LASI.Algorithm.Analysis.Binding;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace LASI.Algorithm.Analysis.Binding
+namespace LASI.Algorithm
 {
-    class InfinitivePhrase : Phrase, LASI.Algorithm.FundamentalSyntacticInterfaces.IVerbialObject, LASI.Algorithm.FundamentalSyntacticInterfaces.IVerbalSubject
+    public class InfinitivePhrase : Phrase, LASI.Algorithm.FundamentalSyntacticInterfaces.IVerbalObject, LASI.Algorithm.FundamentalSyntacticInterfaces.IVerbalSubject
     {
-        private IEnumerable<Phrase> componentPhrases;
 
-        public InfinitivePhrase(IEnumerable<Phrase> phrases)
-            : base(from r in phrases
-                   from w in r.Words
-                   select w) {
-            componentPhrases = phrases;
-            this.IntroducingVerbial = phrases.First() as VerbPhrase;
-            if (IntroducingVerbial == null)
-                throw new InvalidInfinitePhraseConstructedException("An infinitive phrase must start with a Verbial type");
+
+        public InfinitivePhrase(IEnumerable<Word> composed)
+            : base(composed) {
+
+
+            //if (IntroducingVerbal == null)
+            //    throw new InvalidInfinitePhraseConstructedException("An infinitive phrase must start with a Verbial type");
         }
-        public VerbPhrase IntroducingVerbial {
+        public VerbPhrase IntroducingVerbal {
             get;
             private set;
         }

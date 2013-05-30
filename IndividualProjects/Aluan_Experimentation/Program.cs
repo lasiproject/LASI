@@ -15,10 +15,17 @@ namespace Aluan_Experimentation
 {
     public class Program
     {
-        static string sourceText = @"When a woman is the most important thing in your life, you are fucked.";
+        static string sourceText = @"To work together is a bad idea.";
         static string testPath = @"C:\Users\Aluan\Desktop\411writtensummary2.txt";
 
         static void Main(string[] args) {
+            var synonymsForCat = Thesaurus.NounProvider["feline", WordNetNounLex.Animal];
+
+            foreach (var syn in synonymsForCat)
+                Output.WriteLine(syn);
+
+
+
             TaggerUtil.TaggerOption = TaggingOption.TagAndAggregate;
             var taggedText = TaggerUtil.TagString(sourceText);
             Output.WriteLine(taggedText);
@@ -38,8 +45,22 @@ namespace Aluan_Experimentation
                 Output.WriteLine(phrase);
             }
 
-
+            //GroupingByBehaviorAndKindExample(doc);
             Input.WaitForKey();
+        }
+
+        private static void GroupingByBehaviorAndKindExample(Document doc) {
+            var walkers = (
+                from action in doc.Words.GetVerbs()
+                where Thesaurus.Lookup(action).Contains("walk")
+                select action.BoundSubjects).Aggregate((collectedActors, actors) => collectedActors.Concat(actors));
+
+            var kindsOfCats = from entity in doc.Words.GetNouns()
+                              let synonyms = Thesaurus.Lookup(entity)
+                              where synonyms.Contains("cat")
+                              group entity by entity.DescribedBy;
+
+
         }
 
         private static void TestNounConjugator() {

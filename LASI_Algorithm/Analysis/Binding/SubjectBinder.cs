@@ -46,18 +46,16 @@ namespace LASI.Algorithm.Binding
                     s6.S = StateType.Final;
                     stateList.Add(s6);
                     //subject for normal sentence.
-                    if ((i.PreviousPhrase is NounPhrase) && 
-                        (i.PreviousPhrase.ParentSentence == i.ParentSentence) && 
-                        !(i.PreviousPhrase as NounPhrase).wasBound)
-                    {
-                        
+                    if ((i.PreviousPhrase is NounPhrase) &&
+                        (i.PreviousPhrase.ParentSentence == i.ParentSentence) &&
+                        !(i.PreviousPhrase as NounPhrase).wasBound) {
+
                         (i as VerbPhrase).BindSubject(i.PreviousPhrase as NounPhrase);
                         (i.PreviousPhrase as NounPhrase).wasBound = true;
                     }
-                    if (i.PreviousPhrase!=null&&((i.PreviousPhrase.PreviousPhrase is NounPhrase) && 
-                        (i.PreviousPhrase.PreviousPhrase.ParentSentence == i.ParentSentence) && 
-                        !(i.PreviousPhrase.PreviousPhrase as NounPhrase).wasBound))
-                    {
+                    if (i.PreviousPhrase != null && ((i.PreviousPhrase.PreviousPhrase is NounPhrase) &&
+                        (i.PreviousPhrase.PreviousPhrase.ParentSentence == i.ParentSentence) &&
+                        !(i.PreviousPhrase.PreviousPhrase as NounPhrase).wasBound)) {
                         (i as VerbPhrase).BindSubject(i.PreviousPhrase.PreviousPhrase as NounPhrase);
                         (i.PreviousPhrase.PreviousPhrase as NounPhrase).wasBound = true;
                     }
@@ -71,8 +69,7 @@ namespace LASI.Algorithm.Binding
                 //handle case of inverted sentence (http://en.wikipedia.org/wiki/Inverted_sentence)
                 if ((i is AdverbPhrase) && (i.NextPhrase is VerbPhrase) && (i.NextPhrase.NextPhrase is NounPhrase)
                     && (i.ParentSentence == i.NextPhrase.NextPhrase.ParentSentence)
-                    && !(i.NextPhrase.NextPhrase as NounPhrase).wasBound)
-                {
+                    && !(i.NextPhrase.NextPhrase as NounPhrase).wasBound) {
                     (i.NextPhrase as VerbPhrase).BindSubject(i.NextPhrase.NextPhrase as NounPhrase);
                     s.isStandard = false;
                     (i.NextPhrase.NextPhrase as NounPhrase).wasBound = true;

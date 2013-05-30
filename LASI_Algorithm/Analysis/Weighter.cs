@@ -94,7 +94,7 @@ namespace LASI.Algorithm.Analysis
 
         private static void WeightPhrasesByAVGWordWeight(Document doc) {
 
-            var phraseWeightPairs = from phrase in doc.Phrases.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
+            var phraseWeightPairs = from phrase in doc.Phrases.Where(p => !(p is InfinitivePhrase)).AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
                                     let weight = phrase.Words.Average(w => w.Weight)
                                     select new {
                                         p = phrase,
@@ -191,11 +191,11 @@ namespace LASI.Algorithm.Analysis
                                               innerNP,
                                               similarityRatio = Thesaurus.getSimilarityRatio(outerNP, innerNP)
                                           })
-                                     where potentialM.similarityRatio >= 0.6
+                                     where potentialM.similarityRatio >= 0.6f
                                      select potentialM;
                 foreach (var match in similarPhrases) {
-                    match.NP.Weight += match.innerNP.Weight * (decimal)match.similarityRatio;
-                    match.innerNP.Weight += match.NP.Weight * (decimal)match.similarityRatio;
+                    //match.NP.Weight += match.innerNP.Weight * (decimal)match.similarityRatio;
+                    //match.innerNP.Weight += match.NP.Weight * (decimal)match.similarityRatio;
 
                 }
             }
@@ -358,226 +358,6 @@ namespace LASI.Algorithm.Analysis
 
             #region Extra Code
 
-            //PHASE 3 - Standard phrase Weight based on phrase part of speech (standardization)
-            //COMPLETE - easy peasy.
-
-            //////Output.WriteLine("Standard Phrase Weight based on POS:");
-            //foreach (Sentence s in document.Sentences)
-            //{
-            //    //////Output.WriteLine(s);
-
-            //    foreach (Phrase phrase in s.Phrases)
-            //    {
-            //        ////Output.WriteLine(phrase);
-
-            //        new Switch(phrase)
-            //            .Case<NounPhrase>(n =>
-            //            {
-            //                phrase.Weight = primary;
-
-            //            })
-            //            .Case<VerbPhrase>(verb =>
-            //            {
-            //                phrase.Weight = secondary;
-            //            })
-            //            .Case<AdjectivePhrase>(adj =>
-            //            {
-            //                phrase.Weight = tertiary;
-            //            })
-            //            .Case<AdverbPhrase>(adv =>
-            //            {
-            //                phrase.Weight = quaternary;
-            //            })
-            //            .Case<SimpleDeclarativePhrase>(pn =>
-            //            {
-            //                phrase.Weight = quinary;
-            //            })
-            //            .Default(def =>
-            //            {
-            //                phrase.Weight = senary;
-            //            });
-
-            //        ////Output.WriteLine(phrase.Weight);
-
-            //    }
-
-
-            //}
-
-
-
-            //PHASE 4 - Phrase Weight based on part of speech and neibhors' (full sentence) part of speech
-
-
-
-            //PHASE 5 - FREQUENCIES
-            // .1 - Frequency of Word in document
-            //////Output.WriteLine(" ");
-            //////Output.WriteLine("Word Frequencies in Document:");
-
-            //foreach (Word verb in document.Words)
-            //{
-
-
-
-            //    foreach (Word w1 in document.Words)
-            //    {
-
-            //        if (verb.Text == w1.Text)  //why doesn't 'w1.Equals(current)' work?
-            //        {
-            //            w1.FrequencyCurrent += 1;
-            //        }
-            //    }
-
-
-
-            //}
-
-            //foreach (Word verb in document.Words)
-            //{
-            //    ////Output.WriteLine(verb);
-            //    ////Output.WriteLine(verb.FrequencyCurrent); //integrate with existing
-            //    decimal percentID = (verb.FrequencyCurrent / (decimal)document.Words.Count());
-            //    ////Output.WriteLine("Frequency % in document:" + percentID);
-            //} //NEED FORMULA TO MODIFY WEIGHT
-
-
-
-            // .2 - Frequency of Word in document compared to rhs documents in set - EXCLUDED FOR 1-DOCUMENT DEMO
-
-            //PHASE 6 - SYNONYMS
-            // .1 - Frequency of Word in document
-            // COMPLETE - minus Aluan's verb lookup!
-
-            //////Output.WriteLine(" ");
-            //////Output.WriteLine("Word Synonyms in Document:");
-            //IEnumerable<Noun> nouns = document.Words.GetNouns();
-            //IEnumerable<Verb> verbs = document.Words.GetVerbs();
-            //IEnumerable<Adjective> adjectives = document.Words.GetAdjectives();
-            //IEnumerable<Adverb> adverbs = document.Words.GetAdverbs();
-
-            //HashSet<string> synonyms;
-
-
-            //foreach (var n in nouns)
-            //{
-            //    var nounTest = new NounThesaurus(@"..\..\..\..\WordNetThesaurusData\data.noun");
-
-            //    nounTest.Load();
-            //    synonyms = nounTest.SearchFor(n.Text);
-
-
-
-
-            //    foreach (var n1 in nouns)
-            //    {
-            //        foreach (var s in synonyms)
-            //        {
-            //            if (n1.Text == s)
-            //            {
-            //                n1.Synonyms += 1;
-            //            }
-            //        }
-            //        ////Output.WriteLine(n1.Text);
-            //        ////Output.WriteLine(n1.Synonyms);
-            //    }
-            //}
-
-
-            //foreach (var entity in adjectives)
-            //{
-            //    var adjTest = new AdjectiveThesaurus(@"..\..\..\..\WordNetThesaurusData\data.adj");
-
-            //    adjTest.Load();
-            //    synonyms = adjTest.SearchFor(entity.Text);
-
-
-
-
-            //    foreach (var a1 in adjectives)
-            //    {
-            //        foreach (var s in synonyms)
-            //        {
-            //            if (a1.Text == s)
-            //            {
-            //                a1.Synonyms += 1;
-            //            }
-            //        }
-            //        ////Output.WriteLine(a1.Text);
-            //        ////Output.WriteLine(a1.Synonyms);
-            //    }
-            //}
-
-
-            //foreach (var av in adverbs)
-            //{
-            //    var advTest = new AdverbThesaurus(@"..\..\..\..\WordNetThesaurusData\data.adv");
-
-            //    advTest.Load();
-            //    synonyms = advTest.SearchFor(av.Text);
-
-
-
-
-            //    foreach (var av1 in adverbs)
-            //    {
-            //        foreach (var s in synonyms)
-            //        {
-            //            if (av1.Text == s)
-            //            {
-            //                av1.Synonyms += 1;
-            //            }
-            //        }
-            //        ////Output.WriteLine(av1.Text);
-            //        ////Output.WriteLine(av1.Synonyms);
-            //    }
-            //}
-
-
-            //ALUAN: HELP NEEDED for your verb lookup
-            //foreach (var verb in verbs)
-            //{
-            //    var verbTest = new VerbThesaurus(@"..\..\..\..\WordNetThesaurusData\data.verb");
-
-            //    verbTest.Load();
-            //    IEnumerable<string> synonyms2 = Thesaurus.Lookup(verb);  //Can't search through your verbs?
-
-
-
-
-            //    foreach (var v1 in verbs)
-            //    {
-            //        foreach (var s in synonyms2)
-            //        {
-            //            if (v1.Text == s)
-            //            {
-            //                v1.Synonyms += 1;
-            //            }
-            //        }
-            //        ////Output.WriteLine(v1.Text);
-            //        ////Output.WriteLine(v1.Synonyms);
-            //    }
-            //}
-
-
-
-            //NEED REAL FORMULA FOR WEIGHT MODIFICATION
-            //        verb.Weight += verb.Synonyms;
-
-
-
-
-            //        ////Output.WriteLine(verb);
-
-
-            //    }
-            //}
-
-
-
-
-
-            // .2 - Frequency of Word in document compared to rhs documents in set - EXCLUDED FOR 1-DOCUMENT DEMO
 
 
         }

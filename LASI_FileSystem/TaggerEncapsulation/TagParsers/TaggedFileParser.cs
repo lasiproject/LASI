@@ -188,15 +188,20 @@ namespace LASI.FileSystem
         protected virtual Phrase ParsePhrase(TextTagPair taggedContent) {
             var phraseTag = taggedContent.Tag.Trim();
             var composed = CreateWords(taggedContent.Text);
+            Phrase result = null;
             if (phraseTag == "NP" && composed.All(w => w is Adverb)) {
                 var phraseConstructor = PhraseTagset["ADVP"];
-                return phraseConstructor(composed);
+                result = phraseConstructor(composed);
             }
             else {
                 var phraseConstructor = PhraseTagset[phraseTag];
 
-                return phraseConstructor(composed);
+                result = phraseConstructor(composed);
+                if (result is VerbPhrase && result.Words.First() is ToLinker) {
+                    result = new InfinitivePhrase(composed.AsEnumerable());
+                }
             }
+            return result;
         }
         /// <summary>
         /// Reads entity [outerNP Square Brack Delimited Phrase Chunk] and returns entity entity tag determined subtype of LASI.Phrase which in turn contains all the run time representations of the individual words within it.

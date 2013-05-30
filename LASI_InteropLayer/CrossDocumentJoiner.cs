@@ -175,10 +175,9 @@ namespace LASI.InteropLayer
                 return 1;
             }
             public override bool Equals(object obj) {
-                if (obj != null)
-                    return this == obj as NVNN;
-                else
-                    return false;
+
+                return this == obj as NVNN;
+
             }
             public static bool operator ==(NVNN lhs, NVNN rhs) {
 

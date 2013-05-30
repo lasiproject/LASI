@@ -102,10 +102,26 @@ namespace LASI.Algorithm.Thesauri
 
         }
 
-        private static Lazy<NounThesaurus> nounProvider = new Lazy<NounThesaurus>(() => new NounThesaurus(nounThesaurusFilePath), true);
-        private static Lazy<VerbThesaurus> verbProvider = new Lazy<VerbThesaurus>(() => new VerbThesaurus(verbThesaurusFilePath), true);
-        private static Lazy<AdjectiveThesaurus> adjectiveProvider = new Lazy<AdjectiveThesaurus>(() => new AdjectiveThesaurus(adjectiveThesaurusFilePath), true);
-        private static Lazy<AdverbThesaurus> adverbProvider = new Lazy<AdverbThesaurus>(() => new AdverbThesaurus(adverbThesaurusFilePath), true);
+        private static Lazy<NounThesaurus> nounProvider = new Lazy<NounThesaurus>(() => {
+            var t = new NounThesaurus(nounThesaurusFilePath);
+            t.Load();
+            return t;
+        }, true);
+        private static Lazy<VerbThesaurus> verbProvider = new Lazy<VerbThesaurus>(() => {
+            var t = new VerbThesaurus(verbThesaurusFilePath);
+            t.Load();
+            return t;
+        }, true);
+        private static Lazy<AdjectiveThesaurus> adjectiveProvider = new Lazy<AdjectiveThesaurus>(() => {
+            var t = new AdjectiveThesaurus(adjectiveThesaurusFilePath);
+            t.Load();
+            return t;
+        }, true);
+        private static Lazy<AdverbThesaurus> adverbProvider = new Lazy<AdverbThesaurus>(() => {
+            var t = new AdverbThesaurus(adverbThesaurusFilePath);
+            t.Load();
+            return t;
+        }, true);
 
         public static VerbThesaurus VerbProvider {
             get {
