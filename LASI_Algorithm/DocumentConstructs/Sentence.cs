@@ -8,40 +8,34 @@ namespace LASI.Algorithm.DocumentConstructs
 {
     public class Sentence
     {
-        public Sentence(params Phrase[] phrases)
-        {
+        public Sentence(params Phrase[] phrases) {
             Clauses = new[] { new Clause(from P in phrases select P) };
         }
-        public Sentence(IEnumerable<Phrase> phrases, SentenceDelimiter sentencePunctuation = null)
-        {
+        public Sentence(IEnumerable<Phrase> phrases, SentenceDelimiter sentencePunctuation = null) {
             Clauses = new[] { new Clause(from P in phrases select P) };
             EndingPunctuation = sentencePunctuation == null ?
             new SentenceDelimiter('.') :
             sentencePunctuation;
         }
-        public Sentence(IEnumerable<Word> words, SentenceDelimiter sentencePunctuation = null)
-        {
+        public Sentence(IEnumerable<Word> words, SentenceDelimiter sentencePunctuation = null) {
             Clauses = new[] { new Clause(from W in words select W) };
             EndingPunctuation = sentencePunctuation == null ?
                new SentenceDelimiter('.') :
                sentencePunctuation;
         }
-        public Sentence(IEnumerable<Clause> clauses)
-        {
+        public Sentence(IEnumerable<Clause> clauses) {
             Clauses = clauses;
             EndingPunctuation =
                 new SentenceDelimiter('.');
         }
-        public Sentence(IEnumerable<Clause> clauses, SentenceDelimiter sentencePunctuation = null)
-        {
+        public Sentence(IEnumerable<Clause> clauses, SentenceDelimiter sentencePunctuation = null) {
             Clauses = clauses;
             EndingPunctuation = sentencePunctuation == null ?
                 new SentenceDelimiter('.') :
                 sentencePunctuation;
         }
 
-        public IEnumerable<Phrase> GetPhrasesAfter(Phrase phrase)
-        {
+        public IEnumerable<Phrase> GetPhrasesAfter(Phrase phrase) {
             return Phrases.SkipWhile(r => r != phrase).Skip(1);
         }
 
@@ -50,49 +44,26 @@ namespace LASI.Algorithm.DocumentConstructs
         /// <summary>
         /// Gets the ending punctuation character of the sentence.
         /// </summary>
-        public SentenceDelimiter EndingPunctuation
-        {
+        public SentenceDelimiter EndingPunctuation {
             get;
             set;
         }
 
-
-        public void EstablishParenthood(Paragraph paragraph)
-        {
-            ParentParagraph = paragraph;
+        /// <summary>
+        /// Establishes the linkages between the Sentence, its parent Paragraph, and its child Clauses.
+        /// </summary>
+        /// <param name="parent">The Paragraph to which the Sentence belongs.</param>
+        public void EstablishParenthood(Paragraph parent) {
+            Paragraph = parent;
             foreach (var C in Clauses)
                 C.EstablishParent(this);
         }
 
-        ///<summary>
-        /// Returns the number of Words in entity sentence
-        /// </summary>
-        public int GetWordCount()
-        {
-            return Words.Count();
-        }
-
-        /// <summary>
-        /// Returns the number of Clauses in entity sentence
-        /// </summary>
-        public int GetClauseCount()
-        {
-            return Clauses.Count();
-        }
-
-        /// <summary>
-        /// Returns the number of Phrases in entity sentence
-        /// </summary>
-        public int GetPhraseCount()
-        {
-            return Phrases.Count();
-        }
 
         /// <summary>
         /// Gets the sequence of Clauses which comprise the sentence.
         /// </summary>
-        public IEnumerable<Clause> Clauses
-        {
+        public IEnumerable<Clause> Clauses {
             get;
             protected set;
         }
@@ -100,10 +71,8 @@ namespace LASI.Algorithm.DocumentConstructs
         /// Gets the sequence of Phrases which comprise the sentence.
         /// </summary>
         /// 
-        public IEnumerable<Phrase> Phrases
-        {
-            get
-            {
+        public IEnumerable<Phrase> Phrases {
+            get {
                 return from C in Clauses
                        from P in C.Phrases
                        select P;
@@ -112,10 +81,8 @@ namespace LASI.Algorithm.DocumentConstructs
         /// <summary>
         /// Gets the sequence of Words which comprise the sentence.
         /// </summary>
-        public IEnumerable<Word> Words
-        {
-            get
-            {
+        public IEnumerable<Word> Words {
+            get {
                 return from c in Clauses
                        from P in Phrases
                        from W in P.Words
@@ -125,10 +92,8 @@ namespace LASI.Algorithm.DocumentConstructs
         /// <summary>
         /// Gets the concatenated text content of all of the Words which compose the Sentence.
         /// </summary>
-        public string Text
-        {
-            get
-            {
+        public string Text {
+            get {
                 return (Phrases.Aggregate("", (txt, P) => txt + " " + P.Text) + EndingPunctuation.Text).Trim();
             }
         }
@@ -138,19 +103,16 @@ namespace LASI.Algorithm.DocumentConstructs
         /// <summary>
         /// Gets or sets the Paragraph to which the Sentence belongs.
         /// </summary>
-        public Paragraph ParentParagraph
-        {
+        public Paragraph Paragraph {
             get;
             private set;
         }
         /// <summary>
-        /// Gets or sets the ParentDocument to which the Sentence Belongs.
+        /// Gets or sets the Document to which the Sentence Belongs.
         /// </summary>
-        public Document ParentDocument
-        {
-            get
-            {
-                return ParentParagraph.ParentDocument;
+        public Document Document {
+            get {
+                return Paragraph.Document;
             }
         }
 
@@ -158,8 +120,7 @@ namespace LASI.Algorithm.DocumentConstructs
         /// Returns entity string representation of the Sentence.
         /// </summary>
         /// <returns>entity string representation of the Sentence.</returns>
-        public override string ToString()
-        {
+        public override string ToString() {
             return base.ToString() + " \"" + Text + "\"";
         }
 

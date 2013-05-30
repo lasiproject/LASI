@@ -25,8 +25,7 @@ namespace LASI.Algorithm
             Weight = 1;
             MetaWeight = 1;
             FrequencyCurrent = 0;
-            FrequencyAcross = 0;
-            Synonyms = -1;
+            FrequencyAcross = 0; 
         }
 
 
@@ -34,8 +33,8 @@ namespace LASI.Algorithm
 
         #region Methods
 
-        public void EstablishParent(Phrase phrase) {
-            ParentPhrase = phrase;
+        public void EstablishParent(Phrase parent) {
+            Phrase = parent;
 
         }
 
@@ -94,31 +93,24 @@ namespace LASI.Algorithm
             set;
         }
 
-        /// <summary>
-        /// Gets the normalized frequency of word across all documents.
-        /// </summary>
-        public int Synonyms {
-            get;
-            set;
-        }
 
         /// <summary>
         /// Gets the document instance to which the verb belongs.
         /// </summary>
-        public LASI.Algorithm.DocumentConstructs.Document ParentDocument {
+        public LASI.Algorithm.DocumentConstructs.Document Document {
             get {
-                return ParentPhrase.ParentDocument;
+                return Phrase.Document;
             }
         }
         /// <summary>
-        /// Gets, lexically speaking, the next Word in the ParentDocument to which the instance belongs.
+        /// Gets, lexically speaking, the next Word in the Document to which the instance belongs.
         /// </summary>
         public Word NextWord {
             get;
             set;
         }
         /// <summary>
-        /// Gets, lexically speaking, the previous Word in the ParentDocument to which the instance belongs.
+        /// Gets, lexically speaking, the previous Word in the Document to which the instance belongs.
         /// </summary>
         public Word PreviousWord {
             get;
@@ -127,14 +119,14 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets or the Phrase the Word belongs to.
         /// </summary>
-        public Phrase ParentPhrase {
+        public Phrase Phrase {
             get;
             private set;
         }
         /// <summary>
         /// Gets or the Sentence the Word belongs to.
         /// </summary>
-        public LASI.Algorithm.DocumentConstructs.Sentence ParentSentence {
+        public LASI.Algorithm.DocumentConstructs.Sentence Sentence {
             get;
             private set;
         }

@@ -79,55 +79,7 @@ namespace LASI.Algorithm.DocumentConstructs
 
         }
 
-        /// Returns the verb instance at x location in the document 
-        public Word WordAt(int loc) {
-            if (loc < this._words.Count)
-                return this._words.ElementAt(loc);
-            else
-                throw new ArgumentOutOfRangeException("Document.WordAt");
-        }
 
-        /// Returns the text  of verb instance at x location in the document
-        public string WordTextAt(int loc) {
-            if (loc < _words.Count)
-                return _words.ElementAt(loc).Text;
-            else
-                throw new ArgumentOutOfRangeException("Document.WordTextAt");
-        }
-
-        /// Returns the sentence instance at x location 
-        public Sentence SentenceAt(int loc) {
-
-            if (loc < this.Sentences.Count())
-                return this.Sentences.ElementAt(loc);
-            else
-                throw new ArgumentOutOfRangeException("Document.SentenceAt");
-        }
-
-        ///  Returns the sentence instance text at x location
-        public string SentenceTextAt(int loc) {
-            if (loc < this.Sentences.Count())
-                return this.Sentences.ElementAt(loc).Text;
-            else
-                throw new ArgumentOutOfRangeException("Document.SentenceTextAt");
-        }
-
-        ///// <summary>
-        ///// Prints out the entire contents of the document, from left to right, by using the using the lexical links of each of its words.
-        ///// </summary>
-        //public void PrintByWordLinkage() {
-        //    for (var verb = _words.First(); verb != null; verb = verb.NextWord)
-        //        Console.Write(verb.Text + " ");
-
-        //}
-        ///// <summary>
-        ///// Prints out the entire contents of the document, from left to right, by using the using the lexical links of each of its componentPhrases.
-        ///// </summary>
-        //public void PrintByPhraseLinkage() {
-
-        //    for (var r = _phrases.First(); r != null; r = r.NextPhrase)
-        //        Console.Write(r.Text + " ");
-        //}
 
         /// <summary>
         /// Returns all of the Action identified within the docimument.

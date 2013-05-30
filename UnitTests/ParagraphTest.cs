@@ -165,7 +165,7 @@ namespace AlgorithmAssemblyUnitTestProject
                Paragraph[] target = {new Paragraph(sentences)};
                Document parentDoc = new Document(target) ;
                target[0].EstablishParent(parentDoc);
-               Assert.AreEqual(target[0].ParentDocument, parentDoc);
+               Assert.AreEqual(target[0].Document, parentDoc);
            }
        }
 

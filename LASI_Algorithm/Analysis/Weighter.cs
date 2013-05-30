@@ -14,14 +14,14 @@ namespace LASI.Algorithm.Analysis
     static public class Weighter
     {
         /// <summary>
-        /// Asynchronously assigns entity Weight to each word and phrase in entity Document.
+        /// Asynchronously assigns entity Weight to each word and parent in entity Document.
         /// </summary>
         /// <param name="doc">The Document whose elements are to be weighted</param>
         public static async Task WeightAsync(Document doc) {
             await Task.Run(() => Weight(doc));
         }
         /// <summary>
-        /// Assigns entity Weight to each word and phrase in entity Document.
+        /// Assigns entity Weight to each word and parent in entity Document.
         /// </summary>
         /// <param name="doc">The Document whose elements are to be weighted</param>
         static public void Weight(Document doc) {
@@ -164,7 +164,7 @@ namespace LASI.Algorithm.Analysis
         }
 
         /// <summary>
-        /// For each noun phrase in entity document that is similar to another noun phrase, increase the weight of that noun
+        /// For each noun parent in entity document that is similar to another noun parent, increase the weight of that noun
         /// </summary>
         /// <param name="doc">Document containing the componentPhrases to weight</param>
         private static void WeightSimilarNounPhrases(Document doc) {
@@ -236,7 +236,7 @@ namespace LASI.Algorithm.Analysis
             //SIX PHASES
 
             //PHASE 2 - Word Weight based on part of speech and neighbors' (+2) part of speech
-            //PHASE 3 - Standard phrase Weight based on phrase part of speech (standardization) - COMPLETE
+            //PHASE 3 - Standard parent Weight based on parent part of speech (standardization) - COMPLETE
             //PHASE 4 - Phrase Weight based on part of speech and neibhors' (full sentence) part of speech
             //PHASE 5 - FREQUENCIES
             // .1 - Frequency of Word/Phrase in document

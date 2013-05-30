@@ -96,7 +96,7 @@ namespace AlgorithmAssemblyUnitTestProject
             Word target = CreateWord();
             Phrase phrase = new NounPhrase(new Word[] { new Adjective("Psychotic"), target });
             target.EstablishParent(phrase);
-            Assert.IsTrue(target.ParentPhrase == phrase);
+            Assert.IsTrue(target.Phrase == phrase);
         }
 
         /// <summary>
@@ -138,7 +138,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///entity test for ParentDocument
+        ///entity test for Document
         ///</summary>
         [TestMethod()]
         public void ParentDocTest() {
@@ -146,7 +146,7 @@ namespace AlgorithmAssemblyUnitTestProject
             Document parent = new Document(new[] { new Paragraph(new[] { new Sentence(new[] { new Clause(new[] { new NounPhrase(new Word[] { target }) }) }) }) });
             Document expected = parent;
             Document actual;
-            actual = target.ParentDocument;
+            actual = target.Document;
             Assert.AreEqual(expected, actual);
         }
 

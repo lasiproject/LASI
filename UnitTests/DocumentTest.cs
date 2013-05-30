@@ -192,65 +192,9 @@ namespace AlgorithmAssemblyUnitTestProject
 
 
 
-        /// <summary>
-        ///entity test for SentenceAt
-        ///</summary>
-        [TestMethod()]
-        public void SentenceAtTest() {
+      
 
-            Document target = BuildDocumentManually();
-            for (int i = 0; i < target.Sentences.Count(); ++i) {
-                Sentence expected = target.Sentences.ToList()[i];
-                Sentence actual;
-                actual = target.SentenceAt(i);
-                Assert.AreEqual(expected, actual);
-            }
 
-        }
-
-        /// <summary>
-        ///entity test for SentenceTextAt
-        ///</summary>
-        [TestMethod()]
-        public void SentenceTextAtTest() {
-            Document target = BuildDocumentManually();
-            for (int i = 0; i < target.Sentences.Count(); ++i) {
-                string expected = target.Sentences.Skip(i).First().Text;
-                string actual;
-                actual = target.SentenceTextAt(i);
-                Assert.AreEqual(expected, actual);
-            }
-        }
-
-        /// <summary>
-        ///entity test for WordAt
-        ///</summary>
-        [TestMethod()]
-        public void WordAtTest() {
-
-            Document target = BuildDocumentManually();
-            for (int i = 0; i < target.Words.Count(); ++i) {
-                Word expected = target.Words.Skip(i).First();
-                Word actual;
-                actual = target.WordAt(i);
-                Assert.AreEqual(expected, actual);
-            }
-        }
-
-        /// <summary>
-        ///entity test for WordTextAt
-        ///</summary>
-        [TestMethod()]
-        public void WordTextAtTest() {
-
-            Document target = BuildDocumentManually();
-            for (int i = 0; i < target.Words.Count(); ++i) {
-                string expected = target.Words.Skip(i).First().Text;
-                string actual;
-                actual = target.WordTextAt(i);
-                Assert.AreEqual(expected, actual);
-            }
-        }
 
         /// <summary>
         ///entity test for Paragraphs

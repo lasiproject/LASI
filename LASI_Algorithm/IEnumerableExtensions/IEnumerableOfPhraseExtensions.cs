@@ -10,7 +10,7 @@ namespace LASI.Algorithm
     public static class IEnumerableOfPhraseExtensions
     {
         public static IEnumerable<Phrase> Between(this Phrase phrase, Phrase other) {
-            return phrase.ParentSentence.GetPhrasesAfter(phrase).TakeWhile(r => !r.Equals(other)).ToList();
+            return phrase.Sentence.GetPhrasesAfter(phrase).TakeWhile(r => !r.Equals(other)).ToList();
         }
         public static IEnumerable<Phrase> GetPhrasesAfter(this IEnumerable<Phrase> phrases, Phrase phrase) {
             return phrases.SkipWhile(r => r != phrase).Skip(1);

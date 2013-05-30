@@ -28,7 +28,7 @@ namespace LASI.Algorithm.Analysis
 
         private static void PerformPronounBinding(Document doc) {
             doc.Sentences
-                .Where(s => s.ParentParagraph.ParagraphKind == ParagraphKind.Default)
+                .Where(s => s.Paragraph.ParagraphKind == ParagraphKind.Default)
                    .AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
                    .ForAll(
                    s => new PronounBinder().Bind(doc));
@@ -39,7 +39,7 @@ namespace LASI.Algorithm.Analysis
 
         private static void PerformAttributeNounPhraseBinding(Document doc) {
             doc.Sentences
-              .Where(s => s.ParentParagraph.ParagraphKind == ParagraphKind.Default)
+              .Where(s => s.Paragraph.ParagraphKind == ParagraphKind.Default)
                 .AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
                 .ForAll(
                 s => {
@@ -49,7 +49,7 @@ namespace LASI.Algorithm.Analysis
         private static void PerformSVOBinding(Document doc) {
             try {
                 doc.Sentences
-                 .Where(s => s.ParentParagraph.ParagraphKind == ParagraphKind.Default)
+                 .Where(s => s.Paragraph.ParagraphKind == ParagraphKind.Default)
                     .AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
                     .ForAll(
                     s => {

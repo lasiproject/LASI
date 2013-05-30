@@ -15,7 +15,7 @@ namespace LASI.Algorithm
 
 
             //if (IntroducingVerbal == null)
-            //    throw new InvalidInfinitePhraseConstructedException("An infinitive phrase must start with a Verbial type");
+            //    throw new InvalidInfinitePhraseConstructedException("An infinitive parent must start with a Verbial type");
         }
         public VerbPhrase IntroducingVerbal {
             get;

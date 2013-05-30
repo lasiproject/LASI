@@ -211,7 +211,7 @@ namespace LASI.Algorithm.Binding
                     Machine.lastPrepositional.OnRightSide = phrase;
                     Machine.bindingTarget.AttachObjectViaPreposition(phrase.PrepositionOnLeft);
                 }
-                //Machine(phrase);
+                //Machine(parent);
                 if (Machine.inputstream.Count < 1) {
                     if (!Machine.directFound)
                         Machine.AssociateDirect();
@@ -387,7 +387,7 @@ namespace LASI.Algorithm.Binding
             public void Transition(VerbPhrase phrase) {
                 InfinitivePhrase infinitive = new InfinitivePhrase(
                     phrase.AsEnumerable().GetWords().Concat(
-                   phrase.ParentSentence.GetPhrasesAfter(phrase)
+                   phrase.Sentence.GetPhrasesAfter(phrase)
                     .TakeWhile(w => !(w is IConjunctive || w is IPrepositional)).GetWords()));
                 Machine.directObject = infinitive;
 
@@ -635,7 +635,7 @@ namespace LASI.Algorithm.Binding
     {
         /// <summary>
         /// An extension method which pops the next item from the stack, but returns it as entity an object of Type dynamic.
-        /// This allows the overloaded methods present in each state to be correctly selected based on the run time type of the phrase.
+        /// This allows the overloaded methods present in each state to be correctly selected based on the run time type of the parent.
         /// </summary>
         /// <param name="stack">The Stack instances from which to pop.</param>
         /// <returns>The Phrase at the top of the stack typed as dynamic.</returns>

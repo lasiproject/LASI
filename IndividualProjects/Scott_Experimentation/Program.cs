@@ -73,7 +73,7 @@ namespace Scott_Experimentation
             /*
             var NP = sm.GetNounPhrases();
             List<Phrase> UniqueNounPhrases = new List<Phrase>();
-            //inserts first noun phrase into list
+            //inserts first noun parent into list
             UniqueNounPhrases.Add(NP.ElementAt(0));
             //Output.WriteLine("{0}, {1}", NP.Count(), UniqueNounPhrases.Count());
             bool match = false;
@@ -87,7 +87,7 @@ namespace Scott_Experimentation
                         match = true;
                     }
 
-                    //compare last noun in noun phrase
+                    //compare last noun in noun parent
                     if((NP.ElementAt(x).Words.GetNouns().LastOrDefault() != null) &&
                         (UniqueNounPhrases.ElementAt(y).Words.GetNouns().LastOrDefault() != null) &&
                         (NP.ElementAt(x).Words.GetNouns().LastOrDefault().Text.ToUpper() == UniqueNounPhrases.ElementAt(y).Words.GetNouns().LastOrDefault().Text.ToUpper())

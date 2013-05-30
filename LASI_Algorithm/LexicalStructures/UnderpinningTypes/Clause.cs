@@ -11,7 +11,7 @@ namespace LASI.Algorithm
 
 
         /// <summary>
-        /// This class is currently experimental and is not entity tier in the ParentDocument objects created by the tagged file parsers
+        /// This class is currently experimental and is not entity tier in the Document objects created by the tagged file parsers
         /// Initializes entity new instance of the Clause class, by composing the given linear sequence of componentPhrases.
         /// </summary>
         /// <param name="componentPhrases">The linear sequence of Phrases which compose to form the Clause.</param>
@@ -47,7 +47,7 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="sentence">The Sentence containing the Clause.</param>
         internal void EstablishParent(LASI.Algorithm.DocumentConstructs.Sentence sentence) {
-            ParentSentence = sentence;
+            Sentence = sentence;
             foreach (var r in Phrases)
                 r.EstablishParent(this);
         }
@@ -57,7 +57,7 @@ namespace LASI.Algorithm
         /// </summary>
         public LASI.Algorithm.DocumentConstructs.Document ParentDocument {
             get {
-                return ParentSentence.ParentDocument;
+                return Sentence.Document;
             }
         }
         /// <summary>
@@ -65,7 +65,7 @@ namespace LASI.Algorithm
         /// </summary>
         public Paragraph ParentParagraph {
             get {
-                return ParentSentence.ParentParagraph;
+                return Sentence.Paragraph;
             }
         }
         /// <summary>
@@ -109,7 +109,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets the Sentence which contains The Clause.
         /// </summary>
-        public LASI.Algorithm.DocumentConstructs.Sentence ParentSentence {
+        public LASI.Algorithm.DocumentConstructs.Sentence Sentence {
             get;
             protected set;
         }

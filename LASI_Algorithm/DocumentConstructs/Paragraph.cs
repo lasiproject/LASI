@@ -18,10 +18,10 @@ namespace LASI.Algorithm
         }
 
         /// <summary>
-        /// Initializes entity new instance of the Paragraph class containing the given sentences and belonging to the given ParentDocument.
+        /// Initializes entity new instance of the Paragraph class containing the given sentences and belonging to the given Document.
         /// </summary>
         /// <param name="sentences">The collection of sentences which comprise the Paragraph.</param>
-        ///<param name="paraKind">Argument indicating the kind of paragraph.</param>
+        ///<param name="paraKind">Argument indicating the kind of parent.</param>
         public Paragraph(IEnumerable<Sentence> sentences, ParagraphKind paraKind = ParagraphKind.Default) {
             paragraphKind = paraKind;
             Sentences = sentences;
@@ -36,7 +36,7 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="parentDoc">The document instance to identified as the g'd parent.</param>
         public void EstablishParent(Document parentDoc) {
-            ParentDocument = parentDoc;
+            Document = parentDoc;
             foreach (var S in Sentences)
                 S.EstablishParenthood(this);
         }
@@ -69,7 +69,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets or sets the document the g belongs to.
         /// </summary>
-        public Document ParentDocument {
+        public Document Document {
             get;
             private set;
         }

@@ -41,9 +41,9 @@ namespace LASI.Algorithm
             return GetType().Name + " \"" + Text + "\"";
         }
 
-        public void EstablishParent(Clause clause) {
-            ParentSentence = clause.ParentSentence;
-            ParentDocument = ParentSentence.ParentDocument;
+        public void EstablishParent(Clause parent) {
+            Sentence = parent.Sentence;
+            Document = Sentence.Document;
             foreach (var w in Words)
                 w.EstablishParent(this);
         }
@@ -73,14 +73,14 @@ namespace LASI.Algorithm
         }
 
         /// <summary>
-        /// Gets, lexically speaking, the next Phrase in the ParentDocument to which the instance belongs.
+        /// Gets, lexically speaking, the next Phrase in the Document to which the instance belongs.
         /// </summary>
         public Phrase NextPhrase {
             get;
             set;
         }
         /// <summary>
-        /// Gets, lexically speaking, the previous Phrase in the ParentDocument to which the instance belongs.
+        /// Gets, lexically speaking, the previous Phrase in the Document to which the instance belongs.
         /// </summary>
         public Phrase PreviousPhrase {
             get;
@@ -89,19 +89,19 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets or sets the Sentence the Phrase belongs to.
         /// </summary>
-        public LASI.Algorithm.DocumentConstructs.Sentence ParentSentence {
+        public LASI.Algorithm.DocumentConstructs.Sentence Sentence {
             get;
             set;
         }
-        public Paragraph ParentParagraph {
+        public Paragraph Paragraph {
             get {
-                return ParentSentence.ParentParagraph;
+                return Sentence.Paragraph;
             }
         }
         /// <summary>
         /// Gets or set the Document instance to which the Phrase belongs.
         /// </summary>
-        public LASI.Algorithm.DocumentConstructs.Document ParentDocument {
+        public LASI.Algorithm.DocumentConstructs.Document Document {
             get;
             protected set;
         }

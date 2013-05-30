@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace LASI.Algorithm.ClauseTypes
 {
     /// <summary>
-    /// This class is currently experimental and is not entity tier in the ParentDocument objects created by the tagged file parsers
+    /// This class is currently experimental and is not entity tier in the Document objects created by the tagged file parsers
     /// Represents entity clause which provides discriptive quantitative or qualitative specification.
     /// </summary>
     public class SubordinateClause : Clause, IDescriber, IAdverbial
