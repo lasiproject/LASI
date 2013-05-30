@@ -8,7 +8,7 @@ namespace AlgorithmAssemblyUnitTestProject
 
 
     /// <summary>
-    ///This is entity test class for SentenceTest and is intended
+    ///This is A test class for SentenceTest and is intended
     ///to contain all SentenceTest Unit Tests
     ///</summary>
     [TestClass()]
@@ -41,7 +41,7 @@ namespace AlgorithmAssemblyUnitTestProject
         //{
         //}
         //
-        //Use ClassCleanup to run code after all tests in entity class have run
+        //Use ClassCleanup to run code after all tests in A class have run
         //[ClassCleanup()]
         //public static void MyClassCleanup()
         //{
@@ -63,7 +63,7 @@ namespace AlgorithmAssemblyUnitTestProject
 
 
         /// <summary>
-        ///entity test for ToString
+        ///A test for ToString
         ///</summary>
         [TestMethod()]
         public void ToStringTest() {

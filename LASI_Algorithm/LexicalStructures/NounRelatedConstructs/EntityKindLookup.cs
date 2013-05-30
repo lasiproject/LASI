@@ -30,7 +30,7 @@ namespace LASI.Algorithm
             }
         }
         /// <summary>
-        ///  Inserts entity mapping from the given text to the given kind.
+        ///  Inserts a mapping from the given text to the given kind.
         /// </summary>
         /// <param name="textKey">the text key for the entry</param>
         /// <param name="kind">the EntityKind value for the entry</param>
@@ -50,7 +50,7 @@ namespace LASI.Algorithm
         /// <param name="entry">The entry to conjugated for.</param>
         /// <returns>The EntityKind corresponding to the entities text.</returns>
         /// <exception cref="KeyNotFoundException">
-        /// Thrown when no EntityKind is indexed by the entity'd text.
+        /// Thrown when no EntityKind is indexed by the entity's text.
         /// </exception>
         public static EntityKind Lookup(IEntity entry) {
             return Lookup(entry);

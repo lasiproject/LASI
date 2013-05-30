@@ -7,15 +7,15 @@ using System.Threading.Tasks;
 namespace LASI.Algorithm
 {
     /// <summary>
-    /// entity specialization of Punctuation which represents character which demarkate the end of entity sentence.
+    /// A specialization of Punctuation which represents character which demarkate the end of a sentence.
     /// </summary>
     public class SentenceDelimiter : Punctuation
     {
         /// <summary>
-        /// Initializes entity new instance of the SentenceDelimiter class.
+        /// Initializes a new instance of the SentenceDelimiter class.
         /// </summary>
-        /// <param name="eos">entity character which denotes the end of entity sentence (valid values are '?', '!', and '.'</param>
-        /// <exception cref="ArgumentException">Thrown when entity character not within the specified set of valid values is passed to the constructor.</exception>
+        /// <param name="eos">A character which denotes the end of a sentence (valid values are '?', '!', and '.'</param>
+        /// <exception cref="ArgumentException">Thrown when a character not within the specified set of valid values is passed to the constructor.</exception>
         public SentenceDelimiter(char eos)
             : base(eos) {
             if (eos != '.' && eos != '!' &&

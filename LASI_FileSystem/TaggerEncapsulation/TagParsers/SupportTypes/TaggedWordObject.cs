@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace LASI.FileSystem
 {
     /// <summary>
-    /// Holds entity pair of strings representing entity piece of natural language text and its NLP verb tag.
+    /// Holds a pair of strings representing a piece of natural language text and its NLP verb tag.
     /// Note, use with the elegant object initializer sytnax when creating an instance.
     /// eg. var myTTPair = new TextTagPair{ Text = "collie", Tag = "NN" }; 
     /// as opposed to
@@ -19,7 +19,7 @@ namespace LASI.FileSystem
     public struct TaggedWordObject
     {
         /// <summary>
-        /// The english text of entity tagged verb.
+        /// The english text of a tagged verb.
         /// </summary>
         public string Text {
             get;
@@ -34,19 +34,19 @@ namespace LASI.FileSystem
         }
     }
     /// <summary>
-    /// Holds entity pair of strings representing the internal text of entity entity and its NLP entity tag.
+    /// Holds a pair of strings representing the internal text of a tagged element and its NLP tag.
     /// </summary>
     public struct TextTagPair
     {
         /// <summary>
-        /// The inner text content of the entity, presumably consisting of one or more words.
+        /// The inner text content of the tagged object, presumably consisting of one or more words.
         /// </summary>
         public string Text {
             get;
             set;
         }
         /// <summary>
-        /// The text of pos tag associated with the entity.
+        /// The text of pos tag associated with the occurance.
         /// </summary>
         public string Tag {
             get;

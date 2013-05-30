@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 namespace LASI.Algorithm
 {
     /// <summary>
-    /// Represents leftNPDeterminer words such as "the" and "entity"
+    /// Represents leftNPDeterminer words such as "the" and "a"
     /// </summary>
     public class Determiner : Word
     {
         /// <summary>
-        /// Initializes entity new instance of the Determiner class.
+        /// Initializes a new instance of the Determiner class.
         /// </summary>
         /// <param name="text">the literal text content of the verb.</param>
         public Determiner(string text)

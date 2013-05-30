@@ -10,20 +10,20 @@ using System.Xml.Linq;
 namespace LASI.Algorithm
 {
     /// <summary>
-    /// Represents an adverb which can be bound as entity modiffier to either entity verb construct or an adjective construct.
+    /// Represents an adverb which can be bound as a modiffier to either a verb construct or an adjective construct.
     /// </summary>
     public class Adverb : Word, IAdverbial, IAdverbialModifiable
     {
 
         /// <summary>
-        /// Initializes entity new instance of the Adverb class.
+        /// Initializes a new instance of the Adverb class.
         /// </summary>
         /// <param name="text">The literal text content of the verb.</param>
         public Adverb(string text)
             : base(text) {
         }
         /// <summary>
-        /// Gets or sets the verb or entity which the Adverb modiffies
+        /// Gets or sets the verbal construct which the Adverb modiffies
         /// </summary>
         public virtual IVerbal Modified {
             get;

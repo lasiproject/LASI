@@ -13,7 +13,7 @@ namespace LASI.Algorithm.Binding
     public class ObjectBinder
     {
         /// <summary>
-        /// Initializes entity new instances of ObjectBinder class.
+        /// Initializes a new instances of ObjectBinder class.
         /// </summary>
         public ObjectBinder() {
 
@@ -634,7 +634,7 @@ namespace LASI.Algorithm.Binding
     static class DynamicStackExtensions
     {
         /// <summary>
-        /// An extension method which pops the next item from the stack, but returns it as entity an object of Type dynamic.
+        /// An extension method which pops the next item from the stack, but returns it as a an object of Type dynamic.
         /// This allows the overloaded methods present in each state to be correctly selected based on the run time type of the parent.
         /// </summary>
         /// <param name="stack">The Stack instances from which to pop.</param>

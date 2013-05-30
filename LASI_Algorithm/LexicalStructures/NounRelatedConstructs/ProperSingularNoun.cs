@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 namespace LASI.Algorithm
 {
     /// <summary>
-    /// Represents entity Proper Singular Noun.
+    /// Represents a Proper Singular Noun.
     /// </summary>
     public class ProperSingularNoun : ProperNoun
     {
         /// <summary>
-        /// Initialiazes entity new instance of the ProperSingularNoun class.
+        /// Initialiazes a new instance of the ProperSingularNoun class.
         /// </summary>
         /// <param name="text">The literal text content of the ProperSingularNoun.</param>
         public ProperSingularNoun(string text)

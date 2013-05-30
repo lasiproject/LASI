@@ -39,7 +39,7 @@ namespace LASI.Algorithm.Analysis.Binding.PronounBounding
         /// Determins the  PronounGenerder enum value representing the gender of the given pronoun.
         /// </summary>
         /// <param name="pronoun">The pronoun whose gender to is to be checked</param>
-        /// <returns>entity PronounGenerder enum value representing the gender of the given pronoun.</returns>
+        /// <returns>A PronounGenerder enum value representing the gender of the given pronoun.</returns>
         private static PronounGender DeterminePronounGender(Pronoun pronoun) {
             var compareText = pronoun.Text.ToLower();
             return

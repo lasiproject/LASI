@@ -8,7 +8,7 @@ using System.Xml.Linq;
 namespace LASI.Algorithm
 {
     /// <summary>
-    /// Represents an adverb entity which modifies either an IDescriber, such as an Adjective or AdjectivePhrase construct, or an IVerbal, such as entity Verb or VerbPhrase construct.
+    /// Represents an adverb phrase which modifies either an IDescriber, such as an Adjective or AdjectivePhrase construct, or an IVerbal, such as a Verb or VerbPhrase construct.
     /// </summary>
     public class AdverbPhrase : Phrase, IAdverbial
     {
@@ -27,6 +27,6 @@ namespace LASI.Algorithm
             set;
         }
 
-      
+
     }
 }

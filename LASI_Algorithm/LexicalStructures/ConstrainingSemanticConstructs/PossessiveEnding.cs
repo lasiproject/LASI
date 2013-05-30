@@ -6,13 +6,13 @@ using System.Text;
 namespace LASI.Algorithm
 {
     /// <summary>
-    /// Represents entity possessive ending such as 'd which indicates that the noun it follows has entity possessive relationship with respect to the following Entity
+    /// Represents a possessive ending such as 'd which indicates that the noun it follows has a possessive relationship with respect to the following Entity
     /// </summary>
     public class PossessiveEnding : Word, IWeakPossessor
     {
         #region Constructors
         /// <summary>
-        /// Initializes entity new instance of the possessive ending class.
+        /// Initializes a new instance of the possessive ending class.
         /// </summary>
         /// <param name="text">The literla  text content of the possessive ending.</param>
         public PossessiveEnding(string text)
@@ -23,7 +23,7 @@ namespace LASI.Algorithm
 
         #region Methods
         /// <summary>
-        /// Adds entity possession to the collection of items this instance possesses.
+        /// Adds a possession to the collection of items this instance possesses.
         /// </summary>
         /// <param name="possession">The possession to add.</param>
         public void AddPossession(IEntity possession) {
@@ -39,7 +39,7 @@ namespace LASI.Algorithm
         #region Properties
 
         /// <summary>
-        /// Gets or sets the possessing the entity the Posssessive ending is attached to.
+        /// Gets or sets the possessing the Entity the Posssessive ending is attached to.
         /// </summary>
         public IEntity PossessesFor {
             get {

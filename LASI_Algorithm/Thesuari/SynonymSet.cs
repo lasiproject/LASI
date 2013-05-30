@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace LASI.Algorithm.Thesauri
 {
     /// <summary>
-    /// Represents entity Synonym set entry corresponding to entity line in entity WordNet thesaurus file.
+    /// Represents a Synonym set entry corresponding to a line in a WordNet thesaurus file.
     /// This type is used within the various Thesaurus implementations to compose and query the contents of the WordNet database files.
     /// This class is internal forbidding instantiation outside of the Thesaurus Namespace.
     /// </summary>
@@ -51,9 +51,9 @@ namespace LASI.Algorithm.Thesauri
             protected set;
         }
         /// <summary>
-        /// Returns entity single string representing the members of the SynonymSet.
+        /// Returns a single string representing the members of the SynonymSet.
         /// </summary>
-        /// <returns>entity single string representing the members of the SynonymSet.</returns>
+        /// <returns>A single string representing the members of the SynonymSet.</returns>
         public override string ToString() {
             return "[" + IndexCode + "] " + Members.Aggregate("", (str, code) => {
                 return str + "  " + code;

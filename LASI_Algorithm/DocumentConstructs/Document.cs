@@ -9,7 +9,7 @@ using LASI.Utilities;
 namespace LASI.Algorithm.DocumentConstructs
 {
     /// <summary>
-    /// entity line structure containing all of he g, sentence, entity, and verb objects in entity document.
+    /// A line structure containing all of the paragraph, sentence, a, and verb objects in a document.
     /// Provides overalapping direct and indirect access to all of its children, 
     /// e.g. such as myDoc.Paragraphs.Sentences.Phrases.Words will get all the words in the document in linear order
     /// comparatively: myDoc.Words; yields the same collection.
@@ -19,7 +19,7 @@ namespace LASI.Algorithm.DocumentConstructs
         #region Constructors
         private List<Word> SynonymousGroups = new List<Word>();
         /// <summary>
-        /// Initializes entity new instance of the Document class.
+        /// Initializes a new instance of the Document class.
         /// </summary>
         /// <param name="paragrpahs">The collection of paragraphs which contain all text in the document.</param>
         public Document(IEnumerable<Paragraph> paragrpahs) {
@@ -27,7 +27,7 @@ namespace LASI.Algorithm.DocumentConstructs
 
             _enumContainingParagraphs = (from p in _paragraphs
                                          where p.ParagraphKind == ParagraphKind.EnumerationContent
-                                         select p);
+                                         select p).ToList();
 
             AssignMembers(paragrpahs);
             foreach (var p in _paragraphs) {
@@ -55,6 +55,9 @@ namespace LASI.Algorithm.DocumentConstructs
 
         #region Methods
 
+        /// <summary>
+        /// Establishes the compositional linkages over all of the structures which comprise the Document.
+        /// </summary>
         private void EstablishLexicalLinks() {
             if (_words.Count > 1) {
                 for (int i = 1; i < _words.Count(); ++i) {
@@ -92,9 +95,9 @@ namespace LASI.Algorithm.DocumentConstructs
         }
 
         /// <summary>
-        /// Returns all of the word and entity level entities identified in the document.
+        /// Returns all of the word and phrase level entities identified in the document.
         /// </summary>
-        /// <returns> All of the word and entity level entities identified in the document.</returns>
+        /// <returns> All of the word and phrase level entities identified in the document.</returns>
         public IEnumerable<IEntity> GetEntities() {
             return from e in _words.GetNouns().Concat<IEntity>(_words.GetPronouns()).Concat<IEntity>(_phrases.GetNounPhrases())
                    orderby e is Word ? (e as Word).ID : (e as Phrase).Words.Last().ID ascending
@@ -162,16 +165,11 @@ namespace LASI.Algorithm.DocumentConstructs
         private IList<Phrase> _phrases;
         private IList<Sentence> _sentences;
         private IList<Paragraph> _paragraphs;
-        private IEnumerable<Paragraph> _enumContainingParagraphs;
+        private IList<Paragraph> _enumContainingParagraphs;
 
 
 
         #endregion
 
-        //public static implicit operator List<ILexical>(Document d) {
-        //    return (from e in d.Words.Concat<ILexical>(d.Phrases)
-        //            orderby e is Word ? (e as Word).ID : (e as Phrase).Words.Last().ID ascending
-        //            select e).ToList();
-        //}
     }
 }

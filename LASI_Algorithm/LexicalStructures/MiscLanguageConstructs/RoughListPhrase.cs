@@ -7,12 +7,12 @@ using System.Xml.Linq;
 namespace LASI.Algorithm
 {
     /// <summary>
-    /// entity rought representation of entity listed (bulleted or numbered) lexical element.
+    /// A rought representation of a listed (bulleted or numbered) lexical element.
     /// </summary>
     public class RoughListPhrase : Phrase
     {
         /// <summary>
-        /// Initializes entity new instance of the RoughListPhrase class.
+        /// Initializes a new instance of the RoughListPhrase class.
         /// </summary>
         /// <param name="composedWords">The words which compose to form the RoughListPhrase.</param>
         public RoughListPhrase(IEnumerable<Word> composedWords)

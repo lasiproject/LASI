@@ -412,9 +412,9 @@ namespace LASI.UserInterface.DataVisualzationProviders
             set;
         }
         /// <summary>
-        /// Returns entity textual representation of the NpVpNpNpQuatruple.
+        /// Returns a textual representation of the NpVpNpNpQuatruple.
         /// </summary>
-        /// <returns>entity textual representation of the NpVpNpNpQuatruple.</returns>
+        /// <returns>A textual representation of the NpVpNpNpQuatruple.</returns>
         public override string ToString() {
             var result = Subject.Text + Verbial.Text;
             if (Direct != null) {

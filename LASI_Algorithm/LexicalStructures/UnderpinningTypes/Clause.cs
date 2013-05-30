@@ -11,16 +11,16 @@ namespace LASI.Algorithm
 
 
         /// <summary>
-        /// This class is currently experimental and is not entity tier in the Document objects created by the tagged file parsers
-        /// Initializes entity new instance of the Clause class, by composing the given linear sequence of componentPhrases.
+        /// This class is currently experimental and is not a tier in the Document objects created by the tagged file parsers
+        /// Initializes a new instance of the Clause class, by composing the given linear sequence of componentPhrases.
         /// </summary>
         /// <param name="componentPhrases">The linear sequence of Phrases which compose to form the Clause.</param>
         public Clause(IEnumerable<Phrase> phrases) {
             Phrases = phrases;
         }
         /// <summary>
-        ///Initializes entity new instance of the Clause class, by composing the given linear sequence of words       
-        ///As the words are bare in this context, that is not members of entity known entity object, they are subsequently implanted in an UndeterminedPhrase instance whose syntactic role should be determined contextually in the future.
+        ///Initializes a new instance of the Clause class, by composing the given linear sequence of words       
+        ///As the words are bare in this context, that is not members of a known a object, they are subsequently implanted in an UndeterminedPhrase instance whose syntactic role should be determined contextually in the future.
         /// </summary>
         /// <param name="words">The linear sequence of Words which compose to form the single UndeterminedPhrase which will comprise the Clause.</param>
         public Clause(IEnumerable<Word> words) {
@@ -76,17 +76,7 @@ namespace LASI.Algorithm
             protected set;
         }
 
-
-        ///// <summary>
-        ///// Gets entity string containing the text of the Clause'd  constituents.
-        ///// </summary>
-        //string ILexical.Text {
-        //    get {
-        //        return (from r in Phrases
-        //                select r).Aggregate("", (sum, r) => sum = sum+" "+r.Text).Trim();
-        //    }
-        //}
-
+ 
         public override string ToString() {
             return base.ToString() + " \"" + Text + "\"";
         }

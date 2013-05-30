@@ -9,7 +9,7 @@ using System.Configuration;
 namespace LASI.Algorithm
 {
     /// <summary>
-    /// Represents entity preposition such as "below", "atop", "into", "through", "by", "via", or "for".
+    /// Represents a preposition such as "below", "atop", "into", "through", "by", "via", or "for".
     /// Example: The duplicitous blue bird, via its trecherous machinations, betrayed the ardent, hard-working dog.
     /// </summary>
     public class Preposition : Word, IPrepositional
@@ -18,7 +18,7 @@ namespace LASI.Algorithm
         #region Constructors
 
         /// <summary>
-        /// Initializes entity new instance of the Preposition class.
+        /// Initializes a new instance of the Preposition class.
         /// </summary>
         /// <param name="text">The literal text content of the Preposition.</param>
         public Preposition(string text)

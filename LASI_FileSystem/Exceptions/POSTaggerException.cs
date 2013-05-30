@@ -10,9 +10,9 @@ namespace LASI.FileSystem
     /// Thrown when attempting to parse an unknown verb Tag
     /// </summary>
     [Serializable]
-public     class UnknownPOSException : POSTagException
+    public class UnknownPOSException : POSTagException
     {
-       public UnknownPOSException(string message)
+        public UnknownPOSException(string message)
             : base(message) {
         }
         public UnknownPOSException(string message, Exception inner)
@@ -24,7 +24,7 @@ public     class UnknownPOSException : POSTagException
 
     }
     /// <summary>
-    /// Thrown when attempting to parse an unknown entity Tag
+    /// Thrown when attempting to parse an unknown Phrase Tag
     /// </summary>
     [Serializable]
     public class UnknownPhraseTypeException : POSTagException
@@ -42,7 +42,7 @@ public     class UnknownPOSException : POSTagException
     }
 
     /// <summary>
-    /// Thrown when attempting to parse an unknown entity Tag
+    /// Thrown when attempting to parse empty Phrase Tag
     /// </summary>
     [Serializable]
     public class EmptyPhraseTagException : POSTagException
@@ -126,7 +126,7 @@ public     class UnknownPOSException : POSTagException
         }
     }
     /// <summary>
-    /// Thrown when attempting to parse an improperly delimited entity
+    /// Thrown when attempting to parse an improperly delimited Phrase
     /// </summary>
     [Serializable]
     public class UndelimitedPhraseException : POSTagException
@@ -145,7 +145,7 @@ public     class UnknownPOSException : POSTagException
     /// <summary>
     /// Base of the tag parsing exception heirarchy.
     /// Cannot be instantiated and thus cannot be explicitely thrown
-    /// If one encounters an exception not suited for one of its derrived types, entity new exception class should be derrived from it
+    /// If one encounters an exception not suited for one of its derrived types, a new exception class should be derrived from this class.
     /// </summary>
     [Serializable]
     public abstract class POSTagException : Exception

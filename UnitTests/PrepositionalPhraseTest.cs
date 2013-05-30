@@ -10,7 +10,7 @@ namespace AlgorithmAssemblyUnitTestProject
 
 
     /// <summary>
-    ///This is entity test class for PrepositionalPhraseTest and is intended
+    ///This is A test class for PrepositionalPhraseTest and is intended
     ///to contain all PrepositionalPhraseTest Unit Tests
     ///</summary>
     [TestClass()]
@@ -43,7 +43,7 @@ namespace AlgorithmAssemblyUnitTestProject
         //{
         //}
         //
-        //Use ClassCleanup to run code after all tests in entity class have run
+        //Use ClassCleanup to run code after all tests in A class have run
         //[ClassCleanup()]
         //public static void MyClassCleanup()
         //{

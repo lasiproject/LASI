@@ -10,7 +10,7 @@ namespace AlgorithmAssemblyUnitTestProject
 
 
     /// <summary>
-    ///This is entity test class for DocToDocXConverterTest and is intended
+    ///This is A test class for DocToDocXConverterTest and is intended
     ///to contain all DocToDocXConverterTest Unit Tests
     ///</summary>
     [TestClass()]
@@ -47,7 +47,7 @@ namespace AlgorithmAssemblyUnitTestProject
             //{
             //}
             //
-            //Use ClassCleanup to run code after all tests in entity class have run
+            //Use ClassCleanup to run code after all tests in A class have run
             //[ClassCleanup()]
             //public static void MyClassCleanup()
             //{
@@ -69,7 +69,7 @@ namespace AlgorithmAssemblyUnitTestProject
 
 
         /// <summary>
-        ///entity test for DocToDocXConverter Constructor
+        ///A test for DocToDocXConverter Constructor
         ///</summary>
         [TestMethod()]
         public void DocToDocXConverterConstructorTest()
@@ -80,7 +80,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///entity test for DocToDocXConverter Constructor
+        ///A test for DocToDocXConverter Constructor
         ///</summary>
         [TestMethod()]
         public void DocToDocXConverterConstructorTest1()
@@ -99,7 +99,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///entity test for ConvertFile
+        ///A test for ConvertFile
         ///</summary>
         [TestMethod()]
         public void ConvertFileTest()
@@ -112,7 +112,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///entity test for ConvertFileAsync
+        ///A test for ConvertFileAsync
         ///</summary>
         [TestMethod()]
         public async Task ConvertFileAsyncTest()

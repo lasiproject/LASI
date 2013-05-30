@@ -9,12 +9,12 @@ using System.Xml.Linq;
 namespace LASI.Algorithm
 {
     /// <summary>
-    /// Represents an adjective which can describe entity Noun, NounPhrase, or rhs IDescribable
+    /// Represents an adjective which can describe IDescribable such as a Noun or NounPhrase.
     /// </summary>
     public class Adjective : Word, IAdverbialModifiable, IDescriber
     {
         /// <summary>
-        /// Initializes entity new instance of the Adjective class.
+        /// Initializes a new instance of the Adjective class.
         /// </summary>
         /// <param name="text">The literal text content of the verb.</param>
         public Adjective(string text)
@@ -29,7 +29,7 @@ namespace LASI.Algorithm
             set;
         }
         /// <summary>
-        /// Binds entity modifier to the Adjective, modifying it.
+        /// Binds a modifier to the Adjective, modifying it.
         /// </summary>
         /// <param name="adv">The IModifier instance (probably an Adverb or AdverbPhrase) to Bind to the Adjective.</param>
         public virtual void ModifyWith(IAdverbial adv) {

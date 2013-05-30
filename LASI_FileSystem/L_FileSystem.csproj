@@ -70,12 +70,13 @@
   <ItemGroup>
     <Compile Include="FileConveters\DocToDocXConverter.cs" />
     <Compile Include="FileConveters\DocxToTextConverter.cs" />
+    <Compile Include="FileConveters\PdfToTextConverter.cs" />
     <Compile Include="Serialization\XML\ILexicalWriter.cs" />
     <Compile Include="FileTypes\FileTypeWrapperMismatchException.cs" />
     <Compile Include="FileTypes\GenericXMLFile.cs" />
     <Compile Include="Serialization\XML\SimpleLexicalSerializer.cs" />
     <Compile Include="TaggerAndFileAbstraction\FileManager.cs" />
-    <Compile Include="FileTypes\InputFileConverter.cs" />
+    <Compile Include="FileTypes\FileConverter.cs" />
     <Compile Include="FileTypes\Support\TaggedToXMLConverter.cs" />
     <Compile Include="TaggerEncapsulation\TagParsers\ExperimentalTaggedParser.cs" />
     <Compile Include="TaggerAndFileAbstraction\TaggerUtilites.cs" />

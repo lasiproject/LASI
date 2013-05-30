@@ -7,12 +7,12 @@ namespace LASI.Algorithm
 {
 
     /// <summary>
-    /// Represents entity Proper Plural Noun.
+    /// Represents a Proper Plural Noun.
     /// </summary>
     public class ProperPluralNoun : ProperNoun, IQuantifiable
     {
         /// <summary>
-        /// Initializes entity new instance of the ProperPluralNoun class.
+        /// Initializes a new instance of the ProperPluralNoun class.
         /// </summary>
         /// <param name="text">The literal text content of the ProperPluralNoun.</param>
         public ProperPluralNoun(string text)
@@ -20,7 +20,7 @@ namespace LASI.Algorithm
         }
 
         /// <summary>
-        /// Gets or sets entity Qunatifier which specifies the number of units of the ProperNoun which are referred to in this occurance.
+        /// Gets or sets the Qunatifier which specifies the number of units of the ProperNoun which are referred to in this occurance.
         /// e.g. "[18] Pinkos"
         /// </summary>
         public virtual Quantifier Quantifier {

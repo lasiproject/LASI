@@ -14,14 +14,14 @@ namespace LASI.Algorithm.Analysis
     static public class Weighter
     {
         /// <summary>
-        /// Asynchronously assigns entity Weight to each word and parent in entity Document.
+        /// Asynchronously assigns a Weight to each word and parent in a Document.
         /// </summary>
         /// <param name="doc">The Document whose elements are to be weighted</param>
         public static async Task WeightAsync(Document doc) {
             await Task.Run(() => Weight(doc));
         }
         /// <summary>
-        /// Assigns entity Weight to each word and parent in entity Document.
+        /// Assigns a Weight to each word and parent in a Document.
         /// </summary>
         /// <param name="doc">The Document whose elements are to be weighted</param>
         static public void Weight(Document doc) {
@@ -62,7 +62,7 @@ namespace LASI.Algorithm.Analysis
                 if (w.Weight > MaxWeight)
                     MaxWeight = w.Weight;
             }
-            if (NonZeroWghts != 0) {//Caused entity devide by zero exception if document was empty.
+            if (NonZeroWghts != 0) {//Caused a devide by zero exception if document was empty.
                 var AvgWght = TotPhraseWeight / NonZeroWghts;
                 var ratio = 100 / MaxWeight;
 
@@ -125,7 +125,7 @@ namespace LASI.Algorithm.Analysis
             });
         }
         /// <summary>
-        /// Increase noun weights in entity document by abstracting over synonyms
+        /// Increase noun weights in a document by abstracting over synonyms
         /// </summary>
         /// <param name="doc">the Document whose noun weights may be modiffied</param>
         private static void modifyNounWeightsBySynonyms(Document doc) {
@@ -164,7 +164,7 @@ namespace LASI.Algorithm.Analysis
         }
 
         /// <summary>
-        /// For each noun parent in entity document that is similar to another noun parent, increase the weight of that noun
+        /// For each noun parent in a document that is similar to another noun parent, increase the weight of that noun
         /// </summary>
         /// <param name="doc">Document containing the componentPhrases to weight</param>
         private static void WeightSimilarNounPhrases(Document doc) {
@@ -749,7 +749,7 @@ namespace LASI.Algorithm.Analysis
                        modTwo = NounUncaught(nextNext);
                    });
             outModOne = modOne;//Set parameters = temporaries
-            outModTwo = modTwo;//There is entity better way to handle this, but this works without any changes
+            outModTwo = modTwo;//There is a better way to handle this, but this works without any changes
         }
 
         private static decimal UncaughtUncaught(Word nextNext) {

@@ -47,7 +47,7 @@ namespace Scott_Experimentation
             var paragraphs5 = new TaggedFileParser(tagged5).LoadParagraphs();
             var document5 = new Document(paragraphs5);
 
-            //string TestString = "The Boy rides his big bold bike up entity large steep hill. The tiny brown dog watched. I saw her book on your table. What's mine is yours, my friend. Johnny, Steve and I went to the old corner store to purchase some potently strong perfume.";
+            //string TestString = "The Boy rides his big bold bike up a large steep hill. The tiny brown dog watched. I saw her book on your table. What's mine is yours, my friend. Johnny, Steve and I went to the old corner store to purchase some potently strong perfume.";
             string TestString = "The Boy rides his big bold bike up a large steep hill.  He fell over when he reached the top.  The Boy then got up and rode down the other side.";
             var DocTest = LASI.Utilities.TaggerUtil.UntaggedToDoc(TestString);
 
@@ -99,7 +99,7 @@ namespace Scott_Experimentation
                     //Removes certain words and chars
                     if (NP.ElementAt(x).Text == "\"" || 
                         NP.ElementAt(x).Text.ToLower() == "the" ||
-                        NP.ElementAt(x).Text.ToLower() == "entity" ||
+                        NP.ElementAt(x).Text.ToLower() == "a" ||
                         NP.ElementAt(x).Text.ToLower() == "an" ||
                         NP.ElementAt(x).Text.ToLower() == "or" ||
                         NP.ElementAt(x).Text.ToLower() == "were" ||

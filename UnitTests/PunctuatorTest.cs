@@ -7,7 +7,7 @@ namespace AlgorithmAssemblyUnitTestProject
 
 
     /// <summary>
-    ///This is entity test class for PunctuatorTest and is intended
+    ///This is A test class for PunctuatorTest and is intended
     ///to contain all PunctuatorTest Unit Tests
     ///</summary>
     [TestClass()]
@@ -40,7 +40,7 @@ namespace AlgorithmAssemblyUnitTestProject
         //{
         //}
         //
-        //Use ClassCleanup to run code after all tests in entity class have run
+        //Use ClassCleanup to run code after all tests in A class have run
         //[ClassCleanup()]
         //public static void MyClassCleanup()
         //{
@@ -62,7 +62,7 @@ namespace AlgorithmAssemblyUnitTestProject
 
 
         /// <summary>
-        ///entity test for Punctuation Constructor
+        ///A test for Punctuation Constructor
         ///</summary>
         [TestMethod()]
         public void PunctuatorConstructorTest() {
@@ -72,7 +72,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///entity test for Punctuation Constructor
+        ///A test for Punctuation Constructor
         ///</summary>
         [TestMethod()]
         public void PunctuatorConstructorTest1() {
@@ -82,7 +82,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///entity test for Text
+        ///A test for Text
         ///</summary>
         [TestMethod()]
         public void TextTest() {

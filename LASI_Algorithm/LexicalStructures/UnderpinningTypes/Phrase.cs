@@ -9,14 +9,14 @@ namespace LASI.Algorithm
 {
 
     /// <summary>
-    /// Provides the base class, properties, and behaviors for all entity level gramatical constructs.
+    /// Provides the base class, properties, and behaviors for all Phrase level gramatical constructs.
     /// </summary>
     public abstract class Phrase : IPrepositionLinkable
     {
         #region Constructors
 
         /// <summary>
-        /// Initializes entity new instance of the Phrase class.
+        /// Initializes a new instance of the Phrase class.
         /// </summary>
         /// <param name="composedWords">The one or more instances of the Word class of which the Phrase is composed.</param>
         protected Phrase(IEnumerable<Word> composedWords) {
@@ -36,11 +36,14 @@ namespace LASI.Algorithm
         /// <summary>
         /// Overrides the ToString method to augment the string representation of Phrase to include the text of the words it is composed of.
         /// </summary>
-        /// <returns>entity string containing the type information of the instance as well as the textual representations of the words it is composed of.</returns>
+        /// <returns>A string containing the type information of the instance as well as the textual representations of the words it is composed of.</returns>
         public override string ToString() {
             return GetType().Name + " \"" + Text + "\"";
         }
-
+        /// <summary>
+        /// Establish the nested links between the Phrase, its parent Clause, and the Words comprising it.
+        /// </summary>
+        /// <param name="parentDoc">The Clause to which the Phrase belongs.</param>
         public void EstablishParent(Clause parent) {
             Sentence = parent.Sentence;
             Document = Sentence.Document;
@@ -106,7 +109,7 @@ namespace LASI.Algorithm
             protected set;
         }
         /// <summary>
-        /// Gets the concatenated text content of all of the words which compose the entity.
+        /// Gets the concatenated text content of all of the words which comprise the Phrase.
         /// </summary>
         public virtual string Text {
             get {
@@ -117,7 +120,7 @@ namespace LASI.Algorithm
             }
         }
         /// <summary>
-        /// Gets the collection of words which comprise the entity.
+        /// Gets the collection of words which comprise the Phrase.
         /// </summary>
         public virtual IEnumerable<Word> Words {
             get;
@@ -132,6 +135,9 @@ namespace LASI.Algorithm
             private set;
         }
 
+        /// <summary>
+        /// Gets the System.Type of the current Instance.
+        /// </summary>
         public Type Type {
             get {
                 return GetType();

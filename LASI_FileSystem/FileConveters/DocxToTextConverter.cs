@@ -10,15 +10,15 @@ using System.Xml;
 namespace LASI.FileSystem
 {
     /// <summary>
-    /// An input file converter specialized to extract the written content from entity .docx (Microsoft Word 2003+ open XML file format)
-    /// and create entity text file storing this content as raw text.
+    /// An input file converter specialized to extract the written content from a .docx (Microsoft Word 2003+ open XML file format)
+    /// and create a text file storing this content as raw text.
     /// </summary>
-    public class DocxToTextConverter : InputFileConverter
+    public class DocxToTextConverter : FileConverter
     {
         #region Constructors
 
         /// <summary>
-        /// Constructs entity new instance which will govern the conversion of the file indicated by the provided path.
+        /// Constructs a new instance which will govern the conversion of the file indicated by the provided path.
         /// </summary>
         /// <param name="sourcePath">The absolute path of the file to be converted</param>
         /// <param name="targetPath">The an abosulte file path which will correspond to the newly converted version of the file</param>
@@ -31,7 +31,7 @@ namespace LASI.FileSystem
         }
 
         /// <summary>
-        /// Constructs entity new instance which will govern the conversion InputFile instance provided.
+        /// Constructs a new instance which will govern the conversion InputFile instance provided.
         /// The converted file will be placed in the same diretory as the original.
         /// </summary>
         /// <param name="infile">The DocXFile instance representing the document to convert.</param>
@@ -41,7 +41,7 @@ namespace LASI.FileSystem
         }
 
         /// <summary>
-        /// Constructs entity new instance which will govern the of the InputFile instance provided, and will place the converted file in the indicated directory.
+        /// Constructs a new instance which will govern the of the InputFile instance provided, and will place the converted file in the indicated directory.
         /// </summary>
         /// <param name="infile">The DocFile instance representing the document to convert.</param>
         /// <param name="TxtFilesDir">Indicated the directory in which the converted file is to be placed</param>
@@ -55,7 +55,7 @@ namespace LASI.FileSystem
         #region Methods
 
         /// <summary>
-        /// Converts the .docx document into entity zip archive, deleting any preexisting conversion to zip.
+        /// Converts the .docx document into zip archive, deleting any preexisting conversion to zip.
         /// </summary>
         /// <returns>An object referring to the newly created zipfile.</returns>
         protected virtual ZipArchive DocxToZip() {
@@ -79,7 +79,8 @@ namespace LASI.FileSystem
         public override InputFile ConvertFile() {
             DocxToZip();
             XmlFile = new GenericXMLFile(DestinationInfo.Directory + DestinationInfo.FileNameSansExt + @"\word\document.xml");
-            using (XmlReader xmlReader = XmlReader.Create(new FileStream(XmlFile.FullPath, FileMode.Open, FileAccess.Read), new XmlReaderSettings {
+            using (XmlReader xmlReader = XmlReader.Create(new FileStream(XmlFile.FullPath, FileMode.Open, FileAccess.Read), new XmlReaderSettings
+            {
                 IgnoreWhitespace = true
             })) {
                 using (var writer = new StreamWriter(
@@ -122,17 +123,17 @@ namespace LASI.FileSystem
         /// Extracts the xml file containing the significant text of the of the docx file from its corresponding zip file.
         /// </summary>
         /// <param name="arch">The object which represents the zip file from which to extract.</param>
-        /// <returns>entity instance of GenericXMLFile which wraps the extracted .xml.</returns>
+        /// <returns>An Instance of GenericXMLFile which wraps the extracted .xml.</returns>
         protected virtual GenericXMLFile GetRelevantXMLFile(ZipArchive arch) {
             var extractedFile = arch.GetEntry(@"word/document.xml");
             var absolutePath = Original.PathSansExt + @"/" + extractedFile.FullName;
             return new GenericXMLFile(absolutePath);
         }
         /// <summary>
-        /// This method invokes the file conversion routine asynchronously, gernerally in entity serparate thread.
-        /// Use with the await operator in an asnyc method to retrieve the new file object and specify entity continuation function to be executed when the conversion is complete.
+        /// This method invokes the file conversion routine asynchronously, gernerally in a serparate thread.
+        /// Use with the await operator in an asnyc method to retrieve the new file object and specify a continuation function to be executed when the conversion is complete.
         /// </summary>
-        /// <returns>entity Task of InputFile object which functions as entity proxy for the actual InputFile while the conversion routine is in progress.
+        /// <returns>A Task of InputFile object which functions as a proxy for the actual InputFile while the conversion routine is in progress.
         /// Access the internal input file encapsulated by the Task by using syntax such as : var file = await myConverter.ConvertFileAsync()
         /// </returns>
         public async override Task<InputFile> ConvertFileAsync() {
@@ -169,7 +170,7 @@ namespace LASI.FileSystem
         /// <summary>
         /// Gets the document object which is the fruit of the conversion process
         /// This additional method of accessing the new document is primarily provided to facilitate asynchronous programming
-        /// and any access attempts before the conversion is complete will raise entity NullReferenceException.
+        /// and any access attempts before the conversion is complete will raise a NullReferenceException.
         /// </summary>
         public override InputFile Converted {
             get;

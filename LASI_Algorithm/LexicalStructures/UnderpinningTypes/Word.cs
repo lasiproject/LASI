@@ -15,8 +15,8 @@ namespace LASI.Algorithm
     {
         #region Constructors
         /// <summary>
-        /// Initializes entity new instance of the Word class which represensts entity the properties
-        /// and behaviors of entity verb-level grammatical element.
+        /// Initializes a new instance of the Word class which represensts the properties
+        /// and behaviors of a word-level grammatical element.
         /// </summary>
         /// <param name="text">The literal text content of the verb.</param>
         protected Word(string text) {
@@ -25,7 +25,7 @@ namespace LASI.Algorithm
             Weight = 1;
             MetaWeight = 1;
             FrequencyCurrent = 0;
-            FrequencyAcross = 0; 
+            FrequencyAcross = 0;
         }
 
 
@@ -33,15 +33,19 @@ namespace LASI.Algorithm
 
         #region Methods
 
+        /// <summary>
+        /// Establishes the linkage between the Word and its parent Phrase.
+        /// </summary>
+        /// <param name="parent">The Phrase to which the Word belongs.</param>
         public void EstablishParent(Phrase parent) {
             Phrase = parent;
 
         }
 
         /// <summary>
-        /// Returns entity string representation of the Word.
+        /// Returns a string representation of the Word.
         /// </summary>
-        /// <returns>entity string containing its underlying type and its text content.</returns>
+        /// <returns>A string containing its underlying type and its text content.</returns>
         public override string ToString() {
             return GetType().Name + " \"" + Text + "\"";
         }

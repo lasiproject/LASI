@@ -12,7 +12,7 @@ using System.IO;
 using LASI.Algorithm.DocumentConstructs;
 
 namespace Dustin_Experimentation
-{ //this is entity comment 
+{ //this is a comment 
     class Program
     {
         static void Main(string[] args) {

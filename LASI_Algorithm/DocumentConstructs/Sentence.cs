@@ -23,11 +23,7 @@ namespace LASI.Algorithm.DocumentConstructs
                new SentenceDelimiter('.') :
                sentencePunctuation;
         }
-        public Sentence(IEnumerable<Clause> clauses) {
-            Clauses = clauses;
-            EndingPunctuation =
-                new SentenceDelimiter('.');
-        }
+
         public Sentence(IEnumerable<Clause> clauses, SentenceDelimiter sentencePunctuation = null) {
             Clauses = clauses;
             EndingPunctuation = sentencePunctuation == null ?
@@ -46,7 +42,7 @@ namespace LASI.Algorithm.DocumentConstructs
         /// </summary>
         public SentenceDelimiter EndingPunctuation {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
@@ -65,7 +61,7 @@ namespace LASI.Algorithm.DocumentConstructs
         /// </summary>
         public IEnumerable<Clause> Clauses {
             get;
-            protected set;
+            private set;
         }
         /// <summary>
         /// Gets the sequence of Phrases which comprise the sentence.
@@ -101,14 +97,14 @@ namespace LASI.Algorithm.DocumentConstructs
 
 
         /// <summary>
-        /// Gets or sets the Paragraph to which the Sentence belongs.
+        /// Gets the Paragraph to which the Sentence belongs.
         /// </summary>
         public Paragraph Paragraph {
             get;
             private set;
         }
         /// <summary>
-        /// Gets or sets the Document to which the Sentence Belongs.
+        /// Gets the Document to which the Sentence Belongs.
         /// </summary>
         public Document Document {
             get {
@@ -117,9 +113,9 @@ namespace LASI.Algorithm.DocumentConstructs
         }
 
         /// <summary>
-        /// Returns entity string representation of the Sentence.
+        /// Returns a string representation of the Sentence.
         /// </summary>
-        /// <returns>entity string representation of the Sentence.</returns>
+        /// <returns>A string representation of the Sentence.</returns>
         public override string ToString() {
             return base.ToString() + " \"" + Text + "\"";
         }

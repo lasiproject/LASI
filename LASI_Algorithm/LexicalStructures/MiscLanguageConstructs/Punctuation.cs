@@ -8,7 +8,7 @@ namespace LASI.Algorithm
     public class Punctuation : Symbol
     {
         /// <summary>
-        /// Initializes entity new instance of the Punctuation class.
+        /// Initializes a new instance of the Punctuation class.
         /// </summary>
         /// <param name="puncChar">The punctuation character symbol.</param>
         public Punctuation(char puncChar)
@@ -20,9 +20,9 @@ namespace LASI.Algorithm
         }
 
         /// <summary>
-        /// Initializes entity new instances of the Punctuation class.
+        /// Initializes a new instances of the Punctuation class.
         /// </summary>
-        /// <param name="puncString">Text which is an alias for entity punctuator character. e.g. "LEFT_SQUARE_BRACKET"</param>
+        /// <param name="puncString">Text which is an alias for a punctuator character. e.g. "LEFT_SQUARE_BRACKET"</param>
         public Punctuation(string puncString)
             : base(puncString) {
             AliasString = puncString;

@@ -23,7 +23,7 @@ namespace LASI.Algorithm.Thesauri
             set;
         }
         /// <summary>
-        /// When overriden in entity derrived class, this method
+        /// When overriden in a derrived class, this method
         /// Loads the database file and performs additional initialization
         /// </summary>
         public abstract void Load();

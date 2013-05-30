@@ -9,11 +9,11 @@ namespace LASI.FileSystem
     public class WordExtractor
     {
         /// <summary>
-        /// Extracts entity text and tag pair from the given string.
+        /// Extracts the text and tag pair from the given string.
         /// </summary>
         /// <param name="line">The string to extract from.</param>
-        /// <returns>entity TextTagPair containing the information or null if the element is null, whitespace, or an empty string.</returns>
-        /// <exception cref="UntaggedElementException">Thrown when entity text element is present in the string without entity tag.</exception>
+        /// <returns>A TextTagPair containing the information or null if the element is null, whitespace, or an empty string.</returns>
+        /// <exception cref="UntaggedElementException">Thrown when a text element is present in the string without a tag.</exception>
         public TaggedWordObject? ExtractNextPos(string data) {
             if (String.IsNullOrEmpty(data) || String.IsNullOrWhiteSpace(data) || data.Trim() == "]") {
                 return null;

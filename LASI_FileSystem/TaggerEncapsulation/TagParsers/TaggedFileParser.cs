@@ -19,7 +19,7 @@ namespace LASI.FileSystem
     {
         #region Construtors
         /// <summary>
-        /// Initialized entity new instance of the TaggedFilerParser class to parse the contents of entity specific file.
+        /// Initialized a new instance of the TaggedFilerParser class to parse the contents of the specified file.
         /// </summary>
         /// <param name="filePath">The wrapper which encapsulates the newPath information for the pre-POS-tagged file to parse.</param>
         public TaggedFileParser(TaggedFile file) {
@@ -44,9 +44,10 @@ namespace LASI.FileSystem
         /// <summary>
         /// Returns an instance of Document which contains the run time representation of all of the textual construct in the document, for the Algorithm to analyse.
         /// </summary>
-        /// <returns>entity traversable, queriable document object defining the run time representation of the tagged file which the TaggedFileParser governs. </returns>
+        /// <returns>A traversable, queriable document object defining the run time representation of the tagged file which the TaggedFileParser governs. </returns>
         public override Document LoadDocument() {
-            return new Document(LoadParagraphs()) {
+            return new Document(LoadParagraphs())
+            {
                 FileName = TaggededDocumentFile != null ? TaggededDocumentFile.NameSansExt : "Untitled"
             };
         }
@@ -94,7 +95,8 @@ namespace LASI.FileSystem
                     if (!string.IsNullOrEmpty(chunk) && !string.IsNullOrWhiteSpace(chunk) && chunk.Contains('/')) {
                         char token = SkipToNextElement(chunk);
                         if (token == ' ') {
-                            var currentPhrase = ParsePhrase(new TextTagPair {
+                            var currentPhrase = ParsePhrase(new TextTagPair
+                            {
                                 Text = chunk.Substring(chunk.IndexOf(' ')),
                                 Tag = chunk.Substring(0, chunk.IndexOf(' '))
                             });
@@ -107,22 +109,18 @@ namespace LASI.FileSystem
                                 parsedPhrases.Add(currentPhrase);
                             }
 
-                        }
-                        else if (token == '/') {
+                        } else if (token == '/') {
                             var words = CreateWords(chunk);
                             if (words.First() != null) {
                                 if (words.Count(w => w is Conjunction) == words.Count || (words.Count == 2 && words[0] is Punctuation && words[1] is Conjunction)) {
                                     parsedPhrases.Add(new ConjunctionPhrase(words));
-                                }
-                                else if (words.Count() == 1 && words.First() is SentenceDelimiter) {
+                                } else if (words.Count() == 1 && words.First() is SentenceDelimiter) {
                                     sentencePunctuation = words.First() as SentenceDelimiter;
                                     parsedClauses.Add(new Clause(parsedPhrases.Take(parsedPhrases.Count)));
                                     parsedPhrases = new List<Phrase>();
-                                }
-                                else if (words.Count(w => w is Punctuation) == words.Count && (words.Count(w => w is Punctuation) + words.Count(w => w is Conjunction)) == words.Count) {
+                                } else if (words.Count(w => w is Punctuation) == words.Count && (words.Count(w => w is Punctuation) + words.Count(w => w is Conjunction)) == words.Count) {
                                     parsedPhrases.Add(new ConjunctionPhrase(words));
-                                }
-                                else {
+                                } else {
                                     parsedPhrases.Add(new UndeterminedPhrase(words));
                                 }
                             }
@@ -146,9 +144,9 @@ namespace LASI.FileSystem
             var reader2 = (new StringReader(chunk));
             char token = '~';
             while (reader2.Peek() != ' ' && reader2.Peek() != '/') {
-                token = (char)reader2.Read();
+                token = (char) reader2.Read();
             }
-            token = (char)reader2.Read();
+            token = (char) reader2.Read();
             return token;
         }
 
@@ -181,9 +179,9 @@ namespace LASI.FileSystem
         }
 
         /// <summary>
-        /// Reads entity [outerNP Square Brack Delimited Phrase Chunk] and returns entity entity tag determined subtype of LASI.Phrase which in turn contains all the run time representations of the individual words within it.
+        /// Reads an [outerNP Square Brack Delimited Phrase Chunk] and returns the phrase-tag determined subtype of LASI.Phrase which in turn contains all the run time representations of the individual words within it.
         /// </summary>
-        /// <param name="taggedContent">The TextTagPair instance which contains the content of entity entity and its Tag.</param>
+        /// <param name="taggedContent">The TextTagPair instance which contains the content of the phrase and its Tag.</param>
         /// <returns></returns>
         protected virtual Phrase ParsePhrase(TextTagPair taggedContent) {
             var phraseTag = taggedContent.Tag.Trim();
@@ -192,8 +190,7 @@ namespace LASI.FileSystem
             if (phraseTag == "NP" && composed.All(w => w is Adverb)) {
                 var phraseConstructor = PhraseTagset["ADVP"];
                 result = phraseConstructor(composed);
-            }
-            else {
+            } else {
                 var phraseConstructor = PhraseTagset[phraseTag];
 
                 result = phraseConstructor(composed);
@@ -204,9 +201,9 @@ namespace LASI.FileSystem
             return result;
         }
         /// <summary>
-        /// Reads entity [outerNP Square Brack Delimited Phrase Chunk] and returns entity entity tag determined subtype of LASI.Phrase which in turn contains all the run time representations of the individual words within it.
+        /// Reads an [outerNP Square Brack Delimited Phrase Chunk] and returns the phrase-tag determined subtype of LASI.Phrase which in turn contains all the run time representations of the individual words within it.
         /// </summary>
-        /// <param name="taggedContent">The TextTagPair instance which contains the content of entity entity and its Tag.</param>
+        /// <param name="taggedContent">The TextTagPair instance which contains the content of the Phrase and its Tag.</param>
         /// <returns></returns>
         protected virtual async Task<Phrase> ParsePhraseAsync(TextTagPair taggedContent) {
             var phraseTag = taggedContent.Tag.Trim();
@@ -219,11 +216,11 @@ namespace LASI.FileSystem
         }
 
         /// <summary>
-        /// Parses entity string of text containing tagged words 
+        /// Parses a string of text containing tagged words 
         /// e.g. "LASI/NNP can/MD sniff-out/VBP the/DT problem/NN" 
-        /// into entity collection of Part of Speech subtyped Word instances which represent them.
+        /// into a collection of Part of Speech subtyped Word instances which represent them.
         /// </summary>
-        /// <param name="wordData">entity string containing tagged words.</param>
+        /// <param name="wordData">A string containing tagged words.</param>
         /// <returns>The collection of Word objects that is their run time representation.</returns>
         protected virtual List<Word> CreateWords(string wordData) {
             var parsedWords = new List<Word>();
@@ -247,13 +244,13 @@ namespace LASI.FileSystem
             return elements;
         }
         /// <summary>
-        /// Parses entity string of text containing tagged words,
+        /// Parses a string of text containing tagged words,
         /// e.g. "LASI/NNP can/MD sniff-out/VBP the/DT problem/NN",
-        /// and returns of entity collection containing, for each verb, entity function which will create entity Part of Speech subtyped Word instance
+        /// and returns of the collection containing, for each verb, the function which will create the Part of Speech subtyped Word instance
         /// representing that verb.
         /// </summary>
-        /// <param name="wordData">entity string containing tagged words.</param>
-        /// <returns>entity List of constructor function instances which, when invoked, create run time objects which represent each verb in the source</returns>
+        /// <param name="wordData">A string containing tagged words.</param>
+        /// <returns>The List of constructor function instances which, when invoked, create run time objects which represent each verb in the source</returns>
         protected virtual List<Func<Word>> CreateWordExpressions(string wordData) {
             var wordExpressions = new List<Func<Word>>();
             var elements = GetTaggedWordLevelTokens(wordData);

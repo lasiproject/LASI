@@ -9,7 +9,7 @@ public enum TaggingOption
     /// </summary>
     TagIndividual,
     /// <summary>
-    /// Assign tags to individual tokens and aggregate them into entity tagged groups.
+    /// Assign tags to individual tokens and aggregate them into tagged groups.
     /// </summary>
     TagAndAggregate,
     ExperimentalClauseNesting,

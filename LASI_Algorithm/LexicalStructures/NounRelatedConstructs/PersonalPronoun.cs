@@ -6,12 +6,12 @@ using System.Text;
 namespace LASI.Algorithm
 {
     /// <summary>
-    /// Represents entity Personal Pronoun such as he, she, it, or they. 
+    /// Represents a Personal Pronoun such as he, she, it, or they. 
     /// </summary>
     public class PersonalPronoun : Pronoun
     {
         /// <summary>
-        /// Initializes entity new instance of the PersonalPronoun class.
+        /// Initializes a new instance of the PersonalPronoun class.
         /// </summary>
         /// <param name="text">The literal text content of the PersonalPronoun.</param>
         public PersonalPronoun(string text)

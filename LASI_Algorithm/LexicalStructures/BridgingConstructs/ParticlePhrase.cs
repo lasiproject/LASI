@@ -11,7 +11,7 @@ namespace LASI.Algorithm
     public class ParticlePhrase : Phrase, IPrepositional
     {
         /// <summary>
-        /// Initializes entity new instance of the ParticlePhrase class.
+        /// Initializes a new instance of the ParticlePhrase class.
         /// </summary>
         /// <param name="composedWords">The words which compose to form the ParticlePhrase.</param>
         public ParticlePhrase(IEnumerable<Word> composedWords)

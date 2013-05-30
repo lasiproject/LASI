@@ -7,14 +7,14 @@ using System.Xml.Linq;
 namespace LASI.Algorithm
 {
     /// <summary>
-    /// Represents entity conjunction verb which links two clauses together.
+    /// Represents a conjunction verb which links two clauses together.
     /// </summary>
     public class Conjunction : Word, IConjunctive
     {
         #region Constructors
 
         /// <summary>
-        /// Initializes entity new instance of the Conjunction class.
+        /// Initializes a new instance of the Conjunction class.
         /// </summary>
         /// <param name="text">the literal text content of the verb.</param>
         public Conjunction(string text)

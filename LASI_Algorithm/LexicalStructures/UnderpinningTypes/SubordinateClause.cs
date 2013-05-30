@@ -8,15 +8,15 @@ using System.Threading.Tasks;
 namespace LASI.Algorithm.ClauseTypes
 {
     /// <summary>
-    /// This class is currently experimental and is not entity tier in the Document objects created by the tagged file parsers
-    /// Represents entity clause which provides discriptive quantitative or qualitative specification.
+    /// This class is currently experimental and is not a tier in the Document objects created by the tagged file parsers
+    /// Represents a clause which provides discriptive quantitative or qualitative specification.
     /// </summary>
     public class SubordinateClause : Clause, IDescriber, IAdverbial
     {
 
         #region Constructors
         /// <summary>
-        /// Initializes entity new instance of the SubordinateClause class, by composing the given linear sequence of componentPhrases.
+        /// Initializes a new instance of the SubordinateClause class, by composing the given linear sequence of componentPhrases.
         /// </summary>
         /// <param name="composed">The linear sequence of Phrases which compose to form the Clause.</param>
         public SubordinateClause(IEnumerable<Phrase> composed)
@@ -24,7 +24,7 @@ namespace LASI.Algorithm.ClauseTypes
 
         }
         /// <summary>
-        /// Initializes entity new instance of the SubordinateClause class, by composing the given linear sequence of Words.
+        /// Initializes a new instance of the SubordinateClause class, by composing the given linear sequence of Words.
         /// </summary>
         /// <param name="words">The linear sequence of Words which compose to form the Clause.</param>
         public SubordinateClause(IEnumerable<Word> words)
@@ -35,18 +35,7 @@ namespace LASI.Algorithm.ClauseTypes
 
         #region Methods
 
-        /// <summary>
-        /// Returns entity string representation of the subordinate clause.
-        /// </summary>
-        /// <returns>entity string representation of the subordinate clause.</returns>
-        //public override string ToString() {
-        //    var result = "";
-        //    if (Described != null)
-        //        result += "\ndescribes" + Described.ToString();
-        //    else if (Modified != null)
-        //        result += "\nmodifies: " + Modified.ToString();
-        //    return result;
-        //}
+        
 
         #endregion
 

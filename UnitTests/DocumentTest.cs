@@ -10,7 +10,7 @@ namespace AlgorithmAssemblyUnitTestProject
 
 
     /// <summary>
-    ///This is entity test class for DocumentTest and is intended
+    ///This is A test class for DocumentTest and is intended
     ///to contain all DocumentTest Unit Tests
     ///</summary>
     [TestClass()]
@@ -43,7 +43,7 @@ namespace AlgorithmAssemblyUnitTestProject
         //{
         //}
         //
-        //Use ClassCleanup to run code after all tests in entity class have run
+        //Use ClassCleanup to run code after all tests in A class have run
         //[ClassCleanup()]
         //public static void MyClassCleanup()
         //{
@@ -110,7 +110,7 @@ namespace AlgorithmAssemblyUnitTestProject
         #endregion
 
         /// <summary>
-        ///entity test for Document Constructor
+        ///A test for Document Constructor
         ///</summary>
         //[TestMethod()]
         public void DocumentConstructorTest() {
@@ -119,7 +119,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///entity test for GetActions
+        ///A test for GetActions
         ///</summary>
         [TestMethod()]
         public void GetActionsTest() {
@@ -160,7 +160,7 @@ namespace AlgorithmAssemblyUnitTestProject
             }
         }
         /// <summary>
-        ///entity test for GetEntities
+        ///A test for GetEntities
         ///</summary>
         [TestMethod()]
         public void GetEntitiesTest() {
@@ -197,7 +197,7 @@ namespace AlgorithmAssemblyUnitTestProject
 
 
         /// <summary>
-        ///entity test for Paragraphs
+        ///A test for Paragraphs
         ///</summary>
         [TestMethod()]
         public void ParagraphsTest() {
@@ -212,7 +212,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///entity test for Phrases
+        ///A test for Phrases
         ///</summary>
         [TestMethod()]
         public void PhrasesTest() {
@@ -227,7 +227,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///entity test for Sentences
+        ///A test for Sentences
         ///</summary>
         [TestMethod()]
         public void SentencesTest() {
@@ -272,7 +272,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///entity test for Words
+        ///A test for Words
         ///</summary>
         [TestMethod()]
         public void WordsTest() {

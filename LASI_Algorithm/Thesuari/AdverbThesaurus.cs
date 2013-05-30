@@ -12,7 +12,7 @@ namespace LASI.Algorithm.Thesauri
     {
 
         /// <summary>
-        /// Initializes entity new instance of the AdjectiveThesaurus class.
+        /// Initializes a new instance of the AdjectiveThesaurus class.
         /// </summary>
         /// <param name="filePath">The path of the WordNet database file containing the sysnonym line for nouns.</param>
         public AdverbThesaurus(string filePath)

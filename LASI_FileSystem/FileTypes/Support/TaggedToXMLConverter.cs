@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace LASI.FileSystem
 {
-    class TaggedToXMLConverter : InputFileConverter
+    class TaggedToXMLConverter : FileConverter
     {
         public TaggedToXMLConverter(InputFile infile)
             : base(infile) {

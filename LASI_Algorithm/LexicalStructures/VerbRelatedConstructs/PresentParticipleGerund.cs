@@ -8,12 +8,12 @@ using System.Text;
 namespace LASI.Algorithm
 {
     /// <summary>
-    /// Represents the present participle/gerund form of entity verb. As such takes the behavior of both entity verb and an entity.
+    /// Represents the present participle/gerund form of a verb. As such takes the behavior of both a verb and an entity.
     /// </summary>
     public class PresentParticipleGerund : Verb, IEntity
     {
         /// <summary>
-        /// Initializes entity new instance of the PresentPrtcplVerb class.
+        /// Initializes a new instance of the PresentPrtcplVerb class.
         /// </summary>
         /// <param name="text">The literal text content of the Verb.</param>
         public PresentParticipleGerund(string text)
@@ -23,7 +23,7 @@ namespace LASI.Algorithm
         #region Methods
 
         /// <summary>
-        /// Binds entity Pronoun or PronounPhrase to refer to the gerund.
+        /// Binds a Pronoun or PronounPhrase to refer to the gerund.
         /// </summary>
         /// <param name="pro">The Pronoun or PronounPhrase to Bind to the gerund</param>
         public void BindPronoun(IPronoun pro) {

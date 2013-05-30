@@ -9,14 +9,14 @@ using System.Threading.Tasks;
 namespace LASI.Algorithm
 {
     /// <summary>
-    /// Represents entity pronoun which gernerally refers back to entity previously defined Entity, such as entity Noun or NounPhrase.
+    /// Represents a pronoun which gernerally refers back to a previously defined Entity, such as a Noun or NounPhrase.
     /// </summary>
     public abstract class Pronoun : Word, IPronounBindable, IPronoun
     {
         #region Constructors
 
         /// <summary>
-        /// Initializes entity new instance of the Pronoun class.
+        /// Initializes a new instance of the Pronoun class.
         /// </summary>
         /// <param name="text">The literal text content of the pronoun.</param>
         protected Pronoun(string text)
@@ -65,7 +65,7 @@ namespace LASI.Algorithm
             }
         }
         /// <summary>
-        /// Gets the ITransitiveVerbal instance, generally entity TransitiveVerb or TransitiveVerbPhrase, which the Pronoun is the object of.
+        /// Gets the ITransitiveVerbal instance, generally a TransitiveVerb or TransitiveVerbPhrase, which the Pronoun is the object of.
         /// </summary>
         public virtual ITransitiveVerbal DirectObjectOf {
             get;
@@ -79,14 +79,14 @@ namespace LASI.Algorithm
 
         }
         /// <summary>
-        /// Gets the ITransitiveVerbal instance, generally entity TransitiveVerb or TransitiveVerbPhrase, which the Pronoun is the INDIRECT object of.
+        /// Gets the ITransitiveVerbal instance, generally a TransitiveVerb or TransitiveVerbPhrase, which the Pronoun is the INDIRECT object of.
         /// </summary>
         public virtual ITransitiveVerbal IndirectObjectOf {
             get;
             set;
         }
         /// <summary>
-        /// Gets the ISubjectTaker instance, generally entity Verb or VerbPhrase, which the Pronoun is the subject of.
+        /// Gets the ISubjectTaker instance, generally a Verb or VerbPhrase, which the Pronoun is the subject of.
         /// </summary>
         public virtual ITransitiveVerbal SubjectOf {
             get;

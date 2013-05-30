@@ -14,14 +14,14 @@ namespace LASI.Algorithm.Thesauri
     public class VerbThesaurus : ThesaurusBase
     {
         /// <summary>
-        /// Initializes entity new instance of the VerbProvider class.
+        /// Initializes a new instance of the VerbProvider class.
         ///<param name="constrainByCategory"></param>
         /// <param name="filePath">The path of the WordNet database file containing the sysnonym line for actions.</param>
         /// </summary>
         public VerbThesaurus(string filePath, bool constrainByCategory = false)
             : base(filePath) {
             FilePath = filePath;
-            AssociationData = new ConcurrentDictionary<string, SynonymSet>();//Not entity great practice, but the length of the file is fixed, making this entity useful, but ugly optemization.
+            AssociationData = new ConcurrentDictionary<string, SynonymSet>();//Not a great practice, but the length of the file is fixed, making this a useful, but ugly optemization.
             lexRestrict = constrainByCategory;
         }
 
@@ -67,10 +67,10 @@ namespace LASI.Algorithm.Thesauri
 
 
         /// <summary>
-        /// Retrives the synonyms of the given verb as entity collection of strings.
+        /// Retrives the synonyms of the given verb as a collection of strings.
         /// </summary>
         /// <param name="search">The text of the verb to look for.</param>
-        /// <returns>entity collection of strings containing all of the synonyms of the given verb.</returns>
+        /// <returns>A collection of strings containing all of the synonyms of the given verb.</returns>
         public override HashSet<string> this[string search] {
             get {
                 try {
@@ -117,10 +117,10 @@ namespace LASI.Algorithm.Thesauri
 
 
         /// <summary>
-        /// Retrives the synonyms of the given verb as entity collection of strings.
+        /// Retrives the synonyms of the given verb as a collection of strings.
         /// </summary>
         /// <param name="search">An instance of Verb</param>
-        /// <returns>entity collection of strings containing all of the synonyms of the given verb.</returns>
+        /// <returns>A collection of strings containing all of the synonyms of the given verb.</returns>
         public override HashSet<string> this[Word search] {
             get {
                 return this[search.Text];

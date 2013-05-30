@@ -13,11 +13,11 @@ namespace LASI.Algorithm
     public static class IEnumerableOfWordExtensions
     {
         /// <summary>
-        /// Retrives all words in the Word collection which compare equal to entity given Word
+        /// Retrives all words in the Word collection which compare equal to a given Word
         /// </summary>
         /// <param name="toMatch">The Word to match</param>
         /// <param name="words">A sequence of Word objects</param>
-        /// <returns>entity WordList containing all words which match the argument</returns>
+        /// <returns>A WordList containing all words which match the argument</returns>
         /// <see cref="Word"/>
         public static IEnumerable<Word> FindAllOccurances(this IEnumerable<Word> words,
             Word toMatch) {
@@ -128,12 +128,12 @@ namespace LASI.Algorithm
 
 
         /// <summary>
-        /// Retrives all words in the collection which compare equal to entity given Word or any of its provided synonyms.
+        /// Retrives all words in the collection which compare equal to a given Word or any of its provided synonyms.
         /// </summary>
         /// <param name="words"></param>
         /// <param name="toMatch">The verb to match</param>
         /// <param name="synonymProvider">The ThesaurusBase instance which provides the synonyms to also match against.</param>
-        /// <returns>entity WordList containing all words which match the argument or any of its provided synonyms.</returns>
+        /// <returns>A WordList containing all words which match the argument or any of its provided synonyms.</returns>
         /// <see cref="Word"/>
         /// <seealso cref="ThesaurusBase"/>
         public static IEnumerable<Word> TextMatching(this IEnumerable<Word> words, ILexical toMatch, ThesaurusBase synonymProvider) {

@@ -11,7 +11,7 @@ namespace SharpNLPTaggingModule
     {
         /// <summary>
         /// Based on the example UI code which came with sharp NLP,
-        /// It adds the ability to pass an input and output file paths and get entity file back and the TaggingOption enum
+        /// It adds the ability to pass an input and output file paths and get a file back and the TaggingOption enum
         /// </summary>
         private string mModelPath;
 

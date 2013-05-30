@@ -9,7 +9,7 @@ namespace AlgorithmAssemblyUnitTestProject
 
 
     /// <summary>
-    ///This is entity test class for AdjectiveTest and is intended
+    ///This is A test class for AdjectiveTest and is intended
     ///to contain all AdjectiveTest Unit Tests
     ///</summary>
     [TestClass()]
@@ -42,7 +42,7 @@ namespace AlgorithmAssemblyUnitTestProject
         //{
         //}
         //
-        //Use ClassCleanup to run code after all tests in entity class have run
+        //Use ClassCleanup to run code after all tests in A class have run
         //[ClassCleanup()]
         //public static void MyClassCleanup()
         //{
@@ -64,7 +64,7 @@ namespace AlgorithmAssemblyUnitTestProject
 
 
         /// <summary>
-        ///entity test for Adjective Constructor
+        ///A test for Adjective Constructor
         ///</summary>
         [TestMethod()]
         public void AdjectiveConstructorTest() {
@@ -74,7 +74,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///entity test for ModifyWith
+        ///A test for ModifyWith
         ///</summary>
         [TestMethod()]
         public void ModifyWithTest() {
@@ -87,7 +87,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///entity test for Described
+        ///A test for Described
         ///</summary>
         [TestMethod()]
         public void DescribesTest() {

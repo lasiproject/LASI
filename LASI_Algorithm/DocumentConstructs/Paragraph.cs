@@ -11,14 +11,10 @@ namespace LASI.Algorithm
     {
         private ParagraphKind paragraphKind;
 
-        public ParagraphKind ParagraphKind {
-            get {
-                return paragraphKind;
-            }
-        }
+
 
         /// <summary>
-        /// Initializes entity new instance of the Paragraph class containing the given sentences and belonging to the given Document.
+        /// Initializes a new instance of the Paragraph class containing the given sentences and belonging to the given Document.
         /// </summary>
         /// <param name="sentences">The collection of sentences which comprise the Paragraph.</param>
         ///<param name="paraKind">Argument indicating the kind of parent.</param>
@@ -32,25 +28,42 @@ namespace LASI.Algorithm
 
 
         /// <summary>
-        /// Establish the nested links between the g, its parent document, and the sentencies comprising it.
+        /// Establish the nested links between the Paragraph, its parent Document, and the sentencies comprising it.
         /// </summary>
-        /// <param name="parentDoc">The document instance to identified as the g'd parent.</param>
+        /// <param name="parentDoc">The document instance to identified as the Paragraph's parent.</param>
         public void EstablishParent(Document parentDoc) {
             Document = parentDoc;
             foreach (var S in Sentences)
                 S.EstablishParenthood(this);
         }
+        /// <summary>
+        /// Gets the sequence of Phrases which come after the given phrase through the end of the Paragraph.
+        /// </summary>
+        /// <param name="phrase">The Phrase which bounds the sequence.</param>
+        /// <returns>The sequence of Phrases which come after the given phrase through the end of the Paragraph.</returns>
         public IEnumerable<Phrase> GetPhrasesAfter(Phrase phrase) {
             return Phrases.SkipWhile(r => r != phrase).Skip(1);
         }
+
         /// <summary>
-        /// Gets or sets the collection of sentences which comprise the g.
+        /// Returns a string representation of the Paragraph.
+        /// </summary>
+        /// <returns>A string representation of the Paragraph.</returns>
+        public override string ToString() {
+            return base.ToString() + " " + Sentences.Count() + " sentences\n\"" + Text + "\"";
+        }
+
+        /// <summary>
+        /// Gets or sets the collection of Sentences which comprise the Paragraph.
         /// </summary>
         public IEnumerable<Sentence> Sentences {
             get;
             set;
         }
 
+        /// <summary>
+        /// Gets the collection of Words which comprise the Paragraph.
+        /// </summary>
         public IEnumerable<Word> Words {
             get {
                 return from S in Sentences
@@ -58,6 +71,9 @@ namespace LASI.Algorithm
                        select W;
             }
         }
+        /// <summary>
+        /// Gets the collection of Phrases which comprise the Paragraph.
+        /// </summary>
         public IEnumerable<Phrase> Phrases {
             get {
                 return from S in Sentences
@@ -67,15 +83,21 @@ namespace LASI.Algorithm
         }
 
         /// <summary>
-        /// Gets or sets the document the g belongs to.
+        /// Gets the Document the Paragraph belongs to.
         /// </summary>
         public Document Document {
             get;
             private set;
         }
-        public override string ToString() {
-            return base.ToString() + " " + Sentences.Count() + " sentences\n\"" + Text + "\"";
+        /// <summary>
+        /// Gets the ParagraphKind of the Paragraph.
+        /// </summary>
+        public ParagraphKind ParagraphKind {
+            get {
+                return paragraphKind;
+            }
         }
+
 
         private static int IDNumProvider;
 
@@ -88,7 +110,7 @@ namespace LASI.Algorithm
         }
 
         /// <summary>
-        /// Gets the textual content of the g
+        /// Gets the textual content of the Paragraph.
         /// </summary>
         public string Text {
             get {
@@ -98,10 +120,6 @@ namespace LASI.Algorithm
     }
 }
 
-/*
-    Paragraph p1(list of sentences[]);
-    int id = p1.ID;
-*/
 namespace LASI.Algorithm.DocumentConstructs
 {
     public enum ParagraphKind

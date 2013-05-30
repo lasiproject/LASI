@@ -7,7 +7,7 @@ namespace AlgorithmAssemblyUnitTestProject
 
 
     /// <summary>
-    ///This is entity test class for DeterminerTest and is intended
+    ///This is A test class for DeterminerTest and is intended
     ///to contain all DeterminerTest Unit Tests
     ///</summary>
     [TestClass()]
@@ -40,7 +40,7 @@ namespace AlgorithmAssemblyUnitTestProject
         //{
         //}
         //
-        //Use ClassCleanup to run code after all tests in entity class have run
+        //Use ClassCleanup to run code after all tests in A class have run
         //[ClassCleanup()]
         //public static void MyClassCleanup()
         //{
@@ -62,7 +62,7 @@ namespace AlgorithmAssemblyUnitTestProject
 
 
         /// <summary>
-        ///entity test for Determiner Constructor
+        ///A test for Determiner Constructor
         ///</summary>
         [TestMethod()]
         public void DeterminerConstructorTest() {
@@ -73,7 +73,7 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///entity test for Determines
+        ///A test for Determines
         ///</summary>
         [TestMethod()]
         public void DeterminesTest() {

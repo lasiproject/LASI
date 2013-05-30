@@ -12,7 +12,7 @@ namespace LASI.Algorithm
         /// Filters the sequence of Action instances selecting those with at least one bound subject.
         /// </summary>
         /// <param name="actions">The Enumerable of Action instances to filter.</param>
-        /// <returns>The subset bound to entity subject.</returns>
+        /// <returns>The subset bound to some subject.</returns>
         public static IEnumerable<ITransitiveVerbal> WithSubject(this IEnumerable<ITransitiveVerbal> actions) {
             return from V in actions
                    where V.BoundSubjects.Count(s => s != null) > 0
@@ -22,9 +22,9 @@ namespace LASI.Algorithm
         /// Filters the sequence of actions based returning those who have at least one subject matching the provided subject testing function.
         /// </summary>
         /// <param name="actions">The Enumerable of Action instances to filter.</param>
-        /// <param name="condition">The function specifying the match condition. Any function which takes an IEntity and return entity bool.</param>
+        /// <param name="condition">The function specifying the match condition. Any function which takes an IEntity and return a bool.</param>
         /// <returns>All actions whose subject match the condition.</returns>
-        /// The argument may be either entity named function or entity lambda expression.
+        /// The argument may be either a named function or a lambda expression.
         /// <example> Demonstrates how to use this method.
         /// <code>
         /// var filtered = myVerbs.WithSubject(N => N.Text == "banana");
