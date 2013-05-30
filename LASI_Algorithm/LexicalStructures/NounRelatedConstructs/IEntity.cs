@@ -1,11 +1,11 @@
-﻿using LASI.Algorithm.FundamentalSyntacticInterfaces;
+﻿using LASI.Algorithm.SyntacticInterfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LASI.Algorithm
+namespace LASI.Algorithm.SyntacticInterfaces
 {
     /// <summary>
     /// Defines the role requirements for Entity type constructs, including Nouns, NounPhrases, and Gerunds. 

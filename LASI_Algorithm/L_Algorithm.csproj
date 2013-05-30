@@ -63,6 +63,7 @@
     <Compile Include="Analysis\Binding\AttributiveNounPhraseBinder.cs" />
     <Compile Include="Analysis\Binding\EntityReferenceBinder.cs" />
     <Compile Include="Analysis\Binding\InfinitivePhraseAttributer.cs" />
+    <Compile Include="LexicalStructures\NounRelatedConstructs\IEntity_3.cs" />
     <Compile Include="LexicalStructures\VerbRelatedConstructs\InfinitivePhrase.cs" />
     <Compile Include="Analysis\Binding\InterPhraseWordBinding.cs" />
     <Compile Include="Analysis\Binding\InvalidInfinitePhraseConstructedException.cs" />

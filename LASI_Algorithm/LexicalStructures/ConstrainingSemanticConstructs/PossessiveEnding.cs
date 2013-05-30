@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using LASI.Algorithm.SyntacticInterfaces;
 
 namespace LASI.Algorithm
 {
@@ -76,6 +77,14 @@ namespace LASI.Algorithm
         #endregion
 
 
+
+
+
+        IEnumerable<IEntity> IPossesser.Possessed {
+            get {
+                throw new NotImplementedException();
+            }
+        }
 
 
     }

@@ -6,9 +6,8 @@ using System.Text;
 using LASI.Utilities.TypedSwitch;
 using System.Threading.Tasks;
 using LASI.Algorithm.DocumentConstructs;
-using LASI.Algorithm.Analysis.Binding;
 
-namespace LASI.Algorithm.Analysis
+namespace LASI.Algorithm.Binding
 {
     public static class Binder
     {

@@ -1,5 +1,5 @@
 ﻿
-namespace LASI.Algorithm.FundamentalSyntacticInterfaces
+namespace LASI.Algorithm.SyntacticInterfaces
 {
     public interface IPrepositionLinkable : ILexical
     {

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace LASI.Algorithm
+namespace LASI.Algorithm.SyntacticInterfaces
 {
     /// <summary>
     /// Defines the role requirements for Entities; generally Nouns, Nounphrases; which can be indirectly, and implicitely referred to by Pronouns, thus allowing their semantic influence to persist 
@@ -9,9 +9,9 @@ namespace LASI.Algorithm
     /// </summary>
     public interface IPronounBindable
     {
-        void BindPronoun(LASI.Algorithm.LexicalStructures.NounRelatedConstructs.IPronoun pro);
+        void BindPronoun(LASI.Algorithm.SyntacticInterfaces.IPronoun pro);
 
-        IEnumerable<LASI.Algorithm.LexicalStructures.NounRelatedConstructs.IPronoun> BoundPronouns {
+        IEnumerable<LASI.Algorithm.SyntacticInterfaces.IPronoun> BoundPronouns {
             get;
         }
     }

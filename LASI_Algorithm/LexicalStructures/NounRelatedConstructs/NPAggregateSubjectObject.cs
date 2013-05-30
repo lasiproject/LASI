@@ -1,5 +1,4 @@
-﻿using LASI.Algorithm.FundamentalSyntacticInterfaces;
-using LASI.Algorithm.LexicalStructures.NounRelatedConstructs;
+﻿using LASI.Algorithm.SyntacticInterfaces; 
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -67,13 +66,13 @@ namespace LASI.Algorithm
             }
         }
 
-        public void BindDescriber(FundamentalSyntacticInterfaces.IDescriber adj) {
+        public void BindDescriber(SyntacticInterfaces.IDescriber adj) {
             if (!_describers.Contains(adj)) {
                 _describers.Add(adj);
             }
         }
 
-        public IEnumerable<FundamentalSyntacticInterfaces.IDescriber> DescribedBy {
+        public IEnumerable<SyntacticInterfaces.IDescriber> DescribedBy {
             get {
                 return _describers;
             }

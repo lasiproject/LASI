@@ -1,12 +1,12 @@
-﻿using LASI.Algorithm.Analysis.Binding;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using LASI.Algorithm.SyntacticInterfaces;
 
 namespace LASI.Algorithm
 {
-    public class InfinitivePhrase : Phrase, LASI.Algorithm.FundamentalSyntacticInterfaces.IVerbalObject, LASI.Algorithm.FundamentalSyntacticInterfaces.IVerbalSubject
+    public class InfinitivePhrase : Phrase, LASI.Algorithm.SyntacticInterfaces.IVerbalObject, LASI.Algorithm.SyntacticInterfaces.IVerbalSubject
     {
 
 

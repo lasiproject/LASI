@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LASI.Algorithm.SyntacticInterfaces;
 
 namespace LASI.FileSystem.Serialization.XML
 {
     public interface ILexicalWriter<in S, out T, in W> : IDisposable
         where W : System.Xml.XmlWriter
-        where T : LASI.Algorithm.ILexical
-        where S : IEnumerable<LASI.Algorithm.ILexical>
+        where T : ILexical
+        where S : IEnumerable<ILexical>
     {
         void Write(S resultSet, string resultSetTitle, DegreeOfOutput degreeOfOutput);
         Task WriteAsync(S resultSet, string resultSetTitle, DegreeOfOutput degreeOfOutput);

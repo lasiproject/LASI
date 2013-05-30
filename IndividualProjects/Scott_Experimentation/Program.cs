@@ -9,9 +9,9 @@ using LASI.FileSystem;
 using LASI.Utilities;
 using SharpNLPTaggingModule;
 using System.IO;
-using LASI.Algorithm.Binding;
-using LASI.Algorithm.Analysis;
+using LASI.Algorithm.Binding; 
 using LASI.Algorithm.DocumentConstructs;
+using LASI.Algorithm.Weighting;
 
 namespace Scott_Experimentation
 {

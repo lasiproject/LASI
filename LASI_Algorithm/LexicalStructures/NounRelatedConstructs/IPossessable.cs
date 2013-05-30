@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace LASI.Algorithm
+namespace LASI.Algorithm.SyntacticInterfaces
 {
     /// <summary>
     /// Defines the role requirements for constructs; generally Nouns, Nounphrases or Pronouns; which are "possessable" by second Entities.

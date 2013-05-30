@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LASI.Algorithm.Thesauri;
 
-namespace LASI.Algorithm.PredefinedComparers
+namespace LASI.Algorithm
 {
     public static class NounPhraseComparers
     {

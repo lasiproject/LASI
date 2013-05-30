@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 using LASI.Utilities.TypedSwitch;
 using LASI.Algorithm;
 using LASI.Utilities;
-using LASI.Algorithm.LexicalStructures;
 using LASI.Algorithm.DocumentConstructs;
+using LASI.Algorithm.SyntacticInterfaces;
 
-namespace LASI.Algorithm.Analysis.Binding
+namespace LASI.Algorithm.Binding
 {
     public class PronounBinder
     {

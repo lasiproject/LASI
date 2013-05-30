@@ -1,4 +1,4 @@
-﻿using LASI.Algorithm.FundamentalSyntacticInterfaces;
+﻿using LASI.Algorithm.SyntacticInterfaces;
 using System;
 using System.Collections.Generic;
 using System.Xml.Linq;

@@ -1,5 +1,4 @@
 ﻿using LASI.Algorithm;
-using LASI.Algorithm.Analysis;
 using LASI.Algorithm.DocumentConstructs;
 using LASI.Algorithm.Thesauri;
 using LASI.FileSystem;
@@ -13,6 +12,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using LASI.Algorithm.Binding;
+using LASI.Algorithm.Weighting;
 namespace LASI.InteropLayer
 {
 

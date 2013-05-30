@@ -1,4 +1,4 @@
-﻿using LASI.Algorithm.SyntaciticAndSemanticStructures;
+﻿
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,8 +7,9 @@ using System.Threading.Tasks;
 using LASI.Utilities.TypedSwitch;
 using LASI.Utilities;
 using LASI.Algorithm.DocumentConstructs;
+using LASI.Algorithm.SyntacticInterfaces;
 
-namespace LASI.Algorithm.Analysis.Binding
+namespace LASI.Algorithm.Binding
 {
     public class PhraseWiseEntityGroupBinder
     {
@@ -32,8 +33,7 @@ namespace LASI.Algorithm.Analysis.Binding
                     if (aggregateEntities.Count > 2) {
                         EntityGroups.Add(new NPAggregateSubjectObject(aggregateEntities));
                     }
-                }
-                else {
+                } else {
                     aggregateEntities = new List<NounPhrase>();
                 }
 

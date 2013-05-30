@@ -1,9 +1,9 @@
 ﻿using System;
-namespace LASI.Algorithm.LexicalStructures.NounRelatedConstructs
+namespace LASI.Algorithm.SyntacticInterfaces
 {
     public interface IPronoun : IEntity
     {
-        LASI.Algorithm.IEntity BoundEntity {
+        IEntity BoundEntity {
             get;
         }
         void BindToIEntity(IEntity target);

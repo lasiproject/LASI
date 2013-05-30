@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using LASI.Algorithm.SyntacticInterfaces;
 namespace LASI.Algorithm
 {
     /// <summary>

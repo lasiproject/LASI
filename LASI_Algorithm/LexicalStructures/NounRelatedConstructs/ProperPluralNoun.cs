@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using LASI.Algorithm.SyntacticInterfaces;
 
 namespace LASI.Algorithm
 {
@@ -16,7 +17,7 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="text">The literal text content of the ProperPluralNoun.</param>
         public ProperPluralNoun(string text)
-            : base(text) { 
+            : base(text) {
         }
 
         /// <summary>

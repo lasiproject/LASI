@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace LASI.Algorithm.FundamentalSyntacticInterfaces
+namespace LASI.Algorithm.SyntacticInterfaces
 {
     /// <summary>
     /// Defines the role requirements for constructs, generally Actions, which can be modiffied by modal words such as "can" or "shalt".

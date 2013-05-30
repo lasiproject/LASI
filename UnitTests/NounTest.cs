@@ -3,8 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using LASI.Algorithm;
-using LASI.Algorithm.FundamentalSyntacticInterfaces;
-using LASI.Algorithm.LexicalStructures.NounRelatedConstructs;
+using LASI.Algorithm.SyntacticInterfaces; 
 
 namespace AlgorithmAssemblyUnitTestProject
 {

@@ -1,5 +1,5 @@
 ﻿
-namespace LASI.Algorithm.FundamentalSyntacticInterfaces
+namespace LASI.Algorithm.SyntacticInterfaces
 {
     /// <summary>
     /// Defines the role reqirements for Action Objects, generally the objects of Verbs or VerbPhrases.

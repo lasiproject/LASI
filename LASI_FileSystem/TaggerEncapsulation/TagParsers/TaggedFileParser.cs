@@ -1,6 +1,5 @@
 ﻿using LASI.Algorithm;
 using LASI.Algorithm.DocumentConstructs;
-using LASI.Algorithm.SyntaciticAndSemanticStructures;
 using LASI.FileSystem.FileTypes;
 using LASI.FileSystem.TaggerEncapsulation;
 using System;

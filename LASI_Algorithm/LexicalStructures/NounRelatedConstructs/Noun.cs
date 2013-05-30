@@ -5,8 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using LASI.Algorithm;
-using LASI.Algorithm.FundamentalSyntacticInterfaces;
-using LASI.Algorithm.LexicalStructures.NounRelatedConstructs;
+using LASI.Algorithm.SyntacticInterfaces; 
 
 namespace LASI.Algorithm
 {

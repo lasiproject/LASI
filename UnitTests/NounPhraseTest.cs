@@ -1,9 +1,9 @@
 ﻿using LASI.Algorithm;
-using LASI.Algorithm.FundamentalSyntacticInterfaces;
+using LASI.Algorithm.SyntacticInterfaces;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Linq; 
 
 namespace AlgorithmAssemblyUnitTestProject
 {

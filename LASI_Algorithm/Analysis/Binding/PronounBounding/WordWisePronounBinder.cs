@@ -4,8 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LASI.Algorithm.DocumentConstructs;
-using LASI.Algorithm.LexicalStructures;
-namespace LASI.Algorithm.Analysis.Binding.PronounBounding
+
+namespace LASI.Algorithm.Binding
 {
     public class WordWisePronounBinder
     {

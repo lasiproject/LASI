@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Linq;
 using System.Collections.Generic;
-using LASI.Algorithm.FundamentalSyntacticInterfaces;
+using LASI.Algorithm.SyntacticInterfaces;
 
 namespace AlgorithmAssemblyUnitTestProject
 {
@@ -73,7 +73,8 @@ namespace AlgorithmAssemblyUnitTestProject
             ParticlePhrase target = new ParticlePhrase(composedWords);
             Assert.IsTrue((from w1 in composedWords
                            join w2 in composedWords on w1 equals w2
-                           select new {
+                           select new
+                           {
                                w1,
                                w2
                            }).Count() == composedWords.Count());

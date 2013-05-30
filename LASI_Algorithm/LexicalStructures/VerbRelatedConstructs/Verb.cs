@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using LASI.Algorithm.FundamentalSyntacticInterfaces;
+using LASI.Algorithm.SyntacticInterfaces;
 using LASI.Algorithm.ClauseTypes;
 
 namespace LASI.Algorithm

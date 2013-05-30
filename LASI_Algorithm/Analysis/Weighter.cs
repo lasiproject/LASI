@@ -1,5 +1,5 @@
 ﻿using LASI.Algorithm.DocumentConstructs;
-using LASI.Algorithm.FundamentalSyntacticInterfaces;
+using LASI.Algorithm.SyntacticInterfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,9 +7,9 @@ using System.Text;
 using System.Threading.Tasks;
 using LASI.Algorithm.Thesauri;
 using LASI.Utilities.TypedSwitch;
-using LASI.Utilities;
+using LASI.Utilities; 
 
-namespace LASI.Algorithm.Analysis
+namespace LASI.Algorithm.Weighting
 {
     static public class Weighter
     {

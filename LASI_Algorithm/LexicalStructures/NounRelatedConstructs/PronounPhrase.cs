@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LASI.Algorithm.SyntacticInterfaces;
 
 namespace LASI.Algorithm
 {
-    public class PronounPhrase : NounPhrase, IPronounBindable, LASI.Algorithm.LexicalStructures.NounRelatedConstructs.IPronoun
+    public class PronounPhrase : NounPhrase, IPronounBindable, LASI.Algorithm.SyntacticInterfaces.IPronoun
     {
         private IEntity _boundEntity;
         public PronounPhrase(IEnumerable<Word> composedWords)

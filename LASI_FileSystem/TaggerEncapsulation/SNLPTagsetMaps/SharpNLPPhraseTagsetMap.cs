@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LASI.Algorithm;
-using LASI.Algorithm.SyntaciticAndSemanticStructures;
+using LASI.Algorithm.SyntacticInterfaces;
 
 namespace LASI.FileSystem.TaggerEncapsulation
 {

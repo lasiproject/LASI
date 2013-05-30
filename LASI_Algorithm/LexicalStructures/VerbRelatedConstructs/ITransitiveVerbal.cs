@@ -1,6 +1,6 @@
-﻿using LASI.Algorithm.FundamentalSyntacticInterfaces;
+﻿using LASI.Algorithm.SyntacticInterfaces;
 
-namespace LASI.Algorithm
+namespace LASI.Algorithm.SyntacticInterfaces
 {
     /// <summary>
     /// Defines the role reqirements for Transitive elements, generally Verbs or VerbPhrases,

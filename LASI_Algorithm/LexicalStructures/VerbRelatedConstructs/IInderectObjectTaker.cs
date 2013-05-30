@@ -1,5 +1,5 @@
 ﻿
-namespace LASI.Algorithm.FundamentalSyntacticInterfaces
+namespace LASI.Algorithm.SyntacticInterfaces
 {
     /// <summary>
     /// Defines the role reqirements for Transitive elements, generally Verbs or VerbPhrases, which can be bound to one or more Indirect objects.

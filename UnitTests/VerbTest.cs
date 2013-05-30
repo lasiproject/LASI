@@ -2,7 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Linq;
-using LASI.Algorithm.FundamentalSyntacticInterfaces;
+using LASI.Algorithm.SyntacticInterfaces;
 using System.Collections.Generic;
 
 namespace AlgorithmAssemblyUnitTestProject

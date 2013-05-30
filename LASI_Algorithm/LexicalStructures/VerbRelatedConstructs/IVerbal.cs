@@ -1,6 +1,6 @@
 ﻿
-using LASI.Algorithm.FundamentalSyntacticInterfaces;
-namespace LASI.Algorithm
+using LASI.Algorithm.SyntacticInterfaces;
+namespace LASI.Algorithm.SyntacticInterfaces
 {
     /// <summary>
     /// Defines the role reqirements for Intransitive elements, generally Verbs or VerbPhrases.
