@@ -79,7 +79,6 @@ namespace LASI.Algorithm.Analysis
             var verbsynonymgroups = from verb in doc.Words.GetVerbs().AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
                                     let synstrings = Thesaurus.Lookup(verb)
                                     from t in doc.Words.GetVerbs().AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
-                                    where synstrings != null
                                     where synstrings.Contains(t.Text)
                                     group t by verb;
 
@@ -96,7 +95,8 @@ namespace LASI.Algorithm.Analysis
 
             var phraseWeightPairs = from phrase in doc.Phrases.Where(p => !(p is InfinitivePhrase)).AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
                                     let weight = phrase.Words.Average(w => w.Weight)
-                                    select new {
+                                    select new
+                                    {
                                         p = phrase,
                                         weight
                                     };
@@ -110,7 +110,8 @@ namespace LASI.Algorithm.Analysis
 
         private static void WeightPhrasesByLiteralFrequency(Document doc) {
             var phraseByCount = from phrase in doc.Phrases.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
-                                group phrase by new {
+                                group phrase by new
+                                {
                                     Type = phrase.GetType(),
                                     phrase.Text
                                 };
@@ -132,7 +133,6 @@ namespace LASI.Algorithm.Analysis
             var nounSynonymGroups = from noun in doc.Words.GetNouns().AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
                                     let synstrings = Thesaurus.Lookup(noun)
                                     from t in doc.Words.GetNouns().AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
-                                    where synstrings != null
                                     where synstrings.Contains(t.Text, StringComparer.OrdinalIgnoreCase)
                                     group t by noun;
 
@@ -151,7 +151,8 @@ namespace LASI.Algorithm.Analysis
                                where ((from type in excluded
                                        where word.Type == type
                                        select type).Count() == 0)
-                               group word by new {
+                               group word by new
+                               {
                                    word.Type,
                                    word.Text
                                };
@@ -186,7 +187,8 @@ namespace LASI.Algorithm.Analysis
             foreach (var outerNP in doc.Phrases.GetNounPhrases().AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)) {
                 var similarPhrases = from potentialM in
                                          (from innerNP in similarNounPhraseLookup[outerNP]
-                                          select new {
+                                          select new
+                                          {
                                               NP = outerNP,
                                               innerNP,
                                               similarityRatio = Thesaurus.getSimilarityRatio(outerNP, innerNP)

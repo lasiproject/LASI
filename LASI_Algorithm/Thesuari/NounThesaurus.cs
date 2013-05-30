@@ -13,7 +13,7 @@ namespace LASI.Algorithm.Thesauri
     public class NounThesaurus : ThesaurusBase
     {
         /// <summary>
-        /// Initializes a new instance of the NounProvider class.
+        /// Initializes a new instance of the NounThesaurus class.
         /// </summary>
         /// <param name="filePath">The path of the WordNet database file containing the sysnonym line for nouns.</param>
         public NounThesaurus(string filePath)
@@ -58,7 +58,7 @@ namespace LASI.Algorithm.Thesauri
             //Aluan: This line gets extracts word category info I noticed was present in the DB files
             //Erik:  Gotcha, I'll try to decipher its meaning.
 
-            WordNetNounLex lexCategory = (WordNetNounLex)Int32.Parse(line.Substring(9, 2));
+            WordNetNounLex lexCategory = (WordNetNounLex) Int32.Parse(line.Substring(9, 2));
 
             String frontPart = line.Split('|', '!')[0];
             MatchCollection numbers = Regex.Matches(frontPart, @"(?<id>\d{8})");
