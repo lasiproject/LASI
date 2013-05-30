@@ -127,21 +127,7 @@ namespace LASI.Algorithm
         #endregion
 
 
-        /// <summary>
-        /// Retrives all words in the collection which compare equal to a given Word or any of its provided synonyms.
-        /// </summary>
-        /// <param name="words"></param>
-        /// <param name="toMatch">The verb to match</param>
-        /// <param name="synonymProvider">The ThesaurusBase instance which provides the synonyms to also match against.</param>
-        /// <returns>A WordList containing all words which match the argument or any of its provided synonyms.</returns>
-        /// <see cref="Word"/>
-        /// <seealso cref="ThesaurusBase"/>
-        public static IEnumerable<Word> TextMatching(this IEnumerable<Word> words, ILexical toMatch, ThesaurusBase synonymProvider) {
-            var matchTexts = synonymProvider[toMatch.Text];
-            return from W in words
-                   where matchTexts.Contains(W.Text)
-                   select W;
-        }
+
         /// <summary>
         /// Returns all Adverbs in the collection
         /// </summary>

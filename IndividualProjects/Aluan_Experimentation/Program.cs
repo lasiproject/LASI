@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Threading.Tasks;
+
 namespace Aluan_Experimentation
 {
     public class Program
@@ -19,7 +20,7 @@ namespace Aluan_Experimentation
         static string testPath = @"C:\Users\Aluan\Desktop\411writtensummary2.txt";
 
         static void Main(string[] args) {
-            var synonymsForCat = Thesaurus.NounProvider["feline", WordNetNounLex.Animal];
+            var synonymsForCat = Thesaurus.LookupNoun("feline", WordNetNounCategory.Animal);
 
             foreach (var syn in synonymsForCat)
                 Output.WriteLine(syn);
@@ -37,23 +38,22 @@ namespace Aluan_Experimentation
                 try {
                     new SubjectBinder().Bind(s);
                     new ObjectBinder().Bind(s);
-                }
-                catch (VerblessPhrasalSequenceException) {
+                } catch (VerblessPhrasalSequenceException) {
                 }
             }
             foreach (var phrase in doc.Phrases) {
                 Output.WriteLine(phrase);
             }
 
-            //GroupingByBehaviorAndKindExample(doc);
             Input.WaitForKey();
         }
 
         private static void GroupingByBehaviorAndKindExample(Document doc) {
-            var walkers = (
+            var walkers =
                 from action in doc.Words.GetVerbs()
                 where Thesaurus.Lookup(action).Contains("walk")
-                select action.BoundSubjects).Aggregate((collectedActors, actors) => collectedActors.Concat(actors));
+                from actionPerformer in action.BoundSubjects
+                select actionPerformer;
 
             var kindsOfCats = from entity in doc.Words.GetNouns()
                               let synonyms = Thesaurus.Lookup(entity)
@@ -112,15 +112,11 @@ namespace Aluan_Experimentation
                 var objectBinder = new ObjectBinder();
                 try {
                     subjectBinder.Bind(s);
-                }
-                catch (NullReferenceException) {
+                } catch (NullReferenceException) {
                 }
                 try {
                     objectBinder.Bind(s);
-                }
-                //catch (InvalidStateTransitionException) {
-                //}
-                catch (VerblessPhrasalSequenceException) {
+                } catch (VerblessPhrasalSequenceException) {
                 }
             }
 
@@ -144,22 +140,6 @@ namespace Aluan_Experimentation
         }
 
 
-
-
-        private static void TestThesaurus() {
-            Thesaurus.LoadAll();
-            Output.WriteLine("enter verb: ");
-            for (var k = Console.ReadLine(); ; ) {
-                try {
-                    Output.WriteLine(Thesaurus.VerbProvider[k].OrderBy(o => o).Aggregate("", (aggr, s) => s.PadRight(30) + ", " + aggr));
-                }
-                catch (ArgumentNullException) {
-                    Output.WriteLine("no synonyms returned");
-                }
-                Output.WriteLine("enter verb: ");
-                k = Console.ReadLine();
-            }
-        }
 
 
         static void WeightAll(Document doc) {
@@ -187,7 +167,8 @@ namespace Aluan_Experimentation
 
 
             var wordsByTypeAndText = from n in doc.Words
-                                     group n by new {
+                                     group n by new
+                                     {
                                          n.Text,
                                          n.Type
                                      };

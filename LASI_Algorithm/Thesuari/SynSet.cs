@@ -18,12 +18,12 @@ namespace LASI.Algorithm.Thesauri
 
         //Aluan: I added this field to store some additional information I found in the WordNet files
 
-        private WordNetNounLex lexName;
+        private WordNetNounCategory lexName;
 
 
         //Aluan: I added this Property to access some additional information I found in the WordNet files
 
-        public WordNetNounLex LexName {
+        public WordNetNounCategory LexName {
             get {
                 return lexName;
             }
@@ -31,7 +31,7 @@ namespace LASI.Algorithm.Thesauri
 
         //Aluan: I added this constructor to include some additional information I found in the WordNet files
 
-        public SynSet(string ID, IEnumerable<string> words, IEnumerable<string> pointers, WordNetNounLex lexCategory) {
+        public SynSet(string ID, IEnumerable<string> words, IEnumerable<string> pointers, WordNetNounCategory lexCategory) {
 
             setID = ID;
             setWords = new HashSet<string>(words);

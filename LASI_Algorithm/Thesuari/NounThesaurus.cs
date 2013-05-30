@@ -10,7 +10,7 @@ using System.Configuration;
 
 namespace LASI.Algorithm.Thesauri
 {
-    public class NounThesaurus : ThesaurusBase
+    internal class NounThesaurus : ThesaurusBase
     {
         /// <summary>
         /// Initializes a new instance of the NounThesaurus class.
@@ -27,8 +27,6 @@ namespace LASI.Algorithm.Thesauri
         /// Parses the contents of the underlying WordNet database file.
         /// </summary>
         public override void Load() {
-            //throw new NotImplementedException();
-
 
             HashSet<string> lines = new HashSet<string>();
 
@@ -58,7 +56,7 @@ namespace LASI.Algorithm.Thesauri
             //Aluan: This line gets extracts word category info I noticed was present in the DB files
             //Erik:  Gotcha, I'll try to decipher its meaning.
 
-            WordNetNounLex lexCategory = (WordNetNounLex) Int32.Parse(line.Substring(9, 2));
+            WordNetNounCategory lexCategory = (WordNetNounCategory) Int32.Parse(line.Substring(9, 2));
 
             String frontPart = line.Split('|', '!')[0];
             MatchCollection numbers = Regex.Matches(frontPart, @"(?<id>\d{8})");
@@ -81,7 +79,7 @@ namespace LASI.Algorithm.Thesauri
 
         }
 
-        public HashSet<string> SearchFor(string word, WordNetNounLex category) {
+        public HashSet<string> SearchFor(string word, WordNetNounCategory category) {
 
             //gets pointers of searched word
             var externalPointers = AggregateExternals(word);
@@ -153,7 +151,7 @@ namespace LASI.Algorithm.Thesauri
 
 
 
-        public HashSet<string> this[string search, WordNetNounLex category] {
+        public HashSet<string> this[string search, WordNetNounCategory category] {
             get {
                 return SearchFor(search, category);
             }
@@ -169,7 +167,7 @@ namespace LASI.Algorithm.Thesauri
                 return this[search.Text];
             }
         }
-        public HashSet<string> this[Word search, WordNetNounLex category] {
+        public HashSet<string> this[Word search, WordNetNounCategory category] {
             get {
                 return this[search.Text, category];
             }

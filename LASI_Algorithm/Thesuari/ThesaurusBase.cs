@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace LASI.Algorithm.Thesauri
 {
-    public abstract class ThesaurusBase
+    internal abstract class ThesaurusBase
     {
         /// <summary>
         /// Constructor accessible only to derrived classes.

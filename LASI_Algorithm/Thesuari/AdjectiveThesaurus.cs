@@ -9,7 +9,7 @@ using System.Text.RegularExpressions;
 
 namespace LASI.Algorithm.Thesauri
 {
-    public class AdjectiveThesaurus : ThesaurusBase
+    internal class AdjectiveThesaurus : ThesaurusBase
     {
 
         /// <summary>
@@ -45,7 +45,7 @@ namespace LASI.Algorithm.Thesauri
 
         void CreateSet(string line) {
 
-            WordNetNounLex lexCategory = (WordNetNounLex) Int32.Parse(line.Substring(9, 2));
+            WordNetNounCategory lexCategory = (WordNetNounCategory) Int32.Parse(line.Substring(9, 2));
 
             String frontPart = line.Split('|', '!')[0];
             MatchCollection numbers = Regex.Matches(frontPart, @"(?<id>\d{8})");

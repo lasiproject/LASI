@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace LASI.Algorithm.Thesauri
 {
-    public class VerbThesaurus : ThesaurusBase
+    internal class VerbThesaurus : ThesaurusBase
     {
         /// <summary>
         /// Initializes a new instance of the VerbThesaurus class.
@@ -80,7 +80,7 @@ namespace LASI.Algorithm.Thesauri
                                                         select new
                                                         {                                        //The synset indexed by the word
                                                             ind = REF,                                      //Store the LexName for restrictive comparison if enabled
-                                                            lex = lexRestrict ? AssociationData[root].LexName : WordNetVerbLex.ARBITRARY
+                                                            lex = lexRestrict ? AssociationData[root].LexName : WordNetVerbCategory.ARBITRARY
                                                         } into Temp
                                                         join REF in AssociationData on new
                                                         {                //Now group join all synsets in the entire 
@@ -89,7 +89,7 @@ namespace LASI.Algorithm.Thesauri
                                                         } equals new
                                                         {
                                                             ind = REF.Key,
-                                                            lex = lexRestrict ? REF.Value.LexName : WordNetVerbLex.ARBITRARY
+                                                            lex = lexRestrict ? REF.Value.LexName : WordNetVerbCategory.ARBITRARY
                                                         } into ReferencedSets                                //The result of our group join contains all referenced sets
                                                         from R in ReferencedSets
                                                         from RM in R.Value.Members                           //Now aggregate all words directly contained within the group
@@ -133,7 +133,7 @@ namespace LASI.Algorithm.Thesauri
 
         private SynonymSet BuildSynset(string data) {
 
-            var WNlexNameCode = (WordNetVerbLex) Int32.Parse(data.Substring(9, 2));
+            var WNlexNameCode = (WordNetVerbCategory) Int32.Parse(data.Substring(9, 2));
 
             data = Regex.Replace(data, @"([+]+|;c+)+[\s]+[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+", "");
 

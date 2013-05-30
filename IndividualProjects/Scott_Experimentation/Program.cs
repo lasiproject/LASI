@@ -126,9 +126,9 @@ namespace Scott_Experimentation
             }
 
             Output.WriteLine("\n\nAnother Output: ");
-            foreach (var p in UniqueNounPhrases)
+            foreach (var nounText in UniqueNounPhrases)
             {
-                Output.WriteLine("{0} => {1}", p, p.Weight);
+                Output.WriteLine("{0} => {1}", nounText, nounText.Weight);
             }
            */
 

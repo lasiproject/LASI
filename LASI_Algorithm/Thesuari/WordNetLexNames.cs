@@ -1,6 +1,6 @@
 ﻿namespace LASI.Algorithm.Thesauri
 {
-    public enum WordNetVerbLex
+    public enum WordNetVerbCategory
     {
         Body = 29,
         Cognition,
@@ -18,7 +18,7 @@
         Weather,
         ARBITRARY = 100
     }
-    public enum WordNetNounLex
+    public enum WordNetNounCategory
     {
         Tops = 3,
         Act,

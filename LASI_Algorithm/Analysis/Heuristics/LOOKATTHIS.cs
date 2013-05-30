@@ -18,8 +18,8 @@
 //                    .Case<Word>(w => {
 //                        w.Weight = 10;
 //                    })
-//                    .Case<Phrase>(p => {
-//                        p.Weight = 27;
+//                    .Case<Phrase>(nounText => {
+//                        nounText.Weight = 27;
 //                    })
 //                    .Default<ILexical>(unknown => {
 //                        throw new UnknownLexicalConstructException(unknown.Text);

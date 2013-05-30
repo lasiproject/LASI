@@ -10,7 +10,7 @@ namespace LASI.FileSystem
 {
     /// <summary>
     /// A static class which encapsulates the operations necessary to manage the working directory of the current user progress.
-    /// Client code must call the Initialialize method prior to using any of the rhs methods in this class. 
+    /// Client code must call the Initialialize method prior to using any of the second methods in this class. 
     /// </summary>
     public static class FileManager
     {

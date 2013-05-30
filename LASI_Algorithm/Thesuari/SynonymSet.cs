@@ -13,7 +13,7 @@ namespace LASI.Algorithm.Thesauri
     /// </summary>
     internal class SynonymSet : IReadOnlyCollection<string>
     {
-        public SynonymSet(IEnumerable<string> referencedSetIds, IEnumerable<string> memberWords, WordNetVerbLex lexName) {
+        public SynonymSet(IEnumerable<string> referencedSetIds, IEnumerable<string> memberWords, WordNetVerbCategory lexName) {
             _members = new HashSet<string>(memberWords);
             _referencedIndexes = new HashSet<string>(referencedSetIds);
             LexName = lexName;
@@ -81,7 +81,7 @@ namespace LASI.Algorithm.Thesauri
             throw new NotImplementedException();
         }
 
-        public WordNetVerbLex LexName {
+        public WordNetVerbCategory LexName {
             get;
             set;
         }

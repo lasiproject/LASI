@@ -60,17 +60,14 @@ namespace LASI.FileSystem
 
                 var constructor = context[tag];
                 return constructor;
-            }
-            catch (UnknownPOSException) {
+            } catch (UnknownPOSException) {
                 return (s) => new LASI.Algorithm.GenericSingularNoun(taggedText.Text);
                 throw new UnknownPOSException(String.Format("Unable to parse unknown tag\nTag: {0}\nFor text: {1}\n", tag, taggedText.Text));
 
             }
         }
 
-        private bool checkThesaurusForGeneric(string text) {
-            return LASI.Algorithm.Thesauri.Thesaurus.NounProvider[text.ToLower()].Any();
-        }
+
         private WordTagsetMap context;
     }
 }

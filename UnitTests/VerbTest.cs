@@ -146,7 +146,6 @@ namespace AlgorithmAssemblyUnitTestProject
         ///</summary>
         [TestMethod()]
         public void DetermineIsPossessiveTest() {
-            LASI.Algorithm.Thesauri.Thesaurus.LoadAll();
             string text = "insulate";
             VerbTense tense = VerbTense.Base;
             Verb target = new Verb(text, tense);

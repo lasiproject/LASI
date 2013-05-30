@@ -175,7 +175,7 @@ namespace LASI.Algorithm.Analysis
             //foreach (var o in np) {
             //    foreach (var i in inp)
             //        if (i != o && i.Words.GetNouns().Any() && o.Words.GetNouns().Any()) {
-            //            o.Weight += (decimal) (Thesaurus.getSimilarityRatio(i, o) * (double) (o.Weight));
+            //            o.Weight += (decimal) (Thesaurus.GetSimilarityRatio(i, o) * (double) (o.Weight));
 
             //        }
             //}
@@ -191,7 +191,7 @@ namespace LASI.Algorithm.Analysis
                                           {
                                               NP = outerNP,
                                               innerNP,
-                                              similarityRatio = Thesaurus.getSimilarityRatio(outerNP, innerNP)
+                                              similarityRatio = Thesaurus.GetSimilarityRatio(outerNP, innerNP)
                                           })
                                      where potentialM.similarityRatio >= 0.6f
                                      select potentialM;
@@ -242,10 +242,10 @@ namespace LASI.Algorithm.Analysis
             //PHASE 4 - Phrase Weight based on part of speech and neibhors' (full sentence) part of speech
             //PHASE 5 - FREQUENCIES
             // .1 - Frequency of Word/Phrase in document
-            // .2 - Frequency of Word/Phrase in document compared to rhs documents in set -EXCLUDED FOR 1-DOCUMENT DEMO
+            // .2 - Frequency of Word/Phrase in document compared to second documents in set -EXCLUDED FOR 1-DOCUMENT DEMO
             //PHASE 6 - SYNONYMS
             //ALLUAN READ:            // .1 - Frequency of Word (/Phrase?) in document - COMPLETE MINUS VERBS (couldn't search the verb thesaurus in any way)
-            // .2 - Frequency of Word (/Phrase?) in document compared to rhs documents in set -EXCLUDED FOR 1-DOCUMENT DEMO
+            // .2 - Frequency of Word (/Phrase?) in document compared to second documents in set -EXCLUDED FOR 1-DOCUMENT DEMO
 
 
 
