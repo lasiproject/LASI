@@ -33,6 +33,7 @@ namespace LASI.FileSystem
             InputFilesDir = ProjectDir + @"\input";
             DocFilesDir = InputFilesDir + @"\doc";
             DocxFilesDir = InputFilesDir + @"\docx";
+            PdfFilesDir = InputFilesDir + @"\pdf";
             TextFilesDir = InputFilesDir + @"\text";
             TaggedFilesDir = InputFilesDir + @"\tagged";
             AnalysisDir = ProjectDir + @"\analysis";
@@ -57,6 +58,8 @@ namespace LASI.FileSystem
                 docXFiles.Add(new DocXFile(docPath));
             foreach (var docPath in Directory.EnumerateFiles(TextFilesDir, "*.txt"))
                 textFiles.Add(new TextFile(docPath));
+            foreach (var docPath in Directory.EnumerateFiles(PdfFilesDir, "*.pdf"))
+                pdfFiles.Add(new PdfFile(docPath));
             foreach (var docPath in Directory.EnumerateFiles(TaggedFilesDir, "*.tagged"))
                 taggedFiles.Add(new TaggedFile(docPath));
         }
@@ -74,6 +77,7 @@ namespace LASI.FileSystem
                 ResultsDir, 
                 DocFilesDir, 
                 DocxFilesDir, 
+                PdfFilesDir,
                 TaggedFilesDir, 
                 TextFilesDir, 
             }) {
@@ -123,8 +127,10 @@ namespace LASI.FileSystem
         /// Asynchronously performs the necessary conversions, based on the format of all files within the project.
         /// </summary>
         public static async Task ConvertAsNeededAsync() {
-            //await ConvertDocFilesAsync();
-            await ConvertDocxToTextAsync();
+            await Task.WhenAll(
+                ConvertDocxToTextAsync(),
+                ConvertPdfFilesAsync()
+                );
         }
 
 
@@ -138,10 +144,13 @@ namespace LASI.FileSystem
         static void AddToTypedList(DocFile file) {
             docFiles.Add(file);
 
-
         }
         static void AddToTypedList(TextFile file) {
             textFiles.Add(file);
+
+        }
+        static void AddToTypedList(PdfFile file) {
+            pdfFiles.Add(file);
 
         }
         static void AddToTypedList(TaggedFile file) {
@@ -177,6 +186,7 @@ namespace LASI.FileSystem
             textFiles.RemoveAll(f => f.NameSansExt == fileName);
             docFiles.RemoveAll(f => f.NameSansExt == fileName);
             docXFiles.RemoveAll(f => f.NameSansExt == fileName);
+            pdfFiles.RemoveAll(f => f.NameSansExt == fileName);
             taggedFiles.RemoveAll(f => f.NameSansExt == fileName);
         }
         /// <summary>
@@ -193,6 +203,7 @@ namespace LASI.FileSystem
                     ext == ".docx" ? DocxFilesDir :
                     ext == ".doc" ? DocFilesDir :
                     ext == ".txt" ? TextFilesDir :
+                    ext == ".pdf" ? PdfFilesDir :
                     ext == ".tagged" ? TaggedFilesDir : "";
 
                 newPath += "\\" + originalFile.Name;
@@ -206,13 +217,7 @@ namespace LASI.FileSystem
                 throw new UnsupportedFileTypeAddedException(ext, ex);
             }
         }
-        /// <summary>
-        /// Removes the document represented by an absolute file path string from the project
-        /// </summary>
-        /// <param name="fullFilePath">The document to remove</param>
-        //public static void RemoveFile(string fullFilePath) {
-        //    RemoveFile(WrapperMap[fullFilePath.Substring(fullFilePath.LastIndexOf('.'))](fullFilePath));
-        //}
+
         /// <summary>
         /// Removes the document represented by InputFile object from the project
         /// </summary>
@@ -234,6 +239,9 @@ namespace LASI.FileSystem
         }
         static void RemoveFile(DocXFile file) {
             docXFiles.Remove(file);
+        }
+        static void RemoveFile(PdfFile file) {
+            pdfFiles.Remove(file);
         }
         /// <summary>
         /// Converts all of the .doc files it recieves into .docx files
@@ -273,8 +281,38 @@ namespace LASI.FileSystem
                 AddFile(converted.FullPath);
                 File.Delete(converted.FullPath);
             }
-
         }
+
+        public static void ConvertPdfToText(params PdfFile[] files) {
+            if (files.Length == 0)
+                files = pdfFiles.ToArray();
+            foreach (var pdf in from file in files
+                                where
+                                (from dx in textFiles
+                                 where dx.NameSansExt == file.NameSansExt
+                                 select dx).Count() == 0
+                                select file) {
+                var converted = new PdfToTextConverter(pdf).ConvertFile();
+                AddFile(converted.FullPath);
+                File.Delete(converted.FullPath);
+            }
+        }
+
+        public static async Task ConvertPdfFilesAsync(params PdfFile[] files) {
+            if (files.Length == 0)
+                files = pdfFiles.ToArray();
+            foreach (var pdf in from file in files
+                                where
+                                (from dx in textFiles
+                                 where dx.NameSansExt == file.NameSansExt
+                                 select dx).Count() == 0
+                                select file) {
+                var converted = await new PdfToTextConverter(pdf).ConvertFileAsync();
+                AddFile(converted.FullPath);
+                File.Delete(converted.FullPath);
+            }
+        }
+
 
         /// <summary>
         /// Converts all of the .docx files it recieves into text files
@@ -442,6 +480,14 @@ namespace LASI.FileSystem
             get;
             private set;
         }
+
+        /// <summary>
+        /// Gets the .pdf files directory
+        /// </summary>
+        public static string PdfFilesDir {
+            get;
+            private set;
+        }
         /// <summary>
         /// Gets the .docx files directory
         /// </summary>
@@ -483,7 +529,16 @@ namespace LASI.FileSystem
         /// </summary>
         public static IReadOnlyList<DocFile> DocFiles {
             get {
-                return FileManager.docFiles;
+                return FileManager.DocFiles;
+            }
+        }
+        /// <summary>
+        /// Gets the list of PdfFile instances which represent all *.pdf files which are included in the project. 
+        /// PdfFile instances are wrapper objects which provide discrete accessors to relevant *.doc file properties.
+        /// </summary>
+        public static IReadOnlyList<PdfFile> PdfFiles {
+            get {
+                return FileManager.pdfFiles;
             }
         }
 
@@ -505,6 +560,8 @@ namespace LASI.FileSystem
         static List<DocFile> docFiles = new List<DocFile>();
 
         static List<DocXFile> docXFiles = new List<DocXFile>();
+
+        static List<PdfFile> pdfFiles = new List<PdfFile>();
 
         static List<TextFile> textFiles = new List<TextFile>();
 
@@ -553,6 +610,7 @@ namespace LASI.FileSystem
                 { "txt" , p => new TextFile(p) },
                 { "doc" , p => new DocFile(p) },
                 { "docx" , p => new DocXFile(p) },
+                { "pdf" , p=> new PdfFile(p) },
                 { "tagged" , p => new TaggedFile(p) }
         }) {
         }
@@ -621,11 +679,6 @@ namespace LASI.FileSystem
         public FileSystemException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
             : base(info, context) {
         }
-
-
-
-
-
     }
 
     #endregion

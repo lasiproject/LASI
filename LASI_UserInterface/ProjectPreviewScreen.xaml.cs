@@ -53,9 +53,11 @@ namespace LASI.UserInterface
                             select d.Trim()).ToList().Aggregate("", (sum, s) => sum += "\n\t" + s);
                 });
 
-                var item = new TabItem {
+                var item = new TabItem
+                {
                     Header = textfile.NameSansExt,
-                    Content = new TextBox {
+                    Content = new TextBox
+                    {
                         IsReadOnly = true,
                         VerticalScrollBarVisibility = ScrollBarVisibility.Auto,
                         TextWrapping = TextWrapping.Wrap,
@@ -124,8 +126,9 @@ namespace LASI.UserInterface
         }
 
         private async void AddNewDocument_Click(object sender, RoutedEventArgs e) {
-            var openDialog = new Microsoft.Win32.OpenFileDialog {
-                Filter = "LASI File Types|*.docx; *.doc; *.txt",
+            var openDialog = new Microsoft.Win32.OpenFileDialog
+            {
+                Filter = "LASI File Types|*.docx; *.pdf; *.txt",
 
             };
             openDialog.ShowDialog(this);

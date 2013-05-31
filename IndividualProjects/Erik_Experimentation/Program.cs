@@ -139,7 +139,7 @@ namespace Erik_Experimentation
             //    wordsIndex2.Remove(i);
             //}
 
-            //foreach (Word w in d.Words)
+            //foreach (Word w in file.Words)
             //{
 
             //    foreach (var i in allWordCounts)

@@ -229,7 +229,10 @@ namespace LASI.UserInterface.DataVisualzationProviders
             var data = GetVerbWiseAssociationData(doc);
             return from svs in data
 
-                   let SV = new KeyValuePair<string, float>(string.Format("{0} -> {1}\n", svs.Subject.Text, svs.Verbial.Text) + (svs.Direct != null ? " -> " + svs.Direct.Text : "") + (svs.Indirect != null ? " -> " + svs.Indirect.Text : ""),
+                   let SV = new KeyValuePair<string, float>(
+                       string.Format("{0} -> {1}\n", svs.Subject.Text, svs.Verbial.Text) +
+                       (svs.Direct != null ? " -> " + svs.Direct.Text : "") +
+                       (svs.Indirect != null ? " -> " + svs.Indirect.Text : ""),
                        (float) Math.Round(svs.RelationshipWeight, 2))
                    group SV by SV into svg
                    select svg.Key;

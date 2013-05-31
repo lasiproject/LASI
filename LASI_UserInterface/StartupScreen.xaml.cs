@@ -101,7 +101,7 @@ namespace LASI.UserInterface
         private void browseForDocButton_Click(object sender, RoutedEventArgs e) {
             var openDialog = new Microsoft.Win32.OpenFileDialog
             {
-                Filter = "LASI File Types|*.docx; *.txt",
+                Filter = "LASI File Types|*.docx; *.pdf; *.txt",
             };
             openDialog.ShowDialog(this);
             if (openDialog.FileNames.Count() <= 0) {

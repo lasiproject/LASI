@@ -11,7 +11,7 @@ namespace LASI.FileSystem.FileTypes
     {
         public PdfFile(string absolutePath)
             : base(absolutePath) {
-            throw new NotImplementedException();
+
         }
     }
 }
