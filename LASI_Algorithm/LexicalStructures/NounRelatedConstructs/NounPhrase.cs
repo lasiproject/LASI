@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
+using LASI.Algorithm.LexicalStructures.NounRelatedConstructs;
 
 namespace LASI.Algorithm
 {
@@ -11,7 +12,7 @@ namespace LASI.Algorithm
     /// Represents a noun phrase such as "The Pinko-Commy Conspiracy".
     /// Note that noun componentPhrases are the constructs which wrap both nouns and pronouns at the phrase level.
     /// </summary>
-    public class NounPhrase : Phrase, IEntity
+    public class NounPhrase : Phrase, IEntity, ISimilarityComparablePhrase<NounPhrase>, IAliasableEntity
     {
         #region Constructors
         /// <summary>
@@ -19,22 +20,24 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="composedWords">The words which compose to form the NounPhrase.</param>
         public NounPhrase(IEnumerable<Word> composedWords)
-            : base(composedWords) {
+            : base(composedWords)
+        {
             determineEntityType();
         }
         #endregion
 
 
+        #region Methods
+
         /// <summary>
         /// Current,  somewhat sloppy determination of the type, person, place, thing etc, of nounphrase by 
         /// selecting the most common type between its nouns and from its bound pronouns 
         /// </summary>
-        protected virtual void determineEntityType() {
+        protected virtual void determineEntityType()
+        {
 
             var kindsOfNouns = from N in Words.GetNouns()
                                select N.EntityKind;
-            //var kindsOfPronouns = from P in Words.GetPronouns()
-            //                      select P.EntityKind;
             var internalKinds = from K in kindsOfNouns
                                 group K by K into KindGroup
                                 orderby KindGroup.Count()
@@ -53,7 +56,8 @@ namespace LASI.Algorithm
         /// Binds a Pronoun or PronounPhrase as a reference to the NounPhrase Instance.
         /// </summary>
         /// <param name="pro">The referencer which refers to the NounPhrase Instance.</param>
-        public virtual void BindPronoun(LASI.Algorithm. SyntacticInterfaces.IPronoun pro) {
+        public virtual void BindPronoun(LASI.Algorithm.SyntacticInterfaces.IPronoun pro)
+        {
             _boundPronouns.Add(pro);
             pro.BindToIEntity(this);
         }
@@ -61,7 +65,8 @@ namespace LASI.Algorithm
         /// Binds an IDescriber, generally an Adjective or AdjectivePhrase, as a descriptor of the NounPhrase.
         /// </summary>
         /// <param name="adjective">The IDescriber instance which will be added to the NounPhrase's descriptors.</param>
-        public void BindDescriber(IDescriber adjective) {
+        public void BindDescriber(IDescriber adjective)
+        {
             if (!_describedBy.Contains(adjective))
                 _describedBy.Add(adjective);
         }
@@ -71,16 +76,19 @@ namespace LASI.Algorithm
         /// If the item is already possessed by the current instance, this method has no effect.
         /// </summary>
         /// <param name="possession">The possession to add.</param>
-        public void AddPossession(IEntity possession) {
+        public void AddPossession(IEntity possession)
+        {
             if (!_possessed.Contains(possession)) {
                 _possessed.Add(possession);
                 possession.Possesser = this;
             }
         }
-        public bool Equals(IEntity other) {
+        public bool Equals(IEntity other)
+        {
             return this == other as NounPhrase;
         }
-        public override string ToString() {
+        public override string ToString()
+        {
             var result = base.ToString();
             if (Phrase.VerboseOutput && Possessed.Count() > 0) {
                 result += "\n\tpossessions:\n";
@@ -103,15 +111,19 @@ namespace LASI.Algorithm
 
         }
 
+        #endregion
 
         /// <summary>
         /// Gets the ITransitiveVerbal instance, generally a TransitiveVerb or TransitiveVerbPhrase, which the NounPhrase is the DIRECT object of.
         /// </summary>
-        public virtual ITransitiveVerbal DirectObjectOf {
-            get {
+        public virtual ITransitiveVerbal DirectObjectOf
+        {
+            get
+            {
                 return _direcObjectOf;
             }
-            set {
+            set
+            {
                 _direcObjectOf = value;
                 foreach (var N in Words.OfType<IVerbalObject>()) {
                     N.DirectObjectOf = _direcObjectOf;
@@ -122,11 +134,14 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets the ITransitiveVerbal instance, generally a TransitiveVerb or TransitiveVerbPhrase, which the NounPhrase is the INDIRECT object of.
         /// </summary>
-        public virtual ITransitiveVerbal IndirectObjectOf {
-            get {
+        public virtual ITransitiveVerbal IndirectObjectOf
+        {
+            get
+            {
                 return _indirecObjectOf;
             }
-            set {
+            set
+            {
                 _indirecObjectOf = value;
                 foreach (var N in Words.OfType<IVerbalObject>()) {
                     N.IndirectObjectOf = IndirectObjectOf;
@@ -137,11 +152,14 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets the ITransitiveVerbal instance, generally a Verb or VerbPhrase, which the NounPhrase is the subject of.
         /// </summary>
-        public virtual ITransitiveVerbal SubjectOf {
-            get {
+        public virtual ITransitiveVerbal SubjectOf
+        {
+            get
+            {
                 return _subjectOf;
             }
-            set {
+            set
+            {
                 _subjectOf = value;
                 foreach (var N in Words.OfType<IVerbalSubject>()) {
                     N.SubjectOf = _subjectOf;
@@ -152,11 +170,14 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets all of the IEntityReferences instances, generally Pronouns or PronounPhrases, which refer to the NounPhrase Instance.
         /// </summary>
-        public virtual IEnumerable<IPronoun> BoundPronouns {
-            get {
+        public virtual IEnumerable<IPronoun> BoundPronouns
+        {
+            get
+            {
                 return _boundPronouns;
             }
-            protected set {
+            protected set
+            {
                 _boundPronouns = value.ToList();
             }
         }
@@ -164,11 +185,14 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets all of the IDescriber constructs,generally Adjectives or AdjectivePhrases, which describe the NounPhrase Instance.
         /// </summary>
-        public virtual IEnumerable<IDescriber> DescribedBy {
-            get {
+        public virtual IEnumerable<IDescriber> DescribedBy
+        {
+            get
+            {
                 return _describedBy;
             }
-            protected set {
+            protected set
+            {
                 _describedBy = value.ToList();
             }
         }
@@ -177,22 +201,28 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets all of the constructs which the NounPhrase "owns".
         /// </summary>
-        public IEnumerable<IEntity> Possessed {
-            get {
+        public IEnumerable<IEntity> Possessed
+        {
+            get
+            {
                 return _possessed;
             }
-            protected set {
+            protected set
+            {
                 _possessed = value.ToList();
             }
         }
         /// <summary>
         /// Gets or sets the Entity which "owns" the instance of the NounPhrase.
         /// </summary>
-        public IEntity Possesser {
-            get {
+        public IEntity Possesser
+        {
+            get
+            {
                 return _possessor;
             }
-            set {
+            set
+            {
                 _possessor = value;
                 foreach (var item in this.Words.GetNouns().Concat<IEntity>(this.Words.GetPronouns())) {
                     value.AddPossession(item);
@@ -200,11 +230,13 @@ namespace LASI.Algorithm
             }
         }
 
-        public NounPhrase OuterAttributive {
+        public NounPhrase OuterAttributive
+        {
             get;
             set;
         }
-        public NounPhrase InnerAttributed {
+        public NounPhrase InnerAttributed
+        {
             get;
             set;
         }
@@ -212,7 +244,8 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets or sets the Entity Kind; Person, Place, Thing, Organization, or Activity; of the NounPhrase.
         /// </summary>
-        public EntityKind EntityKind {
+        public EntityKind EntityKind
+        {
             get;
             set;
         }
@@ -220,7 +253,8 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets or sets Noun to Nounphrase
         /// </summary>
-        public Noun BindNoun {
+        public Noun BoundNoun
+        {
             get;
             set;
         }
@@ -228,11 +262,26 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets or sets NounPhrase to NounPhrase
         /// </summary>
-        public NounPhrase BindNounPhrase {
+        public NounPhrase BoundNounPhrase
+        {
             get;
             set;
         }
-        public bool wasBound = false;
+
+
+        private bool wasBound = false;
+
+        public bool WasBound
+        {
+            get
+            {
+                return wasBound;
+            }
+            set
+            {
+                wasBound = value;
+            }
+        }
 
         private IList<IDescriber> _describedBy = new List<IDescriber>();
         private IList<IEntity> _possessed = new List<IEntity>();
@@ -242,6 +291,20 @@ namespace LASI.Algorithm
         private ITransitiveVerbal _indirecObjectOf;
 
 
+
+
+
+
+
+        public bool IsAliasFor(IAliasableEntity other)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool IsSimilarTo(NounPhrase first, NounPhrase second)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
 

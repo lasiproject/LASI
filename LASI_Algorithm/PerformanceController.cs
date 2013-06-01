@@ -8,16 +8,19 @@ namespace LASI.Algorithm
 {
     public static class Concurrency
     {
-        static Concurrency() {
+        static Concurrency()
+        {
 
             CurrentMax = GetDefaultParallellMax();
         }
 
-        public static int CurrentMax {
+        public static int CurrentMax
+        {
             get;
             set;
         }
-        private static int GetDefaultParallellMax() {
+        private static int GetDefaultParallellMax()
+        {
             var logicalCPUs = System.Environment.ProcessorCount;
             return logicalCPUs < 3 ? logicalCPUs : logicalCPUs - 2;
         }

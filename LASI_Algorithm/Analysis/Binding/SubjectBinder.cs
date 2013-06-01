@@ -14,7 +14,8 @@ namespace LASI.Algorithm.Binding
         /// This is the Bind function for the SubjectBinder Class 
         /// </summary>
         /// <param name="s"></param>
-        public void Bind(Sentence s) {
+        public void Bind(Sentence s)
+        {
 
             List<VerbPhrase> v1 = new List<VerbPhrase>(s.Phrases.GetVerbPhrases());
 
@@ -48,16 +49,16 @@ namespace LASI.Algorithm.Binding
                     //subject for normal sentence.
                     if ((i.PreviousPhrase is NounPhrase) &&
                         (i.PreviousPhrase.Sentence == i.Sentence) &&
-                        !(i.PreviousPhrase as NounPhrase).wasBound) {
+                        !(i.PreviousPhrase as NounPhrase).WasBound) {
 
                         (i as VerbPhrase).BindSubject(i.PreviousPhrase as NounPhrase);
-                        (i.PreviousPhrase as NounPhrase).wasBound = true;
+                        (i.PreviousPhrase as NounPhrase).WasBound = true;
                     }
                     if (i.PreviousPhrase != null && ((i.PreviousPhrase.PreviousPhrase is NounPhrase) &&
                         (i.PreviousPhrase.PreviousPhrase.Sentence == i.Sentence) &&
-                        !(i.PreviousPhrase.PreviousPhrase as NounPhrase).wasBound)) {
+                        !(i.PreviousPhrase.PreviousPhrase as NounPhrase).WasBound)) {
                         (i as VerbPhrase).BindSubject(i.PreviousPhrase.PreviousPhrase as NounPhrase);
-                        (i.PreviousPhrase.PreviousPhrase as NounPhrase).wasBound = true;
+                        (i.PreviousPhrase.PreviousPhrase as NounPhrase).WasBound = true;
                     }
 
 
@@ -69,10 +70,10 @@ namespace LASI.Algorithm.Binding
                 //handle case of inverted sentence (http://en.wikipedia.org/wiki/Inverted_sentence)
                 if ((i is AdverbPhrase) && (i.NextPhrase is VerbPhrase) && (i.NextPhrase.NextPhrase is NounPhrase)
                     && (i.Sentence == i.NextPhrase.NextPhrase.Sentence)
-                    && !(i.NextPhrase.NextPhrase as NounPhrase).wasBound) {
+                    && !(i.NextPhrase.NextPhrase as NounPhrase).WasBound) {
                     (i.NextPhrase as VerbPhrase).BindSubject(i.NextPhrase.NextPhrase as NounPhrase);
                     s.isStandard = false;
-                    (i.NextPhrase.NextPhrase as NounPhrase).wasBound = true;
+                    (i.NextPhrase.NextPhrase as NounPhrase).WasBound = true;
                 }
 
                 if (i is AdverbPhrase) {
@@ -100,7 +101,8 @@ namespace LASI.Algorithm.Binding
         }
 
 
-        public void display() {
+        public void display()
+        {
 
             for (int i = 0; i < stateList.Count; i++) {
 
@@ -111,18 +113,22 @@ namespace LASI.Algorithm.Binding
         }
         class State
         {
-            public State() {
+            public State()
+            {
                 S = StateType.Default;
             }
-            public StateType S {
+            public StateType S
+            {
                 get;
                 set;
             }
-            public int count {
+            public int count
+            {
                 get;
                 private set;
             }
-            public Phrase StatePhrase {
+            public Phrase StatePhrase
+            {
                 get;
                 set;
             }

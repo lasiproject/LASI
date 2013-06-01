@@ -63,7 +63,9 @@
     <Compile Include="Analysis\Binding\AttributiveNounPhraseBinder.cs" />
     <Compile Include="Analysis\Binding\EntityReferenceBinder.cs" />
     <Compile Include="Analysis\Binding\InfinitivePhraseAttributer.cs" />
+    <Compile Include="LexicalStructures\NounRelatedConstructs\IAliasableEntity.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\IEntity_3.cs" />
+    <Compile Include="LexicalStructures\NounRelatedConstructs\ISimilarityComparablePhrase.cs" />
     <Compile Include="LexicalStructures\VerbRelatedConstructs\InfinitivePhrase.cs" />
     <Compile Include="Analysis\Binding\InterPhraseWordBinding.cs" />
     <Compile Include="Analysis\Binding\InvalidInfinitePhraseConstructedException.cs" />
@@ -80,7 +82,7 @@
     <Compile Include="Analysis\Heuristics\UnknownLexicalConstructException.cs" />
     <Compile Include="Analysis\Weighter.cs" />
     <Compile Include="DocumentConstructs\SubordinateClauseBeginPhrase.cs" />
-    <Compile Include="EntityAliasMap.cs" />
+    <Compile Include="AliasDict.cs" />
     <Compile Include="IEnumerableExtensions\IEnumerableOfIEntityExtensions.cs" />
     <Compile Include="IEnumerableExtensions\IEnumerableOfILexicalExtensions.cs" />
     <Compile Include="LexicalStructures\BridgingConstructs\PrepositionalRole.cs" />
@@ -118,7 +120,7 @@
     <Compile Include="LexicalStructures\NounRelatedConstructs\IPossesser.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\IQuantifer.cs" />
     <Compile Include="LexicalStructures\VerbRelatedConstructs\IModalityModdifiable.cs" />
-    <Compile Include="NounPhraseComparers.cs" />
+    <Compile Include="Comparers.cs" />
     <Compile Include="PerformanceController.cs" />
     <Compile Include="Thesuari\AdjectiveThesaurus.cs" />
     <Compile Include="Thesuari\AdverbThesaurus.cs" />
