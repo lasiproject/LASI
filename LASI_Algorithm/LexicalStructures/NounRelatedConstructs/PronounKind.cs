@@ -13,11 +13,18 @@ namespace LASI.Algorithm
         FemaleReflexive,
         GenderNeurtral,
         GenderNeurtralReflexive,
-        Inanimate,
-        InanimateReflexive,
         Plural,
         PluralReflexive,
-        Ambiguous,
-        AmbiguousReflexive
+        GenderAmbiguous,
+        GenderAmbiguousReflexive,
+        FirstPersonSingular,
+        FirstPersonPlural,
+        FirstPersonPluralReflexive,
+        SecondPerson,
+        SecondPersonSingularReflexive,
+        SecondPersonPluralReflexive,
+        ThirdPersonGenderAmbiguousPlurals,
+        ThirdPersonPluraralReflexive,
+        Undefined
     }
 }

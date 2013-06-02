@@ -11,23 +11,28 @@ namespace LASI.Algorithm.Binding
     {
         #region Constructors
 
-        public WordWisePronounBinder() {
+        public WordWisePronounBinder()
+        {
         }
 
         #endregion
 
         #region Methods
 
-        public void Bind(Document document) {
+        public void Bind(Document document)
+        {
             Bind(document.Words);
         }
-        public void Bind(Paragraph paragraph) {
+        public void Bind(Paragraph paragraph)
+        {
             Bind(paragraph.Words);
         }
-        public void Bind(Sentence sentence) {
+        public void Bind(Sentence sentence)
+        {
             Bind(sentence.Words);
         }
-        public void Bind(IEnumerable<Word> sequentialWords) {
+        public void Bind(IEnumerable<Word> sequentialWords)
+        {
             SequentialWords = sequentialWords;
         }
 
@@ -35,35 +40,13 @@ namespace LASI.Algorithm.Binding
 
         #region Static Methods
 
-        /// <summary>
-        /// Determins the  PronounGenerder enum value representing the gender of the given pronoun.
-        /// </summary>
-        /// <param name="pronoun">The pronoun whose gender to is to be checked</param>
-        /// <returns>A PronounGenerder enum value representing the gender of the given pronoun.</returns>
-        private static PronounGender DeterminePronounGender(Pronoun pronoun) {
-            var compareText = pronoun.Text.ToLower();
-            return
-                malePronounText.Contains(compareText) ?
-                PronounGender.Male :
-                femalePronounText.Contains(compareText) ?
-                PronounGender.Female :
-                neurtalPronounText.Contains(compareText) ?
-                PronounGender.Thing :
-                firstPersonSingularPronounText.Contains(compareText) ?
-                PronounGender.Ambiguous :
-                firstPersonPluralPronounText.Contains(compareText) ?
-                PronounGender.Ambiguous :
-                pluralPronounsText.Contains(compareText) ?
-                PronounGender.Ambiguous :
-                PronounGender.Undefined;
-
-        }
 
         #endregion
 
         #region Properties
 
-        public IEnumerable<Word> SequentialWords {
+        public IEnumerable<Word> SequentialWords
+        {
             get;
             protected set;
         }
@@ -83,25 +66,12 @@ namespace LASI.Algorithm.Binding
         #region Static Fields
 
         //Common personal Pronouns by gender and plurality
-        static readonly string[] malePronounText = new[] { "he", "him", "himself", "hisself", "his" };
-        static readonly string[] femalePronounText = new[] { "she", "her", "herself", "hers" };
-        static readonly string[] neurtalPronounText = new[] { "it", "itself", "its" };
-        static readonly string[] firstPersonSingularPronounText = new[] { "i", "me", "myself", "mine" };
-        static readonly string[] firstPersonPluralPronounText = new[] { "we", "us", "ourselves", "ours" };
-        static readonly string[] secondsPersonSingularPronounText = new[] { "you", "yourself", "yours" };
-        static readonly string[] pluralPronounsText = new[] { "them", "they", "themselves", "theirs" };
+
 
         #endregion
     }
 
 
 
-    internal enum PronounGender
-    {
-        Male,
-        Female,
-        Thing,
-        Ambiguous,
-        Undefined,
-    }
+
 }

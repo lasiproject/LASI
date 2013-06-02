@@ -3,11 +3,13 @@ namespace LASI.Algorithm.SyntacticInterfaces
 {
     public interface IPronoun : IEntity
     {
-        IEntity BoundEntity {
+        IEntity BoundEntity
+        {
             get;
         }
         void BindToIEntity(IEntity target);
-        PronounKind PronounKind {
+        PronounKind PronounKind
+        {
             get;
         }
     }

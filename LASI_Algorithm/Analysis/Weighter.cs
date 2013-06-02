@@ -14,7 +14,7 @@ namespace LASI.Algorithm.Weighting
     static public class Weighter
     {
         /// <summary>
-        /// Asynchronously assigns a Weight to each word and parent in a Document.
+        /// Asynchronously assigns a Weight to each word and phrase in a Document.
         /// </summary>
         /// <param name="doc">The Document whose elements are to be weighted</param>
         public static async Task WeightAsync(Document doc)
@@ -22,16 +22,12 @@ namespace LASI.Algorithm.Weighting
             await Task.Run(() => Weight(doc));
         }
         /// <summary>
-        /// Assigns a Weight to each word and parent in a Document.
+        /// Assigns a Weight to each word and phrase in a Document.
         /// </summary>
         /// <param name="doc">The Document whose elements are to be weighted</param>
         static public void Weight(Document doc)
         {
-
-
-            AssignBaseWordWeights(doc, typeof(Determiner), typeof(IConjunctive), typeof(IPrepositional));
-
-            //Erik, your weighting is applied by the next call
+            AssignBaseWordWeights(doc);
 
             WeightWordsBySyntacticSequence(doc);
 
@@ -39,19 +35,18 @@ namespace LASI.Algorithm.Weighting
 
             WeightPhrasesByAVGWordWeight(doc);
 
-            modifyNounWeightsBySynonyms(doc);
+            ModifyNounWeightsBySynonyms(doc);
 
-
-            modifyVerbWeightsBySynonyms(doc);
+            ModifyVerbWeightsBySynonyms(doc);
 
             WeightPhrasesByLiteralFrequency(doc);
 
             WeightSimilarNounPhrases(doc);
 
-            normalizeWeights(doc);
+            NormalizeWeights(doc);
         }
 
-        private static void normalizeWeights(Document doc)
+        private static void NormalizeWeights(Document doc)
         {
             decimal TotPhraseWeight = 0.0m;
             decimal MaxWeight = 0.0m;
@@ -73,24 +68,16 @@ namespace LASI.Algorithm.Weighting
                     p.Weight = Math.Round(p.Weight * ratio, 3);
                 }
             }
-            //Output.WriteLine("Max Weight: {0}", MaxWeight);
-
         }
 
-        private static void modifyVerbWeightsBySynonyms(Document doc)
+        private static void ModifyVerbWeightsBySynonyms(Document doc)
         {
-
-            var verbsynonymgroups = from verb in doc.Words.GetVerbs().AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
-                                    let synstrings = Thesaurus.Lookup(verb)
-                                    from t in doc.Words.GetVerbs().AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
-                                    where synstrings.Contains(t.Text)
-                                    group t by verb;
-
-
-
-
-
-            verbsynonymgroups.ForAll(grp =>
+            var verbsSynonymGroups = from verb in doc.Words.GetVerbs().AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
+                                     let synstrings = Thesaurus.Lookup(verb)
+                                     from t in doc.Words.GetVerbs().AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
+                                     where synstrings.Contains(t.Text)
+                                     group t by verb;
+            verbsSynonymGroups.ForAll(grp =>
             {
                 grp.Key.Weight += 0.7m * grp.Count();
             });
@@ -98,7 +85,6 @@ namespace LASI.Algorithm.Weighting
 
         private static void WeightPhrasesByAVGWordWeight(Document doc)
         {
-
             var phraseWeightPairs = from phrase in doc.Phrases.Where(p => !(p is InfinitivePhrase)).AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
                                     let weight = phrase.Words.Average(w => w.Weight)
                                     select new
@@ -106,9 +92,6 @@ namespace LASI.Algorithm.Weighting
                                         p = phrase,
                                         weight
                                     };
-
-
-
             phraseWeightPairs.ForAll(pWPair =>
             {
                 pWPair.p.Weight = pWPair.weight;
@@ -117,17 +100,13 @@ namespace LASI.Algorithm.Weighting
 
         private static void WeightPhrasesByLiteralFrequency(Document doc)
         {
-            var phraseByCount = from phrase in doc.Phrases.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
-                                group phrase by new
-                                {
-                                    Type = phrase.GetType(),
-                                    phrase.Text
-                                };
-
-
-
-
-            phraseByCount.ForAll(grp =>
+            var phrasesByCount = from phrase in doc.Phrases.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
+                                 group phrase by new
+                                 {
+                                     Type = phrase.GetType(),
+                                     phrase.Text
+                                 };
+            phrasesByCount.ForAll(grp =>
             {
                 foreach (var p in grp) { //inner loop is just normal.
                     p.Weight += grp.Count();
@@ -138,7 +117,7 @@ namespace LASI.Algorithm.Weighting
         /// Increase noun weights in a document by abstracting over synonyms
         /// </summary>
         /// <param name="doc">the Document whose noun weights may be modiffied</param>
-        private static void modifyNounWeightsBySynonyms(Document doc)
+        private static void ModifyNounWeightsBySynonyms(Document doc)
         {
             var nounSynonymGroups = from noun in doc.Words.GetNouns().AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
                                     let synstrings = Thesaurus.Lookup(noun)
@@ -157,12 +136,11 @@ namespace LASI.Algorithm.Weighting
         /// <summary>basic word count by part of speech ignoring determiners and conjunctions</summary>
         /// <param name="doc">the Document whose words to weight</param>
         /// <param name="excluded">zero or more types to exlcude from weighting</param>
-        private static void AssignBaseWordWeights(Document doc, params Type[] excluded)
+        private static void AssignBaseWordWeights(Document doc)
         {
+            var excluded = new[] { typeof(Determiner), typeof(IConjunctive), typeof(IPrepositional) };
             var wordsByCount = from word in doc.Words.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
-                               where ((from type in excluded
-                                       where word.Type == type
-                                       select type).Count() == 0)
+                               where (!excluded.Contains(word.Type))
                                group word by new
                                {
                                    word.Type,
@@ -184,17 +162,7 @@ namespace LASI.Algorithm.Weighting
         /// <param name="doc">Document containing the componentPhrases to weight</param>
         private static void WeightSimilarNounPhrases(Document doc)
         {
-            /*
-            //var np = doc.Phrases.GetNounPhrases();
-            //var inp = doc.Phrases.GetNounPhrases();
-            //foreach (var o in np) {
-            //    foreach (var i in inp)
-            //        if (i != o && i.Words.GetNouns().Any() && o.Words.GetNouns().Any()) {
-            //            o.Weight += (decimal) (Thesaurus.GetSimilarityRatio(i, o) * (double) (o.Weight));
 
-            //        }
-            //}
-            */
             var similarNounPhraseLookup = (from NP in doc.Phrases.GetNounPhrases().AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
                                            select NP)
                                            .ToLookup(key => key,
