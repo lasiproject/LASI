@@ -13,32 +13,47 @@ namespace LASI.Algorithm.Thesauri
 {
     public static class Thesaurus
     {
-
+        static Thesaurus()
+        {
+            NounThesaurus = new NounThesaurus(nounThesaurusFilePath);
+            VerbThesaurus = new VerbThesaurus(verbThesaurusFilePath);
+            AdjectiveThesaurus = new AdjectiveThesaurus(adjectiveThesaurusFilePath);
+            AdverbThesaurus = new AdverbThesaurus(adverbThesaurusFilePath);
+        }
         #region Public Methods
 
+        public static async Task LoadAllAsync()
+        {
+            await LoadAllTaskParallell();
+        }
 
-
-        public static IEnumerable<string> Lookup(Word word) {
+        public static IEnumerable<string> Lookup(Word word)
+        {
             return InternalLookup(word as dynamic);
         }
 
-        public static IEnumerable<string> LookupNoun(string nounText, WordNetNounCategory wordNetNounLex) {
+        public static IEnumerable<string> LookupNoun(string nounText, WordNetNounCategory wordNetNounLex)
+        {
             return NounThesaurus[nounText, wordNetNounLex];
         }
 
-        public static IEnumerable<string> LookupVerb(string verbText) {
+        public static IEnumerable<string> LookupVerb(string verbText)
+        {
             return VerbThesaurus[verbText];
         }
 
-        public static IEnumerable<string> LookAdjective(string adjectiveText) {
+        public static IEnumerable<string> LookAdjective(string adjectiveText)
+        {
             return AdjectiveThesaurus[adjectiveText];
         }
 
-        public static IEnumerable<string> LookAdverb(string adverbText) {
+        public static IEnumerable<string> LookAdverb(string adverbText)
+        {
             return AdjectiveThesaurus[adverbText];
         }
 
-        public static bool IsSynonymFor(this Word word, Word other) {
+        public static bool IsSynonymFor(this Word word, Word other)
+        {
             if (word == null || other == null) {
                 return false;
             }
@@ -59,15 +74,39 @@ namespace LASI.Algorithm.Thesauri
         /// <param name="second">The Second NounPhrase</param>
         /// <returns>True if the given NounPhrases are similar, false otherwise.</returns>
         /// <remarks>There are two calling conventions for this method. See the following examples
-        /// 1: if ( Thesaurus.IsSimilarTo(np1, np2) ) { ... }
+        /// 1: <code>if ( Thesaurus.IsSimilarTo(np1, np2) ) { ... }
         /// 2: if ( np1.IsSimilarTo(np2) ) { ... }
+        /// </code>
         /// Please prefer the second convention.
         /// </remarks>
-        public static bool IsSimilarTo(this NounPhrase first, NounPhrase second) {
-            return GetSimilarityRatio(first, second) > 0.6;
+        public static bool IsSimilarTo(this NounPhrase first, NounPhrase second)
+        {
+            return GetSimilarityRatio(first, second) > SIMILARITY_THRESHOLD;
         }
-
-        public static bool IsSimilarTo(this VerbPhrase lhs, VerbPhrase rhs) {
+        /// <summary>
+        /// Determines if two NounPhrases are similar.
+        /// </summary>
+        /// <param name="first">The first NounPhrase</param>
+        /// <param name="second">The Second NounPhrase</param>
+        /// <returns>True if the given NounPhrases are similar, false otherwise.</returns>
+        public static bool AreSimilar(NounPhrase first, NounPhrase second)
+        {
+            return GetSimilarityRatio(first, second) > SIMILARITY_THRESHOLD;
+        }
+        /// <summary>
+        /// Determines if two VerbPhrases are similar.
+        /// </summary>
+        /// <param name="first">The first VerbPhrase</param>
+        /// <param name="second">The Second VerbPhrase</param>
+        /// <returns>True if the given VerbPhrases are similar, false otherwise.</returns>
+        /// <remarks>There are two calling conventions for this method. See the following examples
+        /// 1: <code>if ( Thesaurus.IsSimilarTo(vp1, vp2) ) { ... }
+        /// 2: if ( vp1.IsSimilarTo(vp2) ) { ... }
+        /// </code>
+        /// Please prefer the second convention.
+        /// </remarks>
+        public static bool IsSimilarTo(this VerbPhrase lhs, VerbPhrase rhs)
+        {
             //Look into refining this
             List<Verb> leftHandVerbs = lhs.Words.GetVerbs().ToList();
             List<Verb> rightHandVerbs = rhs.Words.GetVerbs().ToList();
@@ -79,23 +118,22 @@ namespace LASI.Algorithm.Thesauri
                     for (var i = 0; i < leftHandVerbs.Count; ++i) {
                         result &= leftHandVerbs[i].IsSynonymFor(rightHandVerbs[i]);
                     }
-                } catch (NullReferenceException) {
+                }
+                catch (NullReferenceException) {
                     return false;
                 }
             }
 
             return result;
         }
-
-
-
         /// <summary>
         /// Returns a double value indicating the degree of similarity between two NounPhrases.
         /// </summary>
         /// <param name="a">The first NounPhrase</param>
         /// <param name="b">The second NounPhrase</param>
         /// <returns>A double value indicating the degree of similarity between two NounPhrases.</returns>
-        public static double GetSimilarityRatio(NounPhrase a, NounPhrase b) {
+        public static double GetSimilarityRatio(NounPhrase a, NounPhrase b)
+        {
             NounPhrase outer = null;
             NounPhrase inner = null;
             double similarCount = 0;
@@ -128,23 +166,28 @@ namespace LASI.Algorithm.Thesauri
 
         #region Internal Lookup Methods
 
-        private static IEnumerable<string> InternalLookup(Verb verb) {
+        private static IEnumerable<string> InternalLookup(Verb verb)
+        {
             if (!cachedVerbData.ContainsKey(verb.Text))
                 cachedVerbData[verb.Text] = VerbThesaurus[verb];
             return cachedVerbData[verb.Text] ?? new List<string>();
         }
-        private static IEnumerable<string> InternalLookup(Noun noun) {
+        private static IEnumerable<string> InternalLookup(Noun noun)
+        {
             if (!cachedNounData.ContainsKey(noun.Text))
                 cachedNounData[noun.Text] = NounThesaurus[noun];
             return cachedNounData[noun.Text];
         }
-        private static IEnumerable<string> InternalLookup(Adverb verb) {
+        private static IEnumerable<string> InternalLookup(Adverb verb)
+        {
             return AdverbThesaurus[verb];
         }
-        private static IEnumerable<string> InternalLookup(Adjective verb) {
+        private static IEnumerable<string> InternalLookup(Adjective verb)
+        {
             return AdjectiveThesaurus[verb];
         }
-        private static IEnumerable<string> InternalLookup(Word word) {
+        private static IEnumerable<string> InternalLookup(Word word)
+        {
             throw new NoSynonymLookupForTypeException(word);
         }
 
@@ -152,89 +195,54 @@ namespace LASI.Algorithm.Thesauri
 
         #region Lazy Initialization of Thesaurus Instances
 
-        private static readonly Lazy<NounThesaurus> nounThesaurus = new Lazy<NounThesaurus>(() => {
-            var t = new NounThesaurus(nounThesaurusFilePath);
-            t.Load();
-            return t;
-        }, true);
-        private static readonly Lazy<VerbThesaurus> verbThesaurus = new Lazy<VerbThesaurus>(() => {
-            var t = new VerbThesaurus(verbThesaurusFilePath);
-            t.Load();
-            return t;
-        }, true);
-        private static readonly Lazy<AdjectiveThesaurus> adjectiveThesaurus = new Lazy<AdjectiveThesaurus>(() => {
-            var t = new AdjectiveThesaurus(adjectiveThesaurusFilePath);
-            t.Load();
-            return t;
-        }, true);
-        private static readonly Lazy<AdverbThesaurus> adverbThesaurus = new Lazy<AdverbThesaurus>(() => {
-            var t = new AdverbThesaurus(adverbThesaurusFilePath);
-            t.Load();
-            return t;
-        }, true);
 
         #endregion
 
         #region Private Properties
 
-        private static NounThesaurus NounThesaurus {
-            get {
-                return nounThesaurus.Value;
-            }
+        private static NounThesaurus NounThesaurus
+        {
+            get;
+            set;
         }
-        private static VerbThesaurus VerbThesaurus {
-            get {
-                return verbThesaurus.Value;
-            }
+        private static VerbThesaurus VerbThesaurus
+        {
+            get;
+            set;
         }
-        private static AdjectiveThesaurus AdjectiveThesaurus {
-            get {
-                return adjectiveThesaurus.Value;
-            }
+        private static AdjectiveThesaurus AdjectiveThesaurus
+        {
+            get;
+            set;
         }
-        private static AdverbThesaurus AdverbThesaurus {
-            get {
-                return adverbThesaurus.Value;
-            }
+        private static AdverbThesaurus AdverbThesaurus
+        {
+            get;
+            set;
         }
 
         #endregion
 
         #region Private Methods
 
-        private static async Task LoadAllParallelLinqTest() {
+        private static async Task LoadAllParallelLinqTest()
+        {
             var sw = Stopwatch.StartNew();
             await Task.Run(() => new ThesaurusBase[] { NounThesaurus, VerbThesaurus, AdverbThesaurus, AdjectiveThesaurus }.AsParallel().ForAll(t => t.Load()));
             Output.WriteLine("Async PLINQ thesaurus loading took {0} milliseconds", sw.ElapsedMilliseconds);
         }
 
-        private static async Task LoadAllTaskLevelParallelTest() {
-            var sw = Stopwatch.StartNew();
-            await Task.WhenAll(
-               Task.Run(async () => {
-                   var s = Stopwatch.StartNew();
-                   await NounThesaurus.LoadAsync();
-                   s.Stop();
-                   Output.WriteLine("NounThesausus Loaded in{0}", s.ElapsedMilliseconds);
-               }), Task.Run(async () => {
-                   var s = Stopwatch.StartNew();
-                   await AdverbThesaurus.LoadAsync();
-                   s.Stop();
-                   Output.WriteLine("AdverbThesausus Loaded in{0}", s.ElapsedMilliseconds);
-               }), Task.Run(async () => {
-                   var s = Stopwatch.StartNew();
-                   await AdjectiveThesaurus.LoadAsync();
-                   s.Stop();
-                   Output.WriteLine("AdjectiveThesausus Loaded in{0}", s.ElapsedMilliseconds);
-               }), Task.Run(async () => {
-                   var s = Stopwatch.StartNew();
-                   await VerbThesaurus.LoadAsync();
-                   s.Stop();
-                   Output.WriteLine("VerbThesausus Loaded in{0}", s.ElapsedMilliseconds);
-               }));
+        private static async Task LoadAllTaskParallell()
+        {
 
-            sw.Stop();
-            Output.WriteLine("Async TPLI loading took {0} milliseconds", sw.ElapsedMilliseconds);
+            await Task.WhenAll(
+               Task.Run(async () => await NounThesaurus.LoadAsync()),
+               Task.Run(async () => await AdverbThesaurus.LoadAsync()),
+               Task.Run(async () => await AdjectiveThesaurus.LoadAsync()),
+               Task.Run(async () => await VerbThesaurus.LoadAsync())
+               );
+
+
         }
 
         #endregion
@@ -250,6 +258,7 @@ namespace LASI.Algorithm.Thesauri
         private static ConcurrentDictionary<string, IEnumerable<string>> cachedVerbData = new ConcurrentDictionary<string, IEnumerable<string>>();
         private static ConcurrentDictionary<string, IEnumerable<string>> cachedAdjectiveData = new ConcurrentDictionary<string, IEnumerable<string>>();
         private static ConcurrentDictionary<string, IEnumerable<string>> cachedAdverbData = new ConcurrentDictionary<string, IEnumerable<string>>();
+        private const double SIMILARITY_THRESHOLD = 0.6;
 
         #endregion
 
