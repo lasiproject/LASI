@@ -56,7 +56,7 @@ namespace LASI.Algorithm.Thesauri
             //Aluan: This line gets extracts word category info I noticed was present in the DB files
             //Erik:  Gotcha, I'll try to decipher its meaning.
 
-            WordNetNounCategory lexCategory = (WordNetNounCategory) Int32.Parse(line.Substring(9, 2));
+            WordNetNounCategory lexCategory = (WordNetNounCategory)Int32.Parse(line.Substring(9, 2));
 
             String frontPart = line.Split('|', '!')[0];
             MatchCollection numbers = Regex.Matches(frontPart, @"(?<id>\d{8})");
