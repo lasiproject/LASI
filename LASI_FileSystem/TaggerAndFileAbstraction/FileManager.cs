@@ -21,7 +21,8 @@ namespace LASI.FileSystem
         /// Automatically loads existing files and sets up input paths
         /// </summary>
         /// <param name="projectDir">The realRoot directory of the current project</param>
-        public static void Initialize(string projectDir) {
+        public static void Initialize(string projectDir)
+        {
             ProjectName = projectDir.Substring(projectDir.LastIndexOf('\\') + 1);
             ProjectDir = projectDir;
             InitializeDirProperties();
@@ -29,7 +30,8 @@ namespace LASI.FileSystem
             Initialized = true;
         }
 
-        private static void InitializeDirProperties() {
+        private static void InitializeDirProperties()
+        {
             InputFilesDir = ProjectDir + @"\input";
             DocFilesDir = InputFilesDir + @"\doc";
             DocxFilesDir = InputFilesDir + @"\docx";
@@ -43,7 +45,8 @@ namespace LASI.FileSystem
         /// <summary>
         /// Checks the existing contents of the current project directory and automatically loads the files it finds. Called by initialize
         /// </summary>
-        private static void CheckProjectDirs() {
+        private static void CheckProjectDirs()
+        {
             CheckProjectDirExistence();
             CheckForInputDirectories();
         }
@@ -51,7 +54,8 @@ namespace LASI.FileSystem
         /// <summary>
         /// Checks for the existence of the extension statiffied input file project subject-directories and creates them if they do not exist.
         /// </summary>
-        private static void CheckForInputDirectories() {
+        private static void CheckForInputDirectories()
+        {
             foreach (var docPath in Directory.EnumerateFiles(DocFilesDir, "*.doc"))
                 docFiles.Add(new DocFile(docPath));
             foreach (var docPath in Directory.EnumerateFiles(DocxFilesDir, "*.docx"))
@@ -66,7 +70,8 @@ namespace LASI.FileSystem
         /// <summary>
         /// Checks for the existence of the project subject-directories and creates them if they do not exist.
         /// </summary>
-        private static void CheckProjectDirExistence() {
+        private static void CheckProjectDirExistence()
+        {
             //if (Directory.Exists(ProjectDir)) {
             //    BackupProject();
             //}
@@ -91,7 +96,8 @@ namespace LASI.FileSystem
         /// </summary>
         /// <param name="filePath">A partial or full, extensionless or extensionful, file newPath containing the name of the file to check.</param>
         /// <returns>False if a file with the same name, irrespective of its extension, is part of the project. False otherwise.</returns>
-        public static bool FileInProject(string filePath) {
+        public static bool FileInProject(string filePath)
+        {
             var fileName = new string(
                 filePath.Reverse().
                 SkipWhile(c => c != '.').
@@ -104,11 +110,13 @@ namespace LASI.FileSystem
         /// </summary>
         /// <param name="filePath">An an Instance of the InputFile class or one of its descendents.</param>
         /// <returns>False if a file with the same name, irrespective of it's extension, is part of the project. False otherwise.</returns>
-        public static bool FileInProject(InputFile inputFile) {
+        public static bool FileInProject(InputFile inputFile)
+        {
             return !FileInProjectSet(inputFile.NameSansExt);
         }
 
-        private static bool FileInProjectSet(string fileName) {
+        private static bool FileInProjectSet(string fileName)
+        {
             return localDocumentNames.Contains(fileName);
         }
 
@@ -117,7 +125,8 @@ namespace LASI.FileSystem
         /// <summary>
         /// Performs the necessary conversions, based on the format of all files within the project.
         /// </summary>
-        public static void ConvertAsNeeded() {
+        public static void ConvertAsNeeded()
+        {
             ConvertDocFiles();
             ConvertDocxToText();
             TagTextFiles();
@@ -126,7 +135,8 @@ namespace LASI.FileSystem
         /// <summary>
         /// Asynchronously performs the necessary conversions, based on the format of all files within the project.
         /// </summary>
-        public static async Task ConvertAsNeededAsync() {
+        public static async Task ConvertAsNeededAsync()
+        {
             await Task.WhenAll(
                 ConvertDocxToTextAsync(),
                 ConvertPdfFilesAsync()
@@ -137,23 +147,28 @@ namespace LASI.FileSystem
 
         #region List Insertion Overloads
 
-        static void AddToTypedList(DocXFile file) {
+        static void AddToTypedList(DocXFile file)
+        {
             docXFiles.Add(file);
 
         }
-        static void AddToTypedList(DocFile file) {
+        static void AddToTypedList(DocFile file)
+        {
             docFiles.Add(file);
 
         }
-        static void AddToTypedList(TextFile file) {
+        static void AddToTypedList(TextFile file)
+        {
             textFiles.Add(file);
 
         }
-        static void AddToTypedList(PdfFile file) {
+        static void AddToTypedList(PdfFile file)
+        {
             pdfFiles.Add(file);
 
         }
-        static void AddToTypedList(TaggedFile file) {
+        static void AddToTypedList(TaggedFile file)
+        {
             taggedFiles.Add(file);
 
         }
@@ -163,7 +178,8 @@ namespace LASI.FileSystem
         /// Removes all files, regardless of extension, whose names do not match any of the names in the provided collection of file path strings.
         /// </summary>
         /// <param name="filesToKeep">collction of file path strings indicating which files are not to be culled. All others will summarilly executed.</param>
-        public static void RemoveAllNotIn(IEnumerable<string> filesToKeep) {
+        public static void RemoveAllNotIn(IEnumerable<string> filesToKeep)
+        {
             RemoveAllNotIn(from f in filesToKeep
                            select f.IndexOf('.') > 0 ? WrapperMap[f.Substring(f.LastIndexOf('.'))](f) : new TextFile(f));
         }
@@ -171,18 +187,20 @@ namespace LASI.FileSystem
         /// Removes all files, regardless of extension, whose names do not match any of the names in the provided collection of InputFile objects.
         /// </summary>
         /// <param name="filesToKeep">collection of InputFile objects indicating which files are not to be culled. All others will summarilly executed.</param>
-        public static void RemoveAllNotIn(IEnumerable<InputFile> filesToKeep) {
+        public static void RemoveAllNotIn(IEnumerable<InputFile> filesToKeep)
+        {
             var toRemove = from f in localDocumentNames
                            where (from k in filesToKeep
                                   where f == k.NameSansExt
-                                  select k).Count() > 0
+                                  select k).Any()
                            select f;
             foreach (var f in toRemove) {
                 RemoveAllAlikeFiles(f);
             }
         }
 
-        private static void RemoveAllAlikeFiles(string fileName) {
+        private static void RemoveAllAlikeFiles(string fileName)
+        {
             textFiles.RemoveAll(f => f.NameSansExt == fileName);
             docFiles.RemoveAll(f => f.NameSansExt == fileName);
             docXFiles.RemoveAll(f => f.NameSansExt == fileName);
@@ -195,7 +213,8 @@ namespace LASI.FileSystem
         /// <param name="path">The path string of the document file to add to the project</param>
         /// <param name="overwrite">True to overwrite existing documents within the project with the same name, False otherwise. Defaults to False</param>
         /// <returns>An InputFile object which acts as a wrapper around the project relative path of the newly added file.</returns>
-        public static InputFile AddFile(string path, bool overwrite = false) {
+        public static InputFile AddFile(string path, bool overwrite = false)
+        {
             var ext = path.Substring(path.LastIndexOf('.')).ToLower();
             try {
                 var originalFile = FileManager.WrapperMap[ext](path);
@@ -213,7 +232,8 @@ namespace LASI.FileSystem
                 localDocumentNames.Add(newFile.NameSansExt);
                 AddToTypedList(newFile as dynamic);
                 return originalFile;
-            } catch (KeyNotFoundException ex) {
+            }
+            catch (KeyNotFoundException ex) {
                 throw new UnsupportedFileTypeAddedException(ext, ex);
             }
         }
@@ -222,25 +242,31 @@ namespace LASI.FileSystem
         /// Removes the document represented by InputFile object from the project
         /// </summary>
         /// <param name="file">The document to remove</param>
-        public static void RemoveFile(InputFile file) {
+        public static void RemoveFile(InputFile file)
+        {
             RemoveAllAlikeFiles(file.NameSansExt);
 
             RemoveFile(file as dynamic);
         }
-        public static void RemoveFile(string file) {
+        public static void RemoveFile(string file)
+        {
             RemoveAllAlikeFiles(file);
         }
 
-        static void RemoveFile(TextFile file) {
+        static void RemoveFile(TextFile file)
+        {
             textFiles.Remove(file);
         }
-        static void RemoveFile(DocFile file) {
+        static void RemoveFile(DocFile file)
+        {
             docFiles.Remove(file);
         }
-        static void RemoveFile(DocXFile file) {
+        static void RemoveFile(DocXFile file)
+        {
             docXFiles.Remove(file);
         }
-        static void RemoveFile(PdfFile file) {
+        static void RemoveFile(PdfFile file)
+        {
             pdfFiles.Remove(file);
         }
         /// <summary>
@@ -249,7 +275,8 @@ namespace LASI.FileSystem
         /// Results are stored in corresponding project directory
         /// </summary>
         /// <param name="files">0 or more instances of the DocFile class which encapsulate .doc files</param>
-        public static void ConvertDocFiles(params DocFile[] files) {
+        public static void ConvertDocFiles(params DocFile[] files)
+        {
             if (files.Length == 0)
                 files = docFiles.ToArray();
             foreach (var doc in from d in files
@@ -269,7 +296,8 @@ namespace LASI.FileSystem
         /// Results are stored in corresponding project directory
         /// </summary>
         /// <param name="files">0 or more instances of the DocFile class which encapsulate .doc files</param>
-        public static async Task ConvertDocFilesAsync(params DocFile[] files) {
+        public static async Task ConvertDocFilesAsync(params DocFile[] files)
+        {
             if (files.Length == 0)
                 files = docFiles.ToArray();
             foreach (var doc in from d in files
@@ -283,7 +311,8 @@ namespace LASI.FileSystem
             }
         }
 
-        public static void ConvertPdfToText(params PdfFile[] files) {
+        public static void ConvertPdfToText(params PdfFile[] files)
+        {
             if (files.Length == 0)
                 files = pdfFiles.ToArray();
             foreach (var pdf in from file in files
@@ -298,7 +327,8 @@ namespace LASI.FileSystem
             }
         }
 
-        public static async Task ConvertPdfFilesAsync(params PdfFile[] files) {
+        public static async Task ConvertPdfFilesAsync(params PdfFile[] files)
+        {
             if (files.Length == 0)
                 files = pdfFiles.ToArray();
             foreach (var pdf in from file in files
@@ -320,7 +350,8 @@ namespace LASI.FileSystem
         /// Results are stored in corresponding project directory
         /// </summary>
         /// <param name="files">0 or more instances of the DocXFile class which encapsulate .docx files</param>
-        public static void ConvertDocxToText(params DocXFile[] files) {
+        public static void ConvertDocxToText(params DocXFile[] files)
+        {
             if (files.Length == 0)
                 files = docXFiles.ToArray();
             foreach (var doc in from d in files
@@ -340,7 +371,8 @@ namespace LASI.FileSystem
         /// Results are stored in corresponding project directory
         /// </summary>
         /// <param name="files">0 or more instances of the DocXFile class which encapsulate .docx files</param>
-        public static async Task ConvertDocxToTextAsync(params DocXFile[] files) {
+        public static async Task ConvertDocxToTextAsync(params DocXFile[] files)
+        {
             if (files.Length == 0)
                 files = docXFiles.ToArray();
             foreach (var doc in from d in files
@@ -353,7 +385,8 @@ namespace LASI.FileSystem
             }
         }
 
-        private static async Task TextConvertAsync(DocXFile doc) {
+        private static async Task TextConvertAsync(DocXFile doc)
+        {
             var converted = await new DocxToTextConverter(doc).ConvertFileAsync();
 
             AddFile(converted.FullPath);
@@ -365,7 +398,8 @@ namespace LASI.FileSystem
         /// Results are stored in corresponding project directory
         /// </summary>
         /// <param name="files">0 or more instances of the TextFile class which encapsulate text files</param>
-        public static void TagTextFiles(params TextFile[] files) {
+        public static void TagTextFiles(params TextFile[] files)
+        {
             if (files.Length == 0)
                 files = textFiles.ToArray();
             foreach (var doc in from d in files
@@ -386,7 +420,8 @@ namespace LASI.FileSystem
         /// Results are stored in corresponding project directory
         /// </summary>
         /// <param name="files">0 or more instances of the TextFile class which encapsulate text files</param>
-        public static async Task TagTextFilesAsync(params TextFile[] files) {
+        public static async Task TagTextFilesAsync(params TextFile[] files)
+        {
             if (files.Length == 0)
                 files = textFiles.ToArray();
             var tasks = (from d in files
@@ -398,7 +433,7 @@ namespace LASI.FileSystem
                              new SharpNLPTaggingModule.SharpNLPTagger(TaggingOption.TagAndAggregate, d.FullPath, TaggedFilesDir + "\\" + d.NameSansExt + ".tagged").ProcessFileAsync()).ToList();
 
 
-            while (tasks.Count() > 0) {
+            while (tasks.Any()) {
                 var tagged = await Task.WhenAny(tasks);
                 tasks.Remove(tagged);
                 taggedFiles.Add(await tagged);
@@ -411,7 +446,8 @@ namespace LASI.FileSystem
         /// <summary>
         /// Copies the entire contents of the current project directory to a predetermined, relative path
         /// </summary>
-        public static void BackupProject() {
+        public static void BackupProject()
+        {
             var projd = new DirectoryInfo(ProjectDir);
             var pard = new DirectoryInfo(projd.Parent.FullName);
             var desitination = Directory.CreateDirectory(pard.FullName + "\\backup\\" + ProjectName);
@@ -421,7 +457,8 @@ namespace LASI.FileSystem
                 file.CopyTo(desitination.FullName + "\\" + file.Directory.Parent.Name + "\\" + file.Directory.Name + "\\" + file.Name, true);
             }
         }
-        public static void DecimateProject() {
+        public static void DecimateProject()
+        {
             Directory.Delete(ProjectDir, true);
         }
         #endregion
@@ -431,7 +468,8 @@ namespace LASI.FileSystem
         /// <summary>
         /// Gets the Absolute Path of Current Project Folder of the current project directory
         /// </summary>
-        public static string ProjectDir {
+        public static string ProjectDir
+        {
             get;
             private set;
         }
@@ -439,21 +477,24 @@ namespace LASI.FileSystem
         /// Gets the name of the current project.
         /// This will be the project name displayed to the user and it corresponds to the project's top level directory
         /// </summary>
-        public static string ProjectName {
+        public static string ProjectName
+        {
             get;
             private set;
         }
         /// <summary>
         /// Gets the realRoot of the input file directory
         /// </summary>
-        public static string InputFilesDir {
+        public static string InputFilesDir
+        {
             get;
             private set;
         }
         /// <summary>
         /// Gets the newPath of the analysis directory which stores temporary files during analysis
         /// </summary>
-        public static string AnalysisDir {
+        public static string AnalysisDir
+        {
             get;
             private set;
         }
@@ -461,7 +502,8 @@ namespace LASI.FileSystem
         /// <summary>
         /// Gets the result files directory
         /// </summary>
-        public static string ResultsDir {
+        public static string ResultsDir
+        {
             get;
             private set;
         }
@@ -469,14 +511,16 @@ namespace LASI.FileSystem
         /// <summary>
         /// Gets the .tagged files directory
         /// </summary>
-        public static string TaggedFilesDir {
+        public static string TaggedFilesDir
+        {
             get;
             private set;
         }
         /// <summary>
         /// Gets the .doc files directory
         /// </summary>
-        public static string DocFilesDir {
+        public static string DocFilesDir
+        {
             get;
             private set;
         }
@@ -484,14 +528,16 @@ namespace LASI.FileSystem
         /// <summary>
         /// Gets the .pdf files directory
         /// </summary>
-        public static string PdfFilesDir {
+        public static string PdfFilesDir
+        {
             get;
             private set;
         }
         /// <summary>
         /// Gets the .docx files directory
         /// </summary>
-        public static string DocxFilesDir {
+        public static string DocxFilesDir
+        {
             get;
             private set;
         }
@@ -499,7 +545,8 @@ namespace LASI.FileSystem
         /// <summary>
         /// Gets the .txt files directory
         /// </summary>
-        public static string TextFilesDir {
+        public static string TextFilesDir
+        {
             get;
             private set;
         }
@@ -509,8 +556,10 @@ namespace LASI.FileSystem
         /// Gets the list of TextFile instances which represent all *.txt files which are included in the project. 
         /// TextFile instances are wrapper objects which provide discrete accessors to relevant *.txt file properties.
         /// </summary>
-        public static IReadOnlyList<TextFile> TextFiles {
-            get {
+        public static IReadOnlyList<TextFile> TextFiles
+        {
+            get
+            {
                 return FileManager.textFiles;
             }
         }
@@ -518,8 +567,10 @@ namespace LASI.FileSystem
         /// Gets the list of DocXFile instances which represent all *.docx files which are included in the project. 
         /// DocXFile instances are wrapper objects which provide discrete accessors to relevant *.docx file properties.
         /// </summary>
-        public static IReadOnlyList<DocXFile> DocXFiles {
-            get {
+        public static IReadOnlyList<DocXFile> DocXFiles
+        {
+            get
+            {
                 return FileManager.docXFiles;
             }
         }
@@ -527,8 +578,10 @@ namespace LASI.FileSystem
         /// Gets the list of DocFile instances which represent all *.doc files which are included in the project. 
         /// DocFile instances are wrapper objects which provide discrete accessors to relevant *.doc file properties.
         /// </summary>
-        public static IReadOnlyList<DocFile> DocFiles {
-            get {
+        public static IReadOnlyList<DocFile> DocFiles
+        {
+            get
+            {
                 return FileManager.DocFiles;
             }
         }
@@ -536,8 +589,10 @@ namespace LASI.FileSystem
         /// Gets the list of PdfFile instances which represent all *.pdf files which are included in the project. 
         /// PdfFile instances are wrapper objects which provide discrete accessors to relevant *.doc file properties.
         /// </summary>
-        public static IReadOnlyList<PdfFile> PdfFiles {
-            get {
+        public static IReadOnlyList<PdfFile> PdfFiles
+        {
+            get
+            {
                 return FileManager.pdfFiles;
             }
         }
@@ -550,7 +605,8 @@ namespace LASI.FileSystem
 
         #region Fields
 
-        public static bool Initialized {
+        public static bool Initialized
+        {
             get;
             set;
         }
@@ -567,11 +623,14 @@ namespace LASI.FileSystem
 
         static List<TaggedFile> taggedFiles = new List<TaggedFile>();
 
-        public static List<TaggedFile> TaggedFiles {
-            get {
+        public static List<TaggedFile> TaggedFiles
+        {
+            get
+            {
                 return FileManager.taggedFiles;
             }
-            set {
+            set
+            {
                 FileManager.taggedFiles = value;
             }
         }
@@ -585,7 +644,8 @@ namespace LASI.FileSystem
     class UnsupportedFileTypeAddedException : FileSystemException
     {
         public UnsupportedFileTypeAddedException(string unsupportedFormat)
-            : this(unsupportedFormat, null) {
+            : this(unsupportedFormat, null)
+        {
         }
         public UnsupportedFileTypeAddedException(string unsupportedFormat, Exception inner)
             : base(
@@ -593,12 +653,14 @@ namespace LASI.FileSystem
             "Files of type \"{0}\" are not supported. Supported types are {1}, {2}, {3}, and {4}",
             unsupportedFormat,
             from k in FileManager.WrapperMap.Keys.Take(4)
-            select k), inner) {
+            select k), inner)
+        {
 
         }
 
         public UnsupportedFileTypeAddedException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
-            : base(info, context) {
+            : base(info, context)
+        {
         }
     }
     #region Helper Types
@@ -612,11 +674,14 @@ namespace LASI.FileSystem
                 { "docx" , p => new DocXFile(p) },
                 { "pdf" , p=> new PdfFile(p) },
                 { "tagged" , p => new TaggedFile(p) }
-        }) {
+        })
+        {
         }
 
-        public new Func<string, InputFile> this[string fileExtension] {
-            get {
+        public new Func<string, InputFile> this[string fileExtension]
+        {
+            get
+            {
                 return base[fileExtension.Replace(".", "")];
             }
         }
@@ -629,33 +694,40 @@ namespace LASI.FileSystem
     {
 
         protected FileManagerException(string message)
-            : base(message) {
+            : base(message)
+        {
             CollectDirInfo();
         }
 
         protected FileManagerException(string message, Exception inner)
-            : base(message, inner) {
+            : base(message, inner)
+        {
             CollectDirInfo();
         }
 
 
         public FileManagerException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
-            : base(info, context) {
+            : base(info, context)
+        {
             CollectDirInfo();
         }
 
-        protected virtual void CollectDirInfo() {
+        protected virtual void CollectDirInfo()
+        {
             filesInProjectDirectories = from internalFile in new DirectoryInfo(FileManager.ProjectDir).EnumerateFiles("*", SearchOption.AllDirectories)
                                         select FileManager.WrapperMap[internalFile.Extension](internalFile.FullName);
         }
 
         private IEnumerable<InputFile> filesInProjectDirectories = new List<InputFile>();
 
-        public IEnumerable<InputFile> FilesInProjectDirectories {
-            get {
+        public IEnumerable<InputFile> FilesInProjectDirectories
+        {
+            get
+            {
                 return filesInProjectDirectories;
             }
-            protected set {
+            protected set
+            {
                 filesInProjectDirectories = value;
             }
         }
@@ -666,18 +738,21 @@ namespace LASI.FileSystem
     {
 
         protected FileSystemException(string message)
-            : base(message) {
+            : base(message)
+        {
 
         }
 
         protected FileSystemException(string message, Exception inner)
-            : base(message, inner) {
+            : base(message, inner)
+        {
 
         }
 
 
         public FileSystemException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
-            : base(info, context) {
+            : base(info, context)
+        {
         }
     }
 
@@ -687,7 +762,8 @@ namespace LASI.FileSystem
 
     internal static class InputFileExtensions
     {
-        public static dynamic AsDynamic(this InputFile inputFile) {
+        public static dynamic AsDynamic(this InputFile inputFile)
+        {
             return inputFile;
         }
     }

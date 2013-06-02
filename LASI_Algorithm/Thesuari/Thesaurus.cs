@@ -24,25 +24,26 @@ namespace LASI.Algorithm.Thesauri
 
         public static Task<string>[] GetThesaurusTasks()
         {
-            return new[]{Task.Run(async () =>
-                 {
-                     await VerbThesaurus.LoadAsync();
-                     return "Verb Thesaurus Done";
-                 }),
-                 Task.Run(async () =>
+            return new[]{
+                Task.Run(async () =>
                  {
                      await NounThesaurus.LoadAsync();
-                     return "Noun Thesaurus Done";
+                     return "Noun Thesaurus Loaded";
+                 }),
+                Task.Run(async () =>
+                 {
+                     await VerbThesaurus.LoadAsync();
+                     return "Verb Thesaurus Loaded";
                  }),
                  Task.Run(async () =>
                  {
                      await AdverbThesaurus.LoadAsync();
-                     return "Adverb Thesaurus Done";
+                     return "Adverb Thesaurus Loaded";
                  }),
                  Task.Run(async () =>
                  {
                      await AdjectiveThesaurus.LoadAsync();
-                     return "Adjective Thesaurus Done";
+                     return "Adjective Thesaurus Loaded";
                  }) 
                  };
         }

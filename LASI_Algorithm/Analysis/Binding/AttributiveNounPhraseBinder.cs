@@ -10,7 +10,8 @@ namespace LASI.Algorithm.Binding
     public class AttributiveNounPhraseBinder
     {
         private IEnumerable<IEnumerable<Phrase>> contiguosNounPhrases;
-        public AttributiveNounPhraseBinder(IEnumerable<Phrase> phrases) {
+        public AttributiveNounPhraseBinder(IEnumerable<Phrase> phrases)
+        {
 
             contiguosNounPhrases = FindContiguousNps(phrases);
             foreach (var cnps in contiguosNounPhrases) {
@@ -18,7 +19,8 @@ namespace LASI.Algorithm.Binding
             }
         }
 
-        private void ProcessContiguous(IEnumerable<Phrase> cnps) {
+        private void ProcessContiguous(IEnumerable<Phrase> cnps)
+        {
             foreach (var prepPhrase in cnps.GetPrepositionalPhrases()) {
                 ProcessLinkingPrepositionalPhrase(prepPhrase);
             }
@@ -35,7 +37,8 @@ namespace LASI.Algorithm.Binding
             }
         }
 
-        private static void ProcessLinkingPrepositionalPhrase(PrepositionalPhrase prepPhrase) {
+        private static void ProcessLinkingPrepositionalPhrase(PrepositionalPhrase prepPhrase)
+        {
             prepPhrase.PreviousPhrase.PrepositionOnLeft = prepPhrase;
 
             prepPhrase.NextPhrase.PrepositionOnRight = prepPhrase;
@@ -46,13 +49,15 @@ namespace LASI.Algorithm.Binding
             prepPhrase.PrepositionalRole = PrepositionalRole.DiscriptiveLinker;
         }
         public AttributiveNounPhraseBinder(Sentence sentence)
-            : this(sentence.Phrases) {
+            : this(sentence.Phrases)
+        {
         }
 
-        private IEnumerable<IEnumerable<Phrase>> FindContiguousNps(IEnumerable<Phrase> phrases) {
+        private IEnumerable<IEnumerable<Phrase>> FindContiguousNps(IEnumerable<Phrase> phrases)
+        {
             var result = new List<IEnumerable<Phrase>>();
             var temp = phrases;
-            while (temp.Count() > 0) {
+            while (temp.Any()) {
 
                 result.Add(temp.TakeWhile(n => n is NounPhrase || ((n is PrepositionalPhrase || n.Words.Count(w => w is Punctuation) == n.Words.Count()) && n.NextPhrase is NounPhrase && n.PreviousPhrase is NounPhrase)));
                 temp = temp.SkipWhile(n => !(n is NounPhrase)).Skip(result.Last().Count()).ToList();
@@ -67,7 +72,8 @@ namespace LASI.Algorithm.Binding
 
     internal static class NounPhraseExtensions
     {
-        internal static Determiner GetLeadingDeterminer(this NounPhrase nounPhrase) {
+        internal static Determiner GetLeadingDeterminer(this NounPhrase nounPhrase)
+        {
             return nounPhrase.Words.FirstOrDefault(w => w is Determiner) as Determiner;
         }
     }

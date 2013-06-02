@@ -57,7 +57,7 @@
                 </Button>
                 <Button x:Name="changeToAreaChartButton" Content="Button" Height="45" Canvas.Left="58" Canvas.Top="94" Width="53" Visibility="Hidden" />
                 <Button x:Name="changeToLineChartButton" Content="Button" Height="35" Canvas.Left="98" Canvas.Top="189" Width="35" Visibility="Hidden" />
-                <Button x:Name="documentJoinButton" Content="Cross Join" Canvas.Left="27" Canvas.Top="10" Width="75" Click="joinButton_Click" />
+                <Button x:Name="documentJoinButton" Content="Cross Join" Canvas.Left="27" Canvas.Top="10" Width="75" Click="documentJoinButton_Click" />
 
             </Canvas>
         </Grid>
@@ -92,7 +92,11 @@
                     <TabControl x:Name="SVODResultsTabControl" />
                 </Grid>
             </TabItem>
-
+            <TabItem x:Name="metaViewTab" Header="MetaView" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="73" Margin="-2,-2,-14,0">
+                <Grid Background="#FFE5E5E5">
+                    <Custom:DataGrid x:Name="metaRelationshipsDataGrid" />
+                </Grid>
+            </TabItem>
 
         </TabControl>
     </Grid>

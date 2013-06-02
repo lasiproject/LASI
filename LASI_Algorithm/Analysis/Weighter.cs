@@ -169,11 +169,13 @@ namespace LASI.Algorithm.Weighting
                                    word.Text
                                };
 
-            foreach (var grp in wordsByCount) {
+            wordsByCount.ForAll(
+            grp =>
+            {
                 foreach (var w in grp) {
                     w.Weight = grp.Count();
                 }
-            }
+            });
         }
 
         /// <summary>

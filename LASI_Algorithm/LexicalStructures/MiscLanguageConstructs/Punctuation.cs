@@ -12,7 +12,8 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="puncChar">The punctuation character symbol.</param>
         public Punctuation(char puncChar)
-            : base(puncChar.ToString()) {
+            : base(puncChar.ToString())
+        {
             ActualCharacter = puncChar;
 
             AliasString = PUNCTUATION_ALIAS_MAP[ActualCharacter];
@@ -24,7 +25,8 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="puncString">Text which is an alias for a punctuator character. e.g. "LEFT_SQUARE_BRACKET"</param>
         public Punctuation(string puncString)
-            : base(puncString) {
+            : base(puncString)
+        {
             AliasString = puncString;
             //try {
             ActualCharacter = PUNCTUATION_ALIAS_MAP[AliasString];
@@ -34,19 +36,24 @@ namespace LASI.Algorithm
             //}
 
         }
-        public char ActualCharacter {
+        public char ActualCharacter
+        {
             get;
             protected set;
         }
-        public string AliasString {
+        public string AliasString
+        {
             get;
             protected set;
         }
-        public override string Text {
-            get {
+        public override string Text
+        {
+            get
+            {
                 return ActualCharacter.ToString();
             }
-            protected set {
+            protected set
+            {
                 base.Text = value;
             }
         }
@@ -70,8 +77,10 @@ namespace LASI.Algorithm
             { "PERIOD_CHARACTER_SYMBOL", '.' },
             { "END_OF_PARAGRAPH", '\n' }
         };
-        public virtual char this[string alias] {
-            get {
+        public virtual char this[string alias]
+        {
+            get
+            {
                 char result;
                 if (aliasMap.TryGetValue(alias, out result))
                     return result;
@@ -79,12 +88,14 @@ namespace LASI.Algorithm
                     return ' ';
             }
         }
-        public virtual string this[char actual] {
-            get {
+        public virtual string this[char actual]
+        {
+            get
+            {
                 var alias = from KV in aliasMap
                             where KV.Value == actual
                             select KV.Key;
-                return alias.Count() > 0 ? alias.First() : actual.ToString();
+                return alias.Any() ? alias.First() : actual.ToString();
             }
         }
 

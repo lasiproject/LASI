@@ -11,24 +11,29 @@ namespace LASI.FileSystem.TaggerEncapsulation
 {
     public class ExperimentalTaggedParser : TagParser
     {
-        public ExperimentalTaggedParser(TaggedFile file) {
+        public ExperimentalTaggedParser(TaggedFile file)
+        {
             TaggededDocumentFile = file;
             FilePath = TaggededDocumentFile.FullPath;
             TaggedInputData = LoadDocumentFile();
         }
-        public ExperimentalTaggedParser(string taggedText) {
+        public ExperimentalTaggedParser(string taggedText)
+        {
             TaggedInputData = taggedText;
         }
-        private string LoadDocumentFile() {
+        private string LoadDocumentFile()
+        {
             using (var reader = new StreamReader(FilePath, Encoding.UTF8)) {
                 return reader.ReadToEnd();
             }
         }
-        public override Document LoadDocument() {
+        public override Document LoadDocument()
+        {
             throw new NotImplementedException();
         }
 
-        public override IEnumerable<Paragraph> LoadParagraphs() {
+        public override IEnumerable<Paragraph> LoadParagraphs()
+        {
 
             var textParagraphs = ParseParagraphs(TaggedInputData);
             foreach (var paraText in textParagraphs) {
@@ -39,7 +44,8 @@ namespace LASI.FileSystem.TaggerEncapsulation
             throw new NotImplementedException();
         }
 
-        private Paragraph CreateParagraph(string paraText) {
+        private Paragraph CreateParagraph(string paraText)
+        {
             var sentences = BreakSentences(paraText);
             foreach (var sentence in sentences) {
                 Sentence sent = CreateSentence(sentence);
@@ -47,7 +53,8 @@ namespace LASI.FileSystem.TaggerEncapsulation
             throw new NotImplementedException();
         }
 
-        private Sentence CreateSentence(string sentence) {
+        private Sentence CreateSentence(string sentence)
+        {
             var clauses = new List<Clause>();
             var begin = sentence.IndexOfAny(new[] { ' ', '\r', '\t', '\n' });
             for (; ; ) {
@@ -61,7 +68,8 @@ namespace LASI.FileSystem.TaggerEncapsulation
             throw new NotImplementedException();
         }
 
-        private Clause CreateClause(string data) {
+        private Clause CreateClause(string data)
+        {
             Console.WriteLine(data);
             var phrases = new List<Phrase>();
             while (data.Contains("(")) {
@@ -71,21 +79,23 @@ namespace LASI.FileSystem.TaggerEncapsulation
             throw new NotImplementedException();
         }
 
-        private int FindEndOfClause(string data) {
+        private int FindEndOfClause(string data)
+        {
             var clauseTagDelims = new[] { "(S", "(SBAR", "SBARQ", "(SQ", "(SINV" };
             var indeces = from D in clauseTagDelims
                           let I = data.IndexOf(D)
                           where I > -1
                           orderby I ascending
                           select I;
-            if (indeces.Count() > 0) {
+            if (indeces.Any()) {
                 return indeces.First();
             } else {
                 return data.Length;
             }
         }
 
-        private IEnumerable<string> BreakSentences(string paraText) {
+        private IEnumerable<string> BreakSentences(string paraText)
+        {
             return paraText.Split(new[] { "(TOP" }, StringSplitOptions.RemoveEmptyEntries).AsEnumerable().Select(s => s.Trim());
         }
 

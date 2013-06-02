@@ -47,7 +47,7 @@ namespace LASI.Algorithm
              * But when I comment it out my program works.
              * - Scott
              */
-            if (internalKinds.Count() > 0)
+            if (internalKinds.Any())
                 EntityKind = internalKinds.First().Key;
         }
 
@@ -90,7 +90,7 @@ namespace LASI.Algorithm
         public override string ToString()
         {
             var result = base.ToString();
-            if (Phrase.VerboseOutput && Possessed.Count() > 0) {
+            if (Phrase.VerboseOutput && Possessed.Any()) {
                 result += "\n\tpossessions:\n";
                 foreach (var s in Possessed) {
                     result += s + "\n";

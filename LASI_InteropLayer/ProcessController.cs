@@ -33,12 +33,13 @@ namespace LASI.InteropLayer
         {
             ProgressBar = progressBar;
             ProgressLabel = progressLabel;
-            progressBar.Value = 2;
-            await LoadThesaurus(progressBar);
-            progressBar.Value = 22;
             UpdateProgressDisplay("Tagging Documents");
 
             await FileManager.TagTextFilesAsync();
+            progressBar.Value = 10;
+            await LoadThesaurus(progressBar);
+
+
             progressBar.Value += 5;
 
             documentStepRatio = 19f / FileManager.TextFiles.Count();
