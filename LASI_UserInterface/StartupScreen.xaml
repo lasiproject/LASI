@@ -22,13 +22,13 @@
             <TextBlock TextWrapping="Wrap" FontSize="27" Canvas.Left="159" FontFamily="Segoe Print" Text="Create New Project" Foreground="#FFC21300" FontWeight="Bold" Margin="34,28,322,0" Height="50" VerticalAlignment="Top" />
 
             <TextBlock Height="16" Canvas.Left="42" TextWrapping="Wrap" Text="Name:" Canvas.Top="154" TextAlignment="Left" LineHeight="6" Margin="30,117,577,0" VerticalAlignment="Top" FontFamily="Segoe UI Semilight" />
-            <TextBox x:Name="ProjectNameTextBox" Canvas.Left="178" TextWrapping="Wrap" Canvas.Top="54" MaxLines="1" TextChanged="EnteredProjectName_TextChanged" Margin="109,117,404,0" Height="19" VerticalAlignment="Top" FontSize="12" UseLayoutRounding="True" />
+            <TextBox x:Name="ProjectNameTextBox" Canvas.Left="178" TextWrapping="Wrap" Canvas.Top="54" MaxLines="1" TextChanged="EnteredProjectName_TextChanged" Margin="109,117,342,0" Height="19" VerticalAlignment="Top" FontSize="12" UseLayoutRounding="True" />
             <Label x:Name="ProjNameErrorLabel" Content="*" Canvas.Left="150" Canvas.Top="52" Width="14" Foreground="Red" Visibility="Visible" Margin="92,116,550,162" />
             <Image x:Name="ProjNameErrorImage" HorizontalAlignment="Left" Height="78" Margin="352,28,0,0" VerticalAlignment="Top" Width="271" Source="MiscImages\NameErrorImage.png" Visibility="Hidden" />
 
             <TextBlock Height="16" Canvas.Left="42" TextWrapping="Wrap" Text="Location:" Canvas.Top="91" TextAlignment="Left" LineHeight="6" Margin="30,148,577,0" VerticalAlignment="Top" RenderTransformOrigin="-0.017,0.48" FontFamily="Segoe UI Semilight" />
             <TextBox x:Name="LocationTextBox" Canvas.Left="178" Canvas.Top="89" MaxLines="1" Margin="109,147,342,0" Height="19" VerticalAlignment="Top" FontSize="12" />
-            <Button x:Name="SelectProjFolderButton" Content="Browse" Canvas.Left="434" Canvas.Top="87" RenderTransformOrigin="0.5,0.5" Click="SelectProjFolderButton_Click" Margin="319,144,294,0" Height="22" FontSize="10" FontFamily="Segoe UI Semilight" VerticalAlignment="Top" Style="{DynamicResource BrowseButton}" />
+            <Button x:Name="SelectProjFolderButton" Content="Change" Canvas.Left="434" Canvas.Top="87" RenderTransformOrigin="0.5,0.5" Click="SelectProjFolderButton_Click" Margin="319,144,294,0" Height="22" FontSize="10" FontFamily="Segoe UI Semilight" VerticalAlignment="Top" Style="{DynamicResource BrowseButton}" />
             <Label x:Name="ProjLocationErrorLabel" Content="*" Canvas.Left="150" Canvas.Top="88" Width="14" Foreground="Red" Visibility="Visible" Margin="92,144,550,135" />
 
 
@@ -36,7 +36,7 @@
             <TextBox x:Name="lastDocPath" Canvas.Left="178" Canvas.Top="127" Width="205" MaxLines="1" HorizontalAlignment="Left" Margin="109,175,0,0" Height="19" VerticalAlignment="Top" />
 
 
-            <Button x:Name="browseForDocButton" Canvas.Left="434" Canvas.Top="126" RenderTransformOrigin="0.8,0.476" Click="browseForDocButton_Click" Margin="319,172,294,0" Height="22" VerticalAlignment="Top" FontSize="10" FontFamily="Segoe UI Semilight" Style="{DynamicResource BrowseButton}" />
+            <Button x:Name="browseForDocButton" Content="+Doc" Canvas.Left="434" Canvas.Top="126" RenderTransformOrigin="0.8,0.476" Click="browseForDocButton_Click" Margin="319,172,294,0" Height="22" VerticalAlignment="Top" FontSize="10" FontFamily="Segoe UI Semilight" Style="{DynamicResource BrowseButton}" />
 
 
             <Label x:Name="ProjDocumentErrorLabel" Content="*" Canvas.Left="150" Canvas.Top="125" Foreground="Red" Visibility="Visible" Margin="92,171,550,105" />
