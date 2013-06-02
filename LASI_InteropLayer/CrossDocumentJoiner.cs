@@ -60,15 +60,15 @@ namespace LASI.InteropLayer
         }
         private async Task<IEnumerable<NVNN>> GetCommonalitiesByVerbals()
         {
-            var topVerbalsByDoc = await Task.WhenAll(from doc in Documents
+            var topVerbalsByDoc = await Task.WhenAll(from doc in Documents.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
                                                      select GetTopVerbPhrases(doc));
-            var verbalCominalities = from set in topVerbalsByDoc
+            var verbalCominalities = from set in topVerbalsByDoc.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
                                      from vp in set
                                      where (from s in topVerbalsByDoc
                                             select s.Contains(vp, (l, r) => l.Text == r.Text || r.IsSimilarTo(r)))
                                             .Aggregate(true, (product, result) => product &= result)
                                      select vp;
-            return (from v in verbalCominalities
+            return (from v in verbalCominalities.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
                     select new NVNN
                     {
                         Verbal = v,
@@ -85,7 +85,7 @@ namespace LASI.InteropLayer
 
         public async Task<IEnumerable<NounPhrase>> GetTopNounPhrases(Document document)
         {
-            return await Task.Run(() => from np in document.GetEntities().AsParallel().GetPhrases().GetNounPhrases()
+            return await Task.Run(() => from np in document.GetEntities().GetPhrases().GetNounPhrases().AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
                                         where np.SubjectOf != null || np.DirectObjectOf != null || np.IndirectObjectOf != null
                                         group np by np.ID into distinctNPs
                                         select distinctNPs.First() into topNP

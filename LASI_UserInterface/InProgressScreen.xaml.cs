@@ -16,7 +16,8 @@ namespace LASI.UserInterface
     /// </summary>
     public partial class InProgressScreen : Window
     {
-        public InProgressScreen() {
+        public InProgressScreen()
+        {
             InitializeComponent();
             BindControlsAndSettings();
             WindowManager.InProgressScreen = this;
@@ -31,10 +32,12 @@ namespace LASI.UserInterface
 
         }
 
-        void BindControlsAndSettings() {
+        void BindControlsAndSettings()
+        {
             this.MouseLeftButtonDown += (s, e) => DragMove();
             if (ConfigurationManager.AppSettings["AutoDebugCleanupOn"] == "true") {
-                App.Current.Exit += (sender, e) => {
+                App.Current.Exit += (sender, e) =>
+                {
                     if (FileSystem.FileManager.Initialized)
                         FileSystem.FileManager.DecimateProject();
                 };
@@ -44,7 +47,8 @@ namespace LASI.UserInterface
 
         #region Animation
 
-        private async Task InitPawPrintAlternation() {
+        private async Task InitPawPrintAlternation()
+        {
             var pawPrints = new[] { pawPrintImg1, pawPrintImg3, pawPrintImg2, pawPrintImg4, pawPrintImg5, pawPrintImg6 }.ToList();
             pawPrints.ForEach(pp => pp.Opacity = 0);
             foreach (var pp in pawPrints) {
@@ -53,7 +57,8 @@ namespace LASI.UserInterface
             }
 
         }
-        private async void FadeImage(Image img) {
+        private async void FadeImage(Image img)
+        {
             while (img.Opacity > 0.0) {
                 img.Opacity -= 0.01;
                 await Task.Delay(10);
@@ -76,7 +81,8 @@ namespace LASI.UserInterface
 
 
         ProcessController processController = new ProcessController();
-        public async Task InitializeParsing() {
+        public async Task InitializeParsing()
+        {
 
             var progressPercentage = Resources["AnalysisProgressPercentage"];
             var analyzedDocuments = await processController.LoadAndAnalyseAllDocuments(ProgressBar, ProgressLabel);
@@ -95,7 +101,8 @@ namespace LASI.UserInterface
         #endregion
 
 
-        private async Task ProceedToResultsView() {
+        private async Task ProceedToResultsView()
+        {
             WindowManager.ResultsScreen.SetTitle(WindowManager.CreateProjectScreen.LastLoadedProjectName + " - L.A.S.I.");
 
 
@@ -104,19 +111,23 @@ namespace LASI.UserInterface
             this.SwapWith(WindowManager.ResultsScreen);
         }
 
-        private void ExitMenuItem_Click_3(object sender, RoutedEventArgs e) {
+        private void ExitMenuItem_Click_3(object sender, RoutedEventArgs e)
+        {
             Application.Current.Shutdown();
 
         }
-        private async void ProceedtoResultsButton_Click(object sender, RoutedEventArgs e) {
+        private async void ProceedtoResultsButton_Click(object sender, RoutedEventArgs e)
+        {
             await ProceedToResultsView();
         }
 
-        private void minButton_Click(object sender, RoutedEventArgs e) {
+        private void minButton_Click(object sender, RoutedEventArgs e)
+        {
             this.WindowState = WindowState.Minimized;
             PerformanceManager.PerformanceMode = PerformanceMode.HiddenLongRunning;
         }
-        private void closeButton_Click(object sender, RoutedEventArgs e) {
+        private void closeButton_Click(object sender, RoutedEventArgs e)
+        {
             Application.Current.Shutdown();
         }
 
@@ -146,7 +157,8 @@ namespace LASI.UserInterface
 
         }
 
-        void startflashing() {
+        void startflashing()
+        {
             {
                 FLASHWINFO fInfo = new FLASHWINFO();
                 fInfo.cbSize = System.Convert.ToUInt32(Marshal.SizeOf(fInfo));
@@ -163,13 +175,15 @@ namespace LASI.UserInterface
 
                 FlashWindowEx(ref fInfo);
             }
-            this.GotFocus += (s, e) => {
+            this.GotFocus += (s, e) =>
+            {
 
                 stopflashing();
 
             };
         }
-        void stopflashing() {
+        void stopflashing()
+        {
             FLASHWINFO fInfo = new FLASHWINFO();
 
 

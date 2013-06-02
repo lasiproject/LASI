@@ -254,8 +254,8 @@ namespace LASI.UserInterface.DataVisualzationProviders
         {
             var data =
                  from svPair in
-                     (from v in doc.Phrases.GetVerbPhrases().AsParallel().WithSubject()
-                      from s in v.BoundSubjects.AsParallel()
+                     (from v in doc.Phrases.GetVerbPhrases().WithSubject().AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
+                      from s in v.BoundSubjects.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
                       from dobj in v.DirectObjects.DefaultIfEmpty()
                       from iobj in v.IndirectObjects.DefaultIfEmpty()
 
@@ -283,7 +283,7 @@ namespace LASI.UserInterface.DataVisualzationProviders
 
         private static IEnumerable<KeyValuePair<string, float>> GetNounPhraseData(Document doc)
         {
-            return from NP in doc.Phrases.GetNounPhrases().Distinct()
+            return from NP in doc.Phrases.GetNounPhrases().Distinct().AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
 
                    group NP by new
                    {
