@@ -102,17 +102,19 @@ namespace LASI.FileSystem
 
 
                 for (int i = 0; i < input.Length; i++) {
-                    char c = (char) input[i];
+                    char c = (char)input[i];
 
                     if (inTextObject) {
                         // Position the text
                         if (bracketDepth == 0) {
                             if (CheckToken(new string[] { "TD", "Td" }, previousCharacters, 15)) {
                                 resultString += "\n\r";
-                            } else {
+                            }
+                            else {
                                 if (CheckToken(new string[] { "'", "T*", "\"" }, previousCharacters, 15)) {
                                     resultString += "\n";
-                                } else {
+                                }
+                                else {
                                     if (CheckToken(new string[] { "Tj" }, previousCharacters, 15)) {
                                         resultString += " ";
                                     }
@@ -126,22 +128,26 @@ namespace LASI.FileSystem
 
                             inTextObject = false;
                             resultString += " ";
-                        } else {
+                        }
+                        else {
                             // Start outputting text
                             if ((c == '(') && (bracketDepth == 0) && (!nextLiteral)) {
                                 bracketDepth = 1;
-                            } else {
+                            }
+                            else {
                                 // Stop outputting text
                                 if ((c == ')') && (bracketDepth == 1) && (!nextLiteral)) {
                                     bracketDepth = 0;
-                                } else {
+                                }
+                                else {
                                     // Just a normal text character:
                                     if (bracketDepth == 1) {
                                         // Only print out next character no matter what. 
                                         // Do not interpret.
                                         if (c == '\\' && !nextLiteral) {
                                             nextLiteral = true;
-                                        } else {
+                                        }
+                                        else {
                                             if (((c >= ' ') && (c <= '~')) ||
                                                 ((c >= 128) && (c < 255))) {
                                                 resultString += c.ToString();
@@ -196,7 +202,8 @@ namespace LASI.FileSystem
                             ) {
                             return true;
                         }
-                    } catch (IndexOutOfRangeException) {
+                    }
+                    catch (IndexOutOfRangeException) {
                         return false;
                     }
                 }
