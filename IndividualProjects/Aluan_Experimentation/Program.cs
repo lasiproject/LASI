@@ -36,7 +36,8 @@ namespace Aluan_Experimentation
                 try {
                     new SubjectBinder().Bind(s);
                     new ObjectBinder().Bind(s);
-                } catch (VerblessPhrasalSequenceException) {
+                }
+                catch (VerblessPhrasalSequenceException) {
                 }
             }
             foreach (var phrase in doc.Phrases) {
@@ -110,11 +111,13 @@ namespace Aluan_Experimentation
                 var objectBinder = new ObjectBinder();
                 try {
                     subjectBinder.Bind(s);
-                } catch (NullReferenceException) {
+                }
+                catch (NullReferenceException) {
                 }
                 try {
                     objectBinder.Bind(s);
-                } catch (VerblessPhrasalSequenceException) {
+                }
+                catch (VerblessPhrasalSequenceException) {
                 }
             }
 
@@ -165,8 +168,7 @@ namespace Aluan_Experimentation
 
 
             var wordsByTypeAndText = from n in doc.Words
-                                     group n by new
-                                     {
+                                     group n by new {
                                          n.Text,
                                          n.Type
                                      };
