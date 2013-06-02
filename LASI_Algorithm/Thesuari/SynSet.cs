@@ -23,15 +23,18 @@ namespace LASI.Algorithm.Thesauri
 
         //Aluan: I added this Property to access some additional information I found in the WordNet files
 
-        public WordNetNounCategory LexName {
-            get {
+        public WordNetNounCategory LexName
+        {
+            get
+            {
                 return lexName;
             }
         }
 
         //Aluan: I added this constructor to include some additional information I found in the WordNet files
 
-        public SynSet(string ID, IEnumerable<string> words, IEnumerable<string> pointers, WordNetNounCategory lexCategory) {
+        public SynSet(string ID, IEnumerable<string> words, IEnumerable<string> pointers, WordNetNounCategory lexCategory)
+        {
 
             setID = ID;
             setWords = new HashSet<string>(words);
@@ -40,7 +43,8 @@ namespace LASI.Algorithm.Thesauri
 
         }
 
-        public SynSet(string ID, IEnumerable<string> words, IEnumerable<string> pointers) {
+        public SynSet(string ID, IEnumerable<string> words, IEnumerable<string> pointers)
+        {
 
             setID = ID;
             setWords = new HashSet<string>(words);
@@ -48,32 +52,41 @@ namespace LASI.Algorithm.Thesauri
 
         }
 
-        public string ID {
-            get {
+        public string ID
+        {
+            get
+            {
                 return setID;
             }
 
         }
 
 
-        public HashSet<string> SetWords {
-            get {
+        public HashSet<string> SetWords
+        {
+            get
+            {
                 return setWords;
             }
 
         }
 
-        public HashSet<string> SetPointers {
-            get {
+        public HashSet<string> SetPointers
+        {
+            get
+            {
                 return setPointers;
             }
         }
 
-        public string SetID {
-            get {
+        public string SetID
+        {
+            get
+            {
                 return setID;
             }
-            set {
+            set
+            {
                 setID = value;
             }
         }

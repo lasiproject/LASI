@@ -22,9 +22,29 @@ namespace LASI.Algorithm.Thesauri
         }
         #region Public Methods
 
-        public static async Task LoadAllAsync()
+        public static Task<string>[] GetThesaurusTasks()
         {
-            await LoadAllTaskParallell();
+            return new[]{Task.Run(async () =>
+                 {
+                     await VerbThesaurus.LoadAsync();
+                     return "Verb Thesaurus Done";
+                 }),
+                 Task.Run(async () =>
+                 {
+                     await NounThesaurus.LoadAsync();
+                     return "Noun Thesaurus Done";
+                 }),
+                 Task.Run(async () =>
+                 {
+                     await AdverbThesaurus.LoadAsync();
+                     return "Adverb Thesaurus Done";
+                 }),
+                 Task.Run(async () =>
+                 {
+                     await AdjectiveThesaurus.LoadAsync();
+                     return "Adjective Thesaurus Done";
+                 }) 
+                 };
         }
 
         public static IEnumerable<string> Lookup(Word word)
@@ -34,7 +54,7 @@ namespace LASI.Algorithm.Thesauri
 
         public static IEnumerable<string> LookupNoun(string nounText, WordNetNounCategory wordNetNounLex)
         {
-            return NounThesaurus[nounText, wordNetNounLex];
+            return NounThesaurus[nounText];
         }
 
         public static IEnumerable<string> LookupVerb(string verbText)
@@ -174,6 +194,7 @@ namespace LASI.Algorithm.Thesauri
         }
         private static IEnumerable<string> InternalLookup(Noun noun)
         {
+
             if (!cachedNounData.ContainsKey(noun.Text))
                 cachedNounData[noun.Text] = NounThesaurus[noun];
             return cachedNounData[noun.Text];
@@ -235,14 +256,28 @@ namespace LASI.Algorithm.Thesauri
         private static async Task LoadAllTaskParallell()
         {
 
-            await Task.WhenAll(
-               Task.Run(async () => await NounThesaurus.LoadAsync()),
-               Task.Run(async () => await AdverbThesaurus.LoadAsync()),
-               Task.Run(async () => await AdjectiveThesaurus.LoadAsync()),
-               Task.Run(async () => await VerbThesaurus.LoadAsync())
-               );
-
-
+            await Task.WhenAny(
+                 Task.Run(async () =>
+                 {
+                     await NounThesaurus.LoadAsync();
+                     return NounThesaurus;
+                 }),
+                 Task.Run(async () =>
+                 {
+                     await AdverbThesaurus.LoadAsync();
+                     return AdverbThesaurus;
+                 }),
+                 Task.Run(async () =>
+                 {
+                     await AdjectiveThesaurus.LoadAsync();
+                     return AdjectiveThesaurus;
+                 }),
+                 Task.Run(async () =>
+                 {
+                     await VerbThesaurus.LoadAsync();
+                     return VerbThesaurus;
+                 })
+                 );
         }
 
         #endregion

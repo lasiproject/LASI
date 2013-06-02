@@ -13,18 +13,28 @@ namespace LASI.Algorithm.Thesauri
     /// </summary>
     internal class SynonymSet : IReadOnlyCollection<string>
     {
-        public SynonymSet(IEnumerable<string> referencedSetIds, IEnumerable<string> memberWords, WordNetVerbCategory lexName) {
+        public SynonymSet(IEnumerable<string> referencedSetIds, IEnumerable<string> memberWords, WordNetVerbCategory lexName)
+        {
             _members = new HashSet<string>(memberWords);
             _referencedIndexes = new HashSet<string>(referencedSetIds);
             LexName = lexName;
+            IndexCode = referencedSetIds.First();
+        }
+        public SynonymSet(IEnumerable<string> referencedSetIds, IEnumerable<string> memberWords, WordNetNounCategory lexName)
+        {
+            _members = new HashSet<string>(memberWords);
+            _referencedIndexes = new HashSet<string>(referencedSetIds);
+            LexName = ( WordNetVerbCategory )lexName;
             IndexCode = referencedSetIds.First();
         }
 
         /// <summary>
         /// Gets the members directly contained within the SynonymSet.
         /// </summary>
-        public IEnumerable<string> Members {
-            get {
+        public IEnumerable<string> Members
+        {
+            get
+            {
                 return _members;
             }
         }
@@ -37,8 +47,10 @@ namespace LASI.Algorithm.Thesauri
         /// <summary>
         /// Gets or sets the collection of SynonymSet-index-codes corresponding to referenced SynonymSets.
         /// </summary>
-        public IEnumerable<string> ReferencedIndexes {
-            get {
+        public IEnumerable<string> ReferencedIndexes
+        {
+            get
+            {
                 return _referencedIndexes;
             }
 
@@ -46,7 +58,8 @@ namespace LASI.Algorithm.Thesauri
         /// <summary>
         /// Gets the IndexCode which identifies the SynonymSet.
         /// </summary>
-        public string IndexCode {
+        public string IndexCode
+        {
             get;
             protected set;
         }
@@ -54,8 +67,10 @@ namespace LASI.Algorithm.Thesauri
         /// Returns a single string representing the members of the SynonymSet.
         /// </summary>
         /// <returns>A single string representing the members of the SynonymSet.</returns>
-        public override string ToString() {
-            return "[" + IndexCode + "] " + Members.Aggregate("", (str, code) => {
+        public override string ToString()
+        {
+            return "[" + IndexCode + "] " + Members.Aggregate("", (str, code) =>
+            {
                 return str + "  " + code;
             });
         }
@@ -63,8 +78,10 @@ namespace LASI.Algorithm.Thesauri
         /// <summary>
         /// Gets the number of direct members contained in the SynonymSet.
         /// </summary>
-        public int Count {
-            get {
+        public int Count
+        {
+            get
+            {
                 return Members.Count();
             }
         }
@@ -73,15 +90,18 @@ namespace LASI.Algorithm.Thesauri
         /// Exposes an enumerator exposes the direct members when the SynonymSet is enumerated.
         /// </summary>
         /// <returns></returns>
-        public IEnumerator<string> GetEnumerator() {
+        public IEnumerator<string> GetEnumerator()
+        {
             return Members.GetEnumerator();
         }
 
-        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() {
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        {
             throw new NotImplementedException();
         }
 
-        public WordNetVerbCategory LexName {
+        public WordNetVerbCategory LexName
+        {
             get;
             set;
         }

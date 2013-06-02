@@ -19,9 +19,10 @@ namespace LASI.Algorithm.Thesauri
         /// <param name="filePath">The path of the WordNet database file containing the sysnonym line for actions.</param>
         /// </summary>
         public VerbThesaurus(string filePath, bool constrainByCategory = false)
-            : base(filePath) {
+            : base(filePath)
+        {
             FilePath = filePath;
-            AssociationData = new ConcurrentDictionary<string, SynonymSet>();//Not a great practice, but the length of the file is fixed, making this a useful, but ugly optemization.
+            AssociationData = new ConcurrentDictionary<string, SynonymSet>();
             lexRestrict = constrainByCategory;
         }
 
@@ -30,7 +31,8 @@ namespace LASI.Algorithm.Thesauri
         /// <summary>
         /// Parses the contents of the underlying WordNet database file.
         /// </summary>
-        public override void Load() {
+        public override void Load()
+        {
             using (var fileStream = new FileStream(FilePath, FileMode.Open, FileAccess.Read, FileShare.None, 10024, FileOptions.SequentialScan)) {
                 using (var reader = new StreamReader(fileStream)) {
                     for (int i = 0; i < HEADER_LENGTH; ++i) {//Discard file header
@@ -44,14 +46,16 @@ namespace LASI.Algorithm.Thesauri
             }
         }
 
-        private void ParseLineAndAddToSets(string line) {
+        private void ParseLineAndAddToSets(string line)
+        {
             var synset = BuildSynset(line);
 
             LinkSynset(synset);
             AssociationData.Add(synset.IndexCode, synset);
         }
 
-        private void LinkSynset(SynonymSet synset) {
+        private void LinkSynset(SynonymSet synset)
+        {
             foreach (var word in synset.Members) {
                 if (AssociationData.ContainsKey(word)) {
                     AssociationData[word] = new SynonymSet(
@@ -71,8 +75,10 @@ namespace LASI.Algorithm.Thesauri
         /// </summary>
         /// <param name="search">The text of the verb to look for.</param>
         /// <returns>A collection of strings containing all of the synonyms of the given verb.</returns>
-        public override HashSet<string> this[string search] {
-            get {
+        public override HashSet<string> this[string search]
+        {
+            get
+            {
                 try {
                     foreach (var root in conjugator.TryExtractRoot(search)) {
                         try {
@@ -97,16 +103,21 @@ namespace LASI.Algorithm.Thesauri
                                                         select new string[] { RMG }.Concat(conjugator.TryComputeConjugations(RMG)) into CJRM
                                                         from C in CJRM                                       //Now simply remove any duplicates
                                                         select C));
-                        } catch (KeyNotFoundException) {
-                        } catch (ArgumentOutOfRangeException) {
+                        }
+                        catch (KeyNotFoundException) {
+                        }
+                        catch (ArgumentOutOfRangeException) {
                         }
 
 
                     }
                     return new HashSet<string>();
-                } catch (ArgumentOutOfRangeException) {
-                } catch (KeyNotFoundException) {
-                } catch (IndexOutOfRangeException) {
+                }
+                catch (ArgumentOutOfRangeException) {
+                }
+                catch (KeyNotFoundException) {
+                }
+                catch (IndexOutOfRangeException) {
                 }
 
 
@@ -124,16 +135,19 @@ namespace LASI.Algorithm.Thesauri
         /// </summary>
         /// <param name="search">An instance of Verb</param>
         /// <returns>A collection of strings containing all of the synonyms of the given verb.</returns>
-        public override HashSet<string> this[Word search] {
-            get {
+        public override HashSet<string> this[Word search]
+        {
+            get
+            {
                 return this[search.Text];
             }
         }
 
 
-        private SynonymSet BuildSynset(string data) {
+        private SynonymSet BuildSynset(string data)
+        {
 
-            var WNlexNameCode = (WordNetVerbCategory) Int32.Parse(data.Substring(9, 2));
+            var WNlexNameCode = ( WordNetVerbCategory )Int32.Parse(data.Substring(9, 2));
 
             data = Regex.Replace(data, @"([+]+|;c+)+[\s]+[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+", "");
 

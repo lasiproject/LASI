@@ -5,7 +5,6 @@ using System.Text;
 
 using System.IO;
 using System.Text.RegularExpressions;
-using System.Configuration;
 
 
 namespace LASI.Algorithm.Thesauri
@@ -13,20 +12,24 @@ namespace LASI.Algorithm.Thesauri
     internal class NounThesaurus : ThesaurusBase
     {
         /// <summary>
-        /// Initializes a new instance of the NounThesaurus class.
+        /// Initializes a new instance of the NounProvider class.
         /// </summary>
         /// <param name="filePath">The path of the WordNet database file containing the sysnonym line for nouns.</param>
         public NounThesaurus(string filePath)
-            : base(filePath) {
+            : base(filePath)
+        {
             FilePath = filePath;
         }
 
-        HashSet<SynSet> allSets = new HashSet<SynSet>();
+        List<SynSet> allSets = new List<SynSet>();
 
         /// <summary>
         /// Parses the contents of the underlying WordNet database file.
         /// </summary>
-        public override void Load() {
+        public override void Load()
+        {
+            //throw new NotImplementedException();
+
 
             HashSet<string> lines = new HashSet<string>();
 
@@ -41,6 +44,13 @@ namespace LASI.Algorithm.Thesauri
                     r.ReadLine();
                 }
 
+                /*for (int i = 0; i < 5; i++)
+                {
+                    line = r.ReadLine();
+                    //Console.WriteLine(line);
+                    CreateSet(line);
+                }*/
+                //test 5 lines without having to wait
 
 
                 while ((line = r.ReadLine()) != null) {
@@ -48,19 +58,29 @@ namespace LASI.Algorithm.Thesauri
                     CreateSet(line);
 
                 }
+
+
+
+
+
+
+
+
+
             }
         }
 
-        void CreateSet(string line) {
+        void CreateSet(string line)
+        {
 
             //Aluan: This line gets extracts word category info I noticed was present in the DB files
             //Erik:  Gotcha, I'll try to decipher its meaning.
 
-            WordNetNounCategory lexCategory = (WordNetNounCategory)Int32.Parse(line.Substring(9, 2));
+            WordNetNounCategory lexCategory = ( WordNetNounCategory )Int32.Parse(line.Substring(9, 2));
 
             String frontPart = line.Split('|', '!')[0];
             MatchCollection numbers = Regex.Matches(frontPart, @"(?<id>\d{8})");
-            MatchCollection words = Regex.Matches(frontPart, @"(?<word>[\'A-Za-z_\-]{3,})");
+            MatchCollection words = Regex.Matches(frontPart, @"(?<word>[A-Za-z_\-]{3,})");
 
 
             List<string> numbersList = numbers.Cast<Match>().Select(m => m.Value).Distinct().ToList();
@@ -70,64 +90,41 @@ namespace LASI.Algorithm.Thesauri
             //somethin's amiss here.
             List<string> wordList = words.Cast<Match>().Select(m => m.Value).Distinct().ToList();
 
-            SynSet temp = new SynSet(id, wordList.Select(ws => ws.Replace('_', '-')), numbersList, lexCategory);
+            SynSet temp = new SynSet(id, wordList, numbersList, lexCategory);
 
             //SynSet temp = new SynSet(id, wordList, numbersList);
 
 
             allSets.Add(temp);
 
+            /*foreach (string tester in numbersList){
+
+                Console.WriteLine(tester);
+
+           }*/
+            //console view
         }
 
-        public HashSet<string> SearchFor(string word, WordNetNounCategory category) {
-
+        public HashSet<string> SearchFor(string word)
+        {
+            List<string> results = new List<string>();
             //gets pointers of searched word
-            var externalPointers = AggregateExternals(word);
-
-
-            var result = AggregateExternals(word);
-            result.Add(word);
-            return result;
-        }
-
-        private HashSet<string> AggregateExternals(string word) {
-            var referenced = (from set in allSets
-                              group set by set.SetWords.Contains(word) into g
-                              select g.First().SetPointers.AsEnumerable()).Aggregate((all, current) => all.Concat(from c in current
-                                                                                                                  select c));
-            var temp = from lptr in referenced
-                       join rptr in allSets on lptr equals rptr.SetID
-                       select rptr.SetWords;
-            return new HashSet<string>(from t in temp
-                                       from s in t
-                                       select s);
-
-        }
-
-        public HashSet<string> SearchFor(string word) {
-
-            //gets pointers of searched word
-            var externalPointers = AggregateExternals(word);
-
-
-            var result = AggregateExternals(word);
-            result.Add(word);
-            return result;
-        }
-
-        private HashSet<string> FlattenResults(string word, IEnumerable<HashSet<string>> tempResults) {
+            var tempResults = from sn in allSets
+                              where sn.SetWords.Contains(word)
+                              select sn.SetPointers;
             var flatPointers = from R in tempResults
                                from r in R
                                select r;
             //gets words of searched word
-            var tempWords = from sw in allSets
-                            where sw.SetWords.Contains(word)
+            var tempWords = from pointer in flatPointers
+                            from sw in allSets
+                            where sw.SetPointers.Contains(pointer)
                             select sw.SetWords;
-            HashSet<string> results = new HashSet<string>(
-                from Q in tempWords
-                from q in Q
-                select q);
+            var flatWords = from Q in tempWords
+                            from q in Q
+                            select q;
 
+            results.AddRange(flatWords);
 
 
             //gets related words from above pointers
@@ -136,7 +133,7 @@ namespace LASI.Algorithm.Thesauri
                 foreach (SynSet s in allSets) {
 
                     if (t == s.SetID) {
-                        results.Union(s.SetWords);
+                        results.AddRange(s.SetWords);
                     }
 
                 }
@@ -144,35 +141,30 @@ namespace LASI.Algorithm.Thesauri
             }
 
             return new HashSet<string>(results);
+
+
+            //foreach (string tester in results) {
+
+            //    Console.WriteLine(tester);
+
+            //}//console view
         }
 
-
-
-
-
-
-        public HashSet<string> this[string search, WordNetNounCategory category] {
-            get {
-                return SearchFor(search, category);
-            }
-        }
-        public override HashSet<string> this[string search] {
-            get {
+        public override HashSet<string> this[string search]
+        {
+            get
+            {
                 return SearchFor(search);
             }
         }
 
-        public override HashSet<string> this[Word search] {
-            get {
+
+        public override HashSet<string> this[Word search]
+        {
+            get
+            {
                 return this[search.Text];
             }
         }
-        public HashSet<string> this[Word search, WordNetNounCategory category] {
-            get {
-                return this[search.Text, category];
-            }
-        }
-        private NounConjugator conjugator = new NounConjugator(ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "noun.exc");
-
     }
 }

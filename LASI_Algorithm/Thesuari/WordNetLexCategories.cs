@@ -45,6 +45,7 @@
         Shape,
         State,
         Substance,
-        Time
+        Time,
+        ARBITRARY
     }
 }

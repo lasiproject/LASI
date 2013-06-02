@@ -12,13 +12,15 @@ namespace LASI.Algorithm.Thesauri
         /// Provides common initialization logic.
         /// </summary>
         /// <param name="filePath">The path of WordNet database file which provides the synonym line (form should be line.pos, e.g. line.verb)</param>
-        protected ThesaurusBase(string filePath) {
+        protected ThesaurusBase(string filePath)
+        {
             FilePath = filePath;
         }
         /// <summary>
         /// gets or sets the path of the WordNet database file which this thesaurus is built on
         /// </summary>
-        protected string FilePath {
+        protected string FilePath
+        {
             get;
             set;
         }
@@ -28,21 +30,25 @@ namespace LASI.Algorithm.Thesauri
         /// </summary>
         public abstract void Load();
 
-        public virtual async Task LoadAsync() {
+        public virtual async Task LoadAsync()
+        {
             await Task.Run(() => Load());
         }
 
-        public abstract HashSet<string> this[string search] {
+        public abstract HashSet<string> this[string search]
+        {
             get;
         }
 
-        public abstract HashSet<string> this[Word search] {
+        public abstract HashSet<string> this[Word search]
+        {
             get;
         }
         /// <summary>
         /// gets or sets all of the synsets in the ThesaurusBase
         /// </summary>
-        internal IDictionary<string, SynonymSet> AssociationData {
+        internal IDictionary<string, SynonymSet> AssociationData
+        {
             get;
             set;
         }
