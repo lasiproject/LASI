@@ -110,8 +110,9 @@ namespace LASI.UserInterface
 
 
 
-        public void BuildReconstructedDocumentViews()
+        public async Task BuildReconstructedDocumentViews()
         {  // This is for the lexial relationships tab
+            await Task.Yield();
             foreach (var doc in documents) {
                 var panel = new WrapPanel();
                 var tab = new TabItem
@@ -293,8 +294,9 @@ namespace LASI.UserInterface
             exportDialog.ShowDialog();
         }
 
-        private async void documentJoinButton_Click(object sender, RoutedEventArgs e)
+        private async void joinButton_Click(object sender, RoutedEventArgs e)
         {
+            await Task.Yield();
             var documentJoinDialog = new CrossJoinSelectDialog(this);
 
             bool? dialogResult = documentJoinDialog.ShowDialog();
@@ -302,16 +304,32 @@ namespace LASI.UserInterface
                 var selectedDocument = documentJoinDialog.SelectDocuments;
                 CrossDocumentJoiner joiner = new CrossDocumentJoiner(selectedDocument, new ProgressBar());
                 var crossResults = await joiner.JoinDocuments();
-                CreateMetaResultsView(crossResults);
+                await BuildJoinedData(crossResults);
             }
         }
 
-        private void CreateMetaResultsView(IEnumerable<CrossDocumentJoiner.NVNN> crossResults)
+        private async Task BuildJoinedData(IEnumerable<CrossDocumentJoiner.NVNN> crossResults)
         {
-            var data = ChartingManager.CreateStringListsForData(crossResults);
-            metaRelationshipsDataGrid.ItemsSource = data;
-        }
+            System.Collections.ObjectModel.ObservableCollection<Object> data = null;
+            var dataGrid = new Microsoft.Windows.Controls.DataGrid
+               {
+                   ItemsSource = data
+               };
 
+
+
+            var metaViewTab =
+                ResultsTabControl.Items.OfType<TabItem>().FirstOrDefault(tab => tab.Header.ToString() == "Meta")
+                ?? new TabItem
+            {
+                Header = "Meta",
+            };
+            metaViewTab.Content = dataGrid;
+
+            data = new System.Collections.ObjectModel.ObservableCollection<object>(await ChartingManager.CreateRelationshipData(crossResults));
+            if (!ResultsTabControl.Items.Contains(metaViewTab))
+                ResultsTabControl.Items.Add(metaViewTab);
+        }
     }
 
 }

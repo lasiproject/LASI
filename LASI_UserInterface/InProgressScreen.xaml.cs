@@ -104,11 +104,11 @@ namespace LASI.UserInterface
         private async Task ProceedToResultsView()
         {
             WindowManager.ResultsScreen.SetTitle(WindowManager.CreateProjectScreen.LastLoadedProjectName + " - L.A.S.I.");
-
+            this.SwapWith(WindowManager.ResultsScreen);
 
             await WindowManager.ResultsScreen.CreateInteractiveViews();
-            WindowManager.ResultsScreen.BuildReconstructedDocumentViews();
-            this.SwapWith(WindowManager.ResultsScreen);
+            await WindowManager.ResultsScreen.BuildReconstructedDocumentViews();
+
         }
 
         private void ExitMenuItem_Click_3(object sender, RoutedEventArgs e)

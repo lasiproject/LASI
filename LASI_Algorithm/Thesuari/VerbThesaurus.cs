@@ -85,7 +85,7 @@ namespace LASI.Algorithm.Thesauri
                             return new HashSet<string>((from refIndex in AssociationData[root].ReferencedIndexes //Get all set reference indeces stored directly within the set containing the search word 
 
                                                         from referencedSet in AssociationData.Values
-                                                        group referencedSet by referencedSet.ReferencedIndexes.Contains(refIndex) && (referencedSet.LexName == AssociationData[root].LexName || !lexRestrict)
+                                                        group referencedSet by referencedSet.ReferencedIndexes.Contains(refIndex) && (!lexRestrict || referencedSet.LexName == AssociationData[root].LexName)
                                                             into referencedSet
                                                             where referencedSet.Key
                                                             select referencedSet into referencedSets

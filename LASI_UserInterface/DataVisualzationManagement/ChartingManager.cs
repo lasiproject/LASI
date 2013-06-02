@@ -304,7 +304,7 @@ namespace LASI.UserInterface.DataVisualzationProviders
 
             var transformedData = await Task.Factory.StartNew(() =>
             {
-                return CreateStringListsForData(ChartingManager.GetVerbWiseAssociationData(doc));
+                return CreateRelationshipData(ChartingManager.GetVerbWiseAssociationData(doc));
             });
             var wpfToolKitDataGrid = new Microsoft.Windows.Controls.DataGrid
             {
@@ -319,21 +319,25 @@ namespace LASI.UserInterface.DataVisualzationProviders
 
         }
 
-        public static IEnumerable<object> CreateStringListsForData(IEnumerable<CrossDocumentJoiner.NVNN> elementsToSerialize)
+        public static async Task<IEnumerable<object>> CreateRelationshipData(IEnumerable<CrossDocumentJoiner.NVNN> elementsToSerialize)
         {
-            return CreateStringListsForData(from e in elementsToSerialize
-                                            select new NpVpNpNpQuatruple
-                                            {
-                                                Direct = e.Direct,
-                                                Indirect = e.Indirect,
-                                                Subject = e.Subject,
-                                                Verbial = e.Verbal,
-                                                ViaPreposition = e.ViaPreposition,
-                                                RelationshipWeight = e.RelationshipWeight
-                                            });
+
+            return await Task.Run(() =>
+                CreateRelationshipData(
+                from e in elementsToSerialize
+                select new NpVpNpNpQuatruple
+                {
+                    Direct = e.Direct,
+                    Indirect = e.Indirect,
+                    Subject = e.Subject,
+                    Verbial = e.Verbal,
+                    ViaPreposition = e.ViaPreposition,
+                    RelationshipWeight = e.RelationshipWeight
+                })
+                );
         }
 
-        public static IEnumerable<object> CreateStringListsForData(IEnumerable<NpVpNpNpQuatruple> elementsToSerialize)
+        public static IEnumerable<object> CreateRelationshipData(IEnumerable<NpVpNpNpQuatruple> elementsToSerialize)
         {
             var dataRows = from result in elementsToSerialize
                            orderby result.RelationshipWeight
