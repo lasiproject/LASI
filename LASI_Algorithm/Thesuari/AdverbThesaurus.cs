@@ -16,7 +16,8 @@ namespace LASI.Algorithm.Thesauri
         /// </summary>
         /// <param name="filePath">The path of the WordNet database file containing the sysnonym line for nouns.</param>
         public AdverbThesaurus(string filePath)
-            : base(filePath) {
+            : base(filePath)
+        {
             FilePath = filePath;
         }
 
@@ -25,7 +26,8 @@ namespace LASI.Algorithm.Thesauri
         /// <summary>
         /// Parses the contents of the underlying WordNet database file.
         /// </summary>
-        public override void Load() {
+        public override void Load()
+        {
             //throw new NotImplementedException();
 
 
@@ -68,29 +70,32 @@ namespace LASI.Algorithm.Thesauri
             }
         }
 
-        void CreateSet(string line) {
+        void CreateSet(string line)
+        {
 
 
-            WordNetNounCategory lexCategory = (WordNetNounCategory) Int32.Parse(line.Substring(9, 2));
+            WordNetNounCategory lexCategory = ( WordNetNounCategory )Int32.Parse(line.Substring(9, 2));
 
             String frontPart = line.Split('|', '!')[0];
             MatchCollection numbers = Regex.Matches(frontPart, @"(?<id>\d{8})");
             MatchCollection words = Regex.Matches(frontPart, @"(?<word>[A-Za-z_\-]{2,})");
 
 
-            List<string> numbersList = numbers.Cast<Match>().Select(m => m.Value).Distinct().ToList();
-            string id = numbersList[0];
-            numbersList.Remove(id);
+
+            IEnumerable<int> pointers = numbers.Cast<Match>().Select(m => Int32.Parse(m.Value)).Distinct();
+            int id = pointers.First();
+
+
             List<string> wordList = words.Cast<Match>().Select(m => m.Value).Distinct().ToList();
 
-            SynSet temp = new SynSet(id, wordList, numbersList, lexCategory);
+            SynSet temp = new SynSet(id, wordList, pointers, lexCategory);
 
-            //SynSet temp = new SynSet(id, wordList, numbersList);
+            //SynSet temp = new SynSet(id, wordList, pointers);
 
 
             allSets.Add(temp);
 
-            /*foreach (string tester in numbersList){
+            /*foreach (string tester in pointers){
 
                 Console.WriteLine(tester);
 
@@ -98,7 +103,8 @@ namespace LASI.Algorithm.Thesauri
             //console view
         }
 
-        public HashSet<string> SearchFor(string word) {
+        public HashSet<string> SearchFor(string word)
+        {
 
             //gets pointers of searched word
             var tempResults = from sn in allSets
@@ -141,15 +147,19 @@ namespace LASI.Algorithm.Thesauri
             //}//console view
         }
 
-        public override HashSet<string> this[string search] {
-            get {
+        public override HashSet<string> this[string search]
+        {
+            get
+            {
                 return SearchFor(search);
             }
         }
 
 
-        public override HashSet<string> this[Word search] {
-            get {
+        public override HashSet<string> this[Word search]
+        {
+            get
+            {
                 return this[search.Text];
             }
         }

@@ -11,88 +11,72 @@ namespace LASI.Algorithm.Thesauri
     /// This type is used within the various Thesaurus implementations to compose and query the contents of the WordNet database files.
     /// This class is internal forbidding instantiation outside of the Thesaurus Namespace.
     /// </summary>
-    internal class SynonymSet : IReadOnlyCollection<string>
+    internal class VerbThesaurusSynSet : IReadOnlyCollection<string>
     {
-        public SynonymSet(IEnumerable<string> referencedSetIds, IEnumerable<string> memberWords, WordNetVerbCategory lexName)
+        public VerbThesaurusSynSet(IEnumerable<int> referencedSetIds, IEnumerable<string> memberWords, WordNetVerbCategory lexName)
         {
-            _members = new HashSet<string>(memberWords);
-            _referencedIndexes = new HashSet<string>(referencedSetIds);
+            Words = new HashSet<string>(memberWords);
+            ReferencedIndexes = new HashSet<int>(referencedSetIds);
             LexName = lexName;
-            IndexCode = referencedSetIds.First();
+            Index = referencedSetIds.First();
         }
-        public SynonymSet(IEnumerable<string> referencedSetIds, IEnumerable<string> memberWords, WordNetNounCategory lexName)
-        {
-            _members = new HashSet<string>(memberWords);
-            _referencedIndexes = new HashSet<string>(referencedSetIds);
-            LexName = ( WordNetVerbCategory )lexName;
-            IndexCode = referencedSetIds.First();
-        }
+
 
         /// <summary>
-        /// Gets the members directly contained within the SynonymSet.
+        /// Gets the members directly contained within the VerbThesaurusSynSet.
         /// </summary>
-        public IEnumerable<string> Members
-        {
-            get
-            {
-                return _members;
-            }
-        }
-
-
-        private HashSet<string> _members;
-
-        private HashSet<string> _referencedIndexes;
-
-        /// <summary>
-        /// Gets or sets the collection of SynonymSet-index-codes corresponding to referenced SynonymSets.
-        /// </summary>
-        public IEnumerable<string> ReferencedIndexes
-        {
-            get
-            {
-                return _referencedIndexes;
-            }
-
-        }
-        /// <summary>
-        /// Gets the IndexCode which identifies the SynonymSet.
-        /// </summary>
-        public string IndexCode
+        public IEnumerable<string> Words
         {
             get;
-            protected set;
+            private set;
         }
         /// <summary>
-        /// Returns a single string representing the members of the SynonymSet.
+        /// Gets or sets the collection of VerbThesaurusSynSet-index-codes corresponding to referenced SynonymSets.
         /// </summary>
-        /// <returns>A single string representing the members of the SynonymSet.</returns>
+        public IEnumerable<int> ReferencedIndexes
+        {
+            get;
+            private set;
+
+        }
+        /// <summary>
+        /// Gets the Index which identifies the VerbThesaurusSynSet.
+        /// </summary>
+        public int Index
+        {
+            get;
+            private set;
+        }
+        /// <summary>
+        /// Returns a single string representing the members of the VerbThesaurusSynSet.
+        /// </summary>
+        /// <returns>A single string representing the members of the VerbThesaurusSynSet.</returns>
         public override string ToString()
         {
-            return "[" + IndexCode + "] " + Members.Aggregate("", (str, code) =>
+            return "[" + Index + "] " + Words.Aggregate("", (str, code) =>
             {
                 return str + "  " + code;
             });
         }
 
         /// <summary>
-        /// Gets the number of direct members contained in the SynonymSet.
+        /// Gets the number of direct members contained in the VerbThesaurusSynSet.
         /// </summary>
         public int Count
         {
             get
             {
-                return Members.Count();
+                return Words.Count();
             }
         }
 
         /// <summary>
-        /// Exposes an enumerator exposes the direct members when the SynonymSet is enumerated.
+        /// Exposes an which enumerator exposes the direct word members when the VerbThesaurusSynSet is enumerated.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>An enumerator which exposes the direct word members when the VerbThesaurusSynSet is enumerated.</returns>
         public IEnumerator<string> GetEnumerator()
         {
-            return Members.GetEnumerator();
+            return Words.GetEnumerator();
         }
 
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()

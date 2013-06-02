@@ -15,7 +15,7 @@ namespace LASI.Algorithm
     {
         #region Constructors
         /// <summary>
-        /// Initializes a new instance of the Word class which represensts the properties
+        /// Initializes a new instance of the word class which represensts the properties
         /// and behaviors of a word-level grammatical element.
         /// </summary>
         /// <param name="text">The literal text content of the verb.</param>
@@ -34,16 +34,16 @@ namespace LASI.Algorithm
         #region Methods
 
         /// <summary>
-        /// Establishes the linkage between the Word and its parent Phrase.
+        /// Establishes the linkage between the word and its parent Phrase.
         /// </summary>
-        /// <param name="parent">The Phrase to which the Word belongs.</param>
+        /// <param name="parent">The Phrase to which the word belongs.</param>
         public void EstablishParent(Phrase parent) {
             Phrase = parent;
 
         }
 
         /// <summary>
-        /// Returns a string representation of the Word.
+        /// Returns a string representation of the word.
         /// </summary>
         /// <returns>A string containing its underlying type and its text content.</returns>
         public override string ToString() {
@@ -66,7 +66,7 @@ namespace LASI.Algorithm
         #region Properties
 
         /// <summary>
-        /// Gets the text content of the Word instance.
+        /// Gets the text content of the word instance.
         /// </summary>
         public virtual string Text {
             get;
@@ -74,7 +74,7 @@ namespace LASI.Algorithm
         }
 
         /// <summary>
-        /// Gets the globally-unique identification number associated with the Word instance.
+        /// Gets the globally-unique identification number associated with the word instance.
         /// </summary>
         public int ID {
             get;
@@ -107,28 +107,28 @@ namespace LASI.Algorithm
             }
         }
         /// <summary>
-        /// Gets, lexically speaking, the next Word in the Document to which the instance belongs.
+        /// Gets, lexically speaking, the next word in the Document to which the instance belongs.
         /// </summary>
         public Word NextWord {
             get;
             set;
         }
         /// <summary>
-        /// Gets, lexically speaking, the previous Word in the Document to which the instance belongs.
+        /// Gets, lexically speaking, the previous word in the Document to which the instance belongs.
         /// </summary>
         public Word PreviousWord {
             get;
             set;
         }
         /// <summary>
-        /// Gets or the Phrase the Word belongs to.
+        /// Gets or the Phrase the word belongs to.
         /// </summary>
         public Phrase Phrase {
             get;
             private set;
         }
         /// <summary>
-        /// Gets or the Sentence the Word belongs to.
+        /// Gets or the Sentence the word belongs to.
         /// </summary>
         public LASI.Algorithm.DocumentConstructs.Sentence Sentence {
             get;
@@ -136,7 +136,7 @@ namespace LASI.Algorithm
         }
 
         /// <summary>
-        /// Gets or sets the Prepositional construct which is lexically to the left of the Word.
+        /// Gets or sets the Prepositional construct which is lexically to the left of the word.
         /// </summary>
         public IPrepositional PrepositionOnLeft {
             get;
@@ -144,7 +144,7 @@ namespace LASI.Algorithm
         }
 
         /// <summary>
-        /// Gets or sets the Prepositional construct which is lexically to the right of the Word.
+        /// Gets or sets the Prepositional construct which is lexically to the right of the word.
         /// </summary>
         public IPrepositional PrepositionOnRight {
             get;
@@ -158,7 +158,7 @@ namespace LASI.Algorithm
         }
 
         /// <summary>
-        /// Gets or sets the numeric Weight of the Word within the context of its parent document.
+        /// Gets or sets the numeric Weight of the word within the context of its parent document.
         /// </summary>
         public decimal Weight {
             get;
@@ -167,7 +167,7 @@ namespace LASI.Algorithm
 
 
         /// <summary>
-        /// Gets or sets the numeric Weight of the Word over the context of all extant documents.
+        /// Gets or sets the numeric Weight of the word over the context of all extant documents.
         /// </summary>
         public decimal MetaWeight {
             get;
@@ -176,7 +176,7 @@ namespace LASI.Algorithm
 
         #endregion
 
-        #region Static Members
+        #region Static Words
 
         private static int IDProvider;
         public static bool VerboseOutput {

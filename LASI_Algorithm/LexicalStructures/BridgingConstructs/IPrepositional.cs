@@ -34,7 +34,7 @@ namespace LASI.Algorithm.SyntacticInterfaces
 
         /// <summary>
         /// Binds an ILexical construct as the object of the IPrepositional. 
-        /// Lexical constructs include Word, Phrase, and Clause Types.
+        /// Lexical constructs include word, Phrase, and Clause Types.
         /// </summary>
         /// <param name="prepositionalObject">The ILexical construct as the object of the IPrepositional.</param>
         void BindObjectOfPreposition(ILexical prepositionalObject);

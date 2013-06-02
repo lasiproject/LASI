@@ -31,7 +31,7 @@ namespace LASI.Algorithm.Thesauri
             //throw new NotImplementedException();
 
 
-            HashSet<string> lines = new HashSet<string>();
+
 
             using (StreamReader r = new StreamReader(FilePath)) {
 
@@ -44,29 +44,10 @@ namespace LASI.Algorithm.Thesauri
                     r.ReadLine();
                 }
 
-                /*for (int i = 0; i < 5; i++)
-                {
-                    line = r.ReadLine();
-                    //Console.WriteLine(line);
-                    CreateSet(line);
-                }*/
-                //test 5 lines without having to wait
-
-
                 while ((line = r.ReadLine()) != null) {
 
                     CreateSet(line);
-
                 }
-
-
-
-
-
-
-
-
-
             }
         }
 
@@ -83,21 +64,21 @@ namespace LASI.Algorithm.Thesauri
             MatchCollection words = Regex.Matches(frontPart, @"(?<word>[A-Za-z_\-]{3,})");
 
 
-            List<string> numbersList = numbers.Cast<Match>().Select(m => m.Value).Distinct().ToList();
-            string id = numbersList[0];
-            numbersList.Remove(id);
+            IEnumerable<int> pointers = numbers.Cast<Match>().Select(m => Int32.Parse(m.Value)).Distinct();
+            int id = pointers.First();
+
 
             //somethin's amiss here.
             List<string> wordList = words.Cast<Match>().Select(m => m.Value).Distinct().ToList();
 
-            SynSet temp = new SynSet(id, wordList, numbersList, lexCategory);
+            SynSet temp = new SynSet(id, wordList, pointers, lexCategory);
 
-            //SynSet temp = new SynSet(id, wordList, numbersList);
+            //SynSet temp = new SynSet(id, wordList, pointers);
 
 
             allSets.Add(temp);
 
-            /*foreach (string tester in numbersList){
+            /*foreach (string tester in pointers){
 
                 Console.WriteLine(tester);
 

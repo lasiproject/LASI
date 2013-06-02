@@ -18,7 +18,7 @@ namespace LASI.Algorithm.Binding
             if (np.Words.Count() > 1 && LastNoun != null) {
                 //////Output.WriteLine(nps);
                 /*
-                foreach (Word verb in nps.Words) {
+                foreach (word verb in nps.Words) {
                     ////Output.Write("[{0}] ", verb);
                 }
                 ////Output.WriteLine("\nLast Noun: {0}", LastNoun.Text);

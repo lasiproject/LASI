@@ -237,15 +237,15 @@ namespace LASI.Algorithm.Weighting
 
             //SIX PHASES
 
-            //PHASE 2 - Word Weight based on part of speech and neighbors' (+2) part of speech
+            //PHASE 2 - word Weight based on part of speech and neighbors' (+2) part of speech
             //PHASE 3 - Standard parent Weight based on parent part of speech (standardization) - COMPLETE
             //PHASE 4 - Phrase Weight based on part of speech and neibhors' (full sentence) part of speech
             //PHASE 5 - FREQUENCIES
-            // .1 - Frequency of Word/Phrase in document
-            // .2 - Frequency of Word/Phrase in document compared to second documents in set -EXCLUDED FOR 1-DOCUMENT DEMO
+            // .1 - Frequency of word/Phrase in document
+            // .2 - Frequency of word/Phrase in document compared to second documents in set -EXCLUDED FOR 1-DOCUMENT DEMO
             //PHASE 6 - SYNONYMS
-            //ALLUAN READ:            // .1 - Frequency of Word (/Phrase?) in document - COMPLETE MINUS VERBS (couldn't search the verb thesaurus in any way)
-            // .2 - Frequency of Word (/Phrase?) in document compared to second documents in set -EXCLUDED FOR 1-DOCUMENT DEMO
+            //ALLUAN READ:            // .1 - Frequency of word (/Phrase?) in document - COMPLETE MINUS VERBS (couldn't search the verb thesaurus in any way)
+            // .2 - Frequency of word (/Phrase?) in document compared to second documents in set -EXCLUDED FOR 1-DOCUMENT DEMO
 
 
 
@@ -257,7 +257,7 @@ namespace LASI.Algorithm.Weighting
             //PHASE 1 - Standard word Weight based on part of speech (standardization)
             //COMPLETE - easy peasy.
 
-            //Output.WriteLine("Standard Word Weight based on POS:");
+            //Output.WriteLine("Standard word Weight based on POS:");
             foreach (Sentence s in doc.Sentences) {
                 //////Output.WriteLine(s);
 
@@ -296,7 +296,7 @@ namespace LASI.Algorithm.Weighting
 
 
 
-            //PHASE 2 - Word Weight based on part of speech and neighbors' (+2) part of speech
+            //PHASE 2 - word Weight based on part of speech and neighbors' (+2) part of speech
             // WORKS, BUT
             // NEED FORMULAS FOR MODIFIER VARIABLES - WHAT SHOULD THESE BE?
             decimal modOne, modTwo;

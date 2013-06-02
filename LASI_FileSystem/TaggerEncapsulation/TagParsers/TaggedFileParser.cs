@@ -217,10 +217,10 @@ namespace LASI.FileSystem
         /// <summary>
         /// Parses a string of text containing tagged words 
         /// e.g. "LASI/NNP can/MD sniff-out/VBP the/DT problem/NN" 
-        /// into a collection of Part of Speech subtyped Word instances which represent them.
+        /// into a collection of Part of Speech subtyped word instances which represent them.
         /// </summary>
         /// <param name="wordData">A string containing tagged words.</param>
-        /// <returns>The collection of Word objects that is their run time representation.</returns>
+        /// <returns>The collection of word objects that is their run time representation.</returns>
         protected virtual List<Word> CreateWords(string wordData) {
             var parsedWords = new List<Word>();
             var elements = GetTaggedWordLevelTokens(wordData);
@@ -245,7 +245,7 @@ namespace LASI.FileSystem
         /// <summary>
         /// Parses a string of text containing tagged words,
         /// e.g. "LASI/NNP can/MD sniff-out/VBP the/DT problem/NN",
-        /// and returns of the collection containing, for each verb, the function which will create the Part of Speech subtyped Word instance
+        /// and returns of the collection containing, for each verb, the function which will create the Part of Speech subtyped word instance
         /// representing that verb.
         /// </summary>
         /// <param name="wordData">A string containing tagged words.</param>

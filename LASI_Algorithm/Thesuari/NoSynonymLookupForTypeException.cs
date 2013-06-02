@@ -8,7 +8,7 @@ using LASI.Algorithm.SyntacticInterfaces;
 namespace LASI.Algorithm.Thesauri
 {
     /// <summary>
-    /// The Exception to be thrown if and when an attempt is made to lookup a Word of a syntactic category which has no corresponding thesaurus.
+    /// The Exception to be thrown if and when an attempt is made to lookup a word of a syntactic category which has no corresponding thesaurus.
     /// </summary>
     [Serializable]
     public class NoSynonymLookupForTypeException : ArgumentException

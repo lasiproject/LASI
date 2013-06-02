@@ -9,11 +9,9 @@ namespace LASI.Algorithm.Thesauri
     public class SynSet
     {
 
-        private string setID;
-
 
         private HashSet<string> setWords;
-        private HashSet<string> setPointers;
+        private HashSet<int> setPointers;
 
 
         //Aluan: I added this field to store some additional information I found in the WordNet files
@@ -33,33 +31,26 @@ namespace LASI.Algorithm.Thesauri
 
         //Aluan: I added this constructor to include some additional information I found in the WordNet files
 
-        public SynSet(string ID, IEnumerable<string> words, IEnumerable<string> pointers, WordNetNounCategory lexCategory)
+        public SynSet(int ID, IEnumerable<string> words, IEnumerable<int> pointers, WordNetNounCategory lexCategory)
         {
 
-            setID = ID;
+            SetID = ID;
             setWords = new HashSet<string>(words);
-            setPointers = new HashSet<string>(pointers);
+            setPointers = new HashSet<int>(pointers);
             lexName = lexCategory;
 
         }
 
-        public SynSet(string ID, IEnumerable<string> words, IEnumerable<string> pointers)
+        public SynSet(int ID, IEnumerable<string> words, IEnumerable<int> pointers)
         {
 
-            setID = ID;
+            SetID = ID;
             setWords = new HashSet<string>(words);
-            setPointers = new HashSet<string>(pointers);
+            setPointers = new HashSet<int>(pointers);
 
         }
 
-        public string ID
-        {
-            get
-            {
-                return setID;
-            }
 
-        }
 
 
         public HashSet<string> SetWords
@@ -71,7 +62,7 @@ namespace LASI.Algorithm.Thesauri
 
         }
 
-        public HashSet<string> SetPointers
+        public HashSet<int> SetPointers
         {
             get
             {
@@ -79,16 +70,10 @@ namespace LASI.Algorithm.Thesauri
             }
         }
 
-        public string SetID
+        public int SetID
         {
-            get
-            {
-                return setID;
-            }
-            set
-            {
-                setID = value;
-            }
+            get;
+            private set;
         }
 
     }

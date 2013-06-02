@@ -32,7 +32,7 @@ namespace LASI.FileSystem
         }
 
         /// <summary>
-        /// Creates a new Instance of the Word class which corresponds to the given text token and Part Of Speech tag.
+        /// Creates a new Instance of the word class which corresponds to the given text token and Part Of Speech tag.
         /// </summary>
         /// <param name="tag">A Verb or Punctuation string and its associated  Part Of Speech tag.</param>
         /// <returns>A new instance of the appropriate verb type corresponding with the tag and containing the given text.</returns>

@@ -14,12 +14,12 @@ namespace LASI.Algorithm
     public static class IEnumerableOfWordExtensions
     {
         /// <summary>
-        /// Retrives all words in the Word collection which compare equal to a given Word
+        /// Retrives all words in the word collection which compare equal to a given word
         /// </summary>
-        /// <param name="toMatch">The Word to match</param>
-        /// <param name="words">A sequence of Word objects</param>
+        /// <param name="toMatch">The word to match</param>
+        /// <param name="words">A sequence of word objects</param>
         /// <returns>A WordList containing all words which match the argument</returns>
-        /// <see cref="Word"/>
+        /// <see cref="word"/>
         public static IEnumerable<Word> FindAllOccurances(this IEnumerable<Word> words,
             Word toMatch) {
             return from word in words
@@ -33,10 +33,10 @@ namespace LASI.Algorithm
                    select W;
         }
         /// <summary>
-        /// Returns all words in the Word collection which come after the given Word.
+        /// Returns all words in the word collection which come after the given word.
         /// </summary>
-        /// <param name="words">A sequence of Word objects</param>
-        /// <param name="word">The delimiting Word</param>
+        /// <param name="words">A sequence of word objects</param>
+        /// <param name="word">The delimiting word</param>
         /// <returns></returns>
         public static IEnumerable<Word> GetAllAfter(this IEnumerable<Word> words, Word word) {
             return words.SkipWhile(w => w != word).Skip(1);

@@ -21,7 +21,7 @@ namespace AlgorithmAssemblyUnitTestProject
         /// <summary>
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
-        ///</summary>C:\Users\Aluan\Desktop\LASI\LASI_v1\AlgorithmAssemblyUnitTestProject\ParticleTest.cs
+        ///</summary>word:\Users\Aluan\Desktop\LASI\LASI_v1\AlgorithmAssemblyUnitTestProject\ParticleTest.cs
         public TestContext TestContext {
             get {
                 return testContextInstance;

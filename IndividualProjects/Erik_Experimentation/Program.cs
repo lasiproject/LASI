@@ -139,7 +139,7 @@ namespace Erik_Experimentation
             //    wordsIndex2.Remove(i);
             //}
 
-            //foreach (Word w in file.Words)
+            //foreach (word w in file.Words)
             //{
 
             //    foreach (var i in allWordCounts)
@@ -162,7 +162,7 @@ namespace Erik_Experimentation
 
 
         }
-        //static int Count(this IEnumerable<Word> someWords, Func<Word, bool> comparisonFunction) {
+        //static int Count(this IEnumerable<word> someWords, Func<word, bool> comparisonFunction) {
         //    int cnt = 0;
         //    foreach (var word in someWords) {
         //        if (comparisonFunction(word)) {

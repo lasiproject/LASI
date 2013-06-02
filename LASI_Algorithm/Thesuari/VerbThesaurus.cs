@@ -22,7 +22,7 @@ namespace LASI.Algorithm.Thesauri
             : base(filePath)
         {
             FilePath = filePath;
-            AssociationData = new ConcurrentDictionary<string, SynonymSet>();
+            AssociationData = new ConcurrentDictionary<string, VerbThesaurusSynSet>();
             lexRestrict = constrainByCategory;
         }
 
@@ -51,16 +51,16 @@ namespace LASI.Algorithm.Thesauri
             var synset = BuildSynset(line);
 
             LinkSynset(synset);
-            AssociationData.Add(synset.IndexCode, synset);
+            //AssociationData.Add(synset.Index, synset);
         }
 
-        private void LinkSynset(SynonymSet synset)
+        private void LinkSynset(VerbThesaurusSynSet synset)
         {
-            foreach (var word in synset.Members) {
+            foreach (var word in synset.Words) {
                 if (AssociationData.ContainsKey(word)) {
-                    AssociationData[word] = new SynonymSet(
+                    AssociationData[word] = new VerbThesaurusSynSet(
                         AssociationData[word].ReferencedIndexes.Concat(synset.ReferencedIndexes),
-                        AssociationData[word].Members.Concat(synset.Members), AssociationData[word].LexName);
+                        AssociationData[word].Words.Concat(synset.Words), AssociationData[word].LexName);
                 } else {
                     AssociationData.Add(word, synset);
                 }
@@ -82,27 +82,20 @@ namespace LASI.Algorithm.Thesauri
                 try {
                     foreach (var root in conjugator.TryExtractRoot(search)) {
                         try {
-                            return new HashSet<string>((from REF in AssociationData[root].ReferencedIndexes //Get all set reference indeces stored directly within 
-                                                        select new
-                                                        {                                        //The synset indexed by the word
-                                                            ind = REF,                                      //Store the LexName for restrictive comparison if enabled
-                                                            lex = lexRestrict ? AssociationData[root].LexName : WordNetVerbCategory.ARBITRARY
-                                                        } into Temp
-                                                        join REF in AssociationData on new
-                                                        {                //Now group join all synsets in the entire 
-                                                            Temp.ind,                                       //thesaurus which reference the set above 
-                                                            Temp.lex
-                                                        } equals new
-                                                        {
-                                                            ind = REF.Key,
-                                                            lex = lexRestrict ? REF.Value.LexName : WordNetVerbCategory.ARBITRARY
-                                                        } into ReferencedSets                                //The result of our group join contains all referenced sets
-                                                        from R in ReferencedSets
-                                                        from RM in R.Value.Members                           //Now aggregate all words directly contained within the group
-                                                        select RM into RMG                                   //concatanting them with their various morphs
-                                                        select new string[] { RMG }.Concat(conjugator.TryComputeConjugations(RMG)) into CJRM
-                                                        from C in CJRM                                       //Now simply remove any duplicates
-                                                        select C));
+                            return new HashSet<string>((from refIndex in AssociationData[root].ReferencedIndexes //Get all set reference indeces stored directly within the set containing the search word 
+
+                                                        from referencedSet in AssociationData.Values
+                                                        group referencedSet by referencedSet.ReferencedIndexes.Contains(refIndex) && (referencedSet.LexName == AssociationData[root].LexName || !lexRestrict)
+                                                            into referencedSet
+                                                            where referencedSet.Key
+                                                            select referencedSet into referencedSets
+                                                            //The result of our group join contains all referenced sets
+                                                            from R in referencedSets
+                                                            from word in R.Words                           //Now aggregate all words directly contained within the group
+                                                            select word into words                                   //concatanting them with their various morphs
+                                                            select new string[] { words }.Concat(conjugator.TryComputeConjugations(words)) into withConjugations
+                                                            from word in withConjugations                                       //Now simply remove any duplicates
+                                                            select word));
                         }
                         catch (KeyNotFoundException) {
                         }
@@ -144,28 +137,28 @@ namespace LASI.Algorithm.Thesauri
         }
 
 
-        private SynonymSet BuildSynset(string data)
+        private VerbThesaurusSynSet BuildSynset(string data)
         {
 
             var WNlexNameCode = ( WordNetVerbCategory )Int32.Parse(data.Substring(9, 2));
 
             data = Regex.Replace(data, @"([+]+|;c+)+[\s]+[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+", "");
 
-            var setIDsReferenced = new Regex(@"[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+");
+            var extractedIndeces = new Regex(@"[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+");
 
             var sep = data.Split(new[] { '!', '|' }, StringSplitOptions.RemoveEmptyEntries)[0];
 
-            var setReferences = from Match M in setIDsReferenced.Matches(sep)
-                                select M.Value;
+            var referencedIndeces = from Match M in extractedIndeces.Matches(sep)
+                                    select Int32.Parse(M.Value);
             var elementRgx = new Regex(@"\b[A-Za-z-_]{2,}");
 
             var setElements = from Match ContainedWord in elementRgx.Matches(sep.Substring(17))
                               select ContainedWord.Value.Replace('_', '-');
 
-            return new SynonymSet(setReferences, setElements, WNlexNameCode);
+            return new VerbThesaurusSynSet(referencedIndeces, setElements, WNlexNameCode);
         }
 
-        //private ConcurrentDictionary<int, SynonymSet> allSynonymSets = new ConcurrentDictionary<int, SynonymSet>();
+        //private ConcurrentDictionary<int, VerbThesaurusSynSet> allSynonymSets = new ConcurrentDictionary<int, VerbThesaurusSynSet>();
 
         const int HEADER_LENGTH = 30;
         private VerbConjugator conjugator = new VerbConjugator(ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "verb.exc");

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace LASI.FileSystem
 {
     /// <summary>
-    /// Converts Microsoft Word .doc binary files to modern Microsoft Word .docx open XML files.
+    /// Converts Microsoft word .doc binary files to modern Microsoft word .docx open XML files.
     /// This allows for easy extraction of the raw textual content which must be passed to the tagging module.
     /// </summary>
     public class DocToDocXConverter : FileConverter

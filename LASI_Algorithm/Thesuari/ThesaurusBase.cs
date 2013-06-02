@@ -47,7 +47,7 @@ namespace LASI.Algorithm.Thesauri
         /// <summary>
         /// gets or sets all of the synsets in the ThesaurusBase
         /// </summary>
-        internal IDictionary<string, SynonymSet> AssociationData
+        internal IDictionary<string, VerbThesaurusSynSet> AssociationData
         {
             get;
             set;

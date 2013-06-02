@@ -15,7 +15,7 @@
 //            SourceLexicals.AsParallel().ForAll((ILexical l) => {
 
 //                new Switch(l)
-//                    .Case<Word>(w => {
+//                    .Case<word>(w => {
 //                        w.Weight = 10;
 //                    })
 //                    .Case<Phrase>(nounText => {

@@ -54,7 +54,7 @@ namespace LASI.Algorithm
         #endregion
         /// <summary>
         /// Binds an ILexical construct as the object of the Preposition. 
-        /// Lexical constructs include Word, Phrase, and Clause Types.
+        /// Lexical constructs include word, Phrase, and Clause Types.
         /// </summary>
         /// <param name="prepositionalObject">The ILexical construct as the object of the Preposition.</param>
         public void BindObjectOfPreposition(ILexical prepositionalObject) {
