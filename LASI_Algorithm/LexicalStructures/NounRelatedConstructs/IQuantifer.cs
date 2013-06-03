@@ -4,11 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LASI.Algorithm.SyntacticInterfaces
+namespace LASI.Algorithm
 {
     public interface IQuantifier
     {
-        IQuantifiable Quantifies {
+        IQuantifiable Quantifies
+        {
             get;
             set;
         }

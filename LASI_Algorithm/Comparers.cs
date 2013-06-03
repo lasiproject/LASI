@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LASI.Algorithm.LexicalStructures.NounRelatedConstructs;
-using LASI.Algorithm.SyntacticInterfaces;
+
 using LASI.Algorithm.Thesauri;
 
 namespace LASI.Algorithm
@@ -25,7 +25,7 @@ namespace LASI.Algorithm
 
         }
     }
-    public static class Comparisons<T> where T : LASI.Algorithm.SyntacticInterfaces.ILexical
+    public static class Comparisons<T> where T : LASI.Algorithm.ILexical
     {
         private static TextualComparer textual = new TextualComparer();
         private static AliasComparer<IAliasableEntity> alias = new AliasComparer<IAliasableEntity>();

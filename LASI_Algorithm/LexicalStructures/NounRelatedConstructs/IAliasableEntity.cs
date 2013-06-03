@@ -5,7 +5,7 @@ using System.Text;
 
 namespace LASI.Algorithm.LexicalStructures.NounRelatedConstructs
 {
-    public interface IAliasableEntity : LASI.Algorithm.SyntacticInterfaces.IEntity
+    public interface IAliasableEntity : LASI.Algorithm.IEntity
     {
         bool IsAliasFor(IAliasableEntity other);
     }

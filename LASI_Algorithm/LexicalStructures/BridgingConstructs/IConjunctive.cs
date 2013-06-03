@@ -1,5 +1,6 @@
 ﻿using System;
-namespace LASI.Algorithm.SyntacticInterfaces
+
+namespace LASI.Algorithm
 {
     /// <summary>
     /// Defines the role reqirements of Conjunctive constructs which link two Clauses, Phrases, or Words together.

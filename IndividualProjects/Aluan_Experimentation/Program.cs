@@ -55,6 +55,8 @@ namespace Aluan_Experimentation
             var doc = TaggerUtil.TaggedToDoc(taggedText);
             Phrase.VerboseOutput = false;
             Word.VerboseOutput = false;
+
+
             foreach (var s in doc.Sentences) {
                 try {
                     new SubjectBinder().Bind(s);
@@ -63,6 +65,9 @@ namespace Aluan_Experimentation
                 catch (VerblessPhrasalSequenceException) {
                 }
             }
+
+
+
             foreach (var phrase in doc.Phrases) {
                 Output.WriteLine(phrase);
             }
@@ -72,19 +77,68 @@ namespace Aluan_Experimentation
 
         private static void GroupingByBehaviorAndKindExample(Document doc)
         {
-            var walkers =
-                from action in doc.Words.GetVerbs()
-                where Thesaurus.Lookup(action).Contains("walk")
-                from actionPerformer in action.BoundSubjects
-                select actionPerformer;
 
-            var kindsOfCats = from entity in doc.Words.GetNouns()
-                              let synonyms = Thesaurus.Lookup(entity)
-                              where synonyms.Contains("cat")
-                              group entity by entity.DescribedBy;
+
+
+
+            var allActorsInDocument = from verb in doc.Words.GetVerbs()
+                                      select GetActionPerformers(doc, verb);
+
+
+
+
+
+
+
+
+
+
 
 
         }
+
+        private static IEnumerable<IVerbalSubject> GetActionPerformers(Document doc, Verb actionToFind)
+        {
+            var doers =
+                from action in doc.Words.GetVerbs()
+                where Thesaurus.Lookup(action).Contains(actionToFind.Text)
+                from actionPerformer in action.BoundSubjects
+                select actionPerformer;
+            return doers;
+
+
+
+
+
+        }
+
+        private static IEnumerable<IVerbalSubject> ObfuscatedIntent(Document doc)
+        {
+            List<IEntity> actionPerformers = new List<IEntity>();
+            foreach (Word word in doc.Words) {
+                if (word is Verb) {
+                    IEnumerable<string> synonyms = Thesaurus.Lookup(word);
+                    foreach (Word inner in doc.Words) {
+                        if (inner is Verb) {
+                            foreach (string str in synonyms) {
+                                if (str == word.Text) {
+                                    Verb innerVerb = inner as Verb;
+                                    foreach (IEntity doer in innerVerb.BoundSubjects) {
+                                        actionPerformers.Add(doer);
+                                    }
+
+                                }
+                            }
+
+                        }
+                    }
+                }
+            }
+            return actionPerformers;
+        }
+
+
+
 
         private static void TestNounConjugator()
         {

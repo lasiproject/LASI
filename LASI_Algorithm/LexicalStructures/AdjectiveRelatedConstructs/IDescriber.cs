@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LASI.Algorithm.SyntacticInterfaces
+namespace LASI.Algorithm
 {
     /// <summary>
     /// Defines the role requirements for Descriptive constructs which can Describe an instance of any class which implements the IDescribable interface.

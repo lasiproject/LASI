@@ -9,7 +9,7 @@ using LASI.Algorithm;
 using LASI.Algorithm.DocumentConstructs;
 using LASI.Algorithm.Thesauri;
 using LASI.InteropLayer;
-using LASI.Algorithm.SyntacticInterfaces;
+
 
 namespace LASI.UserInterface.DataVisualzationProviders
 {

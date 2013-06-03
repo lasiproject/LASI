@@ -254,32 +254,7 @@ namespace LASI.Algorithm.Thesauri
             Output.WriteLine("Async PLINQ thesaurus loading took {0} milliseconds", sw.ElapsedMilliseconds);
         }
 
-        private static async Task LoadAllTaskParallell()
-        {
 
-            await Task.WhenAny(
-                 Task.Run(async () =>
-                 {
-                     await NounThesaurus.LoadAsync();
-                     return NounThesaurus;
-                 }),
-                 Task.Run(async () =>
-                 {
-                     await AdverbThesaurus.LoadAsync();
-                     return AdverbThesaurus;
-                 }),
-                 Task.Run(async () =>
-                 {
-                     await AdjectiveThesaurus.LoadAsync();
-                     return AdjectiveThesaurus;
-                 }),
-                 Task.Run(async () =>
-                 {
-                     await VerbThesaurus.LoadAsync();
-                     return VerbThesaurus;
-                 })
-                 );
-        }
 
         #endregion
 

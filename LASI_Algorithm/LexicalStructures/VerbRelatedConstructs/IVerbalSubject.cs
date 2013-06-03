@@ -1,5 +1,5 @@
 ﻿
-namespace LASI.Algorithm.SyntacticInterfaces
+namespace LASI.Algorithm
 {
     /// <summary>
     /// Defines the role reqirements for Action Subjects, generally the subjects of Verbs or VerbPhrases.
@@ -7,7 +7,8 @@ namespace LASI.Algorithm.SyntacticInterfaces
     /// </summary>
     public interface IVerbalSubject
     {
-        ITransitiveVerbal SubjectOf {
+        ITransitiveVerbal SubjectOf
+        {
             get;
             set;
         }

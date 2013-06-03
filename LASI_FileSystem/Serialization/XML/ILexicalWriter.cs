@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using LASI.Algorithm.SyntacticInterfaces;
+using LASI.Algorithm;
+
 
 namespace LASI.FileSystem.Serialization.XML
 {

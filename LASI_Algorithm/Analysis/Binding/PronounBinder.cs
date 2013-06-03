@@ -7,7 +7,7 @@ using LASI.Utilities.TypedSwitch;
 using LASI.Algorithm;
 using LASI.Utilities;
 using LASI.Algorithm.DocumentConstructs;
-using LASI.Algorithm.SyntacticInterfaces;
+
 
 namespace LASI.Algorithm.Binding
 {

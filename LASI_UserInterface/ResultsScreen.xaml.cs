@@ -14,7 +14,7 @@ using System.Windows.Controls.DataVisualization.Charting;
 using System.Windows.Media;
 using LASI.UserInterface.DataVisualzationProviders;
 using LASI.InteropLayer;
-using LASI.Algorithm.SyntacticInterfaces;
+
 
 namespace LASI.UserInterface
 {

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LASI.Utilities;
 using LASI.Algorithm.DocumentConstructs;
-using LASI.Algorithm.SyntacticInterfaces;
+
 
 namespace LASI.Algorithm.Binding
 {

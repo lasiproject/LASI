@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LASI.Algorithm;
 using LASI.Algorithm.DocumentConstructs;
-using LASI.Algorithm.SyntacticInterfaces;
+
 using LASI.Algorithm.Thesauri;
 
 namespace LASI.InteropLayer

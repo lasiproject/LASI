@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace LASI.Algorithm.SyntacticInterfaces
+namespace LASI.Algorithm
 {
     /// <summary>
     /// Defines the role  requirements for an Entity which represents a group of entities, such as an organization which has several branches.

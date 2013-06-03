@@ -1,5 +1,5 @@
 ﻿
-namespace LASI.Algorithm.SyntacticInterfaces
+namespace LASI.Algorithm
 {
     /// <summary>
     /// Defines the role reqirements for Transitive elements, generally Verbs or VerbPhrases, which can be bound to one or more Indirect objects.
@@ -8,7 +8,8 @@ namespace LASI.Algorithm.SyntacticInterfaces
     public interface IInderectObjectTaker
     {
         void BindIndirectObject(IEntity indirectObject);
-        System.Collections.Generic.IEnumerable<IEntity> IndirectObjects {
+        System.Collections.Generic.IEnumerable<IEntity> IndirectObjects
+        {
             get;
         }
     }

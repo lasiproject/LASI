@@ -1,4 +1,4 @@
-﻿using LASI.Algorithm.SyntacticInterfaces;
+﻿
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -56,7 +56,7 @@ namespace LASI.Algorithm
         /// Binds a Pronoun or PronounPhrase as a reference to the NounPhrase Instance.
         /// </summary>
         /// <param name="pro">The referencer which refers to the NounPhrase Instance.</param>
-        public virtual void BindPronoun(LASI.Algorithm.SyntacticInterfaces.IPronoun pro)
+        public virtual void BindPronoun(LASI.Algorithm.IPronoun pro)
         {
             _boundPronouns.Add(pro);
             pro.BindToIEntity(this);

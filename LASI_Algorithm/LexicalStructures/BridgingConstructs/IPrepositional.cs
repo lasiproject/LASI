@@ -1,26 +1,29 @@
 ﻿
-namespace LASI.Algorithm.SyntacticInterfaces
+namespace LASI.Algorithm
 {
     public interface IPrepositional : ILexical
     {
         /// <summary>
         /// Gets or sets the IPropositionLinkable construct on the Right side of the IPrepositional.
         /// </summary>
-        IPrepositionLinkable OnRightSide {
+        IPrepositionLinkable OnRightSide
+        {
             get;
             set;
         }
         /// <summary>
         /// Gets or sets the IPropositionLinkable construct on the Left side of the IPrepositional.
         /// </summary>
-        IPrepositionLinkable OnLeftSide {
+        IPrepositionLinkable OnLeftSide
+        {
             get;
             set;
         }
         /// <summary>
         /// Gets the object of the IPrepositional construct.
         /// </summary>
-        ILexical PrepositionalObject {
+        ILexical PrepositionalObject
+        {
             get;
         }
 
@@ -28,7 +31,8 @@ namespace LASI.Algorithm.SyntacticInterfaces
         /// Gets or sets the contextually extrapolated role of the PrepositionalConstruct.
         /// </summary>
         /// <see cref="PrepositionalRole"/>
-        PrepositionalRole PrepositionalRole {
+        PrepositionalRole PrepositionalRole
+        {
             get;
         }
 

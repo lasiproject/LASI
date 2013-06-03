@@ -1,4 +1,4 @@
-﻿using LASI.Algorithm.SyntacticInterfaces; 
+﻿ 
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -66,13 +66,13 @@ namespace LASI.Algorithm
             }
         }
 
-        public void BindDescriber(SyntacticInterfaces.IDescriber adj) {
+        public void BindDescriber(IDescriber adj) {
             if (!_describers.Contains(adj)) {
                 _describers.Add(adj);
             }
         }
 
-        public IEnumerable<SyntacticInterfaces.IDescriber> DescribedBy {
+        public IEnumerable<IDescriber> DescribedBy {
             get {
                 return _describers;
             }

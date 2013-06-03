@@ -4,17 +4,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LASI.Algorithm.SyntacticInterfaces
+namespace LASI.Algorithm
 {
     public class PunctuatorPhrase : Phrase
     {
         public PunctuatorPhrase(IEnumerable<Word> composedWords)
-            : base(composedWords) {
+            : base(composedWords)
+        {
 
             SignificantPunctution = composedWords.Last(p => p is Punctuation) as Punctuation;
         }
 
-        public Punctuation SignificantPunctution {
+        public Punctuation SignificantPunctution
+        {
             get;
             protected set;
         }

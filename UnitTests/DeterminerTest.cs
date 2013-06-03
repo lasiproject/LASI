@@ -1,7 +1,7 @@
 ﻿using LASI.Algorithm;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using LASI.Algorithm.SyntacticInterfaces;
+
 
 namespace AlgorithmAssemblyUnitTestProject
 {

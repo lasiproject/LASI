@@ -3,7 +3,7 @@ using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
-using LASI.Algorithm.SyntacticInterfaces;
+
 
 namespace AlgorithmAssemblyUnitTestProject
 {

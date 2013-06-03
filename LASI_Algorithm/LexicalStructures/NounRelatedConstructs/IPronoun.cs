@@ -1,5 +1,6 @@
 ﻿using System;
-namespace LASI.Algorithm.SyntacticInterfaces
+
+namespace LASI.Algorithm
 {
     public interface IPronoun : IEntity
     {
