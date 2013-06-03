@@ -14,7 +14,8 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets or sets the ModalAuxilary verb which modifies this instance.
         /// </summary>
-        ModalAuxilary Modality {
+        ModalAuxilary Modality
+        {
             get;
             set;
         }

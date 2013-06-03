@@ -7,7 +7,8 @@ namespace LASI.Algorithm
 {
     public interface IQuantifiable
     {
-        Quantifier Quantifier {
+        IQuantifier Quantifier
+        {
             get;
             set;
         }

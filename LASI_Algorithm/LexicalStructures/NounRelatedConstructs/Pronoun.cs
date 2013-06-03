@@ -238,21 +238,21 @@ namespace LASI.Algorithm
         #region Static Fields
 
         //Common personal Pronouns by gender and plurality 
-        private static readonly string[] males = new[] { "he", "him", "his" };
-        private static readonly string[] maleReflexives = new[] { "himself", "hisself", };
-        private static readonly string[] females = new[] { "she", "her", "hers" };
-        private static readonly string[] femaleReflexives = new[] { "herself" };
-        private static readonly string[] neurtals = new[] { "it", "itself", "its" };
-        private static readonly string[] neurtalReflexives = new[] { "itself" };
-        private static readonly string[] firstPersonSingulars = new[] { "i", "me", "mine" };
-        private static readonly string[] firstPersonSingularReflexives = new[] { "myself" };
-        private static readonly string[] firstPersonPlurals = new[] { "we", "us", "ours" };
-        private static readonly string[] firstPersonPluralReflexives = new[] { "ourselves" };
-        private static readonly string[] secondPersons = new[] { "you", "yours" };
-        private static readonly string[] secondPersonSingularReflexives = new[] { "yourself" };
-        private static readonly string[] secondPersonPluralReflexives = new[] { "yourselves" };
-        private static readonly string[] thirdPersonGenderAmbiguousPlurals = new[] { "them", "they", "theirs" };
-        private static readonly string[] thirdPersonPluralReflexives = new[] { "themselves", "theirselves" };
+        private static readonly string[] males = { "he", "him", "his" };
+        private static readonly string[] maleReflexives = { "himself", "hisself", };
+        private static readonly string[] females = { "she", "her", "hers" };
+        private static readonly string[] femaleReflexives = { "herself" };
+        private static readonly string[] neurtals = { "it", "itself", "its" };
+        private static readonly string[] neurtalReflexives = { "itself" };
+        private static readonly string[] firstPersonSingulars = { "i", "me", "mine" };
+        private static readonly string[] firstPersonSingularReflexives = { "myself" };
+        private static readonly string[] firstPersonPlurals = { "we", "us", "ours" };
+        private static readonly string[] firstPersonPluralReflexives = { "ourselves" };
+        private static readonly string[] secondPersons = { "you", "yours" };
+        private static readonly string[] secondPersonSingularReflexives = { "yourself" };
+        private static readonly string[] secondPersonPluralReflexives = { "yourselves" };
+        private static readonly string[] thirdPersonGenderAmbiguousPlurals = { "them", "they", "theirs" };
+        private static readonly string[] thirdPersonPluralReflexives = { "themselves", "theirselves" };
 
         #endregion
 

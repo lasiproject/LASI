@@ -255,7 +255,7 @@ namespace LASI.UserInterface.DataVisualzationProviders
             var data =
                  from svPair in
                      (from v in doc.Phrases.GetVerbPhrases().WithSubject().AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
-                      from s in v.BoundSubjects.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
+                      from s in v.Subjects.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
                       from dobj in v.DirectObjects.DefaultIfEmpty()
                       from iobj in v.IndirectObjects.DefaultIfEmpty()
 

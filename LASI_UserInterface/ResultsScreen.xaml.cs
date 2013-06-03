@@ -138,14 +138,14 @@ namespace LASI.UserInterface
                     };
                     var vP = phrase as VerbPhrase;
 
-                    if (vP != null && vP.BoundSubjects.Count() > 0) {
+                    if (vP != null && vP.Subjects.Count() > 0) {
                         var visitSubjectMI = new MenuItem
                         {
                             Header = "view subjects"
                         };
                         visitSubjectMI.Click += (sender, e) =>
                         {
-                            var objlabels = from r in vP.BoundSubjects
+                            var objlabels = from r in vP.Subjects
                                             join l in phraseLabels on r equals l.Tag
                                             select l;
                             foreach (var l in objlabels) {

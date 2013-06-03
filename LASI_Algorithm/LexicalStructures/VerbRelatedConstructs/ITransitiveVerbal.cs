@@ -10,7 +10,8 @@ namespace LASI.Algorithm
     /// </summary>
     public interface ITransitiveVerbal : IVerbal, IDirectObjectTaker, IInderectObjectTaker
     {
-        VerbalArity Arity {
+        VerbalArity Arity
+        {
             get;
         }
     }

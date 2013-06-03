@@ -21,11 +21,14 @@ namespace AlgorithmAssemblyUnitTestProject
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
         ///</summary>
-        public TestContext TestContext {
-            get {
+        public TestContext TestContext
+        {
+            get
+            {
                 return testContextInstance;
             }
-            set {
+            set
+            {
                 testContextInstance = value;
             }
         }
@@ -65,7 +68,8 @@ namespace AlgorithmAssemblyUnitTestProject
         ///A test for GenericPluralNoun Constructor
         ///</summary>
         [TestMethod()]
-        public void GenericPluralNounConstructorTest() {
+        public void GenericPluralNounConstructorTest()
+        {
             string text = "clowns";
             GenericPluralNoun target = new GenericPluralNoun(text);
             Assert.IsTrue(target.Text == text);
@@ -75,11 +79,12 @@ namespace AlgorithmAssemblyUnitTestProject
         ///A test for Quantifier
         ///</summary>
         [TestMethod()]
-        public void QuantifierTest() {
+        public void QuantifierTest()
+        {
             string text = "clowns";
             GenericPluralNoun target = new GenericPluralNoun(text);
-            Quantifier expected = new Quantifier("22");
-            Quantifier actual;
+            IQuantifier expected = new Quantifier("22");
+            IQuantifier actual;
             target.Quantifier = expected;
             actual = target.Quantifier;
             Assert.AreEqual(expected, actual);

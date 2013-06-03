@@ -13,10 +13,6 @@ namespace LASI.Algorithm
         public InfinitivePhrase(IEnumerable<Word> composed)
             : base(composed)
         {
-
-
-            //if (IntroducingVerbal == null)
-            //    throw new InvalidInfinitePhraseConstructedException("An infinitive parent must start with a Verbial type");
         }
         public VerbPhrase IntroducingVerbal
         {

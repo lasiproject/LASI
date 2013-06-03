@@ -95,7 +95,7 @@ namespace AlgorithmAssemblyUnitTestProject
             IEntity expected = new PersonalPronoun("he");
             IEntity actual;
             target.BindSubject(expected);
-            actual = target.BoundSubjects.First();
+            actual = target.Subjects.First();
             Assert.AreEqual(expected, actual);
         }
 

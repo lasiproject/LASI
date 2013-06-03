@@ -60,25 +60,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Analysis\Binder.cs" />
-    <Compile Include="Analysis\Binding\AttributiveNounPhraseBinder.cs" />
-    <Compile Include="Analysis\Binding\EntityReferenceBinder.cs" />
-    <Compile Include="Analysis\Binding\InfinitivePhraseAttributer.cs" />
+    <Compile Include="Analysis\Binders\AttributiveNounPhraseBinder.cs" />
+    <Compile Include="Analysis\Binders\EntityReferenceBinder.cs" />
+    <Compile Include="Analysis\Binders\InfinitivePhraseAttributer.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\IAliasableEntity.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\ISimilarityComparablePhrase.cs" />
     <Compile Include="LexicalStructures\VerbRelatedConstructs\InfinitivePhrase.cs" />
-    <Compile Include="Analysis\Binding\InterPhraseWordBinding.cs" />
-    <Compile Include="Analysis\Binding\InvalidInfinitePhraseConstructedException.cs" />
-    <Compile Include="Analysis\Binding\InvalidStateTransitionException.cs" />
-    <Compile Include="Analysis\Binding\ObjectBinder.cs" />
-    <Compile Include="Analysis\Binding\PhraseWiseEntityGroupBinder.cs" />
-    <Compile Include="Analysis\Binding\PronounBinder.cs" />
-    <Compile Include="Analysis\Binding\PronounBounding\WordWisePronounBinder.cs" />
-    <Compile Include="Analysis\Binding\SubjectBinder.cs" />
-    <Compile Include="Analysis\Binding\UnknownEntityCompatibleWordTypeException.cs" />
-    <Compile Include="Analysis\Binding\WordStream.cs" />
-    <Compile Include="Analysis\Heuristics\LOOKATTHIS.cs" />
-    <Compile Include="Analysis\Heuristics\SubjectVerbObjectResult.cs" />
-    <Compile Include="Analysis\Heuristics\UnknownLexicalConstructException.cs" />
+    <Compile Include="Analysis\Binders\InterPhraseWordBinding.cs" />
+    <Compile Include="Analysis\Binders\InvalidInfinitePhraseConstructedException.cs" />
+    <Compile Include="Analysis\Binders\InvalidStateTransitionException.cs" />
+    <Compile Include="Analysis\Binders\ObjectBinder.cs" />
+    <Compile Include="Analysis\Binders\PhraseWiseEntityGroupBinder.cs" />
+    <Compile Include="Analysis\Binders\PronounBinder.cs" />
+    <Compile Include="Analysis\Binders\SubjectBinder.cs" />
+    <Compile Include="Analysis\Binders\UnknownEntityCompatibleWordTypeException.cs" />
+    <Compile Include="Analysis\Binders\WordStream.cs" />
     <Compile Include="Analysis\Weighter.cs" />
     <Compile Include="DocumentConstructs\SubordinateClauseBeginPhrase.cs" />
     <Compile Include="AliasDict.cs" />
@@ -93,8 +89,6 @@
     <Compile Include="LexicalStructures\NounRelatedConstructs\NPAggregateSubjectObject.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\EntityKind.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\EntityKindLookup.cs" />
-    <Compile Include="Analysis\Heuristics\IDocumentAnalyzer.cs" />
-    <Compile Include="Analysis\Heuristics\Metric.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\IWeakPossessor.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\PronounKind.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\PronounPhrase.cs" />
@@ -106,11 +100,10 @@
     <Compile Include="LexicalStructures\NounRelatedConstructs\PossessivePronoun.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\WhPossessivePronoun.cs" />
     <Compile Include="LexicalStructures\UnderpinningTypes\ILexical.cs" />
-    <Compile Include="IEnumerableExtensions\IEnumerableOfTransitiveActionExtensions.cs" />
+    <Compile Include="IEnumerableExtensions\IEnumerableOfITransitiveVerbalExtensions.cs" />
     <Compile Include="IEnumerableExtensions\IEnumerableOfParagraphExtensions.cs" />
     <Compile Include="DocumentConstructs\Paragraph.cs" />
     <Compile Include="IEnumerableExtensions\IEnumerableOfPhraseExtensions.cs" />
-    <Compile Include="Analysis\Heuristics\BasicDocumentAnalyser.cs" />
     <Compile Include="DocumentConstructs\Sentence.cs" />
     <Compile Include="LexicalStructures\AdverbRelatedConstructs\IAdverbial.cs" />
     <Compile Include="LexicalStructures\MiscLanguageConstructs\IConflatable.cs" />
@@ -197,7 +190,7 @@
     <Compile Include="Thesuari\VerbThesaurus.cs" />
     <Compile Include="LexicalStructures\VerbRelatedConstructs\Verb.cs" />
     <Compile Include="LexicalStructures\VerbRelatedConstructs\VerbPhrase.cs" />
-    <Compile Include="IEnumerableExtensions\IEnumerableOfIActionExtensions.cs" />
+    <Compile Include="IEnumerableExtensions\IEnumerableOfIVerbalExtensions.cs" />
     <Compile Include="LexicalStructures\VerbRelatedConstructs\VerbTenses.cs" />
     <Compile Include="LexicalStructures\UnderpinningTypes\Word.cs" />
     <Compile Include="IEnumerableExtensions\IEnumerableOfWordExtensions.cs" />
@@ -212,7 +205,7 @@
     <None Include="LexicalStructures\MiscLanguageConstructs\PhraseConstructs.cd" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Analysis\Binding\SubordinatingConjunctionsTest.txt" />
+    <Content Include="Analysis\Binders\SubordinatingConjunctionsTest.txt" />
     <Content Include="LasiLogo.ico" />
   </ItemGroup>
   <ItemGroup>

@@ -9,7 +9,8 @@ namespace LASI.Algorithm
     {
         void BindSubject(IEntity subject);
 
-        System.Collections.Generic.IEnumerable<IEntity> BoundSubjects {
+        System.Collections.Generic.IEnumerable<IEntity> Subjects
+        {
             get;
         }
 

@@ -74,7 +74,7 @@ namespace LASI.InteropLayer
                         Verbal = v,
                         Direct = v.DirectObjects.OfType<NounPhrase>().FirstOrDefault(),
                         Indirect = v.IndirectObjects.OfType<NounPhrase>().FirstOrDefault(),
-                        Subject = v.BoundSubjects.OfType<NounPhrase>().FirstOrDefault(),
+                        Subject = v.Subjects.OfType<NounPhrase>().FirstOrDefault(),
                         ViaPreposition = v.ObjectViaPreposition as NounPhrase
                     } into result
                     group result by result.Verbal.Text into resultGrouped
@@ -99,7 +99,7 @@ namespace LASI.InteropLayer
             {
                 var vpsWithSubject = document.Phrases.GetVerbPhrases().WithSubject();
                 return from vp in vpsWithSubject.WithDirectObject().Concat(vpsWithSubject.WithIndirectObject()).Distinct()
-                       orderby vp.BoundSubjects.OfType<NounPhrase>().Aggregate(0m, (sum, e) => sum += e.Weight) + vp.DirectObjects.OfType<NounPhrase>().Aggregate(0m, (sum, e) => sum += e.Weight) + vp.IndirectObjects.OfType<NounPhrase>().Aggregate(0m, (sum, e) => sum += e.Weight)
+                       orderby vp.Subjects.OfType<NounPhrase>().Aggregate(0m, (sum, e) => sum += e.Weight) + vp.DirectObjects.OfType<NounPhrase>().Aggregate(0m, (sum, e) => sum += e.Weight) + vp.IndirectObjects.OfType<NounPhrase>().Aggregate(0m, (sum, e) => sum += e.Weight)
                        select vp as VerbPhrase;
             });
         }

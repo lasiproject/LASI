@@ -19,31 +19,37 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="text">The literal text content of the PossessivePronoun.</param>
         public PossessivePronoun(string text)
-            : base(text) {
+            : base(text)
+        {
         }
 
-        public virtual void AddPossession(IEntity possession) {
+        public virtual void AddPossession(IEntity possession)
+        {
             if (PossessesFor != null) {
                 PossessesFor.AddPossession(possession);
-            }
-            else if (!_possessed.Contains(possession)) {
+            } else if (!_possessed.Contains(possession)) {
                 _possessed.Add(possession);
             }
         }
 
 
 
-        public virtual IEnumerable<IEntity> Possessed {
-            get {
+        public virtual IEnumerable<IEntity> Possessed
+        {
+            get
+            {
                 return _possessed;
             }
         }
 
-        public virtual IEntity PossessesFor {
-            get {
+        public virtual IEntity PossessesFor
+        {
+            get
+            {
                 return _possessedFor;
             }
-            set {
+            set
+            {
                 _possessedFor = value;
                 foreach (var possession in _possessed)
                     _possessedFor.AddPossession(possession);

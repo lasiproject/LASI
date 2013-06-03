@@ -75,7 +75,7 @@ namespace AlgorithmAssemblyUnitTestProject
 
             Assert.IsTrue(target.Text == text);
             Assert.IsTrue(target.Tense == tense);
-            Assert.IsTrue(target.BoundSubjects.Count() == 0);
+            Assert.IsTrue(target.Subjects.Count() == 0);
             Assert.IsTrue(target.DirectObjects.Count() == 0);
             Assert.IsTrue(target.IndirectObjects.Count() == 0);
             Assert.IsTrue(target.Modality == null);
@@ -137,8 +137,8 @@ namespace AlgorithmAssemblyUnitTestProject
             Verb target = new Verb(text, tense);
             IEntity subject = new PersonalPronoun("he");
             target.BindSubject(subject);
-            Assert.IsTrue(target.BoundSubjects.Count() == 1);
-            Assert.IsTrue(target.BoundSubjects.Contains(subject));
+            Assert.IsTrue(target.Subjects.Count() == 1);
+            Assert.IsTrue(target.Subjects.Contains(subject));
         }
 
         /// <summary>

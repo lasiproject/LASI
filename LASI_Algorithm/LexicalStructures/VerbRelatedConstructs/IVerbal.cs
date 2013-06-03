@@ -9,15 +9,16 @@
         void AttachObjectViaPreposition(IPrepositional prep);
 
 
-        ILexical ObjectViaPreposition {
+        ILexical ObjectViaPreposition
+        {
             get;
         }
-
-
-        ILexical GivenExposition {
+        ILexical GivenExposition
+        {
             get;
         }
-        IPrepositional PrepositionLinkingTarget {
+        IPrepositional PrepositionLinkingTarget
+        {
             get;
         }
     }

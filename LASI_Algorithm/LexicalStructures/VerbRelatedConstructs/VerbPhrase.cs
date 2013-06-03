@@ -83,7 +83,7 @@ namespace LASI.Algorithm
                 _boundDirectObjects.Add(directObject);
                 directObject.DirectObjectOf = this;
                 if (Possessive) {
-                    foreach (var s in this.BoundSubjects) {
+                    foreach (var s in this.Subjects) {
                         s.AddPossession(directObject);
                     }
                 }
@@ -107,7 +107,7 @@ namespace LASI.Algorithm
             if (Phrase.VerboseOutput) {
 
                 var result = base.ToString();
-                foreach (var s in BoundSubjects) {
+                foreach (var s in Subjects) {
                     result += s != null ? "\n\tSubject: " + s.ToString() : "";
                 }
                 foreach (var d in DirectObjects) {
@@ -154,7 +154,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets the subjects of the VerbPhrase.
         /// </summary>
-        public IEnumerable<IEntity> BoundSubjects
+        public IEnumerable<IEntity> Subjects
         {
             get
             {

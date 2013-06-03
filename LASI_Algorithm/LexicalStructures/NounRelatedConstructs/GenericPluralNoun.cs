@@ -16,7 +16,8 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="text">The literal text content of the GenericPluralNoun</param>
         public GenericPluralNoun(string text)
-            : base(text) {
+            : base(text)
+        {
         }
 
 
@@ -25,7 +26,8 @@ namespace LASI.Algorithm
         /// Gets or sets the Qunatifier which specifies the number of units of the GenericPluralNoun which are referred to in this occurance.
         /// e.g. "[five] miscreants"
         /// </summary>
-        public virtual Quantifier Quantifier {
+        public virtual IQuantifier Quantifier
+        {
             get;
             set;
         }
