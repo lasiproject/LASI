@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace LASI.Algorithm
 {
-    public static class AliasDict
+    public static class AliasDictionary
     {
         /// <summary>
         /// Checks to see if one Entity is a nown alias for another.
