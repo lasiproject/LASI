@@ -29,22 +29,15 @@ namespace LASI.Algorithm.Binding
             }
         }
 
-        private static void PerformPronounBinding(Document doc)
-        {
-            doc.Sentences
-                .Where(s => s.Paragraph.ParagraphKind == ParagraphKind.Default)
-                   .AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
-                   .ForAll(
-                   s => new PronounBinder().Bind(doc));
-        }
+
 
 
         #region Private Static Methods
 
         private static void PerformAttributeNounPhraseBinding(Document doc)
         {
-            doc.Sentences
-              .Where(s => s.Paragraph.ParagraphKind == ParagraphKind.Default)
+            doc.Sentences.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
+                .Where(s => s.Paragraph.ParagraphKind == ParagraphKind.Default)
                 .AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
                 .ForAll(
                 s =>
@@ -55,8 +48,8 @@ namespace LASI.Algorithm.Binding
         private static void PerformSVOBinding(Document doc)
         {
             try {
-                doc.Sentences
-                 .Where(s => s.Paragraph.ParagraphKind == ParagraphKind.Default)
+                doc.Sentences.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
+                    .Where(s => s.Paragraph.ParagraphKind == ParagraphKind.Default)
                     .AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
                     .ForAll(
                     s =>
@@ -82,14 +75,10 @@ namespace LASI.Algorithm.Binding
             catch {
             }
         }
-
         private static void PerformIntraPhraseBinding(Document doc)
         {
-
-
-
-
-            foreach (var r in doc.Phrases) {
+            doc.Phrases.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax).ForAll(r =>
+            {
                 var wordBinder = new InterPhraseWordBinding();
                 new LASI.Utilities.TypedSwitch.Switch(r)
                 .Case<NounPhrase>(np =>
@@ -103,10 +92,20 @@ namespace LASI.Algorithm.Binding
                 .Default(a =>
                 {
                 });
-            }
-
-        #endregion
+            });
         }
+        private static void PerformPronounBinding(Document doc)
+        {
+            doc.Sentences.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
+                .Where(s => s.Paragraph.ParagraphKind == ParagraphKind.Default)
+                .AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
+                .ForAll(
+                s =>
+                {
+                    new PronounBinder().Bind(doc);
+                });
+        }
+        #endregion
     }
 
 }

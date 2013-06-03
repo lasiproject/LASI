@@ -16,7 +16,7 @@ namespace Aluan_Experimentation
             foreach (var word in sentence.Words) {
                 new Switch(word)
                 .Case<Verb>(v => {
-                    if (v.BoundSubjects.Count() > 2)
+                    if (v.Subjects.Count() > 2)
                         v.Weight++;
                 })
                 .Case<Noun>(n => {

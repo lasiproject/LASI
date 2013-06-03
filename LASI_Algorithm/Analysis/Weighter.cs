@@ -1,13 +1,12 @@
-﻿using LASI.Algorithm.DocumentConstructs;
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LASI.Algorithm.DocumentConstructs;
 using LASI.Algorithm.Thesauri;
-using LASI.Utilities.TypedSwitch;
 using LASI.Utilities;
+using LASI.Utilities.TypedSwitch;
 
 namespace LASI.Algorithm.Weighting
 {
@@ -178,6 +177,7 @@ namespace LASI.Algorithm.Weighting
                                           })
                                      where potentialM.similarityRatio >= 0.6f
                                      select potentialM;
+                //Need to fix this. Its causing stack overflow
                 foreach (var match in similarPhrases) {
                     //match.NP.Weight += match.innerNP.Weight * (decimal)match.similarityRatio;
                     //match.innerNP.Weight += match.NP.Weight * (decimal)match.similarityRatio;

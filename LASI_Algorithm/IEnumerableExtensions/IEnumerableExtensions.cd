@@ -1,37 +1,51 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1" GroupingSetting="Access">
-  <Class Name="LASI.Algorithm.IEnumerableOfIActionExtensions">
-    <Position X="3.5" Y="1" Width="2.5" />
+  <Class Name="LASI.Algorithm.IEnumerableOfIVerbalExtensions">
+    <Position X="5" Y="3" Width="2.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAA=</HashCode>
-      <FileName>IEnumerableExtensions\IEnumerableOfIActionExtensions.cs</FileName>
+      <FileName>IEnumerableExtensions\IEnumerableOfIVerbalExtensions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Algorithm.IEnumerableOfIEntityExtensions">
+    <Position X="14.75" Y="4.75" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAEAAAAAAAACA=</HashCode>
+      <FileName>IEnumerableExtensions\IEnumerableOfIEntityExtensions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Algorithm.IEnumerableOfILexicalExtensions">
+    <Position X="8.75" Y="3" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAgAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IEnumerableExtensions\IEnumerableOfILexicalExtensions.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="LASI.Algorithm.IEnumerableOfParagraphExtensions">
-    <Position X="6.5" Y="1" Width="2.75" />
+    <Position X="5" Y="4.75" Width="2.75" />
     <TypeIdentifier>
       <HashCode>AAAAgAgAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>IEnumerableExtensions\IEnumerableOfParagraphExtensions.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="LASI.Algorithm.IEnumerableOfPhraseExtensions">
-    <Position X="9.25" Y="2.5" Width="2.5" />
+    <Position X="11.75" Y="3" Width="2.5" />
     <TypeIdentifier>
-      <HashCode>AgAAABAAAAAAAEAAIAAAAAAAAAAAAAAAAAAAAAAAAgA=</HashCode>
+      <HashCode>AgAAABEAAAAAAEAAIAAAAAAAAAAAAAAAAAACAQAAggA=</HashCode>
       <FileName>IEnumerableExtensions\IEnumerableOfPhraseExtensions.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LASI.Algorithm.IEnumerableOfTransitiveActionExtensions">
-    <Position X="3.5" Y="4" Width="3" />
+  <Class Name="LASI.Algorithm.IEnumerableOfITransitiveVerbalExtensions">
+    <Position X="14.75" Y="3" Width="3" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAQAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>IEnumerableExtensions\IEnumerableOfTransitiveActionExtensions.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAgAA=</HashCode>
+      <FileName>IEnumerableExtensions\IEnumerableOfITransitiveVerbalExtensions.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="LASI.Algorithm.IEnumerableOfWordExtensions">
-    <Position X="6.5" Y="4" Width="2.5" />
+    <Position X="1.5" Y="3" Width="2.75" />
     <TypeIdentifier>
-      <HashCode>CAAEAAABAAAAAAAAAIAAAAAAAAAAAAIAAAAAAAEAAAU=</HashCode>
+      <HashCode>CAAEAAAAAACAAAAAgIAAQAIAAAAAAAAAAAAAADEAAAE=</HashCode>
       <FileName>IEnumerableExtensions\IEnumerableOfWordExtensions.cs</FileName>
     </TypeIdentifier>
   </Class>

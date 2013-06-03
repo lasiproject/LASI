@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace LASI.Algorithm
 {
-    public static class IEnumerableOfTransitiveActionExtensions
+    public static class IEnumerableOfITransitiveVerbalExtensions
     {
         /// <summary>
         /// Filters the sequence of Transitive Action instances selecting those with at least one bound direct object.

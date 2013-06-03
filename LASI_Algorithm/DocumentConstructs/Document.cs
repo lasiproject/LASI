@@ -40,7 +40,6 @@ namespace LASI.Algorithm.DocumentConstructs
 
         private void AssignMembers(IEnumerable<Paragraph> paragrpahs)
         {
-
             _sentences = (from p in _paragraphs
                           from s in p.Sentences
                           where s.Words.GetVerbs().Any()
@@ -51,7 +50,6 @@ namespace LASI.Algorithm.DocumentConstructs
             _words = (from s in _sentences
                       from w in s.Words.Concat(s.EndingPunctuation.AsEnumerable())
                       select w).ToList();
-
         }
 
         #endregion

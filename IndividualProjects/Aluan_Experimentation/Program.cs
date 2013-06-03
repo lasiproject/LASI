@@ -102,7 +102,7 @@ namespace Aluan_Experimentation
             var doers =
                 from action in doc.Words.GetVerbs()
                 where Thesaurus.Lookup(action).Contains(actionToFind.Text)
-                from actionPerformer in action.BoundSubjects
+                from actionPerformer in action.Subjects
                 select actionPerformer;
             return doers;
 
@@ -123,7 +123,7 @@ namespace Aluan_Experimentation
                             foreach (string str in synonyms) {
                                 if (str == word.Text) {
                                     Verb innerVerb = inner as Verb;
-                                    foreach (IEntity doer in innerVerb.BoundSubjects) {
+                                    foreach (IEntity doer in innerVerb.Subjects) {
                                         actionPerformers.Add(doer);
                                     }
 

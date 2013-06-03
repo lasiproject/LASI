@@ -8,16 +8,17 @@ using System.Threading.Tasks;
 
 namespace LASI.Algorithm
 {
-    public static class IEnumerableOfIActionExtensions
+    public static class IEnumerableOfIVerbalExtensions
     {
         /// <summary>
         /// Filters the sequence of Action instances selecting those with at least one bound subject.
         /// </summary>
         /// <param name="actions">The Enumerable of Action instances to filter.</param>
         /// <returns>The subset bound to some subject.</returns>
-        public static IEnumerable<ITransitiveVerbal> WithSubject(this IEnumerable<ITransitiveVerbal> actions) {
+        public static IEnumerable<ITransitiveVerbal> WithSubject(this IEnumerable<ITransitiveVerbal> actions)
+        {
             return from V in actions
-                   where V.BoundSubjects.Count(s => s != null) > 0
+                   where V.Subjects.Count(s => s != null) > 0
                    select V;
         }
         /// <summary>
@@ -34,9 +35,11 @@ namespace LASI.Algorithm
         /// </example>       
         /// <remarks>This provided function is used to filter the actions based on their subjects.
         /// </remarks>
-        public static IEnumerable<ITransitiveVerbal> WithSubject(this IEnumerable<ITransitiveVerbal> actions, Func<IEntity, bool> condition) {
+        public static IEnumerable<ITransitiveVerbal> WithSubject(this IEnumerable<ITransitiveVerbal> actions, Func<IEntity, bool> condition)
+        {
             return from A in actions.WithSubject()
-                   where A.BoundSubjects.Count(s => {
+                   where A.Subjects.Count(s =>
+                   {
                        var p = s as Pronoun;
                        return condition(s) || p != null && condition(p.BoundEntity);
                    }) > 0
