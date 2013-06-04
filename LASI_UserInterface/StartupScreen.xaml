@@ -13,11 +13,14 @@
         Icon="MiscImages\LasiLogo.ico"
         WindowStyle="None"
         Background="#FFE8E8E8"
-        WindowStartupLocation="CenterOwner">
+        WindowStartupLocation="CenterOwner"
+        AllowDrop="False">
 
 
 
-    <Grid Background="#FFE8E8E8"
+    <Grid Name="mainGrid"
+          Background="#FFE8E8E8"
+          Drop="Grid_Drop"
           Canvas.Top="-28">
 
 
@@ -66,7 +69,7 @@
                        Canvas.Top="154"
                        TextAlignment="Left"
                        LineHeight="6"
-                       Margin="30,114,577,0"
+                       Margin="30,116,577,0"
                        VerticalAlignment="Top"
                        FontFamily="Segoe UI Semilight" />
             <TextBox x:Name="ProjectNameTextBox"
@@ -75,8 +78,8 @@
                      Canvas.Top="54"
                      MaxLines="1"
                      TextChanged="EnteredProjectName_TextChanged"
-                     Margin="109,117,342,0"
-                     Height="19"
+                     Margin="109,114,342,0"
+                     Height="24"
                      VerticalAlignment="Top"
                      FontSize="12"
                      UseLayoutRounding="True" />
@@ -104,7 +107,7 @@
                        Canvas.Top="91"
                        TextAlignment="Left"
                        LineHeight="6"
-                       Margin="30,144,577,0"
+                       Margin="30,145,577,0"
                        VerticalAlignment="Top"
                        RenderTransformOrigin="-0.017,0.48"
                        FontFamily="Segoe UI Semilight" />
@@ -113,7 +116,7 @@
                      Canvas.Top="89"
                      MaxLines="1"
                      Margin="109,145,342,0"
-                     Height="19"
+                     Height="24"
                      VerticalAlignment="Top"
                      FontSize="12" />
             <Button x:Name="SelectProjFolderButton"
@@ -122,7 +125,7 @@
                     Canvas.Top="87"
                     RenderTransformOrigin="0.5,0.5"
                     Click="SelectProjFolderButton_Click"
-                    Margin="319,144,294,0"
+                    Margin="319,145,294,0"
                     Height="24"
                     FontSize="10"
                     FontFamily="Segoe UI Semilight"
@@ -143,8 +146,8 @@
                        Canvas.Top="127"
                        TextAlignment="Left"
                        LineHeight="6"
-                       Margin="30,176,567,0"
-                       Height="14"
+                       Margin="30,181,567,0"
+                       Height="16"
                        VerticalAlignment="Top"
                        FontSize="12"
                        FontFamily="Segoe UI Semilight" />
@@ -154,8 +157,8 @@
                      Width="205"
                      MaxLines="1"
                      HorizontalAlignment="Left"
-                     Margin="109,181,0,0"
-                     Height="19"
+                     Margin="109,176,0,0"
+                     Height="24"
                      VerticalAlignment="Top" />
 
 
@@ -164,7 +167,7 @@
                     Canvas.Top="126"
                     RenderTransformOrigin="0.8,0.476"
                     Click="browseForDocButton_Click"
-                    Margin="319,180,294,0"
+                    Margin="319,176,294,0"
                     Height="24"
                     VerticalAlignment="Top"
                     FontSize="10"
@@ -203,13 +206,13 @@
                        Canvas.Left="300"
                        Canvas.Top="165"
                        Width="20"
-                       Margin="615,117,21,62" />
+                       Margin="615,111,21,40" />
 
             <Button x:Name="CreateButton"
                     Content="Create"
                     Canvas.Left="385"
                     Canvas.Top="224"
-                    Click="CreateButton_Click"
+                    Click="setupAndContinueButton_Click"
                     Margin="200,225,404,0"
                     Height="27"
                     VerticalAlignment="Top"

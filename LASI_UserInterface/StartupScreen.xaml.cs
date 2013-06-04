@@ -59,7 +59,7 @@ namespace LASI.UserInterface
 
         private async void createProjectButton_Click(object sender, RoutedEventArgs e)
         {
-
+            mainGrid.AllowDrop = true;
 
             await SetUpDirectory();
 
@@ -77,6 +77,7 @@ namespace LASI.UserInterface
         }
         private async void CancelButton_Click(object sender, RoutedEventArgs e)
         {
+            mainGrid.AllowDrop = false;
 
             if (Height == 520) {
                 for (var i = 0; i < 270 && Height > 250; i += 10) {
@@ -94,7 +95,6 @@ namespace LASI.UserInterface
                     Directory.CreateDirectory(location);
                 }
 
-
                 return location;
 
             });
@@ -104,8 +104,6 @@ namespace LASI.UserInterface
 
 
 
-        #region EventHandlers
-
         private void browseForDocButton_Click(object sender, RoutedEventArgs e)
         {
             var openDialog = new Microsoft.Win32.OpenFileDialog
@@ -114,56 +112,67 @@ namespace LASI.UserInterface
             };
             openDialog.ShowDialog(this);
             if (openDialog.FileNames.Any()) {
-                var docEntry = new ListViewItem
-                {
-                    Tag = openDialog.FileName,
-                    Content = openDialog.SafeFileName
-                };
-                var button = new Button
-                {
-                    Content = "x",
-                    Height = 16,
-                    Width = 16,
-                    Padding = new Thickness(0.5),
-                    Style = FindResource("xButton") as Style
-                };
-
-
-                button.Click += (s, args) =>
-                {
-
-                    documentsAdded.Items.Remove(docEntry);
-                    xbuttons.Children.Remove(button);
-                    NumberOfDocuments--;
-                    if (NumberOfDocuments == 0) {
-                        //  documentsAdded.Visibility = Visibility.Hidden;
-                        documentsAdded.Opacity = 0.25;
-                    }
-
-                    browseForDocButton.IsEnabled = true;
-
-
-                };
-
-
-                xbuttons.Children.Add(button);
-                documentsAdded.Items.Add(docEntry);
-                lastDocPath.Text = openDialog.SafeFileName;
-                NumberOfDocuments++;
-                if (NumberOfDocuments > 0) {
-                    //documentsAdded.Visibility = Visibility.Visible;
-                    documentsAdded.Opacity = 100;
-                }
-
-                if (NumberOfDocuments == 5) {
-                    browseForDocButton.IsEnabled = false;
+                if (!DocumentAlreadyAdded(openDialog.SafeFileName)) {
+                    var fileName = openDialog.SafeFileName;
+                    var filePath = openDialog.FileName;
+                    AddUserDocument(fileName, filePath);
+                } else {
+                    MessageBox.Show(string.Format("A document named {0} is already part of the project.", openDialog.SafeFileName));
                 }
             }
 
         }
 
+        private void AddUserDocument(string fileName, string filePath)
+        {
+            var docEntry = new ListViewItem
+            {
+                Tag = filePath,
+                Content = fileName
+            };
+            var button = new Button
+            {
+                Content = "x",
+                Height = 16,
+                Width = 16,
+                Padding = new Thickness(0.5),
+                Style = FindResource("xButton") as Style
+            };
 
-        private async void CreateButton_Click(object sender, RoutedEventArgs e)
+
+            button.Click += (s, args) =>
+            {
+
+                documentsAdded.Items.Remove(docEntry);
+                xbuttons.Children.Remove(button);
+                numberOfDocuments--;
+                if (numberOfDocuments == 0) {
+                    //  documentsAdded.Visibility = Visibility.Hidden;
+                    documentsAdded.Opacity = 0.25;
+                }
+
+                browseForDocButton.IsEnabled = true;
+
+
+            };
+
+
+            xbuttons.Children.Add(button);
+            documentsAdded.Items.Add(docEntry);
+            lastDocPath.Text = fileName;
+            numberOfDocuments++;
+            if (numberOfDocuments > 0) {
+                //documentsAdded.Visibility = Visibility.Visible;
+                documentsAdded.Opacity = 100;
+            }
+
+            if (numberOfDocuments == 5) {
+                browseForDocButton.IsEnabled = false;
+            }
+        }
+
+
+        private async void setupAndContinueButton_Click(object sender, RoutedEventArgs e)
         {
             if (ValidateProjectNameField() && ValidateProjectLocationField() && ValidateProjectDocumentField()) {
                 Resources["CurrentProjectName"] = ProjectNameTextBox.Text;
@@ -269,7 +278,7 @@ namespace LASI.UserInterface
                 LocationTextBox.ToolTip = new ToolTip
                 {
                     Visibility = Visibility.Visible,
-                    Content = "You must enter a location for your new project"
+                    Content = "You must enter a valid location for your new project"
                 };
                 return false;
             }
@@ -279,7 +288,7 @@ namespace LASI.UserInterface
 
         private bool ValidateProjectDocumentField()
         {
-            if (NumberOfDocuments == 0) {
+            if (numberOfDocuments == 0) {
                 lastDocPath.ToolTip = new ToolTip
                 {
                     Visibility = Visibility.Visible,
@@ -302,8 +311,37 @@ namespace LASI.UserInterface
 
         }
 
-        #endregion
 
+
+
+
+        private void EnteredProjectName_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            LocationTextBox.Text = ProjectLocation + @"\" + ProjectNameTextBox.Text;
+        }
+
+        private void Grid_Drop(object sender, DragEventArgs e)
+        {
+            var validDroppedFiles = (from filePath in e.Data.GetData(DataFormats.FileDrop, true) as string[]
+                                     let fileInfo = new FileInfo(filePath)
+                                     where acceptedFormats.Contains(fileInfo.Extension)
+                                     select fileInfo).Take(5 - numberOfDocuments);
+            if (!validDroppedFiles.Any()) {
+                MessageBox.Show(string.Format("Only the following file formats are accepted:\n{0}", acceptedFormats.Aggregate((sum, current) => sum += current + ", ")));
+            } else if (!validDroppedFiles.Any(fn => !DocumentAlreadyAdded(fn.Name))) {
+                MessageBox.Show(string.Format("A document named {0} is already part of the project.", validDroppedFiles.First()));
+            } else {
+                foreach (var droppedFile in validDroppedFiles) {
+                    AddUserDocument(droppedFile.Name, droppedFile.FullName);
+                }
+            }
+        }
+
+        private bool DocumentAlreadyAdded(string documentName)
+        {
+            return (from alreadyAdded in documentsAdded.Items.OfType<ListViewItem>()
+                    select alreadyAdded.Content.ToString()).Contains(documentName);
+        }
 
         #region Properties
 
@@ -313,28 +351,11 @@ namespace LASI.UserInterface
             private set;
         }
 
-
-        private int NumberOfDocuments
-        {
-            get;
-            set;
-        }
-
-
-
-
         #endregion
 
-        private void EnteredProjectName_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            LocationTextBox.Text = ProjectLocation + @"\" + ProjectNameTextBox.Text;
-        }
+        private int numberOfDocuments;
 
-
-
-
-
-
+        private readonly string[] acceptedFormats = { ".docx", ".txt", ".pdf" };
 
     }
 }
