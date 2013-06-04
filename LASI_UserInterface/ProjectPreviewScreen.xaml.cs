@@ -36,15 +36,10 @@ namespace LASI.UserInterface
 
         public async void LoadDocumentPreviews()
         {
-
             foreach (var textfile in FileManager.TextFiles) {
                 await LoadTextandTab(textfile);
-
-
             }
             DocumentPreview.SelectedIndex = 0;
-
-
         }
 
         private async Task LoadTextandTab(FileSystem.FileTypes.TextFile textfile)
@@ -67,9 +62,6 @@ namespace LASI.UserInterface
                         TextWrapping = TextWrapping.Wrap,
                         Text = docu,
                         FontSize = 12
-
-
-
                     },
                     Focusable = true
 
