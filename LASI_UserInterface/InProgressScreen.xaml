@@ -137,25 +137,6 @@
                          Canvas.Top="328"
                          Width="654"
                          ValueChanged="ProgressBar_ValueChanged">
-                <ProgressBar.Foreground>
-                    <LinearGradientBrush EndPoint="0.5,1"
-                                         MappingMode="RelativeToBoundingBox"
-                                         StartPoint="0.5,0">
-                        <GradientStop Color="White"
-                                      Offset="0.006" />
-                        <GradientStop Color="#FFBC1301"
-                                      Offset="0.497" />
-                        <GradientStop Color="#FFDF9189"
-                                      Offset="0.275" />
-                        <GradientStop Color="#FFD7776C"
-                                      Offset="0.688" />
-                        <GradientStop Color="#FFFCF7F6"
-                                      Offset="1" />
-                        <GradientStop Color="#FFEBBCB7" />
-                        <GradientStop Color="#FFEDC1BC"
-                                      Offset="1" />
-                    </LinearGradientBrush>
-                </ProgressBar.Foreground>
                 <ProgressBar.BindingGroup>
                     <BindingGroup />
                 </ProgressBar.BindingGroup>
