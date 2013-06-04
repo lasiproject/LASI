@@ -42,7 +42,7 @@ namespace LASI.InteropLayer
 
             progressBar.Value += 5;
 
-            documentStepRatio = 19f / FileManager.TextFiles.Count();
+            documentStepRatio = 13f / FileManager.TextFiles.Count();
             var docs = new ConcurrentBag<LASI.Algorithm.DocumentConstructs.Document>();
 
             var tasks = (from doc in FileManager.TaggedFiles
@@ -106,23 +106,7 @@ namespace LASI.InteropLayer
             ProgressBar.Value += documentStepRatio;
         }
 
-        private async Task WeightAllDocs(IEnumerable<LASI.Algorithm.DocumentConstructs.Document> docs)
-        {
 
-            await Task.WhenAll((docs.ToList().Select(doc =>
-            {
-
-                return Task.Factory.StartNew(async () =>
-                {
-                    await Weighter.WeightAsync(doc);
-                    var statusMessage = string.Format("Document Scoped Weighting Completed for {0}", doc.FileName);
-                    ProgressLabel.Content = statusMessage;
-                    ProgressBar.ToolTip = statusMessage;
-                    ProgressBar.Value += documentStepRatio;
-                }, System.Threading.CancellationToken.None, TaskCreationOptions.None, TaskScheduler.FromCurrentSynchronizationContext());
-            })).ToArray());
-
-        }
 
         private async Task BindLexicals(IEnumerable<LASI.Algorithm.DocumentConstructs.Document> docs)
         {

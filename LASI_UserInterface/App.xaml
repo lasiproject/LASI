@@ -108,8 +108,8 @@
                         <Grid>
 
 
-                            <Button BorderBrush="Transparent" Content="Create"/>
-                            <Border x:Name ="Borderborder" BorderBrush="{TemplateBinding BorderBrush}"  BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="5" Padding="1" />
+                            <Button BorderBrush="Transparent" Content="Create" />
+                            <Border x:Name="Borderborder" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="5" Padding="1" />
                         </Grid>
                     </ControlTemplate>
                 </Setter.Value>
@@ -122,8 +122,8 @@
                         <Grid>
 
 
-                            <Button BorderBrush="Transparent" Content="Cancel"/>
-                            <Border x:Name ="Borderborder" BorderBrush="{TemplateBinding BorderBrush}"  BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="5" Padding="1" />
+                            <Button BorderBrush="Transparent" Content="Cancel" />
+                            <Border x:Name="Borderborder" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="5" Padding="1" />
                         </Grid>
                     </ControlTemplate>
                 </Setter.Value>
@@ -137,8 +137,8 @@
                         <Grid>
 
 
-                            <Button BorderBrush="Transparent" Content="Load"/>
-                            <Border x:Name ="Borderborder" BorderBrush="{TemplateBinding BorderBrush}"  BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="5" Padding="1" />
+                            <Button BorderBrush="Transparent" Content="Load" />
+                            <Border x:Name="Borderborder" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="5" Padding="1" />
                         </Grid>
                     </ControlTemplate>
                 </Setter.Value>
@@ -152,7 +152,7 @@
 
 
                             <Button BorderBrush="Transparent" Content="x" FontSize="8" Margin="0,0,1,0" BorderThickness="0.5" Padding="0" ScrollViewer.CanContentScroll="False" ClipToBounds="True" />
-                            <Border x:Name ="Borderborder" BorderBrush="{TemplateBinding BorderBrush}"  BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="5" />
+                            <Border x:Name="Borderborder" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="5" />
                         </Grid>
                     </ControlTemplate>
                 </Setter.Value>

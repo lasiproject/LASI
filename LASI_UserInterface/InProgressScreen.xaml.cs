@@ -90,7 +90,7 @@ namespace LASI.UserInterface
             ProgressLabel.Content = "Complete";
             WindowManager.ResultsScreen.Documents = analyzedDocuments.ToList();
             ProceedtoResultsButton.Visibility = Visibility.Visible;
-            startflashing();
+            StartFlashing();
 
         }
 
@@ -157,7 +157,7 @@ namespace LASI.UserInterface
 
         }
 
-        void startflashing()
+        void StartFlashing()
         {
             {
                 FLASHWINFO fInfo = new FLASHWINFO();
@@ -171,18 +171,13 @@ namespace LASI.UserInterface
 
                 fInfo.dwTimeout = 0;
 
-
-
                 FlashWindowEx(ref fInfo);
             }
-            this.GotFocus += (s, e) =>
-            {
+            this.StateChanged += (s, e) => StopFlashing();
+            this.GotFocus += (s, e) => StopFlashing();
 
-                stopflashing();
-
-            };
         }
-        void stopflashing()
+        void StopFlashing()
         {
             FLASHWINFO fInfo = new FLASHWINFO();
 
@@ -203,5 +198,11 @@ namespace LASI.UserInterface
         }
 
         #endregion
+
+        private void ProgressBar_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            this.TaskbarItemInfo.ProgressState = System.Windows.Shell.TaskbarItemProgressState.Normal;
+            this.TaskbarItemInfo.ProgressValue = e.NewValue / 100;
+        }
     }
 }
