@@ -151,7 +151,7 @@
                        VerticalAlignment="Top"
                        FontSize="12"
                        FontFamily="Segoe UI Semilight" />
-            <TextBox x:Name="lastDocPath"
+            <TextBox x:Name="lastDocPathTextBox"
                      Canvas.Left="178"
                      Canvas.Top="127"
                      Width="205"

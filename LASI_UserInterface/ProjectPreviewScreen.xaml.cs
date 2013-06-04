@@ -65,7 +65,6 @@ namespace LASI.UserInterface
                     },
                     Focusable = true
 
-
                 };
                 DocumentPreview.Items.Add(item);
                 DocumentPreview.SelectedItem = item;
@@ -97,16 +96,8 @@ namespace LASI.UserInterface
             this.Hide();
         }
 
-        private void forwardButton_Click_1(object sender, RoutedEventArgs e)
-        {
-            this.forwardButton.IsManipulationEnabled = false;
-            this.backButton.IsManipulationEnabled = true;
-        }
 
-        private void MenuItem_Click_2(object sender, RoutedEventArgs e)
-        {
 
-        }
 
         private void FileExitMenuItem_Click(object sender, RoutedEventArgs e)
         {
@@ -128,7 +119,20 @@ namespace LASI.UserInterface
             }
 
         }
-
+        private async void mainGrid_Drop(object sender, DragEventArgs e)
+        {
+            var validDroppedFiles = DocumentManager.GetValidFilesInPathList(e.Data.GetData(System.Windows.DataFormats.FileDrop, true) as string[]);
+            if (!validDroppedFiles.Any()) {
+                MessageBox.Show(string.Format("Only the following file formats are accepted:\n{0}", DocumentManager.AcceptedFormats.Aggregate((sum, current) => sum += ", " + current)));
+            } else if (!validDroppedFiles.Any(fn => !DocumentManager.FileNamePresent(fn.Name))) {
+                MessageBox.Show(string.Format("A document named {0} is already part of the project.", validDroppedFiles.First()));
+            } else {
+                foreach (var droppedFile in validDroppedFiles) {
+                    DocumentManager.AddUserDocument(droppedFile.Name, droppedFile.FullName);
+                    await AddNewDocument(droppedFile.FullName);
+                }
+            }
+        }
         private async void AddNewDocument_Click(object sender, RoutedEventArgs e)
         {
             var openDialog = new Microsoft.Win32.OpenFileDialog
@@ -143,6 +147,12 @@ namespace LASI.UserInterface
 
 
             var docPath = openDialog.FileName;
+            await AddNewDocument(docPath);
+
+        }
+
+        private async Task AddNewDocument(string docPath)
+        {
             var chosenFile = FileManager.AddFile(docPath, true);
 
             await FileManager.ConvertAsNeededAsync();
@@ -151,7 +161,6 @@ namespace LASI.UserInterface
 
             await LoadTextandTab(textfile);
             CheckIfAddingAllowed();
-
         }
 
         private void CheckIfAddingAllowed()
@@ -161,15 +170,12 @@ namespace LASI.UserInterface
             FileMenuAdd.IsEnabled = addingEnabled;
         }
 
-
-        private async void ProceedToResultsView()
+        private void Window_DragOver(object sender, DragEventArgs e)
         {
-            WindowManager.ResultsScreen.SetTitle(App.Current.Resources["CurrentProjectName"] + " - L.A.S.I.");
-            this.SwapWith(WindowManager.ResultsScreen);
-            await WindowManager.ResultsScreen.BuildReconstructedDocumentViews();
-            await WindowManager.ResultsScreen.CreateInteractiveViews();
 
         }
+
+
 
 
     }

@@ -3,7 +3,6 @@ using LASI.Algorithm.DocumentConstructs;
 using LASI.Algorithm.Thesauri;
 using LASI.FileSystem;
 using LASI.Utilities;
-using LASI.GuiInterop;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -33,14 +32,14 @@ namespace LASI.InteropLayer
         {
             ProgressBar = progressBar;
             ProgressLabel = progressLabel;
+            await LoadThesaurus(progressBar);
+
             UpdateProgressDisplay("Tagging Documents");
 
             await FileManager.TagTextFilesAsync();
-            progressBar.Value = 10;
-            await LoadThesaurus(progressBar);
+            progressBar.Value += 10;
+            UpdateProgressDisplay("Tagging Documents: Done");
 
-
-            progressBar.Value += 5;
 
             documentStepRatio = 13f / FileManager.TextFiles.Count();
             var docs = new ConcurrentBag<LASI.Algorithm.DocumentConstructs.Document>();
@@ -82,18 +81,15 @@ namespace LASI.InteropLayer
 
         private async Task<Document> LoadTaggedDocument(FileSystem.FileTypes.TaggedFile taggedFile)
         {
-
-
-
             return await new TaggedFileParser(taggedFile).LoadDocumentAsync();
         }
 
         private async Task<Document> ParseDocument(Document doc)
         {
-            var statusMessage = string.Format("{0}: Binding Structures", doc.FileName);
+            var statusMessage = string.Format("{0}: Analysing Syntax", doc.FileName);
             UpdateProgressDisplay(statusMessage);
             await Binder.BindAsync(doc);
-            statusMessage = string.Format("{0}: Weighting Relationships", doc.FileName);
+            statusMessage = string.Format("{0}: Correlating Generalizations", doc.FileName);
             UpdateProgressDisplay(statusMessage);
             await Weighter.WeightAsync(doc);
             return doc;
@@ -106,38 +102,6 @@ namespace LASI.InteropLayer
             ProgressBar.Value += documentStepRatio;
         }
 
-
-
-        private async Task BindLexicals(IEnumerable<LASI.Algorithm.DocumentConstructs.Document> docs)
-        {
-
-            await Task.WhenAll((docs.ToList().Select(doc =>
-            {
-
-                return Task.Factory.StartNew(async () =>
-                {
-                    await Binder.BindAsync(doc);
-                    var statusMessage = string.Format("Bound Lexicals in {0}", doc.FileName);
-                    ProgressLabel.Content = statusMessage;
-                    ProgressBar.ToolTip = statusMessage;
-                    ProgressBar.Value += documentStepRatio;
-                }, System.Threading.CancellationToken.None, TaskCreationOptions.None, TaskScheduler.FromCurrentSynchronizationContext());
-            })).ToArray());
-
-
-
-
-
-        }
-        private async Task<IEnumerable<Document>> InstantiateDocuments()
-        {
-            var result = new ConcurrentBag<LASI.Algorithm.DocumentConstructs.Document>();
-            foreach (var doc in FileManager.TaggedFiles) {
-                result.Add(await new TaggedFileParser(doc).LoadDocumentAsync());
-                await Task.Yield();
-            }
-            return result;
-        }
 
     }
 

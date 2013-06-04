@@ -35,7 +35,7 @@ namespace LASI.UserInterface
             this.Left = (System.Windows.SystemParameters.WorkArea.Width - this.Width) / 2;
             this.Top = (System.Windows.SystemParameters.WorkArea.Height - this.MaxHeight) / 2;
 
-
+            DocumentManager.Initialize(documentsAdded, xbuttons, browseForDocButton, lastDocPathTextBox);
         }
         void BindWindowEventHandlers()
         {
@@ -112,10 +112,10 @@ namespace LASI.UserInterface
             };
             openDialog.ShowDialog(this);
             if (openDialog.FileNames.Any()) {
-                if (!DocumentAlreadyAdded(openDialog.SafeFileName)) {
+                if (!DocumentManager.FileNamePresent(openDialog.SafeFileName)) {
                     var fileName = openDialog.SafeFileName;
                     var filePath = openDialog.FileName;
-                    AddUserDocument(fileName, filePath);
+                    DocumentManager.AddUserDocument(fileName, filePath);
                 } else {
                     MessageBox.Show(string.Format("A document named {0} is already part of the project.", openDialog.SafeFileName));
                 }
@@ -123,53 +123,7 @@ namespace LASI.UserInterface
 
         }
 
-        private void AddUserDocument(string fileName, string filePath)
-        {
-            var docEntry = new ListViewItem
-            {
-                Tag = filePath,
-                Content = fileName
-            };
-            var button = new Button
-            {
-                Content = "x",
-                Height = 16,
-                Width = 16,
-                Padding = new Thickness(0.5),
-                Style = FindResource("xButton") as Style
-            };
 
-
-            button.Click += (s, args) =>
-            {
-
-                documentsAdded.Items.Remove(docEntry);
-                xbuttons.Children.Remove(button);
-                numberOfDocuments--;
-                if (numberOfDocuments == 0) {
-                    //  documentsAdded.Visibility = Visibility.Hidden;
-                    documentsAdded.Opacity = 0.25;
-                }
-
-                browseForDocButton.IsEnabled = true;
-
-
-            };
-
-
-            xbuttons.Children.Add(button);
-            documentsAdded.Items.Add(docEntry);
-            lastDocPath.Text = fileName;
-            numberOfDocuments++;
-            if (numberOfDocuments > 0) {
-                //documentsAdded.Visibility = Visibility.Visible;
-                documentsAdded.Opacity = 100;
-            }
-
-            if (numberOfDocuments == 5) {
-                browseForDocButton.IsEnabled = false;
-            }
-        }
 
 
         private async void setupAndContinueButton_Click(object sender, RoutedEventArgs e)
@@ -288,8 +242,8 @@ namespace LASI.UserInterface
 
         private bool ValidateProjectDocumentField()
         {
-            if (numberOfDocuments == 0) {
-                lastDocPath.ToolTip = new ToolTip
+            if (DocumentManager.IsEmpty) {
+                lastDocPathTextBox.ToolTip = new ToolTip
                 {
                     Visibility = Visibility.Visible,
                     Content = "You must have documents for your new project"
@@ -322,26 +276,20 @@ namespace LASI.UserInterface
 
         private void Grid_Drop(object sender, DragEventArgs e)
         {
-            var validDroppedFiles = (from filePath in e.Data.GetData(DataFormats.FileDrop, true) as string[]
-                                     let fileInfo = new FileInfo(filePath)
-                                     where acceptedFormats.Contains(fileInfo.Extension)
-                                     select fileInfo).Take(5 - numberOfDocuments);
+            var validDroppedFiles = DocumentManager.GetValidFilesInPathList(e.Data.GetData(System.Windows.DataFormats.FileDrop, true) as string[]);
             if (!validDroppedFiles.Any()) {
-                MessageBox.Show(string.Format("Only the following file formats are accepted:\n{0}", acceptedFormats.Aggregate((sum, current) => sum += current + ", ")));
-            } else if (!validDroppedFiles.Any(fn => !DocumentAlreadyAdded(fn.Name))) {
+                MessageBox.Show(string.Format("Only the following file formats are accepted:\n{0}", DocumentManager.AcceptedFormats.Aggregate((sum, current) => sum += current + ", ")));
+            } else if (!validDroppedFiles.Any(fn => !DocumentManager.FileNamePresent(fn.Name))) {
                 MessageBox.Show(string.Format("A document named {0} is already part of the project.", validDroppedFiles.First()));
             } else {
                 foreach (var droppedFile in validDroppedFiles) {
-                    AddUserDocument(droppedFile.Name, droppedFile.FullName);
+                    DocumentManager.AddUserDocument(droppedFile.Name, droppedFile.FullName);
                 }
             }
         }
 
-        private bool DocumentAlreadyAdded(string documentName)
-        {
-            return (from alreadyAdded in documentsAdded.Items.OfType<ListViewItem>()
-                    select alreadyAdded.Content.ToString()).Contains(documentName);
-        }
+
+
 
         #region Properties
 
@@ -353,9 +301,9 @@ namespace LASI.UserInterface
 
         #endregion
 
-        private int numberOfDocuments;
 
-        private readonly string[] acceptedFormats = { ".docx", ".txt", ".pdf" };
+
+
 
     }
 }

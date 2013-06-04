@@ -1,5 +1,4 @@
-﻿using LASI.GuiInterop;
-using LASI.InteropLayer;
+﻿using LASI.InteropLayer;
 using LASI.Utilities;
 using System;
 using System.Configuration;
@@ -27,7 +26,7 @@ namespace LASI.UserInterface
             this.IsVisibleChanged += async (s, e) => await InitPawPrintAlternation();
             this.Closing += (s, e) => Application.Current.Shutdown();
             ProgressBar.Value = 0;
-            ProgressLabel.Content = ProcessingState.Initializing;
+            ProgressLabel.Content = "Initializing";
 
 
         }

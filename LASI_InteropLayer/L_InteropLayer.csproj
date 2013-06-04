@@ -52,10 +52,7 @@
     <Compile Include="CrossDocumentJoiner.cs" />
     <Compile Include="PerformanceManager.cs" />
     <Compile Include="ProcessController.cs" />
-    <Compile Include="ProcessingState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StatusUpdateUtilities.cs" />
-    <Compile Include="WordSerializationException.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LASI_Algorithm\L_Algorithm.csproj">
