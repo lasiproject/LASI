@@ -39,7 +39,7 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>LasiLogo.ico</ApplicationIcon>
+    <ApplicationIcon>ic_launcher-web.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <RunPostBuildEvent>Always</RunPostBuildEvent>
@@ -206,6 +206,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Analysis\Binders\SubordinatingConjunctionsTest.txt" />
+    <Content Include="ic_launcher-web.ico" />
     <Content Include="LasiLogo.ico" />
   </ItemGroup>
   <ItemGroup>
