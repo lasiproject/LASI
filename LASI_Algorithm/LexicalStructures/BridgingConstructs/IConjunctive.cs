@@ -9,14 +9,14 @@ namespace LASI.Algorithm
     public interface IConjunctive : ILexical
     {
         /// <summary>
-        /// Gets or sets the ILexical element on the right of the conjunctive.
+        /// Gets or sets the ILexical element on the second of the conjunctive.
         /// </summary>
         ILexical OnRight {
             get;
             set;
         }
         /// <summary>
-        /// Gets or sets the ILexical element on the left of the conjunctive.
+        /// Gets or sets the ILexical element on the first of the conjunctive.
         /// </summary>
         ILexical OnLeft {
             get;

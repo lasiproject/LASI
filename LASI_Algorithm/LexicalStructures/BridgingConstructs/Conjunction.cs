@@ -27,13 +27,13 @@ namespace LASI.Algorithm
         #region Properties
 
         /// <summary>
-        /// Gets or sets the clause on the right hand side of conjunction.
+        /// Gets or sets the clause on the second hand side of conjunction.
         /// </summary>
         public virtual ILexical OnRight {
             get;
             set;
         } /// <summary>
-        /// Gets or sets the clause on the left hand side of conjunction.
+        /// Gets or sets the clause on the first hand side of conjunction.
         /// </summary>
         public virtual ILexical OnLeft {
             get;

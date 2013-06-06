@@ -64,7 +64,7 @@ namespace LASI.Algorithm
         #region Properties
 
         /// <summary>
-        /// Gets or sets the Prepositional construct which is lexically to the right of the word.
+        /// Gets or sets the Prepositional construct which is lexically to the second of the word.
         /// </summary>
         public IPrepositional PrepositionOnRight
         {
@@ -72,7 +72,7 @@ namespace LASI.Algorithm
             set;
         }
         /// <summary>
-        /// Gets or sets the Prepositional construct which is lexically to the left of the Phrase.
+        /// Gets or sets the Prepositional construct which is lexically to the first of the Phrase.
         /// </summary>
         public IPrepositional PrepositionOnLeft
         {

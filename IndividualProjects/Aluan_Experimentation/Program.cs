@@ -14,48 +14,16 @@ namespace Aluan_Experimentation
 {
     public class Program
     {
-        static string sourceText = @"To work together is a bad idea.";
+
+
         static string testPath = @"C:\Users\Aluan\Desktop\411writtensummary2.txt";
+        static string text = @"Get that mother fucker.";
 
-        static void Main(string[] args)
-        {
+        static void Main(string[] args) {
 
-
-
-
-            var pronoun = new PersonalPronoun("him");
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            var synonymsForCat = Thesaurus.LookupNoun("feline", WordNetNounCategory.Animal);
-
-            foreach (var syn in synonymsForCat)
-                Output.WriteLine(syn);
-
-
-
-            TaggerUtil.TaggerOption = TaggingOption.TagAndAggregate;
-            var taggedText = TaggerUtil.TagString(sourceText);
+            var taggedText = TaggerUtil.TagString(text);
             Output.WriteLine(taggedText);
-
             var doc = TaggerUtil.TaggedToDoc(taggedText);
-            Phrase.VerboseOutput = false;
-            Word.VerboseOutput = false;
-
 
             foreach (var s in doc.Sentences) {
                 try {
@@ -66,8 +34,6 @@ namespace Aluan_Experimentation
                 }
             }
 
-
-
             foreach (var phrase in doc.Phrases) {
                 Output.WriteLine(phrase);
             }
@@ -75,14 +41,7 @@ namespace Aluan_Experimentation
             Input.WaitForKey();
         }
 
-        private static void GroupingByBehaviorAndKindExample(Document doc)
-        {
-
-
-
-
-            var allActorsInDocument = from verb in doc.Words.GetVerbs()
-                                      select GetActionPerformers(doc, verb);
+        private static void GroupingByBehaviorAndKindExample(Document doc) {
 
 
 
@@ -93,27 +52,35 @@ namespace Aluan_Experimentation
 
 
 
+
+
+            var cuntFuckers = GetActionPerformers(
+                  doc, new Verb("fuck", VerbTense.Base),
+                  new GenericSingularNoun("cunt")
+                  );
 
 
         }
 
-        private static IEnumerable<IVerbalSubject> GetActionPerformers(Document doc, Verb actionToFind)
-        {
-            var doers =
-                from action in doc.Words.GetVerbs()
-                where Thesaurus.Lookup(action).Contains(actionToFind.Text)
-                from actionPerformer in action.Subjects
-                select actionPerformer;
+
+
+
+
+        private static IEnumerable<IVerbalSubject> GetActionPerformers(Document doc, ITransitiveVerbal action,
+            IEntity performer) {
+            var doers = from verb in doc.Words.GetVerbs().WithSubject(subject => subject.IsSimilarTo(performer))
+                        where verb.IsSimilarTo(verb)
+                        from actionPerformer in verb.Subjects
+                        select actionPerformer;
             return doers;
-
-
-
-
-
         }
 
-        private static IEnumerable<IVerbalSubject> ObfuscatedIntent(Document doc)
-        {
+
+
+
+
+
+        private static IEnumerable<IVerbalSubject> ObfuscatedIntent(Document doc) {
             List<IEntity> actionPerformers = new List<IEntity>();
             foreach (Word word in doc.Words) {
                 if (word is Verb) {
@@ -140,8 +107,7 @@ namespace Aluan_Experimentation
 
 
 
-        private static void TestNounConjugator()
-        {
+        private static void TestNounConjugator() {
             NounConjugator conjugator = new NounConjugator(ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "noun.exc");
             Output.WriteLine(conjugator);
             var conjugations = conjugator.GetConjugations("cat");
@@ -154,8 +120,7 @@ namespace Aluan_Experimentation
 
 
 
-        private static void TestWordAndPhraseBindings()
-        {
+        private static void TestWordAndPhraseBindings() {
             var doc = TaggerUtil.LoadTextFile(new LASI.FileSystem.FileTypes.TextFile(testPath));
             PerformIntraPhraseBinding(doc);
             PerformSVOBinding(doc);
@@ -173,22 +138,19 @@ namespace Aluan_Experimentation
             PrintDocument(doc);
         }
 
-        private static void PrintDocument(Document doc)
-        {
+        private static void PrintDocument(Document doc) {
             foreach (var r in doc.Phrases) {
                 Output.WriteLine(r);
                 foreach (var w in r.Words)
                     Output.WriteLine(w);
             }
         }
-        private static void PerformAttributeNounPhraseBinding(Document doc)
-        {
+        private static void PerformAttributeNounPhraseBinding(Document doc) {
             foreach (var s in doc.Sentences) {
                 var attributiveBinder = new AttributiveNounPhraseBinder(s);
             }
         }
-        private static void PerformSVOBinding(Document doc)
-        {
+        private static void PerformSVOBinding(Document doc) {
             foreach (var s in doc.Sentences) {
                 var subjectBinder = new SubjectBinder();
                 var objectBinder = new ObjectBinder();
@@ -208,21 +170,17 @@ namespace Aluan_Experimentation
 
         }
 
-        private static void PerformIntraPhraseBinding(Document doc)
-        {
+        private static void PerformIntraPhraseBinding(Document doc) {
             foreach (var r in doc.Phrases) {
                 var wordBinder = new InterPhraseWordBinding();
                 new Switch(r)
-                .Case<NounPhrase>(np =>
-                {
+                .Case<NounPhrase>(np => {
                     wordBinder.IntraNounPhrase(np);
                 })
-                .Case<VerbPhrase>(vp =>
-                {
+                .Case<VerbPhrase>(vp => {
                     wordBinder.IntraVerbPhrase(vp);
                 })
-                .Default(a =>
-                {
+                .Default(a => {
                 });
             }
         }
@@ -230,8 +188,7 @@ namespace Aluan_Experimentation
 
 
 
-        static void WeightAll(Document doc)
-        {
+        static void WeightAll(Document doc) {
 
 
 
@@ -256,8 +213,7 @@ namespace Aluan_Experimentation
 
 
             var wordsByTypeAndText = from n in doc.Words
-                                     group n by new
-                                     {
+                                     group n by new {
                                          n.Text,
                                          n.Type
                                      };

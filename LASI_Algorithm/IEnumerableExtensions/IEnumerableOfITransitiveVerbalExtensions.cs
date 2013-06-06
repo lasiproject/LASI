@@ -16,7 +16,7 @@ namespace LASI.Algorithm
         /// <returns>The subset of actions bound to at least one direct object.</returns>
         public static IEnumerable<ITransitiveVerbal> WithDirectObject(this IEnumerable<ITransitiveVerbal> actions) {
             return from TA in actions
-                   where TA.DirectObjects.Count(o => o != null) > 0
+                   where TA.DirectObjects.Any(o => o != null)
                    select TA;
         }
 
@@ -28,10 +28,10 @@ namespace LASI.Algorithm
         /// <returns>The subset of actions bound to at least one direct object which matches the conidition.</returns>
         public static IEnumerable<ITransitiveVerbal> WithDirectObject(this IEnumerable<ITransitiveVerbal> actions, Func<IEntity, bool> condition) {
             return from TA in actions.WithDirectObject()
-                   where TA.DirectObjects.Count(o => {
-                       var p = o as Pronoun;
-                       return condition(o) || p != null && condition(p.BoundEntity);
-                   }) > 0
+                   where TA.DirectObjects.Any(o => {
+                       var p = o as IPronoun;
+                       return condition(o) || p != null && p.BoundEntity != null && condition(p.BoundEntity);
+                   })
                    select TA;
         }
 
@@ -41,7 +41,7 @@ namespace LASI.Algorithm
         /// <returns>The subset bound to an indirect object.</returns>
         public static IEnumerable<ITransitiveVerbal> WithIndirectObject(this IEnumerable<ITransitiveVerbal> actions) {
             return from TA in actions
-                   where TA.IndirectObjects.Count(o => o != null) > 0
+                   where TA.IndirectObjects.Any(o => o != null)
                    select TA;
         }
 
@@ -53,10 +53,10 @@ namespace LASI.Algorithm
         /// <returns>The subset of actuibs bound to at least one indirect object which matches the condition.</returns>
         public static IEnumerable<ITransitiveVerbal> WithIndirectObject(this IEnumerable<ITransitiveVerbal> actions, Func<IEntity, bool> condition) {
             return from TA in actions.WithIndirectObject()
-                   where TA.IndirectObjects.Count(o => {
-                       var p = o as Pronoun;
-                       return condition(o) || p != null && condition(p.BoundEntity);
-                   }) > 0
+                   where TA.IndirectObjects.Any(o => {
+                       var p = o as IPronoun;
+                       return condition(o) || p != null && p.BoundEntity != null && condition(p.BoundEntity);
+                   })
                    select TA;
         }
     }

@@ -151,7 +151,7 @@ namespace LASI.Algorithm
         }
 
         /// <summary>
-        /// Gets or sets the Prepositional construct which is lexically to the left of the word.
+        /// Gets or sets the Prepositional construct which is lexically to the first of the word.
         /// </summary>
         public IPrepositional PrepositionOnLeft
         {
@@ -160,7 +160,7 @@ namespace LASI.Algorithm
         }
 
         /// <summary>
-        /// Gets or sets the Prepositional construct which is lexically to the right of the word.
+        /// Gets or sets the Prepositional construct which is lexically to the second of the word.
         /// </summary>
         public IPrepositional PrepositionOnRight
         {

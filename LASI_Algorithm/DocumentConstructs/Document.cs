@@ -113,7 +113,7 @@ namespace LASI.Algorithm.DocumentConstructs
         #region Properties
 
         /// <summary>
-        /// Gets the Sentences the document contains in linear, left to right order.
+        /// Gets the Sentences the document contains in linear, first to second order.
         /// </summary>
         public IEnumerable<Sentence> Sentences
         {
@@ -125,7 +125,7 @@ namespace LASI.Algorithm.DocumentConstructs
         }
 
         /// <summary>
-        /// Gets the Paragraphs the document contains in linear, left to right order.
+        /// Gets the Paragraphs the document contains in linear, first to second order.
         /// </summary>
         public IEnumerable<Paragraph> Paragraphs
         {
@@ -143,7 +143,7 @@ namespace LASI.Algorithm.DocumentConstructs
         }
 
         /// <summary>
-        /// Gets the Phrases the document contains in linear, left to right order.
+        /// Gets the Phrases the document contains in linear, first to second order.
         /// </summary>
         public IEnumerable<Phrase> Phrases
         {
@@ -153,7 +153,7 @@ namespace LASI.Algorithm.DocumentConstructs
             }
         }
         /// <summary>
-        /// Gets the Words the document contains in linear, left to right order.
+        /// Gets the Words the document contains in linear, first to second order.
         /// </summary>
         public IEnumerable<Word> Words
         {

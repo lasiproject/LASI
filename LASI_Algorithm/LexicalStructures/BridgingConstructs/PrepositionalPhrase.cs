@@ -21,14 +21,14 @@ namespace LASI.Algorithm
             PrepositionalRole = Algorithm.PrepositionalRole.Undetermined;
         }
         /// <summary>
-        /// Gets or sets the IprepositionLinkable construct on the right-hand-side of the Preposition.
+        /// Gets or sets the IprepositionLinkable construct on the second-hand-side of the Preposition.
         /// </summary>
         public virtual IPrepositionLinkable OnRightSide {
             get;
             set;
         }
         /// <summary>
-        /// Gets or sets the IprepositionLinkable construct on the left-hand-side of the Preposition.
+        /// Gets or sets the IprepositionLinkable construct on the first-hand-side of the Preposition.
         /// </summary>
         public virtual IPrepositionLinkable OnLeftSide {
             get;
