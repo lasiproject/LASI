@@ -77,23 +77,23 @@ namespace LASI.Algorithm.Binding
         }
         private static void PerformIntraPhraseBinding(Document doc)
         {
-            doc.Phrases.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax).ForAll(r =>
-            {
-                var wordBinder = new InterPhraseWordBinding();
-                new LASI.Utilities.TypedSwitch.Switch(r)
-                .Case<NounPhrase>(np =>
-                {
-                    wordBinder.IntraNounPhrase(np);
-                })
-                .Case<VerbPhrase>(vp =>
-                {
-                    wordBinder.IntraVerbPhrase(vp);
-                })
-                .Default(a =>
-                {
-                });
-            });
+            var phrasesToBindWithin = from r in doc.Phrases.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
+                                      where r is VerbPhrase
+                                      select r into vp
+                                      from r in doc.Phrases.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
+                                      where r is NounPhrase
+                                      select r;
+
+            //doc.Phrases.GetNounPhrases().Concat<Phrase>(doc.Phrases.GetVerbPhrases())
+            //    .AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax).ForAll(
+            //    .ForAll(np => new IntraPhraseWordBinder().Bind(np));
+            //doc.Phrases.GetVerbPhrases()
+            //    .AsParallel()
+            //    .WithDegreeOfParallelism(Concurrency.CurrentMax)
+            //    .ForAll(vp => new IntraPhraseWordBinder().Bind(vp));
         }
+
+
         private static void PerformPronounBinding(Document doc)
         {
             doc.Sentences.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)

@@ -123,7 +123,7 @@ namespace LASI.UserInterface
         private void minButton_Click(object sender, RoutedEventArgs e)
         {
             this.WindowState = WindowState.Minimized;
-            PerformanceManager.PerformanceMode = PerformanceMode.HiddenLongRunning;
+            PerformanceManager.SetPerformanceMode(PerforamanceMode.Low);
         }
         private void closeButton_Click(object sender, RoutedEventArgs e)
         {

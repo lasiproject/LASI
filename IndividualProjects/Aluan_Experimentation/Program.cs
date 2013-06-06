@@ -19,7 +19,8 @@ namespace Aluan_Experimentation
         static string testPath = @"C:\Users\Aluan\Desktop\411writtensummary2.txt";
         static string text = @"Get that mother fucker.";
 
-        static void Main(string[] args) {
+        static void Main(string[] args)
+        {
 
             var taggedText = TaggerUtil.TagString(text);
             Output.WriteLine(taggedText);
@@ -41,23 +42,8 @@ namespace Aluan_Experimentation
             Input.WaitForKey();
         }
 
-        private static void GroupingByBehaviorAndKindExample(Document doc) {
-
-
-
-
-
-
-
-
-
-
-
-
-            var cuntFuckers = GetActionPerformers(
-                  doc, new Verb("fuck", VerbTense.Base),
-                  new GenericSingularNoun("cunt")
-                  );
+        private static void GroupingByBehaviorAndKindExample(Document doc)
+        {
 
 
         }
@@ -66,9 +52,9 @@ namespace Aluan_Experimentation
 
 
 
-        private static IEnumerable<IVerbalSubject> GetActionPerformers(Document doc, ITransitiveVerbal action,
-            IEntity performer) {
-            var doers = from verb in doc.Words.GetVerbs().WithSubject(subject => subject.IsSimilarTo(performer))
+        private static IEnumerable<IVerbalSubject> GetActionPerformers(Document doc, ITransitiveVerbal action, IEntity Action)
+        {
+            var doers = from verb in doc.Words.GetVerbs().WithSubject(subject => subject.IsSimilarTo(Action))
                         where verb.IsSimilarTo(verb)
                         from actionPerformer in verb.Subjects
                         select actionPerformer;
@@ -76,38 +62,8 @@ namespace Aluan_Experimentation
         }
 
 
-
-
-
-
-        private static IEnumerable<IVerbalSubject> ObfuscatedIntent(Document doc) {
-            List<IEntity> actionPerformers = new List<IEntity>();
-            foreach (Word word in doc.Words) {
-                if (word is Verb) {
-                    IEnumerable<string> synonyms = Thesaurus.Lookup(word);
-                    foreach (Word inner in doc.Words) {
-                        if (inner is Verb) {
-                            foreach (string str in synonyms) {
-                                if (str == word.Text) {
-                                    Verb innerVerb = inner as Verb;
-                                    foreach (IEntity doer in innerVerb.Subjects) {
-                                        actionPerformers.Add(doer);
-                                    }
-
-                                }
-                            }
-
-                        }
-                    }
-                }
-            }
-            return actionPerformers;
-        }
-
-
-
-
-        private static void TestNounConjugator() {
+        private static void TestNounConjugator()
+        {
             NounConjugator conjugator = new NounConjugator(ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "noun.exc");
             Output.WriteLine(conjugator);
             var conjugations = conjugator.GetConjugations("cat");
@@ -120,9 +76,10 @@ namespace Aluan_Experimentation
 
 
 
-        private static void TestWordAndPhraseBindings() {
+        private static void TestWordAndPhraseBindings()
+        {
             var doc = TaggerUtil.LoadTextFile(new LASI.FileSystem.FileTypes.TextFile(testPath));
-            PerformIntraPhraseBinding(doc);
+            var wd = (doc);
             PerformSVOBinding(doc);
             new PronounBinder().Bind(doc);
             foreach (var p in doc.Phrases.GetPronounPhrases())
@@ -138,131 +95,24 @@ namespace Aluan_Experimentation
             PrintDocument(doc);
         }
 
-        private static void PrintDocument(Document doc) {
+        private static void PerformSVOBinding(Document doc)
+        {
+            throw new NotImplementedException();
+        }
+
+        private static void PrintDocument(Document doc)
+        {
             foreach (var r in doc.Phrases) {
                 Output.WriteLine(r);
                 foreach (var w in r.Words)
                     Output.WriteLine(w);
             }
         }
-        private static void PerformAttributeNounPhraseBinding(Document doc) {
+        private static void PerformAttributeNounPhraseBinding(Document doc)
+        {
             foreach (var s in doc.Sentences) {
                 var attributiveBinder = new AttributiveNounPhraseBinder(s);
             }
-        }
-        private static void PerformSVOBinding(Document doc) {
-            foreach (var s in doc.Sentences) {
-                var subjectBinder = new SubjectBinder();
-                var objectBinder = new ObjectBinder();
-                try {
-                    subjectBinder.Bind(s);
-                }
-                catch (NullReferenceException) {
-                }
-                try {
-                    objectBinder.Bind(s);
-                }
-                catch (VerblessPhrasalSequenceException) {
-                }
-            }
-
-
-
-        }
-
-        private static void PerformIntraPhraseBinding(Document doc) {
-            foreach (var r in doc.Phrases) {
-                var wordBinder = new InterPhraseWordBinding();
-                new Switch(r)
-                .Case<NounPhrase>(np => {
-                    wordBinder.IntraNounPhrase(np);
-                })
-                .Case<VerbPhrase>(vp => {
-                    wordBinder.IntraVerbPhrase(vp);
-                })
-                .Default(a => {
-                });
-            }
-        }
-
-
-
-
-        static void WeightAll(Document doc) {
-
-
-
-
-            //ASSIGN BASE WEIGHTS TO WORDS
-            foreach (var N in doc.Words.GetNouns()) {
-                N.Weight = 100;
-            }
-            foreach (var V in doc.Words.GetToLinkers()) {
-                V.Weight = 90;
-            }
-            foreach (var A in doc.Words.GetAdjectives()) {
-                A.Weight = 85;
-            }
-            foreach (var A in doc.Words.GetAdverbs()) {
-                A.Weight = 77;
-            }
-
-
-
-            //ASSUMING RELEVANT GROUP OF NOUNS HAS TEXT "DOG"
-
-
-            var wordsByTypeAndText = from n in doc.Words
-                                     group n by new {
-                                         n.Text,
-                                         n.Type
-                                     };
-
-
-
-
-
-
-            foreach (var wGroup in wordsByTypeAndText) {
-                foreach (var w in wGroup) {
-                    w.Weight = wGroup.Count();
-                }
-            }
-
-
-
-
-            foreach (var NP in doc.Phrases.GetNounPhrases()) {
-                NP.Weight = 1;
-            }
-
-            IEnumerable<IGrouping<string, NounPhrase>> nounPhraseGroups
-                = from NP in doc.Phrases.GetNounPhrases()
-                  group NP by NP.Text;
-
-            foreach (IGrouping<string, NounPhrase> group in nounPhraseGroups) {
-                foreach (NounPhrase NP in group) {
-                    NP.Weight += group.Count();
-                }
-            }
-
-
-
-
-            foreach (var sentence in doc.Sentences) {
-                new SubjectBinder().Bind(sentence);
-                new ObjectBinder().Bind(sentence);
-
-            }
-            var nounBinder = new LASI.Algorithm.Binding.InterPhraseWordBinding();
-            foreach (var phrase in doc.Phrases.GetNounPhrases())
-                nounBinder.IntraNounPhrase(phrase);
-            foreach (var sentence in doc.Sentences) {
-                foreach (var phrase in sentence.Phrases)
-                    Output.WriteLine(phrase);
-                Output.WriteLine("\n");
-            }
-
         }
 
 

@@ -205,6 +205,7 @@ namespace LASI.Algorithm
             get;
             set;
         }
+
         static Word()
         {
             VerboseOutput = false;

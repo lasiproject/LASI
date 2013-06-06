@@ -63,6 +63,7 @@
     <Compile Include="Analysis\Binders\AttributiveNounPhraseBinder.cs" />
     <Compile Include="Analysis\Binders\EntityReferenceBinder.cs" />
     <Compile Include="Analysis\Binders\InfinitivePhraseAttributer.cs" />
+    <Compile Include="ResourceUsageMode.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\IAliasableEntity.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\ISimilarityComparablePhrase.cs" />
     <Compile Include="LexicalStructures\VerbRelatedConstructs\InfinitivePhrase.cs" />
@@ -113,7 +114,7 @@
     <Compile Include="LexicalStructures\NounRelatedConstructs\IQuantifer.cs" />
     <Compile Include="LexicalStructures\VerbRelatedConstructs\IModalityModdifiable.cs" />
     <Compile Include="Comparers.cs" />
-    <Compile Include="PerformanceController.cs" />
+    <Compile Include="Concurrency.cs" />
     <Compile Include="Thesuari\AdjectiveThesaurus.cs" />
     <Compile Include="Thesuari\AdverbThesaurus.cs" />
     <Compile Include="Thesuari\NounConjugator.cs" />

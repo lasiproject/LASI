@@ -7,9 +7,10 @@ using System.Threading.Tasks;
 
 namespace LASI.Algorithm.Binding
 {
-    public class InterPhraseWordBinding
+    public  class IntraPhraseWordBinder
     {
-        public void IntraNounPhrase(NounPhrase np) {
+        public  void Bind(NounPhrase np)
+        {
             /**
              * Noun Phrase Assumption:  The Last Noun in a Noun Phrase is the important one
              */
@@ -42,7 +43,7 @@ namespace LASI.Algorithm.Binding
                 if (det1 != null) {
                     LastNoun.BindDeterminer(det1);
                     det1.Determines = LastNoun;
-               }
+                }
 
 
                 /**
@@ -52,7 +53,7 @@ namespace LASI.Algorithm.Binding
                 if (ListOfAdjectives.Count() > 0) {
                     foreach (Adjective adj in ListOfAdjectives) {
                         LastNoun.BindDescriber(adj);
-                        adj.Described = LastNoun;                       
+                        adj.Described = LastNoun;
                     }
                 }
 
@@ -63,7 +64,7 @@ namespace LASI.Algorithm.Binding
                 var PosNoun = np.Words.OfType<PossessivePronoun>().FirstOrDefault();
                 if (PosNoun != null) {
                     PosNoun.AddPossession(LastNoun);
-                }              
+                }
             }
         }
 
@@ -72,7 +73,8 @@ namespace LASI.Algorithm.Binding
         /**
          * Intra Verb Phrase Binding
          */
-        public void IntraVerbPhrase(VerbPhrase vp) {
+        public  void Bind(VerbPhrase vp)
+        {
             Verb LastVerb = vp.Words.OfType<Verb>().LastOrDefault();
 
             if (vp.Words.Count() > 1 && LastVerb != null) {
@@ -116,10 +118,8 @@ namespace LASI.Algorithm.Binding
 
                 //  Binds all Modal Aux's to last verb
                 var ModalAuxList = vp.Words.GetModalAuxilaries();
-                if (ModalAuxList.Count() > 0)
-                {
-                    foreach (var ma in ModalAuxList)
-                    {
+                if (ModalAuxList.Count() > 0) {
+                    foreach (var ma in ModalAuxList) {
                         LastVerb.Modality = ma;
                         ma.Modifies = LastVerb;
                     }
