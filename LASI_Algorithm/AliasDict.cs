@@ -14,7 +14,7 @@ namespace LASI.Algorithm
         /// Checks to see if one Entity is a nown alias for another.
         /// </summary>
         /// <param name="entity">The first Entity</param>
-        /// <param name="other">The second Entity</param>
+        /// <param name="end">The second Entity</param>
         /// <returns>true if the Entities are aliases for one another, false otherwise</returns>
         public static bool IsAliasFor(this IEntity entity, IEntity other)
         {
@@ -39,7 +39,7 @@ namespace LASI.Algorithm
             DefineAliasInDictionary(entity.Text, textualAlias);
         }
         /// <summary>
-        /// Establishes that one Entity is an alias for the other. 
+        /// Establishes that one Entity is an alias for the end. 
         /// </summary>
         /// <param name="entity">The first Entity</param>
         /// <param name="textualAlias">The second Entity</param>
@@ -48,7 +48,7 @@ namespace LASI.Algorithm
             DefineAliasInDictionary(entity.Text, other.Text);
         }
         /// <summary>
-        /// Establishes that one Entity is an alias for the other. 
+        /// Establishes that one Entity is an alias for the end. 
         /// </summary>
         /// <param name="entity">The first Entity</param>
         /// <param name="textualAlias">The second Entity</param>

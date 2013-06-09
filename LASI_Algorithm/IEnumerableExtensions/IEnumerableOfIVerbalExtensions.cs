@@ -11,12 +11,12 @@ namespace LASI.Algorithm
     public static class IEnumerableOfIVerbalExtensions
     {
         /// <summary>
-        /// Filters the sequence of Action instances selecting those with at least one bound subject.
+        /// Filters the sequence of IVerbal constructs selecting those with at least one bound subject.
         /// </summary>
         /// <param name="actions">The Enumerable of Action instances to filter.</param>
         /// <returns>The subset bound to some subject.</returns>
-        public static IEnumerable<ITransitiveVerbal> WithSubject(
-            this IEnumerable<ITransitiveVerbal> actions)
+        public static IEnumerable<IVerbal> WithSubject(
+            this IEnumerable<IVerbal> actions)
         {
 
             return from V in actions
@@ -24,21 +24,21 @@ namespace LASI.Algorithm
                    select V;
         }
         /// <summary>
-        /// Filters the sequence of actions based returning those who have at least one subject matching the provided subject testing function.
+        /// Filters the sequence of IVerbal constructs returning those who have at least one subject matching the provided subject testing function.
         /// </summary>
-        /// <param name="actions">The Enumerable of Action instances to filter.</param>
-        /// <param name="condition">The function specifying the match condition. Any function which takes an IEntity and return a bool.</param>
-        /// <returns>All actions whose subject match the condition.</returns>
+        /// <param name="actions">The Enumerable of IVerbal constructs to filter.</param>
+        /// <param name="verbalSelector">The function specifying the match verbalSelector. Any function which takes an IEntity and return a bool.</param>
+        /// <returns>All actions whose subject match the verbalSelector.</returns>
         /// The argument may be either a named function or a lambda expression.
         /// <example> Demonstrates how to use this method.
         /// <code>
         /// var filtered = myVerbs.WithSubject(N => N.Text == "banana");
         /// </code>
         /// </example>       
-        /// <remarks>This provided function is used to filter the actions based on their subjects.
+        /// <remarks>This provided function is used to filter the IVerbal constructs based on their subjects.
         /// </remarks>
-        public static IEnumerable<ITransitiveVerbal> WithSubject(
-            this IEnumerable<ITransitiveVerbal> actions,
+        public static IEnumerable<IVerbal> WithSubject(
+            this IEnumerable<IVerbal> actions,
             Func<IEntity, bool> condition)
         {
 
@@ -49,6 +49,62 @@ namespace LASI.Algorithm
                        return condition(s) || p != null && condition(p.BoundEntity);
                    })
                    select A;
+        }
+        /// <summary>
+        /// Filters the sequence of IVerbal constructs selecting those with at least one bound direct object.
+        /// </summary>
+        /// <param name="actions">The Enumerable of Transitive Action instances to filter.</param>
+        /// <returns>The subset of IVerbal constructs bound to at least one direct object.</returns>
+        public static IEnumerable<IVerbal> WithDirectObject(this IEnumerable<IVerbal> actions)
+        {
+            return from TA in actions
+                   where TA.DirectObjects.Any(o => o != null)
+                   select TA;
+        }
+
+        /// <summary>
+        /// Filters a collection of IVerbal constructs returning those who have at least one direct object matching the provided object testing function.
+        /// </summary>
+        /// <param name="actions">The Enumerable of IVerbal constructs to filter.</param>
+        /// <param name="verbalSelector">The function specifying the match verbalSelector. Any function which takes an IEntity and return a bool is compatible.</param>
+        /// <returns>The subset of IVerbal constructs bound to at least one direct object which matches the conidition.</returns>
+        public static IEnumerable<IVerbal> WithDirectObject(this IEnumerable<IVerbal> actions, Func<IEntity, bool> condition)
+        {
+            return from TA in actions.WithDirectObject()
+                   where TA.DirectObjects.Any(o =>
+                   {
+                       var p = o as IPronoun;
+                       return condition(o) || p != null && p.BoundEntity != null && condition(p.BoundEntity);
+                   })
+                   select TA;
+        }
+
+        /// <summary>
+        /// Filters the sequence of IVerbal constructs selecting those with at least one bound indirect object.
+        /// <param name="actions">The Enumerable of Verb objects to filter.</param>
+        /// <returns>The subset of IVerbal constructs bound to an indirect object.</returns>
+        public static IEnumerable<IVerbal> WithIndirectObject(this IEnumerable<IVerbal> actions)
+        {
+            return from TA in actions
+                   where TA.IndirectObjects.Any(o => o != null)
+                   select TA;
+        }
+
+        /// <summary>
+        /// Filters a collection of IVerbal constructs returning those who have at k those who have at least one indirect object which matches the provided object testing function
+        /// </summary>
+        /// <param name="actions">The Enumerable of IVerbal constructs instances to filter.</param>
+        /// <param name="verbalSelector">The function specifying the match verbalSelector. Any function which takes an IEntity and return a bool is compatible.</param>
+        /// <returns>The subset of IVerbal constructs bound to at least one indirect object which matches the verbalSelector.</returns>
+        public static IEnumerable<IVerbal> WithIndirectObject(this IEnumerable<IVerbal> actions, Func<IEntity, bool> condition)
+        {
+            return from TA in actions.WithIndirectObject()
+                   where TA.IndirectObjects.Any(o =>
+                   {
+                       var p = o as IPronoun;
+                       return condition(o) || p != null && p.BoundEntity != null && condition(p.BoundEntity);
+                   })
+                   select TA;
         }
     }
 }

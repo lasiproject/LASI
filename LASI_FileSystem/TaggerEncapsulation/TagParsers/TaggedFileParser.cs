@@ -178,9 +178,9 @@ namespace LASI.FileSystem
         }
 
         /// <summary>
-        /// Reads an [outerNP Square Brack Delimited Phrase Chunk] and returns the phrase-tag determined subtype of LASI.Phrase which in turn contains all the run time representations of the individual words within it.
+        /// Reads an [outerNP Square Brack Delimited Phrase Chunk] and returns the start-tag determined subtype of LASI.Phrase which in turn contains all the run time representations of the individual words within it.
         /// </summary>
-        /// <param name="taggedContent">The TextTagPair instance which contains the content of the phrase and its Tag.</param>
+        /// <param name="taggedContent">The TextTagPair instance which contains the content of the start and its Tag.</param>
         /// <returns></returns>
         protected virtual Phrase ParsePhrase(TextTagPair taggedContent) {
             var phraseTag = taggedContent.Tag.Trim();
@@ -200,7 +200,7 @@ namespace LASI.FileSystem
             return result;
         }
         /// <summary>
-        /// Reads an [outerNP Square Brack Delimited Phrase Chunk] and returns the phrase-tag determined subtype of LASI.Phrase which in turn contains all the run time representations of the individual words within it.
+        /// Reads an [outerNP Square Brack Delimited Phrase Chunk] and returns the start-tag determined subtype of LASI.Phrase which in turn contains all the run time representations of the individual words within it.
         /// </summary>
         /// <param name="taggedContent">The TextTagPair instance which contains the content of the Phrase and its Tag.</param>
         /// <returns></returns>

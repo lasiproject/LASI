@@ -7,7 +7,7 @@ namespace LASI.Algorithm
     /// </summary>
     public interface IVerbalSubject
     {
-        ITransitiveVerbal SubjectOf
+        IVerbal SubjectOf
         {
             get;
             set;

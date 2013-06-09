@@ -90,17 +90,17 @@ namespace LASI.Algorithm.DocumentConstructs
         /// Returns all of the Action identified within the docimument.
         /// </summary>
         /// <returns>all of the Action identified within the docimument.</returns>
-        public IEnumerable<ITransitiveVerbal> GetActions()
+        public IEnumerable<IVerbal> GetActions()
         {
-            return from a in _words.GetVerbs().Concat<ITransitiveVerbal>(_phrases.GetVerbPhrases())
+            return from a in _words.GetVerbs().Concat<IVerbal>(_phrases.GetVerbPhrases())
                    orderby a is Word ? (a as Word).ID : (a as Phrase).Words.Last().ID ascending
                    select a;
         }
 
         /// <summary>
-        /// Returns all of the word and phrase level entities identified in the document.
+        /// Returns all of the word and start level entities identified in the document.
         /// </summary>
-        /// <returns> All of the word and phrase level entities identified in the document.</returns>
+        /// <returns> All of the word and start level entities identified in the document.</returns>
         public IEnumerable<IEntity> GetEntities()
         {
             return from e in _words.GetNouns().Concat<IEntity>(_words.GetPronouns()).Concat<IEntity>(_phrases.GetNounPhrases())

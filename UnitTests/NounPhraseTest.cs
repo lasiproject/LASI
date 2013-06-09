@@ -135,8 +135,8 @@ namespace AlgorithmAssemblyUnitTestProject
         public void DirectObjectOfTest() {
             IEnumerable<Word> composedWords = new Word[] { new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians") };
             NounPhrase target = new NounPhrase(composedWords);
-            ITransitiveVerbal expected = new Verb("insult", VerbTense.Base);
-            ITransitiveVerbal actual;
+            IVerbal expected = new Verb("insult", VerbTense.Base);
+            IVerbal actual;
             target.DirectObjectOf = expected;
             actual = target.DirectObjectOf;
             Assert.AreEqual(expected, actual);
@@ -149,8 +149,8 @@ namespace AlgorithmAssemblyUnitTestProject
         public void IndirectObjectOfTest() {
             IEnumerable<Word> composedWords = new Word[] { new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians") };
             NounPhrase target = new NounPhrase(composedWords);
-            ITransitiveVerbal expected = new VerbPhrase(new Word[] { new Verb("gave", VerbTense.Base), new Adverb("willingly") });
-            ITransitiveVerbal actual;
+            IVerbal expected = new VerbPhrase(new Word[] { new Verb("gave", VerbTense.Base), new Adverb("willingly") });
+            IVerbal actual;
             target.IndirectObjectOf = expected;
             actual = target.IndirectObjectOf;
             Assert.AreEqual(expected, actual);
@@ -191,8 +191,8 @@ namespace AlgorithmAssemblyUnitTestProject
         public void SubjectOfTest() {
             IEnumerable<Word> composedWords = new Word[] { new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians") };
             NounPhrase target = new NounPhrase(composedWords);
-            ITransitiveVerbal expected = new Verb("are", VerbTense.Base);
-            ITransitiveVerbal actual;
+            IVerbal expected = new Verb("are", VerbTense.Base);
+            IVerbal actual;
             target.SubjectOf = expected;
             actual = target.SubjectOf;
             Assert.AreEqual(expected, actual);

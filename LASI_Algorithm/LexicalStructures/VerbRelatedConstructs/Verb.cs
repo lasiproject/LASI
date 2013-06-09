@@ -12,7 +12,7 @@ namespace LASI.Algorithm
     /// <summary>
     /// Provides the base class for all verb level verb constructs. An instance of this class represents a verb in its base tense.
     /// </summary>
-    public class Verb : Word, ITransitiveVerbal, IAdverbialModifiable, IModalityModifiable, IEquatable<Verb>
+    public class Verb : Word, IVerbal, IAdverbialModifiable, IModalityModifiable, IEquatable<Verb>
     {
         /// <summary>
         /// Initializes a new instance of the Verb class which represents the base tense form of a verb.
@@ -20,7 +20,8 @@ namespace LASI.Algorithm
         /// <param name="text">The literal text content of the verb.</param>
         /// <param name="tense">The tense of the verb</param>
         public Verb(string text, VerbTense tense)
-            : base(text) {
+            : base(text)
+        {
             Tense = tense;
             Arity = VerbalArity.Undetermined;
 
@@ -32,11 +33,12 @@ namespace LASI.Algorithm
         /// Attaches an Adverbial construct, such as an Adverb or AdverbPhrase, as a modifier of the Verb
         /// <param name="adv">The Adverbial construct by which to modify the AdjectivePhrase.</param>
         /// </summary>
-        public virtual void ModifyWith(IAdverbial adv) {
+        public virtual void ModifyWith(IAdverbial adv)
+        {
             _modifiers.Add(adv);
             adv.Modified = this;
         }
-        //public virtual void ModifyWith(ITransitiveVerbal verbialModifier) {
+        //public virtual void ModifyWith(IVerbal verbialModifier) {
         //    _modifiers.Add(verbialModifier);
         //    verbialModifier.Modified = this;
         //}
@@ -46,8 +48,9 @@ namespace LASI.Algorithm
         /// Example: He "ran" to work. where "work" is the object of ran via the prepositional construct "to"
         /// </summary>
         /// <param name="prep"></param>
-        public virtual void AttachObjectViaPreposition(IPrepositional prep) {
-            //ObjectViaPreposition = this as object == prep.OnLeftSide as object && prep.OnRightSide != null ? prep.OnRightSide : null;
+        public virtual void AttachObjectViaPreposition(IPrepositional prep)
+        {
+            //ObjectOfThePreoposition = this as object == prep.OnLeftSide as object && prep.OnRightSide != null ? prep.OnRightSide : null;
             ObjectViaPreposition = prep.PrepositionalObject;
             PrepositionLinkingTarget = prep;
         }
@@ -56,7 +59,8 @@ namespace LASI.Algorithm
         /// Binds the given Entity as a subject of the Verb instance.
         /// </summary>
         /// <param name="subject">The Entity to attach to the Verb as a subject.</param>
-        public virtual void BindSubject(IEntity subject) {
+        public virtual void BindSubject(IEntity subject)
+        {
             if (!_boundSubjects.Contains(subject)) {
                 _boundSubjects.Add(subject);
                 subject.SubjectOf = this;
@@ -67,7 +71,8 @@ namespace LASI.Algorithm
         /// Binds the given Entity as a direct object of the Verb instance.
         /// </summary>
         /// <param name="directObject">The Entity to attach to the Verb as a direct object.</param>
-        public virtual void BindDirectObject(IEntity directObject) {
+        public virtual void BindDirectObject(IEntity directObject)
+        {
             if (!_boundDirectObjects.Contains(directObject)) {
                 _boundDirectObjects.Add(directObject);
                 directObject.DirectObjectOf = this;
@@ -82,7 +87,8 @@ namespace LASI.Algorithm
         /// Binds the given Entity as an indirect object of the Verb instance.
         /// </summary>
         /// <param name="indirectObject">The Entity to attach to the Verb as an indirect object.</param>
-        public virtual void BindIndirectObject(IEntity indirectObject) {
+        public virtual void BindIndirectObject(IEntity indirectObject)
+        {
             if (!_boundIndirectObjects.Contains(indirectObject)) {
                 _boundIndirectObjects.Add(indirectObject);
                 indirectObject.IndirectObjectOf = this;
@@ -91,7 +97,8 @@ namespace LASI.Algorithm
         }
 
 
-        public virtual void DetermineIsPossessive() {
+        public virtual void DetermineIsPossessive()
+        {
 
             var syns = LASI.Algorithm.Thesauri.Thesaurus.Lookup(this);
             if (syns != null && syns.Contains("have")) {
@@ -105,7 +112,8 @@ namespace LASI.Algorithm
 
 
 
-        public virtual bool Equals(Verb other) {
+        public virtual bool Equals(Verb other)
+        {
             return this == other;
         }
         #endregion
@@ -115,8 +123,10 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets the subjects of the Verb.
         /// </summary>
-        public IEnumerable<IEntity> Subjects {
-            get {
+        public IEnumerable<IEntity> Subjects
+        {
+            get
+            {
                 return _boundSubjects;
             }
         }
@@ -125,8 +135,10 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets or sets the List of IAdverbial modifiers which modify this Verb.
         /// </summary>
-        public virtual IEnumerable<IAdverbial> Modifiers {
-            get {
+        public virtual IEnumerable<IAdverbial> Modifiers
+        {
+            get
+            {
                 return _modifiers;
             }
         }
@@ -134,21 +146,24 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets or sets the ModalAuxilary verb which modifies the Verb.
         /// </summary>
-        public ModalAuxilary Modality {
+        public ModalAuxilary Modality
+        {
             get;
             set;
         }
         /// <summary>
         /// Gets the VerbTense of the Verb.
         /// </summary>
-        public VerbTense Tense {
+        public VerbTense Tense
+        {
             get;
             protected set;
         }
         /// <summary>
         /// Gets the VerbPhrases's object, If the VerbPhrase has an object bound via a Prepositional construct.
         /// </summary>
-        public virtual ILexical ObjectViaPreposition {
+        public virtual ILexical ObjectViaPreposition
+        {
             get;
             protected set;
         }
@@ -158,8 +173,10 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets the indirect objects of the Verb.
         /// </summary>
-        public virtual IEnumerable<IEntity> IndirectObjects {
-            get {
+        public virtual IEnumerable<IEntity> IndirectObjects
+        {
+            get
+            {
                 return _boundIndirectObjects;
             }
 
@@ -167,15 +184,18 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets the direct objects of the Verb.
         /// </summary>
-        public virtual IEnumerable<IEntity> DirectObjects {
-            get {
+        public virtual IEnumerable<IEntity> DirectObjects
+        {
+            get
+            {
                 return _boundDirectObjects;
             }
         }
 
 
 
-        public ILexical GivenExposition {
+        public ILexical GivenExposition
+        {
             get;
             protected set;
         }
@@ -194,11 +214,14 @@ namespace LASI.Algorithm
         private ICollection<IEntity> _boundIndirectObjects = new List<IEntity>();
         private bool possessive;
 
-        public bool IsPossessive {
-            get {
+        public bool IsPossessive
+        {
+            get
+            {
                 return possessive;
             }
-            protected set {
+            protected set
+            {
                 possessive = value;
             }
         }
@@ -209,15 +232,26 @@ namespace LASI.Algorithm
 
 
 
-        public VerbalArity Arity {
+        public VerbalArity Arity
+        {
             get;
             protected set;
         }
 
 
-        public IPrepositional PrepositionLinkingTarget {
+        public IPrepositional PrepositionLinkingTarget
+        {
             get;
             set;
+        }
+
+
+        public ILexical ObjectOfThePreoposition
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
         }
     }
 }

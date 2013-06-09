@@ -265,7 +265,7 @@ namespace LASI.UserInterface.DataVisualzationProviders
                           Verbial = v as VerbPhrase ?? null,
                           Direct = dobj as NounPhrase ?? null,
                           Indirect = iobj as NounPhrase ?? null,
-                          ViaPreposition = v.ObjectViaPreposition ?? null,
+                          ViaPreposition = v.ObjectOfThePreoposition ?? null,
                           RelationshipWeight = s.Weight + v.Weight + (dobj != null ? dobj.Weight : 0) + (iobj != null ? iobj.Weight : 0)
                       } into tupple
                       where

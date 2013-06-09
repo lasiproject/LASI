@@ -52,7 +52,7 @@ namespace Aluan_Experimentation
 
 
 
-        private static IEnumerable<IVerbalSubject> GetActionPerformers(Document doc, ITransitiveVerbal action, IEntity Action)
+        private static IEnumerable<IVerbalSubject> GetActionPerformers(Document doc, IVerbal action, IEntity Action)
         {
             var doers = from verb in doc.Words.GetVerbs().WithSubject(subject => subject.IsSimilarTo(Action))
                         where verb.IsSimilarTo(verb)

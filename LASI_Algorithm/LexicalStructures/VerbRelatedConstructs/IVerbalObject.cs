@@ -7,11 +7,11 @@ namespace LASI.Algorithm
     /// </summary>
     public interface IVerbalObject
     {
-        ITransitiveVerbal DirectObjectOf {
+        IVerbal DirectObjectOf {
             get;
             set;
         }
-        ITransitiveVerbal IndirectObjectOf {
+        IVerbal IndirectObjectOf {
             get;
             set;
         }

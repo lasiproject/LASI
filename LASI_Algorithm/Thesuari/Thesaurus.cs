@@ -112,7 +112,7 @@ namespace LASI.Algorithm.Thesauri
         /// </code>
         /// Please prefer the second convention.
         /// </remarks>
-        public static bool IsSimilarTo(this ITransitiveVerbal first, ITransitiveVerbal second)
+        public static bool IsSimilarTo(this IVerbal first, IVerbal second)
         {
             var v1 = first as Verb;
             var v2 = second as Verb;

@@ -103,21 +103,21 @@ namespace LASI.Algorithm
         /// <summary>
         ///Gets or sets the ITRansitiveAction instance, usually a Verb or VerbPhrase, which the Noun is the direct object of.
         /// </summary>
-        public virtual ITransitiveVerbal DirectObjectOf {
+        public virtual IVerbal DirectObjectOf {
             get;
             set;
         }
         /// <summary>
         ///Gets or sets the IVerbal instance the Noun is the indirect object of.
         /// </summary>
-        public virtual ITransitiveVerbal IndirectObjectOf {
+        public virtual IVerbal IndirectObjectOf {
             get;
             set;
         }
         /// <summary>
         ///Gets or sets the IVerbal instance the Noun is the subject of.
         /// </summary>
-        public virtual ITransitiveVerbal SubjectOf {
+        public virtual IVerbal SubjectOf {
             get;
             set;
         }
@@ -162,7 +162,7 @@ namespace LASI.Algorithm
         }
         /// <summary>
         /// Gets or sets the single Noun which directly, in terms of reading order, specifies the current Noun instance.
-        /// For example, consider the noun phrase "Felis Catus", the taxonomic nomenclature of the common domestic cat 
+        /// For example, consider the noun start "Felis Catus", the taxonomic nomenclature of the common domestic cat 
         /// by its genus and species.
         /// While both "Felis" and "Catus" are individual nouns, the first implicitelly specifies the second.
         /// Catus is the species of the genus Felis,

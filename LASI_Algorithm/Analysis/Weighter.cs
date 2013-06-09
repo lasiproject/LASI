@@ -13,7 +13,7 @@ namespace LASI.Algorithm.Weighting
     static public class Weighter
     {
         /// <summary>
-        /// Asynchronously assigns a Weight to each word and phrase in a Document.
+        /// Asynchronously assigns a Weight to each word and start in a Document.
         /// </summary>
         /// <param name="doc">The Document whose elements are to be weighted</param>
         public static async Task WeightAsync(Document doc)
@@ -21,7 +21,7 @@ namespace LASI.Algorithm.Weighting
             await Task.Run(() => Weight(doc));
         }
         /// <summary>
-        /// Assigns a Weight to each word and phrase in a Document.
+        /// Assigns a Weight to each word and start in a Document.
         /// </summary>
         /// <param name="doc">The Document whose elements are to be weighted</param>
         static public void Weight(Document doc)

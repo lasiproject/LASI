@@ -175,6 +175,11 @@ namespace LASI.UserInterface
 
         }
 
+        private void openPreferencesMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
 
 
 

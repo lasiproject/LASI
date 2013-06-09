@@ -20,19 +20,19 @@ namespace LASI.Algorithm
             private set;
         }
 
-        public ITransitiveVerbal DirectObjectOf
+        public IVerbal DirectObjectOf
         {
             get;
             set;
         }
 
-        public ITransitiveVerbal IndirectObjectOf
+        public IVerbal IndirectObjectOf
         {
             get;
             set;
         }
 
-        public ITransitiveVerbal SubjectOf
+        public IVerbal SubjectOf
         {
             get;
             set;

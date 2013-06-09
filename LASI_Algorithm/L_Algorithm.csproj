@@ -101,7 +101,6 @@
     <Compile Include="LexicalStructures\NounRelatedConstructs\PossessivePronoun.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\WhPossessivePronoun.cs" />
     <Compile Include="LexicalStructures\UnderpinningTypes\ILexical.cs" />
-    <Compile Include="IEnumerableExtensions\IEnumerableOfITransitiveVerbalExtensions.cs" />
     <Compile Include="IEnumerableExtensions\IEnumerableOfParagraphExtensions.cs" />
     <Compile Include="DocumentConstructs\Paragraph.cs" />
     <Compile Include="IEnumerableExtensions\IEnumerableOfPhraseExtensions.cs" />
@@ -158,7 +157,6 @@
     <Compile Include="LexicalStructures\AdjectiveRelatedConstructs\IDescribable.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\IEntity.cs" />
     <Compile Include="LexicalStructures\VerbRelatedConstructs\IInderectObjectTaker.cs" />
-    <Compile Include="LexicalStructures\VerbRelatedConstructs\IVerbal.cs" />
     <Compile Include="LexicalStructures\BridgingConstructs\IPrepositionLinkable.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\IQuantifiable.cs" />
     <Compile Include="LexicalStructures\VerbRelatedConstructs\IVerbalSubject.cs" />
@@ -176,7 +174,7 @@
     <Compile Include="LexicalStructures\AdverbRelatedConstructs\SuperlativeAdverb.cs" />
     <Compile Include="LexicalStructures\MiscLanguageConstructs\Symbol.cs" />
     <Compile Include="Thesuari\ThesaurusBase.cs" />
-    <Compile Include="LexicalStructures\VerbRelatedConstructs\ITransitiveVerbal.cs" />
+    <Compile Include="LexicalStructures\VerbRelatedConstructs\IVerbal.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\Noun.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\NounPhrase.cs" />
     <Compile Include="LexicalStructures\ConstrainingSemanticConstructs\Quantifier.cs" />

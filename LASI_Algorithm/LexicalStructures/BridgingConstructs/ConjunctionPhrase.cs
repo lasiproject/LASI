@@ -8,7 +8,7 @@ using System.Xml.Linq;
 namespace LASI.Algorithm
 {
     /// <summary>
-    /// Represents a conjunction phrase which links two Clauses, Words or Phrases together.
+    /// Represents a conjunction start which links two Clauses, Words or Phrases together.
     /// </summary>
     public class ConjunctionPhrase : Phrase, IConjunctive
     {

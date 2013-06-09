@@ -51,7 +51,7 @@ namespace LASI.InteropLayer
                        Verbal = n.SubjectOf as VerbPhrase,
                        Direct = n.SubjectOf.DirectObjects.OfType<NounPhrase>().FirstOrDefault(),
                        Indirect = n.SubjectOf.IndirectObjects.OfType<NounPhrase>().FirstOrDefault(),
-                       ViaPreposition = n.SubjectOf.ObjectViaPreposition as NounPhrase
+                       ViaPreposition = n.SubjectOf.ObjectOfThePreoposition as NounPhrase
                    } into result
                    group result by result.Subject.Text into resultGrouped
                    select resultGrouped.First() into result

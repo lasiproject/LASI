@@ -133,28 +133,28 @@ namespace AlgorithmAssemblyUnitTestProject
         {
 
             Document target = BuildDocumentManually();
-            IEnumerable<ITransitiveVerbal> expected = new ITransitiveVerbal[]{new VerbPhrase(new Word[] { 
+            IEnumerable<IVerbal> expected = new IVerbal[]{new VerbPhrase(new Word[] { 
                                 new ModalAuxilary("must"),
                                 new Verb("attack", VerbTense.Base) 
                             }),new Verb("attack", VerbTense.Base),  new VerbPhrase(new Word[] { 
                                 new ModalAuxilary("must"),
                                 new Verb("do", VerbTense.Base)
                             }),new Verb("do", VerbTense.Base)};
-            IEnumerable<ITransitiveVerbal> actual;
+            IEnumerable<IVerbal> actual;
             actual = target.GetActions();
             foreach (var e in expected) {
                 Assert.IsTrue(actual.Contains(e, new VerbialEquater()));
             }
 
         }
-        private struct VerbialEquater : IEqualityComparer<ITransitiveVerbal>
+        private struct VerbialEquater : IEqualityComparer<IVerbal>
         {
-            public bool Equals(ITransitiveVerbal a, ITransitiveVerbal b)
+            public bool Equals(IVerbal a, IVerbal b)
             {
                 return a.Text == b.Text && a.GetType() == b.GetType();
             }
 
-            public int GetHashCode(ITransitiveVerbal obj)
+            public int GetHashCode(IVerbal obj)
             {
                 throw new NotImplementedException();
             }

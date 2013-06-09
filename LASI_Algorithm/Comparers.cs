@@ -62,7 +62,7 @@ namespace LASI.Algorithm
         }
         /// <summary>
         /// Text based comparer which compares the literal text of two NounPhrases to see if they are Identical.
-        /// All other comparers provided here perform literal text comparions implicitely.
+        /// All end comparers provided here perform literal text comparions implicitely.
         /// </summary>
         public static TextualComparer Textual
         {

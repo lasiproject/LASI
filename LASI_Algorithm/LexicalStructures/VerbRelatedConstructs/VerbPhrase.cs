@@ -12,7 +12,7 @@ namespace LASI.Algorithm
     /// <summary>
     /// Represents a Verb Phrase, a Phrase with the syntactic role of a verb.
     /// </summary>
-    public class VerbPhrase : Phrase, ITransitiveVerbal, IAdverbialModifiable, IModalityModifiable
+    public class VerbPhrase : Phrase, IVerbal, IAdverbialModifiable, IModalityModifiable
     {
         #region Constructors
 
@@ -268,6 +268,13 @@ namespace LASI.Algorithm
         {
             get;
             set;
+        }
+
+
+        public ILexical ObjectOfThePreoposition
+        {
+            get;
+            private set;
         }
     }
 }

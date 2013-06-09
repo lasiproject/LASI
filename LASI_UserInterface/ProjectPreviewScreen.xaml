@@ -83,8 +83,12 @@
                           Header="Start"
                           Click="StartButton_Click" />
             </MenuItem>
+            <MenuItem Header="Tools">
+                <MenuItem Header="Preferences"
+                          Name="openPreferencesMenuItem"
+                          Click="openPreferencesMenuItem_Click" />
+            </MenuItem>
             <MenuItem Header="Help" />
-            <Separator />
         </Menu>
     </Grid>
 </Window>
