@@ -61,7 +61,7 @@ namespace LASI.UserInterface
         {
             mainGrid.AllowDrop = true;
 
-            await SetUpDirectory();
+            await SetUpDefaultDirectory();
 
             if (Height == 250) {
                 for (var i = 0; i < 270; i += 10) {
@@ -86,11 +86,11 @@ namespace LASI.UserInterface
                 }
             }
         }
-        private async Task SetUpDirectory()
+        private async Task SetUpDefaultDirectory()
         {
-            ProjectLocation = await Task.Run(() =>
+            LocationTextBox.Text = await Task.Run(() =>
             {
-                var location = System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.DesktopDirectory, System.Environment.SpecialFolderOption.Create), "LASI_Projects");
+                var location = System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData, System.Environment.SpecialFolderOption.Create), "Projects");
                 if (!Directory.Exists(location)) {
                     Directory.CreateDirectory(location);
                 }
@@ -98,7 +98,7 @@ namespace LASI.UserInterface
                 return location;
 
             });
-            LocationTextBox.Text = ProjectLocation;
+
             LocationTextBox.TextChanged += (sender2, e2) => LocationTextBox.ScrollToEnd();
         }
 
@@ -128,6 +128,14 @@ namespace LASI.UserInterface
 
         private async void setupAndContinueButton_Click(object sender, RoutedEventArgs e)
         {
+            if (!Directory.Exists(LocationTextBox.Text)) {
+                try {
+                    Directory.CreateDirectory(LocationTextBox.Text);
+                }
+                catch (Exception) {
+                    MessageBox.Show("The folder you have chosen for your project does not exist or could not be created. Please select an existing directory");
+                }
+            }
             if (ValidateProjectNameField() && ValidateProjectLocationField() && ValidateProjectDocumentField()) {
                 Resources["CurrentProjectName"] = ProjectNameTextBox.Text;
                 var previewWindow = WindowManager.LoadedProjectScreen;
@@ -139,11 +147,12 @@ namespace LASI.UserInterface
                 AlertUserAboutInvalidFields();
             }
 
+
         }
 
         private async Task InitializeFileManager()
         {
-            FileManager.Initialize(System.IO.Path.Combine(ProjectLocation, ProjectNameTextBox.Text));
+            FileManager.Initialize(System.IO.Path.Combine(LocationTextBox.Text, ProjectNameTextBox.Text));
 
             foreach (var file in documentsAdded.Items) {
                 FileManager.AddFile((file as ListViewItem).Tag.ToString(), true);
@@ -192,14 +201,14 @@ namespace LASI.UserInterface
 
             var locationSelectDialog = new System.Windows.Forms.FolderBrowserDialog
             {
-                SelectedPath = ProjectLocation
+
             };
 
             System.Windows.Forms.DialogResult dirResult = locationSelectDialog.ShowDialog();
             if (dirResult == System.Windows.Forms.DialogResult.OK) {
-                LocationTextBox.Text = locationSelectDialog.SelectedPath + @"\" + ProjectNameTextBox.Text;
+                LocationTextBox.Text = locationSelectDialog.SelectedPath + @"\";
             }
-            ProjectLocation = locationSelectDialog.SelectedPath;
+
         }
 
 
@@ -271,7 +280,7 @@ namespace LASI.UserInterface
 
         private void EnteredProjectName_TextChanged(object sender, TextChangedEventArgs e)
         {
-            LocationTextBox.Text = ProjectLocation + @"\" + ProjectNameTextBox.Text;
+            LocationTextBox.Text = LocationTextBox.Text.Substring(0, LocationTextBox.Text.LastIndexOf(@"\")) + @"\" + ProjectNameTextBox.Text;
         }
 
         private void Grid_Drop(object sender, DragEventArgs e)
@@ -293,13 +302,9 @@ namespace LASI.UserInterface
 
         #region Properties
 
-        public string ProjectLocation
-        {
-            get;
-            private set;
-        }
 
         #endregion
+
 
 
 

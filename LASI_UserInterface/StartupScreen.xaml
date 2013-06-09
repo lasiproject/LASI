@@ -23,8 +23,6 @@
           Drop="Grid_Drop"
           Canvas.Top="-28">
 
-
-
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"
                            MinHeight="246" />
@@ -77,7 +75,6 @@
                      TextWrapping="Wrap"
                      Canvas.Top="54"
                      MaxLines="1"
-                     TextChanged="EnteredProjectName_TextChanged"
                      Margin="109,114,342,0"
                      Height="24"
                      VerticalAlignment="Top"
