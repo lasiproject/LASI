@@ -9,7 +9,7 @@ namespace LASI.Algorithm
     /// <summary>
     /// Represents a pronoun which gernerally refers back to a previously defined Entity, such as a Noun or NounPhrase.
     /// </summary>
-    public abstract class Pronoun : Word, IPronounBindable, IPronoun
+    public abstract class Pronoun : Word, IPronoun
     {
         #region Constructors
 
@@ -20,7 +20,6 @@ namespace LASI.Algorithm
         protected Pronoun(string text)
             : base(text)
         {
-
         }
 
         #endregion
@@ -48,10 +47,7 @@ namespace LASI.Algorithm
         }
 
 
-        public virtual bool Equals(IEntity other)
-        {
-            return other as object == this as object;
-        }
+
 
         #endregion
 
@@ -66,11 +62,7 @@ namespace LASI.Algorithm
             {
                 return _boundEntity;
             }
-            set
-            {
-                _boundEntity = value;
-                _entityKind = BoundEntity.EntityKind;
-            }
+
         }
         /// <summary>
         /// Gets the IVerbal instance, generally a TransitiveVerb or TransitiveVerbPhrase, which the Pronoun is the object of.
@@ -154,11 +146,7 @@ namespace LASI.Algorithm
             get;
             protected set;
         }
-        public EntityThemeMemberKind ThemeMemberKind
-        {
-            get;
-            set;
-        }
+
 
         #endregion
 
@@ -167,7 +155,7 @@ namespace LASI.Algorithm
         private ICollection<IDescriber> _describers = new List<IDescriber>();
         private ICollection<IEntity> _possessed = new List<IEntity>();
         private ICollection<IPronoun> _boundPronouns = new List<IPronoun>();
-        protected bool IsBound
+        public bool IsBound
         {
             get
             {
@@ -187,6 +175,7 @@ namespace LASI.Algorithm
         public void BindToIEntity(IEntity target)
         {
             _boundEntity = target;
+            _entityKind = BoundEntity.EntityKind;
         }
 
         #region Static Methods

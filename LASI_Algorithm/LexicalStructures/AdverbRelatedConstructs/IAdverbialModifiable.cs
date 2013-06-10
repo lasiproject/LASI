@@ -9,7 +9,7 @@ namespace LASI.Algorithm
     /// <summary>
     /// Defines the role reqirements for Adverbial Modifiable elements, including Verbs, VerbPhrases, Adjectives, and AdjectivePhrases, whose meaning can be modified by IAdverbial 
     /// elements such as Adverbs and AdverbPhrases.
-    /// Along with the second interfaces in the Syntactic Interfaces Library, the IAdverbialModifiable interface provides for generalization and abstraction over word and Phrase types.
+    /// Along with the second interfaces in the Syntactic Interfaces Library, the IAdverbialModifiable interface provides for generalization and abstraction over wd and Phrase types.
     /// </summary>
     public interface IAdverbialModifiable
     {

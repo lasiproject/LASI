@@ -1,4 +1,4 @@
-﻿ 
+﻿
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,120 +16,150 @@ namespace LASI.Algorithm
     /// <seealso cref="IEntity"/>
     public class NPAggregateSubjectObject : IEntityGroup
     {
-        public NPAggregateSubjectObject(IEnumerable<IEntity> aggregates) {
+        public NPAggregateSubjectObject(IEnumerable<IEntity> aggregates)
+        {
             AggregatesEntities = aggregates;
         }
-        public void AddPossession(IEntity possession) {
+        public void AddPossession(IEntity possession)
+        {
             if (!_possessions.Contains(possession)) {
                 _possessions.Add(possession);
             }
         }
-        public bool Equals(IEntity other) {
-            return this as object == other as object;
-        }
+
         /// <summary>
         /// Gets or sets the Entity Kind; Person, Place, Thing, Organization, or Activity; of the NPAggregateSubjectObject instance.
         /// </summary>
-        public EntityKind EntityKind {
+        public EntityKind EntityKind
+        {
             get;
             set;
         }
         /// <summary>
         /// Gets the IVerbal instance, generally a TransitiveVerb or TransitiveVerbPhrase, which the NPAggregateSubjectObject is the DIRECT object of.
         /// </summary>
-        public IVerbal DirectObjectOf {
+        public IVerbal DirectObjectOf
+        {
             get;
             set;
         }
         /// <summary>
         /// Gets the IVerbal instance, generally a TransitiveVerb or TransitiveVerbPhrase, which the NPAggregateSubjectObject is the INDIRECT object of.
         /// </summary>
-        public IVerbal IndirectObjectOf {
+        public IVerbal IndirectObjectOf
+        {
             get;
             set;
         }
         /// <summary>
         /// Gets the IVerbal instance, generally a Verb or VerbPhrase, which the NPAggregateSubjectObject is the subject of.
         /// </summary>
-        public IVerbal SubjectOf {
+        public IVerbal SubjectOf
+        {
             get;
             set;
         }
 
-        public void BindPronoun(IPronoun pro) {
-            _boundPronouns.Add(pro);
+        public void BindPronoun(IPronoun pro)
+        {
+            if (!BoundPronouns.Contains(pro)) {
+                _boundPronouns.Add(pro);
+            }
         }
 
-        public IEnumerable<IPronoun> BoundPronouns {
-            get {
+        public IEnumerable<IPronoun> BoundPronouns
+        {
+            get
+            {
                 return _boundPronouns;
             }
         }
 
-        public void BindDescriber(IDescriber adj) {
+        public void BindDescriber(IDescriber adj)
+        {
             if (!_describers.Contains(adj)) {
                 _describers.Add(adj);
             }
         }
 
-        public IEnumerable<IDescriber> DescribedBy {
-            get {
+        public IEnumerable<IDescriber> DescribedBy
+        {
+            get
+            {
                 return _describers;
             }
         }
         /// <summary>
         /// Gets all of the constructs the NPAggregate can be determined to "own" collectively 
         /// /// </summary>
-        public IEnumerable<IEntity> Possessed {
-            get {
+        public IEnumerable<IEntity> Possessed
+        {
+            get
+            {
                 return _possessions;
             }
         }
 
 
-        public override string ToString() {
+        public override string ToString()
+        {
             return base.ToString() + String.Format(" \"{0}\"", Text);
         }
-        public IEntity Possesser {
+        public IEntity Possesser
+        {
             get;
             set;
         }
 
-        public string Text {
-            get {
+        public string Text
+        {
+            get
+            {
                 return AggregatesEntities.Aggregate("", (aggr, ent) => aggr += ent + " ").Trim();
             }
         }
-
+        public Type Type
+        {
+            get
+            {
+                return GetType();
+            }
+        }
         /// <summary>
         /// Gets or sets the numeric Weight of the Noun-Phrase-Aggregate within the context of its document.
         /// </summary>
-        public decimal Weight {
+        public decimal Weight
+        {
             get;
             set;
         }
         /// <summary>
         /// Gets or sets the numeric Weight of the Noun-Phrase-Aggregate over the context of all extant documents.
         /// </summary>
-        public decimal MetaWeight {
+        public decimal MetaWeight
+        {
             get;
             set;
         }
 
 
+
         /// <summary>
         /// Gets the EnumerableCollection of Entities compose to form the aggregate
         /// </summary>
-        public IEnumerable<IEntity> AggregatesEntities {
+        public IEnumerable<IEntity> AggregatesEntities
+        {
             get;
             protected set;
         }
 
-        public IEnumerator<IEntity> GetEnumerator() {
+        public IEnumerator<IEntity> GetEnumerator()
+        {
             return AggregatesEntities.GetEnumerator();
         }
 
-        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() {
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        {
             throw new NotImplementedException();
         }
 
@@ -147,10 +177,6 @@ namespace LASI.Algorithm
 
 
 
-        public Type Type {
-            get {
-                return GetType();
-            }
-        }
+
     }
 }

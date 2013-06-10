@@ -9,14 +9,14 @@ using System.Xml.Linq;
 namespace LASI.Algorithm
 {
     /// <summary>
-    /// Provides the base class, properties, and behaviors for all word level gramatical constructs.
+    /// Provides the base class, properties, and behaviors for all wd level gramatical constructs.
     /// </summary>
     public abstract class Word : IPrepositionLinkable
     {
         #region Constructors
         /// <summary>
-        /// Initializes a new instance of the word class which represensts the properties
-        /// and behaviors of a word-level grammatical element.
+        /// Initializes a new instance of the wd class which represensts the properties
+        /// and behaviors of a wd-level grammatical element.
         /// </summary>
         /// <param name="text">The literal text content of the verb.</param>
         protected Word(string text)
@@ -35,9 +35,9 @@ namespace LASI.Algorithm
         #region Methods
 
         /// <summary>
-        /// Establishes the linkage between the word and its parent Phrase.
+        /// Establishes the linkage between the wd and its parent Phrase.
         /// </summary>
-        /// <param name="parent">The Phrase to which the word belongs.</param>
+        /// <param name="parent">The Phrase to which the wd belongs.</param>
         public void EstablishParent(Phrase parent)
         {
             Phrase = parent;
@@ -45,7 +45,7 @@ namespace LASI.Algorithm
         }
 
         /// <summary>
-        /// Returns a string representation of the word.
+        /// Returns a string representation of the wd.
         /// </summary>
         /// <returns>A string containing its underlying type and its text content.</returns>
         public override string ToString()
@@ -71,7 +71,7 @@ namespace LASI.Algorithm
         #region Properties
 
         /// <summary>
-        /// Gets the text content of the word instance.
+        /// Gets the text content of the wd instance.
         /// </summary>
         public virtual string Text
         {
@@ -80,7 +80,7 @@ namespace LASI.Algorithm
         }
 
         /// <summary>
-        /// Gets the globally-unique identification number associated with the word instance.
+        /// Gets the globally-unique identification number associated with the wd instance.
         /// </summary>
         public int ID
         {
@@ -89,7 +89,7 @@ namespace LASI.Algorithm
         }
 
         /// <summary>
-        /// Gets the frequency of the word in the current document.
+        /// Gets the frequency of the wd in the current document.
         /// </summary>
         public int FrequencyCurrent
         {
@@ -98,7 +98,7 @@ namespace LASI.Algorithm
         }
 
         /// <summary>
-        /// Gets the normalized frequency of word across all documents.
+        /// Gets the normalized frequency of wd across all documents.
         /// </summary>
         public int FrequencyAcross
         {
@@ -118,7 +118,7 @@ namespace LASI.Algorithm
             }
         }
         /// <summary>
-        /// Gets, lexically speaking, the next word in the Document to which the instance belongs.
+        /// Gets, lexically speaking, the next wd in the Document to which the instance belongs.
         /// </summary>
         public Word NextWord
         {
@@ -126,7 +126,7 @@ namespace LASI.Algorithm
             set;
         }
         /// <summary>
-        /// Gets, lexically speaking, the previous word in the Document to which the instance belongs.
+        /// Gets, lexically speaking, the previous wd in the Document to which the instance belongs.
         /// </summary>
         public Word PreviousWord
         {
@@ -134,7 +134,7 @@ namespace LASI.Algorithm
             set;
         }
         /// <summary>
-        /// Gets or the Phrase the word belongs to.
+        /// Gets or the Phrase the wd belongs to.
         /// </summary>
         public Phrase Phrase
         {
@@ -142,7 +142,7 @@ namespace LASI.Algorithm
             private set;
         }
         /// <summary>
-        /// Gets or the Sentence the word belongs to.
+        /// Gets or the Sentence the wd belongs to.
         /// </summary>
         public LASI.Algorithm.DocumentConstructs.Sentence Sentence
         {
@@ -151,7 +151,7 @@ namespace LASI.Algorithm
         }
 
         /// <summary>
-        /// Gets or sets the Prepositional construct which is lexically to the first of the word.
+        /// Gets or sets the Prepositional construct which is lexically to the first of the wd.
         /// </summary>
         public IPrepositional PrepositionOnLeft
         {
@@ -160,7 +160,7 @@ namespace LASI.Algorithm
         }
 
         /// <summary>
-        /// Gets or sets the Prepositional construct which is lexically to the second of the word.
+        /// Gets or sets the Prepositional construct which is lexically to the second of the wd.
         /// </summary>
         public IPrepositional PrepositionOnRight
         {
@@ -177,7 +177,7 @@ namespace LASI.Algorithm
         }
 
         /// <summary>
-        /// Gets or sets the numeric Weight of the word within the context of its parent document.
+        /// Gets or sets the numeric Weight of the wd within the context of its parent document.
         /// </summary>
         public decimal Weight
         {
@@ -187,7 +187,7 @@ namespace LASI.Algorithm
 
 
         /// <summary>
-        /// Gets or sets the numeric Weight of the word over the context of all extant documents.
+        /// Gets or sets the numeric Weight of the wd over the context of all extant documents.
         /// </summary>
         public decimal MetaWeight
         {

@@ -97,9 +97,8 @@
     <Compile Include="LexicalStructures\UnderpinningTypes\SubordinateClause.cs" />
     <Compile Include="LexicalStructures\VerbRelatedConstructs\GerundVerbPhrase.cs" />
     <Compile Include="LexicalStructures\MiscLanguageConstructs\InterjectionPhrase.cs" />
-    <Compile Include="LexicalStructures\NounRelatedConstructs\EntityThemeMemberKind.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\PossessivePronoun.cs" />
-    <Compile Include="LexicalStructures\NounRelatedConstructs\WhPossessivePronoun.cs" />
+    <Compile Include="LexicalStructures\NounRelatedConstructs\RelativePossessivePronoun.cs" />
     <Compile Include="LexicalStructures\UnderpinningTypes\ILexical.cs" />
     <Compile Include="IEnumerableExtensions\IEnumerableOfParagraphExtensions.cs" />
     <Compile Include="DocumentConstructs\Paragraph.cs" />
@@ -119,7 +118,7 @@
     <Compile Include="Thesuari\NounConjugator.cs" />
     <Compile Include="Thesuari\NoSynonymLookupForTypeException.cs" />
     <Compile Include="Thesuari\SynonymSet.cs" />
-    <Compile Include="LexicalStructures\NounRelatedConstructs\WhPronoun.cs" />
+    <Compile Include="LexicalStructures\NounRelatedConstructs\RelativePronoun.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\GenericNoun.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\ProperNoun.cs" />
     <Compile Include="LexicalStructures\BridgingConstructs\ConjunctionPhrase.cs" />

@@ -18,7 +18,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Initializes a new instance of the Phrase class.
         /// </summary>
-        /// <param name="composedWords">The one or more instances of the word class of which the Phrase is composed.</param>
+        /// <param name="composedWords">The one or more instances of the wd class of which the Phrase is composed.</param>
         protected Phrase(IEnumerable<Word> composedWords)
         {
             //if (composedWords.Count() == 0)
@@ -64,7 +64,7 @@ namespace LASI.Algorithm
         #region Properties
 
         /// <summary>
-        /// Gets or sets the Prepositional construct which is lexically to the second of the word.
+        /// Gets or sets the Prepositional construct which is lexically to the second of the wd.
         /// </summary>
         public IPrepositional PrepositionOnRight
         {

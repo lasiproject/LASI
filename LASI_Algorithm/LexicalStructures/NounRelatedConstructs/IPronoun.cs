@@ -13,5 +13,9 @@ namespace LASI.Algorithm
         {
             get;
         }
+        bool IsBound
+        {
+            get;
+        }
     }
 }

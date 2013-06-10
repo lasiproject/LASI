@@ -39,8 +39,8 @@ namespace Scott_Experimentation
             var paragraphs4 = new TaggedFileParser(tagged4).LoadParagraphs();
             var document4 = new Document(paragraphs4);
 
-            //var converter = new DocxToTextConverter(new LASI.FileSystem.FileTypes.DocXFile(@"word:\Users\Scott\Desktop\HesterTestDocs\411writtensummary2.docx"));
-            //var converter = new DocxToTextConverter(new LASI.FileSystem.FileTypes.DocXFile(@"word:\Users\Scott\Desktop\HesterTestDocs\CapabilitiesBasedPlanningProcessOverview.docx"));
+            //var converter = new DocxToTextConverter(new LASI.FileSystem.FileTypes.DocXFile(@"wd:\Users\Scott\Desktop\HesterTestDocs\411writtensummary2.docx"));
+            //var converter = new DocxToTextConverter(new LASI.FileSystem.FileTypes.DocXFile(@"wd:\Users\Scott\Desktop\HesterTestDocs\CapabilitiesBasedPlanningProcessOverview.docx"));
             var converter = new DocxToTextConverter(new LASI.FileSystem.FileTypes.DocXFile(@"C:\Users\Scott\Desktop\HesterTestDocs\BTSDraftNeedsandStrategy.docx"));
             var tagger5 = new SharpNLPTagger(TaggingOption.TagAndAggregate, converter.ConvertFile().FullPath);
             var tagged5 = tagger5.ProcessFile();

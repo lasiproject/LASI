@@ -86,6 +86,9 @@ namespace LASI.Algorithm.Thesauri
         /// </remarks>
         public static bool IsSimilarTo(this IEntity first, IEntity second)
         {
+            if (first.Text.ToUpper() == second.Text.ToUpper()) {
+                return true;
+            }
             var n1 = first as Noun;
             var n2 = second as Noun;
             if (n1 != null && n2 != null) {
@@ -114,6 +117,9 @@ namespace LASI.Algorithm.Thesauri
         /// </remarks>
         public static bool IsSimilarTo(this IVerbal first, IVerbal second)
         {
+            if (first.Text.ToUpper() == second.Text.ToUpper()) {
+                return true;
+            }
             var v1 = first as Verb;
             var v2 = second as Verb;
             if (v1 != null && v2 != null) {
@@ -128,12 +134,25 @@ namespace LASI.Algorithm.Thesauri
                 return false;
             }
         }
-
+        public static bool IsSynonymFor(this Noun word, Noun other)
+        {
+            return InternalLookup(word).Contains(other.Text);
+        }
+        public static bool IsSynonymFor(this Verb word, Verb other)
+        {
+            return InternalLookup(word).Contains(other.Text);
+        }
+        public static bool IsSynonymFor(this Adjective word, Adjective other)
+        {
+            return InternalLookup(word).Contains(other.Text);
+        }
+        public static bool IsSynonymFor(this Adverb word, Adverb other)
+        {
+            return InternalLookup(word).Contains(other.Text);
+        }
         public static bool IsSynonymFor(this Word word, Word other)
         {
-            if (word == null || other == null) {
-                return false;
-            }
+
             return (word is Noun && other is Noun ||
                 word is Verb && other is Verb ||
                 word is Adverb && other is Adverb ||
@@ -156,6 +175,7 @@ namespace LASI.Algorithm.Thesauri
         /// </remarks>
         public static bool IsSimilarTo(this NounPhrase first, NounPhrase second)
         {
+
             return GetSimilarityRatio(first, second) > SIMILARITY_THRESHOLD;
         }
 
@@ -173,6 +193,7 @@ namespace LASI.Algorithm.Thesauri
         /// </remarks>
         public static bool IsSimilarTo(this VerbPhrase lhs, VerbPhrase rhs)
         {
+
             //Look into refining this
             List<Verb> leftHandVerbs = lhs.Words.GetVerbs().ToList();
             List<Verb> rightHandVerbs = rhs.Words.GetVerbs().ToList();
@@ -232,28 +253,28 @@ namespace LASI.Algorithm.Thesauri
 
         #region Internal Lookup Methods
 
-        private static IEnumerable<string> InternalLookup(Verb verb)
+        private static HashSet<string> InternalLookup(Verb verb)
         {
             if (!cachedVerbData.ContainsKey(verb.Text))
                 cachedVerbData[verb.Text] = VerbThesaurus[verb];
-            return cachedVerbData[verb.Text] ?? new List<string>();
+            return cachedVerbData[verb.Text] ?? new HashSet<string>();
         }
-        private static IEnumerable<string> InternalLookup(Noun noun)
+        private static HashSet<string> InternalLookup(Noun noun)
         {
 
             if (!cachedNounData.ContainsKey(noun.Text))
                 cachedNounData[noun.Text] = NounThesaurus[noun];
             return cachedNounData[noun.Text];
         }
-        private static IEnumerable<string> InternalLookup(Adverb verb)
+        private static HashSet<string> InternalLookup(Adverb verb)
         {
             return AdverbThesaurus[verb];
         }
-        private static IEnumerable<string> InternalLookup(Adjective verb)
+        private static HashSet<string> InternalLookup(Adjective verb)
         {
             return AdjectiveThesaurus[verb];
         }
-        private static IEnumerable<string> InternalLookup(Word word)
+        private static HashSet<string> InternalLookup(Word word)
         {
             throw new NoSynonymLookupForTypeException(word);
         }
@@ -310,10 +331,10 @@ namespace LASI.Algorithm.Thesauri
         private static readonly string adverbThesaurusFilePath = ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "data.adv";
         private static readonly string adjectiveThesaurusFilePath = ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "data.adj";
         // Synonym Lookup Caches
-        private static ConcurrentDictionary<string, IEnumerable<string>> cachedNounData = new ConcurrentDictionary<string, IEnumerable<string>>();
-        private static ConcurrentDictionary<string, IEnumerable<string>> cachedVerbData = new ConcurrentDictionary<string, IEnumerable<string>>();
-        private static ConcurrentDictionary<string, IEnumerable<string>> cachedAdjectiveData = new ConcurrentDictionary<string, IEnumerable<string>>();
-        private static ConcurrentDictionary<string, IEnumerable<string>> cachedAdverbData = new ConcurrentDictionary<string, IEnumerable<string>>();
+        private static ConcurrentDictionary<string, HashSet<string>> cachedNounData = new ConcurrentDictionary<string, HashSet<string>>();
+        private static ConcurrentDictionary<string, HashSet<string>> cachedVerbData = new ConcurrentDictionary<string, HashSet<string>>();
+        private static ConcurrentDictionary<string, HashSet<string>> cachedAdjectiveData = new ConcurrentDictionary<string, HashSet<string>>();
+        private static ConcurrentDictionary<string, HashSet<string>> cachedAdverbData = new ConcurrentDictionary<string, HashSet<string>>();
         private const double SIMILARITY_THRESHOLD = 0.6;
 
         #endregion

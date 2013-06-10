@@ -6,7 +6,7 @@ using System.Text;
 
 namespace LASI.Algorithm
 {
-    public class InfinitivePhrase : Phrase, LASI.Algorithm.IVerbalObject, LASI.Algorithm.IVerbalSubject
+    public class InfinitivePhrase : VerbPhrase, LASI.Algorithm.IVerbalObject, LASI.Algorithm.IVerbalSubject
     {
 
 

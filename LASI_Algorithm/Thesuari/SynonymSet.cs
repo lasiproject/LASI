@@ -71,9 +71,9 @@ namespace LASI.Algorithm.Thesauri
         }
 
         /// <summary>
-        /// Exposes an which enumerator exposes the direct word members when the VerbThesaurusSynSet is enumerated.
+        /// Exposes an which enumerator exposes the direct wd members when the VerbThesaurusSynSet is enumerated.
         /// </summary>
-        /// <returns>An enumerator which exposes the direct word members when the VerbThesaurusSynSet is enumerated.</returns>
+        /// <returns>An enumerator which exposes the direct wd members when the VerbThesaurusSynSet is enumerated.</returns>
         public IEnumerator<string> GetEnumerator()
         {
             return Words.GetEnumerator();

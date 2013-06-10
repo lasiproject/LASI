@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace LASI.Algorithm
 {
-    public class PronounPhrase : NounPhrase, IPronounBindable, IPronoun
+    public class PronounPhrase : NounPhrase, IPronoun
     {
         private IEntity _boundEntity;
         public PronounPhrase(IEnumerable<Word> composedWords)
@@ -27,17 +27,14 @@ namespace LASI.Algorithm
             {
                 return _boundEntity;
             }
-            private set
-            {
-                _boundEntity = value;
-                EntityKind = value.EntityKind;
-            }
+
         }
 
 
         public void BindToIEntity(IEntity target)
         {
-            BoundEntity = target;
+            _boundEntity = target;
+            EntityKind = _boundEntity.EntityKind;
         }
 
         public void BindPronoun(Pronoun pro)
@@ -48,6 +45,13 @@ namespace LASI.Algorithm
         {
             get;
             protected set;
+        }
+
+
+        public bool IsBound
+        {
+            get;
+            private set;
         }
     }
 }

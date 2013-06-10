@@ -20,7 +20,7 @@ namespace Dustin_Experimentation
             var tagged = tagger.ProcessFile();
             var paragraphs = new TaggedFileParser(tagged).LoadParagraphs();
             var document = new Document(paragraphs);
-            //StreamWriter file = new StreamWriter(@"word:\Users\Dustin\Downloads\411output.txt");
+            //StreamWriter file = new StreamWriter(@"wd:\Users\Dustin\Downloads\411output.txt");
 
             foreach (var i in document.Sentences)
             {

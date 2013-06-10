@@ -8,10 +8,10 @@ namespace LASI.Algorithm
 {
     interface IDeterminable
     {
-        Determiner DeterminedBy {
+        Determiner Determiner
+        {
             get;
         }
         void BindDeterminer(Determiner determiner);
     }
 }
- 

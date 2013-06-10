@@ -1,24 +1,51 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace LASI.Algorithm
 {
-    class GerundVerbPhrase : VerbPhrase, IEntity
+    /// <summary>
+    /// Represents a Relative Pronoun such as "that", "Which, "What" or "who".
+    /// </summary>
+    public class WhPronoun : Word, IPronoun
     {
-        public GerundVerbPhrase(IEnumerable<Word> composedWords)
-            : base(composedWords)
+        /// <summary>
+        /// Initialiazes a new instance of the WhPronoun class.
+        /// </summary>
+        /// <param name="text">The literal text content of the WhPronoun.</param>
+        public WhPronoun(string text)
+            : base(text)
         {
+        }
+
+        public IEntity BoundEntity
+        {
+            get
+            {
+                return _boundEntity;
+            }
+        }
+
+        public void BindToIEntity(IEntity target)
+        {
+            _boundEntity = target;
+            _entityKind = BoundEntity.EntityKind;
+        }
+
+        public PronounKind PronounKind
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
         }
 
         public EntityKind EntityKind
         {
             get
             {
-                return EntityKind.Activitiy;
+                return _entityKind;
             }
         }
 
@@ -42,9 +69,8 @@ namespace LASI.Algorithm
 
         public void BindPronoun(IPronoun pro)
         {
-            if (!_boundPronouns.Contains(pro)) {
+            if (!_boundPronouns.Contains(pro))
                 _boundPronouns.Add(pro);
-            }
         }
 
         public IEnumerable<IPronoun> BoundPronouns
@@ -57,10 +83,7 @@ namespace LASI.Algorithm
 
         public void BindDescriber(IDescriber adj)
         {
-            if (!_describers.Contains(adj)) {
-                adj.Described = this;
-                _describers.Add(adj);
-            }
+            _describers.Add(adj);
         }
 
         public IEnumerable<IDescriber> DescribedBy
@@ -82,8 +105,10 @@ namespace LASI.Algorithm
         public void AddPossession(IEntity possession)
         {
             if (!_possessed.Contains(possession)) {
-                possession.Possesser = this;
                 _possessed.Add(possession);
+            }
+            if (IsBound && !BoundEntity.Possessed.Contains(possession)) {
+                BoundEntity.AddPossession(possession);
             }
         }
 
@@ -92,24 +117,17 @@ namespace LASI.Algorithm
             get;
             set;
         }
-
-        public void BindPronoun(Pronoun pro)
+        public bool IsBound
         {
-            if (!_boundPronouns.Contains(pro)) {
-                _boundPronouns.Add(pro);
-            }
+            get;
+            private set;
         }
-
-        #region Fields
 
         private ICollection<IDescriber> _describers = new List<IDescriber>();
         private ICollection<IEntity> _possessed = new List<IEntity>();
         private ICollection<IPronoun> _boundPronouns = new List<IPronoun>();
-
-        #endregion
-
-
-
+        private EntityKind _entityKind;
+        private IEntity _boundEntity;
 
 
     }

@@ -36,10 +36,10 @@ namespace LASI.Algorithm
 
         }
         /// <summary>
-        /// Gets all of the word instances in the sequence of ILexicals.
+        /// Gets all of the wd instances in the sequence of ILexicals.
         /// </summary>
         /// <param name="lexicals">The source sequence of ILexical instances.</param>
-        /// <returns>all of the word instances in the sequence of ILexicals.</returns>
+        /// <returns>all of the wd instances in the sequence of ILexicals.</returns>
         public static IEnumerable<Word> GetWords(this IEnumerable<ILexical> lexicals)
         {
             return lexicals.OfType<Word>();

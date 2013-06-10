@@ -10,7 +10,7 @@ using System.Xml;
 namespace LASI.FileSystem
 {
     /// <summary>
-    /// An input file converter specialized to extract the written content from a .docx (Microsoft word 2003+ open XML file format)
+    /// An input file converter specialized to extract the written content from a .docx (Microsoft wd 2003+ open XML file format)
     /// and create a text file storing this content as raw text.
     /// </summary>
     public class DocxToTextConverter : FileConverter

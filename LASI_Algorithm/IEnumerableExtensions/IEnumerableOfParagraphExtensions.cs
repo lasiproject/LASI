@@ -33,10 +33,10 @@ namespace LASI.Algorithm
                    select r;
         }
         /// <summary>
-        /// Gets the linear aggregation of all word instances contained within the sequence of Paragraph instances.
+        /// Gets the linear aggregation of all wd instances contained within the sequence of Paragraph instances.
         /// </summary>
         /// <param name="paragraphs">A sequence of Paragraph instances.</param>
-        /// <returns>The linear aggregation of all word instances contained within the sequence of Paragraph instances.</returns>
+        /// <returns>The linear aggregation of all wd instances contained within the sequence of Paragraph instances.</returns>
         public static IEnumerable<Word> GetWords(this IEnumerable<Paragraph> paragraphs)
         {
             return from p in paragraphs

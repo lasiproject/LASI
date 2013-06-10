@@ -83,10 +83,7 @@ namespace LASI.Algorithm
                 possession.Possesser = this;
             }
         }
-        public bool Equals(IEntity other)
-        {
-            return this == other as NounPhrase;
-        }
+
         public override string ToString()
         {
             var result = base.ToString();
@@ -224,7 +221,7 @@ namespace LASI.Algorithm
             set
             {
                 _possessor = value;
-                foreach (var item in this.Words.GetNouns().Concat<IEntity>(this.Words.GetPronouns())) {
+                foreach (var item in this.Words.OfType<IEntity>()) {
                     value.AddPossession(item);
                 }
             }

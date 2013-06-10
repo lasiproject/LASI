@@ -285,14 +285,18 @@ namespace LASI.UserInterface
 
         private void Grid_Drop(object sender, DragEventArgs e)
         {
-            var validDroppedFiles = DocumentManager.GetValidFilesInPathList(e.Data.GetData(System.Windows.DataFormats.FileDrop, true) as string[]);
-            if (!validDroppedFiles.Any()) {
+            var filesInValidFormats = DocumentManager.GetValidFilesInPathList(e.Data.GetData(System.Windows.DataFormats.FileDrop, true) as string[]);
+            if (!filesInValidFormats.Any()) {
                 MessageBox.Show(string.Format("Only the following file formats are accepted:\n{0}", DocumentManager.AcceptedFormats.Aggregate((sum, current) => sum += current + ", ")));
-            } else if (!validDroppedFiles.Any(fn => !DocumentManager.FileNamePresent(fn.Name))) {
-                MessageBox.Show(string.Format("A document named {0} is already part of the project.", validDroppedFiles.First()));
+            } else if (!filesInValidFormats.Any(fn => !DocumentManager.FileNamePresent(fn.Name))) {
+                MessageBox.Show(string.Format("A document named {0} is already part of the projects.", filesInValidFormats.First()));
             } else {
-                foreach (var droppedFile in validDroppedFiles) {
-                    DocumentManager.AddUserDocument(droppedFile.Name, droppedFile.FullName);
+                foreach (var droppedFile in filesInValidFormats) {
+                    if (!DocumentManager.FileIsLocked(droppedFile)) {
+                        DocumentManager.AddUserDocument(droppedFile.Name, droppedFile.FullName);
+                    } else {
+                        MessageBox.Show(string.Format("The document {0} is in use by another process, please close any applications which may be using the file and try again.", droppedFile));
+                    }
                 }
             }
         }

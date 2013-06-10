@@ -13,7 +13,7 @@ namespace LASI.Algorithm.Weighting
     static public class Weighter
     {
         /// <summary>
-        /// Asynchronously assigns a Weight to each word and start in a Document.
+        /// Asynchronously assigns a Weight to each wd and start in a Document.
         /// </summary>
         /// <param name="doc">The Document whose elements are to be weighted</param>
         public static async Task WeightAsync(Document doc)
@@ -21,7 +21,7 @@ namespace LASI.Algorithm.Weighting
             await Task.Run(() => Weight(doc));
         }
         /// <summary>
-        /// Assigns a Weight to each word and start in a Document.
+        /// Assigns a Weight to each wd and start in a Document.
         /// </summary>
         /// <param name="doc">The Document whose elements are to be weighted</param>
         static public void Weight(Document doc)
@@ -71,29 +71,49 @@ namespace LASI.Algorithm.Weighting
 
         private static void ModifyVerbWeightsBySynonyms(Document doc)
         {
-            var verbsSynonymGroups = from verb in doc.Words.GetVerbs().AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
-                                     let synstrings = Thesaurus.Lookup(verb)
-                                     from t in doc.Words.GetVerbs().AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
-                                     where synstrings.Contains(t.Text)
-                                     group t by verb;
+            var verbsSynonymGroups = from outerVerb in doc.Words.GetVerbs().AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
+                                     from innerVerb in doc.Words.GetVerbs().AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
+                                     where outerVerb.IsSynonymFor(innerVerb)
+                                     group innerVerb by outerVerb;
             verbsSynonymGroups.ForAll(grp =>
             {
                 grp.Key.Weight += 0.7m * grp.Count();
             });
         }
+        /// <summary>
+        /// Increase noun weights in a document by abstracting over synonyms
+        /// </summary>
+        /// <param name="doc">the Document whose noun weights may be modiffied</param>
+        private static void ModifyNounWeightsBySynonyms(Document doc)
+        {
+            //var nounSynonymGroups = from noun in doc.Words.GetNouns().AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
+            //                         let synstrings = Thesaurus.Lookup(noun)
+            //                        from innerNoun in doc.Words.GetNouns().AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
+            //                        where synstrings.Contains(innerNoun.Text, StringComparer.OrdinalIgnoreCase)
+            //                        group innerNoun by noun;
+            var nounSynonymGroups = from outerNoun in doc.Words.GetNouns().AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
+                                    from innerNoun in doc.Words.GetNouns().AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
+                                    where outerNoun.IsSynonymFor(innerNoun)
+                                    group innerNoun by outerNoun;
 
+            nounSynonymGroups.ForAll(grp =>
+            {
+                grp.Key.Weight += 0.7m * grp.Count();
+            });
+        }
         private static void WeightPhrasesByAVGWordWeight(Document doc)
         {
-            var phraseWeightPairs = from phrase in doc.Phrases.Where(p => !(p is InfinitivePhrase)).AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
-                                    let weight = phrase.Words.Average(w => w.Weight)
-                                    select new
-                                    {
-                                        p = phrase,
-                                        weight
-                                    };
+            var phraseWeightPairs =
+                from phrase in doc.Phrases.Where(p => !(p is InfinitivePhrase)).AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
+                let weight = phrase.Words.Average(w => w.Weight)
+                select new
+                {
+                    phr = phrase,
+                    weight
+                };
             phraseWeightPairs.ForAll(pWPair =>
             {
-                pWPair.p.Weight = pWPair.weight;
+                pWPair.phr.Weight = pWPair.weight;
             });
         }
 
@@ -112,27 +132,8 @@ namespace LASI.Algorithm.Weighting
                 }
             });
         }
-        /// <summary>
-        /// Increase noun weights in a document by abstracting over synonyms
-        /// </summary>
-        /// <param name="doc">the Document whose noun weights may be modiffied</param>
-        private static void ModifyNounWeightsBySynonyms(Document doc)
-        {
-            var nounSynonymGroups = from noun in doc.Words.GetNouns().AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
-                                    let synstrings = Thesaurus.Lookup(noun)
-                                    from t in doc.Words.GetNouns().AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
-                                    where synstrings.Contains(t.Text, StringComparer.OrdinalIgnoreCase)
-                                    group t by noun;
 
-
-            nounSynonymGroups.ForAll(grp =>
-            {
-                grp.Key.Weight += 0.7m * grp.Count();
-                var pn = grp.Key;
-
-            });
-        }
-        /// <summary>basic word count by part of speech ignoring determiners and conjunctions</summary>
+        /// <summary>basic wd count by part of speech ignoring determiners and conjunctions</summary>
         /// <param name="doc">the Document whose words to weight</param>
         /// <param name="excluded">zero or more types to exlcude from weighting</param>
         private static void AssignBaseWordWeights(Document doc)
@@ -188,7 +189,7 @@ namespace LASI.Algorithm.Weighting
         }
         //static double InverserDocumentFrequency(IEnumerable<Document> documentGroup, bool useSynonyms = false) {
         //    var numDocs = documentGroup.Count();
-        //    var wordsWithFreqPairs = from doc in documentGroup  from word in doc.Words group word by word.Text 
+        //    var wordsWithFreqPairs = from doc in documentGroup  from wd in doc.Words group wd by wd.Text 
         //}
         private struct NounPhraseComparer : IEqualityComparer<NounPhrase>
         {
@@ -224,15 +225,15 @@ namespace LASI.Algorithm.Weighting
 
             //SIX PHASES
 
-            //PHASE 2 - word Weight based on part of speech and neighbors' (+2) part of speech
+            //PHASE 2 - wd Weight based on part of speech and neighbors' (+2) part of speech
             //PHASE 3 - Normal parent Weight based on parent part of speech (standardization) - COMPLETE
             //PHASE 4 - Phrase Weight based on part of speech and neibhors' (full sentence) part of speech
             //PHASE 5 - FREQUENCIES
-            // .1 - Frequency of word/Phrase in document
-            // .2 - Frequency of word/Phrase in document compared to second documents in set -EXCLUDED FOR 1-DOCUMENT DEMO
+            // .1 - Frequency of wd/Phrase in document
+            // .2 - Frequency of wd/Phrase in document compared to second documents in set -EXCLUDED FOR 1-DOCUMENT DEMO
             //PHASE 6 - SYNONYMS
-            //ALLUAN READ:            // .1 - Frequency of word (/Phrase?) in document - COMPLETE MINUS VERBS (couldn't search the verb thesaurus in any way)
-            // .2 - Frequency of word (/Phrase?) in document compared to second documents in set -EXCLUDED FOR 1-DOCUMENT DEMO
+            //ALLUAN READ:            // .1 - Frequency of wd (/Phrase?) in document - COMPLETE MINUS VERBS (couldn't search the verb thesaurus in any way)
+            // .2 - Frequency of wd (/Phrase?) in document compared to second documents in set -EXCLUDED FOR 1-DOCUMENT DEMO
 
 
 
@@ -241,10 +242,10 @@ namespace LASI.Algorithm.Weighting
             primary = (secondary = (tertiary = (quaternary = (quinary = (senary = 0) + based) + based) + based) + based) + based;
 
 
-            //PHASE 1 - Normal word Weight based on part of speech (standardization)
+            //PHASE 1 - Normal wd Weight based on part of speech (standardization)
             //COMPLETE - easy peasy.
 
-            //Output.WriteLine("Normal word Weight based on POS:");
+            //Output.WriteLine("Normal wd Weight based on POS:");
             doc.Sentences.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax).ForAll(s =>
             {
                 //////Output.WriteLine(s);
@@ -290,7 +291,7 @@ namespace LASI.Algorithm.Weighting
 
 
 
-            //PHASE 2 - word Weight based on part of speech and neighbors' (+2) part of speech
+            //PHASE 2 - wd Weight based on part of speech and neighbors' (+2) part of speech
             // WORKS, BUT
             // NEED FORMULAS FOR MODIFIER VARIABLES - WHAT SHOULD THESE BE?
             decimal modOne, modTwo;

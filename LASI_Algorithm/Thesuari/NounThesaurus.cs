@@ -54,7 +54,7 @@ namespace LASI.Algorithm.Thesauri
         void CreateSet(string line)
         {
 
-            //Aluan: This line gets extracts word category info I noticed was present in the DB files
+            //Aluan: This line gets extracts wd category info I noticed was present in the DB files
             //Erik:  Gotcha, I'll try to decipher its meaning.
 
             WordNetNounCategory lexCategory = ( WordNetNounCategory )Int32.Parse(line.Substring(9, 2));
@@ -89,14 +89,14 @@ namespace LASI.Algorithm.Thesauri
         public HashSet<string> SearchFor(string word)
         {
             List<string> results = new List<string>();
-            //gets pointers of searched word
+            //gets pointers of searched wd
             var tempResults = from sn in allSets
                               where sn.SetWords.Contains(word)
                               select sn.SetPointers;
             var flatPointers = from R in tempResults
                                from r in R
                                select r;
-            //gets words of searched word
+            //gets words of searched wd
             var tempWords = from pointer in flatPointers
                             from sw in allSets
                             where sw.SetPointers.Contains(pointer)

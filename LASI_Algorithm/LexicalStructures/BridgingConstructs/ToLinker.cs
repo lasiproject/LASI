@@ -7,7 +7,7 @@ using System.Xml.Linq;
 namespace LASI.Algorithm
 {
     /// <summary>
-    /// Represents the word "TO", a dynamic prepositional construct which can link words, componentPhrases and clauses together.
+    /// Represents the wd "TO", a dynamic prepositional construct which can link words, componentPhrases and clauses together.
     /// </summary>
     public class ToLinker : Word, IPrepositional
     {
@@ -52,7 +52,7 @@ namespace LASI.Algorithm
         }
         /// <summary>
         /// Binds an ILexical construct as the object of the ToLinker. 
-        /// Lexical constructs include word, Phrase, and Clause Types.
+        /// Lexical constructs include wd, Phrase, and Clause Types.
         /// </summary>
         /// <param name="prepositionalObject">The ILexical construct as the object of the ToLinker.</param>
         public void BindObjectOfPreposition(ILexical prepositionalObject) {

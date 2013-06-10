@@ -128,8 +128,13 @@ namespace LASI.UserInterface
                 MessageBox.Show(string.Format("A document named {0} is already part of the project.", validDroppedFiles.First()));
             } else {
                 foreach (var droppedFile in validDroppedFiles) {
-                    DocumentManager.AddUserDocument(droppedFile.Name, droppedFile.FullName);
-                    await AddNewDocument(droppedFile.FullName);
+                    if (!DocumentManager.FileIsLocked(droppedFile)) {
+                        DocumentManager.AddUserDocument(droppedFile.Name, droppedFile.FullName);
+                        await AddNewDocument(droppedFile.FullName);
+                    } else {
+                        MessageBox.Show(string.Format("The document {0} is in use by another process, please close any applications which may be using the file and try again.", droppedFile));
+                    }
+
                 }
             }
         }
@@ -177,7 +182,7 @@ namespace LASI.UserInterface
 
         private void openPreferencesMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            
+
         }
 
 

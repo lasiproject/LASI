@@ -19,7 +19,7 @@ namespace LASI.Algorithm.Binding
             if (np.Words.Count() > 1 && LastNoun != null) {
                 //////Output.WriteLine(nps);
                 /*
-                foreach (word verb in nps.Words) {
+                foreach (wd verb in nps.Words) {
                     ////Output.Write("[{0}] ", verb);
                 }
                 ////Output.WriteLine("\nLast Noun: {0}", LastNoun.Text);
@@ -27,7 +27,7 @@ namespace LASI.Algorithm.Binding
 
 
                 /**
-                 *  if word prior to LastNoun is also a Noun associate them
+                 *  if wd prior to LastNoun is also a Noun associate them
                  */
                 if (LastNoun.PreviousWord is Noun) {
                     var PrevWrd = LastNoun.PreviousWord;

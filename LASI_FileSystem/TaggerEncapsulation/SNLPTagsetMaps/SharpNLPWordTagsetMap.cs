@@ -33,7 +33,7 @@ namespace LASI.FileSystem
             { "CD", t => new Quantifier(t) }, //Cardinal number
             { "DT", t => new Determiner(t) }, //Determiner
             { "EX", t => new Existential(t) }, //Existential 'there'
-            { "FW", t => new ForeignWord(t) }, //Foreign word
+            { "FW", t => new ForeignWord(t) }, //Foreign wd
             { "IN", t => new Preposition(t) }, //Preposition or subordinating conjunction
             //Adjective mappings
             { "JJ", t => new Adjective(t) }, //Adjective
@@ -68,7 +68,7 @@ namespace LASI.FileSystem
             //WH-verb mappings
             { "WDT", t => new Determiner(t) }, //Wh-leftNPDeterminer
             { "WP", t => new WhPronoun(t) }, //Wh-pronoun
-            { "WP$", t => new WhPossessivePronoun(t) }, //IsPossessive wh-pronoun
+            { "WP$", t => new RelativePossessivePronoun(t) }, //IsPossessive wh-pronoun
             { "WRB", t => new Adverb(t) }, //Wh-adverb
             //Additional mappings
             { "RP", t => new Particle(t) }, //Particle

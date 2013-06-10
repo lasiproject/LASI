@@ -106,14 +106,14 @@ namespace LASI.Algorithm.Thesauri
         public HashSet<string> SearchFor(string word)
         {
 
-            //gets pointers of searched word
+            //gets pointers of searched wd
             var tempResults = from sn in allSets
                               where sn.SetWords.Contains(word)
                               select sn.SetPointers;
             var flatPointers = from R in tempResults
                                from r in R
                                select r;
-            //gets words of searched word
+            //gets words of searched wd
             var tempWords = from sw in allSets
                             where sw.SetWords.Contains(word)
                             select sw.SetWords;

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using LASI.Algorithm;
- 
+
 
 namespace LASI.Algorithm
 {
@@ -21,7 +21,8 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="text">The literal text content of the Noun.</param>
         protected Noun(string text)
-            : base(text) {
+            : base(text)
+        {
             EntityKind = EntityKind.Unknown;
             EstablishKind();
         }
@@ -32,7 +33,8 @@ namespace LASI.Algorithm
 
         #region Methods
 
-        private void EstablishKind() {
+        private void EstablishKind()
+        {
             System.Text.RegularExpressions.Regex regex = new System.Text.RegularExpressions.Regex(@"<([^>]+)>");
             var found = regex.Match(Text).Value ?? "";
             Text = found.Length > 0 ? new string(Text.Skip(found.Length).TakeWhile(c => c != '<').ToArray()) : Text;
@@ -43,16 +45,18 @@ namespace LASI.Algorithm
         /// Binds the given Determiner to The Noun. 
         /// </summary>
         /// <param name="determiner">The Determiner which to bind.</param>
-        public virtual void BindDeterminer(Determiner determiner) {
+        public virtual void BindDeterminer(Determiner determiner)
+        {
             determiner.Determines = this;
-            DeterminedBy = determiner;
+            Determiner = determiner;
         }
 
         /// <summary>
         /// Binds an EntityReferencer, generall a Pronoun or PronounPhrase to refer to the Noun.
         /// </summary>
         /// <param name="pro">The EntityReferency to Bind.</param>
-        public virtual void BindPronoun(IPronoun pro) {
+        public virtual void BindPronoun(IPronoun pro)
+        {
             _boundPronouns.Add(pro);
             pro.BindToIEntity(this);
         }
@@ -61,18 +65,21 @@ namespace LASI.Algorithm
         /// Binds an IDescriber, generally an Adjective or AdjectivePhrase, as a descriptor of the Noun.
         /// </summary>
         /// <param name="adjective">The IDescriber instance which will be added to the Noun's descriptors.</param>
-        public virtual void BindDescriber(IDescriber adjective) {
+        public virtual void BindDescriber(IDescriber adjective)
+        {
             adjective.Described = this;
             _describedBy.Add(adjective);
         }
 
-        public void AddPossession(IEntity possession) {
+        public void AddPossession(IEntity possession)
+        {
             if (!_possessed.Contains(possession))
                 _possessed.Add(possession);
             possession.Possesser = this;
         }
 
-        public bool Equals(IEntity other) {
+        public bool Equals(IEntity other)
+        {
             return this == other as Noun;
         }
 
@@ -84,8 +91,10 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets all of the IEntityReferences instances, generally Pronouns or PronounPhrases, which refer to the Noun Instance.
         /// </summary>
-        public virtual IEnumerable<IPronoun> BoundPronouns {
-            get {
+        public virtual IEnumerable<IPronoun> BoundPronouns
+        {
+            get
+            {
                 return _boundPronouns;
             }
         }
@@ -93,8 +102,10 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets all of the IDescriber constructs,generally Adjectives or AdjectivePhrases, which describe the Noun Instance.
         /// </summary>
-        public virtual IEnumerable<IDescriber> DescribedBy {
-            get {
+        public virtual IEnumerable<IDescriber> DescribedBy
+        {
+            get
+            {
                 return _describedBy;
             }
         }
@@ -103,21 +114,24 @@ namespace LASI.Algorithm
         /// <summary>
         ///Gets or sets the ITRansitiveAction instance, usually a Verb or VerbPhrase, which the Noun is the direct object of.
         /// </summary>
-        public virtual IVerbal DirectObjectOf {
+        public virtual IVerbal DirectObjectOf
+        {
             get;
             set;
         }
         /// <summary>
         ///Gets or sets the IVerbal instance the Noun is the indirect object of.
         /// </summary>
-        public virtual IVerbal IndirectObjectOf {
+        public virtual IVerbal IndirectObjectOf
+        {
             get;
             set;
         }
         /// <summary>
         ///Gets or sets the IVerbal instance the Noun is the subject of.
         /// </summary>
-        public virtual IVerbal SubjectOf {
+        public virtual IVerbal SubjectOf
+        {
             get;
             set;
         }
@@ -125,8 +139,10 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets all of the IPossessable constructs which the Entity "owns".
         /// </summary>
-        public virtual IEnumerable<IEntity> Possessed {
-            get {
+        public virtual IEnumerable<IEntity> Possessed
+        {
+            get
+            {
                 return _possessed;
             }
         }
@@ -134,7 +150,8 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets or sets the Entity which "owns" the instance of the Noun.
         /// </summary>
-        public IEntity Possesser {
+        public IEntity Possesser
+        {
             get;
             set;
         }
@@ -142,14 +159,16 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets or sets the Entity Kind; Person, Place, Thing, Organization, or Activity;  of the Noun.
         /// </summary>
-        public EntityKind EntityKind {
+        public EntityKind EntityKind
+        {
             get;
             set;
         }
         /// <summary>
         /// Gets the single Determiner which determines the noun.
         /// </summary>
-        public Determiner DeterminedBy {
+        public Determiner Determiner
+        {
             get;
             protected set;
         }
@@ -168,14 +187,16 @@ namespace LASI.Algorithm
         /// Catus is the species of the genus Felis,
         /// but Felis also contains the species "Silvestris", commonly called a wildcat.
         /// </summary>
-        public Noun SuperTaxonomicNoun {
+        public Noun SuperTaxonomicNoun
+        {
             get;
             set;
         }
         /// <summary>
         /// Gets or sets the single Noun which this Noun directly, in terms of reading order, specifies.
         /// </summary>
-        public Noun SubTaxonomicNoun {
+        public Noun SubTaxonomicNoun
+        {
             get;
             set;
         }
@@ -187,20 +208,6 @@ namespace LASI.Algorithm
         private ICollection<IEntity> _possessed = new List<IEntity>();
         private ICollection<IPronoun> _boundPronouns = new List<IPronoun>();
         #endregion
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     }

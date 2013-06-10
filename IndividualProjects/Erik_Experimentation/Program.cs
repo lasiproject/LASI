@@ -120,7 +120,7 @@ namespace Erik_Experimentation
 
             }
 
-            //var query = wordsIndex2.GroupBy(x => x.word)
+            //var query = wordsIndex2.GroupBy(x => x.wd)
             //                         .Select(x => x.First()).ToList();
 
             List<Track> query = new List<Track>();
@@ -139,7 +139,7 @@ namespace Erik_Experimentation
             //    wordsIndex2.Remove(i);
             //}
 
-            //foreach (word w in file.Words)
+            //foreach (wd w in file.Words)
             //{
 
             //    foreach (var i in allWordCounts)
@@ -162,10 +162,10 @@ namespace Erik_Experimentation
 
 
         }
-        //static int Count(this IEnumerable<word> someWords, Func<word, bool> comparisonFunction) {
+        //static int Count(this IEnumerable<wd> someWords, Func<wd, bool> comparisonFunction) {
         //    int cnt = 0;
-        //    foreach (var word in someWords) {
-        //        if (comparisonFunction(word)) {
+        //    foreach (var wd in someWords) {
+        //        if (comparisonFunction(wd)) {
         //            cnt++;
         //        }
         //    }
