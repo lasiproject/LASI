@@ -15,10 +15,8 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="actions">The Enumerable of Action instances to filter.</param>
         /// <returns>The subset bound to some subject.</returns>
-        public static IEnumerable<IVerbal> WithSubject(
-            this IEnumerable<IVerbal> actions)
+        public static IEnumerable<IVerbal> WithSubject(this IEnumerable<IVerbal> actions)
         {
-
             return from V in actions
                    where V.Subjects.Any(s => s != null)
                    select V;
@@ -37,8 +35,7 @@ namespace LASI.Algorithm
         /// </example>       
         /// <remarks>This provided function is used to filter the IVerbal constructs based on their subjects.
         /// </remarks>
-        public static IEnumerable<IVerbal> WithSubject(
-            this IEnumerable<IVerbal> actions,
+        public static IEnumerable<IVerbal> WithSubject(this IEnumerable<IVerbal> actions,
             Func<IEntity, bool> condition)
         {
 

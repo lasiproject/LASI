@@ -78,7 +78,7 @@
     <Compile Include="Analysis\Binders\WordStream.cs" />
     <Compile Include="Analysis\Weighter.cs" />
     <Compile Include="DocumentConstructs\SubordinateClauseBeginPhrase.cs" />
-    <Compile Include="AliasDict.cs" />
+    <Compile Include="AliasDictionary.cs" />
     <Compile Include="IEnumerableExtensions\IEnumerableOfIEntityExtensions.cs" />
     <Compile Include="IEnumerableExtensions\IEnumerableOfILexicalExtensions.cs" />
     <Compile Include="LexicalStructures\BridgingConstructs\PrepositionalRole.cs" />

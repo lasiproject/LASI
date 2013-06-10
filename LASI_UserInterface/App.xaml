@@ -6,6 +6,12 @@
         <AccessText x:Key="CurrentProjectName">
             <Binding />
         </AccessText>
+        <AccessText x:Key="PerforamanceMode">
+            <Binding.XmlNamespaceManager>
+                <XmlNamespaceMappingCollection x:Name="PerforamanceMode" />
+            </Binding.XmlNamespaceManager>
+
+        </AccessText>
         <Style x:Key="ControlStyle1"
                TargetType="{x:Type Button}">
             <Setter Property="Template">

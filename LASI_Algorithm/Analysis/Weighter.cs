@@ -225,7 +225,7 @@ namespace LASI.Algorithm.Weighting
             //SIX PHASES
 
             //PHASE 2 - word Weight based on part of speech and neighbors' (+2) part of speech
-            //PHASE 3 - Standard parent Weight based on parent part of speech (standardization) - COMPLETE
+            //PHASE 3 - Normal parent Weight based on parent part of speech (standardization) - COMPLETE
             //PHASE 4 - Phrase Weight based on part of speech and neibhors' (full sentence) part of speech
             //PHASE 5 - FREQUENCIES
             // .1 - Frequency of word/Phrase in document
@@ -241,10 +241,10 @@ namespace LASI.Algorithm.Weighting
             primary = (secondary = (tertiary = (quaternary = (quinary = (senary = 0) + based) + based) + based) + based) + based;
 
 
-            //PHASE 1 - Standard word Weight based on part of speech (standardization)
+            //PHASE 1 - Normal word Weight based on part of speech (standardization)
             //COMPLETE - easy peasy.
 
-            //Output.WriteLine("Standard word Weight based on POS:");
+            //Output.WriteLine("Normal word Weight based on POS:");
             doc.Sentences.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax).ForAll(s =>
             {
                 //////Output.WriteLine(s);

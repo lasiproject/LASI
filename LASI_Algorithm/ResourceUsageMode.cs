@@ -8,7 +8,7 @@ namespace LASI.Algorithm
     public enum ResourceUsageMode
     {
         High,
-        Stamrad,
+        Normal,
         Low
     }
 }

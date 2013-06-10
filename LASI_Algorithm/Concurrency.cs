@@ -32,7 +32,7 @@ namespace LASI.Algorithm
             var logicalCPUs = System.Environment.ProcessorCount;
             CurrentMax = mode == ResourceUsageMode.High ?
                 logicalCPUs < 3 ? logicalCPUs : logicalCPUs - 1 :
-               mode == ResourceUsageMode.Stamrad ?
+               mode == ResourceUsageMode.Normal ?
                 logicalCPUs < 3 ? 2 : logicalCPUs - 2 :
                mode == ResourceUsageMode.Low ?
                 logicalCPUs < 4 ? 1 : logicalCPUs - 3 : GetDefaultParallellMax();

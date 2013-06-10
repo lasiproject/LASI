@@ -17,8 +17,8 @@ namespace LASI.InteropLayer
                 case PerforamanceMode.Low:
                     Algorithm.Concurrency.SetResourceUsageMode(ResourceUsageMode.Low);
                     break;
-                case PerforamanceMode.Standard:
-                    Algorithm.Concurrency.SetResourceUsageMode(ResourceUsageMode.Stamrad);
+                case PerforamanceMode.Normal:
+                    Algorithm.Concurrency.SetResourceUsageMode(ResourceUsageMode.Normal);
                     break;
             }
 
@@ -30,6 +30,6 @@ namespace LASI.InteropLayer
 
         High,
         Low,
-        Standard
+        Normal
     }
 }

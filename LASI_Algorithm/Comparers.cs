@@ -9,22 +9,6 @@ using LASI.Algorithm.Thesauri;
 
 namespace LASI.Algorithm
 {
-
-    public static class IEnumerableExt
-    {
-
-
-        public static IEnumerable<T> Distinct<T>(this IEnumerable<T> elements, Func<T, T, bool> comparison) where T : ILexical
-        {
-            return elements.Distinct(Comparisons<T>.CreateCustom(comparison));
-
-        }
-        public static bool Contains<T>(this IEnumerable<T> elements, T element, Func<T, T, bool> comparison) where T : ILexical
-        {
-            return elements.Contains(element, Comparisons<T>.CreateCustom(comparison));
-
-        }
-    }
     public static class Comparisons<T> where T : LASI.Algorithm.ILexical
     {
         private static TextualComparer textual = new TextualComparer();
