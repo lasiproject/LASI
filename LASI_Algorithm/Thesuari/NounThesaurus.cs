@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using System.IO;
 using System.Text.RegularExpressions;
 
@@ -58,7 +57,6 @@ namespace LASI.Algorithm.Thesauri
             //Erik:  Gotcha, I'll try to decipher its meaning.
 
             WordNetNounCategory lexCategory = ( WordNetNounCategory )Int32.Parse(line.Substring(9, 2));
-
             String frontPart = line.Split('|', '!')[0];
             MatchCollection numbers = Regex.Matches(frontPart, @"(?<id>\d{8})");
             MatchCollection words = Regex.Matches(frontPart, @"(?<word>[A-Za-z_\-]{3,})");
@@ -88,7 +86,7 @@ namespace LASI.Algorithm.Thesauri
 
         public HashSet<string> SearchFor(string word)
         {
-            List<string> results = new List<string>();
+
             //gets pointers of searched wd
             var tempResults = from sn in allSets
                               where sn.SetWords.Contains(word)
@@ -97,31 +95,13 @@ namespace LASI.Algorithm.Thesauri
                                from r in R
                                select r;
             //gets words of searched wd
-            var tempWords = from pointer in flatPointers
-                            from sw in allSets
-                            where sw.SetPointers.Contains(pointer)
-                            select sw.SetWords;
-            var flatWords = from Q in tempWords
-                            from q in Q
-                            select q;
+            var result = from pointer in flatPointers
+                         from sw in allSets
+                         where sw.SetPointers.Contains(pointer)
+                         from q in sw.SetWords
+                         select q;
 
-            results.AddRange(flatWords);
-
-
-            //gets related words from above pointers
-            foreach (var t in flatPointers) {
-
-                foreach (SynSet s in allSets) {
-
-                    if (t == s.SetID) {
-                        results.AddRange(s.SetWords);
-                    }
-
-                }
-
-            }
-
-            return new HashSet<string>(results);
+            return new HashSet<string>(result);
 
 
             //foreach (string tester in results) {

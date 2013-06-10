@@ -83,7 +83,6 @@ namespace LASI.Algorithm.Thesauri
                     foreach (var root in from root in conjugator.TryExtractRoot(search)
                                          where AssociationData.ContainsKey(root)
                                          select root) {
-
                         return new HashSet<string>(
                             (from refIndex in AssociationData[root].ReferencedIndexes
                              from referencedSet in AssociationData.Values.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
@@ -94,8 +93,6 @@ namespace LASI.Algorithm.Thesauri
                              from w in withConjugations
                              select w));
                     }
-
-
                 }
                 catch (ArgumentOutOfRangeException) {
                 }
@@ -103,8 +100,6 @@ namespace LASI.Algorithm.Thesauri
                 }
                 catch (IndexOutOfRangeException) {
                 }
-
-
                 return new HashSet<string>();
             }
         }
@@ -149,7 +144,6 @@ namespace LASI.Algorithm.Thesauri
             return new VerbThesaurusSynSet(referencedIndeces, setElements, WNlexNameCode);
         }
 
-        //private ConcurrentDictionary<int, VerbThesaurusSynSet> allSynonymSets = new ConcurrentDictionary<int, VerbThesaurusSynSet>();
 
         const int HEADER_LENGTH = 30;
         private VerbConjugator conjugator = new VerbConjugator(ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "verb.exc");

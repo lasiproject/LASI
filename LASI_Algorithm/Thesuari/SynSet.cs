@@ -32,7 +32,7 @@ namespace LASI.Algorithm.Thesauri
         //Aluan: I added this constructor to include some additional information I found in the WordNet files
 
         public SynSet(int ID, IEnumerable<string> words, IEnumerable<int> pointers, WordNetNounCategory lexCategory)
-        { 
+        {
             SetID = ID;
             setWords = new HashSet<string>(words);
             setPointers = new HashSet<int>(pointers);
