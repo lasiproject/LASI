@@ -13,9 +13,10 @@ namespace LASI.Algorithm
         /// <summary>
         /// Filters the sequence of IVerbal constructs selecting those with at least one bound subject.
         /// </summary>
-        /// <param name="actions">The Enumerable of Action instances to filter.</param>
+        /// <typeparam name="T">Any type which implemenets the IVerbal interface.</typeparam>
+        /// <param name="actions">The Enumerable of T instances to filter.</param>
         /// <returns>The subset bound to some subject.</returns>
-        public static IEnumerable<IVerbal> WithSubject(this IEnumerable<IVerbal> actions)
+        public static IEnumerable<T> WithSubject<T>(this IEnumerable<T> actions) where T : IVerbal
         {
             return from V in actions
                    where V.Subjects.Any(s => s != null)
@@ -24,6 +25,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Filters the sequence of IVerbal constructs returning those who have at least one subject matching the provided subject testing function.
         /// </summary>
+        /// <typeparam name="T">Any type which implemenets the IVerbal interface.</typeparam>
         /// <param name="actions">The Enumerable of IVerbal constructs to filter.</param>
         /// <param name="verbalSelector">The function specifying the match verbalSelector. Any function which takes an IEntity and return a bool.</param>
         /// <returns>All actions whose subject match the verbalSelector.</returns>
@@ -35,8 +37,8 @@ namespace LASI.Algorithm
         /// </example>       
         /// <remarks>This provided function is used to filter the IVerbal constructs based on their subjects.
         /// </remarks>
-        public static IEnumerable<IVerbal> WithSubject(this IEnumerable<IVerbal> actions,
-            Func<IEntity, bool> condition)
+        public static IEnumerable<T> WithSubject<T>(this IEnumerable<T> actions,
+            Func<IEntity, bool> condition) where T : IVerbal
         {
 
             return from A in actions.WithSubject()
@@ -50,9 +52,10 @@ namespace LASI.Algorithm
         /// <summary>
         /// Filters the sequence of IVerbal constructs selecting those with at least one bound direct object.
         /// </summary>
+        /// <typeparam name="T">Any type which implemenets the IVerbal interface.</typeparam>
         /// <param name="actions">The Enumerable of Transitive Action instances to filter.</param>
         /// <returns>The subset of IVerbal constructs bound to at least one direct object.</returns>
-        public static IEnumerable<IVerbal> WithDirectObject(this IEnumerable<IVerbal> actions)
+        public static IEnumerable<T> WithDirectObject<T>(this IEnumerable<T> actions) where T : IVerbal
         {
             return from TA in actions
                    where TA.DirectObjects.Any(o => o != null)
@@ -62,10 +65,11 @@ namespace LASI.Algorithm
         /// <summary>
         /// Filters a collection of IVerbal constructs returning those who have at least one direct object matching the provided object testing function.
         /// </summary>
+        /// <typeparam name="T">Any type which implemenets the IVerbal interface.</typeparam>
         /// <param name="actions">The Enumerable of IVerbal constructs to filter.</param>
         /// <param name="verbalSelector">The function specifying the match verbalSelector. Any function which takes an IEntity and return a bool is compatible.</param>
         /// <returns>The subset of IVerbal constructs bound to at least one direct object which matches the conidition.</returns>
-        public static IEnumerable<IVerbal> WithDirectObject(this IEnumerable<IVerbal> actions, Func<IEntity, bool> condition)
+        public static IEnumerable<T> WithDirectObject<T>(this IEnumerable<T> actions, Func<IEntity, bool> condition) where T : IVerbal
         {
             return from TA in actions.WithDirectObject()
                    where TA.DirectObjects.Any(o =>
@@ -80,7 +84,7 @@ namespace LASI.Algorithm
         /// Filters the sequence of IVerbal constructs selecting those with at least one bound indirect object.
         /// <param name="actions">The Enumerable of Verb objects to filter.</param>
         /// <returns>The subset of IVerbal constructs bound to an indirect object.</returns>
-        public static IEnumerable<IVerbal> WithIndirectObject(this IEnumerable<IVerbal> actions)
+        public static IEnumerable<T> WithIndirectObject<T>(this IEnumerable<T> actions) where T : IVerbal
         {
             return from TA in actions
                    where TA.IndirectObjects.Any(o => o != null)
@@ -90,10 +94,11 @@ namespace LASI.Algorithm
         /// <summary>
         /// Filters a collection of IVerbal constructs returning those who have at k those who have at least one indirect object which matches the provided object testing function
         /// </summary>
+        /// <typeparam name="T">Any type which implemenets the IVerbal interface.</typeparam>
         /// <param name="actions">The Enumerable of IVerbal constructs instances to filter.</param>
         /// <param name="verbalSelector">The function specifying the match verbalSelector. Any function which takes an IEntity and return a bool is compatible.</param>
         /// <returns>The subset of IVerbal constructs bound to at least one indirect object which matches the verbalSelector.</returns>
-        public static IEnumerable<IVerbal> WithIndirectObject(this IEnumerable<IVerbal> actions, Func<IEntity, bool> condition)
+        public static IEnumerable<T> WithIndirectObject<T>(this IEnumerable<T> actions, Func<IEntity, bool> condition) where T : IVerbal
         {
             return from TA in actions.WithIndirectObject()
                    where TA.IndirectObjects.Any(o =>

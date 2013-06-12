@@ -13,35 +13,15 @@ namespace LASI.Algorithm
     public static class IEnumerableOfIEntityExtensions
     {
 
-        /// <summary>
-        /// Returns all NounPhrase instances in the source sequence which have been bound as the Subject of an IVerbal construct.
-        /// </summary>
-        /// <param name="entities">The sequence of NounPhrases instances to filter.</param>
-        /// <returns>All NounPhrase instances in the source sequence which have been bound as the Subject of an IVerbal construct.</returns>
-        public static IEnumerable<NounPhrase> InSubjectRole(this IEnumerable<NounPhrase> entities)
-        {
-            return from e in entities
-                   where e.SubjectOf != null
-                   select e;
-        }
-        /// <summary>
-        /// Returns all Noun instances in the source sequence which have been bound as the Subject of an IVerbal construct.
-        /// </summary>
-        /// <param name="entities">The sequence of Noun instances to filter.</param>
-        /// <returns>All Noun instances in the source sequence which have been bound as the Subject of an IVerbal construct.</returns>
-        public static IEnumerable<Noun> InSubjectRole(this IEnumerable<Noun> entities)
-        {
-            return from e in entities
-                   where e.SubjectOf != null
-                   select e;
-        }
+
 
         /// <summary>
         /// Returns all IEntity constructs in the source sequence which have been bound as the Subject of an IVerbal construct.
         /// </summary>
+        /// <typeparam name="T">Any type which implemenets the IEntity interface.</typeparam>
         /// <param name="entities">The sequence of Noun instances to filter.</param>
         /// <returns>All IEntity constructs in the source sequence which have been bound as the Subject of an IVerbal construct.</returns>
-        public static IEnumerable<IEntity> InSubjectRole(this IEnumerable<IEntity> entities)
+        public static IEnumerable<T> InSubjectRole<T>(this IEnumerable<T> entities) where T : IEntity
         {
             return from e in entities
                    where e.SubjectOf != null
@@ -50,13 +30,11 @@ namespace LASI.Algorithm
         /// <summary>
         /// Returns all entities in the source sequence which have been bound as the Subject of any IVerbal construct which conforms the logic of the IVerbal selector function.
         /// </summary>
+        /// <typeparam name="T">Any type which implemenets the IEntity interface.</typeparam>
         /// <param name="entities">The sequence of IEntity constructs to filter.</param>
         /// <param name="verbalSelector">The function which examines the SubjectOf property of each entity to determine if it should be included in the resulting sequence.</param>
         /// <returns>All IEntity constructs in the source sequence which have been bound as the Subject of any IVerbal construct which conforms the logic of the IVerbal selector function.
-        public static IEnumerable<IEntity> InSubjectRole(
-            this IEnumerable<IEntity> entities,
-            Func<IVerbal, bool> condition
-            )
+        public static IEnumerable<T> InSubjectRole<T>(this IEnumerable<T> entities, Func<IVerbal, bool> condition) where T : IEntity
         {
             return from e in entities.InSubjectRole()
                    where condition(e.SubjectOf)
@@ -65,9 +43,10 @@ namespace LASI.Algorithm
         /// <summary>
         /// Returns all IEntity constructs in the source sequence which have been bound as the Direct Object of an IVerbal construct.
         /// </summary>
+        /// <typeparam name="T">Any type which implemenets the IEntity interface.</typeparam>
         /// <param name="entities">The sequence of IEntity constructs to filter.</param>
         /// <returns>All IEntity constructs in the source sequence which have been bound as the Direct Object of an IVerbal construct.</returns>
-        public static IEnumerable<IEntity> InDirectObjectRole(this IEnumerable<IEntity> entities)
+        public static IEnumerable<T> InDirectObjectRole<T>(this IEnumerable<T> entities) where T : IEntity
         {
             return from e in entities
                    where e.DirectObjectOf != null
@@ -76,13 +55,11 @@ namespace LASI.Algorithm
         /// <summary>
         /// Returns all IEntity constructs in the source sequence which have been bound as the Direct Object of any IVerbal construct which conforms the logic of the IVerbal selector function.
         /// </summary>
+        /// <typeparam name="T">Any type which implemenets the IEntity interface.</typeparam>
         /// <param name="entities">The sequence of IEntity constructs to filter.</param>
         /// <param name="verbalSelector">The function which examines the DirectObjectOf property of each entity to determine if it should be included in the resulting sequence.</param>
         /// <returns>All IEntity constructs in the source sequence which have been bound as the Direct Object of any IVerbal construct which conforms the logic of the IVerbal selector function.
-        public static IEnumerable<IEntity> InDirectObjectRole(
-            this IEnumerable<IEntity> entities,
-            Func<IVerbal, bool> condition
-            )
+        public static IEnumerable<T> InDirectObjectRole<T>(this IEnumerable<T> entities, Func<IVerbal, bool> condition) where T : IEntity
         {
             return from e in entities.InDirectObjectRole()
                    where condition(e.DirectObjectOf)
@@ -91,9 +68,10 @@ namespace LASI.Algorithm
         /// <summary>
         /// Returns all IEntity constructs in the source sequence which have been bound as the Indirect Object of an IVerbal construct.
         /// </summary>
+        /// <typeparam name="T">Any type which implemenets the IEntity interface.</typeparam>
         /// <param name="entities">The sequence of IEntity constructs to filter.</param>
         /// <returns>All IEntity constructs in the source sequence which have been bound as the Indirect Object of an IVerbal construct.</returns>
-        public static IEnumerable<IEntity> InIndirectObjectRole(this IEnumerable<IEntity> entities)
+        public static IEnumerable<T> InIndirectObjectRole<T>(this IEnumerable<T> entities) where T : IEntity
         {
             return from e in entities
                    where e.IndirectObjectOf != null
@@ -102,13 +80,11 @@ namespace LASI.Algorithm
         /// <summary>
         /// Returns all IEntity constructs in the source sequence which have been bound as the Indirect Object of any IVerbal construct which conforms the logic of the IVerbal selector function.
         /// </summary>
+        /// <typeparam name="T">Any type which implemenets the IEntity interface.</typeparam>
         /// <param name="entities">The sequence of IEntity constructs to filter.</param>
         /// <param name="verbalSelector">The function which examines the IndirectObjectOf property of each entity to determine if it should be included in the resulting sequence.</param>
         /// <returns>All IEntity constructs in the source sequence which have been bound as the Indirect Object of any IVerbal construct which conforms the logic of the IVerbal selector function.
-        public static IEnumerable<IEntity> InIndirectObjectRole(
-            this IEnumerable<IEntity> entities,
-            Func<IVerbal, bool> verbalSelector
-            )
+        public static IEnumerable<T> InIndirectObjectRole<T>(this IEnumerable<T> entities, Func<IVerbal, bool> verbalSelector) where T : IEntity
         {
             return from e in entities.InIndirectObjectRole()
                    where verbalSelector(e.IndirectObjectOf)
