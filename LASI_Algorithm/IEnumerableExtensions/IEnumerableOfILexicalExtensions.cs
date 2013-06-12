@@ -27,8 +27,7 @@ namespace LASI.Algorithm
         /// }
         /// </code>
         /// </example>
-        public static IEnumerable<T> Distinct<T>(this IEnumerable<T> elements, Func<T, T, bool> comparison) where T : ILexical
-        {
+        public static IEnumerable<T> Distinct<T>(this IEnumerable<T> elements, Func<T, T, bool> comparison) where T : ILexical {
             return elements.Distinct(Comparisons<T>.CreateCustom(comparison));
 
         }
@@ -50,15 +49,13 @@ namespace LASI.Algorithm
         /// }
         /// </code>
         /// </example>
-        public static bool Contains<T>(this IEnumerable<T> elements, T element, Func<T, T, bool> comparison) where T : ILexical
-        {
+        public static bool Contains<T>(this IEnumerable<T> elements, T element, Func<T, T, bool> comparison) where T : ILexical {
             return elements.Contains(element, Comparisons<T>.CreateCustom(comparison));
 
         }
 
 
-        public static IEnumerable<T> Except<T>(this IEnumerable<T> elements, IEnumerable<T> second, Func<T, T, bool> comparison) where T : ILexical
-        {
+        public static IEnumerable<T> Except<T>(this IEnumerable<T> elements, IEnumerable<T> second, Func<T, T, bool> comparison) where T : ILexical {
             return elements.Except(second, Comparisons<T>.CreateCustom(comparison));
 
         }
@@ -68,8 +65,7 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="lexicals">The source sequence of ILexical instances.</param>
         /// <returns>all of the wd instances in the sequence of ILexicals.</returns>
-        public static IEnumerable<Word> GetWords(this IEnumerable<ILexical> lexicals)
-        {
+        public static IEnumerable<Word> GetWords(this IEnumerable<ILexical> lexicals) {
             return lexicals.OfType<Word>();
         }
         /// <summary>
@@ -77,8 +73,7 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="lexicals">The source sequence of ILexical instances.</param>
         /// <returns>all of the Phrase instances in the sequence of ILexicals.</returns>
-        public static IEnumerable<Phrase> GetPhrases(this IEnumerable<ILexical> lexicals)
-        {
+        public static IEnumerable<Phrase> GetPhrases(this IEnumerable<ILexical> lexicals) {
             return lexicals.OfType<Phrase>();
         }
     }

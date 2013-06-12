@@ -76,7 +76,7 @@
         <Grid Margin="0,0,0,0">
             <Canvas Name="currentOperationFeedbackCanvas"
                     Margin="0,31,10,432"
-                    Visibility="Visible"
+                    Visibility="Hidden"
                     Canvas.Left="10"
                     Canvas.Top="439">
                 <Label x:Name="currentOperationLabel"

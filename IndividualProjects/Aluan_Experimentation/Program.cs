@@ -17,10 +17,11 @@ namespace Aluan_Experimentation
 
 
         static string testPath = @"C:\Users\Aluan\Desktop\411writtensummary2.txt";
-        static string text = @"Get that mother fucker.";
+        static string text = @"You need to kill that mother fucker because he took away the fun.";
 
-        static void Main(string[] args)
-        {
+        static void Main(string[] args) {
+            Word.VerboseOutput = true;
+            Phrase.VerboseOutput = true;
 
             var taggedText = TaggerUtil.TagString(text);
             Output.WriteLine(taggedText);
@@ -35,15 +36,14 @@ namespace Aluan_Experimentation
                 }
             }
 
-            foreach (var phrase in doc.Phrases) {
-                Output.WriteLine(phrase);
+            foreach (var l in doc.Words) {
+                Output.WriteLine(l);
             }
 
             Input.WaitForKey();
         }
 
-        private static void GroupingByBehaviorAndKindExample(Document doc)
-        {
+        private static void GroupingByBehaviorAndKindExample(Document doc) {
 
 
         }
@@ -52,8 +52,7 @@ namespace Aluan_Experimentation
 
 
 
-        private static IEnumerable<IVerbalSubject> GetActionPerformers(Document doc, IVerbal action, IEntity Action)
-        {
+        private static IEnumerable<IVerbalSubject> GetActionPerformers(Document doc, IVerbal action, IEntity Action) {
             var doers = from verb in doc.Words.GetVerbs().WithSubject(subject => subject.IsSimilarTo(Action))
                         where verb.IsSimilarTo(verb)
                         from actionPerformer in verb.Subjects
@@ -62,8 +61,7 @@ namespace Aluan_Experimentation
         }
 
 
-        private static void TestNounConjugator()
-        {
+        private static void TestNounConjugator() {
             NounConjugator conjugator = new NounConjugator(ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "noun.exc");
             Output.WriteLine(conjugator);
             var conjugations = conjugator.GetConjugations("cat");
@@ -76,8 +74,7 @@ namespace Aluan_Experimentation
 
 
 
-        private static void TestWordAndPhraseBindings()
-        {
+        private static void TestWordAndPhraseBindings() {
             var doc = TaggerUtil.LoadTextFile(new LASI.FileSystem.FileTypes.TextFile(testPath));
             var wd = (doc);
             PerformSVOBinding(doc);
@@ -95,27 +92,23 @@ namespace Aluan_Experimentation
             PrintDocument(doc);
         }
 
-        private static void PerformSVOBinding(Document doc)
-        {
+        private static void PerformSVOBinding(Document doc) {
             throw new NotImplementedException();
         }
 
-        private static void PrintDocument(Document doc)
-        {
+        private static void PrintDocument(Document doc) {
             foreach (var r in doc.Phrases) {
                 Output.WriteLine(r);
                 foreach (var w in r.Words)
                     Output.WriteLine(w);
             }
         }
-        private static void PerformAttributeNounPhraseBinding(Document doc)
-        {
+        private static void PerformAttributeNounPhraseBinding(Document doc) {
             foreach (var s in doc.Sentences) {
                 var attributiveBinder = new AttributiveNounPhraseBinder(s);
             }
         }
 
-
-
+     
     }
 }

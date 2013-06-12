@@ -64,6 +64,7 @@
     <Compile Include="Analysis\Binders\EntityReferenceBinder.cs" />
     <Compile Include="Analysis\Binders\InfinitivePhraseAttributer.cs" />
     <Compile Include="Analysis\SubordinateClauseIdentifier.cs" />
+    <Compile Include="LexicalStructures\NounRelatedConstructs\RelativePronounKind.cs" />
     <Compile Include="ResourceUsageMode.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\ISimilarityComparablePhrase.cs" />
     <Compile Include="LexicalStructures\VerbRelatedConstructs\InfinitivePhrase.cs" />
