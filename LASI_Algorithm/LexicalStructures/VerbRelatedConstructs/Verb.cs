@@ -36,11 +36,11 @@ namespace LASI.Algorithm
         public virtual void ModifyWith(IAdverbial adv)
         {
             _modifiers.Add(adv);
-            adv.Modified = this;
+            adv.Modifies = this;
         }
         //public virtual void ModifyWith(IVerbal verbialModifier) {
         //    _modifiers.Add(verbialModifier);
-        //    verbialModifier.Modified = this;
+        //    verbialModifier.Modifies = this;
         //}
 
         /// <summary>

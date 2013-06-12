@@ -18,13 +18,15 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="text">The literal text content of the verb.</param>
         public Adjective(string text)
-            : base(text) {
+            : base(text)
+        {
         }
 
         /// <summary>
         /// Gets or sets the Descriabable construct the Adjective describes
         /// </summary>
-        public virtual IEntity Described {
+        public virtual IDescribable Describes
+        {
             get;
             set;
         }
@@ -32,7 +34,8 @@ namespace LASI.Algorithm
         /// Binds a modifier to the Adjective, modifying it.
         /// </summary>
         /// <param name="adv">The IModifier instance (probably an Adverb or AdverbPhrase) to Bind to the Adjective.</param>
-        public virtual void ModifyWith(IAdverbial adv) {
+        public virtual void ModifyWith(IAdverbial adv)
+        {
             _modifiers.Add(adv);
         }
 
@@ -41,8 +44,10 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets or sets the collection of Adverbial constructs which modify the AdjectivePhrase
         /// </summary>
-        public virtual IEnumerable<IAdverbial> Modifiers {
-            get {
+        public virtual IEnumerable<IAdverbial> Modifiers
+        {
+            get
+            {
                 return _modifiers;
             }
 

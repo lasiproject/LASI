@@ -43,7 +43,7 @@ namespace LASI.Algorithm
         public void ModifyWith(IAdverbial adv)
         {
             _modifiers.Add(adv);
-            adv.Modified = this;
+            adv.Modifies = this;
         }
         /// <summary>
         /// Binds the VerbPhrase to an object via a propisitional construct such as a Prepositon or or PrepositionalPhrase.

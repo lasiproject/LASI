@@ -15,8 +15,18 @@ namespace LASI.Algorithm
         /// <typeparam name="T">Any type which implements the ILexical interface.</typeparam>
         /// <param name="elements">The sequence of ILexical constructs in which to search for the given element.</param>
         /// <param name="comparison">A function to compare two ILexicals for equality.</param>
-        /// <returns>A System.Collections.Generic.IEnumerable<T> that contains only the distinct elements of the source sequence as determined by the provided comparison function.
+        /// <returns> A new sequence of ILexical constructs containing only the distinct elements of the source sequence as determined by the provided comparison function.
         /// </returns>
+        /// <see cref="Comparers.CreateCustom"/>
+        /// <example>
+        /// <code>
+        /// var myNPs = myDoc.Phrases.GetNounPhrases();
+        /// if (myNPs.Contains(NpToFind, (np1, np2) => np1.Text == np2.Text || np1.IsAliasFor(np2)))
+        /// {
+        ///     Console.WriteLine("Found!");
+        /// }
+        /// </code>
+        /// </example>
         public static IEnumerable<T> Distinct<T>(this IEnumerable<T> elements, Func<T, T, bool> comparison) where T : ILexical
         {
             return elements.Distinct(Comparisons<T>.CreateCustom(comparison));
@@ -30,6 +40,16 @@ namespace LASI.Algorithm
         /// <param name="comparison">A function to compare two ILexicals for equality.</param>
         /// <typeparam name="T">Any type which implements the ILexical interface.</typeparam>
         /// <returns>True if the sequence contains the given element, false otherwise.</returns>
+        /// <see cref="Comparers.CreateCustom"/>
+        /// <example>
+        /// <code>
+        /// var myNPs = myDoc.Phrases.GetNounPhrases();
+        /// if (myNPs.Contains(NpToFind, (np1, np2) => np1.Text == np2.Text || np1.IsAliasFor(np2)))
+        /// {
+        ///     Console.WriteLine("Found!");
+        /// }
+        /// </code>
+        /// </example>
         public static bool Contains<T>(this IEnumerable<T> elements, T element, Func<T, T, bool> comparison) where T : ILexical
         {
             return elements.Contains(element, Comparisons<T>.CreateCustom(comparison));

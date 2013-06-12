@@ -58,7 +58,7 @@ namespace LASI.Algorithm
         public void BindDescriptor(IDescriptor adj)
         {
             if (!_describers.Contains(adj)) {
-                adj.Described = this;
+                adj.Describes = this;
                 _describers.Add(adj);
             }
         }

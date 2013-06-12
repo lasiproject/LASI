@@ -16,7 +16,8 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets or sets the Entity which the IDescriptor instance describes.
         /// </summary>
-        IEntity Described {
+        IDescribable Describes
+        {
             get;
             set;
         }

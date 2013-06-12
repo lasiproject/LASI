@@ -14,20 +14,20 @@ namespace LASI.Algorithm
     public static class IEnumerableOfWordExtensions
     {
         /// <summary>
-        /// Retrives all words in the wd collection which compare equal to a given wd
+        /// Retrives all words in the words collection which compare equal to a given word
         /// </summary>
-        /// <param name="toMatch">The wd to match</param>
-        /// <param name="words">A sequence of wd objects</param>
+        /// <param name="toMatch">The word to match</param>
+        /// <param name="words">A sequence of word instances</param>
         /// <returns>A WordList containing all words which match the argument</returns>
         /// <see cref="wd"/>
-        public static IEnumerable<T> FindAllOccurances<T>(this IEnumerable<T> words,
+        public static IEnumerable<T> FindLexicalMatches<T>(this IEnumerable<T> words,
             T toMatch) where T : Word
         {
             return from word in words
                    where word.Text == toMatch.Text && word.GetType() == toMatch.GetType()
                    select word;
         }
-        public static IEnumerable<T> FindAllOccurances<T>(this IEnumerable<T> words,
+        public static IEnumerable<T> FindLexicalMatches<T>(this IEnumerable<T> words,
            T toMatch, Func<T, T, bool> comparison) where T : Word
         {
             return from W in words
@@ -48,14 +48,14 @@ namespace LASI.Algorithm
 
         #region Verb Enumerable Extensions
 
-        public static IEnumerable<Verb> FindAllOccurances(this IEnumerable<Word> words,
+        public static IEnumerable<Verb> FindLexicalMatches(this IEnumerable<Word> words,
            Verb toMatch)
         {
             return from word in words.GetVerbs()
                    where word.Text == toMatch.Text
                    select word;
         }
-        public static IEnumerable<Verb> FindAllOccurances(this IEnumerable<Word> words,
+        public static IEnumerable<Verb> FindLexicalMatches(this IEnumerable<Word> words,
                    Verb toMatch, Func<Verb, Verb, bool> comparison)
         {
             return from W in words.GetVerbs()
@@ -66,14 +66,14 @@ namespace LASI.Algorithm
 
         #region Noun Enumerable Extensions
 
-        public static IEnumerable<Noun> FindAllOccurances(this IEnumerable<Word> words,
+        public static IEnumerable<Noun> FindLexicalMatches(this IEnumerable<Word> words,
            Noun toMatch)
         {
             return from word in words.GetNouns()
                    where word.Text == toMatch.Text
                    select word;
         }
-        public static IEnumerable<Noun> FindAllOccurances(this IEnumerable<Word> words,
+        public static IEnumerable<Noun> FindLexicalMatches(this IEnumerable<Word> words,
                    Noun toMatch, Func<Noun, Noun, bool> comparison)
         {
             return from W in words.GetNouns()
@@ -85,14 +85,14 @@ namespace LASI.Algorithm
 
         #region Pronoun Enumerable Overloads
 
-        public static IEnumerable<Pronoun> FindAllOccurances(this IEnumerable<Word> words,
+        public static IEnumerable<Pronoun> FindLexicalMatches(this IEnumerable<Word> words,
            Pronoun toMatch)
         {
             return from word in words.GetPronouns()
                    where word.Text == toMatch.Text
                    select word;
         }
-        public static IEnumerable<Pronoun> FindAllOccurances(this IEnumerable<Word> words,
+        public static IEnumerable<Pronoun> FindLexicalMatches(this IEnumerable<Word> words,
                    Pronoun toMatch, Func<Pronoun, Pronoun, bool> comparison)
         {
             return from W in words.GetPronouns()
@@ -104,14 +104,14 @@ namespace LASI.Algorithm
 
         #region Adjective Enumerable Overloads
 
-        public static IEnumerable<Adjective> FindAllOccurances(this IEnumerable<Word> words,
+        public static IEnumerable<Adjective> FindLexicalMatches(this IEnumerable<Word> words,
            Adjective toMatch)
         {
             return from word in words.GetAdjectives()
                    where word.Text == toMatch.Text
                    select word;
         }
-        public static IEnumerable<Adjective> FindAllOccurances(this IEnumerable<Word> words,
+        public static IEnumerable<Adjective> FindLexicalMatches(this IEnumerable<Word> words,
                    Adjective toMatch, Func<Adjective, Adjective, bool> comparison)
         {
             return from W in words.GetAdjectives()
@@ -123,14 +123,14 @@ namespace LASI.Algorithm
 
         #region Adverb Enumerable Overloads
 
-        public static IEnumerable<Adverb> FindAllOccurances(this IEnumerable<Word> words,
+        public static IEnumerable<Adverb> FindLexicalMatches(this IEnumerable<Word> words,
            Adverb toMatch)
         {
             return from word in words.GetAdverbs()
                    where word.Text == toMatch.Text
                    select word;
         }
-        public static IEnumerable<Adverb> FindAllOccurances(this IEnumerable<Word> words,
+        public static IEnumerable<Adverb> FindLexicalMatches(this IEnumerable<Word> words,
                    Adverb toMatch, Func<Adverb, Adverb, bool> comparison)
         {
             return from W in words.GetAdverbs()
@@ -207,36 +207,36 @@ namespace LASI.Algorithm
         /// <summary>
         /// Returns all Pronouns in the collection that are bound to some entity
         /// </summary>
+        ///<typeparam name="T">Any type which implements the IPronoun interface.</typeparam>
         /// <param name="refererring"></param>
-        /// <returns>All Pronouns in the collection that are bound as referencts of some entity.</returns>
-        public static IEnumerable<Pronoun> Referencing(this IEnumerable<Pronoun> refererring)
+        /// <returns>All Pronouns in the collection that are bound as references of some entity.</returns>
+        public static IEnumerable<T> Referencing<T>(this IEnumerable<T> refererring) where T : IPronoun
         {
             return from ER in refererring
                    where ER.BoundEntity != null
                    select ER;
         }
         /// <summary>
-        /// Returns all Pronouns in the collection that refer to the given entity.
+        /// Returns all IPronouns constructs in the collection that refer to the given entity.
         /// </summary>
+        /// <typeparam name="T">Any type which implements the IPronoun interface.</typeparam>
         /// <param name="refererring"></param>
-        /// <param name="referenced">The entity whose referencng pronouns will be returned.</param>
+        /// <param name="referenced">The entity whose referencing pronouns will be returned.</param>
         /// <returns>All Pronouns in the collection that refer to the given entity</returns>
-        public static IEnumerable<Pronoun> Referencing(this IEnumerable<Pronoun> refererring, IEntity referenced)
+        public static IEnumerable<T> Referencing<T>(this IEnumerable<T> refererring, IEntity referenced) where T : IPronoun
         {
             return from ER in refererring
                    where ER.BoundEntity == referenced
                    select ER;
         }
         /// <summary>
-        /// Returns all Pronouns in the collection that refer to any entity matching the given test verbalSelector.
+        /// Returns all IPronoun constructs in the collection that refer to any entity matching the given test verbalSelector.
         /// </summary>
-        /// <param name="refererring"></param>
+        /// <typeparam name="T">Any type which implements the IPronoun interface.</typeparam>
+        /// <param name="condition">The function which tests the entity referenced deteriming if its refererring IProunoun should be selected.</param>
         /// <param name="referenced">The entity whose referencing pronouns will be returned.</param>
-        /// <returns>All Pronouns in the collection that refer to the given entity</returns>
-        public static IEnumerable<Pronoun> Referencing(
-            this IEnumerable<Pronoun> refererring,
-            Func<IEntity, bool> condition
-            )
+        /// <returns>All IPronoun constructs in the collection that refer to the given entity</returns>
+        public static IEnumerable<T> Referencing<T>(this IEnumerable<T> refererring, Func<IEntity, bool> condition) where T : IPronoun
         {
             return from ER in refererring
                    where ER.BoundEntity != null && condition(ER.BoundEntity)

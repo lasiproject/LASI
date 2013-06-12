@@ -36,7 +36,7 @@ namespace LASI.Algorithm
 
         public void BindDescriptor(IDescriptor adj)
         {
-            adj.Described = this;
+            adj.Describes = this;
             _describedBy.Add(adj);
         }
         public void AddPossession(IEntity possession)

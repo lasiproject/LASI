@@ -67,7 +67,7 @@ namespace LASI.Algorithm
         /// <param name="adjective">The IDescriptor instance which will be added to the Noun's descriptors.</param>
         public virtual void BindDescriptor(IDescriptor adjective)
         {
-            adjective.Described = this;
+            adjective.Describes = this;
             _describedBy.Add(adjective);
         }
 

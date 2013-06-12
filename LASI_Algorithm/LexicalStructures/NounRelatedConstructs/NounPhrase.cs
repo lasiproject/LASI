@@ -12,7 +12,7 @@ namespace LASI.Algorithm
     /// Represents a noun start such as "The Pinko-Commy Conspiracy".
     /// Note that noun componentPhrases are the constructs which wrap both nouns and pronouns at the start level.
     /// </summary>
-    public class NounPhrase : Phrase, IEntity, ISimilarityComparablePhrase<NounPhrase>, IAliasableEntity
+    public class NounPhrase : Phrase, IEntity
     {
         #region Constructors
         /// <summary>
@@ -293,15 +293,8 @@ namespace LASI.Algorithm
 
 
 
-        public bool IsAliasFor(IAliasableEntity other)
-        {
-            throw new NotImplementedException();
-        }
 
-        public bool IsSimilarTo(NounPhrase first, NounPhrase second)
-        {
-            throw new NotImplementedException();
-        }
+
     }
 }
 

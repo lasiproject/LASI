@@ -88,7 +88,7 @@ namespace AlgorithmAssemblyUnitTestProject
             Noun target = CreateNoun();
             IDescriptor adjective = new Adjective("rambunctious");
             target.BindDescriptor(adjective);
-            Assert.IsTrue(target.DescribedBy.Contains(adjective) && adjective.Described == target);
+            Assert.IsTrue(target.DescribedBy.Contains(adjective) && adjective.Describes == target);
         }
 
         /// <summary>

@@ -16,7 +16,8 @@ namespace LASI.Algorithm
         /// Initializes a new instance of the Clause class, by composing the given linear sequence of componentPhrases.
         /// </summary>
         /// <param name="componentPhrases">The linear sequence of Phrases which compose to form the Clause.</param>
-        public Clause(IEnumerable<Phrase> phrases) {
+        public Clause(IEnumerable<Phrase> phrases)
+        {
             Phrases = phrases;
         }
         /// <summary>
@@ -24,21 +25,25 @@ namespace LASI.Algorithm
         ///As the words are bare in this context, that is not members of a known a object, they are subsequently implanted in an UndeterminedPhrase instance whose syntactic role should be determined contextually in the future.
         /// </summary>
         /// <param name="words">The linear sequence of Words which compose to form the single UndeterminedPhrase which will comprise the Clause.</param>
-        public Clause(IEnumerable<Word> words) {
+        public Clause(IEnumerable<Word> words)
+        {
             Phrases = new List<Phrase>(new[] { new UndeterminedPhrase(words) });
         }
         /// <summary>
         /// Gets the collection of Phrases which comprise the Clause.
         /// </summary>
-        public IEnumerable<Phrase> Phrases {
+        public IEnumerable<Phrase> Phrases
+        {
             get;
             protected set;
         }
         /// <summary>
         /// Gets the concatenated text content of all of the Phrases which compose the Clause.
         /// </summary>
-        public string Text {
-            get {
+        public string Text
+        {
+            get
+            {
                 return Phrases.Aggregate("", (txt, phrase) => txt += " " + phrase.Text).Trim();
             }
         }
@@ -47,7 +52,8 @@ namespace LASI.Algorithm
         /// Establishes the nested links between the Clause, its parent Sentence and Phrases which comprise it.
         /// </summary>
         /// <param name="sentence">The Sentence containing the Clause.</param>
-        internal void EstablishParent(LASI.Algorithm.DocumentConstructs.Sentence sentence) {
+        public void EstablishParent(LASI.Algorithm.DocumentConstructs.Sentence sentence)
+        {
             Sentence = sentence;
             foreach (var r in Phrases)
                 r.EstablishParent(this);
@@ -56,35 +62,42 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets or set the Document instance to which the Clause belongs.
         /// </summary>
-        public LASI.Algorithm.DocumentConstructs.Document ParentDocument {
-            get {
+        public LASI.Algorithm.DocumentConstructs.Document ParentDocument
+        {
+            get
+            {
                 return Sentence.Document;
             }
         }
         /// <summary>
         /// Gets or set the Paragraph instance to which the Clause belongs.
         /// </summary>
-        public Paragraph ParentParagraph {
-            get {
+        public Paragraph ParentParagraph
+        {
+            get
+            {
                 return Sentence.Paragraph;
             }
         }
         /// <summary>
         /// Gets the punctuation, if any, which ends the clause.
         /// </summary>
-        public Punctuation EndingPunctuation {
+        public Punctuation EndingPunctuation
+        {
             get;
             protected set;
         }
 
- 
-        public override string ToString() {
+
+        public override string ToString()
+        {
             return base.ToString() + " \"" + Text + "\"";
         }
         /// <summary>
         /// Gets or sets the numeric Weight of the Phrase within the context of its document.
         /// </summary>
-        public decimal Weight {
+        public decimal Weight
+        {
             get;
             set;
         }
@@ -92,7 +105,8 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets or sets the numeric Weight of the Phrase over the context of all extant documents.
         /// </summary>
-        public decimal MetaWeight {
+        public decimal MetaWeight
+        {
             get;
             set;
         }
@@ -100,38 +114,29 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets the Sentence which contains The Clause.
         /// </summary>
-        public LASI.Algorithm.DocumentConstructs.Sentence Sentence {
+        public LASI.Algorithm.DocumentConstructs.Sentence Sentence
+        {
             get;
             protected set;
         }
-
-        public int ID {
+        /// <summary>
+        /// 
+        /// </summary>
+        public int ID
+        {
             get;
             private set;
         }
 
-        string ILexical.Text {
-            get {
-                throw new NotImplementedException();
-            }
-        }
         /// <summary>
-        /// Gets the type of the ILexical.
+        /// Gets the Type of the Clause.
         /// </summary>
-        Type ILexical.Type {
-            get {
+        public Type Type
+        {
+            get
+            {
                 return GetType();
             }
-        }
-
-        decimal ILexical.Weight {
-            get;
-            set;
-        }
-
-        decimal ILexical.MetaWeight {
-            get;
-            set;
         }
     }
 

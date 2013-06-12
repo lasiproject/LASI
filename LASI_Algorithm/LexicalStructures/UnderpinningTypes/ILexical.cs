@@ -15,25 +15,31 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets the literal text of the ILexical.
         /// </summary>
-        string Text {
+        string Text
+        {
             get;
         }
-
-        Type Type {
+        /// <summary>
+        /// Gets the System.Type of the ILexical.
+        /// </summary>
+        Type Type
+        {
             get;
         }
 
         /// <summary>
         /// Gets or sets the numeric Weight of the ILexical construct within its document.
         /// </summary>
-        decimal Weight {
+        decimal Weight
+        {
             get;
             set;
         }
         /// <summary>
         /// Gets or sets the numeric Weight of the ILexical construct over the context of all extant documents.
         /// </summary>
-        decimal MetaWeight {
+        decimal MetaWeight
+        {
             get;
             set;
         }

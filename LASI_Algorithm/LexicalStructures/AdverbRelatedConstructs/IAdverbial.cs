@@ -11,7 +11,8 @@ namespace LASI.Algorithm
     /// </summary>
     public interface IAdverbial : ILexical
     {
-        IVerbal Modified {
+        IAdverbialModifiable Modifies
+        {
             get;
             set;
         }
