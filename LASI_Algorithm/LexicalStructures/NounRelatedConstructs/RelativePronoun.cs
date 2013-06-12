@@ -8,13 +8,13 @@ namespace LASI.Algorithm
     /// <summary>
     /// Represents a Relative Pronoun such as "that", "Which, "What" or "who".
     /// </summary>
-    public class WhPronoun : Word, IPronoun
+    public class RelativePronoun : Word, IPronoun
     {
         /// <summary>
-        /// Initialiazes a new instance of the WhPronoun class.
+        /// Initialiazes a new instance of the RelativePronoun class.
         /// </summary>
-        /// <param name="text">The literal text content of the WhPronoun.</param>
-        public WhPronoun(string text)
+        /// <param name="text">The literal text content of the RelativePronoun.</param>
+        public RelativePronoun(string text)
             : base(text)
         {
         }
