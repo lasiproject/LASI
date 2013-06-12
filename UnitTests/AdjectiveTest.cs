@@ -94,8 +94,8 @@ namespace AlgorithmAssemblyUnitTestProject
         public void DescribesTest() {
             string text = "funny";
             Adjective target = new Adjective(text);
-            IEntity expected = new GenericSingularNoun("man");
-            IEntity actual;
+            IDescribable expected = new GenericSingularNoun("man");
+            IDescribable actual;
             target.Describes = expected;
             actual = target.Describes;
             Assert.AreEqual(expected, actual);

@@ -24,15 +24,13 @@ namespace LASI.UserInterface
     /// </summary>
     public partial class ResultsScreen : Window
     {
-        public ResultsScreen()
-        {
+        public ResultsScreen() {
 
             InitializeComponent();
             this.Closed += (s, e) => Application.Current.Shutdown();
             ChartingManager.chartKind = ChartKind.NounPhrasesOnly;
         }
-        public async Task CreateInteractiveViews()
-        {
+        public async Task CreateInteractiveViews() {
 
             foreach (var doc in documents) {
                 await CreateInteractiveDoumentView(doc);
@@ -42,15 +40,13 @@ namespace LASI.UserInterface
             BindChartViewControls();
         }
 
-        private async Task CreateInteractiveDoumentView(Document doc)
-        {
+        private async Task CreateInteractiveDoumentView(Document doc) {
             var documentElements = (from de in doc.Paragraphs.Except(doc.EnumContainingParagraphs).AsParallel()
                                     select de.Phrases into phraseElements
                                     from phrase in phraseElements.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
                                     select phrase)
                                    .GetNounPhrases()
-                                   .GroupBy(w => new
-                                   {
+                                   .GroupBy(w => new {
                                        w.Text,
                                        w.Type
                                    }).Select(g => g.First());
@@ -68,8 +64,7 @@ namespace LASI.UserInterface
             scrollViewer.Content = stackPanel;
             var grid = new Grid();
             grid.Children.Add(scrollViewer);
-            var tabItem = new TabItem
-            {
+            var tabItem = new TabItem {
                 Header = doc.FileName,
                 Content = grid
             };
@@ -83,10 +78,8 @@ namespace LASI.UserInterface
             await ChartingManager.BuildKeyRelationshipDisplay(doc);
         }
 
-        private static Label CreateWeightedNounPhraseLabel(NounPhrase e)
-        {
-            var wordLabel = new Label
-            {
+        private static Label CreateWeightedNounPhraseLabel(NounPhrase e) {
+            var wordLabel = new Label {
                 Tag = e,
                 Content = String.Format("Weight : {0}  \"{1}\"", e.Weight, e.Text),
                 Foreground = Brushes.Black,
@@ -94,16 +87,13 @@ namespace LASI.UserInterface
                 ContextMenu = new ContextMenu(),
                 ToolTip = e.Type.Name,
             };
-            var menuItem1 = new MenuItem
-            {
+            var menuItem1 = new MenuItem {
                 Header = "view definition",
             };
-            menuItem1.Click += (sender, ee) =>
-            {
+            menuItem1.Click += (sender, ee) => {
                 Process.Start(String.Format("http://www.dictionary.reference.com/browse/{0}?s=t", e.Text));
             };
-            var menuItem2 = new MenuItem
-            {
+            var menuItem2 = new MenuItem {
                 Header = "Copy Text"
             };
             menuItem2.Click += (se, ee) => Clipboard.SetText((wordLabel.Tag as ILexical).Text);
@@ -116,29 +106,24 @@ namespace LASI.UserInterface
 
 
 
-        public async Task BuildReconstructedDocumentViews()
-        {  // This is for the lexial relationships tab
+        public async Task BuildReconstructedDocumentViews() {  // This is for the lexial relationships tab
             foreach (var doc in documents) {
                 await BuildInteractiveTextViewOfDocument(doc);
             }
         }
 
-        private async Task BuildInteractiveTextViewOfDocument(Document doc)
-        {
+        private async Task BuildInteractiveTextViewOfDocument(Document doc) {
             var panel = new WrapPanel();
-            var tab = new TabItem
-            {
+            var tab = new TabItem {
                 Header = doc.FileName,
-                Content = new ScrollViewer
-                {
+                Content = new ScrollViewer {
                     Content = panel
                 }
 
             };
             var phraseLabels = new List<Label>();
             foreach (var phrase in doc.Phrases) {
-                var phraseLabel = new Label
-                {
+                var phraseLabel = new Label {
                     Content = phrase.Text,
                     Tag = phrase,
                     Foreground = Brushes.Black,
@@ -151,12 +136,10 @@ namespace LASI.UserInterface
                 var vP = phrase as VerbPhrase;
 
                 if (vP != null && vP.Subjects.Count() > 0) {
-                    var visitSubjectMI = new MenuItem
-                    {
+                    var visitSubjectMI = new MenuItem {
                         Header = "view subjects"
                     };
-                    visitSubjectMI.Click += (sender, e) =>
-                    {
+                    visitSubjectMI.Click += (sender, e) => {
                         var objlabels = from r in vP.Subjects
                                         join l in phraseLabels on r equals l.Tag
                                         select l;
@@ -168,12 +151,10 @@ namespace LASI.UserInterface
                     phraseLabel.ContextMenu.Items.Add(visitSubjectMI);
                 }
                 if (vP != null && vP.DirectObjects.Count() > 0) {
-                    var visitSubjectMI = new MenuItem
-                    {
+                    var visitSubjectMI = new MenuItem {
                         Header = "view direct objects"
                     };
-                    visitSubjectMI.Click += (sender, e) =>
-                    {
+                    visitSubjectMI.Click += (sender, e) => {
                         var objlabels = from r in vP.DirectObjects
                                         join l in phraseLabels on r equals l.Tag
                                         select l;
@@ -185,12 +166,10 @@ namespace LASI.UserInterface
                     phraseLabel.ContextMenu.Items.Add(visitSubjectMI);
                 }
                 if (vP != null && vP.IndirectObjects.Count() > 0) {
-                    var visitSubjectMI = new MenuItem
-                    {
+                    var visitSubjectMI = new MenuItem {
                         Header = "view indirect objects"
                     };
-                    visitSubjectMI.Click += (sender, e) =>
-                    {
+                    visitSubjectMI.Click += (sender, e) => {
                         var objlabels = from r in
                                             vP.IndirectObjects
                                         join l in phraseLabels on r equals l.Tag
@@ -203,12 +182,10 @@ namespace LASI.UserInterface
                     phraseLabel.ContextMenu.Items.Add(visitSubjectMI);
                 }
                 if (vP != null && vP.ObjectOfThePreoposition != null) {
-                    var visitSubjectMI = new MenuItem
-                    {
+                    var visitSubjectMI = new MenuItem {
                         Header = "view prepositional object"
                     };
-                    visitSubjectMI.Click += (sender, e) =>
-                    {
+                    visitSubjectMI.Click += (sender, e) => {
                         var objlabels = from l in phraseLabels
                                         where l.Tag.Equals(vP.ObjectOfThePreoposition)
                                         select l;
@@ -231,24 +208,19 @@ namespace LASI.UserInterface
 
         private List<Document> documents = new List<Document>();
 
-        public List<Document> Documents
-        {
-            get
-            {
+        public List<Document> Documents {
+            get {
                 return documents;
             }
-            set
-            {
+            set {
                 documents = value;
             }
         }
-        private void ExitMenuItem_Click(object sender, RoutedEventArgs e)
-        {
+        private void ExitMenuItem_Click(object sender, RoutedEventArgs e) {
             this.Close();
 
         }
-        private void printButton_Click_1(object sender, RoutedEventArgs e)
-        {
+        private void printButton_Click_1(object sender, RoutedEventArgs e) {
             var printDialog = new PrintDialog();
             printDialog.ShowDialog();
             var focusedChart = (FrequencyCharts.SelectedItem as TabItem).Content as Visual;
@@ -261,18 +233,15 @@ namespace LASI.UserInterface
         }
 
 
-        private async void ChangeToBarChartButton_Click(object sender, RoutedEventArgs e)
-        {
+        private async void ChangeToBarChartButton_Click(object sender, RoutedEventArgs e) {
             await ChartingManager.ToBarCharts();
         }
 
-        private async void ChangeToColumnChartButton_Click(object sender, RoutedEventArgs e)
-        {
+        private async void ChangeToColumnChartButton_Click(object sender, RoutedEventArgs e) {
             await ChartingManager.ToColumnCharts();
         }
 
-        private async void ChangeToPieChartButton_Click(object sender, RoutedEventArgs e)
-        {
+        private async void ChangeToPieChartButton_Click(object sender, RoutedEventArgs e) {
             await ChartingManager.ToPieCharts();
         }
 
@@ -280,8 +249,7 @@ namespace LASI.UserInterface
         /// This function associates The buttons which allow the user to modify various aspects of the chart views with their respective functionality.
         /// This is done to allow the functionality to be exposed only after the charts have been 
         /// </summary>
-        private void BindChartViewControls()
-        {
+        private void BindChartViewControls() {
             changeToBarChartButton.Click += ChangeToBarChartButton_Click;
             changeToColumnChartButton.Click += ChangeToColumnChartButton_Click;
             changeToPieChartButton.Click += ChangeToPieChartButton_Click;
@@ -289,8 +257,7 @@ namespace LASI.UserInterface
 
 
 
-        private async void exportButton_Click(object sender, RoutedEventArgs e)
-        {
+        private async void exportButton_Click(object sender, RoutedEventArgs e) {
             foreach (var doc in documents) {
                 using (
                     var docWriter = new LASI.FileSystem.Serialization.XML.SimpleLexicalSerializer(
@@ -305,16 +272,14 @@ namespace LASI.UserInterface
             exportDialog.ShowDialog();
         }
 
-        private void documentJoinButton_Click(object sender, RoutedEventArgs e)
-        {
+        private void documentJoinButton_Click(object sender, RoutedEventArgs e) {
             var documentJoinDialog = new CrossJoinSelectDialog(this);
 
             bool? dialogResult = documentJoinDialog.ShowDialog();
             if (dialogResult ?? false) {
                 var selectedDocument = documentJoinDialog.SelectDocuments;
                 CrossDocumentJoiner joiner = new CrossDocumentJoiner(selectedDocument);
-                joiner.JoinCompleted += (eventSource, eventArgs) =>
-                {
+                joiner.JoinCompleted += (eventSource, eventArgs) => {
 
                     CreateMetaResultsView(eventArgs);
                 };
@@ -323,22 +288,18 @@ namespace LASI.UserInterface
             }
         }
 
-        private async void CreateMetaResultsView(IEnumerable<CrossDocumentJoiner.NVNN> crossResults)
-        {
+        private async void CreateMetaResultsView(IEnumerable<CrossDocumentJoiner.NVNN> crossResults) {
             var data = await ChartingManager.CreateRelationshipDataAsync(crossResults);
             metaRelationshipsDataGrid.ItemsSource = data;
         }
 
-        private void MenuItem_Click(object sender, RoutedEventArgs e)
-        {
+        private void MenuItem_Click(object sender, RoutedEventArgs e) {
 
         }
 
-        private async void AddMenuItem_Click(object sender, RoutedEventArgs e)
-        {
+        private async void AddMenuItem_Click(object sender, RoutedEventArgs e) {
 
-            var openDialog = new Microsoft.Win32.OpenFileDialog
-            {
+            var openDialog = new Microsoft.Win32.OpenFileDialog {
                 Filter = "LASI File Types|*.docx; *.pdf; *.txt",
             };
             openDialog.ShowDialog(this);
@@ -350,9 +311,10 @@ namespace LASI.UserInterface
 
 
 
-                    await AddNewDocument(openDialog.FileName);
+                    await ProcessNewDocument(openDialog.FileName);
                     currentOperationFeedbackCanvas.Visibility = Visibility.Hidden;
-                } else {
+                }
+                else {
                     MessageBox.Show(string.Format("A document named {0} is already part of the project.", openDialog.SafeFileName));
                 }
             }
@@ -360,9 +322,8 @@ namespace LASI.UserInterface
 
 
         }
+        private async Task ProcessNewDocument(string docPath, ProgressBar progressBar, Label progressLabel) {
 
-        private async Task AddNewDocument(string docPath)
-        {
             var chosenFile = FileManager.AddFile(docPath, true);
 
             await FileManager.ConvertAsNeededAsync();
@@ -395,7 +356,9 @@ namespace LASI.UserInterface
             currentOperationProgressBar.Value = 100;
 
             documents.Add(doc);
-
+        }
+        private async Task ProcessNewDocument(string docPath) {
+            await ProcessNewDocument(docPath, currentOperationProgressBar, currentOperationLabel);
         }
     }
 
