@@ -33,7 +33,7 @@ namespace LASI.Algorithm.Thesauri
 
         public SynSet(int ID, IEnumerable<string> words, IEnumerable<int> pointers, WordNetNounCategory lexCategory)
         {
-            SetID = ID;
+            ID = ID;
             setWords = new HashSet<string>(words);
             setPointers = new HashSet<int>(pointers);
             lexName = lexCategory;
@@ -43,7 +43,7 @@ namespace LASI.Algorithm.Thesauri
         public SynSet(int ID, IEnumerable<string> words, IEnumerable<int> pointers)
         {
 
-            SetID = ID;
+            ID = ID;
             setWords = new HashSet<string>(words);
             setPointers = new HashSet<int>(pointers);
 
@@ -52,7 +52,7 @@ namespace LASI.Algorithm.Thesauri
 
 
 
-        public HashSet<string> SetWords
+        public HashSet<string> Words
         {
             get
             {
@@ -61,7 +61,7 @@ namespace LASI.Algorithm.Thesauri
 
         }
 
-        public HashSet<int> SetPointers
+        public HashSet<int> Pointers
         {
             get
             {
@@ -69,7 +69,7 @@ namespace LASI.Algorithm.Thesauri
             }
         }
 
-        public int SetID
+        public int ID
         {
             get;
             private set;

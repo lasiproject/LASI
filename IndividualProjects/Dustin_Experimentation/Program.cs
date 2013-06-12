@@ -10,32 +10,18 @@ using LASI.Utilities;
 using SharpNLPTaggingModule;
 using System.IO;
 using LASI.Algorithm.DocumentConstructs;
+using LASI.Algorithm.Thesauri;
 
 namespace Dustin_Experimentation
 { //this is a comment 
     class Program
     {
         static void Main(string[] args) {
-            var tagger = new SharpNLPTagger(TaggingOption.TagAndAggregate, @"C:\Users\Dustin\Downloads\example.txt");
-            var tagged = tagger.ProcessFile();
-            var paragraphs = new TaggedFileParser(tagged).LoadParagraphs();
-            var document = new Document(paragraphs);
-            //StreamWriter file = new StreamWriter(@"wd:\Users\Dustin\Downloads\411output.txt");
-
-            foreach (var i in document.Sentences)
+            foreach (var t in Thesaurus.GetThesaurusTasks())
             {
-                foreach (var j in i.Words)
-                {
-                    Console.WriteLine(j);
-                }
-                Console.WriteLine("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+                t.Wait();
             }
-            Console.WriteLine("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-            Console.WriteLine("Press escape to exit");
-            for (var k = Console.ReadKey(); k.Key != ConsoleKey.Escape; k = Console.ReadKey())
-            {
-                Console.WriteLine("Press escape to exit");
-            }
+            Thesaurus
         }
     }
 }

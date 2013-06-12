@@ -10,10 +10,7 @@ namespace LASI.Algorithm.Analysis
 {
     static class SubordinateClauseIdentifier
     {
-        /// <summary>
-        /// Provided 
-        /// </summary>
-        /// <param name="sentences"></param>
+
         public static void Identify(params Sentence[] sentences)
         {
             foreach (Sentence s in sentences) 
@@ -34,7 +31,9 @@ namespace LASI.Algorithm.Analysis
 
             });
             return remainder;
+
         }
+
 
         /// <summary>
         /// This is the most common beginning of a subordinating clause. It begins with either a subordinating conjuntion or a relative (wh) pronoun. 
@@ -45,7 +44,6 @@ namespace LASI.Algorithm.Analysis
         /// <returns> true or false</returns>
         private static bool isRelativePronounorSubordinatingConjunction(Word w)
         {
-
             var prep = w as Preposition;
             if (prep != null)
                 return !(w is RelativePronoun) || !(prep.PrepositionalRole == PrepositionalRole.SubordinatingConjunction);

@@ -71,8 +71,8 @@ namespace LASI.Algorithm.Thesauri
 
             //gets words of searched wd
             var tempWords = from sw in allSets
-                            where sw.SetWords.Contains(word)
-                            select sw.SetWords;
+                            where sw.Words.Contains(word)
+                            select sw.Words;
             HashSet<string> results = new HashSet<string>(
                 (from Q in tempWords
                  from q in Q
@@ -81,8 +81,8 @@ namespace LASI.Algorithm.Thesauri
 
             //gets pointers of searched wd
             var tempResults = from sn in allSets
-                              where sn.SetWords.Contains(word)
-                              select sn.SetPointers;
+                              where sn.Words.Contains(word)
+                              select sn.Pointers;
             var flatPointers = from R in tempResults
                                from r in R
                                select r;
@@ -91,8 +91,8 @@ namespace LASI.Algorithm.Thesauri
             foreach (var t in flatPointers) {
                 foreach (SynSet s in allSets) {
 
-                    if (t == s.SetID) {
-                        results.Union(s.SetWords);
+                    if (t == s.ID) {
+                        results.Union(s.Words);
                     }
 
                 }

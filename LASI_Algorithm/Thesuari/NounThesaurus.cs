@@ -86,29 +86,41 @@ namespace LASI.Algorithm.Thesauri
 
         public HashSet<string> SearchFor(string word)
         {
+            HashSet<string> ResultSet = new HashSet<string>();
+            HashSet<int> PointerSet = new HashSet<int>();
+            foreach (SynSet set in allSets)
+            {
+                if(set.Words.Contains(word))
+                {
+                    foreach (var w in set.Words)
+                    {
+                        ResultSet.Add(w);
+                    }
 
-            //gets pointers of searched wd
-            var tempResults = from sn in allSets
-                              where sn.SetWords.Contains(word)
-                              select sn.SetPointers;
-            var flatPointers = from R in tempResults
-                               from r in R
-                               select r;
-            //gets words of searched wd
-            var result = from pointer in flatPointers
-                         from sw in allSets
-                         where sw.SetPointers.Contains(pointer)
-                         from q in sw.SetWords
-                         select q;
+                    searchPointers(ResultSet, set.Pointers);
 
-            return new HashSet<string>(result);
+                    break;
+                }
+            }
+            return ResultSet;
+        }
 
-
-            //foreach (string tester in results) {
-
-            //    Console.WriteLine(tester);
-
-            //}//console view
+        private void searchPointers(HashSet<string> ResultSet, HashSet<int> PointerSet)
+        {
+            foreach (var p in PointerSet) 
+            {
+                if (PointerSet.Add(p))
+                {
+                    foreach (SynSet subset in from subset in allSets where subset.ID == p select subset)
+                    {
+                        foreach (var w in subset.Words)
+                        {
+                            ResultSet.Add(w);
+                            searchPointers(ResultSet, subset.Pointers);
+                        }
+                    }
+                }
+            }
         }
 
         public override HashSet<string> this[string search]
