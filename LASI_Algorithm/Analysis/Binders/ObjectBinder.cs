@@ -71,7 +71,7 @@ namespace LASI.Algorithm.Binding
         private void BindBuiltupAdjectivePhrases(NounPhrase phrase)
         {
             foreach (var adjp in this.lastAdjectivals) {
-                phrase.BindDescriber(adjp);
+                phrase.BindDescriptor(adjp);
             }
             this.lastAdjectivals.Clear();
         }

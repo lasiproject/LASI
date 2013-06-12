@@ -62,10 +62,10 @@ namespace LASI.Algorithm
         }
 
         /// <summary>
-        /// Binds an IDescriber, generally an Adjective or AdjectivePhrase, as a descriptor of the Noun.
+        /// Binds an IDescriptor, generally an Adjective or AdjectivePhrase, as a descriptor of the Noun.
         /// </summary>
-        /// <param name="adjective">The IDescriber instance which will be added to the Noun's descriptors.</param>
-        public virtual void BindDescriber(IDescriber adjective)
+        /// <param name="adjective">The IDescriptor instance which will be added to the Noun's descriptors.</param>
+        public virtual void BindDescriptor(IDescriptor adjective)
         {
             adjective.Described = this;
             _describedBy.Add(adjective);
@@ -100,9 +100,9 @@ namespace LASI.Algorithm
         }
 
         /// <summary>
-        /// Gets all of the IDescriber constructs,generally Adjectives or AdjectivePhrases, which describe the Noun Instance.
+        /// Gets all of the IDescriptor constructs,generally Adjectives or AdjectivePhrases, which describe the Noun Instance.
         /// </summary>
-        public virtual IEnumerable<IDescriber> DescribedBy
+        public virtual IEnumerable<IDescriptor> DescribedBy
         {
             get
             {
@@ -204,7 +204,7 @@ namespace LASI.Algorithm
         #endregion
 
         #region Fields
-        private ICollection<IDescriber> _describedBy = new List<IDescriber>();
+        private ICollection<IDescriptor> _describedBy = new List<IDescriptor>();
         private ICollection<IEntity> _possessed = new List<IEntity>();
         private ICollection<IPronoun> _boundPronouns = new List<IPronoun>();
         #endregion

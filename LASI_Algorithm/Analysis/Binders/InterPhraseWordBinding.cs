@@ -52,7 +52,7 @@ namespace LASI.Algorithm.Binding
                 var ListOfAdjectives = np.Words.GetAdjectives();
                 if (ListOfAdjectives.Count() > 0) {
                     foreach (Adjective adj in ListOfAdjectives) {
-                        LastNoun.BindDescriber(adj);
+                        LastNoun.BindDescriptor(adj);
                         adj.Described = LastNoun;
                     }
                 }

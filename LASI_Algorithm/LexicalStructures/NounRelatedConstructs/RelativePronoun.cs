@@ -81,12 +81,12 @@ namespace LASI.Algorithm
             }
         }
 
-        public void BindDescriber(IDescriber adj)
+        public void BindDescriptor(IDescriptor adj)
         {
             _describers.Add(adj);
         }
 
-        public IEnumerable<IDescriber> DescribedBy
+        public IEnumerable<IDescriptor> DescribedBy
         {
             get
             {
@@ -123,7 +123,7 @@ namespace LASI.Algorithm
             private set;
         }
 
-        private ICollection<IDescriber> _describers = new List<IDescriber>();
+        private ICollection<IDescriptor> _describers = new List<IDescriptor>();
         private ICollection<IEntity> _possessed = new List<IEntity>();
         private ICollection<IPronoun> _boundPronouns = new List<IPronoun>();
         private EntityKind _entityKind;

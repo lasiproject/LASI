@@ -34,7 +34,7 @@ namespace LASI.Algorithm
 
 
 
-        public void BindDescriber(IDescriber adj)
+        public void BindDescriptor(IDescriptor adj)
         {
             adj.Described = this;
             _describedBy.Add(adj);
@@ -86,7 +86,7 @@ namespace LASI.Algorithm
             get;
             set;
         }
-        public IEnumerable<IDescriber> DescribedBy
+        public IEnumerable<IDescriptor> DescribedBy
         {
             get
             {
@@ -116,7 +116,7 @@ namespace LASI.Algorithm
 
         #region Fields
 
-        private ICollection<IDescriber> _describedBy = new List<IDescriber>();
+        private ICollection<IDescriptor> _describedBy = new List<IDescriptor>();
         private ICollection<IEntity> _possessed = new List<IEntity>();
         private ICollection<IPronoun> _indirectReferences = new List<IPronoun>();
 

@@ -35,7 +35,7 @@ namespace LASI.Algorithm.Binding
                 if (b.TillNextNP.GetConjunctionPhrases().Count() + b.TillNextNP.OfType<PunctuatorPhrase>().Count() != b.TillNextNP.Count() && b.TillNextNP.Count() < 3) {
                     aggregateEntities.Add(b.NP);
                     if (aggregateEntities.Count > 2) {
-                        EntityGroups.Add(new NPAggregateSubjectObject(aggregateEntities));
+                        EntityGroups.Add(new EntityGroup(aggregateEntities));
                     }
                 } else {
                     aggregateEntities = new List<NounPhrase>();

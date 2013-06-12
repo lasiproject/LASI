@@ -11,7 +11,7 @@ namespace LASI.Algorithm.ClauseTypes
     /// This class is currently experimental and is not a tier in the Document objects created by the tagged file parsers
     /// Represents a clause which provides discriptive quantitative or qualitative specification.
     /// </summary>
-    public class SubordinateClause : Clause, IDescriber, IAdverbial
+    public class SubordinateClause : Clause, IDescriptor, IAdverbial
     {
 
         #region Constructors

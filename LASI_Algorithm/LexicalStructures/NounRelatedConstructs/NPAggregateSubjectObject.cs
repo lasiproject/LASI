@@ -9,16 +9,16 @@ namespace LASI.Algorithm
 {
     /// <summary>
     /// Represents an collection of usually contiguous NounPhrases which combine to form a single subject or object.
-    /// As such it provides both the behaviors of an entity and an Enumerable collection of entities. That is to say that you can use an instance of this class in 
+    /// As such it provides both the behaviors of an entity and an Enumerable collection of describables. That is to say that you can use an instance of this class in 
     /// situtation where an IEntity is Expected, but also enumerate it, via foreach(var in ...) or (from e in ...)
     /// </summary>
     /// <see cref="IEntityGroup"/>
     /// <seealso cref="IEntity"/>
-    public class NPAggregateSubjectObject : IEntityGroup
+    public class EntityGroup : IEntityGroup
     {
-        public NPAggregateSubjectObject(IEnumerable<IEntity> aggregates)
+        public EntityGroup(IEnumerable<IEntity> aggregated)
         {
-            AggregatesEntities = aggregates;
+            AggregatesEntities = aggregated;
         }
         public void AddPossession(IEntity possession)
         {
@@ -28,7 +28,7 @@ namespace LASI.Algorithm
         }
 
         /// <summary>
-        /// Gets or sets the Entity Kind; Person, Place, Thing, Organization, or Activity; of the NPAggregateSubjectObject instance.
+        /// Gets or sets the Entity Kind; Person, Place, Thing, Organization, or Activity; of the EntityGroup instance.
         /// </summary>
         public EntityKind EntityKind
         {
@@ -36,7 +36,7 @@ namespace LASI.Algorithm
             set;
         }
         /// <summary>
-        /// Gets the IVerbal instance, generally a TransitiveVerb or TransitiveVerbPhrase, which the NPAggregateSubjectObject is the DIRECT object of.
+        /// Gets the IVerbal instance, generally a TransitiveVerb or TransitiveVerbPhrase, which the EntityGroup is the DIRECT object of.
         /// </summary>
         public IVerbal DirectObjectOf
         {
@@ -44,7 +44,7 @@ namespace LASI.Algorithm
             set;
         }
         /// <summary>
-        /// Gets the IVerbal instance, generally a TransitiveVerb or TransitiveVerbPhrase, which the NPAggregateSubjectObject is the INDIRECT object of.
+        /// Gets the IVerbal instance, generally a TransitiveVerb or TransitiveVerbPhrase, which the EntityGroup is the INDIRECT object of.
         /// </summary>
         public IVerbal IndirectObjectOf
         {
@@ -52,7 +52,7 @@ namespace LASI.Algorithm
             set;
         }
         /// <summary>
-        /// Gets the IVerbal instance, generally a Verb or VerbPhrase, which the NPAggregateSubjectObject is the subject of.
+        /// Gets the IVerbal instance, generally a Verb or VerbPhrase, which the EntityGroup is the subject of.
         /// </summary>
         public IVerbal SubjectOf
         {
@@ -75,14 +75,14 @@ namespace LASI.Algorithm
             }
         }
 
-        public void BindDescriber(IDescriber adj)
+        public void BindDescriptor(IDescriptor adj)
         {
             if (!_describers.Contains(adj)) {
                 _describers.Add(adj);
             }
         }
 
-        public IEnumerable<IDescriber> DescribedBy
+        public IEnumerable<IDescriptor> DescribedBy
         {
             get
             {
@@ -166,17 +166,10 @@ namespace LASI.Algorithm
         #region Fields
 
         ICollection<IEntity> _possessions = new List<IEntity>();
-        ICollection<IDescriber> _describers = new List<IDescriber>();
+        ICollection<IDescriptor> _describers = new List<IDescriptor>();
         ICollection<IPronoun> _boundPronouns = new List<IPronoun>();
 
         #endregion
-
-
-
-
-
-
-
 
     }
 }

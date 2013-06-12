@@ -97,12 +97,12 @@ namespace LASI.Algorithm
             get;
             set;
         }
-        public virtual void BindDescriber(IDescriber adj)
+        public virtual void BindDescriptor(IDescriptor adj)
         {
             _describers.Add(adj);
         }
 
-        public virtual IEnumerable<IDescriber> DescribedBy
+        public virtual IEnumerable<IDescriptor> DescribedBy
         {
             get
             {
@@ -152,7 +152,7 @@ namespace LASI.Algorithm
 
 
         #region Fields
-        private ICollection<IDescriber> _describers = new List<IDescriber>();
+        private ICollection<IDescriptor> _describers = new List<IDescriptor>();
         private ICollection<IEntity> _possessed = new List<IEntity>();
         private ICollection<IPronoun> _boundPronouns = new List<IPronoun>();
         public bool IsBound

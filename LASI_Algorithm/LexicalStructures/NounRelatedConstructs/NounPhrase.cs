@@ -62,10 +62,10 @@ namespace LASI.Algorithm
             pro.BindToIEntity(this);
         }
         /// <summary>
-        /// Binds an IDescriber, generally an Adjective or AdjectivePhrase, as a descriptor of the NounPhrase.
+        /// Binds an IDescriptor, generally an Adjective or AdjectivePhrase, as a descriptor of the NounPhrase.
         /// </summary>
-        /// <param name="adjective">The IDescriber instance which will be added to the NounPhrase's descriptors.</param>
-        public void BindDescriber(IDescriber adjective)
+        /// <param name="adjective">The IDescriptor instance which will be added to the NounPhrase's descriptors.</param>
+        public void BindDescriptor(IDescriptor adjective)
         {
             if (!_describedBy.Contains(adjective))
                 _describedBy.Add(adjective);
@@ -180,9 +180,9 @@ namespace LASI.Algorithm
         }
 
         /// <summary>
-        /// Gets all of the IDescriber constructs,generally Adjectives or AdjectivePhrases, which describe the NounPhrase Instance.
+        /// Gets all of the IDescriptor constructs,generally Adjectives or AdjectivePhrases, which describe the NounPhrase Instance.
         /// </summary>
-        public virtual IEnumerable<IDescriber> DescribedBy
+        public virtual IEnumerable<IDescriptor> DescribedBy
         {
             get
             {
@@ -280,7 +280,7 @@ namespace LASI.Algorithm
             }
         }
 
-        private IList<IDescriber> _describedBy = new List<IDescriber>();
+        private IList<IDescriptor> _describedBy = new List<IDescriptor>();
         private IList<IEntity> _possessed = new List<IEntity>();
         private IList<IPronoun> _boundPronouns = new List<IPronoun>();
         private IEntity _possessor;

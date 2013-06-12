@@ -81,13 +81,13 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///A test for BindDescriber
+        ///A test for BindDescriptor
         ///</summary>
         [TestMethod()]
         public void BindDescriberTest() {
             Noun target = CreateNoun();
-            IDescriber adjective = new Adjective("rambunctious");
-            target.BindDescriber(adjective);
+            IDescriptor adjective = new Adjective("rambunctious");
+            target.BindDescriptor(adjective);
             Assert.IsTrue(target.DescribedBy.Contains(adjective) && adjective.Described == target);
         }
 

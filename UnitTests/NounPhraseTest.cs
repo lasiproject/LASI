@@ -78,14 +78,14 @@ namespace AlgorithmAssemblyUnitTestProject
 
 
         /// <summary>
-        ///A test for BindDescriber
+        ///A test for BindDescriptor
         ///</summary>
         [TestMethod()]
         public void BindDescriberTest() {
             IEnumerable<Word> composedWords = new Word[] { new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians") };
             NounPhrase target = new NounPhrase(composedWords);
-            IDescriber adj = new AdjectivePhrase(new Word[] { new GenericSingularNoun("peace"), new PresentParticipleGerund("loving") });
-            target.BindDescriber(adj);
+            IDescriptor adj = new AdjectivePhrase(new Word[] { new GenericSingularNoun("peace"), new PresentParticipleGerund("loving") });
+            target.BindDescriptor(adj);
             Assert.IsTrue(target.DescribedBy.Contains(adj));
         }
 
@@ -120,11 +120,11 @@ namespace AlgorithmAssemblyUnitTestProject
             IEnumerable<Word> composedWords = new Word[] { new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians") };
             NounPhrase target = new NounPhrase(composedWords);
             Assert.IsTrue(target.DescribedBy.Count() == 0);
-            IDescriber adj = new AdjectivePhrase(new Word[] { new GenericSingularNoun("peace"), new PresentParticipleGerund("loving") });
-            target.BindDescriber(adj);
+            IDescriptor adj = new AdjectivePhrase(new Word[] { new GenericSingularNoun("peace"), new PresentParticipleGerund("loving") });
+            target.BindDescriptor(adj);
             Assert.IsTrue(target.DescribedBy.Contains(adj));
-            IDescriber adj2 = new Adjective("proud");
-            target.BindDescriber(adj2);
+            IDescriptor adj2 = new Adjective("proud");
+            target.BindDescriptor(adj2);
             Assert.IsTrue(target.DescribedBy.Contains(adj) && target.DescribedBy.Contains(adj2));
         }
 

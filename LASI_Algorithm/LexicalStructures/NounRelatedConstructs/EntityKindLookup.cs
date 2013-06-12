@@ -11,7 +11,7 @@ namespace LASI.Algorithm
     /// <summary>
     /// Provides static management of known occurances of EntityKinds.
     /// </summary>
-    /// <seealso cref="EntityKind"/>The EntityKind enumeration defining all the kinds of entities. 
+    /// <seealso cref="EntityKind"/>The EntityKind enumeration defining all the kinds of describables. 
     public static class EntityKindLookup
     {
         /// <summary>
@@ -49,7 +49,7 @@ namespace LASI.Algorithm
         /// Returns the EntityKind indexed by the text of the entry.
         /// </summary>
         /// <param name="entry">The entry to conjugated for.</param>
-        /// <returns>The EntityKind corresponding to the entities text.</returns>
+        /// <returns>The EntityKind corresponding to the describables text.</returns>
         /// <exception cref="KeyNotFoundException">
         /// Thrown when no EntityKind is indexed by the entity's text.
         /// </exception>

@@ -55,7 +55,7 @@ namespace LASI.Algorithm
             }
         }
 
-        public void BindDescriber(IDescriber adj)
+        public void BindDescriptor(IDescriptor adj)
         {
             if (!_describers.Contains(adj)) {
                 adj.Described = this;
@@ -63,7 +63,7 @@ namespace LASI.Algorithm
             }
         }
 
-        public IEnumerable<IDescriber> DescribedBy
+        public IEnumerable<IDescriptor> DescribedBy
         {
             get
             {
@@ -102,7 +102,7 @@ namespace LASI.Algorithm
 
         #region Fields
 
-        private ICollection<IDescriber> _describers = new List<IDescriber>();
+        private ICollection<IDescriptor> _describers = new List<IDescriptor>();
         private ICollection<IEntity> _possessed = new List<IEntity>();
         private ICollection<IPronoun> _boundPronouns = new List<IPronoun>();
 

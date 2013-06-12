@@ -195,7 +195,7 @@ namespace LASI.Algorithm
             }
         }
 
-        public IDescriber AdjectivalModifier
+        public IDescriptor AdjectivalModifier
         {
             get;
             set;

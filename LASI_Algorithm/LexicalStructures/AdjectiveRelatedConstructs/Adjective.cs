@@ -11,7 +11,7 @@ namespace LASI.Algorithm
     /// <summary>
     /// Represents an adjective which can describe IDescribable such as a Noun or NounPhrase.
     /// </summary>
-    public class Adjective : Word, IAdverbialModifiable, IDescriber
+    public class Adjective : Word, IAdverbialModifiable, IDescriptor
     {
         /// <summary>
         /// Initializes a new instance of the Adjective class.

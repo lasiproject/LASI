@@ -55,7 +55,7 @@ namespace LASI.Algorithm
         }
 
         /// <summary>
-        /// Gets the entities the possessive ending has ownership of.
+        /// Gets the describables the possessive ending has ownership of.
         /// </summary>
         public IEnumerable<IEntity> Possessed {
             get {

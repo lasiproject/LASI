@@ -20,15 +20,15 @@ namespace LASI.Algorithm
         /// <param name="words">A sequence of wd objects</param>
         /// <returns>A WordList containing all words which match the argument</returns>
         /// <see cref="wd"/>
-        public static IEnumerable<Word> FindAllOccurances(this IEnumerable<Word> words,
-            Word toMatch)
+        public static IEnumerable<T> FindAllOccurances<T>(this IEnumerable<T> words,
+            T toMatch) where T : Word
         {
             return from word in words
                    where word.Text == toMatch.Text && word.GetType() == toMatch.GetType()
                    select word;
         }
-        public static IEnumerable<Word> FindAllOccurances(this IEnumerable<Word> words,
-           Word toMatch, Func<Word, Word, bool> comparison)
+        public static IEnumerable<T> FindAllOccurances<T>(this IEnumerable<T> words,
+           T toMatch, Func<T, T, bool> comparison) where T : Word
         {
             return from W in words
                    where comparison(toMatch, W)
