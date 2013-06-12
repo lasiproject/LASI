@@ -20,17 +20,32 @@ namespace LASI.Algorithm
             RelativePronounKind = DetermineRelativePronounKind(text);
         }
 
+        #region Methods
+        public override string ToString() {
+            var result = base.Text;
+            result += VerboseOutput ? " " + PronounKind.ToString() : "";
+            return result;
+        }
+        public void AddPossession(IEntity possession) {
+            if (!_possessed.Contains(possession)) {
+                _possessed.Add(possession);
+            }
+            if (IsBound && !BoundEntity.Possessed.Contains(possession)) {
+                BoundEntity.AddPossession(possession);
+            }
+        }
+        public void BindToIEntity(IEntity target) {
+            _boundEntity = target;
+            _entityKind = BoundEntity.EntityKind;
+        }
 
+        #endregion
         public IEntity BoundEntity {
             get {
                 return _boundEntity;
             }
         }
 
-        public void BindToIEntity(IEntity target) {
-            _boundEntity = target;
-            _entityKind = BoundEntity.EntityKind;
-        }
 
         public PronounKind PronounKind {
             get {
@@ -86,14 +101,6 @@ namespace LASI.Algorithm
             }
         }
 
-        public void AddPossession(IEntity possession) {
-            if (!_possessed.Contains(possession)) {
-                _possessed.Add(possession);
-            }
-            if (IsBound && !BoundEntity.Possessed.Contains(possession)) {
-                BoundEntity.AddPossession(possession);
-            }
-        }
 
         public IEntity Possesser {
             get;

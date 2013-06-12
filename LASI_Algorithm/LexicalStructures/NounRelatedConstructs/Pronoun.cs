@@ -18,30 +18,21 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="text">The literal text content of the pronoun.</param>
         protected Pronoun(string text)
-            : base(text)
-        {
+            : base(text) {
         }
 
         #endregion
 
         #region Methods
 
-        public override string Text
-        {
-            get
-            {
-                var result = base.Text;
-                result += VerboseOutput ? " " + PronounKind.ToString() : "";
-                return result;
-            }
-            protected set
-            {
-                base.Text = value;
-            }
+        public override string ToString() {
+            var result = base.Text;
+            result += VerboseOutput ? " " + PronounKind.ToString() : "";
+            return result;
         }
 
-        public virtual void BindPronoun(IPronoun pro)
-        {
+
+        public virtual void BindPronoun(IPronoun pro) {
             if (!_boundPronouns.Contains(pro))
                 _boundPronouns.Add(pro);
         }
@@ -56,10 +47,8 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets or sets the Entity which the Pronoun references.
         /// </summary>
-        public virtual IEntity BoundEntity
-        {
-            get
-            {
+        public virtual IEntity BoundEntity {
+            get {
                 return _boundEntity;
             }
 
@@ -67,16 +56,13 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets the IVerbal instance, generally a TransitiveVerb or TransitiveVerbPhrase, which the Pronoun is the object of.
         /// </summary>
-        public virtual IVerbal DirectObjectOf
-        {
+        public virtual IVerbal DirectObjectOf {
             get;
             set;
         }
 
-        public virtual IEnumerable<IPronoun> BoundPronouns
-        {
-            get
-            {
+        public virtual IEnumerable<IPronoun> BoundPronouns {
+            get {
                 return _boundPronouns;
             }
 
@@ -84,43 +70,35 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets the IVerbal instance, generally a TransitiveVerb or TransitiveVerbPhrase, which the Pronoun is the INDIRECT object of.
         /// </summary>
-        public virtual IVerbal IndirectObjectOf
-        {
+        public virtual IVerbal IndirectObjectOf {
             get;
             set;
         }
         /// <summary>
         /// Gets the ISubjectTaker instance, generally a Verb or VerbPhrase, which the Pronoun is the subject of.
         /// </summary>
-        public virtual IVerbal SubjectOf
-        {
+        public virtual IVerbal SubjectOf {
             get;
             set;
         }
-        public virtual void BindDescriptor(IDescriptor adj)
-        {
+        public virtual void BindDescriptor(IDescriptor adj) {
             _describers.Add(adj);
         }
 
-        public virtual IEnumerable<IDescriptor> DescribedBy
-        {
-            get
-            {
+        public virtual IEnumerable<IDescriptor> DescribedBy {
+            get {
                 return _describers;
             }
         }
 
-        public virtual IEnumerable<IEntity> Possessed
-        {
-            get
-            {
+        public virtual IEnumerable<IEntity> Possessed {
+            get {
                 return _possessed;
             }
         }
 
 
-        public virtual void AddPossession(IEntity possession)
-        {
+        public virtual void AddPossession(IEntity possession) {
             if (!_possessed.Contains(possession)) {
                 _possessed.Add(possession);
             }
@@ -129,20 +107,16 @@ namespace LASI.Algorithm
             }
         }
 
-        public virtual IEntity Possesser
-        {
+        public virtual IEntity Possesser {
             get;
             set;
         }
-        public virtual EntityKind EntityKind
-        {
-            get
-            {
+        public virtual EntityKind EntityKind {
+            get {
                 return _entityKind;
             }
         }
-        public virtual PronounKind PronounKind
-        {
+        public virtual PronounKind PronounKind {
             get;
             protected set;
         }
@@ -155,10 +129,8 @@ namespace LASI.Algorithm
         private ICollection<IDescriptor> _describers = new List<IDescriptor>();
         private ICollection<IEntity> _possessed = new List<IEntity>();
         private ICollection<IPronoun> _boundPronouns = new List<IPronoun>();
-        public bool IsBound
-        {
-            get
-            {
+        public bool IsBound {
+            get {
                 return BoundEntity != null;
             }
         }
@@ -172,8 +144,7 @@ namespace LASI.Algorithm
 
 
 
-        public void BindToIEntity(IEntity target)
-        {
+        public void BindToIEntity(IEntity target) {
             _boundEntity = target;
             _entityKind = BoundEntity.EntityKind;
         }
@@ -185,8 +156,7 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="pronoun">The pronoun whose gender to is to be checked</param>
         /// <returns>A PronounGenerder enum value representing the gender of the given pronoun.</returns>
-        private static PronounKind DeterminePronounKind(Pronoun pronoun)
-        {
+        private static PronounKind DeterminePronounKind(Pronoun pronoun) {
             var compareText = pronoun.Text.ToLower();
             return
                 males.Contains(compareText) ?
