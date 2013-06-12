@@ -55,6 +55,14 @@ namespace LASI.Algorithm
             return elements.Contains(element, Comparisons<T>.CreateCustom(comparison));
 
         }
+
+
+        public static IEnumerable<T> Except<T>(this IEnumerable<T> elements, IEnumerable<T> second, Func<T, T, bool> comparison) where T : ILexical
+        {
+            return elements.Except(second, Comparisons<T>.CreateCustom(comparison));
+
+        }
+
         /// <summary>
         /// Gets all of the wd instances in the sequence of ILexicals.
         /// </summary>

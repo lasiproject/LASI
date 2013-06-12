@@ -242,7 +242,7 @@ namespace LASI.UserInterface.DataVisualzationProviders
             return from svs in data
 
                    let SV = new KeyValuePair<string, float>(
-                       string.Format("{0} -> {1}\n", svs.Subject.Text, svs.Verbial.Text) +
+                       string.Format("{0} -> {1}\n", svs.Subject.Text, svs.Verbal.Text) +
                        (svs.Direct != null ? " -> " + svs.Direct.Text : "") +
                        (svs.Indirect != null ? " -> " + svs.Indirect.Text : ""),
                        ( float )Math.Round(svs.RelationshipWeight, 2))
@@ -250,7 +250,7 @@ namespace LASI.UserInterface.DataVisualzationProviders
                    select svg.Key;
 
         }
-        private static IEnumerable<NpVpNpNpQuatruple> GetVerbWiseAssociationData(Document doc)
+        private static IEnumerable<RelationshipTuple> GetVerbWiseAssociationData(Document doc)
         {
             var data =
                  from svPair in
@@ -259,10 +259,10 @@ namespace LASI.UserInterface.DataVisualzationProviders
                       from dobj in v.DirectObjects.DefaultIfEmpty()
                       from iobj in v.IndirectObjects.DefaultIfEmpty()
 
-                      select new NpVpNpNpQuatruple
+                      select new RelationshipTuple
                       {
                           Subject = s as NounPhrase ?? null,
-                          Verbial = v as VerbPhrase ?? null,
+                          Verbal = v as VerbPhrase ?? null,
                           Direct = dobj as NounPhrase ?? null,
                           Indirect = iobj as NounPhrase ?? null,
                           ViaPreposition = v.ObjectOfThePreoposition ?? null,
@@ -299,7 +299,7 @@ namespace LASI.UserInterface.DataVisualzationProviders
             var valueList = chartKind == ChartKind.NounPhrasesOnly ? GetNounPhraseData(document) : chartKind == ChartKind.SubjectVerbObject ? GetSVOIData(document) : GetSVOIData(document);
             return valueList;
         }
-        public static async Task BuildSVOIGridViewAsync(Document doc)
+        public static async Task BuildKeyRelationshipDisplay(Document doc)
         {
 
             var transformedData = await Task.Factory.StartNew(() =>
@@ -319,37 +319,41 @@ namespace LASI.UserInterface.DataVisualzationProviders
 
         }
 
-        public static async Task<IEnumerable<object>> CreateRelationshipData(IEnumerable<CrossDocumentJoiner.NVNN> elementsToSerialize)
+        public static async Task<IEnumerable<object>> CreateRelationshipDataAsync(IEnumerable<CrossDocumentJoiner.NVNN> elementsToSerialize)
         {
 
             return await Task.Run(() =>
-                CreateRelationshipData(
-                from e in elementsToSerialize
-                select new NpVpNpNpQuatruple
-                {
-                    Direct = e.Direct,
-                    Indirect = e.Indirect,
-                    Subject = e.Subject,
-                    Verbial = e.Verbal,
-                    ViaPreposition = e.ViaPreposition,
-                    RelationshipWeight = e.RelationshipWeight
-                })
-                );
+               CreateRelationshipData(elementsToSerialize));
         }
 
-        public static IEnumerable<object> CreateRelationshipData(IEnumerable<NpVpNpNpQuatruple> elementsToSerialize)
+        public static IEnumerable<object> CreateRelationshipData(IEnumerable<CrossDocumentJoiner.NVNN> elementsToSerialize)
         {
-            var dataRows = from result in elementsToSerialize
+            return CreateRelationshipData(
+                            from e in elementsToSerialize
+                            select new RelationshipTuple
+                            {
+                                Direct = e.Direct,
+                                Indirect = e.Indirect,
+                                Subject = e.Subject,
+                                Verbal = e.Verbal,
+                                ViaPreposition = e.ViaPreposition,
+                                RelationshipWeight = e.RelationshipWeight
+                            });
+        }
+
+        public static IEnumerable<object> CreateRelationshipData(IEnumerable<RelationshipTuple> elementsToSerialize)
+        {
+            var dataRows = from result in elementsToSerialize.Distinct(new RelationshipComparer())
                            orderby result.RelationshipWeight
                            select new
                            {
                                Subject = result.Subject != null ? result.Subject.Text : "",
-                               Verbial = result.Verbial != null ? (result.Verbial.PrepositionOnLeft != null ? result.Verbial.PrepositionOnLeft.Text + " " : "") + result.Verbial.Text : "",
+                               Verbial = result.Verbal != null ? (result.Verbal.PrepositionOnLeft != null ? result.Verbal.PrepositionOnLeft.Text + " " : "") + result.Verbal.Text : "",
                                Direct = result.Direct != null ? (result.Direct.PrepositionOnLeft != null ? result.Direct.PrepositionOnLeft.Text + " " : "") + result.Direct.Text : "",
                                Indirect = result.Indirect != null ? (result.Indirect.PrepositionOnLeft != null ? result.Indirect.PrepositionOnLeft.Text + " " : "") + result.Indirect.Text : "",
-                               ViaPrepositional = result.ViaPreposition != null ? result.Verbial.PrepositionLinkingTarget.Text + " " + result.ViaPreposition.Text : ""
+                               ViaPrepositional = result.ViaPreposition != null ? result.Verbal.PrepositionLinkingTarget.Text + " " + result.ViaPreposition.Text : ""
                            };
-            return dataRows;
+            return dataRows.Distinct();
         }
         private static Dictionary<Chart, Document> documentsByChart = new Dictionary<Chart, Document>();
 
@@ -376,24 +380,22 @@ namespace LASI.UserInterface.DataVisualzationProviders
     #region Result Bulding Helper Structs
     /// <summary>
     /// A little data type which provides custom uniqueness logic for NounPhrase to VerbPhrase  relationships. Provides the implementation of I equality comparer which is to be passed to the 
-    /// "Distinct()" method of en IEnummerable collectio  of NpVpNpNpQuatruple instances.
+    /// "Distinct()" method of en IEnummerable collectio  of RelationshipTuple instances.
     /// It is defined because distinct does not support lambda(read function) arguments like my query operatorrs do.
     /// Pay this type little heed
     /// </summary>
-    struct CompositionComparer : IEqualityComparer<NpVpNpNpQuatruple>
+    struct RelationshipComparer : IEqualityComparer<RelationshipTuple>
     {
-        public bool Equals(NpVpNpNpQuatruple lhs, NpVpNpNpQuatruple rhs)
+        public bool Equals(RelationshipTuple lhs, RelationshipTuple rhs)
         {
-            if ((lhs as object != null || rhs as object == null) || (lhs as object == null || rhs as object != null))
+
+            if ((lhs as object == null || rhs as object == null)) {
+                return !(lhs as object == null ^ rhs as object == null);
+            } else if (lhs.Elements.Count != rhs.Elements.Count) {
                 return false;
-            else if (lhs as object == null && rhs as object == null)
-                return true;
-            if ((lhs as object != null || rhs as object == null) || (lhs as object == null || rhs as object != null))
-                return false;
-            else if (lhs as object == null && rhs as object == null)
-                return true;
-            else {
-                bool result = lhs.Verbial.Text == rhs.Verbial.Text || lhs.Verbial.IsSimilarTo(rhs.Verbial);
+            } else {
+
+                bool result = lhs.Verbal.Text == rhs.Verbal.Text || lhs.Verbal.IsSimilarTo(rhs.Verbal);
                 result &= Comparisons<NounPhrase>.AliasOrSimilarity.Equals(lhs.Subject, rhs.Subject);
                 if (lhs.Direct != null && rhs.Direct != null) {
                     result &= Comparisons<NounPhrase>.AliasOrSimilarity.Equals(lhs.Direct, rhs.Direct);
@@ -407,54 +409,116 @@ namespace LASI.UserInterface.DataVisualzationProviders
             }
         }
 
-        public int GetHashCode(NpVpNpNpQuatruple obj)
+        public int GetHashCode(RelationshipTuple obj)
         {
-            return 1;
+            return obj == null ? 0 : obj.Elements.Count;
         }
     }
     /// <summary>
     /// Sometimes an anonymous type simple will not do. So this little class is defined to 
     /// store temporary query data from transposed tables. god it is late. I can't document properly.
     /// </summary>
-    public class NpVpNpNpQuatruple
+    public class RelationshipTuple
     {
+        NounPhrase subject;
+
         public NounPhrase Subject
         {
-            get;
-            set;
+            get
+            {
+                return subject;
+            }
+            set
+            {
+                subject = value;
+                elements.Add(value);
+            }
         }
-        public VerbPhrase Verbial
+
+        VerbPhrase verbal;
+
+        public VerbPhrase Verbal
         {
-            get;
-            set;
+            get
+            {
+                return verbal;
+            }
+            set
+            {
+                verbal = value;
+                elements.Add(value);
+            }
         }
+
+        NounPhrase direct;
+
         public NounPhrase Direct
         {
-            get;
-            set;
+            get
+            {
+                return direct;
+            }
+            set
+            {
+                direct = value;
+                elements.Add(value);
+            }
         }
+
+        NounPhrase indirect;
+
         public NounPhrase Indirect
         {
-            get;
-            set;
+            get
+            {
+                return indirect;
+            }
+            set
+            {
+                indirect = value;
+                elements.Add(value);
+            }
         }
+
+        ILexical viaPreposition;
+
         public ILexical ViaPreposition
         {
-            get;
-            set;
+            get
+            {
+                return viaPreposition;
+            }
+            set
+            {
+                viaPreposition = value;
+                elements.Add(value);
+            }
         }
+
+
+        HashSet<ILexical> elements = new HashSet<ILexical>();
+
+        public HashSet<ILexical> Elements
+        {
+            get
+            {
+                return elements;
+            }
+        }
+
+
         public decimal RelationshipWeight
         {
             get;
             set;
         }
         /// <summary>
-        /// Returns a textual representation of the NpVpNpNpQuatruple.
+        /// Returns a textual representation of the RelationshipTuple.
         /// </summary>
-        /// <returns>A textual representation of the NpVpNpNpQuatruple.</returns>
+        /// <returns>A textual representation of the RelationshipTuple.</returns>
         public override string ToString()
         {
-            var result = Subject.Text + Verbial.Text;
+            var result = Subject.Text + Verbal.Text;
             if (Direct != null) {
                 result += Direct.Text;
             }
@@ -463,42 +527,7 @@ namespace LASI.UserInterface.DataVisualzationProviders
             }
             return result;
         }
-        public override int GetHashCode()
-        {
-            return 1;
-        }
-        public override bool Equals(object obj)
-        {
-            return this == obj as NpVpNpNpQuatruple;
-        }
-        public static bool operator ==(NpVpNpNpQuatruple lhs, NpVpNpNpQuatruple rhs)
-        {
-            if ((lhs as object != null || rhs as object == null) || (lhs as object == null || rhs as object != null))
-                return false;
-            else if (lhs as object == null && rhs as object == null)
-                return true;
-            if ((lhs as object != null || rhs as object == null) || (lhs as object == null || rhs as object != null))
-                return false;
-            else if (lhs as object == null && rhs as object == null)
-                return true;
-            else {
-                bool result = lhs.Verbial.Text == rhs.Verbial.Text || lhs.Verbial.IsSimilarTo(rhs.Verbial);
-                result &= Comparisons<NounPhrase>.Equals(lhs.Subject, rhs.Subject);
-                if (lhs.Direct != null && rhs.Direct != null) {
-                    result &= Comparisons<NounPhrase>.AliasOrSimilarity.Equals(lhs.Direct, rhs.Direct);
-                } else if (lhs.Direct == null || rhs.Direct == null)
-                    return false;
-                if (lhs.Indirect != null && rhs.Indirect != null) {
-                    result &= Comparisons<NounPhrase>.AliasOrSimilarity.Equals(lhs.Indirect, rhs.Indirect);
-                } else if (lhs.Indirect == null || rhs.Indirect == null)
-                    return false;
-                return result;
-            }
-        }
-        public static bool operator !=(NpVpNpNpQuatruple lhs, NpVpNpNpQuatruple rhs)
-        {
-            return !(lhs == rhs);
-        }
+
 
     }
 

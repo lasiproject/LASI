@@ -12,6 +12,54 @@ namespace LASI.Algorithm.Weighting
 {
     static public class Weighter
     {
+        public static Task<string>[] GetWeightingTasksForDocument(Document doc)
+        {
+            return new[]{ 
+             Task .Run  (   () => 
+               {
+
+                       WeightWordsByLiteralFrequency (doc);
+                   return string.Format("{0}: Aggregating Literals", doc.FileName);
+               }), 
+             Task .Run   (   () => 
+               {
+                        HackSubjectPropernounImportance (doc);//.ContinueWith(t => 
+                   return  string.Format("{0}: Focusing Patterns", doc.FileName);
+               }), 
+            Task .Run   (  () =>
+               {
+                         WeightPhrasesByAVGWordWeight(doc);//.ContinueWith(t =>   
+                   return string.Format("{0}: Averaging Metrics",doc.FileName);
+               }), 
+         Task .Run    (   () => 
+               {
+                       ModifyNounWeightsBySynonyms(doc);//.ContinueWith(t =>
+                   return  string.Format("{0}: Generalizing Nouns",doc.FileName );
+               }), 
+        Task .Run    (   () => 
+               {
+                       ModifyVerbWeightsBySynonyms (doc);//.ContinueWith(t =>
+                   return  string.Format("{0}: Generalizing Verbs",doc.FileName );
+               }), 
+          Task .Run   (   () => 
+               {
+                       WeightPhrasesByLiteralFrequency (doc);//.ContinueWith(t =>   
+                   return string.Format("{0}: Aggregating Complex Literals", doc.FileName);
+               }), 
+            Task .Run     (   () => 
+               {
+                        WeightSimilarNounPhrases (doc);//.ContinueWith(t =>   
+                   return string.Format("{0}: Generalizing Entities!",doc.FileName);
+               }), 
+           Task .Run  (   () => 
+               {
+                    NormalizeWeights (doc);//.ContinueWith(t =>  
+                   return  string.Format("{0}: Normalizing Metrics", doc.FileName);
+               }) 
+            };
+
+        }
+
         /// <summary>
         /// Asynchronously assigns a Weight to each wd and start in a Document.
         /// </summary>
@@ -26,9 +74,9 @@ namespace LASI.Algorithm.Weighting
         /// <param name="doc">The Document whose elements are to be weighted</param>
         static public void Weight(Document doc)
         {
-            AssignBaseWordWeights(doc);
+            WeightWordsByLiteralFrequency(doc);
 
-            WeightWordsBySyntacticSequence(doc);
+            //WeightWordsBySyntacticSequence(doc);
 
             HackSubjectPropernounImportance(doc);
 
@@ -44,7 +92,10 @@ namespace LASI.Algorithm.Weighting
 
             NormalizeWeights(doc);
         }
-
+        private static async Task NormalizeWeightsAsync(Document doc)
+        {
+            await Task.Run(() => NormalizeWeights(doc));
+        }
         private static void NormalizeWeights(Document doc)
         {
             decimal TotPhraseWeight = 0.0m;
@@ -68,7 +119,10 @@ namespace LASI.Algorithm.Weighting
                 }
             }
         }
-
+        private static async Task ModifyVerbWeightsBySynonymsAsync(Document doc)
+        {
+            await Task.Run(() => ModifyVerbWeightsBySynonyms(doc));
+        }
         private static void ModifyVerbWeightsBySynonyms(Document doc)
         {
             var verbsSynonymGroups = from outerVerb in doc.Words.GetVerbs().AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
@@ -80,6 +134,12 @@ namespace LASI.Algorithm.Weighting
                 grp.Key.Weight += 0.7m * grp.Count();
             });
         }
+
+        private static async Task ModifyNounWeightsBySynonymsAsync(Document doc)
+        {
+            await Task.Run(() => ModifyNounWeightsBySynonyms(doc));
+        }
+
         /// <summary>
         /// Increase noun weights in a document by abstracting over synonyms
         /// </summary>
@@ -101,6 +161,10 @@ namespace LASI.Algorithm.Weighting
                 grp.Key.Weight += 0.7m * grp.Count();
             });
         }
+        private static async Task WeightPhrasesByAVGWordWeightAsync(Document doc)
+        {
+            await Task.Run(() => WeightPhrasesByAVGWordWeight(doc));
+        }
         private static void WeightPhrasesByAVGWordWeight(Document doc)
         {
             var phraseWeightPairs =
@@ -116,46 +180,45 @@ namespace LASI.Algorithm.Weighting
                 pWPair.phr.Weight = pWPair.weight;
             });
         }
-
+        private static async Task WeightPhrasesByLiteralFrequencyAsync(Document doc)
+        {
+            await Task.Run(() => WeightPhrasesByLiteralFrequency(doc));
+        }
         private static void WeightPhrasesByLiteralFrequency(Document doc)
         {
-            var phrasesByCount = from phrase in doc.Phrases.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
-                                 group phrase by new
-                                 {
-                                     Type = phrase.GetType(),
-                                     phrase.Text
-                                 };
-            phrasesByCount.ForAll(grp =>
-            {
-                foreach (var p in grp) { //inner loop is just normal.
-                    p.Weight += grp.Count();
-                }
-            });
+            WeightByLiteralFrequency(doc.Phrases);
+
         }
 
+        private static void WeightByLiteralFrequency(IEnumerable<ILexical> syntacticElements)
+        {
+            var g = (from phrase in syntacticElements.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
+                     group phrase by new
+                     {
+                         phrase.Type,
+                         phrase.Text
+                     });
+            g.ForAll(grouped =>
+            {
+                foreach (var p in grouped)
+                    p.Weight += grouped.Count();
+            });
+        }
+        private static async Task WeightWordsByLiteralFrequencyAsync(Document doc)
+        {
+            await Task.Run(() => WeightWordsByLiteralFrequency(doc));
+        }
         /// <summary>basic wd count by part of speech ignoring determiners and conjunctions</summary>
         /// <param name="doc">the Document whose words to weight</param>
         /// <param name="excluded">zero or more types to exlcude from weighting</param>
-        private static void AssignBaseWordWeights(Document doc)
+        private static void WeightWordsByLiteralFrequency(Document doc)
         {
-            var excluded = new[] { typeof(Determiner), typeof(IConjunctive), typeof(IPrepositional) };
-            var wordsByCount = from word in doc.Words.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
-                               where (!excluded.Contains(word.Type))
-                               group word by new
-                               {
-                                   word.Type,
-                                   word.Text
-                               };
-
-            wordsByCount.ForAll(
-            grp =>
-            {
-                foreach (var w in grp) {
-                    w.Weight = grp.Count();
-                }
-            });
+            WeightByLiteralFrequency(doc.Words.Except(doc.Words.GetDeterminers()).Except(doc.Words.GetPronouns()).Except(doc.Words.GetAdverbs()).Except(doc.Words.GetAdjectives()));
         }
-
+        private static async Task WeightSimilarNounPhrasesAsync(Document doc)
+        {
+            await Task.Run(() => WeightSimilarNounPhrases(doc));
+        }
         /// <summary>
         /// For each noun parent in a document that is similar to another noun parent, increase the weight of that noun
         /// </summary>
@@ -203,7 +266,10 @@ namespace LASI.Algorithm.Weighting
                 return obj != null ? 1 : 0;
             }
         }
-
+        public static async Task HackSubjectPropernounImportanceAsync(Document doc)
+        {
+            await Task.Run(() => HackSubjectPropernounImportance(doc));
+        }
         public static void HackSubjectPropernounImportance(Document doc)
         {
 

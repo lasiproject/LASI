@@ -42,7 +42,7 @@ namespace LASI.UserInterface
                 Height = 16,
                 Width = 16,
                 Padding = new System.Windows.Thickness(0.5),
-                //Style = FindResource("xButton") as System.Windows.Style
+
             };
 
 

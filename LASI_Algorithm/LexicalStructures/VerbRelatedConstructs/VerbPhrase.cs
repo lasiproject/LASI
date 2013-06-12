@@ -53,7 +53,7 @@ namespace LASI.Algorithm
         public virtual void AttachObjectViaPreposition(IPrepositional prep)
         {
             // if (!DirectObjects.Contains(prep.PrepositionalObject) && !IndirectObjects.Contains(prep.PrepositionalObject)) {
-            ObjectViaPreposition =
+            ObjectOfThePreoposition =
                 prep.OnRightSide != null ?
                 prep.OnRightSide :
                 prep.OnLeftSide;
@@ -95,7 +95,7 @@ namespace LASI.Algorithm
         /// <param name="indirectObject">The Entity to attach to the VerbPhrase as an indirect object.</param>
         public virtual void BindIndirectObject(IEntity indirectObject)
         {
-            if (ObjectViaPreposition != indirectObject && !_boundIndirectObjects.Contains(indirectObject)) {
+            if (ObjectOfThePreoposition != indirectObject && !_boundIndirectObjects.Contains(indirectObject)) {
                 _boundIndirectObjects.Add(indirectObject);
                 indirectObject.IndirectObjectOf = this;
             }
@@ -116,8 +116,8 @@ namespace LASI.Algorithm
                 foreach (var i in IndirectObjects) {
                     result += i != null ? "\n\tIndirect Object: " + i.ToString() : "";
                 }
-                if (ObjectViaPreposition != null) {
-                    result += "\n\tVia Preposition Object" + ObjectViaPreposition.ToString();
+                if (ObjectOfThePreoposition != null) {
+                    result += "\n\tVia Preposition Object" + ObjectOfThePreoposition.ToString();
                 }
                 foreach (var mod in _modifiers) {
                     result += _modifiers.Count > 0 ? "\n\tModifier: " + mod.ToString() : "";
@@ -222,12 +222,11 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets the VerbPhrases's object, If the VerbPhrase has an object bound via a Prepositional construct.
         /// </summary>
-        public virtual ILexical ObjectViaPreposition
+        public ILexical ObjectOfThePreoposition
         {
             get;
-            protected set;
+            private set;
         }
-
 
         public bool Possessive
         {
@@ -271,11 +270,7 @@ namespace LASI.Algorithm
         }
 
 
-        public ILexical ObjectOfThePreoposition
-        {
-            get;
-            private set;
-        }
+
     }
 }
 

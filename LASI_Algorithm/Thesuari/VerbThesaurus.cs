@@ -87,7 +87,7 @@ namespace LASI.Algorithm.Thesauri
                             (from refIndex in AssociationData[root].ReferencedIndexes
                              from referencedSet in AssociationData.Values.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
                              where referencedSet.ReferencedIndexes.Contains(refIndex)
-                             where (!lexRestrict || referencedSet.LexName == AssociationData[root].LexName)
+                             //where (!lexRestrict || referencedSet.LexName == AssociationData[root].LexName)
                              from word in referencedSet.Words.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
                              let withConjugations = new string[] { word }.Concat(conjugator.TryComputeConjugations(word))
                              from w in withConjugations

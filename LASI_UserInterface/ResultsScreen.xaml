@@ -30,25 +30,25 @@
                     <MenuItem Header="Project" />
                     <MenuItem Header="File" />
                 </MenuItem>
-                <MenuItem Header="Add"
+                <MenuItem Header="Add Document"
                           HorizontalAlignment="Left"
-                          Width="200">
-                    <MenuItem Header="File" />
+                          Width="200"
+                          Click="AddMenuItem_Click">
                 </MenuItem>
-                <MenuItem Header="Save Project As"
+                <!--<MenuItem Header="Save Project As"
                           HorizontalAlignment="Left"
                           Width="200" />
                 <MenuItem Header="Save Project"
                           HorizontalAlignment="Left"
-                          Width="200" />
+                          Width="200" />-->
                 <MenuItem Header="Exit"
-                          Click="MenuItem_Click_3" />
+                          Click="ExitMenuItem_Click" />
             </MenuItem>
-            <MenuItem Header="Edit"
-                      HorizontalAlignment="Left" />
-            <MenuItem Header="View"
-                      HorizontalAlignment="Left" />
-            <MenuItem Header="Build"
+            <!--<MenuItem Header="Edit"
+                      HorizontalAlignment="Left" />-->
+            <!--<MenuItem Header="View"
+                      HorizontalAlignment="Left" />-->
+            <MenuItem Header="Tools"
                       HorizontalAlignment="Left" />
             <MenuItem Header="Help"
                       HorizontalAlignment="Left" />
@@ -74,11 +74,30 @@
         </Canvas>
 
         <Grid Margin="0,0,0,0">
+            <Canvas Name="currentOperationFeedbackCanvas"
+                    Margin="0,31,10,432"
+                    Visibility="Visible"
+                    Canvas.Left="10"
+                    Canvas.Top="439">
+                <Label x:Name="currentOperationLabel"
+                       Content="current operation"
+                       FontSize="12"
+                       Width="256"
+                       Height="26"
+                       Canvas.Left="10"
+                       Canvas.Top="-4" />
+                <ProgressBar x:Name="currentOperationProgressBar"
+                             HorizontalAlignment="Right"
+                             Width="266"
+                             Canvas.Left="327"
+                             Height="20" />
+            </Canvas>
             <Canvas Background="#FFE5E5E5"
                     OpacityMask="#FF5A5A62"
                     Margin="8,68,0,33"
                     HorizontalAlignment="Left"
                     Width="140">
+
                 <Button x:Name="exportButton"
                         Visibility="Hidden"
                         Content="Export"
@@ -158,12 +177,13 @@
                         Width="35"
                         Visibility="Hidden" />
                 <Button x:Name="documentJoinButton"
-                        Content="Cross Join"
-                        Canvas.Left="27"
-                        Canvas.Top="10"
-                        Width="75"
-                        Click="documentJoinButton_Click"
-                        Visibility="Hidden" />
+                        Content="X"
+                        FontSize="22"
+                        Canvas.Left="13"
+                        Canvas.Top="117"
+                        Width="35"
+                        Height="35"
+                        Click="documentJoinButton_Click" />
 
             </Canvas>
         </Grid>
@@ -171,7 +191,7 @@
         <TabControl x:Name="ResultsTabControl"
                     ScrollViewer.HorizontalScrollBarVisibility="Auto"
                     ScrollViewer.VerticalScrollBarVisibility="Auto"
-                    Margin="158,51,45,19">
+                    Margin="158,51,45,33">
 
             <TabItem x:Name="topResultsTab"
                      Header="Top Results">

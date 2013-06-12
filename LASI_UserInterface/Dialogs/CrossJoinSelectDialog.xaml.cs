@@ -20,19 +20,24 @@ namespace LASI.UserInterface.Dialogs
     /// </summary>
     public partial class CrossJoinSelectDialog : Window
     {
-        public CrossJoinSelectDialog(ResultsScreen owner) {
+        public CrossJoinSelectDialog(ResultsScreen owner)
+        {
             InitializeComponent();
+            InputBindings.Add(new KeyBinding(ApplicationCommands.Close, new KeyGesture(Key.Escape)));
+
             foreach (var doc in owner.Documents) {
                 var docCheckBox = new CheckBox
                 {
                     Content = doc.FileName,
                     HorizontalAlignment = HorizontalAlignment.Left
                 };
-                docCheckBox.Checked += (sender, e) => {
+                docCheckBox.Checked += (sender, e) =>
+                {
                     selectDocuments.Add(doc);
                     okButton.IsEnabled = selectDocuments.Count > 1 ? true : false;
                 };
-                docCheckBox.Unchecked += (sender, e) => {
+                docCheckBox.Unchecked += (sender, e) =>
+                {
                     selectDocuments.Remove(doc);
                     okButton.IsEnabled = selectDocuments.Count > 1 ? true : false;
                 };
@@ -43,17 +48,21 @@ namespace LASI.UserInterface.Dialogs
 
         private List<Document> selectDocuments = new List<Document>();
 
-        public List<Document> SelectDocuments {
-            get {
+        public List<Document> SelectDocuments
+        {
+            get
+            {
                 return selectDocuments;
             }
         }
 
-        private void okButton_Click(object sender, RoutedEventArgs e) {
+        private void okButton_Click(object sender, RoutedEventArgs e)
+        {
             this.DialogResult = true;
         }
 
-        private void cancelButton_Click(object sender, RoutedEventArgs e) {
+        private void cancelButton_Click(object sender, RoutedEventArgs e)
+        {
             this.DialogResult = false;
         }
 

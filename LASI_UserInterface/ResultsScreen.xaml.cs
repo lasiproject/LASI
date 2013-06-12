@@ -14,6 +14,7 @@ using System.Windows.Controls.DataVisualization.Charting;
 using System.Windows.Media;
 using LASI.UserInterface.DataVisualzationProviders;
 using LASI.InteropLayer;
+using LASI.Utilities;
 
 
 namespace LASI.UserInterface
@@ -34,47 +35,52 @@ namespace LASI.UserInterface
         {
 
             foreach (var doc in documents) {
-                var documentElements = (from de in doc.Paragraphs.Except(doc.EnumContainingParagraphs).AsParallel()
-                                        select de.Phrases into phraseElements
-                                        from phrase in phraseElements.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
-                                        select phrase)
-                                       .GetNounPhrases()
-                                       .GroupBy(w => new
-                                        {
-                                            w.Text,
-                                            w.Type
-                                        }).Select(g => g.First());
-                var nps = documentElements.GetNounPhrases();
-                var vps = documentElements.GetVerbPhrases();
-                var advps = documentElements.GetAdverbPhrases();
-                var elementLabels = new List<Label>();
-                foreach (var e in documentElements) {
-                    var wordLabel = CreateWeightedNounPhraseLabel(e);
-                    elementLabels.Add(wordLabel);
-                }
-
-                var scrollViewer = new ScrollViewer();
-                var stackPanel = new StackPanel();
-                scrollViewer.Content = stackPanel;
-                var grid = new Grid();
-                grid.Children.Add(scrollViewer);
-                var tabItem = new TabItem
-                {
-                    Header = doc.FileName,
-                    Content = grid
-                };
-                foreach (var l in from w in elementLabels
-                                  orderby (w.Tag as ILexical).Weight descending
-                                  select w) {
-                    stackPanel.Children.Add(l);
-                }
-                WordCountLists.Items.Add(tabItem);
-                ChartingManager.BuildMainChartDisplay(doc);
-                await ChartingManager.BuildSVOIGridViewAsync(doc);
+                await CreateInteractiveDoumentView(doc);
 
             }
 
             BindChartViewControls();
+        }
+
+        private async Task CreateInteractiveDoumentView(Document doc)
+        {
+            var documentElements = (from de in doc.Paragraphs.Except(doc.EnumContainingParagraphs).AsParallel()
+                                    select de.Phrases into phraseElements
+                                    from phrase in phraseElements.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
+                                    select phrase)
+                                   .GetNounPhrases()
+                                   .GroupBy(w => new
+                                   {
+                                       w.Text,
+                                       w.Type
+                                   }).Select(g => g.First());
+            var nps = documentElements.GetNounPhrases();
+            var vps = documentElements.GetVerbPhrases();
+            var advps = documentElements.GetAdverbPhrases();
+            var elementLabels = new List<Label>();
+            foreach (var e in documentElements) {
+                var wordLabel = CreateWeightedNounPhraseLabel(e);
+                elementLabels.Add(wordLabel);
+            }
+
+            var scrollViewer = new ScrollViewer();
+            var stackPanel = new StackPanel();
+            scrollViewer.Content = stackPanel;
+            var grid = new Grid();
+            grid.Children.Add(scrollViewer);
+            var tabItem = new TabItem
+            {
+                Header = doc.FileName,
+                Content = grid
+            };
+            foreach (var l in from w in elementLabels
+                              orderby (w.Tag as ILexical).Weight descending
+                              select w) {
+                stackPanel.Children.Add(l);
+            }
+            WordCountLists.Items.Add(tabItem);
+            ChartingManager.BuildMainChartDisplay(doc);
+            await ChartingManager.BuildKeyRelationshipDisplay(doc);
         }
 
         private static Label CreateWeightedNounPhraseLabel(NounPhrase e)
@@ -113,108 +119,113 @@ namespace LASI.UserInterface
         public async Task BuildReconstructedDocumentViews()
         {  // This is for the lexial relationships tab
             foreach (var doc in documents) {
-                var panel = new WrapPanel();
-                var tab = new TabItem
+                await BuildInteractiveTextViewOfDocument(doc);
+            }
+        }
+
+        private async Task BuildInteractiveTextViewOfDocument(Document doc)
+        {
+            var panel = new WrapPanel();
+            var tab = new TabItem
+            {
+                Header = doc.FileName,
+                Content = new ScrollViewer
                 {
-                    Header = doc.FileName,
-                    Content = new ScrollViewer
-                    {
-                        Content = panel
-                    }
+                    Content = panel
+                }
+
+            };
+            var phraseLabels = new List<Label>();
+            foreach (var phrase in doc.Phrases) {
+                var phraseLabel = new Label
+                {
+                    Content = phrase.Text,
+                    Tag = phrase,
+                    Foreground = Brushes.Black,
+                    Padding = new Thickness(1, 1, 1, 1),
+                    ContextMenu = new ContextMenu(),
+                    ToolTip = phrase.Type.Name,
+
 
                 };
-                var phraseLabels = new List<Label>();
-                foreach (var phrase in doc.Phrases) {
-                    var phraseLabel = new Label
+                var vP = phrase as VerbPhrase;
+
+                if (vP != null && vP.Subjects.Count() > 0) {
+                    var visitSubjectMI = new MenuItem
                     {
-                        Content = phrase.Text,
-                        Tag = phrase,
-                        Foreground = Brushes.Black,
-                        Padding = new Thickness(1, 1, 1, 1),
-                        ContextMenu = new ContextMenu(),
-                        ToolTip = phrase.Type.Name,
-
-
+                        Header = "view subjects"
                     };
-                    var vP = phrase as VerbPhrase;
-
-                    if (vP != null && vP.Subjects.Count() > 0) {
-                        var visitSubjectMI = new MenuItem
-                        {
-                            Header = "view subjects"
-                        };
-                        visitSubjectMI.Click += (sender, e) =>
-                        {
-                            var objlabels = from r in vP.Subjects
-                                            join l in phraseLabels on r equals l.Tag
-                                            select l;
-                            foreach (var l in objlabels) {
-                                l.Foreground = Brushes.Black;
-                                l.Background = Brushes.Red;
-                            }
-                        };
-                        phraseLabel.ContextMenu.Items.Add(visitSubjectMI);
-                    }
-                    if (vP != null && vP.DirectObjects.Count() > 0) {
-                        var visitSubjectMI = new MenuItem
-                        {
-                            Header = "view direct objects"
-                        };
-                        visitSubjectMI.Click += (sender, e) =>
-                        {
-                            var objlabels = from r in vP.DirectObjects
-                                            join l in phraseLabels on r equals l.Tag
-                                            select l;
-                            foreach (var l in objlabels) {
-                                l.Foreground = Brushes.Black;
-                                l.Background = Brushes.Red;
-                            }
-                        };
-                        phraseLabel.ContextMenu.Items.Add(visitSubjectMI);
-                    }
-                    if (vP != null && vP.IndirectObjects.Count() > 0) {
-                        var visitSubjectMI = new MenuItem
-                        {
-                            Header = "view indirect objects"
-                        };
-                        visitSubjectMI.Click += (sender, e) =>
-                        {
-                            var objlabels = from r in
-                                                vP.IndirectObjects
-                                            join l in phraseLabels on r equals l.Tag
-                                            select l;
-                            foreach (var l in objlabels) {
-                                l.Foreground = Brushes.Black;
-                                l.Background = Brushes.Red;
-                            }
-                        };
-                        phraseLabel.ContextMenu.Items.Add(visitSubjectMI);
-                    }
-                    if (vP != null && vP.ObjectViaPreposition != null) {
-                        var visitSubjectMI = new MenuItem
-                        {
-                            Header = "view prepositional object"
-                        };
-                        visitSubjectMI.Click += (sender, e) =>
-                        {
-                            var objlabels = from l in phraseLabels
-                                            where l.Tag.Equals(vP.ObjectViaPreposition)
-                                            select l;
-                            foreach (var l in objlabels) {
-                                l.Foreground = Brushes.Black;
-                                l.Background = Brushes.Red;
-                            }
-                        };
-                        phraseLabel.ContextMenu.Items.Add(visitSubjectMI);
-                    }
-                    phraseLabels.Add(phraseLabel);
+                    visitSubjectMI.Click += (sender, e) =>
+                    {
+                        var objlabels = from r in vP.Subjects
+                                        join l in phraseLabels on r equals l.Tag
+                                        select l;
+                        foreach (var l in objlabels) {
+                            l.Foreground = Brushes.Black;
+                            l.Background = Brushes.Red;
+                        }
+                    };
+                    phraseLabel.ContextMenu.Items.Add(visitSubjectMI);
                 }
-                foreach (var l in phraseLabels) {
-                    panel.Children.Add(l);
+                if (vP != null && vP.DirectObjects.Count() > 0) {
+                    var visitSubjectMI = new MenuItem
+                    {
+                        Header = "view direct objects"
+                    };
+                    visitSubjectMI.Click += (sender, e) =>
+                    {
+                        var objlabels = from r in vP.DirectObjects
+                                        join l in phraseLabels on r equals l.Tag
+                                        select l;
+                        foreach (var l in objlabels) {
+                            l.Foreground = Brushes.Black;
+                            l.Background = Brushes.Red;
+                        }
+                    };
+                    phraseLabel.ContextMenu.Items.Add(visitSubjectMI);
                 }
-                recomposedDocumentsTabControl.Items.Add(tab);
-                await Task.Yield();
+                if (vP != null && vP.IndirectObjects.Count() > 0) {
+                    var visitSubjectMI = new MenuItem
+                    {
+                        Header = "view indirect objects"
+                    };
+                    visitSubjectMI.Click += (sender, e) =>
+                    {
+                        var objlabels = from r in
+                                            vP.IndirectObjects
+                                        join l in phraseLabels on r equals l.Tag
+                                        select l;
+                        foreach (var l in objlabels) {
+                            l.Foreground = Brushes.Black;
+                            l.Background = Brushes.Red;
+                        }
+                    };
+                    phraseLabel.ContextMenu.Items.Add(visitSubjectMI);
+                }
+                if (vP != null && vP.ObjectOfThePreoposition != null) {
+                    var visitSubjectMI = new MenuItem
+                    {
+                        Header = "view prepositional object"
+                    };
+                    visitSubjectMI.Click += (sender, e) =>
+                    {
+                        var objlabels = from l in phraseLabels
+                                        where l.Tag.Equals(vP.ObjectOfThePreoposition)
+                                        select l;
+                        foreach (var l in objlabels) {
+                            l.Foreground = Brushes.Black;
+                            l.Background = Brushes.Red;
+                        }
+                    };
+                    phraseLabel.ContextMenu.Items.Add(visitSubjectMI);
+                }
+                phraseLabels.Add(phraseLabel);
             }
+            foreach (var l in phraseLabels) {
+                panel.Children.Add(l);
+            }
+            recomposedDocumentsTabControl.Items.Add(tab);
+            await Task.Yield();
         }
 
 
@@ -231,7 +242,7 @@ namespace LASI.UserInterface
                 documents = value;
             }
         }
-        private void MenuItem_Click_3(object sender, RoutedEventArgs e)
+        private void ExitMenuItem_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
 
@@ -294,25 +305,98 @@ namespace LASI.UserInterface
             exportDialog.ShowDialog();
         }
 
-        private async void documentJoinButton_Click(object sender, RoutedEventArgs e)
+        private void documentJoinButton_Click(object sender, RoutedEventArgs e)
         {
             var documentJoinDialog = new CrossJoinSelectDialog(this);
 
             bool? dialogResult = documentJoinDialog.ShowDialog();
             if (dialogResult ?? false) {
                 var selectedDocument = documentJoinDialog.SelectDocuments;
-                CrossDocumentJoiner joiner = new CrossDocumentJoiner(selectedDocument, new ProgressBar());
-                var crossResults = await joiner.JoinDocuments();
-                await CreateMetaResultsView(crossResults);
+                CrossDocumentJoiner joiner = new CrossDocumentJoiner(selectedDocument);
+                joiner.JoinCompleted += (eventSource, eventArgs) =>
+                {
+
+                    CreateMetaResultsView(eventArgs);
+                };
+                joiner.JoinDocuments();
+
             }
         }
 
-        private async Task CreateMetaResultsView(IEnumerable<CrossDocumentJoiner.NVNN> crossResults)
+        private async void CreateMetaResultsView(IEnumerable<CrossDocumentJoiner.NVNN> crossResults)
         {
-            var data = await ChartingManager.CreateRelationshipData(crossResults);
+            var data = await ChartingManager.CreateRelationshipDataAsync(crossResults);
             metaRelationshipsDataGrid.ItemsSource = data;
         }
 
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private async void AddMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+
+            var openDialog = new Microsoft.Win32.OpenFileDialog
+            {
+                Filter = "LASI File Types|*.docx; *.pdf; *.txt",
+            };
+            openDialog.ShowDialog(this);
+            if (openDialog.FileNames.Any()) {
+                if (!DocumentManager.FileNamePresent(openDialog.SafeFileName)) {
+                    currentOperationLabel.Content = string.Format("Converting {0}...", openDialog.FileName);
+                    currentOperationFeedbackCanvas.Visibility = Visibility.Visible;
+                    currentOperationProgressBar.Value = 0;
+
+
+
+                    await AddNewDocument(openDialog.FileName);
+                    currentOperationFeedbackCanvas.Visibility = Visibility.Hidden;
+                } else {
+                    MessageBox.Show(string.Format("A document named {0} is already part of the project.", openDialog.SafeFileName));
+                }
+            }
+
+
+
+        }
+
+        private async Task AddNewDocument(string docPath)
+        {
+            var chosenFile = FileManager.AddFile(docPath, true);
+
+            await FileManager.ConvertAsNeededAsync();
+            currentOperationProgressBar.Value += 10;
+            currentOperationLabel.Content = string.Format("Tagging {0}...", chosenFile.NameSansExt);
+            var textfile = FileManager.TextFiles.Where(f => f.NameSansExt == chosenFile.NameSansExt).First();
+
+            var doc = await TaggerUtil.LoadTextFileAsync(textfile);
+            currentOperationProgressBar.Value += 10;
+            currentOperationLabel.Content = string.Format("{0}: Analysing Syntax...", chosenFile.NameSansExt);
+            await LASI.Algorithm.Binding.Binder.BindAsync(doc);
+            currentOperationProgressBar.Value += 15;
+            currentOperationLabel.Content = string.Format("{0}: Correlating Relationships...", chosenFile.NameSansExt);
+            var tasks = LASI.Algorithm.Weighting.Weighter.GetWeightingTasksForDocument(doc).ToList();
+            foreach (var task in tasks) {
+
+                var message = await task;
+                currentOperationLabel.Content = message;
+                currentOperationProgressBar.Value += 5;
+
+            }
+
+            currentOperationProgressBar.Value += 5;
+            currentOperationLabel.Content = string.Format("{0}: Visualizing...", chosenFile.NameSansExt);
+            await CreateInteractiveDoumentView(doc);
+            await BuildInteractiveTextViewOfDocument(doc);
+
+            currentOperationLabel.Content = string.Format("{0}: Added...", chosenFile.NameSansExt);
+
+            currentOperationProgressBar.Value = 100;
+
+            documents.Add(doc);
+
+        }
     }
 
 }

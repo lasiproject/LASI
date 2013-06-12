@@ -12,21 +12,45 @@ namespace LASI.InteropLayer
 {
     public class CrossDocumentJoiner
     {
-        private System.Windows.Controls.ContentControl[] StatusMessageProviders;
-        private System.Windows.Controls.ProgressBar ProgressBar;
-        public CrossDocumentJoiner(IEnumerable<Document> documents, System.Windows.Controls.ProgressBar progressBar, params  System.Windows.Controls.ContentControl[] statusMessageProviders)
+        public event EventHandler<IEnumerable<NVNN>> JoinCompleted
+        {
+            add
+            {
+                onJoinCompletedEventHandler += value;
+            }
+            remove
+            {
+                onJoinCompletedEventHandler -= value;
+            }
+        }
+
+        private EventHandler<IEnumerable<NVNN>> onJoinCompletedEventHandler;
+        public CrossDocumentJoiner(IEnumerable<Document> documents)
         {
             Documents = documents;
-            StatusMessageProviders = statusMessageProviders;
-            ProgressBar = progressBar;
-        }
-        public async Task<IEnumerable<NVNN>> JoinDocuments()
-        {
-            var verbalCommonalities = await GetCommonalitiesByVerbals();
-            var nounCommonalities = await GetCommonalitiesByBoundEntities();
-            return verbalCommonalities.Concat(nounCommonalities);
 
         }
+        public async Task<IEnumerable<NVNN>> JoinDocumentsAsnyc()
+        {
+
+            var verbalCommonalities = await GetCommonalitiesByVerbals();
+            var nounCommonalities = await GetCommonalitiesByBoundEntities();
+            var commonalities = verbalCommonalities.Concat(nounCommonalities);
+            onJoinCompletedEventHandler.Invoke(this, commonalities);
+            return commonalities;
+        }
+        public void JoinDocuments()
+        {
+            Task.Run(async () =>
+           {
+               var verbalCommonalities = await GetCommonalitiesByVerbals();
+               var nounCommonalities = await GetCommonalitiesByBoundEntities();
+               return verbalCommonalities.Concat(nounCommonalities);
+
+           }).ContinueWith(async result => onJoinCompletedEventHandler.Invoke(this, await result), TaskScheduler.FromCurrentSynchronizationContext()).ConfigureAwait(true);
+
+        }
+
         private async Task<IEnumerable<NVNN>> GetCommonalitiesByBoundEntities()
         {
             var topNPsByDoc = await Task.WhenAll(from doc in Documents
@@ -75,7 +99,7 @@ namespace LASI.InteropLayer
                         Direct = v.DirectObjects.OfType<NounPhrase>().FirstOrDefault(),
                         Indirect = v.IndirectObjects.OfType<NounPhrase>().FirstOrDefault(),
                         Subject = v.Subjects.OfType<NounPhrase>().FirstOrDefault(),
-                        ViaPreposition = v.ObjectViaPreposition as NounPhrase
+                        ViaPreposition = v.ObjectOfThePreoposition as NounPhrase
                     } into result
                     group result by result.Verbal.Text into resultGrouped
                     select resultGrouped.First() into result
@@ -103,14 +127,7 @@ namespace LASI.InteropLayer
                        select vp as VerbPhrase;
             });
         }
-        private void UpdateProgressDisplay(string statusMessage)
-        {
-            foreach (var smp in StatusMessageProviders) {
 
-                smp.Content = statusMessage;
-            }
-            ProgressBar.Value += ( float )Documents.Count() / 100;
-        }
 
         public IEnumerable<Document> Documents
         {
