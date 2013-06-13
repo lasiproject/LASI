@@ -21,29 +21,25 @@ namespace LASI.Algorithm.Thesauri
 
         //Aluan: I added this Property to access some additional information I found in the WordNet files
 
-        public WordNetNounCategory LexName
-        {
-            get
-            {
+        public WordNetNounCategory LexName {
+            get {
                 return lexName;
             }
         }
 
         //Aluan: I added this constructor to include some additional information I found in the WordNet files
 
-        public SynSet(int ID, IEnumerable<string> words, IEnumerable<int> pointers, WordNetNounCategory lexCategory)
-        {
-            ID = ID;
+        public SynSet(int ID, IEnumerable<string> words, IEnumerable<int> pointers, WordNetNounCategory lexCategory) {
+            this.ID = ID;
             setWords = new HashSet<string>(words);
             setPointers = new HashSet<int>(pointers);
             lexName = lexCategory;
 
         }
 
-        public SynSet(int ID, IEnumerable<string> words, IEnumerable<int> pointers)
-        {
+        public SynSet(int ID, IEnumerable<string> words, IEnumerable<int> pointers) {
 
-            ID = ID;
+            this.ID = ID;
             setWords = new HashSet<string>(words);
             setPointers = new HashSet<int>(pointers);
 
@@ -52,25 +48,20 @@ namespace LASI.Algorithm.Thesauri
 
 
 
-        public HashSet<string> Words
-        {
-            get
-            {
+        public HashSet<string> Words {
+            get {
                 return setWords;
             }
 
         }
 
-        public HashSet<int> Pointers
-        {
-            get
-            {
+        public HashSet<int> Pointers {
+            get {
                 return setPointers;
             }
         }
 
-        public int ID
-        {
+        public int ID {
             get;
             private set;
         }

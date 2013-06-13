@@ -84,12 +84,9 @@ namespace LASI.Algorithm.Thesauri
         public HashSet<string> SearchFor(string word) {
             HashSet<string> ResultSet = new HashSet<string>();
             HashSet<int> PointerSet = new HashSet<int>();
-            foreach (SynSet set in allSets)
-            {
-                if(set.Words.Contains(word))
-                {
-                    foreach (var w in set.Words)
-                    {
+            foreach (SynSet set in allSets) {
+                if (set.Words.Contains(word)) {
+                    foreach (var w in set.Words) {
                         ResultSet.Add(w);
                     }
 
@@ -101,19 +98,17 @@ namespace LASI.Algorithm.Thesauri
             return ResultSet;
         }
 
-        private void searchPointers(HashSet<string> ResultSet, HashSet<int> PointerSet)
-        {
-            foreach (var p in PointerSet) 
-            {
-                if (PointerSet.Add(p))
-                {
-                    foreach (SynSet subset in from subset in allSets where subset.ID == p select subset)
-                    {
-                        foreach (var w in subset.Words)
-                        {
+        private void searchPointers(HashSet<string> ResultSet, HashSet<int> PointerSet) {
+            foreach (var p in PointerSet) {
+                if (PointerSet.Add(p)) {
+                    foreach (SynSet subset in from subset in allSets
+                                              where subset.ID == p
+                                              select subset) {
+                        foreach (var w in subset.Words) {
                             ResultSet.Add(w);
-                            searchPointers(ResultSet, subset.Pointers);
+
                         }
+                        searchPointers(ResultSet, subset.Pointers);
                     }
                 }
             }

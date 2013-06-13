@@ -20,26 +20,11 @@ namespace Aluan_Experimentation
         static string text = @"You need to kill that mother fucker because he took away the fun.";
 
         static void Main(string[] args) {
-            Word.VerboseOutput = true;
-            Phrase.VerboseOutput = true;
-
-            var taggedText = TaggerUtil.TagString(text);
-            Output.WriteLine(taggedText);
-            var doc = TaggerUtil.TaggedToDoc(taggedText);
-
-            foreach (var s in doc.Sentences) {
-                try {
-                    new SubjectBinder().Bind(s);
-                    new ObjectBinder().Bind(s);
-                }
-                catch (VerblessPhrasalSequenceException) {
-                }
+            Thesaurus.GetThesaurusTasks().ToList().ForEach(t => t.Wait());
+            var syns = Thesaurus.LookupNoun("cat");
+            foreach (var syn in syns) {
+                Output.WriteLine(syn);
             }
-
-            foreach (var l in doc.Words) {
-                Output.WriteLine(l);
-            }
-
             Input.WaitForKey();
         }
 

@@ -50,7 +50,7 @@ namespace LASI.Algorithm.Thesauri
             return InternalLookup(word as dynamic);
         }
 
-        public static IEnumerable<string> LookupNoun(string nounText, WordNetNounCategory wordNetNounLex) {
+        public static IEnumerable<string> LookupNoun(string nounText) {
             return NounThesaurus[nounText];
         }
 
