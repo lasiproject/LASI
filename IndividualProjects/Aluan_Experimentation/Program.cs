@@ -21,7 +21,7 @@ namespace Aluan_Experimentation
 
         static void Main(string[] args) {
             Thesaurus.GetThesaurusTasks().ToList().ForEach(t => t.Wait());
-            var syns = Thesaurus.LookupNoun("cat");
+            var syns = Thesaurus.LookupNoun("feline");
             foreach (var syn in syns) {
                 Output.WriteLine(syn);
             }

@@ -82,37 +82,52 @@ namespace LASI.Algorithm.Thesauri
         }
 
         public HashSet<string> SearchFor(string word) {
-            HashSet<string> ResultSet = new HashSet<string>();
+            HashSet<string> ResultSet = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
             HashSet<int> PointerSet = new HashSet<int>();
-            foreach (SynSet set in allSets) {
-                if (set.Words.Contains(word)) {
-                    foreach (var w in set.Words) {
-                        ResultSet.Add(w);
-                    }
+            ResultSet.Add(word);
+            foreach (SynSet set in from set in allSets
+                                   where set.Words.Contains(word)
+                                   select set) {
 
-                    searchPointers(ResultSet, set.Pointers);
 
-                    break;
-                }
+                PointerSet.UnionWith(set.Pointers);
+                RecursiveSearch(ResultSet, PointerSet);
+                ResultSet.UnionWith(set.Words);
             }
             return ResultSet;
         }
 
-        private void searchPointers(HashSet<string> ResultSet, HashSet<int> PointerSet) {
-            foreach (var p in PointerSet) {
-                if (PointerSet.Add(p)) {
-                    foreach (SynSet subset in from subset in allSets
-                                              where subset.ID == p
-                                              select subset) {
-                        foreach (var w in subset.Words) {
-                            ResultSet.Add(w);
+        private void RecursiveSearch(HashSet<string> ResultSet, HashSet<int> PointerSet) {
+            foreach (SynSet subset in from subset in allSets
+                                      where PointerSet.Contains(subset.ID)
+                                      select subset) {
 
-                        }
-                        searchPointers(ResultSet, subset.Pointers);
-                    }
-                }
+                PointerSet.UnionWith(subset.Pointers);
+                RecursiveSearch(ResultSet, subset.Pointers);
+
+                ResultSet.UnionWith(subset.Words);
+
             }
+
+
+
         }
+
+        //private void searchPointers(HashSet<string> ResultSet, HashSet<int> PointerSet) {
+        //    foreach (var p in PointerSet) {
+        //        if (PointerSet.Add(p)) {
+        //            foreach (SynSet subset in from subset in allSets
+        //                                      where subset.ID == p
+        //                                      select subset) {
+        //                foreach (var w in subset.Words) {
+        //                    ResultSet.Add(w);
+
+        //                }
+        //                searchPointers(ResultSet, subset.Pointers);
+        //            }
+        //        }
+        //    }
+        //}
 
         public override HashSet<string> this[string search] {
             get {
