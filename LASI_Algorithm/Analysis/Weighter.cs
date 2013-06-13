@@ -224,7 +224,6 @@ namespace LASI.Algorithm.Weighting
                 foreach (var match in similarPhrases) {
                     //match.NP.Weight += match.innerNP.Weight * (decimal)match.similarityRatio;
                     //match.innerNP.Weight += match.NP.Weight * (decimal)match.similarityRatio;
-
                 }
             }
 
@@ -295,7 +294,6 @@ namespace LASI.Algorithm.Weighting
                     new Switch(w)
                         .Case<Noun>(n => {
                             w.Weight = primary;
-
                         })
                         .Case<Verb>(v => {
                             w.Weight = secondary;

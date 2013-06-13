@@ -36,7 +36,7 @@ namespace LASI.InteropLayer
             var verbalCommonalities = await GetCommonalitiesByVerbals();
             var nounCommonalities = await GetCommonalitiesByBoundEntities();
             var commonalities = verbalCommonalities.Concat(nounCommonalities);
-            onJoinCompletedEventHandler.Invoke(this, commonalities);
+            //onJoinCompletedEventHandler.Invoke(this, commonalities);
             return commonalities;
         }
         public void JoinDocuments()

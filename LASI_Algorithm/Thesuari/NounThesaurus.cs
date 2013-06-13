@@ -15,18 +15,16 @@ namespace LASI.Algorithm.Thesauri
         /// </summary>
         /// <param name="filePath">The path of the WordNet database file containing the sysnonym line for nouns.</param>
         public NounThesaurus(string filePath)
-            : base(filePath)
-        {
+            : base(filePath) {
             FilePath = filePath;
         }
 
-        List<SynSet> allSets = new List<SynSet>();
+        HashSet<SynSet> allSets = new HashSet<SynSet>();
 
         /// <summary>
         /// Parses the contents of the underlying WordNet database file.
         /// </summary>
-        public override void Load()
-        {
+        public override void Load() {
             //throw new NotImplementedException();
 
 
@@ -50,13 +48,12 @@ namespace LASI.Algorithm.Thesauri
             }
         }
 
-        void CreateSet(string line)
-        {
+        void CreateSet(string line) {
 
             //Aluan: This line gets extracts wd category info I noticed was present in the DB files
             //Erik:  Gotcha, I'll try to decipher its meaning.
 
-            WordNetNounCategory lexCategory = ( WordNetNounCategory )Int32.Parse(line.Substring(9, 2));
+            WordNetNounCategory lexCategory = (WordNetNounCategory)Int32.Parse(line.Substring(9, 2));
             String frontPart = line.Split('|', '!')[0];
             MatchCollection numbers = Regex.Matches(frontPart, @"(?<id>\d{8})");
             MatchCollection words = Regex.Matches(frontPart, @"(?<word>[A-Za-z_\-]{3,})");
@@ -84,8 +81,7 @@ namespace LASI.Algorithm.Thesauri
             //console view
         }
 
-        public HashSet<string> SearchFor(string word)
-        {
+        public HashSet<string> SearchFor(string word) {
             HashSet<string> ResultSet = new HashSet<string>();
             HashSet<int> PointerSet = new HashSet<int>();
             foreach (SynSet set in allSets)
@@ -123,19 +119,15 @@ namespace LASI.Algorithm.Thesauri
             }
         }
 
-        public override HashSet<string> this[string search]
-        {
-            get
-            {
+        public override HashSet<string> this[string search] {
+            get {
                 return SearchFor(search);
             }
         }
 
 
-        public override HashSet<string> this[Word search]
-        {
-            get
-            {
+        public override HashSet<string> this[Word search] {
+            get {
                 return this[search.Text];
             }
         }

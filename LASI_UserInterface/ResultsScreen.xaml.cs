@@ -272,24 +272,22 @@ namespace LASI.UserInterface
             exportDialog.ShowDialog();
         }
 
-        private void documentJoinButton_Click(object sender, RoutedEventArgs e) {
+        private async void documentJoinButton_Click(object sender, RoutedEventArgs e) {
             var documentJoinDialog = new CrossJoinSelectDialog(this);
 
             bool? dialogResult = documentJoinDialog.ShowDialog();
             if (dialogResult ?? false) {
                 var selectedDocument = documentJoinDialog.SelectDocuments;
                 CrossDocumentJoiner joiner = new CrossDocumentJoiner(selectedDocument);
-                joiner.JoinCompleted += (eventSource, eventArgs) => {
 
-                    CreateMetaResultsView(eventArgs);
-                };
-                joiner.JoinDocuments();
-
+                var results = await joiner.JoinDocumentsAsnyc();
+                await CreateMetaResultsView(results);
             }
         }
 
-        private async void CreateMetaResultsView(IEnumerable<CrossDocumentJoiner.NVNN> crossResults) {
+        private async Task CreateMetaResultsView(IEnumerable<CrossDocumentJoiner.NVNN> crossResults) {
             var data = await ChartingManager.CreateRelationshipDataAsync(crossResults);
+
             metaRelationshipsDataGrid.ItemsSource = data;
         }
 

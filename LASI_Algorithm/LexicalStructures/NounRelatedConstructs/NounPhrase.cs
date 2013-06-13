@@ -20,8 +20,7 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="composedWords">The words which compose to form the NounPhrase.</param>
         public NounPhrase(IEnumerable<Word> composedWords)
-            : base(composedWords)
-        {
+            : base(composedWords) {
             determineEntityType();
         }
         #endregion
@@ -33,8 +32,7 @@ namespace LASI.Algorithm
         /// Current,  somewhat sloppy determination of the type, person, place, thing etc, of nounphrase by 
         /// selecting the most common type between its nouns and from its bound pronouns 
         /// </summary>
-        protected virtual void determineEntityType()
-        {
+        protected virtual void determineEntityType() {
 
             var kindsOfNouns = from N in Words.GetNouns()
                                select N.EntityKind;
@@ -56,8 +54,7 @@ namespace LASI.Algorithm
         /// Binds a Pronoun or PronounPhrase as a reference to the NounPhrase Instance.
         /// </summary>
         /// <param name="pro">The referencer which refers to the NounPhrase Instance.</param>
-        public virtual void BindPronoun(LASI.Algorithm.IPronoun pro)
-        {
+        public virtual void BindPronoun(LASI.Algorithm.IPronoun pro) {
             _boundPronouns.Add(pro);
             pro.BindToIEntity(this);
         }
@@ -65,8 +62,7 @@ namespace LASI.Algorithm
         /// Binds an IDescriptor, generally an Adjective or AdjectivePhrase, as a descriptor of the NounPhrase.
         /// </summary>
         /// <param name="adjective">The IDescriptor instance which will be added to the NounPhrase's descriptors.</param>
-        public void BindDescriptor(IDescriptor adjective)
-        {
+        public void BindDescriptor(IDescriptor adjective) {
             if (!_describedBy.Contains(adjective))
                 _describedBy.Add(adjective);
         }
@@ -76,16 +72,14 @@ namespace LASI.Algorithm
         /// If the item is already possessed by the current instance, this method has no effect.
         /// </summary>
         /// <param name="possession">The possession to add.</param>
-        public void AddPossession(IEntity possession)
-        {
+        public void AddPossession(IEntity possession) {
             if (!_possessed.Contains(possession)) {
                 _possessed.Add(possession);
                 possession.Possesser = this;
             }
         }
 
-        public override string ToString()
-        {
+        public override string ToString() {
             var result = base.ToString();
             if (Phrase.VerboseOutput && Possessed.Any()) {
                 result += "\n\tpossessions:\n";
@@ -113,14 +107,11 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets the IVerbal instance, generally a TransitiveVerb or TransitiveVerbPhrase, which the NounPhrase is the DIRECT object of.
         /// </summary>
-        public virtual IVerbal DirectObjectOf
-        {
-            get
-            {
+        public virtual IVerbal DirectObjectOf {
+            get {
                 return _direcObjectOf;
             }
-            set
-            {
+            set {
                 _direcObjectOf = value;
                 foreach (var N in Words.OfType<IVerbalObject>()) {
                     N.DirectObjectOf = _direcObjectOf;
@@ -131,14 +122,11 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets the IVerbal instance, generally a TransitiveVerb or TransitiveVerbPhrase, which the NounPhrase is the INDIRECT object of.
         /// </summary>
-        public virtual IVerbal IndirectObjectOf
-        {
-            get
-            {
+        public virtual IVerbal IndirectObjectOf {
+            get {
                 return _indirecObjectOf;
             }
-            set
-            {
+            set {
                 _indirecObjectOf = value;
                 foreach (var N in Words.OfType<IVerbalObject>()) {
                     N.IndirectObjectOf = IndirectObjectOf;
@@ -149,14 +137,11 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets the IVerbal instance, generally a Verb or VerbPhrase, which the NounPhrase is the subject of.
         /// </summary>
-        public virtual IVerbal SubjectOf
-        {
-            get
-            {
+        public virtual IVerbal SubjectOf {
+            get {
                 return _subjectOf;
             }
-            set
-            {
+            set {
                 _subjectOf = value;
                 foreach (var N in Words.OfType<IVerbalSubject>()) {
                     N.SubjectOf = _subjectOf;
@@ -167,14 +152,11 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets all of the IEntityReferences instances, generally Pronouns or PronounPhrases, which refer to the NounPhrase Instance.
         /// </summary>
-        public virtual IEnumerable<IPronoun> BoundPronouns
-        {
-            get
-            {
+        public virtual IEnumerable<IPronoun> BoundPronouns {
+            get {
                 return _boundPronouns;
             }
-            protected set
-            {
+            protected set {
                 _boundPronouns = value.ToList();
             }
         }
@@ -182,14 +164,11 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets all of the IDescriptor constructs,generally Adjectives or AdjectivePhrases, which describe the NounPhrase Instance.
         /// </summary>
-        public virtual IEnumerable<IDescriptor> DescribedBy
-        {
-            get
-            {
+        public virtual IEnumerable<IDescriptor> DescribedBy {
+            get {
                 return _describedBy;
             }
-            protected set
-            {
+            protected set {
                 _describedBy = value.ToList();
             }
         }
@@ -198,28 +177,22 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets all of the constructs which the NounPhrase "owns".
         /// </summary>
-        public IEnumerable<IEntity> Possessed
-        {
-            get
-            {
+        public IEnumerable<IEntity> Possessed {
+            get {
                 return _possessed;
             }
-            protected set
-            {
+            protected set {
                 _possessed = value.ToList();
             }
         }
         /// <summary>
         /// Gets or sets the Entity which "owns" the instance of the NounPhrase.
         /// </summary>
-        public IEntity Possesser
-        {
-            get
-            {
+        public IEntity Possesser {
+            get {
                 return _possessor;
             }
-            set
-            {
+            set {
                 _possessor = value;
                 foreach (var item in this.Words.OfType<IEntity>()) {
                     value.AddPossession(item);
@@ -227,13 +200,11 @@ namespace LASI.Algorithm
             }
         }
 
-        public NounPhrase OuterAttributive
-        {
+        public NounPhrase OuterAttributive {
             get;
             set;
         }
-        public NounPhrase InnerAttributed
-        {
+        public NounPhrase InnerAttributed {
             get;
             set;
         }
@@ -241,8 +212,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets or sets the Entity Kind; Person, Place, Thing, Organization, or Activity; of the NounPhrase.
         /// </summary>
-        public EntityKind EntityKind
-        {
+        public EntityKind EntityKind {
             get;
             set;
         }
@@ -250,8 +220,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets or sets Noun to Nounphrase
         /// </summary>
-        public Noun BoundNoun
-        {
+        public Noun BoundNoun {
             get;
             set;
         }
@@ -259,8 +228,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets or sets NounPhrase to NounPhrase
         /// </summary>
-        public NounPhrase BoundNounPhrase
-        {
+        public NounPhrase BoundNounPhrase {
             get;
             set;
         }
@@ -268,14 +236,11 @@ namespace LASI.Algorithm
 
         private bool wasBound = false;
 
-        public bool WasBound
-        {
-            get
-            {
+        public bool WasBound {
+            get {
                 return wasBound;
             }
-            set
-            {
+            set {
                 wasBound = value;
             }
         }
