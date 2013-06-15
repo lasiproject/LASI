@@ -7,14 +7,14 @@ using System.Text;
 namespace LASI.Algorithm
 {
     /// <summary>
-    /// Represents the present participle/gerund form of a verb. As such takes the behavior of both a verb and an entity.
+    /// Represents the present participle/gerund form of a adverb. As such takes the behavior of both a adverb and an entity.
     /// </summary>
     public class PresentParticipleGerund : Verb, IEntity
     {
         /// <summary>
         /// Initializes a new instance of the PresentPrtcplVerb class.
         /// </summary>
-        /// <param name="text">The literal text content of the Verb.</param>
+        /// <param name="text">The key text content of the Verb.</param>
         public PresentParticipleGerund(string text)
             : base(text, VerbTense.PresentParticiple)
         {

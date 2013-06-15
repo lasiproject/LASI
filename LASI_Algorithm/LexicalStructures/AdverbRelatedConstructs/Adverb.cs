@@ -10,7 +10,7 @@ using System.Xml.Linq;
 namespace LASI.Algorithm
 {
     /// <summary>
-    /// Represents an adverb which can be bound as a modiffier to either a verb construct or an adjective construct.
+    /// Represents an adverb which can be bound as a modiffier to either a adverb construct or an adjective construct.
     /// </summary>
     public class Adverb : Word, IAdverbial, IAdverbialModifiable
     {
@@ -18,7 +18,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Initializes a new instance of the Adverb class.
         /// </summary>
-        /// <param name="text">The literal text content of the verb.</param>
+        /// <param name="text">The key text content of the adverb.</param>
         public Adverb(string text)
             : base(text)
         {

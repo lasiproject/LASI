@@ -14,10 +14,10 @@ namespace LASI.Algorithm
     public static class IEnumerableOfWordExtensions
     {
         /// <summary>
-        /// Retrives all words in the words collection which compare equal to a given word
+        /// Retrives all words in the words collection which compare equal to a given w
         /// </summary>
-        /// <param name="toMatch">The word to match</param>
-        /// <param name="words">A sequence of word instances</param>
+        /// <param name="toMatch">The w to match</param>
+        /// <param name="words">A sequence of w instances</param>
         /// <returns>A WordList containing all words which match the argument</returns>
         /// <see cref="wd"/>
         public static IEnumerable<T> FindLexicalMatches<T>(this IEnumerable<T> words,
@@ -141,7 +141,7 @@ namespace LASI.Algorithm
         #endregion
 
 
-        #region Syntactic Type Filtering Methods
+        #region Syntactic PointerKind Filtering Methods
 
         /// <summary>
         /// Returns all Adverbs in the collection
@@ -207,7 +207,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Returns all Pronouns in the collection that are bound to some entity
         /// </summary>
-        ///<typeparam name="T">Any type which implements the IPronoun interface.</typeparam>
+        ///<typeparam name="T">Any PointerKind which implements the IPronoun interface.</typeparam>
         /// <param name="refererring"></param>
         /// <returns>All Pronouns in the collection that are bound as references of some entity.</returns>
         public static IEnumerable<T> Referencing<T>(this IEnumerable<T> refererring) where T : IPronoun
@@ -219,9 +219,9 @@ namespace LASI.Algorithm
         /// <summary>
         /// Returns all IPronouns constructs in the collection that refer to the given entity.
         /// </summary>
-        /// <typeparam name="T">Any type which implements the IPronoun interface.</typeparam>
+        /// <typeparam name="T">Any PointerKind which implements the IPronoun interface.</typeparam>
         /// <param name="refererring"></param>
-        /// <param name="referenced">The entity whose referencing pronouns will be returned.</param>
+        /// <param name="setPnt">The entity whose referencing pronouns will be returned.</param>
         /// <returns>All Pronouns in the collection that refer to the given entity</returns>
         public static IEnumerable<T> Referencing<T>(this IEnumerable<T> refererring, IEntity referenced) where T : IPronoun
         {
@@ -230,11 +230,11 @@ namespace LASI.Algorithm
                    select ER;
         }
         /// <summary>
-        /// Returns all IPronoun constructs in the collection that refer to any entity matching the given test verbalSelector.
+        /// Returns all IPronoun constructs in the collection that refer to any entity matching the given test entity selector.
         /// </summary>
-        /// <typeparam name="T">Any type which implements the IPronoun interface.</typeparam>
-        /// <param name="condition">The function which tests the entity referenced deteriming if its refererring IProunoun should be selected.</param>
-        /// <param name="referenced">The entity whose referencing pronouns will be returned.</param>
+        /// <typeparam name="T">Any PointerKind which implements the IPronoun interface.</typeparam>
+        /// <param name="condition">The function which tests the entity setPnt deteriming if its refererring IProunoun should be selected.</param>
+        /// <param name="setPnt">The entity whose referencing pronouns will be returned.</param>
         /// <returns>All IPronoun constructs in the collection that refer to the given entity</returns>
         public static IEnumerable<T> Referencing<T>(this IEnumerable<T> refererring, Func<IEntity, bool> condition) where T : IPronoun
         {

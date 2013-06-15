@@ -17,8 +17,7 @@ namespace LASI.Algorithm.Thesauri
         /// </summary>
         /// <param name="filePath">The path of the WordNet database file containing the sysnonym line for nouns.</param>
         public AdjectiveThesaurus(string filePath)
-            : base(filePath)
-        {
+            : base(filePath) {
             FilePath = filePath;
         }
 
@@ -27,8 +26,7 @@ namespace LASI.Algorithm.Thesauri
         /// <summary>
         /// Parses the contents of the underlying WordNet database file.
         /// </summary>
-        public override void Load()
-        {
+        public override void Load() {
             List<string> lines = new List<string>();
 
             using (StreamReader r = new StreamReader(FilePath)) {
@@ -45,8 +43,7 @@ namespace LASI.Algorithm.Thesauri
             }
         }
 
-        void CreateSet(string line)
-        {
+        void CreateSet(string line) {
 
             WordNetNounCategory lexCategory = ( WordNetNounCategory )Int32.Parse(line.Substring(9, 2));
 
@@ -65,8 +62,7 @@ namespace LASI.Algorithm.Thesauri
             allSets.Add(temp);
 
         }
-        public HashSet<string> SearchFor(string word)
-        {
+        public HashSet<string> SearchFor(string word) {
 
 
             //gets words of searched wd
@@ -100,17 +96,13 @@ namespace LASI.Algorithm.Thesauri
             return results;
 
         }
-        public override HashSet<string> this[string search]
-        {
-            get
-            {
+        public override HashSet<string> this[string search] {
+            get {
                 return SearchFor(search);
             }
         }
-        public override HashSet<string> this[Word search]
-        {
-            get
-            {
+        public override HashSet<string> this[Word search] {
+            get {
                 return this[search.Text];
             }
         }

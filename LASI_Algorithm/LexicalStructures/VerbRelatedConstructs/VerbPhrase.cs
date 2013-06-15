@@ -10,7 +10,7 @@ using System.Xml.Linq;
 namespace LASI.Algorithm
 {
     /// <summary>
-    /// Represents a Verb Phrase, a Phrase with the syntactic role of a verb.
+    /// Represents a Verb Phrase, a Phrase with the syntactic role of a adverb.
     /// </summary>
     public class VerbPhrase : Phrase, IVerbal, IAdverbialModifiable, IModalityModifiable
     {
@@ -212,7 +212,7 @@ namespace LASI.Algorithm
         }
 
         /// <summary>
-        /// Gets or sets the ModalAuxilary verb which modifies the VerbPhrase.
+        /// Gets or sets the ModalAuxilary adverb which modifies the VerbPhrase.
         /// </summary>
         public ModalAuxilary Modality
         {

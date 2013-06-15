@@ -17,14 +17,15 @@ namespace Aluan_Experimentation
 
 
         static string testPath = @"C:\Users\Aluan\Desktop\411writtensummary2.txt";
-        static string text = @"You need to kill that mother fucker because he took away the fun.";
+        //static string text = @"You need to kill that mother fucker because he took away the fun.";
 
         static void Main(string[] args) {
-            Thesaurus.GetThesaurusTasks().ToList().ForEach(t => t.Wait());
+            Thesaurus.GetNounThesaurusLoadTask().Wait();
             var syns = Thesaurus.LookupNoun("feline");
             foreach (var syn in syns) {
                 Output.WriteLine(syn);
             }
+            Output.WriteLine(syns.Count());
             Input.WaitForKey();
         }
 
@@ -44,6 +45,13 @@ namespace Aluan_Experimentation
                         select actionPerformer;
             return doers;
         }
+
+
+
+
+
+
+
 
 
         private static void TestNounConjugator() {

@@ -15,7 +15,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Initializes a new instance of the Existential class.
         /// </summary>
-        /// <param name="text">The literal text content of the Existential wd.</param>
+        /// <param name="text">The key text content of the Existential wd.</param>
         public Existential(string text)
             : base(text) {
         }

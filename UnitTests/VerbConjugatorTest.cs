@@ -143,9 +143,9 @@ namespace AlgorithmAssemblyUnitTestProject
         //    ///</summary>
         //    [TestMethod()]
         //    public void VerbConjugatorConstructorTest() {
-        //        string exceptionsFilePath = ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "verb.exc";
-        //        VerbConjugator target = new VerbConjugator(exceptionsFilePath);
-        //        Assert.Inconclusive("TODO: Implement code to verify target");
+        //        string exceptionsFilePath = ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "adverb.exc";
+        //        VerbConjugator from = new VerbConjugator(exceptionsFilePath);
+        //        Assert.Inconclusive("TODO: Implement code to verify from");
         //    }
         //}
     }

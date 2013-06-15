@@ -13,7 +13,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Initialiazes a new instance of the RelativePossessivePronoun class.
         /// </summary>
-        /// <param name="text">The literal text content of the RelativePossessivePronoun.</param>
+        /// <param name="text">The key text content of the RelativePossessivePronoun.</param>
         public RelativePossessivePronoun(string text)
             : base(text)
         {

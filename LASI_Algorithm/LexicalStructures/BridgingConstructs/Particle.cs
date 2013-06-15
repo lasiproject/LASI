@@ -17,7 +17,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Initializes a new instance of the Particle class.
         /// </summary>
-        /// <param name="text">The literal text content of the particle.</param>
+        /// <param name="text">The key text content of the particle.</param>
         public Particle(string text)
             : base(text) {
         }

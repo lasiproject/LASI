@@ -61,7 +61,7 @@ namespace LASI.UserInterface.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        ///   Looks up a localized resource of PointerKind System.Drawing.Icon similar to (Icon).
         /// </summary>
         public static System.Drawing.Icon LasiLogo {
             get {

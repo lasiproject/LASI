@@ -13,7 +13,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Initializes a new instance of the PersonalPronoun class.
         /// </summary>
-        /// <param name="text">The literal text content of the PersonalPronoun.</param>
+        /// <param name="text">The key text content of the PersonalPronoun.</param>
         public PersonalPronoun(string text)
             : base(text)
         {

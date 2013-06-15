@@ -37,7 +37,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Overrides the ToString method to augment the string representation of Phrase to include the text of the words it is composed of.
         /// </summary>
-        /// <returns>A string containing the type information of the instance as well as the textual representations of the words it is composed of.</returns>
+        /// <returns>A string containing the PointerKind information of the instance as well as the textual representations of the words it is composed of.</returns>
         public override string ToString()
         {
             return GetType().Name + " \"" + Text + "\"";
@@ -151,7 +151,7 @@ namespace LASI.Algorithm
         }
 
         /// <summary>
-        /// Gets the System.Type of the current Instance.
+        /// Gets the System.PointerKind of the current Instance.
         /// </summary>
         public Type Type
         {

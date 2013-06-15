@@ -17,7 +17,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Initialiazes entity new instance of the PossessivePronoun class.
         /// </summary>
-        /// <param name="text">The literal text content of the PossessivePronoun.</param>
+        /// <param name="text">The key text content of the PossessivePronoun.</param>
         public PossessivePronoun(string text)
             : base(text)
         {

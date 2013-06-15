@@ -17,7 +17,8 @@ namespace LASI.Utilities
         /// <summary>
         /// Waits for the user to enter a key before continuing. Provides analogous functionality to the infamous system("pause") command in C++, but is safe and platform independent.
         /// </summary>
-        public static void Wait() {
+        public static void Wait()
+        {
 
 
             Console.WriteLine("Press any key to continue...");
@@ -27,7 +28,8 @@ namespace LASI.Utilities
         /// Waits for the user to enter a specific key before continuing.
         /// </summary>
         /// <param name="key">The key the user must enter to continue</param>
-        public static void WaitForKey(ConsoleKey key = ConsoleKey.Escape) {
+        public static void WaitForKey(ConsoleKey key = ConsoleKey.Escape)
+        {
             Console.WriteLine("Press {0} to continue", key.ToString());
             for (var k = Console.ReadKey(true); k.Key != key; k = Console.ReadKey(true)) {
                 Console.WriteLine("Press {0} to continue", key.ToString());
@@ -38,7 +40,8 @@ namespace LASI.Utilities
         /// </summary>
         /// <param name="waitFor">The specfic string to wait for before continuing.</param>
         /// <param name="ignoreCase">Indicates whether the entered to the string must the case of the waitFor string</param>
-        public static void WaitForInput(string waitFor, bool ignoreCase = false) {
+        public static void WaitForInput(string waitFor, bool ignoreCase = false)
+        {
             Console.WriteLine("Enter {0} to continue", waitFor);
             var input = Console.ReadLine();
             bool valid = string.Compare(input, waitFor, ignoreCase) == 0;
@@ -48,7 +51,8 @@ namespace LASI.Utilities
                 WaitForInput(waitFor, ignoreCase);
         }
 
-        public static void WaitForAnyKey() {
+        public static void WaitForAnyKey()
+        {
             Console.ReadKey();
         }
     }

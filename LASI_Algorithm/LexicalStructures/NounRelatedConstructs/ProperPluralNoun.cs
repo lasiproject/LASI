@@ -15,7 +15,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Initializes a new instance of the ProperPluralNoun class.
         /// </summary>
-        /// <param name="text">The literal text content of the ProperPluralNoun.</param>
+        /// <param name="text">The key text content of the ProperPluralNoun.</param>
         public ProperPluralNoun(string text)
             : base(text)
         {

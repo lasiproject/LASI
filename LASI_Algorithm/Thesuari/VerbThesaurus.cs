@@ -19,8 +19,7 @@ namespace LASI.Algorithm.Thesauri
         /// <param name="filePath">The path of the WordNet database file containing the sysnonym line for actions.</param>
         /// </summary>
         public VerbThesaurus(string filePath, bool constrainByCategory = false)
-            : base(filePath)
-        {
+            : base(filePath) {
             FilePath = filePath;
             AssociationData = new ConcurrentDictionary<string, VerbThesaurusSynSet>();
             lexRestrict = constrainByCategory;
@@ -31,8 +30,7 @@ namespace LASI.Algorithm.Thesauri
         /// <summary>
         /// Parses the contents of the underlying WordNet database file.
         /// </summary>
-        public override void Load()
-        {
+        public override void Load() {
             using (var fileStream = new FileStream(FilePath, FileMode.Open, FileAccess.Read, FileShare.None, 10024, FileOptions.SequentialScan)) {
                 using (var reader = new StreamReader(fileStream)) {
                     for (int i = 0; i < HEADER_LENGTH; ++i) {//Discard file header
@@ -46,16 +44,14 @@ namespace LASI.Algorithm.Thesauri
             }
         }
 
-        private void ParseLineAndAddToSets(string line)
-        {
+        private void ParseLineAndAddToSets(string line) {
             var synset = BuildSynset(line);
 
             LinkSynset(synset);
             //AssociationData.Add(synset.Index, synset);
         }
 
-        private void LinkSynset(VerbThesaurusSynSet synset)
-        {
+        private void LinkSynset(VerbThesaurusSynSet synset) {
             foreach (var word in synset.Words) {
                 if (AssociationData.ContainsKey(word)) {
                     AssociationData[word] = new VerbThesaurusSynSet(
@@ -71,14 +67,12 @@ namespace LASI.Algorithm.Thesauri
 
 
         /// <summary>
-        /// Retrives the synonyms of the given verb as a collection of strings.
+        /// Retrives the synonyms of the given adverb as a collection of strings.
         /// </summary>
-        /// <param name="search">The text of the verb to look for.</param>
-        /// <returns>A collection of strings containing all of the synonyms of the given verb.</returns>
-        public override HashSet<string> this[string search]
-        {
-            get
-            {
+        /// <param name="search">The text of the adverb to look for.</param>
+        /// <returns>A collection of strings containing all of the synonyms of the given adverb.</returns>
+        public override HashSet<string> this[string search] {
+            get {
                 try {
                     foreach (var root in from root in conjugator.TryExtractRoot(search)
                                          where AssociationData.ContainsKey(root)
@@ -110,21 +104,18 @@ namespace LASI.Algorithm.Thesauri
 
 
         /// <summary>
-        /// Retrives the synonyms of the given verb as a collection of strings.
+        /// Retrives the synonyms of the given adverb as a collection of strings.
         /// </summary>
         /// <param name="search">An instance of Verb</param>
-        /// <returns>A collection of strings containing all of the synonyms of the given verb.</returns>
-        public override HashSet<string> this[Word search]
-        {
-            get
-            {
+        /// <returns>A collection of strings containing all of the synonyms of the given adverb.</returns>
+        public override HashSet<string> this[Word search] {
+            get {
                 return this[search.Text];
             }
         }
 
 
-        private VerbThesaurusSynSet BuildSynset(string data)
-        {
+        private VerbThesaurusSynSet BuildSynset(string data) {
 
             var WNlexNameCode = ( WordNetVerbCategory )Int32.Parse(data.Substring(9, 2));
 
@@ -145,7 +136,7 @@ namespace LASI.Algorithm.Thesauri
         }
 
 
-        const int HEADER_LENGTH = 30;
+        const int HEADER_LENGTH = 29;
         private VerbConjugator conjugator = new VerbConjugator(ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "verb.exc");
 
 

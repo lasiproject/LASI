@@ -21,29 +21,41 @@ namespace LASI.Algorithm.Thesauri
         }
         #region Public Methods
 
-        public static Task<string>[] GetThesaurusTasks() {
-            return new[]{
-                Task.Run(async () =>
-                 {
-                     await NounThesaurus.LoadAsync();
-                     return "Noun Thesaurus Loaded";
-                 }),
-                Task.Run(async () =>
-                 {
-                     await VerbThesaurus.LoadAsync();
-                     return "Verb Thesaurus Loaded";
-                 }),
-                 Task.Run(async () =>
-                 {
-                     await AdverbThesaurus.LoadAsync();
-                     return "Adverb Thesaurus Loaded";
-                 }),
-                 Task.Run(async () =>
-                 {
-                     await AdjectiveThesaurus.LoadAsync();
-                     return "Adjective Thesaurus Loaded";
-                 }) 
-                 };
+        public static Task<string>[] GetTasksToLoadAllThesauri() {
+            return new[] {
+                GetNounThesaurusLoadTask(),
+                GetVerbThesaurusLoadTask(),
+                GetAdverbThesaurusLoadTask(),
+                GetAdjectiveThesaurusLoadTask()
+            };
+        }
+
+        public static Task<string> GetAdjectiveThesaurusLoadTask() {
+            return Task.Run(async () => {
+                await AdjectiveThesaurus.LoadAsync();
+                return "Adjective Thesaurus Loaded";
+            });
+        }
+
+        public static Task<string> GetAdverbThesaurusLoadTask() {
+            return Task.Run(async () => {
+                await AdverbThesaurus.LoadAsync();
+                return "Adverb Thesaurus Loaded";
+            });
+        }
+
+        public static Task<string> GetVerbThesaurusLoadTask() {
+            return Task.Run(async () => {
+                await VerbThesaurus.LoadAsync();
+                return "Verb Thesaurus Loaded";
+            });
+        }
+
+        public static Task<string> GetNounThesaurusLoadTask() {
+            return Task.Run(async () => {
+                await NounThesaurus.LoadAsync();
+                return "Noun Thesaurus Loaded";
+            });
         }
 
         public static IEnumerable<string> Lookup(Word word) {
@@ -51,19 +63,19 @@ namespace LASI.Algorithm.Thesauri
         }
 
         public static IEnumerable<string> LookupNoun(string nounText) {
-            return NounThesaurus[nounText];
+            return cachedNounData.GetOrAdd(nounText, key => NounThesaurus[key]);
         }
 
         public static IEnumerable<string> LookupVerb(string verbText) {
-            return VerbThesaurus[verbText];
+            return cachedVerbData.GetOrAdd(verbText, key => VerbThesaurus[key]);
         }
 
-        public static IEnumerable<string> LookAdjective(string adjectiveText) {
-            return AdjectiveThesaurus[adjectiveText];
+        public static IEnumerable<string> LookupAdjective(string adjectiveText) {
+            return cachedAdjectiveData.GetOrAdd(adjectiveText, key => AdjectiveThesaurus[key]);
         }
 
-        public static IEnumerable<string> LookAdverb(string adverbText) {
-            return AdjectiveThesaurus[adverbText];
+        public static IEnumerable<string> LookupAdverb(string adverbText) {
+            return cachedAdverbData.GetOrAdd(adverbText, key => AdverbThesaurus[key]);
         }
         /// <summary>
         /// Determines if two IEntity instances are similar.
@@ -85,8 +97,7 @@ namespace LASI.Algorithm.Thesauri
             var n2 = second as Noun;
             if (n1 != null && n2 != null) {
                 return n1.IsSynonymFor(n2);
-            }
-            else {
+            } else {
                 var np1 = first as NounPhrase;
                 var np2 = second as NounPhrase;
                 if (np1 != null && np2 != null) {
@@ -116,8 +127,7 @@ namespace LASI.Algorithm.Thesauri
             var v2 = second as Verb;
             if (v1 != null && v2 != null) {
                 return v1.IsSynonymFor(v2);
-            }
-            else {
+            } else {
                 var vp1 = first as VerbPhrase;
                 var vp2 = second as VerbPhrase;
                 if (vp1 != null && vp2 != null) {
@@ -213,8 +223,7 @@ namespace LASI.Algorithm.Thesauri
             if (a.Words.Count() >= b.Words.Count()) {
                 outer = a;
                 inner = b;
-            }
-            else {
+            } else {
                 outer = b;
                 inner = a;
             }
@@ -230,8 +239,7 @@ namespace LASI.Algorithm.Thesauri
                 }
 
                 return (similarCount / (inner.Words.GetNouns().Count() * outer.Words.GetNouns().Count()));
-            }
-            else
+            } else
                 return 1;
 
         }
@@ -240,22 +248,19 @@ namespace LASI.Algorithm.Thesauri
 
         #region Internal Lookup Methods
 
-        private static HashSet<string> InternalLookup(Verb verb) {
-            if (!cachedVerbData.ContainsKey(verb.Text))
-                cachedVerbData[verb.Text] = VerbThesaurus[verb];
-            return cachedVerbData[verb.Text] ?? new HashSet<string>();
-        }
+
         private static HashSet<string> InternalLookup(Noun noun) {
 
-            if (!cachedNounData.ContainsKey(noun.Text))
-                cachedNounData[noun.Text] = NounThesaurus[noun];
-            return cachedNounData[noun.Text];
+            return cachedNounData.GetOrAdd(noun.Text, key => NounThesaurus[key]);
         }
-        private static HashSet<string> InternalLookup(Adverb verb) {
-            return AdverbThesaurus[verb];
+        private static HashSet<string> InternalLookup(Verb verb) {
+            return cachedVerbData.GetOrAdd(verb.Text, key => VerbThesaurus[key]);
         }
-        private static HashSet<string> InternalLookup(Adjective verb) {
-            return AdjectiveThesaurus[verb];
+        private static HashSet<string> InternalLookup(Adverb adverb) {
+            return cachedAdverbData.GetOrAdd(adverb.Text, key => AdverbThesaurus[key]);
+        }
+        private static HashSet<string> InternalLookup(Adjective adjective) {
+            return cachedAdjectiveData.GetOrAdd(adjective.Text, key => AdjectiveThesaurus[key]);
         }
         private static HashSet<string> InternalLookup(Word word) {
             throw new NoSynonymLookupForTypeException(word);

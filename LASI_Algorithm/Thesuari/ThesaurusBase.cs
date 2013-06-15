@@ -11,7 +11,7 @@ namespace LASI.Algorithm.Thesauri
         /// Constructor accessible only to derrived classes.
         /// Provides common initialization logic.
         /// </summary>
-        /// <param name="filePath">The path of WordNet database file which provides the synonym line (form should be line.pos, e.g. line.verb)</param>
+        /// <param name="filePath">The path of WordNet database file which provides the synonym line (form should be line.pos, e.g. line.adverb)</param>
         protected ThesaurusBase(string filePath)
         {
             FilePath = filePath;

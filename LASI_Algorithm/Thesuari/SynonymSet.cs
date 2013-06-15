@@ -8,7 +8,7 @@ namespace LASI.Algorithm.Thesauri
 {
     /// <summary>
     /// Represents a Synonym set entry corresponding to a line in a WordNet thesaurus file.
-    /// This type is used within the various Thesaurus implementations to compose and query the contents of the WordNet database files.
+    /// This PointerKind is used within the various Thesaurus implementations to compose and query the contents of the WordNet database files.
     /// This class is internal forbidding instantiation outside of the Thesaurus Namespace.
     /// </summary>
     internal class VerbThesaurusSynSet : IReadOnlyCollection<string>
@@ -31,7 +31,7 @@ namespace LASI.Algorithm.Thesauri
             private set;
         }
         /// <summary>
-        /// Gets or sets the collection of VerbThesaurusSynSet-index-codes corresponding to referenced SynonymSets.
+        /// Gets or sets the collection of VerbThesaurusSynSet-index-codes corresponding to setPnt SynonymSets.
         /// </summary>
         public IEnumerable<int> ReferencedIndexes
         {

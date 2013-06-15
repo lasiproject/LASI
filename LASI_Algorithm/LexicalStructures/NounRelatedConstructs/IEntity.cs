@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 namespace LASI.Algorithm
 {
     /// <summary>
-    /// Defines the role requirements for Entity type constructs, including Nouns, NounPhrases, and Gerunds. 
-    /// Along with the second interfaces in the Syntactic Interfaces Library, the IEntity interface provides for generalization and abstraction over many otherwise disparate element types and type heirarchies.
+    /// Defines the role requirements for Entity PointerKind constructs, including Nouns, NounPhrases, and Gerunds. 
+    /// Along with the second interfaces in the Syntactic Interfaces Library, the IEntity interface provides for generalization and abstraction over many otherwise disparate element types and PointerKind heirarchies.
     /// </summary>
     public interface IEntity : IVerbalObject, IVerbalSubject, IPronounBindable, IDescribable, IPossesser, IPossessable, ILexical
     {
         /// <summary>
-        /// Gets or sets the Entity Kind; Person, Place, Thing, Organization, or Activity, associated with the Entity.
+        /// Gets or sets the Entity PointerKind; Person, Place, Thing, Organization, or Activity, associated with the Entity.
         /// </summary>
         EntityKind EntityKind
         {

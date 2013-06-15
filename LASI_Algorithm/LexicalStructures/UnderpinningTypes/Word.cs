@@ -18,7 +18,7 @@ namespace LASI.Algorithm
         /// Initializes a new instance of the wd class which represensts the properties
         /// and behaviors of a wd-level grammatical element.
         /// </summary>
-        /// <param name="text">The literal text content of the verb.</param>
+        /// <param name="text">The key text content of the adverb.</param>
         protected Word(string text)
         {
             ID = IDProvider++;
@@ -47,7 +47,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Returns a string representation of the wd.
         /// </summary>
-        /// <returns>A string containing its underlying type and its text content.</returns>
+        /// <returns>A string containing its underlying PointerKind and its text content.</returns>
         public override string ToString()
         {
             return GetType().Name + " \"" + Text + "\"";
@@ -108,7 +108,7 @@ namespace LASI.Algorithm
 
 
         /// <summary>
-        /// Gets the document instance to which the verb belongs.
+        /// Gets the document instance to which the adverb belongs.
         /// </summary>
         public LASI.Algorithm.DocumentConstructs.Document Document
         {

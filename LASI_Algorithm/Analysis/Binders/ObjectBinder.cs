@@ -683,8 +683,8 @@ namespace LASI.Algorithm.Binding
     static class DynamicStackExtensions
     {
         /// <summary>
-        /// An extension method which pops the next item from the stack, but returns it as a an object of Type dynamic.
-        /// This allows the overloaded methods present in each state to be correctly selected based on the run time type of the parent.
+        /// An extension method which pops the next item from the stack, but returns it as a an object of PointerKind dynamic.
+        /// This allows the overloaded methods present in each state to be correctly selected based on the run time PointerKind of the parent.
         /// </summary>
         /// <param name="stack">The Stack instances from which to pop.</param>
         /// <returns>The Phrase at the top of the stack typed as dynamic.</returns>

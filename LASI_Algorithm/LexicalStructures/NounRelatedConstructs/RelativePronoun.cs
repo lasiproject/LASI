@@ -14,7 +14,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Initialiazes a new instance of the RelativePronoun class.
         /// </summary>
-        /// <param name="text">The literal text content of the RelativePronoun.</param>
+        /// <param name="text">The key text content of the RelativePronoun.</param>
         public RelativePronoun(string text)
             : base(text) {
             RelativePronounKind = DetermineRelativePronounKind(text);

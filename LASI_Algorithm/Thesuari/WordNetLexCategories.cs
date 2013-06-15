@@ -20,12 +20,12 @@
     }
     public enum WordNetNounCategory
     {
-        Tops = 3,
+        Entity = 3,
         Act,
         Animal,
         Artifact,
         Attribute,
-        Body,
+        Body,   
         Cognition,
         Communication,
         Event,

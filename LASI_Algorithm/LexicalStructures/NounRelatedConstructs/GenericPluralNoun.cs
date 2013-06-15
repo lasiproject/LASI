@@ -14,7 +14,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Initializes a new instances of the GenericPluralNoun class.
         /// </summary>
-        /// <param name="text">The literal text content of the GenericPluralNoun</param>
+        /// <param name="text">The key text content of the GenericPluralNoun</param>
         public GenericPluralNoun(string text)
             : base(text)
         {

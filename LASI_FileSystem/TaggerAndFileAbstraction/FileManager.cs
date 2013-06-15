@@ -195,7 +195,7 @@ namespace LASI.FileSystem
         /// <param name="path">The path string of the document file to add to the project</param>
         /// <param name="overwrite">True to overwrite existing documents within the project with the same name, False otherwise. Defaults to False</param>
         /// <returns>An InputFile object which acts as a wrapper around the project relative path of the newly added file.</returns>
-        public static InputFile AddFile(string path, bool overwrite = false) {
+        public static InputFile AddFile(string path, bool overwrite = true) {
             var ext = path.Substring(path.LastIndexOf('.')).ToLower();
             try {
                 var originalFile = FileManager.WrapperMap[ext](path);
@@ -260,7 +260,7 @@ namespace LASI.FileSystem
                                  select dx).Count() == 0
                                 select d) {
                 var converted = new DocToDocXConverter(doc).ConvertFile();
-                AddFile(converted.FullPath);
+                AddFile(converted.FullPath, true);
                 File.Delete(converted.FullPath);
             }
         }
@@ -279,7 +279,7 @@ namespace LASI.FileSystem
                                        select dx).Count() == 0
                                 select d) {
                 var converted = await new DocToDocXConverter(doc).ConvertFileAsync();
-                AddFile(converted.FullPath);
+                AddFile(converted.FullPath, true);
                 File.Delete(converted.FullPath);
             }
         }
@@ -294,7 +294,7 @@ namespace LASI.FileSystem
                                  select dx).Count() == 0
                                 select file) {
                 var converted = new PdfToTextConverter(pdf).ConvertFile();
-                AddFile(converted.FullPath);
+                AddFile(converted.FullPath, true);
                 File.Delete(converted.FullPath);
             }
         }
@@ -309,7 +309,7 @@ namespace LASI.FileSystem
                                  select dx).Count() == 0
                                 select file) {
                 var converted = await new PdfToTextConverter(pdf).ConvertFileAsync();
-                AddFile(converted.FullPath);
+                AddFile(converted.FullPath, true);
                 File.Delete(converted.FullPath);
             }
         }
@@ -331,7 +331,7 @@ namespace LASI.FileSystem
                                  select dx).Count() == 0
                                 select d) {
                 var converted = new DocxToTextConverter(doc).ConvertFile();
-                AddFile(converted.FullPath);
+                AddFile(converted.FullPath, true);
                 File.Delete(converted.FullPath);
             }
         }
@@ -357,7 +357,7 @@ namespace LASI.FileSystem
         private static async Task TextConvertAsync(DocXFile doc) {
             var converted = await new DocxToTextConverter(doc).ConvertFileAsync();
 
-            AddFile(converted.FullPath);
+            AddFile(converted.FullPath, true);
             File.Delete(converted.FullPath);
         }
         /// <summary>
@@ -378,7 +378,7 @@ namespace LASI.FileSystem
                     TaggingOption.TagAndAggregate, doc.FullPath,
                     TaggedFilesDir + "\\" + doc.NameSansExt + ".tagged");
                 var tf = tagger.ProcessFile();
-                AddFile(tf.FullPath);
+                AddFile(tf.FullPath, true);
             }
         }
         /// <summary>

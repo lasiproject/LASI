@@ -62,7 +62,7 @@ namespace LASI.Algorithm.Binding
                     }
 
 
-                    //if the last verb, you can't find any more subjects
+                    //if the last adverb, you can't find any more subjects
                     if (s.GetPhrasesAfter(i).GetVerbPhrases().Count() == 0)
                         break;
                 }

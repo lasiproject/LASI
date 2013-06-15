@@ -12,7 +12,7 @@ namespace LASI.Algorithm
     /// <summary>
     /// Provides access to predefined and customizable IEqualityComparer implementations which operate on instances of applicable ILexical constructs.
     /// </summary>
-    /// <typeparam name="T">Any type which implements the ILexical interface. E.g. Word or Phrase</typeparam>
+    /// <typeparam name="T">Any PointerKind which implements the ILexical interface. E.g. Word or Phrase</typeparam>
     /// <see cref="ILexical"/>
     public static class Comparisons<T> where T : LASI.Algorithm.ILexical
     {
@@ -49,8 +49,8 @@ namespace LASI.Algorithm
             }
         }
         /// <summary>
-        /// Text based comparer which compares the literal text of two NounPhrases to see if they are Identical.
-        /// All end comparers provided here perform literal text comparions implicitely.
+        /// Text based comparer which compares the key text of two NounPhrases to see if they are Identical.
+        /// All end comparers provided here perform key text comparions implicitely.
         /// </summary>
         public static TextualComparer Textual
         {

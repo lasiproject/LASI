@@ -19,8 +19,8 @@ namespace LASI.Algorithm.Binding
             if (np.Words.Count() > 1 && LastNoun != null) {
                 //////Output.WriteLine(nps);
                 /*
-                foreach (wd verb in nps.Words) {
-                    ////Output.Write("[{0}] ", verb);
+                foreach (wd adverb in nps.Words) {
+                    ////Output.Write("[{0}] ", adverb);
                 }
                 ////Output.WriteLine("\nLast Noun: {0}", LastNoun.Text);
                 */
@@ -79,7 +79,7 @@ namespace LASI.Algorithm.Binding
 
             if (vp.Words.Count() > 1 && LastVerb != null) {
 
-                // Adverb linking to NEXT verb
+                // Adverb linking to NEXT adverb
                 var adverbList = vp.Words.GetAdverbs();
                 if (adverbList.Count() > 0) {
                     foreach (var advrb in adverbList) {
@@ -116,7 +116,7 @@ namespace LASI.Algorithm.Binding
                     }
                 }
 
-                //  Binds all Modal Aux's to last verb
+                //  Binds all Modal Aux's to last adverb
                 var ModalAuxList = vp.Words.GetModalAuxilaries();
                 if (ModalAuxList.Count() > 0) {
                     foreach (var ma in ModalAuxList) {
@@ -125,7 +125,7 @@ namespace LASI.Algorithm.Binding
                     }
                 }
 
-                //Binds second verbs to last verb
+                //Binds second verbs to last adverb
                 /*
                 var VerbList = vp.Words.GetVerbs();
                 if (VerbList.Count() > 0)

@@ -45,7 +45,7 @@ namespace LASI.FileSystem
 
 
         /// <summary>
-        /// Gets the document object which is to be converted to the target format
+        /// Gets the document object which is to be converted to the from format
         /// </summary>
         public InputFile Original {
             get;

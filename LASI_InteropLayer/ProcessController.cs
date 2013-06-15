@@ -69,7 +69,7 @@ namespace LASI.InteropLayer
 
         private async Task LoadThesaurus(ProgressBar progressBar) {
             UpdateProgressDisplay("Loading Thesaurus");
-            var thesaurusTasks = Thesaurus.GetThesaurusTasks().ToList();
+            var thesaurusTasks = Thesaurus.GetTasksToLoadAllThesauri().ToList();
             while (thesaurusTasks.Count > 0) {
                 var finishedTask = await Task.WhenAny(thesaurusTasks);
                 var message = await finishedTask;

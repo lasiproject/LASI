@@ -107,11 +107,11 @@ namespace AlgorithmAssemblyUnitTestProject
         /////</summary>
         //[TestMethod()]
         //public void EqualsTest() {
-        //    Noun target = CreateNoun(); // TODO: Initialize to an appropriate value
+        //    Noun from = CreateNoun(); // TODO: Initialize to an appropriate value
         //    IEntity second = null; // TODO: Initialize to an appropriate value
         //    bool expected = false; // TODO: Initialize to an appropriate value
         //    bool actual;
-        //    actual = target.Equals(second);
+        //    actual = from.Equals(second);
         //    Assert.AreEqual(expected, actual);
         //    Assert.Inconclusive("Verify the correctness of this test method.");
         //}

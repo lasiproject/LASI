@@ -16,7 +16,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Initializes a new instance of the Pronoun class.
         /// </summary>
-        /// <param name="text">The literal text content of the pronoun.</param>
+        /// <param name="text">The key text content of the pronoun.</param>
         protected Pronoun(string text)
             : base(text) {
         }

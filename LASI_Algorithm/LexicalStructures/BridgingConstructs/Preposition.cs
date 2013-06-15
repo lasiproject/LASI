@@ -20,7 +20,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Initializes a new instance of the Preposition class.
         /// </summary>
-        /// <param name="text">The literal text content of the Preposition.</param>
+        /// <param name="text">The key text content of the Preposition.</param>
         public Preposition(string text)
             : base(text) {
             PrepositionalRole = GetPrepositionalRole(Text);

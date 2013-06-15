@@ -13,7 +13,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Initialiazes a new instance of the ProperSingularNoun class.
         /// </summary>
-        /// <param name="text">The literal text content of the ProperSingularNoun.</param>
+        /// <param name="text">The key text content of the ProperSingularNoun.</param>
         public ProperSingularNoun(string text)
             : base(text)
         {

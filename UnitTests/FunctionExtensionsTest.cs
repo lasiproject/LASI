@@ -87,7 +87,7 @@ namespace AlgorithmAssemblyUnitTestProject
 
         [TestMethod()]
         public void ComposeTest() {
-            Func<int, int> func = x => x * x * x;//cubes an int, A value type
+            Func<int, int> func = x => x * x * x;//cubes an int, A value PointerKind
             Func<int, int>[] fs = new Func<int, int>[] { x => x / x, x => x + 1, x => x * 3 };
             var function = FunctionExtensions.Compose(func, fs);
             for (int i = 1; i < 100; i++) {

@@ -9,19 +9,19 @@ using System.Xml.Linq;
 namespace LASI.Algorithm
 {
     /// <summary>
-    /// Represents a foriegn verb embedded in an english written work.
+    /// Represents a foriegn adverb embedded in an english written work.
     /// </summary>
     public class ForeignWord : Word
     {
         /// <summary>
         /// Initializes an instance of the ForeignWord class.
         /// </summary>
-        /// <param name="text">The literal text content of the ForeignWord.</param>
+        /// <param name="text">The key text content of the ForeignWord.</param>
         public ForeignWord(string text)
             : base(text) {
         }
         /// <summary>
-        /// Gets or sets the equivalent English verb type if it can be inferred from the ForeignWord's usage.
+        /// Gets or sets the equivalent English adverb PointerKind if it can be inferred from the ForeignWord's usage.
         /// </summary>
         public virtual Type UsedAsType {
             get;

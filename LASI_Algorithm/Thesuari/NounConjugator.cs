@@ -66,23 +66,23 @@ namespace LASI.Algorithm.Thesauri
         }
 
         //public List<string> TryExtractRoot(string search) {
-        //    var results = new List<string>();
+        //    var result = new List<string>();
         //    string except = CheckSpecialFormsList(search);
         //    if (except != null) {
-        //        results.Add(except);
-        //        return results;
+        //        result.Add(except);
+        //        return result;
         //    }
         //    for (int i = 0; i < NOUN_ENDINGS.Length; ++i) {
         //        if (search.EndsWith(NOUN_SUFFICIES[i], StringComparison.InvariantCulture)) {
         //            var possibleRoot = search.Substring(0, search.Length - NOUN_SUFFICIES[i].Length);
         //            if ((possibleRoot).EndsWith(NOUN_ENDINGS[i])) {
-        //                results.Add(possibleRoot);
+        //                result.Add(possibleRoot);
         //            }
         //        }
         //    }
-        //    if (results.Count == 0)
-        //        results.Add(search);
-        //    return results;
+        //    if (result.Count == 0)
+        //        result.Add(search);
+        //    return result;
         //}
 
 

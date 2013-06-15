@@ -19,7 +19,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Initializes a new instance of the Noun class.
         /// </summary>
-        /// <param name="text">The literal text content of the Noun.</param>
+        /// <param name="text">The key text content of the Noun.</param>
         protected Noun(string text)
             : base(text)
         {
@@ -157,7 +157,7 @@ namespace LASI.Algorithm
         }
 
         /// <summary>
-        /// Gets or sets the Entity Kind; Person, Place, Thing, Organization, or Activity;  of the Noun.
+        /// Gets or sets the Entity PointerKind; Person, Place, Thing, Organization, or Activity;  of the Noun.
         /// </summary>
         public EntityKind EntityKind
         {

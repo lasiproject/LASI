@@ -16,7 +16,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Initializes q new instances of the GenericNoun class.
         /// </summary>
-        /// <param name="text">The literal text content of the GenericNoun</param>
+        /// <param name="text">The key text content of the GenericNoun</param>
         protected GenericNoun(string text)
             : base(text) {
             EntityKind = LASI.Algorithm.EntityKind.ThingUnknown;

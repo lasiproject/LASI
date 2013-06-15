@@ -13,7 +13,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Initializes a new instance of the GenericSingularNounClass.
         /// </summary>
-        /// <param name="text">the literal text content of the noun.</param>
+        /// <param name="text">the key text content of the noun.</param>
         public GenericSingularNoun(string text)
             : base(text) {
         }

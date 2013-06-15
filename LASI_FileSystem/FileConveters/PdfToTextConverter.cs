@@ -88,7 +88,7 @@ namespace LASI.FileSystem
                 // Flag showing if we are we currently inside a text object
                 bool inTextObject = false;
 
-                // Flag showing if the next character is literal 
+                // Flag showing if the next character is key 
                 // e.g. '\\' to get a '\' character or '\(' to get '('
                 bool nextLiteral = false;
 

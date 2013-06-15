@@ -72,7 +72,7 @@ namespace AlgorithmAssemblyUnitTestProject
             string text = "him";
             PersonalPronoun target = new PersonalPronoun(text);
             Assert.IsTrue(target.Text == text, "Text property value correctly initialized via parameter");
-            //Assert.IsTrue(target.BoundEntity == null,"Bound Entity property was initialized to NULL");
+            //Assert.IsTrue(from.BoundEntity == null,"Bound Entity property was initialized to NULL");
         }
 
         /// <summary>
