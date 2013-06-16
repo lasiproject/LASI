@@ -21,7 +21,7 @@ namespace LASI.Algorithm.Thesauri
             FilePath = filePath;
         }
 
-        HashSet<SynSet> allSets = new HashSet<SynSet>();
+        HashSet<NounSynSet> allSets = new HashSet<NounSynSet>();
 
         /// <summary>
         /// Parses the contents of the underlying WordNet database file.
@@ -57,7 +57,7 @@ namespace LASI.Algorithm.Thesauri
 
             List<string> wordList = words.Cast<Match>().Select(m => m.Value).Distinct().ToList();
 
-            SynSet temp = new SynSet(id, wordList, pointers, lexCategory);
+            NounSynSet temp = new NounSynSet(id, wordList, pointers, lexCategory);
 
             allSets.Add(temp);
 
@@ -78,14 +78,14 @@ namespace LASI.Algorithm.Thesauri
             //gets pointers of searched wd
             var tempResults = from sn in allSets
                               where sn.Words.Contains(word)
-                              select sn.Pointers;
+                              select sn.ReferencedIndexes;
             var flatPointers = from R in tempResults
                                from r in R
                                select r;
             //gets related words from above pointers
 
             foreach (var t in flatPointers) {
-                foreach (SynSet s in allSets) {
+                foreach (NounSynSet s in allSets) {
 
                     if (t == s.ID) {
                         results.Union(s.Words);

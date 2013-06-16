@@ -13,7 +13,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Filters the sequence of IVerbal constructs selecting those with at least one bound subject.
         /// </summary>
-        /// <typeparam name="T">Any PointerKind which implemenets the IVerbal interface.</typeparam>
+        /// <typeparam name="T">Any NounPointerSymbol which implemenets the IVerbal interface.</typeparam>
         /// <param name="actions">The Enumerable of T instances to filter.</param>
         /// <returns>The subset bound to some subject.</returns>
         public static IEnumerable<T> WithSubject<T>(this IEnumerable<T> actions) where T : IVerbal
@@ -25,7 +25,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Filters the sequence of IVerbal constructs returning those who have at least one subject matching the provided subject testing function.
         /// </summary>
-        /// <typeparam name="T">Any PointerKind which implemenets the IVerbal interface.</typeparam>
+        /// <typeparam name="T">Any NounPointerSymbol which implemenets the IVerbal interface.</typeparam>
         /// <param name="actions">The Enumerable of IVerbal constructs to filter.</param>
         /// <param name="verbalSelector">The function specifying the match verbalSelector. Any function which takes an IEntity and return a bool.</param>
         /// <returns>All actions whose subject match the verbalSelector.</returns>
@@ -52,7 +52,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Filters the sequence of IVerbal constructs selecting those with at least one bound direct object.
         /// </summary>
-        /// <typeparam name="T">Any PointerKind which implemenets the IVerbal interface.</typeparam>
+        /// <typeparam name="T">Any NounPointerSymbol which implemenets the IVerbal interface.</typeparam>
         /// <param name="actions">The Enumerable of Transitive Action instances to filter.</param>
         /// <returns>The subset of IVerbal constructs bound to at least one direct object.</returns>
         public static IEnumerable<T> WithDirectObject<T>(this IEnumerable<T> actions) where T : IVerbal
@@ -65,7 +65,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Filters a collection of IVerbal constructs returning those who have at least one direct object matching the provided object testing function.
         /// </summary>
-        /// <typeparam name="T">Any PointerKind which implemenets the IVerbal interface.</typeparam>
+        /// <typeparam name="T">Any NounPointerSymbol which implemenets the IVerbal interface.</typeparam>
         /// <param name="actions">The Enumerable of IVerbal constructs to filter.</param>
         /// <param name="verbalSelector">The function specifying the match verbalSelector. Any function which takes an IEntity and return a bool is compatible.</param>
         /// <returns>The subset of IVerbal constructs bound to at least one direct object which matches the conidition.</returns>
@@ -94,7 +94,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Filters a collection of IVerbal constructs returning those who have at k those who have at least one indirect object which matches the provided object testing function
         /// </summary>
-        /// <typeparam name="T">Any PointerKind which implemenets the IVerbal interface.</typeparam>
+        /// <typeparam name="T">Any NounPointerSymbol which implemenets the IVerbal interface.</typeparam>
         /// <param name="actions">The Enumerable of IVerbal constructs instances to filter.</param>
         /// <param name="verbalSelector">The function specifying the match verbalSelector. Any function which takes an IEntity and return a bool is compatible.</param>
         /// <returns>The subset of IVerbal constructs bound to at least one indirect object which matches the verbalSelector.</returns>

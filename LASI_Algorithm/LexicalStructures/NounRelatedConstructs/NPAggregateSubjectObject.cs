@@ -28,7 +28,7 @@ namespace LASI.Algorithm
         }
 
         /// <summary>
-        /// Gets or sets the Entity PointerKind; Person, Place, Thing, Organization, or Activity; of the EntityGroup instance.
+        /// Gets or sets the Entity NounPointerSymbol; Person, Place, Thing, Organization, or Activity; of the EntityGroup instance.
         /// </summary>
         public EntityKind EntityKind
         {

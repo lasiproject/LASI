@@ -22,7 +22,9 @@ namespace LASI.UserInterface
             WindowStartupLocation = WindowStartupLocation.CenterScreen;
 
             Output.SetToSilent();
-            this.IsVisibleChanged += async (s, e) => await InitPawPrintAlternation();
+            DependencyPropertyChangedEventHandler startAnitmation = async (s, e) => await InitPawPrintAlternation();
+            this.IsVisibleChanged += startAnitmation;
+            this.IsVisibleChanged += (s, e) => this.IsVisibleChanged -= startAnitmation;
             this.Closing += (s, e) => Application.Current.Shutdown();
             ProgressBar.Value = 0;
             ProgressLabel.Content = "Initializing";
@@ -56,10 +58,6 @@ namespace LASI.UserInterface
             }).ToArray();
             await Task.Factory.ContinueWhenAll(pawPrints, t => {
             });
-
-            //            Task.WhenAll(
-
-
 
         }
         private async Task FadeImage(Image img) {
@@ -114,7 +112,7 @@ namespace LASI.UserInterface
         }
 
         private void ExitMenuItem_Click_3(object sender, RoutedEventArgs e) {
-            Application.Current.Shutdown();
+            App.Current.Shutdown();
 
         }
         private async void ProceedtoResultsButton_Click(object sender, RoutedEventArgs e) {
@@ -126,7 +124,7 @@ namespace LASI.UserInterface
             PerformanceManager.SetPerformanceMode(PerforamanceMode.Low);
         }
         private void closeButton_Click(object sender, RoutedEventArgs e) {
-            Application.Current.Shutdown();
+            App.Current.Shutdown();
         }
 
 

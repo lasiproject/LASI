@@ -8,7 +8,7 @@ namespace LASI.Algorithm
 {
     /// <summary>
     /// Defines the broad role requiements for the weightable, countable textual elements, of a written work.
-    /// Along with the second interfaces in the Syntactic Interfaces Library, the ILexical interface provides for generalization and abstraction over many otherwise disparate element types and PointerKind heirarchies.
+    /// Along with the second interfaces in the Syntactic Interfaces Library, the ILexical interface provides for generalization and abstraction over many otherwise disparate element types and NounPointerSymbol heirarchies.
     /// </summary>
     public interface ILexical
     {
@@ -20,7 +20,7 @@ namespace LASI.Algorithm
             get;
         }
         /// <summary>
-        /// Gets the System.PointerKind of the ILexical.
+        /// Gets the System.NounPointerSymbol of the ILexical.
         /// </summary>
         Type Type
         {

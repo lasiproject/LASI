@@ -116,7 +116,7 @@ namespace LASI.UserInterface.DataVisualzationProviders
             var items = ChartingManager.GetAppropriateDataSet(documentsByChart[((chart as TabItem).Content as Chart)]);
             return items;
         }
-        public static async void BuildMainChartDisplay(Document document) {
+        public static async Task BuildMainChartDisplay(Document document) {
             var chart = BuildBarChart(document);
             documentsByChart.Add(chart, document);
             var tabItem = new TabItem {
@@ -289,8 +289,8 @@ namespace LASI.UserInterface.DataVisualzationProviders
 
         public static async Task<IEnumerable<object>> CreateRelationshipDataAsync(IEnumerable<CrossDocumentJoiner.NVNN> elementsToSerialize) {
 
-            return await Task.Run(() =>
-               CreateRelationshipData(elementsToSerialize));
+            return await Task.Run(async () =>
+              await CreateRelationshipDataAsync(elementsToSerialize));
         }
 
         public static IEnumerable<object> CreateRelationshipData(IEnumerable<CrossDocumentJoiner.NVNN> elementsToSerialize) {
@@ -339,10 +339,10 @@ namespace LASI.UserInterface.DataVisualzationProviders
     }
     #region Result Bulding Helper Structs
     /// <summary>
-    /// A little data PointerKind which provides custom uniqueness logic for NounPhrase to VerbPhrase  relationships. Provides the implementation of I equality comparer which is to be passed to the 
+    /// A little data NounPointerSymbol which provides custom uniqueness logic for NounPhrase to VerbPhrase  relationships. Provides the implementation of I equality comparer which is to be passed to the 
     /// "Distinct()" method of en IEnummerable collectio  of RelationshipTuple instances.
     /// It is defined because distinct does not support lambda(read function) arguments like my query operatorrs do.
-    /// Pay this PointerKind little heed
+    /// Pay this NounPointerSymbol little heed
     /// </summary>
     struct RelationshipComparer : IEqualityComparer<RelationshipTuple>
     {
@@ -373,7 +373,7 @@ namespace LASI.UserInterface.DataVisualzationProviders
         }
     }
     /// <summary>
-    /// Sometimes an anonymous PointerKind simple will not do. So this little class is defined to 
+    /// Sometimes an anonymous NounPointerSymbol simple will not do. So this little class is defined to 
     /// store temporary query data from transposed tables. god it is late. I can't document properly.
     /// </summary>
     public class RelationshipTuple

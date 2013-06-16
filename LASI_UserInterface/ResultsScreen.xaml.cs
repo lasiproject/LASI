@@ -33,14 +33,14 @@ namespace LASI.UserInterface
         public async Task CreateInteractiveViews() {
 
             foreach (var doc in documents) {
-                await CreateInteractiveDoumentView(doc);
+                await CreateRecomposedTextView(doc);
 
             }
 
             BindChartViewControls();
         }
 
-        private async Task CreateInteractiveDoumentView(Document doc) {
+        private async Task CreateRecomposedTextView(Document doc) {
             var documentElements = (from de in doc.Paragraphs.Except(doc.EnumContainingParagraphs).AsParallel()
                                     select de.Phrases into phraseElements
                                     from phrase in phraseElements.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
@@ -74,7 +74,7 @@ namespace LASI.UserInterface
                 stackPanel.Children.Add(l);
             }
             WordCountLists.Items.Add(tabItem);
-            ChartingManager.BuildMainChartDisplay(doc);
+            await ChartingManager.BuildMainChartDisplay(doc);
             await ChartingManager.BuildKeyRelationshipDisplay(doc);
         }
 
@@ -268,7 +268,7 @@ namespace LASI.UserInterface
                                                select R, doc.FileName, FileSystem.Serialization.XML.DegreeOfOutput.Comprehensive);
                 }
             }
-            var exportDialog = new DialogToProcedeToResults();
+            var exportDialog = new ExportResultsDialog();
             exportDialog.ShowDialog();
         }
 
@@ -285,11 +285,6 @@ namespace LASI.UserInterface
 
         }
 
-        private async Task CreateMetaResultsView(IEnumerable<CrossDocumentJoiner.NVNN> crossResults) {
-            var data = await ChartingManager.CreateRelationshipDataAsync(crossResults);
-
-            metaRelationshipsDataGrid.ItemsSource = data;
-        }
 
         private void MenuItem_Click(object sender, RoutedEventArgs e) {
 
@@ -310,7 +305,7 @@ namespace LASI.UserInterface
 
 
                     await ProcessNewDocument(openDialog.FileName);
-                    currentOperationFeedbackCanvas.Visibility = Visibility.Hidden;
+                    //currentOperationFeedbackCanvas.Visibility = Visibility.Hidden;
                 } else {
                     MessageBox.Show(string.Format("A document named {0} is already part of the project.", openDialog.SafeFileName));
                 }
@@ -345,7 +340,7 @@ namespace LASI.UserInterface
 
             currentOperationProgressBar.Value += 5;
             currentOperationLabel.Content = string.Format("{0}: Visualizing...", chosenFile.NameSansExt);
-            await CreateInteractiveDoumentView(doc);
+            await CreateRecomposedTextView(doc);
             await BuildInteractiveTextViewOfDocument(doc);
 
             currentOperationLabel.Content = string.Format("{0}: Added...", chosenFile.NameSansExt);

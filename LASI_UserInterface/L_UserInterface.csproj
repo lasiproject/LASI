@@ -106,8 +106,8 @@
     <Compile Include="Dialogs\CrossJoinSelectDialog.xaml.cs">
       <DependentUpon>CrossJoinSelectDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Dialogs\DialogToProcedeToResults.xaml.cs">
-      <DependentUpon>DialogToProcedeToResults.xaml</DependentUpon>
+    <Compile Include="Dialogs\ExportResultsDialog.xaml.cs">
+      <DependentUpon>ExportResultsDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="DataVisualzationManagement\ChartKind.cs" />
     <Compile Include="DocumentManager.cs" />
@@ -138,7 +138,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Dialogs\DialogToProcedeToResults.xaml">
+    <Page Include="Dialogs\ExportResultsDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

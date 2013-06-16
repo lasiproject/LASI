@@ -15,17 +15,16 @@ using System.Windows.Shapes;
 namespace LASI.UserInterface.Dialogs
 {
     /// <summary>
-    /// Interaction logic for DialogToProcedeToResults.xaml
+    /// Interaction logic for ExportResultsDialog.xaml
     /// </summary>
-    public partial class DialogToProcedeToResults : Window
+    public partial class ExportResultsDialog : Window
     {
-        public DialogToProcedeToResults() {
+        public ExportResultsDialog() {
             InitializeComponent();
         }
 
         private void OkButton_Click(object sender, RoutedEventArgs e) {
             this.Close();
-
         }
     }
 }

@@ -18,11 +18,11 @@ namespace LASI.Algorithm.Thesauri
         ///<param name="constrainByCategory"></param>
         /// <param name="filePath">The path of the WordNet database file containing the sysnonym line for actions.</param>
         /// </summary>
-        public VerbThesaurus(string filePath, bool constrainByCategory = true)
+        public VerbThesaurus(string filePath)
             : base(filePath) {
             FilePath = filePath;
-            AssociationData = new ConcurrentDictionary<string, VerbThesaurusSynSet>();
-            lexRestrict = constrainByCategory;
+            AssociationData = new ConcurrentDictionary<string, VerbSynSet>();
+            lexRestrict = true;
         }
 
 
@@ -48,15 +48,18 @@ namespace LASI.Algorithm.Thesauri
             var synset = BuildSynset(line);
 
             LinkSynset(synset);
-            //AssociationData.Add(synset.Index, synset);
         }
 
-        private void LinkSynset(VerbThesaurusSynSet synset) {
+        private void LinkSynset(VerbSynSet synset) {
             foreach (var word in synset.Words) {
                 if (AssociationData.ContainsKey(word)) {
-                    AssociationData[word] = new VerbThesaurusSynSet(
-                        AssociationData[word].ReferencedIndexes.Concat(synset.ReferencedIndexes),
-                        AssociationData[word].Words.Concat(synset.Words), AssociationData[word].LexName);
+                    AssociationData[word] = new VerbSynSet(
+                        AssociationData[word].ID,
+                        AssociationData[word].Words.Concat(synset.Words),
+                        AssociationData[word].RelatedOnPointerSymbol
+                        .Concat(synset.RelatedOnPointerSymbol)
+                        .SelectMany(grouping => grouping.Select(pointer => new KeyValuePair<VerbPointerSymbol, int>(grouping.Key, pointer))),
+                         AssociationData[word].LexName);
                 } else {
                     AssociationData.Add(word, synset);
                 }
@@ -67,10 +70,10 @@ namespace LASI.Algorithm.Thesauri
 
 
         /// <summary>
-        /// Retrives the synonyms of the given adverb as a collection of strings.
+        /// Retrives the synonyms of the given verb as a collection of strings.
         /// </summary>
-        /// <param name="search">The text of the adverb to look for.</param>
-        /// <returns>A collection of strings containing all of the synonyms of the given adverb.</returns>
+        /// <param name="search">The text of the verb to look for.</param>
+        /// <returns>A collection of strings containing all of the synonyms of the given verb.</returns>
         public override HashSet<string> this[string search] {
             get {
                 try {
@@ -104,10 +107,10 @@ namespace LASI.Algorithm.Thesauri
 
 
         /// <summary>
-        /// Retrives the synonyms of the given adverb as a collection of strings.
+        /// Retrives the synonyms of the given Verb as a collection of strings.
         /// </summary>
         /// <param name="search">An instance of Verb</param>
-        /// <returns>A collection of strings containing all of the synonyms of the given adverb.</returns>
+        /// <returns>A collection of strings containing all of the synonyms of the given Verb.</returns>
         public override HashSet<string> this[Word search] {
             get {
                 return this[search.Text];
@@ -115,24 +118,31 @@ namespace LASI.Algorithm.Thesauri
         }
 
 
-        private VerbThesaurusSynSet BuildSynset(string data) {
+        private VerbSynSet BuildSynset(string data) {
 
-            var WNlexNameCode = ( WordNetVerbCategory )Int32.Parse(data.Substring(9, 2));
+            data = data.Substring(0, data.IndexOf('|'));
 
-            data = Regex.Replace(data, @"([+]+|;c+)+[\s]+[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+", "");
 
-            var extractedIndeces = new Regex(@"[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+");
 
-            var sep = data.Split(new[] { '!', '|' }, StringSplitOptions.RemoveEmptyEntries)[0];
 
-            var referencedIndeces = from Match M in extractedIndeces.Matches(sep)
-                                    select Int32.Parse(M.Value);
+
+            //data = Regex.Replace(data, @"([+]+|;c+)+[\s]+[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+", "");
+
+            var extractedIndeces = new Regex(@"\D{1,2}\s*[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+");
+
+            var pointers = from Match M in extractedIndeces.Matches(data)
+                              let split = M.Value.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
+                              let pointer = split.Count() > 1 ?
+                              new KeyValuePair<VerbPointerSymbol, int>(RelationMap[split[0]], Int32.Parse(split[1])) :
+                              new KeyValuePair<VerbPointerSymbol, int>(VerbPointerSymbol.UNKNOWN, Int32.Parse(split[0]))
+                              select pointer;
             var elementRgx = new Regex(@"\b[A-Za-z-_]{2,}");
 
-            var setElements = from Match ContainedWord in elementRgx.Matches(sep.Substring(17))
-                              select ContainedWord.Value.Replace('_', '-');
-
-            return new VerbThesaurusSynSet(referencedIndeces, setElements, WNlexNameCode);
+            var wordMembers = from Match ContainedWord in elementRgx.Matches(data.Substring(17))
+                              select ContainedWord.Value.Replace('_', '-').ToLower();
+            var id = Int32.Parse(data.Substring(0, 8));
+            var WNlexNameCode = ( WordNetVerbCategory )Int32.Parse(data.Substring(9, 2));
+            return new VerbSynSet(id, wordMembers, pointers, WNlexNameCode);
         }
 
 
@@ -141,6 +151,7 @@ namespace LASI.Algorithm.Thesauri
 
 
         private bool lexRestrict;
+        private static VerbPointerSymbolMap RelationMap = new VerbPointerSymbolMap();
     }
 
 

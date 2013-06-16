@@ -7,7 +7,7 @@ using System.Text;
 namespace LASI.Algorithm.Binding
 {
     /// <summary>
-    /// An Exception which is to be thrown when attempting to transition from a state on a lexical PointerKind for which no transition has been defined.
+    /// An Exception which is to be thrown when attempting to transition from a state on a lexical NounPointerSymbol for which no transition has been defined.
     /// </summary>
     [Serializable]
     public class InvalidStateTransitionException : Exception

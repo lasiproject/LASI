@@ -12,7 +12,7 @@ namespace LASI.Algorithm
         /// <summary>
         ///  Returns distinct elements from a sequence of ILexical constructs by using a specified specified equality comparison function.
         /// </summary>
-        /// <typeparam name="T">Any PointerKind which implements the ILexical interface.</typeparam>
+        /// <typeparam name="T">Any NounPointerSymbol which implements the ILexical interface.</typeparam>
         /// <param name="elements">The sequence of ILexical constructs in which to search for the given element.</param>
         /// <param name="comparison">A function to compare two ILexicals for equality.</param>
         /// <returns> A new sequence of ILexical constructs containing only the distinct elements of the source sequence as determined by the provided comparison function.
@@ -37,7 +37,7 @@ namespace LASI.Algorithm
         /// <param name="elements">The sequence of ILexical constructs in which to search for the given element.</param>
         /// <param name="element">The element to search for.</param>
         /// <param name="comparison">A function to compare two ILexicals for equality.</param>
-        /// <typeparam name="T">Any PointerKind which implements the ILexical interface.</typeparam>
+        /// <typeparam name="T">Any NounPointerSymbol which implements the ILexical interface.</typeparam>
         /// <returns>True if the sequence contains the given element, false otherwise.</returns>
         /// <see cref="Comparers.CreateCustom"/>
         /// <example>

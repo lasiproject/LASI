@@ -19,8 +19,7 @@ namespace LASI.Algorithm
         /// Initializes a new instance of the Phrase class.
         /// </summary>
         /// <param name="composedWords">The one or more instances of the wd class of which the Phrase is composed.</param>
-        protected Phrase(IEnumerable<Word> composedWords)
-        {
+        protected Phrase(IEnumerable<Word> composedWords) {
             //if (composedWords.Count() == 0)
             //    throw new EmptyPhraseTagException();
             Words = composedWords;
@@ -37,17 +36,15 @@ namespace LASI.Algorithm
         /// <summary>
         /// Overrides the ToString method to augment the string representation of Phrase to include the text of the words it is composed of.
         /// </summary>
-        /// <returns>A string containing the PointerKind information of the instance as well as the textual representations of the words it is composed of.</returns>
-        public override string ToString()
-        {
+        /// <returns>A string containing the NounPointerSymbol information of the instance as well as the textual representations of the words it is composed of.</returns>
+        public override string ToString() {
             return GetType().Name + " \"" + Text + "\"";
         }
         /// <summary>
         /// Establish the nested links between the Phrase, its parent Clause, and the Words comprising it.
         /// </summary>
         /// <param name="parentDoc">The Clause to which the Phrase belongs.</param>
-        public void EstablishParent(Clause parent)
-        {
+        public void EstablishParent(Clause parent) {
             Sentence = parent.Sentence;
             Document = Sentence.Document;
             foreach (var w in Words)
@@ -66,16 +63,14 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets or sets the Prepositional construct which is lexically to the second of the wd.
         /// </summary>
-        public IPrepositional PrepositionOnRight
-        {
+        public IPrepositional PrepositionOnRight {
             get;
             set;
         }
         /// <summary>
         /// Gets or sets the Prepositional construct which is lexically to the first of the Phrase.
         /// </summary>
-        public IPrepositional PrepositionOnLeft
-        {
+        public IPrepositional PrepositionOnLeft {
             get;
             set;
         }
@@ -83,60 +78,51 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets, lexically speaking, the next Phrase in the Document to which the instance belongs.
         /// </summary>
-        public Phrase NextPhrase
-        {
+        public Phrase NextPhrase {
             get;
             set;
         }
         /// <summary>
         /// Gets, lexically speaking, the previous Phrase in the Document to which the instance belongs.
         /// </summary>
-        public Phrase PreviousPhrase
-        {
+        public Phrase PreviousPhrase {
             get;
             set;
         }
         /// <summary>
         /// Gets or sets the Sentence the Phrase belongs to.
         /// </summary>
-        public LASI.Algorithm.DocumentConstructs.Sentence Sentence
-        {
+        public LASI.Algorithm.DocumentConstructs.Sentence Sentence {
             get;
             set;
         }
-        public Paragraph Paragraph
-        {
-            get
-            {
+        public Paragraph Paragraph {
+            get {
                 return Sentence.Paragraph;
             }
         }
         /// <summary>
         /// Gets or set the Document instance to which the Phrase belongs.
         /// </summary>
-        public LASI.Algorithm.DocumentConstructs.Document Document
-        {
+        public LASI.Algorithm.DocumentConstructs.Document Document {
             get;
             protected set;
         }
         /// <summary>
         /// Gets the concatenated text content of all of the words which comprise the Phrase.
         /// </summary>
-        public virtual string Text
-        {
-            get
-            {
-                if (Words.Count(w => !string.IsNullOrWhiteSpace(w.Text)) > 0)
-                    return Words.Aggregate("", (str, word) => str + " " + word.Text).Trim();
-                else
-                    return "";
+        public virtual string Text {
+            get {
+                _text = _text ??
+                    (Words.Count(w => !string.IsNullOrWhiteSpace(w.Text)) > 0 ?
+                    Words.Aggregate("", (str, word) => str + " " + word.Text).Trim() : string.Empty);
+                return _text;
             }
         }
         /// <summary>
         /// Gets the collection of words which comprise the Phrase.
         /// </summary>
-        public virtual IEnumerable<Word> Words
-        {
+        public virtual IEnumerable<Word> Words {
             get;
             protected set;
         }
@@ -144,19 +130,16 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets the globally-unique identification number associated with the Phrase instance.
         /// </summary>
-        public int ID
-        {
+        public int ID {
             get;
             private set;
         }
 
         /// <summary>
-        /// Gets the System.PointerKind of the current Instance.
+        /// Gets the System.NounPointerSymbol of the current Instance.
         /// </summary>
-        public Type Type
-        {
-            get
-            {
+        public Type Type {
+            get {
                 return GetType();
             }
         }
@@ -164,8 +147,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets or sets the numeric Weight of the Phrase within the context of its document.
         /// </summary>
-        public decimal Weight
-        {
+        public decimal Weight {
             get;
             set;
         }
@@ -173,28 +155,26 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets or sets the numeric Weight of the Phrase over the context of all extant documents.
         /// </summary>
-        public decimal MetaWeight
-        {
+        public decimal MetaWeight {
             get;
             set;
         }
 
+        private string _text;
 
 
         #endregion
 
         #region Static Methods
 
-        static Phrase()
-        {
+        static Phrase() {
             VerboseOutput = false;
         }
 
         #endregion
 
         #region Static Properties
-        public static bool VerboseOutput
-        {
+        public static bool VerboseOutput {
             get;
             set;
         }

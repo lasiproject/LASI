@@ -21,9 +21,9 @@ namespace LASI.Algorithm.Thesauri
             FilePath = filePath;
 
         }
-        //ConcurrentDictionary<int, HashSet<SynSet>> cachedSetTraverals = new ConcurrentDictionary<int, HashSet<SynSet>>();
-        HashSet<SynSet> allSets = new HashSet<SynSet>();
-        Dictionary<int, SynSet> data = new Dictionary<int, SynSet>();
+        //ConcurrentDictionary<int, HashSet<NounSynSet>> cachedSetTraverals = new ConcurrentDictionary<int, HashSet<NounSynSet>>();
+        HashSet<NounSynSet> allSets = new HashSet<NounSynSet>();
+        Dictionary<int, NounSynSet> data = new Dictionary<int, NounSynSet>();
         /// <summary>
         /// Parses the contents of the underlying WordNet database file.
         /// </summary>
@@ -48,34 +48,34 @@ namespace LASI.Algorithm.Thesauri
         }
 
 
-        Dictionary<WordNetNounCategory, List<SynSet>> lexicalGoups = new Dictionary<WordNetNounCategory, List<SynSet>>
+        Dictionary<WordNetNounCategory, List<NounSynSet>> lexicalGoups = new Dictionary<WordNetNounCategory, List<NounSynSet>>
         {
-            { WordNetNounCategory.Entity, new List<SynSet>() },
-            { WordNetNounCategory.Act,new List<SynSet>() },
-            { WordNetNounCategory.Animal,new List<SynSet>() },
-            { WordNetNounCategory.Artifact,new List<SynSet>() },
-            { WordNetNounCategory.Attribute,new List<SynSet>() },
-            { WordNetNounCategory.Body,new List<SynSet>() },
-            { WordNetNounCategory.Cognition,new List<SynSet>() },
-            { WordNetNounCategory.Communication,new List<SynSet>() },
-            { WordNetNounCategory.Event,new List<SynSet>() },
-            { WordNetNounCategory.Feeling,new List<SynSet>() },
-            { WordNetNounCategory.Food,new List<SynSet>() },
-            { WordNetNounCategory.Group,new List<SynSet>() },
-            { WordNetNounCategory.Location,new List<SynSet>() },
-            { WordNetNounCategory.Motive,new List<SynSet>() },
-            { WordNetNounCategory.Object,new List<SynSet>() },
-            { WordNetNounCategory.Person,new List<SynSet>() },
-            { WordNetNounCategory.Phenomenon,new List<SynSet>() },
-            { WordNetNounCategory.Plant,new List<SynSet>() },
-            { WordNetNounCategory.Possession,new List<SynSet>() },
-            { WordNetNounCategory.Process,new List<SynSet>() },
-            { WordNetNounCategory.Quantity,new List<SynSet>() },
-            { WordNetNounCategory.Relation,new List<SynSet>() },
-            { WordNetNounCategory.Shape,new List<SynSet>() },
-            { WordNetNounCategory.State,new List<SynSet>() },
-            { WordNetNounCategory.Substance,new List<SynSet>() },
-            { WordNetNounCategory.Time,new List<SynSet>() }
+            { WordNetNounCategory.Entity, new List<NounSynSet>() },
+            { WordNetNounCategory.Act,new List<NounSynSet>() },
+            { WordNetNounCategory.Animal,new List<NounSynSet>() },
+            { WordNetNounCategory.Artifact,new List<NounSynSet>() },
+            { WordNetNounCategory.Attribute,new List<NounSynSet>() },
+            { WordNetNounCategory.Body,new List<NounSynSet>() },
+            { WordNetNounCategory.Cognition,new List<NounSynSet>() },
+            { WordNetNounCategory.Communication,new List<NounSynSet>() },
+            { WordNetNounCategory.Event,new List<NounSynSet>() },
+            { WordNetNounCategory.Feeling,new List<NounSynSet>() },
+            { WordNetNounCategory.Food,new List<NounSynSet>() },
+            { WordNetNounCategory.Group,new List<NounSynSet>() },
+            { WordNetNounCategory.Location,new List<NounSynSet>() },
+            { WordNetNounCategory.Motive,new List<NounSynSet>() },
+            { WordNetNounCategory.Object,new List<NounSynSet>() },
+            { WordNetNounCategory.Person,new List<NounSynSet>() },
+            { WordNetNounCategory.Phenomenon,new List<NounSynSet>() },
+            { WordNetNounCategory.Plant,new List<NounSynSet>() },
+            { WordNetNounCategory.Possession,new List<NounSynSet>() },
+            { WordNetNounCategory.Process,new List<NounSynSet>() },
+            { WordNetNounCategory.Quantity,new List<NounSynSet>() },
+            { WordNetNounCategory.Relation,new List<NounSynSet>() },
+            { WordNetNounCategory.Shape,new List<NounSynSet>() },
+            { WordNetNounCategory.State,new List<NounSynSet>() },
+            { WordNetNounCategory.Substance,new List<NounSynSet>() },
+            { WordNetNounCategory.Time,new List<NounSynSet>() }
         };
 
 
@@ -97,20 +97,20 @@ namespace LASI.Algorithm.Thesauri
 
             MatchCollection numbers = Regex.Matches(line, @"\D{1,2}\s*\d{8}");
 
-            var relationshipsToKeep = new HashSet<PointerKind> {
-                PointerKind.Memberofthisdomain_REGION,
-                PointerKind.Memberofthisdomain_TOPIC,
-                PointerKind.Memberofthisdomain_USAGE,
-                PointerKind.Domainofsynset_REGION,
-                PointerKind.Domainofsynset_TOPIC,
-                PointerKind.Domainofsynset_USAGE, 
-                PointerKind.Hyponym, 
-                PointerKind.InstanceHyponym
+            var relationshipsToKeep = new HashSet<NounPointerSymbol> {
+                NounPointerSymbol.Memberofthisdomain_REGION,
+                NounPointerSymbol.Memberofthisdomain_TOPIC,
+                NounPointerSymbol.Memberofthisdomain_USAGE,
+                NounPointerSymbol.Domainofsynset_REGION,
+                NounPointerSymbol.Domainofsynset_TOPIC,
+                NounPointerSymbol.Domainofsynset_USAGE, 
+                NounPointerSymbol.Hyponym, 
+                NounPointerSymbol.InstanceHyponym
             };
-            IEnumerable<KeyValuePair<PointerKind, int>> kindedPointers =
+            IEnumerable<KeyValuePair<NounPointerSymbol, int>> kindedPointers =
                 from match in numbers.Cast<Match>()
                 let split = match.Value.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
-                let pointer = split.Count() > 1 ? new KeyValuePair<PointerKind, int>(RelationMap[split[0]], Int32.Parse(split[1])) : new KeyValuePair<PointerKind, int>(PointerKind.UNKNOWN, Int32.Parse(split[0]))
+                let pointer = split.Count() > 1 ? new KeyValuePair<NounPointerSymbol, int>(RelationMap[split[0]], Int32.Parse(split[1])) : new KeyValuePair<NounPointerSymbol, int>(NounPointerSymbol.UNKNOWN, Int32.Parse(split[0]))
 
                 where relationshipsToKeep.Contains(pointer.Key)
                 select pointer;
@@ -124,7 +124,7 @@ namespace LASI.Algorithm.Thesauri
             int id = Int32.Parse(line.Substring(0, 8));
 
             WordNetNounCategory lexCategory = ( WordNetNounCategory )Int32.Parse(line.Substring(9, 2));
-            SynSet set = new SynSet(id, members, kindedPointers, lexCategory);
+            NounSynSet set = new NounSynSet(id, members, kindedPointers, lexCategory);
 
             allSets.Add(set);
             try {
@@ -145,18 +145,18 @@ namespace LASI.Algorithm.Thesauri
                 return new HashSet<string>();
             var lexname = containingSet.LexName;
             List<string> results = new List<string>();
-            SearchSubsets(containingSet, results, new HashSet<SynSet> {
+            SearchSubsets(containingSet, results, new HashSet<NounSynSet> {
             }, lexname);
             return new HashSet<string>(results.Distinct(StringComparer.OrdinalIgnoreCase));
         }
 
-        private void SearchSubsets(SynSet containingSet, List<string> results, HashSet<SynSet> setsSearched, WordNetNounCategory lexname) {
+        private void SearchSubsets(NounSynSet containingSet, List<string> results, HashSet<NounSynSet> setsSearched, WordNetNounCategory lexname) {
             results.AddRange(containingSet.Words);
             if (!setsSearched.Contains(containingSet)) {
 
                 setsSearched.Add(containingSet);
-                foreach (var set in containingSet.Pointers.Select(p => {
-                    SynSet set;
+                foreach (var set in containingSet.ReferencedIndexes.Select(p => {
+                    NounSynSet set;
                     data.TryGetValue(p, out set);
                     return set;
                 })) {
@@ -186,6 +186,6 @@ namespace LASI.Algorithm.Thesauri
                 return this[search.Text];
             }
         }
-        private static readonly NounRelationshipTranslator RelationMap = new NounRelationshipTranslator();
+        private static readonly NounPointerSymbolMap RelationMap = new NounPointerSymbolMap();
     }
 }

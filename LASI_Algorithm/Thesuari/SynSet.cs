@@ -3,10 +3,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LASI.Algorithm.Thesuari;
 
 namespace LASI.Algorithm.Thesauri
 {
-    public enum PointerKind
+    interface IVariantLookup<TKey, out TElement, out TEnumerable> : IEnumerable<IGrouping<TKey, TElement>>, System.Collections.IEnumerable
+        where TEnumerable : IEnumerable<TElement>, System.Collections.IEnumerable
+        where TKey : struct
+        where TElement : struct
+    {
+        TEnumerable this[TKey key] {
+            get;
+        }
+        int Count {
+            get;
+        }
+        bool Contains(TKey key);
+
+    }
+    public enum NounPointerSymbol
     {
         UNKNOWN = 0,
         Antonym,//!  
@@ -29,64 +44,85 @@ namespace LASI.Algorithm.Thesauri
         Domainofsynset_USAGE,//;u 
         Memberofthisdomain_USAGE,//-u  
     }
-    public class NounRelationshipTranslator
+    public enum VerbPointerSymbol
     {
-        public PointerKind this[string key] {
+        UNKNOWN = 0,
+        Antonym,//!
+        Hypernym,//@
+        Hyponym,//~ 
+        Entailment,//*
+        Cause,//>
+        Also_see,//^
+        Verb_Group,//$    
+        Derivationallyrelatedform,//+    
+        Domainofsynset_TOPIC,//;c  
+        Domainofsynset_REGION,//;r
+        Domainofsynset_USAGE,//;u 
+    }
+    internal class NounPointerSymbolMap
+    {
+        public NounPointerSymbol this[string key] {
             get {
-                PointerKind result;
+                NounPointerSymbol result;
                 data.TryGetValue(key, out result);
                 return result;
             }
         }
-        private static readonly Dictionary<string, PointerKind> data = new Dictionary<string, PointerKind>{ 
-            { "!", PointerKind.Antonym },
-            { "@", PointerKind.Hypernym },
-            { "@i", PointerKind.InstanceHypernym },
-            { "~", PointerKind.Hyponym },
-            { "~i", PointerKind.InstanceHyponym },
-            { "#m", PointerKind.Memberholonym },
-            { "#s", PointerKind.Substanceholonym },
-            { "#p", PointerKind.Partholonym },
-            { "%m", PointerKind.Membermeronym },
-            { "%s", PointerKind.Substancemeronym },
-            { "%p", PointerKind.Partmeronym },
-            { "=", PointerKind.Attribute },
-            { "+", PointerKind.Derivationallyrelatedform },
-            { ";c", PointerKind.Domainofsynset_TOPIC },
-            { "-c", PointerKind.Memberofthisdomain_TOPIC },
-            { ";r", PointerKind.Domainofsynset_REGION },
-            { "-r", PointerKind.Memberofthisdomain_REGION },
-            { ";u", PointerKind.Domainofsynset_USAGE },
-            { "-u", PointerKind.Memberofthisdomain_USAGE }
+        private static readonly IReadOnlyDictionary<string, NounPointerSymbol> data = new Dictionary<string, NounPointerSymbol>{ 
+            { "!", NounPointerSymbol.Antonym },
+            { "@", NounPointerSymbol.Hypernym },
+            { "@i", NounPointerSymbol.InstanceHypernym },
+            { "~", NounPointerSymbol.Hyponym },
+            { "~i", NounPointerSymbol.InstanceHyponym },
+            { "#m", NounPointerSymbol.Memberholonym },
+            { "#s", NounPointerSymbol.Substanceholonym },
+            { "#p", NounPointerSymbol.Partholonym },
+            { "%m", NounPointerSymbol.Membermeronym },
+            { "%s", NounPointerSymbol.Substancemeronym },
+            { "%p", NounPointerSymbol.Partmeronym },
+            { "=", NounPointerSymbol.Attribute },
+            { "+", NounPointerSymbol.Derivationallyrelatedform },
+            { ";c", NounPointerSymbol.Domainofsynset_TOPIC },
+            { "-c", NounPointerSymbol.Memberofthisdomain_TOPIC },
+            { ";r", NounPointerSymbol.Domainofsynset_REGION },
+            { "-r", NounPointerSymbol.Memberofthisdomain_REGION },
+            { ";u", NounPointerSymbol.Domainofsynset_USAGE },
+            { "-u", NounPointerSymbol.Memberofthisdomain_USAGE }
+        };
+    }
+    internal class VerbPointerSymbolMap
+    {
+        public VerbPointerSymbol this[string key] {
+            get {
+                VerbPointerSymbol result;
+                data.TryGetValue(key, out result);
+                return result;
+            }
+        }
+        private static readonly IReadOnlyDictionary<string, VerbPointerSymbol> data = new Dictionary<string, VerbPointerSymbol> {
+            { "!", VerbPointerSymbol. Antonym },// !
+            { "@", VerbPointerSymbol.Hypernym },// @
+            { "~", VerbPointerSymbol.Hyponym },// ~ 
+            { "*", VerbPointerSymbol.Entailment },// *
+            { ">", VerbPointerSymbol.Cause },// >
+            { "^", VerbPointerSymbol. Also_see },// ^
+            { "$", VerbPointerSymbol.Verb_Group },// $ 
+            { "+", VerbPointerSymbol.Derivationallyrelatedform },// +
+            { ";c", VerbPointerSymbol.Domainofsynset_TOPIC },// ;c 
+            { ";r", VerbPointerSymbol.Domainofsynset_REGION },// ;r
+            { ";u", VerbPointerSymbol.Domainofsynset_USAGE}// ;u 
         };
     }
 
-    interface IVariantLookup<TKey, out TElement, out TEnumerable> : IEnumerable<IGrouping<TKey, TElement>>, System.Collections.IEnumerable
-        where TEnumerable : IEnumerable<TElement>, System.Collections.IEnumerable
-        where TKey : struct
-        where TElement : struct
+    public class VerbSetPointerRelationTable : IVariantLookup<VerbPointerSymbol, int, ISet<int>>
     {
-        TEnumerable this[TKey key] {
-            get;
-        }
-        int Count {
-            get;
-        }
-        bool Contains(TKey key);
-
-    }
-    public class PointerRelationMap : IVariantLookup<PointerKind, int, ISet<int>>
-    {
-        public PointerRelationMap(IEnumerable<KeyValuePair<PointerKind, int>> relationData) {
-            data = new Dictionary<PointerKind, HashSet<int>>();
+        public VerbSetPointerRelationTable(IEnumerable<KeyValuePair<VerbPointerSymbol, int>> relationData) {
+            data = new Dictionary<VerbPointerSymbol, HashSet<int>>();
         }
 
-        private IDictionary<PointerKind, HashSet<int>> data;
-        private IEnumerable<IGrouping<PointerKind, int>> groupData;
-
-
-
-        public ISet<int> this[PointerKind key] {
+        private IDictionary<VerbPointerSymbol, HashSet<int>> data;
+        private IEnumerable<IGrouping<VerbPointerSymbol, int>> groupData;
+        public ISet<int> this[VerbPointerSymbol key] {
             get {
                 return data[key];
             }
@@ -98,11 +134,11 @@ namespace LASI.Algorithm.Thesauri
             }
         }
 
-        public bool Contains(PointerKind key) {
+        public bool Contains(VerbPointerSymbol key) {
             return data.ContainsKey(key);
         }
 
-        public IEnumerator<IGrouping<PointerKind, int>> GetEnumerator() {
+        public IEnumerator<IGrouping<VerbPointerSymbol, int>> GetEnumerator() {
             groupData = groupData ?? from pair in data
                                      from value in pair.Value
                                      group value by pair.Key;
@@ -110,53 +146,80 @@ namespace LASI.Algorithm.Thesauri
         }
 
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() {
-            return this.GetEnumerator();
+            throw new NotImplementedException();
+        }
+    }
+    public class NounSetPointerRelationTable : IVariantLookup<NounPointerSymbol, int, ISet<int>>
+    {
+        public NounSetPointerRelationTable(IEnumerable<KeyValuePair<NounPointerSymbol, int>> relationData) {
+            data = new Dictionary<NounPointerSymbol, HashSet<int>>();
+        }
+
+        private IDictionary<NounPointerSymbol, HashSet<int>> data;
+        private IEnumerable<IGrouping<NounPointerSymbol, int>> groupData;
+
+
+
+        public ISet<int> this[NounPointerSymbol key] {
+            get {
+                return data[key];
+            }
+        }
+
+        public int Count {
+            get {
+                return data.Count;
+            }
+        }
+
+        public bool Contains(NounPointerSymbol key) {
+            return data.ContainsKey(key);
+        }
+
+        public IEnumerator<IGrouping<NounPointerSymbol, int>> GetEnumerator() {
+            groupData = groupData ?? from pair in data
+                                     from value in pair.Value
+                                     group value by pair.Key;
+            return groupData.GetEnumerator();
+        }
+
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() {
+            throw new NotImplementedException();
         }
     }
 
-    public class SynSet
+    public class NounSynSet
     {
-
-
-
-        //Aluan: I added this field to store some additional information I found in the WordNet files
-
-
-
-        //Aluan: I added this Property to access some additional information I found in the WordNet files
 
         public WordNetNounCategory LexName {
             get;
             private set;
         }
-
-        //Aluan: I added this constructor to include some additional information I found in the WordNet files
-
-        public SynSet(int ID, IEnumerable<string> words, IEnumerable<int> pointers, WordNetNounCategory lexCategory) {
+        public NounSynSet(int ID, IEnumerable<string> words, IEnumerable<int> pointers, WordNetNounCategory lexCategory) {
             this.ID = ID;
             Words = new HashSet<string>(words);
-            Pointers = new HashSet<int>(pointers);
+            ReferencedIndexes = new HashSet<int>(pointers);
             LexName = lexCategory;
 
         }
-        public SynSet(int ID, IEnumerable<string> words, IEnumerable<KeyValuePair<PointerKind, int>> pointerRelations, WordNetNounCategory lexCategory) {
+        public NounSynSet(int ID, IEnumerable<string> words, IEnumerable<KeyValuePair<NounPointerSymbol, int>> pointerRelations, WordNetNounCategory lexCategory) {
             this.ID = ID;
             Words = new HashSet<string>(words);
-            ReferencesByRelationship = new PointerRelationMap(pointerRelations);
-            Pointers = new HashSet<int>(from pair in pointerRelations
-                                        select pair.Value);
+            RelatedOnPointerSymbol = new NounSetPointerRelationTable(pointerRelations);
+            ReferencedIndexes = new HashSet<int>(from pair in pointerRelations
+                                                 select pair.Value);
             LexName = lexCategory;
         }
 
-        public IEnumerable<int> this[PointerKind pointerType] {
+        public IEnumerable<int> this[NounPointerSymbol pointerSymbol] {
             get {
-                return ReferencesByRelationship[pointerType];
+                return RelatedOnPointerSymbol[pointerSymbol];
             }
         }
 
-        public PointerRelationMap ReferencesByRelationship {
+        public NounSetPointerRelationTable RelatedOnPointerSymbol {
             get;
-            private set;
+            set;
         }
 
 
@@ -166,7 +229,52 @@ namespace LASI.Algorithm.Thesauri
 
         }
 
-        public HashSet<int> Pointers {
+        public HashSet<int> ReferencedIndexes {
+            get;
+            private set;
+        }
+
+        public int ID {
+            get;
+            private set;
+        }
+
+    }
+    public class VerbSynSet
+    {
+        public WordNetVerbCategory LexName {
+            get;
+            private set;
+        }
+
+        public VerbSynSet(int ID, IEnumerable<string> words, IEnumerable<KeyValuePair<VerbPointerSymbol, int>> pointerRelations, WordNetVerbCategory lexCategory) {
+            this.ID = ID;
+            Words = new HashSet<string>(words);
+            RelatedOnPointerSymbol = new VerbSetPointerRelationTable(pointerRelations);
+            ReferencedIndexes = new HashSet<int>(from pair in pointerRelations
+                                                 select pair.Value);
+            LexName = lexCategory;
+        }
+
+        public IEnumerable<int> this[VerbPointerSymbol pointerSymbol] {
+            get {
+                return RelatedOnPointerSymbol[pointerSymbol];
+            }
+        }
+
+        public VerbSetPointerRelationTable RelatedOnPointerSymbol {
+            get;
+            set;
+        }
+
+
+        public HashSet<string> Words {
+            get;
+            private set;
+
+        }
+
+        public HashSet<int> ReferencedIndexes {
             get;
             private set;
         }

@@ -129,7 +129,7 @@ namespace LASI.Algorithm
         }
 
         /// <summary>
-        /// Gets the PointerKind of the Clause.
+        /// Gets the NounPointerSymbol of the Clause.
         /// </summary>
         public Type Type
         {

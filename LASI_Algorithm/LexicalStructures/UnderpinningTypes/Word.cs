@@ -47,7 +47,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Returns a string representation of the wd.
         /// </summary>
-        /// <returns>A string containing its underlying PointerKind and its text content.</returns>
+        /// <returns>A string containing its underlying NounPointerSymbol and its text content.</returns>
         public override string ToString()
         {
             return GetType().Name + " \"" + Text + "\"";
