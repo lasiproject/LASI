@@ -7,7 +7,7 @@ using System.Text;
 namespace LASI.Algorithm
 {
     /// <summary>
-    /// Represents a IsPossessive Pronoun such as his, hers, its, or theirs. Possessive Pronouns provide contextual ownership semantics. That is, 
+    /// Represents a isPossessive Pronoun such as his, hers, its, or theirs. isPossessive Pronouns provide contextual ownership semantics. That is, 
     /// they transfer ownership based on where they appear in relationship to the nouns they refer to.
     /// </summary>
     public class PossessivePronoun : Word, IWeakPossessor

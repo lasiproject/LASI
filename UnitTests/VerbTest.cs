@@ -96,7 +96,7 @@ namespace AlgorithmAssemblyUnitTestProject
             IPrepositional prep = new Preposition("for");
             prep.BindObjectOfPreposition(prepositionObject);
             target.AttachObjectViaPreposition(prep);
-            Assert.IsTrue(target.ObjectViaPreposition == prepositionObject);
+            Assert.IsTrue(target.ObjectOfThePreoposition == prepositionObject);
         }
 
         /// <summary>

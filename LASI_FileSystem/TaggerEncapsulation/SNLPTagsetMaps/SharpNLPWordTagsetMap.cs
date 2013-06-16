@@ -8,7 +8,7 @@ using LASI.Algorithm;
 namespace LASI.FileSystem
 {
     /// <summary>
-    /// Represents a tagset-to-runtime-PointerKind-mapping context which translates between The SharpNLP Tagger's tagset and the classes whose instances provide 
+    /// Represents a tagset-to-runtime-PointerKind-mapping context which translates between The SharpNLP Tagger'subject tagset and the classes whose instances provide 
     /// the runtime representations of the tag. 
     /// This class represents the tagset => runtime-PointerKind mapping for
     /// the tagset used by SharpNLP, a derrivative of the Penn Tagset.
@@ -51,9 +51,9 @@ namespace LASI.FileSystem
             { "NNPS", t => new ProperPluralNoun(t) }, //Proper noun, plural
             //Pronoun mappings
             { "PDT", t => new PreDeterminer(t) }, //Predeterminer
-            { "POS", t => new PossessiveEnding(t) }, //IsPossessive ending
+            { "POS", t => new PossessiveEnding(t) }, //isPossessive ending
             { "PRP", t => new PersonalPronoun(t) }, //Personal pronoun
-            { "PRP$", t => new PossessivePronoun(t) }, //IsPossessive pronoun
+            { "PRP$", t => new PossessivePronoun(t) }, //isPossessive pronoun
             //Adverb mappings
             { "RB", t => new Adverb(t) }, //Adverb
             { "RBR", t => new ComparativeAdverb(t) }, //Adverb, comparative
@@ -68,7 +68,7 @@ namespace LASI.FileSystem
             //WH-adverb mappings
             { "WDT", t => new Determiner(t) }, //Wh-leftNPDeterminer
             { "WP", t => new RelativePronoun(t) }, //Wh-pronoun
-            { "WP$", t => new RelativePossessivePronoun(t) }, //IsPossessive wh-pronoun
+            { "WP$", t => new RelativePossessivePronoun(t) }, //isPossessive wh-pronoun
             { "WRB", t => new Adverb(t) }, //Wh-adverb
             //Additional mappings
             { "RP", t => new Particle(t) }, //Particle

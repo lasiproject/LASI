@@ -64,7 +64,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Binds an IDescriptor, generally an Adjective or AdjectivePhrase, as a descriptor of the Noun.
         /// </summary>
-        /// <param name="adjective">The IDescriptor instance which will be added to the Noun's descriptors.</param>
+        /// <param name="adjective">The IDescriptor instance which will be added to the Noun'subject descriptors.</param>
         public virtual void BindDescriptor(IDescriptor adjective)
         {
             adjective.Describes = this;

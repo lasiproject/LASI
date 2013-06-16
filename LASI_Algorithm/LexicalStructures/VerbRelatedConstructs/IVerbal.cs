@@ -14,19 +14,16 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets the object of the preposition, if present, which is associated with the statement the Verbal is the basis for.
         /// </summary>
-        ILexical ObjectOfThePreoposition
-        {
+        ILexical ObjectOfThePreoposition {
             get;
         }
         /// <summary>
         /// Gets the IPropositioanl construct, such as a Preposition or PrepositionalPhrase, which links the Verbal to its ObjectViaPreposition if such a relationship exists.
         /// </summary>
-        IPrepositional PrepositionLinkingTarget
-        {
+        IPrepositional PrepositionalToObject {
             get;
         }
-        VerbalArity Arity
-        {
+        VerbalArity Arity {
             get;
         }
     }

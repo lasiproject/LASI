@@ -12,89 +12,78 @@ namespace LASI.InteropLayer
 {
     public class CrossDocumentJoiner
     {
-        public event EventHandler<IEnumerable<NVNN>> JoinCompleted
-        {
-            add
-            {
+        public event EventHandler<IEnumerable<NVNN>> JoinCompleted {
+            add {
                 onJoinCompletedEventHandler += value;
             }
-            remove
-            {
+            remove {
                 onJoinCompletedEventHandler -= value;
             }
         }
 
         private EventHandler<IEnumerable<NVNN>> onJoinCompletedEventHandler;
-        public CrossDocumentJoiner(IEnumerable<Document> documents)
-        {
+        public CrossDocumentJoiner(IEnumerable<Document> documents) {
             Documents = documents;
 
         }
-        public async Task<IEnumerable<NVNN>> JoinDocumentsAsnyc()
-        {
+        public async Task<IEnumerable<NVNN>> JoinDocumentsAsnyc() {
 
-            var verbalCommonalities = await GetCommonalitiesByVerbals();
-            var nounCommonalities = await GetCommonalitiesByBoundEntities();
-            var commonalities = verbalCommonalities.Concat(nounCommonalities);
-            //onJoinCompletedEventHandler.Invoke(this, commonalities);
-            return commonalities;
-        }
-        public void JoinDocuments()
-        {
-            Task.Run(async () =>
-           {
-               var verbalCommonalities = await GetCommonalitiesByVerbals();
-               var nounCommonalities = await GetCommonalitiesByBoundEntities();
-               return verbalCommonalities.Concat(nounCommonalities);
+            return await await Task.Factory.ContinueWhenAll(new[]{Task<IEnumerable<NVNN>>.Run(()=> GetCommonalitiesByVerbals()),
+Task<IEnumerable<NVNN>>.Run(()=> GetCommonalitiesByBoundEntities())}, async tasks => {
+    var results = new List<NVNN>();
+    foreach (var t in tasks) {
+        results.AddRange(await t);
+    }
+    return results.Distinct();
+});
 
-           }).ContinueWith(async result => onJoinCompletedEventHandler.Invoke(this, await result), TaskScheduler.FromCurrentSynchronizationContext()).ConfigureAwait(true);
+            //onJoinCompletedEventHandler.Invoke(new object(), commonalities);
 
         }
+        //public void JoinDocuments() {
+        //    Task.Run(async () => {
+        //        var verbalCommonalities = await GetCommonalitiesByVerbals();
+        //        var nounCommonalities = await GetCommonalitiesByBoundEntities();
+        //        return verbalCommonalities.Concat(nounCommonalities).Distinct();
 
-        private async Task<IEnumerable<NVNN>> GetCommonalitiesByBoundEntities()
-        {
-            var topNPsByDoc = await Task.WhenAll(from doc in Documents
+        //    }).ContinueWith(async result => onJoinCompletedEventHandler.Invoke(this, await result), TaskScheduler.FromCurrentSynchronizationContext()).ConfigureAwait(true);
+
+        //}
+
+        private async Task<IEnumerable<NVNN>> GetCommonalitiesByBoundEntities() {
+            var topNPsByDoc = await Task.WhenAll(from doc in Documents.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
                                                  select GetTopNounPhrases(doc));
-            var nounCommonalities = from outSet in topNPsByDoc
-                                    from np in outSet
-                                    where (from innerSet in topNPsByDoc
-                                           select innerSet.Contains(np,
-                                               (l, r) =>
-                                               {
-                                                   return l.Text == r.Text || l.IsSimilarTo(r);
-                                               }))
-                                           .Aggregate((product, result) =>
-                                           {
-                                               return product &= result;
-                                           })
-                                    select np;
-            return from n in nounCommonalities.InSubjectRole()
-                   select new NVNN
-                   {
-                       Subject = n,
-                       Verbal = n.SubjectOf as VerbPhrase,
-                       Direct = n.SubjectOf.DirectObjects.OfType<NounPhrase>().FirstOrDefault(),
-                       Indirect = n.SubjectOf.IndirectObjects.OfType<NounPhrase>().FirstOrDefault(),
-                       ViaPreposition = n.SubjectOf.ObjectOfThePreoposition as NounPhrase
-                   } into result
-                   group result by result.Subject.Text into resultGrouped
-                   select resultGrouped.First() into result
-                   orderby result.Subject.Weight
-                   select result;
+            var nounCommonalities = (from outerSet in topNPsByDoc.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
+                                     from np in outerSet
+                                     from innerSet in topNPsByDoc
+                                     where innerSet != outerSet
+                                     where innerSet.Contains(np, (L, R) => L.Text == R.Text || L.IsAliasFor(R) || L.IsSimilarTo(R))
+                                     select np).Distinct((L, R) => L.Text == R.Text || L.IsAliasFor(R) || L.IsSimilarTo(R));
+            var results = from n in nounCommonalities.InSubjectRole().AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
+                          select new NVNN {
+                              Subject = n,
+                              Verbal = n.SubjectOf as VerbPhrase,
+                              Direct = n.SubjectOf.DirectObjects.OfType<NounPhrase>().FirstOrDefault(),
+                              Indirect = n.SubjectOf.IndirectObjects.OfType<NounPhrase>().FirstOrDefault(),
+                              ViaPreposition = n.SubjectOf.ObjectOfThePreoposition as NounPhrase
+                          } into result
+                          group result by result.Subject.Text into resultGrouped
+                          select resultGrouped.First() into result
+                          orderby result.Subject.Weight
+                          select result;
+            return results.Distinct();
         }
-        private async Task<IEnumerable<NVNN>> GetCommonalitiesByVerbals()
-        {
+        private async Task<IEnumerable<NVNN>> GetCommonalitiesByVerbals() {
             var topVerbalsByDoc = await Task.WhenAll(from doc in Documents.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
                                                      select GetTopVerbPhrases(doc));
             var verbalCominalities = from set in topVerbalsByDoc.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
                                      from vp in set
-                                     where (from s in topVerbalsByDoc
-                                            select s.Contains(vp, (l, r) => l.Text == r.Text || r.IsSimilarTo(r)))
+                                     where (from verbs in topVerbalsByDoc
+                                            select verbs.Contains(vp, (L, R) => L.Text == R.Text || R.IsSimilarTo(R)))
                                             .Aggregate(true, (product, result) => product &= result)
                                      select vp;
             return (from v in verbalCominalities.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
-                    select new NVNN
-                    {
+                    select new NVNN {
                         Verbal = v,
                         Direct = v.DirectObjects.OfType<NounPhrase>().FirstOrDefault(),
                         Indirect = v.IndirectObjects.OfType<NounPhrase>().FirstOrDefault(),
@@ -107,30 +96,29 @@ namespace LASI.InteropLayer
                     select result);
         }
 
-        public async Task<IEnumerable<NounPhrase>> GetTopNounPhrases(Document document)
-        {
-            return await Task.Run(() => from np in document.GetEntities().GetPhrases().GetNounPhrases().AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
-                                        where np.SubjectOf != null || np.DirectObjectOf != null || np.IndirectObjectOf != null
-                                        group np by np.ID into distinctNPs
-                                        select distinctNPs.First() into topNP
-                                        orderby topNP.Weight
-                                        select topNP);
+        public async Task<IEnumerable<NounPhrase>> GetTopNounPhrases(Document document) {
+            return await Task.Run(() => from distinctNP in
+                                            (from np in document.GetEntities().GetPhrases().AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax).GetNounPhrases()
+                                             where np.SubjectOf != null || np.DirectObjectOf != null || np.IndirectObjectOf != null
+                                             select np).Distinct((L, R) => L.Text == R.Text || L.IsAliasFor(R) || L.IsSimilarTo(R))
+                                        orderby distinctNP.Weight
+                                        select distinctNP);
 
         }
-        public async Task<IEnumerable<VerbPhrase>> GetTopVerbPhrases(Document document)
-        {
-            return await Task.Run(() =>
-            {
-                var vpsWithSubject = document.Phrases.GetVerbPhrases().WithSubject();
+        public async Task<IEnumerable<VerbPhrase>> GetTopVerbPhrases(Document document) {
+            return await Task.Run(() => {
+                var vpsWithSubject = document.Phrases.GetVerbPhrases().AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax).WithSubject();
                 return from vp in vpsWithSubject.WithDirectObject().Concat(vpsWithSubject.WithIndirectObject()).Distinct()
-                       orderby vp.Subjects.OfType<NounPhrase>().Aggregate(0m, (sum, e) => sum += e.Weight) + vp.DirectObjects.OfType<NounPhrase>().Aggregate(0m, (sum, e) => sum += e.Weight) + vp.IndirectObjects.OfType<NounPhrase>().Aggregate(0m, (sum, e) => sum += e.Weight)
+                       orderby vp.Weight +
+                       vp.Subjects.Sum(e => e.Weight) +
+                       vp.DirectObjects.Sum(e => e.Weight) +
+                       vp.IndirectObjects.Sum(e => e.Weight)
                        select vp as VerbPhrase;
             });
         }
 
 
-        public IEnumerable<Document> Documents
-        {
+        public IEnumerable<Document> Documents {
             get;
             protected set;
         }
@@ -138,75 +126,59 @@ namespace LASI.InteropLayer
         {
             private VerbPhrase verbial;
 
-            public VerbPhrase Verbal
-            {
-                get
-                {
+            public VerbPhrase Verbal {
+                get {
                     return verbial;
                 }
-                set
-                {
+                set {
                     verbial = value;
                 }
             }
             private NounPhrase subject;
 
-            public NounPhrase Subject
-            {
-                get
-                {
+            public NounPhrase Subject {
+                get {
                     return subject;
                 }
-                set
-                {
+                set {
                     subject = value;
                     RelationshipWeight += subject != null ? subject.Weight : 0;
                 }
             }
             private NounPhrase direct;
 
-            public NounPhrase Direct
-            {
-                get
-                {
+            public NounPhrase Direct {
+                get {
                     return direct;
                 }
-                set
-                {
+                set {
                     direct = value;
                     RelationshipWeight += direct != null ? direct.Weight : 0;
                 }
             }
             private NounPhrase indirect;
 
-            public NounPhrase Indirect
-            {
-                get
-                {
+            public NounPhrase Indirect {
+                get {
                     return indirect;
                 }
-                set
-                {
+                set {
                     indirect = value;
                     RelationshipWeight += indirect != null ? indirect.Weight : 0;
                 }
             }
             private ILexical viaPreposition;
 
-            public ILexical ViaPreposition
-            {
-                get
-                {
+            public ILexical ViaPreposition {
+                get {
                     return viaPreposition;
                 }
-                set
-                {
+                set {
                     viaPreposition = value;
                     RelationshipWeight += viaPreposition != null ? viaPreposition.Weight : 0;
                 }
             }
-            public decimal RelationshipWeight
-            {
+            public decimal RelationshipWeight {
                 get;
                 protected set;
             }
@@ -214,8 +186,7 @@ namespace LASI.InteropLayer
             /// Returns a textual representation of the NpVpNpNpQuatruple.
             /// </summary>
             /// <returns>A textual representation of the NpVpNpNpQuatruple.</returns>
-            public override string ToString()
-            {
+            public override string ToString() {
                 var result = Subject.Text + Verbal.Text;
                 if (Direct != null) {
                     result += Direct.Text;
@@ -225,18 +196,15 @@ namespace LASI.InteropLayer
                 }
                 return result;
             }
-            public override int GetHashCode()
-            {
+            public override int GetHashCode() {
                 return 1;
             }
-            public override bool Equals(object obj)
-            {
+            public override bool Equals(object obj) {
 
                 return this == obj as NVNN;
 
             }
-            public static bool operator ==(NVNN lhs, NVNN rhs)
-            {
+            public static bool operator ==(NVNN lhs, NVNN rhs) {
 
                 if ((lhs as object != null || rhs as object == null) || (lhs as object == null || rhs as object != null))
                     return false;
@@ -257,8 +225,7 @@ namespace LASI.InteropLayer
                 }
             }
 
-            public static bool operator !=(NVNN lhs, NVNN rhs)
-            {
+            public static bool operator !=(NVNN lhs, NVNN rhs) {
                 return !(lhs == rhs);
             }
 

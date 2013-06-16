@@ -19,8 +19,7 @@ namespace LASI.UserInterface.DataVisualzationProviders
 
         #region Chart Transposing Methods
 
-        public static void ChangeChartKind(ChartKind chartKind)
-        {
+        public static void ChangeChartKind(ChartKind chartKind) {
             foreach (var pair in documentsByChart) {
 
                 Document doc = pair.Value;
@@ -38,8 +37,7 @@ namespace LASI.UserInterface.DataVisualzationProviders
                 }
                 data = data.Take(ChartItemLimit);
                 chart.Series.Clear();
-                chart.Series.Add(new BarSeries
-                {
+                chart.Series.Add(new BarSeries {
                     DependentValuePath = "Value",
                     IndependentValuePath = "Key",
                     ItemsSource = data,
@@ -56,13 +54,11 @@ namespace LASI.UserInterface.DataVisualzationProviders
         /// Reconfigures all charts to Subjects Column perspective
         /// </summary>
         /// <returns>A Task which completes on the successful reconstruction of all charts</returns>
-        public static async Task ToColumnCharts()
-        {
+        public static async Task ToColumnCharts() {
             foreach (var chart in WindowManager.ResultsScreen.FrequencyCharts.Items) {
                 var items = GetItemSourceFor(chart);
                 items.Reverse();
-                var series = new ColumnSeries
-                {
+                var series = new ColumnSeries {
                     DependentValuePath = "Value",
                     IndependentValuePath = "Key",
                     ItemsSource = items,
@@ -79,20 +75,17 @@ namespace LASI.UserInterface.DataVisualzationProviders
         /// Reconfigures all charts to Subjects Pie perspective
         /// </summary>
         /// <returns>A Task which completes on the successful reconstruction of all charts</returns>
-        public static async Task ToPieCharts()
-        {
+        public static async Task ToPieCharts() {
             foreach (var chart in WindowManager.ResultsScreen.FrequencyCharts.Items) {
                 var items = GetItemSourceFor(chart);
                 items.Reverse();
-                var series = new PieSeries
-                {
+                var series = new PieSeries {
                     DependentValuePath = "Value",
                     IndependentValuePath = "Key",
                     ItemsSource = items,
                     IsSelectionEnabled = true,
                 };
-                series.IsMouseCaptureWithinChanged += (sender, e) =>
-                {
+                series.IsMouseCaptureWithinChanged += (sender, e) => {
                     series.ToolTip = (series.SelectedItem as DataPoint).DependentValue;
                 };
 
@@ -105,13 +98,11 @@ namespace LASI.UserInterface.DataVisualzationProviders
         /// Reconfigures all charts to Subjects Bar perspective
         /// </summary>
         /// <returns>A Task which completes on the successful reconstruction of all charts</returns>
-        public static async Task ToBarCharts()
-        {
+        public static async Task ToBarCharts() {
             foreach (var chart in WindowManager.ResultsScreen.FrequencyCharts.Items) {
                 var items = GetItemSourceFor(chart);
                 items.Reverse();
-                var series = new BarSeries
-                {
+                var series = new BarSeries {
                     DependentValuePath = "Value",
                     IndependentValuePath = "Key",
                     ItemsSource = items,
@@ -121,17 +112,14 @@ namespace LASI.UserInterface.DataVisualzationProviders
             }
             await Task.Delay(1);
         }
-        public static IEnumerable<KeyValuePair<string, float>> GetAppropriateData(object chart)
-        {
+        public static IEnumerable<KeyValuePair<string, float>> GetAppropriateData(object chart) {
             var items = ChartingManager.GetAppropriateDataSet(documentsByChart[((chart as TabItem).Content as Chart)]);
             return items;
         }
-        public static async void BuildMainChartDisplay(Document document)
-        {
+        public static async void BuildMainChartDisplay(Document document) {
             var chart = BuildBarChart(document);
             documentsByChart.Add(chart, document);
-            var tabItem = new TabItem
-            {
+            var tabItem = new TabItem {
                 Header = document.FileName,
                 Content = chart,
                 Tag = chart
@@ -141,12 +129,10 @@ namespace LASI.UserInterface.DataVisualzationProviders
         }
 
 
-        private static Chart BuildBarChart(Document document)
-        {
+        private static Chart BuildBarChart(Document document) {
 
             var valueList = ChartingManager.GetAppropriateDataSet(document);
-            Series series = new BarSeries
-            {
+            Series series = new BarSeries {
                 DependentValuePath = "Value",
                 IndependentValuePath = "Key",
                 ItemsSource = valueList,
@@ -155,14 +141,12 @@ namespace LASI.UserInterface.DataVisualzationProviders
 
             };
 
-            var chart = new Chart
-            {
+            var chart = new Chart {
                 Title = string.Format("Key Subjects in {0}", document.FileName),
                 Tag = valueList.ToArray()
             };
 
-            series.MouseMove += (sender, e) =>
-            {
+            series.MouseMove += (sender, e) => {
                 series.ToolTip = (e.Source as DataPoint).IndependentValue;
             };
 
@@ -175,8 +159,7 @@ namespace LASI.UserInterface.DataVisualzationProviders
         /// </summary>
         /// <param name="document"></param>
         /// <returns></returns>
-        public static Chart BuildEntityActionEntityChart(Document document)
-        {
+        public static Chart BuildEntityActionEntityChart(Document document) {
             var verticalTopEntites = from np in
                                          (from np in document.Phrases.GetNounPhrases().InSubjectRole()
                                           orderby np.Weight
@@ -187,16 +170,14 @@ namespace LASI.UserInterface.DataVisualzationProviders
                                             orderby np.Weight
                                             select np).Take(20)
                                        select new KeyValuePair<string, string>(np.Text, np.SubjectOf.Text);
-            var horizontalEntitySeries = new LineSeries
-            {
+            var horizontalEntitySeries = new LineSeries {
                 IndependentValuePath = "Key",
                 DependentValuePath = "Value",
                 ItemsSource = horizontalTopEntites,
                 IsEnabled = true,
                 Tag = document
             };
-            var verticalEntitySeries = new LineSeries
-            {
+            var verticalEntitySeries = new LineSeries {
                 IndependentValuePath = "Key",
                 DependentValuePath = "Value",
                 ItemsSource = verticalTopEntites,
@@ -205,8 +186,7 @@ namespace LASI.UserInterface.DataVisualzationProviders
             };
 
 
-            var chart = new Chart
-            {
+            var chart = new Chart {
                 Title = string.Format("E A E Relationships in{0}", document.FileName)
             };
             chart.Series.Add(horizontalEntitySeries);
@@ -219,14 +199,12 @@ namespace LASI.UserInterface.DataVisualzationProviders
 
         #region General Chart Building Methods
 
-        public static void ResetChartContent(object c, DataPointSeries series)
-        {
+        public static void ResetChartContent(object c, DataPointSeries series) {
             ((c as TabItem).Content as Chart).Series.Clear();
             ((c as TabItem).Content as Chart).Series.Add(series);
         }
 
-        public static List<KeyValuePair<string, float>> GetItemSourceFor(object chart)
-        {
+        public static List<KeyValuePair<string, float>> GetItemSourceFor(object chart) {
             var chartSource = ((chart as TabItem).Content as Chart).Tag as IEnumerable<KeyValuePair<string, float>>;
             var items = (from i in chartSource.ToArray()
 
@@ -236,8 +214,7 @@ namespace LASI.UserInterface.DataVisualzationProviders
         }
 
         #endregion
-        private static IEnumerable<KeyValuePair<string, float>> GetSVOIData(Document doc)
-        {
+        private static IEnumerable<KeyValuePair<string, float>> GetSVOIData(Document doc) {
             var data = GetVerbWiseAssociationData(doc);
             return from svs in data
 
@@ -250,8 +227,7 @@ namespace LASI.UserInterface.DataVisualzationProviders
                    select svg.Key;
 
         }
-        private static IEnumerable<RelationshipTuple> GetVerbWiseAssociationData(Document doc)
-        {
+        private static IEnumerable<RelationshipTuple> GetVerbWiseAssociationData(Document doc) {
             var data =
                  from svPair in
                      (from v in doc.Phrases.GetVerbPhrases().WithSubject().AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
@@ -259,8 +235,7 @@ namespace LASI.UserInterface.DataVisualzationProviders
                       from dobj in v.DirectObjects.DefaultIfEmpty()
                       from iobj in v.IndirectObjects.DefaultIfEmpty()
 
-                      select new RelationshipTuple
-                      {
+                      select new RelationshipTuple {
                           Subject = s as NounPhrase ?? null,
                           Verbal = v as VerbPhrase ?? null,
                           Direct = dobj as NounPhrase ?? null,
@@ -281,12 +256,10 @@ namespace LASI.UserInterface.DataVisualzationProviders
             return data.ToArray();
         }
 
-        private static IEnumerable<KeyValuePair<string, float>> GetNounPhraseData(Document doc)
-        {
+        private static IEnumerable<KeyValuePair<string, float>> GetNounPhraseData(Document doc) {
             return from NP in doc.Phrases.GetNounPhrases().Distinct().AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
 
-                   group NP by new
-                   {
+                   group NP by new {
                        NP.Text,
                        NP.Weight
                    } into NP
@@ -294,24 +267,19 @@ namespace LASI.UserInterface.DataVisualzationProviders
                    orderby master.Weight descending
                    select new KeyValuePair<string, float>(master.Text, ( float )Math.Round(master.Weight, 2));
         }
-        public static IEnumerable<KeyValuePair<string, float>> GetAppropriateDataSet(Document document)
-        {
+        public static IEnumerable<KeyValuePair<string, float>> GetAppropriateDataSet(Document document) {
             var valueList = chartKind == ChartKind.NounPhrasesOnly ? GetNounPhraseData(document) : chartKind == ChartKind.SubjectVerbObject ? GetSVOIData(document) : GetSVOIData(document);
             return valueList;
         }
-        public static async Task BuildKeyRelationshipDisplay(Document doc)
-        {
+        public static async Task BuildKeyRelationshipDisplay(Document doc) {
 
-            var transformedData = await Task.Factory.StartNew(() =>
-            {
+            var transformedData = await Task.Factory.StartNew(() => {
                 return CreateRelationshipData(ChartingManager.GetVerbWiseAssociationData(doc));
             });
-            var wpfToolKitDataGrid = new Microsoft.Windows.Controls.DataGrid
-            {
+            var wpfToolKitDataGrid = new Microsoft.Windows.Controls.DataGrid {
                 ItemsSource = transformedData,
             };
-            var tab = new TabItem
-            {
+            var tab = new TabItem {
                 Header = doc.FileName,
                 Content = wpfToolKitDataGrid
             };
@@ -319,19 +287,16 @@ namespace LASI.UserInterface.DataVisualzationProviders
 
         }
 
-        public static async Task<IEnumerable<object>> CreateRelationshipDataAsync(IEnumerable<CrossDocumentJoiner.NVNN> elementsToSerialize)
-        {
+        public static async Task<IEnumerable<object>> CreateRelationshipDataAsync(IEnumerable<CrossDocumentJoiner.NVNN> elementsToSerialize) {
 
             return await Task.Run(() =>
                CreateRelationshipData(elementsToSerialize));
         }
 
-        public static IEnumerable<object> CreateRelationshipData(IEnumerable<CrossDocumentJoiner.NVNN> elementsToSerialize)
-        {
+        public static IEnumerable<object> CreateRelationshipData(IEnumerable<CrossDocumentJoiner.NVNN> elementsToSerialize) {
             return CreateRelationshipData(
-                            from e in elementsToSerialize
-                            select new RelationshipTuple
-                            {
+                            from e in elementsToSerialize.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
+                            select new RelationshipTuple {
                                 Direct = e.Direct,
                                 Indirect = e.Indirect,
                                 Subject = e.Subject,
@@ -341,17 +306,15 @@ namespace LASI.UserInterface.DataVisualzationProviders
                             });
         }
 
-        public static IEnumerable<object> CreateRelationshipData(IEnumerable<RelationshipTuple> elementsToSerialize)
-        {
+        public static IEnumerable<object> CreateRelationshipData(IEnumerable<RelationshipTuple> elementsToSerialize) {
             var dataRows = from result in elementsToSerialize.Distinct(new RelationshipComparer())
                            orderby result.RelationshipWeight
-                           select new
-                           {
+                           select new {
                                Subject = result.Subject != null ? result.Subject.Text : "",
                                Verbial = result.Verbal != null ? (result.Verbal.PrepositionOnLeft != null ? result.Verbal.PrepositionOnLeft.Text + " " : "") + result.Verbal.Text : "",
                                Direct = result.Direct != null ? (result.Direct.PrepositionOnLeft != null ? result.Direct.PrepositionOnLeft.Text + " " : "") + result.Direct.Text : "",
                                Indirect = result.Indirect != null ? (result.Indirect.PrepositionOnLeft != null ? result.Indirect.PrepositionOnLeft.Text + " " : "") + result.Indirect.Text : "",
-                               ViaPrepositional = result.ViaPreposition != null ? result.Verbal.PrepositionLinkingTarget.Text + " " + result.ViaPreposition.Text : ""
+                               ViaPrepositional = result.ViaPreposition != null ? result.Verbal.PrepositionalToObject.Text + " " + result.ViaPreposition.Text : ""
                            };
             return dataRows.Distinct();
         }
@@ -360,10 +323,8 @@ namespace LASI.UserInterface.DataVisualzationProviders
 
         private const int chartItemLimit = 14;
 
-        public static int ChartItemLimit
-        {
-            get
-            {
+        public static int ChartItemLimit {
+            get {
                 return chartItemLimit;
             }
         }
@@ -371,8 +332,7 @@ namespace LASI.UserInterface.DataVisualzationProviders
 
 
 
-        public static ChartKind chartKind
-        {
+        public static ChartKind chartKind {
             get;
             set;
         }
@@ -386,8 +346,7 @@ namespace LASI.UserInterface.DataVisualzationProviders
     /// </summary>
     struct RelationshipComparer : IEqualityComparer<RelationshipTuple>
     {
-        public bool Equals(RelationshipTuple lhs, RelationshipTuple rhs)
-        {
+        public bool Equals(RelationshipTuple lhs, RelationshipTuple rhs) {
 
             if ((lhs as object == null || rhs as object == null)) {
                 return !(lhs as object == null ^ rhs as object == null);
@@ -409,8 +368,7 @@ namespace LASI.UserInterface.DataVisualzationProviders
             }
         }
 
-        public int GetHashCode(RelationshipTuple obj)
-        {
+        public int GetHashCode(RelationshipTuple obj) {
             return obj == null ? 0 : obj.Elements.Count;
         }
     }
@@ -422,14 +380,11 @@ namespace LASI.UserInterface.DataVisualzationProviders
     {
         NounPhrase subject;
 
-        public NounPhrase Subject
-        {
-            get
-            {
+        public NounPhrase Subject {
+            get {
                 return subject;
             }
-            set
-            {
+            set {
                 subject = value;
                 elements.Add(value);
             }
@@ -437,14 +392,11 @@ namespace LASI.UserInterface.DataVisualzationProviders
 
         VerbPhrase verbal;
 
-        public VerbPhrase Verbal
-        {
-            get
-            {
+        public VerbPhrase Verbal {
+            get {
                 return verbal;
             }
-            set
-            {
+            set {
                 verbal = value;
                 elements.Add(value);
             }
@@ -452,14 +404,11 @@ namespace LASI.UserInterface.DataVisualzationProviders
 
         NounPhrase direct;
 
-        public NounPhrase Direct
-        {
-            get
-            {
+        public NounPhrase Direct {
+            get {
                 return direct;
             }
-            set
-            {
+            set {
                 direct = value;
                 elements.Add(value);
             }
@@ -467,14 +416,11 @@ namespace LASI.UserInterface.DataVisualzationProviders
 
         NounPhrase indirect;
 
-        public NounPhrase Indirect
-        {
-            get
-            {
+        public NounPhrase Indirect {
+            get {
                 return indirect;
             }
-            set
-            {
+            set {
                 indirect = value;
                 elements.Add(value);
             }
@@ -482,14 +428,11 @@ namespace LASI.UserInterface.DataVisualzationProviders
 
         ILexical viaPreposition;
 
-        public ILexical ViaPreposition
-        {
-            get
-            {
+        public ILexical ViaPreposition {
+            get {
                 return viaPreposition;
             }
-            set
-            {
+            set {
                 viaPreposition = value;
                 elements.Add(value);
             }
@@ -498,17 +441,14 @@ namespace LASI.UserInterface.DataVisualzationProviders
 
         HashSet<ILexical> elements = new HashSet<ILexical>();
 
-        public HashSet<ILexical> Elements
-        {
-            get
-            {
+        public HashSet<ILexical> Elements {
+            get {
                 return elements;
             }
         }
 
 
-        public decimal RelationshipWeight
-        {
+        public decimal RelationshipWeight {
             get;
             set;
         }
@@ -516,8 +456,7 @@ namespace LASI.UserInterface.DataVisualzationProviders
         /// Returns a textual representation of the RelationshipTuple.
         /// </summary>
         /// <returns>A textual representation of the RelationshipTuple.</returns>
-        public override string ToString()
-        {
+        public override string ToString() {
             var result = Subject.Text + Verbal.Text;
             if (Direct != null) {
                 result += Direct.Text;

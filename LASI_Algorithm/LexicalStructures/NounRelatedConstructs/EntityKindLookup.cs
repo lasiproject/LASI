@@ -51,7 +51,7 @@ namespace LASI.Algorithm
         /// <param name="entry">The entry to conjugated for.</param>
         /// <returns>The EntityKind corresponding to the describables text.</returns>
         /// <exception cref="KeyNotFoundException">
-        /// Thrown when no EntityKind is indexed by the entity's text.
+        /// Thrown when no EntityKind is indexed by the entity'subject text.
         /// </exception>
         public static EntityKind Lookup(IEntity entry) {
             return Lookup(entry);

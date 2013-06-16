@@ -9,7 +9,7 @@ namespace LASI.FileSystem
 {
     /// <summary>
     /// Represents a tagset-to-runtime-PointerKind-mapping context which translates between a Part Of Speech
-    /// Tagger's provided tags and their runtime PointerKind equivalents. 
+    /// Tagger'subject provided tags and their runtime PointerKind equivalents. 
     /// This class represents the tagset => runtime-PointerKind mapping for adverb occurances
     /// <see cref="WordTagsetMap"/>
     ///<seealso cref="WordMapper"/>

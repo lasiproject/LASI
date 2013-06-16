@@ -23,17 +23,13 @@ namespace LASI.Algorithm
         /// <summary>
         /// AliasComparer based comparer where if not textually equivalent if will check to see if the NounPhrases are aliases for each
         /// </summary>
-        public static AliasComparer Alias
-        {
-            get
-            {
+        public static AliasComparer Alias {
+            get {
                 return alias;
             }
         }
-        public static AliasOrSimilarityComparer<NounPhrase> AliasOrSimilarity
-        {
-            get
-            {
+        public static AliasOrSimilarityComparer<NounPhrase> AliasOrSimilarity {
+            get {
                 return aliasOrSimilarity;
             }
         }
@@ -41,10 +37,8 @@ namespace LASI.Algorithm
         /// <summary>
         /// SimilarityComparer based comparer where if not textually equivalent if will check to see if the NounPhrases are similar tp eachother.
         /// </summary>
-        public static SimilarityComparer<NounPhrase> Similarity
-        {
-            get
-            {
+        public static SimilarityComparer<NounPhrase> Similarity {
+            get {
                 return similarity;
             }
         }
@@ -52,10 +46,8 @@ namespace LASI.Algorithm
         /// Text based comparer which compares the key text of two NounPhrases to see if they are Identical.
         /// All end comparers provided here perform key text comparions implicitely.
         /// </summary>
-        public static TextualComparer Textual
-        {
-            get
-            {
+        public static TextualComparer Textual {
+            get {
                 return textual;
             }
         }
@@ -76,8 +68,7 @@ namespace LASI.Algorithm
         /// Specifically, the complexity of a calling IEnumerable.Contains(CreateCustom(Func)) or IEnumerable.Distinct(CreateCustom(Func))
         /// approaches O(N^2), where as calls which use the default reference based, hash if possible comparers, IEqualityComparers only approach approach O(N).
         /// </remarks>
-        public static IEqualityComparer<T> CreateCustom(Func<T, T, bool> equals)
-        {
+        public static IEqualityComparer<T> CreateCustom(Func<T, T, bool> equals) {
             if (equals == null) {
                 throw new ArgumentNullException("equals", "A null equals function was provided.");
             } else
@@ -104,48 +95,39 @@ namespace LASI.Algorithm
 
         public class TextualComparer : IEqualityComparer<T>
         {
-            protected internal TextualComparer()
-            {
+            protected internal TextualComparer() {
             }
-            public bool Equals(T x, T y)
-            {
+            public bool Equals(T x, T y) {
                 return x.Text == y.Text;
             }
 
-            public int GetHashCode(T obj)
-            {
+            public int GetHashCode(T obj) {
                 return obj == null ? 0 : 1;
             }
         }
         public class SimilarityComparer<R> : IEqualityComparer<R>
             where R : NounPhrase
         {
-            protected internal SimilarityComparer()
-            {
+            protected internal SimilarityComparer() {
             }
-            public bool Equals(R x, R y)
-            {
+            public bool Equals(R x, R y) {
                 return x.Text == y.Text || x.IsSimilarTo(y);
 
             }
 
-            public int GetHashCode(R obj)
-            {
+            public int GetHashCode(R obj) {
                 return obj == null ? 0 : 1;
             }
         }
         public class AliasComparer : IEqualityComparer<IEntity>
         {
-            protected internal AliasComparer()
-            {
+            protected internal AliasComparer() {
             }
-            public bool Equals(IEntity x, IEntity y)
-            {
+            public bool Equals(IEntity x, IEntity y) {
                 return x.Text == y.Text || x.IsAliasFor(y);
             }
 
-            public int GetHashCode(IEntity obj)
-            {
+            public int GetHashCode(IEntity obj) {
                 return obj == null ? 0 : 1;
             }
 
@@ -154,16 +136,13 @@ namespace LASI.Algorithm
         public class AliasOrSimilarityComparer<S> : IEqualityComparer<S>
             where S : Phrase, IEntity
         {
-            protected internal AliasOrSimilarityComparer()
-            {
+            protected internal AliasOrSimilarityComparer() {
             }
-            public bool Equals(S x, S y)
-            {
+            public bool Equals(S x, S y) {
                 return x.Text == y.Text || x.IsAliasFor(y) || (x as NounPhrase).IsSimilarTo(y as NounPhrase);
             }
 
-            public int GetHashCode(S obj)
-            {
+            public int GetHashCode(S obj) {
                 return obj == null ? 0 : 1;
             }
         }
@@ -171,26 +150,21 @@ namespace LASI.Algorithm
         {
             private Func<T, T, bool> customEquals;
             private Func<T, int> customGetHashCode;
-            protected internal CustomComparer(Func<T, T, bool> equals)
-            {
+            protected internal CustomComparer(Func<T, T, bool> equals) {
                 customEquals = equals;
-                customGetHashCode = ((T obj) =>
-                {
+                customGetHashCode = ((T obj) => {
                     return obj == null ? 0 : 1;
                 });
             }
-            protected internal CustomComparer(Func<T, T, bool> equals, Func<T, int> hasher)
-            {
+            protected internal CustomComparer(Func<T, T, bool> equals, Func<T, int> hasher) {
                 customEquals = equals;
                 customGetHashCode = hasher;
             }
-            public bool Equals(T x, T y)
-            {
+            public bool Equals(T x, T y) {
                 return customEquals(x, y);
             }
 
-            public int GetHashCode(T obj)
-            {
+            public int GetHashCode(T obj) {
                 return customGetHashCode(obj);
             }
         }

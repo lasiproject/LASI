@@ -11,7 +11,7 @@ namespace LASI.Algorithm
     /// If modifying an instransitive adverb it will usually lexically follow the the adverb: e.g. "Jane performed BEST.
     /// If modifying a transitive adverb it will usually lexically follow the adverb object: e.g. "Jane played poker BEST.
     /// For Adjectives - 
-    /// The adverb will usually lexically precede the adjective it modifies: e.g. John's wardrobe is MOST colorful than Jane's.
+    /// The adverb will usually lexically precede the adjective it modifies: e.g. John'subject wardrobe is MOST colorful than Jane'subject.
     /// </summary>
     public class SuperlativeAdverb : Adverb
     {

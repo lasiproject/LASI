@@ -15,10 +15,10 @@ namespace LASI.Algorithm.Thesauri
         Hyponym,//~ 
         InstanceHyponym,//~i
         Memberholonym,//#m 
-        Substanceholonym,//#s 
+        Substanceholonym,//#subject 
         Partholonym,//#p 
         Membermeronym,//%m 
-        Substancemeronym,//%s 
+        Substancemeronym,//%subject 
         Partmeronym,//%p 
         Attribute,//=  
         Derivationallyrelatedform,//+  

@@ -16,13 +16,11 @@ namespace LASI.Algorithm
         /// <param name="entity">The first Entity</param>
         /// <param name="end">The second Entity</param>
         /// <returns>true if the Entities are aliases for one another, false otherwise</returns>
-        public static bool IsAliasFor(this IEntity entity, IEntity other)
-        {
+        public static bool IsAliasFor(this IEntity entity, IEntity other) {
             return Lookup(entity.Text, other.Text);
-        }
+        }   
 
-        private static bool Lookup(string entityText, string aliasText)
-        {
+        private static bool Lookup(string entityText, string aliasText) {
             HashSet<string> aliases;
             return aliasDictionary.TryGetValue(entityText, out aliases)
                 &&
@@ -34,8 +32,7 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="entity">The Entity to register an alias for</param>
         /// <param name="textualAlias">The textual alias which will be registered</param>
-        public static void RegisterTextualAlias(IEntity entity, string textualAlias)
-        {
+        public static void DefineAlias(IEntity entity, string textualAlias) {
             DefineAliasInDictionary(entity.Text, textualAlias);
         }
         /// <summary>
@@ -43,8 +40,7 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="entity">The first Entity</param>
         /// <param name="textualAlias">The second Entity</param>
-        public static void RegisterTextualAlias(IEntity entity, IEntity other)
-        {
+        public static void DefineAlias(IEntity entity, IEntity other) {
             DefineAliasInDictionary(entity.Text, other.Text);
         }
         /// <summary>
@@ -52,8 +48,7 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="entity">The first Entity</param>
         /// <param name="textualAlias">The second Entity</param>
-        public static void RegisterTextualAlias(string entityText, string aliasText)
-        {
+        public static void DefineAlias(string entityText, string aliasText) {
             DefineAliasInDictionary(entityText, aliasText);
 
         }
@@ -62,13 +57,11 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="entityText">The text of the entity to define an the alias for.</param>
         /// <param name="textualAliases">One or more textual alias to define for the given entity text.</param>
-        private static void DefineAliasInDictionary(string entityText, params string[] textualAliases)
-        {
+        private static void DefineAliasInDictionary(string entityText, params string[] textualAliases) {
             aliasDictionary.AddOrUpdate(
                    entityText,
                    new HashSet<string>(textualAliases),
-                   (keyString, aliases) =>
-                   {
+                   (keyString, aliases) => {
                        aliases.Concat(textualAliases);
                        return aliases;
                    });

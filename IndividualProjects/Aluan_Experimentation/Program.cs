@@ -20,7 +20,7 @@ namespace Aluan_Experimentation
         //static string text = @"You need to kill that mother fucker because he took away the fun.";
 
         static void Main(string[] args) {
-            Thesaurus.GetNounThesaurusLoadTask().Wait();
+            Thesaurus.NounThesaurusLoadTask.Wait();
             var syns = Thesaurus.LookupNoun("feline");
             foreach (var syn in syns) {
                 Output.WriteLine(syn);

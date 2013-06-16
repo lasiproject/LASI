@@ -18,7 +18,7 @@ namespace LASI.Algorithm.Thesauri
         ///<param name="constrainByCategory"></param>
         /// <param name="filePath">The path of the WordNet database file containing the sysnonym line for actions.</param>
         /// </summary>
-        public VerbThesaurus(string filePath, bool constrainByCategory = false)
+        public VerbThesaurus(string filePath, bool constrainByCategory = true)
             : base(filePath) {
             FilePath = filePath;
             AssociationData = new ConcurrentDictionary<string, VerbThesaurusSynSet>();
@@ -81,7 +81,7 @@ namespace LASI.Algorithm.Thesauri
                             (from refIndex in AssociationData[root].ReferencedIndexes
                              from referencedSet in AssociationData.Values.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
                              where referencedSet.ReferencedIndexes.Contains(refIndex)
-                             //where (!lexRestrict || referencedSet.LexName == AssociationData[root].LexName)
+                             where (!lexRestrict || referencedSet.LexName == AssociationData[root].LexName)
                              from word in referencedSet.Words.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
                              let withConjugations = new string[] { word }.Concat(conjugator.TryComputeConjugations(word))
                              from w in withConjugations

@@ -21,8 +21,7 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="composedWords">The words which compose to form the VerbPhrase.</param>
         public VerbPhrase(IEnumerable<Word> composedWords)
-            : base(composedWords)
-        {
+            : base(composedWords) {
 
             Tense = composedWords.GetVerbs().Any() ? (from v in composedWords.GetVerbs()
                                                       group v.Tense by v.Tense into tenseGroup
@@ -40,8 +39,7 @@ namespace LASI.Algorithm
         /// Attaches an Adverbial construct, such as an Adverb or AdverbPhrase, as a modifier of the Verb.
         /// </summary>
         /// <param name="adv">The Adverbial construct by which to modify the AdjectivePhrase.</param>
-        public void ModifyWith(IAdverbial adv)
-        {
+        public void ModifyWith(IAdverbial adv) {
             _modifiers.Add(adv);
             adv.Modifies = this;
         }
@@ -49,15 +47,14 @@ namespace LASI.Algorithm
         /// Binds the VerbPhrase to an object via a propisitional construct such as a Prepositon or or PrepositionalPhrase.
         /// Example: He "ran" to work. where "work" is the object of ran via the prepositional construct "to"
         /// </summary>
-        /// <param name="prep">The IPrepositional construct through which the Object is associated.</param>
-        public virtual void AttachObjectViaPreposition(IPrepositional prep)
-        {
-            // if (!DirectObjects.Contains(prep.PrepositionalObject) && !IndirectObjects.Contains(prep.PrepositionalObject)) {
+        /// <param name="prepositional">The IPrepositional construct through which the Object is associated.</param>
+        public virtual void AttachObjectViaPreposition(IPrepositional prepositional) {
+            // if (!DirectObjects.Contains(prepositional.PrepositionalObject) && !IndirectObjects.Contains(prepositional.PrepositionalObject)) {
             ObjectOfThePreoposition =
-                prep.OnRightSide != null ?
-                prep.OnRightSide :
-                prep.OnLeftSide;
-            PrepositionLinkingTarget = prep;
+                prepositional.OnRightSide != null ?
+                prepositional.OnRightSide :
+                prepositional.OnLeftSide;
+            PrepositionalToObject = prepositional;
 
 
         }
@@ -65,10 +62,9 @@ namespace LASI.Algorithm
         /// Binds the given Entity as a subject of the VerbPhrase instance.
         /// </summary>
         /// <param name="subject">The Entity to attach to the VerbPhrase as a subject.</param>
-        public virtual void BindSubject(IEntity subject)
-        {
-            if (!_boundSubjects.Contains(subject)) {
-                _boundSubjects.Add(subject);
+        public virtual void BindSubject(IEntity subject) {
+            if (!_subjects.Contains(subject)) {
+                _subjects.Add(subject);
                 subject.SubjectOf = this;
             }
         }
@@ -77,14 +73,17 @@ namespace LASI.Algorithm
         /// Binds the given Entity as a direct object of the VerbPhrase instance.
         /// </summary>
         /// <param name="directObject">The Entity to attach to the VerbPhrase as a direct object.</param>
-        public virtual void BindDirectObject(IEntity directObject)
-        {
-            if (!_boundDirectObjects.Contains(directObject)) {
-                _boundDirectObjects.Add(directObject);
+        public virtual void BindDirectObject(IEntity directObject) {
+            if (!_directObjects.Contains(directObject)) {
+                _directObjects.Add(directObject);
                 directObject.DirectObjectOf = this;
-                if (Possessive) {
-                    foreach (var s in this.Subjects) {
-                        s.AddPossession(directObject);
+                if (IsPossessive) {
+                    foreach (var subject in this.Subjects) {
+                        subject.AddPossession(directObject);
+                    }
+                } else if (IsClassifier) {
+                    foreach (var subject in this.Subjects) {
+                        AliasDictionary.DefineAlias(subject, directObject);
                     }
                 }
             }
@@ -93,17 +92,15 @@ namespace LASI.Algorithm
         /// Binds the given Entity as an indirect object of the VerbPhrase instance.
         /// </summary>
         /// <param name="indirectObject">The Entity to attach to the VerbPhrase as an indirect object.</param>
-        public virtual void BindIndirectObject(IEntity indirectObject)
-        {
-            if (ObjectOfThePreoposition != indirectObject && !_boundIndirectObjects.Contains(indirectObject)) {
-                _boundIndirectObjects.Add(indirectObject);
+        public virtual void BindIndirectObject(IEntity indirectObject) {
+            if (ObjectOfThePreoposition != indirectObject && !_indirectObjects.Contains(indirectObject)) {
+                _indirectObjects.Add(indirectObject);
                 indirectObject.IndirectObjectOf = this;
             }
         }
 
 
-        public override string ToString()
-        {
+        public override string ToString() {
             if (Phrase.VerboseOutput) {
 
                 var result = base.ToString();
@@ -130,19 +127,19 @@ namespace LASI.Algorithm
 
 
 
-        public virtual void DetermineIsPossessive()
-        {
-            if (Words.GetVerbs().Any() && Words.GetVerbs().Last().IsPossessive == true) {
-                Possessive = true;
-            }
+        public virtual bool DetermineIsPossessive() {
+            isPossessive = Words.GetVerbs().Any() && Words.GetVerbs().Last().IsPossessive;
+            return isPossessive ?? false;
+        }
+        public virtual bool DetermineIsClassifier() {
+            isClassifier = Words.GetVerbs().Any() && Words.GetVerbs().Last().IsClassifier;
+            return isClassifier ?? false;
         }
 
-        public override bool Equals(object obj)
-        {
+        public override bool Equals(object obj) {
             return base.Equals(obj);
         }
-        public override int GetHashCode()
-        {
+        public override int GetHashCode() {
             return base.GetHashCode();
         }
 
@@ -154,22 +151,18 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets the subjects of the VerbPhrase.
         /// </summary>
-        public IEnumerable<IEntity> Subjects
-        {
-            get
-            {
-                return _boundSubjects;
+        public IEnumerable<IEntity> Subjects {
+            get {
+                return _subjects;
             }
         }
 
         /// <summary>
         /// Gets the direct objects of the VerbPhrase.
         /// </summary>
-        public virtual IEnumerable<IEntity> DirectObjects
-        {
-            get
-            {
-                return _boundDirectObjects;
+        public virtual IEnumerable<IEntity> DirectObjects {
+            get {
+                return _directObjects;
             }
         }
 
@@ -177,26 +170,21 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets the indirect objects of the VerbPhrase.
         /// </summary>
-        public virtual IEnumerable<IEntity> IndirectObjects
-        {
-            get
-            {
-                return _boundIndirectObjects;
+        public virtual IEnumerable<IEntity> IndirectObjects {
+            get {
+                return _indirectObjects;
             }
         }
         /// <summary>
         /// Gets the collection of IAdverbial modifiers which modify the VerbPhrase.
         /// </summary>
-        public IEnumerable<IAdverbial> Modifiers
-        {
-            get
-            {
+        public IEnumerable<IAdverbial> Modifiers {
+            get {
                 return _modifiers;
             }
         }
 
-        public IDescriptor AdjectivalModifier
-        {
+        public IDescriptor AdjectivalModifier {
             get;
             set;
         }
@@ -205,8 +193,7 @@ namespace LASI.Algorithm
         /// Gets the prevailing Tense of the VerbPhrase.
         /// <see cref="VerbTense"/>
         /// </summary>
-        public VerbTense Tense
-        {
+        public VerbTense Tense {
             get;
             protected set;
         }
@@ -214,27 +201,37 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets or sets the ModalAuxilary adverb which modifies the VerbPhrase.
         /// </summary>
-        public ModalAuxilary Modality
-        {
+        public ModalAuxilary Modality {
             get;
             set;
         }
         /// <summary>
-        /// Gets the VerbPhrases's object, If the VerbPhrase has an object bound via a Prepositional construct.
+        /// Gets the VerbPhrases'subject object, If the VerbPhrase has an object bound via a Prepositional construct.
         /// </summary>
-        public ILexical ObjectOfThePreoposition
-        {
-            get;
-            private set;
-        }
-
-        public bool Possessive
-        {
+        public ILexical ObjectOfThePreoposition {
             get;
             protected set;
         }
-        public ILexical GivenExposition
-        {
+        public IPrepositional PrepositionalToObject {
+            get;
+            protected set;
+        }
+
+        private bool? isPossessive;
+
+        public bool IsPossessive {
+            get {
+                return isPossessive ?? DetermineIsPossessive();
+            }
+        }
+        private bool? isClassifier;
+
+        public bool IsClassifier {
+            get {
+                return isClassifier ?? DetermineIsClassifier();
+            }
+        }
+        public ILexical GivenExposition {
             get;
             protected set;
         }
@@ -244,9 +241,9 @@ namespace LASI.Algorithm
         #region Fields
 
         private IList<IAdverbial> _modifiers = new List<IAdverbial>();
-        private ICollection<IEntity> _boundSubjects = new List<IEntity>();
-        private ICollection<IEntity> _boundDirectObjects = new List<IEntity>();
-        private ICollection<IEntity> _boundIndirectObjects = new List<IEntity>();
+        private ICollection<IEntity> _subjects = new List<IEntity>();
+        private ICollection<IEntity> _directObjects = new List<IEntity>();
+        private ICollection<IEntity> _indirectObjects = new List<IEntity>();
 
 
         #endregion
@@ -256,19 +253,10 @@ namespace LASI.Algorithm
         #endregion
 
 
-        public VerbalArity Arity
-        {
+        public VerbalArity Arity {
             get;
             protected set;
         }
-
-
-        public IPrepositional PrepositionLinkingTarget
-        {
-            get;
-            set;
-        }
-
 
 
     }

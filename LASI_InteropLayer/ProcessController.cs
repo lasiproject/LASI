@@ -30,7 +30,7 @@ namespace LASI.InteropLayer
         public async Task<IEnumerable<Document>> LoadAndAnalyseAllDocuments(ProgressBar progressBar, Label progressLabel) {
             ProgressBar = progressBar;
             ProgressLabel = progressLabel;
-            documentStepRatio = 4f / FileManager.TextFiles.Count;
+            documentStepRatio = 6f / FileManager.TextFiles.Count;
             await LoadThesaurus(progressBar);
 
             UpdateProgressDisplay("Tagging Documents");

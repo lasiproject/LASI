@@ -13,7 +13,7 @@ namespace LASI.Algorithm.Binding
         /// <summary>
         /// This is the Bind function for the SubjectBinder Class 
         /// </summary>
-        /// <param name="s"></param>
+        /// <param name="subject"></param>
         public void Bind(Sentence s)
         {
 

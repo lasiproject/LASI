@@ -103,7 +103,7 @@ namespace LASI.FileSystem
         /// Returns a value indicating whether a file with the same name as that of the given InputFile, irrespective of its extension, is part of the project. 
         /// </summary>
         /// <param name="filePath">An an Instance of the InputFile class or one of its descendents.</param>
-        /// <returns>False if a file with the same name, irrespective of it's extension, is part of the project. False otherwise.</returns>
+        /// <returns>False if a file with the same name, irrespective of it'subject extension, is part of the project. False otherwise.</returns>
         public static bool FileInProject(InputFile inputFile) {
             return !FileInProjectSet(inputFile.NameSansExt);
         }
@@ -438,7 +438,7 @@ namespace LASI.FileSystem
         }
         /// <summary>
         /// Gets the name of the current project.
-        /// This will be the project name displayed to the user and it corresponds to the project's top level directory
+        /// This will be the project name displayed to the user and it corresponds to the project'subject top level directory
         /// </summary>
         public static string ProjectName {
             get;

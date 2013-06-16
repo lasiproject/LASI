@@ -273,16 +273,16 @@ namespace LASI.UserInterface
         }
 
         private async void documentJoinButton_Click(object sender, RoutedEventArgs e) {
-            var documentJoinDialog = new CrossJoinSelectDialog(this);
+            var dialog = new CrossJoinSelectDialog(this);
+            if (!(dialog.ShowDialog()) ?? false)
+                return;
 
-            bool? dialogResult = documentJoinDialog.ShowDialog();
-            if (dialogResult ?? false) {
-                var selectedDocument = documentJoinDialog.SelectDocuments;
-                CrossDocumentJoiner joiner = new CrossDocumentJoiner(selectedDocument);
 
-                var results = await joiner.JoinDocumentsAsnyc();
-                await CreateMetaResultsView(results);
-            }
+            var r = await new CrossDocumentJoiner(dialog.SelectDocuments).JoinDocumentsAsnyc();
+
+            metaRelationshipsDataGrid.ItemsSource = ChartingManager.CreateRelationshipData(r);
+
+
         }
 
         private async Task CreateMetaResultsView(IEnumerable<CrossDocumentJoiner.NVNN> crossResults) {
@@ -311,8 +311,7 @@ namespace LASI.UserInterface
 
                     await ProcessNewDocument(openDialog.FileName);
                     currentOperationFeedbackCanvas.Visibility = Visibility.Hidden;
-                }
-                else {
+                } else {
                     MessageBox.Show(string.Format("A document named {0} is already part of the project.", openDialog.SafeFileName));
                 }
             }
@@ -340,7 +339,7 @@ namespace LASI.UserInterface
 
                 var message = await task;
                 currentOperationLabel.Content = message;
-                currentOperationProgressBar.Value += 5;
+                currentOperationProgressBar.Value += 8;
 
             }
 

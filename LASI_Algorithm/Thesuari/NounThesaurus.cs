@@ -117,7 +117,7 @@ namespace LASI.Algorithm.Thesauri
 
 
             MatchCollection words = Regex.Matches(line, @"(?<word>[A-Za-z_\-]{3,})");
-            //somethin's amiss here.
+            //somethin'subject amiss here.
             IEnumerable<string> members = from match in words.Cast<Match>()
                                           select match.Value.Replace('_', '-').ToLower();
 

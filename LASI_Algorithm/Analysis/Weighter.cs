@@ -317,7 +317,7 @@ namespace LASI.Algorithm.Weighting
             //Output.WriteLine("Normal wd Weight based on POS:");
             doc.Sentences.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax).ForAll(s =>
             {
-                //////Output.WriteLine(s);
+                //////Output.WriteLine(subject);
 
                 foreach (Word w in s.Words) {
                     //Output.WriteLine(w);
@@ -365,7 +365,7 @@ namespace LASI.Algorithm.Weighting
             decimal modOne, modTwo;
             modOne = modTwo = 0;
             foreach (Sentence s in doc.Sentences.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)) {
-                //////Output.WriteLine(s);
+                //////Output.WriteLine(subject);
 
                 foreach (Word w in s.Words) {
 

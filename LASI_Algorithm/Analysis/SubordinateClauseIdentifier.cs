@@ -37,10 +37,10 @@ namespace LASI.Algorithm.Analysis
 
         /// <summary>
         /// This is the most common beginning of a subordinating clause. It begins with either a subordinating conjuntion or a relative (wh) pronoun. 
-        /// Example, "Dennis, who was a huge dick, ate at Wendy's and harasseed the management.
+        /// Example, "Dennis, who was a huge dick, ate at Wendy'subject and harasseed the management.
         /// "who was a huge dick," is your subordinate clause. 
         /// </summary>
-        /// <param name="s">Word</param>
+        /// <param name="subject">Word</param>
         /// <returns> true or false</returns>
         private static bool isRelativePronounorSubordinatingConjunction(Word w)
         {

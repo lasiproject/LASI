@@ -15,8 +15,7 @@ namespace LASI.UserInterface
     /// </summary>
     public partial class InProgressScreen : Window
     {
-        public InProgressScreen()
-        {
+        public InProgressScreen() {
             InitializeComponent();
             BindControlsAndSettings();
             WindowManager.InProgressScreen = this;
@@ -31,12 +30,10 @@ namespace LASI.UserInterface
 
         }
 
-        void BindControlsAndSettings()
-        {
+        void BindControlsAndSettings() {
             this.MouseLeftButtonDown += (s, e) => DragMove();
             if (ConfigurationManager.AppSettings["AutoDebugCleanupOn"] == "true") {
-                App.Current.Exit += (sender, e) =>
-                {
+                App.Current.Exit += (sender, e) => {
                     if (FileSystem.FileManager.Initialized)
                         FileSystem.FileManager.DecimateProject();
                 };
@@ -46,28 +43,36 @@ namespace LASI.UserInterface
 
         #region Animation
 
-        private async Task InitPawPrintAlternation()
-        {
-            var pawPrints = new[] { pawPrintImg1, pawPrintImg3, pawPrintImg2, pawPrintImg4, pawPrintImg5, pawPrintImg6 }.ToList();
-            pawPrints.ForEach(pp => pp.Opacity = 0);
-            foreach (var pp in pawPrints) {
-                FadeImage(pp);
-                await Task.Delay(2700);
-            }
+        private async Task InitPawPrintAlternation() {
+            pawPrintImg1.Opacity = 0.00;
+            pawPrintImg3.Opacity = 0.16;
+            pawPrintImg2.Opacity = 0.33;
+            pawPrintImg4.Opacity = 0.50;
+            pawPrintImg2.Opacity = 0.67;
+            pawPrintImg4.Opacity = 0.84;
+            var pawPrints = new[] { pawPrintImg1, pawPrintImg3, pawPrintImg2, pawPrintImg4, pawPrintImg5, pawPrintImg6 }.Select(pp => {
+
+                return FadeImage(pp);
+            }).ToArray();
+            await Task.Factory.ContinueWhenAll(pawPrints, t => {
+            });
+
+            //            Task.WhenAll(
+
+
 
         }
-        private async void FadeImage(Image img)
-        {
+        private async Task FadeImage(Image img) {
             while (img.Opacity > 0.0) {
-                img.Opacity -= 0.01;
-                await Task.Delay(10);
+                img.Opacity -= 0.033;
+                await Task.Delay(33);
             }
             await Task.Delay(500);
             while (img.Opacity < 1.0) {
-                img.Opacity += 0.01;
-                await Task.Delay(10);
+                img.Opacity += 0.033;
+                await Task.Delay(33);
             }
-            FadeImage(img);
+            await FadeImage(img);
 
         }
 
@@ -80,8 +85,7 @@ namespace LASI.UserInterface
 
 
         ProcessController processController = new ProcessController();
-        public async Task InitializeParsing()
-        {
+        public async Task InitializeParsing() {
 
             var progressPercentage = Resources["AnalysisProgressPercentage"];
             var analyzedDocuments = await processController.LoadAndAnalyseAllDocuments(ProgressBar, ProgressLabel);
@@ -100,8 +104,7 @@ namespace LASI.UserInterface
         #endregion
 
 
-        private async Task ProceedToResultsView()
-        {
+        private async Task ProceedToResultsView() {
             WindowManager.ResultsScreen.SetTitle(WindowManager.CreateProjectScreen.LastLoadedProjectName + " - L.A.S.I.");
             this.SwapWith(WindowManager.ResultsScreen);
 
@@ -110,23 +113,19 @@ namespace LASI.UserInterface
 
         }
 
-        private void ExitMenuItem_Click_3(object sender, RoutedEventArgs e)
-        {
+        private void ExitMenuItem_Click_3(object sender, RoutedEventArgs e) {
             Application.Current.Shutdown();
 
         }
-        private async void ProceedtoResultsButton_Click(object sender, RoutedEventArgs e)
-        {
+        private async void ProceedtoResultsButton_Click(object sender, RoutedEventArgs e) {
             await ProceedToResultsView();
         }
 
-        private void minButton_Click(object sender, RoutedEventArgs e)
-        {
+        private void minButton_Click(object sender, RoutedEventArgs e) {
             this.WindowState = WindowState.Minimized;
             PerformanceManager.SetPerformanceMode(PerforamanceMode.Low);
         }
-        private void closeButton_Click(object sender, RoutedEventArgs e)
-        {
+        private void closeButton_Click(object sender, RoutedEventArgs e) {
             Application.Current.Shutdown();
         }
 
@@ -156,8 +155,7 @@ namespace LASI.UserInterface
 
         }
 
-        void StartFlashing()
-        {
+        void StartFlashing() {
             {
                 FLASHWINFO fInfo = new FLASHWINFO();
                 fInfo.cbSize = System.Convert.ToUInt32(Marshal.SizeOf(fInfo));
@@ -176,8 +174,7 @@ namespace LASI.UserInterface
             this.GotFocus += (s, e) => StopFlashing();
 
         }
-        void StopFlashing()
-        {
+        void StopFlashing() {
             FLASHWINFO fInfo = new FLASHWINFO();
 
 
@@ -198,8 +195,7 @@ namespace LASI.UserInterface
 
         #endregion
 
-        private void ProgressBar_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
+        private void ProgressBar_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e) {
             this.TaskbarItemInfo.ProgressState = System.Windows.Shell.TaskbarItemProgressState.Normal;
             this.TaskbarItemInfo.ProgressValue = e.NewValue / 100;
         }

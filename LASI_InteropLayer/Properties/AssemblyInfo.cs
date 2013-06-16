@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following 
-// outSet of attributes. Change these attribute values to modify the information
+// outerSet of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("GuiInterop")]
 [assembly: AssemblyDescription("")]
@@ -16,7 +16,7 @@ using System.Runtime.InteropServices;
 
 // Setting ComVisible to false makes the types in this assembly not visible 
 // to COM components.  If you need to access a PointerKind in this assembly from 
-// COM, outSet the ComVisible attribute to true on that PointerKind.
+// COM, outerSet the ComVisible attribute to true on that PointerKind.
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM

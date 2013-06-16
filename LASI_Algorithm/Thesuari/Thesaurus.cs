@@ -22,40 +22,71 @@ namespace LASI.Algorithm.Thesauri
         #region Public Methods
 
         public static Task<string>[] GetTasksToLoadAllThesauri() {
-            return new[] {
-                GetNounThesaurusLoadTask(),
-                GetVerbThesaurusLoadTask(),
-                GetAdverbThesaurusLoadTask(),
-                GetAdjectiveThesaurusLoadTask()
-            };
+            var Tasks = new List<Task<string>>();
+            if (NounLoadingState == LoadingState.NotStarted)
+                Tasks.Add(NounThesaurusLoadTask);
+            if (VerbLoadingState == LoadingState.NotStarted)
+                Tasks.Add(VerbThesaurusLoadTask);
+            if (AdjectiveLoadingState == LoadingState.NotStarted)
+                Tasks.Add(AdjectiveThesaurusLoadTask);
+            if (AdverbLoadingState == LoadingState.NotStarted)
+                Tasks.Add(AdverbThesaurusLoadTask);
+            return Tasks.ToArray();
+        }
+        enum LoadingState
+        {
+            NotStarted,
+            InProgress,
+            Finished
+        }
+        private static LoadingState NounLoadingState = LoadingState.NotStarted;
+        private static LoadingState VerbLoadingState = LoadingState.NotStarted;
+        private static LoadingState AdjectiveLoadingState = LoadingState.NotStarted;
+        private static LoadingState AdverbLoadingState = LoadingState.NotStarted;
+
+        public static Task<string> AdjectiveThesaurusLoadTask {
+            get {
+                return Task.Run(async () => {
+                    AdjectiveLoadingState = LoadingState.InProgress;
+                    await AdjectiveThesaurus.LoadAsync();
+                    AdjectiveLoadingState = LoadingState.Finished;
+                    return "Adjective Thesaurus Loaded";
+                });
+            }
         }
 
-        public static Task<string> GetAdjectiveThesaurusLoadTask() {
-            return Task.Run(async () => {
-                await AdjectiveThesaurus.LoadAsync();
-                return "Adjective Thesaurus Loaded";
-            });
+        public static Task<string> AdverbThesaurusLoadTask {
+            get {
+                return Task.Run(async () => {
+                    AdverbLoadingState = LoadingState.InProgress;
+                    await AdverbThesaurus.LoadAsync();
+                    AdverbLoadingState = LoadingState.Finished;
+                    return "Adverb Thesaurus Loaded";
+                });
+            }
         }
 
-        public static Task<string> GetAdverbThesaurusLoadTask() {
-            return Task.Run(async () => {
-                await AdverbThesaurus.LoadAsync();
-                return "Adverb Thesaurus Loaded";
-            });
+        public static Task<string> VerbThesaurusLoadTask {
+            get {
+                return Task.Run(async () => {
+                    VerbLoadingState = LoadingState.InProgress;
+                    await VerbThesaurus.LoadAsync();
+                    VerbLoadingState = LoadingState.Finished;
+                    return "Verb Thesaurus Loaded";
+                });
+            }
         }
 
-        public static Task<string> GetVerbThesaurusLoadTask() {
-            return Task.Run(async () => {
-                await VerbThesaurus.LoadAsync();
-                return "Verb Thesaurus Loaded";
-            });
-        }
+        public static Task<string> NounThesaurusLoadTask {
+            get {
+                return Task.Run(async () => {
+                    NounLoadingState = LoadingState.InProgress;
+                    await NounThesaurus.LoadAsync();
+                    NounLoadingState = LoadingState.Finished;
+                    return "Noun Thesaurus Loaded";
+                });
 
-        public static Task<string> GetNounThesaurusLoadTask() {
-            return Task.Run(async () => {
-                await NounThesaurus.LoadAsync();
-                return "Noun Thesaurus Loaded";
-            });
+            }
         }
 
         public static IEnumerable<string> Lookup(Word word) {
@@ -63,19 +94,59 @@ namespace LASI.Algorithm.Thesauri
         }
 
         public static IEnumerable<string> LookupNoun(string nounText) {
-            return cachedNounData.GetOrAdd(nounText, key => NounThesaurus[key]);
+            switch (NounLoadingState) {
+                case LoadingState.Finished:
+                    return cachedNounData.GetOrAdd(nounText, key => NounThesaurus[key]);
+                case LoadingState.NotStarted:
+                    NounThesaurusLoadTask.Wait();
+                    return cachedNounData.GetOrAdd(nounText, key => NounThesaurus[key]);
+                case LoadingState.InProgress:
+                    return Enumerable.Empty<string>();
+                default:
+                    return Enumerable.Empty<string>();
+            }
         }
 
         public static IEnumerable<string> LookupVerb(string verbText) {
-            return cachedVerbData.GetOrAdd(verbText, key => VerbThesaurus[key]);
+            switch (VerbLoadingState) {
+                case LoadingState.Finished:
+                    return cachedVerbData.GetOrAdd(verbText, key => VerbThesaurus[key]);
+                case LoadingState.NotStarted:
+                    VerbThesaurusLoadTask.Wait();
+                    return cachedVerbData.GetOrAdd(verbText, key => VerbThesaurus[key]);
+                case LoadingState.InProgress:
+                    return Enumerable.Empty<string>();
+                default:
+                    return Enumerable.Empty<string>();
+            }
         }
 
         public static IEnumerable<string> LookupAdjective(string adjectiveText) {
-            return cachedAdjectiveData.GetOrAdd(adjectiveText, key => AdjectiveThesaurus[key]);
+            switch (AdjectiveLoadingState) {
+                case LoadingState.Finished:
+                    return cachedAdjectiveData.GetOrAdd(adjectiveText, key => AdjectiveThesaurus[key]);
+                case LoadingState.NotStarted:
+                    AdjectiveThesaurusLoadTask.Wait();
+                    return cachedAdjectiveData.GetOrAdd(adjectiveText, key => AdjectiveThesaurus[key]);
+                case LoadingState.InProgress:
+                    return Enumerable.Empty<string>();
+                default:
+                    return Enumerable.Empty<string>();
+            }
         }
 
         public static IEnumerable<string> LookupAdverb(string adverbText) {
-            return cachedAdverbData.GetOrAdd(adverbText, key => AdverbThesaurus[key]);
+            switch (AdverbLoadingState) {
+                case LoadingState.Finished:
+                    return cachedAdverbData.GetOrAdd(adverbText, key => AdverbThesaurus[key]);
+                case LoadingState.NotStarted:
+                    AdverbThesaurusLoadTask.Wait();
+                    return cachedAdverbData.GetOrAdd(adverbText, key => AdverbThesaurus[key]);
+                case LoadingState.InProgress:
+                    return Enumerable.Empty<string>();
+                default:
+                    return Enumerable.Empty<string>();
+            }
         }
         /// <summary>
         /// Determines if two IEntity instances are similar.
