@@ -12,7 +12,7 @@ using System.Xml;
 namespace LASI.FileSystem
 {
     /// <summary>
-    /// Parses pairs of text and tag tokens into their runtime NounPointerSymbol equivalents as specified by the Tagset
+    /// Parses pairs of text and tag tokens into their runtime type equivalents as specified by the Tagset
     /// </summary>
     public class WordMapper
     {
@@ -26,7 +26,7 @@ namespace LASI.FileSystem
         /// <summary>
         /// Initialized an instance of the TaggedWordParser class using the Tagset provided defined by the TaggingContext argument.
         /// </summary>
-        /// <param name="taggingContext">The tagset-to-runtime-NounPointerSymbol mapping which will define how new adverb instances will be instantiated.</param>
+        /// <param name="taggingContext">The tagset-to-runtime-type mapping which will define how new adverb instances will be instantiated.</param>
         public WordMapper(WordTagsetMap taggingContext) {
             context = taggingContext;
         }
@@ -35,7 +35,7 @@ namespace LASI.FileSystem
         /// Creates a new Instance of the wd class which corresponds to the given text token and Part Of Speech tag.
         /// </summary>
         /// <param name="tag">A Verb or Punctuation string and its associated  Part Of Speech tag.</param>
-        /// <returns>A new instance of the appropriate adverb NounPointerSymbol corresponding with the tag and containing the given text.</returns>
+        /// <returns>A new instance of the appropriate adverb type corresponding with the tag and containing the given text.</returns>
         public Word CreateWord(TaggedWordObject taggedText) {
             if (string.IsNullOrWhiteSpace(taggedText.Text))
                 return null;

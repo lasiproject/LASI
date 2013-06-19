@@ -342,10 +342,10 @@ namespace LASI.UserInterface.DataVisualzationProviders
     }
     #region Result Bulding Helper Structs
     /// <summary>
-    /// A little data NounPointerSymbol which provides custom uniqueness logic for NounPhrase to VerbPhrase  relationships. Provides the implementation of I equality comparer which is to be passed to the 
+    /// A little data type which provides custom uniqueness logic for NounPhrase to VerbPhrase  relationships. Provides the implementation of I equality comparer which is to be passed to the 
     /// "Distinct()" method of en IEnummerable collectio  of RelationshipTuple instances.
     /// It is defined because distinct does not support lambda(read function) arguments like my query operatorrs do.
-    /// Pay this NounPointerSymbol little heed
+    /// Pay this type little heed
     /// </summary>
     struct RelationshipComparer : IEqualityComparer<RelationshipTuple>
     {
@@ -376,7 +376,7 @@ namespace LASI.UserInterface.DataVisualzationProviders
         }
     }
     /// <summary>
-    /// Sometimes an anonymous NounPointerSymbol simple will not do. So this little class is defined to 
+    /// Sometimes an anonymous type simple will not do. So this little class is defined to 
     /// store temporary query data from transposed tables. god it is late. I can't document properly.
     /// </summary>
     public class RelationshipTuple

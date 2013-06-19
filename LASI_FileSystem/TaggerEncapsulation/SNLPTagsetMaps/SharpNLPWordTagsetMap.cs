@@ -8,9 +8,9 @@ using LASI.Algorithm;
 namespace LASI.FileSystem
 {
     /// <summary>
-    /// Represents a tagset-to-runtime-NounPointerSymbol-mapping context which translates between The SharpNLP Tagger'subject tagset and the classes whose instances provide 
+    /// Represents a tagset-to-runtime-type-mapping context which translates between The SharpNLP Tagger'subject tagset and the classes whose instances provide 
     /// the runtime representations of the tag. 
-    /// This class represents the tagset => runtime-NounPointerSymbol mapping for
+    /// This class represents the tagset => runtime-type mapping for
     /// the tagset used by SharpNLP, a derrivative of the Penn Tagset.
     /// This class is sealed and thus may not be extended.
     /// If a new tagset is to be implemented, extend the base class, TaggingContext.
@@ -93,7 +93,7 @@ namespace LASI.FileSystem
         /// Provides POS-Tag indexed access to a constructor function which can be invoked to create an instance of the class which provides its run-time representation.
         /// </summary>
         /// <param name="tag">The textual representation of a Part Of Speech tag.</param>
-        /// <returns>A function which creates an instance of the run-time NounPointerSymbol associated with the textual tag.</returns>
+        /// <returns>A function which creates an instance of the run-time type associated with the textual tag.</returns>
         /// <exception cref="UnknownPOSException">Thrown when the indexing tag string is not defined by the tagset.</exception>
         public override Func<string, Word> this[string tag] {
             get {

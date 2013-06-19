@@ -8,10 +8,11 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace LASI.UserInterface.Properties {
+namespace LASI.UserInterface.Properties
+{
     using System;
-    
-    
+
+
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -22,16 +23,17 @@ namespace LASI.UserInterface.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class Resources {
-        
+    public class Resources
+    {
+
         private static global::System.Resources.ResourceManager resourceMan;
-        
+
         private static global::System.Globalization.CultureInfo resourceCulture;
-        
+
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         internal Resources() {
         }
-        
+
         /// <summary>
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
@@ -45,7 +47,7 @@ namespace LASI.UserInterface.Properties {
                 return resourceMan;
             }
         }
-        
+
         /// <summary>
         ///   Overrides the current thread'subject CurrentUICulture property for all
         ///   resource lookups using this strongly typed resource class.
@@ -59,14 +61,14 @@ namespace LASI.UserInterface.Properties {
                 resourceCulture = value;
             }
         }
-        
+
         /// <summary>
-        ///   Looks up a localized resource of NounPointerSymbol System.Drawing.Icon similar to (Icon).
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
         public static System.Drawing.Icon LasiLogo {
             get {
                 object obj = ResourceManager.GetObject("LasiLogo", resourceCulture);
-                return ((System.Drawing.Icon)(obj));
+                return (( System.Drawing.Icon )(obj));
             }
         }
     }
