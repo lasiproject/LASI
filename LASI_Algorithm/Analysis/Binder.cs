@@ -70,20 +70,15 @@ namespace LASI.Algorithm.Binding
             }
         }
         private static void PerformIntraPhraseBinding(Document doc) {
-            var phrasesToBindWithin = from r in doc.Phrases.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
-                                      where r is VerbPhrase
-                                      select r into vp
-                                      from r in doc.Phrases.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
-                                      where r is NounPhrase
-                                      select r;
 
-            //doc.Phrases.GetNounPhrases().Concat<Phrase>(doc.Phrases.GetVerbPhrases())
-            //    .AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax).ForAll(
-            //    .ForAll(np => new IntraPhraseWordBinder().Bind(np));
-            //doc.Phrases.GetVerbPhrases()
-            //    .AsParallel()
-            //    .WithDegreeOfParallelism(Concurrency.CurrentMax)
-            //    .ForAll(verbPhrase => new IntraPhraseWordBinder().Bind(verbPhrase));
+            doc.Phrases.GetNounPhrases()
+                .AsParallel()
+                .WithDegreeOfParallelism(Concurrency.CurrentMax)
+                .ForAll(np => new IntraPhraseWordBinder().Bind(np));
+            doc.Phrases.GetVerbPhrases()
+                .AsParallel()
+                .WithDegreeOfParallelism(Concurrency.CurrentMax)
+                .ForAll(verbPhrase => new IntraPhraseWordBinder().Bind(verbPhrase));
         }
 
 

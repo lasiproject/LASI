@@ -154,9 +154,9 @@ namespace LASI.Algorithm.Weighting
                                     where outerNoun.IsSynonymFor(innerNoun)
                                     group innerNoun by outerNoun;
 
-            nounSynonymGroups.ForAll(grp => {
+            foreach (var grp in nounSynonymGroups) {
                 grp.Key.Weight += 0.7 * grp.Count();
-            });
+            };
         }
         private static async Task WeightPhrasesByAVGWordWeightAsync(Document doc) {
             await Task.Run(() => WeightPhrasesByAVGWordWeight(doc));

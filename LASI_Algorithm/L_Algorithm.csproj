@@ -89,24 +89,18 @@
   <ItemGroup>
     <Compile Include="Analysis\Binder.cs" />
     <Compile Include="Analysis\Binders\AttributiveNounPhraseBinder.cs" />
-    <Compile Include="Analysis\Binders\EntityReferenceBinder.cs" />
-    <Compile Include="Analysis\Binders\InfinitivePhraseAttributer.cs" />
     <Compile Include="Analysis\SubordinateClauseIdentifier.cs" />
-    <Compile Include="IEnumerableExtensions\TVerbal.cs" />
-    <Compile Include="IEnumerableExtensions\TVerbal_2.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\RelativePronounKind.cs" />
     <Compile Include="ResourceUsageMode.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\ISimilarityComparablePhrase.cs" />
     <Compile Include="LexicalStructures\VerbRelatedConstructs\InfinitivePhrase.cs" />
     <Compile Include="Analysis\Binders\InterPhraseWordBinding.cs" />
-    <Compile Include="Analysis\Binders\InvalidInfinitePhraseConstructedException.cs" />
     <Compile Include="Analysis\Binders\InvalidStateTransitionException.cs" />
     <Compile Include="Analysis\Binders\ObjectBinder.cs" />
     <Compile Include="Analysis\Binders\PhraseWiseEntityGroupBinder.cs" />
     <Compile Include="Analysis\Binders\PronounBinder.cs" />
     <Compile Include="Analysis\Binders\SubjectBinder.cs" />
     <Compile Include="Analysis\Binders\UnknownEntityCompatibleWordTypeException.cs" />
-    <Compile Include="Analysis\Binders\WordStream.cs" />
     <Compile Include="Analysis\Weighter.cs" />
     <Compile Include="DocumentConstructs\SubordinateClauseBeginPhrase.cs" />
     <Compile Include="AliasDictionary.cs" />

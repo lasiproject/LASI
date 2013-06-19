@@ -35,7 +35,7 @@ namespace LASI.Algorithm
 
         public void BindPronoun(IPronoun pro) {
             _boundPronouns.Add(pro);
-            pro.BindToTarget(this);
+            pro.BindToEntity(this);
         }
 
         public IEnumerable<IPronoun> BoundPronouns {

@@ -14,7 +14,29 @@ namespace LASI.Algorithm.Binding
     public class PronounBinder
     {
         public void Bind(Document document) {
+            ReifyContextualNounPhrasesAsPronounPhrases(document.Phrases.GetNounPhrases());
             BindPosessivePronouns(document);
+        }
+
+        private void ReifyContextualNounPhrasesAsPronounPhrases(IEnumerable<NounPhrase> candidatesNounPhrases) {
+            var toTransform = from np in candidatesNounPhrases
+                              where np.Words.Count() < 4
+                              let det = np.GetLeadingDeterminer()
+                              where det != null && det.DeterminerKind == DeterminerKind.Definite
+                              where np.Words.Last() is GenericNoun
+                              select np;
+            foreach (var np in toTransform) {
+                var temporaryReference = np;
+                PronounPhrase.PromoteNounPhraseToPronounPhrase(ref temporaryReference);
+            }
+            BindToReferencePoints(toTransform);
+        }
+
+        private static void BindToReferencePoints(IEnumerable<NounPhrase> toTransform) {
+            toTransform.GetPronounPhrases().AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax).ForAll(contextualPro => {
+                contextualPro.BindToEntity(contextualPro.Document.Phrases
+                .TakeWhile(p => p != contextualPro).Reverse().GetNounPhrases().FirstOrDefault(np => np.IsAliasFor(contextualPro.Words.GetNouns().Last())));
+            });
         }
         /// <summary>
         /// Bind posessive pronouns located in the objects of a sentence to the proper noun in the subject of that sentence. 

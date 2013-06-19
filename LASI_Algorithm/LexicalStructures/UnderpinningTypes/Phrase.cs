@@ -132,7 +132,7 @@ namespace LASI.Algorithm
         /// </summary>
         public int ID {
             get;
-            private set;
+            protected set;
         }
 
         /// <summary>

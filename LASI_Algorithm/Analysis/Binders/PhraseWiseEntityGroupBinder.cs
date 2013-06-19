@@ -15,20 +15,16 @@ namespace LASI.Algorithm.Binding
     {
         List<IEntityGroup> entityGroups = new List<IEntityGroup>();
 
-        public List<IEntityGroup> EntityGroups
-        {
-            get
-            {
+        public List<IEntityGroup> EntityGroups {
+            get {
                 return entityGroups;
             }
-            private set
-            {
+            private set {
                 entityGroups = value;
             }
         }
 
-        public void Bind(Sentence sentence)
-        {
+        public void Bind(Sentence sentence) {
             var betwixt = FindAllBetwixt(sentence);
             var aggregateEntities = new List<NounPhrase>();
             foreach (var b in betwixt) {
@@ -45,8 +41,7 @@ namespace LASI.Algorithm.Binding
             }
         }
 
-        private List<NpWithBetween> FindAllBetwixt(Sentence sentence)
-        {
+        private List<NpWithBetween> FindAllBetwixt(Sentence sentence) {
             var betwixtAll = new List<NpWithBetween>();
             var nPS = sentence.Phrases.GetNounPhrases();
             while (nPS.Any()) {
@@ -66,20 +61,17 @@ namespace LASI.Algorithm.Binding
         internal struct NpWithBetween
         {
             internal NpWithBetween(NounPhrase nounPhrase, IEnumerable<Phrase> tillNextNounPhrase)
-                : this()
-            {
+                : this() {
                 NP = nounPhrase;
                 TillNextNP = tillNextNounPhrase;
             }
 
-            public IEnumerable<Phrase> TillNextNP
-            {
+            public IEnumerable<Phrase> TillNextNP {
                 get;
                 private set;
             }
 
-            public NounPhrase NP
-            {
+            public NounPhrase NP {
                 get;
                 private set;
             }

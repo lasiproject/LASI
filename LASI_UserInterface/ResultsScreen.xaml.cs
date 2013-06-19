@@ -50,9 +50,8 @@ namespace LASI.UserInterface
                                        w.Text,
                                        w.Type
                                    }).Select(g => g.First());
-            var nps = documentElements.GetNounPhrases();
-            var vps = documentElements.GetVerbPhrases();
-            var advps = documentElements.GetAdverbPhrases();
+
+
             var elementLabels = new List<Label>();
             foreach (var e in documentElements) {
                 var wordLabel = CreateWeightedNounPhraseLabel(e);
@@ -103,9 +102,6 @@ namespace LASI.UserInterface
         }
 
 
-
-
-
         public async Task BuildReconstructedDocumentViews() {  // This is for the lexial relationships tab
             foreach (var doc in documents) {
                 await BuildInteractiveTextViewOfDocument(doc);
@@ -131,8 +127,23 @@ namespace LASI.UserInterface
                     ContextMenu = new ContextMenu(),
                     ToolTip = phrase.Type.Name,
 
-
                 };
+                var pronounPhrase = phrase as PronounPhrase;
+                if (pronounPhrase != null && pronounPhrase.IsBound) {
+                    var visitBoundEntity = new MenuItem {
+                        Header = "view referred to"
+                    };
+                    visitBoundEntity.Click += (sender, e) => {
+                        var objlabels = from l in phraseLabels
+                                        where l.Tag == pronounPhrase.BoundEntity
+                                        select l;
+                        foreach (var l in objlabels) {
+                            l.Foreground = Brushes.Black;
+                            l.Background = Brushes.Teal;
+                        }
+                    };
+                    phraseLabel.ContextMenu.Items.Add(visitBoundEntity);
+                }
                 var vP = phrase as VerbPhrase;
 
                 if (vP != null && vP.Subjects.Count() > 0) {

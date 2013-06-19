@@ -14,8 +14,7 @@ namespace LASI.Algorithm.Binding
         /// This is the Bind function for the SubjectBinder Class 
         /// </summary>
         /// <param name="subject"></param>
-        public void Bind(Sentence s)
-        {
+        public void Bind(Sentence s) {
 
             List<VerbPhrase> v1 = new List<VerbPhrase>(s.Phrases.GetVerbPhrases());
 
@@ -101,8 +100,7 @@ namespace LASI.Algorithm.Binding
         }
 
 
-        public void display()
-        {
+        public void display() {
 
             for (int i = 0; i < stateList.Count; i++) {
 
@@ -113,22 +111,18 @@ namespace LASI.Algorithm.Binding
         }
         class State
         {
-            public State()
-            {
+            public State() {
                 S = StateType.Default;
             }
-            public StateType S
-            {
+            public StateType S {
                 get;
                 set;
             }
-            public int count
-            {
+            public int count {
                 get;
                 private set;
             }
-            public Phrase StatePhrase
-            {
+            public Phrase StatePhrase {
                 get;
                 set;
             }

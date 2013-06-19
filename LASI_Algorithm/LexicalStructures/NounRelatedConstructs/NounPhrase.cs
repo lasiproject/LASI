@@ -56,7 +56,7 @@ namespace LASI.Algorithm
         /// <param name="pro">The referencer which refers to the NounPhrase Instance.</param>
         public virtual void BindPronoun(LASI.Algorithm.IPronoun pro) {
             _boundPronouns.Add(pro);
-            pro.BindToTarget(this);
+            pro.BindToEntity(this);
         }
         /// <summary>
         /// Binds an IDescriptor, generally an Adjective or AdjectivePhrase, as a descriptor of the NounPhrase.
@@ -91,8 +91,8 @@ namespace LASI.Algorithm
                 if (Possesser != null)
                     result += "\n\towned By:\n\t\t" + Possesser.ToString();
 
-                if (InnerAttributed != null) {
-                    result += "\n\tDefines:\n\t\t" + InnerAttributed;
+                if (InnerAttributive != null) {
+                    result += "\n\tDefines:\n\t\t" + InnerAttributive;
                 }
                 if (OuterAttributive != null) {
                     result += "\n\tDefines:\n\t\t" + OuterAttributive;
@@ -105,7 +105,7 @@ namespace LASI.Algorithm
         #endregion
 
         /// <summary>
-        /// Gets the IVerbal instance, generally a TransitiveVerb or TransitiveVerbPhrase, which the NounPhrase is the DIRECT object of.
+        /// Gets the or sets IVerbal instance, generally a TransitiveVerb or TransitiveVerbPhrase, which the NounPhrase is the DIRECT object of.
         /// </summary>
         public virtual IVerbal DirectObjectOf {
             get {
@@ -120,7 +120,7 @@ namespace LASI.Algorithm
         }
 
         /// <summary>
-        /// Gets the IVerbal instance, generally a TransitiveVerb or TransitiveVerbPhrase, which the NounPhrase is the INDIRECT object of.
+        /// Gets or sets the IVerbal instance, generally a TransitiveVerb or TransitiveVerbPhrase, which the NounPhrase is the INDIRECT object of.
         /// </summary>
         public virtual IVerbal IndirectObjectOf {
             get {
@@ -135,7 +135,7 @@ namespace LASI.Algorithm
         }
 
         /// <summary>
-        /// Gets the IVerbal instance, generally a Verb or VerbPhrase, which the NounPhrase is the subject of.
+        /// Gets or sets the IVerbal instance, generally a Verb or VerbPhrase, which the NounPhrase is the subject of.
         /// </summary>
         public virtual IVerbal SubjectOf {
             get {
@@ -194,8 +194,10 @@ namespace LASI.Algorithm
             }
             set {
                 _possessor = value;
-                foreach (var item in this.Words.OfType<IEntity>()) {
-                    value.AddPossession(item);
+                if (value != null) {
+                    foreach (var item in this.Words.OfType<IEntity>()) {
+                        value.AddPossession(item);
+                    }
                 }
             }
         }
@@ -204,7 +206,7 @@ namespace LASI.Algorithm
             get;
             set;
         }
-        public NounPhrase InnerAttributed {
+        public NounPhrase InnerAttributive {
             get;
             set;
         }
@@ -233,16 +235,9 @@ namespace LASI.Algorithm
             set;
         }
 
-
-        private bool wasBound = false;
-
         public bool WasBound {
-            get {
-                return wasBound;
-            }
-            set {
-                wasBound = value;
-            }
+            get;
+            set;
         }
 
         private IList<IDescriptor> _describedBy = new List<IDescriptor>();

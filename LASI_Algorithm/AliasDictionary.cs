@@ -11,14 +11,14 @@ namespace LASI.Algorithm
     public static class AliasDictionary
     {
         /// <summary>
-        /// Checks to see if one Entity is a nown alias for another.
+        /// Checks to see if one Entity is a known alias for another.
         /// </summary>
         /// <param name="entity">The first Entity</param>
         /// <param name="end">The second Entity</param>
         /// <returns>true if the Entities are aliases for one another, false otherwise</returns>
         public static bool IsAliasFor(this IEntity entity, IEntity other) {
             return Lookup(entity.Text, other.Text);
-        }   
+        }
 
         private static bool Lookup(string entityText, string aliasText) {
             HashSet<string> aliases;

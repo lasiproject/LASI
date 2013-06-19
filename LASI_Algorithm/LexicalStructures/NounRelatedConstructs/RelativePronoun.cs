@@ -34,7 +34,7 @@ namespace LASI.Algorithm
                 BoundEntity.AddPossession(possession);
             }
         }
-        public void BindToTarget(IEntity target) {
+        public void BindToEntity(IEntity target) {
             _boundEntity = target;
             _entityKind = BoundEntity.EntityKind;
         }

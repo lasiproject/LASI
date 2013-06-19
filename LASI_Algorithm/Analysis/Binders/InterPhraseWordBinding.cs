@@ -7,10 +7,9 @@ using System.Threading.Tasks;
 
 namespace LASI.Algorithm.Binding
 {
-    public  class IntraPhraseWordBinder
+    public class IntraPhraseWordBinder
     {
-        public  void Bind(NounPhrase np)
-        {
+        public void Bind(NounPhrase np) {
             /**
              * Noun Phrase Assumption:  The Last Noun in a Noun Phrase is the important one
              */
@@ -73,8 +72,7 @@ namespace LASI.Algorithm.Binding
         /**
          * Intra Verb Phrase Binding
          */
-        public  void Bind(VerbPhrase vp)
-        {
+        public void Bind(VerbPhrase vp) {
             Verb LastVerb = vp.Words.OfType<Verb>().LastOrDefault();
 
             if (vp.Words.Count() > 1 && LastVerb != null) {

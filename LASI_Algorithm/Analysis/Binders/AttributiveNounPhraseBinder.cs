@@ -9,18 +9,16 @@ namespace LASI.Algorithm.Binding
 {
     public class AttributiveNounPhraseBinder
     {
-        private IEnumerable<IEnumerable<Phrase>> contiguosNounPhrases;
-        public AttributiveNounPhraseBinder(IEnumerable<Phrase> phrases)
-        {
+        private IEnumerable<IEnumerable<Phrase>> contiguousGroups;
+        public AttributiveNounPhraseBinder(IEnumerable<Phrase> phrases) {
 
-            contiguosNounPhrases = FindContiguousNps(phrases);
-            foreach (var cnps in contiguosNounPhrases) {
-                ProcessContiguous(cnps);
+            contiguousGroups = FindContiguousNounPhrases(phrases);
+            foreach (var cg in contiguousGroups) {
+                ProcessContiguous(cg);
             }
         }
 
-        private void ProcessContiguous(IEnumerable<Phrase> cnps)
-        {
+        private void ProcessContiguous(IEnumerable<Phrase> cnps) {
             foreach (var prepPhrase in cnps.GetPrepositionalPhrases()) {
                 ProcessLinkingPrepositionalPhrase(prepPhrase);
             }
@@ -30,15 +28,14 @@ namespace LASI.Algorithm.Binding
                 var leftNPDeterminer = npLeft != null ? npLeft.GetLeadingDeterminer() : null;
                 var rightNpDeterminer = npRight != null ? npLeft.GetLeadingDeterminer() : null;
                 if ((leftNPDeterminer != null && rightNpDeterminer != null) && leftNPDeterminer.DeterminerKind == DeterminerKind.Definite && rightNpDeterminer.DeterminerKind == DeterminerKind.Indefinite) {
-                    npLeft.InnerAttributed = npRight;
+                    npLeft.InnerAttributive = npRight;
                     npRight.OuterAttributive = npLeft;
                 }
                 cnps = cnps.SkipWhile(n => n.PreviousPhrase != npRight);
             }
         }
 
-        private static void ProcessLinkingPrepositionalPhrase(PrepositionalPhrase prepPhrase)
-        {
+        private static void ProcessLinkingPrepositionalPhrase(PrepositionalPhrase prepPhrase) {
             prepPhrase.PreviousPhrase.PrepositionOnLeft = prepPhrase;
 
             prepPhrase.NextPhrase.PrepositionOnRight = prepPhrase;
@@ -49,12 +46,10 @@ namespace LASI.Algorithm.Binding
             prepPhrase.PrepositionalRole = PrepositionalRole.DiscriptiveLinker;
         }
         public AttributiveNounPhraseBinder(Sentence sentence)
-            : this(sentence.Phrases)
-        {
+            : this(sentence.Phrases) {
         }
 
-        private IEnumerable<IEnumerable<Phrase>> FindContiguousNps(IEnumerable<Phrase> phrases)
-        {
+        private IEnumerable<IEnumerable<Phrase>> FindContiguousNounPhrases(IEnumerable<Phrase> phrases) {
             var result = new List<IEnumerable<Phrase>>();
             var temp = phrases;
             while (temp.Any()) {
@@ -72,8 +67,7 @@ namespace LASI.Algorithm.Binding
 
     internal static class NounPhraseExtensions
     {
-        internal static Determiner GetLeadingDeterminer(this NounPhrase nounPhrase)
-        {
+        internal static Determiner GetLeadingDeterminer(this NounPhrase nounPhrase) {
             return nounPhrase.Words.FirstOrDefault(w => w is Determiner) as Determiner;
         }
     }
