@@ -34,7 +34,7 @@ namespace LASI.Algorithm
                 BoundEntity.AddPossession(possession);
             }
         }
-        public void BindToIEntity(IEntity target) {
+        public void BindToTarget(IEntity target) {
             _boundEntity = target;
             _entityKind = BoundEntity.EntityKind;
         }
@@ -89,7 +89,7 @@ namespace LASI.Algorithm
             _describers.Add(adj);
         }
 
-        public IEnumerable<IDescriptor> DescribedBy {
+        public IEnumerable<IDescriptor> Descriptors {
             get {
                 return _describers;
             }

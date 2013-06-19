@@ -88,7 +88,7 @@ namespace AlgorithmAssemblyUnitTestProject
             Noun target = CreateNoun();
             IDescriptor adjective = new Adjective("rambunctious");
             target.BindDescriptor(adjective);
-            Assert.IsTrue(target.DescribedBy.Contains(adjective) && adjective.Describes == target);
+            Assert.IsTrue(target.Descriptors.Contains(adjective) && adjective.Describes == target);
         }
 
         /// <summary>
@@ -117,13 +117,13 @@ namespace AlgorithmAssemblyUnitTestProject
         //}
 
         /// <summary>
-        ///A test for DescribedBy
+        ///A test for Descriptors
         ///</summary>
         [TestMethod()]
         public void DescribedByTest() {
             Noun target = CreateNoun();
 
-            Assert.IsTrue(target.DescribedBy != null && target.DescribedBy.Count() == 0);
+            Assert.IsTrue(target.Descriptors != null && target.Descriptors.Count() == 0);
         }
 
         /// <summary>

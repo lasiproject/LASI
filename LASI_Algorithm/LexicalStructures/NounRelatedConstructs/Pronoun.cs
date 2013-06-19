@@ -85,7 +85,7 @@ namespace LASI.Algorithm
             _describers.Add(adj);
         }
 
-        public virtual IEnumerable<IDescriptor> DescribedBy {
+        public virtual IEnumerable<IDescriptor> Descriptors {
             get {
                 return _describers;
             }
@@ -144,7 +144,7 @@ namespace LASI.Algorithm
 
 
 
-        public void BindToIEntity(IEntity target) {
+        public void BindToTarget(IEntity target) {
             _boundEntity = target;
             _entityKind = BoundEntity.EntityKind;
         }

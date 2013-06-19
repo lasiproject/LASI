@@ -58,7 +58,7 @@ namespace LASI.Algorithm
         public virtual void BindPronoun(IPronoun pro)
         {
             _boundPronouns.Add(pro);
-            pro.BindToIEntity(this);
+            pro.BindToTarget(this);
         }
 
         /// <summary>
@@ -102,7 +102,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets all of the IDescriptor constructs,generally Adjectives or AdjectivePhrases, which describe the Noun Instance.
         /// </summary>
-        public virtual IEnumerable<IDescriptor> DescribedBy
+        public virtual IEnumerable<IDescriptor> Descriptors
         {
             get
             {

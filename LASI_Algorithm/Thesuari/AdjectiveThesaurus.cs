@@ -65,7 +65,7 @@ namespace LASI.Algorithm.Thesauri
         public HashSet<string> SearchFor(string word) {
 
 
-            //gets words of searched wd
+            //gets words of searched word
             var tempWords = from sw in allSets
                             where sw.Words.Contains(word)
                             select sw.Words;
@@ -75,7 +75,7 @@ namespace LASI.Algorithm.Thesauri
                  select q).Distinct());
 
 
-            //gets pointers of searched wd
+            //gets pointers of searched word
             var tempResults = from sn in allSets
                               where sn.Words.Contains(word)
                               select sn.ReferencedIndexes;

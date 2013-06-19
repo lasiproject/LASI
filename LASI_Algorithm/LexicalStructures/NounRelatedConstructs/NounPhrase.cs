@@ -56,7 +56,7 @@ namespace LASI.Algorithm
         /// <param name="pro">The referencer which refers to the NounPhrase Instance.</param>
         public virtual void BindPronoun(LASI.Algorithm.IPronoun pro) {
             _boundPronouns.Add(pro);
-            pro.BindToIEntity(this);
+            pro.BindToTarget(this);
         }
         /// <summary>
         /// Binds an IDescriptor, generally an Adjective or AdjectivePhrase, as a descriptor of the NounPhrase.
@@ -164,7 +164,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets all of the IDescriptor constructs,generally Adjectives or AdjectivePhrases, which describe the NounPhrase Instance.
         /// </summary>
-        public virtual IEnumerable<IDescriptor> DescribedBy {
+        public virtual IEnumerable<IDescriptor> Descriptors {
             get {
                 return _describedBy;
             }
@@ -214,7 +214,7 @@ namespace LASI.Algorithm
         /// </summary>
         public EntityKind EntityKind {
             get;
-            set;
+            protected set;
         }
 
         /// <summary>

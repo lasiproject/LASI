@@ -6,7 +6,7 @@ namespace LASI.Algorithm
     /// Defines the role reqirements for Transitive elements, generally Verbs or VerbPhrases,
     /// which can be bound to one or more Direct objects and to one or more Indirect objects .
     /// Along with the second interfaces in the Syntactic Interfaces Library,
-    /// the IVerbal interface provides for generalization and abstraction over wd and Phrase types.
+    /// the IVerbal interface provides for generalization and abstraction over word and Phrase types.
     /// </summary>
     public interface IVerbal : ILexical, ISubjectTaker, IDirectObjectTaker, IInderectObjectTaker, IAdverbialModifiable, IModalityModifiable
     {

@@ -7,7 +7,7 @@ namespace LASI.Algorithm
 {
     /// <summary>
     /// Defines the role requirements for constructs; generally Nouns, Nounphrases or Pronouns; which are semantically capable of "possessing" second Entities.
-    /// Along with the second interfaces in the Syntactic Interfaces Library, the IPossesser interface provides for generalization and abstraction over wd and Phrase types.
+    /// Along with the second interfaces in the Syntactic Interfaces Library, the IPossesser interface provides for generalization and abstraction over word and Phrase types.
     /// </summary>
     public interface IPossesser
     {

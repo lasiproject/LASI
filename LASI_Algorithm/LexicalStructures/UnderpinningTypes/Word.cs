@@ -9,18 +9,17 @@ using System.Xml.Linq;
 namespace LASI.Algorithm
 {
     /// <summary>
-    /// Provides the base class, properties, and behaviors for all wd level gramatical constructs.
+    /// Provides the base class, properties, and behaviors for all word level gramatical constructs.
     /// </summary>
     public abstract class Word : IPrepositionLinkable
     {
         #region Constructors
         /// <summary>
-        /// Initializes a new instance of the wd class which represensts the properties
-        /// and behaviors of a wd-level grammatical element.
+        /// Initializes a new instance of the word class which represensts the properties
+        /// and behaviors of a word-level grammatical element.
         /// </summary>
         /// <param name="text">The key text content of the adverb.</param>
-        protected Word(string text)
-        {
+        protected Word(string text) {
             ID = IDProvider++;
             Text = text;
             Weight = 1;
@@ -35,34 +34,30 @@ namespace LASI.Algorithm
         #region Methods
 
         /// <summary>
-        /// Establishes the linkage between the wd and its parent Phrase.
+        /// Establishes the linkage between the word and its parent Phrase.
         /// </summary>
-        /// <param name="parent">The Phrase to which the wd belongs.</param>
-        public void EstablishParent(Phrase parent)
-        {
+        /// <param name="parent">The Phrase to which the word belongs.</param>
+        public void EstablishParent(Phrase parent) {
             Phrase = parent;
 
         }
 
         /// <summary>
-        /// Returns a string representation of the wd.
+        /// Returns a string representation of the word.
         /// </summary>
         /// <returns>A string containing its underlying NounPointerSymbol and its text content.</returns>
-        public override string ToString()
-        {
+        public override string ToString() {
             return GetType().Name + " \"" + Text + "\"";
         }
 
-        public override bool Equals(object obj)
-        {
+        public override bool Equals(object obj) {
             return base.Equals(obj);
         }
 
 
 
 
-        public override int GetHashCode()
-        {
+        public override int GetHashCode() {
             return base.GetHashCode();
         }
 
@@ -71,37 +66,33 @@ namespace LASI.Algorithm
         #region Properties
 
         /// <summary>
-        /// Gets the text content of the wd instance.
+        /// Gets the text content of the word instance.
         /// </summary>
-        public virtual string Text
-        {
+        public virtual string Text {
             get;
             protected set;
         }
 
         /// <summary>
-        /// Gets the globally-unique identification number associated with the wd instance.
+        /// Gets the globally-unique identification number associated with the word instance.
         /// </summary>
-        public int ID
-        {
+        public int ID {
             get;
             private set;
         }
 
         /// <summary>
-        /// Gets the frequency of the wd in the current document.
+        /// Gets the frequency of the word in the current document.
         /// </summary>
-        public int FrequencyCurrent
-        {
+        public int FrequencyCurrent {
             get;
             set;
         }
 
         /// <summary>
-        /// Gets the normalized frequency of wd across all documents.
+        /// Gets the normalized frequency of word across all documents.
         /// </summary>
-        public int FrequencyAcross
-        {
+        public int FrequencyAcross {
             get;
             set;
         }
@@ -110,87 +101,75 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets the document instance to which the adverb belongs.
         /// </summary>
-        public LASI.Algorithm.DocumentConstructs.Document Document
-        {
-            get
-            {
-                return Phrase.Document;
+        public LASI.Algorithm.DocumentConstructs.Document Document {
+            get {
+                return Phrase != null ? Phrase.Document : null;
             }
         }
         /// <summary>
-        /// Gets, lexically speaking, the next wd in the Document to which the instance belongs.
+        /// Gets, lexically speaking, the next word in the Document to which the instance belongs.
         /// </summary>
-        public Word NextWord
-        {
+        public Word NextWord {
             get;
             set;
         }
         /// <summary>
-        /// Gets, lexically speaking, the previous wd in the Document to which the instance belongs.
+        /// Gets, lexically speaking, the previous word in the Document to which the instance belongs.
         /// </summary>
-        public Word PreviousWord
-        {
+        public Word PreviousWord {
             get;
             set;
         }
         /// <summary>
-        /// Gets or the Phrase the wd belongs to.
+        /// Gets or the Phrase the word belongs to.
         /// </summary>
-        public Phrase Phrase
-        {
+        public Phrase Phrase {
             get;
             private set;
         }
         /// <summary>
-        /// Gets or the Sentence the wd belongs to.
+        /// Gets or the Sentence the word belongs to.
         /// </summary>
-        public LASI.Algorithm.DocumentConstructs.Sentence Sentence
-        {
+        public LASI.Algorithm.DocumentConstructs.Sentence Sentence {
             get;
             private set;
         }
 
         /// <summary>
-        /// Gets or sets the Prepositional construct which is lexically to the first of the wd.
+        /// Gets or sets the Prepositional construct which is lexically to the first of the word.
         /// </summary>
-        public IPrepositional PrepositionOnLeft
-        {
+        public IPrepositional PrepositionOnLeft {
             get;
             set;
         }
 
         /// <summary>
-        /// Gets or sets the Prepositional construct which is lexically to the second of the wd.
+        /// Gets or sets the Prepositional construct which is lexically to the second of the word.
         /// </summary>
-        public IPrepositional PrepositionOnRight
-        {
+        public IPrepositional PrepositionOnRight {
             get;
             set;
         }
 
-        public Type Type
-        {
-            get
-            {
+        public Type Type {
+            get {
                 return GetType();
             }
         }
 
         /// <summary>
-        /// Gets or sets the numeric Weight of the wd within the context of its parent document.
+        /// Gets or sets the numeric Weight of the word within the context of its parent document.
         /// </summary>
-        public decimal Weight
-        {
+        public decimal Weight {
             get;
             set;
         }
 
 
         /// <summary>
-        /// Gets or sets the numeric Weight of the wd over the context of all extant documents.
+        /// Gets or sets the numeric Weight of the word over the context of all extant documents.
         /// </summary>
-        public decimal MetaWeight
-        {
+        public decimal MetaWeight {
             get;
             set;
         }
@@ -200,14 +179,12 @@ namespace LASI.Algorithm
         #region Static Words
 
         private static int IDProvider;
-        public static bool VerboseOutput
-        {
+        public static bool VerboseOutput {
             get;
             set;
         }
 
-        static Word()
-        {
+        static Word() {
             VerboseOutput = false;
         }
         #endregion

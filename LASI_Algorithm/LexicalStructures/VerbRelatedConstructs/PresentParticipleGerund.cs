@@ -86,7 +86,7 @@ namespace LASI.Algorithm
             get;
             set;
         }
-        public IEnumerable<IDescriptor> DescribedBy
+        public IEnumerable<IDescriptor> Descriptors
         {
             get
             {

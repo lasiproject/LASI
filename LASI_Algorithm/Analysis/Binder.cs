@@ -11,12 +11,10 @@ namespace LASI.Algorithm.Binding
 {
     public static class Binder
     {
-        public static async Task BindAsync(LASI.Algorithm.DocumentConstructs.Document doc)
-        {
+        public static async Task BindAsync(LASI.Algorithm.DocumentConstructs.Document doc) {
             await Task.Run(() => Bind(doc));
         }
-        public static void Bind(Document doc)
-        {
+        public static void Bind(Document doc) {
             try {
                 PerformIntraPhraseBinding(doc);
                 PerformAttributeNounPhraseBinding(doc);
@@ -34,26 +32,22 @@ namespace LASI.Algorithm.Binding
 
         #region Private Static Methods
 
-        private static void PerformAttributeNounPhraseBinding(Document doc)
-        {
+        private static void PerformAttributeNounPhraseBinding(Document doc) {
             doc.Sentences.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
                 .Where(s => s.Paragraph.ParagraphKind == ParagraphKind.Default)
                 .AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
                 .ForAll(
-                s =>
-                {
+                s => {
                     var attributiveBinder = new AttributiveNounPhraseBinder(s);
                 });
         }
-        private static void PerformSVOBinding(Document doc)
-        {
+        private static void PerformSVOBinding(Document doc) {
             try {
                 doc.Sentences.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
                     .Where(s => s.Paragraph.ParagraphKind == ParagraphKind.Default)
                     .AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
                     .ForAll(
-                    s =>
-                    {
+                    s => {
                         try {
                             new SubjectBinder().Bind(s);
                         }
@@ -75,8 +69,7 @@ namespace LASI.Algorithm.Binding
             catch {
             }
         }
-        private static void PerformIntraPhraseBinding(Document doc)
-        {
+        private static void PerformIntraPhraseBinding(Document doc) {
             var phrasesToBindWithin = from r in doc.Phrases.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
                                       where r is VerbPhrase
                                       select r into vp
@@ -90,18 +83,16 @@ namespace LASI.Algorithm.Binding
             //doc.Phrases.GetVerbPhrases()
             //    .AsParallel()
             //    .WithDegreeOfParallelism(Concurrency.CurrentMax)
-            //    .ForAll(vp => new IntraPhraseWordBinder().Bind(vp));
+            //    .ForAll(verbPhrase => new IntraPhraseWordBinder().Bind(verbPhrase));
         }
 
 
-        private static void PerformPronounBinding(Document doc)
-        {
+        private static void PerformPronounBinding(Document doc) {
             doc.Sentences.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
                 .Where(s => s.Paragraph.ParagraphKind == ParagraphKind.Default)
                 .AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
                 .ForAll(
-                s =>
-                {
+                s => {
                     new PronounBinder().Bind(doc);
                 });
         }

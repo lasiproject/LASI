@@ -11,22 +11,16 @@ namespace LASI.Algorithm.Analysis
     static class SubordinateClauseIdentifier
     {
 
-        public static void Identify(params Sentence[] sentences)
-        {
-            foreach (Sentence s in sentences) 
-            {
+        public static void Identify(params Sentence[] sentences) {
+            foreach (Sentence s in sentences) {
                 var remainder = RemainderofSentenceIncludingSubordinator(s.Words);
-                
-                
 
-            }   
+
+
+            }
         }
-
-        
-        private static IEnumerable<Word> RemainderofSentenceIncludingSubordinator(IEnumerable<Word> words)
-        {
-            var remainder = words.SkipWhile(w =>
-            {
+        private static IEnumerable<Word> RemainderofSentenceIncludingSubordinator(IEnumerable<Word> words) {
+            var remainder = words.SkipWhile(w => {
                 return isRelativePronounorSubordinatingConjunction(w);
 
             });
@@ -42,8 +36,7 @@ namespace LASI.Algorithm.Analysis
         /// </summary>
         /// <param name="subject">Word</param>
         /// <returns> true or false</returns>
-        private static bool isRelativePronounorSubordinatingConjunction(Word w)
-        {
+        private static bool isRelativePronounorSubordinatingConjunction(Word w) {
             var prep = w as Preposition;
             if (prep != null)
                 return !(w is RelativePronoun) || !(prep.PrepositionalRole == PrepositionalRole.SubordinatingConjunction);

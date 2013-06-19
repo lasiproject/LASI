@@ -23,8 +23,7 @@ namespace LASI.Algorithm.DocumentConstructs
         /// Initializes a new instance of the Document class.
         /// </summary>
         /// <param name="paragrpahs">The collection of paragraphs which contain all text in the document.</param>
-        public Document(IEnumerable<Paragraph> paragrpahs)
-        {
+        public Document(IEnumerable<Paragraph> paragrpahs) {
             _paragraphs = paragrpahs.ToList();
 
             _enumContainingParagraphs = (from p in _paragraphs
@@ -38,8 +37,7 @@ namespace LASI.Algorithm.DocumentConstructs
             EstablishLexicalLinks();
         }
 
-        private void AssignMembers(IEnumerable<Paragraph> paragrpahs)
-        {
+        private void AssignMembers(IEnumerable<Paragraph> paragrpahs) {
             _sentences = (from p in _paragraphs
                           from s in p.Sentences
                           where s.Words.GetVerbs().Any()
@@ -59,8 +57,7 @@ namespace LASI.Algorithm.DocumentConstructs
         /// <summary>
         /// Establishes the compositional linkages over all of the structures which comprise the Document.
         /// </summary>
-        private void EstablishLexicalLinks()
-        {
+        private void EstablishLexicalLinks() {
             if (_words.Count > 1) {
                 for (int i = 1; i < _words.Count(); ++i) {
                     _words[i].PreviousWord = _words[i - 1];
@@ -90,19 +87,17 @@ namespace LASI.Algorithm.DocumentConstructs
         /// Returns all of the Action identified within the docimument.
         /// </summary>
         /// <returns>all of the Action identified within the docimument.</returns>
-        public IEnumerable<IVerbal> GetActions()
-        {
+        public IEnumerable<IVerbal> GetActions() {
             return from a in _words.GetVerbs().Concat<IVerbal>(_phrases.GetVerbPhrases())
                    orderby a is Word ? (a as Word).ID : (a as Phrase).Words.Last().ID ascending
                    select a;
         }
 
         /// <summary>
-        /// Returns all of the wd and start level describables identified in the document.
+        /// Returns all of the word and start level describables identified in the document.
         /// </summary>
-        /// <returns> All of the wd and start level describables identified in the document.</returns>
-        public IEnumerable<IEntity> GetEntities()
-        {
+        /// <returns> All of the word and start level describables identified in the document.</returns>
+        public IEnumerable<IEntity> GetEntities() {
             return from e in _words.GetNouns().Concat<IEntity>(_words.GetPronouns()).Concat<IEntity>(_phrases.GetNounPhrases())
                    orderby e is Word ? (e as Word).ID : (e as Phrase).Words.Last().ID ascending
                    select e;
@@ -115,10 +110,8 @@ namespace LASI.Algorithm.DocumentConstructs
         /// <summary>
         /// Gets the Sentences the document contains in linear, first to second order.
         /// </summary>
-        public IEnumerable<Sentence> Sentences
-        {
-            get
-            {
+        public IEnumerable<Sentence> Sentences {
+            get {
                 return _sentences;
             }
 
@@ -127,17 +120,13 @@ namespace LASI.Algorithm.DocumentConstructs
         /// <summary>
         /// Gets the Paragraphs the document contains in linear, first to second order.
         /// </summary>
-        public IEnumerable<Paragraph> Paragraphs
-        {
-            get
-            {
+        public IEnumerable<Paragraph> Paragraphs {
+            get {
                 return _paragraphs;
             }
         }
-        public IEnumerable<Paragraph> EnumContainingParagraphs
-        {
-            get
-            {
+        public IEnumerable<Paragraph> EnumContainingParagraphs {
+            get {
                 return _enumContainingParagraphs;
             }
         }
@@ -145,20 +134,16 @@ namespace LASI.Algorithm.DocumentConstructs
         /// <summary>
         /// Gets the Phrases the document contains in linear, first to second order.
         /// </summary>
-        public IEnumerable<Phrase> Phrases
-        {
-            get
-            {
+        public IEnumerable<Phrase> Phrases {
+            get {
                 return _phrases;
             }
         }
         /// <summary>
         /// Gets the Words the document contains in linear, first to second order.
         /// </summary>
-        public IEnumerable<Word> Words
-        {
-            get
-            {
+        public IEnumerable<Word> Words {
+            get {
                 return _words;
             }
         }
@@ -166,8 +151,7 @@ namespace LASI.Algorithm.DocumentConstructs
         /// <summary>
         /// The name of the file the Document instance was parsed from.
         /// </summary>
-        public string FileName
-        {
+        public string FileName {
             get;
             set;
         }

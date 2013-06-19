@@ -15,13 +15,13 @@ namespace SharpNLPTaggingModule
         /// </summary>
         private string mModelPath;
 
-        protected OpenNLP.Tools.SentenceDetect.MaximumEntropySentenceDetector mSentenceDetector;
-        protected OpenNLP.Tools.Tokenize.EnglishMaximumEntropyTokenizer mTokenizer;
-        protected OpenNLP.Tools.PosTagger.EnglishMaximumEntropyPosTagger mPosTagger;
-        protected OpenNLP.Tools.Chunker.EnglishTreebankChunker mChunker;
-        protected OpenNLP.Tools.Parser.EnglishTreebankParser mParser;
-        protected OpenNLP.Tools.NameFind.EnglishNameFinder mNameFinder;
-        protected OpenNLP.Tools.Lang.English.TreebankLinker mCoreferenceFinder;
+        private OpenNLP.Tools.SentenceDetect.MaximumEntropySentenceDetector mSentenceDetector;
+        private OpenNLP.Tools.Tokenize.EnglishMaximumEntropyTokenizer mTokenizer;
+        private OpenNLP.Tools.PosTagger.EnglishMaximumEntropyPosTagger mPosTagger;
+        private OpenNLP.Tools.Chunker.EnglishTreebankChunker mChunker;
+        private OpenNLP.Tools.Parser.EnglishTreebankParser mParser;
+        private OpenNLP.Tools.NameFind.EnglishNameFinder mNameFinder;
+        private OpenNLP.Tools.Lang.English.TreebankLinker mCoreferenceFinder;
 
         public SharpNLPTagger(TaggingOption taggingMode) {
             TaggingMode = taggingMode;

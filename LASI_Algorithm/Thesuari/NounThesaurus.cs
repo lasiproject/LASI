@@ -89,7 +89,7 @@ namespace LASI.Algorithm.Thesauri
 
         void CreateSet(string line) {
 
-            //Aluan: This line gets extracts wd category info I noticed was present in the DB files
+            //Aluan: This line gets extracts word category info I noticed was present in the DB files
             //Erik:  Gotcha, I'll try to decipher its meaning.
 
             line = line.Substring(0, line.IndexOf('|'));
@@ -110,7 +110,7 @@ namespace LASI.Algorithm.Thesauri
             IEnumerable<KeyValuePair<NounPointerSymbol, int>> kindedPointers =
                 from match in numbers.Cast<Match>()
                 let split = match.Value.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
-                let pointer = split.Count() > 1 ? new KeyValuePair<NounPointerSymbol, int>(RelationMap[split[0]], Int32.Parse(split[1])) : new KeyValuePair<NounPointerSymbol, int>(NounPointerSymbol.UNKNOWN, Int32.Parse(split[0]))
+                let pointer = split.Count() > 1 ? new KeyValuePair<NounPointerSymbol, int>(RelationMap[split[0]], Int32.Parse(split[1])) : new KeyValuePair<NounPointerSymbol, int>(NounPointerSymbol.UNDEFINED, Int32.Parse(split[0]))
 
                 where relationshipsToKeep.Contains(pointer.Key)
                 select pointer;

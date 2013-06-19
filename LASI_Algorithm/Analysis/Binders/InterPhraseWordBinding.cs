@@ -19,7 +19,7 @@ namespace LASI.Algorithm.Binding
             if (np.Words.Count() > 1 && LastNoun != null) {
                 //////Output.WriteLine(nps);
                 /*
-                foreach (wd adverb in nps.Words) {
+                foreach (word adverb in nps.Words) {
                     ////Output.Write("[{0}] ", adverb);
                 }
                 ////Output.WriteLine("\nLast Noun: {0}", LastNoun.Text);
@@ -27,7 +27,7 @@ namespace LASI.Algorithm.Binding
 
 
                 /**
-                 *  if wd prior to LastNoun is also a Noun associate them
+                 *  if word prior to LastNoun is also a Noun associate them
                  */
                 if (LastNoun.PreviousWord is Noun) {
                     var PrevWrd = LastNoun.PreviousWord;
@@ -127,7 +127,7 @@ namespace LASI.Algorithm.Binding
 
                 //Binds second verbs to last adverb
                 /*
-                var VerbList = vp.Words.GetVerbs();
+                var VerbList = verbPhrase.Words.GetVerbs();
                 if (VerbList.Count() > 0)
                 {
                     foreach (var vrb in VerbList)

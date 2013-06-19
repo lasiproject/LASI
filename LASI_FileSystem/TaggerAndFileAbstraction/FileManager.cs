@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LASI.FileSystem.FileTypes;
+using SharpNLPTaggingModule;
 namespace LASI.FileSystem
 {
     /// <summary>
@@ -187,7 +188,9 @@ namespace LASI.FileSystem
             docFiles.RemoveAll(f => f.NameSansExt == fileName);
             docXFiles.RemoveAll(f => f.NameSansExt == fileName);
             pdfFiles.RemoveAll(f => f.NameSansExt == fileName);
-            taggedFiles.RemoveAll(f => f.NameSansExt == fileName);
+            taggedFiles = new System.Collections.Concurrent.ConcurrentBag<TaggedFile>(from f in taggedFiles
+                                                        where f.NameSansExt != fileName
+                                                        select f);
         }
         /// <summary>
         /// Adds the document indicated by the specified path string to the project
@@ -396,7 +399,7 @@ namespace LASI.FileSystem
                           where dx.NameSansExt == d.NameSansExt
                           select dx).Count() == 0
                          select
-                             new SharpNLPTaggingModule.SharpNLPTagger(TaggingOption.TagAndAggregate, d.FullPath, TaggedFilesDir + "\\" + d.NameSansExt + ".tagged").ProcessFileAsync()).ToList();
+                             new SharpNLPTagger(TaggingOption.TagAndAggregate, d.FullPath, TaggedFilesDir + "\\" + d.NameSansExt + ".tagged").ProcessFileAsync()).ToList();
 
 
             while (tasks.Any()) {
@@ -566,14 +569,16 @@ namespace LASI.FileSystem
 
         static List<TextFile> textFiles = new List<TextFile>();
 
-        static List<TaggedFile> taggedFiles = new List<TaggedFile>();
+        static System.Collections.Concurrent.ConcurrentBag<TaggedFile> taggedFiles = new System.Collections.Concurrent.ConcurrentBag<TaggedFile>();
 
         public static List<TaggedFile> TaggedFiles {
             get {
-                return FileManager.taggedFiles;
+                return FileManager.taggedFiles.ToList();
             }
             set {
-                FileManager.taggedFiles = value;
+                foreach (var f in value) {
+                    FileManager.taggedFiles.Add(f);
+                }
             }
         }
 

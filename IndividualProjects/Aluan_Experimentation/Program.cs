@@ -31,20 +31,21 @@ namespace Aluan_Experimentation
 
         private static void GroupingByBehaviorAndKindExample(Document doc) {
 
-
         }
 
 
-
-
-
-        private static IEnumerable<IVerbalSubject> GetActionPerformers(Document doc, IVerbal action, IEntity Action) {
-            var doers = from verb in doc.Words.GetVerbs().WithSubject(subject => subject.IsSimilarTo(Action))
-                        where verb.IsSimilarTo(verb)
+        private static IEnumerable<IVerbalSubject> GetActionPerformers(Document doc, IVerbal action, IEntity performer) {
+            var doers = from verb in doc.Words.GetVerbs().WithSubject(subject => subject.IsSimilarTo(performer))
+                        where verb.IsSimilarTo(action)
                         from actionPerformer in verb.Subjects
                         select actionPerformer;
             return doers;
         }
+
+
+
+
+
 
 
 

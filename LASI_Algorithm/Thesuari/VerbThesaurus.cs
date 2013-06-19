@@ -16,7 +16,7 @@ namespace LASI.Algorithm.Thesauri
         /// <summary>
         /// Initializes a new instance of the VerbThesaurus class.
         ///<param name="constrainByCategory"></param>
-        /// <param name="filePath">The path of the WordNet database file containing the sysnonym line for actions.</param>
+        /// <param name="filePath">The path of the WordNet database file containing the sysnonym line for verbals.</param>
         /// </summary>
         public VerbThesaurus(string filePath)
             : base(filePath) {
@@ -134,7 +134,7 @@ namespace LASI.Algorithm.Thesauri
                               let split = M.Value.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
                               let pointer = split.Count() > 1 ?
                               new KeyValuePair<VerbPointerSymbol, int>(RelationMap[split[0]], Int32.Parse(split[1])) :
-                              new KeyValuePair<VerbPointerSymbol, int>(VerbPointerSymbol.UNKNOWN, Int32.Parse(split[0]))
+                              new KeyValuePair<VerbPointerSymbol, int>(VerbPointerSymbol.UNDEFINED, Int32.Parse(split[0]))
                               select pointer;
             var elementRgx = new Regex(@"\b[A-Za-z-_]{2,}");
 

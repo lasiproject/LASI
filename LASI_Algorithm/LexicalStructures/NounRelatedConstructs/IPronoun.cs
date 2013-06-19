@@ -7,7 +7,7 @@ namespace LASI.Algorithm
         IEntity BoundEntity {
             get;
         }
-        void BindToIEntity(IEntity target);
+        void BindToTarget(IEntity target);
         PronounKind PronounKind {
             get;
         }

@@ -86,7 +86,7 @@ namespace AlgorithmAssemblyUnitTestProject
             NounPhrase target = new NounPhrase(composedWords);
             IDescriptor adj = new AdjectivePhrase(new Word[] { new GenericSingularNoun("peace"), new PresentParticipleGerund("loving") });
             target.BindDescriptor(adj);
-            Assert.IsTrue(target.DescribedBy.Contains(adj));
+            Assert.IsTrue(target.Descriptors.Contains(adj));
         }
 
         /// <summary>
@@ -113,19 +113,19 @@ namespace AlgorithmAssemblyUnitTestProject
         }
 
         /// <summary>
-        ///A test for DescribedBy
+        ///A test for Descriptors
         ///</summary>
         [TestMethod()]
         public void DescribedByTest() {
             IEnumerable<Word> composedWords = new Word[] { new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians") };
             NounPhrase target = new NounPhrase(composedWords);
-            Assert.IsTrue(target.DescribedBy.Count() == 0);
+            Assert.IsTrue(target.Descriptors.Count() == 0);
             IDescriptor adj = new AdjectivePhrase(new Word[] { new GenericSingularNoun("peace"), new PresentParticipleGerund("loving") });
             target.BindDescriptor(adj);
-            Assert.IsTrue(target.DescribedBy.Contains(adj));
+            Assert.IsTrue(target.Descriptors.Contains(adj));
             IDescriptor adj2 = new Adjective("proud");
             target.BindDescriptor(adj2);
-            Assert.IsTrue(target.DescribedBy.Contains(adj) && target.DescribedBy.Contains(adj2));
+            Assert.IsTrue(target.Descriptors.Contains(adj) && target.Descriptors.Contains(adj2));
         }
 
         /// <summary>

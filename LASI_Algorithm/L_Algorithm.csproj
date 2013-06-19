@@ -53,12 +53,23 @@
     <PlatformTarget>x64</PlatformTarget>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
     <UseVSHostingProcess>false</UseVSHostingProcess>
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>ic_launcher-web.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <RunPostBuildEvent>Always</RunPostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'xft32|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\xft32\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -81,6 +92,8 @@
     <Compile Include="Analysis\Binders\EntityReferenceBinder.cs" />
     <Compile Include="Analysis\Binders\InfinitivePhraseAttributer.cs" />
     <Compile Include="Analysis\SubordinateClauseIdentifier.cs" />
+    <Compile Include="IEnumerableExtensions\TVerbal.cs" />
+    <Compile Include="IEnumerableExtensions\TVerbal_2.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\RelativePronounKind.cs" />
     <Compile Include="ResourceUsageMode.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\ISimilarityComparablePhrase.cs" />
@@ -136,7 +149,6 @@
     <Compile Include="Thesuari\Experimental\ISynonymLookup.cs" />
     <Compile Include="Thesuari\NounConjugator.cs" />
     <Compile Include="Thesuari\NoSynonymLookupForTypeException.cs" />
-    <Compile Include="Thesuari\SynonymSet.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\RelativePronoun.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\GenericNoun.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\ProperNoun.cs" />
@@ -152,7 +164,7 @@
     <Compile Include="LexicalStructures\AdjectiveRelatedConstructs\SuperlativeAdjective .cs" />
     <Compile Include="LexicalStructures\ConstrainingSemanticConstructs\PossessiveEnding.cs" />
     <Compile Include="Thesuari\NounThesaurus.cs" />
-    <Compile Include="Thesuari\SynSet.cs" />
+    <Compile Include="Thesuari\SynSetDefinitions.cs" />
     <Compile Include="Thesuari\Thesaurus.cs" />
     <Compile Include="LexicalStructures\AdjectiveRelatedConstructs\Adjective.cs" />
     <Compile Include="LexicalStructures\AdjectiveRelatedConstructs\AdjectivePhrase.cs" />
@@ -211,7 +223,7 @@
     <Compile Include="LexicalStructures\VerbRelatedConstructs\VerbTenses.cs" />
     <Compile Include="LexicalStructures\UnderpinningTypes\Word.cs" />
     <Compile Include="IEnumerableExtensions\IEnumerableOfWordExtensions.cs" />
-    <Compile Include="Thesuari\WordNetLexCategories.cs" />
+    <Compile Include="Thesuari\WordNetLexCategoryInformation.cs" />
     <None Include="ClassDiagrams\ClassDiagram3.cd" />
     <None Include="ClassDiagrams\ClassDiagram1.cd" />
     <None Include="ClassDiagrams\ClassDiagram2.cd" />

@@ -108,7 +108,7 @@ namespace LASI.Algorithm.DocumentConstructs
         /// </summary>
         public Document Document {
             get {
-                return Paragraph.Document;
+                return Paragraph != null ? Paragraph.Document : null;
             }
         }
 

@@ -28,31 +28,23 @@ namespace LASI.InteropLayer
         }
         public async Task<IEnumerable<NVNN>> JoinDocumentsAsnyc() {
 
-            return await await Task.Factory.ContinueWhenAll(new[]{Task<IEnumerable<NVNN>>.Run(()=> GetCommonalitiesByVerbals()),
-Task<IEnumerable<NVNN>>.Run(()=> GetCommonalitiesByBoundEntities())}, async tasks => {
-    var results = new List<NVNN>();
-    foreach (var t in tasks) {
-        results.AddRange(await t);
-    }
-    return results.Distinct();
-});
+            return await await Task.Factory.ContinueWhenAll(
+                new[]{  Task.Run(()=> GetCommonalitiesByVerbals()),
+                        Task.Run(()=> GetCommonalitiesByBoundEntities())}, async tasks => {
+                            var results = new List<NVNN>();
+                            foreach (var t in tasks) {
+                                results.AddRange(await t);
+                            }
+                            return results.Distinct();
+                        });
 
-            //onJoinCompletedEventHandler.Invoke(new object(), commonalities);
+
 
         }
-        //public void JoinDocuments() {
-        //    Task.Run(async () => {
-        //        var verbalCommonalities = await GetCommonalitiesByVerbals();
-        //        var nounCommonalities = await GetCommonalitiesByBoundEntities();
-        //        return verbalCommonalities.Concat(nounCommonalities).Distinct();
-
-        //    }).ContinueWith(async result => onJoinCompletedEventHandler.Invoke(this, await result), TaskScheduler.FromCurrentSynchronizationContext()).ConfigureAwait(true);
-
-        //}
 
         private async Task<IEnumerable<NVNN>> GetCommonalitiesByBoundEntities() {
-            var topNPsByDoc = await Task.WhenAll(from doc in Documents.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
-                                                 select GetTopNounPhrases(doc));
+            var topNPsByDoc = from doc in Documents.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
+                              select GetTopNounPhrases(doc);
             var nounCommonalities = (from outerSet in topNPsByDoc.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
                                      from np in outerSet
                                      from innerSet in topNPsByDoc
@@ -71,7 +63,9 @@ Task<IEnumerable<NVNN>>.Run(()=> GetCommonalitiesByBoundEntities())}, async task
                           select resultGrouped.First() into result
                           orderby result.Subject.Weight
                           select result;
+            await Task.Yield();
             return results.Distinct();
+
         }
         private async Task<IEnumerable<NVNN>> GetCommonalitiesByVerbals() {
             var topVerbalsByDoc = await Task.WhenAll(from doc in Documents.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
@@ -96,13 +90,22 @@ Task<IEnumerable<NVNN>>.Run(()=> GetCommonalitiesByBoundEntities())}, async task
                     select result);
         }
 
-        public async Task<IEnumerable<NounPhrase>> GetTopNounPhrases(Document document) {
+        public async Task<IEnumerable<NounPhrase>> GetTopNounPhrasesAsync(Document document) {
             return await Task.Run(() => from distinctNP in
                                             (from np in document.GetEntities().GetPhrases().AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax).GetNounPhrases()
-                                             where np.SubjectOf != null || np.DirectObjectOf != null || np.IndirectObjectOf != null
+                                             where np.SubjectOf != null && (np.DirectObjectOf != null || np.IndirectObjectOf != null)
                                              select np).Distinct((L, R) => L.Text == R.Text || L.IsAliasFor(R) || L.IsSimilarTo(R))
                                         orderby distinctNP.Weight
                                         select distinctNP);
+
+        }
+        public IEnumerable<NounPhrase> GetTopNounPhrases(Document document) {
+            return from distinctNP in
+                       (from np in document.GetEntities().GetPhrases().AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax).GetNounPhrases()
+                        where np.SubjectOf != null && (np.DirectObjectOf != null || np.IndirectObjectOf != null)
+                        select np).Distinct((L, R) => L.Text == R.Text || L.IsAliasFor(R) || L.IsSimilarTo(R))
+                   orderby distinctNP.Weight
+                   select distinctNP;
 
         }
         public async Task<IEnumerable<VerbPhrase>> GetTopVerbPhrases(Document document) {

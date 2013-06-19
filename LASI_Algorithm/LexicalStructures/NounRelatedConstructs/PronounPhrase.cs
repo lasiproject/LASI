@@ -31,7 +31,7 @@ namespace LASI.Algorithm
         }
 
 
-        public void BindToIEntity(IEntity target)
+        public void BindToTarget(IEntity target)
         {
             _boundEntity = target;
             EntityKind = _boundEntity.EntityKind;
