@@ -102,7 +102,6 @@ namespace LASI.Algorithm.Thesauri
                 from match in numbers.Cast<Match>()
                 let split = match.Value.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
                 let pointer = split.Count() > 1 ? new KeyValuePair<NounPointerSymbol, int>(RelationMap[split[0]], Int32.Parse(split[1])) : new KeyValuePair<NounPointerSymbol, int>(NounPointerSymbol.UNDEFINED, Int32.Parse(split[0]))
-
                 where relationshipsToKeep.Contains(pointer.Key)
                 select pointer;
 
@@ -134,26 +133,24 @@ namespace LASI.Algorithm.Thesauri
                 return new HashSet<string>();
             var lexname = containingSet.LexName;
             List<string> results = new List<string>();
-            SearchSubsets(containingSet, results, new HashSet<NounSynSet> {
-            }, lexname);
-            return new HashSet<string>(results.Distinct(StringComparer.OrdinalIgnoreCase));
+
+            SearchSubsets(containingSet, results, new HashSet<NounSynSet>(), lexname);
+            return new HashSet<string>(results);
         }
 
         private void SearchSubsets(NounSynSet containingSet, List<string> results, HashSet<NounSynSet> setsSearched, WordNetNounCategory lexname) {
             results.AddRange(containingSet.Words);
+            results.AddRange(from set in containingSet[NounPointerSymbol.HypERnym]
+                             where data.ContainsKey(set)
+                             from w in data[set].Words
+                             select w);
             if (!setsSearched.Contains(containingSet)) {
 
                 setsSearched.Add(containingSet);
-                foreach (var set in containingSet.ReferencedIndexes.Select(p => {
-                    NounSynSet set;
-                    data.TryGetValue(p, out set);
-                    return set;
-                })) {
-
-
-                    if (set != null && !setsSearched.Contains(set) && set.LexName == lexname) {
+                foreach (var set in containingSet.ReferencedIndexes.Except(containingSet[NounPointerSymbol.HypERnym]).Select(p =>
+                  data.ContainsKey(p) ? data[p] : null)) {
+                    if (set != null && set.LexName == lexname && !setsSearched.Contains(set)) {
                         SearchSubsets(set, results, setsSearched, lexname);
-
                     }
 
 
@@ -162,14 +159,16 @@ namespace LASI.Algorithm.Thesauri
         }
 
         HashSet<NounPointerSymbol> relationshipsToKeep = new HashSet<NounPointerSymbol> {
-                NounPointerSymbol.Memberofthisdomain_REGION,
-                NounPointerSymbol.Memberofthisdomain_TOPIC,
-                NounPointerSymbol.Memberofthisdomain_USAGE,
-                NounPointerSymbol.Domainofsynset_REGION,
-                NounPointerSymbol.Domainofsynset_TOPIC,
-                NounPointerSymbol.Domainofsynset_USAGE, 
-                NounPointerSymbol.Hyponym, 
-                NounPointerSymbol.InstanceHyponym, 
+                NounPointerSymbol.MemberOfThisDomain_REGION,
+                NounPointerSymbol.MemberOfThisDomain_TOPIC,
+                NounPointerSymbol.MemberOfThisDomain_USAGE,
+                NounPointerSymbol.DomainOfSynset_REGION,
+                NounPointerSymbol.DomainOfSynset_TOPIC,
+                NounPointerSymbol.DomainOfSynset_USAGE, 
+                NounPointerSymbol.HypOnym, 
+                NounPointerSymbol.InstanceHypOnym, 
+                NounPointerSymbol.InstanceHypERnym,
+                NounPointerSymbol.HypERnym,
             };
 
         public override HashSet<string> this[string search] {

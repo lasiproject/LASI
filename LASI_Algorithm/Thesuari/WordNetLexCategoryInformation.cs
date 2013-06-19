@@ -55,24 +55,24 @@
     {
         UNDEFINED = 0,
         Antonym,//!  
-        Hypernym,//@  
-        InstanceHypernym,//@i 
-        Hyponym,//~ 
-        InstanceHyponym,//~i
-        Memberholonym,//#m 
-        Substanceholonym,//#s
-        Partholonym,//#v
-        Membermeronym,//%m 
-        Substancemeronym,//%s
-        Partmeronym,//%v
+        HypERnym,//@  
+        InstanceHypERnym,//@i 
+        HypOnym,//~ 
+        InstanceHypOnym,//~i
+        MemberHolonym,//#m 
+        SubstanceHolonym,//#s
+        PartHolonym,//#v
+        MemberMeronym,//%m 
+        SubstanceMeronym,//%s
+        PartMeronym,//%v
         Attribute,//=  
-        Derivationallyrelatedform,//+  
-        Domainofsynset_TOPIC,//;c 
-        Memberofthisdomain_TOPIC,//-c 
-        Domainofsynset_REGION,//;r 
-        Memberofthisdomain_REGION,//-r 
-        Domainofsynset_USAGE,//;u 
-        Memberofthisdomain_USAGE,//-u  
+        DerivationallyRelatedForm,//+  
+        DomainOfSynset_TOPIC,//;c 
+        MemberOfThisDomain_TOPIC,//-c 
+        DomainOfSynset_REGION,//;r 
+        MemberOfThisDomain_REGION,//-r 
+        DomainOfSynset_USAGE,//;u 
+        MemberOfThisDomain_USAGE,//-u  
     }
     /// <summary>
     /// Defines the different kinds of pointer relationships on which Verb Synsets can relate to one another.
@@ -87,9 +87,9 @@
         Cause,//>
         Also_see,//^
         Verb_Group,//$    
-        Derivationallyrelatedform,//+    
-        Domainofsynset_TOPIC,//;c  
-        Domainofsynset_REGION,//;r
-        Domainofsynset_USAGE,//;u 
+        DerivationallyRelatedForm,//+    
+        DomainOfSynset_TOPIC,//;c  
+        DomainOfSynset_REGION,//;r
+        DomainOfSynset_USAGE,//;u 
     }
 }

@@ -35,7 +35,7 @@ namespace LASI.Algorithm.Thesauri
                 return except;
             } else {
                 var results = new List<string>();
-                for (var i = NOUN_ENDINGS.Length - 1; i > -1; i--) {
+                for (var i = 0; i < NOUN_SUFFICIES.Length; i++) {
                     if (root.EndsWith(NOUN_ENDINGS[i]) || NOUN_ENDINGS[i] == "") {
                         results.Add(root.Substring(0, root.Length - NOUN_ENDINGS[i].Length) + NOUN_SUFFICIES[i]);
                         break;
@@ -53,9 +53,9 @@ namespace LASI.Algorithm.Thesauri
             if (result.Any()) {
                 return result.First();
             } else {
-                for (int i = 0; i < NOUN_SUFFICIES.Length; ++i) {
+                for (var i = 0; i < NOUN_SUFFICIES.Length; i++) {
                     if (NounText.EndsWith(NOUN_SUFFICIES[i])) {
-                        result.Add(NounText.Substring(0, NounText.Length - NOUN_ENDINGS[i].Length) + NOUN_ENDINGS[i]);
+                        result.Add(NounText.Substring(0, NounText.Length - NOUN_SUFFICIES[i].Length) + NOUN_ENDINGS[i]);
                         break;
                     }
                 }
@@ -74,22 +74,6 @@ namespace LASI.Algorithm.Thesauri
         }
 
 
-
-
-
-
-
-
-
-
-        //public override string ToString() {
-        //    return exceptionData.Aggregate("",
-        //        (accumulator, data) => accumulator +=
-        //        String.Format("{0} -> {1}\n",
-        //        data.Key,
-        //        data.Value.Aggregate("",
-        //        (agg, entry) => agg += entry + " ").Trim()));
-        //}
 
 
         #region Exception File Processing

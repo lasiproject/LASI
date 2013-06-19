@@ -76,23 +76,23 @@ namespace LASI.Algorithm.Thesauri
 
 
             //gets pointers of searched word
-            var tempResults = from sn in allSets
-                              where sn.Words.Contains(word)
-                              select sn.ReferencedIndexes;
-            var flatPointers = from R in tempResults
-                               from r in R
-                               select r;
+            //var tempResults = from sn in allSets
+            //                  where sn.Words.Contains(word)
+            //                  select sn.ReferencedIndexes;
+            //var flatPointers = from R in tempResults
+            //                   from r in R
+            //                   select r;
             //gets related words from above pointers
 
-            foreach (var t in flatPointers) {
-                foreach (NounSynSet s in allSets) {
+            //foreach (var t in flatPointers) {
+            //    foreach (NounSynSet s in allSets) {
 
-                    if (t == s.ID) {
-                        results.Union(s.Words);
-                    }
+            //        if (t == s.ID) {
+            //            results.Union(s.Words);
+            //        }
 
-                }
-            }
+            //    }
+            //}
             return results;
 
         }

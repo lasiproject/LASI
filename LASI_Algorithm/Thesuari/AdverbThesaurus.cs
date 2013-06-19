@@ -103,34 +103,34 @@ namespace LASI.Algorithm.Thesauri
         public HashSet<string> SearchFor(string word) {
 
             //gets pointers of searched word
-            var tempResults = from sn in allSets
-                              where sn.Words.Contains(word)
-                              select sn.ReferencedIndexes;
-            var flatPointers = from R in tempResults
-                               from r in R
-                               select r;
-            //gets words of searched word
-            var tempWords = from sw in allSets
-                            where sw.Words.Contains(word)
-                            select sw.Words;
-            HashSet<string> results = new HashSet<string>(
-                from Q in tempWords
-                from q in Q
-                select q);
+            //var tempResults = from sn in allSets
+            //                  where sn.Words.Contains(word)
+            //                  select sn.ReferencedIndexes;
+            //var flatPointers = from R in tempResults
+            //                   from r in R
+            //                   select r;
+            ////gets words of searched word
+            //var tempWords = from sw in allSets
+            //                where sw.Words.Contains(word)
+            //                select sw.Words;
+            HashSet<string> results = new HashSet<string>();
+            //from Q in tempWords
+            //from q in Q
+            //select q);
 
 
-            //gets related words from above pointers
-            foreach (var t in flatPointers) {
+            ////gets related words from above pointers
+            //foreach (var t in flatPointers) {
 
-                foreach (NounSynSet s in allSets) {
+            //    foreach (NounSynSet s in allSets) {
 
-                    if (t == s.ID) {
-                        results.Union(s.Words);
-                    }
+            //        if (t == s.ID) {
+            //            results.Union(s.Words);
+            //        }
 
-                }
+            //    }
 
-            }
+            //}
 
             return new HashSet<string>(results);
 

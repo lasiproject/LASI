@@ -22,19 +22,11 @@ namespace Aluan_Experimentation
         static void Main(string[] args) {
 
             Thesaurus.NounThesaurusLoadTask.Wait();
-            Output.WriteLine(Thesaurus.LookupNoun("bull's-eye").Format());
+            Output.WriteLine(Thesaurus.LookupNoun("road").Format());
             Input.WaitForKey();
         }
 
 
-
-        //private static IEnumerable<IVerbalSubject> GetActionPerformers(Document doc, IVerbal action, IEntity performer) {
-        //    var doers = from verb in doc.Words.GetVerbs().WithSubject(subject => subject.IsSimilarTo(performer))
-        //                where verb.IsSimilarTo(action)
-        //                from actionPerformer in verb.Subjects
-        //                select actionPerformer;
-        //    return doers;
-        //}
 
 
 
@@ -69,11 +61,6 @@ namespace Aluan_Experimentation
                 Output.WriteLine(p);
 
             PerformAttributeNounPhraseBinding(doc);
-
-
-
-
-
 
             PrintDocument(doc);
         }

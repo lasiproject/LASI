@@ -34,24 +34,24 @@ namespace LASI.Algorithm.Thesauri
         }
         private static readonly IReadOnlyDictionary<string, NounPointerSymbol> data = new Dictionary<string, NounPointerSymbol>{ 
             { "!", NounPointerSymbol.Antonym },
-            { "@", NounPointerSymbol.Hypernym },
-            { "@i", NounPointerSymbol.InstanceHypernym },
-            { "~", NounPointerSymbol.Hyponym },
-            { "~i", NounPointerSymbol.InstanceHyponym },
-            { "#m", NounPointerSymbol.Memberholonym },
-            { "#s", NounPointerSymbol.Substanceholonym },
-            { "#p", NounPointerSymbol.Partholonym },
-            { "%m", NounPointerSymbol.Membermeronym },
-            { "%s", NounPointerSymbol.Substancemeronym },
-            { "%p", NounPointerSymbol.Partmeronym },
+            { "@", NounPointerSymbol.HypERnym },
+            { "@i", NounPointerSymbol.InstanceHypERnym },
+            { "~", NounPointerSymbol.HypOnym },
+            { "~i", NounPointerSymbol.InstanceHypOnym },
+            { "#m", NounPointerSymbol.MemberHolonym },
+            { "#s", NounPointerSymbol.SubstanceHolonym },
+            { "#p", NounPointerSymbol.PartHolonym },
+            { "%m", NounPointerSymbol.MemberMeronym },
+            { "%s", NounPointerSymbol.SubstanceMeronym },
+            { "%p", NounPointerSymbol.PartMeronym },
             { "=", NounPointerSymbol.Attribute },
-            { "+", NounPointerSymbol.Derivationallyrelatedform },
-            { ";c", NounPointerSymbol.Domainofsynset_TOPIC },
-            { "-c", NounPointerSymbol.Memberofthisdomain_TOPIC },
-            { ";r", NounPointerSymbol.Domainofsynset_REGION },
-            { "-r", NounPointerSymbol.Memberofthisdomain_REGION },
-            { ";u", NounPointerSymbol.Domainofsynset_USAGE },
-            { "-u", NounPointerSymbol.Memberofthisdomain_USAGE }
+            { "+", NounPointerSymbol.DerivationallyRelatedForm },
+            { ";c", NounPointerSymbol.DomainOfSynset_TOPIC },
+            { "-c", NounPointerSymbol.MemberOfThisDomain_TOPIC },
+            { ";r", NounPointerSymbol.DomainOfSynset_REGION },
+            { "-r", NounPointerSymbol.MemberOfThisDomain_REGION },
+            { ";u", NounPointerSymbol.DomainOfSynset_USAGE },
+            { "-u", NounPointerSymbol.MemberOfThisDomain_USAGE }
         };
     }
     /// <summary>
@@ -81,16 +81,18 @@ namespace LASI.Algorithm.Thesauri
             { ">", VerbPointerSymbol.Cause },
             { "^", VerbPointerSymbol. Also_see },
             { "$", VerbPointerSymbol.Verb_Group },
-            { "+", VerbPointerSymbol.Derivationallyrelatedform },
-            { ";c", VerbPointerSymbol.Domainofsynset_TOPIC },
-            { ";r", VerbPointerSymbol.Domainofsynset_REGION },
-            { ";u", VerbPointerSymbol.Domainofsynset_USAGE}
+            { "+", VerbPointerSymbol.DerivationallyRelatedForm },
+            { ";c", VerbPointerSymbol.DomainOfSynset_TOPIC },
+            { ";r", VerbPointerSymbol.DomainOfSynset_REGION },
+            { ";u", VerbPointerSymbol.DomainOfSynset_USAGE}
         };
     }
     internal class NounSetIDSymbolMap : ILookup<NounPointerSymbol, int>
     {
         public NounSetIDSymbolMap(IEnumerable<KeyValuePair<NounPointerSymbol, int>> relationData) {
-            data = new Dictionary<NounPointerSymbol, HashSet<int>>();
+            data = (from pair in relationData
+                    group pair.Value by pair.Key into g
+                    select new KeyValuePair<NounPointerSymbol, HashSet<int>>(g.Key, new HashSet<int>(g))).ToDictionary(pair => pair.Key, pair => pair.Value);
         }
 
         private IDictionary<NounPointerSymbol, HashSet<int>> data;
@@ -100,7 +102,7 @@ namespace LASI.Algorithm.Thesauri
 
         public IEnumerable<int> this[NounPointerSymbol key] {
             get {
-                return data[key];
+                return data.ContainsKey(key) ? data[key] : Enumerable.Empty<int>();
             }
         }
 
@@ -129,13 +131,15 @@ namespace LASI.Algorithm.Thesauri
     internal class VerbSetIDSymbolMap : ILookup<VerbPointerSymbol, int>
     {
         public VerbSetIDSymbolMap(IEnumerable<KeyValuePair<VerbPointerSymbol, int>> relationData) {
-            data = new Dictionary<VerbPointerSymbol, HashSet<int>>();
+            data = (from pair in relationData
+                    group pair.Value by pair.Key into g
+                    select new KeyValuePair<VerbPointerSymbol, HashSet<int>>(g.Key, new HashSet<int>(g))).ToDictionary(pair => pair.Key, pair => pair.Value);
         }
         private IDictionary<VerbPointerSymbol, HashSet<int>> data;
         private IEnumerable<IGrouping<VerbPointerSymbol, int>> groupData;
         public IEnumerable<int> this[VerbPointerSymbol key] {
             get {
-                return data[key];
+                return data.ContainsKey(key) ? data[key] : Enumerable.Empty<int>();
             }
         }
 
@@ -177,7 +181,7 @@ namespace LASI.Algorithm.Thesauri
         public NounSynSet(int ID, IEnumerable<string> words, IEnumerable<KeyValuePair<NounPointerSymbol, int>> pointerRelations, WordNetNounCategory lexCategory) {
             this.ID = ID;
             Words = new HashSet<string>(words);
-            RelatedOnPointerSymbol = new NounSetIDSymbolMap(pointerRelations);
+            relatedOnPointerSymbol = new NounSetIDSymbolMap(pointerRelations);
             ReferencedIndexes = new HashSet<int>(from pair in pointerRelations
                                                  select pair.Value);
             LexName = lexCategory;
@@ -210,14 +214,11 @@ namespace LASI.Algorithm.Thesauri
 
         public IEnumerable<int> this[NounPointerSymbol pointerSymbol] {
             get {
-                return RelatedOnPointerSymbol[pointerSymbol];
+                return relatedOnPointerSymbol[pointerSymbol];
             }
         }
 
-        internal NounSetIDSymbolMap RelatedOnPointerSymbol {
-            get;
-            set;
-        }
+        private NounSetIDSymbolMap relatedOnPointerSymbol;
 
 
         public HashSet<string> Words {
@@ -225,7 +226,6 @@ namespace LASI.Algorithm.Thesauri
             private set;
 
         }
-
         public HashSet<int> ReferencedIndexes {
             get;
             private set;
