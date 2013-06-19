@@ -72,12 +72,12 @@ namespace LASI.Algorithm.Thesauri
         /// <summary>
         /// Retrives the synonyms of the given verb as a collection of strings.
         /// </summary>
-        /// <param name="search">The text of the verb to look for.</param>
+        /// <param name="NounText">The text of the verb to look for.</param>
         /// <returns>A collection of strings containing all of the synonyms of the given verb.</returns>
         public override HashSet<string> this[string search] {
             get {
                 try {
-                    foreach (var root in from root in conjugator.TryExtractRoot(search)
+                    foreach (var root in from root in VerbConjugator.TryExtractRoot(search)
                                          where AssociationData.ContainsKey(root)
                                          select root) {
                         return new HashSet<string>(
@@ -86,7 +86,7 @@ namespace LASI.Algorithm.Thesauri
                              where referencedSet.ReferencedIndexes.Contains(refIndex)
                              where (!lexRestrict || referencedSet.LexName == AssociationData[root].LexName)
                              from word in referencedSet.Words.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
-                             let withConjugations = new string[] { word }.Concat(conjugator.TryComputeConjugations(word))
+                             let withConjugations = new string[] { word }.Concat(VerbConjugator.TryComputeConjugations(word))
                              from w in withConjugations
                              select w));
                     }
@@ -109,7 +109,7 @@ namespace LASI.Algorithm.Thesauri
         /// <summary>
         /// Retrives the synonyms of the given Verb as a collection of strings.
         /// </summary>
-        /// <param name="search">An instance of Verb</param>
+        /// <param name="NounText">An instance of Verb</param>
         /// <returns>A collection of strings containing all of the synonyms of the given Verb.</returns>
         public override HashSet<string> this[Word search] {
             get {
@@ -122,20 +122,14 @@ namespace LASI.Algorithm.Thesauri
 
             data = data.Substring(0, data.IndexOf('|'));
 
-
-
-
-
-            //data = Regex.Replace(data, @"([+]+|;c+)+[\s]+[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+", "");
-
             var extractedIndeces = new Regex(@"\D{1,2}\s*[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+");
 
             var pointers = from Match M in extractedIndeces.Matches(data)
-                              let split = M.Value.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
-                              let pointer = split.Count() > 1 ?
-                              new KeyValuePair<VerbPointerSymbol, int>(RelationMap[split[0]], Int32.Parse(split[1])) :
-                              new KeyValuePair<VerbPointerSymbol, int>(VerbPointerSymbol.UNDEFINED, Int32.Parse(split[0]))
-                              select pointer;
+                           let split = M.Value.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
+                           let pointer = split.Count() > 1 ?
+                           new KeyValuePair<VerbPointerSymbol, int>(RelationMap[split[0]], Int32.Parse(split[1])) :
+                           new KeyValuePair<VerbPointerSymbol, int>(VerbPointerSymbol.UNDEFINED, Int32.Parse(split[0]))
+                           select pointer;
             var elementRgx = new Regex(@"\b[A-Za-z-_]{2,}");
 
             var wordMembers = from Match ContainedWord in elementRgx.Matches(data.Substring(17))
@@ -147,7 +141,7 @@ namespace LASI.Algorithm.Thesauri
 
 
         const int HEADER_LENGTH = 29;
-        private VerbConjugator conjugator = new VerbConjugator(ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "verb.exc");
+
 
 
         private bool lexRestrict;

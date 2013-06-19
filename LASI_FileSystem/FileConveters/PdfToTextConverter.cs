@@ -185,7 +185,7 @@ namespace LASI.FileSystem
             /// <summary>
             /// Check if a certain 2 character currentCharacterToken just came along (e.g. BT)
             /// </summary>
-            /// <param name="search">the searched currentCharacterToken</param>
+            /// <param name="NounText">the searched currentCharacterToken</param>
             /// <param name="recent">the recent character array</param>
             /// <returns></returns>
             private bool CheckToken(string[] tokens, char[] recent, int _numberOfCharsToKeep) {

@@ -2120,24 +2120,7 @@ namespace AlgorithmAssemblyUnitTestProject
         //
         #endregion
 
-        /// <summary>
-        /// constructs and returns the noun conjugator used for all tests
-        /// </summary>
-        private static NounConjugator CreateNounConjugator() {
-            return new NounConjugator(ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "noun.exc");
-        }
 
-
-        /// <summary>
-        ///A test for NounConjugator Constructor
-        ///</summary>
-        [TestMethod()]
-        public void NounConjugatorConstructorTest() {
-            NounConjugator target = CreateNounConjugator();
-
-            Assert.Inconclusive();
-
-        }
 
         /// <summary>
         ///A test for FindRoot
@@ -2145,43 +2128,31 @@ namespace AlgorithmAssemblyUnitTestProject
         [TestMethod()]
         public void FindRootTest() {
             string exceptionsFilePath = string.Empty; // TODO: Initialize to an appropriate value
-            NounConjugator target = new NounConjugator(exceptionsFilePath); // TODO: Initialize to an appropriate value
+
             string conjugated = string.Empty; // TODO: Initialize to an appropriate value
-            List<string> expected = null; // TODO: Initialize to an appropriate value
-            List<string> actual;
-            actual = target.FindRoot(conjugated);
+            string expected = null; // TODO: Initialize to an appropriate value
+            string actual;
+            actual = NounConjugator.FindRoot(conjugated);
             Assert.AreEqual(expected, actual);
             Assert.Inconclusive("Verify the correctness of this test method.");
         }
 
         /// <summary>
-        ///A test for GetConjugations
+        ///A test for GetLexicalForms
         ///</summary>
         [TestMethod()]
         public void GetConjugationsTest() {
             string exceptionsFilePath = string.Empty; // TODO: Initialize to an appropriate value
-            NounConjugator target = new NounConjugator(exceptionsFilePath); // TODO: Initialize to an appropriate value
+
             string root = string.Empty; // TODO: Initialize to an appropriate value
-            List<string> expected = null; // TODO: Initialize to an appropriate value
-            List<string> actual;
-            actual = target.GetConjugations(root);
+            IEnumerable<string> expected = null; // TODO: Initialize to an appropriate value
+            IEnumerable<string> actual;
+            actual = NounConjugator.GetLexicalForms(root);
             Assert.AreEqual(expected, actual);
             Assert.Inconclusive("Verify the correctness of this test method.");
         }
 
-        /// <summary>
-        ///A test for ToString
-        ///</summary>
-        [TestMethod()]
-        public void ToStringTest() {
-            string exceptionsFilePath = string.Empty; // TODO: Initialize to an appropriate value
-            NounConjugator target = new NounConjugator(exceptionsFilePath); // TODO: Initialize to an appropriate value
-            string expected = string.Empty; // TODO: Initialize to an appropriate value
-            string actual;
-            actual = target.ToString();
-            Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
-        }
+
 
         /// <summary>
         ///A test for TryComputeConjugations
@@ -2189,28 +2160,15 @@ namespace AlgorithmAssemblyUnitTestProject
         [TestMethod()]
         public void TryComputeConjugationsTest() {
             string exceptionsFilePath = string.Empty; // TODO: Initialize to an appropriate value
-            NounConjugator target = new NounConjugator(exceptionsFilePath); // TODO: Initialize to an appropriate value
+
             string root = string.Empty; // TODO: Initialize to an appropriate value
-            List<string> expected = null; // TODO: Initialize to an appropriate value
-            List<string> actual;
-            actual = target.TryComputeConjugations(root);
+            IEnumerable<string> expected = null; // TODO: Initialize to an appropriate value
+            IEnumerable<string> actual;
+            actual = NounConjugator.GetLexicalForms(root);
             Assert.AreEqual(expected, actual);
             Assert.Inconclusive("Verify the correctness of this test method.");
         }
 
-        /// <summary>
-        ///A test for TryExtractRoot
-        ///</summary>
-        [TestMethod()]
-        public void TryExtractRootTest() {
-            string exceptionsFilePath = string.Empty; // TODO: Initialize to an appropriate value
-            NounConjugator target = new NounConjugator(exceptionsFilePath); // TODO: Initialize to an appropriate value
-            string search = string.Empty; // TODO: Initialize to an appropriate value
-            List<string> expected = null; // TODO: Initialize to an appropriate value
-            List<string> actual;
-            actual = target.TryExtractRoot(search);
-            Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
-        }
+
     }
 }

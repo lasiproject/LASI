@@ -97,16 +97,7 @@ namespace LASI.Algorithm.Thesauri
 
             MatchCollection numbers = Regex.Matches(line, @"\D{1,2}\s*\d{8}");
 
-            var relationshipsToKeep = new HashSet<NounPointerSymbol> {
-                NounPointerSymbol.Memberofthisdomain_REGION,
-                NounPointerSymbol.Memberofthisdomain_TOPIC,
-                NounPointerSymbol.Memberofthisdomain_USAGE,
-                NounPointerSymbol.Domainofsynset_REGION,
-                NounPointerSymbol.Domainofsynset_TOPIC,
-                NounPointerSymbol.Domainofsynset_USAGE, 
-                NounPointerSymbol.Hyponym, 
-                NounPointerSymbol.InstanceHyponym
-            };
+
             IEnumerable<KeyValuePair<NounPointerSymbol, int>> kindedPointers =
                 from match in numbers.Cast<Match>()
                 let split = match.Value.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
@@ -116,10 +107,10 @@ namespace LASI.Algorithm.Thesauri
                 select pointer;
 
 
-            MatchCollection words = Regex.Matches(line, @"(?<word>[A-Za-z_\-]{3,})");
+            MatchCollection words = Regex.Matches(line, @"(?<word>[A-Za-z_\-\']{3,})");
             //somethin'subject amiss here.
             IEnumerable<string> members = from match in words.Cast<Match>()
-                                          select match.Value.Replace('_', '-').ToLower();
+                                          select match.Value.Replace('_', '-');
 
             int id = Int32.Parse(line.Substring(0, 8));
 
@@ -127,11 +118,9 @@ namespace LASI.Algorithm.Thesauri
             NounSynSet set = new NounSynSet(id, members, kindedPointers, lexCategory);
 
             allSets.Add(set);
-            try {
-                data.Add(id, set);
-            }
-            catch (Exception) {
-            }
+
+            data.Add(id, set);
+
             lexicalGoups[lexCategory].Add(set);
         }
 
@@ -172,11 +161,22 @@ namespace LASI.Algorithm.Thesauri
             }
         }
 
-
+        HashSet<NounPointerSymbol> relationshipsToKeep = new HashSet<NounPointerSymbol> {
+                NounPointerSymbol.Memberofthisdomain_REGION,
+                NounPointerSymbol.Memberofthisdomain_TOPIC,
+                NounPointerSymbol.Memberofthisdomain_USAGE,
+                NounPointerSymbol.Domainofsynset_REGION,
+                NounPointerSymbol.Domainofsynset_TOPIC,
+                NounPointerSymbol.Domainofsynset_USAGE, 
+                NounPointerSymbol.Hyponym, 
+                NounPointerSymbol.InstanceHyponym,
+                NounPointerSymbol.Membermeronym 
+            };
 
         public override HashSet<string> this[string search] {
             get {
-                return SearchFor(search);
+                var root = NounConjugator.FindRoot(search);
+                return new HashSet<string>(SearchFor(root).SelectMany(syn => NounConjugator.GetLexicalForms(syn)));
             }
         }
 

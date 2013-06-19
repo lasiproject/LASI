@@ -8,14 +8,14 @@ using System.Threading.Tasks;
 
 namespace LASI.Algorithm.Thesauri
 {
-    public class VerbConjugator
+    public static class VerbConjugator
     {
-        public VerbConjugator(string exceptionsFilePath) {
-            LoadExceptionFile(exceptionsFilePath);
-
+        private static string exceptionFilePath = System.Configuration.ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "verb.exc";
+        static VerbConjugator() {
+            LoadExceptionFile(exceptionFilePath);
         }
 
-        private void LoadExceptionFile(string filePath) {
+        private static void LoadExceptionFile(string filePath) {
             using (var reader = new StreamReader(filePath)) {
                 while (!reader.EndOfStream) {
                     var keyVal = ProcessLine(reader.ReadLine());
@@ -31,18 +31,19 @@ namespace LASI.Algorithm.Thesauri
             }
         }
 
-        public List<string> FindRoot(string conjugated) {
+        public static List<string> FindRoot(string conjugated) {
             return TryExtractRoot(conjugated) ?? new List<string> { CheckSpecialFormsList(conjugated) };
         }
-        public List<string> GetConjugations(string root) {
+        public static List<string> GetConjugations(string root) {
             try {
                 return new List<string>(exceptionData[root]);
-            } catch (KeyNotFoundException) {
+            }
+            catch (KeyNotFoundException) {
                 return TryComputeConjugations(root);
             }
         }
 
-        public List<string> TryComputeConjugations(string root) {
+        public static List<string> TryComputeConjugations(string root) {
             var hyphIndex = root.IndexOf('-');
             List<string> except;
             var realRoot = hyphIndex > -1 ? root.Substring(0, hyphIndex) : root;
@@ -63,7 +64,7 @@ namespace LASI.Algorithm.Thesauri
             return results;
         }
 
-        public List<string> TryExtractRoot(string search) {
+        public static List<string> TryExtractRoot(string search) {
             var results = new List<string>();
             var except = CheckSpecialFormsList(search);
             if (except != null) {
@@ -83,12 +84,12 @@ namespace LASI.Algorithm.Thesauri
             return results;
         }
 
-        private string CheckSpecialFormsList(string search) {
+        private static string CheckSpecialFormsList(string search) {
             return (from verbExceptKVs in exceptionData
                     where verbExceptKVs.Value.Contains(search)
                     select verbExceptKVs.Key).FirstOrDefault();
         }
-        private KeyValuePair<string, List<string>> ProcessLine(string exceptionLine) {
+        private static KeyValuePair<string, List<string>> ProcessLine(string exceptionLine) {
             var kvstr = exceptionLine.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
             return new KeyValuePair<string, List<string>>(kvstr.Last(), kvstr.Take(kvstr.Count() - 1).ToList());
         }
@@ -96,17 +97,17 @@ namespace LASI.Algorithm.Thesauri
 
 
 
-        private readonly Dictionary<string, List<string>> exceptionData = new Dictionary<string, List<string>>();
+        private static readonly Dictionary<string, List<string>> exceptionData = new Dictionary<string, List<string>>();
 
-        private readonly string[] VERB_SUFFICIES = new[] { "s", "ies", "es", "es", "ed", "ed", "ing", "ing" };
-        private readonly string[] VERB_ENDINGS = new[] { "", "y", "e", "", "e", "", "e", "" };
-        public override string ToString() {
-            return exceptionData.Aggregate("",
-                (accumulator, data) => accumulator +=
-                String.Format("{0} -> {1}\n",
-                data.Key,
-                data.Value.Aggregate("",
-                (agg, entry) => agg += entry + " ").Trim()));
-        }
+        private readonly static string[] VERB_SUFFICIES = { "s", "ies", "es", "es", "ed", "ed", "ing", "ing" };
+        private readonly static string[] VERB_ENDINGS = { "", "y", "e", "", "e", "", "e", "" };
+        //public static string Exception() {
+        //    return exceptionData.Aggregate("",
+        //        (accumulator, data) => accumulator +=
+        //        String.Format("{0} -> {1}\n",
+        //        data.Key,
+        //        data.Value.Aggregate("",
+        //        (agg, entry) => agg += entry + " ").Trim()));
+        //}
     }
 }

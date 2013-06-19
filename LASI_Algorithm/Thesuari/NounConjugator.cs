@@ -8,129 +8,109 @@ using System.Threading.Tasks;
 
 namespace LASI.Algorithm.Thesauri
 {
-    public class NounConjugator
+    public static class NounConjugator
     {
-        public NounConjugator(string exceptionsFilePath) {
-            LoadExceptionFile(exceptionsFilePath);
+        private static string exceptionFilePath = System.Configuration.ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "noun.exc";
+        static NounConjugator() {
+            LoadExceptionFile(exceptionFilePath);
 
         }
 
 
-        #region Exception File Processing
 
-        private void LoadExceptionFile(string filePath) {
-            using (var reader = new StreamReader(filePath)) {
-                while (!reader.EndOfStream) {
-                    var keyVal = ProcessLine(reader.ReadLine());
 
-                    if (!exceptionData.ContainsKey(keyVal.Key)) {
-                        exceptionData.Add(keyVal.Key, keyVal.Value);
-                    }
-
-                }
-            }
+        public static IEnumerable<string> GetLexicalForms(string search) {
+            var root = FindRoot(search);
+            return TryComputeConjugations(root);
         }
 
-        private KeyValuePair<string, List<string>> ProcessLine(string exceptionLine) {
-            var kvstr = exceptionLine.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-            return new KeyValuePair<string, List<string>>(kvstr.Last(), kvstr.Take(kvstr.Count() - 1).ToList());
-        }
+        private static List<string> TryComputeConjugations(string root) {
+            var hyphenIndex = root.IndexOf('-');
 
-        #endregion
 
-        public List<string> FindRoot(string conjugated) {
-            return (TryExtractRoot(conjugated)).AsEnumerable().ToList() ?? new List<string> { CheckSpecialFormsList(conjugated) };
-        }
-        public List<string> GetConjugations(string root) {
-            try {
-                return new List<string>(exceptionData[root]);
-            } catch (KeyNotFoundException) {
-                return TryComputeConjugations(root);
-            }
-        }
-
-        public List<string> TryComputeConjugations(string root) {
-            var hyphIndex = root.IndexOf('-');
             List<string> except;
-            var realRoot = hyphIndex > -1 ? root.Substring(0, hyphIndex) : root;
-            exceptionData.TryGetValue(realRoot, out except);
-            if (except != null)
+            exceptionData.TryGetValue(root, out except);
+            if (except != null) {
+                except.Add(root);
                 return except;
-            var results = new List<string>();
-            for (var i = 0; i < NOUN_ENDINGS.Length; i++) {
-                if (realRoot.EndsWith(NOUN_ENDINGS[i]) || NOUN_ENDINGS[i] == "") {
-                    results.Add(realRoot.Substring(0, realRoot.Length - NOUN_ENDINGS[i].Length) + NOUN_SUFFICIES[i] + (hyphIndex > -1 ? root.Substring(hyphIndex) : ""));
+            } else {
+                var results = new List<string>();
+                for (var i = NOUN_ENDINGS.Length - 1; i > -1; i--) {
+                    if (root.EndsWith(NOUN_ENDINGS[i]) || NOUN_ENDINGS[i] == "") {
+                        results.Add(root.Substring(0, root.Length - NOUN_ENDINGS[i].Length) + NOUN_SUFFICIES[i]);
+                        break;
+                    }
                 }
+                results.Add(root);
+                return results;
             }
-            return results;
         }
 
-        //public List<string> TryExtractRoot(string search) {
-        //    var result = new List<string>();
-        //    string except = CheckSpecialFormsList(search);
-        //    if (except != null) {
-        //        result.Add(except);
-        //        return result;
-        //    }
-        //    for (int i = 0; i < NOUN_ENDINGS.Length; ++i) {
-        //        if (search.EndsWith(NOUN_SUFFICIES[i], StringComparison.InvariantCulture)) {
-        //            var possibleRoot = search.Substring(0, search.Length - NOUN_SUFFICIES[i].Length);
-        //            if ((possibleRoot).EndsWith(NOUN_ENDINGS[i])) {
-        //                result.Add(possibleRoot);
-        //            }
-        //        }
-        //    }
-        //    if (result.Count == 0)
-        //        result.Add(search);
-        //    return result;
-        //}
 
 
-        public List<string> TryExtractRoot(string search) {
-            List<string> result = new List<string>(new[] { CheckSpecialFormsList(search) });
-            if (result != null) {
-                return result;
-            }
-            for (int i = 0; i < NOUN_SUFFICIES.Length; ++i) {
-                if (search.EndsWith(NOUN_SUFFICIES[i])) {
-                    result.Add(search.Substring(0, search.Length - NOUN_ENDINGS[i].Length) + NOUN_ENDINGS[i]);
-                    break;
+        public static string FindRoot(string NounText) {
+            List<string> result = CheckSpecialFormsList(NounText);
+            if (result.Any()) {
+                return result.First();
+            } else {
+                for (int i = 0; i < NOUN_SUFFICIES.Length; ++i) {
+                    if (NounText.EndsWith(NOUN_SUFFICIES[i])) {
+                        result.Add(NounText.Substring(0, NounText.Length - NOUN_ENDINGS[i].Length) + NOUN_ENDINGS[i]);
+                        break;
+                    }
                 }
             }
 
             if (result.Count == 0)
-                result.Add(search);
-            return result;
+                result.Add(NounText);
+            return result.First();
         }
 
 
-        private string CheckSpecialFormsList(string search) {
+        private static List<string> CheckSpecialFormsList(string search) {
             return (from nounExceptKVs in exceptionData
                     where nounExceptKVs.Value.Contains(search)
-                    select nounExceptKVs.Key).FirstOrDefault();
+                    select nounExceptKVs.Key).ToList();
         }
 
 
 
 
-        private readonly Dictionary<string, List<string>> exceptionData = new Dictionary<string, List<string>>();
 
-        public Dictionary<string, List<string>> ExceptionData {
-            get {
-                return exceptionData;
+
+
+
+
+
+        //public override string ToString() {
+        //    return exceptionData.Aggregate("",
+        //        (accumulator, data) => accumulator +=
+        //        String.Format("{0} -> {1}\n",
+        //        data.Key,
+        //        data.Value.Aggregate("",
+        //        (agg, entry) => agg += entry + " ").Trim()));
+        //}
+
+
+        #region Exception File Processing
+
+        private static void LoadExceptionFile(string filePath) {
+            using (var reader = new StreamReader(filePath)) {
+                while (!reader.EndOfStream) {
+                    var keyVal = ProcessLine(reader.ReadLine());
+                    exceptionData[keyVal.Key] = keyVal.Value;
+                }
             }
         }
 
-
-        private readonly string[] NOUN_SUFFICIES = new[] { "s", "ses", "xes", "zes", "ches", "shes", "men", "ies" };
-        private readonly string[] NOUN_ENDINGS = new[] { "", "s", "x", "z", "ch", "sh", "man", "y", };
-        public override string ToString() {
-            return exceptionData.Aggregate("",
-                (accumulator, data) => accumulator +=
-                String.Format("{0} -> {1}\n",
-                data.Key,
-                data.Value.Aggregate("",
-                (agg, entry) => agg += entry + " ").Trim()));
+        private static KeyValuePair<string, List<string>> ProcessLine(string exceptionLine) {
+            var kvstr = exceptionLine.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            return new KeyValuePair<string, List<string>>(kvstr.Last(), kvstr.Take(kvstr.Count() - 1).ToList());
         }
+        private static readonly Dictionary<string, List<string>> exceptionData = new Dictionary<string, List<string>>();
+        private static readonly string[] NOUN_SUFFICIES = new[] { "s", "ses", "xes", "zes", "ches", "shes", "men", "ies" };
+        private static readonly string[] NOUN_ENDINGS = new[] { "", "s", "x", "z", "ch", "sh", "man", "y", };
+        #endregion
+
     }
 }

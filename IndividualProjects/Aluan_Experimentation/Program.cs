@@ -20,27 +20,21 @@ namespace Aluan_Experimentation
         //static string text = @"You need to kill that mother fucker because he took away the fun.";
 
         static void Main(string[] args) {
+
             Thesaurus.NounThesaurusLoadTask.Wait();
-            var syns = Thesaurus.LookupNoun("feline");
-            foreach (var syn in syns) {
-                Output.WriteLine(syn);
-            }
-            Output.WriteLine(syns.Count());
+            Output.WriteLine(Thesaurus.LookupNoun("bull's-eye").Format());
             Input.WaitForKey();
         }
 
-        private static void GroupingByBehaviorAndKindExample(Document doc) {
-
-        }
 
 
-        private static IEnumerable<IVerbalSubject> GetActionPerformers(Document doc, IVerbal action, IEntity performer) {
-            var doers = from verb in doc.Words.GetVerbs().WithSubject(subject => subject.IsSimilarTo(performer))
-                        where verb.IsSimilarTo(action)
-                        from actionPerformer in verb.Subjects
-                        select actionPerformer;
-            return doers;
-        }
+        //private static IEnumerable<IVerbalSubject> GetActionPerformers(Document doc, IVerbal action, IEntity performer) {
+        //    var doers = from verb in doc.Words.GetVerbs().WithSubject(subject => subject.IsSimilarTo(performer))
+        //                where verb.IsSimilarTo(action)
+        //                from actionPerformer in verb.Subjects
+        //                select actionPerformer;
+        //    return doers;
+        //}
 
 
 
@@ -56,12 +50,10 @@ namespace Aluan_Experimentation
 
 
         private static void TestNounConjugator() {
-            NounConjugator conjugator = new NounConjugator(ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "noun.exc");
-            Output.WriteLine(conjugator);
-            var conjugations = conjugator.GetConjugations("cat");
-            var bases = conjugator.TryExtractRoot("women");
-            conjugations.ForEach(c => Output.WriteLine(c));
-            bases.ForEach(c => Output.WriteLine(c));
+
+            Output.WriteLine(NounConjugator.GetLexicalForms("cat").Format());
+            Output.WriteLine(NounConjugator.GetLexicalForms("woman").Format());
+            Output.WriteLine(NounConjugator.GetLexicalForms("banana").Format());
         }
 
 
@@ -71,7 +63,7 @@ namespace Aluan_Experimentation
         private static void TestWordAndPhraseBindings() {
             var doc = TaggerUtil.LoadTextFile(new LASI.FileSystem.FileTypes.TextFile(testPath));
             var wd = (doc);
-            PerformSVOBinding(doc);
+
             new PronounBinder().Bind(doc);
             foreach (var p in doc.Phrases.GetPronounPhrases())
                 Output.WriteLine(p);
@@ -86,9 +78,7 @@ namespace Aluan_Experimentation
             PrintDocument(doc);
         }
 
-        private static void PerformSVOBinding(Document doc) {
-            throw new NotImplementedException();
-        }
+
 
         private static void PrintDocument(Document doc) {
             foreach (var r in doc.Phrases) {

@@ -60,11 +60,11 @@
         Hyponym,//~ 
         InstanceHyponym,//~i
         Memberholonym,//#m 
-        Substanceholonym,//#subject 
-        Partholonym,//#verbPhrase 
+        Substanceholonym,//#s
+        Partholonym,//#v
         Membermeronym,//%m 
-        Substancemeronym,//%subject 
-        Partmeronym,//%verbPhrase 
+        Substancemeronym,//%s
+        Partmeronym,//%v
         Attribute,//=  
         Derivationallyrelatedform,//+  
         Domainofsynset_TOPIC,//;c 

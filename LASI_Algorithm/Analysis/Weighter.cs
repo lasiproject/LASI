@@ -282,7 +282,7 @@ namespace LASI.Algorithm.Weighting
         /// .1 - Frequency of word/Phrase in document
         /// .2 - Frequency of word/Phrase in document compared to second documents in set -EXCLUDED FOR 1-DOCUMENT DEMO
         ///PHASE 6 - SYNONYMS
-        ///ALLUAN READ:            // .1 - Frequency of word (/Phrase?) in document - COMPLETE MINUS VERBS (couldn't search the adverb thesaurus in any way)
+        ///ALLUAN READ:            // .1 - Frequency of word (/Phrase?) in document - COMPLETE MINUS VERBS (couldn't NounText the adverb thesaurus in any way)
         /// .2 - Frequency of word (/Phrase?) in document compared to second documents in set -EXCLUDED FOR 1-DOCUMENT DEMO
         /// </summary>
         /// <param name="doc"></param>
