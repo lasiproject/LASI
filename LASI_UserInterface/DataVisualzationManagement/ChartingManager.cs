@@ -42,7 +42,6 @@ namespace LASI.UserInterface.DataVisualzationProviders
                     IndependentValuePath = "Key",
                     ItemsSource = data,
                     IsSelectionEnabled = true,
-
                 });
                 chart.Title = string.Format("Key Relationships in {0}", doc.FileName);
                 break;
@@ -206,18 +205,16 @@ namespace LASI.UserInterface.DataVisualzationProviders
 
         public static List<KeyValuePair<string, float>> GetItemSourceFor(object chart) {
             var chartSource = ((chart as TabItem).Content as Chart).Tag as IEnumerable<KeyValuePair<string, float>>;
-            var items = (from i in chartSource.ToArray()
-
+            var items = (from i in chartSource
                          orderby i.Value descending
-                         select new KeyValuePair<string, float>(i.Key.ToString(), i.Value)).Take(10).ToList();
-            return items;
+                         select new KeyValuePair<string, float>(i.Key.ToString(), i.Value)).Take(10);
+            return items.ToList();
         }
 
         #endregion
         private static IEnumerable<KeyValuePair<string, float>> GetSVOIData(Document doc) {
             var data = GetVerbWiseAssociationData(doc);
             return from svs in data
-
                    let SV = new KeyValuePair<string, float>(
                        string.Format("{0} -> {1}\n", svs.Subject.Text, svs.Verbal.Text) +
                        (svs.Direct != null ? " -> " + svs.Direct.Text : "") +
@@ -228,47 +225,41 @@ namespace LASI.UserInterface.DataVisualzationProviders
 
         }
         private static IEnumerable<RelationshipTuple> GetVerbWiseAssociationData(Document doc) {
-            var data =
-                 from svPair in
-                     (from v in doc.Phrases.GetVerbPhrases()
+            var data = (
+                from verbal in doc.Phrases.GetVerbPhrases()
                           .WithSubject(s => (s as IPronoun) == null || (s as IPronoun).BoundEntity != null)
                           .AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
-                      from s in v.Subjects.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
-                      let sub = s as IPronoun == null ? s : (s as IPronoun).BoundEntity
-                      where sub != null
-                      from dobj in v.DirectObjects.DefaultIfEmpty()
-                      from iobj in v.IndirectObjects.DefaultIfEmpty()
-
-                      select new RelationshipTuple {
-                          Subject = sub as NounPhrase ?? null,
-                          Verbal = v as VerbPhrase ?? null,
-                          Direct = dobj as NounPhrase ?? null,
-                          Indirect = iobj as NounPhrase ?? null,
-                          ViaPreposition = v.ObjectOfThePreoposition ?? null,
-                          RelationshipWeight = sub.Weight + v.Weight + (dobj != null ? dobj.Weight : 0) + (iobj != null ? iobj.Weight : 0)
-                      } into tupple
-                      where
-                        tupple.Direct != null ||
-                        tupple.Indirect != null &&
-                        tupple.Subject.Text != (tupple.Direct ?? tupple.Indirect).Text
-                      select tupple).Distinct(new RelationshipComparer())
-                 select svPair into svps
-
-                 orderby svps.RelationshipWeight
-                 select svps;
+                from s in verbal.Subjects.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
+                let sub = s as IPronoun == null ? s : (s as IPronoun).BoundEntity
+                where sub != null
+                from dobj in verbal.DirectObjects.DefaultIfEmpty()
+                from iobj in verbal.IndirectObjects.DefaultIfEmpty()
+                select new RelationshipTuple {
+                    Subject = sub as NounPhrase ?? null,
+                    Verbal = verbal as VerbPhrase ?? null,
+                    Direct = dobj as NounPhrase ?? null,
+                    Indirect = iobj as NounPhrase ?? null,
+                    ViaPrep = verbal.ObjectOfThePreoposition ?? null,
+                    RelationshipWeight = sub.Weight
+                                        + verbal.Weight
+                                        + (dobj != null ? dobj.Weight : 0)
+                                        + (iobj != null ? iobj.Weight : 0)
+                } into tupple
+                where (tupple.Direct != null || tupple.Indirect != null)
+                && tupple.Subject.Text != (tupple.Direct ?? tupple.Indirect).Text
+                orderby tupple.RelationshipWeight
+                select tupple).Distinct(new RelationshipComparer());
             return data.ToArray();
         }
 
         private static IEnumerable<KeyValuePair<string, float>> GetNounPhraseData(Document doc) {
             return from NP in doc.Phrases.GetNounPhrases().Distinct().AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
-
                    group NP by new {
                        NP.Text,
                        NP.Weight
-                   } into NP
-                   select NP.Key into master
-                   orderby master.Weight descending
-                   select new KeyValuePair<string, float>(master.Text, ( float )Math.Round(master.Weight, 2));
+                   } into NPG
+                   orderby NPG.Key descending
+                   select new KeyValuePair<string, float>(NPG.Key.Text, ( float )Math.Round(NPG.Key.Weight, 2));
         }
         public static IEnumerable<KeyValuePair<string, float>> GetAppropriateDataSet(Document document) {
             var valueList = chartKind == ChartKind.NounPhrasesOnly ? GetNounPhraseData(document) : chartKind == ChartKind.SubjectVerbObject ? GetSVOIData(document) : GetSVOIData(document);
@@ -297,14 +288,14 @@ namespace LASI.UserInterface.DataVisualzationProviders
 
         public static IEnumerable<object> CreateRelationshipData(IEnumerable<CrossDocumentJoiner.NVNN> elementsToSerialize) {
             return CreateRelationshipData(
-                            (from e in elementsToSerialize.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
+                            (from element in elementsToSerialize.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
                              select new RelationshipTuple {
-                                 Direct = e.Direct,
-                                 Indirect = e.Indirect,
-                                 Subject = e.Subject,
-                                 Verbal = e.Verbal,
-                                 ViaPreposition = e.ViaPreposition,
-                                 RelationshipWeight = e.RelationshipWeight
+                                 Direct = element.Direct,
+                                 Indirect = element.Indirect,
+                                 Subject = element.Subject,
+                                 Verbal = element.Verbal,
+                                 ViaPrep = element.ViaPreposition,
+                                 RelationshipWeight = element.RelationshipWeight
                              }).Distinct(new RelationshipComparer()));
         }
 
@@ -312,11 +303,11 @@ namespace LASI.UserInterface.DataVisualzationProviders
             var dataRows = from result in elementsToSerialize.Distinct(new RelationshipComparer())
                            orderby result.RelationshipWeight
                            select new {
-                               Subject = result.Subject != null ? result.Subject.Text : "",
-                               Verbial = result.Verbal != null ? (result.Verbal.PrepositionOnLeft != null ? result.Verbal.PrepositionOnLeft.Text + " " : "") + result.Verbal.Text : "",
-                               Direct = result.Direct != null ? result.Direct.Text : "",
-                               Indirect = result.Indirect != null ? result.Indirect.Text : "",
-                               ViaPrepositional = result.ViaPreposition != null ? result.Verbal.PrepositionalToObject.Text + " " + result.ViaPreposition.Text : ""
+                               Subject = result.Subject != null ? result.Subject.Text : string.Empty,
+                               Verbial = result.Verbal != null ? result.Verbal.PrepositionOnLeft != null ? result.Verbal.PrepositionOnLeft.Text + " " : string.Empty + result.Verbal.Text : string.Empty,
+                               Direct = result.Direct != null ? result.Direct.Text : string.Empty,
+                               Indirect = result.Indirect != null ? result.Indirect.Text : string.Empty,
+                               ViaPrep = result.ViaPrep != null ? result.Verbal.PrepositionalToObject.Text + " " + result.ViaPrep.Text : string.Empty
                            };
             return dataRows.Distinct();
         }
@@ -355,15 +346,14 @@ namespace LASI.UserInterface.DataVisualzationProviders
             } else if (lhs.Elements.Count != rhs.Elements.Count) {
                 return false;
             } else {
-
                 bool result = lhs.Verbal.Text == rhs.Verbal.Text || lhs.Verbal.IsSimilarTo(rhs.Verbal);
-                result &= Comparisons<NounPhrase>.AliasOrSimilarity.Equals(lhs.Subject, rhs.Subject);
+                result &= Comparers<NounPhrase>.AliasOrSimilarity.Equals(lhs.Subject, rhs.Subject);
                 if (lhs.Direct != null && rhs.Direct != null) {
-                    result &= Comparisons<NounPhrase>.AliasOrSimilarity.Equals(lhs.Direct, rhs.Direct);
+                    result &= Comparers<NounPhrase>.AliasOrSimilarity.Equals(lhs.Direct, rhs.Direct);
                 } else if (lhs.Direct == null || rhs.Direct == null)
                     return false;
                 if (lhs.Indirect != null && rhs.Indirect != null) {
-                    result &= Comparisons<NounPhrase>.AliasOrSimilarity.Equals(lhs.Indirect, rhs.Indirect);
+                    result &= Comparers<NounPhrase>.AliasOrSimilarity.Equals(lhs.Indirect, rhs.Indirect);
                 } else if (lhs.Indirect == null || rhs.Indirect == null)
                     return false;
                 return result;
@@ -371,7 +361,7 @@ namespace LASI.UserInterface.DataVisualzationProviders
         }
 
         public int GetHashCode(RelationshipTuple obj) {
-            return obj == null ? 0 : obj.Elements.Count;
+            return obj == null ? 0 : 1;
         }
     }
     /// <summary>
@@ -430,7 +420,7 @@ namespace LASI.UserInterface.DataVisualzationProviders
 
         ILexical viaPreposition;
 
-        public ILexical ViaPreposition {
+        public ILexical ViaPrep {
             get {
                 return viaPreposition;
             }

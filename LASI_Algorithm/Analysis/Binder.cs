@@ -33,29 +33,27 @@ namespace LASI.Algorithm.Binding
         #region Private Static Methods
 
         private static void PerformAttributeNounPhraseBinding(Document doc) {
-            doc.Sentences.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
+            doc.Sentences
+                .AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
                 .Where(s => s.Paragraph.ParagraphKind == ParagraphKind.Default)
                 .AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
-                .ForAll(
-                s => {
-                    var attributiveBinder = new AttributiveNounPhraseBinder(s);
-                });
+                .ForAll(s => new AttributiveNounPhraseBinder(s));
         }
         private static void PerformSVOBinding(Document doc) {
             try {
-                doc.Sentences.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
+                doc.Sentences
+                    .AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
                     .Where(s => s.Paragraph.ParagraphKind == ParagraphKind.Default)
                     .AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
-                    .ForAll(
-                    s => {
+                    .ForAll(sentence => {
                         try {
-                            new SubjectBinder().Bind(s);
+                            new SubjectBinder().Bind(sentence);
                         }
                         catch (NullReferenceException) {
                         }
                         try {
-                            if (s.Phrases.GetVerbPhrases().Any()) {
-                                new ObjectBinder().Bind(s);
+                            if (sentence.Phrases.GetVerbPhrases().Any()) {
+                                new ObjectBinder().Bind(sentence);
                             }
                         }
                         catch (InvalidStateTransitionException) {
@@ -71,25 +69,24 @@ namespace LASI.Algorithm.Binding
         }
         private static void PerformIntraPhraseBinding(Document doc) {
 
-            doc.Phrases.GetNounPhrases()
+            doc.Phrases
+                .GetNounPhrases()
                 .AsParallel()
                 .WithDegreeOfParallelism(Concurrency.CurrentMax)
                 .ForAll(np => new IntraPhraseWordBinder().Bind(np));
-            doc.Phrases.GetVerbPhrases()
-                .AsParallel()
-                .WithDegreeOfParallelism(Concurrency.CurrentMax)
+            doc.Phrases
+                .GetVerbPhrases()
+                .AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
                 .ForAll(verbPhrase => new IntraPhraseWordBinder().Bind(verbPhrase));
         }
 
 
         private static void PerformPronounBinding(Document doc) {
-            doc.Sentences.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
+            doc.Sentences
+                .AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
                 .Where(s => s.Paragraph.ParagraphKind == ParagraphKind.Default)
                 .AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
-                .ForAll(
-                s => {
-                    new PronounBinder().Bind(doc);
-                });
+                .ForAll(s => new PronounBinder().Bind(doc));
         }
         #endregion
     }

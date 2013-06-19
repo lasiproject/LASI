@@ -14,14 +14,14 @@ namespace LASI.Algorithm
     /// </summary>
     /// <typeparam name="T">Any Noun which implements the ILexical interface. E.g. Word or Phrase</typeparam>
     /// <see cref="ILexical"/>
-    public static class Comparisons<T> where T : LASI.Algorithm.ILexical
+    public static class Comparers<T> where T : LASI.Algorithm.ILexical
     {
         private static TextualComparer textual = new TextualComparer();
         private static AliasComparer alias = new AliasComparer();
         private static SimilarityComparer<NounPhrase> similarity = new SimilarityComparer<NounPhrase>();
         private static AliasOrSimilarityComparer<IEntity> aliasOrSimilarity = new AliasOrSimilarityComparer<IEntity>();
         /// <summary>
-        /// AliasComparer based comparer where if not textually equivalent if will check to see if the NounPhrases are aliases for each
+        /// Alias based comparer where if not textually equivalent if will check to see if the NounPhrases are aliases for each other
         /// </summary>
         public static AliasComparer Alias {
             get {
@@ -69,30 +69,16 @@ namespace LASI.Algorithm
         /// approaches O(N^2), where as calls which use the default reference based, hash if possible comparers, IEqualityComparers only approach approach O(N).
         /// </remarks>
         public static IEqualityComparer<T> CreateCustom(Func<T, T, bool> equals) {
-            if (equals == null) {
-                throw new ArgumentNullException("equals", "A null equals function was provided.");
-            } else
-                return new CustomComparer(equals);
+            return new CustomComparer(equals);
         }
-        ///// <summary>
-        ///// Creates a custom IEqualityComparer comparer which uses the given functions to compare values and produce Hash codes.
-        ///// </summary>
-        ///// <param name="equals">The function to determine equality Equality.</param>
-        ///// <param name="hasher">The function to generate Hash codes.</param>
-        ///// <returns>A custom IEqualityComparer comparer which uses the given functions to compare values and produce Hash codes.
-        ///// </returns>
-        //public static IEqualityComparer<T> CreateCustom(Func<T, T, bool> equals, Func<T, int> getHashCode)
-        //{
-        //    if (equals == null) {
-        //        throw new ArgumentNullException("equals", "A null equals function was provided.");
-        //    } else
-        //        return new CustomComparer(equals, getHashCode);
-        //}
+
 
         #region Specialized IEqualityComparer implementations for various ILexical constructs
 
 
-
+        /// <summary>
+        /// Basic, naive comparer that only takes into account the Text property values of ILexical instances.
+        /// </summary>
         public class TextualComparer : IEqualityComparer<T>
         {
             protected internal TextualComparer() {
@@ -102,7 +88,7 @@ namespace LASI.Algorithm
             }
 
             public int GetHashCode(T obj) {
-                return obj == null ? 0 : 1;
+                return obj.Text.GetHashCode();
             }
         }
         public class SimilarityComparer<R> : IEqualityComparer<R>
@@ -165,15 +151,32 @@ namespace LASI.Algorithm
         {
             private Func<T, T, bool> customEquals;
             private Func<T, int> customGetHashCode;
+            /// <summary>
+            /// Initializes a new instance of the CustomComparer class conforming to the logic of the provided equals function.
+            /// </summary>
+            /// <param name="equals">The function used test two elements for equality.</param>
+            /// <exception cref="ArgumentNullException">Thrown if the provided equality function is null.</exception>
             protected internal CustomComparer(Func<T, T, bool> equals) {
+                if (equals == null)
+                    throw new ArgumentNullException("equals", "A null equals function was provided.");
                 customEquals = equals;
                 customGetHashCode = ((T obj) => {
                     return obj == null ? 0 : 1;
                 });
             }
-            protected internal CustomComparer(Func<T, T, bool> equals, Func<T, int> hasher) {
+            /// <summary>
+            /// Initializes a new instance of the CustomComparer class conforming to the logic of the provided equals and getHashCode functions.
+            /// </summary>
+            /// <param name="equals">The function used test two elements for equality.</param>
+            /// <param name="getHashCode">The function to extract a hash code from each element.</param>
+            /// <exception cref="ArgumentNullException">Thrown if either the provided equality or the provided getHashCode functions is null.</exception>
+            protected internal CustomComparer(Func<T, T, bool> equals, Func<T, int> getHashCode) {
+                if (equals == null)
+                    throw new ArgumentNullException("equals", "A null equals function was provided.");
                 customEquals = equals;
-                customGetHashCode = hasher;
+                if (getHashCode == null)
+                    throw new ArgumentNullException("getHashCode", "A null equals function was provided.");
+                customGetHashCode = getHashCode;
             }
             public bool Equals(T x, T y) {
                 if (ReferenceEquals(x, null))

@@ -12,16 +12,8 @@ namespace LASI.InteropLayer
 {
     public class CrossDocumentJoiner
     {
-        public event EventHandler<IEnumerable<NVNN>> JoinCompleted {
-            add {
-                onJoinCompletedEventHandler += value;
-            }
-            remove {
-                onJoinCompletedEventHandler -= value;
-            }
-        }
 
-        private EventHandler<IEnumerable<NVNN>> onJoinCompletedEventHandler;
+
         public CrossDocumentJoiner(IEnumerable<Document> documents) {
             Documents = documents;
 
@@ -45,18 +37,27 @@ namespace LASI.InteropLayer
         private async Task<IEnumerable<NVNN>> GetCommonalitiesByBoundEntities() {
             var topNPsByDoc = from doc in Documents.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
                               select GetTopNounPhrases(doc);
-            var nounCommonalities = (from outerSet in topNPsByDoc.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
+            var nounCommonalities = (from outerSet in topNPsByDoc
+                                         .AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
                                      from np in outerSet
                                      from innerSet in topNPsByDoc
                                      where innerSet != outerSet
                                      where innerSet.Contains(np, (L, R) => L.Text == R.Text || L.IsAliasFor(R) || L.IsSimilarTo(R))
                                      select np).Distinct((L, R) => L.Text == R.Text || L.IsAliasFor(R) || L.IsSimilarTo(R));
-            var results = from n in nounCommonalities.InSubjectRole().AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
+            var results = from n in nounCommonalities
+                              .InSubjectRole()
+                              .AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
                           select new NVNN {
                               Subject = n,
                               Verbal = n.SubjectOf as VerbPhrase,
-                              Direct = n.SubjectOf.DirectObjects.OfType<NounPhrase>().FirstOrDefault(),
-                              Indirect = n.SubjectOf.IndirectObjects.OfType<NounPhrase>().FirstOrDefault(),
+                              Direct = n.SubjectOf
+                                  .DirectObjects
+                                  .OfType<NounPhrase>()
+                                  .FirstOrDefault(),
+                              Indirect = n.SubjectOf
+                                  .IndirectObjects
+                                  .OfType<NounPhrase>()
+                                  .FirstOrDefault(),
                               ViaPreposition = n.SubjectOf.ObjectOfThePreoposition as NounPhrase
                           } into result
                           group result by result.Subject.Text into resultGrouped
@@ -79,9 +80,18 @@ namespace LASI.InteropLayer
             return (from v in verbalCominalities.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
                     select new NVNN {
                         Verbal = v,
-                        Direct = v.DirectObjects.OfType<NounPhrase>().Select(s => (s as IPronoun) == null ? s : (s as IPronoun).BoundEntity).FirstOrDefault(),
-                        Indirect = v.IndirectObjects.OfType<NounPhrase>().Select(s => (s as IPronoun) == null ? s : (s as IPronoun).BoundEntity).FirstOrDefault(),
-                        Subject = v.Subjects.OfType<NounPhrase>().Select(s => (s as IPronoun) == null ? s : (s as IPronoun).BoundEntity).FirstOrDefault(),
+                        Direct = v.DirectObjects
+                            .OfType<NounPhrase>()
+                            .Select(s => (s as IPronoun) == null ? s : (s as IPronoun).BoundEntity)
+                            .FirstOrDefault(),
+                        Indirect = v.IndirectObjects
+                            .OfType<NounPhrase>()
+                            .Select(s => (s as IPronoun) == null ? s : (s as IPronoun).BoundEntity)
+                            .FirstOrDefault(),
+                        Subject = v.Subjects
+                            .OfType<NounPhrase>()
+                            .Select(s => (s as IPronoun) == null ? s : (s as IPronoun).BoundEntity)
+                            .FirstOrDefault(),
                         ViaPreposition = v.ObjectOfThePreoposition as NounPhrase
                     } into result
                     where result.Subject != null
@@ -93,7 +103,10 @@ namespace LASI.InteropLayer
 
         public async Task<IEnumerable<NounPhrase>> GetTopNounPhrasesAsync(Document document) {
             return await Task.Run(() => from distinctNP in
-                                            (from np in document.GetEntities().GetPhrases().AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax).GetNounPhrases()
+                                            (from np in document
+                                                 .GetEntities().GetPhrases()
+                                                 .AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
+                                                 .GetNounPhrases()
                                              where np.SubjectOf != null && (np.DirectObjectOf != null || np.IndirectObjectOf != null)
                                              select np).Distinct((L, R) => L.Text == R.Text || L.IsAliasFor(R) || L.IsSimilarTo(R))
                                         orderby distinctNP.Weight
@@ -102,9 +115,13 @@ namespace LASI.InteropLayer
         }
         public IEnumerable<NounPhrase> GetTopNounPhrases(Document document) {
             return from distinctNP in
-                       (from np in document.GetEntities().GetPhrases().AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax).GetNounPhrases()
+                       (from np in document
+                            .GetEntities().GetPhrases()
+                            .AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
+                            .GetNounPhrases()
                         where np.SubjectOf != null && (np.DirectObjectOf != null || np.IndirectObjectOf != null)
-                        select np).Distinct((L, R) => L.Text == R.Text || L.IsAliasFor(R) || L.IsSimilarTo(R))
+                        select np
+                        ).Distinct((L, R) => L.Text == R.Text || L.IsAliasFor(R) || L.IsSimilarTo(R))
                    orderby distinctNP.Weight
                    select distinctNP;
 
@@ -216,13 +233,13 @@ namespace LASI.InteropLayer
                     return true;
                 else {
                     bool result = lhs.Verbal.Text == rhs.Verbal.Text || lhs.Verbal.IsSimilarTo(rhs.Verbal);
-                    result &= Comparisons<IEntity>.AliasOrSimilarity.Equals(lhs.Subject, rhs.Subject);
+                    result &= Comparers<IEntity>.AliasOrSimilarity.Equals(lhs.Subject, rhs.Subject);
                     if (lhs.Direct != null && rhs.Direct != null) {
-                        result &= Comparisons<IEntity>.AliasOrSimilarity.Equals(lhs.Direct, rhs.Direct);
+                        result &= Comparers<IEntity>.AliasOrSimilarity.Equals(lhs.Direct, rhs.Direct);
                     } else if (lhs.Direct == null || rhs.Direct == null)
                         return false;
                     if (lhs.Indirect != null && rhs.Indirect != null) {
-                        result &= Comparisons<IEntity>.AliasOrSimilarity.Equals(lhs.Indirect, rhs.Indirect);
+                        result &= Comparers<IEntity>.AliasOrSimilarity.Equals(lhs.Indirect, rhs.Indirect);
                     } else if (lhs.Indirect == null || rhs.Indirect == null)
                         return false;
                     return result;
