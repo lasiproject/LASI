@@ -251,7 +251,7 @@ namespace LASI.UserInterface.DataVisualzationProviders
                         tupple.Direct != null ||
                         tupple.Indirect != null &&
                         tupple.Subject.Text != (tupple.Direct ?? tupple.Indirect).Text
-                      select tupple).Distinct()
+                      select tupple).Distinct(new RelationshipComparer())
                  select svPair into svps
 
                  orderby svps.RelationshipWeight
@@ -292,21 +292,20 @@ namespace LASI.UserInterface.DataVisualzationProviders
 
         public static async Task<IEnumerable<object>> CreateRelationshipDataAsync(IEnumerable<CrossDocumentJoiner.NVNN> elementsToSerialize) {
 
-            return await Task.Run(async () =>
-              await CreateRelationshipDataAsync(elementsToSerialize));
+            return await Task.Run(() => CreateRelationshipData(elementsToSerialize));
         }
 
         public static IEnumerable<object> CreateRelationshipData(IEnumerable<CrossDocumentJoiner.NVNN> elementsToSerialize) {
             return CreateRelationshipData(
-                            from e in elementsToSerialize.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
-                            select new RelationshipTuple {
-                                Direct = e.Direct,
-                                Indirect = e.Indirect,
-                                Subject = e.Subject,
-                                Verbal = e.Verbal,
-                                ViaPreposition = e.ViaPreposition,
-                                RelationshipWeight = e.RelationshipWeight
-                            });
+                            (from e in elementsToSerialize.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
+                             select new RelationshipTuple {
+                                 Direct = e.Direct,
+                                 Indirect = e.Indirect,
+                                 Subject = e.Subject,
+                                 Verbal = e.Verbal,
+                                 ViaPreposition = e.ViaPreposition,
+                                 RelationshipWeight = e.RelationshipWeight
+                             }).Distinct(new RelationshipComparer()));
         }
 
         public static IEnumerable<object> CreateRelationshipData(IEnumerable<RelationshipTuple> elementsToSerialize) {

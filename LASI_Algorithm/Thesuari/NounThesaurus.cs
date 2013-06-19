@@ -169,8 +169,7 @@ namespace LASI.Algorithm.Thesauri
                 NounPointerSymbol.Domainofsynset_TOPIC,
                 NounPointerSymbol.Domainofsynset_USAGE, 
                 NounPointerSymbol.Hyponym, 
-                NounPointerSymbol.InstanceHyponym,
-                NounPointerSymbol.Membermeronym 
+                NounPointerSymbol.InstanceHyponym, 
             };
 
         public override HashSet<string> this[string search] {

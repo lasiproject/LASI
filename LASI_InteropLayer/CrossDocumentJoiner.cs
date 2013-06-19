@@ -70,8 +70,8 @@ namespace LASI.InteropLayer
         private async Task<IEnumerable<NVNN>> GetCommonalitiesByVerbals() {
             var topVerbalsByDoc = await Task.WhenAll(from doc in Documents.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
                                                      select GetTopVerbPhrases(doc));
-            var verbalCominalities = from set in topVerbalsByDoc.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
-                                     from vp in set
+            var verbalCominalities = from verbPhraseSet in topVerbalsByDoc.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
+                                     from vp in verbPhraseSet
                                      where (from verbs in topVerbalsByDoc
                                             select verbs.Contains(vp, (L, R) => L.Text == R.Text || R.IsSimilarTo(R)))
                                             .Aggregate(true, (product, result) => product &= result)
@@ -84,6 +84,7 @@ namespace LASI.InteropLayer
                         Subject = v.Subjects.OfType<NounPhrase>().Select(s => (s as IPronoun) == null ? s : (s as IPronoun).BoundEntity).FirstOrDefault(),
                         ViaPreposition = v.ObjectOfThePreoposition as NounPhrase
                     } into result
+                    where result.Subject != null
                     group result by result.Verbal.Text into resultGrouped
                     select resultGrouped.First() into result
                     orderby result.Verbal.Weight
