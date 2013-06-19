@@ -14,12 +14,16 @@ namespace LASI.Algorithm.Weighting
     {
         public static Task<string>[] GetWeightingTasksForDocument(Document doc) {
             return new[]{ 
-             Task .Run  (   () => 
+               Task .Run  (   () => 
                {
-
+                       WeightWordsBySyntacticSequence(doc);
+                   return string.Format("{0}: Calculating Harmonic Distance", doc.FileName);
+               }),       
+               Task .Run  (   () => 
+               {
                        WeightWordsByLiteralFrequency (doc);
                    return string.Format("{0}: Aggregating Literals", doc.FileName);
-               }),              
+               }),
                Task .Run    (   () => 
                {
                        ModifyNounWeightsBySynonyms(doc);//.ContinueWith(t =>
@@ -35,24 +39,25 @@ namespace LASI.Algorithm.Weighting
                        WeightPhrasesByLiteralFrequency (doc);//.ContinueWith(t =>   
                    return string.Format("{0}: Aggregating Complex Literals", doc.FileName);
                }),
-               Task .Run   (   () => 
+                Task .Run   (   () => 
                {
                         HackSubjectPropernounImportance (doc);//.ContinueWith(t => 
-                   return  string.Format("{0}: Focusing Patterns", doc.FileName);
+                        return string.Format("{0}: Focusing Patterns", doc.FileName);
+               }),  
+               Task .Run   (  () =>
+               {
+                    WeightPhrasesByAVGWordWeight(doc);//.ContinueWith(t =>   
+                    return string.Format("{0}: Averaging Metrics",doc.FileName);
                }), 
                Task .Run     (   () => 
                {
                         WeightSimilarNounPhrases (doc);//.ContinueWith(t =>   
-                   return string.Format("{0}: Generalizing Entities!",doc.FileName);
-               }),     Task .Run  (   () => 
+                        return string.Format("{0}: Generalizing Entities!",doc.FileName);
+               }),      
+               Task .Run  (   () => 
                {
                     NormalizeWeights (doc);//.ContinueWith(t =>  
-                   return  string.Format("{0}: Normalizing Metrics", doc.FileName);
-               }),
-               Task .Run   (  () =>
-               {
-                         WeightPhrasesByAVGWordWeight(doc);//.ContinueWith(t =>   
-                   return string.Format("{0}: Averaging Metrics",doc.FileName);
+                    return  string.Format("{0}: Normalizing Metrics", doc.FileName);
                }),
             };
 
@@ -72,7 +77,7 @@ namespace LASI.Algorithm.Weighting
         static public void Weight(Document doc) {
             WeightWordsByLiteralFrequency(doc);
 
-            //WeightWordsBySyntacticSequence(doc);
+            WeightWordsBySyntacticSequence(doc);
 
             HackSubjectPropernounImportance(doc);
 
@@ -92,8 +97,8 @@ namespace LASI.Algorithm.Weighting
             await Task.Run(() => NormalizeWeights(doc));
         }
         private static void NormalizeWeights(Document doc) {
-            decimal TotPhraseWeight = 0.0m;
-            decimal MaxWeight = 0.0m;
+            double TotPhraseWeight = 0.0;
+            double MaxWeight = 0.0;
             int NonZeroWghts = 0;
             foreach (var w in doc.Phrases) {
                 TotPhraseWeight += w.Weight;
@@ -122,7 +127,7 @@ namespace LASI.Algorithm.Weighting
                                      where outerVerb.IsSynonymFor(innerVerb)
                                      group innerVerb by outerVerb;
             verbsSynonymGroups.ForAll(grp => {
-                grp.Key.Weight += 0.7m * grp.Count();
+                grp.Key.Weight += 0.7 * grp.Count();
             });
         }
 
@@ -150,7 +155,7 @@ namespace LASI.Algorithm.Weighting
                                     group innerNoun by outerNoun;
 
             nounSynonymGroups.ForAll(grp => {
-                grp.Key.Weight += 0.7m * grp.Count();
+                grp.Key.Weight += 0.7 * grp.Count();
             });
         }
         private static async Task WeightPhrasesByAVGWordWeightAsync(Document doc) {
@@ -165,7 +170,7 @@ namespace LASI.Algorithm.Weighting
                     weight
                 };
             phraseWeightPairs.ForAll(pWPair => {
-                pWPair.phr.Weight = pWPair.weight;
+                pWPair.phr.Weight += pWPair.weight;
             });
         }
         private static async Task WeightPhrasesByLiteralFrequencyAsync(Document doc) {
@@ -194,7 +199,11 @@ namespace LASI.Algorithm.Weighting
         /// <param name="doc">the Document whose words to weight</param>
         /// <param name="excluded">zero or more types to exlcude from weighting</param>
         private static void WeightWordsByLiteralFrequency(Document doc) {
-            WeightByLiteralFrequency(doc.Words.Except(doc.Words.GetDeterminers()).Except(doc.Words.GetPronouns()).Except(doc.Words.GetAdverbs()).Except(doc.Words.GetAdjectives()));
+            WeightByLiteralFrequency(doc.Words
+                .Except(doc.Words.GetDeterminers())
+                .Except(doc.Words.GetPronouns())
+                .Except(doc.Words.GetAdverbs())
+                .Except(doc.Words.GetAdjectives()));
         }
         private static async Task WeightSimilarNounPhrasesAsync(Document doc) {
             await Task.Run(() => WeightSimilarNounPhrases(doc));
@@ -219,16 +228,17 @@ namespace LASI.Algorithm.Weighting
                                               innerNP,
                                               similarityRatio = Thesaurus.GetSimilarityRatio(outerNP, innerNP)
                                           })
-                                     where potentialM.similarityRatio >= 0.6f
+                                     where potentialM.similarityRatio >= 0.6
                                      select potentialM;
                 //Need to fix this. Its causing stack overflow
 
-                //foreach (var match in similarPhrases) {
-                //    unchecked {
-                //        match.NP.Weight += match.innerNP.Weight * ( decimal )match.similarityRatio;
-                //        //match.innerNP.Weight += match.NP.Weight * ( decimal )match.similarityRatio;
-                //    }
-                //}
+                foreach (var match in similarPhrases) {
+
+                    ////match.NP.Weight += match.innerNP.Weight * match.similarityRatio;
+                    //match.innerNP.Weight += match.NP.Weight * match.similarityRatio;
+                    //match.innerNP.Weight = Math.Round(match.innerNP.Weight, 5);
+
+                }
             }
 
         }
@@ -285,9 +295,9 @@ namespace LASI.Algorithm.Weighting
             //COMPLETE - easy peasy.
 
             //Output.WriteLine("Normal word Weight based on POS:");
-            doc.Sentences.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax).ForAll(s => {
-                //////Output.WriteLine(subject);
-
+            //doc.Sentences.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax).ForAll(s => {
+            //////Output.WriteLine(subject);
+            foreach (var s in doc.Sentences) {
                 foreach (Word w in s.Words) {
                     //Output.WriteLine(w);
 
@@ -316,7 +326,7 @@ namespace LASI.Algorithm.Weighting
                 }
 
 
-            });
+            };
 
 
 
@@ -325,7 +335,7 @@ namespace LASI.Algorithm.Weighting
             //PHASE 2 - word Weight based on part of speech and neighbors' (+2) part of speech
             // WORKS, BUT
             // NEED FORMULAS FOR MODIFIER VARIABLES - WHAT SHOULD THESE BE?
-            decimal modOne, modTwo;
+            double modOne, modTwo;
             modOne = modTwo = 0;
             foreach (Sentence s in doc.Sentences.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)) {
                 //////Output.WriteLine(subject);
@@ -366,7 +376,7 @@ namespace LASI.Algorithm.Weighting
                            Determiner(next, nextNext, out modOne, out modTwo);
                        })
                        .Default(def => {
-                           modOne = 0.1m;
+                           modOne = 0.1d;
 
                            //second (UNCAUGHT -> UNCAUGHT)
                            modTwo = UncaughtUncaught(nextNext);
@@ -393,54 +403,54 @@ namespace LASI.Algorithm.Weighting
 
             #endregion
 
-        private static void Determiner(Word next, Word nextNext, out decimal outModOne, out decimal outModTwo) {
-            decimal modOne = 0;
-            decimal modTwo = 0;
+        private static void Determiner(Word next, Word nextNext, out double outModOne, out double outModTwo) {
+            double modOne = 0;
+            double modTwo = 0;
             new Switch(next)
                    .Case<Noun>(nn => {
-                       modOne = 0.9m; //determiner-noun
+                       modOne = 0.9d; //determiner-noun
 
                        //second (Determiner -> Noun)
                        modTwo = PronounNoun(nextNext);
                    })
                    .Case<Adjective>(advn => {
-                       modOne = 0.8m;  //deteminer-adjective
+                       modOne = 0.8d;  //deteminer-adjective
 
                        //second (Determiner -> Adjective)
                        modTwo = PronounAdjective(nextNext);
                    })
                    .Case<Adverb>(advn => {
-                       modOne = 0.7m;  //determiner-adverb
+                       modOne = 0.7d;  //determiner-adverb
 
                        //second (Determiner -> Adverb)
                        modTwo = PronounAdverb(nextNext);
                    })
                    .Case<Pronoun>(pnn => {
-                       modOne = 0.9m; //determiner-pronoun
+                       modOne = 0.9d; //determiner-pronoun
 
                        //second (Determiner -> Noun)
                        modTwo = PronounPronoun(nextNext);
                    })
                    .Case<ToLinker>(lnkn => {
-                       modOne = 0.7m; //determiner-tolinker
+                       modOne = 0.7d; //determiner-tolinker
 
                        //second (Determiner -> ToLinker)
                        modTwo = PronounToLinker(nextNext);
                    })
                    .Case<Preposition>(pren => {
-                       modOne = 0.3m; //determiner positional
+                       modOne = 0.3d; //determiner positional
 
                        //second Determiner -> Preposition)
                        modTwo = PronounPreposition(nextNext);
                    })
                    .Case<Determiner>(dn => {
-                       modOne = 0; //determiner-determiner
+                       modOne = 0d; //determiner-determiner
 
                        //second (Determiner -> Determiner)
                        modTwo = PronounDeterminer(nextNext);
                    })
                    .Default(def => {
-                       modOne = 0.1m;
+                       modOne = 0.1d;
 
                        //second (Determiner -> UNCAUGHT)
                        modTwo = PronounUncaught(nextNext);
@@ -449,30 +459,30 @@ namespace LASI.Algorithm.Weighting
             outModOne = modOne;
             outModTwo = modTwo;
         }
-        private static void Preposition(Word next, Word nextNext, out decimal outModOne, out decimal outModTwo) {
-            decimal modOne = 0;
-            decimal modTwo = 0;
+        private static void Preposition(Word next, Word nextNext, out double outModOne, out double outModTwo) {
+            double modOne = 0;
+            double modTwo = 0;
             new Switch(next)
                    .Case<Noun>(nn => {
-                       modOne = 0.8m; // 
+                       modOne = 0.8; // 
 
                        //second (Preposition -> Noun)
                        modTwo = PrepositionNoun(nextNext);
                    })
                    .Case<Pronoun>(pnn => {
-                       modOne = 0.8m; // 
+                       modOne = 0.8; // 
 
                        //second (Preposition -> Noun)
                        modTwo = PrepositionPronoun(nextNext);
                    })
                    .Case<Determiner>(dn => {
-                       modOne = 0.7m; //determiner
+                       modOne = 0.7; //determiner
 
                        //second (Preposition -> Determiner)
                        modTwo = PrepositionDeterminer(nextNext);
                    })
                    .Default(def => {
-                       modOne = 0.1m;
+                       modOne = 0.1;
 
                        //second (Preposition -> UNCAUGHT)
                        modTwo = PrepositionUncaught(nextNext);
@@ -482,53 +492,53 @@ namespace LASI.Algorithm.Weighting
             outModTwo = modTwo;
         }
 
-        private static void Pronoun(Word next, Word nextNext, out decimal outModOne, out decimal outModTwo) {
-            decimal modOne = 0;
-            decimal modTwo = 0;
+        private static void Pronoun(Word next, Word nextNext, out double outModOne, out double outModTwo) {
+            double modOne = 0;
+            double modTwo = 0;
             new Switch(next)
                    .Case<Noun>(nn => {
-                       modOne = 0.9m; //compound noun/pronoun / possessed by pronoun
+                       modOne = 0.9; //compound noun/pronoun / possessed by pronoun
 
                        //second (Pronoun -> Noun)
                        modTwo = PronounNoun(nextNext);
                    })
                    .Case<Adjective>(advn => {
-                       modOne = 0.8m;  //possessed/descriptor 
+                       modOne = 0.8;  //possessed/descriptor 
 
                        //second (Pronoun -> Adjective)
                        modTwo = PronounAdjective(nextNext);
                    })
                    .Case<Adverb>(advn => {
-                       modOne = 0.7m;  //pronoun amplifier
+                       modOne = 0.7;  //pronoun amplifier
 
                        //second (Pronoun -> Adverb)
                        modTwo = PronounAdverb(nextNext);
                    })
                    .Case<Pronoun>(pnn => {
-                       modOne = 0.9m; //compound pronoun 
+                       modOne = 0.9d; //compound pronoun 
                        //second (Pronoun -> Noun)
                        modTwo = PronounPronoun(nextNext);
                    })
                    .Case<ToLinker>(lnkn => {
-                       modOne = 0.6m; //pronoun directional
+                       modOne = 0.6d; //pronoun directional
 
                        //second (Pronoun -> ToLinker)
                        modTwo = PronounToLinker(nextNext);
                    })
                    .Case<Preposition>(pren => {
-                       modOne = 0.5m; //pronoun positional
+                       modOne = 0.5d; //pronoun positional
 
                        //second (Pronoun -> Preposition)
                        modTwo = PronounPreposition(nextNext);
                    })
                    .Case<Determiner>(dn => {
-                       modOne = 0.7m; //determiner
+                       modOne = 0.7d; //determiner
 
                        //second (Pronoun -> Determiner)
                        modTwo = PronounDeterminer(nextNext);
                    })
                    .Default(def => {
-                       modOne = 0.1m;
+                       modOne = 0.1d;
 
                        //second (Pronoun -> UNCAUGHT)
                        modTwo = PronounUncaught(nextNext);
@@ -538,54 +548,54 @@ namespace LASI.Algorithm.Weighting
             outModTwo = modTwo;
         }
 
-        private static void Adverb(Word next, Word nextNext, out decimal outModOne, out decimal outModTwo) {
-            decimal modOne = 0;
-            decimal modTwo = 0;
+        private static void Adverb(Word next, Word nextNext, out double outModOne, out double outModTwo) {
+            double modOne = 0;
+            double modTwo = 0;
             new Switch(next)
                    .Case<Noun>(nn => {
-                       modOne = 0.9m; //adverbial noun
+                       modOne = 0.9d; //adverbial noun
 
                        //second (Adverb -> Noun)
                        modTwo = AdverbNoun(nextNext);
                    })
                    .Case<Adjective>(advn => {
-                       modOne = 0.8m;  //normal adv-adj
+                       modOne = 0.8d;  //normal adv-adj
 
                        //second (Adverb -> Adjective)
                        modTwo = AdverbAdjective(nextNext);
                    })
                    .Case<Adverb>(advn => {
-                       modOne = 0.7m;  //bi-adverbial
+                       modOne = 0.7d;  //bi-adverbial
 
                        //second (Adverb -> Adverb)
                        modTwo = AdverbAdverb(nextNext);
                    })
                    .Case<Pronoun>(pnn => {
-                       modOne = 0.9m; //adverbial pronoun
+                       modOne = 0.9d; //adverbial pronoun
 
                        //second (Adverb -> Noun)
                        modTwo = AdverbPronoun(nextNext);
                    })
                    .Case<ToLinker>(lnkn => {
-                       modOne = 0.7m; //adverb directional
+                       modOne = 0.7d; //adverb directional
 
                        //second (Adverb -> ToLinker)
                        modTwo = AdverbToLinker(nextNext);
                    })
                    .Case<Preposition>(pren => {
-                       modOne = 0.5m; //adverb positional
+                       modOne = 0.5d; //adverb positional
 
                        //second (Adverb -> Preposition)
                        modTwo = AdverbPreposition(nextNext);
                    })
                    .Case<Determiner>(dn => {
-                       modOne = 0.7m; //determiner
+                       modOne = 0.7d; //determiner
 
                        //second (Adverb -> Determiner)
                        modTwo = AdverbDeterminer(nextNext);
                    })
                    .Default(def => {
-                       modOne = 0.1m;
+                       modOne = 0.1d;
 
                        //second (Adverb -> UNCAUGHT)
                        modTwo = AdverbUncaught(nextNext);
@@ -595,54 +605,54 @@ namespace LASI.Algorithm.Weighting
             outModTwo = modTwo;
         }
 
-        private static void Adjective(Word next, Word nextNext, out decimal outModOne, out decimal outModTwo) {
-            decimal modOne = 0;
-            decimal modTwo = 0;
+        private static void Adjective(Word next, Word nextNext, out double outModOne, out double outModTwo) {
+            double modOne = 0;
+            double modTwo = 0;
             new Switch(next)
                    .Case<Noun>(nn => {
-                       modOne = 0.7m; //noun descriptor
+                       modOne = 0.7d; //noun descriptor
 
                        //second (Adjective -> Noun)
                        modTwo = AdjectiveNoun(nextNext);
                    })
                    .Case<Adjective>(advn => {
-                       modOne = 0.5m;  //double descriptor
+                       modOne = 0.5d;  //double descriptor
 
                        //second (Adjective -> Adjective)
                        modTwo = AdjectiveAdjective(nextNext);
                    })
                    .Case<Adverb>(advn => {
-                       modOne = 0.5m;  //coloured brilliantly
+                       modOne = 0.5d;  //coloured brilliantly
 
                        //second (Adjective -> Adverb)
                        modTwo = AdjectiveAdverb(nextNext);
                    })
                    .Case<Pronoun>(pnn => {
-                       modOne = 0.7m; //noun descriptor
+                       modOne = 0.7d; //noun descriptor
 
                        //second (Adjective -> Noun)
                        modTwo = AdjectivePronoun(nextNext);
                    })
                    .Case<ToLinker>(lnkn => {
-                       modOne = 0.4m; //adjective directional
+                       modOne = 0.4d; //adjective directional
 
                        //second (Adjective -> ToLinker)
                        modTwo = AdjectiveToLinker(nextNext);
                    })
                    .Case<Preposition>(pren => {
-                       modOne = 0.4m; //adjective positional
+                       modOne = 0.4d; //adjective positional
 
                        //second (Adjective -> Prepositional)
                        modTwo = AdjectivePreposition(nextNext);
                    })
                    .Case<Determiner>(dn => {
-                       modOne = 0.4m; //determiner
+                       modOne = 0.4d; //determiner
 
                        //second (Adjective -> Determiner)
                        modTwo = AdjectiveDeterminer(nextNext);
                    })
                    .Default(def => {
-                       modOne = 0.1m;
+                       modOne = 0.1d;
 
                        //second (Adjective -> UNCAUGHT)
                        modTwo = AdjectiveUncaught(nextNext);
@@ -652,60 +662,60 @@ namespace LASI.Algorithm.Weighting
             outModTwo = modTwo;
         }
 
-        private static void Verb(Word next, Word nextNext, out decimal outModOne, out decimal outModTwo) {
-            decimal modOne = 0;
-            decimal modTwo = 0;
+        private static void Verb(Word next, Word nextNext, out double outModOne, out double outModTwo) {
+            double modOne = 0;
+            double modTwo = 0;
             new Switch(next)
                    .Case<Noun>(nn => {
-                       modOne = 0.9m; //adverb actor
+                       modOne = 0.9d; //adverb actor
 
                        //second (Verb -> Noun)
                        modTwo = VerbNoun(nextNext);
                    })
                    .Case<PastParticipleVerb>(vn => {
-                       modOne = 0.7m; //adverb-adverb descriptor
+                       modOne = 0.7d; //adverb-adverb descriptor
 
                        //second (Verb -> PastParticipleVerb)
                        modTwo = VerbPastParticipleVerb(nextNext);
                    })
                    .Case<Adjective>(advn => {
-                       modOne = 0.6m;  //adverb state
+                       modOne = 0.6d;  //adverb state
 
                        //second (Verb -> Adjective)
                        modTwo = VerbAdjective(nextNext);
                    })
                    .Case<Adverb>(advn => {
-                       modOne = 0.7m;  //perfect adverb
+                       modOne = 0.7d;  //perfect adverb
 
                        //second (Verb -> Adverb)
                        modTwo = VerbAdverb(nextNext);
                    })
                    .Case<Pronoun>(pnn => {
-                       modOne = 0.9m; //adverb actor
+                       modOne = 0.9d; //adverb actor
 
                        //second (Verb -> Pronoun)
                        modTwo = VerbPronoun(nextNext);
                    })
                    .Case<ToLinker>(lnkn => {
-                       modOne = 0.6m; //adverb directional
+                       modOne = 0.6d; //adverb directional
 
                        //second (Verb -> ToLinker)
                        modTwo = VerbToLinker(nextNext);
                    })
                    .Case<Preposition>(pren => {
-                       modOne = 0.5m; //adverb-adverb positional
+                       modOne = 0.5d; //adverb-adverb positional
 
                        //second (Verb -> Preposition)
                        modTwo = VerbPreposition(nextNext);
                    })
                    .Case<Determiner>(dn => {
-                       modOne = 0.4m; //determiner
+                       modOne = 0.4d; //determiner
 
                        //second (Verb -> Determiner)
                        modTwo = VerbDeterminer(nextNext);
                    })
                    .Default(def => {
-                       modOne = 0.1m;
+                       modOne = 0.1d;
 
                        //second (Verb -> UNCAUGHT)
                        modTwo = VerbUncaught(nextNext);
@@ -716,36 +726,36 @@ namespace LASI.Algorithm.Weighting
         }
 
 
-        private static void Noun(Word next, Word nextNext, out decimal outModOne, out decimal outModTwo) {
-            decimal modOne = 0; //Renamed parameters and bound created temporary variables to pass into the switch blocks 
-            decimal modTwo = 0;
+        private static void Noun(Word next, Word nextNext, out double outModOne, out double outModTwo) {
+            double modOne = 0; //Renamed parameters and bound created temporary variables to pass into the switch blocks 
+            double modTwo = 0;
             new Switch(next)
                    .Case<Noun>(nn => {
-                       modOne = 0.9m; //compound noun
+                       modOne = 0.9d; //compound noun
 
                        //second (Noun -> Noun)
                        modTwo = NounNoun(nextNext);
                    })
                    .Case<Adjective>(nadj => {
-                       modOne = 0.8m; //possessive
+                       modOne = 0.8d; //possessive
 
                        //second (Noun -> Adjective)
                        modTwo = NounAdjective(nextNext);
                    })
                    .Case<Verb>(nv => {
-                       modOne = 0.7m; //noun action or descriptor
+                       modOne = 0.7d; //noun action or descriptor
 
                        //second (Noun -> Verb)
                        modTwo = NounVerb(nextNext);
                    })
                    .Case<Adverb>(advn => {
-                       modOne = 0.7m;  //noun amplifier
+                       modOne = 0.7d;  //noun amplifier
 
                        //second (Noun -> Adverb)
                        modTwo = NounAdverb(nextNext);
                    })
                    .Case<Pronoun>(pnn => {
-                       modOne = 0.9m; //compound noun
+                       modOne = 0.9d; //compound noun
 
                        //second (Noun -> Pronoun)
                        modTwo = NounPronoun(nextNext);
@@ -753,25 +763,25 @@ namespace LASI.Algorithm.Weighting
 
                    })
                    .Case<ToLinker>(lnkn => {
-                       modOne = 0.6m; //noun to link
+                       modOne = 0.6d; //noun to link
 
                        //second (Noun -> ToLinker)
                        modTwo = NounToLinker(nextNext);
                    })
                    .Case<Preposition>(pren => {
-                       modOne = 0.6m; //noun positional
+                       modOne = 0.6d; //noun positional
 
                        //second (Noun -> Preposition)
                        modTwo = NounPreposition(nextNext);
                    })
                    .Case<Determiner>(dn => {
-                       modOne = 0.5m; //determiner
+                       modOne = 0.5d; //determiner
 
                        //second (Noun -> Determiner)
                        modTwo = NounDeterminer(nextNext);
                    })
                    .Default(def => {
-                       modOne = 0.1m;
+                       modOne = 0.1d;
 
                        //second (Noun -> UNCAUGHT)
                        modTwo = NounUncaught(nextNext);
@@ -780,503 +790,503 @@ namespace LASI.Algorithm.Weighting
             outModTwo = modTwo;//There is a better way to handle this, but this works without any changes
         }
 
-        private static decimal UncaughtUncaught(Word nextNext) {
-            decimal modTwo = 0;
+        private static double UncaughtUncaught(Word nextNext) {
+            double modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nn => {
-                    modTwo = 0.1m; //uncaught-uncaught-noun
+                    modTwo = 0.1d; //uncaught-uncaught-noun
                 })
                 .Case<PastParticipleVerb>(vn => {
-                    modTwo = 0.1m; //uncaught-uncaught-pastverb 
+                    modTwo = 0.1d; //uncaught-uncaught-pastverb 
                 })
                 .Case<Adjective>(advn => {
-                    modTwo = 0.1m;  //uncaught-uncaught-adjective
+                    modTwo = 0.1d;  //uncaught-uncaught-adjective
                 })
                 .Case<Adverb>(advn => {
-                    modTwo = 0.1m;  //uncaught-uncaught-adverb
+                    modTwo = 0.1d;  //uncaught-uncaught-adverb
                 })
                 .Case<Pronoun>(pnn => {
-                    modTwo = 0.1m; //uncaught-uncaught-noun 
+                    modTwo = 0.1; //uncaught-uncaught-noun 
                 })
                 .Case<ToLinker>(lnkn => {
-                    modTwo = 0.1m; //uncaught-uncaught directional 
+                    modTwo = 0.1d; //uncaught-uncaught directional 
                 })
                 .Case<Preposition>(pren => {
-                    modTwo = 0.1m; //uncaught-uncaught positional
+                    modTwo = 0.1d; //uncaught-uncaught positional
                 })
                 .Case<Determiner>(dn => {
-                    modTwo = 0.1m; //uncaught-uncaught determiner
+                    modTwo = 0.1d; //uncaught-uncaught determiner
                 })
                 .Default(def => {
-                    modTwo = 0.1m; //uncaught-uncaught-uncaught (epic fail)
+                    modTwo = 0.1d; //uncaught-uncaught-uncaught (epic fail)
                 });
             return modTwo;
         }
 
-        private static decimal PrepositionUncaught(Word nextNext) {
-            decimal modTwo = 0;
+        private static double PrepositionUncaught(Word nextNext) {
+            double modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nn => {
-                    modTwo = 0.5m; //preposition-uncaught-noun
+                    modTwo = 0.5d; //preposition-uncaught-noun
                 })
                 .Case<PastParticipleVerb>(vn => {
-                    modTwo = 0.4m; //preposition-uncaught-pastverb 
+                    modTwo = 0.4d; //preposition-uncaught-pastverb 
                 })
                 .Case<Adjective>(advn => {
-                    modTwo = 0.3m;  //preposition-uncaught-adjective
+                    modTwo = 0.3d;  //preposition-uncaught-adjective
                 })
                 .Case<Adverb>(advn => {
-                    modTwo = 0.3m;  //preposition-uncaught-adverb
+                    modTwo = 0.3d;  //preposition-uncaught-adverb
                 })
                 .Case<Pronoun>(pnn => {
-                    modTwo = 0.5m; //preposition-uncaught-noun 
+                    modTwo = 0.5d; //preposition-uncaught-noun 
                 })
                 .Case<ToLinker>(lnkn => {
-                    modTwo = 0.2m; //preposition-uncaught directional 
+                    modTwo = 0.2d; //preposition-uncaught directional 
                 })
                 .Case<Preposition>(pren => {
-                    modTwo = 0.2m; //preposition-uncaught positional
+                    modTwo = 0.2d; //preposition-uncaught positional
                 })
                 .Case<Determiner>(dn => {
-                    modTwo = 0.2m; //preposition-uncaught determiner
+                    modTwo = 0.2d; //preposition-uncaught determiner
                 })
                 .Default(def => {
-                    modTwo = 0.1m;
+                    modTwo = 0.1d;
                 });
             return modTwo;
         }
 
-        private static decimal PrepositionDeterminer(Word nextNext) {
-            decimal modTwo = 0;
+        private static double PrepositionDeterminer(Word nextNext) {
+            double modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nn => {
-                    modTwo = 0.7m; //preposition-determiner-noun
+                    modTwo = 0.7d; //preposition-determiner-noun
                 })
                 .Case<PastParticipleVerb>(vn => {
-                    modTwo = 0.6m; //preposition-determiner-adverb descriptor
+                    modTwo = 0.6d; //preposition-determiner-adverb descriptor
                 })
                 .Case<Adjective>(advn => {
-                    modTwo = 0.5m;  //preposition-determiner-adjective
+                    modTwo = 0.5d;  //preposition-determiner-adjective
                 })
                 .Case<Adverb>(advn => {
-                    modTwo = 0.4m;  //preposition-determiner-adverb
+                    modTwo = 0.4d;  //preposition-determiner-adverb
                 })
                 .Case<Pronoun>(pnn => {
-                    modTwo = 0.6m; //preposition-determiner-noun
+                    modTwo = 0.6d; //preposition-determiner-noun
                 })
                 .Case<ToLinker>(lnkn => {
-                    modTwo = 0.3m; //preposition-determiner directional
+                    modTwo = 0.3d; //preposition-determiner directional
                 })
                 .Case<Preposition>(pren => {
-                    modTwo = 0.3m; //preposition-determiner positional
+                    modTwo = 0.3d; //preposition-determiner positional
                 })
                 .Case<Determiner>(dn => {
-                    modTwo = 0.3m; //preposition-determiner determiner
+                    modTwo = 0.3d; //preposition-determiner determiner
                 })
                 .Default(def => {
-                    modTwo = 0.1m;
+                    modTwo = 0.1d;
                 });
             return modTwo;
         }
 
-        private static decimal PrepositionPronoun(Word nextNext) {
-            decimal modTwo = 0;
+        private static double PrepositionPronoun(Word nextNext) {
+            double modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nn => {
-                    modTwo = 0.5m; //preposition-compound noun
+                    modTwo = 0.5d; //preposition-compound noun
                 })
                 .Case<PastParticipleVerb>(vn => {
-                    modTwo = 0.8m; //preposition-noun-adverb descriptor
+                    modTwo = 0.8d; //preposition-noun-adverb descriptor
                 })
                 .Case<Adjective>(advn => {
-                    modTwo = 0.3m;  //preposition-noun-adjective
+                    modTwo = 0.3d;  //preposition-noun-adjective
                 })
                 .Case<Adverb>(advn => {
-                    modTwo = 0.3m;  //preposition-noun-adverb
+                    modTwo = 0.3d;  //preposition-noun-adverb
                 })
                 .Case<Pronoun>(pnn => {
-                    modTwo = 0.8m; //preposition-compound noun
+                    modTwo = 0.8d; //preposition-compound noun
                 })
                 .Case<ToLinker>(lnkn => {
-                    modTwo = 0.6m; //preposition-noun directional
+                    modTwo = 0.6d; //preposition-noun directional
                 })
                 .Case<Preposition>(pren => {
-                    modTwo = 0.2m; //preposition-noun positional
+                    modTwo = 0.2d; //preposition-noun positional
                 })
                 .Case<Determiner>(dn => {
-                    modTwo = 0.9m; //preposition-noun determiner
+                    modTwo = 0.9d; //preposition-noun determiner
                 })
                 .Default(def => {
-                    modTwo = 0.1m;
+                    modTwo = 0.1d;
                 });
             return modTwo;
         }
 
-        private static decimal PrepositionNoun(Word nextNext) {
-            decimal modTwo = 0;
+        private static double PrepositionNoun(Word nextNext) {
+            double modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nn => {
-                    modTwo = 0.5m; //preposition-compound noun
+                    modTwo = 0.5d; //preposition-compound noun
                 })
                 .Case<PastParticipleVerb>(vn => {
-                    modTwo = 0.8m; //preposition-noun-adverb descriptor
+                    modTwo = 0.8d; //preposition-noun-adverb descriptor
                 })
                 .Case<Adjective>(advn => {
-                    modTwo = 0.3m;  //preposition-noun-adjective
+                    modTwo = 0.3d;  //preposition-noun-adjective
                 })
                 .Case<Adverb>(advn => {
-                    modTwo = 0.3m;  //preposition-noun-adverb
+                    modTwo = 0.3d;  //preposition-noun-adverb
                 })
                 .Case<Pronoun>(pnn => {
-                    modTwo = 0.3m; //preposition-compound noun
+                    modTwo = 0.3d; //preposition-compound noun
                 })
                 .Case<ToLinker>(lnkn => {
-                    modTwo = 0.8m; //preposition-noun directional
+                    modTwo = 0.8d; //preposition-noun directional
                 })
                 .Case<Preposition>(pren => {
-                    modTwo = 0.6m; //preposition-noun positional
+                    modTwo = 0.6d; //preposition-noun positional
                 })
                 .Case<Determiner>(dn => {
-                    modTwo = 0.2m; //preposition-noun determiner
+                    modTwo = 0.2d; //preposition-noun determiner
                 })
                 .Default(def => {
-                    modTwo = 0.1m;
+                    modTwo = 0.1d;
                 });
             return modTwo;
         }
 
-        private static decimal PronounUncaught(Word nextNext) {
-            decimal modTwo = 0;
+        private static double PronounUncaught(Word nextNext) {
+            double modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nn => {
-                    modTwo = 0.3m; //pronoun-uncaught-noun
+                    modTwo = 0.3d; //pronoun-uncaught-noun
                 })
                 .Case<PastParticipleVerb>(vn => {
-                    modTwo = 0.2m; //pronoun-uncaught-pastverb 
+                    modTwo = 0.2d; //pronoun-uncaught-pastverb 
                 })
                 .Case<Adjective>(advn => {
-                    modTwo = 0.2m;  //pronoun-uncaught-adjective
+                    modTwo = 0.2d;  //pronoun-uncaught-adjective
                 })
                 .Case<Adverb>(advn => {
-                    modTwo = 0.2m;  //pronoun-uncaught-adverb
+                    modTwo = 0.2d;  //pronoun-uncaught-adverb
                 })
                 .Case<Pronoun>(pnn => {
-                    modTwo = 0.3m; //pronoun-uncaught-noun 
+                    modTwo = 0.3d; //pronoun-uncaught-noun 
                 })
                 .Case<ToLinker>(lnkn => {
-                    modTwo = 0.2m; //pronoun-uncaught directional 
+                    modTwo = 0.2d; //pronoun-uncaught directional 
                 })
                 .Case<Preposition>(pren => {
-                    modTwo = 0.2m; //pronoun-uncaught positional
+                    modTwo = 0.2d; //pronoun-uncaught positional
                 })
                 .Case<Determiner>(dn => {
-                    modTwo = 0.2m; //pronoun-uncaught determiner
+                    modTwo = 0.2d; //pronoun-uncaught determiner
                 })
                 .Default(def => {
-                    modTwo = 0.1m;
+                    modTwo = 0.1d;
                 });
             return modTwo;
         }
 
-        private static decimal PronounDeterminer(Word nextNext) {
-            decimal modTwo = 0;
+        private static double PronounDeterminer(Word nextNext) {
+            double modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nn => {
-                    modTwo = 0.9m; //pronoun-determiner-noun
+                    modTwo = 0.9d; //pronoun-determiner-noun
                 })
                 .Case<PastParticipleVerb>(vn => {
-                    modTwo = 0.7m; //pronoun-determiner-adverb descriptor
+                    modTwo = 0.7d; //pronoun-determiner-adverb descriptor
                 })
                 .Case<Adjective>(advn => {
-                    modTwo = 0.6m;  //pronoun-determiner-adjective
+                    modTwo = 0.6d;  //pronoun-determiner-adjective
                 })
                 .Case<Adverb>(advn => {
-                    modTwo = 0.5m;  //pronoun-determiner-adverb
+                    modTwo = 0.5d;  //pronoun-determiner-adverb
                 })
                 .Case<Pronoun>(pnn => {
-                    modTwo = 0.9m; //pronoun-determiner-noun
+                    modTwo = 0.9d; //pronoun-determiner-noun
                 })
                 .Case<ToLinker>(lnkn => {
-                    modTwo = 0.1m; //pronoun-determiner directional
+                    modTwo = 0.1d; //pronoun-determiner directional
                 })
                 .Case<Preposition>(pren => {
-                    modTwo = 0.3m; //pronoun-determiner positional
+                    modTwo = 0.3d; //pronoun-determiner positional
                 })
                 .Case<Determiner>(dn => {
                     modTwo = 0; //pronoun-determiner determiner
                 })
                 .Default(def => {
-                    modTwo = 0.1m;
+                    modTwo = 0.1d;
                 });
             return modTwo;
         }
 
-        private static decimal PronounPreposition(Word nextNext) {
-            decimal modTwo = 0;
+        private static double PronounPreposition(Word nextNext) {
+            double modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nn => {
-                    modTwo = 0.8m; //pronoun-preposition-noun
+                    modTwo = 0.8d; //pronoun-preposition-noun
                 })
                 .Case<PastParticipleVerb>(vn => {
-                    modTwo = 0.6m; //pronoun-preposition-adverb descriptor
+                    modTwo = 0.6d; //pronoun-preposition-adverb descriptor
                 })
                 .Case<Adjective>(advn => {
-                    modTwo = 0.5m;  //pronoun-preposition-adjective
+                    modTwo = 0.5d;  //pronoun-preposition-adjective
                 })
                 .Case<Adverb>(advn => {
-                    modTwo = 0.6m;  //pronoun-preposition-adverb
+                    modTwo = 0.6d;  //pronoun-preposition-adverb
                 })
                 .Case<Pronoun>(pnn => {
-                    modTwo = 0.8m; //pronoun-preposition-noun
+                    modTwo = 0.8d; //pronoun-preposition-noun
                 })
                 .Case<ToLinker>(lnkn => {
-                    modTwo = 0.4m; //pronoun-preposition directional
+                    modTwo = 0.4d; //pronoun-preposition directional
                 })
                 .Case<Preposition>(pren => {
-                    modTwo = 0.4m; //pronoun-preposition positional
+                    modTwo = 0.4d; //pronoun-preposition positional
                 })
                 .Case<Determiner>(dn => {
-                    modTwo = 0.3m; //pronoun-preposition determiner
+                    modTwo = 0.3d; //pronoun-preposition determiner
                 })
                 .Default(def => {
-                    modTwo = 0.1m;
+                    modTwo = 0.1d;
                 });
             return modTwo;
         }
 
-        private static decimal PronounToLinker(Word nextNext) {
-            decimal modTwo = 0;
+        private static double PronounToLinker(Word nextNext) {
+            double modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nn => {
-                    modTwo = 0.9m; //pronoun-tolinker-noun
+                    modTwo = 0.9d; //pronoun-tolinker-noun
                 })
                 .Case<PastParticipleVerb>(vn => {
-                    modTwo = 0.8m; //pronoun-tolinker-adverb descriptor
+                    modTwo = 0.8d; //pronoun-tolinker-adverb descriptor
                 })
                 .Case<Adjective>(advn => {
-                    modTwo = 0.7m;  //pronoun-tolinker-adjective
+                    modTwo = 0.7d;  //pronoun-tolinker-adjective
                 })
                 .Case<Adverb>(advn => {
-                    modTwo = 0.6m;  //pronoun-tolinker-adverb
+                    modTwo = 0.6d;  //pronoun-tolinker-adverb
                 })
                 .Case<Pronoun>(pnn => {
-                    modTwo = 0.9m; //pronoun-tolinker-noun
+                    modTwo = 0.9d; //pronoun-tolinker-noun
                 })
                 .Case<ToLinker>(lnkn => {
                     modTwo = 0; //pronoun-tolinker directional
                 })
                 .Case<Preposition>(pren => {
-                    modTwo = 0.5m; //pronoun-tolinker positional
+                    modTwo = 0.5d; //pronoun-tolinker positional
                 })
                 .Case<Determiner>(dn => {
-                    modTwo = 0.7m; //pronoun-tolinker determiner
+                    modTwo = 0.7d; //pronoun-tolinker determiner
                 })
                 .Default(def => {
-                    modTwo = 0.1m;
+                    modTwo = 0.1d;
                 });
             return modTwo;
         }
 
-        private static decimal PronounPronoun(Word nextNext) {
-            decimal modTwo = 0;
+        private static double PronounPronoun(Word nextNext) {
+            double modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nn => {
-                    modTwo = 0.9m; //triple compound noun
+                    modTwo = 0.9d; //triple compound noun
                 })
                 .Case<PastParticipleVerb>(vn => {
-                    modTwo = 0.8m; //compound noun-adverb descriptor (possible?)
+                    modTwo = 0.8d; //compound noun-adverb descriptor (possible?)
                 })
                 .Case<Adjective>(advn => {
-                    modTwo = 0.7m;  //compound noun-adjective
+                    modTwo = 0.7d;  //compound noun-adjective
                 })
                 .Case<Adverb>(advn => {
-                    modTwo = 0.6m;  //compound noun-adverb
+                    modTwo = 0.6d;  //compound noun-adverb
                 })
                 .Case<Pronoun>(pnn => {
-                    modTwo = 0.9m; //triple compound (possessive) noun
+                    modTwo = 0.9d; //triple compound (possessive) noun
                 })
                 .Case<ToLinker>(lnkn => {
-                    modTwo = 0.7m; //compound noun directional
+                    modTwo = 0.7d; //compound noun directional
                 })
                 .Case<Preposition>(pren => {
-                    modTwo = 0.7m; //compound noun positional
+                    modTwo = 0.7d; //compound noun positional
                 })
                 .Case<Determiner>(dn => {
-                    modTwo = 0.5m; //compound noun determiner
+                    modTwo = 0.5d; //compound noun determiner
                 })
                 .Default(def => {
-                    modTwo = 0.1m;
+                    modTwo = 0.1d;
                 });
             return modTwo;
         }
 
-        private static decimal PronounAdverb(Word nextNext) {
-            decimal modTwo = 0;
+        private static double PronounAdverb(Word nextNext) {
+            double modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nn => {
-                    modTwo = 0.8m; //pronoun-adverb-noun
+                    modTwo = 0.8d; //pronoun-adverb-noun
                 })
                 .Case<PastParticipleVerb>(vn => {
-                    modTwo = 0.7m; //pronoun-adverb-adverb descriptor
+                    modTwo = 0.7d; //pronoun-adverb-adverb descriptor
                 })
                 .Case<Adjective>(advn => {
-                    modTwo = 0.6m;  //pronoun-adverb-adjective
+                    modTwo = 0.6d;  //pronoun-adverb-adjective
                 })
                 .Case<Adverb>(advn => {
-                    modTwo = 0.5m;  //pronoun-adverb-adverb
+                    modTwo = 0.5d;  //pronoun-adverb-adverb
                 })
                 .Case<Pronoun>(pnn => {
-                    modTwo = .8m; //pronoun-adverb-noun
+                    modTwo = .8d; //pronoun-adverb-noun
                 })
                 .Case<ToLinker>(lnkn => {
-                    modTwo = 0.7m; //pronoun-adverb directional
+                    modTwo = 0.7d; //pronoun-adverb directional
                 })
                 .Case<Preposition>(pren => {
-                    modTwo = 0.6m; //pronoun-adverb positional
+                    modTwo = 0.6d; //pronoun-adverb positional
                 })
                 .Case<Determiner>(dn => {
-                    modTwo = 0.5m; //pronoun-adverb determiner
+                    modTwo = 0.5d; //pronoun-adverb determiner
                 })
                 .Default(def => {
-                    modTwo = 0.1m;
+                    modTwo = 0.1d;
                 });
             return modTwo;
         }
 
-        private static decimal PronounAdjective(Word nextNext) {
-            decimal modTwo = 0;
+        private static double PronounAdjective(Word nextNext) {
+            double modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nn => {
-                    modTwo = 0.9m; //pronoun-adjective-noun
+                    modTwo = 0.9d; //pronoun-adjective-noun
                 })
                 .Case<PastParticipleVerb>(vn => {
-                    modTwo = 0.8m; //pronoun-adjective-adverb descriptor
+                    modTwo = 0.8d; //pronoun-adjective-adverb descriptor
                 })
                 .Case<Adjective>(advn => {
-                    modTwo = 0.7m;  //pronoun-adjective-adjective
+                    modTwo = 0.7d;  //pronoun-adjective-adjective
                 })
                 .Case<Adverb>(advn => {
-                    modTwo = 0.6m;  //pronoun-adjective-adverb
+                    modTwo = 0.6d;  //pronoun-adjective-adverb
                 })
                 .Case<Pronoun>(pnn => {
-                    modTwo = 0.9m; //pronoun-adjective-noun
+                    modTwo = 0.9d; //pronoun-adjective-noun
                 })
                 .Case<ToLinker>(lnkn => {
-                    modTwo = 0.2m; //pronoun-adjective directional
+                    modTwo = 0.2d; //pronoun-adjective directional
                 })
                 .Case<Preposition>(pren => {
-                    modTwo = 0.2m; //pronoun-adjective positional
+                    modTwo = 0.2d; //pronoun-adjective positional
                 })
                 .Case<Determiner>(dn => {
-                    modTwo = 0.7m; //pronoun-adjective determiner
+                    modTwo = 0.7d; //pronoun-adjective determiner
                 })
                 .Default(def => {
-                    modTwo = 0.1m;
+                    modTwo = 0.1d;
                 });
             return modTwo;
         }
 
-        private static decimal PronounNoun(Word nextNext) {
-            decimal modTwo = 0;
+        private static double PronounNoun(Word nextNext) {
+            double modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nn => {
-                    modTwo = 0.9m; //triple compound noun
+                    modTwo = 0.9d; //triple compound noun
                 })
                 .Case<PastParticipleVerb>(vn => {
-                    modTwo = 0.8m; //compound noun-adverb descriptor (possible?)
+                    modTwo = 0.8d; //compound noun-adverb descriptor (possible?)
                 })
                 .Case<Adjective>(advn => {
-                    modTwo = 0.7m;  //compound noun-adjective
+                    modTwo = 0.7d;  //compound noun-adjective
                 })
                 .Case<Adverb>(advn => {
-                    modTwo = 0.7m;  //compound noun-adverb
+                    modTwo = 0.7d;  //compound noun-adverb
                 })
                 .Case<Pronoun>(pnn => {
-                    modTwo = 0.9m; //triple compound (possessive) noun
+                    modTwo = 0.9d; //triple compound (possessive) noun
                 })
                 .Case<ToLinker>(lnkn => {
-                    modTwo = 0.8m; //compound noun directional
+                    modTwo = 0.8d; //compound noun directional
                 })
                 .Case<Preposition>(pren => {
-                    modTwo = 0.7m; //compound noun positional
+                    modTwo = 0.7d; //compound noun positional
                 })
                 .Case<Determiner>(dn => {
-                    modTwo = 0.5m; //compound noun determiner
+                    modTwo = 0.5d; //compound noun determiner
                 })
                 .Default(def => {
-                    modTwo = 0.1m;
+                    modTwo = 0.1d;
                 });
             return modTwo;
         }
 
-        private static decimal AdverbUncaught(Word nextNext) {
-            decimal modTwo = 0;
+        private static double AdverbUncaught(Word nextNext) {
+            double modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nn => {
-                    modTwo = 0.5m; //adverb-uncaught-noun
+                    modTwo = 0.5d; //adverb-uncaught-noun
                 })
                 .Case<PastParticipleVerb>(vn => {
-                    modTwo = 0.4m; //adverb-uncaught-pastverb 
+                    modTwo = 0.4d; //adverb-uncaught-pastverb 
                 })
                 .Case<Adjective>(advn => {
-                    modTwo = 0.3m;  //adverb-uncaught-adjective
+                    modTwo = 0.3d;  //adverb-uncaught-adjective
                 })
                 .Case<Adverb>(advn => {
-                    modTwo = 0.3m;  //adverb-uncaught-adverb
+                    modTwo = 0.3d;  //adverb-uncaught-adverb
                 })
                 .Case<Pronoun>(pnn => {
-                    modTwo = 0.5m; //adverb-uncaught-noun 
+                    modTwo = 0.5d; //adverb-uncaught-noun 
                 })
                 .Case<ToLinker>(lnkn => {
-                    modTwo = 0.3m; //adverb-uncaught directional 
+                    modTwo = 0.3d; //adverb-uncaught directional 
                 })
                 .Case<Preposition>(pren => {
-                    modTwo = 0.2m; //adverb-uncaught positional
+                    modTwo = 0.2d; //adverb-uncaught positional
                 })
                 .Case<Determiner>(dn => {
-                    modTwo = 0.3m; //adverb-uncaught determiner
+                    modTwo = 0.3d; //adverb-uncaught determiner
                 })
                 .Default(def => {
-                    modTwo = 0.1m;
+                    modTwo = 0.1d;
                 });
             return modTwo;
         }
 
-        private static decimal AdverbDeterminer(Word nextNext) {
-            decimal modTwo = 0;
+        private static double AdverbDeterminer(Word nextNext) {
+            double modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nn => {
-                    modTwo = 0.9m; //adverb-determiner-noun
+                    modTwo = 0.9d; //adverb-determiner-noun
                 })
                 .Case<PastParticipleVerb>(vn => {
-                    modTwo = 0.3m; //adverb-determiner-adverb descriptor
+                    modTwo = 0.3d; //adverb-determiner-adverb descriptor
                 })
                 .Case<Adjective>(advn => {
-                    modTwo = 0.8m;  //adverb-determiner-adjective
+                    modTwo = 0.8d;  //adverb-determiner-adjective
                 })
                 .Case<Adverb>(advn => {
-                    modTwo = 0.7m;  //adverb-determiner-adverb
+                    modTwo = 0.7d;  //adverb-determiner-adverb
                 })
                 .Case<Pronoun>(pnn => {
-                    modTwo = 0.9m; //adverb-determiner-noun
+                    modTwo = 0.9d; //adverb-determiner-noun
                 })
                 .Case<ToLinker>(lnkn => {
                     modTwo = 0; //adverb-determiner directional
                 })
                 .Case<Preposition>(pren => {
-                    modTwo = 0.3m; //adverb-determiner positional
+                    modTwo = 0.3d; //adverb-determiner positional
                 })
                 .Case<Determiner>(dn => {
                     modTwo = 0; //adverb-determiner determiner
                 })
                 .Default(def => {
-                    modTwo = 0.1m;
+                    modTwo = 0.1d;
                 });
             return modTwo;
         }
 
-        private static decimal AdverbPreposition(Word nextNext) {
-            decimal modTwo = 0;
+        private static double AdverbPreposition(Word nextNext) {
+            double modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nn => {
                     modTwo = 0; //adverb-preposition-noun
@@ -1308,176 +1318,176 @@ namespace LASI.Algorithm.Weighting
             return modTwo;
         }
 
-        private static decimal AdverbToLinker(Word nextNext) {
-            decimal modTwo = 0;
+        private static double AdverbToLinker(Word nextNext) {
+            double modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nn => {
-                    modTwo = 0.9m; //adverb-tolinker-noun
+                    modTwo = 0.9d; //adverb-tolinker-noun
                 })
                 .Case<PastParticipleVerb>(vn => {
-                    modTwo = 0.8m; //adverb-tolinker-adverb descriptor
+                    modTwo = 0.8d; //adverb-tolinker-adverb descriptor
                 })
                 .Case<Adjective>(advn => {
-                    modTwo = 0.7m;  //adverb-tolinker-adjective
+                    modTwo = 0.7d;  //adverb-tolinker-adjective
                 })
                 .Case<Adverb>(advn => {
-                    modTwo = 0.6m;  //adverb-tolinker-adverb
+                    modTwo = 0.6d;  //adverb-tolinker-adverb
                 })
                 .Case<Pronoun>(pnn => {
-                    modTwo = 0.9m; //adverb-tolinker-noun
+                    modTwo = 0.9d; //adverb-tolinker-noun
                 })
                 .Case<ToLinker>(lnkn => {
                     modTwo = 0; //adverb-tolinker directional
                 })
                 .Case<Preposition>(pren => {
-                    modTwo = 0.3m; //adverb-tolinker positional
+                    modTwo = 0.3d; //adverb-tolinker positional
                 })
                 .Case<Determiner>(dn => {
-                    modTwo = 0.4m; //adverb-tolinker determiner
+                    modTwo = 0.4d; //adverb-tolinker determiner
                 })
                 .Default(def => {
-                    modTwo = 0.1m;
+                    modTwo = 0.1d;
                 });
             return modTwo;
         }
 
-        private static decimal AdverbPronoun(Word nextNext) {
-            decimal modTwo = 0;
+        private static double AdverbPronoun(Word nextNext) {
+            double modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nn => {
-                    modTwo = 0.5m; //adverb compound noun
+                    modTwo = 0.5d; //adverb compound noun
                 })
                 .Case<PastParticipleVerb>(vn => {
-                    modTwo = 0.4m; //adverb-noun-adverb descriptor
+                    modTwo = 0.4; //adverb-noun-adverb descriptor
                 })
                 .Case<Adjective>(advn => {
-                    modTwo = 0.3m;  //adverb-noun-adjective
+                    modTwo = 0.3;  //adverb-noun-adjective
                 })
                 .Case<Adverb>(advn => {
                     modTwo = 0;  //adverb-noun-adverb
                 })
                 .Case<Pronoun>(pnn => {
-                    modTwo = 0.5m; //adverb compound noun
+                    modTwo = 0.5; //adverb compound noun
                 })
                 .Case<ToLinker>(lnkn => {
-                    modTwo = 0.6m; //adverb-noun directional
+                    modTwo = 0.6; //adverb-noun directional
                 })
                 .Case<Preposition>(pren => {
-                    modTwo = 0.4m; //adverb-noun positional
+                    modTwo = 0.4; //adverb-noun positional
                 })
                 .Case<Determiner>(dn => {
-                    modTwo = 0.4m; //adverb-noun determiner
+                    modTwo = 0.4; //adverb-noun determiner
                 })
                 .Default(def => {
-                    modTwo = 0.1m;
+                    modTwo = 0.1;
                 });
             return modTwo;
         }
 
-        private static decimal AdverbAdverb(Word nextNext) {
-            decimal modTwo = 0;
+        private static double AdverbAdverb(Word nextNext) {
+            double modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nn => {
-                    modTwo = 0.3m; //adverb-adverb-noun
+                    modTwo = 0.3; //adverb-adverb-noun
                 })
                 .Case<PastParticipleVerb>(vn => {
-                    modTwo = 0.3m; //adverb-adverb-adverb descriptor
+                    modTwo = 0.3; //adverb-adverb-adverb descriptor
                 })
                 .Case<Adjective>(advn => {
-                    modTwo = 0.3m;  //adverb-adverb-adjective
+                    modTwo = 0.3;  //adverb-adverb-adjective
                 })
                 .Case<Adverb>(advn => {
-                    modTwo = 0.1m;  //tri adverbial
+                    modTwo = 0.1;  //tri adverbial
                 })
                 .Case<Pronoun>(pnn => {
-                    modTwo = 0.3m; //adverb-adverb-noun
+                    modTwo = 0.3; //adverb-adverb-noun
                 })
                 .Case<ToLinker>(lnkn => {
-                    modTwo = 0.3m; //adverb-adverb directional
+                    modTwo = 0.3; //adverb-adverb directional
                 })
                 .Case<Preposition>(pren => {
-                    modTwo = 0.2m; //adverb-adverb positional
+                    modTwo = 0.2; //adverb-adverb positional
                 })
                 .Case<Determiner>(dn => {
-                    modTwo = 0.3m; //adverb-adverb determiner
+                    modTwo = 0.3; //adverb-adverb determiner
                 })
                 .Default(def => {
-                    modTwo = 0.1m;
+                    modTwo = 0.1;
                 });
             return modTwo;
         }
 
-        private static decimal AdverbAdjective(Word nextNext) {
-            decimal modTwo = 0;
+        private static double AdverbAdjective(Word nextNext) {
+            double modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nn => {
-                    modTwo = 0.6m; //adverb-adjective-noun
+                    modTwo = 0.6; //adverb-adjective-noun
                 })
                 .Case<PastParticipleVerb>(vn => {
-                    modTwo = 0.4m; //adverb-adjective-adverb descriptor
+                    modTwo = 0.4; //adverb-adjective-adverb descriptor
                 })
                 .Case<Adjective>(advn => {
-                    modTwo = 0.5m;  //adverb-adjective-adjective
+                    modTwo = 0.5;  //adverb-adjective-adjective
                 })
                 .Case<Adverb>(advn => {
-                    modTwo = 0.4m;  //adverb-adjective-adverb
+                    modTwo = 0.4;  //adverb-adjective-adverb
                 })
                 .Case<Pronoun>(pnn => {
-                    modTwo = 0.6m; //adverb-adjective-noun
+                    modTwo = 0.6; //adverb-adjective-noun
                 })
                 .Case<ToLinker>(lnkn => {
-                    modTwo = 0.5m; //adverb-adjective directional
+                    modTwo = 0.5; //adverb-adjective directional
                 })
                 .Case<Preposition>(pren => {
-                    modTwo = 0.4m; //adverb-adjective positional
+                    modTwo = 0.4; //adverb-adjective positional
                 })
                 .Case<Determiner>(dn => {
-                    modTwo = 0.3m; //adverb-adjective determiner
+                    modTwo = 0.3; //adverb-adjective determiner
                 })
                 .Default(def => {
-                    modTwo = 0.1m;
+                    modTwo = 0.1;
                 });
             return modTwo;
         }
 
-        private static decimal AdverbNoun(Word nextNext) {
-            decimal modTwo = 0;
+        private static double AdverbNoun(Word nextNext) {
+            double modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nn => {
-                    modTwo = 0.5m; //adverb -> compound noun
+                    modTwo = 0.5d; //adverb -> compound noun
                 })
                 .Case<PastParticipleVerb>(vn => {
-                    modTwo = 0.4m; //adverb-noun-adverb descriptor (possible?)
+                    modTwo = 0.4d; //adverb-noun-adverb descriptor (possible?)
                 })
                 .Case<Adjective>(advn => {
-                    modTwo = 0.3m;  //adverb-noun-adjective
+                    modTwo = 0.3d;  //adverb-noun-adjective
                 })
                 .Case<Adverb>(advn => {
-                    modTwo = 0.3m;  //adverb-noun-adverb
+                    modTwo = 0.3d;  //adverb-noun-adverb
                 })
                 .Case<Pronoun>(pnn => {
-                    modTwo = 0.5m; //adverb -> compound (possessive) noun
+                    modTwo = 0.5; //adverb -> compound (possessive) noun
                 })
                 .Case<ToLinker>(lnkn => {
-                    modTwo = 0.3m; //adverb-noun directional
+                    modTwo = 0.3; //adverb-noun directional
                 })
                 .Case<Preposition>(pren => {
-                    modTwo = 0.4m; //adverb-noun positional
+                    modTwo = 0.4; //adverb-noun positional
                 })
                 .Case<Determiner>(dn => {
-                    modTwo = 0.2m; //adverb-noun determiner
+                    modTwo = 0.2; //adverb-noun determiner
                 })
                 .Default(def => {
-                    modTwo = 0.1m;
+                    modTwo = 0.1;
                 });
             return modTwo;
         }
 
-        private static decimal AdjectiveUncaught(Word nextNext) {
-            decimal modTwo = 0;
+        private static double AdjectiveUncaught(Word nextNext) {
+            double modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nn => {
-                    modTwo = 0.4m; //adjective-uncaught-noun
+                    modTwo = 0.4; //adjective-uncaught-noun
                 })
                 .Case<PastParticipleVerb>(vn => {
                     modTwo = 0; //adjective-uncaught-pastverb 
@@ -1506,8 +1516,8 @@ namespace LASI.Algorithm.Weighting
             return modTwo;
         }
 
-        private static decimal AdjectiveDeterminer(Word nextNext) {
-            decimal modTwo = 0;
+        private static double AdjectiveDeterminer(Word nextNext) {
+            double modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nn => {
                     modTwo = 0; //adjective-determiner-noun
@@ -1539,8 +1549,8 @@ namespace LASI.Algorithm.Weighting
             return modTwo;
         }
 
-        private static decimal AdjectivePreposition(Word nextNext) {
-            decimal modTwo = 0;
+        private static double AdjectivePreposition(Word nextNext) {
+            double modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nn => {
                     modTwo = 0; //adjective-prepositional-noun
@@ -1572,8 +1582,8 @@ namespace LASI.Algorithm.Weighting
             return modTwo;
         }
 
-        private static decimal AdjectiveToLinker(Word nextNext) {
-            decimal modTwo = 0;
+        private static double AdjectiveToLinker(Word nextNext) {
+            double modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nn => {
                     modTwo = 0; //adjective-tolinker-noun
@@ -1605,8 +1615,8 @@ namespace LASI.Algorithm.Weighting
             return modTwo;
         }
 
-        private static decimal AdjectivePronoun(Word nextNext) {
-            decimal modTwo = 0;
+        private static double AdjectivePronoun(Word nextNext) {
+            double modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nn => {
                     modTwo = 0; //adjective -> compound noun
@@ -1638,8 +1648,8 @@ namespace LASI.Algorithm.Weighting
             return modTwo;
         }
 
-        private static decimal AdjectiveAdverb(Word nextNext) {
-            decimal modTwo = 0;
+        private static double AdjectiveAdverb(Word nextNext) {
+            double modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nn => {
                     modTwo = 0; //adjective-adverb-noun
@@ -1671,8 +1681,8 @@ namespace LASI.Algorithm.Weighting
             return modTwo;
         }
 
-        private static decimal AdjectiveAdjective(Word nextNext) {
-            decimal modTwo = 0;
+        private static double AdjectiveAdjective(Word nextNext) {
+            double modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nn => {
                     modTwo = 0; //compound adjective -> noun
@@ -1704,8 +1714,8 @@ namespace LASI.Algorithm.Weighting
             return modTwo;
         }
 
-        private static decimal AdjectiveNoun(Word nextNext) {
-            decimal modTwo = 0;
+        private static double AdjectiveNoun(Word nextNext) {
+            double modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nn => {
                     modTwo = 0; //adjective -> compound noun
@@ -1737,8 +1747,8 @@ namespace LASI.Algorithm.Weighting
             return modTwo;
         }
 
-        private static decimal VerbUncaught(Word nextNext) {
-            decimal modTwo = 0;
+        private static double VerbUncaught(Word nextNext) {
+            double modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nn => {
                     modTwo = 0; //adverb-uncaught-noun
@@ -1770,8 +1780,8 @@ namespace LASI.Algorithm.Weighting
             return modTwo;
         }
 
-        private static decimal VerbDeterminer(Word nextNext) {
-            decimal modTwo = 0;
+        private static double VerbDeterminer(Word nextNext) {
+            double modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nn => {
                     modTwo = 0; //adverb-determiner-noun
@@ -1803,8 +1813,8 @@ namespace LASI.Algorithm.Weighting
             return modTwo;
         }
 
-        private static decimal VerbPreposition(Word nextNext) {
-            decimal modTwo = 0;
+        private static double VerbPreposition(Word nextNext) {
+            double modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nn => {
                     modTwo = 0; //adverb-preposition-noun
@@ -1836,8 +1846,8 @@ namespace LASI.Algorithm.Weighting
             return modTwo;
         }
 
-        private static decimal VerbToLinker(Word nextNext) {
-            decimal modTwo = 0;
+        private static double VerbToLinker(Word nextNext) {
+            double modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nn => {
                     modTwo = 0; //adverb-tolinker-noun
@@ -1869,8 +1879,8 @@ namespace LASI.Algorithm.Weighting
             return modTwo;
         }
 
-        private static decimal VerbPronoun(Word nextNext) {
-            decimal modTwo = 0;
+        private static double VerbPronoun(Word nextNext) {
+            double modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nn => {
                     modTwo = 0; //adverb-pronoun-noun (compound)
@@ -1902,8 +1912,8 @@ namespace LASI.Algorithm.Weighting
             return modTwo;
         }
 
-        private static decimal VerbAdverb(Word nextNext) {
-            decimal modTwo = 0;
+        private static double VerbAdverb(Word nextNext) {
+            double modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nn => {
                     modTwo = 0; //adverb-adverb-noun
@@ -1935,8 +1945,8 @@ namespace LASI.Algorithm.Weighting
             return modTwo;
         }
 
-        private static decimal VerbAdjective(Word nextNext) {
-            decimal modTwo = 0;
+        private static double VerbAdjective(Word nextNext) {
+            double modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nn => {
                     modTwo = 0; //adverb-adjective-noun
@@ -1968,8 +1978,8 @@ namespace LASI.Algorithm.Weighting
             return modTwo;
         }
 
-        private static decimal VerbPastParticipleVerb(Word nextNext) {
-            decimal modTwo = 0;
+        private static double VerbPastParticipleVerb(Word nextNext) {
+            double modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nn => {
                     modTwo = 0; //adverb-pastverb -> compound noun
@@ -2001,8 +2011,8 @@ namespace LASI.Algorithm.Weighting
             return modTwo;
         }
 
-        private static decimal VerbNoun(Word nextNext) {
-            decimal modTwo = 0;
+        private static double VerbNoun(Word nextNext) {
+            double modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nn => {
                     modTwo = 0; //adverb -> compound noun
@@ -2034,8 +2044,8 @@ namespace LASI.Algorithm.Weighting
             return modTwo;
         }
 
-        private static decimal NounUncaught(Word nextNext) {
-            decimal modTwo = 0;
+        private static double NounUncaught(Word nextNext) {
+            double modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nun => {
                     modTwo = 0; //noun-uncaught-noun
@@ -2067,8 +2077,8 @@ namespace LASI.Algorithm.Weighting
             return modTwo;
         }
 
-        private static decimal NounDeterminer(Word nextNext) {
-            decimal modTwo = 0;
+        private static double NounDeterminer(Word nextNext) {
+            double modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(ndn => {
                     modTwo = 0; //noun-determiner-noun
@@ -2100,8 +2110,8 @@ namespace LASI.Algorithm.Weighting
             return modTwo;
         }
 
-        private static decimal NounPreposition(Word nextNext) {
-            decimal modTwo = 0;
+        private static double NounPreposition(Word nextNext) {
+            double modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(npn => {
                     modTwo = 0; //noun-preposition-noun
@@ -2133,8 +2143,8 @@ namespace LASI.Algorithm.Weighting
             return modTwo;
         }
 
-        private static decimal NounToLinker(Word nextNext) {
-            decimal modTwo = 0;
+        private static double NounToLinker(Word nextNext) {
+            double modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nlnkn => {
                     modTwo = 0; //noun-tolinker-noun
@@ -2166,8 +2176,8 @@ namespace LASI.Algorithm.Weighting
             return modTwo;
         }
 
-        private static decimal NounPronoun(Word nextNext) {
-            decimal modTwo = 0;
+        private static double NounPronoun(Word nextNext) {
+            double modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(npnn => {
                     modTwo = 0; //triple compound noun
@@ -2199,8 +2209,8 @@ namespace LASI.Algorithm.Weighting
             return modTwo;
         }
 
-        private static decimal NounAdverb(Word nextNext) {
-            decimal modTwo = 0;
+        private static double NounAdverb(Word nextNext) {
+            double modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nadvn => {
                     modTwo = 0; //noun-adverb-noun
@@ -2232,8 +2242,8 @@ namespace LASI.Algorithm.Weighting
             return modTwo;
         }
 
-        private static decimal NounVerb(Word nextNext) {
-            decimal modTwo = 0;
+        private static double NounVerb(Word nextNext) {
+            double modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nvn => {
                     modTwo = 0; //noun-adverb-noun
@@ -2265,8 +2275,8 @@ namespace LASI.Algorithm.Weighting
             return modTwo;
         }
 
-        private static decimal NounAdjective(Word nextNext) {
-            decimal modTwo = 0;
+        private static double NounAdjective(Word nextNext) {
+            double modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nadjn => {
                     modTwo = 0; //noun-adjective-noun
@@ -2298,8 +2308,8 @@ namespace LASI.Algorithm.Weighting
             return modTwo;
         }
 
-        private static decimal NounNoun(Word nextNext) {
-            decimal modTwo = 0;
+        private static double NounNoun(Word nextNext) {
+            double modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nnn => {
                     modTwo = 0; //triple compound noun
@@ -2330,8 +2340,8 @@ namespace LASI.Algorithm.Weighting
                 });
             return modTwo;
         }
-        private static decimal DeterminerUncaught(Word nextNext) {
-            decimal modTwo = 0;
+        private static double DeterminerUncaught(Word nextNext) {
+            double modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nn => {
                     modTwo = 0; //determiner-uncaught-noun
@@ -2363,8 +2373,8 @@ namespace LASI.Algorithm.Weighting
             return modTwo;
         }
 
-        private static decimal DeterminerDeterminer(Word nextNext) {
-            decimal modTwo = 0;
+        private static double DeterminerDeterminer(Word nextNext) {
+            double modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nn => {
                     modTwo = 0; //determiner-determiner-noun
@@ -2396,8 +2406,8 @@ namespace LASI.Algorithm.Weighting
             return modTwo;
         }
 
-        private static decimal DeterminerPreposition(Word nextNext) {
-            decimal modTwo = 0;
+        private static double DeterminerPreposition(Word nextNext) {
+            double modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nn => {
                     modTwo = 0; //determiner-preposition-noun
@@ -2429,8 +2439,8 @@ namespace LASI.Algorithm.Weighting
             return modTwo;
         }
 
-        private static decimal DeterminerToLinker(Word nextNext) {
-            decimal modTwo = 0;
+        private static double DeterminerToLinker(Word nextNext) {
+            double modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nn => {
                     modTwo = 0; //determiner-tolinker-noun
@@ -2462,8 +2472,8 @@ namespace LASI.Algorithm.Weighting
             return modTwo;
         }
 
-        private static decimal DeterminerPronoun(Word nextNext) {
-            decimal modTwo = 0;
+        private static double DeterminerPronoun(Word nextNext) {
+            double modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nn => {
                     modTwo = 0; //determiner compound noun
@@ -2495,8 +2505,8 @@ namespace LASI.Algorithm.Weighting
             return modTwo;
         }
 
-        private static decimal DeterminerAdverb(Word nextNext) {
-            decimal modTwo = 0;
+        private static double DeterminerAdverb(Word nextNext) {
+            double modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nn => {
                     modTwo = 0; //determiner-adverb-noun
@@ -2528,8 +2538,8 @@ namespace LASI.Algorithm.Weighting
             return modTwo;
         }
 
-        private static decimal DeterminerAdjective(Word nextNext) {
-            decimal modTwo = 0;
+        private static double DeterminerAdjective(Word nextNext) {
+            double modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nn => {
                     modTwo = 0; //determiner-adjective-noun
@@ -2561,8 +2571,8 @@ namespace LASI.Algorithm.Weighting
             return modTwo;
         }
 
-        private static decimal DeterminerNoun(Word nextNext) {
-            decimal modTwo = 0;
+        private static double DeterminerNoun(Word nextNext) {
+            double modTwo = 0;
             new Switch(nextNext)
                 .Case<Noun>(nn => {
                     modTwo = 0; //determiner-compound noun

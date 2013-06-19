@@ -36,7 +36,7 @@ namespace LASI.InteropLayer
             UpdateProgressDisplay("Tagging Documents");
 
             await FileManager.TagTextFilesAsync();
-            progressBar.Value += 6;
+            progressBar.Value += 5;
 
             var documents = new List<Document>();
 

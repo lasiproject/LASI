@@ -8,38 +8,34 @@ namespace LASI.Algorithm
 {
     /// <summary>
     /// Defines the broad role requiements for the weightable, countable textual elements, of a written work.
-    /// Along with the second interfaces in the Syntactic Interfaces Library, the ILexical interface provides for generalization and abstraction over many otherwise disparate element types and NounPointerSymbol heirarchies.
+    /// Along with the second interfaces in the Syntactic Interfaces Library, the ILexical interface provides for generalization and abstraction over many otherwise disparate element types and Noun heirarchies.
     /// </summary>
     public interface ILexical
     {
         /// <summary>
         /// Gets the key text of the ILexical.
         /// </summary>
-        string Text
-        {
+        string Text {
             get;
         }
         /// <summary>
-        /// Gets the System.NounPointerSymbol of the ILexical.
+        /// Gets the System.Noun of the ILexical.
         /// </summary>
-        Type Type
-        {
+        Type Type {
             get;
         }
 
         /// <summary>
         /// Gets or sets the numeric Weight of the ILexical construct within its document.
         /// </summary>
-        decimal Weight
-        {
+        double Weight {
             get;
             set;
         }
         /// <summary>
         /// Gets or sets the numeric Weight of the ILexical construct over the context of all extant documents.
         /// </summary>
-        decimal MetaWeight
-        {
+        double MetaWeight {
             get;
             set;
         }

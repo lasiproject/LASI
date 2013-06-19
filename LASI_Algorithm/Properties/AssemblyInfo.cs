@@ -15,8 +15,8 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyCulture("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 
-// to COM components.  If you need to access a NounPointerSymbol in this assembly from 
-// COM, set the ComVisible attribute to true on that NounPointerSymbol.
+// to COM components.  If you need to access a Noun in this assembly from 
+// COM, set the ComVisible attribute to true on that Noun.
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM

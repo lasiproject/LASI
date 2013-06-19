@@ -12,14 +12,14 @@ namespace LASI.Algorithm
     /// <summary>
     /// Provides access to predefined and customizable IEqualityComparer implementations which operate on instances of applicable ILexical constructs.
     /// </summary>
-    /// <typeparam name="T">Any NounPointerSymbol which implements the ILexical interface. E.g. Word or Phrase</typeparam>
+    /// <typeparam name="T">Any Noun which implements the ILexical interface. E.g. Word or Phrase</typeparam>
     /// <see cref="ILexical"/>
     public static class Comparisons<T> where T : LASI.Algorithm.ILexical
     {
         private static TextualComparer textual = new TextualComparer();
         private static AliasComparer alias = new AliasComparer();
         private static SimilarityComparer<NounPhrase> similarity = new SimilarityComparer<NounPhrase>();
-        private static AliasOrSimilarityComparer<NounPhrase> aliasOrSimilarity = new AliasOrSimilarityComparer<NounPhrase>();
+        private static AliasOrSimilarityComparer<IEntity> aliasOrSimilarity = new AliasOrSimilarityComparer<IEntity>();
         /// <summary>
         /// AliasComparer based comparer where if not textually equivalent if will check to see if the NounPhrases are aliases for each
         /// </summary>
@@ -28,7 +28,7 @@ namespace LASI.Algorithm
                 return alias;
             }
         }
-        public static AliasOrSimilarityComparer<NounPhrase> AliasOrSimilarity {
+        public static AliasOrSimilarityComparer<IEntity> AliasOrSimilarity {
             get {
                 return aliasOrSimilarity;
             }
@@ -111,7 +111,12 @@ namespace LASI.Algorithm
             protected internal SimilarityComparer() {
             }
             public bool Equals(R x, R y) {
-                return x.Text == y.Text || x.IsSimilarTo(y);
+                if (ReferenceEquals(x, null))
+                    return ReferenceEquals(y, null);
+                else if (ReferenceEquals(y, null))
+                    return ReferenceEquals(x, null);
+                else
+                    return x.Text == y.Text || x.IsSimilarTo(y);
 
             }
 
@@ -124,7 +129,12 @@ namespace LASI.Algorithm
             protected internal AliasComparer() {
             }
             public bool Equals(IEntity x, IEntity y) {
-                return x.Text == y.Text || x.IsAliasFor(y);
+                if (ReferenceEquals(x, null))
+                    return ReferenceEquals(y, null);
+                else if (ReferenceEquals(y, null))
+                    return ReferenceEquals(x, null);
+                else
+                    return x.Text == y.Text || x.IsAliasFor(y);
             }
 
             public int GetHashCode(IEntity obj) {
@@ -134,12 +144,17 @@ namespace LASI.Algorithm
 
         }
         public class AliasOrSimilarityComparer<S> : IEqualityComparer<S>
-            where S : Phrase, IEntity
+            where S : IEntity
         {
             protected internal AliasOrSimilarityComparer() {
             }
             public bool Equals(S x, S y) {
-                return x.Text == y.Text || x.IsAliasFor(y) || (x as NounPhrase).IsSimilarTo(y as NounPhrase);
+                if (ReferenceEquals(x, null))
+                    return ReferenceEquals(y, null);
+                else if (ReferenceEquals(y, null))
+                    return ReferenceEquals(x, null);
+                else
+                    return x.Text == y.Text || x.IsAliasFor(y) || (x).IsSimilarTo(y);
             }
 
             public int GetHashCode(S obj) {
@@ -161,7 +176,12 @@ namespace LASI.Algorithm
                 customGetHashCode = hasher;
             }
             public bool Equals(T x, T y) {
-                return customEquals(x, y);
+                if (ReferenceEquals(x, null))
+                    return ReferenceEquals(y, null);
+                else if (ReferenceEquals(y, null))
+                    return ReferenceEquals(x, null);
+                else
+                    return customEquals(x, y);
             }
 
             public int GetHashCode(T obj) {

@@ -24,8 +24,6 @@ namespace LASI.Algorithm
             Text = text;
             Weight = 1;
             MetaWeight = 1;
-            FrequencyCurrent = 0;
-            FrequencyAcross = 0;
         }
 
 
@@ -45,7 +43,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Returns a string representation of the word.
         /// </summary>
-        /// <returns>A string containing its underlying NounPointerSymbol and its text content.</returns>
+        /// <returns>A string containing its underlying Noun and its text content.</returns>
         public override string ToString() {
             return GetType().Name + " \"" + Text + "\"";
         }
@@ -160,7 +158,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets or sets the numeric Weight of the word within the context of its parent document.
         /// </summary>
-        public decimal Weight {
+        public double Weight {
             get;
             set;
         }
@@ -169,7 +167,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets or sets the numeric Weight of the word over the context of all extant documents.
         /// </summary>
-        public decimal MetaWeight {
+        public double MetaWeight {
             get;
             set;
         }

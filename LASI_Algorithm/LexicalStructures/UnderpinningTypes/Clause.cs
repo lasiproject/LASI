@@ -84,7 +84,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets or sets the numeric Weight of the Phrase within the context of its document.
         /// </summary>
-        public decimal Weight {
+        public double Weight {
             get;
             set;
         }
@@ -92,7 +92,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets or sets the numeric Weight of the Phrase over the context of all extant documents.
         /// </summary>
-        public decimal MetaWeight {
+        public double MetaWeight {
             get;
             set;
         }
@@ -113,7 +113,7 @@ namespace LASI.Algorithm
         }
 
         /// <summary>
-        /// Gets the NounPointerSymbol of the Clause.
+        /// Gets the Noun of the Clause.
         /// </summary>
         public Type Type {
             get {

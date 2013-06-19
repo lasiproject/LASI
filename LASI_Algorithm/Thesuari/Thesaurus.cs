@@ -289,7 +289,7 @@ namespace LASI.Algorithm.Thesauri
         public static double GetSimilarityRatio(NounPhrase a, NounPhrase b) {
             NounPhrase outer = null;
             NounPhrase inner = null;
-            double similarCount = 0;
+            double similarCount = 0.0d;
 
             if (a.Words.Count() >= b.Words.Count()) {
                 outer = a;
@@ -302,17 +302,16 @@ namespace LASI.Algorithm.Thesauri
             if ((outer.Words.GetNouns().Count() != 0) && (inner.Words.GetNouns().Count() != 0)) {
                 foreach (var o in outer.Words.GetNouns()) {
                     foreach (var i in inner.Words.GetNouns()) {
-                        if (i.IsSynonymFor(o))
+                        if (i.IsSimilarTo(o) || i.IsAliasFor(o))
                             similarCount += 0.7;
-                        else if (i.Text == o.Text)
-                            similarCount++;
                     }
+                    var scaleFactor = inner.Words.GetNouns().Count() * outer.Words.GetNouns().Count();
+                    return (similarCount / scaleFactor == 0 ? 1 : scaleFactor);
                 }
 
-                return (similarCount / (inner.Words.GetNouns().Count() * outer.Words.GetNouns().Count()));
-            } else
-                return 1;
 
+            }
+            return 0d;
         }
 
         #endregion

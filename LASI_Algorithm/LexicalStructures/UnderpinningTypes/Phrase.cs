@@ -36,7 +36,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Overrides the ToString method to augment the string representation of Phrase to include the text of the words it is composed of.
         /// </summary>
-        /// <returns>A string containing the NounPointerSymbol information of the instance as well as the textual representations of the words it is composed of.</returns>
+        /// <returns>A string containing the Noun information of the instance as well as the textual representations of the words it is composed of.</returns>
         public override string ToString() {
             return GetType().Name + " \"" + Text + "\"";
         }
@@ -136,7 +136,7 @@ namespace LASI.Algorithm
         }
 
         /// <summary>
-        /// Gets the System.NounPointerSymbol of the current Instance.
+        /// Gets the System.Noun of the current Instance.
         /// </summary>
         public Type Type {
             get {
@@ -147,7 +147,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets or sets the numeric Weight of the Phrase within the context of its document.
         /// </summary>
-        public decimal Weight {
+        public double Weight {
             get;
             set;
         }
@@ -155,7 +155,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets or sets the numeric Weight of the Phrase over the context of all extant documents.
         /// </summary>
-        public decimal MetaWeight {
+        public double MetaWeight {
             get;
             set;
         }

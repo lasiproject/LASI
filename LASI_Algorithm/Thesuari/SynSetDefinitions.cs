@@ -11,16 +11,16 @@ namespace LASI.Algorithm.Thesauri
 
 
     /// <summary>
-    /// Provides an indexed lookup between the values of the NounPointerSymbol enum and their corresponding string representation in WordNet data files.
+    /// Provides an indexed lookup between the values of the Noun enum and their corresponding string representation in WordNet data files.
     /// </summary>
     internal class NounPointerSymbolMap
     {
         /// <summary>
-        /// Gets the NounPointerSymbol value corresponding to the Key string. 
+        /// Gets the Noun value corresponding to the Key string. 
         /// The Value UNDEFINED is returned if no value is mapped to the key.
         /// </summary>
-        /// <param name="key">The Key string for which to retrieve a NounPointerSymbol value.</param>
-        /// <returns>The NounPointerSymbol value corresponding to the Key string.
+        /// <param name="key">The Key string for which to retrieve a Noun value.</param>
+        /// <returns>The Noun value corresponding to the Key string.
         /// The Value UNDEFINED is returned if no value is mapped to the key.</returns>
         public NounPointerSymbol this[string key] {
             get {
@@ -63,7 +63,7 @@ namespace LASI.Algorithm.Thesauri
         /// Gets the VerbPointerSymbol value corresponding to the Key string. 
         /// The Value UNDEFINED is returned if no value is mapped key.
         /// </summary>
-        /// <param name="key">The Key string for which to retrieve a NounPointerSymbol value.</param>
+        /// <param name="key">The Key string for which to retrieve a Noun value.</param>
         /// <returns>The VerbPointerSymbol value corresponding to the Key string.
         /// The Value UNDEFINED is returned if no value is mapped to the key.</returns>
         public VerbPointerSymbol this[string key] {

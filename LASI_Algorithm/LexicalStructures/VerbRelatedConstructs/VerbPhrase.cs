@@ -93,7 +93,7 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="indirectObject">The Entity to attach to the VerbPhrase as an indirect object.</param>
         public virtual void BindIndirectObject(IEntity indirectObject) {
-            if (ObjectOfThePreoposition != indirectObject && !_indirectObjects.Contains(indirectObject)) {
+            if (!_indirectObjects.Contains(indirectObject)) {
                 _indirectObjects.Add(indirectObject);
                 indirectObject.IndirectObjectOf = this;
             }

@@ -230,18 +230,22 @@ namespace LASI.UserInterface.DataVisualzationProviders
         private static IEnumerable<RelationshipTuple> GetVerbWiseAssociationData(Document doc) {
             var data =
                  from svPair in
-                     (from v in doc.Phrases.GetVerbPhrases().WithSubject().AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
+                     (from v in doc.Phrases.GetVerbPhrases()
+                          .WithSubject(s => (s as IPronoun) == null || (s as IPronoun).BoundEntity != null)
+                          .AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
                       from s in v.Subjects.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
+                      let sub = s as IPronoun == null ? s : (s as IPronoun).BoundEntity
+                      where sub != null
                       from dobj in v.DirectObjects.DefaultIfEmpty()
                       from iobj in v.IndirectObjects.DefaultIfEmpty()
 
                       select new RelationshipTuple {
-                          Subject = s as NounPhrase ?? null,
+                          Subject = sub as NounPhrase ?? null,
                           Verbal = v as VerbPhrase ?? null,
                           Direct = dobj as NounPhrase ?? null,
                           Indirect = iobj as NounPhrase ?? null,
                           ViaPreposition = v.ObjectOfThePreoposition ?? null,
-                          RelationshipWeight = s.Weight + v.Weight + (dobj != null ? dobj.Weight : 0) + (iobj != null ? iobj.Weight : 0)
+                          RelationshipWeight = sub.Weight + v.Weight + (dobj != null ? dobj.Weight : 0) + (iobj != null ? iobj.Weight : 0)
                       } into tupple
                       where
                         tupple.Direct != null ||
@@ -251,7 +255,6 @@ namespace LASI.UserInterface.DataVisualzationProviders
                  select svPair into svps
 
                  orderby svps.RelationshipWeight
-
                  select svps;
             return data.ToArray();
         }
@@ -312,8 +315,8 @@ namespace LASI.UserInterface.DataVisualzationProviders
                            select new {
                                Subject = result.Subject != null ? result.Subject.Text : "",
                                Verbial = result.Verbal != null ? (result.Verbal.PrepositionOnLeft != null ? result.Verbal.PrepositionOnLeft.Text + " " : "") + result.Verbal.Text : "",
-                               Direct = result.Direct != null ? (result.Direct.PrepositionOnLeft != null ? result.Direct.PrepositionOnLeft.Text + " " : "") + result.Direct.Text : "",
-                               Indirect = result.Indirect != null ? (result.Indirect.PrepositionOnLeft != null ? result.Indirect.PrepositionOnLeft.Text + " " : "") + result.Indirect.Text : "",
+                               Direct = result.Direct != null ? result.Direct.Text : "",
+                               Indirect = result.Indirect != null ? result.Indirect.Text : "",
                                ViaPrepositional = result.ViaPreposition != null ? result.Verbal.PrepositionalToObject.Text + " " + result.ViaPreposition.Text : ""
                            };
             return dataRows.Distinct();
@@ -378,9 +381,9 @@ namespace LASI.UserInterface.DataVisualzationProviders
     /// </summary>
     public class RelationshipTuple
     {
-        NounPhrase subject;
+        IEntity subject;
 
-        public NounPhrase Subject {
+        public IEntity Subject {
             get {
                 return subject;
             }
@@ -402,9 +405,9 @@ namespace LASI.UserInterface.DataVisualzationProviders
             }
         }
 
-        NounPhrase direct;
+        IEntity direct;
 
-        public NounPhrase Direct {
+        public IEntity Direct {
             get {
                 return direct;
             }
@@ -414,9 +417,9 @@ namespace LASI.UserInterface.DataVisualzationProviders
             }
         }
 
-        NounPhrase indirect;
+        IEntity indirect;
 
-        public NounPhrase Indirect {
+        public IEntity Indirect {
             get {
                 return indirect;
             }
@@ -448,7 +451,7 @@ namespace LASI.UserInterface.DataVisualzationProviders
         }
 
 
-        public decimal RelationshipWeight {
+        public double RelationshipWeight {
             get;
             set;
         }

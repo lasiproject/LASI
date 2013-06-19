@@ -29,8 +29,8 @@ namespace LASI.Algorithm
         #region Methods
 
         /// <summary>
-        /// Current,  somewhat sloppy determination of the NounPointerSymbol, person, place, thing etc, of nounphrase by 
-        /// selecting the most common NounPointerSymbol between its nouns and from its bound pronouns 
+        /// Current,  somewhat sloppy determination of the Noun, person, place, thing etc, of nounphrase by 
+        /// selecting the most common Noun between its nouns and from its bound pronouns 
         /// </summary>
         protected virtual void determineEntityType() {
 
@@ -210,7 +210,7 @@ namespace LASI.Algorithm
         }
 
         /// <summary>
-        /// Gets or sets the Entity NounPointerSymbol; Person, Place, Thing, Organization, or Activity; of the NounPhrase.
+        /// Gets or sets the Entity Noun; Person, Place, Thing, Organization, or Activity; of the NounPhrase.
         /// </summary>
         public EntityKind EntityKind {
             get;

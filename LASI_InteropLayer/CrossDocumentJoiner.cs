@@ -79,9 +79,9 @@ namespace LASI.InteropLayer
             return (from v in verbalCominalities.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
                     select new NVNN {
                         Verbal = v,
-                        Direct = v.DirectObjects.OfType<NounPhrase>().FirstOrDefault(),
-                        Indirect = v.IndirectObjects.OfType<NounPhrase>().FirstOrDefault(),
-                        Subject = v.Subjects.OfType<NounPhrase>().FirstOrDefault(),
+                        Direct = v.DirectObjects.OfType<NounPhrase>().Select(s => (s as IPronoun) == null ? s : (s as IPronoun).BoundEntity).FirstOrDefault(),
+                        Indirect = v.IndirectObjects.OfType<NounPhrase>().Select(s => (s as IPronoun) == null ? s : (s as IPronoun).BoundEntity).FirstOrDefault(),
+                        Subject = v.Subjects.OfType<NounPhrase>().Select(s => (s as IPronoun) == null ? s : (s as IPronoun).BoundEntity).FirstOrDefault(),
                         ViaPreposition = v.ObjectOfThePreoposition as NounPhrase
                     } into result
                     group result by result.Verbal.Text into resultGrouped
@@ -137,9 +137,9 @@ namespace LASI.InteropLayer
                     verbial = value;
                 }
             }
-            private NounPhrase subject;
+            private IEntity subject;
 
-            public NounPhrase Subject {
+            public IEntity Subject {
                 get {
                     return subject;
                 }
@@ -148,9 +148,9 @@ namespace LASI.InteropLayer
                     RelationshipWeight += subject != null ? subject.Weight : 0;
                 }
             }
-            private NounPhrase direct;
+            private IEntity direct;
 
-            public NounPhrase Direct {
+            public IEntity Direct {
                 get {
                     return direct;
                 }
@@ -159,9 +159,9 @@ namespace LASI.InteropLayer
                     RelationshipWeight += direct != null ? direct.Weight : 0;
                 }
             }
-            private NounPhrase indirect;
+            private IEntity indirect;
 
-            public NounPhrase Indirect {
+            public IEntity Indirect {
                 get {
                     return indirect;
                 }
@@ -181,7 +181,7 @@ namespace LASI.InteropLayer
                     RelationshipWeight += viaPreposition != null ? viaPreposition.Weight : 0;
                 }
             }
-            public decimal RelationshipWeight {
+            public double RelationshipWeight {
                 get;
                 protected set;
             }
@@ -215,13 +215,13 @@ namespace LASI.InteropLayer
                     return true;
                 else {
                     bool result = lhs.Verbal.Text == rhs.Verbal.Text || lhs.Verbal.IsSimilarTo(rhs.Verbal);
-                    result &= Comparisons<NounPhrase>.AliasOrSimilarity.Equals(lhs.Subject, rhs.Subject);
+                    result &= Comparisons<IEntity>.AliasOrSimilarity.Equals(lhs.Subject, rhs.Subject);
                     if (lhs.Direct != null && rhs.Direct != null) {
-                        result &= Comparisons<NounPhrase>.AliasOrSimilarity.Equals(lhs.Direct, rhs.Direct);
+                        result &= Comparisons<IEntity>.AliasOrSimilarity.Equals(lhs.Direct, rhs.Direct);
                     } else if (lhs.Direct == null || rhs.Direct == null)
                         return false;
                     if (lhs.Indirect != null && rhs.Indirect != null) {
-                        result &= Comparisons<NounPhrase>.AliasOrSimilarity.Equals(lhs.Indirect, rhs.Indirect);
+                        result &= Comparisons<IEntity>.AliasOrSimilarity.Equals(lhs.Indirect, rhs.Indirect);
                     } else if (lhs.Indirect == null || rhs.Indirect == null)
                         return false;
                     return result;
