@@ -19,33 +19,30 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="composedWords">The words which compose to form the AdjectivePhrase.</param>
         public AdjectivePhrase(IEnumerable<Word> composedWords)
-            : base(composedWords)
-        {
+            : base(composedWords) {
         }
         /// <summary>
         /// Attaches an Adverbial construct, such as an Adverb or AdverbPhrase, as a modifier of the AdjectivePhrase.
         /// </summary>
         /// <param name="adv">The Adverbial construct by which to modify the AdjectivePhrase.</param>
-        public virtual void ModifyWith(IAdverbial adv)
-        {
-            throw new NotImplementedException();
+        public virtual void ModifyWith(IAdverbial adv) {
+            _modifiers.Add(adv);
+            adv.Modifies = this;
         }
-        private List<IAdverbial> _modifiers = new List<IAdverbial>();
+        private HashSet<IAdverbial> _modifiers = new HashSet<IAdverbial>();
+
         /// <summary>
         /// Gets or sets the collection of Adverbial constructs which modify the AdjectivePhrase.
         /// </summary>
-        public virtual IEnumerable<IAdverbial> Modifiers
-        {
-            get
-            {
+        public virtual IEnumerable<IAdverbial> Modifiers {
+            get {
                 return _modifiers;
             }
         }
         /// <summary>
         /// Gets the Entity which the AdjectivePhrase describes.
         /// </summary>
-        public virtual IDescribable Describes
-        {
+        public virtual IDescribable Describes {
             get;
             set;
         }

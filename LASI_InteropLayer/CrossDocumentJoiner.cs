@@ -82,15 +82,15 @@ namespace LASI.InteropLayer
                         Verbal = v,
                         Direct = v.DirectObjects
                             .OfType<NounPhrase>()
-                            .Select(s => (s as IPronoun) == null ? s : (s as IPronoun).BoundEntity)
+                            .Select(s => (s as IPronoun) == null ? s : (s as IPronoun).BoundEntity as IEntity)
                             .FirstOrDefault(),
                         Indirect = v.IndirectObjects
                             .OfType<NounPhrase>()
-                            .Select(s => (s as IPronoun) == null ? s : (s as IPronoun).BoundEntity)
+                            .Select(s => (s as IPronoun) == null ? s : (s as IPronoun).BoundEntity as IEntity)
                             .FirstOrDefault(),
                         Subject = v.Subjects
                             .OfType<NounPhrase>()
-                            .Select(s => (s as IPronoun) == null ? s : (s as IPronoun).BoundEntity)
+                            .Select(s => (s as IPronoun) == null ? s : (s as IPronoun).BoundEntity as IEntity)
                             .FirstOrDefault(),
                         ViaPreposition = v.ObjectOfThePreoposition as NounPhrase
                     } into result

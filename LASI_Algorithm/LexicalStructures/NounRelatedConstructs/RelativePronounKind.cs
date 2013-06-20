@@ -7,7 +7,7 @@ namespace LASI.Algorithm.LexicalStructures.NounRelatedConstructs
 {
     public enum RelativePronounKind
     {
-        Undefined,
+        UNDEFINED = 0,
         SubjectRolePersonal,
         ObjectRoleEntity,
         ObjectRoleLocational,

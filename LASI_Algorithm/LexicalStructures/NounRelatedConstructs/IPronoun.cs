@@ -4,13 +4,11 @@ namespace LASI.Algorithm
 {
     public interface IPronoun : IEntity
     {
-        IEntity BoundEntity {
+        IEntityGroup BoundEntity {
             get;
         }
         void BindToEntity(IEntity target);
-        PronounKind PronounKind {
-            get;
-        }
+
         bool IsBound {
             get;
         }

@@ -10,91 +10,74 @@ namespace LASI.Algorithm
     class GerundVerbPhrase : VerbPhrase, IEntity
     {
         public GerundVerbPhrase(IEnumerable<Word> composedWords)
-            : base(composedWords)
-        {
+            : base(composedWords) {
         }
 
-        public EntityKind EntityKind
-        {
-            get
-            {
+        public EntityKind EntityKind {
+            get {
                 return EntityKind.Activitiy;
             }
         }
 
-        public IVerbal DirectObjectOf
-        {
+        public IVerbal DirectObjectOf {
             get;
             set;
         }
 
-        public IVerbal IndirectObjectOf
-        {
+        public IVerbal IndirectObjectOf {
             get;
             set;
         }
 
-        public IVerbal SubjectOf
-        {
+        public IVerbal SubjectOf {
             get;
             set;
         }
 
-        public void BindPronoun(IPronoun pro)
-        {
+        public void BindPronoun(IPronoun pro) {
             if (!_boundPronouns.Contains(pro)) {
                 _boundPronouns.Add(pro);
             }
         }
 
-        public IEnumerable<IPronoun> BoundPronouns
-        {
-            get
-            {
+        public IEnumerable<IPronoun> BoundPronouns {
+            get {
                 return _boundPronouns;
             }
         }
 
-        public void BindDescriptor(IDescriptor adj)
-        {
+        public void BindDescriptor(IDescriptor adj) {
             if (!_describers.Contains(adj)) {
                 adj.Describes = this;
                 _describers.Add(adj);
             }
         }
 
-        public IEnumerable<IDescriptor> Descriptors
-        {
-            get
-            {
+        public IEnumerable<IDescriptor> Descriptors {
+            get {
                 return _describers;
             }
         }
 
-        public IEnumerable<IEntity> Possessed
-        {
-            get
-            {
+        public IEnumerable<IEntity> Possessed {
+            get {
                 return _possessed;
             }
         }
 
-        public void AddPossession(IEntity possession)
-        {
+        public void AddPossession(IEntity possession) {
             if (!_possessed.Contains(possession)) {
                 possession.Possesser = this;
                 _possessed.Add(possession);
             }
         }
 
-        public IEntity Possesser
-        {
+        public IEntity Possesser {
             get;
             set;
         }
 
-        public void BindPronoun(Pronoun pro)
-        {
+        public void BindPronoun(Pronoun pro) {
             if (!_boundPronouns.Contains(pro)) {
                 _boundPronouns.Add(pro);
             }

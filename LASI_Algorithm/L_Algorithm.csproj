@@ -90,11 +90,12 @@
     <Compile Include="Analysis\Binder.cs" />
     <Compile Include="Analysis\Binders\AttributiveNounPhraseBinder.cs" />
     <Compile Include="Analysis\SubordinateClauseIdentifier.cs" />
+    <Compile Include="IEnumerableExtensions\EnumTypeExtensions.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\RelativePronounKind.cs" />
     <Compile Include="ResourceUsageMode.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\ISimilarityComparablePhrase.cs" />
     <Compile Include="LexicalStructures\VerbRelatedConstructs\InfinitivePhrase.cs" />
-    <Compile Include="Analysis\Binders\InterPhraseWordBinding.cs" />
+    <Compile Include="Analysis\Binders\IntraPhraseWordBinder.cs" />
     <Compile Include="Analysis\Binders\InvalidStateTransitionException.cs" />
     <Compile Include="Analysis\Binders\ObjectBinder.cs" />
     <Compile Include="Analysis\Binders\PhraseWiseEntityGroupBinder.cs" />
@@ -112,9 +113,8 @@
     <Compile Include="LexicalStructures\MiscLanguageConstructs\PunctuatorPhrase.cs" />
     <Compile Include="LexicalStructures\MiscLanguageConstructs\UndeterminedPhrase.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\IPronoun.cs" />
-    <Compile Include="LexicalStructures\NounRelatedConstructs\NPAggregateSubjectObject.cs" />
+    <Compile Include="LexicalStructures\NounRelatedConstructs\EntityGroup.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\EntityKind.cs" />
-    <Compile Include="LexicalStructures\NounRelatedConstructs\EntityKindLookup.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\IWeakPossessor.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\PronounKind.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\PronounPhrase.cs" />

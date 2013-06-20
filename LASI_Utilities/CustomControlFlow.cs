@@ -33,7 +33,7 @@ namespace LASI.Utilities.TypedSwitch
 
     public static class SwitchExtensions
     {
-        public static Switch Switch<T>(this T switchOn) {
+        public static Switch Match<T>(this T switchOn) {
             return new Switch(switchOn);
         }
         public static Switch Case<T>(this Switch s, Action<T> action) where T : class {

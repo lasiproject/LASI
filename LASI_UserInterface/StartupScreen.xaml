@@ -108,7 +108,7 @@
                        VerticalAlignment="Top"
                        RenderTransformOrigin="-0.017,0.48"
                        FontFamily="Segoe UI Semilight" />
-            <TextBox x:Name="LocationTextBox"
+            <TextBox x:Name="locationTextBox"
                      Canvas.Left="178"
                      Canvas.Top="89"
                      MaxLines="1"
@@ -205,11 +205,11 @@
                        Width="20"
                        Margin="615,111,21,40" />
 
-            <Button x:Name="CreateButton"
+            <Button x:Name="createButton"
                     Content="Create"
                     Canvas.Left="385"
                     Canvas.Top="224"
-                    Click="setupAndContinueButton_Click"
+                    Click="completeSetupAndContinueButton_Click"
                     Margin="200,225,404,0"
                     Height="27"
                     VerticalAlignment="Top"
@@ -236,7 +236,7 @@
                     Canvas.Left="455"
                     Canvas.Top="224"
                     RenderTransformOrigin="0.035,1.507"
-                    Click="CancelButton_Click"
+                    Click="cancelButton_Click"
                     Margin="285,225,322,0"
                     Height="27"
                     VerticalAlignment="Top"
@@ -289,12 +289,12 @@
                     Canvas.Top="10"
                     BorderBrush="#FF636366" />
 
-            <Button x:Name="createProjectButton"
+            <Button x:Name="expandProjectButton"
                     Content="Create"
                     Margin="487,102,0,117"
                     FontSize="20"
                     Foreground="Black"
-                    Click="createProjectButton_Click"
+                    Click="expandViewButton_Click"
                     HorizontalAlignment="Left"
                     Width="106"
                     FontFamily="Segoe Print"

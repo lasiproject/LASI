@@ -7,6 +7,7 @@ namespace LASI.Algorithm
 {
     public enum PronounKind
     {
+        Undefined = 0,
         Male,
         MaleReflexive,
         Female,
@@ -23,8 +24,8 @@ namespace LASI.Algorithm
         SecondPerson,
         SecondPersonSingularReflexive,
         SecondPersonPluralReflexive,
-        ThirdPersonGenderAmbiguousPlurals,
-        ThirdPersonPluraralReflexive,
-        Undefined
+        ThirdPersonGenderAmbiguousPlural,
+        ThirdPersonPluralReflexive,
+
     }
 }

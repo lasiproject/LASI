@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LASI.Utilities;
 
 
 namespace LASI.Algorithm
 {
     public class PronounPhrase : NounPhrase, IPronoun
     {
-        private IEntity _boundEntity;
+        private IEntityGroup _boundEntity;
         public PronounPhrase(IEnumerable<Word> composedWords)
             : base(composedWords) {
             if (composedWords.GetPronouns().Any(p => p.IsBound)) {
@@ -23,7 +24,7 @@ namespace LASI.Algorithm
             return base.ToString() + (BoundEntity != null ? " referring to -> " + BoundEntity.Text : "");
         }
 
-        public IEntity BoundEntity {
+        public IEntityGroup BoundEntity {
             get {
                 _boundEntity = _boundEntity ?? (Words.GetPronouns().Any(p => p.IsBound) ? Words.GetPronouns().Last().BoundEntity : null);
                 IsBound = _boundEntity != null;
@@ -34,7 +35,10 @@ namespace LASI.Algorithm
 
 
         public void BindToEntity(IEntity target) {
-            _boundEntity = target;
+            if (_boundEntity != null || !_boundEntity.Any())
+                _boundEntity = new EntityGroup(new[] { target });
+            else
+                _boundEntity = new EntityGroup(_boundEntity.Concat(target.AsEnumerable()));
             EntityKind = _boundEntity.EntityKind;
             IsBound = true;
         }
@@ -42,11 +46,6 @@ namespace LASI.Algorithm
         public void BindPronoun(Pronoun pro) {
             base.BindPronoun(pro);
         }
-        public virtual PronounKind PronounKind {
-            get;
-            protected set;
-        }
-
 
         public bool IsBound {
             get;

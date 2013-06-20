@@ -1,7 +1,8 @@
 ﻿namespace LASI.Algorithm.Thesauri
 {
-    public enum WordNetVerbCategory
+    public enum WordNetVerbCategory : byte
     {
+        ARBITRARY = 0,
         Body = 29,
         Cognition,
         Communication,
@@ -16,10 +17,11 @@
         Social,
         Stative,
         Weather,
-        ARBITRARY = 100
+
     }
-    public enum WordNetNounCategory
+    public enum WordNetNounCategory : byte
     {
+        ARBITRARY = 0,
         Entity = 3,
         Act,
         Animal,
@@ -46,12 +48,12 @@
         State,
         Substance,
         Time,
-        ARBITRARY
+
     }
     /// <summary>
     /// Defines the different kinds of pointer relationships on which Noun Synsets can relate to one another.
     /// </summary>
-    public enum NounPointerSymbol
+    public enum NounPointerSymbol : byte
     {
         UNDEFINED = 0,
         Antonym,//!  
@@ -77,7 +79,7 @@
     /// <summary>
     /// Defines the different kinds of pointer relationships on which Verb Synsets can relate to one another.
     /// </summary>
-    public enum VerbPointerSymbol
+    public enum VerbPointerSymbol : byte
     {
         UNDEFINED = 0,
         Antonym,//!

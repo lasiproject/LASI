@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using LASI.Algorithm.LexicalStructures.NounRelatedConstructs;
+using LASI.Utilities;
 
 namespace LASI.Algorithm
 {
@@ -23,7 +24,7 @@ namespace LASI.Algorithm
         #region Methods
         public override string ToString() {
             var result = base.Text;
-            result += VerboseOutput ? " " + PronounKind.ToString() : "";
+            result += VerboseOutput ? " " + RelativePronounKind.ToString() : "";
             return result;
         }
         public void AddPossession(IEntity possession) {
@@ -35,23 +36,22 @@ namespace LASI.Algorithm
             }
         }
         public void BindToEntity(IEntity target) {
-            _boundEntity = target;
+            if (_boundEntity != null || !_boundEntity.Any())
+                _boundEntity = new EntityGroup(new[] { target });
+            else
+                _boundEntity = new EntityGroup(_boundEntity.Concat(target.AsEnumerable()));
             _entityKind = BoundEntity.EntityKind;
         }
 
         #endregion
-        public IEntity BoundEntity {
+        public IEntityGroup BoundEntity {
             get {
                 return _boundEntity;
             }
         }
 
 
-        public PronounKind PronounKind {
-            get {
-                throw new NotImplementedException();
-            }
-        }
+
 
         public EntityKind EntityKind {
             get {
@@ -118,7 +118,7 @@ namespace LASI.Algorithm
         private ICollection<IEntity> _possessed = new List<IEntity>();
         private ICollection<IPronoun> _boundPronouns = new List<IPronoun>();
         private EntityKind _entityKind;
-        private IEntity _boundEntity;
+        private IEntityGroup _boundEntity;
 
         private static RelativePronounKind DetermineRelativePronounKind(string text) {
             var checkText = text.ToLower();
@@ -132,7 +132,7 @@ namespace LASI.Algorithm
                 RelativePronounKind.ObjectRoleTemporal :
                 objectRoleExpositories.Contains(checkText) ?
                 RelativePronounKind.ObjectRoleExpository :
-                RelativePronounKind.Undefined;
+                RelativePronounKind.UNDEFINED;
         }
 
 

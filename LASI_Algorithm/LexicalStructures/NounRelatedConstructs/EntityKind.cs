@@ -8,6 +8,7 @@ namespace LASI.Algorithm
 {
     public enum EntityKind
     {
+        UNDEFINED = 0,
         Person,
         Location,
         Organization,
@@ -15,6 +16,6 @@ namespace LASI.Algorithm
         Thing,
         ThingUnknown,
         Activitiy,
-        Unknown
+
     }
 }

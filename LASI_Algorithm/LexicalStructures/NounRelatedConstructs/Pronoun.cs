@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LASI.Utilities;
 namespace LASI.Algorithm
 {
     /// <summary>
@@ -19,6 +20,7 @@ namespace LASI.Algorithm
         /// <param name="text">The key text content of the pronoun.</param>
         protected Pronoun(string text)
             : base(text) {
+            PronounKind = DeterminePronounKind(this);
         }
 
         #endregion
@@ -47,7 +49,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets or sets the Entity which the Pronoun references.
         /// </summary>
-        public virtual IEntity BoundEntity {
+        public virtual IEntityGroup BoundEntity {
             get {
                 return _boundEntity;
             }
@@ -135,7 +137,7 @@ namespace LASI.Algorithm
             }
         }
         private EntityKind _entityKind;
-        private IEntity _boundEntity;
+        private IEntityGroup _boundEntity;
 
         #endregion
 
@@ -145,7 +147,10 @@ namespace LASI.Algorithm
 
 
         public void BindToEntity(IEntity target) {
-            _boundEntity = target;
+            if (_boundEntity != null || !_boundEntity.Any())
+                _boundEntity = new EntityGroup(new[] { target });
+            else
+                _boundEntity = new EntityGroup(_boundEntity.Concat(target.AsEnumerable()));
             _entityKind = BoundEntity.EntityKind;
         }
 
@@ -186,9 +191,9 @@ namespace LASI.Algorithm
                 secondPersonPluralReflexives.Contains(compareText) ?
                 PronounKind.SecondPersonPluralReflexive :
                 thirdPersonGenderAmbiguousPlurals.Contains(compareText) ?
-                PronounKind.ThirdPersonGenderAmbiguousPlurals :
+                PronounKind.ThirdPersonGenderAmbiguousPlural :
                 thirdPersonPluralReflexives.Contains(compareText) ?
-                PronounKind.ThirdPersonPluraralReflexive :
+                PronounKind.ThirdPersonPluralReflexive :
                 PronounKind.Undefined;
         }
 
