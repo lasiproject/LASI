@@ -25,14 +25,11 @@ namespace AlgorithmAssemblyUnitTestProject
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
         ///</summary>
-        public TestContext TestContext
-        {
-            get
-            {
+        public TestContext TestContext {
+            get {
                 return testContextInstance;
             }
-            set
-            {
+            set {
                 testContextInstance = value;
             }
         }
@@ -69,14 +66,12 @@ namespace AlgorithmAssemblyUnitTestProject
 
         #region Testing Helpers
 
-        private static Document BuildDocumentManually()
-        {
+        private static Document BuildDocumentManually() {
             IEnumerable<Paragraph> allParagrpahs = BuildParagraphs();
             return new Document(allParagrpahs);
         }
 
-        private static IEnumerable<Paragraph> BuildParagraphs()
-        {
+        private static IEnumerable<Paragraph> BuildParagraphs() {
             IEnumerable<Paragraph> allParagrpahs = new Paragraph[] { 
                 new Paragraph(new Sentence[] { 
                     new Sentence(new Clause[] {
@@ -119,8 +114,7 @@ namespace AlgorithmAssemblyUnitTestProject
         ///A test for Document Constructor
         ///</summary>
         //[TestMethod()]
-        public void DocumentConstructorTest()
-        {
+        public void DocumentConstructorTest() {
             Document doc = BuildDocumentManually();
             Assert.IsTrue(doc != null);
         }
@@ -129,8 +123,7 @@ namespace AlgorithmAssemblyUnitTestProject
         ///A test for GetActions
         ///</summary>
         [TestMethod()]
-        public void GetActionsTest()
-        {
+        public void GetActionsTest() {
 
             Document target = BuildDocumentManually();
             IEnumerable<IVerbal> expected = new IVerbal[]{new VerbPhrase(new Word[] { 
@@ -149,25 +142,21 @@ namespace AlgorithmAssemblyUnitTestProject
         }
         private struct VerbialEquater : IEqualityComparer<IVerbal>
         {
-            public bool Equals(IVerbal a, IVerbal b)
-            {
+            public bool Equals(IVerbal a, IVerbal b) {
                 return a.Text == b.Text && a.GetType() == b.GetType();
             }
 
-            public int GetHashCode(IVerbal obj)
-            {
+            public int GetHashCode(IVerbal obj) {
                 throw new NotImplementedException();
             }
         }
         private struct EntityEquater : IEqualityComparer<IEntity>
         {
-            public bool Equals(IEntity a, IEntity b)
-            {
+            public bool Equals(IEntity a, IEntity b) {
                 return a.Text == b.Text && a.GetType() == b.GetType();
             }
 
-            public int GetHashCode(IEntity obj)
-            {
+            public int GetHashCode(IEntity obj) {
                 throw new NotImplementedException();
             }
         }
@@ -175,8 +164,7 @@ namespace AlgorithmAssemblyUnitTestProject
         ///A test for GetEntities
         ///</summary>
         [TestMethod()]
-        public void GetEntitiesTest()
-        {
+        public void GetEntitiesTest() {
 
             Document target = BuildDocumentManually();
             IEnumerable<IEntity> expected = new IEntity[]{
@@ -213,8 +201,7 @@ namespace AlgorithmAssemblyUnitTestProject
         ///A test for Paragraphs
         ///</summary>
         [TestMethod()]
-        public void ParagraphsTest()
-        {
+        public void ParagraphsTest() {
             IEnumerable<Paragraph> paragraphsIn = BuildParagraphs();
             Document target = new Document(paragraphsIn);
             IEnumerable<Paragraph> actual;
@@ -229,8 +216,7 @@ namespace AlgorithmAssemblyUnitTestProject
         ///A test for Phrases
         ///</summary>
         [TestMethod()]
-        public void PhrasesTest()
-        {
+        public void PhrasesTest() {
 
             Document target = BuildDocumentManually();
             IEnumerable<Phrase> actual;
@@ -245,8 +231,7 @@ namespace AlgorithmAssemblyUnitTestProject
         ///A test for Sentences
         ///</summary>
         [TestMethod()]
-        public void SentencesTest()
-        {
+        public void SentencesTest() {
             Sentence[] firstParagraphSentences = new Sentence[] { 
                     new Sentence(new Clause[] {
                         new Clause(new Phrase[] { 
@@ -291,8 +276,7 @@ namespace AlgorithmAssemblyUnitTestProject
         ///A test for Words
         ///</summary>
         [TestMethod()]
-        public void WordsTest()
-        {
+        public void WordsTest() {
             Document target = BuildDocumentManually();
             IEnumerable<Word> actual;
             actual = target.Words;

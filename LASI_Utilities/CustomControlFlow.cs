@@ -27,13 +27,20 @@ namespace LASI.Utilities.TypedSwitch
             get;
             private set;
         }
+
     }
 
 
     public static class SwitchExtensions
     {
+        public static Switch Switch<T>(this T switchOn) {
+            return new Switch(switchOn);
+        }
         public static Switch Case<T>(this Switch s, Action<T> action) where T : class {
             return Case<T>(s, x => true, action, false);
+        }
+        public static Switch Case<T>(this Switch s, Action action) where T : class {
+            return Case<T>(s, x => true, p => action(), false);
         }
         public static Switch Case<T>(this Switch s, Action<T> action, bool fallThrough) where T : class {
             return Case<T>(s, x => true, action, fallThrough);
@@ -44,8 +51,7 @@ namespace LASI.Utilities.TypedSwitch
         public static Switch Case<T>(this Switch s, Func<T, bool> condition, Action<T> action, bool fallThrough) where T : class {
             if (s == null) {
                 return null;
-            }
-            else {
+            } else {
                 T tCasted = s.SwitchOn as T;
                 if (tCasted != null) {
                     if (condition(tCasted)) {
@@ -57,12 +63,15 @@ namespace LASI.Utilities.TypedSwitch
             return s;
         }
 
-
+        public static void Default(this Switch s, Action action) {
+            Default(s, x => action());
+        }
 
         public static void Default(this Switch s, Action<object> action) {
             if (s != null)
                 action(s.SwitchOn);
         }
+
         public static void Default<T>(this Switch s, Action<T> action) where T : class {
             if (s != null && s.SwitchOn as T != null)
                 action(s.SwitchOn as T);

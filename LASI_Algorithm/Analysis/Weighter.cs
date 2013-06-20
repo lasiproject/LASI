@@ -232,7 +232,10 @@ namespace LASI.Algorithm.Weighting
                                                .Concat(nps.InDirectObjectRole())
                                                .Concat(nps.InIndirectObjectRole())
                                                .AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
-                                           select NP).ToLookup(key => key, new NounPhraseComparer());
+                                           select NP)
+                                           .ToLookup(key => key,
+                                           LexicalComparers<NounPhrase>
+                                           .CreateCustom((L, R) => L.Text == R.Text || L.IsAliasFor(R) || L.IsSimilarTo(R)));
             foreach (var outerNP in nps
                 .InSubjectRole()
                 .Concat(nps.InDirectObjectRole())
@@ -263,16 +266,7 @@ namespace LASI.Algorithm.Weighting
         //    var numDocs = documentGroup.Count();
         //    var wordsWithFreqPairs = from doc in documentGroup  from word in doc.Words group word by word.Text 
         //}
-        private struct NounPhraseComparer : IEqualityComparer<NounPhrase>
-        {
-            public bool Equals(NounPhrase x, NounPhrase y) {
-                return x == null || y == null ? false : x.IsSimilarTo(y);
-            }
 
-            public int GetHashCode(NounPhrase obj) {
-                return obj != null ? 1 : 0;
-            }
-        }
         private static async Task HackSubjectPropernounImportanceAsync(Document doc) {
             await Task.Run(() => HackSubjectPropernounImportance(doc));
         }
@@ -322,19 +316,19 @@ namespace LASI.Algorithm.Weighting
                         .Case<Noun>(n => {
                             w.Weight = primary;
                         })
-                        .Case<Verb>(v => {
+                        .Case<Verb>(() => {
                             w.Weight = secondary;
                         })
-                        .Case<Adjective>(adj => {
+                        .Case<Adjective>(() => {
                             w.Weight = tertiary;
                         })
-                        .Case<Adverb>(adv => {
+                        .Case<Adverb>(() => {
                             w.Weight = quaternary;
                         })
-                        .Case<Pronoun>(pn => {
+                        .Case<Pronoun>(() => {
                             w.Weight = quinary;
                         })
-                        .Default(def => {
+                        .Default(() => {
                             w.Weight = senary;
                         });
 
@@ -367,111 +361,94 @@ namespace LASI.Algorithm.Weighting
                     Word prevPrev = prev ?? prev.PreviousWord;
 
 
-                    new Switch(w)
-                       .Case<Noun>(n => {
+                    w.Switch()
+                      .Case<Noun>(n => {
+                          Noun(next, nextNext, out modOne, out modTwo);
+                      })
+                      .Case<Verb>(() => {
+                          Verb(next, nextNext, out modOne, out modTwo);
+                      })
+                      .Case<Adjective>(() => {
+                          Adjective(next, nextNext, out modOne, out modTwo);
+                      })
+                      .Case<Adverb>(() => {
+                          Adverb(next, nextNext, out modOne, out modTwo);
+                      })
+                      .Case<Pronoun>(() => {
+                          Pronoun(next, nextNext, out modOne, out modTwo);
+                      })
+                      .Case<Preposition>(() => {
+                          Preposition(next, nextNext, out modOne, out modTwo);
+                      })
+                      .Case<Determiner>(() => {
+                          Determiner(next, nextNext, out modOne, out modTwo);
+                      })
+                      .Default(() => {
+                          modOne = 0.1d;
 
-                           Noun(next, nextNext, out modOne, out modTwo);
-
-                       })
-                       .Case<Verb>(v => {
-                           Verb(next, nextNext, out modOne, out modTwo);
-                       })
-                       .Case<Adjective>(adj => {
-                           Adjective(next, nextNext, out modOne, out modTwo);
-                       })
-                       .Case<Adverb>(adv => {
-                           Adverb(next, nextNext, out modOne, out modTwo);
-                       })
-                       .Case<Pronoun>(pn => {
-                           Pronoun(next, nextNext, out modOne, out modTwo);
-                       })
-
-                       .Case<Preposition>(pn => {
-                           Preposition(next, nextNext, out modOne, out modTwo);
-                       })
-                       .Case<Determiner>(d => {
-                           Determiner(next, nextNext, out modOne, out modTwo);
-                       })
-                       .Default(def => {
-                           modOne = 0.1d;
-
-                           //second (UNCAUGHT -> UNCAUGHT)
-                           modTwo = UncaughtUncaught(nextNext);
-                       });
+                          //second (UNCAUGHT -> UNCAUGHT)
+                          modTwo = UncaughtUncaught(nextNext);
+                      });
 
 
                     w.Weight += (w.Weight * (modOne * modTwo)) / 3;
 
                 }
-
-
             }
-
-
-
-
-
-            #region Extra Code
-
-
-
         }
-
-
-            #endregion
 
         private static void Determiner(Word next, Word nextNext, out double outModOne, out double outModTwo) {
             double modOne = 0;
             double modTwo = 0;
             new Switch(next)
-                   .Case<Noun>(nn => {
-                       modOne = 0.9d; //determiner-noun
+                    .Case<Noun>(() => {
+                        modOne = 0.9d; //determiner-noun
 
-                       //second (Determiner -> Noun)
-                       modTwo = PronounNoun(nextNext);
-                   })
-                   .Case<Adjective>(advn => {
-                       modOne = 0.8d;  //deteminer-adjective
+                        //second (Determiner -> Noun)
+                        modTwo = PronounNoun(nextNext);
+                    })
+                    .Case<Adjective>(() => {
+                        modOne = 0.8d;  //deteminer-adjective
 
-                       //second (Determiner -> Adjective)
-                       modTwo = PronounAdjective(nextNext);
-                   })
-                   .Case<Adverb>(advn => {
-                       modOne = 0.7d;  //determiner-adverb
+                        //second (Determiner -> Adjective)
+                        modTwo = PronounAdjective(nextNext);
+                    })
+                    .Case<Adverb>(() => {
+                        modOne = 0.7d;  //determiner-adverb
 
-                       //second (Determiner -> Adverb)
-                       modTwo = PronounAdverb(nextNext);
-                   })
-                   .Case<Pronoun>(pnn => {
-                       modOne = 0.9d; //determiner-pronoun
+                        //second (Determiner -> Adverb)
+                        modTwo = PronounAdverb(nextNext);
+                    })
+                    .Case<Pronoun>(() => {
+                        modOne = 0.9d; //determiner-pronoun
 
-                       //second (Determiner -> Noun)
-                       modTwo = PronounPronoun(nextNext);
-                   })
-                   .Case<ToLinker>(lnkn => {
-                       modOne = 0.7d; //determiner-tolinker
+                        //second (Determiner -> Noun)
+                        modTwo = PronounPronoun(nextNext);
+                    })
+                    .Case<ToLinker>(() => {
+                        modOne = 0.7d; //determiner-tolinker
 
-                       //second (Determiner -> ToLinker)
-                       modTwo = PronounToLinker(nextNext);
-                   })
-                   .Case<Preposition>(pren => {
-                       modOne = 0.3d; //determiner positional
+                        //second (Determiner -> ToLinker)
+                        modTwo = PronounToLinker(nextNext);
+                    })
+                    .Case<Preposition>(() => {
+                        modOne = 0.3d; //determiner positional
 
-                       //second Determiner -> Preposition)
-                       modTwo = PronounPreposition(nextNext);
-                   })
-                   .Case<Determiner>(dn => {
-                       modOne = 0d; //determiner-determiner
+                        //second Determiner -> Preposition)
+                        modTwo = PronounPreposition(nextNext);
+                    })
+                    .Case<Determiner>(() => {
+                        modOne = 0d; //determiner-determiner
 
-                       //second (Determiner -> Determiner)
-                       modTwo = PronounDeterminer(nextNext);
-                   })
-                   .Default(def => {
-                       modOne = 0.1d;
+                        //second (Determiner -> Determiner)
+                        modTwo = PronounDeterminer(nextNext);
+                    })
+                    .Default(() => {
+                        modOne = 0.1d;
 
-                       //second (Determiner -> UNCAUGHT)
-                       modTwo = PronounUncaught(nextNext);
-                   });
+                        //second (Determiner -> UNCAUGHT)
+                        modTwo = PronounUncaught(nextNext);
+                    });
 
             outModOne = modOne;
             outModTwo = modTwo;
@@ -479,31 +456,31 @@ namespace LASI.Algorithm.Weighting
         private static void Preposition(Word next, Word nextNext, out double outModOne, out double outModTwo) {
             double modOne = 0;
             double modTwo = 0;
-            new Switch(next)
-                   .Case<Noun>(nn => {
-                       modOne = 0.8; // 
+            next.Switch()
+                    .Case<Noun>(() => {
+                        modOne = 0.8; // 
 
-                       //second (Preposition -> Noun)
-                       modTwo = PrepositionNoun(nextNext);
-                   })
-                   .Case<Pronoun>(pnn => {
-                       modOne = 0.8; // 
+                        //second (Preposition -> Noun)
+                        modTwo = PrepositionNoun(nextNext);
+                    })
+                    .Case<Pronoun>(() => {
+                        modOne = 0.8; // 
 
-                       //second (Preposition -> Noun)
-                       modTwo = PrepositionPronoun(nextNext);
-                   })
-                   .Case<Determiner>(dn => {
-                       modOne = 0.7; //determiner
+                        //second (Preposition -> Noun)
+                        modTwo = PrepositionPronoun(nextNext);
+                    })
+                    .Case<Determiner>(() => {
+                        modOne = 0.7; //determiner
 
-                       //second (Preposition -> Determiner)
-                       modTwo = PrepositionDeterminer(nextNext);
-                   })
-                   .Default(def => {
-                       modOne = 0.1;
+                        //second (Preposition -> Determiner)
+                        modTwo = PrepositionDeterminer(nextNext);
+                    })
+                    .Default(() => {
+                        modOne = 0.1;
 
-                       //second (Preposition -> UNCAUGHT)
-                       modTwo = PrepositionUncaught(nextNext);
-                   });
+                        //second (Preposition -> UNCAUGHT)
+                        modTwo = PrepositionUncaught(nextNext);
+                    });
 
             outModOne = modOne;
             outModTwo = modTwo;
@@ -512,54 +489,54 @@ namespace LASI.Algorithm.Weighting
         private static void Pronoun(Word next, Word nextNext, out double outModOne, out double outModTwo) {
             double modOne = 0;
             double modTwo = 0;
-            new Switch(next)
-                   .Case<Noun>(nn => {
-                       modOne = 0.9; //compound noun/pronoun / possessed by pronoun
+            next.Switch()
+                    .Case<Noun>(() => {
+                        modOne = 0.9; //compound noun/pronoun / possessed by pronoun
 
-                       //second (Pronoun -> Noun)
-                       modTwo = PronounNoun(nextNext);
-                   })
-                   .Case<Adjective>(advn => {
-                       modOne = 0.8;  //possessed/descriptor 
+                        //second (Pronoun -> Noun)
+                        modTwo = PronounNoun(nextNext);
+                    })
+                    .Case<Adjective>(() => {
+                        modOne = 0.8;  //possessed/descriptor 
 
-                       //second (Pronoun -> Adjective)
-                       modTwo = PronounAdjective(nextNext);
-                   })
-                   .Case<Adverb>(advn => {
-                       modOne = 0.7;  //pronoun amplifier
+                        //second (Pronoun -> Adjective)
+                        modTwo = PronounAdjective(nextNext);
+                    })
+                    .Case<Adverb>(() => {
+                        modOne = 0.7;  //pronoun amplifier
 
-                       //second (Pronoun -> Adverb)
-                       modTwo = PronounAdverb(nextNext);
-                   })
-                   .Case<Pronoun>(pnn => {
-                       modOne = 0.9d; //compound pronoun 
-                       //second (Pronoun -> Noun)
-                       modTwo = PronounPronoun(nextNext);
-                   })
-                   .Case<ToLinker>(lnkn => {
-                       modOne = 0.6d; //pronoun directional
+                        //second (Pronoun -> Adverb)
+                        modTwo = PronounAdverb(nextNext);
+                    })
+                    .Case<Pronoun>(() => {
+                        modOne = 0.9d; //compound pronoun 
+                        //second (Pronoun -> Noun)
+                        modTwo = PronounPronoun(nextNext);
+                    })
+                    .Case<ToLinker>(() => {
+                        modOne = 0.6d; //pronoun directional
 
-                       //second (Pronoun -> ToLinker)
-                       modTwo = PronounToLinker(nextNext);
-                   })
-                   .Case<Preposition>(pren => {
-                       modOne = 0.5d; //pronoun positional
+                        //second (Pronoun -> ToLinker)
+                        modTwo = PronounToLinker(nextNext);
+                    })
+                    .Case<Preposition>(() => {
+                        modOne = 0.5d; //pronoun positional
 
-                       //second (Pronoun -> Preposition)
-                       modTwo = PronounPreposition(nextNext);
-                   })
-                   .Case<Determiner>(dn => {
-                       modOne = 0.7d; //determiner
+                        //second (Pronoun -> Preposition)
+                        modTwo = PronounPreposition(nextNext);
+                    })
+                    .Case<Determiner>(() => {
+                        modOne = 0.7d; //determiner
 
-                       //second (Pronoun -> Determiner)
-                       modTwo = PronounDeterminer(nextNext);
-                   })
-                   .Default(def => {
-                       modOne = 0.1d;
+                        //second (Pronoun -> Determiner)
+                        modTwo = PronounDeterminer(nextNext);
+                    })
+                    .Default(() => {
+                        modOne = 0.1d;
 
-                       //second (Pronoun -> UNCAUGHT)
-                       modTwo = PronounUncaught(nextNext);
-                   });
+                        //second (Pronoun -> UNCAUGHT)
+                        modTwo = PronounUncaught(nextNext);
+                    });
 
             outModOne = modOne;
             outModTwo = modTwo;
@@ -568,50 +545,50 @@ namespace LASI.Algorithm.Weighting
         private static void Adverb(Word next, Word nextNext, out double outModOne, out double outModTwo) {
             double modOne = 0;
             double modTwo = 0;
-            new Switch(next)
-                   .Case<Noun>(nn => {
+            next.Switch()
+                   .Case<Noun>(() => {
                        modOne = 0.9d; //adverbial noun
 
                        //second (Adverb -> Noun)
                        modTwo = AdverbNoun(nextNext);
                    })
-                   .Case<Adjective>(advn => {
+                   .Case<Adjective>(() => {
                        modOne = 0.8d;  //normal adv-adj
 
                        //second (Adverb -> Adjective)
                        modTwo = AdverbAdjective(nextNext);
                    })
-                   .Case<Adverb>(advn => {
+                   .Case<Adverb>(() => {
                        modOne = 0.7d;  //bi-adverbial
 
                        //second (Adverb -> Adverb)
                        modTwo = AdverbAdverb(nextNext);
                    })
-                   .Case<Pronoun>(pnn => {
+                   .Case<Pronoun>(() => {
                        modOne = 0.9d; //adverbial pronoun
 
                        //second (Adverb -> Noun)
                        modTwo = AdverbPronoun(nextNext);
                    })
-                   .Case<ToLinker>(lnkn => {
+                   .Case<ToLinker>(() => {
                        modOne = 0.7d; //adverb directional
 
                        //second (Adverb -> ToLinker)
                        modTwo = AdverbToLinker(nextNext);
                    })
-                   .Case<Preposition>(pren => {
+                   .Case<Preposition>(() => {
                        modOne = 0.5d; //adverb positional
 
                        //second (Adverb -> Preposition)
                        modTwo = AdverbPreposition(nextNext);
                    })
-                   .Case<Determiner>(dn => {
+                   .Case<Determiner>(() => {
                        modOne = 0.7d; //determiner
 
                        //second (Adverb -> Determiner)
                        modTwo = AdverbDeterminer(nextNext);
                    })
-                   .Default(def => {
+                   .Default(() => {
                        modOne = 0.1d;
 
                        //second (Adverb -> UNCAUGHT)
@@ -625,50 +602,50 @@ namespace LASI.Algorithm.Weighting
         private static void Adjective(Word next, Word nextNext, out double outModOne, out double outModTwo) {
             double modOne = 0;
             double modTwo = 0;
-            new Switch(next)
-                   .Case<Noun>(nn => {
+            next.Switch()
+                   .Case<Noun>(() => {
                        modOne = 0.7d; //noun descriptor
 
                        //second (Adjective -> Noun)
                        modTwo = AdjectiveNoun(nextNext);
                    })
-                   .Case<Adjective>(advn => {
+                   .Case<Adjective>(() => {
                        modOne = 0.5d;  //double descriptor
 
                        //second (Adjective -> Adjective)
                        modTwo = AdjectiveAdjective(nextNext);
                    })
-                   .Case<Adverb>(advn => {
+                   .Case<Adverb>(() => {
                        modOne = 0.5d;  //coloured brilliantly
 
                        //second (Adjective -> Adverb)
                        modTwo = AdjectiveAdverb(nextNext);
                    })
-                   .Case<Pronoun>(pnn => {
+                   .Case<Pronoun>(() => {
                        modOne = 0.7d; //noun descriptor
 
                        //second (Adjective -> Noun)
                        modTwo = AdjectivePronoun(nextNext);
                    })
-                   .Case<ToLinker>(lnkn => {
+                   .Case<ToLinker>(() => {
                        modOne = 0.4d; //adjective directional
 
                        //second (Adjective -> ToLinker)
                        modTwo = AdjectiveToLinker(nextNext);
                    })
-                   .Case<Preposition>(pren => {
+                   .Case<Preposition>(() => {
                        modOne = 0.4d; //adjective positional
 
                        //second (Adjective -> Prepositional)
                        modTwo = AdjectivePreposition(nextNext);
                    })
-                   .Case<Determiner>(dn => {
+                   .Case<Determiner>(() => {
                        modOne = 0.4d; //determiner
 
                        //second (Adjective -> Determiner)
                        modTwo = AdjectiveDeterminer(nextNext);
                    })
-                   .Default(def => {
+                   .Default(() => {
                        modOne = 0.1d;
 
                        //second (Adjective -> UNCAUGHT)
@@ -682,56 +659,56 @@ namespace LASI.Algorithm.Weighting
         private static void Verb(Word next, Word nextNext, out double outModOne, out double outModTwo) {
             double modOne = 0;
             double modTwo = 0;
-            new Switch(next)
-                   .Case<Noun>(nn => {
+            next.Switch()
+                   .Case<Noun>(() => {
                        modOne = 0.9d; //adverb actor
 
                        //second (Verb -> Noun)
                        modTwo = VerbNoun(nextNext);
                    })
-                   .Case<PastParticipleVerb>(vn => {
+                   .Case<PastParticipleVerb>(() => {
                        modOne = 0.7d; //adverb-adverb descriptor
 
                        //second (Verb -> PastParticipleVerb)
                        modTwo = VerbPastParticipleVerb(nextNext);
                    })
-                   .Case<Adjective>(advn => {
+                   .Case<Adjective>(() => {
                        modOne = 0.6d;  //adverb state
 
                        //second (Verb -> Adjective)
                        modTwo = VerbAdjective(nextNext);
                    })
-                   .Case<Adverb>(advn => {
+                   .Case<Adverb>(() => {
                        modOne = 0.7d;  //perfect adverb
 
                        //second (Verb -> Adverb)
                        modTwo = VerbAdverb(nextNext);
                    })
-                   .Case<Pronoun>(pnn => {
+                   .Case<Pronoun>(() => {
                        modOne = 0.9d; //adverb actor
 
                        //second (Verb -> Pronoun)
                        modTwo = VerbPronoun(nextNext);
                    })
-                   .Case<ToLinker>(lnkn => {
+                   .Case<ToLinker>(() => {
                        modOne = 0.6d; //adverb directional
 
                        //second (Verb -> ToLinker)
                        modTwo = VerbToLinker(nextNext);
                    })
-                   .Case<Preposition>(pren => {
+                   .Case<Preposition>(() => {
                        modOne = 0.5d; //adverb-adverb positional
 
                        //second (Verb -> Preposition)
                        modTwo = VerbPreposition(nextNext);
                    })
-                   .Case<Determiner>(dn => {
+                   .Case<Determiner>(() => {
                        modOne = 0.4d; //determiner
 
                        //second (Verb -> Determiner)
                        modTwo = VerbDeterminer(nextNext);
                    })
-                   .Default(def => {
+                   .Default(() => {
                        modOne = 0.1d;
 
                        //second (Verb -> UNCAUGHT)
@@ -742,12 +719,11 @@ namespace LASI.Algorithm.Weighting
             outModTwo = modTwo;
         }
 
-
         private static void Noun(Word next, Word nextNext, out double outModOne, out double outModTwo) {
             double modOne = 0; //Renamed parameters and bound created temporary variables to pass into the switch blocks 
             double modTwo = 0;
-            new Switch(next)
-                   .Case<Noun>(nn => {
+            next.Switch()
+                   .Case<Noun>(() => {
                        modOne = 0.9d; //compound noun
 
                        //second (Noun -> Noun)
@@ -765,13 +741,13 @@ namespace LASI.Algorithm.Weighting
                        //second (Noun -> Verb)
                        modTwo = NounVerb(nextNext);
                    })
-                   .Case<Adverb>(advn => {
+                   .Case<Adverb>(() => {
                        modOne = 0.7d;  //noun amplifier
 
                        //second (Noun -> Adverb)
                        modTwo = NounAdverb(nextNext);
                    })
-                   .Case<Pronoun>(pnn => {
+                   .Case<Pronoun>(() => {
                        modOne = 0.9d; //compound noun
 
                        //second (Noun -> Pronoun)
@@ -779,25 +755,25 @@ namespace LASI.Algorithm.Weighting
 
 
                    })
-                   .Case<ToLinker>(lnkn => {
+                   .Case<ToLinker>(() => {
                        modOne = 0.6d; //noun to link
 
                        //second (Noun -> ToLinker)
                        modTwo = NounToLinker(nextNext);
                    })
-                   .Case<Preposition>(pren => {
+                   .Case<Preposition>(() => {
                        modOne = 0.6d; //noun positional
 
                        //second (Noun -> Preposition)
                        modTwo = NounPreposition(nextNext);
                    })
-                   .Case<Determiner>(dn => {
+                   .Case<Determiner>(() => {
                        modOne = 0.5d; //determiner
 
                        //second (Noun -> Determiner)
                        modTwo = NounDeterminer(nextNext);
                    })
-                   .Default(def => {
+                   .Default(() => {
                        modOne = 0.1d;
 
                        //second (Noun -> UNCAUGHT)
@@ -809,32 +785,32 @@ namespace LASI.Algorithm.Weighting
 
         private static double UncaughtUncaught(Word nextNext) {
             double modTwo = 0;
-            new Switch(nextNext)
-                .Case<Noun>(nn => {
+            nextNext.Switch()
+                .Case<Noun>(() => {
                     modTwo = 0.1d; //uncaught-uncaught-noun
                 })
-                .Case<PastParticipleVerb>(vn => {
+                .Case<PastParticipleVerb>(() => {
                     modTwo = 0.1d; //uncaught-uncaught-pastverb 
                 })
-                .Case<Adjective>(advn => {
+                .Case<Adjective>(() => {
                     modTwo = 0.1d;  //uncaught-uncaught-adjective
                 })
-                .Case<Adverb>(advn => {
+                .Case<Adverb>(() => {
                     modTwo = 0.1d;  //uncaught-uncaught-adverb
                 })
-                .Case<Pronoun>(pnn => {
+                .Case<Pronoun>(() => {
                     modTwo = 0.1; //uncaught-uncaught-noun 
                 })
-                .Case<ToLinker>(lnkn => {
+                .Case<ToLinker>(() => {
                     modTwo = 0.1d; //uncaught-uncaught directional 
                 })
-                .Case<Preposition>(pren => {
+                .Case<Preposition>(() => {
                     modTwo = 0.1d; //uncaught-uncaught positional
                 })
-                .Case<Determiner>(dn => {
+                .Case<Determiner>(() => {
                     modTwo = 0.1d; //uncaught-uncaught determiner
                 })
-                .Default(def => {
+                .Default(() => {
                     modTwo = 0.1d; //uncaught-uncaught-uncaught (epic fail)
                 });
             return modTwo;
@@ -842,32 +818,32 @@ namespace LASI.Algorithm.Weighting
 
         private static double PrepositionUncaught(Word nextNext) {
             double modTwo = 0;
-            new Switch(nextNext)
-                .Case<Noun>(nn => {
+            nextNext.Switch()
+                .Case<Noun>(() => {
                     modTwo = 0.5d; //preposition-uncaught-noun
                 })
-                .Case<PastParticipleVerb>(vn => {
+                .Case<PastParticipleVerb>(() => {
                     modTwo = 0.4d; //preposition-uncaught-pastverb 
                 })
-                .Case<Adjective>(advn => {
+                .Case<Adjective>(() => {
                     modTwo = 0.3d;  //preposition-uncaught-adjective
                 })
-                .Case<Adverb>(advn => {
+                .Case<Adverb>(() => {
                     modTwo = 0.3d;  //preposition-uncaught-adverb
                 })
-                .Case<Pronoun>(pnn => {
+                .Case<Pronoun>(() => {
                     modTwo = 0.5d; //preposition-uncaught-noun 
                 })
-                .Case<ToLinker>(lnkn => {
+                .Case<ToLinker>(() => {
                     modTwo = 0.2d; //preposition-uncaught directional 
                 })
-                .Case<Preposition>(pren => {
+                .Case<Preposition>(() => {
                     modTwo = 0.2d; //preposition-uncaught positional
                 })
-                .Case<Determiner>(dn => {
+                .Case<Determiner>(() => {
                     modTwo = 0.2d; //preposition-uncaught determiner
                 })
-                .Default(def => {
+                .Default(() => {
                     modTwo = 0.1d;
                 });
             return modTwo;
@@ -875,32 +851,32 @@ namespace LASI.Algorithm.Weighting
 
         private static double PrepositionDeterminer(Word nextNext) {
             double modTwo = 0;
-            new Switch(nextNext)
-                .Case<Noun>(nn => {
+            nextNext.Switch()
+                .Case<Noun>(() => {
                     modTwo = 0.7d; //preposition-determiner-noun
                 })
-                .Case<PastParticipleVerb>(vn => {
+                .Case<PastParticipleVerb>(() => {
                     modTwo = 0.6d; //preposition-determiner-adverb descriptor
                 })
-                .Case<Adjective>(advn => {
+                .Case<Adjective>(() => {
                     modTwo = 0.5d;  //preposition-determiner-adjective
                 })
-                .Case<Adverb>(advn => {
+                .Case<Adverb>(() => {
                     modTwo = 0.4d;  //preposition-determiner-adverb
                 })
-                .Case<Pronoun>(pnn => {
+                .Case<Pronoun>(() => {
                     modTwo = 0.6d; //preposition-determiner-noun
                 })
-                .Case<ToLinker>(lnkn => {
+                .Case<ToLinker>(() => {
                     modTwo = 0.3d; //preposition-determiner directional
                 })
-                .Case<Preposition>(pren => {
+                .Case<Preposition>(() => {
                     modTwo = 0.3d; //preposition-determiner positional
                 })
-                .Case<Determiner>(dn => {
+                .Case<Determiner>(() => {
                     modTwo = 0.3d; //preposition-determiner determiner
                 })
-                .Default(def => {
+                .Default(() => {
                     modTwo = 0.1d;
                 });
             return modTwo;
@@ -908,32 +884,32 @@ namespace LASI.Algorithm.Weighting
 
         private static double PrepositionPronoun(Word nextNext) {
             double modTwo = 0;
-            new Switch(nextNext)
-                .Case<Noun>(nn => {
+            nextNext.Switch()
+                .Case<Noun>(() => {
                     modTwo = 0.5d; //preposition-compound noun
                 })
-                .Case<PastParticipleVerb>(vn => {
+                .Case<PastParticipleVerb>(() => {
                     modTwo = 0.8d; //preposition-noun-adverb descriptor
                 })
-                .Case<Adjective>(advn => {
+                .Case<Adjective>(() => {
                     modTwo = 0.3d;  //preposition-noun-adjective
                 })
-                .Case<Adverb>(advn => {
+                .Case<Adverb>(() => {
                     modTwo = 0.3d;  //preposition-noun-adverb
                 })
-                .Case<Pronoun>(pnn => {
+                .Case<Pronoun>(() => {
                     modTwo = 0.8d; //preposition-compound noun
                 })
-                .Case<ToLinker>(lnkn => {
+                .Case<ToLinker>(() => {
                     modTwo = 0.6d; //preposition-noun directional
                 })
-                .Case<Preposition>(pren => {
+                .Case<Preposition>(() => {
                     modTwo = 0.2d; //preposition-noun positional
                 })
-                .Case<Determiner>(dn => {
+                .Case<Determiner>(() => {
                     modTwo = 0.9d; //preposition-noun determiner
                 })
-                .Default(def => {
+                .Default(() => {
                     modTwo = 0.1d;
                 });
             return modTwo;
@@ -941,32 +917,32 @@ namespace LASI.Algorithm.Weighting
 
         private static double PrepositionNoun(Word nextNext) {
             double modTwo = 0;
-            new Switch(nextNext)
-                .Case<Noun>(nn => {
+            nextNext.Switch()
+                .Case<Noun>(() => {
                     modTwo = 0.5d; //preposition-compound noun
                 })
-                .Case<PastParticipleVerb>(vn => {
+                .Case<PastParticipleVerb>(() => {
                     modTwo = 0.8d; //preposition-noun-adverb descriptor
                 })
-                .Case<Adjective>(advn => {
+                .Case<Adjective>(() => {
                     modTwo = 0.3d;  //preposition-noun-adjective
                 })
-                .Case<Adverb>(advn => {
+                .Case<Adverb>(() => {
                     modTwo = 0.3d;  //preposition-noun-adverb
                 })
-                .Case<Pronoun>(pnn => {
+                .Case<Pronoun>(() => {
                     modTwo = 0.3d; //preposition-compound noun
                 })
-                .Case<ToLinker>(lnkn => {
+                .Case<ToLinker>(() => {
                     modTwo = 0.8d; //preposition-noun directional
                 })
-                .Case<Preposition>(pren => {
+                .Case<Preposition>(() => {
                     modTwo = 0.6d; //preposition-noun positional
                 })
-                .Case<Determiner>(dn => {
+                .Case<Determiner>(() => {
                     modTwo = 0.2d; //preposition-noun determiner
                 })
-                .Default(def => {
+                .Default(() => {
                     modTwo = 0.1d;
                 });
             return modTwo;
@@ -974,32 +950,32 @@ namespace LASI.Algorithm.Weighting
 
         private static double PronounUncaught(Word nextNext) {
             double modTwo = 0;
-            new Switch(nextNext)
-                .Case<Noun>(nn => {
+            nextNext.Switch()
+                .Case<Noun>(() => {
                     modTwo = 0.3d; //pronoun-uncaught-noun
                 })
-                .Case<PastParticipleVerb>(vn => {
+                .Case<PastParticipleVerb>(() => {
                     modTwo = 0.2d; //pronoun-uncaught-pastverb 
                 })
-                .Case<Adjective>(advn => {
+                .Case<Adjective>(() => {
                     modTwo = 0.2d;  //pronoun-uncaught-adjective
                 })
-                .Case<Adverb>(advn => {
+                .Case<Adverb>(() => {
                     modTwo = 0.2d;  //pronoun-uncaught-adverb
                 })
-                .Case<Pronoun>(pnn => {
+                .Case<Pronoun>(() => {
                     modTwo = 0.3d; //pronoun-uncaught-noun 
                 })
-                .Case<ToLinker>(lnkn => {
+                .Case<ToLinker>(() => {
                     modTwo = 0.2d; //pronoun-uncaught directional 
                 })
-                .Case<Preposition>(pren => {
+                .Case<Preposition>(() => {
                     modTwo = 0.2d; //pronoun-uncaught positional
                 })
-                .Case<Determiner>(dn => {
+                .Case<Determiner>(() => {
                     modTwo = 0.2d; //pronoun-uncaught determiner
                 })
-                .Default(def => {
+                .Default(() => {
                     modTwo = 0.1d;
                 });
             return modTwo;
@@ -1007,32 +983,32 @@ namespace LASI.Algorithm.Weighting
 
         private static double PronounDeterminer(Word nextNext) {
             double modTwo = 0;
-            new Switch(nextNext)
-                .Case<Noun>(nn => {
+            nextNext.Switch()
+                .Case<Noun>(() => {
                     modTwo = 0.9d; //pronoun-determiner-noun
                 })
-                .Case<PastParticipleVerb>(vn => {
+                .Case<PastParticipleVerb>(() => {
                     modTwo = 0.7d; //pronoun-determiner-adverb descriptor
                 })
-                .Case<Adjective>(advn => {
+                .Case<Adjective>(() => {
                     modTwo = 0.6d;  //pronoun-determiner-adjective
                 })
-                .Case<Adverb>(advn => {
+                .Case<Adverb>(() => {
                     modTwo = 0.5d;  //pronoun-determiner-adverb
                 })
-                .Case<Pronoun>(pnn => {
+                .Case<Pronoun>(() => {
                     modTwo = 0.9d; //pronoun-determiner-noun
                 })
-                .Case<ToLinker>(lnkn => {
+                .Case<ToLinker>(() => {
                     modTwo = 0.1d; //pronoun-determiner directional
                 })
-                .Case<Preposition>(pren => {
+                .Case<Preposition>(() => {
                     modTwo = 0.3d; //pronoun-determiner positional
                 })
-                .Case<Determiner>(dn => {
+                .Case<Determiner>(() => {
                     modTwo = 0; //pronoun-determiner determiner
                 })
-                .Default(def => {
+                .Default(() => {
                     modTwo = 0.1d;
                 });
             return modTwo;
@@ -1040,32 +1016,32 @@ namespace LASI.Algorithm.Weighting
 
         private static double PronounPreposition(Word nextNext) {
             double modTwo = 0;
-            new Switch(nextNext)
-                .Case<Noun>(nn => {
+            nextNext.Switch()
+                .Case<Noun>(() => {
                     modTwo = 0.8d; //pronoun-preposition-noun
                 })
-                .Case<PastParticipleVerb>(vn => {
+                .Case<PastParticipleVerb>(() => {
                     modTwo = 0.6d; //pronoun-preposition-adverb descriptor
                 })
-                .Case<Adjective>(advn => {
+                .Case<Adjective>(() => {
                     modTwo = 0.5d;  //pronoun-preposition-adjective
                 })
-                .Case<Adverb>(advn => {
+                .Case<Adverb>(() => {
                     modTwo = 0.6d;  //pronoun-preposition-adverb
                 })
-                .Case<Pronoun>(pnn => {
+                .Case<Pronoun>(() => {
                     modTwo = 0.8d; //pronoun-preposition-noun
                 })
-                .Case<ToLinker>(lnkn => {
+                .Case<ToLinker>(() => {
                     modTwo = 0.4d; //pronoun-preposition directional
                 })
-                .Case<Preposition>(pren => {
+                .Case<Preposition>(() => {
                     modTwo = 0.4d; //pronoun-preposition positional
                 })
-                .Case<Determiner>(dn => {
+                .Case<Determiner>(() => {
                     modTwo = 0.3d; //pronoun-preposition determiner
                 })
-                .Default(def => {
+                .Default(() => {
                     modTwo = 0.1d;
                 });
             return modTwo;
@@ -1073,32 +1049,32 @@ namespace LASI.Algorithm.Weighting
 
         private static double PronounToLinker(Word nextNext) {
             double modTwo = 0;
-            new Switch(nextNext)
-                .Case<Noun>(nn => {
+            nextNext.Switch()
+                .Case<Noun>(() => {
                     modTwo = 0.9d; //pronoun-tolinker-noun
                 })
-                .Case<PastParticipleVerb>(vn => {
+                .Case<PastParticipleVerb>(() => {
                     modTwo = 0.8d; //pronoun-tolinker-adverb descriptor
                 })
-                .Case<Adjective>(advn => {
+                .Case<Adjective>(() => {
                     modTwo = 0.7d;  //pronoun-tolinker-adjective
                 })
-                .Case<Adverb>(advn => {
+                .Case<Adverb>(() => {
                     modTwo = 0.6d;  //pronoun-tolinker-adverb
                 })
-                .Case<Pronoun>(pnn => {
+                .Case<Pronoun>(() => {
                     modTwo = 0.9d; //pronoun-tolinker-noun
                 })
-                .Case<ToLinker>(lnkn => {
+                .Case<ToLinker>(() => {
                     modTwo = 0; //pronoun-tolinker directional
                 })
-                .Case<Preposition>(pren => {
+                .Case<Preposition>(() => {
                     modTwo = 0.5d; //pronoun-tolinker positional
                 })
-                .Case<Determiner>(dn => {
+                .Case<Determiner>(() => {
                     modTwo = 0.7d; //pronoun-tolinker determiner
                 })
-                .Default(def => {
+                .Default(() => {
                     modTwo = 0.1d;
                 });
             return modTwo;
@@ -1106,32 +1082,32 @@ namespace LASI.Algorithm.Weighting
 
         private static double PronounPronoun(Word nextNext) {
             double modTwo = 0;
-            new Switch(nextNext)
-                .Case<Noun>(nn => {
+            nextNext.Switch()
+                .Case<Noun>(() => {
                     modTwo = 0.9d; //triple compound noun
                 })
-                .Case<PastParticipleVerb>(vn => {
+                .Case<PastParticipleVerb>(() => {
                     modTwo = 0.8d; //compound noun-adverb descriptor (possible?)
                 })
-                .Case<Adjective>(advn => {
+                .Case<Adjective>(() => {
                     modTwo = 0.7d;  //compound noun-adjective
                 })
-                .Case<Adverb>(advn => {
+                .Case<Adverb>(() => {
                     modTwo = 0.6d;  //compound noun-adverb
                 })
-                .Case<Pronoun>(pnn => {
+                .Case<Pronoun>(() => {
                     modTwo = 0.9d; //triple compound (possessive) noun
                 })
-                .Case<ToLinker>(lnkn => {
+                .Case<ToLinker>(() => {
                     modTwo = 0.7d; //compound noun directional
                 })
-                .Case<Preposition>(pren => {
+                .Case<Preposition>(() => {
                     modTwo = 0.7d; //compound noun positional
                 })
-                .Case<Determiner>(dn => {
+                .Case<Determiner>(() => {
                     modTwo = 0.5d; //compound noun determiner
                 })
-                .Default(def => {
+                .Default(() => {
                     modTwo = 0.1d;
                 });
             return modTwo;
@@ -1139,32 +1115,32 @@ namespace LASI.Algorithm.Weighting
 
         private static double PronounAdverb(Word nextNext) {
             double modTwo = 0;
-            new Switch(nextNext)
-                .Case<Noun>(nn => {
+            nextNext.Switch()
+                .Case<Noun>(() => {
                     modTwo = 0.8d; //pronoun-adverb-noun
                 })
-                .Case<PastParticipleVerb>(vn => {
+                .Case<PastParticipleVerb>(() => {
                     modTwo = 0.7d; //pronoun-adverb-adverb descriptor
                 })
-                .Case<Adjective>(advn => {
+                .Case<Adjective>(() => {
                     modTwo = 0.6d;  //pronoun-adverb-adjective
                 })
-                .Case<Adverb>(advn => {
+                .Case<Adverb>(() => {
                     modTwo = 0.5d;  //pronoun-adverb-adverb
                 })
-                .Case<Pronoun>(pnn => {
+                .Case<Pronoun>(() => {
                     modTwo = .8d; //pronoun-adverb-noun
                 })
-                .Case<ToLinker>(lnkn => {
+                .Case<ToLinker>(() => {
                     modTwo = 0.7d; //pronoun-adverb directional
                 })
-                .Case<Preposition>(pren => {
+                .Case<Preposition>(() => {
                     modTwo = 0.6d; //pronoun-adverb positional
                 })
-                .Case<Determiner>(dn => {
+                .Case<Determiner>(() => {
                     modTwo = 0.5d; //pronoun-adverb determiner
                 })
-                .Default(def => {
+                .Default(() => {
                     modTwo = 0.1d;
                 });
             return modTwo;
@@ -1172,32 +1148,32 @@ namespace LASI.Algorithm.Weighting
 
         private static double PronounAdjective(Word nextNext) {
             double modTwo = 0;
-            new Switch(nextNext)
-                .Case<Noun>(nn => {
+            nextNext.Switch()
+                .Case<Noun>(() => {
                     modTwo = 0.9d; //pronoun-adjective-noun
                 })
-                .Case<PastParticipleVerb>(vn => {
+                .Case<PastParticipleVerb>(() => {
                     modTwo = 0.8d; //pronoun-adjective-adverb descriptor
                 })
-                .Case<Adjective>(advn => {
+                .Case<Adjective>(() => {
                     modTwo = 0.7d;  //pronoun-adjective-adjective
                 })
-                .Case<Adverb>(advn => {
+                .Case<Adverb>(() => {
                     modTwo = 0.6d;  //pronoun-adjective-adverb
                 })
-                .Case<Pronoun>(pnn => {
+                .Case<Pronoun>(() => {
                     modTwo = 0.9d; //pronoun-adjective-noun
                 })
-                .Case<ToLinker>(lnkn => {
+                .Case<ToLinker>(() => {
                     modTwo = 0.2d; //pronoun-adjective directional
                 })
-                .Case<Preposition>(pren => {
+                .Case<Preposition>(() => {
                     modTwo = 0.2d; //pronoun-adjective positional
                 })
-                .Case<Determiner>(dn => {
+                .Case<Determiner>(() => {
                     modTwo = 0.7d; //pronoun-adjective determiner
                 })
-                .Default(def => {
+                .Default(() => {
                     modTwo = 0.1d;
                 });
             return modTwo;
@@ -1205,32 +1181,32 @@ namespace LASI.Algorithm.Weighting
 
         private static double PronounNoun(Word nextNext) {
             double modTwo = 0;
-            new Switch(nextNext)
-                .Case<Noun>(nn => {
+            nextNext.Switch()
+                .Case<Noun>(() => {
                     modTwo = 0.9d; //triple compound noun
                 })
-                .Case<PastParticipleVerb>(vn => {
+                .Case<PastParticipleVerb>(() => {
                     modTwo = 0.8d; //compound noun-adverb descriptor (possible?)
                 })
-                .Case<Adjective>(advn => {
+                .Case<Adjective>(() => {
                     modTwo = 0.7d;  //compound noun-adjective
                 })
-                .Case<Adverb>(advn => {
+                .Case<Adverb>(() => {
                     modTwo = 0.7d;  //compound noun-adverb
                 })
-                .Case<Pronoun>(pnn => {
+                .Case<Pronoun>(() => {
                     modTwo = 0.9d; //triple compound (possessive) noun
                 })
-                .Case<ToLinker>(lnkn => {
+                .Case<ToLinker>(() => {
                     modTwo = 0.8d; //compound noun directional
                 })
-                .Case<Preposition>(pren => {
+                .Case<Preposition>(() => {
                     modTwo = 0.7d; //compound noun positional
                 })
-                .Case<Determiner>(dn => {
+                .Case<Determiner>(() => {
                     modTwo = 0.5d; //compound noun determiner
                 })
-                .Default(def => {
+                .Default(() => {
                     modTwo = 0.1d;
                 });
             return modTwo;
@@ -1238,32 +1214,32 @@ namespace LASI.Algorithm.Weighting
 
         private static double AdverbUncaught(Word nextNext) {
             double modTwo = 0;
-            new Switch(nextNext)
-                .Case<Noun>(nn => {
+            nextNext.Switch()
+                .Case<Noun>(() => {
                     modTwo = 0.5d; //adverb-uncaught-noun
                 })
-                .Case<PastParticipleVerb>(vn => {
+                .Case<PastParticipleVerb>(() => {
                     modTwo = 0.4d; //adverb-uncaught-pastverb 
                 })
-                .Case<Adjective>(advn => {
+                .Case<Adjective>(() => {
                     modTwo = 0.3d;  //adverb-uncaught-adjective
                 })
-                .Case<Adverb>(advn => {
+                .Case<Adverb>(() => {
                     modTwo = 0.3d;  //adverb-uncaught-adverb
                 })
-                .Case<Pronoun>(pnn => {
+                .Case<Pronoun>(() => {
                     modTwo = 0.5d; //adverb-uncaught-noun 
                 })
-                .Case<ToLinker>(lnkn => {
+                .Case<ToLinker>(() => {
                     modTwo = 0.3d; //adverb-uncaught directional 
                 })
-                .Case<Preposition>(pren => {
+                .Case<Preposition>(() => {
                     modTwo = 0.2d; //adverb-uncaught positional
                 })
-                .Case<Determiner>(dn => {
+                .Case<Determiner>(() => {
                     modTwo = 0.3d; //adverb-uncaught determiner
                 })
-                .Default(def => {
+                .Default(() => {
                     modTwo = 0.1d;
                 });
             return modTwo;
@@ -1271,32 +1247,32 @@ namespace LASI.Algorithm.Weighting
 
         private static double AdverbDeterminer(Word nextNext) {
             double modTwo = 0;
-            new Switch(nextNext)
-                .Case<Noun>(nn => {
+            nextNext.Switch()
+                .Case<Noun>(() => {
                     modTwo = 0.9d; //adverb-determiner-noun
                 })
-                .Case<PastParticipleVerb>(vn => {
+                .Case<PastParticipleVerb>(() => {
                     modTwo = 0.3d; //adverb-determiner-adverb descriptor
                 })
-                .Case<Adjective>(advn => {
+                .Case<Adjective>(() => {
                     modTwo = 0.8d;  //adverb-determiner-adjective
                 })
-                .Case<Adverb>(advn => {
+                .Case<Adverb>(() => {
                     modTwo = 0.7d;  //adverb-determiner-adverb
                 })
-                .Case<Pronoun>(pnn => {
+                .Case<Pronoun>(() => {
                     modTwo = 0.9d; //adverb-determiner-noun
                 })
-                .Case<ToLinker>(lnkn => {
+                .Case<ToLinker>(() => {
                     modTwo = 0; //adverb-determiner directional
                 })
-                .Case<Preposition>(pren => {
+                .Case<Preposition>(() => {
                     modTwo = 0.3d; //adverb-determiner positional
                 })
-                .Case<Determiner>(dn => {
+                .Case<Determiner>(() => {
                     modTwo = 0; //adverb-determiner determiner
                 })
-                .Default(def => {
+                .Default(() => {
                     modTwo = 0.1d;
                 });
             return modTwo;
@@ -1304,32 +1280,32 @@ namespace LASI.Algorithm.Weighting
 
         private static double AdverbPreposition(Word nextNext) {
             double modTwo = 0;
-            new Switch(nextNext)
-                .Case<Noun>(nn => {
+            nextNext.Switch()
+                .Case<Noun>(() => {
                     modTwo = 0; //adverb-preposition-noun
                 })
-                .Case<PastParticipleVerb>(vn => {
+                .Case<PastParticipleVerb>(() => {
                     modTwo = 0; //adverb-preposition-adverb descriptor
                 })
-                .Case<Adjective>(advn => {
+                .Case<Adjective>(() => {
                     modTwo = 0;  //adverb-preposition-adjective
                 })
-                .Case<Adverb>(advn => {
+                .Case<Adverb>(() => {
                     modTwo = 0;  //adverb-preposition-adverb
                 })
-                .Case<Pronoun>(pnn => {
+                .Case<Pronoun>(() => {
                     modTwo = 0; //adverb-preposition-noun
                 })
-                .Case<ToLinker>(lnkn => {
+                .Case<ToLinker>(() => {
                     modTwo = 0; //adverb-preposition directional
                 })
-                .Case<Preposition>(pren => {
+                .Case<Preposition>(() => {
                     modTwo = 0; //adverb-preposition positional
                 })
-                .Case<Determiner>(dn => {
+                .Case<Determiner>(() => {
                     modTwo = 0; //adverb-preposition determiner
                 })
-                .Default(def => {
+                .Default(() => {
                     modTwo = 0;
                 });
             return modTwo;
@@ -1337,32 +1313,32 @@ namespace LASI.Algorithm.Weighting
 
         private static double AdverbToLinker(Word nextNext) {
             double modTwo = 0;
-            new Switch(nextNext)
-                .Case<Noun>(nn => {
+            nextNext.Switch()
+                .Case<Noun>(() => {
                     modTwo = 0.9d; //adverb-tolinker-noun
                 })
-                .Case<PastParticipleVerb>(vn => {
+                .Case<PastParticipleVerb>(() => {
                     modTwo = 0.8d; //adverb-tolinker-adverb descriptor
                 })
-                .Case<Adjective>(advn => {
+                .Case<Adjective>(() => {
                     modTwo = 0.7d;  //adverb-tolinker-adjective
                 })
-                .Case<Adverb>(advn => {
+                .Case<Adverb>(() => {
                     modTwo = 0.6d;  //adverb-tolinker-adverb
                 })
-                .Case<Pronoun>(pnn => {
+                .Case<Pronoun>(() => {
                     modTwo = 0.9d; //adverb-tolinker-noun
                 })
-                .Case<ToLinker>(lnkn => {
+                .Case<ToLinker>(() => {
                     modTwo = 0; //adverb-tolinker directional
                 })
-                .Case<Preposition>(pren => {
+                .Case<Preposition>(() => {
                     modTwo = 0.3d; //adverb-tolinker positional
                 })
-                .Case<Determiner>(dn => {
+                .Case<Determiner>(() => {
                     modTwo = 0.4d; //adverb-tolinker determiner
                 })
-                .Default(def => {
+                .Default(() => {
                     modTwo = 0.1d;
                 });
             return modTwo;
@@ -1370,32 +1346,32 @@ namespace LASI.Algorithm.Weighting
 
         private static double AdverbPronoun(Word nextNext) {
             double modTwo = 0;
-            new Switch(nextNext)
-                .Case<Noun>(nn => {
+            nextNext.Switch()
+                .Case<Noun>(() => {
                     modTwo = 0.5d; //adverb compound noun
                 })
-                .Case<PastParticipleVerb>(vn => {
+                .Case<PastParticipleVerb>(() => {
                     modTwo = 0.4; //adverb-noun-adverb descriptor
                 })
-                .Case<Adjective>(advn => {
+                .Case<Adjective>(() => {
                     modTwo = 0.3;  //adverb-noun-adjective
                 })
-                .Case<Adverb>(advn => {
+                .Case<Adverb>(() => {
                     modTwo = 0;  //adverb-noun-adverb
                 })
-                .Case<Pronoun>(pnn => {
+                .Case<Pronoun>(() => {
                     modTwo = 0.5; //adverb compound noun
                 })
-                .Case<ToLinker>(lnkn => {
+                .Case<ToLinker>(() => {
                     modTwo = 0.6; //adverb-noun directional
                 })
-                .Case<Preposition>(pren => {
+                .Case<Preposition>(() => {
                     modTwo = 0.4; //adverb-noun positional
                 })
-                .Case<Determiner>(dn => {
+                .Case<Determiner>(() => {
                     modTwo = 0.4; //adverb-noun determiner
                 })
-                .Default(def => {
+                .Default(() => {
                     modTwo = 0.1;
                 });
             return modTwo;
@@ -1403,32 +1379,32 @@ namespace LASI.Algorithm.Weighting
 
         private static double AdverbAdverb(Word nextNext) {
             double modTwo = 0;
-            new Switch(nextNext)
-                .Case<Noun>(nn => {
+            nextNext.Switch()
+                .Case<Noun>(() => {
                     modTwo = 0.3; //adverb-adverb-noun
                 })
-                .Case<PastParticipleVerb>(vn => {
+                .Case<PastParticipleVerb>(() => {
                     modTwo = 0.3; //adverb-adverb-adverb descriptor
                 })
-                .Case<Adjective>(advn => {
+                .Case<Adjective>(() => {
                     modTwo = 0.3;  //adverb-adverb-adjective
                 })
-                .Case<Adverb>(advn => {
+                .Case<Adverb>(() => {
                     modTwo = 0.1;  //tri adverbial
                 })
-                .Case<Pronoun>(pnn => {
+                .Case<Pronoun>(() => {
                     modTwo = 0.3; //adverb-adverb-noun
                 })
-                .Case<ToLinker>(lnkn => {
+                .Case<ToLinker>(() => {
                     modTwo = 0.3; //adverb-adverb directional
                 })
-                .Case<Preposition>(pren => {
+                .Case<Preposition>(() => {
                     modTwo = 0.2; //adverb-adverb positional
                 })
-                .Case<Determiner>(dn => {
+                .Case<Determiner>(() => {
                     modTwo = 0.3; //adverb-adverb determiner
                 })
-                .Default(def => {
+                .Default(() => {
                     modTwo = 0.1;
                 });
             return modTwo;
@@ -1436,32 +1412,32 @@ namespace LASI.Algorithm.Weighting
 
         private static double AdverbAdjective(Word nextNext) {
             double modTwo = 0;
-            new Switch(nextNext)
-                .Case<Noun>(nn => {
+            nextNext.Switch()
+                .Case<Noun>(() => {
                     modTwo = 0.6; //adverb-adjective-noun
                 })
-                .Case<PastParticipleVerb>(vn => {
+                .Case<PastParticipleVerb>(() => {
                     modTwo = 0.4; //adverb-adjective-adverb descriptor
                 })
-                .Case<Adjective>(advn => {
+                .Case<Adjective>(() => {
                     modTwo = 0.5;  //adverb-adjective-adjective
                 })
-                .Case<Adverb>(advn => {
+                .Case<Adverb>(() => {
                     modTwo = 0.4;  //adverb-adjective-adverb
                 })
-                .Case<Pronoun>(pnn => {
+                .Case<Pronoun>(() => {
                     modTwo = 0.6; //adverb-adjective-noun
                 })
-                .Case<ToLinker>(lnkn => {
+                .Case<ToLinker>(() => {
                     modTwo = 0.5; //adverb-adjective directional
                 })
-                .Case<Preposition>(pren => {
+                .Case<Preposition>(() => {
                     modTwo = 0.4; //adverb-adjective positional
                 })
-                .Case<Determiner>(dn => {
+                .Case<Determiner>(() => {
                     modTwo = 0.3; //adverb-adjective determiner
                 })
-                .Default(def => {
+                .Default(() => {
                     modTwo = 0.1;
                 });
             return modTwo;
@@ -1469,32 +1445,32 @@ namespace LASI.Algorithm.Weighting
 
         private static double AdverbNoun(Word nextNext) {
             double modTwo = 0;
-            new Switch(nextNext)
-                .Case<Noun>(nn => {
+            nextNext.Switch()
+                .Case<Noun>(() => {
                     modTwo = 0.5d; //adverb -> compound noun
                 })
-                .Case<PastParticipleVerb>(vn => {
+                .Case<PastParticipleVerb>(() => {
                     modTwo = 0.4d; //adverb-noun-adverb descriptor (possible?)
                 })
-                .Case<Adjective>(advn => {
+                .Case<Adjective>(() => {
                     modTwo = 0.3d;  //adverb-noun-adjective
                 })
-                .Case<Adverb>(advn => {
+                .Case<Adverb>(() => {
                     modTwo = 0.3d;  //adverb-noun-adverb
                 })
-                .Case<Pronoun>(pnn => {
+                .Case<Pronoun>(() => {
                     modTwo = 0.5; //adverb -> compound (possessive) noun
                 })
-                .Case<ToLinker>(lnkn => {
+                .Case<ToLinker>(() => {
                     modTwo = 0.3; //adverb-noun directional
                 })
-                .Case<Preposition>(pren => {
+                .Case<Preposition>(() => {
                     modTwo = 0.4; //adverb-noun positional
                 })
-                .Case<Determiner>(dn => {
+                .Case<Determiner>(() => {
                     modTwo = 0.2; //adverb-noun determiner
                 })
-                .Default(def => {
+                .Default(() => {
                     modTwo = 0.1;
                 });
             return modTwo;
@@ -1502,32 +1478,32 @@ namespace LASI.Algorithm.Weighting
 
         private static double AdjectiveUncaught(Word nextNext) {
             double modTwo = 0;
-            new Switch(nextNext)
-                .Case<Noun>(nn => {
+            nextNext.Switch()
+                .Case<Noun>(() => {
                     modTwo = 0.4; //adjective-uncaught-noun
                 })
-                .Case<PastParticipleVerb>(vn => {
+                .Case<PastParticipleVerb>(() => {
                     modTwo = 0; //adjective-uncaught-pastverb 
                 })
-                .Case<Adjective>(advn => {
+                .Case<Adjective>(() => {
                     modTwo = 0;  //adjective-uncaught-adjective
                 })
-                .Case<Adverb>(advn => {
+                .Case<Adverb>(() => {
                     modTwo = 0;  //adjective-uncaught-adverb
                 })
-                .Case<Pronoun>(pnn => {
+                .Case<Pronoun>(() => {
                     modTwo = 0; //adjective -> uncaught -> noun 
                 })
-                .Case<ToLinker>(lnkn => {
+                .Case<ToLinker>(() => {
                     modTwo = 0; //adjective-uncaught directional 
                 })
-                .Case<Preposition>(pren => {
+                .Case<Preposition>(() => {
                     modTwo = 0; //adjective-uncaught positional
                 })
-                .Case<Determiner>(dn => {
+                .Case<Determiner>(() => {
                     modTwo = 0; //adjective-uncaught determiner
                 })
-                .Default(def => {
+                .Default(() => {
                     modTwo = 0;
                 });
             return modTwo;
@@ -1535,32 +1511,32 @@ namespace LASI.Algorithm.Weighting
 
         private static double AdjectiveDeterminer(Word nextNext) {
             double modTwo = 0;
-            new Switch(nextNext)
-                .Case<Noun>(nn => {
+            nextNext.Switch()
+                .Case<Noun>(() => {
                     modTwo = 0; //adjective-determiner-noun
                 })
-                .Case<PastParticipleVerb>(vn => {
+                .Case<PastParticipleVerb>(() => {
                     modTwo = 0; //adjective-determiner descriptor 
                 })
-                .Case<Adjective>(advn => {
+                .Case<Adjective>(() => {
                     modTwo = 0;  //adjective-determiner-adjective
                 })
-                .Case<Adverb>(advn => {
+                .Case<Adverb>(() => {
                     modTwo = 0;  //adjective-determiner-adverb
                 })
-                .Case<Pronoun>(pnn => {
+                .Case<Pronoun>(() => {
                     modTwo = 0; //adjective-determiner-noun
                 })
-                .Case<ToLinker>(lnkn => {
+                .Case<ToLinker>(() => {
                     modTwo = 0; //adjective-determiner directional
                 })
-                .Case<Preposition>(pren => {
+                .Case<Preposition>(() => {
                     modTwo = 0; //adjective-determiner positional
                 })
-                .Case<Determiner>(dn => {
+                .Case<Determiner>(() => {
                     modTwo = 0; //adjective-determiner determiner
                 })
-                .Default(def => {
+                .Default(() => {
                     modTwo = 0;
                 });
             return modTwo;
@@ -1568,32 +1544,32 @@ namespace LASI.Algorithm.Weighting
 
         private static double AdjectivePreposition(Word nextNext) {
             double modTwo = 0;
-            new Switch(nextNext)
-                .Case<Noun>(nn => {
+            nextNext.Switch()
+                .Case<Noun>(() => {
                     modTwo = 0; //adjective-prepositional-noun
                 })
-                .Case<PastParticipleVerb>(vn => {
+                .Case<PastParticipleVerb>(() => {
                     modTwo = 0; //adjective-prepositional descriptor 
                 })
-                .Case<Adjective>(advn => {
+                .Case<Adjective>(() => {
                     modTwo = 0;  //adjective-prepositional-adjective
                 })
-                .Case<Adverb>(advn => {
+                .Case<Adverb>(() => {
                     modTwo = 0;  //adjective-prepositional-adverb
                 })
-                .Case<Pronoun>(pnn => {
+                .Case<Pronoun>(() => {
                     modTwo = 0; //adjective-prepositional-noun
                 })
-                .Case<ToLinker>(lnkn => {
+                .Case<ToLinker>(() => {
                     modTwo = 0; //adjective-prepositional directional
                 })
-                .Case<Preposition>(pren => {
+                .Case<Preposition>(() => {
                     modTwo = 0; //adjective-prepositional positional
                 })
-                .Case<Determiner>(dn => {
+                .Case<Determiner>(() => {
                     modTwo = 0; //adjective-prepositional determiner
                 })
-                .Default(def => {
+                .Default(() => {
                     modTwo = 0;
                 });
             return modTwo;
@@ -1601,32 +1577,32 @@ namespace LASI.Algorithm.Weighting
 
         private static double AdjectiveToLinker(Word nextNext) {
             double modTwo = 0;
-            new Switch(nextNext)
-                .Case<Noun>(nn => {
+            nextNext.Switch()
+                .Case<Noun>(() => {
                     modTwo = 0; //adjective-tolinker-noun
                 })
-                .Case<PastParticipleVerb>(vn => {
+                .Case<PastParticipleVerb>(() => {
                     modTwo = 0; //adjective-tolinker descriptor 
                 })
-                .Case<Adjective>(advn => {
+                .Case<Adjective>(() => {
                     modTwo = 0;  //adjective-tolinker-adjective
                 })
-                .Case<Adverb>(advn => {
+                .Case<Adverb>(() => {
                     modTwo = 0;  //adjective-tolinker-adverb
                 })
-                .Case<Pronoun>(pnn => {
+                .Case<Pronoun>(() => {
                     modTwo = 0; //adjective-tolinker-noun
                 })
-                .Case<ToLinker>(lnkn => {
+                .Case<ToLinker>(() => {
                     modTwo = 0; //adjective-tolinker directional
                 })
-                .Case<Preposition>(pren => {
+                .Case<Preposition>(() => {
                     modTwo = 0; //adjective-tolinker positional
                 })
-                .Case<Determiner>(dn => {
+                .Case<Determiner>(() => {
                     modTwo = 0; //adjective-tolinker determiner
                 })
-                .Default(def => {
+                .Default(() => {
                     modTwo = 0;
                 });
             return modTwo;
@@ -1634,32 +1610,32 @@ namespace LASI.Algorithm.Weighting
 
         private static double AdjectivePronoun(Word nextNext) {
             double modTwo = 0;
-            new Switch(nextNext)
-                .Case<Noun>(nn => {
+            nextNext.Switch()
+                .Case<Noun>(() => {
                     modTwo = 0; //adjective -> compound noun
                 })
-                .Case<PastParticipleVerb>(vn => {
+                .Case<PastParticipleVerb>(() => {
                     modTwo = 0; //adjective-noun-adverb descriptor (possible?)
                 })
-                .Case<Adjective>(advn => {
+                .Case<Adjective>(() => {
                     modTwo = 0;  //adjective-noun-adjective
                 })
-                .Case<Adverb>(advn => {
+                .Case<Adverb>(() => {
                     modTwo = 0;  //adjective-noun-adverb
                 })
-                .Case<Pronoun>(pnn => {
+                .Case<Pronoun>(() => {
                     modTwo = 0; //adjective -> compound (possessive) noun
                 })
-                .Case<ToLinker>(lnkn => {
+                .Case<ToLinker>(() => {
                     modTwo = 0; //adjective-noun directional
                 })
-                .Case<Preposition>(pren => {
+                .Case<Preposition>(() => {
                     modTwo = 0; //adjective-noun positional
                 })
-                .Case<Determiner>(dn => {
+                .Case<Determiner>(() => {
                     modTwo = 0; //adjective-noun determiner
                 })
-                .Default(def => {
+                .Default(() => {
                     modTwo = 0;
                 });
             return modTwo;
@@ -1667,32 +1643,32 @@ namespace LASI.Algorithm.Weighting
 
         private static double AdjectiveAdverb(Word nextNext) {
             double modTwo = 0;
-            new Switch(nextNext)
-                .Case<Noun>(nn => {
+            nextNext.Switch()
+                .Case<Noun>(() => {
                     modTwo = 0; //adjective-adverb-noun
                 })
-                .Case<PastParticipleVerb>(vn => {
+                .Case<PastParticipleVerb>(() => {
                     modTwo = 0; //adjective-adverb-adverb descriptor
                 })
-                .Case<Adjective>(advn => {
+                .Case<Adjective>(() => {
                     modTwo = 0;  //adjective-adverb-adjective (triple compound)
                 })
-                .Case<Adverb>(advn => {
+                .Case<Adverb>(() => {
                     modTwo = 0;  //adjective-adverb-adverb
                 })
-                .Case<Pronoun>(pnn => {
+                .Case<Pronoun>(() => {
                     modTwo = 0; //adjective-adverb-noun
                 })
-                .Case<ToLinker>(lnkn => {
+                .Case<ToLinker>(() => {
                     modTwo = 0; //adjective-adverb-directional
                 })
-                .Case<Preposition>(pren => {
+                .Case<Preposition>(() => {
                     modTwo = 0; //adjective-adverb positional
                 })
-                .Case<Determiner>(dn => {
+                .Case<Determiner>(() => {
                     modTwo = 0; //adjective-adverb determiner
                 })
-                .Default(def => {
+                .Default(() => {
                     modTwo = 0;
                 });
             return modTwo;
@@ -1700,32 +1676,32 @@ namespace LASI.Algorithm.Weighting
 
         private static double AdjectiveAdjective(Word nextNext) {
             double modTwo = 0;
-            new Switch(nextNext)
-                .Case<Noun>(nn => {
+            nextNext.Switch()
+                .Case<Noun>(() => {
                     modTwo = 0; //compound adjective -> noun
                 })
-                .Case<PastParticipleVerb>(vn => {
+                .Case<PastParticipleVerb>(() => {
                     modTwo = 0; //compound adjective -> adverb descriptor
                 })
-                .Case<Adjective>(advn => {
+                .Case<Adjective>(() => {
                     modTwo = 0;  //compound adjective -> adjective (triple compound)
                 })
-                .Case<Adverb>(advn => {
+                .Case<Adverb>(() => {
                     modTwo = 0;  //compound adjective -> adverb
                 })
-                .Case<Pronoun>(pnn => {
+                .Case<Pronoun>(() => {
                     modTwo = 0; //compound adjective -> noun
                 })
-                .Case<ToLinker>(lnkn => {
+                .Case<ToLinker>(() => {
                     modTwo = 0; //compound adjective -> directional
                 })
-                .Case<Preposition>(pren => {
+                .Case<Preposition>(() => {
                     modTwo = 0; //compound adjective -> positional
                 })
-                .Case<Determiner>(dn => {
+                .Case<Determiner>(() => {
                     modTwo = 0; //compound adjective -> determiner
                 })
-                .Default(def => {
+                .Default(() => {
                     modTwo = 0;
                 });
             return modTwo;
@@ -1733,32 +1709,32 @@ namespace LASI.Algorithm.Weighting
 
         private static double AdjectiveNoun(Word nextNext) {
             double modTwo = 0;
-            new Switch(nextNext)
-                .Case<Noun>(nn => {
+            nextNext.Switch()
+                .Case<Noun>(() => {
                     modTwo = 0; //adjective -> compound noun
                 })
-                .Case<PastParticipleVerb>(vn => {
+                .Case<PastParticipleVerb>(() => {
                     modTwo = 0; //adjective-noun-adverb descriptor (possible?)
                 })
-                .Case<Adjective>(advn => {
+                .Case<Adjective>(() => {
                     modTwo = 0;  //adjective-noun-adjective
                 })
-                .Case<Adverb>(advn => {
+                .Case<Adverb>(() => {
                     modTwo = 0;  //adjective-noun-adverb
                 })
-                .Case<Pronoun>(pnn => {
+                .Case<Pronoun>(() => {
                     modTwo = 0; //adjective -> compound (possessive) noun
                 })
-                .Case<ToLinker>(lnkn => {
+                .Case<ToLinker>(() => {
                     modTwo = 0; //adjective-noun directional
                 })
-                .Case<Preposition>(pren => {
+                .Case<Preposition>(() => {
                     modTwo = 0; //adjective-noun positional
                 })
-                .Case<Determiner>(dn => {
+                .Case<Determiner>(() => {
                     modTwo = 0; //adjective-noun determiner
                 })
-                .Default(def => {
+                .Default(() => {
                     modTwo = 0;
                 });
             return modTwo;
@@ -1766,32 +1742,32 @@ namespace LASI.Algorithm.Weighting
 
         private static double VerbUncaught(Word nextNext) {
             double modTwo = 0;
-            new Switch(nextNext)
-                .Case<Noun>(nn => {
+            nextNext.Switch()
+                .Case<Noun>(() => {
                     modTwo = 0; //adverb-uncaught-noun
                 })
-                .Case<PastParticipleVerb>(vn => {
+                .Case<PastParticipleVerb>(() => {
                     modTwo = 0; //adverb-uncaught-pastverb 
                 })
-                .Case<Adjective>(advn => {
+                .Case<Adjective>(() => {
                     modTwo = 0;  //adverb-uncaught-adjective
                 })
-                .Case<Adverb>(advn => {
+                .Case<Adverb>(() => {
                     modTwo = 0;  //adverb-uncaught-adverb
                 })
-                .Case<Pronoun>(pnn => {
+                .Case<Pronoun>(() => {
                     modTwo = 0; //adverb -> uncaught -> noun 
                 })
-                .Case<ToLinker>(lnkn => {
+                .Case<ToLinker>(() => {
                     modTwo = 0; //adverb-uncaught directional 
                 })
-                .Case<Preposition>(pren => {
+                .Case<Preposition>(() => {
                     modTwo = 0; //adverb-uncaught positional
                 })
-                .Case<Determiner>(dn => {
+                .Case<Determiner>(() => {
                     modTwo = 0; //adverb-uncaught determiner
                 })
-                .Default(def => {
+                .Default(() => {
                     modTwo = 0;
                 });
             return modTwo;
@@ -1799,32 +1775,32 @@ namespace LASI.Algorithm.Weighting
 
         private static double VerbDeterminer(Word nextNext) {
             double modTwo = 0;
-            new Switch(nextNext)
-                .Case<Noun>(nn => {
+            nextNext.Switch()
+                .Case<Noun>(() => {
                     modTwo = 0; //adverb-determiner-noun
                 })
-                .Case<PastParticipleVerb>(vn => {
+                .Case<PastParticipleVerb>(() => {
                     modTwo = 0; //adverb-determiner-pastverb 
                 })
-                .Case<Adjective>(advn => {
+                .Case<Adjective>(() => {
                     modTwo = 0;  //adverb-determiner-adjective
                 })
-                .Case<Adverb>(advn => {
+                .Case<Adverb>(() => {
                     modTwo = 0;  //adverb-determiner-adverb
                 })
-                .Case<Pronoun>(pnn => {
+                .Case<Pronoun>(() => {
                     modTwo = 0; //adverb -> determiner -> noun 
                 })
-                .Case<ToLinker>(lnkn => {
+                .Case<ToLinker>(() => {
                     modTwo = 0; //adverb-determiner directional 
                 })
-                .Case<Preposition>(pren => {
+                .Case<Preposition>(() => {
                     modTwo = 0; //adverb-determiner positional
                 })
-                .Case<Determiner>(dn => {
+                .Case<Determiner>(() => {
                     modTwo = 0; //adverb-determiner determiner
                 })
-                .Default(def => {
+                .Default(() => {
                     modTwo = 0;
                 });
             return modTwo;
@@ -1832,32 +1808,32 @@ namespace LASI.Algorithm.Weighting
 
         private static double VerbPreposition(Word nextNext) {
             double modTwo = 0;
-            new Switch(nextNext)
-                .Case<Noun>(nn => {
+            nextNext.Switch()
+                .Case<Noun>(() => {
                     modTwo = 0; //adverb-preposition-noun
                 })
-                .Case<PastParticipleVerb>(vn => {
+                .Case<PastParticipleVerb>(() => {
                     modTwo = 0; //adverb-preposition-pastverb 
                 })
-                .Case<Adjective>(advn => {
+                .Case<Adjective>(() => {
                     modTwo = 0;  //adverb-preposition-adjective
                 })
-                .Case<Adverb>(advn => {
+                .Case<Adverb>(() => {
                     modTwo = 0;  //adverb-preposition-adverb
                 })
-                .Case<Pronoun>(pnn => {
+                .Case<Pronoun>(() => {
                     modTwo = 0; //adverb -> preposition -> noun 
                 })
-                .Case<ToLinker>(lnkn => {
+                .Case<ToLinker>(() => {
                     modTwo = 0; //adverb-preposition directional 
                 })
-                .Case<Preposition>(pren => {
+                .Case<Preposition>(() => {
                     modTwo = 0; //adverb-preposition positional
                 })
-                .Case<Determiner>(dn => {
+                .Case<Determiner>(() => {
                     modTwo = 0; //adverb-preposition determiner
                 })
-                .Default(def => {
+                .Default(() => {
                     modTwo = 0;
                 });
             return modTwo;
@@ -1865,32 +1841,32 @@ namespace LASI.Algorithm.Weighting
 
         private static double VerbToLinker(Word nextNext) {
             double modTwo = 0;
-            new Switch(nextNext)
-                .Case<Noun>(nn => {
+            nextNext.Switch()
+                .Case<Noun>(() => {
                     modTwo = 0; //adverb-tolinker-noun
                 })
-                .Case<PastParticipleVerb>(vn => {
+                .Case<PastParticipleVerb>(() => {
                     modTwo = 0; //adverb-tolinker-pastverb (possible?)
                 })
-                .Case<Adjective>(advn => {
+                .Case<Adjective>(() => {
                     modTwo = 0;  //adverb-tolinker-adjective
                 })
-                .Case<Adverb>(advn => {
+                .Case<Adverb>(() => {
                     modTwo = 0;  //adverb-tolinker-adverb
                 })
-                .Case<Pronoun>(pnn => {
+                .Case<Pronoun>(() => {
                     modTwo = 0; //adverb -> tolinker -> noun 
                 })
-                .Case<ToLinker>(lnkn => {
+                .Case<ToLinker>(() => {
                     modTwo = 0; //adverb-tolinker directional (possible?)
                 })
-                .Case<Preposition>(pren => {
+                .Case<Preposition>(() => {
                     modTwo = 0; //adverb-tolinker positional
                 })
-                .Case<Determiner>(dn => {
+                .Case<Determiner>(() => {
                     modTwo = 0; //adverb-tolinker determiner
                 })
-                .Default(def => {
+                .Default(() => {
                     modTwo = 0;
                 });
             return modTwo;
@@ -1898,32 +1874,32 @@ namespace LASI.Algorithm.Weighting
 
         private static double VerbPronoun(Word nextNext) {
             double modTwo = 0;
-            new Switch(nextNext)
-                .Case<Noun>(nn => {
+            nextNext.Switch()
+                .Case<Noun>(() => {
                     modTwo = 0; //adverb-pronoun-noun (compound)
                 })
-                .Case<PastParticipleVerb>(vn => {
+                .Case<PastParticipleVerb>(() => {
                     modTwo = 0; //adverb-pronoun-pastverb
                 })
-                .Case<Adjective>(advn => {
+                .Case<Adjective>(() => {
                     modTwo = 0;  //adverb-pronoun-adjective
                 })
-                .Case<Adverb>(advn => {
+                .Case<Adverb>(() => {
                     modTwo = 0;  //adverb-pronoun-adverb
                 })
-                .Case<Pronoun>(pnn => {
+                .Case<Pronoun>(() => {
                     modTwo = 0; //adverb -> pronoun -> noun  (compound)
                 })
-                .Case<ToLinker>(lnkn => {
+                .Case<ToLinker>(() => {
                     modTwo = 0; //adverb-pronoun directional
                 })
-                .Case<Preposition>(pren => {
+                .Case<Preposition>(() => {
                     modTwo = 0; //adverb-pronoun positional
                 })
-                .Case<Determiner>(dn => {
+                .Case<Determiner>(() => {
                     modTwo = 0; //adverb-pronoun determiner
                 })
-                .Default(def => {
+                .Default(() => {
                     modTwo = 0;
                 });
             return modTwo;
@@ -1931,32 +1907,32 @@ namespace LASI.Algorithm.Weighting
 
         private static double VerbAdverb(Word nextNext) {
             double modTwo = 0;
-            new Switch(nextNext)
-                .Case<Noun>(nn => {
+            nextNext.Switch()
+                .Case<Noun>(() => {
                     modTwo = 0; //adverb-adverb-noun
                 })
-                .Case<PastParticipleVerb>(vn => {
+                .Case<PastParticipleVerb>(() => {
                     modTwo = 0; //adverb-adverb-pastverb
                 })
-                .Case<Adjective>(advn => {
+                .Case<Adjective>(() => {
                     modTwo = 0;  //adverb-adverb-adjective
                 })
-                .Case<Adverb>(advn => {
+                .Case<Adverb>(() => {
                     modTwo = 0;  //adverb-adverb-adverb
                 })
-                .Case<Pronoun>(pnn => {
+                .Case<Pronoun>(() => {
                     modTwo = 0; //adverb -> adverb -> noun
                 })
-                .Case<ToLinker>(lnkn => {
+                .Case<ToLinker>(() => {
                     modTwo = 0; //adverb-aadverb directional
                 })
-                .Case<Preposition>(pren => {
+                .Case<Preposition>(() => {
                     modTwo = 0; //adverb-adverb positional
                 })
-                .Case<Determiner>(dn => {
+                .Case<Determiner>(() => {
                     modTwo = 0; //adverb-adverb determiner
                 })
-                .Default(def => {
+                .Default(() => {
                     modTwo = 0;
                 });
             return modTwo;
@@ -1964,32 +1940,32 @@ namespace LASI.Algorithm.Weighting
 
         private static double VerbAdjective(Word nextNext) {
             double modTwo = 0;
-            new Switch(nextNext)
-                .Case<Noun>(nn => {
+            nextNext.Switch()
+                .Case<Noun>(() => {
                     modTwo = 0; //adverb-adjective-noun
                 })
-                .Case<PastParticipleVerb>(vn => {
+                .Case<PastParticipleVerb>(() => {
                     modTwo = 0; //adverb-adjective-pastverb
                 })
-                .Case<Adjective>(advn => {
+                .Case<Adjective>(() => {
                     modTwo = 0;  //adverb-adjective-adjective
                 })
-                .Case<Adverb>(advn => {
+                .Case<Adverb>(() => {
                     modTwo = 0;  //adverb-adjective-adverb
                 })
-                .Case<Pronoun>(pnn => {
+                .Case<Pronoun>(() => {
                     modTwo = 0; //adverb -> adjective -> noun
                 })
-                .Case<ToLinker>(lnkn => {
+                .Case<ToLinker>(() => {
                     modTwo = 0; //adverb-adjective directional
                 })
-                .Case<Preposition>(pren => {
+                .Case<Preposition>(() => {
                     modTwo = 0; //adverb-adjective positional
                 })
-                .Case<Determiner>(dn => {
+                .Case<Determiner>(() => {
                     modTwo = 0; //adverb-adjective determiner
                 })
-                .Default(def => {
+                .Default(() => {
                     modTwo = 0;
                 });
             return modTwo;
@@ -1997,32 +1973,32 @@ namespace LASI.Algorithm.Weighting
 
         private static double VerbPastParticipleVerb(Word nextNext) {
             double modTwo = 0;
-            new Switch(nextNext)
-                .Case<Noun>(nn => {
+            nextNext.Switch()
+                .Case<Noun>(() => {
                     modTwo = 0; //adverb-pastverb -> compound noun
                 })
-                .Case<PastParticipleVerb>(vn => {
+                .Case<PastParticipleVerb>(() => {
                     modTwo = 0; //adverb-pastverb-pastverb
                 })
-                .Case<Adjective>(advn => {
+                .Case<Adjective>(() => {
                     modTwo = 0;  //adverb-pastverb-adjective
                 })
-                .Case<Adverb>(advn => {
+                .Case<Adverb>(() => {
                     modTwo = 0;  //adverb-pastverb-adverb
                 })
-                .Case<Pronoun>(pnn => {
+                .Case<Pronoun>(() => {
                     modTwo = 0; //adverb -> pastverb -> compound (possessive) noun
                 })
-                .Case<ToLinker>(lnkn => {
+                .Case<ToLinker>(() => {
                     modTwo = 0; //adverb-pastverb directional
                 })
-                .Case<Preposition>(pren => {
+                .Case<Preposition>(() => {
                     modTwo = 0; //adverb-pastverb positional
                 })
-                .Case<Determiner>(dn => {
+                .Case<Determiner>(() => {
                     modTwo = 0; //adverb-pastverb determiner
                 })
-                .Default(def => {
+                .Default(() => {
                     modTwo = 0;
                 });
             return modTwo;
@@ -2030,32 +2006,32 @@ namespace LASI.Algorithm.Weighting
 
         private static double VerbNoun(Word nextNext) {
             double modTwo = 0;
-            new Switch(nextNext)
-                .Case<Noun>(nn => {
+            nextNext.Switch()
+                .Case<Noun>(() => {
                     modTwo = 0; //adverb -> compound noun
                 })
-                .Case<PastParticipleVerb>(vn => {
+                .Case<PastParticipleVerb>(() => {
                     modTwo = 0; //adverb-noun-adverb descriptor (possible?)
                 })
-                .Case<Adjective>(advn => {
+                .Case<Adjective>(() => {
                     modTwo = 0;  //adverb-noun-adjective
                 })
-                .Case<Adverb>(advn => {
+                .Case<Adverb>(() => {
                     modTwo = 0;  //adverb-noun-adverb
                 })
-                .Case<Pronoun>(pnn => {
+                .Case<Pronoun>(() => {
                     modTwo = 0; //adverb -> compound (possessive) noun
                 })
-                .Case<ToLinker>(lnkn => {
+                .Case<ToLinker>(() => {
                     modTwo = 0; //adverb-noun directional
                 })
-                .Case<Preposition>(pren => {
+                .Case<Preposition>(() => {
                     modTwo = 0; //adverb-noun positional
                 })
-                .Case<Determiner>(dn => {
+                .Case<Determiner>(() => {
                     modTwo = 0; //adverb-noun determiner
                 })
-                .Default(def => {
+                .Default(() => {
                     modTwo = 0;
                 });
             return modTwo;
@@ -2063,29 +2039,29 @@ namespace LASI.Algorithm.Weighting
 
         private static double NounUncaught(Word nextNext) {
             double modTwo = 0;
-            new Switch(nextNext)
-                .Case<Noun>(nun => {
+            nextNext.Switch()
+                .Case<Noun>(() => {
                     modTwo = 0; //noun-uncaught-noun
                 })
-                .Case<PastParticipleVerb>(nupv => {
+                .Case<PastParticipleVerb>(() => {
                     modTwo = 0; //noun-uncaught-pastverb 
                 })
-                .Case<Adjective>(nuadj => {
+                .Case<Adjective>(() => {
                     modTwo = 0;  //noun-uncaught-adjective
                 })
-                .Case<Adverb>(nuadv => {
+                .Case<Adverb>(() => {
                     modTwo = 0;  //noun-uncaught-adverb
                 })
-                .Case<Pronoun>(nupn => {
+                .Case<Pronoun>(() => {
                     modTwo = 0; //noun -> uncaught -> noun 
                 })
-                .Case<ToLinker>(nulnk => {
+                .Case<ToLinker>(() => {
                     modTwo = 0; //noun-uncaught directional 
                 })
-                .Case<Preposition>(nup => {
+                .Case<Preposition>(() => {
                     modTwo = 0; //noun-uncaught positional
                 })
-                .Case<Determiner>(nud => {
+                .Case<Determiner>(() => {
                     modTwo = 0; //noun-uncaught determiner
                 })
                 .Default(nuu => {
@@ -2096,29 +2072,29 @@ namespace LASI.Algorithm.Weighting
 
         private static double NounDeterminer(Word nextNext) {
             double modTwo = 0;
-            new Switch(nextNext)
-                .Case<Noun>(ndn => {
+            nextNext.Switch()
+                .Case<Noun>(() => {
                     modTwo = 0; //noun-determiner-noun
                 })
-                .Case<PastParticipleVerb>(ndpv => {
+                .Case<PastParticipleVerb>(() => {
                     modTwo = 0; //noun-determiner-adverb descriptor (possible?)
                 })
-                .Case<Adjective>(ndadj => {
+                .Case<Adjective>(() => {
                     modTwo = 0;  //noun-determiner-adjective
                 })
-                .Case<Adverb>(ndav => {
+                .Case<Adverb>(() => {
                     modTwo = 0;  //noun-determiner-adverb
                 })
-                .Case<Pronoun>(ndpn => {
+                .Case<Pronoun>(() => {
                     modTwo = 0; //noun-determiner-noun
                 })
-                .Case<ToLinker>(ndlnk => {
+                .Case<ToLinker>(() => {
                     modTwo = 0; //noun-determiner directional
                 })
-                .Case<Preposition>(ndp => {
+                .Case<Preposition>(() => {
                     modTwo = 0; //noun-determiner positional
                 })
-                .Case<Determiner>(ndd => {
+                .Case<Determiner>(() => {
                     modTwo = 0; //noun-determiner determiner
                 })
                 .Default(ndu => {
@@ -2129,29 +2105,29 @@ namespace LASI.Algorithm.Weighting
 
         private static double NounPreposition(Word nextNext) {
             double modTwo = 0;
-            new Switch(nextNext)
-                .Case<Noun>(npn => {
+            nextNext.Switch()
+                .Case<Noun>(() => {
                     modTwo = 0; //noun-preposition-noun
                 })
-                .Case<PastParticipleVerb>(nppv => {
+                .Case<PastParticipleVerb>(() => {
                     modTwo = 0; //noun-preposition-adverb descriptor (possible?)
                 })
-                .Case<Adjective>(npadj => {
+                .Case<Adjective>(() => {
                     modTwo = 0;  //noun-preposition-adjective
                 })
-                .Case<Adverb>(npadv => {
+                .Case<Adverb>(() => {
                     modTwo = 0;  //noun-preposition-adverb
                 })
-                .Case<Pronoun>(nppn => {
+                .Case<Pronoun>(() => {
                     modTwo = 0; //noun-preposition-noun
                 })
-                .Case<ToLinker>(nplnk => {
+                .Case<ToLinker>(() => {
                     modTwo = 0; //noun-preposition directional
                 })
-                .Case<Preposition>(npp => {
+                .Case<Preposition>(() => {
                     modTwo = 0; //noun-preposition positional
                 })
-                .Case<Determiner>(npd => {
+                .Case<Determiner>(() => {
                     modTwo = 0; //noun-preposition determiner
                 })
                 .Default(npu => {
@@ -2162,29 +2138,29 @@ namespace LASI.Algorithm.Weighting
 
         private static double NounToLinker(Word nextNext) {
             double modTwo = 0;
-            new Switch(nextNext)
+            nextNext.Switch()
                 .Case<Noun>(nlnkn => {
                     modTwo = 0; //noun-tolinker-noun
                 })
-                .Case<PastParticipleVerb>(nlnkpv => {
+                .Case<PastParticipleVerb>(() => {
                     modTwo = 0; //noun-tolinker-adverb descriptor (possible?)
                 })
-                .Case<Adjective>(nlnkadj => {
+                .Case<Adjective>(() => {
                     modTwo = 0;  //noun-tolinker-adjective
                 })
-                .Case<Adverb>(nlnkadv => {
+                .Case<Adverb>(() => {
                     modTwo = 0;  //noun-tolinker-adverb
                 })
-                .Case<Pronoun>(nlnkpn => {
+                .Case<Pronoun>(() => {
                     modTwo = 0; //noun-tolinker-noun
                 })
-                .Case<ToLinker>(nlnklnk => {
+                .Case<ToLinker>(() => {
                     modTwo = 0; //noun-tolinker directional
                 })
-                .Case<Preposition>(nlnkp => {
+                .Case<Preposition>(() => {
                     modTwo = 0; //noun-tolinker positional
                 })
-                .Case<Determiner>(nlnkd => {
+                .Case<Determiner>(() => {
                     modTwo = 0; //noun-tolinker determiner
                 })
                 .Default(nlinku => {
@@ -2195,29 +2171,29 @@ namespace LASI.Algorithm.Weighting
 
         private static double NounPronoun(Word nextNext) {
             double modTwo = 0;
-            new Switch(nextNext)
-                .Case<Noun>(npnn => {
+            nextNext.Switch()
+                .Case<Noun>(() => {
                     modTwo = 0; //triple compound noun
                 })
-                .Case<PastParticipleVerb>(npnpv => {
+                .Case<PastParticipleVerb>(() => {
                     modTwo = 0; //compound noun-adverb descriptor (possible?)
                 })
-                .Case<Adjective>(npnadj => {
+                .Case<Adjective>(() => {
                     modTwo = 0;  //compound noun-adjective
                 })
                 .Case<Adverb>(npnadv => {
                     modTwo = 0;  //compound noun-adverb
                 })
-                .Case<Pronoun>(npnpn => {
+                .Case<Pronoun>(() => {
                     modTwo = 0; //triple compound noun
                 })
-                .Case<ToLinker>(npnlnk => {
+                .Case<ToLinker>(() => {
                     modTwo = 0; //compound noun directional
                 })
-                .Case<Preposition>(npnpre => {
+                .Case<Preposition>(() => {
                     modTwo = 0; //compound noun positional
                 })
-                .Case<Determiner>(npnd => {
+                .Case<Determiner>(() => {
                     modTwo = 0; //compound noun determiner
                 })
                 .Default(npnu => {
@@ -2228,29 +2204,29 @@ namespace LASI.Algorithm.Weighting
 
         private static double NounAdverb(Word nextNext) {
             double modTwo = 0;
-            new Switch(nextNext)
-                .Case<Noun>(nadvn => {
+            nextNext.Switch()
+                .Case<Noun>(() => {
                     modTwo = 0; //noun-adverb-noun
                 })
-                .Case<PastParticipleVerb>(nadvpv => {
+                .Case<PastParticipleVerb>(() => {
                     modTwo = 0; //noun-adverb-adverb descriptor (possible?)
                 })
-                .Case<Adjective>(nadvadj => {
+                .Case<Adjective>(() => {
                     modTwo = 0;  //noun-adverb-adjective
                 })
-                .Case<Adverb>(nadvadv => {
+                .Case<Adverb>(() => {
                     modTwo = 0;  //noun-adverb-adverb
                 })
-                .Case<Pronoun>(nadvpn => {
+                .Case<Pronoun>(() => {
                     modTwo = 0; //noun-adverb-noun
                 })
-                .Case<ToLinker>(nadvlnk => {
+                .Case<ToLinker>(() => {
                     modTwo = 0; //noun-adverb directional
                 })
-                .Case<Preposition>(nadvpre => {
+                .Case<Preposition>(() => {
                     modTwo = 0; //noun-adverb positional
                 })
-                .Case<Determiner>(nadvd => {
+                .Case<Determiner>(() => {
                     modTwo = 0; //noun-adverb determiner
                 })
                 .Default(nadvu => {
@@ -2261,29 +2237,29 @@ namespace LASI.Algorithm.Weighting
 
         private static double NounVerb(Word nextNext) {
             double modTwo = 0;
-            new Switch(nextNext)
-                .Case<Noun>(nvn => {
+            nextNext.Switch()
+                .Case<Noun>(() => {
                     modTwo = 0; //noun-adverb-noun
                 })
-                .Case<PastParticipleVerb>(nvpv => {
+                .Case<PastParticipleVerb>(() => {
                     modTwo = 0; //noun-adverb-adverb descriptor (possible?)
                 })
-                .Case<Adjective>(nvadj => {
+                .Case<Adjective>(() => {
                     modTwo = 0;  //noun-adverb-adjective
                 })
-                .Case<Adverb>(nvadv => {
+                .Case<Adverb>(() => {
                     modTwo = 0;  //noun-adverb-adverb
                 })
-                .Case<Pronoun>(nvpn => {
+                .Case<Pronoun>(() => {
                     modTwo = 0; //noun-adverb-noun
                 })
-                .Case<ToLinker>(nvlnk => {
+                .Case<ToLinker>(() => {
                     modTwo = 0; //noun-adverb directional
                 })
-                .Case<Preposition>(nvpre => {
+                .Case<Preposition>(() => {
                     modTwo = 0; //noun-adverb positional
                 })
-                .Case<Determiner>(nvd => {
+                .Case<Determiner>(() => {
                     modTwo = 0; //noun-adverb determiner
                 })
                 .Default(nvu => {
@@ -2294,29 +2270,29 @@ namespace LASI.Algorithm.Weighting
 
         private static double NounAdjective(Word nextNext) {
             double modTwo = 0;
-            new Switch(nextNext)
+            nextNext.Switch()
                 .Case<Noun>(nadjn => {
                     modTwo = 0; //noun-adjective-noun
                 })
-                .Case<PastParticipleVerb>(nadjpv => {
+                .Case<PastParticipleVerb>(() => {
                     modTwo = 0; //noun-adjective-adverb descriptor (possible?)
                 })
-                .Case<Adjective>(nadjadj => {
+                .Case<Adjective>(() => {
                     modTwo = 0;  //noun-adjective-adjective
                 })
-                .Case<Adverb>(nadjav => {
+                .Case<Adverb>(() => {
                     modTwo = 0;  //noun-adjective-adverb
                 })
-                .Case<Pronoun>(nadjn => {
+                .Case<Pronoun>(() => {
                     modTwo = 0; //noun-adjective-noun
                 })
-                .Case<ToLinker>(nadjlnk => {
+                .Case<ToLinker>(() => {
                     modTwo = 0; //noun-adjective directional
                 })
-                .Case<Preposition>(nadjpre => {
+                .Case<Preposition>(() => {
                     modTwo = 0; //noun-adjective positional
                 })
-                .Case<Determiner>(nadjd => {
+                .Case<Determiner>(() => {
                     modTwo = 0; //noun-adjective determiner
                 })
                 .Default(nadju => {
@@ -2327,23 +2303,23 @@ namespace LASI.Algorithm.Weighting
 
         private static double NounNoun(Word nextNext) {
             double modTwo = 0;
-            new Switch(nextNext)
-                .Case<Noun>(nnn => {
+            nextNext.Switch()
+                .Case<Noun>(() => {
                     modTwo = 0; //triple compound noun
                 })
-                .Case<PastParticipleVerb>(nnpv => {
+                .Case<PastParticipleVerb>(() => {
                     modTwo = 0; //compound noun-adverb descriptor (possible?)
                 })
-                .Case<Adjective>(nnadj => {
+                .Case<Adjective>(() => {
                     modTwo = 0;  //compound noun-adjective
                 })
-                .Case<Adverb>(nnadv => {
+                .Case<Adverb>(() => {
                     modTwo = 0;  //compound noun-adverb
                 })
-                .Case<Pronoun>(nnpn => {
+                .Case<Pronoun>(() => {
                     modTwo = 0; //triple compound noun
                 })
-                .Case<ToLinker>(nnlnk => {
+                .Case<ToLinker>(() => {
                     modTwo = 0; //compound noun directional
                 })
                 .Case<Preposition>(nnpre => {
@@ -2357,34 +2333,35 @@ namespace LASI.Algorithm.Weighting
                 });
             return modTwo;
         }
+
         private static double DeterminerUncaught(Word nextNext) {
             double modTwo = 0;
-            new Switch(nextNext)
-                .Case<Noun>(nn => {
+            nextNext.Switch()
+                .Case<Noun>(() => {
                     modTwo = 0; //determiner-uncaught-noun
                 })
-                .Case<PastParticipleVerb>(vn => {
+                .Case<PastParticipleVerb>(() => {
                     modTwo = 0; //determiner-uncaught-pastverb 
                 })
-                .Case<Adjective>(advn => {
+                .Case<Adjective>(() => {
                     modTwo = 0;  //determiner-uncaught-adjective
                 })
-                .Case<Adverb>(advn => {
+                .Case<Adverb>(() => {
                     modTwo = 0;  //determiner-uncaught-adverb
                 })
-                .Case<Pronoun>(pnn => {
+                .Case<Pronoun>(() => {
                     modTwo = 0; //determineruncaught-noun 
                 })
-                .Case<ToLinker>(lnkn => {
+                .Case<ToLinker>(() => {
                     modTwo = 0; //determiner-uncaught directional 
                 })
-                .Case<Preposition>(pren => {
+                .Case<Preposition>(() => {
                     modTwo = 0; //determiner-uncaught positional
                 })
-                .Case<Determiner>(dn => {
+                .Case<Determiner>(() => {
                     modTwo = 0; //determiner-uncaught determiner
                 })
-                .Default(def => {
+                .Default(() => {
                     modTwo = 0;
                 });
             return modTwo;
@@ -2392,32 +2369,32 @@ namespace LASI.Algorithm.Weighting
 
         private static double DeterminerDeterminer(Word nextNext) {
             double modTwo = 0;
-            new Switch(nextNext)
-                .Case<Noun>(nn => {
+            nextNext.Switch()
+                .Case<Noun>(() => {
                     modTwo = 0; //determiner-determiner-noun
                 })
-                .Case<PastParticipleVerb>(vn => {
+                .Case<PastParticipleVerb>(() => {
                     modTwo = 0; //determiner-determiner-adverb descriptor
                 })
-                .Case<Adjective>(advn => {
+                .Case<Adjective>(() => {
                     modTwo = 0;  //determiner-determiner-adjective
                 })
-                .Case<Adverb>(advn => {
+                .Case<Adverb>(() => {
                     modTwo = 0;  //determiner-determiner-adverb
                 })
-                .Case<Pronoun>(pnn => {
+                .Case<Pronoun>(() => {
                     modTwo = 0; //determiner-determiner-noun
                 })
-                .Case<ToLinker>(lnkn => {
+                .Case<ToLinker>(() => {
                     modTwo = 0; //determiner-determiner directional
                 })
-                .Case<Preposition>(pren => {
+                .Case<Preposition>(() => {
                     modTwo = 0; //determiner-determiner positional
                 })
-                .Case<Determiner>(dn => {
+                .Case<Determiner>(() => {
                     modTwo = 0; //determiner-determiner determiner
                 })
-                .Default(def => {
+                .Default(() => {
                     modTwo = 0;
                 });
             return modTwo;
@@ -2425,32 +2402,32 @@ namespace LASI.Algorithm.Weighting
 
         private static double DeterminerPreposition(Word nextNext) {
             double modTwo = 0;
-            new Switch(nextNext)
-                .Case<Noun>(nn => {
+            nextNext.Switch()
+                .Case<Noun>(() => {
                     modTwo = 0; //determiner-preposition-noun
                 })
-                .Case<PastParticipleVerb>(vn => {
+                .Case<PastParticipleVerb>(() => {
                     modTwo = 0; //determiner-preposition-adverb descriptor
                 })
-                .Case<Adjective>(advn => {
+                .Case<Adjective>(() => {
                     modTwo = 0;  //determiner-preposition-adjective
                 })
-                .Case<Adverb>(advn => {
+                .Case<Adverb>(() => {
                     modTwo = 0;  //determiner-preposition-adverb
                 })
-                .Case<Pronoun>(pnn => {
+                .Case<Pronoun>(() => {
                     modTwo = 0; //determiner-preposition-noun
                 })
-                .Case<ToLinker>(lnkn => {
+                .Case<ToLinker>(() => {
                     modTwo = 0; //determiner-preposition directional
                 })
-                .Case<Preposition>(pren => {
+                .Case<Preposition>(() => {
                     modTwo = 0; //determiner-preposition positional
                 })
-                .Case<Determiner>(dn => {
+                .Case<Determiner>(() => {
                     modTwo = 0; //determiner-preposition determiner
                 })
-                .Default(def => {
+                .Default(() => {
                     modTwo = 0;
                 });
             return modTwo;
@@ -2458,32 +2435,32 @@ namespace LASI.Algorithm.Weighting
 
         private static double DeterminerToLinker(Word nextNext) {
             double modTwo = 0;
-            new Switch(nextNext)
-                .Case<Noun>(nn => {
+            nextNext.Switch()
+                .Case<Noun>(() => {
                     modTwo = 0; //determiner-tolinker-noun
                 })
-                .Case<PastParticipleVerb>(vn => {
+                .Case<PastParticipleVerb>(() => {
                     modTwo = 0; //determiner-tolinker-adverb descriptor
                 })
-                .Case<Adjective>(advn => {
+                .Case<Adjective>(() => {
                     modTwo = 0;  //determiner-tolinker-adjective
                 })
-                .Case<Adverb>(advn => {
+                .Case<Adverb>(() => {
                     modTwo = 0;  //determiner-tolinker-adverb
                 })
-                .Case<Pronoun>(pnn => {
+                .Case<Pronoun>(() => {
                     modTwo = 0; //determiner-tolinker-noun
                 })
-                .Case<ToLinker>(lnkn => {
+                .Case<ToLinker>(() => {
                     modTwo = 0; //determiner-tolinker directional
                 })
-                .Case<Preposition>(pren => {
+                .Case<Preposition>(() => {
                     modTwo = 0; //determiner-tolinker positional
                 })
-                .Case<Determiner>(dn => {
+                .Case<Determiner>(() => {
                     modTwo = 0; //determiner-tolinker determiner
                 })
-                .Default(def => {
+                .Default(() => {
                     modTwo = 0;
                 });
             return modTwo;
@@ -2491,32 +2468,32 @@ namespace LASI.Algorithm.Weighting
 
         private static double DeterminerPronoun(Word nextNext) {
             double modTwo = 0;
-            new Switch(nextNext)
-                .Case<Noun>(nn => {
+            nextNext.Switch()
+                .Case<Noun>(() => {
                     modTwo = 0; //determiner compound noun
                 })
-                .Case<PastParticipleVerb>(vn => {
+                .Case<PastParticipleVerb>(() => {
                     modTwo = 0; //determiner-noun-adverb descriptor (possible?)
                 })
-                .Case<Adjective>(advn => {
+                .Case<Adjective>(() => {
                     modTwo = 0;  //determiner-noun-adjective
                 })
-                .Case<Adverb>(advn => {
+                .Case<Adverb>(() => {
                     modTwo = 0;  //determiner-noun-adverb
                 })
-                .Case<Pronoun>(pnn => {
+                .Case<Pronoun>(() => {
                     modTwo = 0; //determiner compound noun
                 })
-                .Case<ToLinker>(lnkn => {
+                .Case<ToLinker>(() => {
                     modTwo = 0; //determiner-noun directional
                 })
-                .Case<Preposition>(pren => {
+                .Case<Preposition>(() => {
                     modTwo = 0; //determiner-noun positional
                 })
-                .Case<Determiner>(dn => {
+                .Case<Determiner>(() => {
                     modTwo = 0; //determiner-noun-determiner
                 })
-                .Default(def => {
+                .Default(() => {
                     modTwo = 0;
                 });
             return modTwo;
@@ -2524,32 +2501,32 @@ namespace LASI.Algorithm.Weighting
 
         private static double DeterminerAdverb(Word nextNext) {
             double modTwo = 0;
-            new Switch(nextNext)
-                .Case<Noun>(nn => {
+            nextNext.Switch()
+                .Case<Noun>(() => {
                     modTwo = 0; //determiner-adverb-noun
                 })
-                .Case<PastParticipleVerb>(vn => {
+                .Case<PastParticipleVerb>(() => {
                     modTwo = 0; //determiner-adverb-adverb descriptor
                 })
-                .Case<Adjective>(advn => {
+                .Case<Adjective>(() => {
                     modTwo = 0;  //determiner-adverb-adjective
                 })
-                .Case<Adverb>(advn => {
+                .Case<Adverb>(() => {
                     modTwo = 0;  //determiner-adverb-adverb
                 })
-                .Case<Pronoun>(pnn => {
+                .Case<Pronoun>(() => {
                     modTwo = 0; //determiner-adverb-noun
                 })
-                .Case<ToLinker>(lnkn => {
+                .Case<ToLinker>(() => {
                     modTwo = 0; //determiner-adverb directional
                 })
-                .Case<Preposition>(pren => {
+                .Case<Preposition>(() => {
                     modTwo = 0; //determiner-adverb positional
                 })
-                .Case<Determiner>(dn => {
+                .Case<Determiner>(() => {
                     modTwo = 0; //determiner-adverb determiner
                 })
-                .Default(def => {
+                .Default(() => {
                     modTwo = 0;
                 });
             return modTwo;
@@ -2557,32 +2534,32 @@ namespace LASI.Algorithm.Weighting
 
         private static double DeterminerAdjective(Word nextNext) {
             double modTwo = 0;
-            new Switch(nextNext)
-                .Case<Noun>(nn => {
+            nextNext.Switch()
+                .Case<Noun>(() => {
                     modTwo = 0; //determiner-adjective-noun
                 })
-                .Case<PastParticipleVerb>(vn => {
+                .Case<PastParticipleVerb>(() => {
                     modTwo = 0; //determiner-adjective-adverb descriptor
                 })
-                .Case<Adjective>(advn => {
+                .Case<Adjective>(() => {
                     modTwo = 0;  //determiner-adjective-adjective
                 })
-                .Case<Adverb>(advn => {
+                .Case<Adverb>(() => {
                     modTwo = 0;  //determiner-adjective-adverb
                 })
-                .Case<Pronoun>(pnn => {
+                .Case<Pronoun>(() => {
                     modTwo = 0; //determiner-adjective-noun
                 })
-                .Case<ToLinker>(lnkn => {
+                .Case<ToLinker>(() => {
                     modTwo = 0; //determiner-adjective directional
                 })
-                .Case<Preposition>(pren => {
+                .Case<Preposition>(() => {
                     modTwo = 0; //determiner-adjective positional
                 })
-                .Case<Determiner>(dn => {
+                .Case<Determiner>(() => {
                     modTwo = 0; //determiner-adjective determiner
                 })
-                .Default(def => {
+                .Default(() => {
                     modTwo = 0;
                 });
             return modTwo;
@@ -2590,32 +2567,32 @@ namespace LASI.Algorithm.Weighting
 
         private static double DeterminerNoun(Word nextNext) {
             double modTwo = 0;
-            new Switch(nextNext)
-                .Case<Noun>(nn => {
+            nextNext.Switch()
+                .Case<Noun>(() => {
                     modTwo = 0; //determiner-compound noun
                 })
-                .Case<PastParticipleVerb>(vn => {
+                .Case<PastParticipleVerb>(() => {
                     modTwo = 0; //determiner-noun-adverb descriptor (possible?)
                 })
-                .Case<Adjective>(advn => {
+                .Case<Adjective>(() => {
                     modTwo = 0;  //determiner-noun-adjective
                 })
-                .Case<Adverb>(advn => {
+                .Case<Adverb>(() => {
                     modTwo = 0;  //determiner-noun-adverb
                 })
-                .Case<Pronoun>(pnn => {
+                .Case<Pronoun>(() => {
                     modTwo = 0; //determiner-compound (possessive) noun
                 })
-                .Case<ToLinker>(lnkn => {
+                .Case<ToLinker>(() => {
                     modTwo = 0; //determiner-noun directional
                 })
-                .Case<Preposition>(pren => {
+                .Case<Preposition>(() => {
                     modTwo = 0; //determiner-noun positional
                 })
-                .Case<Determiner>(dn => {
+                .Case<Determiner>(() => {
                     modTwo = 0; //determiner-noun determiner
                 })
-                .Default(def => {
+                .Default(() => {
                     modTwo = 0;
                 });
             return modTwo;

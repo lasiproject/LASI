@@ -18,7 +18,7 @@ namespace LASI.Algorithm
     {
         private static TextualComparer textual = new TextualComparer();
         private static AliasComparer alias = new AliasComparer();
-        private static SimilarityComparer<NounPhrase> similarity = new SimilarityComparer<NounPhrase>();
+        private static SimilarityComparer<IEntity> similarity = new SimilarityComparer<IEntity>();
         private static AliasOrSimilarityComparer<IEntity> aliasOrSimilarity = new AliasOrSimilarityComparer<IEntity>();
         /// <summary>
         /// Alias based comparer where if not textually equivalent if will check to see if the NounPhrases are aliases for each other
@@ -34,14 +34,14 @@ namespace LASI.Algorithm
             }
         }
 
-        /// <summary>
-        /// SimilarityComparer based comparer where if not textually equivalent if will check to see if the NounPhrases are similar tp eachother.
-        /// </summary>
-        public static SimilarityComparer<NounPhrase> Similarity {
-            get {
-                return similarity;
-            }
-        }
+        ///// <summary>
+        ///// SimilarityComparer based comparer where if not textually equivalent if will check to see if the NounPhrases are similar tp eachother.
+        ///// </summary>
+        //public static SimilarityComparer<NounPhrase> Similarity {
+        //    get {
+        //        return similarity;
+        //    }
+        //}
         /// <summary>
         /// Text based comparer which compares the key text of two NounPhrases to see if they are Identical.
         /// All end comparers provided here perform key text comparions implicitely.
@@ -92,7 +92,7 @@ namespace LASI.Algorithm
             }
         }
         public class SimilarityComparer<R> : IEqualityComparer<R>
-            where R : NounPhrase
+            where R : IEntity
         {
             protected internal SimilarityComparer() {
             }
