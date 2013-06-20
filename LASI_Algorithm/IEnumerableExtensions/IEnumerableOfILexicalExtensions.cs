@@ -28,7 +28,7 @@ namespace LASI.Algorithm
         /// </code>
         /// </example>
         public static IEnumerable<T> Distinct<T>(this IEnumerable<T> elements, Func<T, T, bool> comparison) where T : ILexical {
-            return elements.Distinct(Comparers<T>.CreateCustom(comparison));
+            return elements.Distinct(LexicalComparers<T>.CreateCustom(comparison));
 
         }
         /// <summary>
@@ -50,13 +50,13 @@ namespace LASI.Algorithm
         /// </code>
         /// </example>
         public static bool Contains<T>(this IEnumerable<T> elements, T element, Func<T, T, bool> comparison) where T : ILexical {
-            return elements.Contains(element, Comparers<T>.CreateCustom(comparison));
+            return elements.Contains(element, LexicalComparers<T>.CreateCustom(comparison));
 
         }
 
 
         public static IEnumerable<T> Except<T>(this IEnumerable<T> elements, IEnumerable<T> second, Func<T, T, bool> comparison) where T : ILexical {
-            return elements.Except(second, Comparers<T>.CreateCustom(comparison));
+            return elements.Except(second, LexicalComparers<T>.CreateCustom(comparison));
 
         }
 

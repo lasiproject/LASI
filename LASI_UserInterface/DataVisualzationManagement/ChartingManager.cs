@@ -357,13 +357,13 @@ namespace LASI.UserInterface.DataVisualzationProviders
             } else {
 
                 bool result = lhs.Verbal.Text == rhs.Verbal.Text || lhs.Verbal.IsSimilarTo(rhs.Verbal);
-                result &= Comparers<NounPhrase>.AliasOrSimilarity.Equals(lhs.Subject, rhs.Subject);
+                result &= LexicalComparers<NounPhrase>.AliasOrSimilarity.Equals(lhs.Subject, rhs.Subject);
                 if (lhs.Direct != null && rhs.Direct != null) {
-                    result &= Comparers<NounPhrase>.AliasOrSimilarity.Equals(lhs.Direct, rhs.Direct);
+                    result &= LexicalComparers<NounPhrase>.AliasOrSimilarity.Equals(lhs.Direct, rhs.Direct);
                 } else if (lhs.Direct == null || rhs.Direct == null)
                     return false;
                 if (lhs.Indirect != null && rhs.Indirect != null) {
-                    result &= Comparers<NounPhrase>.AliasOrSimilarity.Equals(lhs.Indirect, rhs.Indirect);
+                    result &= LexicalComparers<NounPhrase>.AliasOrSimilarity.Equals(lhs.Indirect, rhs.Indirect);
                 } else if (lhs.Indirect == null || rhs.Indirect == null)
                     return false;
                 return result;

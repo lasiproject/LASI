@@ -14,7 +14,7 @@ namespace LASI.Algorithm
     /// </summary>
     /// <typeparam name="T">Any Noun which implements the ILexical interface. E.g. Word or Phrase</typeparam>
     /// <see cref="ILexical"/>
-    public static class Comparers<T> where T : LASI.Algorithm.ILexical
+    public static class LexicalComparers<T> where T : LASI.Algorithm.ILexical
     {
         private static TextualComparer textual = new TextualComparer();
         private static AliasComparer alias = new AliasComparer();

@@ -233,13 +233,13 @@ namespace LASI.InteropLayer
                     return true;
                 else {
                     bool result = lhs.Verbal.Text == rhs.Verbal.Text || lhs.Verbal.IsSimilarTo(rhs.Verbal);
-                    result &= Comparers<IEntity>.AliasOrSimilarity.Equals(lhs.Subject, rhs.Subject);
+                    result &= LexicalComparers<IEntity>.AliasOrSimilarity.Equals(lhs.Subject, rhs.Subject);
                     if (lhs.Direct != null && rhs.Direct != null) {
-                        result &= Comparers<IEntity>.AliasOrSimilarity.Equals(lhs.Direct, rhs.Direct);
+                        result &= LexicalComparers<IEntity>.AliasOrSimilarity.Equals(lhs.Direct, rhs.Direct);
                     } else if (lhs.Direct == null || rhs.Direct == null)
                         return false;
                     if (lhs.Indirect != null && rhs.Indirect != null) {
-                        result &= Comparers<IEntity>.AliasOrSimilarity.Equals(lhs.Indirect, rhs.Indirect);
+                        result &= LexicalComparers<IEntity>.AliasOrSimilarity.Equals(lhs.Indirect, rhs.Indirect);
                     } else if (lhs.Indirect == null || rhs.Indirect == null)
                         return false;
                     return result;
