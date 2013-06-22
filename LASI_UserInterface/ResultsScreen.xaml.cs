@@ -366,7 +366,7 @@ namespace LASI.UserInterface
             await ProcessNewDocument(docPath, currentOperationProgressBar, currentOperationLabel);
         }
 
-        private void NewProject_Click_1(object sender, RoutedEventArgs e) {
+        private void NewProjectMenuItem_Click_1(object sender, RoutedEventArgs e) {
 
             //Hacky solution to make every option function. This makes new project restart LASI.
             App.Current.Exit += (sndr, evt) => {
@@ -374,6 +374,15 @@ namespace LASI.UserInterface
 
             };
             App.Current.Shutdown();
+        }
+
+        private void OpenManualMenuItem_Click_1(object sender, RoutedEventArgs e) {
+            try {
+                Process.Start(System.AppDomain.CurrentDomain.BaseDirectory + @"\Manual.pdf");
+            }
+            catch (Exception) {
+                MessageBox.Show("Sorry, the manual could not be opened. Please ensure you have a pdf viewer installed.");
+            }
         }
     }
 

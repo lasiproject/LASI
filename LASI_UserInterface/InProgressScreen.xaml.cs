@@ -168,8 +168,7 @@ namespace LASI.UserInterface
 
                 FlashWindowEx(ref fInfo);
             }
-            this.StateChanged += (s, e) => StopFlashing();
-            this.GotFocus += (s, e) => StopFlashing();
+            this.Activated += (s, e) => StopFlashing();
 
         }
         void StopFlashing() {

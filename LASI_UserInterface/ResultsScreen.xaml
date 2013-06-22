@@ -22,7 +22,7 @@
                           HorizontalAlignment="Left"
                           Width="200">
                     <MenuItem Header="Project"
-                              Click="NewProject_Click_1" />
+                              Click="NewProjectMenuItem_Click_1" />
                 </MenuItem>
                 <MenuItem Header="Open"
                           HorizontalAlignment="Left"
@@ -51,7 +51,12 @@
             <MenuItem Header="Tools"
                       HorizontalAlignment="Left" />
             <MenuItem Header="Help"
-                      HorizontalAlignment="Left" />
+                      HorizontalAlignment="Left">
+                <MenuItem Header="Open Manual"
+                          Click="OpenManualMenuItem_Click_1" />
+                <MenuItem Header="About LASI" />
+                MenuItem
+            </MenuItem>
             <Separator HorizontalAlignment="Stretch" />
         </Menu>
         <Canvas Background="#FFF6F6F6"
