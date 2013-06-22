@@ -44,10 +44,8 @@ namespace LASI.InteropLayer
                 var fileName = tagged.NameSansExt;
                 UpdateProgressDisplay(string.Format("Loading {0}...", fileName));
                 var doc = await new TaggedFileParser(tagged).LoadDocumentAsync();
-                ProgressBar.Value += documentStepRatio;
                 UpdateProgressDisplay(string.Format("{0}: Analysing Syntax...", fileName));
                 await LASI.Algorithm.Binding.Binder.BindAsync(doc);
-                ProgressBar.Value += documentStepRatio * 2;
                 UpdateProgressDisplay(string.Format("{0}: Correlating Relationships...", fileName));
                 var tasks = LASI.Algorithm.Weighting.Weighter.GetWeightingTasksForDocument(doc).ToList();
                 foreach (var task in tasks) {

@@ -169,7 +169,14 @@ namespace LASI.UserInterface
 
         }
 
-
+        private void OpenManualMenuItem_Click_1(object sender, RoutedEventArgs e) {
+            try {
+                System.Diagnostics.Process.Start(System.AppDomain.CurrentDomain.BaseDirectory + @"\Manual.pdf");
+            }
+            catch (Exception) {
+                MessageBox.Show("Sorry, the manual could not be opened. Please ensure you have a pdf viewer installed.");
+            }
+        }
 
 
     }

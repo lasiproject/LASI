@@ -52,10 +52,9 @@
                       HorizontalAlignment="Left" />
             <MenuItem Header="Help"
                       HorizontalAlignment="Left">
-                <MenuItem Header="Open Manual"
+                <MenuItem Header="View Manual"
                           Click="OpenManualMenuItem_Click_1" />
                 <MenuItem Header="About LASI" />
-                MenuItem
             </MenuItem>
             <Separator HorizontalAlignment="Stretch" />
         </Menu>
