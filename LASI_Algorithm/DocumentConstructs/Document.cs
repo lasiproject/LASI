@@ -94,9 +94,9 @@ namespace LASI.Algorithm.DocumentConstructs
         }
 
         /// <summary>
-        /// Returns all of the word and start level describables identified in the document.
+        /// Returns all of the word and phrase level describables identified in the document.
         /// </summary>
-        /// <returns> All of the word and start level describables identified in the document.</returns>
+        /// <returns> All of the word and phrase level describables identified in the document.</returns>
         public IEnumerable<IEntity> GetEntities() {
             return from e in _words.GetNouns().Concat<IEntity>(_words.GetPronouns()).Concat<IEntity>(_phrases.GetNounPhrases())
                    orderby e is Word ? (e as Word).ID : (e as Phrase).Words.Last().ID ascending

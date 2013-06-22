@@ -37,10 +37,10 @@ namespace LASI.Algorithm
                 S.EstablishParenthood(this);
         }
         /// <summary>
-        /// Gets the sequence of Phrases which come after the given start through the end of the Paragraph.
+        /// Gets the sequence of Phrases which come after the given phrase through to the end of the Paragraph.
         /// </summary>
         /// <param name="start">The Phrase which bounds the sequence.</param>
-        /// <returns>The sequence of Phrases which come after the given start through the end of the Paragraph.</returns>
+        /// <returns>The sequence of Phrases which come after the given phrase through to the end of the Paragraph.</returns>
         public IEnumerable<Phrase> GetPhrasesAfter(Phrase phrase) {
             return Phrases.SkipWhile(r => r != phrase).Skip(1);
         }

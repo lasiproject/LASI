@@ -71,14 +71,14 @@ namespace LASI.Algorithm.Weighting
         }
 
         /// <summary>
-        /// Asynchronously assigns a Weight to each word and start in a Document.
+        /// Asynchronously assigns a Weight to each word and phrase in a Document.
         /// </summary>
         /// <param name="doc">The Document whose elements are to be weighted</param>
         public static async Task WeightAsync(Document doc) {
             await Task.Run(() => Weight(doc));
         }
         /// <summary>
-        /// Assigns a Weight to each word and start in a Document.
+        /// Assigns a Weight to each word and phrase in a Document.
         /// </summary>
         /// <param name="doc">The Document whose elements are to be weighted</param>
         public static void Weight(Document doc) {
@@ -176,7 +176,8 @@ namespace LASI.Algorithm.Weighting
                 from phrase in doc.Phrases.Where(p => !(p is InfinitivePhrase))
                     .AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
                 let weight = phrase.Words.Average(w => w.Weight)
-                select new {
+                select new
+                {
                     phr = phrase,
                     weight
                 };
@@ -195,7 +196,8 @@ namespace LASI.Algorithm.Weighting
         private static void WeightByLiteralFrequency(IEnumerable<ILexical> syntacticElements) {
             var elementsGroupedByText = (from phrase in syntacticElements
                                              .AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
-                                         group phrase by new {
+                                         group phrase by new
+                                         {
                                              phrase.Type,
                                              phrase.Text
                                          });
@@ -243,7 +245,8 @@ namespace LASI.Algorithm.Weighting
                 .AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)) {
                 var similarPhrases = from potentialM in
                                          (from innerNP in similarNounPhraseLookup[outerNP]
-                                          select new {
+                                          select new
+                                          {
                                               NP = outerNP,
                                               innerNP,
                                               similarityRatio = Thesaurus.GetSimilarityRatio(outerNP, innerNP)
