@@ -13,57 +13,44 @@ namespace LASI.UserInterface
     /// </summary>
     internal static class WindowManager
     {
-        static WindowManager()
-        {
+        static WindowManager() {
 
-            CreateProjectScreen = new CreateProjectScreen();
-            LoadedProjectScreen = new ProjectPreviewScreen();
+            ProjectPreviewScreen = new ProjectPreviewScreen();
             InProgressScreen = new InProgressScreen();
             ResultsScreen = new ResultsScreen();
         }
 
-        public static CreateProjectScreen CreateProjectScreen
-        {
+
+
+        public static StartupScreen StartupScreen {
             get;
             set;
         }
 
-        public static StartupScreen StartupScreen
-        {
-            get;
-            set;
-        }
-
-        public static ResultsScreen ResultsScreen
-        {
+        public static ResultsScreen ResultsScreen {
             get;
             set;
         }
 
 
-        public static InProgressScreen InProgressScreen
-        {
+        public static InProgressScreen InProgressScreen {
             get;
             set;
         }
 
-        public static ProjectPreviewScreen LoadedProjectScreen
-        {
+        public static ProjectPreviewScreen ProjectPreviewScreen {
             get;
             set;
         }
 
-        public static void PositionAt(this Window window, double left, double top)
-        {
+        public static void PositionAt(this Window window, double left, double top) {
             window.Left = left;
             window.Top = top;
         }
-        public static void SetTitle(this Window window, string title)
-        {
+        public static void SetTitle(this Window window, string title) {
             window.Title = title;
         }
-        public static void SwapWith(this Window window, Window other)
-        {
+        public static void SwapWith(this Window window, Window other) {
             other.PositionAt(window.Left, window.Top);
             other.Show();
             window.Hide();

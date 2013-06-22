@@ -118,7 +118,9 @@ namespace LASI.Algorithm.Binding
         public void Bind(IEnumerable<Phrase> contiguousPhrases) {
             var phrases = contiguousPhrases.ToList();
             var verbPhraseIndex = phrases.FindIndex(r => r is VerbPhrase);
-            bindingTarget = contiguousPhrases.ElementAt(verbPhraseIndex) as VerbPhrase;
+            bindingTarget = contiguousPhrases.ElementAtOrDefault(verbPhraseIndex) as VerbPhrase;
+            if (bindingTarget == null)
+                return;
             var remainingPhrases = phrases.Skip(verbPhraseIndex + 1).Reverse();
             if (remainingPhrases.Any()) {
                 inputstream.PushAll(remainingPhrases);

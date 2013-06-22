@@ -103,7 +103,7 @@ namespace LASI.UserInterface
 
 
         private async Task ProceedToResultsView() {
-            WindowManager.ResultsScreen.SetTitle(WindowManager.CreateProjectScreen.LastLoadedProjectName + " - L.A.S.I.");
+            WindowManager.ResultsScreen.SetTitle(WindowManager.StartupScreen.ProjectNameTextBox.Text + " - L.A.S.I.");
             this.SwapWith(WindowManager.ResultsScreen);
 
             await WindowManager.ResultsScreen.CreateInteractiveViews();

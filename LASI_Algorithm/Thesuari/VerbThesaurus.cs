@@ -22,7 +22,6 @@ namespace LASI.Algorithm.Thesauri
             : base(filePath) {
             FilePath = filePath;
             AssociationData = new ConcurrentDictionary<string, VerbSynSet>();
-            lexRestrict = true;
         }
 
 
@@ -38,87 +37,14 @@ namespace LASI.Algorithm.Thesauri
                     }
                     var fileLines = reader.ReadToEnd().Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
                     foreach (var line in fileLines) {
-                        ParseLineAndAddToSets(line);
+                        var set = CreateSet(line);
+                        LinkSynset(set);
                     }
                 }
             }
         }
 
-        private void ParseLineAndAddToSets(string line) {
-            var synset = BuildSynset(line);
-
-            LinkSynset(synset);
-        }
-
-        private void LinkSynset(VerbSynSet synset) {
-            foreach (var word in synset.Words) {
-                if (AssociationData.ContainsKey(word)) {
-                    AssociationData[word] = new VerbSynSet(
-                        AssociationData[word].ID,
-                        AssociationData[word].Words.Concat(synset.Words),
-                        AssociationData[word].RelatedOnPointerSymbol
-                        .Concat(synset.RelatedOnPointerSymbol)
-                        .SelectMany(grouping => grouping.Select(pointer => new KeyValuePair<VerbPointerSymbol, int>(grouping.Key, pointer))),
-                         AssociationData[word].LexName);
-                } else {
-                    AssociationData.Add(word, synset);
-                }
-
-            }
-        }
-
-
-
-        /// <summary>
-        /// Retrives the synonyms of the given verb as a collection of strings.
-        /// </summary>
-        /// <param name="NounText">The text of the verb to look for.</param>
-        /// <returns>A collection of strings containing all of the synonyms of the given verb.</returns>
-        public override HashSet<string> this[string search] {
-            get {
-                try {
-                    foreach (var root in from root in VerbConjugator.TryExtractRoot(search)
-                                         where AssociationData.ContainsKey(root)
-                                         select root) {
-                        return new HashSet<string>(
-                            (from refIndex in AssociationData[root].ReferencedIndexes
-                             from referencedSet in AssociationData.Values.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
-                             where referencedSet.ReferencedIndexes.Contains(refIndex)
-                             where (!lexRestrict || referencedSet.LexName == AssociationData[root].LexName)
-                             from word in referencedSet.Words.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
-                             let withConjugations = new string[] { word }.Concat(VerbConjugator.TryComputeConjugations(word))
-                             from w in withConjugations
-                             select w));
-                    }
-                }
-                catch (ArgumentOutOfRangeException) {
-                }
-                catch (KeyNotFoundException) {
-                }
-                catch (IndexOutOfRangeException) {
-                }
-                return new HashSet<string>();
-            }
-        }
-
-
-
-
-
-
-        /// <summary>
-        /// Retrives the synonyms of the given Verb as a collection of strings.
-        /// </summary>
-        /// <param name="NounText">An instance of Verb</param>
-        /// <returns>A collection of strings containing all of the synonyms of the given Verb.</returns>
-        public override HashSet<string> this[Word search] {
-            get {
-                return this[search.Text];
-            }
-        }
-
-
-        private VerbSynSet BuildSynset(string data) {
+        private VerbSynSet CreateSet(string data) {
 
             data = data.Substring(0, data.IndexOf('|'));
 
@@ -140,11 +66,75 @@ namespace LASI.Algorithm.Thesauri
         }
 
 
-        const int HEADER_LENGTH = 29;
+
+
+        private void LinkSynset(VerbSynSet synset) {
+            foreach (var word in synset.Words) {
+                if (AssociationData.ContainsKey(word)) {
+                    AssociationData[word] = new VerbSynSet(
+                        AssociationData[word].ID,
+                        AssociationData[word].Words.Concat(synset.Words),
+                        AssociationData[word].RelatedOnPointerSymbol.Concat(synset.RelatedOnPointerSymbol)
+                        .SelectMany(grouping => grouping.Select(pointer => new KeyValuePair<VerbPointerSymbol, int>(grouping.Key, pointer))),
+                         AssociationData[word].LexName);
+                }
+                else {
+                    AssociationData.Add(word, synset);
+                }
+
+            }
+        }
 
 
 
-        private bool lexRestrict;
+        /// <summary>
+        /// Retrives the synonyms of the given verb as a collection of strings.
+        /// </summary>
+        /// <param name="search">The text of the verb to look for.</param>
+        /// <returns>A collection of strings containing all of the synonyms of the given verb.</returns>
+        public override HashSet<string> this[string search] {
+            get {
+                try {
+                    foreach (var root in from root in VerbConjugator.TryExtractRoot(search)
+                                         where AssociationData.ContainsKey(root)
+                                         select root) {
+                        return new HashSet<string>(
+                            from refIndex in AssociationData[root].ReferencedIndexes
+                            from referencedSet in AssociationData.Values.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
+                            where referencedSet.ReferencedIndexes.Contains(refIndex)
+                            where referencedSet.LexName == AssociationData[root].LexName
+                            from word in referencedSet.Words.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
+                            let withConjugations = new string[] { word }.Concat(VerbConjugator.TryComputeConjugations(word))
+                            from w in withConjugations
+                            select w);
+                    }
+                }
+                catch (ArgumentOutOfRangeException) {
+                }
+                catch (KeyNotFoundException) {
+                }
+                catch (IndexOutOfRangeException) {
+                }
+                return new HashSet<string>();
+            }
+        }
+
+
+
+
+
+
+        /// <summary>
+        /// Retrives the synonyms of the given Verb as a collection of strings.
+        /// </summary>
+        /// <param name="search">An instance of Verb</param>
+        /// <returns>A collection of strings containing all of the synonyms of the given Verb.</returns>
+        public override HashSet<string> this[Word search] {
+            get {
+                return this[search.Text];
+            }
+        }
+
         private static VerbPointerSymbolMap RelationMap = new VerbPointerSymbolMap();
     }
 

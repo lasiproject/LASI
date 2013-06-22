@@ -46,7 +46,8 @@ namespace LASI.UserInterface
                                     from phrase in phraseElements.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
                                     select phrase)
                                    .GetNounPhrases()
-                                   .GroupBy(w => new {
+                                   .GroupBy(w => new
+                                   {
                                        w.Text,
                                        w.Type
                                    }).Select(g => g.First());
@@ -317,7 +318,8 @@ namespace LASI.UserInterface
 
                     await ProcessNewDocument(openDialog.FileName);
                     //currentOperationFeedbackCanvas.Visibility = Visibility.Hidden;
-                } else {
+                }
+                else {
                     MessageBox.Show(string.Format("A document named {0} is already part of the project.", openDialog.SafeFileName));
                 }
             }
@@ -362,6 +364,16 @@ namespace LASI.UserInterface
         }
         private async Task ProcessNewDocument(string docPath) {
             await ProcessNewDocument(docPath, currentOperationProgressBar, currentOperationLabel);
+        }
+
+        private void NewProject_Click_1(object sender, RoutedEventArgs e) {
+
+            //Hacky solution to make every option function. This makes new project restart LASI.
+            App.Current.Exit += (sndr, evt) => {
+                System.Windows.Forms.Application.Restart();
+
+            };
+            App.Current.Shutdown();
         }
     }
 

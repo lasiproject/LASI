@@ -17,8 +17,7 @@ namespace LASI.Algorithm.Thesauri
         /// </summary>
         /// <param name="filePath">The path of the WordNet database file containing the sysnonym line for nouns.</param>
         public NounThesaurus(string filePath)
-            : base(filePath)
-        {
+            : base(filePath) {
             FilePath = filePath;
 
         }
@@ -28,18 +27,13 @@ namespace LASI.Algorithm.Thesauri
         /// <summary>
         /// Parses the contents of the underlying WordNet database file.
         /// </summary>
-        public override void Load()
-        {
+        public override void Load() {
 
-            using (StreamReader reader = new StreamReader(FilePath))
-            {
-                for (int i = 0; i < 29; ++i) //stole this from Aluan
-                {
+            using (StreamReader reader = new StreamReader(FilePath)) {
+                for (int i = 0; i < HEADER_LENGTH; ++i) {
                     reader.ReadLine();
                 }
-                while (!reader.EndOfStream)
-                {
-
+                while (!reader.EndOfStream) {
                     var set = CreateSet(reader.ReadLine());
                     InsertSetData(set);
                 }
@@ -48,15 +42,13 @@ namespace LASI.Algorithm.Thesauri
 
         }
 
-        private void InsertSetData(NounSynSet set)
-        {
+        private void InsertSetData(NounSynSet set) {
             allSets.Add(set);
             data.Add(set.ID, set);
             lexicalGoups[set.LexName].Add(set);
         }
 
-        NounSynSet CreateSet(string line)
-        {
+        NounSynSet CreateSet(string line) {
 
 
             var setLine = line.Substring(0, line.IndexOf('|'));
@@ -75,7 +67,7 @@ namespace LASI.Algorithm.Thesauri
 
             int id = Int32.Parse(setLine.Substring(0, 8));
 
-            WordNetNounCategory lexCategory = (WordNetNounCategory)Int32.Parse(setLine.Substring(9, 2));
+            WordNetNounCategory lexCategory = ( WordNetNounCategory )Int32.Parse(setLine.Substring(9, 2));
 
             return new NounSynSet(id, localWords, kindedPointers, lexCategory);
 
@@ -84,8 +76,7 @@ namespace LASI.Algorithm.Thesauri
 
 
 
-        public HashSet<string> SearchFor(string word)
-        {
+        public HashSet<string> SearchFor(string word) {
 
             var containingSet = allSets.FirstOrDefault(set => set.Words.Contains(word));
             if (containingSet == null)
@@ -97,22 +88,18 @@ namespace LASI.Algorithm.Thesauri
             return new HashSet<string>(results);
         }
 
-        private void SearchSubsets(NounSynSet containingSet, List<string> results, HashSet<NounSynSet> setsSearched, WordNetNounCategory lexname)
-        {
+        private void SearchSubsets(NounSynSet containingSet, List<string> results, HashSet<NounSynSet> setsSearched, WordNetNounCategory lexname) {
             results.AddRange(containingSet.Words);
             results.AddRange(from set in containingSet[NounPointerSymbol.HypERnym]
                              where data.ContainsKey(set)
                              from w in data[set].Words
                              select w);
-            if (!setsSearched.Contains(containingSet))
-            {
+            if (!setsSearched.Contains(containingSet)) {
 
                 setsSearched.Add(containingSet);
                 foreach (var set in containingSet.ReferencedIndexes.Except(containingSet[NounPointerSymbol.HypERnym]).Select(p =>
-                  data.ContainsKey(p) ? data[p] : null))
-                {
-                    if (set != null && set.LexName == lexname && !setsSearched.Contains(set))
-                    {
+                  data.ContainsKey(p) ? data[p] : null)) {
+                    if (set != null && set.LexName == lexname && !setsSearched.Contains(set)) {
                         SearchSubsets(set, results, setsSearched, lexname);
                     }
 
@@ -122,20 +109,16 @@ namespace LASI.Algorithm.Thesauri
         }
 
 
-        public override HashSet<string> this[string search]
-        {
-            get
-            {
+        public override HashSet<string> this[string search] {
+            get {
                 var root = NounConjugator.FindRoot(search);
                 return new HashSet<string>(SearchFor(root).SelectMany(syn => NounConjugator.GetLexicalForms(syn)));
             }
         }
 
 
-        public override HashSet<string> this[Word search]
-        {
-            get
-            {
+        public override HashSet<string> this[Word search] {
+            get {
                 return this[search.Text];
             }
         }

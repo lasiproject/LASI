@@ -24,7 +24,7 @@ namespace LASI.UserInterface
     {
         public ProjectPreviewScreen() {
             InitializeComponent();
-            var titleText = WindowManager.CreateProjectScreen.LastLoadedProjectName;
+            var titleText = Resources["CurrentProjectName"] as string;
             if (titleText != null)
                 Title = titleText;
             BindEventHandlers();
@@ -82,9 +82,9 @@ namespace LASI.UserInterface
         }
 
         private void backButton_Click_1(object sender, RoutedEventArgs e) {
-            WindowManager.CreateProjectScreen.PositionAt(this.Left, this.Top);
-            WindowManager.CreateProjectScreen.Show();
-            this.Hide();
+            //WindowManager.CreateProjectScreen.PositionAt(this.Left, this.Top);
+            //WindowManager.CreateProjectScreen.Show();
+            //this.Hide();
         }
 
 
@@ -111,14 +111,17 @@ namespace LASI.UserInterface
             var validDroppedFiles = DocumentManager.GetValidFilesInPathList(e.Data.GetData(System.Windows.DataFormats.FileDrop, true) as string[]);
             if (!validDroppedFiles.Any()) {
                 MessageBox.Show(string.Format("Only the following file formats are accepted:\n{0}", DocumentManager.AcceptedFormats.Aggregate((sum, current) => sum += ", " + current)));
-            } else if (!validDroppedFiles.Any(fn => !DocumentManager.FileNamePresent(fn.Name))) {
+            }
+            else if (!validDroppedFiles.Any(fn => !DocumentManager.FileNamePresent(fn.Name))) {
                 MessageBox.Show(string.Format("A document named {0} is already part of the project.", validDroppedFiles.First()));
-            } else {
+            }
+            else {
                 foreach (var droppedFile in validDroppedFiles) {
                     if (!DocumentManager.FileIsLocked(droppedFile)) {
                         DocumentManager.AddUserDocument(droppedFile.Name, droppedFile.FullName);
                         await AddNewDocument(droppedFile.FullName);
-                    } else {
+                    }
+                    else {
                         MessageBox.Show(string.Format("The document {0} is in use by another process, please close any applications which may be using the file and try again.", droppedFile));
                     }
 

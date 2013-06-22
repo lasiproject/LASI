@@ -29,6 +29,7 @@ namespace LASI.UserInterface
             InitializeComponent();
             WindowManager.StartupScreen = this;
             BindWindowEventHandlers();
+            Resources["createButtonContent"] = "Create";
             WindowStartupLocation = WindowStartupLocation.Manual;
             this.WindowStartupLocation = WindowStartupLocation.Manual;
             this.Left = (System.Windows.SystemParameters.WorkArea.Width - this.Width) / 2;
@@ -37,7 +38,9 @@ namespace LASI.UserInterface
             DocumentManager.Initialize(documentsAdded, xbuttons, browseForDocButton, lastDocPathTextBox);
         }
         void BindWindowEventHandlers() {
+            //Allow any part of the window to respond to the Drag move command. this is used here for clarity.
             this.MouseLeftButtonDown += (s, e) => DragMove();
+            //If the AutoDebugCleanupOn setting is set to "true", destroy the project file directory when the application is closed.
             if (ConfigurationManager.AppSettings["AutoDebugCleanupOn"] == "true") {
                 App.Current.Exit += (sender, e) => {
                     if (FileSystem.FileManager.Initialized)
@@ -53,9 +56,11 @@ namespace LASI.UserInterface
 
 
 
-        private async void expandViewButton_Click(object sender, RoutedEventArgs e) {
-            mainGrid.AllowDrop = true;
+        private async void expandCreatePanelButton_Click(object sender, RoutedEventArgs e) {
+            expandCreatePanelButton.Click -= expandCreatePanelButton_Click;//remove this event handler
 
+            Resources["createButtonContent"] = "Cancel";
+            mainGrid.AllowDrop = true;
             await SetUpDefaultDirectory();
 
             if (Height == 250) {
@@ -63,22 +68,25 @@ namespace LASI.UserInterface
                     Height += 10;
                     await Task.Delay(8);
                 }
-
-
-
             }
-
+            expandCreatePanelButton.Click += cancelButton_Click;           //add the cancelButton_Click event handler
+            Resources["createButtonContent"] = "Cancel";
 
         }
         private async void cancelButton_Click(object sender, RoutedEventArgs e) {
-            mainGrid.AllowDrop = false;
 
+            expandCreatePanelButton.Click -= cancelButton_Click;            //remove this event handler and 
+
+            Resources["createButtonContent"] = "Create";
+            mainGrid.AllowDrop = false;
             if (Height == 520) {
                 for (var i = 0; i < 270 && Height > 250; i += 10) {
                     Height -= 10;
                     await Task.Delay(8);
                 }
             }
+            expandCreatePanelButton.Click += expandCreatePanelButton_Click; //add the expandCreatePanelButton_Click event handler.
+            Resources["createButtonContent"] = "Create";
         }
         private async Task SetUpDefaultDirectory() {
             locationTextBox.Text = await Task.Run(() => {
@@ -106,7 +114,8 @@ namespace LASI.UserInterface
                     var fileName = openDialog.SafeFileName;
                     var filePath = openDialog.FileName;
                     DocumentManager.AddUserDocument(fileName, filePath);
-                } else {
+                }
+                else {
                     MessageBox.Show(string.Format("A document named {0} is already part of the project.", openDialog.SafeFileName));
                 }
             }
@@ -128,12 +137,13 @@ namespace LASI.UserInterface
             if (ValidateProjectNameField() && ValidateProjectLocationField() && ValidateProjectDocumentField()) {
                 createButton.Click -= completeSetupAndContinueButton_Click;
                 Resources["CurrentProjectName"] = ProjectNameTextBox.Text;
-                var previewWindow = WindowManager.LoadedProjectScreen;
+                var previewWindow = WindowManager.ProjectPreviewScreen;
                 previewWindow.SetTitle(Resources["CurrentProjectName"] + " - L.A.S.I.");
                 await InitializeFileManager();
-                this.SwapWith(WindowManager.LoadedProjectScreen);
-                WindowManager.LoadedProjectScreen.LoadDocumentPreviews();
-            } else {
+                this.SwapWith(WindowManager.ProjectPreviewScreen);
+                WindowManager.ProjectPreviewScreen.LoadDocumentPreviews();
+            }
+            else {
                 AlertUserAboutInvalidFields();
             }
 
@@ -158,7 +168,8 @@ namespace LASI.UserInterface
                 // ProjCreateErrorLabel.Visibility = Visibility.Visible;
                 NothingFilledImage.Visibility = Visibility.Visible;
 
-            } else {
+            }
+            else {
                 //ProjCreateErrorLabel.Visibility = Visibility.Hidden;
                 NothingFilledImage.Visibility = Visibility.Hidden;
 
@@ -167,7 +178,8 @@ namespace LASI.UserInterface
                 ProjNameErrorLabel.Visibility = Visibility.Visible;
                 ProjNameErrorImage.Visibility = Visibility.Visible;
                 ProjLocationErrorLabel.Visibility = Visibility.Visible;
-            } else {
+            }
+            else {
 
                 ProjLocationErrorLabel.Visibility = Visibility.Hidden;
                 ProjNameErrorLabel.Visibility = Visibility.Hidden;
@@ -177,7 +189,8 @@ namespace LASI.UserInterface
             if (ValidateProjectNameField() == true && ValidateProjectDocumentField() == false) {
                 ProjDocumentErrorLabel.Visibility = Visibility.Visible;
                 NoDocumentsImage.Visibility = Visibility.Visible;
-            } else {
+            }
+            else {
                 ProjDocumentErrorLabel.Visibility = Visibility.Hidden;
                 NoDocumentsImage.Visibility = Visibility.Hidden;
             }
@@ -265,13 +278,16 @@ namespace LASI.UserInterface
             var filesInValidFormats = DocumentManager.GetValidFilesInPathList(e.Data.GetData(System.Windows.DataFormats.FileDrop, true) as string[]);
             if (!filesInValidFormats.Any()) {
                 MessageBox.Show(string.Format("Only the following file formats are accepted:\n{0}", DocumentManager.AcceptedFormats.Aggregate((sum, current) => sum += current + ", ")));
-            } else if (!filesInValidFormats.Any(fn => !DocumentManager.FileNamePresent(fn.Name))) {
+            }
+            else if (!filesInValidFormats.Any(fn => !DocumentManager.FileNamePresent(fn.Name))) {
                 MessageBox.Show(string.Format("A document named {0} is already part of the projects.", filesInValidFormats.First()));
-            } else {
+            }
+            else {
                 foreach (var droppedFile in filesInValidFormats) {
                     if (!DocumentManager.FileIsLocked(droppedFile)) {
                         DocumentManager.AddUserDocument(droppedFile.Name, droppedFile.FullName);
-                    } else {
+                    }
+                    else {
                         MessageBox.Show(string.Format("The document {0} is in use by another process, please close any applications which may be using the file and try again.", droppedFile));
                     }
                 }

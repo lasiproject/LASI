@@ -16,8 +16,7 @@ namespace LASI.Algorithm.Thesauri
         /// </summary>
         /// <param name="filePath">The path of the WordNet database file containing the sysnonym line for nouns.</param>
         public AdverbThesaurus(string filePath)
-            : base(filePath)
-        {
+            : base(filePath) {
             FilePath = filePath;
         }
 
@@ -26,39 +25,25 @@ namespace LASI.Algorithm.Thesauri
         /// <summary>
         /// Parses the contents of the underlying WordNet database file.
         /// </summary>
-        public override void Load()
-        {
+        public override void Load() {
             //throw new NotImplementedException();
 
 
             List<string> lines = new List<string>();
 
-            using (StreamReader r = new StreamReader(FilePath))
-            {
+            using (StreamReader reader = new StreamReader(FilePath)) {
 
 
 
-                string line;
 
-                for (int i = 0; i < 30; ++i) //stole this from Aluan
-                {
-                    r.ReadLine();
+
+                for (int i = 0; i < HEADER_LENGTH; ++i) {
+                    reader.ReadLine();
                 }
+                while (!reader.EndOfStream) {
 
-                /*for (int i = 0; i < 5; i++)
-                {
-                    line = r.ReadLine();
-                    //Console.WriteLine(line);
-                    CreateSet(line);
-                }*/
-                //test 5 lines without having to wait
-
-
-                while ((line = r.ReadLine()) != null)
-                {
-
-                    CreateSet(line);
-
+                    var set = CreateSet(reader.ReadLine());
+                    allSets.Add(set);
                 }
 
 
@@ -72,8 +57,7 @@ namespace LASI.Algorithm.Thesauri
             }
         }
 
-        void CreateSet(string line)
-        {
+        AdverbSynSet CreateSet(string line) {
 
 
             String setLine = line.Split('|', '!')[0];
@@ -93,16 +77,15 @@ namespace LASI.Algorithm.Thesauri
 
             int id = Int32.Parse(setLine.Substring(0, 8));
 
-            WordNetAdverbCategory lexCategory = (WordNetAdverbCategory)Int32.Parse(setLine.Substring(9, 2));
-            AdverbSynSet temp = new AdverbSynSet(id, localWords, pointers, lexCategory);
+            WordNetAdverbCategory lexCategory = ( WordNetAdverbCategory )Int32.Parse(setLine.Substring(9, 2));
+            return new AdverbSynSet(id, localWords, pointers, lexCategory);
 
 
-            allSets.Add(temp);
+
 
         }
 
-        public HashSet<string> SearchFor(string word)
-        {
+        public HashSet<string> SearchFor(string word) {
 
             //gets pointers of searched word
             //var tempResults = from sn in allSets
@@ -145,19 +128,15 @@ namespace LASI.Algorithm.Thesauri
             //}//console view
         }
 
-        public override HashSet<string> this[string search]
-        {
-            get
-            {
+        public override HashSet<string> this[string search] {
+            get {
                 return SearchFor(search);
             }
         }
 
 
-        public override HashSet<string> this[Word search]
-        {
-            get
-            {
+        public override HashSet<string> this[Word search] {
+            get {
                 return this[search.Text];
             }
         }

@@ -26,7 +26,7 @@ namespace LASI.UserInterface
     {
         public CreateProjectScreen() {
             InitializeComponent();
-            WindowManager.CreateProjectScreen = this;
+
             BindWindowEventHandlers();
 
             ProjectLocation = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\LASI_Projects";
@@ -111,8 +111,8 @@ namespace LASI.UserInterface
 
 
 
-                WindowManager.LoadedProjectScreen.SetTitle(LastLoadedProjectName + " - L.A.S.I.");
-                WindowManager.LoadedProjectScreen.Show();
+                WindowManager.ProjectPreviewScreen.SetTitle(LastLoadedProjectName + " - L.A.S.I.");
+                WindowManager.ProjectPreviewScreen.Show();
 
                 FileManager.Initialize(ProjectLocation + @"\" + EnteredProjectName.Text);
 
@@ -121,9 +121,9 @@ namespace LASI.UserInterface
                 }
 
                 await FileManager.ConvertAsNeededAsync();
-                this.SwapWith(WindowManager.LoadedProjectScreen);
+                this.SwapWith(WindowManager.ProjectPreviewScreen);
 
-                WindowManager.LoadedProjectScreen.LoadDocumentPreviews();
+                WindowManager.ProjectPreviewScreen.LoadDocumentPreviews();
 
 
             }

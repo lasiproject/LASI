@@ -9,35 +9,29 @@ namespace LASI.UserInterface
 {
     internal static class DocumentManager
     {
-        public static void Initialize(System.Windows.Controls.ListBox listBox, System.Windows.Controls.Panel xbuttons, System.Windows.UIElement browseButton, System.Windows.Controls.TextBox lastPathTextBox)
-        {
+        public static void Initialize(System.Windows.Controls.ListBox listBox, System.Windows.Controls.Panel xbuttons, System.Windows.UIElement browseButton, System.Windows.Controls.TextBox lastPathTextBox) {
             runningListBox = listBox;
             xButtons = xbuttons;
             browseForDocButton = browseButton;
             lastDocumentPathTextBox = lastPathTextBox;
         }
-        public static bool FileNamePresent(string documentName)
-        {
+        public static bool FileNamePresent(string documentName) {
             return (from alreadyAdded in runningListBox.Items.OfType<System.Windows.Controls.ListViewItem>()
                     select alreadyAdded.Content.ToString()).Contains(documentName);
         }
-        public static IEnumerable<FileInfo> GetValidFilesInPathList(IEnumerable<string> filePaths)
-        {
+        public static IEnumerable<FileInfo> GetValidFilesInPathList(IEnumerable<string> filePaths) {
             return (from path in filePaths
                     let fileInfo = new FileInfo(path)
                     where AcceptedFormats.Contains(fileInfo.Extension)
                     select fileInfo).Take(MaxDocuments - NumberOfDocuments);
 
         }
-        public static void AddUserDocument(string fileName, string filePath)
-        {
-            var docEntry = new System.Windows.Controls.ListViewItem
-            {
+        public static void AddUserDocument(string fileName, string filePath) {
+            var docEntry = new System.Windows.Controls.ListViewItem {
                 Tag = filePath,
                 Content = fileName
             };
-            var button = new System.Windows.Controls.Button
-            {
+            var button = new System.Windows.Controls.Button {
                 Content = "x",
                 Height = 16,
                 Width = 16,
@@ -46,8 +40,7 @@ namespace LASI.UserInterface
             };
 
 
-            button.Click += (s, args) =>
-            {
+            button.Click += (s, args) => {
 
                 runningListBox.Items.Remove(docEntry);
                 xButtons.Children.Remove(button);
@@ -86,29 +79,22 @@ namespace LASI.UserInterface
         private static System.Windows.UIElement browseForDocButton;
         private static System.Windows.Controls.TextBox lastDocumentPathTextBox;
 
-        public static bool AddingAllowed
-        {
-            get
-            {
+        public static bool AddingAllowed {
+            get {
                 return MaxDocuments - numberOfDocuments > 0;
             }
         }
-        public static bool IsEmpty
-        {
-            get
-            {
+        public static bool IsEmpty {
+            get {
                 return numberOfDocuments == 0;
             }
         }
 
-        public static int NumberOfDocuments
-        {
-            get
-            {
+        public static int NumberOfDocuments {
+            get {
                 return DocumentManager.numberOfDocuments;
             }
-            set
-            {
+            set {
                 DocumentManager.numberOfDocuments = value;
             }
         }
@@ -117,8 +103,7 @@ namespace LASI.UserInterface
         /// </summary>
         /// <param name="file"></param>
         /// <returns>true if the given file info is locked, false otherwise.</returns>
-        public static bool FileIsLocked(FileInfo file)
-        {
+        public static bool FileIsLocked(FileInfo file) {
             try {
                 using (Stream stream = new FileStream(file.FullName, FileMode.Open)) {
                     return false;
@@ -132,10 +117,8 @@ namespace LASI.UserInterface
 
         private static readonly string[] acceptedFormats = { ".docx", ".txt", ".pdf" };
 
-        public static string[] AcceptedFormats
-        {
-            get
-            {
+        public static string[] AcceptedFormats {
+            get {
                 return acceptedFormats;
             }
         }

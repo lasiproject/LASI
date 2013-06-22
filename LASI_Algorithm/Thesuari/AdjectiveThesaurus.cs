@@ -17,8 +17,7 @@ namespace LASI.Algorithm.Thesauri
         /// </summary>
         /// <param name="filePath">The path of the WordNet database file containing the sysnonym line for nouns.</param>
         public AdjectiveThesaurus(string filePath)
-            : base(filePath)
-        {
+            : base(filePath) {
             FilePath = filePath;
         }
 
@@ -27,28 +26,23 @@ namespace LASI.Algorithm.Thesauri
         /// <summary>
         /// Parses the contents of the underlying WordNet database file.
         /// </summary>
-        public override void Load()
-        {
+        public override void Load() {
             List<string> lines = new List<string>();
 
-            using (StreamReader r = new StreamReader(FilePath))
-            {
+            using (StreamReader reader = new StreamReader(FilePath)) {
 
-                string line;
 
-                for (int i = 0; i < 30; ++i) //stole this from Aluan
-                {
-                    r.ReadLine();
+                for (int i = 0; i < HEADER_LENGTH; ++i) {
+                    reader.ReadLine();
                 }
-                while ((line = r.ReadLine()) != null)
-                {
-                    CreateSet(line);
+                while (!reader.EndOfStream) {
+                    var set = CreateSet(reader.ReadLine());
+                    allSets.Add(set);
                 }
             }
         }
 
-        void CreateSet(string line)
-        {
+        AdjectiveSynSet CreateSet(string line) {
 
 
 
@@ -70,14 +64,13 @@ namespace LASI.Algorithm.Thesauri
                                              select match.Value.Replace('_', '-');
             int id = Int32.Parse(setLine.Substring(0, 8));
 
-            WordNetAdjectiveCategory lexCategory = (WordNetAdjectiveCategory)Int32.Parse(setLine.Substring(9, 2));
-            AdjectiveSynSet temp = new AdjectiveSynSet(id, localWords, pointers, lexCategory);
+            WordNetAdjectiveCategory lexCategory = ( WordNetAdjectiveCategory )Int32.Parse(setLine.Substring(9, 2));
+            return new AdjectiveSynSet(id, localWords, pointers, lexCategory);
 
-            allSets.Add(temp);
+
 
         }
-        public HashSet<string> SearchFor(string word)
-        {
+        public HashSet<string> SearchFor(string word) {
 
 
             //gets words of searched word
@@ -111,17 +104,13 @@ namespace LASI.Algorithm.Thesauri
             return results;
 
         }
-        public override HashSet<string> this[string search]
-        {
-            get
-            {
+        public override HashSet<string> this[string search] {
+            get {
                 return SearchFor(search);
             }
         }
-        public override HashSet<string> this[Word search]
-        {
-            get
-            {
+        public override HashSet<string> this[Word search] {
+            get {
                 return this[search.Text];
             }
         }

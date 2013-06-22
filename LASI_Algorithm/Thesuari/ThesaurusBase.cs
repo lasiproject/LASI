@@ -46,5 +46,6 @@ namespace LASI.Algorithm.Thesauri
             get;
             set;
         }
+        protected const int HEADER_LENGTH = 29;
     }
 }
