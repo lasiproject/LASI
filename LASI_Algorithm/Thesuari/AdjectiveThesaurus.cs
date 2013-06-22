@@ -17,19 +17,22 @@ namespace LASI.Algorithm.Thesauri
         /// </summary>
         /// <param name="filePath">The path of the WordNet database file containing the sysnonym line for nouns.</param>
         public AdjectiveThesaurus(string filePath)
-            : base(filePath) {
+            : base(filePath)
+        {
             FilePath = filePath;
         }
 
-        HashSet<NounSynSet> allSets = new HashSet<NounSynSet>();
+        HashSet<AdjectiveSynSet> allSets = new HashSet<AdjectiveSynSet>();
 
         /// <summary>
         /// Parses the contents of the underlying WordNet database file.
         /// </summary>
-        public override void Load() {
+        public override void Load()
+        {
             List<string> lines = new List<string>();
 
-            using (StreamReader r = new StreamReader(FilePath)) {
+            using (StreamReader r = new StreamReader(FilePath))
+            {
 
                 string line;
 
@@ -37,32 +40,44 @@ namespace LASI.Algorithm.Thesauri
                 {
                     r.ReadLine();
                 }
-                while ((line = r.ReadLine()) != null) {
+                while ((line = r.ReadLine()) != null)
+                {
                     CreateSet(line);
                 }
             }
         }
 
-        void CreateSet(string line) {
-
-            WordNetNounCategory lexCategory = ( WordNetNounCategory )Int32.Parse(line.Substring(9, 2));
-
-            String frontPart = line.Split('|', '!')[0];
-            MatchCollection numbers = Regex.Matches(frontPart, @"(?<id>\d{8})");
-            MatchCollection words = Regex.Matches(frontPart, @"(?<word>[A-Za-z_\-]{2,})");
+        void CreateSet(string line)
+        {
 
 
-            IEnumerable<int> pointers = numbers.Cast<Match>().Select(m => Int32.Parse(m.Value)).Distinct();
-            int id = pointers.First();
 
-            List<string> wordList = words.Cast<Match>().Select(m => m.Value).Distinct().ToList();
+            var setLine = line.Substring(0, line.IndexOf('|'));
+            MatchCollection numbers = Regex.Matches(setLine, @"(?<id>\d{8})");
 
-            NounSynSet temp = new NounSynSet(id, wordList, pointers, lexCategory);
+
+
+            var pointers = from match in Regex.Matches(line, @"\D{1,2}\s*\d{8}").Cast<Match>()
+                           let split = match.Value.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
+                           let pointer = split.Count() > 1 ?
+                           new KeyValuePair<AdjectivePointerSymbol, int>(relationMap[split[0]], Int32.Parse(split[1])) :
+                           new KeyValuePair<AdjectivePointerSymbol, int>(AdjectivePointerSymbol.UNDEFINED, Int32.Parse(split[0]))
+                           select pointer;
+
+
+
+            IEnumerable<string> localWords = from match in Regex.Matches(setLine, @"(?<word>[A-Za-z_\-\']{3,})").Cast<Match>()
+                                             select match.Value.Replace('_', '-');
+            int id = Int32.Parse(setLine.Substring(0, 8));
+
+            WordNetAdjectiveCategory lexCategory = (WordNetAdjectiveCategory)Int32.Parse(setLine.Substring(9, 2));
+            AdjectiveSynSet temp = new AdjectiveSynSet(id, localWords, pointers, lexCategory);
 
             allSets.Add(temp);
 
         }
-        public HashSet<string> SearchFor(string word) {
+        public HashSet<string> SearchFor(string word)
+        {
 
 
             //gets words of searched word
@@ -96,15 +111,22 @@ namespace LASI.Algorithm.Thesauri
             return results;
 
         }
-        public override HashSet<string> this[string search] {
-            get {
+        public override HashSet<string> this[string search]
+        {
+            get
+            {
                 return SearchFor(search);
             }
         }
-        public override HashSet<string> this[Word search] {
-            get {
+        public override HashSet<string> this[Word search]
+        {
+            get
+            {
                 return this[search.Text];
             }
         }
+
+
+        private static readonly AdjectivePointerSymbolMap relationMap = new AdjectivePointerSymbolMap();
     }
 }

@@ -11,7 +11,8 @@ namespace LASI.Algorithm.Thesauri
     public static class NounConjugator
     {
         private static string exceptionFilePath = System.Configuration.ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "noun.exc";
-        static NounConjugator() {
+        static NounConjugator()
+        {
             LoadExceptionFile(exceptionFilePath);
 
         }
@@ -19,24 +20,31 @@ namespace LASI.Algorithm.Thesauri
 
 
 
-        public static IEnumerable<string> GetLexicalForms(string search) {
+        public static IEnumerable<string> GetLexicalForms(string search)
+        {
             var root = FindRoot(search);
             return TryComputeConjugations(root);
         }
 
-        private static List<string> TryComputeConjugations(string root) {
+        private static List<string> TryComputeConjugations(string root)
+        {
             var hyphenIndex = root.IndexOf('-');
 
 
             List<string> except;
             exceptionData.TryGetValue(root, out except);
-            if (except != null) {
+            if (except != null)
+            {
                 except.Add(root);
                 return except;
-            } else {
+            }
+            else
+            {
                 var results = new List<string>();
-                for (var i = 0; i < NOUN_SUFFICIES.Length; i++) {
-                    if (root.EndsWith(NOUN_ENDINGS[i]) || NOUN_ENDINGS[i] == "") {
+                for (var i = 0; i < NOUN_SUFFICIES.Length; i++)
+                {
+                    if (root.EndsWith(NOUN_ENDINGS[i]) || NOUN_ENDINGS[i] == "")
+                    {
                         results.Add(root.Substring(0, root.Length - NOUN_ENDINGS[i].Length) + NOUN_SUFFICIES[i]);
                         break;
                     }
@@ -48,13 +56,19 @@ namespace LASI.Algorithm.Thesauri
 
 
 
-        public static string FindRoot(string NounText) {
+        public static string FindRoot(string NounText)
+        {
             List<string> result = CheckSpecialFormsList(NounText);
-            if (result.Any()) {
+            if (result.Any())
+            {
                 return result.First();
-            } else {
-                for (var i = 0; i < NOUN_SUFFICIES.Length; i++) {
-                    if (NounText.EndsWith(NOUN_SUFFICIES[i])) {
+            }
+            else
+            {
+                for (var i = 0; i < NOUN_SUFFICIES.Length; i++)
+                {
+                    if (NounText.EndsWith(NOUN_SUFFICIES[i]))
+                    {
                         result.Add(NounText.Substring(0, NounText.Length - NOUN_SUFFICIES[i].Length) + NOUN_ENDINGS[i]);
                         break;
                     }
@@ -67,7 +81,8 @@ namespace LASI.Algorithm.Thesauri
         }
 
 
-        private static List<string> CheckSpecialFormsList(string search) {
+        private static List<string> CheckSpecialFormsList(string search)
+        {
             return (from nounExceptKVs in exceptionData
                     where nounExceptKVs.Value.Contains(search)
                     select nounExceptKVs.Key).ToList();
@@ -78,16 +93,20 @@ namespace LASI.Algorithm.Thesauri
 
         #region Exception File Processing
 
-        private static void LoadExceptionFile(string filePath) {
-            using (var reader = new StreamReader(filePath)) {
-                while (!reader.EndOfStream) {
+        private static void LoadExceptionFile(string filePath)
+        {
+            using (var reader = new StreamReader(filePath))
+            {
+                while (!reader.EndOfStream)
+                {
                     var keyVal = ProcessLine(reader.ReadLine());
                     exceptionData[keyVal.Key] = keyVal.Value;
                 }
             }
         }
 
-        private static KeyValuePair<string, List<string>> ProcessLine(string exceptionLine) {
+        private static KeyValuePair<string, List<string>> ProcessLine(string exceptionLine)
+        {
             var kvstr = exceptionLine.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
             return new KeyValuePair<string, List<string>>(kvstr.Last(), kvstr.Take(kvstr.Count() - 1).ToList());
         }

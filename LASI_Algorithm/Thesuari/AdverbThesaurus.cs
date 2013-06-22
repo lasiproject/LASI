@@ -16,22 +16,25 @@ namespace LASI.Algorithm.Thesauri
         /// </summary>
         /// <param name="filePath">The path of the WordNet database file containing the sysnonym line for nouns.</param>
         public AdverbThesaurus(string filePath)
-            : base(filePath) {
+            : base(filePath)
+        {
             FilePath = filePath;
         }
 
-        List<NounSynSet> allSets = new List<NounSynSet>();
+        List<AdverbSynSet> allSets = new List<AdverbSynSet>();
 
         /// <summary>
         /// Parses the contents of the underlying WordNet database file.
         /// </summary>
-        public override void Load() {
+        public override void Load()
+        {
             //throw new NotImplementedException();
 
 
             List<string> lines = new List<string>();
 
-            using (StreamReader r = new StreamReader(FilePath)) {
+            using (StreamReader r = new StreamReader(FilePath))
+            {
 
 
 
@@ -51,7 +54,8 @@ namespace LASI.Algorithm.Thesauri
                 //test 5 lines without having to wait
 
 
-                while ((line = r.ReadLine()) != null) {
+                while ((line = r.ReadLine()) != null)
+                {
 
                     CreateSet(line);
 
@@ -68,39 +72,37 @@ namespace LASI.Algorithm.Thesauri
             }
         }
 
-        void CreateSet(string line) {
+        void CreateSet(string line)
+        {
 
 
-            WordNetNounCategory lexCategory = ( WordNetNounCategory )Int32.Parse(line.Substring(9, 2));
+            String setLine = line.Split('|', '!')[0];
 
-            String frontPart = line.Split('|', '!')[0];
-            MatchCollection numbers = Regex.Matches(frontPart, @"(?<id>\d{8})");
-            MatchCollection words = Regex.Matches(frontPart, @"(?<word>[A-Za-z_\-]{2,})");
+            MatchCollection numbers = Regex.Matches(setLine, @"(?<id>\d{8})");
+
+            var pointers = from match in Regex.Matches(line, @"\D{1,2}\s*\d{8}").Cast<Match>()
+                           let split = match.Value.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
+                           let pointer = split.Count() > 1 ?
+                           new KeyValuePair<AdverbPointerSymbol, int>(relationMap[split[0]], Int32.Parse(split[1])) :
+                           new KeyValuePair<AdverbPointerSymbol, int>(AdverbPointerSymbol.UNDEFINED, Int32.Parse(split[0]))
+                           select pointer;
 
 
+            IEnumerable<string> localWords = from match in Regex.Matches(setLine, @"(?<word>[A-Za-z_\-\']{3,})").Cast<Match>()
+                                             select match.Value.Replace('_', '-');
 
-            IEnumerable<int> pointers = numbers.Cast<Match>().Select(m => Int32.Parse(m.Value)).Distinct();
-            int id = pointers.First();
+            int id = Int32.Parse(setLine.Substring(0, 8));
 
-
-            List<string> wordList = words.Cast<Match>().Select(m => m.Value).Distinct().ToList();
-
-            NounSynSet temp = new NounSynSet(id, wordList, pointers, lexCategory);
-
-            //NounSynSet set = new NounSynSet(id, words, pointers);
+            WordNetAdverbCategory lexCategory = (WordNetAdverbCategory)Int32.Parse(setLine.Substring(9, 2));
+            AdverbSynSet temp = new AdverbSynSet(id, localWords, pointers, lexCategory);
 
 
             allSets.Add(temp);
 
-            /*foreach (string tester in pointers){
-
-                Console.WriteLine(tester);
-
-           }*/
-            //console view
         }
 
-        public HashSet<string> SearchFor(string word) {
+        public HashSet<string> SearchFor(string word)
+        {
 
             //gets pointers of searched word
             //var tempResults = from sn in allSets
@@ -143,17 +145,23 @@ namespace LASI.Algorithm.Thesauri
             //}//console view
         }
 
-        public override HashSet<string> this[string search] {
-            get {
+        public override HashSet<string> this[string search]
+        {
+            get
+            {
                 return SearchFor(search);
             }
         }
 
 
-        public override HashSet<string> this[Word search] {
-            get {
+        public override HashSet<string> this[Word search]
+        {
+            get
+            {
                 return this[search.Text];
             }
         }
+
+        private static readonly AdverbPointerSymbolMap relationMap = new AdverbPointerSymbolMap();
     }
 }

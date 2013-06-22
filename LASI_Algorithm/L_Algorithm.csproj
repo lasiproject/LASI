@@ -158,6 +158,7 @@
     <Compile Include="LexicalStructures\AdjectiveRelatedConstructs\SuperlativeAdjective .cs" />
     <Compile Include="LexicalStructures\ConstrainingSemanticConstructs\PossessiveEnding.cs" />
     <Compile Include="Thesuari\NounThesaurus.cs" />
+    <Compile Include="Thesuari\PointerSymbolMaps.cs" />
     <Compile Include="Thesuari\SynSetDefinitions.cs" />
     <Compile Include="Thesuari\Thesaurus.cs" />
     <Compile Include="LexicalStructures\AdjectiveRelatedConstructs\Adjective.cs" />

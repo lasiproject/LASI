@@ -17,7 +17,8 @@ namespace LASI.Algorithm.Thesauri
         /// </summary>
         /// <param name="filePath">The path of the WordNet database file containing the sysnonym line for nouns.</param>
         public NounThesaurus(string filePath)
-            : base(filePath) {
+            : base(filePath)
+        {
             FilePath = filePath;
 
         }
@@ -27,14 +28,17 @@ namespace LASI.Algorithm.Thesauri
         /// <summary>
         /// Parses the contents of the underlying WordNet database file.
         /// </summary>
-        public override void Load() {
+        public override void Load()
+        {
 
-            using (StreamReader reader = new StreamReader(FilePath)) {
+            using (StreamReader reader = new StreamReader(FilePath))
+            {
                 for (int i = 0; i < 29; ++i) //stole this from Aluan
                 {
                     reader.ReadLine();
                 }
-                while (!reader.EndOfStream) {
+                while (!reader.EndOfStream)
+                {
 
                     var set = CreateSet(reader.ReadLine());
                     InsertSetData(set);
@@ -44,33 +48,25 @@ namespace LASI.Algorithm.Thesauri
 
         }
 
-        private void InsertSetData(NounSynSet set) {
+        private void InsertSetData(NounSynSet set)
+        {
             allSets.Add(set);
             data.Add(set.ID, set);
             lexicalGoups[set.LexName].Add(set);
         }
 
+        NounSynSet CreateSet(string line)
+        {
 
-
-
-
-        //internal IEnumerable<string> GetAllWordStrings() {
-        //    return from set in allSets
-        //           from word in set.Words
-        //           select word;
-        //}
-
-        NounSynSet CreateSet(string line) {
-
-            //Aluan: This line gets extracts word category info I noticed was present in the DB files
-            //Erik:  Gotcha, I'll try to decipher its meaning.
 
             var setLine = line.Substring(0, line.IndexOf('|'));
 
             IEnumerable<KeyValuePair<NounPointerSymbol, int>> kindedPointers =
                 from match in Regex.Matches(setLine, @"\D{1,2}\s*\d{8}").Cast<Match>()
                 let split = match.Value.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
-                let pointer = split.Count() > 1 ? new KeyValuePair<NounPointerSymbol, int>(RelationMap[split[0]], Int32.Parse(split[1])) : new KeyValuePair<NounPointerSymbol, int>(NounPointerSymbol.UNDEFINED, Int32.Parse(split[0]))
+                let pointer = split.Count() > 1 ?
+                new KeyValuePair<NounPointerSymbol, int>(RelationMap[split[0]], Int32.Parse(split[1])) :
+                new KeyValuePair<NounPointerSymbol, int>(NounPointerSymbol.UNDEFINED, Int32.Parse(split[0]))
                 where relationshipsToKeep.Contains(pointer.Key)
                 select pointer;
 
@@ -79,7 +75,7 @@ namespace LASI.Algorithm.Thesauri
 
             int id = Int32.Parse(setLine.Substring(0, 8));
 
-            WordNetNounCategory lexCategory = ( WordNetNounCategory )Int32.Parse(setLine.Substring(9, 2));
+            WordNetNounCategory lexCategory = (WordNetNounCategory)Int32.Parse(setLine.Substring(9, 2));
 
             return new NounSynSet(id, localWords, kindedPointers, lexCategory);
 
@@ -88,7 +84,8 @@ namespace LASI.Algorithm.Thesauri
 
 
 
-        public HashSet<string> SearchFor(string word) {
+        public HashSet<string> SearchFor(string word)
+        {
 
             var containingSet = allSets.FirstOrDefault(set => set.Words.Contains(word));
             if (containingSet == null)
@@ -100,18 +97,22 @@ namespace LASI.Algorithm.Thesauri
             return new HashSet<string>(results);
         }
 
-        private void SearchSubsets(NounSynSet containingSet, List<string> results, HashSet<NounSynSet> setsSearched, WordNetNounCategory lexname) {
+        private void SearchSubsets(NounSynSet containingSet, List<string> results, HashSet<NounSynSet> setsSearched, WordNetNounCategory lexname)
+        {
             results.AddRange(containingSet.Words);
             results.AddRange(from set in containingSet[NounPointerSymbol.HypERnym]
                              where data.ContainsKey(set)
                              from w in data[set].Words
                              select w);
-            if (!setsSearched.Contains(containingSet)) {
+            if (!setsSearched.Contains(containingSet))
+            {
 
                 setsSearched.Add(containingSet);
                 foreach (var set in containingSet.ReferencedIndexes.Except(containingSet[NounPointerSymbol.HypERnym]).Select(p =>
-                  data.ContainsKey(p) ? data[p] : null)) {
-                    if (set != null && set.LexName == lexname && !setsSearched.Contains(set)) {
+                  data.ContainsKey(p) ? data[p] : null))
+                {
+                    if (set != null && set.LexName == lexname && !setsSearched.Contains(set))
+                    {
                         SearchSubsets(set, results, setsSearched, lexname);
                     }
 
@@ -121,23 +122,27 @@ namespace LASI.Algorithm.Thesauri
         }
 
 
-        public override HashSet<string> this[string search] {
-            get {
+        public override HashSet<string> this[string search]
+        {
+            get
+            {
                 var root = NounConjugator.FindRoot(search);
                 return new HashSet<string>(SearchFor(root).SelectMany(syn => NounConjugator.GetLexicalForms(syn)));
             }
         }
 
 
-        public override HashSet<string> this[Word search] {
-            get {
+        public override HashSet<string> this[Word search]
+        {
+            get
+            {
                 return this[search.Text];
             }
         }
 
         private Dictionary<WordNetNounCategory, List<NounSynSet>> lexicalGoups = new Dictionary<WordNetNounCategory, List<NounSynSet>>
         {
-            { WordNetNounCategory.Entity, new List<NounSynSet>() },
+            { WordNetNounCategory.Tops, new List<NounSynSet>() },
             { WordNetNounCategory.Act,new List<NounSynSet>() },
             { WordNetNounCategory.Animal,new List<NounSynSet>() },
             { WordNetNounCategory.Artifact,new List<NounSynSet>() },
