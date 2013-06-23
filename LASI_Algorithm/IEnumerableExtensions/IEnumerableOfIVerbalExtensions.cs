@@ -97,10 +97,5 @@ namespace LASI.Algorithm
                    })
                    select TA;
         }
-        public static IEnumerable<IVerbalSubject> GetActionPerformers<T>(this IEnumerable<T> verbals) where T : IVerbal {
-            return from action in verbals.WithSubject()
-                   from performer in action.Subjects
-                   select performer;
-        }
     }
 }

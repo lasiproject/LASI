@@ -27,9 +27,6 @@ namespace LASI.Algorithm.Binding
             }
         }
 
-
-
-
         #region Private Static Methods
 
         private static void PerformAttributeNounPhraseBinding(Document doc) {
@@ -88,6 +85,7 @@ namespace LASI.Algorithm.Binding
                 .AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
                 .ForAll(s => new PronounBinder().Bind(doc));
         }
+
         #endregion
     }
 

@@ -12,13 +12,10 @@ namespace LASI.Algorithm
     /// </summary>
     public static class IEnumerableOfIEntityExtensions
     {
-
-
-
         /// <summary>
         /// Returns all IEntity constructs in the source sequence which have been bound as the Subject of an IVerbal construct.
         /// </summary>
-        /// <typeparam name="T">Any Noun which implemenets the IEntity interface.</typeparam>
+        /// <typeparam name="T">Any Type which implemenets the IEntity interface.</typeparam>
         /// <param name="describables">The sequence of Noun instances to filter.</param>
         /// <returns>All IEntity constructs in the source sequence which have been bound as the Subject of an IVerbal construct.</returns>
         public static IEnumerable<T> InSubjectRole<T>(this IEnumerable<T> entities) where T : IEntity {
@@ -29,7 +26,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Returns all describables in the source sequence which have been bound as the Subject of any IVerbal construct which conforms the logic of the IVerbal selector function.
         /// </summary>
-        /// <typeparam name="T">Any Noun which implemenets the IEntity interface.</typeparam>
+        /// <typeparam name="T">Any Type which implemenets the IEntity interface.</typeparam>
         /// <param name="describables">The sequence of IEntity constructs to filter.</param>
         /// <param name="verbalSelector">The function which examines the SubjectOf property of each entity to determine if it should be included in the resulting sequence.</param>
         /// <returns>All IEntity constructs in the source sequence which have been bound as the Subject of any IVerbal construct which conforms the logic of the IVerbal selector function.
@@ -41,7 +38,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Returns all IEntity constructs in the source sequence which have been bound as the Direct Object of an IVerbal construct.
         /// </summary>
-        /// <typeparam name="T">Any Noun which implemenets the IEntity interface.</typeparam>
+        /// <typeparam name="T">Any Type which implemenets the IEntity interface.</typeparam>
         /// <param name="describables">The sequence of IEntity constructs to filter.</param>
         /// <returns>All IEntity constructs in the source sequence which have been bound as the Direct Object of an IVerbal construct.</returns>
         public static IEnumerable<T> InDirectObjectRole<T>(this IEnumerable<T> entities) where T : IEntity {
@@ -52,7 +49,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Returns all IEntity constructs in the source sequence which have been bound as the Direct Object of any IVerbal construct which conforms the logic of the IVerbal selector function.
         /// </summary>
-        /// <typeparam name="T">Any Noun which implemenets the IEntity interface.</typeparam>
+        /// <typeparam name="T">Any Type which implemenets the IEntity interface.</typeparam>
         /// <param name="describables">The sequence of IEntity constructs to filter.</param>
         /// <param name="verbalSelector">The function which examines the DirectObjectOf property of each entity to determine if it should be included in the resulting sequence.</param>
         /// <returns>All IEntity constructs in the source sequence which have been bound as the Direct Object of any IVerbal construct which conforms the logic of the IVerbal selector function.
@@ -64,7 +61,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Returns all IEntity constructs in the source sequence which have been bound as the Indirect Object of an IVerbal construct.
         /// </summary>
-        /// <typeparam name="T">Any Noun which implemenets the IEntity interface.</typeparam>
+        /// <typeparam name="T">Any Type which implemenets the IEntity interface.</typeparam>
         /// <param name="describables">The sequence of IEntity constructs to filter.</param>
         /// <returns>All IEntity constructs in the source sequence which have been bound as the Indirect Object of an IVerbal construct.</returns>
         public static IEnumerable<T> InIndirectObjectRole<T>(this IEnumerable<T> entities) where T : IEntity {
@@ -75,7 +72,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Returns all IEntity constructs in the source sequence which have been bound as the Indirect Object of any IVerbal construct which conforms the logic of the IVerbal selector function.
         /// </summary>
-        /// <typeparam name="T">Any Noun which implemenets the IEntity interface.</typeparam>
+        /// <typeparam name="T">Any Type which implemenets the IEntity interface.</typeparam>
         /// <param name="describables">The sequence of IEntity constructs to filter.</param>
         /// <param name="verbalSelector">The function which examines the IndirectObjectOf property of each entity to determine if it should be included in the resulting sequence.</param>
         /// <returns>All IEntity constructs in the source sequence which have been bound as the Indirect Object of any IVerbal construct which conforms the logic of the IVerbal selector function.
@@ -84,14 +81,19 @@ namespace LASI.Algorithm
                    where verbalSelector(e.IndirectObjectOf)
                    select e;
         }
-
-        public static IEnumerable<T> HavingDescriptor<T>(this IEnumerable<T> describables, Func<IDescriptor, bool> descriptorSelector) where T : IDescribable {
+        /// <summary>
+        /// Returns all IDescribable Constructs in the given sequence which are bound to an IDescriptor that matches the given descriptorMatcher predicate function.
+        /// </summary>
+        /// <typeparam name="T">Any Type which implemenets the IDescribable interface.</typeparam>
+        /// <param name="describables">The sequence of IDescribables to filter.</param>
+        /// <param name="descriptorMatcher">The function which examines the descriptors bound to each element in the sequence.</param>
+        /// <returns>All IDescribable Constructs in the given sequence which are bound to an IDescriptor that matches the given descriptorMatcher predicate function.</returns>
+        public static IEnumerable<T> HavingDescriptor<T>(this IEnumerable<T> describables, Func<IDescriptor, bool> descriptorMatcher) where T : IDescribable {
             return from describable in describables
                    where (from descriptor in describable.Descriptors
-                          where descriptorSelector(descriptor)
+                          where descriptorMatcher(descriptor)
                           select descriptor).Any()
                    select describable;
         }
-
     }
 }

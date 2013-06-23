@@ -35,19 +35,9 @@
                           Width="200"
                           Click="AddMenuItem_Click">
                 </MenuItem>
-                <!--<MenuItem Header="Save Project As"
-                          HorizontalAlignment="Left"
-                          Width="200" />
-                <MenuItem Header="Save Project"
-                          HorizontalAlignment="Left"
-                          Width="200" />-->
                 <MenuItem Header="Exit"
                           Click="ExitMenuItem_Click" />
             </MenuItem>
-            <!--<MenuItem Header="Edit"
-                      HorizontalAlignment="Left" />-->
-            <!--<MenuItem Header="View"
-                      HorizontalAlignment="Left" />-->
             <MenuItem Header="Tools"
                       HorizontalAlignment="Left" />
             <MenuItem Header="Help"
