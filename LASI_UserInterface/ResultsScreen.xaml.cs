@@ -15,6 +15,7 @@ using System.Windows.Media;
 using LASI.UserInterface.DataVisualzationProviders;
 using LASI.InteropLayer;
 using LASI.Utilities;
+using System.IO;
 
 
 namespace LASI.UserInterface
@@ -378,10 +379,13 @@ namespace LASI.UserInterface
 
         private void OpenManualMenuItem_Click_1(object sender, RoutedEventArgs e) {
             try {
-                Process.Start(System.AppDomain.CurrentDomain.BaseDirectory + @"\Manual.pdf");
+                System.Diagnostics.Process.Start(System.AppDomain.CurrentDomain.BaseDirectory + @"\Manual.pdf");
+            }
+            catch (FileNotFoundException) {
+                MessageBox.Show(this, "Unable to locate the User Manual, please contact the LASI team for further support.");
             }
             catch (Exception) {
-                MessageBox.Show("Sorry, the manual could not be opened. Please ensure you have a pdf viewer installed.");
+                MessageBox.Show(this, "Sorry, the manual could not be opened. Please ensure you have a pdf viewer installed.");
             }
         }
     }

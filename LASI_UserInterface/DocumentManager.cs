@@ -17,7 +17,7 @@ namespace LASI.UserInterface
         }
         public static bool FileNamePresent(string documentName) {
             return (from alreadyAdded in runningListBox.Items.OfType<System.Windows.Controls.ListViewItem>()
-                    select alreadyAdded.Content.ToString()).Contains(documentName);
+                    select alreadyAdded.Content.ToString()).Any(doc => doc.Trim().ToUpper() == documentName.Trim().ToUpper());
         }
         public static IEnumerable<FileInfo> GetValidFilesInPathList(IEnumerable<string> filePaths) {
             return (from path in filePaths
@@ -25,6 +25,16 @@ namespace LASI.UserInterface
                     where AcceptedFormats.Contains(fileInfo.Extension)
                     select fileInfo).Take(MaxDocuments - NumberOfDocuments);
 
+        }
+        public static void RemoveUserDocument(string fileName) {
+            var remove = (from item in itemsAdded
+                          where item.Content.ToString().Substring(0, item.Content.ToString().LastIndexOf('.')) == fileName
+                          select item).FirstOrDefault();
+            if (remove != null) {
+                itemsAdded.Remove(remove);
+                runningListBox.Items.Remove(remove);
+                numberOfDocuments--;
+            }
         }
         public static void AddUserDocument(string fileName, string filePath) {
             var docEntry = new System.Windows.Controls.ListViewItem {
@@ -44,12 +54,11 @@ namespace LASI.UserInterface
 
                 runningListBox.Items.Remove(docEntry);
                 xButtons.Children.Remove(button);
-                DocumentManager.NumberOfDocuments--;
+                --NumberOfDocuments;
                 if (DocumentManager.IsEmpty) {
 
                     runningListBox.Opacity = 0.25;
                 }
-
                 browseForDocButton.IsEnabled = true;
 
 
@@ -58,6 +67,10 @@ namespace LASI.UserInterface
 
             xButtons.Children.Add(button);
             runningListBox.Items.Add(docEntry);
+
+            itemsAdded.Add(docEntry);
+
+
             lastDocumentPathTextBox.Text = fileName;
             DocumentManager.NumberOfDocuments++;
             if (DocumentManager.AddingAllowed) {
@@ -70,7 +83,7 @@ namespace LASI.UserInterface
             }
         }
         static System.Windows.Controls.ListBox runningListBox;
-
+        static List<System.Windows.Controls.ListViewItem> itemsAdded = new List<System.Windows.Controls.ListViewItem>();
 
 
         private static int numberOfDocuments;

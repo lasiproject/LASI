@@ -81,13 +81,6 @@ namespace LASI.UserInterface
 
         }
 
-        private void backButton_Click_1(object sender, RoutedEventArgs e) {
-            //WindowManager.CreateProjectScreen.PositionAt(this.Left, this.Top);
-            //WindowManager.CreateProjectScreen.Show();
-            //this.Hide();
-        }
-
-
 
 
         private void FileExitMenuItem_Click(object sender, RoutedEventArgs e) {
@@ -102,30 +95,37 @@ namespace LASI.UserInterface
             var docSelected = DocumentPreview.SelectedItem;
             if (docSelected != null) {
                 DocumentPreview.Items.Remove(docSelected);
+                DocumentManager.RemoveUserDocument((docSelected as TabItem).Header.ToString());
                 FileManager.RemoveFile((docSelected as TabItem).Header.ToString());
                 CheckIfAddingAllowed();
+
             }
 
         }
         private async void mainGrid_Drop(object sender, DragEventArgs e) {
-            var validDroppedFiles = DocumentManager.GetValidFilesInPathList(e.Data.GetData(System.Windows.DataFormats.FileDrop, true) as string[]);
-            if (!validDroppedFiles.Any()) {
-                MessageBox.Show(string.Format("Only the following file formats are accepted:\n{0}", DocumentManager.AcceptedFormats.Aggregate((sum, current) => sum += ", " + current)));
-            }
-            else if (!validDroppedFiles.Any(fn => !DocumentManager.FileNamePresent(fn.Name))) {
-                MessageBox.Show(string.Format("A document named {0} is already part of the project.", validDroppedFiles.First()));
+            if (DocumentManager.AddingAllowed) {
+                var validDroppedFiles = DocumentManager.GetValidFilesInPathList(e.Data.GetData(System.Windows.DataFormats.FileDrop, true) as string[]);
+                if (!validDroppedFiles.Any()) {
+                    MessageBox.Show(string.Format("Only the following file formats are accepted:\n{0}", DocumentManager.AcceptedFormats.Aggregate((sum, current) => sum += ", " + current)));
+                }
+                else if (!validDroppedFiles.Any(fn => !DocumentManager.FileNamePresent(fn.Name))) {
+                    MessageBox.Show(string.Format("A document named {0} is already part of the project.", validDroppedFiles.First()));
+                }
+                else {
+                    foreach (var droppedFile in validDroppedFiles) {
+                        if (!DocumentManager.FileIsLocked(droppedFile)) {
+                            DocumentManager.AddUserDocument(droppedFile.Name, droppedFile.FullName);
+                            await AddNewDocument(droppedFile.FullName);
+                        }
+                        else {
+                            MessageBox.Show(string.Format("The document {0} is in use by another process, please close any applications which may be using the file and try again.", droppedFile));
+                        }
+
+                    }
+                }
             }
             else {
-                foreach (var droppedFile in validDroppedFiles) {
-                    if (!DocumentManager.FileIsLocked(droppedFile)) {
-                        DocumentManager.AddUserDocument(droppedFile.Name, droppedFile.FullName);
-                        await AddNewDocument(droppedFile.FullName);
-                    }
-                    else {
-                        MessageBox.Show(string.Format("The document {0} is in use by another process, please close any applications which may be using the file and try again.", droppedFile));
-                    }
-
-                }
+                MessageBox.Show(this, "A single project may only contain 5 documents.");
             }
         }
         private async void AddNewDocument_Click(object sender, RoutedEventArgs e) {
@@ -139,8 +139,17 @@ namespace LASI.UserInterface
             }
 
 
-            var docPath = openDialog.FileName;
-            await AddNewDocument(docPath);
+            var file = new FileInfo(openDialog.FileName);
+            if (DocumentManager.FileNamePresent(file.Name)) {
+                MessageBox.Show(string.Format("A document named {0} is already part of the project.", file));
+            }
+            else if (!DocumentManager.FileIsLocked(file)) {
+                DocumentManager.AddUserDocument(file.Name, file.FullName);
+                await AddNewDocument(file.FullName);
+            }
+            else {
+                MessageBox.Show(string.Format("The document {0} is in use by another process, please close any applications which may be using the file and try again.", file));
+            }
 
         }
 
@@ -156,14 +165,11 @@ namespace LASI.UserInterface
         }
 
         private void CheckIfAddingAllowed() {
-            var addingEnabled = DocumentPreview.Items.Count == 5 ? false : true;
+            var addingEnabled = DocumentManager.AddingAllowed;
             AddNewDocumentButton.IsEnabled = addingEnabled;
             FileMenuAdd.IsEnabled = addingEnabled;
         }
 
-        private void Window_DragOver(object sender, DragEventArgs e) {
-
-        }
 
         private void openPreferencesMenuItem_Click(object sender, RoutedEventArgs e) {
 
@@ -173,8 +179,11 @@ namespace LASI.UserInterface
             try {
                 System.Diagnostics.Process.Start(System.AppDomain.CurrentDomain.BaseDirectory + @"\Manual.pdf");
             }
+            catch (FileNotFoundException) {
+                MessageBox.Show(this, "Unable to locate the User Manual, please contact the LASI team for further support.");
+            }
             catch (Exception) {
-                MessageBox.Show("Sorry, the manual could not be opened. Please ensure you have a pdf viewer installed.");
+                MessageBox.Show(this, "Sorry, the manual could not be opened. Please ensure you have a pdf viewer installed.");
             }
         }
 
