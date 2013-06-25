@@ -111,15 +111,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="DataVisualzationManagement\ChartingManager.cs" />
-    <Compile Include="DataVisualzationManagement\CrossDocumentJoiner.cs" />
+    <Compile Include="ResultSelection\ChartingManager.cs" />
+    <Compile Include="ResultSelection\CrossDocumentJoiner.cs" />
     <Compile Include="Dialogs\CrossJoinSelectDialog.xaml.cs">
       <DependentUpon>CrossJoinSelectDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Dialogs\ExportResultsDialog.xaml.cs">
       <DependentUpon>ExportResultsDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="DataVisualzationManagement\ChartKind.cs" />
+    <Compile Include="ResultSelection\ChartKind.cs" />
     <Compile Include="DocumentManager.cs" />
     <Compile Include="InProgressScreen.xaml.cs">
       <DependentUpon>InProgressScreen.xaml</DependentUpon>
