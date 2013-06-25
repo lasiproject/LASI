@@ -8,7 +8,7 @@ using LASI.Algorithm.DocumentConstructs;
 
 using LASI.Algorithm.Thesauri;
 
-namespace LASI.InteropLayer
+namespace LASI.UserInterface
 {
     public class CrossDocumentJoiner
     {
@@ -18,12 +18,12 @@ namespace LASI.InteropLayer
             Documents = documents;
 
         }
-        public async Task<IEnumerable<NVNN>> JoinDocumentsAsnyc() {
+        public async Task<IEnumerable<RelationshipTuple>> JoinDocumentsAsnyc() {
 
             return await await Task.Factory.ContinueWhenAll(
                 new[]{  Task.Run(()=> GetCommonalitiesByVerbals()),
                         Task.Run(()=> GetCommonalitiesByBoundEntities())}, async tasks => {
-                            var results = new List<NVNN>();
+                            var results = new List<RelationshipTuple>();
                             foreach (var t in tasks) {
                                 results.AddRange(await t);
                             }
@@ -34,7 +34,7 @@ namespace LASI.InteropLayer
 
         }
 
-        private async Task<IEnumerable<NVNN>> GetCommonalitiesByBoundEntities() {
+        private async Task<IEnumerable<RelationshipTuple>> GetCommonalitiesByBoundEntities() {
             var topNPsByDoc = from doc in Documents.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
                               select GetTopNounPhrases(doc);
             var nounCommonalities = (from outerSet in topNPsByDoc
@@ -47,9 +47,9 @@ namespace LASI.InteropLayer
             var results = from n in nounCommonalities
                               .InSubjectRole()
                               .AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
-                          select new NVNN {
+                          select new RelationshipTuple {
                               Subject = n,
-                              Verbal = n.SubjectOf as VerbPhrase,
+                              Verbal = n.SubjectOf,
                               Direct = n.SubjectOf
                                   .DirectObjects
                                   .OfType<NounPhrase>()
@@ -58,7 +58,7 @@ namespace LASI.InteropLayer
                                   .IndirectObjects
                                   .OfType<NounPhrase>()
                                   .FirstOrDefault(),
-                              ViaPreposition = n.SubjectOf.ObjectOfThePreoposition
+                              Prepositional = n.SubjectOf.ObjectOfThePreoposition
                           } into result
                           group result by result.Subject.Text into resultGrouped
                           select resultGrouped.First() into result
@@ -68,7 +68,7 @@ namespace LASI.InteropLayer
             return results.Distinct();
 
         }
-        private async Task<IEnumerable<NVNN>> GetCommonalitiesByVerbals() {
+        private async Task<IEnumerable<RelationshipTuple>> GetCommonalitiesByVerbals() {
             var topVerbalsByDoc = await Task.WhenAll(from doc in Documents.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
                                                      select GetTopVerbPhrases(doc));
             var verbalCominalities = from verbPhraseSet in topVerbalsByDoc.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
@@ -78,7 +78,7 @@ namespace LASI.InteropLayer
                                             .Aggregate(true, (product, result) => product &= result)
                                      select vp;
             return (from v in verbalCominalities.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
-                    select new NVNN {
+                    select new RelationshipTuple {
                         Verbal = v,
                         Direct = v.DirectObjects
                             .OfType<NounPhrase>()
@@ -92,7 +92,7 @@ namespace LASI.InteropLayer
                             .OfType<NounPhrase>()
                             .Select(s => (s as IPronoun) == null ? s : (s as IPronoun).BoundEntity as IEntity)
                             .FirstOrDefault(),
-                        ViaPreposition = v.ObjectOfThePreoposition
+                        Prepositional = v.ObjectOfThePreoposition
                     } into result
                     where result.Subject != null
                     group result by result.Verbal.Text into resultGrouped
@@ -143,118 +143,6 @@ namespace LASI.InteropLayer
             get;
             protected set;
         }
-        public class NVNN
-        {
-            private VerbPhrase verbial;
-
-            public VerbPhrase Verbal {
-                get {
-                    return verbial;
-                }
-                set {
-                    verbial = value;
-                }
-            }
-            private IEntity subject;
-
-            public IEntity Subject {
-                get {
-                    return subject;
-                }
-                set {
-                    subject = value;
-                    RelationshipWeight += subject != null ? subject.Weight : 0;
-                }
-            }
-            private IEntity direct;
-
-            public IEntity Direct {
-                get {
-                    return direct;
-                }
-                set {
-                    direct = value;
-                    RelationshipWeight += direct != null ? direct.Weight : 0;
-                }
-            }
-            private IEntity indirect;
-
-            public IEntity Indirect {
-                get {
-                    return indirect;
-                }
-                set {
-                    indirect = value;
-                    RelationshipWeight += indirect != null ? indirect.Weight : 0;
-                }
-            }
-            private ILexical viaPreposition;
-
-            public ILexical ViaPreposition {
-                get {
-                    return viaPreposition;
-                }
-                set {
-                    viaPreposition = value;
-                    RelationshipWeight += viaPreposition != null ? viaPreposition.Weight : 0;
-                }
-            }
-            public double RelationshipWeight {
-                get;
-                protected set;
-            }
-            /// <summary>
-            /// Returns a textual representation of the NpVpNpNpQuatruple.
-            /// </summary>
-            /// <returns>A textual representation of the NpVpNpNpQuatruple.</returns>
-            public override string ToString() {
-                var result = Subject.Text + Verbal.Text;
-                if (Direct != null) {
-                    result += Direct.Text;
-                }
-                if (Indirect != null) {
-                    result += Indirect.Text;
-                }
-                return result;
-            }
-            public override int GetHashCode() {
-                return 1;
-            }
-            public override bool Equals(object obj) {
-
-                return this == obj as NVNN;
-
-            }
-            public static bool operator ==(NVNN lhs, NVNN rhs) {
-
-                if ((lhs as object != null || rhs as object == null) || (lhs as object == null || rhs as object != null))
-                    return false;
-                else if (lhs as object == null && rhs as object == null)
-                    return true;
-                else {
-                    bool result = lhs.Verbal.Text == rhs.Verbal.Text || lhs.Verbal.IsSimilarTo(rhs.Verbal);
-                    result &= LexicalComparers<IEntity>.AliasOrSimilarity.Equals(lhs.Subject, rhs.Subject);
-                    if (lhs.Direct != null && rhs.Direct != null) {
-                        result &= LexicalComparers<IEntity>.AliasOrSimilarity.Equals(lhs.Direct, rhs.Direct);
-                    }
-                    else if (lhs.Direct == null || rhs.Direct == null)
-                        return false;
-                    if (lhs.Indirect != null && rhs.Indirect != null) {
-                        result &= LexicalComparers<IEntity>.AliasOrSimilarity.Equals(lhs.Indirect, rhs.Indirect);
-                    }
-                    else if (lhs.Indirect == null || rhs.Indirect == null)
-                        return false;
-                    return result;
-                }
-            }
-
-            public static bool operator !=(NVNN lhs, NVNN rhs) {
-                return !(lhs == rhs);
-            }
-
-        }
-
-
 
     }
 

@@ -8,8 +8,7 @@ namespace LASI.InteropLayer
 {
     public static class PerformanceManager
     {
-        public static void SetPerformanceMode(PerforamanceMode mode)
-        {
+        public static void SetPerformanceMode(PerforamanceMode mode) {
             switch (mode) {
                 case PerforamanceMode.High:
                     Algorithm.Concurrency.SetResourceUsageMode(ResourceUsageMode.High);

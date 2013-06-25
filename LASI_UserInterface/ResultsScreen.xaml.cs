@@ -12,7 +12,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.DataVisualization.Charting;
 using System.Windows.Media;
-using LASI.UserInterface.DataVisualzationProviders;
 using LASI.InteropLayer;
 using LASI.Utilities;
 using System.IO;

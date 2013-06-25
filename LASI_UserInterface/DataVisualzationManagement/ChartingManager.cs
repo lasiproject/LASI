@@ -11,7 +11,7 @@ using LASI.Algorithm.Thesauri;
 using LASI.InteropLayer;
 
 
-namespace LASI.UserInterface.DataVisualzationProviders
+namespace LASI.UserInterface
 {
     public static class ChartingManager
     {
@@ -291,23 +291,12 @@ namespace LASI.UserInterface.DataVisualzationProviders
 
         }
 
-        public static async Task<IEnumerable<object>> CreateRelationshipDataAsync(IEnumerable<CrossDocumentJoiner.NVNN> elementsToSerialize) {
+        public static async Task<IEnumerable<object>> CreateRelationshipDataAsync(IEnumerable<RelationshipTuple> elementsToSerialize) {
 
             return await Task.Run(() => CreateRelationshipData(elementsToSerialize));
         }
 
-        public static IEnumerable<object> CreateRelationshipData(IEnumerable<CrossDocumentJoiner.NVNN> elementsToSerialize) {
-            return CreateRelationshipData(
-                            (from e in elementsToSerialize.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
-                             select new RelationshipTuple {
-                                 Direct = e.Direct,
-                                 Indirect = e.Indirect,
-                                 Subject = e.Subject,
-                                 Verbal = e.Verbal,
-                                 Prepositional = e.ViaPreposition,
-                                 RelationshipWeight = e.RelationshipWeight
-                             }).Distinct(new RelationshipComparer()));
-        }
+
 
         public static IEnumerable<object> CreateRelationshipData(IEnumerable<RelationshipTuple> elementsToSerialize) {
             var dataRows = from result in elementsToSerialize.Distinct(new RelationshipComparer())
@@ -348,7 +337,7 @@ namespace LASI.UserInterface.DataVisualzationProviders
     /// It is defined because distinct does not support lambda(read function) arguments like my query operatorrs do.
     /// Pay this type little heed
     /// </summary>
-    struct RelationshipComparer : IEqualityComparer<RelationshipTuple>
+    class RelationshipComparer : IEqualityComparer<RelationshipTuple>
     {
         public bool Equals(RelationshipTuple lhs, RelationshipTuple rhs) {
 
@@ -398,9 +387,9 @@ namespace LASI.UserInterface.DataVisualzationProviders
             }
         }
 
-        VerbPhrase verbal;
+        IVerbal verbal;
 
-        public VerbPhrase Verbal {
+        public IVerbal Verbal {
             get {
                 return verbal;
             }
@@ -474,7 +463,39 @@ namespace LASI.UserInterface.DataVisualzationProviders
             }
             return result;
         }
+        public override bool Equals(object obj) {
+            return this == obj as RelationshipTuple;
+        }
+        public override int GetHashCode() {
+            return 1;
+        }
 
+        public static bool operator ==(RelationshipTuple lhs, RelationshipTuple rhs) {
+
+            if ((lhs as object != null || rhs as object == null) || (lhs as object == null || rhs as object != null))
+                return false;
+            else if (lhs as object == null && rhs as object == null)
+                return true;
+            else {
+                bool result = lhs.Verbal.Text == rhs.Verbal.Text || lhs.Verbal.IsSimilarTo(rhs.Verbal);
+                result &= LexicalComparers<IEntity>.AliasOrSimilarity.Equals(lhs.Subject, rhs.Subject);
+                if (lhs.Direct != null && rhs.Direct != null) {
+                    result &= LexicalComparers<IEntity>.AliasOrSimilarity.Equals(lhs.Direct, rhs.Direct);
+                }
+                else if (lhs.Direct == null || rhs.Direct == null)
+                    return false;
+                if (lhs.Indirect != null && rhs.Indirect != null) {
+                    result &= LexicalComparers<IEntity>.AliasOrSimilarity.Equals(lhs.Indirect, rhs.Indirect);
+                }
+                else if (lhs.Indirect == null || rhs.Indirect == null)
+                    return false;
+                return result;
+            }
+        }
+
+        public static bool operator !=(RelationshipTuple lhs, RelationshipTuple rhs) {
+            return !(lhs == rhs);
+        }
 
     }
 

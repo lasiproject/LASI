@@ -112,6 +112,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="DataVisualzationManagement\ChartingManager.cs" />
+    <Compile Include="DataVisualzationManagement\CrossDocumentJoiner.cs" />
     <Compile Include="Dialogs\CrossJoinSelectDialog.xaml.cs">
       <DependentUpon>CrossJoinSelectDialog.xaml</DependentUpon>
     </Compile>

@@ -58,7 +58,6 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CrossDocumentJoiner.cs" />
     <Compile Include="PerformanceManager.cs" />
     <Compile Include="ProcessController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
