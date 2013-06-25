@@ -34,45 +34,59 @@ namespace LASI.Algorithm.Thesauri
         public static List<string> FindRoot(string conjugated) {
             return TryExtractRoot(conjugated) ?? new List<string> { CheckSpecialFormsList(conjugated) };
         }
-        public static List<string> GetConjugations(string root) {
+        public static IEnumerable<string> GetConjugations(string root) {
             try {
-                return new List<string>(exceptionData[root]);
+                return exceptionData[root];
             }
             catch (KeyNotFoundException) {
                 return TryComputeConjugations(root);
             }
         }
 
-        public static List<string> TryComputeConjugations(string root) {
+        public static IEnumerable<string> TryComputeConjugations(string root) {
+            return TryComputerConjugationFromGrouping(root);
+            //var hyphIndex = root.IndexOf('-');
+            //List<string> except;
+            //var realRoot = hyphIndex > -1 ? root.Substring(0, hyphIndex) : root;
+            //exceptionData.TryGetValue(realRoot, out except);
+            //if (except != null)
+            //    return except;
+
+
+
+
+
+            //var results = new List<string>();
+            //for (var i = VERB_ENDINGS.Length - 1; i >= 0; --i) {
+            //    if (realRoot.EndsWith(VERB_ENDINGS[i], StringComparison.OrdinalIgnoreCase) || VERB_ENDINGS[i] == "") {
+            //        results.Add(realRoot.Substring(0, realRoot.Length - VERB_ENDINGS[i].Length) + VERB_SUFFICIES[i] + (hyphIndex > -1 ? root.Substring(hyphIndex) : ""));
+            //    }
+            //}
+            //return results;
+        }
+
+        public static IEnumerable<string> TryComputerConjugationFromGrouping(string root) {
             var hyphIndex = root.IndexOf('-');
             List<string> except;
             var realRoot = hyphIndex > -1 ? root.Substring(0, hyphIndex) : root;
             exceptionData.TryGetValue(realRoot, out except);
             if (except != null)
                 return except;
-
-
-
-
-
-            var results = new List<string>();
-            for (var i = 0; i < VERB_ENDINGS.Length; i++) {
-                if (realRoot.EndsWith(VERB_ENDINGS[i]) || VERB_ENDINGS[i] == "") {
-                    results.Add(realRoot.Substring(0, realRoot.Length - VERB_ENDINGS[i].Length) + VERB_SUFFICIES[i] + (hyphIndex > -1 ? root.Substring(hyphIndex) : ""));
-                }
-            }
-            return results;
+            return from ending in SuffixEndingPairs.Keys
+                   where realRoot.EndsWith(ending, StringComparison.OrdinalIgnoreCase)
+                   from suffix in SuffixEndingPairs[ending]
+                   select realRoot.Substring(0, realRoot.Length - ending.Length) + suffix;
         }
 
-        public static List<string> TryExtractRoot(string search) {
+        static List<string> TryExtractRoot(string search) {
             var results = new List<string>();
             var except = CheckSpecialFormsList(search);
             if (except != null) {
                 results.Add(except);
                 return results;
             }
-            for (int i = 0; i < VERB_ENDINGS.Length; ++i) {
-                if (search.EndsWith(VERB_SUFFICIES[i], StringComparison.InvariantCulture)) {
+            for (var i = VERB_ENDINGS.Length - 1; i >= 0; --i) {
+                if (search.EndsWith(VERB_SUFFICIES[i], StringComparison.OrdinalIgnoreCase)) {
                     var possibleRoot = search.Substring(0, search.Length - VERB_SUFFICIES[i].Length);
                     if ((possibleRoot).EndsWith(VERB_ENDINGS[i])) {
                         results.Add(possibleRoot);
@@ -100,14 +114,11 @@ namespace LASI.Algorithm.Thesauri
         private static readonly Dictionary<string, List<string>> exceptionData = new Dictionary<string, List<string>>();
 
         private readonly static string[] VERB_SUFFICIES = { "s", "ies", "es", "es", "ed", "ed", "ing", "ing" };
-        private readonly static string[] VERB_ENDINGS = { "", "y", "e", "", "e", "", "e", "" };
-        //public static string Exception() {
-        //    return exceptionData.Aggregate("",
-        //        (accumulator, data) => accumulator +=
-        //        String.Format("{0} -> {1}\n",
-        //        data.Key,
-        //        data.Value.Aggregate("",
-        //        (agg, entry) => agg += entry + " ").Trim()));
-        //}
+        private readonly static string[] VERB_ENDINGS = { "", "y", "e", "", " e", "", "e", "" };
+        private static readonly IDictionary<string, IEnumerable<string>> SuffixEndingPairs = new Dictionary<string, IEnumerable<string>> {
+            { "", new []{ "s", "es", "ed", "ing" } },
+            { "e", new []{ "es", "ed", "ing"} },
+            { "y", new []{ "ies" } },
+        };
     }
 }

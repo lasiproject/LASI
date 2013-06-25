@@ -65,36 +65,36 @@ namespace AlgorithmAssemblyUnitTestProject
         #endregion
 
 
-        /// <summary>
-        ///A test for TryExtractRoot
-        ///</summary>
-        [TestMethod()]
-        public void TryGetExtractRootTest() {
-            string exceptionsFilePath = ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "verb.exc";
+        ///// <summary>
+        /////A test for TryExtractRoot
+        /////</summary>
+        //[TestMethod()]
+        //public void TryGetExtractRootTest() {
+        //    string exceptionsFilePath = ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "verb.exc";
 
-            string expected = "walk";
-            foreach (var search in new[] { "walk", "walked", "walks", "walking" }) {
-                List<string> actual;
-                actual = VerbConjugator.TryExtractRoot(search);
-                Assert.IsTrue(actual.Contains(expected));
-            }
-        }
+        //    string expected = "walk";
+        //    foreach (var search in new[] { "walk", "walked", "walks", "walking" }) {
+        //        List<string> actual;
+        //        actual = VerbConjugator.TryExtractRoot(search);
+        //        Assert.IsTrue(actual.Contains(expected));
+        //    }
+        //}
 
-        /// <summary>
-        ///A test for TryComputeConjugations
-        ///</summary>
-        [TestMethod()]
-        public void TryComputeConjugationsTest() {
-            string exceptionsFilePath = ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "verb.exc";
+        ///// <summary>
+        /////A test for TryComputeConjugations
+        /////</summary>
+        //[TestMethod()]
+        //public void TryComputeConjugationsTest() {
+        //    string exceptionsFilePath = ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "verb.exc";
 
-            string root = "walk";
-            List<string> expected = new[] { "walks", "walking", "walked" }.ToList();
-            List<string> actual;
-            actual = VerbConjugator.TryComputeConjugations(root);
-            foreach (var conjugation in expected) {
-                Assert.IsTrue(actual.Contains(conjugation));
-            }
-        }
+        //    string root = "walk";
+        //    List<string> expected = new[] { "walks", "walking", "walked" }.ToList();
+        //    List<string> actual;
+        //    actual = VerbConjugator.TryComputeConjugations(root);
+        //    foreach (var conjugation in expected) {
+        //        Assert.IsTrue(actual.Contains(conjugation));
+        //    }
+        //}
 
 
 
@@ -107,9 +107,9 @@ namespace AlgorithmAssemblyUnitTestProject
             string exceptionsFilePath = ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "verb.exc";
 
             string root = "walk";
-            List<string> expected = new[] { "walked", "walks", "walking" }.ToList();
-            List<string> actual;
-            actual = VerbConjugator.GetConjugations(root);
+            IEnumerable<string> expected = new[] { "walked", "walks", "walking" }.ToList();
+            IEnumerable<string> actual;
+            actual = VerbConjugator.TryComputeConjugations(root);
             foreach (var f in actual)
                 Debug.WriteLine(f);
             Assert.IsTrue((from f in expected
