@@ -61,7 +61,7 @@ namespace LASI.Algorithm.Thesauri
             var wordMembers = from Match ContainedWord in elementRgx.Matches(data.Substring(17))
                               select ContainedWord.Value.Replace('_', '-').ToLower();
             var id = Int32.Parse(data.Substring(0, 8));
-            var WNlexNameCode = (WordNetVerbCategory)Int32.Parse(data.Substring(9, 2));
+            var WNlexNameCode = ( WordNetVerbCategory )Int32.Parse(data.Substring(9, 2));
             return new VerbSynSet(id, wordMembers, pointers, WNlexNameCode);
         }
 

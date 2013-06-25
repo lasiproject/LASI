@@ -20,8 +20,18 @@ namespace Aluan_Experimentation
 
         static void Main(string[] args) {
 
-            Thesaurus.NounThesaurusLoadTask.Wait();
-            Output.WriteLine(Thesaurus.LookupNoun("cat").Format(65));
+            Thesaurus.VerbThesaurusLoadTask.Wait();
+            var results = new[] { Thesaurus.LookupVerb("fuck").OrderBy(s=>s).ToArray(), 
+                Thesaurus.LookupVerb("fucks").OrderBy(s=>s).ToArray(),
+                Thesaurus.LookupVerb("fucked").OrderBy(s=>s).ToArray(),
+                Thesaurus.LookupVerb("fucking").OrderBy(s=>s).ToArray() };
+            var test = true;
+
+            for (int j = 0; j < results[0].Length; j++) {
+                test &= results[0][j] == results[1][j] && results[0][j] == results[2][j] && results[0][j] == results[3][j];
+
+            }
+            Output.WriteLine(test);
             Input.WaitForKey();
         }
 
@@ -40,21 +50,12 @@ namespace Aluan_Experimentation
 
 
 
-        private static void TestNounConjugator() {
-
-            Output.WriteLine(NounConjugator.GetLexicalForms("cat").Format());
-            Output.WriteLine(NounConjugator.GetLexicalForms("woman").Format());
-            Output.WriteLine(NounConjugator.GetLexicalForms("banana").Format());
-        }
-
-
 
 
 
         private static void TestWordAndPhraseBindings() {
             var doc = TaggerUtil.LoadTextFile(new LASI.FileSystem.FileTypes.TextFile(testPath));
 
-            //var k = doc.Phrases.GetNounPhrases().ToSet((L, R) => L.Text == R.Text || L.IsSimilarTo(R));
             new PronounBinder().Bind(doc);
             foreach (var p in doc.Phrases.GetPronounPhrases())
                 Output.WriteLine(p);
