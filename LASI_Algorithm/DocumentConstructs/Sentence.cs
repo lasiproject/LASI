@@ -6,25 +6,33 @@ using System.Threading.Tasks;
 
 namespace LASI.Algorithm.DocumentConstructs
 {
-    public class Sentence
+    public sealed class Sentence
     {
-        public Sentence(params Phrase[] phrases) {
+
+        private Sentence() {
+            ID = IDProvider++;
+        }
+        public Sentence(params Phrase[] phrases)
+            : this() {
             Clauses = new[] { new Clause(from P in phrases select P) };
         }
-        public Sentence(IEnumerable<Phrase> phrases, SentenceDelimiter sentencePunctuation = null) {
+        public Sentence(IEnumerable<Phrase> phrases, SentenceDelimiter sentencePunctuation = null)
+            : this() {
             Clauses = new[] { new Clause(from P in phrases select P) };
             EndingPunctuation = sentencePunctuation == null ?
             new SentenceDelimiter('.') :
             sentencePunctuation;
         }
-        public Sentence(IEnumerable<Word> words, SentenceDelimiter sentencePunctuation = null) {
+        public Sentence(IEnumerable<Word> words, SentenceDelimiter sentencePunctuation = null)
+            : this() {
             Clauses = new[] { new Clause(from W in words select W) };
             EndingPunctuation = sentencePunctuation == null ?
                new SentenceDelimiter('.') :
                sentencePunctuation;
         }
 
-        public Sentence(IEnumerable<Clause> clauses, SentenceDelimiter sentencePunctuation = null) {
+        public Sentence(IEnumerable<Clause> clauses, SentenceDelimiter sentencePunctuation = null)
+            : this() {
             Clauses = clauses;
             EndingPunctuation = sentencePunctuation == null ?
                 new SentenceDelimiter('.') :
@@ -90,7 +98,7 @@ namespace LASI.Algorithm.DocumentConstructs
         /// </summary>
         public string Text {
             get {
-                return (Phrases.Aggregate("", (txt, P) => txt + " " + P.Text) + EndingPunctuation.Text).Trim();
+                return (Phrases.Aggregate("", (sum, currentPhrase) => sum + " " + currentPhrase.Text) + EndingPunctuation.Text).Trim();
             }
         }
 
@@ -120,10 +128,17 @@ namespace LASI.Algorithm.DocumentConstructs
             return base.ToString() + " \"" + Text + "\"";
         }
 
-        //for subject binder
+        /// <summary>
+        /// for subject binder
+        /// </summary>
         public bool isStandard = true;
 
+        private static int IDProvider;
 
+        public int ID {
+            get;
+            private set;
+        }
     }
 
 }

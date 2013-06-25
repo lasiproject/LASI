@@ -20,8 +20,7 @@ namespace LASI.Algorithm.ClauseTypes
         /// </summary>
         /// <param name="composed">The linear sequence of Phrases which compose to form the Clause.</param>
         public SubordinateClause(IEnumerable<Phrase> composed)
-            : base(composed)
-        {
+            : base(composed) {
 
         }
         /// <summary>
@@ -29,8 +28,7 @@ namespace LASI.Algorithm.ClauseTypes
         /// </summary>
         /// <param name="words">The linear sequence of Words which compose to form the Clause.</param>
         public SubordinateClause(IEnumerable<Word> words)
-            : base(words)
-        {
+            : base(words) {
 
         }
         #endregion
@@ -45,16 +43,13 @@ namespace LASI.Algorithm.ClauseTypes
         /// <summary>
         /// Gets or sets the Verbial construct which the subordinate clause modifies.
         /// </summary>
-        public IAdverbialModifiable Modifies
-        {
+        public IAdverbialModifiable Modifies {
             //get;
             //set;
-            get
-            {
+            get {
                 return _modified;
             }
-            set
-            {
+            set {
                 if (_described == null)
                     _modified = value;
                 else
@@ -65,17 +60,14 @@ namespace LASI.Algorithm.ClauseTypes
             }
         }
         /// <summary>
-        /// Gets or sets the Entity construct which the subordinate clause describes.
+        /// Gets or sets the IDescribable construct which the subordinate clause describes.
         /// </summary>
-        public IDescribable Describes
-        {
+        public IDescribable Describes {
 
-            get
-            {
+            get {
                 return _described;
             }
-            set
-            {
+            set {
                 if (_modified == null)
                     _described = value;
                 else

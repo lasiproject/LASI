@@ -44,13 +44,13 @@ namespace LASI.Algorithm
 
         #region Operators
 
-        public static bool operator ==(Quantifier lhs, Quantifier rhs) {
-            return lhs == null ? rhs == null ? true : false : lhs.Text == rhs.Text;
-        }
-        public static bool operator !=(Quantifier lhs, Quantifier rhs) {
+        //public static bool operator ==(Quantifier lhs, Quantifier rhs) {
+        //    return lhs == null ? rhs == null ? true : false : lhs.Text == rhs.Text;
+        //}
+        //public static bool operator !=(Quantifier lhs, Quantifier rhs) {
 
-            return !(lhs == rhs);
-        }
+        //    return !(lhs == rhs);
+        //}
 
         #endregion
 

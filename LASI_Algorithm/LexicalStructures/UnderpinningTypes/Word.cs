@@ -66,7 +66,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets the text content of the word instance.
         /// </summary>
-        public virtual string Text {
+        public string Text {
             get;
             protected set;
         }
@@ -134,7 +134,7 @@ namespace LASI.Algorithm
         }
 
         /// <summary>
-        /// Gets or sets the Prepositional construct which is lexically to the first of the word.
+        /// Gets or sets the Prepositional construct which is lexically to the Left of the word.
         /// </summary>
         public IPrepositional PrepositionOnLeft {
             get;
@@ -142,7 +142,7 @@ namespace LASI.Algorithm
         }
 
         /// <summary>
-        /// Gets or sets the Prepositional construct which is lexically to the second of the word.
+        /// Gets or sets the Prepositional construct which is lexically to the Right of the word.
         /// </summary>
         public IPrepositional PrepositionOnRight {
             get;
@@ -174,7 +174,7 @@ namespace LASI.Algorithm
 
         #endregion
 
-        #region Static Words
+        #region Static Members
 
         private static int IDProvider;
         public static bool VerboseOutput {

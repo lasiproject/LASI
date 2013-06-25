@@ -43,10 +43,10 @@ namespace LASI.Algorithm
         /// Example: He "ran" to work. where "work" is the object of ran via the prepositional construct "to"
         /// </summary>
         /// <param name="prepositional"></param>
-        public virtual void AttachObjectViaPreposition(IPrepositional prep) {
+        public virtual void AttachObjectViaPreposition(IPrepositional prepositional) {
             //ObjectOfThePreoposition = this as object == prepositional.OnLeftSide as object && prepositional.OnRightSide != null ? prepositional.OnRightSide : null;
-            ObjectOfThePreoposition = prep.PrepositionalObject;
-            PrepositionalToObject = prep;
+            ObjectOfThePreoposition = prepositional.OnRightSide;
+            PrepositionalToObject = prepositional;
         }
 
         /// <summary>
@@ -72,7 +72,8 @@ namespace LASI.Algorithm
                     foreach (var subject in this.Subjects) {
                         subject.AddPossession(directObject);
                     }
-                } else if (IsClassifier) {
+                }
+                else if (IsClassifier) {
                     foreach (var subject in this.Subjects) {
                         AliasDictionary.DefineAlias(subject, directObject);
                     }

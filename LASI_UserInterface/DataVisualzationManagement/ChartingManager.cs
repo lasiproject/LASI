@@ -244,7 +244,7 @@ namespace LASI.UserInterface.DataVisualzationProviders
                           Verbal = v as VerbPhrase ?? null,
                           Direct = dobj as NounPhrase ?? null,
                           Indirect = iobj as NounPhrase ?? null,
-                          ViaPreposition = v.ObjectOfThePreoposition ?? null,
+                          Prepositional = v.ObjectOfThePreoposition ?? null,
                           RelationshipWeight = sub.Weight + v.Weight + (dobj != null ? dobj.Weight : 0) + (iobj != null ? iobj.Weight : 0)
                       } into tupple
                       where
@@ -262,7 +262,8 @@ namespace LASI.UserInterface.DataVisualzationProviders
         private static IEnumerable<KeyValuePair<string, float>> GetNounPhraseData(Document doc) {
             return from NP in doc.Phrases.GetNounPhrases().Distinct().AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
 
-                   group NP by new {
+                   group NP by new
+                   {
                        NP.Text,
                        NP.Weight
                    } into NP
@@ -274,16 +275,16 @@ namespace LASI.UserInterface.DataVisualzationProviders
             var valueList = chartKind == ChartKind.NounPhrasesOnly ? GetNounPhraseData(document) : chartKind == ChartKind.SubjectVerbObject ? GetSVOIData(document) : GetSVOIData(document);
             return valueList;
         }
-        public static async Task BuildKeyRelationshipDisplay(Document doc) {
+        public static async Task BuildKeyRelationshipDisplay(Document document) {
 
             var transformedData = await Task.Factory.StartNew(() => {
-                return CreateRelationshipData(ChartingManager.GetVerbWiseAssociationData(doc));
+                return CreateRelationshipData(ChartingManager.GetVerbWiseAssociationData(document));
             });
             var wpfToolKitDataGrid = new Microsoft.Windows.Controls.DataGrid {
                 ItemsSource = transformedData,
             };
             var tab = new TabItem {
-                Header = doc.FileName,
+                Header = document.FileName,
                 Content = wpfToolKitDataGrid
             };
             WindowManager.ResultsScreen.SVODResultsTabControl.Items.Add(tab);
@@ -303,7 +304,7 @@ namespace LASI.UserInterface.DataVisualzationProviders
                                  Indirect = e.Indirect,
                                  Subject = e.Subject,
                                  Verbal = e.Verbal,
-                                 ViaPreposition = e.ViaPreposition,
+                                 Prepositional = e.ViaPreposition,
                                  RelationshipWeight = e.RelationshipWeight
                              }).Distinct(new RelationshipComparer()));
         }
@@ -311,12 +312,13 @@ namespace LASI.UserInterface.DataVisualzationProviders
         public static IEnumerable<object> CreateRelationshipData(IEnumerable<RelationshipTuple> elementsToSerialize) {
             var dataRows = from result in elementsToSerialize.Distinct(new RelationshipComparer())
                            orderby result.RelationshipWeight
-                           select new {
-                               Subject = result.Subject != null ? result.Subject.Text : "",
-                               Verbial = result.Verbal != null ? (result.Verbal.PrepositionOnLeft != null ? result.Verbal.PrepositionOnLeft.Text + " " : "") + result.Verbal.Text : "",
-                               Direct = result.Direct != null ? result.Direct.Text : "",
-                               Indirect = result.Indirect != null ? result.Indirect.Text : "",
-                               ViaPrepositional = result.ViaPreposition != null ? result.Verbal.PrepositionalToObject.Text + " " + result.ViaPreposition.Text : ""
+                           select new
+                           {
+                               Subject = result.Subject != null ? result.Subject.Text : string.Empty,
+                               Verbial = result.Verbal != null ? result.Verbal.Text : string.Empty,
+                               Direct = result.Direct != null ? result.Direct.Text : string.Empty,
+                               Indirect = result.Indirect != null ? result.Indirect.Text : string.Empty,
+                               Prepositional = result.Prepositional != null ? result.Prepositional.Text : string.Empty
                            };
             return dataRows.Distinct();
         }
@@ -352,19 +354,23 @@ namespace LASI.UserInterface.DataVisualzationProviders
 
             if ((lhs as object == null || rhs as object == null)) {
                 return !(lhs as object == null ^ rhs as object == null);
-            } else if (lhs.Elements.Count != rhs.Elements.Count) {
+            }
+            else if (lhs.Elements.Count != rhs.Elements.Count) {
                 return false;
-            } else {
+            }
+            else {
 
                 bool result = lhs.Verbal.Text == rhs.Verbal.Text || lhs.Verbal.IsSimilarTo(rhs.Verbal);
                 result &= LexicalComparers<NounPhrase>.AliasOrSimilarity.Equals(lhs.Subject, rhs.Subject);
                 if (lhs.Direct != null && rhs.Direct != null) {
                     result &= LexicalComparers<NounPhrase>.AliasOrSimilarity.Equals(lhs.Direct, rhs.Direct);
-                } else if (lhs.Direct == null || rhs.Direct == null)
+                }
+                else if (lhs.Direct == null || rhs.Direct == null)
                     return false;
                 if (lhs.Indirect != null && rhs.Indirect != null) {
                     result &= LexicalComparers<NounPhrase>.AliasOrSimilarity.Equals(lhs.Indirect, rhs.Indirect);
-                } else if (lhs.Indirect == null || rhs.Indirect == null)
+                }
+                else if (lhs.Indirect == null || rhs.Indirect == null)
                     return false;
                 return result;
             }
@@ -428,14 +434,14 @@ namespace LASI.UserInterface.DataVisualzationProviders
             }
         }
 
-        ILexical viaPreposition;
+        ILexical prepositional;
 
-        public ILexical ViaPreposition {
+        public ILexical Prepositional {
             get {
-                return viaPreposition;
+                return prepositional;
             }
             set {
-                viaPreposition = value;
+                prepositional = value;
                 elements.Add(value);
             }
         }

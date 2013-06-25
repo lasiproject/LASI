@@ -212,7 +212,7 @@ namespace LASI.Algorithm
         }
 
         /// <summary>
-        /// Gets or sets the Entity Noun; Person, Place, Thing, Organization, or Activity; of the NounPhrase.
+        /// Gets or sets the Entity Kind; Person, Place, Thing, Organization, or Activity; of the NounPhrase.
         /// </summary>
         public EntityKind EntityKind {
             get;

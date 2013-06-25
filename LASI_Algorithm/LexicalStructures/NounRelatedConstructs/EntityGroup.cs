@@ -26,7 +26,7 @@ namespace LASI.Algorithm
         }
 
         /// <summary>
-        /// Gets or sets the Entity Noun; Person, Place, Thing, Organization, or Activity; of the EntityGroup instance.
+        /// Gets or sets the Entity Kind; Person, Place, Thing, Organization, or Activity; of the EntityGroup instance.
         /// </summary>
         public EntityKind EntityKind {
             get;
@@ -97,7 +97,7 @@ namespace LASI.Algorithm
 
         public string Text {
             get {
-                return AggregatesEntities.Aggregate("", (aggr, ent) => aggr += ent + " ").Trim();
+                return AggregatesEntities.Aggregate("", (aggr, ent) => aggr += ent.Text + " ").Trim();
             }
         }
         public Type Type {

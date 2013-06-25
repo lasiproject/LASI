@@ -36,10 +36,12 @@ namespace LASI.Algorithm.Binding
         }
 
         private static void ProcessLinkingPrepositionalPhrase(PrepositionalPhrase prepPhrase) {
-            prepPhrase.PreviousPhrase.PrepositionOnLeft = prepPhrase;
-
-            prepPhrase.NextPhrase.PrepositionOnRight = prepPhrase;
-
+            if (prepPhrase.PreviousPhrase != null) {
+                prepPhrase.PreviousPhrase.PrepositionOnRight = prepPhrase;
+            }
+            if (prepPhrase.NextPhrase != null) {
+                prepPhrase.NextPhrase.PrepositionOnLeft = prepPhrase;
+            }
             prepPhrase.OnRightSide = prepPhrase.NextPhrase;
             prepPhrase.OnLeftSide = prepPhrase.PreviousPhrase;
 

@@ -31,7 +31,8 @@ namespace LASI.Algorithm
 
             if (PossessesFor != null) {
                 PossessesFor.AddPossession(possession);
-            } else if (!_possessed.Contains(possession)) {
+            }
+            else if (!_possessed.Contains(possession)) {
                 _possessed.Add(possession);
             }
         }
@@ -80,11 +81,6 @@ namespace LASI.Algorithm
 
 
 
-        IEnumerable<IEntity> IPossesser.Possessed {
-            get {
-                throw new NotImplementedException();
-            }
-        }
 
 
     }

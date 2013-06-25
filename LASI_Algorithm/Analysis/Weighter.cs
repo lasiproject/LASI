@@ -130,8 +130,9 @@ namespace LASI.Algorithm.Weighting
             await Task.Run(() => ModifyVerbWeightsBySynonyms(doc));
         }
         private static void ModifyVerbWeightsBySynonyms(Document doc) {
-            var verbsSynonymGroups = from outerVerb in doc.Words.GetVerbs().AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
-                                     from innerVerb in doc.Words.GetVerbs().AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
+            var verbsToSynonymize = doc.Words.GetVerbs().AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax);
+            var verbsSynonymGroups = from outerVerb in verbsToSynonymize
+                                     from innerVerb in doc.Words.GetVerbs()
                                      where outerVerb.IsSynonymFor(innerVerb)
                                      group innerVerb by outerVerb;
             verbsSynonymGroups.ForAll(grp => {

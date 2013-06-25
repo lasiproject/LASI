@@ -58,7 +58,7 @@ namespace LASI.InteropLayer
                                   .IndirectObjects
                                   .OfType<NounPhrase>()
                                   .FirstOrDefault(),
-                              ViaPreposition = n.SubjectOf.ObjectOfThePreoposition as NounPhrase
+                              ViaPreposition = n.SubjectOf.ObjectOfThePreoposition
                           } into result
                           group result by result.Subject.Text into resultGrouped
                           select resultGrouped.First() into result
@@ -92,7 +92,7 @@ namespace LASI.InteropLayer
                             .OfType<NounPhrase>()
                             .Select(s => (s as IPronoun) == null ? s : (s as IPronoun).BoundEntity as IEntity)
                             .FirstOrDefault(),
-                        ViaPreposition = v.ObjectOfThePreoposition as NounPhrase
+                        ViaPreposition = v.ObjectOfThePreoposition
                     } into result
                     where result.Subject != null
                     group result by result.Verbal.Text into resultGrouped
@@ -236,11 +236,13 @@ namespace LASI.InteropLayer
                     result &= LexicalComparers<IEntity>.AliasOrSimilarity.Equals(lhs.Subject, rhs.Subject);
                     if (lhs.Direct != null && rhs.Direct != null) {
                         result &= LexicalComparers<IEntity>.AliasOrSimilarity.Equals(lhs.Direct, rhs.Direct);
-                    } else if (lhs.Direct == null || rhs.Direct == null)
+                    }
+                    else if (lhs.Direct == null || rhs.Direct == null)
                         return false;
                     if (lhs.Indirect != null && rhs.Indirect != null) {
                         result &= LexicalComparers<IEntity>.AliasOrSimilarity.Equals(lhs.Indirect, rhs.Indirect);
-                    } else if (lhs.Indirect == null || rhs.Indirect == null)
+                    }
+                    else if (lhs.Indirect == null || rhs.Indirect == null)
                         return false;
                     return result;
                 }

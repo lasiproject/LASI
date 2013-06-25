@@ -17,12 +17,11 @@ namespace Aluan_Experimentation
 
 
         static string testPath = @"C:\Users\Aluan\Desktop\411writtensummary2.txt";
-        //static string text = @"You need to kill that mother fucker because he took away the fun.";
 
         static void Main(string[] args) {
 
             Thesaurus.NounThesaurusLoadTask.Wait();
-            Output.WriteLine(Thesaurus.LookupNoun("road").Format());
+            Output.WriteLine(Thesaurus.LookupNoun("cat").Format(65));
             Input.WaitForKey();
         }
 
@@ -54,8 +53,8 @@ namespace Aluan_Experimentation
 
         private static void TestWordAndPhraseBindings() {
             var doc = TaggerUtil.LoadTextFile(new LASI.FileSystem.FileTypes.TextFile(testPath));
-            var wd = (doc);
 
+            //var k = doc.Phrases.GetNounPhrases().ToSet((L, R) => L.Text == R.Text || L.IsSimilarTo(R));
             new PronounBinder().Bind(doc);
             foreach (var p in doc.Phrases.GetPronounPhrases())
                 Output.WriteLine(p);

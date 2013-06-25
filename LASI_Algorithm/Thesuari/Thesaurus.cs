@@ -168,7 +168,8 @@ namespace LASI.Algorithm.Thesauri
             var n2 = second as Noun;
             if (n1 != null && n2 != null) {
                 return n1.IsSynonymFor(n2);
-            } else {
+            }
+            else {
                 var np1 = first as NounPhrase;
                 var np2 = second as NounPhrase;
                 if (np1 != null && np2 != null) {
@@ -198,7 +199,8 @@ namespace LASI.Algorithm.Thesauri
             var v2 = second as Verb;
             if (v1 != null && v2 != null) {
                 return v1.IsSynonymFor(v2);
-            } else {
+            }
+            else {
                 var vp1 = first as VerbPhrase;
                 var vp2 = second as VerbPhrase;
                 if (vp1 != null && vp2 != null) {
@@ -294,7 +296,8 @@ namespace LASI.Algorithm.Thesauri
             if (a.Words.Count() >= b.Words.Count()) {
                 outer = a;
                 inner = b;
-            } else {
+            }
+            else {
                 outer = b;
                 inner = a;
             }
@@ -378,10 +381,10 @@ namespace LASI.Algorithm.Thesauri
         private static readonly string adverbThesaurusFilePath = ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "data.adv";
         private static readonly string adjectiveThesaurusFilePath = ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "data.adj";
         // Synonym Lookup Caches
-        private static ConcurrentDictionary<string, HashSet<string>> cachedNounData = new ConcurrentDictionary<string, HashSet<string>>();
-        private static ConcurrentDictionary<string, HashSet<string>> cachedVerbData = new ConcurrentDictionary<string, HashSet<string>>();
-        private static ConcurrentDictionary<string, HashSet<string>> cachedAdjectiveData = new ConcurrentDictionary<string, HashSet<string>>();
-        private static ConcurrentDictionary<string, HashSet<string>> cachedAdverbData = new ConcurrentDictionary<string, HashSet<string>>();
+        private static ConcurrentDictionary<string, HashSet<string>> cachedNounData = new ConcurrentDictionary<string, HashSet<string>>(Concurrency.CurrentMax, 4096);
+        private static ConcurrentDictionary<string, HashSet<string>> cachedVerbData = new ConcurrentDictionary<string, HashSet<string>>(Concurrency.CurrentMax, 4096);
+        private static ConcurrentDictionary<string, HashSet<string>> cachedAdjectiveData = new ConcurrentDictionary<string, HashSet<string>>(Concurrency.CurrentMax, 4096);
+        private static ConcurrentDictionary<string, HashSet<string>> cachedAdverbData = new ConcurrentDictionary<string, HashSet<string>>(Concurrency.CurrentMax, 4096);
         private const double SIMILARITY_THRESHOLD = 0.6;
 
         #endregion

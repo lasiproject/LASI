@@ -108,7 +108,8 @@ namespace LASI.Algorithm.Binding
                                 toLink.BindObjectOfPreposition(LastVerb);
                             }
                             //////Output.WriteLine("Prev: {0}, Next: {1}: , Last Verb: {2}", prevWord, nextWord, LastVerb);
-                        } else {
+                        }
+                        else {
                             toLink.BindObjectOfPreposition(LastVerb);
                         }
                     }

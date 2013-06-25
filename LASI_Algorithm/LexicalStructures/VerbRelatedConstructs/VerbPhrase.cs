@@ -23,10 +23,11 @@ namespace LASI.Algorithm
         public VerbPhrase(IEnumerable<Word> composedWords)
             : base(composedWords) {
 
-            Tense = composedWords.GetVerbs().Any() ? (from v in composedWords.GetVerbs()
-                                                      group v.Tense by v.Tense into tenseGroup
-                                                      orderby tenseGroup.Count()
-                                                      select tenseGroup).First().Key : VerbTense.Base;
+            Tense = composedWords.GetVerbs().Any() ?
+                (from v in composedWords.GetVerbs()
+                 group v.Tense by v.Tense into tenseGroup
+                 orderby tenseGroup.Count()
+                 select tenseGroup).First().Key : VerbTense.Base;
             Arity = VerbalArity.Undetermined;
         }
 
@@ -50,10 +51,8 @@ namespace LASI.Algorithm
         /// <param name="prepositional">The IPrepositional construct through which the Object is associated.</param>
         public virtual void AttachObjectViaPreposition(IPrepositional prepositional) {
             // if (!DirectObjects.Contains(prepositional.PrepositionalObject) && !IndirectObjects.Contains(prepositional.PrepositionalObject)) {
-            ObjectOfThePreoposition =
-                prepositional.OnRightSide != null ?
-                prepositional.OnRightSide :
-                prepositional.OnLeftSide;
+            ObjectOfThePreoposition = prepositional.OnRightSide;
+
             PrepositionalToObject = prepositional;
 
 
@@ -81,7 +80,8 @@ namespace LASI.Algorithm
                     foreach (var subject in this.Subjects) {
                         subject.AddPossession(directObject);
                     }
-                } else if (IsClassifier) {
+                }
+                else if (IsClassifier) {
                     foreach (var subject in this.Subjects) {
                         AliasDictionary.DefineAlias(subject, directObject);
                     }
@@ -121,7 +121,8 @@ namespace LASI.Algorithm
 
                 }
                 return result;
-            } else
+            }
+            else
                 return base.ToString();
         }
 

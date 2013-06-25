@@ -36,7 +36,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Overrides the ToString method to augment the string representation of Phrase to include the text of the words it is composed of.
         /// </summary>
-        /// <returns>A string containing the Noun information of the instance as well as the textual representations of the words it is composed of.</returns>
+        /// <returns>A string containing the Type information of the instance as well as the textual representations of the words it is composed of.</returns>
         public override string ToString() {
             return GetType().Name + " \"" + Text + "\"";
         }
@@ -61,14 +61,14 @@ namespace LASI.Algorithm
         #region Properties
 
         /// <summary>
-        /// Gets or sets the Prepositional construct which is lexically to the second of the word.
+        /// Gets or sets the Prepositional construct which is lexically to the right of the word.
         /// </summary>
         public IPrepositional PrepositionOnRight {
             get;
             set;
         }
         /// <summary>
-        /// Gets or sets the Prepositional construct which is lexically to the first of the Phrase.
+        /// Gets or sets the Prepositional construct which is lexically to the left of the Phrase.
         /// </summary>
         public IPrepositional PrepositionOnLeft {
             get;
@@ -111,7 +111,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets the concatenated text content of all of the words which comprise the Phrase.
         /// </summary>
-        public virtual string Text {
+        public string Text {
             get {
                 _text = _text ??
                     (Words.Count(w => !string.IsNullOrWhiteSpace(w.Text)) > 0 ?
@@ -136,7 +136,7 @@ namespace LASI.Algorithm
         }
 
         /// <summary>
-        /// Gets the System.Noun of the current Instance.
+        /// Gets the System.Type of the current Instance.
         /// </summary>
         public Type Type {
             get {

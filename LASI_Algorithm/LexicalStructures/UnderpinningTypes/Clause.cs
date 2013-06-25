@@ -113,7 +113,7 @@ namespace LASI.Algorithm
         }
 
         /// <summary>
-        /// Gets the Noun of the Clause.
+        /// Gets the System.Type of the Clause.
         /// </summary>
         public Type Type {
             get {

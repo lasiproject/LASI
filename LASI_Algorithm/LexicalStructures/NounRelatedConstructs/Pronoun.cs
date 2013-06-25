@@ -28,9 +28,9 @@ namespace LASI.Algorithm
         #region Methods
 
         public override string ToString() {
-            var result = base.Text;
-            result += VerboseOutput ? " " + PronounKind.ToString() : "";
-            return result;
+
+            return Text + (VerboseOutput ? " " + PronounKind : string.Empty);
+
         }
 
 

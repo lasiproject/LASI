@@ -12,7 +12,7 @@ namespace LASI.Algorithm
         /// <summary>
         ///  Returns distinct elements from a sequence of ILexical constructs by using a specified specified equality comparison function.
         /// </summary>
-        /// <typeparam name="T">Any Noun which implements the ILexical interface.</typeparam>
+        /// <typeparam name="T">Any type which implements the ILexical interface.</typeparam>
         /// <param name="elements">The sequence of ILexical constructs in which to NounText for the given element.</param>
         /// <param name="comparison">A function to compare two ILexicals for equality.</param>
         /// <returns> A new sequence of ILexical constructs containing only the distinct elements of the source sequence as determined by the provided comparison function.
@@ -35,9 +35,9 @@ namespace LASI.Algorithm
         /// Determines whether a sequence of ILexical constructs contains a specified element by using a specified equality comparison function.
         /// </summary>
         /// <param name="elements">The sequence of ILexical constructs in which to NounText for the given element.</param>
-        /// <param name="element">The element to NounText for.</param>
+        /// <param name="element">The element to search for.</param>
         /// <param name="comparison">A function to compare two ILexicals for equality.</param>
-        /// <typeparam name="T">Any Noun which implements the ILexical interface.</typeparam>
+        /// <typeparam name="T">Any type which implements the ILexical interface.</typeparam>
         /// <returns>True if the sequence contains the given element, false otherwise.</returns>
         /// <see cref="Comparers.CreateCustom"/>
         /// <example>
@@ -59,6 +59,17 @@ namespace LASI.Algorithm
             return elements.Except(second, LexicalComparers<T>.CreateCustom(comparison));
 
         }
+        /// <summary>
+        /// Returns a set representation of the given sequence of ILexical using the provided comparison function to determine element distinctness.
+        /// </summary>
+        /// <typeparam name="T">Any type which implements the ILexical interface.</typeparam>
+        /// <param name="source">The sequence whose distinct elements will comprise the resulting set.</param>
+        /// <param name="comparison">A function which compares two elements, returning false if they should be considered distinct and true otherwise.</param>
+        /// <returns>A set representation of the given sequence of ILexical using the provided comparison function to determine element distinctness.</returns>
+        public static ISet<T> ToSet<T>(this IEnumerable<T> source, Func<T, T, bool> comparison) where T : ILexical {
+            return new HashSet<T>(source, LexicalComparers<T>.CreateCustom(comparison));
+        }
+
 
         /// <summary>
         /// Gets all of the word instances in the sequence of ILexicals.

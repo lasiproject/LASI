@@ -26,26 +26,26 @@ namespace LASI.Algorithm
             PrepositionalRole = GetPrepositionalRole(Text);
         }
 
-        private static PrepositionalRole GetPrepositionalRole(string Text) {
-            return KnownSubordinatingWordStrings.Contains(Text) ?
+        private static PrepositionalRole GetPrepositionalRole(string text) {
+            return KnownSubordinatingWordStrings.Contains(text) ?
                 PrepositionalRole.SubordinatingConjunction : PrepositionalRole.Undetermined;
         }
         public override string ToString() {
-            return base.ToString() + (Word.VerboseOutput ? " " + PrepositionalRole.ToString() : string.Empty);
+            return base.ToString() + (Word.VerboseOutput ? " " + PrepositionalRole : string.Empty);
         }
         #endregion
 
         #region Properties
 
         /// <summary>
-        /// Gets or sets the PrepositionLinkable construct on the second-hand-side of the Preposition.
+        /// Gets or sets the PrepositionLinkable construct on the right-hand-side of the Preposition.
         /// </summary>
         public virtual IPrepositionLinkable OnRightSide {
             get;
             set;
         }
         /// <summary>
-        /// Gets or sets the PrepositionLinkable construct on the first-hand-side of the Preposition.
+        /// Gets or sets the PrepositionLinkable construct on the left-hand-side of the Preposition.
         /// </summary>
         public virtual IPrepositionLinkable OnLeftSide {
             get;

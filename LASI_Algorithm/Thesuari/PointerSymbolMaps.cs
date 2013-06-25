@@ -19,17 +19,14 @@ namespace LASI.Algorithm.Thesauri
         /// <param name="key">The Key string for which to retrieve a Noun value.</param>
         /// <returns>The Noun value corresponding to the Key string.
         /// The Value UNDEFINED is returned if no value is mapped to the key.</returns>
-        public NounPointerSymbol this[string key]
-        {
-            get
-            {
+        public NounPointerSymbol this[string key] {
+            get {
                 NounPointerSymbol result;
                 data.TryGetValue(key, out result);
                 return result;
             }
         }
-        public override string ToString()
-        {
+        public override string ToString() {
             return data.Format(pair => string.Format("\"{0}\" -> {1}", pair.Key, pair.Value));
         }
         private static readonly IReadOnlyDictionary<string, NounPointerSymbol> data = new Dictionary<string, NounPointerSymbol>{ 
@@ -66,10 +63,8 @@ namespace LASI.Algorithm.Thesauri
         /// <param name="key">The Key string for which to retrieve a Noun value.</param>
         /// <returns>The VerbPointerSymbol value corresponding to the Key string.
         /// The Value UNDEFINED is returned if no value is mapped to the key.</returns>
-        public VerbPointerSymbol this[string key]
-        {
-            get
-            {
+        public VerbPointerSymbol this[string key] {
+            get {
                 VerbPointerSymbol result;
                 data.TryGetValue(key, out result);
                 return result;
@@ -98,13 +93,11 @@ namespace LASI.Algorithm.Thesauri
         /// Gets the VerbPointerSymbol value corresponding to the Key string. 
         /// The Value UNDEFINED is returned if no value is mapped key.
         /// </summary>
-        /// <param name="key">The Key string for which to retrieve a Noun value.</param>
+        /// <param name="key">The Key string for which to retrieve a Adjective value.</param>
         /// <returns>The VerbPointerSymbol value corresponding to the Key string.
         /// The Value UNDEFINED is returned if no value is mapped to the key.</returns>
-        public AdjectivePointerSymbol this[string key]
-        {
-            get
-            {
+        public AdjectivePointerSymbol this[string key] {
+            get {
                 AdjectivePointerSymbol result;
                 data.TryGetValue(key, out result);
                 return result;
@@ -135,10 +128,8 @@ namespace LASI.Algorithm.Thesauri
         /// <param name="key">The Key string for which to retrieve a Noun value.</param>
         /// <returns>The VerbPointerSymbol value corresponding to the Key string.
         /// The Value UNDEFINED is returned if no value is mapped to the key.</returns>
-        public AdverbPointerSymbol this[string key]
-        {
-            get
-            {
+        public AdverbPointerSymbol this[string key] {
+            get {
                 AdverbPointerSymbol result;
                 data.TryGetValue(key, out result);
                 return result;
@@ -157,8 +148,7 @@ namespace LASI.Algorithm.Thesauri
 
     internal class NounSetIDSymbolMap : ILookup<NounPointerSymbol, int>
     {
-        public NounSetIDSymbolMap(IEnumerable<KeyValuePair<NounPointerSymbol, int>> relationData)
-        {
+        public NounSetIDSymbolMap(IEnumerable<KeyValuePair<NounPointerSymbol, int>> relationData) {
             data = (from pair in relationData
                     group pair.Value by pair.Key into g
                     select new KeyValuePair<NounPointerSymbol, HashSet<int>>(g.Key, new HashSet<int>(g))).ToDictionary(pair => pair.Key, pair => pair.Value);
@@ -169,171 +159,140 @@ namespace LASI.Algorithm.Thesauri
 
 
 
-        public IEnumerable<int> this[NounPointerSymbol key]
-        {
-            get
-            {
+        public IEnumerable<int> this[NounPointerSymbol key] {
+            get {
                 return data.ContainsKey(key) ? data[key] : Enumerable.Empty<int>();
             }
         }
 
-        public int Count
-        {
-            get
-            {
+        public int Count {
+            get {
                 return data.Count;
             }
         }
 
-        public bool Contains(NounPointerSymbol key)
-        {
+        public bool Contains(NounPointerSymbol key) {
             return data.ContainsKey(key);
         }
 
-        public IEnumerator<IGrouping<NounPointerSymbol, int>> GetEnumerator()
-        {
+        public IEnumerator<IGrouping<NounPointerSymbol, int>> GetEnumerator() {
             groupData = groupData ?? from pair in data
                                      from value in pair.Value
                                      group value by pair.Key;
             return groupData.GetEnumerator();
         }
 
-        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
-        {
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() {
             throw new NotImplementedException();
         }
     }
 
     internal class VerbSetIDSymbolMap : ILookup<VerbPointerSymbol, int>
     {
-        public VerbSetIDSymbolMap(IEnumerable<KeyValuePair<VerbPointerSymbol, int>> relationData)
-        {
+        public VerbSetIDSymbolMap(IEnumerable<KeyValuePair<VerbPointerSymbol, int>> relationData) {
             data = (from pair in relationData
                     group pair.Value by pair.Key into g
                     select new KeyValuePair<VerbPointerSymbol, HashSet<int>>(g.Key, new HashSet<int>(g))).ToDictionary(pair => pair.Key, pair => pair.Value);
         }
         private IDictionary<VerbPointerSymbol, HashSet<int>> data;
         private IEnumerable<IGrouping<VerbPointerSymbol, int>> groupData;
-        public IEnumerable<int> this[VerbPointerSymbol key]
-        {
-            get
-            {
+        public IEnumerable<int> this[VerbPointerSymbol key] {
+            get {
                 return data.ContainsKey(key) ? data[key] : Enumerable.Empty<int>();
             }
         }
 
-        public int Count
-        {
-            get
-            {
+        public int Count {
+            get {
                 return data.Count;
             }
         }
 
-        public bool Contains(VerbPointerSymbol key)
-        {
+        public bool Contains(VerbPointerSymbol key) {
             return data.ContainsKey(key);
         }
 
-        public IEnumerator<IGrouping<VerbPointerSymbol, int>> GetEnumerator()
-        {
+        public IEnumerator<IGrouping<VerbPointerSymbol, int>> GetEnumerator() {
             groupData = groupData ?? from pair in data
                                      from value in pair.Value
                                      group value by pair.Key;
             return groupData.GetEnumerator();
         }
 
-        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
-        {
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() {
             throw new NotImplementedException();
         }
     }
 
     internal class AdjectiveSetIDSymbolMap : ILookup<AdjectivePointerSymbol, int>
     {
-        public AdjectiveSetIDSymbolMap(IEnumerable<KeyValuePair<AdjectivePointerSymbol, int>> relationData)
-        {
+        public AdjectiveSetIDSymbolMap(IEnumerable<KeyValuePair<AdjectivePointerSymbol, int>> relationData) {
             data = (from pair in relationData
                     group pair.Value by pair.Key into g
                     select new KeyValuePair<AdjectivePointerSymbol, HashSet<int>>(g.Key, new HashSet<int>(g))).ToDictionary(pair => pair.Key, pair => pair.Value);
         }
         private IDictionary<AdjectivePointerSymbol, HashSet<int>> data;
         private IEnumerable<IGrouping<AdjectivePointerSymbol, int>> groupData;
-        public IEnumerable<int> this[AdjectivePointerSymbol key]
-        {
-            get
-            {
+        public IEnumerable<int> this[AdjectivePointerSymbol key] {
+            get {
                 return data.ContainsKey(key) ? data[key] : Enumerable.Empty<int>();
             }
         }
 
-        public int Count
-        {
-            get
-            {
+        public int Count {
+            get {
                 return data.Count;
             }
         }
 
-        public bool Contains(AdjectivePointerSymbol key)
-        {
+        public bool Contains(AdjectivePointerSymbol key) {
             return data.ContainsKey(key);
         }
 
-        public IEnumerator<IGrouping<AdjectivePointerSymbol, int>> GetEnumerator()
-        {
+        public IEnumerator<IGrouping<AdjectivePointerSymbol, int>> GetEnumerator() {
             groupData = groupData ?? from pair in data
                                      from value in pair.Value
                                      group value by pair.Key;
             return groupData.GetEnumerator();
         }
 
-        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
-        {
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() {
             throw new NotImplementedException();
         }
     }
     internal class AdverbSetIDSymbolMap : ILookup<AdverbPointerSymbol, int>
     {
-        public AdverbSetIDSymbolMap(IEnumerable<KeyValuePair<AdverbPointerSymbol, int>> relationData)
-        {
+        public AdverbSetIDSymbolMap(IEnumerable<KeyValuePair<AdverbPointerSymbol, int>> relationData) {
             data = (from pair in relationData
                     group pair.Value by pair.Key into g
                     select new KeyValuePair<AdverbPointerSymbol, HashSet<int>>(g.Key, new HashSet<int>(g))).ToDictionary(pair => pair.Key, pair => pair.Value);
         }
         private IDictionary<AdverbPointerSymbol, HashSet<int>> data;
         private IEnumerable<IGrouping<AdverbPointerSymbol, int>> groupData;
-        public IEnumerable<int> this[AdverbPointerSymbol key]
-        {
-            get
-            {
+        public IEnumerable<int> this[AdverbPointerSymbol key] {
+            get {
                 return data.ContainsKey(key) ? data[key] : Enumerable.Empty<int>();
             }
         }
 
-        public int Count
-        {
-            get
-            {
+        public int Count {
+            get {
                 return data.Count;
             }
         }
 
-        public bool Contains(AdverbPointerSymbol key)
-        {
+        public bool Contains(AdverbPointerSymbol key) {
             return data.ContainsKey(key);
         }
 
-        public IEnumerator<IGrouping<AdverbPointerSymbol, int>> GetEnumerator()
-        {
+        public IEnumerator<IGrouping<AdverbPointerSymbol, int>> GetEnumerator() {
             groupData = groupData ?? from pair in data
                                      from value in pair.Value
                                      group value by pair.Key;
             return groupData.GetEnumerator();
         }
 
-        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
-        {
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() {
             throw new NotImplementedException();
         }
     }

@@ -35,7 +35,8 @@ namespace LASI.Algorithm
         private void EstablishKind() {
             System.Text.RegularExpressions.Regex regex = new System.Text.RegularExpressions.Regex(@"<([^>]+)>");
             var found = regex.Match(Text).Value ?? "";
-            Text = found.Length > 0 ? new string(Text.Skip(found.Length).TakeWhile(c => c != '<').ToArray()) : Text;
+            var txt = Text;
+            Text = found.Length > 0 ? new string(txt.Skip(found.Length).TakeWhile(c => c != '<').ToArray()) : txt;
         }
 
 
@@ -140,7 +141,7 @@ namespace LASI.Algorithm
         }
 
         /// <summary>
-        /// Gets or sets the Entity Noun; Person, Place, Thing, Organization, or Activity;  of the Noun.
+        /// Gets or sets the Entity Kind; Person, Place, Thing, Organization, or Activity;  of the Noun.
         /// </summary>
         public EntityKind EntityKind {
             get;

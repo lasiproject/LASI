@@ -16,8 +16,9 @@ namespace LASI.Algorithm.Binding
         }
         public static void Bind(Document doc) {
             try {
-                PerformIntraPhraseBinding(doc);
                 PerformAttributeNounPhraseBinding(doc);
+                //PerformPrepositionalPreBinding(doc);
+                PerformIntraPhraseBinding(doc);
                 PerformSVOBinding(doc);
                 PerformPronounBinding(doc);
             }
@@ -27,13 +28,23 @@ namespace LASI.Algorithm.Binding
             }
         }
 
+        //private static void PerformPrepositionalPreBinding(Document doc) {
+        //    doc.Sentences
+        //        .AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
+        //        .ForAll(sentence => {
+        //            foreach (var prepPhrase in sentence.Phrases.GetPrepositionalPhrases()) {
+        //                prepPhrase.OnLeftSide = prepPhrase.PreviousPhrase.Sentence == prepPhrase.Sentence ? prepPhrase.PreviousPhrase : null;
+        //                prepPhrase.OnRightSide = prepPhrase.NextPhrase.Sentence == prepPhrase.Sentence ? prepPhrase.NextPhrase : null;
+        //            }
+        //        });
+        //}
+
         #region Private Static Methods
 
         private static void PerformAttributeNounPhraseBinding(Document doc) {
             doc.Sentences
                 .AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
                 .Where(s => s.Paragraph.ParagraphKind == ParagraphKind.Default)
-                .AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
                 .ForAll(s => new AttributiveNounPhraseBinder(s));
         }
         private static void PerformSVOBinding(Document doc) {
@@ -41,7 +52,6 @@ namespace LASI.Algorithm.Binding
                 doc.Sentences
                     .AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
                     .Where(s => s.Paragraph.ParagraphKind == ParagraphKind.Default)
-                    .AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
                     .ForAll(sentence => {
                         try {
                             new SubjectBinder().Bind(sentence);
@@ -82,7 +92,6 @@ namespace LASI.Algorithm.Binding
             doc.Sentences
                 .AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
                 .Where(s => s.Paragraph.ParagraphKind == ParagraphKind.Default)
-                .AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
                 .ForAll(s => new PronounBinder().Bind(doc));
         }
 

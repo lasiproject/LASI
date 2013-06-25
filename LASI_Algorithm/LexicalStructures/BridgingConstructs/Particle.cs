@@ -27,14 +27,14 @@ namespace LASI.Algorithm
         #region Properties
 
         /// <summary>
-        /// Gets or sets the IprepositionLinkable construct on the second-hand-side of the Preposition.
+        /// Gets or sets the IprepositionLinkable construct on the right-hand-side of the Preposition.
         /// </summary>
         public IPrepositionLinkable OnRightSide {
             get;
             set;
         }
         /// <summary>
-        /// Gets or sets the IprepositionLinkable construct on the first-hand-side of the Preposition.
+        /// Gets or sets the IprepositionLinkable construct on the left-hand-side of the Preposition.
         /// </summary>
         public IPrepositionLinkable OnLeftSide {
             get;
