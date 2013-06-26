@@ -82,6 +82,32 @@ namespace LASI.Algorithm
                    select e;
         }
         /// <summary>
+        /// Returns all IEntity constructs in the source sequence which have been bound as the Subject, Direct Object, or Indirect Object of an IVerbal construct.
+        /// </summary>
+        /// <typeparam name="T">Any Type which implemenets the IEntity interface.</typeparam>
+        /// <param name="entities">The sequence of IEntity constructs to filter.</param>
+        /// <returns>All IEntity constructs in the source sequence which have been bound as the Subject, Direct Object, or Indirect Object of an IVerbal construct.</returns>
+        public static IEnumerable<T> InSubjectOrObjectRole<T>(this IEnumerable<T> entities) where T : IEntity {
+            return from e in entities
+                   let verbal = e.SubjectOf ?? e.DirectObjectOf ?? e.IndirectObjectOf
+                   where verbal != null
+                   select e;
+        }
+        /// <summary>
+        /// Returns all IEntity constructs in the source sequence which have been bound as the Subject, Direct Object, or Indirect Object of any IVerbal construct which conforms the logic of the IVerbal selector function.
+        /// </summary>
+        /// <typeparam name="T">Any Type which implemenets the IEntity interface.</typeparam>
+        /// <param name="describables">The sequence of IEntity constructs to filter.</param>
+        /// <param name="verbalSelector">The function which examines the IVerbal bound to each entity to determine if it should be included in the resulting sequence.</param>
+        /// <returns>All IEntity constructs in the source sequence which have been bound as the Subject, Direct Object, or Indirect Object of any IVerbal construct which conforms the logic of the IVerbal selector function.</returns>
+        public static IEnumerable<T> InSubjectOrObjectRole<T>(this IEnumerable<T> entities, Func<IVerbal, bool> verbalSelector) where T : IEntity {
+            return from e in entities
+                   where e.SubjectOf != null && verbalSelector(e.SubjectOf) ||
+                   e.DirectObjectOf != null && verbalSelector(e.DirectObjectOf) ||
+                   e.IndirectObjectOf != null && verbalSelector(e.IndirectObjectOf)
+                   select e;
+        }
+        /// <summary>
         /// Returns all IDescribable Constructs in the given sequence which are bound to an IDescriptor that matches the given descriptorMatcher predicate function.
         /// </summary>
         /// <typeparam name="T">Any Type which implemenets the IDescribable interface.</typeparam>

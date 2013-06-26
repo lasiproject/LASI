@@ -25,7 +25,6 @@ namespace LASI.Algorithm.DocumentConstructs
         /// <param name="paragrpahs">The collection of paragraphs which contain all text in the document.</param>
         public Document(IEnumerable<Paragraph> paragrpahs) {
             _paragraphs = paragrpahs.ToList();
-
             _enumContainingParagraphs = (from p in _paragraphs
                                          where p.ParagraphKind == ParagraphKind.EnumerationContent
                                          select p).ToList();
@@ -98,37 +97,22 @@ namespace LASI.Algorithm.DocumentConstructs
         /// </summary>
         /// <returns> All of the word and phrase level describables identified in the document.</returns>
         public IEnumerable<IEntity> GetEntities() {
-            return from e in _words.GetNouns().Concat<IEntity>(_words.GetPronouns()).Concat<IEntity>(_phrases.GetNounPhrases())
+            return from e in _words.OfType<IEntity>().Concat(Phrases.OfType<IEntity>())
                    orderby e is Word ? (e as Word).ID : (e as Phrase).Words.Last().ID ascending
                    select e;
         }
-        //public IEnumerable<Page> Paginate(int charactersPerLine, int linePerPage) {
-        //    var totalChars = Sentences.Sum(s => s.Text.Length) / (charactersPerLine * linePerPage) + 1;
-        //    var lenC = 0;
-        //    var toSkip = 0;
-        //    return from i in Enumerable.Range(1, totalChars)
-        //           let sents =
-        //           from sentence in Sentences.Skip(toSkip).TakeWhile(s => {
-        //               toSkip++;
-        //               lenC += s.Text.Length;
-        //               if (lenC < linePerPage * charactersPerLine)
-        //                   return true;
-        //               else {
-        //                   lenC = 0;
-        //                   return false;
-        //               }
-        //           })
-        //           select sentence
-        //           select new Page(sents, this);
-        //}
-        public IEnumerable<Page> Paginate(int sentencesPerPage) {
-            var numPages = Sentences.Count() / sentencesPerPage + 1;
-            return from i in Enumerable.Range(1, numPages).Select(i => i * sentencesPerPage)
-                   from sentence in Sentences
-                   group sentence by sentence.ID - sentencesPerPage < i into g
-                   where g.Key
-                   select new Page(g, this);
 
+        public IEnumerable<Page> Paginate(int sentencesPerPage) {
+            var sents = Sentences;
+            List<Page> results = new List<Page>();
+            while (sents.Count() >= sentencesPerPage) {
+                results.Add(new Page(sents.Take(sentencesPerPage), this));
+                sents = sents.Skip(sentencesPerPage);
+            }
+            if (sents.Any()) {
+                results.Add(new Page(sents, this));
+            }
+            return results;
         }
 
         public override string ToString() {
@@ -203,38 +187,26 @@ namespace LASI.Algorithm.DocumentConstructs
 
         #endregion
 
+        public sealed class Page
+        {
+            internal Page(IEnumerable<Sentence> sentences, Document document) {
+                Document = document;
+                Sentences = sentences;
+
+            }
+
+
+            public IEnumerable<Sentence> Sentences {
+                get;
+                private set;
+            }
+
+            public Document Document {
+                get;
+                private set;
+            }
+        }
     }
 
-    public class Page
-    {
-        internal Page(IEnumerable<Sentence> sentences, Document document) {
-            Document = document;
-            Sentences = sentences;
-            Paragraphs = from s in sentences
-                         group s by s.Paragraph into g
-                         select g.Key;
-        }
 
-        internal Page(IEnumerable<Paragraph> paragraphs, Document document) {
-            Document = document;
-            Paragraphs = paragraphs;
-            Sentences = from p in paragraphs
-                        from s in p.Sentences
-                        select s;
-        }
-
-        public IEnumerable<Sentence> Sentences {
-            get;
-            private set;
-        }
-
-        public IEnumerable<Paragraph> Paragraphs {
-            get;
-            private set;
-        }
-        public Document Document {
-            get;
-            private set;
-        }
-    }
 }
