@@ -33,9 +33,24 @@ namespace LASI.Algorithm.Weighting
                }),
                Task.Run(() => 
                {
+                    WeightPhrasesByLiteralFrequency (doc);
+                    return string.Format("{0}: Aggregating Complex Literals", doc.FileName);
+               }),
+               Task.Run(() => 
+               {
                     ModifyNounWeightsBySynonyms(doc);
                     return string.Format("{0}: Generalizing Nouns",doc.FileName );
+               }),             
+               Task.Run(() => 
+               {
+                    WeightPhrasesByAVGWordWeight(doc);
+                    return string.Format("{0}: Weighting Phrases",doc.FileName);
                }), 
+               Task.Run(() => 
+               {
+                    WeightSimilarNounPhrases(doc);
+                    return string.Format("{0}: Generalizing Phrases",doc.FileName);
+               }),      
                Task.Run(() => 
                {
                     ModifyVerbWeightsBySynonyms (doc);
@@ -43,24 +58,9 @@ namespace LASI.Algorithm.Weighting
                }), 
                Task.Run(() => 
                {
-                    WeightPhrasesByLiteralFrequency (doc);
-                    return string.Format("{0}: Aggregating Complex Literals", doc.FileName);
-               }),
-               Task.Run(() => 
-               {
                     HackSubjectPropernounImportance (doc); 
                     return string.Format("{0}: Focusing Patterns", doc.FileName);
-               }),  
-               Task.Run(() => 
-               {
-                    WeightPhrasesByAVGWordWeight(doc);
-                    return string.Format("{0}: Averaging Metrics",doc.FileName);
-               }), 
-               Task.Run(() => 
-               {
-                    WeightSimilarNounPhrases(doc);
-                    return string.Format("{0}: Generalizing Entities!",doc.FileName);
-               }),      
+               }),
                Task.Run(() => 
                {
                     NormalizeWeights (doc); 
@@ -229,35 +229,28 @@ namespace LASI.Algorithm.Weighting
         /// <param name="doc">Document containing the componentPhrases to weight</param>
         private static void WeightSimilarNounPhrases(Document doc) {
 
-            var nps = doc.Phrases.GetNounPhrases();
+            var nps = doc.Phrases.GetNounPhrases().InSubjectRole()
+                                               .Concat(doc.Phrases.GetNounPhrases().InDirectObjectRole())
+                                               .Concat(doc.Phrases.GetNounPhrases().InIndirectObjectRole())
+                                               .AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax);
             var similarNounPhraseLookup = (from NP in nps
-                                               .InSubjectRole()
-                                               .Concat(nps.InDirectObjectRole())
-                                               .Concat(nps.InIndirectObjectRole())
-                                               .AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
                                            select NP)
                                            .ToLookup(key => key,
                                            LexicalComparers<NounPhrase>
                                            .CreateCustom((L, R) => L.Text == R.Text || L.IsAliasFor(R) || L.IsSimilarTo(R)));
-            foreach (var outerNP in nps
-                .InSubjectRole()
-                .Concat(nps.InDirectObjectRole())
-                .Concat(nps.InIndirectObjectRole())
-                .AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)) {
-                var similarPhrases = from potentialM in
-                                         (from innerNP in similarNounPhraseLookup[outerNP]
-                                          select new
-                                          {
-                                              NP = outerNP,
-                                              innerNP,
-                                              similarityRatio = Thesaurus.GetSimilarityRatio(outerNP, innerNP)
-                                          })
-                                     where potentialM.similarityRatio >= 0.6
-                                     select potentialM;
+            foreach (var outerNP in nps) {
+                var similarPhrases = from innerNP in similarNounPhraseLookup[outerNP]
+                                     group innerNP by outerNP;
+
+
                 //Need to fix this. Its causing stack overflow
 
                 foreach (var match in similarPhrases) {
-
+                    var weightIncrease = similarPhrases.Count() * .5;
+                    match.Key.Weight += weightIncrease;
+                    foreach (var inner in match) {
+                        inner.Weight += weightIncrease;
+                    }
                     ////match.NP.Weight += match.innerNP.Weight * match.similarityRatio;
                     //match.innerNP.Weight += match.NP.Weight * match.similarityRatio;
                     //match.innerNP.Weight = Math.Round(match.innerNP.Weight, 5);

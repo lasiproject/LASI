@@ -21,17 +21,18 @@ namespace Aluan_Experimentation
         static void Main(string[] args) {
 
             Thesaurus.VerbThesaurusLoadTask.Wait();
-            var results = new[] { Thesaurus.LookupVerb("fuck").OrderBy(s=>s).ToArray(), 
-                Thesaurus.LookupVerb("fucks").OrderBy(s=>s).ToArray(),
-                Thesaurus.LookupVerb("fucked").OrderBy(s=>s).ToArray(),
-                Thesaurus.LookupVerb("fucking").OrderBy(s=>s).ToArray() };
-            var test = true;
+            Output.WriteLine(Thesaurus.LookupVerb("fuck").OrderBy(f => f).Format(70));
+            //var results = new[] { Thesaurus.LookupVerb("fuck").OrderBy(s=>s).ToArray(), 
+            //    Thesaurus.LookupVerb("fucks").OrderBy(s=>s).ToArray(),
+            //    Thesaurus.LookupVerb("fucked").OrderBy(s=>s).ToArray(),
+            //    Thesaurus.LookupVerb("fucking").OrderBy(s=>s).ToArray() };
+            //var test = true;
 
-            for (int j = 0; j < results[0].Length; j++) {
-                test &= results[0][j] == results[1][j] && results[0][j] == results[2][j] && results[0][j] == results[3][j];
+            //for (int j = 0; j < results[0].Length; j++) {
+            //    test &= results[0][j] == results[1][j] && results[0][j] == results[2][j] && results[0][j] == results[3][j];
 
-            }
-            Output.WriteLine(test);
+            //}
+            //Output.WriteLine(test);
             Input.WaitForKey();
         }
 

@@ -85,7 +85,7 @@ namespace LASI.Algorithm.Thesauri
 
         }
 
-        public HashSet<string> SearchFor(string word) {
+        private ISet<string> SearchFor(string word) {
 
             //gets pointers of searched word
             //var tempResults = from sn in allSets
@@ -128,14 +128,14 @@ namespace LASI.Algorithm.Thesauri
             //}//console view
         }
 
-        public override HashSet<string> this[string search] {
+        public override ISet<string> this[string search] {
             get {
                 return SearchFor(search);
             }
         }
 
 
-        public override HashSet<string> this[Word search] {
+        public override ISet<string> this[Word search] {
             get {
                 return this[search.Text];
             }

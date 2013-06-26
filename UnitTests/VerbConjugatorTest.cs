@@ -109,7 +109,7 @@ namespace AlgorithmAssemblyUnitTestProject
             string root = "walk";
             IEnumerable<string> expected = new[] { "walked", "walks", "walking" }.ToList();
             IEnumerable<string> actual;
-            actual = VerbConjugator.TryComputeConjugations(root);
+            actual = VerbConjugator.GetConjugations(root);
             foreach (var f in actual)
                 Debug.WriteLine(f);
             Assert.IsTrue((from f in expected

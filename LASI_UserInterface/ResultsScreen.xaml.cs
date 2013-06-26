@@ -43,9 +43,13 @@ namespace LASI.UserInterface
         private async Task CreateWordCountAndWeightingView(Document document) {
             var page1 = document.Paginate(10).FirstOrDefault();
 
-            var nounPhraseLabels = from de in page1 != null ? page1.Paragraphs : document.Paragraphs.Except(document.EnumContainingParagraphs).AsParallel()
+            var nounPhraseLabels = from de in page1 != null ? page1.Paragraphs : document.Paragraphs.Except(document.EnumContainingParagraphs)
+                                       .AsParallel()
+                                       .WithDegreeOfParallelism(Concurrency.CurrentMax)
                                    select de.Phrases.GetNounPhrases() into nounPhrases
-                                   from nounPhrase in nounPhrases.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
+                                   from nounPhrase in nounPhrases
+                                   .AsParallel()
+                                   .WithDegreeOfParallelism(Concurrency.CurrentMax)
                                    group nounPhrase by new
                                    {
                                        nounPhrase.Text,

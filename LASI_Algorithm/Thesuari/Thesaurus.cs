@@ -164,21 +164,41 @@ namespace LASI.Algorithm.Thesauri
             if (first.Text.ToUpper() == second.Text.ToUpper()) {
                 return true;
             }
+
             var n1 = first as Noun;
             var n2 = second as Noun;
             if (n1 != null && n2 != null) {
                 return n1.IsSynonymFor(n2);
             }
-            else {
-                var np1 = first as NounPhrase;
-                var np2 = second as NounPhrase;
-                if (np1 != null && np2 != null) {
-                    return np1.IsSimilarTo(np2);
-                }
-                //need to add functionality to compare a Noun with a NounPhrase.
-                return false;
+
+            var np1 = first as NounPhrase;
+            var np2 = second as NounPhrase;
+            if (np1 != null && np2 != null) {
+                return np1.IsSimilarTo(np2);
             }
+            //need to add functionality to compare a Noun with a NounPhrase.
+
+
+            var np = first as NounPhrase ?? second as NounPhrase;
+            var n = first as Noun ?? second as Noun;
+            if (n != null && np != null) {
+                return n.IsSimilarTo(np);
+            }
+            return false;
         }
+
+        public static bool IsSimilarTo(this Noun first, NounPhrase second) {
+            var nouns = second.Words.GetNouns();
+            return nouns.Count() == 1 && nouns.First().IsSynonymFor(first);
+        }
+        public static bool IsSimilarTo(this VerbPhrase first, Verb second) {
+            return second.IsSimilarTo(first);
+        }
+        public static bool IsSimilarTo(this Verb first, VerbPhrase second) {
+            var verbs = second.Words.GetVerbs();
+            return verbs.Count() == 1 && verbs.First().IsSynonymFor(first);
+        }
+
         /// <summary>
         /// Determines if two IVerbal instances are similar.
         /// </summary>
@@ -192,36 +212,78 @@ namespace LASI.Algorithm.Thesauri
         /// Please prefer the second convention.
         /// </remarks>
         public static bool IsSimilarTo(this IVerbal first, IVerbal second) {
+
+            //Compare literal text.
             if (first.Text.ToUpper() == second.Text.ToUpper()) {
                 return true;
             }
+
+            //If both are of type Verb check if syonymous
             var v1 = first as Verb;
             var v2 = second as Verb;
             if (v1 != null && v2 != null) {
                 return v1.IsSynonymFor(v2);
             }
-            else {
-                var vp1 = first as VerbPhrase;
-                var vp2 = second as VerbPhrase;
-                if (vp1 != null && vp2 != null) {
-                    return vp1.IsSimilarTo(vp2);
-                }
-                //need to add functionality to compare a Noun with a NounPhrase.
-                return false;
+
+            //If both are of type VerbPhrase check for similarity
+            var vp1 = first as VerbPhrase;
+            var vp2 = second as VerbPhrase;
+            if (vp1 != null && vp2 != null) {
+                return vp1.IsSimilarTo(vp2);
             }
+
+            //If one is of type Verb and the other is of Type VerbPhrase, test for similarirty.
+            var vp = first as VerbPhrase ?? second as VerbPhrase;
+            var v = first as Verb ?? second as Verb;
+            if (v != null && vp != null) {
+                return v.IsSimilarTo(vp);
+            }
+
+            return false;
+
         }
+        /// <summary>
+        /// Determines if two Noun instances are synonymous.
+        /// </summary>
+        /// <param name="word">The first Noun.</param>
+        /// <param name="other">The second Noun</param>
+        /// <returns>True if the Noun instances are synonymous, false otherwise.</returns>
         public static bool IsSynonymFor(this Noun word, Noun other) {
             return InternalLookup(word).Contains(other.Text);
         }
+        /// <summary>
+        /// Determines if two Verb instances are synonymous.
+        /// </summary>
+        /// <param name="word">The first Verb.</param>
+        /// <param name="other">The second Verb</param>
+        /// <returns>True if the Verb instances are synonymous, false otherwise.</returns>
         public static bool IsSynonymFor(this Verb word, Verb other) {
             return InternalLookup(word).Contains(other.Text);
         }
+        /// <summary>
+        /// Determines if two Adjective instances are synonymous.
+        /// </summary>
+        /// <param name="word">The first Adjective.</param>
+        /// <param name="other">The second Adjective</param>
+        /// <returns>True if the Adjective instances are synonymous, false otherwise.</returns>
         public static bool IsSynonymFor(this Adjective word, Adjective other) {
             return InternalLookup(word).Contains(other.Text);
         }
+        /// <summary>
+        /// Determines if two Adverb instances are synonymous.
+        /// </summary>
+        /// <param name="word">The first Adverb.</param>
+        /// <param name="other">The second Adverb</param>
+        /// <returns>True if the Adverb instances are synonymous, false otherwise.</returns>
         public static bool IsSynonymFor(this Adverb word, Adverb other) {
             return InternalLookup(word).Contains(other.Text);
         }
+        /// <summary>
+        /// Determines if two Word instances are synonymous. Type checking is enforced.
+        /// </summary>
+        /// <param name="word">The first Word.</param>
+        /// <param name="other">The second Word</param>
+        /// <returns>True if the Word instances are synonymous, false otherwise.</returns>
         public static bool IsSynonymFor(this Word word, Word other) {
 
             return (word is Noun && other is Noun ||
@@ -288,7 +350,7 @@ namespace LASI.Algorithm.Thesauri
         /// <param name="a">The first NounPhrase</param>
         /// <param name="b">The second NounPhrase</param>
         /// <returns>A double value indicating the degree of similarity between two NounPhrases.</returns>
-        public static double GetSimilarityRatio(NounPhrase a, NounPhrase b) {
+        private static double GetSimilarityRatio(NounPhrase a, NounPhrase b) {
             NounPhrase outer = null;
             NounPhrase inner = null;
             double similarCount = 0.0d;
@@ -312,7 +374,6 @@ namespace LASI.Algorithm.Thesauri
                     return (similarCount / scaleFactor == 0 ? 1 : scaleFactor);
                 }
 
-
             }
             return 0d;
         }
@@ -322,20 +383,20 @@ namespace LASI.Algorithm.Thesauri
         #region Internal Lookup Methods
 
 
-        private static HashSet<string> InternalLookup(Noun noun) {
+        private static ISet<string> InternalLookup(Noun noun) {
 
             return cachedNounData.GetOrAdd(noun.Text, key => NounThesaurus[key]);
         }
-        private static HashSet<string> InternalLookup(Verb verb) {
+        private static ISet<string> InternalLookup(Verb verb) {
             return cachedVerbData.GetOrAdd(verb.Text, key => VerbThesaurus[key]);
         }
-        private static HashSet<string> InternalLookup(Adverb adverb) {
+        private static ISet<string> InternalLookup(Adverb adverb) {
             return cachedAdverbData.GetOrAdd(adverb.Text, key => AdverbThesaurus[key]);
         }
-        private static HashSet<string> InternalLookup(Adjective adjective) {
+        private static ISet<string> InternalLookup(Adjective adjective) {
             return cachedAdjectiveData.GetOrAdd(adjective.Text, key => AdjectiveThesaurus[key]);
         }
-        private static HashSet<string> InternalLookup(Word word) {
+        private static ISet<string> InternalLookup(Word word) {
             throw new NoSynonymLookupForTypeException(word);
         }
 
@@ -364,12 +425,6 @@ namespace LASI.Algorithm.Thesauri
 
         #region Private Methods
 
-        private static async Task LoadAllParallelLinqTest() {
-            var sw = Stopwatch.StartNew();
-            await Task.Run(() => new ThesaurusBase[] { NounThesaurus, VerbThesaurus, AdverbThesaurus, AdjectiveThesaurus }.AsParallel().ForAll(t => t.Load()));
-            Output.WriteLine("Async PLINQ thesaurus loading took {0} milliseconds", sw.ElapsedMilliseconds);
-        }
-
 
 
         #endregion
@@ -381,10 +436,10 @@ namespace LASI.Algorithm.Thesauri
         private static readonly string adverbThesaurusFilePath = ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "data.adv";
         private static readonly string adjectiveThesaurusFilePath = ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "data.adj";
         // Synonym Lookup Caches
-        private static ConcurrentDictionary<string, HashSet<string>> cachedNounData = new ConcurrentDictionary<string, HashSet<string>>(Concurrency.CurrentMax, 4096);
-        private static ConcurrentDictionary<string, HashSet<string>> cachedVerbData = new ConcurrentDictionary<string, HashSet<string>>(Concurrency.CurrentMax, 4096);
-        private static ConcurrentDictionary<string, HashSet<string>> cachedAdjectiveData = new ConcurrentDictionary<string, HashSet<string>>(Concurrency.CurrentMax, 4096);
-        private static ConcurrentDictionary<string, HashSet<string>> cachedAdverbData = new ConcurrentDictionary<string, HashSet<string>>(Concurrency.CurrentMax, 4096);
+        private static ConcurrentDictionary<string, ISet<string>> cachedNounData = new ConcurrentDictionary<string, ISet<string>>(Concurrency.CurrentMax, 4096);
+        private static ConcurrentDictionary<string, ISet<string>> cachedVerbData = new ConcurrentDictionary<string, ISet<string>>(Concurrency.CurrentMax, 4096);
+        private static ConcurrentDictionary<string, ISet<string>> cachedAdjectiveData = new ConcurrentDictionary<string, ISet<string>>(Concurrency.CurrentMax, 4096);
+        private static ConcurrentDictionary<string, ISet<string>> cachedAdverbData = new ConcurrentDictionary<string, ISet<string>>(Concurrency.CurrentMax, 4096);
         private const double SIMILARITY_THRESHOLD = 0.6;
 
         #endregion

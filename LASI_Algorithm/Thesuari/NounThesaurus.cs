@@ -76,7 +76,7 @@ namespace LASI.Algorithm.Thesauri
 
 
 
-        public HashSet<string> SearchFor(string word) {
+        private ISet<string> SearchFor(string word) {
 
             var containingSet = allSets.FirstOrDefault(set => set.Words.Contains(word));
             if (containingSet == null)
@@ -109,7 +109,7 @@ namespace LASI.Algorithm.Thesauri
         }
 
 
-        public override HashSet<string> this[string search] {
+        public override ISet<string> this[string search] {
             get {
                 var root = NounConjugator.FindRoot(search);
                 return new HashSet<string>(SearchFor(root).SelectMany(syn => NounConjugator.GetLexicalForms(syn)));
@@ -117,7 +117,7 @@ namespace LASI.Algorithm.Thesauri
         }
 
 
-        public override HashSet<string> this[Word search] {
+        public override ISet<string> this[Word search] {
             get {
                 return this[search.Text];
             }

@@ -12,17 +12,14 @@ namespace LASI.Algorithm.Thesauri
     {
 
         public static IEnumerable<string> FindRoot(string conjugated) {
-            var k = TryExtractRoot(conjugated);
-            return k.Any() ? k.Distinct() : new[] { conjugated };
+            return TryExtractRoot(conjugated.ToLower()).DefaultIfEmpty(conjugated);
         }
 
 
-        public static IEnumerable<string> TryComputeConjugations(string root) {
-            return TryComputerConjugationFromGrouping(root);
 
-        }
 
-        private static IEnumerable<string> TryComputerConjugationFromGrouping(string root) {
+        public static IEnumerable<string> GetConjugations(string root) {
+
             var hyphIndex = root.IndexOf('-');
 
             var realRoot = hyphIndex > -1 ? root.Substring(0, hyphIndex) : root;
@@ -36,13 +33,17 @@ namespace LASI.Algorithm.Thesauri
                 results.AddRange(except.Select(e => e + postHyphenInvariant));
                 return results;
             }
-            results.AddRange(from ending in SuffixEndingPairs.Keys
-                             where !string.IsNullOrEmpty(ending)
-                             where realRoot.EndsWith(ending, StringComparison.OrdinalIgnoreCase)
-                             from suffix in SuffixEndingPairs[ending]
+            results.AddRange(from ending in EndingSuffixPairs.Keys
+                             where ending == "" || realRoot.EndsWith(ending, StringComparison.OrdinalIgnoreCase)
+                             from suffix in EndingSuffixPairs[ending]
                              select realRoot.Substring(0, realRoot.Length - ending.Length) + suffix + postHyphenInvariant);
-            return results.Any() ? results.Distinct() : (from suffix in SuffixEndingPairs[""]
-                                                         select realRoot + suffix + postHyphenInvariant).Distinct();
+            //where form.Length < 6 ||
+            //!(form.EndsWith("s") &&
+            //form[form.Length - 4].IsConsonant() &&
+            //form[form.Length - 3].IsConsonant())
+            //select form);
+
+            return results.Distinct();
 
         }
 
@@ -58,9 +59,9 @@ namespace LASI.Algorithm.Thesauri
             for (var i = VERB_ENDINGS.Length - 1; i >= 0; --i) {
                 if (search.EndsWith(VERB_SUFFICIES[i], StringComparison.OrdinalIgnoreCase)) {
                     var possibleRoot = search.Substring(0, search.Length - VERB_SUFFICIES[i].Length);
-                    if ((possibleRoot).EndsWith(VERB_ENDINGS[i])) {
+                    if (string.IsNullOrEmpty(VERB_ENDINGS[i]) || (possibleRoot).EndsWith(VERB_ENDINGS[i])) {
                         results.Add(possibleRoot);
-                        return results;
+                        return results.Select(r => r + postHyphenInvariant).ToList();
                     }
                 }
             }
@@ -80,9 +81,9 @@ namespace LASI.Algorithm.Thesauri
 
         private readonly static string[] VERB_SUFFICIES = { "s", "ies", "es", "es", "ed", "ed", "ing", "ing" };
         private readonly static string[] VERB_ENDINGS = { "", "y", "e", "", " e", "", "e", "" };
-        private static readonly IDictionary<string, IEnumerable<string>> SuffixEndingPairs = new Dictionary<string, IEnumerable<string>> {
+        private static readonly IDictionary<string, IEnumerable<string>> EndingSuffixPairs = new Dictionary<string, IEnumerable<string>> {
             { "", new []{ "s",  "es",  "ed", "ing" } },
-            { "e", new []{ "es", "ed", "ing"} },
+            { "e", new []{ "es", "ed", "ing"} },    
             { "y", new []{ "ies" } },
         };
 
@@ -123,5 +124,15 @@ namespace LASI.Algorithm.Thesauri
         private static Dictionary<string, IEnumerable<string>> exceptionData = new Dictionary<string, IEnumerable<string>>();
 
 
+    }
+    public static class CharExtensions
+    {
+        public static bool IsConsonant(this char c) {
+            return !c.IsVowel();
+        }
+        public static bool IsVowel(this char c) {
+            var lc = char.ToLower(c);
+            return lc == 'a' || lc == 'e' || lc == 'i' || lc == 'o' || lc == 'u' || lc == 'y';
+        }
     }
 }

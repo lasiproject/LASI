@@ -189,8 +189,8 @@ namespace LASI.FileSystem
             docXFiles.RemoveAll(f => f.NameSansExt == fileName);
             pdfFiles.RemoveAll(f => f.NameSansExt == fileName);
             taggedFiles = new System.Collections.Concurrent.ConcurrentBag<TaggedFile>(from f in taggedFiles
-                                                        where f.NameSansExt != fileName
-                                                        select f);
+                                                                                      where f.NameSansExt != fileName
+                                                                                      select f);
         }
         /// <summary>
         /// Adds the document indicated by the specified path string to the project
@@ -404,8 +404,8 @@ namespace LASI.FileSystem
 
             while (tasks.Any()) {
                 var tagged = await Task.WhenAny(tasks);
-                tasks.Remove(tagged);
                 taggedFiles.Add(await tagged);
+                tasks.Remove(tagged);
             }
 
 

@@ -92,7 +92,7 @@ namespace LASI.Algorithm.Thesauri
         /// </summary>
         /// <param name="search">The text of the verb to look for.</param>
         /// <returns>A collection of strings containing all of the synonyms of the given verb.</returns>
-        public override HashSet<string> this[string search] {
+        public override ISet<string> this[string search] {
             get {
                 try {
                     foreach (var root in from root in VerbConjugator.FindRoot(search)
@@ -100,11 +100,13 @@ namespace LASI.Algorithm.Thesauri
                                          select root) {
                         return new HashSet<string>(
                             from refIndex in AssociationData[root].ReferencedIndexes
-                            from referencedSet in AssociationData.Values.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
+                            from referencedSet in AssociationData.Values
+                            //.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
                             where referencedSet.ReferencedIndexes.Contains(refIndex)
                             where referencedSet.LexName == AssociationData[root].LexName
-                            from word in referencedSet.Words.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
-                            let withConjugations = new string[] { word }.Concat(VerbConjugator.TryComputeConjugations(word))
+                            from word in referencedSet.Words
+                            //.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
+                            let withConjugations = new string[] { word }.Concat(VerbConjugator.GetConjugations(word))
                             from w in withConjugations
                             select w);
                     }
@@ -129,7 +131,7 @@ namespace LASI.Algorithm.Thesauri
         /// </summary>
         /// <param name="search">An instance of Verb</param>
         /// <returns>A collection of strings containing all of the synonyms of the given Verb.</returns>
-        public override HashSet<string> this[Word search] {
+        public override ISet<string> this[Word search] {
             get {
                 return this[search.Text];
             }

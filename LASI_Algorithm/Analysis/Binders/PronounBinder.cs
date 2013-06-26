@@ -33,10 +33,11 @@ namespace LASI.Algorithm.Binding
         }
 
         private static void BindToReferencePoints(IEnumerable<NounPhrase> toTransform) {
-            toTransform.GetPronounPhrases().AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax).ForAll(contextualPro => {
+            foreach (var contextualPro in toTransform.GetPronounPhrases()) {
+                //.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax).ForAll(contextualPro => {
                 contextualPro.BindToEntity(contextualPro.Document.Phrases
                 .TakeWhile(p => p != contextualPro).Reverse().GetNounPhrases().FirstOrDefault(np => np.IsAliasFor(contextualPro.Words.GetNouns().Last())));
-            });
+            }
         }
         /// <summary>
         /// Bind posessive pronouns located in the objects of a sentence to the proper noun in the subject of that sentence. 
@@ -50,26 +51,28 @@ namespace LASI.Algorithm.Binding
             var vps = from vp in doc.Phrases.GetVerbPhrases().WithSubject(s => s is ProperNoun)
                       where vp.DirectObjects.Any(o => o is PossessivePronoun) || vp.IndirectObjects.Any(o => o is PossessivePronoun)
                       select vp;
-            vps.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
-                .ForAll(verbPhrase => {
-                    var pronounsInDO = from pn in verbPhrase.DirectObjects
-                                       let pos = pn as PossessivePronoun
-                                       where pos != null
-                                       select pos;
-                    var pronounsInIO = from pn in verbPhrase.IndirectObjects
-                                       let pos = pn as PossessivePronoun
-                                       where pos != null
-                                       select pos;
-                    var propernounsInSubject = from propn in verbPhrase.Subjects
-                                               let pos = propn as ProperNoun
-                                               where pos != null
-                                               select pos;
-                    pronounsInDO.Concat(pronounsInIO).AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax).ForAll(pronoun => {
-                        foreach (var propernoun in propernounsInSubject) {
-                            pronoun.PossessesFor = propernoun;
-                        }
-                    });
-                });
+            foreach (var verbPhrase in vps) {
+                //vps.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
+                //    .ForAll(verbPhrase => {
+                var pronounsInDO = from pn in verbPhrase.DirectObjects
+                                   let pos = pn as PossessivePronoun
+                                   where pos != null
+                                   select pos;
+                var pronounsInIO = from pn in verbPhrase.IndirectObjects
+                                   let pos = pn as PossessivePronoun
+                                   where pos != null
+                                   select pos;
+                var propernounsInSubject = from propn in verbPhrase.Subjects
+                                           let pos = propn as ProperNoun
+                                           where pos != null
+                                           select pos;
+                foreach (var pronoun in pronounsInDO.Concat(pronounsInIO)) {
+                    //.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax).ForAll(pronoun => {
+                    foreach (var propernoun in propernounsInSubject) {
+                        pronoun.PossessesFor = propernoun;
+                    }
+                };
+            };
 
         }
 

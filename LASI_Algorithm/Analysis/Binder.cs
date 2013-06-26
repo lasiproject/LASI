@@ -17,7 +17,6 @@ namespace LASI.Algorithm.Binding
         public static void Bind(Document doc) {
             try {
                 PerformAttributeNounPhraseBinding(doc);
-                //PerformPrepositionalPreBinding(doc);
                 PerformIntraPhraseBinding(doc);
                 PerformSVOBinding(doc);
                 PerformPronounBinding(doc);
@@ -28,16 +27,7 @@ namespace LASI.Algorithm.Binding
             }
         }
 
-        //private static void PerformPrepositionalPreBinding(Document doc) {
-        //    doc.Sentences
-        //        .AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
-        //        .ForAll(sentence => {
-        //            foreach (var prepPhrase in sentence.Phrases.GetPrepositionalPhrases()) {
-        //                prepPhrase.OnLeftSide = prepPhrase.PreviousPhrase.Sentence == prepPhrase.Sentence ? prepPhrase.PreviousPhrase : null;
-        //                prepPhrase.OnRightSide = prepPhrase.NextPhrase.Sentence == prepPhrase.Sentence ? prepPhrase.NextPhrase : null;
-        //            }
-        //        });
-        //}
+
 
         #region Private Static Methods
 
@@ -51,7 +41,7 @@ namespace LASI.Algorithm.Binding
             try {
                 doc.Sentences
                     .AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
-                    .Where(s => s.Paragraph.ParagraphKind == ParagraphKind.Default)
+                    .Where(s => s.Paragraph.ParagraphKind == ParagraphKind.Default && s.Phrases.GetVerbPhrases().Any())
                     .ForAll(sentence => {
                         try {
                             new SubjectBinder().Bind(sentence);
@@ -59,9 +49,7 @@ namespace LASI.Algorithm.Binding
                         catch (NullReferenceException) {
                         }
                         try {
-                            if (sentence.Phrases.GetVerbPhrases().Any()) {
-                                new ObjectBinder().Bind(sentence);
-                            }
+                            new ObjectBinder().Bind(sentence);
                         }
                         catch (InvalidStateTransitionException) {
                         }
@@ -71,7 +59,7 @@ namespace LASI.Algorithm.Binding
                         }
                     });
             }
-            catch {
+            catch (Exception) {
             }
         }
         private static void PerformIntraPhraseBinding(Document doc) {

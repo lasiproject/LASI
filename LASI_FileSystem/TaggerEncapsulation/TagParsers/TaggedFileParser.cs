@@ -45,8 +45,7 @@ namespace LASI.FileSystem
         /// </summary>
         /// <returns>A traversable, queriable document object defining the run time representation of the tagged file which the TaggedFileParser governs. </returns>
         public override Document LoadDocument() {
-            return new Document(LoadParagraphs())
-            {
+            return new Document(LoadParagraphs()) {
                 FileName = TaggededDocumentFile != null ? TaggededDocumentFile.NameSansExt : "Untitled"
             };
         }
@@ -94,8 +93,7 @@ namespace LASI.FileSystem
                     if (!string.IsNullOrEmpty(chunk) && !string.IsNullOrWhiteSpace(chunk) && chunk.Contains('/')) {
                         char token = SkipToNextElement(chunk);
                         if (token == ' ') {
-                            var currentPhrase = ParsePhrase(new TextTagPair
-                            {
+                            var currentPhrase = ParsePhrase(new TextTagPair {
                                 Text = chunk.Substring(chunk.IndexOf(' ')),
                                 Tag = chunk.Substring(0, chunk.IndexOf(' '))
                             });
@@ -108,18 +106,22 @@ namespace LASI.FileSystem
                                 parsedPhrases.Add(currentPhrase);
                             }
 
-                        } else if (token == '/') {
+                        }
+                        else if (token == '/') {
                             var words = CreateWords(chunk);
                             if (words.First() != null) {
                                 if (words.Count(w => w is Conjunction) == words.Count || (words.Count == 2 && words[0] is Punctuation && words[1] is Conjunction)) {
                                     parsedPhrases.Add(new ConjunctionPhrase(words));
-                                } else if (words.Count() == 1 && words.First() is SentenceDelimiter) {
+                                }
+                                else if (words.Count() == 1 && words.First() is SentenceDelimiter) {
                                     sentencePunctuation = words.First() as SentenceDelimiter;
                                     parsedClauses.Add(new Clause(parsedPhrases.Take(parsedPhrases.Count)));
                                     parsedPhrases = new List<Phrase>();
-                                } else if (words.Count(w => w is Punctuation) == words.Count && (words.Count(w => w is Punctuation) + words.Count(w => w is Conjunction)) == words.Count) {
+                                }
+                                else if (words.Count(w => w is Punctuation) == words.Count && (words.Count(w => w is Punctuation) + words.Count(w => w is Conjunction)) == words.Count) {
                                     parsedPhrases.Add(new ConjunctionPhrase(words));
-                                } else {
+                                }
+                                else {
                                     parsedPhrases.Add(new UndeterminedPhrase(words));
                                 }
                             }
@@ -143,9 +145,9 @@ namespace LASI.FileSystem
             var reader2 = (new StringReader(chunk));
             char token = '~';
             while (reader2.Peek() != ' ' && reader2.Peek() != '/') {
-                token = (char) reader2.Read();
+                token = ( char )reader2.Read();
             }
-            token = (char) reader2.Read();
+            token = ( char )reader2.Read();
             return token;
         }
 
@@ -189,7 +191,8 @@ namespace LASI.FileSystem
             if (phraseTag == "NP" && composed.All(w => w is Adverb)) {
                 var phraseConstructor = PhraseTagset["ADVP"];
                 result = phraseConstructor(composed);
-            } else {
+            }
+            else {
                 var phraseConstructor = PhraseTagset[phraseTag];
 
                 result = phraseConstructor(composed);

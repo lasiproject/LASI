@@ -86,7 +86,7 @@ namespace LASI.UserInterface
         public async Task InitializeParsing() {
 
             var progressPercentage = Resources["AnalysisProgressPercentage"];
-            var analyzedDocuments = await processController.LoadAndAnalyseAllDocuments(ProgressBar, ProgressLabel);
+            var analyzedDocuments = await processController.AnalyseAllDocuments(ProgressBar, ProgressLabel);
             ProgressBar.Value = 100;
             ProgressLabel.Content = "Complete";
             WindowManager.ResultsScreen.Documents = analyzedDocuments.ToList();
