@@ -85,11 +85,11 @@ namespace LASI.Algorithm.Weighting
         /// </remarks>
         public static IEnumerable<ProcessingTask> GetWeightingProcessingTasks(Document document) {
             return new[]{ 
-                new ProcessingTask(document,
-                    WeightWordsBySyntacticSequenceAsync(document),
-                    string.Format("{0}: Calculating Harmonic Distance", document.FileName), 
-                    string.Format("{0}: Calculated Harmonic Distance", document.FileName),
-                    4),
+                //new ProcessingTask(document,
+                //    WeightWordsBySyntacticSequenceAsync(document),
+                //    string.Format("{0}: Calculating Harmonic Distance", document.FileName), 
+                //    string.Format("{0}: Calculated Harmonic Distance", document.FileName),
+                //    4),
                 new ProcessingTask(document,
                     WeightWordsByLiteralFrequencyAsync (document), 
                     string.Format("{0}: Aggregating Literals", document.FileName),
@@ -104,7 +104,7 @@ namespace LASI.Algorithm.Weighting
                     ModifyNounWeightsBySynonymsAsync(document),
                     string.Format("{0}: Generalizing Nouns",document.FileName), 
                     string.Format("{0}: Generalized Nouns",document.FileName),
-                    25),
+                    19),
                 new ProcessingTask(document,
                     ModifyVerbWeightsBySynonymsAsync (document), 
                     string.Format("{0}: Generalizing Verbs",document.FileName), 
@@ -115,6 +115,11 @@ namespace LASI.Algorithm.Weighting
                     string.Format("{0}: Generalizing Phrases",document.FileName),
                     string.Format("{0}: Generalized Phrases",document.FileName),
                     20),
+                new ProcessingTask(document,
+                    WeightSimilarEntitiesAsync(document),
+                    string.Format("{0}: Generalizing Entities",document.FileName),
+                    string.Format("{0}: Generalized Entities",document.FileName),
+                    10),
                 new ProcessingTask(document,
                     HackSubjectPropernounImportanceAsync (document), 
                     string.Format("{0}: Focusing Patterns", document.FileName),
@@ -248,11 +253,7 @@ namespace LASI.Algorithm.Weighting
         /// <param name="doc">the Document whose words to weight</param>
         /// <param name="excluded">zero or more types to exlcude from weighting</param>
         private static void WeightWordsByLiteralFrequency(Document doc) {
-            WeightByLiteralFrequency(doc.Words.
-                Except(doc.Words.GetDeterminers()).
-                Except(doc.Words.GetPronouns()).
-                Except(doc.Words.GetAdverbs()).
-                Except(doc.Words.GetAdjectives()));
+            WeightByLiteralFrequency(doc.Words);
         }
 
         private static async Task WeightSimilarNounPhrasesAsync(Document doc) {

@@ -42,7 +42,10 @@ namespace LASI.UserInterface
             get;
             set;
         }
-
+        public static void PositionOver(this Window window, Window other) {
+            other.Left = window.Left;
+            other.Top = window.Top;
+        }
         public static void PositionAt(this Window window, double left, double top) {
             window.Left = left;
             window.Top = top;

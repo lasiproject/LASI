@@ -125,7 +125,7 @@ namespace LASI.UserInterface
                     DocumentManager.AddUserDocument(fileName, filePath);
                 }
                 else {
-                    MessageBox.Show(string.Format("A document named {0} is already part of the project.", openDialog.SafeFileName));
+                    MessageBox.Show(this, string.Format("A document named {0} is already part of the project.", openDialog.SafeFileName));
                 }
             }
 
@@ -140,7 +140,7 @@ namespace LASI.UserInterface
                     Directory.CreateDirectory(locationTextBox.Text);
                 }
                 catch (Exception) {
-                    MessageBox.Show("The folder you have chosen for your project does not exist or could not be created. Please select an existing directory");
+                    MessageBox.Show(this, "The folder you have chosen for your project does not exist or could not be created. Please select an existing directory");
                 }
             }
             if (ValidateProjectNameField() && ValidateProjectLocationField() && ValidateProjectDocumentField()) {
@@ -286,10 +286,10 @@ namespace LASI.UserInterface
         private void Grid_Drop(object sender, DragEventArgs e) {
             var filesInValidFormats = DocumentManager.GetValidFilesInPathList(e.Data.GetData(System.Windows.DataFormats.FileDrop, true) as string[]);
             if (!filesInValidFormats.Any()) {
-                MessageBox.Show(string.Format("Only the following file formats are accepted:\n{0}", DocumentManager.AcceptedFormats.Aggregate((sum, current) => sum += current + ", ")));
+                MessageBox.Show(this, string.Format("Only the following file formats are accepted:\n{0}", DocumentManager.AcceptedFormats.Aggregate((sum, current) => sum += current + ", ")));
             }
             else if (!filesInValidFormats.Any(fn => !DocumentManager.FileNamePresent(fn.Name))) {
-                MessageBox.Show(string.Format("A document named {0} is already part of the projects.", filesInValidFormats.First()));
+                MessageBox.Show(this, string.Format("A document named {0} is already part of the projects.", filesInValidFormats.First()));
             }
             else {
                 foreach (var droppedFile in filesInValidFormats) {
@@ -297,7 +297,7 @@ namespace LASI.UserInterface
                         DocumentManager.AddUserDocument(droppedFile.Name, droppedFile.FullName);
                     }
                     else {
-                        MessageBox.Show(string.Format("The document {0} is in use by another process, please close any applications which may be using the file and try again.", droppedFile));
+                        MessageBox.Show(this, string.Format("The document {0} is in use by another process, please close any applications which may be using the file and try again.", droppedFile));
                     }
                 }
             }

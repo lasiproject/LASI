@@ -106,10 +106,10 @@ namespace LASI.UserInterface
             if (DocumentManager.AddingAllowed) {
                 var validDroppedFiles = DocumentManager.GetValidFilesInPathList(e.Data.GetData(System.Windows.DataFormats.FileDrop, true) as string[]);
                 if (!validDroppedFiles.Any()) {
-                    MessageBox.Show(string.Format("Only the following file formats are accepted:\n{0}", DocumentManager.AcceptedFormats.Aggregate((sum, current) => sum += ", " + current)));
+                    MessageBox.Show(this, string.Format("Only the following file formats are accepted:\n{0}", DocumentManager.AcceptedFormats.Aggregate((sum, current) => sum += ", " + current)));
                 }
                 else if (!validDroppedFiles.Any(fn => !DocumentManager.FileNamePresent(fn.Name))) {
-                    MessageBox.Show(string.Format("A document named {0} is already part of the project.", validDroppedFiles.First()));
+                    MessageBox.Show(this, string.Format("A document named {0} is already part of the project.", validDroppedFiles.First()));
                 }
                 else {
                     foreach (var droppedFile in validDroppedFiles) {
@@ -118,7 +118,7 @@ namespace LASI.UserInterface
                             await AddNewDocument(droppedFile.FullName);
                         }
                         else {
-                            MessageBox.Show(string.Format("The document {0} is in use by another process, please close any applications which may be using the file and try again.", droppedFile));
+                            MessageBox.Show(this, string.Format("The document {0} is in use by another process, please close any applications which may be using the file and try again.", droppedFile));
                         }
 
                     }
@@ -141,14 +141,14 @@ namespace LASI.UserInterface
 
             var file = new FileInfo(openDialog.FileName);
             if (DocumentManager.FileNamePresent(file.Name)) {
-                MessageBox.Show(string.Format("A document named {0} is already part of the project.", file));
+                MessageBox.Show(this, string.Format("A document named {0} is already part of the project.", file));
             }
             else if (!DocumentManager.FileIsLocked(file)) {
                 DocumentManager.AddUserDocument(file.Name, file.FullName);
                 await AddNewDocument(file.FullName);
             }
             else {
-                MessageBox.Show(string.Format("The document {0} is in use by another process, please close any applications which may be using the file and try again.", file));
+                MessageBox.Show(this, string.Format("The document {0} is in use by another process, please close any applications which may be using the file and try again.", file));
             }
 
         }

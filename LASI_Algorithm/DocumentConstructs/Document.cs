@@ -103,16 +103,8 @@ namespace LASI.Algorithm.DocumentConstructs
         }
 
         public IEnumerable<Page> Paginate(int sentencesPerPage) {
-            var sents = Sentences;
-            List<Page> results = new List<Page>();
-            while (sents.Count() >= sentencesPerPage) {
-                results.Add(new Page(sents.Take(sentencesPerPage), this));
-                sents = sents.Skip(sentencesPerPage);
-            }
-            if (sents.Any()) {
-                results.Add(new Page(sents, this));
-            }
-            return results;
+            return from subSequence in Sentences.Split(sentencesPerPage)
+                   select new Page(subSequence, this);
         }
 
         public override string ToString() {
@@ -139,14 +131,10 @@ namespace LASI.Algorithm.DocumentConstructs
         /// </summary>
         public IEnumerable<Paragraph> Paragraphs {
             get {
-                return _paragraphs;
+                return _paragraphs.Except(_enumContainingParagraphs);
             }
         }
-        public IEnumerable<Paragraph> EnumContainingParagraphs {
-            get {
-                return _enumContainingParagraphs;
-            }
-        }
+
 
         /// <summary>
         /// Gets the Phrases the document contains in linear, left to right order.

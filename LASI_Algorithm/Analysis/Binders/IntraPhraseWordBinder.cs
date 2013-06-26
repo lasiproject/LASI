@@ -69,9 +69,10 @@ namespace LASI.Algorithm.Binding
 
 
 
-        /**
-         * Intra Verb Phrase Binding
-         */
+        /// <summary>
+        /// Intra Verb Phrase Binding
+        /// </summary>
+        /// <param name="vp">The VerbPhrase whose elements will be bound together.</param>
         public void Bind(VerbPhrase vp) {
             Verb LastVerb = vp.Words.OfType<Verb>().LastOrDefault();
 

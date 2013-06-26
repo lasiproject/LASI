@@ -30,6 +30,7 @@ namespace LASI.UserInterface
             this.Closed += (s, e) => Application.Current.Shutdown();
             ChartingManager.chartKind = ChartKind.NounPhrasesOnly;
         }
+
         public async Task CreateInteractiveViews() {
 
             foreach (var doc in documents) {
@@ -43,7 +44,7 @@ namespace LASI.UserInterface
         private async Task CreateWordCountAndWeightingView(Document document) {
             var page1 = document.Paginate(10).FirstOrDefault();
 
-            var nounPhraseLabels = from de in page1 != null ? page1.Sentences : document.Paragraphs.Except(document.EnumContainingParagraphs).SelectMany(p => p.Sentences)
+            var nounPhraseLabels = from de in page1 != null ? page1.Sentences : document.Paragraphs.SelectMany(p => p.Sentences)
                                        .AsParallel()
                                        .WithDegreeOfParallelism(Concurrency.CurrentMax)
                                    select de.Phrases.GetNounPhrases() into nounPhrases
@@ -60,8 +61,6 @@ namespace LASI.UserInterface
                                        Weight = g.First().Weight,
                                        label = CreateWeightedNounPhraseLabel(g.First())
                                    };
-
-
 
 
             var scrollViewer = new ScrollViewer();
@@ -157,16 +156,7 @@ namespace LASI.UserInterface
         }
 
 
-        private List<Document> documents = new List<Document>();
 
-        public List<Document> Documents {
-            get {
-                return documents;
-            }
-            set {
-                documents = value;
-            }
-        }
         private void ExitMenuItem_Click(object sender, RoutedEventArgs e) {
             this.Close();
 
@@ -224,7 +214,11 @@ namespace LASI.UserInterface
         }
 
         private async void documentJoinButton_Click(object sender, RoutedEventArgs e) {
-            var dialog = new CrossJoinSelectDialog(this);
+            var dialog = new CrossJoinSelectDialog(this) {
+                Left = this.Left,
+                Top = this.Top,
+            };
+
             if (!(dialog.ShowDialog()) ?? false)
                 return;
 
@@ -259,7 +253,7 @@ namespace LASI.UserInterface
                     //currentOperationFeedbackCanvas.Visibility = Visibility.Hidden;
                 }
                 else {
-                    MessageBox.Show(string.Format("A document named {0} is already part of the project.", openDialog.SafeFileName));
+                    MessageBox.Show(this, string.Format("A document named {0} is already part of the project.", openDialog.SafeFileName));
                 }
             }
 
@@ -303,6 +297,12 @@ namespace LASI.UserInterface
 
             documents.Add(doc);
         }
+
+        /// <summary>
+        /// Tags, loads, parses, binds weights, and visualizes the document indicated by the provided path.
+        /// </summary>
+        /// <param name="docPath">The file system path to a document file.</param>
+        /// <returns>A System.Threading.Tasks.Task object representing the ongoing work while the document is being processed.</returns>
         private async Task ProcessNewDocument(string docPath) {
             await ProcessNewDocument(docPath, currentOperationProgressBar, currentOperationLabel);
         }
@@ -425,6 +425,21 @@ namespace LASI.UserInterface
                 }
             };
             phraseLabel.ContextMenu.Items.Add(visitBoundEntity);
+        }
+
+        #endregion
+
+        #region Properties and Fields
+
+        private List<Document> documents = new List<Document>();
+
+        public List<Document> Documents {
+            get {
+                return documents;
+            }
+            set {
+                documents = value;
+            }
         }
 
         #endregion

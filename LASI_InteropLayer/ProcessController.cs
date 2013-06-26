@@ -35,12 +35,7 @@ namespace LASI.InteropLayer
             foreach (var task in tasks) {
                 documents.Add(await task);
             }
-            //while (tasks.Any()) {
 
-            //    var finishedTask = await Task.WhenAny(tasks);
-            //    documents.Add(await finishedTask);
-            //    tasks.Remove(finishedTask);
-            //}
 
             return documents;
         }
@@ -49,9 +44,7 @@ namespace LASI.InteropLayer
             await UpdateProgressDisplay(string.Format("{0}: Loading...", fileName), 0);
             var doc = await new TaggedFileParser(tagged).LoadDocumentAsync();
             await UpdateProgressDisplay(string.Format("{0}: Analysing Syntax...", fileName), 0);
-            foreach (var task in LASI.Algorithm.Binding.Binder.GetBindingTasksForDocument(doc)) {
-                await task;
-            }
+            await Binder.BindAsync(doc);
             await UpdateProgressDisplay(string.Format("{0}: Correlating Relationships...", fileName), 0);
             var weightingWorkUnits = LASI.Algorithm.Weighting.Weighter.GetWeightingProcessingTasks(doc).ToList();
             foreach (var task in weightingWorkUnits) {

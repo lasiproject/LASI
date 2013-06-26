@@ -91,6 +91,12 @@ namespace LASI.Utilities
             return new HashSet<T>(source, comparer);
         }
 
+        public static IEnumerable<IEnumerable<T>> Split<T>(this IEnumerable<T> source, int chunkSize) {
+            var partsToCreate = source.Count() / chunkSize + source.Count() % chunkSize == 0 ? 0 : 1;
+            return from partIndex in Enumerable.Range(0, partsToCreate)
+                   select source.Skip(partIndex * chunkSize).Take(chunkSize);
+
+        }
 
     }
 }
