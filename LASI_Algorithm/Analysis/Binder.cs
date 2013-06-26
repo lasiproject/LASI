@@ -11,35 +11,34 @@ namespace LASI.Algorithm.Binding
 {
     public static class Binder
     {
-        public static async Task BindAsync(LASI.Algorithm.DocumentConstructs.Document doc) {
-            await Task.Run(() => Bind(doc));
+        public static Task[] GetBindingTasksForDocument(Document doc) {
+            return new[]{
+                  Task.Run(() => PerformAttributeNounPhraseBinding(doc.Sentences)),
+                  Task.Run(() => PerformIntraPhraseBinding(doc.Phrases)),
+                  Task.Run(() => PerformSVOBinding(doc.Sentences)),
+                  Task.Run(() => PerformPronounBinding(doc))};
         }
         public static void Bind(Document doc) {
-            try {
-                PerformAttributeNounPhraseBinding(doc);
-                PerformIntraPhraseBinding(doc);
-                PerformSVOBinding(doc);
-                PerformPronounBinding(doc);
-            }
-            catch (VerblessPhrasalSequenceException) {
-            }
-            catch (InvalidOperationException) {
-            }
+
+            PerformAttributeNounPhraseBinding(doc.Sentences);
+            PerformIntraPhraseBinding(doc.Phrases);
+            PerformSVOBinding(doc.Sentences);
+            PerformPronounBinding(doc);
+
         }
 
 
 
         #region Private Static Methods
 
-        private static void PerformAttributeNounPhraseBinding(Document doc) {
-            doc.Sentences
-                .AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
-                .Where(s => s.Paragraph.ParagraphKind == ParagraphKind.Default)
-                .ForAll(s => new AttributiveNounPhraseBinder(s));
+        private static void PerformAttributeNounPhraseBinding(IEnumerable<Sentence> sentences) {
+            sentences.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
+               .Where(s => s.Paragraph.ParagraphKind == ParagraphKind.Default)
+               .ForAll(s => new AttributiveNounPhraseBinder(s));
         }
-        private static void PerformSVOBinding(Document doc) {
+        private static void PerformSVOBinding(IEnumerable<Sentence> sentences) {
             try {
-                doc.Sentences
+                sentences
                     .AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
                     .Where(s => s.Paragraph.ParagraphKind == ParagraphKind.Default && s.Phrases.GetVerbPhrases().Any())
                     .ForAll(sentence => {
@@ -62,25 +61,22 @@ namespace LASI.Algorithm.Binding
             catch (Exception) {
             }
         }
-        private static void PerformIntraPhraseBinding(Document doc) {
+        private static void PerformIntraPhraseBinding(IEnumerable<Phrase> phrases) {
 
-            doc.Phrases
-                .GetNounPhrases()
-                .AsParallel()
-                .WithDegreeOfParallelism(Concurrency.CurrentMax)
-                .ForAll(np => new IntraPhraseWordBinder().Bind(np));
-            doc.Phrases
-                .GetVerbPhrases()
-                .AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
-                .ForAll(verbPhrase => new IntraPhraseWordBinder().Bind(verbPhrase));
+            phrases
+                 .GetNounPhrases()
+                 .AsParallel()
+                 .WithDegreeOfParallelism(Concurrency.CurrentMax)
+                 .ForAll(np => new IntraPhraseWordBinder().Bind(np));
+            phrases
+                 .GetVerbPhrases()
+                 .AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
+                 .ForAll(verbPhrase => new IntraPhraseWordBinder().Bind(verbPhrase));
         }
 
 
-        private static void PerformPronounBinding(Document doc) {
-            doc.Sentences
-                .AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
-                .Where(s => s.Paragraph.ParagraphKind == ParagraphKind.Default)
-                .ForAll(s => new PronounBinder().Bind(doc));
+        private static void PerformPronounBinding(Document document) {
+            new PronounBinder().Bind(document);
         }
 
         #endregion

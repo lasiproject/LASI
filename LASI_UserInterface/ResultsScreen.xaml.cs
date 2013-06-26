@@ -278,7 +278,9 @@ namespace LASI.UserInterface
             var doc = await TaggerUtil.LoadTextFileAsync(textfile);
             currentOperationProgressBar.Value += 10;
             currentOperationLabel.Content = string.Format("{0}: Analysing Syntax...", chosenFile.NameSansExt);
-            await LASI.Algorithm.Binding.Binder.BindAsync(doc);
+            foreach (var task in LASI.Algorithm.Binding.Binder.GetBindingTasksForDocument(doc)) {
+                await task;
+            }
             currentOperationProgressBar.Value += 15;
             currentOperationLabel.Content = string.Format("{0}: Correlating Relationships...", chosenFile.NameSansExt);
             var tasks = LASI.Algorithm.Weighting.Weighter.GetWeightingTasksForDocument(doc).ToList();

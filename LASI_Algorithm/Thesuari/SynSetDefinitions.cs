@@ -9,10 +9,6 @@ using LASI.Utilities;
 namespace LASI.Algorithm.Thesauri
 {
 
-
-
-
-
     /// <summary>
     /// Represents a synset parsed from the data.noun file of the WordNet package. Each line in the file represents a grouping known as a synset.
     /// </summary>
@@ -20,8 +16,7 @@ namespace LASI.Algorithm.Thesauri
     {
 
 
-        public NounSynSet(int ID, IEnumerable<string> words, IEnumerable<KeyValuePair<NounPointerSymbol, int>> pointerRelations, WordNetNounCategory lexCategory)
-        {
+        public NounSynSet(int ID, IEnumerable<string> words, IEnumerable<KeyValuePair<NounPointerSymbol, int>> pointerRelations, WordNetNounCategory lexCategory) {
             this.ID = ID;
             Words = new HashSet<string>(words);
             relatedOnPointerSymbol = new NounSetIDSymbolMap(pointerRelations);
@@ -33,31 +28,24 @@ namespace LASI.Algorithm.Thesauri
         /// Returns a single string representing the members of the NounSynSet.
         /// </summary>
         /// <returns>A single string representing the members of the NounSynSet.</returns>
-        public override string ToString()
-        {
-            return "[" + ID + "] " + Words.Aggregate("", (str, code) =>
-            {
+        public override string ToString() {
+            return "[" + ID + "] " + Words.Aggregate("", (str, code) => {
                 return str + "  " + code;
             });
         }
-        public override int GetHashCode()
-        {
+        public override int GetHashCode() {
             return ID;
         }
-        public override bool Equals(object obj)
-        {
+        public override bool Equals(object obj) {
             return this == obj as NounSynSet;
         }
 
-        public WordNetNounCategory LexName
-        {
+        public WordNetNounCategory LexName {
             get;
             private set;
         }
-        public IEnumerable<int> this[NounPointerSymbol pointerSymbol]
-        {
-            get
-            {
+        public IEnumerable<int> this[NounPointerSymbol pointerSymbol] {
+            get {
                 return relatedOnPointerSymbol[pointerSymbol];
             }
         }
@@ -65,34 +53,29 @@ namespace LASI.Algorithm.Thesauri
         private NounSetIDSymbolMap relatedOnPointerSymbol;
 
 
-        public HashSet<string> Words
-        {
+        public HashSet<string> Words {
             get;
             private set;
 
         }
-        public HashSet<int> ReferencedIndexes
-        {
+        public HashSet<int> ReferencedIndexes {
             get;
             private set;
         }
 
-        public int ID
-        {
+        public int ID {
             get;
             private set;
         }
 
-        public static bool operator ==(NounSynSet lhs, NounSynSet rhs)
-        {
+        public static bool operator ==(NounSynSet lhs, NounSynSet rhs) {
             if (ReferenceEquals(lhs, null))
                 return ReferenceEquals(rhs, null);
             if (ReferenceEquals(rhs, null))
                 return ReferenceEquals(lhs, null);
             return lhs.ID == rhs.ID;
         }
-        public static bool operator !=(NounSynSet lhs, NounSynSet rhs)
-        {
+        public static bool operator !=(NounSynSet lhs, NounSynSet rhs) {
             return !(lhs == rhs);
         }
 
@@ -100,14 +83,12 @@ namespace LASI.Algorithm.Thesauri
     }
     public class VerbSynSet
     {
-        public WordNetVerbCategory LexName
-        {
+        public WordNetVerbCategory LexName {
             get;
             private set;
         }
 
-        public VerbSynSet(int ID, IEnumerable<string> words, IEnumerable<KeyValuePair<VerbPointerSymbol, int>> pointerRelations, WordNetVerbCategory lexCategory)
-        {
+        public VerbSynSet(int ID, IEnumerable<string> words, IEnumerable<KeyValuePair<VerbPointerSymbol, int>> pointerRelations, WordNetVerbCategory lexCategory) {
             this.ID = ID;
             Words = new HashSet<string>(words);
             RelatedOnPointerSymbol = new VerbSetIDSymbolMap(pointerRelations);
@@ -119,63 +100,51 @@ namespace LASI.Algorithm.Thesauri
         /// Returns a single string representing the members of the VerbThesaurusSynSet.
         /// </summary>
         /// <returns>A single string representing the members of the VerbThesaurusSynSet.</returns>
-        public override string ToString()
-        {
-            return "[" + ID + "] " + Words.Aggregate("", (str, code) =>
-            {
+        public override string ToString() {
+            return "[" + ID + "] " + Words.Aggregate("", (str, code) => {
                 return str + "  " + code;
             });
         }
-        public override int GetHashCode()
-        {
+        public override int GetHashCode() {
             return ID;
         }
-        public override bool Equals(object obj)
-        {
+        public override bool Equals(object obj) {
             return this == obj as VerbSynSet;
         }
-        public static bool operator ==(VerbSynSet lhs, VerbSynSet rhs)
-        {
+        public static bool operator ==(VerbSynSet lhs, VerbSynSet rhs) {
             if (ReferenceEquals(lhs, null))
                 return ReferenceEquals(rhs, null);
             if (ReferenceEquals(rhs, null))
                 return ReferenceEquals(lhs, null);
             return lhs.ID == rhs.ID;
         }
-        public static bool operator !=(VerbSynSet lhs, VerbSynSet rhs)
-        {
+        public static bool operator !=(VerbSynSet lhs, VerbSynSet rhs) {
             return !(lhs == rhs);
         }
-        public IEnumerable<int> this[VerbPointerSymbol pointerSymbol]
-        {
-            get
-            {
+        public IEnumerable<int> this[VerbPointerSymbol pointerSymbol] {
+            get {
                 return RelatedOnPointerSymbol[pointerSymbol];
             }
         }
 
-        internal VerbSetIDSymbolMap RelatedOnPointerSymbol
-        {
+        internal VerbSetIDSymbolMap RelatedOnPointerSymbol {
             get;
             set;
         }
 
 
-        public HashSet<string> Words
-        {
+        public HashSet<string> Words {
             get;
             private set;
 
         }
 
-        public HashSet<int> ReferencedIndexes
-        {
+        public HashSet<int> ReferencedIndexes {
             get;
             private set;
         }
 
-        public int ID
-        {
+        public int ID {
             get;
             private set;
         }
@@ -188,8 +157,7 @@ namespace LASI.Algorithm.Thesauri
     {
 
 
-        public AdjectiveSynSet(int ID, IEnumerable<string> words, IEnumerable<KeyValuePair<AdjectivePointerSymbol, int>> pointerRelations, WordNetAdjectiveCategory lexCategory)
-        {
+        public AdjectiveSynSet(int ID, IEnumerable<string> words, IEnumerable<KeyValuePair<AdjectivePointerSymbol, int>> pointerRelations, WordNetAdjectiveCategory lexCategory) {
             this.ID = ID;
             Words = new HashSet<string>(words);
             relatedOnPointerSymbol = new AdjectiveSetIDSymbolMap(pointerRelations);
@@ -201,31 +169,24 @@ namespace LASI.Algorithm.Thesauri
         /// Returns a single string representing the members of the NounSynSet.
         /// </summary>
         /// <returns>A single string representing the members of the NounSynSet.</returns>
-        public override string ToString()
-        {
-            return "[" + ID + "] " + Words.Aggregate("", (str, code) =>
-            {
+        public override string ToString() {
+            return "[" + ID + "] " + Words.Aggregate("", (str, code) => {
                 return str + "  " + code;
             });
         }
-        public override int GetHashCode()
-        {
+        public override int GetHashCode() {
             return ID;
         }
-        public override bool Equals(object obj)
-        {
+        public override bool Equals(object obj) {
             return this == obj as AdjectiveSynSet;
         }
 
-        public WordNetAdjectiveCategory LexName
-        {
+        public WordNetAdjectiveCategory LexName {
             get;
             private set;
         }
-        public IEnumerable<int> this[AdjectivePointerSymbol pointerSymbol]
-        {
-            get
-            {
+        public IEnumerable<int> this[AdjectivePointerSymbol pointerSymbol] {
+            get {
                 return relatedOnPointerSymbol[pointerSymbol];
             }
         }
@@ -233,34 +194,29 @@ namespace LASI.Algorithm.Thesauri
         private AdjectiveSetIDSymbolMap relatedOnPointerSymbol;
 
 
-        public HashSet<string> Words
-        {
+        public HashSet<string> Words {
             get;
             private set;
 
         }
-        public HashSet<int> ReferencedIndexes
-        {
+        public HashSet<int> ReferencedIndexes {
             get;
             private set;
         }
 
-        public int ID
-        {
+        public int ID {
             get;
             private set;
         }
 
-        public static bool operator ==(AdjectiveSynSet lhs, AdjectiveSynSet rhs)
-        {
+        public static bool operator ==(AdjectiveSynSet lhs, AdjectiveSynSet rhs) {
             if (ReferenceEquals(lhs, null))
                 return ReferenceEquals(rhs, null);
             if (ReferenceEquals(rhs, null))
                 return ReferenceEquals(lhs, null);
             return lhs.ID == rhs.ID;
         }
-        public static bool operator !=(AdjectiveSynSet lhs, AdjectiveSynSet rhs)
-        {
+        public static bool operator !=(AdjectiveSynSet lhs, AdjectiveSynSet rhs) {
             return !(lhs == rhs);
         }
 
@@ -270,8 +226,7 @@ namespace LASI.Algorithm.Thesauri
     {
 
 
-        public AdverbSynSet(int ID, IEnumerable<string> words, IEnumerable<KeyValuePair<AdverbPointerSymbol, int>> pointerRelations, WordNetAdverbCategory lexCategory)
-        {
+        public AdverbSynSet(int ID, IEnumerable<string> words, IEnumerable<KeyValuePair<AdverbPointerSymbol, int>> pointerRelations, WordNetAdverbCategory lexCategory) {
             this.ID = ID;
             Words = new HashSet<string>(words);
             relatedOnPointerSymbol = new AdverbSetIDSymbolMap(pointerRelations);
@@ -283,31 +238,24 @@ namespace LASI.Algorithm.Thesauri
         /// Returns a single string representing the members of the NounSynSet.
         /// </summary>
         /// <returns>A single string representing the members of the NounSynSet.</returns>
-        public override string ToString()
-        {
-            return "[" + ID + "] " + Words.Aggregate("", (str, code) =>
-            {
+        public override string ToString() {
+            return "[" + ID + "] " + Words.Aggregate("", (str, code) => {
                 return str + "  " + code;
             });
         }
-        public override int GetHashCode()
-        {
+        public override int GetHashCode() {
             return ID;
         }
-        public override bool Equals(object obj)
-        {
+        public override bool Equals(object obj) {
             return this == obj as AdverbSynSet;
         }
 
-        public WordNetAdverbCategory LexName
-        {
+        public WordNetAdverbCategory LexName {
             get;
             private set;
         }
-        public IEnumerable<int> this[AdverbPointerSymbol pointerSymbol]
-        {
-            get
-            {
+        public IEnumerable<int> this[AdverbPointerSymbol pointerSymbol] {
+            get {
                 return relatedOnPointerSymbol[pointerSymbol];
             }
         }
@@ -315,34 +263,29 @@ namespace LASI.Algorithm.Thesauri
         private AdverbSetIDSymbolMap relatedOnPointerSymbol;
 
 
-        public HashSet<string> Words
-        {
+        public HashSet<string> Words {
             get;
             private set;
 
         }
-        public HashSet<int> ReferencedIndexes
-        {
+        public HashSet<int> ReferencedIndexes {
             get;
             private set;
         }
 
-        public int ID
-        {
+        public int ID {
             get;
             private set;
         }
 
-        public static bool operator ==(AdverbSynSet lhs, AdverbSynSet rhs)
-        {
+        public static bool operator ==(AdverbSynSet lhs, AdverbSynSet rhs) {
             if (ReferenceEquals(lhs, null))
                 return ReferenceEquals(rhs, null);
             if (ReferenceEquals(rhs, null))
                 return ReferenceEquals(lhs, null);
             return lhs.ID == rhs.ID;
         }
-        public static bool operator !=(AdverbSynSet lhs, AdverbSynSet rhs)
-        {
+        public static bool operator !=(AdverbSynSet lhs, AdverbSynSet rhs) {
             return !(lhs == rhs);
         }
 

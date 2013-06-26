@@ -7,7 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-
+using LASI.Utilities;
 
 namespace LASI.Algorithm.Thesauri
 {
@@ -95,21 +95,23 @@ namespace LASI.Algorithm.Thesauri
         public override ISet<string> this[string search] {
             get {
                 try {
+                    List<string> results = new List<string>();
                     foreach (var root in from root in VerbConjugator.FindRoot(search)
                                          where AssociationData.ContainsKey(root)
                                          select root) {
-                        return new HashSet<string>(
-                            from refIndex in AssociationData[root].ReferencedIndexes
+                        results.AddRange(
+                            from refIndex in AssociationData[root].ReferencedIndexes.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
                             from referencedSet in AssociationData.Values
-                            //.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
+
                             where referencedSet.ReferencedIndexes.Contains(refIndex)
                             where referencedSet.LexName == AssociationData[root].LexName
                             from word in referencedSet.Words
-                            //.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
+
                             let withConjugations = new string[] { word }.Concat(VerbConjugator.GetConjugations(word))
                             from w in withConjugations
                             select w);
                     }
+                    return results.ToSet();
                 }
                 catch (ArgumentOutOfRangeException) {
                 }

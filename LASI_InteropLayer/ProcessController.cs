@@ -20,69 +20,83 @@ namespace LASI.InteropLayer
     public class ProcessController
     {
 
-        public async Task<IEnumerable<Document>> AnalyseAllDocuments(ProgressBar progressBar, Label progressLabel) {
-            ProgressBar = progressBar;
-            ProgressLabel = progressLabel;
-            documentStepRatio = 6f / FileManager.TextFiles.Count;
+        public async Task<IEnumerable<Document>> AnalyseAllDocuments(ProgressBar bar, Label label) {
+            progressBar = bar;
+            progressLabel = label;
+            discreteWorkLoads = FileManager.TextFiles.Count;
+            documentStepRatio = 2d / discreteWorkLoads;
             await LoadThesaurus();
-            UpdateProgressDisplay("Tagging Documents");
+            await UpdateProgressDisplay("Tagging Documents");
             await FileManager.TagTextFilesAsync();
             progressBar.Value += 4;
             var documents = new ConcurrentBag<Document>();
-            var tasks = (from tagged in FileManager.TaggedFiles
-                         select ProcessTaggedFileAsync(tagged, tagged.NameSansExt)).ToList();
-            while (tasks.Any()) {
-                var finishedTask = await Task.WhenAny(tasks);
+            var tasks = FileManager.TaggedFiles.Select(tagged => ProcessTaggedFileAsync(tagged, tagged.NameSansExt)).ToList();
 
-                documents.Add(await finishedTask);
-                tasks.Remove(finishedTask);
+            foreach (var task in tasks) {
+                documents.Add(await task);
             }
-            //foreach (var tagged in FileManager.TaggedFiles) {
-            //    var fileName = tagged.NameSansExt;
-            //    await ProcessTaggedFileAsync(documents, tagged, fileName);
+            //while (tasks.Any()) {
 
+            //    var finishedTask = await Task.WhenAny(tasks);
+            //    documents.Add(await finishedTask);
+            //    tasks.Remove(finishedTask);
             //}
+
             return documents;
         }
 
         private async Task<Document> ProcessTaggedFileAsync(FileSystem.FileTypes.TaggedFile tagged, string fileName) {
-            UpdateProgressDisplay(string.Format("{0}: Loading...", fileName));
+            await UpdateProgressDisplay(string.Format("{0}: Loading...", fileName), 0);
             var doc = await new TaggedFileParser(tagged).LoadDocumentAsync();
-            UpdateProgressDisplay(string.Format("{0}: Analysing Syntax...", fileName));
-            await LASI.Algorithm.Binding.Binder.BindAsync(doc);
-            UpdateProgressDisplay(string.Format("{0}: Correlating Relationships...", fileName));
-            var tasks = LASI.Algorithm.Weighting.Weighter.GetWeightingTasksForDocument(doc).ToList();
-            foreach (var task in tasks) {
-                var message = await task;
-                UpdateProgressDisplay(message);
+            await UpdateProgressDisplay(string.Format("{0}: Analysing Syntax...", fileName), 0);
+            foreach (var task in LASI.Algorithm.Binding.Binder.GetBindingTasksForDocument(doc)) {
+                await task;
+            }
+            await UpdateProgressDisplay(string.Format("{0}: Correlating Relationships...", fileName), 0);
+            var weightingWorkUnits = LASI.Algorithm.Weighting.Weighter.GetWeightingProcessingTasks(doc).ToList();
+            foreach (var task in weightingWorkUnits) {
+                await UpdateProgressDisplay(task.InitializationMessage, 0);
+                await task.WorkToPerform;
+                await UpdateProgressDisplay(task.CompletionMessage, task.PercentWorkRepresented * 0.72 / discreteWorkLoads);
             }
 
-            UpdateProgressDisplay(string.Format("{0}: Parsing Complete...", fileName));
+            await UpdateProgressDisplay(string.Format("{0}: Parsing Complete...", fileName));
             return doc;
         }
 
         private async Task LoadThesaurus() {
-            UpdateProgressDisplay("Loading Thesaurus");
+            await UpdateProgressDisplay("Loading Thesaurus");
             var thesaurusTasks = Thesaurus.GetTasksToLoadAllThesauri().ToList();
-            while (thesaurusTasks.Count > 0) {
+            while (thesaurusTasks.Any()) {
                 var finishedTask = await Task.WhenAny(thesaurusTasks);
                 var message = await finishedTask;
-                UpdateProgressDisplay(message);
-                ProgressBar.Value += 2;
+
                 thesaurusTasks.Remove(finishedTask);
+                await UpdateProgressDisplay(message, 3);
             }
         }
 
-        private void UpdateProgressDisplay(string statusMessage) {
-            ProgressLabel.Content = statusMessage;
-            ProgressBar.ToolTip = statusMessage;
-            ProgressBar.Value += documentStepRatio;
+        private async Task UpdateProgressDisplay(string statusMessage) {
+            await UpdateProgressDisplay(statusMessage, documentStepRatio);
+        }
+        private async Task UpdateProgressDisplay(string statusMessage, double progressIncrement) {
+            progressLabel.Content = statusMessage;
+            progressBar.ToolTip = statusMessage;
+            var animateStep = progressIncrement / 100d;
+            for (int i = 0; i < 25d; ++i) {
+                progressBar.Value += 4 * animateStep;
+                await Task.Delay(1);
+
+            }
+
+            Output.WriteLine(statusMessage);
+            Output.WriteLine(progressIncrement);
         }
 
-
-        private ProgressBar ProgressBar = null;
-        private Label ProgressLabel = null;
-        private float documentStepRatio;
+        private double discreteWorkLoads;
+        private ProgressBar progressBar = null;
+        private Label progressLabel = null;
+        private double documentStepRatio;
     }
 
 

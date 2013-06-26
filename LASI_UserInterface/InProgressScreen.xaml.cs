@@ -21,10 +21,7 @@ namespace LASI.UserInterface
             WindowManager.InProgressScreen = this;
             WindowStartupLocation = WindowStartupLocation.CenterScreen;
 
-            Output.SetToSilent();
-            DependencyPropertyChangedEventHandler startAnitmation = async (s, e) => await InitPawPrintAlternation();
-            this.IsVisibleChanged += startAnitmation;
-            this.IsVisibleChanged += (s, e) => this.IsVisibleChanged -= startAnitmation;
+            InitPawPrintAlternation();
             this.Closing += (s, e) => Application.Current.Shutdown();
             ProgressBar.Value = 0;
             ProgressLabel.Content = "Initializing";
@@ -45,33 +42,30 @@ namespace LASI.UserInterface
 
         #region Animation
 
-        private async Task InitPawPrintAlternation() {
+        private void InitPawPrintAlternation() {
             pawPrintImg1.Opacity = 0.00;
             pawPrintImg3.Opacity = 0.16;
             pawPrintImg2.Opacity = 0.33;
             pawPrintImg4.Opacity = 0.50;
             pawPrintImg2.Opacity = 0.67;
             pawPrintImg4.Opacity = 0.84;
-            var pawPrints = new[] { pawPrintImg1, pawPrintImg3, pawPrintImg2, pawPrintImg4, pawPrintImg5, pawPrintImg6 }.Select(pp => {
+            new[] { pawPrintImg1, pawPrintImg3, pawPrintImg2, pawPrintImg4, pawPrintImg5, pawPrintImg6 }.ToList().ForEach(img => FadeImage(img));
 
-                return FadeImage(pp);
-            }).ToArray();
-            await Task.Factory.ContinueWhenAll(pawPrints, t => {
-            });
+
 
         }
-        private async Task FadeImage(Image img) {
-            while (img.Opacity > 0.0) {
-                img.Opacity -= 0.033;
-                await Task.Delay(33);
+        private async void FadeImage(Image img) {
+            for (; ; ) {
+                while (img.Opacity > 0.0) {
+                    img.Opacity -= 0.033;
+                    await Task.Delay(33);
+                }
+                await Task.Delay(500);
+                while (img.Opacity < 1.0) {
+                    img.Opacity += 0.033;
+                    await Task.Delay(33);
+                }
             }
-            await Task.Delay(500);
-            while (img.Opacity < 1.0) {
-                img.Opacity += 0.033;
-                await Task.Delay(33);
-            }
-            await FadeImage(img);
-
         }
 
         #endregion

@@ -17,6 +17,7 @@ using System.Configuration;
 using System.Threading;
 using LASI.FileSystem;
 using System.IO;
+using LASI.Utilities;
 
 namespace LASI.UserInterface
 {
@@ -26,6 +27,14 @@ namespace LASI.UserInterface
     public partial class StartupScreen : Window
     {
         public StartupScreen() {
+            Output.SetToSilent();
+
+
+#if DEBUG
+            Output.SetToDebug();
+#endif
+
+
             InitializeComponent();
             WindowManager.StartupScreen = this;
             BindWindowEventHandlers();
