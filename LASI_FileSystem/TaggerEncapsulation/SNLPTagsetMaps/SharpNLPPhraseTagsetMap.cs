@@ -12,9 +12,10 @@ namespace LASI.FileSystem.TaggerEncapsulation
     {
         #region Fields
         private readonly Dictionary<string, Func<IEnumerable<Word>, Phrase>> typeDictionary = new Dictionary<string, Func<IEnumerable<Word>, Phrase>> {
-            { "VP", words => !words.Any(w=> w is Punctuation) ?
-                new VerbPhrase(words) as Phrase:
-                new PunctuatorPhrase(words) as Phrase },
+            { "VP", words => words.Any(w=> w is Punctuation) ? 
+                new PunctuatorPhrase(words) as Phrase:
+                new VerbPhrase(words) as Phrase
+                },
             { "NP", words => 
                 words.GetPronouns().Count()!=words.Count()?
                 new NounPhrase(words):
@@ -42,10 +43,12 @@ namespace LASI.FileSystem.TaggerEncapsulation
                 try {
                     try {
                         return typeDictionary[tag];
-                    } catch (KeyNotFoundException) {
+                    }
+                    catch (KeyNotFoundException) {
                         throw new UnknownPhraseTypeException(String.Format("The phrase tag {0} is not defined by this Tagset", tag));
                     }
-                } catch (UnknownPhraseTypeException) {
+                }
+                catch (UnknownPhraseTypeException) {
                     return (w => new UndeterminedPhrase(w));
                 }
             }
@@ -56,7 +59,8 @@ namespace LASI.FileSystem.TaggerEncapsulation
             get {
                 try {
                     return typeDictionary.First(pair => pair.Value == mappedConstructor).Key;
-                } catch (InvalidOperationException) {
+                }
+                catch (InvalidOperationException) {
                     throw new UnmappedPhraseConstructorException(String.Format("Phrase constructor\n{0}\nis not mapped by this Tagset for", mappedConstructor));
                 }
             }

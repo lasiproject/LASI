@@ -103,8 +103,7 @@ namespace LASI.Algorithm.Thesauri
             }
             exceptionData = (from items in exceptions
                              from i in items
-                             select new
-                             {
+                             select new {
                                  i,
                                  items
                              } into kvp

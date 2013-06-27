@@ -38,7 +38,7 @@ namespace LASI.Utilities
         /// </summary>
         public static void SetToFile(string path = @".\LasiLog.txt") {
             OutputMode = OutputMode.File;
-            CurrentStream = new FileInfo(path).AppendText();
+            CurrentStream = new StreamWriter(path, false);
 
         }
         public static void SetToStringWriter(StringBuilder sb) {

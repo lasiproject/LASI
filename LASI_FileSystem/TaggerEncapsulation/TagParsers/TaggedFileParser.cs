@@ -118,8 +118,8 @@ namespace LASI.FileSystem
                                     parsedClauses.Add(new Clause(parsedPhrases.Take(parsedPhrases.Count)));
                                     parsedPhrases = new List<Phrase>();
                                 }
-                                else if (words.Count(w => w is Punctuation) == words.Count && (words.Count(w => w is Punctuation) + words.Count(w => w is Conjunction)) == words.Count) {
-                                    parsedPhrases.Add(new ConjunctionPhrase(words));
+                                else if (words.All(w => w is Punctuation) || words.All(w => w is Punctuation || w is Conjunction)) {
+                                    parsedPhrases.Add(new PunctuatorPhrase(words));
                                 }
                                 else {
                                     parsedPhrases.Add(new UndeterminedPhrase(words));
@@ -145,9 +145,9 @@ namespace LASI.FileSystem
             var reader2 = (new StringReader(chunk));
             char token = '~';
             while (reader2.Peek() != ' ' && reader2.Peek() != '/') {
-                token = ( char )reader2.Read();
+                token = (char)reader2.Read();
             }
-            token = ( char )reader2.Read();
+            token = (char)reader2.Read();
             return token;
         }
 

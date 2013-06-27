@@ -16,13 +16,27 @@ namespace Aluan_Experimentation
     {
 
 
-        static string testPath = @"C:\Users\Aluan\Desktop\411writtensummary2.txt";
+        static string testPath = @"C:\Users\Aluan\Desktop\.txt\411writtensummary2.txt";
 
         static void Main(string[] args) {
+            Thesaurus.NounThesaurusLoadTask.Wait();
+            Output.WriteLine(Thesaurus.LookupNoun("spade").Format());
 
-            Thesaurus.VerbThesaurusLoadTask.Wait();
-            Output.WriteLine(Thesaurus.LookupVerb("fuck").OrderBy(f => f).Format(70));
 
+            //var doc = TaggerUtil.LoadTextFile(new LASI.FileSystem.FileTypes.TextFile(testPath));
+            //foreach (var s in doc.Sentences) {
+
+            //    var relevantElements = from w in s.Words
+            //                           where w is Adjective || w is Verb || w is Noun
+            //                           select w;
+
+            //    Output.WriteLine(relevantElements.Format(w => w.Type.Name, 70));
+            //    Output.WriteLine();
+            //    Output.WriteLine(s.Words.Format(w => w.Type.Name, 70));
+            //    Output.WriteLine(s.Text);
+
+            //    Output.WriteLine("\n\n");
+            //}
             Input.WaitForKey();
         }
 

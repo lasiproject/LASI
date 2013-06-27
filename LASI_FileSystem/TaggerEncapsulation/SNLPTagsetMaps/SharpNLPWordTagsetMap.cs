@@ -29,7 +29,7 @@ namespace LASI.FileSystem
         private readonly Dictionary<string, Func<string, Word>> typeDictionary = new Dictionary<string, Func<string, Word>> {
             { "", t => { throw new EmptyTagException(String.Format("the tag for word: {0}\nis empty",t)); } },  
             { "CC", t => new Conjunction(t) }, //Coordinating conjunction
-            { ",", t => new Conjunction(t) }, //Coordinating conjunction
+            { ",", t => new Punctuation(t) }, //Coordinating conjunction
             { "CD", t => new Quantifier(t) }, //Cardinal number
             { "DT", t => new Determiner(t) }, //Determiner
             { "EX", t => new Existential(t) }, //Existential 'there'
