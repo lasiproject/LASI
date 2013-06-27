@@ -12,7 +12,7 @@ namespace LASI.Algorithm
     /// <summary>
     /// Provides the base class for all adverb level adverb constructs. An instance of this class represents a adverb in its base tense.
     /// </summary>
-    public class Verb : Word, IVerbal, IAdverbialModifiable, IModalityModifiable, IEquatable<Verb>
+    public class Verb : Word, IVerbal, IAdverbialModifiable, IModalityModifiable
     {
         /// <summary>
         /// Initializes a new instance of the Verb class which represents the base tense form of a adverb.
@@ -45,7 +45,6 @@ namespace LASI.Algorithm
         /// <param name="prepositional"></param>
         public virtual void AttachObjectViaPreposition(IPrepositional prepositional) {
             //ObjectOfThePreoposition = this as object == prepositional.OnLeftSide as object && prepositional.OnRightSide != null ? prepositional.OnRightSide : null;
-            ObjectOfThePreoposition = prepositional.OnRightSide;
             PrepositionalToObject = prepositional;
         }
 
@@ -105,13 +104,6 @@ namespace LASI.Algorithm
 
 
 
-
-
-
-
-        public virtual bool Equals(Verb other) {
-            return this == other;
-        }
         #endregion
 
         #region Properties
@@ -149,14 +141,6 @@ namespace LASI.Algorithm
             get;
             protected set;
         }
-        ///// <summary>
-        ///// Gets the VerbPhrases'subject object, If the VerbPhrase has an object bound via a Prepositional construct.
-        ///// </summary>
-        //public virtual ILexical ObjectViaPreposition {
-        //    get;
-        //    protected set;
-        //}
-
 
 
         /// <summary>
@@ -183,8 +167,9 @@ namespace LASI.Algorithm
 
 
         public ILexical ObjectOfThePreoposition {
-            get;
-            protected set;
+            get {
+                return PrepositionalToObject != null ? PrepositionalToObject.BoundObject : null;
+            }
         }
 
 
@@ -192,13 +177,17 @@ namespace LASI.Algorithm
             get;
             protected set;
         }
-
+        /// <summary>
+        /// Gets a value indicating wether or not the Verb has classifying semantics. E.g. "A (is) a B"
+        /// </summary>
         public bool IsClassifier {
             get {
                 return isClassifier ?? DetermineIsClassifier();
             }
         }
-
+        /// <summary>
+        /// Gets a value indicating wether or not the Verb has possessive semantics. E.g. "A (has) a B"
+        /// </summary>
         public bool IsPossessive {
             get {
                 return isPossessive ?? DetermineIsPossessive();
@@ -212,11 +201,8 @@ namespace LASI.Algorithm
         #endregion
 
 
-
-
-
-
         #region Fields
+
         private IList<IAdverbial> _modifiers = new List<IAdverbial>();
         private ICollection<IEntity> _subjects = new List<IEntity>();
         private ICollection<IEntity> _directObjects = new List<IEntity>();
@@ -225,14 +211,6 @@ namespace LASI.Algorithm
         bool? isClassifier;
 
         #endregion
-
-
-
-
-
-
-
-
 
     }
 }

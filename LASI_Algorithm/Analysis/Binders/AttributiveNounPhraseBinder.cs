@@ -45,7 +45,7 @@ namespace LASI.Algorithm.Binding
             prepPhrase.OnRightSide = prepPhrase.NextPhrase;
             prepPhrase.OnLeftSide = prepPhrase.PreviousPhrase;
 
-            prepPhrase.PrepositionalRole = PrepositionalRole.DiscriptiveLinker;
+            prepPhrase.Role = PrepositionRole.DiscriptiveLinker;
         }
         public AttributiveNounPhraseBinder(Sentence sentence)
             : this(sentence.Phrases) {

@@ -102,16 +102,16 @@ namespace LASI.Algorithm.Binding
                         var nextWord = toLink.NextWord as Verb;
 
                         if (prevWord != null && nextWord != null) {
-                            toLink.BindObjectOfPreposition(nextWord);
+                            toLink.BindObject(nextWord);
                             prevWord.AttachObjectViaPreposition(toLink);
 
                             if (nextWord != LastVerb) {
-                                toLink.BindObjectOfPreposition(LastVerb);
+                                toLink.BindObject(LastVerb);
                             }
                             //////Output.WriteLine("Prev: {0}, Next: {1}: , Last Verb: {2}", prevWord, nextWord, LastVerb);
                         }
                         else {
-                            toLink.BindObjectOfPreposition(LastVerb);
+                            toLink.BindObject(LastVerb);
                         }
                     }
                 }

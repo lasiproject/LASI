@@ -39,7 +39,7 @@ namespace LASI.Algorithm.Analysis
         private static bool isRelativePronounorSubordinatingConjunction(Word w) {
             var prep = w as Preposition;
             if (prep != null)
-                return !(w is RelativePronoun) || !(prep.PrepositionalRole == PrepositionalRole.SubordinatingConjunction);
+                return !(w is RelativePronoun) || !(prep.Role == PrepositionRole.SubordinatingConjunction);
             return false;
         }
 

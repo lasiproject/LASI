@@ -94,7 +94,7 @@ namespace AlgorithmAssemblyUnitTestProject
             Verb target = new Verb(text, tense);
             NounPhrase prepositionObject = new NounPhrase(new[] { new PersonalPronoun("them") });
             IPrepositional prep = new Preposition("for");
-            prep.BindObjectOfPreposition(prepositionObject);
+            prep.BindObject(prepositionObject);
             target.AttachObjectViaPreposition(prep);
             Assert.IsTrue(target.ObjectOfThePreoposition == prepositionObject);
         }

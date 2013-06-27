@@ -72,7 +72,7 @@ namespace AlgorithmAssemblyUnitTestProject
             IEnumerable<Word> composedWords = new[] { new Preposition("on") };
             PrepositionalPhrase target = new PrepositionalPhrase(composedWords);
             Assert.IsTrue(target.Words.Count() == composedWords.Count());
-            Assert.IsTrue(target.Text == "on" && target.OnLeftSide == null && target.OnRightSide == null && target.PrepositionalObject == null);
+            Assert.IsTrue(target.Text == "on" && target.OnLeftSide == null && target.OnRightSide == null && target.BoundObject == null);
 
         }
 
@@ -84,8 +84,8 @@ namespace AlgorithmAssemblyUnitTestProject
             IEnumerable<Word> composedWords = new[] { new ToLinker() };
             PrepositionalPhrase target = new PrepositionalPhrase(composedWords); // TODO: Initialize to an appropriate value
             ILexical prepositionalObject = new VerbPhrase(new Word[] { new Verb("have", VerbTense.Base) });
-            target.BindObjectOfPreposition(prepositionalObject);
-            Assert.IsTrue(target.PrepositionalObject == prepositionalObject);
+            target.BindObject(prepositionalObject);
+            Assert.IsTrue(target.BoundObject == prepositionalObject);
         }
 
         /// <summary>
@@ -111,9 +111,9 @@ namespace AlgorithmAssemblyUnitTestProject
         public void PrepositionalRoleTest() {
             IEnumerable<Word> composedWords = new Word[] { new Preposition("for") };
             PrepositionalPhrase target = new PrepositionalPhrase(composedWords);
-            PrepositionalRole expected = PrepositionalRole.Undetermined;
-            PrepositionalRole actual;
-            actual = target.PrepositionalRole;
+            PrepositionRole expected = PrepositionRole.Undetermined;
+            PrepositionRole actual;
+            actual = target.Role;
             Assert.AreEqual(expected, actual);
 
         }

@@ -108,7 +108,7 @@
     <Compile Include="AliasDictionary.cs" />
     <Compile Include="IEnumerableExtensions\IEnumerableOfIEntityExtensions.cs" />
     <Compile Include="IEnumerableExtensions\IEnumerableOfILexicalExtensions.cs" />
-    <Compile Include="LexicalStructures\BridgingConstructs\PrepositionalRole.cs" />
+    <Compile Include="LexicalStructures\BridgingConstructs\PrepositionRole.cs" />
     <Compile Include="LexicalStructures\ConstrainingSemanticConstructs\DeterminerKind.cs" />
     <Compile Include="LexicalStructures\ConstrainingSemanticConstructs\IDeterminable.cs" />
     <Compile Include="LexicalStructures\MiscLanguageConstructs\PunctuatorPhrase.cs" />

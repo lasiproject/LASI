@@ -70,7 +70,7 @@ namespace AlgorithmAssemblyUnitTestProject
         public void PrepositionConstructorTest() {
             string text = "into";
             Preposition target = new Preposition(text);
-            Assert.IsTrue(target.Text == "into" && target.OnLeftSide == null && target.OnRightSide == null && target.PrepositionalObject == null);
+            Assert.IsTrue(target.Text == "into" && target.OnLeftSide == null && target.OnRightSide == null && target.BoundObject == null);
         }
 
         /// <summary>
@@ -81,8 +81,8 @@ namespace AlgorithmAssemblyUnitTestProject
             string text = "into";
             Preposition target = new Preposition(text);
             ILexical prepositionalObject = new NounPhrase(new Word[] { new Determiner("the"), new GenericSingularNoun("drawer") });
-            target.BindObjectOfPreposition(prepositionalObject);
-            Assert.IsTrue(target.PrepositionalObject == prepositionalObject);
+            target.BindObject(prepositionalObject);
+            Assert.IsTrue(target.BoundObject == prepositionalObject);
         }
 
 
@@ -122,9 +122,9 @@ namespace AlgorithmAssemblyUnitTestProject
         public void PrepositionalRoleTest() {
             string text = "inside";
             Particle target = new Particle(text);
-            PrepositionalRole expected = PrepositionalRole.Undetermined;
-            PrepositionalRole actual;
-            actual = target.PrepositionalRole;
+            PrepositionRole expected = PrepositionRole.Undetermined;
+            PrepositionRole actual;
+            actual = target.Role;
             Assert.AreEqual(expected, actual);
         }
     }

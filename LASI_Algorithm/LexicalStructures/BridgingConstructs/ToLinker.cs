@@ -46,7 +46,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets the object of the IPrepositional construct.
         /// </summary>
-        public ILexical PrepositionalObject {
+        public ILexical BoundObject {
             get;
             protected set;
         }
@@ -55,15 +55,15 @@ namespace LASI.Algorithm
         /// Lexical constructs include word, Phrase, and Clause Types.
         /// </summary>
         /// <param name="prepositionalObject">The ILexical construct as the object of the ToLinker.</param>
-        public void BindObjectOfPreposition(ILexical prepositionalObject) {
-            PrepositionalObject = prepositionalObject;
+        public void BindObject(ILexical prepositionalObject) {
+            BoundObject = prepositionalObject;
         }
 
         /// <summary>
         /// Gets or sets the contextually extrapolated role of the ToLinker.
         /// </summary>
-        /// <see cref="PrepositionalRole"/>
-        public PrepositionalRole PrepositionalRole {
+        /// <see cref="Role"/>
+        public PrepositionRole Role {
             get;
             set;
         }

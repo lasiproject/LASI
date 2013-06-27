@@ -88,8 +88,8 @@ namespace AlgorithmAssemblyUnitTestProject
             IEnumerable<Word> composedWords = new[] { new Particle("about") };
             ParticlePhrase target = new ParticlePhrase(composedWords);
             ILexical prepositionalObject = new NounPhrase(new Word[] { new Determiner("the"), new GenericSingularNoun("house") });
-            target.BindObjectOfPreposition(prepositionalObject);
-            Assert.AreEqual(target.PrepositionalObject, prepositionalObject);
+            target.BindObject(prepositionalObject);
+            Assert.AreEqual(target.BoundObject, prepositionalObject);
         }
 
         /// <summary>

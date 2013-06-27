@@ -18,7 +18,7 @@ namespace LASI.Algorithm
         /// <param name="composedWords">The words which compose to form the PrepositionalPhrase.</param>
         public PrepositionalPhrase(IEnumerable<Word> composedWords)
             : base(composedWords) {
-            PrepositionalRole = Algorithm.PrepositionalRole.Undetermined;
+            Role = Algorithm.PrepositionRole.Undetermined;
         }
         /// <summary>
         /// Gets or sets the IprepositionLinkable construct on the right-hand-side of the Preposition.
@@ -43,8 +43,8 @@ namespace LASI.Algorithm
                     result += "\n\tleft linked: " + OnLeftSide.ToString();
                 if (OnRightSide != null)
                     result += "\n\tright linked: " + OnRightSide.ToString();
-                if (PrepositionalObject != null)
-                    result += "\n\tObject: " + PrepositionalObject.ToString();
+                if (BoundObject != null)
+                    result += "\n\tObject: " + BoundObject.ToString();
                 return result;
             }
             return base.ToString();
@@ -55,7 +55,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets the object of the IPrepositional construct.
         /// </summary>
-        public ILexical PrepositionalObject {
+        public ILexical BoundObject {
             get;
             protected set;
         }
@@ -64,15 +64,15 @@ namespace LASI.Algorithm
         /// Lexical constructs include word, Phrase, and Clause Types.
         /// </summary>
         /// <param name="prepositionalObject">The ILexical construct as the object of the PrepositionalPhrase.</param>
-        public void BindObjectOfPreposition(ILexical prepositionalObject) {
-            PrepositionalObject = prepositionalObject;
+        public void BindObject(ILexical prepositionalObject) {
+            BoundObject = prepositionalObject;
         }
 
         /// <summary>
         /// Gets or sets the contextually extrapolated role of the PrepositionalPhrase.
         /// </summary>
-        /// <see cref="PrepositionalRole"/>
-        public PrepositionalRole PrepositionalRole {
+        /// <see cref="Role"/>
+        public PrepositionRole Role {
             get;
             set;
         }

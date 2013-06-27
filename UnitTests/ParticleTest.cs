@@ -69,7 +69,7 @@ namespace AlgorithmAssemblyUnitTestProject
         public void ParticleConstructorTest() {
             string text = "about";
             Particle target = new Particle(text);
-            Assert.IsTrue(target.Text == "about" && target.OnLeftSide == null && target.OnRightSide == null && target.PrepositionalObject == null);
+            Assert.IsTrue(target.Text == "about" && target.OnLeftSide == null && target.OnRightSide == null && target.BoundObject == null);
         }
 
 
@@ -81,8 +81,8 @@ namespace AlgorithmAssemblyUnitTestProject
             string text = "about";
             Particle target = new Particle(text);
             ILexical prepositionalObject = new NounPhrase(new[] { new ProperSingularNoun("Ayn"), new ProperSingularNoun("Rand") });
-            target.BindObjectOfPreposition(prepositionalObject);
-            Assert.IsTrue(target.PrepositionalObject == prepositionalObject);
+            target.BindObject(prepositionalObject);
+            Assert.IsTrue(target.BoundObject == prepositionalObject);
         }
 
         /// <summary>
@@ -120,9 +120,9 @@ namespace AlgorithmAssemblyUnitTestProject
         public void PrepositionalRoleTest() {
             string text = "about";
             Particle target = new Particle(text);
-            PrepositionalRole expected = PrepositionalRole.Undetermined;
-            PrepositionalRole actual;
-            actual = target.PrepositionalRole;
+            PrepositionRole expected = PrepositionRole.Undetermined;
+            PrepositionRole actual;
+            actual = target.Role;
             Assert.AreEqual(expected, actual);
         }
     }

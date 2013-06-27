@@ -50,12 +50,7 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="prepositional">The IPrepositional construct through which the Object is associated.</param>
         public virtual void AttachObjectViaPreposition(IPrepositional prepositional) {
-            // if (!DirectObjects.Contains(prepositional.PrepositionalObject) && !IndirectObjects.Contains(prepositional.PrepositionalObject)) {
-            ObjectOfThePreoposition = prepositional.OnRightSide;
-
             PrepositionalToObject = prepositional;
-
-
         }
         /// <summary>
         /// Binds the given Entity as a subject of the VerbPhrase instance.
@@ -210,8 +205,9 @@ namespace LASI.Algorithm
         /// Gets the VerbPhrases'subject object, If the VerbPhrase has an object bound via a Prepositional construct.
         /// </summary>
         public ILexical ObjectOfThePreoposition {
-            get;
-            protected set;
+            get {
+                return PrepositionalToObject != null ? PrepositionalToObject.BoundObject : null;
+            }
         }
         public IPrepositional PrepositionalToObject {
             get;
@@ -219,14 +215,18 @@ namespace LASI.Algorithm
         }
 
         private bool? isPossessive;
-
+        /// <summary>
+        /// Gets a value indicating wether or not the VerbPhrase has possessive semantics. E.g. "A (has) a B"
+        /// </summary>
         public bool IsPossessive {
             get {
                 return isPossessive ?? DetermineIsPossessive();
             }
         }
         private bool? isClassifier;
-
+        /// <summary>
+        /// Gets a value indicating wether or not the VerbPhrase has classifying semantics. E.g. "A (is) a B"
+        /// </summary>
         public bool IsClassifier {
             get {
                 return isClassifier ?? DetermineIsClassifier();
@@ -246,10 +246,6 @@ namespace LASI.Algorithm
         private ICollection<IEntity> _directObjects = new List<IEntity>();
         private ICollection<IEntity> _indirectObjects = new List<IEntity>();
 
-
-        #endregion
-
-        #region Operators
 
         #endregion
 

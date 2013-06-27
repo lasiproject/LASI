@@ -20,43 +20,7 @@ namespace LASI.Algorithm
         /// <param name="text">the key text content of the adverb.</param>
         public Conjunction(string text)
             : base(text) {
-
-
-
-
-
-
-
-
-
-
-
-
-            //char c1 = text.First(
-            //    (char c) => {
-            //        return char.IsPunctuation(c);
-            //    });
-
-
-            //char c2 = text.First((char c) => char.IsPunctuation(c));
-
-            //char c3 = text.First(c => char.IsPunctuation(c));
-
-            //IEnumerable<char> allPunctuators1 = text.Where(
-            //    (char c) => {
-            //        return char.IsPunctuation(c);
-            //    });
-
-            //IEnumerable<char> allPunctuators2 = text.Where((char c) => char.IsPunctuation(c));
-
-
-            //IEnumerable<char> allPunctuators3 = text.Where(c => char.IsPunctuation(c));
-
-
-            //IEnumerable<char> betweenFirstTwoPunctuators =
-            //    text.SkipWhile(c => char.IsPunctuation(c)).Skip(1).TakeWhile(c => char.IsPunctuation(c));
         }
-
         #endregion
 
         #region Properties

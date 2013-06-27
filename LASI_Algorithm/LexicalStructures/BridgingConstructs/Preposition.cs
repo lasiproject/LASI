@@ -23,16 +23,29 @@ namespace LASI.Algorithm
         /// <param name="text">The key text content of the Preposition.</param>
         public Preposition(string text)
             : base(text) {
-            PrepositionalRole = GetPrepositionalRole(Text);
+            Role = GetPrepositionalRole(Text);
         }
 
-        private static PrepositionalRole GetPrepositionalRole(string text) {
+        private static PrepositionRole GetPrepositionalRole(string text) {
             return KnownSubordinatingWordStrings.Contains(text) ?
-                PrepositionalRole.SubordinatingConjunction : PrepositionalRole.Undetermined;
+                PrepositionRole.SubordinatingConjunction : PrepositionRole.Undetermined;
         }
         public override string ToString() {
-            return base.ToString() + (Word.VerboseOutput ? " " + PrepositionalRole : string.Empty);
+            return base.ToString() + (Word.VerboseOutput ? " " + Role : string.Empty);
         }
+        #endregion
+
+
+        #region Methods
+        /// <summary>
+        /// Binds an ILexical construct as the object of the Preposition. 
+        /// Lexical constructs include word, Phrase, and Clause Types.
+        /// </summary>
+        /// <param name="prepositionalObject">The ILexical construct as the object of the Preposition.</param>
+        public void BindObject(ILexical prepositionalObject) {
+            BoundObject = prepositionalObject;
+        }
+
         #endregion
 
         #region Properties
@@ -54,22 +67,19 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets the object of the IPrepositional construct.
         /// </summary>
-        public ILexical PrepositionalObject {
+        public ILexical BoundObject {
             get;
             protected set;
         }
-        #endregion
         /// <summary>
-        /// Binds an ILexical construct as the object of the Preposition. 
-        /// Lexical constructs include word, Phrase, and Clause Types.
+        /// Gets or sets the contextually extrapolated role of the Preposition.
         /// </summary>
-        /// <param name="prepositionalObject">The ILexical construct as the object of the Preposition.</param>
-        public void BindObjectOfPreposition(ILexical prepositionalObject) {
-            PrepositionalObject = prepositionalObject;
+        /// <see cref="Role"/>
+        public PrepositionRole Role {
+            get;
+            set;
         }
-        #region Methods
-
-        #endregion`
+        #endregion
 
         #region Fields
 
@@ -78,14 +88,6 @@ namespace LASI.Algorithm
 
         #endregion
 
-        /// <summary>
-        /// Gets or sets the contextually extrapolated role of the Preposition.
-        /// </summary>
-        /// <see cref="PrepositionalRole"/>
-        public PrepositionalRole PrepositionalRole {
-            get;
-            set;
-        }
 
 
         static Preposition() {

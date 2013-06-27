@@ -24,9 +24,7 @@ namespace LASI.Algorithm
 
         #endregion
 
-        #region Methods
 
-        #endregion
 
         #region Properties
 
