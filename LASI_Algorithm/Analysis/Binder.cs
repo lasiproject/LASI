@@ -6,17 +6,27 @@ using System.Text;
 using LASI.Utilities.TypedSwitch;
 using System.Threading.Tasks;
 using LASI.Algorithm.DocumentConstructs;
+using LASI.Algorithm.Analysis;
 
 namespace LASI.Algorithm.Binding
 {
     public static class Binder
     {
-        public static IEnumerable<Task> GetBindingTasksForDocument(Document doc) {
+        public static IEnumerable<ProcessingTask> GetBindingTasksForDocument(Document document) {
             return new[]{
-                  Task.Run(() => PerformAttributePhraseBinding(doc.Sentences)),
-                  Task.Run(() => PerformIntraPhraseBinding(doc.Phrases)),
-                  Task.Run(() => PerformSVOBinding(doc.Sentences)),
-                  Task.Run(() => PerformPronounBinding(doc))};
+                new ProcessingTask(document, Task.Run(() => PerformAttributePhraseBinding(document.Sentences)),
+                    string.Format("{0}: Binding Attributives", document.FileName),
+                    string.Format("{0}: Bound Attributives", document.FileName), 5),
+                new ProcessingTask(document, Task.Run(() => PerformIntraPhraseBinding(document.Phrases)),
+                    string.Format("{0}: Decomposing Phrasals", document.FileName),
+                    string.Format("{0}: Decomposed Phrasals", document.FileName), 5),
+                new ProcessingTask(document, Task.Run(() => PerformSVOBinding(document.Sentences)),
+                    string.Format("{0}: Analyzing Verbal Relationships", document.FileName),
+                    string.Format("{0}: Analyzed Verbal Relationships", document.FileName), 5), 
+                new ProcessingTask(document, Task.Run(() => PerformPronounBinding(document)),
+                    string.Format("{0}: Abstracting References", document.FileName),
+                    string.Format("{0}: Abstracted References", document.FileName), 5),
+            };
         }
         public static void Bind(Document doc) {
 
@@ -26,16 +36,19 @@ namespace LASI.Algorithm.Binding
             PerformPronounBinding(doc);
 
         }
+        public static async Task BindAsync(Document doc) {
+            await Task.Run(() => Bind(doc));
+        }
 
 
 
         #region Private Static Methods
 
         private static void PerformAttributePhraseBinding(IEnumerable<Sentence> sentences) {
-            sentences.SelectMany(s => s.Phrases.GetVerbPhrases()).AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax).ForAll(vp => {
-                vp.DetermineIsClassifier();
-                vp.DetermineIsPossessive();
-            });
+            //sentences.SelectMany(s => s.Phrases.GetVerbPhrases()).AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax).ForAll(vp => {
+            //    vp.DetermineIsClassifier();
+            //    vp.DetermineIsPossessive();
+            //});
             sentences.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
 
                .ForAll(s => new AttributiveNounPhraseBinder(s));
@@ -85,9 +98,7 @@ namespace LASI.Algorithm.Binding
 
         #endregion
 
-        public static async Task BindAsync(Document doc) {
-            await Task.Run(() => Bind(doc));
-        }
+
     }
 
 }

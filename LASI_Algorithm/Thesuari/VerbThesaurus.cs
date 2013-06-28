@@ -97,10 +97,12 @@ namespace LASI.Algorithm.Thesauri
                 try {
                     List<string> results = new List<string>();
                     foreach (var root in from root in VerbConjugator.FindRoot(search)
+                                         //.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
                                          where AssociationData.ContainsKey(root)
                                          select root) {
                         results.AddRange(
-                            from refIndex in AssociationData[root].ReferencedIndexes.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
+                            from refIndex in AssociationData[root].ReferencedIndexes.AsParallel()
+                            //.WithDegreeOfParallelism(Concurrency.CurrentMax)
                             from referencedSet in AssociationData.Values
 
                             where referencedSet.ReferencedIndexes.Contains(refIndex)

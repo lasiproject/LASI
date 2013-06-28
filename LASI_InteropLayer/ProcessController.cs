@@ -26,9 +26,9 @@ namespace LASI.InteropLayer
             discreteWorkLoads = FileManager.TextFiles.Count;
             documentStepRatio = 2d / discreteWorkLoads;
             await LoadThesaurus();
-            await UpdateProgressDisplay("Tagging Documents");
+            await UpdateProgressDisplay("Tagging Documents", 0);
             await FileManager.TagTextFilesAsync();
-            progressBar.Value += 4;
+            await UpdateProgressDisplay("Tagged Documents", 6);
             var documents = new ConcurrentBag<Document>();
             var tasks = FileManager.TaggedFiles.Select(tagged => ProcessTaggedFileAsync(tagged, tagged.NameSansExt)).ToList();
 
@@ -43,14 +43,20 @@ namespace LASI.InteropLayer
         private async Task<Document> ProcessTaggedFileAsync(FileSystem.FileTypes.TaggedFile tagged, string fileName) {
             await UpdateProgressDisplay(string.Format("{0}: Loading...", fileName), 0);
             var doc = await new TaggedFileParser(tagged).LoadDocumentAsync();
-            await UpdateProgressDisplay(string.Format("{0}: Analysing Syntax...", fileName), 0);
-            await Binder.BindAsync(doc);
+            await UpdateProgressDisplay(string.Format("{0}: Loaded...", fileName), 4);
+            await UpdateProgressDisplay(string.Format("{0}: Analyzing Syntax...", fileName), 0);
+            var bindingWorkUnits = Binder.GetBindingTasksForDocument(doc).ToList();
+            foreach (var task in bindingWorkUnits) {
+                await UpdateProgressDisplay(task.InitializationMessage, 0);
+                await task.WorkToPerform;
+                await UpdateProgressDisplay(task.CompletionMessage, task.PercentWorkRepresented * 0.55 / discreteWorkLoads);
+            }
             await UpdateProgressDisplay(string.Format("{0}: Correlating Relationships...", fileName), 0);
             var weightingWorkUnits = LASI.Algorithm.Weighting.Weighter.GetWeightingProcessingTasks(doc).ToList();
             foreach (var task in weightingWorkUnits) {
                 await UpdateProgressDisplay(task.InitializationMessage, 0);
                 await task.WorkToPerform;
-                await UpdateProgressDisplay(task.CompletionMessage, task.PercentWorkRepresented * 0.72 / discreteWorkLoads);
+                await UpdateProgressDisplay(task.CompletionMessage, task.PercentWorkRepresented * 0.60 / discreteWorkLoads);
             }
 
             await UpdateProgressDisplay(string.Format("{0}: Parsing Complete...", fileName));

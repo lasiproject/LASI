@@ -7,6 +7,7 @@ using LASI.Algorithm.DocumentConstructs;
 using LASI.Algorithm.Thesauri;
 using LASI.Utilities;
 using LASI.Utilities.TypedSwitch;
+using LASI.Algorithm.Analysis;
 
 namespace LASI.Algorithm.Weighting
 {
@@ -188,12 +189,12 @@ namespace LASI.Algorithm.Weighting
         }
 
         private static void ModifyVerbWeightsBySynonyms(Document doc) {
-            var verbsToSynonymize = doc.Words.GetVerbs().AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax);
-            var verbsSynonymGroups = from outerVerb in verbsToSynonymize
-                                     from innerVerb in doc.Words.GetVerbs()
-                                     where outerVerb.IsSynonymFor(innerVerb)
-                                     group innerVerb by outerVerb;
-            verbsSynonymGroups.ForAll(grp => grp.Key.Weight += 0.7 * grp.Count());
+            var verbsToConsider = doc.Words.GetVerbs().WithSubjectOrObject();
+            (from outerVerb in
+                 verbsToConsider.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
+             from innerVerb in verbsToConsider
+             where outerVerb.IsSynonymFor(innerVerb)
+             group innerVerb by outerVerb).ForAll(grp => grp.Key.Weight += 0.7 * grp.Count());
         }
 
         private static async Task ModifyNounWeightsBySynonymsAsync(Document doc) {
@@ -211,14 +212,11 @@ namespace LASI.Algorithm.Weighting
                 .Referencing(lex => lex is Noun)
                 .Select(pro => pro.BoundEntity as Noun)
             ).InSubjectOrObjectRole();
-            var nounSynonymGroups = from outerNoun in nounsToConsider.
-                                        AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
-                                    where outerNoun.SubjectOf != null || outerNoun.DirectObjectOf != null || outerNoun.IndirectObjectOf != null
-                                    from innerNoun in nounsToConsider
-                                    where outerNoun.IsSynonymFor(innerNoun)
-                                    group innerNoun by outerNoun;
-
-            nounSynonymGroups.ForAll(grp => grp.Key.Weight += 0.7 * grp.Count());
+            (from outerNoun in nounsToConsider.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
+             where outerNoun.SubjectOf != null || outerNoun.DirectObjectOf != null || outerNoun.IndirectObjectOf != null
+             from innerNoun in nounsToConsider
+             where outerNoun.IsSynonymFor(innerNoun)
+             group innerNoun by outerNoun).ForAll(grp => grp.Key.Weight += 0.7 * grp.Count());
         }
 
         private static async Task WeightPhrasesByLiteralFrequencyAsync(Document doc) {
@@ -230,17 +228,15 @@ namespace LASI.Algorithm.Weighting
         }
 
         private static void WeightByLiteralFrequency(IEnumerable<ILexical> syntacticElements) {
-            var elementsGroupedByText = (from phrase in syntacticElements
-                                             .AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
-                                         group phrase by new
-                                         {
-                                             phrase.Type,
-                                             phrase.Text
-                                         });
-            elementsGroupedByText.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax).ForAll(grouped => {
-                foreach (var p in grouped)
-                    p.Weight += grouped.Count();
-            });
+            (from phrase in syntacticElements.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
+             group phrase by new
+             {
+                 phrase.Type,
+                 phrase.Text
+             }).ForAll(grouped => {
+                 foreach (var p in grouped)
+                     p.Weight += grouped.Count();
+             });
         }
 
         private static async Task WeightWordsByLiteralFrequencyAsync(Document doc) {
@@ -272,17 +268,13 @@ namespace LASI.Algorithm.Weighting
                                            LexicalComparers<NounPhrase>
                                            .CreateCustom((L, R) => L.Text == R.Text || L.IsAliasFor(R) || L.IsSimilarTo(R)));
             foreach (var outerNP in nps) {
-                var similarPhrases = from innerNP in similarNounPhraseLookup[outerNP].AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
-                                     group innerNP by outerNP;
-
-                similarPhrases.ForAll(group => {
-                    var weightIncrease = similarPhrases.Count() * .5;
-                    group.Key.Weight += weightIncrease;
-                    foreach (var inner in group) {
-                        inner.Weight += weightIncrease;
-                    }
-
-                });
+                (from innerNP in similarNounPhraseLookup[outerNP].AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
+                 group innerNP by outerNP).ForAll(group => {
+                     var weightIncrease = group.Count() * .5;
+                     foreach (var inner in group) {
+                         inner.Weight += weightIncrease;
+                     }
+                 });
             }
 
         }
@@ -295,15 +287,13 @@ namespace LASI.Algorithm.Weighting
                                 LexicalComparers<IEntity>
                                 .CreateCustom((L, R) => L.Text == R.Text || L.IsAliasFor(R) || L.IsSimilarTo(R)));
             foreach (var outer in entities) {
-                var similarsEntities = from inner in entityLookup[outer].AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
-                                       group inner by outer;
-                similarsEntities.ForAll(group => {
-                    var weightIncrease = similarsEntities.Count() * .5;
-                    group.Key.Weight += weightIncrease;
-                    foreach (var inner in group) {
-                        inner.Weight += weightIncrease;
-                    }
-                });
+                (from inner in entityLookup[outer].AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
+                 group inner by outer).ForAll(group => {
+                     var weightIncrease = group.Count() * .5;
+                     foreach (var inner in group) {
+                         inner.Weight += weightIncrease;
+                     }
+                 });
             }
 
         }
@@ -2649,72 +2639,5 @@ namespace LASI.Algorithm.Weighting
         #endregion
     }
 
-    public class ProcessingTask
-    {
-        public ProcessingTask(Document document, Task workToPerform, string initializationMessage, string completionMessage, double percentWorkRepresented) {
-            Document = document;
-            WorkToPerform = workToPerform;
-            InitializationMessage = initializationMessage;
-            CompletionMessage = completionMessage;
-            PercentWorkRepresented = percentWorkRepresented;
 
-        }
-        public Document Document {
-            get;
-            private set;
-        }
-        public Task WorkToPerform {
-            get;
-            private set;
-        }
-
-        public string InitializationMessage {
-            get;
-            private set;
-        }
-
-        public string CompletionMessage {
-            get;
-            private set;
-        }
-
-        public double PercentWorkRepresented {
-            get;
-            private set;
-        }
-    }
-    public class ProcessingTask<T>
-    {
-        public ProcessingTask(Document document, Task<T> workToPerform, string initializationMessage, string completionMessage, double percentWorkRepresented) {
-            Document = document;
-            WorkToPerform = workToPerform;
-            InitializationMessage = initializationMessage;
-            CompletionMessage = completionMessage;
-            PercentWorkRepresented = percentWorkRepresented;
-
-        }
-        public Document Document {
-            get;
-            private set;
-        }
-        public Task<T> WorkToPerform {
-            get;
-            private set;
-        }
-
-        public string InitializationMessage {
-            get;
-            private set;
-        }
-
-        public string CompletionMessage {
-            get;
-            private set;
-        }
-
-        public double PercentWorkRepresented {
-            get;
-            private set;
-        }
-    }
 }

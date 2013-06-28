@@ -68,7 +68,7 @@ namespace LASI.UserInterface
             scrollViewer.Content = stackPanel;
             var grid = new Grid();
             grid.Children.Add(scrollViewer);
-            var tabItem = new TabItem {
+            var tab = new TabItem {
                 Header = document.FileName,
                 Content = grid
             };
@@ -77,7 +77,8 @@ namespace LASI.UserInterface
                               select w.label) {
                 stackPanel.Children.Add(l);
             }
-            WordCountLists.Items.Add(tabItem);
+            WordCountLists.Items.Add(tab);
+            WordCountLists.SelectedItem = tab;
             await ChartingManager.BuildMainChartDisplay(document);
             await ChartingManager.BuildKeyRelationshipDisplay(document);
         }
@@ -152,6 +153,7 @@ namespace LASI.UserInterface
                 panel.Children.Add(l);
             }
             recomposedDocumentsTabControl.Items.Add(tab);
+            recomposedDocumentsTabControl.SelectedItem = tab;
             await Task.Yield();
         }
 
@@ -271,18 +273,26 @@ namespace LASI.UserInterface
 
             var doc = await TaggerUtil.LoadTextFileAsync(textfile);
             currentOperationProgressBar.Value += 10;
-            currentOperationLabel.Content = string.Format("{0}: Analysing Syntax...", chosenFile.NameSansExt);
+            currentOperationLabel.Content = string.Format("{0}: Analyzing Syntax...", chosenFile.NameSansExt);
             foreach (var task in LASI.Algorithm.Binding.Binder.GetBindingTasksForDocument(doc)) {
-                await task;
+                currentOperationLabel.Content = task.InitializationMessage;
+                await task.WorkToPerform;
+                currentOperationProgressBar.Value += task.PercentWorkRepresented;
+                currentOperationLabel.Content = task.CompletionMessage;
             }
             currentOperationProgressBar.Value += 15;
             currentOperationLabel.Content = string.Format("{0}: Correlating Relationships...", chosenFile.NameSansExt);
-            var tasks = LASI.Algorithm.Weighting.Weighter.GetWeightingTasksForDocument(doc).ToList();
+            var tasks = LASI.Algorithm.Weighting.Weighter.GetWeightingProcessingTasks(doc).ToList();
             foreach (var task in tasks) {
 
-                var message = await task;
+                var message = task.InitializationMessage;
                 currentOperationLabel.Content = message;
-                currentOperationProgressBar.Value += 8;
+                await task.WorkToPerform;
+                for (int i = 0; i < 9; i++) {
+                    currentOperationProgressBar.Value += 1;
+
+                }
+
 
             }
 
@@ -443,6 +453,8 @@ namespace LASI.UserInterface
         }
 
         #endregion
+
+
     }
 
 }

@@ -119,12 +119,13 @@ namespace LASI.UserInterface
         public static async Task BuildMainChartDisplay(Document document) {
             var chart = BuildBarChart(document);
             documentsByChart.Add(chart, document);
-            var tabItem = new TabItem {
+            var tab = new TabItem {
                 Header = document.FileName,
                 Content = chart,
                 Tag = chart
             };
-            WindowManager.ResultsScreen.FrequencyCharts.Items.Add(tabItem);
+            WindowManager.ResultsScreen.FrequencyCharts.Items.Add(tab);
+            WindowManager.ResultsScreen.FrequencyCharts.SelectedItem = tab;
             await ChartingManager.ToBarCharts();
         }
 
@@ -288,6 +289,7 @@ namespace LASI.UserInterface
                 Content = wpfToolKitDataGrid
             };
             WindowManager.ResultsScreen.SVODResultsTabControl.Items.Add(tab);
+            WindowManager.ResultsScreen.SVODResultsTabControl.SelectedItem = tab;
 
         }
 

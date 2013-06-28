@@ -83,11 +83,11 @@ namespace LASI.Algorithm
         }
 
         /// <summary>
-        /// Filters a collection of IVerbal constructs returning those who have at k those who have at least one indirect object which matches the provided object testing function
+        /// Filters a collection of IVerbal constructs returning those who have at least one indirect object which matches the provided object testing function
         /// </summary>
         /// <typeparam name="TVerbal">Any Type which implemenets the IVerbal interface.</typeparam>
         /// <param name="verbals">The Enumerable of IVerbal constructs instances to filter.</param>
-        /// <param name="verbalSelector">The function specifying the match verbalSelector. Any function which takes an IEntity and return a bool is compatible.</param>
+        /// <param name="condition">The function specifying the criteria an entity bound to the Verbal must match for it to be included. Any function which takes an IEntity and return a bool is compatible.</param>
         /// <returns>The subset of IVerbal constructs bound to at least one indirect object which matches the verbalSelector.</returns>
         public static IEnumerable<TVerbal> WithIndirectObject<TVerbal>(this IEnumerable<TVerbal> verbals, Func<IEntity, bool> condition) where TVerbal : IVerbal {
             return from TA in verbals.WithIndirectObject()
@@ -97,5 +97,39 @@ namespace LASI.Algorithm
                    })
                    select TA;
         }
+
+        /// <summary>
+        /// Filters the sequence of IVerbal constructs selecting those with at least one subject, direct object, or indirect object.
+        /// <param name="verbals">The Enumerable of Verb objects to filter.</param>
+        /// <returns>The subset of IVerbal constructs bound to at least one subject, direct object, or indirect object.</returns>
+        public static IEnumerable<TVerbal> WithSubjectOrObject<TVerbal>(this IEnumerable<TVerbal> verbals) where TVerbal : IVerbal {
+            return from TA in verbals
+                   where TA.Subjects.Any() || TA.DirectObjects.Any() || TA.IndirectObjects.Any()
+                   select TA;
+        }
+        /// <summary>
+        /// Filters a collection of IVerbal constructs returning those who have at least one subject, direct object, or indirect object that matches the provided IEntity testing function
+        /// </summary>
+        /// <typeparam name="TVerbal">Any Type which implemenets the IVerbal interface.</typeparam>
+        /// <param name="verbals">The Enumerable of IVerbal constructs instances to filter.</param>
+        /// <param name="condition">The function specifying the criteria an entity bound to the Verbal must match for it to be included. Any function which takes an IEntity and return a bool is compatible.</param>
+        /// <returns>The subset of IVerbal constructs bound to at least one subject, direct object, or indirect object which matches the provided condition.</returns>
+        public static IEnumerable<TVerbal> WithSubjectOrObject<TVerbal>(this IEnumerable<TVerbal> verbals, Func<IEntity, bool> condition) where TVerbal : IVerbal {
+            return from TA in verbals
+                   where TA.Subjects.Any(e => {
+                       var p = e as IPronoun;
+                       return condition(e) || p != null && p.BoundEntity != null && condition(p.BoundEntity);
+                   })
+                   || TA.DirectObjects.Any(e => {
+                       var p = e as IPronoun;
+                       return condition(e) || p != null && p.BoundEntity != null && condition(p.BoundEntity);
+                   })
+                   || TA.IndirectObjects.Any(e => {
+                       var p = e as IPronoun;
+                       return condition(e) || p != null && p.BoundEntity != null && condition(p.BoundEntity);
+                   })
+                   select TA;
+        }
+
     }
 }
