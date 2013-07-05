@@ -68,6 +68,16 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dustin_Experimentation", "I
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "L_InteropLayer", "LASI_InteropLayer\L_InteropLayer.csproj", "{06B96679-9758-4B15-8E75-0F46416E68B7}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Licenses", "Licenses", "{B012451A-BCB9-423F-8119-BE8027CA8474}"
+	ProjectSection(SolutionItems) = preProject
+		Licences\b2xtranslatorLicense.txt = Licences\b2xtranslatorLicense.txt
+		Licences\iTextSharpLicense.txt = Licences\iTextSharpLicense.txt
+		Licences\LASILicense.txt = Licences\LASILicense.txt
+		Licences\SharpNLPLicense.txt = Licences\SharpNLPLicense.txt
+		Licences\WordNetLicense.txt = Licences\WordNetLicense.txt
+		Licences\WPFToolkitLicense.txt = Licences\WPFToolkitLicense.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = LasiClassFramework.vsmdi
@@ -168,6 +178,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{B012451A-BCB9-423F-8119-BE8027CA8474} = {E61EB5D5-494B-437A-A9ED-20756769E139}
 		{F4ABC10C-0BE9-4195-99E7-DB027757EC6B} = {B3482180-A78D-4A20-B744-81620578B79B}
 		{89E28C71-44D2-4810-B4D4-8A2570A16499} = {292E3A5A-1499-4291-A903-377BF3167923}
 		{D2D2723D-5E38-4FB8-8E45-1075DF1A4837} = {292E3A5A-1499-4291-A903-377BF3167923}
