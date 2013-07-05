@@ -6,11 +6,23 @@ using System.Text;
 
 namespace LASI.Algorithm
 {
+    /// <summary>
+    /// Represents an infinitive verbal phrase, e.g. "to walk".
+    /// </summary>
     public class InfinitivePhrase : VerbPhrase, IEntity
     {
+        #region Constructors
+        /// <summary>
+        /// Initializes a new instance of the InfinitivePhrase class.
+        /// </summary>
+        /// <param name="composed"></param>
         public InfinitivePhrase(IEnumerable<Word> composed)
             : base(composed) {
         }
+
+        #endregion
+
+        #region Properties
 
         public EntityKind EntityKind {
             get {
@@ -68,6 +80,8 @@ namespace LASI.Algorithm
             get;
             set;
         }
+
+        #endregion
 
         #region Fields
 

@@ -8,73 +8,75 @@
     WindowStartupLocation="CenterOwner"
     ResizeMode="NoResize">
     <Grid
-        Margin="0,0,0,1">
+        Margin="0,0,0,0">
         <Label
+            x:Name="label1"
+            Content="b2xtranslator"
             Foreground="DarkRed"
             BorderBrush="Black"
             BorderThickness="1"
-            x:Name="label1"
-            Content="b2xtranslator"
             Margin="38,10,45,0"
             MouseDoubleClick="label1_MouseDoubleClick"
             FontWeight="Bold"
             Height="29"
-            VerticalAlignment="Top" />
+            ToolTip="LASI uses b2x translator aid in parsing legacy Microsoft Word documents (.doc)"
+            VerticalAlignment="Top"
+            Cursor="Hand" />
         <Label
-            Foreground="DarkRed"
-            BorderBrush="Black"
-            BorderThickness="1"
             x:Name="label2"
             Content="iTextSharp"
-            HorizontalAlignment="Left"
-            Margin="38,54,0,0"
-            VerticalAlignment="Top"
-            Width="211"
-            MouseDoubleClick="label2_MouseDoubleClick"
-            FontWeight="Bold" />
-        <Label
             Foreground="DarkRed"
             BorderBrush="Black"
             BorderThickness="1"
+            Margin="38,54,45,0"
+            VerticalAlignment="Top"
+            MouseDoubleClick="label2_MouseDoubleClick"
+            FontWeight="Bold"
+            ToolTip="LASI uses iTextSharp v4.16 to parse Adobe Acrobat documents (.pdf)"
+            Cursor="Hand" />
+        <Label
             x:Name="label3"
             Content="SharpNLP"
-            HorizontalAlignment="Left"
-            Margin="38,104,0,0"
-            VerticalAlignment="Top"
-            Width="211"
-            MouseDoubleClick="label3_MouseDoubleClick"
-            FontWeight="Bold" />
-        <Label
             Foreground="DarkRed"
             BorderBrush="Black"
             BorderThickness="1"
+            Margin="38,104,45,0"
+            VerticalAlignment="Top"
+            MouseDoubleClick="label3_MouseDoubleClick"
+            FontWeight="Bold"
+            ToolTip="LASI uses the SharpNLP part of speach tagger to parse the lexical contents of documents and identify their syntactic roles"
+            Cursor="Hand" />
+        <Label
             x:Name="label4"
             Content="WPFToolkit"
-            HorizontalAlignment="Left"
-            Margin="38,150,0,0"
-            VerticalAlignment="Top"
-            Width="211"
-            MouseDoubleClick="label4_MouseDoubleClick"
-            FontWeight="Bold" />
-        <Label
             Foreground="DarkRed"
             BorderBrush="Black"
             BorderThickness="1"
+            Margin="38,150,45,0"
+            VerticalAlignment="Top"
+            MouseDoubleClick="label4_MouseDoubleClick"
+            FontWeight="Bold"
+            ToolTip="LASI uses the WPF Toolkit library to provide enhanced data visualizations"
+            Cursor="Hand" />
+        <Label
             x:Name="label5"
             Content="WordNet"
-            HorizontalAlignment="Left"
-            Margin="38,199,0,0"
+            Foreground="DarkRed"
+            BorderBrush="Black"
+            BorderThickness="1"
+            Margin="38,199,45,0"
             VerticalAlignment="Top"
-            Width="211"
             MouseDoubleClick="label5_MouseDoubleClick"
-            FontWeight="Bold" />
+            FontWeight="Bold"
+            ToolTip="LASI uses the Princton WordNet 3.0 data files to lookup key synonymic, attributive, and categorical relationships about words"
+            Cursor="Hand" />
         <Button
             Foreground="DarkRed"
             x:Name="oKButton"
             Click="okButton_Click"
             Content="OK"
-            Margin="118,230,118,0"
+            Margin="118,240,118,0"
             VerticalAlignment="Top"
-            Height="31" />
+            Height="20" />
     </Grid>
 </Window>

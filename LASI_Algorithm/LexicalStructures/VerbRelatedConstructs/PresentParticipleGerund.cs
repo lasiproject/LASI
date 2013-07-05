@@ -106,8 +106,6 @@ namespace LASI.Algorithm
 
         #endregion
 
-        public void BindPronoun(Pronoun pro) {
-            throw new NotImplementedException();
-        }
+
     }
 }

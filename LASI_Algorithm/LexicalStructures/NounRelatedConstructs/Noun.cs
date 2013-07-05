@@ -188,10 +188,5 @@ namespace LASI.Algorithm
         private ICollection<IPronoun> _boundPronouns = new List<IPronoun>();
         #endregion
 
-
-
-
-
-
     }
 }
