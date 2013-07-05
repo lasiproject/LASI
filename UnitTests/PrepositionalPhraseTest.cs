@@ -72,7 +72,7 @@ namespace AlgorithmAssemblyUnitTestProject
             IEnumerable<Word> composedWords = new[] { new Preposition("on") };
             PrepositionalPhrase target = new PrepositionalPhrase(composedWords);
             Assert.IsTrue(target.Words.Count() == composedWords.Count());
-            Assert.IsTrue(target.Text == "on" && target.OnLeftSide == null && target.OnRightSide == null && target.BoundObject == null);
+            Assert.IsTrue(target.Text == "on" && target.ToTheLeftOf == null && target.ToTheRightOf == null && target.BoundObject == null);
 
         }
 
@@ -95,9 +95,9 @@ namespace AlgorithmAssemblyUnitTestProject
         public void ToStringTest() {
             IEnumerable<Word> composedWords = new Word[] { new Preposition("for") };
             PrepositionalPhrase target = new PrepositionalPhrase(composedWords);
-            target.OnLeftSide = new NounPhrase(new[] { new PersonalPronoun("it") });
-            target.OnRightSide = new VerbPhrase(new[] { new PresentParticipleGerund("slamming") });
-            string expected = String.Format("PrepositionalPhrase \"for\"\n\tleft linked: {0}\n\tright linked: {1}", target.OnLeftSide, target.OnRightSide);
+            target.ToTheLeftOf = new NounPhrase(new[] { new PersonalPronoun("it") });
+            target.ToTheRightOf = new VerbPhrase(new[] { new PresentParticipleGerund("slamming") });
+            string expected = String.Format("PrepositionalPhrase \"for\"\n\tleft linked: {0}\n\tright linked: {1}", target.ToTheLeftOf, target.ToTheRightOf);
             string actual;
             actual = target.ToString();
             Assert.AreEqual(expected, actual);
@@ -125,10 +125,10 @@ namespace AlgorithmAssemblyUnitTestProject
         public void OnLeftSideTest() {
             IEnumerable<Word> composedWords = new Word[] { new Preposition("for") };
             PrepositionalPhrase target = new PrepositionalPhrase(composedWords);
-            IPrepositionLinkable expected = new NounPhrase(new[] { new PersonalPronoun("it") });
-            IPrepositionLinkable actual;
-            target.OnLeftSide = expected;
-            actual = target.OnLeftSide;
+            ILexical expected = new NounPhrase(new[] { new PersonalPronoun("it") });
+            ILexical actual;
+            target.ToTheLeftOf = expected;
+            actual = target.ToTheLeftOf;
             Assert.AreEqual(expected, actual);
         }
 
@@ -139,10 +139,10 @@ namespace AlgorithmAssemblyUnitTestProject
         public void OnRightSideTest() {
             IEnumerable<Word> composedWords = new Word[] { new Preposition("for") };
             PrepositionalPhrase target = new PrepositionalPhrase(composedWords);
-            IPrepositionLinkable expected = new VerbPhrase(new[] { new PresentParticipleGerund("slamming") });
-            IPrepositionLinkable actual;
-            target.OnRightSide = expected;
-            actual = target.OnRightSide;
+            ILexical expected = new VerbPhrase(new[] { new PresentParticipleGerund("slamming") });
+            ILexical actual;
+            target.ToTheRightOf = expected;
+            actual = target.ToTheRightOf;
             Assert.AreEqual(expected, actual);
         }
     }

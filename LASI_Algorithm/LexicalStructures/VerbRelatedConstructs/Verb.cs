@@ -22,8 +22,6 @@ namespace LASI.Algorithm
         public Verb(string text, VerbTense tense)
             : base(text) {
             Tense = tense;
-            Arity = VerbalArity.Undetermined;
-
         }
         #region Methods
 
@@ -44,7 +42,7 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="prepositional"></param>
         public virtual void AttachObjectViaPreposition(IPrepositional prepositional) {
-            //ObjectOfThePreoposition = this as object == prepositional.OnLeftSide as object && prepositional.OnRightSide != null ? prepositional.OnRightSide : null;
+            ObjectOfThePreoposition = prepositional.BoundObject;
             PrepositionalToObject = prepositional;
         }
 
@@ -53,10 +51,9 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="subject">The Entity to attach to the Verb as a subject.</param>
         public virtual void BindSubject(IEntity subject) {
-            if (!_subjects.Contains(subject)) {
-                _subjects.Add(subject);
-                subject.SubjectOf = this;
-            }
+            _subjects.Add(subject);
+            subject.SubjectOf = this;
+
         }
 
         /// <summary>
@@ -64,42 +61,97 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="directObject">The Entity to attach to the Verb as a direct object.</param>
         public virtual void BindDirectObject(IEntity directObject) {
-            if (!_directObjects.Contains(directObject)) {
-                _directObjects.Add(directObject);
-                directObject.DirectObjectOf = this;
-                if (IsPossessive) {
-                    foreach (var subject in this.Subjects) {
-                        subject.AddPossession(directObject);
-                    }
-                }
-                else if (IsClassifier) {
-                    foreach (var subject in this.Subjects) {
-                        AliasDictionary.DefineAlias(subject, directObject);
-                    }
+            _directObjects.Add(directObject);
+            directObject.DirectObjectOf = this;
+            if (IsPossessive) {
+                foreach (var subject in this.Subjects) {
+                    subject.AddPossession(directObject);
                 }
             }
+            else if (IsClassifier) {
+                foreach (var subject in this.Subjects) {
+                    AliasDictionary.DefineAlias(subject, directObject);
+                }
+            }
+
         }
         /// <summary>
         /// Binds the given Entity as an indirect object of the Verb instance.
         /// </summary>
         /// <param name="indirectObject">The Entity to attach to the Verb as an indirect object.</param>
         public virtual void BindIndirectObject(IEntity indirectObject) {
-            if (!_indirectObjects.Contains(indirectObject)) {
-                _indirectObjects.Add(indirectObject);
-                indirectObject.IndirectObjectOf = this;
-            }
+            _indirectObjects.Add(indirectObject);
+            indirectObject.IndirectObjectOf = this;
         }
 
 
-        public virtual bool DetermineIsPossessive() {
+        protected virtual bool DetermineIsPossessive() {
             var syns = LASI.Algorithm.Thesauri.Thesaurus.Lookup(this);
             isPossessive = syns.Contains("have");
             return IsPossessive;
         }
-        public virtual bool DetermineIsClassifier() {
+        protected virtual bool DetermineIsClassifier() {
             var syns = LASI.Algorithm.Thesauri.Thesaurus.Lookup(this);
             isClassifier = syns.Contains("be");
             return IsClassifier;
+        }
+
+
+        /// <summary>
+        /// Return a value indicating if the Verb has any subjects bound to it.
+        /// </summary>
+        /// <returns>True if the Verb has any Subjects bound to it, false otherwise.</returns>
+        public bool HasSubject() {
+            return _subjects.Any();
+        }
+        /// <summary>
+        /// Return a value indicating if the Verb has any subjects bound to it which match the given predicate function.
+        /// </summary>
+        /// <returns>True if the Verb has any subjects bound to it which match the given predicate function, false otherwise.</returns>
+        public bool HasSubject(Func<IEntity, bool> predicate) {
+            return Subjects.Any(predicate) || Subjects.OfType<IPronoun>().Any(p => predicate(p.BoundEntity));
+        }
+        /// <summary>
+        /// Return a value indicating if the Verb has any direct objects bound to it.
+        /// </summary>
+        /// <returns>True if the Verb has any direct objects bound to it, false otherwise.</returns>
+        public bool HasDirectObject() {
+            return DirectObjects.Any();
+        }
+        /// <summary>
+        /// Return a value indicating if the Verb has any direct objects bound to it which match the given predicate function.
+        /// </summary>
+        /// <returns>True if the Verb has any direct objects bound to it which match the given predicate function, false otherwise.</returns>
+        public bool HasDirectObject(Func<IEntity, bool> predicate) {
+            return DirectObjects.Any(predicate) || DirectObjects.OfType<IPronoun>().Any(p => predicate(p.BoundEntity));
+        }
+        /// <summary>
+        /// Return a value indicating if the Verb has any indirect objects bound to it.
+        /// </summary>
+        /// <returns>True if the Verb has any direct objects bound to it, false otherwise.</returns>
+        public bool HasIndirectObject() {
+            return IndirectObjects.Any();
+        }
+        /// <summary>
+        /// Return a value indicating if the Verb has any indirect objects bound to it which match the given predicate function.
+        /// </summary>
+        /// <returns>True if the Verb has any indirect objects bound to it which match the given predicate function, false otherwise.</returns>
+        public bool HasIndirectObject(Func<IEntity, bool> predicate) {
+            return IndirectObjects.Any(predicate) || IndirectObjects.OfType<IPronoun>().Any(p => predicate(p.BoundEntity));
+        }
+        /// <summary>
+        /// Return a value indicating if the Verb has any direct OR indirect objects bound to it.
+        /// </summary>
+        /// <returns>True if the Verb has any direct OR indirect objects bound to it, false otherwise.</returns>
+        public bool HasObject() {
+            return HasDirectObject() || HasIndirectObject();
+        }
+        /// <summary>
+        /// Return a value indicating if the Verb has any direct OR indirect objects bound to it which match the given predicate function.
+        /// </summary>
+        /// <returns>True if the Verb has any direct OR indirect objects bound to it which match the given predicate function, false otherwise.</returns>
+        public bool HasObject(Func<IEntity, bool> predicate) {
+            return HasDirectObject(predicate) || HasIndirectObject(predicate);
         }
 
 
@@ -109,16 +161,6 @@ namespace LASI.Algorithm
         #region Properties
 
         /// <summary>
-        /// Gets the subjects of the Verb.
-        /// </summary>
-        public IEnumerable<IEntity> Subjects {
-            get {
-                return _subjects;
-            }
-        }
-
-
-        /// <summary>
         /// Gets or sets the List of IAdverbial modifiers which modify this Verb.
         /// </summary>
         public virtual IEnumerable<IAdverbial> Modifiers {
@@ -126,7 +168,6 @@ namespace LASI.Algorithm
                 return _modifiers;
             }
         }
-
         /// <summary>
         /// Gets or sets the ModalAuxilary adverb which modifies the Verb.
         /// </summary>
@@ -138,42 +179,6 @@ namespace LASI.Algorithm
         /// Gets the VerbTense of the Verb.
         /// </summary>
         public VerbTense Tense {
-            get;
-            protected set;
-        }
-
-
-        /// <summary>
-        /// Gets the indirect objects of the Verb.
-        /// </summary>
-        public virtual IEnumerable<IEntity> IndirectObjects {
-            get {
-                return _indirectObjects;
-            }
-
-        }
-        /// <summary>
-        /// Gets the direct objects of the Verb.
-        /// </summary>
-        public virtual IEnumerable<IEntity> DirectObjects {
-            get {
-                return _directObjects;
-            }
-        }
-        public IPrepositional PrepositionalToObject {
-            get;
-            protected set;
-        }
-
-
-        public ILexical ObjectOfThePreoposition {
-            get {
-                return PrepositionalToObject != null ? PrepositionalToObject.BoundObject : null;
-            }
-        }
-
-
-        public ILexical GivenExposition {
             get;
             protected set;
         }
@@ -194,23 +199,64 @@ namespace LASI.Algorithm
             }
         }
 
-        public VerbalArity Arity {
+        /// <summary>
+        /// Gets the subjects of the Verb.
+        /// </summary>
+        /// 
+        public IEnumerable<IEntity> Subjects {
+            get {
+                return _subjects;
+            }
+        }
+        /// <summary>
+        /// Gets the indirect objects of the Verb.
+        /// </summary>
+        public virtual IEnumerable<IEntity> IndirectObjects {
+            get {
+                return _indirectObjects;
+            }
+        }
+        /// <summary>
+        /// Gets the direct objects of the Verb.
+        /// </summary>
+        public virtual IEnumerable<IEntity> DirectObjects {
+            get {
+                return _directObjects;
+            }
+        }
+        /// <summary>
+        /// Gets the object of the Verb's preposition. This can be any ILexical construct including a word, phrase, or clause.
+        /// </summary>
+        public ILexical ObjectOfThePreoposition {
             get;
             protected set;
         }
+        public IPrepositional PrepositionalToObject {
+            get;
+            protected set;
+        }
+
+
+
         #endregion
 
 
         #region Fields
 
         private IList<IAdverbial> _modifiers = new List<IAdverbial>();
-        private ICollection<IEntity> _subjects = new List<IEntity>();
-        private ICollection<IEntity> _directObjects = new List<IEntity>();
-        private ICollection<IEntity> _indirectObjects = new List<IEntity>();
+        private HashSet<IEntity> _subjects = new HashSet<IEntity>();
+        private HashSet<IEntity> _directObjects = new HashSet<IEntity>();
+        private HashSet<IEntity> _indirectObjects = new HashSet<IEntity>();
         bool? isPossessive;
         bool? isClassifier;
 
         #endregion
+
+
+
+
+
+
 
     }
 }

@@ -102,9 +102,9 @@ namespace LASI.Algorithm
         /// <returns>All IEntity constructs in the source sequence which have been bound as the Subject, Direct Object, or Indirect Object of any IVerbal construct which conforms the logic of the IVerbal selector function.</returns>
         public static IEnumerable<T> InSubjectOrObjectRole<T>(this IEnumerable<T> entities, Func<IVerbal, bool> verbalSelector) where T : IEntity {
             return from e in entities
-                   where e.SubjectOf != null && verbalSelector(e.SubjectOf) ||
-                   e.DirectObjectOf != null && verbalSelector(e.DirectObjectOf) ||
-                   e.IndirectObjectOf != null && verbalSelector(e.IndirectObjectOf)
+                   where e.SubjectOf != null && verbalSelector(e.SubjectOf)
+                   || e.DirectObjectOf != null && verbalSelector(e.DirectObjectOf)
+                   || e.IndirectObjectOf != null && verbalSelector(e.IndirectObjectOf)
                    select e;
         }
         /// <summary>

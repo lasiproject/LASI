@@ -80,8 +80,6 @@ namespace AlgorithmAssemblyUnitTestProject
             Assert.IsTrue(target.IndirectObjects.Count() == 0);
             Assert.IsTrue(target.Modality == null);
             Assert.IsTrue(target.IsPossessive == false);
-            Assert.IsTrue(target.GivenExposition == null);
-            Assert.IsTrue(target.Arity == VerbalArity.Undetermined);
         }
 
         /// <summary>
@@ -141,21 +139,6 @@ namespace AlgorithmAssemblyUnitTestProject
             Assert.IsTrue(target.Subjects.Contains(subject));
         }
 
-        /// <summary>
-        ///A test for DetermineIsPossessive
-        ///</summary>
-        [TestMethod()]
-        public void DetermineIsPossessiveTest() {
-            string text = "insulate";
-            VerbTense tense = VerbTense.Base;
-            Verb target = new Verb(text, tense);
-            target.DetermineIsPossessive();
-            Assert.IsFalse(target.IsPossessive);
-            text = "have";
-            target = new Verb(text, tense);
-            target.DetermineIsPossessive();
-            Assert.IsTrue(target.IsPossessive);
-        }
 
 
         /// <summary>

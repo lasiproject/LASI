@@ -120,6 +120,24 @@ namespace LASI.Algorithm
                 return GetType();
             }
         }
+
+        public IPrepositional PrepositionOnLeft {
+            get {
+                throw new NotImplementedException();
+            }
+            set {
+                throw new NotImplementedException();
+            }
+        }
+
+        public IPrepositional PrepositionOnRight {
+            get {
+                throw new NotImplementedException();
+            }
+            set {
+                throw new NotImplementedException();
+            }
+        }
     }
 
 }

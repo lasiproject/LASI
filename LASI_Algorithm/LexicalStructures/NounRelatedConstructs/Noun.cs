@@ -100,7 +100,13 @@ namespace LASI.Algorithm
             }
         }
 
-
+        /// <summary>
+        ///Gets or sets the IVerbal instance the Noun is the subject of.
+        /// </summary>
+        public virtual IVerbal SubjectOf {
+            get;
+            set;
+        }
         /// <summary>
         ///Gets or sets the ITRansitiveAction instance, usually a Verb or VerbPhrase, which the Noun is the direct object of.
         /// </summary>
@@ -115,13 +121,7 @@ namespace LASI.Algorithm
             get;
             set;
         }
-        /// <summary>
-        ///Gets or sets the IVerbal instance the Noun is the subject of.
-        /// </summary>
-        public virtual IVerbal SubjectOf {
-            get;
-            set;
-        }
+
 
         /// <summary>
         /// Gets all of the IPossessable constructs which the Entity "owns".
@@ -187,6 +187,10 @@ namespace LASI.Algorithm
         private ICollection<IEntity> _possessed = new List<IEntity>();
         private ICollection<IPronoun> _boundPronouns = new List<IPronoun>();
         #endregion
+
+
+
+
 
 
     }

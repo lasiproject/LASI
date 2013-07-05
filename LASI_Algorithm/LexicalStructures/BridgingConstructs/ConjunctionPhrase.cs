@@ -31,14 +31,14 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets or sets the word, Phrase, or Clause on the Right hand side of the ConjunctionPhrase.
         /// </summary>
-        public ILexical OnRight {
+        public ILexical JoinedRight {
             get;
             set;
         }
         /// <summary>
         /// Gets or sets the word, Phrase, or Clause on the Left hand side of the ConjunctionPhrase.
         /// </summary>
-        public ILexical OnLeft {
+        public ILexical JoinedLeft {
             get;
             set;
         }

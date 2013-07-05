@@ -11,7 +11,7 @@ namespace LASI.Algorithm
     /// <summary>
     /// Provides the base class, properties, and behaviors for all word level gramatical constructs.
     /// </summary>
-    public abstract class Word : IPrepositionLinkable
+    public abstract class Word : ILexical
     {
         #region Constructors
         /// <summary>

@@ -23,21 +23,14 @@ namespace LASI.Algorithm
         IPrepositional PrepositionalToObject {
             get;
         }
-        VerbalArity Arity {
-            get;
-        }
-    }
-}
 
-namespace LASI.Algorithm
-{
-    public enum VerbalArity
-    {
-        Undetermined,
-        Nullary,
-        Unary,
-        Binary,
-        Ternary,
-        Quarternary
+        bool HasSubject();
+        bool HasSubject(System.Func<IEntity, bool> predicate);
+        bool HasDirectObject();
+        bool HasDirectObject(System.Func<IEntity, bool> predicate);
+        bool HasIndirectObject();
+        bool HasIndirectObject(System.Func<IEntity, bool> predicate);
+        bool HasObject();
+        bool HasObject(System.Func<IEntity, bool> predicate);
     }
 }

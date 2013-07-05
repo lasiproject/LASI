@@ -42,8 +42,8 @@ namespace LASI.Algorithm.Binding
             if (prepPhrase.NextPhrase != null) {
                 prepPhrase.NextPhrase.PrepositionOnLeft = prepPhrase;
             }
-            prepPhrase.OnRightSide = prepPhrase.NextPhrase;
-            prepPhrase.OnLeftSide = prepPhrase.PreviousPhrase;
+            prepPhrase.ToTheRightOf = prepPhrase.NextPhrase;
+            prepPhrase.ToTheLeftOf = prepPhrase.PreviousPhrase;
 
             prepPhrase.Role = PrepositionRole.DiscriptiveLinker;
         }

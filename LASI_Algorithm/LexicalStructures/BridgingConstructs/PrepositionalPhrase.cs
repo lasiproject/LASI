@@ -23,14 +23,14 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets or sets the IprepositionLinkable construct on the right-hand-side of the Preposition.
         /// </summary>
-        public virtual IPrepositionLinkable OnRightSide {
+        public virtual ILexical ToTheRightOf {
             get;
             set;
         }
         /// <summary>
         /// Gets or sets the IprepositionLinkable construct on the left-hand-side of the Preposition.
         /// </summary>
-        public virtual IPrepositionLinkable OnLeftSide {
+        public virtual ILexical ToTheLeftOf {
             get;
             set;
         }
@@ -39,10 +39,10 @@ namespace LASI.Algorithm
         public override string ToString() {
             if (Phrase.VerboseOutput) {
                 var result = base.ToString();
-                if (OnLeftSide != null)
-                    result += "\n\tleft linked: " + OnLeftSide.ToString();
-                if (OnRightSide != null)
-                    result += "\n\tright linked: " + OnRightSide.ToString();
+                if (ToTheLeftOf != null)
+                    result += "\n\tleft linked: " + ToTheLeftOf.ToString();
+                if (ToTheRightOf != null)
+                    result += "\n\tright linked: " + ToTheRightOf.ToString();
                 if (BoundObject != null)
                     result += "\n\tObject: " + BoundObject.ToString();
                 return result;

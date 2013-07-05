@@ -69,7 +69,7 @@ namespace AlgorithmAssemblyUnitTestProject
         public void ParticleConstructorTest() {
             string text = "about";
             Particle target = new Particle(text);
-            Assert.IsTrue(target.Text == "about" && target.OnLeftSide == null && target.OnRightSide == null && target.BoundObject == null);
+            Assert.IsTrue(target.Text == "about" && target.ToTheLeftOf == null && target.ToTheRightOf == null && target.BoundObject == null);
         }
 
 
@@ -92,10 +92,10 @@ namespace AlgorithmAssemblyUnitTestProject
         public void OnLeftSideTest() {
             string text = "about";
             Particle target = new Particle(text);
-            IPrepositionLinkable expected = new VerbPhrase(new[] { new PastTenseVerb("walked") });
-            IPrepositionLinkable actual;
-            target.OnLeftSide = expected;
-            actual = target.OnLeftSide;
+            ILexical expected = new VerbPhrase(new[] { new PastTenseVerb("walked") });
+            ILexical actual;
+            target.ToTheLeftOf = expected;
+            actual = target.ToTheLeftOf;
             Assert.AreEqual(expected, actual);
         }
 
@@ -106,10 +106,10 @@ namespace AlgorithmAssemblyUnitTestProject
         public void OnRightSideTest() {
             string text = "about";
             Particle target = new Particle(text);
-            IPrepositionLinkable expected = new NounPhrase(new Word[] { new Determiner("the"), new GenericPluralNoun("grounds") });
-            IPrepositionLinkable actual;
-            target.OnRightSide = expected;
-            actual = target.OnRightSide;
+            ILexical expected = new NounPhrase(new Word[] { new Determiner("the"), new GenericPluralNoun("grounds") });
+            ILexical actual;
+            target.ToTheRightOf = expected;
+            actual = target.ToTheRightOf;
             Assert.AreEqual(expected, actual);
         }
 

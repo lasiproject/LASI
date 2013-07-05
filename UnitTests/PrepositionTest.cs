@@ -70,7 +70,7 @@ namespace AlgorithmAssemblyUnitTestProject
         public void PrepositionConstructorTest() {
             string text = "into";
             Preposition target = new Preposition(text);
-            Assert.IsTrue(target.Text == "into" && target.OnLeftSide == null && target.OnRightSide == null && target.BoundObject == null);
+            Assert.IsTrue(target.Text == "into" && target.ToTheLeftOf == null && target.ToTheRightOf == null && target.BoundObject == null);
         }
 
         /// <summary>
@@ -93,10 +93,10 @@ namespace AlgorithmAssemblyUnitTestProject
         public void OnLeftSideTest() {
             string text = "into";
             Preposition target = new Preposition(text); // TODO: Initialize to an appropriate value
-            IPrepositionLinkable expected = new PastTenseVerb("gazed");
-            IPrepositionLinkable actual;
-            target.OnLeftSide = expected;
-            actual = target.OnLeftSide;
+            ILexical expected = new PastTenseVerb("gazed");
+            ILexical actual;
+            target.ToTheLeftOf = expected;
+            actual = target.ToTheLeftOf;
             Assert.AreEqual(expected, actual);
 
         }
@@ -108,10 +108,10 @@ namespace AlgorithmAssemblyUnitTestProject
         public void OnRightSideTest() {
             string text = "inside";
             Preposition target = new Preposition(text);
-            IPrepositionLinkable expected = new NounPhrase(new Word[] { new PossessivePronoun("your"), new GenericSingularNoun("soul") });
-            IPrepositionLinkable actual;
-            target.OnRightSide = expected;
-            actual = target.OnRightSide;
+            ILexical expected = new NounPhrase(new Word[] { new PossessivePronoun("your"), new GenericSingularNoun("soul") });
+            ILexical actual;
+            target.ToTheRightOf = expected;
+            actual = target.ToTheRightOf;
             Assert.AreEqual(expected, actual);
 
         }

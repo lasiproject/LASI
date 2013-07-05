@@ -86,8 +86,8 @@ namespace AlgorithmAssemblyUnitTestProject
             Conjunction target = new Conjunction(text);
             ILexical expected = new NounPhrase(new Word[] { new Determiner("the"), new GenericSingularNoun("program") });
             ILexical actual;
-            target.OnLeft = expected;
-            actual = target.OnLeft;
+            target.JoinedLeft = expected;
+            actual = target.JoinedLeft;
             Assert.AreEqual(expected, actual);
 
         }
@@ -102,8 +102,8 @@ namespace AlgorithmAssemblyUnitTestProject
             Conjunction target = new Conjunction(text);
             ILexical expected = new NounPhrase(new Word[] { new Determiner("the"), new GenericSingularNoun("program") });
             ILexical actual;
-            target.OnRight = expected;
-            actual = target.OnRight;
+            target.JoinedRight = expected;
+            actual = target.JoinedRight;
             Assert.AreEqual(expected, actual);
         }
     }

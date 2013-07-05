@@ -6,14 +6,14 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets or sets the IPropositionLinkable construct on the Right side of the IPrepositional.
         /// </summary>
-        IPrepositionLinkable OnRightSide {
+        ILexical ToTheRightOf {
             get;
             set;
         }
         /// <summary>
         /// Gets or sets the IPropositionLinkable construct on the Left side of the IPrepositional.
         /// </summary>
-        IPrepositionLinkable OnLeftSide {
+        ILexical ToTheLeftOf {
             get;
             set;
         }

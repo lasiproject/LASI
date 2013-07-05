@@ -105,6 +105,21 @@ namespace LASI.Algorithm
         #endregion
 
         /// <summary>
+        /// Gets or sets the IVerbal instance, generally a Verb or VerbPhrase, which the NounPhrase is the subject of.
+        /// </summary>
+        public virtual IVerbal SubjectOf {
+            get {
+                return _subjectOf;
+            }
+            set {
+                _subjectOf = value;
+                foreach (var N in Words.GetNouns())
+                    N.SubjectOf = _subjectOf;
+                foreach (var N in Words.GetPronouns())
+                    N.SubjectOf = _subjectOf;
+            }
+        }
+        /// <summary>
         /// Gets the or sets IVerbal instance, generally a TransitiveVerb or TransitiveVerbPhrase, which the NounPhrase is the DIRECT object of.
         /// </summary>
         public virtual IVerbal DirectObjectOf {
@@ -113,9 +128,12 @@ namespace LASI.Algorithm
             }
             set {
                 _direcObjectOf = value;
-                foreach (var N in Words.OfType<IVerbalObject>()) {
+                foreach (var N in Words.GetNouns())
                     N.DirectObjectOf = _direcObjectOf;
-                }
+
+                foreach (var N in Words.GetPronouns())
+                    N.DirectObjectOf = _direcObjectOf;
+
             }
         }
 
@@ -128,27 +146,15 @@ namespace LASI.Algorithm
             }
             set {
                 _indirecObjectOf = value;
-                foreach (var N in Words.OfType<IVerbalObject>()) {
+                foreach (var N in Words.GetNouns())
                     N.IndirectObjectOf = IndirectObjectOf;
-                }
+                foreach (var N in Words.GetPronouns())
+                    N.IndirectObjectOf = IndirectObjectOf;
             }
         }
 
-        /// <summary>
-        /// Gets or sets the IVerbal instance, generally a Verb or VerbPhrase, which the NounPhrase is the subject of.
-        /// </summary>
-        public virtual IVerbal SubjectOf {
-            get {
-                return _subjectOf;
-            }
-            set {
-                _subjectOf = value;
-                foreach (var N in Words.OfType<IVerbalSubject>()) {
-                    N.SubjectOf = _subjectOf;
-                }
-            }
-        }
-        private IVerbal _subjectOf;
+
+
         /// <summary>
         /// Gets all of the IEntityReferences instances, generally Pronouns or PronounPhrases, which refer to the NounPhrase Instance.
         /// </summary>
@@ -246,7 +252,7 @@ namespace LASI.Algorithm
         private IEntity _possessor;
         private IVerbal _direcObjectOf;
         private IVerbal _indirecObjectOf;
-
+        private IVerbal _subjectOf;
 
 
 

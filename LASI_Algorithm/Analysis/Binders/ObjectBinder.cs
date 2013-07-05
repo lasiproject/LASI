@@ -93,7 +93,7 @@ namespace LASI.Algorithm.Binding
 
         private void TypedBind(IEnumerable<Phrase> remaining, ConjunctionPhrase cp, VerbPhrase target) {
             remaining.First().Match()
-                .Case<NounPhrase>(np => cp.OnRight = np);
+                .Case<NounPhrase>(np => cp.JoinedRight = np);
         }
 
         private void TypedBind(IEnumerable<Phrase> remaining, PrepositionalPhrase pp, VerbPhrase target) {
@@ -295,7 +295,7 @@ namespace LASI.Algorithm.Binding
             public void Transition(ConjunctionPhrase phrase) {
                 if (Machine.lastPrepositional != null) {
                     phrase.PrepositionOnLeft = Machine.lastPrepositional;
-                    Machine.lastPrepositional.OnRightSide = phrase;
+                    Machine.lastPrepositional.ToTheRightOf = phrase;
 
                 }
                 //Machine(parent);
@@ -323,7 +323,7 @@ namespace LASI.Algorithm.Binding
             public void Transition(NounPhrase phrase) {
                 if (Machine.lastPrepositional != null) {
                     phrase.PrepositionOnLeft = Machine.lastPrepositional;
-                    Machine.lastPrepositional.OnRightSide = phrase;
+                    Machine.lastPrepositional.ToTheRightOf = phrase;
                     Machine.bindingTarget.AttachObjectViaPreposition(phrase.PrepositionOnLeft);
                 }
                 Machine.entities.Push(phrase);
@@ -435,7 +435,7 @@ namespace LASI.Algorithm.Binding
 
             }
             public void Transition(ConjunctionPhrase phrase) {
-                phrase.OnLeft = Machine.entities.Peek();
+                phrase.JoinedLeft = Machine.entities.Peek();
                 Machine.lastConjunctive = phrase;
                 Machine.ConjunctNounPhrases.Add(Machine.entities.Peek());
                 if (!Stream.Any()) {
@@ -489,7 +489,7 @@ namespace LASI.Algorithm.Binding
                 }
                 catch (InvalidOperationException) {
                 }
-                phrase.OnLeftSide = Machine.entities.Last();
+                phrase.ToTheLeftOf = Machine.entities.Last();
                 Machine.entities.Clear();
                 Machine.directFound = true;
                 Machine.ConjunctNounPhrases.Clear();
@@ -566,7 +566,7 @@ namespace LASI.Algorithm.Binding
                 Machine.entities.Push(phrase);
                 Machine.ConjunctNounPhrases.Add(phrase);
                 if (Machine.lastConjunctive != null) {
-                    Machine.lastConjunctive.OnRight = phrase;
+                    Machine.lastConjunctive.JoinedRight = phrase;
                 }
                 if (!Stream.Any()) {
                     if (!Machine.directFound)
@@ -637,7 +637,7 @@ namespace LASI.Algorithm.Binding
                 }
             }
             public void Transition(ConjunctionPhrase phrase) {
-                phrase.OnLeft = Machine.lastAdjectivals.Last();
+                phrase.JoinedLeft = Machine.lastAdjectivals.Last();
                 Machine.lastConjunctive = phrase;
                 if (!Stream.Any()) {
                     if (!Machine.directFound)
@@ -669,7 +669,7 @@ namespace LASI.Algorithm.Binding
             }
             public void Transition(AdjectivePhrase phrase) {
                 Machine.lastAdjectivals.Add(phrase);
-                Machine.lastConjunctive.OnRight = phrase;
+                Machine.lastConjunctive.JoinedRight = phrase;
                 if (!Stream.Any()) {
                     if (!Machine.directFound)
                         Machine.AssociateDirect();
@@ -691,7 +691,7 @@ namespace LASI.Algorithm.Binding
             public void Transition(NounPhrase phrase) {
                 Machine.entities.Push(phrase);
                 Machine.ConjunctNounPhrases.Add(phrase);
-                Machine.lastConjunctive.OnRight = phrase;
+                Machine.lastConjunctive.JoinedRight = phrase;
                 Machine.BindBuiltupAdjectivePhrases(phrase);
                 if (!Stream.Any()) {
                     if (!Machine.directFound)

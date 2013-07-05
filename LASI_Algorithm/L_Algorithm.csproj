@@ -184,7 +184,6 @@
     <Compile Include="LexicalStructures\AdjectiveRelatedConstructs\IDescribable.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\IEntity.cs" />
     <Compile Include="LexicalStructures\VerbRelatedConstructs\IInderectObjectTaker.cs" />
-    <Compile Include="LexicalStructures\BridgingConstructs\IPrepositionLinkable.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\IQuantifiable.cs" />
     <Compile Include="LexicalStructures\VerbRelatedConstructs\IVerbalSubject.cs" />
     <Compile Include="LexicalStructures\VerbRelatedConstructs\ISubjectTaker.cs" />

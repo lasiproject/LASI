@@ -28,13 +28,13 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets or sets the clause on the Right hand side of conjunction.
         /// </summary>
-        public virtual ILexical OnRight {
+        public virtual ILexical JoinedRight {
             get;
             set;
         } /// <summary>
         /// Gets or sets the clause on the Left hand side of conjunction.
         /// </summary>
-        public virtual ILexical OnLeft {
+        public virtual ILexical JoinedLeft {
             get;
             set;
         }

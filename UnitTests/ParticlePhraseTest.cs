@@ -99,10 +99,10 @@ namespace AlgorithmAssemblyUnitTestProject
         public void OnLeftSideTest() {
             IEnumerable<Word> composedWords = new[] { new Particle("away") };
             ParticlePhrase target = new ParticlePhrase(composedWords);
-            IPrepositionLinkable expected = new Verb("gave", VerbTense.Past);
-            IPrepositionLinkable actual;
-            target.OnLeftSide = expected;
-            actual = target.OnLeftSide;
+            ILexical expected = new Verb("gave", VerbTense.Past);
+            ILexical actual;
+            target.ToTheLeftOf = expected;
+            actual = target.ToTheLeftOf;
             Assert.AreEqual(expected, actual);
         }
 
@@ -113,10 +113,10 @@ namespace AlgorithmAssemblyUnitTestProject
         public void OnRightSideTest() {
             IEnumerable<Word> composedWords = new[] { new Particle("away") };
             ParticlePhrase target = new ParticlePhrase(composedWords);
-            IPrepositionLinkable expected = new Preposition("for");
-            IPrepositionLinkable actual;
-            target.OnRightSide = expected;
-            actual = target.OnRightSide;
+            ILexical expected = new Preposition("for");
+            ILexical actual;
+            target.ToTheRightOf = expected;
+            actual = target.ToTheRightOf;
             Assert.AreEqual(expected, actual);
         }
 

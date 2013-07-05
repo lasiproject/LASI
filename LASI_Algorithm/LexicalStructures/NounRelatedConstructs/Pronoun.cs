@@ -55,6 +55,15 @@ namespace LASI.Algorithm
             }
 
         }
+
+
+        /// <summary>
+        /// Gets or sets the ISubjectTaker instance, generally a Verb or VerbPhrase, which the Pronoun is the subject of.
+        /// </summary>
+        public virtual IVerbal SubjectOf {
+            get;
+            set;
+        }
         /// <summary>
         /// Gets the IVerbal instance, generally a TransitiveVerb or TransitiveVerbPhrase, which the Pronoun is the object of.
         /// </summary>
@@ -76,13 +85,7 @@ namespace LASI.Algorithm
             get;
             set;
         }
-        /// <summary>
-        /// Gets the ISubjectTaker instance, generally a Verb or VerbPhrase, which the Pronoun is the subject of.
-        /// </summary>
-        public virtual IVerbal SubjectOf {
-            get;
-            set;
-        }
+
         public virtual void BindDescriptor(IDescriptor adj) {
             _describers.Add(adj);
         }
@@ -219,6 +222,7 @@ namespace LASI.Algorithm
         private static readonly string[] thirdPersonPluralReflexives = { "themselves", "theirselves" };
 
         #endregion
+
 
     }
 }

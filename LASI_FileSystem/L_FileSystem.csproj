@@ -127,9 +127,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <None Include="ClassDiagram3.cd" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\LASI_Algorithm\L_Algorithm.csproj">
       <Project>{8c562a93-a885-4fe9-8b8c-5ce34ccbaec1}</Project>
       <Name>L_Algorithm</Name>

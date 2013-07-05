@@ -11,7 +11,7 @@ namespace LASI.Algorithm
     /// <summary>
     /// Provides the base class, properties, and behaviors for all Phrase level gramatical constructs.
     /// </summary>
-    public abstract class Phrase : IPrepositionLinkable
+    public abstract class Phrase : ILexical
     {
         #region Constructors
 

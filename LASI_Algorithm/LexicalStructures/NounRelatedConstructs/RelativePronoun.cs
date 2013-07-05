@@ -58,7 +58,10 @@ namespace LASI.Algorithm
                 return _entityKind;
             }
         }
-
+        public IVerbal SubjectOf {
+            get;
+            set;
+        }
         public IVerbal DirectObjectOf {
             get;
             set;
@@ -69,10 +72,7 @@ namespace LASI.Algorithm
             set;
         }
 
-        public IVerbal SubjectOf {
-            get;
-            set;
-        }
+
 
         public void BindPronoun(IPronoun pro) {
             if (!_boundPronouns.Contains(pro))
@@ -141,6 +141,11 @@ namespace LASI.Algorithm
         private static readonly string[] objectRoleLocationals = { "where" };
         private static readonly string[] objectRoleTemporals = { "when" };
         private static readonly string[] objectRoleExpositories = { "what", "why" };
+
+
+
+
+
 
     }
 }

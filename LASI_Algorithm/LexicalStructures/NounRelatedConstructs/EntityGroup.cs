@@ -146,5 +146,15 @@ namespace LASI.Algorithm
 
         #endregion
 
+
+        public IPrepositional PrepositionOnLeft {
+            get;
+            set;
+        }
+
+        public IPrepositional PrepositionOnRight {
+            get;
+            set;
+        }
     }
 }
