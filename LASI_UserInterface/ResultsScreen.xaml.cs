@@ -454,6 +454,15 @@ namespace LASI.UserInterface
 
         #endregion
 
+        private void openLicensesMenuItem_Click_1(object sender, RoutedEventArgs e) {
+            var componentsDisplay = new ComponentInfoDialogWindow {
+                Left = this.Left,
+                Top = this.Top,
+                Owner = this
+            };
+            componentsDisplay.ShowDialog();
+        }
+
 
     }
 

@@ -14,6 +14,7 @@ using System.Windows.Shapes;
 using System.IO;
 using LASI.FileSystem.FileTypes;
 using System.Threading.Tasks;
+using LASI.UserInterface.Dialogs;
 
 namespace LASI.UserInterface
 {
@@ -185,6 +186,15 @@ namespace LASI.UserInterface
             catch (Exception) {
                 MessageBox.Show(this, "Sorry, the manual could not be opened. Please ensure you have a pdf viewer installed.");
             }
+        }
+
+        private void openLicensesMenuItem_Click_1(object sender, RoutedEventArgs e) {
+            var componentsDisplay = new ComponentInfoDialogWindow {
+                Left = this.Left,
+                Top = this.Top,
+                Owner = this
+            };
+            componentsDisplay.ShowDialog();
         }
 
 

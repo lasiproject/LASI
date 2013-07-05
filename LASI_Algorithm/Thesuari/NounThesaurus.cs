@@ -112,7 +112,7 @@ namespace LASI.Algorithm.Thesauri
         public override ISet<string> this[string search] {
             get {
 
-                return SearchFor(NounConjugator.FindRoot(search)).SelectMany(syn => NounConjugator.GetLexicalForms(syn)).ToSet();
+                return (SearchFor(NounConjugator.FindRoot(search)).SelectMany(syn => NounConjugator.GetLexicalForms(syn))).ToSet();
             }
         }
 
