@@ -31,6 +31,10 @@ namespace LASI.Algorithm.Thesauri
                 Tasks.Add(AdjectiveThesaurusLoadTask);
             if (AdverbLoadingState == LoadingState.NotStarted)
                 Tasks.Add(AdverbThesaurusLoadTask);
+            Tasks.Add(Task.Run(async () => {
+                await LoadNameData();
+                return "Loaded Name Data";
+            }));
             return Tasks.ToArray();
         }
         enum LoadingState
@@ -148,6 +152,35 @@ namespace LASI.Algorithm.Thesauri
                     return Enumerable.Empty<string>();
             }
         }
+
+        /// <summary>
+        /// Returns a value indicating wether the ProperNoun's text corresponds to a last name in the english language.
+        /// Lookups are performed in a case insensitive manner and currently do not respect plurality.
+        /// </summary>
+        /// <param name="proper">The ProperNoun to test.</param>
+        /// <returns>True if the ProperNoun's text corresponds to a last name in the english language, false otherwise.</returns>
+        public static bool IsLastName(this ProperNoun proper) {
+            return lastNames.Contains(proper.Text);
+        }
+        /// <summary>
+        /// Returns a value indicating wether the ProperNoun's text corresponds to a female first name in the english language.
+        /// Lookups are performed in a case insensitive manner and currently do not respect plurality.
+        /// </summary>
+        /// <param name="proper">The ProperNoun to test.</param>
+        /// <returns>True if the ProperNoun's text corresponds to a female first name in the english language, false otherwise.</returns>
+        public static bool IsFemaleName(this ProperNoun proper) {
+            return femaleNames.Contains(proper.Text);
+        }
+        /// <summary>
+        /// Returns a value indicating wether the ProperNoun's text corresponds to a male first name in the english language. 
+        /// Lookups are performed in a case insensitive manner and currently do not respect plurality.
+        /// </summary>
+        /// <param name="proper">The ProperNoun to test.</param>
+        /// <returns>True if the ProperNoun's text corresponds to a male first name in the english language, false otherwise.</returns>
+        public static bool IsMaleName(this ProperNoun proper) {
+            return maleNames.Contains(proper.Text);
+        }
+
         /// <summary>
         /// Determines if two IEntity instances are similar.
         /// </summary>
@@ -399,7 +432,24 @@ namespace LASI.Algorithm.Thesauri
         private static ISet<string> InternalLookup(Word word) {
             throw new NoSynonymLookupForTypeException(word);
         }
-
+        private static async Task LoadNameData() {
+            await Task.WhenAll(
+                Task.Run(async () => {
+                    using (var reader = new System.IO.StreamReader(lastNameDataFilePath)) {
+                        lastNames = new HashSet<string>((await reader.ReadToEndAsync()).Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries), StringComparer.OrdinalIgnoreCase);
+                    }
+                }),
+                Task.Run(async () => {
+                    using (var reader = new System.IO.StreamReader(femaleNameDataFilePath)) {
+                        femaleNames = new HashSet<string>((await reader.ReadToEndAsync()).Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries), StringComparer.OrdinalIgnoreCase);
+                    }
+                }),
+                Task.Run(async () => {
+                    using (var reader = new System.IO.StreamReader(maleNameDataFilePath)) {
+                        maleNames = new HashSet<string>((await reader.ReadToEndAsync()).Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries), StringComparer.OrdinalIgnoreCase);
+                    }
+                }));
+        }
         #endregion
 
         #region Private Properties
@@ -437,8 +487,13 @@ namespace LASI.Algorithm.Thesauri
         private static readonly string adjectiveThesaurusFilePath = ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "data.adj";
         // Name Data File Paths
         private static readonly string lastNameDataFilePath = ConfigurationManager.AppSettings["NameDataDirectory"] + "last.txt";
-        private static readonly string femaleFirstNameDataFilePath = ConfigurationManager.AppSettings["NameDataDirectory"] + "femalefirst.txt";
-        private static readonly string maleFirstNameDataFilePath = ConfigurationManager.AppSettings["NameDataDirectory"] + "malefirst.txt";
+        private static readonly string femaleNameDataFilePath = ConfigurationManager.AppSettings["NameDataDirectory"] + "femalefirst.txt";
+        private static readonly string maleNameDataFilePath = ConfigurationManager.AppSettings["NameDataDirectory"] + "malefirst.txt";
+
+        // Name Data Sets
+        private static HashSet<string> lastNames;
+        private static HashSet<string> femaleNames;
+        private static HashSet<string> maleNames;
         // Synonym Lookup Caches
         private static ConcurrentDictionary<string, ISet<string>> cachedNounData = new ConcurrentDictionary<string, ISet<string>>(Concurrency.CurrentMax, 4096);
         private static ConcurrentDictionary<string, ISet<string>> cachedVerbData = new ConcurrentDictionary<string, ISet<string>>(Concurrency.CurrentMax, 4096);
