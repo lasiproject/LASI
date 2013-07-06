@@ -435,6 +435,10 @@ namespace LASI.Algorithm.Thesauri
         private static readonly string verbThesaurusFilePath = ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "data.verb";
         private static readonly string adverbThesaurusFilePath = ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "data.adv";
         private static readonly string adjectiveThesaurusFilePath = ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "data.adj";
+        // Name Data File Paths
+        private static readonly string lastNameDataFilePath = ConfigurationManager.AppSettings["NameDataDirectory"] + "last.txt";
+        private static readonly string femaleFirstNameDataFilePath = ConfigurationManager.AppSettings["NameDataDirectory"] + "femalefirst.txt";
+        private static readonly string maleFirstNameDataFilePath = ConfigurationManager.AppSettings["NameDataDirectory"] + "malefirst.txt";
         // Synonym Lookup Caches
         private static ConcurrentDictionary<string, ISet<string>> cachedNounData = new ConcurrentDictionary<string, ISet<string>>(Concurrency.CurrentMax, 4096);
         private static ConcurrentDictionary<string, ISet<string>> cachedVerbData = new ConcurrentDictionary<string, ISet<string>>(Concurrency.CurrentMax, 4096);
