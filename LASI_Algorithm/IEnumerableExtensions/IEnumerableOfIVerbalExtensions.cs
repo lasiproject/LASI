@@ -47,7 +47,7 @@ namespace LASI.Algorithm
         /// <typeparam name="T">Any Type which implemenets the IVerbal interface.</typeparam>
         /// <param name="verbals">The Enumerable of IVerbal instances to filter.</param>
         /// <returns>The subset of IVerbal constructs bound to at least one bound direct OR indirect object.</returns>
-        public static IEnumerable<TVerbal> WithIndirectOrDirectObject<TVerbal>(this IEnumerable<TVerbal> verbals) where TVerbal : IVerbal {
+        public static IEnumerable<TVerbal> WithDirectOrIndirectObject<TVerbal>(this IEnumerable<TVerbal> verbals) where TVerbal : IVerbal {
             return from verbal in verbals
                    where verbal.HasObject()
                    select verbal;
@@ -60,8 +60,8 @@ namespace LASI.Algorithm
         /// <param name="verbals">The Enumerable of IVerbal constructs to filter.</param>
         /// <param name="verbalSelector">The function specifying the match verbalSelector. Any function which takes an IEntity and return a bool is compatible.</param>
         /// <returns>The subset of IVerbal constructs bound to at least one bound direct OR indirect object which matches the conidition.</returns>
-        public static IEnumerable<TVerbal> WithIndirectOrDirectObject<TVerbal>(this IEnumerable<TVerbal> verbals, Func<IEntity, bool> condition) where TVerbal : IVerbal {
-            return from verbal in verbals.WithIndirectOrDirectObject()
+        public static IEnumerable<TVerbal> WithDirectOrIndirectObject<TVerbal>(this IEnumerable<TVerbal> verbals, Func<IEntity, bool> condition) where TVerbal : IVerbal {
+            return from verbal in verbals.WithDirectOrIndirectObject()
                    where verbal.HasObject(condition)
                    select verbal;
         }

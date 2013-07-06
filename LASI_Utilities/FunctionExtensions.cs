@@ -14,7 +14,7 @@ namespace LASI.Utilities
         /// </summary>
         /// <typeparam name="T">The generic return type of the first function.</typeparam>
         /// <typeparam name="U">The generic input type of the second function and the generic input type of the resulting function</typeparam>
-        /// <typeparam name="r">The generic input type of the first function and the generic result type of the second function</typeparam>
+        /// <typeparam name="R">The generic input type of the first function and the generic result type of the second function</typeparam>
         /// <param name="f">The outer function f, of the composition to perform f(g)</param>
         /// <param name="g">The inner function g, of the composition to perform f(g)</param>
         /// <returns>a new function which when invoked is equivalent to invoking the first function on the result of invoking the second on some arbitrary U, u</returns>
@@ -22,21 +22,14 @@ namespace LASI.Utilities
             return t => f(g(t));
         }
 
-        public static Func<T, T> Compose<T>(this Func<T, T> func, params Func<T, T>[] fs) {
-
-
-
-            Func<T, T> result = fs.First();
-            foreach (var f in fs.Take(1))
-                result = f.Compose(result);
-            return result.Compose(func);
-        }
-
-        public static T Identity<T>(this T value) {
-            return value;
-        }
+        /// <summary>
+        /// Returns a singleton sequence containing only solely the object on which the method is invoked.
+        /// </summary>
+        /// <typeparam name="T">The type of the object to project and thus the element type of the resulting sequence</typeparam>
+        /// <param name="t">The object to project into a single item sequence containing only itself.</param>
+        /// <returns>A singleton sequence containing only solely the object on which the method is invoked.</returns>
         public static IEnumerable<T> AsEnumerable<T>(this T t) {
-            return new[] { t };
+            return Enumerable.Repeat(t, 1);
         }
     }
 }

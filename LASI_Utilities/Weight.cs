@@ -78,7 +78,7 @@ namespace LASI.Utilities
         #region Methods
 
         public override bool Equals(object obj) {
-            return this == (Weight) obj;
+            return this == ( Weight )obj;
         }
         public override int GetHashCode() {
             return base.GetHashCode();

@@ -1,4 +1,5 @@
 ﻿
+using LASI.Algorithm.DocumentConstructs;
 using System;
 using System.Collections.Generic;
 using System.Linq;

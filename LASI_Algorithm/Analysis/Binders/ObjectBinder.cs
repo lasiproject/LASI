@@ -48,7 +48,7 @@ namespace LASI.Algorithm.Binding
         }
 
         private void TypedBind(IEnumerable<Phrase> remaining, VerbPhrase target) {
-            remaining.First().Match()
+            remaining.First().Switch()
                 .Case<AdverbPhrase>(ap => {
                     target.ModifyWith(ap);
                     TypedBind(remaining.Skip(1), ap, target);
@@ -58,13 +58,13 @@ namespace LASI.Algorithm.Binding
         }
 
         private void TypedBind(IEnumerable<Phrase> remaining, AdverbPhrase ap, VerbPhrase target) {
-            remaining.First().Match()
+            remaining.First().Switch()
                 .Case<AdjectivePhrase>(p => TypedBind(remaining, p, target));
 
         }
 
         private void TypedBind(IEnumerable<Phrase> remaining, AdjectivePhrase p, VerbPhrase target) {
-            remaining.First().Match()
+            remaining.First().Switch()
                 .Case<NounPhrase>(np => {
                     np.BindDescriptor(p);
                 })
@@ -79,7 +79,7 @@ namespace LASI.Algorithm.Binding
 
 
         private void TypedBind(IEnumerable<Phrase> remaining, NounPhrase np, VerbPhrase target) {
-            remaining.First().Match()
+            remaining.First().Switch()
                 .Case<PrepositionalPhrase>(pp => {
                     target.BindIndirectObject(np);
                     TypedBind(remaining, pp, target);
@@ -92,12 +92,12 @@ namespace LASI.Algorithm.Binding
         }
 
         private void TypedBind(IEnumerable<Phrase> remaining, ConjunctionPhrase cp, VerbPhrase target) {
-            remaining.First().Match()
+            remaining.First().Switch()
                 .Case<NounPhrase>(np => cp.JoinedRight = np);
         }
 
         private void TypedBind(IEnumerable<Phrase> remaining, PrepositionalPhrase pp, VerbPhrase target) {
-            remaining.First().Match()
+            remaining.First().Switch()
                .Case<NounPhrase>(np => {
                    target.BindDirectObject(np);
                    TypedBind(remaining, np, target);

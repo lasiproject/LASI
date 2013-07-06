@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using LASI.Algorithm.DocumentConstructs;
 
-namespace LASI.Algorithm
+namespace LASI.Algorithm.DocumentConstructs
 {
     public sealed class Paragraph
     {

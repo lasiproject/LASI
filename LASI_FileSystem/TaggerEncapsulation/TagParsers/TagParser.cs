@@ -8,10 +8,10 @@ namespace LASI.FileSystem.TaggerEncapsulation
     public abstract class TagParser
     {
         public abstract LASI.Algorithm.DocumentConstructs.Document LoadDocument();
-        public abstract System.Collections.Generic.IEnumerable<LASI.Algorithm.Paragraph> LoadParagraphs();
+        public abstract System.Collections.Generic.IEnumerable<Paragraph> LoadParagraphs();
 
 
-        public virtual async Task<IEnumerable<LASI.Algorithm.Paragraph>> LoadParagraphsAsync() {
+        public virtual async Task<IEnumerable<Paragraph>> LoadParagraphsAsync() {
             return await Task.Run(() => LoadParagraphs());
         }
         public virtual async Task<LASI.Algorithm.DocumentConstructs.Document> LoadDocumentAsync() {

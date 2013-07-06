@@ -17,12 +17,21 @@ namespace LASI.Utilities.TypedSwitch
 
     #region Non Generic Switch Components
 
+    /// <summary>
+    /// Forms the head of the customized Typed Switching block, Determining the object on which to switch.
+    /// </summary>
     public class Switch
     {
+        /// <summary>
+        /// Initializes a new instance of the TypedSwitch class head.
+        /// </summary>
+        /// <param name="switchOn">The object on which to switch.</param>
         public Switch(object switchOn) {
             SwitchOn = switchOn;
         }
-
+        /// <summary>
+        /// Gets the object on which to switch.
+        /// </summary>
         public object SwitchOn {
             get;
             private set;
@@ -33,7 +42,7 @@ namespace LASI.Utilities.TypedSwitch
 
     public static class SwitchExtensions
     {
-        public static Switch Match<T>(this T switchOn) {
+        public static Switch Switch<T>(this T switchOn) where T : class {
             return new Switch(switchOn);
         }
         public static Switch Case<T>(this Switch s, Action<T> action) where T : class {
@@ -51,7 +60,8 @@ namespace LASI.Utilities.TypedSwitch
         public static Switch Case<T>(this Switch s, Func<T, bool> condition, Action<T> action, bool fallThrough) where T : class {
             if (s == null) {
                 return null;
-            } else {
+            }
+            else {
                 T tCasted = s.SwitchOn as T;
                 if (tCasted != null) {
                     if (condition(tCasted)) {
@@ -77,5 +87,6 @@ namespace LASI.Utilities.TypedSwitch
                 action(s.SwitchOn as T);
         }
     }
+
     #endregion
 }
