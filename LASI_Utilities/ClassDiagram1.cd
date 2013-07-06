@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="LASI.Utilities.TypedSwitch.Switch" Collapsed="true">
+    <Position X="4" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAA=</HashCode>
+      <FileName>CustomControlFlow.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Utilities.TypedSwitch.SwitchExtensions" Collapsed="true">
+    <Position X="0.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAAAAAIAAAAAAIAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CustomControlFlow.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Utilities.FunctionExtensions" Collapsed="true">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAEAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>FunctionExtensions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Utilities.IEnumerableExtensions" Collapsed="true">
+    <Position X="2.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAQAABAAAAAAAA=</HashCode>
+      <FileName>IEnumerableExtensions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Utilities.Input" Collapsed="true">
+    <Position X="4" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAARAAAAAAAAAAFAAAAA=</HashCode>
+      <FileName>Input.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Utilities.Output" Collapsed="true">
+    <Position X="0.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAIAAABAIEAAAIQAAAAAAAAQAAAAAAAEAAAA=</HashCode>
+      <FileName>Output.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Utilities.Properties.Resources" Collapsed="true">
+    <Position X="2.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAABEAAAAQAAAAAAAAAAAAAAAIA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="LASI.Utilities.Weight" Collapsed="true">
+    <Position X="0.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQAAAAAAAAAAAA4AWBAgBAAAAAAIAAAAAAAAAAAiA=</HashCode>
+      <FileName>Weight.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Enum Name="LASI.Utilities.OutputMode" Collapsed="true">
+    <Position X="0.5" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAACAAAIAAAAAAAAAAAAAEAAAAAAAAAAgAAAA=</HashCode>
+      <FileName>Output.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="LASI.Algorithm.Weighting.WeightKind" Collapsed="true">
+    <Position X="2.25" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAIAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAA=</HashCode>
+      <FileName>Weight.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

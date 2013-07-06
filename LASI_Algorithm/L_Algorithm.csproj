@@ -225,6 +225,7 @@
     <Compile Include="LexicalStructures\UnderpinningTypes\Word.cs" />
     <Compile Include="IEnumerableExtensions\IEnumerableOfWordExtensions.cs" />
     <Compile Include="Thesuari\WordNetLexCategoryInformation.cs" />
+    <None Include="ClassDiagram1.cd" />
     <None Include="ClassDiagrams\ClassDiagram3.cd" />
     <None Include="ClassDiagrams\ClassDiagram1.cd" />
     <None Include="ClassDiagrams\ClassDiagram2.cd" />
