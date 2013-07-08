@@ -128,7 +128,7 @@ namespace AlgorithmAssemblyUnitTestProject
             List<string> expected = new[] { "walk" }.ToList();
             List<string> actual = new List<string>();
             foreach (var c in conjugated) {
-                actual.AddRange(VerbConjugator.FindRoot(c));
+                actual.Add(VerbConjugator.FindRoot(c));
 
             }
             Assert.IsTrue((from f in expected

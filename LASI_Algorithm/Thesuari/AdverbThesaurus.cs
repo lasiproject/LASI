@@ -46,11 +46,9 @@ namespace LASI.Algorithm.Thesauri
         AdverbSynSet CreateSet(string line) {
 
 
-            String setLine = line.Split('|', '!')[0];
+            var setLine = line.Substring(0, line.IndexOf('|'));
 
-            MatchCollection numbers = Regex.Matches(setLine, @"(?<id>\d{8})");
-
-            var referencedSets = from match in Regex.Matches(line, @"\D{1,2}\s*\d{8}").Cast<Match>()
+            var referencedSets = from match in Regex.Matches(setLine, @"\D{1,2}\s*\d{8}").Cast<Match>()
                                  let split = match.Value.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
                                  where split.Count() > 1
                                  select new SetReference(relationMap[split[0]], Int32.Parse(split[1]));

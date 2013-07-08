@@ -46,21 +46,21 @@ namespace LASI.Algorithm.Thesauri
 
         private VerbSynSet CreateSet(string data) {
 
-            data = data.Substring(0, data.IndexOf('|'));
+            var setLine = data.Substring(0, data.IndexOf('|'));
 
             var extractedIndeces = new Regex(@"\D{1,2}\s*[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+");
 
-            var referencedSets = from Match M in extractedIndeces.Matches(data)
+            var referencedSets = from Match M in extractedIndeces.Matches(setLine)
                                  let split = M.Value.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
                                  where split.Count() > 1
                                  select new SetReference(RelationMap[split[0]], Int32.Parse(split[1]));
 
             var elementRgx = new Regex(@"\b[A-Za-z-_]{2,}");
 
-            var words = from Match ContainedWord in elementRgx.Matches(data.Substring(17))
+            var words = from Match ContainedWord in elementRgx.Matches(setLine.Substring(17))
                         select ContainedWord.Value.Replace('_', '-').ToLower();
-            var id = Int32.Parse(data.Substring(0, 8));
-            var lexCategory = ( VerbCategory )Int32.Parse(data.Substring(9, 2));
+            var id = Int32.Parse(setLine.Substring(0, 8));
+            var lexCategory = ( VerbCategory )Int32.Parse(setLine.Substring(9, 2));
             return new VerbSynSet(id, words, referencedSets, lexCategory);
         }
 
@@ -86,15 +86,11 @@ namespace LASI.Algorithm.Thesauri
         private ISet<string> SearchFor(string search) {
             try {
                 List<string> results = new List<string>();
-                foreach (var root in from root in VerbConjugator.FindRoot(search)
-                                     //.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
-                                     where verbData.ContainsKey(root)
-                                     select root) {
+                var root = VerbConjugator.FindRoot(search);
+                if (verbData.ContainsKey(root)) {
                     results.AddRange(
-                        from refIndex in verbData[root].ReferencedIndexes.AsParallel()
-                        //.WithDegreeOfParallelism(Concurrency.CurrentMax)
+                        from refIndex in verbData[root].ReferencedIndexes
                         from referencedSet in verbData.Values
-
                         where referencedSet.ReferencedIndexes.Contains(refIndex)
                         where referencedSet.LexName == verbData[root].LexName
                         from word in referencedSet.Words
@@ -107,12 +103,11 @@ namespace LASI.Algorithm.Thesauri
             }
             catch (ArgumentOutOfRangeException) {
             }
-            catch (KeyNotFoundException) {
-            }
             catch (IndexOutOfRangeException) {
             }
+            catch (KeyNotFoundException) {
+            }
             return new HashSet<string>();
-
         }
 
         /// <summary>
