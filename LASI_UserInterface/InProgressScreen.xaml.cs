@@ -80,7 +80,7 @@ namespace LASI.UserInterface
         public async Task InitializeParsing() {
 
             var progressPercentage = Resources["AnalysisProgressPercentage"];
-            var analyzedDocuments = await processController.AnalyseAllDocuments(ProgressBar, ProgressLabel);
+            var analyzedDocuments = await processController.AnalyseAllDocumentsAsync(LASI.FileSystem.FileManager.TextFiles, async (message, increment) => await UpdateProgressDisplay(message, increment));
             ProgressBar.Value = 100;
             ProgressLabel.Content = "Complete";
             WindowManager.ResultsScreen.Documents = analyzedDocuments.ToList();
@@ -92,7 +92,18 @@ namespace LASI.UserInterface
 
 
 
+        private async Task UpdateProgressDisplay(string statusMessage, double progressIncrement) {
+            ProgressLabel.Content = statusMessage;
+            ProgressBar.ToolTip = statusMessage;
+            //ProgressBar.ApplyAnimationClock(ProgressBar.ValueProperty, new System.Windows.Media.Animation.DoubleAnimation(ProgressBar.Value + progressIncrement, new Duration(TimeSpan.FromSeconds(1))).CreateClock());
 
+            var animateStep = progressIncrement / 100d;
+            for (int i = 0; i < 25d; ++i) {
+                ProgressBar.Value += 4 * animateStep;
+                await Task.Delay(1);
+
+            }
+        }
         #endregion
 
 

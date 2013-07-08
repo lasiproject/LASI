@@ -84,7 +84,7 @@ namespace LASI.Algorithm.Thesauri
             var kvstr = exceptionLine.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
             return new KeyValuePair<string, List<string>>(kvstr.Last(), kvstr.Take(kvstr.Count() - 1).ToList());
         }
-        private static readonly Dictionary<string, List<string>> exceptionData = new Dictionary<string, List<string>>();
+        private static readonly System.Collections.Concurrent.ConcurrentDictionary<string, List<string>> exceptionData = new System.Collections.Concurrent.ConcurrentDictionary<string, List<string>>(Concurrency.CurrentMax, 2055);
         private static readonly string[] NOUN_SUFFICIES = new[] { "s", "ses", "xes", "zes", "ches", "shes", "men", "ies" };
         private static readonly string[] NOUN_ENDINGS = new[] { "", "s", "x", "z", "ch", "sh", "man", "y", };
         #endregion

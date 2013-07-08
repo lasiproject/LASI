@@ -10,8 +10,13 @@ namespace LASI.Algorithm.Binding
     public class AttributiveNounPhraseBinder
     {
         private IEnumerable<IEnumerable<Phrase>> contiguousGroups;
-        public AttributiveNounPhraseBinder(IEnumerable<Phrase> phrases) {
-
+        public void Bind(Sentence sentence) {
+            contiguousGroups = FindContiguousNounPhrases(sentence.Phrases);
+            foreach (var cg in contiguousGroups) {
+                ProcessContiguous(cg);
+            }
+        }
+        public void Bind(IEnumerable<Phrase> phrases) {
             contiguousGroups = FindContiguousNounPhrases(phrases);
             foreach (var cg in contiguousGroups) {
                 ProcessContiguous(cg);
@@ -46,9 +51,6 @@ namespace LASI.Algorithm.Binding
             prepPhrase.ToTheLeftOf = prepPhrase.PreviousPhrase;
 
             prepPhrase.Role = PrepositionRole.DiscriptiveLinker;
-        }
-        public AttributiveNounPhraseBinder(Sentence sentence)
-            : this(sentence.Phrases) {
         }
 
         private IEnumerable<IEnumerable<Phrase>> FindContiguousNounPhrases(IEnumerable<Phrase> phrases) {

@@ -50,6 +50,15 @@ namespace LASI.Utilities
             var tagged = simpleTagger.TagString(documentContent);
             return tagged;
         }
+
+        public static async Task<TaggedFile> TagTextFileAsync(TextFile inputFile) {
+            return await new SharpNLPTaggingModule.SharpNLPTagger(TaggerOption, inputFile.FullPath).ProcessFileAsync();
+        }
+        public static async Task<Document> LoadTaggedFileAsync(TaggedFile inputFile) {
+            return await new TaggedFileParser(inputFile).LoadDocumentAsync();
+
+        }
+
         /// <summary>
         /// Gets or sets the default mode the tagger will operate under. The default value is set to TagAndAggregate
         /// </summary>
@@ -58,18 +67,18 @@ namespace LASI.Utilities
             set;
         }
         public static async Task<Document> LoadDocumentAsync(DocXFile document) {
-            var txt = await new DocxToTextConverter(document).ConvertFileAsync();
+            var txt = await new DocxToTextConverter(document).ConvertFileAsync() as TextFile;
             return await LoadTextFileAsync(txt);
 
         }
-        public static Document LoadTextFile(InputFile txt) {
-            var tagger = new SharpNLPTaggingModule.SharpNLPTagger(TaggingOption.TagAndAggregate, txt.FullPath);
+        public static Document LoadTextFile(TextFile txt) {
+            var tagger = new SharpNLPTaggingModule.SharpNLPTagger(TaggerOption, txt.FullPath);
             var tagged = tagger.ProcessFile();
             return new TaggedFileParser(tagged).LoadDocument();
         }
-        public static async Task<Document> LoadTextFileAsync(InputFile txt) {
+        public static async Task<Document> LoadTextFileAsync(TextFile txt) {
 
-            var tagger = new SharpNLPTaggingModule.SharpNLPTagger(TaggingOption.TagAndAggregate, txt.FullPath);
+            var tagger = new SharpNLPTaggingModule.SharpNLPTagger(TaggerOption, txt.FullPath);
             var tagged = await tagger.ProcessFileAsync();
             return await new TaggedFileParser(tagged).LoadDocumentAsync();
         }

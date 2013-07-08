@@ -45,13 +45,10 @@ namespace LASI.Algorithm.Binding
         #region Private Static Methods
 
         private static void PerformAttributePhraseBinding(IEnumerable<Sentence> sentences) {
-            //sentences.SelectMany(s => s.Phrases.GetVerbPhrases()).AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax).ForAll(vp => {
-            //    vp.DetermineIsClassifier();
-            //    vp.DetermineIsPossessive();
-            //});
-            sentences.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
 
-               .ForAll(s => new AttributiveNounPhraseBinder(s));
+            sentences.AsParallel()
+                .WithDegreeOfParallelism(Concurrency.CurrentMax)
+                .ForAll(s => new AttributiveNounPhraseBinder().Bind(s));
         }
         private static void PerformSVOBinding(IEnumerable<Sentence> sentences) {
             try {

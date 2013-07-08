@@ -64,7 +64,7 @@ namespace Aluan_Experimentation
         }
         private static void PerformAttributeNounPhraseBinding(Document doc) {
             foreach (var s in doc.Sentences) {
-                var attributiveBinder = new AttributiveNounPhraseBinder(s);
+                new AttributiveNounPhraseBinder().Bind(s);
             }
         }
 

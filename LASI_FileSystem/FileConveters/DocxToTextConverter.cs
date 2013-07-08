@@ -79,8 +79,7 @@ namespace LASI.FileSystem
         public override InputFile ConvertFile() {
             DocxToZip();
             XmlFile = new GenericXMLFile(DestinationInfo.Directory + DestinationInfo.FileNameSansExt + @"\word\document.xml");
-            using (XmlReader xmlReader = XmlReader.Create(new FileStream(XmlFile.FullPath, FileMode.Open, FileAccess.Read), new XmlReaderSettings
-            {
+            using (XmlReader xmlReader = XmlReader.Create(new FileStream(XmlFile.FullPath, FileMode.Open, FileAccess.Read), new XmlReaderSettings {
                 IgnoreWhitespace = true
             })) {
                 using (var writer = new StreamWriter(
