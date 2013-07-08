@@ -37,6 +37,28 @@
                 Width="77"
                 Source="MiscImages\print.png"
                 RenderTransformOrigin="0.5,0.5">
+                <Image.Triggers>
+                    <EventTrigger
+                        RoutedEvent="Window.Loaded">
+                        <BeginStoryboard>
+                            <Storyboard
+                                RepeatBehavior="Forever">
+                                <DoubleAnimation
+                                    Storyboard.TargetProperty="Opacity"
+                                    From="1.0"
+                                    To="0.0"
+                                    Duration="0:0:2.2"
+                                    BeginTime="0:0:0.0" />
+                                <DoubleAnimation
+                                    Storyboard.TargetProperty="Opacity"
+                                    From="0.0"
+                                    To="1.0"
+                                    Duration="0:0:2.2"
+                                    BeginTime="0:0:2.7" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Image.Triggers>
                 <Image.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform />
@@ -55,6 +77,28 @@
                 Width="77"
                 Source="MiscImages\print.png"
                 RenderTransformOrigin="0.5,0.5">
+                <Image.Triggers>
+                    <EventTrigger
+                        RoutedEvent="Window.Loaded">
+                        <BeginStoryboard>
+                            <Storyboard
+                                RepeatBehavior="Forever">
+                                <DoubleAnimation
+                                    Storyboard.TargetProperty="Opacity"
+                                    From="1.0"
+                                    To="0.0"
+                                    Duration="0:0:2.2"
+                                    BeginTime="0:0:4.9" />
+                                <DoubleAnimation
+                                    Storyboard.TargetProperty="Opacity"
+                                    From="0.0"
+                                    To="1.0"
+                                    Duration="0:0:2.2"
+                                    BeginTime="0:0:7.6" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Image.Triggers>
                 <Image.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform />
@@ -73,6 +117,28 @@
                 Width="77"
                 Source="MiscImages\print.png"
                 RenderTransformOrigin="0.5,0.5">
+                <Image.Triggers>
+                    <EventTrigger
+                        RoutedEvent="Window.Loaded">
+                        <BeginStoryboard>
+                            <Storyboard
+                                RepeatBehavior="Forever">
+                                <DoubleAnimation
+                                    Storyboard.TargetProperty="Opacity"
+                                    From="1.0"
+                                    To="0.0"
+                                    Duration="0:0:2.2"
+                                    BeginTime="0:0:13.0" />
+                                <DoubleAnimation
+                                    Storyboard.TargetProperty="Opacity"
+                                    From="0.0"
+                                    To="1.0"
+                                    Duration="0:0:2.2"
+                                    BeginTime="0:0:15.7" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Image.Triggers>
                 <Image.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform />
@@ -91,6 +157,28 @@
                 Width="77"
                 Source="MiscImages\print.png"
                 RenderTransformOrigin="0.5,0.5">
+                <Image.Triggers>
+                    <EventTrigger
+                        RoutedEvent="Window.Loaded">
+                        <BeginStoryboard>
+                            <Storyboard
+                                RepeatBehavior="Forever">
+                                <DoubleAnimation
+                                    Storyboard.TargetProperty="Opacity"
+                                    From="1.0"
+                                    To="0.0"
+                                    Duration="0:0:2.2"
+                                    BeginTime="0:0:15.7" />
+                                <DoubleAnimation
+                                    Storyboard.TargetProperty="Opacity"
+                                    From="0.0"
+                                    To="1.0"
+                                    Duration="0:0:2.2"
+                                    BeginTime="0:0:18.4" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Image.Triggers>
                 <Image.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform />
@@ -109,6 +197,28 @@
                 Width="77"
                 Source="MiscImages\print.png"
                 RenderTransformOrigin="0.5,0.5">
+                <Image.Triggers>
+                    <EventTrigger
+                        RoutedEvent="Window.Loaded">
+                        <BeginStoryboard>
+                            <Storyboard
+                                RepeatBehavior="Forever">
+                                <DoubleAnimation
+                                    Storyboard.TargetProperty="Opacity"
+                                    From="1.0"
+                                    To="0.0"
+                                    Duration="0:0:2.2"
+                                    BeginTime="0:0:10.3" />
+                                <DoubleAnimation
+                                    Storyboard.TargetProperty="Opacity"
+                                    From="0.0"
+                                    To="1.0"
+                                    Duration="0:0:2.2"
+                                    BeginTime="0:0:13.0" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Image.Triggers>
                 <Image.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform />
@@ -127,6 +237,28 @@
                 Width="77"
                 Source="MiscImages\print.png"
                 RenderTransformOrigin="0.241,1.304">
+                <Image.Triggers>
+                    <EventTrigger
+                        RoutedEvent="Window.Loaded">
+                        <BeginStoryboard>
+                            <Storyboard
+                                RepeatBehavior="Forever">
+                                <DoubleAnimation
+                                    Storyboard.TargetProperty="Opacity"
+                                    From="1.0"
+                                    To="0.0"
+                                    Duration="0:0:2.2"
+                                    BeginTime="0:0:7.6" />
+                                <DoubleAnimation
+                                    Storyboard.TargetProperty="Opacity"
+                                    From="0.0"
+                                    To="1.0"
+                                    Duration="0:0:2.2"
+                                    BeginTime="0:0:10.3" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Image.Triggers>
                 <Image.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform />

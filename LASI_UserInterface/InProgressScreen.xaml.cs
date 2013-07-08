@@ -20,8 +20,6 @@ namespace LASI.UserInterface
             BindControlsAndSettings();
             WindowManager.InProgressScreen = this;
             WindowStartupLocation = WindowStartupLocation.CenterScreen;
-
-            InitPawPrintAlternation();
             this.Closing += (s, e) => Application.Current.Shutdown();
             ProgressBar.Value = 0;
             ProgressLabel.Content = "Initializing";
@@ -40,38 +38,7 @@ namespace LASI.UserInterface
         }
 
 
-        #region Animation
-
-        private void InitPawPrintAlternation() {
-            pawPrintImg1.Opacity = 0.00;
-            pawPrintImg3.Opacity = 0.16;
-            pawPrintImg2.Opacity = 0.33;
-            pawPrintImg4.Opacity = 0.50;
-            pawPrintImg2.Opacity = 0.67;
-            pawPrintImg4.Opacity = 0.84;
-            new[] { pawPrintImg1, pawPrintImg3, pawPrintImg2, pawPrintImg4, pawPrintImg5, pawPrintImg6 }.ToList().ForEach(img => FadeImage(img));
-
-
-
-        }
-        private async void FadeImage(Image img) {
-            for (; ; ) {
-                while (img.Opacity > 0.0) {
-                    img.Opacity -= 0.033;
-                    await Task.Delay(33);
-                }
-                await Task.Delay(500);
-                while (img.Opacity < 1.0) {
-                    img.Opacity += 0.033;
-                    await Task.Delay(33);
-                }
-            }
-        }
-
-        #endregion
-
-
-
+     
 
         #region Process Control
 

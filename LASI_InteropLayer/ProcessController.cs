@@ -55,7 +55,7 @@ namespace LASI.InteropLayer
             var fileName = tagged.NameSansExt;
             await UpdateProgressDisplay(string.Format("{0}: Loading...", fileName), 0);
             var doc = await TaggerUtil.LoadTaggedFileAsync(tagged);
-            await UpdateProgressDisplay(string.Format("{0}: Loaded...", fileName), 4);
+            await UpdateProgressDisplay(string.Format("{0}: Loaded", fileName), 4);
             await UpdateProgressDisplay(string.Format("{0}: Analyzing Syntax...", fileName), 0);
             var bindingWorkUnits = Binder.GetBindingTasksForDocument(doc).ToList();
             foreach (var task in bindingWorkUnits) {
@@ -71,12 +71,12 @@ namespace LASI.InteropLayer
                 await UpdateProgressDisplay(task.CompletionMessage, task.PercentWorkRepresented * 0.5 / discreteWorkLoads);
             }
 
-            await UpdateProgressDisplay(string.Format("{0}: Complete Parse...", fileName), documentStepRatio);
+            await UpdateProgressDisplay(string.Format("{0}: Completing Parse...", fileName), documentStepRatio);
             return doc;
         }
 
         private async Task LoadThesaurus() {
-            await UpdateProgressDisplay("Loading Thesaurus", documentStepRatio);
+            await UpdateProgressDisplay("Loading Thesaurus...", documentStepRatio);
             var thesaurusTasks = Thesaurus.GetTasksToLoadAllThesauri().ToList();
             while (thesaurusTasks.Any()) {
                 var currentTask = await Task.WhenAny(thesaurusTasks);
