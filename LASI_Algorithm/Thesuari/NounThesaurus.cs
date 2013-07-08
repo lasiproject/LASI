@@ -48,7 +48,7 @@ namespace LASI.Algorithm.Thesauri
             lexicalGoups[set.LexName].Add(set);
         }
 
-        NounSynSet CreateSet(string line) {
+        private NounSynSet CreateSet(string line) {
 
 
             var setLine = line.Substring(0, line.IndexOf('|'));
@@ -57,7 +57,7 @@ namespace LASI.Algorithm.Thesauri
                 from match in Regex.Matches(setLine, @"\D{1,2}\s*\d{8}").Cast<Match>()
                 let split = match.Value.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
                 let pointer = split.Count() > 1 ?
-                new KeyValuePair<NounPointerSymbol, int>(RelationMap[split[0]], Int32.Parse(split[1])) :
+                new KeyValuePair<NounPointerSymbol, int>(RelationshipMap[split[0]], Int32.Parse(split[1])) :
                 new KeyValuePair<NounPointerSymbol, int>(NounPointerSymbol.UNDEFINED, Int32.Parse(split[0]))
                 where relationshipsToKeep.Contains(pointer.Key)
                 select pointer;
@@ -83,8 +83,12 @@ namespace LASI.Algorithm.Thesauri
                 return new HashSet<string>();
             var lexname = containingSet.LexName;
             List<string> results = new List<string>();
-
-            SearchSubsets(containingSet, results, new HashSet<NounSynSet>(), lexname);
+            try {
+                SearchSubsets(containingSet, results, new HashSet<NounSynSet>(), lexname);
+            }
+            catch (InvalidOperationException e) {
+                Output.WriteLine(string.Format("InvalidOperationException {0} was thrown in attempting to search for synonyms. Search word {1}: , containing set: {2}", e, word, containingSet));
+            }
             return new HashSet<string>(results);
         }
 
@@ -166,6 +170,6 @@ namespace LASI.Algorithm.Thesauri
             NounPointerSymbol.HypERnym,
         };
 
-        private static readonly NounPointerSymbolMap RelationMap = new NounPointerSymbolMap();
+        private static readonly NounPointerSymbolMap RelationshipMap = new NounPointerSymbolMap();
     }
 }
