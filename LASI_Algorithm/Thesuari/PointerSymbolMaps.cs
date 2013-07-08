@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LASI.Utilities;
 
-namespace LASI.Algorithm.Thesauri
+namespace LASI.Algorithm.Thesauri.InterSetRelationshipManagement
 {
     /// <summary>
     /// Provides an indexed lookup between the values of the Noun enum and their corresponding string representation in WordNet data.noun files.
@@ -19,9 +19,9 @@ namespace LASI.Algorithm.Thesauri
         /// <param name="key">The Key string for which to retrieve a Noun value.</param>
         /// <returns>The Noun value corresponding to the Key string.
         /// The Value UNDEFINED is returned if no value is mapped to the key.</returns>
-        public NounPointerSymbol this[string key] {
+        public NounSetRelationship this[string key] {
             get {
-                NounPointerSymbol result;
+                NounSetRelationship result;
                 data.TryGetValue(key, out result);
                 return result;
             }
@@ -29,26 +29,26 @@ namespace LASI.Algorithm.Thesauri
         public override string ToString() {
             return data.Format(pair => string.Format("\"{0}\" -> {1}", pair.Key, pair.Value));
         }
-        private static readonly IReadOnlyDictionary<string, NounPointerSymbol> data = new Dictionary<string, NounPointerSymbol>{ 
-            { "!", NounPointerSymbol.Antonym },
-            { "@", NounPointerSymbol.HypERnym },
-            { "@i", NounPointerSymbol.InstanceHypERnym },
-            { "~", NounPointerSymbol.HypOnym },
-            { "~i", NounPointerSymbol.InstanceHypOnym },
-            { "#m", NounPointerSymbol.MemberHolonym },
-            { "#s", NounPointerSymbol.SubstanceHolonym },
-            { "#p", NounPointerSymbol.PartHolonym },
-            { "%m", NounPointerSymbol.MemberMeronym },
-            { "%s", NounPointerSymbol.SubstanceMeronym },
-            { "%p", NounPointerSymbol.PartMeronym },
-            { "=", NounPointerSymbol.Attribute },
-            { "+", NounPointerSymbol.DerivationallyRelatedForm },
-            { ";c", NounPointerSymbol.DomainOfSynset_TOPIC },
-            { "-c", NounPointerSymbol.MemberOfThisDomain_TOPIC },
-            { ";r", NounPointerSymbol.DomainOfSynset_REGION },
-            { "-r", NounPointerSymbol.MemberOfThisDomain_REGION },
-            { ";u", NounPointerSymbol.DomainOfSynset_USAGE },
-            { "-u", NounPointerSymbol.MemberOfThisDomain_USAGE }
+        private static readonly IReadOnlyDictionary<string, NounSetRelationship> data = new Dictionary<string, NounSetRelationship>{ 
+            { "!", NounSetRelationship.Antonym },
+            { "@", NounSetRelationship.HypERnym },
+            { "@i", NounSetRelationship.InstanceHypERnym },
+            { "~", NounSetRelationship.HypOnym },
+            { "~i", NounSetRelationship.InstanceHypOnym },
+            { "#m", NounSetRelationship.MemberHolonym },
+            { "#s", NounSetRelationship.SubstanceHolonym },
+            { "#p", NounSetRelationship.PartHolonym },
+            { "%m", NounSetRelationship.MemberMeronym },
+            { "%s", NounSetRelationship.SubstanceMeronym },
+            { "%p", NounSetRelationship.PartMeronym },
+            { "=", NounSetRelationship.Attribute },
+            { "+", NounSetRelationship.DerivationallyRelatedForm },
+            { ";c", NounSetRelationship.DomainOfSynset_TOPIC },
+            { "-c", NounSetRelationship.MemberOfThisDomain_TOPIC },
+            { ";r", NounSetRelationship.DomainOfSynset_REGION },
+            { "-r", NounSetRelationship.MemberOfThisDomain_REGION },
+            { ";u", NounSetRelationship.DomainOfSynset_USAGE },
+            { "-u", NounSetRelationship.MemberOfThisDomain_USAGE }
         };
     }
     /// <summary>
@@ -63,25 +63,25 @@ namespace LASI.Algorithm.Thesauri
         /// <param name="key">The Key string for which to retrieve a Noun value.</param>
         /// <returns>The VerbPointerSymbol value corresponding to the Key string.
         /// The Value UNDEFINED is returned if no value is mapped to the key.</returns>
-        public VerbPointerSymbol this[string key] {
+        public VerbSetRelationship this[string key] {
             get {
-                VerbPointerSymbol result;
+                VerbSetRelationship result;
                 data.TryGetValue(key, out result);
                 return result;
             }
         }
-        private static readonly IReadOnlyDictionary<string, VerbPointerSymbol> data = new Dictionary<string, VerbPointerSymbol> {
-            { "!", VerbPointerSymbol. Antonym }, 
-            { "@", VerbPointerSymbol.Hypernym },
-            { "~", VerbPointerSymbol.Hyponym },
-            { "*", VerbPointerSymbol.Entailment },
-            { ">", VerbPointerSymbol.Cause },
-            { "^", VerbPointerSymbol. AlsoSee },
-            { "$", VerbPointerSymbol.Verb_Group },
-            { "+", VerbPointerSymbol.DerivationallyRelatedForm },
-            { ";c", VerbPointerSymbol.DomainOfSynset_TOPIC },
-            { ";r", VerbPointerSymbol.DomainOfSynset_REGION },
-            { ";u", VerbPointerSymbol.DomainOfSynset_USAGE}
+        private static readonly IReadOnlyDictionary<string, VerbSetRelationship> data = new Dictionary<string, VerbSetRelationship> {
+            { "!", VerbSetRelationship. Antonym }, 
+            { "@", VerbSetRelationship.Hypernym },
+            { "~", VerbSetRelationship.Hyponym },
+            { "*", VerbSetRelationship.Entailment },
+            { ">", VerbSetRelationship.Cause },
+            { "^", VerbSetRelationship. AlsoSee },
+            { "$", VerbSetRelationship.Verb_Group },
+            { "+", VerbSetRelationship.DerivationallyRelatedForm },
+            { ";c", VerbSetRelationship.DomainOfSynset_TOPIC },
+            { ";r", VerbSetRelationship.DomainOfSynset_REGION },
+            { ";u", VerbSetRelationship.DomainOfSynset_USAGE}
         };
     }
     /// <summary>
@@ -96,23 +96,23 @@ namespace LASI.Algorithm.Thesauri
         /// <param name="key">The Key string for which to retrieve a Adjective value.</param>
         /// <returns>The VerbPointerSymbol value corresponding to the Key string.
         /// The Value UNDEFINED is returned if no value is mapped to the key.</returns>
-        public AdjectivePointerSymbol this[string key] {
+        public AdjectiveSetRelationship this[string key] {
             get {
-                AdjectivePointerSymbol result;
+                AdjectiveSetRelationship result;
                 data.TryGetValue(key, out result);
                 return result;
             }
         }
-        private static readonly IReadOnlyDictionary<string, AdjectivePointerSymbol> data = new Dictionary<string, AdjectivePointerSymbol> {
-            { "!", AdjectivePointerSymbol. Antonym }, 
-            { "&", AdjectivePointerSymbol.SimilarTo},
-            { "<", AdjectivePointerSymbol.ParticipleOfVerb},
-            { @"\", AdjectivePointerSymbol.Pertainym_pertains_to_noun},
-            { "=", AdjectivePointerSymbol.Attribute},
-            { "^", AdjectivePointerSymbol.AlsoSee },
-            { ";c", AdjectivePointerSymbol.DomainOfSynset_TOPIC },
-            { ";r", AdjectivePointerSymbol.DomainOfSynset_REGION },
-            { ";u", AdjectivePointerSymbol.DomainOfSynset_USAGE}
+        private static readonly IReadOnlyDictionary<string, AdjectiveSetRelationship> data = new Dictionary<string, AdjectiveSetRelationship> {
+            { "!", AdjectiveSetRelationship. Antonym }, 
+            { "&", AdjectiveSetRelationship.SimilarTo},
+            { "<", AdjectiveSetRelationship.ParticipleOfVerb},
+            { @"\", AdjectiveSetRelationship.Pertainym_pertains_to_noun},
+            { "=", AdjectiveSetRelationship.Attribute},
+            { "^", AdjectiveSetRelationship.AlsoSee },
+            { ";c", AdjectiveSetRelationship.DomainOfSynset_TOPIC },
+            { ";r", AdjectiveSetRelationship.DomainOfSynset_REGION },
+            { ";u", AdjectiveSetRelationship.DomainOfSynset_USAGE}
         };
     }
 
@@ -128,38 +128,38 @@ namespace LASI.Algorithm.Thesauri
         /// <param name="key">The Key string for which to retrieve a Noun value.</param>
         /// <returns>The VerbPointerSymbol value corresponding to the Key string.
         /// The Value UNDEFINED is returned if no value is mapped to the key.</returns>
-        public AdverbPointerSymbol this[string key] {
+        public AdverbSetRelationship this[string key] {
             get {
-                AdverbPointerSymbol result;
+                AdverbSetRelationship result;
                 data.TryGetValue(key, out result);
                 return result;
             }
         }
-        private static readonly IReadOnlyDictionary<string, AdverbPointerSymbol> data = new Dictionary<string, AdverbPointerSymbol> {
-            { "!", AdverbPointerSymbol. Antonym }, 
-            { @"\", AdverbPointerSymbol.DerivedFromAdjective},
-            { ";c", AdverbPointerSymbol.DomainOfSynset_TOPIC },
-            { ";r", AdverbPointerSymbol.DomainOfSynset_REGION },
-            { ";u", AdverbPointerSymbol.DomainOfSynset_USAGE}
+        private static readonly IReadOnlyDictionary<string, AdverbSetRelationship> data = new Dictionary<string, AdverbSetRelationship> {
+            { "!", AdverbSetRelationship. Antonym }, 
+            { @"\", AdverbSetRelationship.DerivedFromAdjective},
+            { ";c", AdverbSetRelationship.DomainOfSynset_TOPIC },
+            { ";r", AdverbSetRelationship.DomainOfSynset_REGION },
+            { ";u", AdverbSetRelationship.DomainOfSynset_USAGE}
         };
     }
 
 
 
-    internal class NounSetIDSymbolMap : ILookup<NounPointerSymbol, int>
+    internal class NounSetIDSymbolMap : ILookup<NounSetRelationship, int>
     {
-        public NounSetIDSymbolMap(IEnumerable<KeyValuePair<NounPointerSymbol, int>> relationData) {
+        public NounSetIDSymbolMap(IEnumerable<KeyValuePair<NounSetRelationship, int>> relationData) {
             data = (from pair in relationData
                     group pair.Value by pair.Key into g
-                    select new KeyValuePair<NounPointerSymbol, HashSet<int>>(g.Key, new HashSet<int>(g))).ToDictionary(pair => pair.Key, pair => pair.Value);
+                    select new KeyValuePair<NounSetRelationship, HashSet<int>>(g.Key, new HashSet<int>(g))).ToDictionary(pair => pair.Key, pair => pair.Value);
         }
 
-        private IDictionary<NounPointerSymbol, HashSet<int>> data;
-        private IEnumerable<IGrouping<NounPointerSymbol, int>> groupData;
+        private IDictionary<NounSetRelationship, HashSet<int>> data;
+        private IEnumerable<IGrouping<NounSetRelationship, int>> groupData;
 
 
 
-        public IEnumerable<int> this[NounPointerSymbol key] {
+        public IEnumerable<int> this[NounSetRelationship key] {
             get {
                 return data.ContainsKey(key) ? data[key] : Enumerable.Empty<int>();
             }
@@ -171,11 +171,11 @@ namespace LASI.Algorithm.Thesauri
             }
         }
 
-        public bool Contains(NounPointerSymbol key) {
+        public bool Contains(NounSetRelationship key) {
             return data.ContainsKey(key);
         }
 
-        public IEnumerator<IGrouping<NounPointerSymbol, int>> GetEnumerator() {
+        public IEnumerator<IGrouping<NounSetRelationship, int>> GetEnumerator() {
             groupData = groupData ?? from pair in data
                                      from value in pair.Value
                                      group value by pair.Key;
@@ -187,16 +187,16 @@ namespace LASI.Algorithm.Thesauri
         }
     }
 
-    internal class VerbSetIDSymbolMap : ILookup<VerbPointerSymbol, int>
+    internal class VerbSetIDSymbolMap : ILookup<VerbSetRelationship, int>
     {
-        public VerbSetIDSymbolMap(IEnumerable<KeyValuePair<VerbPointerSymbol, int>> relationData) {
+        public VerbSetIDSymbolMap(IEnumerable<KeyValuePair<VerbSetRelationship, int>> relationData) {
             data = (from pair in relationData
                     group pair.Value by pair.Key into g
-                    select new KeyValuePair<VerbPointerSymbol, HashSet<int>>(g.Key, new HashSet<int>(g))).ToDictionary(pair => pair.Key, pair => pair.Value);
+                    select new KeyValuePair<VerbSetRelationship, HashSet<int>>(g.Key, new HashSet<int>(g))).ToDictionary(pair => pair.Key, pair => pair.Value);
         }
-        private IDictionary<VerbPointerSymbol, HashSet<int>> data;
-        private IEnumerable<IGrouping<VerbPointerSymbol, int>> groupData;
-        public IEnumerable<int> this[VerbPointerSymbol key] {
+        private IDictionary<VerbSetRelationship, HashSet<int>> data;
+        private IEnumerable<IGrouping<VerbSetRelationship, int>> groupData;
+        public IEnumerable<int> this[VerbSetRelationship key] {
             get {
                 return data.ContainsKey(key) ? data[key] : Enumerable.Empty<int>();
             }
@@ -208,11 +208,11 @@ namespace LASI.Algorithm.Thesauri
             }
         }
 
-        public bool Contains(VerbPointerSymbol key) {
+        public bool Contains(VerbSetRelationship key) {
             return data.ContainsKey(key);
         }
 
-        public IEnumerator<IGrouping<VerbPointerSymbol, int>> GetEnumerator() {
+        public IEnumerator<IGrouping<VerbSetRelationship, int>> GetEnumerator() {
             groupData = groupData ?? from pair in data
                                      from value in pair.Value
                                      group value by pair.Key;
@@ -224,16 +224,16 @@ namespace LASI.Algorithm.Thesauri
         }
     }
 
-    internal class AdjectiveSetIDSymbolMap : ILookup<AdjectivePointerSymbol, int>
+    internal class AdjectiveSetIDSymbolMap : ILookup<AdjectiveSetRelationship, int>
     {
-        public AdjectiveSetIDSymbolMap(IEnumerable<KeyValuePair<AdjectivePointerSymbol, int>> relationData) {
+        public AdjectiveSetIDSymbolMap(IEnumerable<KeyValuePair<AdjectiveSetRelationship, int>> relationData) {
             data = (from pair in relationData
                     group pair.Value by pair.Key into g
-                    select new KeyValuePair<AdjectivePointerSymbol, HashSet<int>>(g.Key, new HashSet<int>(g))).ToDictionary(pair => pair.Key, pair => pair.Value);
+                    select new KeyValuePair<AdjectiveSetRelationship, HashSet<int>>(g.Key, new HashSet<int>(g))).ToDictionary(pair => pair.Key, pair => pair.Value);
         }
-        private IDictionary<AdjectivePointerSymbol, HashSet<int>> data;
-        private IEnumerable<IGrouping<AdjectivePointerSymbol, int>> groupData;
-        public IEnumerable<int> this[AdjectivePointerSymbol key] {
+        private IDictionary<AdjectiveSetRelationship, HashSet<int>> data;
+        private IEnumerable<IGrouping<AdjectiveSetRelationship, int>> groupData;
+        public IEnumerable<int> this[AdjectiveSetRelationship key] {
             get {
                 return data.ContainsKey(key) ? data[key] : Enumerable.Empty<int>();
             }
@@ -245,11 +245,11 @@ namespace LASI.Algorithm.Thesauri
             }
         }
 
-        public bool Contains(AdjectivePointerSymbol key) {
+        public bool Contains(AdjectiveSetRelationship key) {
             return data.ContainsKey(key);
         }
 
-        public IEnumerator<IGrouping<AdjectivePointerSymbol, int>> GetEnumerator() {
+        public IEnumerator<IGrouping<AdjectiveSetRelationship, int>> GetEnumerator() {
             groupData = groupData ?? from pair in data
                                      from value in pair.Value
                                      group value by pair.Key;
@@ -260,16 +260,16 @@ namespace LASI.Algorithm.Thesauri
             throw new NotImplementedException();
         }
     }
-    internal class AdverbSetIDSymbolMap : ILookup<AdverbPointerSymbol, int>
+    internal class AdverbSetIDSymbolMap : ILookup<AdverbSetRelationship, int>
     {
-        public AdverbSetIDSymbolMap(IEnumerable<KeyValuePair<AdverbPointerSymbol, int>> relationData) {
+        public AdverbSetIDSymbolMap(IEnumerable<KeyValuePair<AdverbSetRelationship, int>> relationData) {
             data = (from pair in relationData
                     group pair.Value by pair.Key into g
-                    select new KeyValuePair<AdverbPointerSymbol, HashSet<int>>(g.Key, new HashSet<int>(g))).ToDictionary(pair => pair.Key, pair => pair.Value);
+                    select new KeyValuePair<AdverbSetRelationship, HashSet<int>>(g.Key, new HashSet<int>(g))).ToDictionary(pair => pair.Key, pair => pair.Value);
         }
-        private IDictionary<AdverbPointerSymbol, HashSet<int>> data;
-        private IEnumerable<IGrouping<AdverbPointerSymbol, int>> groupData;
-        public IEnumerable<int> this[AdverbPointerSymbol key] {
+        private IDictionary<AdverbSetRelationship, HashSet<int>> data;
+        private IEnumerable<IGrouping<AdverbSetRelationship, int>> groupData;
+        public IEnumerable<int> this[AdverbSetRelationship key] {
             get {
                 return data.ContainsKey(key) ? data[key] : Enumerable.Empty<int>();
             }
@@ -281,11 +281,11 @@ namespace LASI.Algorithm.Thesauri
             }
         }
 
-        public bool Contains(AdverbPointerSymbol key) {
+        public bool Contains(AdverbSetRelationship key) {
             return data.ContainsKey(key);
         }
 
-        public IEnumerator<IGrouping<AdverbPointerSymbol, int>> GetEnumerator() {
+        public IEnumerator<IGrouping<AdverbSetRelationship, int>> GetEnumerator() {
             groupData = groupData ?? from pair in data
                                      from value in pair.Value
                                      group value by pair.Key;

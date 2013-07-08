@@ -147,9 +147,8 @@
     <Compile Include="Concurrency.cs" />
     <Compile Include="Thesuari\AdjectiveThesaurus.cs" />
     <Compile Include="Thesuari\AdverbThesaurus.cs" />
-    <Compile Include="Thesuari\Experimental\ISynonymLookup.cs" />
     <Compile Include="Thesuari\NounConjugator.cs" />
-    <Compile Include="Thesuari\NoSynonymLookupForTypeException.cs" />
+    <Compile Include="Thesuari\SynonymLookupExceptions.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\RelativePronoun.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\GenericNoun.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\ProperNoun.cs" />
@@ -204,7 +203,7 @@
     <Compile Include="LexicalStructures\NounRelatedConstructs\PersonalPronoun.cs" />
     <Compile Include="LexicalStructures\AdverbRelatedConstructs\SuperlativeAdverb.cs" />
     <Compile Include="LexicalStructures\MiscLanguageConstructs\Symbol.cs" />
-    <Compile Include="Thesuari\ThesaurusBase.cs" />
+    <Compile Include="Thesuari\SynsetLookup.cs" />
     <Compile Include="LexicalStructures\VerbRelatedConstructs\IVerbal.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\Noun.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\NounPhrase.cs" />

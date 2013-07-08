@@ -11,7 +11,8 @@ using LASI.Utilities;
 
 namespace LASI.Algorithm.Thesauri
 {
-    internal class VerbThesaurus : ThesaurusBase
+    using SetReference = System.Collections.Generic.KeyValuePair<VerbSetRelationship, int>;
+    internal class VerbThesaurus : SynonymLookup
     {
         /// <summary>
         /// Initializes a new instance of the VerbThesaurus class.
@@ -20,8 +21,7 @@ namespace LASI.Algorithm.Thesauri
         /// </summary>
         public VerbThesaurus(string filePath)
             : base(filePath) {
-            FilePath = filePath;
-            AssociationData = new ConcurrentDictionary<string, VerbSynSet>();
+            verbData = new ConcurrentDictionary<string, VerbSynSet>();
         }
 
 
@@ -50,19 +50,18 @@ namespace LASI.Algorithm.Thesauri
 
             var extractedIndeces = new Regex(@"\D{1,2}\s*[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+");
 
-            var pointers = from Match M in extractedIndeces.Matches(data)
-                           let split = M.Value.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
-                           let pointer = split.Count() > 1 ?
-                           new KeyValuePair<VerbPointerSymbol, int>(RelationMap[split[0]], Int32.Parse(split[1])) :
-                           new KeyValuePair<VerbPointerSymbol, int>(VerbPointerSymbol.UNDEFINED, Int32.Parse(split[0]))
-                           select pointer;
+            var referencedSets = from Match M in extractedIndeces.Matches(data)
+                                 let split = M.Value.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
+                                 where split.Count() > 1
+                                 select new SetReference(RelationMap[split[0]], Int32.Parse(split[1]));
+
             var elementRgx = new Regex(@"\b[A-Za-z-_]{2,}");
 
-            var wordMembers = from Match ContainedWord in elementRgx.Matches(data.Substring(17))
-                              select ContainedWord.Value.Replace('_', '-').ToLower();
+            var words = from Match ContainedWord in elementRgx.Matches(data.Substring(17))
+                        select ContainedWord.Value.Replace('_', '-').ToLower();
             var id = Int32.Parse(data.Substring(0, 8));
-            var WNlexNameCode = ( WordNetVerbCategory )Int32.Parse(data.Substring(9, 2));
-            return new VerbSynSet(id, wordMembers, pointers, WNlexNameCode);
+            var lexCategory = ( VerbCategory )Int32.Parse(data.Substring(9, 2));
+            return new VerbSynSet(id, words, referencedSets, lexCategory);
         }
 
 
@@ -70,22 +69,51 @@ namespace LASI.Algorithm.Thesauri
 
         private void LinkSynset(VerbSynSet synset) {
             foreach (var word in synset.Words) {
-                if (AssociationData.ContainsKey(word)) {
-                    AssociationData[word] = new VerbSynSet(
-                        AssociationData[word].ID,
-                        AssociationData[word].Words.Concat(synset.Words),
-                        AssociationData[word].RelatedOnPointerSymbol.Concat(synset.RelatedOnPointerSymbol)
-                        .SelectMany(grouping => grouping.Select(pointer => new KeyValuePair<VerbPointerSymbol, int>(grouping.Key, pointer))),
-                         AssociationData[word].LexName);
+                if (verbData.ContainsKey(word)) {
+                    verbData[word] = new VerbSynSet(
+                        verbData[word].ID,
+                        verbData[word].Words.Concat(synset.Words),
+                        verbData[word].RelatedOnPointerSymbol.Concat(synset.RelatedOnPointerSymbol)
+                        .SelectMany(grouping => grouping.Select(pointer => new SetReference(grouping.Key, pointer))), verbData[word].LexName);
                 }
                 else {
-                    AssociationData.Add(word, synset);
+                    verbData.Add(word, synset);
                 }
 
             }
         }
 
+        private ISet<string> SearchFor(string search) {
+            try {
+                List<string> results = new List<string>();
+                foreach (var root in from root in VerbConjugator.FindRoot(search)
+                                     //.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
+                                     where verbData.ContainsKey(root)
+                                     select root) {
+                    results.AddRange(
+                        from refIndex in verbData[root].ReferencedIndexes.AsParallel()
+                        //.WithDegreeOfParallelism(Concurrency.CurrentMax)
+                        from referencedSet in verbData.Values
 
+                        where referencedSet.ReferencedIndexes.Contains(refIndex)
+                        where referencedSet.LexName == verbData[root].LexName
+                        from word in referencedSet.Words
+
+                        let withConjugations = new string[] { word }.Concat(VerbConjugator.GetConjugations(word))
+                        from w in withConjugations
+                        select w);
+                }
+                return results.ToSet();
+            }
+            catch (ArgumentOutOfRangeException) {
+            }
+            catch (KeyNotFoundException) {
+            }
+            catch (IndexOutOfRangeException) {
+            }
+            return new HashSet<string>();
+
+        }
 
         /// <summary>
         /// Retrives the synonyms of the given verb as a collection of strings.
@@ -94,36 +122,11 @@ namespace LASI.Algorithm.Thesauri
         /// <returns>A collection of strings containing all of the synonyms of the given verb.</returns>
         public override ISet<string> this[string search] {
             get {
-                try {
-                    List<string> results = new List<string>();
-                    foreach (var root in from root in VerbConjugator.FindRoot(search)
-                                         //.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
-                                         where AssociationData.ContainsKey(root)
-                                         select root) {
-                        results.AddRange(
-                            from refIndex in AssociationData[root].ReferencedIndexes.AsParallel()
-                            //.WithDegreeOfParallelism(Concurrency.CurrentMax)
-                            from referencedSet in AssociationData.Values
-
-                            where referencedSet.ReferencedIndexes.Contains(refIndex)
-                            where referencedSet.LexName == AssociationData[root].LexName
-                            from word in referencedSet.Words
-
-                            let withConjugations = new string[] { word }.Concat(VerbConjugator.GetConjugations(word))
-                            from w in withConjugations
-                            select w);
-                    }
-                    return results.ToSet();
-                }
-                catch (ArgumentOutOfRangeException) {
-                }
-                catch (KeyNotFoundException) {
-                }
-                catch (IndexOutOfRangeException) {
-                }
-                return new HashSet<string>();
+                return SearchFor(search);
             }
         }
+
+
 
 
 
@@ -141,7 +144,11 @@ namespace LASI.Algorithm.Thesauri
             }
         }
 
-        private static VerbPointerSymbolMap RelationMap = new VerbPointerSymbolMap();
+
+
+        private IDictionary<string, VerbSynSet> verbData;
+        private static LASI.Algorithm.Thesauri.InterSetRelationshipManagement.VerbPointerSymbolMap RelationMap =
+            new LASI.Algorithm.Thesauri.InterSetRelationshipManagement.VerbPointerSymbolMap();
     }
 
 

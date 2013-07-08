@@ -5,14 +5,14 @@ using System.Threading.Tasks;
 
 namespace LASI.Algorithm.Thesauri
 {
-    internal abstract class ThesaurusBase
+    internal abstract class SynonymLookup
     {
         /// <summary>
         /// Constructor accessible only to derrived classes.
         /// Provides common initialization logic.
         /// </summary>
         /// <param name="filePath">The path of WordNet database file which provides the synonym line (form should be line.pos, e.g. line.adverb)</param>
-        protected ThesaurusBase(string filePath) {
+        protected SynonymLookup(string filePath) {
             FilePath = filePath;
         }
         /// <summary>
@@ -38,13 +38,6 @@ namespace LASI.Algorithm.Thesauri
 
         public abstract ISet<string> this[Word search] {
             get;
-        }
-        /// <summary>
-        /// gets or sets all of the synsets in the ThesaurusBase
-        /// </summary>
-        internal IDictionary<string, VerbSynSet> AssociationData {
-            get;
-            set;
         }
         protected const int HEADER_LENGTH = 29;
     }

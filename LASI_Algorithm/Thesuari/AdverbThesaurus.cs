@@ -8,9 +8,9 @@ using System.Text.RegularExpressions;
 
 namespace LASI.Algorithm.Thesauri
 {
-    internal class AdverbThesaurus : ThesaurusBase
+    using SetReference = System.Collections.Generic.KeyValuePair<AdverbSetRelationship, int>;
+    internal class AdverbThesaurus : SynonymLookup
     {
-
         /// <summary>
         /// Initializes a new instance of the AdjectiveThesaurus class.
         /// </summary>
@@ -32,11 +32,6 @@ namespace LASI.Algorithm.Thesauri
             List<string> lines = new List<string>();
 
             using (StreamReader reader = new StreamReader(FilePath)) {
-
-
-
-
-
                 for (int i = 0; i < HEADER_LENGTH; ++i) {
                     reader.ReadLine();
                 }
@@ -45,15 +40,6 @@ namespace LASI.Algorithm.Thesauri
                     var set = CreateSet(reader.ReadLine());
                     allSets.Add(set);
                 }
-
-
-
-
-
-
-
-
-
             }
         }
 
@@ -64,21 +50,18 @@ namespace LASI.Algorithm.Thesauri
 
             MatchCollection numbers = Regex.Matches(setLine, @"(?<id>\d{8})");
 
-            var pointers = from match in Regex.Matches(line, @"\D{1,2}\s*\d{8}").Cast<Match>()
-                           let split = match.Value.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
-                           let pointer = split.Count() > 1 ?
-                           new KeyValuePair<AdverbPointerSymbol, int>(relationMap[split[0]], Int32.Parse(split[1])) :
-                           new KeyValuePair<AdverbPointerSymbol, int>(AdverbPointerSymbol.UNDEFINED, Int32.Parse(split[0]))
-                           select pointer;
+            var referencedSets = from match in Regex.Matches(line, @"\D{1,2}\s*\d{8}").Cast<Match>()
+                                 let split = match.Value.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
+                                 where split.Count() > 1
+                                 select new SetReference(relationMap[split[0]], Int32.Parse(split[1]));
 
-
-            IEnumerable<string> localWords = from match in Regex.Matches(setLine, @"(?<word>[A-Za-z_\-\']{3,})").Cast<Match>()
-                                             select match.Value.Replace('_', '-');
+            IEnumerable<string> words = from match in Regex.Matches(setLine, @"(?<word>[A-Za-z_\-\']{3,})").Cast<Match>()
+                                        select match.Value.Replace('_', '-');
 
             int id = Int32.Parse(setLine.Substring(0, 8));
 
-            WordNetAdverbCategory lexCategory = ( WordNetAdverbCategory )Int32.Parse(setLine.Substring(9, 2));
-            return new AdverbSynSet(id, localWords, pointers, lexCategory);
+            AdverbCategory lexCategory = ( AdverbCategory )Int32.Parse(setLine.Substring(9, 2));
+            return new AdverbSynSet(id, words, referencedSets, lexCategory);
 
 
 
@@ -141,6 +124,7 @@ namespace LASI.Algorithm.Thesauri
             }
         }
 
-        private static readonly AdverbPointerSymbolMap relationMap = new AdverbPointerSymbolMap();
+        private static readonly LASI.Algorithm.Thesauri.InterSetRelationshipManagement.AdverbPointerSymbolMap relationMap =
+            new LASI.Algorithm.Thesauri.InterSetRelationshipManagement.AdverbPointerSymbolMap();
     }
 }

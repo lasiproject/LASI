@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LASI.Algorithm.Thesauri;
 using LASI.Utilities;
+using LASI.Algorithm.Thesauri.InterSetRelationshipManagement;
 
 namespace LASI.Algorithm.Thesauri
 {
@@ -12,7 +13,7 @@ namespace LASI.Algorithm.Thesauri
     /// <summary>
     /// Represents a synset parsed from a line of the data.noun file of the WordNet package.
     /// </summary>
-    public class NounSynSet
+    class NounSynSet
     {
 
         /// <summary>
@@ -22,13 +23,14 @@ namespace LASI.Algorithm.Thesauri
         /// <param name="words">The collection of word strings contained directly within the synset.</param>
         /// <param name="pointerRelations">A collection of pairs each representing a reference to another synset in data.noun and its relationship to the initialized synset.</param>
         /// <param name="lexCategory">The lexical noun category of the synset.</param>
-        public NounSynSet(int ID, IEnumerable<string> words, IEnumerable<KeyValuePair<NounPointerSymbol, int>> pointerRelations, WordNetNounCategory lexCategory) {
+        public NounSynSet(int ID, IEnumerable<string> words, IEnumerable<KeyValuePair<NounSetRelationship, int>> pointerRelations, NounCategory lexCategory) {
             this.ID = ID;
+            LexName = lexCategory;
             Words = new HashSet<string>(words);
             referencedSetsByReferenceKind = new NounSetIDSymbolMap(pointerRelations);
             ReferencedIndexes = new HashSet<int>(from pair in pointerRelations
                                                  select pair.Value);
-            LexName = lexCategory;
+
         }
         /// <summary>
         /// Returns a single string representing the members of the NounSynSet.
@@ -47,7 +49,7 @@ namespace LASI.Algorithm.Thesauri
             return this == obj as NounSynSet;
         }
 
-        public WordNetNounCategory LexName {
+        public NounCategory LexName {
             get;
             private set;
         }
@@ -56,7 +58,7 @@ namespace LASI.Algorithm.Thesauri
         /// </summary>
         /// <param name="relationshipKind">The kind of external set references to relationships to return.</param>
         /// <returns>The IDs of all other NounSynSets which are referenced from the current NounSynSet in the indicated fashion.</returns>
-        public IEnumerable<int> this[NounPointerSymbol relationshipKind] {
+        public IEnumerable<int> this[NounSetRelationship relationshipKind] {
             get {
                 return referencedSetsByReferenceKind[relationshipKind];
             }
@@ -104,20 +106,21 @@ namespace LASI.Algorithm.Thesauri
     /// <summary>
     /// Represents a synset parsed from a line of the data.verb file of the WordNet package.
     /// </summary>
-    public class VerbSynSet
+    class VerbSynSet
     {
-        public WordNetVerbCategory LexName {
+        public VerbCategory LexName {
             get;
             private set;
         }
 
-        public VerbSynSet(int ID, IEnumerable<string> words, IEnumerable<KeyValuePair<VerbPointerSymbol, int>> pointerRelations, WordNetVerbCategory lexCategory) {
+        public VerbSynSet(int ID, IEnumerable<string> words, IEnumerable<KeyValuePair<VerbSetRelationship, int>> pointerRelations, VerbCategory lexCategory) {
             this.ID = ID;
+            LexName = lexCategory;
             Words = new HashSet<string>(words);
             RelatedOnPointerSymbol = new VerbSetIDSymbolMap(pointerRelations);
             ReferencedIndexes = new HashSet<int>(from pair in pointerRelations
                                                  select pair.Value);
-            LexName = lexCategory;
+
         }
         /// <summary>
         /// Returns a single string representing the members of the VerbThesaurusSynSet.
@@ -149,13 +152,13 @@ namespace LASI.Algorithm.Thesauri
         /// </summary>
         /// <param name="relationshipKind">The kind of external set references to relationships to return.</param>
         /// <returns>The IDs of all other VerbSynSets which are referenced from the current VerbSynSet in the indicated fashion.</returns>
-        public IEnumerable<int> this[VerbPointerSymbol relationshipKind] {
+        public IEnumerable<int> this[VerbSetRelationship relationshipKind] {
             get {
                 return RelatedOnPointerSymbol[relationshipKind];
             }
         }
 
-        internal VerbSetIDSymbolMap RelatedOnPointerSymbol {
+        internal LASI.Algorithm.Thesauri.InterSetRelationshipManagement.VerbSetIDSymbolMap RelatedOnPointerSymbol {
             get;
             set;
         }
@@ -184,20 +187,20 @@ namespace LASI.Algorithm.Thesauri
         }
 
     }
+
     /// <summary>
     /// Represents a synset parsed from the data.adj file of the WordNet package.
     /// </summary>
-    public class AdjectiveSynSet
+    class AdjectiveSynSet
     {
-
-
-        public AdjectiveSynSet(int ID, IEnumerable<string> words, IEnumerable<KeyValuePair<AdjectivePointerSymbol, int>> pointerRelations, WordNetAdjectiveCategory lexCategory) {
+        public AdjectiveSynSet(int ID, IEnumerable<string> words, IEnumerable<KeyValuePair<AdjectiveSetRelationship, int>> pointerRelations, AdjectiveCategory lexCategory) {
             this.ID = ID;
+            LexName = lexCategory;
             Words = new HashSet<string>(words);
             referencedSetsByReferenceKind = new AdjectiveSetIDSymbolMap(pointerRelations);
             ReferencedIndexes = new HashSet<int>(from pair in pointerRelations
                                                  select pair.Value);
-            LexName = lexCategory;
+
         }
         /// <summary>
         /// Returns a single string representing the members of the AdjectiveSynSet.
@@ -215,7 +218,7 @@ namespace LASI.Algorithm.Thesauri
             return this == obj as AdjectiveSynSet;
         }
 
-        public WordNetAdjectiveCategory LexName {
+        public AdjectiveCategory LexName {
             get;
             private set;
         }
@@ -224,7 +227,7 @@ namespace LASI.Algorithm.Thesauri
         /// </summary>
         /// <param name="relationshipKind">The kind of external set references to relationships to return.</param>
         /// <returns>The IDs of all other AdjectiveSynSets which are referenced from the current AdjectiveSynSet in the indicated fashion.</returns>
-        public IEnumerable<int> this[AdjectivePointerSymbol relationshipKind] {
+        public IEnumerable<int> this[AdjectiveSetRelationship relationshipKind] {
             get {
                 return referencedSetsByReferenceKind[relationshipKind];
             }
@@ -271,17 +274,18 @@ namespace LASI.Algorithm.Thesauri
     /// <summary>
     /// Represents a synset parsed from a line of the data.adv file of the WordNet package.
     /// </summary>
-    public class AdverbSynSet
+    class AdverbSynSet
     {
 
 
-        public AdverbSynSet(int ID, IEnumerable<string> words, IEnumerable<KeyValuePair<AdverbPointerSymbol, int>> pointerRelations, WordNetAdverbCategory lexCategory) {
+        public AdverbSynSet(int ID, IEnumerable<string> words, IEnumerable<KeyValuePair<AdverbSetRelationship, int>> pointerRelations, AdverbCategory lexCategory) {
             this.ID = ID;
+            LexName = lexCategory;
             Words = new HashSet<string>(words);
             relatedOnPointerSymbol = new AdverbSetIDSymbolMap(pointerRelations);
             ReferencedIndexes = new HashSet<int>(from pair in pointerRelations
                                                  select pair.Value);
-            LexName = lexCategory;
+
         }
         /// <summary>
         /// Returns a single string representing the members of the AdverbSynSet.
@@ -299,7 +303,7 @@ namespace LASI.Algorithm.Thesauri
             return this == obj as AdverbSynSet;
         }
 
-        public WordNetAdverbCategory LexName {
+        public AdverbCategory LexName {
             get;
             private set;
         }
@@ -309,7 +313,7 @@ namespace LASI.Algorithm.Thesauri
         /// </summary>
         /// <param name="relationshipKind">The kind of external set references to relationships to return.</param>
         /// <returns>The IDs of all other AdverbSynSets which are referenced from the current AdverbSynSet in the indicated fashion.</returns>
-        public IEnumerable<int> this[AdverbPointerSymbol relationshipKind] {
+        public IEnumerable<int> this[AdverbSetRelationship relationshipKind] {
             get {
                 return relatedOnPointerSymbol[relationshipKind];
             }

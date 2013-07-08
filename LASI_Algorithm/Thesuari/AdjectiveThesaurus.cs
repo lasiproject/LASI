@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using System.IO;
 using System.Text.RegularExpressions;
 
 
 namespace LASI.Algorithm.Thesauri
 {
-    internal class AdjectiveThesaurus : ThesaurusBase
+    using SetReference = System.Collections.Generic.KeyValuePair<AdjectiveSetRelationship, int>;
+    internal class AdjectiveThesaurus : SynonymLookup
     {
 
         /// <summary>
@@ -51,21 +51,18 @@ namespace LASI.Algorithm.Thesauri
 
 
 
-            var pointers = from match in Regex.Matches(line, @"\D{1,2}\s*\d{8}").Cast<Match>()
-                           let split = match.Value.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
-                           let pointer = split.Count() > 1 ?
-                           new KeyValuePair<AdjectivePointerSymbol, int>(relationMap[split[0]], Int32.Parse(split[1])) :
-                           new KeyValuePair<AdjectivePointerSymbol, int>(AdjectivePointerSymbol.UNDEFINED, Int32.Parse(split[0]))
-                           select pointer;
+            var referencedSets = from match in Regex.Matches(line, @"\D{1,2}\s*\d{8}").Cast<Match>()
+                                 let split = match.Value.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
+                                 where split.Count() > 1
+                                 select new SetReference(relationMap[split[0]], Int32.Parse(split[1]));
 
 
-
-            IEnumerable<string> localWords = from match in Regex.Matches(setLine, @"(?<word>[A-Za-z_\-\']{3,})").Cast<Match>()
-                                             select match.Value.Replace('_', '-');
+            IEnumerable<string> words = from match in Regex.Matches(setLine, @"(?<word>[A-Za-z_\-\']{3,})").Cast<Match>()
+                                        select match.Value.Replace('_', '-');
             int id = Int32.Parse(setLine.Substring(0, 8));
 
-            WordNetAdjectiveCategory lexCategory = ( WordNetAdjectiveCategory )Int32.Parse(setLine.Substring(9, 2));
-            return new AdjectiveSynSet(id, localWords, pointers, lexCategory);
+            AdjectiveCategory lexCategory = ( AdjectiveCategory )Int32.Parse(setLine.Substring(9, 2));
+            return new AdjectiveSynSet(id, words, referencedSets, lexCategory);
 
 
 
@@ -116,6 +113,7 @@ namespace LASI.Algorithm.Thesauri
         }
 
 
-        private static readonly AdjectivePointerSymbolMap relationMap = new AdjectivePointerSymbolMap();
+        private static readonly LASI.Algorithm.Thesauri.InterSetRelationshipManagement.AdjectivePointerSymbolMap relationMap =
+            new LASI.Algorithm.Thesauri.InterSetRelationshipManagement.AdjectivePointerSymbolMap();
     }
 }

@@ -12,15 +12,15 @@ namespace LASI.Algorithm.RelationshipLookups
     {
 
 
-        public static RelatorSet? IsRelatedTo(this IEntity performer, IEntity receiver) {
-            Func<IEntity, IEntity, bool> predicate = (L, R) => L.Text == R.Text || L.IsAliasFor(R) || L.IsSimilarTo(R);
+        public static ActionsRelatedOn? IsRelatedTo(this IEntity performer, IEntity receiver) {
+            Func<IEntity, IEntity, bool> predicate = (L, R) => L.IsAliasFor(R) || L.IsSimilarTo(R);
 
             var lookupTable = entityLookupContexts.ContainsKey(performer) ? entityLookupContexts[performer] : entityLookupContexts.ContainsKey(receiver) ? entityLookupContexts[receiver] : null;
             if (lookupTable != null) {
 
                 var result = lookupTable[performer, predicate, receiver, predicate];
                 if (result.Any())
-                    return new RelatorSet(result);
+                    return new ActionsRelatedOn(result);
                 else
                     return null;
             }
@@ -32,41 +32,38 @@ namespace LASI.Algorithm.RelationshipLookups
             }
 
         }
-        public static bool On(this RelatorSet? relatorSet, IVerbal relator) {
+        public static bool On(this ActionsRelatedOn? relatorSet, IVerbal relator) {
 
-            return relatorSet.HasValue ? relatorSet.Value.Relators.Contains(relator) : false;
+            return relatorSet.HasValue ? relatorSet.Value.RelatedOn.Contains(relator) : false;
         }
+
         public static void SetRelationshipLookup(this IEntity entity, IRelationshipLookup<IEntity, IVerbal> relationshipLookup) {
             entityLookupContexts.AddOrUpdate(entity, relationshipLookup, (k, v) => relationshipLookup);
         }
 
 
 
-        public struct RelatorSet
-        {
 
-            public RelatorSet(IEnumerable<IVerbal> relators) {
-                this.relators = relators;
-            }
-
-
-            private IEnumerable<IVerbal> relators;
-
-            internal IEnumerable<IVerbal> Relators {
-                get {
-                    return relators;
-                }
-            }
-            public static bool operator true(RelatorSet? set) {
-                return set != null;
-            }
-            public static bool operator false(RelatorSet? set) {
-                return set == null;
-            }
-
-
-        }
         private static ConcurrentDictionary<IEntity, IRelationshipLookup<IEntity, IVerbal>> entityLookupContexts = new ConcurrentDictionary<IEntity, IRelationshipLookup<IEntity, IVerbal>>();
 
+        public struct ActionsRelatedOn
+        {
+
+            internal ActionsRelatedOn(IEnumerable<IVerbal> actionsRelatedOn)
+                : this() {
+                RelatedOn = actionsRelatedOn;
+            }
+
+            internal IEnumerable<IVerbal> RelatedOn {
+                get;
+                private set;
+            }
+            public static bool operator true(ActionsRelatedOn? set) {
+                return set != null;
+            }
+            public static bool operator false(ActionsRelatedOn? set) {
+                return set == null;
+            }
+        }
     }
 }

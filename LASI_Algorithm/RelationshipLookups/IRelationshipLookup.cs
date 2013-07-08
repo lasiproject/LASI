@@ -36,7 +36,7 @@ namespace LASI.Algorithm.RelationshipLookups
         /// </summary>
         /// <param name="relater">The verbal for which to find relationships over.</param>
         /// <returns>The collection of Performer - Receiver EntityPairs which consists of all pairing of Entities which are related by the given Verbal.</returns>
-        IEnumerable<EntityPair<TEntity>> this[TVerbal relater] {
+        IEnumerable<PerformerReceiverPair<TEntity, TEntity>> this[TVerbal relater] {
             get;
         }
         /// <summary>
@@ -64,7 +64,7 @@ namespace LASI.Algorithm.RelationshipLookups
         /// <param name="relater">The verbal for which to find relationships over.</param>
         /// <param name="verbalComparer">A predicate function which determines how to find matches for the given Verbal.</param>
         /// <returns>The collection of Performer - Receiver EntityPairs which consists of all pairing of Entities which are related by the given Verbal.</returns>
-        IEnumerable<EntityPair<TEntity>> this[TVerbal relater, Func<TVerbal, TVerbal, bool> verbalComparer] {
+        IEnumerable<PerformerReceiverPair<TEntity, TEntity>> this[TVerbal relater, Func<TVerbal, TVerbal, bool> verbalComparer] {
             get;
         }
         /// <summary>

@@ -13,12 +13,17 @@ namespace LASI.Algorithm.Thesauri
 {
     public static class Thesaurus
     {
+        #region Static Constructor
+
         static Thesaurus() {
             NounThesaurus = new NounThesaurus(nounThesaurusFilePath);
             VerbThesaurus = new VerbThesaurus(verbThesaurusFilePath);
             AdjectiveThesaurus = new AdjectiveThesaurus(adjectiveThesaurusFilePath);
             AdverbThesaurus = new AdverbThesaurus(adverbThesaurusFilePath);
         }
+
+        #endregion
+
         #region Public Methods
 
         public static Task<string>[] GetTasksToLoadAllThesauri() {
@@ -37,16 +42,8 @@ namespace LASI.Algorithm.Thesauri
             }));
             return Tasks.ToArray();
         }
-        enum LoadingState
-        {
-            NotStarted,
-            InProgress,
-            Finished
-        }
-        private static LoadingState NounLoadingState = LoadingState.NotStarted;
-        private static LoadingState VerbLoadingState = LoadingState.NotStarted;
-        private static LoadingState AdjectiveLoadingState = LoadingState.NotStarted;
-        private static LoadingState AdverbLoadingState = LoadingState.NotStarted;
+
+
 
         public static Task<string> AdjectiveThesaurusLoadTask {
             get {
@@ -105,7 +102,7 @@ namespace LASI.Algorithm.Thesauri
                     NounThesaurusLoadTask.Wait();
                     return cachedNounData.GetOrAdd(nounText, key => NounThesaurus[key]);
                 case LoadingState.InProgress:
-                    return Enumerable.Empty<string>();
+                    throw new NounDataNotLoadedException("An attempt was made to access Noun data before loading could complete");
                 default:
                     return Enumerable.Empty<string>();
             }
@@ -119,7 +116,7 @@ namespace LASI.Algorithm.Thesauri
                     VerbThesaurusLoadTask.Wait();
                     return cachedVerbData.GetOrAdd(verbText, key => VerbThesaurus[key]);
                 case LoadingState.InProgress:
-                    return Enumerable.Empty<string>();
+                    throw new VerbDataNotLoadedException("An attempt was made to access Verb data before loading could complete");
                 default:
                     return Enumerable.Empty<string>();
             }
@@ -133,7 +130,7 @@ namespace LASI.Algorithm.Thesauri
                     AdjectiveThesaurusLoadTask.Wait();
                     return cachedAdjectiveData.GetOrAdd(adjectiveText, key => AdjectiveThesaurus[key]);
                 case LoadingState.InProgress:
-                    return Enumerable.Empty<string>();
+                    throw new AdjectiveDataNotLoadedException("An attempt was made to access Adjective data before loading could complete");
                 default:
                     return Enumerable.Empty<string>();
             }
@@ -147,7 +144,7 @@ namespace LASI.Algorithm.Thesauri
                     AdverbThesaurusLoadTask.Wait();
                     return cachedAdverbData.GetOrAdd(adverbText, key => AdverbThesaurus[key]);
                 case LoadingState.InProgress:
-                    return Enumerable.Empty<string>();
+                    throw new AdverbDataNotLoadedException("An attempt was made to access Adverb data before loading could complete");
                 default:
                     return Enumerable.Empty<string>();
             }
@@ -377,6 +374,11 @@ namespace LASI.Algorithm.Thesauri
 
             return result;
         }
+
+        #endregion
+
+        #region Private Methods
+
         /// <summary>
         /// Returns a double value indicating the degree of similarity between two NounPhrases.
         /// </summary>
@@ -411,7 +413,7 @@ namespace LASI.Algorithm.Thesauri
             return 0d;
         }
 
-        #endregion
+
 
         #region Internal Lookup Methods
 
@@ -435,21 +437,23 @@ namespace LASI.Algorithm.Thesauri
         private static async Task LoadNameData() {
             await Task.WhenAll(
                 Task.Run(async () => {
-                    using (var reader = new System.IO.StreamReader(lastNameDataFilePath)) {
+                    using (var reader = new System.IO.StreamReader(lastNamesFilePath)) {
                         lastNames = new HashSet<string>((await reader.ReadToEndAsync()).Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries), StringComparer.OrdinalIgnoreCase);
                     }
                 }),
                 Task.Run(async () => {
-                    using (var reader = new System.IO.StreamReader(femaleNameDataFilePath)) {
+                    using (var reader = new System.IO.StreamReader(femaleNamesFilePath)) {
                         femaleNames = new HashSet<string>((await reader.ReadToEndAsync()).Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries), StringComparer.OrdinalIgnoreCase);
                     }
                 }),
                 Task.Run(async () => {
-                    using (var reader = new System.IO.StreamReader(maleNameDataFilePath)) {
+                    using (var reader = new System.IO.StreamReader(maleNamesFilePath)) {
                         maleNames = new HashSet<string>((await reader.ReadToEndAsync()).Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries), StringComparer.OrdinalIgnoreCase);
                     }
                 }));
         }
+        #endregion
+
         #endregion
 
         #region Private Properties
@@ -473,27 +477,26 @@ namespace LASI.Algorithm.Thesauri
 
         #endregion
 
-        #region Private Methods
+        #region Private Fields
 
-
-
-        #endregion
-
-        #region Fields
+        //Loading states for specific data items
+        private static LoadingState NounLoadingState = LoadingState.NotStarted;
+        private static LoadingState VerbLoadingState = LoadingState.NotStarted;
+        private static LoadingState AdjectiveLoadingState = LoadingState.NotStarted;
+        private static LoadingState AdverbLoadingState = LoadingState.NotStarted;
         // Thesaurus File Paths
         private static readonly string nounThesaurusFilePath = ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "data.noun";
         private static readonly string verbThesaurusFilePath = ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "data.verb";
         private static readonly string adverbThesaurusFilePath = ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "data.adv";
         private static readonly string adjectiveThesaurusFilePath = ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "data.adj";
         // Name Data File Paths
-        private static readonly string lastNameDataFilePath = ConfigurationManager.AppSettings["NameDataDirectory"] + "last.txt";
-        private static readonly string femaleNameDataFilePath = ConfigurationManager.AppSettings["NameDataDirectory"] + "femalefirst.txt";
-        private static readonly string maleNameDataFilePath = ConfigurationManager.AppSettings["NameDataDirectory"] + "malefirst.txt";
-
+        private static readonly string lastNamesFilePath = ConfigurationManager.AppSettings["NameDataDirectory"] + "last.txt";
+        private static readonly string femaleNamesFilePath = ConfigurationManager.AppSettings["NameDataDirectory"] + "femalefirst.txt";
+        private static readonly string maleNamesFilePath = ConfigurationManager.AppSettings["NameDataDirectory"] + "malefirst.txt";
         // Name Data Sets
-        private static HashSet<string> lastNames;
-        private static HashSet<string> femaleNames;
-        private static HashSet<string> maleNames;
+        private static ISet<string> lastNames;
+        private static ISet<string> femaleNames;
+        private static ISet<string> maleNames;
         // Synonym Lookup Caches
         private static ConcurrentDictionary<string, ISet<string>> cachedNounData = new ConcurrentDictionary<string, ISet<string>>(Concurrency.CurrentMax, 4096);
         private static ConcurrentDictionary<string, ISet<string>> cachedVerbData = new ConcurrentDictionary<string, ISet<string>>(Concurrency.CurrentMax, 4096);
@@ -503,7 +506,16 @@ namespace LASI.Algorithm.Thesauri
 
         #endregion
 
+        #region Enumerations
 
+        private enum LoadingState
+        {
+            NotStarted,
+            InProgress,
+            Finished
+        }
+
+        #endregion
     }
 }
 

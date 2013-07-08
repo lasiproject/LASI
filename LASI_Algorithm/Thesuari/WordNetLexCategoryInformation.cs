@@ -4,7 +4,7 @@
     /// <summary>
     /// Defines the broad lexical categories assigned to Nouns in the WordNet system.
     /// </summary>
-    public enum WordNetNounCategory : byte
+    public enum NounCategory : byte
     {
         Tops = 3,
         Act,
@@ -38,7 +38,7 @@
     /// <summary>
     /// Defines the broad lexical categories assigned to Verbs in the WordNet system.
     /// </summary>
-    public enum WordNetVerbCategory : byte
+    public enum VerbCategory : byte
     {
         Body = 29,
         Cognition,
@@ -60,7 +60,7 @@
     /// <summary>
     /// Defines the broad lexical categories assigned to Adjectives in the WordNet system.
     /// </summary>
-    public enum WordNetAdjectiveCategory : byte
+    public enum AdjectiveCategory : byte
     {
         All = 0,//	all adjective clusters
         Pert = 1,	//relational adjectives (pertainyms)
@@ -70,7 +70,7 @@
     /// <summary>
     /// Defines the broad lexical categories assigned to Adverbs in the WordNet system.
     /// </summary>
-    public enum WordNetAdverbCategory : byte
+    public enum AdverbCategory : byte
     {
         All = 2
     }
@@ -78,7 +78,7 @@
     /// <summary>
     /// Defines the different kinds of pointer relationships on which Noun Synsets can relate to one another.
     /// </summary>
-    public enum NounPointerSymbol : byte
+    public enum NounSetRelationship : byte
     {
         UNDEFINED = 0,
         Antonym,// !  
@@ -104,7 +104,7 @@
     /// <summary>
     /// Defines the different kinds of pointer relationships on which Verb Synsets can relate to one another.
     /// </summary>
-    public enum VerbPointerSymbol : byte
+    public enum VerbSetRelationship : byte
     {
         UNDEFINED = 0,
         Antonym,// !
@@ -122,7 +122,7 @@
     /// <summary>
     /// Defines the different kinds of pointer relationships on which Adjective Synsets can relate to one another.
     /// </summary>
-    public enum AdjectivePointerSymbol : byte
+    public enum AdjectiveSetRelationship : byte
     {
         UNDEFINED = 0,
         Antonym,// !
@@ -138,7 +138,7 @@
     /// <summary>
     /// Defines the different kinds of pointer relationships on which Adverb Synsets can relate to one another.
     /// </summary>
-    public enum AdverbPointerSymbol : byte
+    public enum AdverbSetRelationship : byte
     {
         UNDEFINED = 0,
         Antonym,// !    

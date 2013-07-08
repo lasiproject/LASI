@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LASI.Algorithm.RelationshipLookups
 {
-    using EntityPair = LASI.Algorithm.RelationshipLookups.EntityPair<IEntity>;
+    using EntityPair = LASI.Algorithm.RelationshipLookups.PerformerReceiverPair<IEntity, IEntity>;
     using ActionReceiverPair = LASI.Algorithm.RelationshipLookups.ActionReceiverPair<IVerbal, IEntity>;
 
     public class SampleRelationshipLookup : IRelationshipLookup<IEntity, IVerbal>

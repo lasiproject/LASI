@@ -10,7 +10,8 @@ using System.Collections.Concurrent;
 
 namespace LASI.Algorithm.Thesauri
 {
-    internal class NounThesaurus : ThesaurusBase
+    using SetReference = System.Collections.Generic.KeyValuePair<NounSetRelationship, int>;
+    internal class NounThesaurus : SynonymLookup
     {
         /// <summary>
         /// Initializes a new instance of the NounProvider class.
@@ -53,23 +54,21 @@ namespace LASI.Algorithm.Thesauri
 
             var setLine = line.Substring(0, line.IndexOf('|'));
 
-            IEnumerable<KeyValuePair<NounPointerSymbol, int>> kindedPointers =
-                from match in Regex.Matches(setLine, @"\D{1,2}\s*\d{8}").Cast<Match>()
-                let split = match.Value.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
-                let pointer = split.Count() > 1 ?
-                new KeyValuePair<NounPointerSymbol, int>(RelationshipMap[split[0]], Int32.Parse(split[1])) :
-                new KeyValuePair<NounPointerSymbol, int>(NounPointerSymbol.UNDEFINED, Int32.Parse(split[0]))
-                where relationshipsToKeep.Contains(pointer.Key)
-                select pointer;
+            var referencedSets = from match in Regex.Matches(setLine, @"\D{1,2}\s*\d{8}").Cast<Match>()
+                                 let split = match.Value.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
+                                 where split.Count() > 1
+                                 let pointer = new SetReference(RelationshipMap[split[0]], Int32.Parse(split[1]))
+                                 where IncludeReference(pointer.Key)
+                                 select pointer;
 
-            IEnumerable<string> localWords = from match in Regex.Matches(setLine, @"(?<word>[A-Za-z_\-\']{3,})").Cast<Match>()
-                                             select match.Value.Replace('_', '-');
+            IEnumerable<string> words = from match in Regex.Matches(setLine, @"(?<word>[A-Za-z_\-\']{3,})").Cast<Match>()
+                                        select match.Value.Replace('_', '-');
 
             int id = Int32.Parse(setLine.Substring(0, 8));
 
-            WordNetNounCategory lexCategory = ( WordNetNounCategory )Int32.Parse(setLine.Substring(9, 2));
+            NounCategory lexCategory = ( NounCategory )Int32.Parse(setLine.Substring(9, 2));
 
-            return new NounSynSet(id, localWords, kindedPointers, lexCategory);
+            return new NounSynSet(id, words, referencedSets, lexCategory);
 
         }
 
@@ -92,16 +91,16 @@ namespace LASI.Algorithm.Thesauri
             return new HashSet<string>(results);
         }
 
-        private void SearchSubsets(NounSynSet containingSet, List<string> results, HashSet<NounSynSet> setsSearched, WordNetNounCategory lexname) {
+        private void SearchSubsets(NounSynSet containingSet, List<string> results, HashSet<NounSynSet> setsSearched, NounCategory lexname) {
             results.AddRange(containingSet.Words);
-            results.AddRange(from set in containingSet[NounPointerSymbol.HypERnym]
+            results.AddRange(from set in containingSet[NounSetRelationship.HypERnym]
                              where data.ContainsKey(set)
                              from w in data[set].Words
                              select w);
             if (!setsSearched.Contains(containingSet)) {
 
                 setsSearched.Add(containingSet);
-                foreach (var set in containingSet.ReferencedIndexes.Except(containingSet[NounPointerSymbol.HypERnym]).Select(p =>
+                foreach (var set in containingSet.ReferencedIndexes.Except(containingSet[NounSetRelationship.HypERnym]).Select(p =>
                   data.ContainsKey(p) ? data[p] : null)) {
                     if (set != null && set.LexName == lexname && !setsSearched.Contains(set)) {
                         SearchSubsets(set, results, setsSearched, lexname);
@@ -127,49 +126,51 @@ namespace LASI.Algorithm.Thesauri
             }
         }
 
-        private Dictionary<WordNetNounCategory, List<NounSynSet>> lexicalGoups = new Dictionary<WordNetNounCategory, List<NounSynSet>>
+        private Dictionary<NounCategory, List<NounSynSet>> lexicalGoups = new Dictionary<NounCategory, List<NounSynSet>>
         {
-            { WordNetNounCategory.Tops, new List<NounSynSet>() },
-            { WordNetNounCategory.Act,new List<NounSynSet>() },
-            { WordNetNounCategory.Animal,new List<NounSynSet>() },
-            { WordNetNounCategory.Artifact,new List<NounSynSet>() },
-            { WordNetNounCategory.Attribute,new List<NounSynSet>() },
-            { WordNetNounCategory.Body,new List<NounSynSet>() },
-            { WordNetNounCategory.Cognition,new List<NounSynSet>() },
-            { WordNetNounCategory.Communication,new List<NounSynSet>() },
-            { WordNetNounCategory.Event,new List<NounSynSet>() },
-            { WordNetNounCategory.Feeling,new List<NounSynSet>() },
-            { WordNetNounCategory.Food,new List<NounSynSet>() },
-            { WordNetNounCategory.Group,new List<NounSynSet>() },
-            { WordNetNounCategory.Location,new List<NounSynSet>() },
-            { WordNetNounCategory.Motive,new List<NounSynSet>() },
-            { WordNetNounCategory.Object,new List<NounSynSet>() },
-            { WordNetNounCategory.Person,new List<NounSynSet>() },
-            { WordNetNounCategory.Phenomenon,new List<NounSynSet>() },
-            { WordNetNounCategory.Plant,new List<NounSynSet>() },
-            { WordNetNounCategory.Possession,new List<NounSynSet>() },
-            { WordNetNounCategory.Process,new List<NounSynSet>() },
-            { WordNetNounCategory.Quantity,new List<NounSynSet>() },
-            { WordNetNounCategory.Relation,new List<NounSynSet>() },
-            { WordNetNounCategory.Shape,new List<NounSynSet>() },
-            { WordNetNounCategory.State,new List<NounSynSet>() },
-            { WordNetNounCategory.Substance,new List<NounSynSet>() },
-            { WordNetNounCategory.Time,new List<NounSynSet>() }
+            { NounCategory.Tops, new List<NounSynSet>() },
+            { NounCategory.Act,new List<NounSynSet>() },
+            { NounCategory.Animal,new List<NounSynSet>() },
+            { NounCategory.Artifact,new List<NounSynSet>() },
+            { NounCategory.Attribute,new List<NounSynSet>() },
+            { NounCategory.Body,new List<NounSynSet>() },
+            { NounCategory.Cognition,new List<NounSynSet>() },
+            { NounCategory.Communication,new List<NounSynSet>() },
+            { NounCategory.Event,new List<NounSynSet>() },
+            { NounCategory.Feeling,new List<NounSynSet>() },
+            { NounCategory.Food,new List<NounSynSet>() },
+            { NounCategory.Group,new List<NounSynSet>() },
+            { NounCategory.Location,new List<NounSynSet>() },
+            { NounCategory.Motive,new List<NounSynSet>() },
+            { NounCategory.Object,new List<NounSynSet>() },
+            { NounCategory.Person,new List<NounSynSet>() },
+            { NounCategory.Phenomenon,new List<NounSynSet>() },
+            { NounCategory.Plant,new List<NounSynSet>() },
+            { NounCategory.Possession,new List<NounSynSet>() },
+            { NounCategory.Process,new List<NounSynSet>() },
+            { NounCategory.Quantity,new List<NounSynSet>() },
+            { NounCategory.Relation,new List<NounSynSet>() },
+            { NounCategory.Shape,new List<NounSynSet>() },
+            { NounCategory.State,new List<NounSynSet>() },
+            { NounCategory.Substance,new List<NounSynSet>() },
+            { NounCategory.Time,new List<NounSynSet>() }
         };
 
-        private HashSet<NounPointerSymbol> relationshipsToKeep = new HashSet<NounPointerSymbol> {
-            NounPointerSymbol.MemberOfThisDomain_REGION,
-            NounPointerSymbol.MemberOfThisDomain_TOPIC,
-            NounPointerSymbol.MemberOfThisDomain_USAGE,
-            NounPointerSymbol.DomainOfSynset_REGION,
-            NounPointerSymbol.DomainOfSynset_TOPIC,
-            NounPointerSymbol.DomainOfSynset_USAGE, 
-            NounPointerSymbol.HypOnym, 
-            NounPointerSymbol.InstanceHypOnym, 
-            NounPointerSymbol.InstanceHypERnym,
-            NounPointerSymbol.HypERnym,
-        };
+        private static bool IncludeReference(NounSetRelationship referenceRelationship) {
+            return
+                referenceRelationship == NounSetRelationship.MemberOfThisDomain_REGION ||
+                referenceRelationship == NounSetRelationship.MemberOfThisDomain_TOPIC ||
+                referenceRelationship == NounSetRelationship.MemberOfThisDomain_USAGE ||
+                referenceRelationship == NounSetRelationship.DomainOfSynset_REGION ||
+                referenceRelationship == NounSetRelationship.DomainOfSynset_TOPIC ||
+                referenceRelationship == NounSetRelationship.DomainOfSynset_USAGE ||
+                referenceRelationship == NounSetRelationship.HypOnym ||
+                referenceRelationship == NounSetRelationship.InstanceHypOnym ||
+                referenceRelationship == NounSetRelationship.InstanceHypERnym ||
+                referenceRelationship == NounSetRelationship.HypERnym;
+        }
 
-        private static readonly NounPointerSymbolMap RelationshipMap = new NounPointerSymbolMap();
+        private static readonly LASI.Algorithm.Thesauri.InterSetRelationshipManagement.NounPointerSymbolMap RelationshipMap =
+            new LASI.Algorithm.Thesauri.InterSetRelationshipManagement.NounPointerSymbolMap();
     }
 }

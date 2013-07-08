@@ -5,25 +5,39 @@ using System.Text;
 
 namespace LASI.Algorithm.RelationshipLookups
 {
-    public struct EntityPair<TEntity> where TEntity : IEntity
+    /// <summary>
+    /// Stores the relationship between two Entity constructs which are related together by the first performing an action received by the second.
+    /// </summary>
+    /// <typeparam name="TPerformer">The Type of the Performer Entity construct in the relationship. The stated or inferred Type must implement the IEntity interface.</typeparam>
+    /// <typeparam name="TReceiver">The Type of the Receiver Entity construct in the relationship. The stated or inferred Type must implement the IEntity interface.</typeparam>
+    /// <remarks>Any instance of the PerformerReceiverPair struct is immutable unless passed as a 'ref' or 'out' argument to a function.</remarks>
+    public struct PerformerReceiverPair<TPerformer, TReceiver>
+        where TPerformer : IEntity
+        where TReceiver : IEntity
     {
-        public EntityPair(TEntity performer, TEntity receiver)
+        /// <summary>
+        /// Initializes a new instance of the ActionReceiverPair structure from the provided action performer and action receiver.
+        /// </summary>
+        /// <param name="performer">The performer of the action.</param>
+        /// <param name="receiver">The receiver of the action.</param>
+        public PerformerReceiverPair(TPerformer performer, TReceiver receiver)
             : this() {
-            this.performer = performer;
-            this.receiver = receiver;
+            Performer = performer;
+            Receiver = receiver;
         }
-
-        public TEntity Performer {
-            get {
-                return performer;
-            }
+        /// <summary>
+        /// Gets the Performer.
+        /// </summary>
+        public TPerformer Performer {
+            get;
+            private set;
         }
-        public TEntity Receiver {
-            get {
-                return receiver;
-            }
+        /// <summary>
+        /// Gets the Receiver.
+        /// </summary>
+        public TReceiver Receiver {
+            get;
+            private set;
         }
-        private TEntity receiver;
-        private TEntity performer;
     }
 }
