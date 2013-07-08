@@ -49,7 +49,7 @@ namespace LASI.InteropLayer
             foreach (var task in bindingWorkUnits) {
                 await UpdateProgressDisplay(task.InitializationMessage, 0);
                 await task.WorkToPerform;
-                await UpdateProgressDisplay(task.CompletionMessage, task.PercentWorkRepresented * 0.55 / discreteWorkLoads);
+                await UpdateProgressDisplay(task.CompletionMessage, task.PercentWorkRepresented * 0.52 / discreteWorkLoads);
             }
             await UpdateProgressDisplay(string.Format("{0}: Correlating Relationships...", fileName), 0);
             var weightingWorkUnits = LASI.Algorithm.Weighting.Weighter.GetWeightingProcessingTasks(doc).ToList();

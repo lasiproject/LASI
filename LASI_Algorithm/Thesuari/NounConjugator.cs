@@ -20,18 +20,18 @@ namespace LASI.Algorithm.Thesauri
 
 
         public static IEnumerable<string> GetLexicalForms(string search) {
-            return TryComputeConjugations(FindRoot(search));
+            return TryComputeConjugations(search);
         }
 
         private static IEnumerable<string> TryComputeConjugations(string baseForm) {
             var hyphenIndex = baseForm.IndexOf('-');
-
-            var root = FindRoot(baseForm);
+            var root = FindRoot(hyphenIndex > -1 ? baseForm.Substring(0, hyphenIndex) : baseForm);
             List<string> results;
             exceptionData.TryGetValue(root, out results);
             if (results == null) {
+                results = new List<string>();
                 for (var i = 0; i < NOUN_SUFFICIES.Length; i++) {
-                    if (root.EndsWith(NOUN_ENDINGS[i]) || string.IsNullOrEmpty(NOUN_ENDINGS[i])) {
+                    if (root.EndsWith(NOUN_ENDINGS[i]) || NOUN_ENDINGS[i] == "") {
                         results.Add(root.Substring(0, root.Length - NOUN_ENDINGS[i].Length) + NOUN_SUFFICIES[i]);
                         break;
                     }
