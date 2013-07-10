@@ -10,7 +10,10 @@
     WindowStartupLocation="CenterOwner"
     WindowStyle="None"
     BorderBrush="#FF636366"
-    BorderThickness="3">
+    BorderThickness="3"
+    Closing="Window_Closing"
+    Activated="Window_Activated"
+    MouseLeftButtonDown="Window_MouseLeftButtonDown">
     <Window.TaskbarItemInfo>
         <TaskbarItemInfo />
     </Window.TaskbarItemInfo>
@@ -273,7 +276,7 @@
             </Image>
             <Label
                 Name="ProgressLabel"
-                Content="Progress"
+                Content="Initializing"
                 Canvas.Left="168"
                 Canvas.Top="304"
                 Width="372" />
@@ -284,6 +287,8 @@
                 VerticalAlignment="Top"
                 Canvas.Top="328"
                 Width="654"
+                ToolTip="Initializing"
+                Value="0.0"
                 ValueChanged="ProgressBar_ValueChanged">
                 <ProgressBar.Foreground>
                     <LinearGradientBrush

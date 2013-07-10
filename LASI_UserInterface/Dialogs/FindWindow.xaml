@@ -5,7 +5,8 @@
     Title="Find"
     Height="282"
     Width="300"
-    ResizeMode="NoResize">
+    ResizeMode="NoResize"
+    KeyDown="Window_KeyDown">
     <Grid>
         <TextBox
             x:Name="searchForTextBox"

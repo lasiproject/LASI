@@ -47,6 +47,14 @@ namespace LASI.UserInterface.Dialogs
         private IEnumerable<ContentControl> GetElementsToSearch() {
             throw new NotImplementedException();
         }
+        private void Window_KeyDown(object sender, KeyEventArgs e) {
+            switch (e.Key) {
+                case Key.Escape:
+                    DialogResult = false;
+                    this.Close();
+                    break;
+            }
+        }
 
     }
 }

@@ -34,12 +34,12 @@ namespace LASI.UserInterface
 
         private void LoadPerformanceSettings()
         {
-            LASI.InteropLayer.PerforamanceMode performanceMode = ( LASI.InteropLayer.PerforamanceMode )userPreferences["PerformanceMode"];
-            if (performanceMode == InteropLayer.PerforamanceMode.High)
+            LASI.InteropLayer.PerforamanceLevel performanceMode = ( LASI.InteropLayer.PerforamanceLevel )userPreferences["PerformanceMode"];
+            if (performanceMode == InteropLayer.PerforamanceLevel.High)
                 highPerformance.IsChecked = true;
-            else if (performanceMode == InteropLayer.PerforamanceMode.Normal)
+            else if (performanceMode == InteropLayer.PerforamanceLevel.Normal)
                 normalPerformance.IsChecked = true;
-            else if (performanceMode == InteropLayer.PerforamanceMode.Low)
+            else if (performanceMode == InteropLayer.PerforamanceLevel.Low)
                 lowPerformance.IsChecked = true;
         }
 
@@ -49,12 +49,12 @@ namespace LASI.UserInterface
         {
             userPreferences["PerformanceMode"] =
                 highPerformance.IsChecked ?? false ?
-                LASI.InteropLayer.PerforamanceMode.High :
+                LASI.InteropLayer.PerforamanceLevel.High :
                 normalPerformance.IsChecked ?? false ?
-                LASI.InteropLayer.PerforamanceMode.Normal :
+                LASI.InteropLayer.PerforamanceLevel.Normal :
                 lowPerformance.IsChecked ?? false ?
-                LASI.InteropLayer.PerforamanceMode.Low :
-                LASI.InteropLayer.PerforamanceMode.Normal;
+                LASI.InteropLayer.PerforamanceLevel.Low :
+                LASI.InteropLayer.PerforamanceLevel.Normal;
         }
 
 

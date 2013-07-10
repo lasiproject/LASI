@@ -8,15 +8,15 @@ namespace LASI.InteropLayer
 {
     public static class PerformanceManager
     {
-        public static void SetPerformanceMode(PerforamanceMode mode) {
+        public static void SetPerformanceMode(PerforamanceLevel mode) {
             switch (mode) {
-                case PerforamanceMode.High:
+                case PerforamanceLevel.High:
                     Algorithm.Concurrency.SetResourceUsageMode(ResourceUsageMode.High);
                     break;
-                case PerforamanceMode.Low:
+                case PerforamanceLevel.Low:
                     Algorithm.Concurrency.SetResourceUsageMode(ResourceUsageMode.Low);
                     break;
-                case PerforamanceMode.Normal:
+                case PerforamanceLevel.Normal:
                     Algorithm.Concurrency.SetResourceUsageMode(ResourceUsageMode.Normal);
                     break;
             }
@@ -24,7 +24,7 @@ namespace LASI.InteropLayer
         }
     }
 
-    public enum PerforamanceMode
+    public enum PerforamanceLevel
     {
 
         High,

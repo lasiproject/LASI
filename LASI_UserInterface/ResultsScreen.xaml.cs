@@ -463,6 +463,10 @@ namespace LASI.UserInterface
             componentsDisplay.ShowDialog();
         }
 
+        private void MenuItem_Click_1(object sender, RoutedEventArgs e) {
+            Process.Start("http://lasi-product.org");
+        }
+
 
     }
 

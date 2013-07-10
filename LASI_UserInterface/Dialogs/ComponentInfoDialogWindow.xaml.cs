@@ -21,64 +21,64 @@ namespace LASI.UserInterface.Dialogs
     {
         public ComponentInfoDialogWindow() {
             InitializeComponent();
-            label1.ContextMenu = new System.Windows.Controls.ContextMenu();
-            label2.ContextMenu = new System.Windows.Controls.ContextMenu();
-            label3.ContextMenu = new System.Windows.Controls.ContextMenu();
-            label4.ContextMenu = new System.Windows.Controls.ContextMenu();
-            label5.ContextMenu = new System.Windows.Controls.ContextMenu();
-            var item = new MenuItem {
-                Header = "View License"
-            };
-            item.Click += (s, e) => System.Diagnostics.Process.Start(System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, @"Resources\Licenses\b2xtranslatorLicense.txt"));
-            label1.ContextMenu.Items.Add(item);
-            item = new MenuItem {
-                Header = "View License"
-            };
-            item.Click += (s, e) => System.Diagnostics.Process.Start(System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, @"Resources\Licenses\iTextSharpLicense.txt"));
-            label2.ContextMenu.Items.Add(item);
-            item = new MenuItem {
-                Header = "View License"
-            };
-            item.Click += (s, e) => System.Diagnostics.Process.Start(System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, @"Resources\Licenses\SharpNLPLicense.txt"));
-            label3.ContextMenu.Items.Add(item);
-            item = new MenuItem {
-                Header = "View License"
-            };
-            item.Click += (s, e) => System.Diagnostics.Process.Start(System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, @"Resources\Licenses\WPFToolkitLicense.txt"));
-            label4.ContextMenu.Items.Add(item);
-            item = new MenuItem {
-                Header = "View License"
-            };
-            item.Click += (s, e) => System.Diagnostics.Process.Start(System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, @"Resources\Licenses\WordNetLicense.txt"));
-            label5.ContextMenu.Items.Add(item);
         }
 
-        private void label1_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
-            System.Diagnostics.Process.Start(System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, @"Resources\Licenses\b2xtranslatorLicense.txt"));
+        #region Interaction Logic
+
+        /// <summary>
+        /// Opens the file indicated specified by the provided path using the default associated application for the current machine, displaying the default help URI if an error occurs.
+        /// </summary>
+        /// <param name="filePath">The location of the file to open. This may be an absolute or relative path.</param>
+        private void OpenFileInDefaultApp(string filePath) {
+            OpenFileInDefaultApp(filePath, "http://lasi-product.org");
+        }
+        /// <summary>
+        /// Opens the file indicated specified by the provided path using the default associated application for the current machine, displaying the provided help URI if an error occurs.
+        /// </summary>
+        /// <param name="filePath">The location of the file to open. This may be an absolute or relative path.</param>
+        /// <param name="helpURI">The help URI to display if an error occurs.</param>
+        private void OpenFileInDefaultApp(string filePath, string helpURI) {
+            try {
+                System.Diagnostics.Process.Start(System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, filePath));
+            }
+            catch (System.ComponentModel.Win32Exception) {
+                MessageBox.Show(this, string.Format("An error occured when trying to open or locate the file {0}. Please visit {1} for assistance.", filePath, helpURI));
+            }
         }
 
-        private void label2_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
-            System.Diagnostics.Process.Start(System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, @"Resources\Licenses\iTextSharpLicense.txt"));
-        }
+        #region Event Handlers
 
-        private void label3_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
-            System.Diagnostics.Process.Start(System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, @"Resources\Licenses\SharpNLPLicense.txt"));
+        private void label_MouseLeftButtonDown(object sender, MouseButtonEventArgs e) {
+            OpenFileInDefaultApp((sender as Label).Tag.ToString());
         }
-
-        private void label4_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
-
-            System.Diagnostics.Process.Start(System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, @"Resources\Licenses\WPFToolkitLicense.txt"));
+        private void MenuItem_Click_1(object sender, RoutedEventArgs e) {
+            OpenFileInDefaultApp(label1.Tag.ToString());
         }
-        private void label5_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
-            System.Diagnostics.Process.Start(System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, @"Resources\Licenses\WordNetLicense.txt"));
+        private void MenuItem_Click_2(object sender, RoutedEventArgs e) {
+            OpenFileInDefaultApp(label2.Tag.ToString());
         }
-
+        private void MenuItem_Click_3(object sender, RoutedEventArgs e) {
+            OpenFileInDefaultApp(label3.Tag.ToString());
+        }
+        private void MenuItem_Click_4(object sender, RoutedEventArgs e) {
+            OpenFileInDefaultApp(label4.Tag.ToString());
+        }
+        private void MenuItem_Click_5(object sender, RoutedEventArgs e) {
+            OpenFileInDefaultApp(label5.Tag.ToString());
+        }
         private void okButton_Click(object sender, RoutedEventArgs e) {
             this.DialogResult = true;
         }
-
-        private void MenuItem_Click(object sender, RoutedEventArgs e) {
-
+        private void Window_KeyDown(object sender, KeyEventArgs e) {
+            switch (e.Key) {
+                case Key.Escape:
+                    this.Close();
+                    break;
+            }
         }
+
+        #endregion
+
+        #endregion
     }
 }

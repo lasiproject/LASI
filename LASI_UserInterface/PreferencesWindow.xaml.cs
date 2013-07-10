@@ -19,8 +19,7 @@ namespace LASI.UserInterface
     /// </summary>
     public partial class PreferencesWindow : Window
     {
-        public PreferencesWindow()
-        {
+        public PreferencesWindow() {
             InitializeComponent();
         }
     }

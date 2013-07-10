@@ -56,7 +56,8 @@
                     Header="View Manual"
                     Click="OpenManualMenuItem_Click_1" />
                 <MenuItem
-                    Header="About LASI" />
+                    Header="About LASI"
+                    Click="MenuItem_Click_1" />
                 <MenuItem
                     Header="Component Info"
                     Click="openLicensesMenuItem_Click_1" />

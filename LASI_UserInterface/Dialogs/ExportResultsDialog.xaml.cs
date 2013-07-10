@@ -26,5 +26,13 @@ namespace LASI.UserInterface.Dialogs
         private void OkButton_Click(object sender, RoutedEventArgs e) {
             this.Close();
         }
+
+        private void ExportNotificationDialog_KeyDown(object sender, KeyEventArgs e) {
+            switch (e.Key) {
+                case Key.Escape:
+                    this.Close();
+                    break;
+            }
+        }
     }
 }

@@ -197,6 +197,10 @@ namespace LASI.UserInterface
             componentsDisplay.ShowDialog();
         }
 
+        private void MenuItem_Click(object sender, RoutedEventArgs e) {
+            System.Diagnostics.Process.Start("http://lasi-product.org");
+        }
+
 
     }
 }
