@@ -19,6 +19,7 @@ namespace LASI.UserInterface
             WindowManager.InProgressScreen = this;
             WindowStartupLocation = WindowStartupLocation.CenterScreen;
             ConfigureOptions();
+            this.Activated += (s, e) => StopFlashing();
 
         }
 
@@ -125,7 +126,7 @@ namespace LASI.UserInterface
 
                 FlashWindowEx(ref fInfo);
             }
-            this.Activated += (s, e) => StopFlashing();
+            this.StateChanged += (s, e) => StopFlashing();
 
         }
         /// <summary>
