@@ -1,4 +1,4 @@
-﻿using LASI.Algorithm.Thesauri;
+﻿using LASI.Algorithm.Lookup;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;

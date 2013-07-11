@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace LASI.Algorithm.Thesauri
+namespace LASI.Algorithm.Lookup
 {
     internal abstract class SynonymLookup
     {

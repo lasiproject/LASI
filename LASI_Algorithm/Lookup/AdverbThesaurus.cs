@@ -6,7 +6,7 @@ using System.Text;
 using System.IO;
 using System.Text.RegularExpressions;
 
-namespace LASI.Algorithm.Thesauri
+namespace LASI.Algorithm.Lookup
 {
     using SetReference = System.Collections.Generic.KeyValuePair<AdverbSetRelationship, int>;
     internal class AdverbThesaurus : SynonymLookup
@@ -122,7 +122,7 @@ namespace LASI.Algorithm.Thesauri
             }
         }
 
-        private static readonly LASI.Algorithm.Thesauri.InterSetRelationshipManagement.AdverbPointerSymbolMap relationMap =
-            new LASI.Algorithm.Thesauri.InterSetRelationshipManagement.AdverbPointerSymbolMap();
+        private static readonly LASI.Algorithm.Lookup.InterSetRelationshipManagement.AdverbPointerSymbolMap relationMap =
+            new LASI.Algorithm.Lookup.InterSetRelationshipManagement.AdverbPointerSymbolMap();
     }
 }

@@ -6,7 +6,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 
 
-namespace LASI.Algorithm.Thesauri
+namespace LASI.Algorithm.Lookup
 {
     using SetReference = System.Collections.Generic.KeyValuePair<AdjectiveSetRelationship, int>;
     internal class AdjectiveThesaurus : SynonymLookup
@@ -110,7 +110,7 @@ namespace LASI.Algorithm.Thesauri
         }
 
 
-        private static readonly LASI.Algorithm.Thesauri.InterSetRelationshipManagement.AdjectivePointerSymbolMap relationMap =
-            new LASI.Algorithm.Thesauri.InterSetRelationshipManagement.AdjectivePointerSymbolMap();
+        private static readonly LASI.Algorithm.Lookup.InterSetRelationshipManagement.AdjectivePointerSymbolMap relationMap =
+            new LASI.Algorithm.Lookup.InterSetRelationshipManagement.AdjectivePointerSymbolMap();
     }
 }

@@ -263,7 +263,7 @@ namespace LASI.Algorithm.Binding
                 }
             }
             public void Transition(VerbPhrase phrase) {
-                new ObjectBinder().Bind(phrase.AsEnumerable().Concat(Stream.ToList()));
+                new ObjectBinder().Bind(new[] { phrase }.Concat(Stream.ToList()));
             }
             public void Transition(SubordinateClauseBeginPhrase phrase) {
                 var subordinateClauseConstituents = new List<Phrase> {
@@ -473,7 +473,7 @@ namespace LASI.Algorithm.Binding
             }
             public void Transition(VerbPhrase phrase) {
                 InfinitivePhrase infinitive = new InfinitivePhrase(
-                    phrase.AsEnumerable().GetWords().Concat(
+                    phrase.Words.Concat(
                    phrase.Sentence.GetPhrasesAfter(phrase)
                     .TakeWhile(w => !(w is IConjunctive || w is IPrepositional)).GetWords()));
                 Machine.directObject = infinitive;

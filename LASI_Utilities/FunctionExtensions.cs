@@ -22,14 +22,14 @@ namespace LASI.Utilities
             return t => f(g(t));
         }
 
-        /// <summary>
-        /// Returns a singleton sequence containing only solely the object on which the method is invoked.
-        /// </summary>
-        /// <typeparam name="T">The type of the object to project and thus the element type of the resulting sequence</typeparam>
-        /// <param name="t">The object to project into a single item sequence containing only itself.</param>
-        /// <returns>A singleton sequence containing only solely the object on which the method is invoked.</returns>
-        public static IEnumerable<T> AsEnumerable<T>(this T t) {
-            return Enumerable.Repeat(t, 1);
-        }
+        ///// <summary>
+        ///// Returns a singleton sequence containing only solely the object on which the method is invoked.
+        ///// </summary>
+        ///// <typeparam name="T">The type of the object to project and thus the element type of the resulting sequence</typeparam>
+        ///// <param name="t">The object to project into a single item sequence containing only itself.</param>
+        ///// <returns>A singleton sequence containing only solely the object on which the method is invoked.</returns>
+        //public static IEnumerable<T> AsEnumerable<T>(this T t) {
+        //    return Enumerable.Repeat(t, 1);
+        //}
     }
 }

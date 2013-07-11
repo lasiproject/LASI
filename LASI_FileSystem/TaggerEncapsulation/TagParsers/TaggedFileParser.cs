@@ -1,4 +1,5 @@
 ﻿using LASI.Algorithm;
+using LASI.Utilities;
 using LASI.Algorithm.DocumentConstructs;
 using LASI.FileSystem.FileTypes;
 using LASI.FileSystem.TaggerEncapsulation;
@@ -78,19 +79,18 @@ namespace LASI.FileSystem
             var sentences = from s in SplitIntoSentences(paragraph, out hasEnumElemenets)
                             select s.Trim();
             foreach (var sent in from s in sentences
-                                 where !string.IsNullOrEmpty(s) && !string.IsNullOrWhiteSpace(s)
+                                 where s.IsNotEmpty() && s.IsNotWhiteSpace()
                                  select s) {
-
                 var parsedClauses = new List<Clause>();
                 var parsedPhrases = new List<Phrase>();
                 var chunks = from chunk in sent.Split(new[] { "[", "]" }, StringSplitOptions.RemoveEmptyEntries)
-                             let c = chunk.Trim()
-                             where !String.IsNullOrWhiteSpace(c) && !String.IsNullOrEmpty(c)
-                             select c;
+                             let s = chunk.Trim()
+                             where s.IsNotWhiteSpace() && s.IsNotEmpty() //  !String.IsNullOrWhiteSpace(c) && !String.IsNullOrEmpty(c)
+                             select s;
                 SentenceDelimiter sentencePunctuation = null;
 
                 foreach (var chunk in chunks) {
-                    if (!string.IsNullOrEmpty(chunk) && !string.IsNullOrWhiteSpace(chunk) && chunk.Contains('/')) {
+                    if (chunk.IsNotEmpty() && chunk.IsNotWhiteSpace() && chunk.Contains('/')) {
                         char token = SkipToNextElement(chunk);
                         if (token == ' ') {
                             var currentPhrase = ParsePhrase(new TextTagPair {
@@ -145,9 +145,9 @@ namespace LASI.FileSystem
             var reader2 = (new StringReader(chunk));
             char token = '~';
             while (reader2.Peek() != ' ' && reader2.Peek() != '/') {
-                token = (char)reader2.Read();
+                token = ( char )reader2.Read();
             }
-            token = (char)reader2.Read();
+            token = ( char )reader2.Read();
             return token;
         }
 
@@ -197,7 +197,7 @@ namespace LASI.FileSystem
 
                 result = phraseConstructor(composed);
                 if (result is VerbPhrase && result.Words.First() is ToLinker) {
-                    result = new InfinitivePhrase(composed.AsEnumerable());
+                    result = new InfinitivePhrase(composed);
                 }
             }
             return result;

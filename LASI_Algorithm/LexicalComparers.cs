@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LASI.Algorithm.LexicalStructures.NounRelatedConstructs;
 
-using LASI.Algorithm.Thesauri;
+using LASI.Algorithm.Lookup;
 
 namespace LASI.Algorithm
 {

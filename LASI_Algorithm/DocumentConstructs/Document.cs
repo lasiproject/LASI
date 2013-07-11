@@ -45,7 +45,7 @@ namespace LASI.Algorithm.DocumentConstructs
                         from r in s.Phrases
                         select r).ToList();
             _words = (from s in _sentences
-                      from w in s.Words.Concat(s.EndingPunctuation.AsEnumerable())
+                      from w in s.Words.Concat(new[] { s.EndingPunctuation })
                       select w).ToList();
         }
 

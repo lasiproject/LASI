@@ -1,6 +1,6 @@
 ﻿using LASI.Algorithm.Binding;
 using LASI.Algorithm.DocumentConstructs;
-using LASI.Algorithm.Thesauri;
+using LASI.Algorithm.Lookup;
 using LASI.Utilities;
 using System;
 using System.Collections.Concurrent;

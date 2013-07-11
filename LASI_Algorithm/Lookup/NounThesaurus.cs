@@ -8,7 +8,7 @@ using System.Text.RegularExpressions;
 using System.Collections.Concurrent;
 
 
-namespace LASI.Algorithm.Thesauri
+namespace LASI.Algorithm.Lookup
 {
     using SetReference = System.Collections.Generic.KeyValuePair<NounSetRelationship, int>;
     internal class NounThesaurus : SynonymLookup
@@ -170,7 +170,7 @@ namespace LASI.Algorithm.Thesauri
                 referenceRelationship == NounSetRelationship.HypERnym;
         }
 
-        private static readonly LASI.Algorithm.Thesauri.InterSetRelationshipManagement.NounPointerSymbolMap RelationshipMap =
-            new LASI.Algorithm.Thesauri.InterSetRelationshipManagement.NounPointerSymbolMap();
+        private static readonly LASI.Algorithm.Lookup.InterSetRelationshipManagement.NounPointerSymbolMap RelationshipMap =
+            new LASI.Algorithm.Lookup.InterSetRelationshipManagement.NounPointerSymbolMap();
     }
 }

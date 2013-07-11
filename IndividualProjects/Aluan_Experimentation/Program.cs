@@ -2,7 +2,7 @@
 using LASI.Algorithm.Binding;
 using LASI.Algorithm.DocumentConstructs;
 using LASI.Algorithm.RelationshipLookups;
-using LASI.Algorithm.Thesauri;
+using LASI.Algorithm.Lookup;
 using LASI.Utilities;
 using LASI.Utilities.TypedSwitch;
 using System;

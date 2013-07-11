@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LASI.Algorithm.DocumentConstructs;
-using LASI.Algorithm.Thesauri;
+using LASI.Algorithm.Lookup;
 using LASI.Utilities;
 using LASI.Utilities.TypedSwitch;
 using LASI.Algorithm.Analysis;

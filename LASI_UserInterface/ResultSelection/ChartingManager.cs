@@ -7,7 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Controls.DataVisualization.Charting;
 using LASI.Algorithm;
 using LASI.Algorithm.DocumentConstructs;
-using LASI.Algorithm.Thesauri;
+using LASI.Algorithm.Lookup;
 using LASI.InteropLayer;
 
 

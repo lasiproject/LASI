@@ -1,4 +1,4 @@
-﻿namespace LASI.Algorithm.Thesauri
+﻿namespace LASI.Algorithm.Lookup
 {
 
     /// <summary>

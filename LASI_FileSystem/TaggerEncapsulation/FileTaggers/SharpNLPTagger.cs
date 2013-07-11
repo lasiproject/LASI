@@ -4,6 +4,7 @@ using System.IO;
 using System.Text;
 using System.Linq;
 using System.Collections.Generic;
+using LASI.Utilities;
 namespace SharpNLPTaggingModule
 {
 
@@ -150,8 +151,8 @@ namespace SharpNLPTaggingModule
 
                 string[] sentences = SplitSentences(p);
 
-                foreach (string sentence in from s in sentences
-                                            where !(String.IsNullOrWhiteSpace(s) || String.IsNullOrEmpty(s))
+                foreach (string sentence in from s in sentences //where !(String.IsNullOrWhiteSpace(s) || String.IsNullOrEmpty(s))
+                                            where s.IsNotEmpty() && s.IsNotWhiteSpace()
                                             select s) {
                     string[] tokens = TokenizeSentence(sentence);
                     string[] tags = PosTagTokens(tokens);

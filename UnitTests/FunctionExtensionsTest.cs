@@ -106,23 +106,6 @@ namespace AlgorithmAssemblyUnitTestProject
             ComposeTest1Helper<GenericParameterHelper, GenericParameterHelper, GenericParameterHelper>();
         }
 
-        /// <summary>
-        ///A test for AsEnumerable
-        ///</summary>
-        public void AsEnumerableTestHelper<T>() {
-            T t = default(T);
-
-            IEnumerable<T> actual = FunctionExtensions.AsEnumerable<T>(t);
-            Assert.AreEqual(t, actual.First());
-            Assert.IsTrue(actual.Count() == 1);
-
-        }
-
-        [TestMethod()]
-
-        public void AsEnumerableTest() {
-            AsEnumerableTestHelper<GenericParameterHelper>();
-        }
     }
 
 

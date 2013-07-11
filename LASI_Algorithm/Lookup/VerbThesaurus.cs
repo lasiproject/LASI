@@ -9,7 +9,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using LASI.Utilities;
 
-namespace LASI.Algorithm.Thesauri
+namespace LASI.Algorithm.Lookup
 {
     using SetReference = System.Collections.Generic.KeyValuePair<VerbSetRelationship, int>;
     internal class VerbThesaurus : SynonymLookup
@@ -142,8 +142,8 @@ namespace LASI.Algorithm.Thesauri
 
 
         private IDictionary<string, VerbSynSet> verbData;
-        private static LASI.Algorithm.Thesauri.InterSetRelationshipManagement.VerbPointerSymbolMap RelationMap =
-            new LASI.Algorithm.Thesauri.InterSetRelationshipManagement.VerbPointerSymbolMap();
+        private static LASI.Algorithm.Lookup.InterSetRelationshipManagement.VerbPointerSymbolMap RelationMap =
+            new LASI.Algorithm.Lookup.InterSetRelationshipManagement.VerbPointerSymbolMap();
     }
 
 

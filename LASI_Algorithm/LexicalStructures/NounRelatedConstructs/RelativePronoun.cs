@@ -39,7 +39,7 @@ namespace LASI.Algorithm
             if (_boundEntity != null || !_boundEntity.Any())
                 _boundEntity = new EntityGroup(new[] { target });
             else
-                _boundEntity = new EntityGroup(_boundEntity.Concat(target.AsEnumerable()));
+                _boundEntity = new EntityGroup(_boundEntity.Concat(new[] { target }));
             _entityKind = BoundEntity.Kind;
         }
 

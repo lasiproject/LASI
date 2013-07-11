@@ -9,7 +9,7 @@ using LASI.Utilities;
 using System.Dynamic;
 using System.Collections.Concurrent;
 
-namespace LASI.Algorithm.Thesauri
+namespace LASI.Algorithm.Lookup
 {
     public static class LexicalLookup
     {
@@ -639,7 +639,7 @@ namespace LASI.Algorithm.Thesauri
         /// </summary>
         public static IEnumerable<string> LastNames {
             get {
-                return LexicalLookup.lastNames;
+                return lastNames;
             }
         }
         /// <summary>
@@ -647,7 +647,7 @@ namespace LASI.Algorithm.Thesauri
         /// </summary>
         public static IEnumerable<string> FemaleNames {
             get {
-                return LexicalLookup.femaleNames;
+                return femaleNames;
             }
         }
         /// <summary>
@@ -655,28 +655,19 @@ namespace LASI.Algorithm.Thesauri
         /// </summary>
         public static IEnumerable<string> MaleNames {
             get {
-                return LexicalLookup.maleNames;
+                return maleNames;
             }
         }
         /// <summary>
         /// Gets a sequence of all known Names which are just as likely to be Female or Male.
         /// </summary>
-        public static IReadOnlyList<string> GenderAmbiguousFirstNames {
+        public static IEnumerable<string> GenderAmbiguousFirstNames {
             get {
-                return LexicalLookup.overlappingNames.ToList();
+                return overlappingNames;
             }
         }
 
         #endregion
-
-        #endregion
-
-        #region Private Properties
-
-        private static NounThesaurus nounThesaurus = new NounThesaurus(nounThesaurusFilePath);
-        private static VerbThesaurus verbThesaurus = new VerbThesaurus(verbThesaurusFilePath);
-        private static AdjectiveThesaurus adjectiveThesaurus = new AdjectiveThesaurus(adjectiveThesaurusFilePath);
-        private static AdverbThesaurus adverbThesaurus = new AdverbThesaurus(adverbThesaurusFilePath);
 
         #endregion
 
@@ -692,6 +683,11 @@ namespace LASI.Algorithm.Thesauri
         private static readonly string verbThesaurusFilePath = ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "data.verb";
         private static readonly string adverbThesaurusFilePath = ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "data.adv";
         private static readonly string adjectiveThesaurusFilePath = ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "data.adj";
+        // Internal Thesauri
+        private static NounThesaurus nounThesaurus = new NounThesaurus(nounThesaurusFilePath);
+        private static VerbThesaurus verbThesaurus = new VerbThesaurus(verbThesaurusFilePath);
+        private static AdjectiveThesaurus adjectiveThesaurus = new AdjectiveThesaurus(adjectiveThesaurusFilePath);
+        private static AdverbThesaurus adverbThesaurus = new AdverbThesaurus(adverbThesaurusFilePath);
         // Name Data File Paths
         private static readonly string lastNamesFilePath = ConfigurationManager.AppSettings["NameDataDirectory"] + "last.txt";
         private static readonly string femaleNamesFilePath = ConfigurationManager.AppSettings["NameDataDirectory"] + "femalefirst.txt";
@@ -701,9 +697,6 @@ namespace LASI.Algorithm.Thesauri
         private static ISet<string> maleNames;
         private static ISet<string> femaleNames;
         private static IEnumerable<string> overlappingNames;
-
-
-
         // Synonym Lookup Caches
         private static ConcurrentDictionary<string, ISet<string>> cachedNounData = new ConcurrentDictionary<string, ISet<string>>(Concurrency.CurrentMax, 4096);
         private static ConcurrentDictionary<string, ISet<string>> cachedVerbData = new ConcurrentDictionary<string, ISet<string>>(Concurrency.CurrentMax, 4096);

@@ -10,7 +10,7 @@ using LASI.Utilities;
 using SharpNLPTaggingModule;
 using System.IO;
 using LASI.Algorithm.DocumentConstructs;
-using LASI.Algorithm.Thesauri;
+using LASI.Algorithm.Lookup;
 
 namespace Dustin_Experimentation
 { //this is a comment 

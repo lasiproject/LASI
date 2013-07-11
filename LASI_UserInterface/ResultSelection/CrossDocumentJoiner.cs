@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using LASI.Algorithm;
 using LASI.Algorithm.DocumentConstructs;
 
-using LASI.Algorithm.Thesauri;
+using LASI.Algorithm.Lookup;
 
 namespace LASI.UserInterface
 {
