@@ -15,8 +15,7 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="text">The key text content of the PersonalPronoun.</param>
         public PersonalPronoun(string text)
-            : base(text)
-        {
+            : base(text) {
         }
     }
 }

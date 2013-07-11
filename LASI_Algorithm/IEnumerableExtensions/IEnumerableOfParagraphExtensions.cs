@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace LASI.Algorithm
 {
-    static class IEnumerableODocumentStructureExtensions
+    static class IEnumerableOfDocumentStructureExtensions
     {
         /// <summary>
         /// Gets the linear aggregation of all Sentence instances contained within the sequence of Paragraph instances.

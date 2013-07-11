@@ -565,6 +565,10 @@ namespace LASI.Algorithm.Thesauri
 
         #region Task Aquisition Accessors
 
+        /// <summary>
+        /// Gets a sequence of Tasks containing all of the yet unstarted LexicalLookup loading operations.
+        /// Await each Task to start its corresponding loading operation.
+        /// </summary>
         public static IEnumerable<Task<string>> YetUnloadedResoucesTasks {
             get {
                 var Tasks = new List<Task<string>>();

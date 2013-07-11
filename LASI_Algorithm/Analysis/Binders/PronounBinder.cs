@@ -27,7 +27,7 @@ namespace LASI.Algorithm.Binding
                               select np;
             foreach (var np in toTransform) {
                 var temporaryReference = np;
-                PronounPhrase.PromoteNounPhraseToPronounPhrase(ref temporaryReference);
+                PronounPhrase.TransformNounPhraseToPronounPhrase(ref temporaryReference);
             }
             BindToReferencePoints(toTransform);
         }

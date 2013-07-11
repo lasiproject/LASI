@@ -14,14 +14,12 @@ namespace LASI.Algorithm
     public abstract class GenericNoun : Noun
     {
         /// <summary>
-        /// Initializes q new instances of the GenericNoun class.
+        /// Initializes a new instances of the GenericNoun class.
         /// </summary>
         /// <param name="text">The key text content of the GenericNoun</param>
         protected GenericNoun(string text)
             : base(text) {
             EntityKind = LASI.Algorithm.EntityKind.ThingUnknown;
         }
-
-
     }
 }
