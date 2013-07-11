@@ -32,22 +32,22 @@ namespace Aluan_Experimentation
         }
 
         private static void TestGender() {
-            foreach (var task in Thesaurus.GetTasksToLoadAllThesauri()) {
+            foreach (var task in LexicalLookup.YetUnloadedResoucesTasks) {
                 task.Wait();
                 Output.WriteLine(task.Result);
             }
             var overlapResults = new List<string>();
-            foreach (var name in Thesaurus.OverlappingNames)
+            foreach (var name in LexicalLookup.GenderAmbiguousFirstNames)
                 overlapResults.Add(LookupName(name));
             Output.WriteLine(overlapResults.OrderBy(s => s.Contains("Female")).ThenBy(s => s).Format(true));
         }
         private static void TestFullNames() {
-            foreach (var task in Thesaurus.GetTasksToLoadAllThesauri()) {
+            foreach (var task in LexicalLookup.YetUnloadedResoucesTasks) {
                 task.Wait();
                 Output.WriteLine(task.Result);
             }
-            foreach (var ln in Thesaurus.LastNames) {
-                var toCheck = from fn in Thesaurus.FemaleNames.Concat(Thesaurus.MaleNames).AsParallel()
+            foreach (var ln in LexicalLookup.LastNames) {
+                var toCheck = from fn in LexicalLookup.FemaleNames.Concat(LexicalLookup.MaleNames).AsParallel()
                               group fn by fn into g select g.Key into fn
                               select new NounPhrase(new[] { 
                               new ProperSingularNoun(fn),
@@ -56,7 +56,7 @@ namespace Aluan_Experimentation
 
                 var resultsOfCheck = from pnp in toCheck.AsParallel() group pnp by pnp.IsFullName();
 
-                foreach (var grp in resultsOfCheck) {
+                foreach (var grp in resultsOfCheck.Where(g => !g.Key)) {
                     Output.WriteLine("{0}, {1}", grp.Key, grp.Count());
                 }
             }

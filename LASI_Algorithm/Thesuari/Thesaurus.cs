@@ -11,138 +11,86 @@ using System.Collections.Concurrent;
 
 namespace LASI.Algorithm.Thesauri
 {
-    public static class Thesaurus
+    public static class LexicalLookup
     {
-        #region Static Constructor
-
-        static Thesaurus() {
-            NounThesaurus = new NounThesaurus(nounThesaurusFilePath);
-            VerbThesaurus = new VerbThesaurus(verbThesaurusFilePath);
-            AdjectiveThesaurus = new AdjectiveThesaurus(adjectiveThesaurusFilePath);
-            AdverbThesaurus = new AdverbThesaurus(adverbThesaurusFilePath);
-        }
-
-        #endregion
-
         #region Public Methods
 
-        public static Task<string>[] GetTasksToLoadAllThesauri() {
-            var Tasks = new List<Task<string>>();
-            if (NounLoadingState == LoadingState.NotStarted)
-                Tasks.Add(NounThesaurusLoadTask);
-            if (VerbLoadingState == LoadingState.NotStarted)
-                Tasks.Add(VerbThesaurusLoadTask);
-            if (AdjectiveLoadingState == LoadingState.NotStarted)
-                Tasks.Add(AdjectiveThesaurusLoadTask);
-            if (AdverbLoadingState == LoadingState.NotStarted)
-                Tasks.Add(AdverbThesaurusLoadTask);
-            Tasks.Add(Task.Run(async () => {
-                await LoadNameData();
-                return "Loaded Name Data";
-            }));
-            return Tasks.ToArray();
-        }
+        #region Synonym Lookup Methods
 
-
-
-        public static Task<string> AdjectiveThesaurusLoadTask {
-            get {
-                return Task.Run(async () => {
-                    AdjectiveLoadingState = LoadingState.InProgress;
-                    await AdjectiveThesaurus.LoadAsync();
-                    AdjectiveLoadingState = LoadingState.Finished;
-                    return "Adjective Thesaurus Loaded";
-                });
-            }
-        }
-
-        public static Task<string> AdverbThesaurusLoadTask {
-            get {
-                return Task.Run(async () => {
-                    AdverbLoadingState = LoadingState.InProgress;
-                    await AdverbThesaurus.LoadAsync();
-                    AdverbLoadingState = LoadingState.Finished;
-                    return "Adverb Thesaurus Loaded";
-                });
-            }
-        }
-
-        public static Task<string> VerbThesaurusLoadTask {
-            get {
-                return Task.Run(async () => {
-                    VerbLoadingState = LoadingState.InProgress;
-                    await VerbThesaurus.LoadAsync();
-                    VerbLoadingState = LoadingState.Finished;
-                    return "Verb Thesaurus Loaded";
-                });
-            }
-        }
-
-        public static Task<string> NounThesaurusLoadTask {
-            get {
-                return Task.Run(async () => {
-                    NounLoadingState = LoadingState.InProgress;
-                    await NounThesaurus.LoadAsync();
-                    NounLoadingState = LoadingState.Finished;
-                    return "Noun Thesaurus Loaded";
-                });
-
-            }
-        }
-
+        /// <summary>
+        /// Returns the synonyms for the provided Word.
+        /// </summary>
+        /// <param name="word">The Word to lookup.</param>
+        /// <returns>The synonyms for the provided Word.</returns>
         public static IEnumerable<string> Lookup(Word word) {
             return InternalLookup(word as dynamic);
         }
-
+        /// <summary>
+        /// Returns the synonyms for the provided noun text.
+        /// </summary>
+        /// <param name="nounText">The text corresponding to a noun.</param>
+        /// <returns>The synonyms for the provided noun text.</returns>
         public static IEnumerable<string> LookupNoun(string nounText) {
             switch (NounLoadingState) {
                 case LoadingState.Finished:
-                    return cachedNounData.GetOrAdd(nounText, key => NounThesaurus[key]);
+                    return cachedNounData.GetOrAdd(nounText, key => nounThesaurus[key]);
                 case LoadingState.NotStarted:
                     NounThesaurusLoadTask.Wait();
-                    return cachedNounData.GetOrAdd(nounText, key => NounThesaurus[key]);
+                    return cachedNounData.GetOrAdd(nounText, key => nounThesaurus[key]);
                 case LoadingState.InProgress:
                     throw new NounDataNotLoadedException("An attempt was made to access Noun data before loading could complete");
                 default:
                     return Enumerable.Empty<string>();
             }
         }
-
+        /// <summary>
+        /// Returns the synonyms for the provided verb text.
+        /// </summary>
+        /// <param name="verbText">The text corresponding to a noun.</param>
+        /// <returns>The synonyms for provided the verb text.</returns>
         public static IEnumerable<string> LookupVerb(string verbText) {
             switch (VerbLoadingState) {
                 case LoadingState.Finished:
-                    return cachedVerbData.GetOrAdd(verbText, key => VerbThesaurus[key]);
+                    return cachedVerbData.GetOrAdd(verbText, key => verbThesaurus[key]);
                 case LoadingState.NotStarted:
                     VerbThesaurusLoadTask.Wait();
-                    return cachedVerbData.GetOrAdd(verbText, key => VerbThesaurus[key]);
+                    return cachedVerbData.GetOrAdd(verbText, key => verbThesaurus[key]);
                 case LoadingState.InProgress:
                     throw new VerbDataNotLoadedException("An attempt was made to access Verb data before loading could complete");
                 default:
                     return Enumerable.Empty<string>();
             }
         }
-
+        /// <summary>
+        /// Returns the synonyms for the provided adjective text.
+        /// </summary>
+        /// <param name="adjectiveText">The text corresponding to an adjective.</param>
+        /// <returns>The synonyms for provided the adjective text.</returns>
         public static IEnumerable<string> LookupAdjective(string adjectiveText) {
             switch (AdjectiveLoadingState) {
                 case LoadingState.Finished:
-                    return cachedAdjectiveData.GetOrAdd(adjectiveText, key => AdjectiveThesaurus[key]);
+                    return cachedAdjectiveData.GetOrAdd(adjectiveText, key => adjectiveThesaurus[key]);
                 case LoadingState.NotStarted:
                     AdjectiveThesaurusLoadTask.Wait();
-                    return cachedAdjectiveData.GetOrAdd(adjectiveText, key => AdjectiveThesaurus[key]);
+                    return cachedAdjectiveData.GetOrAdd(adjectiveText, key => adjectiveThesaurus[key]);
                 case LoadingState.InProgress:
                     throw new AdjectiveDataNotLoadedException("An attempt was made to access Adjective data before loading could complete");
                 default:
                     return Enumerable.Empty<string>();
             }
         }
-
+        /// <summary>
+        /// Returns the synonyms for the provided adverb text.
+        /// </summary>
+        /// <param name="adverbText">The text corresponding to an adverb.</param>
+        /// <returns>The synonyms for provided the adverb text.</returns>
         public static IEnumerable<string> LookupAdverb(string adverbText) {
             switch (AdverbLoadingState) {
                 case LoadingState.Finished:
-                    return cachedAdverbData.GetOrAdd(adverbText, key => AdverbThesaurus[key]);
+                    return cachedAdverbData.GetOrAdd(adverbText, key => adverbThesaurus[key]);
                 case LoadingState.NotStarted:
                     AdverbThesaurusLoadTask.Wait();
-                    return cachedAdverbData.GetOrAdd(adverbText, key => AdverbThesaurus[key]);
+                    return cachedAdverbData.GetOrAdd(adverbText, key => adverbThesaurus[key]);
                 case LoadingState.InProgress:
                     throw new AdverbDataNotLoadedException("An attempt was made to access Adverb data before loading could complete");
                 default:
@@ -150,35 +98,77 @@ namespace LASI.Algorithm.Thesauri
             }
         }
 
+        #endregion
 
+        #region Full Name Lookup Methods
+
+        /// <summary>
+        /// Determines if the provided NounPhrase is a known Full Name.
+        /// </summary>
+        /// <param name="name">The NounPhrase to check.</param>
+        /// <returns>True if the provided NounPhrase is a known Full Name, false otherwise.</returns>
         public static bool IsFullName(this NounPhrase name) {
+            return InternalFullNameChecking(name, proper => proper.IsFirstName());
+        }
+        /// <summary>
+        /// Determines if the provided NounPhrase is a known Full Female Name.
+        /// </summary>
+        /// <param name="name">The NounPhrase to check.</param>
+        /// <returns>True if the provided NounPhrase is a known Full Female Name, false otherwise.</returns>
+        public static bool IsFullFemaleName(this NounPhrase name) {
+            return InternalFullNameChecking(name, proper => proper.IsFemaleName());
+        }
+        /// <summary>
+        /// Determines if the provided NounPhrase is a known Full Male Name.
+        /// </summary>
+        /// <param name="name">The NounPhrase to check.</param>
+        /// <returns>True if the provided NounPhrase is a known Full Male Name, false otherwise.</returns>
+        public static bool IsFullMaleName(this NounPhrase name) {
+            return InternalFullNameChecking(name, properNoun => properNoun.IsMaleName());
+        }
+
+
+        private static bool InternalFullNameChecking(NounPhrase name, Func<ProperNoun, bool> fnPredicate) {
             var pns = name.Words.GetProperNouns();
             var pcnt = pns.Count();
             return pcnt > 1 &&
-            pns.FirstOrDefault(s => s != null && s.IsFirstName()) != null &&
+            pns.FirstOrDefault(proper => proper != null && fnPredicate(proper)) != null &&
             pns.Skip(1).Take(pcnt - 1).All(s => s != null && s.IsFirstName() || s.IsLastName()) &&
             pns.Last().IsLastName();
         }
-        public static bool IsFirstName(this ProperNoun proper) {
-            return proper.Text.IsPersonalName();
-        }
 
-        public static bool IsPersonalName(this string text) {
+        #endregion
+
+        #region First Name Lookup Methods
+        /// <summary>
+        /// Determines wether the provided ProperNoun is a FirstName.
+        /// </summary>
+        /// <param name="proper">The ProperNoun to check.</param>
+        /// <returns>True if the provided ProperNoun is a FirstName, false otherwise.</returns>
+        public static bool IsFirstName(this ProperNoun proper) {
+            return proper.Text.IsFirstName();
+        }
+        /// <summary>
+        /// Determines if provided text is in the set of Female or Male first names.
+        /// </summary>
+        /// <param name="text">The text to check.</param>
+        /// <returns>True if the provided text is in the set of Female or Male first names, false otherwise.</returns>
+        public static bool IsFirstName(this string text) {
             return femaleNames.Count > maleNames.Count ?
                 maleNames.Contains(text) || femaleNames.Contains(text) :
                 femaleNames.Contains(text) || maleNames.Contains(text);
         }
         /// <summary>
-        /// Returns a value indicating wether the ProperNoun's text corresponds to a last name in the english language.
+        /// Determines wether the ProperNoun's text corresponds to a last name in the english language.
         /// Lookups are performed in a case insensitive manner and currently do not respect plurality.
         /// </summary>
-        /// <param name="proper">The ProperNoun to test.</param>
+        /// <param name="proper">The ProperNoun to check.</param>
         /// <returns>True if the ProperNoun's text corresponds to a last name in the english language, false otherwise.</returns>
         public static bool IsLastName(this ProperNoun proper) {
             return proper.Text.IsLastName();
         }
         /// <summary>
-        /// Returns a value indicating wether the ProperNoun's text corresponds to a female first name in the english language.
+        /// Determines wether the ProperNoun's text corresponds to a female first name in the english language.
         /// Lookups are performed in a case insensitive manner and currently do not respect plurality.
         /// </summary>
         /// <param name="proper">The ProperNoun to test.</param>
@@ -223,6 +213,9 @@ namespace LASI.Algorithm.Thesauri
             return maleNames.Contains(text);
         }
 
+        #endregion
+
+        #region Similarity Comparion Methods
 
         /// <summary>
         /// Determines if two IEntity instances are similar.
@@ -262,19 +255,45 @@ namespace LASI.Algorithm.Thesauri
             }
             return false;
         }
-
+        /// <summary>
+        /// Determines if the provided Noun is similar to the provided NounPhrase.
+        /// </summary>
+        /// <param name="first">The Noun.</param>
+        /// <param name="second">The NounPhrase.</param>
+        /// <returns>True if the provided Noun is similar to the provided NounPhrase, false otherwise.</returns>
         public static bool IsSimilarTo(this Noun first, NounPhrase second) {
             var nouns = second.Words.GetNouns();
             return nouns.Count() == 1 && nouns.First().IsSynonymFor(first);
         }
+        /// <summary>
+        /// Determines if the provided NounPhrase is similar to the provided Noun.
+        /// </summary>
+        /// <param name="first">The NounPhrase.</param>
+        /// <param name="second">The Noun.</param>
+        /// <returns>True if the provided NounPhrase is similar to the provided Noun, false otherwise.</returns>
+        public static bool IsSimilarTo(this NounPhrase first, Noun second) {
+            var nouns = first.Words.GetNouns();
+            return nouns.Count() == 1 && nouns.First().IsSynonymFor(second);
+        }
+        /// <summary>
+        /// Determines if the provided VerbPhrase is similar to the provided Verb.
+        /// </summary>
+        /// <param name="first">The VerbPhrase.</param>
+        /// <param name="second">The Verb.</param>
+        /// <returns>True if the provided VerbPhrase is similar to the provided Verb, false otherwise.</returns>
         public static bool IsSimilarTo(this VerbPhrase first, Verb second) {
             return second.IsSimilarTo(first);
         }
+        /// <summary>
+        /// Determines if the provided Verb is similar to the provided VerbPhrase.
+        /// </summary>
+        /// <param name="first">The Verb.</param>
+        /// <param name="second">The VerbPhrase.</param>
+        /// <returns>True if the provided Verb is similar to the provided VerbPhrase, false otherwise.</returns>
         public static bool IsSimilarTo(this Verb first, VerbPhrase second) {
             var verbs = second.Words.GetVerbs();
             return verbs.Count() == 1 && verbs.First().IsSynonymFor(first);
         }
-
         /// <summary>
         /// Determines if two IVerbal instances are similar.
         /// </summary>
@@ -421,10 +440,6 @@ namespace LASI.Algorithm.Thesauri
             return result;
         }
 
-        #endregion
-
-        #region Private Methods
-
         /// <summary>
         /// Returns a double value indicating the degree of similarity between two NounPhrases.
         /// </summary>
@@ -459,23 +474,26 @@ namespace LASI.Algorithm.Thesauri
             return 0d;
         }
 
+        #endregion
 
+        #endregion
 
-        #region Internal Lookup Methods
+        #region Private Methods
 
+        #region Internal Syonym Lookup Methods
 
         private static ISet<string> InternalLookup(Noun noun) {
 
-            return cachedNounData.GetOrAdd(noun.Text, key => NounThesaurus[key]);
+            return cachedNounData.GetOrAdd(noun.Text, key => nounThesaurus[key]);
         }
         private static ISet<string> InternalLookup(Verb verb) {
-            return cachedVerbData.GetOrAdd(verb.Text, key => VerbThesaurus[key]);
+            return cachedVerbData.GetOrAdd(verb.Text, key => verbThesaurus[key]);
         }
         private static ISet<string> InternalLookup(Adverb adverb) {
-            return cachedAdverbData.GetOrAdd(adverb.Text, key => AdverbThesaurus[key]);
+            return cachedAdverbData.GetOrAdd(adverb.Text, key => adverbThesaurus[key]);
         }
         private static ISet<string> InternalLookup(Adjective adjective) {
-            return cachedAdjectiveData.GetOrAdd(adjective.Text, key => AdjectiveThesaurus[key]);
+            return cachedAdjectiveData.GetOrAdd(adjective.Text, key => adjectiveThesaurus[key]);
         }
         private static ISet<string> InternalLookup(Word word) {
             throw new NoSynonymLookupForTypeException(word);
@@ -538,53 +556,123 @@ namespace LASI.Algorithm.Thesauri
                         femaleNames.ExceptWith(from s in stratified where s.Key == "M" from n in s.Names select n.Name);
                     });
         }
+
         #endregion
 
         #endregion
 
         #region Public Properties
 
-        public static IEnumerable<string> LastNames {
+        #region Task Aquisition Accessors
+
+        public static IEnumerable<Task<string>> YetUnloadedResoucesTasks {
             get {
-                return Thesaurus.lastNames;
+                var Tasks = new List<Task<string>>();
+                if (NounLoadingState == LoadingState.NotStarted)
+                    Tasks.Add(NounThesaurusLoadTask);
+                if (VerbLoadingState == LoadingState.NotStarted)
+                    Tasks.Add(VerbThesaurusLoadTask);
+                if (AdjectiveLoadingState == LoadingState.NotStarted)
+                    Tasks.Add(AdjectiveThesaurusLoadTask);
+                if (AdverbLoadingState == LoadingState.NotStarted)
+                    Tasks.Add(AdverbThesaurusLoadTask);
+                Tasks.Add(Task.Run(async () => {
+                    await LoadNameData();
+                    return "Loaded Name Data";
+                }));
+                return Tasks.ToArray();
             }
         }
-        public static IEnumerable<string> FemaleNames {
+
+        private static Task<string> AdjectiveThesaurusLoadTask {
             get {
-                return Thesaurus.femaleNames;
+                return Task.Run(async () => {
+                    AdjectiveLoadingState = LoadingState.InProgress;
+                    await adjectiveThesaurus.LoadAsync();
+                    AdjectiveLoadingState = LoadingState.Finished;
+                    return "Adjective Thesaurus Loaded";
+                });
             }
         }
-        public static IEnumerable<string> MaleNames {
+        private static Task<string> AdverbThesaurusLoadTask {
             get {
-                return Thesaurus.maleNames;
+                return Task.Run(async () => {
+                    AdverbLoadingState = LoadingState.InProgress;
+                    await adverbThesaurus.LoadAsync();
+                    AdverbLoadingState = LoadingState.Finished;
+                    return "Adverb Thesaurus Loaded";
+                });
             }
         }
-        public static IReadOnlyList<string> OverlappingNames {
+        private static Task<string> VerbThesaurusLoadTask {
             get {
-                return Thesaurus.overlappingNames.ToList();
+                return Task.Run(async () => {
+                    VerbLoadingState = LoadingState.InProgress;
+                    await verbThesaurus.LoadAsync();
+                    VerbLoadingState = LoadingState.Finished;
+                    return "Verb Thesaurus Loaded";
+                });
             }
         }
+        private static Task<string> NounThesaurusLoadTask {
+            get {
+                return Task.Run(async () => {
+                    NounLoadingState = LoadingState.InProgress;
+                    await nounThesaurus.LoadAsync();
+                    NounLoadingState = LoadingState.Finished;
+                    return "Noun Thesaurus Loaded";
+                });
+
+            }
+        }
+
         #endregion
 
+        #region NameData Accessors
+
+        /// <summary>
+        /// Gets a sequence of all known Last Names.
+        /// </summary>
+        public static IEnumerable<string> LastNames {
+            get {
+                return LexicalLookup.lastNames;
+            }
+        }
+        /// <summary>
+        /// Gets a sequence of all known Female Names.
+        /// </summary>
+        public static IEnumerable<string> FemaleNames {
+            get {
+                return LexicalLookup.femaleNames;
+            }
+        }
+        /// <summary>
+        /// Gets a sequence of all known Male Names.
+        /// </summary>
+        public static IEnumerable<string> MaleNames {
+            get {
+                return LexicalLookup.maleNames;
+            }
+        }
+        /// <summary>
+        /// Gets a sequence of all known Names which are just as likely to be Female or Male.
+        /// </summary>
+        public static IReadOnlyList<string> GenderAmbiguousFirstNames {
+            get {
+                return LexicalLookup.overlappingNames.ToList();
+            }
+        }
+
+        #endregion
+
+        #endregion
 
         #region Private Properties
 
-        private static NounThesaurus NounThesaurus {
-            get;
-            set;
-        }
-        private static VerbThesaurus VerbThesaurus {
-            get;
-            set;
-        }
-        private static AdjectiveThesaurus AdjectiveThesaurus {
-            get;
-            set;
-        }
-        private static AdverbThesaurus AdverbThesaurus {
-            get;
-            set;
-        }
+        private static NounThesaurus nounThesaurus = new NounThesaurus(nounThesaurusFilePath);
+        private static VerbThesaurus verbThesaurus = new VerbThesaurus(verbThesaurusFilePath);
+        private static AdjectiveThesaurus adjectiveThesaurus = new AdjectiveThesaurus(adjectiveThesaurusFilePath);
+        private static AdverbThesaurus adverbThesaurus = new AdverbThesaurus(adverbThesaurusFilePath);
 
         #endregion
 

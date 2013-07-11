@@ -17,8 +17,7 @@ namespace Dustin_Experimentation
     class Program
     {
         static void Main(string[] args) {
-            foreach (var t in Thesaurus.GetTasksToLoadAllThesauri())
-            {
+            foreach (var t in LexicalLookup.YetUnloadedResoucesTasks) {
                 t.Wait();
             }
 

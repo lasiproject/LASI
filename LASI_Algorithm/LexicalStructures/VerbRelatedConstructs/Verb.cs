@@ -86,12 +86,12 @@ namespace LASI.Algorithm
 
 
         protected virtual bool DetermineIsPossessive() {
-            var syns = LASI.Algorithm.Thesauri.Thesaurus.Lookup(this);
+            var syns = LASI.Algorithm.Thesauri.LexicalLookup.Lookup(this);
             isPossessive = syns.Contains("have");
             return IsPossessive;
         }
         protected virtual bool DetermineIsClassifier() {
-            var syns = LASI.Algorithm.Thesauri.Thesaurus.Lookup(this);
+            var syns = LASI.Algorithm.Thesauri.LexicalLookup.Lookup(this);
             isClassifier = syns.Contains("be");
             return IsClassifier;
         }

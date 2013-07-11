@@ -77,7 +77,7 @@ namespace LASI.InteropLayer
 
         private async Task LoadThesaurus() {
             await UpdateProgressDisplay("Loading Thesaurus...", documentStepRatio);
-            var thesaurusTasks = Thesaurus.GetTasksToLoadAllThesauri().ToList();
+            var thesaurusTasks = LexicalLookup.YetUnloadedResoucesTasks.ToList();
             while (thesaurusTasks.Any()) {
                 var currentTask = await Task.WhenAny(thesaurusTasks);
                 var message = await currentTask;
