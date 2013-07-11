@@ -149,6 +149,12 @@ namespace LASI.Algorithm
             return words.OfType<Noun>();
         }
         /// <summary>
+        /// Returns all ProperNouns in the collection.
+        /// </summary>
+        public static IEnumerable<ProperNoun> GetProperNouns(this IEnumerable<Word> words) {
+            return words.OfType<ProperNoun>();
+        }
+        /// <summary>
         /// Returns all Pronouns in the collection
         /// </summary>
         public static IEnumerable<Pronoun> GetPronouns(this IEnumerable<Word> words) {

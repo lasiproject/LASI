@@ -21,11 +21,49 @@ namespace Aluan_Experimentation
 
         static void Main(string[] args) {
 
-            var doc = TaggerUtil.LoadTextFile(new LASI.FileSystem.FileTypes.TextFile(testPath));
-            TestRelationshipTable(doc);
+            //var doc = TaggerUtil.LoadTextFile(new LASI.FileSystem.FileTypes.TextFile(testPath));
+            //TestRelationshipTable(doc);
+
+            TestFullNames();
+
 
 
             Input.WaitForKey();
+        }
+
+        private static void TestGender() {
+            foreach (var task in Thesaurus.GetTasksToLoadAllThesauri()) {
+                task.Wait();
+                Output.WriteLine(task.Result);
+            }
+            var overlapResults = new List<string>();
+            foreach (var name in Thesaurus.OverlappingNames)
+                overlapResults.Add(LookupName(name));
+            Output.WriteLine(overlapResults.OrderBy(s => s.Contains("Female")).ThenBy(s => s).Format(true));
+        }
+        private static void TestFullNames() {
+            foreach (var task in Thesaurus.GetTasksToLoadAllThesauri()) {
+                task.Wait();
+                Output.WriteLine(task.Result);
+            }
+            foreach (var ln in Thesaurus.LastNames) {
+                var toCheck = from fn in Thesaurus.FemaleNames.Concat(Thesaurus.MaleNames).AsParallel()
+                              group fn by fn into g select g.Key into fn
+                              select new NounPhrase(new[] { 
+                              new ProperSingularNoun(fn),
+                              new ProperSingularNoun(ln) 
+                          });
+
+                var resultsOfCheck = from pnp in toCheck.AsParallel() group pnp by pnp.IsFullName();
+
+                foreach (var grp in resultsOfCheck) {
+                    Output.WriteLine("{0}, {1}", grp.Key, grp.Count());
+                }
+            }
+        }
+
+        private static string LookupName(string name) {
+            return string.Format("{0} is in the set of {1} names", name, name.IsFemaleName() ? "Female" : name.IsMaleName() ? "Male" : "Ambiguous");
         }
 
         private static void TestRelationshipTable(Document doc) {

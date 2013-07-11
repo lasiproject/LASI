@@ -150,6 +150,24 @@ namespace LASI.Algorithm.Thesauri
             }
         }
 
+
+        public static bool IsFullName(this NounPhrase name) {
+            var pns = name.Words.GetProperNouns();
+            var pcnt = pns.Count();
+            return pcnt > 1 &&
+            pns.FirstOrDefault(s => s != null && s.IsFirstName()) != null &&
+            pns.Skip(1).Take(pcnt - 1).All(s => s != null && s.IsFirstName() || s.IsLastName()) &&
+            pns.Last().IsLastName();
+        }
+        public static bool IsFirstName(this ProperNoun proper) {
+            return proper.Text.IsPersonalName();
+        }
+
+        public static bool IsPersonalName(this string text) {
+            return femaleNames.Count > maleNames.Count ?
+                maleNames.Contains(text) || femaleNames.Contains(text) :
+                femaleNames.Contains(text) || maleNames.Contains(text);
+        }
         /// <summary>
         /// Returns a value indicating wether the ProperNoun's text corresponds to a last name in the english language.
         /// Lookups are performed in a case insensitive manner and currently do not respect plurality.
@@ -157,7 +175,7 @@ namespace LASI.Algorithm.Thesauri
         /// <param name="proper">The ProperNoun to test.</param>
         /// <returns>True if the ProperNoun's text corresponds to a last name in the english language, false otherwise.</returns>
         public static bool IsLastName(this ProperNoun proper) {
-            return lastNames.Contains(proper.Text);
+            return proper.Text.IsLastName();
         }
         /// <summary>
         /// Returns a value indicating wether the ProperNoun's text corresponds to a female first name in the english language.
@@ -166,7 +184,7 @@ namespace LASI.Algorithm.Thesauri
         /// <param name="proper">The ProperNoun to test.</param>
         /// <returns>True if the ProperNoun's text corresponds to a female first name in the english language, false otherwise.</returns>
         public static bool IsFemaleName(this ProperNoun proper) {
-            return femaleNames.Contains(proper.Text);
+            return proper.Text.IsFemaleName();
         }
         /// <summary>
         /// Returns a value indicating wether the ProperNoun's text corresponds to a male first name in the english language. 
@@ -175,8 +193,36 @@ namespace LASI.Algorithm.Thesauri
         /// <param name="proper">The ProperNoun to test.</param>
         /// <returns>True if the ProperNoun's text corresponds to a male first name in the english language, false otherwise.</returns>
         public static bool IsMaleName(this ProperNoun proper) {
-            return maleNames.Contains(proper.Text);
+            return proper.Text.IsLastName();
         }
+        /// <summary>
+        /// Returns a value indicating wether the provided string corresponds to a common lastname in the english language. 
+        /// Lookups are performed in a case insensitive manner and currently do not respect plurality.
+        /// </summary>
+        /// <param name="text">The Name to lookup</param>
+        /// <returns>True if the provided string corresponds to a common lastname in the english language, false otherwise.</returns>
+        public static bool IsLastName(this string text) {
+            return lastNames.Contains(text);
+        }
+        /// <summary>
+        /// Returns a value indicating wether the provided string corresponds to a common female name in the english language. 
+        /// Lookups are performed in a case insensitive manner and currently do not respect plurality.
+        /// </summary>
+        /// <param name="Text">The Name to lookup</param>
+        /// <returns>True if the provided string corresponds to a common female name in the english language, false otherwise.</returns>
+        public static bool IsFemaleName(this string text) {
+            return femaleNames.Contains(text);
+        }
+        /// <summary>
+        /// Returns a value indicating wether the provided string corresponds to a common male name in the english language. 
+        /// Lookups are performed in a case insensitive manner and currently do not respect plurality.
+        /// </summary>
+        /// <param name="text">The Name to lookup</param>
+        /// <returns>True if the provided string corresponds to a common male name in the english language, false otherwise.</returns>
+        public static bool IsMaleName(this string text) {
+            return maleNames.Contains(text);
+        }
+
 
         /// <summary>
         /// Determines if two IEntity instances are similar.
@@ -435,26 +481,91 @@ namespace LASI.Algorithm.Thesauri
             throw new NoSynonymLookupForTypeException(word);
         }
         private static async Task LoadNameData() {
-            await Task.WhenAll(
-                Task.Run(async () => {
-                    using (var reader = new System.IO.StreamReader(lastNamesFilePath)) {
-                        lastNames = new HashSet<string>((await reader.ReadToEndAsync()).Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries), StringComparer.OrdinalIgnoreCase);
-                    }
-                }),
-                Task.Run(async () => {
-                    using (var reader = new System.IO.StreamReader(femaleNamesFilePath)) {
-                        femaleNames = new HashSet<string>((await reader.ReadToEndAsync()).Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries), StringComparer.OrdinalIgnoreCase);
-                    }
-                }),
-                Task.Run(async () => {
-                    using (var reader = new System.IO.StreamReader(maleNamesFilePath)) {
-                        maleNames = new HashSet<string>((await reader.ReadToEndAsync()).Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries), StringComparer.OrdinalIgnoreCase);
-                    }
-                }));
+            await Task.Factory.ContinueWhenAll(
+                new Task[] {  
+                    Task.Run(async () => {
+                            using (var reader = new System.IO.StreamReader(lastNamesFilePath)) {
+                            lastNames = new HashSet<string>
+                            ((await reader.ReadToEndAsync()).Split(new[] { '\n' },
+                            StringSplitOptions.RemoveEmptyEntries),
+                            StringComparer.OrdinalIgnoreCase);
+                        }
+                    }),
+                    Task.Run(async () => {
+                        using (var reader = new System.IO.StreamReader(femaleNamesFilePath)) {
+                            femaleNames = new HashSet<string>
+                            ((await reader.ReadToEndAsync()).Split(new[] { '\n' }, 
+                            StringSplitOptions.RemoveEmptyEntries), 
+                            StringComparer.OrdinalIgnoreCase);
+                        }
+                    }),
+                    Task.Run(async () => {
+                        using (var reader = new System.IO.StreamReader(maleNamesFilePath)) {
+                            maleNames = new HashSet<string>
+                                ((await reader.ReadToEndAsync()).Split(new[] { '\n' },
+                                StringSplitOptions.RemoveEmptyEntries), 
+                                StringComparer.OrdinalIgnoreCase);
+                        }
+                    })},
+                    results => {
+                        overlappingNames = maleNames.Intersect(femaleNames).Concat(femaleNames.Intersect(maleNames)).ToSet();
+                        var i1 = maleNames.Select((s, i) => new
+                        {
+                            Rank = ( double )i / maleNames.Count,
+                            Name = s
+                        });
+                        var i2 = femaleNames.Select((s, i) => new
+                        {
+                            Rank = ( double )i / femaleNames.Count,
+                            Name = s
+                        });
+                        var sect =
+                        from m in i1 join f in i2 on m.Name equals f.Name
+                        select new
+                        {
+                            MorF = f.Rank / m.Rank > 1 ? "M" : m.Rank / f.Rank > 1 ? "F" : "U",
+                            Name = f.Name
+                        };
+                        var stratified =
+                        from s in sect group s by s.MorF into g
+                        select new
+                        {
+                            Key = g.Key,
+                            Count = g.Count(),
+                            Names = g.ToArray()
+                        };
+                        maleNames.ExceptWith(from s in stratified where s.Key == "F" from n in s.Names select n.Name);
+                        femaleNames.ExceptWith(from s in stratified where s.Key == "M" from n in s.Names select n.Name);
+                    });
         }
         #endregion
 
         #endregion
+
+        #region Public Properties
+
+        public static IEnumerable<string> LastNames {
+            get {
+                return Thesaurus.lastNames;
+            }
+        }
+        public static IEnumerable<string> FemaleNames {
+            get {
+                return Thesaurus.femaleNames;
+            }
+        }
+        public static IEnumerable<string> MaleNames {
+            get {
+                return Thesaurus.maleNames;
+            }
+        }
+        public static IReadOnlyList<string> OverlappingNames {
+            get {
+                return Thesaurus.overlappingNames.ToList();
+            }
+        }
+        #endregion
+
 
         #region Private Properties
 
@@ -495,8 +606,12 @@ namespace LASI.Algorithm.Thesauri
         private static readonly string maleNamesFilePath = ConfigurationManager.AppSettings["NameDataDirectory"] + "malefirst.txt";
         // Name Data Sets
         private static ISet<string> lastNames;
-        private static ISet<string> femaleNames;
         private static ISet<string> maleNames;
+        private static ISet<string> femaleNames;
+        private static IEnumerable<string> overlappingNames;
+
+
+
         // Synonym Lookup Caches
         private static ConcurrentDictionary<string, ISet<string>> cachedNounData = new ConcurrentDictionary<string, ISet<string>>(Concurrency.CurrentMax, 4096);
         private static ConcurrentDictionary<string, ISet<string>> cachedVerbData = new ConcurrentDictionary<string, ISet<string>>(Concurrency.CurrentMax, 4096);

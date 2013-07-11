@@ -26,7 +26,7 @@ namespace LASI.Utilities
         /// <param name="source">An IEnumerable sequence containing 0 or more Elements of type T.</param>
         /// <param name="lineLength">Indicates the number of characters after which a line break is to be inserted.</param>
         /// <returns>Returns a formated string representation of the IEnumerable sequence with the pattern: [ element0, element1, ..., elementN ].</returns>
-        public static string Format<T>(this IEnumerable<T> source, int lineLength) {
+        public static string Format<T>(this IEnumerable<T> source, long lineLength) {
             int len = 2;
             return source.Aggregate("[ ", (sum, current) => {
                 var cETS = current.ToString() + ", ";
@@ -50,6 +50,17 @@ namespace LASI.Utilities
         public static string Format<T>(this IEnumerable<T> source, Func<T, string> elementToString) {
             return source.Aggregate("[ ", (sum, current) => sum += elementToString(current) + ", ").TrimEnd(' ', ',') + " ]";
         }
+        public static string Format<T>(this IEnumerable<T> source, bool onePerLine) {
+
+            return source.Aggregate("[ ", (sum, current) =>
+                sum += current.ToString() + (onePerLine ? ",\n" : ", ")).TrimEnd(' ', ',') + " ]";
+        }
+        public static string Format<T>(this IEnumerable<T> source, bool onePerLine, Func<T, string> elementToString) {
+
+            return source.Aggregate("[ ", (sum, current) => sum += elementToString(current) + (onePerLine ? ",\n" : ", ")).TrimEnd(' ', ',') + " ]";
+        }
+
+
         /// <summary>
         /// Returns a formated string representation of the IEnumerable sequence with the pattern: [ elementToString(element0), elementToString(element1), ..., elementToString(elementN) ]
         /// such that the string representation of each element is produced by calling the provided elementToString function. The resultant string is line broken based on the provided line length.
@@ -59,7 +70,7 @@ namespace LASI.Utilities
         /// <param name="elementToString">The function used to produce a string representation for each element.</param>
         /// <param name="lineLength">Indicates the number of characters after which a line break is to be inserted.</param>
         /// <returns>Returns a formated string representation of the IEnumerable sequence with the pattern: [ element0, element1, ..., elementN ].</returns>
-        public static string Format<T>(this IEnumerable<T> source, Func<T, string> elementToString, int lineLength) {
+        public static string Format<T>(this IEnumerable<T> source, Func<T, string> elementToString, long lineLength) {
             int len = 2;
             return source.Aggregate("[ ", (sum, current) => {
                 var cETS = elementToString(current) + ", ";
