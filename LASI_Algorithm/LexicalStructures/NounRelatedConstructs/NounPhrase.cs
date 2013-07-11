@@ -35,7 +35,7 @@ namespace LASI.Algorithm
         protected virtual void determineEntityType() {
 
             var kindsOfNouns = from N in Words.GetNouns()
-                               select N.EntityKind;
+                               select N.Kind;
             var internalKinds = from K in kindsOfNouns
                                 group K by K into KindGroup
                                 orderby KindGroup.Count()
@@ -46,7 +46,7 @@ namespace LASI.Algorithm
              * - Scott
              */
             if (internalKinds.Any())
-                EntityKind = internalKinds.First().Key;
+                Kind = internalKinds.First().Key;
         }
 
 
@@ -218,9 +218,9 @@ namespace LASI.Algorithm
         }
 
         /// <summary>
-        /// Gets or sets the Entity Kind; Person, Place, Thing, Organization, or Activity; of the NounPhrase.
+        /// Gets or sets the Entity PronounKind; Person, Place, Thing, Organization, or Activity; of the NounPhrase.
         /// </summary>
-        public EntityKind EntityKind {
+        public EntityKind Kind {
             get;
             protected set;
         }

@@ -53,7 +53,7 @@ namespace LASI.Algorithm
                 _boundEntity = new EntityGroup(new[] { target });
             else
                 _boundEntity = new EntityGroup(_boundEntity.Concat(target.AsEnumerable()));
-            EntityKind = _boundEntity.EntityKind;
+            Kind = _boundEntity.Kind;
             IsBound = true;
         }
 
@@ -83,7 +83,7 @@ namespace LASI.Algorithm
                 DirectObjectOf = contextualPronoun.DirectObjectOf,
                 IndirectObjectOf = contextualPronoun.IndirectObjectOf,
                 ID = contextualPronoun.ID,
-                EntityKind = contextualPronoun.EntityKind,
+                Kind = contextualPronoun.Kind,
                 Document = contextualPronoun.Document,
                 Sentence = contextualPronoun.Sentence,
                 BoundPronouns = contextualPronoun.BoundPronouns,

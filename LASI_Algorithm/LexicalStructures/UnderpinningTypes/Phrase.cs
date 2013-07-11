@@ -114,8 +114,7 @@ namespace LASI.Algorithm
         /// </summary>
         public string Text {
             get {
-                _text = _text ??
-                    (Words.Count(w => !string.IsNullOrWhiteSpace(w.Text)) > 0 ?
+                _text = _text ?? (Words.Count(w => !string.IsNullOrWhiteSpace(w.Text)) > 0 ?
                     Words.Aggregate("", (str, word) => str + " " + word.Text).Trim() : string.Empty);
                 return _text;
             }

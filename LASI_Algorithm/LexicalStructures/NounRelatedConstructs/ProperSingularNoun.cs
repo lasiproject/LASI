@@ -17,7 +17,7 @@ namespace LASI.Algorithm
         public ProperSingularNoun(string text)
             : base(text)
         {
-            EntityKind = text.All(c => char.IsUpper(c)) ? Algorithm.EntityKind.Organization : EntityKind;
+            Kind = text.All(c => char.IsUpper(c)) ? Algorithm.EntityKind.Organization : Kind;
         }
 
 

@@ -26,9 +26,9 @@ namespace LASI.Algorithm
         }
 
         /// <summary>
-        /// Gets or sets the Entity Kind; Person, Place, Thing, Organization, or Activity; of the EntityGroup instance.
+        /// Gets or sets the Entity PronounKind; Person, Place, Thing, Organization, or Activity; of the EntityGroup instance.
         /// </summary>
-        public EntityKind EntityKind {
+        public EntityKind Kind {
             get;
             set;
         }

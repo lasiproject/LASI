@@ -51,13 +51,11 @@ namespace LASI.UserInterface
                                    from nounPhrase in nounPhrases
                                    .AsParallel()
                                    .WithDegreeOfParallelism(Concurrency.CurrentMax)
-                                   group nounPhrase by new
-                                   {
+                                   group nounPhrase by new {
                                        nounPhrase.Text,
                                        nounPhrase.Type
                                    } into g
-                                   select new
-                                   {
+                                   select new {
                                        Weight = g.First().Weight,
                                        label = CreateWeightedNounPhraseLabel(g.First())
                                    };
@@ -84,13 +82,23 @@ namespace LASI.UserInterface
         }
 
         private static Label CreateWeightedNounPhraseLabel(NounPhrase element) {
+            var properPersonal = element.Words.OfType<ProperNoun>().Where(e => e.IsFemaleName() || e.IsMaleName());
+            var gei = from pn in properPersonal
+                      where pn != null
+                      let g = pn.IsFemaleName() ? 1 : pn.IsMaleName() ? 2 : -1
+                      group pn by g into g
+                      orderby g.Count() descending
+                      select g.Key;
             var wordLabel = new Label {
                 Tag = element,
                 Content = String.Format("Weight : {0}  \"{1}\"", element.Weight, element.Text),
                 Foreground = Brushes.Black,
                 Padding = new Thickness(1, 1, 1, 1),
                 ContextMenu = new ContextMenu(),
-                ToolTip = element.Type.Name,
+                ToolTip = string.Format("{0}{1}",
+                element.Type.Name, (gei.Any()) ?
+                string.Format("\nprevialing gender: {0}", gei.First() == 1 ? "female" :
+                gei.First() == 2 ? "male" : string.Empty) : string.Empty)
             };
             var menuItem1 = new MenuItem {
                 Header = "view definition",

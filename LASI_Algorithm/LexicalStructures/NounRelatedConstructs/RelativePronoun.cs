@@ -40,7 +40,7 @@ namespace LASI.Algorithm
                 _boundEntity = new EntityGroup(new[] { target });
             else
                 _boundEntity = new EntityGroup(_boundEntity.Concat(target.AsEnumerable()));
-            _entityKind = BoundEntity.EntityKind;
+            _entityKind = BoundEntity.Kind;
         }
 
         #endregion
@@ -53,7 +53,7 @@ namespace LASI.Algorithm
 
 
 
-        public EntityKind EntityKind {
+        public EntityKind Kind {
             get {
                 return _entityKind;
             }

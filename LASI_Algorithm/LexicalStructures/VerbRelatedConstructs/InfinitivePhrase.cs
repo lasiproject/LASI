@@ -24,7 +24,7 @@ namespace LASI.Algorithm
 
         #region Properties
 
-        public EntityKind EntityKind {
+        public EntityKind Kind {
             get {
                 return Algorithm.EntityKind.Activitiy;
             }

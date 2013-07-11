@@ -19,7 +19,7 @@ namespace LASI.Algorithm
         /// <param name="text">The key text content of the GenericNoun</param>
         protected GenericNoun(string text)
             : base(text) {
-            EntityKind = LASI.Algorithm.EntityKind.ThingUnknown;
+            Kind = LASI.Algorithm.EntityKind.ThingUnknown;
         }
     }
 }

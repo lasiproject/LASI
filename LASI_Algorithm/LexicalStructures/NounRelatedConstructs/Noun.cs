@@ -22,7 +22,7 @@ namespace LASI.Algorithm
         /// <param name="text">The key text content of the Noun.</param>
         protected Noun(string text)
             : base(text) {
-            EntityKind = EntityKind.UNDEFINED;
+            Kind = EntityKind.UNDEFINED;
             EstablishKind();
         }
 
@@ -145,9 +145,9 @@ namespace LASI.Algorithm
         }
 
         /// <summary>
-        /// Gets or sets the Entity Kind; Person, Place, Thing, Organization, or Activity;  of the Noun.
+        /// Gets or sets the Entity PronounKind; Person, Place, Thing, Organization, or Activity;  of the Noun.
         /// </summary>
-        public EntityKind EntityKind {
+        public EntityKind Kind {
             get;
             set;
         }

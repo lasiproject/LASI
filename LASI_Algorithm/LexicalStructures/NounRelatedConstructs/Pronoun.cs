@@ -29,7 +29,7 @@ namespace LASI.Algorithm
 
         public override string ToString() {
 
-            return Text + (VerboseOutput ? " " + PronounKind : string.Empty);
+            return Text + (VerboseOutput ? " " + Kind : string.Empty);
 
         }
 
@@ -116,7 +116,7 @@ namespace LASI.Algorithm
             get;
             set;
         }
-        public virtual EntityKind EntityKind {
+        public virtual EntityKind Kind {
             get {
                 return _entityKind;
             }
@@ -144,17 +144,12 @@ namespace LASI.Algorithm
 
         #endregion
 
-
-
-
-
-
         public void BindToEntity(IEntity target) {
             if (_boundEntity != null || !_boundEntity.Any())
                 _boundEntity = new EntityGroup(new[] { target });
             else
                 _boundEntity = new EntityGroup(_boundEntity.Concat(target.AsEnumerable()));
-            _entityKind = BoundEntity.EntityKind;
+            _entityKind = BoundEntity.Kind;
         }
 
         #region Static Methods

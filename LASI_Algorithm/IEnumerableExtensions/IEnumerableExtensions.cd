@@ -3,25 +3,25 @@
   <Class Name="LASI.Algorithm.IEnumerableOfIVerbalExtensions">
     <Position X="5" Y="3" Width="2.75" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAQAEAAAAgEA=</HashCode>
       <FileName>IEnumerableExtensions\IEnumerableOfIVerbalExtensions.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="LASI.Algorithm.IEnumerableOfIEntityExtensions">
     <Position X="14.75" Y="4.75" Width="2.75" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAEAAAAAAAACA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAEAACAAAABCA=</HashCode>
       <FileName>IEnumerableExtensions\IEnumerableOfIEntityExtensions.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="LASI.Algorithm.IEnumerableOfILexicalExtensions">
     <Position X="8.75" Y="3" Width="2.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAgAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAgAAAAACAACAAAAAAAAAABAAAAAAABAAAAQAAA=</HashCode>
       <FileName>IEnumerableExtensions\IEnumerableOfILexicalExtensions.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LASI.Algorithm.IEnumerableOfParagraphExtensions">
+  <Class Name="LASI.Algorithm.IEnumerableODocumentStructureExtensions">
     <Position X="5" Y="4.75" Width="2.75" />
     <TypeIdentifier>
       <HashCode>AAAAgAgAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
@@ -35,17 +35,10 @@
       <FileName>IEnumerableExtensions\IEnumerableOfPhraseExtensions.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LASI.Algorithm.IEnumerableOfITransitiveVerbalExtensions">
-    <Position X="14.75" Y="3" Width="3" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAgAA=</HashCode>
-      <FileName>IEnumerableExtensions\IEnumerableOfITransitiveVerbalExtensions.cs</FileName>
-    </TypeIdentifier>
-  </Class>
   <Class Name="LASI.Algorithm.IEnumerableOfWordExtensions">
     <Position X="1.5" Y="3" Width="2.75" />
     <TypeIdentifier>
-      <HashCode>CAAEAAAAAACAAAAAgIAAQAIAAAAAAAAAAAAAADEAAAE=</HashCode>
+      <HashCode>CAAEACAACACAAAAAgIAAAAAAAAAAAAAAAAQAABEAAAE=</HashCode>
       <FileName>IEnumerableExtensions\IEnumerableOfWordExtensions.cs</FileName>
     </TypeIdentifier>
   </Class>
