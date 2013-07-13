@@ -39,7 +39,7 @@ namespace LASI.Algorithm.Binding
 
 
 
-        public void TestBind(IEnumerable<Phrase> sequence) {
+        private void TestBind(IEnumerable<Phrase> sequence) {
             var target = sequence.First(p => p is VerbPhrase) as VerbPhrase;
             var remaining = sequence.GetPhrasesAfter(bindingTarget);
             if (!remaining.Any())
@@ -158,22 +158,22 @@ namespace LASI.Algorithm.Binding
         }
 
 
-        public Phrase LastPhrase {
+        private Phrase LastPhrase {
             get;
             set;
         }
         #region Fields
-        protected Stack<Phrase> inputstream = new Stack<Phrase>();
-        protected VerbPhrase bindingTarget;
-        protected IVerbalObject directObject;
-        protected IVerbalObject indirectObject;
-        protected bool directFound;
-        protected bool indirectFound;
+        private Stack<Phrase> inputstream = new Stack<Phrase>();
+        private VerbPhrase bindingTarget;
+        private IVerbalObject directObject;
+        private IVerbalObject indirectObject;
+        private bool directFound;
+        private bool indirectFound;
 
-        protected List<AdjectivePhrase> lastAdjectivals = new List<AdjectivePhrase>();
-        protected List<NounPhrase> ConjunctNounPhrases = new List<NounPhrase>();
-        protected List<AdjectivePhrase> ConjunctAdjectivePhrases = new List<AdjectivePhrase>();
-        protected Stack<NounPhrase> entities = new Stack<NounPhrase>();
+        private List<AdjectivePhrase> lastAdjectivals = new List<AdjectivePhrase>();
+        private List<NounPhrase> ConjunctNounPhrases = new List<NounPhrase>();
+        private List<AdjectivePhrase> ConjunctAdjectivePhrases = new List<AdjectivePhrase>();
+        private Stack<NounPhrase> entities = new Stack<NounPhrase>();
         private State0 St0;
         private State1 St1;
         private State2 St2;

@@ -139,23 +139,23 @@ namespace LASI.FileSystem
 
         #region List Insertion Overloads
 
-        static void AddToTypedList(DocXFile file) {
+        private static void AddToTypedList(DocXFile file) {
             docXFiles.Add(file);
 
         }
-        static void AddToTypedList(DocFile file) {
+        private static void AddToTypedList(DocFile file) {
             docFiles.Add(file);
 
         }
-        static void AddToTypedList(TextFile file) {
+        private static void AddToTypedList(TextFile file) {
             textFiles.Add(file);
 
         }
-        static void AddToTypedList(PdfFile file) {
+        private static void AddToTypedList(PdfFile file) {
             pdfFiles.Add(file);
 
         }
-        static void AddToTypedList(TaggedFile file) {
+        private static void AddToTypedList(TaggedFile file) {
             taggedFiles.Add(file);
 
         }
@@ -251,16 +251,16 @@ namespace LASI.FileSystem
             RemoveAllAlikeFiles(file);
         }
 
-        static void RemoveFile(TextFile file) {
+        private static void RemoveFile(TextFile file) {
             textFiles.Remove(file);
         }
-        static void RemoveFile(DocFile file) {
+        private static void RemoveFile(DocFile file) {
             docFiles.Remove(file);
         }
-        static void RemoveFile(DocXFile file) {
+        private static void RemoveFile(DocXFile file) {
             docXFiles.Remove(file);
         }
-        static void RemoveFile(PdfFile file) {
+        private static void RemoveFile(PdfFile file) {
             pdfFiles.Remove(file);
         }
         /// <summary>
@@ -268,7 +268,7 @@ namespace LASI.FileSystem
         /// If no arguments are supplied, it will instead convert all yet unconverted .doc files in the project directory
         /// Results are stored in corresponding project directory
         /// </summary>
-        /// <param name="files">0 or more instances of the DocFile class which encapsulate .doc files</param>
+        /// <param name="files">0 or more instances of the DocFile class which encapsulate .doc files.</param>
         public static void ConvertDocFiles(params DocFile[] files) {
             if (!Initialized) {
                 throw new FileManagerNotInitializedException();
@@ -291,7 +291,7 @@ namespace LASI.FileSystem
         /// If no arguments are supplied, it will instead convert all yet unconverted .doc files in the project directory
         /// Results are stored in corresponding project directory
         /// </summary>
-        /// <param name="files">0 or more instances of the DocFile class which encapsulate .doc files</param>
+        /// <param name="files">0 or more instances of the DocFile class which encapsulate .doc files.</param>
         public static async Task ConvertDocFilesAsync(params DocFile[] files) {
             if (!Initialized) {
                 throw new FileManagerNotInitializedException();
@@ -308,7 +308,12 @@ namespace LASI.FileSystem
                 File.Delete(converted.FullPath);
             }
         }
-
+        /// <summary>
+        /// Converts all of the .pdf files it recieves into .txt files
+        /// If no arguments are supplied, it will instead convert all yet unconverted .pdf files in the project directory
+        /// Results are stored in corresponding project directory
+        /// </summary>
+        /// <param name="files">0 or more instances of the PdfFile class which encapsulate .pdf files.</param>
         public static void ConvertPdfToText(params PdfFile[] files) {
             if (!Initialized) {
                 throw new FileManagerNotInitializedException();
@@ -326,7 +331,12 @@ namespace LASI.FileSystem
                 File.Delete(converted.FullPath);
             }
         }
-
+        /// <summary>
+        /// Asynchronously converts all of the .pdf files it recieves into .txt files
+        /// If no arguments are supplied, it will instead convert all yet unconverted .pdf files in the project directory
+        /// Results are stored in corresponding project directory
+        /// </summary>
+        /// <param name="files">0 or more instances of the PdfFile class which encapsulate .pdf files.</param>
         public static async Task ConvertPdfFilesAsync(params PdfFile[] files) {
             if (!Initialized) {
                 throw new FileManagerNotInitializedException();
@@ -468,6 +478,9 @@ namespace LASI.FileSystem
                 file.CopyTo(desitination.FullName + "\\" + file.Directory.Parent.Name + "\\" + file.Directory.Name + "\\" + file.Name, true);
             }
         }
+        /// <summary>
+        /// Deletes everything from the current Project directory.
+        /// </summary>
         public static void DecimateProject() {
             if (!Initialized) {
                 throw new FileManagerNotInitializedException();
@@ -590,31 +603,38 @@ namespace LASI.FileSystem
         }
         /// <summary>
         /// Gets the list of PdfFile instances which represent all *.pdf files which are included in the project. 
-        /// PdfFile instances are wrapper objects which provide discrete accessors to relevant *.doc file properties.
+        /// PdfFile instances are wrapper objects which provide discrete accessors to relevant *.pdf file properties.
         /// </summary>
         public static IReadOnlyList<PdfFile> PdfFiles {
             get {
                 return pdfFiles;
             }
         }
-
+        // <summary>
+        /// Gets the list of TaggedFile instances which represent all *.tagged files which are included in the project. 
+        /// TaggedFile instances are wrapper objects which provide discrete accessors to relevant *.tagged file properties.
+        /// </summary>
         public static IReadOnlyList<TaggedFile> TaggedFiles {
             get {
                 return taggedFiles;
             }
         }
+        /// <summary>
+        /// Gets a value indicating if the FileManager has been initializes.
+        /// </summary>
+        public static bool Initialized {
+            get;
+            private set;
+        }
 
-        public static readonly WrapperDict WrapperMap = new WrapperDict();
+        internal static readonly WrapperDict WrapperMap = new WrapperDict();
 
         #endregion
 
 
         #region Fields
 
-        public static bool Initialized {
-            get;
-            private set;
-        }
+
 
         private static HashSet<string> localDocumentNames = new HashSet<string>();
 
@@ -632,7 +652,7 @@ namespace LASI.FileSystem
     }
 
     #region Helper Types
-    public class WrapperDict : Dictionary<string, Func<string, InputFile>>
+    class WrapperDict : Dictionary<string, Func<string, InputFile>>
     {
         internal WrapperDict()
             : base(
@@ -656,23 +676,46 @@ namespace LASI.FileSystem
     #endregion
 
     #region Exception Types
+    /// <summary>
+    /// The exception thrown when methods are invoked or preperties accessed on the FilaManager before a call has been made to initialize it.
+    /// </summary>
     [Serializable]
     public class FileManagerNotInitializedException : FileManagerException
     {
+        /// <summary>
+        /// Initializes a new instance of the FileManagerException class with with its message string set to message.
+        /// </summary>
+        /// <param name="message">A description of the error. The content of message is intended to be understood</param>
         public FileManagerNotInitializedException()
             : base("File Manager has not been initialized. No directory context in which to operate.") {
         }
+
         public FileManagerNotInitializedException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
             : base(info, context) {
         }
     }
-
+    /// <summary>
+    /// The Exception thrown when an attempt is made to add a file of an ussuported type to a project.
+    /// </summary>
     [Serializable]
     public class UnsupportedFileTypeAddedException : FileManagerException
     {
+        /// <summary>
+        /// Initializes a new instance of the UnsupportedFileTypeAddedException class with with its message string set to message.
+        /// </summary>
+        /// <param name="unsupportedFormat">A description of the error. The content of message is intended to be understood</param>
         public UnsupportedFileTypeAddedException(string unsupportedFormat)
             : this(unsupportedFormat, null) {
         }
+        /// <summary>
+        /// Initializes a new instance of the UnsupportedFileTypeAddedException class with with its message string set to message.
+        /// </summary>
+        /// <param name="unsupportedFormat">A description of the error. The content of message is intended to be understood</param>
+        /// <param name="inner">
+        /// The exception that is the cause of the current exception. If the innerException
+        /// parameter is not null, the current exception is raised in a catch block that
+        /// handles the inner exception.
+        /// </param>
         public UnsupportedFileTypeAddedException(string unsupportedFormat, Exception inner)
             : base(
             String.Format(
@@ -682,40 +725,73 @@ namespace LASI.FileSystem
             select k), inner) {
 
         }
-
+        /// <summary>
+        /// Initializes a new instance of the UnsupportedFileTypeAddedException class with with its message string set to message.
+        /// </summary>
+        /// <param name="info">
+        /// The object that holds the serialized object data about the exception being
+        /// thrown.</param>
+        /// <param name="context">
+        /// The object that holds the serialized object data about the exception being
+        /// thrown.</param>
         public UnsupportedFileTypeAddedException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
             : base(info, context) {
         }
     }
 
-
+    /// <summary>
+    /// The base class for all Exceptions thrown by the FileManager.
+    /// </summary>
     [Serializable]
     public class FileManagerException : FileSystemException
     {
-
+        /// <summary>
+        /// Initializes a new instance of the FileManagerException class with with its message string set to message.
+        /// </summary>
+        /// <param name="message">A description of the error. The content of message is intended to be understood</param>
         protected FileManagerException(string message)
             : base(message) {
             CollectDirInfo();
         }
-
+        /// <summary>
+        /// Initializes a new instance of the FileManagerException class with with its message string set to message.
+        /// </summary>
+        /// <param name="message">A description of the error. The content of message is intended to be understood</param>
+        /// <param name="inner">
+        /// The exception that is the cause of the current exception. If the innerException
+        /// parameter is not null, the current exception is raised in a catch block that
+        /// handles the inner exception.
+        /// </param>
         protected FileManagerException(string message, Exception inner)
             : base(message, inner) {
             CollectDirInfo();
         }
 
-
+        /// <summary>
+        /// Initializes a new instance of the FileManagerException class with with its message string set to message.
+        /// </summary>
+        /// <param name="info">
+        /// The object that holds the serialized object data about the exception being
+        /// thrown.</param>
+        /// <param name="context">
+        /// The object that holds the serialized object data about the exception being
+        /// thrown.</param>
         protected FileManagerException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
             : base(info, context) {
             CollectDirInfo();
         }
-
+        /// <summary>
+        /// Sets data about the current contents of the ProjectDirectory at the time the FileManagerException is constructed.
+        /// </summary>
         protected virtual void CollectDirInfo() {
             filesInProjectDirectories = from internalFile in new DirectoryInfo(FileManager.ProjectDir).EnumerateFiles("*", SearchOption.AllDirectories)
                                         select FileManager.WrapperMap[internalFile.Extension](internalFile.FullName);
         }
 
         private IEnumerable<InputFile> filesInProjectDirectories = new List<InputFile>();
-
+        /// <summary>
+        /// Gets data about the contents of the ProjectDirectory when the FileManagerException was constructed.
+        /// </summary>
         public IEnumerable<InputFile> FilesInProjectDirectories {
             get {
                 return filesInProjectDirectories;
@@ -726,21 +802,44 @@ namespace LASI.FileSystem
         }
 
     }
+
+    /// <summary>
+    /// The base class for all file related exceptions within the LASI framework.
+    /// </summary>
     [Serializable]
     public abstract class FileSystemException : Exception
     {
-
+        /// <summary>
+        /// Initializes a new instance of the FileSystemException class with with its message string set to message.
+        /// </summary>
+        /// <param name="message">A description of the error. The content of message is intended to be understood</param>
         protected FileSystemException(string message)
             : base(message) {
 
         }
-
+        /// <summary>
+        /// Initializes a new instance of the FileSystemException class with with its message string set to message.
+        /// </summary>
+        /// <param name="message">A description of the error. The content of message is intended to be understood</param>
+        /// <param name="inner">
+        /// The exception that is the cause of the current exception. If the innerException
+        /// parameter is not null, the current exception is raised in a catch block that
+        /// handles the inner exception.
+        /// </param>
         protected FileSystemException(string message, Exception inner)
             : base(message, inner) {
 
         }
 
-
+        /// <summary>
+        /// Initializes a new instance of the FileSystemException class with with its message string set to message.
+        /// </summary>
+        /// <param name="info">
+        /// The object that holds the serialized object data about the exception being
+        /// thrown.</param>
+        /// <param name="context">
+        /// The object that holds the serialized object data about the exception being
+        /// thrown.</param>
         public FileSystemException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
             : base(info, context) {
         }

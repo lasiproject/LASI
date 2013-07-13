@@ -61,12 +61,25 @@ namespace LASI.Algorithm
 
         #region Noun Enumerable Extensions
 
+        /// <summary>
+        /// Finds all nouns in the sequence whose text is equivalent to the noun to match.
+        /// </summary>
+        /// <param name="words">The sequence of nouns to filter.</param>
+        /// <param name="toMatch">A noun to match against.</param>
+        /// <returns>All nouns in the sequence whose text is equivalent to the noun to match.</returns>
         public static IEnumerable<Noun> FindLexicalMatches(this IEnumerable<Word> words,
            Noun toMatch) {
             return from word in words.GetNouns()
                    where word.Text == toMatch.Text
                    select word;
         }
+        /// <summary>
+        /// Finds all nouns in the sequence which are equivalent to the noun to match, based on the logic of the provided comparison function.
+        /// </summary>
+        /// <param name="words">The sequence of Words to filter.</param>
+        /// <param name="toMatch">A noun to match against.</param>
+        /// <param name="comparison">The function to use to compare Nouns.</param>
+        /// <returns>All nouns in the sequence whose text is equivalent to the noun to match.</returns>
         public static IEnumerable<Noun> FindLexicalMatches(this IEnumerable<Word> words,
                    Noun toMatch, Func<Noun, Noun, bool> comparison) {
             return from W in words.GetNouns()
@@ -77,13 +90,25 @@ namespace LASI.Algorithm
         #endregion
 
         #region Pronoun Enumerable Overloads
-
+        /// <summary>
+        /// Finds all Pronouns in the sequence whose text is equivalent to the Pronoun to match.
+        /// </summary>
+        /// <param name="words">The sequence of Words to filter.</param>
+        /// <param name="toMatch">A Pronoun to match against.</param>
+        /// <returns>All Pronouns in the sequence whose text is equivalent to the Pronoun to match.</returns>
         public static IEnumerable<Pronoun> FindLexicalMatches(this IEnumerable<Word> words,
            Pronoun toMatch) {
             return from word in words.GetPronouns()
                    where word.Text == toMatch.Text
                    select word;
         }
+        /// <summary>
+        /// Finds all Pronouns in the sequence which are equivalent to the Pronoun to match, based on the logic of the provided comparison function.
+        /// </summary>
+        /// <param name="words">The sequence of Words to filter.</param>
+        /// <param name="toMatch">A noun to match against.</param>
+        /// <param name="comparison">The function to use to compare Pronouns.</param>
+        /// <returns>All Pronouns in the sequence whose text is equivalent to the Pronoun to match.</returns>
         public static IEnumerable<Pronoun> FindLexicalMatches(this IEnumerable<Word> words,
                    Pronoun toMatch, Func<Pronoun, Pronoun, bool> comparison) {
             return from W in words.GetPronouns()
@@ -95,12 +120,25 @@ namespace LASI.Algorithm
 
         #region Adjective Enumerable Overloads
 
+        /// <summary>
+        /// Finds all Adjectives in the sequence whose text is equivalent to the Adjective to match.
+        /// </summary>
+        /// <param name="words">The sequence of Words to filter.</param>
+        /// <param name="toMatch">An Adjective to match against.</param>
+        /// <returns>All Adjectives in the sequence whose text is equivalent to the Adjective to match.</returns>
         public static IEnumerable<Adjective> FindLexicalMatches(this IEnumerable<Word> words,
            Adjective toMatch) {
             return from word in words.GetAdjectives()
                    where word.Text == toMatch.Text
                    select word;
         }
+        /// <summary>
+        /// Finds all Adjectives in the sequence which are equivalent to the Adjective to match, based on the logic of the provided comparison function.
+        /// </summary>
+        /// <param name="words">The sequence of Words to filter.</param>
+        /// <param name="toMatch">An Adjective to match against.</param>
+        /// <param name="comparison">The function to use to compare Adjectives.</param>
+        /// <returns>All Adjectives in the sequence whose text is equivalent to the Adjective to match.</returns>
         public static IEnumerable<Adjective> FindLexicalMatches(this IEnumerable<Word> words,
                    Adjective toMatch, Func<Adjective, Adjective, bool> comparison) {
             return from W in words.GetAdjectives()
@@ -111,13 +149,25 @@ namespace LASI.Algorithm
         #endregion
 
         #region Adverb Enumerable Overloads
-
+        /// <summary>
+        /// Finds all Adverbs in the sequence whose text is equivalent to the Adverb to match.
+        /// </summary>
+        /// <param name="words">The sequence of Words to filter.</param>
+        /// <param name="toMatch">An Adverb to match against.</param>
+        /// <returns>All Adverbs in the sequence whose text is equivalent to the Adverb to match.</returns>
         public static IEnumerable<Adverb> FindLexicalMatches(this IEnumerable<Word> words,
            Adverb toMatch) {
             return from word in words.GetAdverbs()
                    where word.Text == toMatch.Text
                    select word;
         }
+        /// <summary>
+        /// Finds all Adverb in the sequence which are equivalent to the Adverb to match, based on the logic of the provided comparison function.
+        /// </summary>
+        /// <param name="words">The sequence of Words to filter.</param>
+        /// <param name="toMatch">An Adverb to match against.</param>
+        /// <param name="comparison">The function to use to compare Adverbs.</param>
+        /// <returns>All Adverbs in the sequence whose text is equivalent to the Adverb to match.</returns>
         public static IEnumerable<Adverb> FindLexicalMatches(this IEnumerable<Word> words,
                    Adverb toMatch, Func<Adverb, Adverb, bool> comparison) {
             return from W in words.GetAdverbs()
@@ -205,7 +255,7 @@ namespace LASI.Algorithm
         /// </summary>
         /// <typeparam name="T">Any Type which implements the IPronoun interface.</typeparam>
         /// <param name="refererring"></param>
-        /// <param name="setPnt">The entity whose referencing pronouns will be returned.</param>
+        /// <param name="referenced">The entity whose referencing pronouns will be returned.</param>
         /// <returns>All Pronouns in the collection that refer to the given entity</returns>
         public static IEnumerable<T> Referencing<T>(this IEnumerable<T> refererring, IEntity referenced) where T : IPronoun {
             return from ER in refererring
@@ -217,7 +267,7 @@ namespace LASI.Algorithm
         /// </summary>
         /// <typeparam name="T">Any Type which implements the IPronoun interface.</typeparam>
         /// <param name="condition">The function which tests the entity setPnt deteriming if its refererring IProunoun should be selected.</param>
-        /// <param name="setPnt">The entity whose referencing pronouns will be returned.</param>
+        /// <param name="refererring">The entity whose referencing pronouns will be returned.</param>
         /// <returns>All IPronoun constructs in the collection that refer to the given entity</returns>
         public static IEnumerable<T> Referencing<T>(this IEnumerable<T> refererring, Func<IEntity, bool> condition) where T : IPronoun {
             return from ER in refererring

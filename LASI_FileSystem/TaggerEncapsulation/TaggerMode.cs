@@ -1,10 +1,12 @@
-﻿/// <summary>
-/// Used to specify the tagging options for the SharpNLP tagger.
-/// </summary>
-/// <see cref="SharpNLPTagger"/>
+﻿
 
 namespace SharpNatrualLanguageProcessing
 {
+
+    /// <summary>
+    /// Used to specify the tagging options for the SharpNLP tagger.
+    /// </summary>
+    /// <see cref="SharpNLPTagger"/>
     public enum TaggerMode
     {
         /// <summary>
@@ -12,11 +14,20 @@ namespace SharpNatrualLanguageProcessing
         /// </summary>
         TagIndividual,
         /// <summary>
-        /// Assign tags to individual tokens and aggregate them into tagged groups.
+        /// The default mode. Tags words with the form "word/tag" and simple phrases with the form [ tag word1/t1 word2/t2... ]
         /// </summary>
         TagAndAggregate,
+        /// <summary>
+        /// Parses and nests arbitarily
+        /// </summary>
         ExperimentalClauseNesting,
+        /// <summary>
+        /// Embeds gender liklihood information with nouns
+        /// </summary>
         GenderFind,
+        /// <summary>
+        /// Embeds enity recognition with nouns for broad categories such as location, organization, etc.
+        /// </summary>
         NameFind,
     }
 }

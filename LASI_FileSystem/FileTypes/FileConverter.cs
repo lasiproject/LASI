@@ -10,19 +10,34 @@ namespace LASI.FileSystem
     /// The base class from which file format conversion objects are derrived.
     /// Provides a small set of common methods, properties, and attributes which all file conversion objects.
     /// Any new file converters should be derrived from this base class.
-    /// <see cref="DocToDocxConverter"/>
+    /// <see cref="DocToDocXConverter"/>
     /// <see cref="DocxToTextConverter"/>
     /// </summary>
     public abstract class FileConverter
     {
+        /// <summary>
+        /// The location where the converted file will be saved.
+        /// </summary>
         protected string destinationDir;
+        /// <summary>
+        /// The location of the source file.
+        /// </summary>
         protected string sourcePath;
-        public FileConverter(InputFile infile) {
+        /// <summary>
+        /// Initializes a new instance of the FileConverter class.
+        /// </summary>
+        /// <param name="infile">The file to convert.</param>
+        protected FileConverter(InputFile infile) {
             sourcePath = infile.FullPath;
             destinationDir = infile.Directory;
             Original = infile;
         }
-        public FileConverter(InputFile infile, string targetDir) {
+        /// <summary>
+        /// Initializes a new instance of the FileConverter class.
+        /// </summary>
+        /// <param name="infile">The file to convert.</param>
+        /// <param name="targetDir">The location in which to save the converted file.</param>
+        protected FileConverter(InputFile infile, string targetDir) {
             sourcePath = infile.FullPath;
             destinationDir = targetDir;
             Original = infile;

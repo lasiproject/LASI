@@ -8,13 +8,12 @@ using LASI.Utilities;
 using LASI.FileSystem.TaggerEncapsulation;
 namespace SharpNatrualLanguageProcessing
 {
-
+    /// <summary>
+    /// Based on the example UI code which came with sharp NLP,
+    /// It adds the ability to pass an input and output file paths and get a file back and the TaggingOption enum
+    /// </summary>
     public class SharpNLPTagger
     {
-        /// <summary>
-        /// Based on the example UI code which came with sharp NLP,
-        /// It adds the ability to pass an input and output file paths and get a file back and the TaggingOption enum
-        /// </summary>
         private string mModelPath;
 
         private OpenNLP.Tools.SentenceDetect.MaximumEntropySentenceDetector mSentenceDetector;
@@ -24,7 +23,10 @@ namespace SharpNatrualLanguageProcessing
         private OpenNLP.Tools.Parser.EnglishTreebankParser mParser;
         private OpenNLP.Tools.NameFind.EnglishNameFinder mNameFinder;
         private OpenNLP.Tools.Lang.English.TreebankLinker mCoreferenceFinder;
-
+        /// <summary>
+        /// Initializes a new instance of the SharpNLPTagger class its analysis behavior specified by the provied TaggerMode value.
+        /// </summary>
+        /// <param name="taggingMode">Specifies the mode under which the tagger will operate.</param>
         public SharpNLPTagger(TaggerMode taggingMode) {
             TaggingMode = taggingMode;
             mModelPath = ConfigurationManager.AppSettings["MaximumEntropyModelDirectory"];
@@ -32,20 +34,29 @@ namespace SharpNatrualLanguageProcessing
 
         }
 
-
+        /// <summary>
+        /// Initializes a new instance of the SharpNLPTagger class its analysis behavior specified by the provied TaggerMode value.
+        /// </summary>
+        /// <param name="taggingMode">Specifies the mode under which the tagger will operate.</param>
+        /// <param name="sourcePath">The path to a text file whose contents will be read and tagged.</param>
+        /// <param name="destinationPath">The optional path specifying the location where the tagged file should be created. If not provided, the tagged file will be placed in the same directory as the source.</param>
         public SharpNLPTagger(TaggerMode taggingMode, string sourcePath, string destinationPath = null)
             : this(taggingMode) {
 
 
 
-            InputFilePath = sourcePath;
-            OutputFilePath = destinationPath != null ? destinationPath :
+            inputFilePath = sourcePath;
+            outputFilePath = destinationPath != null ? destinationPath :
                 new FileInfo(sourcePath).DirectoryName + @"\" + new FileInfo(sourcePath.Substring(0, sourcePath.LastIndexOf('.'))).Name + @".tagged";
 
             SourceText = LoadSourceText();
 
         }
-
+        /// <summary>
+        /// Returns a new string with certain characters replaced by aliases to aid in the ease of parsing.
+        /// </summary>
+        /// <param name="p">The source string.</param>
+        /// <returns>A new string with certain characters replaced by aliases to aid in the ease of parsing.</returns>
         protected string PreProcessText(string p) {
             foreach (var rr in textToNumeralMap) {
                 p = p.Replace(rr.Key, rr.Value);
@@ -53,22 +64,30 @@ namespace SharpNatrualLanguageProcessing
             }
             return p;
         }
+        /// <summary>
+        /// Processes the text given to the tagger based on the Tagger's current TaggerMode. Returns the TaggedFile resulting from the process.
+        /// </summary>
+        ///// <returns>The TaggedFile resulting from the process.</returns>
         public virtual LASI.FileSystem.TaggedFile ProcessFile() {
             WriteToFile(ParseViaTaggingMode());
-            return new LASI.FileSystem.TaggedFile(OutputFilePath);
+            return new LASI.FileSystem.TaggedFile(outputFilePath);
 
         }
+        /// <summary>
+        /// Asynchronously processes the text given to the tagger based on the Tagger's current TaggerMode. Returns the TaggedFile resulting from the process.
+        /// </summary>
+        /// <returns>rocesses the text given to the tagger based on the Tagger's current TaggerMode. Returns the TaggedFile resulting from the process.</returns>
         public virtual async System.Threading.Tasks.Task<LASI.FileSystem.TaggedFile> ProcessFileAsync() {
             return await System.Threading.Tasks.Task.Run(() => ProcessFile());
 
 
         }
 
-        protected string LoadSourceText() {
+        private string LoadSourceText() {
             using (
                 var reader = new StreamReader(
                 new FileStream(
-                    InputFilePath,
+                    inputFilePath,
                     FileMode.Open,
                     FileAccess.Read,
                     FileShare.None, 1024,
@@ -98,22 +117,22 @@ namespace SharpNatrualLanguageProcessing
                     return POSTag();
             }
         }
-        protected string SplitIntoSentences() {
+        private string SplitIntoSentences() {
             string[] sentences = SplitSentences(SourceText);
 
             var result = String.Join("\r\n\r\n", sentences);
             return result;
         }
 
-        protected void WriteToFile(params string[] txtOut) {
-            using (var writer = new StreamWriter(new FileStream(OutputFilePath, FileMode.Create), Encoding.Unicode, 200)) {
+        private void WriteToFile(params string[] txtOut) {
+            using (var writer = new StreamWriter(new FileStream(outputFilePath, FileMode.Create), Encoding.Unicode, 200)) {
                 foreach (var line in txtOut) {
                     writer.Write(line);
                 }
             }
         }
 
-        protected string Tokenize() {
+        private string Tokenize() {
             StringBuilder output = new StringBuilder();
 
             string[] sentences = SplitSentences(SourceText);
@@ -128,7 +147,7 @@ namespace SharpNatrualLanguageProcessing
 
         }
 
-        protected string POSTag() {
+        private string POSTag() {
             StringBuilder output = new StringBuilder();
 
             string[] sentences = SplitSentences(SourceText);
@@ -146,7 +165,7 @@ namespace SharpNatrualLanguageProcessing
             return result;
         }
 
-        protected string Chunk() {
+        private string Chunk() {
 
             StringBuilder output = new StringBuilder();
             var paragraphs = from p in SourceText.Split(new[] { "<paragraph>", "</paragraph>" }, StringSplitOptions.RemoveEmptyEntries)
@@ -167,7 +186,7 @@ namespace SharpNatrualLanguageProcessing
             var result = output.ToString();
             return result;
         }
-        protected string Gender() {
+        private string Gender() {
             StringBuilder output = new StringBuilder();
             var paragraphs = from p in SourceText.Split(new[] { "<paragraph>", "</paragraph>" }, StringSplitOptions.RemoveEmptyEntries)
                              select p;
@@ -194,7 +213,7 @@ namespace SharpNatrualLanguageProcessing
             return result;
         }
 
-        protected string Parse() {
+        private string Parse() {
             var sentenceID = 0;
             StringBuilder output = new StringBuilder();
 
@@ -209,7 +228,7 @@ namespace SharpNatrualLanguageProcessing
             return result;
         }
 
-        protected string NameFind() {
+        private string NameFind() {
             StringBuilder output = new StringBuilder();
 
             string[] sentences = SplitSentences(SourceText);
@@ -222,7 +241,7 @@ namespace SharpNatrualLanguageProcessing
             return result;
         }
 
-        protected string[] SplitSentences(string paragraph) {
+        private string[] SplitSentences(string paragraph) {
             if (mSentenceDetector == null) {
                 mSentenceDetector = new OpenNLP.Tools.SentenceDetect.EnglishMaximumEntropySentenceDetector(mModelPath + "EnglishSD.nbin");
             }
@@ -230,7 +249,7 @@ namespace SharpNatrualLanguageProcessing
             return mSentenceDetector.SentenceDetect(paragraph);
         }
 
-        protected string[] TokenizeSentence(string sentence) {
+        private string[] TokenizeSentence(string sentence) {
             if (mTokenizer == null) {
                 mTokenizer = new OpenNLP.Tools.Tokenize.EnglishMaximumEntropyTokenizer(mModelPath + "EnglishTok.nbin");
             }
@@ -238,7 +257,7 @@ namespace SharpNatrualLanguageProcessing
             return mTokenizer.Tokenize(sentence);
         }
 
-        protected string[] PosTagTokens(string[] tokens) {
+        private string[] PosTagTokens(string[] tokens) {
             if (mPosTagger == null) {
                 mPosTagger = new OpenNLP.Tools.PosTagger.EnglishMaximumEntropyPosTagger(mModelPath + "EnglishPOS.nbin", mModelPath + @"\Parser\tagdict");
             }
@@ -246,7 +265,7 @@ namespace SharpNatrualLanguageProcessing
             return mPosTagger.Tag(tokens);
         }
 
-        protected string ChunkSentence(string[] tokens, string[] tags) {
+        private string ChunkSentence(string[] tokens, string[] tags) {
             if (mChunker == null) {
                 mChunker = new OpenNLP.Tools.Chunker.EnglishTreebankChunker(mModelPath + "EnglishChunk.nbin");
             }
@@ -254,7 +273,7 @@ namespace SharpNatrualLanguageProcessing
             return mChunker.GetChunks(tokens, tags);
         }
 
-        protected OpenNLP.Tools.Parser.Parse ParseSentence(string sentence) {
+        private OpenNLP.Tools.Parser.Parse ParseSentence(string sentence) {
             if (mParser == null) {
                 mParser = new OpenNLP.Tools.Parser.EnglishTreebankParser(mModelPath, true, false);
             }
@@ -262,7 +281,7 @@ namespace SharpNatrualLanguageProcessing
             return mParser.DoParse(sentence);
         }
 
-        protected string FindNames(string sentence) {
+        private string FindNames(string sentence) {
             if (mNameFinder == null) {
                 mNameFinder = new OpenNLP.Tools.NameFind.EnglishNameFinder(mModelPath + "namefind\\");
             }
@@ -271,7 +290,7 @@ namespace SharpNatrualLanguageProcessing
             return mNameFinder.GetNames(models, sentence);
         }
 
-        protected virtual string FindNames(OpenNLP.Tools.Parser.Parse sentenceParse) {
+        private string FindNames(OpenNLP.Tools.Parser.Parse sentenceParse) {
             if (mNameFinder == null) {
                 mNameFinder = new OpenNLP.Tools.NameFind.EnglishNameFinder(mModelPath + "namefind\\");
             }
@@ -280,7 +299,7 @@ namespace SharpNatrualLanguageProcessing
             return mNameFinder.GetNames(models, sentenceParse);
         }
 
-        protected string IdentifyCoreferents(string[] sentences) {
+        private string IdentifyCoreferents(string[] sentences) {
             if (mCoreferenceFinder == null) {
                 mCoreferenceFinder = new OpenNLP.Tools.Lang.English.TreebankLinker(mModelPath + "coref");
             }
@@ -296,7 +315,7 @@ namespace SharpNatrualLanguageProcessing
         }
 
 
-        protected string Similarity() {
+        private string Similarity() {
             StringBuilder output = new StringBuilder();
 
             string[] sentences = SplitSentences(SourceText);
@@ -330,24 +349,20 @@ namespace SharpNatrualLanguageProcessing
 
         #region Properties
 
-        public string OutputFilePath {
-            get;
-            private set;
-        }
+        private string outputFilePath;
 
-        public string InputFilePath {
-            get;
-            private set;
-        }
+        private string inputFilePath;
 
-        public string SourceText {
-            get;
-            protected set;
-        }
-
+        /// <summary>
+        /// Gets or sets the text which the SharpNLPTagger will tag when the ProcessFile or ProcessFileAsync methods are invoked.
+        /// </summary>
+        protected string SourceText { get; set; }
+        /// <summary>
+        /// Gets the TaggerMode of the SharpNLPTagger. 
+        /// </summary>
         public TaggerMode TaggingMode {
             get;
-            private set;
+            protected set;
         }
         #endregion
 
