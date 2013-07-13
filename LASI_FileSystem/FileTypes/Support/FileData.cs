@@ -18,8 +18,8 @@ namespace LASI.FileSystem
             : this() {
             Directory = directory;
             FileNameSansExt = fileName;
-            FileExt = fileExt;
-            FileNameWithExt = fileName + fileExt;
+            Ext = fileExt;
+            FileName = fileName + fileExt;
             FullPathAndExt = directory + fileName + fileExt;
             FullPathSansExt = directory + fileName;
         }
@@ -31,18 +31,19 @@ namespace LASI.FileSystem
         public FileData(string directory, string fileNameWithExt)
             : this() {
             Directory = directory;
-            FileNameWithExt = fileNameWithExt;
+            FileName = fileNameWithExt;
             try {
-                FileExt = FileNameWithExt.Substring(FileNameWithExt.LastIndexOf('.'));
-                FileNameSansExt = FileNameWithExt.Substring(0, FileNameWithExt.LastIndexOf('.'));
+                Ext = FileName.Substring(FileName.LastIndexOf('.'));
+                FileNameSansExt = FileName.Substring(0, FileName.LastIndexOf('.'));
                 FullPathAndExt = directory + fileNameWithExt;
-            } catch (ArgumentOutOfRangeException) {
-                FileExt = "";
-                FileNameSansExt = FileNameWithExt;
+            }
+            catch (ArgumentOutOfRangeException) {
+                Ext = "";
+                FileNameSansExt = FileName;
 
             }
 
-            FullPathAndExt = Directory + FileNameSansExt + FileExt;
+            FullPathAndExt = Directory + FileNameSansExt + Ext;
             FullPathSansExt = Directory + FileNameSansExt;
         }
         /// <summary>
@@ -52,78 +53,123 @@ namespace LASI.FileSystem
         public FileData(string fileNameWithPathAndExt)
             : this() {
             Directory = fileNameWithPathAndExt.Substring(0, fileNameWithPathAndExt.LastIndexOf('\\') + 1);
-            FileNameWithExt = fileNameWithPathAndExt.Substring(fileNameWithPathAndExt.LastIndexOf('\\') + 1);
+            FileName = fileNameWithPathAndExt.Substring(fileNameWithPathAndExt.LastIndexOf('\\') + 1);
 
 
             try {
-                FileExt = FileNameWithExt.Substring(FileNameWithExt.LastIndexOf('.'));
-                FileNameSansExt = FileNameWithExt.Substring(0, FileNameWithExt.LastIndexOf('.'));
+                Ext = FileName.Substring(FileName.LastIndexOf('.'));
+                FileNameSansExt = FileName.Substring(0, FileName.LastIndexOf('.'));
                 FullPathSansExt = Directory + FileNameSansExt;
 
-            } catch (ArgumentOutOfRangeException) {
-                FileExt = "";
-                FileNameSansExt = FileNameWithExt;
+            }
+            catch (ArgumentOutOfRangeException) {
+                Ext = "";
+                FileNameSansExt = FileName;
                 FullPathSansExt = Directory + FileNameSansExt;
             }
-            FullPathAndExt = Directory + FileNameSansExt + FileExt;
+            FullPathAndExt = Directory + FileNameSansExt + Ext;
         }
 
         #endregion
 
         #region Methods
-
+        /// <summary>
+        /// Returns a string prepsentation of the FileData, containing its directory path and full name.
+        /// </summary>
+        /// <returns>A string prepsentation of the FileData, containing its directory path and full name.</returns>
         public override string ToString() {
-            return base.ToString() + String.Format("  -  File:  {0}, Location:  {1}", FileNameWithExt, Directory);
+            return String.Format("  -  File:  {0}, Location:  {1}", FileName, Directory);
         }
+        /// <summary>
+        /// Determines if the current instance is equal to the given object.
+        /// </summary> 
+        /// <param name="obj">The object to equate to the current instance.</param>
+        /// <returns>True if the two instances should be considered equal, false otherwise.</returns>
         public override bool Equals(object obj) {
-            return base.Equals(obj);
+            try {
+                return this == ( FileData )obj;
+            }
+            catch (InvalidCastException) {
+                return false;
+            }
         }
-
+        /// <summary>
+        /// Gets the hash code of the FileData.
+        /// </summary>
+        /// <returns></returns>
         public override int GetHashCode() {
-            return base.GetHashCode();
+            return FullPathAndExt.GetHashCode();
         }
         #endregion
 
         #region Properties
 
+        /// <summary>
+        /// Gets the full path of the directory in which the file resides.
+        /// </summary>
         public string Directory {
             get;
-            set;
+            private set;
         }
+        /// <summary>
+        /// Gets the extension of the file.
+        /// </summary>
+        public string Ext {
+            get;
+            private set;
+        }
+        /// <summary>
+        /// Gets the name of the file.
+        /// </summary>
+        public string FileName {
+            get;
+            private set;
+        }
+        /// <summary>
+        /// Gets the name of the file, not encluding its extension.
+        /// </summary>
         public string FileNameSansExt {
             get;
-            set;
+            private set;
         }
-        public string FileExt {
-            get;
-            set;
-        }
-        public string FileNameWithExt {
-            get;
-            set;
-        }
+        /// <summary>
+        /// Gets the full path of the file.
+        /// </summary>
         public string FullPathAndExt {
             get;
-            set;
+            private set;
         }
+        /// <summary>
+        /// Gets the full path of the file, not encluding its extension..
+        /// </summary>
         public string FullPathSansExt {
             get;
-            set;
+            private set;
         }
 
         #endregion
 
         #region Operators
 
+        /// <summary>
+        /// Determines if two instances of the FileData struct should be consisdered equal.
+        /// </summary>
+        /// <param name="A">The first FileData</param>
+        /// <param name="B">The second FileData</param>
+        /// <returns>True if the two instances should be considered equal, false otherwise.</returns>
         public static bool operator ==(FileData A, FileData B) {
             return A.FullPathAndExt == B.FullPathAndExt;
 
         }
-
+        /// <summary>
+        /// Determines if two instances of the FileData struct should be consisdered unequal.
+        /// </summary>
+        /// <param name="A">The first FileData</param>
+        /// <param name="B">The second FileData</param>
+        /// <returns>True if the two instances should be considered unequal, false otherwise.</returns>
         public static bool operator !=(FileData A, FileData B) {
             return !(A == B);
         }
-
 
         #endregion
     }

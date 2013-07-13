@@ -12,7 +12,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.IO;
-using LASI.FileSystem.FileTypes;
 using System.Threading.Tasks;
 using LASI.UserInterface.Dialogs;
 
@@ -41,7 +40,7 @@ namespace LASI.UserInterface
             DocumentPreview.SelectedIndex = 0;
         }
 
-        private async Task LoadTextandTab(FileSystem.FileTypes.TextFile textfile) {
+        private async Task LoadTextandTab(FileSystem.TextFile textfile) {
             using (StreamReader reader = new StreamReader(textfile.FullPath)) {
                 var data = reader.ReadToEnd();
                 var docu = await reader.ReadToEndAsync().ContinueWith((t) => {

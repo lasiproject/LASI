@@ -27,7 +27,6 @@ namespace LASI.Algorithm
             ID = IDProvider++;
             Weight = 1;
             MetaWeight = 1;
-
         }
 
         #endregion

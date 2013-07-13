@@ -1,5 +1,4 @@
-﻿using LASI.FileSystem;
-using LASI.FileSystem.FileTypes;
+﻿using LASI.FileSystem; 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.IO;

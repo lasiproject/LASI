@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using LASI.FileSystem;
 using System.IO;
-using LASI.FileSystem.FileTypes;
+
 namespace Brittany_WPF_Experimentation
 {
     /// <summary>

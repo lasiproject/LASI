@@ -15,7 +15,7 @@ namespace LASI.Algorithm.Lookup
         /// <summary>
         /// Initializes a new instance of the AdjectiveThesaurus class.
         /// </summary>
-        /// <param name="filePath">The path of the WordNet database file containing the sysnonym line for nouns.</param>
+        /// <param name="filePath">The path of the WordNet database file containing the synonym data for adjectives.</param>
         public AdjectiveThesaurus(string filePath)
             : base(filePath) {
             FilePath = filePath;

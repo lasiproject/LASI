@@ -92,7 +92,7 @@
     <Compile Include="FileTypes\FileConverter.cs" />
     <Compile Include="FileTypes\Support\TaggedToXMLConverter.cs" />
     <Compile Include="TaggerEncapsulation\TagParsers\ExperimentalTaggedParser.cs" />
-    <Compile Include="TaggerAndFileAbstraction\TaggerUtilites.cs" />
+    <Compile Include="TaggerAndFileAbstraction\TaggerUtil.cs" />
     <Compile Include="TaggerEncapsulation\TagParsers\TagParser.cs" />
     <Compile Include="TaggerEncapsulation\TagParsers\SupportTypes\PhraseExtractor.cs" />
     <Compile Include="TaggerEncapsulation\TagmapBases\PhraseTagsetMap.cs" />
@@ -101,7 +101,7 @@
     <Compile Include="TaggerEncapsulation\FileTaggers\SharpNLPTagger.cs" />
     <Compile Include="TaggerEncapsulation\SNLPTagsetMaps\SharpNLPWordTagsetMap.cs" />
     <Compile Include="TaggerEncapsulation\FileTaggers\QuickTagger.cs" />
-    <Compile Include="TaggerEncapsulation\FileTaggers\TaggingOption.cs" />
+    <Compile Include="TaggerEncapsulation\TaggerMode.cs" />
     <Compile Include="TaggerEncapsulation\TagParsers\SupportTypes\WordMapper.cs" />
     <Compile Include="FileTypes\DocXFile.cs" />
     <Compile Include="FileTypes\Support\FileData.cs" />

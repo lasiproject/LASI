@@ -13,34 +13,20 @@ using System.Threading.Tasks;
 using System.Data;
 using System.ComponentModel;
 
-namespace LASI.FileSystem.FileTypes
+namespace LASI.FileSystem
 {
-    public class GenericXMLFile : InputFile
+    public sealed class GenericXMLFile : InputFile
     {
 
         public GenericXMLFile(string filePath)
             : base(filePath) {
-            if (this.Ext != ".xml" && this.Ext != ".XML")
+            if (!this.Ext.Equals(".xml", StringComparison.OrdinalIgnoreCase))
                 throw new FileTypeWrapperMismatchException(GetType().ToString(), Ext);
-            //var XMLs = new DataSet {
-            //    DataSetName = "MicrosoftDocxOpenXML"
-            //};
-            //XMLs.InferXmlSchema(XmlReader.Create(filePath),
-            //    (new XmlSchema {
-            //        SourceUri = filePath
-            //    }.Elements.Names.Cast<string>().ToArray()));
-            //var datareader = XMLs;
-            //var x = datareader.Tables;
-            //Tables = new DataTable[x.Count];
-            //x.CopyTo(Tables.ToArray(), 0);
-            ////foreach (var tr in x) {
-            ////    Console.WriteLine(tr);
-            ////}
 
         }
-        public virtual IEnumerable<DataTable> Tables {
+        public IEnumerable<DataTable> Tables {
             get;
-            protected set;
+            private set;
         }
     }
 }

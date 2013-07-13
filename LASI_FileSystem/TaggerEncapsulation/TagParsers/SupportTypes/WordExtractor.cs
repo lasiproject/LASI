@@ -13,13 +13,13 @@ namespace LASI.FileSystem
         /// </summary>
         /// <param name="line">The string to extract from.</param>
         /// <returns>A TextTagPair containing the information or null if the element is null, whitespace, or an empty string.</returns>
-        /// <exception cref="UntaggedElementException">Thrown when a text element is present in the string without a tag.</exception>
-        public TaggedWordObject? ExtractNextPos(string data) {
+        /// <exception cref="UntaggedWordException">Thrown when a text element is present in the string without a tag.</exception>
+        public TextTagPair? ExtractNextPos(string data) {
             if (String.IsNullOrEmpty(data) || String.IsNullOrWhiteSpace(data) || data.Trim() == "]") {
                 return null;
             }
-            //If there are no forward-slashes, the string contains no adverb level tags.
-            //Although there may be more slashes than adverb-level-tags, there there are at least as many forward-slashes as adverb-level-tags
+            //If there are no forward-slashes, the string contains no word level tags.
+            //Although there may be more slashes than word-level-tags, there there are at least as many forward-slashes as word-level-tags
             if (data.Count(c => c == '/') == 0) {
 
                 //throw new UntaggedElementException(String.Format(
@@ -32,10 +32,7 @@ namespace LASI.FileSystem
             var text = data.Substring(0, tagBegin);
             var tag = data.Substring(tagBegin + 1);
 
-            return new TaggedWordObject {
-                Text = text,
-                Tag = tag
-            };
+            return new TextTagPair(elementText: text, elementTag: tag);
         }
 
     }

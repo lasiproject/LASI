@@ -10,14 +10,14 @@ namespace LASI.FileSystem
 {
     public class PdfToTextConverter : FileConverter
     {
-        public PdfToTextConverter(LASI.FileSystem.FileTypes.PdfFile infile)
+        public PdfToTextConverter(PdfFile infile)
             : base(infile) {
         }
 
         public override InputFile ConvertFile() {
             var newPath = Original.PathSansExt + ".txt";
             new PDFParser().ExtractText(Original.FullPath, newPath);
-            return new LASI.FileSystem.FileTypes.TextFile(newPath);
+            return new TextFile(newPath);
         }
 
         public override async Task<InputFile> ConvertFileAsync() {
@@ -102,7 +102,7 @@ namespace LASI.FileSystem
 
 
                 for (int i = 0; i < input.Length; i++) {
-                    char c = (char)input[i];
+                    char c = ( char )input[i];
 
                     if (inTextObject) {
                         // Position the text

@@ -10,7 +10,7 @@ using LASI.Utilities;
 namespace LASI.Algorithm.DocumentConstructs
 {
     /// <summary>
-    /// A line structure containing all of the paragraph, sentence, a, and adverb objects in a document.
+    /// A data structure containing all of the paragraph, sentence, a, and adverb objects in a document.
     /// Provides overalapping direct and indirect access to all of its children, 
     /// e.g. such as myDoc.Paragraphs.Sentences.Phrases.Words will get all the words in the document in linear order
     /// comparatively: myDoc.Words; yields the same collection.

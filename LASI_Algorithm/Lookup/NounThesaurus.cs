@@ -16,7 +16,7 @@ namespace LASI.Algorithm.Lookup
         /// <summary>
         /// Initializes a new instance of the NounProvider class.
         /// </summary>
-        /// <param name="filePath">The path of the WordNet database file containing the sysnonym line for nouns.</param>
+        /// <param name="filePath">The path of the WordNet database file containing the synonym data for nouns.</param>
         public NounThesaurus(string filePath)
             : base(filePath) {
             FilePath = filePath;

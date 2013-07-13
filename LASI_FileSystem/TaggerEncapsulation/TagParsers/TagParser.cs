@@ -18,7 +18,7 @@ namespace LASI.FileSystem.TaggerEncapsulation
             return await Task.Run(() => LoadDocument());
         }
 
-        public LASI.FileSystem.FileTypes.TaggedFile TaggededDocumentFile {
+        public LASI.FileSystem.TaggedFile TaggededDocumentFile {
             get;
             protected set;
         }

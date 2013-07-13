@@ -9,13 +9,16 @@ namespace LASI.FileSystem
 {
     /// <summary>
     /// Represents a tagset-to-runtime-type-mapping context which translates between a Part Of Speech
-    /// Tagger'subject provided tags and their runtime type equivalents. 
-    /// This class represents the tagset => runtime-type mapping for adverb occurances
+    /// Tagger's tagset and the classes whose instances provide their runtime representations of the tag.
+    /// This class represents the tagset => runtime-type mapping for word occurances.
     /// <see cref="WordTagsetMap"/>
-    ///<seealso cref="WordMapper"/>
+    /// <seealso cref="PhraseTagsetMap"/>  
+    /// <seealso cref="WordMapper"/>
     /// <example>
+    /// Example:
     ///<code> 
-    /// var constructorFunction = myContext["TAG"];
+    /// var wordMap = new WordTagSetMap();
+    /// var constructorFunction = map["TAG"];
     /// var runtimeWord = constructorFunction(itemText);
     /// </code>
     /// </example>
@@ -28,22 +31,25 @@ namespace LASI.FileSystem
         /// </summary>
         /// <param name="tag">The textual representation of a Part Of Speech tag.</param>
         /// <returns>A function which creates an isntance of the run-time type associated with the textual tag.</returns>
-        /// <exception cref="UnknownPOSException">Implementors should Throw this exception if and only if when the index string is not a tag defined by the tagset being provided.</exception>
-        public abstract Func<string, Word> this[string tag] {
-            get;
-        }
+        /// <exception cref="UnknownWordTagException">Implementors should Throw this exception if and only if when the index string is not a tag defined by the tagset being provided.</exception>
+        public abstract Func<string, Word> this[string tag] { get; }
 
-
-        public abstract string this[Func<string, Word> mappedConstructor] {
-            get;
-        }
-
+        /// <summary>
+        /// When overriden in a derrived class, Gets the PosTag string corresponding to the runtime System.Type of the Return Type of given function which of type { System.string => LASI.Algorithm.Word }.
+        /// </summary>
+        /// <param name="phrase">The function which of type { System.string => LASI.Algorithm.Word } for which to get the corresponding tag.</param>
+        /// <returns>The PosTag string corresponding to the runtime System.Type of the Return Type of given function which of type { System.string => LASI.Algorithm.Word }.</returns>
+        public abstract string this[Func<string, Word> mappedConstructor] { get; }
+        /// <summary>
+        /// Gets the PosTag string corresponding to the System.Type of the given LASI.Algorithm.Word.
+        /// </summary>
+        /// <param name="phrase">The LASI.Algorithm.Word for which to get the corresponding tag.</param>
+        /// <returns>The PosTag string corresponding to the System.Type of the given LASI.Algorithm.Word.</returns>
+        public abstract string this[Word word] { get; }
         /// <summary>
         /// When overriden in a derrived class, Gets the Read Only Dictionary which represents the mapping between Part Of Speech tags and the cunstructors which instantiate their run-time representations.
         /// </summary>
-        public abstract IReadOnlyDictionary<string, Func<string, Word>> TypeDictionary {
-            get;
-        }
+        public abstract IReadOnlyDictionary<string, Func<string, Word>> TypeDictionary { get; }
         #endregion
 
     }

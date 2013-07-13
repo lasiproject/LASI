@@ -15,30 +15,40 @@ namespace LASI.InteropLayer
     public class ProcessController
     {
         /// <summary>
-        /// Gets a Task which, when awaited, loads and analyizes, and aggregates all of the provided TextFile instances as individual documents, collecting them as
-        /// a sequence of Bound and Weighted instances of LASI.Algorithm.Document.
+        /// Gets a Task which, when awaited, loads, analyizes, and aggregates all of the provided TextFile instances as individual documents, collecting them as
+        /// a sequence of Bound and Weighted LASI.Algorithm.Document instances. Progress update logic is specified via an asynchronous function parameter.
         /// </summary>
         /// <param name="filesToProcess">The collection of TextFiles to analyize.</param> 
         /// <param name="onProgressUpdate">A function to invoke with each progress increment. 
-        /// The function must be asynchronous (must return a Task), and take a string, representing a status message and a double representing the percentage of work incremented.
+        /// The function must be asynchronous (must return a Task), and take a string, representing a status message, and a double, representing the percentage of total work incremented.
+        /// <example>
+        ///Example lambda function:
+        ///<code>
+        /// async (s, d) => { await ... }
+        /// </code>
+        /// Example named function:
+        /// <code> 
+        /// public async Task UpdateSomethingMethodAsync(string s, double d){ await ... }
+        /// </code>
+        /// </example>
         /// </param>
         /// <returns>A Task which, when awaited, loads and analyizes, and aggregates all of the provided TextFile instances as individual documents, collecting them as
         /// a sequence of Bound and Weighted LASI.Algorithm.Document instances.</returns>
-        public async Task<IEnumerable<Document>> AnalyseAllDocumentsAsync(IEnumerable<LASI.FileSystem.FileTypes.TextFile> filesToProcess, Func<string, double, Task> onProgressUpdate) {
+        public async Task<IEnumerable<Document>> AnalyseAllDocumentsAsync(IEnumerable<LASI.Algorithm.IRawTextSource> filesToProcess, Func<string, double, Task> onProgressUpdate) {
             discreteWorkLoads = filesToProcess.Count();
             documentStepRatio = 2d / discreteWorkLoads;
             UpdateProgressDisplay = onProgressUpdate;
             await LoadThesaurus();
             await UpdateProgressDisplay("Tagging Documents", 0);
 
-            var taggingTasks = filesToProcess.Select(F => Task.Run(async () => await TaggerUtil.TagTextFileAsync(F))).ToList();
-            var taggedFiles = new ConcurrentBag<FileSystem.FileTypes.TaggedFile>();
+            var taggingTasks = filesToProcess.Select(F => Task.Run(async () => await TaggerUtil.TaggedFromRawAsync(F))).ToList();
+            var taggedFiles = new ConcurrentBag<Algorithm.ITaggedTextSource>();
             while (taggingTasks.Any()) {
                 var currentTask = await Task.WhenAny(taggingTasks);
                 var taggedFile = await currentTask;
                 taggingTasks.Remove(currentTask);
                 taggedFiles.Add(taggedFile);
-                await UpdateProgressDisplay(string.Format("{0}: Tagged", taggedFile.NameSansExt), documentStepRatio);
+                await UpdateProgressDisplay(string.Format("{0}: Tagged", taggedFile.DataName), documentStepRatio);
             }
             await UpdateProgressDisplay("Tagged Documents", 3);
             var tasks = taggedFiles.Select(tagged => ProcessTaggedFileAsync(tagged)).ToList();
@@ -50,11 +60,43 @@ namespace LASI.InteropLayer
 
             return documents;
         }
+        /// <summary>
+        /// Gets a Task which, when awaited, loads, analyizes, and aggregates all of the provided TextFile instances as individual documents, collecting them as
+        /// a sequence of Bound and Weighted LASI.Algorithm.Document instances. Progress update logic is specified via a function parameter.
+        /// </summary>
+        /// <param name="filesToProcess">The collection of TextFiles to analyize.</param>
+        /// <param name="onProgressUpdate">A void function to invoke with each progress increment.
+        /// <example>
+        /// Example lambda function:
+        /// <code> (s, d) => { ... }
+        /// </code>
+        /// Example named function:
+        /// <code>
+        /// public void UpdateSomethingMethod(string s, double d){ ... }
+        /// </code>
+        /// </example>
+        /// The function must take a string, representing a status message, and a double, representing the percentage of total work incremented.
+        /// </param>
+        /// <returns>A Task which, when awaited, loads and analyizes, and aggregates all of the provided TextFile instances as individual documents, collecting them as
+        /// a sequence of Bound and Weighted LASI.Algorithm.Document instances.</returns>
+        public async Task<IEnumerable<Document>> AnalyseAllDocumentsAsync(IEnumerable<LASI.Algorithm.IRawTextSource> filesToProcess, Action<string, double> onProgressUpdate) {
+            return await AnalyseAllDocumentsAsync(filesToProcess, async (s, d) => await Task.Run(() => onProgressUpdate(s, d)));
+        }
+        /// <summary>
+        /// Gets a Task which, when awaited, loads and analyizes, and aggregates all of the provided TextFile instances as individual documents, collecting them as
+        /// a sequence of Bound and Weighted LASI.Algorithm.Document instances.
+        /// </summary>
+        /// <param name="filesToProcess">The collection of TextFiles to analyize.</param>
+        /// <returns>A Task which, when awaited, loads, analyizes, and aggregates all of the provided TextFile instances as individual documents, collecting them as
+        /// a sequence of Bound and Weighted LASI.Algorithm.Document instances.</returns>
+        public async Task<IEnumerable<Document>> AnalyseAllDocumentsAsync(IEnumerable<LASI.Algorithm.IRawTextSource> filesToProcess) {
+            return await AnalyseAllDocumentsAsync(filesToProcess, (s, d) => { });
+        }
 
-        private async Task<Document> ProcessTaggedFileAsync(LASI.FileSystem.FileTypes.TaggedFile tagged) {
-            var fileName = tagged.NameSansExt;
+        private async Task<Document> ProcessTaggedFileAsync(LASI.Algorithm.ITaggedTextSource tagged) {
+            var fileName = tagged.DataName;
             await UpdateProgressDisplay(string.Format("{0}: Loading...", fileName), 0);
-            var doc = await TaggerUtil.LoadTaggedFileAsync(tagged);
+            var doc = await TaggerUtil.DocumentFromTaggedAsync(tagged);
             await UpdateProgressDisplay(string.Format("{0}: Loaded", fileName), 4);
             await UpdateProgressDisplay(string.Format("{0}: Analyzing Syntax...", fileName), 0);
             var bindingWorkUnits = Binder.GetBindingTasksForDocument(doc).ToList();

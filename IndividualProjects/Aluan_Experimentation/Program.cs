@@ -32,33 +32,40 @@ namespace Aluan_Experimentation
         }
 
         private static void TestGender() {
-            foreach (var task in LexicalLookup.YetUnloadedResoucesTasks) {
-                task.Wait();
-                Output.WriteLine(task.Result);
-            }
+            LoadThesaurus().Wait();
             var overlapResults = new List<string>();
             foreach (var name in LexicalLookup.GenderAmbiguousFirstNames)
                 overlapResults.Add(LookupName(name));
             Output.WriteLine(overlapResults.OrderBy(s => s.Contains("Female")).ThenBy(s => s).Format(true));
         }
         private static void TestFullNames() {
+            LoadThesaurus().Wait();
+
+            LexicalLookup.LastNames.AsParallel().AsUnordered().WithExecutionMode(ParallelExecutionMode.ForceParallelism).ForAll(ln => {
+                var falseResults = from fn in LexicalLookup.FemaleNames.Union(LexicalLookup.MaleNames).AsParallel().WithExecutionMode(ParallelExecutionMode.ForceParallelism)
+                                   group fn by fn into g
+                                   select g.Key into fn
+                                   select new NounPhrase(new[] { 
+                                            new ProperSingularNoun(fn),
+                                            new ProperSingularNoun(ln) 
+                                   }) into pnp
+                                   where !pnp.IsFullName() select pnp;
+                foreach (var pnp in falseResults) {
+                    Output.WriteLine(pnp);
+                }
+            });
+        }
+
+        private static async Task LoadThesaurus() {
             foreach (var task in LexicalLookup.YetUnloadedResoucesTasks) {
                 task.Wait();
                 Output.WriteLine(task.Result);
             }
-            foreach (var ln in LexicalLookup.LastNames) {
-                var toCheck = from fn in LexicalLookup.FemaleNames.Concat(LexicalLookup.MaleNames).AsParallel()
-                              group fn by fn into g select g.Key into fn
-                              select new NounPhrase(new[] { 
-                              new ProperSingularNoun(fn),
-                              new ProperSingularNoun(ln) 
-                          });
-
-                var resultsOfCheck = from pnp in toCheck.AsParallel() group pnp by pnp.IsFullName();
-
-                foreach (var grp in resultsOfCheck.Where(g => !g.Key)) {
-                    Output.WriteLine("{0}, {1}", grp.Key, grp.Count());
-                }
+            var tasks = LexicalLookup.YetUnloadedResoucesTasks.ToList();
+            while (tasks.Any()) {
+                var currentTask = await Task.WhenAny(tasks);
+                Output.WriteLine(await currentTask);
+                tasks.Remove(currentTask);
             }
         }
 
@@ -80,7 +87,7 @@ namespace Aluan_Experimentation
 
 
         private static void TestWordAndPhraseBindings() {
-            var doc = TaggerUtil.LoadTextFile(new LASI.FileSystem.FileTypes.TextFile(testPath));
+            var doc = TaggerUtil.DocumentFromRaw(new LASI.FileSystem.TextFile(testPath));
 
             new PronounBinder().Bind(doc);
             foreach (var p in doc.Phrases.GetPronounPhrases())

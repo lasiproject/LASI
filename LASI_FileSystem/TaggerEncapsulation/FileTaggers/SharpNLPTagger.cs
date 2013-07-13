@@ -5,7 +5,8 @@ using System.Text;
 using System.Linq;
 using System.Collections.Generic;
 using LASI.Utilities;
-namespace SharpNLPTaggingModule
+using LASI.FileSystem.TaggerEncapsulation;
+namespace SharpNatrualLanguageProcessing
 {
 
     public class SharpNLPTagger
@@ -24,7 +25,7 @@ namespace SharpNLPTaggingModule
         private OpenNLP.Tools.NameFind.EnglishNameFinder mNameFinder;
         private OpenNLP.Tools.Lang.English.TreebankLinker mCoreferenceFinder;
 
-        public SharpNLPTagger(TaggingOption taggingMode) {
+        public SharpNLPTagger(TaggerMode taggingMode) {
             TaggingMode = taggingMode;
             mModelPath = ConfigurationManager.AppSettings["MaximumEntropyModelDirectory"];
             mNameFinder = new OpenNLP.Tools.NameFind.EnglishNameFinder(ConfigurationManager.AppSettings["WordnetSearchDirectory"]);
@@ -32,7 +33,7 @@ namespace SharpNLPTaggingModule
         }
 
 
-        public SharpNLPTagger(TaggingOption taggingMode, string sourcePath, string destinationPath = null)
+        public SharpNLPTagger(TaggerMode taggingMode, string sourcePath, string destinationPath = null)
             : this(taggingMode) {
 
 
@@ -52,12 +53,12 @@ namespace SharpNLPTaggingModule
             }
             return p;
         }
-        public virtual LASI.FileSystem.FileTypes.TaggedFile ProcessFile() {
+        public virtual LASI.FileSystem.TaggedFile ProcessFile() {
             WriteToFile(ParseViaTaggingMode());
-            return new LASI.FileSystem.FileTypes.TaggedFile(OutputFilePath);
+            return new LASI.FileSystem.TaggedFile(OutputFilePath);
 
         }
-        public virtual async System.Threading.Tasks.Task<LASI.FileSystem.FileTypes.TaggedFile> ProcessFileAsync() {
+        public virtual async System.Threading.Tasks.Task<LASI.FileSystem.TaggedFile> ProcessFileAsync() {
             return await System.Threading.Tasks.Task.Run(() => ProcessFile());
 
 
@@ -77,18 +78,21 @@ namespace SharpNLPTaggingModule
                 return String.Join(" ", reader.ReadToEnd().Split(new[] { ' ', '\t', '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries).ToList().Select(s => s.Trim()));
             }
         }
-        protected string ParseViaTaggingMode() {
+        protected async System.Threading.Tasks.Task<string> ParseViaTaggingModeAsync(TaggerMode taggingMode) { return await ParseViaTaggingModeAsync(taggingMode); }
+        protected async System.Threading.Tasks.Task<string> ParseViaTaggingModeAsync() { return await System.Threading.Tasks.Task.Run(() => ParseViaTaggingMode(TaggingMode)); }
+        protected string ParseViaTaggingMode() { return ParseViaTaggingMode(TaggingMode); }
+        protected string ParseViaTaggingMode(TaggerMode taggingMode) {
             switch (TaggingMode) {
-                case TaggingOption.TagIndividual:
+                case TaggerMode.TagIndividual:
                     return POSTag();
-                case TaggingOption.TagAndAggregate:
+                case TaggerMode.TagAndAggregate:
                     return Chunk();
-                case TaggingOption.ExperimentalClauseNesting:
+                case TaggerMode.ExperimentalClauseNesting:
                     return Parse();
-                case TaggingOption.GenderFind:
+                case TaggerMode.GenderFind:
 
                     return Gender();
-                case TaggingOption.NameFind:
+                case TaggerMode.NameFind:
                     return NameFind();
                 default:
                     return POSTag();
@@ -341,7 +345,7 @@ namespace SharpNLPTaggingModule
             protected set;
         }
 
-        public TaggingOption TaggingMode {
+        public TaggerMode TaggingMode {
             get;
             private set;
         }

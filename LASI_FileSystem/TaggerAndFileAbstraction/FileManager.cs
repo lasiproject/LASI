@@ -4,9 +4,9 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using LASI.FileSystem.FileTypes;
-using SharpNLPTaggingModule;
+using SharpNatrualLanguageProcessing;
 using LASI.Utilities;
+using LASI.FileSystem.TaggerEncapsulation;
 namespace LASI.FileSystem
 {
     /// <summary>
@@ -414,8 +414,8 @@ namespace LASI.FileSystem
                                        where dx.NameSansExt == d.NameSansExt
                                        select dx).Count() == 0
                                 select d) {
-                var tagger = new SharpNLPTaggingModule.SharpNLPTagger(
-                    TaggingOption.TagAndAggregate, doc.FullPath,
+                var tagger = new SharpNatrualLanguageProcessing.SharpNLPTagger(
+                    TaggerMode.TagAndAggregate, doc.FullPath,
                     TaggedFilesDir + "\\" + doc.NameSansExt + ".tagged");
                 var tf = tagger.ProcessFile();
                 AddFile(tf.FullPath, true);
@@ -439,7 +439,7 @@ namespace LASI.FileSystem
                           where dx.NameSansExt == d.NameSansExt
                           select dx).Count() == 0
                          select
-                             new SharpNLPTagger(TaggingOption.TagAndAggregate, d.FullPath, TaggedFilesDir + "\\" + d.NameSansExt + ".tagged").ProcessFileAsync()).ToList();
+                             new SharpNLPTagger(TaggerMode.TagAndAggregate, d.FullPath, TaggedFilesDir + "\\" + d.NameSansExt + ".tagged").ProcessFileAsync()).ToList();
 
 
             while (tasks.Any()) {

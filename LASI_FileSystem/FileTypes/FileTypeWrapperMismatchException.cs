@@ -3,8 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace LASI.FileSystem.FileTypes
+namespace LASI.FileSystem
 {
+    /// <summary>
+    /// The Exception that is thrown when an attempt is made to construct a 
+    /// strongly typed file Wrapper around a file with a different extension than the wrappers Type allows for.
+    /// </summary>
     [Serializable]
     class FileTypeWrapperMismatchException : FileSystemException
     {

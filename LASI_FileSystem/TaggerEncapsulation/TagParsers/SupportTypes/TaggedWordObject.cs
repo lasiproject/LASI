@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace LASI.FileSystem
 {
     /// <summary>
-    /// Holds a pair of strings representing a piece of natural language text and its NLP adverb tag.
+    /// Holds a pair of strings representing a piece of natural language text and its NLP word tag.
     /// Note, use with the elegant object initializer sytnax when creating an instance.
     /// eg. var myTTPair = new TextTagPair{ Text = "collie", Tag = "NN" }; 
     /// as opposed to
@@ -16,58 +16,23 @@ namespace LASI.FileSystem
     /// myTTPair.Tag= "NN";
     /// because it is easier to read and reduces errors.
     /// </summary>
-    public struct TaggedWordObject
-    {
-        /// <summary>
-        /// The english text of a tagged adverb.
-        /// </summary>
-        public string Text {
-            get;
-            set;
-        }
-        /// <summary>
-        /// The text of the pos tag associated with the adverb.
-        /// </summary>
-        public string Tag {
-            get;
-            set;
-        }
-    }
-    /// <summary>
-    /// Holds a pair of strings representing the internal text of a tagged element and its NLP tag.
-    /// </summary>
     public struct TextTagPair
     {
+        public TextTagPair(string elementText, string elementTag) : this() { Text = elementText; Tag = elementTag; }
+
         /// <summary>
-        /// The inner text content of the tagged object, presumably consisting of one or more words.
+        /// Gets the english text of a tagged word.
         /// </summary>
         public string Text {
             get;
-            set;
+            private set;
         }
         /// <summary>
-        /// The text of pos tag associated with the occurance.
+        /// Gets the text of the pos tag associated with the word.
         /// </summary>
         public string Tag {
             get;
-            set;
-        }
-    }
-    public struct TaggedClauseObject
-    {
-        /// <summary>
-        /// The inner text content of the clause, presumably consisting of one or more componentPhrases.
-        /// </summary>
-        public string Text {
-            get;
-            set;
-        }
-        /// <summary>
-        /// The text of pos tag associated with the clause.
-        /// </summary>
-        public string Tag {
-            get;
-            set;
+            private set;
         }
     }
 }

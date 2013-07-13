@@ -279,7 +279,7 @@ namespace LASI.UserInterface
             currentOperationLabel.Content = string.Format("Tagging {0}...", chosenFile.NameSansExt);
             var textfile = FileManager.TextFiles.Where(f => f.NameSansExt == chosenFile.NameSansExt).First();
 
-            var doc = await TaggerUtil.LoadTextFileAsync(textfile);
+            var doc = await TaggerUtil.DocumentFromRawAsync(textfile);
             currentOperationProgressBar.Value += 10;
             currentOperationLabel.Content = string.Format("{0}: Analyzing Syntax...", chosenFile.NameSansExt);
             foreach (var task in LASI.Algorithm.Binding.Binder.GetBindingTasksForDocument(doc)) {

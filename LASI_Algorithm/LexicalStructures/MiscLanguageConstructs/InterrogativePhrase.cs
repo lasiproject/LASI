@@ -7,7 +7,7 @@ using System.Xml.Linq;
 namespace LASI.Algorithm
 {
     /// <summary>
-    /// Represents a phrase signalling the beginning of an interrogative clause.
+    /// Represents a phrase which signals the beginning of an interrogative clause.
     /// </summary>
     public class InterrogativePhrase : Phrase
     {

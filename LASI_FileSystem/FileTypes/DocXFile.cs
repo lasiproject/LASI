@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-namespace LASI.FileSystem.FileTypes
+namespace LASI.FileSystem
 {
 
-    public class DocXFile : InputFile
+    public sealed class DocXFile : InputFile
     {
         public DocXFile(string absolutePath)
             : base(absolutePath) {
-            if (this.Ext != ".docx" && this.Ext != ".DOCX") {
-                throw new LASI.FileSystem.FileTypes.FileTypeWrapperMismatchException(GetType().ToString(), Ext);
+            if (!this.Ext.Equals(".docx", StringComparison.OrdinalIgnoreCase)) {
+                throw new LASI.FileSystem.FileTypeWrapperMismatchException(GetType().ToString(), Ext);
             }
         }
 

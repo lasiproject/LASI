@@ -20,7 +20,7 @@
   <Class Name="LASI.Algorithm.AdverbPhrase" Collapsed="true">
     <Position X="8.75" Y="6" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>LexicalStructures\AdverbRelatedConstructs\AdverbPhrase.cs</FileName>
     </TypeIdentifier>
     <Lollipop Orientation="Bottom" Position="0.2" />
@@ -28,7 +28,7 @@
   <Class Name="LASI.Algorithm.ConjunctionPhrase" Collapsed="true">
     <Position X="7.75" Y="3.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAgAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAA=</HashCode>
       <FileName>LexicalStructures\BridgingConstructs\ConjunctionPhrase.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -52,7 +52,7 @@
       </Path>
     </InheritanceLine>
     <TypeIdentifier>
-      <HashCode>RAAACCACEAAAAAAEkACUAAAw4gCAAAAAEQIAAARAAAE=</HashCode>
+      <HashCode>AAAACCACAABAAgAEkAAUAAAw4gCAAAAAGQIAIAQAAAA=</HashCode>
       <FileName>LexicalStructures\NounRelatedConstructs\NounPhrase.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.205" />
@@ -60,7 +60,7 @@
   <Class Name="LASI.Algorithm.ParticlePhrase" Collapsed="true">
     <Position X="9.75" Y="2" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAgAAAAAAAAAAgAAAAAggAAAAAAAAAAAAAAAAAQAAA=</HashCode>
+      <HashCode>AAAAAIABAAAEAAAAEAAAAAAAAAAgAAAAAAAAAAAAAAA=</HashCode>
       <FileName>LexicalStructures\BridgingConstructs\ParticlePhrase.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -68,7 +68,7 @@
   <Class Name="LASI.Algorithm.Phrase" Collapsed="true">
     <Position X="12" Y="0.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>EhAAABAAAAAAgAAEBCACAAgAACAAAAACIQAACAAiAAA=</HashCode>
+      <HashCode>EhAAABAAAAAAgAAEBCACAAgAACAAAAAKIQAACAAiAAA=</HashCode>
       <FileName>LexicalStructures\UnderpinningTypes\Phrase.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -76,7 +76,7 @@
   <Class Name="LASI.Algorithm.PrepositionalPhrase" Collapsed="true">
     <Position X="17.25" Y="4.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAgAAAAAAAAAAgEAAAAggAAAAAAAAAAAAAAAAAQAAA=</HashCode>
+      <HashCode>AAAAAIABAAAEAAAEEAAAAAAAAAAgAAAAAAAAAAAAAAA=</HashCode>
       <FileName>LexicalStructures\BridgingConstructs\PrepositionalPhrase.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -84,7 +84,7 @@
   <Class Name="LASI.Algorithm.PronounPhrase" Collapsed="true">
     <Position X="6.75" Y="6" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAACAAAAAAAQAAEAAAAQAAAAAAAAABAAAAgAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAEAAAAQIAAQAAAAABAAAAAAAAAAQA=</HashCode>
       <FileName>LexicalStructures\NounRelatedConstructs\PronounPhrase.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="1.092" />
@@ -94,13 +94,6 @@
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>LexicalStructures\MiscLanguageConstructs\RoughListPhrase.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="LASI.Algorithm.SimpleDeclarativePhrase" Collapsed="true">
-    <Position X="13.5" Y="2" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>LexicalStructures\MiscLanguageConstructs\SimpleDeclarativePhrase.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="LASI.Algorithm.VerbPhrase" Collapsed="true">
@@ -114,7 +107,7 @@
       </Path>
     </InheritanceLine>
     <TypeIdentifier>
-      <HashCode>AEAgBAABAQEAAEAFgIAECgBQAAAAAoCEGAAAQAACBAA=</HashCode>
+      <HashCode>EAAABEEBAQAAAICFgAAGihAAAqAAAogEGAAAQACABAg=</HashCode>
       <FileName>LexicalStructures\VerbRelatedConstructs\VerbPhrase.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.907" />
@@ -122,10 +115,17 @@
   <Class Name="LASI.Algorithm.InfinitivePhrase" Collapsed="true">
     <Position X="13.75" Y="4.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAIAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAQIAAAAAAAA=</HashCode>
+      <HashCode>AAACCAAAAABAAgAAkAAAEAAAYAAAAAAACQIAAAQAAAA=</HashCode>
       <FileName>LexicalStructures\VerbRelatedConstructs\InfinitivePhrase.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="LASI.Algorithm.AdditionalPhraseTypes.SimpleDeclarativePhrase" Collapsed="true">
+    <Position X="13.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>LexicalStructures\MiscLanguageConstructs\SimpleDeclarativePhrase.cs</FileName>
+    </TypeIdentifier>
   </Class>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>

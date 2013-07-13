@@ -17,7 +17,7 @@ namespace LASI.Algorithm.Lookup
         /// <summary>
         /// Initializes a new instance of the VerbThesaurus class.
         ///<param name="constrainByCategory"></param>
-        /// <param name="filePath">The path of the WordNet database file containing the sysnonym line for verbals.</param>
+        /// <param name="filePath">The path of the WordNet database file containing the sysnonym data for verbals.</param>
         /// </summary>
         public VerbThesaurus(string filePath)
             : base(filePath) {

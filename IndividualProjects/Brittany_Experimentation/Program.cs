@@ -7,9 +7,10 @@ using System.Threading.Tasks;
 using LASI.Algorithm;
 using LASI.FileSystem;
 using LASI.Utilities;
-using SharpNLPTaggingModule;
+using SharpNatrualLanguageProcessing;
 using System.IO;
 using LASI.Algorithm.DocumentConstructs;
+using LASI.FileSystem.TaggerEncapsulation;
 namespace Brittany_Experimentation
 {
     class Program
@@ -27,7 +28,7 @@ namespace Brittany_Experimentation
 
 
         static void TagExampleFile() {
-            var tagger = new SharpNLPTagger(TaggingOption.TagAndAggregate, @"C:\Brittany\Desktop\intest1.txt");
+            var tagger = new SharpNLPTagger(TaggerMode.TagAndAggregate, @"C:\Brittany\Desktop\intest1.txt");
             var tagged = tagger.ProcessFile();
             var paragraphs = new TaggedFileParser(tagged).LoadParagraphs();
             var document = new Document(paragraphs);

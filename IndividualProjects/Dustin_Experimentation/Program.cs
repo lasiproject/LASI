@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using LASI.Algorithm;
 using LASI.FileSystem;
 using LASI.Utilities;
-using SharpNLPTaggingModule;
+using SharpNatrualLanguageProcessing;
 using System.IO;
 using LASI.Algorithm.DocumentConstructs;
 using LASI.Algorithm.Lookup;

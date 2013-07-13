@@ -14,9 +14,7 @@ namespace LASI.Algorithm
         public Punctuation(char puncChar)
             : base(puncChar.ToString()) {
             ActualCharacter = puncChar;
-
-            AliasString = PUNCTUATION_ALIAS_MAP[ActualCharacter];
-
+            AliasString = PunctuationAliasMap.GetAliasStringForChar(ActualCharacter);
         }
 
         /// <summary>
@@ -26,60 +24,53 @@ namespace LASI.Algorithm
         public Punctuation(string puncString)
             : base(puncString) {
             AliasString = puncString;
-            //try {
-            ActualCharacter = PUNCTUATION_ALIAS_MAP[AliasString];
-            //}
-            //catch (KeyNotFoundException) {
-            //    System.Diagnostics.Debug.WriteLine("Punctuation Character  {0} has no defined text alias", ActualCharacter);
-            //}
+            ActualCharacter = PunctuationAliasMap.GetCharForAliasString(AliasString);
 
         }
+        /// <summary>
+        /// Gets the literal puntuation character.
+        /// </summary>
         public char ActualCharacter {
             get;
             protected set;
         }
+        /// <summary>
+        /// Gets the alias string corresponding to the puntuation symbol.
+        /// </summary>
         public string AliasString {
             get;
             protected set;
         }
 
-        private static PunctuationAliasMap PUNCTUATION_ALIAS_MAP = new PunctuationAliasMap();
+        /// <summary>
+        /// Maps between certain punctuation characters and alias text.
+        /// </summary>
+        private static class PunctuationAliasMap
+        {
+            private static readonly IDictionary<string, char> aliasMap = new Dictionary<string, char> {
+                {  "COMMA", ',' },
+                {  "LEFT_SQUARE_BRACKET", '[' },
+                { "RIGHT_SQUARE_BRACKET", ']' },
+                { "PERIOD_CHARACTER_SYMBOL", '.' },
+                { "END_OF_PARAGRAPH", '\n' }  
+            };
 
+            public static char GetCharForAliasString(string alias) {
 
-
-    }
-
-
-
-    /// <summary>
-    /// Maps between certain punctuation characters and alias text.
-    /// </summary>
-    internal class PunctuationAliasMap
-    {
-        private Dictionary<string, char> aliasMap = new Dictionary<string, char> {
-            {  "COMMA", ',' },
-            {  "LEFT_SQUARE_BRACKET", '[' },
-            { "RIGHT_SQUARE_BRACKET", ']' },
-            { "PERIOD_CHARACTER_SYMBOL", '.' },
-            { "END_OF_PARAGRAPH", '\n' }
-        };
-        public virtual char this[string alias] {
-            get {
                 char result;
                 if (aliasMap.TryGetValue(alias, out result))
                     return result;
                 else
                     return ' ';
             }
-        }
-        public virtual string this[char actual] {
-            get {
+            public static string GetAliasStringForChar(char actual) {
+
                 var alias = from KV in aliasMap
                             where KV.Value == actual
                             select KV.Key;
                 return alias.Any() ? alias.First() : actual.ToString();
+
             }
         }
-
     }
 }

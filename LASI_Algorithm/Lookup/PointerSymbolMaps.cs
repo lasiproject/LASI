@@ -26,6 +26,10 @@ namespace LASI.Algorithm.Lookup.InterSetRelationshipManagement
                 return result;
             }
         }
+        /// <summary>
+        /// Returns a string representation of the NounPointerSymbolMap.
+        /// </summary>
+        /// <returns>A string representation of the NounPointerSymbolMap.</returns>
         public override string ToString() {
             return data.Format(pair => string.Format("\"{0}\" -> {1}", pair.Key, pair.Value));
         }

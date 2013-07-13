@@ -6,37 +6,33 @@ using System.Threading.Tasks;
 namespace LASI.FileSystem
 {
     /// <summary>
-    /// This class serves as a wrapper around a file path, providing for direct access to the indvidual components of the newPath.
+    /// This class serves as a wrapper around a file path, providing for direct access to the indvidual components of the file path.
     /// </summary>
     public abstract class InputFile
     {
         /// <summary>
-        /// Initializes a new instance of the InputFile class.
+        /// Initializes a new instance of the InputFile class wrapping the provided filepath.
         /// </summary>
-        /// <param name="newPath"></param>
+        /// <param name="path">The path to the file</param>
         public InputFile(string path) {
             if (!System.IO.File.Exists(path))
-                throw new System.IO.FileNotFoundException();
-            FInfo = new FileData(path);
-        }
-        private FileData FInfo {
-            get;
-            set;
+                throw new System.IO.FileNotFoundException("File Not Found.", path);
+            fileData = new FileData(path);
         }
         /// <summary>
-        /// Gets the full newPath, including the file name and extension of the file.
+        /// Gets the full file path, including the file name and extension of the file.
         /// </summary>
         public string FullPath {
             get {
-                return FInfo.FullPathAndExt;
+                return fileData.FullPathAndExt;
             }
         }
         /// <summary>
-        /// Gets the newPath, including the file name, but not the extension, of the file.
+        /// Gets the file path, including the file name, but not the extension, of the file.
         /// </summary>
         public string PathSansExt {
             get {
-                return FInfo.FullPathSansExt;
+                return fileData.FullPathSansExt;
             }
         }
         /// <summary>
@@ -44,7 +40,7 @@ namespace LASI.FileSystem
         /// </summary>
         public string Name {
             get {
-                return FInfo.FileNameWithExt;
+                return fileData.FileName;
             }
         }
         /// <summary>
@@ -52,7 +48,7 @@ namespace LASI.FileSystem
         /// </summary>
         public string NameSansExt {
             get {
-                return FInfo.FileNameSansExt;
+                return fileData.FileNameSansExt;
             }
         }
         /// <summary>
@@ -60,15 +56,15 @@ namespace LASI.FileSystem
         /// </summary>
         public string Ext {
             get {
-                return FInfo.FileExt;
+                return fileData.Ext;
             }
         }
         /// <summary>
-        /// Gets the newPath of the full newPath of the directory in which the file resides.
+        /// Gets the full path of the directory in which the file resides.
         /// </summary>
         public string Directory {
             get {
-                return FInfo.Directory;
+                return fileData.Directory;
             }
         }
 
@@ -77,11 +73,14 @@ namespace LASI.FileSystem
         }
 
         public override int GetHashCode() {
-            return base.GetHashCode();
+            return fileData.GetHashCode();
         }
-
+        /// <summary>
+        /// Returns a string prepsentation of the InputFile, including its full path.
+        /// </summary>
+        /// <returns>A string prepsentation of the InputFile, including its full path.</returns>
         public override string ToString() {
-            return FullPath;
+            return this.GetType() + fileData.ToString();
         }
         public static bool operator ==(InputFile lhs, InputFile rhs) {
             if (lhs as object == null && rhs as object == null)
@@ -89,12 +88,17 @@ namespace LASI.FileSystem
             else if (rhs as object == null || lhs as object == null)
                 return false;
             else
-                return lhs.Directory == rhs.Directory && lhs.Ext == rhs.Ext && lhs.FullPath == rhs.FullPath && lhs.Name == rhs.Name && lhs.NameSansExt == rhs.NameSansExt && lhs.PathSansExt == rhs.PathSansExt;
+                return lhs.fileData == rhs.fileData;
+            //return lhs.Directory == rhs.Directory && lhs.Ext == rhs.Ext && lhs.FullPath == rhs.FullPath && lhs.Name == rhs.Name && lhs.NameSansExt == rhs.NameSansExt && lhs.PathSansExt == rhs.PathSansExt;
         }
         public static bool operator !=(InputFile lhs, InputFile rhs) {
             return !(lhs == rhs);
         }
 
+        /// <summary>
+        /// Provides encapsulated access to underlying path information.
+        /// </summary>
+        private FileData fileData;
 
     }
 }

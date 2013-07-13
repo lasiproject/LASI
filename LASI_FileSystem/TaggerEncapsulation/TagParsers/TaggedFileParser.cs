@@ -1,7 +1,6 @@
 ﻿using LASI.Algorithm;
 using LASI.Utilities;
 using LASI.Algorithm.DocumentConstructs;
-using LASI.FileSystem.FileTypes;
 using LASI.FileSystem.TaggerEncapsulation;
 using System;
 using System.Collections.Generic;
@@ -93,10 +92,7 @@ namespace LASI.FileSystem
                     if (chunk.IsNotEmpty() && chunk.IsNotWhiteSpace() && chunk.Contains('/')) {
                         char token = SkipToNextElement(chunk);
                         if (token == ' ') {
-                            var currentPhrase = ParsePhrase(new TextTagPair {
-                                Text = chunk.Substring(chunk.IndexOf(' ')),
-                                Tag = chunk.Substring(0, chunk.IndexOf(' '))
-                            });
+                            var currentPhrase = ParsePhrase(new TextTagPair(elementText: chunk.Substring(chunk.IndexOf(' ')), elementTag: chunk.Substring(0, chunk.IndexOf(' '))));
                             if (currentPhrase.Words.Count(w => !string.IsNullOrWhiteSpace(w.Text)) > 0)
                                 parsedPhrases.Add(currentPhrase);
 
@@ -157,7 +153,7 @@ namespace LASI.FileSystem
         /// <summary>
         /// Pre-processes the line read from the file by replacing some instances of problematic text such as square brackets, with tokens that are easier to reliably parse.
         /// </summary>
-        /// <param name="line">The string containing raw SharpNLP tagged-text to process.</param>
+        /// <param name="data">The string containing raw SharpNLP tagged-text to process.</param>
         /// <returns>The string containing the processed text.</returns>
         protected virtual string PreProcessTextData(string data) {
 
@@ -168,7 +164,7 @@ namespace LASI.FileSystem
         }/// <summary>
         /// Asynchronously Pre-processes the line read from the file by replacing some instances of problematic text such as square brackets, with tokens that are easier to reliably parse.
         /// </summary>
-        /// <param name="line">The string containing raw SharpNLP tagged-text to process.</param>
+        /// <param name="data">The string containing raw SharpNLP tagged-text to process.</param>
         /// <returns>The string containing the processed text.</returns>
         protected virtual async Task<string> PreProcessTextDataAsync(string data) {
             return await Task.Run(() => {
@@ -248,11 +244,11 @@ namespace LASI.FileSystem
         /// <summary>
         /// Parses a string of text containing tagged words,
         /// e.g. "LASI/NNP can/MD sniff-out/VBP the/DT problem/NN",
-        /// and returns of the collection containing, for each adverb, the function which will create the Part of Speech subtyped wd instance
-        /// representing that adverb.
+        /// and returns of the collection containing, for each word, the function which will create the Part of Speech subtyped wd instance
+        /// representing that word.
         /// </summary>
         /// <param name="wordData">A string containing tagged words.</param>
-        /// <returns>The List of constructor function instances which, when invoked, create run time objects which represent each adverb in the source</returns>
+        /// <returns>The List of constructor function instances which, when invoked, create run time objects which represent each word in the source</returns>
         protected virtual List<Func<Word>> CreateWordExpressions(string wordData) {
             var wordExpressions = new List<Func<Word>>();
             var elements = GetTaggedWordLevelTokens(wordData);
@@ -262,7 +258,7 @@ namespace LASI.FileSystem
             foreach (var tagged in elements) {
                 var e = posExtractor.ExtractNextPos(tagged);
                 if (e != null) {
-                    wordExpressions.Add(tagParser.ReadWordExpression(e.Value));
+                    wordExpressions.Add(tagParser.GetCreateWordExpression(e.Value));
                 }
             }
             return wordExpressions;

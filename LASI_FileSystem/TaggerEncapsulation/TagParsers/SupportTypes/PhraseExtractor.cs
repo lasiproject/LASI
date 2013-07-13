@@ -14,9 +14,7 @@ namespace LASI.FileSystem.TaggerEncapsulation
             var tagEnd = phraseString.Substring(tagStart).IndexOf(" (");
             if (tagEnd == -1 || tagEnd < tagStart) {
                 var tt = phraseString.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                var result = new TextTagPair {
-                    Tag = tt[0], Text = tt[1]
-                };
+                var result = new TextTagPair(elementText: tt[1], elementTag: tt[0]);
                 phraseString = "";
                 return new TextNode(result.Tag + ":  " + result.Text);
             }
@@ -27,17 +25,14 @@ namespace LASI.FileSystem.TaggerEncapsulation
             var innerText = phraseString.Substring(tagEnd + 1, innerTextLen);
             if (innerText.Count(c => c == '(') > 0) {
                 phraseString = phraseString.Substring(tagLength + innerText.Length).Trim();
-                var result = new TextTagPair {
-                    Tag = tag, Text = innerText
-                };
+                var result = new TextTagPair(elementTag: tag, elementText: innerText);
                 var r2 = new TextNode(result.Tag + ":  " + result.Text);
                 r2.AppentChild(ExtractAndConsume(ref innerText));
                 return r2;
-            } else {
+            }
+            else {
                 phraseString = phraseString.Substring(innerTextEnd + 1).Trim();
-                var result = new TextTagPair {
-                    Tag = "X", Text = String.Format("({0} {1})", tag, innerText)
-                };
+                var result = new TextTagPair(elementTag: "X", elementText: string.Format("({0} {1})", tag, innerText));
                 var r3 = new TextNode(result.Tag + ":  " + result.Text);
                 r3.AppentChild(ExtractAndConsume(ref innerText));
                 return r3;
@@ -46,7 +41,7 @@ namespace LASI.FileSystem.TaggerEncapsulation
     }
     public class TextNode
     {
-        
+
         public TextNode(string text) {
             Text = text;
             Children = new List<TextNode>();

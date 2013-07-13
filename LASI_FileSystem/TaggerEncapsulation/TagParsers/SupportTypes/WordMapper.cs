@@ -26,29 +26,34 @@ namespace LASI.FileSystem
         /// <summary>
         /// Initialized an instance of the TaggedWordParser class using the Tagset provided defined by the TaggingContext argument.
         /// </summary>
-        /// <param name="taggingContext">The tagset-to-runtime-type mapping which will define how new adverb instances will be instantiated.</param>
+        /// <param name="taggingContext">The tagset-to-runtime-type mapping which will define how new word instances will be instantiated.</param>
         public WordMapper(WordTagsetMap taggingContext) {
             context = taggingContext;
         }
 
         /// <summary>
-        /// Creates a new Instance of the wd class which corresponds to the given text token and Part Of Speech tag.
+        /// Creates a new Instance of the Word class which corresponds to the given text token and Part Of Speech tag.
         /// </summary>
-        /// <param name="tag">A Verb or Punctuation string and its associated  Part Of Speech tag.</param>
-        /// <returns>A new instance of the appropriate adverb type corresponding with the tag and containing the given text.</returns>
-        public Word CreateWord(TaggedWordObject taggedText) {
+        /// <param name="tag">A Word or Punctuation string and its associated Part Of Speech tag.</param>
+        /// <returns>A new instance of the appropriate word type corresponding with the tag and containing the given text.</returns>
+        public Word CreateWord(TextTagPair taggedText) {
             if (string.IsNullOrWhiteSpace(taggedText.Text))
                 return null;
             return LookupMapping(taggedText)(taggedText.Text);
         }
-        public Func<Word> ReadWordExpression(TaggedWordObject taggedText) {
+        /// <summary>
+        /// Returns a function which, when invoked, Creates a new Instance of the Word class which corresponds to the given text token and Part Of Speech tag.
+        /// </summary>
+        /// <param name="taggedText">A Word or Punctuation string and its associated Part Of Speech tag.</param>
+        /// <returns>A function which, when invoked, Creates a new Instance of the Word class which corresponds to the given text token and Part Of Speech tag.</returns>
+        public Func<Word> GetCreateWordExpression(TextTagPair taggedText) {
             if (string.IsNullOrWhiteSpace(taggedText.Text))
                 return null;
             var Constructor = LookupMapping(taggedText);
             return () => Constructor(taggedText.Text);
         }
 
-        private Func<string, Word> LookupMapping(TaggedWordObject taggedText) {
+        private Func<string, Word> LookupMapping(TextTagPair taggedText) {
             var tag = taggedText.Tag.Trim();
             var text = taggedText.Text.Trim();
             if (tag.Length < 2)
@@ -60,9 +65,10 @@ namespace LASI.FileSystem
 
                 var constructor = context[tag];
                 return constructor;
-            } catch (UnknownPOSException) {
+            }
+            catch (UnknownWordTagException) {
                 return (s) => new LASI.Algorithm.GenericSingularNoun(taggedText.Text);
-                throw new UnknownPOSException(String.Format("Unable to parse unknown tag\nTag: {0}\nFor text: {1}\n", tag, taggedText.Text));
+                throw new UnknownWordTagException(String.Format("Unable to parse unknown tag\nTag: {0}\nFor text: {1}\n", tag, taggedText.Text));
 
             }
         }

@@ -117,6 +117,7 @@
     <Compile Include="Dialogs\FindWindow.xaml.cs">
       <DependentUpon>FindWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="OnTheFlySourceCreation\UserCreatedTextSource.cs" />
     <Compile Include="ResultSelection\ChartingManager.cs" />
     <Compile Include="ResultSelection\CrossDocumentJoiner.cs" />
     <Compile Include="Dialogs\CrossJoinSelectDialog.xaml.cs">

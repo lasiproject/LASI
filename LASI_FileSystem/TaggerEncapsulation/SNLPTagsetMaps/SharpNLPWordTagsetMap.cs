@@ -5,31 +5,37 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LASI.Algorithm;
+using System.Reflection;
 namespace LASI.FileSystem
 {
     /// <summary>
-    /// Represents a tagset-to-runtime-type-mapping context which translates between The SharpNLP Tagger'subject tagset and the classes whose instances provide 
+    /// Represents a Word Level tagset-to-runtime-type-mapping context which translates between The SharpNLP Tagger's tagset and the classes whose instances provide 
     /// the runtime representations of the tag. 
     /// This class represents the tagset => runtime-type mapping for
     /// the tagset used by SharpNLP, a derrivative of the Penn Tagset.
     /// This class is sealed and thus may not be extended.
     /// If a new tagset is to be implemented, extend the base class, TaggingContext.
     /// <see cref="WordTagsetMap"/>
-    ///<see cref="WordMapper"/>
-    /// <example><code>
-    /// var constructorFunction = myContext["TAG"];
-    /// var runtimeWord = constructorFunction(itemText);
+    ///<see cref="WordMapper"/> 
+    /// </summary>    
+    /// <example>
+    /// Example:
+    /// <code>
+    /// var wordMap = new SharpNLPWordTagsetMap
+    /// var constructorFunction = wordMap["TAG"];
+    /// var runTimeWord = constructorFunction(itemText);
     /// </code>
     /// </example>
-    /// </summary>
     public sealed class SharpNLPWordTagsetMap : WordTagsetMap
     {
         #region Fields
 
         private readonly Dictionary<string, Func<string, Word>> typeDictionary = new Dictionary<string, Func<string, Word>> {
-            { "", t => { throw new EmptyTagException(String.Format("the tag for word: {0}\nis empty",t)); } },  
+            
             { "CC", t => new Conjunction(t) }, //Coordinating conjunction
-            { ",", t => new Punctuation(t) }, //Coordinating conjunction
+            { ",", t => new Punctuation(t) }, //Comma punctuation
+            { ";", t => new Punctuation(t) }, //Semicolon punctuation
+            { ":", t => new Punctuation(t) }, //Colon punctuation
             { "CD", t => new Quantifier(t) }, //Cardinal number
             { "DT", t => new Determiner(t) }, //Determiner
             { "EX", t => new Existential(t) }, //Existential 'there'
@@ -65,16 +71,19 @@ namespace LASI.FileSystem
             { "VBN", t => new Verb(t,VerbTense.PastParticiple) }, //Verb, past participle
             { "VBP", t => new Verb(t,VerbTense.SingularPresent) }, //Verb, non-3rd person singular present
             { "VBZ", t => new Verb(t,VerbTense.ThirdPersonSingularPresent) }, //Verb, 3rd person singular present
-            //WH-adverb mappings
+            //WH-word mappings
             { "WDT", t => new Determiner(t) }, //Wh-leftNPDeterminer
             { "WP", t => new RelativePronoun(t) }, //Wh-pronoun
             { "WP$", t => new RelativePossessivePronoun(t) }, //isPossessive wh-pronoun
-            { "WRB", t => new Adverb(t) }, //Wh-adverb
+            { "WRB", t => new Adverb(t) }, //Wh-word
             //Additional mappings
             { "RP", t => new Particle(t) }, //Particle
             { "SYM", t => new Symbol(t) }, //Symbol
             { "TO", t=> new ToLinker() }, //'To'
             { "UH", t => new Interjection(t) }, //Interjection
+            //Empty POS Tag, resulting function will throw EmptyTagException on invocation.
+            { "", t => { throw new EmptyWordTagException(string.Format("the tag for word: {0}\nis empty",t)); } }, 
+
         };
 
         #endregion
@@ -88,31 +97,52 @@ namespace LASI.FileSystem
                 return typeDictionary;
             }
         }
-
         /// <summary>
         /// Provides POS-Tag indexed access to a constructor function which can be invoked to create an instance of the class which provides its run-time representation.
         /// </summary>
         /// <param name="tag">The textual representation of a Part Of Speech tag.</param>
         /// <returns>A function which creates an instance of the run-time type associated with the textual tag.</returns>
-        /// <exception cref="UnknownPOSException">Thrown when the indexing tag string is not defined by the tagset.</exception>
+        /// <exception cref="UnknownWordTagException">Thrown when the indexing tag string is not defined by the tagset.</exception>
         public override Func<string, Word> this[string tag] {
             get {
                 try {
                     return typeDictionary[tag];
                 }
                 catch (KeyNotFoundException) {
-                    throw new UnknownPOSException(String.Format("The tag {0} is not defined by this Tagset", tag));
+                    throw new UnknownWordTagException(String.Format("The tag {0} is not defined by this Tagset", tag));
                 }
             }
         }
-
-        public override string this[Func<string, Word> mappedConstructor] {
+        /// <summary>
+        /// Gets the PosTag string corresponding to the runtime System.Type of the Return Type of given function which of type { System.string => LASI.Algorithm.Word }.
+        /// </summary>
+        /// <param name="phrase">The function which of type { System.string => LASI.Algorithm.Word } for which to get the corresponding tag.</param>
+        /// <returns>The PosTag string corresponding to the runtime System.Type of the Return Type of given function which of type { System.string => LASI.Algorithm.Word }.</returns>
+        public override string this[Func<string, Word> wordCreatingFunction] {
             get {
                 try {
-                    return typeDictionary.First(pair => pair.Value == mappedConstructor).Key;
+                    return typeDictionary.First(pair => pair.Value.Method.ReturnType == wordCreatingFunction.Method.ReturnType).Key;
                 }
                 catch (InvalidOperationException) {
-                    throw new UnmappedWordConstructorException(String.Format("Word constructor\n{0}\nis not mapped by this Tagset for", mappedConstructor));
+                    throw new UnmappedWordTypeException(string.Format("Word constructor\n{0}\nis not mapped by this Tagset.\nFunction Type: {1} => {2}",
+                        wordCreatingFunction,
+                        wordCreatingFunction.Method.GetParameters().Aggregate("", (s, p) => s += p.ParameterType.FullName + ", ").TrimEnd(',', ' '),
+                        wordCreatingFunction.Method.ReturnType.FullName
+                        )
+                    );
+                }
+            }
+        }
+        /// <summary>
+        /// Gets the PosTag string corresponding to the System.Type of the given LASI.Algorithm.Word.
+        /// </summary>
+        /// <param name="phrase">The LASI.Algorithm.Word for which to get the corresponding tag.</param>
+        /// <returns>The PosTag string corresponding to the System.Type of the given LASI.Algorithm.Word.</returns>
+        public override string this[Word word] {
+            get {
+                try { return typeDictionary.First(phraseCreatorPosTagPair => phraseCreatorPosTagPair.Value.Method.ReturnType == word.GetType()).Key; }
+                catch (InvalidOperationException) {
+                    throw new UnmappedWordTypeException(string.Format("The indexing LASI.Algorithm.Word has type {0}, a type which is not mapped by {1}.", word.GetType(), this.GetType()));
                 }
             }
         }

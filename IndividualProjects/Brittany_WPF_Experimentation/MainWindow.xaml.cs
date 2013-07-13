@@ -16,7 +16,7 @@ using System.Collections.ObjectModel;
 using LASI.Algorithm;
 using LASI.FileSystem;
 using LASI.Utilities;
-using SharpNLPTaggingModule;
+using SharpNatrualLanguageProcessing;
 using System.IO;
 
 
