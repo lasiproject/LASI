@@ -20,6 +20,10 @@ namespace LASI.UserInterface.Dialogs
     /// </summary>
     public partial class CrossJoinSelectDialog : Window
     {
+        /// <summary>
+        /// Initializes a new instance of the CrossJoinSelectDialog in the context of the given results screen.
+        /// </summary>
+        /// <param name="owner">The results screen referencing the Documents to display and owning the new dialog window.</param>
         public CrossJoinSelectDialog(ResultsScreen owner) {
             InitializeComponent();
 
@@ -41,13 +45,6 @@ namespace LASI.UserInterface.Dialogs
             }
         }
 
-        private List<Document> selectDocuments = new List<Document>();
-
-        public List<Document> SelectDocuments {
-            get {
-                return selectDocuments;
-            }
-        }
 
         private void okButton_Click(object sender, RoutedEventArgs e) {
             this.DialogResult = true;
@@ -65,6 +62,18 @@ namespace LASI.UserInterface.Dialogs
                     break;
             }
         }
+
+        private List<Document> selectDocuments = new List<Document>();
+
+        /// <summary>
+        /// Gets the documents selected by the user.
+        /// </summary>
+        public List<Document> SelectDocuments {
+            get {
+                return selectDocuments;
+            }
+        }
+
 
     }
 }

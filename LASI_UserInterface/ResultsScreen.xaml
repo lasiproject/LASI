@@ -41,14 +41,11 @@
                     Header="Add Document"
                     HorizontalAlignment="Left"
                     Width="200"
-                    Click="AddMenuItem_Click"></MenuItem>
+                    Click="AddMenuItem_Click" />
                 <MenuItem
                     Header="Exit"
                     Click="ExitMenuItem_Click" />
             </MenuItem>
-            <MenuItem
-                Header="Tools"
-                HorizontalAlignment="Left" />
             <MenuItem
                 Header="Help"
                 HorizontalAlignment="Left">

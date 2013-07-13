@@ -27,17 +27,15 @@ namespace LASI.UserInterface
         public ResultsScreen() {
 
             InitializeComponent();
+            ChartingManager.ChangeChartKind(ChartKind.NounPhrasesOnly);
             this.Closed += (s, e) => Application.Current.Shutdown();
-            ChartingManager.chartKind = ChartKind.NounPhrasesOnly;
         }
 
         public async Task CreateInteractiveViews() {
-
             foreach (var doc in documents) {
                 await CreateWordCountAndWeightingView(doc);
 
             }
-
             BindChartViewControls();
         }
 
@@ -79,7 +77,7 @@ namespace LASI.UserInterface
             }
             WordCountLists.Items.Add(tab);
             WordCountLists.SelectedItem = tab;
-            await ChartingManager.BuildMainChartDisplay(document);
+            await ChartingManager.InitChartDisplayAsync(document);
             await ChartingManager.BuildKeyRelationshipDisplay(document);
         }
 
@@ -233,7 +231,7 @@ namespace LASI.UserInterface
                 return;
 
 
-            var r = await new CrossDocumentJoiner(dialog.SelectDocuments).JoinDocumentsAsnyc();
+            var r = await new CrossDocumentJoiner().JoinDocumentsAsnyc(dialog.SelectDocuments);
 
             metaRelationshipsDataGrid.ItemsSource = ChartingManager.CreateRelationshipData(r);
 

@@ -10,32 +10,31 @@ using LASI.Algorithm.Lookup;
 
 namespace LASI.UserInterface
 {
+    /// <summary>
+    /// Facilitates the joining of multiple documents into a single result set based on overlap and intersection tequniques.
+    /// </summary>
     public class CrossDocumentJoiner
     {
-
-
-        public CrossDocumentJoiner(IEnumerable<Document> documents) {
-            Documents = documents;
-
-        }
-        public async Task<IEnumerable<RelationshipTuple>> JoinDocumentsAsnyc() {
+        /// <summary>
+        /// Asynchrnously builds computes the intersection of the given Documents contained and returns the results as a sequence of RelationshipTuple instances.
+        /// </summary>
+        /// <param name="documents">The Documents to Join.</param>
+        /// <returns>A Task of IEnumerable of RelationshipTuple corresponding to the intersection of the Documents to be joined .</returns>
+        public async Task<IEnumerable<RelationshipTuple>> JoinDocumentsAsnyc(IEnumerable<Document> documents) {
 
             return await await Task.Factory.ContinueWhenAll(
-                new[]{  Task.Run(()=> GetCommonalitiesByVerbals()),
-                        Task.Run(()=> GetCommonalitiesByBoundEntities())}, async tasks => {
+                new[]{  Task.Run(()=> GetCommonalitiesByVerbals(documents)),
+                        Task.Run(()=> GetCommonalitiesByBoundEntities(documents))}, async tasks => {
                             var results = new List<RelationshipTuple>();
                             foreach (var t in tasks) {
                                 results.AddRange(await t);
                             }
                             return results.Distinct();
                         });
-
-
-
         }
 
-        private async Task<IEnumerable<RelationshipTuple>> GetCommonalitiesByBoundEntities() {
-            var topNPsByDoc = from doc in Documents.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
+        private async Task<IEnumerable<RelationshipTuple>> GetCommonalitiesByBoundEntities(IEnumerable<Document> documents) {
+            var topNPsByDoc = from doc in documents.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
                               select GetTopNounPhrases(doc);
             var nounCommonalities = (from outerSet in topNPsByDoc
                                          .AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
@@ -68,8 +67,8 @@ namespace LASI.UserInterface
             return results.Distinct();
 
         }
-        private async Task<IEnumerable<RelationshipTuple>> GetCommonalitiesByVerbals() {
-            var topVerbalsByDoc = await Task.WhenAll(from doc in Documents.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
+        private async Task<IEnumerable<RelationshipTuple>> GetCommonalitiesByVerbals(IEnumerable<Document> documents) {
+            var topVerbalsByDoc = await Task.WhenAll(from doc in documents.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
                                                      select GetTopVerbPhrases(doc));
             var verbalCominalities = from verbPhraseSet in topVerbalsByDoc.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
                                      from vp in verbPhraseSet
@@ -101,7 +100,7 @@ namespace LASI.UserInterface
                     select result);
         }
 
-        public async Task<IEnumerable<NounPhrase>> GetTopNounPhrasesAsync(Document document) {
+        private async Task<IEnumerable<NounPhrase>> GetTopNounPhrasesAsync(Document document) {
             return await Task.Run(() => from distinctNP in
                                             (from np in document
                                                  .GetEntities().GetPhrases()
@@ -113,7 +112,7 @@ namespace LASI.UserInterface
                                         select distinctNP);
 
         }
-        public IEnumerable<NounPhrase> GetTopNounPhrases(Document document) {
+        private IEnumerable<NounPhrase> GetTopNounPhrases(Document document) {
             return from distinctNP in
                        (from np in document
                             .GetEntities().GetPhrases()
@@ -126,23 +125,18 @@ namespace LASI.UserInterface
                    select distinctNP;
 
         }
-        public async Task<IEnumerable<VerbPhrase>> GetTopVerbPhrases(Document document) {
+        private async Task<IEnumerable<VerbPhrase>> GetTopVerbPhrases(Document document) {
             return await Task.Run(() => {
                 var vpsWithSubject = document.Phrases.GetVerbPhrases().AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax).WithSubject();
                 return from vp in vpsWithSubject.WithDirectObject().Concat(vpsWithSubject.WithIndirectObject()).Distinct()
                        orderby vp.Weight +
-                       vp.Subjects.Sum(e => e.Weight) +
-                       vp.DirectObjects.Sum(e => e.Weight) +
-                       vp.IndirectObjects.Sum(e => e.Weight)
+                               vp.Subjects.Sum(e => e.Weight) +
+                               vp.DirectObjects.Sum(e => e.Weight) +
+                               vp.IndirectObjects.Sum(e => e.Weight)
                        select vp as VerbPhrase;
             });
         }
 
-
-        public IEnumerable<Document> Documents {
-            get;
-            protected set;
-        }
 
     }
 

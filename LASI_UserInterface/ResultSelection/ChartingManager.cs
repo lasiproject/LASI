@@ -19,7 +19,13 @@ namespace LASI.UserInterface
 
         #region Chart Transposing Methods
 
+        /// <summary>
+        /// Instructs the Charting manager to recreate all Per-Document charts based on the provided ChartKind. 
+        /// The given ChartKind will be used for all further chart operations until it is changed via another call to ChangeChartKind.
+        /// </summary>
+        /// <param name="chartKind">The ChartKind value determining the what data set is to be displayed.</param>
         public static void ChangeChartKind(ChartKind chartKind) {
+            ChartKind = chartKind;
             foreach (var pair in documentsByChart) {
 
                 Document doc = pair.Value;
@@ -35,7 +41,7 @@ namespace LASI.UserInterface
                         data = GetNounPhraseData(doc);
                         break;
                 }
-                data = data.Take(ChartItemLimit);
+                data = data.Take(CHART_ITEM_LIMIT);
                 chart.Series.Clear();
                 chart.Series.Add(new BarSeries {
                     DependentValuePath = "Value",
@@ -55,7 +61,7 @@ namespace LASI.UserInterface
         /// </summary>
         /// <returns>A Task which completes on the successful reconstruction of all charts</returns>
         public static async Task ToColumnCharts() {
-            foreach (var chart in WindowManager.ResultsScreen.FrequencyCharts.Items) {
+            foreach (var chart in WindowManager.ResultsScreen.FrequencyCharts.Items.OfType<TabItem>().Select(item => item.Content as Chart).Where(c => c != null)) {
                 var items = GetItemSourceFor(chart);
                 items.Reverse();
                 var series = new ColumnSeries {
@@ -76,7 +82,7 @@ namespace LASI.UserInterface
         /// </summary>
         /// <returns>A Task which completes on the successful reconstruction of all charts</returns>
         public static async Task ToPieCharts() {
-            foreach (var chart in WindowManager.ResultsScreen.FrequencyCharts.Items) {
+            foreach (var chart in WindowManager.ResultsScreen.FrequencyCharts.Items.OfType<TabItem>().Select(item => item.Content as Chart).Where(c => c != null)) {
                 var items = GetItemSourceFor(chart);
                 items.Reverse();
                 var series = new PieSeries {
@@ -99,7 +105,7 @@ namespace LASI.UserInterface
         /// </summary>
         /// <returns>A Task which completes on the successful reconstruction of all charts</returns>
         public static async Task ToBarCharts() {
-            foreach (var chart in WindowManager.ResultsScreen.FrequencyCharts.Items) {
+            foreach (var chart in WindowManager.ResultsScreen.FrequencyCharts.Items.OfType<TabItem>().Select(item => item.Content as Chart).Where(c => c != null)) {
                 var items = GetItemSourceFor(chart);
                 items.Reverse();
                 var series = new BarSeries {
@@ -112,11 +118,12 @@ namespace LASI.UserInterface
             }
             await Task.Delay(1);
         }
-        public static IEnumerable<KeyValuePair<string, float>> GetAppropriateData(object chart) {
-            var items = ChartingManager.GetAppropriateDataSet(documentsByChart[((chart as TabItem).Content as Chart)]);
-            return items;
-        }
-        public static async Task BuildMainChartDisplay(Document document) {
+        /// <summary>
+        /// Asynchronously initializes, creates and displays the default Chart for the given document. This method should only be called once.
+        /// </summary>
+        /// <param name="document">The document whose contents are to be charted.</param>
+        /// <returns>A Task representing the ongoing asynchronous operation.</returns>
+        public static async Task InitChartDisplayAsync(Document document) {
             var chart = BuildBarChart(document);
             documentsByChart.Add(chart, document);
             var tab = new TabItem {
@@ -126,13 +133,13 @@ namespace LASI.UserInterface
             };
             WindowManager.ResultsScreen.FrequencyCharts.Items.Add(tab);
             WindowManager.ResultsScreen.FrequencyCharts.SelectedItem = tab;
-            await ChartingManager.ToBarCharts();
+            await ToBarCharts();
         }
 
 
         private static Chart BuildBarChart(Document document) {
 
-            var valueList = ChartingManager.GetAppropriateDataSet(document);
+            var valueList = GetDataPointSourceForDoc(document, ChartKind);
             Series series = new BarSeries {
                 DependentValuePath = "Value",
                 IndependentValuePath = "Key",
@@ -160,7 +167,7 @@ namespace LASI.UserInterface
         /// </summary>
         /// <param name="document"></param>
         /// <returns></returns>
-        public static Chart BuildEntityActionEntityChart(Document document) {
+        private static Chart BuildEntityActionEntityChart(Document document) {
             var verticalTopEntites = from np in
                                          (from np in document.Phrases.GetNounPhrases().InSubjectRole()
                                           orderby np.Weight
@@ -199,18 +206,21 @@ namespace LASI.UserInterface
         #endregion
 
         #region General Chart Building Methods
-
-        public static void ResetChartContent(object c, DataPointSeries series) {
-            ((c as TabItem).Content as Chart).Series.Clear();
-            ((c as TabItem).Content as Chart).Series.Add(series);
+        /// <summary>
+        /// Removes all current data points from the chart before adding the provided DataPointSeries to the chart.
+        /// </summary>
+        /// <param name="chart">The chart whose contents to replace with the given The DataPointSeries.</param>
+        /// <param name="series">The DataPointSeries containing the data points which the chart will contain.</param>
+        public static void ResetChartContent(Chart chart, DataPointSeries series) {
+            chart.Series.Clear();
+            chart.Series.Add(series);
         }
 
-        public static List<KeyValuePair<string, float>> GetItemSourceFor(object chart) {
-            var chartSource = ((chart as TabItem).Content as Chart).Tag as IEnumerable<KeyValuePair<string, float>>;
+        private static IEnumerable<KeyValuePair<string, float>> GetItemSourceFor(Chart chart) {
+            var chartSource = chart.Tag as IEnumerable<KeyValuePair<string, float>>;
             var items = (from i in chartSource.ToArray()
-
                          orderby i.Value descending
-                         select new KeyValuePair<string, float>(i.Key.ToString(), i.Value)).Take(10).ToList();
+                         select new KeyValuePair<string, float>(i.Key.ToString(), i.Value)).Take(10);
             return items;
         }
 
@@ -272,14 +282,19 @@ namespace LASI.UserInterface
                    orderby master.Weight descending
                    select new KeyValuePair<string, float>(master.Text, ( float )Math.Round(master.Weight, 2));
         }
-        public static IEnumerable<KeyValuePair<string, float>> GetAppropriateDataSet(Document document) {
+        private static IEnumerable<KeyValuePair<string, float>> GetDataPointSourceForDoc(Document document, ChartKind chartKind) {
             var valueList = chartKind == ChartKind.NounPhrasesOnly ? GetNounPhraseData(document) : chartKind == ChartKind.SubjectVerbObject ? GetSVOIData(document) : GetSVOIData(document);
             return valueList;
         }
+        /// <summary>
+        /// Asynchronously generates, composeses and displays the key relationships view for the given Document.
+        /// </summary>
+        /// <param name="document">The document for which to build relationships.</param>
+        /// <returns>A Task representing the ongoing asynchronous operation.</returns>
         public static async Task BuildKeyRelationshipDisplay(Document document) {
 
             var transformedData = await Task.Factory.StartNew(() => {
-                return CreateRelationshipData(ChartingManager.GetVerbWiseAssociationData(document));
+                return CreateRelationshipData(GetVerbWiseAssociationData(document));
             });
             var wpfToolKitDataGrid = new Microsoft.Windows.Controls.DataGrid {
                 ItemsSource = transformedData,
@@ -293,13 +308,18 @@ namespace LASI.UserInterface
 
         }
 
-        public static async Task<IEnumerable<object>> CreateRelationshipDataAsync(IEnumerable<RelationshipTuple> elementsToSerialize) {
+        private static async Task<IEnumerable<object>> CreateRelationshipDataAsync(IEnumerable<RelationshipTuple> elementsToSerialize) {
 
             return await Task.Run(() => CreateRelationshipData(elementsToSerialize));
         }
 
 
-
+        /// <summary>
+        /// Creates and returns a sequence of textual display elements from the given sequence of RelationshipTuple elements.
+        /// The resulting sequence is suitable for direct insertion into a DataGrid.
+        /// </summary>
+        /// <param name="elementsToSerialize">The sequence of Relationship Tuple to tranform into textual display elements.</param>
+        /// <returns>A sequence of textual display elements from the given sequence of RelationshipTuple elements.</returns>
         public static IEnumerable<object> CreateRelationshipData(IEnumerable<RelationshipTuple> elementsToSerialize) {
             var dataRows = from result in elementsToSerialize.Distinct(new RelationshipComparer())
                            orderby result.RelationshipWeight
@@ -313,24 +333,21 @@ namespace LASI.UserInterface
                            };
             return dataRows.Distinct();
         }
+        /// <summary>
+        /// Gets the ChartKind currently used by the ChartManager.
+        /// </summary>
+        public static ChartKind ChartKind {
+            get;
+            private set;
+        }
         private static Dictionary<Chart, Document> documentsByChart = new Dictionary<Chart, Document>();
 
 
-        private const int chartItemLimit = 14;
-
-        public static int ChartItemLimit {
-            get {
-                return chartItemLimit;
-            }
-        }
+        private const int CHART_ITEM_LIMIT = 14;
 
 
 
 
-        public static ChartKind chartKind {
-            get;
-            set;
-        }
     }
     #region Result Bulding Helper Structs
     /// <summary>
