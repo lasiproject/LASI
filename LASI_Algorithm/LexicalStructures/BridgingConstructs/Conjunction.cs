@@ -8,7 +8,7 @@ using System.Xml.Linq;
 namespace LASI.Algorithm
 {
     /// <summary>
-    /// Represents a conjunction adverb which links two clauses together.
+    /// Represents a conjunction word which links two clauses together.
     /// </summary>
     public class Conjunction : Word, IConjunctive
     {
@@ -17,7 +17,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Initializes a new instance of the Conjunction class.
         /// </summary>
-        /// <param name="text">the key text content of the adverb.</param>
+        /// <param name="text">the key text content of the word.</param>
         public Conjunction(string text)
             : base(text) {
         }

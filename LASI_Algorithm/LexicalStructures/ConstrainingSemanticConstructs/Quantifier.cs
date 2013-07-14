@@ -6,7 +6,7 @@ using System.Text;
 namespace LASI.Algorithm
 {
     /// <summary>
-    /// Represents a quantifier adverb which specifies the quanitity of an IQuantifiable construct.
+    /// Represents a quantifier word which specifies the quanitity of an IQuantifiable construct.
     /// </summary>
     public class Quantifier : Word, IQuantifier
     {

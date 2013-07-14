@@ -10,15 +10,15 @@ using LASI.Algorithm.ClauseTypes;
 namespace LASI.Algorithm
 {
     /// <summary>
-    /// Provides the base class for all adverb level adverb constructs. An instance of this class represents a adverb in its base tense.
+    /// Provides the base class for all word level verb constructs. An instance of this class represents a verb in its base tense.
     /// </summary>
     public class Verb : Word, IVerbal, IAdverbialModifiable, IModalityModifiable
     {
         /// <summary>
-        /// Initializes a new instance of the Verb class which represents the base tense form of a adverb.
+        /// Initializes a new instance of the Verb class which represents the base tense form of a verb.
         /// </summary>
-        /// <param name="text">The key text content of the adverb.</param>
-        /// <param name="tense">The tense of the adverb</param>
+        /// <param name="text">The key text content of the verb.</param>
+        /// <param name="tense">The tense of the verb</param>
         public Verb(string text, VerbTense tense)
             : base(text) {
             Tense = tense;
@@ -169,7 +169,7 @@ namespace LASI.Algorithm
             }
         }
         /// <summary>
-        /// Gets or sets the ModalAuxilary adverb which modifies the Verb.
+        /// Gets or sets the ModalAuxilary word which modifies the Verb.
         /// </summary>
         public ModalAuxilary Modality {
             get;

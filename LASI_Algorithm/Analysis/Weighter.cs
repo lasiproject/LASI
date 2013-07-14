@@ -892,7 +892,7 @@ namespace LASI.Algorithm.Weighting
                     modTwo = 0.7d; //preposition-determiner-noun
                 })
                 .Case<PastParticipleVerb>(() => {
-                    modTwo = 0.6d; //preposition-determiner-adverb descriptor
+                    modTwo = 0.6d; //preposition-determiner-verb descriptor
                 })
                 .Case<Adjective>(() => {
                     modTwo = 0.5d;  //preposition-determiner-adjective
@@ -925,7 +925,7 @@ namespace LASI.Algorithm.Weighting
                     modTwo = 0.5d; //preposition-compound noun
                 })
                 .Case<PastParticipleVerb>(() => {
-                    modTwo = 0.8d; //preposition-noun-adverb descriptor
+                    modTwo = 0.8d; //preposition-noun-verb descriptor
                 })
                 .Case<Adjective>(() => {
                     modTwo = 0.3d;  //preposition-noun-adjective

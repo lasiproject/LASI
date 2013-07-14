@@ -12,7 +12,7 @@ namespace LASI.Algorithm
     public interface IModalityModifiable
     {
         /// <summary>
-        /// Gets or sets the ModalAuxilary adverb which modifies this instance.
+        /// Gets or sets the ModalAuxilary word which modifies this instance.
         /// </summary>
         ModalAuxilary Modality {
             get;

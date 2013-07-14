@@ -13,7 +13,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Initializes a new instance of the ComparativeAdjective class
         /// </summary>
-        /// <param name="text">The key text content of the adverb.</param>
+        /// <param name="text">The key text content of the Adjective.</param>
         public ComparativeAdjective(string text)
             : base(text) {
         }

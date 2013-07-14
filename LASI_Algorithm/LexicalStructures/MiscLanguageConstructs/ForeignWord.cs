@@ -9,7 +9,7 @@ using System.Xml.Linq;
 namespace LASI.Algorithm
 {
     /// <summary>
-    /// Represents a foriegn adverb embedded in an english written work.
+    /// Represents a foriegn word embedded in an english written work.
     /// </summary>
     public class ForeignWord : Word
     {
