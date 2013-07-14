@@ -12,10 +12,16 @@ namespace LASI.Algorithm
     /// </summary>
     public interface ILexical
     {
+        /// <summary>
+        /// Gets or sets the IPrepositional instance lexically to the Left of the ILexical.
+        /// </summary>
         IPrepositional PrepositionOnLeft {
             get;
             set;
         }
+        /// <summary>
+        /// Gets or sets the IPrepositional instance lexically to the Right of the ILexical.
+        /// </summary>
         IPrepositional PrepositionOnRight {
             get;
             set;

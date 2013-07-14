@@ -27,8 +27,8 @@ namespace LASI.Algorithm
 
 
         /// <summary>
-        /// Attaches an Adverbial construct, such as an Adverb or AdverbPhrase, as a modifier of the Verb
-        /// <param name="adv">The Adverbial construct by which to modify the AdjectivePhrase.</param>
+        /// Attaches an IAdverbial construct, such as an Adverb or AdverbPhrase, as a modifier of the Verb
+        /// <param name="adv">The IAdverbial construct by which to modify the AdjectivePhrase.</param>
         /// </summary>
         public virtual void ModifyWith(IAdverbial adv) {
             _modifiers.Add(adv);
@@ -161,7 +161,7 @@ namespace LASI.Algorithm
         #region Properties
 
         /// <summary>
-        /// Gets or sets the List of IAdverbial modifiers which modify this Verb.
+        /// Gets or sets the List of IAdverbial modifiers which modify the Verb.
         /// </summary>
         public virtual IEnumerable<IAdverbial> Modifiers {
             get {

@@ -14,7 +14,7 @@ namespace LASI.Algorithm
     public interface IEntity : IVerbalSubject, IVerbalObject, IPronounBindable, IDescribable, IPossesser, IPossessable, ILexical
     {
         /// <summary>
-        /// Gets or sets the Entity PronounKind; Person, Place, Thing, Organization, or Activity, associated with the Entity.
+        /// Gets the EntityKind; Person, Place, Thing, Organization, or Activity, associated with the Entity.
         /// </summary>
         EntityKind Kind {
             get;

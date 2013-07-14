@@ -7,6 +7,10 @@ using System.Threading.Tasks;
 
 namespace LASI.Algorithm
 {
+    /// <summary>
+    /// Defines extension methods for sequences of objects implementing the ILexical interface.
+    /// </summary>
+    /// <see cref="ILexical"/>
     public static class IEnumerableOfILexicalExtensions
     {
         /// <summary>
@@ -17,7 +21,6 @@ namespace LASI.Algorithm
         /// <param name="comparison">A function to compare two ILexicals for equality.</param>
         /// <returns> A new sequence of ILexical constructs containing only the distinct elements of the source sequence as determined by the provided comparison function.
         /// </returns>
-        /// <see cref="Comparers.CreateCustom"/>
         /// <example>
         /// <code>
         /// var myNPs = myDoc.Phrases.GetNounPhrases();
@@ -38,8 +41,7 @@ namespace LASI.Algorithm
         /// <param name="element">The element to search for.</param>
         /// <param name="comparison">A function to compare two ILexicals for equality.</param>
         /// <typeparam name="T">Any type which implements the ILexical interface.</typeparam>
-        /// <returns>True if the sequence contains the given element, false otherwise.</returns>
-        /// <see cref="Comparers.CreateCustom"/>
+        /// <returns>True if the sequence contains the given element, false otherwise.</returns> 
         /// <example>
         /// <code>
         /// var myNPs = myDoc.Phrases.GetNounPhrases();

@@ -8,15 +8,17 @@ using System.Xml.Linq;
 
 namespace LASI.Algorithm
 {
+    /// <summary>
+    /// Represents a Clause Level construct.
+    /// </summary>
     public class Clause : ILexical
     {
-
 
         /// <summary>
         /// This class is currently experimental and is not a tier in the Document objects created by the tagged file parsers
         /// Initializes a new instance of the Clause class, by composing the given linear sequence of componentPhrases.
         /// </summary>
-        /// <param name="componentPhrases">The linear sequence of Phrases which compose to form the Clause.</param>
+        /// <param name="phrases">The linear sequence of Phrases which compose to form the Clause.</param>
         public Clause(IEnumerable<Phrase> phrases) {
             Phrases = phrases;
         }
@@ -78,7 +80,10 @@ namespace LASI.Algorithm
             protected set;
         }
 
-
+        /// <summary>
+        /// Returns a string representation of the Clause.
+        /// </summary>
+        /// <returns>A string representation of the Clause.</returns>
         public override string ToString() {
             return base.ToString() + " \"" + Text + "\"";
         }
@@ -106,7 +111,7 @@ namespace LASI.Algorithm
             protected set;
         }
         /// <summary>
-        /// 
+        /// Gets the unique ID number of the Clause
         /// </summary>
         public int ID {
             get;
@@ -121,23 +126,19 @@ namespace LASI.Algorithm
                 return GetType();
             }
         }
-
+        /// <summary>
+        /// Gets or sets the IPrepositional instance lexically to the Left of the Clause.
+        /// </summary>
         public IPrepositional PrepositionOnLeft {
-            get {
-                throw new NotImplementedException();
-            }
-            set {
-                throw new NotImplementedException();
-            }
+            get;
+            set;
         }
-
+        /// <summary>
+        /// Gets or sets the IPrepositional instance lexically to the Right of the Clause.
+        /// </summary>
         public IPrepositional PrepositionOnRight {
-            get {
-                throw new NotImplementedException();
-            }
-            set {
-                throw new NotImplementedException();
-            }
+            get;
+            set;
         }
     }
 

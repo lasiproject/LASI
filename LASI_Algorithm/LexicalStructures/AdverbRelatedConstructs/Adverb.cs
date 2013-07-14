@@ -20,30 +20,30 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="text">The key text content of the adverb.</param>
         public Adverb(string text)
-            : base(text)
-        {
+            : base(text) {
         }
         /// <summary>
-        /// Gets or sets the verbal construct which the Adverb modiffies
+        /// Gets or sets the IAdverbialModifiable construct; such as an Adjective, AdjectivePhrase, Verb, or VerbPhrase; which the Adverb Modifies. 
         /// </summary>
-        public virtual IAdverbialModifiable Modifies
-        {
+        public virtual IAdverbialModifiable Modifies {
             get;
             set;
         }
 
-
-        public void ModifyWith(IAdverbial adv)
-        {
+        /// <summary>
+        /// Attaches an IAdverbial construct, such as an Adverb or AdverbPhrase, as a modifier of the current Adverb
+        /// <param name="adv">The IAdverbial construct by which to modify the current Adverb.</param>
+        /// </summary>
+        public void ModifyWith(IAdverbial adv) {
             if (!_modifiers.Contains(adv)) {
                 _modifiers.Add(adv);
             }
         }
-
-        public IEnumerable<IAdverbial> Modifiers
-        {
-            get
-            {
+        /// <summary>
+        /// Gets the List of IAdverbial modifiers which modify the Adverb.
+        /// </summary>
+        public IEnumerable<IAdverbial> Modifiers {
+            get {
                 return _modifiers;
             }
         }

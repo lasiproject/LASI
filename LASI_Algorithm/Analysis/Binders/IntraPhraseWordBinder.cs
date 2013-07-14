@@ -10,7 +10,7 @@ namespace LASI.Algorithm.Binding
     public class IntraPhraseWordBinder
     {
         public void Bind(NounPhrase np) {
-            /**
+            /*
              * Noun Phrase Assumption:  The Last Noun in a Noun Phrase is the important one
              */
             Noun LastNoun = np.Words.OfType<Noun>().LastOrDefault();
@@ -25,7 +25,7 @@ namespace LASI.Algorithm.Binding
                 */
 
 
-                /**
+                /*
                  *  if word prior to LastNoun is also a Noun associate them
                  */
                 if (LastNoun.PreviousWord is Noun) {
@@ -35,7 +35,7 @@ namespace LASI.Algorithm.Binding
                 }
 
 
-                /**
+                /*
                  * Binding determiners to last noun
                  */
                 Determiner det1 = np.Words.OfType<Determiner>().FirstOrDefault();
@@ -45,7 +45,7 @@ namespace LASI.Algorithm.Binding
                 }
 
 
-                /**
+                /*
                  * Binding Adjectives to last noun
                  */
                 var ListOfAdjectives = np.Words.GetAdjectives();
@@ -57,7 +57,7 @@ namespace LASI.Algorithm.Binding
                 }
 
 
-                /**
+                /*
                  *  Binding first posessive pronoun to last noun
                  */
                 var PosNoun = np.Words.OfType<PossessivePronoun>().FirstOrDefault();
@@ -117,7 +117,7 @@ namespace LASI.Algorithm.Binding
                 }
 
                 //  Binds all Modal Aux'subject to last adverb
-                var ModalAuxList = vp.Words.GetModalAuxilaries();
+                var ModalAuxList = vp.Words.GetModals();
                 if (ModalAuxList.Count() > 0) {
                     foreach (var ma in ModalAuxList) {
                         LastVerb.Modality = ma;

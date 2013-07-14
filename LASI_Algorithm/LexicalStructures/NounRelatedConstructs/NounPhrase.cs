@@ -40,7 +40,7 @@ namespace LASI.Algorithm
                                 group K by K into KindGroup
                                 orderby KindGroup.Count()
                                 select KindGroup;
-            /**
+            /*
              * I'm not sure why this is causing my program to crash.
              * But when I comment it out my program works.
              * - Scott
@@ -51,7 +51,7 @@ namespace LASI.Algorithm
 
 
         /// <summary>
-        /// Binds a Pronoun or PronounPhrase as a reference to the NounPhrase Instance.
+        /// Binds an IPronoun, generally a Pronoun or PronounPhrase, as a reference to the NounPhrase.
         /// </summary>
         /// <param name="pro">The referencer which refers to the NounPhrase Instance.</param>
         public virtual void BindPronoun(LASI.Algorithm.IPronoun pro) {
@@ -61,7 +61,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Binds an IDescriptor, generally an Adjective or AdjectivePhrase, as a descriptor of the NounPhrase.
         /// </summary>
-        /// <param name="adjective">The IDescriptor instance which will be added to the NounPhrase'subject descriptors.</param>
+        /// <param name="adjective">The IDescriptor instance which will be added to the NounPhrase' descriptors.</param>
         public void BindDescriptor(IDescriptor adjective) {
             if (!_describedBy.Contains(adjective))
                 _describedBy.Add(adjective);
@@ -156,7 +156,7 @@ namespace LASI.Algorithm
 
 
         /// <summary>
-        /// Gets all of the IEntityReferences instances, generally Pronouns or PronounPhrases, which refer to the NounPhrase Instance.
+        /// Gets all of the IPronoun instances, generally Pronouns or PronounPhrases, which refer to the NounPhrase.
         /// </summary>
         public virtual IEnumerable<IPronoun> BoundPronouns {
             get {
@@ -168,7 +168,7 @@ namespace LASI.Algorithm
         }
 
         /// <summary>
-        /// Gets all of the IDescriptor constructs,generally Adjectives or AdjectivePhrases, which describe the NounPhrase Instance.
+        /// Gets all of the IDescriptor constructs,generally Adjectives or AdjectivePhrases, which describe the NounPhrase.
         /// </summary>
         public virtual IEnumerable<IDescriptor> Descriptors {
             get {
@@ -192,7 +192,7 @@ namespace LASI.Algorithm
             }
         }
         /// <summary>
-        /// Gets or sets the Entity which "owns" the instance of the NounPhrase.
+        /// Gets or sets the Entity which "owns" the NounPhrase.
         /// </summary>
         public IEntity Possesser {
             get {

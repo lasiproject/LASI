@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace LASI.Algorithm
 {
+    /// <summary>
+    /// Defines, very broadly, the basic kinds of Entities which are likely to be expressed.
+    /// </summary>
     public enum EntityKind
     {
         UNDEFINED = 0,

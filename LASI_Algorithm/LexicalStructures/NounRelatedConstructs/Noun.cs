@@ -70,15 +70,16 @@ namespace LASI.Algorithm
             adjective.Describes = this;
             _describedBy.Add(adjective);
         }
-
+        /// <summary>
+        /// Adds an IPossessible construct, such as a person place or thing, to the collection of IEntity instances the Noun "Owns",
+        /// and sets its owner to be the Noun.
+        /// If the item is already possessed by the current instance, this method has no effect.
+        /// </summary>
+        /// <param name="possession">The possession to add.</param>
         public void AddPossession(IEntity possession) {
             if (!_possessed.Contains(possession))
                 _possessed.Add(possession);
             possession.Possesser = this;
-        }
-
-        public bool Equals(IEntity other) {
-            return this == other as Noun;
         }
 
         #endregion
@@ -128,7 +129,7 @@ namespace LASI.Algorithm
 
 
         /// <summary>
-        /// Gets all of the IPossessable constructs which the Entity "owns".
+        /// Gets all of the IEntity constructs which the Entity "owns".
         /// </summary>
         public virtual IEnumerable<IEntity> Possessed {
             get {

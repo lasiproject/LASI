@@ -5,6 +5,9 @@ using System.Text;
 
 namespace LASI.Algorithm
 {
+    /// <summary>
+    /// Represents a punctuation character at the Word level.
+    /// </summary>
     public class Punctuation : Symbol
     {
         /// <summary>

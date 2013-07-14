@@ -7,6 +7,12 @@ using System.Threading.Tasks;
 
 namespace LASI.Algorithm
 {
+    /// <summary>
+    /// Defines extension methods for sequences of various document level constructs.
+    /// </summary>
+    /// <see cref="DocumentConstructs.Document"/>
+    /// <seealso cref="DocumentConstructs.Sentence"/>
+    /// <seealso cref="DocumentConstructs.Paragraph"/>
     static class IEnumerableOfDocumentStructureExtensions
     {
         /// <summary>
@@ -44,20 +50,20 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets the linear aggregation of all Phrase instances contained within the sequence of Sentence instances.
         /// </summary>
-        /// <param name="paragraphs">A sequence of Sentence instances.</param>
+        /// <param name="sentences">A sequence of Sentence instances.</param>
         /// <returns>The linear aggregation of all Phrase instances contained within the sequence of Sentence instances.</returns>
-        public static IEnumerable<Phrase> GetPhrases(this IEnumerable<Sentence> Sentences) {
-            return from s in Sentences
+        public static IEnumerable<Phrase> GetPhrases(this IEnumerable<Sentence> sentences) {
+            return from s in sentences
                    from r in s.Phrases
                    select r;
         }
         /// <summary>
         /// Gets the linear aggregation of all Word instances contained within the sequence of Sentence instances.
         /// </summary>
-        /// <param name="paragraphs">A sequence of Sentence instances.</param>
+        /// <param name="sentences">A sequence of Sentence instances.</param>
         /// <returns>The linear aggregation of all Word instances contained within the sequence of Sentence instances.</returns>
-        public static IEnumerable<Word> GetWords(this IEnumerable<Sentence> Sentences) {
-            return from s in Sentences
+        public static IEnumerable<Word> GetWords(this IEnumerable<Sentence> sentences) {
+            return from s in sentences
                    from w in s.Words
                    select w;
         }

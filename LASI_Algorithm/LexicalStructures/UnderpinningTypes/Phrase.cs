@@ -43,7 +43,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Establish the nested links between the Phrase, its parent Clause, and the Words comprising it.
         /// </summary>
-        /// <param name="parentDoc">The Clause to which the Phrase belongs.</param>
+        /// <param name="parent">The Clause to which the Phrase belongs.</param>
         public void EstablishParent(Clause parent) {
             Sentence = parent.Sentence;
             Document = Sentence.Document;

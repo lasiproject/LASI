@@ -4,8 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LASI.Algorithm.IEnumerableExtensions
+namespace LASI.Algorithm
 {
+    /// <summary>
+    /// Defines extension methods which augment specific enum Types for quick, centralized access to common usage patterns.
+    /// </summary>
+    /// <see cref="PronounKind"/>
     public static class EnumTypeExtensions
     {
         #region PronounKind value extensions

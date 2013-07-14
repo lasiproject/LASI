@@ -9,8 +9,14 @@ namespace LASI.Algorithm
     /// </summary>
     public interface IPronounBindable
     {
+        /// <summary>
+        /// Binds an IPronoun, generally a Pronoun or PronounPhrase, as a reference to the IPronounBindable.
+        /// </summary>
+        /// <param name="pro">The IPronoun which will be bound to refer to the IPronounBindable.</param>
         void BindPronoun(LASI.Algorithm.IPronoun pro);
-
+        /// <summary>
+        /// Gets all of the IPronoun instances, generally Pronouns or PronounPhrases, which refer to the IPronounBindable.
+        /// </summary>
         IEnumerable<LASI.Algorithm.IPronoun> BoundPronouns {
             get;
         }

@@ -15,10 +15,9 @@ namespace LASI.Algorithm.Lookup
     internal class VerbThesaurus : SynonymLookup
     {
         /// <summary>
-        /// Initializes a new instance of the VerbThesaurus class.
-        ///<param name="constrainByCategory"></param>
-        /// <param name="filePath">The path of the WordNet database file containing the sysnonym data for verbals.</param>
+        /// Initializes a new instance of the VerbThesaurus class. 
         /// </summary>
+        /// <param name="filePath">The path of the WordNet database file containing the sysnonym data for verbals.</param>
         public VerbThesaurus(string filePath)
             : base(filePath) {
             verbData = new ConcurrentDictionary<string, VerbSynSet>();

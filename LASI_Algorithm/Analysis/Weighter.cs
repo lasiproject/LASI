@@ -246,8 +246,7 @@ namespace LASI.Algorithm.Weighting
         /// <summary>
         /// basic word count by part of speech ignoring determiners and conjunctions
         /// </summary>
-        /// <param name="doc">the Document whose words to weight</param>
-        /// <param name="excluded">zero or more types to exlcude from weighting</param>
+        /// <param name="doc">the Document whose words to weight</param> 
         private static void WeightWordsByLiteralFrequency(Document doc) {
             WeightByLiteralFrequency(doc.Words);
         }
@@ -278,10 +277,10 @@ namespace LASI.Algorithm.Weighting
             }
 
         }
-        public static async Task WeightSimilarEntitiesAsync(Document doc) {
+        private static async Task WeightSimilarEntitiesAsync(Document doc) {
             await Task.Run(() => WeightSimilarEntities(doc));
         }
-        public static void WeightSimilarEntities(Document doc) {
+        private static void WeightSimilarEntities(Document doc) {
             var entities = doc.GetEntities().InSubjectOrObjectRole().AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax);
             var entityLookup = entities.ToLookup(key => key,
                                 LexicalComparers<IEntity>
@@ -333,7 +332,7 @@ namespace LASI.Algorithm.Weighting
         ///ALLUAN READ:            // .1 - Frequency of word (/Phrase?) in document - COMPLETE MINUS VERBS (couldn't NounText the adverb thesaurus in any way)
         /// .2 - Frequency of word (/Phrase?) in document compared to second documents in set -EXCLUDED FOR 1-DOCUMENT DEMO
         /// </summary>
-        /// <param name="doc"></param>
+        /// <param name="doc">The document whose contents are to be weighted,</param>
         private static void WeightWordsBySyntacticSequence(Document doc) {
 
             int primary, secondary, tertiary, quaternary, quinary, senary;

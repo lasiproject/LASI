@@ -13,7 +13,7 @@ namespace LASI.Algorithm.Binding
         /// <summary>
         /// This is the Bind function for the SubjectBinder Class 
         /// </summary>
-        /// <param name="subject"></param>
+        /// <param name="s"></param>
         public void Bind(Sentence s) {
 
             List<VerbPhrase> v1 = new List<VerbPhrase>(s.Phrases.GetVerbPhrases());

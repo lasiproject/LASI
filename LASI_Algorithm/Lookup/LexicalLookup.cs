@@ -198,7 +198,7 @@ namespace LASI.Algorithm.Lookup
         /// Returns a value indicating wether the provided string corresponds to a common female name in the english language. 
         /// Lookups are performed in a case insensitive manner and currently do not respect plurality.
         /// </summary>
-        /// <param name="Text">The Name to lookup</param>
+        /// <param name="text">The Name to lookup</param>
         /// <returns>True if the provided string corresponds to a common female name in the english language, false otherwise.</returns>
         public static bool IsFemaleName(this string text) {
             return femaleNames.Contains(text);

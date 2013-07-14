@@ -34,7 +34,7 @@ namespace LASI.Algorithm.Analysis
         /// Example, "Dennis, who was a huge dick, ate at Wendy'subject and harasseed the management.
         /// "who was a huge dick," is your subordinate clause. 
         /// </summary>
-        /// <param name="subject">Word</param>
+        /// <param name="w">Word</param>
         /// <returns> true or false</returns>
         private static bool isRelativePronounorSubordinatingConjunction(Word w) {
             var prep = w as Preposition;

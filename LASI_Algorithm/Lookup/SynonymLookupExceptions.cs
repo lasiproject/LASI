@@ -21,67 +21,192 @@ namespace LASI.Algorithm.Lookup
             : base(info, context) {
         }
     }
+    /// <summary>
+    /// The Exception to be thrown if and when an attempt is made to lookup a word before the thesaurus corresponding its type has been loaded.
+    /// </summary>
     [Serializable]
     public abstract class WordDataNotLoadedException : Exception
     {
+        /// <summary>
+        /// Initializes a new instance of the WordDataNotLoadedException class with its message string set to message.
+        /// </summary>
+        /// <param name="message">A description of the error. The content of message is intended to be understood by humans.</param>
         protected WordDataNotLoadedException(string message)
             : base(message) {
         }
+        /// <summary>
+        /// Initializes a new instance of the WordDataNotLoadedException class with its message string set to message.
+        /// </summary>
+        /// <param name="message">A description of the error. The content of message is intended to be understood by humans.</param>
+        /// <param name="inner">
+        /// The exception that is the cause of the current exception. If the innerException
+        /// parameter is not null, the current exception is raised in a catch block that
+        /// handles the inner exception.
+        /// </param>
         protected WordDataNotLoadedException(string message, Exception inner)
             : base(message, inner) {
         }
+        /// <summary>
+        /// Initializes a new instance of the WordDataNotLoadedException class with the serialized data.
+        /// </summary>
+        /// <param name="info">
+        /// The object that holds the serialized object data about the exception being
+        /// thrown.</param>
+        /// <param name="context">
+        /// The object that holds the serialized object data about the exception being
+        /// thrown.</param>
         protected WordDataNotLoadedException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
             : base(info, context) {
         }
     }
+    /// <summary>
+    /// The Exception to be thrown if and when an attempt is made to lookup a Verb before the VerbThesaurus has been loaded.
+    /// </summary>
     [Serializable]
     public class VerbDataNotLoadedException : WordDataNotLoadedException
     {
+        /// <summary>
+        /// Initializes a new instance of the VerbDataNotLoadedException class with its message string set to message.
+        /// </summary>
+        /// <param name="message">A description of the error. The content of message is intended to be understood by humans.</param>
         public VerbDataNotLoadedException(string message)
             : base(message) {
         }
+        /// <summary>
+        /// Initializes a new instance of the VerbDataNotLoadedException class with its message string set to message.
+        /// </summary>
+        /// <param name="message">A description of the error. The content of message is intended to be understood by humans.</param>
+        /// <param name="inner">
+        /// The exception that is the cause of the current exception. If the innerException
+        /// parameter is not null, the current exception is raised in a catch block that
+        /// handles the inner exception.
+        /// </param>
         public VerbDataNotLoadedException(string message, Exception inner)
             : base(message, inner) {
         }
+        /// <summary>
+        /// Initializes a new instance of the VerbDataNotLoadedException class with the serialized data.
+        /// </summary>
+        /// <param name="info">
+        /// The object that holds the serialized object data about the exception being
+        /// thrown.</param>
+        /// <param name="context">
+        /// The object that holds the serialized object data about the exception being
+        /// thrown.</param>
         public VerbDataNotLoadedException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
             : base(info, context) {
         }
     }
+    /// <summary>
+    /// The Exception to be thrown if and when an attempt is made to lookup a Noun before the NounThesaurus has been loaded.
+    /// </summary>
     [Serializable]
     public class NounDataNotLoadedException : WordDataNotLoadedException
     {
+        /// <summary>
+        /// Initializes a new instance of the NounDataNotLoadedException class with its message string set to message.
+        /// </summary>
+        /// <param name="message">A description of the error. The content of message is intended to be understood by humans.</param>
         public NounDataNotLoadedException(string message)
             : base(message) {
         }
+        /// <summary>
+        /// Initializes a new instance of the NounDataNotLoadedException class with its message string set to message.
+        /// </summary>
+        /// <param name="message">A description of the error. The content of message is intended to be understood by humans.</param>
+        /// <param name="inner">
+        /// The exception that is the cause of the current exception. If the innerException
+        /// parameter is not null, the current exception is raised in a catch block that
+        /// handles the inner exception.
+        /// </param>
         public NounDataNotLoadedException(string message, Exception inner)
             : base(message, inner) {
         }
+        /// <summary>
+        /// Initializes a new instance of the NounDataNotLoadedException class with the serialized data.
+        /// </summary>
+        /// <param name="info">
+        /// The object that holds the serialized object data about the exception being
+        /// thrown.</param>
+        /// <param name="context">
+        /// The object that holds the serialized object data about the exception being
+        /// thrown.</param>
         public NounDataNotLoadedException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
             : base(info, context) {
         }
     }
+    /// <summary>
+    /// The Exception to be thrown if and when an attempt is made to lookup an Adjective before the AdjectiveThesaurus has been loaded.
+    /// </summary>
     [Serializable]
     public class AdjectiveDataNotLoadedException : WordDataNotLoadedException
     {
+        /// <summary>
+        /// Initializes a new instance of the AdjectiveDataNotLoadedException class with its message string set to message.
+        /// </summary>
+        /// <param name="message">A description of the error. The content of message is intended to be understood by humans.</param>
         public AdjectiveDataNotLoadedException(string message)
             : base(message) {
         }
+        /// <summary>
+        /// Initializes a new instance of the AdjectiveDataNotLoadedException class with its message string set to message.
+        /// </summary>
+        /// <param name="message">A description of the error. The content of message is intended to be understood by humans.</param>
+        /// <param name="inner">
+        /// The exception that is the cause of the current exception. If the innerException
+        /// parameter is not null, the current exception is raised in a catch block that
+        /// handles the inner exception.
+        /// </param>
         public AdjectiveDataNotLoadedException(string message, Exception inner)
             : base(message, inner) {
         }
+        /// <summary>
+        /// Initializes a new instance of the AdjectiveDataNotLoadedException class with the serialized data.
+        /// </summary>
+        /// <param name="info">
+        /// The object that holds the serialized object data about the exception being
+        /// thrown.</param>
+        /// <param name="context">
+        /// The object that holds the serialized object data about the exception being
+        /// thrown.</param>
         public AdjectiveDataNotLoadedException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
             : base(info, context) {
         }
     }
+    /// <summary>
+    /// The Exception to be thrown if and when an attempt is made to lookup an Adverb before the AdverbThesaurus has been loaded.
+    /// </summary>
     [Serializable]
     public class AdverbDataNotLoadedException : WordDataNotLoadedException
     {
+        /// <summary>
+        /// Initializes a new instance of the AdverbDataNotLoadedException class with its message string set to message.
+        /// </summary>
+        /// <param name="message">A description of the error. The content of message is intended to be understood by humans.</param>
         public AdverbDataNotLoadedException(string message)
             : base(message) {
         }
+        /// <summary>
+        /// Initializes a new instance of the AdverbDataNotLoadedException class with its message string set to message.
+        /// </summary>
+        /// <param name="message">A description of the error. The content of message is intended to be understood by humans.</param>
+        /// <param name="inner">
+        /// The exception that is the cause of the current exception. If the innerException
+        /// parameter is not null, the current exception is raised in a catch block that
+        /// handles the inner exception.
+        /// </param> 
         public AdverbDataNotLoadedException(string message, Exception inner)
             : base(message, inner) {
         }
+        /// <summary>
+        /// Initializes a new instance of the AdverbDataNotLoadedException class with the serialized data.
+        /// </summary>
+        /// <param name="info">
+        /// The object that holds the serialized object data about the exception being
+        /// thrown.</param>
+        /// <param name="context">
+        /// The object that holds the serialized object data about the exception being
+        /// thrown.</param>
         public AdverbDataNotLoadedException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
             : base(info, context) {
         }

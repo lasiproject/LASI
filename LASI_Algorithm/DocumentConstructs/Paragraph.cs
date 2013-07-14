@@ -40,8 +40,8 @@ namespace LASI.Algorithm.DocumentConstructs
         /// </summary>
         /// <param name="start">The Phrase which bounds the sequence.</param>
         /// <returns>The sequence of Phrases which come after the given phrase through to the end of the Paragraph.</returns>
-        public IEnumerable<Phrase> GetPhrasesAfter(Phrase phrase) {
-            return Phrases.SkipWhile(r => r != phrase).Skip(1);
+        public IEnumerable<Phrase> GetPhrasesAfter(Phrase start) {
+            return Phrases.SkipWhile(r => r != start).Skip(1);
         }
 
         /// <summary>
