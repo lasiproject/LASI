@@ -82,7 +82,7 @@ namespace LASI.FileSystem
             { "TO", t=> new ToLinker() }, //'To'
             { "UH", t => new Interjection(t) }, //Interjection
             //Empty POS Tag, resulting function will throw EmptyTagException on invocation.
-            { "", t => { throw new EmptyWordTagException(string.Format("the tag for word: {0}\nis empty",t)); } }, 
+            { "", t => { throw new EmptyWordTagException(t); } }, 
 
         };
 

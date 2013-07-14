@@ -15,9 +15,9 @@ namespace LASI.FileSystem
         /// <summary>
         /// Initializes a new instance of the UnknownPOSException class with its message string set to message.
         /// </summary>
-        /// <param name="message">A description of the error. The content of message is intended to be understood by humans.</param>
-        public UnknownWordTagException(string message)
-            : base(message) {
+        /// <param name="posTagString">A description of the error. The content of message is intended to be understood by humans.</param>
+        public UnknownWordTagException(string posTagString)
+            : base(string.Format("the word tag for {0}\nis not defined by the TagSet", posTagString)) {
         }
         /// <summary>
         /// Initializes a new instance of the UnknownPOSException class with its message string set to message.
@@ -40,7 +40,7 @@ namespace LASI.FileSystem
         /// <param name="context">
         /// The object that holds the serialized object data about the exception being
         /// thrown.</param>
-        public UnknownWordTagException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
+        private UnknownWordTagException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
             : base(info, context) {
         }
 
@@ -55,8 +55,8 @@ namespace LASI.FileSystem
         /// Initializes a new instance of the UnknownPhraseTypeException class with its message string set to message.
         /// </summary>
         /// <param name="message">A description of the error. The content of message is intended to be understood by humans.</param>
-        public UnknownPhraseTagException(string message)
-            : base(message) {
+        public UnknownPhraseTagException(string posTagString)
+            : base(string.Format("the phrase tag {0}\nis not defined by the TagSet", posTagString)) {
         }
         /// <summary>
         /// Initializes a new instance of the UnknownPhraseTypeException class with its message string set to message.
@@ -79,7 +79,7 @@ namespace LASI.FileSystem
         /// <param name="context">
         /// The object that holds the serialized object data about the exception being
         /// thrown.</param>
-        public UnknownPhraseTagException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
+        private UnknownPhraseTagException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
             : base(info, context) {
         }
 
@@ -93,9 +93,9 @@ namespace LASI.FileSystem
         /// <summary>
         /// Initializes a new instance of the EmptyTagException class with its message string set to message.
         /// </summary>
-        /// <param name="message">A description of the error. The content of message is intended to be understood by humans.</param>
-        public EmptyWordTagException(string message)
-            : base(message) {
+        /// <param name="wordText">A description of the error. The content of message is intended to be understood by humans.</param>
+        public EmptyWordTagException(string wordText)
+            : base(string.Format("the tag for word: {0} is empty", wordText)) {
         }
         /// <summary>
         /// Initializes a new instance of the EmptyTagException class with its message string set to message.
@@ -118,7 +118,7 @@ namespace LASI.FileSystem
         /// <param name="context">
         /// The object that holds the serialized object data about the exception being
         /// thrown.</param>
-        public EmptyWordTagException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
+        private EmptyWordTagException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
             : base(info, context) {
         }
     }
@@ -131,9 +131,9 @@ namespace LASI.FileSystem
         /// <summary>
         /// Initializes a new instance of the EmptyPhraseTagException class with its message string set to message.
         /// </summary>
-        /// <param name="message">A description of the error. The content of message is intended to be understood by humans.</param>
-        public EmptyPhraseTagException(string message)
-            : base(message) {
+        /// <param name="phraseText">A description of the error. The content of message is intended to be understood by humans.</param>
+        public EmptyPhraseTagException(string phraseText)
+            : base(string.Format("the tag for phrase: {0} is empty", phraseText)) {
         }
         /// <summary>
         /// Initializes a new instance of the EmptyPhraseTagException class with its message string set to message.
@@ -156,7 +156,7 @@ namespace LASI.FileSystem
         /// <param name="context">
         /// The object that holds the serialized object data about the exception being
         /// thrown.</param>
-        public EmptyPhraseTagException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
+        private EmptyPhraseTagException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
             : base(info, context) {
         }
 
@@ -170,9 +170,9 @@ namespace LASI.FileSystem
         /// <summary>
         /// Initializes a new instance of the UntaggedElementException class with its message string set to message.
         /// </summary>
-        /// <param name="message">A description of the error. The content of message is intended to be understood by humans.</param>
-        public UntaggedWordException(string message)
-            : base(message) {
+        /// <param name="wordText">A description of the error. The content of message is intended to be understood by humans.</param>
+        public UntaggedWordException(string wordText)
+            : base(string.Format("The word level token: {0} has no tag", wordText)) {
         }
         /// <summary>
         /// Initializes a new instance of the UntaggedElementException class with its message string set to message.
@@ -195,7 +195,7 @@ namespace LASI.FileSystem
         /// <param name="context">
         /// The object that holds the serialized object data about the exception being
         /// thrown.</param>
-        public UntaggedWordException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
+        private UntaggedWordException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
             : base(info, context) {
         }
     }
@@ -208,9 +208,9 @@ namespace LASI.FileSystem
         /// <summary>
         /// Initializes a new instance of the UntaggedElementException class with its message string set to message.
         /// </summary>
-        /// <param name="message">A description of the error. The content of message is intended to be understood by humans.</param>
-        public UntaggedPhraseException(string message)
-            : base(message) {
+        /// <param name="phraseText">A description of the error. The content of message is intended to be understood by humans.</param>
+        public UntaggedPhraseException(string phraseText)
+            : base(string.Format("The word level token: {0} has no tag", phraseText)) {
         }
         /// <summary>
         /// Initializes a new instance of the UntaggedElementException class with its message string set to message.
@@ -233,7 +233,7 @@ namespace LASI.FileSystem
         /// <param name="context">
         /// The object that holds the serialized object data about the exception being
         /// thrown.</param>
-        public UntaggedPhraseException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
+        private UntaggedPhraseException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
             : base(info, context) {
         }
     }
@@ -273,7 +273,7 @@ namespace LASI.FileSystem
         /// <param name="context">
         /// The object that holds the serialized object data about the exception being
         /// thrown.</param>
-        public UnmappedWordTypeException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
+        private UnmappedWordTypeException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
             : base(info, context) {
         }
     }
@@ -311,7 +311,7 @@ namespace LASI.FileSystem
         /// <param name="context">
         /// The object that holds the serialized object data about the exception being
         /// thrown.</param>
-        public UnmappedPhraseTypeException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
+        private UnmappedPhraseTypeException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
             : base(info, context) {
 
         }
@@ -350,7 +350,7 @@ namespace LASI.FileSystem
         /// <param name="context">
         /// The object that holds the serialized object data about the exception being
         /// thrown.</param>
-        public UndelimitedPhraseException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
+        private UndelimitedPhraseException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
             : base(info, context) {
         }
     }
@@ -388,7 +388,7 @@ namespace LASI.FileSystem
         /// <param name="context">
         /// The object that holds the serialized object data about the exception being
         /// thrown.</param>
-        public UnknownClauseTypeException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
+        private UnknownClauseTypeException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
             : base(info, context) {
         }
     }

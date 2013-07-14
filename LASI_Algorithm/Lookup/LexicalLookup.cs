@@ -38,7 +38,7 @@ namespace LASI.Algorithm.Lookup
                     NounThesaurusLoadTask.Wait();
                     return cachedNounData.GetOrAdd(nounText, key => nounThesaurus[key]);
                 case LoadingState.InProgress:
-                    throw new NounDataNotLoadedException("An attempt was made to access Noun data before loading could complete");
+                    throw new NounDataNotLoadedException();
                 default:
                     return Enumerable.Empty<string>();
             }
@@ -56,7 +56,7 @@ namespace LASI.Algorithm.Lookup
                     VerbThesaurusLoadTask.Wait();
                     return cachedVerbData.GetOrAdd(verbText, key => verbThesaurus[key]);
                 case LoadingState.InProgress:
-                    throw new VerbDataNotLoadedException("An attempt was made to access Verb data before loading could complete");
+                    throw new VerbDataNotLoadedException();
                 default:
                     return Enumerable.Empty<string>();
             }
@@ -74,7 +74,7 @@ namespace LASI.Algorithm.Lookup
                     AdjectiveThesaurusLoadTask.Wait();
                     return cachedAdjectiveData.GetOrAdd(adjectiveText, key => adjectiveThesaurus[key]);
                 case LoadingState.InProgress:
-                    throw new AdjectiveDataNotLoadedException("An attempt was made to access Adjective data before loading could complete");
+                    throw new AdjectiveDataNotLoadedException();
                 default:
                     return Enumerable.Empty<string>();
             }
@@ -92,7 +92,7 @@ namespace LASI.Algorithm.Lookup
                     AdverbThesaurusLoadTask.Wait();
                     return cachedAdverbData.GetOrAdd(adverbText, key => adverbThesaurus[key]);
                 case LoadingState.InProgress:
-                    throw new AdverbDataNotLoadedException("An attempt was made to access Adverb data before loading could complete");
+                    throw new AdverbDataNotLoadedException();
                 default:
                     return Enumerable.Empty<string>();
             }

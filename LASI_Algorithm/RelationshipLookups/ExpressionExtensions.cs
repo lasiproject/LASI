@@ -10,17 +10,15 @@ namespace LASI.Algorithm.RelationshipLookups
 {
     public static class ExpressionExtensions
     {
-
-
         public static ActionsRelatedOn? IsRelatedTo(this IEntity performer, IEntity receiver) {
             Func<IEntity, IEntity, bool> predicate = (L, R) => L.IsAliasFor(R) || L.IsSimilarTo(R);
 
             var lookupTable = entityLookupContexts.ContainsKey(performer) ? entityLookupContexts[performer] : entityLookupContexts.ContainsKey(receiver) ? entityLookupContexts[receiver] : null;
             if (lookupTable != null) {
 
-                var result = lookupTable[performer, predicate, receiver, predicate];
-                if (result.Any())
-                    return new ActionsRelatedOn(result);
+                var actions = lookupTable[performer, predicate, receiver, predicate];
+                if (actions.Any())
+                    return new ActionsRelatedOn(actions);
                 else
                     return null;
             }

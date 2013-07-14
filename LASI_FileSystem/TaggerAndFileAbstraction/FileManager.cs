@@ -690,7 +690,7 @@ namespace LASI.FileSystem
             : base("File Manager has not been initialized. No directory context in which to operate.") {
         }
 
-        public FileManagerNotInitializedException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
+        private FileManagerNotInitializedException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
             : base(info, context) {
         }
     }
@@ -734,7 +734,7 @@ namespace LASI.FileSystem
         /// <param name="context">
         /// The object that holds the serialized object data about the exception being
         /// thrown.</param>
-        public UnsupportedFileTypeAddedException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
+        private UnsupportedFileTypeAddedException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
             : base(info, context) {
         }
     }
@@ -743,7 +743,7 @@ namespace LASI.FileSystem
     /// The base class for all Exceptions thrown by the FileManager.
     /// </summary>
     [Serializable]
-    public class FileManagerException : FileSystemException
+    public abstract class FileManagerException : FileSystemException
     {
         /// <summary>
         /// Initializes a new instance of the FileManagerException class with with its message string set to message.
@@ -840,7 +840,7 @@ namespace LASI.FileSystem
         /// <param name="context">
         /// The object that holds the serialized object data about the exception being
         /// thrown.</param>
-        public FileSystemException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
+        protected FileSystemException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
             : base(info, context) {
         }
     }
