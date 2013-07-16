@@ -2,10 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
-using LASI.Algorithm;
-
 
 namespace LASI.Algorithm
 {
@@ -26,9 +22,7 @@ namespace LASI.Algorithm
             EstablishKind();
         }
 
-
-
-        #endregion
+        #endregion Constructors
 
         #region Methods
 
@@ -38,14 +32,11 @@ namespace LASI.Algorithm
                 var found = regex.Match(Text).Value ?? "";
                 var txt = Text;
                 Text = found.Length > 0 ? new string(txt.Skip(found.Length).TakeWhile(c => c != '<').ToArray()) : txt;
-
             }
-
         }
 
-
         /// <summary>
-        /// Binds the given Determiner to The Noun. 
+        /// Binds the given Determiner to The Noun.
         /// </summary>
         /// <param name="determiner">The Determiner which to bind.</param>
         public virtual void BindDeterminer(Determiner determiner) {
@@ -70,6 +61,7 @@ namespace LASI.Algorithm
             adjective.Describes = this;
             _describedBy.Add(adjective);
         }
+
         /// <summary>
         /// Adds an IPossessable construct, such as a person place or thing, to the collection of IEntity instances the Noun "Owns",
         /// and sets its owner to be the Noun.
@@ -82,10 +74,9 @@ namespace LASI.Algorithm
             possession.Possesser = this;
         }
 
-        #endregion
+        #endregion Methods
 
         #region Properties
-
 
         /// <summary>
         /// Gets all of the IEntityReferences instances, generally Pronouns or PronounPhrases, which refer to the Noun Instance.
@@ -112,6 +103,7 @@ namespace LASI.Algorithm
             get;
             set;
         }
+
         /// <summary>
         ///Gets or sets the ITRansitiveAction instance, usually a Verb or VerbPhrase, which the Noun is the direct object of.
         /// </summary>
@@ -119,6 +111,7 @@ namespace LASI.Algorithm
             get;
             set;
         }
+
         /// <summary>
         ///Gets or sets the IVerbal instance the Noun is the indirect object of.
         /// </summary>
@@ -126,7 +119,6 @@ namespace LASI.Algorithm
             get;
             set;
         }
-
 
         /// <summary>
         /// Gets all of the IEntity constructs which the Noun "owns".
@@ -152,6 +144,7 @@ namespace LASI.Algorithm
             get;
             set;
         }
+
         /// <summary>
         /// Gets the single Determiner which determines the noun.
         /// </summary>
@@ -161,16 +154,8 @@ namespace LASI.Algorithm
         }
 
         /// <summary>
-        /// A noun phrase arbitrarily associated with the current Noun.
-        /// </summary>
-        [Obsolete]
-        public NounPhrase BindNounPhrase {
-            get;
-            set;
-        }
-        /// <summary>
         /// Gets or sets the single Noun which directly, in terms of reading order, specifies the current Noun instance.
-        /// For example, consider the noun phrase "Felis Catus", the taxonomic nomenclature of the common domestic cat 
+        /// For example, consider the noun phrase "Felis Catus", the taxonomic nomenclature of the common domestic cat
         /// by its genus and species.
         /// While both "Felis" and "Catus" are individual nouns, the first implicitelly specifies the second.
         /// Catus is the species of the genus Felis,
@@ -180,6 +165,7 @@ namespace LASI.Algorithm
             get;
             set;
         }
+
         /// <summary>
         /// Gets or sets the single Noun which this Noun directly, in terms of reading order, specifies.
         /// </summary>
@@ -188,13 +174,14 @@ namespace LASI.Algorithm
             set;
         }
 
-        #endregion
+        #endregion Properties
 
         #region Fields
+
         private ICollection<IDescriptor> _describedBy = new List<IDescriptor>();
         private ICollection<IEntity> _possessed = new List<IEntity>();
         private ICollection<IPronoun> _boundPronouns = new List<IPronoun>();
-        #endregion
 
+        #endregion Fields
     }
 }
