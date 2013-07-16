@@ -1,6 +1,7 @@
 ﻿using LASI.Algorithm.Binding;
 using LASI.Algorithm.DocumentConstructs;
 using LASI.Algorithm.LexicalInformationProviders;
+using LASI.FileSystem;
 using LASI.Utilities;
 using System;
 using System.Collections.Concurrent;
@@ -12,7 +13,7 @@ namespace LASI.InteropLayer
 {
 
 
-    public class ProcessController
+    public sealed class ProcessController
     {
         /// <summary>
         /// Gets a Task which, when awaited, loads, analyizes, and aggregates all of the provided TextFile instances as individual documents, collecting them as
@@ -41,8 +42,8 @@ namespace LASI.InteropLayer
             await LoadThesaurus();
             await UpdateProgressDisplay("Tagging Documents", 0);
 
-            var taggingTasks = filesToProcess.Select(F => Task.Run(async () => await TaggerUtil.TaggedFromRawAsync(F))).ToList();
-            var taggedFiles = new ConcurrentBag<Algorithm.ITaggedTextSource>();
+            var taggingTasks = filesToProcess.Select(F => Task.Run(async () => await Tagger.TaggedFromRawAsync(F))).ToList();
+            var taggedFiles = new ConcurrentBag<LASI.Algorithm.ITaggedTextSource>();
             while (taggingTasks.Any()) {
                 var currentTask = await Task.WhenAny(taggingTasks);
                 var taggedFile = await currentTask;
@@ -96,7 +97,7 @@ namespace LASI.InteropLayer
         private async Task<Document> ProcessTaggedFileAsync(LASI.Algorithm.ITaggedTextSource tagged) {
             var fileName = tagged.Name;
             await UpdateProgressDisplay(string.Format("{0}: Loading...", fileName), 0);
-            var doc = await TaggerUtil.DocumentFromTaggedAsync(tagged);
+            var doc = await Tagger.DocumentFromTaggedAsync(tagged);
             await UpdateProgressDisplay(string.Format("{0}: Loaded", fileName), 4);
             await UpdateProgressDisplay(string.Format("{0}: Analyzing Syntax...", fileName), 0);
             var bindingWorkUnits = Binder.GetBindingTasksForDocument(doc).ToList();

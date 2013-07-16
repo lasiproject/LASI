@@ -124,7 +124,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets the collection of words which comprise the Phrase.
         /// </summary>
-        public virtual IEnumerable<Word> Words {
+        public IEnumerable<Word> Words {
             get;
             protected set;
         }

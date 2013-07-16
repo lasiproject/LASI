@@ -11,9 +11,10 @@ using System.Collections.Concurrent;
 namespace LASI.Algorithm.LexicalInformationProviders.Lookups
 {
     using SetReference = System.Collections.Generic.KeyValuePair<NounSetRelationship, int>;
-    internal class NounLookup : IWordNetLookup<Noun>
+    using LASI.Algorithm.LexicalInformationProviders.InterSetRelationshipManagement;
+    internal sealed class NounLookup : IWordNetLookup<Noun>
     {
-        protected const int HEADER_LENGTH = 29;
+        private const int HEADER_LENGTH = 29;
         /// <summary>
         /// Initializes a new instance of the NounProvider class.
         /// </summary>
@@ -34,8 +35,7 @@ namespace LASI.Algorithm.LexicalInformationProviders.Lookups
                     reader.ReadLine();
                 }
                 while (!reader.EndOfStream) {
-                    var set = CreateSet(reader.ReadLine());
-                    InsertSetData(set);
+                    InsertSetData(CreateSet(reader.ReadLine()));
                 }
             }
 
@@ -50,16 +50,16 @@ namespace LASI.Algorithm.LexicalInformationProviders.Lookups
 
         private NounSynSet CreateSet(string fileLine) {
 
-            var line = fileLine.Substring(0, fileLine.IndexOf('|'));
+            string line = fileLine.Substring(0, fileLine.IndexOf('|'));
 
-            var referencedSets = from match in Regex.Matches(line, @"\D{1,2}\s*\d{8}").Cast<Match>()
-                                 let split = match.Value.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
-                                 where split.Count() > 1
-                                 let pointer = new SetReference(RelationshipMap[split[0]], Int32.Parse(split[1]))
-                                 where IncludeReference(pointer.Key)
-                                 select pointer;
+            IEnumerable<SetReference> referencedSets =
+                from match in Regex.Matches(line, pointerRegex).Cast<Match>()
+                let split = match.Value.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
+                where split.Count() > 1 && IncludeReference(RelationshipMap[split[0]])
+                select new SetReference(RelationshipMap[split[0]], Int32.Parse(split[1]));
 
-            IEnumerable<string> words = from match in Regex.Matches(line, @"(?<word>[A-Za-z_\-\']{3,})").Cast<Match>()
+
+            IEnumerable<string> words = from Match match in Regex.Matches(line, wordRegex)
                                         select match.Value.Replace('_', '-');
 
             int id = Int32.Parse(line.Substring(0, 8));
@@ -69,50 +69,43 @@ namespace LASI.Algorithm.LexicalInformationProviders.Lookups
             return new NounSynSet(id, words, referencedSets, lexCategory);
         }
 
+        private const string wordRegex = @"(?<word>[A-Za-z_\-\']{3,})";
+
+
+        private const string pointerRegex = @"\D{1,2}\s*\d{8}";
+
+
 
 
 
         private ISet<string> SearchFor(string word) {
-
             var containingSet = allSets.FirstOrDefault(set => set.Words.Contains(word));
-            if (containingSet == null)
-                return new HashSet<string>();
-            var lexname = containingSet.LexName;
-            List<string> results = new List<string>();
             try {
-                SearchSubsets(containingSet, results, new HashSet<NounSynSet>(), lexname);
+                List<string> results = new List<string>();
+                SearchSubsets(containingSet, results, new HashSet<NounSynSet>());
+                return new HashSet<string>(results);
             }
             catch (InvalidOperationException e) {
-                Output.WriteLine(string.Format("InvalidOperationException {0} was thrown in attempting to search for synonyms. Search word {1}: , containing set: {2}", e, word, containingSet));
+                Output.WriteLine(string.Format("{0} was thrown when attempting to get synonyms for word {1}: , containing set: {2}", e, word, containingSet));
+
+                return new HashSet<string>();
             }
-            return new HashSet<string>(results);
         }
 
-        private void SearchSubsets(NounSynSet containingSet, List<string> results, HashSet<NounSynSet> setsSearched, NounCategory lexname) {
+        private void SearchSubsets(NounSynSet containingSet, List<string> results, HashSet<NounSynSet> setsSearched) {
             results.AddRange(containingSet.Words);
-            results.AddRange(from set in containingSet[NounSetRelationship.HypERnym]
-                             where data.ContainsKey(set)
-                             from w in data[set].Words
-                             select w);
-            if (!setsSearched.Contains(containingSet)) {
-
-                setsSearched.Add(containingSet);
-                foreach (var set in containingSet.ReferencedIndexes.Except(containingSet[NounSetRelationship.HypERnym]).Select(p =>
-                  data.ContainsKey(p) ? data[p] : null)) {
-                    if (set != null && set.LexName == lexname && !setsSearched.Contains(set)) {
-                        SearchSubsets(set, results, setsSearched, lexname);
-                    }
-
-
+            results.AddRange(containingSet[NounSetRelationship.HypERnym].Where(set => data.ContainsKey(set)).SelectMany(set => data[set].Words));
+            setsSearched.Add(containingSet);
+            foreach (var set in containingSet.ReferencedIndexes.Except(containingSet[NounSetRelationship.HypERnym]).Select(pointer => data.ContainsKey(pointer) ? data[pointer] : null)) {
+                if (set != null && set.LexName == containingSet.LexName && !setsSearched.Contains(set)) {
+                    SearchSubsets(set, results, setsSearched);
                 }
             }
         }
 
-
         public ISet<string> this[string search] {
             get {
-
-                return (SearchFor(NounConjugator.FindRoot(search)).SelectMany(syn => NounConjugator.GetLexicalForms(syn))).ToSet();
+                return SearchFor(NounConjugator.FindRoot(search)).SelectMany(syn => NounConjugator.GetLexicalForms(syn)).ToSet();
             }
         }
 
@@ -167,8 +160,7 @@ namespace LASI.Algorithm.LexicalInformationProviders.Lookups
                 referenceRelationship == NounSetRelationship.HypERnym;
         }
 
-        private static readonly LASI.Algorithm.LexicalInformationProviders.InterSetRelationshipManagement.NounPointerSymbolMap RelationshipMap =
-            new LASI.Algorithm.LexicalInformationProviders.InterSetRelationshipManagement.NounPointerSymbolMap();
+        private static readonly NounPointerSymbolMap RelationshipMap = new NounPointerSymbolMap();
 
         private string filePath;
 

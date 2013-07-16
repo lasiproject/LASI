@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Threading.Tasks;
+using LASI.FileSystem;
 
 namespace Aluan_Experimentation
 {
@@ -21,7 +22,7 @@ namespace Aluan_Experimentation
 
         static void Main(string[] args) {
 
-            var doc = TaggerUtil.DocumentFromRaw(new LASI.FileSystem.TextFile(testPath));
+            var doc = Tagger.DocumentFromRaw(new TextFile(testPath));
 
 
 
@@ -84,7 +85,7 @@ namespace Aluan_Experimentation
 
 
         private static void TestWordAndPhraseBindings() {
-            var doc = TaggerUtil.DocumentFromRaw(new LASI.FileSystem.TextFile(testPath));
+            var doc = Tagger.DocumentFromRaw(new LASI.FileSystem.TextFile(testPath));
 
             new PronounBinder().Bind(doc);
             foreach (var p in doc.Phrases.GetPronounPhrases())

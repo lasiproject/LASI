@@ -9,7 +9,7 @@ using LASI.FileSystem.TaggerEncapsulation;
 namespace LASI.FileSystem.TaggerEncapsulation
 {
 
-    public sealed class QuickTagger : SharpNLPTagger
+    sealed class QuickTagger : SharpNLPTagger
     {
         public QuickTagger(TaggerMode option)
             : base(option) {
@@ -25,9 +25,14 @@ namespace LASI.FileSystem.TaggerEncapsulation
             return new LASI.Algorithm.TaggedTextFragment(await base.ParseViaTaggingModeAsync(), source.Name);
 
         }
-        public string TagString(string source) {
+        public string TagTextSource(string source) {
             SourceText = base.PreProcessText(source);
             return base.ParseViaTaggingMode();
+
+        }
+        public async Task<string> TagTextSourceAsync(string source) {
+            SourceText = base.PreProcessText(source);
+            return await base.ParseViaTaggingModeAsync();
 
         }
 

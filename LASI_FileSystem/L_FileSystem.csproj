@@ -94,7 +94,7 @@
     <Compile Include="FileTypes\FileConverter.cs" />
     <Compile Include="FileTypes\Support\TaggedToXMLConverter.cs" />
     <Compile Include="TaggerEncapsulation\TagParsers\ExperimentalTaggedParser.cs" />
-    <Compile Include="TaggerAndFileAbstraction\TaggerUtil.cs" />
+    <Compile Include="TaggerAndFileAbstraction\Tagger.cs" />
     <Compile Include="TaggerEncapsulation\TagParsers\TagParser.cs" />
     <Compile Include="TaggerEncapsulation\TagParsers\SupportTypes\PhraseExtractor.cs" />
     <Compile Include="TaggerEncapsulation\TagmapBases\PhraseTagsetMap.cs" />

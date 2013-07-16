@@ -32,7 +32,7 @@ namespace LASI.Algorithm
         /// Current,  somewhat sloppy determination of the Noun, person, place, thing etc, of nounphrase by 
         /// selecting the most common Noun between its nouns and from its bound pronouns 
         /// </summary>
-        protected virtual void determineEntityType() {
+        protected void determineEntityType() {
 
             var kindsOfNouns = from N in Words.GetNouns()
                                select N.EntityKind;
@@ -161,7 +161,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets all of the IPronoun instances, generally Pronouns or PronounPhrases, which refer to the NounPhrase.
         /// </summary>
-        public virtual IEnumerable<IPronoun> BoundPronouns {
+        public IEnumerable<IPronoun> BoundPronouns {
             get {
                 return _boundPronouns;
             }
@@ -173,7 +173,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets all of the IDescriptor constructs,generally Adjectives or AdjectivePhrases, which describe the NounPhrase.
         /// </summary>
-        public virtual IEnumerable<IDescriptor> Descriptors {
+        public IEnumerable<IDescriptor> Descriptors {
             get {
                 return _describedBy;
             }

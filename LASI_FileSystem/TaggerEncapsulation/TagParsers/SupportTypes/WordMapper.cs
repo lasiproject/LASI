@@ -1,4 +1,5 @@
 ﻿using LASI.Algorithm;
+using LASI.FileSystem.TaggerEncapsulation;
 using System;
 using System.Collections.Generic;
 using System.IO;

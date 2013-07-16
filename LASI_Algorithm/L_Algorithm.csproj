@@ -35,7 +35,8 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\Algorithm.XML</DocumentationFile>
+    <DocumentationFile>
+    </DocumentationFile>
     <PlatformTarget>x64</PlatformTarget>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
@@ -95,6 +96,7 @@
     <Compile Include="IEnumerableExtensions\IEnumerableOfRecursiveIEnumerableILexicalsExtenstions.cs" />
     <Compile Include="ITaggedTextSource.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\RelativePronounKind.cs" />
+    <Compile Include="RawTextFragment.cs" />
     <Compile Include="RelationshipLookups\ActionReceiverPair.cs" />
     <Compile Include="RelationshipLookups\EntityPair.cs" />
     <Compile Include="RelationshipLookups\ExpressionExtensions.cs" />
@@ -223,7 +225,7 @@
     <Compile Include="LexicalStructures\UnderpinningTypes\Word.cs" />
     <Compile Include="IEnumerableExtensions\IEnumerableOfWordExtensions.cs" />
     <Compile Include="LexicalInformationProviders\Lookups\LookupSupport\WordNetLexCategoryInformation.cs" />
-    <Compile Include="TaggedTextChunk.cs" />
+    <Compile Include="TaggedTextFragment.cs" />
     <None Include="ClassDiagram1.cd" />
     <None Include="ClassDiagrams\ClassDiagram3.cd" />
     <None Include="ClassDiagrams\ClassDiagram1.cd" />

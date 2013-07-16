@@ -1,15 +1,13 @@
-﻿using System;
+﻿using LASI.Algorithm;
+using LASI.Algorithm.AdditionalPhraseTypes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using LASI.Algorithm;
-using System.Reflection;
-using LASI.Algorithm.AdditionalPhraseTypes;
 
 
 namespace LASI.FileSystem.TaggerEncapsulation
 {
+    using PhraseCreator = System.Func<IEnumerable<LASI.Algorithm.Word>, LASI.Algorithm.Phrase>;
     /// <summary>
     /// Represents a Word Level tagset-to-runtime-type-mapping context which translates between The SharpNLP Tagger's tagset and the classes whose instances provide 
     /// the runtime representations of the tag. 
@@ -31,7 +29,7 @@ namespace LASI.FileSystem.TaggerEncapsulation
     public sealed class SharpNLPPhraseTagsetMap : PhraseTagsetMap
     {
         #region Fields
-        private readonly Dictionary<string, Func<IEnumerable<Word>, Phrase>> typeDictionary = new Dictionary<string, Func<IEnumerable<Word>, Phrase>> {
+        private static readonly IReadOnlyDictionary<string, PhraseCreator> typeDictionary = new Dictionary<string, PhraseCreator> {
             
             { "VP", ws => ws.Any(w=> w is Punctuation) ? new SymbolPhrase(ws) as Phrase : new VerbPhrase(ws) as Phrase },
             { "NP", ws => ws.OfType<IEntity>().All(w=>w is IPronoun)?new PronounPhrase(ws) : new NounPhrase(ws) },
@@ -59,7 +57,7 @@ namespace LASI.FileSystem.TaggerEncapsulation
         /// <param name="tag">The textual representation of a Phrase Part Of Speech tag.</param>
         /// <returns>A function which creates an instance of the run-time Phrase type associated with the textual tag.</returns>
         /// <exception cref="UnknownWordTagException">Thrown when the indexing tag string is not defined by the tagset.</exception>
-        public override Func<IEnumerable<Algorithm.Word>, Algorithm.Phrase> this[string tag] {
+        public override PhraseCreator this[string tag] {
             get {
                 try {
                     try {
@@ -80,7 +78,7 @@ namespace LASI.FileSystem.TaggerEncapsulation
         /// </summary>
         /// <param name="phrase">The function which of type { IEnumerable of LASI.Algorithm.Word => LASI.Algorithm.Phrase } for which to get the corresponding tag.</param>
         /// <returns>The PosTag string corresponding to the runtime System.Type of the Return Type of given function which of type { IEnumerable of LASI.Algorithm.Word => LASI.Algorithm.Phrase }.</returns>
-        public override string this[Func<IEnumerable<Algorithm.Word>, Algorithm.Phrase> phraseCreatingFunction] {
+        public override string this[PhraseCreator phraseCreatingFunction] {
             get {
                 try {
                     return typeDictionary.First(pair => pair.Value.Method.ReturnType == phraseCreatingFunction.Method.ReturnType).Key;
@@ -112,7 +110,7 @@ namespace LASI.FileSystem.TaggerEncapsulation
             }
         }
 
-        public override IReadOnlyDictionary<string, Func<IEnumerable<Word>, Phrase>> TypeDictionary {
+        protected override IReadOnlyDictionary<string, PhraseCreator> TypeDictionary {
             get {
                 return typeDictionary;
             }

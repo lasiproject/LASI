@@ -12,7 +12,7 @@ namespace LASI.FileSystem.TaggerEncapsulation
     /// Based on the example UI code which came with sharp NLP,
     /// It adds the ability to pass an input and output file paths and get a file back and the TaggingOption enum
     /// </summary>
-    public class SharpNLPTagger
+    class SharpNLPTagger
     {
         private string mModelPath;
 

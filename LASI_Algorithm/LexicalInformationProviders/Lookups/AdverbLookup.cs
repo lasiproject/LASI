@@ -9,9 +9,9 @@ using System.Text.RegularExpressions;
 namespace LASI.Algorithm.LexicalInformationProviders.Lookups
 {
     using SetReference = System.Collections.Generic.KeyValuePair<AdverbSetRelationship, int>;
-    internal class AdverbLookup : IWordNetLookup<Adverb>
+    internal sealed class AdverbLookup : IWordNetLookup<Adverb>
     {
-        protected const int HEADER_LENGTH = 29;
+        private const int HEADER_LENGTH = 29;
         /// <summary>
         /// Initializes a new instance of the AdjectiveThesaurus class.
         /// </summary>
@@ -26,20 +26,12 @@ namespace LASI.Algorithm.LexicalInformationProviders.Lookups
         /// Parses the contents of the underlying WordNet database file.
         /// </summary>
         public void Load() {
-            //throw new NotImplementedException();
-
-
-            List<string> lines = new List<string>();
-
             using (StreamReader reader = new StreamReader(filePath)) {
-                for (int i = 0; i < HEADER_LENGTH; ++i) {
-                    reader.ReadLine();
-                }
-                while (!reader.EndOfStream) {
 
-                    var set = CreateSet(reader.ReadLine());
-                    allSets.Add(set);
-                }
+                reader.ReadToEnd().Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries).Skip(HEADER_LENGTH);
+
+                allSets.Add(CreateSet(reader.ReadLine()));
+
             }
         }
 
@@ -48,12 +40,12 @@ namespace LASI.Algorithm.LexicalInformationProviders.Lookups
 
             var line = fileLine.Substring(0, fileLine.IndexOf('|'));
 
-            var referencedSets = from match in Regex.Matches(line, @"\D{1,2}\s*\d{8}").Cast<Match>()
+            var referencedSets = from match in Regex.Matches(line, pointerRegex).Cast<Match>()
                                  let split = match.Value.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
                                  where split.Count() > 1
                                  select new SetReference(relationMap[split[0]], Int32.Parse(split[1]));
 
-            IEnumerable<string> words = from match in Regex.Matches(line, @"(?<word>[A-Za-z_\-\']{3,})").Cast<Match>()
+            IEnumerable<string> words = from match in Regex.Matches(line, wordRegex).Cast<Match>()
                                         select match.Value.Replace('_', '-');
 
             int id = Int32.Parse(line.Substring(0, 8));
@@ -62,10 +54,10 @@ namespace LASI.Algorithm.LexicalInformationProviders.Lookups
             return new AdverbSynSet(id, words, referencedSets, lexCategory);
 
 
-
-
         }
 
+        private const string pointerRegex = @"\D{1,2}\s*\d{8}";
+        private const string wordRegex = @"(?<word>[A-Za-z_\-\']{3,})";
         private ISet<string> SearchFor(string word) {
 
             //gets pointers of searched word

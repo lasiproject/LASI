@@ -50,6 +50,11 @@ namespace LASI.Algorithm
         /// </summary>
         public string Name { get; private set; }
 
+        public static implicit operator string(TaggedTextFragment fragment) {
+            return fragment.GetText();
+        }
+
         private string taggedText;
+
     }
 }

@@ -12,10 +12,10 @@ using LASI.Utilities;
 namespace LASI.Algorithm.LexicalInformationProviders.Lookups
 {
     using SetReference = System.Collections.Generic.KeyValuePair<VerbSetRelationship, int>;
-    internal class VerbLookup : IWordNetLookup<Verb>
+    internal sealed class VerbLookup : IWordNetLookup<Verb>
     {
 
-        protected const int HEADER_LENGTH = 29;
+        private const int HEADER_LENGTH = 29;
         Dictionary<int, VerbSynSet> setsBySetID = new Dictionary<int, VerbSynSet>();
         /// <summary>
         /// Initializes a new instance of the VerbThesaurus class. 
@@ -32,13 +32,10 @@ namespace LASI.Algorithm.LexicalInformationProviders.Lookups
         /// Parses the contents of the underlying WordNet database file.
         /// </summary>
         public void Load() {
-            using (var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.None, 10024, FileOptions.SequentialScan)) {
-                using (var reader = new StreamReader(fileStream)) {
-                    var fileLines = reader.ReadToEnd().Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries).Skip(HEADER_LENGTH);
-                    foreach (var line in fileLines) {
-                        var set = CreateSet(line);
-                        LinkSynset(set);
-                    }
+            using (var reader = new StreamReader(new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.None, 10024, FileOptions.SequentialScan))) {
+                var fileLines = reader.ReadToEnd().Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries).Skip(HEADER_LENGTH);
+                foreach (var line in fileLines) {
+                    LinkSynset(CreateSet(line));
                 }
             }
         }
@@ -46,17 +43,22 @@ namespace LASI.Algorithm.LexicalInformationProviders.Lookups
         private VerbSynSet CreateSet(string fileLine) {
             var line = fileLine.Substring(0, fileLine.IndexOf('|'));
 
-            var referencedSets = from Match M in Regex.Matches(line, @"\D{1,2}\s*[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+")
+            var referencedSets = from Match M in Regex.Matches(line, pointerRegex)
                                  let split = M.Value.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
                                  where split.Count() > 1
                                  select new SetReference(RelationMap[split[0]], Int32.Parse(split[1]));
 
-            var words = from Match ContainedWord in Regex.Matches(line.Substring(17), @"\b[A-Za-z-_]{2,}")
+            var words = from Match ContainedWord in Regex.Matches(line.Substring(17), wordRegex)
                         select ContainedWord.Value.Replace('_', '-').ToLower();
             var id = Int32.Parse(line.Substring(0, 8));
             var lexCategory = ( VerbCategory )Int32.Parse(line.Substring(9, 2));
             return new VerbSynSet(id, words, referencedSets, lexCategory);
         }
+
+        private const string wordRegex = @"\b[A-Za-z-_]{2,}";
+
+
+        private const string pointerRegex = @"\D{1,2}\s*[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+";
 
         private void LinkSynset(VerbSynSet synset) {
             setsBySetID[synset.ID] = synset;
@@ -78,13 +80,14 @@ namespace LASI.Algorithm.LexicalInformationProviders.Lookups
             try {
                 VerbSynSet containingSet;
                 return new HashSet<string>(verbData.TryGetValue(VerbConjugator.FindRoot(search), out containingSet) ?
-                         from refIndex in containingSet.ReferencedIndexes
-                         from referencedSet in setsBySetID[refIndex].ReferencedIndexes select setsBySetID[referencedSet] into referenced
-                         where referenced.LexName == containingSet.LexName
-                         from word in referenced.Words
-                         let withConjugations = Enumerable.Repeat(word, 1).Concat(VerbConjugator.GetConjugations(word))
-                         from w in withConjugations
-                         select w : Enumerable.Repeat(search, 1), StringComparer.OrdinalIgnoreCase);
+                         containingSet.ReferencedIndexes
+                         .SelectMany(id => setsBySetID[id].ReferencedIndexes)
+                         .Select(s => setsBySetID[s])
+                         .Where(r => r.LexName == containingSet.LexName)
+                         .SelectMany(r => r.Words.SelectMany(w => VerbConjugator.GetConjugations(w)))
+                         .Concat(Enumerable.Repeat(search, 1)) :
+                         Enumerable.Repeat(search, 1),
+                         StringComparer.OrdinalIgnoreCase);
             }
             catch (ArgumentOutOfRangeException) {
             }

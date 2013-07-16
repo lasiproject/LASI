@@ -8,12 +8,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LASI.Utilities
+namespace LASI.FileSystem
 {
     /// <summary>
     /// Provides dynamic, non file driven, access to the functionality of the POS Tagger and TaggedFileParser.
     /// </summary>
-    public static class TaggerUtil
+    public static class Tagger
     {
         /// <summary>
         /// Parses any number of untagged strings into a new Document instance.
@@ -44,6 +44,17 @@ namespace LASI.Utilities
             doc.FileName = txt.NameSansExt;
             return doc;
         }
+        public static Document DocumentFromRaw(IRawTextSource txt) {
+            var doc = DocumentFromRaw(txt.GetText());
+            doc.FileName = txt.Name;
+            return doc;
+        }
+        public static async Task<Document> DocumentFromRawAsync(IRawTextSource txt) {
+            var doc = DocumentFromRaw(await txt.GetTextAsync());
+            doc.FileName = txt.Name;
+            return doc;
+        }
+
 
         public static Document DocumentFromTagged(ITaggedTextSource tagged) {
             var doc = new TaggedFileParser(tagged.GetText()).LoadDocument();
@@ -63,7 +74,7 @@ namespace LASI.Utilities
         /// <returns>A single string containing the tagged result. The form is identical to what it would be appear in a tagged file.</returns>
         /// <remarks>No files are created when calling this function.</remarks>
         public static string TaggedFromRaw(params string[] strs) {
-            return new QuickTagger(TaggerMode).TagString(String.Join(" ", strs));
+            return new QuickTagger(TaggerMode).TagTextSource(String.Join(" ", strs));
         }
         /// <summary>
         /// Parses any number of pre-tagged strings into a new Document instance.
@@ -114,7 +125,7 @@ namespace LASI.Utilities
         }
 
 
-        static TaggerUtil() {
+        static Tagger() {
             TaggerMode = TaggerMode.TagAndAggregate;
         }
 

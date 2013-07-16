@@ -5,8 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using LASI.Algorithm;
 
-namespace LASI.FileSystem
+namespace LASI.FileSystem.TaggerEncapsulation
 {
+    using WordCreator = Func<string, Word>;
     /// <summary>
     /// Represents a tagset-to-runtime-type-mapping context which translates between a Part Of Speech
     /// Tagger's tagset and the classes whose instances provide their runtime representations of the tag.
@@ -32,14 +33,14 @@ namespace LASI.FileSystem
         /// <param name="tag">The textual representation of a Part Of Speech tag.</param>
         /// <returns>A function which creates an isntance of the run-time type associated with the textual tag.</returns>
         /// <exception cref="UnknownWordTagException">Implementors should Throw this exception if and only if when the index string is not a tag defined by the tagset being provided.</exception>
-        public abstract Func<string, Word> this[string tag] { get; }
+        public abstract WordCreator this[string tag] { get; }
 
         /// <summary>
         /// When overriden in a derrived class, Gets the PosTag string corresponding to the runtime System.Type of the Return Type of given function which of type { System.string => LASI.Algorithm.Word }.
         /// </summary>
         /// <param name="phrase">The function which of type { System.string => LASI.Algorithm.Word } for which to get the corresponding tag.</param>
         /// <returns>The PosTag string corresponding to the runtime System.Type of the Return Type of given function which of type { System.string => LASI.Algorithm.Word }.</returns>
-        public abstract string this[Func<string, Word> mappedConstructor] { get; }
+        public abstract string this[WordCreator mappedConstructor] { get; }
         /// <summary>
         /// Gets the PosTag string corresponding to the System.Type of the given LASI.Algorithm.Word.
         /// </summary>
@@ -49,7 +50,7 @@ namespace LASI.FileSystem
         /// <summary>
         /// When overriden in a derrived class, Gets the Read Only Dictionary which represents the mapping between Part Of Speech tags and the cunstructors which instantiate their run-time representations.
         /// </summary>
-        public abstract IReadOnlyDictionary<string, Func<string, Word>> TypeDictionary { get; }
+        protected abstract IReadOnlyDictionary<string, WordCreator> TypeDictionary { get; }
         #endregion
 
     }

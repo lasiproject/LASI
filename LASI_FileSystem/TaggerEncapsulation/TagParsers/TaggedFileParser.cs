@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace LASI.FileSystem
 {
-    public class TaggedFileParser : LASI.FileSystem.TaggerEncapsulation.TagParser
+    class TaggedFileParser : LASI.FileSystem.TaggerEncapsulation.TagParser
     {
         #region Construtors
         /// <summary>
@@ -50,6 +50,11 @@ namespace LASI.FileSystem
             };
         }
 
+
+
+        public override async Task<Document> LoadDocumentAsync() {
+            return await Task.Run(() => LoadDocument());
+        }
         /// <summary>
         /// Returns the run time representations of the sentences, componentPhrases,and words extracted from the tagged file the TaggedFileParser governs.
         /// </summary>
@@ -276,7 +281,6 @@ namespace LASI.FileSystem
 
 
         #endregion
-
 
     }
 }

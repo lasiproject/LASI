@@ -13,7 +13,7 @@ namespace LASI.Algorithm.LexicalInformationProviders
     /// <summary>
     /// Represents a synset parsed from a line of the data.noun file of the WordNet package.
     /// </summary>
-    class NounSynSet
+    sealed class NounSynSet
     {
 
         /// <summary>
@@ -105,7 +105,7 @@ namespace LASI.Algorithm.LexicalInformationProviders
     /// <summary>
     /// Represents a synset parsed from a line of the data.verb file of the WordNet package.
     /// </summary>
-    class VerbSynSet
+    sealed class VerbSynSet
     {
         public VerbCategory LexName {
             get;
@@ -156,7 +156,7 @@ namespace LASI.Algorithm.LexicalInformationProviders
             }
         }
 
-        internal LASI.Algorithm.LexicalInformationProviders.InterSetRelationshipManagement.VerbSetIDSymbolMap RelatedOnPointerSymbol {
+        internal  VerbSetIDSymbolMap RelatedOnPointerSymbol {
             get;
             set;
         }
@@ -189,7 +189,7 @@ namespace LASI.Algorithm.LexicalInformationProviders
     /// <summary>
     /// Represents a synset parsed from the data.adj file of the WordNet package.
     /// </summary>
-    class AdjectiveSynSet
+    sealed class AdjectiveSynSet
     {
         public AdjectiveSynSet(int ID, IEnumerable<string> words, IEnumerable<KeyValuePair<AdjectiveSetRelationship, int>> pointerRelations, AdjectiveCategory lexCategory) {
             this.ID = ID;
@@ -271,7 +271,7 @@ namespace LASI.Algorithm.LexicalInformationProviders
     /// <summary>
     /// Represents a synset parsed from a line of the data.adv file of the WordNet package.
     /// </summary>
-    class AdverbSynSet
+    sealed class AdverbSynSet
     {
 
 

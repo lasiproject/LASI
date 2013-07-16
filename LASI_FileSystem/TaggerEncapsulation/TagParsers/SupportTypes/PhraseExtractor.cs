@@ -46,15 +46,11 @@ namespace LASI.FileSystem.TaggerEncapsulation
             Text = text;
             Children = new List<TextNode>();
         }
-
-        public string Print() {
+        public override string ToString() {
             string result = Text;
             foreach (var c in Children)
-                Text += c.Print();
+                Text += c.ToString();
             return result;
-        }
-        public override string ToString() {
-            return Print();
         }
 
         public void AppentChild(TextNode child) {

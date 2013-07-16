@@ -5,8 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using LASI.Algorithm;
 
-namespace LASI.FileSystem
+namespace LASI.FileSystem.TaggerEncapsulation
 {
+    using PhraseCreator = System.Func<IEnumerable<LASI.Algorithm.Word>, LASI.Algorithm.Phrase>;
     /// <summary>
     /// Represents a tagset-to-runtime-type-mapping context for Phrase constructs which translates between a Part Of Speech
     /// Tagger's tagset and the classes whose instances provide the runtime representations of the Phrase tag.
@@ -30,13 +31,13 @@ namespace LASI.FileSystem
         /// <param name="tag">The textual representation of a Phrase Part Of Speech tag.</param>
         /// <returns>A function which creates an instance of the run-time Phrase type associated with the textual tag.</returns>
         /// <exception cref="UnknownPhraseTagException">Thrown when the indexing tag string is not defined by the tagset.</exception> 
-        public abstract Func<IEnumerable<Word>, Phrase> this[string tag] { get; }
+        public abstract PhraseCreator this[string tag] { get; }
         /// <summary>
         /// When overriden in a derrived class, Gets the PosTag string corresponding to the runtime System.Type of the Return Type of given function which of type { IEnumerable of LASI.Algorithm.Word => LASI.Algorithm.Phrase }.
         /// </summary>
         /// <param name="phrase">The function which of type { IEnumerable of LASI.Algorithm.Word => LASI.Algorithm.Phrase } for which to get the corresponding tag.</param>
         /// <returns>The PosTag string corresponding to the runtime System.Type of the Return Type of given function which of type { IEnumerable of LASI.Algorithm.Word => LASI.Algorithm.Phrase }.</returns>
-        public abstract string this[Func<IEnumerable<Word>, Phrase> mappedConstructor] { get; }
+        public abstract string this[PhraseCreator mappedConstructor] { get; }
         /// <summary>
         /// When overriden in a derrived class, Gets the PosTag string corresponding to the System.Type of the given LASI.Algorithm.Phrase.
         /// </summary>
@@ -46,6 +47,6 @@ namespace LASI.FileSystem
         /// <summary>
         /// When overriden in a derrived class, Gets the Read Only Dictionary which represents the mapping between Part Of Speech tags and the cunstructors which instantiate their run-time representations.
         /// </summary>
-        public abstract IReadOnlyDictionary<string, Func<IEnumerable<Word>, Phrase>> TypeDictionary { get; }
+        protected abstract IReadOnlyDictionary<string, PhraseCreator> TypeDictionary { get; }
     }
 }

@@ -87,13 +87,3 @@ namespace LASI.Utilities
         #endregion
     }
 }
-
-
-namespace LASI.Algorithm.Weighting
-{
-    public enum WeightKind
-    {
-        Individual,
-        Meta,
-    }
-}

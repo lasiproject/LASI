@@ -96,21 +96,21 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets or sets the ISubjectTaker instance, generally a Verb or VerbPhrase, which the Pronoun is the subject of.
         /// </summary>
-        public virtual IVerbal SubjectOf {
+        public IVerbal SubjectOf {
             get;
             set;
         }
         /// <summary>
         /// Gets the IVerbal instance, generally a TransitiveVerb or TransitiveVerbPhrase, which the Pronoun is the object of.
         /// </summary>
-        public virtual IVerbal DirectObjectOf {
+        public IVerbal DirectObjectOf {
             get;
             set;
         }
         /// <summary>
         /// Gets all of the IPronoun instances, generally Pronouns or PronounPhrases, which refer to the Pronoun.
         /// </summary>
-        public virtual IEnumerable<IPronoun> BoundPronouns {
+        public IEnumerable<IPronoun> BoundPronouns {
             get {
                 return _boundPronouns;
             }
@@ -119,15 +119,15 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets the IVerbal instance, generally a TransitiveVerb or TransitiveVerbPhrase, which the Pronoun is the INDIRECT object of.
         /// </summary>
-        public virtual IVerbal IndirectObjectOf {
+        public IVerbal IndirectObjectOf {
             get;
             set;
         }
-        
+
         /// <summary>
         /// Gets all of the IDescriptor constructs,generally Adjectives or AdjectivePhrases, which describe the Pronoun.
         /// </summary>
-        public virtual IEnumerable<IDescriptor> Descriptors {
+        public IEnumerable<IDescriptor> Descriptors {
             get {
                 return _describers;
             }
@@ -135,17 +135,17 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets all of the constructs the Pronoun can be determined to "own".
         /// </summary>
-        public virtual IEnumerable<IEntity> Possessed {
+        public IEnumerable<IEntity> Possessed {
             get {
                 return _possessed;
             }
         }
 
-       
+
         /// <summary>
         /// Gets or sets the Entity which is inferred to the Pronoun.
         /// </summary>
-        public virtual IEntity Possesser {
+        public IEntity Possesser {
             get;
             set;
         }
@@ -160,7 +160,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets the PronounKind of the Pronoun.
         /// </summary>
-        public virtual PronounKind PronounKind {
+        public PronounKind PronounKind {
             get;
             protected set;
         }

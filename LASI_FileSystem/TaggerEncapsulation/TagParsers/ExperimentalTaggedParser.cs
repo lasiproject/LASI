@@ -8,7 +8,7 @@ using LASI.Algorithm;
 using LASI.Algorithm.DocumentConstructs;
 namespace LASI.FileSystem.TaggerEncapsulation
 {
-    public class ExperimentalTaggedParser : TagParser
+    class ExperimentalTaggedParser : TagParser
     {
         public ExperimentalTaggedParser(TaggedFile file) {
             TaggededDocumentFile = file;
@@ -26,6 +26,10 @@ namespace LASI.FileSystem.TaggerEncapsulation
         public override Document LoadDocument() {
             throw new NotImplementedException();
         }
+        public override async Task<Document> LoadDocumentAsync() {
+            return await Task.Run(() => LoadDocument());
+        }
+
 
         public override IEnumerable<Paragraph> LoadParagraphs() {
 
@@ -88,6 +92,8 @@ namespace LASI.FileSystem.TaggerEncapsulation
         private IEnumerable<string> BreakSentences(string paraText) {
             return paraText.Split(new[] { "(TOP" }, StringSplitOptions.RemoveEmptyEntries).AsEnumerable().Select(s => s.Trim());
         }
+
+
 
 
 
