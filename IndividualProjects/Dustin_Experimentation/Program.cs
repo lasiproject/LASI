@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LASI.Algorithm;
 using LASI.FileSystem;
-using LASI.Utilities; 
+using LASI.Utilities;
 using System.IO;
 using LASI.Algorithm.DocumentConstructs;
 using LASI.Algorithm.LexicalInformationProviders;
@@ -16,7 +16,7 @@ namespace Dustin_Experimentation
     class Program
     {
         static void Main(string[] args) {
-            foreach (var t in LexicalLookup.YetUnloadedResoucesTasks) {
+            foreach (var t in LexicalLookup.GetUnstartedLoadingTasks()) {
                 t.Wait();
             }
 

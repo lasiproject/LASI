@@ -44,23 +44,42 @@ namespace LASI.FileSystem
             doc.FileName = txt.NameSansExt;
             return doc;
         }
-        public static Document DocumentFromRaw(IRawTextSource txt) {
-            var doc = DocumentFromRaw(txt.GetText());
-            doc.FileName = txt.Name;
+        /// <summary>
+        /// Parses the contents of an IRawTextSource containing raw, untagged text. into a new Document instance.
+        /// </summary>
+        /// <param name="textSource">The IRawTextSource containing raw, untagged text.</param>
+        /// <returns>The contents of the TextFile composed into a fully reified LASI.Algorithm.DocumentConstruct.Document instance.</returns> 
+        public static Document DocumentFromRaw(IRawTextSource textSource) {
+            var doc = DocumentFromRaw(textSource.GetText());
+            doc.FileName = textSource.Name;
             return doc;
         }
-        public static async Task<Document> DocumentFromRawAsync(IRawTextSource txt) {
-            var doc = DocumentFromRaw(await txt.GetTextAsync());
-            doc.FileName = txt.Name;
+        /// <summary>
+        /// Asynchronously parses the contents of an IRawTextSource containing raw, untagged text and returns a Task of Document representing the ongoing asynchronous operation.
+        /// </summary>
+        /// <param name="textSource">The IRawTextSource containing raw, untagged text.</param>
+        /// <returns>The A Task of Document which will contain the source text composed into a fully reified LASI.Algorithm.DocumentConstruct.Document instance.</returns> 
+        public static async Task<Document> DocumentFromRawAsync(IRawTextSource textSouce) {
+            var doc = DocumentFromRaw(await textSouce.GetTextAsync());
+            doc.FileName = textSouce.Name;
             return doc;
         }
 
-
+        /// <summary>
+        /// Parses the contents of an ITaggedTextSource containing tagged strings to parse into a new Document instance.
+        /// </summary>
+        /// <param name="tagged">The ITaggedTextSource containing tagged strings to parse.</param>
+        /// <returns>The contents of the ITaggedTextSource composed into a fully LASI.Algorithm.DocumentConstruct.Document instance.</returns> 
         public static Document DocumentFromTagged(ITaggedTextSource tagged) {
             var doc = new TaggedFileParser(tagged.GetText()).LoadDocument();
             doc.FileName = tagged.Name;
             return doc;
         }
+        /// <summary>
+        /// Asynchronously parses the contents of an ITaggedTextSource containing tagged strings into a new Document instance.
+        /// </summary>
+        /// <param name="tagged">The ITaggedTextSource containing tagged strings to parse.</param>
+        /// <returns>The A Task of Document which will contain the source text composed into a fully reified LASI.Algorithm.DocumentConstruct.Document instance.</returns> 
         public static async Task<Document> DocumentFromTaggedAsync(ITaggedTextSource tagged) {
             var doc = await new TaggedFileParser(tagged.GetText()).LoadDocumentAsync();
             doc.FileName = tagged.Name;
@@ -97,29 +116,46 @@ namespace LASI.FileSystem
         }
 
 
-
+        /// <summary>
+        /// Parses the contents of an IRawTextSource with the tagger and returns an ITaggedTextSource containing the result.
+        /// </summary>
+        /// <param name="textSource">The IRawTextSource containing untagged, raw strings to parse.</param>
+        /// <returns>An ITaggedTextSource containing the result. The form is identical to what it would be appear in a tagged file.</returns> 
         public static ITaggedTextSource TaggedFromRaw(IRawTextSource textSource) {
             return new QuickTagger(TaggerMode).TagTextSource(textSource);
 
         }
+        /// <summary>
+        /// Asynchronously parses the contents of an IRawTextSource with the tagger and returns a Task of ITaggedTextSource containing the result.
+        /// </summary>
+        /// <param name="textSource">The IRawTextSource containing untagged, raw strings to parse.</param>
+        /// <returns>A Task of ITaggedTextSource which will contain the result. The form is identical to what it would be appear in a tagged file.</returns> 
         public static async Task<ITaggedTextSource> TaggedFromRawAsync(IRawTextSource textSource) {
             return await new QuickTagger(TaggerMode).TagTextSourceAsync(textSource);
 
         }
-
-
-        public static async Task<TaggedFile> TaggedFromRawAsync(TextFile inputFile) {
-            return await new SharpNLPTagger(TaggerMode, inputFile.FullPath).ProcessFileAsync();
+        /// <summary>
+        /// Parses the contents of a TextFile with the tagger and returns a TaggedFile containing the result.
+        /// </summary>
+        /// <param name="textSource">The IRawTextSource containing untagged, raw strings to parse.</param>
+        /// <returns>TaggedFile which will contain the tagged representation of the source text.</returns> 
+        public static async Task<TaggedFile> TaggedFromRawAsync(TextFile textSource) {
+            return await new SharpNLPTagger(TaggerMode, textSource.FullPath).ProcessFileAsync();
         }
-        public static TaggedFile TaggedFromRaw(TextFile inputFile) {
-            return new SharpNLPTagger(TaggerMode, inputFile.FullPath).ProcessFile();
+        /// <summary>
+        /// Asynchronously parses the contents of a TextFile containing raw, untagged text and returns a Task of Tagged file representing the ongoing asynchronous operation.
+        /// </summary>
+        /// <param name="textSource">The TextFile containing raw, untagged text.</param>
+        /// <returns>The A Task of TaggedFile which will contain the tagged representation of the source text.</returns> 
+        public static TaggedFile TaggedFromRaw(TextFile textSource) {
+            return new SharpNLPTagger(TaggerMode, textSource.FullPath).ProcessFile();
         }
 
 
         /// <summary>
         /// Gets or sets the default mode the tagger will operate under. The default value is set to TagAndAggregate
         /// </summary>
-        private static TaggerMode TaggerMode {
+        public static TaggerMode TaggerMode {
             get;
             set;
         }
