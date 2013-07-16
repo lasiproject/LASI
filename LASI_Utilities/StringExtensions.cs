@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace LASI.Utilities
 {
+    /// <summary>
+    /// Defines extension methods for System.String instances to  improve readability and ease of use.
+    /// </summary>
     public static class StringExtensions
     {
         /// <summary>

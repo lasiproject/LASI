@@ -35,8 +35,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>
-    </DocumentationFile>
+    <DocumentationFile>bin\Debug\Algorithm.XML</DocumentationFile>
     <PlatformTarget>x64</PlatformTarget>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
@@ -48,8 +47,7 @@
     </DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>
-    </DocumentationFile>
+    <DocumentationFile>bin\Release\Algorithm.XML</DocumentationFile>
     <PlatformTarget>x64</PlatformTarget>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
     <UseVSHostingProcess>false</UseVSHostingProcess>
@@ -146,8 +144,8 @@
     <Compile Include="LexicalStructures\VerbRelatedConstructs\IModalityModdifiable.cs" />
     <Compile Include="LexicalComparers.cs" />
     <Compile Include="Concurrency.cs" />
-    <Compile Include="Lookup\AdjectiveThesaurus.cs" />
-    <Compile Include="Lookup\AdverbThesaurus.cs" />
+    <Compile Include="Lookup\AdjectiveLookup.cs" />
+    <Compile Include="Lookup\AdverbLookup.cs" />
     <Compile Include="Lookup\NounConjugator.cs" />
     <Compile Include="Lookup\SynonymLookupExceptions.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\RelativePronoun.cs" />
@@ -164,7 +162,7 @@
     <Compile Include="LexicalStructures\AdjectiveRelatedConstructs\ComparativeAdjective.cs" />
     <Compile Include="LexicalStructures\AdjectiveRelatedConstructs\SuperlativeAdjective .cs" />
     <Compile Include="LexicalStructures\ConstrainingSemanticConstructs\PossessiveEnding.cs" />
-    <Compile Include="Lookup\NounThesaurus.cs" />
+    <Compile Include="Lookup\NounLookup.cs" />
     <Compile Include="Lookup\PointerSymbolMaps.cs" />
     <Compile Include="Lookup\SynSetDefinitions.cs" />
     <Compile Include="Lookup\LexicalLookup.cs" />
@@ -204,7 +202,7 @@
     <Compile Include="LexicalStructures\NounRelatedConstructs\PersonalPronoun.cs" />
     <Compile Include="LexicalStructures\AdverbRelatedConstructs\SuperlativeAdverb.cs" />
     <Compile Include="LexicalStructures\MiscLanguageConstructs\Symbol.cs" />
-    <Compile Include="Lookup\SynsetLookup.cs" />
+    <Compile Include="Lookup\ISynsetLookup.cs" />
     <Compile Include="LexicalStructures\VerbRelatedConstructs\IVerbal.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\Noun.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\NounPhrase.cs" />
@@ -217,7 +215,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="LexicalStructures\BridgingConstructs\ToLinker.cs" />
     <Compile Include="Lookup\VerbConjugator.cs" />
-    <Compile Include="Lookup\VerbThesaurus.cs" />
+    <Compile Include="Lookup\VerbLookups.cs" />
     <Compile Include="LexicalStructures\VerbRelatedConstructs\Verb.cs" />
     <Compile Include="LexicalStructures\VerbRelatedConstructs\VerbPhrase.cs" />
     <Compile Include="IEnumerableExtensions\IEnumerableOfIVerbalExtensions.cs" />

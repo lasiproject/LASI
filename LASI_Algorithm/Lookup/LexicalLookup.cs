@@ -723,10 +723,10 @@ namespace LASI.Algorithm.Lookup
         private static readonly string adverbThesaurusFilePath = ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "data.adv";
         private static readonly string adjectiveThesaurusFilePath = ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "data.adj";
         // Internal Thesauri
-        private static NounThesaurus nounThesaurus = new NounThesaurus(nounThesaurusFilePath);
-        private static VerbThesaurus verbThesaurus = new VerbThesaurus(verbThesaurusFilePath);
-        private static AdjectiveThesaurus adjectiveThesaurus = new AdjectiveThesaurus(adjectiveThesaurusFilePath);
-        private static AdverbThesaurus adverbThesaurus = new AdverbThesaurus(adverbThesaurusFilePath);
+        private static NounLookup nounThesaurus = new NounLookup(nounThesaurusFilePath);
+        private static VerbLookups verbThesaurus = new VerbLookups(verbThesaurusFilePath);
+        private static AdjectiveLookup adjectiveThesaurus = new AdjectiveLookup(adjectiveThesaurusFilePath);
+        private static AdverbLookup adverbThesaurus = new AdverbLookup(adverbThesaurusFilePath);
         // Name Data File Paths
         private static readonly string lastNamesFilePath = ConfigurationManager.AppSettings["NameDataDirectory"] + "last.txt";
         private static readonly string femaleNamesFilePath = ConfigurationManager.AppSettings["NameDataDirectory"] + "femalefirst.txt";

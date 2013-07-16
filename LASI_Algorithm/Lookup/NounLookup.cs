@@ -11,16 +11,15 @@ using System.Collections.Concurrent;
 namespace LASI.Algorithm.Lookup
 {
     using SetReference = System.Collections.Generic.KeyValuePair<NounSetRelationship, int>;
-    internal class NounThesaurus : SynonymLookup
+    internal class NounLookup : ISynonymLookup<Noun>
     {
+        protected const int HEADER_LENGTH = 29;
         /// <summary>
         /// Initializes a new instance of the NounProvider class.
         /// </summary>
-        /// <param name="filePath">The path of the WordNet database file containing the synonym data for nouns.</param>
-        public NounThesaurus(string filePath)
-            : base(filePath) {
-            FilePath = filePath;
-
+        /// <param name="path">The path of the WordNet database file containing the synonym data for nouns.</param>
+        public NounLookup(string path) {
+            filePath = path;
         }
         //ConcurrentDictionary<int, HashSet<NounSynSet>> cachedSetTraverals = new ConcurrentDictionary<int, HashSet<NounSynSet>>();
         HashSet<NounSynSet> allSets = new HashSet<NounSynSet>();
@@ -28,9 +27,9 @@ namespace LASI.Algorithm.Lookup
         /// <summary>
         /// Parses the contents of the underlying WordNet database file.
         /// </summary>
-        public override void Load() {
+        public void Load() {
 
-            using (StreamReader reader = new StreamReader(FilePath)) {
+            using (StreamReader reader = new StreamReader(filePath)) {
                 for (int i = 0; i < HEADER_LENGTH; ++i) {
                     reader.ReadLine();
                 }
@@ -49,27 +48,25 @@ namespace LASI.Algorithm.Lookup
             lexicalGoups[set.LexName].Add(set);
         }
 
-        private NounSynSet CreateSet(string line) {
+        private NounSynSet CreateSet(string fileLine) {
 
+            var line = fileLine.Substring(0, fileLine.IndexOf('|'));
 
-            var setLine = line.Substring(0, line.IndexOf('|'));
-
-            var referencedSets = from match in Regex.Matches(setLine, @"\D{1,2}\s*\d{8}").Cast<Match>()
+            var referencedSets = from match in Regex.Matches(line, @"\D{1,2}\s*\d{8}").Cast<Match>()
                                  let split = match.Value.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
                                  where split.Count() > 1
                                  let pointer = new SetReference(RelationshipMap[split[0]], Int32.Parse(split[1]))
                                  where IncludeReference(pointer.Key)
                                  select pointer;
 
-            IEnumerable<string> words = from match in Regex.Matches(setLine, @"(?<word>[A-Za-z_\-\']{3,})").Cast<Match>()
+            IEnumerable<string> words = from match in Regex.Matches(line, @"(?<word>[A-Za-z_\-\']{3,})").Cast<Match>()
                                         select match.Value.Replace('_', '-');
 
-            int id = Int32.Parse(setLine.Substring(0, 8));
+            int id = Int32.Parse(line.Substring(0, 8));
 
-            NounCategory lexCategory = ( NounCategory )Int32.Parse(setLine.Substring(9, 2));
+            NounCategory lexCategory = ( NounCategory )Int32.Parse(line.Substring(9, 2));
 
             return new NounSynSet(id, words, referencedSets, lexCategory);
-
         }
 
 
@@ -112,7 +109,7 @@ namespace LASI.Algorithm.Lookup
         }
 
 
-        public override ISet<string> this[string search] {
+        public ISet<string> this[string search] {
             get {
 
                 return (SearchFor(NounConjugator.FindRoot(search)).SelectMany(syn => NounConjugator.GetLexicalForms(syn))).ToSet();
@@ -120,7 +117,7 @@ namespace LASI.Algorithm.Lookup
         }
 
 
-        public override ISet<string> this[Word search] {
+        public ISet<string> this[Noun search] {
             get {
                 return this[search.Text];
             }
@@ -172,5 +169,13 @@ namespace LASI.Algorithm.Lookup
 
         private static readonly LASI.Algorithm.Lookup.InterSetRelationshipManagement.NounPointerSymbolMap RelationshipMap =
             new LASI.Algorithm.Lookup.InterSetRelationshipManagement.NounPointerSymbolMap();
+
+        private string filePath;
+
+        public async System.Threading.Tasks.Task LoadAsync() {
+            await System.Threading.Tasks.Task.Run(() => Load());
+        }
+
+
     }
 }

@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -13,7 +15,7 @@ namespace LASI.Algorithm.Lookup
     /// </summary>
     public static class NounConjugator
     {
-        private static string exceptionFilePath = System.Configuration.ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "noun.exc";
+
         static NounConjugator() {
             LoadExceptionFile(exceptionFilePath);
 
@@ -30,12 +32,11 @@ namespace LASI.Algorithm.Lookup
             return TryComputeConjugations(search);
         }
 
-        private static IEnumerable<string> TryComputeConjugations(string baseForm) {
-            var hyphenIndex = baseForm.IndexOf('-');
-            var root = FindRoot(hyphenIndex > -1 ? baseForm.Substring(0, hyphenIndex) : baseForm);
+        private static IEnumerable<string> TryComputeConjugations(string containingRoot) {
+            var hyphenIndex = containingRoot.IndexOf('-');
+            var root = FindRoot(hyphenIndex > -1 ? containingRoot.Substring(0, hyphenIndex) : containingRoot);
             List<string> results;
-            exceptionData.TryGetValue(root, out results);
-            if (results == null) {
+            if (!exceptionData.TryGetValue(root, out results)) {
                 results = new List<string>();
                 for (var i = 0; i < NOUN_SUFFICIES.Length; i++) {
                     if (root.EndsWith(NOUN_ENDINGS[i]) || NOUN_ENDINGS[i] == "") {
@@ -43,8 +44,9 @@ namespace LASI.Algorithm.Lookup
                         break;
                     }
                 }
-                results.Add(root);
+
             }
+            results.Add(root);
             return results;
         }
 
@@ -81,7 +83,7 @@ namespace LASI.Algorithm.Lookup
 
 
         #region Exception File Processing
-
+        private static string exceptionFilePath = ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "noun.exc";
         private static void LoadExceptionFile(string filePath) {
             using (var reader = new StreamReader(filePath)) {
                 while (!reader.EndOfStream) {
@@ -95,9 +97,10 @@ namespace LASI.Algorithm.Lookup
             var kvstr = exceptionLine.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
             return new KeyValuePair<string, List<string>>(kvstr.Last(), kvstr.Take(kvstr.Count() - 1).ToList());
         }
-        private static readonly System.Collections.Concurrent.ConcurrentDictionary<string, List<string>> exceptionData = new System.Collections.Concurrent.ConcurrentDictionary<string, List<string>>(Concurrency.CurrentMax, 2055);
-        private static readonly string[] NOUN_SUFFICIES = new[] { "s", "ses", "xes", "zes", "ches", "shes", "men", "ies" };
+        private static readonly ConcurrentDictionary<string, List<string>> exceptionData = new ConcurrentDictionary<string, List<string>>(Concurrency.CurrentMax, 2055);
+
         private static readonly string[] NOUN_ENDINGS = new[] { "", "s", "x", "z", "ch", "sh", "man", "y", };
+        private static readonly string[] NOUN_SUFFICIES = new[] { "s", "ses", "xes", "zes", "ches", "shes", "men", "ies" };
         #endregion
 
     }

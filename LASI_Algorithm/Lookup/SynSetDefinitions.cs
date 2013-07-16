@@ -28,8 +28,7 @@ namespace LASI.Algorithm.Lookup
             LexName = lexCategory;
             Words = new HashSet<string>(words);
             referencedSetsByReferenceKind = new NounSetIDSymbolMap(pointerRelations);
-            ReferencedIndexes = new HashSet<int>(from pair in pointerRelations
-                                                 select pair.Value);
+            ReferencedIndexes = new HashSet<int>(pointerRelations.Select(pair => pair.Value));
 
         }
         /// <summary>
@@ -118,8 +117,7 @@ namespace LASI.Algorithm.Lookup
             LexName = lexCategory;
             Words = new HashSet<string>(words);
             RelatedOnPointerSymbol = new VerbSetIDSymbolMap(pointerRelations);
-            ReferencedIndexes = new HashSet<int>(from pair in pointerRelations
-                                                 select pair.Value);
+            ReferencedIndexes = new HashSet<int>(pointerRelations.Select(pair => pair.Value));
 
         }
         /// <summary>
@@ -198,8 +196,7 @@ namespace LASI.Algorithm.Lookup
             LexName = lexCategory;
             Words = new HashSet<string>(words);
             referencedSetsByReferenceKind = new AdjectiveSetIDSymbolMap(pointerRelations);
-            ReferencedIndexes = new HashSet<int>(from pair in pointerRelations
-                                                 select pair.Value);
+            ReferencedIndexes = new HashSet<int>(pointerRelations.Select(pair => pair.Value));
 
         }
         /// <summary>
@@ -283,8 +280,7 @@ namespace LASI.Algorithm.Lookup
             LexName = lexCategory;
             Words = new HashSet<string>(words);
             relatedOnPointerSymbol = new AdverbSetIDSymbolMap(pointerRelations);
-            ReferencedIndexes = new HashSet<int>(from pair in pointerRelations
-                                                 select pair.Value);
+            ReferencedIndexes = new HashSet<int>(pointerRelations.Select(pair => pair.Value));
 
         }
         /// <summary>

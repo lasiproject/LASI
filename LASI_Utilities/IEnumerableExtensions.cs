@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace LASI.Utilities
 {
+    /// <summary>
+    /// Defines various useful methods for working with IEnummerable sequences of any type.
+    /// </summary>
     public static class IEnumerableExtensions
     {
         /// <summary>
@@ -14,7 +17,7 @@ namespace LASI.Utilities
         /// </summary>
         /// <typeparam name="T">The type of the elements in the generic IEnumerable sequence.</typeparam>
         /// <param name="source">An IEnumerable sequence containing 0 or more Elements of type T.</param>
-        /// <returns>Returns a formated string representation of the IEnumerable sequence with the pattern: [ element0, element1, ..., elementN ].</returns>
+        /// <returns>A formated string representation of the IEnumerable sequence with the pattern: [ element0, element1, ..., elementN ].</returns>
         public static string Format<T>(this IEnumerable<T> source) {
             return source.Aggregate("[ ", (sum, current) => sum += current + ", ").TrimEnd(' ', ',') + " ]";
         }
@@ -25,7 +28,7 @@ namespace LASI.Utilities
         /// <typeparam name="T">The type of the elements in the generic IEnumerable sequence.</typeparam>
         /// <param name="source">An IEnumerable sequence containing 0 or more Elements of type T.</param>
         /// <param name="lineLength">Indicates the number of characters after which a line break is to be inserted.</param>
-        /// <returns>Returns a formated string representation of the IEnumerable sequence with the pattern: [ element0, element1, ..., elementN ].</returns>
+        /// <returns>A formated string representation of the IEnumerable sequence with the pattern: [ element0, element1, ..., elementN ].</returns>
         public static string Format<T>(this IEnumerable<T> source, long lineLength) {
             int len = 2;
             return source.Aggregate("[ ", (sum, current) => {
@@ -46,15 +49,31 @@ namespace LASI.Utilities
         /// <typeparam name="T">The type of the elements in the generic IEnumerable sequence.</typeparam>
         /// <param name="source">An IEnumerable sequence containing 0 or more Elements of type T.</param>
         /// <param name="elementToString">The function used to produce a string representation for each element.</param>
-        /// <returns>Returns a formated string representation of the IEnumerable sequence with the pattern: [ element0, element1, ..., elementN ].</returns>
+        /// <returns>A formated string representation of the IEnumerable sequence with the pattern: [ element0, element1, ..., elementN ].</returns>
         public static string Format<T>(this IEnumerable<T> source, Func<T, string> elementToString) {
             return source.Aggregate("[ ", (sum, current) => sum += elementToString(current) + ", ").TrimEnd(' ', ',') + " ]";
         }
+        /// <summary>
+        /// Returns a formated string representation of the IEnumerable sequence with the pattern: [ element0, element1, ..., elementN ]
+        /// </summary>
+        /// <typeparam name="T">The type of the elements in the generic IEnumerable sequence.</typeparam>
+        /// <param name="source">An IEnumerable sequence containing 0 or more Elements of type T.</param>
+        /// <param name="onePerLine">Indicates wether only one element should be printed per line.</param>
+        /// <returns>A formated string representation of the IEnumerable sequence with the pattern: [ element0, element1, ..., elementN ]</returns>
         public static string Format<T>(this IEnumerable<T> source, bool onePerLine) {
 
             return source.Aggregate("[ ", (sum, current) =>
                 sum += current.ToString() + (onePerLine ? ",\n" : ", ")).TrimEnd(' ', ',') + " ]";
         }
+        /// <summary>
+        /// Returns a formated string representation of the IEnumerable sequence with the pattern: [ elementToString(element0), elementToString(element1), ..., elementToString(elementN) ]
+        /// such that the string representation of each element is produced by calling the provided elementToString function.
+        /// </summary>
+        /// <typeparam name="T">The type of the elements in the generic IEnumerable sequence.</typeparam>
+        /// <param name="source">An IEnumerable sequence containing 0 or more Elements of type T.</param>
+        /// <param name="onePerLine">Indicates wether only one element should be printed per line.</param>
+        /// <param name="elementToString">The function used to produce a string representation for each element.</param>
+        /// <returns>A formated string representation of the IEnumerable sequence with the pattern: [ element0, element1, ..., elementN ]</returns>
         public static string Format<T>(this IEnumerable<T> source, bool onePerLine, Func<T, string> elementToString) {
 
             return source.Aggregate("[ ", (sum, current) => sum += elementToString(current) + (onePerLine ? ",\n" : ", ")).TrimEnd(' ', ',') + " ]";
@@ -69,7 +88,7 @@ namespace LASI.Utilities
         /// <param name="source">An IEnumerable sequence containing 0 or more Elements of type T.</param>
         /// <param name="elementToString">The function used to produce a string representation for each element.</param>
         /// <param name="lineLength">Indicates the number of characters after which a line break is to be inserted.</param>
-        /// <returns>Returns a formated string representation of the IEnumerable sequence with the pattern: [ element0, element1, ..., elementN ].</returns>
+        /// <returns>A formated string representation of the IEnumerable sequence with the pattern: [ element0, element1, ..., elementN ].</returns>
         public static string Format<T>(this IEnumerable<T> source, Func<T, string> elementToString, long lineLength) {
             int len = 2;
             return source.Aggregate("[ ", (sum, current) => {
@@ -101,7 +120,13 @@ namespace LASI.Utilities
         public static ISet<T> ToSet<T>(this IEnumerable<T> source, IEqualityComparer<T> comparer) {
             return new HashSet<T>(source, comparer);
         }
-
+        /// <summary>
+        /// Splits the sequence into a sequence of sequences based on the provided chunk size.
+        /// </summary>
+        /// <typeparam name="T">The type of elements in the sequence.</typeparam>
+        /// <param name="source">The sequence to split into subsequences</param>
+        /// <param name="chunkSize">The number of elements per subsquence</param>
+        /// <returns>A sequence of sequences based on the provided chunk size.</returns>
         public static IEnumerable<IEnumerable<T>> Split<T>(this IEnumerable<T> source, int chunkSize) {
             var partsToCreate = source.Count() / chunkSize + source.Count() % chunkSize == 0 ? 0 : 1;
             return from partIndex in Enumerable.Range(0, partsToCreate)
