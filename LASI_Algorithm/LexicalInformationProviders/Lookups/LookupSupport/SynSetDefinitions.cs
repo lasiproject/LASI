@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using LASI.Algorithm.Lookup;
+using LASI.Algorithm.LexicalInformationProviders;
 using LASI.Utilities;
-using LASI.Algorithm.Lookup.InterSetRelationshipManagement;
+using LASI.Algorithm.LexicalInformationProviders.InterSetRelationshipManagement;
 
-namespace LASI.Algorithm.Lookup
+namespace LASI.Algorithm.LexicalInformationProviders
 {
 
     /// <summary>
@@ -156,7 +156,7 @@ namespace LASI.Algorithm.Lookup
             }
         }
 
-        internal LASI.Algorithm.Lookup.InterSetRelationshipManagement.VerbSetIDSymbolMap RelatedOnPointerSymbol {
+        internal LASI.Algorithm.LexicalInformationProviders.InterSetRelationshipManagement.VerbSetIDSymbolMap RelatedOnPointerSymbol {
             get;
             set;
         }

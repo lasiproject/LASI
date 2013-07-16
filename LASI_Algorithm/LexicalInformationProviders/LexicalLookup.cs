@@ -8,8 +8,9 @@ using System.Configuration;
 using LASI.Utilities;
 using System.Dynamic;
 using System.Collections.Concurrent;
+using LASI.Algorithm.LexicalInformationProviders.Lookups;
 
-namespace LASI.Algorithm.Lookup
+namespace LASI.Algorithm.LexicalInformationProviders
 {
     /// <summary>
     /// Provides Comprehensive static facilities for Synoynm Identification, Word and Phrase Comparison, Gender Stratification, and Named Entity Recognition.
@@ -724,7 +725,7 @@ namespace LASI.Algorithm.Lookup
         private static readonly string adjectiveThesaurusFilePath = ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "data.adj";
         // Internal Thesauri
         private static NounLookup nounThesaurus = new NounLookup(nounThesaurusFilePath);
-        private static VerbLookups verbThesaurus = new VerbLookups(verbThesaurusFilePath);
+        private static VerbLookup verbThesaurus = new VerbLookup(verbThesaurusFilePath);
         private static AdjectiveLookup adjectiveThesaurus = new AdjectiveLookup(adjectiveThesaurusFilePath);
         private static AdverbLookup adverbThesaurus = new AdverbLookup(adverbThesaurusFilePath);
         // Name Data File Paths

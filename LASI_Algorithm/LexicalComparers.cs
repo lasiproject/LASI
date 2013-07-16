@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Reflection;
 using LASI.Algorithm.LexicalStructures.NounRelatedConstructs;
 
-using LASI.Algorithm.Lookup;
+using LASI.Algorithm.LexicalInformationProviders;
 
 namespace LASI.Algorithm
 {

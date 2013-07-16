@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LASI.Algorithm.Lookup
+namespace LASI.Algorithm.LexicalInformationProviders
 {
     /// <summary>
     /// Performs both verb root extraction and verb conjugation generation.

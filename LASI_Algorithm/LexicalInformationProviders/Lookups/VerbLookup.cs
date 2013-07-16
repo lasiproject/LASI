@@ -9,10 +9,10 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using LASI.Utilities;
 
-namespace LASI.Algorithm.Lookup
+namespace LASI.Algorithm.LexicalInformationProviders.Lookups
 {
     using SetReference = System.Collections.Generic.KeyValuePair<VerbSetRelationship, int>;
-    internal class VerbLookups : ISynonymLookup<Verb>
+    internal class VerbLookup : IWordNetLookup<Verb>
     {
 
         protected const int HEADER_LENGTH = 29;
@@ -21,7 +21,7 @@ namespace LASI.Algorithm.Lookup
         /// Initializes a new instance of the VerbThesaurus class. 
         /// </summary>
         /// <param name="path">The path of the WordNet database file containing the sysnonym data for verbals.</param>
-        public VerbLookups(string path) {
+        public VerbLookup(string path) {
             filePath = path;
             verbData = new ConcurrentDictionary<string, VerbSynSet>();
         }
@@ -120,8 +120,8 @@ namespace LASI.Algorithm.Lookup
 
 
         private IDictionary<string, VerbSynSet> verbData;
-        private static LASI.Algorithm.Lookup.InterSetRelationshipManagement.VerbPointerSymbolMap RelationMap =
-            new LASI.Algorithm.Lookup.InterSetRelationshipManagement.VerbPointerSymbolMap();
+        private static LASI.Algorithm.LexicalInformationProviders.InterSetRelationshipManagement.VerbPointerSymbolMap RelationMap =
+            new LASI.Algorithm.LexicalInformationProviders.InterSetRelationshipManagement.VerbPointerSymbolMap();
 
         private string filePath;
 

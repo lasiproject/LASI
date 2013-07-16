@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace LASI.Algorithm.Lookup
+namespace LASI.Algorithm.LexicalInformationProviders.Lookups
 {
-    internal interface ISynonymLookup<TWord> where TWord : Word
+    internal interface IWordNetLookup<TWord> where TWord : Word
     {
         /// <summary> 
         /// Loads relevant synyonym data and performs additional initialization.

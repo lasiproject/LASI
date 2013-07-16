@@ -8,10 +8,10 @@ using System.Text.RegularExpressions;
 using System.Collections.Concurrent;
 
 
-namespace LASI.Algorithm.Lookup
+namespace LASI.Algorithm.LexicalInformationProviders.Lookups
 {
     using SetReference = System.Collections.Generic.KeyValuePair<NounSetRelationship, int>;
-    internal class NounLookup : ISynonymLookup<Noun>
+    internal class NounLookup : IWordNetLookup<Noun>
     {
         protected const int HEADER_LENGTH = 29;
         /// <summary>
@@ -167,8 +167,8 @@ namespace LASI.Algorithm.Lookup
                 referenceRelationship == NounSetRelationship.HypERnym;
         }
 
-        private static readonly LASI.Algorithm.Lookup.InterSetRelationshipManagement.NounPointerSymbolMap RelationshipMap =
-            new LASI.Algorithm.Lookup.InterSetRelationshipManagement.NounPointerSymbolMap();
+        private static readonly LASI.Algorithm.LexicalInformationProviders.InterSetRelationshipManagement.NounPointerSymbolMap RelationshipMap =
+            new LASI.Algorithm.LexicalInformationProviders.InterSetRelationshipManagement.NounPointerSymbolMap();
 
         private string filePath;
 

@@ -1,4 +1,4 @@
-﻿namespace LASI.Algorithm.Lookup
+﻿namespace LASI.Algorithm.LexicalInformationProviders
 {
 
     /// <summary>

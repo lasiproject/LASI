@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using LASI.Algorithm.Lookup;
+using LASI.Algorithm.LexicalInformationProviders;
 namespace LASI.Algorithm
 {
 
