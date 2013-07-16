@@ -92,7 +92,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets or sets the Sentence to which the Phrase belongs.
         /// </summary>
-        public LASI.Algorithm.DocumentConstructs.Sentence Sentence {
+        public Sentence Sentence {
             get;
             set;
         }
@@ -107,7 +107,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets or set the Document instance to which the Phrase belongs.
         /// </summary>
-        public LASI.Algorithm.DocumentConstructs.Document Document {
+        public Document Document {
             get;
             protected set;
         }
@@ -164,14 +164,6 @@ namespace LASI.Algorithm
 
         private string _text;
 
-
-        #endregion
-
-        #region Static Methods
-
-        static Phrase() {
-            VerboseOutput = false;
-        }
 
         #endregion
 

@@ -16,7 +16,7 @@ namespace Dustin_Experimentation
     class Program
     {
         static void Main(string[] args) {
-            foreach (var t in LexicalLookup.GetUnstartedLoadingTasks()) {
+            foreach (var t in LexicalLookup.UnstartedLoadingTasks) {
                 t.Wait();
             }
 

@@ -82,7 +82,7 @@ namespace LASI.UserInterface
         }
 
         private static Label CreateWeightedNounPhraseLabel(NounPhrase element) {
-            var genderString = element.IsFullMaleName() ? "Male" : element.IsFullFemaleName() ? "Female" : element.IsFullName() ? "Undetermined" : string.Empty;
+            var genderString = element.IsFullMaleName() ? "Male" : element.IsFullFemaleName() ? "Female" : string.Empty;
             genderString = genderString.IsNotEmpty() ? "\nprevialing gender: " + genderString :
                             (from p in element.Words.GetProperNouns()
                              group p by p.IsFemaleName() ? "Female" : p.IsMaleName() ? "Male" : "Undetermind" into g
@@ -101,7 +101,7 @@ namespace LASI.UserInterface
             var menuItem1 = new MenuItem {
                 Header = "view definition",
             };
-            menuItem1.Click += (sender, ee) => {
+            menuItem1.Click += (s, e) => {
                 Process.Start(String.Format("http://www.dictionary.reference.com/browse/{0}?s=t", element.Text));
             };
             var menuItem2 = new MenuItem {

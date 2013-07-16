@@ -29,9 +29,9 @@ namespace LASI.Algorithm.LexicalInformationProviders.Lookups
         /// </summary>
         public void Load() {
             using (StreamReader reader = new StreamReader(filePath)) {
-                reader.ReadToEnd().Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries).Skip(HEADER_LENGTH);
-
-                allSets.Add(CreateSet(reader.ReadLine()));
+                foreach (var line in reader.ReadToEnd().Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries).Skip(HEADER_LENGTH)) {
+                    allSets.Add(CreateSet(line));
+                }
             }
         }
 

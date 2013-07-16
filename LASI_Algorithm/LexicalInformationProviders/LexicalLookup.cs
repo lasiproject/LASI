@@ -633,22 +633,24 @@ namespace LASI.Algorithm.LexicalInformationProviders
         /// Await each Task to start its corresponding loading operation.
         /// </summary>
         /// <returns>a sequence of Tasks containing all of the yet unstarted LexicalLookup loading operations.</returns>
-        public static IEnumerable<Task<string>> GetUnstartedLoadingTasks() {
+        public static IEnumerable<Task<string>> UnstartedLoadingTasks {
+            get {
 
-            var Tasks = new List<Task<string>>();
-            if (nounLoadingState == LoadingState.NotStarted)
-                Tasks.Add(NounThesaurusLoadTask);
-            if (verbLoadingState == LoadingState.NotStarted)
-                Tasks.Add(VerbThesaurusLoadTask);
-            if (adjectiveLoadingState == LoadingState.NotStarted)
-                Tasks.Add(AdjectiveThesaurusLoadTask);
-            if (adverbLoadingState == LoadingState.NotStarted)
-                Tasks.Add(AdverbThesaurusLoadTask);
-            Tasks.Add(Task.Run(async () => {
-                await LoadNameDataAsync();
-                return "Loaded Name Data";
-            }));
-            return Tasks;
+                var Tasks = new List<Task<string>>();
+                if (nounLoadingState == LoadingState.NotStarted)
+                    Tasks.Add(NounThesaurusLoadTask);
+                if (verbLoadingState == LoadingState.NotStarted)
+                    Tasks.Add(VerbThesaurusLoadTask);
+                if (adjectiveLoadingState == LoadingState.NotStarted)
+                    Tasks.Add(AdjectiveThesaurusLoadTask);
+                if (adverbLoadingState == LoadingState.NotStarted)
+                    Tasks.Add(AdverbThesaurusLoadTask);
+                Tasks.Add(Task.Run(async () => {
+                    await LoadNameDataAsync();
+                    return "Loaded Name Data";
+                }));
+                return Tasks.ToArray();
+            }
         }
 
         #endregion

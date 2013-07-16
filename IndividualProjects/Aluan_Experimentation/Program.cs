@@ -55,11 +55,11 @@ namespace Aluan_Experimentation
         }
 
         private static async Task LoadThesaurus() {
-            foreach (var task in LexicalLookup.GetUnstartedLoadingTasks()) {
+            foreach (var task in LexicalLookup.UnstartedLoadingTasks) {
                 task.Wait();
                 Output.WriteLine(task.Result);
             }
-            var tasks = LexicalLookup.GetUnstartedLoadingTasks().ToList();
+            var tasks = LexicalLookup.UnstartedLoadingTasks.ToList();
             while (tasks.Any()) {
                 var currentTask = await Task.WhenAny(tasks);
                 Output.WriteLine(await currentTask);

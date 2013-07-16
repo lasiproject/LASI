@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LASI.Algorithm.DocumentConstructs;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -39,7 +40,6 @@ namespace LASI.Algorithm
             Phrase = parent;
 
         }
-
         /// <summary>
         /// Returns a string representation of the word.
         /// </summary>
@@ -59,7 +59,6 @@ namespace LASI.Algorithm
             get;
             protected set;
         }
-
         /// <summary>
         /// Gets the globally-unique identification number associated with the word instance.
         /// </summary>
@@ -67,7 +66,6 @@ namespace LASI.Algorithm
             get;
             private set;
         }
-
         /// <summary>
         /// Gets the frequency of the word in the current document.
         /// </summary>
@@ -75,7 +73,6 @@ namespace LASI.Algorithm
             get;
             set;
         }
-
         /// <summary>
         /// Gets the normalized frequency of word across all documents.
         /// </summary>
@@ -83,12 +80,10 @@ namespace LASI.Algorithm
             get;
             set;
         }
-
-
         /// <summary>
         /// Gets the document instance to which the word belongs.
         /// </summary>
-        public LASI.Algorithm.DocumentConstructs.Document Document {
+        public Document Document {
             get {
                 return Phrase != null ? Phrase.Document : null;
             }
@@ -117,11 +112,10 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets or the Sentence the word belongs to.
         /// </summary>
-        public LASI.Algorithm.DocumentConstructs.Sentence Sentence {
+        public Sentence Sentence {
             get;
             private set;
         }
-
         /// <summary>
         /// Gets or sets the Prepositional construct which is lexically to the Left of the word.
         /// </summary>
@@ -129,7 +123,6 @@ namespace LASI.Algorithm
             get;
             set;
         }
-
         /// <summary>
         /// Gets or sets the Prepositional construct which is lexically to the Right of the word.
         /// </summary>
@@ -145,7 +138,6 @@ namespace LASI.Algorithm
                 return GetType();
             }
         }
-
         /// <summary>
         /// Gets or sets the numeric Weight of the word within the context of its parent document.
         /// </summary>
@@ -153,8 +145,6 @@ namespace LASI.Algorithm
             get;
             set;
         }
-
-
         /// <summary>
         /// Gets or sets the numeric Weight of the word over the context of all extant documents.
         /// </summary>
@@ -176,9 +166,6 @@ namespace LASI.Algorithm
             set;
         }
 
-        static Word() {
-            VerboseOutput = false;
-        }
         #endregion
 
 

@@ -80,14 +80,19 @@ namespace LASI.Algorithm.LexicalInformationProviders.Lookups
 
         private ISet<string> SearchFor(string word) {
             var containingSet = allSets.FirstOrDefault(set => set.Words.Contains(word));
-            try {
-                List<string> results = new List<string>();
-                SearchSubsets(containingSet, results, new HashSet<NounSynSet>());
-                return new HashSet<string>(results);
-            }
-            catch (InvalidOperationException e) {
-                Output.WriteLine(string.Format("{0} was thrown when attempting to get synonyms for word {1}: , containing set: {2}", e, word, containingSet));
+            if (containingSet != null) {
+                try {
+                    List<string> results = new List<string>();
+                    SearchSubsets(containingSet, results, new HashSet<NounSynSet>());
+                    return new HashSet<string>(results);
+                }
+                catch (InvalidOperationException e) {
+                    Output.WriteLine(string.Format("{0} was thrown when attempting to get synonyms for word {1}: , containing set: {2}", e, word, containingSet));
 
+                    return new HashSet<string>();
+                }
+            }
+            else {
                 return new HashSet<string>();
             }
         }
