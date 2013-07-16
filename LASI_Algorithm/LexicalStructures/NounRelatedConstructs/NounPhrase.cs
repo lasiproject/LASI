@@ -18,9 +18,9 @@ namespace LASI.Algorithm
         /// <summary>
         /// Initializes a new instance of the NounPhrase class.
         /// </summary>
-        /// <param name="composedWords">The words which compose to form the NounPhrase.</param>
-        public NounPhrase(IEnumerable<Word> composedWords)
-            : base(composedWords) {
+        /// <param name="composed">The words which compose to form the NounPhrase.</param>
+        public NounPhrase(IEnumerable<Word> composed)
+            : base(composed) {
             determineEntityType();
         }
         #endregion
@@ -35,7 +35,7 @@ namespace LASI.Algorithm
         protected virtual void determineEntityType() {
 
             var kindsOfNouns = from N in Words.GetNouns()
-                               select N.Kind;
+                               select N.EntityKind;
             var internalKinds = from K in kindsOfNouns
                                 group K by K into KindGroup
                                 orderby KindGroup.Count()
@@ -46,7 +46,7 @@ namespace LASI.Algorithm
              * - Scott
              */
             if (internalKinds.Any())
-                Kind = internalKinds.First().Key;
+                EntityKind = internalKinds.First().Key;
         }
 
 
@@ -78,7 +78,10 @@ namespace LASI.Algorithm
                 possession.Possesser = this;
             }
         }
-
+        /// <summary>
+        /// Returns a string representation of the NounPhrase.
+        /// </summary>
+        /// <returns>A string representation of the NounPhrase.</returns>
         public override string ToString() {
             var result = base.ToString();
             if (Phrase.VerboseOutput && Possessed.Any()) {
@@ -207,11 +210,16 @@ namespace LASI.Algorithm
                 }
             }
         }
-
+        /// <summary>
+        /// Gets or sets another NounPhrase, to the left of current instance, which is functions as an Attributor of current instance.
+        /// </summary>
         public NounPhrase OuterAttributive {
             get;
             set;
         }
+        /// <summary>
+        /// Gets or sets another NounPhrase, to the right of current instance, which is functions as an Attributor of current instance.
+        /// </summary>
         public NounPhrase InnerAttributive {
             get;
             set;
@@ -220,7 +228,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets or sets the Entity PronounKind; Person, Place, Thing, Organization, or Activity; of the NounPhrase.
         /// </summary>
-        public EntityKind Kind {
+        public EntityKind EntityKind {
             get;
             protected set;
         }
@@ -241,10 +249,10 @@ namespace LASI.Algorithm
             set;
         }
 
-        public bool WasBound {
-            get;
-            set;
-        }
+        //public bool WasBound {
+        //    get;
+        //    set;
+        //}
 
         private IList<IDescriptor> _describedBy = new List<IDescriptor>();
         private IList<IEntity> _possessed = new List<IEntity>();

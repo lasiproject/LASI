@@ -13,7 +13,14 @@ namespace LASI.Algorithm
     /// </summary>
     public interface IAdverbialModifiable
     {
+        /// <summary>
+        /// Attaches an IAdverbial as a modifier of the IAdverbialModifiable.
+        /// </summary>
+        /// <param name="adv">The modifier to attach.</param>
         void ModifyWith(IAdverbial adv);
+        /// <summary>
+        /// Gets the sequence of IAdverbial constructs which modify the IAdverbialModifiable.
+        /// </summary>
         IEnumerable<IAdverbial> Modifiers {
             get;
         }

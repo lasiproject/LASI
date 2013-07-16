@@ -22,32 +22,37 @@ namespace LASI.Utilities
         /// <returns>The contents of the raw strings composed into a fully reified LASI.Algorithm.DocumentConstruct.Document instance.</returns>
         /// <remarks>No files are created when calling this function.</remarks>
         public static Document DocumentFromRaw(params string[] strs) {
-            return DocumentFromTagged(TaggedStringFromRawString(strs));
+            return DocumentFromTagged(TaggedFromRaw(strs));
         }
         /// <summary>
         /// Parses the contents of a raw, untagged TextFile into a new Document instance.
         /// </summary>
         /// <param name="strs">The raw, untagged TextFile to parse.</param>
-        /// <returns>The contents of the TextFile composed into a fully reified LASI.Algorithm.DocumentConstruct.Document instance.</returns>
-        /// <remarks>No files are created when calling this function.</remarks>
+        /// <returns>The contents of the TextFile composed into a fully reified LASI.Algorithm.DocumentConstruct.Document instance.</returns> 
         public static Document DocumentFromRaw(TextFile txt) {
             var doc = new TaggedFileParser(new SharpNatrualLanguageProcessing.SharpNLPTagger(TaggerMode, txt.FullPath).ProcessFile()).LoadDocument();
             doc.FileName = txt.NameSansExt;
             return doc;
         }
+        /// <summary>
+        /// Asynchronously parses the contents of a raw, untagged TextFile into a new Document instance.
+        /// </summary>
+        /// <param name="strs">The raw, untagged TextFile to parse.</param>
+        /// <returns>The contents of the TextFile composed into a fully reified LASI.Algorithm.DocumentConstruct.Document instance.</returns> 
         public static async Task<Document> DocumentFromRawAsync(TextFile txt) {
             var doc = await new TaggedFileParser(await new SharpNatrualLanguageProcessing.SharpNLPTagger(TaggerMode, txt.FullPath).ProcessFileAsync()).LoadDocumentAsync();
             doc.FileName = txt.NameSansExt;
             return doc;
         }
-        public static Document DocumentFromRaw(ITaggedTextSource tagged) {
+
+        public static Document DocumentFromTagged(ITaggedTextSource tagged) {
             var doc = new TaggedFileParser(tagged.GetText()).LoadDocument();
-            doc.FileName = tagged.DataName;
+            doc.FileName = tagged.Name;
             return doc;
         }
         public static async Task<Document> DocumentFromTaggedAsync(ITaggedTextSource tagged) {
             var doc = await new TaggedFileParser(tagged.GetText()).LoadDocumentAsync();
-            doc.FileName = tagged.DataName;
+            doc.FileName = tagged.Name;
             return doc;
         }
 
@@ -57,7 +62,7 @@ namespace LASI.Utilities
         /// <param name="strs">The untagged, raw strings to parse.</param>
         /// <returns>A single string containing the tagged result. The form is identical to what it would be appear in a tagged file.</returns>
         /// <remarks>No files are created when calling this function.</remarks>
-        public static string TaggedStringFromRawString(params string[] strs) {
+        public static string TaggedFromRaw(params string[] strs) {
             return new SharpNatrualLanguageProcessing.QuickTagger(TaggerMode).TagString(String.Join(" ", strs));
         }
         /// <summary>
@@ -76,14 +81,14 @@ namespace LASI.Utilities
         /// <returns>The contents of the TaggedFile composed into a fully reified LASI.Algorithm.DocumentConstruct.Document instance.</returns>
         public static async Task<Document> DocumentFromTaggedAsync(TaggedFile taggedFile) {
             var doc = await new TaggedFileParser(taggedFile).LoadDocumentAsync();
-            doc.FileName = taggedFile.DataName;
+            doc.FileName = taggedFile.Name;
             return doc;
         }
 
 
 
         public static ITaggedTextSource TaggedFromRaw(IRawTextSource textSource) {
-           return new SharpNatrualLanguageProcessing.QuickTagger(TaggerMode).TagTextSource(textSource);
+            return new SharpNatrualLanguageProcessing.QuickTagger(TaggerMode).TagTextSource(textSource);
 
         }
         public static async Task<ITaggedTextSource> TaggedFromRawAsync(IRawTextSource textSource) {

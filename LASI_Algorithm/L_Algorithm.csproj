@@ -102,7 +102,6 @@
     <Compile Include="RelationshipLookups\IRelationshipLookup.cs" />
     <Compile Include="RelationshipLookups\SampleRelationshipLookup.cs" />
     <Compile Include="ResourceUsageMode.cs" />
-    <Compile Include="LexicalStructures\NounRelatedConstructs\ISimilarityComparablePhrase.cs" />
     <Compile Include="LexicalStructures\VerbRelatedConstructs\InfinitivePhrase.cs" />
     <Compile Include="Analysis\Binders\IntraPhraseWordBinder.cs" />
     <Compile Include="Analysis\Binders\InvalidStateTransitionException.cs" />
@@ -110,7 +109,6 @@
     <Compile Include="Analysis\Binders\PhraseWiseEntityGroupBinder.cs" />
     <Compile Include="Analysis\Binders\PronounBinder.cs" />
     <Compile Include="Analysis\Binders\SubjectBinder.cs" />
-    <Compile Include="Analysis\Binders\UnknownEntityCompatibleWordTypeException.cs" />
     <Compile Include="Analysis\Weighter.cs" />
     <Compile Include="DocumentConstructs\SubordinateClauseBeginPhrase.cs" />
     <Compile Include="AliasDictionary.cs" />

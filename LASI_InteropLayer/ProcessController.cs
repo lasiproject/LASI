@@ -48,7 +48,7 @@ namespace LASI.InteropLayer
                 var taggedFile = await currentTask;
                 taggingTasks.Remove(currentTask);
                 taggedFiles.Add(taggedFile);
-                await UpdateProgressDisplay(string.Format("{0}: Tagged", taggedFile.DataName), documentStepRatio);
+                await UpdateProgressDisplay(string.Format("{0}: Tagged", taggedFile.Name), documentStepRatio);
             }
             await UpdateProgressDisplay("Tagged Documents", 3);
             var tasks = taggedFiles.Select(tagged => ProcessTaggedFileAsync(tagged)).ToList();
@@ -94,7 +94,7 @@ namespace LASI.InteropLayer
         }
 
         private async Task<Document> ProcessTaggedFileAsync(LASI.Algorithm.ITaggedTextSource tagged) {
-            var fileName = tagged.DataName;
+            var fileName = tagged.Name;
             await UpdateProgressDisplay(string.Format("{0}: Loading...", fileName), 0);
             var doc = await TaggerUtil.DocumentFromTaggedAsync(tagged);
             await UpdateProgressDisplay(string.Format("{0}: Loaded", fileName), 4);
@@ -102,14 +102,14 @@ namespace LASI.InteropLayer
             var bindingWorkUnits = Binder.GetBindingTasksForDocument(doc).ToList();
             foreach (var task in bindingWorkUnits) {
                 await UpdateProgressDisplay(task.InitializationMessage, 0);
-                await task.WorkToPerform;
+                await task.Task;
                 await UpdateProgressDisplay(task.CompletionMessage, task.PercentWorkRepresented * 0.5 / discreteWorkLoads);
             }
             await UpdateProgressDisplay(string.Format("{0}: Correlating Relationships...", fileName), 0);
             var weightingWorkUnits = LASI.Algorithm.Weighting.Weighter.GetWeightingProcessingTasks(doc).ToList();
             foreach (var task in weightingWorkUnits) {
                 await UpdateProgressDisplay(task.InitializationMessage, 0);
-                await task.WorkToPerform;
+                await task.Task;
                 await UpdateProgressDisplay(task.CompletionMessage, task.PercentWorkRepresented * 0.5 / discreteWorkLoads);
             }
 

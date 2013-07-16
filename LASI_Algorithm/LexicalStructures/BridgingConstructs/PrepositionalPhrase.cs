@@ -35,7 +35,10 @@ namespace LASI.Algorithm
             set;
         }
 
-
+        /// <summary>
+        /// Returns a string representation of the PrepositionalPhrase.
+        /// </summary>
+        /// <returns>A string representation of the PrepositionalPhrase.</returns>
         public override string ToString() {
             if (Phrase.VerboseOutput) {
                 var result = base.ToString();

@@ -10,6 +10,10 @@ namespace LASI.Algorithm
     /// </summary>
     public interface IVerbal : ILexical, ISubjectTaker, IDirectObjectTaker, IInderectObjectTaker, IAdverbialModifiable, IModalityModifiable
     {
+        /// <summary>
+        /// Binds the IVerbal to the corresponding object of the preposition.
+        /// </summary>
+        /// <param name="prepositional">The IPrepositional construct whose object is the the corresponding object of the preposition.</param>
         void AttachObjectViaPreposition(IPrepositional prepositional);
         /// <summary>
         /// Gets the object of the preposition, if present, which is associated with the statement the Verbal is the basis for.
@@ -23,14 +27,49 @@ namespace LASI.Algorithm
         IPrepositional PrepositionalToObject {
             get;
         }
-
+        /// <summary>
+        /// Gets a value indicating if the IVerbal has at least one subject.
+        /// </summary>
+        /// <returns>True if the IVerbal has at least one subject, false otherwise.</returns>
         bool HasSubject();
+        /// <summary>
+        /// Gets a value indicating if the IVerbal has at least one subject matching the provided predicate.
+        /// </summary>
+        /// <param name="predicate">A predicate to test each subject.</param>
+        /// <returns>True if the IVerbal has at least one subject matching the provided predicate, false otherwise.</returns>
         bool HasSubject(System.Func<IEntity, bool> predicate);
+        /// <summary>
+        /// Gets a value indicating if the IVerbal has at least one direct object.
+        /// </summary>
+        /// <returns>True if the IVerbal has at least one subject, false otherwise.</returns>
         bool HasDirectObject();
+        /// <summary>
+        /// Gets a value indicating if the IVerbal has at least one direct object matching the provided predicate.
+        /// </summary>
+        /// <param name="predicate">A predicate to test each subject.</param>
+        /// <returns>True if the IVerbal has at least one direct object matching the provided predicate, false otherwise.</returns>
         bool HasDirectObject(System.Func<IEntity, bool> predicate);
+        /// <summary>
+        /// Gets a value indicating if the IVerbal has at least one indirect object.
+        /// </summary>
+        /// <returns>True if the IVerbal has at least one indirect object, false otherwise.</returns>
         bool HasIndirectObject();
+        /// <summary>
+        /// Gets a value indicating if the IVerbal has at least one indirect object matching the provided predicate.
+        /// </summary>
+        /// <param name="predicate">A predicate to test each indirect object.</param>
+        /// <returns>True if the IVerbal has at least one indirect object matching the provided predicate, false otherwise.</returns>
         bool HasIndirectObject(System.Func<IEntity, bool> predicate);
+        /// <summary>
+        /// Gets a value indicating if the IVerbal has at least one direct or indirect object.
+        /// </summary>
+        /// <returns>True if the IVerbal has at least one object, false otherwise.</returns>
         bool HasObject();
+        /// <summary>
+        /// Gets a value indicating if the IVerbal has at least one direct or indirect object matching the provided predicate.
+        /// </summary>
+        /// <param name="predicate">A predicate to test each object.</param>
+        /// <returns>True if the IVerbal has at least one direct or indirect object  matching the provided predicate, false otherwise.</returns>
         bool HasObject(System.Func<IEntity, bool> predicate);
     }
 }

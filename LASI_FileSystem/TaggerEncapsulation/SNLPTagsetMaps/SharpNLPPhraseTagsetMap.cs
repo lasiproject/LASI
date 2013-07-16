@@ -33,15 +33,15 @@ namespace LASI.FileSystem.TaggerEncapsulation
         #region Fields
         private readonly Dictionary<string, Func<IEnumerable<Word>, Phrase>> typeDictionary = new Dictionary<string, Func<IEnumerable<Word>, Phrase>> {
             
-            { "VP", ws => ws.Any(w=> w is Punctuation) ? new PunctuatorPhrase(ws) as Phrase : new VerbPhrase(ws) as Phrase },
+            { "VP", ws => ws.Any(w=> w is Punctuation) ? new SymbolPhrase(ws) as Phrase : new VerbPhrase(ws) as Phrase },
             { "NP", ws => ws.OfType<IEntity>().All(w=>w is IPronoun)?new PronounPhrase(ws) : new NounPhrase(ws) },
             { "PP", ws => new PrepositionalPhrase(ws) },
             { "ADVP", ws => new AdverbPhrase(ws) },
             { "ADJP", ws => new AdjectivePhrase(ws) },
             { "PRT", ws => new ParticlePhrase(ws) },
             { "CONJP", ws => new ConjunctionPhrase(ws) },
-            { "S", ws => new SimpleDeclarativePhrase(ws) },
-            { "SINV", ws => new SimpleDeclarativePhrase(ws) },
+            { "S", ws => new SimpleDeclarativeClauseBeginPhrase(ws) },
+            { "SINV", ws => new SimpleDeclarativeClauseBeginPhrase(ws) },
             { "SQ", ws => new InterrogativePhrase(ws) },
             { "SBARQ", ws => new InterrogativePhrase(ws) },
             { "SBAR", ws => new SubordinateClauseBeginPhrase(ws) },

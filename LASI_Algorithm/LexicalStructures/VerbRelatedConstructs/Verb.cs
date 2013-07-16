@@ -84,12 +84,20 @@ namespace LASI.Algorithm
             indirectObject.IndirectObjectOf = this;
         }
 
-
+        /// <summary>
+        /// Determines if the Verb implies a possession relationship. E.g. in the senetence 
+        /// "They have a lot of ideas." the Verb "have" asserts a possessor possessee relationship between "They" and "a lot of ideas".
+        /// </summary>
+        /// <returns>True if the Verb is a possessive relationship specifier, false otherwise.</returns>
         protected virtual bool DetermineIsPossessive() {
             var syns = LASI.Algorithm.Lookup.LexicalLookup.Lookup(this);
             isPossessive = syns.Contains("have");
             return IsPossessive;
         }
+        /// <summary>
+        /// Determines if the Verb acts as a classifier. E.g. in the senetence "Rodents are prey animals." the Verb "are" acts as a classification tool because it states that rodents are a subset of prey animals.
+        /// </summary>
+        /// <returns>True if the Verb is a classifier, false otherwise.</returns>
         protected virtual bool DetermineIsClassifier() {
             var syns = LASI.Algorithm.Lookup.LexicalLookup.Lookup(this);
             isClassifier = syns.Contains("be");
@@ -231,6 +239,9 @@ namespace LASI.Algorithm
             get;
             protected set;
         }
+        /// <summary>
+        /// Gets the IPrepositional object which links the Verb to the ObjectOfThePreoposition.
+        /// </summary>
         public IPrepositional PrepositionalToObject {
             get;
             protected set;

@@ -11,8 +11,15 @@ using LASI.Algorithm.DocumentConstructs;
 
 namespace LASI.Algorithm.Binding
 {
+    /// <summary>
+    /// Attempts to bind pronouns to the entities they refer to.
+    /// </summary>
     public class PronounBinder
     {
+        /// <summary>
+        /// Attempts to perform pronoun binding over the entirety of the given Document.
+        /// </summary>
+        /// <param name="document">The document over which to perform pronoun bindind.</param>
         public void Bind(Document document) {
             //ReifyContextualNounPhrasesAsPronounPhrases(document.Phrases.GetNounPhrases());
             BindPosessivePronouns(document);

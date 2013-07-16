@@ -55,8 +55,16 @@ namespace LASI.Algorithm
             return elements.Contains(element, LexicalComparers<T>.CreateCustom(comparison));
 
         }
-        public static IEnumerable<T> Except<T>(this IEnumerable<T> elements, IEnumerable<T> second, Func<T, T, bool> comparison) where T : ILexical {
-            return elements.Except(second, LexicalComparers<T>.CreateCustom(comparison));
+        /// <summary>
+        /// Produces the set difference of two sequences by using the specified comparison function to compare values.
+        /// </summary>
+        /// <typeparam name="T">The type of the elements of the input sequences. Any Type which implements the ILexical interface is applicable.</typeparam>
+        /// <param name="first">A sequence whose elements that are not also in second will be returned.</param>
+        /// <param name="second">A sequence whose elements that also occur in the first sequence will cause those elements to be removed from the returned sequence.</param>
+        /// <param name="comparison">A function to compare two instance of type T and return true or false.</param>
+        /// <returns>A sequence that contains the set difference of the elements of two sequences.</returns>
+        public static IEnumerable<T> Except<T>(this IEnumerable<T> first, IEnumerable<T> second, Func<T, T, bool> comparison) where T : ILexical {
+            return first.Except(second, LexicalComparers<T>.CreateCustom(comparison));
 
         }
         /// <summary>

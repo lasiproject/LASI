@@ -20,7 +20,7 @@ namespace LASI.Algorithm
         protected ProperNoun(string text)
             : base(text)
         {
-            Kind = Algorithm.EntityKind.ProperUnknown;
+            EntityKind = Algorithm.EntityKind.ProperUnknown;
         }
 
     }

@@ -15,7 +15,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Initializes a new instance of the Interjection class.
         /// </summary>
-        /// <param name="text">The key text content of the word.</param>
+        /// <param name="text">The  text content of the Interjection.</param>
         public Interjection(string text)
             : base(text) {
         }

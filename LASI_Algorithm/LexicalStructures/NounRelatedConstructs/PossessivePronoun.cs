@@ -19,37 +19,42 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="text">The key text content of the PossessivePronoun.</param>
         public PossessivePronoun(string text)
-            : base(text)
-        {
+            : base(text) {
         }
 
-        public virtual void AddPossession(IEntity possession)
-        {
+        /// <summary>
+        /// Adds an IPossessable construct, such as a person place or thing, to the collection of IEntity instances the PossessivePronoun "Owns",
+        /// and sets its owner to be the PossessivePronoun.
+        /// If the item is already possessed by the current instance, this method has no effect.
+        /// </summary>
+        /// <param name="possession">The possession to add.</param>
+        public virtual void AddPossession(IEntity possession) {
             if (PossessesFor != null) {
                 PossessesFor.AddPossession(possession);
-            } else if (!_possessed.Contains(possession)) {
+            }
+            else if (!_possessed.Contains(possession)) {
                 _possessed.Add(possession);
             }
         }
 
 
 
-        public virtual IEnumerable<IEntity> Possessed
-        {
-            get
-            {
+        /// <summary>
+        /// Gets all of the IEntity constructs which the Entity "owns".
+        /// </summary>
+        public virtual IEnumerable<IEntity> Possessed {
+            get {
                 return _possessed;
             }
         }
-
-        public virtual IEntity PossessesFor
-        {
-            get
-            {
+        /// <summary>
+        /// Gets or sets the IEntity which actually, by proxy, owns the things owned by the PossessivePronoun.
+        /// </summary>
+        public virtual IEntity PossessesFor {
+            get {
                 return _possessedFor;
             }
-            set
-            {
+            set {
                 _possessedFor = value;
                 foreach (var possession in _possessed)
                     _possessedFor.AddPossession(possession);

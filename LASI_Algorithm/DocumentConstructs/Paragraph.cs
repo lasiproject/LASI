@@ -6,10 +6,12 @@ using System.Threading.Tasks;
 
 namespace LASI.Algorithm.DocumentConstructs
 {
+    /// <summary>
+    /// Represents a paragrph.
+    /// </summary>
     public sealed class Paragraph
     {
         private ParagraphKind paragraphKind;
-
 
 
         /// <summary>
@@ -98,7 +100,6 @@ namespace LASI.Algorithm.DocumentConstructs
         }
 
 
-        private static int IDNumProvider;
 
         /// <summary>
         /// Returns the document-unique identification number of the Paragraph.
@@ -116,15 +117,25 @@ namespace LASI.Algorithm.DocumentConstructs
                 return Sentences.Aggregate("", (str, sent) => str + " " + sent.Text).Trim();
             }
         }
+        private static int IDNumProvider;
     }
-}
-
-namespace LASI.Algorithm.DocumentConstructs
-{
+    /// <summary>
+    /// Defines the Various Kinds of Paragraphs which a document may contain.
+    /// </summary>
     public enum ParagraphKind
     {
+        /// <summary>
+        /// Default paragraph containing one or more complete sentences.
+        /// </summary>
         Default,
-        EnumerationContent,
+        /// <summary>
+        /// A paragraph containing numbered or bulletted content.
+        /// </summary>
+        NumberedOrBullettedContent,
+        /// <summary>
+        /// A paragraph comprising a heading.
+        /// </summary>
         Heading
     }
 }
+

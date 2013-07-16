@@ -43,7 +43,7 @@ namespace LASI.FileSystem
             proc.StartInfo = new ProcessStartInfo
             {
                 FileName = @"..\..\..\ThirdPartyComponents\FileFormatConversion\doc2x\doc2x.exe",
-                Arguments = Original.Name,
+                Arguments = Original.FileName,
                 WorkingDirectory = Original.Directory,
                 CreateNoWindow = true,
                 RedirectStandardError = true,

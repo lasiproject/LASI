@@ -11,6 +11,9 @@ using System.Collections.Concurrent;
 
 namespace LASI.Algorithm.Lookup
 {
+    /// <summary>
+    /// Provides Comprehensive static facilities for Synoynm Identification, Word and Phrase Comparison, Gender Stratification, and Named Entity Recognition.
+    /// </summary>
     public static class LexicalLookup
     {
         #region Public Methods

@@ -17,12 +17,12 @@ namespace SharpNatrualLanguageProcessing
         }
         public LASI.Algorithm.ITaggedTextSource TagTextSource(LASI.Algorithm.IRawTextSource source) {
             SourceText = base.PreProcessText(source.GetText());
-            return new LASI.Algorithm.TaggedTextChunk(base.ParseViaTaggingMode(), source.DataName);
+            return new LASI.Algorithm.TaggedTextFragment(base.ParseViaTaggingMode(), source.Name);
 
         }
         public async Task<LASI.Algorithm.ITaggedTextSource> TagTextSourceAsync(LASI.Algorithm.IRawTextSource source) {
             SourceText = base.PreProcessText(source.GetText());
-            return new LASI.Algorithm.TaggedTextChunk(await base.ParseViaTaggingModeAsync(), source.DataName);
+            return new LASI.Algorithm.TaggedTextFragment(await base.ParseViaTaggingModeAsync(), source.Name);
 
         }
         public string TagString(string source) {

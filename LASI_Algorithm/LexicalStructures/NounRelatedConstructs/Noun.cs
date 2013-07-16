@@ -22,7 +22,7 @@ namespace LASI.Algorithm
         /// <param name="text">The key text content of the Noun.</param>
         protected Noun(string text)
             : base(text) {
-            Kind = EntityKind.UNDEFINED;
+            EntityKind = EntityKind.UNDEFINED;
             EstablishKind();
         }
 
@@ -65,13 +65,13 @@ namespace LASI.Algorithm
         /// <summary>
         /// Binds an IDescriptor, generally an Adjective or AdjectivePhrase, as a descriptor of the Noun.
         /// </summary>
-        /// <param name="adjective">The IDescriptor instance which will be added to the Noun'subject descriptors.</param>
+        /// <param name="adjective">The IDescriptor instance which will be added to the Noun's descriptors.</param>
         public virtual void BindDescriptor(IDescriptor adjective) {
             adjective.Describes = this;
             _describedBy.Add(adjective);
         }
         /// <summary>
-        /// Adds an IPossessible construct, such as a person place or thing, to the collection of IEntity instances the Noun "Owns",
+        /// Adds an IPossessable construct, such as a person place or thing, to the collection of IEntity instances the Noun "Owns",
         /// and sets its owner to be the Noun.
         /// If the item is already possessed by the current instance, this method has no effect.
         /// </summary>
@@ -129,7 +129,7 @@ namespace LASI.Algorithm
 
 
         /// <summary>
-        /// Gets all of the IEntity constructs which the Entity "owns".
+        /// Gets all of the IEntity constructs which the Noun "owns".
         /// </summary>
         public virtual IEnumerable<IEntity> Possessed {
             get {
@@ -146,9 +146,9 @@ namespace LASI.Algorithm
         }
 
         /// <summary>
-        /// Gets or sets the Entity PronounKind; Person, Place, Thing, Organization, or Activity;  of the Noun.
+        /// Gets or sets the EntityKind; Person, Place, Thing, Organization, or Activity;  of the Noun.
         /// </summary>
-        public EntityKind Kind {
+        public EntityKind EntityKind {
             get;
             set;
         }
@@ -160,7 +160,10 @@ namespace LASI.Algorithm
             protected set;
         }
 
-
+        /// <summary>
+        /// A noun phrase arbitrarily associated with the current Noun.
+        /// </summary>
+        [Obsolete]
         public NounPhrase BindNounPhrase {
             get;
             set;

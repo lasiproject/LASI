@@ -17,7 +17,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Initializes a new instance of the Conjunction class.
         /// </summary>
-        /// <param name="text">the key text content of the word.</param>
+        /// <param name="text">The text content of the Conjunction.</param>
         public Conjunction(string text)
             : base(text) {
         }

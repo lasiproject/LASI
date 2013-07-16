@@ -217,79 +217,79 @@
         /// </summary>
         UNDEFINED = 0,
         /// <summary>
-        /// !
+        /// Antonym
         /// </summary>
         Antonym,// !  
         /// <summary>
-        /// @
+        /// HypERnym
         /// </summary>
         HypERnym,// @  
         /// <summary>
-        /// @i
+        /// InstanceHypERnym
         /// </summary>
         InstanceHypERnym,// @i 
         /// <summary>
-        /// ~
+        /// HypOnym
         /// </summary>
         HypOnym,//~ 
         /// <summary>
-        /// ~i
+        /// InstanceHypOnym
         /// </summary>
         InstanceHypOnym,// ~i
         /// <summary>
-        /// #m
+        /// MemberHolonym
         /// </summary>
         MemberHolonym,// #m 
         /// <summary>
-        /// #s
+        /// SubstanceHolonym
         /// </summary>
         SubstanceHolonym,// #s
         /// <summary>
-        /// #v
+        /// PartHolonym
         /// </summary>
         PartHolonym,// #v
         /// <summary>
-        /// %m
+        /// MemberMeronym
         /// </summary>
         MemberMeronym,// %m 
         /// <summary>
-        /// %s
+        /// SubstanceMeronym
         /// </summary>
         SubstanceMeronym,// %s
         /// <summary>
-        /// %v
+        /// PartMeronym
         /// </summary>
         PartMeronym,// %v
         /// <summary>
-        /// =
+        /// Attribute
         /// </summary>
         Attribute,// =  
         /// <summary>
-        /// +
+        /// DerivationallyRelatedForm
         /// </summary>
         DerivationallyRelatedForm,// +  
         /// <summary>
-        /// ;c
+        /// DomainOfSynset_TOPIC
         /// </summary>
         DomainOfSynset_TOPIC,// ;c 
         /// <summary>
-        /// -c
+        /// MemberOfThisDomain_TOPIC
         /// </summary>
         MemberOfThisDomain_TOPIC,// -c 
         /// <summary>
-        /// ;r
+        /// DomainOfSynset_REGION
         /// </summary>
         DomainOfSynset_REGION,//;r 
         /// <summary>
-        /// -r
+        /// MemberOfThisDomain_REGION
         /// </summary>
         MemberOfThisDomain_REGION,// -r 
         /// <summary>
-        /// ;u
+        /// DomainOfSynset_USAGE
         /// </summary>
         DomainOfSynset_USAGE,// ;u 
         /// <summary>
-        /// -u
+        /// MemberOfThisDomain_USAGE
         /// </summary>
         MemberOfThisDomain_USAGE,// -u  
     }
@@ -303,47 +303,47 @@
         /// </summary>
         UNDEFINED = 0,
         /// <summary>
-        /// !
+        /// Antonym
         /// </summary>
         Antonym,// !
         /// <summary>
-        /// @
+        /// Hypernym
         /// </summary>
         Hypernym,// @
         /// <summary>
-        /// ~
+        /// Hyponym
         /// </summary>
         Hyponym,// ~ 
         /// <summary>
-        /// *
+        /// Entailment
         /// </summary>
         Entailment,// *
         /// <summary>
-        /// >
+        /// Cause
         /// </summary>
         Cause,// >
         /// <summary>
-        /// ^
+        /// AlsoSee
         /// </summary>
         AlsoSee,// ^
         /// <summary>
-        /// $
+        /// Verb_Group
         /// </summary>
         Verb_Group,// $    
         /// <summary>
-        /// +
+        /// DerivationallyRelatedForm
         /// </summary>
         DerivationallyRelatedForm,// +    
         /// <summary>
-        /// ;c
+        /// DomainOfSynset_TOPIC
         /// </summary>
         DomainOfSynset_TOPIC,// ;c  
         /// <summary>
-        /// ;r
+        /// DomainOfSynset_REGION
         /// </summary>
         DomainOfSynset_REGION,// ;r
         /// <summary>
-        /// ;u
+        /// DomainOfSynset_USAGE
         /// </summary>
         DomainOfSynset_USAGE,// ;u 
     }
@@ -357,39 +357,39 @@
         /// </summary>
         UNDEFINED = 0,
         /// <summary>
-        /// !
+        /// Antonym
         /// </summary>
         Antonym,// !
         /// <summary>
-        /// &
+        /// SimilarTo
         /// </summary>
         SimilarTo,// &
         /// <summary>
-        /// leftAngleBracket
+        /// ParticipleOfVerb
         /// </summary>
         ParticipleOfVerb,// <
         /// <summary>
-        /// \
+        /// Pertainym_pertains_to_noun
         /// </summary>
         Pertainym_pertains_to_noun,// \                 Yes that really is a backslash
         /// <summary>
-        /// =
+        /// Attribute
         /// </summary>
         Attribute,// =
         /// <summary>
-        /// ^
+        /// AlsoSee
         /// </summary>
         AlsoSee,// ^
         /// <summary>
-        /// ;c
+        /// DomainOfSynset_TOPIC
         /// </summary>
         DomainOfSynset_TOPIC,// ;c
         /// <summary>
-        /// ;r
+        /// DomainOfSynset_REGION
         /// </summary>
         DomainOfSynset_REGION,// ;r
         /// <summary>
-        /// ;u
+        /// DomainOfSynset_USAGE
         /// </summary>
         DomainOfSynset_USAGE,// ;u 
     }
@@ -403,23 +403,23 @@
         /// </summary>
         UNDEFINED = 0,
         /// <summary>
-        /// !
+        /// Antonym
         /// </summary>
         Antonym,// !    
         /// <summary>
-        /// \
+        /// DerivedFromAdjective
         /// </summary>
         DerivedFromAdjective,// \                       Yes that really is a backslash
         /// <summary>
-        /// ;c
+        /// DomainOfSynset_TOPIC
         /// </summary>
         DomainOfSynset_TOPIC,// ;c
         /// <summary>
-        /// ;r
+        /// DomainOfSynset_REGION
         /// </summary>
         DomainOfSynset_REGION,// ;r
         /// <summary>
-        /// ;u
+        /// DomainOfSynset_USAGE
         /// </summary>
         DomainOfSynset_USAGE,// ;u
     }

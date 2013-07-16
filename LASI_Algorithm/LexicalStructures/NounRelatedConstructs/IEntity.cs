@@ -16,7 +16,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets the EntityKind; Person, Place, Thing, Organization, or Activity, associated with the Entity.
         /// </summary>
-        EntityKind Kind {
+        EntityKind EntityKind {
             get;
         }
     }

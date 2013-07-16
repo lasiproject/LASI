@@ -11,13 +11,37 @@ namespace LASI.Algorithm
     /// </summary>
     public enum EntityKind
     {
+        /// <summary>
+        /// UNDEFINED 
+        /// </summary>
         UNDEFINED = 0,
+        /// <summary>
+        /// Person
+        /// </summary>
         Person,
+        /// <summary>
+        /// Location
+        /// </summary>
         Location,
+        /// <summary>
+        /// Organization
+        /// </summary>
         Organization,
+        /// <summary>
+        /// ProperUnknown
+        /// </summary>
         ProperUnknown,
+        /// <summary>
+        /// Thing
+        /// </summary>
         Thing,
+        /// <summary>
+        /// ThingUnknown
+        /// </summary>
         ThingUnknown,
+        /// <summary>
+        /// Activitiy
+        /// </summary>
         Activitiy,
 
     }

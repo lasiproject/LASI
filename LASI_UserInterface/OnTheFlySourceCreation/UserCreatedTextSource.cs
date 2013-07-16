@@ -10,12 +10,12 @@ namespace LASI.UserInterface.OnTheFlySourceCreation
     public sealed class UserCreatedTextSource : IRawTextSource
     {
         public UserCreatedTextSource(string text, string name) {
-            DataName = name;
+            Name = name;
             content = text;
         }
         public UserCreatedTextSource(IEnumerable<string> lines, string name) {
             content = String.Join("\n", lines);
-            DataName = name;
+            Name = name;
         }
 
         private string content;
@@ -29,7 +29,7 @@ namespace LASI.UserInterface.OnTheFlySourceCreation
         }
 
 
-        public string DataName {
+        public string Name {
             get;
             private set;
         }

@@ -147,8 +147,8 @@ namespace AlgorithmAssemblyUnitTestProject
             Noun target = CreateNoun();
             EntityKind expected = EntityKind.Thing;
             EntityKind actual;
-            target.Kind = expected;
-            actual = target.Kind;
+            target.EntityKind = expected;
+            actual = target.EntityKind;
             Assert.AreEqual(expected, actual);
         }
 

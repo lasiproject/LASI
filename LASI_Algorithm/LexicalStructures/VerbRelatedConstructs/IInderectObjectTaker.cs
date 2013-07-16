@@ -7,9 +7,15 @@ namespace LASI.Algorithm
     /// </summary>
     public interface IInderectObjectTaker
     {
+        /// <summary>
+        /// Binds an IEntity construct as an indirect object of the IInderectObjectTaker.
+        /// </summary>
+        /// <param name="indirectObject">The IEntity to bind as an indirect object.</param>
         void BindIndirectObject(IEntity indirectObject);
-        System.Collections.Generic.IEnumerable<IEntity> IndirectObjects
-        {
+        /// <summary>
+        /// Gets the sequence of IEntity constructs which are indirect objects of the IInderectObjectTaker.
+        /// </summary>
+        System.Collections.Generic.IEnumerable<IEntity> IndirectObjects {
             get;
         }
     }

@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace LASI.Algorithm
 {
+    /// <summary>
+    /// Provides for registration of Entities as aliases for other Entities.
+    /// </summary>
     public static class AliasDictionary
     {
         /// <summary>

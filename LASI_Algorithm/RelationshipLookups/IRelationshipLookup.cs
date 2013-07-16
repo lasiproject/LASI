@@ -6,6 +6,11 @@ using System.Threading.Tasks;
 
 namespace LASI.Algorithm.RelationshipLookups
 {
+    /// <summary>
+    /// Defines the behaviors required of a lookup  table which indexes on various relationships between various combinations of IEntity and IVerbal constructs. 
+    /// </summary>
+    /// <typeparam name="TEntity">Any type which implements the IEntity interface.</typeparam>
+    /// <typeparam name="TVerbal">Any type which implements the IVerbal interface.</typeparam>
     public interface IRelationshipLookup<TEntity, TVerbal>
         where TEntity : IEntity
         where TVerbal : IVerbal

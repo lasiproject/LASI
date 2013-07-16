@@ -6,39 +6,52 @@ using System.Threading.Tasks;
 
 namespace LASI.Algorithm.DocumentConstructs
 {
+    /// <summary>
+    /// Represents a single sentence.
+    /// </summary>
     public sealed class Sentence
     {
 
         private Sentence() {
             ID = IDProvider++;
+            EndingPunctuation = EndingPunctuation ?? new SentenceDelimiter('.');
         }
-        public Sentence(params Phrase[] phrases)
-            : this() {
-            Clauses = new[] { new Clause(from P in phrases select P) };
-        }
+
+        /// <summary>
+        /// Initializes a new instance of the Sentence class.
+        /// </summary>
+        /// <param name="phrases">The sequence of Phrase elements which comprise the Sentence.</param>
+        /// <param name="sentencePunctuation">The SentenceDelimiter which terminates the Sentence. If not provided, a period will be assumed, and an instance of SentenceDelimiter created to represent it.</param>
         public Sentence(IEnumerable<Phrase> phrases, SentenceDelimiter sentencePunctuation = null)
             : this() {
             Clauses = new[] { new Clause(from P in phrases select P) };
-            EndingPunctuation = sentencePunctuation == null ?
-            new SentenceDelimiter('.') :
-            sentencePunctuation;
+            EndingPunctuation = sentencePunctuation;
         }
+        /// <summary>
+        /// Initializes a new instance of the Sentence class.
+        /// </summary>
+        /// <param name="words">The sequence of Word elements which comprise the Sentence.</param>
+        /// <param name="sentencePunctuation">The SentenceDelimiter which terminates the Sentence. If not provided, a period will be assumed, and an instance of SentenceDelimiter created to represent it.</param>
         public Sentence(IEnumerable<Word> words, SentenceDelimiter sentencePunctuation = null)
             : this() {
             Clauses = new[] { new Clause(from W in words select W) };
-            EndingPunctuation = sentencePunctuation == null ?
-               new SentenceDelimiter('.') :
-               sentencePunctuation;
+            EndingPunctuation = sentencePunctuation;
         }
-
+        /// <summary>
+        /// Initializes a new instance of the Sentence class.
+        /// </summary>
+        /// <param name="clauses">The sequence of Clause elements which comprise the Sentence.</param>
+        /// <param name="sentencePunctuation">The SentenceDelimiter which terminates the Sentence. If not provided, a period will be assumed, and an instance of SentenceDelimiter created to represent it.</param>
         public Sentence(IEnumerable<Clause> clauses, SentenceDelimiter sentencePunctuation = null)
             : this() {
             Clauses = clauses;
-            EndingPunctuation = sentencePunctuation == null ?
-                new SentenceDelimiter('.') :
-                sentencePunctuation;
+            EndingPunctuation = sentencePunctuation;
         }
-
+        /// <summary>
+        /// Returns the Phrase elements in the Sentence, following and not including the given Phrase. 
+        /// </summary>
+        /// <param name="phrase">The Phrase from which to start.</param>
+        /// <returns>The Phrase elements in the Sentence, following and not including the given Phrase. </returns>
         public IEnumerable<Phrase> GetPhrasesAfter(Phrase phrase) {
             return Phrases.SkipWhile(r => r != phrase).Skip(1);
         }
@@ -134,7 +147,9 @@ namespace LASI.Algorithm.DocumentConstructs
         public bool isStandard = true;
 
         private static int IDProvider;
-
+        /// <summary>
+        /// Gets the unique ID number of the Sentence.
+        /// </summary>
         public int ID {
             get;
             private set;

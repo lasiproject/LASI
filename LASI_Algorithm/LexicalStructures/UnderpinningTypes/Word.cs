@@ -48,17 +48,6 @@ namespace LASI.Algorithm
             return GetType().Name + " \"" + Text + "\"";
         }
 
-        public override bool Equals(object obj) {
-            return base.Equals(obj);
-        }
-
-
-
-
-        public override int GetHashCode() {
-            return base.GetHashCode();
-        }
-
         #endregion
 
         #region Properties
@@ -148,7 +137,9 @@ namespace LASI.Algorithm
             get;
             set;
         }
-
+        /// <summary>
+        /// Gets the System.Type of the current Word instance.
+        /// </summary>
         public Type Type {
             get {
                 return GetType();
@@ -177,6 +168,9 @@ namespace LASI.Algorithm
         #region Static Members
 
         private static int IDProvider;
+        /// <summary>
+        /// Controls the level detail of the information provided by the ToString method of all instances of the Word class.
+        /// </summary>
         public static bool VerboseOutput {
             get;
             set;

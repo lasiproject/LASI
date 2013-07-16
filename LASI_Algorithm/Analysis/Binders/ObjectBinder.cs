@@ -9,7 +9,9 @@ using LASI.Algorithm.DocumentConstructs;
 
 namespace LASI.Algorithm.Binding
 {
-
+    /// <summary>
+    /// Attempts to establish bindings between verbals and their objects at the Phrase level.
+    /// </summary>
     public class ObjectBinder
     {
         /// <summary>
@@ -24,7 +26,10 @@ namespace LASI.Algorithm.Binding
             St5 = new State5(this);
             St6 = new State6(this);
         }
-
+        /// <summary>
+        /// Performance IVerbal :=: IVerbalObject binding between the applicable elements within the provuded sentence.
+        /// </summary>
+        /// <param name="sentence">The Sentence to bind within.</param>
         public void Bind(Sentence sentence) {
             if (!sentence.Phrases.GetVerbPhrases().Any()) {
                 throw new VerblessPhrasalSequenceException();
@@ -33,7 +38,28 @@ namespace LASI.Algorithm.Binding
         }
 
 
-
+        /// <summary>
+        /// Performance IVerbal :=: IVerbalObject binding between the applicable elements within the provuded sequence of Phrase instances.
+        /// </summary>
+        /// <param name="contiguousPhrases">The sequence of Phrase instances to bind within.</param>
+        public void Bind(IEnumerable<Phrase> contiguousPhrases) {
+            var phrases = contiguousPhrases.ToList();
+            var verbPhraseIndex = phrases.FindIndex(r => r is VerbPhrase);
+            bindingTarget = contiguousPhrases.ElementAtOrDefault(verbPhraseIndex) as VerbPhrase;
+            if (bindingTarget == null)
+                return;
+            var remainingPhrases = phrases.Skip(verbPhraseIndex + 1).Reverse();
+            if (remainingPhrases.Any()) {
+                foreach (var phrase in remainingPhrases) {
+                    inputstream.Push(phrase);
+                }
+                try {
+                    St0.Transition(inputstream.Pop() as dynamic);
+                }
+                catch (InvalidOperationException) {
+                }
+            }
+        }
 
 
 
@@ -115,24 +141,6 @@ namespace LASI.Algorithm.Binding
 
 
 
-        public void Bind(IEnumerable<Phrase> contiguousPhrases) {
-            var phrases = contiguousPhrases.ToList();
-            var verbPhraseIndex = phrases.FindIndex(r => r is VerbPhrase);
-            bindingTarget = contiguousPhrases.ElementAtOrDefault(verbPhraseIndex) as VerbPhrase;
-            if (bindingTarget == null)
-                return;
-            var remainingPhrases = phrases.Skip(verbPhraseIndex + 1).Reverse();
-            if (remainingPhrases.Any()) {
-                foreach (var phrase in remainingPhrases) {
-                    inputstream.Push(phrase);
-                }
-                try {
-                    St0.Transition(inputstream.Pop() as dynamic);
-                }
-                catch (InvalidOperationException) {
-                }
-            }
-        }
         private void AssociateDirect() {
             foreach (var e in entities) {
                 bindingTarget.BindDirectObject(e);
@@ -148,7 +156,7 @@ namespace LASI.Algorithm.Binding
             }
             entities.Clear();
             ConjunctNounPhrases.Clear();
-            indirectFound = true;
+            IndirectFound = true;
         }
         private void BindBuiltupAdjectivePhrases(NounPhrase phrase) {
             foreach (var adjp in this.lastAdjectivals) {
@@ -166,9 +174,24 @@ namespace LASI.Algorithm.Binding
         private Stack<Phrase> inputstream = new Stack<Phrase>();
         private VerbPhrase bindingTarget;
         private IVerbalObject directObject;
+
+        private IVerbalObject DirectObject {
+            get { return directObject; }
+            set { directObject = value; }
+        }
         private IVerbalObject indirectObject;
+
+        private IVerbalObject IndirectObject {
+            get { return indirectObject; }
+            set { indirectObject = value; }
+        }
         private bool directFound;
         private bool indirectFound;
+
+        private bool IndirectFound {
+            get { return indirectFound; }
+            set { indirectFound = value; }
+        }
 
         private List<AdjectivePhrase> lastAdjectivals = new List<AdjectivePhrase>();
         private List<NounPhrase> ConjunctNounPhrases = new List<NounPhrase>();
@@ -476,7 +499,7 @@ namespace LASI.Algorithm.Binding
                     phrase.Words.Concat(
                    phrase.Sentence.GetPhrasesAfter(phrase)
                     .TakeWhile(w => !(w is IConjunctive || w is IPrepositional)).GetWords()));
-                Machine.directObject = infinitive;
+                Machine.DirectObject = infinitive;
 
             }
             public void Transition(PrepositionalPhrase phrase) {
@@ -507,7 +530,7 @@ namespace LASI.Algorithm.Binding
                 foreach (var e in Machine.entities)
                     Machine.bindingTarget.BindIndirectObject(e);
                 Machine.entities.Clear();
-                Machine.indirectFound = true;
+                Machine.IndirectFound = true;
                 Machine.ConjunctNounPhrases.Clear();
 
                 Machine.entities.Push(phrase);

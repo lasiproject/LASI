@@ -17,14 +17,11 @@ namespace Aluan_Experimentation
     {
 
 
-        static string testPath = @"C:\Users\Aluan\Desktop\.txt\411writtensummary2.txt";
+        static string testPath = @"C:\Users\Aluan\Desktop\ducks.txt";
 
         static void Main(string[] args) {
 
-            //var doc = TaggerUtil.LoadTextFile(new LASI.FileSystem.FileTypes.TextFile(testPath));
-            //TestRelationshipTable(doc);
-
-            TestFullNames();
+            var doc = TaggerUtil.DocumentFromRaw(new LASI.FileSystem.TextFile(testPath));
 
 
 

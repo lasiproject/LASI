@@ -8,12 +8,19 @@ using System.Threading.Tasks;
 
 namespace LASI.Algorithm.Lookup
 {
+    /// <summary>
+    /// Performs both verb root extraction and verb conjugation generation.
+    /// </summary>
     public static class VerbConjugator
     {
 
 
 
-
+        /// <summary>
+        /// Gets all forms of the verb root.
+        /// </summary>
+        /// <param name="root">The root of a verb as a string.</param>
+        /// <returns>All forms of the verb root.</returns>
         public static IEnumerable<string> GetConjugations(string root) {
 
             var hyphIndex = root.IndexOf('-');
@@ -36,7 +43,11 @@ namespace LASI.Algorithm.Lookup
             return results.Distinct();
 
         }
-
+        /// <summary>
+        /// Returns the root of the given verb string. If no root can be found, the verb string itself is returned.
+        /// </summary>
+        /// <param name="search">The verb string to find the root of.</param>
+        /// <returns>The root of the given verb string. If no root can be found, the verb string itself is returned.</returns>
         public static string FindRoot(string search) {
 
             return CheckSpecialForms(search).FirstOrDefault() ?? BuildLexicalForms(search).FirstOrDefault() ?? search;

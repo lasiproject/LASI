@@ -35,6 +35,9 @@ namespace LASI.Algorithm
             return base.ToString() + (BoundEntity != null ? " referring to -> " + BoundEntity.Text : "");
         }
         private IEntityGroup _boundEntity;
+        /// <summary>
+        /// Gets the Entity which the IPronoun references.
+        /// </summary>
         public IEntityGroup BoundEntity {
             get {
                 _boundEntity = _boundEntity ?? (Words.GetPronouns().Any(p => p.IsBound) ? Words.GetPronouns().Last().BoundEntity : null);
@@ -53,7 +56,7 @@ namespace LASI.Algorithm
                 _boundEntity = new EntityGroup(new[] { target });
             else
                 _boundEntity = new EntityGroup(_boundEntity.Concat(new[] { target }));
-            Kind = _boundEntity.Kind;
+            EntityKind = _boundEntity.EntityKind;
             IsBound = true;
         }
 
@@ -83,7 +86,7 @@ namespace LASI.Algorithm
                 DirectObjectOf = contextualPronoun.DirectObjectOf,
                 IndirectObjectOf = contextualPronoun.IndirectObjectOf,
                 ID = contextualPronoun.ID,
-                Kind = contextualPronoun.Kind,
+                EntityKind = contextualPronoun.EntityKind,
                 Document = contextualPronoun.Document,
                 Sentence = contextualPronoun.Sentence,
                 BoundPronouns = contextualPronoun.BoundPronouns,

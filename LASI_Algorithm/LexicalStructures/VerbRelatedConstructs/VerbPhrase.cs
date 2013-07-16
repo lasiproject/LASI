@@ -88,7 +88,10 @@ namespace LASI.Algorithm
             indirectObject.IndirectObjectOf = this;
         }
 
-
+        /// <summary>
+        /// Returns a string representation of the VerbPhrase.
+        /// </summary>
+        /// <returns>A string representation of the VerbPhrase.</returns>
         public override string ToString() {
             if (Phrase.VerboseOutput) {
 
@@ -116,21 +119,22 @@ namespace LASI.Algorithm
         }
 
 
-
+        /// <summary>
+        /// Determines if the VerbPhrase implies a possession relationship. E.g. in the senetence 
+        /// "They certainly have a lot of ideas." the VerbPhrase "certainly have" asserts a possessor possessee relationship between "They" and "a lot of ideas".
+        /// </summary>
+        /// <returns>True if the VerbPhrase is a possessive relationship specifier, false otherwise.</returns>
         protected virtual bool DetermineIsPossessive() {
             isPossessive = Words.GetVerbs().Any() && Words.GetVerbs().Last().IsPossessive;
             return isPossessive ?? false;
         }
+        /// <summary>
+        /// Determines if the VerbPhrase acts as a classifier. E.g. in the senetence "Rodents are definitely prey animals." the VerbPhrase "are definitely" acts as a classification tool because it states that rodents are a subset of prey animals.
+        /// </summary>
+        /// <returns>True if the VerbPhrase is a classifier, false otherwise.</returns>
         protected virtual bool DetermineIsClassifier() {
             isClassifier = Words.GetVerbs().Any() && Words.GetVerbs().Last().IsClassifier;
             return isClassifier ?? false;
-        }
-
-        public override bool Equals(object obj) {
-            return base.Equals(obj);
-        }
-        public override int GetHashCode() {
-            return base.GetHashCode();
         }
 
 
@@ -206,6 +210,9 @@ namespace LASI.Algorithm
                 return _modifiers;
             }
         }
+        /// <summary>
+        /// Gets or sets the IDescriber which may, in certain contexts be bound to the IVerbal itself.
+        /// </summary>
         public IDescriptor AdjectivalModifier {
             get;
             set;
@@ -275,6 +282,9 @@ namespace LASI.Algorithm
             get;
             protected set;
         }
+        /// <summary>
+        /// Gets the IPrepositional object which links the VerbPhrase to the ObjectOfThePreoposition.
+        /// </summary>
         public IPrepositional PrepositionalToObject {
             get;
             protected set;

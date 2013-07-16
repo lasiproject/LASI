@@ -10,8 +10,23 @@ using LASI.Algorithm.Analysis;
 
 namespace LASI.Algorithm.Binding
 {
+    /// <summary>
+    /// Provides static acess to a comprehensive set of binding operations which are applicable to a document.
+    /// </summary>
     public static class Binder
     {
+        /// <summary>
+        /// Gets an ordered collection of ProcessingTask objects which correspond to the steps required to Bind the given document.
+        /// Each ProcessingTask contains a Task property which, when awaited will perform a step of the Binding process.
+        /// </summary>
+        /// <param name="document">The document for which to get the ProcessingTasks for Binding.</param>
+        /// <returns>An ordered collection of ProcessingTask objects which correspond to the steps required to Bind the given document.
+        /// </returns>
+        /// <remarks>
+        /// ProcessingTasks returned by this method may be run in an arbitrary order.
+        /// However, to ensure the consistency/determinism of the Binding process, it is recommended that they be executed (awaited) in the order
+        /// in which they are hereby returned.
+        /// </remarks>
         public static IEnumerable<ProcessingTask> GetBindingTasksForDocument(Document document) {
             return new[]{
                 new ProcessingTask(document, Task.Run(() => PerformAttributePhraseBinding(document.Sentences)),
@@ -28,6 +43,10 @@ namespace LASI.Algorithm.Binding
                     string.Format("{0}: Abstracted References", document.FileName), 5),
             };
         }
+        /// <summary>
+        /// Asynchronously performs all binding procedures on the given Document.
+        /// </summary>
+        /// <param name="doc">The Document to bind within.</param> 
         public static void Bind(Document doc) {
 
             PerformAttributePhraseBinding(doc.Sentences);
@@ -36,6 +55,11 @@ namespace LASI.Algorithm.Binding
             PerformPronounBinding(doc);
 
         }
+        /// <summary>
+        /// Asynchronously performs all binding procedures on the given Document.
+        /// </summary>
+        /// <param name="doc">The Document to bind within.</param>
+        /// <returns>A Task representing the ongoing asynchronous operation.</returns>
         public static async Task BindAsync(Document doc) {
             await Task.Run(() => Bind(doc));
         }

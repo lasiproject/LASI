@@ -6,10 +6,30 @@ using System.Xml.Linq;
 
 namespace LASI.Algorithm.AdditionalPhraseTypes
 {
-    public class SimpleDeclarativePhrase : Phrase
+    /// <summary>
+    /// A phrase which indicates the possible start of a Simple Declarative Clause.
+    /// </summary>
+    public class SimpleDeclarativeClauseBeginPhrase : Phrase
     {
-        public SimpleDeclarativePhrase(IEnumerable<Word> composedWords)
-            : base(composedWords) {
+        /// <summary>
+        /// Initializes a new instance of the SimpleDeclarativeClauseBeginPhrase class.
+        /// </summary>
+        /// <param name="composed">The words which comprise the SimpleDeclarativeClauseBeginPhrase.</param>
+        public SimpleDeclarativeClauseBeginPhrase(IEnumerable<Word> composed)
+            : base(composed) {
+        }
+    }
+    /// <summary>
+    /// A phrase which indicates the possible start of an Inverted Clause.
+    /// </summary>
+    public class InvertedClauseBeginPhrase : Phrase
+    {
+        /// <summary>
+        /// Initializes a new instance of the InvertedClauseBeginPhrase class.
+        /// </summary>
+        /// <param name="composed">The words which comprise the InvertedClauseBeginPhrase.</param>
+        public InvertedClauseBeginPhrase(IEnumerable<Word> composed)
+            : base(composed) {
         }
     }
 }

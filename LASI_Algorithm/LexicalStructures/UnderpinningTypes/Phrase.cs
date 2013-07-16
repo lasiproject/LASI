@@ -90,12 +90,15 @@ namespace LASI.Algorithm
             set;
         }
         /// <summary>
-        /// Gets or sets the Sentence the Phrase belongs to.
+        /// Gets or sets the Sentence to which the Phrase belongs.
         /// </summary>
         public LASI.Algorithm.DocumentConstructs.Sentence Sentence {
             get;
             set;
         }
+        /// <summary>
+        /// Gets or sets the Paragraph to which the Phrase belongs.
+        /// </summary>
         public Paragraph Paragraph {
             get {
                 return Sentence != null ? Sentence.Paragraph : null;
@@ -173,6 +176,9 @@ namespace LASI.Algorithm
         #endregion
 
         #region Static Properties
+        /// <summary>
+        /// Controls the level detail of the information provided by the ToString method of all instances of the Phrase class.
+        /// </summary>
         public static bool VerboseOutput {
             get;
             set;

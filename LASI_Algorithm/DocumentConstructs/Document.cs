@@ -26,7 +26,7 @@ namespace LASI.Algorithm.DocumentConstructs
         public Document(IEnumerable<Paragraph> paragrpahs) {
             _paragraphs = paragrpahs.ToList();
             _enumContainingParagraphs = (from p in _paragraphs
-                                         where p.ParagraphKind == ParagraphKind.EnumerationContent
+                                         where p.ParagraphKind == ParagraphKind.NumberedOrBullettedContent
                                          select p).ToList();
 
             AssignMembers(paragrpahs);
@@ -101,12 +101,25 @@ namespace LASI.Algorithm.DocumentConstructs
                    orderby e is Word ? (e as Word).ID : (e as Phrase).Words.Last().ID ascending
                    select e;
         }
-
+        /// <summary>
+        /// Returns a representation of the Document as sequence of pages based on the given number sentences per page.
+        /// </summary>
+        /// <param name="sentencesPerPage">The number of sentences each page can contain. This varies inversely with the number of pages in the resulting sequence.</param>
+        /// <returns>A representation of the Document as sequence of pages.</returns>
         public IEnumerable<Page> Paginate(int sentencesPerPage) {
+            if (sentencesPerPage < 1) {
+                throw new ArgumentOutOfRangeException(
+                    "sentencesPerPage",
+                    "The supplied page length was invalid. A page must be allowed to have at least 1 sentence."
+                );
+            }
             return from subSequence in Sentences.Split(sentencesPerPage)
                    select new Page(subSequence, this);
         }
-
+        /// <summary>
+        /// Returns a string representation of the current document. The result contains the entire textual contents of the Document, thus resulting in the instance's full materialization and reification.
+        /// </summary>
+        /// <returns>A string representation of the current document. The result contains the entire textual contents of the Document, thus resulting in the instance's full materialization and reification.</returns>
         public override string ToString() {
             return Paragraphs.Format(p => p + "\n\n");
         }
@@ -174,21 +187,32 @@ namespace LASI.Algorithm.DocumentConstructs
 
 
         #endregion
-
+        /// <summary>
+        /// Represents a page of document. Pages are a somewhat arbitrary segement of a Document, containing some subset of the Sentences a document contains.
+        /// </summary>
         public sealed class Page
         {
+            /// <summary>
+            /// Initializes a new instance of the Page class.
+            /// </summary>
+            /// <param name="sentences">The sentences which comprise the Page.</param>
+            /// <param name="document">The Document to which the page belongs.</param>
             internal Page(IEnumerable<Sentence> sentences, Document document) {
                 Document = document;
                 Sentences = sentences;
 
             }
 
-
+            /// <summary>
+            /// Gets the sentences which comprise the Page.
+            /// </summary>
             public IEnumerable<Sentence> Sentences {
                 get;
                 private set;
             }
-
+            /// <summary>
+            /// Gets the Document to which the page belongs.
+            /// </summary>
             public Document Document {
                 get;
                 private set;

@@ -8,7 +8,9 @@ namespace LASI.Algorithm.RelationshipLookups
 {
     using EntityPair = LASI.Algorithm.RelationshipLookups.PerformerReceiverPair<IEntity, IEntity>;
     using ActionReceiverPair = LASI.Algorithm.RelationshipLookups.ActionReceiverPair<IVerbal, IEntity>;
-
+    /// <summary>
+    /// A sample (or test) implementation of the IRelationshipLookup interface.
+    /// </summary>
     public class SampleRelationshipLookup : IRelationshipLookup<IEntity, IVerbal>
     {
         #region Constructors

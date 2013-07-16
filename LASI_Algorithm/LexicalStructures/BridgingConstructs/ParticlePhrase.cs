@@ -8,6 +8,9 @@ using System.Xml.Linq;
 
 namespace LASI.Algorithm
 {
+    /// <summary>
+    /// Represents a phrase with the syntactic role of a particle.
+    /// </summary>
     public class ParticlePhrase : Phrase, IPrepositional
     {
         /// <summary>

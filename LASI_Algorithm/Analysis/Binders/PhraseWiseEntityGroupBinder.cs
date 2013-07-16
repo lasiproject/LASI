@@ -11,10 +11,16 @@ using LASI.Algorithm.DocumentConstructs;
 
 namespace LASI.Algorithm.Binding
 {
+    /// <summary>
+    /// Attempts to collect semantically grouped entities within a source into aggregate objects.
+    /// </summary>
     public class PhraseWiseEntityGroupBinder
     {
-        List<IEntityGroup> entityGroups = new List<IEntityGroup>();
+        private List<IEntityGroup> entityGroups = new List<IEntityGroup>();
 
+        /// <summary>
+        /// Gets the collection of IEntityGroup constructs which were formed from all of the all binding Binder's activities over the course of its lifetime.
+        /// </summary>
         public List<IEntityGroup> EntityGroups {
             get {
                 return entityGroups;
@@ -23,12 +29,15 @@ namespace LASI.Algorithm.Binding
                 entityGroups = value;
             }
         }
-
+        /// <summary>
+        /// Aggregates and binds the Phrase elvel IEntity constructs within the Sentence into instances aggregate objects which implement IEntityGroup.
+        /// </summary>
+        /// <param name="sentence">The Sentence to bind within.</param>
         public void Bind(Sentence sentence) {
             var betwixt = FindAllBetwixt(sentence);
             var aggregateEntities = new List<NounPhrase>();
             foreach (var b in betwixt) {
-                if (b.TillNextNP.GetConjunctionPhrases().Count() + b.TillNextNP.OfType<PunctuatorPhrase>().Count() != b.TillNextNP.Count() && b.TillNextNP.Count() < 3) {
+                if (b.TillNextNP.GetConjunctionPhrases().Count() + b.TillNextNP.OfType<SymbolPhrase>().Count() != b.TillNextNP.Count() && b.TillNextNP.Count() < 3) {
                     aggregateEntities.Add(b.NP);
                     if (aggregateEntities.Count > 2) {
                         EntityGroups.Add(new EntityGroup(aggregateEntities));

@@ -36,7 +36,7 @@ namespace LASI.FileSystem
         /// <param name="infile">The DocXFile instance representing the document to convert.</param>
         public DocxToTextConverter(DocXFile infile) :
             base(infile) {
-            DestinationInfo = new FileData(destinationDir + infile.Name);
+            DestinationInfo = new FileData(destinationDir + infile.FileName);
         }
 
         /// <summary>

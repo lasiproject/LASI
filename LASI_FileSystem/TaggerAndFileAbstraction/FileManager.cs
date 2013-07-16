@@ -219,7 +219,7 @@ namespace LASI.FileSystem
                     ext == ".pdf" ? PdfFilesDir :
                     ext == ".tagged" ? TaggedFilesDir : "";
 
-                newPath += "\\" + originalFile.Name;
+                newPath += "\\" + originalFile.FileName;
 
                 File.Copy(originalFile.FullPath, newPath, overwrite);
                 var newFile = WrapperMap[ext](newPath);

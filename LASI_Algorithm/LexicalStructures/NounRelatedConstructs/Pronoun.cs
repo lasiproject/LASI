@@ -26,20 +26,56 @@ namespace LASI.Algorithm
         #endregion
 
         #region Methods
-
+        /// <summary>
+        /// Binds the Pronoun to refer to the given Entity.
+        /// </summary>
+        /// <param name="target">The entity to which to bind.</param>
+        public void BindToEntity(IEntity target) {
+            if (_boundEntity != null || !_boundEntity.Any())
+                _boundEntity = new EntityGroup(new[] { target });
+            else
+                _boundEntity = new EntityGroup(_boundEntity.Concat(new[] { target }));
+            _entityKind = BoundEntity.EntityKind;
+        }
+        /// <summary>
+        /// Returns a string representation of the Pronoun.
+        /// </summary>
+        /// <returns>A string representation of the Pronoun.</returns>
         public override string ToString() {
 
-            return Text + (VerboseOutput ? " " + Kind : string.Empty);
+            return Text + (VerboseOutput ? " " + EntityKind : string.Empty);
 
         }
 
-
+        /// <summary>
+        /// Binds another IPronoun, generally another pronoun but possibly a PronounPhrase, to refer to the Pronoun.
+        /// </summary>
+        /// <param name="pro">An IPronoun which will be bound to refer to the Pronoun.</param>
         public virtual void BindPronoun(IPronoun pro) {
             if (!_boundPronouns.Contains(pro))
                 _boundPronouns.Add(pro);
         }
-
-
+        /// <summary>
+        /// Binds an IDescriptor, generally an Adjective or AdjectivePhrase, as a descriptor of the Pronoun.
+        /// </summary>
+        /// <param name="adjective">The IDescriptor instance which will be added to the Pronoun's descriptors.</param>
+        public virtual void BindDescriptor(IDescriptor adjective) {
+            _describers.Add(adjective);
+        }
+        /// <summary>
+        /// Adds an IPossessible construct, such as a person place or thing, to the collection of Pronoun "Owns",
+        /// and sets its owner to be the Pronoun.
+        /// If the item is already possessed by the current instance, this method has no effect.
+        /// </summary>
+        /// <param name="possession">The possession to add.</param>
+        public virtual void AddPossession(IEntity possession) {
+            if (!_possessed.Contains(possession)) {
+                _possessed.Add(possession);
+            }
+            if (IsBound && !BoundEntity.Possessed.Contains(possession)) {
+                BoundEntity.AddPossession(possession);
+            }
+        }
 
 
         #endregion
@@ -87,13 +123,7 @@ namespace LASI.Algorithm
             get;
             set;
         }
-        /// <summary>
-        /// Binds an IDescriptor, generally an Adjective or AdjectivePhrase, as a descriptor of the Pronoun.
-        /// </summary>
-        /// <param name="adjective">The IDescriptor instance which will be added to the Pronoun's descriptors.</param>
-        public virtual void BindDescriptor(IDescriptor adjective) {
-            _describers.Add(adjective);
-        }
+        
         /// <summary>
         /// Gets all of the IDescriptor constructs,generally Adjectives or AdjectivePhrases, which describe the Pronoun.
         /// </summary>
@@ -111,20 +141,7 @@ namespace LASI.Algorithm
             }
         }
 
-        /// <summary>
-        /// Adds an IPossessible construct, such as a person place or thing, to the collection of Pronoun "Owns",
-        /// and sets its owner to be the Pronoun.
-        /// If the item is already possessed by the current instance, this method has no effect.
-        /// </summary>
-        /// <param name="possession">The possession to add.</param>
-        public virtual void AddPossession(IEntity possession) {
-            if (!_possessed.Contains(possession)) {
-                _possessed.Add(possession);
-            }
-            if (IsBound && !BoundEntity.Possessed.Contains(possession)) {
-                BoundEntity.AddPossession(possession);
-            }
-        }
+       
         /// <summary>
         /// Gets or sets the Entity which is inferred to the Pronoun.
         /// </summary>
@@ -135,7 +152,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets the EntityKind of the Pronoun.
         /// </summary>
-        public virtual EntityKind Kind {
+        public virtual EntityKind EntityKind {
             get {
                 return _entityKind;
             }
@@ -147,15 +164,6 @@ namespace LASI.Algorithm
             get;
             protected set;
         }
-
-
-        #endregion
-
-
-        #region Fields
-        private ICollection<IDescriptor> _describers = new List<IDescriptor>();
-        private ICollection<IEntity> _possessed = new List<IEntity>();
-        private ICollection<IPronoun> _boundPronouns = new List<IPronoun>();
         /// <summary>
         /// Gets a value indicating wether the Pronoun is bound as a reference to some Entity.
         /// </summary>
@@ -164,18 +172,21 @@ namespace LASI.Algorithm
                 return BoundEntity != null;
             }
         }
+
+        #endregion
+
+
+        #region Fields
+        private ICollection<IDescriptor> _describers = new List<IDescriptor>();
+        private ICollection<IEntity> _possessed = new List<IEntity>();
+        private ICollection<IPronoun> _boundPronouns = new List<IPronoun>();
+
         private EntityKind _entityKind;
         private IEntityGroup _boundEntity;
 
         #endregion
 
-        public void BindToEntity(IEntity target) {
-            if (_boundEntity != null || !_boundEntity.Any())
-                _boundEntity = new EntityGroup(new[] { target });
-            else
-                _boundEntity = new EntityGroup(_boundEntity.Concat(new[] { target }));
-            _entityKind = BoundEntity.Kind;
-        }
+
 
         #region Static Methods
 

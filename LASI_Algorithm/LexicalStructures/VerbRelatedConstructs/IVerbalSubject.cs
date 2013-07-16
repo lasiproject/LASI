@@ -7,6 +7,9 @@ namespace LASI.Algorithm
     /// </summary>
     public interface IVerbalSubject
     {
+        /// <summary>
+        /// Gets or sets the IVerbal construct the IVerbalSubject is the subject of.
+        /// </summary>
         IVerbal SubjectOf {
             get;
             set;

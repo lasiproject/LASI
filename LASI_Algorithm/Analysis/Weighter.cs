@@ -11,6 +11,9 @@ using LASI.Algorithm.Analysis;
 
 namespace LASI.Algorithm.Weighting
 {
+    /// <summary>
+    /// Provides static acess to a comprehensive set of weighting operations which are applicable to a document.
+    /// </summary>
     static public class Weighter
     {
         /// <summary>
@@ -72,16 +75,15 @@ namespace LASI.Algorithm.Weighting
 
         }
         /// <summary>
-        /// Gets an ordered collection of Task objects which correspond to the steps required to weight the given document.
-        /// When awaited each Task will perform a step of the Weighting process, returning a string message indicating complection.
+        /// Gets an ordered collection of ProcessingTask objects which correspond to the steps required to Weight the given document.
+        /// Each ProcessingTask contains a Task property which, when awaited will perform a step of the Weighting process.
         /// </summary>
-        /// <param name="document">The document for which to get the Weighting Tasks.</param>
-        /// <returns>An ordered collection of Task objects which correspond to the steps required to weight the given document.
-        /// When awaited each Task will perform a step of the Weighting process, returning a string message indicating complection.
+        /// <param name="document">The document for which to get the ProcessingTasks for Weighting.</param>
+        /// <returns>An ordered collection of ProcessingTask objects which correspond to the steps required to Weight the given document.
         /// </returns>
         /// <remarks>
-        /// As with any collection of System.Task instances, the weighting Tasks returned by this method may be run in an arbitrary order.
-        /// However, to ensure the consistency/determinism of the weighting process, it is recommended that they be executed (awaited) in the order
+        /// ProcessingTasks returned by this method may be run in an arbitrary order.
+        /// However, to ensure the consistency/determinism of the Weighting process, it is recommended that they be executed (awaited) in the order
         /// in which they are hereby returned.
         /// </remarks>
         public static IEnumerable<ProcessingTask> GetWeightingProcessingTasks(Document document) {

@@ -9,14 +9,14 @@ using System.Threading.Tasks;
 namespace LASI.Algorithm
 {
     /// <summary>
-    /// Represents leftNPDeterminer words such as "the" and "a"
+    /// Represents a Determiner word such as "the" or "a"
     /// </summary>
     public class Determiner : Word
     {
         /// <summary>
         /// Initializes a new instance of the Determiner class.
         /// </summary>
-        /// <param name="text">the key text content of the word.</param>
+        /// <param name="text">The text content of the Determiner.</param>
         public Determiner(string text)
             : base(text) {
             if (string.Compare(text, "the", true) == 0)
@@ -31,6 +31,9 @@ namespace LASI.Algorithm
             get;
             set;
         }
+        /// <summary>
+        /// Gets the DeterminerKind value of the current instance.
+        /// </summary>
         public DeterminerKind DeterminerKind {
             get;
             protected set;

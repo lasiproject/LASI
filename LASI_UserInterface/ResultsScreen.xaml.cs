@@ -282,7 +282,7 @@ namespace LASI.UserInterface
             currentOperationLabel.Content = string.Format("{0}: Analyzing Syntax...", chosenFile.NameSansExt);
             foreach (var task in LASI.Algorithm.Binding.Binder.GetBindingTasksForDocument(doc)) {
                 currentOperationLabel.Content = task.InitializationMessage;
-                await task.WorkToPerform;
+                await task.Task;
                 currentOperationProgressBar.Value += task.PercentWorkRepresented;
                 currentOperationLabel.Content = task.CompletionMessage;
             }
@@ -293,7 +293,7 @@ namespace LASI.UserInterface
 
                 var message = task.InitializationMessage;
                 currentOperationLabel.Content = message;
-                await task.WorkToPerform;
+                await task.Task;
                 for (int i = 0; i < 9; i++) {
                     currentOperationProgressBar.Value += 1;
 

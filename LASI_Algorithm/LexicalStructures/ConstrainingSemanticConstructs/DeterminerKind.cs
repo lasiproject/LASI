@@ -5,9 +5,18 @@ using System.Text;
 
 namespace LASI.Algorithm
 {
+    /// <summary>
+    /// Defines the categories of determiners.
+    /// </summary>
     public enum DeterminerKind
     {
+        /// <summary>
+        /// Definite determiners such as "the".
+        /// </summary>
         Definite,
+        /// <summary>
+        /// Indefinite determiners such as "a" and "an".
+        /// </summary>
         Indefinite
     }
 }

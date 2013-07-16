@@ -15,7 +15,7 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="puncChar">The punctuation character symbol.</param>
         public Punctuation(char puncChar)
-            : base(puncChar.ToString()) {
+            : base(puncChar) {
             ActualCharacter = puncChar;
             AliasString = PunctuationAliasMap.GetAliasStringForChar(ActualCharacter);
         }

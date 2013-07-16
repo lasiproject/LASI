@@ -7,10 +7,16 @@ namespace LASI.Algorithm
     /// </summary>
     public interface IVerbalObject
     {
+        /// <summary>
+        /// Gets or sets the IVerbal construct the IVerbalSubject is the direct object of.
+        /// </summary>
         IVerbal DirectObjectOf {
             get;
             set;
         }
+        /// <summary>
+        /// Gets or sets the IVerbal construct the IVerbalSubject is the indirect object of.
+        /// </summary>
         IVerbal IndirectObjectOf {
             get;
             set;

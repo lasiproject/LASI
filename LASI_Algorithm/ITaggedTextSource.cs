@@ -6,10 +6,24 @@ using System.Threading.Tasks;
 
 namespace LASI.Algorithm
 {
+    /// <summary>
+    /// Exposes the behaviors of a source of tagged text and an associated name
+    /// </summary>
     public interface ITaggedTextSource
     {
+        /// <summary>
+        /// Returns a string containing all of the tagged text in the ITaggedTextSource.
+        /// </summary>
+        /// <returns>A string containing all of the tagged text in the ITaggedTextSource.</returns>
         string GetText();
+        /// <summary>
+        /// Returns a Task which when awaited yields all of the tagged text in the ITaggedTextSource.
+        /// </summary>
+        /// <returns>A Task which when awaited yields all of the tagged text in the ITaggedTextSource.</returns>
         Task<string> GetTextAsync();
-        string DataName { get; }
+        /// <summary>
+        /// Gets the name associated with the ITaggedTextSource.
+        /// </summary>
+        string Name { get; }
     }
 }

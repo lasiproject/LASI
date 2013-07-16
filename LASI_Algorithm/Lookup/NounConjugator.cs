@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace LASI.Algorithm.Lookup
 {
+    /// <summary>
+    /// Performs both noun root extraction and noun form generation.
+    /// </summary>
     public static class NounConjugator
     {
         private static string exceptionFilePath = System.Configuration.ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "noun.exc";
@@ -18,7 +21,11 @@ namespace LASI.Algorithm.Lookup
 
 
 
-
+        /// <summary>
+        /// Gets all forms of the noun root.
+        /// </summary>
+        /// <param name="search">The root of a noun as a string.</param>
+        /// <returns>All forms of the noun root.</returns>
         public static IEnumerable<string> GetLexicalForms(string search) {
             return TryComputeConjugations(search);
         }
@@ -42,9 +49,13 @@ namespace LASI.Algorithm.Lookup
         }
 
 
-
-        public static string FindRoot(string NounText) {
-            return CheckSpecialForms(NounText).FirstOrDefault() ?? ComputeBaseForm(NounText).FirstOrDefault() ?? NounText;
+        /// <summary>
+        /// Returns the root of the given noun string. If no root can be found, the noun string itself is returned.
+        /// </summary>
+        /// <param name="nounText">The noun string to find the root of.</param>
+        /// <returns>The root of the given noun string. If no root can be found, the noun string itself is returned.</returns>
+        public static string FindRoot(string nounText) {
+            return CheckSpecialForms(nounText).FirstOrDefault() ?? ComputeBaseForm(nounText).FirstOrDefault() ?? nounText;
 
         }
 

@@ -7,15 +7,25 @@ using System.Threading.Tasks;
 
 namespace LASI.Algorithm.Binding
 {
+    /// <summary>
+    /// Binds the attributely related NounPhrase elements within a source together.
+    /// </summary>
     public class AttributiveNounPhraseBinder
     {
-        private IEnumerable<IEnumerable<Phrase>> contiguousGroups;
+        /// <summary>
+        /// Binds the attributely related NounPhrase elements within the given sentence.
+        /// </summary>
+        /// <param name="sentence">The sentence to bind within.</param>
         public void Bind(Sentence sentence) {
             contiguousGroups = FindContiguousNounPhrases(sentence.Phrases);
             foreach (var cg in contiguousGroups) {
                 ProcessContiguous(cg);
             }
         }
+        /// <summary>
+        /// Binds the attributely related NounPhrase elements within the given sequence of Phrases.
+        /// </summary>
+        /// <param name="phrases">The sequence of Phrases to bind within.</param>
         public void Bind(IEnumerable<Phrase> phrases) {
             contiguousGroups = FindContiguousNounPhrases(phrases);
             foreach (var cg in contiguousGroups) {
@@ -65,6 +75,8 @@ namespace LASI.Algorithm.Binding
                    where r.Count() > 1
                    select r;
         }
+        private IEnumerable<IEnumerable<Phrase>> contiguousGroups;
+
     }
 
 

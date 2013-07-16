@@ -7,7 +7,14 @@ namespace LASI.Algorithm
     /// </summary>
     public interface IDirectObjectTaker
     {
+        /// <summary>
+        /// Binds an IEntity construct as a direct object of the IDirectObjectTaker.
+        /// </summary>
+        /// <param name="directObject">The IEntity to bind as a direct object.</param>
         void BindDirectObject(IEntity directObject);
+        /// <summary>
+        /// Gets the sequence of IEntity constructs which are direct objects of the IDirectObjectTaker.
+        /// </summary>
         System.Collections.Generic.IEnumerable<IEntity> DirectObjects {
             get;
         }

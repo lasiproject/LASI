@@ -41,7 +41,7 @@ namespace LASI.FileSystem
         /// <summary>
         /// Gets the simple name of the TaggedFile.
         /// </summary>
-        public string DataName {
+        public string Name {
             get { return NameSansExt; }
         }
     }

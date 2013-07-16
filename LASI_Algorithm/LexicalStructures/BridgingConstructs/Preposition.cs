@@ -30,6 +30,10 @@ namespace LASI.Algorithm
             return KnownSubordinatingWordStrings.Contains(text) ?
                 PrepositionRole.SubordinatingConjunction : PrepositionRole.Undetermined;
         }
+        /// <summary>
+        /// Returns a string representation of the Preposition.
+        /// </summary>
+        /// <returns>A string representation of the Preposition.</returns>
         public override string ToString() {
             return base.ToString() + (Word.VerboseOutput ? " " + Role : string.Empty);
         }
@@ -98,7 +102,7 @@ namespace LASI.Algorithm
         }
 
         private static List<string> knownSubordinatingWordStrings = new List<string>();
-        protected static IReadOnlyList<string> KnownSubordinatingWordStrings {
+        private static IReadOnlyList<string> KnownSubordinatingWordStrings {
             get {
                 return knownSubordinatingWordStrings;
             }

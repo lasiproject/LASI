@@ -54,7 +54,7 @@ namespace LASI.Algorithm.ClauseTypes
                     _modified = value;
                 else
                     throw new ConflictingClauseRoleException(String.Format(@"Cannot bind {0}\n
-                                                    as an Action discriptive modifier of {1}\n
+                                                    as an Verbal discriptive modifier of {1}\n
                                                     because it is already indicated as an Action
                                                     descriptive modifier of\n{2}", this, value, _described));
             }

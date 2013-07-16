@@ -38,7 +38,7 @@ namespace LASI.FileSystem
         /// <summary>
         /// Gets the filename, including its extension.
         /// </summary>
-        public string Name {
+        public string FileName {
             get {
                 return fileData.FileName;
             }

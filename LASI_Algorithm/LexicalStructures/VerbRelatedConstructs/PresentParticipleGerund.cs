@@ -17,7 +17,7 @@ namespace LASI.Algorithm
         /// <param name="text">The key text content of the Verb.</param>
         public PresentParticipleGerund(string text)
             : base(text, VerbTense.PresentParticiple) {
-            Kind = EntityKind.Activitiy;
+            EntityKind = EntityKind.Activitiy;
         }
         #region Methods
 
@@ -31,18 +31,24 @@ namespace LASI.Algorithm
         }
 
 
-
-        public void BindDescriptor(IDescriptor adj) {
-            adj.Describes = this;
-            _describedBy.Add(adj);
+        /// <summary>
+        /// Binds an IDescriptor, generally an Adjective or AdjectivePhrase, as a descriptor of the PresentParticipleGerund.
+        /// </summary>
+        /// <param name="adjective">The IDescriptor instance which will be added to the PresentParticipleGerund' descriptors.</param>
+        public void BindDescriptor(IDescriptor adjective) {
+            adjective.Describes = this;
+            _describedBy.Add(adjective);
         }
+        /// <summary>
+        /// Adds an IPossessible construct, such as a person place or thing, to the collection of the PresentParticipleGerund "Owns",
+        /// and sets its owner to be the PresentParticipleGerund.
+        /// If the item is already possessed by the current instance, this method has no effect.
+        /// </summary>
+        /// <param name="possession">The possession to add.</param>
         public void AddPossession(IEntity possession) {
             throw new NotImplementedException();
         }
 
-        public bool Equals(IEntity other) {
-            return this == other as PresentParticipleGerund;
-        }
         #endregion
 
         #region Properties
@@ -76,22 +82,33 @@ namespace LASI.Algorithm
             get;
             set;
         }
+        /// <summary>
+        /// Gets all of the IDescriptor constructs,generally Adjectives or AdjectivePhrases, which describe the PresentParticipleGerund.
+        /// </summary>
         public IEnumerable<IDescriptor> Descriptors {
             get {
                 return _describedBy;
             }
         }
-
+        /// <summary>
+        /// Gets all of the constructs which the PresentParticipleGerund "owns".
+        /// </summary>
         public IEnumerable<IEntity> Possessed {
             get {
                 return _possessed;
             }
         }
+        /// <summary>
+        /// Gets or sets the Entity which "owns" the PresentParticipleGerund.
+        /// </summary>
         public IEntity Possesser {
             get;
             set;
         }
-        public EntityKind Kind {
+        /// <summary>
+        /// Gets the Activitiy value of the EntityKind enumeration, the kind always associated with an PresentParticipleGerund.
+        /// </summary>
+        public EntityKind EntityKind {
             get;
             private set;
         }

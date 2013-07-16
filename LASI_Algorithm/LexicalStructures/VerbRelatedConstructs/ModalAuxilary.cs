@@ -11,12 +11,12 @@ namespace LASI.Algorithm
     /// Examples of ModalAuxilary words are "can", and "might"
     /// </summary>
     public class ModalAuxilary : Word
-    { 
+    {
         #region Constructors
         /// <summary>
         /// Initializes a new instance of the ModalAuxilary class
         /// </summary>
-        /// <param name="text">The key text content of the word.</param>
+        /// <param name="text">The text content of the ModalAuxilary.</param>
         public ModalAuxilary(string text)
             : base(text) {
         }

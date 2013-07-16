@@ -7,8 +7,15 @@ using System.Threading.Tasks;
 
 namespace LASI.Algorithm.Binding
 {
+    /// <summary>
+    /// Provides various methods facilitate bindings between the words within a single phrase.
+    /// </summary>
     public class IntraPhraseWordBinder
     {
+        /// <summary>
+        /// Binds some of the words within a NounPhrase.
+        /// </summary>
+        /// <param name="np">The NounPhrase to bind within.</param>
         public void Bind(NounPhrase np) {
             /*
              * Noun Phrase Assumption:  The Last Noun in a Noun Phrase is the important one

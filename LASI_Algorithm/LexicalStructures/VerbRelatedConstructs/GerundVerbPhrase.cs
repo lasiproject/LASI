@@ -13,7 +13,7 @@ namespace LASI.Algorithm
             : base(composedWords) {
         }
 
-        public EntityKind Kind {
+        public EntityKind EntityKind {
             get {
                 return EntityKind.Activitiy;
             }

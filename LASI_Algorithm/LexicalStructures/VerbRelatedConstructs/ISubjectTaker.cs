@@ -7,8 +7,16 @@ namespace LASI.Algorithm
     /// </summary>
     public interface ISubjectTaker
     {
+
+        /// <summary>
+        /// Binds the given IEntity as a subject of the ISubjectTaker instance.
+        /// </summary>
+        /// <param name="subject">The IEntity to attach to the ISubjectTaker as a subject.</param>
         void BindSubject(IEntity subject);
 
+        /// <summary>
+        /// Gets the collection of IEntity constructs which are bound as subjects of the ISubjetTaker.
+        /// </summary>
         System.Collections.Generic.IEnumerable<IEntity> Subjects {
             get;
         }

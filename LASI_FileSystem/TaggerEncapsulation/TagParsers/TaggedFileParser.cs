@@ -115,7 +115,7 @@ namespace LASI.FileSystem
                                     parsedPhrases = new List<Phrase>();
                                 }
                                 else if (words.All(w => w is Punctuation) || words.All(w => w is Punctuation || w is Conjunction)) {
-                                    parsedPhrases.Add(new PunctuatorPhrase(words));
+                                    parsedPhrases.Add(new SymbolPhrase(words));
                                 }
                                 else {
                                     parsedPhrases.Add(new UndeterminedPhrase(words));
@@ -126,7 +126,7 @@ namespace LASI.FileSystem
                 }
                 parsedSentences.Add(new Sentence(parsedClauses, sentencePunctuation));
             }
-            return new Paragraph(parsedSentences, hasEnumElemenets ? ParagraphKind.EnumerationContent : ParagraphKind.Default);
+            return new Paragraph(parsedSentences, hasEnumElemenets ? ParagraphKind.NumberedOrBullettedContent : ParagraphKind.Default);
         }
 
         private static IEnumerable<string> SplitIntoSentences(string paragraph, out bool containsEnumeratedElemenets) {
