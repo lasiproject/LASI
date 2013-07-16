@@ -1,6 +1,4 @@
-﻿
-
-namespace SharpNatrualLanguageProcessing
+﻿namespace LASI.FileSystem.TaggerEncapsulation
 {
 
     /// <summary>

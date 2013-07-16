@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SharpNatrualLanguageProcessing;
 using LASI.Utilities;
 using LASI.FileSystem.TaggerEncapsulation;
 namespace LASI.FileSystem
@@ -424,7 +423,7 @@ namespace LASI.FileSystem
                                        where dx.NameSansExt == d.NameSansExt
                                        select dx).Count() == 0
                                 select d) {
-                var tagger = new SharpNatrualLanguageProcessing.SharpNLPTagger(
+                var tagger = new SharpNLPTagger(
                     TaggerMode.TagAndAggregate, doc.FullPath,
                     TaggedFilesDir + "\\" + doc.NameSansExt + ".tagged");
                 var tf = tagger.ProcessFile();

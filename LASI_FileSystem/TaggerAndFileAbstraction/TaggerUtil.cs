@@ -30,7 +30,7 @@ namespace LASI.Utilities
         /// <param name="strs">The raw, untagged TextFile to parse.</param>
         /// <returns>The contents of the TextFile composed into a fully reified LASI.Algorithm.DocumentConstruct.Document instance.</returns> 
         public static Document DocumentFromRaw(TextFile txt) {
-            var doc = new TaggedFileParser(new SharpNatrualLanguageProcessing.SharpNLPTagger(TaggerMode, txt.FullPath).ProcessFile()).LoadDocument();
+            var doc = new TaggedFileParser(new SharpNLPTagger(TaggerMode, txt.FullPath).ProcessFile()).LoadDocument();
             doc.FileName = txt.NameSansExt;
             return doc;
         }
@@ -40,7 +40,7 @@ namespace LASI.Utilities
         /// <param name="strs">The raw, untagged TextFile to parse.</param>
         /// <returns>The contents of the TextFile composed into a fully reified LASI.Algorithm.DocumentConstruct.Document instance.</returns> 
         public static async Task<Document> DocumentFromRawAsync(TextFile txt) {
-            var doc = await new TaggedFileParser(await new SharpNatrualLanguageProcessing.SharpNLPTagger(TaggerMode, txt.FullPath).ProcessFileAsync()).LoadDocumentAsync();
+            var doc = await new TaggedFileParser(await new SharpNLPTagger(TaggerMode, txt.FullPath).ProcessFileAsync()).LoadDocumentAsync();
             doc.FileName = txt.NameSansExt;
             return doc;
         }
@@ -63,7 +63,7 @@ namespace LASI.Utilities
         /// <returns>A single string containing the tagged result. The form is identical to what it would be appear in a tagged file.</returns>
         /// <remarks>No files are created when calling this function.</remarks>
         public static string TaggedFromRaw(params string[] strs) {
-            return new SharpNatrualLanguageProcessing.QuickTagger(TaggerMode).TagString(String.Join(" ", strs));
+            return new QuickTagger(TaggerMode).TagString(String.Join(" ", strs));
         }
         /// <summary>
         /// Parses any number of pre-tagged strings into a new Document instance.
@@ -88,34 +88,34 @@ namespace LASI.Utilities
 
 
         public static ITaggedTextSource TaggedFromRaw(IRawTextSource textSource) {
-            return new SharpNatrualLanguageProcessing.QuickTagger(TaggerMode).TagTextSource(textSource);
+            return new QuickTagger(TaggerMode).TagTextSource(textSource);
 
         }
         public static async Task<ITaggedTextSource> TaggedFromRawAsync(IRawTextSource textSource) {
-            return await new SharpNatrualLanguageProcessing.QuickTagger(TaggerMode).TagTextSourceAsync(textSource);
+            return await new QuickTagger(TaggerMode).TagTextSourceAsync(textSource);
 
         }
 
 
         public static async Task<TaggedFile> TaggedFromRawAsync(TextFile inputFile) {
-            return await new SharpNatrualLanguageProcessing.SharpNLPTagger(TaggerMode, inputFile.FullPath).ProcessFileAsync();
+            return await new SharpNLPTagger(TaggerMode, inputFile.FullPath).ProcessFileAsync();
         }
         public static TaggedFile TaggedFromRaw(TextFile inputFile) {
-            return new SharpNatrualLanguageProcessing.SharpNLPTagger(TaggerMode, inputFile.FullPath).ProcessFile();
+            return new SharpNLPTagger(TaggerMode, inputFile.FullPath).ProcessFile();
         }
 
 
         /// <summary>
         /// Gets or sets the default mode the tagger will operate under. The default value is set to TagAndAggregate
         /// </summary>
-        private static SharpNatrualLanguageProcessing.TaggerMode TaggerMode {
+        private static TaggerMode TaggerMode {
             get;
             set;
         }
 
 
         static TaggerUtil() {
-            TaggerMode = SharpNatrualLanguageProcessing.TaggerMode.TagAndAggregate;
+            TaggerMode = TaggerMode.TagAndAggregate;
         }
 
 

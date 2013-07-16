@@ -16,7 +16,6 @@ using System.Collections.ObjectModel;
 using LASI.Algorithm;
 using LASI.FileSystem;
 using LASI.Utilities;
-using SharpNatrualLanguageProcessing;
 using System.IO;
 
 
@@ -32,18 +31,16 @@ namespace Brittany_WPF_Experimentation
         }
 
         private void Button_Click(object sender, RoutedEventArgs e) {
-            if(ExpandoGrid.Height == 250)
-            {
-            ExpandoGrid.Height = 200;
-            Height = 450;
+            if (ExpandoGrid.Height == 250) {
+                ExpandoGrid.Height = 200;
+                Height = 450;
             }
-            else
-            {
+            else {
                 Height = 250;
                 ExpandoGrid.Height = 250;
 
             }
-            
+
         }
     }
 

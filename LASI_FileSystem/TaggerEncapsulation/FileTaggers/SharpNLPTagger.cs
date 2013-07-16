@@ -6,7 +6,7 @@ using System.Linq;
 using System.Collections.Generic;
 using LASI.Utilities;
 using LASI.FileSystem.TaggerEncapsulation;
-namespace SharpNatrualLanguageProcessing
+namespace LASI.FileSystem.TaggerEncapsulation
 {
     /// <summary>
     /// Based on the example UI code which came with sharp NLP,

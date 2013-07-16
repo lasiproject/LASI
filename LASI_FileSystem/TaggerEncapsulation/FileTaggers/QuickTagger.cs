@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using LASI.FileSystem.TaggerEncapsulation;
 
-namespace SharpNatrualLanguageProcessing
+namespace LASI.FileSystem.TaggerEncapsulation
 {
 
     public sealed class QuickTagger : SharpNLPTagger
