@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LASI.Algorithm;
 using System.Reflection;
-namespace LASI.FileSystem.TaggerEncapsulation
+namespace LASI.ContentSystem.TaggerEncapsulation
 {
     using WordCreator = Func<string, Word>;
     /// <summary>

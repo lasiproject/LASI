@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-namespace LASI.FileSystem
+namespace LASI.ContentSystem
 {
     /// <summary>
     /// A strongly typed wrapper that encapsulates a modern Word document (.docx).
@@ -18,7 +18,7 @@ namespace LASI.FileSystem
         public DocXFile(string absolutePath)
             : base(absolutePath) {
             if (!this.Ext.Equals(".docx", StringComparison.OrdinalIgnoreCase)) {
-                throw new LASI.FileSystem.FileTypeWrapperMismatchException(GetType().ToString(), Ext);
+                throw new LASI.ContentSystem.FileTypeWrapperMismatchException(GetType().ToString(), Ext);
             }
         }
 

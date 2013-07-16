@@ -1,7 +1,7 @@
 using LASI.Algorithm;
 using LASI.Algorithm.DocumentConstructs;
 using LASI.Algorithm.LexicalInformationProviders;
-using LASI.FileSystem;
+using LASI.ContentSystem;
 using LASI.UserInterface.Dialogs;
 using System;
 using System.Collections.Generic;
@@ -209,12 +209,12 @@ namespace LASI.UserInterface
         private async void exportButton_Click(object sender, RoutedEventArgs e) {
             foreach (var doc in documents) {
                 using (
-                    var docWriter = new LASI.FileSystem.Serialization.XML.SimpleLexicalSerializer(
+                    var docWriter = new LASI.ContentSystem.Serialization.XML.SimpleLexicalSerializer(
                     FileManager.ResultsDir + System.IO.Path.DirectorySeparatorChar + new string(
                     doc.FileName.TakeWhile(c => c != '.').ToArray()) + ".xml")) {
                     await docWriter.WriteAsync(from S in doc.Sentences
                                                from R in S.Phrases
-                                               select R, doc.FileName, FileSystem.Serialization.XML.DegreeOfOutput.Comprehensive);
+                                               select R, doc.FileName, ContentSystem.Serialization.XML.DegreeOfOutput.Comprehensive);
                 }
             }
             var exportDialog = new ExportResultsDialog();

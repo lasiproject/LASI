@@ -1,4 +1,4 @@
-﻿namespace LASI.FileSystem.TaggerEncapsulation
+﻿namespace LASI.ContentSystem.TaggerEncapsulation
 {
 
     /// <summary>

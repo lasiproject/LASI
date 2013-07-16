@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LASI.FileSystem
+namespace LASI.ContentSystem
 {
     /// <summary>
     /// The base class from which file format conversion objects are derrived.

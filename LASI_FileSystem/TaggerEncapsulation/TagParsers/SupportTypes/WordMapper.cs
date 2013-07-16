@@ -1,5 +1,5 @@
 ﻿using LASI.Algorithm;
-using LASI.FileSystem.TaggerEncapsulation;
+using LASI.ContentSystem.TaggerEncapsulation;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -10,7 +10,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml;
 
-namespace LASI.FileSystem
+namespace LASI.ContentSystem
 {
     /// <summary>
     /// Parses pairs of text and tag tokens into their runtime type equivalents as specified by the Tagset

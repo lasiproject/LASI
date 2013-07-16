@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 using System.Data;
 using System.ComponentModel;
 
-namespace LASI.FileSystem
+namespace LASI.ContentSystem
 {
     public sealed class GenericXMLFile : InputFile
     {

@@ -137,9 +137,9 @@
       <EmbedInteropTypes>False</EmbedInteropTypes>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\LASI_FileSystem\L_FileSystem.csproj">
+    <ProjectReference Include="..\LASI_FileSystem\L_ContentSystem.csproj">
       <Project>{f13d6c6d-a004-45bd-8fb8-e044e20f1204}</Project>
-      <Name>L_FileSystem</Name>
+      <Name>L_ContentSystem</Name>
       <Private>True</Private>
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </ProjectReference>

@@ -15,7 +15,7 @@ using System.Windows.Shapes;
 using System.Timers;
 using System.Configuration;
 using System.Threading;
-using LASI.FileSystem;
+using LASI.ContentSystem;
 using System.IO;
 using LASI.Utilities;
 
@@ -52,8 +52,8 @@ namespace LASI.UserInterface
             //If the AutoDebugCleanupOn setting is set to "true", destroy the project file directory when the application is closed.
             if (ConfigurationManager.AppSettings["AutoDebugCleanupOn"] == "true") {
                 App.Current.Exit += (sender, e) => {
-                    if (FileSystem.FileManager.Initialized)
-                        FileSystem.FileManager.DecimateProject();
+                    if (ContentSystem.FileManager.Initialized)
+                        ContentSystem.FileManager.DecimateProject();
                 };
             }
         }

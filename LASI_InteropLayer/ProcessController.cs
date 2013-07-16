@@ -1,7 +1,7 @@
 ﻿using LASI.Algorithm.Binding;
 using LASI.Algorithm.DocumentConstructs;
 using LASI.Algorithm.LexicalInformationProviders;
-using LASI.FileSystem;
+using LASI.ContentSystem;
 using LASI.Utilities;
 using System;
 using System.Collections.Concurrent;

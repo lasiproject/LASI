@@ -1,14 +1,14 @@
 ﻿using LASI.Algorithm;
 using LASI.Algorithm.DocumentConstructs;
-using LASI.FileSystem;
-using LASI.FileSystem.TaggerEncapsulation;
+using LASI.ContentSystem;
+using LASI.ContentSystem.TaggerEncapsulation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LASI.FileSystem
+namespace LASI.ContentSystem
 {
     /// <summary>
     /// Provides dynamic, non file driven, access to the functionality of the POS Tagger and TaggedFileParser.

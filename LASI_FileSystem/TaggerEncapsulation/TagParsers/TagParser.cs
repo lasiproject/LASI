@@ -3,7 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using LASI.Algorithm.DocumentConstructs;
-namespace LASI.FileSystem.TaggerEncapsulation
+namespace LASI.ContentSystem.TaggerEncapsulation
 {
     abstract class TagParser
     {
@@ -15,7 +15,7 @@ namespace LASI.FileSystem.TaggerEncapsulation
             return await Task.Run(() => LoadParagraphs());
         }
         public abstract Task<LASI.Algorithm.DocumentConstructs.Document> LoadDocumentAsync();
-        public LASI.FileSystem.TaggedFile TaggededDocumentFile {
+        public LASI.ContentSystem.TaggedFile TaggededDocumentFile {
             get;
             protected set;
         }

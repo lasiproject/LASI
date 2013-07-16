@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LASI.FileSystem
+namespace LASI.ContentSystem
 {
     /// <summary>
     /// The Exception that is thrown when attempting to parse an unknown Word Tag

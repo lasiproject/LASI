@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-namespace LASI.FileSystem
+namespace LASI.ContentSystem
 {
     /// <summary>
     /// This class serves as a wrapper around a file path, providing for direct access to the indvidual components of the file path.

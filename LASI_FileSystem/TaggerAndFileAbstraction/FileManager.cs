@@ -5,8 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LASI.Utilities;
-using LASI.FileSystem.TaggerEncapsulation;
-namespace LASI.FileSystem
+using LASI.ContentSystem.TaggerEncapsulation;
+namespace LASI.ContentSystem
 {
     /// <summary>
     /// A static class which encapsulates the operations necessary to manage the working directory of the current user progress.

@@ -4,9 +4,9 @@ using System.IO;
 using System.Text;
 using System.Linq;
 using System.Threading.Tasks;
-using LASI.FileSystem.TaggerEncapsulation;
+using LASI.ContentSystem.TaggerEncapsulation;
 
-namespace LASI.FileSystem.TaggerEncapsulation
+namespace LASI.ContentSystem.TaggerEncapsulation
 {
 
     sealed class QuickTagger : SharpNLPTagger

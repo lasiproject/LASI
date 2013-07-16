@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-namespace LASI.FileSystem
+namespace LASI.ContentSystem
 {
     /// <summary>
     /// Converts Microsoft wd .doc binary files to modern Microsoft wd .docx open XML files.

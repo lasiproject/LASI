@@ -27,9 +27,9 @@ namespace LASI.UserInterface
             App.Current.Exit += (sender, e) => {
                 if (ConfigurationManager.AppSettings["AutoDebugCleanupOn"] == "true") {
                     try {
-                        FileSystem.FileManager.DecimateProject();
+                        ContentSystem.FileManager.DecimateProject();
                     }
-                    catch (FileSystem.FileManagerNotInitializedException) {
+                    catch (ContentSystem.FileManagerNotInitializedException) {
                     }
                 }
             };
@@ -44,7 +44,7 @@ namespace LASI.UserInterface
 
             var processController = new ProcessController();
             var progressPercentage = Resources["AnalysisProgressPercentage"];
-            var analyzedDocuments = await processController.AnalyseAllDocumentsAsync(LASI.FileSystem.FileManager.TextFiles, async (message, increment) => await UpdateProgressDisplay(message, increment));
+            var analyzedDocuments = await processController.AnalyseAllDocumentsAsync(LASI.ContentSystem.FileManager.TextFiles, async (message, increment) => await UpdateProgressDisplay(message, increment));
             ProgressBar.Value = 100;
             ProgressLabel.Content = "Complete";
             WindowManager.ResultsScreen.Documents = analyzedDocuments.ToList();

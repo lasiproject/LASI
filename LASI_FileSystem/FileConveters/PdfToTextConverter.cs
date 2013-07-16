@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
 
-namespace LASI.FileSystem
+namespace LASI.ContentSystem
 {
     public class PdfToTextConverter : FileConverter
     {

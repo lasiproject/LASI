@@ -5,8 +5,8 @@ using System.Text;
 using System.Linq;
 using System.Collections.Generic;
 using LASI.Utilities;
-using LASI.FileSystem.TaggerEncapsulation;
-namespace LASI.FileSystem.TaggerEncapsulation
+using LASI.ContentSystem.TaggerEncapsulation;
+namespace LASI.ContentSystem.TaggerEncapsulation
 {
     /// <summary>
     /// Based on the example UI code which came with sharp NLP,
@@ -68,16 +68,16 @@ namespace LASI.FileSystem.TaggerEncapsulation
         /// Processes the text given to the tagger based on the Tagger's current TaggerMode. Returns the TaggedFile resulting from the process.
         /// </summary>
         ///// <returns>The TaggedFile resulting from the process.</returns>
-        public virtual LASI.FileSystem.TaggedFile ProcessFile() {
+        public virtual LASI.ContentSystem.TaggedFile ProcessFile() {
             WriteToFile(ParseViaTaggingMode());
-            return new LASI.FileSystem.TaggedFile(outputFilePath);
+            return new LASI.ContentSystem.TaggedFile(outputFilePath);
 
         }
         /// <summary>
         /// Asynchronously processes the text given to the tagger based on the Tagger's current TaggerMode. Returns the TaggedFile resulting from the process.
         /// </summary>
         /// <returns>rocesses the text given to the tagger based on the Tagger's current TaggerMode. Returns the TaggedFile resulting from the process.</returns>
-        public virtual async System.Threading.Tasks.Task<LASI.FileSystem.TaggedFile> ProcessFileAsync() {
+        public virtual async System.Threading.Tasks.Task<LASI.ContentSystem.TaggedFile> ProcessFileAsync() {
             return await System.Threading.Tasks.Task.Run(() => ProcessFile());
 
 

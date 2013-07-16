@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using LASI.Algorithm;
 
 
-namespace LASI.FileSystem.Serialization.XML
+namespace LASI.ContentSystem.Serialization.XML
 {
     public interface ILexicalWriter<in S, out T, in W> : IDisposable
         where W : System.Xml.XmlWriter

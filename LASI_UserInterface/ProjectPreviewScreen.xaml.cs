@@ -1,4 +1,4 @@
-﻿using LASI.FileSystem;
+﻿using LASI.ContentSystem;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,7 +40,7 @@ namespace LASI.UserInterface
             DocumentPreview.SelectedIndex = 0;
         }
 
-        private async Task LoadTextandTab(FileSystem.TextFile textfile) {
+        private async Task LoadTextandTab(ContentSystem.TextFile textfile) {
             using (StreamReader reader = new StreamReader(textfile.FullPath)) {
                 var data = reader.ReadToEnd();
                 var docu = await reader.ReadToEndAsync().ContinueWith((t) => {

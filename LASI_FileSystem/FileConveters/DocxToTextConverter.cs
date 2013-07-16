@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
-namespace LASI.FileSystem
+namespace LASI.ContentSystem
 {
     /// <summary>
     /// An input file converter specialized to extract the written content from a .docx (Microsoft wd 2003+ open XML file format)

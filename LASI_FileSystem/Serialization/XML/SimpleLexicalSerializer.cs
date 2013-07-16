@@ -8,7 +8,7 @@ using System.Xml;
 using System.Xml.Linq;
 
 
-namespace LASI.FileSystem.Serialization.XML
+namespace LASI.ContentSystem.Serialization.XML
 {
     public class SimpleLexicalSerializer : ILexicalWriter<IEnumerable<ILexical>, ILexical, XmlWriter>
     {

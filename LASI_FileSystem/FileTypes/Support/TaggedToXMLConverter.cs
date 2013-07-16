@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LASI.FileSystem
+namespace LASI.ContentSystem
 {
     class TaggedToXMLConverter : FileConverter
     {

@@ -7,8 +7,8 @@
     <ProjectGuid>{F13D6C6D-A004-45BD-8FB8-E044E20F1204}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>LASI.FileSystem</RootNamespace>
-    <AssemblyName>FileSystem</AssemblyName>
+    <RootNamespace>LASI.ContentSystem</RootNamespace>
+    <AssemblyName>ContentSystem</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

@@ -1,5 +1,5 @@
 ﻿using System;
-namespace LASI.FileSystem
+namespace LASI.ContentSystem
 {
     /// <summary>
     /// Stores and differentiates distinct, as well as overlapping, aspects of a file path.

@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-namespace LASI.FileSystem
+namespace LASI.ContentSystem
 {
     /// <summary>
     /// A strongly typed wrapper that encapsulates a tagged file (.tagged), a file with embedded syntactic annotations.
@@ -20,7 +20,7 @@ namespace LASI.FileSystem
         public TaggedFile(string filePath)
             : base(filePath) {
             if (!this.Ext.Equals(".tagged", StringComparison.OrdinalIgnoreCase))
-                throw new LASI.FileSystem.FileTypeWrapperMismatchException(GetType().ToString(), Ext);
+                throw new LASI.ContentSystem.FileTypeWrapperMismatchException(GetType().ToString(), Ext);
         }
         /// <summary>
         /// Gets a single string containing all of the text in the TaggedFile.

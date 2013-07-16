@@ -69,9 +69,9 @@
       <Project>{8c562a93-a885-4fe9-8b8c-5ce34ccbaec1}</Project>
       <Name>L_Algorithm</Name>
     </ProjectReference>
-    <ProjectReference Include="..\LASI_FileSystem\L_FileSystem.csproj">
+    <ProjectReference Include="..\LASI_FileSystem\L_ContentSystem.csproj">
       <Project>{f13d6c6d-a004-45bd-8fb8-e044e20f1204}</Project>
-      <Name>L_FileSystem</Name>
+      <Name>L_ContentSystem</Name>
     </ProjectReference>
     <ProjectReference Include="..\LASI_Utilities\L_Utilities.csproj">
       <Project>{bc10a8f0-77ff-46d0-9f9a-38e2fda22d21}</Project>

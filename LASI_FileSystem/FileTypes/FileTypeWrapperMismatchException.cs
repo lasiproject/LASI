@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace LASI.FileSystem
+namespace LASI.ContentSystem
 {
     /// <summary>
     /// The Exception that is thrown when an attempt is made to construct a 

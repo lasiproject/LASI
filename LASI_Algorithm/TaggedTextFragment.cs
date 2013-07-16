@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace LASI.Algorithm
 {
     /// <summary>
-    /// Encapsulates a string containing Tagged Text and an associated name. Providing synchronous and asynchronous acess to it contents.
+    /// Encapsulates a string containing Tagged Text and an associated name. Provides synchronous and asynchronous acess to it contents.
     /// </summary>
     public class TaggedTextFragment : ITaggedTextSource
     {
@@ -49,10 +49,6 @@ namespace LASI.Algorithm
         /// Gets the name associated with the TaggedTextFragment.
         /// </summary>
         public string Name { get; private set; }
-
-        public static implicit operator string(TaggedTextFragment fragment) {
-            return fragment.GetText();
-        }
 
         private string taggedText;
 
