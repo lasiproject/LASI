@@ -8,7 +8,7 @@ namespace LASI.Algorithm
     /// <summary>
     /// Broadly specifies the various resource usage profiles of the program.
     /// </summary>
-    public enum ResourceUsageMode
+    public enum ResourceMode
     {
         /// <summary>
         /// High resource usage indicates a liberal allocation and consumption of available system resources.

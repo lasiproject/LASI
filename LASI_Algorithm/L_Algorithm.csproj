@@ -56,7 +56,8 @@
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>ic_launcher-web.ico</ApplicationIcon>
+    <ApplicationIcon>
+    </ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <RunPostBuildEvent>Always</RunPostBuildEvent>
@@ -92,18 +93,19 @@
     <Compile Include="Analysis\ProcessingTask.cs" />
     <Compile Include="Analysis\SubordinateClauseIdentifier.cs" />
     <Compile Include="IEnumerableExtensions\IEnumerableOfIPronounExtensions.cs" />
-    <Compile Include="IRawTextSource.cs" />
+    <Compile Include="ResourceUsageManagement\Memory.cs" />
+    <Compile Include="TextSourceAbstraction\IRawTextSource.cs" />
     <Compile Include="IEnumerableExtensions\EnumTypeExtensions.cs" />
     <Compile Include="IEnumerableExtensions\IEnumerableOfRecursiveIEnumerableILexicalsExtenstions.cs" />
-    <Compile Include="ITaggedTextSource.cs" />
+    <Compile Include="TextSourceAbstraction\ITaggedTextSource.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\RelativePronounKind.cs" />
-    <Compile Include="RawTextFragment.cs" />
-    <Compile Include="RelationshipLookups\ActionReceiverPair.cs" />
-    <Compile Include="RelationshipLookups\EntityPair.cs" />
-    <Compile Include="RelationshipLookups\ExpressionExtensions.cs" />
+    <Compile Include="TextSourceAbstraction\RawTextFragment.cs" />
+    <Compile Include="RelationshipLookups\Helpers\ActionReceiverPair.cs" />
+    <Compile Include="RelationshipLookups\Helpers\PerformerReceiverPair.cs" />
+    <Compile Include="RelationshipLookups\Helpers\ExpressionExtensions.cs" />
     <Compile Include="RelationshipLookups\IRelationshipLookup.cs" />
     <Compile Include="RelationshipLookups\SampleRelationshipLookup.cs" />
-    <Compile Include="ResourceUsageMode.cs" />
+    <Compile Include="ResourceUsageManagement\ResourceUsageMode.cs" />
     <Compile Include="LexicalStructures\VerbRelatedConstructs\InfinitivePhrase.cs" />
     <Compile Include="Analysis\Binders\IntraPhraseWordBinder.cs" />
     <Compile Include="Analysis\Binders\InvalidStateTransitionException.cs" />
@@ -113,7 +115,7 @@
     <Compile Include="Analysis\Binders\SubjectBinder.cs" />
     <Compile Include="Analysis\Weighter.cs" />
     <Compile Include="DocumentConstructs\SubordinateClauseBeginPhrase.cs" />
-    <Compile Include="AliasDictionary.cs" />
+    <Compile Include="RelationshipLookups\AliasDictionary.cs" />
     <Compile Include="IEnumerableExtensions\IEnumerableOfIEntityExtensions.cs" />
     <Compile Include="IEnumerableExtensions\IEnumerableOfILexicalExtensions.cs" />
     <Compile Include="LexicalStructures\BridgingConstructs\PrepositionRole.cs" />
@@ -145,8 +147,8 @@
     <Compile Include="LexicalStructures\NounRelatedConstructs\IPossesser.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\IQuantifer.cs" />
     <Compile Include="LexicalStructures\VerbRelatedConstructs\IModalityModdifiable.cs" />
-    <Compile Include="LexicalComparers.cs" />
-    <Compile Include="Concurrency.cs" />
+    <Compile Include="RelationshipLookups\Helpers\LexicalComparers.cs" />
+    <Compile Include="ResourceUsageManagement\Concurrency.cs" />
     <Compile Include="LexicalInformationProviders\Lookups\AdjectiveLookup.cs" />
     <Compile Include="LexicalInformationProviders\Lookups\AdverbLookup.cs" />
     <Compile Include="LexicalInformationProviders\WordFormGeneration\NounConjugator.cs" />
@@ -226,8 +228,7 @@
     <Compile Include="LexicalStructures\UnderpinningTypes\Word.cs" />
     <Compile Include="IEnumerableExtensions\IEnumerableOfWordExtensions.cs" />
     <Compile Include="LexicalInformationProviders\Lookups\LookupSupport\WordNetLexCategoryInformation.cs" />
-    <Compile Include="TaggedTextFragment.cs" />
-    <None Include="ClassDiagram1.cd" />
+    <Compile Include="TextSourceAbstraction\TaggedTextFragment.cs" />
     <None Include="ClassDiagrams\ClassDiagram3.cd" />
     <None Include="ClassDiagrams\ClassDiagram1.cd" />
     <None Include="ClassDiagrams\ClassDiagram2.cd" />
@@ -239,8 +240,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Analysis\Binders\SubordinatingConjunctionsTest.txt" />
-    <Content Include="ic_launcher-web.ico" />
-    <Content Include="LasiLogo.ico" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LASI_Utilities\L_Utilities.csproj">
@@ -270,6 +269,7 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
