@@ -34,42 +34,42 @@ namespace LASI.Algorithm.Weighting
                Task.Run(() => 
                {
                     WeightWordsBySyntacticSequence(doc);
-                    return string.Format("{0}: Calculating Harmonic Distance", doc.FileName);
+                    return string.Format("{0}: Calculating Harmonic Distance", doc.Name);
                }),       
                Task.Run(() => 
                {
                     WeightWordsByLiteralFrequency (doc);
-                    return string.Format("{0}: Aggregating Literals", doc.FileName);
+                    return string.Format("{0}: Aggregating Literals", doc.Name);
                }),
                Task.Run(() => 
                {
                     WeightPhrasesByLiteralFrequency (doc);
-                    return string.Format("{0}: Aggregating Complex Literals", doc.FileName);
+                    return string.Format("{0}: Aggregating Complex Literals", doc.Name);
                }),
                Task.Run(() => 
                {
                     ModifyNounWeightsBySynonyms(doc);
-                    return string.Format("{0}: Generalizing Nouns",doc.FileName );
+                    return string.Format("{0}: Generalizing Nouns",doc.Name );
                }),
                Task.Run(() => 
                {
                     ModifyVerbWeightsBySynonyms (doc);
-                    return string.Format("{0}: Generalizing Verbs",doc.FileName );
+                    return string.Format("{0}: Generalizing Verbs",doc.Name );
                }), 
                Task.Run(() => 
                {
                     WeightSimilarNounPhrases(doc);
-                    return string.Format("{0}: Generalizing Phrases",doc.FileName);
+                    return string.Format("{0}: Generalizing Phrases",doc.Name);
                }),   
                Task.Run(() => 
                {
                     HackSubjectPropernounImportance (doc); 
-                    return string.Format("{0}: Focusing Patterns", doc.FileName);
+                    return string.Format("{0}: Focusing Patterns", doc.Name);
                }),
                Task.Run(() => 
                {
                     NormalizeWeights (doc); 
-                    return  string.Format("{0}: Normalizing Metrics", doc.FileName);
+                    return  string.Format("{0}: Normalizing Metrics", doc.Name);
                }),
             };
 
@@ -90,48 +90,48 @@ namespace LASI.Algorithm.Weighting
             return new[]{ 
                 //new ProcessingTask(document,
                 //    WeightWordsBySyntacticSequenceAsync(document),
-                //    string.Format("{0}: Calculating Harmonic Distance", document.FileName), 
-                //    string.Format("{0}: Calculated Harmonic Distance", document.FileName),
+                //    string.Format("{0}: Calculating Harmonic Distance", document.Name), 
+                //    string.Format("{0}: Calculated Harmonic Distance", document.Name),
                 //    4),
                 new ProcessingTask(document,
                     WeightWordsByLiteralFrequencyAsync (document), 
-                    string.Format("{0}: Aggregating Literals", document.FileName),
-                    string.Format("{0}: Aggregated Literals", document.FileName),
+                    string.Format("{0}: Aggregating Literals", document.Name),
+                    string.Format("{0}: Aggregated Literals", document.Name),
                     11),
                 new ProcessingTask(document,
                     WeightPhrasesByLiteralFrequencyAsync (document),
-                    string.Format("{0}: Aggregating Complex Literals", document.FileName),
-                    string.Format("{0}: Aggregated Complex Literals", document.FileName),
+                    string.Format("{0}: Aggregating Complex Literals", document.Name),
+                    string.Format("{0}: Aggregated Complex Literals", document.Name),
                     19),
                 new ProcessingTask(document,
                     ModifyNounWeightsBySynonymsAsync(document),
-                    string.Format("{0}: Generalizing Nouns",document.FileName), 
-                    string.Format("{0}: Generalized Nouns",document.FileName),
+                    string.Format("{0}: Generalizing Nouns",document.Name), 
+                    string.Format("{0}: Generalized Nouns",document.Name),
                     19),
                 new ProcessingTask(document,
                     ModifyVerbWeightsBySynonymsAsync (document), 
-                    string.Format("{0}: Generalizing Verbs",document.FileName), 
-                    string.Format("{0}: Generalized Verbs",document.FileName),
+                    string.Format("{0}: Generalizing Verbs",document.Name), 
+                    string.Format("{0}: Generalized Verbs",document.Name),
                     10),
                 new ProcessingTask(document,
                     WeightSimilarNounPhrasesAsync(document),
-                    string.Format("{0}: Generalizing Phrases",document.FileName),
-                    string.Format("{0}: Generalized Phrases",document.FileName),
+                    string.Format("{0}: Generalizing Phrases",document.Name),
+                    string.Format("{0}: Generalized Phrases",document.Name),
                     20),
                 new ProcessingTask(document,
                     WeightSimilarEntitiesAsync(document),
-                    string.Format("{0}: Generalizing Entities",document.FileName),
-                    string.Format("{0}: Generalized Entities",document.FileName),
+                    string.Format("{0}: Generalizing Entities",document.Name),
+                    string.Format("{0}: Generalized Entities",document.Name),
                     10),
                 new ProcessingTask(document,
                     HackSubjectPropernounImportanceAsync (document), 
-                    string.Format("{0}: Focusing Patterns", document.FileName),
-                    string.Format("{0}: Focused Patterns", document.FileName),
+                    string.Format("{0}: Focusing Patterns", document.Name),
+                    string.Format("{0}: Focused Patterns", document.Name),
                     6),
                 new ProcessingTask(document,
                     NormalizeWeightsAsync (document),
-                    string.Format("{0}: Normalizing Metrics", document.FileName),
-                    string.Format("{0}: Normalized Metrics", document.FileName),
+                    string.Format("{0}: Normalizing Metrics", document.Name),
+                    string.Format("{0}: Normalized Metrics", document.Name),
                     3)
             };
 

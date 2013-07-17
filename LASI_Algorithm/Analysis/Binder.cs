@@ -30,17 +30,17 @@ namespace LASI.Algorithm.Binding
         public static IEnumerable<ProcessingTask> GetBindingTasksForDocument(Document document) {
             return new[]{
                 new ProcessingTask(document, Task.Run(() => PerformAttributePhraseBinding(document.Sentences)),
-                    string.Format("{0}: Binding Attributives", document.FileName),
-                    string.Format("{0}: Bound Attributives", document.FileName), 5),
+                    string.Format("{0}: Binding Attributives", document.Name),
+                    string.Format("{0}: Bound Attributives", document.Name), 5),
                 new ProcessingTask(document, Task.Run(() => PerformIntraPhraseBinding(document.Phrases)),
-                    string.Format("{0}: Decomposing Phrasals", document.FileName),
-                    string.Format("{0}: Decomposed Phrasals", document.FileName), 5),
+                    string.Format("{0}: Decomposing Phrasals", document.Name),
+                    string.Format("{0}: Decomposed Phrasals", document.Name), 5),
                 new ProcessingTask(document, Task.Run(() => PerformSVOBinding(document.Sentences)),
-                    string.Format("{0}: Analyzing Verbal Relationships", document.FileName),
-                    string.Format("{0}: Analyzed Verbal Relationships", document.FileName), 5), 
+                    string.Format("{0}: Analyzing Verbal Relationships", document.Name),
+                    string.Format("{0}: Analyzed Verbal Relationships", document.Name), 5), 
                 new ProcessingTask(document, Task.Run(() => PerformPronounBinding(document)),
-                    string.Format("{0}: Abstracting References", document.FileName),
-                    string.Format("{0}: Abstracted References", document.FileName), 5),
+                    string.Format("{0}: Abstracting References", document.Name),
+                    string.Format("{0}: Abstracted References", document.Name), 5),
             };
         }
         /// <summary>

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 using LASI.Utilities;
 
 
@@ -24,6 +23,7 @@ namespace LASI.Algorithm.DocumentConstructs
         /// </summary>
         /// <param name="paragrpahs">The collection of paragraphs which contain all text in the document.</param>
         public Document(IEnumerable<Paragraph> paragrpahs) {
+            ID = IDProvider++;
             _paragraphs = paragrpahs.ToList();
             _enumContainingParagraphs = (from p in _paragraphs
                                          where p.ParagraphKind == ParagraphKind.NumberedOrBullettedContent
@@ -167,12 +167,21 @@ namespace LASI.Algorithm.DocumentConstructs
         }
 
         /// <summary>
-        /// The name of the file the Document instance was parsed from.
+        /// Gets the unique ID number of the document instance.
         /// </summary>
-        public string FileName {
+        public int ID {
+            get;
+            private set;
+        }
+
+        /// <summary>
+        /// Gets the name of the Document. If no name is present, a string representation of the Document's ID is returned.
+        /// </summary>
+        public string Name {
             get;
             set;
         }
+
 
         #endregion
 
@@ -184,7 +193,7 @@ namespace LASI.Algorithm.DocumentConstructs
         private IList<Paragraph> _paragraphs;
         private IList<Paragraph> _enumContainingParagraphs;
 
-
+        private static int IDProvider;
 
         #endregion
         /// <summary>

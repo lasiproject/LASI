@@ -46,7 +46,7 @@ namespace LASI.ContentSystem
         /// <returns>A traversable, queriable document object defining the run time representation of the tagged file which the TaggedFileParser governs. </returns>
         public override Document LoadDocument() {
             return new Document(LoadParagraphs()) {
-                FileName = TaggededDocumentFile != null ? TaggededDocumentFile.NameSansExt : "Untitled"
+                Name = TaggededDocumentFile != null ? TaggededDocumentFile.NameSansExt : "Untitled"
             };
         }
 
@@ -146,9 +146,9 @@ namespace LASI.ContentSystem
             var reader2 = (new StringReader(chunk));
             char token = '~';
             while (reader2.Peek() != ' ' && reader2.Peek() != '/') {
-                token = ( char )reader2.Read();
+                token = (char)reader2.Read();
             }
-            token = ( char )reader2.Read();
+            token = (char)reader2.Read();
             return token;
         }
 

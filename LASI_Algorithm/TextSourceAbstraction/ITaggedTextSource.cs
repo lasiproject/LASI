@@ -24,6 +24,8 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets the name associated with the ITaggedTextSource.
         /// </summary>
-        string Name { get; }
+        string Name {
+            get;
+        }
     }
 }

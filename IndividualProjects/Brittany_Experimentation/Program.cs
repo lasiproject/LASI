@@ -27,7 +27,7 @@ namespace Brittany_Experimentation
 
 
         static void TagExampleFile() {
-            var document = Tagger.DocumentFromRaw(@"C:\Brittany\Desktop\intest1.txt");
+            var document = Tagger.DocumentFromRaw(new TextFile(@"C:\Brittany\Desktop\intest1.txt"));
             var para2 = from p in document.Paragraphs
                         select p;
             foreach (var p in para2) {

@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LASI.Utilities;
 using LASI.ContentSystem.TaggerEncapsulation;
+using TaggerInterop;
 namespace LASI.ContentSystem
 {
     /// <summary>
@@ -426,7 +427,7 @@ namespace LASI.ContentSystem
                 var tagger = new SharpNLPTagger(
                     TaggerMode.TagAndAggregate, doc.FullPath,
                     TaggedFilesDir + "\\" + doc.NameSansExt + ".tagged");
-                var tf = tagger.ProcessFile();
+                var tf = new TaggedFile(tagger.ProcessFile());
                 AddFile(tf.FullPath, true);
             }
         }
@@ -453,7 +454,7 @@ namespace LASI.ContentSystem
 
             while (tasks.Any()) {
                 var tagged = await Task.WhenAny(tasks);
-                taggedFiles.Add(await tagged);
+                taggedFiles.Add(new TaggedFile(await tagged));
                 tasks.Remove(tagged);
             }
 

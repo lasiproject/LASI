@@ -4,14 +4,10 @@ using System.IO;
 using System.Text;
 using System.Linq;
 using System.Collections.Generic;
-using LASI.Utilities;
-using LASI.ContentSystem.TaggerEncapsulation;
-namespace LASI.ContentSystem.TaggerEncapsulation
+using System.Threading.Tasks;
+
+namespace TaggerInterop
 {
-    /// <summary>
-    /// Based on the example UI code which came with sharp NLP,
-    /// It adds the ability to pass an input and output file paths and get a file back and the TaggingOption enum
-    /// </summary>
     class SharpNLPTagger
     {
         private string mModelPath;
@@ -24,7 +20,7 @@ namespace LASI.ContentSystem.TaggerEncapsulation
         private OpenNLP.Tools.NameFind.EnglishNameFinder mNameFinder;
         private OpenNLP.Tools.Lang.English.TreebankLinker mCoreferenceFinder;
         /// <summary>
-        /// Initializes a new instance of the SharpNLPTagger class its analysis behavior specified by the provied TaggerMode value.
+        /// Initializes a new instance of the SharpNLPTagger class with its behavior specified by the provied TaggerMode value.
         /// </summary>
         /// <param name="taggingMode">Specifies the mode under which the tagger will operate.</param>
         public SharpNLPTagger(TaggerMode taggingMode) {
@@ -65,20 +61,20 @@ namespace LASI.ContentSystem.TaggerEncapsulation
             return p;
         }
         /// <summary>
-        /// Processes the text given to the tagger based on the Tagger's current TaggerMode. Returns the TaggedFile resulting from the process.
+        /// Processes the text given to the tagger based on the Tagger's current TaggerMode. Returns the path to the tagged file resulting from the process.
         /// </summary>
         ///// <returns>The TaggedFile resulting from the process.</returns>
-        public virtual LASI.ContentSystem.TaggedFile ProcessFile() {
+        public virtual string ProcessFile() {
             WriteToFile(ParseViaTaggingMode());
-            return new LASI.ContentSystem.TaggedFile(outputFilePath);
+            return outputFilePath;
 
         }
         /// <summary>
-        /// Asynchronously processes the text given to the tagger based on the Tagger's current TaggerMode. Returns the TaggedFile resulting from the process.
+        /// Asynchronously processes the text given to the tagger based on the Tagger's current TaggerMode. Returns the path to the tagged file resulting from the process.
         /// </summary>
-        /// <returns>rocesses the text given to the tagger based on the Tagger's current TaggerMode. Returns the TaggedFile resulting from the process.</returns>
-        public virtual async System.Threading.Tasks.Task<LASI.ContentSystem.TaggedFile> ProcessFileAsync() {
-            return await System.Threading.Tasks.Task.Run(() => ProcessFile());
+        /// <returns>rocesses the text given to the tagger based on the Tagger's current TaggerMode. Returns the path to the tagged file resulting from the process.</returns>
+        public virtual async Task<string> ProcessFileAsync() {
+            return await Task.Run(() => ProcessFile());
 
 
         }
@@ -97,16 +93,22 @@ namespace LASI.ContentSystem.TaggerEncapsulation
                 return String.Join(" ", reader.ReadToEnd().Split(new[] { ' ', '\t', '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries).ToList().Select(s => s.Trim()));
             }
         }
-        protected async System.Threading.Tasks.Task<string> ParseViaTaggingModeAsync(TaggerMode taggingMode) { return await ParseViaTaggingModeAsync(taggingMode); }
-        protected async System.Threading.Tasks.Task<string> ParseViaTaggingModeAsync() { return await System.Threading.Tasks.Task.Run(() => ParseViaTaggingMode(TaggingMode)); }
-        protected string ParseViaTaggingMode() { return ParseViaTaggingMode(TaggingMode); }
+        protected async System.Threading.Tasks.Task<string> ParseViaTaggingModeAsync(TaggerMode taggingMode) {
+            return await ParseViaTaggingModeAsync(taggingMode);
+        }
+        protected async System.Threading.Tasks.Task<string> ParseViaTaggingModeAsync() {
+            return await System.Threading.Tasks.Task.Run(() => ParseViaTaggingMode(TaggingMode));
+        }
+        protected string ParseViaTaggingMode() {
+            return ParseViaTaggingMode(TaggingMode);
+        }
         protected string ParseViaTaggingMode(TaggerMode taggingMode) {
             switch (TaggingMode) {
                 case TaggerMode.TagIndividual:
                     return POSTag();
                 case TaggerMode.TagAndAggregate:
                     return Chunk();
-                case TaggerMode.ExperimentalClauseNesting:
+                case TaggerMode.FullyNestingParse:
                     return Parse();
                 case TaggerMode.GenderFind:
 
@@ -174,8 +176,8 @@ namespace LASI.ContentSystem.TaggerEncapsulation
 
                 string[] sentences = SplitSentences(p);
 
-                foreach (string sentence in from s in sentences //where !(String.IsNullOrWhiteSpace(s) || String.IsNullOrEmpty(s))
-                                            where s.IsNotEmpty() && s.IsNotWhiteSpace()
+                foreach (string sentence in from s in sentences
+                                            where !(String.IsNullOrWhiteSpace(s) || String.IsNullOrEmpty(s))
                                             select s) {
                     string[] tokens = TokenizeSentence(sentence);
                     string[] tags = PosTagTokens(tokens);
@@ -340,12 +342,12 @@ namespace LASI.ContentSystem.TaggerEncapsulation
             return result;
         }
 
-        //private string Coreference() {
-        //    string[] sentences = SplitSentences(SourceText);
+        private string Coreference() {
+            string[] sentences = SplitSentences(SourceText);
 
-        //    var result = IdentifyCoreferents(sentences);
-        //    return result;
-        //}
+            var result = IdentifyCoreferents(sentences);
+            return result;
+        }
 
         #region Properties
 
@@ -356,7 +358,10 @@ namespace LASI.ContentSystem.TaggerEncapsulation
         /// <summary>
         /// Gets or sets the text which the SharpNLPTagger will tag when the ProcessFile or ProcessFileAsync methods are invoked.
         /// </summary>
-        protected string SourceText { get; set; }
+        protected string SourceText {
+            get;
+            set;
+        }
         /// <summary>
         /// Gets the TaggerMode of the SharpNLPTagger. 
         /// </summary>
@@ -470,5 +475,52 @@ namespace LASI.ContentSystem.TaggerEncapsulation
     }
 
 
-}
 
+
+    sealed class QuickTagger : SharpNLPTagger
+    {
+        public QuickTagger(TaggerMode option)
+            : base(option) {
+
+        }
+
+        public string TagTextSource(string source) {
+            SourceText = base.PreProcessText(source);
+            return base.ParseViaTaggingMode();
+
+        }
+        public async Task<string> TagTextSourceAsync(string source) {
+            SourceText = base.PreProcessText(source);
+            return await base.ParseViaTaggingModeAsync();
+
+        }
+
+    }
+    /// <summary>
+    /// Used to specify the behavior tagging options of an instance of the SharpNLPtagger class.
+    /// </summary>
+    public enum TaggerMode
+    {
+        /// <summary>
+        /// Assign Part of Speech Tags to each input token.
+        /// </summary>
+        TagIndividual,
+        /// <summary>
+        /// Assigns Part Of Speech Tags to words (with the form "word/tag") and simple phrases( with the form [ tag word1/t1 word2/t2... ])(chunks)
+        /// </summary>
+        TagAndAggregate,
+        /// <summary>
+        /// Parses and nests arbitarily
+        /// </summary>
+        FullyNestingParse,
+        /// <summary>
+        /// Embeds gender liklihood information with nouns
+        /// </summary>
+        GenderFind,
+        /// <summary>
+        /// Embeds enity recognition with nouns for broad categories such as location, organization, etc.
+        /// </summary>
+        NameFind,
+    }
+
+}

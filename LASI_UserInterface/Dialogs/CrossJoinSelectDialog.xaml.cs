@@ -29,7 +29,7 @@ namespace LASI.UserInterface.Dialogs
 
             foreach (var doc in owner.Documents) {
                 var docCheckBox = new CheckBox {
-                    Content = doc.FileName,
+                    Content = doc.Name,
                     HorizontalAlignment = HorizontalAlignment.Left
                 };
                 docCheckBox.Checked += (sender, e) => {

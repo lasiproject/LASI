@@ -50,7 +50,7 @@ namespace LASI.UserInterface
                     IsSelectionEnabled = true,
 
                 });
-                chart.Title = string.Format("Key Relationships in {0}", doc.FileName);
+                chart.Title = string.Format("Key Relationships in {0}", doc.Name);
                 break;
             }
         }
@@ -127,7 +127,7 @@ namespace LASI.UserInterface
             var chart = BuildBarChart(document);
             documentsByChart.Add(chart, document);
             var tab = new TabItem {
-                Header = document.FileName,
+                Header = document.Name,
                 Content = chart,
                 Tag = chart
             };
@@ -150,7 +150,7 @@ namespace LASI.UserInterface
             };
 
             var chart = new Chart {
-                Title = string.Format("Key Subjects in {0}", document.FileName),
+                Title = string.Format("Key Subjects in {0}", document.Name),
                 Tag = valueList.ToArray()
             };
 
@@ -195,7 +195,7 @@ namespace LASI.UserInterface
 
 
             var chart = new Chart {
-                Title = string.Format("E A E Relationships in{0}", document.FileName)
+                Title = string.Format("E A E Relationships in{0}", document.Name)
             };
             chart.Series.Add(horizontalEntitySeries);
             chart.Series.Add(verticalEntitySeries);
@@ -300,7 +300,7 @@ namespace LASI.UserInterface
                 ItemsSource = transformedData,
             };
             var tab = new TabItem {
-                Header = document.FileName,
+                Header = document.Name,
                 Content = wpfToolKitDataGrid
             };
             WindowManager.ResultsScreen.SVODResultsTabControl.Items.Add(tab);

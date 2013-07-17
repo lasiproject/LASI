@@ -67,7 +67,7 @@ namespace LASI.UserInterface
             var grid = new Grid();
             grid.Children.Add(scrollViewer);
             var tab = new TabItem {
-                Header = document.FileName,
+                Header = document.Name,
                 Content = grid
             };
             foreach (var l in from w in nounPhraseLabels
@@ -127,7 +127,7 @@ namespace LASI.UserInterface
         private async Task BuildInteractiveTextViewOfDocument(Document document) {
             var panel = new WrapPanel();
             var tab = new TabItem {
-                Header = document.FileName,
+                Header = document.Name,
                 Content = new ScrollViewer {
                     Content = panel
                 }
@@ -211,10 +211,10 @@ namespace LASI.UserInterface
                 using (
                     var docWriter = new LASI.ContentSystem.Serialization.XML.SimpleLexicalSerializer(
                     FileManager.ResultsDir + System.IO.Path.DirectorySeparatorChar + new string(
-                    doc.FileName.TakeWhile(c => c != '.').ToArray()) + ".xml")) {
+                    doc.Name.TakeWhile(c => c != '.').ToArray()) + ".xml")) {
                     await docWriter.WriteAsync(from S in doc.Sentences
                                                from R in S.Phrases
-                                               select R, doc.FileName, ContentSystem.Serialization.XML.DegreeOfOutput.Comprehensive);
+                                               select R, doc.Name, ContentSystem.Serialization.XML.DegreeOfOutput.Comprehensive);
                 }
             }
             var exportDialog = new ExportResultsDialog();
