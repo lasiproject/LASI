@@ -40,23 +40,20 @@ namespace LASI.UserInterface
         }
 
         private async Task CreateWeightViewAsync(Document document) {
-            var page1 = document.Paginate(10).FirstOrDefault();
+            var page1 = document.Paginate(20).FirstOrDefault();
 
             var nounPhraseLabels = from s in page1 != null ? page1.Sentences : document.Paragraphs.SelectMany(p => p.Sentences)
-                                       .AsParallel()
-                                       .WithDegreeOfParallelism(Concurrency.CurrentMax)
+                                        .AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
                                    select s.Phrases.GetNounPhrases() into nounPhrases
                                    from nounPhrase in nounPhrases
-                                   .AsParallel()
-                                   .WithDegreeOfParallelism(Concurrency.CurrentMax)
+                                        .AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
                                    group nounPhrase by new
                                    {
                                        nounPhrase.Text,
                                        nounPhrase.Type
                                    } into g
-                                   orderby g.First().Weight select CreateLabelForWeightedView(g.First());
-
-
+                                   orderby g.First().Weight descending
+                                   select CreateLabelForWeightedView(g.First());
 
             var weightedListPanel = new StackPanel();
             var grid = new Grid();
@@ -75,15 +72,14 @@ namespace LASI.UserInterface
 
         private static Label CreateLabelForWeightedView(NounPhrase element) {
             var genderString = !element.Words.GetDeterminers().Any() ?
-                element.IsFullMaleName() ? "Male" : element.IsFullFemaleName() ?
-                "Female" :
+                element.IsFullMaleName() ? "Male" : element.IsFullFemaleName() ? "Female" :
                 (from p in element.Words.GetProperNouns()
-                 group p by p.IsFemaleName() ? "Female" : p.IsMaleName() ? "Male" : "Undetermind" into g
-                 orderby g.Count() descending
-                 select g.Key).FirstOrDefault() ?? string.Empty :
-                 string.Empty;
+                 group p by p.IsFemaleName() ? "Female" : p.IsMaleName() ? "Male" : "Undetermind"
+                     into g
+                     orderby g.Count() descending
+                     select g.Key).FirstOrDefault() : string.Empty;
 
-            genderString = genderString.IsNotEmpty() ? "\nprevialing gender: " + genderString : string.Empty;
+            genderString = !string.IsNullOrEmpty(genderString) ? "\nprevialing gender: " + genderString : string.Empty;
 
             var wordLabel = new Label {
                 Tag = element,
@@ -100,19 +96,19 @@ namespace LASI.UserInterface
             menuItem1.Click += (s, e) => {
                 Process.Start(String.Format("http://www.dictionary.reference.com/browse/{0}?s=t", element.Text));
             };
+            wordLabel.ContextMenu.Items.Add(menuItem1);
             var menuItem2 = new MenuItem {
-                Header = "Copy Text"
+                Header = "Copy"
             };
             menuItem2.Click += (se, ee) => Clipboard.SetText((wordLabel.Tag as ILexical).Text);
-            wordLabel.ContextMenu.Items.Add(menuItem1);
+
             wordLabel.ContextMenu.Items.Add(menuItem2);
             return wordLabel;
         }
 
 
-        public async Task BuildReconstructedDocumentViews() {  // This is for the lexial relationships tab
-            var tasks = (from d in documents
-                         select BuildInteractiveTextViewOfDocument(d)).ToList();
+        public async Task BuildTextViewsForAllDocuments() {  // This is for the lexial relationships tab
+            var tasks = documents.Select(d => BuildTextViewOfDocument(d)).ToList();
             while (tasks.Any()) {
                 var finishedTask = await Task.WhenAny(tasks);
                 tasks.Remove(finishedTask);
@@ -120,7 +116,7 @@ namespace LASI.UserInterface
 
         }
 
-        private async Task BuildInteractiveTextViewOfDocument(Document document) {
+        private async Task BuildTextViewOfDocument(Document document) {
             var panel = new WrapPanel();
             var tab = new TabItem {
                 Header = document.Name,
@@ -295,7 +291,7 @@ namespace LASI.UserInterface
             currentOperationProgressBar.Value += 5;
             currentOperationLabel.Content = string.Format("{0}: Visualizing...", chosenFile.NameSansExt);
             await CreateWeightViewAsync(doc);
-            await BuildInteractiveTextViewOfDocument(doc);
+            await BuildTextViewOfDocument(doc);
 
             currentOperationLabel.Content = string.Format("{0}: Added...", chosenFile.NameSansExt);
 

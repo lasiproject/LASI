@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace LASI.Algorithm.LexicalInformationProviders
 {
@@ -573,60 +574,38 @@ namespace LASI.Algorithm.LexicalInformationProviders
         private static async Task LoadNameDataAsync() {
             await Task.Factory.ContinueWhenAll(
                 new Task[] {  
-                    Task.Run(async () => {
-                            using (var reader = new System.IO.StreamReader(lastNamesFilePath)) {
-                            lastNames = new HashSet<string>
-                            ((await reader.ReadToEndAsync()).Split(new[] { '\n' },
-                            StringSplitOptions.RemoveEmptyEntries),
-                            StringComparer.OrdinalIgnoreCase);
-                        }
-                    }),
-                    Task.Run(async () => {
-                        using (var reader = new System.IO.StreamReader(femaleNamesFilePath)) {
-                            femaleNames = new HashSet<string>
-                            ((await reader.ReadToEndAsync()).Split(new[] { '\n' }, 
-                            StringSplitOptions.RemoveEmptyEntries), 
-                            StringComparer.OrdinalIgnoreCase);
-                        }
-                    }),
-                    Task.Run(async () => {
-                        using (var reader = new System.IO.StreamReader(maleNamesFilePath)) {
-                            maleNames = new HashSet<string>
-                                ((await reader.ReadToEndAsync()).Split(new[] { '\n' },
-                                StringSplitOptions.RemoveEmptyEntries), 
-                                StringComparer.OrdinalIgnoreCase);
-                        }
-                    })},
-                    results => {
-                        genderAmbiguousFirstNames = maleNames.Intersect(femaleNames).Concat(femaleNames.Intersect(maleNames)).ToSet();
-                        var i1 = maleNames.Select((s, i) => new
-                        {
-                            Rank = (double)i / maleNames.Count,
-                            Name = s
-                        });
-                        var i2 = femaleNames.Select((s, i) => new
-                        {
-                            Rank = (double)i / femaleNames.Count,
-                            Name = s
-                        });
-                        var sect =
-                        from m in i1 join f in i2 on m.Name equals f.Name
-                        select new
-                        {
-                            MorF = f.Rank / m.Rank > 1 ? "M" : m.Rank / f.Rank > 1 ? "F" : "U",
-                            Name = f.Name
-                        };
-                        var stratified =
-                        from s in sect group s by s.MorF into g
-                        select new
-                        {
-                            Key = g.Key,
-                            Count = g.Count(),
-                            Names = g.ToArray()
-                        };
-                        maleNames.ExceptWith(from s in stratified where s.Key == "F" from n in s.Names select n.Name);
-                        femaleNames.ExceptWith(from s in stratified where s.Key == "M" from n in s.Names select n.Name);
-                    });
+                    Task.Run(async () => lastNames = await GetNameDataAsync(lastNamesFilePath)),
+                    Task.Run(async () => femaleNames = await GetNameDataAsync(femaleNamesFilePath)),
+                    Task.Run(async () => maleNames =await GetNameDataAsync(maleNamesFilePath) ) 
+                },
+                results => {
+                    genderAmbiguousFirstNames = maleNames.Intersect(femaleNames).Concat(femaleNames.Intersect(maleNames)).ToSet(StringComparer.OrdinalIgnoreCase);
+
+                    var i1 = maleNames.Select((s, i) => new { Rank = (double)i / maleNames.Count, Name = s });
+                    var i2 = femaleNames.Select((s, i) => new { Rank = (double)i / femaleNames.Count, Name = s });
+
+                    var sect = from m in i1
+                               join f in i2 on m.Name equals f.Name
+                               select new { MorF = f.Rank / m.Rank > 1 ? 'M' : m.Rank / f.Rank > 1 ? 'F' : 'U', Name = f.Name };
+
+                    var stratified = from s in sect group s by s.MorF
+                                         into g
+                                         select new { Key = g.Key, Count = g.Count(), Names = g.ToArray() };
+
+                    maleNames.ExceptWith(from s in stratified where s.Key == 'F' from n in s.Names select n.Name);
+                    femaleNames.ExceptWith(from s in stratified where s.Key == 'M' from n in s.Names select n.Name);
+                }
+            );
+        }
+
+        private static async Task<HashSet<string>> GetNameDataAsync(string fileName) {
+            using (var reader = new StreamReader(fileName)) {
+                return new HashSet<string>((
+                    await reader.ReadToEndAsync()).Split(new[] { '\n' },
+                    StringSplitOptions.RemoveEmptyEntries),
+                    StringComparer.OrdinalIgnoreCase
+                );
+            }
         }
         /// <summary>
         /// Returns a sequence of Tasks containing all of the yet unstarted LexicalLookup loading operations.

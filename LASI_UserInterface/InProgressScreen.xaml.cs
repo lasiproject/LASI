@@ -77,7 +77,7 @@ namespace LASI.UserInterface
             this.SwapWith(WindowManager.ResultsScreen);
 
             await WindowManager.ResultsScreen.CreateWeightViewsForAllDocumentsAsync();
-            await WindowManager.ResultsScreen.BuildReconstructedDocumentViews();
+            await WindowManager.ResultsScreen.BuildTextViewsForAllDocuments();
 
         }
         #endregion

@@ -139,11 +139,11 @@ namespace LASI.UserInterface
 
         private static Chart BuildBarChart(Document document) {
 
-            var valueList = ChartKind == ChartKind.NounPhrasesOnly ? GetNounPhraseData(document) : ChartKind == ChartKind.SubjectVerbObject ? GetSVOIData(document) : GetSVOIData(document);
+            var dataPointSource = ChartKind == ChartKind.NounPhrasesOnly ? GetNounPhraseData(document) : ChartKind == ChartKind.SubjectVerbObject ? GetSVOIData(document) : GetSVOIData(document);
             Series series = new BarSeries {
                 DependentValuePath = "Value",
                 IndependentValuePath = "Key",
-                ItemsSource = valueList,
+                ItemsSource = dataPointSource,
                 IsSelectionEnabled = true,
                 Tag = document,
 
@@ -151,7 +151,7 @@ namespace LASI.UserInterface
 
             var chart = new Chart {
                 Title = string.Format("Key Subjects in {0}", document.Name),
-                Tag = valueList.ToArray()
+                Tag = dataPointSource.ToArray()
             };
 
             series.MouseMove += (sender, e) => {
