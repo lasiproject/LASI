@@ -90,6 +90,7 @@
   <ItemGroup>
     <Compile Include="Analysis\Binder.cs" />
     <Compile Include="Analysis\Binders\AttributiveNounPhraseBinder.cs" />
+    <Compile Include="Analysis\Binders\Experimental\ClauseSeperatingBranchingBinder.cs" />
     <Compile Include="Analysis\ProcessingTask.cs" />
     <Compile Include="Analysis\SubordinateClauseIdentifier.cs" />
     <Compile Include="IEnumerableExtensions\IEnumerableOfIPronounExtensions.cs" />
@@ -121,7 +122,7 @@
     <Compile Include="LexicalStructures\BridgingConstructs\PrepositionRole.cs" />
     <Compile Include="LexicalStructures\ConstrainingSemanticConstructs\DeterminerKind.cs" />
     <Compile Include="LexicalStructures\ConstrainingSemanticConstructs\IDeterminable.cs" />
-    <Compile Include="LexicalStructures\MiscLanguageConstructs\PunctuatorPhrase.cs" />
+    <Compile Include="LexicalStructures\MiscLanguageConstructs\SymbolPhrase.cs" />
     <Compile Include="LexicalStructures\MiscLanguageConstructs\UndeterminedPhrase.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\IPronoun.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\EntityGroup.cs" />
