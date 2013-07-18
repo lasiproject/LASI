@@ -21,13 +21,9 @@ namespace LASI.ContentSystem
         /// Initialized a new instance of the TaggedFilerParser class to parse the contents of the specified file.
         /// </summary>
         /// <param name="filePath">The wrapper which encapsulates the newPath information for the pre-POS-tagged file to parse.</param>
-        public TaggedFileParser(TaggedFile file) {
-            TaggededDocumentFile = file;
-            FilePath = TaggededDocumentFile.FullPath;
-            TaggedInputData = LoadDocumentFile().Trim();
-        }
-        public TaggedFileParser(string taggedText) {
-            TaggedInputData = taggedText;
+        public TaggedFileParser(ITaggedTextSource file) {
+
+            TaggedInputData = file.GetText().Trim();
         }
 
 
@@ -83,21 +79,22 @@ namespace LASI.ContentSystem
             var sentences = from s in SplitIntoSentences(paragraph, out hasEnumElemenets)
                             select s.Trim();
             foreach (var sent in from s in sentences
-                                 where s.IsNotEmpty() && s.IsNotWhiteSpace()
+                                 where !string.IsNullOrWhiteSpace(s)
                                  select s) {
                 var parsedClauses = new List<Clause>();
                 var parsedPhrases = new List<Phrase>();
                 var chunks = from chunk in sent.Split(new[] { "[", "]" }, StringSplitOptions.RemoveEmptyEntries)
                              let s = chunk.Trim()
-                             where s.IsNotWhiteSpace() && s.IsNotEmpty() //  !String.IsNullOrWhiteSpace(c) && !String.IsNullOrEmpty(c)
+                             //where s.IsNotWhiteSpace() && s.IsNotEmpty() 
+                             where !string.IsNullOrWhiteSpace(s)
                              select s;
                 SentenceDelimiter sentencePunctuation = null;
 
-                foreach (var chunk in chunks) {
-                    if (chunk.IsNotEmpty() && chunk.IsNotWhiteSpace() && chunk.Contains('/')) {
-                        char token = SkipToNextElement(chunk);
+                foreach (var s in chunks) {
+                    if (!string.IsNullOrWhiteSpace(s) && s.Contains('/')) {
+                        char token = SkipToNextElement(s);
                         if (token == ' ') {
-                            var currentPhrase = ParsePhrase(new TextTagPair(elementText: chunk.Substring(chunk.IndexOf(' ')), elementTag: chunk.Substring(0, chunk.IndexOf(' '))));
+                            var currentPhrase = ParsePhrase(new TextTagPair(elementText: s.Substring(s.IndexOf(' ')), elementTag: s.Substring(0, s.IndexOf(' '))));
                             if (currentPhrase.Words.Count(w => !string.IsNullOrWhiteSpace(w.Text)) > 0)
                                 parsedPhrases.Add(currentPhrase);
 
@@ -109,7 +106,7 @@ namespace LASI.ContentSystem
 
                         }
                         else if (token == '/') {
-                            var words = CreateWords(chunk);
+                            var words = CreateWords(s);
                             if (words.First() != null) {
                                 if (words.Count(w => w is Conjunction) == words.Count || (words.Count == 2 && words[0] is Punctuation && words[1] is Conjunction)) {
                                     parsedPhrases.Add(new ConjunctionPhrase(words));

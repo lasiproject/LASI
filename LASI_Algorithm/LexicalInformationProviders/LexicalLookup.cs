@@ -601,12 +601,12 @@ namespace LASI.Algorithm.LexicalInformationProviders
                         genderAmbiguousFirstNames = maleNames.Intersect(femaleNames).Concat(femaleNames.Intersect(maleNames)).ToSet();
                         var i1 = maleNames.Select((s, i) => new
                         {
-                            Rank = ( double )i / maleNames.Count,
+                            Rank = (double)i / maleNames.Count,
                             Name = s
                         });
                         var i2 = femaleNames.Select((s, i) => new
                         {
-                            Rank = ( double )i / femaleNames.Count,
+                            Rank = (double)i / femaleNames.Count,
                             Name = s
                         });
                         var sect =

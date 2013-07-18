@@ -27,25 +27,25 @@ namespace LASI.UserInterface
         public ResultsScreen() {
 
             InitializeComponent();
-            ChartingManager.ChangeChartKind(ChartKind.NounPhrasesOnly);
+            Visualizer.ChangeChartKind(ChartKind.NounPhrasesOnly);
             this.Closed += (s, e) => Application.Current.Shutdown();
         }
 
-        public async Task CreateInteractiveViews() {
+        public async Task CreateWeightViewsForAllDocumentsAsync() {
             foreach (var doc in documents) {
-                await CreateWordCountAndWeightingView(doc);
+                await CreateWeightViewAsync(doc);
 
             }
             BindChartViewControls();
         }
 
-        private async Task CreateWordCountAndWeightingView(Document document) {
+        private async Task CreateWeightViewAsync(Document document) {
             var page1 = document.Paginate(10).FirstOrDefault();
 
-            var nounPhraseLabels = from de in page1 != null ? page1.Sentences : document.Paragraphs.SelectMany(p => p.Sentences)
+            var nounPhraseLabels = from s in page1 != null ? page1.Sentences : document.Paragraphs.SelectMany(p => p.Sentences)
                                        .AsParallel()
                                        .WithDegreeOfParallelism(Concurrency.CurrentMax)
-                                   select de.Phrases.GetNounPhrases() into nounPhrases
+                                   select s.Phrases.GetNounPhrases() into nounPhrases
                                    from nounPhrase in nounPhrases
                                    .AsParallel()
                                    .WithDegreeOfParallelism(Concurrency.CurrentMax)
@@ -54,40 +54,36 @@ namespace LASI.UserInterface
                                        nounPhrase.Text,
                                        nounPhrase.Type
                                    } into g
-                                   select new
-                                   {
-                                       Weight = g.First().Weight,
-                                       label = CreateWeightedNounPhraseLabel(g.First())
-                                   };
+                                   orderby g.First().Weight select CreateLabelForWeightedView(g.First());
 
 
-            var scrollViewer = new ScrollViewer();
-            var stackPanel = new StackPanel();
-            scrollViewer.Content = stackPanel;
+
+            var weightedListPanel = new StackPanel();
             var grid = new Grid();
-            grid.Children.Add(scrollViewer);
-            var tab = new TabItem {
-                Header = document.Name,
-                Content = grid
-            };
-            foreach (var l in from w in nounPhraseLabels
-                              orderby w.Weight descending
-                              select w.label) {
-                stackPanel.Children.Add(l);
-            }
-            WordCountLists.Items.Add(tab);
-            WordCountLists.SelectedItem = tab;
-            await ChartingManager.InitChartDisplayAsync(document);
-            await ChartingManager.BuildKeyRelationshipDisplay(document);
+
+            foreach (var l in nounPhraseLabels) { weightedListPanel.Children.Add(l); }
+
+            grid.Children.Add(new ScrollViewer { Content = weightedListPanel });
+            var tab = new TabItem { Header = document.Name, Content = grid };
+
+            weightedByDocumentTabControl.Items.Add(tab);
+            weightedByDocumentTabControl.SelectedItem = tab;
+
+            await Visualizer.InitChartDisplayAsync(document);
+            await Visualizer.DisplayKeyRelationships(document);
         }
 
-        private static Label CreateWeightedNounPhraseLabel(NounPhrase element) {
-            var genderString = element.IsFullMaleName() ? "Male" : element.IsFullFemaleName() ? "Female" : string.Empty;
-            genderString = genderString.IsNotEmpty() ? "\nprevialing gender: " + genderString :
-                            (from p in element.Words.GetProperNouns()
-                             group p by p.IsFemaleName() ? "Female" : p.IsMaleName() ? "Male" : "Undetermind" into g
-                             orderby g.Count() descending
-                             select "\nprevialing gender: " + g.Key).FirstOrDefault() ?? string.Empty;
+        private static Label CreateLabelForWeightedView(NounPhrase element) {
+            var genderString = !element.Words.GetDeterminers().Any() ?
+                element.IsFullMaleName() ? "Male" : element.IsFullFemaleName() ?
+                "Female" :
+                (from p in element.Words.GetProperNouns()
+                 group p by p.IsFemaleName() ? "Female" : p.IsMaleName() ? "Male" : "Undetermind" into g
+                 orderby g.Count() descending
+                 select g.Key).FirstOrDefault() ?? string.Empty :
+                 string.Empty;
+
+            genderString = genderString.IsNotEmpty() ? "\nprevialing gender: " + genderString : string.Empty;
 
             var wordLabel = new Label {
                 Tag = element,
@@ -143,7 +139,6 @@ namespace LASI.UserInterface
                     Padding = new Thickness(1, 1, 1, 1),
                     ContextMenu = new ContextMenu(),
                     ToolTip = phrase.Type.Name,
-
                 };
                 var pronounPhrase = phrase as PronounPhrase;
                 if (pronounPhrase != null && pronounPhrase.IsBound) {
@@ -183,15 +178,15 @@ namespace LASI.UserInterface
 
 
         private async void ChangeToBarChartButton_Click(object sender, RoutedEventArgs e) {
-            await ChartingManager.ToBarCharts();
+            await Visualizer.ToBarCharts();
         }
 
         private async void ChangeToColumnChartButton_Click(object sender, RoutedEventArgs e) {
-            await ChartingManager.ToColumnCharts();
+            await Visualizer.ToColumnCharts();
         }
 
         private async void ChangeToPieChartButton_Click(object sender, RoutedEventArgs e) {
-            await ChartingManager.ToPieCharts();
+            await Visualizer.ToPieCharts();
         }
 
         /// <summary>
@@ -233,7 +228,7 @@ namespace LASI.UserInterface
 
             var r = await new CrossDocumentJoiner().JoinDocumentsAsnyc(dialog.SelectDocuments);
 
-            metaRelationshipsDataGrid.ItemsSource = ChartingManager.CreateRelationshipData(r);
+            metaRelationshipsDataGrid.ItemsSource = Visualizer.CreateRelationshipData(r);
 
 
         }
@@ -254,9 +249,6 @@ namespace LASI.UserInterface
                     currentOperationLabel.Content = string.Format("Converting {0}...", openDialog.FileName);
                     currentOperationFeedbackCanvas.Visibility = Visibility.Visible;
                     currentOperationProgressBar.Value = 0;
-
-
-
                     await ProcessNewDocument(openDialog.FileName);
                     //currentOperationFeedbackCanvas.Visibility = Visibility.Hidden;
                 }
@@ -264,8 +256,6 @@ namespace LASI.UserInterface
                     MessageBox.Show(this, string.Format("A document named {0} is already part of the project.", openDialog.SafeFileName));
                 }
             }
-
-
 
         }
         private async Task ProcessNewDocument(string docPath, ProgressBar progressBar, Label progressLabel) {
@@ -304,7 +294,7 @@ namespace LASI.UserInterface
 
             currentOperationProgressBar.Value += 5;
             currentOperationLabel.Content = string.Format("{0}: Visualizing...", chosenFile.NameSansExt);
-            await CreateWordCountAndWeightingView(doc);
+            await CreateWeightViewAsync(doc);
             await BuildInteractiveTextViewOfDocument(doc);
 
             currentOperationLabel.Content = string.Format("{0}: Added...", chosenFile.NameSansExt);

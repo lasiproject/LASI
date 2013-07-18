@@ -76,7 +76,7 @@ namespace LASI.UserInterface
             WindowManager.ResultsScreen.SetTitle(WindowManager.StartupScreen.ProjectNameTextBox.Text + " - L.A.S.I.");
             this.SwapWith(WindowManager.ResultsScreen);
 
-            await WindowManager.ResultsScreen.CreateInteractiveViews();
+            await WindowManager.ResultsScreen.CreateWeightViewsForAllDocumentsAsync();
             await WindowManager.ResultsScreen.BuildReconstructedDocumentViews();
 
         }

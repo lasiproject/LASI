@@ -13,7 +13,7 @@ using LASI.InteropLayer;
 
 namespace LASI.UserInterface
 {
-    public static class ChartingManager
+    public static class Visualizer
     {
 
 
@@ -139,7 +139,7 @@ namespace LASI.UserInterface
 
         private static Chart BuildBarChart(Document document) {
 
-            var valueList = GetDataPointSourceForDoc(document, ChartKind);
+            var valueList = ChartKind == ChartKind.NounPhrasesOnly ? GetNounPhraseData(document) : ChartKind == ChartKind.SubjectVerbObject ? GetSVOIData(document) : GetSVOIData(document);
             Series series = new BarSeries {
                 DependentValuePath = "Value",
                 IndependentValuePath = "Key",
@@ -162,45 +162,45 @@ namespace LASI.UserInterface
             return chart;
         }
 
-        /// <summary>
-        /// This needs to be modified
-        /// </summary>
-        /// <param name="document"></param>
-        /// <returns></returns>
-        private static Chart BuildEntityActionEntityChart(Document document) {
-            var verticalTopEntites = from np in
-                                         (from np in document.Phrases.GetNounPhrases().InSubjectRole()
-                                          orderby np.Weight
-                                          select np).Take(20)
-                                     select new KeyValuePair<string, string>(np.Text, np.SubjectOf.Text);
-            var horizontalTopEntites = from np in
-                                           (from np in document.Phrases.GetNounPhrases().InDirectObjectRole()
-                                            orderby np.Weight
-                                            select np).Take(20)
-                                       select new KeyValuePair<string, string>(np.Text, np.SubjectOf.Text);
-            var horizontalEntitySeries = new LineSeries {
-                IndependentValuePath = "Key",
-                DependentValuePath = "Value",
-                ItemsSource = horizontalTopEntites,
-                IsEnabled = true,
-                Tag = document
-            };
-            var verticalEntitySeries = new LineSeries {
-                IndependentValuePath = "Key",
-                DependentValuePath = "Value",
-                ItemsSource = verticalTopEntites,
-                IsEnabled = true,
-                Tag = document
-            };
+        ///// <summary>
+        ///// This needs to be modified
+        ///// </summary>
+        ///// <param name="document"></param>
+        ///// <returns></returns>
+        //private static Chart BuildEntityActionEntityChart(Document document) {
+        //    var verticalTopEntites = from np in
+        //                                 (from np in document.Phrases.GetNounPhrases().InSubjectRole()
+        //                                  orderby np.Weight
+        //                                  select np).Take(20)
+        //                             select new KeyValuePair<string, string>(np.Text, np.SubjectOf.Text);
+        //    var horizontalTopEntites = from np in
+        //                                   (from np in document.Phrases.GetNounPhrases().InDirectObjectRole()
+        //                                    orderby np.Weight
+        //                                    select np).Take(20)
+        //                               select new KeyValuePair<string, string>(np.Text, np.SubjectOf.Text);
+        //    var horizontalEntitySeries = new LineSeries {
+        //        IndependentValuePath = "Key",
+        //        DependentValuePath = "Value",
+        //        ItemsSource = horizontalTopEntites,
+        //        IsEnabled = true,
+        //        Tag = document
+        //    };
+        //    var verticalEntitySeries = new LineSeries {
+        //        IndependentValuePath = "Key",
+        //        DependentValuePath = "Value",
+        //        ItemsSource = verticalTopEntites,
+        //        IsEnabled = true,
+        //        Tag = document
+        //    };
 
 
-            var chart = new Chart {
-                Title = string.Format("E A E Relationships in{0}", document.Name)
-            };
-            chart.Series.Add(horizontalEntitySeries);
-            chart.Series.Add(verticalEntitySeries);
-            return chart;
-        }
+        //    var chart = new Chart {
+        //        Title = string.Format("E A E Relationships in{0}", document.Name)
+        //    };
+        //    chart.Series.Add(horizontalEntitySeries);
+        //    chart.Series.Add(verticalEntitySeries);
+        //    return chart;
+        //}
 
 
         #endregion
@@ -233,7 +233,7 @@ namespace LASI.UserInterface
                        string.Format("{0} -> {1}\n", svs.Subject.Text, svs.Verbal.Text) +
                        (svs.Direct != null ? " -> " + svs.Direct.Text : "") +
                        (svs.Indirect != null ? " -> " + svs.Indirect.Text : ""),
-                       ( float )Math.Round(svs.RelationshipWeight, 2))
+                       (float)Math.Round(svs.RelationshipWeight, 2))
                    group SV by SV into svg
                    select svg.Key;
 
@@ -262,7 +262,7 @@ namespace LASI.UserInterface
                         tupple.Direct != null ||
                         tupple.Indirect != null &&
                         tupple.Subject.Text != (tupple.Direct ?? tupple.Indirect).Text
-                      select tupple).Distinct(new RelationshipComparer())
+                      select tupple).Distinct()
                  select svPair into svps
 
                  orderby svps.RelationshipWeight
@@ -272,7 +272,6 @@ namespace LASI.UserInterface
 
         private static IEnumerable<KeyValuePair<string, float>> GetNounPhraseData(Document doc) {
             return from NP in doc.Phrases.GetNounPhrases().Distinct().AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
-
                    group NP by new
                    {
                        NP.Text,
@@ -280,18 +279,15 @@ namespace LASI.UserInterface
                    } into NP
                    select NP.Key into master
                    orderby master.Weight descending
-                   select new KeyValuePair<string, float>(master.Text, ( float )Math.Round(master.Weight, 2));
+                   select new KeyValuePair<string, float>(master.Text, (float)Math.Round(master.Weight, 2));
         }
-        private static IEnumerable<KeyValuePair<string, float>> GetDataPointSourceForDoc(Document document, ChartKind chartKind) {
-            var valueList = chartKind == ChartKind.NounPhrasesOnly ? GetNounPhraseData(document) : chartKind == ChartKind.SubjectVerbObject ? GetSVOIData(document) : GetSVOIData(document);
-            return valueList;
-        }
+
         /// <summary>
         /// Asynchronously generates, composeses and displays the key relationships view for the given Document.
         /// </summary>
         /// <param name="document">The document for which to build relationships.</param>
         /// <returns>A Task representing the ongoing asynchronous operation.</returns>
-        public static async Task BuildKeyRelationshipDisplay(Document document) {
+        public static async Task DisplayKeyRelationships(Document document) {
 
             var transformedData = await Task.Factory.StartNew(() => {
                 return CreateRelationshipData(GetVerbWiseAssociationData(document));
@@ -308,30 +304,26 @@ namespace LASI.UserInterface
 
         }
 
-        private static async Task<IEnumerable<object>> CreateRelationshipDataAsync(IEnumerable<RelationshipTuple> elementsToSerialize) {
-
-            return await Task.Run(() => CreateRelationshipData(elementsToSerialize));
-        }
+        private static async Task<IEnumerable<object>> CreateRelationshipDataAsync(IEnumerable<RelationshipTuple> elementsToConvert) { return await Task.Run(() => CreateRelationshipData(elementsToConvert)); }
 
 
         /// <summary>
         /// Creates and returns a sequence of textual display elements from the given sequence of RelationshipTuple elements.
         /// The resulting sequence is suitable for direct insertion into a DataGrid.
         /// </summary>
-        /// <param name="elementsToSerialize">The sequence of Relationship Tuple to tranform into textual display elements.</param>
+        /// <param name="elementsToConvert">The sequence of Relationship Tuple to tranform into textual display elements.</param>
         /// <returns>A sequence of textual display elements from the given sequence of RelationshipTuple elements.</returns>
-        public static IEnumerable<object> CreateRelationshipData(IEnumerable<RelationshipTuple> elementsToSerialize) {
-            var dataRows = from result in elementsToSerialize.Distinct(new RelationshipComparer())
-                           orderby result.RelationshipWeight
-                           select new
-                           {
-                               Subject = result.Subject != null ? result.Subject.Text : string.Empty,
-                               Verbial = result.Verbal != null ? result.Verbal.Text : string.Empty,
-                               Direct = result.Direct != null ? result.Direct.Text : string.Empty,
-                               Indirect = result.Indirect != null ? result.Indirect.Text : string.Empty,
-                               Prepositional = result.Prepositional != null ? result.Prepositional.Text : string.Empty
-                           };
-            return dataRows.Distinct();
+        public static IEnumerable<object> CreateRelationshipData(IEnumerable<RelationshipTuple> elementsToConvert) {
+            return from e in elementsToConvert.Distinct()
+                   orderby e.RelationshipWeight
+                   select new
+                   {
+                       Subject = e.Subject != null ? e.Subject.Text : string.Empty,
+                       Verbial = e.Verbal != null ? e.Verbal.Text : string.Empty,
+                       Direct = e.Direct != null ? e.Direct.Text : string.Empty,
+                       Indirect = e.Indirect != null ? e.Indirect.Text : string.Empty,
+                       Prepositional = e.Prepositional != null ? e.Prepositional.Text : string.Empty
+                   };
         }
         /// <summary>
         /// Gets the ChartKind currently used by the ChartManager.
@@ -349,52 +341,20 @@ namespace LASI.UserInterface
 
 
     }
-    #region Result Bulding Helper Structs
-    /// <summary>
-    /// A little data type which provides custom uniqueness logic for NounPhrase to VerbPhrase  relationships. Provides the implementation of I equality comparer which is to be passed to the 
-    /// "Distinct()" method of en IEnummerable collectio  of RelationshipTuple instances.
-    /// It is defined because distinct does not support lambda(read function) arguments like my query operatorrs do.
-    /// Pay this type little heed
-    /// </summary>
-    class RelationshipComparer : IEqualityComparer<RelationshipTuple>
-    {
-        public bool Equals(RelationshipTuple lhs, RelationshipTuple rhs) {
+    #region Result Bulding Helper Types
 
-            if ((lhs as object == null || rhs as object == null)) {
-                return !(lhs as object == null ^ rhs as object == null);
-            }
-            else if (lhs.Elements.Count != rhs.Elements.Count) {
-                return false;
-            }
-            else {
-
-                bool result = lhs.Verbal.Text == rhs.Verbal.Text || lhs.Verbal.IsSimilarTo(rhs.Verbal);
-                result &= LexicalComparers<NounPhrase>.AliasOrSimilarity.Equals(lhs.Subject, rhs.Subject);
-                if (lhs.Direct != null && rhs.Direct != null) {
-                    result &= LexicalComparers<NounPhrase>.AliasOrSimilarity.Equals(lhs.Direct, rhs.Direct);
-                }
-                else if (lhs.Direct == null || rhs.Direct == null)
-                    return false;
-                if (lhs.Indirect != null && rhs.Indirect != null) {
-                    result &= LexicalComparers<NounPhrase>.AliasOrSimilarity.Equals(lhs.Indirect, rhs.Indirect);
-                }
-                else if (lhs.Indirect == null || rhs.Indirect == null)
-                    return false;
-                return result;
-            }
-        }
-
-        public int GetHashCode(RelationshipTuple obj) {
-            return obj == null ? 0 : obj.Elements.Count;
-        }
-    }
     /// <summary>
     /// Sometimes an anonymous type simple will not do. So this little class is defined to 
     /// store temporary query data from transposed tables. god it is late. I can't document properly.
     /// </summary>
-    public class RelationshipTuple
+    public class RelationshipTuple : IEquatable<RelationshipTuple>
     {
-        IEntity subject;
+        private IEntity subject;
+        private IVerbal verbal;
+        private IEntity direct;
+        private IEntity indirect;
+        private ILexical prepositional;
+        private HashSet<ILexical> elements = new HashSet<ILexical>();
 
         public IEntity Subject {
             get {
@@ -405,9 +365,6 @@ namespace LASI.UserInterface
                 elements.Add(value);
             }
         }
-
-        IVerbal verbal;
-
         public IVerbal Verbal {
             get {
                 return verbal;
@@ -417,9 +374,6 @@ namespace LASI.UserInterface
                 elements.Add(value);
             }
         }
-
-        IEntity direct;
-
         public IEntity Direct {
             get {
                 return direct;
@@ -429,9 +383,6 @@ namespace LASI.UserInterface
                 elements.Add(value);
             }
         }
-
-        IEntity indirect;
-
         public IEntity Indirect {
             get {
                 return indirect;
@@ -441,9 +392,6 @@ namespace LASI.UserInterface
                 elements.Add(value);
             }
         }
-
-        ILexical prepositional;
-
         public ILexical Prepositional {
             get {
                 return prepositional;
@@ -454,16 +402,11 @@ namespace LASI.UserInterface
             }
         }
 
-
-        HashSet<ILexical> elements = new HashSet<ILexical>();
-
         public HashSet<ILexical> Elements {
             get {
                 return elements;
             }
         }
-
-
         public double RelationshipWeight {
             get;
             set;
@@ -482,12 +425,10 @@ namespace LASI.UserInterface
             }
             return result;
         }
-        public override bool Equals(object obj) {
-            return this == obj as RelationshipTuple;
-        }
-        public override int GetHashCode() {
-            return 1;
-        }
+        public bool Equals(RelationshipTuple other) { return this == other; }
+        public override bool Equals(object obj) { return this == obj as RelationshipTuple; }
+
+        public override int GetHashCode() { return elements.Count; }
 
         public static bool operator ==(RelationshipTuple lhs, RelationshipTuple rhs) {
 
@@ -515,8 +456,46 @@ namespace LASI.UserInterface
         public static bool operator !=(RelationshipTuple lhs, RelationshipTuple rhs) {
             return !(lhs == rhs);
         }
-
     }
+
+    ///// <summary>
+    ///// A little data type which provides custom uniqueness logic for NounPhrase to VerbPhrase  relationships. Provides the implementation of I equality comparer which is to be passed to the 
+    ///// "Distinct()" method of en IEnummerable collectio  of RelationshipTuple instances.
+    ///// It is defined because distinct does not support lambda(read function) arguments like my query operatorrs do.
+    ///// Pay this type little heed
+    ///// </summary>
+    //class RelationshipComparer : EqualityComparer<RelationshipTuple>
+    //{
+    //    public override bool Equals(RelationshipTuple lhs, RelationshipTuple rhs) {
+
+    //        if ((lhs as object == null || rhs as object == null)) {
+    //            return !(lhs as object == null ^ rhs as object == null);
+    //        }
+    //        else if (lhs.Elements.Count != rhs.Elements.Count) {
+    //            return false;
+    //        }
+    //        else {
+
+    //            bool result = lhs.Verbal.Text == rhs.Verbal.Text || lhs.Verbal.IsSimilarTo(rhs.Verbal);
+    //            result &= LexicalComparers<NounPhrase>.AliasOrSimilarity.Equals(lhs.Subject, rhs.Subject);
+    //            if (lhs.Direct != null && rhs.Direct != null) {
+    //                result &= LexicalComparers<NounPhrase>.AliasOrSimilarity.Equals(lhs.Direct, rhs.Direct);
+    //            }
+    //            else if (lhs.Direct == null || rhs.Direct == null)
+    //                return false;
+    //            if (lhs.Indirect != null && rhs.Indirect != null) {
+    //                result &= LexicalComparers<NounPhrase>.AliasOrSimilarity.Equals(lhs.Indirect, rhs.Indirect);
+    //            }
+    //            else if (lhs.Indirect == null || rhs.Indirect == null)
+    //                return false;
+    //            return result;
+    //        }
+    //    }
+
+    //    public override int GetHashCode(RelationshipTuple obj) {
+    //        return obj == null ? 0 : obj.Elements.Count;
+    //    }
+    //}
 
     #endregion
 }

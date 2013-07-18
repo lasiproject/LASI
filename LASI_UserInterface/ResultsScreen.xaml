@@ -239,7 +239,7 @@
                 <Grid
                     Background="#FFE5E5E5">
                     <TabControl
-                        x:Name="WordCountLists"
+                        x:Name="weightedByDocumentTabControl"
                         Grid.ColumnSpan="2"
                         Margin="0,-1,0,0" />
                 </Grid>

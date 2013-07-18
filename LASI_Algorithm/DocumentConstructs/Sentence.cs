@@ -14,7 +14,7 @@ namespace LASI.Algorithm.DocumentConstructs
 
         private Sentence() {
             ID = IDProvider++;
-            EndingPunctuation = EndingPunctuation ?? new SentenceDelimiter('.');
+
         }
 
         /// <summary>
@@ -25,7 +25,7 @@ namespace LASI.Algorithm.DocumentConstructs
         public Sentence(IEnumerable<Phrase> phrases, SentenceDelimiter sentencePunctuation = null)
             : this() {
             Clauses = new[] { new Clause(from P in phrases select P) };
-            EndingPunctuation = sentencePunctuation;
+            EndingPunctuation = EndingPunctuation ?? new SentenceDelimiter('.');
         }
         /// <summary>
         /// Initializes a new instance of the Sentence class.
@@ -35,7 +35,7 @@ namespace LASI.Algorithm.DocumentConstructs
         public Sentence(IEnumerable<Word> words, SentenceDelimiter sentencePunctuation = null)
             : this() {
             Clauses = new[] { new Clause(from W in words select W) };
-            EndingPunctuation = sentencePunctuation;
+            EndingPunctuation = EndingPunctuation ?? new SentenceDelimiter('.');
         }
         /// <summary>
         /// Initializes a new instance of the Sentence class.
@@ -45,7 +45,7 @@ namespace LASI.Algorithm.DocumentConstructs
         public Sentence(IEnumerable<Clause> clauses, SentenceDelimiter sentencePunctuation = null)
             : this() {
             Clauses = clauses;
-            EndingPunctuation = sentencePunctuation;
+            EndingPunctuation = EndingPunctuation ?? new SentenceDelimiter('.');
         }
         /// <summary>
         /// Returns the Phrase elements in the Sentence, following and not including the given Phrase. 

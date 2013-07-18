@@ -269,6 +269,8 @@ namespace LASI.Algorithm
 
 
 
+
+        public bool WasBound { get; set; }
     }
 }
 
