@@ -13,81 +13,41 @@ namespace LASI.Algorithm
             : base(composedWords) {
         }
 
-        public EntityKind EntityKind {
-            get {
-                return EntityKind.Activitiy;
-            }
-        }
 
-        public IVerbal DirectObjectOf {
-            get;
-            set;
-        }
-
-        public IVerbal IndirectObjectOf {
-            get;
-            set;
-        }
-
-        public IVerbal SubjectOf {
-            get;
-            set;
-        }
 
         public void BindPronoun(IPronoun pro) {
-            if (!_boundPronouns.Contains(pro)) {
-                _boundPronouns.Add(pro);
+            if (!boundPronouns.Contains(pro)) {
+                boundPronouns.Add(pro);
+                pro.BindAsReferringTo(this);
             }
         }
-
-        public IEnumerable<IPronoun> BoundPronouns {
-            get {
-                return _boundPronouns;
-            }
-        }
-
         public void BindDescriptor(IDescriptor adj) {
-            if (!_describers.Contains(adj)) {
+            if (!describers.Contains(adj)) {
+                describers.Add(adj);
                 adj.Describes = this;
-                _describers.Add(adj);
             }
         }
-
-        public IEnumerable<IDescriptor> Descriptors {
-            get {
-                return _describers;
-            }
-        }
-
-        public IEnumerable<IEntity> Possessed {
-            get {
-                return _possessed;
-            }
-        }
-
         public void AddPossession(IEntity possession) {
-            if (!_possessed.Contains(possession)) {
+            if (!possessed.Contains(possession)) {
+                possessed.Add(possession);
                 possession.Possesser = this;
-                _possessed.Add(possession);
             }
         }
 
-        public IEntity Possesser {
-            get;
-            set;
-        }
+        public IEntity Possesser { get; set; }
+        public IVerbal DirectObjectOf { get; set; }
+        public IVerbal IndirectObjectOf { get; set; }
+        public IVerbal SubjectOf { get; set; }
 
-        public void BindPronoun(Pronoun pro) {
-            if (!_boundPronouns.Contains(pro)) {
-                _boundPronouns.Add(pro);
-            }
-        }
-
+        public EntityKind EntityKind { get { return EntityKind.Activitiy; } }
+        public IEnumerable<IDescriptor> Descriptors { get { return describers; } }
+        public IEnumerable<IEntity> Possessed { get { return possessed; } }
+        public IEnumerable<IPronoun> BoundPronouns { get { return boundPronouns; } }
         #region Fields
 
-        private ICollection<IDescriptor> _describers = new List<IDescriptor>();
-        private ICollection<IEntity> _possessed = new List<IEntity>();
-        private ICollection<IPronoun> _boundPronouns = new List<IPronoun>();
+        private ICollection<IDescriptor> describers = new List<IDescriptor>();
+        private ICollection<IEntity> possessed = new List<IEntity>();
+        private ICollection<IPronoun> boundPronouns = new List<IPronoun>();
 
         #endregion
 
@@ -95,6 +55,6 @@ namespace LASI.Algorithm
 
 
 
- 
+
     }
 }

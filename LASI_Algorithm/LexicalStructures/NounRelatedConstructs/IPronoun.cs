@@ -12,19 +12,14 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets the Entity which the IPronoun references.
         /// </summary>
-        IEntityGroup BoundEntity {
+        IEntityGroup EntityRefererredTo {
             get;
         }
         /// <summary>
         /// Binds the IPronoun to refer to the given Entity.
         /// </summary>
         /// <param name="target">The entity to which to bind.</param>
-        void BindToEntity(IEntity target);
-        /// <summary>
-        /// Indicates wether or not the IPronoun is bound to an Entity.
-        /// </summary>
-        bool IsBound {
-            get;
-        }
+        void BindAsReferringTo(IEntity target);
+
     }
 }

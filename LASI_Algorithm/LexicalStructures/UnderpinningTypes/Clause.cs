@@ -30,21 +30,7 @@ namespace LASI.Algorithm
         public Clause(IEnumerable<Word> words) {
             Phrases = new List<Phrase>(new[] { new UndeterminedPhrase(words) });
         }
-        /// <summary>
-        /// Gets the collection of Phrases which comprise the Clause.
-        /// </summary>
-        public IEnumerable<Phrase> Phrases {
-            get;
-            protected set;
-        }
-        /// <summary>
-        /// Gets the concatenated text content of all of the Phrases which compose the Clause.
-        /// </summary>
-        public string Text {
-            get {
-                return Phrases.Aggregate("", (txt, phrase) => txt += " " + phrase.Text).Trim();
-            }
-        }
+
 
         /// <summary>
         /// Establishes the nested links between the Clause, its parent Sentence and Phrases which comprise it.
@@ -55,7 +41,13 @@ namespace LASI.Algorithm
             foreach (var r in Phrases)
                 r.EstablishParent(this);
         }
-
+        /// <summary>
+        /// Returns a string representation of the Clause.
+        /// </summary>
+        /// <returns>A string representation of the Clause.</returns>
+        public override string ToString() {
+            return base.ToString() + " \"" + Text + "\"";
+        }
         /// <summary>
         /// Gets or set the Document instance to which the Clause belongs.
         /// </summary>
@@ -75,71 +67,53 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets the punctuation, if any, which ends the clause.
         /// </summary>
-        public Punctuation EndingPunctuation {
-            get;
-            protected set;
+        public Punctuation EndingPunctuation { get; protected set; }
+
+
+        /// <summary>
+        /// Gets the collection of Phrases which comprise the Clause.
+        /// </summary>
+        public IEnumerable<Phrase> Phrases { get; protected set; }
+        /// <summary>
+        /// Gets the concatenated text content of all of the Phrases which compose the Clause.
+        /// </summary>
+        public string Text {
+            get {
+                return Phrases.Aggregate("", (txt, phrase) => txt += " " + phrase.Text).Trim();
+            }
         }
 
         /// <summary>
-        /// Returns a string representation of the Clause.
-        /// </summary>
-        /// <returns>A string representation of the Clause.</returns>
-        public override string ToString() {
-            return base.ToString() + " \"" + Text + "\"";
-        }
-        /// <summary>
         /// Gets or sets the numeric Weight of the Phrase within the context of its document.
         /// </summary>
-        public double Weight {
-            get;
-            set;
-        }
+        public double Weight { get; set; }
 
         /// <summary>
         /// Gets or sets the numeric Weight of the Phrase over the context of all extant documents.
         /// </summary>
-        public double MetaWeight {
-            get;
-            set;
-        }
+        public double MetaWeight { get; set; }
 
         /// <summary>
         /// Gets the Sentence which contains The Clause.
         /// </summary>
-        public LASI.Algorithm.DocumentConstructs.Sentence Sentence {
-            get;
-            protected set;
-        }
+        public LASI.Algorithm.DocumentConstructs.Sentence Sentence { get; private set; }
         /// <summary>
         /// Gets the unique ID number of the Clause
         /// </summary>
-        public int ID {
-            get;
-            private set;
-        }
+        public int ID { get; private set; }
 
         /// <summary>
         /// Gets the System.Type of the Clause.
         /// </summary>
-        public Type Type {
-            get {
-                return GetType();
-            }
-        }
+        public Type Type { get { return GetType(); } }
         /// <summary>
         /// Gets or sets the IPrepositional instance lexically to the Left of the Clause.
         /// </summary>
-        public IPrepositional PrepositionOnLeft {
-            get;
-            set;
-        }
+        public IPrepositional PrepositionOnLeft { get; set; }
         /// <summary>
         /// Gets or sets the IPrepositional instance lexically to the Right of the Clause.
         /// </summary>
-        public IPrepositional PrepositionOnRight {
-            get;
-            set;
-        }
+        public IPrepositional PrepositionOnRight { get; set; }
     }
 
 }

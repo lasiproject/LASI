@@ -15,44 +15,28 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets or sets the IPrepositional instance lexically to the Left of the ILexical.
         /// </summary>
-        IPrepositional PrepositionOnLeft {
-            get;
-            set;
-        }
+        IPrepositional PrepositionOnLeft { get; set; }
         /// <summary>
         /// Gets or sets the IPrepositional instance lexically to the Right of the ILexical.
         /// </summary>
-        IPrepositional PrepositionOnRight {
-            get;
-            set;
-        }
+        IPrepositional PrepositionOnRight { get; set; }
 
         /// <summary>
         /// Gets the key text of the ILexical.
         /// </summary>
-        string Text {
-            get;
-        }
+        string Text { get; }
         /// <summary>
         /// Gets the System.Type of the ILexical.
         /// </summary>
-        Type Type {
-            get;
-        }
+        Type Type { get; }
 
         /// <summary>
         /// Gets or sets the numeric Weight of the ILexical construct within its document.
         /// </summary>
-        double Weight {
-            get;
-            set;
-        }
+        double Weight { get; set; }
         /// <summary>
         /// Gets or sets the numeric Weight of the ILexical construct over the context of all extant documents.
         /// </summary>
-        double MetaWeight {
-            get;
-            set;
-        }
+        double MetaWeight { get; set; }
     }
 }

@@ -51,7 +51,7 @@ namespace LASI.Algorithm.LexicalInformationProviders.Lookups
             var words = from Match ContainedWord in Regex.Matches(line.Substring(17), wordRegex)
                         select ContainedWord.Value.Replace('_', '-').ToLower();
             var id = Int32.Parse(line.Substring(0, 8));
-            var lexCategory = ( VerbCategory )Int32.Parse(line.Substring(9, 2));
+            var lexCategory = (VerbCategory)Int32.Parse(line.Substring(9, 2));
             return new VerbSynSet(id, words, referencedSets, lexCategory);
         }
 
@@ -95,7 +95,7 @@ namespace LASI.Algorithm.LexicalInformationProviders.Lookups
             }
             catch (KeyNotFoundException) {
             }
-            return Enumerable.Repeat(search, 1).ToSet(StringComparer.OrdinalIgnoreCase);
+            return new HashSet<string>(Enumerable.Repeat(search, 1), StringComparer.OrdinalIgnoreCase);
         }
 
         /// <summary>

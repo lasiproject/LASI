@@ -7,16 +7,20 @@ using System.Threading.Tasks;
 
 namespace LASI.Algorithm.Binding
 {
+    /// <summary>
+    /// Establishes bindings between verbals and their subjects at the Phrase level.
+    /// </summary>
     public class SubjectBinder
     {
         List<State> stateList = new List<State>();
         /// <summary>
         /// This is the Bind function for the SubjectBinder Class 
         /// </summary>
-        /// <param name="s"></param>
+        /// <param name="s">The sentence to bind within.</param>
         public void Bind(Sentence s) {
 
-            List<VerbPhrase> v1 = new List<VerbPhrase>(s.Phrases.GetVerbPhrases());
+            //This variable was not being used.
+            //List<VerbPhrase> v1 = new List<VerbPhrase>(s.Phrases.GetVerbPhrases());
 
             foreach (var i in s.Phrases) {
                 if (i is AdjectivePhrase) {
@@ -29,7 +33,7 @@ namespace LASI.Algorithm.Binding
                     s3.StatePhrase = i;
                     stateList.Add(s3);
                 }
-                if (i is VerbPhrase && i.Words.Count(n => n is PresentParticipleGerund) > 0) {
+                if (i is VerbPhrase && i.Words.Any(n => n is PresentParticipleGerund)) {
                     State s4 = new State();
                     s4.StatePhrase = i;
                     stateList.Add(s4);
@@ -40,7 +44,10 @@ namespace LASI.Algorithm.Binding
                     s5.StatePhrase = i;
                     stateList.Add(s5);
                 }
-                if (i is VerbPhrase && i.Words.Count(n => n is PresentParticipleGerund) == 0) {
+
+                //Aluan says just an experiment
+                //if (i is VerbPhrase && i.Words.Count(n => n is PresentParticipleGerund) == 0) {
+                if (i is VerbPhrase && i.Words.Any(w => w is Verb && !(w is PresentParticipleGerund))) {
                     State s6 = new State();
                     s6.StatePhrase = i;
                     s6.S = StateType.Final;
@@ -48,16 +55,17 @@ namespace LASI.Algorithm.Binding
                     //subject for normal sentence.
                     if ((i.PreviousPhrase is NounPhrase) &&
                         (i.PreviousPhrase.Sentence == i.Sentence) &&
-                        !(i.PreviousPhrase as NounPhrase).WasBound) {
+                         (i.PreviousPhrase as NounPhrase).SubjectOf == null) {
 
-                        (i as VerbPhrase).BindSubject(i.PreviousPhrase as NounPhrase);
-                        (i.PreviousPhrase as NounPhrase).WasBound = true;
+                        (i as VerbPhrase).BindSubject(i.PreviousPhrase as NounPhrase); //(i.PreviousPhrase as NounPhrase).WasSubjectBound = true;
+
                     }
                     if (i.PreviousPhrase != null && ((i.PreviousPhrase.PreviousPhrase is NounPhrase) &&
                         (i.PreviousPhrase.PreviousPhrase.Sentence == i.Sentence) &&
-                        !(i.PreviousPhrase.PreviousPhrase as NounPhrase).WasBound)) {
-                        (i as VerbPhrase).BindSubject(i.PreviousPhrase.PreviousPhrase as NounPhrase);
-                        (i.PreviousPhrase.PreviousPhrase as NounPhrase).WasBound = true;
+                         (i.PreviousPhrase.PreviousPhrase as NounPhrase).SubjectOf == null)) {
+
+                        (i as VerbPhrase).BindSubject(i.PreviousPhrase.PreviousPhrase as NounPhrase);//(i.PreviousPhrase.PreviousPhrase as NounPhrase).WasSubjectBound = true;
+
                     }
 
 
@@ -69,10 +77,20 @@ namespace LASI.Algorithm.Binding
                 //handle case of inverted sentence (http://en.wikipedia.org/wiki/Inverted_sentence)
                 if ((i is AdverbPhrase) && (i.NextPhrase is VerbPhrase) && (i.NextPhrase.NextPhrase is NounPhrase)
                     && (i.Sentence == i.NextPhrase.NextPhrase.Sentence)
-                    && !(i.NextPhrase.NextPhrase as NounPhrase).WasBound) {
+                    //Aluan says
+                    //I don't think the WasBound property is needed because we can check if the SubjectOf property of the NounPhrase is null. 
+                    //If it is, that indicates that the NounPhrase was bound as the subject of an IVerbal, 
+                    //which is what I think you are checking with this line: && !(i.NextPhrase.NextPhrase as NounPhrase).WasBound)
+                    && (i.NextPhrase.NextPhrase as NounPhrase).SubjectOf == null) {
                     (i.NextPhrase as VerbPhrase).BindSubject(i.NextPhrase.NextPhrase as NounPhrase);
-                    s.isStandard = false;
-                    (i.NextPhrase.NextPhrase as NounPhrase).WasBound = true;
+                    //Aluan says
+                    //I changed the name of this property from IsStandard to IsInverted because it is a rarer case.
+                    //Hence, the next line sets the property to true instead of fasle.
+                    s.IsInverted = true;
+                    //Aluan says
+                    //I don't think this line is needed because of the change in the if condition mentioned above.
+                    //(i.NextPhrase.NextPhrase as NounPhrase).WasSubjectBound = true;
+
                 }
 
                 if (i is AdverbPhrase) {
@@ -99,7 +117,9 @@ namespace LASI.Algorithm.Binding
             }
         }
 
-
+        /// <summary>
+        /// Display the current state of the SubjectBinder for debugging purposes.
+        /// </summary>
         public void display() {
 
             for (int i = 0; i < stateList.Count; i++) {
@@ -109,7 +129,7 @@ namespace LASI.Algorithm.Binding
             }
 
         }
-        class State
+        internal class State
         {
             public State() {
                 S = StateType.Default;
@@ -128,7 +148,7 @@ namespace LASI.Algorithm.Binding
             }
 
         }
-        enum StateType
+        internal enum StateType
         {
             Initial,
             Default,

@@ -27,7 +27,8 @@ namespace LASI.Algorithm
         /// <param name="pro">The Pronoun or PronounPhrase to Bind to the gerund</param>
         public void BindPronoun(IPronoun pro) {
 
-            _indirectReferences.Add(pro);
+            boundPronouns.Add(pro);
+            pro.BindAsReferringTo(this);
         }
 
 
@@ -36,8 +37,8 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="adjective">The IDescriptor instance which will be added to the PresentParticipleGerund' descriptors.</param>
         public void BindDescriptor(IDescriptor adjective) {
+            describedBy.Add(adjective);
             adjective.Describes = this;
-            _describedBy.Add(adjective);
         }
         /// <summary>
         /// Adds an IPossessible construct, such as a person place or thing, to the collection of the PresentParticipleGerund "Owns",
@@ -46,80 +47,54 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="possession">The possession to add.</param>
         public void AddPossession(IEntity possession) {
-            throw new NotImplementedException();
+            possessed.Add(possession);
+            possession.Possesser = this;
         }
 
         #endregion
 
         #region Properties
-
-        /// <summary>
-        /// Gets the collection of pronouns which are known to refer to the Gerund.
-        /// </summary>
-        public IEnumerable<IPronoun> BoundPronouns {
-            get {
-                return _indirectReferences;
-            }
-        }
-        /// <summary>
-        /// The Verb construct which the Gerund is the subject of.
-        /// </summary>
-        public IVerbal SubjectOf {
-            get;
-            set;
-        }
-        /// <summary>
-        /// The Verb construct which the gerund is the direct object of.
-        /// </summary>
-        public IVerbal DirectObjectOf {
-            get;
-            set;
-        }
-        /// <summary>
-        /// The Verb construct which the gerund is the indirect object of.
-        /// </summary>
-        public IVerbal IndirectObjectOf {
-            get;
-            set;
-        }
         /// <summary>
         /// Gets all of the IDescriptor constructs,generally Adjectives or AdjectivePhrases, which describe the PresentParticipleGerund.
         /// </summary>
-        public IEnumerable<IDescriptor> Descriptors {
-            get {
-                return _describedBy;
-            }
-        }
+        public IEnumerable<IDescriptor> Descriptors { get { return describedBy; } }
         /// <summary>
         /// Gets all of the constructs which the PresentParticipleGerund "owns".
         /// </summary>
-        public IEnumerable<IEntity> Possessed {
-            get {
-                return _possessed;
-            }
-        }
+        public IEnumerable<IEntity> Possessed { get { return possessed; } }
+        /// <summary>
+        /// Gets the collection of pronouns which are known to refer to the Gerund.
+        /// </summary>
+        public IEnumerable<IPronoun> BoundPronouns { get { return boundPronouns; } }
+        /// <summary>
+        /// The Verb construct which the Gerund is the subject of.
+        /// </summary>
+        public IVerbal SubjectOf { get; set; }
+        /// <summary>
+        /// The Verb construct which the gerund is the direct object of.
+        /// </summary>
+        public IVerbal DirectObjectOf { get; set; }
+        /// <summary>
+        /// The Verb construct which the gerund is the indirect object of.
+        /// </summary>
+        public IVerbal IndirectObjectOf { get; set; }
+
         /// <summary>
         /// Gets or sets the Entity which "owns" the PresentParticipleGerund.
         /// </summary>
-        public IEntity Possesser {
-            get;
-            set;
-        }
+        public IEntity Possesser { get; set; }
         /// <summary>
         /// Gets the Activitiy value of the EntityKind enumeration, the kind always associated with an PresentParticipleGerund.
         /// </summary>
-        public EntityKind EntityKind {
-            get;
-            private set;
-        }
+        public EntityKind EntityKind { get; private set; }
 
         #endregion
 
         #region Fields
 
-        private ICollection<IDescriptor> _describedBy = new List<IDescriptor>();
-        private ICollection<IEntity> _possessed = new List<IEntity>();
-        private ICollection<IPronoun> _indirectReferences = new List<IPronoun>();
+        private ICollection<IDescriptor> describedBy = new List<IDescriptor>();
+        private ICollection<IEntity> possessed = new List<IEntity>();
+        private ICollection<IPronoun> boundPronouns = new List<IPronoun>();
 
         #endregion
 

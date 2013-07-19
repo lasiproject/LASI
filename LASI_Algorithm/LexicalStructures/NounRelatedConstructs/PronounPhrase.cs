@@ -21,8 +21,8 @@ namespace LASI.Algorithm
         /// <param name="composedWords">The words which compose to form the PronounPhrase.</param>
         public PronounPhrase(IEnumerable<Word> composedWords)
             : base(composedWords) {
-            if (composedWords.GetPronouns().Any(p => p.IsBound)) {
-                _boundEntity = composedWords.GetPronouns().Last().BoundEntity;
+            if (composedWords.GetPronouns().Any(p => p.EntityRefererredTo != null)) {
+                _boundEntity = composedWords.GetPronouns().Last().EntityRefererredTo;
                 IsBound = true;
             }
         }
@@ -32,15 +32,15 @@ namespace LASI.Algorithm
         /// </summary>
         /// <returns>A string representation of the PronounPhrase</returns>
         public override string ToString() {
-            return base.ToString() + (BoundEntity != null ? " referring to -> " + BoundEntity.Text : "");
+            return base.ToString() + (EntityRefererredTo != null ? " referring to -> " + EntityRefererredTo.Text : "");
         }
         private IEntityGroup _boundEntity;
         /// <summary>
         /// Gets the Entity which the IPronoun references.
         /// </summary>
-        public IEntityGroup BoundEntity {
+        public IEntityGroup EntityRefererredTo {
             get {
-                _boundEntity = _boundEntity ?? (Words.GetPronouns().Any(p => p.IsBound) ? Words.GetPronouns().Last().BoundEntity : null);
+                _boundEntity = _boundEntity ?? (Words.GetPronouns().Any(p => p.EntityRefererredTo != null) ? Words.GetPronouns().Last().EntityRefererredTo : null);
                 IsBound = _boundEntity != null;
                 return _boundEntity;
             }
@@ -51,7 +51,7 @@ namespace LASI.Algorithm
         /// Binds the PronounPhrase to refer to the given Entity.
         /// </summary>
         /// <param name="target">The entity to which to bind.</param>
-        public void BindToEntity(IEntity target) {
+        public void BindAsReferringTo(IEntity target) {
             if (_boundEntity != null || !_boundEntity.Any())
                 _boundEntity = new EntityGroup(new[] { target });
             else
@@ -101,8 +101,6 @@ namespace LASI.Algorithm
                 Descriptors = contextualPronoun.Descriptors,
                 PreviousPhrase = contextualPronoun.PreviousPhrase,
                 NextPhrase = contextualPronoun.NextPhrase,
-                BoundNoun = contextualPronoun.BoundNoun,
-                BoundNounPhrase = contextualPronoun.BoundNounPhrase,
             };
             return contextualPronoun as PronounPhrase;
         }

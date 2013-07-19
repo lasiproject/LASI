@@ -25,7 +25,7 @@ namespace LASI.Algorithm.DocumentConstructs
         /// <param name="paragrpahs">The collection of paragraphs which contain all text in the document.</param>
         public Document(IEnumerable<Paragraph> paragrpahs) {
             _paragraphs = paragrpahs.ToList();
-            _enumContainingParagraphs = (from p in _paragraphs
+            enumContainingParagraphs = (from p in _paragraphs
                                          where p.ParagraphKind == ParagraphKind.NumberedOrBullettedContent
                                          select p).ToList();
 
@@ -37,14 +37,14 @@ namespace LASI.Algorithm.DocumentConstructs
         }
 
         private void AssignMembers(IEnumerable<Paragraph> paragrpahs) {
-            _sentences = (from p in _paragraphs
+            sentences = (from p in _paragraphs
                           from s in p.Sentences
                           where s.Words.GetVerbs().Any()
                           select s).ToList();
-            _phrases = (from s in _sentences
+            phrases = (from s in sentences
                         from r in s.Phrases
                         select r).ToList();
-            _words = (from s in _sentences
+            words = (from s in sentences
                       from w in s.Words.Concat(new[] { s.EndingPunctuation })
                       select w).ToList();
         }
@@ -57,24 +57,24 @@ namespace LASI.Algorithm.DocumentConstructs
         /// Establishes the compositional linkages over all of the structures which comprise the Document.
         /// </summary>
         private void EstablishLexicalLinks() {
-            if (_words.Count > 1) {
-                for (int i = 1; i < _words.Count(); ++i) {
-                    _words[i].PreviousWord = _words[i - 1];
-                    _words[i - 1].NextWord = _words[i];
+            if (words.Count > 1) {
+                for (int i = 1; i < words.Count(); ++i) {
+                    words[i].PreviousWord = words[i - 1];
+                    words[i - 1].NextWord = words[i];
                 }
 
-                var lastWord = _words[_words.Count - 1];
-                if (_words.IndexOf(lastWord) > 0)
-                    lastWord.PreviousWord = _words[_words.Count - 1];
+                var lastWord = words[words.Count - 1];
+                if (words.IndexOf(lastWord) > 0)
+                    lastWord.PreviousWord = words[words.Count - 1];
                 else
                     lastWord.PreviousWord = null;
                 lastWord.NextWord = null;
             }
-            if (_phrases.Count() > 1) {
+            if (phrases.Count() > 1) {
 
-                for (var i = 1; i < _phrases.Count; ++i) {
-                    _phrases[i].PreviousPhrase = _phrases[i - 1];
-                    _phrases[i - 1].NextPhrase = _phrases[i];
+                for (var i = 1; i < phrases.Count; ++i) {
+                    phrases[i].PreviousPhrase = phrases[i - 1];
+                    phrases[i - 1].NextPhrase = phrases[i];
                 }
             }
 
@@ -87,7 +87,7 @@ namespace LASI.Algorithm.DocumentConstructs
         /// </summary>
         /// <returns>all of the Action identified within the docimument.</returns>
         public IEnumerable<IVerbal> GetActions() {
-            return from a in _words.GetVerbs().Concat<IVerbal>(_phrases.GetVerbPhrases())
+            return from a in words.GetVerbs().Concat<IVerbal>(phrases.GetVerbPhrases())
                    orderby a is Word ? (a as Word).ID : (a as Phrase).Words.Last().ID ascending
                    select a;
         }
@@ -97,7 +97,7 @@ namespace LASI.Algorithm.DocumentConstructs
         /// </summary>
         /// <returns> All of the word and phrase level describables identified in the document.</returns>
         public IEnumerable<IEntity> GetEntities() {
-            return from e in _words.OfType<IEntity>().Concat(Phrases.OfType<IEntity>())
+            return from e in words.OfType<IEntity>().Concat(Phrases.OfType<IEntity>())
                    orderby e is Word ? (e as Word).ID : (e as Phrase).Words.Last().ID ascending
                    select e;
         }
@@ -134,7 +134,7 @@ namespace LASI.Algorithm.DocumentConstructs
         /// </summary>
         public IEnumerable<Sentence> Sentences {
             get {
-                return _sentences;
+                return sentences;
             }
 
         }
@@ -144,7 +144,7 @@ namespace LASI.Algorithm.DocumentConstructs
         /// </summary>
         public IEnumerable<Paragraph> Paragraphs {
             get {
-                return _paragraphs.Except(_enumContainingParagraphs);
+                return _paragraphs.Except(enumContainingParagraphs);
             }
         }
 
@@ -154,7 +154,7 @@ namespace LASI.Algorithm.DocumentConstructs
         /// </summary>
         public IEnumerable<Phrase> Phrases {
             get {
-                return _phrases;
+                return phrases;
             }
         }
         /// <summary>
@@ -162,27 +162,24 @@ namespace LASI.Algorithm.DocumentConstructs
         /// </summary>
         public IEnumerable<Word> Words {
             get {
-                return _words;
+                return words;
             }
         }
 
         /// <summary>
         /// The name of the file the Document instance was parsed from.
         /// </summary>
-        public string Name {
-            get;
-            set;
-        }
+        public string Name { get; set; }
 
         #endregion
 
         #region Fields
 
-        private IList<Word> _words;
-        private IList<Phrase> _phrases;
-        private IList<Sentence> _sentences;
+        private IList<Word> words;
+        private IList<Phrase> phrases;
+        private IList<Sentence> sentences;
         private IList<Paragraph> _paragraphs;
-        private IList<Paragraph> _enumContainingParagraphs;
+        private IList<Paragraph> enumContainingParagraphs;
 
 
 
@@ -206,17 +203,11 @@ namespace LASI.Algorithm.DocumentConstructs
             /// <summary>
             /// Gets the sentences which comprise the Page.
             /// </summary>
-            public IEnumerable<Sentence> Sentences {
-                get;
-                private set;
-            }
+            public IEnumerable<Sentence> Sentences { get; private set; }
             /// <summary>
             /// Gets the Document to which the page belongs.
             /// </summary>
-            public Document Document {
-                get;
-                private set;
-            }
+            public Document Document { get; private set; }
         }
     }
 

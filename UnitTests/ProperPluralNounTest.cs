@@ -85,8 +85,8 @@ namespace AlgorithmAssemblyUnitTestProject
             ProperPluralNoun target = new ProperPluralNoun(text);
             IQuantifier expected = new Quantifier("5");
             IQuantifier actual;
-            target.Quantifier = expected;
-            actual = target.Quantifier;
+            target.QuantifiedBy = expected;
+            actual = target.QuantifiedBy;
             Assert.AreEqual(expected, actual);
 
         }

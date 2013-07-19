@@ -137,7 +137,7 @@ namespace LASI.UserInterface
                     ToolTip = phrase.Type.Name,
                 };
                 var pronounPhrase = phrase as PronounPhrase;
-                if (pronounPhrase != null && pronounPhrase.IsBound) {
+                if (pronounPhrase != null && pronounPhrase.EntityRefererredTo != null) {
                     CreatePronounPhraseLabelMenu(phraseLabels, phraseLabel, pronounPhrase);
                 }
                 var vP = phrase as VerbPhrase;
@@ -419,7 +419,7 @@ namespace LASI.UserInterface
             };
             visitBoundEntity.Click += (sender, e) => {
                 var objlabels = from l in phraseLabels
-                                where l.Tag == pronounPhrase.BoundEntity
+                                where l.Tag == pronounPhrase.EntityRefererredTo
                                 select l;
                 foreach (var l in objlabels) {
                     l.Foreground = Brushes.Black;

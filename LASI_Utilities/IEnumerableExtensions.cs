@@ -107,19 +107,19 @@ namespace LASI.Utilities
         /// <typeparam name="T">The type of elements in the sequence.</typeparam>
         /// <param name="source">The sequence whose distinct elements will comprise the resulting set.</param>
         /// <returns>A set representation of the given sequence using the default System.Collections.Generic.IEqualityComparer for the given element type.</returns>
-        public static ISet<T> ToSet<T>(this IEnumerable<T> source) {
-            return new HashSet<T>(source);
-        }
-        /// <summary>
-        /// Returns a set representation of the given sequence using the default IEqualityComparer for the given element type.
-        /// </summary>
-        /// <typeparam name="T">The type of elements in the sequence.</typeparam>
-        /// <param name="source">The sequence whose distinct elements will comprise the resulting set.</param>
-        /// <param name="comparer">The System.Collections.Generic.IEqualityComparer implementation which will determine the distinctness of elements.</param>
-        /// <returns>A set representation of the given sequence using the default IEqualityComparer for the given element type.</returns>
-        public static ISet<T> ToSet<T>(this IEnumerable<T> source, IEqualityComparer<T> comparer) {
-            return new HashSet<T>(source, comparer);
-        }
+        //public static ISet<T> ToSet<T>(this IEnumerable<T> source) {
+        //    return new HashSet<T>(source);
+        //}
+        ///// <summary>
+        ///// Returns a set representation of the given sequence using the default IEqualityComparer for the given element type.
+        ///// </summary>
+        ///// <typeparam name="T">The type of elements in the sequence.</typeparam>
+        ///// <param name="source">The sequence whose distinct elements will comprise the resulting set.</param>
+        ///// <param name="comparer">The System.Collections.Generic.IEqualityComparer implementation which will determine the distinctness of elements.</param>
+        ///// <returns>A set representation of the given sequence using the default IEqualityComparer for the given element type.</returns>
+        //public static ISet<T> ToSet<T>(this IEnumerable<T> source, IEqualityComparer<T> comparer) {
+        //    return new HashSet<T>(source, comparer);
+        //}
         /// <summary>
         /// Splits the sequence into a sequence of sequences based on the provided chunk size.
         /// </summary>

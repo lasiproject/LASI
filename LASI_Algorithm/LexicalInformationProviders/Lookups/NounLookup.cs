@@ -64,7 +64,7 @@ namespace LASI.Algorithm.LexicalInformationProviders.Lookups
 
             int id = Int32.Parse(line.Substring(0, 8));
 
-            NounCategory lexCategory = ( NounCategory )Int32.Parse(line.Substring(9, 2));
+            NounCategory lexCategory = (NounCategory)Int32.Parse(line.Substring(9, 2));
 
             return new NounSynSet(id, words, referencedSets, lexCategory);
         }
@@ -110,7 +110,12 @@ namespace LASI.Algorithm.LexicalInformationProviders.Lookups
 
         public ISet<string> this[string search] {
             get {
-                return SearchFor(NounConjugator.FindRoot(search)).SelectMany(syn => NounConjugator.GetLexicalForms(syn)).ToSet();
+                try {
+                    return new HashSet<string>(SearchFor(NounConjugator.FindRoot(search)).SelectMany(syn => NounConjugator.GetLexicalForms(syn)));
+                }
+                catch (AggregateException) { }
+                catch (InvalidOperationException) { }
+                return this[search];
             }
         }
 

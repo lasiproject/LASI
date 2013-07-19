@@ -35,8 +35,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>
-    </DocumentationFile>
+    <DocumentationFile>bin\Debug\Algorithm.XML</DocumentationFile>
     <PlatformTarget>x64</PlatformTarget>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
@@ -48,8 +47,7 @@
     </DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>
-    </DocumentationFile>
+    <DocumentationFile>bin\Release\Algorithm.XML</DocumentationFile>
     <PlatformTarget>x64</PlatformTarget>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
     <UseVSHostingProcess>false</UseVSHostingProcess>
@@ -230,11 +228,7 @@
     <Compile Include="IEnumerableExtensions\IEnumerableOfWordExtensions.cs" />
     <Compile Include="LexicalInformationProviders\Lookups\LookupSupport\WordNetLexCategoryInformation.cs" />
     <Compile Include="TextSourceAbstraction\TaggedTextFragment.cs" />
-    <None Include="ClassDiagrams\ClassDiagram3.cd" />
-    <None Include="ClassDiagrams\ClassDiagram1.cd" />
-    <None Include="ClassDiagrams\ClassDiagram2.cd" />
-    <None Include="ClassDiagrams\NounConstructs.cd" />
-    <None Include="ClassDiagrams\VerbConstructs.cd" />
+    <None Include="LexicalStructures\AdjectiveRelatedConstructs\ClassDiagram1.cd" />
     <None Include="DocumentConstructs\DocumentComposition.cd" />
     <None Include="IEnumerableExtensions\IEnumerableExtensions.cd" />
     <None Include="LexicalStructures\MiscLanguageConstructs\PhraseConstructs.cd" />
@@ -270,7 +264,9 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="ClassDiagrams\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

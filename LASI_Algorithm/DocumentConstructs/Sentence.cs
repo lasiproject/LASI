@@ -61,10 +61,7 @@ namespace LASI.Algorithm.DocumentConstructs
         /// <summary>
         /// Gets the ending punctuation character of the sentence.
         /// </summary>
-        public SentenceDelimiter EndingPunctuation {
-            get;
-            private set;
-        }
+        public SentenceDelimiter EndingPunctuation { get; private set; }
 
         /// <summary>
         /// Establishes the linkages between the Sentence, its parent Paragraph, and its child Clauses.
@@ -78,12 +75,17 @@ namespace LASI.Algorithm.DocumentConstructs
 
 
         /// <summary>
+        /// Returns a string representation of the Sentence.
+        /// </summary>
+        /// <returns>A string representation of the Sentence.</returns>
+        public override string ToString() {
+            return base.ToString() + " \"" + Text + "\"";
+        }
+
+        /// <summary>
         /// Gets the sequence of Clauses which comprise the sentence.
         /// </summary>
-        public IEnumerable<Clause> Clauses {
-            get;
-            private set;
-        }
+        public IEnumerable<Clause> Clauses { get; private set; }
         /// <summary>
         /// Gets the sequence of Phrases which comprise the sentence.
         /// </summary>
@@ -120,10 +122,7 @@ namespace LASI.Algorithm.DocumentConstructs
         /// <summary>
         /// Gets the Paragraph to which the Sentence belongs.
         /// </summary>
-        public Paragraph Paragraph {
-            get;
-            private set;
-        }
+        public Paragraph Paragraph { get; private set; }
         /// <summary>
         /// Gets the Document to which the Sentence Belongs.
         /// </summary>
@@ -134,26 +133,16 @@ namespace LASI.Algorithm.DocumentConstructs
         }
 
         /// <summary>
-        /// Returns a string representation of the Sentence.
+        /// Gets or sets a value indicating wether the Sentence is an inverted sentence.
         /// </summary>
-        /// <returns>A string representation of the Sentence.</returns>
-        public override string ToString() {
-            return base.ToString() + " \"" + Text + "\"";
-        }
-
-        /// <summary>
-        /// for subject binder
-        /// </summary>
-        public bool isStandard = true;
+        public bool IsInverted { get; set; }
 
         private static int IDProvider;
+        public bool isStandard = true;
         /// <summary>
         /// Gets the unique ID number of the Sentence.
         /// </summary>
-        public int ID {
-            get;
-            private set;
-        }
+        public int ID { get; private set; }
     }
 
 }

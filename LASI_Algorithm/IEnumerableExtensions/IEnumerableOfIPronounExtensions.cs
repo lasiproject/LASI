@@ -19,7 +19,7 @@ namespace LASI.Algorithm
         /// <returns>All Pronouns in the collection that are bound as references of some entity.</returns>
         public static IEnumerable<T> Referencing<T>(this IEnumerable<T> refererring) where T : IPronoun {
             return from ER in refererring
-                   where ER.BoundEntity != null
+                   where ER.EntityRefererredTo != null
                    select ER;
         }
         /// <summary>
@@ -31,7 +31,7 @@ namespace LASI.Algorithm
         /// <returns>All Pronouns in the collection that refer to the given entity</returns>
         public static IEnumerable<T> Referencing<T>(this IEnumerable<T> refererring, IEntity referenced) where T : IPronoun {
             return from ER in refererring
-                   where ER.BoundEntity == referenced
+                   where ER.EntityRefererredTo == referenced
                    select ER;
         }
         /// <summary>
@@ -43,7 +43,7 @@ namespace LASI.Algorithm
         /// <returns>All IPronoun constructs in the collection that refer to the given entity</returns>
         public static IEnumerable<T> Referencing<T>(this IEnumerable<T> refererring, Func<IEntity, bool> condition) where T : IPronoun {
             return from ER in refererring
-                   where ER.BoundEntity != null && condition(ER.BoundEntity)
+                   where ER.EntityRefererredTo != null && condition(ER.EntityRefererredTo)
                    select ER;
         }
     }

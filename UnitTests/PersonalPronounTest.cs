@@ -114,8 +114,8 @@ namespace AlgorithmAssemblyUnitTestProject
             PersonalPronoun target = new PersonalPronoun(text);
             IEntity expected = new ProperSingularNoun("Aluan");
             IEntity actual;
-            target.BindToEntity(expected);
-            actual = target.BoundEntity;
+            target.BindAsReferringTo(expected);
+            actual = target.EntityRefererredTo;
             Assert.AreEqual(expected, actual);
         }
 

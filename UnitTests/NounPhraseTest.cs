@@ -3,7 +3,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
-using System.Linq; 
+using System.Linq;
 
 namespace AlgorithmAssemblyUnitTestProject
 {
@@ -98,7 +98,7 @@ namespace AlgorithmAssemblyUnitTestProject
             NounPhrase target = new NounPhrase(composedWords);
             Pronoun pro = new PersonalPronoun("they");
             target.BindPronoun(pro);
-            Assert.IsTrue(target.BoundPronouns.Contains(pro) && pro.BoundEntity == target);
+            Assert.IsTrue(target.BoundPronouns.Contains(pro) && pro.EntityRefererredTo == target);
         }
 
 
@@ -166,7 +166,7 @@ namespace AlgorithmAssemblyUnitTestProject
             Assert.IsTrue(target.BoundPronouns.Count() == 0);
             Pronoun pro = new PersonalPronoun("they");
             target.BindPronoun(pro);
-            Assert.IsTrue(target.BoundPronouns.Contains(pro) && pro.BoundEntity == target);
+            Assert.IsTrue(target.BoundPronouns.Contains(pro) && pro.EntityRefererredTo == target);
         }
 
         /// <summary>

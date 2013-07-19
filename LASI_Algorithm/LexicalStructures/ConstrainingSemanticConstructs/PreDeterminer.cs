@@ -8,7 +8,7 @@ namespace LASI.Algorithm
     /// <summary>
     /// Represents a Predpeterminer, a relative or abstract quantifier, such as "both" or "all"
     /// </summary>
-    public class PreDeterminer : Determiner
+    public class PreDeterminer : Quantifier
     {
         /// <summary>
         /// Initializes a new instance of the PreDeterminer class.
@@ -17,5 +17,7 @@ namespace LASI.Algorithm
         public PreDeterminer(string text)
             : base(text) {
         }
+
+
     }
 }

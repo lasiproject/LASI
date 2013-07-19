@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using LASI.Algorithm;
- 
+
 
 namespace AlgorithmAssemblyUnitTestProject
 {
@@ -99,7 +99,7 @@ namespace AlgorithmAssemblyUnitTestProject
             Noun target = CreateNoun();
             Pronoun pro = new PersonalPronoun("it");
             target.BindPronoun(pro);
-            Assert.IsTrue(target.BoundPronouns.Contains(pro) && pro.BoundEntity == target);
+            Assert.IsTrue(target.BoundPronouns.Contains(pro) && pro.EntityRefererredTo == target);
         }
 
         ///// <summary>
@@ -139,18 +139,7 @@ namespace AlgorithmAssemblyUnitTestProject
             Assert.AreEqual(expected, actual);
         }
 
-        /// <summary>
-        ///A test for EntityType
-        ///</summary>
-        [TestMethod()]
-        public void EntityTypeTest() {
-            Noun target = CreateNoun();
-            EntityKind expected = EntityKind.Thing;
-            EntityKind actual;
-            target.EntityKind = expected;
-            actual = target.EntityKind;
-            Assert.AreEqual(expected, actual);
-        }
+
 
         /// <summary>
         ///A test for IndirectObjectOf

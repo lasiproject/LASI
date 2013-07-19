@@ -40,7 +40,7 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="adv">The Adverbial construct by which to modify the AdjectivePhrase.</param>
         public void ModifyWith(IAdverbial adv) {
-            _modifiers.Add(adv);
+            modifiers.Add(adv);
             adv.Modifies = this;
         }
         /// <summary>
@@ -57,7 +57,7 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="subject">The Entity to attach to the VerbPhrase as a subject.</param>
         public virtual void BindSubject(IEntity subject) {
-            _subjects.Add(subject);
+            subjects.Add(subject);
             subject.SubjectOf = this;
         }
 
@@ -66,7 +66,7 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="directObject">The Entity to attach to the VerbPhrase as a direct object.</param>
         public virtual void BindDirectObject(IEntity directObject) {
-            _directObjects.Add(directObject);
+            directObjects.Add(directObject);
             directObject.DirectObjectOf = this;
             if (IsPossessive) {
                 foreach (var subject in this.Subjects) {
@@ -84,7 +84,7 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="indirectObject">The Entity to attach to the VerbPhrase as an indirect object.</param>
         public virtual void BindIndirectObject(IEntity indirectObject) {
-            _indirectObjects.Add(indirectObject);
+            indirectObjects.Add(indirectObject);
             indirectObject.IndirectObjectOf = this;
         }
 
@@ -108,8 +108,8 @@ namespace LASI.Algorithm
                 if (ObjectOfThePreoposition != null) {
                     result += "\n\tVia Preposition Object" + ObjectOfThePreoposition.ToString();
                 }
-                foreach (var mod in _modifiers) {
-                    result += _modifiers.Count > 0 ? "\n\tModifier: " + mod.ToString() : "";
+                foreach (var mod in modifiers) {
+                    result += modifiers.Count > 0 ? "\n\tModifier: " + mod.ToString() : "";
 
                 }
                 return result;
@@ -143,14 +143,14 @@ namespace LASI.Algorithm
         /// </summary>
         /// <returns>True if the Verb has any Subjects bound to it, false otherwise.</returns>
         public bool HasSubject() {
-            return _subjects.Any();
+            return subjects.Any();
         }
         /// <summary>
         /// Return a value indicating if the Verb has any subjects bound to it which match the given predicate function.
         /// </summary>
         /// <returns>True if the Verb has any subjects bound to it which match the given predicate function, false otherwise.</returns>
         public bool HasSubject(Func<IEntity, bool> predicate) {
-            return Subjects.Any(predicate) || Subjects.OfType<IPronoun>().Any(p => predicate(p.BoundEntity));
+            return Subjects.Any(predicate) || Subjects.OfType<IPronoun>().Any(p => predicate(p.EntityRefererredTo));
         }
         /// <summary>
         /// Return a value indicating if the Verb has any direct objects bound to it.
@@ -164,7 +164,7 @@ namespace LASI.Algorithm
         /// </summary>
         /// <returns>True if the Verb has any direct objects bound to it which match the given predicate function, false otherwise.</returns>
         public bool HasDirectObject(Func<IEntity, bool> predicate) {
-            return DirectObjects.Any(predicate) || DirectObjects.OfType<IPronoun>().Any(p => predicate(p.BoundEntity));
+            return DirectObjects.Any(predicate) || DirectObjects.OfType<IPronoun>().Any(p => predicate(p.EntityRefererredTo));
         }
         /// <summary>
         /// Return a value indicating if the Verb has any indirect objects bound to it.
@@ -178,7 +178,7 @@ namespace LASI.Algorithm
         /// </summary>
         /// <returns>True if the Verb has any indirect objects bound to it which match the given predicate function, false otherwise.</returns>
         public bool HasIndirectObject(Func<IEntity, bool> predicate) {
-            return IndirectObjects.Any(predicate) || IndirectObjects.OfType<IPronoun>().Any(p => predicate(p.BoundEntity));
+            return IndirectObjects.Any(predicate) || IndirectObjects.OfType<IPronoun>().Any(p => predicate(p.EntityRefererredTo));
         }
         /// <summary>
         /// Return a value indicating if the Verb has any direct OR indirect objects bound to it.
@@ -207,31 +207,22 @@ namespace LASI.Algorithm
         /// </summary>
         public IEnumerable<IAdverbial> Modifiers {
             get {
-                return _modifiers;
+                return modifiers;
             }
         }
         /// <summary>
         /// Gets or sets the IDescriber which may, in certain contexts be bound to the IVerbal itself.
         /// </summary>
-        public IDescriptor AdjectivalModifier {
-            get;
-            set;
-        }
+        public IDescriptor AdjectivalModifier { get; set; }
         /// <summary>
         /// Gets the prevailing Tense of the VerbPhrase.
         /// <see cref="VerbTense"/>
         /// </summary>
-        public VerbTense Tense {
-            get;
-            protected set;
-        }
+        public VerbTense Tense { get; protected set; }
         /// <summary>
         /// Gets or sets the ModalAuxilary word which modifies the VerbPhrase.
         /// </summary>
-        public ModalAuxilary Modality {
-            get;
-            set;
-        }
+        public ModalAuxilary Modality { get; set; }
         /// <summary>
         /// Gets a value indicating wether or not the VerbPhrase has possessive semantics. E.g. "A (has) a B"
         /// </summary>
@@ -253,52 +244,34 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets the subjects of the VerbPhrase.
         /// </summary>
-        public IEnumerable<IEntity> Subjects {
-            get {
-                return _subjects;
-            }
-        }
+        public IEnumerable<IEntity> Subjects { get { return subjects; } }
         /// <summary>
         /// Gets the direct objects of the VerbPhrase.
         /// </summary>
-        public virtual IEnumerable<IEntity> DirectObjects {
-            get {
-                return _directObjects;
-            }
-        }
+        public virtual IEnumerable<IEntity> DirectObjects { get { return directObjects; } }
         /// <summary>
         /// Gets the indirect objects of the VerbPhrase.
         /// </summary>
-        public virtual IEnumerable<IEntity> IndirectObjects {
-            get {
-                return _indirectObjects;
-            }
-        }
+        public virtual IEnumerable<IEntity> IndirectObjects { get { return indirectObjects; } }
 
         /// <summary>
         /// Gets the VerbPhrases'subject object, If the VerbPhrase has an object bound via a Prepositional. This can be any ILexical construct including a word, phrase, or clause.
         /// </summary>
-        public ILexical ObjectOfThePreoposition {
-            get;
-            protected set;
-        }
+        public ILexical ObjectOfThePreoposition { get; protected set; }
         /// <summary>
         /// Gets the IPrepositional object which links the VerbPhrase to the ObjectOfThePreoposition.
         /// </summary>
-        public IPrepositional PrepositionalToObject {
-            get;
-            protected set;
-        }
+        public IPrepositional PrepositionalToObject { get; protected set; }
 
 
         #endregion
 
         #region Fields
 
-        private IList<IAdverbial> _modifiers = new List<IAdverbial>();
-        private HashSet<IEntity> _subjects = new HashSet<IEntity>();
-        private HashSet<IEntity> _directObjects = new HashSet<IEntity>();
-        private HashSet<IEntity> _indirectObjects = new HashSet<IEntity>();
+        private HashSet<IAdverbial> modifiers = new HashSet<IAdverbial>();
+        private HashSet<IEntity> subjects = new HashSet<IEntity>();
+        private HashSet<IEntity> directObjects = new HashSet<IEntity>();
+        private HashSet<IEntity> indirectObjects = new HashSet<IEntity>();
         private bool? isClassifier;
         private bool? isPossessive;
         #endregion

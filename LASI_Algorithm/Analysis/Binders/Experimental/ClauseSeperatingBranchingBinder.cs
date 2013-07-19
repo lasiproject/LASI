@@ -28,7 +28,7 @@ namespace LASI.Algorithm.Analysis.Binders.Experimental
                          on outer.g equals inner.g
                          where indexProvider.IndexOf(outer.n) < indexProvider.IndexOf(inner.p)
                          select new { outer.n, inner.p } into pair group pair by pair.p into g select g.First() into distinguished
-                         select new Action(() => distinguished.p.BindToEntity(distinguished.n));
+                         select new Action(() => distinguished.p.BindAsReferringTo(distinguished.n));
             return joined;
         }
     }

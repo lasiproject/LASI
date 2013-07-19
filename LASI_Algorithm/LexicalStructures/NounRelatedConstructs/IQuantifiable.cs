@@ -14,7 +14,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets or sets the Quantifier instance which quantifies the IQuantifiable.
         /// </summary>
-        IQuantifier Quantifier {
+        IQuantifier QuantifiedBy {
             get;
             set;
         }

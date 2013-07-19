@@ -51,11 +51,9 @@ namespace LASI.UserInterface
                               Verbal = n.SubjectOf,
                               Direct = n.SubjectOf
                                   .DirectObjects
-                                  .OfType<NounPhrase>()
                                   .FirstOrDefault(),
                               Indirect = n.SubjectOf
                                   .IndirectObjects
-                                  .OfType<NounPhrase>()
                                   .FirstOrDefault(),
                               Prepositional = n.SubjectOf.ObjectOfThePreoposition
                           } into result
@@ -81,15 +79,15 @@ namespace LASI.UserInterface
                         Verbal = v,
                         Direct = v.DirectObjects
                             .OfType<NounPhrase>()
-                            .Select(s => (s as IPronoun) == null ? s : (s as IPronoun).BoundEntity as IEntity)
+                            .Select(s => (s as IPronoun) == null ? s : (s as IPronoun).EntityRefererredTo as IEntity)
                             .FirstOrDefault(),
                         Indirect = v.IndirectObjects
                             .OfType<NounPhrase>()
-                            .Select(s => (s as IPronoun) == null ? s : (s as IPronoun).BoundEntity as IEntity)
+                            .Select(s => (s as IPronoun) == null ? s : (s as IPronoun).EntityRefererredTo as IEntity)
                             .FirstOrDefault(),
                         Subject = v.Subjects
                             .OfType<NounPhrase>()
-                            .Select(s => (s as IPronoun) == null ? s : (s as IPronoun).BoundEntity as IEntity)
+                            .Select(s => (s as IPronoun) == null ? s : (s as IPronoun).EntityRefererredTo as IEntity)
                             .FirstOrDefault(),
                         Prepositional = v.ObjectOfThePreoposition
                     } into result

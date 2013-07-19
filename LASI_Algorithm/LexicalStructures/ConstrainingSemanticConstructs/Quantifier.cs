@@ -10,16 +10,12 @@ namespace LASI.Algorithm
     /// </summary>
     public class Quantifier : Word, IQuantifier
     {
+        #region Constructors
         /// <summary>
         /// Represents a quantifier which specifies the value, count, or degree, of some IQuantifiabe such as a GenericSingularNoun
         /// </summary>
         /// <param name="text">the key text content of the quantifer.</param> 
-        public Quantifier(string text)
-            : base(text) {
-        }
-
-        #region Methods
-
+        public Quantifier(string text) : base(text) { }
         #endregion
 
 
@@ -27,27 +23,12 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets or sets the 
         /// </summary>
-        public virtual IQuantifiable Quantifies {
-            get;
-            set;
-        }
-
+        public virtual IQuantifiable Quantifies { get; set; }
+        /// <summary>
+        /// Gets or sets the IQuantifiable instance which the IQuantifier quantifies.
+        /// </summary>
+        public IQuantifier QuantifiedBy { get; set; }
         #endregion
-
-
-
-        #region Operators
-
-        //public static bool operator ==(Quantifier lhs, Quantifier rhs) {
-        //    return lhs == null ? rhs == null ? true : false : lhs.Text == rhs.Text;
-        //}
-        //public static bool operator !=(Quantifier lhs, Quantifier rhs) {
-
-        //    return !(lhs == rhs);
-        //}
-
-        #endregion
-
 
     }
 }

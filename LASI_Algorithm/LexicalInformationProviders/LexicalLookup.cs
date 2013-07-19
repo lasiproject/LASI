@@ -579,7 +579,7 @@ namespace LASI.Algorithm.LexicalInformationProviders
                     Task.Run(async () => maleNames =await GetNameDataAsync(maleNamesFilePath) ) 
                 },
                 results => {
-                    genderAmbiguousFirstNames = maleNames.Intersect(femaleNames).Concat(femaleNames.Intersect(maleNames)).ToSet(StringComparer.OrdinalIgnoreCase);
+                    genderAmbiguousFirstNames = new HashSet<string>(maleNames.Intersect(femaleNames).Concat(femaleNames.Intersect(maleNames)), StringComparer.OrdinalIgnoreCase);
 
                     var i1 = maleNames.Select((s, i) => new { Rank = (double)i / maleNames.Count, Name = s });
                     var i2 = femaleNames.Select((s, i) => new { Rank = (double)i / femaleNames.Count, Name = s });

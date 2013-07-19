@@ -212,7 +212,7 @@ namespace LASI.Algorithm.Weighting
             var nounsToConsider = doc.Words.GetNouns().Concat(
                 doc.Words.GetPronouns()
                 .Referencing(lex => lex is Noun)
-                .Select(pro => pro.BoundEntity as Noun)
+                .Select(pro => pro.EntityRefererredTo as Noun)
             ).InSubjectOrObjectRole();
             (from outerNoun in nounsToConsider.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
              where outerNoun.SubjectOf != null || outerNoun.DirectObjectOf != null || outerNoun.IndirectObjectOf != null

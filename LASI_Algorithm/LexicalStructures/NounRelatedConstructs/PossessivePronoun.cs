@@ -32,8 +32,8 @@ namespace LASI.Algorithm
             if (PossessesFor != null) {
                 PossessesFor.AddPossession(possession);
             }
-            else if (!_possessed.Contains(possession)) {
-                _possessed.Add(possession);
+            else if (!possessed.Contains(possession)) {
+                possessed.Add(possession);
             }
         }
 
@@ -44,7 +44,7 @@ namespace LASI.Algorithm
         /// </summary>
         public virtual IEnumerable<IEntity> Possessed {
             get {
-                return _possessed;
+                return possessed;
             }
         }
         /// <summary>
@@ -52,20 +52,20 @@ namespace LASI.Algorithm
         /// </summary>
         public virtual IEntity PossessesFor {
             get {
-                return _possessedFor;
+                return possessesFor;
             }
             set {
-                _possessedFor = value;
-                foreach (var possession in _possessed)
-                    _possessedFor.AddPossession(possession);
-                _possessed.Clear();
+                possessesFor = value;
+                foreach (var possession in possessed)
+                    possessesFor.AddPossession(possession);
+                possessed.Clear();
             }
         }
 
         #region Fields
 
-        private ICollection<IEntity> _possessed = new List<IEntity>();
-        private IEntity _possessedFor;
+        private ICollection<IEntity> possessed = new List<IEntity>();
+        private IEntity possessesFor;
         #endregion
     }
 }

@@ -45,7 +45,7 @@ namespace LASI.Algorithm.Binding
                 .GetPronounPhrases()
                 .AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
                 .ForAll(contextualPro => {
-                    contextualPro.BindToEntity(contextualPro
+                    contextualPro.BindAsReferringTo(contextualPro
                         .Document
                         .Phrases
                         .TakeWhile(p => p != contextualPro)

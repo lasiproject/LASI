@@ -58,7 +58,7 @@ namespace LASI.Algorithm
         /// <param name="pro">The referencer which refers to the InfinitivePhrase Instance.</param>
         public void BindPronoun(IPronoun pro) {
             _boundPronouns.Add(pro);
-            pro.BindToEntity(this);
+            pro.BindAsReferringTo(this);
         }
         /// <summary>
         /// Gets all of the IPronoun instances, generally Pronouns or PronounPhrases, which refer to the InfinitivePhrase Instance.

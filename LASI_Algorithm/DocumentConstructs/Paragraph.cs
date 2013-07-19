@@ -11,16 +11,13 @@ namespace LASI.Algorithm.DocumentConstructs
     /// </summary>
     public sealed class Paragraph
     {
-        private ParagraphKind paragraphKind;
-
-
         /// <summary>
         /// Initializes a new instance of the Paragraph class containing the given sentences and belonging to the given Document.
         /// </summary>
         /// <param name="sentences">The collection of sentences which comprise the Paragraph.</param>
         ///<param name="paraKind">Argument indicating the kind of parent.</param>
         public Paragraph(IEnumerable<Sentence> sentences, ParagraphKind paraKind = ParagraphKind.Default) {
-            paragraphKind = paraKind;
+            ParagraphKind = paraKind;
             Sentences = sentences;
             ID = IDNumProvider;
             ++IDNumProvider;
@@ -57,10 +54,7 @@ namespace LASI.Algorithm.DocumentConstructs
         /// <summary>
         /// Gets or sets the collection of Sentences which comprise the Paragraph.
         /// </summary>
-        public IEnumerable<Sentence> Sentences {
-            get;
-            set;
-        }
+        public IEnumerable<Sentence> Sentences { get; private set; }
 
         /// <summary>
         /// Gets the collection of Words which comprise the Paragraph.
@@ -86,28 +80,18 @@ namespace LASI.Algorithm.DocumentConstructs
         /// <summary>
         /// Gets the Document the Paragraph belongs to.
         /// </summary>
-        public Document Document {
-            get;
-            private set;
-        }
+        public Document Document { get; private set; }
         /// <summary>
         /// Gets the ParagraphKind of the Paragraph.
         /// </summary>
-        public ParagraphKind ParagraphKind {
-            get {
-                return paragraphKind;
-            }
-        }
+        public ParagraphKind ParagraphKind { get; private set; }
 
 
 
         /// <summary>
         /// Returns the document-unique identification number of the Paragraph.
         /// </summary>
-        public int ID {
-            get;
-            private set;
-        }
+        public int ID { get; private set; }
 
         /// <summary>
         /// Gets the textual content of the Paragraph.

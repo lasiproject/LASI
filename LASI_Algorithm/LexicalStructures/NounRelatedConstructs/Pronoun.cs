@@ -20,7 +20,7 @@ namespace LASI.Algorithm
         /// <param name="text">The key text content of the pronoun.</param>
         protected Pronoun(string text)
             : base(text) {
-            PronounKind = DeterminePronounKind(this);
+            PronounKind = DetermineKind(this);
         }
 
         #endregion
@@ -30,12 +30,12 @@ namespace LASI.Algorithm
         /// Binds the Pronoun to refer to the given Entity.
         /// </summary>
         /// <param name="target">The entity to which to bind.</param>
-        public void BindToEntity(IEntity target) {
-            if (_boundEntity != null || !_boundEntity.Any())
-                _boundEntity = new EntityGroup(new[] { target });
+        public void BindAsReferringTo(IEntity target) {
+            if (EntityRefererredTo != null || !EntityRefererredTo.Any())
+                EntityRefererredTo = new EntityGroup(new[] { target });
             else
-                _boundEntity = new EntityGroup(_boundEntity.Concat(new[] { target }));
-            _entityKind = BoundEntity.EntityKind;
+                EntityRefererredTo = new EntityGroup(EntityRefererredTo.Concat(new[] { target }));
+            EntityKind = EntityRefererredTo.EntityKind;
         }
         /// <summary>
         /// Returns a string representation of the Pronoun.
@@ -52,15 +52,16 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="pro">An IPronoun which will be bound to refer to the Pronoun.</param>
         public virtual void BindPronoun(IPronoun pro) {
-            if (!_boundPronouns.Contains(pro))
-                _boundPronouns.Add(pro);
+            boundPronouns.Add(pro);
+            pro.BindAsReferringTo(this);
         }
         /// <summary>
         /// Binds an IDescriptor, generally an Adjective or AdjectivePhrase, as a descriptor of the Pronoun.
         /// </summary>
         /// <param name="adjective">The IDescriptor instance which will be added to the Pronoun's descriptors.</param>
         public virtual void BindDescriptor(IDescriptor adjective) {
-            _describers.Add(adjective);
+            describers.Add(adjective);
+            adjective.Describes = this;
         }
         /// <summary>
         /// Adds an IPossessible construct, such as a person place or thing, to the collection of Pronoun "Owns",
@@ -69,11 +70,12 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="possession">The possession to add.</param>
         public virtual void AddPossession(IEntity possession) {
-            if (!_possessed.Contains(possession)) {
-                _possessed.Add(possession);
+            if (EntityRefererredTo != null) {
+                EntityRefererredTo.AddPossession(possession);
             }
-            if (IsBound && !BoundEntity.Possessed.Contains(possession)) {
-                BoundEntity.AddPossession(possession);
+            else {
+                possessed.Add(possession);
+                possession.Possesser = this;
             }
         }
 
@@ -83,106 +85,54 @@ namespace LASI.Algorithm
         #region Properties
 
         /// <summary>
+        /// Gets all of the IDescriptor constructs,generally Adjectives or AdjectivePhrases, which describe the Pronoun.
+        /// </summary>
+        public IEnumerable<IDescriptor> Descriptors { get { return describers; } }
+        /// <summary>
+        /// Gets all of the constructs the Pronoun can be determined to "own".
+        /// </summary>
+        public IEnumerable<IEntity> Possessed { get { return possessed; } }
+
+        /// <summary>
         /// Gets or sets the Entity which the Pronoun references.
         /// </summary>
-        public virtual IEntityGroup BoundEntity {
-            get {
-                return _boundEntity;
-            }
-
-        }
-
+        public virtual IEntityGroup EntityRefererredTo { get; private set; }
 
         /// <summary>
         /// Gets or sets the ISubjectTaker instance, generally a Verb or VerbPhrase, which the Pronoun is the subject of.
         /// </summary>
-        public IVerbal SubjectOf {
-            get;
-            set;
-        }
+        public IVerbal SubjectOf { get; set; }
         /// <summary>
         /// Gets the IVerbal instance, generally a TransitiveVerb or TransitiveVerbPhrase, which the Pronoun is the object of.
         /// </summary>
-        public IVerbal DirectObjectOf {
-            get;
-            set;
-        }
+        public IVerbal DirectObjectOf { get; set; }
         /// <summary>
         /// Gets all of the IPronoun instances, generally Pronouns or PronounPhrases, which refer to the Pronoun.
         /// </summary>
-        public IEnumerable<IPronoun> BoundPronouns {
-            get {
-                return _boundPronouns;
-            }
-
-        }
+        public IEnumerable<IPronoun> BoundPronouns { get; set; }
         /// <summary>
         /// Gets the IVerbal instance, generally a TransitiveVerb or TransitiveVerbPhrase, which the Pronoun is the INDIRECT object of.
         /// </summary>
-        public IVerbal IndirectObjectOf {
-            get;
-            set;
-        }
-
-        /// <summary>
-        /// Gets all of the IDescriptor constructs,generally Adjectives or AdjectivePhrases, which describe the Pronoun.
-        /// </summary>
-        public IEnumerable<IDescriptor> Descriptors {
-            get {
-                return _describers;
-            }
-        }
-        /// <summary>
-        /// Gets all of the constructs the Pronoun can be determined to "own".
-        /// </summary>
-        public IEnumerable<IEntity> Possessed {
-            get {
-                return _possessed;
-            }
-        }
-
-
+        public IVerbal IndirectObjectOf { get; set; }
         /// <summary>
         /// Gets or sets the Entity which is inferred to the Pronoun.
         /// </summary>
-        public IEntity Possesser {
-            get;
-            set;
-        }
+        public IEntity Possesser { get; set; }
         /// <summary>
         /// Gets the EntityKind of the Pronoun.
         /// </summary>
-        public virtual EntityKind EntityKind {
-            get {
-                return _entityKind;
-            }
-        }
+        public virtual EntityKind EntityKind { get; private set; }
         /// <summary>
         /// Gets the PronounKind of the Pronoun.
         /// </summary>
-        public PronounKind PronounKind {
-            get;
-            protected set;
-        }
-        /// <summary>
-        /// Gets a value indicating wether the Pronoun is bound as a reference to some Entity.
-        /// </summary>
-        public bool IsBound {
-            get {
-                return BoundEntity != null;
-            }
-        }
-
+        public PronounKind PronounKind { get; protected set; }
         #endregion
 
 
         #region Fields
-        private ICollection<IDescriptor> _describers = new List<IDescriptor>();
-        private ICollection<IEntity> _possessed = new List<IEntity>();
-        private ICollection<IPronoun> _boundPronouns = new List<IPronoun>();
-
-        private EntityKind _entityKind;
-        private IEntityGroup _boundEntity;
+        private HashSet<IDescriptor> describers = new HashSet<IDescriptor>();
+        private HashSet<IEntity> possessed = new HashSet<IEntity>();
+        private HashSet<IPronoun> boundPronouns = new HashSet<IPronoun>();
 
         #endregion
 
@@ -195,39 +145,24 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="pronoun">The pronoun whose gender to is to be checked</param>
         /// <returns>A PronounGenerder enum value representing the gender of the given pronoun.</returns>
-        private static PronounKind DeterminePronounKind(Pronoun pronoun) {
-            var compareText = pronoun.Text.ToLower();
+        private static PronounKind DetermineKind(Pronoun pronoun) {
+            var text = pronoun.Text.ToLower();
             return
-                males.Contains(compareText) ?
-                PronounKind.Male :
-                maleReflexives.Contains(compareText) ?
-                PronounKind.MaleReflexive :
-                females.Contains(compareText) ?
-                PronounKind.Female :
-                femaleReflexives.Contains(compareText) ?
-                PronounKind.FemaleReflexive :
-                neutrals.Contains(compareText) ?
-                PronounKind.GenderNeurtral :
-                neutrals.Contains(compareText) ?
-                PronounKind.GenderNeurtralReflexive :
-                firstPersonSingulars.Contains(compareText) ?
-                PronounKind.FirstPersonSingular :
-                firstPersonPluralReflexives.Contains(compareText) ?
-                PronounKind.FirstPersonPlural :
-                firstPersonPlurals.Contains(compareText) ?
-                PronounKind.FirstPersonPlural :
-                firstPersonPluralReflexives.Contains(compareText) ?
-                PronounKind.FirstPersonPluralReflexive :
-                secondPersons.Contains(compareText) ?
-                PronounKind.SecondPerson :
-                secondPersonSingularReflexives.Contains(compareText) ?
-                PronounKind.SecondPersonSingularReflexive :
-                secondPersonPluralReflexives.Contains(compareText) ?
-                PronounKind.SecondPersonPluralReflexive :
-                thirdPersonGenderAmbiguousPlurals.Contains(compareText) ?
-                PronounKind.ThirdPersonGenderAmbiguousPlural :
-                thirdPersonPluralReflexives.Contains(compareText) ?
-                PronounKind.ThirdPersonPluralReflexive :
+                males.Contains(text) ? PronounKind.Male :
+                maleReflexives.Contains(text) ? PronounKind.MaleReflexive :
+                females.Contains(text) ? PronounKind.Female :
+                femaleReflexives.Contains(text) ? PronounKind.FemaleReflexive :
+                neutrals.Contains(text) ? PronounKind.GenderNeurtral :
+                neutralReflexives.Contains(text) ? PronounKind.GenderNeurtralReflexive :
+                firstPersonSingulars.Contains(text) ? PronounKind.FirstPersonSingular :
+                firstPersonPluralReflexives.Contains(text) ? PronounKind.FirstPersonPlural :
+                firstPersonPlurals.Contains(text) ? PronounKind.FirstPersonPlural :
+                firstPersonPluralReflexives.Contains(text) ? PronounKind.FirstPersonPluralReflexive :
+                secondPersons.Contains(text) ? PronounKind.SecondPerson :
+                secondPersonSingularReflexives.Contains(text) ? PronounKind.SecondPersonSingularReflexive :
+                secondPersonPluralReflexives.Contains(text) ? PronounKind.SecondPersonPluralReflexive :
+                thirdPersonGenderAmbiguousPlurals.Contains(text) ? PronounKind.ThirdPersonGenderAmbiguousPlural :
+                thirdPersonPluralReflexives.Contains(text) ? PronounKind.ThirdPersonPluralReflexive :
                 PronounKind.Undefined;
         }
 

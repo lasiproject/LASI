@@ -8,7 +8,7 @@ namespace LASI.Algorithm
     /// <summary>
     /// Provides the base class, shared properties, and shared behaviors for all noun words.
     /// </summary>
-    public abstract class Noun : Word, IEntity, IDeterminable
+    public abstract class Noun : Word, IEntity, IDeterminable, IQuantifiable
     {
         #region Constructors
 
@@ -49,8 +49,8 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="pro">The EntityReferency to Bind.</param>
         public virtual void BindPronoun(IPronoun pro) {
-            _boundPronouns.Add(pro);
-            pro.BindToEntity(this);
+            boundPronouns.Add(pro);
+            pro.BindAsReferringTo(this);
         }
 
         /// <summary>
@@ -58,8 +58,8 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="adjective">The IDescriptor instance which will be added to the Noun's descriptors.</param>
         public virtual void BindDescriptor(IDescriptor adjective) {
+            describedBy.Add(adjective);
             adjective.Describes = this;
-            _describedBy.Add(adjective);
         }
 
         /// <summary>
@@ -69,8 +69,7 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="possession">The possession to add.</param>
         public void AddPossession(IEntity possession) {
-            if (!_possessed.Contains(possession))
-                _possessed.Add(possession);
+            possessed.Add(possession);
             possession.Possesser = this;
         }
 
@@ -81,77 +80,47 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets all of the IEntityReferences instances, generally Pronouns or PronounPhrases, which refer to the Noun Instance.
         /// </summary>
-        public virtual IEnumerable<IPronoun> BoundPronouns {
-            get {
-                return _boundPronouns;
-            }
-        }
+        public virtual IEnumerable<IPronoun> BoundPronouns { get { return boundPronouns; } }
 
         /// <summary>
         /// Gets all of the IDescriptor constructs,generally Adjectives or AdjectivePhrases, which describe the Noun Instance.
         /// </summary>
-        public virtual IEnumerable<IDescriptor> Descriptors {
-            get {
-                return _describedBy;
-            }
-        }
+        public virtual IEnumerable<IDescriptor> Descriptors { get { return describedBy; } }
 
         /// <summary>
         ///Gets or sets the IVerbal instance the Noun is the subject of.
         /// </summary>
-        public virtual IVerbal SubjectOf {
-            get;
-            set;
-        }
+        public virtual IVerbal SubjectOf { get; set; }
 
         /// <summary>
         ///Gets or sets the ITRansitiveAction instance, usually a Verb or VerbPhrase, which the Noun is the direct object of.
         /// </summary>
-        public virtual IVerbal DirectObjectOf {
-            get;
-            set;
-        }
+        public virtual IVerbal DirectObjectOf { get; set; }
 
         /// <summary>
         ///Gets or sets the IVerbal instance the Noun is the indirect object of.
         /// </summary>
-        public virtual IVerbal IndirectObjectOf {
-            get;
-            set;
-        }
+        public virtual IVerbal IndirectObjectOf { get; set; }
 
         /// <summary>
         /// Gets all of the IEntity constructs which the Noun "owns".
         /// </summary>
-        public virtual IEnumerable<IEntity> Possessed {
-            get {
-                return _possessed;
-            }
-        }
+        public virtual IEnumerable<IEntity> Possessed { get { return possessed; } }
 
         /// <summary>
         /// Gets or sets the Entity which "owns" the instance of the Noun.
         /// </summary>
-        public IEntity Possesser {
-            get;
-            set;
-        }
+        public IEntity Possesser { get; set; }
 
         /// <summary>
         /// Gets or sets the EntityKind; Person, Place, Thing, Organization, or Activity;  of the Noun.
         /// </summary>
-        public EntityKind EntityKind {
-            get;
-            set;
-        }
+        public EntityKind EntityKind { get; protected set; }
 
         /// <summary>
         /// Gets the single Determiner which determines the noun.
         /// </summary>
-        public Determiner Determiner {
-            get;
-            protected set;
-        }
+        public Determiner Determiner { get; protected set; }
 
         /// <summary>
         /// Gets or sets the single Noun which directly, in terms of reading order, specifies the current Noun instance.
@@ -161,27 +130,34 @@ namespace LASI.Algorithm
         /// Catus is the species of the genus Felis,
         /// but Felis also contains the species "Silvestris", commonly called a wildcat.
         /// </summary>
-        public Noun SuperTaxonomicNoun {
-            get;
-            set;
-        }
+        public Noun SuperTaxonomicNoun { get; set; }
 
         /// <summary>
         /// Gets or sets the single Noun which this Noun directly, in terms of reading order, specifies.
         /// </summary>
-        public Noun SubTaxonomicNoun {
-            get;
-            set;
+        public Noun SubTaxonomicNoun { get; set; }
+        /// <summary>
+        /// Gets or sets the IQunatifier which specifies the number of units of the Noun which are referred to in this occurance.
+        /// e.g. "[18] Pinkos"
+        /// </summary>
+        public virtual IQuantifier QuantifiedBy {
+            get { return quantity; }
+            set {
+                if (quantity != null) { quantity.QuantifiedBy = value; value.Quantifies = quantity; }
+                else { quantity = value; value.Quantifies = this; }
+            }
         }
 
         #endregion Properties
 
         #region Fields
 
-        private ICollection<IDescriptor> _describedBy = new List<IDescriptor>();
-        private ICollection<IEntity> _possessed = new List<IEntity>();
-        private ICollection<IPronoun> _boundPronouns = new List<IPronoun>();
+        private HashSet<IDescriptor> describedBy = new HashSet<IDescriptor>();
+        private HashSet<IEntity> possessed = new HashSet<IEntity>();
+        private HashSet<IPronoun> boundPronouns = new HashSet<IPronoun>();
+        private IQuantifier quantity;
 
         #endregion Fields
+
     }
 }

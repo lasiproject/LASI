@@ -63,54 +63,32 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets or sets the Prepositional construct which is lexically to the right of the word.
         /// </summary>
-        public IPrepositional PrepositionOnRight {
-            get;
-            set;
-        }
+        public IPrepositional PrepositionOnRight { get; set; }
         /// <summary>
         /// Gets or sets the Prepositional construct which is lexically to the left of the Phrase.
         /// </summary>
-        public IPrepositional PrepositionOnLeft {
-            get;
-            set;
-        }
+        public IPrepositional PrepositionOnLeft { get; set; }
 
         /// <summary>
         /// Gets, lexically speaking, the next Phrase in the Document to which the instance belongs.
         /// </summary>
-        public Phrase NextPhrase {
-            get;
-            set;
-        }
+        public Phrase NextPhrase { get; set; }
         /// <summary>
         /// Gets, lexically speaking, the previous Phrase in the Document to which the instance belongs.
         /// </summary>
-        public Phrase PreviousPhrase {
-            get;
-            set;
-        }
+        public Phrase PreviousPhrase { get; set; }
         /// <summary>
         /// Gets or sets the Sentence to which the Phrase belongs.
         /// </summary>
-        public Sentence Sentence {
-            get;
-            set;
-        }
+        public Sentence Sentence { get; set; }
         /// <summary>
         /// Gets or sets the Paragraph to which the Phrase belongs.
         /// </summary>
-        public Paragraph Paragraph {
-            get {
-                return Sentence != null ? Sentence.Paragraph : null;
-            }
-        }
+        public Paragraph Paragraph { get { return Sentence != null ? Sentence.Paragraph : null; } }
         /// <summary>
         /// Gets or set the Document instance to which the Phrase belongs.
         /// </summary>
-        public Document Document {
-            get;
-            protected set;
-        }
+        public Document Document { get; protected set; }
         /// <summary>
         /// Gets the concatenated text content of all of the words which comprise the Phrase.
         /// </summary>
@@ -121,13 +99,11 @@ namespace LASI.Algorithm
                 return _text;
             }
         }
+
         /// <summary>
         /// Gets the collection of words which comprise the Phrase.
         /// </summary>
-        public IEnumerable<Word> Words {
-            get;
-            protected set;
-        }
+        public IEnumerable<Word> Words { get; protected set; }
 
         /// <summary>
         /// Gets the globally-unique identification number associated with the Phrase instance.
@@ -149,18 +125,12 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets or sets the numeric Weight of the Phrase within the context of its document.
         /// </summary>
-        public double Weight {
-            get;
-            set;
-        }
+        public double Weight { get; set; }
 
         /// <summary>
         /// Gets or sets the numeric Weight of the Phrase over the context of all extant documents.
         /// </summary>
-        public double MetaWeight {
-            get;
-            set;
-        }
+        public double MetaWeight { get; set; }
 
         private string _text;
 
@@ -171,10 +141,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Controls the level detail of the information provided by the ToString method of all instances of the Phrase class.
         /// </summary>
-        public static bool VerboseOutput {
-            get;
-            set;
-        }
+        public static bool VerboseOutput { get; set; }
         #endregion
 
         #region Static Fields

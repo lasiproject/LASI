@@ -242,20 +242,20 @@ namespace LASI.UserInterface
             var data =
                  from svPair in
                      (from v in doc.Phrases.GetVerbPhrases()
-                          .WithSubject(s => (s as IPronoun) == null || (s as IPronoun).BoundEntity != null)
+                          .WithSubject(s => (s as IPronoun) == null || (s as IPronoun).EntityRefererredTo != null)
                           .AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
                       from s in v.Subjects.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
-                      let sub = s as IPronoun == null ? s : (s as IPronoun).BoundEntity
+                      let sub = s as IPronoun == null ? s : (s as IPronoun).EntityRefererredTo
                       where sub != null
                       from dobj in v.DirectObjects.DefaultIfEmpty()
                       from iobj in v.IndirectObjects.DefaultIfEmpty()
 
                       select new RelationshipTuple {
-                          Subject = sub as NounPhrase ?? null,
-                          Verbal = v as VerbPhrase ?? null,
-                          Direct = dobj as NounPhrase ?? null,
-                          Indirect = iobj as NounPhrase ?? null,
-                          Prepositional = v.ObjectOfThePreoposition ?? null,
+                          Subject = sub,
+                          Verbal = v,
+                          Direct = dobj,
+                          Indirect = iobj,
+                          Prepositional = v.ObjectOfThePreoposition,
                           RelationshipWeight = sub.Weight + v.Weight + (dobj != null ? dobj.Weight : 0) + (iobj != null ? iobj.Weight : 0)
                       } into tupple
                       where

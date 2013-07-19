@@ -19,9 +19,9 @@ namespace LASI.Algorithm
         /// <summary>
         /// Initializes a new instance of EntityGroup forming, an aggregate entity composed of the given entities
         /// </summary>
-        /// <param name="aggregated">The Entities aggregated into the group.</param>
-        public EntityGroup(IEnumerable<IEntity> aggregated) {
-            AggregatesEntities = aggregated;
+        /// <param name="members">The Entities aggregated into the group.</param>
+        public EntityGroup(IEnumerable<IEntity> members) {
+            Members = members;
         }
 
         #region Methods
@@ -32,34 +32,31 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="possession">The possession to add.</param>
         public void AddPossession(IEntity possession) {
-            if (!_possessions.Contains(possession)) {
-                _possessions.Add(possession);
-            }
+            _possessions.Add(possession);
+            possession.Possesser = this;
         }
         /// <summary>
         /// Binds an IDescriptor, generally an Adjective or AdjectivePhrase, as a descriptor of the EntityGroup.
         /// </summary>
         /// <param name="adjective">The IDescriptor instance which will be added to the EntityGroup's descriptors.</param>
         public void BindDescriptor(IDescriptor adjective) {
-            if (!_describers.Contains(adjective)) {
-                _describers.Add(adjective);
-            }
+            _describers.Add(adjective);
+            adjective.Describes = this;
         }
         /// <summary>
         /// Binds an IPronoun, generally a Pronoun or PronounPhrase, as a reference to the EntityGroup.
         /// </summary>
         /// <param name="pro">The referencer which refers to the EntityGroup Instance.</param>
         public void BindPronoun(IPronoun pro) {
-            if (!BoundPronouns.Contains(pro)) {
-                _boundPronouns.Add(pro);
-            }
+            _boundPronouns.Add(pro);
+            pro.BindAsReferringTo(this);
         }
         /// <summary>
         /// Returns an enumerator that iterates through the members of the EntityGroup.
         /// </summary>
         /// <returns>An enumerator that iterates through the members of the EntityGroup.</returns>
         public IEnumerator<IEntity> GetEnumerator() {
-            return AggregatesEntities.GetEnumerator();
+            return Members.GetEnumerator();
         }
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() {
             throw new NotImplementedException();
@@ -140,7 +137,7 @@ namespace LASI.Algorithm
         /// </summary>
         public string Text {
             get {
-                return AggregatesEntities.Aggregate("", (aggr, ent) => aggr += ent.Text + " ").Trim();
+                return Members.Aggregate("", (aggr, ent) => aggr += ent.Text + " ").Trim();
             }
         }
         /// <summary>
@@ -168,7 +165,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets the EnumerableCollection of Entities which compose to form the EntityGroup
         /// </summary>
-        public IEnumerable<IEntity> AggregatesEntities {
+        public IEnumerable<IEntity> Members {
             get;
             protected set;
         }
@@ -191,9 +188,9 @@ namespace LASI.Algorithm
 
         #region Fields
 
-        ICollection<IEntity> _possessions = new List<IEntity>();
-        ICollection<IDescriptor> _describers = new List<IDescriptor>();
-        ICollection<IPronoun> _boundPronouns = new List<IPronoun>();
+        HashSet<IEntity> _possessions = new HashSet<IEntity>();
+        HashSet<IDescriptor> _describers = new HashSet<IDescriptor>();
+        HashSet<IPronoun> _boundPronouns = new HashSet<IPronoun>();
 
         #endregion
     }
