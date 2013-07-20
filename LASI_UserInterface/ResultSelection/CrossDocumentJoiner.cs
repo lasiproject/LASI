@@ -20,20 +20,24 @@ namespace LASI.UserInterface
         /// </summary>
         /// <param name="documents">The Documents to Join.</param>
         /// <returns>A Task of IEnumerable of RelationshipTuple corresponding to the intersection of the Documents to be joined .</returns>
-        public async Task<IEnumerable<RelationshipTuple>> JoinDocumentsAsnyc(IEnumerable<Document> documents) {
+        internal async Task<IEnumerable<RelationshipTuple>> JoinDocumentsAsnyc(IEnumerable<Document> documents) {
 
             return await await Task.Factory.ContinueWhenAll(
-                new[]{  Task.Run(()=> GetCommonalitiesByVerbals(documents)),
-                        Task.Run(()=> GetCommonalitiesByBoundEntities(documents))}, async tasks => {
-                            var results = new List<RelationshipTuple>();
-                            foreach (var t in tasks) {
-                                results.AddRange(await t);
-                            }
-                            return results.Distinct();
-                        });
+                new[] {  
+                    Task.Run(()=> GetCommonalitiesByVerbals(documents)),
+                    Task.Run(()=> GetCommonalitiesByEntities(documents))
+                },
+                async tasks => {
+                    var results = new List<RelationshipTuple>();
+                    foreach (var t in tasks) {
+                        results.AddRange(await t);
+                    }
+                    return results.Distinct();
+                }
+            );
         }
 
-        private async Task<IEnumerable<RelationshipTuple>> GetCommonalitiesByBoundEntities(IEnumerable<Document> documents) {
+        private async Task<IEnumerable<RelationshipTuple>> GetCommonalitiesByEntities(IEnumerable<Document> documents) {
             var topNPsByDoc = from doc in documents.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
                               select GetTopNounPhrases(doc);
             var nounCommonalities = (from outerSet in topNPsByDoc
@@ -79,16 +83,13 @@ namespace LASI.UserInterface
                         Verbal = v,
                         Direct = v.DirectObjects
                             .OfType<NounPhrase>()
-                            .Select(s => (s as IPronoun) == null ? s : (s as IPronoun).EntityRefererredTo as IEntity)
-                            .FirstOrDefault(),
+                            .Select(s => (s as IPronoun) == null ? s : (s as IPronoun).EntityRefererredTo as IEntity).FirstOrDefault(),
                         Indirect = v.IndirectObjects
                             .OfType<NounPhrase>()
-                            .Select(s => (s as IPronoun) == null ? s : (s as IPronoun).EntityRefererredTo as IEntity)
-                            .FirstOrDefault(),
+                            .Select(s => (s as IPronoun) == null ? s : (s as IPronoun).EntityRefererredTo as IEntity).FirstOrDefault(),
                         Subject = v.Subjects
                             .OfType<NounPhrase>()
-                            .Select(s => (s as IPronoun) == null ? s : (s as IPronoun).EntityRefererredTo as IEntity)
-                            .FirstOrDefault(),
+                            .Select(s => (s as IPronoun) == null ? s : (s as IPronoun).EntityRefererredTo as IEntity).FirstOrDefault(),
                         Prepositional = v.ObjectOfThePreoposition
                     } into result
                     where result.Subject != null
@@ -121,17 +122,13 @@ namespace LASI.UserInterface
                         ).Distinct((L, R) => L.Text == R.Text || L.IsAliasFor(R) || L.IsSimilarTo(R))
                    orderby distinctNP.Weight
                    select distinctNP;
-
         }
         private async Task<IEnumerable<VerbPhrase>> GetTopVerbPhrases(Document document) {
             return await Task.Run(() => {
                 var vpsWithSubject = document.Phrases.GetVerbPhrases().AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax).WithSubject();
-                return from vp in vpsWithSubject.WithDirectObject().Concat(vpsWithSubject.WithIndirectObject()).Distinct()
-                       orderby vp.Weight +
-                               vp.Subjects.Sum(e => e.Weight) +
-                               vp.DirectObjects.Sum(e => e.Weight) +
-                               vp.IndirectObjects.Sum(e => e.Weight)
-                       select vp as VerbPhrase;
+                return from vp in vpsWithSubject.WithDirectObject().Concat(vpsWithSubject.WithIndirectObject()).Distinct((vLeft, vRight) => vLeft.IsSimilarTo(vRight))
+                       orderby vp.Weight + vp.Subjects.Sum(e => e.Weight) + vp.DirectObjects.Sum(e => e.Weight) + vp.IndirectObjects.Sum(e => e.Weight)
+                       select vp;
             });
         }
 

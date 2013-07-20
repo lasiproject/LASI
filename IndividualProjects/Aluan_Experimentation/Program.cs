@@ -11,6 +11,7 @@ using System.Configuration;
 using System.Linq;
 using System.Threading.Tasks;
 using LASI.ContentSystem;
+using System.Reflection;
 
 namespace Aluan_Experimentation
 {
@@ -23,8 +24,6 @@ namespace Aluan_Experimentation
         static void Main(string[] args) {
 
             var doc = Tagger.DocumentFromRaw(new TextFile(testPath));
-
-
 
             Input.WaitForKey();
         }
