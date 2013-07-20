@@ -26,8 +26,8 @@ namespace LASI.Algorithm.DocumentConstructs
         public Document(IEnumerable<Paragraph> paragrpahs) {
             _paragraphs = paragrpahs.ToList();
             enumContainingParagraphs = (from p in _paragraphs
-                                         where p.ParagraphKind == ParagraphKind.NumberedOrBullettedContent
-                                         select p).ToList();
+                                        where p.ParagraphKind == ParagraphKind.NumberedOrBullettedContent
+                                        select p).ToList();
 
             AssignMembers(paragrpahs);
             foreach (var p in _paragraphs) {
@@ -38,15 +38,15 @@ namespace LASI.Algorithm.DocumentConstructs
 
         private void AssignMembers(IEnumerable<Paragraph> paragrpahs) {
             sentences = (from p in _paragraphs
-                          from s in p.Sentences
-                          where s.Words.GetVerbs().Any()
-                          select s).ToList();
+                         from s in p.Sentences
+                         where s.Words.GetVerbs().Any()
+                         select s).ToList();
             phrases = (from s in sentences
-                        from r in s.Phrases
-                        select r).ToList();
+                       from r in s.Phrases
+                       select r).ToList();
             words = (from s in sentences
-                      from w in s.Words.Concat(new[] { s.EndingPunctuation })
-                      select w).ToList();
+                     from w in s.Words.Concat(new[] { s.EndingPunctuation })
+                     select w).ToList();
         }
 
         #endregion
@@ -121,7 +121,7 @@ namespace LASI.Algorithm.DocumentConstructs
         /// </summary>
         /// <returns>A string representation of the current document. The result contains the entire textual contents of the Document, thus resulting in the instance's full materialization and reification.</returns>
         public override string ToString() {
-            return Paragraphs.Format(p => p + "\n\n");
+            return this.GetType() + ":  " + Name + "\nParagraphs: \n" + Paragraphs.Format();
         }
 
         #endregion

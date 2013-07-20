@@ -56,7 +56,9 @@ namespace LASI.Algorithm.LexicalInformationProviders
         /// </summary>
         /// <param name="word">The Word to lookup.</param>
         /// <returns>The synonyms for the provided Word.</returns>
-        /// <remarks>Type runtime type checking is enforced such that if the provided Word is not an instance of Noun, Verb, Adjective, or Adverb or one of their subtypes, a  NoSynonymLookupForTypeException is thrown.</remarks>
+        /// <remarks>Type runtime type checking is enforced such that
+        /// if the provided Word is not an instance of Noun, Verb, Adjective, or Adverb or one of their subtypes,
+        /// a  NoSynonymLookupForTypeException is thrown.</remarks>
         /// <exception cref="NoSynonymLookupForTypeException"></exception>
         public static IEnumerable<string> Lookup(Word word) {
             return InternalLookup(word as dynamic);
@@ -191,8 +193,8 @@ namespace LASI.Algorithm.LexicalInformationProviders
         /// <param name="other">The second Word</param>
         /// <returns>True if the Word instances are synonymous, false otherwise.</returns>
         /// <remarks>There are two calling conventions for this method. See the following examples:
-        /// <code>if ( LexicalLookup.IsSimilarTo(vp1, vp2) ) { ... }</code>
-        /// <code>if ( vp1.IsSimilarTo(vp2) ) { ... }</code>
+        /// <code>if ( LexicalLookup.IsSimilarTo(w1, w2) ) { ... }</code>
+        /// <code>if ( w1.IsSimilarTo(w2) ) { ... }</code>
         /// Please prefer the second convention.
         /// </remarks>
         public static bool IsSynonymFor(this Word word, Word other) {
@@ -210,7 +212,7 @@ namespace LASI.Algorithm.LexicalInformationProviders
         /// Determines if two IEntity instances are similar.
         /// </summary>
         /// <param name="first">The first IEntity</param>
-        /// <param name="second">The Second IEntity</param>
+        /// <param name="second">The second IEntity</param>
         /// <returns>True if the given IEntity instances are similar, false otherwise.</returns>
         /// <remarks>There are two calling conventions for this method. See the following examples
         /// <code>if ( LexicalLookup.IsSimilarTo(e1, e2) ) { ... }</code>
@@ -218,26 +220,28 @@ namespace LASI.Algorithm.LexicalInformationProviders
         /// Please prefer the second convention.
         /// </remarks>
         public static bool IsSimilarTo(this IEntity first, IEntity second) {
+            //If both have the same text, ignoring case, we will assume similarity. 
             if (first.Text.ToUpper() == second.Text.ToUpper()) {
                 return true;
             }
 
             var n1 = first as Noun;
             var n2 = second as Noun;
+            //If both are Nouns...
             if (n1 != null && n2 != null) {
                 return n1.IsSynonymFor(n2);
             }
 
             var np1 = first as NounPhrase;
             var np2 = second as NounPhrase;
+            //If both are NounPhrases...
             if (np1 != null && np2 != null) {
                 return np1.IsSimilarTo(np2);
             }
-            //need to add functionality to compare a Noun with a NounPhrase.
-
 
             var np = first as NounPhrase ?? second as NounPhrase;
             var n = first as Noun ?? second as Noun;
+            //If one of them is a NounPhrase and the other is a Noun
             if (n != null && np != null) {
                 return n.IsSimilarTo(np);
             }
@@ -250,13 +254,13 @@ namespace LASI.Algorithm.LexicalInformationProviders
         /// <param name="second">The NounPhrase.</param>
         /// <returns>True if the provided Noun is similar to the provided NounPhrase, false otherwise.</returns>
         /// <remarks>There are two calling conventions for this method. See the following examples:
-        /// <code>if ( LexicalLookup.IsSimilarTo(vp1, vp2) ) { ... }</code>
-        /// <code>if ( vp1.IsSimilarTo(vp2) ) { ... }</code>
+        /// <code>if ( LexicalLookup.IsSimilarTo(n1, np2) ) { ... }</code>
+        /// <code>if ( n1.IsSimilarTo(np2) ) { ... }</code>
         /// Please prefer the second convention.
         /// </remarks>
         public static bool IsSimilarTo(this Noun first, NounPhrase second) {
-            var nouns = second.Words.GetNouns();
-            return nouns.Count() == 1 && nouns.First().IsSynonymFor(first);
+            var phraseNouns = second.Words.GetNouns();
+            return phraseNouns.Count() == 1 && phraseNouns.First().IsSynonymFor(first);
         }
         /// <summary>
         /// Determines if the provided NounPhrase is similar to the provided Noun.
@@ -265,13 +269,40 @@ namespace LASI.Algorithm.LexicalInformationProviders
         /// <param name="second">The Noun.</param>
         /// <returns>True if the provided NounPhrase is similar to the provided Noun, false otherwise.</returns>
         /// <remarks>There are two calling conventions for this method. See the following examples:
-        /// <code>if ( LexicalLookup.IsSimilarTo(vp1, vp2) ) { ... }</code>
-        /// <code>if ( vp1.IsSimilarTo(vp2) ) { ... }</code>
+        /// <code>if ( LexicalLookup.IsSimilarTo(np1, n2) ) { ... }</code>
+        /// <code>if ( np1.IsSimilarTo(n2) ) { ... }</code>
         /// Please prefer the second convention.
         /// </remarks>
         public static bool IsSimilarTo(this NounPhrase first, Noun second) {
-            var nouns = first.Words.GetNouns();
-            return nouns.Count() == 1 && nouns.First().IsSynonymFor(second);
+            return second.IsSimilarTo(first);
+        }
+        /// <summary>
+        /// Determines if the two provided Noun instances are similar.
+        /// </summary>
+        /// <param name="first">The first Noun.</param>
+        /// <param name="second">The second Noun.</param>
+        /// <returns>True if the first Noun is similar to the second, false otherwise.</returns>
+        /// <remarks>There are two calling conventions for this method. See the following examples:
+        /// <code>if ( LexicalLookup.IsSimilarTo(n1, n2) ) { ... }</code>
+        /// <code>if ( n1.IsSimilarTo(n2) ) { ... }</code>
+        /// Please prefer the second convention.
+        /// </remarks>
+        public static bool IsSimilarTo(this Noun first, Noun second) {
+            return first.IsSynonymFor(second);
+        }
+        /// <summary>
+        /// Determines if the two provided Verb instances are similar.
+        /// </summary>
+        /// <param name="first">The first Verb.</param>
+        /// <param name="second">The second Verb.</param>
+        /// <returns>True if the first Verb is similar to the second, false otherwise.</returns>
+        /// <remarks>There are two calling conventions for this method. See the following examples:
+        /// <code>if ( LexicalLookup.IsSimilarTo(v1, v2) ) { ... }</code>
+        /// <code>if ( v1.IsSimilarTo(v2) ) { ... }</code>
+        /// Please prefer the second convention.
+        /// </remarks>
+        public static bool IsSimilarTo(this Verb first, Verb second) {
+            return first.IsSynonymFor(second);
         }
         /// <summary>
         /// Determines if the provided VerbPhrase is similar to the provided Verb.
@@ -280,8 +311,8 @@ namespace LASI.Algorithm.LexicalInformationProviders
         /// <param name="second">The Verb.</param>
         /// <returns>True if the provided VerbPhrase is similar to the provided Verb, false otherwise.</returns>
         /// <remarks>There are two calling conventions for this method. See the following examples:
-        /// <code>if ( LexicalLookup.IsSimilarTo(vp1, vp2) ) { ... }</code>
-        /// <code>if ( vp1.IsSimilarTo(vp2) ) { ... }</code>
+        /// <code>if ( LexicalLookup.IsSimilarTo(vp1, v2) ) { ... }</code>
+        /// <code>if ( vp1.IsSimilarTo(v2) ) { ... }</code>
         /// Please prefer the second convention.
         /// </remarks>
         public static bool IsSimilarTo(this VerbPhrase first, Verb second) {
@@ -294,8 +325,8 @@ namespace LASI.Algorithm.LexicalInformationProviders
         /// <param name="second">The VerbPhrase.</param>
         /// <returns>True if the provided Verb is similar to the provided VerbPhrase, false otherwise.</returns>
         /// <remarks>There are two calling conventions for this method. See the following examples:
-        /// <code>if ( LexicalLookup.IsSimilarTo(vp1, vp2) ) { ... }</code>
-        /// <code>if ( vp1.IsSimilarTo(vp2) ) { ... }</code>
+        /// <code>if ( LexicalLookup.IsSimilarTo(v1, vp2) ) { ... }</code>
+        /// <code>if ( v1.IsSimilarTo(vp2) ) { ... }</code>
         /// Please prefer the second convention.
         /// </remarks>
         public static bool IsSimilarTo(this Verb first, VerbPhrase second) {
@@ -306,7 +337,7 @@ namespace LASI.Algorithm.LexicalInformationProviders
         /// Determines if two IVerbal instances are similar.
         /// </summary>
         /// <param name="first">The first IVerbal</param>
-        /// <param name="second">The Second IVerbal</param>
+        /// <param name="second">The second IVerbal</param>
         /// <returns>True if the given IVerbal instances are similar, false otherwise.</returns>
         /// <remarks>There are two calling conventions for this method. See the following examples
         /// <code>if ( LexicalLookup.IsSimilarTo(v1, v2) ) { ... }</code>
@@ -348,11 +379,11 @@ namespace LASI.Algorithm.LexicalInformationProviders
         /// Determines if two NounPhrases are similar.
         /// </summary>
         /// <param name="first">The first NounPhrase</param>
-        /// <param name="second">The Second NounPhrase</param>
+        /// <param name="second">The second NounPhrase</param>
         /// <returns>True if the given NounPhrases are similar, false otherwise.</returns>
         /// <remarks>There are two calling conventions for this method. See the following examples:
-        /// <code>if ( LexicalLookup.IsSimilarTo(vp1, vp2) ) { ... }</code>
-        /// <code>if ( vp1.IsSimilarTo(vp2) ) { ... }</code>
+        /// <code>if ( LexicalLookup.IsSimilarTo(np1, np2) ) { ... }</code>
+        /// <code>if ( np1.IsSimilarTo(np2) ) { ... }</code>
         /// Please prefer the second convention.
         /// </remarks>
         public static bool IsSimilarTo(this NounPhrase first, NounPhrase second) {
@@ -363,7 +394,7 @@ namespace LASI.Algorithm.LexicalInformationProviders
         /// Determines if two VerbPhrases are similar.
         /// </summary>
         /// <param name="first">The first VerbPhrase</param>
-        /// <param name="second">The Second VerbPhrase</param>
+        /// <param name="second">The second VerbPhrase</param>
         /// <returns>True if the given VerbPhrases are similar, false otherwise.</returns>
         /// <remarks>There are two calling conventions for this method. See the following examples:
         /// <code>if ( LexicalLookup.IsSimilarTo(vp1, vp2) ) { ... }</code>
@@ -412,7 +443,7 @@ namespace LASI.Algorithm.LexicalInformationProviders
             if ((outer.Words.GetNouns().Count() != 0) && (inner.Words.GetNouns().Count() != 0)) {
                 foreach (var o in outer.Words.GetNouns()) {
                     foreach (var i in inner.Words.GetNouns()) {
-                        if (i.IsSimilarTo(o) || i.IsAliasFor(o))
+                        if (i.IsSimilarTo(o))
                             similarCount += 0.7;
                     }
                     var scaleFactor = inner.Words.GetNouns().Count() * outer.Words.GetNouns().Count();
@@ -571,27 +602,23 @@ namespace LASI.Algorithm.LexicalInformationProviders
         }
         private static async Task LoadNameDataAsync() {
             await Task.Factory.ContinueWhenAll(
-                new Task[] {  
+                new[] {  
                     Task.Run(async () => lastNames = await GetNameDataAsync(lastNamesFilePath)),
                     Task.Run(async () => femaleNames = await GetNameDataAsync(femaleNamesFilePath)),
-                    Task.Run(async () => maleNames =await GetNameDataAsync(maleNamesFilePath) ) 
+                    Task.Run(async () => maleNames = await GetNameDataAsync(maleNamesFilePath)) 
                 },
                 results => {
                     genderAmbiguousFirstNames = new HashSet<string>(maleNames.Intersect(femaleNames).Concat(femaleNames.Intersect(maleNames)), StringComparer.OrdinalIgnoreCase);
 
-                    var i1 = maleNames.Select((s, i) => new { Rank = (double)i / maleNames.Count, Name = s });
-                    var i2 = femaleNames.Select((s, i) => new { Rank = (double)i / femaleNames.Count, Name = s });
+                    var stratified = from m in
+                                         maleNames.Select((s, i) => new { Rank = (double)i / maleNames.Count, Name = s })
+                                     join f in
+                                         femaleNames.Select((s, i) => new { Rank = (double)i / femaleNames.Count, Name = s })
+                                     on m.Name equals f.Name
+                                     group f.Name by f.Rank / m.Rank > 1 ? 'M' : m.Rank / f.Rank > 1 ? 'F' : 'U';
 
-                    var sect = from m in i1
-                               join f in i2 on m.Name equals f.Name
-                               select new { MorF = f.Rank / m.Rank > 1 ? 'M' : m.Rank / f.Rank > 1 ? 'F' : 'U', Name = f.Name };
-
-                    var stratified = from s in sect group s by s.MorF
-                                         into g
-                                         select new { Key = g.Key, Count = g.Count(), Names = g.ToArray() };
-
-                    maleNames.ExceptWith(from s in stratified where s.Key == 'F' from n in s.Names select n.Name);
-                    femaleNames.ExceptWith(from s in stratified where s.Key == 'M' from n in s.Names select n.Name);
+                    maleNames.ExceptWith(from s in stratified where s.Key == 'F' from n in s select n);
+                    femaleNames.ExceptWith(from s in stratified where s.Key == 'M' from n in s select n);
                 }
             );
         }

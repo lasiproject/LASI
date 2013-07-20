@@ -53,7 +53,6 @@ namespace LASI.Algorithm
         /// <param name="aliasText">The second Entity</param>
         public static void DefineAlias(string entityText, string aliasText) {
             DefineAliasInDictionary(entityText, aliasText);
-
         }
         /// <summary>
         /// Adds or updates the known alias relationships to reflect the relationship of the given strings.

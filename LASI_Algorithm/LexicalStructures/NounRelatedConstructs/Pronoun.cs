@@ -72,8 +72,7 @@ namespace LASI.Algorithm
         public virtual void AddPossession(IEntity possession) {
             if (EntityRefererredTo != null) {
                 EntityRefererredTo.AddPossession(possession);
-            }
-            else {
+            } else {
                 possessed.Add(possession);
                 possession.Possesser = this;
             }

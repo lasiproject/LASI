@@ -48,7 +48,7 @@ namespace LASI.Algorithm.DocumentConstructs
         /// </summary>
         /// <returns>A string representation of the Paragraph.</returns>
         public override string ToString() {
-            return base.ToString() + " " + Sentences.Count() + " sentences\n\"" + Text + "\"";
+            return base.ToString() + ": " + Sentences.Count() + " sentences\n\"" + Text + "\"";
         }
 
         /// <summary>
@@ -98,9 +98,11 @@ namespace LASI.Algorithm.DocumentConstructs
         /// </summary>
         public string Text {
             get {
-                return Sentences.Aggregate("", (str, sent) => str + " " + sent.Text).Trim();
+                return text = text ?? Sentences.Aggregate("", (str, sent) => str + " " + sent.Text).Trim();
             }
         }
+
+        private string text;
         private static int IDNumProvider;
     }
     /// <summary>

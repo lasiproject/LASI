@@ -82,21 +82,16 @@ namespace LASI.Algorithm.Binding
                     .ForAll(sentence => {
                         try {
                             new SubjectBinder().Bind(sentence);
-                        }
-                        catch (NullReferenceException) {
+                        } catch (NullReferenceException) {
                         }
                         try {
                             new ObjectBinder().Bind(sentence);
-                        }
-                        catch (InvalidStateTransitionException) {
-                        }
-                        catch (VerblessPhrasalSequenceException) {
-                        }
-                        catch (InvalidOperationException) {
+                        } catch (InvalidStateTransitionException) {
+                        } catch (VerblessPhrasalSequenceException) {
+                        } catch (InvalidOperationException) {
                         }
                     });
-            }
-            catch (Exception) {
+            } catch (Exception) {
             }
         }
         private static void PerformIntraPhraseBinding(IEnumerable<Phrase> phrases) {

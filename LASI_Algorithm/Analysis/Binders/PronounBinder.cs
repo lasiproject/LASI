@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using LASI.Utilities.TypedSwitch;
 using LASI.Algorithm;
 using LASI.Utilities;
+using LASI.Algorithm.LexicalInformationProviders;
 using LASI.Algorithm.DocumentConstructs;
 
 
@@ -21,41 +22,11 @@ namespace LASI.Algorithm.Binding
         /// </summary>
         /// <param name="document">The document over which to perform pronoun bindind.</param>
         public void Bind(Document document) {
-            //ReifyContextualNounPhrasesAsPronounPhrases(document.Phrases.GetNounPhrases());
             BindPosessivePronouns(document);
+            //ReifyContextualNounPhrasesAsPronounPhrases(document.Phrases.GetNounPhrases());
         }
 
-        private void ReifyContextualNounPhrasesAsPronounPhrases(IEnumerable<NounPhrase> candidatesNounPhrases) {
-            var toTransform = from np in candidatesNounPhrases
-                              where np.Words.Count() < 4
-                              let det = np.GetLeadingDeterminer()
-                              where det != null && det.DeterminerKind == DeterminerKind.Definite
-                              where np.Words.Last() is GenericNoun
-                              select np;
-            foreach (var np in toTransform) {
-                var temporaryReference = np;
-                PronounPhrase.TransformNounPhraseToPronounPhrase(ref temporaryReference);
-            }
-            BindToReferencePoints(toTransform);
-        }
 
-        private static void BindToReferencePoints(IEnumerable<NounPhrase> toTransform) {
-
-            toTransform
-                .GetPronounPhrases()
-                .AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
-                .ForAll(contextualPro => {
-                    contextualPro.BindAsReferringTo(contextualPro
-                        .Document
-                        .Phrases
-                        .TakeWhile(p => p != contextualPro)
-                        .Reverse()
-                        .GetNounPhrases()
-                        .FirstOrDefault(np => {
-                            return np.IsAliasFor(contextualPro.Words.GetNouns().Last());
-                        }));
-                });
-        }
         /// <summary>
         /// Bind posessive pronouns located in the objects of a sentence to the proper noun in the subject of that sentence. 
         /// Example Sentence that this applies to:
@@ -92,7 +63,36 @@ namespace LASI.Algorithm.Binding
             });
 
         }
+        private void ReifyContextualNounPhrasesAsPronounPhrases(IEnumerable<NounPhrase> candidatesNounPhrases) {
+            var toTransform = from np in candidatesNounPhrases
+                              where np.Words.Count() < 4
+                              let det = np.GetLeadingDeterminer()
+                              where det != null && det.DeterminerKind == DeterminerKind.Definite
+                              where np.Words.Last() is GenericNoun
+                              select np;
+            foreach (var np in toTransform) {
+                var temporaryReference = np;
+            }
+            BindToReferencePoints(toTransform);
+        }
 
+        private static void BindToReferencePoints(IEnumerable<NounPhrase> toTransform) {
+
+            toTransform
+                .GetNounPhrases()
+                .AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
+                .ForAll(contextualPro => {
+                    var target = contextualPro
+                    .Document
+                    .Phrases
+                    .TakeWhile(p => p != contextualPro)
+                    .Reverse()
+                    .GetNounPhrases()
+                    .FirstOrDefault(np => np.IsSimilarTo(contextualPro.Words.GetNouns().Last()));
+                    if (target != null)
+                        AliasDictionary.DefineAlias(contextualPro, target);
+                });
+        }
 
     }
 
