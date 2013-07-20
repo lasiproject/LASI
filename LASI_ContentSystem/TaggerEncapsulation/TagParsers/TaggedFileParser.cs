@@ -85,17 +85,16 @@ namespace LASI.ContentSystem
                 var parsedPhrases = new List<Phrase>();
                 var chunks = from chunk in sent.Split(new[] { "[", "]" }, StringSplitOptions.RemoveEmptyEntries)
                              let s = chunk.Trim()
-                             //where s.IsNotWhiteSpace() && s.IsNotEmpty() 
                              where !string.IsNullOrWhiteSpace(s)
                              select s;
-                SentenceDelimiter sentencePunctuation = null;
+                SentenceEnding sentencePunctuation = null;
 
                 foreach (var s in chunks) {
                     if (!string.IsNullOrWhiteSpace(s) && s.Contains('/')) {
                         char token = SkipToNextElement(s);
                         if (token == ' ') {
                             var currentPhrase = ParsePhrase(new TextTagPair(elementText: s.Substring(s.IndexOf(' ')), elementTag: s.Substring(0, s.IndexOf(' '))));
-                            if (currentPhrase.Words.Count(w => !string.IsNullOrWhiteSpace(w.Text)) > 0)
+                            if (currentPhrase.Words.Any(w => !string.IsNullOrWhiteSpace(w.Text)))
                                 parsedPhrases.Add(currentPhrase);
 
                             if (currentPhrase is SubordinateClauseBeginPhrase) {
@@ -104,23 +103,19 @@ namespace LASI.ContentSystem
                                 parsedPhrases.Add(currentPhrase);
                             }
 
-                        }
-                        else if (token == '/') {
+                        } else if (token == '/') {
                             var words = CreateWords(s);
                             if (words.First() != null) {
-                                if (words.Count(w => w is Conjunction) == words.Count || (words.Count == 2 && words[0] is Punctuation && words[1] is Conjunction)) {
+                                if (words.All(w => w is Conjunction) || (words.Count == 2 && words[0] is Punctuation && words[1] is Conjunction)) {
                                     parsedPhrases.Add(new ConjunctionPhrase(words));
-                                }
-                                else if (words.Count() == 1 && words.First() is SentenceDelimiter) {
-                                    sentencePunctuation = words.First() as SentenceDelimiter;
+                                } else if (words.Count == 1 && words[0] is SentenceEnding) {
+                                    sentencePunctuation = words.First() as SentenceEnding;
                                     parsedClauses.Add(new Clause(parsedPhrases.Take(parsedPhrases.Count)));
                                     parsedPhrases = new List<Phrase>();
-                                }
-                                else if (words.All(w => w is Punctuation) || words.All(w => w is Punctuation || w is Conjunction)) {
+                                } else if (words.All(w => w is Punctuation) || words.All(w => w is Punctuation || w is Conjunction)) {
                                     parsedPhrases.Add(new SymbolPhrase(words));
-                                }
-                                else {
-                                    parsedPhrases.Add(new UndeterminedPhrase(words));
+                                } else {
+                                    parsedPhrases.Add(new UnknownPhrase(words));
                                 }
                             }
                         }
@@ -178,38 +173,56 @@ namespace LASI.ContentSystem
         }
 
         /// <summary>
-        /// Reads an [outerNP Square Brack Delimited Phrase Chunk] and returns the start-tag determined subtype of LASI.Phrase which in turn contains all the run time representations of the individual words within it.
+        /// Reads an [outerNP Square Brack Delimited Phrase Chunk] and returns the start-tag determined subtype of LASI.Algorithm.Phrase which in turn contains all the run time representations of the individual words within it.
         /// </summary>
-        /// <param name="taggedContent">The TextTagPair instance which contains the content of the start and its Tag.</param>
-        /// <returns></returns>
-        protected virtual Phrase ParsePhrase(TextTagPair taggedContent) {
-            var phraseTag = taggedContent.Tag.Trim();
-            var composed = CreateWords(taggedContent.Text);
-            Phrase result = null;
-            if (phraseTag == "NP" && composed.All(w => w is Adverb)) {
-                var phraseConstructor = PhraseTagset["ADVP"];
-                result = phraseConstructor(composed);
-            }
-            else {
+        /// <param name="taggedPhraseElement">The TextTagPair instance which contains the content of the start and its Tag.</param>
+        /// <returns>A LASI.Algorithm.Phrase instance corresponding to the given phrase tag and containing the words within it.</returns>
+        protected virtual Phrase ParsePhrase(TextTagPair taggedPhraseElement) {
+            var phraseTag = taggedPhraseElement.Tag.Trim();
+            var words = CreateWords(taggedPhraseElement.Text);
+            try {
                 var phraseConstructor = PhraseTagset[phraseTag];
-
-                result = phraseConstructor(composed);
-                if (result is VerbPhrase && result.Words.First() is ToLinker) {
-                    result = new InfinitivePhrase(composed);
-                }
+                return phraseConstructor(words);
+            } catch (UnknownPhraseTagException e) {
+                LASI.Utilities.Output.WriteLine("A phrase with an unknown tag was encounterd.\n{0}\nInstantiating new LASI.Algorithm.UnknownPhrase to compensate", e.Message);
+                return new UnknownPhrase(words);
+            } catch (EmptyPhraseTagException e) {
+                LASI.Utilities.Output.WriteLine("A phrase with an empty tag was encounterd.\n{0}\nInstantiating new LASI.Algorithm.UnknownPhrase to compensate", e.Message);
+                return new UnknownPhrase(words);
             }
-            return result;
         }
         /// <summary>
         /// Reads an [outerNP Square Brack Delimited Phrase Chunk] and returns the start-tag determined subtype of LASI.Phrase which in turn contains all the run time representations of the individual words within it.
         /// </summary>
-        /// <param name="taggedContent">The TextTagPair instance which contains the content of the Phrase and its Tag.</param>
-        /// <returns></returns>
-        protected virtual async Task<Phrase> ParsePhraseAsync(TextTagPair taggedContent) {
-            var phraseTag = taggedContent.Tag.Trim();
-            var composed = await CreateWordsAsync(taggedContent.Text);
-            var phraseConstructor = PhraseTagset[phraseTag];
-            return phraseConstructor(composed);
+        /// <param name="taggedPhraseElement">The TextTagPair instance which contains the content of the Phrase and its Tag.</param>
+        /// <returns>A Task which, when awaited, yields a LASI.Algorithm.Phrase instance corresponding to the given phrase tag and containing the words within it. </returns>
+        protected virtual async Task<Phrase> ParsePhraseAsync(TextTagPair taggedPhraseElement) {
+            var phraseTag = taggedPhraseElement.Tag.Trim();
+            var words = await CreateWordsAsync(taggedPhraseElement.Text);
+            try {
+                var phraseConstructor = PhraseTagset[phraseTag];
+                return phraseConstructor(words);
+            } catch (UnknownPhraseTagException e) {
+                LASI.Utilities.Output.WriteLine("A phrase with an unknown tag was encounterd.\n{0}\nInstantiating new LASI.Algorithm.UnknownPhrase to compensate", e.Message);
+                return new UnknownPhrase(words);
+            } catch (EmptyPhraseTagException e) {
+                LASI.Utilities.Output.WriteLine("A phrase with an empty tag was encounterd.\n{0}\nInstantiating new LASI.Algorithm.UnknownPhrase to compensate", e.Message);
+                return new UnknownPhrase(words);
+            }
+        }
+        protected virtual Func<Phrase> CreatePhraseExpression(TextTagPair taggedPhraseElement) {
+            var phraseTag = taggedPhraseElement.Tag.Trim();
+            var wordExprs = CreateWordExpressions(taggedPhraseElement.Text);
+            try {
+                var phraseConstructor = PhraseTagset[phraseTag];
+                return () => phraseConstructor(wordExprs.Select(we => we()));
+            } catch (UnknownPhraseTagException e) {
+                LASI.Utilities.Output.WriteLine("A phrase with an unknown tag was encounterd.\n{0}\nInstantiating new LASI.Algorithm.UnknownPhrase to compensate", e.Message);
+                return () => new UnknownPhrase(wordExprs.Select(we => we()));
+            } catch (EmptyPhraseTagException e) {
+                LASI.Utilities.Output.WriteLine("A phrase with an empty tag was encounterd.\n{0}\nInstantiating new LASI.Algorithm.UnknownPhrase to compensate", e.Message);
+                return () => new UnknownPhrase(wordExprs.Select(we => we()));
+            }
         }
         protected virtual async Task<List<Word>> CreateWordsAsync(string wordData) {
             return await Task.Run(() => CreateWords(wordData));
@@ -227,13 +240,16 @@ namespace LASI.ContentSystem
             var elements = GetTaggedWordLevelTokens(wordData);
             var wordExtractor = new WordExtractor();
 
-            var tagParser = new WordMapper();
+            var wordMapper = new WordMapper();
             foreach (var tagged in elements) {
                 var e = wordExtractor.ExtractNextPos(tagged);
                 if (e != null) {
-
-                    var word = (tagParser.CreateWord(e.Value));
-                    parsedWords.Add(word);
+                    try {
+                        parsedWords.Add(wordMapper.CreateWord(e.Value));
+                    } catch (UnknownWordTagException x) {
+                        LASI.Utilities.Output.WriteLine("A word with an empty tag was encounterd.\n{0}\nInstantiating new LASI.Algorithm.UnknownWord to compensate", x.Message);
+                        parsedWords.Add(new UnknownWord(e.Value.Text));
+                    }
                 }
             }
             return parsedWords;
@@ -260,7 +276,12 @@ namespace LASI.ContentSystem
             foreach (var tagged in elements) {
                 var e = posExtractor.ExtractNextPos(tagged);
                 if (e != null) {
-                    wordExpressions.Add(tagParser.GetCreateWordExpression(e.Value));
+                    try {
+                        wordExpressions.Add(tagParser.GetWordExpression(e.Value));
+                    } catch (UnknownWordTagException x) {
+                        LASI.Utilities.Output.WriteLine("A word with an empty tag was encounterd.\n{0}\nInstantiating new LASI.Algorithm.UnknownWord to compensate", x.Message);
+                        wordExpressions.Add(() => new UnknownWord(e.Value.Text));
+                    }
                 }
             }
             return wordExpressions;

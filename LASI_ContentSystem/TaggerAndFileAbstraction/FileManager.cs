@@ -226,8 +226,7 @@ namespace LASI.ContentSystem
                 localDocumentNames.Add(newFile.NameSansExt);
                 AddToTypedList(newFile as dynamic);
                 return originalFile;
-            }
-            catch (KeyNotFoundException ex) {
+            } catch (KeyNotFoundException ex) {
                 throw new UnsupportedFileTypeAddedException(ext, ex);
             }
         }
@@ -276,10 +275,9 @@ namespace LASI.ContentSystem
             if (files.Length == 0)
                 files = docFiles.ToArray();
             foreach (var doc in from d in files
-                                where
-                                (from dx in docXFiles
-                                 where dx.NameSansExt == d.NameSansExt
-                                 select dx).Count() == 0
+                                where !(from dx in docXFiles
+                                        where dx.NameSansExt == d.NameSansExt
+                                        select dx).Any()
                                 select d) {
                 var converted = new DocToDocXConverter(doc).ConvertFile();
                 AddFile(converted.FullPath, true);
@@ -299,9 +297,9 @@ namespace LASI.ContentSystem
             if (files.Length == 0)
                 files = docFiles.ToArray();
             foreach (var doc in from d in files
-                                where (from dx in docXFiles
-                                       where dx.NameSansExt == d.NameSansExt
-                                       select dx).Count() == 0
+                                where !(from dx in docXFiles
+                                        where dx.NameSansExt == d.NameSansExt
+                                        select dx).Any()
                                 select d) {
                 var converted = await new DocToDocXConverter(doc).ConvertFileAsync();
                 AddFile(converted.FullPath, true);
@@ -321,10 +319,9 @@ namespace LASI.ContentSystem
             if (files.Length == 0)
                 files = pdfFiles.ToArray();
             foreach (var pdf in from file in files
-                                where
-                                (from dx in textFiles
-                                 where dx.NameSansExt == file.NameSansExt
-                                 select dx).Count() == 0
+                                where !(from dx in textFiles
+                                        where dx.NameSansExt == file.NameSansExt
+                                        select dx).Any()
                                 select file) {
                 var converted = new PdfToTextConverter(pdf).ConvertFile();
                 AddFile(converted.FullPath, true);
@@ -344,10 +341,9 @@ namespace LASI.ContentSystem
             if (files.Length == 0)
                 files = pdfFiles.ToArray();
             foreach (var pdf in from file in files
-                                where
-                                (from dx in textFiles
-                                 where dx.NameSansExt == file.NameSansExt
-                                 select dx).Count() == 0
+                                where !(from dx in textFiles
+                                        where dx.NameSansExt == file.NameSansExt
+                                        select dx).Any()
                                 select file) {
                 var converted = await new PdfToTextConverter(pdf).ConvertFileAsync();
                 AddFile(converted.FullPath, true);
@@ -392,10 +388,9 @@ namespace LASI.ContentSystem
             if (files.Length == 0)
                 files = docXFiles.ToArray();
             foreach (var doc in from d in files
-                                where
-                                (from dx in textFiles
-                                 where dx.NameSansExt == d.NameSansExt
-                                 select dx).Count() == 0
+                                where !(from dx in textFiles
+                                        where dx.NameSansExt == d.NameSansExt
+                                        select dx).Any()
                                 select d) {
                 await TextConvertAsync(doc);
             }
@@ -420,9 +415,9 @@ namespace LASI.ContentSystem
             if (files.Length == 0)
                 files = textFiles.ToArray();
             foreach (var doc in from d in files
-                                where (from dx in taggedFiles
-                                       where dx.NameSansExt == d.NameSansExt
-                                       select dx).Count() == 0
+                                where !(from dx in taggedFiles
+                                        where dx.NameSansExt == d.NameSansExt
+                                        select dx).Any()
                                 select d) {
                 var tagger = new SharpNLPTagger(
                     TaggerMode.TagAndAggregate, doc.FullPath,
@@ -444,10 +439,9 @@ namespace LASI.ContentSystem
             if (files.Length == 0)
                 files = textFiles.ToArray();
             var tasks = (from d in files
-                         where
-                         (from dx in taggedFiles
-                          where dx.NameSansExt == d.NameSansExt
-                          select dx).Count() == 0
+                         where !(from dx in taggedFiles
+                                 where dx.NameSansExt == d.NameSansExt
+                                 select dx).Any()
                          select
                              new SharpNLPTagger(TaggerMode.TagAndAggregate, d.FullPath, TaggedFilesDir + "\\" + d.NameSansExt + ".tagged").ProcessFileAsync()).ToList();
 
@@ -487,8 +481,7 @@ namespace LASI.ContentSystem
             }
             try {
                 Directory.Delete(ProjectDir, true);
-            }
-            catch (DirectoryNotFoundException e) {
+            } catch (DirectoryNotFoundException e) {
                 Output.WriteLine(e.Message);
                 Output.WriteLine("Directory could not be found for forced cleabup");
             }

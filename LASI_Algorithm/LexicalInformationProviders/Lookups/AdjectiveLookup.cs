@@ -51,7 +51,7 @@ namespace LASI.Algorithm.LexicalInformationProviders.Lookups
                                         select match.Value.Replace('_', '-');
             int id = Int32.Parse(line.Substring(0, 8));
 
-            AdjectiveCategory lexCategory = ( AdjectiveCategory )Int32.Parse(line.Substring(9, 2));
+            AdjectiveCategory lexCategory = (AdjectiveCategory)Int32.Parse(line.Substring(9, 2));
             return new AdjectiveSynSet(id, words, referencedSets, lexCategory);
 
 

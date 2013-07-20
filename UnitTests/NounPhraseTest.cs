@@ -163,7 +163,7 @@ namespace AlgorithmAssemblyUnitTestProject
         public void IndirectReferencesTest() {
             IEnumerable<Word> composedWords = new Word[] { new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians") };
             NounPhrase target = new NounPhrase(composedWords);
-            Assert.IsTrue(target.BoundPronouns.Count() == 0);
+            Assert.IsFalse(target.BoundPronouns.Any());
             Pronoun pro = new PersonalPronoun("they");
             target.BindPronoun(pro);
             Assert.IsTrue(target.BoundPronouns.Contains(pro) && pro.EntityRefererredTo == target);

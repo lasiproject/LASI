@@ -17,7 +17,7 @@ namespace LASI.Utilities
 
 
         static Output() {
-            SetToConsole();
+            SetToDebug();
         }
 
         #endregion
@@ -47,7 +47,7 @@ namespace LASI.Utilities
         }
 
         /// <summary>
-        /// Sets the current output stream to Debug.Out, the default.
+        /// Sets the current output stream to Debug.Out
         /// </summary>
         public static void SetToDebug() {
             OutputMode = OutputMode.Debug;

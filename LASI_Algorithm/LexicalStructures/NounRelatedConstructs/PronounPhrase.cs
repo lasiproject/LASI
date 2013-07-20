@@ -23,7 +23,6 @@ namespace LASI.Algorithm
             : base(composedWords) {
             if (composedWords.GetPronouns().Any(p => p.EntityRefererredTo != null)) {
                 _boundEntity = composedWords.GetPronouns().Last().EntityRefererredTo;
-                IsBound = true;
             }
         }
 
@@ -41,7 +40,6 @@ namespace LASI.Algorithm
         public IEntityGroup EntityRefererredTo {
             get {
                 _boundEntity = _boundEntity ?? (Words.GetPronouns().Any(p => p.EntityRefererredTo != null) ? Words.GetPronouns().Last().EntityRefererredTo : null);
-                IsBound = _boundEntity != null;
                 return _boundEntity;
             }
 
@@ -52,20 +50,11 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="target">The entity to which to bind.</param>
         public void BindAsReferringTo(IEntity target) {
-            if (_boundEntity != null || !_boundEntity.Any())
+            if (_boundEntity != null || !_boundEntity.Any())//This condition seems wrong and must be investigated.
                 _boundEntity = new EntityGroup(new[] { target });
             else
                 _boundEntity = new EntityGroup(_boundEntity.Concat(new[] { target }));
             EntityKind = _boundEntity.EntityKind;
-            IsBound = true;
-        }
-
-        /// <summary>
-        /// Gets a value indicating if the PronounPhrase has been bound to an Entity.
-        /// </summary>
-        public bool IsBound {
-            get;
-            private set;
         }
 
         /// <summary>
@@ -73,36 +62,38 @@ namespace LASI.Algorithm
         /// Attempts to "lift" an instance of NounPhrase, transforming it into a PronounPhrase.
         /// This is meant to be used when a NounPhrase is later identified as having the contextual role of a Referencer to some other previously introduced entity.
         /// </summary>
-        /// <param name="contextualPronoun">The NounPhrase instance to Transform into a PronounPhrase. This argument must be passed via the ref keyword.</param>
+        /// <param name="np">The NounPhrase instance to Transform into a PronounPhrase. This argument must be passed via the ref keyword.</param>
         /// <returns>The NounPhrase "lifted" to a PronounPhrase.</returns>
         /// <remarks>
         /// This Method is considered extermely experimental because actually replaces the all references to the original NounPhrase
         /// with references to the PronounPhrase created from it. This includes replacing references stored as bindings to the original in other objects, 
         /// any element in a collection containing the original, and so on. The volitility comes from potential thread safety concerns.
         /// </remarks>
-        internal static PronounPhrase TransformNounPhraseToPronounPhrase(ref NounPhrase contextualPronoun) {
-            contextualPronoun = new PronounPhrase(contextualPronoun.Words) {
-                SubjectOf = contextualPronoun.SubjectOf,
-                DirectObjectOf = contextualPronoun.DirectObjectOf,
-                IndirectObjectOf = contextualPronoun.IndirectObjectOf,
-                ID = contextualPronoun.ID,
-                EntityKind = contextualPronoun.EntityKind,
-                Document = contextualPronoun.Document,
-                Sentence = contextualPronoun.Sentence,
-                BoundPronouns = contextualPronoun.BoundPronouns,
-                InnerAttributive = contextualPronoun.InnerAttributive,
-                OuterAttributive = contextualPronoun.OuterAttributive,
-                Possesser = contextualPronoun.Possesser,
-                Possessed = contextualPronoun.Possessed,
-                PrepositionOnLeft = contextualPronoun.PrepositionOnLeft,
-                PrepositionOnRight = contextualPronoun.PrepositionOnRight,
-                Weight = contextualPronoun.Weight,
-                MetaWeight = contextualPronoun.MetaWeight,
-                Descriptors = contextualPronoun.Descriptors,
-                PreviousPhrase = contextualPronoun.PreviousPhrase,
-                NextPhrase = contextualPronoun.NextPhrase,
-            };
-            return contextualPronoun as PronounPhrase;
+        internal static PronounPhrase TransformNounPhraseToPronounPhrase(ref NounPhrase np) {
+            np = np as PronounPhrase ?? //If it the argument is already a PronounPhrase instance, we do not want to do anything.
+                new PronounPhrase(np.Words) { //Assign a new PronounPhrase to the NounPhrase ref reference, transferring all of the applicable state from the original NounPhrase
+                    SubjectOf = np.SubjectOf,
+                    DirectObjectOf = np.DirectObjectOf,
+                    IndirectObjectOf = np.IndirectObjectOf,
+                    ID = np.ID, //The ID provider will still be incremeneted, but the created PronounPhrase will have the same id as the original NounPhrase before it is assigned.
+                    EntityKind = np.EntityKind,
+                    Document = np.Document,
+                    Sentence = np.Sentence,
+                    BoundPronouns = np.BoundPronouns,
+                    InnerAttributive = np.InnerAttributive,
+                    OuterAttributive = np.OuterAttributive,
+                    Possesser = np.Possesser,
+                    Possessed = np.Possessed,
+                    PrepositionOnLeft = np.PrepositionOnLeft,
+                    PrepositionOnRight = np.PrepositionOnRight,
+                    Weight = np.Weight,
+                    MetaWeight = np.MetaWeight,
+                    Descriptors = np.Descriptors,
+                    PreviousPhrase = np.PreviousPhrase,
+                    NextPhrase = np.NextPhrase,
+                };
+            return np as PronounPhrase;//This is mainly convenience, as even if the return value is discarded, the transformation has irrevocably changed the state of the reference passed in.
+
         }
 
 

@@ -28,7 +28,7 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="words">The linear sequence of Words which compose to form the single UndeterminedPhrase which will comprise the Clause.</param>
         public Clause(IEnumerable<Word> words) {
-            Phrases = new List<Phrase>(new[] { new UndeterminedPhrase(words) });
+            Phrases = new List<Phrase>(new[] { new UnknownPhrase(words) });
         }
 
 

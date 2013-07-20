@@ -15,51 +15,41 @@ namespace LASI.Algorithm
         /// <summary>
         /// Returns all Phrases in the document which are in between the provided Phrases. The range of the resulting sequence is neither upper nor lower inclusive.
         /// </summary>
-        /// <param name="start">The exclusive lower bound of the range to aggregate.</param>
-        /// <param name="end">The exclusive upper bound of the range to aggregate.</param>
+        /// <param name="after">The exclusive lower bound of the range to aggregate.</param>
+        /// <param name="before">The exclusive upper bound of the range to aggregate.</param>
         /// <returns>All Phrases in the document which are in between the provided Phrases.
-        /// The range of the resulting sequence is neither upper nor lower incluse or null if the Phrases are improperly ordered or are in different documents. 
-        /// If the given phrases are adjacent, an empty sequence will be returned.</returns>
-        public static IEnumerable<Phrase> Between(this Phrase start, Phrase end) {
-            var phrasesInDocument = start.Document.Phrases.ToList();//Converted to list for fast indexing in the following calls.
-            var startIndex = phrasesInDocument.IndexOf(start);
-            var endIndex = phrasesInDocument.Skip(startIndex).ToList().IndexOf(end);
-            try {
-                return phrasesInDocument.GetRange(startIndex + 1, startIndex - (endIndex - 1));
-            }
-            catch (ArgumentOutOfRangeException) {
-                return null;
-            }
+        /// The range of the resulting sequence is neither upper nor lower incluse. 
+        /// If the Phrases are improperly ordered, are in different documents or if the given phrases are adjacent, an empty sequence will be returned.</returns>
+        public static IEnumerable<Phrase> Between(this Phrase after, Phrase before) {
+            return after.Document.Phrases.Contains(before) ?
+                after.Document.Phrases.SkipWhile(p => p != after).Skip(1).TakeWhile(p => p != before) :
+                Enumerable.Empty<Phrase>();
         }
         /// <summary>
         /// Returns all Phrases in the document which are in between the provided starting Phrase and the first phrase which matches the provided selector function.
         /// The range of the resulting sequence is neither upper nor lower inclusive.
         /// </summary>
-        /// <param name="start">The exclusive lower bound of the range to aggregate.</param>
+        /// <param name="after">The exclusive lower bound of the range to aggregate.</param>
         /// <param name="endSelector">The function which is used to test each subsequent phrase returning true when a match verbalSelector is found.</param>
         /// <returns>All Phrases in the document which are in between the provided start Phrase and the first Phrase for which the provided predicate function returns true.
-        /// The range of the resulting sequence is neither upper nor lower incluse. If no matching phrase exists after the starting phrase, null is returned. 
-        /// If the given phrases are adjacent, an empty sequence will be returned.</returns>
-        public static IEnumerable<Phrase> Between(this Phrase start, Func<Phrase, bool> endSelector) {
-            var phrasesInDocument = start.Document.Phrases.ToList();//Converted to list for fast indexing in the following calls.
-            var startIndex = phrasesInDocument.IndexOf(start);
-            var endIndex = phrasesInDocument.Skip(startIndex).TakeWhile(phrase => !endSelector(phrase)).Count();
-            try {
-                return phrasesInDocument.GetRange(startIndex + 1, startIndex - endIndex);
-            }
-            catch (ArgumentOutOfRangeException) {
-                return null;
-            }
+        /// The range of the resulting sequence is neither upper nor lower incluse.
+        /// If no matching phrase exists after the starting phrase or the given start Phrase is immediately followed by a Phrase matching the end selector function,
+        /// an empty sequence will be returned.an empty sequence is returned is returned. 
+        /// </returns>
+        public static IEnumerable<Phrase> Between(this Phrase after, Func<Phrase, bool> endSelector) {
+            return after.Document.Phrases.Any(endSelector) ?
+               after.Document.Phrases.SkipWhile(p => p != after).Skip(1).TakeWhile(p => !endSelector(p)) :
+               Enumerable.Empty<Phrase>();
         }
 
         /// <summary>
         /// Returns a new sequence containing all of the Phrases which follow the given Phrase in the source sequence.
         /// </summary>
         /// <param name="phrases">The source sequence of Phrases.</param>
-        /// <param name="phrase">The exclusive lower bound of the desired subset of Phrases.</param>
+        /// <param name="after">The exclusive lower bound of the desired subset of Phrases.</param>
         /// <returns>A new sequence containing all of the Phrases which follow the given Phrase in the source sequence.</returns>
-        public static IEnumerable<Phrase> GetPhrasesAfter(this IEnumerable<Phrase> phrases, Phrase phrase) {
-            return phrases.SkipWhile(r => r != phrase).Skip(1);
+        public static IEnumerable<Phrase> GetPhrasesAfter(this IEnumerable<Phrase> phrases, Phrase after) {
+            return phrases.SkipWhile(r => r != after).Skip(1);
         }
         /// <summary>
         /// Returns a new sequence containing all of the Phrases which follow the first Phrase in the source sequence which matches the provided selector function.

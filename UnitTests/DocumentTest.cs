@@ -87,7 +87,7 @@ namespace AlgorithmAssemblyUnitTestProject
                                 new Adjective("blue"), 
                                 new GenericSingularNoun("team") }
                                 )}
-                            )}, new SentenceDelimiter('!')),
+                            )}, new SentenceEnding('!')),
                         new Sentence(new Clause[]{new Clause( new Phrase[]{
                             new NounPhrase(new Word[]{
                                 new PersonalPronoun("We")}),
@@ -101,7 +101,7 @@ namespace AlgorithmAssemblyUnitTestProject
                         new AdverbPhrase(new Word [] {
                             new Adverb("quickly")
                         })
-                    })}, new SentenceDelimiter('!'))
+                    })}, new SentenceEnding('!'))
                 })
             };
             return allParagrpahs;
@@ -246,7 +246,7 @@ namespace AlgorithmAssemblyUnitTestProject
                                 new Adjective("blue"), 
                                 new GenericSingularNoun("team") }
                                 )}
-                            )}, new SentenceDelimiter('!')),
+                            )}, new SentenceEnding('!')),
                         new Sentence(new Clause[]{new Clause( new Phrase[]{
                             new NounPhrase(new Word[]{
                                 new PersonalPronoun("We")}),
@@ -260,7 +260,7 @@ namespace AlgorithmAssemblyUnitTestProject
                         new AdverbPhrase(new Word [] {
                             new Adverb("quickly")
                         })
-                    })}, new SentenceDelimiter('!'))
+                    })}, new SentenceEnding('!'))
                 };
 
             Document target = new Document(new[] { new Paragraph(firstParagraphSentences) });

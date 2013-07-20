@@ -77,7 +77,6 @@ namespace LASI.Algorithm
         public static ISet<T> ToSet<T>(this IEnumerable<T> source, Func<T, T, bool> comparison) where T : ILexical {
             return new HashSet<T>(source, LexicalComparers<T>.CreateCustom(comparison));
         }
-
         /// <summary>
         /// Gets all of the word instances in the sequence of ILexicals.
         /// </summary>

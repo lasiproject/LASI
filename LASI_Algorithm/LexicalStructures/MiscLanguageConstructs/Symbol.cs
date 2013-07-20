@@ -13,12 +13,12 @@ namespace LASI.Algorithm
         /// <summary>
         /// Initializes a new instance of the Symbol class.
         /// </summary>
-        /// <param name="text">The text of the Symbol</param>
+        /// <param name="text">The text of the Symbol.</param>
         public Symbol(string text) : base(text) { }
         /// <summary>
         /// Initializes a new instance of the Symbol class.
         /// </summary>
-        /// <param name="character">The single character of the Symbol</param>
+        /// <param name="character">The single character of the Symbol.</param>
         public Symbol(char character) : base(character.ToString()) { }
 
     }

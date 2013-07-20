@@ -92,6 +92,7 @@
     <Compile Include="Analysis\ProcessingTask.cs" />
     <Compile Include="Analysis\SubordinateClauseIdentifier.cs" />
     <Compile Include="IEnumerableExtensions\IEnumerableOfIPronounExtensions.cs" />
+    <Compile Include="LexicalStructures\MiscLanguageConstructs\UnknownWord.cs" />
     <Compile Include="ResourceUsageManagement\Memory.cs" />
     <Compile Include="TextSourceAbstraction\IRawTextSource.cs" />
     <Compile Include="IEnumerableExtensions\EnumTypeExtensions.cs" />
@@ -121,7 +122,7 @@
     <Compile Include="LexicalStructures\ConstrainingSemanticConstructs\DeterminerKind.cs" />
     <Compile Include="LexicalStructures\ConstrainingSemanticConstructs\IDeterminable.cs" />
     <Compile Include="LexicalStructures\MiscLanguageConstructs\SymbolPhrase.cs" />
-    <Compile Include="LexicalStructures\MiscLanguageConstructs\UndeterminedPhrase.cs" />
+    <Compile Include="LexicalStructures\MiscLanguageConstructs\UnknownPhrase.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\IPronoun.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\EntityGroup.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\EntityKind.cs" />
@@ -130,7 +131,6 @@
     <Compile Include="LexicalStructures\NounRelatedConstructs\PronounPhrase.cs" />
     <Compile Include="LexicalStructures\UnderpinningTypes\ConflictingClauseRoleException.cs" />
     <Compile Include="LexicalStructures\UnderpinningTypes\SubordinateClause.cs" />
-    <Compile Include="LexicalStructures\VerbRelatedConstructs\GerundVerbPhrase.cs" />
     <Compile Include="LexicalStructures\MiscLanguageConstructs\InterjectionPhrase.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\PossessivePronoun.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\RelativePossessivePronoun.cs" />
@@ -202,7 +202,7 @@
     <Compile Include="LexicalStructures\NounRelatedConstructs\ProperPluralNoun.cs" />
     <Compile Include="LexicalStructures\MiscLanguageConstructs\Punctuation.cs" />
     <Compile Include="LexicalStructures\MiscLanguageConstructs\SimpleDeclarativePhrase.cs" />
-    <Compile Include="LexicalStructures\MiscLanguageConstructs\SentenceDelimiter.cs" />
+    <Compile Include="LexicalStructures\MiscLanguageConstructs\SentenceEnding.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\PersonalPronoun.cs" />
     <Compile Include="LexicalStructures\AdverbRelatedConstructs\SuperlativeAdverb.cs" />
     <Compile Include="LexicalStructures\MiscLanguageConstructs\Symbol.cs" />
@@ -230,7 +230,6 @@
     <Compile Include="TextSourceAbstraction\TaggedTextFragment.cs" />
     <None Include="LexicalStructures\AdjectiveRelatedConstructs\ClassDiagram1.cd" />
     <None Include="DocumentConstructs\DocumentComposition.cd" />
-    <None Include="IEnumerableExtensions\IEnumerableExtensions.cd" />
     <None Include="LexicalStructures\MiscLanguageConstructs\PhraseConstructs.cd" />
   </ItemGroup>
   <ItemGroup>

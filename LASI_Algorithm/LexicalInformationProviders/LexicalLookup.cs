@@ -383,8 +383,7 @@ namespace LASI.Algorithm.LexicalInformationProviders
                     for (var i = 0; i < leftHandVerbs.Count; ++i) {
                         result &= leftHandVerbs[i].IsSynonymFor(rightHandVerbs[i]);
                     }
-                }
-                catch (NullReferenceException) {
+                } catch (NullReferenceException) {
                     return false;
                 }
             }
@@ -405,8 +404,7 @@ namespace LASI.Algorithm.LexicalInformationProviders
             if (first.Words.Count() >= second.Words.Count()) {
                 outer = first;
                 inner = second;
-            }
-            else {
+            } else {
                 outer = second;
                 inner = first;
             }

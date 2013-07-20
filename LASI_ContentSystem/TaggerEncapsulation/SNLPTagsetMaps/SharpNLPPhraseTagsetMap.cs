@@ -31,8 +31,8 @@ namespace LASI.ContentSystem.TaggerEncapsulation
         #region Fields
         private static readonly IReadOnlyDictionary<string, PhraseCreator> typeDictionary = new Dictionary<string, PhraseCreator> {
             
-            { "VP", ws => ws.Any(w=> w is Punctuation) ? new SymbolPhrase(ws) as Phrase : new VerbPhrase(ws) as Phrase },
-            { "NP", ws => ws.OfType<IEntity>().All(w=>w is IPronoun)?new PronounPhrase(ws) : new NounPhrase(ws) },
+            { "VP", ws => ws.Any(w=> w is Punctuation) ? new SymbolPhrase(ws): ws.FirstOrDefault(w=>w is ToLinker)!=null ? new InfinitivePhrase(ws) : new VerbPhrase(ws) as Phrase  },
+            { "NP", ws => ws.OfType<IEntity>().All(w=>w is IPronoun) ? new PronounPhrase(ws) : ws.All(w=>w is Adverb) ?new AdverbPhrase(ws) : new NounPhrase(ws) as Phrase },
             { "PP", ws => new PrepositionalPhrase(ws) },
             { "ADVP", ws => new AdverbPhrase(ws) },
             { "ADJP", ws => new AdjectivePhrase(ws) },
@@ -45,7 +45,7 @@ namespace LASI.ContentSystem.TaggerEncapsulation
             { "SBAR", ws => new SubordinateClauseBeginPhrase(ws) },
             { "LST", ws => new RoughListPhrase(ws) },
             { "INTJ", ws => new InterjectionPhrase(ws) },
-            //{ "", ws => { throw new EmptyPhraseTagException(string.Format("the tag for word: {0}\nis empty",ws.Aggregate("", (s,w) => s += " ").Trim())); } },
+            { "", ws => { throw new EmptyPhraseTagException(string.Format("the tag for word: {0}\nis empty",ws.Aggregate("", (s,w) => s += " ").Trim())); } },
         };
 
         #endregion
@@ -60,16 +60,9 @@ namespace LASI.ContentSystem.TaggerEncapsulation
         public override PhraseCreator this[string tag] {
             get {
                 try {
-                    try {
-                        return typeDictionary[tag];
-                    }
-                    catch (KeyNotFoundException) {
-                        throw new UnknownPhraseTagException(String.Format("The phrase tag {0} is not defined by this Tagset", tag));
-                    }
-                }
-                catch (UnknownPhraseTagException e) {
-                    LASI.Utilities.Output.WriteLine("A Phrase with an unknown tag was encounterd.\n{0}\nInstantiating new LASI.Algorithm.UndeterminedPhrase to compensate", e.Message);
-                    return ws => new UndeterminedPhrase(ws);
+                    return typeDictionary[tag];
+                } catch (KeyNotFoundException) {
+                    throw new UnknownPhraseTagException(String.Format("The phrase tag {0} is not defined by this Tagset", tag));
                 }
             }
         }
@@ -82,8 +75,7 @@ namespace LASI.ContentSystem.TaggerEncapsulation
             get {
                 try {
                     return typeDictionary.First(pair => pair.Value.Method.ReturnType == phraseCreatingFunction.Method.ReturnType).Key;
-                }
-                catch (InvalidOperationException) {
+                } catch (InvalidOperationException) {
                     throw new UnmappedPhraseTypeException(string.Format("Phrase constructor\n{0}\nis not mapped by this Tagset.\nFunction Type: {1} => {2}",
                         phraseCreatingFunction,
                         phraseCreatingFunction.Method.GetParameters().Aggregate("", (s, p) => s += p.ParameterType.FullName + ", ").TrimEnd(',', ' '),
@@ -103,8 +95,7 @@ namespace LASI.ContentSystem.TaggerEncapsulation
             get {
                 try {
                     return typeDictionary.First(wordCreatorPosTagPair => wordCreatorPosTagPair.Value.Method.ReturnType == phrase.GetType()).Key;
-                }
-                catch (InvalidOperationException) {
+                } catch (InvalidOperationException) {
                     throw new UnmappedPhraseTypeException(string.Format("The indexing LASI.Algorithm.Phrase has type {0}, a type which is not mapped by {1}.", phrase.GetType(), this.GetType()));
                 }
             }

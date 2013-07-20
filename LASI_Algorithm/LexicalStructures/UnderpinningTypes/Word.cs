@@ -19,7 +19,7 @@ namespace LASI.Algorithm
         /// Initializes a new instance of the word class which represensts the properties
         /// and behaviors of a word-level grammatical element.
         /// </summary>
-        /// <param name="text">The key text content of the word.</param>
+        /// <param name="text">The text content of the word.</param>
         protected Word(string text) {
             ID = IDProvider++;
             Text = text;

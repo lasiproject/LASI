@@ -166,8 +166,7 @@ namespace LASI.UserInterface
             var focusedChart = (FrequencyCharts.SelectedItem as TabItem).Content as Visual;
             try {
                 printDialog.PrintVisual(focusedChart, "Current View");
-            }
-            catch (NullReferenceException) { // There is no chart selected by the user.
+            } catch (NullReferenceException) { // There is no chart selected by the user.
             }
 
         }
@@ -247,8 +246,7 @@ namespace LASI.UserInterface
                     currentOperationProgressBar.Value = 0;
                     await ProcessNewDocument(openDialog.FileName);
                     //currentOperationFeedbackCanvas.Visibility = Visibility.Hidden;
-                }
-                else {
+                } else {
                     MessageBox.Show(this, string.Format("A document named {0} is already part of the project.", openDialog.SafeFileName));
                 }
             }
@@ -322,11 +320,9 @@ namespace LASI.UserInterface
         private void OpenManualMenuItem_Click_1(object sender, RoutedEventArgs e) {
             try {
                 System.Diagnostics.Process.Start(System.AppDomain.CurrentDomain.BaseDirectory + @"\Manual.pdf");
-            }
-            catch (FileNotFoundException) {
+            } catch (FileNotFoundException) {
                 MessageBox.Show(this, "Unable to locate the User Manual, please contact the LASI team for further support.");
-            }
-            catch (Exception) {
+            } catch (Exception) {
                 MessageBox.Show(this, "Sorry, the manual could not be opened. Please ensure you have a pdf viewer installed.");
             }
         }
@@ -335,13 +331,13 @@ namespace LASI.UserInterface
         #region Label Context Menu Construction
 
         private static void CreateVerbPhraseLabelMenu(List<Label> phraseLabels, Label phraseLabel, VerbPhrase vP) {
-            if (vP.Subjects.Count() > 0) {
+            if (vP.Subjects.Any()) {
                 CreateVerbPhraseLabelSubjectMenu(phraseLabels, phraseLabel, vP);
             }
-            if (vP.DirectObjects.Count() > 0) {
+            if (vP.DirectObjects.Any()) {
                 CreateVerbPhraseLabelDirectObjectMenu(phraseLabels, phraseLabel, vP);
             }
-            if (vP.IndirectObjects.Count() > 0) {
+            if (vP.IndirectObjects.Any()) {
                 CreateVerbPhraseLabelIndirectObjectMenu(phraseLabels, phraseLabel, vP);
             }
             if (vP != null && vP.ObjectOfThePreoposition != null) {
