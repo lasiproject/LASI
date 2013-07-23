@@ -8,7 +8,7 @@ namespace LASI.Algorithm
     /// <summary>
     /// Defines the specific, non-overlapping, kinds of roles which Pronouns can serve.
     /// </summary>
-    public enum PronounKind
+    public enum PronounKind : byte
     {
         /// <summary>
         /// Undefined

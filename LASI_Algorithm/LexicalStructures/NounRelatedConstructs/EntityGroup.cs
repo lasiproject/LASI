@@ -56,10 +56,14 @@ namespace LASI.Algorithm
         /// </summary>
         /// <returns>An enumerator that iterates through the members of the EntityGroup.</returns>
         public IEnumerator<IEntity> GetEnumerator() {
-            return Members.GetEnumerator();
+            foreach (var entity in Members.EnumerateRecursively()) {
+                yield return entity;
+            }
         }
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() {
-            throw new NotImplementedException();
+            foreach (var entity in Members.EnumerateRecursively()) {
+                yield return entity;
+            } 
         }
         /// <summary>
         /// Returns a string representation of the EntityGroup.

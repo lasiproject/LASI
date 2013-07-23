@@ -116,8 +116,7 @@ namespace LASI.Algorithm.Binding
                                 toLink.BindObject(LastVerb);
                             }
                             //////Output.WriteLine("Prev: {0}, Next: {1}: , Last Verb: {2}", prevWord, nextWord, LastVerb);
-                        }
-                        else {
+                        } else {
                             toLink.BindObject(LastVerb);
                         }
                     }

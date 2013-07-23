@@ -9,7 +9,7 @@ namespace LASI.Algorithm
     /// <summary>
     /// Defines, very broadly, the basic kinds of Entities which are likely to be expressed.
     /// </summary>
-    public enum EntityKind
+    public enum EntityKind : byte
     {
         /// <summary>
         /// UNDEFINED 

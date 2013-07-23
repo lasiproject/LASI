@@ -8,26 +8,21 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using LASI.Utilities;
+using LASI.Algorithm.LexicalInformationProviders.InterSetRelationshipManagement;
 
 namespace LASI.Algorithm.LexicalInformationProviders.Lookups
 {
     using SetReference = System.Collections.Generic.KeyValuePair<VerbSetRelationship, int>;
+
     internal sealed class VerbLookup : IWordNetLookup<Verb>
     {
-
-        private const int HEADER_LENGTH = 29;
-        Dictionary<int, VerbSynSet> setsBySetID = new Dictionary<int, VerbSynSet>();
         /// <summary>
         /// Initializes a new instance of the VerbThesaurus class. 
         /// </summary>
         /// <param name="path">The path of the WordNet database file containing the sysnonym data for verbals.</param>
         public VerbLookup(string path) {
             filePath = path;
-            verbData = new ConcurrentDictionary<string, VerbSynSet>();
         }
-
-
-
         /// <summary>
         /// Parses the contents of the underlying WordNet database file.
         /// </summary>
@@ -38,6 +33,9 @@ namespace LASI.Algorithm.LexicalInformationProviders.Lookups
                     LinkSynset(CreateSet(line));
                 }
             }
+        }
+        public async Task LoadAsync() {
+            await System.Threading.Tasks.Task.Run(() => Load());
         }
 
         private VerbSynSet CreateSet(string fileLine) {
@@ -55,10 +53,6 @@ namespace LASI.Algorithm.LexicalInformationProviders.Lookups
             return new VerbSynSet(id, words, referencedSets, lexCategory);
         }
 
-        private const string wordRegex = @"\b[A-Za-z-_]{2,}";
-
-
-        private const string pointerRegex = @"\D{1,2}\s*[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+";
 
         private void LinkSynset(VerbSynSet synset) {
             setsBySetID[synset.ID] = synset;
@@ -69,8 +63,7 @@ namespace LASI.Algorithm.LexicalInformationProviders.Lookups
                         verbData[word].Words.Concat(synset.Words),
                         verbData[word].RelatedOnPointerSymbol.Concat(synset.RelatedOnPointerSymbol)
                         .SelectMany(grouping => grouping.Select(pointer => new SetReference(grouping.Key, pointer))), verbData[word].LexName);
-                }
-                else {
+                } else {
                     verbData[word] = synset;
                 }
             }
@@ -79,23 +72,23 @@ namespace LASI.Algorithm.LexicalInformationProviders.Lookups
         private ISet<string> SearchFor(string search) {
             try {
                 VerbSynSet containingSet;
-                return new HashSet<string>(verbData.TryGetValue(VerbConjugator.FindRoot(search), out containingSet) ?
+                return new HashSet<string>(
+                    verbData.TryGetValue(VerbConjugator.FindRoot(search), out containingSet)
+                    ?
                          containingSet.ReferencedIndexes
                          .SelectMany(id => setsBySetID[id].ReferencedIndexes)
                          .Select(s => setsBySetID[s])
                          .Where(r => r.LexName == containingSet.LexName)
                          .SelectMany(r => r.Words.SelectMany(w => VerbConjugator.GetConjugations(w)))
-                         .Concat(Enumerable.Repeat(search, 1)) :
-                         Enumerable.Repeat(search, 1),
+                         .Concat(new[] { search })
+                    :
+                         new[] { search },
                          StringComparer.OrdinalIgnoreCase);
+            } catch (ArgumentOutOfRangeException) {
+            } catch (IndexOutOfRangeException) {
+            } catch (KeyNotFoundException) {
             }
-            catch (ArgumentOutOfRangeException) {
-            }
-            catch (IndexOutOfRangeException) {
-            }
-            catch (KeyNotFoundException) {
-            }
-            return new HashSet<string>(Enumerable.Repeat(search, 1), StringComparer.OrdinalIgnoreCase);
+            return new HashSet<string>(new[] { search }, StringComparer.OrdinalIgnoreCase);
         }
 
         /// <summary>
@@ -120,17 +113,14 @@ namespace LASI.Algorithm.LexicalInformationProviders.Lookups
             }
         }
 
-
-
-        private IDictionary<string, VerbSynSet> verbData;
-        private static LASI.Algorithm.LexicalInformationProviders.InterSetRelationshipManagement.VerbPointerSymbolMap RelationMap =
-            new LASI.Algorithm.LexicalInformationProviders.InterSetRelationshipManagement.VerbPointerSymbolMap();
-
+        private ConcurrentDictionary<int, VerbSynSet> setsBySetID = new ConcurrentDictionary<int, VerbSynSet>();
+        private ConcurrentDictionary<string, VerbSynSet> verbData = new ConcurrentDictionary<string, VerbSynSet>();
+        private static VerbPointerSymbolMap RelationMap = new VerbPointerSymbolMap();
+        private const string wordRegex = @"\b[A-Za-z-_]{2,}";
+        private const string pointerRegex = @"\D{1,2}\s*[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+";
         private string filePath;
+        private const int HEADER_LENGTH = 29;
 
-        public async Task LoadAsync() {
-            await System.Threading.Tasks.Task.Run(() => Load());
-        }
     }
 
 

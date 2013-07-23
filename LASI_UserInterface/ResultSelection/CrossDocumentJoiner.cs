@@ -71,7 +71,7 @@ namespace LASI.UserInterface
         }
         private async Task<IEnumerable<RelationshipTuple>> GetCommonalitiesByVerbals(IEnumerable<Document> documents) {
             var topVerbalsByDoc = await Task.WhenAll(from doc in documents.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
-                                                     select GetTopVerbPhrases(doc));
+                                                     select GetTopVerbPhrasesAsync(doc));
             var verbalCominalities = from verbPhraseSet in topVerbalsByDoc.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
                                      from vp in verbPhraseSet
                                      where (from verbs in topVerbalsByDoc
@@ -123,7 +123,7 @@ namespace LASI.UserInterface
                    orderby distinctNP.Weight
                    select distinctNP;
         }
-        private async Task<IEnumerable<VerbPhrase>> GetTopVerbPhrases(Document document) {
+        private async Task<IEnumerable<VerbPhrase>> GetTopVerbPhrasesAsync(Document document) {
             return await Task.Run(() => {
                 var vpsWithSubject = document.Phrases.GetVerbPhrases().AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax).WithSubject();
                 return from vp in vpsWithSubject.WithDirectObject().Concat(vpsWithSubject.WithIndirectObject()).Distinct((vLeft, vRight) => vLeft.IsSimilarTo(vRight))
@@ -131,8 +131,6 @@ namespace LASI.UserInterface
                        select vp;
             });
         }
-
-
     }
 
 }

@@ -1,10 +1,9 @@
 ﻿namespace LASI.Algorithm.LexicalInformationProviders
 {
-
     /// <summary>
     /// Defines the broad lexical categories assigned to Nouns in the WordNet system.
     /// </summary>
-    public enum NounCategory : byte
+    enum NounCategory : byte
     {
         /// <summary>
         /// Tops
@@ -112,11 +111,10 @@
         Time,
 
     }
-
     /// <summary>
     /// Defines the broad lexical categories assigned to Verbs in the WordNet system.
     /// </summary>
-    public enum VerbCategory : byte
+    enum VerbCategory : byte
     {
         /// <summary>
         /// Body
@@ -176,11 +174,10 @@
         Weather,
 
     }
-
     /// <summary>
     /// Defines the broad lexical categories assigned to Adjectives in the WordNet system.
     /// </summary>
-    public enum AdjectiveCategory : byte
+    enum AdjectiveCategory : byte
     {
         /// <summary>
         /// all adjective clusters
@@ -195,11 +192,10 @@
         /// </summary>
         PPL = 44,
     }
-
     /// <summary>
     /// Defines the broad lexical categories assigned to Adverbs in the WordNet system.
     /// </summary>
-    public enum AdverbCategory : byte
+    enum AdverbCategory : byte
     {
         /// <summary>
         /// All adverbs have the same category. This value is simply included for completeness.
@@ -210,7 +206,7 @@
     /// <summary>
     /// Defines the different kinds of pointer relationships on which Noun Synsets can relate to one another.
     /// </summary>
-    public enum NounSetRelationship : byte
+    enum NounSetRelationship : byte
     {
         /// <summary>
         /// UNDEFINED
@@ -296,7 +292,7 @@
     /// <summary>
     /// Defines the different kinds of pointer relationships on which Verb Synsets can relate to one another.
     /// </summary>
-    public enum VerbSetRelationship : byte
+    enum VerbSetRelationship : byte
     {
         /// <summary>
         /// UNDEFINED
@@ -350,7 +346,7 @@
     /// <summary>
     /// Defines the different kinds of pointer relationships on which Adjective Synsets can relate to one another.
     /// </summary>
-    public enum AdjectiveSetRelationship : byte
+    enum AdjectiveSetRelationship : byte
     {
         /// <summary>
         /// UNDEFINED
@@ -396,7 +392,7 @@
     /// <summary>
     /// Defines the different kinds of pointer relationships on which Adverb Synsets can relate to one another.
     /// </summary>
-    public enum AdverbSetRelationship : byte
+    enum AdverbSetRelationship : byte
     {
         /// <summary>
         /// UNDEFINED
@@ -423,5 +419,4 @@
         /// </summary>
         DomainOfSynset_USAGE,// ;u
     }
-
 }

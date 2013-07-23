@@ -116,7 +116,7 @@
     <Compile Include="Analysis\Binders\PronounBinder.cs" />
     <Compile Include="Analysis\Binders\SubjectBinder.cs" />
     <Compile Include="Analysis\Weighter.cs" />
-    <Compile Include="DocumentConstructs\SubordinateClauseBeginPhrase.cs" />
+    <Compile Include="LexicalStructures\UnderpinningTypes\SubordinateClauseBeginPhrase.cs" />
     <Compile Include="RelationshipLookups\AliasDictionary.cs" />
     <Compile Include="IEnumerableExtensions\IEnumerableOfIEntityExtensions.cs" />
     <Compile Include="IEnumerableExtensions\IEnumerableOfILexicalExtensions.cs" />
@@ -225,14 +225,12 @@
     <Compile Include="LexicalStructures\VerbRelatedConstructs\Verb.cs" />
     <Compile Include="LexicalStructures\VerbRelatedConstructs\VerbPhrase.cs" />
     <Compile Include="IEnumerableExtensions\IEnumerableOfIVerbalExtensions.cs" />
-    <Compile Include="LexicalStructures\VerbRelatedConstructs\VerbTenses.cs" />
+    <Compile Include="LexicalStructures\VerbRelatedConstructs\VerbTense.cs" />
     <Compile Include="LexicalStructures\UnderpinningTypes\Word.cs" />
     <Compile Include="IEnumerableExtensions\IEnumerableOfWordExtensions.cs" />
     <Compile Include="LexicalInformationProviders\Lookups\LookupSupport\WordNetLexCategoryInformation.cs" />
     <Compile Include="TextSourceAbstraction\TaggedTextFragment.cs" />
-    <None Include="LexicalStructures\AdjectiveRelatedConstructs\ClassDiagram1.cd" />
-    <None Include="DocumentConstructs\DocumentComposition.cd" />
-    <None Include="LexicalStructures\MiscLanguageConstructs\PhraseConstructs.cd" />
+    <None Include="ClassDiagrams\ClassDiagram1.cd" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Analysis\Binders\SubordinatingConjunctionsTest.txt" />
@@ -265,9 +263,7 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ClassDiagrams\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

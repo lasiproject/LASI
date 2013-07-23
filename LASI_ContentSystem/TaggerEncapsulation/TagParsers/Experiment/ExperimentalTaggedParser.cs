@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LASI.Algorithm;
 using LASI.Algorithm.DocumentConstructs;
-namespace LASI.ContentSystem.TaggerEncapsulation
+namespace LASI.ContentSystem.TaggerEncapsulation.TagParsers.Experiment.Support
 {
     class ExperimentalTaggedParser : TagParser
     {
@@ -83,8 +83,7 @@ namespace LASI.ContentSystem.TaggerEncapsulation
                           select I;
             if (indeces.Any()) {
                 return indeces.First();
-            }
-            else {
+            } else {
                 return data.Length;
             }
         }

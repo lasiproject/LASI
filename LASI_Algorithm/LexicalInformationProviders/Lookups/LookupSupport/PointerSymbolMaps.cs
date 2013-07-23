@@ -155,7 +155,8 @@ namespace LASI.Algorithm.LexicalInformationProviders.InterSetRelationshipManagem
         public NounSetIDSymbolMap(IEnumerable<KeyValuePair<NounSetRelationship, int>> relationData) {
             data = (from pair in relationData
                     group pair.Value by pair.Key into g
-                    select new KeyValuePair<NounSetRelationship, HashSet<int>>(g.Key, new HashSet<int>(g))).ToDictionary(pair => pair.Key, pair => pair.Value);
+                    select new { K = g.Key, V = new HashSet<int>(g) })
+                    .ToDictionary(pair => pair.K, pair => pair.V);
         }
 
         private IDictionary<NounSetRelationship, HashSet<int>> data;
@@ -180,15 +181,19 @@ namespace LASI.Algorithm.LexicalInformationProviders.InterSetRelationshipManagem
         }
 
         public IEnumerator<IGrouping<NounSetRelationship, int>> GetEnumerator() {
+            return GetGroupDataEnumerator();
+        }
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() {
+            return GetGroupDataEnumerator();
+        }
+        private IEnumerator<IGrouping<NounSetRelationship, int>> GetGroupDataEnumerator() {
             groupData = groupData ?? from pair in data
                                      from value in pair.Value
                                      group value by pair.Key;
             return groupData.GetEnumerator();
+
         }
 
-        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() {
-            throw new NotImplementedException();
-        }
     }
 
     internal class VerbSetIDSymbolMap : ILookup<VerbSetRelationship, int>
@@ -196,7 +201,8 @@ namespace LASI.Algorithm.LexicalInformationProviders.InterSetRelationshipManagem
         public VerbSetIDSymbolMap(IEnumerable<KeyValuePair<VerbSetRelationship, int>> relationData) {
             data = (from pair in relationData
                     group pair.Value by pair.Key into g
-                    select new KeyValuePair<VerbSetRelationship, HashSet<int>>(g.Key, new HashSet<int>(g))).ToDictionary(pair => pair.Key, pair => pair.Value);
+                    select new { k = g.Key, v = new HashSet<int>(g) })
+                    .ToDictionary(pair => pair.k, pair => pair.v);
         }
         private IDictionary<VerbSetRelationship, HashSet<int>> data;
         private IEnumerable<IGrouping<VerbSetRelationship, int>> groupData;
@@ -217,15 +223,19 @@ namespace LASI.Algorithm.LexicalInformationProviders.InterSetRelationshipManagem
         }
 
         public IEnumerator<IGrouping<VerbSetRelationship, int>> GetEnumerator() {
+            return GetGroupDataEnumerator();
+        }
+
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() {
+            return GetGroupDataEnumerator();
+        }
+        private IEnumerator<IGrouping<VerbSetRelationship, int>> GetGroupDataEnumerator() {
             groupData = groupData ?? from pair in data
                                      from value in pair.Value
                                      group value by pair.Key;
             return groupData.GetEnumerator();
         }
 
-        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() {
-            throw new NotImplementedException();
-        }
     }
 
     internal class AdjectiveSetIDSymbolMap : ILookup<AdjectiveSetRelationship, int>
@@ -233,7 +243,8 @@ namespace LASI.Algorithm.LexicalInformationProviders.InterSetRelationshipManagem
         public AdjectiveSetIDSymbolMap(IEnumerable<KeyValuePair<AdjectiveSetRelationship, int>> relationData) {
             data = (from pair in relationData
                     group pair.Value by pair.Key into g
-                    select new KeyValuePair<AdjectiveSetRelationship, HashSet<int>>(g.Key, new HashSet<int>(g))).ToDictionary(pair => pair.Key, pair => pair.Value);
+                    select new { K = g.Key, V = new HashSet<int>(g) })
+                    .ToDictionary(pair => pair.K, pair => pair.V);
         }
         private IDictionary<AdjectiveSetRelationship, HashSet<int>> data;
         private IEnumerable<IGrouping<AdjectiveSetRelationship, int>> groupData;
@@ -254,22 +265,27 @@ namespace LASI.Algorithm.LexicalInformationProviders.InterSetRelationshipManagem
         }
 
         public IEnumerator<IGrouping<AdjectiveSetRelationship, int>> GetEnumerator() {
+            return GetGroupDataEnumerator();
+        }
+
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() {
+            return GetGroupDataEnumerator();
+        }
+        private IEnumerator<IGrouping<AdjectiveSetRelationship, int>> GetGroupDataEnumerator() {
             groupData = groupData ?? from pair in data
                                      from value in pair.Value
                                      group value by pair.Key;
             return groupData.GetEnumerator();
         }
 
-        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() {
-            throw new NotImplementedException();
-        }
     }
     internal class AdverbSetIDSymbolMap : ILookup<AdverbSetRelationship, int>
     {
         public AdverbSetIDSymbolMap(IEnumerable<KeyValuePair<AdverbSetRelationship, int>> relationData) {
             data = (from pair in relationData
                     group pair.Value by pair.Key into g
-                    select new KeyValuePair<AdverbSetRelationship, HashSet<int>>(g.Key, new HashSet<int>(g))).ToDictionary(pair => pair.Key, pair => pair.Value);
+                    select new { K = g.Key, V = new HashSet<int>(g) })
+                    .ToDictionary(pair => pair.K, pair => pair.V);
         }
         private IDictionary<AdverbSetRelationship, HashSet<int>> data;
         private IEnumerable<IGrouping<AdverbSetRelationship, int>> groupData;
@@ -290,14 +306,18 @@ namespace LASI.Algorithm.LexicalInformationProviders.InterSetRelationshipManagem
         }
 
         public IEnumerator<IGrouping<AdverbSetRelationship, int>> GetEnumerator() {
+            return GetGroupDataEnumerator();
+        }
+
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() {
+            return GetGroupDataEnumerator();
+        }
+        private IEnumerator<IGrouping<AdverbSetRelationship, int>> GetGroupDataEnumerator() {
             groupData = groupData ?? from pair in data
                                      from value in pair.Value
                                      group value by pair.Key;
             return groupData.GetEnumerator();
         }
 
-        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() {
-            throw new NotImplementedException();
-        }
     }
 }

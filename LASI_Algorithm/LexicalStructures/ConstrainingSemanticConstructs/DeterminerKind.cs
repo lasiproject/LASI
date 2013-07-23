@@ -8,7 +8,7 @@ namespace LASI.Algorithm
     /// <summary>
     /// Defines the categories of determiners.
     /// </summary>
-    public enum DeterminerKind
+    public enum DeterminerKind : byte
     {
         /// <summary>
         /// Definite determiners such as "the".

@@ -8,7 +8,7 @@ namespace LASI.Algorithm.LexicalStructures.NounRelatedConstructs
     /// <summary>
     /// Defines the various kinds of Relative Pronouns
     /// </summary>
-    public enum RelativePronounKind
+    public enum RelativePronounKind : byte
     {
         /// <summary>
         /// UNDEFINED

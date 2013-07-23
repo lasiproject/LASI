@@ -8,7 +8,7 @@ namespace LASI.Algorithm
     /// <summary>
     /// Defines the Six Tenses of Verbs
     /// </summary>
-    public enum VerbTense
+    public enum VerbTense : byte
     {
         /// <summary>
         /// The base tense
