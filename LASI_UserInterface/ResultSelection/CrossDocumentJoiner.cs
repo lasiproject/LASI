@@ -53,12 +53,8 @@ namespace LASI.UserInterface
                           select new RelationshipTuple {
                               Subject = n,
                               Verbal = n.SubjectOf,
-                              Direct = n.SubjectOf
-                                  .DirectObjects
-                                  .FirstOrDefault(),
-                              Indirect = n.SubjectOf
-                                  .IndirectObjects
-                                  .FirstOrDefault(),
+                              Direct = n.SubjectOf.DirectObjects.FirstOrDefault(),
+                              Indirect = n.SubjectOf.IndirectObjects.FirstOrDefault(),
                               Prepositional = n.SubjectOf.ObjectOfThePreoposition
                           } into result
                           group result by result.Subject.Text into resultGrouped
@@ -82,14 +78,11 @@ namespace LASI.UserInterface
                     select new RelationshipTuple {
                         Verbal = v,
                         Direct = v.DirectObjects
-                            .OfType<NounPhrase>()
-                            .Select(s => (s as IPronoun) == null ? s : (s as IPronoun).EntityRefererredTo as IEntity).FirstOrDefault(),
+                            .Select(s => (s as IPronoun) == null ? s : (s as IPronoun).EntityRefererredTo).FirstOrDefault(),
                         Indirect = v.IndirectObjects
-                            .OfType<NounPhrase>()
-                            .Select(s => (s as IPronoun) == null ? s : (s as IPronoun).EntityRefererredTo as IEntity).FirstOrDefault(),
+                            .Select(s => (s as IPronoun) == null ? s : (s as IPronoun).EntityRefererredTo).FirstOrDefault(),
                         Subject = v.Subjects
-                            .OfType<NounPhrase>()
-                            .Select(s => (s as IPronoun) == null ? s : (s as IPronoun).EntityRefererredTo as IEntity).FirstOrDefault(),
+                            .Select(s => (s as IPronoun) == null ? s : (s as IPronoun).EntityRefererredTo).FirstOrDefault(),
                         Prepositional = v.ObjectOfThePreoposition
                     } into result
                     where result.Subject != null
@@ -116,8 +109,7 @@ namespace LASI.UserInterface
                        (from np in document
                             .GetEntities().GetPhrases()
                             .AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
-                            .GetNounPhrases()
-                        where np.SubjectOf != null && (np.DirectObjectOf != null || np.IndirectObjectOf != null)
+                            .GetNounPhrases().InSubjectRole() where (np.DirectObjectOf != null || np.IndirectObjectOf != null)
                         select np
                         ).Distinct((L, R) => L.Text == R.Text || L.IsAliasFor(R) || L.IsSimilarTo(R))
                    orderby distinctNP.Weight

@@ -28,15 +28,7 @@
                         Header="Project"
                         Click="NewProjectMenuItem_Click_1" />
                 </MenuItem>
-                <MenuItem
-                    Header="Open"
-                    HorizontalAlignment="Left"
-                    Width="200">
-                    <MenuItem
-                        Header="Project" />
-                    <MenuItem
-                        Header="File" />
-                </MenuItem>
+      
                 <MenuItem
                     Header="Add Document"
                     HorizontalAlignment="Left"

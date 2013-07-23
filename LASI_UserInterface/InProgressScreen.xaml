@@ -357,6 +357,7 @@
                 BorderBrush="#FF636366" />
             <Button
                 x:Name="minButton"
+                Click="minButton_Click"
                 Content="-"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Top"
@@ -375,7 +376,6 @@
                 ScrollViewer.HorizontalScrollBarVisibility="Auto"
                 ScrollViewer.VerticalScrollBarVisibility="Auto"
                 IsManipulationEnabled="True"
-                Click="minButton_Click"
                 FontFamily="Segoe Script"
                 Canvas.Left="561"
                 Canvas.Top="10"

@@ -12,68 +12,10 @@ using LASI.Algorithm.Analysis;
 namespace LASI.Algorithm.Weighting
 {
     /// <summary>
-    /// Provides static acess to a comprehensive set of weighting operations which are applicable to a document.
+    /// Provides static access to a comprehensive set of weighting operations which are applicable to a document.
     /// </summary>
     static public class Weighter
     {
-        /// <summary>
-        /// Gets an ordered collection of Task objects which correspond to the steps required to weight the given document.
-        /// When awaited each Task will perform a step of the Weighting process, returning a string message indicating complection.
-        /// </summary>
-        /// <param name="doc">The document for which to get the Weighting Tasks.</param>
-        /// <returns>An ordered collection of Task objects which correspond to the steps required to weight the given document.
-        /// When awaited each Task will perform a step of the Weighting process, returning a string message indicating complection.
-        /// </returns>
-        /// <remarks>
-        /// As with any collection of System.Task instances, the weighting Tasks returned by this method may be run in an arbitrary order.
-        /// However, to ensure the consistency/determinism of the weighting process, it is recommended that they be executed (awaited) in the order
-        /// in which they are hereby returned.
-        /// </remarks>
-        public static IEnumerable<Task<string>> GetWeightingTasksForDocument(Document doc) {
-            return new[]{ 
-               Task.Run(() => 
-               {
-                    WeightWordsBySyntacticSequence(doc);
-                    return string.Format("{0}: Calculating Harmonic Distance", doc.Name);
-               }),       
-               Task.Run(() => 
-               {
-                    WeightWordsByLiteralFrequency (doc);
-                    return string.Format("{0}: Aggregating Literals", doc.Name);
-               }),
-               Task.Run(() => 
-               {
-                    WeightPhrasesByLiteralFrequency (doc);
-                    return string.Format("{0}: Aggregating Complex Literals", doc.Name);
-               }),
-               Task.Run(() => 
-               {
-                    ModifyNounWeightsBySynonyms(doc);
-                    return string.Format("{0}: Generalizing Nouns",doc.Name );
-               }),
-               Task.Run(() => 
-               {
-                    ModifyVerbWeightsBySynonyms (doc);
-                    return string.Format("{0}: Generalizing Verbs",doc.Name );
-               }), 
-               Task.Run(() => 
-               {
-                    WeightSimilarNounPhrases(doc);
-                    return string.Format("{0}: Generalizing Phrases",doc.Name);
-               }),   
-               Task.Run(() => 
-               {
-                    HackSubjectPropernounImportance (doc); 
-                    return string.Format("{0}: Focusing Patterns", doc.Name);
-               }),
-               Task.Run(() => 
-               {
-                    NormalizeWeights (doc); 
-                    return  string.Format("{0}: Normalizing Metrics", doc.Name);
-               }),
-            };
-
-        }
         /// <summary>
         /// Gets an ordered collection of ProcessingTask objects which correspond to the steps required to Weight the given document.
         /// Each ProcessingTask contains a Task property which, when awaited will perform a step of the Weighting process.
@@ -142,7 +84,7 @@ namespace LASI.Algorithm.Weighting
         /// </summary>
         /// <param name="doc">The Document whose elements are to be assigned numeric weights.</param>
         public static async Task WeightAsync(Document doc) {
-            await Task.WhenAll(GetWeightingTasksForDocument(doc));
+            await Task.WhenAll(GetWeightingProcessingTasks(doc).Select(procTask => procTask.Task));
         }
         /// <summary>
         /// Assigns numeric Weights to each elemenet in the given Document.
@@ -162,7 +104,28 @@ namespace LASI.Algorithm.Weighting
         private static async Task NormalizeWeightsAsync(Document doc) {
             await Task.Run(() => NormalizeWeights(doc));
         }
+
+
+
         private static void NormalizeWeights(Document doc) {
+            //OldNormalizationProcedure(doc);
+            NewNormalizationProcedure(doc);
+
+        }
+
+        private static void NewNormalizationProcedure(Document doc) {
+            var source = doc.Phrases
+                .AsParallel()
+                .WithDegreeOfParallelism(Concurrency.CurrentMax)
+                .Where(e => e.Weight > 0);
+            double maxWeight = source.Max(e => e.Weight);
+            double minWeight = source.AsEnumerable<ILexical>().Min(e => e.Weight);
+            double scalingFactor = maxWeight - minWeight > 0 ? (maxWeight - minWeight) : 1.0;
+            source.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
+                .ForAll(e => e.Weight = e.Weight * scalingFactor);
+        }
+
+        private static void OldNormalizationProcedure(Document doc) {
             double TotPhraseWeight = 0.0;
             double MaxWeight = 0.0;
             int NonZeroWghts = 0;
@@ -230,15 +193,13 @@ namespace LASI.Algorithm.Weighting
         }
 
         private static void WeightByLiteralFrequency(IEnumerable<ILexical> syntacticElements) {
-            (from phrase in syntacticElements.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
-             group phrase by new
-             {
-                 phrase.Type,
-                 phrase.Text
-             }).ForAll(grouped => {
-                 foreach (var p in grouped)
-                     p.Weight += grouped.Count();
-             });
+            foreach (var grouped in from phrase in syntacticElements
+                                    group phrase by new { phrase.Type, phrase.Text }) {
+                var increase = grouped.Count();
+                grouped.AsParallel()
+                       .WithDegreeOfParallelism(Concurrency.CurrentMax)
+                       .ForAll(e => e.Weight += increase);
+            }
         }
 
         private static async Task WeightWordsByLiteralFrequencyAsync(Document doc) {
@@ -305,22 +266,33 @@ namespace LASI.Algorithm.Weighting
 
         private static void HackSubjectPropernounImportance(Document doc) {
 
-            foreach (var n in doc.Phrases.GetNounPhrases().InSubjectRole()) {
-                if ((n as NounPhrase).Words.Any(i => i is ProperNoun))
-                    n.Weight *= 2;
-            }
-            foreach (var n in doc.Phrases.GetNounPhrases()) {
-                if ((n as NounPhrase).Words.Any(i => i is ProperNoun)) {
-                    n.Weight *= 2;
-                }
-
-            }
+            doc.Phrases.GetNounPhrases()
+                 .AsParallel()
+                 .WithDegreeOfParallelism(Concurrency.CurrentMax)
+                 .InSubjectRole().AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax).ForAll(n => {
+                     if ((n as NounPhrase).Words.Any(i => i is ProperNoun))
+                         n.Weight *= 2;
+                 });
+            doc.Phrases.GetNounPhrases()
+                .AsParallel()
+                .WithDegreeOfParallelism(Concurrency.CurrentMax).ForAll(n => {
+                    if ((n as NounPhrase).Words.Any(i => i is ProperNoun)) {
+                        n.Weight *= 2;
+                    }
+                });
 
         }
 
         private static async Task WeightWordsBySyntacticSequenceAsync(Document doc) {
             await Task.Run(() => WeightWordsBySyntacticSequence(doc));
         }
+
+
+
+
+
+
+
 
         /// <summary>
         /// SIX PHASES 

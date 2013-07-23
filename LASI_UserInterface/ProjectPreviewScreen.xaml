@@ -6,8 +6,8 @@
     ResizeMode="CanResizeWithGrip"
     Icon="MiscImages\LasiLogo.ico"
     WindowState="Normal"
-    WindowStartupLocation="Manual"
-    AllowDrop="True"
+    WindowStartupLocation="CenterOwner"
+    AllowDrop="True" Closing="Window_Closing"
     Drop="mainGrid_Drop">
     <Grid
         Name="mainGrid">
@@ -106,7 +106,8 @@
                     Header="View Manual"
                     Click="OpenManualMenuItem_Click_1" />
                 <MenuItem
-                    Header="About LASI" Click="MenuItem_Click" />
+                    Header="About LASI"
+                    Click="MenuItem_Click" />
                 <MenuItem
                     Header="Component Info"
                     Click="openLicensesMenuItem_Click_1" />

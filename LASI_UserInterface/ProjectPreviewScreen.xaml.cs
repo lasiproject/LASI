@@ -24,72 +24,52 @@ namespace LASI.UserInterface
     {
         public ProjectPreviewScreen() {
             InitializeComponent();
-            var titleText = Resources["CurrentProjectName"] as string;
-            if (titleText != null)
-                Title = titleText;
-            BindEventHandlers();
-            this.Closing += (s, e) => Application.Current.Shutdown();
+            var titleText = Resources["CurrentProjectName"] as string ?? Title;
         }
 
 
 
         public async void LoadDocumentPreviews() {
             foreach (var textfile in FileManager.TextFiles) {
-                await LoadTextandTab(textfile);
+                await LoadTextandTabAsync(textfile);
             }
             DocumentPreview.SelectedIndex = 0;
         }
 
-        private async Task LoadTextandTab(ContentSystem.TextFile textfile) {
-            using (StreamReader reader = new StreamReader(textfile.FullPath)) {
-                var data = reader.ReadToEnd();
-                var docu = await reader.ReadToEndAsync().ContinueWith((t) => {
-                    return (from d in data.Split(new[] { "\r\n\r\n", "<paragraph>", "</paragraph>" }, StringSplitOptions.RemoveEmptyEntries)
-                            select d.Trim()).ToList().Aggregate("", (sum, s) => sum += "\n\t" + s);
-                });
-
-                var item = new TabItem {
-                    Header = textfile.NameSansExt,
-                    Content = new TextBox {
-                        IsReadOnly = true,
-                        VerticalScrollBarVisibility = ScrollBarVisibility.Auto,
-                        TextWrapping = TextWrapping.Wrap,
-                        Text = docu,
-                        FontSize = 12
-                    },
-                    Focusable = true
-
-                };
-                DocumentPreview.Items.Add(item);
-                DocumentPreview.SelectedItem = item;
-            }
+        private async Task LoadTextandTabAsync(TextFile textfile) {
+            var processedText = await await textfile.GetTextAsync().ContinueWith(async (t) => {
+                var data = await t;
+                return data.Split(new[] { "\r\n\r\n", "<paragraph>", "</paragraph>" }, StringSplitOptions.RemoveEmptyEntries)
+                    .Select(s => s.Trim())
+                    .Aggregate((sum, s) => sum += "\n\t" + s);
+            });
+            var item = new TabItem {
+                Header = textfile.NameSansExt,
+                Content = new TextBox {
+                    IsReadOnly = true,
+                    VerticalScrollBarVisibility = ScrollBarVisibility.Auto,
+                    TextWrapping = TextWrapping.Wrap,
+                    Text = processedText,
+                    FontSize = 12
+                },
+            };
+            DocumentPreview.Items.Add(item);
+            DocumentPreview.SelectedItem = item;
         }
 
 
-
-        private void BindEventHandlers() {
-
-            this.Closing += (s, e) => Application.Current.Shutdown();
-
-        }
         private async void StartButton_Click(object sender, RoutedEventArgs e) {
             this.Hide();
             WindowManager.InProgressScreen.Show();
-
             await WindowManager.InProgressScreen.InitializeParsing();
-
-
         }
-
-
-
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e) {
+            Application.Current.Shutdown();
+        }
         private void FileExitMenuItem_Click(object sender, RoutedEventArgs e) {
             this.Close();
         }
 
-        private void TextBox_TextChanged_1(object sender, TextChangedEventArgs e) {
-
-        }
 
         private void RemoveCurrentDocument_Click(object sender, RoutedEventArgs e) {
             var docSelected = DocumentPreview.SelectedItem;
@@ -107,24 +87,20 @@ namespace LASI.UserInterface
                 var validDroppedFiles = DocumentManager.GetValidFilesInPathList(e.Data.GetData(System.Windows.DataFormats.FileDrop, true) as string[]);
                 if (!validDroppedFiles.Any()) {
                     MessageBox.Show(this, string.Format("Only the following file formats are accepted:\n{0}", DocumentManager.AcceptedFormats.Aggregate((sum, current) => sum += ", " + current)));
-                }
-                else if (!validDroppedFiles.Any(fn => !DocumentManager.FileNamePresent(fn.Name))) {
+                } else if (!validDroppedFiles.Any(fn => !DocumentManager.FileNamePresent(fn.Name))) {
                     MessageBox.Show(this, string.Format("A document named {0} is already part of the project.", validDroppedFiles.First()));
-                }
-                else {
+                } else {
                     foreach (var droppedFile in validDroppedFiles) {
                         if (!DocumentManager.FileIsLocked(droppedFile)) {
                             DocumentManager.AddUserDocument(droppedFile.Name, droppedFile.FullName);
                             await AddNewDocument(droppedFile.FullName);
-                        }
-                        else {
+                        } else {
                             MessageBox.Show(this, string.Format("The document {0} is in use by another process, please close any applications which may be using the file and try again.", droppedFile));
                         }
 
                     }
                 }
-            }
-            else {
+            } else {
                 MessageBox.Show(this, "A single project may only contain 5 documents.");
             }
         }
@@ -142,12 +118,10 @@ namespace LASI.UserInterface
             var file = new FileInfo(openDialog.FileName);
             if (DocumentManager.FileNamePresent(file.Name)) {
                 MessageBox.Show(this, string.Format("A document named {0} is already part of the project.", file));
-            }
-            else if (!DocumentManager.FileIsLocked(file)) {
+            } else if (!DocumentManager.FileIsLocked(file)) {
                 DocumentManager.AddUserDocument(file.Name, file.FullName);
                 await AddNewDocument(file.FullName);
-            }
-            else {
+            } else {
                 MessageBox.Show(this, string.Format("The document {0} is in use by another process, please close any applications which may be using the file and try again.", file));
             }
 
@@ -155,12 +129,9 @@ namespace LASI.UserInterface
 
         private async Task AddNewDocument(string docPath) {
             var chosenFile = FileManager.AddFile(docPath, true);
-
             await FileManager.ConvertAsNeededAsync();
-
             var textfile = FileManager.TextFiles.Where(f => f.NameSansExt == chosenFile.NameSansExt).First();
-
-            await LoadTextandTab(textfile);
+            await LoadTextandTabAsync(textfile);
             CheckIfAddingAllowed();
         }
 
@@ -175,14 +146,14 @@ namespace LASI.UserInterface
 
         }
 
+        #region Help Menu
+
         private void OpenManualMenuItem_Click_1(object sender, RoutedEventArgs e) {
             try {
                 System.Diagnostics.Process.Start(System.AppDomain.CurrentDomain.BaseDirectory + @"\Manual.pdf");
-            }
-            catch (FileNotFoundException) {
+            } catch (FileNotFoundException) {
                 MessageBox.Show(this, "Unable to locate the User Manual, please contact the LASI team for further support.");
-            }
-            catch (Exception) {
+            } catch (Exception) {
                 MessageBox.Show(this, "Sorry, the manual could not be opened. Please ensure you have a pdf viewer installed.");
             }
         }
@@ -197,8 +168,14 @@ namespace LASI.UserInterface
         }
 
         private void MenuItem_Click(object sender, RoutedEventArgs e) {
-            System.Diagnostics.Process.Start("http://lasi-product.org");
+            try {
+                System.Diagnostics.Process.Start("http://lasi-product.org");
+            } catch (Exception) {
+                MessageBox.Show(this, "Sorry, the LASI project website could not be opened");
+            }
         }
+
+        #endregion
 
 
     }

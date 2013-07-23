@@ -107,7 +107,7 @@ namespace LASI.UserInterface
         }
 
 
-        public async Task BuildTextViewsForAllDocuments() {  // This is for the lexial relationships tab
+        public async Task BuildTextViewsForAllDocumentsAsync() {  // This is for the lexial relationships tab
             var tasks = documents.Select(d => BuildTextViewOfDocument(d)).ToList();
             while (tasks.Any()) {
                 var finishedTask = await Task.WhenAny(tasks);

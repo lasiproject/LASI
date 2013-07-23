@@ -19,23 +19,30 @@ namespace LASI.UserInterface
             WindowManager.InProgressScreen = this;
             WindowStartupLocation = WindowStartupLocation.CenterScreen;
             ConfigureOptions();
-            this.Activated += (s, e) => StopFlashing();
 
         }
 
+
+
         private void ConfigureOptions() {
+            SetPlatformSpecificStyling();
             App.Current.Exit += (sender, e) => {
                 if (ConfigurationManager.AppSettings["AutoDebugCleanupOn"] == "true") {
                     try {
                         ContentSystem.FileManager.DecimateProject();
-                    }
-                    catch (ContentSystem.FileManagerNotInitializedException) {
+                    } catch (ContentSystem.FileManagerNotInitializedException) {
                     }
                 }
             };
         }
 
-
+        private void SetPlatformSpecificStyling() {
+            var osVersionInfo = System.Environment.Version;
+            //Check if current OS is windows NT or later (PlatformID) and then check if Vista or 7 (Major) then check if 7 
+            if (System.Environment.OSVersion.Platform == PlatformID.Win32NT && osVersionInfo.Major == 6 && osVersionInfo.Minor == 1) {
+                ProgressBar.Foreground = System.Windows.Media.Brushes.DarkRed;
+            }
+        }
 
 
         #region Process Control
@@ -77,14 +84,40 @@ namespace LASI.UserInterface
             this.SwapWith(WindowManager.ResultsScreen);
 
             await WindowManager.ResultsScreen.CreateWeightViewsForAllDocumentsAsync();
-            await WindowManager.ResultsScreen.BuildTextViewsForAllDocuments();
+            await WindowManager.ResultsScreen.BuildTextViewsForAllDocumentsAsync();
 
         }
         #endregion
 
 
 
-        #region Taskbar Flashing
+        #region Event Handlers
+
+        private void ProgressBar_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e) {
+            this.TaskbarItemInfo.ProgressState = System.Windows.Shell.TaskbarItemProgressState.Normal;
+            this.TaskbarItemInfo.ProgressValue = e.NewValue / 100;
+        }
+
+
+
+
+        private void closeButton_Click(object sender, RoutedEventArgs e) {
+            App.Current.Shutdown();
+        }
+        private void ExitMenuItem_Click_3(object sender, RoutedEventArgs e) {
+            App.Current.Shutdown();
+
+        }
+
+
+        private void Window_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
+            DragMove();
+        }
+
+        #endregion
+
+
+        #region Taskbar Notification
 
         [DllImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
@@ -151,55 +184,32 @@ namespace LASI.UserInterface
 
         #endregion
 
-
-        #region Event Handlers
-
-        private void ProgressBar_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e) {
-            this.TaskbarItemInfo.ProgressState = System.Windows.Shell.TaskbarItemProgressState.Normal;
-            this.TaskbarItemInfo.ProgressValue = e.NewValue / 100;
-        }
-
-
-        private void ExitMenuItem_Click_3(object sender, RoutedEventArgs e) {
-            App.Current.Shutdown();
-
-        }
         private async void ProceedtoResultsButton_Click(object sender, RoutedEventArgs e) {
             await ProceedToResultsView();
         }
-
         private void minButton_Click(object sender, RoutedEventArgs e) {
             this.WindowState = WindowState.Minimized;
             if (ConfigurationManager.AppSettings["ReduceResourceUsaageWhenMinimized"] == "true") {
                 PerformanceManager.SetPerformanceMode(PerforamanceLevel.Low);
             }
         }
+
+
         private void Window_Activated(object sender, EventArgs e) {
             if (WindowState == System.Windows.WindowState.Minimized) {
                 PerforamanceLevel currentValue;
                 if (Enum.TryParse<PerforamanceLevel>(ConfigurationManager.AppSettings["CurrentPerformanceMode"], out currentValue)) {
 
                     PerformanceManager.SetPerformanceMode(currentValue);
-                }
-                else {
+                } else {
                     PerformanceManager.SetPerformanceMode(PerforamanceLevel.High);
                 }
             }
         }
-        private void closeButton_Click(object sender, RoutedEventArgs e) {
-            App.Current.Shutdown();
-        }
-
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e) {
             Application.Current.Shutdown();
         }
-
-        private void Window_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
-            DragMove();
-        }
-
-        #endregion
 
 
     }

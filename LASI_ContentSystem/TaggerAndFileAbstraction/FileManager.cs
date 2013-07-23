@@ -481,7 +481,7 @@ namespace LASI.ContentSystem
             }
             try {
                 Directory.Delete(ProjectDir, true);
-            } catch (DirectoryNotFoundException e) {
+            } catch (IOException e) {
                 Output.WriteLine(e.Message);
                 Output.WriteLine("Directory could not be found for forced cleabup");
             }
