@@ -109,20 +109,21 @@ namespace LASI.Algorithm.Weighting
 
         private static void NormalizeWeights(Document doc) {
             //OldNormalizationProcedure(doc);
-            NewNormalizationProcedure(doc);
+            NewNormalizationProcedure(doc.Words);
+            NewNormalizationProcedure(doc.Phrases);
 
         }
 
-        private static void NewNormalizationProcedure(Document doc) {
-            var source = doc.Phrases
+        private static void NewNormalizationProcedure(IEnumerable<ILexical> source) {
+            source
                 .AsParallel()
                 .WithDegreeOfParallelism(Concurrency.CurrentMax)
                 .Where(e => e.Weight > 0);
             double maxWeight = source.Max(e => e.Weight);
-            double minWeight = source.AsEnumerable<ILexical>().Min(e => e.Weight);
+            double minWeight = source.Min(e => e.Weight);
             double scalingFactor = maxWeight - minWeight > 0 ? (maxWeight - minWeight) : 1.0;
             source.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
-                .ForAll(e => e.Weight = e.Weight * scalingFactor);
+                .ForAll(e => e.Weight = (e.Weight * scalingFactor) * (100d / (maxWeight)));
         }
 
         private static void OldNormalizationProcedure(Document doc) {
