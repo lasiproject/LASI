@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LASI.Algorithm.LexicalInformationProviders
+namespace LASI.Algorithm.LexicalLookup
 {
     /// <summary>
     /// Performs both noun root extraction and noun form generation.

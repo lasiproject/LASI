@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using LASI.Algorithm.LexicalInformationProviders;
+using LASI.Algorithm.LexicalLookup;
 using LASI.Utilities;
-using LASI.Algorithm.LexicalInformationProviders.InterSetRelationshipManagement;
+using LASI.Algorithm.LexicalLookup.InterSetRelationshipManagement;
 
-namespace LASI.Algorithm.LexicalInformationProviders
+namespace LASI.Algorithm.LexicalLookup
 {
 
     /// <summary>

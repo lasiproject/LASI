@@ -1,4 +1,4 @@
-﻿using LASI.Algorithm.LexicalInformationProviders;
+﻿using LASI.Algorithm.LexicalLookup;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Linq;

@@ -44,8 +44,7 @@ namespace LASI.Algorithm
         public void AddPossession(IEntity possession) {
             if (IsBound) {
                 EntityRefererredTo.AddPossession(possession);
-            }
-            else {
+            } else {
                 _possessed.Add(possession);
                 possession.Possesser = this;
             }

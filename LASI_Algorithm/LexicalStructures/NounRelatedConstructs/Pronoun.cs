@@ -42,8 +42,7 @@ namespace LASI.Algorithm
         /// </summary>
         /// <returns>A string representation of the Pronoun.</returns>
         public override string ToString() {
-
-            return Text + (VerboseOutput ? " " + EntityKind : string.Empty);
+            return Text + (VerboseOutput ? " " + PronounKind : string.Empty);
 
         }
 

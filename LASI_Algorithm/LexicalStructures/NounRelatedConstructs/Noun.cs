@@ -143,8 +143,7 @@ namespace LASI.Algorithm
         public virtual IQuantifier QuantifiedBy {
             get { return quantity; }
             set {
-                if (quantity != null) { quantity.QuantifiedBy = value; value.Quantifies = quantity; }
-                else { quantity = value; value.Quantifies = this; }
+                if (quantity != null) { quantity.QuantifiedBy = value; value.Quantifies = quantity; } else { quantity = value; value.Quantifies = this; }
             }
         }
 

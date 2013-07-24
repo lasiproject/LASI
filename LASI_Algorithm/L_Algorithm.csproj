@@ -148,12 +148,12 @@
     <Compile Include="LexicalStructures\NounRelatedConstructs\IPossesser.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\IQuantifer.cs" />
     <Compile Include="LexicalStructures\VerbRelatedConstructs\IModalityModdifiable.cs" />
-    <Compile Include="RelationshipLookups\Helpers\LexicalComparers.cs" />
+    <Compile Include="LexicalComparers.cs" />
     <Compile Include="ResourceUsageManagement\Concurrency.cs" />
-    <Compile Include="LexicalInformationProviders\Lookups\AdjectiveLookup.cs" />
-    <Compile Include="LexicalInformationProviders\Lookups\AdverbLookup.cs" />
-    <Compile Include="LexicalInformationProviders\WordFormGeneration\NounConjugator.cs" />
-    <Compile Include="LexicalInformationProviders\Exceptions\LookupExceptions.cs" />
+    <Compile Include="LexicalLookup\Lookups\AdjectiveLookup.cs" />
+    <Compile Include="LexicalLookup\Lookups\AdverbLookup.cs" />
+    <Compile Include="LexicalLookup\WordFormGeneration\NounConjugator.cs" />
+    <Compile Include="LexicalLookup\Exceptions\LookupExceptions.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\RelativePronoun.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\GenericNoun.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\ProperNoun.cs" />
@@ -168,10 +168,10 @@
     <Compile Include="LexicalStructures\AdjectiveRelatedConstructs\ComparativeAdjective.cs" />
     <Compile Include="LexicalStructures\AdjectiveRelatedConstructs\SuperlativeAdjective .cs" />
     <Compile Include="LexicalStructures\ConstrainingSemanticConstructs\PossessiveEnding.cs" />
-    <Compile Include="LexicalInformationProviders\Lookups\NounLookup.cs" />
-    <Compile Include="LexicalInformationProviders\Lookups\LookupSupport\PointerSymbolMaps.cs" />
-    <Compile Include="LexicalInformationProviders\Lookups\LookupSupport\SynSetDefinitions.cs" />
-    <Compile Include="LexicalInformationProviders\LexicalLookup.cs" />
+    <Compile Include="LexicalLookup\Lookups\NounLookup.cs" />
+    <Compile Include="LexicalLookup\Lookups\LookupSupport\PointerSymbolMaps.cs" />
+    <Compile Include="LexicalLookup\Lookups\LookupSupport\SynSetDefinitions.cs" />
+    <Compile Include="LexicalLookup\LexicalLookup.cs" />
     <Compile Include="LexicalStructures\AdjectiveRelatedConstructs\Adjective.cs" />
     <Compile Include="LexicalStructures\AdjectiveRelatedConstructs\AdjectivePhrase.cs" />
     <Compile Include="LexicalStructures\AdverbRelatedConstructs\Adverb.cs" />
@@ -208,7 +208,7 @@
     <Compile Include="LexicalStructures\NounRelatedConstructs\PersonalPronoun.cs" />
     <Compile Include="LexicalStructures\AdverbRelatedConstructs\SuperlativeAdverb.cs" />
     <Compile Include="LexicalStructures\MiscLanguageConstructs\Symbol.cs" />
-    <Compile Include="LexicalInformationProviders\Lookups\IWordNetLookup.cs" />
+    <Compile Include="LexicalLookup\Lookups\IWordNetLookup.cs" />
     <Compile Include="LexicalStructures\VerbRelatedConstructs\IVerbal.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\Noun.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\NounPhrase.cs" />
@@ -220,15 +220,15 @@
     <Compile Include="LexicalStructures\NounRelatedConstructs\ProperSingularNoun.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="LexicalStructures\BridgingConstructs\ToLinker.cs" />
-    <Compile Include="LexicalInformationProviders\WordFormGeneration\VerbConjugator.cs" />
-    <Compile Include="LexicalInformationProviders\Lookups\VerbLookup.cs" />
+    <Compile Include="LexicalLookup\WordFormGeneration\VerbConjugator.cs" />
+    <Compile Include="LexicalLookup\Lookups\VerbLookup.cs" />
     <Compile Include="LexicalStructures\VerbRelatedConstructs\Verb.cs" />
     <Compile Include="LexicalStructures\VerbRelatedConstructs\VerbPhrase.cs" />
     <Compile Include="IEnumerableExtensions\IEnumerableOfIVerbalExtensions.cs" />
     <Compile Include="LexicalStructures\VerbRelatedConstructs\VerbTense.cs" />
     <Compile Include="LexicalStructures\UnderpinningTypes\Word.cs" />
     <Compile Include="IEnumerableExtensions\IEnumerableOfWordExtensions.cs" />
-    <Compile Include="LexicalInformationProviders\Lookups\LookupSupport\WordNetLexCategoryInformation.cs" />
+    <Compile Include="LexicalLookup\Lookups\LookupSupport\WordNetLexCategoryInformation.cs" />
     <Compile Include="TextSourceAbstraction\TaggedTextFragment.cs" />
     <None Include="ClassDiagrams\ClassDiagram1.cd" />
   </ItemGroup>
@@ -263,7 +263,9 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="LexicalStructures\ExperimentalStructures\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

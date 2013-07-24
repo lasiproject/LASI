@@ -1,4 +1,4 @@
-﻿using LASI.Algorithm.LexicalInformationProviders.Lookups;
+﻿using LASI.Algorithm.LexicalLookup.Lookups;
 using LASI.Utilities;
 using System;
 using System.Text;
@@ -9,8 +9,20 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.IO;
 
-namespace LASI.Algorithm.LexicalInformationProviders
+namespace LASI.Algorithm.LexicalLookup
 {
+    #region Type Aliases
+    // Although the Interface name IDescriprtor was chosen because of its deseriable generality, e.g. it is implemented by SubordinateClause,
+    // In the context of the LexicalLookup class it refers solely to Adjectival constructs such as Adjectives or Adjective Phrases.
+    using IAdjectival = LASI.Algorithm.IDescriptor;
+    // Although the Interface name IEntity was chosen because of its deseriable generality, 
+    // e.g. it is implemented by AggregateEntities such as IEntityGroup, and weak entities like RelativePronouns
+    // In the context of the LexicalLookup class it refers solely to INounal (read noun like )constructs such as Nouns Noun Phrases.
+    using INounal = LASI.Algorithm.IEntity;
+    // Because of this, an alias is defined. You can make use of this to aid readability in many situations. 
+    // Works analogously to typedef in C++ in that it lets you define a type alias to provide contextual semantics without the overhead of new types.
+    #endregion
+
     /// <summary>
     /// Provides Comprehensive static facilities for Synoynm Identification, Word and Phrase Comparison, Gender Stratification, and Named Entity Recognition.
     /// </summary>
@@ -19,6 +31,7 @@ namespace LASI.Algorithm.LexicalInformationProviders
         #region Public Methods
 
         #region Synonym Lookup Methods
+
         /// <summary>
         /// Returns the synonyms for the provided Noun.
         /// </summary>
@@ -50,18 +63,6 @@ namespace LASI.Algorithm.LexicalInformationProviders
         /// <returns>The synonyms for the provided Adverb.</returns>
         public static IEnumerable<string> Lookup(Adverb adverb) {
             return InternalLookup(adverb);
-        }
-        /// <summary>
-        /// Returns the synonyms for the provided Word.
-        /// </summary>
-        /// <param name="word">The Word to lookup.</param>
-        /// <returns>The synonyms for the provided Word.</returns>
-        /// <remarks>Type runtime type checking is enforced such that
-        /// if the provided Word is not an instance of Noun, Verb, Adjective, or Adverb or one of their subtypes,
-        /// a  NoSynonymLookupForTypeException is thrown.</remarks>
-        /// <exception cref="NoSynonymLookupForTypeException"></exception>
-        public static IEnumerable<string> Lookup(Word word) {
-            return InternalLookup(word as dynamic);
         }
         /// <summary>
         /// Returns the synonyms for the provided noun text.
@@ -186,28 +187,11 @@ namespace LASI.Algorithm.LexicalInformationProviders
         public static bool IsSynonymFor(this Adverb word, Adverb other) {
             return InternalLookup(word).Contains(other.Text);
         }
-        /// <summary>
-        /// Determines if two Word instances are synonymous. Type checking is enforced.
-        /// </summary>
-        /// <param name="word">The first Word.</param>
-        /// <param name="other">The second Word</param>
-        /// <returns>True if the Word instances are synonymous, false otherwise.</returns>
-        /// <remarks>There are two calling conventions for this method. See the following examples:
-        /// <code>if ( LexicalLookup.IsSimilarTo(w1, w2) ) { ... }</code>
-        /// <code>if ( w1.IsSimilarTo(w2) ) { ... }</code>
-        /// Please prefer the second convention.
-        /// </remarks>
-        public static bool IsSynonymFor(this Word word, Word other) {
 
-            return (word is Noun && other is Noun ||
-                word is Verb && other is Verb ||
-                word is Adverb && other is Adverb ||
-                word is Adjective && other is Adjective
-                ) && Lookup(other).Contains(word.Text);
-        }
         #endregion
 
         #region Similarity Comparion Methods
+
         /// <summary>
         /// Determines if two IEntity instances are similar.
         /// </summary>
@@ -219,17 +203,17 @@ namespace LASI.Algorithm.LexicalInformationProviders
         /// <code>if ( e1.IsSimilarTo(e2) ) { ... }</code>
         /// Please prefer the second convention.
         /// </remarks>
-        public static bool IsSimilarTo(this IEntity first, IEntity second) {
+        public static SimResult IsSimilarTo(this INounal first, INounal second) {
             //If both have the same text, ignoring case, we will assume similarity. 
             if (first.Text.ToUpper() == second.Text.ToUpper()) {
-                return true;
+                return new SimResult(true);
             }
 
             var n1 = first as Noun;
             var n2 = second as Noun;
             //If both are Nouns...
             if (n1 != null && n2 != null) {
-                return n1.IsSynonymFor(n2);
+                return new SimResult(n1.IsSynonymFor(n2));
             }
 
             var np1 = first as NounPhrase;
@@ -245,7 +229,7 @@ namespace LASI.Algorithm.LexicalInformationProviders
             if (n != null && np != null) {
                 return n.IsSimilarTo(np);
             }
-            return false;
+            return new SimResult(false);
         }
         /// <summary>
         /// Determines if the provided Noun is similar to the provided NounPhrase.
@@ -258,9 +242,9 @@ namespace LASI.Algorithm.LexicalInformationProviders
         /// <code>if ( n1.IsSimilarTo(np2) ) { ... }</code>
         /// Please prefer the second convention.
         /// </remarks>
-        public static bool IsSimilarTo(this Noun first, NounPhrase second) {
+        public static SimResult IsSimilarTo(this Noun first, NounPhrase second) {
             var phraseNouns = second.Words.GetNouns();
-            return phraseNouns.Count() == 1 && phraseNouns.First().IsSynonymFor(first);
+            return new SimResult(phraseNouns.Count() == 1 && phraseNouns.First().IsSynonymFor(first));
         }
         /// <summary>
         /// Determines if the provided NounPhrase is similar to the provided Noun.
@@ -273,8 +257,8 @@ namespace LASI.Algorithm.LexicalInformationProviders
         /// <code>if ( np1.IsSimilarTo(n2) ) { ... }</code>
         /// Please prefer the second convention.
         /// </remarks>
-        public static bool IsSimilarTo(this NounPhrase first, Noun second) {
-            return second.IsSimilarTo(first);
+        public static SimResult IsSimilarTo(this NounPhrase first, Noun second) {
+            return new SimResult(second.IsSimilarTo(first));
         }
         /// <summary>
         /// Determines if the two provided Noun instances are similar.
@@ -287,8 +271,8 @@ namespace LASI.Algorithm.LexicalInformationProviders
         /// <code>if ( n1.IsSimilarTo(n2) ) { ... }</code>
         /// Please prefer the second convention.
         /// </remarks>
-        public static bool IsSimilarTo(this Noun first, Noun second) {
-            return first.IsSynonymFor(second);
+        public static SimResult IsSimilarTo(this Noun first, Noun second) {
+            return new SimResult(first.IsSynonymFor(second));
         }
         /// <summary>
         /// Determines if the two provided Verb instances are similar.
@@ -301,8 +285,8 @@ namespace LASI.Algorithm.LexicalInformationProviders
         /// <code>if ( v1.IsSimilarTo(v2) ) { ... }</code>
         /// Please prefer the second convention.
         /// </remarks>
-        public static bool IsSimilarTo(this Verb first, Verb second) {
-            return first.IsSynonymFor(second);
+        public static SimResult IsSimilarTo(this Verb first, Verb second) {
+            return new SimResult(first.IsSynonymFor(second));
         }
         /// <summary>
         /// Determines if the provided VerbPhrase is similar to the provided Verb.
@@ -315,8 +299,8 @@ namespace LASI.Algorithm.LexicalInformationProviders
         /// <code>if ( vp1.IsSimilarTo(v2) ) { ... }</code>
         /// Please prefer the second convention.
         /// </remarks>
-        public static bool IsSimilarTo(this VerbPhrase first, Verb second) {
-            return second.IsSimilarTo(first);
+        public static SimResult IsSimilarTo(this VerbPhrase first, Verb second) {
+            return new SimResult(second.IsSimilarTo(first));
         }
         /// <summary>
         /// Determines if the provided Verb is similar to the provided VerbPhrase.
@@ -329,9 +313,8 @@ namespace LASI.Algorithm.LexicalInformationProviders
         /// <code>if ( v1.IsSimilarTo(vp2) ) { ... }</code>
         /// Please prefer the second convention.
         /// </remarks>
-        public static bool IsSimilarTo(this Verb first, VerbPhrase second) {
-            var verbs = second.Words.GetVerbs();
-            return verbs.Count() == 1 && verbs.First().IsSynonymFor(first);
+        public static SimResult IsSimilarTo(this Verb first, VerbPhrase second) {
+            return new SimResult(second.Words.TakeWhile(w => !(w is ToLinker)).GetVerbs().Any(v => v.IsSynonymFor(first)));//This is kind of rough.
         }
         /// <summary>
         /// Determines if two IVerbal instances are similar.
@@ -344,18 +327,18 @@ namespace LASI.Algorithm.LexicalInformationProviders
         /// <code>if ( v1.IsSimilarTo(v2) ) { ... }</code> 
         /// Please prefer the second convention.
         /// </remarks>
-        public static bool IsSimilarTo(this IVerbal first, IVerbal second) {
+        public static SimResult IsSimilarTo(this IVerbal first, IVerbal second) {
 
             //Compare literal text.
             if (first.Text.ToUpper() == second.Text.ToUpper()) {
-                return true;
+                return new SimResult(true);
             }
 
             //If both are of type Verb check if syonymous
             var v1 = first as Verb;
             var v2 = second as Verb;
             if (v1 != null && v2 != null) {
-                return v1.IsSynonymFor(v2);
+                return new SimResult(v1.IsSynonymFor(v2));
             }
 
             //If both are of type VerbPhrase check for similarity
@@ -372,7 +355,7 @@ namespace LASI.Algorithm.LexicalInformationProviders
                 return v.IsSimilarTo(vp);
             }
 
-            return false;
+            return new SimResult(false);
 
         }
         /// <summary>
@@ -386,9 +369,9 @@ namespace LASI.Algorithm.LexicalInformationProviders
         /// <code>if ( np1.IsSimilarTo(np2) ) { ... }</code>
         /// Please prefer the second convention.
         /// </remarks>
-        public static bool IsSimilarTo(this NounPhrase first, NounPhrase second) {
-
-            return GetSimilarityRatio(first, second) > SIMILARITY_THRESHOLD;
+        public static SimResult IsSimilarTo(this NounPhrase first, NounPhrase second) {
+            var ratio = GetSimilarityRatio(first, second);
+            return new SimResult(ratio > SIMILARITY_THRESHOLD, ratio);
         }
         /// <summary>
         /// Determines if two VerbPhrases are similar.
@@ -401,7 +384,7 @@ namespace LASI.Algorithm.LexicalInformationProviders
         /// <code>if ( vp1.IsSimilarTo(vp2) ) { ... }</code>
         /// Please prefer the second convention.
         /// </remarks>
-        public static bool IsSimilarTo(this VerbPhrase first, VerbPhrase second) {
+        public static SimResult IsSimilarTo(this VerbPhrase first, VerbPhrase second) {
 
             //Look into refining this
             List<Verb> leftHandVerbs = first.Words.GetVerbs().ToList();
@@ -415,11 +398,240 @@ namespace LASI.Algorithm.LexicalInformationProviders
                         result &= leftHandVerbs[i].IsSynonymFor(rightHandVerbs[i]);
                     }
                 } catch (NullReferenceException) {
-                    return false;
+                    return new SimResult(false);
                 }
             }
 
-            return result;
+            return new SimResult(result);
+        }
+        /// <summary>
+        /// Determines if the two provided Adjective instances are similar.
+        /// </summary>
+        /// <param name="first">The first Adjective.</param>
+        /// <param name="second">The second Adjective.</param>
+        /// <returns>True if the first Adjective is similar to the second, false otherwise.</returns>
+        /// <remarks>There are two calling conventions for this method. See the following examples:
+        /// <code>if ( LexicalLookup.IsSimilarTo(a1, a2) ) { ... }</code>
+        /// <code>if ( a1.IsSimilarTo(a2) ) { ... }</code>
+        /// Please prefer the second convention.
+        /// </remarks>
+        public static SimResult IsSimilarTo(this Adjective first, Adjective second) {
+            return new SimResult(first.IsSynonymFor(second));
+        }
+        /// <summary>
+        /// Determines if the provided AdjectivePhrase is similar to the provided Adjective.
+        /// </summary>
+        /// <param name="first">The AdjectivePhrase.</param>
+        /// <param name="second">The Adjective.</param>
+        /// <returns>True if the provided AdjectivePhrase is similar to the provided Adjective, false otherwise.</returns>
+        /// <remarks>There are two calling conventions for this method. See the following examples:
+        /// <code>if ( LexicalLookup.IsSimilarTo(ap1, a2) ) { ... }</code>
+        /// <code>if ( ap1.IsSimilarTo(a2) ) { ... }</code>
+        /// Please prefer the second convention.
+        /// </remarks>
+        public static SimResult IsSimilarTo(this AdjectivePhrase first, Adjective second) {
+            return new SimResult(second.IsSimilarTo(first));
+        }
+        /// <summary>
+        /// Determines if the provided Adjective is similar to the provided AdjectivePhrase.
+        /// </summary>
+        /// <param name="first">The Adjective.</param>
+        /// <param name="second">The AdjectivePhrase.</param>
+        /// <returns>True if the provided Adjective is similar to the provided AdjectivePhrase, false otherwise.</returns>
+        /// <remarks>There are two calling conventions for this method. See the following examples:
+        /// <code>if ( LexicalLookup.IsSimilarTo(a1, ap2) ) { ... }</code>
+        /// <code>if ( a1.IsSimilarTo(ap2) ) { ... }</code>
+        /// Please prefer the second convention.
+        /// </remarks>
+        public static SimResult IsSimilarTo(this Adjective first, AdjectivePhrase second) {
+            return new SimResult(second.Words.GetAdjectives().Any(adj => adj.IsSynonymFor(first)));
+        }
+        /// <summary>
+        /// Determines if two IDescriptor instances are similar.
+        /// </summary>
+        /// <param name="first">The first IDescriptor</param>
+        /// <param name="second">The second IDescriptor</param>
+        /// <returns>True if the given IDescriptor instances are similar, false otherwise.</returns>
+        /// <remarks>There are two calling conventions for this method. See the following examples
+        /// <code>if ( LexicalLookup.IsSimilarTo(d1, d2) ) { ... }</code>
+        /// <code>if ( d1.IsSimilarTo(d2) ) { ... }</code> 
+        /// Please prefer the second convention.
+        /// </remarks>
+        public static SimResult IsSimilarTo(this IAdjectival first, IAdjectival second) {
+
+            //Compare literal text.
+            if (first.Text.ToUpper() == second.Text.ToUpper()) {
+                return new SimResult(true);
+            }
+
+            //If both are of type Adjective check if syonymous
+            var a1 = first as Adjective;
+            var a2 = second as Adjective;
+            if (a1 != null && a2 != null) {
+                return new SimResult(a1.IsSynonymFor(a2));
+            }
+
+            //If both are of type AdjectivePhrase check for similarity
+            var ap1 = first as AdjectivePhrase;
+            var ap2 = second as AdjectivePhrase;
+            if (ap1 != null && ap2 != null) {
+                return ap1.IsSimilarTo(ap2);
+            }
+
+            //If one is of type Verb and the other is of Type VerbPhrase, test for similarirty.
+            var ap = first as AdjectivePhrase ?? second as AdjectivePhrase;
+            var a = first as Adjective ?? second as Adjective;
+            if (a != null && ap != null) {  // operator ?? means that if either first OR second is a Phrase
+                return a.IsSimilarTo(ap);   // var "ap" will hold a reference to it, the same applies to Word and "var a"
+            }                               // the to blocks of type checks above ensure that they are not both Words or Phrases
+
+            return new SimResult(false);
+
+        }
+        /// <summary>
+        /// Determines if two AdjectivePhrase are similar.
+        /// </summary>
+        /// <param name="first">The first AdjectivePhrase</param>
+        /// <param name="second">The second AdjectivePhrase</param>
+        /// <returns>True if the given AdjectivePhrase are similar, false otherwise.</returns>
+        /// <remarks>There are two calling conventions for this method. See the following examples:
+        /// <code>if ( LexicalLookup.IsSimilarTo(ap1, ap2) ) { ... }</code>
+        /// <code>if ( ap1.IsSimilarTo(ap2) ) { ... }</code>
+        /// Please prefer the second convention.
+        /// </remarks>
+        public static SimResult IsSimilarTo(this AdjectivePhrase first, AdjectivePhrase second) {
+
+            //Look into refining this
+            List<Adjective> leftHandAdjectives = first.Words.GetAdjectives().ToList();
+            List<Adjective> rightHandAdjectives = second.Words.GetAdjectives().ToList();
+
+            bool result = leftHandAdjectives.Count == rightHandAdjectives.Count;
+
+            if (result) {
+                try {
+                    for (var i = 0; i < leftHandAdjectives.Count; ++i) {
+                        result &= leftHandAdjectives[i].IsSynonymFor(rightHandAdjectives[i]);
+                    }
+                } catch (NullReferenceException) {
+                    return new SimResult(false);
+                }
+            }
+            return new SimResult(result);
+        }
+        /// <summary>
+        /// Determines if the two provided Adverb instances are similar.
+        /// </summary>
+        /// <param name="first">The first Adverb.</param>
+        /// <param name="second">The second Adverb.</param>
+        /// <returns>True if the first Adverb is similar to the second, false otherwise.</returns>
+        /// <remarks>There are two calling conventions for this method. See the following examples:
+        /// <code>if ( LexicalLookup.IsSimilarTo(a1, a2) ) { ... }</code>
+        /// <code>if ( a1.IsSimilarTo(a2) ) { ... }</code>
+        /// Please prefer the second convention.
+        /// </remarks>
+        public static SimResult IsSimilarTo(this Adverb first, Adverb second) {
+            return new SimResult(first.IsSynonymFor(second));
+        }
+        /// <summary>
+        /// Determines if the provided AdverbPhrase is similar to the provided Adverb.
+        /// </summary>
+        /// <param name="first">The AdverbPhrase.</param>
+        /// <param name="second">The Adjective.</param>
+        /// <returns>True if the provided AdverbPhrase is similar to the provided Adverb, false otherwise.</returns>
+        /// <remarks>There are two calling conventions for this method. See the following examples:
+        /// <code>if ( LexicalLookup.IsSimilarTo(ap1, a2) ) { ... }</code>
+        /// <code>if ( ap1.IsSimilarTo(a2) ) { ... }</code>
+        /// Please prefer the second convention.
+        /// </remarks>
+        public static SimResult IsSimilarTo(this AdverbPhrase first, Adverb second) {
+            return new SimResult(second.IsSimilarTo(first));
+        }
+        /// <summary>
+        /// Determines if the provided Adverb is similar to the provided AdverbPhrase.
+        /// </summary>
+        /// <param name="first">The Adverb.</param>
+        /// <param name="second">The AdverbPhrase.</param>
+        /// <returns>True if the provided Adverb is similar to the provided AdverbPhrase, false otherwise.</returns>
+        /// <remarks>There are two calling conventions for this method. See the following examples:
+        /// <code>if ( LexicalLookup.IsSimilarTo(a1, ap2) ) { ... }</code>
+        /// <code>if ( a1.IsSimilarTo(ap2) ) { ... }</code>
+        /// Please prefer the second convention.
+        /// </remarks>
+        public static SimResult IsSimilarTo(this Adverb first, AdverbPhrase second) {
+            return new SimResult(second.Words.GetAdverbs().Any(adj => adj.IsSynonymFor(first)));
+            // Must refine this to check for negators and modals which will potentially invert the meaning.
+        }
+        /// <summary>
+        /// Determines if two IAdverbial instances are similar.
+        /// </summary>
+        /// <param name="first">The first IAdverbial</param>
+        /// <param name="second">The second IAdverbial</param>
+        /// <returns>True if the given IAdverbial instances are similar, false otherwise.</returns>
+        /// <remarks>There are two calling conventions for this method. See the following examples
+        /// <code>if ( LexicalLookup.IsSimilarTo(d1, d2) ) { ... }</code>
+        /// <code>if ( a1.IsSimilarTo(a2) ) { ... }</code> 
+        /// Please prefer the second convention.
+        /// </remarks>
+        public static SimResult IsSimilarTo(this IAdverbial first, IAdverbial second) {
+
+            //Compare literal text.
+            if (first.Text.ToUpper() == second.Text.ToUpper()) {
+                return new SimResult(true);
+            }
+
+            //If both are of type Adverb check if syonymous
+            var a1 = first as Adverb;
+            var a2 = second as Adverb;
+            if (a1 != null && a2 != null) {
+                return new SimResult(a1.IsSynonymFor(a2));
+            }
+
+            //If both are of type AdverbPhrase check for similarity
+            var ap1 = first as AdverbPhrase;
+            var ap2 = second as AdverbPhrase;
+            if (ap1 != null && ap2 != null) {
+                return ap1.IsSimilarTo(ap2);
+            }
+
+            //If one is of type Adverb and the other is of Type AdverbPhrase, test for similarirty.
+            var ap = first as AdverbPhrase ?? second as AdverbPhrase;
+            var a = first as Adverb ?? second as Adverb;
+            if (a != null && ap != null) {  // operator ?? means that if either first OR second is a Phrase
+                return a.IsSimilarTo(ap);   // var "ap" will hold a reference to it, the same applies to Word and "var a"
+            }                               // the to blocks of type checks above ensure that they are not both Words or Phrases
+
+            return new SimResult(false);
+
+        }
+        /// <summary>
+        /// Determines if two AdverbPhrases are similar.
+        /// </summary>
+        /// <param name="first">The first AdverbPhrase</param>
+        /// <param name="second">The second AdverbPhrase</param>
+        /// <returns>True if the given AdverbPhrases are similar, false otherwise.</returns>
+        /// <remarks>There are two calling conventions for this method. See the following examples:
+        /// <code>if ( LexicalLookup.IsSimilarTo(ap1, ap2) ) { ... }</code>
+        /// <code>if ( ap1.IsSimilarTo(ap2) ) { ... }</code>
+        /// Please prefer the second convention.
+        /// </remarks>
+        public static SimResult IsSimilarTo(this AdverbPhrase first, AdverbPhrase second) {
+
+            //Look into refining this
+            List<Adverb> leftHandAdjectives = first.Words.GetAdverbs().ToList();
+            List<Adverb> rightHandAdjectives = second.Words.GetAdverbs().ToList();
+
+            bool result = leftHandAdjectives.Count == rightHandAdjectives.Count;
+
+            if (result) {
+                try {
+                    for (var i = 0; i < leftHandAdjectives.Count; ++i) {
+                        result &= leftHandAdjectives[i].IsSynonymFor(rightHandAdjectives[i]);
+                    }
+                } catch (NullReferenceException) {
+                    return new SimResult(false);
+                }
+            }
+            return new SimResult(result);
         }
         /// <summary>
         /// Returns a double value indicating the degree of similarity between two NounPhrases.
@@ -427,7 +639,7 @@ namespace LASI.Algorithm.LexicalInformationProviders
         /// <param name="first">The first NounPhrase</param>
         /// <param name="second">The second NounPhrase</param>
         /// <returns>A double value indicating the degree of similarity between two NounPhrases.</returns>
-        public static double GetSimilarityRatio(NounPhrase first, NounPhrase second) {
+        private static double GetSimilarityRatio(NounPhrase first, NounPhrase second) {
             NounPhrase outer = null;
             NounPhrase inner = null;
             double similarCount = 0.0d;
@@ -453,15 +665,7 @@ namespace LASI.Algorithm.LexicalInformationProviders
             }
             return 0d;
         }
-        /// <summary>
-        /// Returns a double value indicating the degree of similarity between two NounPhrases.
-        /// </summary>
-        /// <param name="first">The first NounPhrase</param>
-        /// <param name="second">The second NounPhrase</param>
-        /// <returns>A double value indicating the degree of similarity between two NounPhrases.</returns>
-        public static double SimilarityRatioWith(this NounPhrase first, NounPhrase second) {
-            return GetSimilarityRatio(first, second);
-        }
+
         #endregion
 
         #region Full Name Lookup Methods
@@ -597,9 +801,7 @@ namespace LASI.Algorithm.LexicalInformationProviders
         private static ISet<string> InternalLookup(Adjective adjective) {
             return cachedAdjectiveData.GetOrAdd(adjective.Text, key => adjectiveLookup[key]);
         }
-        private static ISet<string> InternalLookup(Word word) {
-            throw new NoSynonymLookupForTypeException(word);
-        }
+
         private static async Task LoadNameDataAsync() {
             await Task.Factory.ContinueWhenAll(
                 new[] {  
@@ -789,6 +991,106 @@ namespace LASI.Algorithm.LexicalInformationProviders
             NotStarted,
             InProgress,
             Finished
+        }
+        #endregion
+
+        #region Utility Types
+        /// <summary>
+        /// Encapsulates multiple pieces of information gathered during a similarity comparison into a light weight type.
+        /// The structure cannot be created from outside of the LexicalLookup class and is used to convey internal results.
+        /// No special syntax is or code changes are required to manipulate this type. It will implicitely convert to bool
+        /// So all code with forms such as:  if ( a.IsSimilarTo(b) ) { ... } need not and should not be changed. 
+        /// However, If the numeric ratio used to determine similarity is needed and applicable, the type will implcitely convert
+        /// to a double. This removes the need for public code such as: if ( LexicalLookup.GetSimiliarityRatio(a, b) > 0.7 ) { ... }
+        /// Instead one may simple write the same logic as if: if ( a.IsSimilarTo(be) > 0.7 ) { ... }
+        /// </summary>
+        /// <remarks>
+        /// The other reason for the introduction of this type is that, as it also is now the default return type for IsSynonymFor invocations,
+        /// it allows the results provided by suchs calls to provide additional information as we learn how to glean the wealth of the WordNet data.
+        /// </remarks>
+        public struct SimResult : IEquatable<SimResult>
+        {
+            #region Constructors
+            /// <summary>
+            /// Initializes a new instance of the SimilarityResult structure from the provided values.
+            /// </summary>
+            /// <param name="similar">Indicates the result the true of false result of an IsSimilarTo test.</param>
+            /// <param name="similarityRatio">Represents the similarity ratio between the tested elements, if applicable.</param>
+            internal SimResult(bool similar, double similarityRatio) : this() { BooleanResult = similar; RatioResult = similarityRatio; }
+            /// <summary>
+            /// intializes a new instance of the SimilarityResult structure from the provided bool value.
+            /// </summary>
+            /// <param name="similar">Indicates the result the true of false result of an IsSimilarTo test.</param>
+            /// <remarks>Use this constructor when the ratio itself is not specified or not provided.
+            /// In such cases, the RatioResult property will be automatically set to 1 or 0 based on the truthfullness of the provided similar argument.
+            /// </remarks>
+            internal SimResult(bool similar) : this(similar, similar ? 1 : 0) { }
+
+            #endregion
+
+            #region Readonly Properties
+
+            /// <summary>
+            /// Gets the a value indicating the result of the similarity Test
+            /// </summary>
+            public bool BooleanResult { get; private set; }
+            public double RatioResult { get; private set; }
+
+            #endregion
+
+            // here these allow the type to implcitely convert to the desired result type for the condition. 
+            // Thus, refactoring the IsSimilarTo implementations preserves and enhances existing code.
+            // without the need to rewrite any conditionals. Call expensive methods multiple times to get numeric vs boolean results
+            #region Implcit Conversions
+            /// <summary>
+            /// Converts the SimResult into its boolean representation. The resulting boolean has the same value as the conversion target's BooleanResult Property.
+            /// </summary>
+            /// <param name="sr">The SimResult to convert.</param>
+            /// <returns>A boolean with the same value as the conversion target's BooleanResult Property.</returns>
+            public static implicit operator bool(SimResult sr) { return sr.BooleanResult; }
+            /// <summary>
+            /// Converts the SimResult into its double representation. The resulting boolean has the same value as the conversion target's RatioResult Property.
+            /// </summary>
+            /// <param name="sr">The SimResult to convert.</param>
+            /// <returns>A double with the same value as the conversion target's RatioResult Property.</returns>
+            public static implicit operator double(SimResult sr) { return sr.RatioResult; }
+            /// <summary>
+            /// Returns a value that indicates whether the SimResult on the left is equal to the SimResult on the right.
+            /// Although it seems unlikely that two instances of SimResult will be compared directly for equality. 
+            /// The == and != operators or defined to ensure type coersion does not result from the implicit conversions which make the class convenient.
+            /// Equality is defined strictly such that both RatioResult properties must match exactly in addition to both BooleanResult properties.
+            /// Keep this in mind if, for some reason, it is ever necessary to write code such as: if ( a.IsSimilarTo(b) == b.IsSimilarTo(a) ) { ... } 
+            /// as the lexical lookup class itself currently makes no guarantees about reflexive equality over phrase-wise comparisons.
+            /// </summary>
+            /// <param name="left">The SimRult on the left hand side.</param>
+            /// <param name="right">The SimRult on the right hand side.</param>
+            /// <returns>True if the SimResult on the left is equal to the SimResult on the right.</returns>
+            public static bool operator ==(SimResult left, SimResult right) { return left.RatioResult == right.RatioResult && left.BooleanResult == right.BooleanResult; }
+            /// <summary>
+            /// Returns a value that indicates whether the SimResult on the left is not equal to the SimResult on the right.
+            /// Although it seems unlikely that two instances of SimResult will be compared directly for equality. 
+            /// The == and != operators or defined to ensure type coersion does not result from the implicit conversions which make the class convenient.
+            /// Equality is defined strictly such that both RatioResult properties must match exactly in addition to both BooleanResult properties.
+            /// Keep this in mind if, for some reason, it is ever necessary to write code such as: if ( a.IsSimilarTo(b) == b.IsSimilarTo(a) ) { ... } 
+            /// as the lexical lookup class itself currently makes no guarantees about reflexive equality over phrase-wise comparisons.
+            /// </summary>
+            /// <param name="left">The SimRult on the left hand side.</param>
+            /// <param name="right">The SimRult on the right hand side.</param>
+            /// <returns>False if the SimResult on the left is equal to the SimResult on the right.</returns>
+            public static bool operator !=(SimResult left, SimResult right) { return !(left == right); }
+            #endregion
+
+            #region Method Overloads
+            public bool Equals(SimResult other) {
+                return this == other;
+            }
+            public override bool Equals(object obj) {
+                return obj != null && obj is SimResult && this == (SimResult)obj;
+            }
+            public override int GetHashCode() {
+                return RatioResult.GetHashCode() ^ BooleanResult.GetHashCode();
+            }
+            #endregion
         }
         #endregion
     }

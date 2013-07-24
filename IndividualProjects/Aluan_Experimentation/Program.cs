@@ -2,7 +2,7 @@
 using LASI.Algorithm.Binding;
 using LASI.Algorithm.DocumentConstructs;
 using LASI.Algorithm.RelationshipLookups;
-using LASI.Algorithm.LexicalInformationProviders;
+using LASI.Algorithm.LexicalLookup;
 using LASI.Utilities;
 using LASI.Utilities.TypedSwitch;
 using System;
@@ -11,7 +11,6 @@ using System.Configuration;
 using System.Linq;
 using System.Threading.Tasks;
 using LASI.ContentSystem;
-using System.Reflection;
 
 namespace Aluan_Experimentation
 {
@@ -19,13 +18,36 @@ namespace Aluan_Experimentation
     {
 
 
-        static string testPath = @"C:\Users\Aluan\Desktop\ducks.txt";
+        static string testPath = @"C:\Users\Aluan\Desktop\Documents\ducks.txt";
 
         static void Main(string[] args) {
 
+            Phrase.VerboseOutput = true;
+            Word.VerboseOutput = true;
             var doc = Tagger.DocumentFromRaw(new TextFile(testPath));
+            Task.WaitAll(Binder.GetBindingTasksForDocument(doc).Select(pt => pt.Task).ToArray());
 
+            Console.WriteLine(doc.Words.Format(true));
+
+            var classified = GetNounsClassifiedByAdjectives(doc);
+
+            foreach (var item in classified) {
+                Console.WriteLine(item);
+            }
             Input.WaitForKey();
+        }
+
+        private static IEnumerable<string> GetNounsClassifiedByAdjectives(Document doc) {
+            var classified =
+                from classiffiedNoun in
+                    (from n1 in doc.Words.GetNouns()
+                     where n1.Descriptors.Any()
+                     orderby n1.Text descending
+                     select n1)
+                    .Distinct((left, right) => left.Descriptors.SequenceEqual(right.Descriptors, (a, b) => a.Text == b.Text))
+                    .Select(n => new { n.Text, det = n.Determiner != null ? n.Determiner.Text : "none", Dscrptrs = n.Descriptors }) group classiffiedNoun by classiffiedNoun.Text + classiffiedNoun.det ?? "" into g
+                select string.Format("det:{0} n: {1} d: {2}", g.First().det, g.Key, g.Format(jj => jj.Dscrptrs.Format(aj => aj.Text)));
+            return classified;
         }
 
         private static void TestGender() {

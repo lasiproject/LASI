@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using LASI.Algorithm.LexicalInformationProviders;
+using LASI.Algorithm.LexicalLookup;
 using System.Collections.Concurrent;
 
 namespace LASI.Algorithm.RelationshipLookups

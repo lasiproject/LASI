@@ -9,7 +9,7 @@ using LASI.ContentSystem;
 using LASI.Utilities;
 using System.IO;
 using LASI.Algorithm.DocumentConstructs;
-using LASI.Algorithm.LexicalInformationProviders;
+using LASI.Algorithm.LexicalLookup;
 
 namespace Dustin_Experimentation
 { //this is a comment 

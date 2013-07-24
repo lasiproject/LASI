@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using LASI.Utilities.TypedSwitch;
 using LASI.Algorithm;
 using LASI.Utilities;
-using LASI.Algorithm.LexicalInformationProviders;
+using LASI.Algorithm.LexicalLookup;
 using LASI.Algorithm.DocumentConstructs;
 
 

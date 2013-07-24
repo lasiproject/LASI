@@ -1,6 +1,6 @@
 using LASI.Algorithm;
 using LASI.Algorithm.DocumentConstructs;
-using LASI.Algorithm.LexicalInformationProviders;
+using LASI.Algorithm.LexicalLookup;
 using LASI.ContentSystem;
 using LASI.UserInterface.Dialogs;
 using System;

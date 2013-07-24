@@ -8,10 +8,10 @@ using System.Text.RegularExpressions;
 using System.Collections.Concurrent;
 
 
-namespace LASI.Algorithm.LexicalInformationProviders.Lookups
+namespace LASI.Algorithm.LexicalLookup.Lookups
 {
     using SetReference = System.Collections.Generic.KeyValuePair<NounSetRelationship, int>;
-    using LASI.Algorithm.LexicalInformationProviders.InterSetRelationshipManagement;
+    using LASI.Algorithm.LexicalLookup.InterSetRelationshipManagement;
     internal sealed class NounLookup : IWordNetLookup<Noun>
     {
         private const int HEADER_LENGTH = 29;

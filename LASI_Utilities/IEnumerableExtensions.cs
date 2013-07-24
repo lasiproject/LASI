@@ -62,8 +62,8 @@ namespace LASI.Utilities
         /// <returns>A formated string representation of the IEnumerable sequence with the pattern: [ element0, element1, ..., elementN ]</returns>
         public static string Format<T>(this IEnumerable<T> source, bool onePerLine) {
 
-            return source.Aggregate("[ ", (sum, current) =>
-                sum += current.ToString() + (onePerLine ? ",\n" : ", ")).TrimEnd(' ', ',') + " ]";
+            return source.Aggregate("[\n", (sum, current) =>
+                sum += current.ToString() + (onePerLine ? "\n" : ", ")).TrimEnd(' ', ',') + "]";
         }
         /// <summary>
         /// Returns a formated string representation of the IEnumerable sequence with the pattern: [ elementToString(element0), elementToString(element1), ..., elementToString(elementN) ]
@@ -107,19 +107,19 @@ namespace LASI.Utilities
         /// <typeparam name="T">The type of elements in the sequence.</typeparam>
         /// <param name="source">The sequence whose distinct elements will comprise the resulting set.</param>
         /// <returns>A set representation of the given sequence using the default System.Collections.Generic.IEqualityComparer for the given element type.</returns>
-        //public static ISet<T> ToSet<T>(this IEnumerable<T> source) {
-        //    return new HashSet<T>(source);
-        //}
-        ///// <summary>
-        ///// Returns a set representation of the given sequence using the default IEqualityComparer for the given element type.
-        ///// </summary>
-        ///// <typeparam name="T">The type of elements in the sequence.</typeparam>
-        ///// <param name="source">The sequence whose distinct elements will comprise the resulting set.</param>
-        ///// <param name="comparer">The System.Collections.Generic.IEqualityComparer implementation which will determine the distinctness of elements.</param>
-        ///// <returns>A set representation of the given sequence using the default IEqualityComparer for the given element type.</returns>
-        //public static ISet<T> ToSet<T>(this IEnumerable<T> source, IEqualityComparer<T> comparer) {
-        //    return new HashSet<T>(source, comparer);
-        //}
+        public static ISet<T> ToSet<T>(this IEnumerable<T> source) {
+            return new HashSet<T>(source);
+        }
+        /// <summary>
+        /// Returns a set representation of the given sequence using the default IEqualityComparer for the given element type.
+        /// </summary>
+        /// <typeparam name="T">The type of elements in the sequence.</typeparam>
+        /// <param name="source">The sequence whose distinct elements will comprise the resulting set.</param>
+        /// <param name="comparer">The System.Collections.Generic.IEqualityComparer implementation which will determine the distinctness of elements.</param>
+        /// <returns>A set representation of the given sequence using the default IEqualityComparer for the given element type.</returns>
+        public static ISet<T> ToSet<T>(this IEnumerable<T> source, IEqualityComparer<T> comparer) {
+            return new HashSet<T>(source, comparer);
+        }
         /// <summary>
         /// Splits the sequence into a sequence of sequences based on the provided chunk size.
         /// </summary>
@@ -134,5 +134,44 @@ namespace LASI.Utilities
 
         }
 
+        //public static IEnumerable<T> Distinct<T>(this IEnumerable<T> source, Func<T, T, bool> comparison) where T : class {
+        //    return source.Distinct(new CustomComaparer<T>(comparison));
+        //}
+        //public static bool SequenceEqual<T>(this IEnumerable<T> first, IEnumerable<T> second, Func<T, T, bool> comparison) where T : class {
+        //    return first.SequenceEqual(second, new CustomComaparer<T>(comparison));
+        //}
+
+        private class CustomComaparer<T> : EqualityComparer<T>
+        {
+            private Func<T, T, bool> customEquals;
+            private Func<T, int> customHasher;
+
+            public CustomComaparer(Func<T, T, bool> equals) {
+                if (equals == null)
+                    throw new ArgumentNullException("equals", "A null equals function was provided.");
+                customEquals = equals;
+                customHasher = o => o == null ? 0 : 1;
+            }
+            public CustomComaparer(Func<T, T, bool> equals, Func<T, int> hasher) {
+                if (equals == null)
+                    throw new ArgumentNullException("equals", "A null equals function was provided.");
+                customEquals = equals;
+                if (hasher == null)
+                    throw new ArgumentNullException("hasher", "A null getHashCode function was provided.");
+                customEquals = equals;
+                customHasher = hasher;
+            }
+            public override bool Equals(T x, T y) {
+                if (ReferenceEquals(x, null))
+                    return ReferenceEquals(y, null);
+                else if (ReferenceEquals(y, null))
+                    return ReferenceEquals(x, null);
+                else
+                    return customEquals(x, y);
+            }
+            public override int GetHashCode(T obj) {
+                return customHasher(obj);
+            }
+        }
     }
 }
