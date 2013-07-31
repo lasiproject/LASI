@@ -122,7 +122,7 @@ namespace LASI.InteropLayer
 
         private async Task LoadThesaurus() {
             await updateProgressDisplay("Loading Thesaurus...", stepSize);
-            var thesaurusTasks = LexicalLookup.UnstartedLoadingTasks.ToList();
+            var thesaurusTasks = LexicalLookup.GetUnstartedLoadingTasks().ToList();
             while (thesaurusTasks.Any()) {
                 var currentTask = await Task.WhenAny(thesaurusTasks);
                 var message = await currentTask;

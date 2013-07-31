@@ -647,7 +647,8 @@ namespace LASI.Algorithm.LexicalLookup
             if (first.Words.Count() >= second.Words.Count()) {
                 outer = first;
                 inner = second;
-            } else {
+            }
+            else {
                 outer = second;
                 inner = first;
             }
@@ -805,17 +806,15 @@ namespace LASI.Algorithm.LexicalLookup
         private static async Task LoadNameDataAsync() {
             await Task.Factory.ContinueWhenAll(
                 new[] {  
-                    Task.Run(async () => lastNames = await GetNameDataAsync(lastNamesFilePath)),
-                    Task.Run(async () => femaleNames = await GetNameDataAsync(femaleNamesFilePath)),
-                    Task.Run(async () => maleNames = await GetNameDataAsync(maleNamesFilePath)) 
+                    Task.Run(async () => lastNames = await ReadSplitLinesAsync(lastNamesFilePath)),
+                    Task.Run(async () => femaleNames = await ReadSplitLinesAsync(femaleNamesFilePath)),
+                    Task.Run(async () => maleNames = await ReadSplitLinesAsync(maleNamesFilePath)) 
                 },
                 results => {
                     genderAmbiguousFirstNames = new HashSet<string>(maleNames.Intersect(femaleNames).Concat(femaleNames.Intersect(maleNames)), StringComparer.OrdinalIgnoreCase);
 
-                    var stratified = from m in
-                                         maleNames.Select((s, i) => new { Rank = (double)i / maleNames.Count, Name = s })
-                                     join f in
-                                         femaleNames.Select((s, i) => new { Rank = (double)i / femaleNames.Count, Name = s })
+                    var stratified = from m in maleNames.Select((s, i) => new { Rank = (double)i / maleNames.Count, Name = s })
+                                     join f in femaleNames.Select((s, i) => new { Rank = (double)i / femaleNames.Count, Name = s })
                                      on m.Name equals f.Name
                                      group f.Name by f.Rank / m.Rank > 1 ? 'M' : m.Rank / f.Rank > 1 ? 'F' : 'U';
 
@@ -825,7 +824,7 @@ namespace LASI.Algorithm.LexicalLookup
             );
         }
 
-        private static async Task<HashSet<string>> GetNameDataAsync(string fileName) {
+        private static async Task<HashSet<string>> ReadSplitLinesAsync(string fileName) {
             using (var reader = new StreamReader(fileName)) {
                 return new HashSet<string>((
                     await reader.ReadToEndAsync()).Split(new[] { '\n' },
@@ -834,36 +833,36 @@ namespace LASI.Algorithm.LexicalLookup
                 );
             }
         }
-        /// <summary>
-        /// Returns a sequence of Tasks containing all of the yet unstarted LexicalLookup loading operations.
-        /// Await each Task to start its corresponding loading operation.
-        /// </summary>
-        /// <returns>a sequence of Tasks containing all of the yet unstarted LexicalLookup loading operations.</returns>
-        public static IEnumerable<Task<string>> UnstartedLoadingTasks {
-            get {
-
-                var Tasks = new List<Task<string>>();
-                if (nounLoadingState == LoadingState.NotStarted)
-                    Tasks.Add(NounThesaurusLoadTask);
-                if (verbLoadingState == LoadingState.NotStarted)
-                    Tasks.Add(VerbThesaurusLoadTask);
-                if (adjectiveLoadingState == LoadingState.NotStarted)
-                    Tasks.Add(AdjectiveThesaurusLoadTask);
-                if (adverbLoadingState == LoadingState.NotStarted)
-                    Tasks.Add(AdverbThesaurusLoadTask);
-                Tasks.Add(Task.Run(async () => {
-                    await LoadNameDataAsync();
-                    return "Loaded Name Data";
-                }));
-                return Tasks.ToArray();
-            }
-        }
 
         #endregion
 
         #endregion
 
         #region Public Properties
+
+        /// <summary>
+        /// Returns a sequence of Tasks containing all of the yet unstarted LexicalLookup loading operations.
+        /// Await each Task to start its corresponding loading operation.
+        /// </summary>
+        /// <returns>a sequence of Tasks containing all of the yet unstarted LexicalLookup loading operations.</returns>
+        public static IEnumerable<Task<string>> GetUnstartedLoadingTasks() {
+            var Tasks = new List<Task<string>>();
+            if (nounLoadingState == LoadingState.NotStarted)
+                Tasks.Add(NounThesaurusLoadTask);
+            if (verbLoadingState == LoadingState.NotStarted)
+                Tasks.Add(VerbThesaurusLoadTask);
+            if (adjectiveLoadingState == LoadingState.NotStarted)
+                Tasks.Add(AdjectiveThesaurusLoadTask);
+            if (adverbLoadingState == LoadingState.NotStarted)
+                Tasks.Add(AdverbThesaurusLoadTask);
+            Tasks.Add(Task.Run(async () => {
+                await LoadNameDataAsync();
+                return "Loaded Name Data";
+            }));
+            return Tasks;
+        }
+
+
         #region NameData Accessors
 
         /// <summary>

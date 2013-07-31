@@ -21,33 +21,27 @@ namespace Aluan_Experimentation
         static string testPath = @"C:\Users\Aluan\Desktop\Documents\ducks.txt";
 
         static void Main(string[] args) {
+            //var doc = Tagger.DocumentFromRaw(new TextFile(testPath));
+            //Task.WaitAll(Binder.GetBindingTasksForDocument(doc).Select(pt => pt.Task).ToArray());
 
-            Phrase.VerboseOutput = true;
-            Word.VerboseOutput = true;
-            var doc = Tagger.DocumentFromRaw(new TextFile(testPath));
-            Task.WaitAll(Binder.GetBindingTasksForDocument(doc).Select(pt => pt.Task).ToArray());
+            TestFullNames();
 
-            Console.WriteLine(doc.Words.Format(true));
+            //Console.WriteLine(doc.Words.Format(true));
+            //GetNounsClassifiedByAdjectives(doc).ToList().ForEach(Console.WriteLine);
 
-            var classified = GetNounsClassifiedByAdjectives(doc);
-
-            foreach (var item in classified) {
-                Console.WriteLine(item);
-            }
             Input.WaitForKey();
         }
 
         private static IEnumerable<string> GetNounsClassifiedByAdjectives(Document doc) {
-            var classified =
-                from classiffiedNoun in
-                    (from n1 in doc.Words.GetNouns()
-                     where n1.Descriptors.Any()
-                     orderby n1.Text descending
-                     select n1)
-                    .Distinct((left, right) => left.Descriptors.SequenceEqual(right.Descriptors, (a, b) => a.Text == b.Text))
-                    .Select(n => new { n.Text, det = n.Determiner != null ? n.Determiner.Text : "none", Dscrptrs = n.Descriptors }) group classiffiedNoun by classiffiedNoun.Text + classiffiedNoun.det ?? "" into g
-                select string.Format("det:{0} n: {1} d: {2}", g.First().det, g.Key, g.Format(jj => jj.Dscrptrs.Format(aj => aj.Text)));
-            return classified;
+            return from n in
+                       (from n1 in doc.Words.GetNouns()
+                        where n1.Descriptors.Any()
+                        orderby n1.Text descending
+                        select n1)
+                       .Distinct((left, right) => left.Descriptors.SequenceEqual(right.Descriptors, (a, b) => a.Text == b.Text))
+                       .Select(n => new { n.Text, det = n.Determiner != null ? n.Determiner.Text : "none", Dscrptrs = n.Descriptors })
+                   group n by n.Text + n.det ?? "" into g
+                   select string.Format("det:{0} n: {1} d: {2}", g.First().det, g.Key, g.Format(jj => jj.Dscrptrs.Format(aj => aj.Text)));
         }
 
         private static void TestGender() {
@@ -59,16 +53,13 @@ namespace Aluan_Experimentation
         }
         private static void TestFullNames() {
             LoadThesaurus().Wait();
-
             LexicalLookup.LastNames.AsParallel().AsUnordered().WithExecutionMode(ParallelExecutionMode.ForceParallelism).ForAll(ln => {
                 var falseResults = from fn in LexicalLookup.FemaleNames.Union(LexicalLookup.MaleNames).AsParallel().WithExecutionMode(ParallelExecutionMode.ForceParallelism)
                                    group fn by fn into g
                                    select g.Key into fn
-                                   select new NounPhrase(new[] { 
-                                            new ProperSingularNoun(fn),
-                                            new ProperSingularNoun(ln) 
-                                   }) into pnp
-                                   where !pnp.IsFullName() select pnp;
+                                   select new { fn, ln } into pnp
+                                   where !(pnp.fn.IsFirstName() && pnp.ln.IsLastName())
+                                   select pnp;
                 foreach (var pnp in falseResults) {
                     Output.WriteLine(pnp);
                 }
@@ -76,11 +67,11 @@ namespace Aluan_Experimentation
         }
 
         private static async Task LoadThesaurus() {
-            foreach (var task in LexicalLookup.UnstartedLoadingTasks) {
+            foreach (var task in LexicalLookup.GetUnstartedLoadingTasks()) {
                 task.Wait();
                 Output.WriteLine(task.Result);
             }
-            var tasks = LexicalLookup.UnstartedLoadingTasks.ToList();
+            var tasks = LexicalLookup.GetUnstartedLoadingTasks().ToList();
             while (tasks.Any()) {
                 var currentTask = await Task.WhenAny(tasks);
                 Output.WriteLine(await currentTask);
