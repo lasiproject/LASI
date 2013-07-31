@@ -28,6 +28,7 @@ namespace LASI.Algorithm.Analysis
             PercentWorkRepresented = percentWorkRepresented;
 
         }
+        public static implicit operator Task(ProcessingTask pt) { return pt.Task; }
         /// <summary>
         /// Gets the document over which the ProcessingTask will operate.
         /// </summary>
@@ -85,6 +86,7 @@ namespace LASI.Algorithm.Analysis
             PercentWorkRepresented = percentWorkRepresented;
 
         }
+        public static implicit operator Task<T>(ProcessingTask<T> pt) { return pt.Task; }
         /// <summary>
         /// Gets the document over which the ProcessingTask will operate.
         /// </summary>

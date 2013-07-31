@@ -14,8 +14,7 @@ namespace LASI.Utilities
     public static class Output
     {
         #region Constructor
-
-
+    
         static Output() {
             SetToDebug();
         }
@@ -41,8 +40,12 @@ namespace LASI.Utilities
             CurrentStream = new StreamWriter(path, false);
 
         }
-        public static void SetToStringWriter(StringBuilder sb) {
-            OutputMode = OutputMode.StringWriterObject;
+        /// <summary>
+        /// Sets the output destination to the specified string builder.
+        /// </summary>
+        /// <param name="sb">The string builder which will be set as the output destination.</param>
+        public static void SetToStringBuilder(StringBuilder sb) {
+            OutputMode = OutputMode.StringBuilderObject;
             CurrentStream = new StringWriter(sb);
         }
 
@@ -54,9 +57,10 @@ namespace LASI.Utilities
         }
 
         /// <summary>
-        /// Silences all textual output messages.
+        /// Blocks all further output until a call is made to one of the following: 
+        /// SetToConsole, SetToFile, SetToDebug, or SetToStringBuilder.
         /// </summary>
-        public static void SetToSilent() {
+        public static void SilenceAll() {
             OutputMode = OutputMode.Silent;
             CurrentStream = null;
         }
@@ -71,6 +75,11 @@ namespace LASI.Utilities
                     Debug.Write(value.ToString());
             }
         }
+
+        /// <summary>
+        /// Writes an int to the text output stream.
+        /// </summary>
+        /// <param name="value">The int to write to the text output stream.</param>
         public static void Write(int value) {
             if (OutputMode != OutputMode.Silent) {
                 if (OutputMode != OutputMode.Debug)
@@ -79,6 +88,11 @@ namespace LASI.Utilities
                     Debug.Write(value.ToString());
             }
         }
+
+        /// <summary>
+        /// Writes a double to the text output stream.
+        /// </summary>
+        /// <param name="value">The double to write to the text output stream.</param>
         public static void Write(double value) {
             if (OutputMode != OutputMode.Silent) {
                 if (OutputMode != OutputMode.Debug)
@@ -87,6 +101,10 @@ namespace LASI.Utilities
                     Debug.Write(value.ToString());
             }
         }
+        /// <summary>
+        /// Writes a decimal to the text output stream.
+        /// </summary>
+        /// <param name="value">The decimal to write to the text output stream.</param>
         public static void Write(decimal value) {
             if (OutputMode != OutputMode.Silent) {
                 if (OutputMode != OutputMode.Debug)
@@ -95,6 +113,10 @@ namespace LASI.Utilities
                     Debug.Write(value.ToString());
             }
         }
+        /// <summary>
+        /// Writes a float to the text output stream.
+        /// </summary>
+        /// <param name="value">The float to write to the text output stream.</param>
         public static void Write(float value) {
             if (OutputMode != OutputMode.Silent) {
                 if (OutputMode != OutputMode.Debug)
@@ -103,6 +125,10 @@ namespace LASI.Utilities
                     Debug.Write(value.ToString());
             }
         }
+        /// <summary>
+        /// Writes a character to the text output stream.
+        /// </summary>
+        /// <param name="value">The character to write to the text output stream.</param>
         public static void Write(char value) {
             if (OutputMode != OutputMode.Silent) {
                 if (OutputMode != OutputMode.Debug)
@@ -356,14 +382,14 @@ namespace LASI.Utilities
         #region Properties
 
         /// <summary>
-        /// Gets the System.IO.TextWriter object to which all Logger output is currently written.
+        /// Gets the System.IO.TextWriter object to which all output is currently written.
         /// </summary>
         private static TextWriter CurrentStream {
             get;
             set;
         }
         /// <summary>
-        /// Gets the LoggerDestination indicating where the output from the logger will be directed.
+        /// Gets the OutputMode indicating where the output is being directed.
         /// </summary>
         public static OutputMode OutputMode {
             get;
@@ -379,7 +405,7 @@ namespace LASI.Utilities
         Console,
         Debug,
         File,
-        StringWriterObject,
+        StringBuilderObject,
         Silent
     }
 }

@@ -21,50 +21,34 @@ namespace Aluan_Experimentation
         static string testPath = @"C:\Users\Aluan\Desktop\Documents\ducks.txt";
 
         static void Main(string[] args) {
-            //var doc = Tagger.DocumentFromRaw(new TextFile(testPath));
-            //Task.WaitAll(Binder.GetBindingTasksForDocument(doc).Select(pt => pt.Task).ToArray());
+            //Load up the document
+            var doc = Tagger.DocumentFromRaw(new TextFile(testPath));
+            //Bind it
+            Task.WaitAll(Binder.GetBindingTasksForDocument(doc).Select(pt => pt.Task).ToArray());
 
-            TestFullNames();
-
-            //Console.WriteLine(doc.Words.Format(true));
-            //GetNounsClassifiedByAdjectives(doc).ToList().ForEach(Console.WriteLine);
+            //Format and output words
+            Console.WriteLine(doc.Words.Format(onePerLine: true));
+            //Categorize and print each category. 
+            GetNounsByAdjectivalClassifiers(doc).ToList().ForEach(Console.WriteLine);
 
             Input.WaitForKey();
         }
 
-        private static IEnumerable<string> GetNounsClassifiedByAdjectives(Document doc) {
-            return from n in
-                       (from n1 in doc.Words.GetNouns()
-                        where n1.Descriptors.Any()
-                        orderby n1.Text descending
-                        select n1)
-                       .Distinct((left, right) => left.Descriptors.SequenceEqual(right.Descriptors, (a, b) => a.Text == b.Text))
-                       .Select(n => new { n.Text, det = n.Determiner != null ? n.Determiner.Text : "none", Dscrptrs = n.Descriptors })
-                   group n by n.Text + n.det ?? "" into g
-                   select string.Format("det:{0} n: {1} d: {2}", g.First().det, g.Key, g.Format(jj => jj.Dscrptrs.Format(aj => aj.Text)));
+        private static IEnumerable<string> GetNounsByAdjectivalClassifiers(Document doc) {
+            return from i in doc.Words.GetNouns()
+                       .Where(n => n.Descriptors.Any())
+                       .OrderByDescending(n => n.Text)
+                       .Distinct((l, r) => l.Descriptors.SequenceEqual(r.Descriptors, (a, b) => a.Text == b.Text))
+                       .Select(n => new { n.Text, det = n.Determiner != null ? n.Determiner.Text : "none", dscrptrs = n.Descriptors })
+                   group i by new { i.Text, i.det } into g
+                   select string.Format(
+                        "det:{0} n: {1} d: {2}",
+                        g.First().det,
+                        g.Key,
+                        g.Format(i => i.dscrptrs.Format(aj => aj.Text))
+                   );
         }
 
-        private static void TestGender() {
-            LoadThesaurus().Wait();
-            var overlapResults = new List<string>();
-            foreach (var name in LexicalLookup.GenderAmbiguousFirstNames)
-                overlapResults.Add(LookupName(name));
-            Output.WriteLine(overlapResults.OrderBy(s => s.Contains("Female")).ThenBy(s => s).Format(true));
-        }
-        private static void TestFullNames() {
-            LoadThesaurus().Wait();
-            LexicalLookup.LastNames.AsParallel().AsUnordered().WithExecutionMode(ParallelExecutionMode.ForceParallelism).ForAll(ln => {
-                var falseResults = from fn in LexicalLookup.FemaleNames.Union(LexicalLookup.MaleNames).AsParallel().WithExecutionMode(ParallelExecutionMode.ForceParallelism)
-                                   group fn by fn into g
-                                   select g.Key into fn
-                                   select new { fn, ln } into pnp
-                                   where !(pnp.fn.IsFirstName() && pnp.ln.IsLastName())
-                                   select pnp;
-                foreach (var pnp in falseResults) {
-                    Output.WriteLine(pnp);
-                }
-            });
-        }
 
         private static async Task LoadThesaurus() {
             foreach (var task in LexicalLookup.GetUnstartedLoadingTasks()) {
@@ -95,33 +79,6 @@ namespace Aluan_Experimentation
 
         }
 
-
-        private static void TestWordAndPhraseBindings() {
-            var doc = Tagger.DocumentFromRaw(new LASI.ContentSystem.TextFile(testPath));
-
-            new PronounBinder().Bind(doc);
-            foreach (var p in doc.Phrases.GetPronounPhrases())
-                Output.WriteLine(p);
-
-            PerformAttributeNounPhraseBinding(doc);
-
-            PrintDocument(doc);
-        }
-
-
-
-        private static void PrintDocument(Document doc) {
-            foreach (var r in doc.Phrases) {
-                Output.WriteLine(r);
-                foreach (var w in r.Words)
-                    Output.WriteLine(w);
-            }
-        }
-        private static void PerformAttributeNounPhraseBinding(Document doc) {
-            foreach (var s in doc.Sentences) {
-                new AttributiveNounPhraseBinder().Bind(s);
-            }
-        }
 
 
     }
