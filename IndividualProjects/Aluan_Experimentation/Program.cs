@@ -16,22 +16,31 @@ namespace Aluan_Experimentation
 {
     public class Program
     {
-
-
-        static string testPath = @"C:\Users\Aluan\Desktop\Documents\ducks.txt";
-
         static void Main(string[] args) {
             //Load up the document
-            var doc = Tagger.DocumentFromRaw(new TextFile(testPath));
+            LoadLookup();
+
+            var doc = Tagger.DocumentFromRaw(
+                new RawTextFragment(@"Black cats, fuzzy cats, and hiccuping cats are all silly things that one should avoid. 
+                            Silly cats are especially troublesome in that they actually have no morals at all.
+                            Of course, this sentence is even sillier than the prior one.",
+                "test"));
             //Bind it
             Task.WaitAll(Binder.GetBindingTasksForDocument(doc).Select(pt => pt.Task).ToArray());
+
+            TestRelationshipTable(doc);
 
             //Format and output words
             Console.WriteLine(doc.Words.Format(onePerLine: true));
             //Categorize and print each category. 
-            GetNounsByAdjectivalClassifiers(doc).ToList().ForEach(Console.WriteLine);
-
+            foreach (var i in GetNounsByAdjectivalClassifiers(doc)) {
+                Console.WriteLine(i);
+            }
             Input.WaitForKey();
+        }
+
+        private static void LoadLookup() {
+            Task.WaitAll(LexicalLookup.GetUnstartedLoadingTasks().ToArray());
         }
 
         private static IEnumerable<string> GetNounsByAdjectivalClassifiers(Document doc) {
@@ -70,12 +79,12 @@ namespace Aluan_Experimentation
         private static void TestRelationshipTable(Document doc) {
             var lookup = new SampleRelationshipLookup(doc);
 
-            Noun n1 = new GenericPluralNoun("cats"), n2 = new GenericPluralNoun("dogs");
+            Noun n1 = new GenericPluralNoun("cats"), n2 = new GenericPluralNoun("things");
             n1.SetRelationshipLookup(lookup);
-            Verb relator = new Verb("hate", VerbTense.Base);
+            Verb relator = new Verb("are", VerbTense.Base);
 
-            Output.WriteLine(n1.IsRelatedTo(n2).On(relator) ? "success" : "needs tweaking");
-
+            bool related = n1.IsRelatedTo(n2).On(relator);
+            Console.WriteLine(related ? string.Format("success:\n{0} is related to {1} on {2}", n1, n2, relator) : "needs work");
 
         }
 

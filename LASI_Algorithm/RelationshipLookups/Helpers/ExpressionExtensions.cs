@@ -47,7 +47,7 @@ namespace LASI.Algorithm.RelationshipLookups
         /// <returns>True if the given ActionsRelatedOn set contains the provided IVerbal, false if theActionsRelatedOn set does not contain the provided IVerbal or is null.</returns>
         public static bool On(this ActionsRelatedOn? relatorSet, IVerbal relator) {
 
-            return relatorSet.HasValue ? relatorSet.Value.RelatedOn.Contains(relator) : false;
+            return relatorSet.HasValue ? relatorSet.Value.RelatedOn.Contains(relator, (l, r) => l.Text == r.Text) : false;
         }
         /// <summary>
         /// Associates the given IEntity to the given IRelationshipLookup. All future searches involving the provided entity will be done in the context of the provided lookup.

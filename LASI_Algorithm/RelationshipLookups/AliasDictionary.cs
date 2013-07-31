@@ -20,7 +20,7 @@ namespace LASI.Algorithm
         /// <param name="other">The second Entity</param>
         /// <returns>true if the Entities are aliases for one another, false otherwise</returns>
         public static bool IsAliasFor(this IEntity entity, IEntity other) {
-            return Lookup(entity.Text, other.Text);
+            return entity??other??null==null?false? Lookup(entity.Text, other.Text);
         }
 
         private static bool Lookup(string entityText, string aliasText) {

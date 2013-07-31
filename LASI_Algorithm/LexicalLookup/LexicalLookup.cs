@@ -994,6 +994,7 @@ namespace LASI.Algorithm.LexicalLookup
         #endregion
 
         #region Utility Types
+
         /// <summary>
         /// Encapsulates multiple pieces of information gathered during a similarity comparison into a light weight type.
         /// The structure cannot be created from outside of the LexicalLookup class and is used to convey internal results.
@@ -1006,12 +1007,17 @@ namespace LASI.Algorithm.LexicalLookup
         public struct SimResult : IEquatable<SimResult>, IComparable<SimResult>
         {
             #region Constructors
+
             /// <summary>
             /// Initializes a new instance of the SimilarityResult structure from the provided values.
             /// </summary>
             /// <param name="similar">Indicates the result the true of false result of an IsSimilarTo test.</param>
             /// <param name="similarityRatio">Represents the similarity ratio between the tested elements, if applicable.</param>
-            internal SimResult(bool similar, double similarityRatio) : this() { BooleanResult = similar; RationalResult = similarityRatio; }
+            internal SimResult(bool similar, double similarityRatio)
+                : this() {
+                booleanResult = similar;
+                rationalResult = similarityRatio;
+            }
             /// <summary>
             /// intializes a new instance of the SimilarityResult structure from the provided bool value.
             /// </summary>
@@ -1020,6 +1026,7 @@ namespace LASI.Algorithm.LexicalLookup
             /// In such cases, the RatioResult property will be automatically set to 1 or 0 based on the truthfullness of the provided similar argument.
             /// </remarks>
             internal SimResult(bool similar) : this(similar, similar ? 1 : 0) { }
+
             #endregion
 
             #region Methods
@@ -1037,19 +1044,20 @@ namespace LASI.Algorithm.LexicalLookup
             /// other. Greater than zero This object is greater than other.
             /// </returns>
             public int CompareTo(SimResult other) {
-                return this.RationalResult.CompareTo(other.RationalResult);
+                return this.rationalResult.CompareTo(other.rationalResult);
             }
             public override bool Equals(object obj) {
                 return obj != null && obj is SimResult && this == (SimResult)obj;
             }
             public override int GetHashCode() {
-                return RationalResult.GetHashCode() ^ BooleanResult.GetHashCode();
+                return rationalResult.GetHashCode() ^ booleanResult.GetHashCode();
             }
             #endregion
 
-            #region Properties
-            private bool BooleanResult { get; set; }
-            private double RationalResult { get; set; }
+            #region Fields
+
+            private bool booleanResult;
+            private double rationalResult;
 
             #endregion
 
@@ -1061,17 +1069,18 @@ namespace LASI.Algorithm.LexicalLookup
             // without the need to rewrite any conditionals or call expensive methods multiple times to get numeric vs boolean results
 
             /// <summary>
-            /// Converts the SimResult into its boolean representation. The resulting boolean has the same value as the conversion target's BooleanResult Property.
+            /// Converts the SimResult into its boolean representation. The resulting boolean has the same value as the conversion target's booleanResult Property.
             /// </summary>
             /// <param name="sr">The SimResult to convert.</param>
-            /// <returns>A boolean with the same value as the conversion target's BooleanResult Property.</returns>
-            public static implicit operator bool(SimResult sr) { return sr.BooleanResult; }
+            /// <returns>A boolean with the same value as the conversion target's booleanResult Property.</returns>
+            public static implicit operator bool(SimResult sr) { return sr.booleanResult; }
             /// <summary>
             /// Converts the SimResult into its double representation. The resulting boolean has the same value as the conversion target's RatioResult Property.
             /// </summary>
             /// <param name="sr">The SimResult to convert.</param>
             /// <returns>A double with the same value as the conversion target's RatioResult Property.</returns>
-            public static implicit operator double(SimResult sr) { return sr.RationalResult; }
+            public static implicit operator double(SimResult sr) { return sr.rationalResult; }
+
             #endregion
 
             #region Comparison Operators
@@ -1079,30 +1088,35 @@ namespace LASI.Algorithm.LexicalLookup
             /// Returns a value that indicates whether the SimResult on the left is equal to the SimResult on the right.
             /// Although it seems unlikely that two instances of SimResult will be compared directly for equality. 
             /// The == and != operators or defined to ensure type coersion does not result from the implicit conversions which make the class convenient.
-            /// Equality is defined strictly such that both RatioResult properties must match exactly in addition to both BooleanResult properties.
+            /// Equality is defined strictly such that both RatioResult properties must match exactly in addition to both booleanResult properties.
             /// Keep this in mind if, for some reason, it is ever necessary to write code such as: if ( a.IsSimilarTo(b) == b.IsSimilarTo(a) ) { ... } 
             /// as the lexical lookup class itself currently makes no guarantees about reflexive equality over phrase-wise comparisons.
             /// </summary>
             /// <param name="left">The SimRult on the left hand side.</param>
             /// <param name="right">The SimRult on the right hand side.</param>
             /// <returns>True if the SimResult on the left is equal to the SimResult on the right.</returns>
-            public static bool operator ==(SimResult left, SimResult right) { return left.RationalResult == right.RationalResult && left.BooleanResult == right.BooleanResult; }
+            public static bool operator ==(SimResult left, SimResult right) {
+                return left.rationalResult == right.rationalResult && left.booleanResult == right.booleanResult;
+            }
             /// <summary>
             /// Returns a value that indicates whether the SimResult on the left is not equal to the SimResult on the right.
             /// Although it seems unlikely that two instances of SimResult will be compared directly for equality. 
             /// The == and != operators or defined to ensure type coersion does not result from the implicit conversions which make the class convenient.
-            /// Equality is defined strictly such that both RatioResult properties must match exactly in addition to both BooleanResult properties.
+            /// Equality is defined strictly such that both RatioResult properties must match exactly in addition to both booleanResult properties.
             /// Keep this in mind if, for some reason, it is ever necessary to write code such as: if ( a.IsSimilarTo(b) == b.IsSimilarTo(a) ) { ... } 
             /// as the lexical lookup class itself currently makes no guarantees about reflexive equality over phrase-wise comparisons.
             /// </summary>
             /// <param name="left">The SimRult on the left hand side.</param>
             /// <param name="right">The SimRult on the right hand side.</param>
             /// <returns>False if the SimResult on the left is equal to the SimResult on the right.</returns>
-            public static bool operator !=(SimResult left, SimResult right) { return !(left == right); }
+            public static bool operator !=(SimResult left, SimResult right) {
+                return !(left == right);
+            }
             #endregion
 
             #endregion
         }
+
         #endregion
     }
 }
