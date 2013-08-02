@@ -184,10 +184,10 @@ namespace LASI.ContentSystem
                 var phraseConstructor = PhraseTagset[phraseTag];
                 return phraseConstructor(words);
             } catch (UnknownPhraseTagException e) {
-                LASI.Utilities.Output.WriteLine("A phrase with an unknown tag was encounterd.\n{0}\nInstantiating new LASI.Algorithm.UnknownPhrase to compensate", e.Message);
+                LASI.Utilities.Output.WriteLine("\n{0}\nPhrase Words: {1}\nInstantiating new LASI.Algorithm.UnknownPhrase to compensate", e.Message, words.Format());
                 return new UnknownPhrase(words);
             } catch (EmptyPhraseTagException e) {
-                LASI.Utilities.Output.WriteLine("A phrase with an empty tag was encounterd.\n{0}\nInstantiating new LASI.Algorithm.UnknownPhrase to compensate", e.Message);
+                LASI.Utilities.Output.WriteLine("\n{0}\nPhrase Words: {1}\nInstantiating new LASI.Algorithm.UnknownPhrase to compensate", e.Message, words.Format());
                 return new UnknownPhrase(words);
             }
         }
@@ -203,10 +203,10 @@ namespace LASI.ContentSystem
                 var phraseConstructor = PhraseTagset[phraseTag];
                 return phraseConstructor(words);
             } catch (UnknownPhraseTagException e) {
-                LASI.Utilities.Output.WriteLine("A phrase with an unknown tag was encounterd.\n{0}\nInstantiating new LASI.Algorithm.UnknownPhrase to compensate", e.Message);
+                LASI.Utilities.Output.WriteLine("\n{0}\nPhrase Words: {1}\nInstantiating new LASI.Algorithm.UnknownPhrase to compensate", e.Message, words.Format());
                 return new UnknownPhrase(words);
             } catch (EmptyPhraseTagException e) {
-                LASI.Utilities.Output.WriteLine("A phrase with an empty tag was encounterd.\n{0}\nInstantiating new LASI.Algorithm.UnknownPhrase to compensate", e.Message);
+                LASI.Utilities.Output.WriteLine("\n{0}\nPhrase Words: {1}\nInstantiating new LASI.Algorithm.UnknownPhrase to compensate", e.Message, words.Format());
                 return new UnknownPhrase(words);
             }
         }
@@ -217,10 +217,10 @@ namespace LASI.ContentSystem
                 var phraseConstructor = PhraseTagset[phraseTag];
                 return () => phraseConstructor(wordExprs.Select(we => we()));
             } catch (UnknownPhraseTagException e) {
-                LASI.Utilities.Output.WriteLine("A phrase with an unknown tag was encounterd.\n{0}\nInstantiating new LASI.Algorithm.UnknownPhrase to compensate", e.Message);
+                LASI.Utilities.Output.WriteLine("\n{0}\nPhrase Words: {1}\nInstantiating new LASI.Algorithm.UnknownPhrase to compensate", e.Message, wordExprs.Format(expr => expr().ToString()));
                 return () => new UnknownPhrase(wordExprs.Select(we => we()));
             } catch (EmptyPhraseTagException e) {
-                LASI.Utilities.Output.WriteLine("A phrase with an empty tag was encounterd.\n{0}\nInstantiating new LASI.Algorithm.UnknownPhrase to compensate", e.Message);
+                LASI.Utilities.Output.WriteLine("\n{0}\nPhrase Words: {1}\nInstantiating new LASI.Algorithm.UnknownPhrase to compensate", e.Message, wordExprs.Format(expr => expr().ToString()));
                 return () => new UnknownPhrase(wordExprs.Select(we => we()));
             }
         }
@@ -247,7 +247,7 @@ namespace LASI.ContentSystem
                     try {
                         parsedWords.Add(wordMapper.CreateWord(e.Value));
                     } catch (UnknownWordTagException x) {
-                        LASI.Utilities.Output.WriteLine("A word with an empty tag was encounterd.\n{0}\nInstantiating new LASI.Algorithm.UnknownWord to compensate", x.Message);
+                        LASI.Utilities.Output.WriteLine("\n{0}\nText: {1}\nInstantiating new LASI.Algorithm.UnknownWord to compensate", x.Message, e.GetValueOrDefault().Text);
                         parsedWords.Add(new UnknownWord(e.Value.Text));
                     }
                 }
@@ -279,7 +279,7 @@ namespace LASI.ContentSystem
                     try {
                         wordExpressions.Add(tagParser.GetWordExpression(e.Value));
                     } catch (UnknownWordTagException x) {
-                        LASI.Utilities.Output.WriteLine("A word with an empty tag was encounterd.\n{0}\nInstantiating new LASI.Algorithm.UnknownWord to compensate", x.Message);
+                        LASI.Utilities.Output.WriteLine("\n{0}\nText: {1}\nInstantiating new LASI.Algorithm.UnknownWord to compensate", x.Message, e.GetValueOrDefault().Text);
                         wordExpressions.Add(() => new UnknownWord(e.Value.Text));
                     }
                 }

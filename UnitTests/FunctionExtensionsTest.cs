@@ -63,40 +63,16 @@ namespace AlgorithmAssemblyUnitTestProject
 
 
 
-
         /// <summary>
         ///A test for Compose
         ///</summary>
-        public void ComposeTestHelper<T>() {
-
-
-        }
-
-        //[TestMethod()]
-        //public void ComposeTest() {
-        //    Func<int, int> func = x => x * x * x;//cubes an int, A value type
-        //    Func<int, int>[] fs = new Func<int, int>[] { x => x / x, x => x + 1, x => x * 3 };
-        //    var function = FunctionExtensions.Compose(func, fs);
-        //    for (int i = 1; i < 100; i++) {
-        //        int k = i % 2 == 0 ? new Random().Next(1, 200) : new Random().Next(-199, -1);
-        //        int a = i * 3;
-        //        int b = a + 1;
-        //        int c = b / b;
-        //        int expected = c * c * c;
-        //        Assert.AreEqual(expected, function(k));
-
-        //    }
-        //}
-
-        /// <summary>
-        ///A test for Compose
-        ///</summary>
-        public void ComposeTest1Helper<T, U, R>() {
+        public void ComposeTest1Helper<R, U, T>() {
             Func<R, T> f = r => default(T);
             Func<U, R> g = u => default(R);
             Func<U, T> expected = u => default(T);
             Func<U, T> actual;
-            actual = FunctionExtensions.Compose<T, U, R>(f, g);
+            var y = f.Compose(g);
+            actual = FunctionExtensions.Compose<R, U, T>(f, g);
             Assert.AreEqual(expected(default(U)), default(T));
 
         }

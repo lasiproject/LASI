@@ -12,6 +12,8 @@ namespace LASI.Algorithm
     /// Defines extension methods for sequences of objects implementing the ILexical interface.
     /// </summary>
     /// <see cref="ILexical"/>
+    /// <seealso cref="System.Collections.Generic.IEnumerable{T}"/>
+    /// <seealso cref="System.Linq.Enumerable"/>
     public static class IEnumerableOfILexicalExtensions
     {
         /// <summary>
@@ -118,18 +120,26 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets all of the word instances in the sequence of ILexicals.
         /// </summary>
-        /// <param name="lexicals">The source sequence of ILexical instances.</param>
+        /// <param name="elements">The source sequence of ILexical instances.</param>
         /// <returns>all of the word instances in the sequence of ILexicals.</returns>
-        public static IEnumerable<Word> GetWords(this IEnumerable<ILexical> lexicals) {
-            return lexicals.OfType<Word>();
+        public static IEnumerable<Word> GetWords(this IEnumerable<ILexical> elements) {
+            return elements.OfType<Word>();
         }
         /// <summary>
         /// Gets all of the Phrase instances in the sequence of ILexicals.
         /// </summary>
-        /// <param name="lexicals">The source sequence of ILexical instances.</param>
+        /// <param name="elements">The source sequence of ILexical instances.</param>
         /// <returns>all of the Phrase instances in the sequence of ILexicals.</returns>
-        public static IEnumerable<Phrase> GetPhrases(this IEnumerable<ILexical> lexicals) {
-            return lexicals.OfType<Phrase>();
+        public static IEnumerable<Phrase> GetPhrases(this IEnumerable<ILexical> elements) {
+            return elements.OfType<Phrase>();
+        }
+        /// <summary>
+        /// Returns all AdjectivePhrases in the sequence.
+        /// </summary>
+        /// <param name="elements">The sequence of componentPhrases to filter</param>
+        /// <returns>All AdjectivePhrases in the sequence</returns>
+        public static IEnumerable<IEntity> GetEntities(this IEnumerable<ILexical> elements) {
+            return elements.OfType<IEntity>();
         }
         /// <summary>
         /// Returns a set representation of the given sequence of ILexical using the provided comparison function to determine element distinctness.

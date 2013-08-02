@@ -72,7 +72,7 @@ namespace LASI.UserInterface
 
         private static Label CreateLabelForWeightedView(NounPhrase element) {
             var genderString = !element.Words.GetDeterminers().Any() ?
-                element.IsFullMaleName() ? "Male" : element.IsFullFemaleName() ? "Female" :
+                element.IsMaleFullName() ? "Male" : element.IsFemaleFullName() ? "Female" :
                 (from p in element.Words.GetProperNouns()
                  group p by p.IsFemaleName() ? "Female" : p.IsMaleName() ? "Male" : "Undetermind"
                      into g

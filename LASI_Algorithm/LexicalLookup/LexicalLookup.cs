@@ -647,8 +647,7 @@ namespace LASI.Algorithm.LexicalLookup
             if (first.Words.Count() >= second.Words.Count()) {
                 outer = first;
                 inner = second;
-            }
-            else {
+            } else {
                 outer = second;
                 inner = first;
             }
@@ -672,37 +671,54 @@ namespace LASI.Algorithm.LexicalLookup
         #region Full Name Lookup Methods
 
         /// <summary>
+        /// Returns a NameGender value indiciating the likely gender of the ProperNoun.
+        /// </summary>
+        /// <param name="name">The ProperNoun whose gender to lookup.</param>
+        /// <returns>A NameGender value indiciating the likely gender of the ProperNoun.</returns>
+        public static NameGender GetNameGender(this ProperNoun name) {
+            return name.IsFemaleName() ? NameGender.Female : name.IsMaleName() ? NameGender.Male : name.IsLastName() ? NameGender.Unknown : NameGender.UNDEFINED;
+        }
+        /// <summary>
+        /// Returns a NameGender value indiciating the likely prevailing gender within the NounPhrase.
+        /// </summary>
+        /// <param name="name">The NounPhrase whose prevailing gender to lookup.</param>
+        /// <returns>A NameGender value indiciating the likely prevailing gender of the NounPhrase.</returns>
+        public static NameGender GetNameGender(this NounPhrase name) {
+            return name.IsFemaleFullName() ? NameGender.Female : name.IsMaleFullName() ? NameGender.Male : name.IsFullName() ? NameGender.Unknown : NameGender.UNDEFINED;
+        }
+
+        /// <summary>
         /// Determines if the provided NounPhrase is a known Full Name.
         /// </summary>
         /// <param name="name">The NounPhrase to check.</param>
         /// <returns>True if the provided NounPhrase is a known Full Name, false otherwise.</returns>
         public static bool IsFullName(this NounPhrase name) {
-            return InternalFullNameChecking(name, proper => proper.IsFirstName());
+            return CheckFullNameGender(name, IsFirstName);
         }
         /// <summary>
         /// Determines if the provided NounPhrase is a known Full Female Name.
         /// </summary>
         /// <param name="name">The NounPhrase to check.</param>
         /// <returns>True if the provided NounPhrase is a known Full Female Name, false otherwise.</returns>
-        public static bool IsFullFemaleName(this NounPhrase name) {
-            return InternalFullNameChecking(name, proper => proper.IsFemaleName());
+        public static bool IsFemaleFullName(this NounPhrase name) {
+            return CheckFullNameGender(name, IsFemaleName);
         }
         /// <summary>
         /// Determines if the provided NounPhrase is a known Full Male Name.
         /// </summary>
         /// <param name="name">The NounPhrase to check.</param>
         /// <returns>True if the provided NounPhrase is a known Full Male Name, false otherwise.</returns>
-        public static bool IsFullMaleName(this NounPhrase name) {
-            return InternalFullNameChecking(name, properNoun => properNoun.IsMaleName());
+        public static bool IsMaleFullName(this NounPhrase name) {
+            return CheckFullNameGender(name, properNoun => properNoun.IsMaleName());
         }
 
 
-        private static bool InternalFullNameChecking(NounPhrase name, Func<ProperNoun, bool> fnPredicate) {
+        private static bool CheckFullNameGender(NounPhrase name, Func<ProperNoun, bool> firstNameCondition) {
             var pns = name.Words.GetProperNouns();
             var pcnt = pns.Count();
             return pcnt > 1 &&
-            pns.FirstOrDefault(proper => proper != null && fnPredicate(proper)) != null &&
-            pns.Last(s => s != null && s.IsFirstName() || s.IsLastName()).IsLastName();
+            pns.FirstOrDefault(firstNameCondition) != null &&
+            pns.LastOrDefault(IsLastName) != null;
         }
 
         #endregion

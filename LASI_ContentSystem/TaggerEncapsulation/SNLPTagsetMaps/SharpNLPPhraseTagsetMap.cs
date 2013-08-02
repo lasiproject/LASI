@@ -45,7 +45,7 @@ namespace LASI.ContentSystem.TaggerEncapsulation
             { "SBAR", ws => new SubordinateClauseBeginPhrase(ws) },
             { "LST", ws => new RoughListPhrase(ws) },
             { "INTJ", ws => new InterjectionPhrase(ws) },
-            { "", ws => { throw new EmptyPhraseTagException(string.Format("the tag for word: {0}\nis empty",ws.Aggregate("", (s,w) => s += " ").Trim())); } },
+            { "", ws => { throw new EmptyPhraseTagException(ws.Aggregate("", (s,w) => s += " ").Trim()); } },
         };
 
         #endregion
@@ -62,7 +62,7 @@ namespace LASI.ContentSystem.TaggerEncapsulation
                 try {
                     return typeDictionary[tag];
                 } catch (KeyNotFoundException) {
-                    throw new UnknownPhraseTagException(String.Format("The phrase tag {0} is not defined by this Tagset", tag));
+                    throw new UnknownPhraseTagException(tag);
                 }
             }
         }

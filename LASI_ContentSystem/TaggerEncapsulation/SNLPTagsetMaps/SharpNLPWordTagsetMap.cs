@@ -108,7 +108,7 @@ namespace LASI.ContentSystem.TaggerEncapsulation
                 try {
                     return typeDictionary[tag];
                 } catch (KeyNotFoundException) {
-                    throw new UnknownWordTagException(String.Format("The tag {0} is not defined by this Tagset", tag));
+                    throw new UnknownWordTagException(tag);
                 }
             }
         }

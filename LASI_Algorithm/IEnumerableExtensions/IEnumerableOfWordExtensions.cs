@@ -22,8 +22,7 @@ namespace LASI.Algorithm
         /// <param name="words">A sequence of word instances</param>
         /// <returns>A WordList containing all words which match the argument</returns>
         /// <see cref="Word"/>
-        public static IEnumerable<T> FindAllMatches<T>(this IEnumerable<T> words,
-            T toMatch) where T : Word {
+        public static IEnumerable<T> FindAllMatches<T>(this IEnumerable<T> words, T toMatch) where T : Word {
             if (toMatch == null) { throw new ArgumentNullException("toMatch", "The provided Word to match against was null."); }
             return from word in words
                    where word.Text == toMatch.Text && word.GetType() == toMatch.GetType()
@@ -37,8 +36,7 @@ namespace LASI.Algorithm
         /// <param name="toMatch">A Word to match against.</param>
         /// <param name="comparison">The function to use to compare Words.</param>
         /// <returns>All nouns in the which compare equal to the Word to match in the provided comparison function.</returns>
-        public static IEnumerable<T> FindAllMatches<T>(this IEnumerable<T> words,
-           T toMatch, Func<T, T, bool> comparison) where T : Word {
+        public static IEnumerable<T> FindAllMatches<T>(this IEnumerable<T> words, T toMatch, Func<T, T, bool> comparison) where T : Word {
             if (toMatch == null) { throw new ArgumentNullException("toMatch", "The provided Word to match against was null."); }
             if (comparison == null) { throw new ArgumentNullException("comparison", "The provided comparison function was null."); }
             return from W in words

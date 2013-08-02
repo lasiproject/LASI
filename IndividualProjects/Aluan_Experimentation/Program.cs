@@ -19,30 +19,27 @@ namespace Aluan_Experimentation
         static void Main(string[] args) {
             //Load up the document
             LoadLookup();
+            Output.SetToFile(@"C:\Users\Aluan\Desktop\log1.txt");
 
             var doc = Tagger.DocumentFromRaw(
                 new RawTextFragment(@"As noted by Peggy Sue Anderson, Tyrone Henry Bliss Green is a man of exceptional taste.",
                 "test"));
-            foreach (var pnp in from nounPhrase in doc.Phrases.GetNounPhrases()
-                                let firstWord = nounPhrase.Words.GetProperNouns().FirstOrDefault() as ProperNoun
-                                let lastWord = nounPhrase.Words.GetProperNouns().LastOrDefault() as ProperNoun
-                                let GenderString =
-                                   firstWord != null ? firstWord.IsFemaleName() ? "Female" : firstWord.IsMaleName() ? "Male" : "Undetermined" : null
-                                select new { nounPhrase, GenderString } into g where g.GenderString != null select g) {
-                Console.WriteLine("Name: {0}\nLikely Gender: {1}", pnp.nounPhrase.Text, pnp.GenderString);
+            foreach (var pnp in from np in doc.Phrases.GetNounPhrases()
+                                let firstWord = np.Words.GetProperNouns().FirstOrDefault() as ProperNoun
+                                let lastWord = np.Words.GetProperNouns().LastOrDefault() as ProperNoun
+                                let result = new { NP = np, Gender = np.GetNameGender() }
+                                where result.Gender != NameGender.UNDEFINED
+                                select result) {
+                Output.WriteLine("Name: {0}\nLikely Gender: {1}", pnp.NP.Text, pnp.Gender);
             }
-
-            //Bind it
+            Func<int, string> f = x => x.ToString();
+            Func<int, int> g = x => x * x;
+            var c = f.Compose(g);
             Task.WaitAll(Binder.GetBindingTasksForDocument(doc).Select(pt => pt.Task).ToArray());
 
-            TestRelationshipTable(doc);
+            //TestRelationshipTable(doc);
 
-            ////Format and output words
-            //Console.WriteLine(doc.Words.Format(onePerLine: true));
-            ////Categorize and print each category. 
-            //foreach (var i in GetNounsByAdjectivalClassifiers(doc)) {
-            //    Console.WriteLine(i);
-            //}
+            GetNounsByAdjectivalClassifiers(doc);
             Input.WaitForKey();
         }
 
@@ -51,18 +48,17 @@ namespace Aluan_Experimentation
         }
 
         private static IEnumerable<string> GetNounsByAdjectivalClassifiers(Document doc) {
-            return from i in doc.Words.GetNouns()
-                       .Where(n => n.Descriptors.Any())
-                       .OrderByDescending(n => n.Text)
-                       .Distinct((l, r) => l.Descriptors.SequenceEqual(r.Descriptors, (a, b) => a.Text == b.Text))
-                       .Select(n => new { n.Text, det = n.Determiner != null ? n.Determiner.Text : "none", dscrptrs = n.Descriptors })
-                   group i by new { i.Text, i.det } into g
-                   select string.Format(
-                        "det:{0} n: {1} d: {2}",
-                        g.First().det,
-                        g.Key,
-                        g.Format(i => i.dscrptrs.Format(aj => aj.Text))
-                   );
+            var result = from i in doc.Words.GetNouns()
+                        .Where(n => n.Descriptors.Any())
+                        .OrderByDescending(n => n.Text)
+                        .Distinct((l, r) => l.Descriptors.SequenceEqual(r.Descriptors, (a, b) => a.Text == b.Text))
+                        .Select(n => new { Noun = n.Text, Determiner = n.Determiner != null ? n.Determiner.Text : "none", Discriptors = n.Descriptors })
+                         group i by new { i.Noun, i.Determiner } into g
+                         select string.Format("{0} Discriptors = {1}", g.Key, g.First().Discriptors.Format(SeqFormatDelim.Curly, aj => aj.Text));
+            foreach (var i in result) {
+                Output.WriteLine(i);
+            }
+            return result;
         }
 
 
@@ -91,7 +87,7 @@ namespace Aluan_Experimentation
             Verb relator = new Verb("are", VerbTense.Base);
 
             bool related = n1.IsRelatedTo(n2).On(relator);
-            Console.WriteLine(related ? string.Format("success:\n{0} is related to {1} on {2}", n1, n2, relator) : "needs work");
+            Output.WriteLine(related ? string.Format("success:\n{0} is related to {1} on {2}", n1, n2, relator) : "needs work");
 
         }
 

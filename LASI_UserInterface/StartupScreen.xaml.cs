@@ -27,12 +27,9 @@ namespace LASI.UserInterface
     public partial class StartupScreen : Window
     {
         public StartupScreen() {
-
-
-#if DEBUG
-            Output.SetToDebug();
-#endif
-
+            //Setup logfile location.
+            var appFileName = Environment.GetCommandLineArgs()[0];
+            Output.SetToFile(System.IO.Path.Combine(System.IO.Path.GetDirectoryName(appFileName), "lasi_log.txt"));
 
             InitializeComponent();
             WindowManager.StartupScreen = this;
@@ -122,8 +119,7 @@ namespace LASI.UserInterface
                     var fileName = openDialog.SafeFileName;
                     var filePath = openDialog.FileName;
                     DocumentManager.AddUserDocument(fileName, filePath);
-                }
-                else {
+                } else {
                     MessageBox.Show(this, string.Format("A document named {0} is already part of the project.", openDialog.SafeFileName));
                 }
             }
@@ -149,8 +145,7 @@ namespace LASI.UserInterface
                 await InitializeFileManager();
                 this.SwapWith(WindowManager.ProjectPreviewScreen);
                 WindowManager.ProjectPreviewScreen.LoadDocumentPreviews();
-            }
-            else {
+            } else {
                 AlertUserAboutInvalidFields();
             }
 
@@ -175,8 +170,7 @@ namespace LASI.UserInterface
                 // ProjCreateErrorLabel.Visibility = Visibility.Visible;
                 NothingFilledImage.Visibility = Visibility.Visible;
 
-            }
-            else {
+            } else {
                 //ProjCreateErrorLabel.Visibility = Visibility.Hidden;
                 NothingFilledImage.Visibility = Visibility.Hidden;
 
@@ -185,8 +179,7 @@ namespace LASI.UserInterface
                 ProjNameErrorLabel.Visibility = Visibility.Visible;
                 ProjNameErrorImage.Visibility = Visibility.Visible;
                 ProjLocationErrorLabel.Visibility = Visibility.Visible;
-            }
-            else {
+            } else {
 
                 ProjLocationErrorLabel.Visibility = Visibility.Hidden;
                 ProjNameErrorLabel.Visibility = Visibility.Hidden;
@@ -196,8 +189,7 @@ namespace LASI.UserInterface
             if (ValidateProjectNameField() == true && ValidateProjectDocumentField() == false) {
                 ProjDocumentErrorLabel.Visibility = Visibility.Visible;
                 NoDocumentsImage.Visibility = Visibility.Visible;
-            }
-            else {
+            } else {
                 ProjDocumentErrorLabel.Visibility = Visibility.Hidden;
                 NoDocumentsImage.Visibility = Visibility.Hidden;
             }
@@ -285,16 +277,13 @@ namespace LASI.UserInterface
             var filesInValidFormats = DocumentManager.GetValidFilesInPathList(e.Data.GetData(System.Windows.DataFormats.FileDrop, true) as string[]);
             if (!filesInValidFormats.Any()) {
                 MessageBox.Show(this, string.Format("Only the following file formats are accepted:\n{0}", DocumentManager.AcceptedFormats.Aggregate((sum, current) => sum += current + ", ")));
-            }
-            else if (!filesInValidFormats.Any(fn => !DocumentManager.FileNamePresent(fn.Name))) {
+            } else if (!filesInValidFormats.Any(fn => !DocumentManager.FileNamePresent(fn.Name))) {
                 MessageBox.Show(this, string.Format("A document named {0} is already part of the projects.", filesInValidFormats.First()));
-            }
-            else {
+            } else {
                 foreach (var droppedFile in filesInValidFormats) {
                     if (!DocumentManager.FileIsLocked(droppedFile)) {
                         DocumentManager.AddUserDocument(droppedFile.Name, droppedFile.FullName);
-                    }
-                    else {
+                    } else {
                         MessageBox.Show(this, string.Format("The document {0} is in use by another process, please close any applications which may be using the file and try again.", droppedFile));
                     }
                 }

@@ -17,7 +17,7 @@ namespace LASI.ContentSystem
         /// </summary>
         /// <param name="posTagString">A description of the error. The content of message is intended to be understood by humans.</param>
         public UnknownWordTagException(string posTagString)
-            : base(string.Format("the word tag for {0}\nis not defined by the TagSet", posTagString)) {
+            : base(string.Format("The word tag for {0}\nis not defined by the TagSet", posTagString)) {
         }
         /// <summary>
         /// Initializes a new instance of the UnknownPOSException class with its message string set to message.
@@ -56,7 +56,7 @@ namespace LASI.ContentSystem
         /// </summary>
         /// <param name="message">A description of the error. The content of message is intended to be understood by humans.</param>
         public UnknownPhraseTagException(string posTagString)
-            : base(string.Format("the phrase tag {0}\nis not defined by the TagSet", posTagString)) {
+            : base(string.Format("The phrase tag {0}\nis not defined by the TagSet", posTagString)) {
         }
         /// <summary>
         /// Initializes a new instance of the UnknownPhraseTypeException class with its message string set to message.
@@ -95,7 +95,7 @@ namespace LASI.ContentSystem
         /// </summary>
         /// <param name="wordText">A description of the error. The content of message is intended to be understood by humans.</param>
         public EmptyWordTagException(string wordText)
-            : base(string.Format("the tag for word: {0} is empty", wordText)) {
+            : base(string.Format("The tag for word: {0} is empty", wordText)) {
         }
         /// <summary>
         /// Initializes a new instance of the EmptyTagException class with its message string set to message.
@@ -133,7 +133,7 @@ namespace LASI.ContentSystem
         /// </summary>
         /// <param name="phraseText">A description of the error. The content of message is intended to be understood by humans.</param>
         public EmptyPhraseTagException(string phraseText)
-            : base(string.Format("the tag for phrase: {0} is empty", phraseText)) {
+            : base(string.Format("The tag for phrase: {0} is empty", phraseText)) {
         }
         /// <summary>
         /// Initializes a new instance of the EmptyPhraseTagException class with its message string set to message.
