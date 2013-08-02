@@ -684,7 +684,7 @@ namespace LASI.Algorithm.LexicalLookup
         /// <param name="name">The NounPhrase whose prevailing gender to lookup.</param>
         /// <returns>A NameGender value indiciating the likely prevailing gender of the NounPhrase.</returns>
         public static NameGender GetNameGender(this NounPhrase name) {
-            return name.IsFemaleFullName() ? NameGender.Female : name.IsMaleFullName() ? NameGender.Male : name.IsFullName() ? NameGender.Unknown : NameGender.UNDEFINED;
+            return name.IsFullFemaleName() ? NameGender.Female : name.IsFullMaleName() ? NameGender.Male : name.IsFullName() ? NameGender.Unknown : NameGender.UNDEFINED;
         }
 
         /// <summary>
@@ -700,7 +700,7 @@ namespace LASI.Algorithm.LexicalLookup
         /// </summary>
         /// <param name="name">The NounPhrase to check.</param>
         /// <returns>True if the provided NounPhrase is a known Full Female Name, false otherwise.</returns>
-        public static bool IsFemaleFullName(this NounPhrase name) {
+        public static bool IsFullFemaleName(this NounPhrase name) {
             return CheckFullNameGender(name, IsFemaleName);
         }
         /// <summary>
@@ -708,7 +708,7 @@ namespace LASI.Algorithm.LexicalLookup
         /// </summary>
         /// <param name="name">The NounPhrase to check.</param>
         /// <returns>True if the provided NounPhrase is a known Full Male Name, false otherwise.</returns>
-        public static bool IsMaleFullName(this NounPhrase name) {
+        public static bool IsFullMaleName(this NounPhrase name) {
             return CheckFullNameGender(name, properNoun => properNoun.IsMaleName());
         }
 

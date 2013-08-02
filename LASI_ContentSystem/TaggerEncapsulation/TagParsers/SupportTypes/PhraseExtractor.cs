@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LASI.ContentSystem.TaggerEncapsulation
 {
-    public class PhraseExtractor
+    internal class PhraseExtractor
     {
         public TextNode ExtractAndConsume(ref string phraseString) {
             phraseString = phraseString.Trim();
@@ -29,8 +29,7 @@ namespace LASI.ContentSystem.TaggerEncapsulation
                 var r2 = new TextNode(result.Tag + ":  " + result.Text);
                 r2.AppentChild(ExtractAndConsume(ref innerText));
                 return r2;
-            }
-            else {
+            } else {
                 phraseString = phraseString.Substring(innerTextEnd + 1).Trim();
                 var result = new TextTagPair(elementTag: "X", elementText: string.Format("({0} {1})", tag, innerText));
                 var r3 = new TextNode(result.Tag + ":  " + result.Text);
@@ -39,7 +38,7 @@ namespace LASI.ContentSystem.TaggerEncapsulation
             }
         }
     }
-    public class TextNode
+    internal class TextNode
     {
 
         public TextNode(string text) {

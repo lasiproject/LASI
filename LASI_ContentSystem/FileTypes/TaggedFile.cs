@@ -15,7 +15,7 @@ namespace LASI.ContentSystem
         /// <summary>
         /// Initializes a new instance of the TaggedFile class for the given path.
         /// </summary>
-        /// <param name="absolutePath">The path to a .tagged file.</param>
+        /// <param name="filePath">The path to a .tagged file.</param>
         /// <exception cref="FileTypeWrapperMismatchException">Thrown if the provided path does not end in the .tagged extension.</exception>
         public TaggedFile(string filePath)
             : base(filePath) {

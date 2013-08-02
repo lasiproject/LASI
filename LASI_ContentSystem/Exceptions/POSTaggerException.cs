@@ -54,7 +54,7 @@ namespace LASI.ContentSystem
         /// <summary>
         /// Initializes a new instance of the UnknownPhraseTypeException class with its message string set to message.
         /// </summary>
-        /// <param name="message">A description of the error. The content of message is intended to be understood by humans.</param>
+        /// <param name="posTagString">A description of the error. The content of message is intended to be understood by humans.</param>
         public UnknownPhraseTagException(string posTagString)
             : base(string.Format("The phrase tag {0}\nis not defined by the TagSet", posTagString)) {
         }
@@ -239,8 +239,8 @@ namespace LASI.ContentSystem
     }
     /// <summary>
     /// The Exception that is thrown when attempting to access the indexing tag for a LASI.Algorithm.Word Type (or constructor returning it) which is not known to the Tagset.
-    /// <see cref="WordTagsetMap"/>
-    /// <seealso cref="SharpNLPWordTagsetMap"/>
+    /// <see cref="LASI.ContentSystem.TaggerEncapsulation.WordTagsetMap"/>
+    /// <seealso cref="LASI.ContentSystem.TaggerEncapsulation.SharpNLPWordTagsetMap"/>
     /// </summary>
     [Serializable]
     public sealed class UnmappedWordTypeException : POSTagException

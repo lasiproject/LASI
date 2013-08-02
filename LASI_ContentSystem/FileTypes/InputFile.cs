@@ -67,11 +67,18 @@ namespace LASI.ContentSystem
                 return fileData.Directory;
             }
         }
-
+        /// <summary>
+        /// Returns a value that indicates whether the specified object is equal to the current InputFile.
+        /// </summary>
+        /// <param name="obj">The object to compare with.</param> 
+        /// <returns>True if the specified object is equal to the current InputFile, false otherwise.</returns> 
         public override bool Equals(object obj) {
             return this == obj as InputFile;
         }
-
+        /// <summary>
+        /// Gets the hash code of the InputFile.
+        /// </summary>
+        /// <returns>The hash code of the InputFile.</returns>
         public override int GetHashCode() {
             return fileData.GetHashCode();
         }
@@ -82,17 +89,29 @@ namespace LASI.ContentSystem
         public override string ToString() {
             return this.GetType() + fileData.ToString();
         }
-        public static bool operator ==(InputFile lhs, InputFile rhs) {
-            if (lhs as object == null && rhs as object == null)
+        /// <summary>
+        /// Returns a value that indicates whether the InputFile on the left is equal to the InputFile on the right.
+        /// </summary>
+        /// <param name="left">The InputFile on the left.</param>
+        /// <param name="right">The InputFile on the right.</param>
+        /// <returns>True if the InputFile on the left is equal to the InputFile on the right.</returns>
+        public static bool operator ==(InputFile left, InputFile right) {
+            if (left as object == null && right as object == null)
                 return true;
-            else if (rhs as object == null || lhs as object == null)
+            else if (right as object == null || left as object == null)
                 return false;
             else
-                return lhs.fileData == rhs.fileData;
+                return left.fileData == right.fileData;
             //return lhs.Directory == rhs.Directory && lhs.Ext == rhs.Ext && lhs.FullPath == rhs.FullPath && lhs.Name == rhs.Name && lhs.NameSansExt == rhs.NameSansExt && lhs.PathSansExt == rhs.PathSansExt;
         }
-        public static bool operator !=(InputFile lhs, InputFile rhs) {
-            return !(lhs == rhs);
+        /// <summary>
+        /// Returns a value that indicates whether the InputFile on the left is not equal to the InputFile on the right.
+        /// </summary>
+        /// <param name="left">The InputFile on the left.</param>
+        /// <param name="right">The InputFile on the right.</param>
+        /// <returns>True if the InputFile on the left is not equal to the InputFile on the right.</returns>
+        public static bool operator !=(InputFile left, InputFile right) {
+            return !(left == right);
         }
 
         /// <summary>

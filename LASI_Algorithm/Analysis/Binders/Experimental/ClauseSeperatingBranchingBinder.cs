@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using LASI.Algorithm.LexicalLookup;
 namespace LASI.Algorithm.Analysis.Binders.Experimental
 {
-    class ClauseSeperatingBranchingBinder
+    public class ClauseSeperatingBranchingBinder
     {
-        void Bind(IEnumerable<Word> elements) {
+        public void Bind(IEnumerable<Word> elements) {
             var splitters = elements
                 .Select((e, index) => new { Word = e as Preposition ?? e as Punctuation ?? e as Conjunction as Word, Location = index })
                 .Where(r => r.Word != null)
@@ -23,7 +23,7 @@ namespace LASI.Algorithm.Analysis.Binders.Experimental
         private IEnumerable<Action> ImagineBindings(IEnumerable<Word> branch) {
             var indexProvider = branch.ToList();
             var joined = from n in branch.GetNouns()
-                         select n is ProperNoun ? new { n, g = (n as ProperNoun).IsFemaleName() ? 'F' : (n as ProperNoun).IsMaleName() ? 'M' : 'A' } : new { n, g = 'U' } into outer
+                         select n is ProperNoun ? new { n, g = (n as ProperNoun).IsFemaleName() && !(n.Phrase as NounPhrase).IsFullMaleName() ? 'F' : (n as ProperNoun).IsMaleName() && !(n.Phrase as NounPhrase).IsFullFemaleName() ? 'M' : 'A' } : new { n, g = 'U' } into outer
                          join inner in from p in branch.GetPronouns() select new { p, g = p.PronounKind.IsFemale() ? 'F' : p.PronounKind.IsMale() ? 'M' : p.PronounKind.IsGenderAmbiguous() ? 'A' : 'U' }
                          on outer.g equals inner.g
                          where indexProvider.IndexOf(outer.n) < indexProvider.IndexOf(inner.p)

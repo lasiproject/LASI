@@ -103,7 +103,7 @@ namespace LASI.ContentSystem
         /// <summary>
         /// Returns a value indicating whether a file with the same name as that of the given InputFile, irrespective of its extension, is part of the project. 
         /// </summary>
-        /// <param name="filePath">An an Instance of the InputFile class or one of its descendents.</param>
+        /// <param name="inputFile">An an Instance of the InputFile class or one of its descendents.</param>
         /// <returns>False if a file with the same name, irrespective of it'subject extension, is part of the project. False otherwise.</returns>
         public static bool HasSimilarFile(InputFile inputFile) {
             return !localDocumentNames.Contains(inputFile.NameSansExt);
@@ -232,9 +232,9 @@ namespace LASI.ContentSystem
         }
 
         /// <summary>
-        /// Removes the document represented by InputFile object from the project
+        /// Removes the document represented by InputFile object from the project.
         /// </summary>
-        /// <param name="file">The document to remove</param>
+        /// <param name="file">The document to remove.</param>
         public static void RemoveFile(InputFile file) {
             if (!Initialized) {
                 throw new FileManagerNotInitializedException();
@@ -243,11 +243,15 @@ namespace LASI.ContentSystem
 
             RemoveFile(file as dynamic);
         }
-        public static void RemoveFile(string file) {
+        /// <summary>
+        /// Removes the document at the provided path from the project.
+        /// </summary>
+        /// <param name="filePath">The path of the document to remove.</param>
+        public static void RemoveFile(string filePath) {
             if (!Initialized) {
                 throw new FileManagerNotInitializedException();
             }
-            RemoveAllAlikeFiles(file);
+            RemoveAllAlikeFiles(filePath);
         }
 
         private static void RemoveFile(TextFile file) {
@@ -603,7 +607,7 @@ namespace LASI.ContentSystem
                 return pdfFiles;
             }
         }
-        // <summary>
+        /// <summary>
         /// Gets the list of TaggedFile instances which represent all *.tagged files which are included in the project. 
         /// TaggedFile instances are wrapper objects which provide discrete accessors to relevant *.tagged file properties.
         /// </summary>
@@ -677,8 +681,7 @@ namespace LASI.ContentSystem
     {
         /// <summary>
         /// Initializes a new instance of the FileManagerException class with with its message string set to message.
-        /// </summary>
-        /// <param name="message">A description of the error. The content of message is intended to be understood</param>
+        /// </summary> 
         public FileManagerNotInitializedException()
             : base("File Manager has not been initialized. No directory context in which to operate.") {
         }

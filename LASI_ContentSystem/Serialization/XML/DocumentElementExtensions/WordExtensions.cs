@@ -8,13 +8,12 @@ using System.Xml.Linq;
 
 namespace LASI.ContentSystem.Serialization.XML.DocumentElementExtensions
 {
-    public static class WordExtensions
+    static class WordExtensions
     {
         public static XElement ToXml(this ILexical element) {
             try {
                 return (element as dynamic).ToXElement();
-            }
-            catch (Microsoft.CSharp.RuntimeBinder.RuntimeBinderException) {
+            } catch (Microsoft.CSharp.RuntimeBinder.RuntimeBinderException) {
                 return null;
             }
         }
@@ -79,8 +78,7 @@ namespace LASI.ContentSystem.Serialization.XML.DocumentElementExtensions
             var w = element as Word;
             if (w != null) {
                 result += w.ID;
-            }
-            else {
+            } else {
                 var p = element as Phrase;
                 if (p != null) {
                     result += p.ID;

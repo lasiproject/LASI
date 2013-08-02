@@ -35,7 +35,7 @@ namespace LASI.ContentSystem
         /// <summary>
         /// Creates a new Instance of the Word class which corresponds to the given text token and Part Of Speech tag.
         /// </summary>
-        /// <param name="tag">A Word or Punctuation string and its associated Part Of Speech tag.</param>
+        /// <param name="taggedText">A Word or Punctuation string and its associated Part Of Speech tag.</param>
         /// <returns>A new instance of the appropriate word type corresponding with the tag and containing the given text.</returns>
         public Word CreateWord(TextTagPair taggedText) {
             if (string.IsNullOrWhiteSpace(taggedText.Text))

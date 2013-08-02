@@ -31,7 +31,7 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="target">The entity to which to bind.</param>
         public void BindAsReferringTo(IEntity target) {
-            if (EntityRefererredTo != null || !EntityRefererredTo.Any())
+            if (EntityRefererredTo != null && !EntityRefererredTo.Any() || EntityRefererredTo == null)
                 EntityRefererredTo = new EntityGroup(new[] { target });
             else
                 EntityRefererredTo = new EntityGroup(EntityRefererredTo.Concat(new[] { target }));

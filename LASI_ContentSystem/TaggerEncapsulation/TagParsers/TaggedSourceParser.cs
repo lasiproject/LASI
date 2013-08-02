@@ -14,14 +14,14 @@ using System.Threading.Tasks;
 
 namespace LASI.ContentSystem
 {
-    class TaggedFileParser : LASI.ContentSystem.TaggerEncapsulation.TagParser
+    class TaggedSourceParser : LASI.ContentSystem.TaggerEncapsulation.TagParser
     {
         #region Construtors
         /// <summary>
         /// Initialized a new instance of the TaggedFilerParser class to parse the contents of the specified file.
         /// </summary>
-        /// <param name="filePath">The wrapper which encapsulates the newPath information for the pre-POS-tagged file to parse.</param>
-        public TaggedFileParser(ITaggedTextSource file) {
+        /// <param name="file">The wrapper which encapsulates the newPath information for the pre-POS-tagged file to parse.</param>
+        public TaggedSourceParser(ITaggedTextSource file) {
 
             TaggedInputData = file.GetText().Trim();
         }

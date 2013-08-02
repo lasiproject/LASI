@@ -11,6 +11,7 @@ using System.Configuration;
 using System.Linq;
 using System.Threading.Tasks;
 using LASI.ContentSystem;
+using LASI.Algorithm.Analysis.Binders.Experimental;
 
 namespace Aluan_Experimentation
 {
@@ -19,11 +20,23 @@ namespace Aluan_Experimentation
         static void Main(string[] args) {
             //Load up the document
             LoadLookup();
-            Output.SetToFile(@"C:\Users\Aluan\Desktop\log1.txt");
+            //Output.SetToFile(@"C:\Users\Aluan\Desktop\log1.txt");
 
-            var doc = Tagger.DocumentFromRaw(
-                new RawTextFragment(@"As noted by Peggy Sue Anderson, Tyrone Henry Bliss Green is a man of exceptional taste.",
-                "test"));
+            var doc = Tagger.DocumentFromRaw(new RawTextFragment(@"As noted by Peggy Sue Anderson, Tyrone Henry Bliss Green is a man of exceptional taste, as he himself would say.", "test"));
+            TestGenderRecognition(doc);
+
+            foreach (var sentence in doc.Sentences) {
+                new ClauseSeperatingBranchingBinder().Bind(sentence.Words);
+            }
+
+            Task.WaitAll(Binder.GetBindingTasksForDocument(doc).Select(pt => pt.Task).ToArray());
+
+
+            GetNounsByAdjectivalClassifiers(doc);
+            Input.WaitForKey();
+        }
+
+        private static void TestGenderRecognition(Document doc) {
             foreach (var pnp in from np in doc.Phrases.GetNounPhrases()
                                 let firstWord = np.Words.GetProperNouns().FirstOrDefault() as ProperNoun
                                 let lastWord = np.Words.GetProperNouns().LastOrDefault() as ProperNoun
@@ -32,15 +45,6 @@ namespace Aluan_Experimentation
                                 select result) {
                 Output.WriteLine("Name: {0}\nLikely Gender: {1}", pnp.NP.Text, pnp.Gender);
             }
-            Func<int, string> f = x => x.ToString();
-            Func<int, int> g = x => x * x;
-            var c = f.Compose(g);
-            Task.WaitAll(Binder.GetBindingTasksForDocument(doc).Select(pt => pt.Task).ToArray());
-
-            //TestRelationshipTable(doc);
-
-            GetNounsByAdjectivalClassifiers(doc);
-            Input.WaitForKey();
         }
 
         private static void LoadLookup() {

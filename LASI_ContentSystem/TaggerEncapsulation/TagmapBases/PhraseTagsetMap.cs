@@ -35,7 +35,7 @@ namespace LASI.ContentSystem.TaggerEncapsulation
         /// <summary>
         /// When overriden in a derrived class, Gets the PosTag string corresponding to the runtime System.Type of the Return Type of given function which of type { IEnumerable of LASI.Algorithm.Word => LASI.Algorithm.Phrase }.
         /// </summary>
-        /// <param name="phrase">The function which of type { IEnumerable of LASI.Algorithm.Word => LASI.Algorithm.Phrase } for which to get the corresponding tag.</param>
+        /// <param name="mappedConstructor">The function which of type { IEnumerable of LASI.Algorithm.Word => LASI.Algorithm.Phrase } for which to get the corresponding tag.</param>
         /// <returns>The PosTag string corresponding to the runtime System.Type of the Return Type of given function which of type { IEnumerable of LASI.Algorithm.Word => LASI.Algorithm.Phrase }.</returns>
         public abstract string this[PhraseCreator mappedConstructor] { get; }
         /// <summary>

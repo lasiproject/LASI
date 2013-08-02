@@ -69,7 +69,7 @@ namespace LASI.ContentSystem.TaggerEncapsulation
         /// <summary>
         /// Gets the PosTag string corresponding to the runtime System.Type of the Return Type of given function which of type { IEnumerable of LASI.Algorithm.Word => LASI.Algorithm.Phrase }.
         /// </summary>
-        /// <param name="phrase">The function which of type { IEnumerable of LASI.Algorithm.Word => LASI.Algorithm.Phrase } for which to get the corresponding tag.</param>
+        /// <param name="phraseCreatingFunction">The function which of type { IEnumerable of LASI.Algorithm.Word => LASI.Algorithm.Phrase } for which to get the corresponding tag.</param>
         /// <returns>The PosTag string corresponding to the runtime System.Type of the Return Type of given function which of type { IEnumerable of LASI.Algorithm.Word => LASI.Algorithm.Phrase }.</returns>
         public override string this[PhraseCreator phraseCreatingFunction] {
             get {
@@ -100,7 +100,9 @@ namespace LASI.ContentSystem.TaggerEncapsulation
                 }
             }
         }
-
+        /// <summary>
+        /// Gets the IDictionary which contains the mappings between literal tags and Phrase Instantiating functions.
+        /// </summary>
         protected override IReadOnlyDictionary<string, PhraseCreator> TypeDictionary {
             get {
                 return typeDictionary;

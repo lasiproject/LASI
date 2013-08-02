@@ -28,6 +28,11 @@ namespace LASI.Algorithm.Analysis
             PercentWorkRepresented = percentWorkRepresented;
 
         }
+        /// <summary>
+        /// Converts the ProcessingTask object into its underlying System.Threading.Tasks.Task.
+        /// </summary>
+        /// <param name="pt">The ProcessingTask to convert.</param>
+        /// <returns>The underlying System.Threading.Tasks.Task representing the work performed by the ProcessingTask.</returns>
         public static implicit operator Task(ProcessingTask pt) { return pt.Task; }
         /// <summary>
         /// Gets the document over which the ProcessingTask will operate.
@@ -71,10 +76,10 @@ namespace LASI.Algorithm.Analysis
     public class ProcessingTask<T>
     {
         /// <summary>
-        /// Initializes a new Instance of the Processing Task class with the given Document, Task of T to perform, initialization message, completion message, and percentage of total work represented. 
+        /// Initializes a new Instance of the Processing Task class with the given Document, Task{T} to perform, initialization message, completion message, and percentage of total work represented. 
         /// </summary>
         /// <param name="document">The Document on which the ProcessingTask's work will be performed.</param>
-        /// <param name="workToPerform">A Task of T object repsenting an operation over the given document.</param>
+        /// <param name="workToPerform">A Task&lt;T&gt; object repsenting an operation over the given document.</param>
         /// <param name="initializationMessage">A message indicating the start of specific the ProcessingTask.</param>
         /// <param name="completionMessage">A message indicating the end of specific the ProcessingTask.</param>
         /// <param name="percentWorkRepresented">An arbitrary double value corresponding to a relative amount of work the ProcessingTask represents.</param>
@@ -86,6 +91,11 @@ namespace LASI.Algorithm.Analysis
             PercentWorkRepresented = percentWorkRepresented;
 
         }
+        /// <summary>
+        /// Converts the ProcessingTask&lt;T&gt; object into its underlying System.Threading.Tasks.Task.
+        /// </summary>
+        /// <param name="pt">The ProcessingTask to convert.</param>
+        /// <returns>The underlying System.Threading.Tasks.Task representing the work performed by the ProcessingTask.</returns>
         public static implicit operator Task<T>(ProcessingTask<T> pt) { return pt.Task; }
         /// <summary>
         /// Gets the document over which the ProcessingTask will operate.

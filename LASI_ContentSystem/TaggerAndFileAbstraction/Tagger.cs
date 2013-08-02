@@ -28,20 +28,20 @@ namespace LASI.ContentSystem
         /// <summary>
         /// Parses the contents of a raw, untagged TextFile into a new Document instance.
         /// </summary>
-        /// <param name="strs">The raw, untagged TextFile to parse.</param>
+        /// <param name="txt">The raw, untagged TextFile to parse.</param>
         /// <returns>The contents of the TextFile composed into a fully reified LASI.Algorithm.DocumentConstruct.Document instance.</returns> 
         public static Document DocumentFromRaw(TextFile txt) {
-            var doc = new TaggedFileParser(new TaggedFile(new SharpNLPTagger(TaggerMode, txt.FullPath).ProcessFile())).LoadDocument();
+            var doc = new TaggedSourceParser(new TaggedFile(new SharpNLPTagger(TaggerMode, txt.FullPath).ProcessFile())).LoadDocument();
             doc.Name = txt.NameSansExt;
             return doc;
         }
         /// <summary>
         /// Asynchronously parses the contents of a raw, untagged TextFile into a new Document instance.
         /// </summary>
-        /// <param name="strs">The raw, untagged TextFile to parse.</param>
+        /// <param name="txt">The raw, untagged TextFile to parse.</param>
         /// <returns>The contents of the TextFile composed into a fully reified LASI.Algorithm.DocumentConstruct.Document instance.</returns> 
         public static async Task<Document> DocumentFromRawAsync(TextFile txt) {
-            var doc = await new TaggedFileParser(new TaggedFile(await new SharpNLPTagger(TaggerMode, txt.FullPath).ProcessFileAsync())).LoadDocumentAsync();
+            var doc = await new TaggedSourceParser(new TaggedFile(await new SharpNLPTagger(TaggerMode, txt.FullPath).ProcessFileAsync())).LoadDocumentAsync();
             doc.Name = txt.NameSansExt;
             return doc;
         }
@@ -60,9 +60,9 @@ namespace LASI.ContentSystem
         /// </summary>
         /// <param name="textSource">The IRawTextSource containing raw, untagged text.</param>
         /// <returns>The A Task of Document which will contain the source text composed into a fully reified LASI.Algorithm.DocumentConstruct.Document instance.</returns> 
-        public static async Task<Document> DocumentFromRawAsync(IRawTextSource textSouce) {
-            var doc = DocumentFromTagged(new TaggedTextFragment(await new QuickTagger(TaggerMode).TagTextSourceAsync(textSouce.GetText()), textSouce.Name));
-            doc.Name = textSouce.Name;
+        public static async Task<Document> DocumentFromRawAsync(IRawTextSource textSource) {
+            var doc = DocumentFromTagged(new TaggedTextFragment(await new QuickTagger(TaggerMode).TagTextSourceAsync(textSource.GetText()), textSource.Name));
+            doc.Name = textSource.Name;
             return doc;
         }
 
@@ -72,7 +72,7 @@ namespace LASI.ContentSystem
         /// <param name="tagged">The ITaggedTextSource containing tagged strings to parse.</param>
         /// <returns>The contents of the ITaggedTextSource composed into a fully LASI.Algorithm.DocumentConstruct.Document instance.</returns> 
         public static Document DocumentFromTagged(ITaggedTextSource tagged) {
-            var doc = new TaggedFileParser(tagged).LoadDocument();
+            var doc = new TaggedSourceParser(tagged).LoadDocument();
             doc.Name = tagged.Name;
             return doc;
         }
@@ -82,7 +82,7 @@ namespace LASI.ContentSystem
         /// <param name="tagged">The ITaggedTextSource containing tagged strings to parse.</param>
         /// <returns>The A Task of Document which will contain the source text composed into a fully reified LASI.Algorithm.DocumentConstruct.Document instance.</returns> 
         public static async Task<Document> DocumentFromTaggedAsync(ITaggedTextSource tagged) {
-            var doc = await new TaggedFileParser(tagged).LoadDocumentAsync();
+            var doc = await new TaggedSourceParser(tagged).LoadDocumentAsync();
             doc.Name = tagged.Name;
             return doc;
         }
@@ -103,7 +103,7 @@ namespace LASI.ContentSystem
         /// <returns>The contents of the pre-tagged strings composed into a fully LASI.Algorithm.DocumentConstruct.Document instance.</returns>
         /// <remarks>No files are created when calling this function.</remarks>
         public static Document DocumentFromTagged(IEnumerable<string> tagged) {
-            return new TaggedFileParser(new TaggedTextFragment(tagged, "anonymous")).LoadDocument();
+            return new TaggedSourceParser(new TaggedTextFragment(tagged, "anonymous")).LoadDocument();
         }
         /// <summary>
         /// Parses the contents of a TaggedFile into a new Document instance.
@@ -111,7 +111,7 @@ namespace LASI.ContentSystem
         /// <param name="taggedFile">The TaggedFile whose contents to parse</param>
         /// <returns>The contents of the TaggedFile composed into a fully reified LASI.Algorithm.DocumentConstruct.Document instance.</returns>
         public static async Task<Document> DocumentFromTaggedAsync(TaggedFile taggedFile) {
-            var doc = await new TaggedFileParser(taggedFile).LoadDocumentAsync();
+            var doc = await new TaggedSourceParser(taggedFile).LoadDocumentAsync();
             doc.Name = taggedFile.Name;
             return doc;
         }

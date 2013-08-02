@@ -12,7 +12,10 @@ using System.Threading.Tasks;
 namespace LASI.InteropLayer
 {
 
-
+    /// <summary>
+    /// Governs the complete analysis and processing of one or more text sources.
+    /// Provides synchronous and asynchronoun callback based progress reports.
+    /// </summary>
     public sealed class ProcessController
     {
 

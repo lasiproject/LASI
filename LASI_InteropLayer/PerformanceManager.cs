@@ -37,9 +37,17 @@ namespace LASI.InteropLayer
     /// </summary>
     public enum PerforamanceLevel
     {
-
+        /// <summary>
+        /// High Performance.
+        /// </summary>
         High,
+        /// <summary>
+        /// Low Performance.
+        /// </summary>
         Low,
+        /// <summary>
+        /// Normal Performance.
+        /// </summary>
         Normal
     }
 }

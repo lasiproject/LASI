@@ -7,6 +7,7 @@ using LASI.Utilities.TypedSwitch;
 using System.Threading.Tasks;
 using LASI.Algorithm.DocumentConstructs;
 using LASI.Algorithm.Analysis;
+using LASI.Utilities;
 
 namespace LASI.Algorithm.Binding
 {
@@ -91,7 +92,8 @@ namespace LASI.Algorithm.Binding
                         } catch (InvalidOperationException) {
                         }
                     });
-            } catch (Exception) {
+            } catch (Exception e) {
+                Output.WriteLine(e.Message);
             }
         }
         private static void PerformIntraPhraseBinding(IEnumerable<Phrase> phrases) {

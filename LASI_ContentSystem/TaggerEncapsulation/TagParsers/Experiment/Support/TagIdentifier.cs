@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace LASI.ContentSystem.TaggerEncapsulation.TagParsers.Experiment.Support
 {
-    public static class TagIdentifier
+    static class TagIdentifier
     {
-        public static TagType GetTagKind(this string tagSting) {
+        static TagType GetTagKind(this string tagSting) {
 
 
 
@@ -25,7 +25,7 @@ namespace LASI.ContentSystem.TaggerEncapsulation.TagParsers.Experiment.Support
                 .ToDictionary(e => e.s, e => e.t);
 
 
-        public enum TagType
+        enum TagType
         {
             Unknown = 0,
             Word,

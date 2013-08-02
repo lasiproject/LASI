@@ -94,7 +94,7 @@ namespace LASI.Algorithm.DocumentConstructs
         /// <summary>
         /// Gets the sequence of Words which comprise the sentence.
         /// </summary>
-        public IEnumerable<Word> Words { get { return (from c in Clauses from P in Phrases from W in P.Words select W).Concat(new[] { EndingPunctuation }); } }
+        public IEnumerable<Word> Words { get { return (from C in Clauses from P in C.Phrases from W in P.Words select W).Concat(new[] { EndingPunctuation }); } }
         /// <summary>
         /// Gets the concatenated text content of all of the Words which compose the Sentence.
         /// </summary>

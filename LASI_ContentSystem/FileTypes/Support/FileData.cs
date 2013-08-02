@@ -36,8 +36,7 @@ namespace LASI.ContentSystem
                 Ext = FileName.Substring(FileName.LastIndexOf('.'));
                 FileNameSansExt = FileName.Substring(0, FileName.LastIndexOf('.'));
                 FullPathAndExt = directory + fileNameWithExt;
-            }
-            catch (ArgumentOutOfRangeException) {
+            } catch (ArgumentOutOfRangeException) {
                 Ext = "";
                 FileNameSansExt = FileName;
 
@@ -61,8 +60,7 @@ namespace LASI.ContentSystem
                 FileNameSansExt = FileName.Substring(0, FileName.LastIndexOf('.'));
                 FullPathSansExt = Directory + FileNameSansExt;
 
-            }
-            catch (ArgumentOutOfRangeException) {
+            } catch (ArgumentOutOfRangeException) {
                 Ext = "";
                 FileNameSansExt = FileName;
                 FullPathSansExt = Directory + FileNameSansExt;
@@ -87,16 +85,15 @@ namespace LASI.ContentSystem
         /// <returns>True if the two instances should be considered equal, false otherwise.</returns>
         public override bool Equals(object obj) {
             try {
-                return this == ( FileData )obj;
-            }
-            catch (InvalidCastException) {
+                return this == (FileData)obj;
+            } catch (InvalidCastException) {
                 return false;
             }
         }
         /// <summary>
         /// Gets the hash code of the FileData.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>The hash code of the FileData.</returns>
         public override int GetHashCode() {
             return FullPathAndExt.GetHashCode();
         }

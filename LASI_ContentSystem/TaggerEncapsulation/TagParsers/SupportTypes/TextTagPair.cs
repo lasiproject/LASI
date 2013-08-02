@@ -18,6 +18,11 @@ namespace LASI.ContentSystem
     /// </summary>
     public struct TextTagPair
     {
+        /// <summary>
+        /// Initializes a new instance of the TextTagPair structure from the provided text string and pos tag string.
+        /// </summary>
+        /// <param name="elementText">The text content string of the element.</param>
+        /// <param name="elementTag">The pos tag string of the element.</param>
         public TextTagPair(string elementText, string elementTag) : this() { Text = elementText; Tag = elementTag; }
 
         /// <summary>

@@ -23,7 +23,7 @@ namespace LASI.ContentSystem.TaggerEncapsulation
         /// Breaks a string of text containing multiple paragraphs into a collection of strings each representing an individual parent.
         /// Paragraphs are delimited using the default regular expression pattern "[\r\n]+[^]*[\r\n]+"
         /// </summary>
-        /// <param name="line">A string containing the text to be broken down.</param>
+        /// <param name="data">A string containing the text to be broken down.</param>
         /// <returns>A collection of strings, each entry corresponding to the entire content of a single Paragraph.</returns>
         protected virtual IEnumerable<string> ParseParagraphs(string data) {
             return from d in data.Split(new[] { "\r\n\r\n", "<paragraph>", "</paragraph>" }, StringSplitOptions.RemoveEmptyEntries)
