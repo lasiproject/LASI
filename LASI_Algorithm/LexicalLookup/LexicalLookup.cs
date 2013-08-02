@@ -702,8 +702,7 @@ namespace LASI.Algorithm.LexicalLookup
             var pcnt = pns.Count();
             return pcnt > 1 &&
             pns.FirstOrDefault(proper => proper != null && fnPredicate(proper)) != null &&
-            pns.Skip(1).Take(pcnt - 1).All(s => s != null && s.IsFirstName() || s.IsLastName()) &&
-            pns.Last().IsLastName();
+            pns.Last(s => s != null && s.IsFirstName() || s.IsLastName()).IsLastName();
         }
 
         #endregion
@@ -752,7 +751,7 @@ namespace LASI.Algorithm.LexicalLookup
         /// <param name="proper">The ProperNoun to test.</param>
         /// <returns>True if the ProperNoun's text corresponds to a male first name in the english language, false otherwise.</returns>
         public static bool IsMaleName(this ProperNoun proper) {
-            return proper.Text.IsLastName();
+            return proper.Text.IsMaleName();
         }
         /// <summary>
         /// Returns a value indicating wether the provided string corresponds to a common lastname in the english language. 

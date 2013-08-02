@@ -21,21 +21,28 @@ namespace Aluan_Experimentation
             LoadLookup();
 
             var doc = Tagger.DocumentFromRaw(
-                new RawTextFragment(@"Black cats, fuzzy cats, and hiccuping cats are all silly things that one should avoid. 
-                            Silly cats are especially troublesome in that they actually have no morals at all.
-                            Of course, this sentence is even sillier than the prior one.",
+                new RawTextFragment(@"As noted by Peggy Sue Anderson, Tyrone Henry Bliss Green is a man of exceptional taste.",
                 "test"));
+            foreach (var pnp in from nounPhrase in doc.Phrases.GetNounPhrases()
+                                let firstWord = nounPhrase.Words.GetProperNouns().FirstOrDefault() as ProperNoun
+                                let lastWord = nounPhrase.Words.GetProperNouns().LastOrDefault() as ProperNoun
+                                let GenderString =
+                                   firstWord != null ? firstWord.IsFemaleName() ? "Female" : firstWord.IsMaleName() ? "Male" : "Undetermined" : null
+                                select new { nounPhrase, GenderString } into g where g.GenderString != null select g) {
+                Console.WriteLine("Name: {0}\nLikely Gender: {1}", pnp.nounPhrase.Text, pnp.GenderString);
+            }
+
             //Bind it
             Task.WaitAll(Binder.GetBindingTasksForDocument(doc).Select(pt => pt.Task).ToArray());
 
             TestRelationshipTable(doc);
 
-            //Format and output words
-            Console.WriteLine(doc.Words.Format(onePerLine: true));
-            //Categorize and print each category. 
-            foreach (var i in GetNounsByAdjectivalClassifiers(doc)) {
-                Console.WriteLine(i);
-            }
+            ////Format and output words
+            //Console.WriteLine(doc.Words.Format(onePerLine: true));
+            ////Categorize and print each category. 
+            //foreach (var i in GetNounsByAdjectivalClassifiers(doc)) {
+            //    Console.WriteLine(i);
+            //}
             Input.WaitForKey();
         }
 
