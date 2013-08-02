@@ -4,8 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Reflection;
-using LASI.Algorithm.LexicalStructures.NounRelatedConstructs;
-
 using LASI.Algorithm.LexicalLookup;
 
 namespace LASI.Algorithm

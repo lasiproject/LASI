@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace LASI.Algorithm.LexicalStructures.NounRelatedConstructs
+namespace LASI.Algorithm
 {
     /// <summary>
     /// Defines the various kinds of Relative Pronouns

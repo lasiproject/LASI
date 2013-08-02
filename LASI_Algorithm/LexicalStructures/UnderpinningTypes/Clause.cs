@@ -79,7 +79,7 @@ namespace LASI.Algorithm
         /// </summary>
         public string Text {
             get {
-                return Phrases.Aggregate("", (txt, phrase) => txt += " " + phrase.Text).Trim();
+                return string.Join(" ", Phrases.Select(p => p.Text));
             }
         }
 

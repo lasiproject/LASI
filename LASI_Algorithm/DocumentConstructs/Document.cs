@@ -18,16 +18,21 @@ namespace LASI.Algorithm.DocumentConstructs
     public sealed class Document
     {
         #region Constructors
-        private List<Word> SynonymousGroups = new List<Word>();
         /// <summary>
-        /// Initializes a new instance of the Document class.
+        /// Initializes a new instance of the Document class comprised from the provided paragraphs and having the provided name.
+        /// </summary>
+        /// <param name="paragrpahs">The collection of paragraphs which contain all text in the document.</param>
+        /// <param name="name">The name for the document.</param>
+        public Document(IEnumerable<Paragraph> paragrpahs, string name) : this(paragrpahs) { Name = name; }
+        /// <summary>
+        /// Initializes a new instance of the Document class comprised from the provided paragraphs.
         /// </summary>
         /// <param name="paragrpahs">The collection of paragraphs which contain all text in the document.</param>
         public Document(IEnumerable<Paragraph> paragrpahs) {
             _paragraphs = paragrpahs.ToList();
-            enumContainingParagraphs = (from p in _paragraphs
-                                        where p.ParagraphKind == ParagraphKind.NumberedOrBullettedContent
-                                        select p).ToList();
+            _enumContainingParagraphs = (from p in _paragraphs
+                                         where p.ParagraphKind == ParagraphKind.NumberedOrBullettedContent
+                                         select p).ToList();
 
             AssignMembers(paragrpahs);
             foreach (var p in _paragraphs) {
@@ -37,16 +42,16 @@ namespace LASI.Algorithm.DocumentConstructs
         }
 
         private void AssignMembers(IEnumerable<Paragraph> paragrpahs) {
-            sentences = (from p in _paragraphs
-                         from s in p.Sentences
-                         where s.Words.GetVerbs().Any()
-                         select s).ToList();
-            phrases = (from s in sentences
-                       from r in s.Phrases
-                       select r).ToList();
-            words = (from s in sentences
-                     from w in s.Words.Concat(new[] { s.EndingPunctuation })
-                     select w).ToList();
+            _sentences = (from p in _paragraphs
+                          from s in p.Sentences
+                          where s.Words.GetVerbs().Any()
+                          select s).ToList();
+            _phrases = (from s in _sentences
+                        from r in s.Phrases
+                        select r).ToList();
+            _words = (from s in _sentences
+                      from w in s.Words.Concat(new[] { s.EndingPunctuation })
+                      select w).ToList();
         }
 
         #endregion
@@ -57,37 +62,35 @@ namespace LASI.Algorithm.DocumentConstructs
         /// Establishes the compositional linkages over all of the structures which comprise the Document.
         /// </summary>
         private void EstablishLexicalLinks() {
-            if (words.Count > 1) {
-                for (int i = 1; i < words.Count(); ++i) {
-                    words[i].PreviousWord = words[i - 1];
-                    words[i - 1].NextWord = words[i];
+            if (_words.Count > 1) {
+                for (int i = 1; i < _words.Count(); ++i) {
+                    _words[i].PreviousWord = _words[i - 1];
+                    _words[i - 1].NextWord = _words[i];
                 }
 
-                var lastWord = words[words.Count - 1];
-                if (words.IndexOf(lastWord) > 0)
-                    lastWord.PreviousWord = words[words.Count - 1];
+                var lastWord = _words[_words.Count - 1];
+                if (_words.IndexOf(lastWord) > 0)
+                    lastWord.PreviousWord = _words[_words.Count - 1];
                 else
                     lastWord.PreviousWord = null;
                 lastWord.NextWord = null;
             }
-            if (phrases.Count() > 1) {
+            if (_phrases.Count() > 1) {
 
-                for (var i = 1; i < phrases.Count; ++i) {
-                    phrases[i].PreviousPhrase = phrases[i - 1];
-                    phrases[i - 1].NextPhrase = phrases[i];
+                for (var i = 1; i < _phrases.Count; ++i) {
+                    _phrases[i].PreviousPhrase = _phrases[i - 1];
+                    _phrases[i - 1].NextPhrase = _phrases[i];
                 }
             }
 
         }
-
-
 
         /// <summary>
         /// Returns all of the Action identified within the docimument.
         /// </summary>
         /// <returns>all of the Action identified within the docimument.</returns>
         public IEnumerable<IVerbal> GetActions() {
-            return from a in words.GetVerbs().Concat<IVerbal>(phrases.GetVerbPhrases())
+            return from a in _words.GetVerbs().Concat<IVerbal>(_phrases.GetVerbPhrases())
                    orderby a is Word ? (a as Word).ID : (a as Phrase).Words.Last().ID ascending
                    select a;
         }
@@ -97,7 +100,7 @@ namespace LASI.Algorithm.DocumentConstructs
         /// </summary>
         /// <returns> All of the word and phrase level describables identified in the document.</returns>
         public IEnumerable<IEntity> GetEntities() {
-            return from e in words.OfType<IEntity>().Concat(Phrases.OfType<IEntity>())
+            return from e in _words.OfType<IEntity>().Concat(Phrases.OfType<IEntity>())
                    orderby e is Word ? (e as Word).ID : (e as Phrase).Words.Last().ID ascending
                    select e;
         }
@@ -134,7 +137,7 @@ namespace LASI.Algorithm.DocumentConstructs
         /// </summary>
         public IEnumerable<Sentence> Sentences {
             get {
-                return sentences;
+                return _sentences;
             }
 
         }
@@ -144,7 +147,7 @@ namespace LASI.Algorithm.DocumentConstructs
         /// </summary>
         public IEnumerable<Paragraph> Paragraphs {
             get {
-                return _paragraphs.Except(enumContainingParagraphs);
+                return _paragraphs.Except(_enumContainingParagraphs);
             }
         }
 
@@ -154,7 +157,7 @@ namespace LASI.Algorithm.DocumentConstructs
         /// </summary>
         public IEnumerable<Phrase> Phrases {
             get {
-                return phrases;
+                return _phrases;
             }
         }
         /// <summary>
@@ -162,7 +165,7 @@ namespace LASI.Algorithm.DocumentConstructs
         /// </summary>
         public IEnumerable<Word> Words {
             get {
-                return words;
+                return _words;
             }
         }
 
@@ -175,11 +178,11 @@ namespace LASI.Algorithm.DocumentConstructs
 
         #region Fields
 
-        private IList<Word> words;
-        private IList<Phrase> phrases;
-        private IList<Sentence> sentences;
+        private IList<Word> _words;
+        private IList<Phrase> _phrases;
+        private IList<Sentence> _sentences;
         private IList<Paragraph> _paragraphs;
-        private IList<Paragraph> enumContainingParagraphs;
+        private IList<Paragraph> _enumContainingParagraphs;
 
 
 
@@ -197,7 +200,6 @@ namespace LASI.Algorithm.DocumentConstructs
             internal Page(IEnumerable<Sentence> sentences, Document document) {
                 Document = document;
                 Sentences = sentences;
-
             }
 
             /// <summary>

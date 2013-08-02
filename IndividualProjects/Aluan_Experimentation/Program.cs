@@ -26,7 +26,7 @@ namespace Aluan_Experimentation
             TestGenderRecognition(doc);
 
             foreach (var sentence in doc.Sentences) {
-                new ClauseSeperatingBranchingBinder().Bind(sentence.Words);
+                new ClauseSeperatingBranchingPronounBinder().Bind(sentence.Words);
             }
 
             Task.WaitAll(Binder.GetBindingTasksForDocument(doc).Select(pt => pt.Task).ToArray());

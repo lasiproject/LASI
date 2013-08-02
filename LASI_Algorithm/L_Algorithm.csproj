@@ -89,7 +89,7 @@
   <ItemGroup>
     <Compile Include="Analysis\Binder.cs" />
     <Compile Include="Analysis\Binders\AttributiveNounPhraseBinder.cs" />
-    <Compile Include="Analysis\Binders\Experimental\ClauseSeperatingBranchingBinder.cs" />
+    <Compile Include="Analysis\Binders\Experimental\ClauseSeperatingBranchingPronounBinder.cs" />
     <Compile Include="Analysis\ProcessingTask.cs" />
     <Compile Include="Analysis\SubordinateClauseIdentifier.cs" />
     <Compile Include="IEnumerableExtensions\IEnumerableOfIPronounExtensions.cs" />
