@@ -41,7 +41,7 @@ namespace LASI.UserInterface
             this.Top = (System.Windows.SystemParameters.WorkArea.Height - this.MaxHeight) / 2;
 
             DocumentManager.Initialize(documentsAddedListBox, xbuttons, browseForDocButton, lastDocPathTextBox);
-            ProcessOpenWithFiles(System.Environment.GetCommandLineArgs().Skip(1).Take(5));
+            ProcessOpenWithFiles(System.Environment.GetCommandLineArgs().Skip(1));
         }
 
         private void ProcessOpenWithFiles(IEnumerable<string> filePaths) {
