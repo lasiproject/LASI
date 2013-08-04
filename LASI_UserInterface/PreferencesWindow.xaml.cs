@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LASI.InteropLayer;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
@@ -22,14 +23,8 @@ namespace LASI.UserInterface
     {
         public PreferencesWindow() {
             InitializeComponent();
-            var appSettings = (Application.Current as App).Configuration.AppSettings.Settings;
-            menu = new PreferencesMenu(
-                (from Key in appSettings.AllKeys
-                 select new { Key, appSettings[Key].Value })
-                .ToDictionary(
-                    kv => kv.Key,
-                    kv => kv.Value,
-                    StringComparer.OrdinalIgnoreCase));
+            menu = new PreferencesMenu();
+
             mainFrame.Content = menu;
         }
         protected override void OnInitialized(EventArgs e) {
@@ -37,15 +32,13 @@ namespace LASI.UserInterface
 
         }
         private void saveButton_Click(object sender, RoutedEventArgs e) {
-            var oldSettingsSource = (Application.Current as App).Configuration;
-            oldSettingsSource.AppSettings.Settings.Clear();
-            foreach (var item in menu.UserPreferences) {
-                oldSettingsSource.AppSettings.Settings.Add(item.Key, item.Value);
-            }
-            oldSettingsSource.Save(ConfigurationSaveMode.Modified);
+            Properties.Settings.Default.Save();
+            PerformanceManager.SetPerformanceLevel(menu.ChosenPerformanceLevel);
             this.DialogResult = true;
         }
-        private void cancelButton_Click(object sender, RoutedEventArgs e) { this.DialogResult = false; }
+        private void cancelButton_Click(object sender, RoutedEventArgs e) {
+            this.DialogResult = false;
+        }
 
 
         #region fields

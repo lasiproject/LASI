@@ -18,11 +18,7 @@ namespace LASI.UserInterface
             ProjectPreviewScreen = new ProjectPreviewScreen();
             InProgressScreen = new InProgressScreen();
             ResultsScreen = new ResultsScreen();
-            if (bool.Parse((App.Current as App).AppSettingsCollection["TrayMinimize"].Value)) {
-                MinimizeToTray.Enable(ProjectPreviewScreen);
-                MinimizeToTray.Enable(InProgressScreen);
-                MinimizeToTray.Enable(ResultsScreen);
-            }
+
         }
 
 

@@ -181,21 +181,16 @@ namespace LASI.UserInterface
         }
         private void minButton_Click(object sender, RoutedEventArgs e) {
             WindowState = WindowState.Minimized;
-            if ((App.Current as App).AppSettingsCollection["ReduceResourceUsaageWhenMinimized"].Value == "true") {
-                PerformanceManager.SetPerformanceLevel(PerforamanceLevel.Low);
-            }
+            //if ((App.Current as App).AppSettingsCollection["ReduceResourceUsaageWhenMinimized"].Value == "true") {
+            //    PerformanceManager.SetPerformanceLevel(PerforamanceLevel.Low);
+            //}
         }
 
 
         private void Window_Activated(object sender, EventArgs e) {
             if (WindowState == System.Windows.WindowState.Minimized) {
-                PerforamanceLevel currentValue;
-                if (Enum.TryParse<PerforamanceLevel>(ConfigurationManager.AppSettings["CurrentPerformanceMode"], out currentValue)) {
-
-                    PerformanceManager.SetPerformanceLevel(currentValue);
-                } else {
-                    PerformanceManager.SetPerformanceLevel(PerforamanceLevel.High);
-                }
+                var currentForgroundPerformance = (PerforamanceLevel)Enum.Parse(typeof(PerforamanceLevel), LASI.UserInterface.Properties.Settings.Default.PerformanceLevel);
+                PerformanceManager.SetPerformanceLevel(currentForgroundPerformance);
             }
         }
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LASI.UserInterface.Properties;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -15,7 +16,7 @@ namespace LASI.UserInterface
     {
         App() {
             Exit += (sender, e) => {
-                if (ConfigurationManager.AppSettings["AutoDebugCleanupOn"] == "true") {
+                if (Settings.Default.AutoCleanProjectFiles) {
                     try {
                         ContentSystem.FileManager.DecimateProject();
                     } catch (ContentSystem.FileManagerNotInitializedException) {
@@ -23,14 +24,5 @@ namespace LASI.UserInterface
                 }
             };
         }
-
-        protected override void OnStartup(StartupEventArgs e) {
-            base.OnStartup(e);
-
-            Configuration = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-            AppSettingsCollection = Configuration.AppSettings.Settings;
-        }
-        public KeyValueConfigurationCollection AppSettingsCollection { get; private set; }
-        public Configuration Configuration { get; private set; }
     }
 }

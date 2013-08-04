@@ -1,4 +1,5 @@
 ﻿using LASI.InteropLayer;
+using LASI.UserInterface.Properties;
 using LASI.Utilities;
 using System;
 using System.Collections.Generic;
@@ -22,46 +23,41 @@ namespace LASI.UserInterface
     /// </summary>
     public partial class PreferencesMenu : PageFunction<string>
     {
-        public PreferencesMenu(IDictionary<string, string> currentPreferences = null) {
+        public PreferencesMenu() {
+
             InitializeComponent();
-            UserPreferences = currentPreferences ?? defaultPreferences.ToDictionary(entry => entry.Key, entry => entry.Value);
             LoadCurrentPreferences();
         }
-        protected override void OnInitialized(EventArgs e) {
-            base.OnInitialized(e);
-        }
+
         private void LoadCurrentPreferences() {
             LoadGeneralPreferences();
-            LoadPerformancePreferences();
+            LoadAdvancedPreferences();
         }
 
         private void LoadGeneralPreferences() {
-            try {
-                autoNameCheckBox.IsChecked = bool.Parse(UserPreferences["AutoNameProjects"]);
-            } catch (FormatException) {
-                Output.WriteLine("Preferences: Could not load Auto Name setting.\nResetting to default value ({0})", defaultPreferences["AutoNameProjects"]);
-                autoNameCheckBox.IsChecked = false;
-            }
-            try {
-                minimizeToTrayCheckBox.IsChecked = bool.Parse(UserPreferences["TrayMinimize"]);
-            } catch (FormatException) {
-                Output.WriteLine("Preferences: Could not load Tray Minimization setting.\nResetting to default value ({0})", defaultPreferences["TrayMinimize"]);
-                minimizeToTrayCheckBox.IsChecked = false;
-            }
+            autoNameCheckBox.IsChecked = Settings.Default.AutoNameProjects;
+
+            minimizeToTrayCheckBox.IsChecked = Settings.Default.TrayMinimize;
+
         }
 
-        private void LoadPerformancePreferences() {
-            PerforamanceLevel performanceLevel;
+        private void LoadAdvancedPreferences() {
             try {
-                performanceLevel = (PerforamanceLevel)Enum.Parse(typeof(PerforamanceLevel), UserPreferences["CurrentPerformanceMode"]);
-                if (performanceLevel == PerforamanceLevel.High)
-                    High.IsChecked = true;
-                else if (performanceLevel == PerforamanceLevel.Normal)
-                    Normal.IsChecked = true;
-                else if (performanceLevel == PerforamanceLevel.Low)
-                    Low.IsChecked = true;
+                ChosenPerformanceLevel = (PerforamanceLevel)Enum.Parse(typeof(PerforamanceLevel), Settings.Default.PerformanceLevel);
+                switch (ChosenPerformanceLevel) {
+                    case PerforamanceLevel.High:
+                        High.IsChecked = true;
+                        break;
+                    case PerforamanceLevel.Normal:
+                        Normal.IsChecked = true;
+                        break;
+                    case PerforamanceLevel.Low:
+                        Low.IsChecked = true;
+                        break;
+                }
             } catch (ArgumentException) {
                 Normal.IsChecked = true;
+                ChosenPerformanceLevel = PerforamanceLevel.Normal;
             }
         }
 
@@ -70,8 +66,8 @@ namespace LASI.UserInterface
         private void anyPerformanceMode_Checked(object sender, RoutedEventArgs e) {
             var checkBox = sender as RadioButton;
             if (checkBox.IsChecked ?? false) {
-                UserPreferences["CurrentPerformanceMode"] = checkBox.Name;
-                PerformanceManager.SetPerformanceLevel((PerforamanceLevel)Enum.Parse(typeof(PerforamanceLevel), checkBox.Name));
+                Settings.Default.PerformanceLevel = checkBox.Name;
+                ChosenPerformanceLevel = (PerforamanceLevel)Enum.Parse(typeof(PerforamanceLevel), checkBox.Name);
             }
         }
 
@@ -79,23 +75,20 @@ namespace LASI.UserInterface
 
 
         private void autoNameCheckBox_Checked(object sender, RoutedEventArgs e) {
-            UserPreferences["AutoNameProjects"] = autoNameCheckBox.IsChecked ?? false ? "true" : "false";
+            Settings.Default.AutoNameProjects = autoNameCheckBox.IsChecked ?? false;
         }
 
         private void PageFunction_Return(object sender, ReturnEventArgs<string> e) { }
 
         #region Fields
-        public IDictionary<string, string> UserPreferences;
-        private readonly IReadOnlyDictionary<string, string> defaultPreferences = new Dictionary<string, string> { 
-            { "AutoNameProjects", "false" },
-            { "TrayMinimize", "false" },
-            { "CurrentPerformanceMode", "Normal" },
-        };
+
         #endregion
 
 
         private void minimizeToTrayCheckBox_Checked(object sender, RoutedEventArgs e) {
 
         }
+
+        public PerforamanceLevel ChosenPerformanceLevel { get; private set; }
     }
 }

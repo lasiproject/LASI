@@ -22,5 +22,53 @@ namespace LASI.UserInterface.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool AutoNameProjects {
+            get {
+                return ((bool)(this["AutoNameProjects"]));
+            }
+            set {
+                this["AutoNameProjects"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("High")]
+        public string PerformanceLevel {
+            get {
+                return ((string)(this["PerformanceLevel"]));
+            }
+            set {
+                this["PerformanceLevel"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool TrayMinimize {
+            get {
+                return ((bool)(this["TrayMinimize"]));
+            }
+            set {
+                this["TrayMinimize"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool AutoCleanProjectFiles {
+            get {
+                return ((bool)(this["AutoCleanProjectFiles"]));
+            }
+            set {
+                this["AutoCleanProjectFiles"] = value;
+            }
+        }
     }
 }

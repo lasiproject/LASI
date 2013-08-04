@@ -31,7 +31,7 @@ namespace LASI.UserInterface
             var logFileName = "lasi_log";
             SetupFileLogging(Environment.GetCommandLineArgs()[0], logFileName);
             InitializeComponent();
-            ProjectNameTextBox.Text = bool.Parse((App.Current as App).Configuration.AppSettings.Settings["AutoNameProjects"].Value as string) ? "MyProject" : "";
+            ProjectNameTextBox.Text = LASI.UserInterface.Properties.Settings.Default.AutoNameProjects ? "MyProject" : "";
             WindowManager.StartupScreen = this;
             SetupAdditionalBehaviors();
             Resources["createButtonContent"] = "Create";
