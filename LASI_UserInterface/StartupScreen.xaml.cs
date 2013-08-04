@@ -29,7 +29,7 @@ namespace LASI.UserInterface
         public StartupScreen() {
             //Setup logfile location.
             var appFileName = Environment.GetCommandLineArgs()[0];
-            Output.SetToFile(System.IO.Path.Combine(System.IO.Path.GetDirectoryName(appFileName), "lasi_log.txt"));
+            Output.SetToFile(System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "lasi_log.txt"));
 
             InitializeComponent();
             WindowManager.StartupScreen = this;
