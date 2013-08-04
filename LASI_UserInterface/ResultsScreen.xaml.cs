@@ -24,11 +24,27 @@ namespace LASI.UserInterface
     /// </summary>
     public partial class ResultsScreen : Window
     {
+        #region Constructor
         public ResultsScreen() {
 
             InitializeComponent();
             Visualizer.ChangeChartKind(ChartKind.NounPhrasesOnly);
             this.Closed += (s, e) => Application.Current.Shutdown();
+        }
+        #endregion
+
+        #region Methods
+
+        #region View Construction
+
+        /// <summary>
+        /// This function associates The buttons which allow the user to modify various aspects of the chart views with their respective functionality.
+        /// This is done to allow the functionality to be exposed only after the charts have been 
+        /// </summary>
+        private void SetupChartViewControls() {
+            changeToBarChartButton.Click += ChangeToBarChartButton_Click;
+            changeToColumnChartButton.Click += ChangeToColumnChartButton_Click;
+            changeToPieChartButton.Click += ChangeToPieChartButton_Click;
         }
 
         public async Task CreateWeightViewsForAllDocumentsAsync() {
@@ -36,7 +52,7 @@ namespace LASI.UserInterface
                 await CreateWeightViewAsync(doc);
 
             }
-            BindChartViewControls();
+            SetupChartViewControls();
         }
 
         private async Task CreateWeightViewAsync(Document document) {
@@ -154,11 +170,13 @@ namespace LASI.UserInterface
             await Task.Yield();
         }
 
+        #endregion
 
+        #region Named Event Handlers
 
         private void ExitMenuItem_Click(object sender, RoutedEventArgs e) {
             this.Close();
-
+            Application.Current.Shutdown();
         }
         private void printButton_Click_1(object sender, RoutedEventArgs e) {
             var printDialog = new PrintDialog();
@@ -184,74 +202,6 @@ namespace LASI.UserInterface
             await Visualizer.ToPieCharts();
         }
 
-        /// <summary>
-        /// This function associates The buttons which allow the user to modify various aspects of the chart views with their respective functionality.
-        /// This is done to allow the functionality to be exposed only after the charts have been 
-        /// </summary>
-        private void BindChartViewControls() {
-            changeToBarChartButton.Click += ChangeToBarChartButton_Click;
-            changeToColumnChartButton.Click += ChangeToColumnChartButton_Click;
-            changeToPieChartButton.Click += ChangeToPieChartButton_Click;
-        }
-
-
-
-        private async void exportButton_Click(object sender, RoutedEventArgs e) {
-            foreach (var doc in documents) {
-                using (
-                    var docWriter = new LASI.ContentSystem.Serialization.XML.SimpleLexicalSerializer(
-                    FileManager.ResultsDir + System.IO.Path.DirectorySeparatorChar + new string(
-                    doc.Name.TakeWhile(c => c != '.').ToArray()) + ".xml")) {
-                    await docWriter.WriteAsync(from S in doc.Sentences
-                                               from R in S.Phrases
-                                               select R, doc.Name, ContentSystem.Serialization.XML.DegreeOfOutput.Comprehensive);
-                }
-            }
-            var exportDialog = new ExportResultsDialog();
-            exportDialog.ShowDialog();
-        }
-
-        private async void documentJoinButton_Click(object sender, RoutedEventArgs e) {
-            var dialog = new CrossJoinSelectDialog(this) {
-                Left = this.Left,
-                Top = this.Top,
-            };
-
-            if (!(dialog.ShowDialog()) ?? false)
-                return;
-
-
-            var r = await new CrossDocumentJoiner().JoinDocumentsAsnyc(dialog.SelectDocuments);
-
-            metaRelationshipsDataGrid.ItemsSource = Visualizer.CreateRelationshipData(r);
-
-
-        }
-
-
-        private void MenuItem_Click(object sender, RoutedEventArgs e) {
-
-        }
-
-        private async void AddMenuItem_Click(object sender, RoutedEventArgs e) {
-
-            var openDialog = new Microsoft.Win32.OpenFileDialog {
-                Filter = "LASI File Types|*.docx; *.pdf; *.txt",
-            };
-            openDialog.ShowDialog(this);
-            if (openDialog.FileNames.Any()) {
-                if (!DocumentManager.FileNamePresent(openDialog.SafeFileName)) {
-                    currentOperationLabel.Content = string.Format("Converting {0}...", openDialog.FileName);
-                    currentOperationFeedbackCanvas.Visibility = Visibility.Visible;
-                    currentOperationProgressBar.Value = 0;
-                    await ProcessNewDocument(openDialog.FileName);
-                    //currentOperationFeedbackCanvas.Visibility = Visibility.Hidden;
-                } else {
-                    MessageBox.Show(this, string.Format("A document named {0} is already part of the project.", openDialog.SafeFileName));
-                }
-            }
-
-        }
         private async Task ProcessNewDocument(string docPath, ProgressBar progressBar, Label progressLabel) {
 
             var chosenFile = FileManager.AddFile(docPath, true);
@@ -327,6 +277,71 @@ namespace LASI.UserInterface
             }
         }
 
+        private void openLicensesMenuItem_Click_1(object sender, RoutedEventArgs e) {
+            var componentsDisplay = new ComponentInfoDialogWindow {
+                Left = this.Left,
+                Top = this.Top,
+                Owner = this
+            };
+            componentsDisplay.ShowDialog();
+        }
+
+        private void MenuItem_Click_1(object sender, RoutedEventArgs e) {
+            Process.Start("http://lasi-product.org");
+        }
+        private async void exportButton_Click(object sender, RoutedEventArgs e) {
+            foreach (var doc in documents) {
+                using (
+                    var docWriter = new LASI.ContentSystem.Serialization.XML.SimpleLexicalSerializer(
+                    FileManager.ResultsDir + System.IO.Path.DirectorySeparatorChar + new string(
+                    doc.Name.TakeWhile(c => c != '.').ToArray()) + ".xml")) {
+                    await docWriter.WriteAsync(from S in doc.Sentences
+                                               from R in S.Phrases
+                                               select R, doc.Name, ContentSystem.Serialization.XML.DegreeOfOutput.Comprehensive);
+                }
+            }
+            var exportDialog = new ExportResultsDialog();
+            exportDialog.ShowDialog();
+        }
+
+        private async void documentJoinButton_Click(object sender, RoutedEventArgs e) {
+            var dialog = new CrossJoinSelectDialog(this) {
+                Left = this.Left,
+                Top = this.Top,
+            };
+
+            if (!(dialog.ShowDialog()) ?? false)
+                return;
+
+            var r = await new CrossDocumentJoiner().JoinDocumentsAsnyc(dialog.SelectDocuments);
+
+            metaRelationshipsDataGrid.ItemsSource = Visualizer.CreateRelationshipData(r);
+
+
+        }
+
+
+        private async void AddMenuItem_Click(object sender, RoutedEventArgs e) {
+
+            var openDialog = new Microsoft.Win32.OpenFileDialog {
+                Filter = "LASI File Types|*.docx; *.pdf; *.txt",
+            };
+            openDialog.ShowDialog(this);
+            if (openDialog.FileNames.Any()) {
+                if (!DocumentManager.FileNamePresent(openDialog.SafeFileName)) {
+                    currentOperationLabel.Content = string.Format("Converting {0}...", openDialog.FileName);
+                    currentOperationFeedbackCanvas.Visibility = Visibility.Visible;
+                    currentOperationProgressBar.Value = 0;
+                    await ProcessNewDocument(openDialog.FileName);
+                    //currentOperationFeedbackCanvas.Visibility = Visibility.Hidden;
+                } else {
+                    MessageBox.Show(this, string.Format("A document named {0} is already part of the project.", openDialog.SafeFileName));
+                }
+            }
+
+        }
+
+        #endregion
 
         #region Label Context Menu Construction
 
@@ -427,6 +442,8 @@ namespace LASI.UserInterface
 
         #endregion
 
+        #endregion
+
         #region Properties and Fields
 
         private List<Document> documents = new List<Document>();
@@ -442,20 +459,12 @@ namespace LASI.UserInterface
 
         #endregion
 
-        private void openLicensesMenuItem_Click_1(object sender, RoutedEventArgs e) {
-            var componentsDisplay = new ComponentInfoDialogWindow {
-                Left = this.Left,
-                Top = this.Top,
-                Owner = this
-            };
-            componentsDisplay.ShowDialog();
+        private void openPreferencesMenuItem_Click(object sender, RoutedEventArgs e) {
+            var preferences = new PreferencesWindow();
+            preferences.Left = (this.Left - preferences.Left) / 2;
+            preferences.Top = (this.Top - preferences.Top) / 2;
+            var saved = preferences.ShowDialog();
         }
-
-        private void MenuItem_Click_1(object sender, RoutedEventArgs e) {
-            Process.Start("http://lasi-product.org");
-        }
-
-
     }
 
 }

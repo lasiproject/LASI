@@ -23,7 +23,7 @@ namespace LASI.UserInterface
             return (from path in filePaths
                     let fileInfo = new FileInfo(path)
                     where AcceptedFormats.Contains(fileInfo.Extension)
-                    select fileInfo).Take(MaxDocuments - NumberOfDocuments);
+                    select fileInfo).Take(MaxDocuments - numberOfDocuments);
 
         }
         public static void RemoveDocument(string fileName) {
@@ -33,7 +33,7 @@ namespace LASI.UserInterface
             if (remove != null) {
                 itemsAdded.Remove(remove);
                 runningListBox.Items.Remove(remove);
-                numberOfDocuments--;
+                --numberOfDocuments;
             }
         }
         public static void AddDocument(string fileName, string filePath) {
@@ -48,23 +48,15 @@ namespace LASI.UserInterface
                 Padding = new System.Windows.Thickness(0.5),
 
             };
-
-
             button.Click += (s, args) => {
-
                 runningListBox.Items.Remove(docEntry);
                 xButtons.Children.Remove(button);
-                --NumberOfDocuments;
-                if (DocumentManager.IsEmpty) {
-
+                --numberOfDocuments;
+                if (IsEmpty) {
                     runningListBox.Opacity = 0.25;
                 }
                 browseForDocButton.IsEnabled = true;
-
-
             };
-
-
             xButtons.Children.Add(button);
             runningListBox.Items.Add(docEntry);
 
@@ -72,13 +64,12 @@ namespace LASI.UserInterface
 
 
             lastDocumentPathTextBox.Text = fileName;
-            DocumentManager.NumberOfDocuments++;
-            if (DocumentManager.AddingAllowed) {
 
-                runningListBox.Opacity = 100;
-            }
+            ++numberOfDocuments;
+            if (AddingAllowed) {
 
-            if (DocumentManager.IsEmpty) {
+                runningListBox.Opacity = 1.0;
+            } else {
                 browseForDocButton.IsEnabled = false;
             }
         }
@@ -91,38 +82,33 @@ namespace LASI.UserInterface
         private static System.Windows.Controls.Panel xButtons;
         private static System.Windows.UIElement browseForDocButton;
         private static System.Windows.Controls.TextBox lastDocumentPathTextBox;
-
+        /// <summary>
+        /// Gets a value indicating wether or not there is space for at least one additional document in the DocumentManager's working set.
+        /// </summary>
         public static bool AddingAllowed {
             get {
                 return MaxDocuments - numberOfDocuments > 0;
             }
         }
+        /// <summary>
+        /// Gets a value indicating wether or not the DocumentManager has any documents in its working set.
+        /// </summary>
         public static bool IsEmpty {
             get {
                 return numberOfDocuments == 0;
             }
         }
-
-        public static int NumberOfDocuments {
-            get {
-                return DocumentManager.numberOfDocuments;
-            }
-            set {
-                DocumentManager.numberOfDocuments = value;
-            }
-        }
         /// <summary>
-        /// Returns true if the given file info is locked.
+        /// Returns true if the file represented by the given file info is locked by the operating system or another application.
         /// </summary>
         /// <param name="file"></param>
-        /// <returns>true if the given file info is locked, false otherwise.</returns>
+        /// <returns>true if the file represented by the given file info is locked by the operating system or another application, false otherwise.</returns>
         public static bool FileIsLocked(FileInfo file) {
             try {
                 using (Stream stream = new FileStream(file.FullName, FileMode.Open)) {
                     return false;
                 }
-            }
-            catch (IOException) {
+            } catch (IOException) {
                 return true;
             }
         }
@@ -130,6 +116,9 @@ namespace LASI.UserInterface
 
         private static readonly string[] acceptedFormats = { ".docx", ".txt", ".pdf" };
 
+        /// <summary>
+        /// Gets a string array containing all of the file extensions accepted by the DocumentManager.
+        /// </summary>
         public static string[] AcceptedFormats {
             get {
                 return acceptedFormats;

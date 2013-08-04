@@ -10,8 +10,8 @@
     WindowStartupLocation="CenterOwner"
     WindowStyle="None"
     BorderBrush="#FF636366"
+    Title="Analyzing Documents"
     BorderThickness="3"
-    Closing="Window_Closing"
     Activated="Window_Activated"
     MouseLeftButtonDown="Window_MouseLeftButtonDown">
     <Window.TaskbarItemInfo>
@@ -275,13 +275,13 @@
                 </Image.RenderTransform>
             </Image>
             <Label
-                Name="ProgressLabel"
+                Name="progressLabel"
                 Content="Initializing"
                 Canvas.Left="168"
                 Canvas.Top="304"
                 Width="372" />
             <ProgressBar
-                x:Name="ProgressBar"
+                x:Name="progressBar"
                 RenderTransformOrigin="0.5,0.5"
                 Height="25"
                 VerticalAlignment="Top"
@@ -289,7 +289,7 @@
                 Width="654"
                 ToolTip="Initializing"
                 Value="0.0"
-                ValueChanged="ProgressBar_ValueChanged">
+                ValueChanged="progressBar_ValueChanged">
                 <ProgressBar.Foreground>
                     <LinearGradientBrush
                         EndPoint="0.5,1"
@@ -322,13 +322,13 @@
                 </ProgressBar.RenderTransform>
             </ProgressBar>
             <Button
-                Name="ProceedtoResultsButton"
+                Name="proceedtoResultsButton"
                 Content="Proceed"
                 Height="35"
                 Canvas.Left="525"
                 Canvas.Top="269"
                 Width="71"
-                Click="ProceedtoResultsButton_Click"
+                Click="proceedtoResultsButton_Click"
                 Visibility="Hidden" />
             <Button
                 x:Name="closeButton"

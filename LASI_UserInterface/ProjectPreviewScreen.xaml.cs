@@ -27,7 +27,9 @@ namespace LASI.UserInterface
             var titleText = Resources["CurrentProjectName"] as string ?? Title;
         }
 
+        #region Methods
 
+        #region Document Preview Construction
 
         public async void LoadDocumentPreviews() {
             foreach (var textfile in FileManager.TextFiles) {
@@ -57,20 +59,37 @@ namespace LASI.UserInterface
             DocumentPreview.SelectedItem = item;
         }
 
+        private async Task AddNewDocument(string docPath) {
+            var chosenFile = FileManager.AddFile(docPath, true);
+            await FileManager.ConvertAsNeededAsync();
+            var textfile = FileManager.TextFiles.Where(f => f.NameSansExt == chosenFile.NameSansExt).First();
+            await LoadTextandTabAsync(textfile);
+            CheckIfAddingAllowed();
+        }
+
+        private void CheckIfAddingAllowed() {
+            var addingEnabled = DocumentManager.AddingAllowed;
+            AddNewDocumentButton.IsEnabled = addingEnabled;
+            FileMenuAdd.IsEnabled = addingEnabled;
+        }
+
+        #endregion
+
+        #region Named Event Handlers
 
         private async void StartButton_Click(object sender, RoutedEventArgs e) {
             this.Hide();
             WindowManager.InProgressScreen.Show();
             await WindowManager.InProgressScreen.InitializeParsing();
         }
+
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e) {
             Application.Current.Shutdown();
         }
         private void FileExitMenuItem_Click(object sender, RoutedEventArgs e) {
             this.Close();
+            Application.Current.Shutdown();
         }
-
-
         private void RemoveCurrentDocument_Click(object sender, RoutedEventArgs e) {
             var docSelected = DocumentPreview.SelectedItem;
             if (docSelected != null) {
@@ -86,7 +105,7 @@ namespace LASI.UserInterface
             if (DocumentManager.AddingAllowed) {
                 var validDroppedFiles = DocumentManager.GetValidFilesInPathList(e.Data.GetData(System.Windows.DataFormats.FileDrop, true) as string[]);
                 if (!validDroppedFiles.Any()) {
-                    MessageBox.Show(this, string.Format("Only the following file formats are accepted:\n{0}", DocumentManager.AcceptedFormats.Aggregate((sum, current) => sum += ", " + current)));
+                    MessageBox.Show(this, string.Format("Only the following file formats are accepted:\n{0}", string.Join(", ", DocumentManager.AcceptedFormats)));
                 } else if (!validDroppedFiles.Any(fn => !DocumentManager.FileNamePresent(fn.Name))) {
                     MessageBox.Show(this, string.Format("A document named {0} is already part of the project.", validDroppedFiles.First()));
                 } else {
@@ -126,33 +145,23 @@ namespace LASI.UserInterface
             }
 
         }
-
-        private async Task AddNewDocument(string docPath) {
-            var chosenFile = FileManager.AddFile(docPath, true);
-            await FileManager.ConvertAsNeededAsync();
-            var textfile = FileManager.TextFiles.Where(f => f.NameSansExt == chosenFile.NameSansExt).First();
-            await LoadTextandTabAsync(textfile);
-            CheckIfAddingAllowed();
-        }
-
-        private void CheckIfAddingAllowed() {
-            var addingEnabled = DocumentManager.AddingAllowed;
-            AddNewDocumentButton.IsEnabled = addingEnabled;
-            FileMenuAdd.IsEnabled = addingEnabled;
-        }
-
-
         private void openPreferencesMenuItem_Click(object sender, RoutedEventArgs e) {
-
+            var preferences = new PreferencesWindow();
+            preferences.Left = (this.Left - preferences.Left) / 2;
+            preferences.Top = (this.Top - preferences.Top) / 2;
+            var saved = preferences.ShowDialog();
         }
 
+        #endregion
+
+        #endregion
         #region Help Menu
 
         private void OpenManualMenuItem_Click_1(object sender, RoutedEventArgs e) {
             try {
                 System.Diagnostics.Process.Start(System.AppDomain.CurrentDomain.BaseDirectory + @"\Manual.pdf");
             } catch (FileNotFoundException) {
-                MessageBox.Show(this, "Unable to locate the User Manual, please contact the LASI team for further support.");
+                MessageBox.Show(this, "Unable to locate the User Manual, please contact the LASI team (thelasiproject@gmail.com) for further support.");
             } catch (Exception) {
                 MessageBox.Show(this, "Sorry, the manual could not be opened. Please ensure you have a pdf viewer installed.");
             }

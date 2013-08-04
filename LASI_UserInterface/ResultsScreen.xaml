@@ -10,7 +10,7 @@
     Width="800"
     ResizeMode="CanResizeWithGrip"
     Icon="MiscImages\LasiLogo.ico"
-    WindowStartupLocation="Manual"
+    WindowStartupLocation="CenterOwner"
     WindowState="Normal">
     <Grid>
         <Menu
@@ -28,7 +28,6 @@
                         Header="Project"
                         Click="NewProjectMenuItem_Click_1" />
                 </MenuItem>
-      
                 <MenuItem
                     Header="Add Document"
                     HorizontalAlignment="Left"
@@ -37,6 +36,13 @@
                 <MenuItem
                     Header="Exit"
                     Click="ExitMenuItem_Click" />
+            </MenuItem>
+            <MenuItem
+                Header="Tools">
+                <MenuItem
+                    Header="Preferences"
+                    Name="openPreferencesMenuItem"
+                    Click="openPreferencesMenuItem_Click" />
             </MenuItem>
             <MenuItem
                 Header="Help"

@@ -16,31 +16,23 @@ namespace LASI.UserInterface
     {
         public InProgressScreen() {
             InitializeComponent();
-            WindowManager.InProgressScreen = this;
-            WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            //WindowStartupLocation = WindowStartupLocation.CenterScreen;
             ConfigureOptions();
-
         }
 
 
 
         private void ConfigureOptions() {
             SetPlatformSpecificStyling();
-            App.Current.Exit += (sender, e) => {
-                if (ConfigurationManager.AppSettings["AutoDebugCleanupOn"] == "true") {
-                    try {
-                        ContentSystem.FileManager.DecimateProject();
-                    } catch (ContentSystem.FileManagerNotInitializedException) {
-                    }
-                }
-            };
+
+            minButton.Click += (sender, e) => WindowState = WindowState.Minimized;
         }
 
         private void SetPlatformSpecificStyling() {
             var osVersionInfo = System.Environment.Version;
             //Check if current OS is windows NT or later (PlatformID) and then check if Vista or 7 (Major) then check if 7 
             if (System.Environment.OSVersion.Platform == PlatformID.Win32NT && osVersionInfo.Major == 6 && osVersionInfo.Minor == 1) {
-                ProgressBar.Foreground = System.Windows.Media.Brushes.DarkRed;
+                progressBar.Foreground = System.Windows.Media.Brushes.DarkRed;
             }
         }
 
@@ -52,11 +44,12 @@ namespace LASI.UserInterface
             var processController = new ProcessController();
             var progressPercentage = Resources["AnalysisProgressPercentage"];
             var analyzedDocuments = await processController.AnalyseAllDocumentsAsync(LASI.ContentSystem.FileManager.TextFiles, async (message, increment) => await UpdateProgressDisplay(message, increment));
-            ProgressBar.Value = 100;
-            ProgressLabel.Content = "Complete";
+            progressBar.Value = 100;
+            progressLabel.Content = "Complete";
             WindowManager.ResultsScreen.Documents = analyzedDocuments.ToList();
-            ProceedtoResultsButton.Visibility = Visibility.Visible;
+            proceedtoResultsButton.Visibility = Visibility.Visible;
             StartFlashing();
+            ProcessingComplete(this, new EventArgs());
 
         }
 
@@ -69,12 +62,11 @@ namespace LASI.UserInterface
         /// <param name="progressIncrement">The amount by which progress is to be incremented.</param>
         /// <returns>A System.Threading.Tasks.Task representing the asynchronous Update Progress operation.</returns>
         private async Task UpdateProgressDisplay(string statusMessage, double progressIncrement) {
-            ProgressLabel.Content = statusMessage;
-            ProgressBar.ToolTip = statusMessage;
-
+            progressLabel.Content = statusMessage;
+            progressBar.ToolTip = statusMessage;
             var animateStep = progressIncrement / 100d;
             for (int i = 0; i < 25d; ++i) {
-                ProgressBar.Value += 4 * animateStep;
+                progressBar.Value += 4 * animateStep;
                 await Task.Delay(1);
 
             }
@@ -93,7 +85,7 @@ namespace LASI.UserInterface
 
         #region Event Handlers
 
-        private void ProgressBar_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e) {
+        private void progressBar_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e) {
             this.TaskbarItemInfo.ProgressState = System.Windows.Shell.TaskbarItemProgressState.Normal;
             this.TaskbarItemInfo.ProgressValue = e.NewValue / 100;
         }
@@ -102,11 +94,11 @@ namespace LASI.UserInterface
 
 
         private void closeButton_Click(object sender, RoutedEventArgs e) {
-            App.Current.Shutdown();
+            Application.Current.Shutdown();
         }
         private void ExitMenuItem_Click_3(object sender, RoutedEventArgs e) {
-            App.Current.Shutdown();
-
+            this.Close();
+            Application.Current.Shutdown();
         }
 
 
@@ -184,13 +176,13 @@ namespace LASI.UserInterface
 
         #endregion
 
-        private async void ProceedtoResultsButton_Click(object sender, RoutedEventArgs e) {
+        private async void proceedtoResultsButton_Click(object sender, RoutedEventArgs e) {
             await ProceedToResultsView();
         }
         private void minButton_Click(object sender, RoutedEventArgs e) {
-            this.WindowState = WindowState.Minimized;
-            if (ConfigurationManager.AppSettings["ReduceResourceUsaageWhenMinimized"] == "true") {
-                PerformanceManager.SetPerformanceMode(PerforamanceLevel.Low);
+            WindowState = WindowState.Minimized;
+            if ((App.Current as App).AppSettingsCollection["ReduceResourceUsaageWhenMinimized"].Value == "true") {
+                PerformanceManager.SetPerformanceLevel(PerforamanceLevel.Low);
             }
         }
 
@@ -200,17 +192,14 @@ namespace LASI.UserInterface
                 PerforamanceLevel currentValue;
                 if (Enum.TryParse<PerforamanceLevel>(ConfigurationManager.AppSettings["CurrentPerformanceMode"], out currentValue)) {
 
-                    PerformanceManager.SetPerformanceMode(currentValue);
+                    PerformanceManager.SetPerformanceLevel(currentValue);
                 } else {
-                    PerformanceManager.SetPerformanceMode(PerforamanceLevel.High);
+                    PerformanceManager.SetPerformanceLevel(PerforamanceLevel.High);
                 }
             }
         }
 
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e) {
-            Application.Current.Shutdown();
-        }
-
+        public event EventHandler ProcessingComplete;
 
     }
 }

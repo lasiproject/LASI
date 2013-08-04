@@ -169,11 +169,8 @@
                 Height="24"
                 VerticalAlignment="Top"
                 FontSize="10"
-                FontFamily="Segoe UI Semilight">
-                <Image
-                    Source="Button Images/add-document.png"
-                    Width="22" />
-            </Button>
+                FontFamily="Segoe UI Semilight"
+                Style="{DynamicResource AddDocumentStyle}" />
             <Label
                 x:Name="ProjDocumentErrorLabel"
                 Content="*"

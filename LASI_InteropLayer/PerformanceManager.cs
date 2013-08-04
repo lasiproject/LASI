@@ -15,7 +15,7 @@ namespace LASI.InteropLayer
         /// Sets the overall performance level to the provided value.
         /// </summary>
         /// <param name="mode">The PerformanceLevel value indicating the new performance and resource usage settings to adobt.</param>
-        public static void SetPerformanceMode(PerforamanceLevel mode) {
+        public static void SetPerformanceLevel(PerforamanceLevel mode) {
             switch (mode) {
                 case PerforamanceLevel.High:
                     Concurrency.SetFromResourceUsageMode(ResourceMode.High);
@@ -42,12 +42,12 @@ namespace LASI.InteropLayer
         /// </summary>
         High,
         /// <summary>
+        /// Normal Performance.
+        /// </summary>
+        Normal,
+        /// <summary>
         /// Low Performance.
         /// </summary>
         Low,
-        /// <summary>
-        /// Normal Performance.
-        /// </summary>
-        Normal
     }
 }
