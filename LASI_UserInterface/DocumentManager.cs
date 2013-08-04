@@ -26,7 +26,7 @@ namespace LASI.UserInterface
                     select fileInfo).Take(MaxDocuments - NumberOfDocuments);
 
         }
-        public static void RemoveUserDocument(string fileName) {
+        public static void RemoveDocument(string fileName) {
             var remove = (from item in itemsAdded
                           where item.Content.ToString().Substring(0, item.Content.ToString().LastIndexOf('.')) == fileName
                           select item).FirstOrDefault();
@@ -36,7 +36,7 @@ namespace LASI.UserInterface
                 numberOfDocuments--;
             }
         }
-        public static void AddUserDocument(string fileName, string filePath) {
+        public static void AddDocument(string fileName, string filePath) {
             var docEntry = new System.Windows.Controls.ListViewItem {
                 Tag = filePath,
                 Content = fileName

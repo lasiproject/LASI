@@ -40,7 +40,12 @@ namespace LASI.UserInterface
             this.Left = (System.Windows.SystemParameters.WorkArea.Width - this.Width) / 2;
             this.Top = (System.Windows.SystemParameters.WorkArea.Height - this.MaxHeight) / 2;
 
-            DocumentManager.Initialize(documentsAdded, xbuttons, browseForDocButton, lastDocPathTextBox);
+            DocumentManager.Initialize(documentsAddedListBox, xbuttons, browseForDocButton, lastDocPathTextBox);
+            ProcessOpenWithFiles(System.Environment.GetCommandLineArgs().Skip(1).Take(5));
+        }
+
+        private void ProcessOpenWithFiles(IEnumerable<string> filePaths) {
+            foreach (var f in DocumentManager.GetValidFilesInPathList(filePaths)) { DocumentManager.AddDocument(f.Name, f.FullName); }
         }
         void BindWindowEventHandlers() {
             //Allow any part of the window to respond to the Drag move command. this is used here for clarity.
@@ -118,7 +123,7 @@ namespace LASI.UserInterface
                 if (!DocumentManager.FileNamePresent(openDialog.SafeFileName)) {
                     var fileName = openDialog.SafeFileName;
                     var filePath = openDialog.FileName;
-                    DocumentManager.AddUserDocument(fileName, filePath);
+                    DocumentManager.AddDocument(fileName, filePath);
                 } else {
                     MessageBox.Show(this, string.Format("A document named {0} is already part of the project.", openDialog.SafeFileName));
                 }
@@ -155,7 +160,7 @@ namespace LASI.UserInterface
         private async Task InitializeFileManager() {
             FileManager.Initialize(System.IO.Path.Combine(locationTextBox.Text, ProjectNameTextBox.Text));
 
-            foreach (var file in documentsAdded.Items) {
+            foreach (var file in documentsAddedListBox.Items) {
                 FileManager.AddFile((file as ListViewItem).Tag.ToString(), true);
             }
             await FileManager.ConvertAsNeededAsync();
@@ -282,7 +287,7 @@ namespace LASI.UserInterface
             } else {
                 foreach (var droppedFile in filesInValidFormats) {
                     if (!DocumentManager.FileIsLocked(droppedFile)) {
-                        DocumentManager.AddUserDocument(droppedFile.Name, droppedFile.FullName);
+                        DocumentManager.AddDocument(droppedFile.Name, droppedFile.FullName);
                     } else {
                         MessageBox.Show(this, string.Format("The document {0} is in use by another process, please close any applications which may be using the file and try again.", droppedFile));
                     }

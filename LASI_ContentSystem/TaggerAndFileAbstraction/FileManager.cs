@@ -780,8 +780,9 @@ namespace LASI.ContentSystem
         /// Sets data about the current contents of the ProjectDirectory at the time the FileManagerException is constructed.
         /// </summary>
         protected virtual void CollectDirInfo() {
-            filesInProjectDirectories = from internalFile in new DirectoryInfo(FileManager.ProjectDir).EnumerateFiles("*", SearchOption.AllDirectories)
-                                        select FileManager.WrapperMap[internalFile.Extension](internalFile.FullName);
+            if (FileManager.Initialized)
+                filesInProjectDirectories = from internalFile in new DirectoryInfo(FileManager.ProjectDir).EnumerateFiles("*", SearchOption.AllDirectories)
+                                            select FileManager.WrapperMap[internalFile.Extension](internalFile.FullName);
         }
 
         private IEnumerable<InputFile> filesInProjectDirectories = new List<InputFile>();
@@ -843,16 +844,6 @@ namespace LASI.ContentSystem
 
     #endregion
 
-    #region Internal Extension Method Providers
-
-    internal static class InputFileExtensions
-    {
-        public static dynamic AsDynamic(this InputFile inputFile) {
-            return inputFile;
-        }
-    }
-
-    #endregion
 
 }
 

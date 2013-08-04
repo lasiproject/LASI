@@ -75,7 +75,7 @@ namespace LASI.UserInterface
             var docSelected = DocumentPreview.SelectedItem;
             if (docSelected != null) {
                 DocumentPreview.Items.Remove(docSelected);
-                DocumentManager.RemoveUserDocument((docSelected as TabItem).Header.ToString());
+                DocumentManager.RemoveDocument((docSelected as TabItem).Header.ToString());
                 FileManager.RemoveFile((docSelected as TabItem).Header.ToString());
                 CheckIfAddingAllowed();
 
@@ -92,7 +92,7 @@ namespace LASI.UserInterface
                 } else {
                     foreach (var droppedFile in validDroppedFiles) {
                         if (!DocumentManager.FileIsLocked(droppedFile)) {
-                            DocumentManager.AddUserDocument(droppedFile.Name, droppedFile.FullName);
+                            DocumentManager.AddDocument(droppedFile.Name, droppedFile.FullName);
                             await AddNewDocument(droppedFile.FullName);
                         } else {
                             MessageBox.Show(this, string.Format("The document {0} is in use by another process, please close any applications which may be using the file and try again.", droppedFile));
@@ -119,7 +119,7 @@ namespace LASI.UserInterface
             if (DocumentManager.FileNamePresent(file.Name)) {
                 MessageBox.Show(this, string.Format("A document named {0} is already part of the project.", file));
             } else if (!DocumentManager.FileIsLocked(file)) {
-                DocumentManager.AddUserDocument(file.Name, file.FullName);
+                DocumentManager.AddDocument(file.Name, file.FullName);
                 await AddNewDocument(file.FullName);
             } else {
                 MessageBox.Show(this, string.Format("The document {0} is in use by another process, please close any applications which may be using the file and try again.", file));

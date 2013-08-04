@@ -190,7 +190,7 @@
                 Source="MiscImages\arrow-docgohere.png"
                 Visibility="Hidden" />
             <ListBox
-                x:Name="documentsAdded"
+                x:Name="documentsAddedListBox"
                 Canvas.Left="50"
                 Canvas.Top="163"
                 Visibility="Visible"
