@@ -29,14 +29,14 @@ namespace LASI.Algorithm
             BoundObject = prepositionalObject;
         }
         /// <summary>
-        /// Gets or sets the IprepositionLinkable construct on the right-hand-side of the Preposition.
+        /// Gets or sets the ILexical construct on the right-hand-side of the Preposition.
         /// </summary>
         public ILexical ToTheRightOf {
             get;
             set;
         }
         /// <summary>
-        /// Gets or sets the IprepositionLinkable construct on the left-hand-side of the Preposition.
+        /// Gets or sets the ILexical construct on the left-hand-side of the Preposition.
         /// </summary>
         public ILexical ToTheLeftOf {
             get;
@@ -56,7 +56,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets or sets the contextually extrapolated role of the ParticlePhrase.
         /// </summary>
-        /// <see cref="Role"/>
+        /// <see cref="PrepositionRole"/>
         public PrepositionRole Role {
             get;
             set;

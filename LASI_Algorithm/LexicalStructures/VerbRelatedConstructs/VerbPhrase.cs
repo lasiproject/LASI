@@ -72,8 +72,7 @@ namespace LASI.Algorithm
                 foreach (var subject in this.Subjects) {
                     subject.AddPossession(directObject);
                 }
-            }
-            else if (IsClassifier) {
+            } else if (IsClassifier) {
                 foreach (var subject in this.Subjects) {
                     AliasDictionary.DefineAlias(subject, directObject);
                 }
@@ -113,8 +112,7 @@ namespace LASI.Algorithm
 
                 }
                 return result;
-            }
-            else
+            } else
                 return base.ToString();
         }
 
@@ -255,7 +253,7 @@ namespace LASI.Algorithm
         public virtual IEnumerable<IEntity> IndirectObjects { get { return indirectObjects; } }
 
         /// <summary>
-        /// Gets the VerbPhrases'subject object, If the VerbPhrase has an object bound via a Prepositional. This can be any ILexical construct including a word, phrase, or clause.
+        /// Gets the VerbPhrases's object, If the VerbPhrase has an object bound via a Prepositional. This can be any ILexical construct including a word, phrase, or clause.
         /// </summary>
         public ILexical ObjectOfThePreoposition { get; protected set; }
         /// <summary>

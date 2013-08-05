@@ -122,7 +122,7 @@ namespace LASI.Algorithm.Binding
                     }
                 }
 
-                //  Binds all Modal Aux'subject to last adverb
+                //  Binds all Modal Aux's to last adverb
                 var ModalAuxList = vp.Words.GetModals();
                 if (ModalAuxList.Count() > 0) {
                     foreach (var ma in ModalAuxList) {

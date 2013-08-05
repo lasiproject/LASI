@@ -67,8 +67,7 @@ namespace LASI.Algorithm
                 foreach (var subject in this.Subjects) {
                     subject.AddPossession(directObject);
                 }
-            }
-            else if (IsClassifier) {
+            } else if (IsClassifier) {
                 foreach (var subject in this.Subjects) {
                     AliasDictionary.DefineAlias(subject, directObject);
                 }
@@ -182,7 +181,7 @@ namespace LASI.Algorithm
         public virtual IEnumerable<IEntity> DirectObjects { get { return directObjects; } }
 
         /// <summary>
-        /// Gets or sets the List of IAdverbial modifiers which modify the Verb.
+        /// Gets or the collection of IAdverbial modifiers which modify the Verb.
         /// </summary>
         public virtual IEnumerable<IAdverbial> Modifiers { get { return modifiers; } }
         /// <summary>

@@ -83,7 +83,7 @@ namespace LASI.Algorithm
         }
 
         /// <summary>
-        /// Gets or sets the EntityKind; Person, Place, Thing, Organization, or Activity;  of the Noun.
+        /// Gets the EntityKind; Person, Place, Thing, Organization, or Activity;  of the Noun.
         /// </summary>
         public EntityKind EntityKind {
             get;

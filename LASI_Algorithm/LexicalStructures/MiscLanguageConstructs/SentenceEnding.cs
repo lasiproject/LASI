@@ -12,7 +12,7 @@ namespace LASI.Algorithm
     public class SentenceEnding : Punctuation
     {
         /// <summary>
-        /// Initializes a new instance of the SentenceDelimiter class.
+        /// Initializes a new instance of the SentenceEnding class.
         /// </summary>
         /// <param name="endOfSentenceMarker">A character which denotes the end of a sentence (valid values are '?', '!', and '.'</param>
         /// <exception cref="ArgumentException">Thrown when a character not within the specified set of valid values is passed to the constructor.</exception>

@@ -73,7 +73,7 @@ namespace LASI.Algorithm
         /// </summary>
         public Phrase Phrase { get; private set; }
         /// <summary>
-        /// Gets or the Sentence the word belongs to.
+        /// Gets the Sentence the word belongs to.
         /// </summary>
         public Sentence Sentence { get; private set; }
         /// <summary>

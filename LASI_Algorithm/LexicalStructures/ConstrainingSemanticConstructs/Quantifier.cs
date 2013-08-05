@@ -21,11 +21,11 @@ namespace LASI.Algorithm
 
         #region Properties
         /// <summary>
-        /// Gets or sets the 
+        /// Gets or sets the IQuantifiable instance which the IQuantifier quantifies.
         /// </summary>
         public virtual IQuantifiable Quantifies { get; set; }
         /// <summary>
-        /// Gets or sets the IQuantifiable instance which the IQuantifier quantifies.
+        /// Gets or sets the IQuantifier instance which quantifies the IQuantifier.
         /// </summary>
         public IQuantifier QuantifiedBy { get; set; }
         #endregion

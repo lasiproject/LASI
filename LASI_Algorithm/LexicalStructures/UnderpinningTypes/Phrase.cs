@@ -82,7 +82,7 @@ namespace LASI.Algorithm
         /// </summary>
         public Sentence Sentence { get; set; }
         /// <summary>
-        /// Gets or sets the Paragraph to which the Phrase belongs.
+        /// Gets or the Paragraph to which the Phrase belongs.
         /// </summary>
         public Paragraph Paragraph { get { return Sentence != null ? Sentence.Paragraph : null; } }
         /// <summary>

@@ -12,7 +12,7 @@ namespace LASI.Algorithm
     /// If modifying an instransitive verb it will usually lexically follow the the verb: e.g. "Jane plays BETTER than John.
     /// If modifying a transitive verb it will usually lexically follow the verb object: e.g. "Jane plays poker "BETTER" than John.
     /// For Adjectives - 
-    /// The adverb will usually lexically precede the adjective it modifies: e.g. John'subject wardrobe is MORE colorful than Jane'subject.
+    /// The adverb will usually lexically precede the adjective it modifies: e.g. John's wardrobe is MORE colorful than Jane's.
     /// </summary>
     public class ComparativeAdverb : Adverb
     {

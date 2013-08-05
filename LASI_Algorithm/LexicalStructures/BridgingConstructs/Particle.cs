@@ -27,14 +27,14 @@ namespace LASI.Algorithm
         #region Properties
 
         /// <summary>
-        /// Gets or sets the IprepositionLinkable construct on the right-hand-side of the Preposition.
+        /// Gets or sets the ILexical construct on the right-hand-side of the Preposition.
         /// </summary>
         public ILexical ToTheRightOf {
             get;
             set;
         }
         /// <summary>
-        /// Gets or sets the IprepositionLinkable construct on the left-hand-side of the Preposition.
+        /// Gets or sets the ILexical construct on the left-hand-side of the Preposition.
         /// </summary>
         public ILexical ToTheLeftOf {
             get;
@@ -66,9 +66,9 @@ namespace LASI.Algorithm
 
 
         /// <summary>
-        /// Gets or sets the contextually extrapolated role of the Particle.
+        /// Gets or sets the contextually extrapolated Preopositional Role of the Particle.
         /// </summary>
-        /// <see cref="Role"/>
+        /// <see cref="PrepositionRole"/>
         public PrepositionRole Role {
             get;
             set;

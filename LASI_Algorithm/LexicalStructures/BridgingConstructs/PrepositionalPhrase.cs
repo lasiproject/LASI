@@ -21,14 +21,14 @@ namespace LASI.Algorithm
             Role = Algorithm.PrepositionRole.Undetermined;
         }
         /// <summary>
-        /// Gets or sets the IprepositionLinkable construct on the right-hand-side of the Preposition.
+        /// Gets or sets the ILexical construct on the right-hand-side of the Preposition.
         /// </summary>
         public virtual ILexical ToTheRightOf {
             get;
             set;
         }
         /// <summary>
-        /// Gets or sets the IprepositionLinkable construct on the left-hand-side of the Preposition.
+        /// Gets or sets the ILexical construct on the left-hand-side of the Preposition.
         /// </summary>
         public virtual ILexical ToTheLeftOf {
             get;
@@ -74,7 +74,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets or sets the contextually extrapolated role of the PrepositionalPhrase.
         /// </summary>
-        /// <see cref="Role"/>
+        /// <see cref="PrepositionRole"/>
         public PrepositionRole Role {
             get;
             set;

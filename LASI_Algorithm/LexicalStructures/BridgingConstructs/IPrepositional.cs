@@ -8,14 +8,14 @@ namespace LASI.Algorithm
     public interface IPrepositional : ILexical
     {
         /// <summary>
-        /// Gets or sets the IPropositionLinkable construct on the Right side of the IPrepositional.
+        /// Gets or sets the ILexical construct on the Right side of the IPrepositional.
         /// </summary>
         ILexical ToTheRightOf {
             get;
             set;
         }
         /// <summary>
-        /// Gets or sets the IPropositionLinkable construct on the Left side of the IPrepositional.
+        /// Gets or sets the ILexical construct on the Left side of the IPrepositional.
         /// </summary>
         ILexical ToTheLeftOf {
             get;
@@ -29,9 +29,9 @@ namespace LASI.Algorithm
         }
 
         /// <summary>
-        /// Gets or sets the contextually extrapolated role of the PrepositionalConstruct.
+        /// Gets the contextually extrapolated role of the IPrepositional Construct.
         /// </summary>
-        /// <see cref="Role"/>
+        /// <see cref="PrepositionRole"/>
         PrepositionRole Role {
             get;
         }

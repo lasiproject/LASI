@@ -19,16 +19,13 @@ namespace LASI.Algorithm.DocumentConstructs
         public Paragraph(IEnumerable<Sentence> sentences, ParagraphKind paraKind = ParagraphKind.Default) {
             ParagraphKind = paraKind;
             Sentences = sentences;
-            ID = IDNumProvider;
-            ++IDNumProvider;
+            ID = IDNumProvider++;
         }
-
-
 
         /// <summary>
         /// Establish the nested links between the Paragraph, its parent Document, and the sentencies comprising it.
         /// </summary>
-        /// <param name="parentDoc">The document instance to identified as the Paragraph'subject parent.</param>
+        /// <param name="parentDoc">The document instance to identified as the Paragraph's parent.</param>
         public void EstablishParent(Document parentDoc) {
             Document = parentDoc;
             foreach (var S in Sentences)
@@ -52,7 +49,7 @@ namespace LASI.Algorithm.DocumentConstructs
         }
 
         /// <summary>
-        /// Gets or sets the collection of Sentences which comprise the Paragraph.
+        /// Gets the collection of Sentences which comprise the Paragraph.
         /// </summary>
         public IEnumerable<Sentence> Sentences { get; private set; }
 
@@ -111,7 +108,7 @@ namespace LASI.Algorithm.DocumentConstructs
     public enum ParagraphKind
     {
         /// <summary>
-        /// Default paragraph containing one or more complete sentences.
+        /// A paragraph containing one or more complete sentences.
         /// </summary>
         Default,
         /// <summary>
@@ -119,7 +116,7 @@ namespace LASI.Algorithm.DocumentConstructs
         /// </summary>
         NumberedOrBullettedContent,
         /// <summary>
-        /// A paragraph comprising a heading.
+        /// A paragraph containing a heading.
         /// </summary>
         Heading
     }

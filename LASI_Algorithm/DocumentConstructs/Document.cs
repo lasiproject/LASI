@@ -10,7 +10,7 @@ using LASI.Utilities;
 namespace LASI.Algorithm.DocumentConstructs
 {
     /// <summary>
-    /// A data structure containing all of the paragraph, sentence, a, and word objects in a document.
+    /// A data structure containing all of the paragraph, sentence, clause, phrase, and word objects which comprise a single document.
     /// Provides overalapping direct and indirect access to all of its children, 
     /// e.g. such as myDoc.Paragraphs.Sentences.Phrases.Words will get all the words in the document in linear order
     /// comparatively: myDoc.Words; yields the same collection.
@@ -188,14 +188,14 @@ namespace LASI.Algorithm.DocumentConstructs
 
         #endregion
         /// <summary>
-        /// Represents a page of document. Pages are a somewhat arbitrary segement of a Document, containing some subset of the Sentences a document contains.
+        /// Represents a page of a document. Pages are somewhat arbitrary segements of a Document, that contain some subset of its content.
         /// </summary>
         public sealed class Page
         {
             /// <summary>
             /// Initializes a new instance of the Page class.
             /// </summary>
-            /// <param name="sentences">The sentences which comprise the Page.</param>
+            /// <param name="sentences">The Sentences which comprise the Page.</param>
             /// <param name="document">The Document to which the page belongs.</param>
             internal Page(IEnumerable<Sentence> sentences, Document document) {
                 Document = document;
@@ -203,7 +203,7 @@ namespace LASI.Algorithm.DocumentConstructs
             }
 
             /// <summary>
-            /// Gets the sentences which comprise the Page.
+            /// Gets the Sentences which comprise the Page.
             /// </summary>
             public IEnumerable<Sentence> Sentences { get; private set; }
             /// <summary>

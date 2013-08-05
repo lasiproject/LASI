@@ -12,7 +12,7 @@ namespace LASI.Algorithm.Analysis
     {
 
         public static void Identify(params Sentence[] sentences) {
-            foreach (Sentence s in sentences) {
+            foreach (var s in sentences) {
                 var remainder = RemainderofSentenceIncludingSubordinator(s.Words);
 
 
@@ -31,15 +31,15 @@ namespace LASI.Algorithm.Analysis
 
         /// <summary>
         /// This is the most common beginning of a subordinating clause. It begins with either a subordinating conjuntion or a relative (wh) pronoun. 
-        /// Example, "Dennis, who was a huge dick, ate at Wendy'subject and harasseed the management.
-        /// "who was a huge dick," is your subordinate clause. 
+        /// Example, "Dennis, who was a huge dick, ate at Wendy's and harasseed the management.
+        /// "who was a huge dick," is the subordinate clause. 
         /// </summary>
-        /// <param name="w">Word</param>
+        /// <param name="word">Word</param>
         /// <returns> true or false</returns>
-        private static bool isRelativePronounorSubordinatingConjunction(Word w) {
-            var prep = w as Preposition;
+        private static bool isRelativePronounorSubordinatingConjunction(Word word) {
+            var prep = word as Preposition;
             if (prep != null)
-                return !(w is RelativePronoun) || !(prep.Role == PrepositionRole.SubordinatingConjunction);
+                return !(word is RelativePronoun) || !(prep.Role == PrepositionRole.SubordinatingConjunction);
             return false;
         }
 

@@ -49,7 +49,7 @@ namespace LASI.UserInterface.Properties
         }
 
         /// <summary>
-        ///   Overrides the current thread'subject CurrentUICulture property for all
+        ///   Overrides the current thread's CurrentUICulture property for all
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
@@ -68,7 +68,7 @@ namespace LASI.UserInterface.Properties
         public static System.Drawing.Icon LasiLogo {
             get {
                 object obj = ResourceManager.GetObject("LasiLogo", resourceCulture);
-                return (( System.Drawing.Icon )(obj));
+                return ((System.Drawing.Icon)(obj));
             }
         }
     }

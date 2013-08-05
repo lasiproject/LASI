@@ -30,8 +30,8 @@ namespace LASI.Algorithm.Binding
         /// <summary>
         /// Bind posessive pronouns located in the objects of a sentence to the proper noun in the subject of that sentence. 
         /// Example Sentence that this applies to:
-        /// "LASI binds it'subject pronouns."
-        /// Pronoun "it'subject" binds to the proper noun "LASI"
+        /// "LASI binds it's pronouns."
+        /// Pronoun "it's" binds to the proper noun "LASI"
         /// </summary>
         /// <param name="doc">Document for analysis</param>
         private void BindPosessivePronouns(Document doc) { //Aluan Says: Beautiful function man.

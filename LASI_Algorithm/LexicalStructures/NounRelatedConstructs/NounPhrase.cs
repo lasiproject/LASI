@@ -205,7 +205,7 @@ namespace LASI.Algorithm
         /// </summary>
         public NounPhrase InnerAttributive { get; set; }
         /// <summary>
-        /// Gets or sets the Entity PronounKind; Person, Place, Thing, Organization, or Activity; of the NounPhrase.
+        /// Gets the Entity PronounKind; Person, Place, Thing, Organization, or Activity; of the NounPhrase.
         /// </summary>
         public EntityKind EntityKind { get; protected set; }
 
@@ -224,25 +224,3 @@ namespace LASI.Algorithm
 
     }
 }
-
-
-///// <summary>
-///// Gets or sets Noun to Nounphrase
-///// </summary>
-//public Noun BoundNoun {
-//    get;
-//    set;
-//}
-
-///// <summary>
-///// Gets or sets NounPhrase to NounPhrase
-///// </summary>
-//public NounPhrase BoundNounPhrase {
-//    get;
-//    set;
-//}
-
-//public bool WasBound {
-//    get;
-//    set;
-//}

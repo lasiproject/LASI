@@ -32,7 +32,7 @@ namespace LASI.Algorithm
         private HashSet<IAdverbial> _modifiers = new HashSet<IAdverbial>();
 
         /// <summary>
-        /// Gets or sets the collection of Adverbial constructs which modify the AdjectivePhrase.
+        /// Gets the collection of Adverbial constructs which modify the AdjectivePhrase.
         /// </summary>
         public virtual IEnumerable<IAdverbial> Modifiers {
             get {
