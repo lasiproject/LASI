@@ -116,40 +116,15 @@ namespace LASI.Algorithm.Weighting
 
         private static void NewNormalizationProcedure(IEnumerable<ILexical> source) {
             if (source.Any()) {
-                source
-                    .AsParallel()
-                    .WithDegreeOfParallelism(Concurrency.CurrentMax)
-                    .Where(e => e.Weight > 0);
                 double maxWeight = source.Max(e => e.Weight);
-                double minWeight = source.Min(e => e.Weight);
-                double scalingFactor = maxWeight - minWeight > 0 ? (maxWeight - minWeight) : 1.0;
-                source.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
-                    .ForAll(e => e.Weight = (e.Weight * scalingFactor) * (100d / (maxWeight)));
+                double minWeight = source.Where(e => e.Weight > 0).Min(e => e.Weight);
+                double scalingFactor = (maxWeight - minWeight > 0 ? (maxWeight - minWeight) : 1.0) * (100d / maxWeight);
+                source.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax).Where(e => e.Weight > 0)
+                    .ForAll(e => e.Weight *= scalingFactor);
             }
         }
 
-        private static void OldNormalizationProcedure(Document doc) {
-            double TotPhraseWeight = 0.0;
-            double MaxWeight = 0.0;
-            int NonZeroWghts = 0;
-            foreach (var w in doc.Phrases) {
-                TotPhraseWeight += w.Weight;
 
-                if (w.Weight > 0)
-                    NonZeroWghts++;
-
-                if (w.Weight > MaxWeight)
-                    MaxWeight = w.Weight;
-            }
-            if (NonZeroWghts != 0) {//Caused a devide by zero exception if document was empty.
-                var AvgWght = TotPhraseWeight / NonZeroWghts;
-                var ratio = 100 / MaxWeight;
-
-                foreach (var p in doc.Phrases) {
-                    p.Weight = Math.Round(p.Weight * ratio, 3);
-                }
-            }
-        }
 
 
         private static async Task ModifyVerbWeightsBySynonymsAsync(Document doc) {
@@ -268,24 +243,39 @@ namespace LASI.Algorithm.Weighting
         }
 
         private static void HackSubjectPropernounImportance(Document doc) {
-
-            doc.Phrases.GetNounPhrases()
-                 .AsParallel()
-                 .WithDegreeOfParallelism(Concurrency.CurrentMax)
-                 .InSubjectRole().AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax).ForAll(n => {
-                     if ((n as NounPhrase).Words.Any(i => i is ProperNoun))
-                         n.Weight *= 2;
-                 });
-            doc.Phrases.GetNounPhrases()
-                .AsParallel()
-                .WithDegreeOfParallelism(Concurrency.CurrentMax).ForAll(n => {
-                    if ((n as NounPhrase).Words.Any(i => i is ProperNoun)) {
-                        n.Weight *= 2;
-                    }
-                });
+            doc.Phrases
+                .AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
+                .Where(np => np.Words.Any(w => w is ProperNoun))
+                .GetNounPhrases()
+                .ForAll(np => np.Weight *= 2);
 
         }
 
+
+
+
+        private static void OldNormalizationProcedure(Document doc) {
+            double TotPhraseWeight = 0.0;
+            double MaxWeight = 0.0;
+            int NonZeroWghts = 0;
+            foreach (var w in doc.Phrases) {
+                TotPhraseWeight += w.Weight;
+
+                if (w.Weight > 0)
+                    NonZeroWghts++;
+
+                if (w.Weight > MaxWeight)
+                    MaxWeight = w.Weight;
+            }
+            if (NonZeroWghts != 0) {//Caused a devide by zero exception if document was empty.
+                var AvgWght = TotPhraseWeight / NonZeroWghts;
+                var ratio = 100 / MaxWeight;
+
+                foreach (var p in doc.Phrases) {
+                    p.Weight = Math.Round(p.Weight * ratio, 3);
+                }
+            }
+        }
         private static async Task WeightWordsBySyntacticSequenceAsync(Document doc) {
             await Task.Run(() => WeightWordsBySyntacticSequence(doc));
         }

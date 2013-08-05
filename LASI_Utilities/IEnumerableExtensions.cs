@@ -183,6 +183,8 @@ namespace LASI.Utilities
 
         #region Custom Query Operators
 
+        #region Sequential Implementations
+
         /// <summary>
         /// Returns a set representation of the given sequence using the default IEqualityComparer for the given element type.
         /// </summary>
@@ -217,6 +219,47 @@ namespace LASI.Utilities
         }
 
         #endregion
+
+        #endregion
+
+        #region Parallel Implementations
+
+        /// <summary>
+        /// Returns a set representation of the given sequence using the default IEqualityComparer for the given element type.
+        /// </summary>
+        /// <typeparam name="T">The type of elements in the sequence.</typeparam>
+        /// <param name="source">The sequence whose distinct elements will comprise the resulting set.</param>
+        /// <returns>A set representation of the given sequence using the default System.Collections.Generic.IEqualityComparer for the given element type.</returns>
+        public static ISet<T> ToSet<T>(this ParallelQuery<T> source) {
+            return new HashSet<T>(source);
+        }
+        /// <summary>
+        /// Returns a set representation of the given sequence using the default IEqualityComparer for the given element type.
+        /// </summary>
+        /// <typeparam name="T">The type of elements in the sequence.</typeparam>
+        /// <param name="source">The sequence whose distinct elements will comprise the resulting set.</param>
+        /// <param name="comparer">The System.Collections.Generic.IEqualityComparer implementation which will determine the distinctness of elements.</param>
+        /// <returns>A set representation of the given sequence using the default IEqualityComparer for the given element type.</returns>
+        public static ISet<T> ToSet<T>(this ParallelQuery<T> source, IEqualityComparer<T> comparer) {
+            return new HashSet<T>(source, comparer);
+        }
+        /// <summary>
+        /// Splits the sequence into a sequence of sequences based on the provided chunk size.
+        /// </summary>
+        /// <typeparam name="T">The type of elements in the sequence.</typeparam>
+        /// <param name="source">The sequence to split into subsequences</param>
+        /// <param name="chunkSize">The number of elements per subsquence</param>
+        /// <returns>A sequence of sequences based on the provided chunk size.</returns>
+        public static IEnumerable<ParallelQuery<T>> Split<T>(this ParallelQuery<T> source, int chunkSize) {
+            var partsToCreate = source.Count() / chunkSize + source.Count() % chunkSize == 0 ? 0 : 1;
+            return from partIndex in Enumerable.Range(0, partsToCreate)
+                   select source.Skip(partIndex * chunkSize).Take(chunkSize);
+
+        }
+
+        #endregion
+
+
 
         #region Private Fields
 
@@ -275,6 +318,8 @@ namespace LASI.Utilities
         }
 
         #endregion
+
+
     }
 
     /// <summary>

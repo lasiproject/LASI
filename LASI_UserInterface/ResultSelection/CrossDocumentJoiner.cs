@@ -74,7 +74,7 @@ namespace LASI.UserInterface
                                             select verbs.Contains(vp, (L, R) => L.Text == R.Text || R.IsSimilarTo(R)))
                                             .Aggregate(true, (product, result) => product &= result)
                                      select vp;
-            return (from v in verbalCominalities.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
+            return (from v in verbalCominalities
                     select new RelationshipTuple {
                         Verbal = v,
                         Direct = v.DirectObjects
@@ -115,9 +115,9 @@ namespace LASI.UserInterface
                    orderby distinctNP.Weight
                    select distinctNP;
         }
-        private async Task<IEnumerable<VerbPhrase>> GetTopVerbPhrasesAsync(Document document) {
+        private async Task<ParallelQuery<VerbPhrase>> GetTopVerbPhrasesAsync(Document document) {
             return await Task.Run(() => {
-                var vpsWithSubject = document.Phrases.GetVerbPhrases().AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax).WithSubject();
+                var vpsWithSubject = document.Phrases.AsParallel().GetVerbPhrases().WithSubject();
                 return from vp in vpsWithSubject.WithDirectObject().Concat(vpsWithSubject.WithIndirectObject()).Distinct((vLeft, vRight) => vLeft.IsSimilarTo(vRight))
                        orderby vp.Weight + vp.Subjects.Sum(e => e.Weight) + vp.DirectObjects.Sum(e => e.Weight) + vp.IndirectObjects.Sum(e => e.Weight)
                        select vp;

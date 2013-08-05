@@ -15,6 +15,7 @@ namespace LASI.Algorithm
     /// <seealso cref="DocumentConstructs.Paragraph"/>
     static class IEnumerableOfDocumentStructureExtensions
     {
+        #region Sequential Implementations
         /// <summary>
         /// Gets the linear aggregation of all Sentence instances contained within the sequence of Paragraph instances.
         /// </summary>
@@ -67,5 +68,61 @@ namespace LASI.Algorithm
                    from w in s.Words
                    select w;
         }
+        #endregion
+
+        #region Parallel Implementations
+        /// <summary>
+        /// Gets the parallel aggregation of all Sentence instances contained within the sequence of Paragraph instances.
+        /// </summary>
+        /// <param name="paragraphs">A sequence of Paragraph instances.</param>
+        /// <returns>The parallel aggregation of all Sentence instances contained within the sequence of Paragraph instances.</returns>
+        public static ParallelQuery<Sentence> GetSentences(this ParallelQuery<Paragraph> paragraphs) {
+            return from p in paragraphs
+                   from s in p.Sentences
+                   select s;
+        }
+        /// <summary>
+        /// Gets the parallel aggregation of all Phrase instances contained within the sequence of Paragraph instances.
+        /// </summary>
+        /// <param name="paragraphs">A sequence of Paragraph instances.</param>
+        /// <returns>The parallel aggregation of all Phrase instances contained within the sequence of Paragraph instances.</returns>
+        public static ParallelQuery<Phrase> GetPhrases(this ParallelQuery<Paragraph> paragraphs) {
+            return from p in paragraphs
+                   from s in p.Sentences
+                   from r in s.Phrases
+                   select r;
+        }
+        /// <summary>
+        /// Gets the parallel aggregation of all Word instances contained within the sequence of Paragraph instances.
+        /// </summary>
+        /// <param name="paragraphs">A sequence of Paragraph instances.</param>
+        /// <returns>The parallel aggregation of all Word instances contained within the sequence of Paragraph instances.</returns>
+        public static ParallelQuery<Word> GetWords(this ParallelQuery<Paragraph> paragraphs) {
+            return from p in paragraphs
+                   from s in p.Sentences
+                   from w in s.Words
+                   select w;
+        }
+        /// <summary>
+        /// Gets the parallel aggregation of all Phrase instances contained within the sequence of Sentence instances.
+        /// </summary>
+        /// <param name="sentences">A sequence of Sentence instances.</param>
+        /// <returns>The parallel aggregation of all Phrase instances contained within the sequence of Sentence instances.</returns>
+        public static ParallelQuery<Phrase> GetPhrases(this ParallelQuery<Sentence> sentences) {
+            return from s in sentences
+                   from r in s.Phrases
+                   select r;
+        }
+        /// <summary>
+        /// Gets the parallel aggregation of all Word instances contained within the sequence of Sentence instances.
+        /// </summary>
+        /// <param name="sentences">A sequence of Sentence instances.</param>
+        /// <returns>The parallel aggregation of all Word instances contained within the sequence of Sentence instances.</returns>
+        public static ParallelQuery<Word> GetWords(this ParallelQuery<Sentence> sentences) {
+            return from s in sentences
+                   from w in s.Words
+                   select w;
+        }
+        #endregion
     }
 }

@@ -139,7 +139,7 @@
     <Compile Include="LexicalStructures\NounRelatedConstructs\PossessivePronoun.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\RelativePossessivePronoun.cs" />
     <Compile Include="LexicalStructures\UnderpinningTypes\ILexical.cs" />
-    <Compile Include="IEnumerableExtensions\IEnumerableOfParagraphExtensions.cs" />
+    <Compile Include="IEnumerableExtensions\IEnumerableOfDocumentStructureExtensions.cs" />
     <Compile Include="DocumentConstructs\Paragraph.cs" />
     <Compile Include="IEnumerableExtensions\IEnumerableOfPhraseExtensions.cs" />
     <Compile Include="DocumentConstructs\Sentence.cs" />
