@@ -49,7 +49,8 @@ namespace LASI.UserInterface
             WindowManager.ResultsScreen.Documents = analyzedDocuments.ToList();
             proceedtoResultsButton.Visibility = Visibility.Visible;
             StartFlashing();
-            ProcessingComplete(this, new EventArgs());
+            if (ProcessingComplete != null)
+                ProcessingComplete(this, new EventArgs());
 
         }
 

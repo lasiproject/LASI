@@ -93,8 +93,8 @@ namespace LASI.Algorithm.Weighting
         public static void Weight(Document doc) {
 
             WeightWordsBySyntacticSequence(doc);
-            WeightWordsByLiteralFrequency(doc);
-            WeightPhrasesByLiteralFrequency(doc);
+            WeightByLiteralFrequency(doc.Words);
+            WeightByLiteralFrequency(doc.Phrases);
             ModifyNounWeightsBySynonyms(doc);
             ModifyVerbWeightsBySynonyms(doc);
             WeightSimilarNounPhrases(doc);
@@ -150,47 +150,47 @@ namespace LASI.Algorithm.Weighting
         /// <param name="doc">the Document whose noun weights may be modiffied</param>
         private static void ModifyNounWeightsBySynonyms(Document doc) {
             //Currently, include only those nouns which exist in relationships with some IVerbal or IPronoun.
-            var nounsToConsider = doc.Words.GetNouns().Concat(
-                doc.Words.GetPronouns()
-                .Referencing(lex => lex is Noun)
-                .Select(pro => pro.EntityRefererredTo as Noun)
-            ).InSubjectOrObjectRole();
-            (from outerNoun in nounsToConsider.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
-             where outerNoun.SubjectOf != null || outerNoun.DirectObjectOf != null || outerNoun.IndirectObjectOf != null
-             from innerNoun in nounsToConsider
-             where outerNoun.IsSynonymFor(innerNoun)
-             group innerNoun by outerNoun).ForAll(grp => grp.Key.Weight += 0.7 * grp.Count());
+            var toConsider = doc.Words
+                .AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
+                .GetNouns()
+                .Concat<IEntity>(doc.Words
+                .AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
+                .GetPronouns()
+                .Referencing()
+                .Select(pro => pro.EntityRefererredTo))
+                .InSubjectOrObjectRole();
+            (from outer in toConsider
+             from inner in toConsider
+             where outer.IsSimilarTo(inner)
+             group inner by outer).AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
+             .ForAll(grp => grp.Key.Weight += 0.7 * grp.Count());
         }
 
         private static async Task WeightPhrasesByLiteralFrequencyAsync(Document doc) {
-            await Task.Run(() => WeightPhrasesByLiteralFrequency(doc));
-        }
-        private static void WeightPhrasesByLiteralFrequency(Document doc) {
-            WeightByLiteralFrequency(doc.Phrases);
-
+            await Task.Run(() => WeightByLiteralFrequency(doc.Phrases));
         }
 
         private static void WeightByLiteralFrequency(IEnumerable<ILexical> syntacticElements) {
-            foreach (var grouped in from phrase in syntacticElements
-                                    group phrase by new { phrase.Type, phrase.Text }) {
-                var increase = grouped.Count();
-                grouped.AsParallel()
-                       .WithDegreeOfParallelism(Concurrency.CurrentMax)
-                       .ForAll(e => e.Weight += increase);
+            var data = from phrase in syntacticElements
+                       group phrase by new { phrase.Type, phrase.Text } into grp
+                       select new { grp, count = grp.Count() };
+            foreach (var grp in data) {
+                foreach (var e in grp.grp) {
+                    e.Weight += grp.count;
+                }
             }
-        }
 
-        private static async Task WeightWordsByLiteralFrequencyAsync(Document doc) {
-            await Task.Run(() => WeightWordsByLiteralFrequency(doc));
         }
-
         /// <summary>
         /// basic word count by part of speech ignoring determiners and conjunctions
         /// </summary>
         /// <param name="doc">the Document whose words to weight</param> 
-        private static void WeightWordsByLiteralFrequency(Document doc) {
-            WeightByLiteralFrequency(doc.Words);
+        private static async Task WeightWordsByLiteralFrequencyAsync(Document doc) {
+            await Task.Run(() => WeightByLiteralFrequency(doc.Words));
         }
+
+
+
 
         private static async Task WeightSimilarNounPhrasesAsync(Document doc) {
             await Task.Run(() => WeightSimilarNounPhrases(doc));
@@ -202,12 +202,14 @@ namespace LASI.Algorithm.Weighting
         /// <param name="doc">Document containing the componentPhrases to weight</param>
         private static void WeightSimilarNounPhrases(Document doc) {
 
-            var nps = doc.Phrases.GetNounPhrases().InSubjectOrObjectRole()
-                                               .AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax);
+            var nps = doc.Phrases
+                .AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
+                .GetNounPhrases()
+                .InSubjectOrObjectRole();
             var similarNounPhraseLookup = nps.ToLookup(key => key,
                                            LexicalComparers<NounPhrase>
                                            .CreateCustom((L, R) => L.Text == R.Text || L.IsAliasFor(R) || L.IsSimilarTo(R)));
-            foreach (var outerNP in nps) {
+            nps.ForAll(outerNP => {
                 (from innerNP in similarNounPhraseLookup[outerNP].AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
                  group innerNP by outerNP).ForAll(group => {
                      var weightIncrease = group.Count() * .5;
@@ -215,7 +217,7 @@ namespace LASI.Algorithm.Weighting
                          inner.Weight += weightIncrease;
                      }
                  });
-            }
+            });
 
         }
         private static async Task WeightSimilarEntitiesAsync(Document doc) {

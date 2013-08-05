@@ -179,7 +179,7 @@ namespace LASI.UserInterface
             var chartSource = chart.Tag as IEnumerable<KeyValuePair<string, float>>;
             //var items = (from i in chartSource.ToArray()
             //             select new KeyValuePair<string, float>(i.Key.ToString(), i.Value)).Take(CHART_ITEM_LIMIT);
-            return chartSource.Take(CHART_ITEM_LIMIT);
+            return chartSource.Reverse().Take(CHART_ITEM_LIMIT);
         }
 
         #endregion

@@ -86,7 +86,7 @@ namespace LASI.UserInterface
 
 
         private void minimizeToTrayCheckBox_Checked(object sender, RoutedEventArgs e) {
-
+            Settings.Default.TrayMinimize = minimizeToTrayCheckBox.IsChecked ?? false;
         }
 
         public PerforamanceLevel ChosenPerformanceLevel { get; private set; }

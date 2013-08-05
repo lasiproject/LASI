@@ -45,8 +45,24 @@ namespace LASI.UserInterface
                                      from np in outerSet
                                      from innerSet in topNPsByDoc
                                      where innerSet != outerSet
-                                     where innerSet.Contains(np, (L, R) => L.Text == R.Text || L.IsAliasFor(R) || L.IsSimilarTo(R))
-                                     select np).Distinct((L, R) => L.Text == R.Text || L.IsAliasFor(R) || L.IsSimilarTo(R));
+                                     where innerSet.Contains(np, (left, right) => {
+                                         var result = left.Text == right.Text || left.IsAliasFor(right) || left.IsSimilarTo(right);
+                                         if (!result) {
+                                             var leftAsPro = left as IPronoun;
+                                             var rightAsPro = right as IPronoun;
+                                             result = rightAsPro != null && left.BoundPronouns.Contains(rightAsPro) || leftAsPro != null && right.BoundPronouns.Contains(leftAsPro);
+                                         }
+                                         return result;
+                                     })
+                                     select np).Distinct((left, right) => {
+                                         var result = left.Text == right.Text || left.IsAliasFor(right) || left.IsSimilarTo(right);
+                                         if (!result) {
+                                             var leftAsPro = left as IPronoun;
+                                             var rightAsPro = right as IPronoun;
+                                             result = rightAsPro != null && left.BoundPronouns.Contains(rightAsPro) || leftAsPro != null && right.BoundPronouns.Contains(leftAsPro);
+                                         }
+                                         return result;
+                                     });
             var results = from n in nounCommonalities
                               .InSubjectRole()
                               .AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
@@ -93,27 +109,38 @@ namespace LASI.UserInterface
         }
 
         private async Task<IEnumerable<NounPhrase>> GetTopNounPhrasesAsync(Document document) {
-            return await Task.Run(() => from distinctNP in
-                                            (from np in document.Phrases
-                                                 .GetNounPhrases()
-                                                 .AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
-                                             where np.SubjectOf != null && (np.DirectObjectOf != null || np.IndirectObjectOf != null)
-                                             select np).Distinct((L, R) => L.Text == R.Text || L.IsAliasFor(R) || L.IsSimilarTo(R))
-                                        orderby distinctNP.Weight
-                                        select distinctNP);
+            return await Task.Run(() => document.Phrases
+                .AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
+                .GetNounPhrases()
+                .InSubjectRole()
+                .InObjectRole()
+                .Distinct((left, right) => {
+                    var result = left.Text == right.Text || left.IsAliasFor(right) || left.IsSimilarTo(right);
+                    if (!result) {
+                        var leftAsPro = left as IPronoun;
+                        var rightAsPro = right as IPronoun;
+                        result = rightAsPro != null && left.BoundPronouns.Contains(rightAsPro) || leftAsPro != null && right.BoundPronouns.Contains(leftAsPro);
+                    }
+                    return result;
+                })
+                .OrderBy(dnp => dnp.Weight));
 
         }
         private IEnumerable<NounPhrase> GetTopNounPhrases(Document document) {
-            return from distinctNP in
-                       (from np in document.Phrases
-                            .GetNounPhrases()
-                            .AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
-                            .InSubjectRole()
-                        where (np.DirectObjectOf != null || np.IndirectObjectOf != null)
-                        select np
-                        ).Distinct((L, R) => L.Text == R.Text || L.IsAliasFor(R) || L.IsSimilarTo(R))
-                   orderby distinctNP.Weight
-                   select distinctNP;
+            return document.Phrases
+                       .AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax).GetNounPhrases()
+                       .InSubjectRole()
+                       .InObjectRole()
+                       .Distinct((left, right) => {
+                           var result = left.Text == right.Text || left.IsAliasFor(right) || left.IsSimilarTo(right);
+                           if (!result) {
+                               var leftAsPro = left as IPronoun;
+                               var rightAsPro = right as IPronoun;
+                               result = rightAsPro != null && left.BoundPronouns.Contains(rightAsPro) || leftAsPro != null && right.BoundPronouns.Contains(leftAsPro);
+                           }
+                           return result;
+                       })
+                       .OrderBy(dnp => dnp.Weight);
         }
         private async Task<ParallelQuery<VerbPhrase>> GetTopVerbPhrasesAsync(Document document) {
             return await Task.Run(() => {

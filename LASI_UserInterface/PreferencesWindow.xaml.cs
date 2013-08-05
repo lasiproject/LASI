@@ -24,12 +24,7 @@ namespace LASI.UserInterface
         public PreferencesWindow() {
             InitializeComponent();
             menu = new PreferencesMenu();
-
             mainFrame.Content = menu;
-        }
-        protected override void OnInitialized(EventArgs e) {
-            base.OnInitialized(e);
-
         }
         private void saveButton_Click(object sender, RoutedEventArgs e) {
             Properties.Settings.Default.Save();

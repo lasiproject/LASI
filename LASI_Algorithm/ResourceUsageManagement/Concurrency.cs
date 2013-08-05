@@ -30,7 +30,7 @@ namespace LASI.Algorithm
         /// <returns>The default maxiumum number of logical CPU cores the document analysis process is allowed to utilize.</returns>
         private static int GetDefaultParallelMax() {
             var logicalCPUs = System.Environment.ProcessorCount;
-            return logicalCPUs < 3 ? logicalCPUs : logicalCPUs - 2;
+            return logicalCPUs < 3 ? logicalCPUs : logicalCPUs - 1;
         }
         /// <summary>
         /// Gets the maximum allowed Concurrency level for Parallel operations.
