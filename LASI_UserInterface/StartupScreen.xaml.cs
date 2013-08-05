@@ -32,7 +32,7 @@ namespace LASI.UserInterface
             SetupFileLogging(Environment.GetCommandLineArgs()[0], logFileName);
             InitializeComponent();
             ProjectNameTextBox.Text = LASI.UserInterface.Properties.Settings.Default.AutoNameProjects ? "MyProject" : "";
-            WindowManager.StartupScreen = this;
+            WindowManager.Intialize();
             SetupAdditionalBehaviors();
             Resources["createButtonContent"] = "Create";
             this.Left = (System.Windows.SystemParameters.WorkArea.Width - this.Width) / 2;

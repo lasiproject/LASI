@@ -6,9 +6,21 @@ using System.Threading.Tasks;
 using LASI.Algorithm.LexicalLookup;
 namespace LASI.Algorithm.Analysis.Binders.Experimental
 {
-    public class ClauseSeperatingBranchingPronounBinder
+    /// <summary>
+    /// An experimental class which uses a variety of binding techniques to infer the likely clause structure of a set of contiguous lexical elements.
+    /// </summary>
+    public class ClauseSeperatingMultiBranchingBinder
     {
-        public void Bind(IEnumerable<ILexical> elements) { Bind(elements.GetWords()); }
+        ///// <summary>
+        ///// Binds and identifies Clauses over the provided set of elements. Assumes that the elements supplied begin a sentence (or possibly follow a semicolon).
+        ///// </summary>
+        ///// <param name="elements">The set of ILexical elements to bind over.</param>
+        //public void Bind(IEnumerable<ILexical> elements) { Bind(elements.GetWords()); }
+
+        /// <summary>
+        /// Binds and identifies Clauses over the provided set of Words. Assumes that the Words supplied begin a sentence (or possibly follow a semicolon).
+        /// </summary>
+        /// <param name="elements">The set of Words to bind over.</param>
         public void Bind(IEnumerable<Word> elements) {
             var splitters = elements
                 .Select((e, index) => new { Word = e as Preposition ?? e as Punctuation ?? e as Conjunction as Word, Location = index })

@@ -13,36 +13,27 @@ namespace LASI.UserInterface
     /// </summary>
     internal static class WindowManager
     {
-        static WindowManager() {
-
-            ProjectPreviewScreen = new ProjectPreviewScreen();
-            InProgressScreen = new InProgressScreen();
-            ResultsScreen = new ResultsScreen();
-
+        #region Methods
+        internal static void Intialize() {
+            startupScreen = App.Current.Windows.OfType<StartupScreen>().First();
         }
+        #endregion
 
+        #region Fields
+        private static StartupScreen startupScreen;
+        private static ResultsScreen resultsScreen = new ResultsScreen();
+        private static ProjectPreviewScreen projectPreviewScreen = new ProjectPreviewScreen();
+        private static InProgressScreen inProgressScreen = new InProgressScreen();
+        #endregion
 
+        #region Properties
+        public static StartupScreen StartupScreen { get { return startupScreen; } }
+        public static InProgressScreen InProgressScreen { get { return inProgressScreen; } }
+        public static ResultsScreen ResultsScreen { get { return resultsScreen; } }
+        public static ProjectPreviewScreen ProjectPreviewScreen { get { return projectPreviewScreen; } }
+        #endregion
 
-        public static StartupScreen StartupScreen {
-            get;
-            set;
-        }
-
-        public static ResultsScreen ResultsScreen {
-            get;
-            set;
-        }
-
-
-        public static InProgressScreen InProgressScreen {
-            get;
-            set;
-        }
-
-        public static ProjectPreviewScreen ProjectPreviewScreen {
-            get;
-            set;
-        }
+        #region Extension Methods
         public static void PositionOver(this Window window, Window other) {
             other.Left = window.Left;
             other.Top = window.Top;
@@ -56,10 +47,10 @@ namespace LASI.UserInterface
         }
         public static void SwapWith(this Window window, Window other) {
             other.PositionOver(window);
-
             other.Show();
             window.Hide();
         }
+        #endregion
     }
 
     /// <summary>

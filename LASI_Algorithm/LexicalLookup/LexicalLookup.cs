@@ -1043,10 +1043,22 @@ namespace LASI.Algorithm.LexicalLookup
             internal SimResult(bool similar) : this(similar, similar ? 1 : 0) { }
 
             #endregion
-
             #region Methods
+            /// <summary>
+            /// Indicates whether the current object is equal to another object of the same type.
+            ///  </summary>
+            /// <param name="other">An object to compare with this object.</param>
+            /// <returns>true if the current object is equal to the other parameter, false otherwise.</returns>
             public bool Equals(SimResult other) {
                 return this == other;
+            }
+            /// <summary>
+            /// Returns a value that indicates whether the specified object is equal to the current SimResult.
+            /// </summary>
+            /// <param name="obj">The object to compare with.</param> 
+            /// <returns>True if the specified object is equal to the current SimResult, false otherwise.</returns> 
+            public override bool Equals(object obj) {
+                return obj != null && obj is SimResult && this == (SimResult)obj;
             }
             /// <summary>
             /// Compares the current object with another object of the same type.
@@ -1061,9 +1073,10 @@ namespace LASI.Algorithm.LexicalLookup
             public int CompareTo(SimResult other) {
                 return this.rationalResult.CompareTo(other.rationalResult);
             }
-            public override bool Equals(object obj) {
-                return obj != null && obj is SimResult && this == (SimResult)obj;
-            }
+            /// <summary>
+            /// Returns the hash code for this instance.
+            /// </summary>
+            /// <returns>A 32-bit signed integer hash code.</returns>
             public override int GetHashCode() {
                 return rationalResult.GetHashCode() ^ booleanResult.GetHashCode();
             }

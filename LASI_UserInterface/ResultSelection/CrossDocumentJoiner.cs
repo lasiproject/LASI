@@ -94,10 +94,9 @@ namespace LASI.UserInterface
 
         private async Task<IEnumerable<NounPhrase>> GetTopNounPhrasesAsync(Document document) {
             return await Task.Run(() => from distinctNP in
-                                            (from np in document
-                                                 .GetEntities().GetPhrases()
-                                                 .AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
+                                            (from np in document.Phrases
                                                  .GetNounPhrases()
+                                                 .AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
                                              where np.SubjectOf != null && (np.DirectObjectOf != null || np.IndirectObjectOf != null)
                                              select np).Distinct((L, R) => L.Text == R.Text || L.IsAliasFor(R) || L.IsSimilarTo(R))
                                         orderby distinctNP.Weight
@@ -106,10 +105,11 @@ namespace LASI.UserInterface
         }
         private IEnumerable<NounPhrase> GetTopNounPhrases(Document document) {
             return from distinctNP in
-                       (from np in document
-                            .GetEntities().GetPhrases()
+                       (from np in document.Phrases
+                            .GetNounPhrases()
                             .AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
-                            .GetNounPhrases().InSubjectRole() where (np.DirectObjectOf != null || np.IndirectObjectOf != null)
+                            .InSubjectRole()
+                        where (np.DirectObjectOf != null || np.IndirectObjectOf != null)
                         select np
                         ).Distinct((L, R) => L.Text == R.Text || L.IsAliasFor(R) || L.IsSimilarTo(R))
                    orderby distinctNP.Weight

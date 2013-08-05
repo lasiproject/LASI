@@ -122,16 +122,16 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="elements">The source sequence of ILexical instances.</param>
         /// <returns>all of the word instances in the sequence of ILexicals.</returns>
-        public static IEnumerable<Word> GetWords(this IEnumerable<ILexical> elements) {
-            return elements.OfType<Word>();
+        public static IEnumerable<Word> GetWords(this IEnumerable<Phrase> elements) {
+            return elements.SelectMany(p => p.Words);
         }
         /// <summary>
         /// Gets all of the Phrase instances in the sequence of ILexicals.
         /// </summary>
         /// <param name="elements">The source sequence of ILexical instances.</param>
         /// <returns>all of the Phrase instances in the sequence of ILexicals.</returns>
-        public static IEnumerable<Phrase> GetPhrases(this IEnumerable<ILexical> elements) {
-            return elements.OfType<Phrase>();
+        public static IEnumerable<Phrase> GetPhrases(this IEnumerable<Clause> elements) {
+            return elements.SelectMany(c => c.Phrases);
         }
         /// <summary>
         /// Returns all AdjectivePhrases in the sequence.
