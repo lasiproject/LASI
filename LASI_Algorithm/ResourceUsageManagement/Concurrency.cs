@@ -17,7 +17,7 @@ namespace LASI.Algorithm
         /// <param name="mode">The ResourceUsageMode value from which to determine concurrency settings.</param>
         public static void SetFromResourceUsageMode(ResourceMode mode) {
             var logicalCPUs = System.Environment.ProcessorCount;
-            CurrentMax = mode == ResourceMode.High ?
+            Max = mode == ResourceMode.High ?
                 logicalCPUs < 3 ? logicalCPUs : logicalCPUs - 1 :
                mode == ResourceMode.Normal ?
                 logicalCPUs < 3 ? 2 : logicalCPUs - 2 :
@@ -35,8 +35,8 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets the maximum allowed Concurrency level for Parallel operations.
         /// </summary>
-        public static int CurrentMax { get; private set; }
+        public static int Max { get; private set; }
 
-        static Concurrency() { CurrentMax = GetDefaultParallelMax(); }
+        static Concurrency() { Max = GetDefaultParallelMax(); }
     }
 }

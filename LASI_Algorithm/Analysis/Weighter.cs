@@ -119,7 +119,7 @@ namespace LASI.Algorithm.Weighting
                 double maxWeight = source.Max(e => e.Weight);
                 double minWeight = source.Where(e => e.Weight > 0).Min(e => e.Weight);
                 double scalingFactor = (maxWeight - minWeight > 0 ? (maxWeight - minWeight) : 1.0) * (100d / maxWeight);
-                source.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax).Where(e => e.Weight > 0)
+                source.AsParallel().WithDegreeOfParallelism(Concurrency.Max).Where(e => e.Weight > 0)
                     .ForAll(e => e.Weight *= scalingFactor);
             }
         }
@@ -134,7 +134,7 @@ namespace LASI.Algorithm.Weighting
         private static void ModifyVerbWeightsBySynonyms(Document doc) {
             var verbsToConsider = doc.Words.GetVerbs().WithSubjectOrObject();
             (from outerVerb in
-                 verbsToConsider.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
+                 verbsToConsider.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
              from innerVerb in verbsToConsider
              where outerVerb.IsSynonymFor(innerVerb)
              group innerVerb by outerVerb).ForAll(grp => grp.Key.Weight += 0.7 * grp.Count());
@@ -151,10 +151,10 @@ namespace LASI.Algorithm.Weighting
         private static void ModifyNounWeightsBySynonyms(Document doc) {
             //Currently, include only those nouns which exist in relationships with some IVerbal or IPronoun.
             var toConsider = doc.Words
-                .AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
+                .AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                 .GetNouns()
                 .Concat<IEntity>(doc.Words
-                .AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
+                .AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                 .GetPronouns()
                 .Referencing()
                 .Select(pro => pro.EntityRefererredTo))
@@ -162,7 +162,7 @@ namespace LASI.Algorithm.Weighting
             (from outer in toConsider
              from inner in toConsider
              where outer.IsSimilarTo(inner)
-             group inner by outer).AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
+             group inner by outer).AsParallel().WithDegreeOfParallelism(Concurrency.Max)
              .ForAll(grp => grp.Key.Weight += 0.7 * grp.Count());
         }
 
@@ -203,14 +203,14 @@ namespace LASI.Algorithm.Weighting
         private static void WeightSimilarNounPhrases(Document doc) {
 
             var nps = doc.Phrases
-                .AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
+                .AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                 .GetNounPhrases()
                 .InSubjectOrObjectRole();
             var similarNounPhraseLookup = nps.ToLookup(key => key,
                                            LexicalComparers<NounPhrase>
                                            .CreateCustom((L, R) => L.Text == R.Text || L.IsAliasFor(R) || L.IsSimilarTo(R)));
             nps.ForAll(outerNP => {
-                (from innerNP in similarNounPhraseLookup[outerNP].AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
+                (from innerNP in similarNounPhraseLookup[outerNP].AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                  group innerNP by outerNP).ForAll(group => {
                      var weightIncrease = group.Count() * .5;
                      foreach (var inner in group) {
@@ -224,12 +224,12 @@ namespace LASI.Algorithm.Weighting
             await Task.Run(() => WeightSimilarEntities(doc));
         }
         private static void WeightSimilarEntities(Document doc) {
-            var entities = doc.GetEntities().InSubjectOrObjectRole().AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax);
+            var entities = doc.GetEntities().InSubjectOrObjectRole().AsParallel().WithDegreeOfParallelism(Concurrency.Max);
             var entityLookup = entities.ToLookup(key => key,
                                 LexicalComparers<IEntity>
                                 .CreateCustom((L, R) => L.Text == R.Text || L.IsAliasFor(R) || L.IsSimilarTo(R)));
             foreach (var outer in entities) {
-                (from inner in entityLookup[outer].AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
+                (from inner in entityLookup[outer].AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                  group inner by outer).ForAll(group => {
                      var weightIncrease = group.Count() * .5;
                      foreach (var inner in group) {
@@ -246,7 +246,7 @@ namespace LASI.Algorithm.Weighting
 
         private static void HackSubjectPropernounImportance(Document doc) {
             doc.Phrases
-                .AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
+                .AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                 .Where(np => np.Words.Any(w => w is ProperNoun))
                 .GetNounPhrases()
                 .ForAll(np => np.Weight *= 2);

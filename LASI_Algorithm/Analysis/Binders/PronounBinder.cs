@@ -40,7 +40,7 @@ namespace LASI.Algorithm.Binding
                       where vp.DirectObjects.Any(o => o is PossessivePronoun) || vp.IndirectObjects.Any(o => o is PossessivePronoun)
                       select vp;
             //            foreach (var verbPhrase in vps) {
-            vps.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
+            vps.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
             .ForAll(verbPhrase => {
                 var pronounsInDO = from pn in verbPhrase.DirectObjects
                                    let pos = pn as PossessivePronoun
@@ -80,7 +80,7 @@ namespace LASI.Algorithm.Binding
 
             toTransform
                 .GetNounPhrases()
-                .AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
+                .AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                 .ForAll(contextualPro => {
                     var target = contextualPro
                     .Document

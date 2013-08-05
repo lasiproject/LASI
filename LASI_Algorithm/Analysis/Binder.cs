@@ -72,13 +72,13 @@ namespace LASI.Algorithm.Binding
         private static void PerformAttributePhraseBinding(IEnumerable<Sentence> sentences) {
 
             sentences.AsParallel()
-                .WithDegreeOfParallelism(Concurrency.CurrentMax)
+                .WithDegreeOfParallelism(Concurrency.Max)
                 .ForAll(s => new AttributiveNounPhraseBinder().Bind(s));
         }
         private static void PerformSVOBinding(IEnumerable<Sentence> sentences) {
             try {
                 sentences
-                    .AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
+                    .AsParallel().WithDegreeOfParallelism(Concurrency.Max)
 
                     .ForAll(sentence => {
                         try {
@@ -101,11 +101,11 @@ namespace LASI.Algorithm.Binding
             phrases
                  .GetNounPhrases()
                  .AsParallel()
-                 .WithDegreeOfParallelism(Concurrency.CurrentMax)
+                 .WithDegreeOfParallelism(Concurrency.Max)
                  .ForAll(np => new IntraPhraseWordBinder().Bind(np));
             phrases
                  .GetVerbPhrases()
-                 .AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
+                 .AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                  .ForAll(verbPhrase => new IntraPhraseWordBinder().Bind(verbPhrase));
         }
 

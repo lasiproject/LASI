@@ -38,10 +38,10 @@ namespace LASI.UserInterface
         }
 
         private async Task<IEnumerable<RelationshipTuple>> GetCommonalitiesByEntities(IEnumerable<Document> documents) {
-            var topNPsByDoc = from doc in documents.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
+            var topNPsByDoc = from doc in documents.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                               select GetTopNounPhrases(doc);
             var nounCommonalities = (from outerSet in topNPsByDoc
-                                         .AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
+                                         .AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                                      from np in outerSet
                                      from innerSet in topNPsByDoc
                                      where innerSet != outerSet
@@ -65,7 +65,7 @@ namespace LASI.UserInterface
                                      });
             var results = from n in nounCommonalities
                               .InSubjectRole()
-                              .AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
+                              .AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                           select new RelationshipTuple {
                               Subject = n,
                               Verbal = n.SubjectOf,
@@ -82,9 +82,9 @@ namespace LASI.UserInterface
 
         }
         private async Task<IEnumerable<RelationshipTuple>> GetCommonalitiesByVerbals(IEnumerable<Document> documents) {
-            var topVerbalsByDoc = await Task.WhenAll(from doc in documents.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
+            var topVerbalsByDoc = await Task.WhenAll(from doc in documents.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                                                      select GetTopVerbPhrasesAsync(doc));
-            var verbalCominalities = from verbPhraseSet in topVerbalsByDoc.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
+            var verbalCominalities = from verbPhraseSet in topVerbalsByDoc.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                                      from vp in verbPhraseSet
                                      where (from verbs in topVerbalsByDoc
                                             select verbs.Contains(vp, (L, R) => L.Text == R.Text || R.IsSimilarTo(R)))
@@ -110,7 +110,7 @@ namespace LASI.UserInterface
 
         private async Task<IEnumerable<NounPhrase>> GetTopNounPhrasesAsync(Document document) {
             return await Task.Run(() => document.Phrases
-                .AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
+                .AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                 .GetNounPhrases()
                 .InSubjectRole()
                 .InObjectRole()
@@ -128,7 +128,7 @@ namespace LASI.UserInterface
         }
         private IEnumerable<NounPhrase> GetTopNounPhrases(Document document) {
             return document.Phrases
-                       .AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax).GetNounPhrases()
+                       .AsParallel().WithDegreeOfParallelism(Concurrency.Max).GetNounPhrases()
                        .InSubjectRole()
                        .InObjectRole()
                        .Distinct((left, right) => {

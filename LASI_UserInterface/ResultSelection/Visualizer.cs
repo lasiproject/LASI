@@ -137,7 +137,7 @@ namespace LASI.UserInterface
         private static Chart BuildBarChart(Document document) {
 
             var dataPointSource = ChartKind == ChartKind.NounPhrasesOnly ? GetNounPhraseData(document) : ChartKind == ChartKind.SubjectVerbObject ? GetSVOIData(document) : GetSVOIData(document);
-            var topPoints = dataPointSource.Take(CHART_ITEM_LIMIT).Reverse();
+            var topPoints = dataPointSource.OrderByDescending(e => e.Value).Take(CHART_ITEM_LIMIT);
             Series series = new BarSeries {
                 DependentValuePath = "Value",
                 IndependentValuePath = "Key",
@@ -176,10 +176,8 @@ namespace LASI.UserInterface
         }
 
         private static IEnumerable<KeyValuePair<string, float>> GetItemSourceFor(Chart chart) {
-            var chartSource = chart.Tag as IEnumerable<KeyValuePair<string, float>>;
-            //var items = (from i in chartSource.ToArray()
-            //             select new KeyValuePair<string, float>(i.Key.ToString(), i.Value)).Take(CHART_ITEM_LIMIT);
-            return chartSource.Reverse().Take(CHART_ITEM_LIMIT);
+            return (chart.Tag as IEnumerable<KeyValuePair<string, float>>).OrderByDescending(e => e.Value).Take(CHART_ITEM_LIMIT).Reverse();
+
         }
 
         #endregion
@@ -201,8 +199,8 @@ namespace LASI.UserInterface
                  from svPair in
                      (from v in doc.Phrases.GetVerbPhrases()
                           .WithSubject(s => (s as IPronoun) == null || (s as IPronoun).EntityRefererredTo != null)
-                          .AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
-                      from s in v.Subjects.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
+                          .AsParallel().WithDegreeOfParallelism(Concurrency.Max)
+                      from s in v.Subjects.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                       let sub = s as IPronoun == null ? s : (s as IPronoun).EntityRefererredTo
                       where sub != null
                       from dobj in v.DirectObjects.DefaultIfEmpty()
@@ -229,7 +227,7 @@ namespace LASI.UserInterface
         }
 
         private static IEnumerable<KeyValuePair<string, float>> GetNounPhraseData(Document doc) {
-            return from NP in doc.Phrases.GetNounPhrases().Distinct().AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax)
+            return from NP in doc.Phrases.GetNounPhrases().Distinct().AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                    group NP by new
                    {
                        NP.Text,
@@ -276,11 +274,11 @@ namespace LASI.UserInterface
                    orderby e.RelationshipWeight
                    select new
                    {
-                       Subject = e.Subject != null ? e.Subject.Text : string.Empty,
-                       Verbial = e.Verbal != null ? e.Verbal.Text : string.Empty,
-                       Direct = e.Direct != null ? e.Direct.Text : string.Empty,
-                       Indirect = e.Indirect != null ? e.Indirect.Text : string.Empty,
-                       Prepositional = e.Prepositional != null ? e.Prepositional.Text : string.Empty
+                       Subject = e.Subject != null ? e.Subject.Text : "",
+                       Verbial = e.Verbal != null ? (e.Verbal.PrepositionOnLeft != null ? e.Verbal.PrepositionOnLeft.Text + " " : "") + (e.Verbal.Modality != null ? e.Verbal.Modality.Text : "") + e.Verbal.Text + (e.Verbal.Modifiers.Any() ? " (adv)> " + string.Join(" ", e.Verbal.Modifiers.Select(m => m.Text)) : "") : "",
+                       Direct = e.Direct != null ? (e.Direct.PrepositionOnLeft != null ? e.Direct.PrepositionOnLeft.Text + " " : "") + e.Direct.Text : "",
+                       Indirect = e.Indirect != null ? (e.Indirect.PrepositionOnLeft != null ? e.Indirect.PrepositionOnLeft.Text + " " : "") + e.Indirect.Text : "",
+                       Prepositional = e.Prepositional != null ? e.Prepositional.Text : ""
                    };
         }
         /// <summary>
