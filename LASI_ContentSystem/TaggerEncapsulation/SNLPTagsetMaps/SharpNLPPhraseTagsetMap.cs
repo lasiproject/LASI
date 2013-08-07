@@ -9,7 +9,8 @@ namespace LASI.ContentSystem.TaggerEncapsulation
 {
     using PhraseCreator = System.Func<IEnumerable<LASI.Algorithm.Word>, LASI.Algorithm.Phrase>;
     /// <summary>
-    /// Represents a Word Level tagset-to-runtime-type-mapping context which translates between The SharpNLP Tagger's tagset and the classes whose instances provide 
+    /// Represents a Word Level tagset-to-runtime-type-mapping context which translates
+    /// between The SharpNLP Tagger's tagset and the classes whose instances provide 
     /// the runtime representations of the tag. 
     /// This class represents the tagset => runtime-type mapping for
     /// the tagset used by SharpNLP, a derrivative of the Penn Tagset.
