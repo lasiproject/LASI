@@ -45,6 +45,7 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="parent">The Clause to which the Phrase belongs.</param>
         public void EstablishParent(Clause parent) {
+            Clause = parent;
             Sentence = parent.Sentence;
             Document = Sentence.Document;
             foreach (var w in Words)
@@ -77,6 +78,10 @@ namespace LASI.Algorithm
         /// Gets, lexically speaking, the previous Phrase in the Document to which the instance belongs.
         /// </summary>
         public Phrase PreviousPhrase { get; set; }
+        /// <summary>
+        /// Gets or sets the Clause to which the Phrase belongs.
+        /// </summary>
+        public Clause Clause { get; set; }
         /// <summary>
         /// Gets or sets the Sentence to which the Phrase belongs.
         /// </summary>
