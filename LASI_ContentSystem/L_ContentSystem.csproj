@@ -95,6 +95,7 @@
     <Compile Include="TaggerAndFileAbstraction\FileManager.cs" />
     <Compile Include="FileTypes\FileConverter.cs" />
     <Compile Include="FileTypes\Support\TaggedToXMLConverter.cs" />
+    <Compile Include="Exceptions\FileManagerExceptions.cs" />
     <Compile Include="TaggerEncapsulation\TagParsers\Basis\Experimental\ExperimentalTaggedParser.cs" />
     <Compile Include="TaggerAndFileAbstraction\Tagger.cs" />
     <Compile Include="TaggerEncapsulation\TagParsers\Basis\Support\TagIdentifier.cs" />
@@ -115,7 +116,7 @@
     <Compile Include="FileTypes\TextFile.cs" />
     <Compile Include="TaggerEncapsulation\TagParsers\TaggedSourceParser.cs" />
     <Compile Include="TaggerEncapsulation\TagmapBases\WordTagsetMap.cs" />
-    <Compile Include="Exceptions\POSTaggerException.cs" />
+    <Compile Include="Exceptions\POSTaggerExceptions.cs" />
     <Compile Include="FileTypes\DocFile.cs" />
     <Compile Include="TaggerEncapsulation\TagParsers\SupportTypes\TextTagPair.cs" />
   </ItemGroup>

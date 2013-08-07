@@ -17,6 +17,7 @@ namespace LASI.ContentSystem
     {
         #region Methods
 
+        #region Initialization
         /// <summary>
         /// Initializes the FileManager, setting its project directory to the given value.
         /// Automatically loads existing files and sets up input paths
@@ -45,14 +46,14 @@ namespace LASI.ContentSystem
         /// Checks the existing contents of the current project directory and automatically loads the files it finds. Called by initialize
         /// </summary>
         private static void CheckProjectDirs() {
-            CheckProjectDirExistence();
-            CheckForInputDirectories();
+            CheckDirectoryExistence();
+            CheckInputDirectories();
         }
 
         /// <summary>
         /// Checks for the existence of the extension statiffied input file project subject-directories and creates them if they do not exist.
         /// </summary>
-        private static void CheckForInputDirectories() {
+        private static void CheckInputDirectories() {
             foreach (var docPath in Directory.EnumerateFiles(DocFilesDir, "*.doc"))
                 docFiles.Add(new DocFile(docPath));
             foreach (var docPath in Directory.EnumerateFiles(DocxFilesDir, "*.docx"))
@@ -67,10 +68,7 @@ namespace LASI.ContentSystem
         /// <summary>
         /// Checks for the existence of the project subject-directories and creates them if they do not exist.
         /// </summary>
-        private static void CheckProjectDirExistence() {
-            //if (Directory.Exists(ProjectDir)) {
-            //    BackupProject();
-            //}
+        private static void CheckDirectoryExistence() {
             foreach (var path in new[] { 
                 ProjectDir,
                 InputFilesDir,
@@ -86,119 +84,10 @@ namespace LASI.ContentSystem
                     Directory.CreateDirectory(path);
             }
         }
-        /// <summary>
-        /// Returns a value indicating whether a document with the same name as 
-        /// the that indicated by the given newPath is already part of the project. 
-        /// </summary>
-        /// <param name="filePath">A partial or full, extensionless or extensionful, file newPath containing the name of the file to check.</param>
-        /// <returns>False if a file with the same name, irrespective of its extension, is part of the project. False otherwise.</returns>
-        public static bool HasSimilarFile(string filePath) {
-            var fileName = new string(
-                filePath.Reverse().
-                SkipWhile(c => c != '.').
-                Skip(1).TakeWhile(c => c != '\\').
-                Reverse().ToArray());
-            return !localDocumentNames.Contains(fileName);
-        }
-        /// <summary>
-        /// Returns a value indicating whether a file with the same name as that of the given InputFile, irrespective of its extension, is part of the project. 
-        /// </summary>
-        /// <param name="inputFile">An an Instance of the InputFile class or one of its descendents.</param>
-        /// <returns>False if a file with the same name, irrespective of it's extension, is part of the project. False otherwise.</returns>
-        public static bool HasSimilarFile(InputFile inputFile) {
-            return !localDocumentNames.Contains(inputFile.NameSansExt);
-        }
-
-
-        /// <summary>
-        /// Performs the necessary conversions, based on the format of all files within the project.
-        /// </summary>
-        public static void ConvertAsNeeded() {
-            if (!Initialized) {
-                throw new FileManagerNotInitializedException();
-            }
-            ConvertDocFiles();
-            ConvertDocxToText();
-            TagTextFiles();
-        }
-
-        /// <summary>
-        /// Asynchronously performs the necessary conversions, based on the format of all files within the project.
-        /// </summary>
-        public static async Task ConvertAsNeededAsync() {
-            if (!Initialized) {
-                throw new FileManagerNotInitializedException();
-            }
-            await Task.WhenAll(
-                ConvertDocxToTextAsync(),
-                ConvertPdfFilesAsync()
-                );
-        }
-
-
+        #endregion
 
         #region List Insertion Overloads
 
-        private static void AddToTypedList(DocXFile file) {
-            docXFiles.Add(file);
-
-        }
-        private static void AddToTypedList(DocFile file) {
-            docFiles.Add(file);
-
-        }
-        private static void AddToTypedList(TextFile file) {
-            textFiles.Add(file);
-
-        }
-        private static void AddToTypedList(PdfFile file) {
-            pdfFiles.Add(file);
-
-        }
-        private static void AddToTypedList(TaggedFile file) {
-            taggedFiles.Add(file);
-
-        }
-        #endregion
-
-        /// <summary>
-        /// Removes all files, regardless of extension, whose names do not match any of the names in the provided collection of file path strings.
-        /// </summary>
-        /// <param name="filesToKeep">collction of file path strings indicating which files are not to be culled. All others will summarilly executed.</param>
-        public static void RemoveAllNotIn(IEnumerable<string> filesToKeep) {
-            if (!Initialized) {
-                throw new FileManagerNotInitializedException();
-            }
-            RemoveAllNotIn(from f in filesToKeep
-                           select f.IndexOf('.') > 0 ? WrapperMap[f.Substring(f.LastIndexOf('.'))](f) : new TextFile(f));
-        }
-        /// <summary>
-        /// Removes all files, regardless of extension, whose names do not match any of the names in the provided collection of InputFile objects.
-        /// </summary>
-        /// <param name="filesToKeep">collection of InputFile objects indicating which files are not to be culled. All others will summarilly executed.</param>
-        public static void RemoveAllNotIn(IEnumerable<InputFile> filesToKeep) {
-            if (!Initialized) {
-                throw new FileManagerNotInitializedException();
-            }
-            var toRemove = from f in localDocumentNames
-                           where (from k in filesToKeep
-                                  where f == k.NameSansExt
-                                  select k).Any()
-                           select f;
-            foreach (var f in toRemove) {
-                RemoveAllAlikeFiles(f);
-            }
-        }
-
-        private static void RemoveAllAlikeFiles(string fileName) {
-            textFiles.RemoveAll(f => f.NameSansExt == fileName);
-            docFiles.RemoveAll(f => f.NameSansExt == fileName);
-            docXFiles.RemoveAll(f => f.NameSansExt == fileName);
-            pdfFiles.RemoveAll(f => f.NameSansExt == fileName);
-            taggedFiles = (from f in taggedFiles
-                           where f.NameSansExt != fileName
-                           select f).ToList();
-        }
         /// <summary>
         /// Adds the document indicated by the specified path string to the project
         /// </summary>
@@ -223,13 +112,101 @@ namespace LASI.ContentSystem
 
                 File.Copy(originalFile.FullPath, newPath, overwrite);
                 var newFile = WrapperMap[ext](newPath);
-                localDocumentNames.Add(newFile.NameSansExt);
+                addedFileNames.Add(newFile.NameSansExt);
                 AddToTypedList(newFile as dynamic);
                 return originalFile;
             } catch (KeyNotFoundException ex) {
                 throw new UnsupportedFileTypeAddedException(ext, ex);
             }
         }
+
+        private static void AddToTypedList(DocXFile file) {
+            docXFiles.Add(file);
+
+        }
+        private static void AddToTypedList(DocFile file) {
+            docFiles.Add(file);
+
+        }
+        private static void AddToTypedList(TextFile file) {
+            textFiles.Add(file);
+
+        }
+        private static void AddToTypedList(PdfFile file) {
+            pdfFiles.Add(file);
+
+        }
+        private static void AddToTypedList(TaggedFile file) {
+            taggedFiles.Add(file);
+
+        }
+        #endregion
+
+        #region Existence Checking and Removal
+
+        /// <summary>
+        /// Returns a value indicating whether a document with the same name as 
+        /// the that indicated by the given newPath is already part of the project. 
+        /// </summary>
+        /// <param name="filePath">A partial or full, extensionless or extensionful, file newPath containing the name of the file to check.</param>
+        /// <returns>False if a file with the same name, irrespective of its extension, is part of the project. False otherwise.</returns>
+        public static bool HasSimilarFile(string filePath) {
+            var fileName = new string(
+                filePath.Reverse().
+                SkipWhile(c => c != '.').
+                Skip(1).TakeWhile(c => c != '\\').
+                Reverse().ToArray());
+            return !addedFileNames.Contains(fileName);
+        }
+        /// <summary>
+        /// Returns a value indicating whether a file with the same name as that of the given InputFile, irrespective of its extension, is part of the project. 
+        /// </summary>
+        /// <param name="inputFile">An an Instance of the InputFile class or one of its descendents.</param>
+        /// <returns>False if a file with the same name, irrespective of it's extension, is part of the project. False otherwise.</returns>
+        public static bool HasSimilarFile(InputFile inputFile) {
+            return !addedFileNames.Contains(inputFile.NameSansExt);
+        }
+
+        /// <summary>
+        /// Removes all files, regardless of extension, whose names do not match any of the names in the provided collection of file path strings.
+        /// </summary>
+        /// <param name="filesToKeep">collction of file path strings indicating which files are not to be culled. All others will summarilly executed.</param>
+        public static void RemoveAllNotIn(IEnumerable<string> filesToKeep) {
+            if (!Initialized) {
+                throw new FileManagerNotInitializedException();
+            }
+            RemoveAllNotIn(from f in filesToKeep
+                           select f.IndexOf('.') > 0 ? WrapperMap[f.Substring(f.LastIndexOf('.'))](f) : new TextFile(f));
+        }
+        /// <summary>
+        /// Removes all files, regardless of extension, whose names do not match any of the names in the provided collection of InputFile objects.
+        /// </summary>
+        /// <param name="filesToKeep">collection of InputFile objects indicating which files are not to be culled. All others will summarilly executed.</param>
+        public static void RemoveAllNotIn(IEnumerable<InputFile> filesToKeep) {
+            if (!Initialized) {
+                throw new FileManagerNotInitializedException();
+            }
+            var toRemove = from f in addedFileNames
+                           where (from k in filesToKeep
+                                  where f == k.NameSansExt
+                                  select k).Any()
+                           select f;
+            foreach (var f in toRemove) {
+                RemoveAllAlikeFiles(f);
+            }
+        }
+
+        private static void RemoveAllAlikeFiles(string fileName) {
+            textFiles.RemoveAll(f => f.NameSansExt == fileName);
+            docFiles.RemoveAll(f => f.NameSansExt == fileName);
+            docXFiles.RemoveAll(f => f.NameSansExt == fileName);
+            pdfFiles.RemoveAll(f => f.NameSansExt == fileName);
+            taggedFiles = (from f in taggedFiles
+                           where f.NameSansExt != fileName
+                           select f).ToList();
+        }
+
+
 
         /// <summary>
         /// Removes the document represented by InputFile object from the project.
@@ -266,6 +243,37 @@ namespace LASI.ContentSystem
         private static void RemoveFile(PdfFile file) {
             pdfFiles.Remove(file);
         }
+
+
+        #endregion
+
+        #region File Conversion
+        /// <summary>
+        /// Performs the necessary conversions, based on the format of all files within the project.
+        /// </summary>
+        public static void ConvertAsNeeded() {
+            if (!Initialized) {
+                throw new FileManagerNotInitializedException();
+            }
+            ConvertDocFiles();
+            ConvertDocxToText();
+            TagTextFiles();
+        }
+
+        /// <summary>
+        /// Asynchronously performs the necessary conversions, based on the format of all files within the project.
+        /// </summary>
+        public static async Task ConvertAsNeededAsync() {
+            if (!Initialized) {
+                throw new FileManagerNotInitializedException();
+            }
+            await Task.WhenAll(
+                ConvertDocxToTextAsync(),
+                ConvertPdfFilesAsync()
+                );
+        }
+
+
         /// <summary>
         /// Converts all of the .doc files it recieves into .docx files
         /// If no arguments are supplied, it will instead convert all yet unconverted .doc files in the project directory
@@ -459,6 +467,9 @@ namespace LASI.ContentSystem
 
         }
 
+        #endregion
+
+        #region Backup and Cleanup
 
         /// <summary>
         /// Copies the entire contents of the current project directory to a predetermined, relative path
@@ -492,8 +503,9 @@ namespace LASI.ContentSystem
         }
         #endregion
 
-        #region Properties
+        #endregion
 
+        #region Properties
         /// <summary>
         /// Gets the Absolute Path of Current Project Folder of the current project directory
         /// </summary>
@@ -523,7 +535,6 @@ namespace LASI.ContentSystem
             get;
             private set;
         }
-
         /// <summary>
         /// Gets the result files directory
         /// </summary>
@@ -531,7 +542,6 @@ namespace LASI.ContentSystem
             get;
             private set;
         }
-
         /// <summary>
         /// Gets the .tagged files directory
         /// </summary>
@@ -546,7 +556,6 @@ namespace LASI.ContentSystem
             get;
             private set;
         }
-
         /// <summary>
         /// Gets the .pdf files directory
         /// </summary>
@@ -561,7 +570,6 @@ namespace LASI.ContentSystem
             get;
             private set;
         }
-
         /// <summary>
         /// Gets the .txt files directory
         /// </summary>
@@ -569,8 +577,6 @@ namespace LASI.ContentSystem
             get;
             private set;
         }
-
-
         /// <summary>
         /// Gets the list of TextFile instances which represent all *.txt files which are included in the project. 
         /// TextFile instances are wrapper objects which provide discrete accessors to relevant *.txt file properties.
@@ -623,28 +629,16 @@ namespace LASI.ContentSystem
             get;
             private set;
         }
-
         internal static readonly WrapperDict WrapperMap = new WrapperDict();
-
         #endregion
 
-
         #region Fields
-
-
-
-        private static HashSet<string> localDocumentNames = new HashSet<string>();
-
+        private static HashSet<string> addedFileNames = new HashSet<string>();
         private static List<DocFile> docFiles = new List<DocFile>();
-
         private static List<DocXFile> docXFiles = new List<DocXFile>();
-
         private static List<PdfFile> pdfFiles = new List<PdfFile>();
-
         private static List<TextFile> textFiles = new List<TextFile>();
-
         private static List<TaggedFile> taggedFiles = new List<TaggedFile>();
-
         #endregion
     }
 
@@ -672,179 +666,7 @@ namespace LASI.ContentSystem
 
     #endregion
 
-    #region Exception Types
-    /// <summary>
-    /// The exception thrown when methods are invoked or preperties accessed on the FilaManager before a call has been made to initialize it.
-    /// </summary>
-    [Serializable]
-    public class FileManagerNotInitializedException : FileManagerException
-    {
-        /// <summary>
-        /// Initializes a new instance of the FileManagerException class with with its message string set to message.
-        /// </summary> 
-        public FileManagerNotInitializedException()
-            : base("File Manager has not been initialized. No directory context in which to operate.") {
-        }
-
-        private FileManagerNotInitializedException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
-            : base(info, context) {
-        }
-    }
-    /// <summary>
-    /// The Exception thrown when an attempt is made to add a file of an ussuported type to a project.
-    /// </summary>
-    [Serializable]
-    public class UnsupportedFileTypeAddedException : FileManagerException
-    {
-        /// <summary>
-        /// Initializes a new instance of the UnsupportedFileTypeAddedException class with with its message string set to message.
-        /// </summary>
-        /// <param name="unsupportedFormat">A description of the error. The content of message is intended to be understood</param>
-        public UnsupportedFileTypeAddedException(string unsupportedFormat)
-            : this(unsupportedFormat, null) {
-        }
-        /// <summary>
-        /// Initializes a new instance of the UnsupportedFileTypeAddedException class with with its message string set to message.
-        /// </summary>
-        /// <param name="unsupportedFormat">A description of the error. The content of message is intended to be understood</param>
-        /// <param name="inner">
-        /// The exception that is the cause of the current exception. If the innerException
-        /// parameter is not null, the current exception is raised in a catch block that
-        /// handles the inner exception.
-        /// </param>
-        public UnsupportedFileTypeAddedException(string unsupportedFormat, Exception inner)
-            : base(
-            String.Format(
-            "Files of type \"{0}\" are not supported. Supported types are {1}, {2}, {3}, and {4}",
-            unsupportedFormat,
-            from k in FileManager.WrapperMap.Keys.Take(4)
-            select k), inner) {
-
-        }
-        /// <summary>
-        /// Initializes a new instance of the UnsupportedFileTypeAddedException class with with its message string set to message.
-        /// </summary>
-        /// <param name="info">
-        /// The object that holds the serialized object data about the exception being
-        /// thrown.</param>
-        /// <param name="context">
-        /// The object that holds the serialized object data about the exception being
-        /// thrown.</param>
-        private UnsupportedFileTypeAddedException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
-            : base(info, context) {
-        }
-    }
-
-    /// <summary>
-    /// The base class for all Exceptions thrown by the FileManager.
-    /// </summary>
-    [Serializable]
-    public abstract class FileManagerException : FileSystemException
-    {
-        /// <summary>
-        /// Initializes a new instance of the FileManagerException class with with its message string set to message.
-        /// </summary>
-        /// <param name="message">A description of the error. The content of message is intended to be understood</param>
-        protected FileManagerException(string message)
-            : base(message) {
-            CollectDirInfo();
-        }
-        /// <summary>
-        /// Initializes a new instance of the FileManagerException class with with its message string set to message.
-        /// </summary>
-        /// <param name="message">A description of the error. The content of message is intended to be understood</param>
-        /// <param name="inner">
-        /// The exception that is the cause of the current exception. If the innerException
-        /// parameter is not null, the current exception is raised in a catch block that
-        /// handles the inner exception.
-        /// </param>
-        protected FileManagerException(string message, Exception inner)
-            : base(message, inner) {
-            CollectDirInfo();
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the FileManagerException class with with its message string set to message.
-        /// </summary>
-        /// <param name="info">
-        /// The object that holds the serialized object data about the exception being
-        /// thrown.</param>
-        /// <param name="context">
-        /// The object that holds the serialized object data about the exception being
-        /// thrown.</param>
-        protected FileManagerException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
-            : base(info, context) {
-            CollectDirInfo();
-        }
-        /// <summary>
-        /// Sets data about the current contents of the ProjectDirectory at the time the FileManagerException is constructed.
-        /// </summary>
-        protected virtual void CollectDirInfo() {
-            if (FileManager.Initialized)
-                filesInProjectDirectories = from internalFile in new DirectoryInfo(FileManager.ProjectDir).EnumerateFiles("*", SearchOption.AllDirectories)
-                                            select FileManager.WrapperMap[internalFile.Extension](internalFile.FullName);
-        }
-
-        private IEnumerable<InputFile> filesInProjectDirectories = new List<InputFile>();
-        /// <summary>
-        /// Gets data about the contents of the ProjectDirectory when the FileManagerException was constructed.
-        /// </summary>
-        public IEnumerable<InputFile> FilesInProjectDirectories {
-            get {
-                return filesInProjectDirectories;
-            }
-            protected set {
-                filesInProjectDirectories = value;
-            }
-        }
-
-    }
-
-    /// <summary>
-    /// The base class for all file related exceptions within the LASI framework.
-    /// </summary>
-    [Serializable]
-    public abstract class FileSystemException : Exception
-    {
-        /// <summary>
-        /// Initializes a new instance of the FileSystemException class with with its message string set to message.
-        /// </summary>
-        /// <param name="message">A description of the error. The content of message is intended to be understood</param>
-        protected FileSystemException(string message)
-            : base(message) {
-
-        }
-        /// <summary>
-        /// Initializes a new instance of the FileSystemException class with with its message string set to message.
-        /// </summary>
-        /// <param name="message">A description of the error. The content of message is intended to be understood</param>
-        /// <param name="inner">
-        /// The exception that is the cause of the current exception. If the innerException
-        /// parameter is not null, the current exception is raised in a catch block that
-        /// handles the inner exception.
-        /// </param>
-        protected FileSystemException(string message, Exception inner)
-            : base(message, inner) {
-
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the FileSystemException class with with its message string set to message.
-        /// </summary>
-        /// <param name="info">
-        /// The object that holds the serialized object data about the exception being
-        /// thrown.</param>
-        /// <param name="context">
-        /// The object that holds the serialized object data about the exception being
-        /// thrown.</param>
-        protected FileSystemException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
-            : base(info, context) {
-        }
-    }
-
-    #endregion
-
-
+    
 }
 
 
