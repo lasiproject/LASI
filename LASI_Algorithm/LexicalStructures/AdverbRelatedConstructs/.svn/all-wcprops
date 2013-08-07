@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/lasi/!svn/ver/846/LASI_Algorithm/LexicalStructures/AdverbRelatedConstructs
+END
+AdverbPhrase.cs
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/lasi/!svn/ver/757/LASI_Algorithm/LexicalStructures/AdverbRelatedConstructs/AdverbPhrase.cs
+END
+SuperlativeAdverb.cs
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/lasi/!svn/ver/846/LASI_Algorithm/LexicalStructures/AdverbRelatedConstructs/SuperlativeAdverb.cs
+END
+ComparativeAdverb.cs
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/lasi/!svn/ver/846/LASI_Algorithm/LexicalStructures/AdverbRelatedConstructs/ComparativeAdverb.cs
+END
+IAdverbialModifiable.cs
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/lasi/!svn/ver/803/LASI_Algorithm/LexicalStructures/AdverbRelatedConstructs/IAdverbialModifiable.cs
+END
+IAdverbial.cs
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/lasi/!svn/ver/803/LASI_Algorithm/LexicalStructures/AdverbRelatedConstructs/IAdverbial.cs
+END
+Adverb.cs
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/lasi/!svn/ver/802/LASI_Algorithm/LexicalStructures/AdverbRelatedConstructs/Adverb.cs
+END

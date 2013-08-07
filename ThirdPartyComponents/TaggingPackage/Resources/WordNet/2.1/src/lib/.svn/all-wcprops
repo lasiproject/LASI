@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/lasi/!svn/ver/3/ThirdPartyComponents/TaggingPackage/Resources/WordNet/2.1/src/lib
+END
+wnutil.c
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/lasi/!svn/ver/3/ThirdPartyComponents/TaggingPackage/Resources/WordNet/2.1/src/lib/wnutil.c
+END
+morph.c
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/lasi/!svn/ver/3/ThirdPartyComponents/TaggingPackage/Resources/WordNet/2.1/src/lib/morph.c
+END
+search.c
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/lasi/!svn/ver/3/ThirdPartyComponents/TaggingPackage/Resources/WordNet/2.1/src/lib/search.c
+END
+wnglobal.c
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/lasi/!svn/ver/3/ThirdPartyComponents/TaggingPackage/Resources/WordNet/2.1/src/lib/wnglobal.c
+END
+wnrtl.c
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/lasi/!svn/ver/3/ThirdPartyComponents/TaggingPackage/Resources/WordNet/2.1/src/lib/wnrtl.c
+END
+binsrch.c
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/lasi/!svn/ver/3/ThirdPartyComponents/TaggingPackage/Resources/WordNet/2.1/src/lib/binsrch.c
+END
+wnhelp.c
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/lasi/!svn/ver/3/ThirdPartyComponents/TaggingPackage/Resources/WordNet/2.1/src/lib/wnhelp.c
+END

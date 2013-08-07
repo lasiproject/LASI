@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/lasi/!svn/ver/847/LASI_ContentSystem/FileConveters
+END
+PdfToTextConverter.cs
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/lasi/!svn/ver/847/LASI_ContentSystem/FileConveters/PdfToTextConverter.cs
+END
+DocxToTextConverter.cs
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/lasi/!svn/ver/847/LASI_ContentSystem/FileConveters/DocxToTextConverter.cs
+END
+DocToDocXConverter.cs
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/lasi/!svn/ver/847/LASI_ContentSystem/FileConveters/DocToDocXConverter.cs
+END
+PDFConverter.cs
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/lasi/!svn/ver/814/LASI_ContentSystem/FileConveters/PDFConverter.cs
+END

@@ -1,0 +1,95 @@
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/lasi/!svn/ver/847/LASI_Algorithm/LexicalStructures/VerbRelatedConstructs
+END
+VerbPhrase.cs
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/lasi/!svn/ver/847/LASI_Algorithm/LexicalStructures/VerbRelatedConstructs/VerbPhrase.cs
+END
+IDirectObjectTaker.cs
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/lasi/!svn/ver/803/LASI_Algorithm/LexicalStructures/VerbRelatedConstructs/IDirectObjectTaker.cs
+END
+PresentParticipleGerund.cs
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/lasi/!svn/ver/847/LASI_Algorithm/LexicalStructures/VerbRelatedConstructs/PresentParticipleGerund.cs
+END
+PastParticipleVerb.cs
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/lasi/!svn/ver/802/LASI_Algorithm/LexicalStructures/VerbRelatedConstructs/PastParticipleVerb.cs
+END
+IVerbalSubject.cs
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/lasi/!svn/ver/803/LASI_Algorithm/LexicalStructures/VerbRelatedConstructs/IVerbalSubject.cs
+END
+InfinitivePhrase.cs
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/lasi/!svn/ver/847/LASI_Algorithm/LexicalStructures/VerbRelatedConstructs/InfinitivePhrase.cs
+END
+ModalAuxilary.cs
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/lasi/!svn/ver/803/LASI_Algorithm/LexicalStructures/VerbRelatedConstructs/ModalAuxilary.cs
+END
+IVerbalObject.cs
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/lasi/!svn/ver/803/LASI_Algorithm/LexicalStructures/VerbRelatedConstructs/IVerbalObject.cs
+END
+IModalityModdifiable.cs
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/lasi/!svn/ver/802/LASI_Algorithm/LexicalStructures/VerbRelatedConstructs/IModalityModdifiable.cs
+END
+IVerbal.cs
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/lasi/!svn/ver/803/LASI_Algorithm/LexicalStructures/VerbRelatedConstructs/IVerbal.cs
+END
+IInderectObjectTaker.cs
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/lasi/!svn/ver/803/LASI_Algorithm/LexicalStructures/VerbRelatedConstructs/IInderectObjectTaker.cs
+END
+PastTenseVerb.cs
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/lasi/!svn/ver/847/LASI_Algorithm/LexicalStructures/VerbRelatedConstructs/PastTenseVerb.cs
+END
+VerbTense.cs
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/lasi/!svn/ver/825/LASI_Algorithm/LexicalStructures/VerbRelatedConstructs/VerbTense.cs
+END
+Verb.cs
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/lasi/!svn/ver/847/LASI_Algorithm/LexicalStructures/VerbRelatedConstructs/Verb.cs
+END
+ISubjectTaker.cs
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/lasi/!svn/ver/803/LASI_Algorithm/LexicalStructures/VerbRelatedConstructs/ISubjectTaker.cs
+END

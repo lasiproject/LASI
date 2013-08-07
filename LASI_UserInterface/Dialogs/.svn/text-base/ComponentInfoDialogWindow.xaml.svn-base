@@ -1,0 +1,128 @@
+﻿<Window
+    x:Class="LASI.UserInterface.Dialogs.ComponentInfoDialogWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="LASI's 3rd Party Components"
+    Height="303"
+    Width="300"
+    WindowStartupLocation="CenterOwner"
+    ResizeMode="NoResize"
+    KeyDown="Window_KeyDown">
+    <Grid
+        Margin="0,0,0,0">
+        <Label
+            x:Name="label1"
+            Content="b2xtranslator"
+            Foreground="DarkRed"
+            BorderBrush="Black"
+            BorderThickness="1"
+            Margin="38,10,45,0"
+            FontWeight="Bold"
+            Height="29"
+            ToolTip="LASI uses the b2x translator libracry to parse legacy Microsoft Word documents (.doc)"
+            VerticalAlignment="Top"
+            Cursor="Hand"
+            MouseLeftButtonDown="label_MouseLeftButtonDown"
+            Tag="Resources\Licenses\b2xtranslatorLicense.txt">
+            <ContextMenuService.ContextMenu>
+                <ContextMenu>
+                    <MenuItem
+                        Header="View License"
+                        Click="MenuItem_Click_1" />
+                </ContextMenu>
+            </ContextMenuService.ContextMenu>
+        </Label>
+        <Label
+            x:Name="label2"
+            Content="iTextSharp"
+            Foreground="DarkRed"
+            BorderBrush="Black"
+            BorderThickness="1"
+            Margin="38,54,45,0"
+            VerticalAlignment="Top"
+            FontWeight="Bold"
+            ToolTip="LASI uses the iTextSharp v4.16 library to parse Adobe Acrobat documents (.pdf)"
+            Cursor="Hand"
+            MouseLeftButtonDown="label_MouseLeftButtonDown"
+            Tag="Resources\Licenses\iTextSharpLicense.txt">
+            <ContextMenuService.ContextMenu>
+                <ContextMenu>
+                    <MenuItem
+                        Header="View License"
+                        Click="MenuItem_Click_2" />
+                </ContextMenu>
+            </ContextMenuService.ContextMenu>
+        </Label>
+        <Label
+            x:Name="label3"
+            Content="SharpNLP"
+            Foreground="DarkRed"
+            BorderBrush="Black"
+            BorderThickness="1"
+            Margin="38,104,45,0"
+            VerticalAlignment="Top"
+            FontWeight="Bold"
+            ToolTip="LASI uses the SharpNLP part of speach tagging library to identify the syntactic roles of lexical tokens and aggregates"
+            Cursor="Hand"
+            MouseLeftButtonDown="label_MouseLeftButtonDown"
+            Tag="Resources\Licenses\SharpNLPLicense.txt">
+            <ContextMenuService.ContextMenu>
+                <ContextMenu>
+                    <MenuItem
+                        Header="View License"
+                        Click="MenuItem_Click_3" />
+                </ContextMenu>
+            </ContextMenuService.ContextMenu>
+        </Label>
+        <Label
+            x:Name="label4"
+            Content="WordNet"
+            Foreground="DarkRed"
+            BorderBrush="Black"
+            BorderThickness="1"
+            Margin="38,150,45,0"
+            VerticalAlignment="Top"
+            ToolTip="LASI uses the Princton WordNet 3.0 data files to provide synonymic, attributive, and categorical context"
+            FontWeight="Bold"
+            Cursor="Hand"
+            MouseLeftButtonDown="label_MouseLeftButtonDown"
+            Tag="Resources\Licenses\WordNetLicense.txt">
+            <ContextMenuService.ContextMenu>
+                <ContextMenu>
+                    <MenuItem
+                        Header="View License"
+                        Click="MenuItem_Click_4" />
+                </ContextMenu>
+            </ContextMenuService.ContextMenu>
+        </Label>
+        <Label
+            x:Name="label5"
+            Content="WPFToolkit"
+            Foreground="DarkRed"
+            BorderBrush="Black"
+            BorderThickness="1"
+            Margin="38,199,45,0"
+            VerticalAlignment="Top"
+            FontWeight="Bold"
+            ToolTip="LASI uses the WPF Toolkit library to provide enhanced data visualization"
+            Cursor="Hand"
+            MouseLeftButtonDown="label_MouseLeftButtonDown"
+            Tag="Resources\Licenses\WPFToolkitLicense.txt">
+            <ContextMenuService.ContextMenu>
+                <ContextMenu>
+                    <MenuItem
+                        Header="View License"
+                        Click="MenuItem_Click_5" />
+                </ContextMenu>
+            </ContextMenuService.ContextMenu>
+        </Label>
+        <Button
+            Foreground="DarkRed"
+            x:Name="oKButton"
+            Click="okButton_Click"
+            Content="OK"
+            Margin="118,240,118,0"
+            VerticalAlignment="Top"
+            Height="20" />
+    </Grid>
+</Window>

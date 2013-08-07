@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+  <appSettings>
+    <add key="MaximumEntropyModelDirectory"
+         value="..\\..\\..\\ThirdPartyComponents\TaggingPackage\Resources\OpenNLP\OpenNLP\Models\" />
+    <add key="WordnetSearchDirectory"
+         value="..\\..\\..\\ThirdPartyComponents\TaggingPackage\Resources\WordNet\2.1\dict" />
+    <add key="PrepositionDataFilePath"
+         value="..\\..\\Analysis\Binding\SubordinatingConjunctionsTest.txt" />
+  </appSettings>
+</configuration>

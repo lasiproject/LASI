@@ -1,0 +1,83 @@
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/lasi/!svn/ver/706/LASI_Algorithm/Analysis/Binding
+END
+PhraseWiseEntityGroupBinder.cs
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/lasi/!svn/ver/706/LASI_Algorithm/Analysis/Binding/PhraseWiseEntityGroupBinder.cs
+END
+AttributiveNounPhraseBinder.cs
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/lasi/!svn/ver/704/LASI_Algorithm/Analysis/Binding/AttributiveNounPhraseBinder.cs
+END
+UnknownEntityCompatibleWordTypeException.cs
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/lasi/!svn/ver/499/LASI_Algorithm/Analysis/Binding/UnknownEntityCompatibleWordTypeException.cs
+END
+ObjectBinder.cs
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/lasi/!svn/ver/706/LASI_Algorithm/Analysis/Binding/ObjectBinder.cs
+END
+InterPhraseWordBinding.cs
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/lasi/!svn/ver/702/LASI_Algorithm/Analysis/Binding/InterPhraseWordBinding.cs
+END
+InvalidInfinitePhraseConstructedException.cs
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/lasi/!svn/ver/691/LASI_Algorithm/Analysis/Binding/InvalidInfinitePhraseConstructedException.cs
+END
+InfinitivePhraseAttributer.cs
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/lasi/!svn/ver/691/LASI_Algorithm/Analysis/Binding/InfinitivePhraseAttributer.cs
+END
+EntityReferenceBinder.cs
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/lasi/!svn/ver/579/LASI_Algorithm/Analysis/Binding/EntityReferenceBinder.cs
+END
+SubordinatingConjunctionsTest.txt
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/lasi/!svn/ver/442/LASI_Algorithm/Analysis/Binding/SubordinatingConjunctionsTest.txt
+END
+InvalidStateTransitionException.cs
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/lasi/!svn/ver/706/LASI_Algorithm/Analysis/Binding/InvalidStateTransitionException.cs
+END
+SubjectBinder.cs
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/lasi/!svn/ver/693/LASI_Algorithm/Analysis/Binding/SubjectBinder.cs
+END
+PronounBinder.cs
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/lasi/!svn/ver/706/LASI_Algorithm/Analysis/Binding/PronounBinder.cs
+END
+WordStream.cs
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/lasi/!svn/ver/706/LASI_Algorithm/Analysis/Binding/WordStream.cs
+END

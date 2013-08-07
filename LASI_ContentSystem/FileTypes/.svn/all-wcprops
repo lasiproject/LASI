@@ -1,0 +1,59 @@
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/lasi/!svn/ver/847/LASI_ContentSystem/FileTypes
+END
+TextFile.cs
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/lasi/!svn/ver/826/LASI_ContentSystem/FileTypes/TextFile.cs
+END
+DocFile.cs
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/lasi/!svn/ver/814/LASI_ContentSystem/FileTypes/DocFile.cs
+END
+FileConverter.cs
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/lasi/!svn/ver/847/LASI_ContentSystem/FileTypes/FileConverter.cs
+END
+FileTypeWrapperMismatchException.cs
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/lasi/!svn/ver/814/LASI_ContentSystem/FileTypes/FileTypeWrapperMismatchException.cs
+END
+PdfFile.cs
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/lasi/!svn/ver/814/LASI_ContentSystem/FileTypes/PdfFile.cs
+END
+TaggedFile.cs
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/lasi/!svn/ver/847/LASI_ContentSystem/FileTypes/TaggedFile.cs
+END
+DocXFile.cs
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/lasi/!svn/ver/814/LASI_ContentSystem/FileTypes/DocXFile.cs
+END
+GenericXMLFile.cs
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/lasi/!svn/ver/847/LASI_ContentSystem/FileTypes/GenericXMLFile.cs
+END
+InputFile.cs
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/lasi/!svn/ver/835/LASI_ContentSystem/FileTypes/InputFile.cs
+END

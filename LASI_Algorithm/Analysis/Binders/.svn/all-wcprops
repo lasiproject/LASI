@@ -1,0 +1,59 @@
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/lasi/!svn/ver/849/LASI_Algorithm/Analysis/Binders
+END
+IntraPhraseWordBinder.cs
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/lasi/!svn/ver/846/LASI_Algorithm/Analysis/Binders/IntraPhraseWordBinder.cs
+END
+InvalidStateTransitionException.cs
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/lasi/!svn/ver/803/LASI_Algorithm/Analysis/Binders/InvalidStateTransitionException.cs
+END
+SubjectBinder.cs
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/lasi/!svn/ver/847/LASI_Algorithm/Analysis/Binders/SubjectBinder.cs
+END
+PronounBinder.cs
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/lasi/!svn/ver/847/LASI_Algorithm/Analysis/Binders/PronounBinder.cs
+END
+AdjectivePhraseBinder.cs
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/lasi/!svn/ver/849/LASI_Algorithm/Analysis/Binders/AdjectivePhraseBinder.cs
+END
+PhraseWiseEntityGroupBinder.cs
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/lasi/!svn/ver/847/LASI_Algorithm/Analysis/Binders/PhraseWiseEntityGroupBinder.cs
+END
+AttributiveNounPhraseBinder.cs
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/lasi/!svn/ver/803/LASI_Algorithm/Analysis/Binders/AttributiveNounPhraseBinder.cs
+END
+ObjectBinder.cs
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/lasi/!svn/ver/847/LASI_Algorithm/Analysis/Binders/ObjectBinder.cs
+END
+SubordinatingConjunctionsTest.txt
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/lasi/!svn/ver/710/LASI_Algorithm/Analysis/Binders/SubordinatingConjunctionsTest.txt
+END

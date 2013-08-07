@@ -1,0 +1,239 @@
+K 25
+svn:wc:ra_dav:version-url
+V 32
+/svn/lasi/!svn/ver/847/UnitTests
+END
+PrepositionalPhraseTest.cs
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/lasi/!svn/ver/847/UnitTests/PrepositionalPhraseTest.cs
+END
+ModalTest.cs
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svn/lasi/!svn/ver/847/UnitTests/ModalTest.cs
+END
+DocxToTextConverterTest.cs
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/lasi/!svn/ver/813/UnitTests/DocxToTextConverterTest.cs
+END
+AdjectiveTest.cs
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/lasi/!svn/ver/847/UnitTests/AdjectiveTest.cs
+END
+Settings.cs
+K 25
+svn:wc:ra_dav:version-url
+V 44
+/svn/lasi/!svn/ver/846/UnitTests/Settings.cs
+END
+VerbPhraseTest.cs
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/lasi/!svn/ver/847/UnitTests/VerbPhraseTest.cs
+END
+ParticleTest.cs
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/lasi/!svn/ver/847/UnitTests/ParticleTest.cs
+END
+PunctuatorTest.cs
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/lasi/!svn/ver/847/UnitTests/PunctuatorTest.cs
+END
+ParagraphTest.cs
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/lasi/!svn/ver/847/UnitTests/ParagraphTest.cs
+END
+FunctionExtensionsTest.cs
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/lasi/!svn/ver/847/UnitTests/FunctionExtensionsTest.cs
+END
+LASI_UnitTests.csproj
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/lasi/!svn/ver/212/UnitTests/LASI_UnitTests.csproj
+END
+NounConjugatorTest.cs
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/lasi/!svn/ver/847/UnitTests/NounConjugatorTest.cs
+END
+PrepositionTest.cs
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/lasi/!svn/ver/847/UnitTests/PrepositionTest.cs
+END
+DocumentTest.cs
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/lasi/!svn/ver/847/UnitTests/DocumentTest.cs
+END
+app.config
+K 25
+svn:wc:ra_dav:version-url
+V 43
+/svn/lasi/!svn/ver/783/UnitTests/app.config
+END
+NounPhraseTest.cs
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/lasi/!svn/ver/847/UnitTests/NounPhraseTest.cs
+END
+ForeignWordTest.cs
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/lasi/!svn/ver/847/UnitTests/ForeignWordTest.cs
+END
+WeightTest.cs
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/lasi/!svn/ver/847/UnitTests/WeightTest.cs
+END
+ProperPluralNounTest.cs
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/lasi/!svn/ver/847/UnitTests/ProperPluralNounTest.cs
+END
+GenericPluralNounTest.cs
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/lasi/!svn/ver/847/UnitTests/GenericPluralNounTest.cs
+END
+VerbTest.cs
+K 25
+svn:wc:ra_dav:version-url
+V 44
+/svn/lasi/!svn/ver/847/UnitTests/VerbTest.cs
+END
+DeterminerTest.cs
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/lasi/!svn/ver/847/UnitTests/DeterminerTest.cs
+END
+AdjectivePhraseTest.cs
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/lasi/!svn/ver/847/UnitTests/AdjectivePhraseTest.cs
+END
+AdverbTest.cs
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/lasi/!svn/ver/847/UnitTests/AdverbTest.cs
+END
+PersonalPronounTest.cs
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/lasi/!svn/ver/847/UnitTests/PersonalPronounTest.cs
+END
+SentenceTest.cs
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/lasi/!svn/ver/847/UnitTests/SentenceTest.cs
+END
+ParticlePhraseTest.cs
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/lasi/!svn/ver/847/UnitTests/ParticlePhraseTest.cs
+END
+TransitiveVerbTest.cs
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/lasi/!svn/ver/847/UnitTests/TransitiveVerbTest.cs
+END
+FileManagerTest.cs
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/lasi/!svn/ver/847/UnitTests/FileManagerTest.cs
+END
+PastPrtcplVerbTest.cs
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/lasi/!svn/ver/847/UnitTests/PastPrtcplVerbTest.cs
+END
+LASI_Algorithm_UnitTests.csproj
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/lasi/!svn/ver/815/UnitTests/LASI_Algorithm_UnitTests.csproj
+END
+WordTest.cs
+K 25
+svn:wc:ra_dav:version-url
+V 44
+/svn/lasi/!svn/ver/847/UnitTests/WordTest.cs
+END
+DocToDocXConverterTest.cs
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/lasi/!svn/ver/815/UnitTests/DocToDocXConverterTest.cs
+END
+Icon1.ico
+K 25
+svn:wc:ra_dav:version-url
+V 42
+/svn/lasi/!svn/ver/212/UnitTests/Icon1.ico
+END
+NounTest.cs
+K 25
+svn:wc:ra_dav:version-url
+V 44
+/svn/lasi/!svn/ver/847/UnitTests/NounTest.cs
+END
+GenericSingularNounTest.cs
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/lasi/!svn/ver/847/UnitTests/GenericSingularNounTest.cs
+END
+PastTenseVerbTest.cs
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/lasi/!svn/ver/847/UnitTests/PastTenseVerbTest.cs
+END
+ConjunctionTest.cs
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/lasi/!svn/ver/847/UnitTests/ConjunctionTest.cs
+END
+VerbConjugatorTest.cs
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/lasi/!svn/ver/847/UnitTests/VerbConjugatorTest.cs
+END

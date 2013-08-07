@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/lasi/!svn/ver/849/LASI_Algorithm/LexicalStructures/UnderpinningTypes
+END
+SubordinateClauseBeginPhrase.cs
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/lasi/!svn/ver/825/LASI_Algorithm/LexicalStructures/UnderpinningTypes/SubordinateClauseBeginPhrase.cs
+END
+ILexical.cs
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/lasi/!svn/ver/821/LASI_Algorithm/LexicalStructures/UnderpinningTypes/ILexical.cs
+END
+Word.cs
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/lasi/!svn/ver/846/LASI_Algorithm/LexicalStructures/UnderpinningTypes/Word.cs
+END
+Clause.cs
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/lasi/!svn/ver/836/LASI_Algorithm/LexicalStructures/UnderpinningTypes/Clause.cs
+END
+SubordinateClause.cs
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/lasi/!svn/ver/847/LASI_Algorithm/LexicalStructures/UnderpinningTypes/SubordinateClause.cs
+END
+ConflictingClauseRoleException.cs
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/lasi/!svn/ver/803/LASI_Algorithm/LexicalStructures/UnderpinningTypes/ConflictingClauseRoleException.cs
+END
+Phrase.cs
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/lasi/!svn/ver/849/LASI_Algorithm/LexicalStructures/UnderpinningTypes/Phrase.cs
+END

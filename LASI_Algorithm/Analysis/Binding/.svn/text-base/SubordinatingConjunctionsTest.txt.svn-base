@@ -1,0 +1,50 @@
+﻿after //List of Most SubordinatingConjunctions How the tagger tagged each in a simple one clause Note that [SBAR] indicates the beginning of a subordinate clause but lack an equivalent ending delim
+although
+as
+as if
+as long as							//[ADVP As/RB long/RB ] [SBAR as/IN ]
+as much as							//[ADVP As/RB much/RB ] [SBAR as/IN ]
+as soon as							//[ADVP As/RB soon/RB ] [SBAR as/IN ]
+as though
+because								//[SBAR because/IN ]
+before								//[PP before/IN ]
+even								//
+even if								//[SBAR Even/RB if/IN ]
+even though
+if									//[SBAR if/IN ]
+if only								//[SBAR If/IN ] [ADVP only/RB ]
+if when
+if then
+inasmuch
+in order that
+just as
+lest
+now
+now since
+now that							//[ADVP Now/RB ] [SBAR that/IN ]
+now when
+once								//[ADVP once/RB ]
+provided
+provided that
+rather than
+since
+so that
+supposing
+than
+that
+though
+til
+unless
+until
+when								
+whenever							//[ADVP whenever/WRB ]
+where
+whereas								//[ADVP whereas/WRB ]
+where if
+wherever
+whether
+which
+while
+who
+whoever
+why

@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/lasi/!svn/ver/3/ThirdPartyComponents/TaggingPackage/Resources/WordNet/2.1/src/include/X11
+END
+keysymdef.h
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/lasi/!svn/ver/3/ThirdPartyComponents/TaggingPackage/Resources/WordNet/2.1/src/include/X11/keysymdef.h
+END
+keysym.h
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/lasi/!svn/ver/3/ThirdPartyComponents/TaggingPackage/Resources/WordNet/2.1/src/include/X11/keysym.h
+END
+cursorfont.h
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/lasi/!svn/ver/3/ThirdPartyComponents/TaggingPackage/Resources/WordNet/2.1/src/include/X11/cursorfont.h
+END
+Xutil.h
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/lasi/!svn/ver/3/ThirdPartyComponents/TaggingPackage/Resources/WordNet/2.1/src/include/X11/Xutil.h
+END
+X.h
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/lasi/!svn/ver/3/ThirdPartyComponents/TaggingPackage/Resources/WordNet/2.1/src/include/X11/X.h
+END
+Xfuncproto.h
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/lasi/!svn/ver/3/ThirdPartyComponents/TaggingPackage/Resources/WordNet/2.1/src/include/X11/Xfuncproto.h
+END
+Xatom.h
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/lasi/!svn/ver/3/ThirdPartyComponents/TaggingPackage/Resources/WordNet/2.1/src/include/X11/Xatom.h
+END
+Xlib.h
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/lasi/!svn/ver/3/ThirdPartyComponents/TaggingPackage/Resources/WordNet/2.1/src/include/X11/Xlib.h
+END

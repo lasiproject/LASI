@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 33
+/svn/lasi/!svn/ver/466/XMLSchemas
+END
+ProjectFileEx.xml
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/lasi/!svn/ver/214/XMLSchemas/ProjectFileEx.xml
+END
+documentStructure.xsd
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/lasi/!svn/ver/214/XMLSchemas/documentStructure.xsd
+END
+dotLasiFile.xsd
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/lasi/!svn/ver/466/XMLSchemas/dotLasiFile.xsd
+END

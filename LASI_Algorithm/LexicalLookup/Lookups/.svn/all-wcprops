@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/lasi/!svn/ver/847/LASI_Algorithm/LexicalLookup/Lookups
+END
+AdverbLookup.cs
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/lasi/!svn/ver/847/LASI_Algorithm/LexicalLookup/Lookups/AdverbLookup.cs
+END
+IWordNetLookup.cs
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/lasi/!svn/ver/847/LASI_Algorithm/LexicalLookup/Lookups/IWordNetLookup.cs
+END
+AdjectiveLookup.cs
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/lasi/!svn/ver/847/LASI_Algorithm/LexicalLookup/Lookups/AdjectiveLookup.cs
+END
+VerbLookup.cs
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/lasi/!svn/ver/847/LASI_Algorithm/LexicalLookup/Lookups/VerbLookup.cs
+END
+NounLookup.cs
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/lasi/!svn/ver/847/LASI_Algorithm/LexicalLookup/Lookups/NounLookup.cs
+END

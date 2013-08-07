@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/lasi/!svn/ver/3/ThirdPartyComponents/TaggingPackage/Resources/WordNet/2.1/lib/TclScript
+END
+pkgIndex.tcl
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/lasi/!svn/ver/3/ThirdPartyComponents/TaggingPackage/Resources/WordNet/2.1/lib/TclScript/pkgIndex.tcl
+END
+TclScript.dll
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/lasi/!svn/ver/3/ThirdPartyComponents/TaggingPackage/Resources/WordNet/2.1/lib/TclScript/TclScript.dll
+END
+TclScript.itcl
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/lasi/!svn/ver/3/ThirdPartyComponents/TaggingPackage/Resources/WordNet/2.1/lib/TclScript/TclScript.itcl
+END
+register.tcl
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/lasi/!svn/ver/3/ThirdPartyComponents/TaggingPackage/Resources/WordNet/2.1/lib/TclScript/register.tcl
+END

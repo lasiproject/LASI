@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/lasi/!svn/ver/847/LASI_Algorithm/IEnumerableExtensions
+END
+IEnumerableOfPhraseExtensions.cs
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/lasi/!svn/ver/843/LASI_Algorithm/IEnumerableExtensions/IEnumerableOfPhraseExtensions.cs
+END
+IEnumerableOfRecursiveIEnumerableILexicalsExtenstions.cs
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/lasi/!svn/ver/825/LASI_Algorithm/IEnumerableExtensions/IEnumerableOfRecursiveIEnumerableILexicalsExtenstions.cs
+END
+IEnumerableOfIVerbalExtensions.cs
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/lasi/!svn/ver/843/LASI_Algorithm/IEnumerableExtensions/IEnumerableOfIVerbalExtensions.cs
+END
+IEnumerableOfIEntityExtensions.cs
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/lasi/!svn/ver/844/LASI_Algorithm/IEnumerableExtensions/IEnumerableOfIEntityExtensions.cs
+END
+IEnumerableOfIPronounExtensions.cs
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/lasi/!svn/ver/847/LASI_Algorithm/IEnumerableExtensions/IEnumerableOfIPronounExtensions.cs
+END
+IEnumerableOfILexicalExtensions.cs
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/lasi/!svn/ver/847/LASI_Algorithm/IEnumerableExtensions/IEnumerableOfILexicalExtensions.cs
+END
+IEnumerableOfWordExtensions.cs
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/lasi/!svn/ver/847/LASI_Algorithm/IEnumerableExtensions/IEnumerableOfWordExtensions.cs
+END
+IEnumerableOfDocumentStructureExtensions.cs
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/lasi/!svn/ver/843/LASI_Algorithm/IEnumerableExtensions/IEnumerableOfDocumentStructureExtensions.cs
+END

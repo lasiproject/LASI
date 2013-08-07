@@ -1,0 +1,83 @@
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/lasi/!svn/ver/3/ThirdPartyComponents/TaggingPackage/bin/Debug
+END
+SampleInput.txt
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/lasi/!svn/ver/3/ThirdPartyComponents/TaggingPackage/bin/Debug/SampleInput.txt
+END
+SharpNLPTagger.exe
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/lasi/!svn/ver/3/ThirdPartyComponents/TaggingPackage/bin/Debug/SharpNLPTagger.exe
+END
+random fema data.txt
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/lasi/!svn/ver/3/ThirdPartyComponents/TaggingPackage/bin/Debug/random%20fema%20data.txt
+END
+OpenNLP.dll
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/lasi/!svn/ver/3/ThirdPartyComponents/TaggingPackage/bin/Debug/OpenNLP.dll
+END
+SharpNLPTagger.exe.config
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/lasi/!svn/ver/3/ThirdPartyComponents/TaggingPackage/bin/Debug/SharpNLPTagger.exe.config
+END
+SharpNLPTagger.pdb
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/lasi/!svn/ver/3/ThirdPartyComponents/TaggingPackage/bin/Debug/SharpNLPTagger.pdb
+END
+SharpNLPTagger.vshost.exe
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/lasi/!svn/ver/3/ThirdPartyComponents/TaggingPackage/bin/Debug/SharpNLPTagger.vshost.exe
+END
+SharpEntropy.dll
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/lasi/!svn/ver/3/ThirdPartyComponents/TaggingPackage/bin/Debug/SharpEntropy.dll
+END
+SharpNLPTagger.vshost.exe.config
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/lasi/!svn/ver/3/ThirdPartyComponents/TaggingPackage/bin/Debug/SharpNLPTagger.vshost.exe.config
+END
+SharpWordNet.dll
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/lasi/!svn/ver/3/ThirdPartyComponents/TaggingPackage/bin/Debug/SharpWordNet.dll
+END
+taggedOutput.txt
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/lasi/!svn/ver/3/ThirdPartyComponents/TaggingPackage/bin/Debug/taggedOutput.txt
+END
+SharpNLPTagger.vshost.exe.manifest
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/lasi/!svn/ver/3/ThirdPartyComponents/TaggingPackage/bin/Debug/SharpNLPTagger.vshost.exe.manifest
+END
+random fema data.txt.tagged
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/lasi/!svn/ver/3/ThirdPartyComponents/TaggingPackage/bin/Debug/random%20fema%20data.txt.tagged
+END
