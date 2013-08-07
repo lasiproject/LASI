@@ -1,8 +1,8 @@
-﻿using System;
-using System.Linq;
+﻿using LASI.Algorithm.DocumentConstructs;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
-using LASI.Algorithm.DocumentConstructs;
 namespace LASI.ContentSystem.TaggerEncapsulation
 {
     abstract class TagParser

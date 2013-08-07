@@ -93,7 +93,7 @@ namespace AlgorithmAssemblyUnitTestProject
         [TestMethod()]
         public void GetHashCodeTest() {
             Weight target = new Weight();
-            int expected = ((object) target).GetHashCode();
+            int expected = ((object)target).GetHashCode();
             int actual;
             actual = target.GetHashCode();
             Assert.AreEqual(expected, actual);

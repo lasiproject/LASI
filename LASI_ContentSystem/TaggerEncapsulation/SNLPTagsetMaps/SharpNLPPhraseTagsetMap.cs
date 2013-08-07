@@ -1,5 +1,5 @@
-﻿using LASI.Algorithm;
-using LASI.Algorithm.AdditionalPhraseTypes;
+﻿using LASI;
+using LASI.Algorithm;
 using System;
 using System.Collections.Generic;
 using System.Linq;

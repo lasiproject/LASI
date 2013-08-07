@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.IO;
-using System.Diagnostics;
 
-namespace LASI.Utilities
+namespace LASI
 {
     /// <summary>
     /// Maps standard output operations, providing a common interface for writing to the Console, Debug, and text file output streams.

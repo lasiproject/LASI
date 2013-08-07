@@ -1,13 +1,12 @@
 ﻿using LASI.Algorithm.Binding;
+using LASI.Algorithm.DocumentConstructs;
+using LASI.Utilities;
+using LASI.Utilities.TypedSwitch;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using LASI.Utilities.TypedSwitch;
 using System.Threading.Tasks;
-using LASI.Algorithm.DocumentConstructs;
-using LASI.Algorithm.Analysis;
-using LASI.Utilities;
 
 namespace LASI.Algorithm.Binding
 {

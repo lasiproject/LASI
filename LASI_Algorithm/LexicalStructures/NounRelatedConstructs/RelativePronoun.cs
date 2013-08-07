@@ -1,8 +1,8 @@
-﻿using System;
+﻿using LASI.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using LASI.Utilities;
 
 namespace LASI.Algorithm
 {
@@ -59,10 +59,10 @@ namespace LASI.Algorithm
         /// <summary>
         /// Binds an IDescriptor, generally an Adjective or AdjectivePhrase, as a descriptor of the RelativePronoun.
         /// </summary>
-        /// <param name="adjective">The IDescriptor instance which will be added to the RelativePronoun's descriptors.</param>
-        public void BindDescriptor(IDescriptor adjective) {
-            _describers.Add(adjective);
-            adjective.Describes = this;
+        /// <param name="descriptor">The IDescriptor instance which will be added to the RelativePronoun's descriptors.</param>
+        public void BindDescriptor(IDescriptor descriptor) {
+            _describers.Add(descriptor);
+            descriptor.Describes = this;
         }
         /// <summary>
         /// Returns a string representation of the RelativePronoun.

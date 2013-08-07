@@ -95,10 +95,10 @@
     <Compile Include="TaggerAndFileAbstraction\FileManager.cs" />
     <Compile Include="FileTypes\FileConverter.cs" />
     <Compile Include="FileTypes\Support\TaggedToXMLConverter.cs" />
-    <Compile Include="TaggerEncapsulation\TagParsers\Experiment\ExperimentalTaggedParser.cs" />
+    <Compile Include="TaggerEncapsulation\TagParsers\Basis\Experimental\ExperimentalTaggedParser.cs" />
     <Compile Include="TaggerAndFileAbstraction\Tagger.cs" />
-    <Compile Include="TaggerEncapsulation\TagParsers\Experiment\Support\TagIdentifier.cs" />
-    <Compile Include="TaggerEncapsulation\TagParsers\TagParser.cs" />
+    <Compile Include="TaggerEncapsulation\TagParsers\Basis\Support\TagIdentifier.cs" />
+    <Compile Include="TaggerEncapsulation\TagParsers\Basis\TagParser.cs" />
     <Compile Include="TaggerEncapsulation\TagParsers\SupportTypes\PhraseExtractor.cs" />
     <Compile Include="TaggerEncapsulation\TagmapBases\PhraseTagsetMap.cs" />
     <Compile Include="TaggerEncapsulation\SNLPTagsetMaps\SharpNLPPhraseTagsetMap.cs" />

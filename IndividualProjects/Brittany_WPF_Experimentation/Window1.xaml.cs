@@ -1,5 +1,7 @@
-﻿using System;
+﻿using LASI.ContentSystem;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,8 +13,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using LASI.ContentSystem;
-using System.IO;
 
 namespace Brittany_WPF_Experimentation
 {

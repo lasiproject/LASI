@@ -131,7 +131,7 @@ namespace LASI.ContentSystem
         /// This method invokes the file conversion routine asynchronously, gernerally in a serparate thread.
         /// Use with the await operator in an asnyc method to retrieve the new file object and specify a continuation function to be executed when the conversion is complete.
         /// </summary>
-        /// <returns>A Task of InputFile object which functions as a proxy for the actual InputFile while the conversion routine is in progress.
+        /// <returns>A The A Task&lt;InputFile&gt; object which functions as a proxy for the actual InputFile while the conversion routine is in progress.
         /// Access the internal input file encapsulated by the Task by using syntax such as : var file = await myConverter.ConvertFileAsync()
         /// </returns>
         public async override Task<InputFile> ConvertFileAsync() {

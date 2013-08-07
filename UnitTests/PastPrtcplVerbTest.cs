@@ -1,11 +1,12 @@
-﻿using LASI.Algorithm;
+﻿using LASI;
+using LASI.Algorithm;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 
 namespace AlgorithmAssemblyUnitTestProject
 {
-    
-    
+
+
     /// <summary>
     ///This is A test class for PastPrtcplVerbTest and is intended
     ///to contain all PastPrtcplVerbTest Unit Tests
@@ -21,14 +22,11 @@ namespace AlgorithmAssemblyUnitTestProject
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
         ///</summary>
-        public TestContext TestContext
-        {
-            get
-            {
+        public TestContext TestContext {
+            get {
                 return testContextInstance;
             }
-            set
-            {
+            set {
                 testContextInstance = value;
             }
         }
@@ -68,13 +66,12 @@ namespace AlgorithmAssemblyUnitTestProject
         ///A test for PastPrtcplVerb Constructor
         ///</summary>
         [TestMethod()]
-        public void PastPrtcplVerbConstructorTest()
-        {
+        public void PastPrtcplVerbConstructorTest() {
             string text = "gone";
             VerbTense pastprt = VerbTense.PastParticiple;
             PastParticipleVerb target = new PastParticipleVerb(text);
             Assert.IsTrue(target.Text == text);
-            Assert.IsTrue(target.Tense == pastprt); 
+            Assert.IsTrue(target.Tense == pastprt);
         }
     }
 }

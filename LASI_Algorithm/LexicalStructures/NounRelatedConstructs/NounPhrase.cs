@@ -57,10 +57,10 @@ namespace LASI.Algorithm
         /// <summary>
         /// Binds an IDescriptor, generally an Adjective or AdjectivePhrase, as a descriptor of the NounPhrase.
         /// </summary>
-        /// <param name="adjective">The IDescriptor instance which will be added to the NounPhrase' descriptors.</param>
-        public void BindDescriptor(IDescriptor adjective) {
-            describedBy.Add(adjective);
-            adjective.Describes = this;
+        /// <param name="descriptor">The IDescriptor instance which will be added to the NounPhrase' descriptors.</param>
+        public void BindDescriptor(IDescriptor descriptor) {
+            _descriptors.Add(descriptor);
+            descriptor.Describes = this;
         }
         /// <summary>
         /// Adds an IPossessible construct, such as a person place or thing, to the collection of the NounPhrase "Owns",
@@ -106,12 +106,12 @@ namespace LASI.Algorithm
         /// </summary>
         public virtual IVerbal SubjectOf {
             get {
-                return subjectOf;
+                return _subjectOf;
             }
             set {
-                subjectOf = value;
+                _subjectOf = value;
                 foreach (var N in Words.OfType<IEntity>())
-                    N.SubjectOf = subjectOf;
+                    N.SubjectOf = _subjectOf;
             }
         }
         /// <summary>
@@ -119,12 +119,12 @@ namespace LASI.Algorithm
         /// </summary>
         public virtual IVerbal DirectObjectOf {
             get {
-                return direcObjectOf;
+                return _direcObjectOf;
             }
             set {
-                direcObjectOf = value;
+                _direcObjectOf = value;
                 foreach (var N in Words.OfType<IEntity>())
-                    N.DirectObjectOf = direcObjectOf;
+                    N.DirectObjectOf = _direcObjectOf;
             }
         }
 
@@ -133,10 +133,10 @@ namespace LASI.Algorithm
         /// </summary>
         public virtual IVerbal IndirectObjectOf {
             get {
-                return indirecObjectOf;
+                return _indirecObjectOf;
             }
             set {
-                indirecObjectOf = value;
+                _indirecObjectOf = value;
                 foreach (var N in Words.OfType<IEntity>())
                     N.IndirectObjectOf = IndirectObjectOf;
             }
@@ -147,48 +147,29 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets all of the IPronoun instances, generally Pronouns or PronounPhrases, which refer to the NounPhrase.
         /// </summary>
-        public IEnumerable<IPronoun> BoundPronouns {
-            get {
-                return boundPronouns;
-            }
-            protected set {
-                boundPronouns = new HashSet<IPronoun>(value);
-            }
-        }
+        public IEnumerable<IPronoun> BoundPronouns { get { return boundPronouns; } }
 
         /// <summary>
         /// Gets all of the IDescriptor constructs,generally Adjectives or AdjectivePhrases, which describe the NounPhrase.
         /// </summary>
-        public IEnumerable<IDescriptor> Descriptors {
-            get {
-                return describedBy;
-            }
-            protected set {
-                describedBy = new HashSet<IDescriptor>(value);
-            }
-        }
+        public IEnumerable<IDescriptor> Descriptors { get { return _descriptors; } }
 
 
         /// <summary>
         /// Gets all of the constructs which the NounPhrase "owns".
         /// </summary>
         public IEnumerable<IEntity> Possessed {
-            get {
-                return possessed;
-            }
-            protected set {
-                possessed = new HashSet<IEntity>(value);
-            }
+            get { return possessed; }
         }
         /// <summary>
         /// Gets or sets the Entity which "owns" the NounPhrase.
         /// </summary>
         public IEntity Possesser {
             get {
-                return possessor;
+                return _possessor;
             }
             set {
-                possessor = value;
+                _possessor = value;
                 if (value != null) {
                     foreach (var item in this.Words.OfType<IEntity>()) {
                         value.AddPossession(item);
@@ -211,13 +192,13 @@ namespace LASI.Algorithm
 
 
 
-        private HashSet<IDescriptor> describedBy = new HashSet<IDescriptor>();
+        private HashSet<IDescriptor> _descriptors = new HashSet<IDescriptor>();
         private HashSet<IEntity> possessed = new HashSet<IEntity>();
         private HashSet<IPronoun> boundPronouns = new HashSet<IPronoun>();
-        private IEntity possessor;
-        private IVerbal direcObjectOf;
-        private IVerbal indirecObjectOf;
-        private IVerbal subjectOf;
+        private IEntity _possessor;
+        private IVerbal _direcObjectOf;
+        private IVerbal _indirecObjectOf;
+        private IVerbal _subjectOf;
 
 
 

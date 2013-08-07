@@ -10,7 +10,7 @@ namespace LASI.ContentSystem
     /// <summary>
     /// A strongly typed wrapper that encapsulates a tagged file (.tagged), a file with embedded syntactic annotations.
     /// </summary>
-    public sealed class TaggedFile : InputFile, Algorithm.ITaggedTextSource
+    public sealed class TaggedFile : InputFile, LASI.Algorithm.ITaggedTextSource
     {
         /// <summary>
         /// Initializes a new instance of the TaggedFile class for the given path.
@@ -27,7 +27,7 @@ namespace LASI.ContentSystem
         /// </summary>
         /// <returns>A single string containing all of the text in the TaggedFile.</returns>
         public string GetText() {
-            using (var reader = new System.IO.StreamReader(this.FullPath)) {
+            using (var reader = new StreamReader(this.FullPath)) {
                 return reader.ReadToEnd();
             }
         }
@@ -36,7 +36,12 @@ namespace LASI.ContentSystem
         /// </summary>
         /// <returns>A single string containing all of the text in the TaggedFile.</returns>
         public async Task<string> GetTextAsync() {
-            using (var reader = new System.IO.StreamReader(new System.IO.FileStream(this.FullPath, System.IO.FileMode.Open, System.IO.FileAccess.Read, System.IO.FileShare.Read))) { return await reader.ReadToEndAsync(); }
+            using (var reader = new System.IO.StreamReader(
+                new FileStream(
+                    this.FullPath,
+                    FileMode.Open,
+                    FileAccess.Read,
+                    FileShare.Read))) { return await reader.ReadToEndAsync(); }
         }
         /// <summary>
         /// Gets the simple name of the TaggedFile.

@@ -111,6 +111,39 @@ namespace LASI.Algorithm
 
         #endregion
 
+        #region EntityKind <-> PronounKind Comparisons
+        /// <summary>
+        /// Determines if two PersonalPronoun instances have the same gender.
+        /// </summary>
+        /// <param name="first">The first PersonalPronoun.</param>
+        /// <param name="second">The second PersonalPronoun.</param>
+        /// <returns>True if both PersonalPronouns have the same gender, false otherwise.</returns>
+        public static bool IsGenderEquivalentTo(this PersonalPronoun first, PersonalPronoun second) {
+            var kind1 = first.PronounKind;
+            var kind2 = second.PronounKind;
+            return
+                kind1.IsFemale() && kind2.IsFemale() ||
+                kind1.IsMale() && kind2.IsMale() ||
+                kind1.IsGenderNeutral() && kind2.IsGenderNeutral() ||
+                kind1.IsGenderAmbiguous() && kind2.IsGenderAmbiguous();
+        }
 
+        /// <summary>
+        /// Determines if a PersonalPronoun and a ProperNoun instance have the same gender.
+        /// </summary>
+        /// <param name="personalPronoun">The PersonalPronoun.</param>
+        /// <param name="properNoun">The ProperNoun.</param>
+        /// <returns>True if PersonalPronoun and the ProperNoun have the same gender, false otherwise.</returns>
+        public static bool IsGenderEquivalentTo(this PersonalPronoun personalPronoun, ProperNoun properNoun) {
+            var pronounKind = personalPronoun.PronounKind;
+            var entityKind = properNoun.EntityKind;
+            return pronounKind.IsFemale() ?
+                entityKind == EntityKind.PersonFemale :
+                pronounKind.IsMale() ?
+                entityKind == EntityKind.PersonMale :
+                false;
+        }
+
+        #endregion
     }
 }

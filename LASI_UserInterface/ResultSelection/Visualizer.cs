@@ -1,14 +1,15 @@
-﻿using System;
-using System.Text;
+﻿using LASI;
+using LASI.Algorithm;
+using LASI.Algorithm.DocumentConstructs;
+using LASI.Algorithm.Lookup;
+using LASI.InteropLayer;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Controls.DataVisualization.Charting;
-using LASI.Algorithm;
-using LASI.Algorithm.DocumentConstructs;
-using LASI.Algorithm.LexicalLookup;
-using LASI.InteropLayer;
 
 
 namespace LASI.UserInterface
@@ -121,7 +122,7 @@ namespace LASI.UserInterface
         /// <param name="document">The document whose contents are to be charted.</param>
         /// <returns>A Task representing the ongoing asynchronous operation.</returns>
         public static async Task InitChartDisplayAsync(Document document) {
-            var chart = BuildBarChart(document);
+            var chart = await BuildBarChart(document);
             documentsByChart.Add(chart, document);
             var tab = new TabItem {
                 Header = document.Name,
@@ -134,9 +135,9 @@ namespace LASI.UserInterface
         }
 
 
-        private static Chart BuildBarChart(Document document) {
+        private static async Task<Chart> BuildBarChart(Document document) {
 
-            var dataPointSource = ChartKind == ChartKind.NounPhrasesOnly ? GetNounPhraseData(document) : ChartKind == ChartKind.SubjectVerbObject ? GetSVOIData(document) : GetSVOIData(document);
+            var dataPointSource = ChartKind == ChartKind.NounPhrasesOnly ? await GetNounPhraseDataAsync(document) : ChartKind == ChartKind.SubjectVerbObject ? GetSVOIData(document) : GetSVOIData(document);
             var topPoints = dataPointSource.OrderByDescending(e => e.Value).Take(CHART_ITEM_LIMIT);
             Series series = new BarSeries {
                 DependentValuePath = "Value",
@@ -225,6 +226,7 @@ namespace LASI.UserInterface
                  select svps;
             return data.ToArray();
         }
+        private static async Task<IEnumerable<KeyValuePair<string, float>>> GetNounPhraseDataAsync(Document doc) { return await Task.Run(() => GetNounPhraseData(doc)); }
 
         private static IEnumerable<KeyValuePair<string, float>> GetNounPhraseData(Document doc) {
             return from NP in doc.Phrases.GetNounPhrases().Distinct().AsParallel().WithDegreeOfParallelism(Concurrency.Max)

@@ -1,6 +1,6 @@
 ﻿using LASI.Algorithm.Binding;
 using LASI.Algorithm.DocumentConstructs;
-using LASI.Algorithm.LexicalLookup;
+using LASI.Algorithm.Lookup;
 using LASI.ContentSystem;
 using LASI.Utilities;
 using System;
@@ -20,17 +20,17 @@ namespace LASI.InteropLayer
     {
 
         /// <summary>
-        /// Gets a Task which, when awaited, loads and analyizes, and aggregates all of the provided TextFile instances as individual documents, collecting them as
+        /// Gets a Task&lt;IEnumerable&lt;LASI.Algorithm.Document&gt;&gt; which, when awaited, loads and analyizes, and aggregates all of the provided TextFile instances as individual documents, collecting them as
         /// a sequence of Bound and Weighted LASI.Algorithm.Document instances.
         /// </summary>
         /// <param name="filesToProcess">The collection of TextFiles to analyize.</param>
-        /// <returns>A Task which, when awaited, loads, analyizes, and aggregates all of the provided TextFile instances as individual documents, collecting them as
+        /// <returns>A Task&lt;IEnumerable&lt;LASI.Algorithm.Document&gt;&gt; which, when awaited, loads, analyizes, and aggregates all of the provided TextFile instances as individual documents, collecting them as
         /// a sequence of Bound and Weighted LASI.Algorithm.Document instances.</returns>
         public async Task<IEnumerable<Document>> AnalyseAllDocumentsAsync(IEnumerable<LASI.Algorithm.IRawTextSource> filesToProcess) {
             return await AnalyseAllDocumentsAsync(filesToProcess, (s, d) => { });
         }
         /// <summary>
-        /// Gets a Task which, when awaited, loads, analyizes, and aggregates all of the provided TextFile instances as individual documents, collecting them as
+        /// Gets a Task&lt;IEnumerable&lt;LASI.Algorithm.Document&gt;&gt; which, when awaited, loads, analyizes, and aggregates all of the provided TextFile instances as individual documents, collecting them as
         /// a sequence of Bound and Weighted LASI.Algorithm.Document instances. Progress update logic is specified via a function parameter.
         /// </summary>
         /// <param name="filesToProcess">The collection of TextFiles to analyize.</param>
@@ -46,13 +46,13 @@ namespace LASI.InteropLayer
         /// </example>
         /// The function must take a string, representing a status message, and a double, representing the percentage of total work incremented.
         /// </param>
-        /// <returns>A Task which, when awaited, loads and analyizes, and aggregates all of the provided TextFile instances as individual documents, collecting them as
+        /// <returns>A Task&lt;IEnumerable&lt;LASI.Algorithm.Document&gt;&gt; which, when awaited, loads and analyizes, and aggregates all of the provided TextFile instances as individual documents, collecting them as
         /// a sequence of Bound and Weighted LASI.Algorithm.Document instances.</returns>
         public async Task<IEnumerable<Document>> AnalyseAllDocumentsAsync(IEnumerable<LASI.Algorithm.IRawTextSource> filesToProcess, Action<string, double> onProgressUpdate) {
             return await AnalyseAllDocumentsAsync(filesToProcess, async (s, d) => await Task.Run(() => onProgressUpdate(s, d)));
         }
         /// <summary>
-        /// Gets a Task which, when awaited, loads, analyizes, and aggregates all of the provided TextFile instances as individual documents, collecting them as
+        /// Gets a Task&lt;IEnumerable&lt;LASI.Algorithm.Document&gt;&gt; which, when awaited, loads, analyizes, and aggregates all of the provided TextFile instances as individual documents, collecting them as
         /// a sequence of Bound and Weighted LASI.Algorithm.Document instances. Progress update logic is specified via an asynchronous function parameter.
         /// </summary>
         /// <param name="filesToProcess">The collection of TextFiles to analyize.</param> 
@@ -69,7 +69,7 @@ namespace LASI.InteropLayer
         /// </code>
         /// </example>
         /// </param>
-        /// <returns>A Task which, when awaited, loads and analyizes, and aggregates all of the provided TextFile instances as individual documents, collecting them as
+        /// <returns>A Task&lt;IEnumerable&lt;LASI.Algorithm.Document&gt;&gt;, when awaited, loads and analyizes, and aggregates all of the provided TextFile instances as individual documents, collecting them as
         /// a sequence of Bound and Weighted LASI.Algorithm.Document instances.</returns>
         public async Task<IEnumerable<Document>> AnalyseAllDocumentsAsync(IEnumerable<LASI.Algorithm.IRawTextSource> filesToProcess, Func<string, double, Task> onProgressUpdate) {
             documentsInWorkLoad = filesToProcess.Count();
@@ -128,9 +128,8 @@ namespace LASI.InteropLayer
             var thesaurusTasks = LexicalLookup.GetUnstartedLoadingTasks().ToList();
             while (thesaurusTasks.Any()) {
                 var currentTask = await Task.WhenAny(thesaurusTasks);
-                var message = await currentTask;
+                await updateProgressDisplay(await currentTask, 3);
                 thesaurusTasks.Remove(currentTask);
-                await updateProgressDisplay(message, 3);
             }
         }
 

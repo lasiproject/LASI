@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace LASI.Algorithm.Analysis
+namespace LASI.Algorithm
 {
     static class SubordinateClauseIdentifier
     {

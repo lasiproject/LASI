@@ -1,20 +1,21 @@
+using LASI;
 using LASI.Algorithm;
 using LASI.Algorithm.DocumentConstructs;
-using LASI.Algorithm.LexicalLookup;
+using LASI.Algorithm.Lookup;
 using LASI.ContentSystem;
+using LASI.InteropLayer;
 using LASI.UserInterface.Dialogs;
+using LASI.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.DataVisualization.Charting;
 using System.Windows.Media;
-using LASI.InteropLayer;
-using LASI.Utilities;
-using System.IO;
 
 
 namespace LASI.UserInterface
@@ -297,7 +298,7 @@ namespace LASI.UserInterface
                     doc.Name.TakeWhile(c => c != '.').ToArray()) + ".xml")) {
                     await docWriter.WriteAsync(from S in doc.Sentences
                                                from R in S.Phrases
-                                               select R, doc.Name, ContentSystem.Serialization.XML.DegreeOfOutput.Comprehensive);
+                                               select R, doc.Name, LASI.ContentSystem.Serialization.XML.DegreeOfOutput.Comprehensive);
                 }
             }
             var exportDialog = new ExportResultsDialog();

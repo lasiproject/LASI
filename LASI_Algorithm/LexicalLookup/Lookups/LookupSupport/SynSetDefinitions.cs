@@ -1,13 +1,13 @@
-﻿using System;
+﻿using LASI.Algorithm.Lookup;
+using LASI.Algorithm.Lookup.InterSetRelationshipManagement;
+using LASI.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using LASI.Algorithm.LexicalLookup;
-using LASI.Utilities;
-using LASI.Algorithm.LexicalLookup.InterSetRelationshipManagement;
 
-namespace LASI.Algorithm.LexicalLookup
+namespace LASI.Algorithm.Lookup
 {
 
     /// <summary>
@@ -156,7 +156,7 @@ namespace LASI.Algorithm.LexicalLookup
             }
         }
 
-        internal  VerbSetIDSymbolMap RelatedOnPointerSymbol {
+        internal VerbSetIDSymbolMap RelatedOnPointerSymbol {
             get;
             set;
         }

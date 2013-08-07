@@ -1,4 +1,5 @@
-﻿using LASI.Algorithm;
+﻿using LASI;
+using LASI.Algorithm;
 using LASI.Algorithm.DocumentConstructs;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
@@ -78,8 +79,7 @@ namespace AlgorithmAssemblyUnitTestProject
         ///A test for Text
         ///</summary>
         [TestMethod()]
-        public void TextTest()
-        {
+        public void TextTest() {
             Phrase[] phrases = new Phrase[] { new NounPhrase(new Word[] { new ProperSingularNoun("LASI") }), new VerbPhrase(new Word[] { new PastTenseVerb("found") }), new NounPhrase(new Word[] { new ProperPluralNoun("TIMIS") }) };
             Sentence target = new Sentence(phrases, new SentenceEnding('.'));
             string expected = "LASI found TIMIS.";

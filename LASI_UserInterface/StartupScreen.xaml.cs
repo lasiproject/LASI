@@ -1,8 +1,14 @@
-﻿using System;
+﻿using LASI.ContentSystem;
+using LASI.Utilities;
+using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -12,12 +18,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using System.Timers;
-using System.Configuration;
-using System.Threading;
-using LASI.ContentSystem;
-using System.IO;
-using LASI.Utilities;
 
 namespace LASI.UserInterface
 {
@@ -90,8 +90,14 @@ namespace LASI.UserInterface
         }
 
         private async Task InitializeFileManager() {
-            FileManager.Initialize(System.IO.Path.Combine(locationTextBox.Text, ProjectNameTextBox.Text));
-
+            var initPath = System.IO.Path.Combine(locationTextBox.Text, ProjectNameTextBox.Text);
+            for (var i = 0; i < Int32.MaxValue - 1; ++i) {
+                if (Directory.Exists(initPath)) 
+                    initPath = initPath + i;
+                else
+                    break;
+            }
+            FileManager.Initialize(initPath);
             foreach (var file in documentsAddedListBox.Items) {
                 FileManager.AddFile((file as ListViewItem).Tag.ToString(), true);
             }

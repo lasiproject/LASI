@@ -1,11 +1,12 @@
-﻿using LASI.Algorithm;
+﻿using LASI;
+using LASI.Algorithm;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 
 namespace AlgorithmAssemblyUnitTestProject
 {
-    
-    
+
+
     /// <summary>
     ///This is A test class for GenericSingularNounTest and is intended
     ///to contain all GenericSingularNounTest Unit Tests
@@ -21,14 +22,11 @@ namespace AlgorithmAssemblyUnitTestProject
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
         ///</summary>
-        public TestContext TestContext
-        {
-            get
-            {
+        public TestContext TestContext {
+            get {
                 return testContextInstance;
             }
-            set
-            {
+            set {
                 testContextInstance = value;
             }
         }
@@ -68,8 +66,7 @@ namespace AlgorithmAssemblyUnitTestProject
         ///A test for GenericSingularNoun Constructor
         ///</summary>
         [TestMethod()]
-        public void GenericSingularNounConstructorTest()
-        {
+        public void GenericSingularNounConstructorTest() {
             string text = "LASI"; // TODO: Initialize to an appropriate value
             GenericSingularNoun target = new GenericSingularNoun(text);
             Assert.AreEqual(target.Text, text);

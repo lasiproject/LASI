@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
-
-using System.IO;
 using System.Text.RegularExpressions;
 
-namespace LASI.Algorithm.LexicalLookup.Lookups
+namespace LASI.Algorithm.Lookup 
 {
     using SetReference = System.Collections.Generic.KeyValuePair<AdverbSetRelationship, int>;
     internal sealed class AdverbLookup : IWordNetLookup<Adverb>
@@ -50,7 +49,7 @@ namespace LASI.Algorithm.LexicalLookup.Lookups
 
             int id = Int32.Parse(line.Substring(0, 8));
 
-            AdverbCategory lexCategory = ( AdverbCategory )Int32.Parse(line.Substring(9, 2));
+            AdverbCategory lexCategory = (AdverbCategory)Int32.Parse(line.Substring(9, 2));
             return new AdverbSynSet(id, words, referencedSets, lexCategory);
 
 
@@ -91,14 +90,6 @@ namespace LASI.Algorithm.LexicalLookup.Lookups
             //}
 
             return new HashSet<string>(results);
-
-
-            //foreach (string tester in results)
-            //{
-
-            //    Console.WriteLine(tester);
-
-            //}//console view
         }
 
         public ISet<string> this[string search] {
@@ -114,8 +105,8 @@ namespace LASI.Algorithm.LexicalLookup.Lookups
             }
         }
 
-        private static readonly LASI.Algorithm.LexicalLookup.InterSetRelationshipManagement.AdverbPointerSymbolMap relationMap =
-            new LASI.Algorithm.LexicalLookup.InterSetRelationshipManagement.AdverbPointerSymbolMap();
+        private static readonly LASI.Algorithm.Lookup.InterSetRelationshipManagement.AdverbPointerSymbolMap relationMap =
+            new LASI.Algorithm.Lookup.InterSetRelationshipManagement.AdverbPointerSymbolMap();
 
         private string filePath;
 

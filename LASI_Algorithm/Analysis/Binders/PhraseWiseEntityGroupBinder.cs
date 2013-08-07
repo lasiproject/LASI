@@ -1,12 +1,12 @@
 ﻿
+using LASI.Algorithm.DocumentConstructs;
+using LASI.Utilities;
+using LASI.Utilities.TypedSwitch;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using LASI.Utilities.TypedSwitch;
-using LASI.Utilities;
-using LASI.Algorithm.DocumentConstructs;
 
 
 namespace LASI.Algorithm.Binding
@@ -42,8 +42,7 @@ namespace LASI.Algorithm.Binding
                     if (aggregateEntities.Count > 2) {
                         EntityGroups.Add(new EntityGroup(aggregateEntities));
                     }
-                }
-                else {
+                } else {
                     aggregateEntities = new List<NounPhrase>();
                 }
 

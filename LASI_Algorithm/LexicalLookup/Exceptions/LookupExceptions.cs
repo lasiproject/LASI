@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace LASI.Algorithm.LexicalLookup
+namespace LASI.Algorithm.Lookup
 {
     /// <summary>
     /// The Exception to be thrown if and when an attempt is made to lookup a word of a syntactic category which has no corresponding thesaurus.

@@ -89,9 +89,10 @@
   <ItemGroup>
     <Compile Include="Analysis\Binder.cs" />
     <Compile Include="Analysis\Binders\AttributiveNounPhraseBinder.cs" />
+    <Compile Include="Analysis\Binders\AdjectivePhraseBinder.cs" />
     <Compile Include="Analysis\Binders\Experimental\ClauseSeperatingMultiBranchingBinder.cs" />
     <Compile Include="Analysis\Binders\Experimental\INestableLexical.cs" />
-    <Compile Include="Analysis\Binders\Experimental\NestingClause.cs" />
+    <Compile Include="Analysis\Binders\Experimental\ExperimentalLexicalTypes\NestingClause.cs" />
     <Compile Include="Analysis\ProcessingTask.cs" />
     <Compile Include="Analysis\SubordinateClauseIdentifier.cs" />
     <Compile Include="IEnumerableExtensions\IEnumerableOfIPronounExtensions.cs" />
@@ -99,7 +100,7 @@
     <Compile Include="LexicalStructures\MiscLanguageConstructs\UnknownWord.cs" />
     <Compile Include="ResourceUsageManagement\Memory.cs" />
     <Compile Include="TextSourceAbstraction\IRawTextSource.cs" />
-    <Compile Include="IEnumerableExtensions\EnumTypeExtensions.cs" />
+    <Compile Include="EnumTypeExtensions.cs" />
     <Compile Include="IEnumerableExtensions\IEnumerableOfRecursiveIEnumerableILexicalsExtenstions.cs" />
     <Compile Include="TextSourceAbstraction\ITaggedTextSource.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\RelativePronounKind.cs" />
@@ -169,7 +170,7 @@
     <Compile Include="LexicalStructures\VerbRelatedConstructs\PresentParticipleGerund.cs" />
     <Compile Include="LexicalStructures\AdjectiveRelatedConstructs\ComparativeAdjective.cs" />
     <Compile Include="LexicalStructures\AdjectiveRelatedConstructs\SuperlativeAdjective .cs" />
-    <Compile Include="LexicalStructures\ConstrainingSemanticConstructs\PossessiveEnding.cs" />
+    <Compile Include="LexicalStructures\MiscLanguageConstructs\PossessiveEnding.cs" />
     <Compile Include="LexicalLookup\Lookups\NounLookup.cs" />
     <Compile Include="LexicalLookup\Lookups\LookupSupport\PointerSymbolMaps.cs" />
     <Compile Include="LexicalLookup\Lookups\LookupSupport\SynSetDefinitions.cs" />

@@ -1,4 +1,5 @@
 ﻿using LASI.Algorithm.DocumentConstructs;
+using LASI.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -124,8 +125,8 @@ namespace LASI.Algorithm.Binding
 
             for (int i = 0; i < stateList.Count; i++) {
 
-                Console.Write(stateList[i].StatePhrase);
-                Console.Write("\n");
+                Output.Write(stateList[i].StatePhrase);
+                Output.WriteLine();
             }
 
         }

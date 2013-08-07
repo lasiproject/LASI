@@ -1,15 +1,16 @@
-﻿using System;
+﻿using LASI;
+using LASI.Algorithm;
+using LASI.Algorithm.DocumentConstructs;
+using LASI.ContentSystem;
+using LASI.ContentSystem.TaggerEncapsulation;
+using LASI.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using LASI.Algorithm;
-using LASI.ContentSystem;
-using LASI.Utilities;
-using System.IO;
-using LASI.Algorithm.DocumentConstructs;
-using LASI.ContentSystem.TaggerEncapsulation;
 namespace Brittany_Experimentation
 {
     class Program

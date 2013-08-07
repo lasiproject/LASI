@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LASI.Algorithm.Analysis
+namespace LASI.Algorithm
 {
     /// <summary>
     /// Associates a Task, the Document to which it applies, and initialization and completion feedback properties.

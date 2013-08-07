@@ -27,7 +27,7 @@ namespace LASI.Algorithm
         /// <param name="pro">The Pronoun or PronounPhrase to Bind to the gerund</param>
         public void BindPronoun(IPronoun pro) {
 
-            boundPronouns.Add(pro);
+            _boundPronouns.Add(pro);
             pro.BindAsReferringTo(this);
         }
 
@@ -35,10 +35,10 @@ namespace LASI.Algorithm
         /// <summary>
         /// Binds an IDescriptor, generally an Adjective or AdjectivePhrase, as a descriptor of the PresentParticipleGerund.
         /// </summary>
-        /// <param name="adjective">The IDescriptor instance which will be added to the PresentParticipleGerund' descriptors.</param>
-        public void BindDescriptor(IDescriptor adjective) {
-            describedBy.Add(adjective);
-            adjective.Describes = this;
+        /// <param name="descriptor">The IDescriptor instance which will be added to the PresentParticipleGerund' descriptors.</param>
+        public void BindDescriptor(IDescriptor descriptor) {
+            _descriptors.Add(descriptor);
+            descriptor.Describes = this;
         }
         /// <summary>
         /// Adds an IPossessible construct, such as a person place or thing, to the collection of the PresentParticipleGerund "Owns",
@@ -47,7 +47,7 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="possession">The possession to add.</param>
         public void AddPossession(IEntity possession) {
-            possessed.Add(possession);
+            _possessed.Add(possession);
             possession.Possesser = this;
         }
 
@@ -57,15 +57,15 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets all of the IDescriptor constructs,generally Adjectives or AdjectivePhrases, which describe the PresentParticipleGerund.
         /// </summary>
-        public IEnumerable<IDescriptor> Descriptors { get { return describedBy; } }
+        public IEnumerable<IDescriptor> Descriptors { get { return _descriptors; } }
         /// <summary>
         /// Gets all of the constructs which the PresentParticipleGerund "owns".
         /// </summary>
-        public IEnumerable<IEntity> Possessed { get { return possessed; } }
+        public IEnumerable<IEntity> Possessed { get { return _possessed; } }
         /// <summary>
         /// Gets the collection of pronouns which are known to refer to the Gerund.
         /// </summary>
-        public IEnumerable<IPronoun> BoundPronouns { get { return boundPronouns; } }
+        public IEnumerable<IPronoun> BoundPronouns { get { return _boundPronouns; } }
         /// <summary>
         /// The Verb construct which the Gerund is the subject of.
         /// </summary>
@@ -92,9 +92,9 @@ namespace LASI.Algorithm
 
         #region Fields
 
-        private ICollection<IDescriptor> describedBy = new List<IDescriptor>();
-        private ICollection<IEntity> possessed = new List<IEntity>();
-        private ICollection<IPronoun> boundPronouns = new List<IPronoun>();
+        private ICollection<IDescriptor> _descriptors = new List<IDescriptor>();
+        private ICollection<IEntity> _possessed = new List<IEntity>();
+        private ICollection<IPronoun> _boundPronouns = new List<IPronoun>();
 
         #endregion
 

@@ -1,7 +1,8 @@
-﻿using LASI.Algorithm;
-using LASI.Utilities;
+﻿using LASI;
+using LASI.Algorithm;
 using LASI.Algorithm.DocumentConstructs;
 using LASI.ContentSystem.TaggerEncapsulation;
+using LASI.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -184,10 +185,10 @@ namespace LASI.ContentSystem
                 var phraseConstructor = PhraseTagset[phraseTag];
                 return phraseConstructor(words);
             } catch (UnknownPhraseTagException e) {
-                LASI.Utilities.Output.WriteLine("\n{0}\nPhrase Words: {1}\nInstantiating new LASI.Algorithm.UnknownPhrase to compensate", e.Message, words.Format());
+                Output.WriteLine("\n{0}\nPhrase Words: {1}\nInstantiating new LASI.Algorithm.UnknownPhrase to compensate", e.Message, words.Format());
                 return new UnknownPhrase(words);
             } catch (EmptyPhraseTagException e) {
-                LASI.Utilities.Output.WriteLine("\n{0}\nPhrase Words: {1}\nInstantiating new LASI.Algorithm.UnknownPhrase to compensate", e.Message, words.Format());
+                Output.WriteLine("\n{0}\nPhrase Words: {1}\nInstantiating new LASI.Algorithm.UnknownPhrase to compensate", e.Message, words.Format());
                 return new UnknownPhrase(words);
             }
         }
@@ -195,7 +196,7 @@ namespace LASI.ContentSystem
         /// Reads an [outerNP Square Brack Delimited Phrase Chunk] and returns the start-tag determined subtype of LASI.Phrase which in turn contains all the run time representations of the individual words within it.
         /// </summary>
         /// <param name="taggedPhraseElement">The TextTagPair instance which contains the content of the Phrase and its Tag.</param>
-        /// <returns>A Task which, when awaited, yields a LASI.Algorithm.Phrase instance corresponding to the given phrase tag and containing the words within it. </returns>
+        /// <returns>A Task&ltstring&gt; which, when awaited, yields a LASI.Algorithm.Phrase instance corresponding to the given phrase tag and containing the words within it. </returns>
         protected virtual async Task<Phrase> ParsePhraseAsync(TextTagPair taggedPhraseElement) {
             var phraseTag = taggedPhraseElement.Tag.Trim();
             var words = await CreateWordsAsync(taggedPhraseElement.Text);
@@ -203,10 +204,10 @@ namespace LASI.ContentSystem
                 var phraseConstructor = PhraseTagset[phraseTag];
                 return phraseConstructor(words);
             } catch (UnknownPhraseTagException e) {
-                LASI.Utilities.Output.WriteLine("\n{0}\nPhrase Words: {1}\nInstantiating new LASI.Algorithm.UnknownPhrase to compensate", e.Message, words.Format());
+                Output.WriteLine("\n{0}\nPhrase Words: {1}\nInstantiating new LASI.Algorithm.UnknownPhrase to compensate", e.Message, words.Format());
                 return new UnknownPhrase(words);
             } catch (EmptyPhraseTagException e) {
-                LASI.Utilities.Output.WriteLine("\n{0}\nPhrase Words: {1}\nInstantiating new LASI.Algorithm.UnknownPhrase to compensate", e.Message, words.Format());
+                Output.WriteLine("\n{0}\nPhrase Words: {1}\nInstantiating new LASI.Algorithm.UnknownPhrase to compensate", e.Message, words.Format());
                 return new UnknownPhrase(words);
             }
         }
@@ -215,13 +216,13 @@ namespace LASI.ContentSystem
             var wordExprs = CreateWordExpressions(taggedPhraseElement.Text);
             try {
                 var phraseConstructor = PhraseTagset[phraseTag];
-                return () => phraseConstructor(wordExprs.Select(we => we()));
+                return () => phraseConstructor(wordExprs.Select(we => we.Value));
             } catch (UnknownPhraseTagException e) {
-                LASI.Utilities.Output.WriteLine("\n{0}\nPhrase Words: {1}\nInstantiating new LASI.Algorithm.UnknownPhrase to compensate", e.Message, wordExprs.Format(expr => expr().ToString()));
-                return () => new UnknownPhrase(wordExprs.Select(we => we()));
+                Output.WriteLine("\n{0}\nPhrase Words: {1}\nInstantiating new LASI.Algorithm.UnknownPhrase to compensate", e.Message, wordExprs.Format(expr => expr.Value.ToString()));
+                return () => new UnknownPhrase(wordExprs.Select(we => we.Value));
             } catch (EmptyPhraseTagException e) {
-                LASI.Utilities.Output.WriteLine("\n{0}\nPhrase Words: {1}\nInstantiating new LASI.Algorithm.UnknownPhrase to compensate", e.Message, wordExprs.Format(expr => expr().ToString()));
-                return () => new UnknownPhrase(wordExprs.Select(we => we()));
+                Output.WriteLine("\n{0}\nPhrase Words: {1}\nInstantiating new LASI.Algorithm.UnknownPhrase to compensate", e.Message, wordExprs.Format(expr => expr.Value.ToString()));
+                return () => new UnknownPhrase(wordExprs.Select(we => we.Value));
             }
         }
         protected virtual async Task<List<Word>> CreateWordsAsync(string wordData) {
@@ -247,7 +248,7 @@ namespace LASI.ContentSystem
                     try {
                         parsedWords.Add(wordMapper.CreateWord(e.Value));
                     } catch (UnknownWordTagException x) {
-                        LASI.Utilities.Output.WriteLine("\n{0}\nText: {1}\nInstantiating new LASI.Algorithm.UnknownWord to compensate", x.Message, e.GetValueOrDefault().Text);
+                        Output.WriteLine("\n{0}\nText: {1}\nInstantiating new LASI.Algorithm.UnknownWord to compensate", x.Message, e.GetValueOrDefault().Text);
                         parsedWords.Add(new UnknownWord(e.Value.Text));
                     }
                 }
@@ -267,20 +268,20 @@ namespace LASI.ContentSystem
         /// </summary>
         /// <param name="wordData">A string containing tagged words.</param>
         /// <returns>The List of constructor function instances which, when invoked, create run time objects which represent each word in the source</returns>
-        protected virtual List<Func<Word>> CreateWordExpressions(string wordData) {
-            var wordExpressions = new List<Func<Word>>();
+        protected virtual List<Lazy<Word>> CreateWordExpressions(string wordData) {
+            var wordExpressions = new List<Lazy<Word>>();
             var elements = GetTaggedWordLevelTokens(wordData);
             var posExtractor = new WordExtractor();
 
             var tagParser = new WordMapper();
             foreach (var tagged in elements) {
                 var e = posExtractor.ExtractNextPos(tagged);
-                if (e != null) {
+                if (e.HasValue) {
                     try {
-                        wordExpressions.Add(tagParser.GetWordExpression(e.Value));
+                        wordExpressions.Add(tagParser.GetLazyWord(e.Value));
                     } catch (UnknownWordTagException x) {
-                        LASI.Utilities.Output.WriteLine("\n{0}\nText: {1}\nInstantiating new LASI.Algorithm.UnknownWord to compensate", x.Message, e.GetValueOrDefault().Text);
-                        wordExpressions.Add(() => new UnknownWord(e.Value.Text));
+                        Output.WriteLine("\n{0}\nText: {1}\nInstantiating new LASI.Algorithm.UnknownWord to compensate", x.Message, e.GetValueOrDefault().Text);
+                        wordExpressions.Add(new Lazy<Word>(() => new UnknownWord(e.Value.Text)));
                     }
                 }
             }

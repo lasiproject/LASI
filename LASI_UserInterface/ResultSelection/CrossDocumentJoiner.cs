@@ -1,12 +1,12 @@
-﻿using System;
+﻿using LASI;
+using LASI.Algorithm;
+using LASI.Algorithm.DocumentConstructs;
+using LASI.Algorithm.Lookup;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using LASI.Algorithm;
-using LASI.Algorithm.DocumentConstructs;
-
-using LASI.Algorithm.LexicalLookup;
 
 namespace LASI.UserInterface
 {
@@ -19,7 +19,7 @@ namespace LASI.UserInterface
         /// Asynchrnously builds computes the intersection of the given Documents contained and returns the results as a sequence of RelationshipTuple instances.
         /// </summary>
         /// <param name="documents">The Documents to Join.</param>
-        /// <returns>A Task of IEnumerable of RelationshipTuple corresponding to the intersection of the Documents to be joined .</returns>
+        /// <returns>A Task&lt;IEnumerable&lt;RelationshipTuple&gt;&gt; corresponding to the intersection of the Documents to be joined .</returns>
         internal async Task<IEnumerable<RelationshipTuple>> JoinDocumentsAsnyc(IEnumerable<Document> documents) {
 
             return await await Task.Factory.ContinueWhenAll(

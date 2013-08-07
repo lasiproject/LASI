@@ -16,9 +16,21 @@ namespace LASI.Algorithm
         /// </summary>
         UNDEFINED = 0,
         /// <summary>
-        /// Person
+        /// Person of Unknown Gender
         /// </summary>
-        Person,
+        PersonUnknown,
+        /// <summary>
+        /// Person of Female Gender
+        /// </summary>
+        PersonFemale,
+        /// <summary>
+        /// Person of Male Gender
+        /// </summary>
+        PersonMale,
+        /// <summary>
+        /// A group of Persons
+        /// </summary>
+        PersonMultiple,
         /// <summary>
         /// Location
         /// </summary>
@@ -32,17 +44,17 @@ namespace LASI.Algorithm
         /// </summary>
         ProperUnknown,
         /// <summary>
-        /// Thing
-        /// </summary>
-        Thing,
-        /// <summary>
         /// ThingUnknown
         /// </summary>
         ThingUnknown,
         /// <summary>
-        /// Activitiy
+        /// Thing Multiple
+        /// </summary>
+        ThingUnknownMultiple,
+        /// <summary>
+        /// Activitiy: Generally corresonds to a gerund or a gerund-dominated phrase.
+        /// E.g. in the sentence "He really enjoys attacking.", "attacking" refers to a behavior, the act of attacking, and is thus an activity.
         /// </summary>
         Activitiy,
-
     }
 }

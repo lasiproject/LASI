@@ -28,29 +28,35 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="possession">The possession to add.</param>
         public void AddPossession(IEntity possession) {
-
+            PossessesFor = PossessesFor ?? PreviousWord as IEntity;
             if (PossessesFor != null) {
                 PossessesFor.AddPossession(possession);
-            } else if (!_possessed.Contains(possession)) {
-                _possessed.Add(possession);
             }
+            _possessed.Add(possession);
         }
-
+        /// <summary>
+        /// Returns a string represntation of the PossessiveEnding.
+        /// </summary>
+        /// <returns>A string represntation of the PossessiveEnding.</returns>
+        public override string ToString() {
+            return base.ToString() + (VerboseOutput ? string.Format("\nSignifying {0} as owner of {1}", PossessesFor, Possessed.Format(e => e.Text)) : string.Empty);
+        }
 
         #region Properties
 
         /// <summary>
         /// Gets or sets the possessing the Entity the Posssessive ending is attached to.
+        /// When this property is set, ownership of all possessions associated with the PossessiveEnding is tranferred to the target IEntity.
         /// </summary>
         public IEntity PossessesFor {
             get {
-                return _possessedFor;
+                return _possessesFor;
             }
             set {
-                _possessedFor = value;
-                foreach (var possession in _possessed)
-                    _possessedFor.AddPossession(possession);
-                _possessed.Clear();
+                _possessesFor = value;
+                if (value != null)
+                    foreach (var possession in _possessed)
+                        _possessesFor.AddPossession(possession);
             }
         }
 
@@ -71,8 +77,8 @@ namespace LASI.Algorithm
 
         #region Fields
 
-        private ICollection<IEntity> _possessed = new List<IEntity>();
-        private IEntity _possessedFor;
+        private HashSet<IEntity> _possessed = new HashSet<IEntity>();
+        private IEntity _possessesFor;
 
         #endregion
 

@@ -1,12 +1,13 @@
-﻿using LASI.Algorithm;
+﻿using LASI;
+using LASI.Algorithm;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 
 namespace AlgorithmAssemblyUnitTestProject
 {
-    
-    
+
+
     /// <summary>
     ///This is A test class for AdjectivePhraseTest and is intended
     ///to contain all AdjectivePhraseTest Unit Tests
@@ -22,14 +23,11 @@ namespace AlgorithmAssemblyUnitTestProject
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
         ///</summary>
-        public TestContext TestContext
-        {
-            get
-            {
+        public TestContext TestContext {
+            get {
                 return testContextInstance;
             }
-            set
-            {
+            set {
                 testContextInstance = value;
             }
         }
@@ -69,9 +67,8 @@ namespace AlgorithmAssemblyUnitTestProject
         ///A test for AdjectivePhrase Constructor
         ///</summary>
         [TestMethod()]
-        public void AdjectivePhraseConstructorTest()
-        {
-            IEnumerable<Word> composedWords = new Word[] {new Adjective("soft"), new Adjective("smooth"), new Adjective("silky")}; // TODO: Initialize to an appropriate value
+        public void AdjectivePhraseConstructorTest() {
+            IEnumerable<Word> composedWords = new Word[] { new Adjective("soft"), new Adjective("smooth"), new Adjective("silky") }; // TODO: Initialize to an appropriate value
             AdjectivePhrase target = new AdjectivePhrase(composedWords);
             Assert.AreEqual(target.Words, composedWords);
         }

@@ -40,8 +40,7 @@ namespace LASI.UserInterface.Dialogs
         private void OpenFileInDefaultApp(string filePath, string helpURI) {
             try {
                 System.Diagnostics.Process.Start(System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, filePath));
-            }
-            catch (System.ComponentModel.Win32Exception) {
+            } catch (System.ComponentModel.Win32Exception) {
                 MessageBox.Show(this, string.Format("An error occured when trying to open or locate the file {0}. Please visit {1} for assistance.", filePath, helpURI));
             }
         }

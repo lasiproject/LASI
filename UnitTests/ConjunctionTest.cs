@@ -1,12 +1,13 @@
-﻿using LASI.Algorithm;
+﻿using LASI;
+using LASI.Algorithm;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 
 
 namespace AlgorithmAssemblyUnitTestProject
 {
-    
-    
+
+
     /// <summary>
     ///This is A test class for ConjunctionTest and is intended
     ///to contain all ConjunctionTest Unit Tests
@@ -22,14 +23,11 @@ namespace AlgorithmAssemblyUnitTestProject
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
         ///</summary>
-        public TestContext TestContext
-        {
-            get
-            {
+        public TestContext TestContext {
+            get {
                 return testContextInstance;
             }
-            set
-            {
+            set {
                 testContextInstance = value;
             }
         }
@@ -69,19 +67,17 @@ namespace AlgorithmAssemblyUnitTestProject
         ///A test for Conjunction Constructor
         ///</summary>
         [TestMethod()]
-        public void ConjunctionConstructorTest()
-        {
-            string text = "and" ;
+        public void ConjunctionConstructorTest() {
+            string text = "and";
             Conjunction target = new Conjunction(text);
-            Assert.AreEqual(target.Text, text );
+            Assert.AreEqual(target.Text, text);
         }
 
         /// <summary>
         ///A test for OnLeft
         ///</summary>
         [TestMethod()]
-        public void OnLeftTest()
-        {
+        public void OnLeftTest() {
             string text = "and";
             Conjunction target = new Conjunction(text);
             ILexical expected = new NounPhrase(new Word[] { new Determiner("the"), new GenericSingularNoun("program") });
@@ -96,8 +92,7 @@ namespace AlgorithmAssemblyUnitTestProject
         ///A test for OnRight
         ///</summary>
         [TestMethod()]
-        public void OnRightTest()
-        {
+        public void OnRightTest() {
             string text = "and";
             Conjunction target = new Conjunction(text);
             ILexical expected = new NounPhrase(new Word[] { new Determiner("the"), new GenericSingularNoun("program") });

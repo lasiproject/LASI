@@ -1,4 +1,6 @@
-﻿using System;
+﻿using LASI.Algorithm.Lookup.InterSetRelationshipManagement;
+using LASI.Utilities;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Configuration;
@@ -7,10 +9,8 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using LASI.Utilities;
-using LASI.Algorithm.LexicalLookup.InterSetRelationshipManagement;
 
-namespace LASI.Algorithm.LexicalLookup.Lookups
+namespace LASI.Algorithm.Lookup
 {
     using SetReference = System.Collections.Generic.KeyValuePair<VerbSetRelationship, int>;
 

@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
-using System.Reflection.Emit;
 
-namespace LASI.Utilities
+namespace LASI
 {
 
     /// <summary>
@@ -17,35 +17,45 @@ namespace LASI.Utilities
         /// <summary>
         /// Waits for the user to enter a key before continuing. Provides analogous functionality to the infamous system("pause") command in C++, but is safe and platform independent.
         /// </summary>
-        public static void Wait() {
-
-
-            Console.WriteLine("Press any key to continue...");
-            Console.ReadLine();
+        public static void WaitForAnyKey(string message = "Press any key to continue...") {
+            Console.WriteLine(message);
+            Console.ReadKey(true);
         }
         /// <summary>
         /// Waits for the user to enter a specific key before continuing.
         /// </summary>
-        /// <param name="key">The key the user must enter to continue</param>
+        /// <param name="key">The key the user must enter to continue.</param>
         public static void WaitForKey(ConsoleKey key = ConsoleKey.Escape) {
-            Console.WriteLine("Press {0} to continue", key.ToString());
+            var message = string.Format("Press {0} to continue", key.ToString());
+            Console.WriteLine(message);
             for (var k = Console.ReadKey(true); k.Key != key; k = Console.ReadKey(true)) {
-                Console.WriteLine("Press {0} to continue", key.ToString());
+                Console.WriteLine(message);
+            }
+        }
+        /// <summary>
+        /// Waits for the user to enter a specific key before continuing.
+        /// </summary>
+        /// <param name="message">The message to display.</param>
+        /// <param name="key">The key the user must enter to continue.</param>
+        public static void WaitForKey(string message, ConsoleKey key = ConsoleKey.Escape) {
+            Console.WriteLine(message, key.ToString());
+            for (var k = Console.ReadKey(true); k.Key != key; k = Console.ReadKey(true)) {
+                Console.WriteLine(message, key.ToString());
             }
         }
         /// <summary>
         /// Waits for the user to enter a specific string before continuing.
         /// </summary>
-        /// <param name="waitFor">The specfic string to wait for before continuing.</param>
-        /// <param name="ignoreCase">Indicates whether the entered to the string must the case of the waitFor string</param>
-        public static void WaitForInput(string waitFor, bool ignoreCase = false) {
-            Console.WriteLine("Enter {0} to continue", waitFor);
+        /// <param name="stringToWaitFor">The specfic string to wait for before continuing.</param>
+        /// <param name="ignoreCase">Indicates whether the string entered must the case of the stringToWaitFor.</param>
+        public static void WaitForString(string stringToWaitFor, bool ignoreCase = true) {
+            Console.WriteLine("Enter {0} to continue", stringToWaitFor);
             var input = Console.ReadLine();
-            bool valid = string.Compare(input, waitFor, ignoreCase) == 0;
+            bool valid = string.Compare(input, stringToWaitFor, ignoreCase) == 0;
             if (valid)
                 return;
             else
-                WaitForInput(waitFor, ignoreCase);
+                WaitForString(stringToWaitFor, ignoreCase);
         }
         /// <summary>
         /// Simply waits for any key press before continuing

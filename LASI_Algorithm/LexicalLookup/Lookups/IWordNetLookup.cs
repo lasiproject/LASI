@@ -1,9 +1,10 @@
-﻿using LASI.Algorithm;
+﻿using LASI;
+using LASI.Algorithm;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace LASI.Algorithm.LexicalLookup.Lookups
+namespace LASI.Algorithm.Lookup
 {
     internal interface IWordNetLookup<TWord> where TWord : Word
     {

@@ -1,11 +1,12 @@
-﻿using LASI.Algorithm;
+﻿using LASI;
+using LASI.Algorithm;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 
 namespace AlgorithmAssemblyUnitTestProject
 {
-    
-    
+
+
     /// <summary>
     ///This is A test class for ForeignWordTest and is intended
     ///to contain all ForeignWordTest Unit Tests
@@ -21,14 +22,11 @@ namespace AlgorithmAssemblyUnitTestProject
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
         ///</summary>
-        public TestContext TestContext
-        {
-            get
-            {
+        public TestContext TestContext {
+            get {
                 return testContextInstance;
             }
-            set
-            {
+            set {
                 testContextInstance = value;
             }
         }
@@ -68,9 +66,8 @@ namespace AlgorithmAssemblyUnitTestProject
         ///A test for ForeignWord Constructor
         ///</summary>
         [TestMethod()]
-        public void ForeignWordConstructorTest()
-        {
-            string text = "Bonjour"; 
+        public void ForeignWordConstructorTest() {
+            string text = "Bonjour";
             ForeignWord target = new ForeignWord(text);
             Assert.IsTrue(target.Text == text);
             Assert.IsTrue(target.UsedAsType == null);
@@ -80,10 +77,9 @@ namespace AlgorithmAssemblyUnitTestProject
         ///A test for UsedAsType
         ///</summary>
         [TestMethod()]
-        public void UsedAsTypeTest()
-        {
-            string text = "Bonjour"; 
-            ForeignWord target = new ForeignWord(text); 
+        public void UsedAsTypeTest() {
+            string text = "Bonjour";
+            ForeignWord target = new ForeignWord(text);
             Type expected = typeof(Interjection);
             Type actual;
             target.UsedAsType = expected;

@@ -1,5 +1,11 @@
-﻿using System;
+﻿using LASI;
+using LASI.Algorithm;
+using LASI.ContentSystem;
+using LASI.Utilities;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,11 +18,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using System.Collections.ObjectModel;
-using LASI.Algorithm;
-using LASI.ContentSystem;
-using LASI.Utilities;
-using System.IO;
 
 
 namespace Brittany_WPF_Experimentation
@@ -34,8 +35,7 @@ namespace Brittany_WPF_Experimentation
             if (ExpandoGrid.Height == 250) {
                 ExpandoGrid.Height = 200;
                 Height = 450;
-            }
-            else {
+            } else {
                 Height = 250;
                 ExpandoGrid.Height = 250;
 

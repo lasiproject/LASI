@@ -1,8 +1,11 @@
-﻿using LASI.Algorithm;
+﻿using LASI;
+using LASI.Algorithm;
 using LASI.Algorithm.Binding;
+using LASI.Algorithm.Binding.Experimental;
 using LASI.Algorithm.DocumentConstructs;
+using LASI.Algorithm.Lookup;
 using LASI.Algorithm.RelationshipLookups;
-using LASI.Algorithm.LexicalLookup;
+using LASI.ContentSystem;
 using LASI.Utilities;
 using LASI.Utilities.TypedSwitch;
 using System;
@@ -10,29 +13,28 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Threading.Tasks;
-using LASI.ContentSystem;
-using LASI.Algorithm.Analysis.Binders.Experimental;
 
 namespace Aluan_Experimentation
 {
     public class Program
     {
         static void Main(string[] args) {
-            //Load up the document
-            LoadLookup();
-            //Output.SetToFile(@"C:\Users\Aluan\Desktop\log1.txt");
 
-            var doc = Tagger.DocumentFromRaw(new RawTextFragment(@"As noted by Peggy Sue Anderson, Tyrone Henry Bliss Green is a man of exceptional taste, as he himself would say.", "test"));
-            TestGenderRecognition(doc);
+            LoadLookup().Wait();
 
-            foreach (var sentence in doc.Sentences) {
-                new ClauseSeperatingMultiBranchingBinder().Bind(sentence.Words);
+
+            var docs = from filePath in args
+                       select Tagger.DocumentFromRaw(new TextFile(filePath));
+            foreach (var doc in docs) {
+                TestGenderRecognition(doc);
+                foreach (var sentence in doc.Sentences) {
+                    new ClauseSeperatingMultiBranchingBinder().Bind(sentence.Words);
+                }
+                Task.WaitAll(Binder.GetBindingTasksForDocument(doc).Select(pt => pt.Task).ToArray());
+                GetNounsByAdjectivalClassifiers(doc);
+                Input.WaitForAnyKey("Press any key to continue to the next document.");
+                Output.WriteLine("\n\n\n");
             }
-
-            Task.WaitAll(Binder.GetBindingTasksForDocument(doc).Select(pt => pt.Task).ToArray());
-
-
-            GetNounsByAdjectivalClassifiers(doc);
             Input.WaitForKey();
         }
 
@@ -47,8 +49,14 @@ namespace Aluan_Experimentation
             }
         }
 
-        private static void LoadLookup() {
-            Task.WaitAll(LexicalLookup.GetUnstartedLoadingTasks().ToArray());
+        private async static Task LoadLookup() {
+
+            var tasks = LexicalLookup.GetUnstartedLoadingTasks().ToList();
+            while (tasks.Any()) {
+                var currentTask = await Task.WhenAny(tasks);
+                Output.WriteLine(await currentTask);
+                tasks.Remove(currentTask);
+            }
         }
 
         private static IEnumerable<string> GetNounsByAdjectivalClassifiers(Document doc) {

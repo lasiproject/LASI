@@ -18,7 +18,7 @@ namespace LASI.UserInterface
             Exit += (sender, e) => {
                 if (Settings.Default.AutoCleanProjectFiles) {
                     try {
-                        ContentSystem.FileManager.DecimateProject();
+                        LASI.ContentSystem.FileManager.DecimateProject();
                     } catch (ContentSystem.FileManagerNotInitializedException) {
                     }
                 }

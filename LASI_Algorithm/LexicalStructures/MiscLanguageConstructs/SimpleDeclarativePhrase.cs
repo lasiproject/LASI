@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 
-namespace LASI.Algorithm.AdditionalPhraseTypes
+namespace LASI.Algorithm
 {
     /// <summary>
     /// A phrase which indicates the possible start of a Simple Declarative Clause.

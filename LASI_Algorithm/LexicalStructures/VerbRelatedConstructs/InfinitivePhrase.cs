@@ -28,7 +28,7 @@ namespace LASI.Algorithm
         /// </summary>
         public EntityKind EntityKind {
             get {
-                return Algorithm.EntityKind.Activitiy;
+                return EntityKind.Activitiy;
             }
         }
         /// <summary>
@@ -71,10 +71,10 @@ namespace LASI.Algorithm
         /// <summary>
         /// Binds an IDescriptor, generally an Adjective or AdjectivePhrase, as a descriptor of the InfinitivePhrase.
         /// </summary>
-        /// <param name="adjective">The IDescriptor instance which will be added to the InfinitivePhrase' descriptors.</param>
-        public void BindDescriptor(IDescriptor adjective) {
-            _descriptors.Add(adjective);
-            adjective.Describes = this;
+        /// <param name="descriptor">The IDescriptor instance which will be added to the InfinitivePhrase' descriptors.</param>
+        public void BindDescriptor(IDescriptor descriptor) {
+            _descriptors.Add(descriptor);
+            descriptor.Describes = this;
         }
         /// <summary>
         /// Gets all of the IDescriptor constructs, generally Adjectives or AdjectivePhrases, which describe the InfinitivePhrase Instance.

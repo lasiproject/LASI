@@ -32,40 +32,44 @@ namespace LASI.Algorithm
             if (PossessesFor != null) {
                 PossessesFor.AddPossession(possession);
             }
-            else if (!possessed.Contains(possession)) {
-                possessed.Add(possession);
-            }
+            _possessed.Add(possession);
         }
-
-
+        /// <summary>
+        /// Returns a string represntation of the PossessivePronoun.
+        /// </summary>
+        /// <returns>A string represntation of the PossessivePronoun.</returns>
+        public override string ToString() {
+            return base.ToString() + (VerboseOutput ? string.Format("\nSignifying {0} as owner of {1}", PossessesFor, Possessed.Format(e => e.Text)) : string.Empty);
+        }
 
         /// <summary>
         /// Gets all of the IEntity constructs which the Entity "owns".
         /// </summary>
         public virtual IEnumerable<IEntity> Possessed {
             get {
-                return possessed;
+                return _possessed;
             }
         }
         /// <summary>
         /// Gets or sets the IEntity which actually, by proxy, owns the things owned by the PossessivePronoun.
+        /// When this property is set, ownership of all possessions associated with the PossessivePronoun is tranferred to the target IEntity.
         /// </summary>
         public virtual IEntity PossessesFor {
             get {
-                return possessesFor;
+                return _possessesFor;
             }
             set {
-                possessesFor = value;
-                foreach (var possession in possessed)
-                    possessesFor.AddPossession(possession);
-                possessed.Clear();
+                _possessesFor = value;
+                if (value != null)
+                    foreach (var possession in _possessed)
+                        _possessesFor.AddPossession(possession);
             }
         }
 
         #region Fields
 
-        private ICollection<IEntity> possessed = new List<IEntity>();
-        private IEntity possessesFor;
+        private HashSet<IEntity> _possessed = new HashSet<IEntity>();
+        private IEntity _possessesFor;
         #endregion
     }
 }

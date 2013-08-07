@@ -1,9 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
-using System.Text;
 using System.Linq;
-using System.Collections.Generic;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace TaggerInterop

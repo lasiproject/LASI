@@ -1,17 +1,17 @@
-﻿using System;
+﻿using LASI.Utilities;
+using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
-using System.IO;
-using LASI.Utilities;
 using System.Text.RegularExpressions;
-using System.Collections.Concurrent;
 
 
-namespace LASI.Algorithm.LexicalLookup.Lookups
+namespace LASI.Algorithm.Lookup 
 {
+    using LASI.Algorithm.Lookup.InterSetRelationshipManagement;
     using SetReference = System.Collections.Generic.KeyValuePair<NounSetRelationship, int>;
-    using LASI.Algorithm.LexicalLookup.InterSetRelationshipManagement;
     internal sealed class NounLookup : IWordNetLookup<Noun>
     {
         private const int HEADER_LENGTH = 29;
@@ -85,14 +85,12 @@ namespace LASI.Algorithm.LexicalLookup.Lookups
                     List<string> results = new List<string>();
                     SearchSubsets(containingSet, results, new HashSet<NounSynSet>());
                     return new HashSet<string>(results);
-                }
-                catch (InvalidOperationException e) {
+                } catch (InvalidOperationException e) {
                     Output.WriteLine(string.Format("{0} was thrown when attempting to get synonyms for word {1}: , containing set: {2}", e, word, containingSet));
 
                     return new HashSet<string>();
                 }
-            }
-            else {
+            } else {
                 return new HashSet<string>();
             }
         }
@@ -112,9 +110,7 @@ namespace LASI.Algorithm.LexicalLookup.Lookups
             get {
                 try {
                     return new HashSet<string>(SearchFor(NounConjugator.FindRoot(search)).SelectMany(syn => NounConjugator.GetLexicalForms(syn)));
-                }
-                catch (AggregateException) { }
-                catch (InvalidOperationException) { }
+                } catch (AggregateException) { } catch (InvalidOperationException) { }
                 return this[search];
             }
         }

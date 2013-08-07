@@ -17,9 +17,9 @@ namespace LASI.Algorithm
         /// <returns>A string containing all of the text in the IRawTextSource.</returns>
         string GetText();
         /// <summary>
-        /// Returns a Task which when awaited yields all of the text in the IRawTextSource.
+        /// Returns a Task&lt;string&gt; which when awaited yields all of the text in the IRawTextSource.
         /// </summary>
-        /// <returns>A Task which when awaited yields all of the text in the IRawTextSource.</returns>
+        /// <returns>A Task&lt;string&gt; which when awaited yields all of the text in the IRawTextSource.</returns>
         Task<string> GetTextAsync();
         /// <summary>
         /// Gets the name associated with the IRawTextSource.

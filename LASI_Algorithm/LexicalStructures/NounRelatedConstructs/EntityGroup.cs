@@ -38,10 +38,10 @@ namespace LASI.Algorithm
         /// <summary>
         /// Binds an IDescriptor, generally an Adjective or AdjectivePhrase, as a descriptor of the EntityGroup.
         /// </summary>
-        /// <param name="adjective">The IDescriptor instance which will be added to the EntityGroup's descriptors.</param>
-        public void BindDescriptor(IDescriptor adjective) {
-            _describers.Add(adjective);
-            adjective.Describes = this;
+        /// <param name="descriptor">The IDescriptor instance which will be added to the EntityGroup's descriptors.</param>
+        public void BindDescriptor(IDescriptor descriptor) {
+            _descriptors.Add(descriptor);
+            descriptor.Describes = this;
         }
         /// <summary>
         /// Binds an IPronoun, generally a Pronoun or PronounPhrase, as a reference to the EntityGroup.
@@ -63,7 +63,7 @@ namespace LASI.Algorithm
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() {
             foreach (var entity in Members.EnumerateRecursively()) {
                 yield return entity;
-            } 
+            }
         }
         /// <summary>
         /// Returns a string representation of the EntityGroup.
@@ -118,7 +118,7 @@ namespace LASI.Algorithm
         /// </summary>
         public IEnumerable<IDescriptor> Descriptors {
             get {
-                return _describers;
+                return _descriptors;
             }
         }
         /// <summary>
@@ -193,7 +193,7 @@ namespace LASI.Algorithm
         #region Fields
 
         HashSet<IEntity> _possessions = new HashSet<IEntity>();
-        HashSet<IDescriptor> _describers = new HashSet<IDescriptor>();
+        HashSet<IDescriptor> _descriptors = new HashSet<IDescriptor>();
         HashSet<IPronoun> _boundPronouns = new HashSet<IPronoun>();
 
         #endregion

@@ -1,13 +1,12 @@
-﻿using System;
+﻿using LASI.Algorithm.DocumentConstructs;
+using LASI.Algorithm.Lookup;
+using LASI.Utilities;
+using LASI.Utilities.TypedSwitch;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using LASI.Algorithm.DocumentConstructs;
-using LASI.Algorithm.LexicalLookup;
-using LASI.Utilities;
-using LASI.Utilities.TypedSwitch;
-using LASI.Algorithm.Analysis;
 
 namespace LASI.Algorithm.Weighting
 {

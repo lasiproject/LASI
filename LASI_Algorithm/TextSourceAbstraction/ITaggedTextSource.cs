@@ -17,9 +17,9 @@ namespace LASI.Algorithm
         /// <returns>A string containing all of the tagged text in the ITaggedTextSource.</returns>
         string GetText();
         /// <summary>
-        /// Returns a Task which when awaited yields all of the tagged text in the ITaggedTextSource.
+        /// Returns a Task&lt;string&gt; which when awaited yields all of the tagged text in the ITaggedTextSource.
         /// </summary>
-        /// <returns>A Task which when awaited yields all of the tagged text in the ITaggedTextSource.</returns>
+        /// <returns>A Task&lt;string&gt; which when awaited yields all of the tagged text in the ITaggedTextSource.</returns>
         Task<string> GetTextAsync();
         /// <summary>
         /// Gets the name associated with the ITaggedTextSource.

@@ -49,17 +49,17 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="pro">The EntityReferency to Bind.</param>
         public virtual void BindPronoun(IPronoun pro) {
-            boundPronouns.Add(pro);
+            _boundPronouns.Add(pro);
             pro.BindAsReferringTo(this);
         }
 
         /// <summary>
         /// Binds an IDescriptor, generally an Adjective or AdjectivePhrase, as a descriptor of the Noun.
         /// </summary>
-        /// <param name="adjective">The IDescriptor instance which will be added to the Noun's descriptors.</param>
-        public virtual void BindDescriptor(IDescriptor adjective) {
-            describedBy.Add(adjective);
-            adjective.Describes = this;
+        /// <param name="descriptor">The IDescriptor instance which will be added to the Noun's descriptors.</param>
+        public virtual void BindDescriptor(IDescriptor descriptor) {
+            _descriptors.Add(descriptor);
+            descriptor.Describes = this;
         }
 
         /// <summary>
@@ -69,23 +69,13 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="possession">The possession to add.</param>
         public void AddPossession(IEntity possession) {
-            possessed.Add(possession);
+            _possessed.Add(possession);
             possession.Possesser = this;
         }
 
         #endregion Methods
 
         #region Properties
-
-        /// <summary>
-        /// Gets all of the IEntityReferences instances, generally Pronouns or PronounPhrases, which refer to the Noun Instance.
-        /// </summary>
-        public virtual IEnumerable<IPronoun> BoundPronouns { get { return boundPronouns; } }
-
-        /// <summary>
-        /// Gets all of the IDescriptor constructs,generally Adjectives or AdjectivePhrases, which describe the Noun Instance.
-        /// </summary>
-        public virtual IEnumerable<IDescriptor> Descriptors { get { return describedBy; } }
 
         /// <summary>
         ///Gets or sets the IVerbal instance the Noun is the subject of.
@@ -101,16 +91,30 @@ namespace LASI.Algorithm
         ///Gets or sets the IVerbal instance the Noun is the indirect object of.
         /// </summary>
         public virtual IVerbal IndirectObjectOf { get; set; }
+        /// <summary>
+        /// Gets all of the IEntityReferences instances, generally Pronouns or PronounPhrases, which refer to the Noun Instance.
+        /// </summary>
+        public virtual IEnumerable<IPronoun> BoundPronouns { get { return _boundPronouns; } }
+
+        /// <summary>
+        /// Gets all of the IDescriptor constructs,generally Adjectives or AdjectivePhrases, which describe the Noun Instance.
+        /// </summary>
+        public virtual IEnumerable<IDescriptor> Descriptors { get { return _descriptors; } }
 
         /// <summary>
         /// Gets all of the IEntity constructs which the Noun "owns".
         /// </summary>
-        public virtual IEnumerable<IEntity> Possessed { get { return possessed; } }
+        public virtual IEnumerable<IEntity> Possessed { get { return _possessed; } }
 
         /// <summary>
         /// Gets or sets the Entity which "owns" the instance of the Noun.
         /// </summary>
-        public IEntity Possesser { get; set; }
+        public IEntity Possesser {
+            get {
+                return _possessor is IWeakPossessor ? (_possessor as IWeakPossessor).PossessesFor ?? _possessor : _possessor;
+            }
+            set { _possessor = value; }
+        }
 
         /// <summary>
         /// Gets or sets the EntityKind; Person, Place, Thing, Organization, or Activity;  of the Noun.
@@ -141,9 +145,9 @@ namespace LASI.Algorithm
         /// e.g. "[18] Pinkos"
         /// </summary>
         public virtual IQuantifier QuantifiedBy {
-            get { return quantity; }
+            get { return _quantity; }
             set {
-                if (quantity != null) { quantity.QuantifiedBy = value; value.Quantifies = quantity; } else { quantity = value; value.Quantifies = this; }
+                if (_quantity != null) { _quantity.QuantifiedBy = value; value.Quantifies = _quantity; } else { _quantity = value; value.Quantifies = this; }
             }
         }
 
@@ -151,10 +155,11 @@ namespace LASI.Algorithm
 
         #region Fields
 
-        private HashSet<IDescriptor> describedBy = new HashSet<IDescriptor>();
-        private HashSet<IEntity> possessed = new HashSet<IEntity>();
-        private HashSet<IPronoun> boundPronouns = new HashSet<IPronoun>();
-        private IQuantifier quantity;
+        private HashSet<IDescriptor> _descriptors = new HashSet<IDescriptor>();
+        private HashSet<IEntity> _possessed = new HashSet<IEntity>();
+        private HashSet<IPronoun> _boundPronouns = new HashSet<IPronoun>();
+        private IQuantifier _quantity;
+        private IEntity _possessor;
 
         #endregion Fields
 

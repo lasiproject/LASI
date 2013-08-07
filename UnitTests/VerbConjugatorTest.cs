@@ -1,10 +1,10 @@
-﻿using LASI.Algorithm.LexicalLookup;
+﻿using LASI.Algorithm.Lookup;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using System.Linq;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Diagnostics;
+using System.Linq;
 
 namespace AlgorithmAssemblyUnitTestProject
 {

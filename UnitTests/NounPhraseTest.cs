@@ -1,4 +1,5 @@
-﻿using LASI.Algorithm;
+﻿using LASI;
+using LASI.Algorithm;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;

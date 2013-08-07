@@ -19,8 +19,7 @@ namespace LASI.Algorithm
         /// <param name="text">The key text content of the ProperNoun</param>
         protected ProperNoun(string text)
             : base(text) {
-            EntityKind = Algorithm.EntityKind.ProperUnknown;
+            EntityKind = EntityKind.ProperUnknown;
         }
-
     }
 }

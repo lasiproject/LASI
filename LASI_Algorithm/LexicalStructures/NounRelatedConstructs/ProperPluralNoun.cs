@@ -10,7 +10,7 @@ namespace LASI.Algorithm
     /// <summary>
     /// Represents a Proper Plural Noun.
     /// </summary>
-    public class ProperPluralNoun : ProperNoun, IQuantifiable
+    public class ProperPluralNoun : ProperNoun, IQuantifiable 
     {
         /// <summary>
         /// Initializes a new instance of the ProperPluralNoun class.
@@ -27,9 +27,6 @@ namespace LASI.Algorithm
         public override IQuantifier QuantifiedBy {
             get;
             set;
-        }
-
-
-
+        } 
     }
 }

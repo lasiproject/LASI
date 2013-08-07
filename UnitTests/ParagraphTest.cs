@@ -1,4 +1,5 @@
-﻿using LASI.Algorithm;
+﻿using LASI;
+using LASI.Algorithm;
 using LASI.Algorithm.DocumentConstructs;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
@@ -23,14 +24,11 @@ namespace AlgorithmAssemblyUnitTestProject
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
         ///</summary>
-        public TestContext TestContext
-        {
-            get
-            {
+        public TestContext TestContext {
+            get {
                 return testContextInstance;
             }
-            set
-            {
+            set {
                 testContextInstance = value;
             }
         }
@@ -70,8 +68,7 @@ namespace AlgorithmAssemblyUnitTestProject
         ///A test for ToString
         ///</summary>
         [TestMethod()]
-        public void ToStringTest()
-        {
+        public void ToStringTest() {
             Phrase[] phrases1 = new Phrase[] { 
                 new NounPhrase(new Word[] { new ProperSingularNoun("LASI") }), 
                 new VerbPhrase(new Word[] { new PastTenseVerb("found") }),
@@ -105,8 +102,7 @@ namespace AlgorithmAssemblyUnitTestProject
         ///A test for Text
         ///</summary>
         [TestMethod()]
-        public void TextTest()
-        {
+        public void TextTest() {
             Phrase[] phrases1 = new Phrase[] { 
                 new NounPhrase(new Word[] { new ProperSingularNoun("LASI") }),
                 new VerbPhrase(new Word[] { new PastTenseVerb("found")}),
@@ -140,33 +136,32 @@ namespace AlgorithmAssemblyUnitTestProject
         ///A test for EstablishParent
         ///</summary>
         [TestMethod()]
-           public void EstablishParentTest()
-           {
-               Phrase[] phrases1 = new Phrase[] { 
+        public void EstablishParentTest() {
+            Phrase[] phrases1 = new Phrase[] { 
                    new NounPhrase(new Word[] { new ProperSingularNoun("LASI") }),
                    new VerbPhrase(new Word[] { new PastTenseVerb("found")}),
                    new NounPhrase(new Word[] { new ProperPluralNoun("TIMIS")})
                };
-               Sentence[] sentences = new Sentence[3];
-               sentences[0] = new Sentence(phrases1, new SentenceEnding('.'));
-               Phrase[] phrases2 = new Phrase[] { 
+            Sentence[] sentences = new Sentence[3];
+            sentences[0] = new Sentence(phrases1, new SentenceEnding('.'));
+            Phrase[] phrases2 = new Phrase[] { 
                    new NounPhrase(new Word[] { new ProperSingularNoun("LASI") }), 
                    new VerbPhrase(new Word[] { new PastTenseVerb("SNIFd") }), 
                    new NounPhrase(new Word[] { new ProperPluralNoun("them") })
                };
-               sentences[1] = new Sentence(phrases2, new SentenceEnding('.'));
-               Phrase[] phrases3 = new Phrase[] {
+            sentences[1] = new Sentence(phrases2, new SentenceEnding('.'));
+            Phrase[] phrases3 = new Phrase[] {
                    new NounPhrase(new Word[] { new ProperSingularNoun("Richard") }),
                    new VerbPhrase(new Word[] { new PastTenseVerb("did") }),
                    new NounPhrase(new Word[] { new ProperPluralNoun("awesome") }) 
                };
-               sentences[2] = new Sentence(phrases3, new SentenceEnding('.'));
+            sentences[2] = new Sentence(phrases3, new SentenceEnding('.'));
 
-               Paragraph[] target = {new Paragraph(sentences)};
-               Document parentDoc = new Document(target) ;
-               target[0].EstablishParent(parentDoc);
-               Assert.AreEqual(target[0].Document, parentDoc);
-           }
-       }
-
+            Paragraph[] target = { new Paragraph(sentences) };
+            Document parentDoc = new Document(target);
+            target[0].EstablishParent(parentDoc);
+            Assert.AreEqual(target[0].Document, parentDoc);
+        }
     }
+
+}

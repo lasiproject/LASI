@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LASI.Utilities
+namespace LASI.Utilities.FunctionExtensions
 {
     /// <summary>
     /// Defines extension methods for System.Func&lt;T, TResult&gt; instances.

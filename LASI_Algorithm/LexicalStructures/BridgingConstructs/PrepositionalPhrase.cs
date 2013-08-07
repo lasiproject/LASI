@@ -18,7 +18,7 @@ namespace LASI.Algorithm
         /// <param name="composedWords">The words which compose to form the PrepositionalPhrase.</param>
         public PrepositionalPhrase(IEnumerable<Word> composedWords)
             : base(composedWords) {
-            Role = Algorithm.PrepositionRole.Undetermined;
+            Role = PrepositionRole.Undetermined;
         }
         /// <summary>
         /// Gets or sets the ILexical construct on the right-hand-side of the Preposition.

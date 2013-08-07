@@ -1,8 +1,9 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using LASI;
+using LASI.Algorithm;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using LASI.Algorithm;
 
 
 namespace AlgorithmAssemblyUnitTestProject

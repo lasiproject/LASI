@@ -1,10 +1,10 @@
 ﻿
+using LASI.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using LASI.Utilities;
 namespace LASI.Algorithm
 {
     /// <summary>
@@ -51,16 +51,16 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="pro">An IPronoun which will be bound to refer to the Pronoun.</param>
         public virtual void BindPronoun(IPronoun pro) {
-            boundPronouns.Add(pro);
+            _boundPronouns.Add(pro);
             pro.BindAsReferringTo(this);
         }
         /// <summary>
         /// Binds an IDescriptor, generally an Adjective or AdjectivePhrase, as a descriptor of the Pronoun.
         /// </summary>
-        /// <param name="adjective">The IDescriptor instance which will be added to the Pronoun's descriptors.</param>
-        public virtual void BindDescriptor(IDescriptor adjective) {
-            describers.Add(adjective);
-            adjective.Describes = this;
+        /// <param name="descriptor">The IDescriptor instance which will be added to the Pronoun's descriptors.</param>
+        public virtual void BindDescriptor(IDescriptor descriptor) {
+            _descriptors.Add(descriptor);
+            descriptor.Describes = this;
         }
         /// <summary>
         /// Adds an IPossessible construct, such as a person place or thing, to the collection of Pronoun "Owns",
@@ -85,7 +85,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets all of the IDescriptor constructs,generally Adjectives or AdjectivePhrases, which describe the Pronoun.
         /// </summary>
-        public IEnumerable<IDescriptor> Descriptors { get { return describers; } }
+        public IEnumerable<IDescriptor> Descriptors { get { return _descriptors; } }
         /// <summary>
         /// Gets all of the constructs the Pronoun can be determined to "own".
         /// </summary>
@@ -128,9 +128,9 @@ namespace LASI.Algorithm
 
 
         #region Fields
-        private HashSet<IDescriptor> describers = new HashSet<IDescriptor>();
+        private HashSet<IDescriptor> _descriptors = new HashSet<IDescriptor>();
         private HashSet<IEntity> possessed = new HashSet<IEntity>();
-        private HashSet<IPronoun> boundPronouns = new HashSet<IPronoun>();
+        private HashSet<IPronoun> _boundPronouns = new HashSet<IPronoun>();
 
         #endregion
 

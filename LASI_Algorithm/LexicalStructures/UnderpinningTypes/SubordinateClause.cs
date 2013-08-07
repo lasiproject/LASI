@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LASI.Algorithm.ClauseTypes
+namespace LASI.Algorithm
 {
     /// <summary>
     /// This class is currently experimental and is not a tier in the Document objects created by the tagged file parsers

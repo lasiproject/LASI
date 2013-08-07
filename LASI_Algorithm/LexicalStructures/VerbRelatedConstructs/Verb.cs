@@ -5,8 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-using LASI.Algorithm.ClauseTypes;
-
 namespace LASI.Algorithm
 {
     /// <summary>
@@ -89,7 +87,7 @@ namespace LASI.Algorithm
         /// </summary>
         /// <returns>True if the Verb is a possessive relationship specifier, false otherwise.</returns>
         protected virtual bool DetermineIsPossessive() {
-            var syns = LASI.Algorithm.LexicalLookup.LexicalLookup.Lookup(this);
+            var syns = LASI.Algorithm.Lookup.LexicalLookup.Lookup(this);
             isPossessive = syns.Contains("have");
             return IsPossessive;
         }
@@ -98,7 +96,7 @@ namespace LASI.Algorithm
         /// </summary>
         /// <returns>True if the Verb is a classifier, false otherwise.</returns>
         protected virtual bool DetermineIsClassifier() {
-            var syns = LASI.Algorithm.LexicalLookup.LexicalLookup.Lookup(this);
+            var syns = LASI.Algorithm.Lookup.LexicalLookup.Lookup(this);
             isClassifier = syns.Contains("be");
             return IsClassifier;
         }

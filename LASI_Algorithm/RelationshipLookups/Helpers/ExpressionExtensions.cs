@@ -1,10 +1,10 @@
-﻿using System;
+﻿using LASI.Algorithm.Lookup;
+using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using LASI.Algorithm.LexicalLookup;
-using System.Collections.Concurrent;
 
 namespace LASI.Algorithm.RelationshipLookups
 {
@@ -30,8 +30,7 @@ namespace LASI.Algorithm.RelationshipLookups
                     return new ActionsRelatedOn(actions);
                 else
                     return null;
-            }
-            else {
+            } else {
                 throw new InvalidOperationException(string.Format(@"There is no relationship lookup Context associated with {0} or {1}.\n
                     Please associate a context by calling {2}.SetRelationshipLookup or {3}.SetRelationshipLookup appropriately.",
                     performer, receiver,

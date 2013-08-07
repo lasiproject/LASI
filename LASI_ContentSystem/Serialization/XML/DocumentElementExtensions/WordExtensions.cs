@@ -1,4 +1,5 @@
-﻿using LASI.Algorithm;
+﻿using LASI;
+using LASI.Algorithm;
 using System;
 using System.Collections.Generic;
 using System.Linq;

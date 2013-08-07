@@ -1,15 +1,14 @@
-﻿using LASI.Algorithm.LexicalLookup.Lookups;
-using LASI.Utilities;
+﻿using LASI.Utilities;
 using System;
-using System.Text;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Linq;
-using System.Threading.Tasks;
 using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace LASI.Algorithm.LexicalLookup
+namespace LASI.Algorithm.Lookup
 {
     #region Type Aliases
     // Although the Interface name IDescriprtor was chosen because of its deseriable generality, e.g. it is implemented by SubordinateClause,
@@ -1014,10 +1013,14 @@ namespace LASI.Algorithm.LexicalLookup
         /// Encapsulates multiple pieces of information gathered during a similarity comparison into a light weight type.
         /// The structure cannot be created from outside of the LexicalLookup class and is used to convey internal results.
         /// No special syntax is or code changes are required to manipulate this type. It will implicitely convert to bool
-        /// So all code with forms such as:  if ( a.IsSimilarTo(b) ) { ... } need not and should not be changed. 
+        /// So all code with forms such as: 
+        /// <code>if ( a.IsSimilarTo(b) ) { ... }</code>
+        /// need not and should not be changed. 
         /// However, If the numeric ratio used to determine similarity is needed and applicable, the type will implcitely convert
-        /// to a double. This removes the need for public code such as: if ( LexicalLookup.GetSimiliarityRatio(a, b) > 0.7 ) { ... }
-        /// Instead one may simple write the same logic as if: if ( a.IsSimilarTo(b) > 0.7 ) { ... }
+        /// to a double. This removes the need for public code such as: 
+        /// <code>if ( LexicalLookup.GetSimiliarityRatio(a, b) > 0.7 ) { ... }</code>
+        /// Instead one may simple write the same logic as: 
+        /// <code>if ( a.IsSimilarTo(b) > 0.7 ) { ... }</code>
         /// </summary>
         public struct SimResult : IEquatable<SimResult>, IComparable<SimResult>
         {
@@ -1043,6 +1046,7 @@ namespace LASI.Algorithm.LexicalLookup
             internal SimResult(bool similar) : this(similar, similar ? 1 : 0) { }
 
             #endregion
+
             #region Methods
             /// <summary>
             /// Indicates whether the current object is equal to another object of the same type.
@@ -1117,7 +1121,8 @@ namespace LASI.Algorithm.LexicalLookup
             /// Although it seems unlikely that two instances of SimResult will be compared directly for equality. 
             /// The == and != operators or defined to ensure type coersion does not result from the implicit conversions which make the class convenient.
             /// Equality is defined strictly such that both RatioResult properties must match exactly in addition to both booleanResult properties.
-            /// Keep this in mind if, for some reason, it is ever necessary to write code such as: if ( a.IsSimilarTo(b) == b.IsSimilarTo(a) ) { ... } 
+            /// Keep this in mind if, for some reason, it is ever necessary to write code such as: 
+            /// <code>if ( a.IsSimilarTo(b) == b.IsSimilarTo(a) ) { ... } </code>
             /// as the lexical lookup class itself currently makes no guarantees about reflexive equality over phrase-wise comparisons.
             /// </summary>
             /// <param name="left">The SimRult on the left hand side.</param>
@@ -1131,7 +1136,8 @@ namespace LASI.Algorithm.LexicalLookup
             /// Although it seems unlikely that two instances of SimResult will be compared directly for equality. 
             /// The == and != operators or defined to ensure type coersion does not result from the implicit conversions which make the class convenient.
             /// Equality is defined strictly such that both RatioResult properties must match exactly in addition to both booleanResult properties.
-            /// Keep this in mind if, for some reason, it is ever necessary to write code such as: if ( a.IsSimilarTo(b) == b.IsSimilarTo(a) ) { ... } 
+            /// Keep this in mind if, for some reason, it is ever necessary to write code such as:
+            /// <code>if ( a.IsSimilarTo(b) == b.IsSimilarTo(a) ) { ... }</code> 
             /// as the lexical lookup class itself currently makes no guarantees about reflexive equality over phrase-wise comparisons.
             /// </summary>
             /// <param name="left">The SimRult on the left hand side.</param>

@@ -1,11 +1,11 @@
-﻿using System;
+﻿using LASI.Algorithm.DocumentConstructs;
+using LASI.Utilities;
+using LASI.Utilities.TypedSwitch;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using LASI.Utilities;
-using LASI.Utilities.TypedSwitch;
-using LASI.Algorithm.DocumentConstructs;
 
 namespace LASI.Algorithm.Binding
 {
@@ -201,7 +201,7 @@ namespace LASI.Algorithm.Binding
                 for (var r = Stream.Count > 0 ? Stream.Pop() : null; !(r.Words.First() is Punctuation) && Stream.Count > 0; r = Stream.Pop()) {
                     subordinateClauseConstituents.Add(r);
                 }
-                var subClause = new ClauseTypes.SubordinateClause(subordinateClauseConstituents);
+                var subClause = new SubordinateClause(subordinateClauseConstituents);
                 Machine.bindingTarget.ModifyWith(subClause);
                 new ObjectBinder().Bind(subordinateClauseConstituents);
             }
