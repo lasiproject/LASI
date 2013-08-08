@@ -29,9 +29,9 @@ namespace LASI.Algorithm.DocumentConstructs
         /// <param name="paragrpahs">The collection of paragraphs which contain all text in the document.</param>
         public Document(IEnumerable<Paragraph> paragrpahs) {
             _paragraphs = paragrpahs.ToList();
-            _enumContainingParagraphs = (from p in _paragraphs
-                                         where p.ParagraphKind == ParagraphKind.NumberedOrBullettedContent
-                                         select p).ToList();
+            _paragraphsWithBulletsOrHeadings = (from p in _paragraphs
+                                                where p.ParagraphKind == ParagraphKind.NumberedOrBullettedContent
+                                                select p).ToList();
 
             AssignMembers(paragrpahs);
             foreach (var p in _paragraphs) {
@@ -134,39 +134,26 @@ namespace LASI.Algorithm.DocumentConstructs
         /// <summary>
         /// Gets the Sentences the document contains in linear, left to right order.
         /// </summary>
-        public IEnumerable<Sentence> Sentences {
-            get {
-                return _sentences;
-            }
-
-        }
+        public IEnumerable<Sentence> Sentences { get { return _sentences; } }
 
         /// <summary>
         /// Gets the Paragraphs the document contains in linear, left to right order.
         /// </summary>
-        public IEnumerable<Paragraph> Paragraphs {
-            get {
-                return _paragraphs.Except(_enumContainingParagraphs);
-            }
-        }
+        public IEnumerable<Paragraph> Paragraphs { get { return _paragraphs.Except(_paragraphsWithBulletsOrHeadings); } }
 
 
+        /// <summary>
+        /// Gets the Clauses the document contains in linear, left to right order.
+        /// </summary>
+        public IEnumerable<Clause> Clauses { get { return from s in Sentences from c in s.Clauses select c; } }
         /// <summary>
         /// Gets the Phrases the document contains in linear, left to right order.
         /// </summary>
-        public IEnumerable<Phrase> Phrases {
-            get {
-                return _phrases;
-            }
-        }
+        public IEnumerable<Phrase> Phrases { get { return _phrases; } }
         /// <summary>
         /// Gets the Words the document contains in linear, left to right order.
         /// </summary>
-        public IEnumerable<Word> Words {
-            get {
-                return _words;
-            }
-        }
+        public IEnumerable<Word> Words { get { return _words; } }
 
         /// <summary>
         /// The name of the file the Document instance was parsed from.
@@ -179,9 +166,10 @@ namespace LASI.Algorithm.DocumentConstructs
 
         private IList<Word> _words;
         private IList<Phrase> _phrases;
+        //private IList<Clause> _clauses;
         private IList<Sentence> _sentences;
         private IList<Paragraph> _paragraphs;
-        private IList<Paragraph> _enumContainingParagraphs;
+        private IList<Paragraph> _paragraphsWithBulletsOrHeadings;
 
 
 

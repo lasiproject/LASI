@@ -75,7 +75,6 @@ namespace LASI.Algorithm.Weighting
                     string.Format("{0}: Normalized Metrics", document.Name),
                     3)
             };
-
         }
 
         /// <summary>
@@ -103,14 +102,10 @@ namespace LASI.Algorithm.Weighting
         private static async Task NormalizeWeightsAsync(Document doc) {
             await Task.Run(() => NormalizeWeights(doc));
         }
-
-
-
         private static void NormalizeWeights(Document doc) {
             //OldNormalizationProcedure(doc);
             NewNormalizationProcedure(doc.Words);
             NewNormalizationProcedure(doc.Phrases);
-
         }
 
         private static void NewNormalizationProcedure(IEnumerable<ILexical> source) {

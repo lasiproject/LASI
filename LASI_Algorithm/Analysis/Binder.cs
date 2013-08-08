@@ -28,33 +28,33 @@ namespace LASI.Algorithm.Binding
         /// in which they are hereby returned.
         /// </remarks>
         public static IEnumerable<ProcessingTask> GetBindingTasksForDocument(Document document) {
-            return new[]{
-                new ProcessingTask(document, Task.Run(() => PerformAttributePhraseBinding(document.Sentences)),
+            return new[] {
+                new ProcessingTask(document, BindAttributivesAsync(document.Sentences),
                     string.Format("{0}: Binding Attributives", document.Name),
                     string.Format("{0}: Bound Attributives", document.Name), 5),
-                new ProcessingTask(document, Task.Run(() => PerformIntraPhraseBinding(document.Phrases)),
+                new ProcessingTask(document,  BindIntraPhraseAsync(document.Phrases),
                     string.Format("{0}: Decomposing Phrasals", document.Name),
                     string.Format("{0}: Decomposed Phrasals", document.Name), 5),
-                new ProcessingTask(document, Task.Run(() => PerformSVOBinding(document.Sentences)),
+                new ProcessingTask(document, BindSVOsAsync(document.Sentences),
                     string.Format("{0}: Analyzing Verbal Relationships", document.Name),
                     string.Format("{0}: Analyzed Verbal Relationships", document.Name), 5), 
-                new ProcessingTask(document, Task.Run(() => PerformPronounBinding(document)),
+                new ProcessingTask(document,  BindPronounsAsync(document),
                     string.Format("{0}: Abstracting References", document.Name),
                     string.Format("{0}: Abstracted References", document.Name), 5),
             };
         }
+
         /// <summary>
-        /// Asynchronously performs all binding procedures on the given Document.
+        ///  Performs all binding procedures on the given Document.
         /// </summary>
         /// <param name="doc">The Document to bind within.</param> 
         public static void Bind(Document doc) {
-
-            PerformAttributePhraseBinding(doc.Sentences);
-            PerformIntraPhraseBinding(doc.Phrases);
-            PerformSVOBinding(doc.Sentences);
-            PerformPronounBinding(doc);
-
+            BindAttributives(doc.Sentences);
+            BindIntraPhrase(doc.Phrases);
+            BindSVOs(doc.Sentences);
+            BindPronouns(doc);
         }
+
         /// <summary>
         /// Asynchronously performs all binding procedures on the given Document.
         /// </summary>
@@ -64,54 +64,67 @@ namespace LASI.Algorithm.Binding
             await Task.Run(() => Bind(doc));
         }
 
-
-
         #region Private Static Methods
 
-        private static void PerformAttributePhraseBinding(IEnumerable<Sentence> sentences) {
+        #region Standard Implementations
 
+        private static void BindAdjectivePhrases(IEnumerable<Sentence> sentences) {
             sentences.AsParallel()
-                .WithDegreeOfParallelism(Concurrency.Max)
-                .ForAll(s => new AttributiveNounPhraseBinder().Bind(s));
+                     .WithDegreeOfParallelism(Concurrency.Max)
+                     .ForAll(s => new AdjectivePhraseBinder().Bind(s));
         }
-        private static void PerformSVOBinding(IEnumerable<Sentence> sentences) {
+
+        private static void BindAttributives(IEnumerable<Sentence> sentences) {
+            sentences.AsParallel()
+                     .WithDegreeOfParallelism(Concurrency.Max)
+                     .ForAll(s => new AttributiveNounPhraseBinder().Bind(s));
+        }
+
+        private static void BindSVOs(IEnumerable<Sentence> sentences) {
             try {
                 sentences
-                    .AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-
+                    .AsParallel()
+                    .WithDegreeOfParallelism(Concurrency.Max)
                     .ForAll(sentence => {
-                        try {
-                            new SubjectBinder().Bind(sentence);
-                        } catch (NullReferenceException) {
-                        }
-                        try {
-                            new ObjectBinder().Bind(sentence);
-                        } catch (InvalidStateTransitionException) {
-                        } catch (VerblessPhrasalSequenceException) {
-                        } catch (InvalidOperationException) {
-                        }
+                        try { new SubjectBinder().Bind(sentence); } catch (NullReferenceException) { }
+                        try { new ObjectBinder().Bind(sentence); } catch (InvalidStateTransitionException) { } catch (VerblessPhrasalSequenceException) { } catch (InvalidOperationException) { }
                     });
-            } catch (Exception e) {
-                Output.WriteLine(e.Message);
-            }
+            } catch (Exception e) { Output.WriteLine(e.Message); }
         }
-        private static void PerformIntraPhraseBinding(IEnumerable<Phrase> phrases) {
 
+        private static void BindIntraPhrase(IEnumerable<Phrase> phrases) {
             phrases
-                 .GetNounPhrases()
-                 .AsParallel()
-                 .WithDegreeOfParallelism(Concurrency.Max)
-                 .ForAll(np => new IntraPhraseWordBinder().Bind(np));
+                .AsParallel()
+                .WithDegreeOfParallelism(Concurrency.Max)
+                .GetNounPhrases()
+                .ForAll(np => new IntraPhraseWordBinder().Bind(np));
             phrases
-                 .GetVerbPhrases()
-                 .AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                 .ForAll(verbPhrase => new IntraPhraseWordBinder().Bind(verbPhrase));
+                .AsParallel()
+                .WithDegreeOfParallelism(Concurrency.Max)
+                .GetVerbPhrases()
+                .ForAll(verbPhrase => new IntraPhraseWordBinder().Bind(verbPhrase));
         }
 
+        private static void BindPronouns(Document document) { new PronounBinder().Bind(document); }
 
-        private static void PerformPronounBinding(Document document) {
-            new PronounBinder().Bind(document);
+        #endregion
+
+        #region Async Implementations
+
+        private static async Task BindIntraPhraseAsync(IEnumerable<Phrase> phrases) {
+            await Task.Run(() => BindIntraPhrase(phrases));
         }
+        private static async Task BindSVOsAsync(IEnumerable<Sentence> sentences) {
+            await Task.Run(() => BindSVOs(sentences));
+        }
+        private static async Task BindAttributivesAsync(IEnumerable<Sentence> sentences) {
+            await Task.Run(() => BindAttributives(sentences));
+        }
+        private static async Task BindPronounsAsync(Document document) {
+            await Task.Run(() => BindPronouns(document));
+        }
+
+        #endregion
 
         #endregion
 
