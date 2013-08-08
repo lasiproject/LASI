@@ -15,4 +15,4 @@ ideal settings to make sure that this project compiles and performs as expected.
 To test the standard program, make LASI_Userinterface the startup project in Visual Studio. 
 
 This project will not run in Mono due to the fact that Mono doesn't currently support WPF Toolkit, which is the tool
-that renders the graphs of our results in the "Top Results" screen doesn't currently run in Mono. 
+that renders the graphs of our results in the "Top Results" screen.
