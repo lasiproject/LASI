@@ -19,6 +19,9 @@ namespace LASI.UserInterface.Dialogs
     /// </summary>
     public partial class ExportResultsDialog : Window
     {
+        /// <summary>
+        /// Initializes a new instance of the ExportResultsDialog class.
+        /// </summary>
         public ExportResultsDialog() {
             InitializeComponent();
         }

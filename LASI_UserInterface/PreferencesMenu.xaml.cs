@@ -23,6 +23,9 @@ namespace LASI.UserInterface
     /// </summary>
     public partial class PreferencesMenu : PageFunction<string>
     {
+        /// <summary>
+        /// Initializes a new instance of the PreferencesMenu class.
+        /// </summary>
         public PreferencesMenu() {
 
             InitializeComponent();
@@ -88,7 +91,9 @@ namespace LASI.UserInterface
         private void minimizeToTrayCheckBox_Checked(object sender, RoutedEventArgs e) {
             Settings.Default.TrayMinimize = minimizeToTrayCheckBox.IsChecked ?? false;
         }
-
+        /// <summary>
+        /// Gets the PerformanceLevel corresponding to the selected user preference.
+        /// </summary>
         public PerforamanceLevel ChosenPerformanceLevel { get; private set; }
     }
 }

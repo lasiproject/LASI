@@ -41,8 +41,7 @@
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
     <UseVSHostingProcess>true</UseVSHostingProcess>
-    <DocumentationFile>
-    </DocumentationFile>
+    <DocumentationFile>bin\Debug\LASI.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>x64</PlatformTarget>
@@ -121,7 +120,6 @@
     <Compile Include="Dialogs\FindWindow.xaml.cs">
       <DependentUpon>FindWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="OnTheFlySourceCreation\UserCreatedTextSource.cs" />
     <Compile Include="ResultSelection\Visualizer.cs" />
     <Compile Include="ResultSelection\CrossDocumentJoiner.cs" />
     <Compile Include="Dialogs\CrossJoinSelectDialog.xaml.cs">

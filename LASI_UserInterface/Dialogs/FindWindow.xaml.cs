@@ -19,6 +19,9 @@ namespace LASI.UserInterface.Dialogs
     /// </summary>
     public partial class FindWindow : Window
     {
+        /// <summary>
+        /// Initializes a new instance of the FindWindow class.
+        /// </summary>
         public FindWindow() {
             InitializeComponent();
         }

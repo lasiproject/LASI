@@ -22,6 +22,9 @@ namespace LASI.UserInterface
     /// </summary>
     public partial class ProjectPreviewScreen : Window
     {
+        /// <summary>
+        /// Initializes a new instance of the ProjectPreviewScreen class.
+        /// </summary>
         public ProjectPreviewScreen() {
             InitializeComponent();
             var titleText = Resources["CurrentProjectName"] as string ?? Title;
@@ -30,7 +33,9 @@ namespace LASI.UserInterface
         #region Methods
 
         #region Document Preview Construction
-
+        /// <summary>
+        /// Loads and displays a text preview tab for each document in the project.
+        /// </summary>
         public async void LoadDocumentPreviews() {
             foreach (var textfile in FileManager.TextFiles) {
                 await LoadTextandTabAsync(textfile);

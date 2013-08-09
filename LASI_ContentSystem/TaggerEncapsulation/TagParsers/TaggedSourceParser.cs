@@ -196,7 +196,7 @@ namespace LASI.ContentSystem
         /// Reads an [outerNP Square Brack Delimited Phrase Chunk] and returns the start-tag determined subtype of LASI.Phrase which in turn contains all the run time representations of the individual words within it.
         /// </summary>
         /// <param name="taggedPhraseElement">The TextTagPair instance which contains the content of the Phrase and its Tag.</param>
-        /// <returns>A Task&ltstring&gt; which, when awaited, yields a LASI.Algorithm.Phrase instance corresponding to the given phrase tag and containing the words within it. </returns>
+        /// <returns>A Task&lt;string&gt; which, when awaited, yields a LASI.Algorithm.Phrase instance corresponding to the given phrase tag and containing the words within it. </returns>
         protected virtual async Task<Phrase> ParsePhraseAsync(TextTagPair taggedPhraseElement) {
             var phraseTag = taggedPhraseElement.Tag.Trim();
             var words = await CreateWordsAsync(taggedPhraseElement.Text);

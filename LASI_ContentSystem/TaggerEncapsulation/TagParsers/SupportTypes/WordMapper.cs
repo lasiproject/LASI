@@ -37,7 +37,7 @@ namespace LASI.ContentSystem
         /// Creates a new Instance of the Word class which corresponds to the given text token and Part Of Speech tag.
         /// </summary>
         /// <param name="taggedText">A Word or Punctuation string and its associated Part Of Speech tag.</param>
-        /// <returns>A new instance of the appropriate word type corresponding with the tag and containing the given text.</returns>
+        /// <returns>A new instance of the appropriate word type corresponding to the tag and containing the given text.</returns>
         public Word CreateWord(TextTagPair taggedText) {
             if (string.IsNullOrWhiteSpace(taggedText.Text))
                 return null;
@@ -71,6 +71,11 @@ namespace LASI.ContentSystem
                 }
             }
         }
+        /// <summary>
+        /// Creates a new Lazy&lt;Word&gt; Instance which corresponds to the given text token and Part Of Speech tag. 
+        /// </summary>
+        /// <param name="taggedText">A Word or Punctuation string and its associated Part Of Speech tag.</param>
+        /// <returns>A new Lazy&lt;Word&gt; instance of the appropriate Word type corresponding to the given tag and containing the given text.</returns>
         public Lazy<Word> GetLazyWord(TextTagPair taggedText) {
             var constructor = LookupMapping(taggedText.Tag);
             return new Lazy<Word>(() => constructor(taggedText.Text));

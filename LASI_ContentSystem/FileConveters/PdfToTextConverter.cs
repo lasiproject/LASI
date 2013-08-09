@@ -36,11 +36,11 @@ namespace LASI.ContentSystem
         /// </summary>
         private class PDFParser
         {
-            /// BT = Beginning of a text object operator 
-            /// ET = End of a text object operator
-            /// Td move to the start of next line
-            ///  5 Ts = superscript
-            /// -5 Ts = subscript
+            // BT = Beginning of a text object operator 
+            // ET = End of a text object operator
+            // Td move to the start of next line
+            //  5 Ts = superscript
+            // -5 Ts = subscript
 
             #region Fields
 
@@ -176,12 +176,12 @@ namespace LASI.ContentSystem
 
 
 
-            /// <summary>
-            /// Check if a certain 2 character currentCharacterToken just came along (e.g. BT)
-            /// </summary>
-            /// <param name="NounText">the searched currentCharacterToken</param>
-            /// <param name="recent">the recent character array</param>
-            /// <returns></returns>
+            ///// <summary>
+            ///// Check if a certain 2 character currentCharacterToken just came along (e.g. BT)
+            ///// </summary>
+            ///// <param name="NounText">the searched currentCharacterToken</param>
+            ///// <param name="recent">the recent character array</param>
+            ///// <returns></returns>
             private bool CheckToken(string[] tokens, char[] recent, int _numberOfCharsToKeep) {
                 foreach (string currentCharacterToken in tokens) {
                     try {

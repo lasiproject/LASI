@@ -27,6 +27,9 @@ namespace LASI.UserInterface
     public partial class StartupScreen : Window
     {
         #region Constructor
+        /// <summary>
+        /// Initializes a new instance of the StartupScreen class.
+        /// </summary>
         public StartupScreen() {
             var logFileName = "lasi_log";
             SetupFileLogging(Environment.GetCommandLineArgs()[0], logFileName);

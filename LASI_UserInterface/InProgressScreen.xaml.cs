@@ -14,6 +14,9 @@ namespace LASI.UserInterface
     /// </summary>
     public partial class InProgressScreen : Window
     {
+        /// <summary>
+        /// Initializes a new instance of the InProgressScreen class.
+        /// </summary>
         public InProgressScreen() {
             InitializeComponent();
             //WindowStartupLocation = WindowStartupLocation.CenterScreen;
@@ -118,9 +121,9 @@ namespace LASI.UserInterface
         static extern bool FlashWindowEx(ref FLASHWINFO pwfi);
 
 
-        public const UInt32 FLASHW_ALL = 3;
+        private const UInt32 FLASHW_ALL = 3;
         [StructLayout(LayoutKind.Sequential)]
-        public struct FLASHWINFO
+        private struct FLASHWINFO
         {
 
             public System.UInt32 cbSize;
@@ -137,7 +140,7 @@ namespace LASI.UserInterface
         /// <summary>
         /// Causes the application icon to begin flashing in the Windows Taskbar.
         /// </summary>
-        void StartFlashing() {
+        private void StartFlashing() {
             {
                 FLASHWINFO fInfo = new FLASHWINFO();
                 fInfo.cbSize = System.Convert.ToUInt32(Marshal.SizeOf(fInfo));
@@ -158,7 +161,7 @@ namespace LASI.UserInterface
         /// <summary>
         /// Cuases the application icon in the Windows Taskbar to dicontinue flashing.
         /// </summary>
-        void StopFlashing() {
+        private void StopFlashing() {
             FLASHWINFO fInfo = new FLASHWINFO();
 
 

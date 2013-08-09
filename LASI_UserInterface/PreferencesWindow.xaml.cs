@@ -21,6 +21,9 @@ namespace LASI.UserInterface
     /// </summary>
     public partial class PreferencesWindow : Window
     {
+        /// <summary>
+        /// Intializes a new instance of the PreferencesWindow class.
+        /// </summary>
         public PreferencesWindow() {
             InitializeComponent();
             menu = new PreferencesMenu();

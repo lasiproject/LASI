@@ -26,6 +26,9 @@ namespace LASI.UserInterface
     public partial class ResultsScreen : Window
     {
         #region Constructor
+        /// <summary>
+        /// Initializes a new instance of the ResultsScreen class.
+        /// </summary>
         public ResultsScreen() {
 
             InitializeComponent();
@@ -47,7 +50,10 @@ namespace LASI.UserInterface
             changeToColumnChartButton.Click += ChangeToColumnChartButton_Click;
             changeToPieChartButton.Click += ChangeToPieChartButton_Click;
         }
-
+        /// <summary>
+        /// Creates and displays a weighted list of the top NounPhrases for each document.
+        /// </summary>
+        /// <returns>A System.Threading.Tasks.Task representing the ongoing asynchronous operation.</returns>
         public async Task CreateWeightViewsForAllDocumentsAsync() {
             foreach (var doc in documents) {
                 await CreateWeightViewAsync(doc);
@@ -448,7 +454,9 @@ namespace LASI.UserInterface
         #region Properties and Fields
 
         private List<Document> documents = new List<Document>();
-
+        /// <summary>
+        /// Gets or sets the list of LASI.Algorithm.Document objects in the current project.
+        /// </summary>
         public List<Document> Documents {
             get {
                 return documents;

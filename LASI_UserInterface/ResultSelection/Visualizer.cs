@@ -14,6 +14,9 @@ using System.Windows.Controls.DataVisualization.Charting;
 
 namespace LASI.UserInterface
 {
+    /// <summary>
+    /// Provides static methods for formatting and displaying results to the user.
+    /// </summary>
     public static class Visualizer
     {
 
@@ -271,7 +274,7 @@ namespace LASI.UserInterface
         /// </summary>
         /// <param name="elementsToConvert">The sequence of Relationship Tuple to tranform into textual display elements.</param>
         /// <returns>A sequence of textual display elements from the given sequence of RelationshipTuple elements.</returns>
-        public static IEnumerable<object> CreateRelationshipData(IEnumerable<RelationshipTuple> elementsToConvert) {
+        internal static IEnumerable<object> CreateRelationshipData(IEnumerable<RelationshipTuple> elementsToConvert) {
             return from e in elementsToConvert.Distinct()
                    orderby e.RelationshipWeight
                    select new
@@ -305,7 +308,7 @@ namespace LASI.UserInterface
     /// Sometimes an anonymous type simple will not do. So this little class is defined to 
     /// store temporary query data from transposed tables. god it is late. I can't document properly.
     /// </summary>
-    public class RelationshipTuple : IEquatable<RelationshipTuple>
+    internal class RelationshipTuple : IEquatable<RelationshipTuple>
     {
         private IEntity subject;
         private IVerbal verbal;

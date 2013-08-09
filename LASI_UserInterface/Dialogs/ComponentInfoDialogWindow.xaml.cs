@@ -19,6 +19,9 @@ namespace LASI.UserInterface.Dialogs
     /// </summary>
     public partial class ComponentInfoDialogWindow : Window
     {
+        /// <summary>
+        /// Initializes a new instance of the ComponentInfoDialogWindow class.
+        /// </summary>
         public ComponentInfoDialogWindow() {
             InitializeComponent();
         }
