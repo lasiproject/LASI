@@ -7,11 +7,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace LASI.ContentSystem.Serialization.XML.DocumentElementExtensions
+namespace LASI.ContentSystem.Serialization.XML.ILexicalExtensions
 {
-    static class WordExtensions
+    static class SerializationExtensions
     {
-        public static XElement ToXml(this ILexical element) {
+        static XElement ToXml(this ILexical element) {
             try {
                 return (element as dynamic).ToXElement();
             } catch (Microsoft.CSharp.RuntimeBinder.RuntimeBinderException) {
@@ -72,7 +72,7 @@ namespace LASI.ContentSystem.Serialization.XML.DocumentElementExtensions
 
         #region Serialization Helpers
 
-        private static string GetIdentityString(this ILexical element) {
+        static string GetIdentityString(this ILexical element) {
             if (element == null)
                 return string.Empty;
             var result = element.Type.Name + " ";

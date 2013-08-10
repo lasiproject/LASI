@@ -94,6 +94,7 @@ namespace AlgorithmAssemblyUnitTestProject
         ///</summary>
         [TestMethod()]
         public void ToStringTest() {
+            Phrase.VerboseOutput = true;
             IEnumerable<Word> composedWords = new Word[] { new Preposition("for") };
             PrepositionalPhrase target = new PrepositionalPhrase(composedWords);
             target.ToTheLeftOf = new NounPhrase(new[] { new PersonalPronoun("it") });

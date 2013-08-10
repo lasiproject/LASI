@@ -117,7 +117,7 @@ namespace AlgorithmAssemblyUnitTestProject
             IEntity actual;
             target.BindAsReferringTo(expected);
             actual = target.EntityRefererredTo;
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected.Text, actual.Text);
         }
 
         /// <summary>
@@ -131,7 +131,7 @@ namespace AlgorithmAssemblyUnitTestProject
             IVerbal actual;
             target.DirectObjectOf = expected;
             actual = target.DirectObjectOf;
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected.Text, actual.Text);
 
         }
 

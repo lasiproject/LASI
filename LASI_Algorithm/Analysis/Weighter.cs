@@ -357,7 +357,7 @@ namespace LASI.Algorithm.Weighting
                     Word prevPrev = prev ?? prev.PreviousWord;
 
 
-                    w.Switch()
+                    new Switch(w)
                       .Case<Noun>(n => {
                           Noun(next, nextNext, out modOne, out modTwo);
                       })
@@ -455,7 +455,7 @@ namespace LASI.Algorithm.Weighting
         private static void Preposition(Word next, Word nextNext, out double outModOne, out double outModTwo) {
             double modOne = 0;
             double modTwo = 0;
-            next.Switch()
+            new Switch(next)
                     .Case<Noun>(() => {
                         modOne = 0.8; // 
 
@@ -488,7 +488,7 @@ namespace LASI.Algorithm.Weighting
         private static void Pronoun(Word next, Word nextNext, out double outModOne, out double outModTwo) {
             double modOne = 0;
             double modTwo = 0;
-            next.Switch()
+            new Switch(next)
                     .Case<Noun>(() => {
                         modOne = 0.9; //compound noun/pronoun / possessed by pronoun
 
@@ -544,7 +544,7 @@ namespace LASI.Algorithm.Weighting
         private static void Adverb(Word next, Word nextNext, out double outModOne, out double outModTwo) {
             double modOne = 0;
             double modTwo = 0;
-            next.Switch()
+            new Switch(next)
                    .Case<Noun>(() => {
                        modOne = 0.9d; //adverbial noun
 
@@ -601,7 +601,7 @@ namespace LASI.Algorithm.Weighting
         private static void Adjective(Word next, Word nextNext, out double outModOne, out double outModTwo) {
             double modOne = 0;
             double modTwo = 0;
-            next.Switch()
+            new Switch(next)
                    .Case<Noun>(() => {
                        modOne = 0.7d; //noun descriptor
 
@@ -658,7 +658,7 @@ namespace LASI.Algorithm.Weighting
         private static void Verb(Word next, Word nextNext, out double outModOne, out double outModTwo) {
             double modOne = 0;
             double modTwo = 0;
-            next.Switch()
+            new Switch(next)
                    .Case<Noun>(() => {
                        modOne = 0.9d; //adverb actor
 
@@ -721,7 +721,7 @@ namespace LASI.Algorithm.Weighting
         private static void Noun(Word next, Word nextNext, out double outModOne, out double outModTwo) {
             double modOne = 0; //Renamed parameters and bound created temporary variables to pass into the switch blocks 
             double modTwo = 0;
-            next.Switch()
+            new Switch(next)
                    .Case<Noun>(() => {
                        modOne = 0.9d; //compound noun
 
@@ -784,7 +784,7 @@ namespace LASI.Algorithm.Weighting
 
         private static double UncaughtUncaught(Word nextNext) {
             double modTwo = 0;
-            nextNext.Switch()
+            new Switch(nextNext)
                 .Case<Noun>(() => {
                     modTwo = 0.1d; //uncaught-uncaught-noun
                 })
@@ -817,7 +817,7 @@ namespace LASI.Algorithm.Weighting
 
         private static double PrepositionUncaught(Word nextNext) {
             double modTwo = 0;
-            nextNext.Switch()
+            new Switch(nextNext)
                 .Case<Noun>(() => {
                     modTwo = 0.5d; //preposition-uncaught-noun
                 })
@@ -850,7 +850,7 @@ namespace LASI.Algorithm.Weighting
 
         private static double PrepositionDeterminer(Word nextNext) {
             double modTwo = 0;
-            nextNext.Switch()
+            new Switch(nextNext)
                 .Case<Noun>(() => {
                     modTwo = 0.7d; //preposition-determiner-noun
                 })
@@ -883,7 +883,7 @@ namespace LASI.Algorithm.Weighting
 
         private static double PrepositionPronoun(Word nextNext) {
             double modTwo = 0;
-            nextNext.Switch()
+            new Switch(nextNext)
                 .Case<Noun>(() => {
                     modTwo = 0.5d; //preposition-compound noun
                 })
@@ -916,7 +916,7 @@ namespace LASI.Algorithm.Weighting
 
         private static double PrepositionNoun(Word nextNext) {
             double modTwo = 0;
-            nextNext.Switch()
+            new Switch(nextNext)
                 .Case<Noun>(() => {
                     modTwo = 0.5d; //preposition-compound noun
                 })
@@ -949,7 +949,7 @@ namespace LASI.Algorithm.Weighting
 
         private static double PronounUncaught(Word nextNext) {
             double modTwo = 0;
-            nextNext.Switch()
+            new Switch(nextNext)
                 .Case<Noun>(() => {
                     modTwo = 0.3d; //pronoun-uncaught-noun
                 })
@@ -982,7 +982,7 @@ namespace LASI.Algorithm.Weighting
 
         private static double PronounDeterminer(Word nextNext) {
             double modTwo = 0;
-            nextNext.Switch()
+            new Switch(nextNext)
                 .Case<Noun>(() => {
                     modTwo = 0.9d; //pronoun-determiner-noun
                 })
@@ -1015,7 +1015,7 @@ namespace LASI.Algorithm.Weighting
 
         private static double PronounPreposition(Word nextNext) {
             double modTwo = 0;
-            nextNext.Switch()
+            new Switch(nextNext)
                 .Case<Noun>(() => {
                     modTwo = 0.8d; //pronoun-preposition-noun
                 })
@@ -1048,7 +1048,7 @@ namespace LASI.Algorithm.Weighting
 
         private static double PronounToLinker(Word nextNext) {
             double modTwo = 0;
-            nextNext.Switch()
+            new Switch(nextNext)
                 .Case<Noun>(() => {
                     modTwo = 0.9d; //pronoun-tolinker-noun
                 })
@@ -1081,7 +1081,7 @@ namespace LASI.Algorithm.Weighting
 
         private static double PronounPronoun(Word nextNext) {
             double modTwo = 0;
-            nextNext.Switch()
+            new Switch(nextNext)
                 .Case<Noun>(() => {
                     modTwo = 0.9d; //triple compound noun
                 })
@@ -1114,7 +1114,7 @@ namespace LASI.Algorithm.Weighting
 
         private static double PronounAdverb(Word nextNext) {
             double modTwo = 0;
-            nextNext.Switch()
+            new Switch(nextNext)
                 .Case<Noun>(() => {
                     modTwo = 0.8d; //pronoun-adverb-noun
                 })
@@ -1147,7 +1147,7 @@ namespace LASI.Algorithm.Weighting
 
         private static double PronounAdjective(Word nextNext) {
             double modTwo = 0;
-            nextNext.Switch()
+            new Switch(nextNext)
                 .Case<Noun>(() => {
                     modTwo = 0.9d; //pronoun-adjective-noun
                 })
@@ -1180,7 +1180,7 @@ namespace LASI.Algorithm.Weighting
 
         private static double PronounNoun(Word nextNext) {
             double modTwo = 0;
-            nextNext.Switch()
+            new Switch(nextNext)
                 .Case<Noun>(() => {
                     modTwo = 0.9d; //triple compound noun
                 })
@@ -1213,7 +1213,7 @@ namespace LASI.Algorithm.Weighting
 
         private static double AdverbUncaught(Word nextNext) {
             double modTwo = 0;
-            nextNext.Switch()
+            new Switch(nextNext)
                 .Case<Noun>(() => {
                     modTwo = 0.5d; //adverb-uncaught-noun
                 })
@@ -1246,7 +1246,7 @@ namespace LASI.Algorithm.Weighting
 
         private static double AdverbDeterminer(Word nextNext) {
             double modTwo = 0;
-            nextNext.Switch()
+            new Switch(nextNext)
                 .Case<Noun>(() => {
                     modTwo = 0.9d; //adverb-determiner-noun
                 })
@@ -1279,7 +1279,7 @@ namespace LASI.Algorithm.Weighting
 
         private static double AdverbPreposition(Word nextNext) {
             double modTwo = 0;
-            nextNext.Switch()
+            new Switch(nextNext)
                 .Case<Noun>(() => {
                     modTwo = 0; //adverb-preposition-noun
                 })
@@ -1312,7 +1312,7 @@ namespace LASI.Algorithm.Weighting
 
         private static double AdverbToLinker(Word nextNext) {
             double modTwo = 0;
-            nextNext.Switch()
+            new Switch(nextNext)
                 .Case<Noun>(() => {
                     modTwo = 0.9d; //adverb-tolinker-noun
                 })
@@ -1345,7 +1345,7 @@ namespace LASI.Algorithm.Weighting
 
         private static double AdverbPronoun(Word nextNext) {
             double modTwo = 0;
-            nextNext.Switch()
+            new Switch(nextNext)
                 .Case<Noun>(() => {
                     modTwo = 0.5d; //adverb compound noun
                 })
@@ -1378,7 +1378,7 @@ namespace LASI.Algorithm.Weighting
 
         private static double AdverbAdverb(Word nextNext) {
             double modTwo = 0;
-            nextNext.Switch()
+            new Switch(nextNext)
                 .Case<Noun>(() => {
                     modTwo = 0.3; //adverb-adverb-noun
                 })
@@ -1411,7 +1411,7 @@ namespace LASI.Algorithm.Weighting
 
         private static double AdverbAdjective(Word nextNext) {
             double modTwo = 0;
-            nextNext.Switch()
+            new Switch(nextNext)
                 .Case<Noun>(() => {
                     modTwo = 0.6; //adverb-adjective-noun
                 })
@@ -1444,7 +1444,7 @@ namespace LASI.Algorithm.Weighting
 
         private static double AdverbNoun(Word nextNext) {
             double modTwo = 0;
-            nextNext.Switch()
+            new Switch(nextNext)
                 .Case<Noun>(() => {
                     modTwo = 0.5d; //adverb -> compound noun
                 })
@@ -1477,7 +1477,7 @@ namespace LASI.Algorithm.Weighting
 
         private static double AdjectiveUncaught(Word nextNext) {
             double modTwo = 0;
-            nextNext.Switch()
+            new Switch(nextNext)
                 .Case<Noun>(() => {
                     modTwo = 0.4; //adjective-uncaught-noun
                 })
@@ -1510,7 +1510,7 @@ namespace LASI.Algorithm.Weighting
 
         private static double AdjectiveDeterminer(Word nextNext) {
             double modTwo = 0;
-            nextNext.Switch()
+            new Switch(nextNext)
                 .Case<Noun>(() => {
                     modTwo = 0; //adjective-determiner-noun
                 })
@@ -1543,7 +1543,7 @@ namespace LASI.Algorithm.Weighting
 
         private static double AdjectivePreposition(Word nextNext) {
             double modTwo = 0;
-            nextNext.Switch()
+            new Switch(nextNext)
                 .Case<Noun>(() => {
                     modTwo = 0; //adjective-prepositional-noun
                 })
@@ -1576,7 +1576,7 @@ namespace LASI.Algorithm.Weighting
 
         private static double AdjectiveToLinker(Word nextNext) {
             double modTwo = 0;
-            nextNext.Switch()
+            new Switch(nextNext)
                 .Case<Noun>(() => {
                     modTwo = 0; //adjective-tolinker-noun
                 })
@@ -1609,7 +1609,7 @@ namespace LASI.Algorithm.Weighting
 
         private static double AdjectivePronoun(Word nextNext) {
             double modTwo = 0;
-            nextNext.Switch()
+            new Switch(nextNext)
                 .Case<Noun>(() => {
                     modTwo = 0; //adjective -> compound noun
                 })
@@ -1642,7 +1642,7 @@ namespace LASI.Algorithm.Weighting
 
         private static double AdjectiveAdverb(Word nextNext) {
             double modTwo = 0;
-            nextNext.Switch()
+            new Switch(nextNext)
                 .Case<Noun>(() => {
                     modTwo = 0; //adjective-adverb-noun
                 })
@@ -1675,7 +1675,7 @@ namespace LASI.Algorithm.Weighting
 
         private static double AdjectiveAdjective(Word nextNext) {
             double modTwo = 0;
-            nextNext.Switch()
+            new Switch(nextNext)
                 .Case<Noun>(() => {
                     modTwo = 0; //compound adjective -> noun
                 })
@@ -1708,7 +1708,7 @@ namespace LASI.Algorithm.Weighting
 
         private static double AdjectiveNoun(Word nextNext) {
             double modTwo = 0;
-            nextNext.Switch()
+            new Switch(nextNext)
                 .Case<Noun>(() => {
                     modTwo = 0; //adjective -> compound noun
                 })
@@ -1741,7 +1741,7 @@ namespace LASI.Algorithm.Weighting
 
         private static double VerbUncaught(Word nextNext) {
             double modTwo = 0;
-            nextNext.Switch()
+            new Switch(nextNext)
                 .Case<Noun>(() => {
                     modTwo = 0; //adverb-uncaught-noun
                 })
@@ -1774,7 +1774,7 @@ namespace LASI.Algorithm.Weighting
 
         private static double VerbDeterminer(Word nextNext) {
             double modTwo = 0;
-            nextNext.Switch()
+            new Switch(nextNext)
                 .Case<Noun>(() => {
                     modTwo = 0; //adverb-determiner-noun
                 })
@@ -1807,7 +1807,7 @@ namespace LASI.Algorithm.Weighting
 
         private static double VerbPreposition(Word nextNext) {
             double modTwo = 0;
-            nextNext.Switch()
+            new Switch(nextNext)
                 .Case<Noun>(() => {
                     modTwo = 0; //adverb-preposition-noun
                 })
@@ -1840,7 +1840,7 @@ namespace LASI.Algorithm.Weighting
 
         private static double VerbToLinker(Word nextNext) {
             double modTwo = 0;
-            nextNext.Switch()
+            new Switch(nextNext)
                 .Case<Noun>(() => {
                     modTwo = 0; //adverb-tolinker-noun
                 })
@@ -1873,7 +1873,7 @@ namespace LASI.Algorithm.Weighting
 
         private static double VerbPronoun(Word nextNext) {
             double modTwo = 0;
-            nextNext.Switch()
+            new Switch(nextNext)
                 .Case<Noun>(() => {
                     modTwo = 0; //adverb-pronoun-noun (compound)
                 })
@@ -1906,7 +1906,7 @@ namespace LASI.Algorithm.Weighting
 
         private static double VerbAdverb(Word nextNext) {
             double modTwo = 0;
-            nextNext.Switch()
+            new Switch(nextNext)
                 .Case<Noun>(() => {
                     modTwo = 0; //adverb-adverb-noun
                 })
@@ -1939,7 +1939,7 @@ namespace LASI.Algorithm.Weighting
 
         private static double VerbAdjective(Word nextNext) {
             double modTwo = 0;
-            nextNext.Switch()
+            new Switch(nextNext)
                 .Case<Noun>(() => {
                     modTwo = 0; //adverb-adjective-noun
                 })
@@ -1972,7 +1972,7 @@ namespace LASI.Algorithm.Weighting
 
         private static double VerbPastParticipleVerb(Word nextNext) {
             double modTwo = 0;
-            nextNext.Switch()
+            new Switch(nextNext)
                 .Case<Noun>(() => {
                     modTwo = 0; //adverb-pastverb -> compound noun
                 })
@@ -2005,7 +2005,7 @@ namespace LASI.Algorithm.Weighting
 
         private static double VerbNoun(Word nextNext) {
             double modTwo = 0;
-            nextNext.Switch()
+            new Switch(nextNext)
                 .Case<Noun>(() => {
                     modTwo = 0; //adverb -> compound noun
                 })
@@ -2038,7 +2038,7 @@ namespace LASI.Algorithm.Weighting
 
         private static double NounUncaught(Word nextNext) {
             double modTwo = 0;
-            nextNext.Switch()
+            new Switch(nextNext)
                 .Case<Noun>(() => {
                     modTwo = 0; //noun-uncaught-noun
                 })
@@ -2071,7 +2071,7 @@ namespace LASI.Algorithm.Weighting
 
         private static double NounDeterminer(Word nextNext) {
             double modTwo = 0;
-            nextNext.Switch()
+            new Switch(nextNext)
                 .Case<Noun>(() => {
                     modTwo = 0; //noun-determiner-noun
                 })
@@ -2104,7 +2104,7 @@ namespace LASI.Algorithm.Weighting
 
         private static double NounPreposition(Word nextNext) {
             double modTwo = 0;
-            nextNext.Switch()
+            new Switch(nextNext)
                 .Case<Noun>(() => {
                     modTwo = 0; //noun-preposition-noun
                 })
@@ -2137,7 +2137,7 @@ namespace LASI.Algorithm.Weighting
 
         private static double NounToLinker(Word nextNext) {
             double modTwo = 0;
-            nextNext.Switch()
+            new Switch(nextNext)
                 .Case<Noun>(nlnkn => {
                     modTwo = 0; //noun-tolinker-noun
                 })
@@ -2170,7 +2170,7 @@ namespace LASI.Algorithm.Weighting
 
         private static double NounPronoun(Word nextNext) {
             double modTwo = 0;
-            nextNext.Switch()
+            new Switch(nextNext)
                 .Case<Noun>(() => {
                     modTwo = 0; //triple compound noun
                 })
@@ -2203,7 +2203,7 @@ namespace LASI.Algorithm.Weighting
 
         private static double NounAdverb(Word nextNext) {
             double modTwo = 0;
-            nextNext.Switch()
+            new Switch(nextNext)
                 .Case<Noun>(() => {
                     modTwo = 0; //noun-adverb-noun
                 })
@@ -2236,7 +2236,7 @@ namespace LASI.Algorithm.Weighting
 
         private static double NounVerb(Word nextNext) {
             double modTwo = 0;
-            nextNext.Switch()
+            new Switch(nextNext)
                 .Case<Noun>(() => {
                     modTwo = 0; //noun-adverb-noun
                 })
@@ -2269,7 +2269,7 @@ namespace LASI.Algorithm.Weighting
 
         private static double NounAdjective(Word nextNext) {
             double modTwo = 0;
-            nextNext.Switch()
+            new Switch(nextNext)
                 .Case<Noun>(nadjn => {
                     modTwo = 0; //noun-adjective-noun
                 })
@@ -2302,7 +2302,7 @@ namespace LASI.Algorithm.Weighting
 
         private static double NounNoun(Word nextNext) {
             double modTwo = 0;
-            nextNext.Switch()
+            new Switch(nextNext)
                 .Case<Noun>(() => {
                     modTwo = 0; //triple compound noun
                 })
@@ -2335,7 +2335,7 @@ namespace LASI.Algorithm.Weighting
 
         private static double DeterminerUncaught(Word nextNext) {
             double modTwo = 0;
-            nextNext.Switch()
+            new Switch(nextNext)
                 .Case<Noun>(() => {
                     modTwo = 0; //determiner-uncaught-noun
                 })
@@ -2368,7 +2368,7 @@ namespace LASI.Algorithm.Weighting
 
         private static double DeterminerDeterminer(Word nextNext) {
             double modTwo = 0;
-            nextNext.Switch()
+            new Switch(nextNext)
                 .Case<Noun>(() => {
                     modTwo = 0; //determiner-determiner-noun
                 })
@@ -2401,7 +2401,7 @@ namespace LASI.Algorithm.Weighting
 
         private static double DeterminerPreposition(Word nextNext) {
             double modTwo = 0;
-            nextNext.Switch()
+            new Switch(nextNext)
                 .Case<Noun>(() => {
                     modTwo = 0; //determiner-preposition-noun
                 })
@@ -2434,7 +2434,7 @@ namespace LASI.Algorithm.Weighting
 
         private static double DeterminerToLinker(Word nextNext) {
             double modTwo = 0;
-            nextNext.Switch()
+            new Switch(nextNext)
                 .Case<Noun>(() => {
                     modTwo = 0; //determiner-tolinker-noun
                 })
@@ -2467,7 +2467,7 @@ namespace LASI.Algorithm.Weighting
 
         private static double DeterminerPronoun(Word nextNext) {
             double modTwo = 0;
-            nextNext.Switch()
+            new Switch(nextNext)
                 .Case<Noun>(() => {
                     modTwo = 0; //determiner compound noun
                 })
@@ -2500,7 +2500,7 @@ namespace LASI.Algorithm.Weighting
 
         private static double DeterminerAdverb(Word nextNext) {
             double modTwo = 0;
-            nextNext.Switch()
+            new Switch(nextNext)
                 .Case<Noun>(() => {
                     modTwo = 0; //determiner-adverb-noun
                 })
@@ -2533,7 +2533,7 @@ namespace LASI.Algorithm.Weighting
 
         private static double DeterminerAdjective(Word nextNext) {
             double modTwo = 0;
-            nextNext.Switch()
+            new Switch(nextNext)
                 .Case<Noun>(() => {
                     modTwo = 0; //determiner-adjective-noun
                 })
@@ -2566,7 +2566,7 @@ namespace LASI.Algorithm.Weighting
 
         private static double DeterminerNoun(Word nextNext) {
             double modTwo = 0;
-            nextNext.Switch()
+            new Switch(nextNext)
                 .Case<Noun>(() => {
                     modTwo = 0; //determiner-compound noun
                 })

@@ -100,7 +100,7 @@ namespace AlgorithmAssemblyUnitTestProject
             Noun target = CreateNoun();
             Pronoun pro = new PersonalPronoun("it");
             target.BindPronoun(pro);
-            Assert.IsTrue(target.BoundPronouns.Contains(pro) && pro.EntityRefererredTo == target);
+            Assert.IsTrue(target.BoundPronouns.Contains(pro) && pro.EntityRefererredTo.Any(e => e == target));
         }
 
         ///// <summary>

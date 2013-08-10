@@ -2127,14 +2127,11 @@ namespace AlgorithmAssemblyUnitTestProject
         ///</summary>
         [TestMethod()]
         public void FindRootTest() {
-            string exceptionsFilePath = string.Empty; // TODO: Initialize to an appropriate value
-
-            string conjugated = string.Empty; // TODO: Initialize to an appropriate value
-            string expected = null; // TODO: Initialize to an appropriate value
+            string conjugated = "birds";
+            string expected = "bird"; // TODO: Initialize to an appropriate value
             string actual;
             actual = NounConjugator.FindRoot(conjugated);
             Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
         }
 
         /// <summary>
@@ -2142,31 +2139,13 @@ namespace AlgorithmAssemblyUnitTestProject
         ///</summary>
         [TestMethod()]
         public void GetConjugationsTest() {
-            string exceptionsFilePath = string.Empty; // TODO: Initialize to an appropriate value
-
-            string root = string.Empty; // TODO: Initialize to an appropriate value
-            IEnumerable<string> expected = null; // TODO: Initialize to an appropriate value
+            string root = "kitten";
+            IEnumerable<string> expected = new[] { "kittens" }; // TODO: Initialize to an appropriate value
             IEnumerable<string> actual;
             actual = NounConjugator.GetLexicalForms(root);
-            Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
-        }
-
-
-
-        /// <summary>
-        ///A test for TryComputeConjugations
-        ///</summary>
-        [TestMethod()]
-        public void TryComputeConjugationsTest() {
-            string exceptionsFilePath = string.Empty; // TODO: Initialize to an appropriate value
-
-            string root = string.Empty; // TODO: Initialize to an appropriate value
-            IEnumerable<string> expected = null; // TODO: Initialize to an appropriate value
-            IEnumerable<string> actual;
-            actual = NounConjugator.GetLexicalForms(root);
-            Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
+            foreach (var a in expected) {
+                Assert.IsTrue(actual.Contains(a));
+            }
         }
 
 

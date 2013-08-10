@@ -86,7 +86,7 @@
     <Compile Include="FileConveters\DocToDocXConverter.cs" />
     <Compile Include="FileConveters\DocxToTextConverter.cs" />
     <Compile Include="FileConveters\PdfToTextConverter.cs" />
-    <Compile Include="Serialization\XML\DocumentElementExtensions\WordExtensions.cs" />
+    <Compile Include="Serialization\XML\DocumentElementExtensions\SerializationExtensions.cs" />
     <Compile Include="Serialization\XML\ILexicalWriter.cs" />
     <Compile Include="FileTypes\FileTypeWrapperMismatchException.cs" />
     <Compile Include="FileTypes\GenericXMLFile.cs" />

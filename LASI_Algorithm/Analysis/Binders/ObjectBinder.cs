@@ -60,68 +60,73 @@ namespace LASI.Algorithm.Binding
         }
 
 
-
         private void TestBind(IEnumerable<Phrase> sequence) {
             var target = sequence.First(p => p is VerbPhrase) as VerbPhrase;
             var remaining = sequence.GetPhrasesAfter(bindingTarget);
             if (!remaining.Any())
                 return;
-            TypedBind(remaining, target);
+            TypedBind(remaining.Skip(1), target);
         }
 
         private void TypedBind(IEnumerable<Phrase> remaining, VerbPhrase target) {
-            remaining.First().Switch()
-                .Case<AdverbPhrase>(ap => {
-                    target.ModifyWith(ap);
-                    TypedBind(remaining.Skip(1), ap, target);
-                })
-                .Case<NounPhrase>(np => TypedBind(remaining.Skip(1), np, target));
+            Match.On(remaining.First())
+                 .With<AdverbPhrase>(ap => {
+                     target.ModifyWith(ap);
+                     TypedBind(remaining.Skip(1), ap, target);
+                 })
+                 .With<NounPhrase>(np => {
+                     TypedBind(remaining.Skip(1), np, target);
+                 });
 
         }
 
         private void TypedBind(IEnumerable<Phrase> remaining, AdverbPhrase ap, VerbPhrase target) {
-            remaining.First().Switch()
-                .Case<AdjectivePhrase>(p => TypedBind(remaining, p, target));
+            Match.On(remaining.First())
+                .With<AdjectivePhrase>(p => {
+                    TypedBind(remaining.Skip(1), p, target);
+                });
 
         }
 
         private void TypedBind(IEnumerable<Phrase> remaining, AdjectivePhrase p, VerbPhrase target) {
-            remaining.First().Switch()
-                .Case<NounPhrase>(np => {
+            Match.On(remaining.First())
+                .With<NounPhrase>(np => {
                     np.BindDescriptor(p);
                 })
-                .Case<AdverbPhrase>(ap => {
+                .With<AdverbPhrase>(ap => {
                     p.ModifyWith(ap);
                 })
-                .Case<ConjunctionPhrase>(cp => {
+                .With<ConjunctionPhrase>(cp => {
 
                 });
         }
 
         private void TypedBind(IEnumerable<Phrase> remaining, NounPhrase np, VerbPhrase target) {
-            remaining.First().Switch()
-                .Case<PrepositionalPhrase>(pp => {
+            Match.On(remaining.First())
+                .With<PrepositionalPhrase>(pp => {
                     target.BindIndirectObject(np);
-                    TypedBind(remaining, pp, target);
+                    TypedBind(remaining.Skip(1), pp, target);
                 })
-                .Case<ConjunctionPhrase>(cp => {
-                    TypedBind(remaining, cp, target);
+                .With<ConjunctionPhrase>(cp => {
+                    TypedBind(remaining.Skip(1), cp, target);
                 });
 
 
         }
 
         private void TypedBind(IEnumerable<Phrase> remaining, ConjunctionPhrase cp, VerbPhrase target) {
-            remaining.First().Switch()
-                .Case<NounPhrase>(np => cp.JoinedRight = np);
+            Match.On(remaining.First())
+                .With<NounPhrase>(np => {
+                    cp.JoinedRight = np;
+                });
         }
 
         private void TypedBind(IEnumerable<Phrase> remaining, PrepositionalPhrase pp, VerbPhrase target) {
-            remaining.First().Switch()
-               .Case<NounPhrase>(np => {
-                   target.BindDirectObject(np);
-                   TypedBind(remaining, np, target);
-               });
+            Match.On(remaining.First())
+                .With<NounPhrase>(np => {
+                    target.BindDirectObject(np);
+                    TypedBind(remaining.Skip(1), np, target);
+                });
         }
 
 

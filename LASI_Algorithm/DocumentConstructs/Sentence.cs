@@ -24,7 +24,7 @@ namespace LASI.Algorithm.DocumentConstructs
         public Sentence(IEnumerable<Phrase> phrases, SentenceEnding sentencePunctuation = null)
             : this() {
             Clauses = new[] { new Clause(from P in phrases select P) };
-            EndingPunctuation = EndingPunctuation ?? new SentenceEnding('.');
+            EndingPunctuation = sentencePunctuation ?? new SentenceEnding('.');
         }
         /// <summary>
         /// Initializes a new instance of the Sentence class.
@@ -34,7 +34,7 @@ namespace LASI.Algorithm.DocumentConstructs
         public Sentence(IEnumerable<Word> words, SentenceEnding sentencePunctuation = null)
             : this() {
             Clauses = new[] { new Clause(from W in words select W) };
-            EndingPunctuation = EndingPunctuation ?? new SentenceEnding('.');
+            EndingPunctuation = sentencePunctuation ?? new SentenceEnding('.');
         }
         /// <summary>
         /// Initializes a new instance of the Sentence class.
@@ -44,7 +44,7 @@ namespace LASI.Algorithm.DocumentConstructs
         public Sentence(IEnumerable<Clause> clauses, SentenceEnding sentencePunctuation = null)
             : this() {
             Clauses = clauses;
-            EndingPunctuation = EndingPunctuation ?? new SentenceEnding('.');
+            EndingPunctuation = sentencePunctuation ?? new SentenceEnding('.');
         }
         /// <summary>
         /// Returns the Phrase elements in the Sentence, following and not including the given Phrase. 
@@ -96,7 +96,7 @@ namespace LASI.Algorithm.DocumentConstructs
         /// <summary>
         /// Gets the sequence of Words which comprise the sentence.
         /// </summary>
-        public IEnumerable<Word> Words { get { return (from C in Clauses from P in C.Phrases from W in P.Words select W).Concat(new[] { EndingPunctuation }); } }
+        public IEnumerable<Word> Words { get { return (from C in Clauses from P in C.Phrases from W in P.Words select W); } }
         /// <summary>
         /// Gets the concatenated text content of all of the Words which compose the Sentence.
         /// </summary>

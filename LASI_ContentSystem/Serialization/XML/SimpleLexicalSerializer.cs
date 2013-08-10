@@ -1,5 +1,6 @@
 ﻿using LASI;
 using LASI.Algorithm;
+using LASI.Utilities.TypedSwitch;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -72,6 +73,21 @@ namespace LASI.ContentSystem.Serialization.XML
 
         public async Task WriteAsync(IEnumerable<ILexical> resultSet, string resultSetTitle, DegreeOfOutput degreeOfOutput) {
             await Target.WriteStringAsync(Serialize(resultSet, resultSetTitle, degreeOfOutput).ToString(SaveOptions.None));
+        }
+    }
+    static class Something
+    {
+        static void something(LASI.Algorithm.DocumentConstructs.Document document) {
+
+            foreach (var word in document.Words) {
+                var result =
+                    Match.From(word).To<double>()
+                    .With<Verb>(v => v.Subjects.First().Weight)
+                    .With<Pronoun>(p => p.EntityRefererredTo.Weight)
+                    .With<Adverb>(a => a.Weight)
+                    .Default(w => w.Weight)
+                    .Result;
+            }
         }
     }
 }

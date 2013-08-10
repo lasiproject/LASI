@@ -18,12 +18,12 @@ namespace LASI.Utilities.TypedSwitch
     #region Non Generic Switch Components
 
     /// <summary>
-    /// Forms the head of the customized Typed Switching block, Determining the object on which to switch.
+    /// Forms the head of the customized Typed Switching block and provides the switch control object.
     /// </summary>
     public class Switch
     {
         /// <summary>
-        /// Initializes a new instance of the TypedSwitch class head.
+        /// Initializes the head of a Typed Switch statement, specifying the value on which to switch.
         /// </summary>
         /// <param name="switchOn">The object on which to switch.</param>
         public Switch(object switchOn) {
@@ -146,6 +146,124 @@ namespace LASI.Utilities.TypedSwitch
                 action(s.SwitchOn as T);
         }
     }
+    public static class Match<T, R> where T : class
+    {
+        public static M<T, R> On(T matchOn) { return new M<T, R>(matchOn); }
+    }
+    public static class Match<T> where T : class
+    {
+        public static M<T> On(T matchOn) { return new M<T>(matchOn); }
+        public static TM<T> From(T matchOn) { return new TM<T>(matchOn); }
+    }
+    public static class Match
+    {
 
+
+        public static M<T> On<T>(T matchOn) where T : class { return new M<T>(matchOn); }
+        public static M<T, R> On<T, R>(T matchOn) where T : class { return new M<T, R>(matchOn); }
+        public static TM<T> From<T>(T matchOn) where T : class { return new TM<T>(matchOn); }
+    }
+    public class M<T, R> where T : class
+    {
+        protected internal M(T matchOn) { toMatch = matchOn; }
+        public M<T, R> With<TCase>(Func<R> func) where TCase : class,T {
+            if (result == null) {
+                if (toMatch is TCase) {
+                    result = func();
+                }
+            }
+            return this;
+        }
+        public M<T, R> With<TCase>(Func<TCase, bool> condition, Func<R> func) where TCase : class,T {
+            if (result == null) {
+                var matched = toMatch as TCase;
+                if (matched != null && condition(matched)) {
+                    result = func();
+                }
+            }
+            return this;
+        }
+        public M<T, R> With<TCase>(Func<TCase, R> func) where TCase : class,T {
+            if (result == null) {
+                var matched = toMatch as TCase;
+                if (matched != null) {
+                    result = func(matched);
+                }
+            }
+            return this;
+        }
+        public M<T, R> With<TCase>(Func<TCase, bool> condition, Func<TCase, R> func) where TCase : class,T {
+            if (result == null) {
+                var matched = toMatch as TCase;
+                if (matched != null && condition(matched)) {
+                    result = func(matched);
+                }
+            }
+            return this;
+        }
+        public M<T, R> Default(Func<R> func) {
+            if (result == null) {
+                result = func();
+            }
+            return this;
+        }
+        public M<T, R> Default(Func<T, R> func) {
+            if (result == null) {
+                result = func(toMatch);
+            }
+            return this;
+        }
+        public R Result { get { return result; } }
+
+        private T toMatch;
+        private R result;
+    }
+    public class M<T> where T : class
+    {
+
+        protected internal M(T matchOn) { toMatch = matchOn; }
+        public M<T> With<TCase>(Action action) where TCase : class ,T {
+            if (!matchFound) {
+                if (toMatch is TCase) {
+                    matchFound = true;
+                    action();
+                }
+            }
+            return this;
+        }
+        public M<T> With<TCase>(Action<TCase> action) where TCase : class ,T {
+            if (!matchFound) {
+                var matched = toMatch as TCase;
+                if (matched != null) {
+                    matchFound = true;
+                    action(matched);
+                }
+            }
+            return this;
+        }
+        public void Default(Action action) {
+            if (!matchFound) {
+                action();
+            }
+        }
+        public void Default(Action<T> action) {
+            if (!matchFound) {
+                action(toMatch);
+            }
+        }
+        private bool matchFound;
+        private T toMatch;
+
+    }
+    public struct TM<T> where T : class
+    {
+        internal TM(T toMatch) {
+            matchOn = toMatch;
+        }
+        public M<T, R> To<R>() {
+            return new M<T, R>(matchOn);
+        }
+        private T matchOn;
+    }
     #endregion
 }
