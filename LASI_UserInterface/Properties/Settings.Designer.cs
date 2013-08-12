@@ -70,5 +70,17 @@ namespace LASI.UserInterface.Properties {
                 this["AutoCleanProjectFiles"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool LogProcessMessagesToFile {
+            get {
+                return ((bool)(this["LogProcessMessagesToFile"]));
+            }
+            set {
+                this["LogProcessMessagesToFile"] = value;
+            }
+        }
     }
 }

@@ -114,7 +114,7 @@ namespace LASI.UserInterface
         }
 
 
-        private static readonly string[] acceptedFormats = { ".docx", ".txt", ".pdf" };
+        private static readonly string[] acceptedFormats = { ".doc", ".docx", ".txt", ".pdf" };
 
         /// <summary>
         /// Gets a string array containing all of the file extensions accepted by the DocumentManager.

@@ -18,7 +18,7 @@ namespace LASI.ContentSystem
         public DocXFile(string absolutePath)
             : base(absolutePath) {
             if (!this.Ext.Equals(".docx", StringComparison.OrdinalIgnoreCase)) {
-                throw new LASI.ContentSystem.FileTypeWrapperMismatchException(GetType().ToString(), Ext);
+                throw new LASI.ContentSystem.FileTypeWrapperMismatchException(GetType().ToString(), this.Ext);
             }
         }
 

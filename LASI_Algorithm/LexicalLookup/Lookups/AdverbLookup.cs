@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace LASI.Algorithm.Lookup 
+namespace LASI.Algorithm.Lookup
 {
     using SetReference = System.Collections.Generic.KeyValuePair<AdverbSetRelationship, int>;
     internal sealed class AdverbLookup : IWordNetLookup<Adverb>
@@ -19,7 +19,7 @@ namespace LASI.Algorithm.Lookup
             filePath = path;
         }
 
-        List<AdverbSynSet> allSets = new List<AdverbSynSet>();
+        HashSet<AdverbSynSet> allSets = new HashSet<AdverbSynSet>();
 
         /// <summary>
         /// Parses the contents of the underlying WordNet database file.

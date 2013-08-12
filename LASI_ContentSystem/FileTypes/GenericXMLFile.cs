@@ -28,7 +28,7 @@ namespace LASI.ContentSystem
         public GenericXMLFile(string filePath)
             : base(filePath) {
             if (!this.Ext.Equals(".xml", StringComparison.OrdinalIgnoreCase))
-                throw new FileTypeWrapperMismatchException(GetType().ToString(), Ext);
+                throw new FileTypeWrapperMismatchException(GetType().ToString(), this.Ext);
 
         }
 

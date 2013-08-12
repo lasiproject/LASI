@@ -20,7 +20,7 @@ namespace LASI.ContentSystem
         public TaggedFile(string filePath)
             : base(filePath) {
             if (!this.Ext.Equals(".tagged", StringComparison.OrdinalIgnoreCase))
-                throw new LASI.ContentSystem.FileTypeWrapperMismatchException(GetType().ToString(), Ext);
+                throw new LASI.ContentSystem.FileTypeWrapperMismatchException(GetType().ToString(), this.Ext);
         }
         /// <summary>
         /// Gets a single string containing all of the text in the TaggedFile.

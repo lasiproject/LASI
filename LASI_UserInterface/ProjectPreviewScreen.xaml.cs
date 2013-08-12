@@ -1,19 +1,11 @@
 ﻿using LASI.ContentSystem;
 using LASI.UserInterface.Dialogs;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace LASI.UserInterface
 {
@@ -66,7 +58,11 @@ namespace LASI.UserInterface
 
         private async Task AddNewDocument(string docPath) {
             var chosenFile = FileManager.AddFile(docPath, true);
-            await FileManager.ConvertAsNeededAsync();
+            try {
+                await FileManager.ConvertAsNeededAsync();
+            } catch (FileConversionFailureException e) {
+                MessageBox.Show(this, string.Format(".doc file conversion failed\n{0}", e.Message));
+            }
             var textfile = FileManager.TextFiles.Where(f => f.NameSansExt == chosenFile.NameSansExt).First();
             await LoadTextandTabAsync(textfile);
             CheckIfAddingAllowed();
@@ -130,7 +126,7 @@ namespace LASI.UserInterface
         }
         private async void AddNewDocument_Click(object sender, RoutedEventArgs e) {
             var openDialog = new Microsoft.Win32.OpenFileDialog {
-                Filter = "LASI File Types|*.docx; *.pdf; *.txt",
+                Filter = "LASI File Types|*.doc; *.docx; *.pdf; *.txt",
 
             };
             openDialog.ShowDialog(this);

@@ -31,12 +31,10 @@ namespace LASI.UserInterface
         /// Initializes a new instance of the StartupScreen class.
         /// </summary>
         public StartupScreen() {
-            var logFileName = "lasi_log";
-            SetupFileLogging(Environment.GetCommandLineArgs()[0], logFileName);
+            SetupLogging(Environment.GetCommandLineArgs()[0], "lasi_log");
             InitializeComponent();
-            ProjectNameTextBox.Text = LASI.UserInterface.Properties.Settings.Default.AutoNameProjects ? "MyProject" : "";
+            ProjectNameTextBox.Text = Properties.Settings.Default.AutoNameProjects ? "MyProject" : "";
             WindowManager.Intialize();
-            SetupAdditionalBehaviors();
             Resources["createButtonContent"] = "Create";
             this.Left = (System.Windows.SystemParameters.WorkArea.Width - this.Width) / 2;
             this.Top = (System.Windows.SystemParameters.WorkArea.Height - this.MaxHeight) / 2;
@@ -45,13 +43,18 @@ namespace LASI.UserInterface
             ProcessOpenWithFiles(System.Environment.GetCommandLineArgs().Skip(1));
         }
 
-        private void SetupFileLogging(string logFileParentDirectory, string logFileName) {
-
-            try {
-                Output.SetToFile(System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), logFileName + ".txt"));
-            } catch (IOException) {
-                SetupFileLogging(logFileParentDirectory, logFileName + (char)(DateTime.Now.Second % 9 + 48));
-            }
+        private void SetupLogging(string logFileParentDirectory, string logFileName) {
+            if (Properties.Settings.Default.LogProcessMessagesToFile) {
+                try {
+                    var logDir = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "LASI");
+                    if (!Directory.Exists(logDir)) { Directory.CreateDirectory(logDir); }
+                    Output.SetToFile(System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                       "LASI",
+                        logFileName + ".txt"));
+                } catch (IOException) {
+                    SetupLogging(logFileParentDirectory, logFileName + (char)(DateTime.Now.Second % 9 + 48));
+                }
+            } else { Output.SilenceAll(); }
         }
         #endregion
 
@@ -66,21 +69,13 @@ namespace LASI.UserInterface
             if (!DocumentManager.IsEmpty) { expandCreatePanelButton_Click(expandCreatePanelButton, new RoutedEventArgs()); }
         }
 
-        void SetupAdditionalBehaviors() {
-            //Allow any part of the window to respond to the Drag move command. this is used here for clarity.
-            this.MouseLeftButtonDown += (s, e) => DragMove();
-            //If the AutoDebugCleanupOn setting is set to "true", destroy the project file directory when the application is closed.
-            //if (ConfigurationManager.AppSettings["AutoDebugCleanupOn"] == "true") {
-            //    App.Current.Exit += (sender, e) => {
-            //        if (FileManager.Initialized)
-            //            FileManager.DecimateProject();
-            //    };
-            //}
-        }
-
         private async Task SetUpDefaultDirectory() {
             locationTextBox.Text = await Task.Run(() => {
-                var location = System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData, System.Environment.SpecialFolderOption.Create), "Projects");
+                var location =
+                    System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData,
+                    System.Environment.SpecialFolderOption.Create),
+                    "LASI",
+                    "Projects");
                 if (!Directory.Exists(location)) {
                     Directory.CreateDirectory(location);
                 }
@@ -88,24 +83,29 @@ namespace LASI.UserInterface
                 return location;
 
             });
-
+            locationTextBox.ScrollToEnd();
             locationTextBox.TextChanged += (sender2, e2) => locationTextBox.ScrollToEnd();
         }
 
         private async Task InitializeFileManager() {
             var initPath = System.IO.Path.Combine(locationTextBox.Text, ProjectNameTextBox.Text);
             for (var i = 0; i < Int32.MaxValue - 1; ++i) {
-                if (Directory.Exists(initPath)) 
+                if (Directory.Exists(initPath))
                     initPath = initPath + i;
                 else
                     break;
             }
             FileManager.Initialize(initPath);
             foreach (var file in documentsAddedListBox.Items) {
-                FileManager.AddFile((file as ListViewItem).Tag.ToString(), true);
+                try {
+                    FileManager.AddFile((file as ListViewItem).Tag.ToString(), true);
+                } catch (FileNotFoundException e) { MessageBox.Show(this, e.Message); }
             }
-            await FileManager.ConvertAsNeededAsync();
-
+            try {
+                await FileManager.ConvertAsNeededAsync();
+            } catch (FileConversionFailureException e) {
+                MessageBox.Show(this, string.Format(".doc file conversion failed\n{0}", e.Message));
+            }
         }
 
         #endregion
@@ -214,7 +214,7 @@ namespace LASI.UserInterface
         private void browseForDocButton_Click(object sender, RoutedEventArgs e) {
             if (DocumentManager.AddingAllowed) {
                 var openDialog = new Microsoft.Win32.OpenFileDialog {
-                    Filter = "LASI File Types|*.docx; *.pdf; *.txt",
+                    Filter = "LASI File Types|*.doc; *.docx; *.pdf; *.txt",
                 };
                 openDialog.ShowDialog(this);
                 if (openDialog.FileNames.Any()) {
@@ -283,7 +283,9 @@ namespace LASI.UserInterface
                 }
             }
         }
-
+        private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e) {
+            DragMove();
+        }
         #endregion
 
         #region Helper Methods

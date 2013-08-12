@@ -15,7 +15,8 @@
     WindowStyle="None"
     Background="#FFE8E8E8"
     WindowStartupLocation="CenterOwner"
-    AllowDrop="False">
+    AllowDrop="False"
+    MouseLeftButtonDown="Window_MouseLeftButtonDown">
     <Grid
         Name="mainGrid"
         Background="#FFE8E8E8"

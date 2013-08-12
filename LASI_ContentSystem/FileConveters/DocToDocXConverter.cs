@@ -38,21 +38,25 @@ namespace LASI.ContentSystem
         /// <returns>An input document object representing the newly converted file
         /// Note that both the original and converted document objects can be also be accessed independtly via instance properties</returns>
         public override InputFile ConvertFile() {
-            var proc = new Process();
-            proc.EnableRaisingEvents = true;
-            proc.StartInfo = new ProcessStartInfo {
-                FileName = @"..\..\..\ThirdPartyComponents\FileFormatConversion\doc2x\doc2x.exe",
-                Arguments = Original.FileName,
-                WorkingDirectory = Original.Directory,
-                CreateNoWindow = true,
-                RedirectStandardError = true,
-                RedirectStandardInput = true,
-                RedirectStandardOutput = true,
-                UseShellExecute = false
+            var process = new Process {
+                EnableRaisingEvents = true,
+                StartInfo = new ProcessStartInfo {
+                    FileName = System.IO.Path.Combine(doc2xPath, "doc2x.exe"),
+                    Arguments = Original.FullPath,
+                    WorkingDirectory = Original.Directory,
+                    CreateNoWindow = false,
+                    UseShellExecute = false,
+                    RedirectStandardError = true,
+                    RedirectStandardInput = true,
+                    RedirectStandardOutput = true,
+                }
             };
-            proc.Start();
-            proc.WaitForExit();
+            process.OutputDataReceived += (sender, e) => Output.Write(e.Data);
+            var stopWatch = Stopwatch.StartNew();
+            process.Start();
+            process.WaitForExit();
             Converted = new DocXFile(Original.PathSansExt + ".docx");
+            Output.WriteLine("Converted {0} to {1} in {2}", Original.FileName, Converted.FileName, stopWatch.Elapsed);
             return Converted;
         }
 
@@ -77,6 +81,7 @@ namespace LASI.ContentSystem
             get;
             protected set;
         }
+        public static readonly string doc2xPath = System.Configuration.ConfigurationManager.AppSettings["ConvertersDirectory"];
 
 
 

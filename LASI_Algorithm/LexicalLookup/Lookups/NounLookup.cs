@@ -8,7 +8,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 
 
-namespace LASI.Algorithm.Lookup 
+namespace LASI.Algorithm.Lookup
 {
     using LASI.Algorithm.Lookup.InterSetRelationshipManagement;
     using SetReference = System.Collections.Generic.KeyValuePair<NounSetRelationship, int>;
@@ -21,10 +21,13 @@ namespace LASI.Algorithm.Lookup
         /// <param name="path">The path of the WordNet database file containing the synonym data for nouns.</param>
         public NounLookup(string path) {
             filePath = path;
+            InitCategoryGroupsDictionary();
         }
         //ConcurrentDictionary<int, HashSet<NounSynSet>> cachedSetTraverals = new ConcurrentDictionary<int, HashSet<NounSynSet>>();
         HashSet<NounSynSet> allSets = new HashSet<NounSynSet>();
-        Dictionary<int, NounSynSet> data = new Dictionary<int, NounSynSet>();
+        //Dictionary<int, NounSynSet> data = new Dictionary<int, NounSynSet>();
+        IDictionary<int, NounSynSet> data = new ConcurrentDictionary<int, NounSynSet>();
+
         /// <summary>
         /// Parses the contents of the underlying WordNet database file.
         /// </summary>
@@ -122,35 +125,68 @@ namespace LASI.Algorithm.Lookup
             }
         }
 
-        private Dictionary<NounCategory, List<NounSynSet>> lexicalGoups = new Dictionary<NounCategory, List<NounSynSet>>
-        {
-            { NounCategory.Tops, new List<NounSynSet>() },
-            { NounCategory.Act,new List<NounSynSet>() },
-            { NounCategory.Animal,new List<NounSynSet>() },
-            { NounCategory.Artifact,new List<NounSynSet>() },
-            { NounCategory.Attribute,new List<NounSynSet>() },
-            { NounCategory.Body,new List<NounSynSet>() },
-            { NounCategory.Cognition,new List<NounSynSet>() },
-            { NounCategory.Communication,new List<NounSynSet>() },
-            { NounCategory.Event,new List<NounSynSet>() },
-            { NounCategory.Feeling,new List<NounSynSet>() },
-            { NounCategory.Food,new List<NounSynSet>() },
-            { NounCategory.Group,new List<NounSynSet>() },
-            { NounCategory.Location,new List<NounSynSet>() },
-            { NounCategory.Motive,new List<NounSynSet>() },
-            { NounCategory.Object,new List<NounSynSet>() },
-            { NounCategory.Person,new List<NounSynSet>() },
-            { NounCategory.Phenomenon,new List<NounSynSet>() },
-            { NounCategory.Plant,new List<NounSynSet>() },
-            { NounCategory.Possession,new List<NounSynSet>() },
-            { NounCategory.Process,new List<NounSynSet>() },
-            { NounCategory.Quantity,new List<NounSynSet>() },
-            { NounCategory.Relation,new List<NounSynSet>() },
-            { NounCategory.Shape,new List<NounSynSet>() },
-            { NounCategory.State,new List<NounSynSet>() },
-            { NounCategory.Substance,new List<NounSynSet>() },
-            { NounCategory.Time,new List<NounSynSet>() }
-        };
+
+        private ConcurrentDictionary<NounCategory, List<NounSynSet>> lexicalGoups = new ConcurrentDictionary<NounCategory, List<NounSynSet>>();
+        private void InitCategoryGroupsDictionary() {
+
+            lexicalGoups[NounCategory.Tops] = new List<NounSynSet>();
+            lexicalGoups[NounCategory.Act] = new List<NounSynSet>();
+            lexicalGoups[NounCategory.Animal] = new List<NounSynSet>();
+            lexicalGoups[NounCategory.Artifact] = new List<NounSynSet>();
+            lexicalGoups[NounCategory.Attribute] = new List<NounSynSet>();
+            lexicalGoups[NounCategory.Body] = new List<NounSynSet>();
+            lexicalGoups[NounCategory.Cognition] = new List<NounSynSet>();
+            lexicalGoups[NounCategory.Communication] = new List<NounSynSet>();
+            lexicalGoups[NounCategory.Event] = new List<NounSynSet>();
+            lexicalGoups[NounCategory.Feeling] = new List<NounSynSet>();
+            lexicalGoups[NounCategory.Food] = new List<NounSynSet>();
+            lexicalGoups[NounCategory.Group] = new List<NounSynSet>();
+            lexicalGoups[NounCategory.Location] = new List<NounSynSet>();
+            lexicalGoups[NounCategory.Motive] = new List<NounSynSet>();
+            lexicalGoups[NounCategory.Object] = new List<NounSynSet>();
+            lexicalGoups[NounCategory.Person] = new List<NounSynSet>();
+            lexicalGoups[NounCategory.Phenomenon] = new List<NounSynSet>();
+            lexicalGoups[NounCategory.Plant] = new List<NounSynSet>();
+            lexicalGoups[NounCategory.Possession] = new List<NounSynSet>();
+            lexicalGoups[NounCategory.Process] = new List<NounSynSet>();
+            lexicalGoups[NounCategory.Quantity] = new List<NounSynSet>();
+            lexicalGoups[NounCategory.Relation] = new List<NounSynSet>();
+            lexicalGoups[NounCategory.Shape] = new List<NounSynSet>();
+            lexicalGoups[NounCategory.State] = new List<NounSynSet>();
+            lexicalGoups[NounCategory.Substance] = new List<NounSynSet>();
+            lexicalGoups[NounCategory.Time] = new List<NounSynSet>();
+        }
+
+
+        //private Dictionary<NounCategory, List<NounSynSet>> lexicalGoups = new Dictionary<NounCategory, List<NounSynSet>>
+        //{
+        //    { NounCategory.Tops, new List<NounSynSet>() },
+        //    { NounCategory.Act,new List<NounSynSet>() },
+        //    { NounCategory.Animal,new List<NounSynSet>() },
+        //    { NounCategory.Artifact,new List<NounSynSet>() },
+        //    { NounCategory.Attribute,new List<NounSynSet>() },
+        //    { NounCategory.Body,new List<NounSynSet>() },
+        //    { NounCategory.Cognition,new List<NounSynSet>() },
+        //    { NounCategory.Communication,new List<NounSynSet>() },
+        //    { NounCategory.Event,new List<NounSynSet>() },
+        //    { NounCategory.Feeling,new List<NounSynSet>() },
+        //    { NounCategory.Food,new List<NounSynSet>() },
+        //    { NounCategory.Group,new List<NounSynSet>() },
+        //    { NounCategory.Location,new List<NounSynSet>() },
+        //    { NounCategory.Motive,new List<NounSynSet>() },
+        //    { NounCategory.Object,new List<NounSynSet>() },
+        //    { NounCategory.Person,new List<NounSynSet>() },
+        //    { NounCategory.Phenomenon,new List<NounSynSet>() },
+        //    { NounCategory.Plant,new List<NounSynSet>() },
+        //    { NounCategory.Possession,new List<NounSynSet>() },
+        //    { NounCategory.Process,new List<NounSynSet>() },
+        //    { NounCategory.Quantity,new List<NounSynSet>() },
+        //    { NounCategory.Relation,new List<NounSynSet>() },
+        //    { NounCategory.Shape,new List<NounSynSet>() },
+        //    { NounCategory.State,new List<NounSynSet>() },
+        //    { NounCategory.Substance,new List<NounSynSet>() },
+        //    { NounCategory.Time,new List<NounSynSet>() }
+        //};
 
         private static bool IncludeReference(NounSetRelationship referenceRelationship) {
             return

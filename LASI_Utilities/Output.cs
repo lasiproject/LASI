@@ -609,7 +609,11 @@ namespace LASI
         /// <summary>
         /// Gets the System.IO.TextWriter object to which all output is currently written.
         /// </summary>
-        private static TextWriter currentStream;
+        private static StreamWriter currentStream;
+
+        public static StreamWriter CurrentStream {
+            get { return Output.currentStream; }
+        }
         /// <summary>
         /// Gets the OutputMode indicating where the output is being directed.
         /// </summary>

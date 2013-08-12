@@ -7,6 +7,24 @@ using System.Threading.Tasks;
 
 namespace LASI.ContentSystem
 {
+
+    /// <summary>
+    /// The exception thrown when a conversion between document file formats fails.
+    /// </summary>
+    [Serializable]
+    public class FileConversionFailureException : FileManagerException
+    {
+        /// <summary>
+        /// Initializes a new instance of the FileConversionFailureException with a message based on the supplied fileName, source type, and target type
+        /// </summary>
+        /// <param name="fileName">The name of the file for which conversion failed.</param>
+        /// <param name="sourceType">The extension of the source file format.</param>
+        /// <param name="targetType">The extension of the target file format</param>
+        public FileConversionFailureException(string fileName, string sourceType, string targetType) : base(string.Format(".doc conversion failed\nCould not convert {0} from {1} to {2}.", fileName, sourceType, targetType)) { }
+        protected FileConversionFailureException(string message) : base(message) { }
+        protected FileConversionFailureException(string message, Exception inner) : base(message, inner) { }
+        protected FileConversionFailureException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
+    }
     /// <summary>
     /// The exception thrown when methods are invoked or preperties accessed on the FilaManager before a call has been made to initialize it.
     /// </summary>
@@ -14,7 +32,7 @@ namespace LASI.ContentSystem
     public class FileManagerNotInitializedException : FileManagerException
     {
         /// <summary>
-        /// Initializes a new instance of the FileManagerException class with with its message string set to message.
+        /// Initializes a new instance of the FileManagerNotInitializedException class with its message string set to message.
         /// </summary> 
         public FileManagerNotInitializedException()
             : base("File Manager has not been initialized. No directory context in which to operate.") {
@@ -41,14 +59,14 @@ namespace LASI.ContentSystem
                  select k);
         }
         /// <summary>
-        /// Initializes a new instance of the UnsupportedFileTypeAddedException class with with its message string set to message.
+        /// Initializes a new instance of the UnsupportedFileTypeAddedException class with its message string set to message.
         /// </summary>
         /// <param name="unsupportedFormat">A description of the error. The content of message is intended to be understood</param>
         public UnsupportedFileTypeAddedException(string unsupportedFormat)
             : base(FormatMessage(unsupportedFormat)) {
         }
         /// <summary>
-        /// Initializes a new instance of the UnsupportedFileTypeAddedException class with with its message string set to message.
+        /// Initializes a new instance of the UnsupportedFileTypeAddedException class with its message string set to message.
         /// </summary>
         /// <param name="unsupportedFormat">A description of the error. The content of message is intended to be understood</param>
         /// <param name="inner">
@@ -61,7 +79,7 @@ namespace LASI.ContentSystem
 
         }
         /// <summary>
-        /// Initializes a new instance of the UnsupportedFileTypeAddedException class with with its message string set to message.
+        ///Initializes a new instance of the UnsupportedFileTypeAddedException class with serialized data.
         /// </summary>
         /// <param name="info">
         /// The object that holds the serialized object data about the exception being
@@ -81,7 +99,7 @@ namespace LASI.ContentSystem
     public abstract class FileManagerException : FileSystemException
     {
         /// <summary>
-        /// Initializes a new instance of the FileManagerException class with with its message string set to message.
+        /// Initializes a new instance of the FileManagerException class with its message string set to message.
         /// </summary>
         /// <param name="message">A description of the error. The content of message is intended to be understood</param>
         protected FileManagerException(string message)
@@ -89,7 +107,7 @@ namespace LASI.ContentSystem
             CollectDirInfo();
         }
         /// <summary>
-        /// Initializes a new instance of the FileManagerException class with with its message string set to message.
+        /// Initializes a new instance of the FileManagerException class with its message string set to message.
         /// </summary>
         /// <param name="message">A description of the error. The content of message is intended to be understood</param>
         /// <param name="inner">
@@ -103,7 +121,7 @@ namespace LASI.ContentSystem
         }
 
         /// <summary>
-        /// Initializes a new instance of the FileManagerException class with with its message string set to message.
+        ///Initializes a new instance of the FileManagerException class with serialized data.
         /// </summary>
         /// <param name="info">
         /// The object that holds the serialized object data about the exception being
@@ -146,7 +164,7 @@ namespace LASI.ContentSystem
     public abstract class FileSystemException : Exception
     {
         /// <summary>
-        /// Initializes a new instance of the FileSystemException class with with its message string set to message.
+        /// Initializes a new instance of the FileSystemException class with its message string set to message.
         /// </summary>
         /// <param name="message">A description of the error. The content of message is intended to be understood</param>
         protected FileSystemException(string message)
@@ -154,7 +172,7 @@ namespace LASI.ContentSystem
 
         }
         /// <summary>
-        /// Initializes a new instance of the FileSystemException class with with its message string set to message.
+        /// Initializes a new instance of the FileSystemException class with its message string set to message.
         /// </summary>
         /// <param name="message">A description of the error. The content of message is intended to be understood</param>
         /// <param name="inner">
@@ -168,7 +186,7 @@ namespace LASI.ContentSystem
         }
 
         /// <summary>
-        /// Initializes a new instance of the FileSystemException class with with its message string set to message.
+        /// Initializes a new instance of the FileSystemException class with serialized data.
         /// </summary>
         /// <param name="info">
         /// The object that holds the serialized object data about the exception being

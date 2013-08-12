@@ -17,8 +17,8 @@ namespace LASI.ContentSystem
         /// <exception cref="FileTypeWrapperMismatchException">Thrown if the provided path does not end in the .doc extension.</exception>
         public DocFile(string absolutePath)
             : base(absolutePath) {
-            if (this.Ext != ".doc" && this.Ext != ".DOC") {
-                throw new LASI.ContentSystem.FileTypeWrapperMismatchException(GetType().ToString(), Ext);
+            if (!this.Ext.Equals(".doc", StringComparison.OrdinalIgnoreCase)) {
+                throw new LASI.ContentSystem.FileTypeWrapperMismatchException(GetType().ToString(), this.Ext);
             }
         }
 

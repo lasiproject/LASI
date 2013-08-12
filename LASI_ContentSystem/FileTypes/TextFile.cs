@@ -19,7 +19,7 @@ namespace LASI.ContentSystem
         public TextFile(string absolutePath)
             : base(absolutePath) {
             if (!this.Ext.Equals(".txt", StringComparison.OrdinalIgnoreCase))
-                throw new FileTypeWrapperMismatchException(GetType().ToString(), Ext);
+                throw new FileTypeWrapperMismatchException(GetType().ToString(), this.Ext);
         }
 
 

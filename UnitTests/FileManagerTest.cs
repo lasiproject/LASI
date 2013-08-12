@@ -143,7 +143,7 @@ namespace AlgorithmAssemblyUnitTestProject
         public void ConvertDocFilesTest() {
             DocFile[] files = (from F in Directory.EnumerateFiles(FileManager.DocFilesDir)
                                select new DocFile(F)).ToArray();
-            FileManager.ConvertDocFiles(files);
+            FileManager.ConvertDocToText(files);
             foreach (var F in files)
                 Assert.IsTrue(File.Exists(FileManager.DocxFilesDir + "\\" + F.NameSansExt + ".docx"));
         }
@@ -156,7 +156,7 @@ namespace AlgorithmAssemblyUnitTestProject
             DocFile[] files = (from F in Directory.EnumerateFiles(FileManager.DocFilesDir)
                                select new DocFile(F)).ToArray();
 
-            await FileManager.ConvertDocFilesAsync(files);
+            await FileManager.ConvertDocToTextAsync(files);
 
             foreach (var F in files)
                 Assert.IsTrue(File.Exists(FileManager.DocxFilesDir + "\\" + F.NameSansExt + ".docx"));

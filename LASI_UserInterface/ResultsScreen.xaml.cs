@@ -1,8 +1,11 @@
 using LASI;
 using LASI.Algorithm;
+using LASI.Algorithm.Binding;
 using LASI.Algorithm.DocumentConstructs;
 using LASI.Algorithm.Lookup;
+using LASI.Algorithm.Weighting;
 using LASI.ContentSystem;
+using LASI.ContentSystem.Serialization.XML;
 using LASI.InteropLayer;
 using LASI.UserInterface.Dialogs;
 using LASI.Utilities;
@@ -129,7 +132,10 @@ namespace LASI.UserInterface
             return wordLabel;
         }
 
-
+        /// <summary>
+        /// Asynchronously builds and displays the reconstructed text views for all documents.
+        /// </summary>
+        /// <returns>A System.Threading.Tasks.Task object representing the ongoing asynchronous operation.</returns>
         public async Task BuildTextViewsForAllDocumentsAsync() {  // This is for the lexial relationships tab
             var tasks = documents.Select(d => BuildTextViewOfDocument(d)).ToList();
             while (tasks.Any()) {
@@ -212,8 +218,12 @@ namespace LASI.UserInterface
         private async Task ProcessNewDocument(string docPath, ProgressBar progressBar, Label progressLabel) {
 
             var chosenFile = FileManager.AddFile(docPath, true);
+            try {
+                await FileManager.ConvertAsNeededAsync();
+            } catch (FileConversionFailureException e) {
+                MessageBox.Show(this, string.Format(".doc file conversion failed\n{0}", e.Message));
+            }
 
-            await FileManager.ConvertAsNeededAsync();
             currentOperationProgressBar.Value += 10;
             currentOperationLabel.Content = string.Format("Tagging {0}...", chosenFile.NameSansExt);
             var textfile = FileManager.TextFiles.Where(f => f.NameSansExt == chosenFile.NameSansExt).First();
@@ -221,7 +231,7 @@ namespace LASI.UserInterface
             var doc = await Tagger.DocumentFromRawAsync(textfile);
             currentOperationProgressBar.Value += 10;
             currentOperationLabel.Content = string.Format("{0}: Analyzing Syntax...", chosenFile.NameSansExt);
-            foreach (var task in LASI.Algorithm.Binding.Binder.GetBindingTasksForDocument(doc)) {
+            foreach (var task in Binder.GetBindingTasksForDocument(doc)) {
                 currentOperationLabel.Content = task.InitializationMessage;
                 await task.Task;
                 currentOperationProgressBar.Value += task.PercentWorkRepresented;
@@ -229,7 +239,7 @@ namespace LASI.UserInterface
             }
             currentOperationProgressBar.Value += 15;
             currentOperationLabel.Content = string.Format("{0}: Correlating Relationships...", chosenFile.NameSansExt);
-            var tasks = LASI.Algorithm.Weighting.Weighter.GetWeightingProcessingTasks(doc).ToList();
+            var tasks = Weighter.GetWeightingProcessingTasks(doc).ToList();
             foreach (var task in tasks) {
 
                 var message = task.InitializationMessage;
@@ -299,12 +309,12 @@ namespace LASI.UserInterface
         private async void exportButton_Click(object sender, RoutedEventArgs e) {
             foreach (var doc in documents) {
                 using (
-                    var docWriter = new LASI.ContentSystem.Serialization.XML.SimpleLexicalSerializer(
+                    var docWriter = new SimpleLexicalSerializer(
                     FileManager.ResultsDir + System.IO.Path.DirectorySeparatorChar + new string(
                     doc.Name.TakeWhile(c => c != '.').ToArray()) + ".xml")) {
                     await docWriter.WriteAsync(from S in doc.Sentences
                                                from R in S.Phrases
-                                               select R, doc.Name, LASI.ContentSystem.Serialization.XML.DegreeOfOutput.Comprehensive);
+                                               select R, doc.Name, DegreeOfOutput.Comprehensive);
                 }
             }
             var exportDialog = new ExportResultsDialog();

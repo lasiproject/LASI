@@ -10,7 +10,7 @@ namespace LASI.ContentSystem
 {
     /// <summary>
     /// An input file converter specialized to extract the written content from a .docx (Microsoft wd 2003+ open XML file format)
-    /// and create a text file storing this content as raw text.
+    /// and create a text file containing this content as raw text.
     /// </summary>
     public class DocxToTextConverter : FileConverter
     {
@@ -109,11 +109,6 @@ namespace LASI.ContentSystem
                 }
             }
             Converted = new TextFile(Original.PathSansExt + ".txt");
-            //foreach (var f in from f in new DirectoryInfo(destinationDir).EnumerateFiles()
-            //                  where f.FullName != Converted.FullPath
-            //                  select f) {
-            //    f.Delete();
-            //}
             return Converted;
 
         }

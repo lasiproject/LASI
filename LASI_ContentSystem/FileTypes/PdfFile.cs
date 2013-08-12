@@ -20,7 +20,7 @@ namespace LASI.ContentSystem
         public PdfFile(string absolutePath)
             : base(absolutePath) {
             if (!this.Ext.Equals(".pdf", StringComparison.OrdinalIgnoreCase))
-                throw new LASI.ContentSystem.FileTypeWrapperMismatchException(GetType().ToString(), Ext);
+                throw new LASI.ContentSystem.FileTypeWrapperMismatchException(GetType().ToString(), this.Ext);
 
         }
     }

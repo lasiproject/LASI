@@ -50,9 +50,9 @@ namespace LASI.Utilities.TypedSwitch
         /// <typeparam name="T">The type of the value to switch on.</typeparam>
         /// <param name="switchOn">The value to switch on.</param>
         /// <returns>A Swictch object describing the new Switch statement.</returns>
-        public static Switch Switch<T>(this T switchOn) where T : class {
-            return new Switch(switchOn);
-        }
+        //public static Switch Switch<T>(this T switchOn) where T : class {
+        //    return new Switch(switchOn);
+        //}
         /// <summary>
         /// Appends a new case to the Typed Switch statement.
         /// </summary>
@@ -155,10 +155,23 @@ namespace LASI.Utilities.TypedSwitch
         public static M<T> On(T matchOn) { return new M<T>(matchOn); }
         public static TM<T> From(T matchOn) { return new TM<T>(matchOn); }
     }
+    static class IEnumerableMatchingExtensions
+    {
+        static IEnumerable<R> PatternMatch<T, R>(IEnumerable<T> elements)
+            where T : class
+            where R : class,T {
+            return from e in elements
+                   select Match.From<T>(e).To<R>()
+                          .With<T>(x => x as R)
+                          .With<R>(x => x != e, r => r)
+                          .Result into result
+                   where result != null
+                   select result;
+        }
+    }
     public static class Match
     {
-
-
+        //public static M<T, T> On<T>(T matchOn) where T : class { return new M<T, T>(matchOn); }
         public static M<T> On<T>(T matchOn) where T : class { return new M<T>(matchOn); }
         public static M<T, R> On<T, R>(T matchOn) where T : class { return new M<T, R>(matchOn); }
         public static TM<T> From<T>(T matchOn) where T : class { return new TM<T>(matchOn); }

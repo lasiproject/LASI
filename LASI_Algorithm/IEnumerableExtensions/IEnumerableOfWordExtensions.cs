@@ -88,6 +88,14 @@ namespace LASI.Algorithm
             return words.OfType<ProperNoun>();
         }
         /// <summary>
+        /// Returns all GenericNouns in the collection.
+        /// </summary>
+        /// <param name="words">The sequence of Words to filter.</param>
+        /// <returns>All GenericNouns in the collection.</returns>
+        public static IEnumerable<GenericNoun> GetGenericNouns(this IEnumerable<Word> words) {
+            return words.OfType<GenericNoun>();
+        }
+        /// <summary>
         /// Returns all of the standard Pronouns in the collection.
         /// RelativePronouns are not included in the result.
         /// </summary>
@@ -157,6 +165,7 @@ namespace LASI.Algorithm
         #endregion
 
         #endregion
+
         #region Parallel Implementations
         /// <summary>
         /// Retrives all words in the words collection which compare equal to a given word.
@@ -232,6 +241,14 @@ namespace LASI.Algorithm
             return words.OfType<ProperNoun>();
         }
         /// <summary>
+        /// Returns all GenericNouns in the collection.
+        /// </summary>
+        /// <param name="words">The sequence of Words to filter.</param>
+        /// <returns>All GenericNouns in the collection.</returns>
+        public static ParallelQuery<GenericNoun> GetGenericNouns(this ParallelQuery<Word> words) {
+            return words.OfType<GenericNoun>();
+        }
+        /// <summary>
         /// Returns all of the standard Pronouns in the collection.
         /// RelativePronouns are not included in the result.
         /// </summary>
@@ -301,8 +318,6 @@ namespace LASI.Algorithm
         #endregion
 
         #endregion
-
-
     }
 
 }

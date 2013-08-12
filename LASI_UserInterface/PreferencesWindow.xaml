@@ -10,6 +10,84 @@
         <Grid
             Name="mainGrid"
             Margin="0,0,0,45">
+            <TabControl
+                x:Name="tabControl">
+                <TabItem
+                    Header="General">
+                    <Grid>
+                        <CheckBox
+                            x:Name="autoNameCheckBox"
+                            Content="Auto-Name New Projects"
+                            Height="18"
+                            VerticalAlignment="Top"
+                            Margin="0,10,0,0"
+                            Unchecked="autoNameCheckBox_Checked"
+                            Checked="autoNameCheckBox_Checked" />
+                        <CheckBox
+                            x:Name="minimizeToTrayCheckBox"
+                            Content="Minimize to the system tray"
+                            Height="18"
+                            VerticalAlignment="Top"
+                            Margin="0,33,0,0"
+                            Unchecked="minimizeToTrayCheckBox_Checked"
+                            Checked="minimizeToTrayCheckBox_Checked" />
+                        <CheckBox
+                            x:Name="logMessagesToFileCheckBox"
+                            Content="Log detailed process info to file"
+                            Height="18"
+                            VerticalAlignment="Top"
+                            Margin="0,56,0,0"
+                            Unchecked="logMessagesToFileCheckBox_Checked"
+                            Checked="logMessagesToFileCheckBox_Checked" />
+                    </Grid>
+                </TabItem>
+                <TabItem
+                    Header="Advanced"
+                    Background="LightGray">
+                    <Grid
+                        Margin="0,0,3,24">
+                        <Viewbox
+                            Margin="0,0,0,161"
+                            ToolTip="Use caution when changing the setting. Raising this value will make LASI process documents faster, but will leave fewer resources available for other programs. (Default: Normal)"
+                            Stretch="None"
+                            HorizontalAlignment="Left"
+                            Width="395">
+                            <Grid
+                                Height="auto">
+                                <Label
+                                    x:Name="label"
+                                    Content="Resource Usage"
+                                    ToolTip="Controls the amount of system resources LASI can consume.&#x0a;High: LASI will utilize a large percentage of available resources -> fastest processing time&#x0a;Normal: LASI will utilize a fair amount of available resources -> average processing time&#x0a;Low: LASI will utilize as few system resources as possible -> longest processing time&#x0a;"
+                                    Margin="0,0,10,122" />
+                                <RadioButton
+                                    Name="High"
+                                    Margin="10,33,35,0"
+                                    IsThreeState="False"
+                                    Content="High"
+                                    GroupName="performanceModes"
+                                    Height="24"
+                                    VerticalAlignment="Top"
+                                    Checked="anyPerformanceMode_Checked" />
+                                <RadioButton
+                                    Name="Normal"
+                                    Margin="10,57,35,71"
+                                    IsThreeState="False"
+                                    Content="Normal"
+                                    GroupName="performanceModes"
+                                    Checked="anyPerformanceMode_Checked" />
+                                <RadioButton
+                                    Name="Low"
+                                    Margin="10,79,35,47"
+                                    Content="Low"
+                                    GroupName="performanceModes"
+                                    Height="24"
+                                    Checked="anyPerformanceMode_Checked" />
+                            </Grid>
+                        </Viewbox>
+                       
+                    </Grid>
+                </TabItem>
+            </TabControl>
             <Frame
                 x:Name="mainFrame"
                 HorizontalAlignment="Left"

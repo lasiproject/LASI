@@ -35,7 +35,8 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\Algorithm.XML</DocumentationFile>
+    <DocumentationFile>
+    </DocumentationFile>
     <PlatformTarget>x64</PlatformTarget>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
@@ -93,6 +94,7 @@
     <Compile Include="Analysis\Binders\Experimental\ClauseSeperatingMultiBranchingBinder.cs" />
     <Compile Include="Analysis\Binders\Experimental\INestableLexical.cs" />
     <Compile Include="Analysis\Binders\Experimental\ExperimentalLexicalTypes\NestingClause.cs" />
+    <Compile Include="Analysis\Binders\Experimental\ObjectBinderV2.cs" />
     <Compile Include="Analysis\ProcessingTask.cs" />
     <Compile Include="Analysis\SubordinateClauseIdentifier.cs" />
     <Compile Include="IEnumerableExtensions\IEnumerableOfIPronounExtensions.cs" />
@@ -100,7 +102,7 @@
     <Compile Include="LexicalStructures\MiscLanguageConstructs\UnknownWord.cs" />
     <Compile Include="ResourceUsageManagement\Memory.cs" />
     <Compile Include="TextSourceAbstraction\IRawTextSource.cs" />
-    <Compile Include="EnumTypeExtensions.cs" />
+    <Compile Include="EntityKindClassificationExtensions.cs" />
     <Compile Include="IEnumerableExtensions\IEnumerableOfRecursiveIEnumerableILexicalsExtenstions.cs" />
     <Compile Include="TextSourceAbstraction\ITaggedTextSource.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\RelativePronounKind.cs" />
@@ -233,6 +235,7 @@
     <Compile Include="IEnumerableExtensions\IEnumerableOfWordExtensions.cs" />
     <Compile Include="LexicalLookup\Lookups\LookupSupport\WordNetLexCategoryInformation.cs" />
     <Compile Include="TextSourceAbstraction\TaggedTextFragment.cs" />
+    <None Include="LexicalStructures\UnderpinningTypes\ClassDiagram1.cd" />
     <None Include="ClassDiagrams\ClassDiagram1.cd" />
   </ItemGroup>
   <ItemGroup>

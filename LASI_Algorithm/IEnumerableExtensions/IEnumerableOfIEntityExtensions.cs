@@ -137,7 +137,7 @@ namespace LASI.Algorithm
         /// <param name="describables">The sequence of IDescribables to filter.</param>
         /// <param name="condition">The function which examines the descriptors bound to each element in the sequence.</param>
         /// <returns>All IDescribable Constructs in the given sequence which are bound to an IDescriptor that matches the given descriptorMatcher predicate function.</returns>
-        public static IEnumerable<T> HavingDescriptor<T>(this IEnumerable<T> describables, Func<IDescriptor, bool> condition) where T : IDescribable {
+        public static IEnumerable<T> WithDescriptor<T>(this IEnumerable<T> describables, Func<IDescriptor, bool> condition) where T : IDescribable {
             return describables.Where(d => d.Descriptors.Where(condition).Any());
         }
         #endregion
@@ -245,7 +245,7 @@ namespace LASI.Algorithm
         /// <param name="describables">The sequence of IDescribables to filter.</param>
         /// <param name="condition">The function which examines the descriptors bound to each element in the sequence.</param>
         /// <returns>All IDescribable Constructs in the given sequence which are bound to an IDescriptor that matches the given descriptorMatcher predicate function.</returns>
-        public static ParallelQuery<T> HavingDescriptor<T>(this ParallelQuery<T> describables, Func<IDescriptor, bool> condition) where T : IDescribable {
+        public static ParallelQuery<T> WithDescriptor<T>(this ParallelQuery<T> describables, Func<IDescriptor, bool> condition) where T : IDescribable {
             return describables.Where(d => d.Descriptors.Where(condition).Any());
         }
         #endregion

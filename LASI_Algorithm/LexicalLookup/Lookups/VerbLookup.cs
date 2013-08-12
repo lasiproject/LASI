@@ -61,8 +61,9 @@ namespace LASI.Algorithm.Lookup
                     verbData[word] = new VerbSynSet(
                         verbData[word].ID,
                         verbData[word].Words.Concat(synset.Words),
-                        verbData[word].RelatedOnPointerSymbol.Concat(synset.RelatedOnPointerSymbol)
-                        .SelectMany(grouping => grouping.Select(pointer => new SetReference(grouping.Key, pointer))), verbData[word].LexName);
+                        verbData[word].RelatedOnPointerSymbol
+                            .Concat(synset.RelatedOnPointerSymbol)
+                            .SelectMany(grouping => grouping.Select(pointer => new SetReference(grouping.Key, pointer))), verbData[word].LexName);
                 } else {
                     verbData[word] = synset;
                 }
@@ -73,16 +74,13 @@ namespace LASI.Algorithm.Lookup
             try {
                 VerbSynSet containingSet;
                 return new HashSet<string>(
-                    verbData.TryGetValue(VerbConjugator.FindRoot(search), out containingSet)
-                    ?
+                    verbData.TryGetValue(VerbConjugator.FindRoot(search), out containingSet) ?
                          containingSet.ReferencedIndexes
                          .SelectMany(id => setsBySetID[id].ReferencedIndexes)
                          .Select(s => setsBySetID[s])
                          .Where(r => r.LexName == containingSet.LexName)
                          .SelectMany(r => r.Words.SelectMany(w => VerbConjugator.GetConjugations(w)))
-                         .Concat(new[] { search })
-                    :
-                         new[] { search },
+                    .Concat(new[] { search }) : new[] { search },
                          StringComparer.OrdinalIgnoreCase);
             } catch (ArgumentOutOfRangeException) {
             } catch (IndexOutOfRangeException) {

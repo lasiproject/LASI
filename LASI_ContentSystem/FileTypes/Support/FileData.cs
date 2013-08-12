@@ -155,7 +155,7 @@ namespace LASI.ContentSystem
         /// <param name="B">The second FileData</param>
         /// <returns>True if the two instances should be considered equal, false otherwise.</returns>
         public static bool operator ==(FileData A, FileData B) {
-            return A.FullPathAndExt == B.FullPathAndExt;
+            return string.Equals(A.FullPathAndExt, B.FullPathAndExt, StringComparison.OrdinalIgnoreCase);
 
         }
         /// <summary>

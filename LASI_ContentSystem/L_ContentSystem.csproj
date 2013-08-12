@@ -23,7 +23,8 @@
     <PlatformTarget>x64</PlatformTarget>
     <CodeAnalysisIgnoreGeneratedCode>true</CodeAnalysisIgnoreGeneratedCode>
     <UseVSHostingProcess>true</UseVSHostingProcess>
-    <DocumentationFile>bin\Debug\ContentSystem.XML</DocumentationFile>
+    <DocumentationFile>
+    </DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -83,6 +84,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FileConveters\ConverterBasis\doc2x.cs" />
     <Compile Include="FileConveters\DocToDocXConverter.cs" />
     <Compile Include="FileConveters\DocxToTextConverter.cs" />
     <Compile Include="FileConveters\PdfToTextConverter.cs" />
@@ -91,9 +93,9 @@
     <Compile Include="FileTypes\FileTypeWrapperMismatchException.cs" />
     <Compile Include="FileTypes\GenericXMLFile.cs" />
     <Compile Include="Serialization\XML\SimpleLexicalSerializer.cs" />
-    <Compile Include="TaggerAndFileAbstraction\FileManager.cs" />
+    <Compile Include="FileManager.cs" />
     <Compile Include="FileTypes\FileConverter.cs" />
-    <Compile Include="FileTypes\Support\TaggedToXMLConverter.cs" />
+    <Compile Include="FileConveters\TaggedToXMLConverter.cs" />
     <Compile Include="Exceptions\FileManagerExceptions.cs" />
     <Compile Include="TaggerEncapsulation\TagParsers\Basis\Experimental\ExperimentalTaggedParser.cs" />
     <Compile Include="TaggerAndFileAbstraction\Tagger.cs" />

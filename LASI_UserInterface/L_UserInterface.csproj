@@ -120,6 +120,7 @@
     <Compile Include="Dialogs\FindWindow.xaml.cs">
       <DependentUpon>FindWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="LexicalElementStyling\SyntacticColorMapping.cs" />
     <Compile Include="ResultSelection\Visualizer.cs" />
     <Compile Include="ResultSelection\CrossDocumentJoiner.cs" />
     <Compile Include="Dialogs\CrossJoinSelectDialog.xaml.cs">
@@ -132,9 +133,6 @@
     <Compile Include="DocumentManager.cs" />
     <Compile Include="InProgressScreen.xaml.cs">
       <DependentUpon>InProgressScreen.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="PreferencesMenu.xaml.cs">
-      <DependentUpon>PreferencesMenu.xaml</DependentUpon>
     </Compile>
     <Compile Include="PreferencesWindow.xaml.cs">
       <DependentUpon>PreferencesWindow.xaml</DependentUpon>
@@ -157,10 +155,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Dialogs\FindWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="PreferencesMenu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -476,6 +470,66 @@
     <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\tmodel_nr.nbin">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Resources\TaggingPackage\WordNet\2.1\dict\adj.exc">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\WordNet\2.1\dict\adv.exc">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\WordNet\2.1\dict\cntlist">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\WordNet\2.1\dict\cntlist.rev">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\WordNet\2.1\dict\data.adj">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\WordNet\2.1\dict\data.adv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\WordNet\2.1\dict\data.noun">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\WordNet\2.1\dict\data.verb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\WordNet\2.1\dict\frames.vrb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\WordNet\2.1\dict\index.adj">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\WordNet\2.1\dict\index.adv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\WordNet\2.1\dict\index.noun">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\WordNet\2.1\dict\index.sense">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\WordNet\2.1\dict\index.verb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\WordNet\2.1\dict\log.grind.2.1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\WordNet\2.1\dict\noun.exc">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\WordNet\2.1\dict\sentidx.vrb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\WordNet\2.1\dict\sents.vrb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\WordNet\2.1\dict\verb.exc">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\WordNet\2.1\dict\verb.Framestext">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Resources\WordNetThesaurusData\data.adj">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -670,6 +724,43 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Resources\LASICustom\NameData\malefirst.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\StandaloneFileConverters\doc2x.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\StandaloneFileConverters\DIaLOGIKa.b2xtranslator.CommonTranslatorLib.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\StandaloneFileConverters\DIaLOGIKa.b2xtranslator.DocFileFormat.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\StandaloneFileConverters\DIaLOGIKa.b2xtranslator.OfficeDrawing.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\StandaloneFileConverters\DIaLOGIKa.b2xtranslator.OpenXmlLib.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\StandaloneFileConverters\DIaLOGIKa.b2xtranslator.Shell.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\StandaloneFileConverters\DIaLOGIKa.b2xtranslator.StructuredStorage.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\StandaloneFileConverters\DIaLOGIKa.b2xtranslator.Tools.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\StandaloneFileConverters\DIaLOGIKa.b2xtranslator.WordprocessingMLMapping.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\StandaloneFileConverters\DIaLOGIKa.b2xtranslator.ZipUtils.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\StandaloneFileConverters\zlibwapi.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
