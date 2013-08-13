@@ -341,7 +341,7 @@ namespace LASI.UserInterface
         private async void AddMenuItem_Click(object sender, RoutedEventArgs e) {
 
             var openDialog = new Microsoft.Win32.OpenFileDialog {
-                Filter = "LASI File Types|*.docx; *.pdf; *.txt",
+                Filter = "LASI File Types|*.doc; *.docx; *.pdf; *.txt",
             };
             openDialog.ShowDialog(this);
             if (openDialog.FileNames.Any()) {

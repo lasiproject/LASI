@@ -249,7 +249,9 @@ namespace LASI.Algorithm
         /// Gets the indirect objects of the VerbPhrase.
         /// </summary>
         public virtual IEnumerable<IEntity> IndirectObjects { get { return indirectObjects; } }
-
+        //virtual IEntityGroup Subject { get { return new EntityGroup(subjects); } }
+        //virtual IEntityGroup DirectObject { get { return new EntityGroup(directObjects); } }
+        //virtual IEntityGroup IndirectObject { get { return new EntityGroup(indirectObjects); } }
         /// <summary>
         /// Gets the VerbPhrases's object, If the VerbPhrase has an object bound via a Prepositional. This can be any ILexical construct including a word, phrase, or clause.
         /// </summary>

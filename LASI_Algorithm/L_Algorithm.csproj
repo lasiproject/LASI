@@ -235,6 +235,7 @@
     <Compile Include="IEnumerableExtensions\IEnumerableOfWordExtensions.cs" />
     <Compile Include="LexicalLookup\Lookups\LookupSupport\WordNetLexCategoryInformation.cs" />
     <Compile Include="TextSourceAbstraction\TaggedTextFragment.cs" />
+    <None Include="ClassDiagram1.cd" />
     <None Include="LexicalStructures\UnderpinningTypes\ClassDiagram1.cd" />
     <None Include="ClassDiagrams\ClassDiagram1.cd" />
   </ItemGroup>

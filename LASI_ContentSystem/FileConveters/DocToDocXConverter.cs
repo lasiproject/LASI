@@ -44,7 +44,7 @@ namespace LASI.ContentSystem
                     FileName = System.IO.Path.Combine(doc2xPath, "doc2x.exe"),
                     Arguments = Original.FullPath,
                     WorkingDirectory = Original.Directory,
-                    CreateNoWindow = false,
+                    CreateNoWindow = true,
                     UseShellExecute = false,
                     RedirectStandardError = true,
                     RedirectStandardInput = true,
