@@ -416,45 +416,6 @@ namespace LASI.UserInterface
             return !(lhs == rhs);
         }
     }
-
-    ///// <summary>
-    ///// A little data type which provides custom uniqueness logic for NounPhrase to VerbPhrase  relationships. Provides the implementation of I equality comparer which is to be passed to the 
-    ///// "Distinct()" method of en IEnummerable collectio  of RelationshipTuple instances.
-    ///// It is defined because distinct does not support lambda(read function) arguments like my query operatorrs do.
-    ///// Pay this type little heed
-    ///// </summary>
-    //class RelationshipComparer : EqualityComparer<RelationshipTuple>
-    //{
-    //    public override bool Equals(RelationshipTuple lhs, RelationshipTuple rhs) {
-
-    //        if ((lhs as object == null || rhs as object == null)) {
-    //            return !(lhs as object == null ^ rhs as object == null);
-    //        }
-    //        else if (lhs.Elements.Count != rhs.Elements.Count) {
-    //            return false;
-    //        }
-    //        else {
-
-    //            bool result = lhs.Verbal.Text == rhs.Verbal.Text || lhs.Verbal.IsSimilarTo(rhs.Verbal);
-    //            result &= LexicalComparers<NounPhrase>.AliasOrSimilarity.Equals(lhs.Subject, rhs.Subject);
-    //            if (lhs.Direct != null && rhs.Direct != null) {
-    //                result &= LexicalComparers<NounPhrase>.AliasOrSimilarity.Equals(lhs.Direct, rhs.Direct);
-    //            }
-    //            else if (lhs.Direct == null || rhs.Direct == null)
-    //                return false;
-    //            if (lhs.Indirect != null && rhs.Indirect != null) {
-    //                result &= LexicalComparers<NounPhrase>.AliasOrSimilarity.Equals(lhs.Indirect, rhs.Indirect);
-    //            }
-    //            else if (lhs.Indirect == null || rhs.Indirect == null)
-    //                return false;
-    //            return result;
-    //        }
-    //    }
-
-    //    public override int GetHashCode(RelationshipTuple obj) {
-    //        return obj == null ? 0 : obj.Elements.Count;
-    //    }
-    //}
-
+ 
     #endregion
 }

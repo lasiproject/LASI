@@ -149,7 +149,9 @@ namespace LASI.UserInterface
             var tab = new TabItem {
                 Header = document.Name,
                 Content = new ScrollViewer {
-                    Content = panel
+                    Content = panel,
+                    Background = Brushes.White,
+                    OpacityMask = Brushes.White,
                 }
             };
             var phraseLabels = new List<Label>();
@@ -159,7 +161,9 @@ namespace LASI.UserInterface
                 var label = new Label {
                     Content = phrase.Text,
                     Tag = phrase,
-                    Foreground = Brushes.Black,
+                    Foreground = phrase.GetBrush(),
+                    Background = Brushes.White,
+                    OpacityMask = Brushes.White,
                     Padding = new Thickness(1, 1, 1, 1),
                     ContextMenu = new ContextMenu(),
                     ToolTip = phrase.Type.Name,
@@ -381,12 +385,12 @@ namespace LASI.UserInterface
                 Header = "view prepositional object"
             };
             visitSubjectMI.Click += (sender, e) => {
-                var objlabels = from l in phraseLabels
-                                where l.Tag.Equals(vP.ObjectOfThePreoposition)
-                                select l;
+                var objlabels = from label in phraseLabels
+                                where label.Tag.Equals(vP.ObjectOfThePreoposition)
+                                select new { label = label, foreBrush = (label.Tag as ILexical).GetBrush() };
                 foreach (var l in objlabels) {
-                    l.Foreground = Brushes.Black;
-                    l.Background = Brushes.Red;
+                    l.label.Foreground = l.foreBrush;
+                    l.label.Background = Brushes.Red;
                 }
             };
             phraseLabel.ContextMenu.Items.Add(visitSubjectMI);
@@ -398,11 +402,11 @@ namespace LASI.UserInterface
             };
             visitSubjectMI.Click += (sender, e) => {
                 var objlabels = from r in vP.IndirectObjects
-                                join l in phraseLabels on r equals l.Tag
-                                select l;
+                                join label in phraseLabels on r equals label.Tag
+                                select new { label, foreBrush = (label.Tag as ILexical).GetBrush() };
                 foreach (var l in objlabels) {
-                    l.Foreground = Brushes.Black;
-                    l.Background = Brushes.Red;
+                    l.label.Foreground = l.foreBrush;
+                    l.label.Background = Brushes.Red;
                 }
             };
             phraseLabel.ContextMenu.Items.Add(visitSubjectMI);

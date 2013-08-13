@@ -81,7 +81,7 @@ namespace LASI.ContentSystem
             get;
             protected set;
         }
-        public static readonly string doc2xPath = System.Configuration.ConfigurationManager.AppSettings["ConvertersDirectory"];
+        private static readonly string doc2xPath = System.Configuration.ConfigurationManager.AppSettings["ConvertersDirectory"];
 
 
 

@@ -5,39 +5,26 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
+using LASI.Utilities.PatternMatching;
 
 namespace LASI.UserInterface
 {
-    static class SyntacticBrushMap
+    static class SyntacticStylization
     {
-        public static Brush ToBrush(this string colorString) {
-            return new BrushConverter().ConvertFromString(colorString) as Brush;
+        public static Brush GetBrush(this ILexical lexical) {
+            return Match.From(lexical).To<Brush>()
+                .With<Determiner>(() => Brushes.Black)
+                .With<NounPhrase>(n => n.Words.Any(w => w is ProperNoun) ? Brushes.DarkBlue : Brushes.Brown)
+                .With<InfinitivePhrase>(() => Brushes.Teal)
+                .With<IPronoun>(() => Brushes.DarkCyan)
+                .With<ProperNoun>(() => Brushes.DarkBlue)
+                .With<IEntity>(() => Brushes.DeepSkyBlue)
+                .With<IVerbal>(() => Brushes.Green)
+                .With<IPrepositional>(() => Brushes.Red)
+                .With<IDescriptor>(() => Brushes.DarkTurquoise)
+                .With<IAdverbial>(() => Brushes.Orange)
+                .Default(() => Brushes.Black)
+                .Result;
         }
-        public static Brush GetBrush(this ILexical lexical) { return BrushStore[lexical.Type]; }
-        public static Brush GetBrush(this IEntity lexical) {
-            try {
-                return BrushStore[lexical.Type];
-            } catch (KeyNotFoundException) {
-                return Brushes.Black;
-            }
-        }
-        //public static Brush GetBrush(this IVerbal lexical) { return BrushStore[lexical.Type]; }
-        //public static Brush GetBrush(this IPronoun lexical) { return BrushStore[lexical.Type]; }
-        //public static Brush GetBrush(this IDescriptor lexical) { return BrushStore[lexical.Type]; }
-        //public static Brush GetBrush(this IAdverbial lexical) { return BrushStore[lexical.Type]; }
-        //public static Brush GetBrush(this ProperNoun lexical) { return BrushStore[lexical.Type]; }
-        //public static Brush GetBrush(this Determiner lexical) { return BrushStore[lexical.Type]; }
-        //public static Brush GetBrush(this IPrepositional lexical) { return BrushStore[lexical.Type]; }
-
-        private static readonly IReadOnlyDictionary<Type, Brush> BrushStore = new Dictionary<Type, Brush> {
-            { typeof(Determiner),       Brushes.Black },
-            { typeof(IDescriptor),      Brushes.DeepPink },     
-            { typeof(IAdverbial),       Brushes.Orange }, 
-            { typeof(IEntity),          Brushes. Violet },
-            { typeof(ProperNoun),       Brushes.DarkBlue },
-            { typeof(IVerbal),          Brushes.DarkSeaGreen },
-            { typeof(IPrepositional),   Brushes.Magenta }, 
-            { typeof(IPronoun),         Brushes. Aquamarine }, 
-        };
     }
 }
