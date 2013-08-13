@@ -1,6 +1,7 @@
 ﻿using LASI.Algorithm.Binding;
 using LASI.Algorithm.DocumentConstructs;
 using LASI.Utilities.PatternMatching;
+using LASI.Utilities.AlgebraicDecomposition;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,7 +28,6 @@ namespace LASI.Algorithm.Analysis.Binders.Experimental
                         .Result as Phrase into result
                 where result != null
                 select result;
-
             var bindingActions = ImagineBindings(objectBindingReleventItems.SkipWhile(p => !(p is VerbPhrase)));
         }
 
