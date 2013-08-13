@@ -21,9 +21,9 @@ namespace LASI.ContentSystem
         /// <param name="sourceType">The extension of the source file format.</param>
         /// <param name="targetType">The extension of the target file format</param>
         public FileConversionFailureException(string fileName, string sourceType, string targetType) : base(string.Format(".doc conversion failed\nCould not convert {0} from {1} to {2}.", fileName, sourceType, targetType)) { }
-        protected FileConversionFailureException(string message) : base(message) { }
-        protected FileConversionFailureException(string message, Exception inner) : base(message, inner) { }
-        protected FileConversionFailureException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
+        private FileConversionFailureException(string message) : base(message) { }
+        private FileConversionFailureException(string message, Exception inner) : base(message, inner) { }
+        private FileConversionFailureException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
     }
     /// <summary>
     /// The exception thrown when methods are invoked or preperties accessed on the FilaManager before a call has been made to initialize it.

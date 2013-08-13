@@ -1,6 +1,6 @@
 ﻿using LASI.Algorithm.Binding;
 using LASI.Algorithm.DocumentConstructs;
-using LASI.Utilities.TypedSwitch;
+using LASI.Utilities.PatternMatching;
 using System;
 using System.Collections.Generic;
 using System.Linq;

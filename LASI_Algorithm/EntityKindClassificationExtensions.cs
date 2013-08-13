@@ -116,7 +116,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Determines if the Pronoun is among the semantic categories which are thought of as explicitely male.
         /// </summary>
-        /// <param name="kind">The Pronoun to test.</param>
+        /// <param name="pronoun">The Pronoun to test.</param>
         /// <returns>True if the Pronoun is among the semantic categories which are thought of as explicitely male, false otherwise.</returns>
         public static bool IsMale(this Pronoun pronoun) {
             var kind = pronoun.PronounKind;
@@ -125,7 +125,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Determines if the Pronoun is among the semantic categories which are thought of as explicitely female.
         /// </summary>
-        /// <param name="kind">The Pronoun to test.</param>
+        /// <param name="pronoun">The Pronoun to test.</param>
         /// <returns>True if the Pronoun is among the semantic categories which are thought of as explicitely female, false otherwise.</returns>
         public static bool IsFemale(this Pronoun pronoun) {
             var kind = pronoun.PronounKind;
@@ -134,7 +134,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Determines if the Pronoun is among the semantic categories which are thought of as explicitely gender neutral.
         /// </summary>
-        /// <param name="kind">The Pronoun to test.</param>
+        /// <param name="pronoun">The Pronoun to test.</param>
         /// <returns>True if the Pronoun is among the semantic categories which are thought of as explicitely gender neutral, false otherwise.</returns>
         public static bool IsGenderNeutral(this Pronoun pronoun) {
             var kind = pronoun.PronounKind;
@@ -143,7 +143,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Determines if the Pronoun is among the semantic categories which are thought of as explicitely gender ambiguous.
         /// </summary>
-        /// <param name="kind">The Pronoun to test.</param>
+        /// <param name="pronoun">The Pronoun to test.</param>
         /// <returns>True if the Pronoun is among the semantic categories which are thought of as explicitely gender ambiguous, false otherwise.</returns>
         public static bool IsGenderAmbiguous(this Pronoun pronoun) {
             var kind = pronoun.PronounKind;
@@ -152,7 +152,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Determines if the Pronoun is among the semantic categories which are thought of as explicitely plural.
         /// </summary>
-        /// <param name="kind">The Pronoun to test.</param>
+        /// <param name="pronoun">The Pronoun to test.</param>
         /// <returns>True if the Pronoun is among the semantic categories which are thought of as explicitely plural, false otherwise.</returns>
         public static bool IsPlural(this Pronoun pronoun) {
             var kind = pronoun.PronounKind;
@@ -168,7 +168,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Determines if the Pronoun is among the semantic categories which are reflexive.
         /// </summary>
-        /// <param name="kind">The Pronoun to test.</param>
+        /// <param name="pronoun">The Pronoun to test.</param>
         /// <returns>True if the Pronoun is among the semantic categories which are reflexive false, otherwise.</returns>
         public static bool IsReflexive(this Pronoun pronoun) {
             var kind = pronoun.PronounKind;
@@ -186,7 +186,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Determines if the Pronoun is among the semantic categories which are first person.
         /// </summary>
-        /// <param name="kind">The Pronoun to test.</param>
+        /// <param name="pronoun">The Pronoun to test.</param>
         /// <returns>True if the Pronoun is among the semantic categories which are first person, false otherwise.</returns>
         public static bool IsFirstPerson(this Pronoun pronoun) {
             var kind = pronoun.PronounKind;
@@ -198,7 +198,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Determines if the Pronoun is among the semantic categories which are second person.
         /// </summary>
-        /// <param name="kind">The Pronoun to test.</param>
+        /// <param name="pronoun">The Pronoun to test.</param>
         /// <returns>True if the Pronoun is among the semantic categories which are second person, false otherwise.</returns>
         public static bool IsSecondPerson(this Pronoun pronoun) {
             var kind = pronoun.PronounKind;
@@ -210,7 +210,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Determines if the Pronoun is among the semantic categories which are third person.
         /// </summary>
-        /// <param name="kind">The Pronoun to test.</param>
+        /// <param name="pronoun">The Pronoun to test.</param>
         /// <returns>True if the Pronoun is among the semantic categories which are third person, false otherwise.</returns>
         public static bool IsThirdPerson(this Pronoun pronoun) {
             var kind = pronoun.PronounKind;

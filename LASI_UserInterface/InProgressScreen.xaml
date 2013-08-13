@@ -289,7 +289,8 @@
                 Width="654"
                 ToolTip="Initializing"
                 Value="0.0"
-                ValueChanged="progressBar_ValueChanged">
+                ValueChanged="progressBar_ValueChanged"
+                Background="{x:Null}">
                 <ProgressBar.Foreground>
                     <LinearGradientBrush
                         EndPoint="0.5,1"

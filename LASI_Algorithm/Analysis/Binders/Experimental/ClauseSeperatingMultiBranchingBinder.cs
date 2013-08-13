@@ -35,7 +35,7 @@ namespace LASI.Algorithm.Binding.Experimental
             return from noun in words.GetNouns()
                    let pr = noun as ProperNoun
                    let np = noun.Phrase as NounPhrase
-                   let gen = pr != null && np != null ? (pr.IsFemaleName() && !np.IsFullMaleName() ? 'F' : pr.IsMaleName() && !np.IsFullFemaleName() ? 'M' : 'A') : 'U'
+                   let gen = pr != null && np != null ? (pr.IsFemale() && !np.IsFullMale() ? 'F' : pr.IsMale() && !np.IsFullFemale() ? 'M' : 'A') : 'U'
                    let outer = new { noun, gen }
                    join inner in
                        from pro in words.GetPronouns()

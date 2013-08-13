@@ -28,6 +28,10 @@ namespace LASI.Algorithm.Lookup
         /// <summary>
         /// Unknown
         /// </summary>
-        Unknown
+        Unknown,
+        /// <summary>
+        /// Neutral
+        /// </summary>
+        Neutral
     }
 }

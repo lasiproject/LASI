@@ -97,40 +97,38 @@ namespace LASI.UserInterface
             await Visualizer.DisplayKeyRelationships(document);
         }
 
-        private static Label CreateLabelForWeightedView(NounPhrase element) {
-            var genderString = !element.Words.GetDeterminers().Any() ?
-                element.IsFullMaleName() ? "Male" : element.IsFullFemaleName() ? "Female" :
-                (from p in element.Words.GetProperNouns()
-                 group p by p.IsFemaleName() ? "Female" : p.IsMaleName() ? "Male" : "Undetermind"
-                     into g
-                     orderby g.Count() descending
-                     select g.Key).FirstOrDefault() : string.Empty;
-
-            genderString = !string.IsNullOrEmpty(genderString) ? "\nprevialing gender: " + genderString : string.Empty;
-
-            var wordLabel = new Label {
-                Tag = element,
-                Content = String.Format("Weight : {0}  \"{1}\"", element.Weight, element.Text),
+        private static Label CreateLabelForWeightedView(NounPhrase np) {
+            var ng = np.GetGender();
+            ng = (ng == NameGender.UNDEFINED && ng == NameGender.Unknown) ?
+                (from p in np.Words.GetProperNouns()
+                 let gen = p.GetGender()
+                 group gen by gen into g
+                 orderby g.Count() descending
+                 select g.Key).FirstOrDefault() :
+                 ng;
+            var label = new Label {
+                Tag = np,
+                Content = String.Format("Weight : {0}  \"{1}\"", np.Weight, np.Text),
                 Foreground = Brushes.Black,
                 Padding = new Thickness(1, 1, 1, 1),
                 ContextMenu = new ContextMenu(),
                 ToolTip = string.Format("{0}{1}",
-                element.Type.Name, genderString)
+                np.Type.Name, ng != NameGender.UNDEFINED && ng != NameGender.Unknown ? "\nprevialing gender: " + ng : "")
             };
             var menuItem1 = new MenuItem {
                 Header = "view definition",
             };
             menuItem1.Click += (s, e) => {
-                Process.Start(String.Format("http://www.dictionary.reference.com/browse/{0}?s=t", element.Text));
+                Process.Start(String.Format("http://www.dictionary.reference.com/browse/{0}?s=t", np.Text));
             };
-            wordLabel.ContextMenu.Items.Add(menuItem1);
+            label.ContextMenu.Items.Add(menuItem1);
             var menuItem2 = new MenuItem {
                 Header = "Copy"
             };
-            menuItem2.Click += (se, ee) => Clipboard.SetText((wordLabel.Tag as ILexical).Text);
+            menuItem2.Click += (se, ee) => Clipboard.SetText((label.Tag as ILexical).Text);
 
-            wordLabel.ContextMenu.Items.Add(menuItem2);
-            return wordLabel;
+            label.ContextMenu.Items.Add(menuItem2);
+            return label;
         }
 
         /// <summary>
@@ -158,7 +156,7 @@ namespace LASI.UserInterface
             var dataSource = document.Paginate(10).FirstOrDefault();
 
             foreach (var phrase in (dataSource != null ? dataSource.Sentences : document.Sentences).SelectMany(p => p.Phrases)) {
-                var phraseLabel = new Label {
+                var label = new Label {
                     Content = phrase.Text,
                     Tag = phrase,
                     Foreground = Brushes.Black,
@@ -167,14 +165,14 @@ namespace LASI.UserInterface
                     ToolTip = phrase.Type.Name,
                 };
                 var pronounPhrase = phrase as PronounPhrase;
-                if (pronounPhrase != null && pronounPhrase.EntityRefererredTo != null) {
-                    CreatePronounPhraseLabelMenu(phraseLabels, phraseLabel, pronounPhrase);
+                if (pronounPhrase != null && pronounPhrase.ReferersTo != null) {
+                    CreatePronounPhraseLabelMenu(phraseLabels, label, pronounPhrase);
                 }
                 var vP = phrase as VerbPhrase;
                 if (vP != null) {
-                    CreateVerbPhraseLabelMenu(phraseLabels, phraseLabel, vP);
+                    CreateVerbPhraseLabelMenu(phraseLabels, label, vP);
                 }
-                phraseLabels.Add(phraseLabel);
+                phraseLabels.Add(label);
             }
             foreach (var l in phraseLabels) {
                 panel.Children.Add(l);
@@ -448,7 +446,7 @@ namespace LASI.UserInterface
             };
             visitBoundEntity.Click += (sender, e) => {
                 var objlabels = from l in phraseLabels
-                                where l.Tag == pronounPhrase.EntityRefererredTo
+                                where l.Tag == pronounPhrase.ReferersTo
                                 select l;
                 foreach (var l in objlabels) {
                     l.Foreground = Brushes.Black;
@@ -488,3 +486,10 @@ namespace LASI.UserInterface
     }
 
 }
+//var genderString = !np.Words.GetDeterminers().Any() ?
+//    np.IsFullMaleName() ? "Male" : np.IsFullFemaleName() ? "Female" :
+//    (from p in np.Words.GetProperNouns()
+//     group p by p.IsFemaleName() ? "Female" : p.IsMaleName() ? "Male" : "Undetermind"
+//         into g
+//         orderby g.Count() descending
+//         select g.Key).FirstOrDefault() : string.Empty;

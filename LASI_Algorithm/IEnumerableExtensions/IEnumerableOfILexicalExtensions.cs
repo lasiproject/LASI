@@ -135,10 +135,10 @@ namespace LASI.Algorithm
             return elements.SelectMany(c => c.Phrases);
         }
         /// <summary>
-        /// Returns all AdjectivePhrases in the sequence.
+        /// Returns all IEntity instances in the sequence.
         /// </summary>
-        /// <param name="elements">The sequence of componentPhrases to filter</param>
-        /// <returns>All AdjectivePhrases in the sequence</returns>
+        /// <param name="elements">The sequence of ILexial instances to filter.</param>
+        /// <returns>All IEntity in the sequence</returns>
         public static IEnumerable<IEntity> GetEntities(this IEnumerable<ILexical> elements) {
             return elements.OfType<IEntity>();
         }

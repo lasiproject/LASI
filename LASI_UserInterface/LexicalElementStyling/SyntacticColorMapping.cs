@@ -6,28 +6,38 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
 
-namespace LASI.UserInterface.LexicalElementStyling
+namespace LASI.UserInterface
 {
     static class SyntacticBrushMap
     {
-        public static SolidColorBrush ToBrush(this string colorString) {
-            return new BrushConverter().ConvertFromString(colorString) as SolidColorBrush;
+        public static Brush ToBrush(this string colorString) {
+            return new BrushConverter().ConvertFromString(colorString) as Brush;
         }
-        public static SolidColorBrush GetBrush(this ILexical lexical) {
-            try { return BrushStore[(lexical as dynamic).Type]; } catch (KeyNotFoundException) { return new SolidColorBrush(Color.FromRgb(0, 0, 0)); }
+        public static Brush GetBrush(this ILexical lexical) { return BrushStore[lexical.Type]; }
+        public static Brush GetBrush(this IEntity lexical) {
+            try {
+                return BrushStore[lexical.Type];
+            } catch (KeyNotFoundException) {
+                return Brushes.Black;
+            }
         }
+        //public static Brush GetBrush(this IVerbal lexical) { return BrushStore[lexical.Type]; }
+        //public static Brush GetBrush(this IPronoun lexical) { return BrushStore[lexical.Type]; }
+        //public static Brush GetBrush(this IDescriptor lexical) { return BrushStore[lexical.Type]; }
+        //public static Brush GetBrush(this IAdverbial lexical) { return BrushStore[lexical.Type]; }
+        //public static Brush GetBrush(this ProperNoun lexical) { return BrushStore[lexical.Type]; }
+        //public static Brush GetBrush(this Determiner lexical) { return BrushStore[lexical.Type]; }
+        //public static Brush GetBrush(this IPrepositional lexical) { return BrushStore[lexical.Type]; }
 
-        static Dictionary<Type, SolidColorBrush> BrushStore = new Dictionary<Type, SolidColorBrush> {
-            { typeof(Determiner), "000000".ToBrush() },
-            { typeof(IDescriptor), "E36C0A".ToBrush()},//(Post Modifier?)         
-            { typeof(IAdverbial), "4BACC6".ToBrush()},// (modifying Idescriptor) 
-            { typeof(IEntity), "7030A0".ToBrush()},
-            { typeof(ProperNoun), "4F81BD".ToBrush() },
-            { typeof(IVerbal), "00B050".ToBrush()},
-            { typeof(IPrepositional), "FF0000".ToBrush()},
-            { typeof(IAdverbial), "F79646".ToBrush()},
-            { typeof(IDescriptor), "00B0F0".ToBrush()},
-            //typeof({ Appositive?    )new BrushConverter().ConvertFromString( "984806" )as Brush},
+        private static readonly IReadOnlyDictionary<Type, Brush> BrushStore = new Dictionary<Type, Brush> {
+            { typeof(Determiner),       Brushes.Black },
+            { typeof(IDescriptor),      Brushes.DeepPink },     
+            { typeof(IAdverbial),       Brushes.Orange }, 
+            { typeof(IEntity),          Brushes. Violet },
+            { typeof(ProperNoun),       Brushes.DarkBlue },
+            { typeof(IVerbal),          Brushes.DarkSeaGreen },
+            { typeof(IPrepositional),   Brushes.Magenta }, 
+            { typeof(IPronoun),         Brushes. Aquamarine }, 
         };
     }
 }

@@ -116,7 +116,7 @@ namespace AlgorithmAssemblyUnitTestProject
             IEntity expected = new ProperSingularNoun("Aluan");
             IEntity actual;
             target.BindAsReferringTo(expected);
-            actual = target.EntityRefererredTo;
+            actual = target.ReferersTo;
             Assert.AreEqual(expected.Text, actual.Text);
         }
 

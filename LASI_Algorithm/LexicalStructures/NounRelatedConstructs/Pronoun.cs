@@ -31,11 +31,11 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="target">The entity to which to bind.</param>
         public void BindAsReferringTo(IEntity target) {
-            if (EntityRefererredTo != null && !EntityRefererredTo.Any() || EntityRefererredTo == null)
-                EntityRefererredTo = new EntityGroup(new[] { target });
+            if (ReferersTo != null && !ReferersTo.Any() || ReferersTo == null)
+                ReferersTo = new EntityGroup(new[] { target });
             else
-                EntityRefererredTo = new EntityGroup(EntityRefererredTo.Concat(new[] { target }));
-            EntityKind = EntityRefererredTo.EntityKind;
+                ReferersTo = new EntityGroup(ReferersTo.Concat(new[] { target }));
+            EntityKind = ReferersTo.EntityKind;
         }
         /// <summary>
         /// Returns a string representation of the Pronoun.
@@ -69,8 +69,8 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="possession">The possession to add.</param>
         public virtual void AddPossession(IEntity possession) {
-            if (EntityRefererredTo != null) {
-                EntityRefererredTo.AddPossession(possession);
+            if (ReferersTo != null) {
+                ReferersTo.AddPossession(possession);
             } else {
                 possessed.Add(possession);
                 possession.Possesser = this;
@@ -94,7 +94,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets or sets the Entity which the Pronoun references.
         /// </summary>
-        public virtual IEntityGroup EntityRefererredTo { get; private set; }
+        public virtual IEntityGroup ReferersTo { get; private set; }
 
         /// <summary>
         /// Gets or sets the ISubjectTaker instance, generally a Verb or VerbPhrase, which the Pronoun is the subject of.

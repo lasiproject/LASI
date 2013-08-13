@@ -94,11 +94,11 @@ namespace LASI.UserInterface
                     select new RelationshipTuple {
                         Verbal = v,
                         Direct = v.DirectObjects
-                            .Select(s => (s as IPronoun) == null ? s : (s as IPronoun).EntityRefererredTo).FirstOrDefault(),
+                            .Select(s => (s as IPronoun) == null ? s : (s as IPronoun).ReferersTo).FirstOrDefault(),
                         Indirect = v.IndirectObjects
-                            .Select(s => (s as IPronoun) == null ? s : (s as IPronoun).EntityRefererredTo).FirstOrDefault(),
+                            .Select(s => (s as IPronoun) == null ? s : (s as IPronoun).ReferersTo).FirstOrDefault(),
                         Subject = v.Subjects
-                            .Select(s => (s as IPronoun) == null ? s : (s as IPronoun).EntityRefererredTo).FirstOrDefault(),
+                            .Select(s => (s as IPronoun) == null ? s : (s as IPronoun).ReferersTo).FirstOrDefault(),
                         Prepositional = v.ObjectOfThePreoposition
                     } into result
                     where result.Subject != null
