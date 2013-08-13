@@ -103,18 +103,25 @@ namespace LASI.Algorithm.Weighting
             await Task.Run(() => NormalizeWeights(doc));
         }
         private static void NormalizeWeights(Document doc) {
-            //OldNormalizationProcedure(doc);
             NewNormalizationProcedure(doc.Words);
             NewNormalizationProcedure(doc.Phrases);
         }
 
         private static void NewNormalizationProcedure(IEnumerable<ILexical> source) {
-            if (source.Any()) {
+            if (source.Any())
+            {
                 double maxWeight = source.Max(e => e.Weight);
                 double minWeight = source.Where(e => e.Weight > 0).Min(e => e.Weight);
                 double scalingFactor = (maxWeight - minWeight > 0 ? (maxWeight - minWeight) : 1.0) * (100d / maxWeight);
                 source.AsParallel().WithDegreeOfParallelism(Concurrency.Max).Where(e => e.Weight > 0)
                     .ForAll(e => e.Weight *= scalingFactor);
+            }
+            //attempting to set all non-zero weights to 0 when there isn't anything in the source.
+            else {
+                foreach (var w in source.Where(e => e.Weight != 0))
+                {
+                    w.Weight = 0;
+                }
             }
         }
 
