@@ -126,9 +126,9 @@ namespace LASI.Algorithm.Weighting
         }
 
         private static void ModifyVerbWeightsBySynonyms(Document doc) {
-            var verbsToConsider = doc.Words.GetVerbs().WithSubjectOrObject();
+            var verbsToConsider = doc.Words.AsParallel().WithDegreeOfParallelism(Concurrency.Max).GetVerbs().WithSubjectOrObject();
             (from outerVerb in
-                 verbsToConsider.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
+                 verbsToConsider
              from innerVerb in verbsToConsider
              where outerVerb.IsSynonymFor(innerVerb)
              group innerVerb by outerVerb).ForAll(grp => grp.Key.Weight += 0.7 * grp.Count());
@@ -218,7 +218,7 @@ namespace LASI.Algorithm.Weighting
             await Task.Run(() => WeightSimilarEntities(doc));
         }
         private static void WeightSimilarEntities(Document doc) {
-            var entities = doc.GetEntities().InSubjectOrObjectRole().AsParallel().WithDegreeOfParallelism(Concurrency.Max);
+            var entities = doc.GetEntities().AsParallel().WithDegreeOfParallelism(Concurrency.Max).InSubjectOrObjectRole();
             var entityLookup = entities.ToLookup(key => key,
                                 LexicalComparers<IEntity>
                                 .CreateCustom((L, R) => L.Text == R.Text || L.IsAliasFor(R) || L.IsSimilarTo(R)));

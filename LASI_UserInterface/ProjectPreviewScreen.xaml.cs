@@ -66,6 +66,8 @@ namespace LASI.UserInterface
             var textfile = FileManager.TextFiles.Where(f => f.NameSansExt == chosenFile.NameSansExt).First();
             await LoadTextandTabAsync(textfile);
             CheckIfAddingAllowed();
+            startProcessingButton.IsEnabled = true;
+            StartProcessMenuItem.IsEnabled = true;
         }
 
         private void CheckIfAddingAllowed() {
@@ -99,6 +101,10 @@ namespace LASI.UserInterface
                 FileManager.RemoveFile((docSelected as TabItem).Header.ToString());
                 CheckIfAddingAllowed();
 
+            }
+            if (DocumentManager.IsEmpty) {
+                startProcessingButton.IsEnabled = false;
+                StartProcessMenuItem.IsEnabled = false;
             }
 
         }
@@ -142,7 +148,7 @@ namespace LASI.UserInterface
                 DocumentManager.AddDocument(file.Name, file.FullName);
                 await AddNewDocument(file.FullName);
             } else {
-                MessageBox.Show(this, string.Format("The document {0} is in use by another process, please close any applications which may be using the file and try again.", file));
+                MessageBox.Show(this, string.Format("The document {0} is in use by another process, please close any applications which may be using the document and try again.", file));
             }
 
         }

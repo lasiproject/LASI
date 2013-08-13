@@ -35,6 +35,7 @@ namespace LASI.UserInterface
         public ResultsScreen() {
 
             InitializeComponent();
+            currentOperationFeedbackCanvas.Visibility = Visibility.Hidden;
             Visualizer.ChangeChartKind(ChartKind.NounPhrasesOnly);
             this.Closed += (s, e) => Application.Current.Shutdown();
         }

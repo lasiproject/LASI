@@ -6,15 +6,18 @@
     x:Name="window"
     x:Class="LASI.UserInterface.ResultsScreen"
     Title="Results - L.A.S.I."
-    Height="525"
+    Height="526"
+    MinHeight="526"
     Width="800"
+    MinWidth="700"
     ResizeMode="CanResizeWithGrip"
     Icon="MiscImages\LasiLogo.ico"
     WindowStartupLocation="CenterOwner"
     WindowState="Normal">
-    <Grid>
+    <Grid
+        Background="White">
         <Menu
-            Height="26"
+            Height="47"
             VerticalAlignment="Top"
             HorizontalAlignment="Stretch">
             <MenuItem
@@ -33,6 +36,10 @@
                     HorizontalAlignment="Left"
                     Width="200"
                     Click="AddMenuItem_Click" />
+                <MenuItem
+                    Header="Print"
+                    HorizontalAlignment="Left"
+                    Click="printButton_Click_1" />
                 <MenuItem
                     Header="Exit"
                     Click="ExitMenuItem_Click" />
@@ -60,52 +67,37 @@
             <Separator
                 HorizontalAlignment="Stretch" />
         </Menu>
-        <Canvas
-            Background="#FFF6F6F6"
-            Margin="0,51,0,0">
-            <Grid
-                Height="433"
-                Canvas.Top="10"
-                Width="159" />
-        </Canvas>
-        <Canvas
-            Background="#FFF6F6F6"
-            Margin="0,26,0,0">
-            <Grid
-                Height="459"
-                Canvas.Top="10"
-                Canvas.Left="-2"
-                Width="159" />
-        </Canvas>
         <Grid
             Margin="0,0,0,0">
             <Canvas
                 Name="currentOperationFeedbackCanvas"
-                Margin="0,31,10,432"
-                Visibility="Hidden"
+                Background="White"
+                Margin="10,0,10,4"
+                Visibility="Visible"
+                Height="26"
                 Canvas.Left="10"
-                Canvas.Top="439">
+                VerticalAlignment="Bottom">
                 <Label
                     x:Name="currentOperationLabel"
                     Content="current operation"
                     FontSize="12"
-                    Width="256"
                     Height="26"
-                    Canvas.Left="10"
-                    Canvas.Top="-4" />
+                    Canvas.Left="0" />
                 <ProgressBar
                     x:Name="currentOperationProgressBar"
+                    Background="#FFE6E6E6"
                     HorizontalAlignment="Right"
-                    Width="266"
-                    Canvas.Left="327"
-                    Height="20" />
+                    MinWidth="266"
+                    Canvas.Right="0"
+                    Height="26"
+                    Foreground="#FFBD2200" />
             </Canvas>
             <Canvas
                 Background="#FFE5E5E5"
                 OpacityMask="#FF5A5A62"
-                Margin="8,68,0,33"
+                Margin="0,24,0,34"
                 HorizontalAlignment="Left"
-                Width="140">
+                Width="152">
                 <Button
                     x:Name="exportButton"
                     Visibility="Hidden"
@@ -216,13 +208,15 @@
             x:Name="ResultsTabControl"
             ScrollViewer.HorizontalScrollBarVisibility="Auto"
             ScrollViewer.VerticalScrollBarVisibility="Auto"
-            Margin="158,51,45,33">
+            Margin="152,24,0,34"
+            ClipToBounds="True">
             <TabItem
                 x:Name="topResultsTab"
                 Header="Top Results">
                 <Grid
                     Background="#FFE5E5E5"
-                    Margin="0,0,1,0">
+                    Margin="0,0,1,0"
+                    SnapsToDevicePixels="True">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition
                             Width="206*" />
