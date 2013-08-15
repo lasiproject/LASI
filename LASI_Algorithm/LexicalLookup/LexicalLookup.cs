@@ -647,7 +647,8 @@ namespace LASI.Algorithm.Lookup
             if (first.Words.Count() >= second.Words.Count()) {
                 outer = first;
                 inner = second;
-            } else {
+            }
+            else {
                 outer = second;
                 inner = first;
             }
@@ -676,8 +677,12 @@ namespace LASI.Algorithm.Lookup
         /// <param name="n">The entity whose gender to lookup.</param>
         /// <returns>A NameGender value indiciating the likely gender of the entity.</returns>
         public static NameGender GetGender(this INounal n) {
+            var alias = n.GetRegisteredAliases().FirstOrDefault();
+            if (alias != null) {
+                return alias.GetGender();
+            }
             return Match.From<INounal>(n).To<NameGender>()
-                .With<NounPhrase>(np => np.GetGender())
+                .With<NounPhrase>(np => (np.GetRegisteredAliases().FirstOrDefault() ?? np).GetGender())
                 .With<Pronoun>(pro => pro.GetGender())
                 .With<ProperNoun>(pn => pn.GetGender())
                 .With<GenericNoun>(() => NameGender.Neutral)
@@ -731,15 +736,21 @@ namespace LASI.Algorithm.Lookup
         /// <param name="name">The NounPhrase whose prevailing gender to lookup.</param>
         /// <returns>A NameGender value indiciating the likely prevailing gender of the NounPhrase.</returns>
         public static NameGender GetGender(this NounPhrase name) {
-            var propers = name.Words.GetProperNouns();
-            return
-                name.IsFullFemale() || propers.Any() && propers.All(n => n.IsFemale()) ?
-                NameGender.Female :
-                name.IsFullMale() || propers.Any() && propers.All(n => n.IsMale()) ?
-                NameGender.Male :
-                name.IsFullName() ?
-                NameGender.Unknown :
-                NameGender.UNDEFINED;
+            var alias = name.GetRegisteredAliases().FirstOrDefault();
+            if (alias != null) {
+                return alias.GetGender();
+            }
+            else {
+                var propers = name.Words.GetProperNouns();
+                return
+                    name.IsFullFemale() || propers.Any() && propers.All(n => n.IsFemale()) ?
+                    NameGender.Female :
+                    name.IsFullMale() || propers.Any() && propers.All(n => n.IsMale()) ?
+                    NameGender.Male :
+                    name.IsFullName() ?
+                    NameGender.Unknown :
+                    NameGender.UNDEFINED;
+            }
         }
 
         /// <summary>
@@ -748,7 +759,16 @@ namespace LASI.Algorithm.Lookup
         /// <param name="name">The NounPhrase to check.</param>
         /// <returns>True if the provided NounPhrase is a known Full Name, false otherwise.</returns>
         public static bool IsFullName(this NounPhrase name) {
-            return CheckFullNameGender(name, IsFirstName);
+            var result = CheckFullNameGender(name, IsFirstName);
+            if (result) {
+                for (var i = 0; i < name.Words.Count(); ++i) {
+                    name.Document.GetEntities().AsParallel().Where(e => e.Text == string
+                        .Join(" ", name.Words.Take(i).Skip(1)
+                        .Take(i - name.Words.Count())
+                        .Select(w => w.Text))).ForAll(e => AliasDictionary.DefineAlias(name, e));
+                }
+            }
+            return result;
         }
         /// <summary>
         /// Determines if the provided NounPhrase is a known Full Female Name.
@@ -770,10 +790,14 @@ namespace LASI.Algorithm.Lookup
 
         private static bool CheckFullNameGender(NounPhrase name, Func<ProperNoun, bool> firstNameCondition) {
             var pns = name.Words.GetProperNouns();
-            var pcnt = pns.Count();
-            return pcnt > 1 &&
-            pns.FirstOrDefault(firstNameCondition) != null &&
-            pns.LastOrDefault(IsLastName) != null;
+            var firstName = pns.FirstOrDefault(n => n.IsFirstName());
+            var lastName = pns.LastOrDefault(n => n != firstName && n.IsLastName());
+            return pns
+                .GetWordsAfter(firstName)
+                .Count() >= 1 &&
+                firstName != null && 
+                lastName!=null&&
+                firstNameCondition(firstName);
         }
 
         #endregion
@@ -897,8 +921,8 @@ namespace LASI.Algorithm.Lookup
         private static async Task<HashSet<string>> ReadSplitLinesAsync(string fileName) {
             using (var reader = new StreamReader(fileName)) {
                 return new HashSet<string>((
-                    await reader.ReadToEndAsync()).Split(new[] { "\r\n" },
-                    StringSplitOptions.RemoveEmptyEntries),
+                    await reader.ReadToEndAsync()).Split(new[] { '\r', 'n' },
+                    StringSplitOptions.RemoveEmptyEntries).Select(s => s.Trim()),
                     StringComparer.OrdinalIgnoreCase
                 );
             }
