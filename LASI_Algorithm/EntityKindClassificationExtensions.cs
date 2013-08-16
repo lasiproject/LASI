@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LASI.Algorithm.Lookup;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,7 +13,7 @@ namespace LASI.Algorithm
     /// <see cref="PronounKind"/>
     public static class EntityKindClassificationExtensions
     {
-        #region PronounKind value extensions
+        #region PronounKind Value Extensions
 
         /// <summary>
         /// Determines if the PronounKind is among the semantic categories which are thought of as explicitely male.
@@ -268,6 +269,56 @@ namespace LASI.Algorithm
                 false;
         }
 
+        #endregion
+        #region Gender Helpers
+        /// <summary>
+        /// Gets a value indicating wether or not the Gender value is male.
+        /// </summary>
+        /// <param name="gender">The Gender value to test.</param>
+        /// <returns>True if the Gender is male, false otherwise.</returns>
+        public static bool IsMale(this Gender gender) { return gender == Gender.Male; }
+        /// <summary>
+        /// Gets a value indicating wether or not the Gender value is female.
+        /// </summary>
+        /// <param name="gender">The Gender value to test.</param>
+        /// <returns>True if the Gender is female, false otherwise.</returns>
+        public static bool IsFemale(this Gender gender) { return gender == Gender.Female; }
+        /// <summary>
+        /// Gets a value indicating wether or not the Gender value is male or female.
+        /// </summary>
+        /// <param name="gender">The Gender value to test.</param>
+        /// <returns>True if the Gender is either male or female, false otherwise.</returns>
+        public static bool IsMaleOrFemale(this Gender gender) { return gender == Gender.Male || gender == Gender.Female; }
+        /// <summary>
+        /// Gets a value indicating wether or not the Gender value is neutral.
+        /// </summary>
+        /// <param name="gender">The Gender value to test.</param>
+        /// <returns>True if the Gender is neutral, false otherwise.</returns>
+        public static bool IsNeutral(this Gender gender) { return gender == Gender.Neutral; }
+        /// <summary>
+        /// Gets a value indicating wether or not the Gender value is either male or neutral.
+        /// </summary>
+        /// <param name="gender">The Gender value to test.</param>
+        /// <returns>True if the Gender is either male neutral, false otherwise.</returns>
+        public static bool IsMaleOrNeutral(this Gender gender) { return gender == Gender.Neutral || gender == Gender.Male; }
+        /// <summary>
+        /// Gets a value indicating wether or not the Gender value is either female or neutral.
+        /// </summary>
+        /// <param name="gender">The Gender value to test.</param>
+        /// <returns>True if the Gender is either female or neutral, false otherwise.</returns>
+        public static bool IsFemaleOrNeutral(this Gender gender) { return gender == Gender.Neutral || gender == Gender.Female; }
+        /// <summary>
+        /// Gets a value indicating wether or not the Gender value is either male, female, or neutral or not undefined.
+        /// </summary>
+        /// <param name="gender">The Gender value to test.</param>
+        /// <returns>True if the Gender is is either male, female, or neutral or not undefined., false otherwise.</returns>
+        public static bool IsDefined(this Gender gender) { return gender != Gender.UNDEFINED; }
+        /// <summary>
+        /// Gets a value indicating wether or not the Gender value is either neutral or undefined.
+        /// </summary>
+        /// <param name="gender">The Gender value to test.</param>
+        /// <returns>True if the Gender is is either  neutral or undefined., false otherwise.</returns>
+        public static bool IsNeutralOrUndefined(this Gender gender) { return gender == Gender.UNDEFINED || gender == Gender.Neutral; }
         #endregion
     }
 }

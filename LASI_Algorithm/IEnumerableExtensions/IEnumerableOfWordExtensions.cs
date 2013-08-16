@@ -14,35 +14,35 @@ namespace LASI.Algorithm
     public static class IEnumerableOfWordExtensions
     {
         #region Sequential Implementations
-        /// <summary>
-        /// Retrives all words in the words collection which compare equal to a given word.
-        /// </summary>
-        /// <typeparam name="T">Word or any Type derriving from it.</typeparam>
-        /// <param name="toMatch">The word to match</param>
-        /// <param name="words">A sequence of word instances</param>
-        /// <returns>A WordList containing all words which match the argument</returns>
-        /// <see cref="Word"/>
-        public static IEnumerable<T> FindAllMatches<T>(this IEnumerable<T> words, T toMatch) where T : Word {
-            if (toMatch == null) { throw new ArgumentNullException("toMatch", "The provided Word to match against was null."); }
-            return from word in words
-                   where word.Text == toMatch.Text && word.GetType() == toMatch.GetType()
-                   select word;
-        }
-        /// <summary>
-        /// Finds all Words in the sequence which are equivalent to the Word to match, based on the logic of the provided comparison function.
-        /// </summary> 
-        /// <typeparam name="T">Word or any Type derriving from it.</typeparam>
-        /// <param name="words">The sequence of Words to filter.</param>
-        /// <param name="toMatch">A Word to match against.</param>
-        /// <param name="comparison">The function to use to compare Words.</param>
-        /// <returns>All nouns in the which compare equal to the Word to match in the provided comparison function.</returns>
-        public static IEnumerable<T> FindAllMatches<T>(this IEnumerable<T> words, T toMatch, Func<T, T, bool> comparison) where T : Word {
-            if (toMatch == null) { throw new ArgumentNullException("toMatch", "The provided Word to match against was null."); }
-            if (comparison == null) { throw new ArgumentNullException("comparison", "The provided comparison function was null."); }
-            return from W in words
-                   where comparison(toMatch, W)
-                   select W;
-        }
+        ///// <summary>
+        ///// Retrives all words in the words collection which compare equal to a given word.
+        ///// </summary>
+        ///// <typeparam name="T">Word or any Type derriving from it.</typeparam>
+        ///// <param name="toMatch">The word to match</param>
+        ///// <param name="words">A sequence of word instances</param>
+        ///// <returns>A WordList containing all words which match the argument</returns>
+        ///// <see cref="Word"/>
+        //public static IEnumerable<T> FindAllMatches<T>(this IEnumerable<T> words, T toMatch) where T : Word {
+        //    if (toMatch == null) { throw new ArgumentNullException("toMatch", "The provided Word to match against was null."); }
+        //    return from word in words
+        //           where word.Text == toMatch.Text && word.GetType() == toMatch.GetType()
+        //           select word;
+        //}
+        ///// <summary>
+        ///// Finds all Words in the sequence which are equivalent to the Word to match, based on the logic of the provided comparison function.
+        ///// </summary> 
+        ///// <typeparam name="T">Word or any Type derriving from it.</typeparam>
+        ///// <param name="words">The sequence of Words to filter.</param>
+        ///// <param name="toMatch">A Word to match against.</param>
+        ///// <param name="comparison">The function to use to compare Words.</param>
+        ///// <returns>All nouns in the which compare equal to the Word to match in the provided comparison function.</returns>
+        //public static IEnumerable<T> FindAllMatches<T>(this IEnumerable<T> words, T toMatch, Func<T, T, bool> comparison) where T : Word {
+        //    if (toMatch == null) { throw new ArgumentNullException("toMatch", "The provided Word to match against was null."); }
+        //    if (comparison == null) { throw new ArgumentNullException("comparison", "The provided comparison function was null."); }
+        //    return from W in words
+        //           where comparison(toMatch, W)
+        //           select W;
+        //}
         /// <summary>
         /// Returns all words in the Word collection which come after the given word.
         /// </summary>
@@ -94,6 +94,37 @@ namespace LASI.Algorithm
         /// <returns>All GenericNouns in the collection.</returns>
         public static IEnumerable<GenericNoun> GetGenericNouns(this IEnumerable<Word> words) {
             return words.OfType<GenericNoun>();
+        }
+        /// <summary>
+        /// Returns all GenericSingularNouns in the GenericNoun sequence.
+        /// </summary>
+        /// <param name="nouns">The sequence of GenericNouns to filter.</param>
+        /// <returns>All GenericSingularNouns in the GenericNoun sequence.</returns>
+        public static IEnumerable<GenericSingularNoun> GetSingular(this IEnumerable<GenericNoun> nouns) {
+            return nouns.OfType<GenericSingularNoun>();
+        }
+        /// <summary>
+        /// Returns all GenericPluralNouns in the GenericNoun sequence.
+        /// </summary>
+        /// <param name="nouns">The sequence of GenericNouns to filter.</param>
+        /// <returns>All GenericNouns in the GenericNoun sequence.</returns>
+        public static IEnumerable<GenericPluralNoun> GetPlural(this IEnumerable<GenericNoun> nouns) {
+            return nouns.OfType<GenericPluralNoun>();
+        }/// <summary>
+        /// Returns all ProperSingularNouns in the ProperNoun sequence.
+        /// </summary>
+        /// <param name="nouns">The sequence of ProperNouns to filter.</param>
+        /// <returns>All ProperSingularNouns in the ProperNoun sequence.</returns>
+        public static IEnumerable<ProperSingularNoun> GetSingular(this IEnumerable<ProperNoun> nouns) {
+            return nouns.OfType<ProperSingularNoun>();
+        }
+        /// <summary>
+        /// Returns all ProperPluralNouns in the ProperNoun sequence.
+        /// </summary>
+        /// <param name="nouns">The sequence of ProperNouns to filter.</param>
+        /// <returns>All ProperPluralNouns in the ProperNoun sequence.</returns>
+        public static IEnumerable<ProperPluralNoun> GetPlural(this IEnumerable<ProperNoun> nouns) {
+            return nouns.OfType<ProperPluralNoun>();
         }
         /// <summary>
         /// Returns all of the standard Pronouns in the collection.
@@ -167,35 +198,7 @@ namespace LASI.Algorithm
         #endregion
 
         #region Parallel Implementations
-        /// <summary>
-        /// Retrives all words in the words collection which compare equal to a given word.
-        /// </summary>
-        /// <typeparam name="T">Word or any Type derriving from it.</typeparam>
-        /// <param name="toMatch">The word to match</param>
-        /// <param name="words">A sequence of word instances</param>
-        /// <returns>A WordList containing all words which match the argument</returns>
-        /// <see cref="Word"/>
-        public static ParallelQuery<T> FindAllMatches<T>(this ParallelQuery<T> words, T toMatch) where T : Word {
-            if (toMatch == null) { throw new ArgumentNullException("toMatch", "The provided Word to match against was null."); }
-            return from word in words
-                   where word.Text == toMatch.Text && word.GetType() == toMatch.GetType()
-                   select word;
-        }
-        /// <summary>
-        /// Finds all Words in the sequence which are equivalent to the Word to match, based on the logic of the provided comparison function.
-        /// </summary> 
-        /// <typeparam name="T">Word or any Type derriving from it.</typeparam>
-        /// <param name="words">The sequence of Words to filter.</param>
-        /// <param name="toMatch">A Word to match against.</param>
-        /// <param name="comparison">The function to use to compare Words.</param>
-        /// <returns>All nouns in the which compare equal to the Word to match in the provided comparison function.</returns>
-        public static ParallelQuery<T> FindAllMatches<T>(this ParallelQuery<T> words, T toMatch, Func<T, T, bool> comparison) where T : Word {
-            if (toMatch == null) { throw new ArgumentNullException("toMatch", "The provided Word to match against was null."); }
-            if (comparison == null) { throw new ArgumentNullException("comparison", "The provided comparison function was null."); }
-            return from W in words
-                   where comparison(toMatch, W)
-                   select W;
-        }
+
         /// <summary>
         /// Returns all words in the Word collection which come after the given word.
         /// </summary>
@@ -247,6 +250,37 @@ namespace LASI.Algorithm
         /// <returns>All GenericNouns in the collection.</returns>
         public static ParallelQuery<GenericNoun> GetGenericNouns(this ParallelQuery<Word> words) {
             return words.OfType<GenericNoun>();
+        }
+        /// <summary>
+        /// Returns all GenericSingularNouns in the GenericNoun sequence.
+        /// </summary>
+        /// <param name="nouns">The sequence of GenericNouns to filter.</param>
+        /// <returns>All GenericSingularNouns in the GenericNoun sequence.</returns>
+        public static ParallelQuery<GenericSingularNoun> GetSingular(this ParallelQuery<GenericNoun> nouns) {
+            return nouns.OfType<GenericSingularNoun>();
+        }
+        /// <summary>
+        /// Returns all GenericPluralNouns in the GenericNoun sequence.
+        /// </summary>
+        /// <param name="nouns">The sequence of GenericNouns to filter.</param>
+        /// <returns>All GenericNouns in the GenericNoun sequence.</returns>
+        public static ParallelQuery<GenericPluralNoun> GetPlural(this ParallelQuery<GenericNoun> nouns) {
+            return nouns.OfType<GenericPluralNoun>();
+        }/// <summary>
+        /// Returns all ProperSingularNouns in the ProperNoun sequence.
+        /// </summary>
+        /// <param name="nouns">The sequence of ProperNouns to filter.</param>
+        /// <returns>All ProperSingularNouns in the ProperNoun sequence.</returns>
+        public static ParallelQuery<ProperSingularNoun> GetSingular(this ParallelQuery<ProperNoun> nouns) {
+            return nouns.OfType<ProperSingularNoun>();
+        }
+        /// <summary>
+        /// Returns all ProperPluralNouns in the ProperNoun sequence.
+        /// </summary>
+        /// <param name="nouns">The sequence of ProperNouns to filter.</param>
+        /// <returns>All ProperPluralNouns in the ProperNoun sequence.</returns>
+        public static ParallelQuery<ProperPluralNoun> GetPlural(this ParallelQuery<ProperNoun> nouns) {
+            return nouns.OfType<ProperPluralNoun>();
         }
         /// <summary>
         /// Returns all of the standard Pronouns in the collection.

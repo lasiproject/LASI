@@ -97,8 +97,9 @@
     <Compile Include="Analysis\ProcessingTask.cs" />
     <Compile Include="Analysis\SubordinateClauseIdentifier.cs" />
     <Compile Include="IEnumerableExtensions\IEnumerableOfIPronounExtensions.cs" />
-    <Compile Include="LexicalLookup\NameGender.cs" />
+    <Compile Include="LexicalLookup\Gender.cs" />
     <Compile Include="LexicalStructures\MiscLanguageConstructs\UnknownWord.cs" />
+    <Compile Include="LexicalStructures\NounRelatedConstructs\ISimpleGendered.cs" />
     <Compile Include="ResourceUsageManagement\Memory.cs" />
     <Compile Include="TextSourceAbstraction\IRawTextSource.cs" />
     <Compile Include="EntityKindClassificationExtensions.cs" />

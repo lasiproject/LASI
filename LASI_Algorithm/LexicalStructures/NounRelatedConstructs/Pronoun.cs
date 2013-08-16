@@ -1,4 +1,5 @@
 ﻿
+using LASI.Algorithm.Lookup;
 using LASI.Utilities;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ namespace LASI.Algorithm
     /// <summary>
     /// Represents a pronoun which gernerally refers back to a previously defined Entity, such as a Noun or NounPhrase.
     /// </summary>
-    public abstract class Pronoun : Word, IPronoun
+    public abstract class Pronoun : Word, IPronoun, ISimpleGendered
     {
         #region Constructors
 
@@ -72,7 +73,7 @@ namespace LASI.Algorithm
             if (ReferersTo != null) {
                 ReferersTo.AddPossession(possession);
             } else {
-                possessed.Add(possession);
+                _possessed.Add(possession);
                 possession.Possesser = this;
             }
         }
@@ -89,7 +90,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets all of the constructs the Pronoun can be determined to "own".
         /// </summary>
-        public IEnumerable<IEntity> Possessed { get { return possessed; } }
+        public IEnumerable<IEntity> Possessed { get { return _possessed; } }
 
         /// <summary>
         /// Gets or sets the Entity which the Pronoun references.
@@ -124,17 +125,31 @@ namespace LASI.Algorithm
         /// Gets the PronounKind of the Pronoun.
         /// </summary>
         public PronounKind PronounKind { get; protected set; }
+
+
+        /// <summary>
+        /// Gets the gender of the Pronoun.
+        /// </summary>
+        public virtual Gender Gender {
+            get {
+                return
+                    this.IsFemale() ? Gender.Female :
+                    this.IsMale() ? Gender.Male :
+                    this.IsGenderNeutral() ? Gender.Neutral :
+                    Gender.UNDEFINED;
+            }
+        }
+
         #endregion
 
 
         #region Fields
         private HashSet<IDescriptor> _descriptors = new HashSet<IDescriptor>();
-        private HashSet<IEntity> possessed = new HashSet<IEntity>();
+        private HashSet<IEntity> _possessed = new HashSet<IEntity>();
         private HashSet<IPronoun> _boundPronouns = new HashSet<IPronoun>();
-
         #endregion
 
-
+        #region Static Members
 
         #region Static Methods
 
@@ -187,6 +202,7 @@ namespace LASI.Algorithm
 
         #endregion
 
+        #endregion
 
     }
 }

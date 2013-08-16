@@ -6,6 +6,7 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using LASI.InteropLayer;
 
 namespace LASI.UserInterface
 {
@@ -15,6 +16,7 @@ namespace LASI.UserInterface
     public partial class App : Application
     {
         App() {
+            LoadPreferences();
             Exit += (sender, e) => {
                 if (Settings.Default.AutoCleanProjectFiles) {
                     try {
@@ -23,6 +25,13 @@ namespace LASI.UserInterface
                     }
                 }
             };
+        }
+
+        private static void LoadPreferences() {
+            PerforamanceLevel performanceLevel;
+            if (Enum.TryParse<PerforamanceLevel>(Settings.Default.PerformanceLevel, out performanceLevel)) {
+                PerformanceManager.SetPerformanceLevel(performanceLevel);
+            }
         }
     }
 }

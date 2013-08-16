@@ -75,10 +75,7 @@ namespace LASI.Algorithm
                    );
 
         }
-        public static IEnumerable<IEntity> GetRegisteredAliases(this IEntity entity) {
-            ISet<IEntity> results;
-            return aliasedEntityReferenceMap.TryGetValue(entity,out results) ? results : Enumerable.Empty<IEntity>();
-        }
+
 
         private static ConcurrentDictionary<IEntity, ISet<IEntity>> aliasedEntityReferenceMap = new ConcurrentDictionary<IEntity, ISet<IEntity>>();
         private static ConcurrentDictionary<string, ISet<string>> aliasDictionary = new ConcurrentDictionary<string, ISet<string>>();

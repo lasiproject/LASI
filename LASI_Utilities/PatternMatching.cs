@@ -20,50 +20,54 @@ namespace LASI.Utilities.PatternMatching
     /// </summary>
     public static class MatchingExtensions
     {
-        public static M<T> Match<T>(this T t) where T : class { return new M<T>(t); }
-        public static TM<T> MatchFrom<T>(this T t) where T : class { return new TM<T>(t); }
+        public static PatternMatching<T> Match<T>(this T t) where T : class { return new PatternMatching<T>(t); }
+        //public static PatternToFromTransition<T> MatchFrom<T>(this T t) where T : class { return new PatternToFromTransition<T>(t); }
         //public static M<object, R> MatchTo<R>(this object t) { return new M<object, R>(t); }
     }
     public static class Match
     {
-        public static M<T> On<T>(T matchOn) where T : class { return new M<T>(matchOn); }
-        public static M<T, R> On<T, R>(T matchOn) where T : class { return new M<T, R>(matchOn); }
-        public static TM<T> From<T>(T matchOn) where T : class { return new TM<T>(matchOn); }
+        public static PatternMatching<T> On<T>(T matchOn) where T : class { return new PatternMatching<T>(matchOn); }
+        public static PatternMatching<T, R> On<T, R>(T matchOn) where T : class { return new PatternMatching<T, R>(matchOn); }
+        public static PatternToFromTransition<T> From<T>(T matchOn) where T : class { return new PatternToFromTransition<T>(matchOn); }
     }
-    public class M<T, R> where T : class
+    public class PatternMatching<T, R> where T : class
     {
-        protected internal M(T matchOn) { toMatch = matchOn; }
-        public M<T, R> With<TCase>(Func<R> func) where TCase : class,T {
-            if (result == null) {
+        protected internal PatternMatching(T matchOn) { toMatch = matchOn; }
+        public PatternMatching<T, R> With<TCase>(Func<R> func) where TCase : class,T {
+            if (!matchFound) {
                 if (toMatch is TCase) {
                     result = func();
+                    matchFound = true;
                 }
             }
             return this;
         }
-        public M<T, R> With<TCase>(Func<TCase, bool> condition, Func<R> func) where TCase : class,T {
-            if (result == null) {
+        public PatternMatching<T, R> With<TCase>(Func<TCase, bool> condition, Func<R> func) where TCase : class,T {
+            if (!matchFound) {
                 var matched = toMatch as TCase;
                 if (matched != null && condition(matched)) {
                     result = func();
+                    matchFound = true;
                 }
             }
             return this;
         }
-        public M<T, R> With<TCase>(Func<TCase, R> func) where TCase : class,T {
-            if (result == null) {
+        public PatternMatching<T, R> With<TCase>(Func<TCase, R> func) where TCase : class,T {
+            if (!matchFound) {
                 var matched = toMatch as TCase;
                 if (matched != null) {
                     result = func(matched);
+                    matchFound = true;
                 }
             }
             return this;
         }
-        public M<T, R> With<TCase>(Func<TCase, bool> condition, Func<TCase, R> func) where TCase : class,T {
-            if (result == null) {
+        public PatternMatching<T, R> With<TCase>(Func<TCase, bool> condition, Func<TCase, R> func) where TCase : class,T {
+            if (!matchFound) {
                 var matched = toMatch as TCase;
                 if (matched != null && condition(matched)) {
                     result = func(matched);
+                    matchFound = true;
                 }
             }
             return this;
@@ -75,28 +79,31 @@ namespace LASI.Utilities.PatternMatching
         /// <param name="func">The factory function returning a desired default value.</param>
         /// <returns>The M&lgt;T, R&gt; describing the Match expression so far.</returns>
         /// <remarks>Although not enformed by the compiler, Default should only be used as the last clause in the match expression, never in between With clauses.</remarks>
-        public M<T, R> Default(Func<R> func) {
-            if (result == null) {
+        public PatternMatching<T, R> Default(Func<R> func) {
+            if (!matchFound) {
                 result = func();
+                matchFound = true;
             }
             return this;
         }
-        public M<T, R> Default(Func<T, R> func) {
-            if (result == null) {
+        public PatternMatching<T, R> Default(Func<T, R> func) {
+            if (!matchFound) {
                 result = func(toMatch);
+                matchFound = true;
             }
             return this;
         }
         public R Result() { return result; }
 
+        private bool matchFound;
         private T toMatch;
         private R result;
     }
-    public class M<T> where T : class
+    public class PatternMatching<T> where T : class
     {
 
-        protected internal M(T matchOn) { toMatch = matchOn; }
-        public M<T> With<TCase>(Action action) where TCase : class ,T {
+        protected internal PatternMatching(T matchOn) { toMatch = matchOn; }
+        public PatternMatching<T> With<TCase>(Action action) where TCase : class ,T {
             if (!matchFound) {
                 if (toMatch is TCase) {
                     matchFound = true;
@@ -105,7 +112,7 @@ namespace LASI.Utilities.PatternMatching
             }
             return this;
         }
-        public M<T> With<TCase>(Action<TCase> action) where TCase : class ,T {
+        public PatternMatching<T> With<TCase>(Action<TCase> action) where TCase : class ,T {
             if (!matchFound) {
                 var matched = toMatch as TCase;
                 if (matched != null) {
@@ -115,7 +122,7 @@ namespace LASI.Utilities.PatternMatching
             }
             return this;
         }
-        public M<T> With<TCase>(Func<TCase, bool> condition, Action action) where TCase : class ,T {
+        public PatternMatching<T> With<TCase>(Func<TCase, bool> condition, Action action) where TCase : class ,T {
             if (!matchFound) {
                 if (toMatch is TCase) {
                     matchFound = true;
@@ -124,7 +131,7 @@ namespace LASI.Utilities.PatternMatching
             }
             return this;
         }
-        public M<T> With<TCase>(Func<TCase, bool> condition, Action<TCase> action) where TCase : class ,T {
+        public PatternMatching<T> With<TCase>(Func<TCase, bool> condition, Action<TCase> action) where TCase : class ,T {
             if (!matchFound) {
                 var matched = toMatch as TCase;
                 if (matched != null) {
@@ -148,13 +155,13 @@ namespace LASI.Utilities.PatternMatching
         private T toMatch;
 
     }
-    public struct TM<T> where T : class
+    public struct PatternToFromTransition<T> where T : class
     {
-        internal TM(T toMatch) {
+        internal PatternToFromTransition(T toMatch) {
             matchOn = toMatch;
         }
-        public M<T, R> To<R>() {
-            return new M<T, R>(matchOn);
+        public PatternMatching<T, R> To<R>() {
+            return new PatternMatching<T, R>(matchOn);
         }
         private T matchOn;
     }

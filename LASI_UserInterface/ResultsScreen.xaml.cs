@@ -98,14 +98,7 @@ namespace LASI.UserInterface
         }
 
         private static Label CreateLabelForWeightedView(NounPhrase np) {
-            var ng = np.GetGender();
-            ng = ng == NameGender.UNDEFINED ?
-                (from p in np.Words.GetProperNouns()
-                 let gen = p.GetGender()
-                 group gen by gen into g
-                 orderby g.Count() descending
-                 select g.Key).FirstOrDefault() :
-                 ng;
+            var gender = np.GetGender();
             var label = new Label {
                 Tag = np,
                 Content = String.Format("Weight : {0}  \"{1}\"", np.Weight, np.Text),
@@ -113,7 +106,7 @@ namespace LASI.UserInterface
                 Padding = new Thickness(1, 1, 1, 1),
                 ContextMenu = new ContextMenu(),
                 ToolTip = string.Format("{0}{1}",
-                np.Type.Name, ng != NameGender.UNDEFINED && ng != NameGender.Neutral ? "\nprevialing gender: " + ng : "")
+                np.Type.Name, gender.IsMaleOrFemale() ? "\nprevialing gender: " + gender : "")
             };
             var menuItem1 = new MenuItem {
                 Header = "view definition",
@@ -227,20 +220,21 @@ namespace LASI.UserInterface
                 MessageBox.Show(this, string.Format(".doc file conversion failed\n{0}", e.Message));
             }
 
-            currentOperationProgressBar.Value += 10;
+            await StepProgress(10);
             currentOperationLabel.Content = string.Format("Tagging {0}...", chosenFile.NameSansExt);
             var textfile = FileManager.TextFiles.Where(f => f.NameSansExt == chosenFile.NameSansExt).First();
 
             var doc = await Tagger.DocumentFromRawAsync(textfile);
-            currentOperationProgressBar.Value += 10;
+            await StepProgress(10);
             currentOperationLabel.Content = string.Format("{0}: Analyzing Syntax...", chosenFile.NameSansExt);
             foreach (var task in Binder.GetBindingTasksForDocument(doc)) {
                 currentOperationLabel.Content = task.InitializationMessage;
                 await task.Task;
-                currentOperationProgressBar.Value += task.PercentWorkRepresented;
+                await StepProgress(task.PercentWorkRepresented);
                 currentOperationLabel.Content = task.CompletionMessage;
             }
-            currentOperationProgressBar.Value += 15;
+
+            await StepProgress(15);
             currentOperationLabel.Content = string.Format("{0}: Correlating Relationships...", chosenFile.NameSansExt);
             var tasks = Weighter.GetWeightingProcessingTasks(doc).ToList();
             foreach (var task in tasks) {
@@ -248,10 +242,7 @@ namespace LASI.UserInterface
                 var message = task.InitializationMessage;
                 currentOperationLabel.Content = message;
                 await task.Task;
-                for (int i = 0; i < 9; i++) {
-                    currentOperationProgressBar.Value += 1;
-
-                }
+                await StepProgress(9);
 
 
             }
@@ -266,6 +257,13 @@ namespace LASI.UserInterface
             currentOperationProgressBar.Value = 100;
 
             documents.Add(doc);
+        }
+
+        private async Task StepProgress(double steps) {
+            for (int i = 0; i < 9; i++) {
+                currentOperationProgressBar.Value += 1;
+                await Task.Delay(1);
+            }
         }
 
         /// <summary>
@@ -490,10 +488,3 @@ namespace LASI.UserInterface
     }
 
 }
-//var genderString = !np.Words.GetDeterminers().Any() ?
-//    np.IsFullMaleName() ? "Male" : np.IsFullFemaleName() ? "Female" :
-//    (from p in np.Words.GetProperNouns()
-//     group p by p.IsFemaleName() ? "Female" : p.IsMaleName() ? "Male" : "Undetermind"
-//         into g
-//         orderby g.Count() descending
-//         select g.Key).FirstOrDefault() : string.Empty;
