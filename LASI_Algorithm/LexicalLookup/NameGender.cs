@@ -26,10 +26,6 @@ namespace LASI.Algorithm.Lookup
         /// </summary>
         Male,
         /// <summary>
-        /// Unknown
-        /// </summary>
-        Unknown,
-        /// <summary>
         /// Neutral
         /// </summary>
         Neutral

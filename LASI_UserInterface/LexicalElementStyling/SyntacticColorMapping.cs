@@ -24,7 +24,7 @@ namespace LASI.UserInterface
                 .With<IDescriptor>(() => Brushes.DarkTurquoise)
                 .With<IAdverbial>(() => Brushes.Orange)
                 .Default(() => Brushes.Black)
-                .Result;
+                .Result();
         }
     }
 }

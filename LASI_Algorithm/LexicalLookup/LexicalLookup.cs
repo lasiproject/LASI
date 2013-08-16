@@ -647,8 +647,7 @@ namespace LASI.Algorithm.Lookup
             if (first.Words.Count() >= second.Words.Count()) {
                 outer = first;
                 inner = second;
-            }
-            else {
+            } else {
                 outer = second;
                 inner = first;
             }
@@ -692,7 +691,7 @@ namespace LASI.Algorithm.Lookup
                                              orderby g.Count() descending
                                              select g.Key).First())
                 .Default(() => NameGender.UNDEFINED)
-                .Result;
+                .Result();
         }
         /// <summary>
         /// Returns a NameGender value indiciating the likely gender of the Pronoun based on its referrent if known, or else its PronounKind.
@@ -708,7 +707,7 @@ namespace LASI.Algorithm.Lookup
                      .With<ProperNoun>(p => p.GetGender())
                      .With<GenericNoun>(() => NameGender.Neutral)
                      .Default(() => NameGender.UNDEFINED)
-                     .Result
+                     .Result()
                  group gen by gen into g
                  orderby g.Count() descending
                  select g.Key).First() :
@@ -727,7 +726,7 @@ namespace LASI.Algorithm.Lookup
                 name.IsMale() ?
                 NameGender.Male :
                 name.IsLastName() ?
-                NameGender.Unknown :
+                NameGender.Neutral :
                 NameGender.UNDEFINED;
         }
         /// <summary>
@@ -739,8 +738,7 @@ namespace LASI.Algorithm.Lookup
             var alias = name.GetRegisteredAliases().FirstOrDefault();
             if (alias != null) {
                 return alias.GetGender();
-            }
-            else {
+            } else {
                 var propers = name.Words.GetProperNouns();
                 return
                     name.IsFullFemale() || propers.Any() && propers.All(n => n.IsFemale()) ?
@@ -748,7 +746,7 @@ namespace LASI.Algorithm.Lookup
                     name.IsFullMale() || propers.Any() && propers.All(n => n.IsMale()) ?
                     NameGender.Male :
                     name.IsFullName() ?
-                    NameGender.Unknown :
+                    NameGender.Neutral :
                     NameGender.UNDEFINED;
             }
         }
@@ -792,11 +790,10 @@ namespace LASI.Algorithm.Lookup
             var pns = name.Words.GetProperNouns();
             var firstName = pns.FirstOrDefault(n => n.IsFirstName());
             var lastName = pns.LastOrDefault(n => n != firstName && n.IsLastName());
-            return pns
+            return firstName != null &&
+                lastName != null && pns
                 .GetWordsAfter(firstName)
                 .Count() >= 1 &&
-                firstName != null && 
-                lastName!=null&&
                 firstNameCondition(firstName);
         }
 

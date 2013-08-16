@@ -107,15 +107,16 @@ namespace LASI.Algorithm.Weighting
                 double maxWeight = source.Max(e => e.Weight);
                 double minWeight = source.Where(e => e.Weight > 0).Min(e => e.Weight);
                 double scalingFactor = (maxWeight - minWeight > 0 ? (maxWeight - minWeight) : 1.0) * (100d / maxWeight);
-                source.AsParallel().WithDegreeOfParallelism(Concurrency.Max).Where(e => e.Weight > 0)
+                source.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
+                    .Where(e => e.Weight > 0)
                     .ForAll(e => e.Weight *= scalingFactor);
             }
-                //attempting to set all non-zero weights to 0 when there isn't anything in the source.
-            else {
-                foreach (var w in source.Where(e => e.Weight != 0)) {
-                    w.Weight = 0;
-                }
-            }
+            //    //attempting to set all non-zero weights to 0 when there isn't anything in the source.
+            //else {
+            //    foreach (var w in source.Where(e => e.Weight != 0)) {
+            //        w.Weight = 0;
+            //    }
+            //}
         }
 
 
@@ -126,12 +127,17 @@ namespace LASI.Algorithm.Weighting
         }
 
         private static void ModifyVerbWeightsBySynonyms(Document doc) {
-            var verbsToConsider = doc.Words.AsParallel().WithDegreeOfParallelism(Concurrency.Max).GetVerbs().WithSubjectOrObject();
-            (from outerVerb in
-                 verbsToConsider
-             from innerVerb in verbsToConsider
-             where outerVerb.IsSynonymFor(innerVerb)
-             group innerVerb by outerVerb).ForAll(grp => grp.Key.Weight += 0.7 * grp.Count());
+            var verbsToConsider = doc
+                .Words.AsParallel()
+                .WithDegreeOfParallelism(Concurrency.Max)
+                .GetVerbs()
+                .WithSubjectOrObject();
+            var groups = from outerVerb in
+                             verbsToConsider
+                         from innerVerb in verbsToConsider
+                         where outerVerb.IsSynonymFor(innerVerb)
+                         group innerVerb by outerVerb;
+            groups.ForAll(grp => grp.Key.Weight += 0.7 * grp.Count());
         }
 
         private static async Task ModifyNounWeightsBySynonymsAsync(Document doc) {
@@ -146,13 +152,10 @@ namespace LASI.Algorithm.Weighting
             //Currently, include only those nouns which exist in relationships with some IVerbal or IPronoun.
             var toConsider = doc.Words
                 .AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                .GetNouns()
+                .GetNouns().InSubjectOrObjectRole()
                 .Concat<IEntity>(doc.Words
                 .AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                .GetPronouns()
-                .Referencing()
-                .Select(pro => pro.ReferersTo))
-                .InSubjectOrObjectRole();
+                .GetPronouns().InSubjectOrObjectRole().Select(e => e.ReferersTo ?? e as IEntity));
             (from outer in toConsider
              from inner in toConsider
              where outer.IsSimilarTo(inner)
@@ -200,22 +203,18 @@ namespace LASI.Algorithm.Weighting
                 .AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                 .GetNounPhrases()
                 .InSubjectOrObjectRole();
-            var similarNounPhraseLookup =
-                nps.ToLookup(key => key,
-                LexicalComparers<NounPhrase>
-                .CreateCustom((L, R) => {
-                    return L.Text == R.Text || L.IsAliasFor(R) || L.IsSimilarTo(R);
-                }));
 
-            nps.ForAll(outerNP => {
-                (from innerNP in similarNounPhraseLookup[outerNP].AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                 group innerNP by outerNP).ForAll(group => {
-                     var weightIncrease = group.Count() * .5;
-                     foreach (var inner in group) {
-                         inner.Weight += weightIncrease;
-                     }
-                 });
-            });
+            foreach (var outerNP in nps) {
+                var groups = from innerNP in nps.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
+                             where innerNP.IsAliasFor(outerNP) || innerNP.IsSimilarTo(outerNP)
+                             group innerNP by outerNP;
+                foreach (var group in groups) {
+                    var weightIncrease = group.Count() * .5;
+                    foreach (var inner in group) {
+                        inner.Weight += weightIncrease;
+                    }
+                }
+            }
 
         }
         private static async Task WeightSimilarEntitiesAsync(Document doc) {
@@ -223,17 +222,19 @@ namespace LASI.Algorithm.Weighting
         }
         private static void WeightSimilarEntities(Document doc) {
             var entities = doc.GetEntities().AsParallel().WithDegreeOfParallelism(Concurrency.Max).InSubjectOrObjectRole();
-            var entityLookup = entities.ToLookup(key => key,
-                                LexicalComparers<IEntity>
-                                .CreateCustom((L, R) => L.Text == R.Text || L.IsAliasFor(R) || L.IsSimilarTo(R)));
+            //var entityLookup = entities.ToLookup(key => key,
+            //                    LexicalComparers<IEntity>
+            //                    .CreateCustom((L, R) => L.Text == R.Text || L.IsAliasFor(R) || L.IsSimilarTo(R)));
             foreach (var outer in entities) {
-                (from inner in entityLookup[outer].AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                 group inner by outer).ForAll(group => {
-                     var weightIncrease = group.Count() * .5;
-                     foreach (var inner in group) {
-                         inner.Weight += weightIncrease;
-                     }
-                 });
+                var groups = from inner in entities.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
+                             where inner.IsAliasFor(outer) || inner.IsSimilarTo(outer)
+                             group inner by outer;
+                foreach (var group in groups) {
+                    var weightIncrease = group.Count() * .5;
+                    foreach (var inner in group) {
+                        inner.Weight += weightIncrease;
+                    }
+                }
             }
 
         }

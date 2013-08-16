@@ -25,7 +25,7 @@ namespace LASI.Algorithm.Analysis.Binders.Experimental
                         .With<IVerbal>(p => p)
                         .With<SubordinateClauseBeginPhrase>(p => p)
                         .With<SymbolPhrase>(p => p)
-                        .Result as Phrase into result
+                        .Result() as Phrase into result
                 where result != null
                 select result;
             var bindingActions = ImagineBindings(objectBindingReleventItems.SkipWhile(p => !(p is VerbPhrase)));
@@ -41,9 +41,9 @@ namespace LASI.Algorithm.Analysis.Binders.Experimental
                             .From(s.NextPhrase).To<VerbPhrase>()
                             .With<VerbPhrase>(v => v)
                             .With<ConjunctionPhrase>(c => c.NextPhrase as VerbPhrase)
-                            .Result)
+                            .Result())
                         .With<VerbPhrase>(v => v)
-                        .Result)
+                        .Result())
                 .Distinct()
                 .TakeWhile(v => v != null);
             var next = targetVPS.LastOrDefault(v => v.NextPhrase != null && v.Sentence == v.NextPhrase.Sentence);
@@ -58,7 +58,7 @@ namespace LASI.Algorithm.Analysis.Binders.Experimental
                     .From<Phrase>(next).To<Action>()
                         .With<NounPhrase>(n => () => targets.ToList().ForEach(v => v.BindDirectObject(n)))
                         .With<InfinitivePhrase>(i => () => targets.ToList().ForEach(v => v.BindDirectObject(i)))
-                        .Result;
+                        .Result();
             return result;
         }
     }

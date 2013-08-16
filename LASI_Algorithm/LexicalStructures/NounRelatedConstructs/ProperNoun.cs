@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LASI.Algorithm.Lookup;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,5 +22,7 @@ namespace LASI.Algorithm
             : base(text) {
             EntityKind = EntityKind.ProperUnknown;
         }
+        private NameGender? gender;
+        public virtual NameGender Gender { get { gender = gender ?? this.GetGender(); return gender.Value; } }
     }
 }

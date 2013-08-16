@@ -87,7 +87,7 @@ namespace LASI.Utilities.PatternMatching
             }
             return this;
         }
-        public R Result { get { return result; } }
+        public R Result() { return result; }
 
         private T toMatch;
         private R result;
@@ -171,7 +171,7 @@ namespace LASI.Utilities.PatternMatching
                    select Match.From<T>(e).To<R>()
                           .With<T>(x => x as R)
                           .With<R>(x => x != e, r => r)
-                          .Result into result
+                          .Result() into result
                    where result != null
                    select result;
         }

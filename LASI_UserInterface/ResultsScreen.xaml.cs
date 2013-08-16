@@ -99,7 +99,7 @@ namespace LASI.UserInterface
 
         private static Label CreateLabelForWeightedView(NounPhrase np) {
             var ng = np.GetGender();
-            ng = (ng == NameGender.UNDEFINED && ng == NameGender.Unknown) ?
+            ng = ng == NameGender.UNDEFINED ?
                 (from p in np.Words.GetProperNouns()
                  let gen = p.GetGender()
                  group gen by gen into g
@@ -113,7 +113,7 @@ namespace LASI.UserInterface
                 Padding = new Thickness(1, 1, 1, 1),
                 ContextMenu = new ContextMenu(),
                 ToolTip = string.Format("{0}{1}",
-                np.Type.Name, ng != NameGender.UNDEFINED && ng != NameGender.Unknown ? "\nprevialing gender: " + ng : "")
+                np.Type.Name, ng != NameGender.UNDEFINED && ng != NameGender.Neutral ? "\nprevialing gender: " + ng : "")
             };
             var menuItem1 = new MenuItem {
                 Header = "view definition",

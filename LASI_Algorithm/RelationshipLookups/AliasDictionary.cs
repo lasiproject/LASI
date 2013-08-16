@@ -16,20 +16,21 @@ namespace LASI.Algorithm
         /// <summary>
         /// Checks to see if one Entity is a known alias for another.
         /// </summary>
-        /// <param name="entity">The first Entity</param>
+        /// <param name="possibleAlias">The first Entity</param>
         /// <param name="other">The second Entity</param>
         /// <returns>true if the Entities are aliases for one another, false otherwise</returns>
-        public static bool IsAliasFor(this IEntity entity, IEntity other) {
-            return (entity ?? other ?? null) == null ? false : Lookup(entity.Text, other.Text);
+        public static bool IsAliasFor(this IEntity possibleAlias, IEntity other) {
+            return possibleAlias != null && other != null && LookupAlias(other, possibleAlias);
         }
 
-        private static bool Lookup(string entityText, string aliasText) {
-            HashSet<string> aliases;
-            return aliasDictionary.TryGetValue(entityText, out aliases)
+        private static bool LookupAlias(IEntity possibleAlias, IEntity possiblyAliasedBy) {
+            ISet<IEntity> aliasedBy;
+            ISet<string> aliases;
+
+            return aliasedEntityReferenceMap.TryGetValue(possiblyAliasedBy, out aliasedBy) && aliasedBy.Contains(possibleAlias) || aliasDictionary.TryGetValue(possiblyAliasedBy.Text, out aliases)
                 &&
-                aliases.Contains(aliasText);
+                aliases.Contains(possibleAlias.Text);
         }
-
         /// <summary>
         /// Establishes that the given Entity has a the given textual alias. 
         /// </summary>
@@ -45,6 +46,7 @@ namespace LASI.Algorithm
         /// <param name="other">The second Entity</param>
         public static void DefineAlias(IEntity entity, IEntity other) {
             DefineAliasInDictionary(entity.Text, other.Text);
+            DefineAliasInDictionary(entity.Text, other.Text);
         }
         /// <summary>
         /// Establishes that one Entity is an alias for the end. 
@@ -54,6 +56,7 @@ namespace LASI.Algorithm
         public static void DefineAlias(string entityText, string aliasText) {
             DefineAliasInDictionary(entityText, aliasText);
         }
+
         /// <summary>
         /// Adds or updates the known alias relationships to reflect the relationship of the given strings.
         /// </summary>
@@ -61,15 +64,24 @@ namespace LASI.Algorithm
         /// <param name="textualAliases">One or more textual alias to define for the given entity text.</param>
         private static void DefineAliasInDictionary(string entityText, params string[] textualAliases) {
             aliasDictionary.AddOrUpdate(
-                   entityText,
-                   new HashSet<string>(textualAliases),
-                   (keyString, aliases) => {
-                       aliases.Concat(textualAliases);
-                       return aliases;
-                   });
+                   entityText, new HashSet<string>(textualAliases),
+                   (key, current) => current.Concat(textualAliases).ToSet()
+                   );
+        }
+        private static void DefineAliasInDictionary(IEntity entity, params IEntity[] aliases) {
+            aliasedEntityReferenceMap.AddOrUpdate(
+                   entity, new HashSet<IEntity>(aliases),
+                   (key, current) => current.Union(aliases).ToSet()
+                   );
 
         }
+        public static IEnumerable<IEntity> GetRegisteredAliases(this IEntity entity) {
+            ISet<IEntity> results;
+            return aliasedEntityReferenceMap.TryGetValue(entity,out results) ? results : Enumerable.Empty<IEntity>();
+        }
 
-        private static ConcurrentDictionary<string, HashSet<string>> aliasDictionary = new ConcurrentDictionary<string, HashSet<string>>();
+        private static ConcurrentDictionary<IEntity, ISet<IEntity>> aliasedEntityReferenceMap = new ConcurrentDictionary<IEntity, ISet<IEntity>>();
+        private static ConcurrentDictionary<string, ISet<string>> aliasDictionary = new ConcurrentDictionary<string, ISet<string>>();
+
     }
 }
