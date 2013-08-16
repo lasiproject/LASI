@@ -7,22 +7,22 @@ using System.Reflection;
 
 namespace LASI.Utilities.AlgebraicDecomposition
 {
-    public interface IDecompose<T>
+    internal interface IDecompose<T>
     {
         T Value { get; }
     }
-    public interface IDecompose<T, R> : IDecompose<T>
+    internal interface IDecompose<T, R> : IDecompose<T>
     {
         IEnumerable<R> Results { get; }
     }
-    public struct Decompose<TComposed> : IDecompose<TComposed> where TComposed : class
+    internal struct Decompose<TComposed> : IDecompose<TComposed> where TComposed : class
     {
         internal Decompose(TComposed toDecompose)
             : this() {
             Value = toDecompose;
             typesMatched = new List<Type>();
         }
-        public Decompose<TComposed> As<TComponent>(Action processComponent) where TComponent : class {
+        internal Decompose<TComposed> As<TComponent>(Action processComponent) where TComponent : class {
             if (!TypeAlreadyMatched(typeof(TComponent))) {
                 var component = Value as TComponent;
                 if (Value != null && Value is TComponent) {
@@ -31,7 +31,7 @@ namespace LASI.Utilities.AlgebraicDecomposition
             }
             return this;
         }
-        public Decompose<TComposed> As<TComponent>(Action<TComponent> processComponent) where TComponent : class {
+        internal Decompose<TComposed> As<TComponent>(Action<TComponent> processComponent) where TComponent : class {
             if (!TypeAlreadyMatched(typeof(TComponent))) {
                 var component = Value as TComponent;
                 if (component != null) {
@@ -40,7 +40,7 @@ namespace LASI.Utilities.AlgebraicDecomposition
             }
             return this;
         }
-        public IDecompose<TComposed> Base(Action processComponent) {
+        internal IDecompose<TComposed> Base(Action processComponent) {
             if (!TypeAlreadyMatched(typeof(TComposed))) {
                 if (Value != null) {
                     processComponent();
@@ -48,7 +48,7 @@ namespace LASI.Utilities.AlgebraicDecomposition
             }
             return this;
         }
-        public IDecompose<TComposed> Base(Action<TComposed> processComponent) {
+        internal IDecompose<TComposed> Base(Action<TComposed> processComponent) {
             if (!TypeAlreadyMatched(typeof(TComposed))) {
                 if (Value != null) {
                     processComponent(Value);
@@ -66,7 +66,7 @@ namespace LASI.Utilities.AlgebraicDecomposition
         public TComposed Value { get; private set; }
         private List<Type> typesMatched;
     }
-    public struct Decompose<TComposed, TResult> : IDecompose<TComposed, TResult> where TComposed : class
+    internal struct Decompose<TComposed, TResult> : IDecompose<TComposed, TResult> where TComposed : class
     {
         internal Decompose(TComposed composed)
             : this() {
@@ -154,12 +154,12 @@ namespace LASI.Utilities.AlgebraicDecomposition
         public IEnumerable<TResult> Results { get { return results; } }
         private List<TResult> results;
     }
-    public static class AlgebraicDestructuring
+    internal static class AlgebraicDestructuring
     {
-        public static Decompose<TComposed> Destructure<TComposed>(this TComposed composed) where TComposed : class {
+        internal static Decompose<TComposed> Destructure<TComposed>(this TComposed composed) where TComposed : class {
             return new Decompose<TComposed>(composed);
         }
-        public static Decompose<TComposed, TResult> Destructure<TComposed, TResult>(this TComposed composed) where TComposed : class {
+        internal static Decompose<TComposed, TResult> Destructure<TComposed, TResult>(this TComposed composed) where TComposed : class {
             return new Decompose<TComposed, TResult>(composed);
         }
     }

@@ -611,9 +611,6 @@ namespace LASI
         /// </summary>
         private static StreamWriter currentStream;
 
-        public static StreamWriter CurrentStream {
-            get { return Output.currentStream; }
-        }
         /// <summary>
         /// Gets the OutputMode indicating where the output is being directed.
         /// </summary>

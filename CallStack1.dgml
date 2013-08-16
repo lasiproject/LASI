@@ -1,58 +1,93 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <DirectedGraph DataVirtualized="True" Layout="Sugiyama" xmlns="http://schemas.microsoft.com/vs/2009/dgml">
   <Nodes>
-    <Node Id="(@1 @2 Type=FileManager Member=(Name=ConvertDocToDocXAsync OverloadingParameters=[(@1 @2 Type=(Name=DocFile ArrayRank=1 ParentType=DocFile))]))" Category="CodeSchema_Method" Bounds="228.495,223.84,170.853333333333,25.96" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsStatic="True" CommonLabel="ConvertDocToDocXAsync" FunctionTypeFlags="Method" Label="ConvertDocToDocXAsync" Language="{B5E9BD34-6D3E-4B5D-925E-8A43B79820B4}" SourceLocation="(Assembly=file:///c:/Users/Aluan/Documents/GitHub/LASI/LASI_ContentSystem/TaggerAndFileAbstraction/FileManager.cs StartLineNumber=304 StartCharacterOffset=0 EndLineNumber=304 EndCharacterOffset=0)">
+    <Node Id="(Name=LASI.Algorithm.DocumentConstructs.Sentence.get_Phrases.AnonymousMethod__8 @10 Type=System.Collections.Generic.IEnumerable&lt;LASI.Algorithm.Phrase&gt; OverloadingParameters=[(Type=LASI.Algorithm.Clause Name=C)] @2)" Category="CodeSchema_CallStackUnresolvedMethod" Bounds="195.235,316.7825,157.843333333333,25.96" Label="AnonymousMethod__8" SourceLocation="(Assembly=file:///c:/Users/Aluan/Documents/GitHub/LASI/LASI_Algorithm/DocumentConstructs/Sentence.cs StartLineNumber=94 StartCharacterOffset=0 EndLineNumber=94 EndCharacterOffset=0)">
       <Category Ref="CallStackEntry" />
       <Category Ref="CodeSchema_SourceLocation" />
     </Node>
-    <Node Id="(@1 @2 Type=InputFile Member=(Name=.ctor OverloadingParameters=[(@3 Namespace=System Type=String)]))" Category="CodeSchema_Method" Bounds="38.0000000000001,223.84,81.8433333333333,25.96" CodeSchemaProperty_IsConstructor="True" CodeSchemaProperty_IsPublic="True" CommonLabel="InputFile" FunctionTypeFlags="Constructor" Label="InputFile" Language="{B5E9BD34-6D3E-4B5D-925E-8A43B79820B4}" SourceLocation="(Assembly=file:///c:/Users/Aluan/Documents/GitHub/LASI/LASI_ContentSystem/FileTypes/InputFile.cs StartLineNumber=19 StartCharacterOffset=0 EndLineNumber=19 EndCharacterOffset=0)">
+    <Node Id="(Name=LASI.Algorithm.DocumentConstructs.Sentence.get_Phrases.AnonymousMethod__9 @10 Type=LASI.Algorithm.Phrase OverloadingParameters=[(Type=LASI.Algorithm.Clause Name=C),(Type=LASI.Algorithm.Phrase Name=P)] @2)" Category="CodeSchema_CallStackUnresolvedMethod" Bounds="383.235,316.7825,157.843333333333,25.96" Label="AnonymousMethod__9" SourceLocation="(Assembly=file:///c:/Users/Aluan/Documents/GitHub/LASI/LASI_Algorithm/DocumentConstructs/Sentence.cs StartLineNumber=94 StartCharacterOffset=0 EndLineNumber=94 EndCharacterOffset=0)">
       <Category Ref="CallStackEntry" />
       <Category Ref="CodeSchema_SourceLocation" />
     </Node>
-    <Node Id="@10" Category="CodeSchema_Method" Bounds="31.1900000000001,111.92,95.4633333333333,25.96" CodeSchemaProperty_IsPublic="True" CommonLabel="ConvertFile" FunctionTypeFlags="Method" IsOverloaded="True" Label="ConvertFile" Language="{B5E9BD34-6D3E-4B5D-925E-8A43B79820B4}" SourceLocation="(Assembly=file:///c:/Users/Aluan/Documents/GitHub/LASI/LASI_ContentSystem/FileConveters/DocToDocXConverter.cs StartLineNumber=43 StartCharacterOffset=0 EndLineNumber=43 EndCharacterOffset=0)">
+    <Node Id="(Name=LASI.ContentSystem.InputFile.InputFile @1 @6 OverloadingParameters=[(Type=string Name=path)] @2)" Category="CodeSchema_CallStackUnresolvedMethod" Bounds="470.235,244.8625,81.8433333333333,25.96" Label="InputFile" SourceLocation="(Assembly=file:///c:/Users/Aluan/Documents/GitHub/LASI/LASI_ContentSystem/FileTypes/InputFile.cs StartLineNumber=19 StartCharacterOffset=0 EndLineNumber=19 EndCharacterOffset=0)">
       <Category Ref="CallStackEntry" />
       <Category Ref="CodeSchema_SourceLocation" />
     </Node>
-    <Node Id="@11" Category="CodeSchema_Method" Bounds="241.555,111.92,144.733333333333,25.96" CodeSchemaProperty_IsPrivate="True" CommonLabel="InitializeFileManager" FunctionTypeFlags="Method" Label="InitializeFileManager" Language="{B5E9BD34-6D3E-4B5D-925E-8A43B79820B4}" SourceLocation="(Assembly=file:///c:/Users/Aluan/Documents/GitHub/LASI/LASI_UserInterface/StartupScreen.xaml.cs StartLineNumber=106 StartCharacterOffset=0 EndLineNumber=106 EndCharacterOffset=0)">
+    <Node Id="(Name=LASI.UserInterface.ResultsScreen.BuildTextViewOfDocument.AnonymousMethod__32 @5 Type=System.Collections.Generic.IEnumerable&lt;LASI.Algorithm.Phrase&gt; OverloadingParameters=[(Type=LASI.Algorithm.DocumentConstructs.Sentence Name=p)] @2)" Category="CodeSchema_CallStackUnresolvedMethod" Bounds="0,316.7825,164.313333333333,25.96" Label="AnonymousMethod__32" SourceLocation="(Assembly=file:///c:/Users/Aluan/Documents/GitHub/LASI/LASI_UserInterface/ResultsScreen.xaml.cs StartLineNumber=152 StartCharacterOffset=0 EndLineNumber=152 EndCharacterOffset=0)">
       <Category Ref="CallStackEntry" />
       <Category Ref="CodeSchema_SourceLocation" />
     </Node>
-    <Node Id="@4" Category="CodeSchema_Method" Bounds="37.9150000000001,167.88,82.0133333333333,25.96" CodeSchemaProperty_IsConstructor="True" CodeSchemaProperty_IsPublic="True" CommonLabel="DocXFile" FunctionTypeFlags="Constructor" Label="DocXFile" Language="{B5E9BD34-6D3E-4B5D-925E-8A43B79820B4}" SourceLocation="(Assembly=file:///c:/Users/Aluan/Documents/GitHub/LASI/LASI_ContentSystem/FileTypes/DocXFile.cs StartLineNumber=17 StartCharacterOffset=0 EndLineNumber=17 EndCharacterOffset=0)">
+    <Node Id="(Name=LASI.Utilities.PatternMatching.PatternToFromTransition&lt;LASI.Algorithm.ILexical&gt;.PatternToFromTransition @14 @6 OverloadingParameters=[(Type=LASI.Algorithm.ILexical Name=toMatch)] @2)" Category="CodeSchema_CallStackUnresolvedMethod" Bounds="530.623333333333,432.0775,167.066666666667,25.96" Label="PatternToFromTransition" SourceLocation="(Assembly=file:///c:/Users/Aluan/Documents/GitHub/LASI/LASI_Utilities/PatternMatching.cs StartLineNumber=152 StartCharacterOffset=0 EndLineNumber=152 EndCharacterOffset=0)">
       <Category Ref="CallStackEntry" />
       <Category Ref="CodeSchema_SourceLocation" />
     </Node>
-    <Node Id="@7" Category="CodeSchema_Method" Bounds="188.381666666667,55.96,251.08,25.96" CodeSchemaProperty_IsPrivate="True" CommonLabel="completeSetupAndContinueButton_Click" FunctionTypeFlags="Method" Label="completeSetupAndContinueButton_Click" Language="{B5E9BD34-6D3E-4B5D-925E-8A43B79820B4}" SourceLocation="(Assembly=file:///c:/Users/Aluan/Documents/GitHub/LASI/LASI_UserInterface/StartupScreen.xaml.cs StartLineNumber=244 StartCharacterOffset=0 EndLineNumber=244 EndCharacterOffset=0)">
+    <Node Id="@11" Category="CodeSchema_CallStackUnresolvedMethod" Bounds="90,187.215,164.313333333333,25.96" Label="AnonymousMethod__29" SourceLocation="(Assembly=file:///c:/Users/Aluan/Documents/GitHub/LASI/LASI_UserInterface/ResultsScreen.xaml.cs StartLineNumber=131 StartCharacterOffset=0 EndLineNumber=131 EndCharacterOffset=0)">
       <Category Ref="CallStackEntry" />
       <Category Ref="CodeSchema_SourceLocation" />
     </Node>
-    <Node Id="@8" Category="CodeSchema_Method" Bounds="0,55.96,157.843333333333,25.96" CodeSchemaProperty_IsAnonymous="True" Label="AnonymousMethod__0" SourceLocation="(Assembly=file:///c:/Users/Aluan/Documents/GitHub/LASI/LASI_ContentSystem/FileConveters/DocToDocXConverter.cs StartLineNumber=64 StartCharacterOffset=0 EndLineNumber=64 EndCharacterOffset=0)">
+    <Node Id="@12" Category="CodeSchema_CallStackUnresolvedMethod" Bounds="262.133333333333,244.8625,178.046666666667,25.96" Label="BuildTextViewOfDocument" SourceLocation="(Assembly=file:///c:/Users/Aluan/Documents/GitHub/LASI/LASI_UserInterface/ResultsScreen.xaml.cs StartLineNumber=139 StartCharacterOffset=0 EndLineNumber=139 EndCharacterOffset=0)">
       <Category Ref="CallStackEntry" />
       <Category Ref="CodeSchema_SourceLocation" />
     </Node>
-    <Node Id="@9" Category="CodeSchema_Method" Bounds="232.291666666667,167.88,163.26,25.96" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsStatic="True" CommonLabel="ConvertAsNeededAsync" FunctionTypeFlags="Method" Label="ConvertAsNeededAsync" Language="{B5E9BD34-6D3E-4B5D-925E-8A43B79820B4}" SourceLocation="(Assembly=file:///c:/Users/Aluan/Documents/GitHub/LASI/LASI_ContentSystem/TaggerAndFileAbstraction/FileManager.cs StartLineNumber=268 StartCharacterOffset=0 EndLineNumber=268 EndCharacterOffset=0)">
+    <Node Id="@13" Category="CodeSchema_CallStackUnresolvedMethod" Bounds="572.005,316.7825,84.3033333333333,25.96" Label="GetBrush" SourceLocation="(Assembly=file:///c:/Users/Aluan/Documents/GitHub/LASI/LASI_UserInterface/LexicalElementStyling/SyntacticColorMapping.cs StartLineNumber=14 StartCharacterOffset=0 EndLineNumber=14 EndCharacterOffset=0)">
       <Category Ref="CallStackEntry" />
       <Category Ref="CodeSchema_SourceLocation" />
     </Node>
-    <Node Id="ExternalCodeRootNode" Category="ExternalCallStackEntry" Bounds="267.428333333333,0,92.9866666666667,25.96" Label="External Code">
+    <Node Id="@15" Category="CodeSchema_CallStackUnresolvedMethod" Bounds="582.456666666667,374.43,63.4,25.96" Label="From" SourceLocation="(Assembly=file:///c:/Users/Aluan/Documents/GitHub/LASI/LASI_Utilities/PatternMatching.cs StartLineNumber=30 StartCharacterOffset=0 EndLineNumber=30 EndCharacterOffset=0)">
+      <Category Ref="CallStackEntry" />
+      <Category Ref="CodeSchema_SourceLocation" />
+    </Node>
+    <Node Id="@16" Category="CodeSchema_CallStackUnresolvedMethod" Bounds="284.605,187.215,155.103333333333,25.96" Label="ProcessNewDocument" SourceLocation="(Assembly=file:///c:/Users/Aluan/Documents/GitHub/LASI/LASI_UserInterface/ResultsScreen.xaml.cs StartLineNumber=252 StartCharacterOffset=0 EndLineNumber=252 EndCharacterOffset=0)">
+      <Category Ref="CallStackEntry" />
+      <Category Ref="CodeSchema_SourceLocation" />
+    </Node>
+    <Node Id="@3" Category="CodeSchema_CallStackUnresolvedMethod" Bounds="424.425,115.295,95.4633333333334,25.96" Label="ConvertFile" SourceLocation="(Assembly=file:///c:/Users/Aluan/Documents/GitHub/LASI/LASI_ContentSystem/FileConveters/DocToDocXConverter.cs StartLineNumber=57 StartCharacterOffset=0 EndLineNumber=57 EndCharacterOffset=0)">
+      <Category Ref="CallStackEntry" />
+      <Category Ref="CodeSchema_SourceLocation" />
+    </Node>
+    <Node Id="@4" Category="CodeSchema_CallStackUnresolvedMethod" Bounds="393.235,57.6475,157.843333333333,25.96" Label="AnonymousMethod__4" SourceLocation="(Assembly=file:///c:/Users/Aluan/Documents/GitHub/LASI/LASI_ContentSystem/FileConveters/DocToDocXConverter.cs StartLineNumber=70 StartCharacterOffset=0 EndLineNumber=70 EndCharacterOffset=0)">
+      <Category Ref="CallStackEntry" />
+      <Category Ref="CodeSchema_SourceLocation" />
+    </Node>
+    <Node Id="@7" Category="CodeSchema_CallStackUnresolvedMethod" Bounds="175.598333333333,57.6475,155.116666666667,25.96" Label="ProceedToResultsView" SourceLocation="(Assembly=file:///c:/Users/Aluan/Documents/GitHub/LASI/LASI_UserInterface/InProgressScreen.xaml.cs StartLineNumber=99 StartCharacterOffset=0 EndLineNumber=99 EndCharacterOffset=0)">
+      <Category Ref="CallStackEntry" />
+      <Category Ref="CodeSchema_SourceLocation" />
+    </Node>
+    <Node Id="@8" Category="CodeSchema_CallStackUnresolvedMethod" Bounds="93.6466666666668,115.295,237.02,25.96" Label="BuildTextViewsForAllDocumentsAsync" SourceLocation="(Assembly=file:///c:/Users/Aluan/Documents/GitHub/LASI/LASI_UserInterface/ResultsScreen.xaml.cs StartLineNumber=131 StartCharacterOffset=0 EndLineNumber=131 EndCharacterOffset=0)">
+      <Category Ref="CallStackEntry" />
+      <Category Ref="CodeSchema_SourceLocation" />
+    </Node>
+    <Node Id="@9" Category="CodeSchema_CallStackUnresolvedMethod" Bounds="470.15,187.215,82.0133333333333,25.96" Label="DocXFile" SourceLocation="(Assembly=file:///c:/Users/Aluan/Documents/GitHub/LASI/LASI_ContentSystem/FileTypes/DocXFile.cs StartLineNumber=17 StartCharacterOffset=0 EndLineNumber=17 EndCharacterOffset=0)">
+      <Category Ref="CallStackEntry" />
+      <Category Ref="CodeSchema_SourceLocation" />
+    </Node>
+    <Node Id="ExternalCodeRootNode" Category="ExternalCallStackEntry" Bounds="315.663333333333,0,92.9866666666667,25.96" Label="External Code">
       <Category Ref="CallStackEntry" />
     </Node>
   </Nodes>
   <Links>
-    <Link Source="@10" Target="@4" Category="CallStackDirectCall" Bounds="78.9216690063477,137.880004882813,0,21" />
-    <Link Source="@11" Target="@9" Category="CallStackDirectCall" Bounds="313.921661376953,137.880004882813,0,21" />
-    <Link Source="@4" Target="(@1 @2 Type=InputFile Member=(Name=.ctor OverloadingParameters=[(@3 Namespace=System Type=String)]))" Category="CallStackDirectCall" Bounds="78.9216690063477,193.839996337891,0,21" />
-    <Link Source="@7" Target="@11" Category="CallStackDirectCall" Bounds="313.921661376953,81.9199981689453,0,21" />
-    <Link Source="@8" Target="@10" Category="CallStackDirectCall" Bounds="78.9216690063477,81.9199981689453,0,21" />
-    <Link Source="@9" Target="(@1 @2 Type=FileManager Member=(Name=ConvertDocToDocXAsync OverloadingParameters=[(@1 @2 Type=(Name=DocFile ArrayRank=1 ParentType=DocFile))]))" Category="CallStackDirectCall" Bounds="313.921661376953,193.839996337891,0,21" />
-    <Link Source="ExternalCodeRootNode" Target="@7" Category="CallStackIndirectCall" Bounds="313.921661376953,25.9599990844727,0,21" />
-    <Link Source="ExternalCodeRootNode" Target="@8" Category="CallStackIndirectCall" Bounds="142.185440063477,24.006477355957,125.43132019043,29.8686676025391" />
+    <Link Source="@11" Target="@12" Category="CallStackDirectCall" Bounds="212.460586547852,213.175003051758,89.8254547119141,28.9285583496094" />
+    <Link Source="@12" Target="(Name=LASI.Algorithm.DocumentConstructs.Sentence.get_Phrases.AnonymousMethod__8 @10 Type=System.Collections.Generic.IEnumerable&lt;LASI.Algorithm.Phrase&gt; OverloadingParameters=[(Type=LASI.Algorithm.Clause Name=C)] @2)" Category="CallStackIndirectCall" Bounds="281.564300537109,270.822509765625,46.135009765625,37.5002746582031" Label="External Code" LabelBounds="286.17,285.8225,72.9866666666667,15.96" />
+    <Link Source="@12" Target="(Name=LASI.Algorithm.DocumentConstructs.Sentence.get_Phrases.AnonymousMethod__9 @10 Type=LASI.Algorithm.Phrase OverloadingParameters=[(Type=LASI.Algorithm.Clause Name=C),(Type=LASI.Algorithm.Phrase Name=P)] @2)" Category="CallStackIndirectCall" Bounds="367.765472412109,270.822509765625,63.0590209960938,41.6025085449219" Label="External Code" LabelBounds="397.17,285.8225,72.9866666666667,15.96" />
+    <Link Source="@12" Target="(Name=LASI.UserInterface.ResultsScreen.BuildTextViewOfDocument.AnonymousMethod__32 @5 Type=System.Collections.Generic.IEnumerable&lt;LASI.Algorithm.Phrase&gt; OverloadingParameters=[(Type=LASI.Algorithm.DocumentConstructs.Sentence Name=p)] @2)" Category="CallStackIndirectCall" Bounds="139.399948120117,270.822509765625,163.208053588867,43.6354064941406" Label="External Code" LabelBounds="143.67,285.8225,72.9866666666667,15.96" />
+    <Link Source="@12" Target="@13" Category="CallStackDirectCall" Bounds="405.300170898438,270.822509765625,160.083129882813,43.4188537597656" />
+    <Link Source="@13" Target="@15" Category="CallStackDirectCall" Bounds="614.156677246094,342.742492675781,0,22.6875" />
+    <Link Source="@15" Target="(Name=LASI.Utilities.PatternMatching.PatternToFromTransition&lt;LASI.Algorithm.ILexical&gt;.PatternToFromTransition @14 @6 OverloadingParameters=[(Type=LASI.Algorithm.ILexical Name=toMatch)] @2)" Category="CallStackDirectCall" Bounds="614.156677246094,400.390014648438,0,22.6875" />
+    <Link Source="@16" Target="@12" Category="CallStackDirectCall" Bounds="355.320343017578,213.175003051758,4.35955810546875,22.8470001220703" />
+    <Link Source="@3" Target="@9" Category="CallStackDirectCall" Bounds="479.1953125,141.255004882813,20.6324768066406,38.0483703613281" />
+    <Link Source="@4" Target="@3" Category="CallStackDirectCall" Bounds="472.156677246094,83.6074981689453,0,22.6875" />
+    <Link Source="@7" Target="@8" Category="CallStackDirectCall" Bounds="226.604522705078,83.6074981689453,17.3205261230469,24.3532791137695" />
+    <Link Source="@8" Target="@11" Category="CallStackIndirectCall" Bounds="183.750305175781,141.255004882813,21.1872253417969,38.0946502685547" Label="External Code" LabelBounds="119.17,156.255,72.9866666666667,15.96" />
+    <Link Source="@9" Target="(Name=LASI.ContentSystem.InputFile.InputFile @1 @6 OverloadingParameters=[(Type=string Name=path)] @2)" Category="CallStackDirectCall" Bounds="511.156677246094,213.175003051758,0,22.6875" />
+    <Link Source="ExternalCodeRootNode" Target="@16" Category="CallStackIndirectCall" Bounds="362.156677246094,25.9599990844727,0,152.254997253418" />
+    <Link Source="ExternalCodeRootNode" Target="@4" Category="CallStackIndirectCall" Bounds="386.924438476563,25.9599990844727,52.4928283691406,27.5098190307617" />
+    <Link Source="ExternalCodeRootNode" Target="@7" Category="CallStackIndirectCall" Bounds="285.655120849609,25.9599990844727,51.9589233398438,27.4798393249512" />
   </Links>
   <Categories>
     <Category Id="CallStackDirectCall" Label="Call Stack direct call" CanBeDataDriven="True" CanLinkedNodesBeDataDriven="True" IncomingActionLabel="Call Stack direct call" OutgoingActionLabel="Call Stack direct call" />
     <Category Id="CallStackEntry" Label="Call Stack Entry" CanBeDataDriven="True" IsProviderRoot="False" NavigationActionLabel="Call Stack Entry" />
     <Category Id="CallStackIndirectCall" Label="Call Stack indirect call" CanBeDataDriven="True" CanLinkedNodesBeDataDriven="True" IncomingActionLabel="Call Stack indirect call" OutgoingActionLabel="Call Stack indirect call" />
-    <Category Id="CodeSchema_Member" Label="Member" CanBeDataDriven="True" DefaultAction="Microsoft.Contains" Icon="CodeSchema_Field" NavigationActionLabel="Members" />
-    <Category Id="CodeSchema_Method" Label="Method" BasedOn="CodeSchema_Member" CanBeDataDriven="True" DefaultAction="Link:Forward:CodeSchema_Calls" Icon="CodeSchema_Method" NavigationActionLabel="Methods" />
+    <Category Id="CodeSchema_CallStackUnresolvedMethod" Label="Unresolved Method" CanBeDataDriven="True" DefaultAction="Microsoft.AllOutBoundLinks" IsProviderRoot="False" NavigationActionLabel="Unresolved Method" />
     <Category Id="CodeSchema_SourceLocation" Label="Source Location" Icon="File" />
     <Category Id="ExternalCallStackEntry" Label="External Call Stack Entry" CanBeDataDriven="True" IsProviderRoot="False" NavigationActionLabel="External Call Stack Entry" />
   </Categories>
@@ -60,24 +95,16 @@
     <Property Id="Bounds" DataType="System.Windows.Rect" />
     <Property Id="CanBeDataDriven" Label="CanBeDataDriven" Description="CanBeDataDriven" DataType="System.Boolean" />
     <Property Id="CanLinkedNodesBeDataDriven" Label="CanLinkedNodesBeDataDriven" Description="CanLinkedNodesBeDataDriven" DataType="System.Boolean" />
-    <Property Id="CodeSchemaProperty_IsAnonymous" Label="Is Anonymous" Description="Flag indicating if this delegate, type, or method is anonymous" DataType="System.Boolean" />
-    <Property Id="CodeSchemaProperty_IsConstructor" Label="Is Constructor" Description="Flag to indicate the method is a constructor" DataType="System.Boolean" />
-    <Property Id="CodeSchemaProperty_IsPrivate" Label="Is Private" Description="Flag to indicate the scope is Private" DataType="System.Boolean" />
-    <Property Id="CodeSchemaProperty_IsPublic" Label="Is Public" Description="Flag to indicate the scope is Public" DataType="System.Boolean" />
-    <Property Id="CodeSchemaProperty_IsStatic" Label="Is Static" Description="Flag to indicate the member is a static member" DataType="System.Boolean" />
-    <Property Id="CommonLabel" DataType="System.String" />
     <Property Id="DataVirtualized" Label="Data Virtualized" Description="If true, the graph can contain nodes and links that represent data for virtualized nodes/links (i.e. not actually created in the graph)." DataType="System.Boolean" />
     <Property Id="DefaultAction" Label="DefaultAction" Description="DefaultAction" DataType="System.String" />
     <Property Id="Expression" DataType="System.String" />
-    <Property Id="FunctionTypeFlags" Label="FunctionTypeFlags" Description="FunctionTypeFlags" DataType="System.String" />
     <Property Id="GroupLabel" DataType="System.String" />
     <Property Id="Icon" DataType="System.String" />
     <Property Id="IncomingActionLabel" Label="IncomingActionLabel" Description="IncomingActionLabel" DataType="System.String" />
     <Property Id="IsEnabled" DataType="System.Boolean" />
-    <Property Id="IsOverloaded" Label="IsOverloaded" Description="IsOverloaded" DataType="System.Boolean" />
     <Property Id="IsProviderRoot" Label="IsProviderRoot" Description="IsProviderRoot" DataType="System.Boolean" />
     <Property Id="Label" Label="Label" Description="Displayable label of an Annotatable object" DataType="System.String" />
-    <Property Id="Language" Label="Language" Description="Language" DataType="System.String" />
+    <Property Id="LabelBounds" DataType="System.Windows.Rect" />
     <Property Id="Layout" DataType="System.String" />
     <Property Id="NavigationActionLabel" Label="NavigationActionLabel" Description="NavigationActionLabel" DataType="System.String" />
     <Property Id="OutgoingActionLabel" Label="OutgoingActionLabel" Description="OutgoingActionLabel" DataType="System.String" />
@@ -88,27 +115,29 @@
     <Property Id="Visibility" Label="Visibility" Description="Defines whether a node in the graph is visible or not" DataType="System.Windows.Visibility" />
   </Properties>
   <QualifiedNames>
-    <Name Id="ArrayRank" Label="Array Rank" ValueType="System.String" />
     <Name Id="Assembly" Label="Assembly" ValueType="Uri" />
-    <Name Id="Member" Label="Member" ValueType="System.Object" />
+    <Name Id="IsUnresolved" Label="Is Unresolved" ValueType="System.String" />
     <Name Id="Name" Label="Name" ValueType="System.String" />
-    <Name Id="Namespace" Label="Namespace" ValueType="System.String" />
     <Name Id="OverloadingParameters" Label="Parameter" ValueType="Microsoft.VisualStudio.GraphModel.GraphNodeIdCollection" Formatter="NameValueNoEscape" />
-    <Name Id="ParentType" Label="Parent Type" ValueType="System.Object" />
     <Name Id="Type" Label="Type" ValueType="System.Object" />
   </QualifiedNames>
   <IdentifierAliases>
-    <Alias n="1" Uri="Assembly=$(f13d6c6d-a004-45bd-8fb8-e044e20f1204.OutputPathUri)" />
-    <Alias n="2" Id="Namespace=LASI.ContentSystem" />
-    <Alias n="3" Uri="Assembly=$(FxReferenceAssembliesUri)/.NETFramework/v4.5/mscorlib.dll" />
-    <Alias n="4" Id="(@1 @2 Type=DocXFile Member=(Name=.ctor OverloadingParameters=[(@3 Namespace=System Type=String)]))" />
-    <Alias n="5" Uri="Assembly=$(6c8d6da8-bd8b-48c8-acb9-8fde7e3a672e.OutputPathUri)" />
-    <Alias n="6" Uri="Assembly=$(FxReferenceAssembliesUri)/.NETFramework/v4.5/PresentationCore.dll" />
-    <Alias n="7" Id="(@5 Namespace=LASI.UserInterface Type=StartupScreen Member=(Name=completeSetupAndContinueButton_Click OverloadingParameters=[(@3 Namespace=System Type=Object),(@6 Namespace=System.Windows Type=RoutedEventArgs)]))" />
-    <Alias n="8" Id="(@1 @2 Type=DocToDocXConverter Member=AnonymousMethod__0)" />
-    <Alias n="9" Id="(@1 @2 Type=FileManager Member=ConvertAsNeededAsync)" />
-    <Alias n="10" Id="(@1 @2 Type=DocToDocXConverter Member=ConvertFile)" />
-    <Alias n="11" Id="(@5 Namespace=LASI.UserInterface Type=StartupScreen Member=InitializeFileManager)" />
+    <Alias n="1" Uri="Assembly=ContentSystem.dll" />
+    <Alias n="2" Id="IsUnresolved=True" />
+    <Alias n="3" Id="(Name=LASI.ContentSystem.DocToDocXConverter.ConvertFile @1 Type=LASI.ContentSystem.InputFile @2)" />
+    <Alias n="4" Id="(Name=LASI.ContentSystem.DocToDocXConverter.ConvertFileAsync.AnonymousMethod__4 @1 Type=LASI.ContentSystem.InputFile @2)" />
+    <Alias n="5" Uri="Assembly=LASI.exe" />
+    <Alias n="6" Id="Type=void" />
+    <Alias n="7" Id="(Name=LASI.UserInterface.InProgressScreen.ProceedToResultsView @5 @6 @2)" />
+    <Alias n="8" Id="(Name=LASI.UserInterface.ResultsScreen.BuildTextViewsForAllDocumentsAsync @5 @6 @2)" />
+    <Alias n="9" Id="(Name=LASI.ContentSystem.DocXFile.DocXFile @1 @6 OverloadingParameters=[(Type=string Name=absolutePath)] @2)" />
+    <Alias n="10" Uri="Assembly=Algorithm.dll" />
+    <Alias n="11" Id="(Name=LASI.UserInterface.ResultsScreen.BuildTextViewsForAllDocumentsAsync.AnonymousMethod__29 @5 Type=System.Threading.Tasks.Task OverloadingParameters=[(Type=LASI.Algorithm.DocumentConstructs.Document Name=d)] @2)" />
+    <Alias n="12" Id="(Name=LASI.UserInterface.ResultsScreen.BuildTextViewOfDocument @5 @6 OverloadingParameters=[(Type=LASI.Algorithm.DocumentConstructs.Document Name=document)] @2)" />
+    <Alias n="13" Id="(Name=LASI.UserInterface.SyntacticStylization.GetBrush @5 Type=System.Windows.Media.Brush OverloadingParameters=[(Type=LASI.Algorithm.ILexical Name=lexical)] @2)" />
+    <Alias n="14" Uri="Assembly=Utilities.dll" />
+    <Alias n="15" Id="(Name=LASI.Utilities.PatternMatching.Match.From&lt;LASI.Algorithm.ILexical&gt; @14 Type=LASI.Utilities.PatternMatching.PatternToFromTransition&lt;LASI.Algorithm.ILexical&gt; OverloadingParameters=[(Type=LASI.Algorithm.ILexical Name=matchOn)] @2)" />
+    <Alias n="16" Id="(Name=LASI.UserInterface.ResultsScreen.ProcessNewDocument @5 @6 OverloadingParameters=[(Type=string Name=docPath),(Type=System.Windows.Controls.ProgressBar Name=progressBar),(Type=System.Windows.Controls.Label Name=progressLabel)] @2)" />
   </IdentifierAliases>
   <Styles>
     <Style TargetType="Link" GroupLabel="Current Call Stack Link" ValueLabel="True" Visibility="Hidden">
@@ -268,9 +297,4 @@
       <Setter Property="IndicatorWest" Value="WestIndicator" />
     </Style>
   </Styles>
-  <Paths>
-    <Path Id="6c8d6da8-bd8b-48c8-acb9-8fde7e3a672e.OutputPathUri" Value="file:///C:/Users/Aluan/Documents/GitHub/LASI/LASI_UserInterface/bin/Debug/LASI.exe" />
-    <Path Id="f13d6c6d-a004-45bd-8fb8-e044e20f1204.OutputPathUri" Value="file:///C:/Users/Aluan/Documents/GitHub/LASI/LASI_ContentSystem/bin/Debug/ContentSystem.dll" />
-    <Path Id="FxReferenceAssembliesUri" Value="file:///C:/Program Files (x86)/Reference Assemblies/Microsoft/Framework" />
-  </Paths>
 </DirectedGraph>

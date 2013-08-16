@@ -27,7 +27,6 @@ namespace LASI.Utilities
 
         #endregion
 
-
         #region Properties
         /// <summary>
         /// Gets the Raw Weight.
@@ -108,7 +107,6 @@ namespace LASI.Utilities
             return left.RawWeight * left.Multiplier < right.RawWeight * right.Multiplier;
         }
         #endregion
-
 
         #region Numeric Operators
 
