@@ -15,8 +15,9 @@ namespace LASI.Algorithm.Analysis.Binders.Experimental
         public void Bind(Sentence sentence) { Bind(sentence.Phrases); }
         public void Bind(IEnumerable<Phrase> phrases) {
             if (!phrases.GetVerbPhrases().Any()) { throw new VerblessPhrasalSequenceException(); }
+
             var objectBindingReleventItems =
-                from phrase in phrases
+                from phrase in phrases.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                 select Match
                     .From<ILexical>(phrase).To<ILexical>()
                         .With<IPrepositional>(p => p)
@@ -29,10 +30,15 @@ namespace LASI.Algorithm.Analysis.Binders.Experimental
                 where result != null
                 select result;
             var bindingActions = ImagineBindings(objectBindingReleventItems.SkipWhile(p => !(p is VerbPhrase)));
+            Phrase last = null;
+            foreach (var f in bindingActions) { last = f(); }
+            if (last != null) {
+                Bind(phrases.GetPhrasesAfter(last));
+            }
         }
 
-        private static IEnumerable<Action> ImagineBindings(IEnumerable<Phrase> elements) {
-            List<Action> results = new List<Action>();
+        private static IEnumerable<Func<Phrase>> ImagineBindings(IEnumerable<Phrase> elements) {
+            var results = new List<Func<Phrase>>();
             var targetVPS = elements
                 .Select(e => Match
                     .From<Phrase>(e).To<VerbPhrase>()
@@ -48,18 +54,16 @@ namespace LASI.Algorithm.Analysis.Binders.Experimental
                 .TakeWhile(v => v != null);
             var next = targetVPS.LastOrDefault(v => v.NextPhrase != null && v.Sentence == v.NextPhrase.Sentence);
             if (next != null) {
-                results.Add(BindObjects(targetVPS, targetVPS.Last().NextPhrase));
+                results.Add(Match
+                    .From<Phrase>(targetVPS.Last().NextPhrase).To<Func<Phrase>>()
+                        .With<NounPhrase>(n => () => { targetVPS.ToList().ForEach(v => v.BindDirectObject(n)); return n; })
+                        .With<InfinitivePhrase>(i => () => { targetVPS.ToList().ForEach(v => v.BindDirectObject(i)); return i; })
+                        .With<PrepositionalPhrase>(i => i.NextPhrase as IEntity != null, i => () => { targetVPS.ToList().ForEach(v => v.BindIndirectObject(i.NextPhrase as IEntity)); return i; })
+                        .Result());
             }
             return results;
         }
 
-        private static Action BindObjects(IEnumerable<IVerbal> targets, Phrase next) {
-            var result = Match
-                    .From<Phrase>(next).To<Action>()
-                        .With<NounPhrase>(n => () => targets.ToList().ForEach(v => v.BindDirectObject(n)))
-                        .With<InfinitivePhrase>(i => () => targets.ToList().ForEach(v => v.BindDirectObject(i)))
-                        .Result();
-            return result;
-        }
+
     }
 }

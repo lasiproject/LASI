@@ -49,10 +49,10 @@ namespace LASI
         /// </summary>
         /// <typeparam name="T">The type of the elements in the generic IEnumerable sequence.</typeparam>
         /// <param name="source">An IEnumerable sequence containing 0 or more Elements of type T.</param>
-        /// <param name="delimToUse">A value indicating the pair of delimiters to surround the elements.</param>
+        /// <param name="delimsToUse">A value indicating the pair of delimiters to surround the elements.</param>
         /// <returns>A formated string representation of the IEnumerable sequence with the pattern: [ element0, element1, ..., elementN ].</returns>
-        public static string Format<T>(this IEnumerable<T> source, SeqFormatDelim delimToUse) {
-            return source.Aggregate(delimTable[delimToUse][0] + " ", (sum, current) => sum += current + ", ").TrimEnd(' ', ',') + " " + delimTable[delimToUse][0];
+        public static string Format<T>(this IEnumerable<T> source, Tuple<char, char> delimsToUse) {
+            return source.Aggregate(delimsToUse.Item1 + " ", (sum, current) => sum += current + ", ").TrimEnd(' ', ',') + " " + delimsToUse.Item1;
         }
         /// <summary>
         /// Returns a formated string representation of the IEnumerable sequence with the pattern: [ element0, element1, ..., elementN ]
@@ -60,12 +60,12 @@ namespace LASI
         /// </summary>
         /// <typeparam name="T">The type of the elements in the generic IEnumerable sequence.</typeparam>
         /// <param name="source">An IEnumerable sequence containing 0 or more Elements of type T.</param>
-        /// <param name="delimToUse">A value indicating the pair of delimiters to surround the elements.</param>
+        /// <param name="delimsToUse">A value indicating the pair of delimiters to surround the elements.</param>
         /// <param name="lineLength">Indicates the number of characters after which a line break is to be inserted.</param>
         /// <returns>A formated string representation of the IEnumerable sequence with the pattern: [ element0, element1, ..., elementN ].</returns>
-        public static string Format<T>(this IEnumerable<T> source, SeqFormatDelim delimToUse, long lineLength) {
+        public static string Format<T>(this IEnumerable<T> source, Tuple<char, char> delimsToUse, long lineLength) {
             int len = 2;
-            return source.Aggregate(delimTable[delimToUse][0] + " ", (sum, current) => {
+            return source.Aggregate(delimsToUse.Item1 + " ", (sum, current) => {
                 var cETS = current.ToString() + ", ";
                 len += cETS.Length;
                 if (len > lineLength) {
@@ -73,7 +73,7 @@ namespace LASI
                     sum += '\n';
                 }
                 return sum += cETS;
-            }).TrimEnd(' ', ',') + " " + delimTable[delimToUse][1];
+            }).TrimEnd(' ', ',') + " " + delimsToUse.Item2;
         }
         /// <summary>
         /// Returns a formated string representation of the IEnumerable sequence with the pattern: [ elementToString(element0), elementToString(element1), ..., elementToString(elementN) ]
@@ -92,23 +92,23 @@ namespace LASI
         /// </summary>
         /// <typeparam name="T">The type of the elements in the generic IEnumerable sequence.</typeparam>
         /// <param name="source">An IEnumerable sequence containing 0 or more Elements of type T.</param>
-        /// <param name="delimToUse">A value indicating the pair of delimiters to surround the elements.</param>
+        /// <param name="delimsToUse">A value indicating the pair of delimiters to surround the elements.</param>
         /// <param name="elementToString">The function used to produce a string representation for each element.</param>
         /// <returns>A formated string representation of the IEnumerable sequence with the pattern: [ element0, element1, ..., elementN ].</returns>
-        public static string Format<T>(this IEnumerable<T> source, SeqFormatDelim delimToUse, Func<T, string> elementToString) {
-            return source.Aggregate(delimTable[delimToUse][0] + " ", (sum, current) => sum += elementToString(current) + ", ").TrimEnd(' ', ',') + " " + delimTable[delimToUse][1];
+        public static string Format<T>(this IEnumerable<T> source, Tuple<char, char> delimsToUse, Func<T, string> elementToString) {
+            return source.Aggregate(delimsToUse.Item1 + " ", (sum, current) => sum += elementToString(current) + ", ").TrimEnd(' ', ',') + " " + delimsToUse.Item2;
         }
         /// <summary>
         /// Returns a formated string representation of the IEnumerable sequence with the pattern: [ element0, element1, ..., elementN ]
         /// </summary>
         /// <typeparam name="T">The type of the elements in the generic IEnumerable sequence.</typeparam>
         /// <param name="source">An IEnumerable sequence containing 0 or more Elements of type T.</param>
-        /// <param name="delimToUse">A value indicating the pair of delimiters to surround the elements.</param>
+        /// <param name="delimsToUse">A value indicating the pair of delimiters to surround the elements.</param>
         /// <param name="onePerLine">Indicates wether only one element should be printed per line.</param>
         /// <returns>A formated string representation of the IEnumerable sequence with the pattern: [ element0, element1, ..., elementN ]</returns>
-        public static string Format<T>(this IEnumerable<T> source, SeqFormatDelim delimToUse, bool onePerLine) {
-            return source.Aggregate(delimTable[delimToUse][0] + "\n", (sum, current) =>
-                sum += current.ToString() + (onePerLine ? "\n" : ", ")).TrimEnd(' ', ',') + delimTable[delimToUse][0];
+        public static string Format<T>(this IEnumerable<T> source, Tuple<char, char> delimsToUse, bool onePerLine) {
+            return source.Aggregate(delimsToUse.Item1 + "\n", (sum, current) =>
+                sum += current.ToString() + (onePerLine ? "\n" : ", ")).TrimEnd(' ', ',') + delimsToUse.Item2;
         }
         /// <summary>
         /// Returns a formated string representation of the IEnumerable sequence with the pattern: [ element0, element1, ..., elementN ]
@@ -162,13 +162,13 @@ namespace LASI
         /// </summary>
         /// <typeparam name="T">The type of the elements in the generic IEnumerable sequence.</typeparam>
         /// <param name="source">An IEnumerable sequence containing 0 or more Elements of type T.</param>
-        /// <param name="delimToUse">A value indicating the pair of delimiters to surround the elements.</param>
+        /// <param name="delimsToUse">A value indicating the pair of delimiters to surround the elements.</param>
         /// <param name="lineLength">Indicates the number of characters after which a line break is to be inserted.</param>
         /// <param name="elementToString">The function used to produce a string representation for each element.</param>
         /// <returns>A formated string representation of the IEnumerable sequence with the pattern: [ element0, element1, ..., elementN ].</returns>
-        public static string Format<T>(this IEnumerable<T> source, SeqFormatDelim delimToUse, long lineLength, Func<T, string> elementToString) {
+        public static string Format<T>(this IEnumerable<T> source, Tuple<char, char> delimsToUse, long lineLength, Func<T, string> elementToString) {
             int len = 2;
-            return source.Aggregate(delimTable[delimToUse][0] + " ", (sum, current) => {
+            return source.Aggregate(delimsToUse.Item1 + " ", (sum, current) => {
                 var cETS = elementToString(current) + ", ";
                 len += cETS.Length;
                 if (len > lineLength) {
@@ -176,7 +176,7 @@ namespace LASI
                     sum += '\n';
                 }
                 return sum += cETS;
-            }).TrimEnd(' ', ',') + " " + delimTable[delimToUse][1];
+            }).TrimEnd(' ', ',') + " " + delimsToUse.Item2;
         }
 
         #endregion
@@ -220,7 +220,6 @@ namespace LASI
 
         #endregion
 
-        #endregion
 
         #region Parallel Implementations
 
@@ -259,16 +258,6 @@ namespace LASI
 
         #endregion
 
-
-
-        #region Private Fields
-
-        private static readonly IReadOnlyDictionary<SeqFormatDelim, char[]> delimTable = new Dictionary<SeqFormatDelim, char[]> {
-            { SeqFormatDelim.Square, new []{ '[', ']'} },
-            { SeqFormatDelim.Curly, new []{ '{', '}'} },
-            { SeqFormatDelim.Angle, new []{ '<', '>'} },
-            { SeqFormatDelim.Parens, new []{ '(', ')'} },
-        };
 
         #endregion
 
@@ -320,28 +309,5 @@ namespace LASI
         #endregion
 
 
-    }
-
-    /// <summary>
-    /// Defines the valid sequence delimiters to use when formatting.
-    /// </summary>
-    public enum SeqFormatDelim
-    {
-        /// <summary>
-        /// Square Brackets: [ ... ]
-        /// </summary>
-        Square,
-        /// <summary>
-        /// Angle Brackets: &lt; ... &gt;
-        /// </summary>
-        Angle,
-        /// <summary>
-        /// Curly Braces: { ... }
-        /// </summary>
-        Curly,
-        /// <summary>
-        /// Parentheses: ( ... )
-        /// </summary>
-        Parens
     }
 }

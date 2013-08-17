@@ -91,11 +91,9 @@ namespace LASI.Algorithm.Lookup
                 } catch (InvalidOperationException e) {
                     Output.WriteLine(string.Format("{0} was thrown when attempting to get synonyms for word {1}: , containing set: {2}", e, word, containingSet));
 
-                    return new HashSet<string>();
                 }
-            } else {
-                return new HashSet<string>();
             }
+            return new HashSet<string>();
         }
 
         private void SearchSubsets(NounSynSet containingSet, List<string> results, HashSet<NounSynSet> setsSearched) {

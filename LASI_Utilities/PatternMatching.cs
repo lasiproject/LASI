@@ -18,18 +18,6 @@ namespace LASI.Utilities.PatternMatching
     /// <summary>
     /// Provides for the construction of flexible Pattern Matching expressions.
     /// </summary>
-    public static class MatchingExtensions
-    {
-        /// <summary>
-        /// Constructs the head of a non result returning Type based Pattern Matching expression with the specified value.
-        /// </summary>
-        /// <typeparam name="T">The Type of the value to match with.</typeparam>
-        /// <param name="t">The value to match with.</param>
-        /// <returns>The head of a non result yielding Type based Pattern Matching expression with the specified value.</returns>
-        public static PatternMatching<T> Match<T>(this T t) where T : class { return new PatternMatching<T>(t); }
-        //public static PatternToFromTransition<T> MatchFrom<T>(this T t) where T : class { return new PatternToFromTransition<T>(t); }
-        //public static M<object, R> MatchTo<R>(this object t) { return new M<object, R>(t); }
-    }
     /// <summary>
     /// Provides for the construction of flexible Pattern Matching expressions.
     /// </summary>

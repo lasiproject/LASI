@@ -61,6 +61,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Licenses", "Licenses", "{B0
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "L_ContentSystem", "LASI_ContentSystem\L_ContentSystem.csproj", "{F13D6C6D-A004-45BD-8FB8-E044E20F1204}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Experimentation", "Experimentation\Experimentation.csproj", "{C5304A4C-A870-4ACF-B3EE-30A789159774}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExperimentationWPF", "WPFExperimentation\ExperimentationWPF.csproj", "{F57E105E-00CD-429A-8819-FAC415678F84}"
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = LasiClassFramework.vsmdi
@@ -123,6 +127,22 @@ Global
 		{F13D6C6D-A004-45BD-8FB8-E044E20F1204}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F13D6C6D-A004-45BD-8FB8-E044E20F1204}.Release|x64.ActiveCfg = Release|Any CPU
 		{F13D6C6D-A004-45BD-8FB8-E044E20F1204}.Release|x86.ActiveCfg = Release|Any CPU
+		{C5304A4C-A870-4ACF-B3EE-30A789159774}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C5304A4C-A870-4ACF-B3EE-30A789159774}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C5304A4C-A870-4ACF-B3EE-30A789159774}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{C5304A4C-A870-4ACF-B3EE-30A789159774}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C5304A4C-A870-4ACF-B3EE-30A789159774}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C5304A4C-A870-4ACF-B3EE-30A789159774}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C5304A4C-A870-4ACF-B3EE-30A789159774}.Release|x64.ActiveCfg = Release|Any CPU
+		{C5304A4C-A870-4ACF-B3EE-30A789159774}.Release|x86.ActiveCfg = Release|Any CPU
+		{F57E105E-00CD-429A-8819-FAC415678F84}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F57E105E-00CD-429A-8819-FAC415678F84}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F57E105E-00CD-429A-8819-FAC415678F84}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{F57E105E-00CD-429A-8819-FAC415678F84}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F57E105E-00CD-429A-8819-FAC415678F84}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F57E105E-00CD-429A-8819-FAC415678F84}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F57E105E-00CD-429A-8819-FAC415678F84}.Release|x64.ActiveCfg = Release|Any CPU
+		{F57E105E-00CD-429A-8819-FAC415678F84}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
