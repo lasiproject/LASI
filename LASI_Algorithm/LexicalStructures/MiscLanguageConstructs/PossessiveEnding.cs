@@ -27,7 +27,7 @@ namespace LASI.Algorithm
         /// Adds a possession to the collection of items this instance possesses.
         /// </summary>
         /// <param name="possession">The possession to add.</param>
-        public void AddPossession(IEntity possession) {
+        public void AddPossession(IPossessable possession) {
             PossessesFor = PossessesFor ?? PreviousWord as IEntity;
             if (PossessesFor != null) {
                 PossessesFor.AddPossession(possession);
@@ -48,7 +48,7 @@ namespace LASI.Algorithm
         /// Gets or sets the possessing the Entity the Posssessive ending is attached to.
         /// When this property is set, ownership of all possessions associated with the PossessiveEnding is tranferred to the target IEntity.
         /// </summary>
-        public IEntity PossessesFor {
+        public IPossesser PossessesFor {
             get {
                 return _possessesFor;
             }
@@ -63,7 +63,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets the describables the possessive ending has ownership of.
         /// </summary>
-        public IEnumerable<IEntity> Possessed {
+        public IEnumerable<IPossessable> Possessed {
             get {
                 return _possessed;
             }
@@ -77,8 +77,8 @@ namespace LASI.Algorithm
 
         #region Fields
 
-        private HashSet<IEntity> _possessed = new HashSet<IEntity>();
-        private IEntity _possessesFor;
+        private HashSet<IPossessable> _possessed = new HashSet<IPossessable>();
+        private IPossesser _possessesFor;
 
         #endregion
 

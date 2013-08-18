@@ -172,7 +172,7 @@ namespace AlgorithmAssemblyUnitTestProject
         [TestMethod()]
         public void PossessedTest() {
             Noun target = CreateNoun();
-            IEnumerable<IEntity> actual;
+            IEnumerable<IPossessable> actual;
             actual = target.Possessed;
             Assert.IsTrue(actual != null && actual.Count() == 0);
         }
@@ -184,7 +184,7 @@ namespace AlgorithmAssemblyUnitTestProject
         public void PossesserTest() {
             Noun target = CreateNoun(); // TODO: Initialize to an appropriate value
             IEntity expected = new NounPhrase(new Word[] { new Adjective("Red"), new GenericSingularNoun("Team") });
-            IEntity actual;
+            IPossesser actual;
             target.Possesser = expected;
             actual = target.Possesser;
             Assert.AreEqual(expected, actual);

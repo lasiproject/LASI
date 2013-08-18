@@ -195,7 +195,6 @@ namespace LASI.Algorithm
 
         #endregion
 
-
         #region Properties
 
         /// <summary>

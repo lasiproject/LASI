@@ -46,7 +46,7 @@ namespace LASI.Algorithm
         /// If the item is already possessed by the current instance, this method has no effect.
         /// </summary>
         /// <param name="possession">The possession to add.</param>
-        public void AddPossession(IEntity possession) {
+        public void AddPossession(IPossessable possession) {
             _possessed.Add(possession);
             possession.Possesser = this;
         }
@@ -61,7 +61,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets all of the constructs which the PresentParticipleGerund "owns".
         /// </summary>
-        public IEnumerable<IEntity> Possessed { get { return _possessed; } }
+        public IEnumerable<IPossessable> Possessed { get { return _possessed; } }
         /// <summary>
         /// Gets the collection of pronouns which are known to refer to the Gerund.
         /// </summary>
@@ -82,7 +82,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets or sets the Entity which "owns" the PresentParticipleGerund.
         /// </summary>
-        public IEntity Possesser { get; set; }
+        public IPossesser Possesser { get; set; }
         /// <summary>
         /// Gets the Activitiy value of the EntityKind enumeration, the kind always associated with an PresentParticipleGerund.
         /// </summary>
@@ -93,7 +93,7 @@ namespace LASI.Algorithm
         #region Fields
 
         private ICollection<IDescriptor> _descriptors = new List<IDescriptor>();
-        private ICollection<IEntity> _possessed = new List<IEntity>();
+        private ICollection<IPossessable> _possessed = new List<IPossessable>();
         private ICollection<IPronoun> _boundPronouns = new List<IPronoun>();
 
         #endregion

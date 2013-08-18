@@ -178,7 +178,7 @@ namespace AlgorithmAssemblyUnitTestProject
             IEnumerable<Word> composedWords = new Word[] { new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians") };
             NounPhrase target = new NounPhrase(composedWords);
             IEntity expected = new NounPhrase(new[] { new ProperSingularNoun("North"), new ProperSingularNoun("America") });
-            IEntity actual;
+            IPossesser actual;
             target.Possesser = expected;
             actual = target.Possesser;
             Assert.AreEqual(expected, actual);
@@ -206,7 +206,7 @@ namespace AlgorithmAssemblyUnitTestProject
         [TestMethod()]
         public void AddPossessionTest() {
             IEnumerable<Word> composedWords = new Word[] { new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians") };
-            NounPhrase target = new NounPhrase(composedWords); // TODO: Initialize to an appropriate value
+            NounPhrase target = new NounPhrase(composedWords);
             IEntity possession = new NounPhrase(new Word[] { new Adverb("relatively"), new Adjective("affluent"), new GenericPluralNoun("lifestyles") });
             target.AddPossession(possession);
             Assert.IsTrue(target.Possessed.Contains(possession) && possession.Possesser == target);

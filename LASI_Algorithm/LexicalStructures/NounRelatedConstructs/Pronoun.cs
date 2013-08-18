@@ -33,9 +33,9 @@ namespace LASI.Algorithm
         /// <param name="target">The entity to which to bind.</param>
         public void BindAsReferringTo(IEntity target) {
             if (ReferersTo != null && !ReferersTo.Any() || ReferersTo == null)
-                ReferersTo = new EntityGroup(new[] { target });
+                ReferersTo = new AggregateEntity(new[] { target });
             else
-                ReferersTo = new EntityGroup(ReferersTo.Concat(new[] { target }));
+                ReferersTo = new AggregateEntity(ReferersTo.Concat(new[] { target }));
             EntityKind = ReferersTo.EntityKind;
         }
         /// <summary>
@@ -69,7 +69,7 @@ namespace LASI.Algorithm
         /// If the item is already possessed by the current instance, this method has no effect.
         /// </summary>
         /// <param name="possession">The possession to add.</param>
-        public virtual void AddPossession(IEntity possession) {
+        public virtual void AddPossession(IPossessable possession) {
             if (ReferersTo != null) {
                 ReferersTo.AddPossession(possession);
             } else {
@@ -90,12 +90,12 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets all of the constructs the Pronoun can be determined to "own".
         /// </summary>
-        public IEnumerable<IEntity> Possessed { get { return _possessed; } }
+        public IEnumerable<IPossessable> Possessed { get { return _possessed; } }
 
         /// <summary>
         /// Gets or sets the Entity which the Pronoun references.
         /// </summary>
-        public virtual IEntityGroup ReferersTo { get; private set; }
+        public virtual IAggregatedEntityCollection ReferersTo { get; private set; }
 
         /// <summary>
         /// Gets or sets the ISubjectTaker instance, generally a Verb or VerbPhrase, which the Pronoun is the subject of.
@@ -116,7 +116,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets or sets the Entity which is inferred to the Pronoun.
         /// </summary>
-        public IEntity Possesser { get; set; }
+        public IPossesser Possesser { get; set; }
         /// <summary>
         /// Gets the EntityKind of the Pronoun.
         /// </summary>
@@ -145,7 +145,7 @@ namespace LASI.Algorithm
 
         #region Fields
         private HashSet<IDescriptor> _descriptors = new HashSet<IDescriptor>();
-        private HashSet<IEntity> _possessed = new HashSet<IEntity>();
+        private HashSet<IPossessable> _possessed = new HashSet<IPossessable>();
         private HashSet<IPronoun> _boundPronouns = new HashSet<IPronoun>();
         #endregion
 

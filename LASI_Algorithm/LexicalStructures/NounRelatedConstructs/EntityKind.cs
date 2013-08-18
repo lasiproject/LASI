@@ -16,17 +16,9 @@ namespace LASI.Algorithm
         /// </summary>
         UNDEFINED = 0,
         /// <summary>
-        /// Person of Unknown Gender
+        /// Person
         /// </summary>
-        PersonUnknown,
-        /// <summary>
-        /// Person of Female Gender
-        /// </summary>
-        PersonFemale,
-        /// <summary>
-        /// Person of Male Gender
-        /// </summary>
-        PersonMale,
+        Person,
         /// <summary>
         /// A group of Persons
         /// </summary>

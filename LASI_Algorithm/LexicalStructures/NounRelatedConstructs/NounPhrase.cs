@@ -50,8 +50,8 @@ namespace LASI.Algorithm
         /// Binds an IPronoun, generally a Pronoun or PronounPhrase, as a reference to the NounPhrase.
         /// </summary>
         /// <param name="pro">The referencer which refers to the NounPhrase Instance.</param>
-        public virtual void BindPronoun(LASI.Algorithm.IPronoun pro) {
-            boundPronouns.Add(pro);
+        public virtual void BindPronoun( IPronoun pro) {
+            _boundPronouns.Add(pro);
             pro.BindAsReferringTo(this);
         }
         /// <summary>
@@ -68,8 +68,8 @@ namespace LASI.Algorithm
         /// If the item is already possessed by the current instance, this method has no effect.
         /// </summary>
         /// <param name="possession">The possession to add.</param>
-        public void AddPossession(IEntity possession) {
-            possessed.Add(possession);
+        public void AddPossession(IPossessable possession) {
+            _possessed.Add(possession);
             possession.Possesser = this;
         }
         /// <summary>
@@ -147,7 +147,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets all of the IPronoun instances, generally Pronouns or PronounPhrases, which refer to the NounPhrase.
         /// </summary>
-        public IEnumerable<IPronoun> BoundPronouns { get { return boundPronouns; } }
+        public IEnumerable<IPronoun> BoundPronouns { get { return _boundPronouns; } }
 
         /// <summary>
         /// Gets all of the IDescriptor constructs,generally Adjectives or AdjectivePhrases, which describe the NounPhrase.
@@ -158,13 +158,13 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets all of the constructs which the NounPhrase "owns".
         /// </summary>
-        public IEnumerable<IEntity> Possessed {
-            get { return possessed; }
+        public IEnumerable<IPossessable> Possessed {
+            get { return _possessed; }
         }
         /// <summary>
         /// Gets or sets the Entity which "owns" the NounPhrase.
         /// </summary>
-        public IEntity Possesser {
+        public IPossesser Possesser {
             get {
                 return _possessor;
             }
@@ -193,9 +193,9 @@ namespace LASI.Algorithm
 
 
         private HashSet<IDescriptor> _descriptors = new HashSet<IDescriptor>();
-        private HashSet<IEntity> possessed = new HashSet<IEntity>();
-        private HashSet<IPronoun> boundPronouns = new HashSet<IPronoun>();
-        private IEntity _possessor;
+        private HashSet<IPossessable> _possessed = new HashSet<IPossessable>();
+        private HashSet<IPronoun> _boundPronouns = new HashSet<IPronoun>();
+        private IPossesser _possessor;
         private IVerbal _direcObjectOf;
         private IVerbal _indirecObjectOf;
         private IVerbal _subjectOf;

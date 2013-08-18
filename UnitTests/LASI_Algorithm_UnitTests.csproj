@@ -80,6 +80,7 @@
     <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data.SqlServerCe, Version=4.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.IO.Compression" />
     <Reference Include="System.IO.Compression.FileSystem" />
@@ -100,6 +101,7 @@
     <Compile Include="AdjectivePhraseTest.cs" />
     <Compile Include="AdjectiveTest.cs" />
     <Compile Include="AdverbTest.cs" />
+    <Compile Include="AggregateEntityTest.cs" />
     <Compile Include="ConjunctionTest.cs" />
     <Compile Include="DeterminerTest.cs" />
     <Compile Include="DocToDocXConverterTest.cs" />

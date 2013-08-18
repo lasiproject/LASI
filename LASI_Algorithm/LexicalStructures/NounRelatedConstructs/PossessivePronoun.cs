@@ -28,7 +28,7 @@ namespace LASI.Algorithm
         /// If the item is already possessed by the current instance, this method has no effect.
         /// </summary>
         /// <param name="possession">The possession to add.</param>
-        public virtual void AddPossession(IEntity possession) {
+        public virtual void AddPossession(IPossessable possession) {
             if (PossessesFor != null) {
                 PossessesFor.AddPossession(possession);
             }
@@ -45,7 +45,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets all of the IEntity constructs which the Entity "owns".
         /// </summary>
-        public virtual IEnumerable<IEntity> Possessed {
+        public virtual IEnumerable<IPossessable> Possessed {
             get {
                 return _possessed;
             }
@@ -54,7 +54,7 @@ namespace LASI.Algorithm
         /// Gets or sets the IEntity which actually, by proxy, owns the things owned by the PossessivePronoun.
         /// When this property is set, ownership of all possessions associated with the PossessivePronoun is tranferred to the target IEntity.
         /// </summary>
-        public virtual IEntity PossessesFor {
+        public virtual IPossesser PossessesFor {
             get {
                 return _possessesFor;
             }
@@ -68,8 +68,8 @@ namespace LASI.Algorithm
 
         #region Fields
 
-        private HashSet<IEntity> _possessed = new HashSet<IEntity>();
-        private IEntity _possessesFor;
+        private HashSet<IPossessable> _possessed = new HashSet<IPossessable>();
+        private IPossesser _possessesFor;
         #endregion
     }
 }

@@ -27,9 +27,9 @@ namespace LASI.Algorithm
         /// <param name="target">The entity to which to bind.</param>
         public void BindAsReferringTo(IEntity target) {
             if (ReferersTo != null || !ReferersTo.Any())
-                ReferersTo = new EntityGroup(new[] { target });
+                ReferersTo = new AggregateEntity(new[] { target });
             else
-                ReferersTo = new EntityGroup(ReferersTo.Concat(new[] { target }));
+                ReferersTo = new AggregateEntity(ReferersTo.Concat(new[] { target }));
             EntityKind = ReferersTo.EntityKind;
         }
 
@@ -40,7 +40,7 @@ namespace LASI.Algorithm
         /// If the item is already possessed by the current instance, this method has no effect.
         /// </summary>
         /// <param name="possession">The possession to add.</param>
-        public void AddPossession(IEntity possession) {
+        public void AddPossession(IPossessable possession) {
             if (IsBound) {
                 ReferersTo.AddPossession(possession);
             } else {
@@ -77,7 +77,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets the Entity which the RelativePronoun references.
         /// </summary>
-        public IEntityGroup ReferersTo {
+        public IAggregatedEntityCollection ReferersTo {
             get;
             private set;
         }
@@ -133,7 +133,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets the collection of IEntity instances which the RelativePronoun can be said to "own".
         /// </summary>
-        public IEnumerable<IEntity> Possessed {
+        public IEnumerable<IPossessable> Possessed {
             get {
                 return _possessed;
             }
@@ -142,7 +142,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets the IEntity which can be said to "own" the RelativePronoun.
         /// </summary>
-        public IEntity Possesser {
+        public IPossesser Possesser {
             get;
             set;
         }
@@ -161,7 +161,7 @@ namespace LASI.Algorithm
             private set;
         }
         private HashSet<IDescriptor> _describers = new HashSet<IDescriptor>();
-        private HashSet<IEntity> _possessed = new HashSet<IEntity>();
+        private HashSet<IPossessable> _possessed = new HashSet<IPossessable>();
         private HashSet<IPronoun> _boundPronouns = new HashSet<IPronoun>();
 
 

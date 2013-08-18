@@ -16,12 +16,12 @@ namespace LASI.Algorithm.Binding
     /// </summary>
     public class PhraseWiseEntityGroupBinder
     {
-        private List<IEntityGroup> entityGroups = new List<IEntityGroup>();
+        private List<IAggregatedEntityCollection> entityGroups = new List<IAggregatedEntityCollection>();
 
         /// <summary>
         /// Gets the collection of IEntityGroup constructs which were formed from all of the all binding Binder's activities over the course of its lifetime.
         /// </summary>
-        public List<IEntityGroup> EntityGroups {
+        public List<IAggregatedEntityCollection> EntityGroups {
             get {
                 return entityGroups;
             }
@@ -40,7 +40,7 @@ namespace LASI.Algorithm.Binding
                 if (b.TillNextNP.GetConjunctionPhrases().Count() + b.TillNextNP.OfType<SymbolPhrase>().Count() != b.TillNextNP.Count() && b.TillNextNP.Count() < 3) {
                     aggregateEntities.Add(b.NP);
                     if (aggregateEntities.Count > 2) {
-                        EntityGroups.Add(new EntityGroup(aggregateEntities));
+                        EntityGroups.Add(new AggregateEntity(aggregateEntities));
                     }
                 } else {
                     aggregateEntities = new List<NounPhrase>();

@@ -33,11 +33,11 @@ namespace LASI.Algorithm
         public override string ToString() {
             return base.ToString() + (ReferersTo != null ? " referring to -> " + ReferersTo.Text : "");
         }
-        private IEntityGroup _boundEntity;
+        private IAggregatedEntityCollection _boundEntity;
         /// <summary>
         /// Gets the Entity which the IPronoun references.
         /// </summary>
-        public IEntityGroup ReferersTo {
+        public IAggregatedEntityCollection ReferersTo {
             get {
                 _boundEntity = _boundEntity ?? (Words.GetPronouns().Any(p => p.ReferersTo != null) ? Words.GetPronouns().Last().ReferersTo : null);
                 return _boundEntity;
@@ -51,9 +51,9 @@ namespace LASI.Algorithm
         /// <param name="target">The entity to which to bind.</param>
         public void BindAsReferringTo(IEntity target) {
             if (_boundEntity != null || !_boundEntity.Any())//This condition seems wrong and must be investigated.
-                _boundEntity = new EntityGroup(new[] { target });
+                _boundEntity = new AggregateEntity(new[] { target });
             else
-                _boundEntity = new EntityGroup(_boundEntity.Concat(new[] { target }));
+                _boundEntity = new AggregateEntity(_boundEntity.Concat(new[] { target }));
             EntityKind = _boundEntity.EntityKind;
         }
 

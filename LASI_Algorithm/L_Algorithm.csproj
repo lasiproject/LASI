@@ -91,6 +91,7 @@
     <Compile Include="Analysis\Binders\AttributiveNounPhraseBinder.cs" />
     <Compile Include="Analysis\Binders\AdjectivePhraseBinder.cs" />
     <Compile Include="Analysis\Binders\Experimental\ClauseSeperatingMultiBranchingBinder.cs" />
+    <Compile Include="Analysis\Binders\Experimental\ExperimentalLexicalTypes\AggregatePhrase.cs" />
     <Compile Include="Analysis\Binders\Experimental\INestableLexical.cs" />
     <Compile Include="Analysis\Binders\Experimental\ExperimentalLexicalTypes\NestingClause.cs" />
     <Compile Include="Analysis\Binders\Experimental\ObjectBinderV2.cs" />
@@ -131,7 +132,7 @@
     <Compile Include="LexicalStructures\MiscLanguageConstructs\SymbolPhrase.cs" />
     <Compile Include="LexicalStructures\MiscLanguageConstructs\UnknownPhrase.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\IPronoun.cs" />
-    <Compile Include="LexicalStructures\NounRelatedConstructs\EntityGroup.cs" />
+    <Compile Include="LexicalStructures\NounRelatedConstructs\AggregateEntity.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\EntityKind.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\IWeakPossessor.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\PronounKind.cs" />
@@ -189,7 +190,7 @@
     <Compile Include="LexicalStructures\NounRelatedConstructs\GenericPluralNoun.cs" />
     <Compile Include="LexicalStructures\ConstrainingSemanticConstructs\Determiner.cs" />
     <Compile Include="DocumentConstructs\Document.cs" />
-    <Compile Include="LexicalStructures\NounRelatedConstructs\IEntityGroup.cs" />
+    <Compile Include="LexicalStructures\NounRelatedConstructs\IAggregatedEntityCollection.cs" />
     <Compile Include="LexicalStructures\BridgingConstructs\Interjection.cs" />
     <Compile Include="LexicalStructures\MiscLanguageConstructs\InterrogativePhrase.cs" />
     <Compile Include="LexicalStructures\VerbRelatedConstructs\IVerbalObject.cs" />

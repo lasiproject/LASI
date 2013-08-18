@@ -18,7 +18,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets or sets the possessing IEntity construct which possesses through the IWeakPossessor construct.
         /// </summary>
-        IEntity PossessesFor {
+        IPossesser PossessesFor {
             get;
             set;
         }

@@ -51,12 +51,6 @@ namespace LASI.Algorithm
             foreach (var w in Words)
                 w.EstablishParent(this);
         }
-
-
-
-
-
-
         #endregion
 
         #region Properties
@@ -137,10 +131,15 @@ namespace LASI.Algorithm
         /// </summary>
         public double MetaWeight { get; set; }
 
+        #region Fields
+
         private string _text;
 
+        #endregion
 
         #endregion
+
+        #region Static Members
 
         #region Static Properties
         /// <summary>
@@ -155,7 +154,6 @@ namespace LASI.Algorithm
 
         #endregion
 
-
-
+        #endregion
     }
 }

@@ -87,7 +87,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets all of the IEntity constructs which the InfinitivePhrase "owns".
         /// </summary>
-        public IEnumerable<IEntity> Possessed {
+        public IEnumerable<IPossessable> Possessed {
             get {
                 return _possessions;
             }
@@ -98,13 +98,13 @@ namespace LASI.Algorithm
         /// If the item is already possessed by the current instance, this method has no effect.
         /// </summary>
         /// <param name="possession">The possession to add.</param>
-        public void AddPossession(IEntity possession) {
+        public void AddPossession(IPossessable possession) {
             _possessions.Add(possession);
         }
         /// <summary>
         /// Gets or sets the Entity which "owns" the instance of the InfinitivePhrase.
         /// </summary>
-        public IEntity Possesser {
+        public IPossesser Possesser {
             get;
             set;
         }
@@ -114,7 +114,7 @@ namespace LASI.Algorithm
         #region Fields
 
         ISet<IPronoun> _boundPronouns = new HashSet<IPronoun>();
-        ISet<IEntity> _possessions = new HashSet<IEntity>();
+        ISet<IPossessable> _possessions = new HashSet<IPossessable>();
         ISet<IDescriptor> _descriptors = new HashSet<IDescriptor>();
 
         #endregion

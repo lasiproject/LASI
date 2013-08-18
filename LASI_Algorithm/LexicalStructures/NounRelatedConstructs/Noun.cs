@@ -68,7 +68,7 @@ namespace LASI.Algorithm
         /// If the item is already possessed by the current instance, this method has no effect.
         /// </summary>
         /// <param name="possession">The possession to add.</param>
-        public void AddPossession(IEntity possession) {
+        public void AddPossession(IPossessable possession) {
             _possessed.Add(possession);
             possession.Possesser = this;
         }
@@ -104,12 +104,12 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets all of the IEntity constructs which the Noun "owns".
         /// </summary>
-        public virtual IEnumerable<IEntity> Possessed { get { return _possessed; } }
+        public virtual IEnumerable<IPossessable> Possessed { get { return _possessed; } }
 
         /// <summary>
         /// Gets or sets the Entity which "owns" the instance of the Noun.
         /// </summary>
-        public IEntity Possesser {
+        public IPossesser Possesser {
             get {
                 return _possessor is IWeakPossessor ? (_possessor as IWeakPossessor).PossessesFor ?? _possessor : _possessor;
             }
@@ -156,10 +156,10 @@ namespace LASI.Algorithm
         #region Fields
 
         private HashSet<IDescriptor> _descriptors = new HashSet<IDescriptor>();
-        private HashSet<IEntity> _possessed = new HashSet<IEntity>();
+        private HashSet<IPossessable> _possessed = new HashSet<IPossessable>();
         private HashSet<IPronoun> _boundPronouns = new HashSet<IPronoun>();
         private IQuantifier _quantity;
-        private IEntity _possessor;
+        private IPossesser _possessor;
 
         #endregion Fields
 
