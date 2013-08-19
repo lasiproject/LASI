@@ -19,7 +19,7 @@ namespace LASI.Algorithm.RelationshipLookups
         /// </summary>
         /// <param name="domain">The sequence of Iverbal instances which provide the relevant relationships.</param>
         public SampleRelationshipLookup(IEnumerable<IVerbal> domain) {
-            verbalRelationshipDomain = domain.WithSubject().WithDirectOrIndirectObject();
+            verbalRelationshipDomain = domain.WithSubject().WithObject();
         }
         /// <summary>
         /// Initializes a new instance of the SampleRelationshipLookup class over the given domain.
@@ -59,7 +59,7 @@ namespace LASI.Algorithm.RelationshipLookups
                 return
                     verbalRelationshipDomain
                     .WithSubject(p => p == actionPerformer)
-                    .WithDirectOrIndirectObject(r => r == actionReceiver);
+                    .WithObject(r => r == actionReceiver);
             }
         }
         /// <summary>
@@ -76,7 +76,7 @@ namespace LASI.Algorithm.RelationshipLookups
                 return
                     verbalRelationshipDomain
                     .WithSubject(s => performerComparer(actionPerformer, s))
-                    .WithDirectOrIndirectObject(o => receiverComparer(actionReceiver, o));
+                    .WithObject(o => receiverComparer(actionReceiver, o));
             }
         }
         /// <summary>

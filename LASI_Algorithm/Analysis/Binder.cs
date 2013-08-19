@@ -35,10 +35,10 @@ namespace LASI.Algorithm.Binding
                 new ProcessingTask(document,  BindIntraPhraseAsync(document.Phrases),
                     string.Format("{0}: Decomposing Phrasals", document.Name),
                     string.Format("{0}: Decomposed Phrasals", document.Name), 5),
-                new ProcessingTask(document, BindSVOsAsync(document.Sentences),
+                new ProcessingTask(document, BindSubjectsAndObjectsAsync(document.Sentences),
                     string.Format("{0}: Analyzing Verbal Relationships", document.Name),
                     string.Format("{0}: Analyzed Verbal Relationships", document.Name), 5), 
-                new ProcessingTask(document,  BindPronounsAsync(document),
+                new ProcessingTask(document,  BindPronounsAsync(document.Sentences),
                     string.Format("{0}: Abstracting References", document.Name),
                     string.Format("{0}: Abstracted References", document.Name), 5),
             };
@@ -51,8 +51,8 @@ namespace LASI.Algorithm.Binding
         public static void Bind(Document doc) {
             BindAttributives(doc.Sentences);
             BindIntraPhrase(doc.Phrases);
-            BindSVOs(doc.Sentences);
-            BindPronouns(doc);
+            BindSubjectsAndObjects(doc.Sentences);
+            BindPronouns(doc.Sentences);
         }
 
         /// <summary>
@@ -69,43 +69,33 @@ namespace LASI.Algorithm.Binding
         #region Standard Implementations
 
         private static void BindAdjectivePhrases(IEnumerable<Sentence> sentences) {
-            sentences.AsParallel()
-                     .WithDegreeOfParallelism(Concurrency.Max)
-                     .ForAll(s => new AdjectivePhraseBinder().Bind(s));
+            sentences.AsParallel().WithDegreeOfParallelism(Concurrency.Max).ForAll(s => AdjectivePhraseBinder.Bind(s));
         }
 
         private static void BindAttributives(IEnumerable<Sentence> sentences) {
-            sentences.AsParallel()
-                     .WithDegreeOfParallelism(Concurrency.Max)
-                     .ForAll(s => new AttributiveNounPhraseBinder().Bind(s));
+            sentences.AsParallel().WithDegreeOfParallelism(Concurrency.Max).ForAll(s => AttributivePhraseBinder.Bind(s));
         }
 
-        private static void BindSVOs(IEnumerable<Sentence> sentences) {
+        private static void BindSubjectsAndObjects(IEnumerable<Sentence> sentences) {
             try {
-                sentences
-                    .AsParallel()
-                    .WithDegreeOfParallelism(Concurrency.Max)
-                    .ForAll(sentence => {
-                        try { new SubjectBinder().Bind(sentence); } catch (NullReferenceException) { }
-                        try { new ObjectBinder().Bind(sentence); } catch (InvalidStateTransitionException) { } catch (VerblessPhrasalSequenceException) { } catch (InvalidOperationException) { }
+                sentences.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
+                    .ForAll(s => {
+                        try { new SubjectBinder().Bind(s); } catch (NullReferenceException) { }
+                        try { new ObjectBinder().Bind(s); } catch (InvalidStateTransitionException) { } catch (VerblessPhrasalSequenceException) { } catch (InvalidOperationException) { }
                     });
             } catch (Exception e) { Output.WriteLine(e.Message); }
         }
 
         private static void BindIntraPhrase(IEnumerable<Phrase> phrases) {
-            phrases
-                .AsParallel()
-                .WithDegreeOfParallelism(Concurrency.Max)
-                .GetNounPhrases()
-                .ForAll(np => new IntraPhraseWordBinder().Bind(np));
-            phrases
-                .AsParallel()
-                .WithDegreeOfParallelism(Concurrency.Max)
-                .GetVerbPhrases()
-                .ForAll(verbPhrase => new IntraPhraseWordBinder().Bind(verbPhrase));
+            phrases.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
+                .GetNounPhrases().ForAll(np => IntraPhraseWordBinder.Bind(np));
+            phrases.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
+                .GetVerbPhrases().ForAll(vp => IntraPhraseWordBinder.Bind(vp));
         }
 
-        private static void BindPronouns(Document document) { new PronounBinder().Bind(document); }
+        private static void BindPronouns(IEnumerable<Sentence> sentences) {
+            sentences.AsParallel().WithDegreeOfParallelism(Concurrency.Max).ForAll(s => PronounBinder.Bind(s));
+        }
 
         #endregion
 
@@ -114,14 +104,14 @@ namespace LASI.Algorithm.Binding
         private static async Task BindIntraPhraseAsync(IEnumerable<Phrase> phrases) {
             await Task.Run(() => BindIntraPhrase(phrases));
         }
-        private static async Task BindSVOsAsync(IEnumerable<Sentence> sentences) {
-            await Task.Run(() => BindSVOs(sentences));
+        private static async Task BindSubjectsAndObjectsAsync(IEnumerable<Sentence> sentences) {
+            await Task.Run(() => BindSubjectsAndObjects(sentences));
         }
         private static async Task BindAttributivesAsync(IEnumerable<Sentence> sentences) {
             await Task.Run(() => BindAttributives(sentences));
         }
-        private static async Task BindPronounsAsync(Document document) {
-            await Task.Run(() => BindPronouns(document));
+        private static async Task BindPronounsAsync(IEnumerable<Sentence> sentences) {
+            await Task.Run(() => BindPronouns(sentences));
         }
 
         #endregion

@@ -10,13 +10,13 @@ namespace LASI.Algorithm.Binding
     /// <summary>
     /// A Binder which binds the AdjectivePhrases within a sentence to Applicable NounPhrases.
     /// </summary>
-    public class AdjectivePhraseBinder
+    public static class AdjectivePhraseBinder
     {
         /// <summary>
         /// Binds the AdjectivePhrases within a sentence to Applicable NounPhrases.
         /// </summary>
         /// <param name="sentence">The Sentence to bind within.</param>
-        public void Bind(Sentence sentence) {
+        public static void Bind(Sentence sentence) {
             foreach (var bindingAction in GetPossibilities(sentence)) {
                 bindingAction();
             }

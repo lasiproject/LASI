@@ -19,7 +19,7 @@ namespace LASI.Algorithm.Weighting
         /// Gets an ordered collection of ProcessingTask objects which correspond to the steps required to Weight the given document.
         /// Each ProcessingTask contains a Task property which, when awaited will perform a step of the Weighting process.
         /// </summary>
-        /// <param name="document">The document for which to get the ProcessingTasks for Weighting.</param>
+        /// <param name="doc">The document for which to get the ProcessingTasks for Weighting.</param>
         /// <returns>An ordered collection of ProcessingTask objects which correspond to the steps required to Weight the given document.
         /// </returns>
         /// <remarks>
@@ -27,51 +27,50 @@ namespace LASI.Algorithm.Weighting
         /// However, to ensure the consistency/determinism of the Weighting process, it is recommended that they be executed (awaited) in the order
         /// in which they are hereby returned.
         /// </remarks>
-        public static IEnumerable<ProcessingTask> GetWeightingProcessingTasks(Document document) {
+        public static IEnumerable<ProcessingTask> GetWeightingProcessingTasks(Document doc) {
             return new[] {  
-                new ProcessingTask(document,
-                    WeightWordsByLiteralFrequencyAsync (document), 
-                    string.Format("{0}: Aggregating Literals", document.Name),
-                    string.Format("{0}: Aggregated Literals", document.Name),
+                new ProcessingTask(doc,
+                    WeightWordsByLiteralFrequencyAsync (doc), 
+                    string.Format("{0}: Aggregating Literals", doc.Name),
+                    string.Format("{0}: Aggregated Literals", doc.Name),
                     11),
-                new ProcessingTask(document,
-                    WeightPhrasesByLiteralFrequencyAsync (document),
-                    string.Format("{0}: Aggregating Complex Literals", document.Name),
-                    string.Format("{0}: Aggregated Complex Literals", document.Name),
+                new ProcessingTask(doc,
+                    WeightPhrasesByLiteralFrequencyAsync (doc),
+                    string.Format("{0}: Aggregating Complex Literals", doc.Name),
+                    string.Format("{0}: Aggregated Complex Literals", doc.Name),
                     19),
-                new ProcessingTask(document,
-                    ModifyNounWeightsBySynonymsAsync(document),
-                    string.Format("{0}: Generalizing Nouns",document.Name), 
-                    string.Format("{0}: Generalized Nouns",document.Name),
+                new ProcessingTask(doc,
+                    ModifyNounWeightsBySynonymsAsync(doc),
+                    string.Format("{0}: Generalizing Nouns",doc.Name), 
+                    string.Format("{0}: Generalized Nouns",doc.Name),
                     19),
-                new ProcessingTask(document,
-                    ModifyVerbWeightsBySynonymsAsync (document), 
-                    string.Format("{0}: Generalizing Verbs",document.Name), 
-                    string.Format("{0}: Generalized Verbs",document.Name),
+                new ProcessingTask(doc,
+                    ModifyVerbWeightsBySynonymsAsync (doc), 
+                    string.Format("{0}: Generalizing Verbs",doc.Name), 
+                    string.Format("{0}: Generalized Verbs",doc.Name),
                     10),
-                new ProcessingTask(document,
-                    WeightSimilarNounPhrasesAsync(document),
-                    string.Format("{0}: Generalizing Phrases",document.Name),
-                    string.Format("{0}: Generalized Phrases",document.Name),
+                new ProcessingTask(doc,
+                    WeightSimilarNounPhrasesAsync(doc),
+                    string.Format("{0}: Generalizing Phrases",doc.Name),
+                    string.Format("{0}: Generalized Phrases",doc.Name),
                     20),
-                new ProcessingTask(document,
-                    WeightSimilarEntitiesAsync(document),
-                    string.Format("{0}: Generalizing Entities",document.Name),
-                    string.Format("{0}: Generalized Entities",document.Name),
+                new ProcessingTask(doc,
+                    WeightSimilarEntitiesAsync(doc),
+                    string.Format("{0}: Generalizing Entities",doc.Name),
+                    string.Format("{0}: Generalized Entities",doc.Name),
                     10),
-                new ProcessingTask(document,
-                    HackSubjectPropernounImportanceAsync (document), 
-                    string.Format("{0}: Focusing Patterns", document.Name),
-                    string.Format("{0}: Focused Patterns", document.Name),
+                new ProcessingTask(doc,
+                    HackSubjectPropernounImportanceAsync (doc), 
+                    string.Format("{0}: Focusing Patterns", doc.Name),
+                    string.Format("{0}: Focused Patterns", doc.Name),
                     6),
-                new ProcessingTask(document,
-                    NormalizeWeightsAsync (document),
-                    string.Format("{0}: Normalizing Metrics", document.Name),
-                    string.Format("{0}: Normalized Metrics", document.Name),
+                new ProcessingTask(doc,
+                    NormalizeWeightsAsync (doc),
+                    string.Format("{0}: Normalizing Metrics", doc.Name),
+                    string.Format("{0}: Normalized Metrics", doc.Name),
                     3)
             };
         }
-
         /// <summary>
         /// Asynchronously assigns numeric Weights to each elemenet in the given Document.
         /// </summary>
@@ -94,56 +93,33 @@ namespace LASI.Algorithm.Weighting
             HackSubjectPropernounImportance(doc);
             NormalizeWeights(doc);
         }
-        private static async Task NormalizeWeightsAsync(Document doc) {
-            await Task.Run(() => NormalizeWeights(doc));
-        }
         private static void NormalizeWeights(Document doc) {
             NewNormalizationProcedure(doc.Words);
             NewNormalizationProcedure(doc.Phrases);
         }
-
         private static void NewNormalizationProcedure(IEnumerable<ILexical> source) {
             if (source.Any()) {
                 double maxWeight = source.Max(e => e.Weight);
                 double minWeight = source.Where(e => e.Weight > 0).Min(e => e.Weight);
                 double scalingFactor = (maxWeight - minWeight > 0 ? (maxWeight - minWeight) : 1.0) * (100d / maxWeight);
                 source.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                    .Where(e => e.Weight > 0)
                     .ForAll(e => e.Weight *= scalingFactor);
             }
-            //    //attempting to set all non-zero weights to 0 when there isn't anything in the source.
-            //else {
-            //    foreach (var w in source.Where(e => e.Weight != 0)) {
-            //        w.Weight = 0;
-            //    }
-            //}
+
         }
-
-
-
-
-        private static async Task ModifyVerbWeightsBySynonymsAsync(Document doc) {
-            await Task.Run(() => ModifyVerbWeightsBySynonyms(doc));
-        }
-
         private static void ModifyVerbWeightsBySynonyms(Document doc) {
-            var verbsToConsider = doc
-                .Words.AsParallel()
-                .WithDegreeOfParallelism(Concurrency.Max)
-                .GetVerbs()
-                .WithSubjectOrObject();
-            var groups = from outerVerb in
-                             verbsToConsider
-                         from innerVerb in verbsToConsider
-                         where outerVerb.IsSynonymFor(innerVerb)
-                         group innerVerb by outerVerb;
-            groups.ForAll(grp => grp.Key.Weight += 0.7 * grp.Count());
+            var verbsToConsider = doc.Words.GetVerbs().AsParallel().WithDegreeOfParallelism(Concurrency.Max).WithSubjectOrObject();
+            var groups = from outer in verbsToConsider
+                         from inner in verbsToConsider
+                         where outer.IsSynonymFor(inner)
+                         group inner by outer;
+            groups.ForAll(grp => {
+                var increase = grp.Count();
+                foreach (var e in grp) {
+                    e.Weight += increase;
+                }
+            });
         }
-
-        private static async Task ModifyNounWeightsBySynonymsAsync(Document doc) {
-            await Task.Run(() => ModifyNounWeightsBySynonyms(doc));
-        }
-
         /// <summary>
         /// Increase noun weights in a document by abstracting over synonyms
         /// </summary>
@@ -151,61 +127,41 @@ namespace LASI.Algorithm.Weighting
         private static void ModifyNounWeightsBySynonyms(Document doc) {
             //Currently, include only those nouns which exist in relationships with some IVerbal or IPronoun.
             var toConsider = doc.Words
-                .AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                 .GetNouns().InSubjectOrObjectRole()
                 .Concat<IEntity>(doc.Words
-                .AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                .GetPronouns().InSubjectOrObjectRole().Select(e => e.ReferersTo ?? e as IEntity));
+                .GetPronouns().InSubjectOrObjectRole().Select(e => e.ReferersTo ?? e as IEntity)).AsParallel().WithDegreeOfParallelism(Concurrency.Max);
             (from outer in toConsider
              from inner in toConsider
              where outer.IsSimilarTo(inner)
-             group inner by outer).AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-             .ForAll(grp => grp.Key.Weight += 0.7 * grp.Count());
+             group inner by outer)
+             .ForAll(grp => {
+                 var increase = grp.Count();
+                 foreach (var e in grp) {
+                     e.Weight += increase;
+                 }
+             });
         }
-
-        private static async Task WeightPhrasesByLiteralFrequencyAsync(Document doc) {
-            await Task.Run(() => WeightByLiteralFrequency(doc.Phrases));
-        }
-
         private static void WeightByLiteralFrequency(IEnumerable<ILexical> syntacticElements) {
-            var data = from phrase in syntacticElements
-                       group phrase by new { phrase.Type, phrase.Text } into grp
-                       select new { grp, count = grp.Count() };
-            foreach (var grp in data) {
-                foreach (var e in grp.grp) {
-                    e.Weight += grp.count;
+            var data = from phrase in syntacticElements.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
+                       group phrase by new { phrase.Type, phrase.Text };
+            data.ForAll(grp => {
+                var increase = grp.Count();
+                foreach (var e in grp) {
+                    e.Weight += increase;
                 }
-            }
+            });
 
         }
-        /// <summary>
-        /// basic word count by part of speech ignoring determiners and conjunctions
-        /// </summary>
-        /// <param name="doc">the Document whose words to weight</param> 
-        private static async Task WeightWordsByLiteralFrequencyAsync(Document doc) {
-            await Task.Run(() => WeightByLiteralFrequency(doc.Words));
-        }
-
-
-
-
-        private static async Task WeightSimilarNounPhrasesAsync(Document doc) {
-            await Task.Run(() => WeightSimilarNounPhrases(doc));
-        }
-
         /// <summary>
         /// For each noun parent in a document that is similar to another noun parent, increase the weight of that noun
         /// </summary>
         /// <param name="doc">Document containing the componentPhrases to weight</param>
         private static void WeightSimilarNounPhrases(Document doc) {
 
-            var nps = doc.Phrases
-                .AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                .GetNounPhrases()
-                .InSubjectOrObjectRole();
+            var nps = doc.Phrases.AsParallel().WithDegreeOfParallelism(Concurrency.Max).GetNounPhrases().InSubjectOrObjectRole();
 
             foreach (var outerNP in nps) {
-                var groups = from innerNP in nps.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
+                var groups = from innerNP in nps
                              where innerNP.IsAliasFor(outerNP) || innerNP.IsSimilarTo(outerNP)
                              group innerNP by outerNP;
                 foreach (var group in groups) {
@@ -217,14 +173,9 @@ namespace LASI.Algorithm.Weighting
             }
 
         }
-        private static async Task WeightSimilarEntitiesAsync(Document doc) {
-            await Task.Run(() => WeightSimilarEntities(doc));
-        }
         private static void WeightSimilarEntities(Document doc) {
             var entities = doc.GetEntities().AsParallel().WithDegreeOfParallelism(Concurrency.Max).InSubjectOrObjectRole();
-            //var entityLookup = entities.ToLookup(key => key,
-            //                    LexicalComparers<IEntity>
-            //                    .CreateCustom((L, R) => L.Text == R.Text || L.IsAliasFor(R) || L.IsSimilarTo(R)));
+
             foreach (var outer in entities) {
                 var groups = from inner in entities.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                              where inner.IsAliasFor(outer) || inner.IsSimilarTo(outer)
@@ -238,23 +189,13 @@ namespace LASI.Algorithm.Weighting
             }
 
         }
-
-        private static async Task HackSubjectPropernounImportanceAsync(Document doc) {
-            await Task.Run(() => HackSubjectPropernounImportance(doc));
-        }
-
         private static void HackSubjectPropernounImportance(Document doc) {
-            doc.Phrases
-                .AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                .Where(np => np.Words.Any(w => w is ProperNoun))
+            doc.Phrases.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                 .GetNounPhrases()
+                .Where(np => np.Words.Any(w => w is ProperNoun))
                 .ForAll(np => np.Weight *= 2);
 
         }
-
-
-
-
         private static void OldNormalizationProcedure(Document doc) {
             double TotPhraseWeight = 0.0;
             double MaxWeight = 0.0;
@@ -277,15 +218,38 @@ namespace LASI.Algorithm.Weighting
                 }
             }
         }
+
+        #region Asynchronous Versions
+
+        private static async Task NormalizeWeightsAsync(Document doc) {
+            await Task.Run(() => NormalizeWeights(doc));
+        }
+        private static async Task ModifyVerbWeightsBySynonymsAsync(Document doc) {
+            await Task.Run(() => ModifyVerbWeightsBySynonyms(doc));
+        }
+        private static async Task ModifyNounWeightsBySynonymsAsync(Document doc) {
+            await Task.Run(() => ModifyNounWeightsBySynonyms(doc));
+        }
+        private static async Task WeightPhrasesByLiteralFrequencyAsync(Document doc) {
+            await Task.Run(() => WeightByLiteralFrequency(doc.Phrases));
+        }
+        private static async Task WeightWordsByLiteralFrequencyAsync(Document doc) {
+            await Task.Run(() => WeightByLiteralFrequency(doc.Words));
+        }
+        private static async Task WeightSimilarNounPhrasesAsync(Document doc) {
+            await Task.Run(() => WeightSimilarNounPhrases(doc));
+        }
         private static async Task WeightWordsBySyntacticSequenceAsync(Document doc) {
             await Task.Run(() => WeightWordsBySyntacticSequence(doc));
         }
+        private static async Task HackSubjectPropernounImportanceAsync(Document doc) {
+            await Task.Run(() => HackSubjectPropernounImportance(doc));
+        }
+        private static async Task WeightSimilarEntitiesAsync(Document doc) {
+            await Task.Run(() => WeightSimilarEntities(doc));
+        }
 
-
-
-
-
-
+        #endregion
 
 
         /// <summary>

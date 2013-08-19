@@ -16,85 +16,34 @@ namespace LASI.Algorithm.Binding
     /// <summary>
     /// Attempts to bind pronouns to the entities they refer to.
     /// </summary>
-    public class PronounBinder
+    public static class PronounBinder
     {
         /// <summary>
-        /// Attempts to perform pronoun binding over the entirety of the given Document.
+        /// Attempts to perform pronoun binding within the given Sentence.
         /// </summary>
-        /// <param name="document">The document over which to perform pronoun bindind.</param>
-        public void Bind(Document document) {
-            BindPosessivePronouns(document);
-            //ReifyContextualNounPhrasesAsPronounPhrases(document.Phrases.GetNounPhrases());
+        /// <param name="sentence">The Sentence over which to perform pronoun binding.</param>
+        public static void Bind(Sentence sentence) {
+            BindPosessivePronouns(sentence.Phrases);
         }
 
 
         /// <summary>
-        /// Bind posessive pronouns located in the objects of a sentence to the proper noun in the subject of that sentence. 
+        /// Binds posessive pronouns located in the sequence of phrases sentence. 
         /// Example Sentence that this applies to:
         /// "LASI binds it's pronouns."
         /// Pronoun "it's" binds to the proper noun "LASI"
         /// </summary>
-        /// <param name="doc">Document for analysis</param>
-        private void BindPosessivePronouns(Document doc) { //Aluan Says: Beautiful function man.
-
-            var vps = from vp in doc.Phrases.GetVerbPhrases().WithSubject(s => s is ProperNoun)
-                      where vp.DirectObjects.Any(o => o is PossessivePronoun) || vp.IndirectObjects.Any(o => o is PossessivePronoun)
-                      select vp;
-            //            foreach (var verbPhrase in vps) {
-            vps.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-            .ForAll(verbPhrase => {
-                var pronounsInDO = from pn in verbPhrase.DirectObjects
-                                   let pos = pn as PossessivePronoun
-                                   where pos != null
-                                   select pos;
-                var pronounsInIO = from pn in verbPhrase.IndirectObjects
-                                   let pos = pn as PossessivePronoun
-                                   where pos != null
-                                   select pos;
-                var propernounsInSubject = from propn in verbPhrase.Subjects
-                                           let pos = propn as ProperNoun
-                                           where pos != null
-                                           select pos;
-                foreach (var pronoun in pronounsInDO.Concat(pronounsInIO)) {
-                    //.AsParallel().WithDegreeOfParallelism(Concurrency.CurrentMax).ForAll(pronoun => {
-                    foreach (var propernoun in propernounsInSubject) {
-                        pronoun.PossessesFor = propernoun;
+        /// <param name="phrases">The sequence of phrases to bind within.</param>
+        private static void BindPosessivePronouns(IEnumerable<Phrase> phrases) {
+            foreach (var vp in phrases.GetVerbPhrases().WithSubject().WithObject(o => o is PossessivePronoun)) {
+                var pronouns = vp.DirectObjects.Concat(vp.IndirectObjects).OfType<PossessivePronoun>();
+                foreach (var pro in pronouns) {
+                    foreach (var subject in vp.Subjects) {
+                        pro.PossessesFor = subject;
                     }
-                };
-            });
-
-        }
-        private void ReifyContextualNounPhrasesAsPronounPhrases(IEnumerable<NounPhrase> candidatesNounPhrases) {
-            var toTransform = from np in candidatesNounPhrases
-                              where np.Words.Count() < 4
-                              let det = np.GetLeadingDeterminer()
-                              where det != null && det.DeterminerKind == DeterminerKind.Definite
-                              where np.Words.Last() is GenericNoun
-                              select np;
-            foreach (var np in toTransform) {
-                var temporaryReference = np;
+                }
             }
-            BindToReferencePoints(toTransform);
         }
-
-        private static void BindToReferencePoints(IEnumerable<NounPhrase> toTransform) {
-
-            toTransform
-                .GetNounPhrases()
-                .AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                .ForAll(contextualPro => {
-                    var target = contextualPro
-                    .Document
-                    .Phrases
-                    .TakeWhile(p => p != contextualPro)
-                    .Reverse()
-                    .GetNounPhrases()
-                    .FirstOrDefault(np => np.IsSimilarTo(contextualPro.Words.GetNouns().Last()));
-                    if (target != null)
-                        AliasDictionary.DefineAlias(contextualPro, target);
-                });
-        }
-
     }
 
 }

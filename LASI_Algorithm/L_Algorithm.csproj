@@ -88,7 +88,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Analysis\Binder.cs" />
-    <Compile Include="Analysis\Binders\AttributiveNounPhraseBinder.cs" />
+    <Compile Include="Analysis\Binders\AttributivePhraseBinder.cs" />
     <Compile Include="Analysis\Binders\AdjectivePhraseBinder.cs" />
     <Compile Include="Analysis\Binders\Experimental\ClauseSeperatingMultiBranchingBinder.cs" />
     <Compile Include="Analysis\Binders\Experimental\ExperimentalLexicalTypes\AggregatePhrase.cs" />
