@@ -94,7 +94,11 @@ namespace LASI.Algorithm.Binding
         }
 
         private static void BindPronouns(IEnumerable<Sentence> sentences) {
-            sentences.AsParallel().WithDegreeOfParallelism(Concurrency.Max).ForAll(s => PronounBinder.Bind(s));
+            sentences.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
+                .ForAll(s => PronounBinder.Bind(s));
+            sentences.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
+                .ForAll(s => new LASI.Algorithm.Binding.Experimental.ClauseSeperatingMultiBranchingBinder().Bind(s.Words));
+
         }
 
         #endregion

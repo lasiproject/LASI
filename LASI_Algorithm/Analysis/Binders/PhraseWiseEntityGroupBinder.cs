@@ -42,7 +42,8 @@ namespace LASI.Algorithm.Binding
                     if (aggregateEntities.Count > 2) {
                         EntityGroups.Add(new AggregateEntity(aggregateEntities));
                     }
-                } else {
+                }
+                else {
                     aggregateEntities = new List<NounPhrase>();
                 }
 

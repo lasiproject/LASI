@@ -46,20 +46,30 @@ namespace LASI.UserInterface
                                      from innerSet in topNPsByDoc
                                      where innerSet != outerSet
                                      where innerSet.Contains(np, (left, right) => {
-                                         var result = left.Text == right.Text || left.IsAliasFor(right) || left.IsSimilarTo(right);
+                                         var result = left.Text == right.Text ||
+                                             left.IsAliasFor(right) ||
+                                             left.IsSimilarTo(right);
                                          if (!result) {
                                              var leftAsPro = left as IPronoun;
                                              var rightAsPro = right as IPronoun;
-                                             result = rightAsPro != null && left.BoundPronouns.Contains(rightAsPro) || leftAsPro != null && right.BoundPronouns.Contains(leftAsPro);
+                                             result = rightAsPro != null &&
+                                                 left.BoundPronouns.Contains(rightAsPro) ||
+                                                 leftAsPro != null &&
+                                                 right.BoundPronouns.Contains(leftAsPro);
                                          }
                                          return result;
                                      })
                                      select np).Distinct((left, right) => {
-                                         var result = left.Text == right.Text || left.IsAliasFor(right) || left.IsSimilarTo(right);
+                                         var result = left.Text == right.Text ||
+                                             left.IsAliasFor(right) ||
+                                             left.IsSimilarTo(right);
                                          if (!result) {
                                              var leftAsPro = left as IPronoun;
                                              var rightAsPro = right as IPronoun;
-                                             result = rightAsPro != null && left.BoundPronouns.Contains(rightAsPro) || leftAsPro != null && right.BoundPronouns.Contains(leftAsPro);
+                                             result = rightAsPro != null &&
+                                                 left.BoundPronouns.Contains(rightAsPro) ||
+                                                 leftAsPro != null &&
+                                                 right.BoundPronouns.Contains(leftAsPro);
                                          }
                                          return result;
                                      });
@@ -94,11 +104,11 @@ namespace LASI.UserInterface
                     select new RelationshipTuple {
                         Verbal = v,
                         Direct = v.DirectObjects
-                            .Select(s => (s as IPronoun) == null ? s : (s as IPronoun).ReferersTo).FirstOrDefault(),
+                            .Select(s => (s as IPronoun) == null ? s : (s as IPronoun).RefersTo).FirstOrDefault(),
                         Indirect = v.IndirectObjects
-                            .Select(s => (s as IPronoun) == null ? s : (s as IPronoun).ReferersTo).FirstOrDefault(),
+                            .Select(s => (s as IPronoun) == null ? s : (s as IPronoun).RefersTo).FirstOrDefault(),
                         Subject = v.Subjects
-                            .Select(s => (s as IPronoun) == null ? s : (s as IPronoun).ReferersTo).FirstOrDefault(),
+                            .Select(s => (s as IPronoun) == null ? s : (s as IPronoun).RefersTo).FirstOrDefault(),
                         Prepositional = v.ObjectOfThePreoposition
                     } into result
                     where result.Subject != null

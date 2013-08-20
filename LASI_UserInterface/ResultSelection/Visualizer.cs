@@ -202,10 +202,10 @@ namespace LASI.UserInterface
             var data =
                  from svPair in
                      (from v in doc.Phrases.GetVerbPhrases()
-                          .WithSubject(s => (s as IPronoun) == null || (s as IPronoun).ReferersTo != null)
+                          .WithSubject(s => (s as IPronoun) == null || (s as IPronoun).RefersTo != null)
                           .AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                       from s in v.Subjects.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                      let sub = s as IPronoun == null ? s : (s as IPronoun).ReferersTo
+                      let sub = s as IPronoun == null ? s : (s as IPronoun).RefersTo
                       where sub != null
                       from dobj in v.DirectObjects.DefaultIfEmpty()
                       from iobj in v.IndirectObjects.DefaultIfEmpty()

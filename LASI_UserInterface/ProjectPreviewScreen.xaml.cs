@@ -185,7 +185,7 @@ namespace LASI.UserInterface
 
         private void MenuItem_Click(object sender, RoutedEventArgs e) {
             try {
-                System.Diagnostics.Process.Start("http://lasi-product.org");
+                System.Diagnostics.Process.Start("http://lasi-project.org");
             } catch (Exception) {
                 MessageBox.Show(this, "Sorry, the LASI project website could not be opened");
             }

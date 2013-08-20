@@ -21,8 +21,8 @@ namespace LASI.Algorithm
         /// <param name="composedWords">The words which compose to form the PronounPhrase.</param>
         public PronounPhrase(IEnumerable<Word> composedWords)
             : base(composedWords) {
-            if (composedWords.GetPronouns().Any(p => p.ReferersTo != null)) {
-                _boundEntity = composedWords.GetPronouns().Last().ReferersTo;
+            if (composedWords.GetPronouns().Any(p => p.RefersTo != null)) {
+                _boundEntity = composedWords.GetPronouns().Last().RefersTo;
             }
         }
 
@@ -31,15 +31,15 @@ namespace LASI.Algorithm
         /// </summary>
         /// <returns>A string representation of the PronounPhrase</returns>
         public override string ToString() {
-            return base.ToString() + (ReferersTo != null ? " referring to -> " + ReferersTo.Text : "");
+            return base.ToString() + (RefersTo != null ? " referring to -> " + RefersTo.Text : "");
         }
         private IAggregatedEntityCollection _boundEntity;
         /// <summary>
         /// Gets the Entity which the IPronoun references.
         /// </summary>
-        public IAggregatedEntityCollection ReferersTo {
+        public IAggregatedEntityCollection RefersTo {
             get {
-                _boundEntity = _boundEntity ?? (Words.GetPronouns().Any(p => p.ReferersTo != null) ? Words.GetPronouns().Last().ReferersTo : null);
+                _boundEntity = _boundEntity ?? (Words.GetPronouns().Any(p => p.RefersTo != null) ? Words.GetPronouns().Last().RefersTo : null);
                 return _boundEntity;
             }
 

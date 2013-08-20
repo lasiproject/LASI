@@ -121,9 +121,9 @@ namespace AlgorithmAssemblyUnitTestProject
             IPronoun pro = new PersonalPronoun("them");
             target.BindPronoun(pro);
             Assert.IsTrue(target.BoundPronouns.Contains(pro));
-            Assert.IsTrue(pro.ReferersTo.Contains(target));
+            Assert.IsTrue(pro.RefersTo.Contains(target));
             foreach (IEntity e in members) {
-                Assert.IsTrue(pro.ReferersTo.Contains(e));
+                Assert.IsTrue(pro.RefersTo.Contains(e));
                 e.BoundPronouns.Contains(pro);
             }
         }
@@ -156,7 +156,7 @@ namespace AlgorithmAssemblyUnitTestProject
             string expected = string.Empty; // TODO: Initialize to an appropriate value
             string actual;
             actual = target.ToString();
-            Assert.AreEqual(target.GetType() + " with constituents\n" + typeof(LASI.Algorithm.NounPhrase) + ": Americans\n" + typeof(LASI.Algorithm.NounPhrase) + ": Canadians", actual);
+            Assert.AreEqual(target.GetType().Name + " with constituents\n" + typeof(LASI.Algorithm.NounPhrase) + ": Americans\n" + typeof(LASI.Algorithm.NounPhrase) + ": Canadians", actual);
         }
 
         /// <summary>
@@ -308,7 +308,7 @@ namespace AlgorithmAssemblyUnitTestProject
             AggregateEntity target = new AggregateEntity(members);
             string actual;
             actual = target.Text;
-            Assert.AreEqual(target.GetType() + " with constituents\n" + typeof(LASI.Algorithm.NounPhrase) + ": Americans\n" + typeof(LASI.Algorithm.NounPhrase) + ": Canadians", actual);
+            Assert.AreEqual(target.GetType().Name + " with constituents\n" + typeof(LASI.Algorithm.NounPhrase) + ": Americans\n" + typeof(LASI.Algorithm.NounPhrase) + ": Canadians", actual);
         }
 
         /// <summary>

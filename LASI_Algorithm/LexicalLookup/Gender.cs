@@ -10,7 +10,7 @@ namespace LASI.Algorithm.Lookup
     /// </summary>
     /// <see cref="PronounKind">Defines the various kinds of Personal Pronouns.</see>
     /// <seealso cref="EntityKind">Defines the various kinds of Entities.</seealso>
-    public enum Gender
+    public enum Gender : byte
     {
         /// <summary>
         /// The default NameGender value. Indicates an undefined gender. 

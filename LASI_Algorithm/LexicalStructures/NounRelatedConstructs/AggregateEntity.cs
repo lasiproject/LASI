@@ -113,7 +113,7 @@ namespace LASI.Algorithm
         /// </summary>
         public string Text {
             get {
-                return string.Format("{0} with constituents\n{1}", this.Type, string.Join("\n", _members.Select(p => p.Type + ": " + p.Text)));
+                return string.Format("{0} with constituents\n{1}", this.Type.Name, string.Join("\n", _members.Select(p => p.Type + ": " + p.Text)));
             }
         }
         //}

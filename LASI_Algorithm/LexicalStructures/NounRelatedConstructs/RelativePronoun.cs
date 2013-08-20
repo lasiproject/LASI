@@ -26,11 +26,11 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="target">The entity to which to bind.</param>
         public void BindAsReferringTo(IEntity target) {
-            if (ReferersTo != null || !ReferersTo.Any())
-                ReferersTo = new AggregateEntity(new[] { target });
+            if (RefersTo != null || !RefersTo.Any())
+                RefersTo = new AggregateEntity(new[] { target });
             else
-                ReferersTo = new AggregateEntity(ReferersTo.Concat(new[] { target }));
-            EntityKind = ReferersTo.EntityKind;
+                RefersTo = new AggregateEntity(RefersTo.Concat(new[] { target }));
+            EntityKind = RefersTo.EntityKind;
         }
 
 
@@ -42,7 +42,7 @@ namespace LASI.Algorithm
         /// <param name="possession">The possession to add.</param>
         public void AddPossession(IPossessable possession) {
             if (IsBound) {
-                ReferersTo.AddPossession(possession);
+                RefersTo.AddPossession(possession);
             } else {
                 _possessed.Add(possession);
                 possession.Possesser = this;
@@ -77,7 +77,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets the Entity which the RelativePronoun references.
         /// </summary>
-        public IAggregatedEntityCollection ReferersTo {
+        public IAggregatedEntityCollection RefersTo {
             get;
             private set;
         }

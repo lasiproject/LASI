@@ -74,8 +74,7 @@ namespace LASI.UserInterface
                                    select s.Phrases.GetNounPhrases() into nounPhrases
                                    from nounPhrase in nounPhrases
                                         .AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                                   group nounPhrase by new
-                                   {
+                                   group nounPhrase by new {
                                        nounPhrase.Text,
                                        nounPhrase.Type
                                    } into g
@@ -162,7 +161,7 @@ namespace LASI.UserInterface
                     ToolTip = phrase.Type.Name,
                 };
                 var pronounPhrase = phrase as PronounPhrase;
-                if (pronounPhrase != null && pronounPhrase.ReferersTo != null) {
+                if (pronounPhrase != null && pronounPhrase.RefersTo != null) {
                     CreatePronounPhraseLabelMenu(phraseLabels, label, pronounPhrase);
                 }
                 var vP = phrase as VerbPhrase;
@@ -305,7 +304,7 @@ namespace LASI.UserInterface
         }
 
         private void MenuItem_Click_1(object sender, RoutedEventArgs e) {
-            Process.Start("http://lasi-product.org");
+            Process.Start("http://lasi-project.org");
         }
         private async void exportButton_Click(object sender, RoutedEventArgs e) {
             foreach (var doc in documents) {
@@ -352,7 +351,8 @@ namespace LASI.UserInterface
                     currentOperationProgressBar.Value = 0;
                     await ProcessNewDocument(openDialog.FileName);
                     //currentOperationFeedbackCanvas.Visibility = Visibility.Hidden;
-                } else {
+                }
+                else {
                     MessageBox.Show(this, string.Format("A document named {0} is already part of the project.", openDialog.SafeFileName));
                 }
             }
@@ -448,7 +448,7 @@ namespace LASI.UserInterface
             };
             visitBoundEntity.Click += (sender, e) => {
                 var objlabels = from l in phraseLabels
-                                where l.Tag == pronounPhrase.ReferersTo
+                                where l.Tag == pronounPhrase.RefersTo
                                 select l;
                 foreach (var l in objlabels) {
                     l.Foreground = Brushes.Black;

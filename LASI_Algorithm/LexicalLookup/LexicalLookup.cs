@@ -691,13 +691,13 @@ namespace LASI.Algorithm.Lookup
         public static Gender GetGender(this IPronoun pronoun) {
             return
                 Match.From(pronoun).To<Gender>()
-                  .With<IPronoun>(p => p.ReferersTo == null, p =>
+                  .With<IPronoun>(p => p.RefersTo == null, p =>
                       Match.From<IEntity>(p).To<Gender>()
                         .With<ISimpleGendered>(sg => sg.Gender)
                         .With<PronounPhrase>(pnp => GetPhraseGender(pnp))
                         .Result())
-                  .With<IPronoun>(p => p.ReferersTo != null, bp =>
-                Match.From<IEntity>(bp.ReferersTo).To<Gender>()
+                  .With<IPronoun>(p => p.RefersTo != null, bp =>
+                Match.From<IEntity>(bp.RefersTo).To<Gender>()
                   .With<NounPhrase>(np => np.GetGender())
                   .With<Pronoun>(pro => pro.GetGender())
                   .With<ProperSingularNoun>(p => p.Gender)
