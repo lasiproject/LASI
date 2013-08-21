@@ -94,18 +94,14 @@ namespace LASI.Algorithm.Weighting
             NormalizeWeights(doc);
         }
         private static void NormalizeWeights(Document doc) {
-            NewNormalizationProcedure(doc.Words);
-            NewNormalizationProcedure(doc.Phrases);
-        }
-        private static void NewNormalizationProcedure(IEnumerable<ILexical> source) {
-            if (source.Any()) {
-                double maxWeight = source.Max(e => e.Weight);
-                double minWeight = source.Where(e => e.Weight > 0).Min(e => e.Weight);
-                double scalingFactor = (maxWeight - minWeight > 0 ? (maxWeight - minWeight) : 1.0) * (100d / maxWeight);
-                source.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                    .ForAll(e => e.Weight *= scalingFactor);
-            }
-
+            var maxWeight = doc.Phrases.Max(p=>p.Weight);
+            if (maxWeight != 0)
+                foreach (var p in doc.Phrases)
+                {
+                    var proportion = p.Weight / maxWeight;
+                    proportion *= 100;
+                    p.Weight = proportion;
+                }
         }
         private static void ModifyVerbWeightsBySynonyms(Document doc) {
             var verbsToConsider = doc.Words.GetVerbs().AsParallel().WithDegreeOfParallelism(Concurrency.Max).WithSubjectOrObject();
