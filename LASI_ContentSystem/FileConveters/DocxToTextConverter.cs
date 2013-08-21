@@ -21,13 +21,13 @@ namespace LASI.ContentSystem
         /// </summary>
         /// <param name="sourcePath">The absolute path of the file to be converted</param>
         /// <param name="targetPath">The an abosulte file path which will correspond to the newly converted version of the file</param>
-        public DocxToTextConverter(string sourcePath, string targetPath = null)
-            : base(new DocXFile(sourcePath)) {
-            if (targetPath == null)
-                destinationDir = Original.Directory + Original.NameSansExt + ".txt";
-            else
-                destinationDir = targetPath;
-        }
+        //public DocxToTextConverter(string sourcePath, string targetPath = null)
+        //    : base(new DocXFile(sourcePath)) {
+        //    if (targetPath == null)
+        //        destinationDir = Original.Directory + Original.NameSansExt + ".txt";
+        //    else
+        //        destinationDir = targetPath;
+        //}
 
         /// <summary>
         /// Constructs a new instance which will govern the conversion InputFile instance provided.

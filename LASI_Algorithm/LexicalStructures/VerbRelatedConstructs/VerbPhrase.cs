@@ -70,7 +70,8 @@ namespace LASI.Algorithm
                 foreach (var subject in this.Subjects) {
                     subject.AddPossession(directObject);
                 }
-            } else if (IsClassifier) {
+            }
+            else if (IsClassifier) {
                 foreach (var subject in this.Subjects) {
                     AliasDictionary.DefineAlias(subject, directObject);
                 }
@@ -110,7 +111,8 @@ namespace LASI.Algorithm
 
                 }
                 return result;
-            } else
+            }
+            else
                 return base.ToString();
         }
 
