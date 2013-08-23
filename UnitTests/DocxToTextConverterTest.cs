@@ -78,16 +78,7 @@ namespace AlgorithmAssemblyUnitTestProject
             get { return targetPath; }
             set { targetPath = value; }
         }
-        /// <summary>
-        ///A test for DocxToTextConverter Constructor
-        ///</summary>
-        [TestMethod()]
-        public void DocxToTextConverterConstructorTest() {
-
-
-            DocxToTextConverter target = new DocxToTextConverter(SourcePath, TargetPath);
-            Assert.IsTrue(target.Original.FullPath == SourcePath);
-        }
+        
 
         /// <summary>
         ///A test for DocxToTextConverter Constructor

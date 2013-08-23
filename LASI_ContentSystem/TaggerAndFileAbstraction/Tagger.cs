@@ -36,6 +36,25 @@ namespace LASI.ContentSystem
             doc.Name = txt.NameSansExt;
             return doc;
         }
+        public static Document DocumentFromDocX(DocXFile docx) {
+            var txt = new DocxToTextConverter(docx).ConvertFile();
+            var doc = new TaggedSourceParser(new TaggedFile(new SharpNLPTagger(TaggerMode, txt.FullPath).ProcessFile())).LoadDocument();
+            doc.Name = txt.NameSansExt;
+            return doc;
+        }
+        public static Document DocumentFromPDF(PdfFile pdf) {
+            var txt = new PdfToTextConverter(pdf).ConvertFile();
+            var doc = new TaggedSourceParser(new TaggedFile(new SharpNLPTagger(TaggerMode, txt.FullPath).ProcessFile())).LoadDocument();
+            doc.Name = txt.NameSansExt;
+            return doc;
+        }
+        public static Document DocumentFromDoc(DocFile dotDoc) {
+            var docx = new DocToDocXConverter(dotDoc).ConvertFile() as DocXFile;
+            var txt = new DocxToTextConverter(docx).ConvertFile();
+            var doc = new TaggedSourceParser(new TaggedFile(new SharpNLPTagger(TaggerMode, txt.FullPath).ProcessFile())).LoadDocument();
+            doc.Name = txt.NameSansExt;
+            return doc;
+        }
         /// <summary>
         /// Asynchronously parses the contents of a raw, untagged TextFile into a new Document instance.
         /// </summary>
