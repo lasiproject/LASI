@@ -35,7 +35,7 @@ namespace LASI.Algorithm
             if (RefersTo != null && !RefersTo.Any() || RefersTo == null)
                 RefersTo = new AggregateEntity(new[] { target });
             else
-                RefersTo = new AggregateEntity(RefersTo.Concat(new[] { target }));
+                RefersTo = new AggregateEntity(RefersTo. Append( target  ));
             EntityKind = RefersTo.EntityKind;
         }
         /// <summary>
@@ -72,8 +72,7 @@ namespace LASI.Algorithm
         public virtual void AddPossession(IPossessable possession) {
             if (RefersTo != null) {
                 RefersTo.AddPossession(possession);
-            }
-            else {
+            } else {
                 _possessed.Add(possession);
                 possession.Possesser = this;
             }
@@ -143,7 +142,6 @@ namespace LASI.Algorithm
 
         #endregion
 
-
         #region Fields
         private HashSet<IDescriptor> _descriptors = new HashSet<IDescriptor>();
         private HashSet<IPossessable> _possessed = new HashSet<IPossessable>();
@@ -204,6 +202,5 @@ namespace LASI.Algorithm
         #endregion
 
         #endregion
-
     }
 }

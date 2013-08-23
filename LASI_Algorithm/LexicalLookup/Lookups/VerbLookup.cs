@@ -80,7 +80,7 @@ namespace LASI.Algorithm.Lookup
                          .Select(s => setsBySetID[s])
                          .Where(r => r.LexName == containingSet.LexName)
                          .SelectMany(r => r.Words.SelectMany(w => VerbConjugator.GetConjugations(w)))
-                    .Concat(new[] { search }) : new[] { search },
+                    .Append(search) : new[] { search },
                          StringComparer.OrdinalIgnoreCase);
             } catch (ArgumentOutOfRangeException) {
             } catch (IndexOutOfRangeException) {

@@ -1,7 +1,7 @@
 ﻿using LASI.Algorithm.Binding;
 using LASI.Algorithm.DocumentConstructs;
 using LASI.Utilities.PatternMatching;
-using LASI.Utilities.AlgebraicDecomposition;
+using LASI.Algorithm.TraitWiseDecomposition;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -29,7 +29,7 @@ namespace LASI.Algorithm
             if (RefersTo != null || !RefersTo.Any())
                 RefersTo = new AggregateEntity(new[] { target });
             else
-                RefersTo = new AggregateEntity(RefersTo.Concat(new[] { target }));
+                RefersTo = new AggregateEntity(RefersTo.Append(target ));
             EntityKind = RefersTo.EntityKind;
         }
 

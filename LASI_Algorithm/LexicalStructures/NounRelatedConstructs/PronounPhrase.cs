@@ -53,7 +53,7 @@ namespace LASI.Algorithm
             if (_boundEntity != null || !_boundEntity.Any())//This condition seems wrong and must be investigated.
                 _boundEntity = new AggregateEntity(new[] { target });
             else
-                _boundEntity = new AggregateEntity(_boundEntity.Concat(new[] { target }));
+                _boundEntity = new AggregateEntity(_boundEntity.Append(target));
             EntityKind = _boundEntity.EntityKind;
         }
 

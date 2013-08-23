@@ -34,7 +34,7 @@ namespace LASI.Algorithm.Lookup
                           from suffix in sufficesByEnding[ending]
                           select root.Substring(0, root.Length - ending.Length) + suffix + afterHyphen;
             }
-            return results.Concat(Enumerable.Repeat(containingRoot, 1)).Distinct();
+            return results.Append(containingRoot).Distinct();
         }
         /// <summary>
         /// Returns the root of the given verb string. If no root can be found, the verb string itself is returned.

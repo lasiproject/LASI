@@ -2,6 +2,7 @@
 using LASI.Algorithm.DocumentConstructs;
 using LASI.Utilities;
 using LASI.Utilities.PatternMatching;
+using LASI.Algorithm.TraitWiseDecomposition;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -53,6 +54,10 @@ namespace LASI.Algorithm.Binding
             BindIntraPhrase(doc.Phrases);
             BindSubjectsAndObjects(doc.Sentences);
             BindPronouns(doc.Sentences);
+            var results = Destructure.MatchTraits<ILexical>(doc.Phrases.First())
+                  .OnTrait<IEntity>(e => e.SubjectOf)
+                  .OnTrait<IVerbal>(e => new AggregateEntity(e.DirectObjects))
+                  .OnBase(l => l).Results;
         }
 
         /// <summary>

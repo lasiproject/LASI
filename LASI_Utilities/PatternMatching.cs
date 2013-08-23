@@ -148,6 +148,26 @@ namespace LASI.Utilities.PatternMatching
             }
             return this;
         }
+        public PatternMatching<T, R> With<TCase>(R caseResult) where TCase : class,T {
+            if (!matchFound) {
+                var matched = toMatch as TCase;
+                if (matched != null) {
+                    result = caseResult;
+                    matchFound = true;
+                }
+            }
+            return this;
+        }
+        public PatternMatching<T, R> With<TCase>(Func<TCase, bool> condition, R caseResult) where TCase : class,T {
+            if (!matchFound) {
+                var matched = toMatch as TCase;
+                if (matched != null && condition(matched)) {
+                    result = caseResult;
+                    matchFound = true;
+                }
+            }
+            return this;
+        }
         /// <summary>
         /// Appends a Default Expression to the current pattern, thus specifying the default result to yield when no other patterns have been matched.
         /// Although not enformed by the compiler, Default should only be used as the last clause in the match expression, never in between With clauses.

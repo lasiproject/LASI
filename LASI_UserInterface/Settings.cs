@@ -23,9 +23,9 @@
         private void Settings_SettingsLoaded(object sender, System.Configuration.SettingsLoadedEventArgs e) {
             if (Settings.Default.TrayMinimize) {
 
-                MinimizeToTray.Enable(WindowManager.ProjectPreviewScreen);
-                MinimizeToTray.Enable(WindowManager.InProgressScreen);
-                MinimizeToTray.Enable(WindowManager.ResultsScreen);
+                SystemTrayManager.Enable(WindowManager.ProjectPreviewScreen);
+                SystemTrayManager.Enable(WindowManager.InProgressScreen);
+                SystemTrayManager.Enable(WindowManager.ResultsScreen);
             }
         }
 
