@@ -35,8 +35,7 @@
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x64</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
-    <DocumentationFile>
-    </DocumentationFile>
+    <DocumentationFile>bin\Release\ContentSystem.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>ic_launcher-web.ico</ApplicationIcon>
@@ -96,7 +95,6 @@
     <Compile Include="Serialization\XML\SimpleLexicalSerializer.cs" />
     <Compile Include="FileManager.cs" />
     <Compile Include="FileTypes\FileConverter.cs" />
-    <Compile Include="FileConveters\TaggedToXMLConverter.cs" />
     <Compile Include="Exceptions\FileManagerExceptions.cs" />
     <Compile Include="TaggerEncapsulation\TagParsers\Basis\Experimental\ExperimentalTaggedParser.cs" />
     <Compile Include="TaggerAndFileAbstraction\Tagger.cs" />

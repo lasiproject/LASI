@@ -20,7 +20,17 @@ namespace LASI.ContentSystem
         /// <param name="fileName">The name of the file for which conversion failed.</param>
         /// <param name="sourceType">The extension of the source file format.</param>
         /// <param name="targetType">The extension of the target file format</param>
-        public FileConversionFailureException(string fileName, string sourceType, string targetType) : base(string.Format(".doc conversion failed\nCould not convert {0} from {1} to {2}.", fileName, sourceType, targetType)) { }
+        public FileConversionFailureException(string fileName, string sourceType, string targetType) : base(string.Format("File conversion failed\nCould not convert {0} from {1} to {2}.", fileName, sourceType, targetType)) { }
+        /// <summary>
+        /// Initializes a new instance of the FileConversionFailureException with a message based on the supplied fileName, source type, and target type
+        /// </summary>
+        /// <param name="fileName">The name of the file for which conversion failed.</param>
+        /// <param name="sourceType">The extension of the source file format.</param>
+        /// <param name="targetType">The extension of the target file format</param>
+        /// <param name="inner">The exception that is the cause of the current exception. If the innerException
+        /// parameter is not null, the current exception is raised in a catch block that
+        /// handles the inner exception.</param>
+        public FileConversionFailureException(string fileName, string sourceType, string targetType, Exception inner) : base(string.Format("File conversion failed\nCould not convert {0} from {1} to {2}.", fileName, sourceType, targetType), inner) { }
         private FileConversionFailureException(string message) : base(message) { }
         private FileConversionFailureException(string message, Exception inner) : base(message, inner) { }
         private FileConversionFailureException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context) : base(info, context) { }

@@ -164,10 +164,12 @@ namespace LASI.Algorithm
         #endregion
 
         #region Properties
+        public IAggregateEntity AggregateSubject { get { return new AggregateEntity(subjects); } }
+        public IAggregateEntity AggregateDirectObject { get { return new AggregateEntity(directObjects); } }
+        public IAggregateEntity AggregateIndirectObject { get { return new AggregateEntity(indirectObjects); } }
         /// <summary>
         /// Gets the subjects of the Verb.
-        /// </summary>
-        /// 
+        /// </summary> 
         public IEnumerable<IEntity> Subjects { get { return subjects; } }
         /// <summary>
         /// Gets the indirect objects of the Verb.
@@ -218,7 +220,6 @@ namespace LASI.Algorithm
 
 
         #endregion
-
 
         #region Fields
 

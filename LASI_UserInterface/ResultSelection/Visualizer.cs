@@ -193,7 +193,7 @@ namespace LASI.UserInterface
                        string.Format("{0} -> {1}\n", svs.Subject.Text, svs.Verbal.Text) +
                        (svs.Direct != null ? " -> " + svs.Direct.Text : "") +
                        (svs.Indirect != null ? " -> " + svs.Indirect.Text : ""),
-                       (float)Math.Round(svs.RelationshipWeight, 2))
+                       (float)Math.Round(svs.CombinedWeight, 2))
                    group SV by SV into svg
                    select svg.Key;
 
@@ -201,22 +201,22 @@ namespace LASI.UserInterface
         private static IEnumerable<RelationshipTuple> GetVerbWiseAssociationData(Document doc) {
             var data =
                  from svPair in
-                     (from v in doc.Phrases.GetVerbPhrases()
+                     (from VP in doc.Phrases.GetVerbPhrases()
                           .WithSubject(s => (s as IPronoun) == null || (s as IPronoun).RefersTo != null)
                           .AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                      from s in v.Subjects.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
+                      from s in VP.Subjects.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                       let sub = s as IPronoun == null ? s : (s as IPronoun).RefersTo
                       where sub != null
-                      from dobj in v.DirectObjects.DefaultIfEmpty()
-                      from iobj in v.IndirectObjects.DefaultIfEmpty()
+                      from dobj in VP.DirectObjects.DefaultIfEmpty()
+                      from iobj in VP.IndirectObjects.DefaultIfEmpty()
 
                       select new RelationshipTuple {
-                          Subject = sub as IEntity ?? null,
-                          Verbal = v as IVerbal ?? null,
-                          Direct = dobj as IEntity ?? null,
-                          Indirect = iobj as IEntity ?? null,
-                          Prepositional = v.ObjectOfThePreoposition ?? null,
-                          RelationshipWeight = sub.Weight + v.Weight + (dobj != null ? dobj.Weight : 0) + (iobj != null ? iobj.Weight : 0)
+                          Subject = VP.AggregateSubject,
+                          Verbal = VP,
+                          Direct = VP.AggregateDirectObject,
+                          Indirect = VP.AggregateIndirectObject,
+                          Prepositional = VP.ObjectOfThePreoposition,
+                          CombinedWeight = sub.Weight + VP.Weight + (dobj != null ? dobj.Weight : 0) + (iobj != null ? iobj.Weight : 0)
                       } into tupple
                       where
                       tupple.Subject != null &&
@@ -226,15 +226,16 @@ namespace LASI.UserInterface
                       select tupple).Distinct()
                  select svPair into svps
 
-                 orderby svps.RelationshipWeight
+                 orderby svps.CombinedWeight
                  select svps;
-            return data.ToArray();
+            return data;
         }
         private static async Task<IEnumerable<KeyValuePair<string, float>>> GetNounPhraseDataAsync(Document doc) { return await Task.Run(() => GetNounPhraseData(doc)); }
 
         private static IEnumerable<KeyValuePair<string, float>> GetNounPhraseData(Document doc) {
             return from NP in doc.Phrases.GetNounPhrases().Distinct().AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                   group NP by new {
+                   group NP by new
+                   {
                        NP.Text,
                        NP.Weight
                    } into NP
@@ -276,8 +277,9 @@ namespace LASI.UserInterface
         /// <returns>A sequence of textual display elements from the given sequence of RelationshipTuple elements.</returns>
         internal static IEnumerable<object> CreateRelationshipData(IEnumerable<RelationshipTuple> elementsToConvert) {
             return from e in elementsToConvert.Distinct()
-                   orderby e.RelationshipWeight
-                   select new {
+                   orderby e.CombinedWeight
+                   select new
+                   {
                        Subject = e.Subject != null ? e.Subject.Text : "",
                        Verbial = e.Verbal != null ? (e.Verbal.PrepositionOnLeft != null ? e.Verbal.PrepositionOnLeft.Text + " " : "") + (e.Verbal.Modality != null ? e.Verbal.Modality.Text : "") + e.Verbal.Text + (e.Verbal.Modifiers.Any() ? " (adv)> " + string.Join(" ", e.Verbal.Modifiers.Select(m => m.Text)) : "") : "",
                        Direct = e.Direct != null ? (e.Direct.PrepositionOnLeft != null ? e.Direct.PrepositionOnLeft.Text + " " : "") + e.Direct.Text : "",
@@ -309,14 +311,14 @@ namespace LASI.UserInterface
     /// </summary>
     internal class RelationshipTuple : IEquatable<RelationshipTuple>
     {
-        private IEntity subject;
         private IVerbal verbal;
-        private IEntity direct;
-        private IEntity indirect;
+        private IAggregateEntity subject;
+        private IAggregateEntity direct;
+        private IAggregateEntity indirect;
         private ILexical prepositional;
         private HashSet<ILexical> elements = new HashSet<ILexical>();
 
-        public IEntity Subject {
+        public IAggregateEntity Subject {
             get {
                 return subject;
             }
@@ -334,7 +336,7 @@ namespace LASI.UserInterface
                 elements.Add(value);
             }
         }
-        public IEntity Direct {
+        public IAggregateEntity Direct {
             get {
                 return direct;
             }
@@ -343,7 +345,7 @@ namespace LASI.UserInterface
                 elements.Add(value);
             }
         }
-        public IEntity Indirect {
+        public IAggregateEntity Indirect {
             get {
                 return indirect;
             }
@@ -367,7 +369,7 @@ namespace LASI.UserInterface
                 return elements;
             }
         }
-        public double RelationshipWeight {
+        public double CombinedWeight {
             get;
             set;
         }
@@ -401,13 +403,11 @@ namespace LASI.UserInterface
                 result &= LexicalComparers<IEntity>.AliasOrSimilarity.Equals(lhs.Subject, rhs.Subject);
                 if (lhs.Direct != null && rhs.Direct != null) {
                     result &= LexicalComparers<IEntity>.AliasOrSimilarity.Equals(lhs.Direct, rhs.Direct);
-                }
-                else if (lhs.Direct == null || rhs.Direct == null)
+                } else if (lhs.Direct == null || rhs.Direct == null)
                     return false;
                 if (lhs.Indirect != null && rhs.Indirect != null) {
                     result &= LexicalComparers<IEntity>.AliasOrSimilarity.Equals(lhs.Indirect, rhs.Indirect);
-                }
-                else if (lhs.Indirect == null || rhs.Indirect == null)
+                } else if (lhs.Indirect == null || rhs.Indirect == null)
                     return false;
                 return result;
             }

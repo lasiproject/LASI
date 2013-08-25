@@ -76,22 +76,6 @@ namespace LASI.UserInterface
 
 
 
-        /// <summary>
-        /// Updates progress by setting the progressLabel and progressBar tooltip to the provided status message and incrementing the progressBar by the provided value.
-        /// </summary>
-        /// <param name="statusMessage">The status update message to display.</param>
-        /// <param name="progressIncrement">The amount by which progress is to be incremented.</param>
-        /// <returns>A System.Threading.Tasks.Task representing the asynchronous Update Progress operation.</returns>
-        private async Task UpdateProgressDisplay(string statusMessage, double progressIncrement) {
-            progressLabel.Content = statusMessage;
-            progressBar.ToolTip = statusMessage;
-            var animateStep = progressIncrement / 100d;
-            for (int i = 0; i < 25d; ++i) {
-                progressBar.Value += 4 * animateStep;
-                await Task.Delay(1);
-
-            }
-        }
         private async Task ProceedToResultsView() {
             WindowManager.ResultsScreen.SetTitle(WindowManager.StartupScreen.ProjectNameTextBox.Text + " - L.A.S.I.");
             this.SwapWith(WindowManager.ResultsScreen);
@@ -202,9 +186,6 @@ namespace LASI.UserInterface
         }
         private void minButton_Click(object sender, RoutedEventArgs e) {
             WindowState = WindowState.Minimized;
-            //if ((App.Current as App).AppSettingsCollection["ReduceResourceUsaageWhenMinimized"].Value == "true") {
-            //    PerformanceManager.SetPerformanceLevel(PerforamanceLevel.Low);
-            //}
         }
 
 

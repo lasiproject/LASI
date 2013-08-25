@@ -26,9 +26,9 @@ namespace LASI.Algorithm
         /// <summary>
         /// Initializes a new instance of the SubordinateClause class, by composing the given linear sequence of Words.
         /// </summary>
-        /// <param name="words">The linear sequence of Words which compose to form the Clause.</param>
-        public SubordinateClause(IEnumerable<Word> words)
-            : base(words) {
+        /// <param name="composed">The linear sequence of Words which compose to form the Clause.</param>
+        public SubordinateClause(IEnumerable<Word> composed)
+            : base(composed) {
 
         }
         #endregion
@@ -53,7 +53,7 @@ namespace LASI.Algorithm
                 if (_described == null)
                     _modified = value;
                 else
-                    throw new ConflictingClauseRoleException(String.Format(@"Cannot bind {0}\n
+                    throw new ConflictingClauseRoleException(string.Format(@"Cannot bind {0}\n
                                                     as an Verbal discriptive modifier of {1}\n
                                                     because it is already indicated as an Action
                                                     descriptive modifier of\n{2}", this, value, _described));
@@ -71,8 +71,7 @@ namespace LASI.Algorithm
                 if (_modified == null)
                     _described = value;
                 else
-                    throw new ConflictingClauseRoleException(
-                        String.Format(@"Cannot bind {0}\n
+                    throw new ConflictingClauseRoleException(string.Format(@"Cannot bind {0}\n
                                                     as an Entitiy discriptive modifier of {1}\n
                                                     because it is already indicated as an Action
                                                     descriptive modifier of\n{2}", this, value, _modified));

@@ -20,7 +20,7 @@ namespace LASI.Algorithm
         System.Collections.Generic.IEnumerable<IEntity> Subjects {
             get;
         }
-
+        IAggregateEntity AggregateSubject { get; }
 
     }
 }

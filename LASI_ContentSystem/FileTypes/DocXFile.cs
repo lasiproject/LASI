@@ -21,7 +21,22 @@ namespace LASI.ContentSystem
                 throw new LASI.ContentSystem.FileTypeWrapperMismatchException(GetType().ToString(), this.Ext);
             }
         }
-
+        /// <summary>
+        /// Returns a single string containing all of the text in the DocXFile.
+        /// </summary>
+        /// <returns>A string containing all of the text in the DocXFile.</returns>
+        public override string GetText() {
+            var converter = new DocxToTextConverter(this);
+            return (converter.ConvertFile() as TextFile).GetText();
+        }
+        /// <summary>
+        /// Returns a Task&lt;string&gt; which when awaited yields all of the text in the DocXFile.
+        /// </summary>
+        /// <returns>A Task&lt;string&gt; which when awaited yields all of the text in the DocXFile.</returns>
+        public override async Task<string> GetTextAsync() {
+            var converter = new DocxToTextConverter(this);
+            return await (await converter.ConvertFileAsync() as TextFile).GetTextAsync();
+        }
 
     }
 }

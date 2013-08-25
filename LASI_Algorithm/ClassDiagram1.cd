@@ -3,7 +3,7 @@
   <Class Name="LASI.Algorithm.Verb" Collapsed="true">
     <Position X="0.5" Y="1.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>UAAABEEBAQAAAICBCAACihAAAoAAAgAEGAAARACABAQ=</HashCode>
+      <HashCode>UAAABEEBBQAAAICBCBACihACAoAAAgAEGAAARACABAQ=</HashCode>
       <FileName>LexicalStructures\VerbRelatedConstructs\Verb.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -59,21 +59,21 @@
   <Interface Name="LASI.Algorithm.ISubjectTaker" Collapsed="true">
     <Position X="12.5" Y="2.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAEAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAEAAAAAAAAAAAAAAAgACAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>LexicalStructures\VerbRelatedConstructs\ISubjectTaker.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="LASI.Algorithm.IDirectObjectTaker" Collapsed="true">
     <Position X="14.75" Y="2.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAQAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAABAAAAAAAAAAAAAACAAAQAAAAAA=</HashCode>
       <FileName>LexicalStructures\VerbRelatedConstructs\IDirectObjectTaker.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="LASI.Algorithm.IInderectObjectTaker" Collapsed="true">
     <Position X="17" Y="2.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAABAA=</HashCode>
+      <HashCode>AAAAAAAABAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAABAA=</HashCode>
       <FileName>LexicalStructures\VerbRelatedConstructs\IInderectObjectTaker.cs</FileName>
     </TypeIdentifier>
   </Interface>
@@ -127,7 +127,7 @@
     </TypeIdentifier>
   </Interface>
   <Interface Name="LASI.Algorithm.IEntity" Collapsed="true">
-    <Position X="18.75" Y="6.25" Width="1.5" />
+    <Position X="11.25" Y="8.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>LexicalStructures\NounRelatedConstructs\IEntity.cs</FileName>
@@ -175,18 +175,32 @@
       <FileName>LexicalStructures\NounRelatedConstructs\IPossessable.cs</FileName>
     </TypeIdentifier>
   </Interface>
-  <Interface Name="LASI.Algorithm.IEntityGroup" Collapsed="true">
-    <Position X="19.75" Y="8.5" Width="1.5" />
+  <Interface Name="LASI.Algorithm.IPronoun" Collapsed="true">
+    <Position X="18.75" Y="8.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>LexicalStructures\NounRelatedConstructs\IEntityGroup.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAgAAAAAEAAAAAAAAAAAA=</HashCode>
+      <FileName>LexicalStructures\NounRelatedConstructs\IPronoun.cs</FileName>
     </TypeIdentifier>
   </Interface>
-  <Interface Name="LASI.Algorithm.IPronoun" Collapsed="true">
-    <Position X="22" Y="8.5" Width="1.5" />
+  <Interface Name="LASI.Algorithm.ISimpleGendered" Collapsed="true">
+    <Position X="21" Y="8.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAEAAAAAAAAAAAAEAAAAAAAAAAAA=</HashCode>
-      <FileName>LexicalStructures\NounRelatedConstructs\IPronoun.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>LexicalStructures\NounRelatedConstructs\ISimpleGendered.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="LASI.Algorithm.IAggregateEntity" Collapsed="true">
+    <Position X="13.5" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>LexicalStructures\NounRelatedConstructs\IAggregateEntity.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="LASI.Algorithm.IWeakPossessor" Collapsed="true">
+    <Position X="23.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAA=</HashCode>
+      <FileName>LexicalStructures\NounRelatedConstructs\IWeakPossessor.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Font Name="Segoe UI" Size="9" />

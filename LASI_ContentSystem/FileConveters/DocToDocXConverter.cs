@@ -10,7 +10,7 @@ namespace LASI.ContentSystem
     /// Converts Microsoft wd .doc binary files to modern Microsoft wd .docx open XML files.
     /// This allows for easy extraction of the raw textual content which must be passed to the tagging module.
     /// </summary>
-    public class DocToDocXConverter : FileConverter
+    public class DocToDocXConverter : FileConverter<DocFile, DocXFile>
     {
 
         /// <summary>
@@ -37,7 +37,7 @@ namespace LASI.ContentSystem
         /// </summary>
         /// <returns>An input document object representing the newly converted file
         /// Note that both the original and converted document objects can be also be accessed independtly via instance properties</returns>
-        public override InputFile ConvertFile() {
+        public override DocXFile ConvertFile() {
             var process = new Process {
                 EnableRaisingEvents = true,
                 StartInfo = new ProcessStartInfo {
@@ -67,7 +67,7 @@ namespace LASI.ContentSystem
         /// <returns>A Task&lt;InputFile&gt; object which functions as a proxy for the actual InputFile while the conversion routine is in progress.
         /// Access the internal input file encapsulated by the Task by using syntax such as : var file = await myConverter.ConvertFileAsync()
         /// </returns>
-        public override async Task<InputFile> ConvertFileAsync() {
+        public override async Task<DocXFile> ConvertFileAsync() {
             var result = await Task.Run(() => ConvertFile());
             return result;
         }
@@ -77,7 +77,7 @@ namespace LASI.ContentSystem
         /// This additional method of accessing the new document is primarily provided to facilitate asynchronous programming
         /// and any access attempts before the conversion is complete will raise a NullReferenceException.
         /// </summary>
-        public override InputFile Converted {
+        public override DocXFile Converted {
             get;
             protected set;
         }

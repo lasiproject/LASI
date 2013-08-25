@@ -50,7 +50,7 @@ namespace LASI.Algorithm
         /// Binds an IPronoun, generally a Pronoun or PronounPhrase, as a reference to the NounPhrase.
         /// </summary>
         /// <param name="pro">The referencer which refers to the NounPhrase Instance.</param>
-        public virtual void BindPronoun( IPronoun pro) {
+        public virtual void BindPronoun(IPronoun pro) {
             _boundPronouns.Add(pro);
             pro.BindAsReferringTo(this);
         }

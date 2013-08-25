@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using LASI.Utilities.PatternMatching;
 using System.Threading.Tasks;
 namespace LASI.Algorithm.Binding.Experimental
 {
@@ -33,13 +34,18 @@ namespace LASI.Algorithm.Binding.Experimental
 
         private static IEnumerable<Action> ImagineBindings(IEnumerable<Word> words) {
             return from noun in words.GetNouns()
-                   let pr = noun as ProperNoun
                    let np = noun.Phrase as NounPhrase
-                   let gen = pr != null && np != null ? (pr.IsFemale() && !np.IsFullMale() ? 'F' : pr.IsMale() && !np.IsFullFemale() ? 'M' : 'A') : 'U'
+                   let gen = np != null ? Match.From(noun).To<char>()
+                   .With<ProperSingularNoun>(n => n.IsFemale() == !np.IsFullMale() ? 'F' : n.IsMale() && !np.IsFullFemale() ? 'M' : !n.IsFirstName() ? 's' : 'A')
+                   .With<GenericSingularNoun>('s')
+                   .With<ProperPluralNoun>('p')
+                   .With<GenericPluralNoun>('p')
+                   .Default('U')
+                   .Result() : 'U'
                    let outer = new { noun, gen }
                    join inner in
                        from pro in words.GetPronouns()
-                       let gen = pro.IsFemale() ? 'F' : pro.IsMale() ? 'M' : pro.IsGenderAmbiguous() ? 'A' : 'U'
+                       let gen = pro.IsFemale() ? 'F' : pro.IsMale() ? 'M' : pro.IsGenderAmbiguous() ? 'A' : pro.IsPlural() ? 'p' : !pro.IsPlural() ? 's' : 'U'
                        select new { pro, gen }
                    on outer.gen equals inner.gen
                    let indexProvider = words.ToList()

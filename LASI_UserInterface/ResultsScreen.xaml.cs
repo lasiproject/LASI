@@ -4,6 +4,7 @@ using LASI.Algorithm.Binding;
 using LASI.Algorithm.DocumentConstructs;
 using LASI.Algorithm.Lookup;
 using LASI.Algorithm.Weighting;
+using LASI.Utilities.PatternMatching;
 using LASI.ContentSystem;
 using LASI.ContentSystem.Serialization.XML;
 using LASI.InteropLayer;
@@ -72,14 +73,13 @@ namespace LASI.UserInterface
             var nounPhraseLabels = from s in page1 != null ? page1.Sentences : document.Paragraphs.SelectMany(p => p.Sentences)
                                         .AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                                    select s.Phrases.GetNounPhrases() into nounPhrases
-                                   from nounPhrase in nounPhrases
+                                   from np in nounPhrases
                                         .AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                                   group nounPhrase by new {
-                                       nounPhrase.Text,
-                                       nounPhrase.Type
-                                   } into g
-                                   orderby g.First().Weight descending
-                                   select CreateLabelForWeightedView(g.First());
+                                   group np by new { np.Text, np.Type }
+                                       into npg
+                                       let first = npg.First()
+                                       orderby first.Weight descending
+                                       select CreateLabelForWeightedView(first);
 
             var weightedListPanel = new StackPanel();
             var grid = new Grid();
@@ -107,17 +107,12 @@ namespace LASI.UserInterface
                 ToolTip = string.Format("{0}{1}",
                 np.Type.Name, gender.IsMaleOrFemale() ? "\nprevialing gender: " + gender : "")
             };
-            var menuItem1 = new MenuItem {
-                Header = "view definition",
-            };
-            menuItem1.Click += (s, e) => {
-                Process.Start(String.Format("http://www.dictionary.reference.com/browse/{0}?s=t", np.Text));
-            };
+            var menuItem1 = new MenuItem { Header = "view definition" };
+            menuItem1.Click += (s, e) => Process.Start(String.Format("http://www.dictionary.reference.com/browse/{0}?s=t", np.Text));
+
             label.ContextMenu.Items.Add(menuItem1);
-            var menuItem2 = new MenuItem {
-                Header = "Copy"
-            };
-            menuItem2.Click += (se, ee) => Clipboard.SetText((label.Tag as ILexical).Text);
+            var menuItem2 = new MenuItem { Header = "Copy" };
+            menuItem2.Click += (s, e) => Clipboard.SetText((label.Tag as ILexical).Text);
 
             label.ContextMenu.Items.Add(menuItem2);
             return label;
@@ -160,14 +155,11 @@ namespace LASI.UserInterface
                     ContextMenu = new ContextMenu(),
                     ToolTip = phrase.Type.Name,
                 };
-                var pronounPhrase = phrase as PronounPhrase;
-                if (pronounPhrase != null && pronounPhrase.RefersTo != null) {
-                    CreatePronounPhraseLabelMenu(phraseLabels, label, pronounPhrase);
-                }
-                var vP = phrase as VerbPhrase;
-                if (vP != null) {
-                    CreateVerbPhraseLabelMenu(phraseLabels, label, vP);
-                }
+
+                Match.On(phrase)
+                    .With<PronounPhrase>(p => p.RefersTo != null && p.RefersTo.Any(), p => label.ContextMenu.Items.Add(CreatePronounPhraseLabelMenu(phraseLabels, p)))
+                    .With<VerbPhrase>(v => CreateVerbPhraseLabelMenu(phraseLabels, label, v));
+
                 phraseLabels.Add(label);
             }
             foreach (var l in phraseLabels) {
@@ -277,10 +269,7 @@ namespace LASI.UserInterface
         private void NewProjectMenuItem_Click_1(object sender, RoutedEventArgs e) {
 
             //Hacky solution to make every option function. This makes new project restart LASI.
-            App.Current.Exit += (sndr, evt) => {
-                System.Windows.Forms.Application.Restart();
-
-            };
+            App.Current.Exit += (sndr, evt) => System.Windows.Forms.Application.Restart();
             App.Current.Shutdown();
         }
 
@@ -351,8 +340,7 @@ namespace LASI.UserInterface
                     currentOperationProgressBar.Value = 0;
                     await ProcessNewDocument(openDialog.FileName);
                     //currentOperationFeedbackCanvas.Visibility = Visibility.Hidden;
-                }
-                else {
+                } else {
                     MessageBox.Show(this, string.Format("A document named {0} is already part of the project.", openDialog.SafeFileName));
                 }
             }
@@ -364,24 +352,14 @@ namespace LASI.UserInterface
         #region Label Context Menu Construction
 
         private static void CreateVerbPhraseLabelMenu(List<Label> phraseLabels, Label phraseLabel, VerbPhrase vP) {
-            if (vP.Subjects.Any()) {
-                CreateVerbPhraseLabelSubjectMenu(phraseLabels, phraseLabel, vP);
-            }
-            if (vP.DirectObjects.Any()) {
-                CreateVerbPhraseLabelDirectObjectMenu(phraseLabels, phraseLabel, vP);
-            }
-            if (vP.IndirectObjects.Any()) {
-                CreateVerbPhraseLabelIndirectObjectMenu(phraseLabels, phraseLabel, vP);
-            }
-            if (vP != null && vP.ObjectOfThePreoposition != null) {
-                CreateVerbPhraseLabelPrepositionalObjectMenu(phraseLabels, phraseLabel, vP);
-            }
+            if (vP.Subjects.Any()) { phraseLabel.ContextMenu.Items.Add(CreateLabelSubjectMenu(phraseLabels, vP)); }
+            if (vP.DirectObjects.Any()) { phraseLabel.ContextMenu.Items.Add(CreateLabelDirectObjectMenu(phraseLabels, vP)); }
+            if (vP.IndirectObjects.Any()) { phraseLabel.ContextMenu.Items.Add(CreateLabelIndirectObjectMenu(phraseLabels, vP)); }
+            if (vP != null && vP.ObjectOfThePreoposition != null) { phraseLabel.ContextMenu.Items.Add(CreateLabelPrepositionalObjectMenu(phraseLabels, vP)); }
         }
 
-        private static void CreateVerbPhraseLabelPrepositionalObjectMenu(List<Label> phraseLabels, Label phraseLabel, VerbPhrase vP) {
-            var visitSubjectMI = new MenuItem {
-                Header = "view prepositional object"
-            };
+        private static MenuItem CreateLabelPrepositionalObjectMenu(List<Label> phraseLabels, VerbPhrase vP) {
+            var visitSubjectMI = new MenuItem { Header = "view prepositional object" };
             visitSubjectMI.Click += (sender, e) => {
                 var objlabels = from label in phraseLabels
                                 where label.Tag.Equals(vP.ObjectOfThePreoposition)
@@ -391,13 +369,11 @@ namespace LASI.UserInterface
                     l.label.Background = Brushes.Red;
                 }
             };
-            phraseLabel.ContextMenu.Items.Add(visitSubjectMI);
+            return visitSubjectMI;
         }
 
-        private static void CreateVerbPhraseLabelIndirectObjectMenu(List<Label> phraseLabels, Label phraseLabel, VerbPhrase vP) {
-            var visitSubjectMI = new MenuItem {
-                Header = "view indirect objects"
-            };
+        private static MenuItem CreateLabelIndirectObjectMenu(List<Label> phraseLabels, VerbPhrase vP) {
+            var visitSubjectMI = new MenuItem { Header = "view indirect objects" };
             visitSubjectMI.Click += (sender, e) => {
                 var objlabels = from r in vP.IndirectObjects
                                 join label in phraseLabels on r equals label.Tag
@@ -407,13 +383,11 @@ namespace LASI.UserInterface
                     l.label.Background = Brushes.Red;
                 }
             };
-            phraseLabel.ContextMenu.Items.Add(visitSubjectMI);
+            return visitSubjectMI;
         }
 
-        private static void CreateVerbPhraseLabelDirectObjectMenu(List<Label> phraseLabels, Label phraseLabel, VerbPhrase vP) {
-            var visitSubjectMI = new MenuItem {
-                Header = "view direct objects"
-            };
+        private static MenuItem CreateLabelDirectObjectMenu(List<Label> phraseLabels, VerbPhrase vP) {
+            var visitSubjectMI = new MenuItem { Header = "view direct objects" };
             visitSubjectMI.Click += (sender, e) => {
                 var objlabels = from r in vP.DirectObjects
                                 join l in phraseLabels on r equals l.Tag
@@ -423,13 +397,11 @@ namespace LASI.UserInterface
                     l.Background = Brushes.Red;
                 }
             };
-            phraseLabel.ContextMenu.Items.Add(visitSubjectMI);
+            return visitSubjectMI;
         }
 
-        private static void CreateVerbPhraseLabelSubjectMenu(List<Label> phraseLabels, Label phraseLabel, VerbPhrase vP) {
-            var visitSubjectMI = new MenuItem {
-                Header = "view subjects"
-            };
+        private static MenuItem CreateLabelSubjectMenu(List<Label> phraseLabels, VerbPhrase vP) {
+            var visitSubjectMI = new MenuItem { Header = "view subjects" };
             visitSubjectMI.Click += (sender, e) => {
                 var objlabels = from r in vP.Subjects
                                 join l in phraseLabels on r equals l.Tag
@@ -439,28 +411,33 @@ namespace LASI.UserInterface
                     l.Background = Brushes.Red;
                 }
             };
-            phraseLabel.ContextMenu.Items.Add(visitSubjectMI);
+            return visitSubjectMI;
         }
 
-        private static void CreatePronounPhraseLabelMenu(List<Label> phraseLabels, Label phraseLabel, PronounPhrase pronounPhrase) {
-            var visitBoundEntity = new MenuItem {
-                Header = "view referred to"
-            };
+        private static MenuItem CreatePronounPhraseLabelMenu(List<Label> phraseLabels, PronounPhrase pronounPhrase) {
+            var visitBoundEntity = new MenuItem { Header = "view referred to" };
             visitBoundEntity.Click += (sender, e) => {
                 var objlabels = from l in phraseLabels
                                 where l.Tag == pronounPhrase.RefersTo
                                 select l;
                 foreach (var l in objlabels) {
-                    l.Foreground = Brushes.Black;
-                    l.Background = Brushes.Teal;
+                    l.Foreground = Brushes.White;
+                    l.Background = Brushes.Black;
                 }
             };
-            phraseLabel.ContextMenu.Items.Add(visitBoundEntity);
+            return visitBoundEntity;
         }
 
         #endregion
 
         #endregion
+
+        private void openPreferencesMenuItem_Click(object sender, RoutedEventArgs e) {
+            var preferences = new PreferencesWindow();
+            preferences.Left = (this.Left - preferences.Left) / 2;
+            preferences.Top = (this.Top - preferences.Top) / 2;
+            var saved = preferences.ShowDialog();
+        }
 
         #region Properties and Fields
 
@@ -479,12 +456,6 @@ namespace LASI.UserInterface
 
         #endregion
 
-        private void openPreferencesMenuItem_Click(object sender, RoutedEventArgs e) {
-            var preferences = new PreferencesWindow();
-            preferences.Left = (this.Left - preferences.Left) / 2;
-            preferences.Top = (this.Top - preferences.Top) / 2;
-            var saved = preferences.ShowDialog();
-        }
     }
 
 }

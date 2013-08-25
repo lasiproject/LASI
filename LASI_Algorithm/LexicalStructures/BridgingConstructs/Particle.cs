@@ -24,6 +24,19 @@ namespace LASI.Algorithm
 
         #endregion
 
+        #region Methods
+
+        /// <summary>
+        /// Binds an ILexical construct as the object of the ToLinker. 
+        /// Lexical constructs include word, Phrase, and Clause Types.
+        /// </summary>
+        /// <param name="prepositionalObject">The ILexical construct as the object of the Particle.</param>
+        public void BindObject(ILexical prepositionalObject) {
+            BoundObject = prepositionalObject;
+        }
+
+        #endregion
+
         #region Properties
 
         /// <summary>
@@ -47,24 +60,6 @@ namespace LASI.Algorithm
             get;
             protected set;
         }
-        #endregion
-        #region Methods
-
-        /// <summary>
-        /// Binds an ILexical construct as the object of the ToLinker. 
-        /// Lexical constructs include word, Phrase, and Clause Types.
-        /// </summary>
-        /// <param name="prepositionalObject">The ILexical construct as the object of the Particle.</param>
-        public void BindObject(ILexical prepositionalObject) {
-            BoundObject = prepositionalObject;
-        }
-
-
-        #endregion
-
-
-
-
         /// <summary>
         /// Gets or sets the contextually extrapolated Preopositional Role of the Particle.
         /// </summary>
@@ -73,5 +68,6 @@ namespace LASI.Algorithm
             get;
             set;
         }
+        #endregion
     }
 }

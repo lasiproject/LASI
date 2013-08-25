@@ -114,7 +114,7 @@ namespace AlgorithmAssemblyUnitTestProject
             string text = "him";
             PersonalPronoun target = new PersonalPronoun(text);
             IEntity expected = new ProperSingularNoun("Aluan");
-            IAggregatedEntityCollection actual;
+            IAggregateEntity actual;
             target.BindAsReferringTo(expected);
             actual = target.RefersTo;
             Assert.IsTrue(actual.Contains(expected));

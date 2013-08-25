@@ -11,9 +11,9 @@ namespace LASI.Algorithm
     /// As such it provides both the behaviors of an entity and an Enumerable collection of describables. That is to say that you can use an instance of this class in 
     /// situtation where an IEntity is Expected, but also enumerate it, via foreach(var in ...) or (from e in ...)
     /// </summary>
-    /// <see cref="IAggregatedEntityCollection"/>
+    /// <see cref="IAggregateEntity"/>
     /// <seealso cref="IEntity"/>
-    public class AggregateEntity : IAggregatedEntityCollection
+    public class AggregateEntity : IAggregateEntity
     {
         /// <summary>
         /// Initializes a new instance of EntityGroup forming, an aggregate entity composed of the given entities
@@ -69,7 +69,10 @@ namespace LASI.Algorithm
         /// </summary>
         /// <returns>A string representation of the EntityGroup.</returns>
         public override string ToString() {
-            return Text;
+            return string.Format("{0}{1}", _members.Count() > 1 ? "[ " + _members.Count() + " ] " : string.Empty, string.Join(" ", _members
+                .EnumerateRecursively()
+                .Where(m => !(m is IAggregateEntity))
+                .Select(p => p.Type.Name + " \"" + p.Text + "\"")));
         }
 
         #endregion
@@ -113,7 +116,7 @@ namespace LASI.Algorithm
         /// </summary>
         public string Text {
             get {
-                return string.Format("{0} with constituents\n{1}", this.Type.Name, string.Join("\n", _members.Select(p => p.Type + ": " + p.Text)));
+                return string.Join(" , ", _members.EnumerateRecursively().Select(p => p.Text + (p.PrepositionOnRight != null ? p.PrepositionOnRight.Text : string.Empty)));
             }
         }
         //}

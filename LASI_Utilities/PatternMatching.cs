@@ -14,10 +14,6 @@ using System.Threading.Tasks;
 
 namespace LASI.Utilities.PatternMatching
 {
-
-    /// <summary>
-    /// Provides for the construction of flexible Pattern Matching expressions.
-    /// </summary>
     /// <summary>
     /// Provides for the construction of flexible Pattern Matching expressions.
     /// </summary>
@@ -148,6 +144,12 @@ namespace LASI.Utilities.PatternMatching
             }
             return this;
         }
+        /// <summary>
+        /// Appends a Match with Type expression to the current PatternMatching Expression.
+        /// </summary>
+        /// <typeparam name="TCase">The Type to match with. If the value being matched is of this type, this With expression will be selected and executed.</typeparam>
+        /// <param name="caseResult">The value which, if this With expression is Matched, will be the result of the Pattern Match.</param>
+        /// <returns>The PatternMatching&lt;T, R&gt; describing the Match expression so far.</returns>
         public PatternMatching<T, R> With<TCase>(R caseResult) where TCase : class,T {
             if (!matchFound) {
                 var matched = toMatch as TCase;
@@ -158,6 +160,13 @@ namespace LASI.Utilities.PatternMatching
             }
             return this;
         }
+        /// <summary>
+        /// Appends a Match with Type expression to the current PatternMatching Expression.
+        /// </summary>
+        /// <typeparam name="TCase">The Type to match with. If the value being matched is of this type, this With expression will be selected and executed.</typeparam>
+        /// <param name="condition">Specifies an additional condition which the value being matched must conform to in order for a Match with TCase to succeed.</param>
+        /// <param name="caseResult">The value which, if this With expression is Matched, will be the result of the Pattern Match.</param>
+        /// <returns>The PatternMatching&lt;T, R&gt; describing the Match expression so far.</returns>
         public PatternMatching<T, R> With<TCase>(Func<TCase, bool> condition, R caseResult) where TCase : class,T {
             if (!matchFound) {
                 var matched = toMatch as TCase;

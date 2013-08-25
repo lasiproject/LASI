@@ -10,7 +10,7 @@ namespace LASI.Algorithm
     /// Along with the other interfaces in the Syntactic Interfaces Library, the IDescribable interface provides for generalization and abstraction over word and Phrase types.
     /// </summary>
     /// <see cref="IDescriptor"/>
-    public interface IDescribable
+    public interface IDescribable : ILexical
     {
         /// <summary>
         /// Binds an IDescriptor, generally an Adjective or AdjectivePhrase, as a descriptor of the IDescribable.

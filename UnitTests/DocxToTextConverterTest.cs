@@ -78,7 +78,7 @@ namespace AlgorithmAssemblyUnitTestProject
             get { return targetPath; }
             set { targetPath = value; }
         }
-        
+
 
         /// <summary>
         ///A test for DocxToTextConverter Constructor
@@ -90,16 +90,7 @@ namespace AlgorithmAssemblyUnitTestProject
             Assert.IsTrue(target.Original.FullPath == infile.FullPath);
         }
 
-        /// <summary>
-        ///A test for DocxToTextConverter Constructor
-        ///</summary>
-        [TestMethod()]
-        public void DocxToTextConverterConstructorTest2() {
-            var infile = InitInputFileWrapper();
 
-            DocxToTextConverter target = new DocxToTextConverter(infile, TxtFilesDir);
-            Assert.IsTrue(target.Original.FullPath == infile.FullPath);
-        }
 
         private static DocXFile InitInputFileWrapper() {
             var infile = new DocXFile(@"..\..\MockUserFiles\Draft_Environmental_Assessment.docx");

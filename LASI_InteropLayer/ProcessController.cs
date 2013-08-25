@@ -26,7 +26,7 @@ namespace LASI.InteropLayer
         /// <param name="filesToProcess">The collection of TextFiles to analyize.</param>
         /// <returns>A Task&lt;IEnumerable&lt;LASI.Algorithm.Document&gt;&gt; which, when awaited, loads, analyizes, and aggregates all of the provided TextFile instances as individual documents, collecting them as
         /// a sequence of Bound and Weighted LASI.Algorithm.Document instances.</returns>
-        public async Task<IEnumerable<Document>> AnalyseAllDocumentsAsync(IEnumerable<LASI.Algorithm.IRawTextSource> filesToProcess) {
+        public async Task<IEnumerable<Document>> AnalyseAllDocumentsAsync(IEnumerable<LASI.Algorithm.IUntaggedTextSource> filesToProcess) {
             return await AnalyseAllDocumentsAsync(filesToProcess, (s, d) => { });
         }
         /// <summary>
@@ -48,7 +48,7 @@ namespace LASI.InteropLayer
         /// </param>
         /// <returns>A Task&lt;IEnumerable&lt;LASI.Algorithm.Document&gt;&gt; which, when awaited, loads and analyizes, and aggregates all of the provided TextFile instances as individual documents, collecting them as
         /// a sequence of Bound and Weighted LASI.Algorithm.Document instances.</returns>
-        public async Task<IEnumerable<Document>> AnalyseAllDocumentsAsync(IEnumerable<LASI.Algorithm.IRawTextSource> filesToProcess, Action<string, double> onProgressUpdate) {
+        public async Task<IEnumerable<Document>> AnalyseAllDocumentsAsync(IEnumerable<LASI.Algorithm.IUntaggedTextSource> filesToProcess, Action<string, double> onProgressUpdate) {
             return await AnalyseAllDocumentsAsync(filesToProcess, async (s, d) => await Task.Run(() => onProgressUpdate(s, d)));
         }
         /// <summary>
@@ -71,7 +71,7 @@ namespace LASI.InteropLayer
         /// </param>
         /// <returns>A Task&lt;IEnumerable&lt;LASI.Algorithm.Document&gt;&gt;, when awaited, loads and analyizes, and aggregates all of the provided TextFile instances as individual documents, collecting them as
         /// a sequence of Bound and Weighted LASI.Algorithm.Document instances.</returns>
-        public async Task<IEnumerable<Document>> AnalyseAllDocumentsAsync(IEnumerable<LASI.Algorithm.IRawTextSource> filesToProcess, Func<string, double, Task> onProgressUpdate) {
+        public async Task<IEnumerable<Document>> AnalyseAllDocumentsAsync(IEnumerable<LASI.Algorithm.IUntaggedTextSource> filesToProcess, Func<string, double, Task> onProgressUpdate) {
             documentsInWorkLoad = filesToProcess.Count();
             stepSize = 2d / documentsInWorkLoad;
             updateProgressDisplay = onProgressUpdate;
@@ -85,7 +85,7 @@ namespace LASI.InteropLayer
                 var taggedFile = await currentTask;
                 taggingTasks.Remove(currentTask);
                 taggedFiles.Add(taggedFile);
-                await updateProgressDisplay(string.Format("{0}: Tagged", taggedFile.Name), stepSize);
+                await updateProgressDisplay(string.Format("{0}: Tagged", taggedFile.TextSourceName), stepSize);
             }
             await updateProgressDisplay("Tagged Documents", 3);
             var tasks = taggedFiles.Select(tagged => ProcessTaggedFileAsync(tagged)).ToList();
@@ -100,7 +100,7 @@ namespace LASI.InteropLayer
 
 
         private async Task<Document> ProcessTaggedFileAsync(LASI.Algorithm.ITaggedTextSource tagged) {
-            var fileName = tagged.Name;
+            var fileName = tagged.TextSourceName;
             await updateProgressDisplay(string.Format("{0}: Loading...", fileName), 0);
             var doc = await Tagger.DocumentFromTaggedAsync(tagged);
             await updateProgressDisplay(string.Format("{0}: Loaded", fileName), 4);

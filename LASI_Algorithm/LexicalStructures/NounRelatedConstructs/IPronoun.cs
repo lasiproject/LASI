@@ -12,7 +12,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets the Entity which the IPronoun references.
         /// </summary>
-        IAggregatedEntityCollection RefersTo {
+        IAggregateEntity RefersTo {
             get;
         }
         /// <summary>

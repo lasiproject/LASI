@@ -16,12 +16,12 @@ namespace LASI.Algorithm.Binding
     /// </summary>
     public class PhraseWiseEntityGroupBinder
     {
-        private List<IAggregatedEntityCollection> entityGroups = new List<IAggregatedEntityCollection>();
+        private List<IAggregateEntity> entityGroups = new List<IAggregateEntity>();
 
         /// <summary>
         /// Gets the collection of IEntityGroup constructs which were formed from all of the all binding Binder's activities over the course of its lifetime.
         /// </summary>
-        public List<IAggregatedEntityCollection> EntityGroups {
+        public List<IAggregateEntity> EntityGroups {
             get {
                 return entityGroups;
             }

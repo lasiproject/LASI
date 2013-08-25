@@ -22,6 +22,30 @@ namespace LASI.ContentSystem
             }
         }
 
+        /// <summary>
+        /// Returns a single string containing all of the text in the DocFile.
+        /// </summary>
+        /// <returns>A string containing all of the text in the DocFile.</returns>
+        public override string GetText() {
+            DocXFile docx;
+            var todocXConverter = new DocToDocXConverter(this);
+            try {
+                docx = todocXConverter.ConvertFile() as DocXFile;
+            } catch (Exception e) { throw new FileConversionFailureException(FullPath, "DOC", "DOCX", e); }
+            return docx.GetText();
+        }
+        /// <summary>
+        /// Returns a Task&lt;string&gt; which when awaited yields all of the text in the DocFile.
+        /// </summary>
+        /// <returns>A Task&lt;string&gt; which when awaited yields all of the text in the DocFile.</returns>
+        public override async Task<string> GetTextAsync() {
+            DocXFile docx;
+            var toDocXConverter = new DocToDocXConverter(this);
+            try {
+                docx = await toDocXConverter.ConvertFileAsync() as DocXFile;
+            } catch (Exception e) { throw new FileConversionFailureException(FullPath, "DOC", "DOCX", e); }
+            return await docx.GetTextAsync();
+        }
     }
 
 }

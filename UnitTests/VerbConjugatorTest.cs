@@ -65,39 +65,6 @@ namespace AlgorithmAssemblyUnitTestProject
         #endregion
 
 
-        ///// <summary>
-        /////A test for TryExtractRoot
-        /////</summary>
-        //[TestMethod()]
-        //public void TryGetExtractRootTest() {
-        //    string exceptionsFilePath = ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "verb.exc";
-
-        //    string expected = "walk";
-        //    foreach (var search in new[] { "walk", "walked", "walks", "walking" }) {
-        //        List<string> actual;
-        //        actual = VerbConjugator.TryExtractRoot(search);
-        //        Assert.IsTrue(actual.Contains(expected));
-        //    }
-        //}
-
-        ///// <summary>
-        /////A test for TryComputeConjugations
-        /////</summary>
-        //[TestMethod()]
-        //public void TryComputeConjugationsTest() {
-        //    string exceptionsFilePath = ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "verb.exc";
-
-        //    string root = "walk";
-        //    List<string> expected = new[] { "walks", "walking", "walked" }.ToList();
-        //    List<string> actual;
-        //    actual = VerbConjugator.TryComputeConjugations(root);
-        //    foreach (var conjugation in expected) {
-        //        Assert.IsTrue(actual.Contains(conjugation));
-        //    }
-        //}
-
-
-
 
         /// <summary>
         ///A test for GetLexicalForms

@@ -22,7 +22,7 @@ namespace LASI.ContentSystem.TaggerEncapsulation
     /// <example>
     /// Example:
     /// <code>
-    /// var phraseMap = new SharpNLPPhraseTagsetMap
+    /// var phraseMap = new SharpNLPPhraseTagsetMap();
     /// var constructorFunction = phraseMap["TAG"];
     /// var runTimePhrase = constructorFunction(itemText);
     /// </code>
@@ -68,10 +68,10 @@ namespace LASI.ContentSystem.TaggerEncapsulation
             }
         }
         /// <summary>
-        /// Gets the PosTag string corresponding to the runtime System.Type of the Return Type of given function which of type { IEnumerable of LASI.Algorithm.Word => LASI.Algorithm.Phrase }.
+        /// Gets the PosTag string corresponding to the runtime System.Type of the Return Type of given function of type { IEnumerable of LASI.Algorithm.Word => LASI.Algorithm.Phrase }.
         /// </summary>
-        /// <param name="phraseCreatingFunction">The function which of type { IEnumerable of LASI.Algorithm.Word => LASI.Algorithm.Phrase } for which to get the corresponding tag.</param>
-        /// <returns>The PosTag string corresponding to the runtime System.Type of the Return Type of given function which of type { IEnumerable of LASI.Algorithm.Word => LASI.Algorithm.Phrase }.</returns>
+        /// <param name="phraseCreatingFunction">The function of type { IEnumerable of LASI.Algorithm.Word => LASI.Algorithm.Phrase } for which to get the corresponding tag.</param>
+        /// <returns>The PosTag string corresponding to the runtime System.Type of the Return Type of the given function of type { IEnumerable of LASI.Algorithm.Word => LASI.Algorithm.Phrase }.</returns>
         public override string this[PhraseCreator phraseCreatingFunction] {
             get {
                 try {

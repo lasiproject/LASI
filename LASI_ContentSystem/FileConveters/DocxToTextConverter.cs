@@ -12,22 +12,9 @@ namespace LASI.ContentSystem
     /// An input file converter specialized to extract the written content from a .docx (Microsoft wd 2003+ open XML file format)
     /// and create a text file containing this content as raw text.
     /// </summary>
-    public class DocxToTextConverter : FileConverter
+    public class DocxToTextConverter : FileConverter<DocXFile, TextFile>
     {
         #region Constructors
-
-        /// <summary>
-        /// Constructs a new instance which will govern the conversion of the file indicated by the provided path.
-        /// </summary>
-        /// <param name="sourcePath">The absolute path of the file to be converted</param>
-        /// <param name="targetPath">The an abosulte file path which will correspond to the newly converted version of the file</param>
-        //public DocxToTextConverter(string sourcePath, string targetPath = null)
-        //    : base(new DocXFile(sourcePath)) {
-        //    if (targetPath == null)
-        //        destinationDir = Original.Directory + Original.NameSansExt + ".txt";
-        //    else
-        //        destinationDir = targetPath;
-        //}
 
         /// <summary>
         /// Constructs a new instance which will govern the conversion InputFile instance provided.
@@ -37,16 +24,6 @@ namespace LASI.ContentSystem
         public DocxToTextConverter(DocXFile infile) :
             base(infile) {
             DestinationInfo = new FileData(destinationDir + infile.FileName);
-        }
-
-        /// <summary>
-        /// Constructs a new instance which will govern the of the InputFile instance provided, and will place the converted file in the indicated directory.
-        /// </summary>
-        /// <param name="infile">The DocFile instance representing the document to convert.</param>
-        /// <param name="TxtFilesDir">Indicated the directory in which the converted file is to be placed</param>
-        public DocxToTextConverter(DocXFile infile, string TxtFilesDir)
-            : base(infile, TxtFilesDir) {
-            DestinationInfo = new FileData(destinationDir);
         }
 
         #endregion
@@ -75,7 +52,7 @@ namespace LASI.ContentSystem
         /// </summary>
         /// <returns>An input document object representing the newly converted file
         /// Note that both the original and converted document objects can be also be accessed independtly via instance properties</returns>
-        public override InputFile ConvertFile() {
+        public override TextFile ConvertFile() {
             DocxToZip();
             XmlFile = new GenericXMLFile(DestinationInfo.Directory + DestinationInfo.FileNameSansExt + @"\word\document.xml");
             using (XmlReader xmlReader = XmlReader.Create(new FileStream(XmlFile.FullPath, FileMode.Open, FileAccess.Read), new XmlReaderSettings {
@@ -129,7 +106,7 @@ namespace LASI.ContentSystem
         /// <returns>A The A Task&lt;InputFile&gt; object which functions as a proxy for the actual InputFile while the conversion routine is in progress.
         /// Access the internal input file encapsulated by the Task by using syntax such as : var file = await myConverter.ConvertFileAsync()
         /// </returns>
-        public async override Task<InputFile> ConvertFileAsync() {
+        public async override Task<TextFile> ConvertFileAsync() {
             return await Task.Run(() => ConvertFile());
         }
 
@@ -165,7 +142,7 @@ namespace LASI.ContentSystem
         /// This additional method of accessing the new document is primarily provided to facilitate asynchronous programming
         /// and any access attempts before the conversion is complete will raise a NullReferenceException.
         /// </summary>
-        public override InputFile Converted {
+        public override TextFile Converted {
             get;
             protected set;
         }

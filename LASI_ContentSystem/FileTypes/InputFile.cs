@@ -8,7 +8,7 @@ namespace LASI.ContentSystem
     /// <summary>
     /// This class serves as a wrapper around a file path, providing for direct access to the indvidual components of the file path.
     /// </summary>
-    public abstract class InputFile
+    public abstract class InputFile : LASI.Algorithm.IUntaggedTextSource
     {
         /// <summary>
         /// Initializes a new instance of the InputFile class wrapping the provided filepath.
@@ -119,5 +119,21 @@ namespace LASI.ContentSystem
         /// </summary>
         private FileData fileData;
 
+        /// <summary>
+        /// Returns a single string containing all of the text in the InputFile.
+        /// </summary>
+        /// <returns>A string containing all of the text in the InputFile.</returns>
+        public abstract string GetText();
+        /// <summary>
+        /// Returns a Task&lt;string&gt; which when awaited yields all of the text in the InputFile.
+        /// </summary>
+        /// <returns>A Task&lt;string&gt; which when awaited yields all of the text in the InputFile.</returns>
+        public abstract Task<string> GetTextAsync();
+        /// <summary>
+        /// Gets the simple file name of the InputFile. This does not include its extension.
+        /// </summary>
+        public string TextSourceName {
+            get { return NameSansExt; }
+        }
     }
 }

@@ -156,7 +156,7 @@ namespace AlgorithmAssemblyUnitTestProject
             string expected = string.Empty; // TODO: Initialize to an appropriate value
             string actual;
             actual = target.ToString();
-            Assert.AreEqual(target.GetType().Name + " with constituents\n" + typeof(LASI.Algorithm.NounPhrase) + ": Americans\n" + typeof(LASI.Algorithm.NounPhrase) + ": Canadians", actual);
+            Assert.AreEqual("[ 2 ] NounPhrase \"Americans\" NounPhrase \"Canadians\"", actual);
         }
 
         /// <summary>
@@ -308,7 +308,7 @@ namespace AlgorithmAssemblyUnitTestProject
             AggregateEntity target = new AggregateEntity(members);
             string actual;
             actual = target.Text;
-            Assert.AreEqual(target.GetType().Name + " with constituents\n" + typeof(LASI.Algorithm.NounPhrase) + ": Americans\n" + typeof(LASI.Algorithm.NounPhrase) + ": Canadians", actual);
+            Assert.AreEqual("Americans ," + " Canadians", actual);
         }
 
         /// <summary>

@@ -9,7 +9,7 @@ namespace LASI.ContentSystem
     /// <summary>
     /// A strongly typed wrapper that encapsulates a raw text document (.txt).
     /// </summary>
-    public sealed class TextFile : InputFile, LASI.Algorithm.IRawTextSource
+    public sealed class TextFile : InputFile
     {
         /// <summary>
         /// Initializes a new instance of the TxtFile class for the given path.
@@ -27,7 +27,7 @@ namespace LASI.ContentSystem
         /// Gets a single string containing all of the text in the TextFile.
         /// </summary>
         /// <returns>A single string containing all of the text in the TextFile.</returns>
-        public string GetText() {
+        public override string GetText() {
             using (var reader = new System.IO.StreamReader(this.FullPath)) {
                 return reader.ReadToEnd();
             }
@@ -36,7 +36,7 @@ namespace LASI.ContentSystem
         /// Asynchronously gets a single string containing all of the text in the TextFile.
         /// </summary>
         /// <returns>A single string containing all of the text in the TextFile.</returns>
-        public async Task<string> GetTextAsync() {
+        public override async Task<string> GetTextAsync() {
             using (var reader = new System.IO.StreamReader(
                 new System.IO.FileStream(this.FullPath,
                     System.IO.FileMode.Open,
@@ -46,13 +46,6 @@ namespace LASI.ContentSystem
                 ) {
                 return await reader.ReadToEndAsync();
             }
-        }
-
-        /// <summary>
-        /// Gets the simple name of the TextFile.
-        /// </summary>
-        public string Name {
-            get { return NameSansExt; }
         }
     }
 }

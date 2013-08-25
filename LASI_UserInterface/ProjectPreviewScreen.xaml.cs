@@ -162,6 +162,7 @@ namespace LASI.UserInterface
         #endregion
 
         #endregion
+
         #region Help Menu
 
         private void OpenManualMenuItem_Click_1(object sender, RoutedEventArgs e) {

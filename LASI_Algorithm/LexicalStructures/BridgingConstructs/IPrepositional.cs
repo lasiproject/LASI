@@ -27,7 +27,6 @@ namespace LASI.Algorithm
         ILexical BoundObject {
             get;
         }
-
         /// <summary>
         /// Gets the contextually extrapolated role of the IPrepositional Construct.
         /// </summary>
@@ -35,7 +34,6 @@ namespace LASI.Algorithm
         PrepositionRole Role {
             get;
         }
-
         /// <summary>
         /// Binds an ILexical construct as the object of the IPrepositional. 
         /// Lexical constructs include word, Phrase, and Clause Types.

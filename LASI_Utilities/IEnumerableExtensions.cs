@@ -178,7 +178,7 @@ namespace LASI
             return new HashSet<T>(source);
         }
         /// <summary>
-        /// Returns a set representation of the given sequence using the default IEqualityComparer for the given element type.
+        /// Returns a set representation of the given sequence using the specified IEqualityComparer to determine element uniqueness.
         /// </summary>
         /// <typeparam name="T">The type of elements in the sequence.</typeparam>
         /// <param name="source">The sequence whose distinct elements will comprise the resulting set.</param>

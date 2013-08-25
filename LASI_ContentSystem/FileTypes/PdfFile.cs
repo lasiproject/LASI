@@ -23,5 +23,22 @@ namespace LASI.ContentSystem
                 throw new LASI.ContentSystem.FileTypeWrapperMismatchException(GetType().ToString(), this.Ext);
 
         }
+        /// <summary>
+        /// Returns a single string containing all of the text in the PdfFile.
+        /// </summary>
+        /// <returns>A string containing all of the text in the PdfFile.</returns>
+        public override string GetText() {
+            var converter = new PdfToTextConverter(this);
+            return (converter.ConvertFile() as TextFile).GetText();
+        }
+        /// <summary>
+        /// Returns a Task&lt;string&gt; which when awaited yields all of the text in the PdfFile.
+        /// </summary>
+        /// <returns>A Task&lt;string&gt; which when awaited yields all of the text in the PdfFile.</returns>
+        public override async Task<string> GetTextAsync() {
+            var converter = new PdfToTextConverter(this);
+            return await (await converter.ConvertFileAsync() as TextFile).GetTextAsync();
+        }
+
     }
 }

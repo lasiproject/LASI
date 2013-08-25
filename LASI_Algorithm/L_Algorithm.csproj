@@ -35,8 +35,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>
-    </DocumentationFile>
+    <DocumentationFile>bin\Debug\Algorithm.XML</DocumentationFile>
     <PlatformTarget>x64</PlatformTarget>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
@@ -48,8 +47,7 @@
     </DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>
-    </DocumentationFile>
+    <DocumentationFile>bin\Release\Algorithm.XML</DocumentationFile>
     <PlatformTarget>x64</PlatformTarget>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
     <UseVSHostingProcess>false</UseVSHostingProcess>
@@ -78,9 +76,11 @@
     <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.SqlServerCe, Version=4.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Management" />
     <Reference Include="System.Runtime.Serialization.Formatters.Soap" />
     <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -102,9 +102,10 @@
     <Compile Include="LexicalLookup\Gender.cs" />
     <Compile Include="LexicalStructures\MiscLanguageConstructs\UnknownWord.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\ISimpleGendered.cs" />
+    <Compile Include="LexicalStructures\UnderpinningTypes\IAggregateLexical.cs" />
     <Compile Include="Patternization\AlgebraicDestructuring.cs" />
     <Compile Include="ResourceUsageManagement\Memory.cs" />
-    <Compile Include="TextSourceAbstraction\IRawTextSource.cs" />
+    <Compile Include="TextSourceAbstraction\IUntaggedTextSource.cs" />
     <Compile Include="EntityKindClassificationExtensions.cs" />
     <Compile Include="IEnumerableExtensions\IEnumerableOfRecursiveIEnumerableILexicalsExtenstions.cs" />
     <Compile Include="TextSourceAbstraction\ITaggedTextSource.cs" />
@@ -129,8 +130,8 @@
     <Compile Include="IEnumerableExtensions\IEnumerableOfIEntityExtensions.cs" />
     <Compile Include="IEnumerableExtensions\IEnumerableOfILexicalExtensions.cs" />
     <Compile Include="LexicalStructures\BridgingConstructs\PrepositionRole.cs" />
-    <Compile Include="LexicalStructures\ConstrainingSemanticConstructs\DeterminerKind.cs" />
-    <Compile Include="LexicalStructures\ConstrainingSemanticConstructs\IDeterminable.cs" />
+    <Compile Include="LexicalStructures\NounRelatedConstructs\NounRelatedModifiers\DeterminerKind.cs" />
+    <Compile Include="LexicalStructures\NounRelatedConstructs\NounRelatedModifiers\IDeterminable.cs" />
     <Compile Include="LexicalStructures\MiscLanguageConstructs\SymbolPhrase.cs" />
     <Compile Include="LexicalStructures\MiscLanguageConstructs\UnknownPhrase.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\IPronoun.cs" />
@@ -168,7 +169,7 @@
     <Compile Include="LexicalStructures\BridgingConstructs\ConjunctionPhrase.cs" />
     <Compile Include="LexicalStructures\MiscLanguageConstructs\RoughListPhrase.cs" />
     <Compile Include="LexicalStructures\BridgingConstructs\ParticlePhrase.cs" />
-    <Compile Include="LexicalStructures\ConstrainingSemanticConstructs\PreDeterminer.cs" />
+    <Compile Include="LexicalStructures\NounRelatedConstructs\NounRelatedModifiers\PreDeterminer.cs" />
     <Compile Include="LexicalStructures\BridgingConstructs\IConjunctive.cs" />
     <Compile Include="LexicalStructures\VerbRelatedConstructs\PastParticipleVerb.cs" />
     <Compile Include="LexicalStructures\VerbRelatedConstructs\PastTenseVerb.cs" />
@@ -190,9 +191,9 @@
     <Compile Include="LexicalStructures\MiscLanguageConstructs\Existential.cs" />
     <Compile Include="LexicalStructures\MiscLanguageConstructs\ForeignWord.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\GenericPluralNoun.cs" />
-    <Compile Include="LexicalStructures\ConstrainingSemanticConstructs\Determiner.cs" />
+    <Compile Include="LexicalStructures\NounRelatedConstructs\NounRelatedModifiers\Determiner.cs" />
     <Compile Include="DocumentConstructs\Document.cs" />
-    <Compile Include="LexicalStructures\NounRelatedConstructs\IAggregatedEntityCollection.cs" />
+    <Compile Include="LexicalStructures\NounRelatedConstructs\IAggregateEntity.cs" />
     <Compile Include="LexicalStructures\BridgingConstructs\Interjection.cs" />
     <Compile Include="LexicalStructures\MiscLanguageConstructs\InterrogativePhrase.cs" />
     <Compile Include="LexicalStructures\VerbRelatedConstructs\IVerbalObject.cs" />
@@ -220,7 +221,7 @@
     <Compile Include="LexicalStructures\VerbRelatedConstructs\IVerbal.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\Noun.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\NounPhrase.cs" />
-    <Compile Include="LexicalStructures\ConstrainingSemanticConstructs\Quantifier.cs" />
+    <Compile Include="LexicalStructures\NounRelatedConstructs\NounRelatedModifiers\Quantifier.cs" />
     <Compile Include="LexicalStructures\UnderpinningTypes\Phrase.cs" />
     <Compile Include="LexicalStructures\BridgingConstructs\Preposition.cs" />
     <Compile Include="LexicalStructures\BridgingConstructs\PrepositionalPhrase.cs" />

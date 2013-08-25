@@ -22,7 +22,7 @@ namespace LASI.Algorithm
         public PronounPhrase(IEnumerable<Word> composedWords)
             : base(composedWords) {
             if (composedWords.GetPronouns().Any(p => p.RefersTo != null)) {
-                _boundEntity = composedWords.GetPronouns().Last().RefersTo;
+                _refersTo = new AggregateEntity(composedWords.GetPronouns().Select(p => p.RefersTo));
             }
         }
 
@@ -31,16 +31,16 @@ namespace LASI.Algorithm
         /// </summary>
         /// <returns>A string representation of the PronounPhrase</returns>
         public override string ToString() {
-            return base.ToString() + (RefersTo != null ? " referring to -> " + RefersTo.Text : "");
+            return base.ToString() + (RefersTo != null && RefersTo.Any() ? " referring to -> " + RefersTo : string.Empty);
         }
-        private IAggregatedEntityCollection _boundEntity;
+        private IAggregateEntity _refersTo;
         /// <summary>
         /// Gets the Entity which the IPronoun references.
         /// </summary>
-        public IAggregatedEntityCollection RefersTo {
+        public IAggregateEntity RefersTo {
             get {
-                _boundEntity = _boundEntity ?? (Words.GetPronouns().Any(p => p.RefersTo != null) ? Words.GetPronouns().Last().RefersTo : null);
-                return _boundEntity;
+                _refersTo = _refersTo ?? new AggregateEntity(Words.GetPronouns().Where(p => p.RefersTo != null).Select(p => p.RefersTo));
+                return _refersTo;
             }
 
         }
@@ -50,51 +50,15 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="target">The entity to which to bind.</param>
         public void BindAsReferringTo(IEntity target) {
-            if (_boundEntity != null || !_boundEntity.Any())//This condition seems wrong and must be investigated.
-                _boundEntity = new AggregateEntity(new[] { target });
-            else
-                _boundEntity = new AggregateEntity(_boundEntity.Append(target));
-            EntityKind = _boundEntity.EntityKind;
+            if (_refersTo == null) {
+                _refersTo = new AggregateEntity(new[] { target });
+            } else {
+                _refersTo = new AggregateEntity(_refersTo.EnumerateRecursively().Append(target));
+            }
+            EntityKind = _refersTo.EntityKind;
         }
 
-        ///// <summary>
-        ///// Extremely Experimental Method!
-        ///// Attempts to "lift" an instance of NounPhrase, transforming it into a PronounPhrase.
-        ///// This is meant to be used when a NounPhrase is later identified as having the contextual role of a Referencer to some other previously introduced entity.
-        ///// </summary>
-        ///// <param name="np">The NounPhrase instance to Transform into a PronounPhrase. This argument must be passed via the ref keyword.</param>
-        ///// <returns>The NounPhrase "lifted" to a PronounPhrase.</returns>
-        ///// <remarks>
-        ///// This Method is considered extermely experimental because actually replaces the all references to the original NounPhrase
-        ///// with references to the PronounPhrase created from it. This includes replacing references stored as bindings to the original in other objects, 
-        ///// any element in a collection containing the original, and so on. The volitility comes from potential thread safety concerns.
-        ///// </remarks>
-        //public static PronounPhrase TransformNounPhraseToPronounPhrase(ref NounPhrase np) {
-        //    np = np as PronounPhrase ?? //If it the argument is already a PronounPhrase instance, we do not want to do anything.
-        //        new PronounPhrase(np.Words) { //Assign a new PronounPhrase to the NounPhrase ref reference, transferring all of the applicable state from the original NounPhrase
-        //            SubjectOf = np.SubjectOf,
-        //            DirectObjectOf = np.DirectObjectOf,
-        //            IndirectObjectOf = np.IndirectObjectOf,
-        //            ID = np.ID, //The ID provider will still be incremeneted, but the created PronounPhrase will have the same id as the original NounPhrase before it is assigned.
-        //            EntityKind = np.EntityKind,
-        //            Document = np.Document,
-        //            Sentence = np.Sentence,
-        //            BoundPronouns = np.BoundPronouns,
-        //            InnerAttributive = np.InnerAttributive,
-        //            OuterAttributive = np.OuterAttributive,
-        //            Possesser = np.Possesser,
-        //            Possessed = np.Possessed,
-        //            PrepositionOnLeft = np.PrepositionOnLeft,
-        //            PrepositionOnRight = np.PrepositionOnRight,
-        //            Weight = np.Weight,
-        //            MetaWeight = np.MetaWeight,
-        //            Descriptors = np.Descriptors,
-        //            PreviousPhrase = np.PreviousPhrase,
-        //            NextPhrase = np.NextPhrase,
-        //        };
-        //    return np as PronounPhrase;//This is mainly convenience, as even if the return value is discarded, the transformation has irrevocably changed the state of the reference passed in.
 
-        //}
 
 
     }

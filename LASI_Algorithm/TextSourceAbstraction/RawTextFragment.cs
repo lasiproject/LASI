@@ -9,7 +9,7 @@ namespace LASI.Algorithm
     /// <summary>
     /// Encapsulates a string containing Raw, untagged text and an associated name. Provides synchronous and asynchronous acess to it contents.
     /// </summary>
-    public class RawTextFragment : IRawTextSource
+    public class RawTextFragment : IUntaggedTextSource
     {
         private string content;
         /// <summary>
@@ -19,7 +19,7 @@ namespace LASI.Algorithm
         /// <param name="name">The desired name of the RawTextFragment. This name does not have to be unique and serves no special purpose. It is simply provided for convenience.</param>
         public RawTextFragment(string text, string name) {
             content = text;
-            Name = name;
+            TextSourceName = name;
         }
         /// <summary>
         /// Initializes a new instance of the RawTextFragment class containing the provided text and having the provided name.
@@ -28,7 +28,7 @@ namespace LASI.Algorithm
         /// <param name="name">The desired name of the RawTextFragment. This name does not have to be unique and serves no special purpose. It is simply provided for convenience.</param>
         public RawTextFragment(IEnumerable<string> text, string name) {
             content = string.Join("\n", text);
-            Name = name;
+            TextSourceName = name;
         }
         /// <summary>
         /// Returns a single string containing all of the Raw Text in the RawTextFragment.
@@ -47,7 +47,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets the name associated with the RawTextFragment.
         /// </summary>
-        public string Name {
+        public string TextSourceName {
             get;
             private set;
         }

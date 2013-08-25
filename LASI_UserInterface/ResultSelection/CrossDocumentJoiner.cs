@@ -77,10 +77,10 @@ namespace LASI.UserInterface
                               .InSubjectRole()
                               .AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                           select new RelationshipTuple {
-                              Subject = n,
+                              Subject = new AggregateEntity(new[] { n }),
                               Verbal = n.SubjectOf,
-                              Direct = n.SubjectOf.DirectObjects.FirstOrDefault(),
-                              Indirect = n.SubjectOf.IndirectObjects.FirstOrDefault(),
+                              Direct = new AggregateEntity(n.SubjectOf.DirectObjects),
+                              Indirect = new AggregateEntity(n.SubjectOf.IndirectObjects),
                               Prepositional = n.SubjectOf.ObjectOfThePreoposition
                           } into result
                           group result by result.Subject.Text into resultGrouped
@@ -103,12 +103,12 @@ namespace LASI.UserInterface
             return (from v in verbalCominalities
                     select new RelationshipTuple {
                         Verbal = v,
-                        Direct = v.DirectObjects
-                            .Select(s => (s as IPronoun) == null ? s : (s as IPronoun).RefersTo).FirstOrDefault(),
-                        Indirect = v.IndirectObjects
-                            .Select(s => (s as IPronoun) == null ? s : (s as IPronoun).RefersTo).FirstOrDefault(),
-                        Subject = v.Subjects
-                            .Select(s => (s as IPronoun) == null ? s : (s as IPronoun).RefersTo).FirstOrDefault(),
+                        Direct = new AggregateEntity(v.DirectObjects
+                            .Select(s => (s as IPronoun) == null ? s : (s as IPronoun).RefersTo)),
+                        Indirect = new AggregateEntity(v.IndirectObjects
+                            .Select(s => (s as IPronoun) == null ? s : (s as IPronoun).RefersTo)),
+                        Subject = new AggregateEntity(v.Subjects
+                            .Select(s => (s as IPronoun) == null ? s : (s as IPronoun).RefersTo)),
                         Prepositional = v.ObjectOfThePreoposition
                     } into result
                     where result.Subject != null

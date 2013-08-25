@@ -13,7 +13,9 @@ namespace LASI.ContentSystem
     /// <see cref="DocToDocXConverter"/>
     /// <see cref="DocxToTextConverter"/>
     /// </summary>
-    public abstract class FileConverter
+    public abstract class FileConverter<TSource, TDestination>
+        where TSource : InputFile
+        where TDestination : InputFile
     {
         /// <summary>
         /// The location where the converted file will be saved.
@@ -27,7 +29,7 @@ namespace LASI.ContentSystem
         /// Initializes a new instance of the FileConverter class.
         /// </summary>
         /// <param name="infile">The file to convert.</param>
-        protected FileConverter(InputFile infile) {
+        protected FileConverter(TSource infile) {
             sourcePath = infile.FullPath;
             destinationDir = infile.Directory;
             Original = infile;
@@ -37,7 +39,7 @@ namespace LASI.ContentSystem
         /// </summary>
         /// <param name="infile">The file to convert.</param>
         /// <param name="targetDir">The location in which to save the converted file.</param>
-        protected FileConverter(InputFile infile, string targetDir) {
+        protected FileConverter(TSource infile, string targetDir) {
             sourcePath = infile.FullPath;
             destinationDir = targetDir;
             Original = infile;
@@ -47,7 +49,7 @@ namespace LASI.ContentSystem
         /// When overriden in a derrived class, this method invokes the file conversion routine on the file which the instance governs.
         /// </summary>
         /// <returns>An instance of input file representing the file in its converted format.</returns>
-        public abstract InputFile ConvertFile();
+        public abstract TDestination ConvertFile();
 
         /// <summary>
         /// When overridden in a dirrrived class, this method invokes the file conversion routine asynchronously, gernerally in a serparate thread.
@@ -56,13 +58,13 @@ namespace LASI.ContentSystem
         /// <returns>A Task&lt;InputFile&gt; object which functions as a proxy for the actual InputFile while the conversion routine is in progress.
         /// Access the internal input file encapsulated by the Task by using syntax such as : var file = await myConverter.ConvertFileAsync()
         /// </returns>
-        public abstract Task<InputFile> ConvertFileAsync();
+        public abstract Task<TDestination> ConvertFileAsync();
 
 
         /// <summary>
-        /// Gets the document object which is to be converted to the from format
+        /// Gets the document which is to be converted to the destination format
         /// </summary>
-        public InputFile Original {
+        public TSource Original {
             get;
             protected set;
         }
@@ -71,7 +73,7 @@ namespace LASI.ContentSystem
         /// This additional method of accessing the new document is primarily provided to facilitate asynchronous programming
         /// and any access attempts before the conversion is complete will raise a NullReferenceException.
         /// </summary>
-        public abstract InputFile Converted {
+        public abstract TDestination Converted {
             get;
             protected set;
         }

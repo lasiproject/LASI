@@ -84,7 +84,7 @@ namespace LASI.UserInterface
 
             });
             locationTextBox.ScrollToEnd();
-            locationTextBox.TextChanged += (sender2, e2) => locationTextBox.ScrollToEnd();
+            locationTextBox.TextChanged += (s, e) => locationTextBox.ScrollToEnd();
         }
 
         private async Task InitializeFileManager() {

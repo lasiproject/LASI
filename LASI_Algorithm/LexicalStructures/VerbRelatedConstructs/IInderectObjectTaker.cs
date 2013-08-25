@@ -18,5 +18,6 @@ namespace LASI.Algorithm
         System.Collections.Generic.IEnumerable<IEntity> IndirectObjects {
             get;
         }
+        IAggregateEntity AggregateIndirectObject { get; }
     }
 }

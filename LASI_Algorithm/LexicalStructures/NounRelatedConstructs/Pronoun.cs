@@ -32,10 +32,11 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="target">The entity to which to bind.</param>
         public void BindAsReferringTo(IEntity target) {
-            if (RefersTo != null && !RefersTo.Any() || RefersTo == null)
+            if (RefersTo == null) {
                 RefersTo = new AggregateEntity(new[] { target });
-            else
-                RefersTo = new AggregateEntity(RefersTo. Append( target  ));
+            } else {
+                RefersTo = new AggregateEntity(RefersTo.EnumerateRecursively().Append(target));
+            }
             EntityKind = RefersTo.EntityKind;
         }
         /// <summary>
@@ -43,7 +44,7 @@ namespace LASI.Algorithm
         /// </summary>
         /// <returns>A string representation of the Pronoun.</returns>
         public override string ToString() {
-            return Type.Name + " \"" + Text + "\"" + (VerboseOutput ? " " + PronounKind + (RefersTo != null ? "\n\treferring to " + RefersTo.Text.Replace("\n", "\n\t\t") : string.Empty) : string.Empty);
+            return Type.Name + " \"" + Text + "\"" + (VerboseOutput ? " " + PronounKind + (RefersTo != null ? " referring to -> " + RefersTo.Text : string.Empty) : string.Empty);
 
         }
 
@@ -95,7 +96,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets or sets the Entity which the Pronoun references.
         /// </summary>
-        public virtual IAggregatedEntityCollection RefersTo { get; private set; }
+        public virtual IAggregateEntity RefersTo { get; private set; }
 
         /// <summary>
         /// Gets or sets the ISubjectTaker instance, generally a Verb or VerbPhrase, which the Pronoun is the subject of.

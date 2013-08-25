@@ -29,7 +29,7 @@ namespace LASI.Algorithm
             if (RefersTo != null || !RefersTo.Any())
                 RefersTo = new AggregateEntity(new[] { target });
             else
-                RefersTo = new AggregateEntity(RefersTo.Append(target ));
+                RefersTo = new AggregateEntity(RefersTo.Append(target));
             EntityKind = RefersTo.EntityKind;
         }
 
@@ -77,7 +77,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets the Entity which the RelativePronoun references.
         /// </summary>
-        public IAggregatedEntityCollection RefersTo {
+        public IAggregateEntity RefersTo {
             get;
             private set;
         }

@@ -34,10 +34,10 @@ namespace LASI.ContentSystem.TaggerEncapsulation
         /// <exception cref="UnknownPhraseTagException">Thrown when the indexing tag string is not defined by the tagset.</exception> 
         public abstract PhraseCreator this[string tag] { get; }
         /// <summary>
-        /// When overriden in a derrived class, Gets the PosTag string corresponding to the runtime System.Type of the Return Type of given function which of type { IEnumerable of LASI.Algorithm.Word => LASI.Algorithm.Phrase }.
+        /// When overriden in a derrived class, Gets the PosTag string corresponding to the runtime System.Type of the Return Type of given function of type { IEnumerable of LASI.Algorithm.Word => LASI.Algorithm.Phrase }.
         /// </summary>
-        /// <param name="mappedConstructor">The function which of type { IEnumerable of LASI.Algorithm.Word => LASI.Algorithm.Phrase } for which to get the corresponding tag.</param>
-        /// <returns>The PosTag string corresponding to the runtime System.Type of the Return Type of given function which of type { IEnumerable of LASI.Algorithm.Word => LASI.Algorithm.Phrase }.</returns>
+        /// <param name="mappedConstructor">The function of type { IEnumerable of LASI.Algorithm.Word => LASI.Algorithm.Phrase } for which to get the corresponding tag.</param>
+        /// <returns>The PosTag string corresponding to the runtime System.Type of the Return Type of given function of type { IEnumerable of LASI.Algorithm.Word => LASI.Algorithm.Phrase }.</returns>
         public abstract string this[PhraseCreator mappedConstructor] { get; }
         /// <summary>
         /// When overriden in a derrived class, Gets the PosTag string corresponding to the System.Type of the given LASI.Algorithm.Phrase.

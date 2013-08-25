@@ -70,8 +70,7 @@ namespace LASI.Algorithm
                 foreach (var subject in this.Subjects) {
                     subject.AddPossession(directObject);
                 }
-            }
-            else if (IsClassifier) {
+            } else if (IsClassifier) {
                 foreach (var subject in this.Subjects) {
                     AliasDictionary.DefineAlias(subject, directObject);
                 }
@@ -106,13 +105,12 @@ namespace LASI.Algorithm
                 if (ObjectOfThePreoposition != null) {
                     result += "\n\tVia Preposition Object" + ObjectOfThePreoposition.ToString();
                 }
-                foreach (var mod in modifiers) {
-                    result += modifiers.Count > 0 ? "\n\tModifier: " + mod.ToString() : "";
+                foreach (var m in modifiers) {
+                    result += modifiers.Count > 0 ? "\n\tModifier: " + m.ToString() : "";
 
                 }
                 return result;
-            }
-            else
+            } else
                 return base.ToString();
         }
 
@@ -198,7 +196,9 @@ namespace LASI.Algorithm
         #endregion
 
         #region Properties
-
+        public IAggregateEntity AggregateSubject { get { return new AggregateEntity(subjects); } }
+        public IAggregateEntity AggregateDirectObject { get { return new AggregateEntity(directObjects); } }
+        public IAggregateEntity AggregateIndirectObject { get { return new AggregateEntity(indirectObjects); } }
         /// <summary>
         /// Gets the collection of IAdverbial modifiers which modify the VerbPhrase.
         /// </summary>
