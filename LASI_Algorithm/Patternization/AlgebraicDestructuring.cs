@@ -43,7 +43,7 @@ namespace LASI.Algorithm.TraitWiseDecomposition
         /// <typeparam name="TTrait">The type representing a trait to match.</typeparam>
         /// <param name="processComponent">The Action to invoke if the trait is present on the object being decomposed.</param>
         /// <returns>The Decomposition describing the destructuring expression so far.</returns> 
-        public Decomposition OnTrait<TTrait>(Action processComponent) where TTrait : class,  LASI.Algorithm.ILexical {
+        public Decomposition For<TTrait>(Action processComponent) where TTrait : class,  LASI.Algorithm.ILexical {
             if (!TypeAlreadyMatched(typeof(TTrait))) {
                 var component = value as TTrait;
                 if (value != null && value is TTrait) {
@@ -58,7 +58,7 @@ namespace LASI.Algorithm.TraitWiseDecomposition
         /// <typeparam name="TTrait">The type representing a trait to match.</typeparam>
         /// <param name="processComponent">The Action to invoke on the object being decomposed if the trait is present.</param>
         /// <returns>The Decomposition describing the destructuring expression so far.</returns> 
-        public Decomposition OnTrait<TTrait>(Action<TTrait> processComponent) where TTrait : class,  LASI.Algorithm.ILexical {
+        public Decomposition For<TTrait>(Action<TTrait> processComponent) where TTrait : class,  LASI.Algorithm.ILexical {
             if (!TypeAlreadyMatched(typeof(TTrait))) {
                 var component = value as TTrait;
                 if (component != null) {
@@ -72,7 +72,7 @@ namespace LASI.Algorithm.TraitWiseDecomposition
         /// </summary> 
         /// <param name="processComponent">The Action to invoke.</param>
         /// <returns>The Decomposition describing the destructuring expression so far.</returns> 
-        public IDecomposition<ILexical> OnBase(Action processComponent) {
+        public IDecomposition<ILexical> Base(Action processComponent) {
             if (value != null) {
                 processComponent();
             }
@@ -83,7 +83,7 @@ namespace LASI.Algorithm.TraitWiseDecomposition
         /// </summary> 
         /// <param name="processComponent">The Action to invoke on the object being decomposed.</param>
         /// <returns>The IDecomposition describing the destructuring expression so far.</returns> 
-        public IDecomposition<ILexical> OnBase(Action<ILexical> processComponent) {
+        public IDecomposition<ILexical> Base(Action<ILexical> processComponent) {
             if (value != null) {
                 processComponent(value);
             }
@@ -113,7 +113,7 @@ namespace LASI.Algorithm.TraitWiseDecomposition
         /// <typeparam name="TTrait">The type representing a trait to match.</typeparam>
         /// <param name="processComponent">The Action to invoke if the trait is present on the object being decomposed.</param>
         /// <returns>The Decomposition describing the destructuring expression so far.</returns> 
-        public Decomposition<TResult> OnTrait<TTrait>(Action processComponent) where TTrait : class ,  LASI.Algorithm.ILexical {
+        public Decomposition<TResult> For<TTrait>(Action processComponent) where TTrait : class ,  LASI.Algorithm.ILexical {
             if (!TypeAlreadyMatched(typeof(TTrait))) {
                 var component = value as TTrait;
                 if (value != null && value is TTrait) {
@@ -128,7 +128,7 @@ namespace LASI.Algorithm.TraitWiseDecomposition
         /// <typeparam name="TTrait">The type representing a trait to match.</typeparam>
         /// <param name="processComponent">The Action to invoke on the object being decomposed if the trait is present.</param>
         /// <returns>The Decomposition describing the destructuring expression so far.</returns> 
-        public Decomposition<TResult> OnTrait<TTrait>(Action<TTrait> processComponent) where TTrait : class ,  LASI.Algorithm.ILexical {
+        public Decomposition<TResult> For<TTrait>(Action<TTrait> processComponent) where TTrait : class ,  LASI.Algorithm.ILexical {
             if (!TypeAlreadyMatched(typeof(TTrait))) {
                 var component = value as TTrait;
                 if (component != null) {
@@ -143,7 +143,7 @@ namespace LASI.Algorithm.TraitWiseDecomposition
         /// <typeparam name="TTrait">The type representing a trait to match.</typeparam>
         /// <param name="processComponent">The function to invoke if the trait is present on the object being decomposed.</param>
         /// <returns>The Decomposition&lt;TResult&gt; describing the destructuring expression so far.</returns> 
-        public Decomposition<TResult> OnTrait<TTrait>(Func<TResult> processComponent) where TTrait : class ,  LASI.Algorithm.ILexical {
+        public Decomposition<TResult> For<TTrait>(Func<TResult> processComponent) where TTrait : class ,  LASI.Algorithm.ILexical {
             if (!TypeAlreadyMatched(typeof(TTrait))) {
                 var component = value as TTrait;
                 if (value != null && value is TTrait) {
@@ -158,7 +158,7 @@ namespace LASI.Algorithm.TraitWiseDecomposition
         /// <typeparam name="TTrait">The type representing a trait to match.</typeparam>
         /// <param name="processComponent">The function to invoke if the trait is present on the object being decomposed.</param>
         /// <returns>The Decomposition&lt;TResult&gt; describing the destructuring expression so far.</returns> 
-        public Decomposition<TResult> OnTrait<TTrait>(Func<TTrait, TResult> processComponent) where TTrait : class,  LASI.Algorithm.ILexical {
+        public Decomposition<TResult> For<TTrait>(Func<TTrait, TResult> processComponent) where TTrait : class,  LASI.Algorithm.ILexical {
             if (!TypeAlreadyMatched(typeof(TTrait))) {
                 var component = value as TTrait;
                 if (component != null) {
@@ -173,7 +173,7 @@ namespace LASI.Algorithm.TraitWiseDecomposition
         /// <typeparam name="TTrait">The type representing a trait to match.</typeparam>
         /// <param name="traitResult">The result value to yield if the trait is present on the object being decomposed.</param>
         /// <returns>The Decomposition&lt;TResult&gt; describing the destructuring expression so far.</returns> 
-        public Decomposition<TResult> OnTrait<TTrait>(TResult traitResult) where TTrait : class,  LASI.Algorithm.ILexical {
+        public Decomposition<TResult> For<TTrait>(TResult traitResult) where TTrait : class,  LASI.Algorithm.ILexical {
             if (!TypeAlreadyMatched(typeof(TTrait))) {
                 var component = value as TTrait;
                 if (component != null) {
@@ -187,7 +187,7 @@ namespace LASI.Algorithm.TraitWiseDecomposition
         /// </summary> 
         /// <param name="processComponent">The Action to invoke.</param>
         /// <returns>The Decomposition&lt;TResult&gt; describing the destructuring expression so far.</returns> 
-        public IDecomposition<ILexical, TResult> OnBase(Action processComponent) {
+        public IDecomposition<ILexical, TResult> Base(Action processComponent) {
             if (value != null) {
                 processComponent();
             }
@@ -198,7 +198,7 @@ namespace LASI.Algorithm.TraitWiseDecomposition
         /// </summary> 
         /// <param name="processComponent">The Action to invoke on the object being decomposed.</param>
         /// <returns>The Decomposition&lt;TResult&gt; describing the destructuring expression so far.</returns> 
-        public IDecomposition<ILexical, TResult> OnBase(Action<ILexical> processComponent) {
+        public IDecomposition<ILexical, TResult> Base(Action<ILexical> processComponent) {
             if (value != null) {
                 processComponent(value);
             }
@@ -209,7 +209,7 @@ namespace LASI.Algorithm.TraitWiseDecomposition
         /// </summary>
         /// <param name="processComponent">The function which returns a value to store as the base type's result.</param>
         /// <returns>The IDecomposition&lt;ILexical&gt;&lt;TResult&gt; describing the destructuring expression so far.</returns> 
-        public IDecomposition<ILexical, TResult> OnBase(Func<TResult> processComponent) {
+        public IDecomposition<ILexical, TResult> Base(Func<TResult> processComponent) {
             if (value != null) {
                 results.Add(processComponent());
             }
@@ -220,7 +220,7 @@ namespace LASI.Algorithm.TraitWiseDecomposition
         /// </summary>
         /// <param name="processComponent">The function which returns a value to store as the base type's result.</param>
         /// <returns>The IDecomposition&lt;ILexical&gt;&lt;TResult&gt; describing the destructuring expression so far.</returns> 
-        public IDecomposition<ILexical, TResult> OnBase(Func<ILexical, TResult> processComponent) {
+        public IDecomposition<ILexical, TResult> Base(Func<ILexical, TResult> processComponent) {
             if (value != null) {
                 results.Add(processComponent(value));
             }
@@ -231,7 +231,7 @@ namespace LASI.Algorithm.TraitWiseDecomposition
         /// </summary>
         /// <param name="baseResult">The result value to include in the results of the expression.</param>
         /// <returns>The IDecomposition&lt;ILexical&gt;&lt;TResult&gt; describing the destructuring expression so far.</returns> 
-        public IDecomposition<ILexical, TResult> OnBase(TResult baseResult) {
+        public IDecomposition<ILexical, TResult> Base(TResult baseResult) {
             if (value != null) {
                 results.Add(baseResult);
             }

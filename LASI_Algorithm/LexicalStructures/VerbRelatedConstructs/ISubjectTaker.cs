@@ -20,6 +20,9 @@ namespace LASI.Algorithm
         System.Collections.Generic.IEnumerable<IEntity> Subjects {
             get;
         }
+        /// <summary>
+        /// Gets an IAggregateEntity implementation composed from all of the ISubjectTaker's subjects.
+        /// </summary>
         IAggregateEntity AggregateSubject { get; }
 
     }

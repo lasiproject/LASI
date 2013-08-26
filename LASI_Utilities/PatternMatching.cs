@@ -86,12 +86,12 @@ namespace LASI.Utilities.PatternMatching
         /// <param name="func">The function which, if this With expression is Matched, will be invoked to produce the corresponding desired result for a Match with TCase.</param>
         /// <returns>The PatternMatching&lt;T, R&gt; describing the Match expression so far.</returns>
         public PatternMatching<T, R> With<TCase>(Func<R> func) where TCase : class,T {
-            if (!matchFound) {
-                if (toMatch is TCase) {
-                    result = func();
-                    matchFound = true;
+            if (toMatch != null) if (!matchFound) {
+                    if (toMatch is TCase) {
+                        result = func();
+                        matchFound = true;
+                    }
                 }
-            }
             return this;
         }
         /// <summary>
@@ -102,13 +102,13 @@ namespace LASI.Utilities.PatternMatching
         /// <param name="func">The function which, if this With expression is Matched, will be invoked to produce the corresponding desired result for a Match with TCase.</param>
         /// <returns>The PatternMatching&lt;T, R&gt; describing the Match expression so far.</returns>
         public PatternMatching<T, R> With<TCase>(Func<TCase, bool> condition, Func<R> func) where TCase : class,T {
-            if (!matchFound) {
-                var matched = toMatch as TCase;
-                if (matched != null && condition(matched)) {
-                    result = func();
-                    matchFound = true;
+            if (toMatch != null) if (!matchFound) {
+                    var matched = toMatch as TCase;
+                    if (matched != null && condition(matched)) {
+                        result = func();
+                        matchFound = true;
+                    }
                 }
-            }
             return this;
         }
         /// <summary>
@@ -118,13 +118,13 @@ namespace LASI.Utilities.PatternMatching
         /// <param name="func">The function which, if this With expression is Matched, will be invoked on the value being matched with to produce the desired result for a Match with TCase.</param>
         /// <returns>The PatternMatching&lt;T, R&gt; describing the Match expression so far.</returns>
         public PatternMatching<T, R> With<TCase>(Func<TCase, R> func) where TCase : class,T {
-            if (!matchFound) {
-                var matched = toMatch as TCase;
-                if (matched != null) {
-                    result = func(matched);
-                    matchFound = true;
+            if (toMatch != null) if (!matchFound) {
+                    var matched = toMatch as TCase;
+                    if (matched != null) {
+                        result = func(matched);
+                        matchFound = true;
+                    }
                 }
-            }
             return this;
         }
         /// <summary>
@@ -135,13 +135,13 @@ namespace LASI.Utilities.PatternMatching
         /// <param name="func">The function which, if this With expression is Matched, will be invoked on the value being matched with to produce the desired result for a Match with TCase.</param>
         /// <returns>The PatternMatching&lt;T, R&gt; describing the Match expression so far.</returns>
         public PatternMatching<T, R> With<TCase>(Func<TCase, bool> condition, Func<TCase, R> func) where TCase : class,T {
-            if (!matchFound) {
-                var matched = toMatch as TCase;
-                if (matched != null && condition(matched)) {
-                    result = func(matched);
-                    matchFound = true;
+            if (toMatch != null) if (!matchFound) {
+                    var matched = toMatch as TCase;
+                    if (matched != null && condition(matched)) {
+                        result = func(matched);
+                        matchFound = true;
+                    }
                 }
-            }
             return this;
         }
         /// <summary>
@@ -151,13 +151,13 @@ namespace LASI.Utilities.PatternMatching
         /// <param name="caseResult">The value which, if this With expression is Matched, will be the result of the Pattern Match.</param>
         /// <returns>The PatternMatching&lt;T, R&gt; describing the Match expression so far.</returns>
         public PatternMatching<T, R> With<TCase>(R caseResult) where TCase : class,T {
-            if (!matchFound) {
-                var matched = toMatch as TCase;
-                if (matched != null) {
-                    result = caseResult;
-                    matchFound = true;
+            if (toMatch != null) if (!matchFound) {
+                    var matched = toMatch as TCase;
+                    if (matched != null) {
+                        result = caseResult;
+                        matchFound = true;
+                    }
                 }
-            }
             return this;
         }
         /// <summary>
@@ -168,13 +168,13 @@ namespace LASI.Utilities.PatternMatching
         /// <param name="caseResult">The value which, if this With expression is Matched, will be the result of the Pattern Match.</param>
         /// <returns>The PatternMatching&lt;T, R&gt; describing the Match expression so far.</returns>
         public PatternMatching<T, R> With<TCase>(Func<TCase, bool> condition, R caseResult) where TCase : class,T {
-            if (!matchFound) {
-                var matched = toMatch as TCase;
-                if (matched != null && condition(matched)) {
-                    result = caseResult;
-                    matchFound = true;
+            if (toMatch != null) if (!matchFound) {
+                    var matched = toMatch as TCase;
+                    if (matched != null && condition(matched)) {
+                        result = caseResult;
+                        matchFound = true;
+                    }
                 }
-            }
             return this;
         }
         /// <summary>
@@ -236,7 +236,7 @@ namespace LASI.Utilities.PatternMatching
             get { return matchFound; }
         }
         private T toMatch;
-        private R result;
+        private R result = default(R);
     }
 
 
@@ -254,7 +254,7 @@ namespace LASI.Utilities.PatternMatching
 
         internal PatternMatching(T matchOn) { toMatch = matchOn; }
         public PatternMatching<T> With<TCase>(Action action) where TCase : class ,T {
-            if (!matchFound) {
+        if (toMatch!=null)    if (!matchFound) {
                 if (toMatch is TCase) {
                     matchFound = true;
                     action();
@@ -263,7 +263,7 @@ namespace LASI.Utilities.PatternMatching
             return this;
         }
         public PatternMatching<T> With<TCase>(Action<TCase> action) where TCase : class ,T {
-            if (!matchFound) {
+            if (toMatch != null) if (!matchFound) {
                 var matched = toMatch as TCase;
                 if (matched != null) {
                     matchFound = true;
@@ -273,7 +273,7 @@ namespace LASI.Utilities.PatternMatching
             return this;
         }
         public PatternMatching<T> With<TCase>(Func<TCase, bool> condition, Action action) where TCase : class ,T {
-            if (!matchFound) {
+            if (toMatch != null) if (!matchFound) {
                 if (toMatch is TCase) {
                     matchFound = true;
                     action();
@@ -282,7 +282,7 @@ namespace LASI.Utilities.PatternMatching
             return this;
         }
         public PatternMatching<T> With<TCase>(Func<TCase, bool> condition, Action<TCase> action) where TCase : class ,T {
-            if (!matchFound) {
+            if (toMatch != null) if (!matchFound) {
                 var matched = toMatch as TCase;
                 if (matched != null) {
                     matchFound = true;

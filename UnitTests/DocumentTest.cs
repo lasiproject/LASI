@@ -82,7 +82,7 @@ namespace AlgorithmAssemblyUnitTestProject
                             }),
                             new VerbPhrase(new Word[] { 
                                 new ModalAuxilary("must"),
-                                new Verb("attack", VerbTense.Base) 
+                                new Verb("attack", VerbMorph.Base) 
                             }),
                             new NounPhrase(new Word[] { 
                                 new Adjective("blue"), 
@@ -94,7 +94,7 @@ namespace AlgorithmAssemblyUnitTestProject
                                 new PersonalPronoun("We")}),
                             new VerbPhrase(new Word[] { 
                                 new ModalAuxilary("must"),
-                                new Verb("do", VerbTense.Base)
+                                new Verb("do", VerbMorph.Base)
                             }),
                         new NounPhrase(new Word[]{  
                             new PersonalPronoun("this")
@@ -129,11 +129,11 @@ namespace AlgorithmAssemblyUnitTestProject
             Document target = BuildDocumentManually();
             IEnumerable<IVerbal> expected = new IVerbal[]{new VerbPhrase(new Word[] { 
                                 new ModalAuxilary("must"),
-                                new Verb("attack", VerbTense.Base) 
-                            }),new Verb("attack", VerbTense.Base),  new VerbPhrase(new Word[] { 
+                                new Verb("attack", VerbMorph.Base) 
+                            }),new Verb("attack", VerbMorph.Base),  new VerbPhrase(new Word[] { 
                                 new ModalAuxilary("must"),
-                                new Verb("do", VerbTense.Base)
-                            }),new Verb("do", VerbTense.Base)};
+                                new Verb("do", VerbMorph.Base)
+                            }),new Verb("do", VerbMorph.Base)};
             IEnumerable<IVerbal> actual;
             actual = target.GetActions();
             foreach (var e in expected) {
@@ -241,7 +241,7 @@ namespace AlgorithmAssemblyUnitTestProject
                             }),
                             new VerbPhrase(new Word[] { 
                                 new ModalAuxilary("must"),
-                                new Verb("attack", VerbTense.Base) 
+                                new Verb("attack", VerbMorph.Base) 
                             }),
                             new NounPhrase(new Word[] { 
                                 new Adjective("blue"), 
@@ -253,7 +253,7 @@ namespace AlgorithmAssemblyUnitTestProject
                                 new PersonalPronoun("We")}),
                             new VerbPhrase(new Word[] { 
                                 new ModalAuxilary("must"),
-                                new Verb("do", VerbTense.Base)
+                                new Verb("do", VerbMorph.Base)
                             }),
                         new NounPhrase(new Word[]{  
                             new PersonalPronoun("this")

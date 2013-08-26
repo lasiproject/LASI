@@ -25,12 +25,11 @@ namespace LASI.Algorithm
                 (from v in composedWords.GetVerbs()
                  group v.Tense by v.Tense into tenseGroup
                  orderby tenseGroup.Count()
-                 select tenseGroup).First().Key : VerbTense.Base;
+                 select tenseGroup).First().Key : VerbMorph.Base;
         }
 
         #endregion
-
-
+ 
         #region Methods
 
         /// <summary>
@@ -196,8 +195,17 @@ namespace LASI.Algorithm
         #endregion
 
         #region Properties
+        /// <summary>
+        /// Gets an IAggregateEntity implementation composed from all of the VerbPhrase's subjects.
+        /// </summary>
         public IAggregateEntity AggregateSubject { get { return new AggregateEntity(subjects); } }
+        /// <summary>
+        /// Gets an IAggregateEntity implementation composed from all of the VerbPhrase's directobjects.
+        /// </summary>
         public IAggregateEntity AggregateDirectObject { get { return new AggregateEntity(directObjects); } }
+        /// <summary>
+        /// Gets an IAggregateEntity implementation composed from all of the VerbPhrase's indirectobjects.
+        /// </summary>
         public IAggregateEntity AggregateIndirectObject { get { return new AggregateEntity(indirectObjects); } }
         /// <summary>
         /// Gets the collection of IAdverbial modifiers which modify the VerbPhrase.
@@ -213,9 +221,9 @@ namespace LASI.Algorithm
         public IDescriptor AdjectivalModifier { get; set; }
         /// <summary>
         /// Gets the prevailing Tense of the VerbPhrase.
-        /// <see cref="VerbTense"/>
+        /// <see cref="VerbMorph"/>
         /// </summary>
-        public VerbTense Tense { get; protected set; }
+        public VerbMorph Tense { get; protected set; }
         /// <summary>
         /// Gets or sets the ModalAuxilary word which modifies the VerbPhrase.
         /// </summary>

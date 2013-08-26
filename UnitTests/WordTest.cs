@@ -169,7 +169,7 @@ namespace AlgorithmAssemblyUnitTestProject
         ///</summary>
         [TestMethod()]
         public void TextTest() {
-            Word target = new Verb("run", VerbTense.Base);
+            Word target = new Verb("run", VerbMorph.Base);
             string expected = "run";
             string actual;
             actual = target.Text;

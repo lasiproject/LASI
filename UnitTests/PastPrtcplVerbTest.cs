@@ -68,7 +68,7 @@ namespace AlgorithmAssemblyUnitTestProject
         [TestMethod()]
         public void PastPrtcplVerbConstructorTest() {
             string text = "gone";
-            VerbTense pastprt = VerbTense.PastParticiple;
+            VerbMorph pastprt = VerbMorph.PastParticiple;
             PastParticipleVerb target = new PastParticipleVerb(text);
             Assert.IsTrue(target.Text == text);
             Assert.IsTrue(target.Tense == pastprt);

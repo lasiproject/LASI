@@ -66,12 +66,12 @@ namespace LASI.ContentSystem.TaggerEncapsulation
             { "RBR", t => new ComparativeAdverb(t) }, //Adverb, comparative
             { "RBS", t => new SuperlativeAdverb(t) }, //Adverb, superlative
             //Verb mappings
-            { "VB", t => new Verb(t,VerbTense.Base) }, //Verb, base form
-            { "VBD", t => new Verb(t,VerbTense.Past) }, //Verb, past tense
+            { "VB", t => new Verb(t, VerbMorph.Base) }, //Verb, base form
+            { "VBD", t => new PastTenseVerb(t) }, //Verb, past tense
             { "VBG", t => new PresentParticipleGerund (t) }, //Verb, gerund or present participle
-            { "VBN", t => new Verb(t,VerbTense.PastParticiple) }, //Verb, past participle
-            { "VBP", t => new Verb(t,VerbTense.SingularPresent) }, //Verb, non-3rd person singular present
-            { "VBZ", t => new Verb(t,VerbTense.ThirdPersonSingularPresent) }, //Verb, 3rd person singular present
+            { "VBN", t => new PastParticipleVerb(t) }, //Verb, past participle
+            { "VBP", t => new Verb(t, VerbMorph.SingularPresent) }, //Verb, non-3rd person singular present
+            { "VBZ", t => new Verb(t, VerbMorph.ThirdPersonSingularPresent) }, //Verb, 3rd person singular present
             //WH-word mappings
             { "WDT", t => new Determiner(t) }, //Wh-leftNPDeterminer
             { "WP", t => new RelativePronoun(t) }, //Wh-pronoun
@@ -101,32 +101,32 @@ namespace LASI.ContentSystem.TaggerEncapsulation
         /// <summary>
         /// Provides POS-Tag indexed access to a constructor function which can be invoked to create an instance of the class which provides its run-time representation.
         /// </summary>
-        /// <param name="tag">The textual representation of a Part Of Speech tag.</param>
+        /// <param name="posTag">The textual representation of a Part Of Speech tag.</param>
         /// <returns>A function which creates an instance of the run-time type associated with the textual tag.</returns>
         /// <exception cref="UnknownWordTagException">Thrown when the indexing tag string is not defined by the tagset.</exception>
-        public override WordCreator this[string tag] {
+        public override WordCreator this[string posTag] {
             get {
                 try {
-                    return typeDictionary[tag];
+                    return typeDictionary[posTag];
                 } catch (KeyNotFoundException) {
-                    throw new UnknownWordTagException(tag);
+                    throw new UnknownWordTagException(posTag);
                 }
             }
         }
         /// <summary>
         /// Gets the PosTag string corresponding to the runtime System.Type of the Return Type of given function of type { System.string => LASI.Algorithm.Word }.
         /// </summary>
-        /// <param name="wordCreatingFunction">The function of type { System.string => LASI.Algorithm.Word } for which to get the corresponding tag.</param>
+        /// <param name="wordCreator">The function of type { System.string => LASI.Algorithm.Word } for which to get the corresponding tag.</param>
         /// <returns>The PosTag string corresponding to the runtime System.Type of the Return Type of given function of type { System.string => LASI.Algorithm.Word }.</returns>
-        public override string this[WordCreator wordCreatingFunction] {
+        public override string this[WordCreator wordCreator] {
             get {
                 try {
-                    return typeDictionary.First(pair => pair.Value.Method.ReturnType == wordCreatingFunction.Method.ReturnType).Key;
+                    return typeDictionary.First(pair => pair.Value.Method.ReturnType == wordCreator.Method.ReturnType).Key;
                 } catch (InvalidOperationException) {
                     throw new UnmappedWordTypeException(string.Format("Word constructor\n{0}\nis not mapped by this Tagset.\nFunction Type: {1} => {2}",
-                        wordCreatingFunction,
-                        wordCreatingFunction.Method.GetParameters().Aggregate("", (s, p) => s += p.ParameterType.FullName + ", ").TrimEnd(',', ' '),
-                        wordCreatingFunction.Method.ReturnType.FullName
+                        wordCreator,
+                        wordCreator.Method.GetParameters().Aggregate("", (s, p) => s += p.ParameterType.FullName + ", ").TrimEnd(',', ' '),
+                        wordCreator.Method.ReturnType.FullName
                         )
                     );
                 }
@@ -140,7 +140,7 @@ namespace LASI.ContentSystem.TaggerEncapsulation
         public override string this[Word word] {
             get {
                 try {
-                    return typeDictionary.First(phraseCreatorPosTagPair => phraseCreatorPosTagPair.Value.Method.ReturnType == word.GetType()).Key;
+                    return typeDictionary.First(funcPosTagPair => funcPosTagPair.Value.Method.ReturnType == word.GetType()).Key;
                 } catch (InvalidOperationException) {
                     throw new UnmappedWordTypeException(string.Format("The indexing LASI.Algorithm.Word has type {0}, a type which is not mapped by {1}.",
                         word.GetType(),

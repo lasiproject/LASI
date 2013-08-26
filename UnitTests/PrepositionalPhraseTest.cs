@@ -84,7 +84,7 @@ namespace AlgorithmAssemblyUnitTestProject
         public void BindObjectOfPrepositionTest() {
             IEnumerable<Word> composedWords = new[] { new ToLinker() };
             PrepositionalPhrase target = new PrepositionalPhrase(composedWords); // TODO: Initialize to an appropriate value
-            ILexical prepositionalObject = new VerbPhrase(new Word[] { new Verb("have", VerbTense.Base) });
+            ILexical prepositionalObject = new VerbPhrase(new Word[] { new Verb("have", VerbMorph.Base) });
             target.BindObject(prepositionalObject);
             Assert.IsTrue(target.BoundObject == prepositionalObject);
         }

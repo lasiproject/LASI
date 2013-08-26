@@ -100,7 +100,7 @@ namespace AlgorithmAssemblyUnitTestProject
         public void OnLeftSideTest() {
             IEnumerable<Word> composedWords = new[] { new Particle("away") };
             ParticlePhrase target = new ParticlePhrase(composedWords);
-            ILexical expected = new Verb("gave", VerbTense.Past);
+            ILexical expected = new Verb("gave", VerbMorph.Past);
             ILexical actual;
             target.ToTheLeftOf = expected;
             actual = target.ToTheLeftOf;

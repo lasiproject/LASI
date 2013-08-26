@@ -55,9 +55,9 @@ namespace LASI.Algorithm.Binding
             BindSubjectsAndObjects(doc.Sentences);
             BindPronouns(doc.Sentences);
             var results = Destructure.MatchTraits<ILexical>(doc.Phrases.First())
-                  .OnTrait<IEntity>(e => e.SubjectOf)
-                  .OnTrait<IVerbal>(e => new AggregateEntity(e.DirectObjects))
-                  .OnBase(l => l).Results;
+                  .For<IEntity>(e => e.SubjectOf)
+                  .For<IVerbal>(e => new AggregateEntity(e.DirectObjects))
+                  .Base(l => l).Results;
         }
 
         /// <summary>

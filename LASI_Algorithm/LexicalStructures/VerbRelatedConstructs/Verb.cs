@@ -17,7 +17,7 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="text">The key text content of the verb.</param>
         /// <param name="tense">The tense of the verb</param>
-        public Verb(string text, VerbTense tense)
+        public Verb(string text, VerbMorph tense)
             : base(text) {
             Tense = tense;
         }
@@ -164,8 +164,17 @@ namespace LASI.Algorithm
         #endregion
 
         #region Properties
+        /// <summary>
+        /// Gets an IAggregateEntity implementation composed from all of the Verb's subjects.
+        /// </summary>
         public IAggregateEntity AggregateSubject { get { return new AggregateEntity(subjects); } }
+        /// <summary>
+        /// Gets an IAggregateEntity implementation composed from all of the Verb's directobjects.
+        /// </summary>
         public IAggregateEntity AggregateDirectObject { get { return new AggregateEntity(directObjects); } }
+        /// <summary>
+        /// Gets an IAggregateEntity implementation composed from all of the Verb's indirectobjects.
+        /// </summary>
         public IAggregateEntity AggregateIndirectObject { get { return new AggregateEntity(indirectObjects); } }
         /// <summary>
         /// Gets the subjects of the Verb.
@@ -191,7 +200,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets the VerbTense of the Verb.
         /// </summary>
-        public VerbTense Tense { get; protected set; }
+        public VerbMorph Tense { get; protected set; }
         /// <summary>
         /// Gets the object of the Verb's preposition. This can be any ILexical construct including a word, phrase, or clause.
         /// </summary>
@@ -216,9 +225,7 @@ namespace LASI.Algorithm
             get {
                 return isPossessive ?? DetermineIsPossessive();
             }
-        }
-
-
+        } 
         #endregion
 
         #region Fields
@@ -231,12 +238,5 @@ namespace LASI.Algorithm
         bool? isClassifier;
 
         #endregion
-
-
-
-
-
-
-
     }
 }

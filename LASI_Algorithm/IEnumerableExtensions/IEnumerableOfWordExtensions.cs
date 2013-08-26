@@ -158,7 +158,7 @@ namespace LASI.Algorithm
         /// <param name="words">The sequence of Words to filter.</param>
         /// <param name="tense">The tense to match against</param>
         /// <returns>All Verbs in the collection.</returns>
-        public static IEnumerable<Verb> GetVerbs(this IEnumerable<Word> words, VerbTense tense) {
+        public static IEnumerable<Verb> GetVerbs(this IEnumerable<Word> words, VerbMorph tense) {
             return words.OfType<Verb>().Where(v => v.Tense == tense);
         }
         /// <summary>
@@ -314,7 +314,7 @@ namespace LASI.Algorithm
         /// <param name="words">The sequence of Words to filter.</param>
         /// <param name="tense">The tense to match against</param>
         /// <returns>All Verbs in the collection.</returns>
-        public static ParallelQuery<Verb> GetVerbs(this ParallelQuery<Word> words, VerbTense tense) {
+        public static ParallelQuery<Verb> GetVerbs(this ParallelQuery<Word> words, VerbMorph tense) {
             return words.OfType<Verb>().Where(v => v.Tense == tense);
         }
         /// <summary>

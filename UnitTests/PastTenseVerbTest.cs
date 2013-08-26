@@ -68,7 +68,7 @@ namespace AlgorithmAssemblyUnitTestProject
         [TestMethod()]
         public void PastTenseVerbConstructorTest() {
             string text = "had";
-            VerbTense past = VerbTense.Past;
+            VerbMorph past = VerbMorph.Past;
             PastTenseVerb target = new PastTenseVerb(text);
             Assert.IsTrue(target.Text == text);
             Assert.IsTrue(target.Tense == past);

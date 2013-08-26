@@ -71,7 +71,7 @@ namespace AlgorithmAssemblyUnitTestProject
         public void ModiffiedTest() {
             string text = "quickly";
             Adverb target = new Adverb(text);
-            IAdverbialModifiable expected = new Verb("run", VerbTense.Base);
+            IAdverbialModifiable expected = new Verb("run", VerbMorph.Base);
             IAdverbialModifiable actual;
             target.Modifies = expected;
             actual = target.Modifies;

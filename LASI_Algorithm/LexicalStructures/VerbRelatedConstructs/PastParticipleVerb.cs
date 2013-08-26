@@ -16,7 +16,7 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="text">The key text content of the PastParticipleVerb.</param>
         public PastParticipleVerb(string text)
-            : base(text, VerbTense.PastParticiple) {
+            : base(text, VerbMorph.PastParticiple) {
         }
     }
 }

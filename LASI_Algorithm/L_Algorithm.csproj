@@ -234,7 +234,7 @@
     <Compile Include="LexicalStructures\VerbRelatedConstructs\Verb.cs" />
     <Compile Include="LexicalStructures\VerbRelatedConstructs\VerbPhrase.cs" />
     <Compile Include="IEnumerableExtensions\IEnumerableOfIVerbalExtensions.cs" />
-    <Compile Include="LexicalStructures\VerbRelatedConstructs\VerbTense.cs" />
+    <Compile Include="LexicalStructures\VerbRelatedConstructs\VerbMorph.cs" />
     <Compile Include="LexicalStructures\UnderpinningTypes\Word.cs" />
     <Compile Include="IEnumerableExtensions\IEnumerableOfWordExtensions.cs" />
     <Compile Include="LexicalLookup\Lookups\LookupSupport\WordNetLexCategoryInformation.cs" />

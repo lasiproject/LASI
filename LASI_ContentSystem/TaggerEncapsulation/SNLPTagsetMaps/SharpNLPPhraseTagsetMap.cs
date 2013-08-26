@@ -32,7 +32,7 @@ namespace LASI.ContentSystem.TaggerEncapsulation
         #region Fields
         private static readonly IReadOnlyDictionary<string, PhraseCreator> typeDictionary = new Dictionary<string, PhraseCreator> {
             
-            { "VP", ws => ws.Any(w=> w is Punctuation) ? new SymbolPhrase(ws): ws.FirstOrDefault(w=>w is ToLinker)!=null ? new InfinitivePhrase(ws) : new VerbPhrase(ws) as Phrase  },
+            { "VP", ws => ws.Any(w=> w is Punctuation) ? new SymbolPhrase(ws): ws.TakeWhile(w=>!(w is IVerbal)).FirstOrDefault(w=>w is ToLinker)!=null ? new InfinitivePhrase(ws) : new VerbPhrase(ws) as Phrase  },
             { "NP", ws => ws.OfType<IEntity>().All(w=>w is IPronoun) ? new PronounPhrase(ws) : ws.All(w=>w is Adverb) ?new AdverbPhrase(ws) : new NounPhrase(ws) as Phrase },
             { "PP", ws => new PrepositionalPhrase(ws) },
             { "ADVP", ws => new AdverbPhrase(ws) },
@@ -55,32 +55,32 @@ namespace LASI.ContentSystem.TaggerEncapsulation
         /// <summary>
         /// Provides POS-Tag indexed access to a constructor function which can be invoked to create an instance of the Phrase class which provides its run-time representation.
         /// </summary>
-        /// <param name="tag">The textual representation of a Phrase Part Of Speech tag.</param>
+        /// <param name="posTag">The textual representation of a Phrase Part Of Speech tag.</param>
         /// <returns>A function which creates an instance of the run-time Phrase type associated with the textual tag.</returns>
         /// <exception cref="UnknownWordTagException">Thrown when the indexing tag string is not defined by the tagset.</exception>
-        public override PhraseCreator this[string tag] {
+        public override PhraseCreator this[string posTag] {
             get {
                 try {
-                    return typeDictionary[tag];
+                    return typeDictionary[posTag];
                 } catch (KeyNotFoundException) {
-                    throw new UnknownPhraseTagException(tag);
+                    throw new UnknownPhraseTagException(posTag);
                 }
             }
         }
         /// <summary>
         /// Gets the PosTag string corresponding to the runtime System.Type of the Return Type of given function of type { IEnumerable of LASI.Algorithm.Word => LASI.Algorithm.Phrase }.
         /// </summary>
-        /// <param name="phraseCreatingFunction">The function of type { IEnumerable of LASI.Algorithm.Word => LASI.Algorithm.Phrase } for which to get the corresponding tag.</param>
+        /// <param name="phraseCreatingFunc">The function of type { IEnumerable of LASI.Algorithm.Word => LASI.Algorithm.Phrase } for which to get the corresponding tag.</param>
         /// <returns>The PosTag string corresponding to the runtime System.Type of the Return Type of the given function of type { IEnumerable of LASI.Algorithm.Word => LASI.Algorithm.Phrase }.</returns>
-        public override string this[PhraseCreator phraseCreatingFunction] {
+        public override string this[PhraseCreator phraseCreatingFunc] {
             get {
                 try {
-                    return typeDictionary.First(pair => pair.Value.Method.ReturnType == phraseCreatingFunction.Method.ReturnType).Key;
+                    return typeDictionary.First(pair => pair.Value.Method.ReturnType == phraseCreatingFunc.Method.ReturnType).Key;
                 } catch (InvalidOperationException) {
                     throw new UnmappedPhraseTypeException(string.Format("Phrase constructor\n{0}\nis not mapped by this Tagset.\nFunction Type: {1} => {2}",
-                        phraseCreatingFunction,
-                        phraseCreatingFunction.Method.GetParameters().Aggregate("", (s, p) => s += p.ParameterType.FullName + ", ").TrimEnd(',', ' '),
-                        phraseCreatingFunction.Method.ReturnType.FullName
+                        phraseCreatingFunc,
+                        phraseCreatingFunc.Method.GetParameters().Aggregate("", (s, p) => s += p.ParameterType.FullName + ", ").TrimEnd(',', ' '),
+                        phraseCreatingFunc.Method.ReturnType.FullName
                         )
                     );
                 }
@@ -95,7 +95,7 @@ namespace LASI.ContentSystem.TaggerEncapsulation
         public override string this[Phrase phrase] {
             get {
                 try {
-                    return typeDictionary.First(wordCreatorPosTagPair => wordCreatorPosTagPair.Value.Method.ReturnType == phrase.GetType()).Key;
+                    return typeDictionary.First(funcPosTagPair => funcPosTagPair.Value.Method.ReturnType == phrase.GetType()).Key;
                 } catch (InvalidOperationException) {
                     throw new UnmappedPhraseTypeException(string.Format("The indexing LASI.Algorithm.Phrase has type {0}, a type which is not mapped by {1}.", phrase.GetType(), this.GetType()));
                 }

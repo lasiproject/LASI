@@ -18,6 +18,9 @@ namespace LASI.Algorithm
         System.Collections.Generic.IEnumerable<IEntity> DirectObjects {
             get;
         }
+        /// <summary>
+        /// Gets an IAggregateEntity implementation composed from all of the IDirectObjectTaker's directobjects.
+        /// </summary>
         IAggregateEntity AggregateDirectObject { get; }
 
     }

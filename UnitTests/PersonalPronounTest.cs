@@ -127,7 +127,7 @@ namespace AlgorithmAssemblyUnitTestProject
         public void DirectObjectOfTest() {
             string text = "him";
             PersonalPronoun target = new PersonalPronoun(text);
-            IVerbal expected = new Verb("frightened", VerbTense.Past);
+            IVerbal expected = new Verb("frightened", VerbMorph.Past);
             IVerbal actual;
             target.DirectObjectOf = expected;
             actual = target.DirectObjectOf;
@@ -142,7 +142,7 @@ namespace AlgorithmAssemblyUnitTestProject
         public void IndirectObjectOfTest() {
             string text = "him";
             PersonalPronoun target = new PersonalPronoun(text);
-            IVerbal expected = new Verb("frightened", VerbTense.Past);
+            IVerbal expected = new Verb("frightened", VerbMorph.Past);
             IVerbal actual;
             target.DirectObjectOf = expected;
             actual = target.DirectObjectOf;
@@ -168,7 +168,7 @@ namespace AlgorithmAssemblyUnitTestProject
         public void SubjectOfTest() {
             string text = "him";
             PersonalPronoun target = new PersonalPronoun(text);
-            IVerbal expected = new Verb("frightened", VerbTense.Past);
+            IVerbal expected = new Verb("frightened", VerbMorph.Past);
             IVerbal actual;
             target.DirectObjectOf = expected;
             actual = target.DirectObjectOf;

@@ -96,7 +96,7 @@
     <Compile Include="FileManager.cs" />
     <Compile Include="FileTypes\FileConverter.cs" />
     <Compile Include="Exceptions\FileManagerExceptions.cs" />
-    <Compile Include="TaggerEncapsulation\TagParsers\Basis\Experimental\ExperimentalTaggedParser.cs" />
+    <Compile Include="TaggerEncapsulation\TagParsers\Basis\Experimental\ExperimentalTagParser.cs" />
     <Compile Include="TaggerAndFileAbstraction\Tagger.cs" />
     <Compile Include="TaggerEncapsulation\TagParsers\Basis\Support\TagIdentifier.cs" />
     <Compile Include="TaggerEncapsulation\TagParsers\Basis\TagParser.cs" />
