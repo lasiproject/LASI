@@ -22,7 +22,7 @@ namespace LASI.Algorithm
         IPrepositional PrepositionOnRight { get; set; }
 
         /// <summary>
-        /// Gets the key text of the ILexical.
+        /// Gets the text of the ILexical.
         /// </summary>
         string Text { get; }
         /// <summary>

@@ -22,14 +22,14 @@ namespace LASI.Algorithm
         public Clause(IEnumerable<Phrase> phrases) {
             Phrases = phrases;
         }
-        /// <summary>
-        ///Initializes a new instance of the Clause class, by composing the given linear sequence of words       
-        ///As the words are bare in this context, that is not members of a known a object, they are subsequently implanted in an UndeterminedPhrase instance whose syntactic role should be determined contextually in the future.
-        /// </summary>
-        /// <param name="words">The linear sequence of Words which compose to form the single UndeterminedPhrase which will comprise the Clause.</param>
-        public Clause(IEnumerable<Word> words) {
-            Phrases = new List<Phrase>(new[] { new UnknownPhrase(words) });
-        }
+        ///// <summary>
+        /////Initializes a new instance of the Clause class, by composing the given linear sequence of words       
+        /////As the words are bare in this context, that is not members of a known a object, they are subsequently implanted in an UndeterminedPhrase instance whose syntactic role should be determined contextually in the future.
+        ///// </summary>
+        ///// <param name="words">The linear sequence of Words which compose to form the single UndeterminedPhrase which will comprise the Clause.</param>
+        ////public Clause(IEnumerable<Word> words) {
+        ////    Phrases = new List<Phrase>(new[] { new UnknownPhrase(words) });
+        ////}
 
 
         /// <summary>
@@ -71,9 +71,16 @@ namespace LASI.Algorithm
 
 
         /// <summary>
-        /// Gets the collection of Phrases which comprise the Clause.
+        /// Gets the collection of Phrases which the Clause contains.
         /// </summary>
         public IEnumerable<Phrase> Phrases { get; protected set; }
+        /// <summary>
+        /// Gets the concatenated text content of all of the Phrases which compose the Clause.
+        /// </summary>
+        /// <summary>
+        /// Gets the collection of Words which the Clause contains.
+        /// </summary>
+        public IEnumerable<Word> Words { get { return Phrases.SelectMany(r => r.Words); } }
         /// <summary>
         /// Gets the concatenated text content of all of the Phrases which compose the Clause.
         /// </summary>

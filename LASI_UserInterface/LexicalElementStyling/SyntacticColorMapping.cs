@@ -5,14 +5,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
-using LASI.Utilities.PatternMatching;
+using LASI.Algorithm.Patternization;
 
 namespace LASI.UserInterface
 {
     static class SyntacticStylization
     {
         public static Brush GetBrush(this ILexical lexical) {
-            return Match.From(lexical).To<Brush>()
+            return Matcher.From(lexical).To<Brush>()
                 .With<NounPhrase>(n => n.Words.GetProperNouns().Any() ? Brushes.DarkBlue : Brushes.Brown)
                 .With<InfinitivePhrase>(Brushes.Teal)
                 .With<IPronoun>(Brushes.DarkCyan)

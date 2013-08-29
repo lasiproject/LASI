@@ -1,9 +1,9 @@
 ﻿using LASI.Algorithm.Lookup;
 using System;
+using LASI.Algorithm.Patternization;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using LASI.Utilities.PatternMatching;
+using System.Text; 
 using System.Threading.Tasks;
 namespace LASI.Algorithm.Binding.Experimental
 {
@@ -35,7 +35,7 @@ namespace LASI.Algorithm.Binding.Experimental
         private static IEnumerable<Action> ImagineBindings(IEnumerable<Word> words) {
             return from noun in words.GetNouns()
                    let np = noun.Phrase as NounPhrase
-                   let gen = np != null ? Match.From(noun).To<char>()
+                   let gen = np != null ? Matcher.From(noun).To<char>()
                    .With<ProperSingularNoun>(n => n.IsFemale() == !np.IsFullMale() ? 'F' : n.IsMale() && !np.IsFullFemale() ? 'M' : !n.IsFirstName() ? 's' : 'A')
                    .With<GenericSingularNoun>('s')
                    .With<ProperPluralNoun>('p')

@@ -1,7 +1,7 @@
 ﻿
 using LASI.Algorithm.DocumentConstructs;
 using LASI.Utilities;
-using LASI.Utilities.PatternMatching;
+using LASI.Algorithm.Patternization;
 using System;
 using System.Collections.Generic;
 using System.Linq;

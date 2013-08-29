@@ -1,5 +1,5 @@
 ﻿using LASI.Utilities;
-using LASI.Utilities.PatternMatching;
+using LASI.Algorithm.Patternization;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -676,11 +676,11 @@ namespace LASI.Algorithm.Lookup
         /// <param name="entity">The entity whose gender to lookup.</param>
         /// <returns>A NameGender value indiciating the likely gender of the entity.</returns>
         public static Gender GetGender(this IEntity entity) {
-            return Match.From<IEntity>(entity).To<Gender>()
+            return Matcher.From<IEntity>(entity).To<Gender>()
                     .With<IPronoun>(p => p.GetGender())
                     .With<NounPhrase>(n => n.GetGender())
-                    .With<ProperSingularNoun>(p => p.Gender)
-                    .With<GenericNoun>(() => Gender.Neutral)
+                    .With<ISimpleGendered>(p => p.Gender)
+                    .With<GenericNoun>(Gender.Neutral)
                     .Result();
         }
         /// <summary>
@@ -690,18 +690,18 @@ namespace LASI.Algorithm.Lookup
         /// <returns>A NameGender value indiciating the likely gender of the Pronoun.</returns>
         public static Gender GetGender(this IPronoun pronoun) {
             return
-                Match.From(pronoun).To<Gender>()
+                Matcher.From(pronoun).To<Gender>()
                   .With<IPronoun>(p => p.RefersTo == null, p =>
-                      Match.From<IEntity>(p).To<Gender>()
+                      Matcher.From<IEntity>(p).To<Gender>()
                         .With<ISimpleGendered>(sg => sg.Gender)
                         .With<PronounPhrase>(pnp => GetPhraseGender(pnp))
                         .Result())
                   .With<IPronoun>(p => p.RefersTo != null, bp =>
-                Match.From<IEntity>(bp.RefersTo).To<Gender>()
+                Matcher.From<IEntity>(bp.RefersTo).To<Gender>()
                   .With<NounPhrase>(np => np.GetGender())
                   .With<Pronoun>(pro => pro.GetGender())
                   .With<ProperSingularNoun>(p => p.Gender)
-                  .With<GenericNoun>(() => Gender.Neutral)
+                  .With<GenericNoun>(Gender.Neutral)
                   .Result())
                 .Result();
         }

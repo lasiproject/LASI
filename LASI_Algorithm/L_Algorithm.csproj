@@ -104,6 +104,8 @@
     <Compile Include="LexicalStructures\NounRelatedConstructs\ISimpleGendered.cs" />
     <Compile Include="LexicalStructures\UnderpinningTypes\IAggregateLexical.cs" />
     <Compile Include="Patternization\AlgebraicDestructuring.cs" />
+    <Compile Include="Patternization\IMatchCase.cs" />
+    <Compile Include="Patternization\PatternMatching.cs" />
     <Compile Include="ResourceUsageManagement\Memory.cs" />
     <Compile Include="TextSourceAbstraction\IUntaggedTextSource.cs" />
     <Compile Include="EntityKindClassificationExtensions.cs" />

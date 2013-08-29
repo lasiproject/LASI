@@ -1,5 +1,6 @@
 ﻿using LASI;
 using LASI.Algorithm;
+using LASI.Algorithm.Patternization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,68 +12,49 @@ namespace LASI.ContentSystem.Serialization.XML.ILexicalExtensions
 {
     static class SerializationExtensions
     {
-        static XElement ToXml(this ILexical element) {
-            try {
-                return (element as dynamic).ToXElement();
-            } catch (Microsoft.CSharp.RuntimeBinder.RuntimeBinderException) {
-                return null;
-            }
+        static XElement ToXml(this ILexical lex) {
+            return new XElement(lex.Type.Name,
+                new XAttribute("ID",
+                    lex.MatchOne().Yield<int>()
+                            .With<Phrase>(p => p.ID)
+                            .With<Word>(w => w.ID)
+                            .Result()),
+                    lex.MatchMany().Yield()
+                        .For<IEntity>(e => e.SerializeAspects())
+                        .For<Clause>(c => new XElement("Phrases", c.Phrases.Select(r => r.ToXml())))
+                        .For<Phrase>(r => new XElement("Words", r.Words.Select(w => w.ToXml())))
+                        .Always(lex.Text).Results()
+                        );
         }
 
-        static XElement ToXElement(this Noun noun) {
-            return new XElement(noun.Type.Name,
-                new XAttribute("ID", noun.ID),
-                new XAttribute("Weight", noun.Weight),
-                new XAttribute("MetaWeight", noun.MetaWeight),
-                new XElement("SubjectOf", GetIdentityString(noun.SubjectOf)),
-                new XElement("DirectObjectOf", GetIdentityString(noun.DirectObjectOf)),
-                new XElement("IndirectObjectOf", GetIdentityString(noun.IndirectObjectOf)),
+        static IEnumerable<XObject> SerializeAspects(this IEntity entity) {
+
+            return new XObject[]{ 
+                new XAttribute("Weight", entity.Weight),
+                new XAttribute("MetaWeight", entity.MetaWeight),
+                new XElement("SubjectOf", GetIdentityString(entity.SubjectOf)),
+                new XElement("DirectObjectOf", GetIdentityString(entity.DirectObjectOf)),
+                new XElement("IndirectObjectOf", GetIdentityString(entity.IndirectObjectOf)),
                 new XElement("Bound Pronouns",
-                    from e in noun.BoundPronouns
+                    from e in entity.BoundPronouns
                     let content = e.GetIdentityString()
                     select new XElement("ReferencedBy", content)),
                 new XElement("Descriptors",
-                    from e in noun.Descriptors
+                    from e in entity.Descriptors
                     let content = e.GetIdentityString()
                     select new XElement("DescribedBy", content)),
                 new XElement("Possessions",
-                    from e in noun.Possessed
+                    from e in entity.Possessed
                     let content = e.GetIdentityString()
-                    select new XElement("Possesses", content)),
-                noun.Text
-            );
+                    select new XElement("Possesses", content))
+            };
         }
-        static XElement ToXElement(this NounPhrase noun) {
-            return new XElement(noun.Type.Name,
-                new XAttribute("ID", noun.ID),
-                new XAttribute("Weight", noun.Weight),
-                new XAttribute("MetaWeight", noun.MetaWeight),
-                new XElement("SubjectOf", GetIdentityString(noun.SubjectOf)),
-                new XElement("DirectObjectOf", GetIdentityString(noun.DirectObjectOf)),
-                new XElement("IndirectObjectOf", GetIdentityString(noun.IndirectObjectOf)),
-                new XElement("Bound Pronouns",
-                    from e in noun.BoundPronouns
-                    let content = e.GetIdentityString()
-                    select new XElement("ReferencedBy", content)),
-                new XElement("Descriptors",
-                    from e in noun.Descriptors
-                    let content = e.GetIdentityString()
-                    select new XElement("DescribedBy", content)),
-                new XElement("Possessions",
-                    from e in noun.Possessed
-                    let content = e.GetIdentityString()
-                    select new XElement("Possesses", content)),
-                new XElement("Words",
-                    from e in noun.Words
-                    select e.ToXml()),
-                noun.Text
-            );
-        }
+
 
 
         #region Serialization Helpers
 
-        static string GetIdentityString(this ILexical element) {
+        private static string GetIdentityString(this ILexical element) {
             if (element == null)
                 return string.Empty;
             var result = element.Type.Name + " ";

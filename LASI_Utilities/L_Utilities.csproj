@@ -59,7 +59,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="PatternMatching.cs" />
     <Compile Include="FunctionExtensions.cs" />
     <Compile Include="IEnumerableExtensions.cs" />
     <Compile Include="Output.cs" />

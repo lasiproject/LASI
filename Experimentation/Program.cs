@@ -4,6 +4,7 @@ using LASI.Algorithm.Lookup;
 using LASI.Algorithm.Weighting;
 using LASI.ContentSystem;
 using System;
+using LASI.Algorithm.Patternization;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -26,5 +27,19 @@ namespace LASI.Experimentation.CommandLine
             Console.WriteLine(doc.Phrases.Format(w => '\n' + w.ToString()));
             Input.WaitForKey();
         }
+
+
+        int NumberOfSimilarWords(LASI.Algorithm.DocumentConstructs.Document doc, Noun find) {
+
+
+            var matches = from word in doc.Words
+                          where Matcher.From(word).To<bool>()
+                          .With<Noun>(n => n.IsSynonymFor(find))
+                          .With<IPronoun>(p => p.RefersTo.IsSimilarTo(find))
+                          .Result()
+                          select word;
+            return matches.Count();
+        }
+
     }
 }

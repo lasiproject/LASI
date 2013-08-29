@@ -161,13 +161,19 @@ namespace LASI.ContentSystem.TaggerEncapsulation.TagParsers.Experiment.Support
         #endregion
 
         #region enums
-        internal enum NodeTeir { Word, Phrase, Clause }
+
         #endregion
     }
     internal static class NodeStringExtensions
     {
-        static bool IsClauseLevel(this string nodeKind) { return ExperimentalTagParser.map[nodeKind] == ExperimentalTagParser.NodeTeir.Clause; }
-        static bool IsPhraseLevel(this string nodeKind) { return ExperimentalTagParser.map[nodeKind] == ExperimentalTagParser.NodeTeir.Phrase; }
-        static bool IsWordLevel(this string nodeKind) { return ExperimentalTagParser.map[nodeKind] == ExperimentalTagParser.NodeTeir.Word; }
+        static bool IsClauseLevel(this string nodeKind) { return ExperimentalTagParser.map[nodeKind] == NodeTeir.Clause; }
+        static bool IsPhraseLevel(this string nodeKind) { return ExperimentalTagParser.map[nodeKind] == NodeTeir.Phrase; }
+        static bool IsWordLevel(this string nodeKind) { return ExperimentalTagParser.map[nodeKind] == NodeTeir.Word; }
+    }
+    enum NodeTeir
+    {
+        Word,
+        Phrase,
+        Clause
     }
 }

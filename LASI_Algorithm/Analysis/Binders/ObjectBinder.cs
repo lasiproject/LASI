@@ -1,6 +1,6 @@
 ﻿using LASI.Algorithm.DocumentConstructs;
 using LASI.Utilities;
-using LASI.Utilities.PatternMatching;
+using LASI.Algorithm.Patternization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -69,7 +69,7 @@ namespace LASI.Algorithm.Binding
         }
 
         private void TypedBind(IEnumerable<Phrase> remaining, VerbPhrase target) {
-            Match.On(remaining.First())
+            Matcher.MatchOne(remaining.First())
                  .With<AdverbPhrase>(ap => {
                      target.ModifyWith(ap);
                      TypedBind(remaining.Skip(1), ap, target);
@@ -81,7 +81,7 @@ namespace LASI.Algorithm.Binding
         }
 
         private void TypedBind(IEnumerable<Phrase> remaining, AdverbPhrase ap, VerbPhrase target) {
-            Match.On(remaining.First())
+            Matcher.MatchOne(remaining.First())
                 .With<AdjectivePhrase>(p => {
                     TypedBind(remaining.Skip(1), p, target);
                 });
@@ -89,7 +89,7 @@ namespace LASI.Algorithm.Binding
         }
 
         private void TypedBind(IEnumerable<Phrase> remaining, AdjectivePhrase p, VerbPhrase target) {
-            Match.On(remaining.First())
+            Matcher.MatchOne(remaining.First())
                 .With<NounPhrase>(np => {
                     np.BindDescriptor(p);
                 })
@@ -102,7 +102,7 @@ namespace LASI.Algorithm.Binding
         }
 
         private void TypedBind(IEnumerable<Phrase> remaining, NounPhrase np, VerbPhrase target) {
-            Match.On(remaining.First())
+            Matcher.MatchOne(remaining.First())
                 .With<PrepositionalPhrase>(pp => {
                     target.BindIndirectObject(np);
                     TypedBind(remaining.Skip(1), pp, target);
@@ -115,14 +115,14 @@ namespace LASI.Algorithm.Binding
         }
 
         private void TypedBind(IEnumerable<Phrase> remaining, ConjunctionPhrase cp, VerbPhrase target) {
-            Match.On(remaining.First())
+            Matcher.MatchOne(remaining.First())
                 .With<NounPhrase>(np => {
                     cp.JoinedRight = np;
                 });
         }
 
         private void TypedBind(IEnumerable<Phrase> remaining, PrepositionalPhrase pp, VerbPhrase target) {
-            Match.On(remaining.First())
+            Matcher.MatchOne(remaining.First())
                 .With<NounPhrase>(np => {
                     target.BindDirectObject(np);
                     TypedBind(remaining.Skip(1), np, target);

@@ -4,7 +4,7 @@ using LASI.Algorithm.Binding;
 using LASI.Algorithm.DocumentConstructs;
 using LASI.Algorithm.Lookup;
 using LASI.Algorithm.Weighting;
-using LASI.Utilities.PatternMatching;
+using LASI.Algorithm.Patternization;
 using LASI.ContentSystem;
 using LASI.ContentSystem.Serialization.XML;
 using LASI.InteropLayer;
@@ -156,7 +156,7 @@ namespace LASI.UserInterface
                     ToolTip = phrase.Type.Name,
                 };
 
-                Match.On(phrase)
+                Matcher.MatchOne(phrase)
                     .With<PronounPhrase>(p => p.RefersTo != null && p.RefersTo.Any(), p => label.ContextMenu.Items.Add(CreatePronounPhraseLabelMenu(phraseLabels, p)))
                     .With<VerbPhrase>(v => CreateVerbPhraseLabelMenu(phraseLabels, label, v));
 
@@ -208,10 +208,11 @@ namespace LASI.UserInterface
             try {
                 await FileManager.ConvertAsNeededAsync();
             } catch (FileConversionFailureException e) {
+                FileManager.RemoveFile(chosenFile);
                 MessageBox.Show(this, string.Format(".doc file conversion failed\n{0}", e.Message));
             }
 
-            await StepProgress(10);
+            await StepProgress(5);
             currentOperationLabel.Content = string.Format("Tagging {0}...", chosenFile.NameSansExt);
             var textfile = FileManager.TextFiles.Where(f => f.NameSansExt == chosenFile.NameSansExt).First();
 
@@ -225,7 +226,7 @@ namespace LASI.UserInterface
                 currentOperationLabel.Content = task.CompletionMessage;
             }
 
-            await StepProgress(15);
+            await StepProgress(8);
             currentOperationLabel.Content = string.Format("{0}: Correlating Relationships...", chosenFile.NameSansExt);
             var tasks = Weighter.GetWeightingProcessingTasks(doc).ToList();
             foreach (var task in tasks) {

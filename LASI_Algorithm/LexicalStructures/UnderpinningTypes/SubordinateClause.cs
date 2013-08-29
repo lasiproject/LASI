@@ -23,14 +23,7 @@ namespace LASI.Algorithm
             : base(composed) {
 
         }
-        /// <summary>
-        /// Initializes a new instance of the SubordinateClause class, by composing the given linear sequence of Words.
-        /// </summary>
-        /// <param name="composed">The linear sequence of Words which compose to form the Clause.</param>
-        public SubordinateClause(IEnumerable<Word> composed)
-            : base(composed) {
 
-        }
         #endregion
 
         #region Methods

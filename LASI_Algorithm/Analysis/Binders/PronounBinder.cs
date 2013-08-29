@@ -3,7 +3,7 @@ using LASI.Algorithm;
 using LASI.Algorithm.DocumentConstructs;
 using LASI.Algorithm.Lookup;
 using LASI.Utilities;
-using LASI.Utilities.PatternMatching;
+using LASI.Algorithm.Patternization;
 using System;
 using System.Collections.Generic;
 using System.Linq;

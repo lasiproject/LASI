@@ -85,7 +85,7 @@ namespace LASI.InteropLayer
                 var taggedFile = await currentTask;
                 taggingTasks.Remove(currentTask);
                 taggedFiles.Add(taggedFile);
-                await updateProgressDisplay(string.Format("{0}: Tagged", taggedFile.TextSourceName), stepSize);
+                await updateProgressDisplay(string.Format("{0}: Tagged", taggedFile.TextSourceName), stepSize + 2);
             }
             await updateProgressDisplay("Tagged Documents", 3);
             var tasks = taggedFiles.Select(tagged => ProcessTaggedFileAsync(tagged)).ToList();
