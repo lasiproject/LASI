@@ -6,11 +6,10 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-
+using LASI.Algorithm.Lookup.InterSetRelationshipManagement;
 
 namespace LASI.Algorithm.Lookup
 {
-    using LASI.Algorithm.Lookup.InterSetRelationshipManagement;
     using SetReference = System.Collections.Generic.KeyValuePair<NounSetRelationship, int>;
     internal sealed class NounLookup : IWordNetLookup<Noun>
     {
@@ -23,16 +22,15 @@ namespace LASI.Algorithm.Lookup
             filePath = path;
             InitCategoryGroupsDictionary();
         }
-        //ConcurrentDictionary<int, HashSet<NounSynSet>> cachedSetTraverals = new ConcurrentDictionary<int, HashSet<NounSynSet>>();
+
         HashSet<NounSynSet> allSets = new HashSet<NounSynSet>();
-        //Dictionary<int, NounSynSet> data = new Dictionary<int, NounSynSet>();
-        IDictionary<int, NounSynSet> data = new ConcurrentDictionary<int, NounSynSet>();
+
+        SortedDictionary<int, NounSynSet> data = new SortedDictionary<int, NounSynSet>();
 
         /// <summary>
         /// Parses the contents of the underlying WordNet database file.
         /// </summary>
         public void Load() {
-
             using (StreamReader reader = new StreamReader(filePath)) {
                 for (int i = 0; i < HEADER_LENGTH; ++i) {
                     reader.ReadLine();
@@ -41,13 +39,13 @@ namespace LASI.Algorithm.Lookup
                     InsertSetData(CreateSet(reader.ReadLine()));
                 }
             }
-
-
         }
-
+        public async System.Threading.Tasks.Task LoadAsync() {
+            await System.Threading.Tasks.Task.Run(() => Load());
+        }
         private void InsertSetData(NounSynSet set) {
             allSets.Add(set);
-            data.Add(set.ID, set);
+            data[set.ID] = set;
             lexicalGoups[set.LexName].Add(set);
         }
 
@@ -56,13 +54,13 @@ namespace LASI.Algorithm.Lookup
             string line = fileLine.Substring(0, fileLine.IndexOf('|'));
 
             IEnumerable<SetReference> referencedSets =
-                from match in Regex.Matches(line, pointerRegex).Cast<Match>()
+                from match in Regex.Matches(line, POINTER_REGEX).Cast<Match>()
                 let split = match.Value.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
                 where split.Count() > 1 && IncludeReference(RelationshipMap[split[0]])
                 select new SetReference(RelationshipMap[split[0]], Int32.Parse(split[1]));
 
 
-            IEnumerable<string> words = from Match match in Regex.Matches(line, wordRegex)
+            IEnumerable<string> words = from Match match in Regex.Matches(line, WORD_REGEX)
                                         select match.Value.Replace('_', '-');
 
             int id = Int32.Parse(line.Substring(0, 8));
@@ -72,17 +70,10 @@ namespace LASI.Algorithm.Lookup
             return new NounSynSet(id, words, referencedSets, lexCategory);
         }
 
-        private const string wordRegex = @"(?<word>[A-Za-z_\-\']{3,})";
-
-
-        private const string pointerRegex = @"\D{1,2}\s*\d{8}";
-
-
-
 
 
         private ISet<string> SearchFor(string word) {
-            var containingSet = allSets.FirstOrDefault(set => set.Words.Contains(word));
+            var containingSet = data.Values.FirstOrDefault(set => set.Words.Contains(word));
             if (containingSet != null) {
                 try {
                     List<string> results = new List<string>();
@@ -96,16 +87,6 @@ namespace LASI.Algorithm.Lookup
             return new HashSet<string>();
         }
 
-        private void SearchSubsets(NounSynSet containingSet, List<string> results, HashSet<NounSynSet> setsSearched) {
-            results.AddRange(containingSet.Words);
-            results.AddRange(containingSet[NounSetRelationship.HypERnym].Where(set => data.ContainsKey(set)).SelectMany(set => data[set].Words));
-            setsSearched.Add(containingSet);
-            foreach (var set in containingSet.ReferencedIndexes.Except(containingSet[NounSetRelationship.HypERnym]).Select(pointer => data.ContainsKey(pointer) ? data[pointer] : null)) {
-                if (set != null && set.LexName == containingSet.LexName && !setsSearched.Contains(set)) {
-                    SearchSubsets(set, results, setsSearched);
-                }
-            }
-        }
 
         public ISet<string> this[string search] {
             get {
@@ -124,67 +105,24 @@ namespace LASI.Algorithm.Lookup
         }
 
 
+        private void SearchSubsets(NounSynSet containingSet, List<string> results, HashSet<NounSynSet> setsSearched) {
+            results.AddRange(containingSet.Words);
+            results.AddRange(containingSet[NounSetRelationship.HypERnym].Where(set => data.ContainsKey(set)).SelectMany(set => data[set].Words));
+            setsSearched.Add(containingSet);
+            foreach (var set in containingSet.ReferencedIndexes.Except(containingSet[NounSetRelationship.HypERnym]).Select(pointer => data.ContainsKey(pointer) ? data[pointer] : null)) {
+                if (set != null && set.LexName == containingSet.LexName && !setsSearched.Contains(set)) {
+                    SearchSubsets(set, results, setsSearched);
+                }
+            }
+        }
         private ConcurrentDictionary<NounCategory, List<NounSynSet>> lexicalGoups = new ConcurrentDictionary<NounCategory, List<NounSynSet>>();
         private void InitCategoryGroupsDictionary() {
-
-            lexicalGoups[NounCategory.Tops] = new List<NounSynSet>();
-            lexicalGoups[NounCategory.Act] = new List<NounSynSet>();
-            lexicalGoups[NounCategory.Animal] = new List<NounSynSet>();
-            lexicalGoups[NounCategory.Artifact] = new List<NounSynSet>();
-            lexicalGoups[NounCategory.Attribute] = new List<NounSynSet>();
-            lexicalGoups[NounCategory.Body] = new List<NounSynSet>();
-            lexicalGoups[NounCategory.Cognition] = new List<NounSynSet>();
-            lexicalGoups[NounCategory.Communication] = new List<NounSynSet>();
-            lexicalGoups[NounCategory.Event] = new List<NounSynSet>();
-            lexicalGoups[NounCategory.Feeling] = new List<NounSynSet>();
-            lexicalGoups[NounCategory.Food] = new List<NounSynSet>();
-            lexicalGoups[NounCategory.Group] = new List<NounSynSet>();
-            lexicalGoups[NounCategory.Location] = new List<NounSynSet>();
-            lexicalGoups[NounCategory.Motive] = new List<NounSynSet>();
-            lexicalGoups[NounCategory.Object] = new List<NounSynSet>();
-            lexicalGoups[NounCategory.Person] = new List<NounSynSet>();
-            lexicalGoups[NounCategory.Phenomenon] = new List<NounSynSet>();
-            lexicalGoups[NounCategory.Plant] = new List<NounSynSet>();
-            lexicalGoups[NounCategory.Possession] = new List<NounSynSet>();
-            lexicalGoups[NounCategory.Process] = new List<NounSynSet>();
-            lexicalGoups[NounCategory.Quantity] = new List<NounSynSet>();
-            lexicalGoups[NounCategory.Relation] = new List<NounSynSet>();
-            lexicalGoups[NounCategory.Shape] = new List<NounSynSet>();
-            lexicalGoups[NounCategory.State] = new List<NounSynSet>();
-            lexicalGoups[NounCategory.Substance] = new List<NounSynSet>();
-            lexicalGoups[NounCategory.Time] = new List<NounSynSet>();
+            foreach (NounCategory e in Enum.GetValues(typeof(NounCategory))) {
+                lexicalGoups[e] = new List<NounSynSet>();
+            }
         }
 
 
-        //private Dictionary<NounCategory, List<NounSynSet>> lexicalGoups = new Dictionary<NounCategory, List<NounSynSet>>
-        //{
-        //    { NounCategory.Tops, new List<NounSynSet>() },
-        //    { NounCategory.Act,new List<NounSynSet>() },
-        //    { NounCategory.Animal,new List<NounSynSet>() },
-        //    { NounCategory.Artifact,new List<NounSynSet>() },
-        //    { NounCategory.Attribute,new List<NounSynSet>() },
-        //    { NounCategory.Body,new List<NounSynSet>() },
-        //    { NounCategory.Cognition,new List<NounSynSet>() },
-        //    { NounCategory.Communication,new List<NounSynSet>() },
-        //    { NounCategory.Event,new List<NounSynSet>() },
-        //    { NounCategory.Feeling,new List<NounSynSet>() },
-        //    { NounCategory.Food,new List<NounSynSet>() },
-        //    { NounCategory.Group,new List<NounSynSet>() },
-        //    { NounCategory.Location,new List<NounSynSet>() },
-        //    { NounCategory.Motive,new List<NounSynSet>() },
-        //    { NounCategory.Object,new List<NounSynSet>() },
-        //    { NounCategory.Person,new List<NounSynSet>() },
-        //    { NounCategory.Phenomenon,new List<NounSynSet>() },
-        //    { NounCategory.Plant,new List<NounSynSet>() },
-        //    { NounCategory.Possession,new List<NounSynSet>() },
-        //    { NounCategory.Process,new List<NounSynSet>() },
-        //    { NounCategory.Quantity,new List<NounSynSet>() },
-        //    { NounCategory.Relation,new List<NounSynSet>() },
-        //    { NounCategory.Shape,new List<NounSynSet>() },
-        //    { NounCategory.State,new List<NounSynSet>() },
-        //    { NounCategory.Substance,new List<NounSynSet>() },
-        //    { NounCategory.Time,new List<NounSynSet>() }
-        //};
 
         private static bool IncludeReference(NounSetRelationship referenceRelationship) {
             return
@@ -202,12 +140,17 @@ namespace LASI.Algorithm.Lookup
 
         private static readonly NounPointerSymbolMap RelationshipMap = new NounPointerSymbolMap();
 
+
+
+
         private string filePath;
 
-        public async System.Threading.Tasks.Task LoadAsync() {
-            await System.Threading.Tasks.Task.Run(() => Load());
-        }
 
+
+        private const string WORD_REGEX = @"(?<word>[A-Za-z_\-\']{3,})";
+
+
+        private const string POINTER_REGEX = @"\D{1,2}\s*\d{8}";
 
     }
 }

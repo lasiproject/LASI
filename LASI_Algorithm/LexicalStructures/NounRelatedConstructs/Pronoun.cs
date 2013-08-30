@@ -11,7 +11,7 @@ namespace LASI.Algorithm
     /// <summary>
     /// Represents a pronoun which gernerally refers back to a previously defined Entity, such as a Noun or NounPhrase.
     /// </summary>
-    public abstract class Pronoun : Word, IPronoun, ISimpleGendered
+    public abstract class Pronoun : Word, IPronoun, IGendered
     {
         #region Constructors
 

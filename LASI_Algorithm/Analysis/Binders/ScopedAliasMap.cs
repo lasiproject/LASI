@@ -7,8 +7,17 @@ using System.Threading.Tasks;
 
 namespace LASI.Algorithm.Analysis.Binders
 {
+    /// <summary>
+    /// Represents an alias Mapping between IEntity instances within a constrained scope.
+    /// </summary>
     public class ScopedAliasMap
     {
+        #region Constructors
+
+        /// <summary>
+        /// Initializes a new instance of the ScopedAliasMap class, its scope constrained by the provided Paragraph.
+        /// </summary>
+        /// <param name="paragraph"></param>
         public ScopedAliasMap(Paragraph paragraph)
             : this(paragraph.Words, paragraph.Phrases) {
         }
@@ -20,10 +29,15 @@ namespace LASI.Algorithm.Analysis.Binders
             }
         }
 
+        #endregion
 
+        #region Properties and Indexers
 
-        IEnumerable<ILexical> domain;
-        IDictionary<string, IEnumerable<string>> assumedAliases = new Dictionary<string, IEnumerable<string>>();
+        /// <summary>
+        /// Returns the IEntity instances which have been so far identified as aliases of the indexing IEntity instance within the lexical scope of the ScopedAliasMap.
+        /// </summary>
+        /// <param name="key">The IEntity instance whose aliases will be retrieved.</param>
+        /// <returns>The IEntity instances which have been so far identified as aliases of the indexing IEntity instance within the lexical scope of the ScopedAliasMap.</returns>
         public IEnumerable<IEntity> this[IEntity key] {
             get {
                 return domain.GetEntities().ToDictionary(e => e,
@@ -33,5 +47,12 @@ namespace LASI.Algorithm.Analysis.Binders
                          select i)[key];
             }
         }
+
+        #endregion
+
+        #region Fields
+        IEnumerable<ILexical> domain;
+        IDictionary<string, IEnumerable<string>> assumedAliases = new Dictionary<string, IEnumerable<string>>();
+        #endregion
     }
 }

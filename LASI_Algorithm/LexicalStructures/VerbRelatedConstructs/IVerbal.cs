@@ -1,6 +1,4 @@
-﻿
-
-namespace LASI.Algorithm
+﻿namespace LASI.Algorithm
 {
     /// <summary>
     /// Defines the role reqirements for Transitive elements, generally Verbs or VerbPhrases,
@@ -10,23 +8,12 @@ namespace LASI.Algorithm
     /// </summary>
     public interface IVerbal : ILexical, ISubjectTaker, IDirectObjectTaker, IInderectObjectTaker, IAdverbialModifiable, IModalityModifiable
     {
+        #region Methods
         /// <summary>
         /// Binds the IVerbal to the corresponding object of the preposition.
         /// </summary>
         /// <param name="prepositional">The IPrepositional construct whose object is the the corresponding object of the preposition.</param>
         void AttachObjectViaPreposition(IPrepositional prepositional);
-        /// <summary>
-        /// Gets the object of the preposition, if present, which is associated with the statement the Verbal is the basis for.
-        /// </summary>
-        ILexical ObjectOfThePreoposition {
-            get;
-        }
-        /// <summary>
-        /// Gets the IPropositioanl construct, such as a Preposition or PrepositionalPhrase, which links the Verbal to its ObjectViaPreposition if such a relationship exists.
-        /// </summary>
-        IPrepositional PrepositionalToObject {
-            get;
-        }
         /// <summary>
         /// Gets a value indicating if the IVerbal has at least one subject.
         /// </summary>
@@ -71,7 +58,29 @@ namespace LASI.Algorithm
         /// <param name="predicate">A predicate to test each object.</param>
         /// <returns>True if the IVerbal has at least one direct or indirect object  matching the provided predicate, false otherwise.</returns>
         bool HasObject(System.Func<IEntity, bool> predicate);
-        bool IsPossessive { get; }
+        #endregion
+
+        #region Properties
+        /// <summary>
+        /// Gets the object of the preposition, if present, which is associated with the statement the Verbal is the basis for.
+        /// </summary>
+        ILexical ObjectOfThePreoposition {
+            get;
+        }
+        /// <summary>
+        /// Gets the IPropositioanl construct, such as a Preposition or PrepositionalPhrase, which links the Verbal to its ObjectViaPreposition if such a relationship exists.
+        /// </summary>
+        IPrepositional PrepositionalToObject {
+            get;
+        }
+        /// <summary>
+        /// Gets a value indicating wether or not the IVerbal has classifying semantics. E.g. "A (is) a B"
+        /// </summary>
         bool IsClassifier { get; }
+        /// <summary>
+        /// Gets a value indicating wether or not the IVerbal has possessive semantics. E.g. "A (has) a B"
+        /// </summary>
+        bool IsPossessive { get; }
+        #endregion
     }
 }

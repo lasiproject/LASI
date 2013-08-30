@@ -9,7 +9,7 @@ namespace LASI.Algorithm
     /// <summary>
     /// Represents a Proper Singular Noun.
     /// </summary>
-    public class ProperSingularNoun : ProperNoun, ISimpleGendered
+    public class ProperSingularNoun : ProperNoun, IGendered
     {
         /// <summary>
         /// Initialiazes a new instance of the ProperSingularNoun class.
@@ -17,13 +17,20 @@ namespace LASI.Algorithm
         /// <param name="text">The key text content of the ProperSingularNoun.</param>
         public ProperSingularNoun(string text)
             : base(text) {
-            EntityKind = text.All(c => char.IsUpper(c)) ? EntityKind.Organization : EntityKind;
+            EntityKind = text.All(c => char.IsUpper(c) || c == '.') ? EntityKind.Organization : EntityKind;
         }
-        private Gender? gender;
+        private Gender? gender = null;
         /// <summary>
-        /// Gets the likely gender of the ProperNoun.
+        /// Gets the Gender value indiciating the likely gender of the ProperNoun.
         /// </summary>
-        public virtual Gender Gender { get { gender = gender ?? LexicalLookup.DetermineGender(this); return gender.Value; } }
+        public virtual Gender Gender {
+            get {
+                gender = gender ?? (this.IsFemaleFirstName() ? Gender.Female :
+                    this.IsMaleFirstName() ? Gender.Male :
+                    this.IsLastName() ? Gender.Neutral : Gender.UNDEFINED);
+                return gender.Value;
+            }
+        }
     }
 
 }

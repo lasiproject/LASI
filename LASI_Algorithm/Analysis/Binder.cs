@@ -1,7 +1,7 @@
 ﻿using LASI.Algorithm.Binding;
 using LASI.Algorithm.DocumentConstructs;
 using LASI.Algorithm.Patternization;
-using LASI.Utilities; 
+using LASI.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -53,12 +53,6 @@ namespace LASI.Algorithm.Binding
             BindIntraPhrase(doc.Phrases);
             BindSubjectsAndObjects(doc.Sentences);
             BindPronouns(doc.Sentences);
-            var results = Destructure
-                .MatchMany(doc.Phrases.First())
-                .Yield<ILexical>()
-                .For<IEntity>(e => e.SubjectOf)
-                .For<IVerbal>(e => new AggregateEntity(e.DirectObjects))
-                .Always(l => l).Results();
         }
 
         /// <summary>

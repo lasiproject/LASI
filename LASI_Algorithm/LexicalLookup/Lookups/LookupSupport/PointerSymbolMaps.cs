@@ -10,7 +10,7 @@ namespace LASI.Algorithm.Lookup.InterSetRelationshipManagement
     /// <summary>
     /// Provides an indexed lookup between the values of the Noun enum and their corresponding string representation in WordNet data.noun files.
     /// </summary>
-    internal class NounPointerSymbolMap
+    internal sealed class NounPointerSymbolMap
     {
         /// <summary>
         /// Gets the Noun value corresponding to the Key string. 
@@ -58,7 +58,7 @@ namespace LASI.Algorithm.Lookup.InterSetRelationshipManagement
     /// <summary>
     /// Provides an indexed lookup between the values of the VerbPointerSymbol enum and their corresponding string representation in WordNet data.verb files.
     /// </summary>
-    internal class VerbPointerSymbolMap
+    internal sealed class VerbPointerSymbolMap
     {
         /// <summary>
         /// Gets the VerbPointerSymbol value corresponding to the Key string. 
@@ -91,7 +91,7 @@ namespace LASI.Algorithm.Lookup.InterSetRelationshipManagement
     /// <summary>
     /// Provides an indexed lookup between the values of the AdjectivePointerSymbol enum and their corresponding string representation in WordNet data.adj files.
     /// </summary>
-    internal class AdjectivePointerSymbolMap
+    internal sealed class AdjectivePointerSymbolMap
     {
         /// <summary>
         /// Gets the VerbPointerSymbol value corresponding to the Key string. 
@@ -123,7 +123,7 @@ namespace LASI.Algorithm.Lookup.InterSetRelationshipManagement
     /// <summary>
     /// Provides an indexed lookup between the values of the AdjectivePointerSymbol enum and their corresponding string representation in WordNet data.adv files.
     /// </summary>
-    internal class AdverbPointerSymbolMap
+    internal sealed class AdverbPointerSymbolMap
     {
         /// <summary>
         /// Gets the VerbPointerSymbol value corresponding to the Key string. 
@@ -150,7 +150,7 @@ namespace LASI.Algorithm.Lookup.InterSetRelationshipManagement
 
 
 
-    internal class NounSetIDSymbolMap : ILookup<NounSetRelationship, int>
+    internal sealed class NounSetIDSymbolMap : ILookup<NounSetRelationship, int>
     {
         public NounSetIDSymbolMap(IEnumerable<KeyValuePair<NounSetRelationship, int>> relationData) {
             data = (from pair in relationData
@@ -196,7 +196,7 @@ namespace LASI.Algorithm.Lookup.InterSetRelationshipManagement
 
     }
 
-    internal class VerbSetIDSymbolMap : ILookup<VerbSetRelationship, int>
+    internal sealed class VerbSetIDSymbolMap : ILookup<VerbSetRelationship, int>
     {
         public VerbSetIDSymbolMap(IEnumerable<KeyValuePair<VerbSetRelationship, int>> relationData) {
             data = (from pair in relationData
@@ -238,7 +238,7 @@ namespace LASI.Algorithm.Lookup.InterSetRelationshipManagement
 
     }
 
-    internal class AdjectiveSetIDSymbolMap : ILookup<AdjectiveSetRelationship, int>
+    internal sealed class AdjectiveSetIDSymbolMap : ILookup<AdjectiveSetRelationship, int>
     {
         public AdjectiveSetIDSymbolMap(IEnumerable<KeyValuePair<AdjectiveSetRelationship, int>> relationData) {
             data = (from pair in relationData
@@ -279,7 +279,7 @@ namespace LASI.Algorithm.Lookup.InterSetRelationshipManagement
         }
 
     }
-    internal class AdverbSetIDSymbolMap : ILookup<AdverbSetRelationship, int>
+    internal sealed class AdverbSetIDSymbolMap : ILookup<AdverbSetRelationship, int>
     {
         public AdverbSetIDSymbolMap(IEnumerable<KeyValuePair<AdverbSetRelationship, int>> relationData) {
             data = (from pair in relationData

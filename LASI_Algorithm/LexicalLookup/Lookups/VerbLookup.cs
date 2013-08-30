@@ -41,12 +41,12 @@ namespace LASI.Algorithm.Lookup
         private VerbSynSet CreateSet(string fileLine) {
             var line = fileLine.Substring(0, fileLine.IndexOf('|'));
 
-            var referencedSets = from Match M in Regex.Matches(line, pointerRegex)
+            var referencedSets = from Match M in Regex.Matches(line, POINTER_REGEX)
                                  let split = M.Value.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
                                  where split.Count() > 1
                                  select new SetReference(RelationMap[split[0]], Int32.Parse(split[1]));
 
-            var words = from Match ContainedWord in Regex.Matches(line.Substring(17), wordRegex)
+            var words = from Match ContainedWord in Regex.Matches(line.Substring(17), WORD_REGEX)
                         select ContainedWord.Value.Replace('_', '-').ToLower();
             var id = Int32.Parse(line.Substring(0, 8));
             var lexCategory = (VerbCategory)Int32.Parse(line.Substring(9, 2));
@@ -114,8 +114,8 @@ namespace LASI.Algorithm.Lookup
         private ConcurrentDictionary<int, VerbSynSet> setsBySetID = new ConcurrentDictionary<int, VerbSynSet>();
         private ConcurrentDictionary<string, VerbSynSet> verbData = new ConcurrentDictionary<string, VerbSynSet>();
         private static VerbPointerSymbolMap RelationMap = new VerbPointerSymbolMap();
-        private const string wordRegex = @"\b[A-Za-z-_]{2,}";
-        private const string pointerRegex = @"\D{1,2}\s*[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+";
+        private const string WORD_REGEX = @"\b[A-Za-z-_]{2,}";
+        private const string POINTER_REGEX = @"\D{1,2}\s*[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+";
         private string filePath;
         private const int HEADER_LENGTH = 29;
 

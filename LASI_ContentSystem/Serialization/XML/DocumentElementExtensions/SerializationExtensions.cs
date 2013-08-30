@@ -15,15 +15,17 @@ namespace LASI.ContentSystem.Serialization.XML.ILexicalExtensions
         static XElement ToXml(this ILexical lex) {
             return new XElement(lex.Type.Name,
                 new XAttribute("ID",
-                    lex.Match().Yield<int>()
+                    lex.MatchOn().Yield<int>()
                             .With<Phrase>(p => p.ID)
                             .With<Word>(w => w.ID)
                             .Result()),
-                    lex.MatchMany().Yield()
-                        .For<IEntity>(e => e.SerializeAspects())
-                        .For<Clause>(c => new XElement("Phrases", c.Phrases.Select(r => r.ToXml())))
-                        .For<Phrase>(r => new XElement("Words", r.Words.Select(w => w.ToXml())))
-                        .Always(lex.Text).Results()
+                    lex
+                    .MatchMany()
+                    .Yield()
+                        .With<IEntity>(e => e.SerializeAspects())
+                        .With<Clause>(c => new XElement("Phrases", c.Phrases.Select(r => r.ToXml())))
+                        .With<Phrase>(r => new XElement("Words", r.Words.Select(w => w.ToXml())))
+                    .Always(lex.Text).Results()
                         );
         }
 

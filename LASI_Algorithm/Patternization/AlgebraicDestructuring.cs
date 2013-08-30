@@ -8,7 +8,50 @@ using System.Reflection;
 namespace LASI.Algorithm.Patternization
 {
     /// <summary>
-    /// Provides the basis for the representation of Type-Wise decomposition expressions over an object of any Lexical Type.
+    /// Provides static access to Type wise Destructuring functionality.
+    /// </summary>
+    public static class Destructure
+    {
+        /// <summary>
+        /// Constructs the head of a possibly result returning decomposition over the specified object.
+        /// </summary> 
+        /// <param name="composed">The object to decompose.</param>
+        /// <returns>The head of a possibly result returning decomposition over the specified object..</returns>
+        public static FromTo MatchMany(this ILexical composed) {
+            return new FromTo(composed);
+        }
+        /// <summary>
+        /// Represents the head of a possibly result returning decomposition expression.
+        /// </summary>
+        public struct FromTo
+        {
+            internal FromTo(ILexical value) {
+                _value = value;
+            }
+            /// <summary>
+            /// Completes the From...To expression by specifying the type of the Result and constructing and returning the head of a result-yielding, Type based Destructure expression.
+            /// </summary>
+            /// <typeparam name="R">The Type of the Results which may be returned by the expressions appended to the newly created expression.</typeparam>
+            /// <returns>
+            ///  The head of a result-yielding, Type based Destructure expression.
+            ///  </returns>  
+            public TraitCase<R> Yield<R>() {
+                return new TraitCase<R>(_value);
+            }
+            /// <summary>
+            /// Completes the From...To expression by defaulting the Type of the Result to System.Object and returning the head of a result-yielding, Type based Destructure expression.
+            /// </summary>
+            /// <returns>
+            ///  The head of a result-yielding, Type based Destructure expression.
+            ///  </returns>  
+            public TraitCase<object> Yield() {
+                return new TraitCase<object>(_value);
+            }
+            private ILexical _value;
+        }
+    }
+    /// <summary>
+    /// Provides the basis for the representation of Type-Wise Destructure expressions over an object of any Lexical Type.
     /// </summary>
     /// <typeparam name="TComplex">The type of the object whose decomposition an implementation represents. This can be any type which implements the ILexical interface.</typeparam>
     public interface ITraitCase<TComplex> where TComplex : class,  LASI.Algorithm.ILexical
@@ -28,26 +71,26 @@ namespace LASI.Algorithm.Patternization
         IEnumerable<TResult> Results();
     }
     /// <summary>
-    /// Provides for the construction of flexible Type-Wise Decomposition expressions which allow for specialized logic to be applied to each Typed aspect of an object if present. 
+    /// Provides for the construction of flexible Type-Wise Destructure expressions which allow for specialized logic to be applied to each Typed aspect of an object if present. 
     /// </summary>
     public struct TraitCase : ITraitCase<ILexical>
     {
-        internal TraitCase(ILexical toDecompose)
+        internal TraitCase(ILexical value)
             : this() {
-            value = toDecompose;
+            _value = value;
             typesMatched = new HashSet<Type>();
         }
         /// <summary>
         /// Executes the provided Action if the object being decomposed has an inheritence or implementation relationship with the provided Type.
         /// </summary>
         /// <typeparam name="TTrait">The type representing a trait to match.</typeparam>
-        /// <param name="processComponent">The Action to invoke if the trait is present on the object being decomposed.</param>
+        /// <param name="action">The Action to invoke if the trait is present on the object being decomposed.</param>
         /// <returns>The Decomposition describing the destructuring expression so far.</returns> 
-        public TraitCase For<TTrait>(Action processComponent) where TTrait : class,  LASI.Algorithm.ILexical {
+        public TraitCase With<TTrait>(Action action) where TTrait : class,  LASI.Algorithm.ILexical {
             if (!TypeAlreadyMatched(typeof(TTrait))) {
-                var component = value as TTrait;
-                if (value != null && value is TTrait) {
-                    processComponent();
+                var component = _value as TTrait;
+                if (_value != null && _value is TTrait) {
+                    action();
                 }
             }
             return this;
@@ -56,13 +99,13 @@ namespace LASI.Algorithm.Patternization
         /// Executes the provided Action on the object being decomposed if it has an inheritence or implementation relationship with the provided Type.
         /// </summary>
         /// <typeparam name="TTrait">The type representing a trait to match.</typeparam>
-        /// <param name="processComponent">The Action to invoke on the object being decomposed if the trait is present.</param>
+        /// <param name="action">The Action to invoke on the object being decomposed if the trait is present.</param>
         /// <returns>The Decomposition describing the destructuring expression so far.</returns> 
-        public TraitCase For<TTrait>(Action<TTrait> processComponent) where TTrait : class,  LASI.Algorithm.ILexical {
+        public TraitCase With<TTrait>(Action<TTrait> action) where TTrait : class,  LASI.Algorithm.ILexical {
             if (!TypeAlreadyMatched(typeof(TTrait))) {
-                var component = value as TTrait;
+                var component = _value as TTrait;
                 if (component != null) {
-                    processComponent(component);
+                    action(component);
                 }
             }
             return this;
@@ -70,29 +113,29 @@ namespace LASI.Algorithm.Patternization
         /// <summary>
         /// Executes the provided Action and ends the destructuring expression.
         /// </summary> 
-        /// <param name="processComponent">The Action to invoke.</param>
+        /// <param name="action">The Action to invoke.</param>
         /// <returns>The Decomposition describing the destructuring expression so far.</returns> 
-        public ITraitCase<ILexical> Base(Action processComponent) {
-            if (value != null) {
-                processComponent();
+        public ITraitCase<ILexical> Base(Action action) {
+            if (_value != null) {
+                action();
             }
             return this;
         }
         /// <summary>
         /// Executes the provided Action on the object being decomposed and ends the destructuring expression.
         /// </summary> 
-        /// <param name="processComponent">The Action to invoke on the object being decomposed.</param>
+        /// <param name="action">The Action to invoke on the object being decomposed.</param>
         /// <returns>The IDecomposition describing the destructuring expression so far.</returns> 
-        public ITraitCase<ILexical> Base(Action<ILexical> processComponent) {
-            if (value != null) {
-                processComponent(value);
+        public ITraitCase<ILexical> Base(Action<ILexical> action) {
+            if (_value != null) {
+                action(_value);
             }
             return this;
         }
         private bool TypeAlreadyMatched(Type type) {
             return typesMatched.Add(type);
         }
-        ILexical value;
+        ILexical _value;
         private HashSet<Type> typesMatched;
     }
     /// <summary>
@@ -111,13 +154,13 @@ namespace LASI.Algorithm.Patternization
         /// Executes the provided Action if the object being decomposed has an inheritence or implementation relationship with the provided Type.
         /// </summary>
         /// <typeparam name="TTrait">The type representing a trait to match.</typeparam>
-        /// <param name="processComponent">The Action to invoke if the trait is present on the object being decomposed.</param>
+        /// <param name="action">The Action to invoke if the trait is present on the object being decomposed.</param>
         /// <returns>The Decomposition describing the destructuring expression so far.</returns> 
-        public TraitCase<TResult> For<TTrait>(Action processComponent) where TTrait : class ,  LASI.Algorithm.ILexical {
+        public TraitCase<TResult> With<TTrait>(Action action) where TTrait : class ,  LASI.Algorithm.ILexical {
             if (!TypeAlreadyMatched(typeof(TTrait))) {
                 var component = value as TTrait;
                 if (value != null && value is TTrait) {
-                    processComponent();
+                    action();
                 }
             }
             return this;
@@ -126,13 +169,13 @@ namespace LASI.Algorithm.Patternization
         /// Executes the provided Action on the object being decomposed if it has an inheritence or implementation relationship with the provided Type.
         /// </summary>
         /// <typeparam name="TTrait">The type representing a trait to match.</typeparam>
-        /// <param name="processComponent">The Action to invoke on the object being decomposed if the trait is present.</param>
-        /// <returns>The Decomposition describing the destructuring expression so far.</returns> 
-        public TraitCase<TResult> For<TTrait>(Action<TTrait> processComponent) where TTrait : class ,  LASI.Algorithm.ILexical {
+        /// <param name="action">The Action to invoke on the object being decomposed if the trait is present.</param>
+        /// <returns>The TraitCase&lt;TResult&gt; describing the destructuring expression so far.</returns> 
+        public TraitCase<TResult> With<TTrait>(Action<TTrait> action) where TTrait : class ,  LASI.Algorithm.ILexical {
             if (!TypeAlreadyMatched(typeof(TTrait))) {
                 var component = value as TTrait;
                 if (component != null) {
-                    processComponent(component);
+                    action(component);
                 }
             }
             return this;
@@ -141,13 +184,13 @@ namespace LASI.Algorithm.Patternization
         /// Stores the value resulting from the invocation of the supplied function if the object being decomposed has an inheritence or implementation relationship with the provided Type.
         /// </summary>
         /// <typeparam name="TTrait">The type representing a trait to match.</typeparam>
-        /// <param name="processComponent">The function to invoke if the trait is present on the object being decomposed.</param>
-        /// <returns>The Decomposition&lt;TResult&gt; describing the destructuring expression so far.</returns> 
-        public TraitCase<TResult> For<TTrait>(Func<TResult> processComponent) where TTrait : class ,  LASI.Algorithm.ILexical {
+        /// <param name="func">The function to invoke if the trait is present on the object being decomposed.</param>
+        /// <returns>The TraitCase&lt;TResult&gt; describing the destructuring expression so far.</returns> 
+        public TraitCase<TResult> With<TTrait>(Func<TResult> func) where TTrait : class ,  LASI.Algorithm.ILexical {
             if (!TypeAlreadyMatched(typeof(TTrait))) {
                 var component = value as TTrait;
                 if (value != null && value is TTrait) {
-                    results.Add(processComponent());
+                    results.Add(func());
                 }
             }
             return this;
@@ -156,13 +199,13 @@ namespace LASI.Algorithm.Patternization
         /// Invokes the provided function, storing its result, on the object being decomposed if it has an inheritence or implementation relationship with the provided Type.
         /// </summary>
         /// <typeparam name="TTrait">The type representing a trait to match.</typeparam>
-        /// <param name="processComponent">The function to invoke if the trait is present on the object being decomposed.</param>
-        /// <returns>The Decomposition&lt;TResult&gt; describing the destructuring expression so far.</returns> 
-        public TraitCase<TResult> For<TTrait>(Func<TTrait, TResult> processComponent) where TTrait : class,  LASI.Algorithm.ILexical {
+        /// <param name="func">The function to invoke if the trait is present on the object being decomposed.</param>
+        /// <returns>The TraitCase&lt;TResult&gt; describing the destructuring expression so far.</returns> 
+        public TraitCase<TResult> With<TTrait>(Func<TTrait, TResult> func) where TTrait : class,  LASI.Algorithm.ILexical {
             if (!TypeAlreadyMatched(typeof(TTrait))) {
                 var component = value as TTrait;
                 if (component != null) {
-                    results.Add(processComponent(component));
+                    results.Add(func(component));
                 }
             }
             return this;
@@ -173,7 +216,7 @@ namespace LASI.Algorithm.Patternization
         /// <typeparam name="TTrait">The type representing a trait to match.</typeparam>
         /// <param name="traitResult">The result value to yield if the trait is present on the object being decomposed.</param>
         /// <returns>The Decomposition&lt;TResult&gt; describing the destructuring expression so far.</returns> 
-        public TraitCase<TResult> For<TTrait>(TResult traitResult) where TTrait : class,  LASI.Algorithm.ILexical {
+        public TraitCase<TResult> With<TTrait>(TResult traitResult) where TTrait : class,  LASI.Algorithm.ILexical {
             if (!TypeAlreadyMatched(typeof(TTrait))) {
                 var component = value as TTrait;
                 if (component != null) {
@@ -185,44 +228,44 @@ namespace LASI.Algorithm.Patternization
         /// <summary>
         /// Executes the provided Action and ends the destructuring expression.
         /// </summary> 
-        /// <param name="processComponent">The Action to invoke.</param>
-        /// <returns>The Decomposition&lt;TResult&gt; describing the destructuring expression so far.</returns> 
-        public ITraitCase<ILexical, TResult> Always(Action processComponent) {
+        /// <param name="action">The Action to invoke.</param>
+        /// <returns>The ITraitCase&lt;ILexical, TResult&gt; describing the destructuring expression so far.</returns> 
+        public ITraitCase<ILexical, TResult> Always(Action action) {
             if (value != null) {
-                processComponent();
+                action();
             }
             return this;
         }
         /// <summary>
         /// Executes the provided Action on the object being decomposed and ends the destructuring expression.
         /// </summary> 
-        /// <param name="processComponent">The Action to invoke on the object being decomposed.</param>
-        /// <returns>The Decomposition&lt;TResult&gt; describing the destructuring expression so far.</returns> 
-        public ITraitCase<ILexical, TResult> Always(Action<ILexical> processComponent) {
+        /// <param name="action">The Action to invoke on the object being decomposed.</param>
+        /// <returns>The ITraitCase&lt;ILexical, TResult&gt; describing the destructuring expression so far.</returns> 
+        public ITraitCase<ILexical, TResult> Always(Action<ILexical> action) {
             if (value != null) {
-                processComponent(value);
+                action(value);
             }
             return this;
         }
         /// <summary>
         /// Ends the destructuring expression invoking the provided function and storing its result.
         /// </summary>
-        /// <param name="processComponent">The function which returns a value to store as the base type's result.</param>
-        /// <returns>The IDecomposition&lt;ILexical&gt;&lt;TResult&gt; describing the destructuring expression so far.</returns> 
-        public ITraitCase<ILexical, TResult> Always(Func<TResult> processComponent) {
+        /// <param name="func">The function which returns a value to store as the base type's result.</param>
+        /// <returns>The ITraitCase&lt;ILexical, TResult&gt; describing the destructuring expression so far.</returns> 
+        public ITraitCase<ILexical, TResult> Always(Func<TResult> func) {
             if (value != null) {
-                results.Add(processComponent());
+                results.Add(func());
             }
             return this;
         }
         /// <summary>
         /// Ends the destructuring expression invoking the provided function on the object being decomposed and stores its result.
         /// </summary>
-        /// <param name="processComponent">The function which returns a value to store as the base type's result.</param>
-        /// <returns>The IDecomposition&lt;ILexical&gt;&lt;TResult&gt; describing the destructuring expression so far.</returns> 
-        public ITraitCase<ILexical, TResult> Always(Func<ILexical, TResult> processComponent) {
+        /// <param name="func">The function which returns a value to store as the base type's result.</param>
+        /// <returns>The ITraitCase&lt;ILexical, TResult&gt; describing the destructuring expression so far.</returns> 
+        public ITraitCase<ILexical, TResult> Always(Func<ILexical, TResult> func) {
             if (value != null) {
-                results.Add(processComponent(value));
+                results.Add(func(value));
             }
             return this;
         }
@@ -230,7 +273,7 @@ namespace LASI.Algorithm.Patternization
         /// Ends the destructuring expression and stores the provided result value.
         /// </summary>
         /// <param name="baseResult">The result value to include in the results of the expression.</param>
-        /// <returns>The IDecomposition&lt;ILexical&gt;&lt;TResult&gt; describing the destructuring expression so far.</returns> 
+        /// <returns>The ITraitCase&lt;ILexical&gt;&lt;TResult&gt; describing the destructuring expression so far.</returns> 
         public ITraitCase<ILexical, TResult> Always(TResult baseResult) {
             if (value != null) {
                 results.Add(baseResult);
@@ -249,46 +292,5 @@ namespace LASI.Algorithm.Patternization
         public IEnumerable<TResult> Results() { return results; }
         private List<TResult> results;
     }
-    /// <summary>
-    /// Provides static access to Type wise decomposition functionality.
-    /// </summary>
-    public static class Destructure
-    {
-        ///// <summary>
-        ///// Constructs the head of a non result returning decomposition over the specified object.
-        ///// </summary> 
-        ///// <param name="composed">The object to decompose.</param>
-        ///// <returns>The head of a non result returning decomposition over the specified object.</returns>
-        //public static Decomposition ForTraits(this ILexical composed) {
-        //    return new Decomposition(composed);
-        //}
-        /// <summary>
-        /// Constructs the head of a possibly result returning decomposition over the specified object.
-        /// </summary> 
-        /// <param name="composed">The object to decompose.</param>
-        /// <returns>The head of a possibly result returning decomposition over the specified object..</returns>
-        public static TransitionHelper MatchMany(this ILexical composed) {
-            return new TransitionHelper(composed);
-        }
-        public struct TransitionHelper
-        {
-            internal TransitionHelper(ILexical toMatch) {
-                matchOn = toMatch;
-            }
-            /// <summary>
-            /// Completes the From...To expression by specifying the type of the Result and constructing and returning the head of a result-yielding, Type based Pattern Matching expression.
-            /// </summary>
-            /// <typeparam name="R">The Type of the Results which may be returned by the expressions appended to the newly created expression.</typeparam>
-            /// <returns>
-            ///  The head of a result-yielding, Type based Pattern Matching expression.
-            ///  </returns>  
-            public TraitCase<R> Yield<R>() {
-                return new TraitCase<R>(matchOn);
-            }
-            public TraitCase<object> Yield(){
-                return new TraitCase<object>(matchOn);
-            }
-            private ILexical matchOn;
-        }
-    }
+
 }

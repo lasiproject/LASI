@@ -1,7 +1,7 @@
 ﻿using System;
 namespace LASI.Algorithm
 {
-    interface ISimpleGendered : IEntity
+    interface IGendered : IEntity
     {
         Lookup.Gender Gender { get; }
     }

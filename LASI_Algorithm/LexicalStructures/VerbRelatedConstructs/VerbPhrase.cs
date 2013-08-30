@@ -29,7 +29,7 @@ namespace LASI.Algorithm
         }
 
         #endregion
- 
+
         #region Methods
 
         /// <summary>
@@ -37,7 +37,7 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="adv">The Adverbial construct by which to modify the AdjectivePhrase.</param>
         public void ModifyWith(IAdverbial adv) {
-            modifiers.Add(adv);
+            _modifiers.Add(adv);
             adv.Modifies = this;
         }
         /// <summary>
@@ -54,7 +54,7 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="subject">The Entity to attach to the VerbPhrase as a subject.</param>
         public virtual void BindSubject(IEntity subject) {
-            subjects.Add(subject);
+            _subjects.Add(subject);
             subject.SubjectOf = this;
         }
 
@@ -63,7 +63,7 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="directObject">The Entity to attach to the VerbPhrase as a direct object.</param>
         public virtual void BindDirectObject(IEntity directObject) {
-            directObjects.Add(directObject);
+            _directObjects.Add(directObject);
             directObject.DirectObjectOf = this;
             if (IsPossessive) {
                 foreach (var subject in this.Subjects) {
@@ -80,7 +80,7 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="indirectObject">The Entity to attach to the VerbPhrase as an indirect object.</param>
         public virtual void BindIndirectObject(IEntity indirectObject) {
-            indirectObjects.Add(indirectObject);
+            _indirectObjects.Add(indirectObject);
             indirectObject.IndirectObjectOf = this;
         }
 
@@ -104,8 +104,8 @@ namespace LASI.Algorithm
                 if (ObjectOfThePreoposition != null) {
                     result += "\n\tVia Preposition Object" + ObjectOfThePreoposition.ToString();
                 }
-                foreach (var m in modifiers) {
-                    result += modifiers.Count > 0 ? "\n\tModifier: " + m.ToString() : "";
+                foreach (var m in _modifiers) {
+                    result += _modifiers.Count > 0 ? "\n\tModifier: " + m.ToString() : "";
 
                 }
                 return result;
@@ -121,7 +121,7 @@ namespace LASI.Algorithm
         /// <returns>True if the VerbPhrase is a possessive relationship specifier, false otherwise.</returns>
         protected virtual bool DetermineIsPossessive() {
             isPossessive = Words.GetVerbs().Any() && Words.GetVerbs().Last().IsPossessive;
-            return isPossessive ?? false;
+            return isPossessive.Value;
         }
         /// <summary>
         /// Determines if the VerbPhrase acts as a classifier. E.g. in the senetence "Rodents are definitely prey animals." the VerbPhrase "are definitely" acts as a classification tool because it states that rodents are a subset of prey animals.
@@ -129,7 +129,7 @@ namespace LASI.Algorithm
         /// <returns>True if the VerbPhrase is a classifier, false otherwise.</returns>
         protected virtual bool DetermineIsClassifier() {
             isClassifier = Words.GetVerbs().Any() && Words.GetVerbs().Last().IsClassifier;
-            return isClassifier ?? false;
+            return isClassifier.Value;
         }
 
 
@@ -138,7 +138,7 @@ namespace LASI.Algorithm
         /// </summary>
         /// <returns>True if the Verb has any Subjects bound to it, false otherwise.</returns>
         public bool HasSubject() {
-            return subjects.Any();
+            return _subjects.Any();
         }
         /// <summary>
         /// Return a value indicating if the Verb has any subjects bound to it which match the given predicate function.
@@ -198,21 +198,21 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets an IAggregateEntity implementation composed from all of the VerbPhrase's subjects.
         /// </summary>
-        public IAggregateEntity AggregateSubject { get { return new AggregateEntity(subjects); } }
+        public IAggregateEntity AggregateSubject { get { return new AggregateEntity(_subjects); } }
         /// <summary>
         /// Gets an IAggregateEntity implementation composed from all of the VerbPhrase's directobjects.
         /// </summary>
-        public IAggregateEntity AggregateDirectObject { get { return new AggregateEntity(directObjects); } }
+        public IAggregateEntity AggregateDirectObject { get { return new AggregateEntity(_directObjects); } }
         /// <summary>
         /// Gets an IAggregateEntity implementation composed from all of the VerbPhrase's indirectobjects.
         /// </summary>
-        public IAggregateEntity AggregateIndirectObject { get { return new AggregateEntity(indirectObjects); } }
+        public IAggregateEntity AggregateIndirectObject { get { return new AggregateEntity(_indirectObjects); } }
         /// <summary>
         /// Gets the collection of IAdverbial modifiers which modify the VerbPhrase.
         /// </summary>
         public IEnumerable<IAdverbial> Modifiers {
             get {
-                return modifiers;
+                return _modifiers;
             }
         }
         /// <summary>
@@ -249,15 +249,15 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets the subjects of the VerbPhrase.
         /// </summary>
-        public IEnumerable<IEntity> Subjects { get { return subjects; } }
+        public IEnumerable<IEntity> Subjects { get { return _subjects; } }
         /// <summary>
         /// Gets the direct objects of the VerbPhrase.
         /// </summary>
-        public virtual IEnumerable<IEntity> DirectObjects { get { return directObjects; } }
+        public virtual IEnumerable<IEntity> DirectObjects { get { return _directObjects; } }
         /// <summary>
         /// Gets the indirect objects of the VerbPhrase.
         /// </summary>
-        public virtual IEnumerable<IEntity> IndirectObjects { get { return indirectObjects; } }
+        public virtual IEnumerable<IEntity> IndirectObjects { get { return _indirectObjects; } }
         //virtual IEntityGroup Subject { get { return new EntityGroup(subjects); } }
         //virtual IEntityGroup DirectObject { get { return new EntityGroup(directObjects); } }
         //virtual IEntityGroup IndirectObject { get { return new EntityGroup(indirectObjects); } }
@@ -275,12 +275,12 @@ namespace LASI.Algorithm
 
         #region Fields
 
-        private HashSet<IAdverbial> modifiers = new HashSet<IAdverbial>();
-        private HashSet<IEntity> subjects = new HashSet<IEntity>();
-        private HashSet<IEntity> directObjects = new HashSet<IEntity>();
-        private HashSet<IEntity> indirectObjects = new HashSet<IEntity>();
-        private bool? isClassifier;
-        private bool? isPossessive;
+        private HashSet<IAdverbial> _modifiers = new HashSet<IAdverbial>();
+        private HashSet<IEntity> _subjects = new HashSet<IEntity>();
+        private HashSet<IEntity> _directObjects = new HashSet<IEntity>();
+        private HashSet<IEntity> _indirectObjects = new HashSet<IEntity>();
+        private bool? isClassifier = null;
+        private bool? isPossessive = null;
         #endregion
 
 
