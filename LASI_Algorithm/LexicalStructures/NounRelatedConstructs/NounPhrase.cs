@@ -78,22 +78,14 @@ namespace LASI.Algorithm
         /// <returns>A string representation of the NounPhrase.</returns>
         public override string ToString() {
             var result = base.ToString();
-            if (Phrase.VerboseOutput && Possessed.Any()) {
-                result += "\n\tpossessions:\n";
-                foreach (var s in Possessed) {
-                    result += s + "\n";
-                }
-            }
             if (Phrase.VerboseOutput) {
-                if (Possesser != null)
-                    result += "\n\towned By:\n\t\t" + Possesser.ToString();
-
-                if (InnerAttributive != null) {
-                    result += "\n\tDefines:\n\t\t" + InnerAttributive;
-                }
-                if (OuterAttributive != null) {
-                    result += "\n\tDefines:\n\t\t" + OuterAttributive;
-                }
+                result += Possessed.Any() ? "\npossessions: " + Possessed.Format(p => p.Text + '\n') : string.Empty;
+                result += Possesser != null ? "\ntowned By: " + Possesser : string.Empty;
+                result += InnerAttributive != null ? "\nDefines: " + InnerAttributive : string.Empty;
+                result += OuterAttributive != null ? "\nDefines: " + OuterAttributive : string.Empty;
+                result += SubjectOf != null ? "\nSubject Of: " + SubjectOf.Text : string.Empty;
+                result += DirectObjectOf != null ? "\nDirect Object Of: " + DirectObjectOf.Text : string.Empty;
+                result += IndirectObjectOf != null ? "\nIndirect Object Of: " + IndirectObjectOf.Text : string.Empty;
             }
             return result;
 

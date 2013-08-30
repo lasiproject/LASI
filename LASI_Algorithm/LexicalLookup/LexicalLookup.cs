@@ -676,13 +676,13 @@ namespace LASI.Algorithm.Lookup
         /// <param name="entity">The entity whose gender to lookup.</param>
         /// <returns>A NameGender value indiciating the likely gender of the entity.</returns>
         public static Gender GetGender(this IEntity entity) {
-            return
+            return entity != null ?
                Match.On(entity).To<Gender>()
                     .With<IGendered>(p => p.Gender)
                     .With<IPronoun>(p => p.GetPronounGender())
                     .With<NounPhrase>(n => n.GetGender())
                     .With<GenericNoun>(Gender.Neutral)
-                .Result();
+                    .Result() : default(Gender);
         }
         /// <summary>
         /// Returns a NameGender value indiciating the likely gender of the Pronoun based on its referrent if known, or else its PronounKind.
@@ -690,18 +690,20 @@ namespace LASI.Algorithm.Lookup
         /// <param name="pronoun">The Pronoun whose gender to lookup.</param>
         /// <returns>A NameGender value indiciating the likely gender of the Pronoun.</returns>
         private static Gender GetPronounGender(this IPronoun pronoun) {
-            return pronoun.RefersTo == null ?
+            return pronoun != null ?
                Match.On(pronoun).To<Gender>()
                     .With<IGendered>(p => p.Gender)
                     .With<PronounPhrase>(p => GetPhraseGender(p))
                 .Result() :
+                pronoun.RefersTo != null && pronoun.RefersTo.Any() ?
                pronoun.RefersTo.Select(rt =>
                Match.On(rt).To<Gender>()
                    .With<NounPhrase>(r => r.GetGender())
                    .With<Pronoun>(r => r.GetPronounGender())
                    .With<ProperSingularNoun>(r => r.Gender)
                    .With<GenericNoun>(Gender.Neutral)
-                .Result()).GroupBy(g => g).FirstOrDefault(g => g.Count() == pronoun.RefersTo.Count()).Key;
+                .Result()).GroupBy(g => g).FirstOrDefault(g => g.Count() == pronoun.RefersTo.Count()).Key :
+                default(Gender);
         }
 
         /// <summary>
@@ -860,9 +862,9 @@ namespace LASI.Algorithm.Lookup
         private static async Task LoadNameDataAsync() {
             await Task.Factory.ContinueWhenAll(
                 new[] {  
-                    Task.Run(async () => lastNames = await ReadSplitLinesAsync(lastNamesFilePath)),
-                    Task.Run(async () => femaleNames = await ReadSplitLinesAsync(femaleNamesFilePath)),
-                    Task.Run(async () => maleNames = await ReadSplitLinesAsync(maleNamesFilePath)) 
+                    Task.Run(async () => lastNames = await GetLinesAsync(lastNamesFilePath)),
+                    Task.Run(async () => femaleNames = await GetLinesAsync(femaleNamesFilePath)),
+                    Task.Run(async () => maleNames = await GetLinesAsync(maleNamesFilePath)) 
                 },
                 results => {
                     genderAmbiguousFirstNames =
@@ -880,7 +882,7 @@ namespace LASI.Algorithm.Lookup
             );
         }
 
-        private static async Task<HashSet<string>> ReadSplitLinesAsync(string fileName) {
+        private static async Task<HashSet<string>> GetLinesAsync(string fileName) {
             using (var reader = new StreamReader(fileName)) {
                 return new HashSet<string>((
                     await reader.ReadToEndAsync()).Split(new[] { '\r', 'n' },

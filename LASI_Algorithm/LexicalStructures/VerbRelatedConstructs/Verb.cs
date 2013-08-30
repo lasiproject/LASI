@@ -87,8 +87,8 @@ namespace LASI.Algorithm
         /// </summary>
         /// <returns>True if the Verb is a possessive relationship specifier, false otherwise.</returns>
         protected virtual bool DetermineIsPossessive() {
-            var syns = LASI.Algorithm.Lookup.LexicalLookup.GetSynonyms(this);
-            isPossessive = syns.Contains("have");
+            var syns = LASI.Algorithm.Lookup.LexicalLookup.LookupVerb("has");
+            isPossessive = syns.Contains(Text, StringComparer.OrdinalIgnoreCase);
             return isPossessive.Value;
         }
         /// <summary>
@@ -96,8 +96,8 @@ namespace LASI.Algorithm
         /// </summary>
         /// <returns>True if the Verb is a classifier, false otherwise.</returns>
         protected virtual bool DetermineIsClassifier() {
-            var syns = LASI.Algorithm.Lookup.LexicalLookup.GetSynonyms(this);
-            isClassifier = syns.Contains("be");
+            var syns = LASI.Algorithm.Lookup.LexicalLookup.LookupVerb("is");
+            isClassifier = syns.Contains(Text, StringComparer.OrdinalIgnoreCase);
             return isClassifier.Value;
         }
 

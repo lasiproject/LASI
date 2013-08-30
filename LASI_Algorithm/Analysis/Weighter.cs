@@ -83,7 +83,6 @@ namespace LASI.Algorithm.Weighting
         /// </summary>
         /// <param name="doc">The Document whose elements are to be assigned numeric weights.</param>
         public static void Weight(Document doc) {
-
             WeightWordsBySyntacticSequence(doc);
             WeightByLiteralFrequency(doc.Words);
             WeightByLiteralFrequency(doc.Phrases);

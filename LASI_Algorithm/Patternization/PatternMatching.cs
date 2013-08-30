@@ -295,14 +295,14 @@ namespace LASI.Algorithm.Patternization
         /// Appends a Match with Type expression to the current PatternMatching Expression.
         /// </summary>
         /// <typeparam name="TCase">The Type to match with. If the value being matched is of this type, this With expression will be selected and the provided action invoked.</typeparam>
-        /// <param name="action">The Action which, if this With expression is Matched, will be invoked.</param>
+        /// <param name="actn">The Action which, if this With expression is Matched, will be invoked.</param>
         /// <returns>The ICase&lt;T, R&gt; describing the Match expression so far.</returns>
-        public ICase<T> With<TCase>(Action action) where TCase : class ,ILexical {
+        public ICase<T> With<TCase>(Action actn) where TCase : class ,ILexical {
             if (_value != null) {
                 if (!matchFound) {
                     if (_value is TCase) {
                         matchFound = true;
-                        action();
+                        actn();
                     }
                 }
             }
@@ -312,15 +312,15 @@ namespace LASI.Algorithm.Patternization
         /// Appends a Match with Type expression to the current PatternMatching Expression.
         /// </summary>
         /// <typeparam name="TCase">The Type to match with. If the value being matched is of this type, this With expression will be selected and the provided action invoked.</typeparam>
-        /// <param name="action">The Action&lt;TCase&gt; which, if this With expression is Matched, will be invoked on the value being matched over by the PatternMatching expression.</param>
+        /// <param name="actn">The Action&lt;TCase&gt; which, if this With expression is Matched, will be invoked on the value being matched over by the PatternMatching expression.</param>
         /// <returns>The ICase&lt;T, R&gt; describing the Match expression so far.</returns>
-        public ICase<T> With<TCase>(Action<TCase> action) where TCase : class,ILexical {
+        public ICase<T> With<TCase>(Action<TCase> actn) where TCase : class,ILexical {
             if (_value != null) {
                 if (!matchFound) {
                     var matched = _value as TCase;
                     if (matched != null) {
                         matchFound = true;
-                        action(matched);
+                        actn(matched);
                     }
                 }
             }
@@ -331,14 +331,14 @@ namespace LASI.Algorithm.Patternization
         /// </summary>
         /// <typeparam name="TCase">The Type to match with. If the value being matched is of this type, this With expression will be selected and the provided action invoked.</typeparam>
         /// <param name="when">Specifies an additional condition which the value being matched must conform to in order for a Match with TCase to succeed.</param>
-        /// <param name="action">The Action which, if this With expression is Matched, will be invoked.</param>
+        /// <param name="actn">The Action which, if this With expression is Matched, will be invoked.</param>
         /// <returns>The ICase&lt;T, R&gt; describing the Match expression so far.</returns>
-        public ICase<T> With<TCase>(Func<TCase, bool> when, Action action) where TCase : class ,ILexical {
+        public ICase<T> With<TCase>(Func<TCase, bool> when, Action actn) where TCase : class ,ILexical {
             if (_value != null) {
                 if (!matchFound) {
                     if (_value is TCase) {
                         matchFound = true;
-                        action();
+                        actn();
                     }
                 }
             }
@@ -349,15 +349,15 @@ namespace LASI.Algorithm.Patternization
         /// </summary>
         /// <typeparam name="TCase">The Type to match with. If the value being matched is of this type, this With expression will be selected and the provided action invoked.</typeparam>
         /// <param name="when">Specifies an additional condition which the value being matched must conform to in order for a Match with TCase to succeed.</param>
-        /// <param name="action">The Action&lt;TCase&gt; which, if this With expression is Matched, will be invoked on the value being matched over by the PatternMatching expression.</param>
+        /// <param name="actn">The Action&lt;TCase&gt; which, if this With expression is Matched, will be invoked on the value being matched over by the PatternMatching expression.</param>
         /// <returns>The ICase&lt;T, R&gt; describing the Match expression so far.</returns>
-        public ICase<T> With<TCase>(Func<TCase, bool> when, Action<TCase> action) where TCase : class ,ILexical {
+        public ICase<T> With<TCase>(Func<TCase, bool> when, Action<TCase> actn) where TCase : class ,ILexical {
             if (_value != null) {
                 if (!matchFound) {
                     var matched = _value as TCase;
                     if (matched != null) {
                         matchFound = true;
-                        action(matched);
+                        actn(matched);
                     }
                 }
             }
@@ -371,20 +371,20 @@ namespace LASI.Algorithm.Patternization
         /// <summary>
         /// Appends the Default expression to the current Pattern Matching expression.
         /// </summary>
-        /// <param name="action">The function to invoke if no matches in the expression succeeded.</param>
-        public void Default(Action action) {
+        /// <param name="actn">The function to invoke if no matches in the expression succeeded.</param>
+        public void Default(Action actn) {
             if (!matchFound) {
-                action();
+                actn();
             }
         }
         /// <summary>
         /// Appends the Default expression to the current Pattern Matching expression.
         /// </summary>
-        /// <param name="action">The function to invoke on the match with value if no matches in the expression succeeded.</param>
-        public void Default(Action<T> action) {
+        /// <param name="actn">The function to invoke on the match with value if no matches in the expression succeeded.</param>
+        public void Default(Action<T> actn) {
             if (_value != null) {
                 if (!matchFound) {
-                    action(_value);
+                    actn(_value);
                 }
             }
         }

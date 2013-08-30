@@ -91,7 +91,7 @@ namespace LASI.Algorithm.Lookup
         public ISet<string> this[string search] {
             get {
                 try {
-                    return new HashSet<string>(SearchFor(NounConjugator.FindRoot(search)).SelectMany(syn => NounConjugator.GetLexicalForms(syn)));
+                    return new HashSet<string>(SearchFor(NounConjugator.FindRoot(search)).SelectMany(syn => NounConjugator.GetLexicalForms(syn)).DefaultIfEmpty(search));
                 } catch (AggregateException) { } catch (InvalidOperationException) { }
                 return this[search];
             }

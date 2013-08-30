@@ -89,28 +89,17 @@ namespace LASI.Algorithm
         /// </summary>
         /// <returns>A string representation of the VerbPhrase.</returns>
         public override string ToString() {
+            var result = base.ToString();
             if (Phrase.VerboseOutput) {
-
-                var result = base.ToString();
-                foreach (var s in Subjects) {
-                    result += s != null ? "\n\tSubject: " + s.ToString() : "";
-                }
-                foreach (var d in DirectObjects) {
-                    result += d != null ? "\n\tDirect Object:" + d.ToString() : "";
-                }
-                foreach (var i in IndirectObjects) {
-                    result += i != null ? "\n\tIndirect Object: " + i.ToString() : "";
-                }
-                if (ObjectOfThePreoposition != null) {
-                    result += "\n\tVia Preposition Object" + ObjectOfThePreoposition.ToString();
-                }
-                foreach (var m in _modifiers) {
-                    result += _modifiers.Count > 0 ? "\n\tModifier: " + m.ToString() : "";
-
-                }
-                return result;
-            } else
-                return base.ToString();
+                result += Subjects.Any() ? "\nSubjects: " + Subjects.Format(s => s.Text + '\n') : string.Empty;
+                result += DirectObjects.Any() ? "\nDirect Objects: " + DirectObjects.Format(s => s.Text + '\n') : string.Empty;
+                result += IndirectObjects.Any() ? "\nIndirect Objects: " + IndirectObjects.Format(s => s.Text + '\n') : string.Empty;
+                result += ObjectOfThePreoposition != null ? "\nVia Preposition Object: " + ObjectOfThePreoposition.Text : string.Empty;
+                result += Modality != null ? "Modal Aux: " + Modality.Text : string.Empty;
+                result += Modifiers.Any() ? "\nModifiers: " + Modifiers.Format(s => s.Text + '\n') : string.Empty;
+                result += string.Format("Characteristics:\n Possessive Indicator [{0}]\nCategorization Specifier [{1}]\nPrevailing Tense [{2}]", IsPossessive, IsClassifier, Tense);
+            }
+            return result;
         }
 
 
