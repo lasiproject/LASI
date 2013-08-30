@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using LASI.Utilities.FunctionExtensions;
 namespace LASI.Algorithm.Binding
 {
     /// <summary>
@@ -69,8 +69,10 @@ namespace LASI.Algorithm.Binding
         }
 
         private void TypedBind(IEnumerable<Phrase> remaining, VerbPhrase target) {
-            Matcher.MatchOne(remaining.First())
-                 .With<AdverbPhrase>(ap => {
+            Matching.Match(remaining.First())
+                 .With<AdverbPhrase>(
+                 ap => ap.Clause == ap.PreviousPhrase.Clause,
+                 ap => {
                      target.ModifyWith(ap);
                      TypedBind(remaining.Skip(1), ap, target);
                  })
@@ -81,7 +83,7 @@ namespace LASI.Algorithm.Binding
         }
 
         private void TypedBind(IEnumerable<Phrase> remaining, AdverbPhrase ap, VerbPhrase target) {
-            Matcher.MatchOne(remaining.First())
+            Matching.Match(remaining.First())
                 .With<AdjectivePhrase>(p => {
                     TypedBind(remaining.Skip(1), p, target);
                 });
@@ -89,7 +91,7 @@ namespace LASI.Algorithm.Binding
         }
 
         private void TypedBind(IEnumerable<Phrase> remaining, AdjectivePhrase p, VerbPhrase target) {
-            Matcher.MatchOne(remaining.First())
+            Matching.Match(remaining.First())
                 .With<NounPhrase>(np => {
                     np.BindDescriptor(p);
                 })
@@ -102,7 +104,7 @@ namespace LASI.Algorithm.Binding
         }
 
         private void TypedBind(IEnumerable<Phrase> remaining, NounPhrase np, VerbPhrase target) {
-            Matcher.MatchOne(remaining.First())
+            Matching.Match(remaining.First())
                 .With<PrepositionalPhrase>(pp => {
                     target.BindIndirectObject(np);
                     TypedBind(remaining.Skip(1), pp, target);
@@ -115,14 +117,14 @@ namespace LASI.Algorithm.Binding
         }
 
         private void TypedBind(IEnumerable<Phrase> remaining, ConjunctionPhrase cp, VerbPhrase target) {
-            Matcher.MatchOne(remaining.First())
+            Matching.Match(remaining.First())
                 .With<NounPhrase>(np => {
                     cp.JoinedRight = np;
                 });
         }
 
         private void TypedBind(IEnumerable<Phrase> remaining, PrepositionalPhrase pp, VerbPhrase target) {
-            Matcher.MatchOne(remaining.First())
+            Matching.Match(remaining.First())
                 .With<NounPhrase>(np => {
                     target.BindDirectObject(np);
                     TypedBind(remaining.Skip(1), np, target);
@@ -456,7 +458,8 @@ namespace LASI.Algorithm.Binding
                         Machine.AssociateDirect();
                         Machine.AssociateIndirect();
                     }
-                } else { return; }
+                }
+                else { return; }
 
             }
         }

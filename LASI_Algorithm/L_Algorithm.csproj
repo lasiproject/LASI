@@ -35,7 +35,8 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\Algorithm.XML</DocumentationFile>
+    <DocumentationFile>
+    </DocumentationFile>
     <PlatformTarget>x64</PlatformTarget>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
@@ -91,6 +92,7 @@
     <Compile Include="Analysis\Binder.cs" />
     <Compile Include="Analysis\Binders\AttributivePhraseBinder.cs" />
     <Compile Include="Analysis\Binders\AdjectivePhraseBinder.cs" />
+    <Compile Include="Analysis\Binders\ScopedAliasMap.cs" />
     <Compile Include="Analysis\Binders\Experimental\ClauseSeperatingMultiBranchingBinder.cs" />
     <Compile Include="Analysis\Binders\Experimental\ExperimentalLexicalTypes\AggregatePhrase.cs" />
     <Compile Include="Analysis\Binders\Experimental\INestableLexical.cs" />

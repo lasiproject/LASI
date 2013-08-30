@@ -71,5 +71,7 @@ namespace LASI.Algorithm
         /// <param name="predicate">A predicate to test each object.</param>
         /// <returns>True if the IVerbal has at least one direct or indirect object  matching the provided predicate, false otherwise.</returns>
         bool HasObject(System.Func<IEntity, bool> predicate);
+        bool IsPossessive { get; }
+        bool IsClassifier { get; }
     }
 }

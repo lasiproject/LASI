@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.Reflection;
 
 namespace LASI.Algorithm.Patternization
 {
@@ -30,15 +30,42 @@ namespace LASI.Algorithm.Patternization
     /// It also elminates the difficulty of defining statefull visitors by defining a match with a particular subtype as a function on that type. Such a function is intuitively specified as an anonymous closure which
     /// implicitely captures any state it will use. This approach also encourage the localization of logic, which in the case of visitors would often need to be spread over several classes for complex algorithms.
     ///</remarks>
-    public static class Matcher
+    public static class Matching
     {
+        public abstract class Maybe<T> where T : class
+        {
+            protected abstract T value { get; }
+            public static implicit operator T(Maybe<T> maybe) { return maybe.value; }
+        }
+        public class Some<T> : Maybe<T> where T : class
+        {
+            private T _value;
+            protected override T value {
+                get {
+                    return _value;
+                }
+            }
+            public Some(T t) { _value = t; }
+            public static implicit operator T(Some<T> maybe) { return maybe.value; }
+        }
+        public class None<T> : Maybe<T> where T : class
+        {
+            protected override T value {
+                get {
+                    return null;
+
+                }
+            }
+
+            public static implicit operator None<T>(T value) { return new None<T>(); }
+        }
         /// <summary>
         /// Constructs the head of a non result returning Type based Pattern Matching expression with the specified value.
         /// </summary>
         /// <typeparam name="T">The Type of the value to match with.</typeparam>
         /// <param name="matchOn">The value to match with.</param>
         /// <returns>The head of a non result yielding Type based Pattern Matching expression with the specified value.</returns>
-        public static MatchCase<T> MatchOne<T>(this T matchOn) where T : class , ILexical { return new MatchCase<T>(matchOn); }
+        public static MatchCase<T> Match<T>(this T matchOn) where T : class { return new MatchCase<T>(matchOn != null ? new Some<T>(matchOn) : new None<T>() as Maybe<T>); }
         /// <summary>
         /// Constructs the head of a result-yielding, Type based Pattern Matching expression with the specified value.
         /// </summary>
@@ -46,7 +73,7 @@ namespace LASI.Algorithm.Patternization
         /// <typeparam name="R">The Type of the result to be yielded.</typeparam> 
         /// <param name="matchOn">The value to match with.</param>     
         /// <returns>The head of a result-yielding, Type based Pattern Matching expression with the specified value.</returns>
-        public static MatchCase<T, R> MatchTo<T, R>(T matchOn) where T : class , ILexical { return new MatchCase<T, R>(matchOn); }
+        public static MatchCase<T, R> Match<T, R>(T matchOn) where T : class { return new MatchCase<T, R>(matchOn); }
         /// <summary>
         /// Constructs the intermediate "From" portion of a Pattern Matching expression providing the value to match with.
         /// The result is a bridge to the "To" portion in a From...To expression.
@@ -56,13 +83,13 @@ namespace LASI.Algorithm.Patternization
         /// <returns>The intermediate "From" portion of a Pattern Matching expression providing the value to match with.
         /// The result is a bridge to the "To" portion in a From...To expression.
         /// </returns>
-        public static FromTo<T> From<T>(T matchOn) where T : class, ILexical { return new FromTo<T>(matchOn); }
+        public static FromTo<T> From<T>(T matchOn) where T : class { return new FromTo<T>(matchOn); }
         /// <summary>
         /// Represents the intermediate "From" portion of a Pattern Matching expression providing the value to match with.
         /// The result is a bridge to the "To" portion in a From...To expression.
         /// </summary>
         /// <typeparam name="T">The Type of the value that will be matched with.</typeparam>
-        public struct FromTo<T> where T : class, ILexical
+        public struct FromTo<T> where T : class
         {
             internal FromTo(T toMatch) {
                 matchOn = toMatch;
@@ -88,7 +115,7 @@ namespace LASI.Algorithm.Patternization
     /// </summary>
     /// <typeparam name="T">The Type of the value which the the Pattern Matching expression will match with.</typeparam>
     /// <typeparam name="R">The Type of the result to be yielded by the Pattern Matching expression.</typeparam> 
-    public class MatchCase<T, R> : IMatchCase<T, R> where T : class, ILexical
+    public class MatchCase<T, R> : IMatchCase<T, R> where T : class
     {
         /// <summary>
         /// Initailizes a new instance of the PatternMatching&lt;T&gt;&lt;R&gt; which will allow for Pattern Matching with the provided value.
@@ -101,7 +128,7 @@ namespace LASI.Algorithm.Patternization
         /// <typeparam name="TCase">The Type to match with. If the value being matched is of this type, this With expression will be selected and executed.</typeparam>
         /// <param name="func">The function which, if this With expression is Matched, will be invoked to produce the corresponding desired result for a Match with TCase.</param>
         /// <returns>The PatternMatching&lt;T, R&gt; describing the Match expression so far.</returns>
-        public MatchCase<T, R> With<TCase>(Func<R> func) where TCase : class, ILexical {
+        public MatchCase<T, R> With<TCase>(Func<R> func) where TCase : class {
             if (toMatch != null) if (!matchFound) {
                     if (toMatch is TCase) {
                         result = func();
@@ -117,7 +144,7 @@ namespace LASI.Algorithm.Patternization
         /// <param name="condition">Specifies an additional condition which the value being matched must conform to in order for a Match with TCase to succeed.</param>
         /// <param name="func">The function which, if this With expression is Matched, will be invoked to produce the corresponding desired result for a Match with TCase.</param>
         /// <returns>The PatternMatching&lt;T, R&gt; describing the Match expression so far.</returns>
-        public MatchCase<T, R> With<TCase>(Func<TCase, bool> condition, Func<R> func) where TCase : class, ILexical {
+        public MatchCase<T, R> With<TCase>(Func<TCase, bool> condition, Func<R> func) where TCase : class {
             if (toMatch != null) if (!matchFound) {
                     var matched = toMatch as TCase;
                     if (matched != null && condition(matched)) {
@@ -133,7 +160,7 @@ namespace LASI.Algorithm.Patternization
         /// <typeparam name="TCase">The Type to match with. If the value being matched is of this type, this With expression will be selected and executed.</typeparam>
         /// <param name="func">The function which, if this With expression is Matched, will be invoked on the value being matched with to produce the desired result for a Match with TCase.</param>
         /// <returns>The PatternMatching&lt;T, R&gt; describing the Match expression so far.</returns>
-        public MatchCase<T, R> With<TCase>(Func<TCase, R> func) where TCase : class, ILexical {
+        public MatchCase<T, R> With<TCase>(Func<TCase, R> func) where TCase : class {
             if (toMatch != null) if (!matchFound) {
                     var matched = toMatch as TCase;
                     if (matched != null) {
@@ -150,7 +177,7 @@ namespace LASI.Algorithm.Patternization
         /// <param name="condition">Specifies an additional condition which the value being matched must conform to in order for a Match with TCase to succeed.</param>
         /// <param name="func">The function which, if this With expression is Matched, will be invoked on the value being matched with to produce the desired result for a Match with TCase.</param>
         /// <returns>The PatternMatching&lt;T, R&gt; describing the Match expression so far.</returns>
-        public MatchCase<T, R> With<TCase>(Func<TCase, bool> condition, Func<TCase, R> func) where TCase : class, ILexical {
+        public MatchCase<T, R> With<TCase>(Func<TCase, bool> condition, Func<TCase, R> func) where TCase : class {
             if (toMatch != null) if (!matchFound) {
                     var matched = toMatch as TCase;
                     if (matched != null && condition(matched)) {
@@ -166,7 +193,7 @@ namespace LASI.Algorithm.Patternization
         /// <typeparam name="TCase">The Type to match with. If the value being matched is of this type, this With expression will be selected and executed.</typeparam>
         /// <param name="caseResult">The value which, if this With expression is Matched, will be the result of the Pattern Match.</param>
         /// <returns>The PatternMatching&lt;T, R&gt; describing the Match expression so far.</returns>
-        public MatchCase<T, R> With<TCase>(R caseResult) where TCase : class, ILexical {
+        public MatchCase<T, R> With<TCase>(R caseResult) where TCase : class {
             if (toMatch != null) if (!matchFound) {
                     var matched = toMatch as TCase;
                     if (matched != null) {
@@ -183,7 +210,7 @@ namespace LASI.Algorithm.Patternization
         /// <param name="condition">Specifies an additional condition which the value being matched must conform to in order for a Match with TCase to succeed.</param>
         /// <param name="caseResult">The value which, if this With expression is Matched, will be the result of the Pattern Match.</param>
         /// <returns>The PatternMatching&lt;T, R&gt; describing the Match expression so far.</returns>
-        public MatchCase<T, R> With<TCase>(Func<TCase, bool> condition, R caseResult) where TCase : class, ILexical {
+        public MatchCase<T, R> With<TCase>(Func<TCase, bool> condition, R caseResult) where TCase : class {
             if (toMatch != null) if (!matchFound) {
                     var matched = toMatch as TCase;
                     if (matched != null && condition(matched)) {
@@ -193,6 +220,7 @@ namespace LASI.Algorithm.Patternization
                 }
             return this;
         }
+
         /// <summary>
         /// Appends a Default Expression to the current pattern, thus specifying the default result to yield when no other patterns have been matched.
         /// Although not enformed by the compiler, Default should only be used as the last clause in the match expression, never in between With clauses.
@@ -244,8 +272,6 @@ namespace LASI.Algorithm.Patternization
         /// </summary>
         /// <returns>Returns the result of the Pattern Matching expression.</returns>
         public R Result() { return result; }
-
-
         /// <summary>
         /// Gets a value indicating if a match was found or if the default value will be yielded by the Result method.
         /// </summary>
@@ -259,11 +285,11 @@ namespace LASI.Algorithm.Patternization
     /// Provides for the representation and free form structuring of Type based Pattern Matching expressions which match with a value of Type T and does not yield a result.
     /// </summary>
     /// <typeparam name="T">The Type of the value which the the Pattern Matching expression will match with.</typeparam> 
-    public class MatchCase<T> : LASI.Algorithm.Patternization.IMatchCase<T> where T : class,ILexical
+    public class MatchCase<T> : LASI.Algorithm.Patternization.IMatchCase<T> where T : class
     {
         internal MatchCase(T matchOn) { toMatch = matchOn; }
         public MatchCase<T, R> Yield<R>() { return new MatchCase<T, R>(this.toMatch); }
-        public IMatchCase<T> With<TCase>(Action action) where TCase : class, ILexical {
+        public IMatchCase<T> With<TCase>(Action action) where TCase : class {
             if (toMatch != null) if (!matchFound) {
                     if (toMatch is TCase) {
                         matchFound = true;
@@ -272,7 +298,7 @@ namespace LASI.Algorithm.Patternization
                 }
             return this;
         }
-        public IMatchCase<T> With<TCase>(Action<TCase> action) where TCase : class, ILexical {
+        public IMatchCase<T> With<TCase>(Action<TCase> action) where TCase : class {
             if (toMatch != null) if (!matchFound) {
                     var matched = toMatch as TCase;
                     if (matched != null) {
@@ -282,7 +308,7 @@ namespace LASI.Algorithm.Patternization
                 }
             return this;
         }
-        public IMatchCase<T> With<TCase>(Func<TCase, bool> condition, Action action) where TCase : class, ILexical {
+        public IMatchCase<T> With<TCase>(Func<TCase, bool> condition, Action action) where TCase : class {
             if (toMatch != null) if (!matchFound) {
                     if (toMatch is TCase) {
                         matchFound = true;
@@ -291,7 +317,7 @@ namespace LASI.Algorithm.Patternization
                 }
             return this;
         }
-        public IMatchCase<T> With<TCase>(Func<TCase, bool> condition, Action<TCase> action) where TCase : class, ILexical {
+        public IMatchCase<T> With<TCase>(Func<TCase, bool> condition, Action<TCase> action) where TCase : class {
             if (toMatch != null) if (!matchFound) {
                     var matched = toMatch as TCase;
                     if (matched != null) {
@@ -319,6 +345,7 @@ namespace LASI.Algorithm.Patternization
                     action(toMatch);
                 }
         }
+        public MatchCase<T> ThenMatch() { return new MatchCase<T>(toMatch); }
 
         /// <summary>
         /// The value indicating if a match was found or if the default value will be yielded by the Result method.

@@ -22,7 +22,7 @@ namespace LASI.Experimentation.CommandLine
             var doc = Tagger.DocumentFromRaw(new DocXFile(@"C:\Users\Aluan\Desktop\documents\C++_for _LASI.docx"));
             Binder.Bind(doc);
 
-
+           
 
             Console.WriteLine(doc.Phrases.Format(w => '\n' + w.ToString()));
             Input.WaitForKey();
@@ -33,7 +33,7 @@ namespace LASI.Experimentation.CommandLine
 
 
             var matches = from word in doc.Words
-                          where Matcher.From(word).To<bool>()
+                          where Matching.From(word).To<bool>()
                           .With<Noun>(n => n.IsSynonymFor(find))
                           .With<IPronoun>(p => p.RefersTo.IsSimilarTo(find))
                           .Result()

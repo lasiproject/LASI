@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LASI.Algorithm.Analysis.Binders;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -84,7 +85,6 @@ namespace LASI.Algorithm.DocumentConstructs
         public ParagraphKind ParagraphKind { get; private set; }
 
 
-
         /// <summary>
         /// Returns the document-unique identification number of the Paragraph.
         /// </summary>
@@ -98,6 +98,7 @@ namespace LASI.Algorithm.DocumentConstructs
                 return text = text ?? Sentences.Aggregate("", (str, sent) => str + " " + sent.Text).Trim();
             }
         }
+
 
         private string text;
         private static int IDNumProvider;

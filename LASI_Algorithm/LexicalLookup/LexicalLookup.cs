@@ -647,7 +647,8 @@ namespace LASI.Algorithm.Lookup
             if (first.Words.Count() >= second.Words.Count()) {
                 outer = first;
                 inner = second;
-            } else {
+            }
+            else {
                 outer = second;
                 inner = first;
             }
@@ -676,7 +677,7 @@ namespace LASI.Algorithm.Lookup
         /// <param name="entity">The entity whose gender to lookup.</param>
         /// <returns>A NameGender value indiciating the likely gender of the entity.</returns>
         public static Gender GetGender(this IEntity entity) {
-            return Matcher.From<IEntity>(entity).To<Gender>()
+            return entity.Match().Yield<Gender>()
                     .With<IPronoun>(p => p.GetGender())
                     .With<NounPhrase>(n => n.GetGender())
                     .With<ISimpleGendered>(p => p.Gender)
@@ -690,14 +691,14 @@ namespace LASI.Algorithm.Lookup
         /// <returns>A NameGender value indiciating the likely gender of the Pronoun.</returns>
         public static Gender GetGender(this IPronoun pronoun) {
             return
-                Matcher.From(pronoun).To<Gender>()
+                Matching.From(pronoun).To<Gender>()
                   .With<IPronoun>(p => p.RefersTo == null, p =>
-                      Matcher.From<IEntity>(p).To<Gender>()
+                      Matching.From<IEntity>(p).To<Gender>()
                         .With<ISimpleGendered>(sg => sg.Gender)
                         .With<PronounPhrase>(pnp => GetPhraseGender(pnp))
                         .Result())
                   .With<IPronoun>(p => p.RefersTo != null, bp =>
-                Matcher.From<IEntity>(bp.RefersTo).To<Gender>()
+                Matching.From<IEntity>(bp.RefersTo).To<Gender>()
                   .With<NounPhrase>(np => np.GetGender())
                   .With<Pronoun>(pro => pro.GetGender())
                   .With<ProperSingularNoun>(p => p.Gender)
@@ -880,12 +881,14 @@ namespace LASI.Algorithm.Lookup
                     Task.Run(async () => maleNames = await ReadSplitLinesAsync(maleNamesFilePath)) 
                 },
                 results => {
-                    genderAmbiguousFirstNames = new HashSet<string>(maleNames.Intersect(femaleNames).Concat(femaleNames.Intersect(maleNames)), StringComparer.OrdinalIgnoreCase);
+                    genderAmbiguousFirstNames =
+                        new HashSet<string>(maleNames.Intersect(femaleNames).Concat(femaleNames.Intersect(maleNames)), StringComparer.OrdinalIgnoreCase);
 
-                    var stratified = from m in maleNames.Select((s, i) => new { Rank = (double)i / maleNames.Count, Name = s })
-                                     join f in femaleNames.Select((s, i) => new { Rank = (double)i / femaleNames.Count, Name = s })
-                                     on m.Name equals f.Name
-                                     group f.Name by f.Rank / m.Rank > 1 ? 'M' : m.Rank / f.Rank > 1 ? 'F' : 'U';
+                    var stratified =
+                        from m in maleNames.Select((s, i) => new { Rank = (double)i / maleNames.Count, Name = s })
+                        join f in femaleNames.Select((s, i) => new { Rank = (double)i / femaleNames.Count, Name = s })
+                        on m.Name equals f.Name
+                        group f.Name by f.Rank / m.Rank > 1 ? 'M' : m.Rank / f.Rank > 1 ? 'F' : 'U';
 
                     maleNames.ExceptWith(from s in stratified where s.Key == 'F' from n in s select n);
                     femaleNames.ExceptWith(from s in stratified where s.Key == 'M' from n in s select n);
@@ -1207,5 +1210,23 @@ namespace LASI.Algorithm.Lookup
         }
 
         #endregion
+
+        internal static IEnumerable<string> GetLikelyAliases(IEntity e) {
+            return e.Match().Yield<IEnumerable<string>>()
+                .With<NounPhrase>(n => DefineAliases(n))
+                .With<IPronoun>(p => GetLikelyAliases(p))
+                .With<IEntity>(i => i.SubjectOf.IsClassifier,
+                    i => i.SubjectOf.DirectObjects.SelectMany(o =>
+                            o.Match().Yield<IEnumerable<string>>()
+                            .With<IPronoun>(p => GetLikelyAliases(p.RefersTo))
+                            .With<Noun>(n => Lookup(n))
+                            .Result()))
+                .Default(Enumerable.Empty<string>())
+                .Result();
+        }   
+
+        private static IEnumerable<string> DefineAliases(NounPhrase np) {
+            throw new NotImplementedException();
+        }
     }
 }

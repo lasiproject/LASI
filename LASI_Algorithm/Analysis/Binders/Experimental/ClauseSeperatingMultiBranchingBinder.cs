@@ -35,7 +35,7 @@ namespace LASI.Algorithm.Binding.Experimental
         private static IEnumerable<Action> ImagineBindings(IEnumerable<Word> words) {
             return from noun in words.GetNouns()
                    let np = noun.Phrase as NounPhrase
-                   let gen = np != null ? Matcher.From(noun).To<char>()
+                   let gen = np != null ? Matching.From(noun).To<char>()
                    .With<ProperSingularNoun>(n => n.IsFemale() == !np.IsFullMale() ? 'F' : n.IsMale() && !np.IsFullFemale() ? 'M' : !n.IsFirstName() ? 's' : 'A')
                    .With<GenericSingularNoun>('s')
                    .With<ProperPluralNoun>('p')

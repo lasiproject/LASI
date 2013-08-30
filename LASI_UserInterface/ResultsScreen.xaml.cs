@@ -156,7 +156,7 @@ namespace LASI.UserInterface
                     ToolTip = phrase.Type.Name,
                 };
 
-                Matcher.MatchOne(phrase)
+                Matching.Match(phrase)
                     .With<PronounPhrase>(p => p.RefersTo != null && p.RefersTo.Any(), p => label.ContextMenu.Items.Add(CreatePronounPhraseLabelMenu(phraseLabels, p)))
                     .With<VerbPhrase>(v => CreateVerbPhraseLabelMenu(phraseLabels, label, v));
 
