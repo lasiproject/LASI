@@ -41,8 +41,9 @@ namespace LASI.Algorithm.Lookup
         /// </summary>
         /// <param name="search">The verb string to find the root of.</param>
         /// <returns>The root of the given verb string. If no root can be found, the verb string itself is returned.</returns>
-        public static string FindRoot(string search) {
-            return CheckSpecialForms(search).FirstOrDefault() ?? BuildLexicalForms(search).FirstOrDefault() ?? search;
+        public static IEnumerable<string> FindRoots(string search) {
+            var result = CheckSpecialForms(search);
+            return result.Any() ? result.Distinct() : BuildLexicalForms(search).DefaultIfEmpty(search);
         }
 
         private static IEnumerable<string> BuildLexicalForms(string root) {
@@ -58,7 +59,7 @@ namespace LASI.Algorithm.Lookup
                     }
                 }
             }
-            return results.Select(r => r + afterHyphen).DefaultIfEmpty();
+            return results.Select(r => r + afterHyphen).DefaultIfEmpty(root);
         }
 
         private static IEnumerable<string> CheckSpecialForms(string checkFor) {
@@ -85,7 +86,7 @@ namespace LASI.Algorithm.Lookup
 
         private static void LoadExceptionFile(string filePath) {
             using (var reader = new StreamReader(filePath)) {
-                var exceptions = from line in reader.ReadToEnd().Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries)
+                var exceptions = from line in reader.ReadToEnd().Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries)
                                  select line.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).Select(r => r.Replace('_', '-'));
 
                 exceptionData = new ConcurrentDictionary<string, IEnumerable<string>>(

@@ -18,11 +18,15 @@ namespace LASI.Experimentation.CommandLine
             Word.VerboseOutput = true;
             Phrase.VerboseOutput = true;
             LexicalLookup.GetUnstartedLoadingTasks().AsParallel().ForAll(t => t.Wait());
+            Console.WriteLine("enter a verb");
+            for (var input = Console.ReadLine(); input != "~"; input = Console.ReadLine()) {
+                Console.WriteLine(LexicalLookup.GetSynonyms(new Verb(input, VerbMorph.Base)).Format());
+            }
 
             var doc = Tagger.DocumentFromRaw(new DocXFile(@"C:\Users\Aluan\Desktop\documents\C++_for _LASI.docx"));
             Binder.Bind(doc);
 
-           
+
 
             Console.WriteLine(doc.Phrases.Format(w => '\n' + w.ToString()));
             Input.WaitForKey();
@@ -33,7 +37,7 @@ namespace LASI.Experimentation.CommandLine
 
 
             var matches = from word in doc.Words
-                          where Match.On(word).To<bool>()
+                          where PatternMatching.On(word).To<bool>()
                           .With<Noun>(n => n.IsSynonymFor(find))
                           .With<IPronoun>(p => p.RefersTo.IsSimilarTo(find))
                           .Result()

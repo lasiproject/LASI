@@ -1,4 +1,6 @@
-﻿using System;
+﻿using LASI.Algorithm.Lookup;
+using LASI.Algorithm.Patternization;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,9 +28,9 @@ namespace LASI.Algorithm
         private static bool LookupAlias(IEntity possibleAlias, IEntity possiblyAliasedBy) {
             ISet<IEntity> aliasedBy;
             ISet<string> aliases;
-
-            return aliasedEntityReferenceMap.TryGetValue(possiblyAliasedBy, out aliasedBy) && aliasedBy.Contains(possibleAlias) || aliasDictionary.TryGetValue(possiblyAliasedBy.Text, out aliases)
-                &&
+            return aliasedEntityReferenceMap.TryGetValue(possiblyAliasedBy, out aliasedBy) &&
+                aliasedBy.Contains(possibleAlias) ||
+                aliasDictionary.TryGetValue(possiblyAliasedBy.Text, out aliases) &&
                 aliases.Contains(possibleAlias.Text);
         }
         /// <summary>
@@ -76,6 +78,23 @@ namespace LASI.Algorithm
 
         }
 
+        internal static IEnumerable<string> GetLikelyAliases(IEntity entity) {
+            return entity.Match().To<IEnumerable<string>>()
+                .With<NounPhrase>(n => DefineAliases(n))
+                .When(e => e.SubjectOf.IsClassifier)
+                .With<IEntity>(e => e.SubjectOf
+                    .DirectObjects
+                    .SelectMany(direct => direct.Match().To<IEnumerable<string>>()
+                        .When<IPronoun>(p => p.RefersTo.Any())
+                        .With<IPronoun>(p => p.RefersTo.SelectMany(r => GetLikelyAliases(r)))
+                        .With<Noun>(n => LexicalLookup.GetSynonyms(n))
+                    .Result()))
+                .Result() ?? Enumerable.Empty<string>();
+        }
+
+        private static IEnumerable<string> DefineAliases(NounPhrase nounPhrase) {
+            throw new NotImplementedException();
+        }
 
         private static ConcurrentDictionary<IEntity, ISet<IEntity>> aliasedEntityReferenceMap = new ConcurrentDictionary<IEntity, ISet<IEntity>>();
         private static ConcurrentDictionary<string, ISet<string>> aliasDictionary = new ConcurrentDictionary<string, ISet<string>>();

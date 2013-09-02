@@ -87,18 +87,16 @@ namespace LASI.Algorithm
         /// </summary>
         /// <returns>True if the Verb is a possessive relationship specifier, false otherwise.</returns>
         protected virtual bool DetermineIsPossessive() {
-            var syns = LASI.Algorithm.Lookup.LexicalLookup.LookupVerb("has");
-            isPossessive = syns.Contains(Text, StringComparer.OrdinalIgnoreCase);
-            return isPossessive.Value;
+            var syns = LASI.Algorithm.Lookup.LexicalLookup.GetSynonyms(this);
+            return syns.Contains("have", StringComparer.OrdinalIgnoreCase);
         }
         /// <summary>
         /// Determines if the Verb acts as a classifier. E.g. in the senetence "Rodents are prey animals." the Verb "are" acts as a classification tool because it states that rodents are a subset of prey animals.
         /// </summary>
         /// <returns>True if the Verb is a classifier, false otherwise.</returns>
         protected virtual bool DetermineIsClassifier() {
-            var syns = LASI.Algorithm.Lookup.LexicalLookup.LookupVerb("is");
-            isClassifier = syns.Contains(Text, StringComparer.OrdinalIgnoreCase);
-            return isClassifier.Value;
+            var syns = LASI.Algorithm.Lookup.LexicalLookup.GetSynonyms(this);
+            return syns.Contains("is", StringComparer.OrdinalIgnoreCase);
         }
 
 
@@ -215,7 +213,8 @@ namespace LASI.Algorithm
         /// </summary>
         public bool IsClassifier {
             get {
-                return isClassifier ?? DetermineIsClassifier();
+                isClassifier = isClassifier ?? DetermineIsClassifier();
+                return isClassifier.Value;
             }
         }
         /// <summary>
@@ -223,7 +222,8 @@ namespace LASI.Algorithm
         /// </summary>
         public bool IsPossessive {
             get {
-                return isPossessive ?? DetermineIsPossessive();
+                isPossessive = isPossessive ?? DetermineIsPossessive();
+                return isPossessive.Value;
             }
         }
         #endregion

@@ -62,80 +62,14 @@ namespace LASI.Algorithm.Lookup
         /// <param name="adverb">The Adverb to lookup.</param>
         /// <returns>The synonyms for the provided Adverb.</returns>
         public static IEnumerable<string> GetSynonyms(Adverb adverb) {
+            PatternMatching.On(adverb).To<string>()
+                .When(s => s.Text == "adv")
+                .With<ComparativeAdverb>(c => c.Text)
+                .With<SuperlativeAdverb>(a => a.Text.ToUpper())
+                .Result();
             return InternalLookup(adverb);
         }
-        /// <summary>
-        /// Returns the synonyms for the provided noun text.
-        /// </summary>
-        /// <param name="nounText">The text corresponding to a noun.</param>
-        /// <returns>The synonyms for the provided noun text.</returns>
-        public static IEnumerable<string> LookupNoun(string nounText) {
-            switch (nounLoadingState) {
-                case LoadingState.Finished:
-                    return cachedNounData.GetOrAdd(nounText, key => nounLookup[key]);
-                case LoadingState.NotStarted:
-                    NounThesaurusLoadTask.Wait();
-                    return cachedNounData.GetOrAdd(nounText, key => nounLookup[key]);
-                case LoadingState.InProgress:
-                    throw new NounDataNotLoadedException();
-                default:
-                    return Enumerable.Empty<string>();
-            }
-        }
-        /// <summary>
-        /// Returns the synonyms for the provided verb text.
-        /// </summary>
-        /// <param name="verbText">The text corresponding to a noun.</param>
-        /// <returns>The synonyms for provided the verb text.</returns>
-        public static IEnumerable<string> LookupVerb(string verbText) {
-            switch (verbLoadingState) {
-                case LoadingState.Finished:
-                    return cachedVerbData.GetOrAdd(verbText, key => verbLookup[key]);
-                case LoadingState.NotStarted:
-                    VerbThesaurusLoadTask.Wait();
-                    return cachedVerbData.GetOrAdd(verbText, key => verbLookup[key]);
-                case LoadingState.InProgress:
-                    throw new VerbDataNotLoadedException();
-                default:
-                    return Enumerable.Empty<string>();
-            }
-        }
-        /// <summary>
-        /// Returns the synonyms for the provided adjective text.
-        /// </summary>
-        /// <param name="adjectiveText">The text corresponding to an adjective.</param>
-        /// <returns>The synonyms for provided the adjective text.</returns>
-        public static IEnumerable<string> LookupAdjective(string adjectiveText) {
-            switch (adjectiveLoadingState) {
-                case LoadingState.Finished:
-                    return cachedAdjectiveData.GetOrAdd(adjectiveText, key => adjectiveLookup[key]);
-                case LoadingState.NotStarted:
-                    AdjectiveThesaurusLoadTask.Wait();
-                    return cachedAdjectiveData.GetOrAdd(adjectiveText, key => adjectiveLookup[key]);
-                case LoadingState.InProgress:
-                    throw new AdjectiveDataNotLoadedException();
-                default:
-                    return Enumerable.Empty<string>();
-            }
-        }
-        /// <summary>
-        /// Returns the synonyms for the provided adverb text.
-        /// </summary>
-        /// <param name="adverbText">The text corresponding to an adverb.</param>
-        /// <returns>The synonyms for provided the adverb text.</returns>
-        public static IEnumerable<string> LookupAdverb(string adverbText) {
-            switch (adverbLoadingState) {
-                case LoadingState.Finished:
-                    return cachedAdverbData.GetOrAdd(adverbText, key => adverbLookup[key]);
-                case LoadingState.NotStarted:
-                    AdverbThesaurusLoadTask.Wait();
-                    return cachedAdverbData.GetOrAdd(adverbText, key => adverbLookup[key]);
-                case LoadingState.InProgress:
-                    throw new AdverbDataNotLoadedException();
-                default:
-                    return Enumerable.Empty<string>();
-            }
-        }
+
         /// <summary>
         /// Determines if two Noun instances are synonymous.
         /// </summary>
@@ -162,6 +96,8 @@ namespace LASI.Algorithm.Lookup
         /// Please prefer the second convention.
         /// </remarks>
         public static bool IsSynonymFor(this Verb first, Verb second) {
+            if (first == null || second == null)
+                return false;
             return InternalLookup(first).Contains(second.Text);
         }
         /// <summary>
@@ -397,7 +333,8 @@ namespace LASI.Algorithm.Lookup
                     for (var i = 0; i < leftHandVerbs.Count; ++i) {
                         result &= leftHandVerbs[i].IsSynonymFor(rightHandVerbs[i]);
                     }
-                } catch (NullReferenceException) {
+                }
+                catch (NullReferenceException) {
                     return new SimResult(false);
                 }
             }
@@ -512,7 +449,8 @@ namespace LASI.Algorithm.Lookup
                     for (var i = 0; i < leftHandAdjectives.Count; ++i) {
                         result &= leftHandAdjectives[i].IsSynonymFor(rightHandAdjectives[i]);
                     }
-                } catch (NullReferenceException) {
+                }
+                catch (NullReferenceException) {
                     return new SimResult(false);
                 }
             }
@@ -627,7 +565,8 @@ namespace LASI.Algorithm.Lookup
                     for (var i = 0; i < leftHandAdjectives.Count; ++i) {
                         result &= leftHandAdjectives[i].IsSynonymFor(rightHandAdjectives[i]);
                     }
-                } catch (NullReferenceException) {
+                }
+                catch (NullReferenceException) {
                     return new SimResult(false);
                 }
             }
@@ -677,7 +616,7 @@ namespace LASI.Algorithm.Lookup
         /// <returns>A NameGender value indiciating the likely gender of the entity.</returns>
         public static Gender GetGender(this IEntity entity) {
             return entity != null ?
-               Match.On(entity).To<Gender>()
+               PatternMatching.On(entity).To<Gender>()
                     .With<IGendered>(p => p.Gender)
                     .With<IPronoun>(p => p.GetPronounGender())
                     .With<NounPhrase>(n => n.GetGender())
@@ -691,13 +630,13 @@ namespace LASI.Algorithm.Lookup
         /// <returns>A NameGender value indiciating the likely gender of the Pronoun.</returns>
         private static Gender GetPronounGender(this IPronoun pronoun) {
             return pronoun != null ?
-               Match.On(pronoun).To<Gender>()
+               PatternMatching.On(pronoun).To<Gender>()
                     .With<IGendered>(p => p.Gender)
                     .With<PronounPhrase>(p => GetPhraseGender(p))
                 .Result() :
                 pronoun.RefersTo != null && pronoun.RefersTo.Any() ?
                pronoun.RefersTo.Select(rt =>
-               Match.On(rt).To<Gender>()
+               PatternMatching.On(rt).To<Gender>()
                    .With<NounPhrase>(r => r.GetGender())
                    .With<Pronoun>(r => r.GetPronounGender())
                    .With<ProperSingularNoun>(r => r.Gender)
@@ -859,6 +798,8 @@ namespace LASI.Algorithm.Lookup
             return cachedAdjectiveData.GetOrAdd(adjective.Text, key => adjectiveLookup[key]);
         }
 
+        #endregion
+
         private static async Task LoadNameDataAsync() {
             await Task.Factory.ContinueWhenAll(
                 new[] {  
@@ -891,8 +832,6 @@ namespace LASI.Algorithm.Lookup
                 );
             }
         }
-
-        #endregion
 
         #endregion
 
@@ -1196,25 +1135,5 @@ namespace LASI.Algorithm.Lookup
         }
 
         #endregion
-
-        internal static IEnumerable<string> GetLikelyAliases(IEntity entity) {
-            return
-                Match.On(entity).To<IEnumerable<string>>()
-                .With<NounPhrase>(n => DefineAliases(n))
-                .With<IEntity>(
-                    when: e => e.SubjectOf.IsClassifier,
-                    func: e => e.SubjectOf.DirectObjects.SelectMany(o =>
-                        Match.On(o).To<IEnumerable<string>>()
-                        .With<IPronoun>(
-                            when: p => p.RefersTo.Any(),
-                            func: p => p.RefersTo.SelectMany(r => GetLikelyAliases(r)))
-                        .With<Noun>(n => GetSynonyms(n))
-                    .Result()))
-                .Result() ?? Enumerable.Empty<string>();
-        }
-
-        private static IEnumerable<string> DefineAliases(NounPhrase np) {
-            throw new NotImplementedException();
-        }
     }
 }

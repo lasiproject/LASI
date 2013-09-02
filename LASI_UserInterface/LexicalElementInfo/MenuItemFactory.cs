@@ -9,22 +9,32 @@ using System.Windows.Media;
 
 namespace LASI.UserInterface.LexicalElementInfo
 {
-    static class LexicalElementFactory
+    static class MenuItemFactory
     {
         #region Label Context Menu Construction
 
-        public static void CreateVerbPhraseLabelMenu(List<Label> phraseLabels, Label phraseLabel, VerbPhrase vP) {
-            if (vP.Subjects.Any()) { phraseLabel.ContextMenu.Items.Add(CreateLabelSubjectMenu(phraseLabels, vP)); }
-            if (vP.DirectObjects.Any()) { phraseLabel.ContextMenu.Items.Add(CreateLabelDirectObjectMenu(phraseLabels, vP)); }
-            if (vP.IndirectObjects.Any()) { phraseLabel.ContextMenu.Items.Add(CreateLabelIndirectObjectMenu(phraseLabels, vP)); }
-            if (vP != null && vP.ObjectOfThePreoposition != null) { phraseLabel.ContextMenu.Items.Add(CreateLabelPrepositionalObjectMenu(phraseLabels, vP)); }
+        public static ContextMenu MakeVerbalContextMenu(IEnumerable<Label> labelsInContext, IVerbal verbal) {
+            var result = new ContextMenu();
+            if (verbal.Subjects.Any()) {
+                result.Items.Add(CreateVerbalSubjectMenuItem(labelsInContext, verbal));
+            }
+            if (verbal.DirectObjects.Any()) {
+                result.Items.Add(CreateVerbalDirectObjectMenuItem(labelsInContext, verbal));
+            }
+            if (verbal.IndirectObjects.Any()) {
+                result.Items.Add(CreateVerbalIndirectObjectMenuItem(labelsInContext, verbal));
+            }
+            if (verbal != null && verbal.ObjectOfThePreoposition != null) {
+                result.Items.Add(CreateVerbalPrepositionalObjectMenuItem(labelsInContext, verbal));
+            }
+            return result;
         }
 
-        public static MenuItem CreateLabelPrepositionalObjectMenu(List<Label> phraseLabels, VerbPhrase vP) {
+        private static MenuItem CreateVerbalPrepositionalObjectMenuItem(IEnumerable<Label> labelsInContext, IVerbal verbal) {
             var visitSubjectMI = new MenuItem { Header = "view prepositional object" };
             visitSubjectMI.Click += (sender, e) => {
-                var objlabels = from label in phraseLabels
-                                where label.Tag.Equals(vP.ObjectOfThePreoposition)
+                var objlabels = from label in labelsInContext
+                                where label.Tag.Equals(verbal.ObjectOfThePreoposition)
                                 select new { label = label, foreBrush = (label.Tag as ILexical).GetBrush() };
                 foreach (var l in objlabels) {
                     l.label.Foreground = l.foreBrush;
@@ -34,11 +44,11 @@ namespace LASI.UserInterface.LexicalElementInfo
             return visitSubjectMI;
         }
 
-        public static MenuItem CreateLabelIndirectObjectMenu(List<Label> phraseLabels, VerbPhrase vP) {
+        private static MenuItem CreateVerbalIndirectObjectMenuItem(IEnumerable<Label> labelsInContext, IVerbal verbal) {
             var visitSubjectMI = new MenuItem { Header = "view indirect objects" };
             visitSubjectMI.Click += (sender, e) => {
-                var objlabels = from r in vP.IndirectObjects
-                                join label in phraseLabels on r equals label.Tag
+                var objlabels = from r in verbal.IndirectObjects
+                                join label in labelsInContext on r equals label.Tag
                                 select new { label, foreBrush = (label.Tag as ILexical).GetBrush() };
                 foreach (var l in objlabels) {
                     l.label.Foreground = l.foreBrush;
@@ -48,11 +58,11 @@ namespace LASI.UserInterface.LexicalElementInfo
             return visitSubjectMI;
         }
 
-        public static MenuItem CreateLabelDirectObjectMenu(List<Label> phraseLabels, VerbPhrase vP) {
+        private static MenuItem CreateVerbalDirectObjectMenuItem(IEnumerable<Label> labelsInContext, IVerbal verbal) {
             var visitSubjectMI = new MenuItem { Header = "view direct objects" };
             visitSubjectMI.Click += (sender, e) => {
-                var objlabels = from r in vP.DirectObjects
-                                join l in phraseLabels on r equals l.Tag
+                var objlabels = from r in verbal.DirectObjects
+                                join l in labelsInContext on r equals l.Tag
                                 select l;
                 foreach (var l in objlabels) {
                     l.Foreground = Brushes.Black;
@@ -62,11 +72,11 @@ namespace LASI.UserInterface.LexicalElementInfo
             return visitSubjectMI;
         }
 
-        public static MenuItem CreateLabelSubjectMenu(List<Label> phraseLabels, VerbPhrase vP) {
+        private static MenuItem CreateVerbalSubjectMenuItem(IEnumerable<Label> labelsInContext, IVerbal verbal) {
             var visitSubjectMI = new MenuItem { Header = "view subjects" };
             visitSubjectMI.Click += (sender, e) => {
-                var objlabels = from r in vP.Subjects
-                                join l in phraseLabels on r equals l.Tag
+                var objlabels = from r in verbal.Subjects
+                                join l in labelsInContext on r equals l.Tag
                                 select l;
                 foreach (var l in objlabels) {
                     l.Foreground = Brushes.Black;
@@ -75,12 +85,18 @@ namespace LASI.UserInterface.LexicalElementInfo
             };
             return visitSubjectMI;
         }
-
-        public static MenuItem CreatePronounPhraseLabelMenu(List<Label> phraseLabels, PronounPhrase pronounPhrase) {
+        public static ContextMenu MakePronounContextMenu(IEnumerable<Label> labelsInContext, IPronoun pro) {
+            var result = new ContextMenu();
+            if (pro.RefersTo != null && pro.RefersTo.Any()) {
+                result.Items.Add(CreatePronounReferredToMenuItem(labelsInContext, pro));
+            }
+            return result;
+        }
+        private static MenuItem CreatePronounReferredToMenuItem(IEnumerable<Label> labelsInContext, IPronoun pro) {
             var visitBoundEntity = new MenuItem { Header = "view referred to" };
             visitBoundEntity.Click += (sender, e) => {
-                var objlabels = from l in phraseLabels
-                                where l.Tag == pronounPhrase.RefersTo
+                var objlabels = from l in labelsInContext
+                                where l.Tag == pro.RefersTo
                                 select l;
                 foreach (var l in objlabels) {
                     l.Foreground = Brushes.White;

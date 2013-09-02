@@ -25,7 +25,7 @@ namespace LASI.Algorithm.Analysis.Binders
         private ScopedAliasMap(params IEnumerable<ILexical>[] scope) {
             domain = scope.SelectMany(s => s);
             foreach (var e in domain.GetEntities()) {
-                assumedAliases[e.Text] = new HashSet<string>(Lookup.LexicalLookup.GetLikelyAliases(e));
+                assumedAliases[e.Text] = new HashSet<string>(AliasDictionary.GetLikelyAliases(e));
             }
         }
 

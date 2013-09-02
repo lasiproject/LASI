@@ -21,7 +21,7 @@ namespace LASI
         /// <param name="source">An IEnumerable sequence containing 0 or more Elements of type T.</param>
         /// <returns>A formated string representation of the IEnumerable sequence with the pattern: [ element0, element1, ..., elementN ].</returns>
         public static string Format<T>(this IEnumerable<T> source) {
-            return source.Aggregate("[ ", (sum, current) => sum += current + ", ").TrimEnd(' ', ',') + " ]";
+            return source.Format(Tuple.Create('[', ',', ']'));
         }
         /// <summary>
         /// Returns a formated string representation of the IEnumerable sequence with the pattern: [ element0, element1, ..., elementN ]
@@ -32,16 +32,7 @@ namespace LASI
         /// <param name="lineLength">Indicates the number of characters after which a line break is to be inserted.</param>
         /// <returns>A formated string representation of the IEnumerable sequence with the pattern: [ element0, element1, ..., elementN ].</returns>
         public static string Format<T>(this IEnumerable<T> source, long lineLength) {
-            int len = 2;
-            return source.Aggregate("[ ", (sum, current) => {
-                var cETS = current.ToString() + ", ";
-                len += cETS.Length;
-                if (len > lineLength) {
-                    len = cETS.Length;
-                    sum += '\n';
-                }
-                return sum += cETS;
-            }).TrimEnd(' ', ',') + " ]";
+            return source.Format(Tuple.Create('[', ',', ']'), lineLength);
         }
         /// <summary>
         /// Returns a formated string representation of the IEnumerable sequence with the pattern: [ element0, element1, ..., elementN ]
@@ -51,8 +42,8 @@ namespace LASI
         /// <param name="source">An IEnumerable sequence containing 0 or more Elements of type T.</param>
         /// <param name="delimsToUse">A value indicating the pair of delimiters to surround the elements.</param>
         /// <returns>A formated string representation of the IEnumerable sequence with the pattern: [ element0, element1, ..., elementN ].</returns>
-        public static string Format<T>(this IEnumerable<T> source, Tuple<char, char> delimsToUse) {
-            return source.Aggregate(delimsToUse.Item1 + " ", (sum, current) => sum += current + ", ").TrimEnd(' ', ',') + " " + delimsToUse.Item1;
+        public static string Format<T>(this IEnumerable<T> source, Tuple<char, char, char> delimsToUse) {
+            return source.Aggregate(delimsToUse.Item1 + " ", (sum, current) => sum += current.ToString() + delimsToUse.Item2 + ' ').TrimEnd(' ', delimsToUse.Item2) + ' ' + delimsToUse.Item3;
         }
         /// <summary>
         /// Returns a formated string representation of the IEnumerable sequence with the pattern: [ element0, element1, ..., elementN ]
@@ -63,17 +54,17 @@ namespace LASI
         /// <param name="delimsToUse">A value indicating the pair of delimiters to surround the elements.</param>
         /// <param name="lineLength">Indicates the number of characters after which a line break is to be inserted.</param>
         /// <returns>A formated string representation of the IEnumerable sequence with the pattern: [ element0, element1, ..., elementN ].</returns>
-        public static string Format<T>(this IEnumerable<T> source, Tuple<char, char> delimsToUse, long lineLength) {
+        public static string Format<T>(this IEnumerable<T> source, Tuple<char, char, char> delimsToUse, long lineLength) {
             int len = 2;
             return source.Aggregate(delimsToUse.Item1 + " ", (sum, current) => {
-                var cETS = current.ToString() + ", ";
+                var cETS = current.ToString() + delimsToUse.Item2 + ' ';
                 len += cETS.Length;
                 if (len > lineLength) {
                     len = cETS.Length;
                     sum += '\n';
                 }
                 return sum += cETS;
-            }).TrimEnd(' ', ',') + " " + delimsToUse.Item2;
+            }).TrimEnd(' ', delimsToUse.Item2) + " " + delimsToUse.Item3;
         }
         /// <summary>
         /// Returns a formated string representation of the IEnumerable sequence with the pattern: [ elementToString(element0), elementToString(element1), ..., elementToString(elementN) ]
@@ -81,10 +72,10 @@ namespace LASI
         /// </summary>
         /// <typeparam name="T">The type of the elements in the generic IEnumerable sequence.</typeparam>
         /// <param name="source">An IEnumerable sequence containing 0 or more Elements of type T.</param>
-        /// <param name="elementToString">The function used to produce a string representation for each element.</param>
+        /// <param name="stringSelector">The function used to produce a string representation for each element.</param>
         /// <returns>A formated string representation of the IEnumerable sequence with the pattern: [ element0, element1, ..., elementN ].</returns>
-        public static string Format<T>(this IEnumerable<T> source, Func<T, string> elementToString) {
-            return source.Aggregate("[ ", (sum, current) => sum += elementToString(current) + ", ").TrimEnd(' ', ',') + " ]";
+        public static string Format<T>(this IEnumerable<T> source, Func<T, string> stringSelector) {
+            return source.Aggregate("[ ", (sum, current) => sum += stringSelector(current) + ", ").TrimEnd(' ', ',') + " ]";
         }
         /// <summary>
         /// Returns a formated string representation of the IEnumerable sequence with the pattern: [ elementToString(element0), elementToString(element1), ..., elementToString(elementN) ]
@@ -93,10 +84,10 @@ namespace LASI
         /// <typeparam name="T">The type of the elements in the generic IEnumerable sequence.</typeparam>
         /// <param name="source">An IEnumerable sequence containing 0 or more Elements of type T.</param>
         /// <param name="delimsToUse">A value indicating the pair of delimiters to surround the elements.</param>
-        /// <param name="elementToString">The function used to produce a string representation for each element.</param>
+        /// <param name="stringSelector">The function used to produce a string representation for each element.</param>
         /// <returns>A formated string representation of the IEnumerable sequence with the pattern: [ element0, element1, ..., elementN ].</returns>
-        public static string Format<T>(this IEnumerable<T> source, Tuple<char, char> delimsToUse, Func<T, string> elementToString) {
-            return source.Aggregate(delimsToUse.Item1 + " ", (sum, current) => sum += elementToString(current) + ", ").TrimEnd(' ', ',') + " " + delimsToUse.Item2;
+        public static string Format<T>(this IEnumerable<T> source, Tuple<char, char, char> delimsToUse, Func<T, string> stringSelector) {
+            return source.Select(stringSelector).Format(delimsToUse);
         }
         /// <summary>
         /// Returns a formated string representation of the IEnumerable sequence with the pattern: [ elementToString(element0), elementToString(element1), ..., elementToString(elementN) ]
@@ -105,12 +96,12 @@ namespace LASI
         /// <typeparam name="T">The type of the elements in the generic IEnumerable sequence.</typeparam>
         /// <param name="source">An IEnumerable sequence containing 0 or more Elements of type T.</param>
         /// <param name="lineLength">Indicates the number of characters after which a line break is to be inserted.</param>
-        /// <param name="elementToString">The function used to produce a string representation for each element.</param>
+        /// <param name="stringSelector">The function used to produce a string representation for each element.</param>
         /// <returns>A formated string representation of the IEnumerable sequence with the pattern: [ element0, element1, ..., elementN ].</returns>
-        public static string Format<T>(this IEnumerable<T> source, long lineLength, Func<T, string> elementToString) {
+        public static string Format<T>(this IEnumerable<T> source, long lineLength, Func<T, string> stringSelector) {
             int len = 2;
             return source.Aggregate("[ ", (sum, current) => {
-                var cETS = elementToString(current) + ", ";
+                var cETS = stringSelector(current) + ", ";
                 len += cETS.Length;
                 if (len > lineLength) {
                     len = cETS.Length;
@@ -127,19 +118,19 @@ namespace LASI
         /// <param name="source">An IEnumerable sequence containing 0 or more Elements of type T.</param>
         /// <param name="delimsToUse">A value indicating the pair of delimiters to surround the elements.</param>
         /// <param name="lineLength">Indicates the number of characters after which a line break is to be inserted.</param>
-        /// <param name="elementToString">The function used to produce a string representation for each element.</param>
+        /// <param name="stringSelector">The function used to produce a string representation for each element.</param>
         /// <returns>A formated string representation of the IEnumerable sequence with the pattern: [ element0, element1, ..., elementN ].</returns>
-        public static string Format<T>(this IEnumerable<T> source, Tuple<char, char> delimsToUse, long lineLength, Func<T, string> elementToString) {
+        public static string Format<T>(this IEnumerable<T> source, Tuple<char, char, char> delimsToUse, long lineLength, Func<T, string> stringSelector) {
             int len = 2;
             return source.Aggregate(delimsToUse.Item1 + " ", (sum, current) => {
-                var cETS = elementToString(current) + ", ";
+                var cETS = stringSelector(current) + delimsToUse.Item2 + ' ';
                 len += cETS.Length;
                 if (len > lineLength) {
                     len = cETS.Length;
                     sum += '\n';
                 }
                 return sum += cETS;
-            }).TrimEnd(' ', ',') + " " + delimsToUse.Item2;
+            }).TrimEnd(' ', delimsToUse.Item2) + ' ' + delimsToUse.Item3;
         }
 
         #endregion
@@ -201,53 +192,6 @@ namespace LASI
 
         }
 
-
-        #endregion
-
-        #region Internal Support Types
-        /// <summary>
-        /// An EqualityComparer{T} whose Equals and GetHashCode implementations are specified by functions provided as constructor arguments.
-        /// </summary>
-        /// <typeparam name="T">The type of objects to compare.</typeparam>
-        private class CustomComaparer<T> : EqualityComparer<T>
-        {
-            #region Constructors
-            public CustomComaparer(Func<T, T, bool> equals) {
-                if (equals == null)
-                    throw new ArgumentNullException("equals", "A null equals function was provided.");
-                customEquals = equals;
-                customHasher = o => o == null ? 0 : 1;
-            }
-            public CustomComaparer(Func<T, T, bool> equals, Func<T, int> hasher) {
-                if (equals == null)
-                    throw new ArgumentNullException("equals", "A null equals function was provided.");
-                customEquals = equals;
-                if (hasher == null)
-                    throw new ArgumentNullException("hasher", "A null getHashCode function was provided.");
-                customEquals = equals;
-                customHasher = hasher;
-            }
-            #endregion
-
-            #region Methods
-            public override bool Equals(T x, T y) {
-                if (ReferenceEquals(x, null))
-                    return ReferenceEquals(y, null);
-                else if (ReferenceEquals(y, null))
-                    return ReferenceEquals(x, null);
-                else
-                    return customEquals(x, y);
-            }
-            public override int GetHashCode(T obj) {
-                return customHasher(obj);
-            }
-            #endregion
-
-            #region Fields
-            private Func<T, T, bool> customEquals;
-            private Func<T, int> customHasher;
-            #endregion
-        }
 
         #endregion
 

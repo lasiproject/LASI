@@ -58,12 +58,13 @@ namespace LASI.Algorithm.Lookup
             setsBySetID[synset.ID] = synset;
             foreach (var word in synset.Words) {
                 if (verbData.ContainsKey(word)) {
-                    verbData[word] = new VerbSynSet(
+                    var newSet = new VerbSynSet(
                         verbData[word].ID,
                         verbData[word].Words.Concat(synset.Words),
                         verbData[word].RelatedOnPointerSymbol
                             .Concat(synset.RelatedOnPointerSymbol)
                             .SelectMany(grouping => grouping.Select(pointer => new SetReference(grouping.Key, pointer))), verbData[word].LexName);
+                    verbData[word] = newSet;
                 } else {
                     verbData[word] = synset;
                 }
@@ -72,19 +73,30 @@ namespace LASI.Algorithm.Lookup
 
         private ISet<string> SearchFor(string search) {
             try {
+                var result = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+                var verbRoots = VerbConjugator.FindRoots(search);
                 VerbSynSet containingSet;
-                return new HashSet<string>(
-                    verbData.TryGetValue(VerbConjugator.FindRoot(search), out containingSet) ?
-                         containingSet.ReferencedIndexes
-                         .SelectMany(id => setsBySetID[id].ReferencedIndexes)
-                         .Select(s => setsBySetID[s])
-                         .Where(r => r.LexName == containingSet.LexName)
-                         .SelectMany(r => r.Words.SelectMany(w => VerbConjugator.GetConjugations(w)))
-                    .Append(search) : new[] { search },
-                         StringComparer.OrdinalIgnoreCase);
-            } catch (ArgumentOutOfRangeException) {
-            } catch (IndexOutOfRangeException) {
-            } catch (KeyNotFoundException) {
+                foreach (var root in verbRoots) {
+                    verbData.TryGetValue(root, out containingSet);
+                    containingSet = containingSet ?? verbData.FirstOrDefault(kv => kv.Value.Words.Contains(root)).Value;
+
+                    result.UnionWith(
+
+                        containingSet != null ?
+                        containingSet.ReferencedIndexes
+                             .SelectMany(id => { VerbSynSet temp; setsBySetID.TryGetValue(id, out temp); return temp != null ? temp.ReferencedIndexes : Enumerable.Empty<int>(); })
+                             .Select(s => { VerbSynSet temp; setsBySetID.TryGetValue(s, out temp); return temp; })
+                             .Where(r => r != null && r.LexName == containingSet.LexName)
+                             .SelectMany(r => r.Words.SelectMany(w => VerbConjugator.GetConjugations(w)))
+                             .Append(root) : new[] { search });
+                }
+                return result;
+            }
+            catch (ArgumentOutOfRangeException) {
+            }
+            catch (IndexOutOfRangeException) {
+            }
+            catch (KeyNotFoundException) {
             }
             return new HashSet<string>(new[] { search }, StringComparer.OrdinalIgnoreCase);
         }

@@ -108,7 +108,7 @@ namespace LASI.UserInterface
                 ToolTip = string.Format("{0}{1}",
                 np.Type.Name, gender.IsMaleOrFemale() ? "\nprevialing gender: " + gender : "")
             };
-            var menuItem1 = new MenuItem { Header = "view definition" };
+            var menuItem1 = new MenuItem { Header = "View definition" };
             menuItem1.Click += (s, e) => Process.Start(String.Format("http://www.dictionary.reference.com/browse/{0}?s=t", np.Text));
 
             label.ContextMenu.Items.Add(menuItem1);
@@ -144,7 +144,7 @@ namespace LASI.UserInterface
                     OpacityMask = Brushes.White,
                 }
             };
-            var phraseLabels = new List<Label>();
+            var elementLabels = new List<Label>();
             var dataSource = document.Paginate(10).FirstOrDefault();
             foreach (var phrase in (dataSource != null ? dataSource.Sentences : document.Sentences).SelectMany(p => p.Phrases)) {
                 var label = new Label {
@@ -156,19 +156,15 @@ namespace LASI.UserInterface
                     Padding = new Thickness(1, 1, 1, 1),
                     ContextMenu = new ContextMenu(),
                     ToolTip = phrase.ToString()
-                        .Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries)
-                        .Format(Tuple.Create(' ', ' '), s => s + '\n')
+                        .Split(new[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries)
+                        .Format(Tuple.Create(' ', ' ', ' '), s => s + '\n')
                 };
-
-                Match.MatchOn(phrase)
-                    .With<PronounPhrase>(
-                        when: p => p.RefersTo != null && p.RefersTo.Any(),
-                        actn: p => label.ContextMenu.Items.Add(LexicalElementFactory.CreatePronounPhraseLabelMenu(phraseLabels, p)))
-                    .With<VerbPhrase>(v => LexicalElementFactory.CreateVerbPhraseLabelMenu(phraseLabels, label, v));
-
-                phraseLabels.Add(label);
+                label.ContextMenu = phrase.Match().To<ContextMenu>()
+                    .With<IPronoun>(p => MenuItemFactory.MakePronounContextMenu(elementLabels, p))
+                    .With<IVerbal>(v => MenuItemFactory.MakeVerbalContextMenu(elementLabels, v)) ?? label.ContextMenu;
+                elementLabels.Add(label);
             }
-            foreach (var l in phraseLabels) {
+            foreach (var l in elementLabels) {
                 panel.Children.Add(l);
             }
             recomposedDocumentsTabControl.Items.Add(tab);
@@ -190,7 +186,8 @@ namespace LASI.UserInterface
             var focusedChart = (FrequencyCharts.SelectedItem as TabItem).Content as Visual;
             try {
                 printDialog.PrintVisual(focusedChart, "Current View");
-            } catch (NullReferenceException) { // There is no chart selected by the user.
+            }
+            catch (NullReferenceException) { // There is no chart selected by the user.
             }
 
         }
@@ -213,7 +210,8 @@ namespace LASI.UserInterface
             var chosenFile = FileManager.AddFile(docPath, true);
             try {
                 await FileManager.ConvertAsNeededAsync();
-            } catch (FileConversionFailureException e) {
+            }
+            catch (FileConversionFailureException e) {
                 FileManager.RemoveFile(chosenFile);
                 MessageBox.Show(this, string.Format(".doc file conversion failed\n{0}", e.Message));
             }
@@ -283,9 +281,11 @@ namespace LASI.UserInterface
         private void OpenManualMenuItem_Click_1(object sender, RoutedEventArgs e) {
             try {
                 System.Diagnostics.Process.Start(System.AppDomain.CurrentDomain.BaseDirectory + @"\Manual.pdf");
-            } catch (FileNotFoundException) {
+            }
+            catch (FileNotFoundException) {
                 MessageBox.Show(this, "Unable to locate the User Manual, please contact the LASI team for further support.");
-            } catch (Exception) {
+            }
+            catch (Exception) {
                 MessageBox.Show(this, "Sorry, the manual could not be opened. Please ensure you have a pdf viewer installed.");
             }
         }
