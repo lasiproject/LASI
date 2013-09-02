@@ -36,7 +36,7 @@ namespace LASI.Algorithm.Binding.Experimental
             return from noun in words.GetNouns()
                    let np = noun.Phrase as NounPhrase
                    let gen = np != null ?
-                   PatternMatching.On(noun).To<char>()
+                   noun.Match().Yield<char>()
                        .With<ProperSingularNoun>(n => n.IsFemaleFirstName() == !np.IsFullMale() ? 'F' : n.IsMaleFirstName() && !np.IsFullFemale() ? 'M' : !n.IsFirstName() ? 's' : 'A')
                        .With<GenericSingularNoun>('s')
                        .With<ProperPluralNoun>('p')

@@ -37,7 +37,7 @@ namespace LASI.Experimentation.CommandLine
 
 
             var matches = from word in doc.Words
-                          where PatternMatching.On(word).To<bool>()
+                          where word.Match().Yield<bool>()
                           .With<Noun>(n => n.IsSynonymFor(find))
                           .With<IPronoun>(p => p.RefersTo.IsSimilarTo(find))
                           .Result()

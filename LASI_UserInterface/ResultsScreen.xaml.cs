@@ -159,9 +159,12 @@ namespace LASI.UserInterface
                         .Split(new[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries)
                         .Format(Tuple.Create(' ', ' ', ' '), s => s + '\n')
                 };
-                label.ContextMenu = phrase.Match().To<ContextMenu>()
-                    .With<IPronoun>(p => MenuItemFactory.MakePronounContextMenu(elementLabels, p))
-                    .With<IVerbal>(v => MenuItemFactory.MakeVerbalContextMenu(elementLabels, v)) ?? label.ContextMenu;
+                label.ContextMenu =
+                    phrase.Match()
+                    .Yield<ContextMenu>()
+                        .With<IPronoun>(p => ContextMenuFactory.MakePronounContextMenu(elementLabels, p))
+                        .With<IVerbal>(v => ContextMenuFactory.MakeVerbalContextMenu(elementLabels, v))
+                    .Result(label.ContextMenu);
                 elementLabels.Add(label);
             }
             foreach (var l in elementLabels) {

@@ -12,8 +12,7 @@ namespace LASI.UserInterface
     static class SyntacticStylization
     {
         public static Brush GetBrush(this ILexical lexical) {
-            return PatternMatching
-                .On(lexical).To<Brush>()
+            return lexical.Match().Yield<Brush>()
                     .With<NounPhrase>(n => n.Words.GetProperNouns().Any() ? Brushes.DarkBlue : Brushes.Brown)
                     .With<InfinitivePhrase>(Brushes.Teal)
                     .With<IPronoun>(Brushes.DarkCyan)

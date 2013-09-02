@@ -51,7 +51,6 @@ namespace LASI.Algorithm.Patternization.Generalized.Basis
         #endregion
 
     }
-    public class TypedMatchCase<T> { }
     public class MatchCase
     {
         #region Constructors
@@ -107,13 +106,13 @@ namespace LASI.Algorithm.Patternization.Generalized.Basis
 
         #region Default Expressions
 
-        public MatchCase Default(Action actn) {
+        public MatchCase Perform(Action actn) {
             if (!_matchFound) {
                 actn();
             }
             return this;
         }
-        public MatchCase Default(Action<object> actn) {
+        public MatchCase Perform(Action<object> actn) {
             if (!_matchFound) {
                 actn(_value);
             }

@@ -9,7 +9,7 @@ using System.Windows.Media;
 
 namespace LASI.UserInterface.LexicalElementInfo
 {
-    static class MenuItemFactory
+    static class ContextMenuFactory
     {
         #region Label Context Menu Construction
 

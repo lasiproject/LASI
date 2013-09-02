@@ -15,7 +15,7 @@ namespace LASI.ContentSystem.Serialization.XML.ILexicalExtensions
         static XElement ToXml(this ILexical lex) {
             return new XElement(lex.Type.Name,
                 new XAttribute("ID",
-                    lex.Match().To<int>()
+                    lex.Match().Yield<int>()
                             .With<Phrase>(p => p.ID)
                             .With<Word>(w => w.ID)
                             .Result()),

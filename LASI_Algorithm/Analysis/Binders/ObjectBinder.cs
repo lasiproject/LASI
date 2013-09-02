@@ -260,7 +260,7 @@ namespace LASI.Algorithm.Binding
                     Machine.St0.Transition(Stream.Pop() as dynamic);
                 })
                 .With<ConjunctionPhrase>(phr => Machine.lastConjunctive = phr)
-                .Default(base.Transition);
+                .Perform(base.Transition);
             }
 
         }
@@ -440,7 +440,7 @@ namespace LASI.Algorithm.Binding
                     }
                     Machine.St2.Transition(Stream.Pop() as dynamic);
                 })
-                .Default(base.Transition);
+                .Perform(base.Transition);
             }
             public State4(ObjectBinder machine) : base(machine, "s4") { }
         }
@@ -487,7 +487,7 @@ namespace LASI.Algorithm.Binding
 
                     Machine.St6.Transition(Stream.Pop() as dynamic);
                 })
-                .Default(base.Transition);
+                .Perform(base.Transition);
             }
             public State5(ObjectBinder machine) : base(machine, "s5") { }
         }

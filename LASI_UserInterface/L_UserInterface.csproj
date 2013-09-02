@@ -119,7 +119,7 @@
     <Compile Include="Dialogs\FindWindow.xaml.cs">
       <DependentUpon>FindWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="LexicalElementInfo\MenuItemFactory.cs" />
+    <Compile Include="LexicalElementInfo\ContextMenuFactory.cs" />
     <Compile Include="LexicalElementStyling\SyntacticColorMapping.cs" />
     <Compile Include="ResultSelection\Visualizer.cs" />
     <Compile Include="ResultSelection\CrossDocumentJoiner.cs" />

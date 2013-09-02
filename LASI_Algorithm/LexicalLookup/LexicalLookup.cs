@@ -62,7 +62,7 @@ namespace LASI.Algorithm.Lookup
         /// <param name="adverb">The Adverb to lookup.</param>
         /// <returns>The synonyms for the provided Adverb.</returns>
         public static IEnumerable<string> GetSynonyms(Adverb adverb) {
-            PatternMatching.On(adverb).To<string>()
+            adverb.Match().Yield<string>()
                 .When(s => s.Text == "adv")
                 .With<ComparativeAdverb>(c => c.Text)
                 .With<SuperlativeAdverb>(a => a.Text.ToUpper())
@@ -616,12 +616,12 @@ namespace LASI.Algorithm.Lookup
         /// <returns>A NameGender value indiciating the likely gender of the entity.</returns>
         public static Gender GetGender(this IEntity entity) {
             return entity != null ?
-               PatternMatching.On(entity).To<Gender>()
+                entity.Match().Yield<Gender>()
                     .With<IGendered>(p => p.Gender)
                     .With<IPronoun>(p => p.GetPronounGender())
                     .With<NounPhrase>(n => n.GetGender())
                     .With<GenericNoun>(Gender.Neutral)
-                    .Result() : default(Gender);
+                .Result() : default(Gender);
         }
         /// <summary>
         /// Returns a NameGender value indiciating the likely gender of the Pronoun based on its referrent if known, or else its PronounKind.
@@ -630,13 +630,13 @@ namespace LASI.Algorithm.Lookup
         /// <returns>A NameGender value indiciating the likely gender of the Pronoun.</returns>
         private static Gender GetPronounGender(this IPronoun pronoun) {
             return pronoun != null ?
-               PatternMatching.On(pronoun).To<Gender>()
+                pronoun.Match().Yield<Gender>()
                     .With<IGendered>(p => p.Gender)
                     .With<PronounPhrase>(p => GetPhraseGender(p))
                 .Result() :
                 pronoun.RefersTo != null && pronoun.RefersTo.Any() ?
-               pronoun.RefersTo.Select(rt =>
-               PatternMatching.On(rt).To<Gender>()
+                pronoun.RefersTo.Select(rt =>
+              rt.Match().Yield<Gender>()
                    .With<NounPhrase>(r => r.GetGender())
                    .With<Pronoun>(r => r.GetPronounGender())
                    .With<ProperSingularNoun>(r => r.Gender)

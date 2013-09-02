@@ -79,12 +79,12 @@ namespace LASI.Algorithm
         }
 
         internal static IEnumerable<string> GetLikelyAliases(IEntity entity) {
-            return entity.Match().To<IEnumerable<string>>()
+            return entity.Match().Yield<IEnumerable<string>>()
                 .With<NounPhrase>(n => DefineAliases(n))
                 .When(e => e.SubjectOf.IsClassifier)
                 .With<IEntity>(e => e.SubjectOf
                     .DirectObjects
-                    .SelectMany(direct => direct.Match().To<IEnumerable<string>>()
+                    .SelectMany(direct => direct.Match().Yield<IEnumerable<string>>()
                         .When<IPronoun>(p => p.RefersTo.Any())
                         .With<IPronoun>(p => p.RefersTo.SelectMany(r => GetLikelyAliases(r)))
                         .With<Noun>(n => LexicalLookup.GetSynonyms(n))

@@ -18,7 +18,7 @@ namespace LASI.Algorithm.Analysis.Binders.Experimental
             var objectBindingReleventItems =
                 from phrase in phrases.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                 select
-                    phrase.Match().To<ILexical>()
+                    phrase.Match().Yield<ILexical>()
                         .With<IPrepositional>(p => p)
                         .With<IConjunctive>(p => p)
                         .With<IEntity>(p => p)
@@ -38,19 +38,20 @@ namespace LASI.Algorithm.Analysis.Binders.Experimental
         private static IEnumerable<Func<Phrase>> ImagineBindings(IEnumerable<ILexical> elements) {
             var results = new List<Func<Phrase>>();
             var targetVPS = elements.Select(e =>
-                e.Match().To<VerbPhrase>()
+                e.Match().Yield<VerbPhrase>()
                     .With<ConjunctionPhrase>(c => c.NextPhrase as VerbPhrase)
                     .With<SymbolPhrase>(s =>
-                        s.NextPhrase.Match().To<VerbPhrase>()
+                        s.NextPhrase.Match().Yield<VerbPhrase>()
                             .With<VerbPhrase>(v => v)
-                            .With<ConjunctionPhrase>(c => c.NextPhrase as VerbPhrase))
+                            .With<ConjunctionPhrase>(c => c.NextPhrase as VerbPhrase)
+                            .Result())
                     .With<VerbPhrase>(v => v)
                 .Result())
             .Distinct()
             .TakeWhile(v => v != null);
             var next = targetVPS.LastOrDefault(v => v.NextPhrase != null && v.Sentence == v.NextPhrase.Sentence);
             if (next != null) {
-                results.Add(targetVPS.Last().NextPhrase.Match().To<Func<Phrase>>()
+                results.Add(targetVPS.Last().NextPhrase.Match().Yield<Func<Phrase>>()
                         .With<NounPhrase>(n => () => {
                             targetVPS.ToList().ForEach(v => v.BindDirectObject(n));
                             return n;
@@ -63,7 +64,8 @@ namespace LASI.Algorithm.Analysis.Binders.Experimental
                         .With<PrepositionalPhrase>(i => () => {
                             targetVPS.ToList().ForEach(v => v.BindIndirectObject(i.NextPhrase as IEntity));
                             return i;
-                        }));
+                        })
+                        .Result());
             }
             return results;
         }
