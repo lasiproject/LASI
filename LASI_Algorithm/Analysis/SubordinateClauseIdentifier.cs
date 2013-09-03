@@ -10,13 +10,9 @@ namespace LASI.Algorithm
 {
     static class SubordinateClauseIdentifier
     {
-
         public static void Identify(params Sentence[] sentences) {
             foreach (var s in sentences) {
                 var remainder = RemainderofSentenceIncludingSubordinator(s.Words);
-
-
-
             }
         }
         private static IEnumerable<Word> RemainderofSentenceIncludingSubordinator(IEnumerable<Word> words) {
@@ -27,8 +23,6 @@ namespace LASI.Algorithm
             return remainder;
 
         }
-
-
         /// <summary>
         /// This is the most common beginning of a subordinating clause. It begins with either a subordinating conjuntion or a relative (wh) pronoun. 
         /// Example, "Dennis, who was a huge dick, ate at Wendy's and harasseed the management.

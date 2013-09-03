@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LASI.Algorithm.Patternization.Generalized.Basis
 {
-    public class MatchCase<TResult>
+    class MatchCase<TResult>
     {
         #region Constructors
         protected internal MatchCase(object value) { _value = value; }
@@ -51,7 +51,7 @@ namespace LASI.Algorithm.Patternization.Generalized.Basis
         #endregion
 
     }
-    public class MatchCase
+    class MatchCase
     {
         #region Constructors
         protected internal MatchCase(object value) { _value = value; }

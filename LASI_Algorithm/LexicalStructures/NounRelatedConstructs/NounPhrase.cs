@@ -79,10 +79,10 @@ namespace LASI.Algorithm
         public override string ToString() {
             var result = base.ToString();
             if (Phrase.VerboseOutput) {
-                result += Possessed.Any() ? "\npossessions: " + Possessed.Format(p => p.Text + '\n') : string.Empty;
-                result += Possesser != null ? "\ntowned By: " + Possesser : string.Empty;
-                result += InnerAttributive != null ? "\nDefines: " + InnerAttributive : string.Empty;
-                result += OuterAttributive != null ? "\nDefines: " + OuterAttributive : string.Empty;
+                result += Possessed.Any() ? "\nPossessions: " + Possessed.Format(p => p.Text + '\n') : string.Empty;
+                result += Possesser != null ? "\nOwned By: " + Possesser.Text : string.Empty;
+                result += InnerAttributive != null ? "\nDefines: " + InnerAttributive.Text : string.Empty;
+                result += OuterAttributive != null ? "\nDefines: " + OuterAttributive.Text : string.Empty;
                 result += SubjectOf != null ? "\nSubject Of: " + SubjectOf.Text : string.Empty;
                 result += DirectObjectOf != null ? "\nDirect Object Of: " + DirectObjectOf.Text : string.Empty;
                 result += IndirectObjectOf != null ? "\nIndirect Object Of: " + IndirectObjectOf.Text : string.Empty;

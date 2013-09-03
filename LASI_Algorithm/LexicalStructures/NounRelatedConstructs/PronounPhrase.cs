@@ -31,7 +31,7 @@ namespace LASI.Algorithm
         /// </summary>
         /// <returns>A string representation of the PronounPhrase</returns>
         public override string ToString() {
-            return base.ToString() + (RefersTo != null && RefersTo.Any() ? " referring to -> " + RefersTo : string.Empty);
+            return base.ToString() + (RefersTo != null && RefersTo.Any() ? " referring to -> " + RefersTo.Text : string.Empty);
         }
         private IAggregateEntity _refersTo;
         /// <summary>

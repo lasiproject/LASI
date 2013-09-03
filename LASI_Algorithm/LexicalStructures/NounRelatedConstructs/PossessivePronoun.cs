@@ -39,7 +39,7 @@ namespace LASI.Algorithm
         /// </summary>
         /// <returns>A string represntation of the PossessivePronoun.</returns>
         public override string ToString() {
-            return base.ToString() + (VerboseOutput ? string.Format("\nSignifying {0} as owner of {1}", PossessesFor, Possessed.Format(e => e.Text)) : string.Empty);
+            return base.ToString() + (VerboseOutput ? string.Format("\nSignifying {0} as owner of {1}", PossessesFor.Text, Possessed.Format(e => e.Text)) : string.Empty);
         }
 
         /// <summary>

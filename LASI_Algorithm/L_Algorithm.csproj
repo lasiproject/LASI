@@ -47,8 +47,7 @@
     </DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>
-    </DocumentationFile>
+    <DocumentationFile>bin\Release\Algorithm.XML</DocumentationFile>
     <PlatformTarget>x64</PlatformTarget>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
     <UseVSHostingProcess>false</UseVSHostingProcess>
@@ -89,7 +88,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Analysis\Binder.cs" />
+    <Compile Include="Analysis\Binders\Binder.cs" />
     <Compile Include="Analysis\Binders\AttributivePhraseBinder.cs" />
     <Compile Include="Analysis\Binders\AdjectivePhraseBinder.cs" />
     <Compile Include="Analysis\Binders\ScopedAliasMap.cs" />
@@ -105,12 +104,12 @@
     <Compile Include="LexicalStructures\MiscLanguageConstructs\UnknownWord.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\ISimpleGendered.cs" />
     <Compile Include="LexicalStructures\UnderpinningTypes\IAggregateLexical.cs" />
-    <Compile Include="Patternization\Experimental\AlgebraicDestructuring.cs" />
-    <Compile Include="Patternization\Generalized\Basis\MatchCase.cs" />
-    <Compile Include="Patternization\LexicalSpecific\IMatchCase.cs" />
-    <Compile Include="Patternization\LexicalSpecific\ITestedMatchCase.cs" />
-    <Compile Include="Patternization\LexicalSpecific\MatchCase.cs" />
-    <Compile Include="Patternization\LexicalSpecific\PatternMatching.cs" />
+    <Compile Include="Analysis\Patternization\Experimental\AlgebraicDestructuring.cs" />
+    <Compile Include="Analysis\Patternization\Generalized\Basis\MatchCase.cs" />
+    <Compile Include="Analysis\Patternization\LexicalSpecific\IMatchCase.cs" />
+    <Compile Include="Analysis\Patternization\LexicalSpecific\ITestedMatchCase.cs" />
+    <Compile Include="Analysis\Patternization\LexicalSpecific\MatchCase.cs" />
+    <Compile Include="Analysis\Patternization\LexicalSpecific\PatternMatching.cs" />
     <Compile Include="ResourceManagement\Memory.cs" />
     <Compile Include="TextSourceAbstraction\IUntaggedTextSource.cs" />
     <Compile Include="EntityKindClassificationExtensions.cs" />

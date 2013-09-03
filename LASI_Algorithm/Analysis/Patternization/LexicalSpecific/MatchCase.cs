@@ -74,7 +74,6 @@ namespace LASI.Algorithm.Patternization
         }
 
         #endregion
-
         #region Perform Expressions
 
         /// <summary>
