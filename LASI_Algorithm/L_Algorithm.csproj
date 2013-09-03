@@ -111,7 +111,7 @@
     <Compile Include="Patternization\LexicalSpecific\ITestedMatchCase.cs" />
     <Compile Include="Patternization\LexicalSpecific\MatchCase.cs" />
     <Compile Include="Patternization\LexicalSpecific\PatternMatching.cs" />
-    <Compile Include="ResourceUsageManagement\Memory.cs" />
+    <Compile Include="ResourceManagement\Memory.cs" />
     <Compile Include="TextSourceAbstraction\IUntaggedTextSource.cs" />
     <Compile Include="EntityKindClassificationExtensions.cs" />
     <Compile Include="IEnumerableExtensions\IEnumerableOfRecursiveIEnumerableILexicalsExtenstions.cs" />
@@ -123,7 +123,7 @@
     <Compile Include="RelationshipLookups\Helpers\ExpressionExtensions.cs" />
     <Compile Include="RelationshipLookups\IRelationshipLookup.cs" />
     <Compile Include="RelationshipLookups\SampleRelationshipLookup.cs" />
-    <Compile Include="ResourceUsageManagement\ResourceUsageMode.cs" />
+    <Compile Include="ResourceManagement\ResourceUsageMode.cs" />
     <Compile Include="LexicalStructures\VerbRelatedConstructs\InfinitivePhrase.cs" />
     <Compile Include="Analysis\Binders\IntraPhraseWordBinder.cs" />
     <Compile Include="Analysis\Binders\InvalidStateTransitionException.cs" />
@@ -132,7 +132,7 @@
     <Compile Include="Analysis\Binders\PronounBinder.cs" />
     <Compile Include="Analysis\Binders\SubjectBinder.cs" />
     <Compile Include="Analysis\Weighter.cs" />
-    <Compile Include="LexicalStructures\UnderpinningTypes\SubordinateClauseBeginPhrase.cs" />
+    <Compile Include="LexicalStructures\UnderpinningTypes\SBARClauseBeginPhrase.cs" />
     <Compile Include="RelationshipLookups\AliasDictionary.cs" />
     <Compile Include="IEnumerableExtensions\IEnumerableOfIEntityExtensions.cs" />
     <Compile Include="IEnumerableExtensions\IEnumerableOfILexicalExtensions.cs" />
@@ -165,7 +165,7 @@
     <Compile Include="LexicalStructures\NounRelatedConstructs\IQuantifer.cs" />
     <Compile Include="LexicalStructures\VerbRelatedConstructs\IModalityModdifiable.cs" />
     <Compile Include="LexicalComparers.cs" />
-    <Compile Include="ResourceUsageManagement\Concurrency.cs" />
+    <Compile Include="ResourceManagement\Concurrency.cs" />
     <Compile Include="LexicalLookup\Lookups\AdjectiveLookup.cs" />
     <Compile Include="LexicalLookup\Lookups\AdverbLookup.cs" />
     <Compile Include="LexicalLookup\WordFormGeneration\NounConjugator.cs" />
@@ -241,7 +241,7 @@
     <Compile Include="LexicalStructures\VerbRelatedConstructs\Verb.cs" />
     <Compile Include="LexicalStructures\VerbRelatedConstructs\VerbPhrase.cs" />
     <Compile Include="IEnumerableExtensions\IEnumerableOfIVerbalExtensions.cs" />
-    <Compile Include="LexicalStructures\VerbRelatedConstructs\VerbMorph.cs" />
+    <Compile Include="LexicalStructures\VerbRelatedConstructs\VerbForm.cs" />
     <Compile Include="LexicalStructures\UnderpinningTypes\Word.cs" />
     <Compile Include="IEnumerableExtensions\IEnumerableOfWordExtensions.cs" />
     <Compile Include="LexicalLookup\Lookups\LookupSupport\WordNetLexCategoryInformation.cs" />

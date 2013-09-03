@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using LASI.Utilities.FunctionExtensions;
 using System.Threading.Tasks;
 
 namespace LASI.Algorithm.Analysis.Binders.Experimental
@@ -15,19 +16,19 @@ namespace LASI.Algorithm.Analysis.Binders.Experimental
         public void Bind(IEnumerable<Phrase> phrases) {
             if (!phrases.GetVerbPhrases().Any()) { throw new VerblessPhrasalSequenceException(); }
 
-            var objectBindingReleventItems =
+            var releventElements =
                 from phrase in phrases.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                select
-                    phrase.Match().Yield<ILexical>()
-                        .With<IPrepositional>(p => p)
-                        .With<IConjunctive>(p => p)
-                        .With<IEntity>(p => p)
-                        .With<IVerbal>(p => p)
-                        .With<SubordinateClauseBeginPhrase>(p => p)
-                        .With<SymbolPhrase>(p => p) as ILexical into result
+                select phrase.Match().Yield<ILexical>()
+                        .Case<IPrepositional>(p => p)
+                        .Case<IConjunctive>(p => p)
+                        .Case<IEntity>(p => p)
+                        .Case<IVerbal>(p => p)
+                        .Case<SBARClauseBeginPhrase>(p => p)
+                        .Case<SymbolPhrase>(p => p)
+                        .Result() as Phrase into result
                 where result != null
                 select result;
-            var bindingActions = ImagineBindings(objectBindingReleventItems.SkipWhile(p => !(p is VerbPhrase)));
+            var bindingActions = ImagineBindings(releventElements.SkipWhile(p => !(p is VerbPhrase)));
             Phrase last = null;
             foreach (var f in bindingActions) { last = f(); }
             if (last != null) {
@@ -35,35 +36,34 @@ namespace LASI.Algorithm.Analysis.Binders.Experimental
             }
         }
 
-        private static IEnumerable<Func<Phrase>> ImagineBindings(IEnumerable<ILexical> elements) {
+        private static IEnumerable<Func<Phrase>> ImagineBindings(IEnumerable<Phrase> elements) {
             var results = new List<Func<Phrase>>();
             var targetVPS = elements.Select(e =>
                 e.Match().Yield<VerbPhrase>()
-                    .With<ConjunctionPhrase>(c => c.NextPhrase as VerbPhrase)
-                    .With<SymbolPhrase>(s =>
+                    .Case<ConjunctionPhrase>(c => c.NextPhrase as VerbPhrase)
+                    .Case<SymbolPhrase>(s =>
                         s.NextPhrase.Match().Yield<VerbPhrase>()
-                            .With<VerbPhrase>(v => v)
-                            .With<ConjunctionPhrase>(c => c.NextPhrase as VerbPhrase)
+                            .Case<VerbPhrase>(v => v)
+                            .When<ConjunctionPhrase>(c => c.NextPhrase is VerbPhrase)
+                            .Then<ConjunctionPhrase>(c => c.NextPhrase as VerbPhrase)
                             .Result())
-                    .With<VerbPhrase>(v => v)
-                .Result())
-            .Distinct()
-            .TakeWhile(v => v != null);
+                    .Case<VerbPhrase>(v => v)
+                .Result()).Distinct().TakeWhile(v => v != null);
             var next = targetVPS.LastOrDefault(v => v.NextPhrase != null && v.Sentence == v.NextPhrase.Sentence);
             if (next != null) {
                 results.Add(targetVPS.Last().NextPhrase.Match().Yield<Func<Phrase>>()
-                        .With<NounPhrase>(n => () => {
+                        .Case<NounPhrase>(n => () => {
                             targetVPS.ToList().ForEach(v => v.BindDirectObject(n));
                             return n;
                         })
-                        .With<InfinitivePhrase>(i => () => {
+                        .Case<InfinitivePhrase>(i => () => {
                             targetVPS.ToList().ForEach(v => v.BindDirectObject(i));
                             return i;
                         })
-                        .When(i => i.NextPhrase as IEntity != null)
-                        .With<PrepositionalPhrase>(i => () => {
-                            targetVPS.ToList().ForEach(v => v.BindIndirectObject(i.NextPhrase as IEntity));
-                            return i;
+                        .When<Phrase>(i => i.NextPhrase is IEntity)
+                        .Then<PrepositionalPhrase>(p => () => {
+                            targetVPS.ToList().ForEach(v => v.BindIndirectObject(p.NextPhrase as IEntity));
+                            return p;
                         })
                         .Result());
             }

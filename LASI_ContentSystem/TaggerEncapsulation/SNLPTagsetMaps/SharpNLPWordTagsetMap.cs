@@ -66,12 +66,12 @@ namespace LASI.ContentSystem.TaggerEncapsulation
             { "RBR", t => new ComparativeAdverb(t) }, //Adverb, comparative
             { "RBS", t => new SuperlativeAdverb(t) }, //Adverb, superlative
             //Verb mappings
-            { "VB", t => new Verb(t, VerbMorph.Base) }, //Verb, base form
+            { "VB", t => new Verb(t, VerbForm.Base) }, //Verb, base form
             { "VBD", t => new PastTenseVerb(t) }, //Verb, past tense
             { "VBG", t => new PresentParticipleGerund (t) }, //Verb, gerund or present participle
             { "VBN", t => new PastParticipleVerb(t) }, //Verb, past participle
-            { "VBP", t => new Verb(t, VerbMorph.SingularPresent) }, //Verb, non-3rd person singular present
-            { "VBZ", t => new Verb(t, VerbMorph.ThirdPersonSingularPresent) }, //Verb, 3rd person singular present
+            { "VBP", t => new Verb(t, VerbForm.SingularPresent) }, //Verb, non-3rd person singular present
+            { "VBZ", t => new Verb(t, VerbForm.ThirdPersonSingularPresent) }, //Verb, 3rd person singular present
             //WH-word mappings
             { "WDT", t => new Determiner(t) }, //Wh-leftNPDeterminer
             { "WP", t => new RelativePronoun(t) }, //Wh-pronoun

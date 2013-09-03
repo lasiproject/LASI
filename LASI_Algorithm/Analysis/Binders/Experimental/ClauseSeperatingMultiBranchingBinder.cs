@@ -22,8 +22,8 @@ namespace LASI.Algorithm.Binding.Experimental
                 .Where(r => r.Word != null)
                 .Select(r => r.Location);
             if (splitters.Count() > 1) {
-                var branches = from splitter in splitters.Skip(1)
-                               select elements.Take(splitters.First()).Concat(elements.Skip(splitter));
+                var branches = splitters.Skip(1)
+                    .Select(splitter => elements.Take(splitters.First()).Concat(elements.Skip(splitter)));
                 var bestBranch = branches
                     .Select(branch => ImagineBindings(branch))
                     .OrderByDescending(b => b.Count())
@@ -37,10 +37,10 @@ namespace LASI.Algorithm.Binding.Experimental
                    let np = noun.Phrase as NounPhrase
                    let gen = np != null ?
                    noun.Match().Yield<char>()
-                       .With<ProperSingularNoun>(n => n.IsFemaleFirstName() == !np.IsFullMale() ? 'F' : n.IsMaleFirstName() && !np.IsFullFemale() ? 'M' : !n.IsFirstName() ? 's' : 'A')
-                       .With<GenericSingularNoun>('s')
-                       .With<ProperPluralNoun>('p')
-                       .With<GenericPluralNoun>('p')
+                       .Case<ProperSingularNoun>(n => n.IsFemaleFirstName() == !np.IsFullMale() ? 'F' : n.IsMaleFirstName() && !np.IsFullFemale() ? 'M' : !n.IsFirstName() ? 's' : 'A')
+                       .Case<GenericSingularNoun>('s')
+                       .Case<ProperPluralNoun>('p')
+                       .Case<GenericPluralNoun>('p')
                    .Result('U') : 'U'
                    let outer = new { noun, gen }
                    join inner in

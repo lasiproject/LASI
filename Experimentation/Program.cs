@@ -20,7 +20,7 @@ namespace LASI.Experimentation.CommandLine
             LexicalLookup.GetUnstartedLoadingTasks().AsParallel().ForAll(t => t.Wait());
             Console.WriteLine("enter a verb");
             for (var input = Console.ReadLine(); input != "~"; input = Console.ReadLine()) {
-                Console.WriteLine(LexicalLookup.GetSynonyms(new Verb(input, VerbMorph.Base)).Format());
+                Console.WriteLine(LexicalLookup.GetSynonyms(new Verb(input, VerbForm.Base)).Format());
             }
 
             var doc = Tagger.DocumentFromRaw(new DocXFile(@"C:\Users\Aluan\Desktop\documents\C++_for _LASI.docx"));
@@ -38,8 +38,8 @@ namespace LASI.Experimentation.CommandLine
 
             var matches = from word in doc.Words
                           where word.Match().Yield<bool>()
-                          .With<Noun>(n => n.IsSynonymFor(find))
-                          .With<IPronoun>(p => p.RefersTo.IsSimilarTo(find))
+                          .Case<Noun>(n => n.IsSynonymFor(find))
+                          .Case<IPronoun>(p => p.RefersTo.IsSimilarTo(find))
                           .Result()
                           select word;
             return matches.Count();

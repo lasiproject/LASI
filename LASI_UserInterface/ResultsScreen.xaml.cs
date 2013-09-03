@@ -162,8 +162,8 @@ namespace LASI.UserInterface
                 label.ContextMenu =
                     phrase.Match()
                     .Yield<ContextMenu>()
-                        .With<IPronoun>(p => ContextMenuFactory.MakePronounContextMenu(elementLabels, p))
-                        .With<IVerbal>(v => ContextMenuFactory.MakeVerbalContextMenu(elementLabels, v))
+                        .Case<IPronoun>(p => ContextMenuFactory.MakePronounContextMenu(elementLabels, p))
+                        .Case<IVerbal>(v => ContextMenuFactory.MakeVerbalContextMenu(elementLabels, v))
                     .Result(label.ContextMenu);
                 elementLabels.Add(label);
             }

@@ -70,7 +70,7 @@ namespace AlgorithmAssemblyUnitTestProject
         [TestMethod()]
         public void VerbConstructorTest() {
             string text = "insulate";
-            VerbMorph tense = VerbMorph.Base;
+            VerbForm tense = VerbForm.Base;
             Verb target = new Verb(text, tense);
 
             Assert.IsTrue(target.Text == text);
@@ -88,7 +88,7 @@ namespace AlgorithmAssemblyUnitTestProject
         [TestMethod()]
         public void AttachObjectViaPrepositionTest() {
             string text = "insulate";
-            VerbMorph tense = VerbMorph.Base;
+            VerbForm tense = VerbForm.Base;
             Verb target = new Verb(text, tense);
             NounPhrase prepositionObject = new NounPhrase(new[] { new PersonalPronoun("them") });
             IPrepositional prep = new Preposition("for");
@@ -103,7 +103,7 @@ namespace AlgorithmAssemblyUnitTestProject
         [TestMethod()]
         public void BindDirectObjectTest() {
             string text = "gave";
-            VerbMorph tense = VerbMorph.Base;
+            VerbForm tense = VerbForm.Base;
             Verb target = new Verb(text, tense);
             IEntity directObject = new NounPhrase(new Word[] { new Determiner("a"), new GenericSingularNoun("cake") });
             target.BindDirectObject(directObject);
@@ -117,7 +117,7 @@ namespace AlgorithmAssemblyUnitTestProject
         [TestMethod()]
         public void BindIndirectObjectTest() {
             string text = "gave";
-            VerbMorph tense = VerbMorph.Base;
+            VerbForm tense = VerbForm.Base;
             Verb target = new Verb(text, tense);
             IEntity indirectObject = new PersonalPronoun("him");
             target.BindIndirectObject(indirectObject);
@@ -131,7 +131,7 @@ namespace AlgorithmAssemblyUnitTestProject
         [TestMethod()]
         public void BindSubjectTest() {
             string text = "gave";
-            VerbMorph tense = VerbMorph.Base;
+            VerbForm tense = VerbForm.Base;
             Verb target = new Verb(text, tense);
             IEntity subject = new PersonalPronoun("he");
             target.BindSubject(subject);
@@ -147,7 +147,7 @@ namespace AlgorithmAssemblyUnitTestProject
         [TestMethod()]
         public void ModifyWithTest() {
             string text = "insulate";
-            VerbMorph tense = VerbMorph.Base;
+            VerbForm tense = VerbForm.Base;
             Verb target = new Verb(text, tense);
             IAdverbial adv = new Adverb("sufficiently");
             target.ModifyWith(adv);
@@ -162,7 +162,7 @@ namespace AlgorithmAssemblyUnitTestProject
         [TestMethod()]
         public void ModalityTest() {
             string text = "insulate";
-            VerbMorph tense = VerbMorph.Base;
+            VerbForm tense = VerbForm.Base;
             Verb target = new Verb(text, tense);
             ModalAuxilary expected = new ModalAuxilary("can");
             ModalAuxilary actual;

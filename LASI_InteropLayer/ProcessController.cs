@@ -1,6 +1,7 @@
 ﻿using LASI.Algorithm.Binding;
 using LASI.Algorithm.DocumentConstructs;
 using LASI.Algorithm.Lookup;
+using LASI.Algorithm.Weighting;
 using LASI.ContentSystem;
 using LASI.Utilities;
 using System;
@@ -16,7 +17,7 @@ namespace LASI.InteropLayer
     /// Governs the complete analysis and processing of one or more text sources.
     /// Provides synchronous and asynchronoun callback based progress reports.
     /// </summary>
-    public sealed class ProcessController
+    public sealed class ProcessController : Progress<double>
     {
 
         /// <summary>
@@ -77,7 +78,6 @@ namespace LASI.InteropLayer
             updateProgressDisplay = onProgressUpdate;
             await LoadThesaurus();
             await updateProgressDisplay("Tagging Documents", 0);
-
             var taggingTasks = filesToProcess.Select(F => Task.Run(async () => await Tagger.TaggedFromRawAsync(F))).ToList();
             var taggedFiles = new ConcurrentBag<LASI.Algorithm.ITaggedTextSource>();
             while (taggingTasks.Any()) {
@@ -90,11 +90,12 @@ namespace LASI.InteropLayer
             await updateProgressDisplay("Tagged Documents", 3);
             var tasks = taggedFiles.Select(tagged => ProcessTaggedFileAsync(tagged)).ToList();
             var documents = new ConcurrentBag<Document>();
-            foreach (var task in tasks) {
-                documents.Add(await task);
+            while (tasks.Any()) {
+                var currentTask = await Task.WhenAny(tasks);
+                var processedDocument = await currentTask;
+                tasks.Remove(currentTask);
+                documents.Add(processedDocument);
             }
-
-
             return documents;
         }
 
@@ -112,7 +113,7 @@ namespace LASI.InteropLayer
                 await updateProgressDisplay(task.CompletionMessage, task.PercentWorkRepresented * 0.5 / documentsInWorkLoad);
             }
             await updateProgressDisplay(string.Format("{0}: Correlating Relationships...", fileName), 0);
-            var weightingWorkUnits = LASI.Algorithm.Weighting.Weighter.GetWeightingProcessingTasks(doc).ToList();
+            var weightingWorkUnits = Weighter.GetWeightingProcessingTasks(doc).ToList();
             foreach (var task in weightingWorkUnits) {
                 await updateProgressDisplay(task.InitializationMessage, 0);
                 await task.Task;

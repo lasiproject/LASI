@@ -62,11 +62,6 @@ namespace LASI.Algorithm.Lookup
         /// <param name="adverb">The Adverb to lookup.</param>
         /// <returns>The synonyms for the provided Adverb.</returns>
         public static IEnumerable<string> GetSynonyms(Adverb adverb) {
-            adverb.Match().Yield<string>()
-                .When(s => s.Text == "adv")
-                .With<ComparativeAdverb>(c => c.Text)
-                .With<SuperlativeAdverb>(a => a.Text.ToUpper())
-                .Result();
             return InternalLookup(adverb);
         }
 
@@ -615,13 +610,12 @@ namespace LASI.Algorithm.Lookup
         /// <param name="entity">The entity whose gender to lookup.</param>
         /// <returns>A NameGender value indiciating the likely gender of the entity.</returns>
         public static Gender GetGender(this IEntity entity) {
-            return entity != null ?
-                entity.Match().Yield<Gender>()
-                    .With<IGendered>(p => p.Gender)
-                    .With<IPronoun>(p => p.GetPronounGender())
-                    .With<NounPhrase>(n => n.GetGender())
-                    .With<GenericNoun>(Gender.Neutral)
-                .Result() : default(Gender);
+            return entity.Match().Yield<Gender>()
+                    .Case<IGendered>(p => p.Gender)
+                    .Case<IPronoun>(p => p.GetPronounGender())
+                    .Case<NounPhrase>(n => n.GetGender())
+                    .Case<GenericNoun>(n => Gender.Neutral)
+                    .Result(defaultValue: default(Gender));
         }
         /// <summary>
         /// Returns a NameGender value indiciating the likely gender of the Pronoun based on its referrent if known, or else its PronounKind.
@@ -631,16 +625,16 @@ namespace LASI.Algorithm.Lookup
         private static Gender GetPronounGender(this IPronoun pronoun) {
             return pronoun != null ?
                 pronoun.Match().Yield<Gender>()
-                    .With<IGendered>(p => p.Gender)
-                    .With<PronounPhrase>(p => GetPhraseGender(p))
+                    .Case<IGendered>(p => p.Gender)
+                    .Case<PronounPhrase>(p => GetPhraseGender(p))
                 .Result() :
                 pronoun.RefersTo != null && pronoun.RefersTo.Any() ?
                 pronoun.RefersTo.Select(rt =>
               rt.Match().Yield<Gender>()
-                   .With<NounPhrase>(r => r.GetGender())
-                   .With<Pronoun>(r => r.GetPronounGender())
-                   .With<ProperSingularNoun>(r => r.Gender)
-                   .With<GenericNoun>(Gender.Neutral)
+                   .Case<NounPhrase>(r => r.GetGender())
+                   .Case<Pronoun>(r => r.GetPronounGender())
+                   .Case<ProperSingularNoun>(r => r.Gender)
+                   .Case<GenericNoun>(n => Gender.Neutral)
                 .Result()).GroupBy(g => g).FirstOrDefault(g => g.Count() == pronoun.RefersTo.Count()).Key :
                 default(Gender);
         }

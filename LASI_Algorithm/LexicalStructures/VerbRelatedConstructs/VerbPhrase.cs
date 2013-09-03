@@ -25,7 +25,7 @@ namespace LASI.Algorithm
                 (from v in composedWords.GetVerbs()
                  group v.Tense by v.Tense into tenseGroup
                  orderby tenseGroup.Count()
-                 select tenseGroup).First().Key : VerbMorph.Base;
+                 select tenseGroup).First().Key : VerbForm.Base;
         }
 
         #endregion
@@ -210,9 +210,9 @@ namespace LASI.Algorithm
         public IDescriptor AdjectivalModifier { get; set; }
         /// <summary>
         /// Gets the prevailing Tense of the VerbPhrase.
-        /// <see cref="VerbMorph"/>
+        /// <see cref="VerbForm"/>
         /// </summary>
-        public VerbMorph Tense { get; protected set; }
+        public VerbForm Tense { get; protected set; }
         /// <summary>
         /// Gets or sets the ModalAuxilary word which modifies the VerbPhrase.
         /// </summary>

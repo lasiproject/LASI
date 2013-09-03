@@ -136,7 +136,7 @@ namespace AlgorithmAssemblyUnitTestProject
         public void DirectObjectOfTest() {
             IEnumerable<Word> composedWords = new Word[] { new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians") };
             NounPhrase target = new NounPhrase(composedWords);
-            IVerbal expected = new Verb("insult", VerbMorph.Base);
+            IVerbal expected = new Verb("insult", VerbForm.Base);
             IVerbal actual;
             target.DirectObjectOf = expected;
             actual = target.DirectObjectOf;
@@ -150,7 +150,7 @@ namespace AlgorithmAssemblyUnitTestProject
         public void IndirectObjectOfTest() {
             IEnumerable<Word> composedWords = new Word[] { new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians") };
             NounPhrase target = new NounPhrase(composedWords);
-            IVerbal expected = new VerbPhrase(new Word[] { new Verb("gave", VerbMorph.Base), new Adverb("willingly") });
+            IVerbal expected = new VerbPhrase(new Word[] { new Verb("gave", VerbForm.Base), new Adverb("willingly") });
             IVerbal actual;
             target.IndirectObjectOf = expected;
             actual = target.IndirectObjectOf;
@@ -192,7 +192,7 @@ namespace AlgorithmAssemblyUnitTestProject
         public void SubjectOfTest() {
             IEnumerable<Word> composedWords = new Word[] { new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians") };
             NounPhrase target = new NounPhrase(composedWords);
-            IVerbal expected = new Verb("are", VerbMorph.Base);
+            IVerbal expected = new Verb("are", VerbForm.Base);
             IVerbal actual;
             target.SubjectOf = expected;
             actual = target.SubjectOf;

@@ -23,9 +23,7 @@ namespace LASI.Algorithm
             foreach (var lexical in source) {
                 yield return lexical;
                 var innerEnumerable = lexical as IEnumerable<T>;
-                if (innerEnumerable == null)
-                    continue;
-                else {
+                if (innerEnumerable != null) {
                     foreach (var lex in innerEnumerable.EnumerateRecursively())
                         yield return lex;
                 }

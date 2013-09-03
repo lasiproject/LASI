@@ -16,8 +16,8 @@ namespace LASI.ContentSystem.Serialization.XML.ILexicalExtensions
             return new XElement(lex.Type.Name,
                 new XAttribute("ID",
                     lex.Match().Yield<int>()
-                            .With<Phrase>(p => p.ID)
-                            .With<Word>(w => w.ID)
+                            .Case((Phrase p) => p.ID)
+                            .Case((Word w) => w.ID)
                             .Result()),
                     lex
                     .MatchMany()

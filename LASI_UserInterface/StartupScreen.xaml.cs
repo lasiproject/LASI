@@ -51,7 +51,8 @@ namespace LASI.UserInterface
                     Output.SetToFile(System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
                        "LASI",
                         logFileName + ".txt"));
-                } catch (IOException) {
+                }
+                catch (IOException) {
                     SetupLogging(logFileParentDirectory, logFileName + (char)(DateTime.Now.Second % 9 + 48));
                 }
             } else { Output.SilenceAll(); }
@@ -99,11 +100,13 @@ namespace LASI.UserInterface
             foreach (var file in documentsAddedListBox.Items) {
                 try {
                     FileManager.AddFile((file as ListViewItem).Tag.ToString(), true);
-                } catch (FileNotFoundException e) { MessageBox.Show(this, e.Message); }
+                }
+                catch (FileNotFoundException e) { MessageBox.Show(this, e.Message); }
             }
             try {
                 await FileManager.ConvertAsNeededAsync();
-            } catch (FileConversionFailureException e) {
+            }
+            catch (FileConversionFailureException e) {
                 MessageBox.Show(this, string.Format(".doc file conversion failed\n{0}", e.Message));
             }
         }
@@ -215,15 +218,18 @@ namespace LASI.UserInterface
             if (DocumentManager.AddingAllowed) {
                 var openDialog = new Microsoft.Win32.OpenFileDialog {
                     Filter = "LASI File Types|*.doc; *.docx; *.pdf; *.txt",
+                    Multiselect = true
                 };
                 openDialog.ShowDialog(this);
                 if (openDialog.FileNames.Any()) {
-                    if (!DocumentManager.FileNamePresent(openDialog.SafeFileName)) {
-                        var fileName = openDialog.SafeFileName;
-                        var filePath = openDialog.FileName;
-                        DocumentManager.AddDocument(fileName, filePath);
-                    } else {
-                        MessageBox.Show(this, string.Format("A document named {0} is already part of the project.", openDialog.SafeFileName));
+                    for (int i = 0; i < openDialog.FileNames.Length; i++) {
+                        if (!DocumentManager.FileNamePresent(openDialog.SafeFileNames[i])) {
+                            var fileName = openDialog.SafeFileNames[i];
+                            var filePath = openDialog.FileNames[i];
+                            DocumentManager.AddDocument(fileName, filePath);
+                        } else {
+                            MessageBox.Show(this, string.Format("A document named {0} is already part of the project.", openDialog.SafeFileName));
+                        }
                     }
                 }
             }
@@ -233,7 +239,8 @@ namespace LASI.UserInterface
             if (!Directory.Exists(locationTextBox.Text)) {
                 try {
                     Directory.CreateDirectory(locationTextBox.Text);
-                } catch (Exception) {
+                }
+                catch (Exception) {
                     MessageBox.Show(this, ErrorOnSelectedProjectDirectoryMessage);
                 }
             }

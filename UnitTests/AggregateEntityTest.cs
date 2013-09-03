@@ -206,7 +206,7 @@ namespace AlgorithmAssemblyUnitTestProject
                 new NounPhrase(new Word[] { new GenericPluralNoun("dogs") })
             };
             AggregateEntity target = new AggregateEntity(members);
-            IVerbal expected = new VerbPhrase(new Verb[] { new Verb("eat", VerbMorph.Base) }); // TODO: Initialize to an appropriate value
+            IVerbal expected = new VerbPhrase(new Verb[] { new Verb("eat", VerbForm.Base) }); // TODO: Initialize to an appropriate value
             IVerbal actual;
             target.DirectObjectOf = expected;
             actual = target.DirectObjectOf;
@@ -289,7 +289,7 @@ namespace AlgorithmAssemblyUnitTestProject
                 new NounPhrase(new Word[] { new GenericPluralNoun("dogs") })
             };
             AggregateEntity target = new AggregateEntity(members);
-            IVerbal expected = new Verb("eat", VerbMorph.Base);
+            IVerbal expected = new Verb("eat", VerbForm.Base);
             IVerbal actual;
             target.SubjectOf = expected;
             actual = target.SubjectOf;

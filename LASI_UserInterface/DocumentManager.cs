@@ -108,7 +108,8 @@ namespace LASI.UserInterface
                 using (Stream stream = new FileStream(file.FullName, FileMode.Open)) {
                     return false;
                 }
-            } catch (IOException) {
+            }
+            catch (IOException) {
                 return true;
             }
         }
@@ -116,10 +117,10 @@ namespace LASI.UserInterface
 
         private static readonly string[] acceptedFormats = { ".doc", ".docx", ".txt", ".pdf" };
 
-        /// <summary>
+        /// <summary>e
         /// Gets a string array containing all of the file extensions accepted by the DocumentManager.
         /// </summary>
-        public static string[] AcceptedFormats {
+        public static IEnumerable<string> AcceptedFormats {
             get {
                 return acceptedFormats;
             }

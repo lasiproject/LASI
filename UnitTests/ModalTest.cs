@@ -80,7 +80,7 @@ namespace AlgorithmAssemblyUnitTestProject
         public void ModifiesTest() {
             string text = "can";
             ModalAuxilary target = new ModalAuxilary(text);
-            IModalityModifiable expected = new Verb("capitulate", VerbMorph.Base);
+            IModalityModifiable expected = new Verb("capitulate", VerbForm.Base);
             IModalityModifiable actual;
             target.Modifies = expected;
             actual = target.Modifies;

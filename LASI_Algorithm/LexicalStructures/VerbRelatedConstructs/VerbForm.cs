@@ -8,7 +8,7 @@ namespace LASI.Algorithm
     /// <summary>
     /// Defines the Six Tenses of Verbs
     /// </summary>
-    public enum VerbMorph : byte
+    public enum VerbForm : byte
     {
         /// <summary>
         /// The base tense

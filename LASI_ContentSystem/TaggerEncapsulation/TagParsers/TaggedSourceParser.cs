@@ -98,7 +98,7 @@ namespace LASI.ContentSystem
                             if (currentPhrase.Words.Any(w => !string.IsNullOrWhiteSpace(w.Text)))
                                 parsedPhrases.Add(currentPhrase);
 
-                            if (currentPhrase is SubordinateClauseBeginPhrase) {
+                            if (currentPhrase is SBARClauseBeginPhrase) {
                                 parsedClauses.Add(new Clause(parsedPhrases.Take(parsedPhrases.Count - 1)));
                                 parsedPhrases = new List<Phrase>();
                                 parsedPhrases.Add(currentPhrase);
@@ -184,10 +184,12 @@ namespace LASI.ContentSystem
             try {
                 var phraseConstructor = PhraseTagset[phraseTag];
                 return phraseConstructor(words);
-            } catch (UnknownPhraseTagException e) {
+            }
+            catch (UnknownPhraseTagException e) {
                 Output.WriteLine("\n{0}\nPhrase Words: {1}\nInstantiating new LASI.Algorithm.UnknownPhrase to compensate", e.Message, words.Format());
                 return new UnknownPhrase(words);
-            } catch (EmptyPhraseTagException e) {
+            }
+            catch (EmptyPhraseTagException e) {
                 Output.WriteLine("\n{0}\nPhrase Words: {1}\nInstantiating new LASI.Algorithm.UnknownPhrase to compensate", e.Message, words.Format());
                 return new UnknownPhrase(words);
             }
@@ -203,10 +205,12 @@ namespace LASI.ContentSystem
             try {
                 var phraseConstructor = PhraseTagset[phraseTag];
                 return phraseConstructor(words);
-            } catch (UnknownPhraseTagException e) {
+            }
+            catch (UnknownPhraseTagException e) {
                 Output.WriteLine("\n{0}\nPhrase Words: {1}\nInstantiating new LASI.Algorithm.UnknownPhrase to compensate", e.Message, words.Format());
                 return new UnknownPhrase(words);
-            } catch (EmptyPhraseTagException e) {
+            }
+            catch (EmptyPhraseTagException e) {
                 Output.WriteLine("\n{0}\nPhrase Words: {1}\nInstantiating new LASI.Algorithm.UnknownPhrase to compensate", e.Message, words.Format());
                 return new UnknownPhrase(words);
             }
@@ -217,10 +221,12 @@ namespace LASI.ContentSystem
             try {
                 var phraseConstructor = PhraseTagset[phraseTag];
                 return () => phraseConstructor(wordExprs.Select(we => we.Value));
-            } catch (UnknownPhraseTagException e) {
+            }
+            catch (UnknownPhraseTagException e) {
                 Output.WriteLine("\n{0}\nPhrase Words: {1}\nInstantiating new LASI.Algorithm.UnknownPhrase to compensate", e.Message, wordExprs.Format(expr => expr.Value.ToString()));
                 return () => new UnknownPhrase(wordExprs.Select(we => we.Value));
-            } catch (EmptyPhraseTagException e) {
+            }
+            catch (EmptyPhraseTagException e) {
                 Output.WriteLine("\n{0}\nPhrase Words: {1}\nInstantiating new LASI.Algorithm.UnknownPhrase to compensate", e.Message, wordExprs.Format(expr => expr.Value.ToString()));
                 return () => new UnknownPhrase(wordExprs.Select(we => we.Value));
             }
@@ -247,7 +253,8 @@ namespace LASI.ContentSystem
                 if (e != null) {
                     try {
                         parsedWords.Add(wordMapper.CreateWord(e.Value));
-                    } catch (UnknownWordTagException x) {
+                    }
+                    catch (UnknownWordTagException x) {
                         Output.WriteLine("\n{0}\nText: {1}\nInstantiating new LASI.Algorithm.UnknownWord to compensate", x.Message, e.GetValueOrDefault().Text);
                         parsedWords.Add(new UnknownWord(e.Value.Text));
                     }
@@ -279,7 +286,8 @@ namespace LASI.ContentSystem
                 if (e.HasValue) {
                     try {
                         wordExpressions.Add(tagParser.GetLazyWord(e.Value));
-                    } catch (UnknownWordTagException x) {
+                    }
+                    catch (UnknownWordTagException x) {
                         Output.WriteLine("\n{0}\nText: {1}\nInstantiating new LASI.Algorithm.UnknownWord to compensate", x.Message, e.GetValueOrDefault().Text);
                         wordExpressions.Add(new Lazy<Word>(() => new UnknownWord(e.Value.Text)));
                     }

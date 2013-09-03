@@ -21,11 +21,13 @@ namespace LASI.Algorithm.Binding
             St0 = new State0(this);
             St1 = new State1(this);
             St2 = new State2(this);
-            St3 = new State3(this);
             St4 = new State4(this);
             St5 = new State5(this);
             St6 = new State6(this);
         }
+
+        #region Methods
+
         /// <summary>
         /// Performance IVerbal :=: IVerbalObject binding between the applicable elements within the provuded sentence.
         /// </summary>
@@ -45,30 +47,27 @@ namespace LASI.Algorithm.Binding
             var phrases = contiguousPhrases.ToList();
             var verbPhraseIndex = phrases.FindIndex(r => r is VerbPhrase);
             bindingTarget = contiguousPhrases.ElementAtOrDefault(verbPhraseIndex) as VerbPhrase;
-            if (bindingTarget == null)
-                return;
-            var remainingPhrases = phrases.Skip(verbPhraseIndex + 1);
-            if (remainingPhrases.Any()) {
-                source = new Stack<Phrase>(remainingPhrases);
-                inputstream = new State.PhraseStackWrapper(source, this);
-                foreach (var state in new State[] { St0, St1, St2, St3, St4, St5, St6 }) {
-                    state.Stream = inputstream;
-                }
-                try {
-                    St0.Transition(inputstream.Pop() as dynamic);
-                }
-                catch (InvalidOperationException) {
+            if (bindingTarget != null) {
+                var remainingPhrases = phrases.Skip(verbPhraseIndex + 1);
+                if (remainingPhrases.Any()) {
+                    source = new Stack<Phrase>(remainingPhrases);
+                    inputstream = new PhraseStackWrapper(source, this);
+                    new State[] { St0, St1, St2, St4, St5, St6 }.ToList().ForEach(state => state.Stream = inputstream);
+                    try {
+                        St0.Transition(inputstream.Pop() as dynamic);
+                    }
+                    catch (InvalidOperationException) {
+                    }
                 }
             }
         }
-
         private void AssociateDirect() {
             foreach (var e in entities) {
                 bindingTarget.BindDirectObject(e);
             }
             entities.Clear();
             ConjunctNounPhrases.Clear();
-            DirectFound = true;
+            directFound = true;
         }
         private void AssociateIndirect() {
             foreach (var e in entities) {
@@ -76,7 +75,6 @@ namespace LASI.Algorithm.Binding
             }
             entities.Clear();
             ConjunctNounPhrases.Clear();
-            IndirectFound = true;
         }
         private void BindBuiltupAdjectivePhrases(NounPhrase phrase) {
             foreach (var adjp in this.lastAdjectivals) {
@@ -84,20 +82,14 @@ namespace LASI.Algorithm.Binding
             }
             this.lastAdjectivals.Clear();
         }
-
-
-        #region Properties
-        Phrase LastPhrase { get; set; }
-        IVerbalObject DirectObject { get; set; }
-        IVerbalObject IndirectObject { get; set; }
-        bool DirectFound { get; set; }
-        bool IndirectFound { get; set; }
         #endregion
 
         #region Fields
+        private IVerbalObject directObject;
+        private bool directFound;
         private VerbPhrase bindingTarget;
         private Stack<Phrase> source;
-        private LASI.Algorithm.Binding.ObjectBinder.State.PhraseStackWrapper inputstream;
+        private PhraseStackWrapper inputstream;
         private List<AdjectivePhrase> lastAdjectivals = new List<AdjectivePhrase>();
         private List<NounPhrase> ConjunctNounPhrases = new List<NounPhrase>();
         private List<AdjectivePhrase> ConjunctAdjectivePhrases = new List<AdjectivePhrase>();
@@ -105,7 +97,6 @@ namespace LASI.Algorithm.Binding
         private State0 St0;
         private State1 St1;
         private State2 St2;
-        private State3 St3;
         private State4 St4;
         private State5 St5;
         private State6 St6;
@@ -113,104 +104,94 @@ namespace LASI.Algorithm.Binding
         private PrepositionalPhrase lastPrepositional;
         #endregion
 
+        #region Helper Classes
+        class PhraseStackWrapper
+        {
+            protected internal PhraseStackWrapper(Stack<Phrase> source, ObjectBinder machine) { Machine = machine; stream = new Stack<Phrase>(source); }
+            public ObjectBinder Machine { get; private set; }
+            public Phrase Pop() { return stream.Pop(); }
+            public bool Any { get { return stream.Any(); } }
+            public bool None { get { return !Any; } }
+            public int Count { get { return stream.Count; } }
+            public List<Phrase> ToList() { return stream.ToList(); }
+            private Stack<Phrase> stream;
+        }
+        #endregion
 
         #region State Classes
 
         class State0 : State
         {
             public State0(ObjectBinder machine) : base(machine, "s0") { }
-            public void Transition(PrepositionalPhrase phrase) {
-                Machine.lastPrepositional = phrase;
+
+            public override void Transition(Phrase phrase) {
                 try {
-                    if (Machine.inputstream.Count > 1)
+                    InternalBind(phrase);
+                }
+                catch (InvalidOperationException) {
+                    PerformExceptionFallback();
+                }
+            }
+
+            private void InternalBind(Phrase phrase) {
+                phrase.Match()
+                    .Case<PrepositionalPhrase>(phr => {
+                        Machine.lastPrepositional = phr;
+
+                        if (Machine.inputstream.Count > 1)
+                            Machine.St0.Transition(Stream.Pop() as dynamic);
+                    })
+                    .Case<VerbPhrase>(phr => new ObjectBinder().Bind(Stream.ToList().Prepend(phr)))
+                    .Case<AdverbPhrase>(phr => {
+                        Machine.bindingTarget.ModifyWith(phr);
+                        if (Stream.None)
+                            return;
                         Machine.St0.Transition(Stream.Pop() as dynamic);
-                }
-                catch (InvalidOperationException) {
-                    Machine.AssociateDirect();
-                    Machine.AssociateIndirect();
-                }
-            }
-            public void Transition(VerbPhrase phrase) {
-                new ObjectBinder().Bind(Stream.ToList().Prepend(phrase));
-            }
-            public void Transition(AdverbPhrase phrase) {
-                Machine.bindingTarget.ModifyWith(phrase);
-                if (Stream.None)
-                    return;
-                try {
-                    Machine.St0.Transition(Stream.Pop() as dynamic);
-                }
-                catch (InvalidOperationException) {
-                    Machine.AssociateDirect();
-                    Machine.AssociateIndirect();
-                }
+                    })
+                    .Case<ConjunctionPhrase>(phr => {
+                        if (Machine.lastPrepositional != null) {
+                            phr.PrepositionOnLeft = Machine.lastPrepositional;
+                            Machine.lastPrepositional.ToTheRightOf = phr;
 
-            }
-            public void Transition(ConjunctionPhrase phrase) {
-                if (Machine.lastPrepositional != null) {
-                    phrase.PrepositionOnLeft = Machine.lastPrepositional;
-                    Machine.lastPrepositional.ToTheRightOf = phrase;
+                        }
+                        if (Stream.None) {
+                            if (!Machine.directFound)
+                                Machine.AssociateDirect();
+                            else
+                                Machine.AssociateIndirect();
 
-                }
-                if (Stream.None) {
-                    if (!Machine.DirectFound)
-                        Machine.AssociateDirect();
-                    else
-                        Machine.AssociateIndirect();
+                            return;
+                        }
+                        Machine.St2.Transition(Stream.Pop() as dynamic);
+                    })
+                    .Case<NounPhrase>(phr => {
+                        if (Machine.lastPrepositional != null) {
+                            phr.PrepositionOnLeft = Machine.lastPrepositional;
+                            Machine.lastPrepositional.ToTheRightOf = phr;
+                            Machine.bindingTarget.AttachObjectViaPreposition(phrase.PrepositionOnLeft);
+                        }
+                        Machine.entities.Push(phr);
+                        if (Stream.None) {
+                            if (!Machine.directFound)
+                                Machine.AssociateDirect();
+                            else
+                                Machine.AssociateIndirect();
 
-                    return;
-                }
-                try {
-                    Machine.St2.Transition(Stream.Pop() as dynamic);
-                }
-                catch (InvalidOperationException) {
-                    Machine.AssociateDirect();
-                    Machine.AssociateIndirect();
-                }
+                            return;
+                        }
 
+                        Machine.St2.Transition(Stream.Pop() as dynamic);
+                    })
+                    .Case<AdjectivePhrase>(phr => {
+                        Machine.lastAdjectivals.Add(phr);
+                        if (Machine.inputstream.Any)
+                            Machine.St1.Transition(Stream.Pop() as dynamic);
+                    })
+                    .Case<SBARClauseBeginPhrase>(WhenSbar)
+                    .Case<SymbolPhrase>(WhenSbar)
+                    .Perform(() => base.Transition(phrase));
             }
-            public void Transition(NounPhrase phrase) {
-                if (Machine.lastPrepositional != null) {
-                    phrase.PrepositionOnLeft = Machine.lastPrepositional;
-                    Machine.lastPrepositional.ToTheRightOf = phrase;
-                    Machine.bindingTarget.AttachObjectViaPreposition(phrase.PrepositionOnLeft);
-                }
-                Machine.entities.Push(phrase);
-                if (Stream.None) {
-                    if (!Machine.DirectFound)
-                        Machine.AssociateDirect();
-                    else
-                        Machine.AssociateIndirect();
 
-                    return;
-                }
-
-                try {
-                    Machine.St2.Transition(Stream.Pop() as dynamic);
-                }
-                catch (InvalidOperationException) {
-                    Machine.AssociateDirect();
-                    Machine.AssociateIndirect();
-                }
-            }
-            public void Transition(AdjectivePhrase phrase) {
-                Machine.lastAdjectivals.Add(phrase);
-                if (Machine.inputstream.Count > 0) {
-                    try {
-                        Machine.St1.Transition(Stream.Pop() as dynamic);
-                    }
-                    catch (InvalidOperationException) {
-                        Machine.AssociateDirect();
-                        Machine.AssociateIndirect();
-                    }
-                }
-            }
-            public void Transition(SubordinateClauseBeginPhrase phrase) {
-                WhenSbar(phrase);
-            }
-            public void Transition(SymbolPhrase phrase) {
-                WhenSbar(phrase);
-            }
             private void WhenSbar(Phrase phrase) {
                 var subordinateClauseConstituents = new List<Phrase> {
                     phrase};
@@ -231,23 +212,22 @@ namespace LASI.Algorithm.Binding
                     InternalBind(phrase);
                 }
                 catch (InvalidOperationException) {
-                    Machine.AssociateDirect();
-                    Machine.AssociateIndirect();
+                    PerformExceptionFallback();
                 }
             }
 
             private void InternalBind(Phrase phrase) {
                 phrase.Match()
-                .With<VerbPhrase>(phr => {
+                .Case<VerbPhrase>(phr => {
                     phr.AdjectivalModifier = Machine.lastAdjectivals.Last();
                     Machine.lastAdjectivals.Clear();
                     Machine.St1.Transition(Stream.Pop());
                 })
-                .With<NounPhrase>(phr => {
+                .Case<NounPhrase>(phr => {
                     Machine.entities.Push(phr);
                     Machine.BindBuiltupAdjectivePhrases(phr);
                     if (Stream.None) {
-                        if (!Machine.DirectFound)
+                        if (!Machine.directFound)
                             Machine.AssociateDirect();
                         else
                             Machine.AssociateIndirect();
@@ -255,12 +235,12 @@ namespace LASI.Algorithm.Binding
                     }
                     Machine.St2.Transition(Stream.Pop() as dynamic);
                 })
-                .With<PrepositionalPhrase>(phr => {
+                .Case<PrepositionalPhrase>(phr => {
                     Machine.lastPrepositional = phr;
                     Machine.St0.Transition(Stream.Pop() as dynamic);
                 })
-                .With<ConjunctionPhrase>(phr => Machine.lastConjunctive = phr)
-                .Perform(base.Transition);
+                .Case<ConjunctionPhrase>(phr => Machine.lastConjunctive = phr)
+                .Perform(() => base.Transition(phrase));
             }
 
         }
@@ -273,7 +253,7 @@ namespace LASI.Algorithm.Binding
                 Machine.lastConjunctive = phrase;
                 Machine.ConjunctNounPhrases.Add(Machine.entities.Peek());
                 if (Stream.None) {
-                    if (!Machine.DirectFound)
+                    if (!Machine.directFound)
                         Machine.AssociateDirect();
                     else
                         Machine.AssociateIndirect();
@@ -285,8 +265,7 @@ namespace LASI.Algorithm.Binding
                     Machine.St4.Transition(Stream.Pop() as dynamic);
                 }
                 catch (InvalidOperationException) {
-                    Machine.AssociateDirect();
-                    Machine.AssociateIndirect();
+                    PerformExceptionFallback();
                 }
 
             }
@@ -297,8 +276,7 @@ namespace LASI.Algorithm.Binding
                     Machine.St4.Transition(Stream.Pop() as dynamic);
                 }
                 catch (InvalidOperationException) {
-                    Machine.AssociateDirect();
-                    Machine.AssociateIndirect();
+                    PerformExceptionFallback();
                 }
 
             }
@@ -307,7 +285,7 @@ namespace LASI.Algorithm.Binding
                     phrase.Words.Concat(
                    phrase.Sentence.GetPhrasesAfter(phrase)
                     .TakeWhile(w => !(w is IConjunctive || w is IPrepositional)).GetWords()));
-                Machine.DirectObject = infinitive;
+                Machine.directObject = infinitive;
 
             }
             public void Transition(PrepositionalPhrase phrase) {
@@ -322,21 +300,19 @@ namespace LASI.Algorithm.Binding
                 }
                 phrase.ToTheLeftOf = Machine.entities.Last();
                 Machine.entities.Clear();
-                Machine.DirectFound = true;
+                Machine.directFound = true;
                 Machine.ConjunctNounPhrases.Clear();
                 try {
                     Machine.St0.Transition(Stream.Pop() as dynamic);
                 }
                 catch (InvalidOperationException) {
-                    Machine.AssociateDirect();
-                    Machine.AssociateIndirect();
+                    PerformExceptionFallback();
                 }
             }
             public void Transition(NounPhrase phrase) {
                 foreach (var e in Machine.entities)
                     Machine.bindingTarget.BindIndirectObject(e);
                 Machine.entities.Clear();
-                Machine.IndirectFound = true;
                 Machine.ConjunctNounPhrases.Clear();
 
                 Machine.entities.Push(phrase);
@@ -351,30 +327,28 @@ namespace LASI.Algorithm.Binding
                     Machine.St0.Transition(Stream.Pop() as dynamic);
                 }
                 catch (InvalidOperationException) {
-                    Machine.AssociateDirect();
-                    Machine.AssociateIndirect();
+                    PerformExceptionFallback();
                 }
             }
             public void Transition(SymbolPhrase phrase) {
                 WhenSbar(phrase);
             }
-            public void Transition(SubordinateClauseBeginPhrase phrase) {
+            public void Transition(SBARClauseBeginPhrase phrase) {
                 WhenSbar(phrase);
             }
 
             private void WhenSbar(Phrase phrase) {
                 while (Stream.Count > 1) {
                     var endOfSbar = Stream.Pop();
-                    if (endOfSbar is SymbolPhrase || endOfSbar is SubordinateClauseBeginPhrase) { break; }
+                    if (endOfSbar is SymbolPhrase || endOfSbar is SBARClauseBeginPhrase) { break; }
                 }
                 this.Transition(Stream.Pop() as dynamic);
-                Machine.AssociateDirect();
-                Machine.AssociateIndirect();
+                PerformExceptionFallback();
             }
             public void Transition(AdverbPhrase phrase) {
                 Machine.bindingTarget.ModifyWith(phrase);
                 foreach (var e in Machine.entities) {
-                    if (!Machine.DirectFound)
+                    if (!Machine.directFound)
                         Machine.bindingTarget.BindDirectObject(e);
                     else
                         Machine.bindingTarget.BindIndirectObject(e);
@@ -384,19 +358,13 @@ namespace LASI.Algorithm.Binding
                         Machine.St0.Transition(Stream.Pop() as dynamic);
                     }
                     catch (InvalidOperationException) {
-                        Machine.AssociateDirect();
-                        Machine.AssociateIndirect();
+                        PerformExceptionFallback();
                     }
                 } else { return; }
 
             }
         }
 
-        class State3 : State
-        {
-            public State3(ObjectBinder machine) : base(machine, "s3") { }
-
-        }
 
         class State4 : State
         {
@@ -405,17 +373,16 @@ namespace LASI.Algorithm.Binding
                     InternalBind(phrase);
                 }
                 catch (InvalidOperationException) {
-                    Machine.AssociateDirect();
-                    Machine.AssociateIndirect();
+                    PerformExceptionFallback();
                 }
             }
 
             private void InternalBind(Phrase phrase) {
                 phrase.Match()
-                .With<AdjectivePhrase>(phr => {
+                .Case<AdjectivePhrase>(phr => {
                     Machine.lastAdjectivals.Add(phr);
                     if (Stream.None) {
-                        if (!Machine.DirectFound)
+                        if (!Machine.directFound)
                             Machine.AssociateDirect();
                         else
                             Machine.AssociateIndirect();
@@ -425,14 +392,14 @@ namespace LASI.Algorithm.Binding
                     Machine.St5.Transition(Stream.Pop() as dynamic);
 
                 })
-                .With<NounPhrase>(phr => {
+                .Case<NounPhrase>(phr => {
                     Machine.entities.Push(phr);
                     Machine.ConjunctNounPhrases.Add(phr);
                     if (Machine.lastConjunctive != null) {
                         Machine.lastConjunctive.JoinedRight = phrase;
                     }
                     if (Stream.None) {
-                        if (!Machine.DirectFound)
+                        if (!Machine.directFound)
                             Machine.AssociateDirect();
                         else
                             Machine.AssociateIndirect();
@@ -440,7 +407,7 @@ namespace LASI.Algorithm.Binding
                     }
                     Machine.St2.Transition(Stream.Pop() as dynamic);
                 })
-                .Perform(base.Transition);
+               .Perform(() => base.Transition(phrase));
             }
             public State4(ObjectBinder machine) : base(machine, "s4") { }
         }
@@ -452,19 +419,17 @@ namespace LASI.Algorithm.Binding
                     InternalBind(phrase);
                 }
                 catch (InvalidOperationException) {
-                    Machine.AssociateDirect();
-                    Machine.AssociateIndirect();
+                    PerformExceptionFallback();
                 }
             }
-
             private void InternalBind(Phrase phrase) {
                 phrase.Match()
-                .With<NounPhrase>(phr => {
+                .Case<NounPhrase>(phr => {
                     Machine.ConjunctNounPhrases.Add(phr);
                     Machine.entities.Push(phr);
                     Machine.BindBuiltupAdjectivePhrases(phr);
                     if (Stream.None) {
-                        if (!Machine.DirectFound)
+                        if (!Machine.directFound)
                             Machine.AssociateDirect();
                         else
                             Machine.AssociateIndirect();
@@ -473,11 +438,11 @@ namespace LASI.Algorithm.Binding
                     }
                     Machine.St2.Transition(Stream.Pop() as dynamic);
                 })
-                .With<ConjunctionPhrase>(phr => {
+                .Case<ConjunctionPhrase>(phr => {
                     phr.JoinedLeft = Machine.lastAdjectivals.Last();
                     Machine.lastConjunctive = phr;
                     if (Stream.None) {
-                        if (!Machine.DirectFound)
+                        if (!Machine.directFound)
                             Machine.AssociateDirect();
                         else
                             Machine.AssociateIndirect();
@@ -487,7 +452,7 @@ namespace LASI.Algorithm.Binding
 
                     Machine.St6.Transition(Stream.Pop() as dynamic);
                 })
-                .Perform(base.Transition);
+               .Perform(() => base.Transition(phrase));
             }
             public State5(ObjectBinder machine) : base(machine, "s5") { }
         }
@@ -498,7 +463,7 @@ namespace LASI.Algorithm.Binding
                 Machine.lastAdjectivals.Add(phrase);
                 Machine.lastConjunctive.JoinedRight = phrase;
                 if (Stream.None) {
-                    if (!Machine.DirectFound)
+                    if (!Machine.directFound)
                         Machine.AssociateDirect();
                     else
                         Machine.AssociateIndirect();
@@ -510,8 +475,7 @@ namespace LASI.Algorithm.Binding
                     Machine.St5.Transition(Stream.Pop() as dynamic);
                 }
                 catch (InvalidOperationException) {
-                    Machine.AssociateDirect();
-                    Machine.AssociateIndirect();
+                    PerformExceptionFallback();
                 }
             }
             public void Transition(NounPhrase phrase) {
@@ -520,7 +484,7 @@ namespace LASI.Algorithm.Binding
                 Machine.lastConjunctive.JoinedRight = phrase;
                 Machine.BindBuiltupAdjectivePhrases(phrase);
                 if (Stream.None) {
-                    if (!Machine.DirectFound)
+                    if (!Machine.directFound)
                         Machine.AssociateDirect();
                     else
                         Machine.AssociateIndirect();
@@ -532,8 +496,7 @@ namespace LASI.Algorithm.Binding
                     Machine.St2.Transition(Stream.Pop() as dynamic);
                 }
                 catch (InvalidOperationException) {
-                    Machine.AssociateDirect();
-                    Machine.AssociateIndirect();
+                    PerformExceptionFallback();
                 }
             }
             public State6(ObjectBinder machine) : base(machine, "s6") { }
@@ -544,25 +507,14 @@ namespace LASI.Algorithm.Binding
         {
             protected State(ObjectBinder machine, string stateName) { Machine = machine; Stream = machine.inputstream; StateName = stateName; }
             public virtual void Transition(Phrase phrase) { throw new InvalidStateTransitionException(StateName, phrase); }
+            public virtual void PerformExceptionFallback() {
+                Machine.AssociateDirect();
+                Machine.AssociateIndirect();
+            }
             protected string StateName { get; private set; }
             public ObjectBinder Machine { get; private set; }
             public PhraseStackWrapper Stream { get; set; }
-
-            public class PhraseStackWrapper
-            {
-                protected internal PhraseStackWrapper(Stack<Phrase> source, ObjectBinder machine) { Machine = machine; stream = new Stack<Phrase>(source); }
-                public ObjectBinder Machine { get; private set; }
-                public Phrase Pop() { Machine.LastPhrase = stream.Pop(); return Machine.LastPhrase; }
-                public bool Any { get { return stream.Any(); } }
-                public bool None { get { return !Any; } }
-                public int Count { get { return stream.Count; } }
-                public List<Phrase> ToList() { return stream.ToList(); }
-                private Stack<Phrase> stream;
-            }
         #endregion
         }
     }
-
-
-
 }

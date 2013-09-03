@@ -14,35 +14,7 @@ namespace LASI.Algorithm
     public static class IEnumerableOfWordExtensions
     {
         #region Sequential Implementations
-        ///// <summary>
-        ///// Retrives all words in the words collection which compare equal to a given word.
-        ///// </summary>
-        ///// <typeparam name="T">Word or any Type derriving from it.</typeparam>
-        ///// <param name="toMatch">The word to match</param>
-        ///// <param name="words">A sequence of word instances</param>
-        ///// <returns>A WordList containing all words which match the argument</returns>
-        ///// <see cref="Word"/>
-        //public static IEnumerable<T> FindAllMatches<T>(this IEnumerable<T> words, T toMatch) where T : Word {
-        //    if (toMatch == null) { throw new ArgumentNullException("toMatch", "The provided Word to match against was null."); }
-        //    return from word in words
-        //           where word.Text == toMatch.Text && word.GetType() == toMatch.GetType()
-        //           select word;
-        //}
-        ///// <summary>
-        ///// Finds all Words in the sequence which are equivalent to the Word to match, based on the logic of the provided comparison function.
-        ///// </summary> 
-        ///// <typeparam name="T">Word or any Type derriving from it.</typeparam>
-        ///// <param name="words">The sequence of Words to filter.</param>
-        ///// <param name="toMatch">A Word to match against.</param>
-        ///// <param name="comparison">The function to use to compare Words.</param>
-        ///// <returns>All nouns in the which compare equal to the Word to match in the provided comparison function.</returns>
-        //public static IEnumerable<T> FindAllMatches<T>(this IEnumerable<T> words, T toMatch, Func<T, T, bool> comparison) where T : Word {
-        //    if (toMatch == null) { throw new ArgumentNullException("toMatch", "The provided Word to match against was null."); }
-        //    if (comparison == null) { throw new ArgumentNullException("comparison", "The provided comparison function was null."); }
-        //    return from W in words
-        //           where comparison(toMatch, W)
-        //           select W;
-        //}
+
         /// <summary>
         /// Returns all words in the Word collection which come after the given word.
         /// </summary>
@@ -158,7 +130,7 @@ namespace LASI.Algorithm
         /// <param name="words">The sequence of Words to filter.</param>
         /// <param name="tense">The tense to match against</param>
         /// <returns>All Verbs in the collection.</returns>
-        public static IEnumerable<Verb> GetVerbs(this IEnumerable<Word> words, VerbMorph tense) {
+        public static IEnumerable<Verb> GetVerbs(this IEnumerable<Word> words, VerbForm tense) {
             return words.OfType<Verb>().Where(v => v.Tense == tense);
         }
         /// <summary>
@@ -314,7 +286,7 @@ namespace LASI.Algorithm
         /// <param name="words">The sequence of Words to filter.</param>
         /// <param name="tense">The tense to match against</param>
         /// <returns>All Verbs in the collection.</returns>
-        public static ParallelQuery<Verb> GetVerbs(this ParallelQuery<Word> words, VerbMorph tense) {
+        public static ParallelQuery<Verb> GetVerbs(this ParallelQuery<Word> words, VerbForm tense) {
             return words.OfType<Verb>().Where(v => v.Tense == tense);
         }
         /// <summary>

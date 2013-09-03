@@ -196,7 +196,7 @@ namespace AlgorithmAssemblyUnitTestProject
         [TestMethod()]
         public void SubjectOfTest() {
             Noun target = CreateNoun();
-            IVerbal expected = new Verb("runs", VerbMorph.SingularPresent);
+            IVerbal expected = new Verb("runs", VerbForm.SingularPresent);
             IVerbal actual;
             target.SubjectOf = expected;
             actual = target.SubjectOf;

@@ -12,21 +12,53 @@ namespace LASI.Algorithm.Patternization
     /// </summary>
     public static class PatternMatching
     {
+
         /// <summary>
-        /// Constructs the head of a non result returning Type based Pattern Matching expression with the specified value.
-        /// </summary>
-        /// <typeparam name="T">The Type of the value to match with.</typeparam>
-        /// <param name="value">The value to match with.</param>
-        /// <returns>The head of a non result yielding Type based Pattern Matching expression with the specified value.</returns>
-        public static MatchCase<T> Match<T>(this T value) where T : class, ILexical { return new MatchCase<T>(value); }
+        /// Begins a non result returning Type based Pattern Matching expression over the specified ILexical value.
+        /// </summary> 
+        /// <param name="value">The ILexical value to match with.</param>
+        /// <returns>The head of a non result yielding Type based Pattern Matching expression over the specified ILexical value.</returns>
+        public static MatchCase<ILexical> Match(this ILexical value) { return new MatchCase<ILexical>(value); }
         /// <summary>
-        /// Constructs the head of a result-yielding, Type based Pattern Matching expression with the specified value.
+        /// Begins a non result returning Type based Pattern Matching expression over the specified IEntity value.
+        /// </summary> 
+        /// <param name="value">The IEntity value to match with.</param>
+        /// <returns>The head of a non result yielding Type based Pattern Matching expression over the specified IEntity value.</returns>
+        public static MatchCase<IEntity> Match(this IEntity value) { return new MatchCase<IEntity>(value); }
+        /// <summary>
+        /// Begins a non result returning Type based Pattern Matching expression over the specified IVerbal value.
+        /// </summary> 
+        /// <param name="value">The IVerbal value to match with.</param>
+        /// <returns>The head of a non result yielding Type based Pattern Matching expression over the specified IVerbal value.</returns>
+        public static MatchCase<IVerbal> Match(this IVerbal value) { return new MatchCase<IVerbal>(value); }
+        /// <summary>
+        /// Begins a non result returning Type based Pattern Matching expression over the specified IDescriptor value.
+        /// </summary> 
+        /// <param name="value">The IDescriptor value to match with.</param>
+        /// <returns>The head of a non result yielding Type based Pattern Matching expression over the specified IDescriptor value.</returns>
+        public static MatchCase<IDescriptor> Match(this IDescriptor value) { return new MatchCase<IDescriptor>(value); }
+        /// <summary>
+        /// Begins a non result returning Type based Pattern Matching expression over the specified IAdverbial value.
+        /// </summary> 
+        /// <param name="value">The IAdverbial value to match with.</param>
+        /// <returns>The head of a non result yielding Type based Pattern Matching expression over the specified IAdverbial value.</returns>
+        public static MatchCase<IAdverbial> Match(this IAdverbial value) { return new MatchCase<IAdverbial>(value); }
+        /// <summary>
+        /// Begins a non result returning Type based Pattern Matching expression over the specified IPrepositional value.
+        /// </summary> 
+        /// <param name="value">The IPrepositional value to match with.</param>
+        /// <returns>The head of a non result yielding Type based Pattern Matching expression over the specified IPrepositionale value.</returns>
+        public static MatchCase<IPrepositional> Match(this IPrepositional value) { return new MatchCase<IPrepositional>(value); }
+
+        /// <summary>
+        /// Begins a result-yielding, Type based Pattern Matching expression over the specified value.
         /// </summary>
         /// <typeparam name="T">The Type of the value to match with.</typeparam>
         /// <typeparam name="R">The Type of the result to be yielded.</typeparam> 
         /// <param name="value">The value to match with.</param>     
-        /// <returns>The head of a result-yielding, Type based Pattern Matching expression with the specified value.</returns>
+        /// <returns>The head of a result-yielding, Type based Pattern Matching expression over the specified value.</returns>
         public static MatchCase<T, R> MatchAndYield<T, R>(T value) where T : class, ILexical { return new MatchCase<T, R>(value); }
+
 
     }
 }

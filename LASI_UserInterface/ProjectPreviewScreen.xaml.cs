@@ -60,7 +60,8 @@ namespace LASI.UserInterface
             var chosenFile = FileManager.AddFile(docPath, true);
             try {
                 await FileManager.ConvertAsNeededAsync();
-            } catch (FileConversionFailureException e) {
+            }
+            catch (FileConversionFailureException e) {
                 MessageBox.Show(this, string.Format(".doc file conversion failed\n{0}", e.Message));
             }
             var textfile = FileManager.TextFiles.Where(f => f.NameSansExt == chosenFile.NameSansExt).First();
@@ -83,7 +84,7 @@ namespace LASI.UserInterface
         private async void StartButton_Click(object sender, RoutedEventArgs e) {
             this.Hide();
             WindowManager.InProgressScreen.Show();
-            await WindowManager.InProgressScreen.InitializeParsing();
+            await WindowManager.InProgressScreen.ParseDocuments();
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e) {
@@ -133,24 +134,25 @@ namespace LASI.UserInterface
         private async void AddNewDocument_Click(object sender, RoutedEventArgs e) {
             var openDialog = new Microsoft.Win32.OpenFileDialog {
                 Filter = "LASI File Types|*.doc; *.docx; *.pdf; *.txt",
+                Multiselect = true,
 
             };
             openDialog.ShowDialog(this);
             if (openDialog.FileNames.Count() <= 0) {
                 return;
             }
+            for (int i = 0; i < openDialog.SafeFileNames.Length; i++) {
+                var file = new FileInfo(openDialog.FileNames[i]);
+                if (DocumentManager.FileNamePresent(file.Name)) {
+                    MessageBox.Show(this, string.Format("A document named {0} is already part of the project.", file));
+                } else if (!DocumentManager.FileIsLocked(file)) {
+                    DocumentManager.AddDocument(file.Name, file.FullName);
+                    await AddNewDocument(file.FullName);
+                } else {
+                    MessageBox.Show(this, string.Format("The document {0} is in use by another process, please close any applications which may be using the document and try again.", file));
+                }
 
-
-            var file = new FileInfo(openDialog.FileName);
-            if (DocumentManager.FileNamePresent(file.Name)) {
-                MessageBox.Show(this, string.Format("A document named {0} is already part of the project.", file));
-            } else if (!DocumentManager.FileIsLocked(file)) {
-                DocumentManager.AddDocument(file.Name, file.FullName);
-                await AddNewDocument(file.FullName);
-            } else {
-                MessageBox.Show(this, string.Format("The document {0} is in use by another process, please close any applications which may be using the document and try again.", file));
             }
-
         }
         private void openPreferencesMenuItem_Click(object sender, RoutedEventArgs e) {
             var preferences = new PreferencesWindow();
@@ -168,9 +170,11 @@ namespace LASI.UserInterface
         private void OpenManualMenuItem_Click_1(object sender, RoutedEventArgs e) {
             try {
                 System.Diagnostics.Process.Start(System.AppDomain.CurrentDomain.BaseDirectory + @"\Manual.pdf");
-            } catch (FileNotFoundException) {
+            }
+            catch (FileNotFoundException) {
                 MessageBox.Show(this, "Unable to locate the User Manual, please contact the LASI team (thelasiproject@gmail.com) for further support.");
-            } catch (Exception) {
+            }
+            catch (Exception) {
                 MessageBox.Show(this, "Sorry, the manual could not be opened. Please ensure you have a pdf viewer installed.");
             }
         }
@@ -187,7 +191,8 @@ namespace LASI.UserInterface
         private void MenuItem_Click(object sender, RoutedEventArgs e) {
             try {
                 System.Diagnostics.Process.Start("http://lasi-project.org");
-            } catch (Exception) {
+            }
+            catch (Exception) {
                 MessageBox.Show(this, "Sorry, the LASI project website could not be opened");
             }
         }

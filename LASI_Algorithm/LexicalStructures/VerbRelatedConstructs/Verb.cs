@@ -17,7 +17,7 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="text">The key text content of the verb.</param>
         /// <param name="tense">The tense of the verb</param>
-        public Verb(string text, VerbMorph tense)
+        public Verb(string text, VerbForm tense)
             : base(text) {
             Tense = tense;
         }
@@ -198,7 +198,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets the VerbTense of the Verb.
         /// </summary>
-        public VerbMorph Tense { get; protected set; }
+        public VerbForm Tense { get; protected set; }
         /// <summary>
         /// Gets the object of the Verb's preposition. This can be any ILexical construct including a word, phrase, or clause.
         /// </summary>

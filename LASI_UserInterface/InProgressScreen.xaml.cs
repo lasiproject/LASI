@@ -27,8 +27,6 @@ namespace LASI.UserInterface
 
         private void ConfigureOptions() {
             SetPlatformSpecificStyling();
-
-            //minButton.Click += (sender, e) => WindowState = WindowState.Minimized;
         }
 
         private void SetPlatformSpecificStyling() {
@@ -46,21 +44,21 @@ namespace LASI.UserInterface
         /// Asynchronously processes all documents in the project in a comprehensive manner.
         /// </summary>
         /// <returns>A System.Threading.Tasks.Task representing the asynchronous processing operation.</returns>
-        public async Task InitializeParsing() {
+        public async Task ParseDocuments() {
 
             var processController = new ProcessController();
-            var progressPercentage = Resources["AnalysisProgressPercentage"];
-            var analyzedDocuments = await processController.AnalyseAllDocumentsAsync(FileManager.TextFiles, async (msg, incr) => {
-                UpdateProgressText(msg);
-                var animateStep = incr / 100d;
-                for (int i = 0; i < 33d; ++i) {
-                    progressBar.Value += 3 * animateStep;
+            var analyzedDocuments = await processController.AnalyseAllDocumentsAsync(FileManager.TextFiles, async (message, increment) => {
+                progressLabel.Content = message;
+                progressBar.ToolTip = message;
+                var animateStep = 0.032 * increment;
+                for (int i = 0; i < 33; ++i) {
+                    progressBar.Value += animateStep;
                     await Task.Delay(1);
-
                 }
             });
             progressBar.Value = 100;
             progressLabel.Content = "Complete";
+            progressBar.ToolTip = "Complete";
             WindowManager.ResultsScreen.Documents = analyzedDocuments.ToList();
             proceedtoResultsButton.Visibility = Visibility.Visible;
             StartFlashing();
@@ -69,10 +67,6 @@ namespace LASI.UserInterface
 
         }
 
-        private void UpdateProgressText(string message) {
-            progressLabel.Content = message;
-            progressBar.ToolTip = message;
-        }
 
 
 
@@ -111,6 +105,20 @@ namespace LASI.UserInterface
             DragMove();
         }
 
+        private async void proceedtoResultsButton_Click(object sender, RoutedEventArgs e) {
+            await ProceedToResultsView();
+        }
+        private void minButton_Click(object sender, RoutedEventArgs e) {
+            WindowState = WindowState.Minimized;
+        }
+
+
+        private void Window_Activated(object sender, EventArgs e) {
+            //if (WindowState == System.Windows.WindowState.Minimized) {
+            //    var currentForgroundPerformance = (PerforamanceLevel)Enum.Parse(typeof(PerforamanceLevel), Properties.Settings.Default.PerformanceLevel);
+            //PerformanceManager.SetPerformanceLevel(currentForgroundPerformance);
+            //}
+        }
         #endregion
 
 
@@ -181,20 +189,6 @@ namespace LASI.UserInterface
 
         #endregion
 
-        private async void proceedtoResultsButton_Click(object sender, RoutedEventArgs e) {
-            await ProceedToResultsView();
-        }
-        private void minButton_Click(object sender, RoutedEventArgs e) {
-            WindowState = WindowState.Minimized;
-        }
-
-
-        private void Window_Activated(object sender, EventArgs e) {
-            if (WindowState == System.Windows.WindowState.Minimized) {
-                var currentForgroundPerformance = (PerforamanceLevel)Enum.Parse(typeof(PerforamanceLevel), Properties.Settings.Default.PerformanceLevel);
-                PerformanceManager.SetPerformanceLevel(currentForgroundPerformance);
-            }
-        }
         /// <summary>
         /// Raised when processing of all documents has been completed.
         /// </summary>

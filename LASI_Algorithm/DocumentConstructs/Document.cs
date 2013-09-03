@@ -29,9 +29,10 @@ namespace LASI.Algorithm.DocumentConstructs
         /// <param name="paragrpahs">The collection of paragraphs which contain all text in the document.</param>
         public Document(IEnumerable<Paragraph> paragrpahs) {
             _paragraphs = paragrpahs.ToList();
-            _paragraphsWithBulletsOrHeadings = (from p in _paragraphs
-                                                where p.ParagraphKind == ParagraphKind.NumberedOrBullettedContent
-                                                select p).ToList();
+            _paragraphsWithBulletsOrHeadings =
+                (from p in _paragraphs
+                 where p.ParagraphKind == ParagraphKind.NumberedOrBullettedContent
+                 select p).ToList();
 
             AssignMembers(paragrpahs);
             foreach (var p in _paragraphs) {

@@ -28,12 +28,12 @@ namespace LASI.Algorithm
             PercentWorkRepresented = percentWorkRepresented;
 
         }
-        /// <summary>
-        /// Converts the ProcessingTask object into its underlying System.Threading.Tasks.Task.
-        /// </summary>
-        /// <param name="pt">The ProcessingTask to convert.</param>
-        /// <returns>The underlying System.Threading.Tasks.Task representing the work performed by the ProcessingTask.</returns>
-        public static implicit operator Task(ProcessingTask pt) { return pt.Task; }
+        ///// <summary>
+        ///// Converts the ProcessingTask object into its underlying System.Threading.Tasks.Task.
+        ///// </summary>
+        ///// <param name="pt">The ProcessingTask to convert.</param>
+        ///// <returns>The underlying System.Threading.Tasks.Task representing the work performed by the ProcessingTask.</returns>
+        //public static implicit operator Task(ProcessingTask pt) { return pt.Task; }
         /// <summary>
         /// Gets the document over which the ProcessingTask will operate.
         /// </summary>
@@ -91,12 +91,12 @@ namespace LASI.Algorithm
             PercentWorkRepresented = percentWorkRepresented;
 
         }
-        /// <summary>
-        /// Converts the ProcessingTask&lt;T&gt; object into its underlying System.Threading.Tasks.Task.
-        /// </summary>
-        /// <param name="pt">The ProcessingTask to convert.</param>
-        /// <returns>The underlying System.Threading.Tasks.Task representing the work performed by the ProcessingTask.</returns>
-        public static implicit operator Task<T>(ProcessingTask<T> pt) { return pt.Task; }
+        ///// <summary>
+        ///// Converts the ProcessingTask&lt;T&gt; object into its underlying System.Threading.Tasks.Task.
+        ///// </summary>
+        ///// <param name="pt">The ProcessingTask to convert.</param>
+        ///// <returns>The underlying System.Threading.Tasks.Task representing the work performed by the ProcessingTask.</returns>
+        //public static implicit operator Task<T>(ProcessingTask<T> pt) { return pt.Task; }
         /// <summary>
         /// Gets the document over which the ProcessingTask will operate.
         /// </summary>
