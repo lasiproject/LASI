@@ -61,8 +61,8 @@ namespace LASI.Algorithm.Lookup
                     var newSet = new VerbSynSet(
                         verbData[word].ID,
                         verbData[word].Words.Concat(synset.Words),
-                        verbData[word].RelatedOnPointerSymbol
-                            .Concat(synset.RelatedOnPointerSymbol)
+                        verbData[word].RelatedSetsByRelationKind
+                            .Concat(synset.RelatedSetsByRelationKind)
                             .SelectMany(grouping => grouping.Select(pointer => new SetReference(grouping.Key, pointer))), verbData[word].LexName);
                     verbData[word] = newSet;
                 } else {

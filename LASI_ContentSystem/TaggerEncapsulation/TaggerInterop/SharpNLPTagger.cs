@@ -170,14 +170,13 @@ namespace TaggerInterop
         private string Chunk() {
 
             StringBuilder output = new StringBuilder();
-            var paragraphs = from p in SourceText.Split(new[] { "<paragraph>", "</paragraph>" }, StringSplitOptions.RemoveEmptyEntries)
+            var paragraphs = from p in SourceText.Split(new[] { "\r\n\r\n", "<paragraph>", "</paragraph>" }, StringSplitOptions.RemoveEmptyEntries)
                              select p;
-            foreach (var p in paragraphs) {
-                var paragraph = StripParentheticals(p);
+            foreach (var paragraph in paragraphs.AsParallel().Select(p => StripParentheticals(p))) {
                 string[] sentences = SplitSentences(paragraph);
 
                 foreach (string sentence in from s in sentences
-                                            where !(String.IsNullOrWhiteSpace(s) || String.IsNullOrEmpty(s))
+                                            where !String.IsNullOrWhiteSpace(s)
                                             select s) {
                     string[] tokens = TokenizeSentence(sentence);
                     string[] tags = PosTagTokens(tokens);
@@ -190,7 +189,7 @@ namespace TaggerInterop
         }
 
         private string StripParentheticals(string paragraph) {
-            for (int j = 0, i = paragraph.IndexOf('(', j); i != -1 && j != -1; j = paragraph.IndexOf(')', i)) {
+            for (int j = 0, i = paragraph.IndexOf('(', j); i != -1 && j != -1; j = paragraph.IndexOf(')'), i = paragraph.IndexOf('(')) {
                 paragraph = paragraph.Substring(0, i) + paragraph.Substring(j + 1);
             }
             return paragraph;

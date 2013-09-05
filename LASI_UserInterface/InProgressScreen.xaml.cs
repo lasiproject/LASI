@@ -102,7 +102,12 @@ namespace LASI.UserInterface
 
 
         private void Window_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
-            DragMove();
+            try {
+                DragMove();
+            }
+            catch (ArgumentOutOfRangeException) {
+
+            }
         }
 
         private async void proceedtoResultsButton_Click(object sender, RoutedEventArgs e) {

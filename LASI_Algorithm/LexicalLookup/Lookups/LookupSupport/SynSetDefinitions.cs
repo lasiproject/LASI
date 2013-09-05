@@ -27,7 +27,7 @@ namespace LASI.Algorithm.Lookup
             this.ID = ID;
             LexName = lexCategory;
             Words = new HashSet<string>(words);
-            referencedSetsByReferenceKind = new NounSetIDSymbolMap(pointerRelations);
+            relatedSetsByRelationKind = pointerRelations.ToLookup(rel => rel.Key, rel => rel.Value);
             ReferencedIndexes = new HashSet<int>(pointerRelations.Select(pair => pair.Value));
 
         }
@@ -59,11 +59,11 @@ namespace LASI.Algorithm.Lookup
         /// <returns>The IDs of all other NounSynSets which are referenced from the current NounSynSet in the indicated fashion.</returns>
         public IEnumerable<int> this[NounSetRelationship relationshipKind] {
             get {
-                return referencedSetsByReferenceKind[relationshipKind];
+                return relatedSetsByRelationKind[relationshipKind];
             }
         }
 
-        private NounSetIDSymbolMap referencedSetsByReferenceKind;
+        private ILookup<NounSetRelationship, int> relatedSetsByRelationKind;
 
         /// <summary>
         /// Gets all of the words belonging to the NounSynSet.
@@ -116,7 +116,7 @@ namespace LASI.Algorithm.Lookup
             this.ID = ID;
             LexName = lexCategory;
             Words = new HashSet<string>(words);
-            RelatedOnPointerSymbol = new VerbSetIDSymbolMap(pointerRelations);
+            relatedSetsByRelationKind = pointerRelations.ToLookup(rel => rel.Key, rel => rel.Value);
             ReferencedIndexes = new HashSet<int>(pointerRelations.Select(pair => pair.Value));
 
         }
@@ -152,13 +152,14 @@ namespace LASI.Algorithm.Lookup
         /// <returns>The IDs of all other VerbSynSets which are referenced from the current VerbSynSet in the indicated fashion.</returns>
         public IEnumerable<int> this[VerbSetRelationship relationshipKind] {
             get {
-                return RelatedOnPointerSymbol[relationshipKind];
+                return relatedSetsByRelationKind[relationshipKind];
             }
         }
 
-        internal VerbSetIDSymbolMap RelatedOnPointerSymbol {
-            get;
-            set;
+        private ILookup<VerbSetRelationship, int> relatedSetsByRelationKind;
+
+        internal ILookup<VerbSetRelationship, int> RelatedSetsByRelationKind {
+            get { return relatedSetsByRelationKind; }
         }
 
         /// <summary>
@@ -195,7 +196,7 @@ namespace LASI.Algorithm.Lookup
             this.ID = ID;
             LexName = lexCategory;
             Words = new HashSet<string>(words);
-            referencedSetsByReferenceKind = new AdjectiveSetIDSymbolMap(pointerRelations);
+            relatedSetsByRelationKind = pointerRelations.ToLookup(rel => rel.Key, rel => rel.Value);
             ReferencedIndexes = new HashSet<int>(pointerRelations.Select(pair => pair.Value));
 
         }
@@ -226,11 +227,11 @@ namespace LASI.Algorithm.Lookup
         /// <returns>The IDs of all other AdjectiveSynSets which are referenced from the current AdjectiveSynSet in the indicated fashion.</returns>
         public IEnumerable<int> this[AdjectiveSetRelationship relationshipKind] {
             get {
-                return referencedSetsByReferenceKind[relationshipKind];
+                return relatedSetsByRelationKind[relationshipKind];
             }
         }
 
-        private AdjectiveSetIDSymbolMap referencedSetsByReferenceKind;
+        private ILookup<AdjectiveSetRelationship, int> relatedSetsByRelationKind;
 
         /// <summary>
         /// Gets all of the words belonging to the AdjectiveSynSet.
@@ -279,7 +280,7 @@ namespace LASI.Algorithm.Lookup
             this.ID = ID;
             LexName = lexCategory;
             Words = new HashSet<string>(words);
-            relatedOnPointerSymbol = new AdverbSetIDSymbolMap(pointerRelations);
+            relatedSetsByRelationKind = pointerRelations.ToLookup(rel => rel.Key, rel => rel.Value);
             ReferencedIndexes = new HashSet<int>(pointerRelations.Select(pair => pair.Value));
 
         }
@@ -311,11 +312,11 @@ namespace LASI.Algorithm.Lookup
         /// <returns>The IDs of all other AdverbSynSets which are referenced from the current AdverbSynSet in the indicated fashion.</returns>
         public IEnumerable<int> this[AdverbSetRelationship relationshipKind] {
             get {
-                return relatedOnPointerSymbol[relationshipKind];
+                return relatedSetsByRelationKind[relationshipKind];
             }
         }
 
-        private AdverbSetIDSymbolMap relatedOnPointerSymbol;
+        private ILookup<AdverbSetRelationship, int> relatedSetsByRelationKind;
 
         /// <summary>
         /// Gets all of the words belonging to the AdverbSynSet.
