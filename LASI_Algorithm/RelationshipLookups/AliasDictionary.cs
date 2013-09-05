@@ -77,7 +77,7 @@ namespace LASI.Algorithm
                    );
 
         }
-
+        public static IEnumerable<string> GetDefinedAliases(this IEntity aliased) { return aliasDictionary[aliased.Text]; }
         internal static IEnumerable<string> GetLikelyAliases(IEntity entity) {
             return entity.Match().Yield<IEnumerable<string>>()
                 .Case<NounPhrase>(n => DefineAliases(n))

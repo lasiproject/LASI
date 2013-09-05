@@ -292,6 +292,23 @@ namespace LASI.Algorithm.Patternization
             where TCase : class, T {
             return _accepted ? this._inner.Case<TCase>(func) : this._inner;
         }
+
+
+        public R Result() {
+            throw new NotImplementedException();
+        }
+
+        public R Result(R defaultValue) {
+            throw new NotImplementedException();
+        }
+
+        public R Result(Func<R> func) {
+            throw new NotImplementedException();
+        }
+
+        public R Result(Func<T, R> func) {
+            throw new NotImplementedException();
+        }
     }
 
 }

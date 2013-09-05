@@ -13,13 +13,13 @@ namespace LASI.UserInterface
     {
         public static Brush GetBrush(this ILexical lexical) {
             return lexical.Match().Yield<Brush>()
-                    .Case<NounPhrase>(n => n.Words.GetProperNouns().Any() ? Brushes.DarkBlue : Brushes.Brown)
+                    .Case<NounPhrase>(n => n.Words.GetProperNouns().Any() ? Brushes.DarkBlue : Brushes.LightBlue)
                     .Case<InfinitivePhrase>(Brushes.Teal)
                     .Case<IPronoun>(Brushes.DarkCyan)
                     .Case<ProperNoun>(Brushes.DarkBlue)
                     .Case<IEntity>(Brushes.DeepSkyBlue)
                     .Case<IVerbal>(Brushes.Green)
-                    .Case<IPrepositional>(Brushes.Red)
+                    .Case<IPrepositional>(Brushes.DarkOrange)
                     .Case<IDescriptor>(Brushes.DarkTurquoise)
                     .Case<IAdverbial>(Brushes.Orange)
                 .Result(Brushes.Black);
