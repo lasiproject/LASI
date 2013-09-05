@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LASI.Algorithm.Aliasing;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -83,6 +84,7 @@ namespace LASI.Algorithm
                 result += Possesser != null ? "\nOwned By: " + Possesser.Text : string.Empty;
                 result += InnerAttributive != null ? "\nDefines: " + InnerAttributive.Text : string.Empty;
                 result += OuterAttributive != null ? "\nDefines: " + OuterAttributive.Text : string.Empty;
+                result += (AliasDictionary.GetDefinedAliases(this).Any() ? "\nClassified as: " + AliasDictionary.GetDefinedAliases(this).Format() : string.Empty);
                 result += SubjectOf != null ? "\nSubject Of: " + SubjectOf.Text : string.Empty;
                 result += DirectObjectOf != null ? "\nDirect Object Of: " + DirectObjectOf.Text : string.Empty;
                 result += IndirectObjectOf != null ? "\nIndirect Object Of: " + IndirectObjectOf.Text : string.Empty;
@@ -181,8 +183,6 @@ namespace LASI.Algorithm
         /// Gets the Entity PronounKind; Person, Place, Thing, Organization, or Activity; of the NounPhrase.
         /// </summary>
         public EntityKind EntityKind { get; protected set; }
-
-
 
         private HashSet<IDescriptor> _descriptors = new HashSet<IDescriptor>();
         private HashSet<IPossessable> _possessed = new HashSet<IPossessable>();

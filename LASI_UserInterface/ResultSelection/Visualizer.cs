@@ -201,22 +201,22 @@ namespace LASI.UserInterface
         private static IEnumerable<RelationshipTuple> GetVerbWiseAssociationData(Document doc) {
             var data =
                  from svPair in
-                     (from VP in doc.Phrases.GetVerbPhrases()
-                          .WithSubject(s => (s as IPronoun) == null || (s as IPronoun).RefersTo != null)
+                     (from vp in doc.Phrases.GetVerbPhrases()
+                          .WithSubject(s => (s as IPronoun) == null || (s as IPronoun).RefersTo != null).Distinct((L, R) => L.IsSimilarTo(R))
                           .AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                      from s in VP.Subjects.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
+                      from s in vp.Subjects.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                       let sub = s as IPronoun == null ? s : (s as IPronoun).RefersTo
                       where sub != null
-                      from dobj in VP.DirectObjects.DefaultIfEmpty()
-                      from iobj in VP.IndirectObjects.DefaultIfEmpty()
+                      from dobj in vp.DirectObjects.DefaultIfEmpty()
+                      from iobj in vp.IndirectObjects.DefaultIfEmpty()
 
                       select new RelationshipTuple {
-                          Subject = VP.AggregateSubject,
-                          Verbal = VP,
-                          Direct = VP.AggregateDirectObject,
-                          Indirect = VP.AggregateIndirectObject,
-                          Prepositional = VP.ObjectOfThePreoposition,
-                          CombinedWeight = sub.Weight + VP.Weight + (dobj != null ? dobj.Weight : 0) + (iobj != null ? iobj.Weight : 0)
+                          Subject = vp.AggregateSubject,
+                          Verbal = vp,
+                          Direct = vp.AggregateDirectObject,
+                          Indirect = vp.AggregateIndirectObject,
+                          Prepositional = vp.ObjectOfThePreoposition,
+                          CombinedWeight = sub.Weight + vp.Weight + (dobj != null ? dobj.Weight : 0) + (iobj != null ? iobj.Weight : 0)
                       } into tupple
                       where
                       tupple.Subject != null &&

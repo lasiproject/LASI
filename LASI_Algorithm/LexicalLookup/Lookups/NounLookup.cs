@@ -23,7 +23,7 @@ namespace LASI.Algorithm.Lookup
             InitCategoryGroupsDictionary();
         }
 
-        HashSet<NounSynSet> allSets = new HashSet<NounSynSet>();
+
 
         SortedDictionary<int, NounSynSet> data = new SortedDictionary<int, NounSynSet>();
 
@@ -44,7 +44,6 @@ namespace LASI.Algorithm.Lookup
             await System.Threading.Tasks.Task.Run(() => Load());
         }
         private void InsertSetData(NounSynSet set) {
-            allSets.Add(set);
             data[set.ID] = set;
             lexicalGoups[set.LexName].Add(set);
         }
@@ -56,8 +55,8 @@ namespace LASI.Algorithm.Lookup
             IEnumerable<SetReference> referencedSets =
                 from match in Regex.Matches(line, POINTER_REGEX).Cast<Match>()
                 let split = match.Value.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
-                where split.Count() > 1 && IncludeReference(RelationshipMap[split[0]])
-                select new SetReference(RelationshipMap[split[0]], Int32.Parse(split[1]));
+                where split.Count() > 1 && IncludeReference(relationshipMap[split[0]])
+                select new SetReference(relationshipMap[split[0]], Int32.Parse(split[1]));
 
 
             IEnumerable<string> words = from Match match in Regex.Matches(line, WORD_REGEX)
@@ -79,7 +78,8 @@ namespace LASI.Algorithm.Lookup
                     List<string> results = new List<string>();
                     SearchSubsets(containingSet, results, new HashSet<NounSynSet>());
                     return new HashSet<string>(results);
-                } catch (InvalidOperationException e) {
+                }
+                catch (InvalidOperationException e) {
                     Output.WriteLine(string.Format("{0} was thrown when attempting to get synonyms for word {1}: , containing set: {2}", e, word, containingSet));
 
                 }
@@ -92,7 +92,9 @@ namespace LASI.Algorithm.Lookup
             get {
                 try {
                     return new HashSet<string>(SearchFor(NounConjugator.FindRoot(search)).SelectMany(syn => NounConjugator.GetLexicalForms(syn)).DefaultIfEmpty(search));
-                } catch (AggregateException) { } catch (InvalidOperationException) { }
+                }
+                catch (AggregateException) { }
+                catch (InvalidOperationException) { }
                 return this[search];
             }
         }
@@ -115,13 +117,18 @@ namespace LASI.Algorithm.Lookup
                 }
             }
         }
-        private ConcurrentDictionary<NounCategory, List<NounSynSet>> lexicalGoups = new ConcurrentDictionary<NounCategory, List<NounSynSet>>();
+
+
+
         private void InitCategoryGroupsDictionary() {
             foreach (NounCategory e in Enum.GetValues(typeof(NounCategory))) {
                 lexicalGoups[e] = new List<NounSynSet>();
             }
         }
 
+        private ConcurrentDictionary<NounCategory, List<NounSynSet>> lexicalGoups = new ConcurrentDictionary<NounCategory, List<NounSynSet>>();
+
+        private string filePath;
 
 
         private static bool IncludeReference(NounSetRelationship referenceRelationship) {
@@ -138,12 +145,10 @@ namespace LASI.Algorithm.Lookup
                 referenceRelationship == NounSetRelationship.HypERnym;
         }
 
-        private static readonly NounPointerSymbolMap RelationshipMap = new NounPointerSymbolMap();
+        private static readonly NounPointerSymbolMap relationshipMap = new NounPointerSymbolMap();
 
 
 
-
-        private string filePath;
 
 
 

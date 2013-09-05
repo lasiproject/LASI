@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using LASI.Algorithm.Aliasing;
 
 namespace LASI.Algorithm
 {
@@ -91,13 +92,13 @@ namespace LASI.Algorithm
         public override string ToString() {
             var result = base.ToString();
             if (Phrase.VerboseOutput) {
-                result += Subjects.Any() ? "\nSubjects: " + Subjects.Format(s => s.Text + '\n') : string.Empty;
-                result += DirectObjects.Any() ? "\nDirect Objects: " + DirectObjects.Format(s => s.Text + '\n') : string.Empty;
-                result += IndirectObjects.Any() ? "\nIndirect Objects: " + IndirectObjects.Format(s => s.Text + '\n') : string.Empty;
+                result += Subjects.Any() ? "\nSubjects: " + Subjects.Format(s => s.Text + ", ") : string.Empty;
+                result += DirectObjects.Any() ? "\nDirect Objects: " + DirectObjects.Format(s => s.Text + ", ") : string.Empty;
+                result += IndirectObjects.Any() ? "\nIndirect Objects: " + IndirectObjects.Format(s => s.Text + ", ") : string.Empty;
                 result += ObjectOfThePreoposition != null ? "\nVia Preposition Object: " + ObjectOfThePreoposition.Text : string.Empty;
-                result += Modality != null ? "Modal Aux: " + Modality.Text : string.Empty;
+                result += Modality != null ? "\nModal Aux: " + Modality.Text : string.Empty;
                 result += Modifiers.Any() ? "\nModifiers: " + Modifiers.Format(s => s.Text + '\n') : string.Empty;
-                result += string.Format("Characteristics:\n Possessive Indicator [{0}]\nCategorization Specifier [{1}]\nPrevailing Tense [{2}]", IsPossessive, IsClassifier, Tense);
+                result += string.Format("\nCharacteristics: Possessive Indicator? [{0}], Categorizatizer? [{1}], Prevailing Tense = [{2}]", IsPossessive, IsClassifier, Tense);
             }
             return result;
         }

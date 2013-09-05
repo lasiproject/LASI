@@ -2,6 +2,7 @@
 using LASI.Algorithm;
 using LASI.Algorithm.DocumentConstructs;
 using LASI.Algorithm.Lookup;
+using LASI.Algorithm.Aliasing;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -103,17 +104,17 @@ namespace LASI.UserInterface
             return (from v in verbalCominalities
                     select new RelationshipTuple {
                         Verbal = v,
+                        Subject = new AggregateEntity(v.Subjects
+                            .Select(s => (s as IPronoun) == null ? s : (s as IPronoun).RefersTo)),
                         Direct = new AggregateEntity(v.DirectObjects
                             .Select(s => (s as IPronoun) == null ? s : (s as IPronoun).RefersTo)),
                         Indirect = new AggregateEntity(v.IndirectObjects
                             .Select(s => (s as IPronoun) == null ? s : (s as IPronoun).RefersTo)),
-                        Subject = new AggregateEntity(v.Subjects
-                            .Select(s => (s as IPronoun) == null ? s : (s as IPronoun).RefersTo)),
                         Prepositional = v.ObjectOfThePreoposition
                     } into result
                     where result.Subject != null
-                    group result by result.Verbal.Text into resultGrouped
-                    select resultGrouped.First() into result
+                    group result by result.Verbal.Text into groupedResult
+                    select groupedResult.First() into result
                     orderby result.Verbal.Weight
                     select result);
         }

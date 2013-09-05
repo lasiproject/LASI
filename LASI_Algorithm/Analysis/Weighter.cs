@@ -2,6 +2,7 @@
 using LASI.Algorithm.Lookup;
 using LASI.Utilities;
 using LASI.Algorithm.Patternization;
+using LASI.Algorithm.Aliasing;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -323,7 +324,7 @@ namespace LASI.Algorithm.Weighting
                        .Case<Determiner>(() => {
                            Determiner(next, nextNext, out modOne, out modTwo);
                        })
-                       .Perform(() => {
+                       .Default(() => {
                            modOne = 0.1d;
 
                            //second (UNCAUGHT -> UNCAUGHT)
@@ -386,7 +387,7 @@ namespace LASI.Algorithm.Weighting
                          //second (Determiner -> Determiner)
                          modTwo = PronounDeterminer(nextNext);
                      })
-                     .Perform(() => {
+                     .Default(() => {
                          modOne = 0.1d;
 
                          //second (Determiner -> UNCAUGHT)
@@ -418,7 +419,7 @@ namespace LASI.Algorithm.Weighting
                          //second (Preposition -> Determiner)
                          modTwo = PrepositionDeterminer(nextNext);
                      })
-                     .Perform(() => {
+                     .Default(() => {
                          modOne = 0.1;
 
                          //second (Preposition -> UNCAUGHT)
@@ -474,7 +475,7 @@ namespace LASI.Algorithm.Weighting
                          //second (Pronoun -> Determiner)
                          modTwo = PronounDeterminer(nextNext);
                      })
-                     .Perform(() => {
+                     .Default(() => {
                          modOne = 0.1d;
 
                          //second (Pronoun -> UNCAUGHT)
@@ -531,7 +532,7 @@ namespace LASI.Algorithm.Weighting
                        //second (Adverb -> Determiner)
                        modTwo = AdverbDeterminer(nextNext);
                    })
-                   .Perform(() => {
+                   .Default(() => {
                        modOne = 0.1d;
 
                        //second (Adverb -> UNCAUGHT)
@@ -588,7 +589,7 @@ namespace LASI.Algorithm.Weighting
                         //second (Adjective -> Determiner)
                         modTwo = AdjectiveDeterminer(nextNext);
                     })
-                    .Perform(() => {
+                    .Default(() => {
                         modOne = 0.1d;
 
                         //second (Adjective -> UNCAUGHT)
@@ -651,7 +652,7 @@ namespace LASI.Algorithm.Weighting
                         //second (Verb -> Determiner)
                         modTwo = VerbDeterminer(nextNext);
                     })
-                    .Perform(() => {
+                    .Default(() => {
                         modOne = 0.1d;
 
                         //second (Verb -> UNCAUGHT)
@@ -716,7 +717,7 @@ namespace LASI.Algorithm.Weighting
                         //second (Noun -> Determiner)
                         modTwo = NounDeterminer(nextNext);
                     })
-                    .Perform(() => {
+                    .Default(() => {
                         modOne = 0.1d;
 
                         //second (Noun -> UNCAUGHT)
@@ -767,7 +768,7 @@ namespace LASI.Algorithm.Weighting
                 .Case<Determiner>(() => {
                     modTwo = 0.2d; //preposition-uncaught determiner
                 })
-                .Perform(() => {
+                .Default(() => {
                     modTwo = 0.1d;
                 });
             return modTwo;
@@ -828,7 +829,7 @@ namespace LASI.Algorithm.Weighting
                 .Case<Determiner>(() => {
                     modTwo = 0.2d; //preposition-noun determiner
                 })
-                .Perform(() => {
+                .Default(() => {
                     modTwo = 0.1d;
                 });
             return modTwo;
@@ -861,7 +862,7 @@ namespace LASI.Algorithm.Weighting
                 .Case<Determiner>(() => {
                     modTwo = 0.2d; //pronoun-uncaught determiner
                 })
-                .Perform(() => {
+                .Default(() => {
                     modTwo = 0.1d;
                 });
             return modTwo;
@@ -894,7 +895,7 @@ namespace LASI.Algorithm.Weighting
                 .Case<Determiner>(() => {
                     modTwo = 0; //pronoun-determiner determiner
                 })
-                .Perform(() => {
+                .Default(() => {
                     modTwo = 0.1d;
                 });
             return modTwo;
@@ -927,7 +928,7 @@ namespace LASI.Algorithm.Weighting
                 .Case<Determiner>(() => {
                     modTwo = 0.3d; //pronoun-preposition determiner
                 })
-                .Perform(() => {
+                .Default(() => {
                     modTwo = 0.1d;
                 });
             return modTwo;
@@ -960,7 +961,7 @@ namespace LASI.Algorithm.Weighting
                 .Case<Determiner>(() => {
                     modTwo = 0.7d; //pronoun-tolinker determiner
                 })
-                .Perform(() => {
+                .Default(() => {
                     modTwo = 0.1d;
                 });
             return modTwo;
@@ -993,7 +994,7 @@ namespace LASI.Algorithm.Weighting
                 .Case<Determiner>(() => {
                     modTwo = 0.5d; //compound noun determiner
                 })
-                .Perform(() => {
+                .Default(() => {
                     modTwo = 0.1d;
                 });
             return modTwo;
@@ -1026,7 +1027,7 @@ namespace LASI.Algorithm.Weighting
                 .Case<Determiner>(() => {
                     modTwo = 0.5d; //pronoun-adverb determiner
                 })
-                .Perform(() => {
+                .Default(() => {
                     modTwo = 0.1d;
                 });
             return modTwo;
@@ -1059,7 +1060,7 @@ namespace LASI.Algorithm.Weighting
                 .Case<Determiner>(() => {
                     modTwo = 0.7d; //pronoun-adjective determiner
                 })
-                .Perform(() => {
+                .Default(() => {
                     modTwo = 0.1d;
                 });
             return modTwo;
@@ -1092,7 +1093,7 @@ namespace LASI.Algorithm.Weighting
                 .Case<Determiner>(() => {
                     modTwo = 0.5d; //compound noun determiner
                 })
-                .Perform(() => {
+                .Default(() => {
                     modTwo = 0.1d;
                 });
             return modTwo;
@@ -1125,7 +1126,7 @@ namespace LASI.Algorithm.Weighting
                 .Case<Determiner>(() => {
                     modTwo = 0.3d; //adverb-uncaught determiner
                 })
-                .Perform(() => {
+                .Default(() => {
                     modTwo = 0.1d;
                 });
             return modTwo;
@@ -1158,7 +1159,7 @@ namespace LASI.Algorithm.Weighting
                 .Case<Determiner>(() => {
                     modTwo = 0; //adverb-determiner determiner
                 })
-                .Perform(() => {
+                .Default(() => {
                     modTwo = 0.1d;
                 });
             return modTwo;
@@ -1191,7 +1192,7 @@ namespace LASI.Algorithm.Weighting
                 .Case<Determiner>(() => {
                     modTwo = 0; //adverb-preposition determiner
                 })
-                .Perform(() => {
+                .Default(() => {
                     modTwo = 0;
                 });
             return modTwo;
@@ -1224,7 +1225,7 @@ namespace LASI.Algorithm.Weighting
                 .Case<Determiner>(() => {
                     modTwo = 0.4d; //adverb-tolinker determiner
                 })
-                .Perform(() => {
+                .Default(() => {
                     modTwo = 0.1d;
                 });
             return modTwo;
@@ -1257,7 +1258,7 @@ namespace LASI.Algorithm.Weighting
                 .Case<Determiner>(() => {
                     modTwo = 0.4; //adverb-noun determiner
                 })
-                .Perform(() => {
+                .Default(() => {
                     modTwo = 0.1;
                 });
             return modTwo;
@@ -1290,7 +1291,7 @@ namespace LASI.Algorithm.Weighting
                 .Case<Determiner>(() => {
                     modTwo = 0.3; //adverb-adverb determiner
                 })
-                .Perform(() => {
+                .Default(() => {
                     modTwo = 0.1;
                 });
             return modTwo;
@@ -1323,7 +1324,7 @@ namespace LASI.Algorithm.Weighting
                 .Case<Determiner>(() => {
                     modTwo = 0.3; //adverb-adjective determiner
                 })
-                .Perform(() => {
+                .Default(() => {
                     modTwo = 0.1;
                 });
             return modTwo;
@@ -1356,7 +1357,7 @@ namespace LASI.Algorithm.Weighting
                 .Case<Determiner>(() => {
                     modTwo = 0.2; //adverb-noun determiner
                 })
-                .Perform(() => {
+                .Default(() => {
                     modTwo = 0.1;
                 });
             return modTwo;
@@ -1389,7 +1390,7 @@ namespace LASI.Algorithm.Weighting
                 .Case<Determiner>(() => {
                     modTwo = 0; //adjective-uncaught determiner
                 })
-                .Perform(() => {
+                .Default(() => {
                     modTwo = 0;
                 });
             return modTwo;
@@ -1422,7 +1423,7 @@ namespace LASI.Algorithm.Weighting
                 .Case<Determiner>(() => {
                     modTwo = 0; //adjective-determiner determiner
                 })
-                .Perform(() => {
+                .Default(() => {
                     modTwo = 0;
                 });
             return modTwo;
@@ -1455,7 +1456,7 @@ namespace LASI.Algorithm.Weighting
                 .Case<Determiner>(() => {
                     modTwo = 0; //adjective-prepositional determiner
                 })
-                .Perform(() => {
+                .Default(() => {
                     modTwo = 0;
                 });
             return modTwo;
@@ -1488,7 +1489,7 @@ namespace LASI.Algorithm.Weighting
                 .Case<Determiner>(() => {
                     modTwo = 0; //adjective-tolinker determiner
                 })
-                .Perform(() => {
+                .Default(() => {
                     modTwo = 0;
                 });
             return modTwo;
@@ -1521,7 +1522,7 @@ namespace LASI.Algorithm.Weighting
                 .Case<Determiner>(() => {
                     modTwo = 0; //adjective-noun determiner
                 })
-                .Perform(() => {
+                .Default(() => {
                     modTwo = 0;
                 });
             return modTwo;
@@ -1554,7 +1555,7 @@ namespace LASI.Algorithm.Weighting
                 .Case<Determiner>(() => {
                     modTwo = 0; //adjective-adverb determiner
                 })
-                .Perform(() => {
+                .Default(() => {
                     modTwo = 0;
                 });
             return modTwo;
@@ -1587,7 +1588,7 @@ namespace LASI.Algorithm.Weighting
                 .Case<Determiner>(() => {
                     modTwo = 0; //compound adjective -> determiner
                 })
-                .Perform(() => {
+                .Default(() => {
                     modTwo = 0;
                 });
             return modTwo;
@@ -1620,7 +1621,7 @@ namespace LASI.Algorithm.Weighting
                 .Case<Determiner>(() => {
                     modTwo = 0; //adjective-noun determiner
                 })
-                .Perform(() => {
+                .Default(() => {
                     modTwo = 0;
                 });
             return modTwo;
@@ -1653,7 +1654,7 @@ namespace LASI.Algorithm.Weighting
                 .Case<Determiner>(() => {
                     modTwo = 0; //adverb-uncaught determiner
                 })
-                .Perform(() => {
+                .Default(() => {
                     modTwo = 0;
                 });
             return modTwo;
@@ -1686,7 +1687,7 @@ namespace LASI.Algorithm.Weighting
                 .Case<Determiner>(() => {
                     modTwo = 0; //adverb-determiner determiner
                 })
-                .Perform(() => {
+                .Default(() => {
                     modTwo = 0;
                 });
             return modTwo;
@@ -1719,7 +1720,7 @@ namespace LASI.Algorithm.Weighting
                 .Case<Determiner>(() => {
                     modTwo = 0; //adverb-preposition determiner
                 })
-                .Perform(() => {
+                .Default(() => {
                     modTwo = 0;
                 });
             return modTwo;
@@ -1752,7 +1753,7 @@ namespace LASI.Algorithm.Weighting
                 .Case<Determiner>(() => {
                     modTwo = 0; //adverb-tolinker determiner
                 })
-                .Perform(() => {
+                .Default(() => {
                     modTwo = 0;
                 });
             return modTwo;
@@ -1785,7 +1786,7 @@ namespace LASI.Algorithm.Weighting
                 .Case<Determiner>(() => {
                     modTwo = 0; //adverb-pronoun determiner
                 })
-                .Perform(() => {
+                .Default(() => {
                     modTwo = 0;
                 });
             return modTwo;
@@ -1818,7 +1819,7 @@ namespace LASI.Algorithm.Weighting
                 .Case<Determiner>(() => {
                     modTwo = 0; //adverb-adverb determiner
                 })
-                .Perform(() => {
+                .Default(() => {
                     modTwo = 0;
                 });
             return modTwo;
@@ -1851,7 +1852,7 @@ namespace LASI.Algorithm.Weighting
                 .Case<Determiner>(() => {
                     modTwo = 0; //adverb-adjective determiner
                 })
-                .Perform(() => {
+                .Default(() => {
                     modTwo = 0;
                 });
             return modTwo;
@@ -1884,7 +1885,7 @@ namespace LASI.Algorithm.Weighting
                 .Case<Determiner>(() => {
                     modTwo = 0; //adverb-pastverb determiner
                 })
-                .Perform(() => {
+                .Default(() => {
                     modTwo = 0;
                 });
             return modTwo;
@@ -1917,7 +1918,7 @@ namespace LASI.Algorithm.Weighting
                 .Case<Determiner>(() => {
                     modTwo = 0; //adverb-noun determiner
                 })
-                .Perform(() => {
+                .Default(() => {
                     modTwo = 0;
                 });
             return modTwo;
@@ -1950,7 +1951,7 @@ namespace LASI.Algorithm.Weighting
                 .Case<Determiner>(() => {
                     modTwo = 0; //noun-uncaught determiner
                 })
-                .Perform(nuu => {
+                .Default(nuu => {
                     modTwo = 0;
                 });
             return modTwo;
@@ -1983,7 +1984,7 @@ namespace LASI.Algorithm.Weighting
                 .Case<Determiner>(() => {
                     modTwo = 0; //noun-determiner determiner
                 })
-                .Perform(ndu => {
+                .Default(ndu => {
                     modTwo = 0;
                 });
             return modTwo;
@@ -2016,7 +2017,7 @@ namespace LASI.Algorithm.Weighting
                 .Case<Determiner>(() => {
                     modTwo = 0; //noun-preposition determiner
                 })
-                .Perform(npu => {
+                .Default(npu => {
                     modTwo = 0;
                 });
             return modTwo;
@@ -2049,7 +2050,7 @@ namespace LASI.Algorithm.Weighting
                 .Case<Determiner>(() => {
                     modTwo = 0; //noun-tolinker determiner
                 })
-                .Perform(nlinku => {
+                .Default(nlinku => {
                     modTwo = 0;
                 });
             return modTwo;
@@ -2082,7 +2083,7 @@ namespace LASI.Algorithm.Weighting
                 .Case<Determiner>(() => {
                     modTwo = 0; //compound noun determiner
                 })
-                .Perform(npnu => {
+                .Default(npnu => {
                     modTwo = 0;
                 });
             return modTwo;
@@ -2115,7 +2116,7 @@ namespace LASI.Algorithm.Weighting
                 .Case<Determiner>(() => {
                     modTwo = 0; //noun-adverb determiner
                 })
-                .Perform(nadvu => {
+                .Default(nadvu => {
                     modTwo = 0;
                 });
             return modTwo;
@@ -2148,7 +2149,7 @@ namespace LASI.Algorithm.Weighting
                 .Case<Determiner>(() => {
                     modTwo = 0; //noun-adverb determiner
                 })
-                .Perform(nvu => {
+                .Default(nvu => {
                     modTwo = 0;
                 });
             return modTwo;
@@ -2181,7 +2182,7 @@ namespace LASI.Algorithm.Weighting
                 .Case<Determiner>(() => {
                     modTwo = 0; //noun-adjective determiner
                 })
-                .Perform(nadju => {
+                .Default(nadju => {
                     modTwo = 0;
                 });
             return modTwo;
@@ -2214,7 +2215,7 @@ namespace LASI.Algorithm.Weighting
                 .Case<Determiner>(nnd => {
                     modTwo = 0; //compound noun determiner
                 })
-                .Perform(nnu => {
+                .Default(nnu => {
                     modTwo = 0;
                 });
             return modTwo;
@@ -2247,7 +2248,7 @@ namespace LASI.Algorithm.Weighting
                 .Case<Determiner>(() => {
                     modTwo = 0; //determiner-uncaught determiner
                 })
-                .Perform(() => {
+                .Default(() => {
                     modTwo = 0;
                 });
             return modTwo;
@@ -2280,7 +2281,7 @@ namespace LASI.Algorithm.Weighting
                 .Case<Determiner>(() => {
                     modTwo = 0; //determiner-determiner determiner
                 })
-                .Perform(() => {
+                .Default(() => {
                     modTwo = 0;
                 });
             return modTwo;
@@ -2313,7 +2314,7 @@ namespace LASI.Algorithm.Weighting
                 .Case<Determiner>(() => {
                     modTwo = 0; //determiner-preposition determiner
                 })
-                .Perform(() => {
+                .Default(() => {
                     modTwo = 0;
                 });
             return modTwo;
@@ -2346,7 +2347,7 @@ namespace LASI.Algorithm.Weighting
                 .Case<Determiner>(() => {
                     modTwo = 0; //determiner-tolinker determiner
                 })
-                .Perform(() => {
+                .Default(() => {
                     modTwo = 0;
                 });
             return modTwo;
@@ -2379,7 +2380,7 @@ namespace LASI.Algorithm.Weighting
                 .Case<Determiner>(() => {
                     modTwo = 0; //determiner-noun-determiner
                 })
-                .Perform(() => {
+                .Default(() => {
                     modTwo = 0;
                 });
             return modTwo;
@@ -2412,7 +2413,7 @@ namespace LASI.Algorithm.Weighting
                 .Case<Determiner>(() => {
                     modTwo = 0; //determiner-adverb determiner
                 })
-                .Perform(() => {
+                .Default(() => {
                     modTwo = 0;
                 });
             return modTwo;
@@ -2445,7 +2446,7 @@ namespace LASI.Algorithm.Weighting
                 .Case<Determiner>(() => {
                     modTwo = 0; //determiner-adjective determiner
                 })
-                .Perform(() => {
+                .Default(() => {
                     modTwo = 0;
                 });
             return modTwo;
@@ -2478,7 +2479,7 @@ namespace LASI.Algorithm.Weighting
                 .Case<Determiner>(() => {
                     modTwo = 0; //determiner-noun determiner
                 })
-                .Perform(() => {
+                .Default(() => {
                     modTwo = 0;
                 });
             return modTwo;

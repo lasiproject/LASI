@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace LASI.Algorithm
+namespace LASI.Algorithm.Aliasing
 {
     /// <summary>
     /// Provides for registration of Entities as aliases for other Entities.
@@ -48,7 +48,6 @@ namespace LASI.Algorithm
         /// <param name="other">The second Entity</param>
         public static void DefineAlias(IEntity entity, IEntity other) {
             DefineAliasInDictionary(entity.Text, other.Text);
-            DefineAliasInDictionary(entity.Text, other.Text);
         }
         /// <summary>
         /// Establishes that one Entity is an alias for the end. 
@@ -71,13 +70,33 @@ namespace LASI.Algorithm
                    );
         }
         private static void DefineAliasInDictionary(IEntity entity, params IEntity[] aliases) {
+            aliasDictionary.AddOrUpdate(entity.Text, key => aliases
+                .Select(a => a.Text).ToSet(),
+                (key, current) => current.Concat(aliases.Select(a => a.Text)).ToSet());
             aliasedEntityReferenceMap.AddOrUpdate(
-                   entity, new HashSet<IEntity>(aliases),
-                   (key, current) => current.Union(aliases).ToSet()
-                   );
+                entity, new HashSet<IEntity>(aliases),
+                (key, current) => current.Union(aliases).ToSet()
+                );
 
         }
-        public static IEnumerable<string> GetDefinedAliases(this IEntity aliased) { return aliasDictionary[aliased.Text]; }
+        /// <summary>
+        /// Gets the textual representations of all known aliases defined for the given entity.
+        /// </summary>
+        /// <param name="aliased">The entity who's aliases will be returned.</param>
+        /// <returns>The textual representations of all known aliases defined for the given entity.</returns>
+        public static IEnumerable<string> GetDefinedAliases(this IEntity aliased) {
+            try {
+                return aliasDictionary[aliased.Text]
+                    .Concat(aliasedEntityReferenceMap[aliased]
+                   .Select(e => e.Text)
+                   );
+            }
+            catch (KeyNotFoundException) {
+                return Enumerable.Empty<string>();
+            }
+        }
+
+
         internal static IEnumerable<string> GetLikelyAliases(IEntity entity) {
             return entity.Match().Yield<IEnumerable<string>>()
                 .Case<NounPhrase>(n => DefineAliases(n))

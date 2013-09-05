@@ -1,4 +1,5 @@
 ﻿using LASI.Algorithm.Lookup;
+using LASI.Algorithm.Aliasing;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;

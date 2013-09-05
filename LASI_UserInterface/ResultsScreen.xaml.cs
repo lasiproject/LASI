@@ -3,7 +3,6 @@ using LASI.Algorithm;
 using LASI.Algorithm.Binding;
 using LASI.Algorithm.DocumentConstructs;
 using LASI.Algorithm.Lookup;
-using LASI.Algorithm.Weighting;
 using LASI.Algorithm.Patternization;
 using LASI.ContentSystem;
 using LASI.ContentSystem.Serialization.XML;
@@ -21,6 +20,7 @@ using System.Windows.Controls;
 using System.Windows.Controls.DataVisualization.Charting;
 using System.Windows.Media;
 using LASI.UserInterface.LexicalElementInfo;
+using LASI.Algorithm.Weighting;
 
 
 namespace LASI.UserInterface
@@ -69,7 +69,7 @@ namespace LASI.UserInterface
         }
 
         private async Task CreateWeightViewAsync(Document document) {
-            var page1 = document.Paginate(30).FirstOrDefault();
+            var page1 = document.Paginate(100).FirstOrDefault();
 
             var nounPhraseLabels = from s in page1 != null ? page1.Sentences : document.Paragraphs.SelectMany(p => p.Sentences)
                                         .AsParallel().WithDegreeOfParallelism(Concurrency.Max)
@@ -145,10 +145,10 @@ namespace LASI.UserInterface
                 }
             };
             var elementLabels = new List<Label>();
-            var dataSource = document.Paginate(10).FirstOrDefault();
+            var dataSource = document.Paginate(50).FirstOrDefault();
             foreach (var phrase in (dataSource != null ? dataSource.Sentences : document.Sentences).SelectMany(p => p.Phrases)) {
                 var label = new Label {
-                    Content = phrase.Text,
+                    Content = phrase.Text + (phrase is SymbolPhrase ? " " : string.Empty),
                     Tag = phrase,
                     Foreground = phrase.GetBrush(),
                     Background = Brushes.White,
@@ -233,7 +233,7 @@ namespace LASI.UserInterface
                 currentOperationLabel.Content = task.CompletionMessage;
             }
 
-            await StepProgress(8);
+            await StepProgress(3);
             currentOperationLabel.Content = string.Format("{0}: Correlating Relationships...", chosenFile.NameSansExt);
             var tasks = Weighter.GetWeightingProcessingTasks(doc).ToList();
             foreach (var task in tasks) {
@@ -241,7 +241,7 @@ namespace LASI.UserInterface
                 var message = task.InitializationMessage;
                 currentOperationLabel.Content = message;
                 await task.Task;
-                await StepProgress(9);
+                await StepProgress(3);
 
 
             }

@@ -1,7 +1,6 @@
 ﻿using LASI.Algorithm;
 using LASI.Algorithm.Binding;
 using LASI.Algorithm.Lookup;
-using LASI.Algorithm.Weighting;
 using LASI.ContentSystem;
 using System;
 using LASI.Algorithm.Patternization;
@@ -17,7 +16,7 @@ namespace LASI.Experimentation.CommandLine
         static void Main(string[] args) {
             Word.VerboseOutput = true;
             Phrase.VerboseOutput = true;
-            LexicalLookup.GetUnstartedLoadingTasks().AsParallel().ForAll(t => t.Wait());
+            LexicalLookup.GetLoadingTasks().AsParallel().ForAll(t => t.Wait());
             Console.WriteLine("enter a verb");
             for (var input = Console.ReadLine(); input != "~"; input = Console.ReadLine()) {
                 Console.WriteLine(LexicalLookup.GetSynonyms(new Verb(input, VerbForm.Base)).Format());

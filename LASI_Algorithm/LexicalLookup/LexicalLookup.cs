@@ -11,18 +11,6 @@ using System.Threading.Tasks;
 
 namespace LASI.Algorithm.Lookup
 {
-    #region Type Aliases
-    // Although the Interface name IDescriprtor was chosen because of its deseriable generality, e.g. it is implemented by SubordinateClause,
-    // In the context of the LexicalLookup class it refers solely to Adjectival constructs such as Adjectives or Adjective Phrases.
-    //using IAdjectival = LASI.Algorithm.IDescriptor;
-    //// Although the Interface name IEntity was chosen because of its deseriable generality, 
-    //// e.g. it is implemented by AggregateEntities such as IEntityGroup, and weak entities like RelativePronouns
-    //// In the context of the LexicalLookup class it refers solely to INounal (read noun like )constructs such as Nouns Noun Phrases.
-    //using INounal = LASI.Algorithm.IEntity;
-    // Because of this, an alias is defined. You can make use of this to aid readability in many situations. 
-    // Works analogously to typedef in C++ in that it lets you define a type alias to provide contextual semantics without the overhead of new types.
-    #endregion
-
     /// <summary>
     /// Provides Comprehensive static facilities for Synoynm Identification, Word and Phrase Comparison, Gender Stratification, and Named Entity Recognition.
     /// </summary>
@@ -37,7 +25,7 @@ namespace LASI.Algorithm.Lookup
         /// </summary>
         /// <param name="noun">The Noun to lookup.</param>
         /// <returns>The synonyms for the provided Noun.</returns>
-        public static IEnumerable<string> GetSynonyms(Noun noun) {
+        public static IEnumerable<string> GetSynonyms(this Noun noun) {
             return InternalLookup(noun);
         }
         /// <summary>
@@ -45,7 +33,7 @@ namespace LASI.Algorithm.Lookup
         /// </summary>
         /// <param name="verb">The Verb to lookup.</param>
         /// <returns>The synonyms for the provided Verb.</returns>
-        public static IEnumerable<string> GetSynonyms(Verb verb) {
+        public static IEnumerable<string> GetSynonyms(this Verb verb) {
             return InternalLookup(verb);
         }
         /// <summary>
@@ -53,7 +41,7 @@ namespace LASI.Algorithm.Lookup
         /// </summary>
         /// <param name="adjective">The Adjective to lookup.</param>
         /// <returns>The synonyms for the provided Adjective.</returns>
-        public static IEnumerable<string> GetSynonyms(Adjective adjective) {
+        public static IEnumerable<string> GetSynonyms(this Adjective adjective) {
             return InternalLookup(adjective);
         }
         /// <summary>
@@ -61,7 +49,7 @@ namespace LASI.Algorithm.Lookup
         /// </summary>
         /// <param name="adverb">The Adverb to lookup.</param>
         /// <returns>The synonyms for the provided Adverb.</returns>
-        public static IEnumerable<string> GetSynonyms(Adverb adverb) {
+        public static IEnumerable<string> GetSynonyms(this Adverb adverb) {
             return InternalLookup(adverb);
         }
 
@@ -135,32 +123,49 @@ namespace LASI.Algorithm.Lookup
         /// Please prefer the second convention.
         /// </remarks>
         public static SimResult IsSimilarTo(this IEntity first, IEntity second) {
+
+
+            return first.Match().Yield<SimResult>()
+                    .When(string.Equals(first.Text, second.Text, StringComparison.OrdinalIgnoreCase))
+                    .Then(SimResult.Similar)
+                    .Case<Noun>(n1 =>
+                        second.Match().Yield<SimResult>()
+                            .Case<Noun>(n2 => new SimResult(n1.IsSynonymFor(n2)))
+                            .Case<NounPhrase>(np2 => n1.IsSimilarTo(np2))
+                        .Result())
+                    .Case<NounPhrase>(np1 =>
+                        second.Match().Yield<SimResult>()
+                            .Case<NounPhrase>(np2 => np1.IsSimilarTo(np2))
+                            .Case<Noun>(n2 => np1.IsSimilarTo(n2))
+                        .Result())
+                    .Result();
+
+
             //If both have the same text, ignoring case, we will assume similarity. 
-            if (first.Text.ToUpper() == second.Text.ToUpper()) {
-                return new SimResult(true);
-            }
+            //if (first.Text.ToUpper() == second.Text.ToUpper()) {
+            //    return new SimResult(true);
+            //}
+            //var n1 = first as Noun;
+            //var n2 = second as Noun;
+            ////If both are Nouns...
+            //if (n1 != null && n2 != null) {
+            //    return new SimResult(n1.IsSynonymFor(n2));
+            //}
 
-            var n1 = first as Noun;
-            var n2 = second as Noun;
-            //If both are Nouns...
-            if (n1 != null && n2 != null) {
-                return new SimResult(n1.IsSynonymFor(n2));
-            }
+            //var np1 = first as NounPhrase;
+            //var np2 = second as NounPhrase;
+            ////If both are NounPhrases...
+            //if (np1 != null && np2 != null) {
+            //    return np1.IsSimilarTo(np2);
+            //}
 
-            var np1 = first as NounPhrase;
-            var np2 = second as NounPhrase;
-            //If both are NounPhrases...
-            if (np1 != null && np2 != null) {
-                return np1.IsSimilarTo(np2);
-            }
-
-            var np = first as NounPhrase ?? second as NounPhrase;
-            var n = first as Noun ?? second as Noun;
-            //If one of them is a NounPhrase and the other is a Noun
-            if (n != null && np != null) {
-                return n.IsSimilarTo(np);
-            }
-            return new SimResult(false);
+            //var np = first as NounPhrase ?? second as NounPhrase;
+            //var n = first as Noun ?? second as Noun;
+            ////If one of them is a NounPhrase and the other is a Noun
+            //if (n != null && np != null) {
+            //    return n.IsSimilarTo(np);
+            //}
+            //return new SimResult(false);
         }
         /// <summary>
         /// Determines if the provided Noun is similar to the provided NounPhrase.
@@ -189,7 +194,7 @@ namespace LASI.Algorithm.Lookup
         /// Please prefer the second convention.
         /// </remarks>
         public static SimResult IsSimilarTo(this NounPhrase first, Noun second) {
-            return new SimResult(second.IsSimilarTo(first));
+            return second.IsSimilarTo(first);
         }
         /// <summary>
         /// Determines if the two provided Noun instances are similar.
@@ -231,7 +236,7 @@ namespace LASI.Algorithm.Lookup
         /// Please prefer the second convention.
         /// </remarks>
         public static SimResult IsSimilarTo(this VerbPhrase first, Verb second) {
-            return new SimResult(second.IsSimilarTo(first));
+            return second.IsSimilarTo(first);
         }
         /// <summary>
         /// Determines if the provided Verb is similar to the provided VerbPhrase.
@@ -262,7 +267,7 @@ namespace LASI.Algorithm.Lookup
 
             //Compare literal text.
             if (first.Text.ToUpper() == second.Text.ToUpper()) {
-                return new SimResult(true);
+                return SimResult.Similar;
             }
 
             //If both are of type Verb check if syonymous
@@ -286,8 +291,7 @@ namespace LASI.Algorithm.Lookup
                 return v.IsSimilarTo(vp);
             }
 
-            return new SimResult(false);
-
+            return SimResult.Dissimilar;
         }
         /// <summary>
         /// Determines if two NounPhrases are similar.
@@ -330,7 +334,7 @@ namespace LASI.Algorithm.Lookup
                     }
                 }
                 catch (NullReferenceException) {
-                    return new SimResult(false);
+                    return SimResult.Dissimilar;
                 }
             }
 
@@ -362,7 +366,7 @@ namespace LASI.Algorithm.Lookup
         /// Please prefer the second convention.
         /// </remarks>
         public static SimResult IsSimilarTo(this AdjectivePhrase first, Adjective second) {
-            return new SimResult(second.IsSimilarTo(first));
+            return second.IsSimilarTo(first);
         }
         /// <summary>
         /// Determines if the provided Adjective is similar to the provided AdjectivePhrase.
@@ -393,7 +397,7 @@ namespace LASI.Algorithm.Lookup
 
             //Compare literal text.
             if (first.Text.ToUpper() == second.Text.ToUpper()) {
-                return new SimResult(true);
+                return SimResult.Similar;
             }
 
             //If both are of type Adjective check if syonymous
@@ -417,7 +421,7 @@ namespace LASI.Algorithm.Lookup
                 return a.IsSimilarTo(ap);   // var "ap" will hold a reference to it, the same applies to Word and "var a"
             }                               // the to blocks of type checks above ensure that they are not both Words or Phrases
 
-            return new SimResult(false);
+            return SimResult.Dissimilar;
 
         }
         /// <summary>
@@ -446,7 +450,7 @@ namespace LASI.Algorithm.Lookup
                     }
                 }
                 catch (NullReferenceException) {
-                    return new SimResult(false);
+                    return SimResult.Dissimilar;
                 }
             }
             return new SimResult(result);
@@ -477,7 +481,7 @@ namespace LASI.Algorithm.Lookup
         /// Please prefer the second convention.
         /// </remarks>
         public static SimResult IsSimilarTo(this AdverbPhrase first, Adverb second) {
-            return new SimResult(second.IsSimilarTo(first));
+            return second.IsSimilarTo(first);
         }
         /// <summary>
         /// Determines if the provided Adverb is similar to the provided AdverbPhrase.
@@ -509,7 +513,7 @@ namespace LASI.Algorithm.Lookup
 
             //Compare literal text.
             if (first.Text.ToUpper() == second.Text.ToUpper()) {
-                return new SimResult(true);
+                return SimResult.Similar;
             }
 
             //If both are of type Adverb check if syonymous
@@ -533,7 +537,7 @@ namespace LASI.Algorithm.Lookup
                 return a.IsSimilarTo(ap);   // var "ap" will hold a reference to it, the same applies to Word and "var a"
             }                               // the to blocks of type checks above ensure that they are not both Words or Phrases
 
-            return new SimResult(false);
+            return SimResult.Dissimilar;
 
         }
         /// <summary>
@@ -562,7 +566,7 @@ namespace LASI.Algorithm.Lookup
                     }
                 }
                 catch (NullReferenceException) {
-                    return new SimResult(false);
+                    return SimResult.Dissimilar;
                 }
             }
             return new SimResult(result);
@@ -615,7 +619,13 @@ namespace LASI.Algorithm.Lookup
                     .Case<IPronoun>(p => p.GetPronounGender())
                     .Case<NounPhrase>(n => n.GetGender())
                     .Case<GenericNoun>(n => Gender.Neutral)
-                    .Result(defaultValue: default(Gender));
+                    .When(e => e.BoundPronouns.Any())
+                    .Then<IEntity>(e => (from pro in e.BoundPronouns
+                                         let gen = pro.Match().Yield<Gender>().Case<IGendered>(p => p.Gender).Result()
+                                         group gen by gen into byGen
+                                         orderby byGen.Count() descending
+                                         select byGen.Key).FirstOrDefault())
+                    .Result();
         }
         /// <summary>
         /// Returns a NameGender value indiciating the likely gender of the Pronoun based on its referrent if known, or else its PronounKind.
@@ -628,15 +638,21 @@ namespace LASI.Algorithm.Lookup
                     .Case<IGendered>(p => p.Gender)
                     .Case<PronounPhrase>(p => GetPhraseGender(p))
                 .Result() :
-                pronoun.RefersTo != null && pronoun.RefersTo.Any() ?
-                pronoun.RefersTo.Select(rt =>
-              rt.Match().Yield<Gender>()
-                   .Case<NounPhrase>(r => r.GetGender())
-                   .Case<Pronoun>(r => r.GetPronounGender())
-                   .Case<ProperSingularNoun>(r => r.Gender)
-                   .Case<GenericNoun>(n => Gender.Neutral)
-                .Result()).GroupBy(g => g).FirstOrDefault(g => g.Count() == pronoun.RefersTo.Count()).Key :
-                default(Gender);
+                pronoun.Match().Yield<Gender>()
+                .When<IPronoun>(p => p.RefersTo != null)
+                .Then<IPronoun>(p => {
+                    return (from referent in p.RefersTo
+                            let gen =
+                               referent.Match().Yield<Gender>()
+                                   .Case<NounPhrase>(r => r.GetGender())
+                                   .Case<Pronoun>(r => r.GetPronounGender())
+                                   .Case<ProperSingularNoun>(r => r.Gender)
+                                   .Case<GenericNoun>(n => Gender.Neutral)
+                               .Result()
+                            group gen by gen into byGen
+                            where byGen.Count() == pronoun.RefersTo.Count()
+                            select byGen.Key).FirstOrDefault();
+                }).Result();
         }
 
         /// <summary>
@@ -685,13 +701,13 @@ namespace LASI.Algorithm.Lookup
         private static Gender GetPhraseGender(PronounPhrase name) {
             if (name.Words.All(w => w is Determiner))
                 return Gender.Neutral;
-            var genderedWords = name.Words.OfType<IGendered>();
-            return name
-            .Words.GetProperNouns()
-            .Any(n => !(n is IGendered)) ? GetNounPhraseGender(name) :
-                genderedWords.All(p => p.Gender.IsFemale()) ? Gender.Female :
-                genderedWords.All(p => p.Gender.IsMale()) ? Gender.Male :
-                genderedWords.All(p => p.Gender.IsNeutral()) ? Gender.Neutral :
+            var genderedWords = name.Words.OfType<IGendered>().Select(w => w.Gender);
+            return name.Words.GetProperNouns().Any(n => !(n is IGendered)) ?
+                GetNounPhraseGender(name)
+                :
+                genderedWords.All(p => p.IsFemale()) ? Gender.Female :
+                genderedWords.All(p => p.IsMale()) ? Gender.Male :
+                genderedWords.All(p => p.IsNeutral()) ? Gender.Neutral :
                 Gender.UNDEFINED;
         }
 
@@ -773,6 +789,23 @@ namespace LASI.Algorithm.Lookup
 
         #endregion
 
+        #region Lookup Loading Methods
+        /// <summary>
+        /// Returns a sequence of Tasks containing all of the yet unstarted LexicalLookup loading operations.
+        /// Await each Task to start its corresponding loading operation.
+        /// </summary>
+        /// <returns>a sequence of Tasks containing all of the yet unstarted LexicalLookup loading operations.</returns>
+        public static IEnumerable<Task<string>> GetLoadingTasks() {
+            return new[] {
+                LoadingTaskBuilder.NounThesaurusLoadTask,
+                LoadingTaskBuilder.VerbThesaurusLoadTask, 
+                LoadingTaskBuilder.AdjectiveThesaurusLoadTask, 
+                LoadingTaskBuilder.AdverbThesaurusLoadTask, 
+                LoadingTaskBuilder.NameDataLoadTask }
+            .Where(t => t != null);
+        }
+        #endregion
+
         #endregion
 
         #region Private Methods
@@ -802,7 +835,7 @@ namespace LASI.Algorithm.Lookup
                     Task.Run(async () => maleNames = await GetLinesAsync(maleNamesFilePath)) 
                 },
                 results => {
-                    genderAmbiguousFirstNames =
+                    genderAmbiguousNames =
                         new HashSet<string>(maleNames.Intersect(femaleNames).Concat(femaleNames.Intersect(maleNames)), StringComparer.OrdinalIgnoreCase);
 
                     var stratified =
@@ -819,11 +852,11 @@ namespace LASI.Algorithm.Lookup
 
         private static async Task<HashSet<string>> GetLinesAsync(string fileName) {
             using (var reader = new StreamReader(fileName)) {
-                return new HashSet<string>((
-                    await reader.ReadToEndAsync()).Split(new[] { '\r', 'n' },
-                    StringSplitOptions.RemoveEmptyEntries).Select(s => s.Trim()),
-                    StringComparer.OrdinalIgnoreCase
-                );
+                return new HashSet<string>(
+                    (await reader.ReadToEndAsync()).Split(
+                        new[] { '\r', '\n' },
+                        StringSplitOptions.RemoveEmptyEntries).Select(s => s.Trim()),
+                    StringComparer.OrdinalIgnoreCase);
             }
         }
 
@@ -831,61 +864,38 @@ namespace LASI.Algorithm.Lookup
 
         #region Public Properties
 
-        /// <summary>
-        /// Returns a sequence of Tasks containing all of the yet unstarted LexicalLookup loading operations.
-        /// Await each Task to start its corresponding loading operation.
-        /// </summary>
-        /// <returns>a sequence of Tasks containing all of the yet unstarted LexicalLookup loading operations.</returns>
-        public static IEnumerable<Task<string>> GetUnstartedLoadingTasks() {
-            var Tasks = new List<Task<string>>();
-            if (nounLoadingState == LoadingState.NotStarted)
-                Tasks.Add(NounThesaurusLoadTask);
-            if (verbLoadingState == LoadingState.NotStarted)
-                Tasks.Add(VerbThesaurusLoadTask);
-            if (adjectiveLoadingState == LoadingState.NotStarted)
-                Tasks.Add(AdjectiveThesaurusLoadTask);
-            if (adverbLoadingState == LoadingState.NotStarted)
-                Tasks.Add(AdverbThesaurusLoadTask);
-            Tasks.Add(Task.Run(async () => {
-                await LoadNameDataAsync();
-                return "Loaded Name Data";
-            }));
-            return Tasks;
-        }
-
-
-        #region NameData Accessors
+        #region Name Collection Accessors
 
         /// <summary>
         /// Gets a sequence of all known Last Names.
         /// </summary>
-        public static IEnumerable<string> LastNames {
+        public static IReadOnlyCollection<string> LastNames {
             get {
-                return lastNames;
+                return lastNames.ToList().AsReadOnly();
             }
         }
         /// <summary>
         /// Gets a sequence of all known Female Names.
         /// </summary>
-        public static IEnumerable<string> FemaleNames {
+        public static IReadOnlyCollection<string> FemaleNames {
             get {
-                return femaleNames;
+                return femaleNames.ToList().AsReadOnly();
             }
         }
         /// <summary>
         /// Gets a sequence of all known Male Names.
         /// </summary>
-        public static IEnumerable<string> MaleNames {
+        public static IReadOnlyCollection<string> MaleNames {
             get {
-                return maleNames;
+                return maleNames.ToList().AsReadOnly();
             }
         }
         /// <summary>
         /// Gets a sequence of all known Names which are just as likely to be Female or Male.
         /// </summary>
-        public static IEnumerable<string> GenderAmbiguousFirstNames {
+        public static IReadOnlyCollection<string> GenderAmbiguousNames {
             get {
-                return genderAmbiguousFirstNames;
+                return genderAmbiguousNames.ToList().AsReadOnly();
             }
         }
 
@@ -895,49 +905,8 @@ namespace LASI.Algorithm.Lookup
 
         #region Private Properties
 
-        #region Task Aquisition Accessors
-        private static Task<string> AdjectiveThesaurusLoadTask {
-            get {
-                return Task.Run(async () => {
-                    adjectiveLoadingState = LoadingState.InProgress;
-                    await adjectiveLookup.LoadAsync();
-                    adjectiveLoadingState = LoadingState.Finished;
-                    return "Adjective Thesaurus Loaded";
-                });
-            }
-        }
-        private static Task<string> AdverbThesaurusLoadTask {
-            get {
-                return Task.Run(async () => {
-                    adverbLoadingState = LoadingState.InProgress;
-                    await adverbLookup.LoadAsync();
-                    adverbLoadingState = LoadingState.Finished;
-                    return "Adverb Thesaurus Loaded";
-                });
-            }
-        }
-        private static Task<string> VerbThesaurusLoadTask {
-            get {
-                return Task.Run(async () => {
-                    verbLoadingState = LoadingState.InProgress;
-                    await verbLookup.LoadAsync();
-                    verbLoadingState = LoadingState.Finished;
-                    return "Verb Thesaurus Loaded";
-                });
-            }
-        }
-        private static Task<string> NounThesaurusLoadTask {
-            get {
-                return Task.Run(async () => {
-                    nounLoadingState = LoadingState.InProgress;
-                    await nounLookup.LoadAsync();
-                    nounLoadingState = LoadingState.Finished;
-                    return "Noun Thesaurus Loaded";
-                });
 
-            }
-        }
-        #endregion
+
 
         #endregion
 
@@ -952,6 +921,11 @@ namespace LASI.Algorithm.Lookup
         private static VerbLookup verbLookup = new VerbLookup(verbWNFilePath);
         private static AdjectiveLookup adjectiveLookup = new AdjectiveLookup(adjectiveWNFilePath);
         private static AdverbLookup adverbLookup = new AdverbLookup(adverbWNFilePath);
+        // Synonym Lookup Caches
+        private static ConcurrentDictionary<string, ISet<string>> cachedNounData = new ConcurrentDictionary<string, ISet<string>>(Concurrency.Max, 40960);
+        private static ConcurrentDictionary<string, ISet<string>> cachedVerbData = new ConcurrentDictionary<string, ISet<string>>(Concurrency.Max, 40960);
+        private static ConcurrentDictionary<string, ISet<string>> cachedAdjectiveData = new ConcurrentDictionary<string, ISet<string>>(Concurrency.Max, 40960);
+        private static ConcurrentDictionary<string, ISet<string>> cachedAdverbData = new ConcurrentDictionary<string, ISet<string>>(Concurrency.Max, 40960);
         // Name Data File Paths
         private static readonly string lastNamesFilePath = ConfigurationManager.AppSettings["NameDataDirectory"] + "last.txt";
         private static readonly string femaleNamesFilePath = ConfigurationManager.AppSettings["NameDataDirectory"] + "femalefirst.txt";
@@ -960,31 +934,21 @@ namespace LASI.Algorithm.Lookup
         private static ISet<string> lastNames;
         private static ISet<string> maleNames;
         private static ISet<string> femaleNames;
-        private static ISet<string> genderAmbiguousFirstNames;
-        // Synonym Lookup Caches
-        private static ConcurrentDictionary<string, ISet<string>> cachedNounData = new ConcurrentDictionary<string, ISet<string>>(Concurrency.Max, 4096);
-        private static ConcurrentDictionary<string, ISet<string>> cachedVerbData = new ConcurrentDictionary<string, ISet<string>>(Concurrency.Max, 4096);
-        private static ConcurrentDictionary<string, ISet<string>> cachedAdjectiveData = new ConcurrentDictionary<string, ISet<string>>(Concurrency.Max, 4096);
-        private static ConcurrentDictionary<string, ISet<string>> cachedAdverbData = new ConcurrentDictionary<string, ISet<string>>(Concurrency.Max, 4096);
+        private static ISet<string> genderAmbiguousNames;
         //Loading states for specific data items
         private static LoadingState nounLoadingState = LoadingState.NotStarted;
         private static LoadingState verbLoadingState = LoadingState.NotStarted;
         private static LoadingState adjectiveLoadingState = LoadingState.NotStarted;
         private static LoadingState adverbLoadingState = LoadingState.NotStarted;
+        private static LoadingState nameDataLoadingState = LoadingState.NotStarted;
         // Similarity threshold for Phrase comparisons.
-        private const double SIMILARITY_THRESHOLD = 0.6;
+        public const double SIMILARITY_THRESHOLD = 0.6;
         #endregion
 
-        #region Enumerations
-        private enum LoadingState
-        {
-            NotStarted,
-            InProgress,
-            Finished
-        }
-        #endregion
+
 
         #region Utility Types
+
 
         /// <summary>
         /// Encapsulates multiple pieces of information gathered during a similarity comparison into a light weight type.
@@ -1126,8 +1090,94 @@ namespace LASI.Algorithm.Lookup
             #endregion
 
             #endregion
+
+            #region Static Properties
+            internal static readonly SimResult Similar = new SimResult(true, 1);
+            internal static readonly SimResult Dissimilar = new SimResult(false, 0);
+            #endregion
+
         }
 
+        /// <summary>
+        /// Exposes properties which construct the Tasks which correspond to the various loading operations of the LexicalLookup class.
+        /// </summary>
+        private static class LoadingTaskBuilder
+        {
+            internal static Task<string> AdjectiveThesaurusLoadTask {
+                get {
+                    var result = adjectiveLoadingState == LoadingState.NotStarted ?
+                        Task.Run(async () => {
+                            await adjectiveLookup.LoadAsync();
+                            adjectiveLoadingState = LoadingState.Finished;
+                            return "Adjective Thesaurus Loaded";
+                        }) :
+                        null;
+                    adjectiveLoadingState = LoadingState.InProgress;
+                    return result;
+                }
+            }
+            internal static Task<string> AdverbThesaurusLoadTask {
+                get {
+                    var result = adverbLoadingState == LoadingState.NotStarted ?
+                        Task.Run(async () => {
+                            await adverbLookup.LoadAsync();
+                            adverbLoadingState = LoadingState.Finished;
+                            return "Adverb Thesaurus Loaded";
+                        }) :
+                        null;
+                    adverbLoadingState = LoadingState.InProgress;
+                    return result;
+                }
+            }
+            internal static Task<string> VerbThesaurusLoadTask {
+                get {
+                    var result = verbLoadingState == LoadingState.NotStarted ?
+                        Task.Run(async () => {
+                            await verbLookup.LoadAsync();
+                            verbLoadingState = LoadingState.Finished;
+                            return "Verb Thesaurus Loaded";
+                        }) :
+                        null;
+                    verbLoadingState = LoadingState.InProgress;
+                    return result;
+                }
+            }
+            internal static Task<string> NounThesaurusLoadTask {
+                get {
+                    var result = nounLoadingState == LoadingState.NotStarted ?
+                        Task.Run(async () => {
+                            await nounLookup.LoadAsync();
+                            nounLoadingState = LoadingState.Finished;
+                            return "Noun Thesaurus Loaded";
+                        }) :
+                        null;
+                    nounLoadingState = LoadingState.InProgress;
+                    return result;
+                }
+            }
+            internal static Task<string> NameDataLoadTask {
+                get {
+                    var result = nameDataLoadingState == LoadingState.NotStarted ?
+                        Task.Run(async () => {
+                            await LoadNameDataAsync();
+                            nameDataLoadingState = LoadingState.Finished;
+                            return "Loaded Name Data";
+                        }) :
+                        null;
+                    nameDataLoadingState = LoadingState.InProgress;
+                    return result;
+                }
+            }
+        }
+        /// <summary>
+        /// Represents the various states of a loading operation.
+        /// </summary>
+        private enum LoadingState
+        {
+            NotStarted,
+            InProgress,
+            Finished
+        }
         #endregion
     }
 }

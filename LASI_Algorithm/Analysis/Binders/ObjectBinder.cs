@@ -168,7 +168,7 @@ namespace LASI.Algorithm.Binding
                         if (Machine.lastPrepositional != null) {
                             phr.PrepositionOnLeft = Machine.lastPrepositional;
                             Machine.lastPrepositional.ToTheRightOf = phr;
-                            Machine.bindingTarget.AttachObjectViaPreposition(phrase.PrepositionOnLeft);
+                            Machine.bindingTarget.AttachObjectViaPreposition(phr.PrepositionOnLeft);
                         }
                         Machine.entities.Push(phr);
                         if (Stream.None) {
@@ -189,7 +189,7 @@ namespace LASI.Algorithm.Binding
                     })
                     .Case<SBARClauseBeginPhrase>(WhenSbar)
                     .Case<SymbolPhrase>(WhenSbar)
-                    .Perform(() => base.Transition(phrase));
+                    .Default(() => base.Transition(phrase));
             }
 
             private void WhenSbar(Phrase phrase) {
@@ -240,7 +240,7 @@ namespace LASI.Algorithm.Binding
                     Machine.St0.Transition(Stream.Pop() as dynamic);
                 })
                 .Case<ConjunctionPhrase>(phr => Machine.lastConjunctive = phr)
-                .Perform(() => base.Transition(phrase));
+                .Default(() => base.Transition(phrase));
             }
 
         }
@@ -396,7 +396,7 @@ namespace LASI.Algorithm.Binding
                     Machine.entities.Push(phr);
                     Machine.ConjunctNounPhrases.Add(phr);
                     if (Machine.lastConjunctive != null) {
-                        Machine.lastConjunctive.JoinedRight = phrase;
+                        Machine.lastConjunctive.JoinedRight = phr;
                     }
                     if (Stream.None) {
                         if (!Machine.directFound)
@@ -407,7 +407,7 @@ namespace LASI.Algorithm.Binding
                     }
                     Machine.St2.Transition(Stream.Pop() as dynamic);
                 })
-               .Perform(() => base.Transition(phrase));
+               .Default(() => base.Transition(phrase));
             }
             public State4(ObjectBinder machine) : base(machine, "s4") { }
         }
@@ -452,7 +452,7 @@ namespace LASI.Algorithm.Binding
 
                     Machine.St6.Transition(Stream.Pop() as dynamic);
                 })
-               .Perform(() => base.Transition(phrase));
+               .Default(() => base.Transition(phrase));
             }
             public State5(ObjectBinder machine) : base(machine, "s5") { }
         }

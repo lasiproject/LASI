@@ -85,7 +85,7 @@ namespace LASI.InteropLayer
                 var taggedFile = await currentTask;
                 taggingTasks.Remove(currentTask);
                 taggedFiles.Add(taggedFile);
-                await updateProgressDisplay(string.Format("{0}: Tagged", taggedFile.TextSourceName), stepSize + 2);
+                await updateProgressDisplay(string.Format("{0}: Tagged", taggedFile.TextSourceName), stepSize + 1.5);
             }
             await updateProgressDisplay("Tagged Documents", 3);
             var tasks = taggedFiles.Select(tagged => ProcessTaggedFileAsync(tagged)).ToList();
@@ -126,7 +126,7 @@ namespace LASI.InteropLayer
 
         private async Task LoadThesaurus() {
             await updateProgressDisplay("Loading Thesaurus...", stepSize);
-            var thesaurusTasks = LexicalLookup.GetUnstartedLoadingTasks().ToList();
+            var thesaurusTasks = LexicalLookup.GetLoadingTasks().ToList();
             while (thesaurusTasks.Any()) {
                 var currentTask = await Task.WhenAny(thesaurusTasks);
                 await updateProgressDisplay(await currentTask, 3);

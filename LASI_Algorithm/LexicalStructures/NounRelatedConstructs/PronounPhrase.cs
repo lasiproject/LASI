@@ -1,4 +1,5 @@
-﻿using LASI.Utilities;
+﻿using LASI.Algorithm.Aliasing;
+using LASI.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,7 +32,9 @@ namespace LASI.Algorithm
         /// </summary>
         /// <returns>A string representation of the PronounPhrase</returns>
         public override string ToString() {
-            return base.ToString() + (RefersTo != null && RefersTo.Any() ? " referring to -> " + RefersTo.Text : string.Empty);
+            var result = base.ToString() + (RefersTo != null && RefersTo.Any() ? " referring to -> " + RefersTo.Text : string.Empty);
+            result += (AliasDictionary.GetDefinedAliases(RefersTo ?? this as IEntity).Any() ? "\nClassified as: " + AliasDictionary.GetDefinedAliases(RefersTo ?? this as IEntity).Format() : string.Empty);
+            return result;
         }
         private IAggregateEntity _refersTo;
         /// <summary>

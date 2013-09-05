@@ -92,7 +92,7 @@ namespace LASI.Algorithm.DocumentConstructs
         /// Gets the sequence of Phrases which comprise the sentence.
         /// </summary>
         /// 
-        public IEnumerable<Phrase> Phrases { get { return from C in Clauses from P in C.Phrases select P; } }
+        public IEnumerable<Phrase> Phrases { get { return (from C in Clauses from P in C.Phrases select P).Append(new SymbolPhrase(new[] { EndingPunctuation })); } }
         /// <summary>
         /// Gets the sequence of Words which comprise the sentence.
         /// </summary>

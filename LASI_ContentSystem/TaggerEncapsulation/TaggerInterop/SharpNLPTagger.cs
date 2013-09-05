@@ -5,10 +5,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using LASI.Algorithm;
-using LASI.Utilities;
-using LASI.ContentSystem;
-using iTextSharp;
 
 namespace TaggerInterop
 {
@@ -177,8 +173,8 @@ namespace TaggerInterop
             var paragraphs = from p in SourceText.Split(new[] { "<paragraph>", "</paragraph>" }, StringSplitOptions.RemoveEmptyEntries)
                              select p;
             foreach (var p in paragraphs) {
-
-                string[] sentences = SplitSentences(p);
+                var paragraph = StripParentheticals(p);
+                string[] sentences = SplitSentences(paragraph);
 
                 foreach (string sentence in from s in sentences
                                             where !(String.IsNullOrWhiteSpace(s) || String.IsNullOrEmpty(s))
@@ -191,6 +187,13 @@ namespace TaggerInterop
             }
             var result = output.ToString();
             return result;
+        }
+
+        private string StripParentheticals(string paragraph) {
+            for (int j = 0, i = paragraph.IndexOf('(', j); i != -1 && j != -1; j = paragraph.IndexOf(')', i)) {
+                paragraph = paragraph.Substring(0, i) + paragraph.Substring(j + 1);
+            }
+            return paragraph;
         }
         private string Gender() {
             StringBuilder output = new StringBuilder();
