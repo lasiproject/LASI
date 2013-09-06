@@ -172,7 +172,7 @@ namespace TaggerInterop
             StringBuilder output = new StringBuilder();
             var paragraphs = from p in SourceText.Split(new[] { "\r\n\r\n", "<paragraph>", "</paragraph>" }, StringSplitOptions.RemoveEmptyEntries)
                              select p;
-            foreach (var paragraph in paragraphs.AsParallel().Select(p => StripParentheticals(p))) {
+            foreach (var paragraph in paragraphs.AsParallel().AsOrdered().Select(p => StripParentheticals(p))) {
                 string[] sentences = SplitSentences(paragraph);
 
                 foreach (string sentence in from s in sentences

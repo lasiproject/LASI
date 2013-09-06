@@ -62,7 +62,8 @@ namespace LASI.ContentSystem.TaggerEncapsulation
             get {
                 try {
                     return typeDictionary[posTag];
-                } catch (KeyNotFoundException) {
+                }
+                catch (KeyNotFoundException) {
                     throw new UnknownPhraseTagException(posTag);
                 }
             }
@@ -76,7 +77,8 @@ namespace LASI.ContentSystem.TaggerEncapsulation
             get {
                 try {
                     return typeDictionary.First(pair => pair.Value.Method.ReturnType == phraseCreatingFunc.Method.ReturnType).Key;
-                } catch (InvalidOperationException) {
+                }
+                catch (InvalidOperationException) {
                     throw new UnmappedPhraseTypeException(string.Format("Phrase constructor\n{0}\nis not mapped by this Tagset.\nFunction Type: {1} => {2}",
                         phraseCreatingFunc,
                         phraseCreatingFunc.Method.GetParameters().Aggregate("", (s, p) => s += p.ParameterType.FullName + ", ").TrimEnd(',', ' '),
@@ -96,7 +98,8 @@ namespace LASI.ContentSystem.TaggerEncapsulation
             get {
                 try {
                     return typeDictionary.First(funcPosTagPair => funcPosTagPair.Value.Method.ReturnType == phrase.GetType()).Key;
-                } catch (InvalidOperationException) {
+                }
+                catch (InvalidOperationException) {
                     throw new UnmappedPhraseTypeException(string.Format("The indexing LASI.Algorithm.Phrase has type {0}, a type which is not mapped by {1}.", phrase.GetType(), this.GetType()));
                 }
             }
