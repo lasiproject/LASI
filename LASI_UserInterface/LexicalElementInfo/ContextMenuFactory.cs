@@ -1,4 +1,5 @@
 ﻿using LASI.Algorithm;
+using LASI.Algorithm.Patternization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -96,7 +97,9 @@ namespace LASI.UserInterface.LexicalElementInfo
             var visitBoundEntity = new MenuItem { Header = "view referred to" };
             visitBoundEntity.Click += (sender, e) => {
                 var objlabels = from l in labelsInContext
-                                where l.Tag == pro.RefersTo
+                                where pro.RefersTo == l.Tag || l.Tag is NounPhrase&&
+                                pro.RefersTo.ToSet().Overlaps((l.Tag as NounPhrase).Words.GetEntities())
+                                   
                                 select l;
                 foreach (var l in objlabels) {
                     l.Foreground = Brushes.White;

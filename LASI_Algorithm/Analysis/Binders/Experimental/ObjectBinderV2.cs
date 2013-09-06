@@ -23,7 +23,7 @@ namespace LASI.Algorithm.Analysis.Binders.Experimental
                         .Case<IConjunctive>(p => p)
                         .Case<IEntity>(p => p)
                         .Case<IVerbal>(p => p)
-                        .Case<SBARClauseBeginPhrase>(p => p)
+                        .Case<SubordinateClauseBeginPhrase>(p => p)
                         .Case<SymbolPhrase>(p => p)
                         .Result() as Phrase into result
                 where result != null

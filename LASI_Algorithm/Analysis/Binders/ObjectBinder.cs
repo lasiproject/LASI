@@ -187,7 +187,7 @@ namespace LASI.Algorithm.Binding
                         if (Machine.inputstream.Any)
                             Machine.St1.Transition(Stream.Pop() as dynamic);
                     })
-                    .Case<SBARClauseBeginPhrase>(WhenSbar)
+                    .Case<SubordinateClauseBeginPhrase>(WhenSbar)
                     .Case<SymbolPhrase>(WhenSbar)
                     .Default(() => base.Transition(phrase));
             }
@@ -333,14 +333,14 @@ namespace LASI.Algorithm.Binding
             public void Transition(SymbolPhrase phrase) {
                 WhenSbar(phrase);
             }
-            public void Transition(SBARClauseBeginPhrase phrase) {
+            public void Transition(SubordinateClauseBeginPhrase phrase) {
                 WhenSbar(phrase);
             }
 
             private void WhenSbar(Phrase phrase) {
                 while (Stream.Count > 1) {
                     var endOfSbar = Stream.Pop();
-                    if (endOfSbar is SymbolPhrase || endOfSbar is SBARClauseBeginPhrase) { break; }
+                    if (endOfSbar is SymbolPhrase || endOfSbar is SubordinateClauseBeginPhrase) { break; }
                 }
                 this.Transition(Stream.Pop() as dynamic);
                 PerformExceptionFallback();

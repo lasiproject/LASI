@@ -19,13 +19,13 @@ namespace LASI.Algorithm
         /// <typeparam name="T">The Type of the elements of the source sequence. Must be a Type which implements the ILexical interface.</typeparam>
         /// <param name="source">The sequence of potentially IEnumerrable of T to enumerate recursively.</param>
         /// <returns>A recursively defined enumerable collection which, when enumerated, will yield the members of each subsequence, along with the element providing it, in turn.</returns>
-        public static IEnumerable<T> EnumerateRecursively<T>(this IEnumerable<T> source) where T : ILexical {
-            foreach (var lexical in source) {
-                yield return lexical;
-                var innerEnumerable = lexical as IEnumerable<T>;
-                if (innerEnumerable != null) {
-                    foreach (var lex in innerEnumerable.EnumerateRecursively())
-                        yield return lex;
+        public static IEnumerable<T> GetRecursiveEnumerator<T>(this IEnumerable<T> source) where T : class,ILexical {
+            foreach (var e in source) {
+                var inner = e as IEnumerable<T>;
+                if (inner != null) {
+                    foreach (var t in inner.GetRecursiveEnumerator()) { yield return t; }
+                } else {
+                    yield return e;
                 }
             }
         }

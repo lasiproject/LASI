@@ -55,12 +55,12 @@ namespace LASI.Algorithm
         /// </summary>
         /// <returns>An enumerator that iterates through the members of the EntityGroup.</returns>
         public IEnumerator<IEntity> GetEnumerator() {
-            foreach (var entity in _members.EnumerateRecursively()) {
+            foreach (var entity in _members.Concat(_members.GetRecursiveEnumerator()).Distinct()) {
                 yield return entity;
             }
         }
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() {
-            foreach (var entity in _members.EnumerateRecursively()) {
+            foreach (var entity in _members.Concat(_members.GetRecursiveEnumerator()).Distinct()) {
                 yield return entity;
             }
         }
@@ -69,8 +69,7 @@ namespace LASI.Algorithm
         /// </summary>
         /// <returns>A string representation of the EntityGroup.</returns>
         public override string ToString() {
-            return string.Format("{0}{1}", _members.Count() > 1 ? "[ " + _members.Count() + " ] " : string.Empty, string.Join(" ", _members
-                .EnumerateRecursively()
+            return string.Format("{0}{1}", _members.Count() > 1 ? "[ " + _members.Count() + " ] " : string.Empty, string.Join(" ", _members.GetRecursiveEnumerator()
                 .Where(m => !(m is IAggregateEntity))
                 .Select(p => p.Type.Name + " \"" + p.Text + "\"")));
         }
@@ -116,7 +115,7 @@ namespace LASI.Algorithm
         /// </summary>
         public string Text {
             get {
-                return string.Join(" , ", _members.EnumerateRecursively().Select(p => p.Text + (p.PrepositionOnRight != null ? p.PrepositionOnRight.Text : string.Empty)));
+                return string.Join(" , ", _members.GetRecursiveEnumerator().Select(p => p.Text + (p.PrepositionOnRight != null ? p.PrepositionOnRight.Text : string.Empty)));
             }
         }
         //}

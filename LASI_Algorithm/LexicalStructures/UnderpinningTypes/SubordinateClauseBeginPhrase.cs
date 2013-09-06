@@ -9,13 +9,13 @@ namespace LASI.Algorithm
     /// <summary>
     /// A phrase indicating the beginning of a subordinate clause.
     /// </summary>
-    public class SBARClauseBeginPhrase : Phrase
+    public class SubordinateClauseBeginPhrase : Phrase
     {
         /// <summary>
         /// Initializes a new instance of the SubordinateClauseBeginPhrase class.
         /// </summary>
         /// <param name="composed">The words which compose to form the SubordinateClauseBeginPhrase.</param>
-        public SBARClauseBeginPhrase(IEnumerable<Word> composed)
+        public SubordinateClauseBeginPhrase(IEnumerable<Word> composed)
             : base(composed) {
         }
         private void deterimineEndOfClause() {

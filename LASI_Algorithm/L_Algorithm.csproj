@@ -35,8 +35,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>
-    </DocumentationFile>
+    <DocumentationFile>bin\Debug\Algorithm.XML</DocumentationFile>
     <PlatformTarget>x64</PlatformTarget>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
@@ -132,7 +131,7 @@
     <Compile Include="Analysis\Binders\PronounBinder.cs" />
     <Compile Include="Analysis\Binders\SubjectBinder.cs" />
     <Compile Include="Analysis\Weighter.cs" />
-    <Compile Include="LexicalStructures\UnderpinningTypes\SBARClauseBeginPhrase.cs" />
+    <Compile Include="LexicalStructures\UnderpinningTypes\SubordinateClauseBeginPhrase.cs" />
     <Compile Include="RelationshipLookups\AliasDictionary.cs" />
     <Compile Include="IEnumerableExtensions\IEnumerableOfIEntityExtensions.cs" />
     <Compile Include="IEnumerableExtensions\IEnumerableOfILexicalExtensions.cs" />

@@ -189,7 +189,7 @@ namespace TaggerInterop
         }
 
         private string StripParentheticals(string paragraph) {
-            for (int j = 0, i = paragraph.IndexOf('(', j); i != -1 && j != -1; j = paragraph.IndexOf(')'), i = paragraph.IndexOf('(')) {
+            for (int j = paragraph.IndexOf(')'), i = paragraph.IndexOf('('); i != -1 && j != -1; j = paragraph.IndexOf(')'), i = paragraph.IndexOf('(')) {
                 paragraph = paragraph.Substring(0, i) + paragraph.Substring(j + 1);
             }
             return paragraph;

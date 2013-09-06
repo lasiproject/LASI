@@ -43,7 +43,7 @@ namespace LASI.ContentSystem.TaggerEncapsulation
             { "SINV", ws => new SimpleDeclarativeClauseBeginPhrase(ws) },
             { "SQ", ws => new InterrogativePhrase(ws) },
             { "SBARQ", ws => new InterrogativePhrase(ws) },
-            { "SBAR", ws => new SBARClauseBeginPhrase(ws) },
+            { "SBAR", ws => new SubordinateClauseBeginPhrase(ws) },
             { "LST", ws => new RoughListPhrase(ws) },
             { "INTJ", ws => new InterjectionPhrase(ws) },
             { "", ws => { throw new EmptyPhraseTagException(ws.Aggregate("", (s,w) => s += " ").Trim()); } },

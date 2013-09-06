@@ -98,7 +98,7 @@ namespace LASI.ContentSystem
                             if (currentPhrase.Words.Any(w => !string.IsNullOrWhiteSpace(w.Text)))
                                 parsedPhrases.Add(currentPhrase);
 
-                            if (currentPhrase is SBARClauseBeginPhrase) {
+                            if (currentPhrase is SubordinateClauseBeginPhrase) {
                                 parsedClauses.Add(new Clause(parsedPhrases.Take(parsedPhrases.Count - 1)));
                                 parsedPhrases = new List<Phrase>();
                                 parsedPhrases.Add(currentPhrase);

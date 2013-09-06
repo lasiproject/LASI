@@ -35,7 +35,7 @@ namespace LASI.Algorithm
             if (RefersTo == null) {
                 RefersTo = new AggregateEntity(new[] { target });
             } else {
-                RefersTo = new AggregateEntity(RefersTo.EnumerateRecursively().Append(target));
+                RefersTo = new AggregateEntity(RefersTo.Append(target));
             }
             EntityKind = RefersTo.EntityKind;
         }
