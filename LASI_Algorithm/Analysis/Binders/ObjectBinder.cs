@@ -33,7 +33,7 @@ namespace LASI.Algorithm.Binding
         /// </summary>
         /// <param name="sentence">The Sentence to bind within.</param>
         public void Bind(Sentence sentence) {
-            if (!sentence.Phrases.GetVerbPhrases().Any()) {
+            if (sentence.Phrases.GetVerbPhrases().None()) {
                 throw new VerblessPhrasalSequenceException();
             }
             Bind(sentence.Phrases);

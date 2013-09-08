@@ -1,4 +1,5 @@
 ﻿using LASI.Algorithm.Lookup;
+using LASI.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,7 +37,7 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="kind">The PronounKind to test.</param>
         /// <returns>True if the PronounKind is among the semantic categories which are thought of as explicitely gender neutral, false otherwise.</returns>
-        public static bool IsGenderNeutral(this PronounKind kind) {
+        public static bool IsNeutral(this PronounKind kind) {
             return kind == PronounKind.GenderNeurtral || kind == PronounKind.GenderNeurtralReflexive;
         }
         /// <summary>
@@ -45,7 +46,7 @@ namespace LASI.Algorithm
         /// <param name="kind">The PronounKind to test.</param>
         /// <returns>True if the PronounKind is among the semantic categories which are thought of as explicitely gender ambiguous, false otherwise.</returns>
         public static bool IsGenderAmbiguous(this PronounKind kind) {
-            return !(kind.IsFemale() || kind.IsMale() || kind.IsGenderNeutral());
+            return !(kind.IsFemale() || kind.IsMale() || kind.IsNeutral());
         }
         /// <summary>
         /// Determines if the PronounKind is among the semantic categories which are thought of as explicitely plural.
@@ -137,8 +138,9 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="pronoun">The Pronoun to test.</param>
         /// <returns>True if the Pronoun is among the semantic categories which are thought of as explicitely gender neutral, false otherwise.</returns>
-        public static bool IsGenderNeutral(this Pronoun pronoun) {
+        public static bool IsNeutral(this Pronoun pronoun) {
             var kind = pronoun.PronounKind;
+            var intSet = new[] { 1, 2, 3, 4, 5, 6, 7 }.ToSet((i, j) => i % 2 == j % 2, i => i.GetHashCode());
             return kind == PronounKind.GenderNeurtral || kind == PronounKind.GenderNeurtralReflexive;
         }
         /// <summary>
@@ -148,7 +150,7 @@ namespace LASI.Algorithm
         /// <returns>True if the Pronoun is among the semantic categories which are thought of as explicitely gender ambiguous, false otherwise.</returns>
         public static bool IsGenderAmbiguous(this Pronoun pronoun) {
             var kind = pronoun.PronounKind;
-            return !(kind.IsFemale() || kind.IsMale() || kind.IsGenderNeutral());
+            return !(kind.IsFemale() || kind.IsMale() || kind.IsNeutral());
         }
         /// <summary>
         /// Determines if the Pronoun is among the semantic categories which are thought of as explicitely plural.
@@ -234,7 +236,7 @@ namespace LASI.Algorithm
             return
                 kind1.IsFemale() && kind2.IsFemale() ||
                 kind1.IsMale() && kind2.IsMale() ||
-                kind1.IsGenderNeutral() && kind2.IsGenderNeutral() ||
+                kind1.IsNeutral() && kind2.IsNeutral() ||
                 kind1.IsGenderAmbiguous() && kind2.IsGenderAmbiguous();
         }
 
@@ -314,13 +316,13 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="gender">The Gender value to test.</param>
         /// <returns>True if the Gender is is either male, female, or neutral or not undefined., false otherwise.</returns>
-        public static bool IsDefined(this Gender gender) { return gender != Gender.UNDEFINED; }
+        public static bool IsDefined(this Gender gender) { return gender != Gender.Undetermined; }
         /// <summary>
         /// Gets a value indicating wether or not the Gender value is either neutral or undefined.
         /// </summary>
         /// <param name="gender">The Gender value to test.</param>
         /// <returns>True if the Gender is is either  neutral or undefined., false otherwise.</returns>
-        public static bool IsNeutralOrUndefined(this Gender gender) { return gender == Gender.UNDEFINED || gender == Gender.Neutral; }
+        public static bool IsNeutralOrUndefined(this Gender gender) { return gender == Gender.Undetermined || gender == Gender.Neutral; }
         #endregion
     }
 }

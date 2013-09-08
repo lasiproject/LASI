@@ -18,6 +18,11 @@ namespace LASI.Algorithm.Patternization
         /// <param name="resultValue">The result value to select if this Then expression is matched.</param>
         /// <returns>The IPatternMatching&lt;T, R&gt; describing the Match expression so far.</returns>
         IPatternMatching<T, R> Then<TCase>(R resultValue) where TCase : class, T;
+        /// <summary>
+        /// Appends a Then expression to the current pattern. Then expressions work exactly like Case expressions but are only matched if they immediately follow a When expression which evaluates to true.
+        /// </summary> 
+        /// <param name="resultValue">The value to select if this Then expression is matched.</param>
+        /// <returns>The IPatternMatching&lt;T, R&gt; describing the Match expression so far.</returns>
         IPatternMatching<T, R> Then(R resultValue);
         /// <summary>
         /// Appends a Then expression to the current pattern. Then expressions work exactly like Case expressions but are only matched if they immediately follow a When expression which evaluates to true.
@@ -37,7 +42,17 @@ namespace LASI.Algorithm.Patternization
         /// <param name="func">The function from TCase -> R which will be invoked to generate the value if this Then expression is matched.</param>
         /// <returns>The IPatternMatching&lt;T, R&gt; describing the Match expression so far.</returns>
         IPatternMatching<T, R> Then<TCase>(Func<TCase, R> func) where TCase : class, T;
+        /// <summary>
+        /// Appends a Then expression to the current pattern. Then expressions work exactly like Case expressions but are only matched if they immediately follow a When expression which evaluates to true.
+        /// </summary>
+        /// <param name="func">The function from () -> R which will be invoked to generate the value if this Then expression is matched.</param>
+        /// <returns>The IPatternMatching&lt;T, R&gt; describing the Match expression so far.</returns>
         IPatternMatching<T, R> Then(Func<R> func);
+        /// <summary>
+        /// Appends a Then expression to the current pattern. Then expressions work exactly like Case expressions but are only matched if they immediately follow a When expression which evaluates to true.
+        /// </summary>
+        /// <param name="func">The function from T -> R which will be invoked to generate the value if this Then expression is matched.</param>
+        /// <returns>The IPatternMatching&lt;T, R&gt; describing the Match expression so far.</returns>
         IPatternMatching<T, R> Then(Func<T, R> func);
 
 
@@ -58,7 +73,6 @@ namespace LASI.Algorithm.Patternization
         R Result(R defaultValue);
         /// <summary>
         /// Appends a Result Expression to the current pattern, thus specifying the default result to yield when no other patterns have been matched.
-
         /// </summary>
         /// <param name="func">The factory function returning a desired default value.</param>
         /// <returns>The MatchCase&lt;T, R&gt; describing the Match expression so far.</returns> 
@@ -96,7 +110,17 @@ namespace LASI.Algorithm.Patternization
         /// <param name="action">Action taking to invoke on the matched value if this Then expression is matched.</param>
         /// <returns>The IPatternMatching&lt;T&gt; describing the Match expression so far.</returns>
         IPatternMatching<T> Then<TCase>(Action<TCase> action) where TCase : class, T;
+        /// <summary>
+        /// Appends a Then expression to the current pattern. Then expressions work exactly like Case expressions but are only matched if they immediately follow a When expression which evaluates to true.
+        /// </summary> 
+        /// <param name="action">The Action to invoke if this Then expression is matched.</param>
+        /// <returns>The IPatternMatching&lt;T R&gt; describing the Match expression so far.</returns>
         IPatternMatching<T> Then(Action action);
+        /// <summary>
+        /// Appends a Then expression to the current pattern. Then expressions work exactly like Case expressions but are only matched if they immediately follow a When expression which evaluates to true.
+        /// </summary> 
+        /// <param name="action">The Action&lt;T R&gt; to invoke if this Then expression is matched.</param>
+        /// <returns>The IPatternMatching&lt;T R&gt; describing the Match expression so far.</returns>
         IPatternMatching<T> Then(Action<T> action);
 
     }

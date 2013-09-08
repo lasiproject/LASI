@@ -27,7 +27,7 @@ namespace LASI.Algorithm
             get {
                 gender = gender ?? (this.IsFemaleFirstName() ? Gender.Female :
                     this.IsMaleFirstName() ? Gender.Male :
-                    this.IsLastName() ? Gender.Neutral : Gender.UNDEFINED);
+                    this.IsLastName() ? Gender.Neutral : Gender.Undetermined);
                 return gender.Value;
             }
         }

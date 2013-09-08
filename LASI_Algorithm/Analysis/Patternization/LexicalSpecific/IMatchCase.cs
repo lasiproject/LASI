@@ -37,6 +37,12 @@ namespace LASI.Algorithm.Patternization
         /// <param name="predicate">The predicate to test the value being matched over.</param>
         /// <returns>The IPredicatedPatternMatching&lt;T&gt; describing the Match expression so far. This must be followed by a single Then expression.</returns>
         IPredicatedPatternMatching<T> When<TCase>(Func<TCase, bool> predicate) where TCase : class,ILexical;
+        /// <summary>
+        /// Appends a When expression to the current pattern. 
+        /// This tests a boolean condition that the subsequent Then expression will only be chosen if the condition is true.
+        /// </summary>
+        /// <param name="condition">The condition determining if the subsequent Then expression will only be chosen.</param>
+        /// <returns>The IPredicatedPatternMatching&lt;T&gt; describing the Match expression so far. This must be followed by a single Then expression.</returns>
         IPredicatedPatternMatching<T> When(bool condition);
         /// <summary>
         /// Promotes the current non result returning expression of type Case&lt;T&gt; into a result returning expression of Case&lt;T, R&gt;
@@ -102,6 +108,12 @@ namespace LASI.Algorithm.Patternization
         /// <param name="predicate">The predicate to test the value being matched.</param>
         /// <returns>The IPredicatedPatternMatching&lt;T, R&gt; describing the Match expression so far. This must be followed by a single Then expression.</returns>
         IPredicatedPatternMatching<T, R> When(Func<T, bool> predicate);
+        /// <summary>
+        /// Appends a When expression to the current pattern. 
+        /// This tests a boolean condition that the subsequent Then expression will only be chosen if the condition is true.
+        /// </summary>
+        /// <param name="condition">The condition determining if the subsequent Then expression will only be chosen.</param>
+        /// <returns>The IPredicatedPatternMatching&lt;T, R&gt; describing the Match expression so far. This must be followed by a single Then expression.</returns>
         IPredicatedPatternMatching<T, R> When(bool condition);
         /// <summary>
         /// Appends a When expression to the current pattern. 

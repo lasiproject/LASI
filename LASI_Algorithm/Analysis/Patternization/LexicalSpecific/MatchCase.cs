@@ -48,6 +48,12 @@ namespace LASI.Algorithm.Patternization
             var typed = _value as TCase;
             return new TestedMatchCase<T>(typed != null && predicate(typed), this);
         }
+        /// <summary>
+        /// Appends a When expression to the current pattern. 
+        /// This applies a predicate to the value being matched suched that the subsequent Then expression will only be chosen if the predicate returns true.
+        /// </summary>
+        /// <param name="condition">The predicate to test the value being matched.</param>
+        /// <returns>The IPredicatedPatternMatching&lt;T&gt; describing the Match expression so far. This must be followed by a single Then expression.</returns>
         public IPredicatedPatternMatching<T> When(bool condition) {
             return new TestedMatchCase<T>(condition, this);
         }
@@ -162,6 +168,12 @@ namespace LASI.Algorithm.Patternization
             var typed = _value as TCase;
             return new TestedMatchCase<T, R>(typed != null && predicate(typed), this);
         }
+        /// <summary>
+        /// Appends a When expression to the current pattern. 
+        /// This applies a predicate to the value being matched suched that the subsequent Then expression will only be chosen if the predicate returns true.
+        /// </summary>
+        /// <param name="condition">The predicate to test the value being matched.</param>
+        /// <returns>The IPredicatedPatternMatching&lt;T, R&gt; describing the Match expression so far. This must be followed by a single Then expression.</returns>
         public IPredicatedPatternMatching<T, R> When(bool condition) {
             return new TestedMatchCase<T, R>(condition, this);
         }

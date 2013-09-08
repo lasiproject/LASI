@@ -1,4 +1,4 @@
-﻿
+﻿using LASI.Algorithm.Patternization;
 using LASI.Algorithm.Lookup;
 using LASI.Utilities;
 using System;
@@ -32,12 +32,15 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="target">The entity to which to bind.</param>
         public void BindAsReferringTo(IEntity target) {
-            if (RefersTo == null) {
-                RefersTo = new AggregateEntity(new[] { target });
-            } else {
-                RefersTo = new AggregateEntity(RefersTo.Append(target));
-            }
-            EntityKind = RefersTo.EntityKind;
+            var useOrAppend = target.Match().Yield<IEntity>()
+                .When<Noun>(wd => wd.Phrase.Words.GetEntities().None(x => x != wd) && wd.Phrase is IEntity)
+                .Then<Noun>(wd => wd.Phrase as IEntity)
+                .Case<Pronoun>(wd => wd as IEntity)
+                .Result(target);
+            RefersTo = RefersTo.Match().Yield<AggregateEntity>()
+                .When(RefersTo == null)
+                .Then(new AggregateEntity(new[] { useOrAppend }))
+                .Result(new AggregateEntity(RefersTo.Append(useOrAppend)));
         }
         /// <summary>
         /// Returns a string representation of the Pronoun.
@@ -136,8 +139,8 @@ namespace LASI.Algorithm
                 return
                     this.IsFemale() ? Gender.Female :
                     this.IsMale() ? Gender.Male :
-                    this.IsGenderNeutral() ? Gender.Neutral :
-                    Gender.UNDEFINED;
+                    this.IsNeutral() ? Gender.Neutral :
+                    Gender.Undetermined;
             }
         }
 

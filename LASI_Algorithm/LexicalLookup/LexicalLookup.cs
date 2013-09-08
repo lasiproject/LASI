@@ -123,50 +123,102 @@ namespace LASI.Algorithm.Lookup
         /// Please prefer the second convention.
         /// </remarks>
         public static SimResult IsSimilarTo(this IEntity first, IEntity second) {
-
-
             return first.Match().Yield<SimResult>()
                     .When(string.Equals(first.Text, second.Text, StringComparison.OrdinalIgnoreCase))
-                    .Then(SimResult.Similar)
+                        .Then(SimResult.Similar)
                     .Case<Noun>(n1 =>
                         second.Match().Yield<SimResult>()
-                            .Case<Noun>(n2 => new SimResult(n1.IsSynonymFor(n2)))
-                            .Case<NounPhrase>(np2 => n1.IsSimilarTo(np2))
+                          .Case<Noun>(n2 => new SimResult(n1.IsSynonymFor(n2)))
+                          .Case<NounPhrase>(np2 => n1.IsSimilarTo(np2))
                         .Result())
                     .Case<NounPhrase>(np1 =>
                         second.Match().Yield<SimResult>()
-                            .Case<NounPhrase>(np2 => np1.IsSimilarTo(np2))
-                            .Case<Noun>(n2 => np1.IsSimilarTo(n2))
+                          .Case<NounPhrase>(np2 => np1.IsSimilarTo(np2))
+                          .Case<Noun>(n2 => np1.IsSimilarTo(n2))
                         .Result())
                     .Result();
-
-
-            //If both have the same text, ignoring case, we will assume similarity. 
-            //if (first.Text.ToUpper() == second.Text.ToUpper()) {
-            //    return new SimResult(true);
-            //}
-            //var n1 = first as Noun;
-            //var n2 = second as Noun;
-            ////If both are Nouns...
-            //if (n1 != null && n2 != null) {
-            //    return new SimResult(n1.IsSynonymFor(n2));
-            //}
-
-            //var np1 = first as NounPhrase;
-            //var np2 = second as NounPhrase;
-            ////If both are NounPhrases...
-            //if (np1 != null && np2 != null) {
-            //    return np1.IsSimilarTo(np2);
-            //}
-
-            //var np = first as NounPhrase ?? second as NounPhrase;
-            //var n = first as Noun ?? second as Noun;
-            ////If one of them is a NounPhrase and the other is a Noun
-            //if (n != null && np != null) {
-            //    return n.IsSimilarTo(np);
-            //}
-            //return new SimResult(false);
         }
+        /// <summary>
+        /// Determines if two IVerbal instances are similar.
+        /// </summary>
+        /// <param name="first">The first IVerbal</param>
+        /// <param name="second">The second IVerbal</param>
+        /// <returns>True if the given IVerbal instances are similar, false otherwise.</returns>
+        /// <remarks>There are two calling conventions for this method. See the following examples
+        /// <code>if ( LexicalLookup.IsSimilarTo(v1, v2) ) { ... }</code>
+        /// <code>if ( v1.IsSimilarTo(v2) ) { ... }</code> 
+        /// Please prefer the second convention.
+        /// </remarks>
+        public static SimResult IsSimilarTo(this IVerbal first, IVerbal second) {
+            return first.Match().Yield<SimResult>()
+                    .When(string.Equals(first.Text, second.Text, StringComparison.OrdinalIgnoreCase))
+                        .Then(SimResult.Similar)
+                    .Case<Verb>(v1 =>
+                        second.Match().Yield<SimResult>()
+                          .Case<Verb>(v2 => new SimResult(v1.IsSynonymFor(v2)))
+                          .Case<VerbPhrase>(vp2 => v1.IsSimilarTo(vp2))
+                        .Result())
+                    .Case<VerbPhrase>(vp1 =>
+                        second.Match().Yield<SimResult>()
+                          .Case<VerbPhrase>(vp2 => vp1.IsSimilarTo(vp2))
+                          .Case<Verb>(v2 => vp1.IsSimilarTo(v2))
+                        .Result())
+                    .Result();
+        }
+        /// <summary>
+        /// Determines if two IDescriptor instances are similar.
+        /// </summary>
+        /// <param name="first">The first IDescriptor</param>
+        /// <param name="second">The second IDescriptor</param>
+        /// <returns>True if the given IDescriptor instances are similar, false otherwise.</returns>
+        /// <remarks>There are two calling conventions for this method. See the following examples
+        /// <code>if ( LexicalLookup.IsSimilarTo(d1, d2) ) { ... }</code>
+        /// <code>if ( d1.IsSimilarTo(d2) ) { ... }</code> 
+        /// Please prefer the second convention.
+        /// </remarks>
+        public static SimResult IsSimilarTo(this IDescriptor first, IDescriptor second) {
+            return first.Match().Yield<SimResult>()
+                    .When(string.Equals(first.Text, second.Text, StringComparison.OrdinalIgnoreCase))
+                        .Then(SimResult.Similar)
+                    .Case<Adjective>(j1 =>
+                        second.Match().Yield<SimResult>()
+                            .Case<Adjective>(j2 => new SimResult(j1.IsSynonymFor(j2)))
+                            .Case<AdjectivePhrase>(jp2 => jp2.IsSimilarTo(j1))
+                        .Result())
+                    .Case<AdjectivePhrase>(jp1 =>
+                        second.Match().Yield<SimResult>()
+                          .Case<AdjectivePhrase>(jp2 => jp1.IsSimilarTo(jp2))
+                          .Case<Adjective>(j2 => j2.IsSimilarTo(jp1))
+                        .Result())
+                    .Result();
+        }
+        /// <summary>
+        /// Determines if two IAdverbial instances are similar.
+        /// </summary>
+        /// <param name="first">The first IAdverbial</param>
+        /// <param name="second">The second IAdverbial</param>
+        /// <returns>True if the given IAdverbial instances are similar, false otherwise.</returns>
+        /// <remarks>There are two calling conventions for this method. See the following examples
+        /// <code>if ( LexicalLookup.IsSimilarTo(d1, d2) ) { ... }</code>
+        /// <code>if ( a1.IsSimilarTo(a2) ) { ... }</code> 
+        /// Please prefer the second convention.
+        /// </remarks>
+        public static SimResult IsSimilarTo(this IAdverbial first, IAdverbial second) {
+            return first.Match().Yield<SimResult>()
+                    .When(string.Equals(first.Text, second.Text, StringComparison.OrdinalIgnoreCase))
+                        .Then(SimResult.Similar)
+                    .Case<Adverb>(a1 =>
+                        second.Match().Yield<SimResult>()
+                            .Case<Adverb>(a2 => new SimResult(a1.IsSynonymFor(a2)))
+                            .Case<AdverbPhrase>(ap2 => ap2.IsSimilarTo(a1))
+                        .Result())
+                    .Case<AdverbPhrase>(ap1 => second.Match().Yield<SimResult>()
+                        .Case<AdverbPhrase>(ap2 => ap1.IsSimilarTo(ap2))
+                        .Case<Adverb>(a2 => ap1.IsSimilarTo(ap1))
+                    .Result())
+                .Result();
+        }
+
         /// <summary>
         /// Determines if the provided Noun is similar to the provided NounPhrase.
         /// </summary>
@@ -252,47 +304,7 @@ namespace LASI.Algorithm.Lookup
         public static SimResult IsSimilarTo(this Verb first, VerbPhrase second) {
             return new SimResult(second.Words.TakeWhile(w => !(w is ToLinker)).GetVerbs().Any(v => v.IsSynonymFor(first)));//This is kind of rough.
         }
-        /// <summary>
-        /// Determines if two IVerbal instances are similar.
-        /// </summary>
-        /// <param name="first">The first IVerbal</param>
-        /// <param name="second">The second IVerbal</param>
-        /// <returns>True if the given IVerbal instances are similar, false otherwise.</returns>
-        /// <remarks>There are two calling conventions for this method. See the following examples
-        /// <code>if ( LexicalLookup.IsSimilarTo(v1, v2) ) { ... }</code>
-        /// <code>if ( v1.IsSimilarTo(v2) ) { ... }</code> 
-        /// Please prefer the second convention.
-        /// </remarks>
-        public static SimResult IsSimilarTo(this IVerbal first, IVerbal second) {
 
-            //Compare literal text.
-            if (first.Text.ToUpper() == second.Text.ToUpper()) {
-                return SimResult.Similar;
-            }
-
-            //If both are of type Verb check if syonymous
-            var v1 = first as Verb;
-            var v2 = second as Verb;
-            if (v1 != null && v2 != null) {
-                return new SimResult(v1.IsSynonymFor(v2));
-            }
-
-            //If both are of type VerbPhrase check for similarity
-            var vp1 = first as VerbPhrase;
-            var vp2 = second as VerbPhrase;
-            if (vp1 != null && vp2 != null) {
-                return vp1.IsSimilarTo(vp2);
-            }
-
-            //If one is of type Verb and the other is of Type VerbPhrase, test for similarirty.
-            var vp = first as VerbPhrase ?? second as VerbPhrase;
-            var v = first as Verb ?? second as Verb;
-            if (v != null && vp != null) {
-                return v.IsSimilarTo(vp);
-            }
-
-            return SimResult.Dissimilar;
-        }
         /// <summary>
         /// Determines if two NounPhrases are similar.
         /// </summary>
@@ -382,48 +394,8 @@ namespace LASI.Algorithm.Lookup
         public static SimResult IsSimilarTo(this Adjective first, AdjectivePhrase second) {
             return new SimResult(second.Words.GetAdjectives().Any(adj => adj.IsSynonymFor(first)));
         }
-        /// <summary>
-        /// Determines if two IDescriptor instances are similar.
-        /// </summary>
-        /// <param name="first">The first IDescriptor</param>
-        /// <param name="second">The second IDescriptor</param>
-        /// <returns>True if the given IDescriptor instances are similar, false otherwise.</returns>
-        /// <remarks>There are two calling conventions for this method. See the following examples
-        /// <code>if ( LexicalLookup.IsSimilarTo(d1, d2) ) { ... }</code>
-        /// <code>if ( d1.IsSimilarTo(d2) ) { ... }</code> 
-        /// Please prefer the second convention.
-        /// </remarks>
-        public static SimResult IsSimilarTo(this IDescriptor first, IDescriptor second) {
 
-            //Compare literal text.
-            if (first.Text.ToUpper() == second.Text.ToUpper()) {
-                return SimResult.Similar;
-            }
 
-            //If both are of type Adjective check if syonymous
-            var a1 = first as Adjective;
-            var a2 = second as Adjective;
-            if (a1 != null && a2 != null) {
-                return new SimResult(a1.IsSynonymFor(a2));
-            }
-
-            //If both are of type AdjectivePhrase check for similarity
-            var ap1 = first as AdjectivePhrase;
-            var ap2 = second as AdjectivePhrase;
-            if (ap1 != null && ap2 != null) {
-                return ap1.IsSimilarTo(ap2);
-            }
-
-            //If one is of type Verb and the other is of Type VerbPhrase, test for similarirty.
-            var ap = first as AdjectivePhrase ?? second as AdjectivePhrase;
-            var a = first as Adjective ?? second as Adjective;
-            if (a != null && ap != null) {  // operator ?? means that if either first OR second is a Phrase
-                return a.IsSimilarTo(ap);   // var "ap" will hold a reference to it, the same applies to Word and "var a"
-            }                               // the to blocks of type checks above ensure that they are not both Words or Phrases
-
-            return SimResult.Dissimilar;
-
-        }
         /// <summary>
         /// Determines if two AdjectivePhrase are similar.
         /// </summary>
@@ -498,48 +470,7 @@ namespace LASI.Algorithm.Lookup
             return new SimResult(second.Words.GetAdverbs().Any(adj => adj.IsSynonymFor(first)));
             // Must refine this to check for negators and modals which will potentially invert the meaning.
         }
-        /// <summary>
-        /// Determines if two IAdverbial instances are similar.
-        /// </summary>
-        /// <param name="first">The first IAdverbial</param>
-        /// <param name="second">The second IAdverbial</param>
-        /// <returns>True if the given IAdverbial instances are similar, false otherwise.</returns>
-        /// <remarks>There are two calling conventions for this method. See the following examples
-        /// <code>if ( LexicalLookup.IsSimilarTo(d1, d2) ) { ... }</code>
-        /// <code>if ( a1.IsSimilarTo(a2) ) { ... }</code> 
-        /// Please prefer the second convention.
-        /// </remarks>
-        public static SimResult IsSimilarTo(this IAdverbial first, IAdverbial second) {
 
-            //Compare literal text.
-            if (first.Text.ToUpper() == second.Text.ToUpper()) {
-                return SimResult.Similar;
-            }
-
-            //If both are of type Adverb check if syonymous
-            var a1 = first as Adverb;
-            var a2 = second as Adverb;
-            if (a1 != null && a2 != null) {
-                return new SimResult(a1.IsSynonymFor(a2));
-            }
-
-            //If both are of type AdverbPhrase check for similarity
-            var ap1 = first as AdverbPhrase;
-            var ap2 = second as AdverbPhrase;
-            if (ap1 != null && ap2 != null) {
-                return ap1.IsSimilarTo(ap2);
-            }
-
-            //If one is of type Adverb and the other is of Type AdverbPhrase, test for similarirty.
-            var ap = first as AdverbPhrase ?? second as AdverbPhrase;
-            var a = first as Adverb ?? second as Adverb;
-            if (a != null && ap != null) {  // operator ?? means that if either first OR second is a Phrase
-                return a.IsSimilarTo(ap);   // var "ap" will hold a reference to it, the same applies to Word and "var a"
-            }                               // the to blocks of type checks above ensure that they are not both Words or Phrases
-
-            return SimResult.Dissimilar;
-
-        }
         /// <summary>
         /// Determines if two AdverbPhrases are similar.
         /// </summary>
@@ -696,7 +627,7 @@ namespace LASI.Algorithm.Lookup
             var first = propers.GetSingular().FirstOrDefault(n => n.Gender.IsMaleOrFemale());
             var last = propers.LastOrDefault(n => n != first && n.IsLastName());
             return first != null && (last != null || propers.All(n => n.GetGender() == first.Gender)) ?
-                first.Gender : name.Words.GetNouns().All(n => n.GetGender().IsNeutral()) ? Gender.Neutral : Gender.UNDEFINED;
+                first.Gender : name.Words.GetNouns().All(n => n.GetGender().IsNeutral()) ? Gender.Neutral : Gender.Undetermined;
         }
         private static Gender GetPhraseGender(PronounPhrase name) {
             if (name.Words.All(w => w is Determiner))
@@ -708,7 +639,7 @@ namespace LASI.Algorithm.Lookup
                 genderedWords.All(p => p.IsFemale()) ? Gender.Female :
                 genderedWords.All(p => p.IsMale()) ? Gender.Male :
                 genderedWords.All(p => p.IsNeutral()) ? Gender.Neutral :
-                Gender.UNDEFINED;
+                Gender.Undetermined;
         }
 
         #endregion
@@ -941,7 +872,11 @@ namespace LASI.Algorithm.Lookup
         private static LoadingState adjectiveLoadingState = LoadingState.NotStarted;
         private static LoadingState adverbLoadingState = LoadingState.NotStarted;
         private static LoadingState nameDataLoadingState = LoadingState.NotStarted;
-        // Similarity threshold for Phrase comparisons.
+
+        /// <summary>
+        /// Similarity threshold for lexical element comparisons. If the computed ration of a similarity comparison is >= the threshold, 
+        /// then the similarity comparison will return true.
+        /// </summary>
         public const double SIMILARITY_THRESHOLD = 0.6;
         #endregion
 

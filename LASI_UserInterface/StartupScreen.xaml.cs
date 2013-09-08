@@ -276,9 +276,9 @@ namespace LASI.UserInterface
 
         private void Grid_Drop(object sender, DragEventArgs e) {
             var filesInValidFormats = DocumentManager.GetValidFilesInPathList(e.Data.GetData(System.Windows.DataFormats.FileDrop, true) as string[]);
-            if (!filesInValidFormats.Any()) {
+            if (filesInValidFormats.None()) {
                 MessageBox.Show(this, string.Format("Only the following file formats are accepted:\n{0}", string.Join(",", DocumentManager.AcceptedFormats)));
-            } else if (!filesInValidFormats.Any(fn => !DocumentManager.FileNamePresent(fn.Name))) {
+            } else if (filesInValidFormats.None(fn => !DocumentManager.FileNamePresent(fn.Name))) {
                 MessageBox.Show(this, string.Format("A document named {0} is already part of the projects.", filesInValidFormats.First()));
             } else {
                 foreach (var droppedFile in filesInValidFormats) {

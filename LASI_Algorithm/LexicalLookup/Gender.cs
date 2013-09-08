@@ -16,7 +16,7 @@ namespace LASI.Algorithm.Lookup
         /// The default NameGender value. Indicates an undefined gender. 
         /// Note: this is not the same as an unknown gender, which indicates a gender may exist but is not known
         /// </summary>
-        UNDEFINED = 0,
+        Undetermined = 0,
         /// <summary>
         /// Female
         /// </summary>

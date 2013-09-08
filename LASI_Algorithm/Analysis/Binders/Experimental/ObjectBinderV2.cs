@@ -14,7 +14,7 @@ namespace LASI.Algorithm.Analysis.Binders.Experimental
     {
         public void Bind(Sentence sentence) { Bind(sentence.Phrases); }
         public void Bind(IEnumerable<Phrase> phrases) {
-            if (!phrases.GetVerbPhrases().Any()) { throw new VerblessPhrasalSequenceException(); }
+            if (phrases.GetVerbPhrases().None()) { throw new VerblessPhrasalSequenceException(); }
 
             var releventElements =
                 from phrase in phrases.AsParallel().WithDegreeOfParallelism(Concurrency.Max)

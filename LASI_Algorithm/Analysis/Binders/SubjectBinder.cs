@@ -71,7 +71,7 @@ namespace LASI.Algorithm.Binding
 
 
                     //if the last word, you can't find any more subjects
-                    if (!s.GetPhrasesAfter(i).GetVerbPhrases().Any())
+                    if (s.GetPhrasesAfter(i).GetVerbPhrases().None())
                         break;
                 }
 

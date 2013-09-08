@@ -13,6 +13,7 @@ namespace LASI.Algorithm
     /// </summary>
     public class Verb : Word, IVerbal, IAdverbialModifiable, IModalityModifiable
     {
+        private StringComparer caseIgnoringComp = StringComparer.OrdinalIgnoreCase;
         /// <summary>
         /// Initializes a new instance of the Verb class which represents the base tense form of a verb.
         /// </summary>
@@ -89,7 +90,7 @@ namespace LASI.Algorithm
         /// <returns>True if the Verb is a possessive relationship specifier, false otherwise.</returns>
         protected virtual bool DetermineIsPossessive() {
             var syns = LASI.Algorithm.Lookup.LexicalLookup.GetSynonyms(this);
-            return syns.Contains("have", StringComparer.OrdinalIgnoreCase);
+            return syns.Contains("have", caseIgnoringComp);
         }
         /// <summary>
         /// Determines if the Verb acts as a classifier. E.g. in the senetence "Rodents are prey animals." the Verb "are" acts as a classification tool because it states that rodents are a subset of prey animals.
@@ -97,7 +98,7 @@ namespace LASI.Algorithm
         /// <returns>True if the Verb is a classifier, false otherwise.</returns>
         protected virtual bool DetermineIsClassifier() {
             var syns = LASI.Algorithm.Lookup.LexicalLookup.GetSynonyms(this);
-            return syns.Contains("is", StringComparer.OrdinalIgnoreCase);
+            return syns.Contains("is", caseIgnoringComp);
         }
 
 

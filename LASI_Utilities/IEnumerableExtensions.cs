@@ -138,6 +138,44 @@ namespace LASI
         #region Custom Query Operators
 
         /// <summary>
+        /// Determines whether no elements of a sequence satisfy a condition.
+        /// </summary>
+        /// <typeparam name="T">The type of the elements of source.</typeparam>
+        /// <param name="source">An System.Collections.Generic.IEnumerable&lt;T&gt; whose elements to apply the predicate to.</param>
+        /// <param name="predicate">A function to test each element for a condition.</param>
+        /// <returns>False if any elements in the source sequence pass the test in the specified predicate; otherwise, true.</returns>
+        public static bool None<T>(this IEnumerable<T> source, Func<T, bool> predicate) {
+            return !source.Any(predicate);
+        }
+        /// <summary>
+        /// Determines whether no element of a sequence satisfy a condition.
+        /// </summary>
+        /// <typeparam name="T">The type of the elements of source.</typeparam>
+        /// <param name="source">An System.Collections.Generic.IEnumerable&lt;T&gt; whose elements to apply the predicate to.</param> 
+        /// <returns>False if the source sequence contains any elements; otherwise, true.</returns>
+        public static bool None<T>(this IEnumerable<T> source) {
+            return !source.Any();
+        }
+        /// <summary>
+        /// Determines in parallel whether no element of a sequence satisfies a condition.
+        /// </summary>
+        /// <typeparam name="T">The type of the elements of source.</typeparam>
+        /// <param name="source">An System.Collections.Generic.IEnumerable&lt;T&gt; whose elements to apply the predicate to.</param>
+        /// <param name="predicate">A function to test each element for a condition.</param>
+        /// <returns>False if any elements in the source sequence pass the test in the specified predicate; otherwise, true.</returns>
+        public static bool None<T>(this ParallelQuery<T> source, Func<T, bool> predicate) {
+            return !source.Any(predicate);
+        }
+        /// <summary>
+        /// Determines whether a parallel sequence is empty.
+        /// </summary>
+        /// <typeparam name="T">The type of the elements of source.</typeparam>
+        /// <param name="source">The sequence to check for emptiness.</param>
+        /// <returns>False if the source sequence contains any elements; otherwise, true.</returns>
+        public static bool None<T>(this ParallelQuery<T> source) {
+            return !source.Any();
+        }
+        /// <summary>
         /// Appends the given element to the sequence, yielding a new sequence consiting of the original sequence followed by the appended element.
         /// </summary>
         /// <typeparam name="T">The type of elements in the sequence.</typeparam>
@@ -178,6 +216,19 @@ namespace LASI
         public static ISet<T> ToSet<T>(this IEnumerable<T> source, IEqualityComparer<T> comparer) {
             return new HashSet<T>(source, comparer);
         }
+
+
+        /// <summary>
+        /// Returns a set representation of the given sequence using the specified IEqualityComparer to determine element uniqueness.
+        /// </summary>
+        /// <typeparam name="T">The type of elements in the sequence.</typeparam>
+        /// <param name="source">The sequence whose distinct elements will comprise the resulting set.</param>
+        /// <param name="equals">A function Func&lt;T, T, bool&gt; to which will determine the distinctness of elements.</param>
+        /// <param name="getHashCode">The function to extract a hash code from each element.</param>
+        /// <returns>A set representation of the given sequence using the default IEqualityComparer for the given element type.</returns>
+        public static ISet<T> ToSet<T>(this IEnumerable<T> source, Func<T, T, bool> equals, Func<T, int> getHashCode) {
+            return new HashSet<T>(source, new CustomComaparer<T>(equals, getHashCode));
+        }
         /// <summary>
         /// Splits the sequence into a sequence of sequences based on the provided chunk size.
         /// </summary>
@@ -189,9 +240,54 @@ namespace LASI
             var partsToCreate = source.Count() / chunkSize + source.Count() % chunkSize == 0 ? 0 : 1;
             return from partIndex in Enumerable.Range(0, partsToCreate)
                    select source.Skip(partIndex * chunkSize).Take(chunkSize);
-
         }
 
+        #endregion
+
+        #region Internal Support Types
+        /// <summary>
+        /// An EqualityComparer{T} whose Equals and GetHashCode implementations are specified by functions provided as constructor arguments.
+        /// </summary>
+        /// <typeparam name="T">The type of objects to compare.</typeparam>
+        private class CustomComaparer<T> : EqualityComparer<T>
+        {
+            #region Constructors
+            public CustomComaparer(Func<T, T, bool> equals) {
+                if (equals == null)
+                    throw new ArgumentNullException("equals", "A null equals function was provided.");
+                customEquals = equals;
+                customHasher = o => o == null ? 0 : 1;
+            }
+            public CustomComaparer(Func<T, T, bool> equals, Func<T, int> hasher) {
+                if (equals == null)
+                    throw new ArgumentNullException("equals", "A null equals function was provided.");
+                customEquals = equals;
+                if (hasher == null)
+                    throw new ArgumentNullException("hasher", "A null getHashCode function was provided.");
+                customEquals = equals;
+                customHasher = hasher;
+            }
+            #endregion
+
+            #region Methods
+            public override bool Equals(T x, T y) {
+                if (ReferenceEquals(x, null))
+                    return ReferenceEquals(y, null);
+                else if (ReferenceEquals(y, null))
+                    return ReferenceEquals(x, null);
+                else
+                    return customEquals(x, y);
+            }
+            public override int GetHashCode(T obj) {
+                return customHasher(obj);
+            }
+            #endregion
+
+            #region Fields
+            private Func<T, T, bool> customEquals;
+            private Func<T, int> customHasher;
+            #endregion
+        }
 
         #endregion
 

@@ -26,7 +26,7 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="target">The entity to which to bind.</param>
         public void BindAsReferringTo(IEntity target) {
-            if (RefersTo != null || !RefersTo.Any())
+            if (RefersTo != null || RefersTo.None())
                 RefersTo = new AggregateEntity(new[] { target });
             else
                 RefersTo = new AggregateEntity(RefersTo.Append(target));
