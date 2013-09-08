@@ -3,6 +3,7 @@ using LASI.Algorithm;
 using LASI.Algorithm.DocumentConstructs;
 using LASI.ContentSystem.TaggerEncapsulation;
 using LASI.Utilities;
+using LASI.Utilities.Text;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -76,26 +77,26 @@ namespace LASI.ContentSystem
         }
         private Paragraph BuildParagraph(string paragraph) {
             var parsedSentences = new List<Sentence>();
-            bool hasEnumElemenets;
-            var sentences = from s in SplitIntoSentences(paragraph, out hasEnumElemenets)
+            bool hasBulletOrHeading;
+            var sentences = from s in SplitIntoSentences(paragraph, out hasBulletOrHeading)
                             select s.Trim();
             foreach (var sent in from s in sentences
-                                 where !string.IsNullOrWhiteSpace(s)
+                                 where s.IsNotWsOrNull()
                                  select s) {
                 var parsedClauses = new List<Clause>();
                 var parsedPhrases = new List<Phrase>();
                 var chunks = from chunk in sent.Split(new[] { "[", "]" }, StringSplitOptions.RemoveEmptyEntries)
                              let s = chunk.Trim()
-                             where !string.IsNullOrWhiteSpace(s)
+                             where s.IsNotWsOrNull()
                              select s;
                 SentenceEnding sentencePunctuation = null;
 
                 foreach (var s in chunks) {
-                    if (!string.IsNullOrWhiteSpace(s) && s.Contains('/')) {
+                    if (s.IsNotWsOrNull() && s.Contains('/')) {
                         char token = SkipToNextElement(s);
                         if (token == ' ') {
                             var currentPhrase = ParsePhrase(new TextTagPair(elementText: s.Substring(s.IndexOf(' ')), elementTag: s.Substring(0, s.IndexOf(' '))));
-                            if (currentPhrase.Words.Any(w => !string.IsNullOrWhiteSpace(w.Text)))
+                            if (currentPhrase.Words.Any(w => w.Text.IsNotWsOrNull()))
                                 parsedPhrases.Add(currentPhrase);
 
                             if (currentPhrase is SubordinateClauseBeginPhrase) {
@@ -124,15 +125,12 @@ namespace LASI.ContentSystem
                 }
                 parsedSentences.Add(new Sentence(parsedClauses, sentencePunctuation));
             }
-            return new Paragraph(parsedSentences, hasEnumElemenets ? ParagraphKind.NumberedOrBullettedContent : ParagraphKind.Default);
+            return new Paragraph(parsedSentences, hasBulletOrHeading ? ParagraphKind.NumberedOrBullettedContent : ParagraphKind.Default);
         }
 
-        private static IEnumerable<string> SplitIntoSentences(string paragraph, out bool containsEnumeratedElemenets) {
-            containsEnumeratedElemenets = paragraph.Contains("<enumeration>");
-            return paragraph.Split(new[] { 
-                "<sentence>", "</sentence>" },
-                StringSplitOptions.RemoveEmptyEntries).Select(t => t.Replace("</sentence>", "").Replace("<sentence>", "").Replace("<enumeration>", "").Replace("</enumeration>", ""));
-
+        private static IEnumerable<string> SplitIntoSentences(string paragraph, out bool hasBulletOrHeading) {
+            hasBulletOrHeading = paragraph.Contains("<enumeration>");
+            return paragraph.SplitRemoveEmpty("<sentence>", "</sentence>").Select(s => s.RemoveElements("<enumeration>", "</enumeration>"));
         }
 
         private static char SkipToNextElement(string chunk) {
@@ -157,7 +155,7 @@ namespace LASI.ContentSystem
 
             data = data.Replace(" [/-LRB-", " LEFT_SQUARE_BRACKET/-LRB-");
 
-            data = data.Replace("]/-RRB- ", "RIGHT_SQUARE_BRACKET/-RRB- ").Replace("<enumeration>", "").Replace("</enumeration>", "");
+            data = data.Replace("]/-RRB- ", "RIGHT_SQUARE_BRACKET/-RRB- ").RemoveElements("<enumeration>", "</enumeration>");
             return data;
         }/// <summary>
         /// Asynchronously Pre-processes the line read from the file by replacing some instances of problematic text such as square brackets, with tokens that are easier to reliably parse.
@@ -249,14 +247,14 @@ namespace LASI.ContentSystem
 
             var wordMapper = new WordMapper();
             foreach (var tagged in elements) {
-                var e = wordExtractor.ExtractNextPos(tagged);
-                if (e != null) {
+                TextTagPair? textTagPair = wordExtractor.ExtractNextPos(tagged);
+                if (textTagPair.HasValue) {
                     try {
-                        parsedWords.Add(wordMapper.CreateWord(e.Value));
+                        parsedWords.Add(wordMapper.CreateWord(textTagPair.Value));
                     }
                     catch (UnknownWordTagException x) {
-                        Output.WriteLine("\n{0}\nText: {1}\nInstantiating new LASI.Algorithm.UnknownWord to compensate", x.Message, e.GetValueOrDefault().Text);
-                        parsedWords.Add(new UnknownWord(e.Value.Text));
+                        Output.WriteLine("\n{0}\nText: {1}\nInstantiating new LASI.Algorithm.UnknownWord to compensate", x.Message, textTagPair.GetValueOrDefault().Text);
+                        parsedWords.Add(new UnknownWord(textTagPair.Value.Text));
                     }
                 }
             }
@@ -282,14 +280,14 @@ namespace LASI.ContentSystem
 
             var tagParser = new WordMapper();
             foreach (var tagged in elements) {
-                var e = posExtractor.ExtractNextPos(tagged);
-                if (e.HasValue) {
+                TextTagPair? textTagPair = posExtractor.ExtractNextPos(tagged);
+                if (textTagPair.HasValue) {
                     try {
-                        wordExpressions.Add(tagParser.GetLazyWord(e.Value));
+                        wordExpressions.Add(tagParser.GetLazyWord(textTagPair.Value));
                     }
                     catch (UnknownWordTagException x) {
-                        Output.WriteLine("\n{0}\nText: {1}\nInstantiating new LASI.Algorithm.UnknownWord to compensate", x.Message, e.GetValueOrDefault().Text);
-                        wordExpressions.Add(new Lazy<Word>(() => new UnknownWord(e.Value.Text)));
+                        Output.WriteLine("\n{0}\nText: {1}\nInstantiating new LASI.Algorithm.UnknownWord to compensate", x.Message, textTagPair.GetValueOrDefault().Text);
+                        wordExpressions.Add(new Lazy<Word>(() => new UnknownWord(textTagPair.Value.Text)));
                     }
                 }
             }

@@ -1,4 +1,5 @@
 ﻿using LASI.Algorithm.Lookup;
+using LASI.Algorithm.Lookup.Morphemization;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;

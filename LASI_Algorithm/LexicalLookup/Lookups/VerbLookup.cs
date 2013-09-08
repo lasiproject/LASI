@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace LASI.Algorithm.Lookup
 {
+    using LASI.Algorithm.Lookup.Morphemization;
     using SetReference = System.Collections.Generic.KeyValuePair<VerbSetRelationship, int>;
 
     internal sealed class VerbLookup : IWordNetLookup<Verb>

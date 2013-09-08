@@ -4,6 +4,7 @@ using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Text;
+using  LASI.Utilities.Text;
 using System.Threading.Tasks;
 
 namespace TaggerInterop
@@ -176,7 +177,7 @@ namespace TaggerInterop
                 string[] sentences = SplitSentences(paragraph);
 
                 foreach (string sentence in from s in sentences
-                                            where !String.IsNullOrWhiteSpace(s)
+                                            where s.IsNotWsOrNull()
                                             select s) {
                     string[] tokens = TokenizeSentence(sentence);
                     string[] tags = PosTagTokens(tokens);
@@ -189,7 +190,7 @@ namespace TaggerInterop
         }
 
         private string StripParentheticals(string paragraph) {
-            for (int j = paragraph.IndexOf(')'), i = paragraph.IndexOf('('); i != -1 && j != -1; j = paragraph.IndexOf(')'), i = paragraph.IndexOf('(')) {
+            for (int j = paragraph.IndexOf(')'), i = paragraph.IndexOf('('); i < j && i != -1 && j != -1; i = paragraph.IndexOf('('), j = paragraph.IndexOf(')')) {
                 paragraph = paragraph.Substring(0, i) + paragraph.Substring(j + 1);
             }
             return paragraph;

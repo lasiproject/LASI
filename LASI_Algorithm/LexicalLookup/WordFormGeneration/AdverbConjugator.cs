@@ -7,29 +7,29 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using LASI.Utilities.Text;
 
 namespace LASI.Algorithm.Lookup.Morphemization
 {
     /// <summary>
     /// Performs both noun root extraction and noun form generation.
     /// </summary>
-    public static class NounConjugator
+    public static class AdverbConjugator
     {
 
-        static NounConjugator() {
+        static AdverbConjugator() {
             LoadExceptionFile(exceptionFilePath);
 
         }
 
+
+
         /// <summary>
         /// Gets all forms of the noun root.
         /// </summary>
-        /// <param name="nounText">The root of a noun as a string.</param>
+        /// <param name="search">The root of a noun as a string.</param>
         /// <returns>All forms of the noun root.</returns>
-        public static IEnumerable<string> GetLexicalForms(string nounText) {
-            return TryComputeConjugations(nounText);
-
+        public static IEnumerable<string> GetLexicalForms(string search) {
+            return TryComputeConjugations(search);
         }
 
         private static IEnumerable<string> TryComputeConjugations(string containingRoot) {
@@ -54,24 +54,27 @@ namespace LASI.Algorithm.Lookup.Morphemization
         /// <summary>
         /// Returns the root of the given noun string. If no root can be found, the noun string itself is returned.
         /// </summary>
-        /// <param name="nounText">The noun string to find the root of.</param>
+        /// <param name="adverbText">The noun string to find the root of.</param>
         /// <returns>The root of the given noun string. If no root can be found, the noun string itself is returned.</returns>
-        public static string FindRoot(string nounText) {
-            return CheckSpecialForms(nounText).FirstOrDefault() ?? ComputeBaseForm(nounText).FirstOrDefault() ?? nounText;
+        public static string FindRoot(string adverbText) {
+            return CheckSpecialForms(adverbText).FirstOrDefault() ?? ComputeBaseForm(adverbText).FirstOrDefault() ?? adverbText;
 
         }
         /// <summary>
-        /// Returns the root of the given Noun. If no root can be found, the Noun's orignal text is returned.
+        /// Returns the root of the given Adverb. If no root can be found, the adverb's oirignal text is returned.
         /// </summary>
-        /// <param name="noun">The Noun to find the root of.</param>
-        /// <returns>The root of the given Noun. If no root can be found, the Noun's orignal text is returned.</returns>
-        public static string FindRoot(Noun noun) { return FindRoot(noun.Text); }
+        /// <param name="adverb">The Adverb string to find the root of.</param>
+        /// <returns>The root of the given adverb string. If no root can be found, the adverb's oirignal text is returned.</returns>
+        public static string FindRoot(Adverb adverb) {
+            return FindRoot(adverb.Text);
 
-        private static IEnumerable<string> ComputeBaseForm(string NounText) {
+        }
+
+        private static IEnumerable<string> ComputeBaseForm(string adverbText) {
             var result = new List<string>();
             for (var i = 0; i < SUFFICIES.Length; i++) {
-                if (NounText.EndsWith(SUFFICIES[i])) {
-                    result.Add(NounText.Substring(0, NounText.Length - SUFFICIES[i].Length) + ENDINGS[i]);
+                if (adverbText.EndsWith(SUFFICIES[i])) {
+                    result.Add(adverbText.Substring(0, adverbText.Length - SUFFICIES[i].Length) + ENDINGS[i]);
                     break;
                 }
             }
@@ -89,7 +92,7 @@ namespace LASI.Algorithm.Lookup.Morphemization
 
 
         #region Exception File Processing
-        private static string exceptionFilePath = ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "noun.exc";
+        private static string exceptionFilePath = ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "adv.exc";
         private static void LoadExceptionFile(string filePath) {
             using (var reader = new StreamReader(filePath)) {
                 while (!reader.EndOfStream) {

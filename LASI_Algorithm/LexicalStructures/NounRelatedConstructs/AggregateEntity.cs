@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LASI.Algorithm.Lookup.Morphemization;
 
 namespace LASI.Algorithm
 {
@@ -40,6 +41,7 @@ namespace LASI.Algorithm
         /// <param name="descriptor">The IDescriptor instance which will be added to the EntityGroup's descriptors.</param>
         public void BindDescriptor(IDescriptor descriptor) {
             _descriptors.Add(descriptor);
+
             descriptor.Describes = this;
         }
         /// <summary>

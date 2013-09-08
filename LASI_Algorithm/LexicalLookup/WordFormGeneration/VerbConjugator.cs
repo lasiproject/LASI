@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LASI.Algorithm.Lookup
+namespace LASI.Algorithm.Lookup.Morphemization
 {
     /// <summary>
     /// Performs both verb root extraction and verb conjugation generation.
@@ -50,10 +50,10 @@ namespace LASI.Algorithm.Lookup
             var hyphIndex = root.IndexOf('-');
             var afterHyphen = hyphIndex > -1 ? root.Substring(hyphIndex) : string.Empty;
             var results = new List<string>();
-            for (var i = VERB_ENDINGS.Length - 1; i >= 0; --i) {
-                if (root.EndsWith(VERB_SUFFICIES[i], StringComparison.OrdinalIgnoreCase)) {
-                    var possibleRoot = root.Substring(0, root.Length - VERB_SUFFICIES[i].Length);
-                    if (string.IsNullOrEmpty(VERB_ENDINGS[i]) || (possibleRoot).EndsWith(VERB_ENDINGS[i])) {
+            for (var i = ENDINGS.Length - 1; i >= 0; --i) {
+                if (root.EndsWith(SUFFICIES[i], StringComparison.OrdinalIgnoreCase)) {
+                    var possibleRoot = root.Substring(0, root.Length - SUFFICIES[i].Length);
+                    if (string.IsNullOrEmpty(ENDINGS[i]) || (possibleRoot).EndsWith(ENDINGS[i])) {
                         results.Add(possibleRoot);
                         return results.Select(r => r + afterHyphen);
                     }
@@ -76,8 +76,8 @@ namespace LASI.Algorithm.Lookup
         private static string exceptionFilePath = ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "verb.exc";
 
 
-        private readonly static string[] VERB_ENDINGS = { "", "y", "e", "", " e", "", "e", "" };
-        private readonly static string[] VERB_SUFFICIES = { "s", "ies", "es", "es", "ed", "ed", "ing", "ing" };
+        private readonly static string[] ENDINGS = { "", "y", "e", "", " e", "", "e", "" };
+        private readonly static string[] SUFFICIES = { "s", "ies", "es", "es", "ed", "ed", "ing", "ing" };
         private static readonly IDictionary<string, IEnumerable<string>> sufficesByEnding = new Dictionary<string, IEnumerable<string>> {
             { "", new []{ "s",  "es",  "ed", "ing" } },
             { "e", new []{ "es", "ed", "ing"} },    
@@ -108,17 +108,5 @@ namespace LASI.Algorithm.Lookup
 
         #endregion
     }
-    internal static class CharExtensions
-    {
-        internal static bool IsConsonant(this char c) {
-            return !c.IsVowel() && c.IsLetter();
-        }
-        internal static bool IsVowel(this char c) {
-            var lc = char.ToLower(c);
-            return lc == 'a' || lc == 'e' || lc == 'i' || lc == 'o' || lc == 'u' || lc == 'y';
-        }
-        internal static bool IsLetter(this char c) {
-            return char.IsLetter(c);
-        }
-    }
+
 }

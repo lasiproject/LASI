@@ -1,4 +1,5 @@
 ﻿using LASI.Algorithm.Lookup;
+using LASI.Algorithm.Lookup.Morphemization;
 using LASI.Algorithm.Patternization;
 using System;
 using System.Collections.Concurrent;
@@ -85,15 +86,14 @@ namespace LASI.Algorithm.Aliasing
         /// <param name="aliased">The entity who's aliases will be returned.</param>
         /// <returns>The textual representations of all known aliases defined for the given entity.</returns>
         public static IEnumerable<string> GetDefinedAliases(this IEntity aliased) {
-            try {
-                return aliasDictionary[aliased.Text]
-                    .Concat(aliasedEntityReferenceMap[aliased]
-                   .Select(e => e.Text)
-                   );
-            }
-            catch (KeyNotFoundException) {
-                return Enumerable.Empty<string>();
-            }
+            ISet<string> outval1;
+            aliasDictionary.TryGetValue(aliased.Text, out outval1);
+            outval1 = outval1 ?? new HashSet<string>();
+            //
+            ISet<IEntity> outval2;
+            aliasedEntityReferenceMap.TryGetValue(aliased, out outval2);
+            outval2 = outval2 ?? new HashSet<IEntity>();
+            return outval1.Concat(outval2.Select(e => e.Text));
         }
 
 
@@ -106,7 +106,7 @@ namespace LASI.Algorithm.Aliasing
                     .SelectMany(direct => direct.Match().Yield<IEnumerable<string>>()
                         .When<IPronoun>(p => p.RefersTo.Any())
                         .Then<IPronoun>(p => p.RefersTo.SelectMany(r => GetLikelyAliases(r)))
-                        .Case<Noun>(n => LexicalLookup.GetSynonyms(n))
+                        .Case<Noun>(n => n.GetSynonyms())
                     .Result()))
                 .Result(defaultValue: Enumerable.Empty<string>());
         }

@@ -11,6 +11,7 @@ using LASI.Algorithm.Lookup.InterSetRelationshipManagement;
 namespace LASI.Algorithm.Lookup
 {
     using SetReference = System.Collections.Generic.KeyValuePair<NounSetRelationship, int>;
+    using LASI.Algorithm.Lookup.Morphemization;
     internal sealed class NounLookup : IWordNetLookup<Noun>
     {
         private const int HEADER_LENGTH = 29;

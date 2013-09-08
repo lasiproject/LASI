@@ -101,6 +101,7 @@
     <Compile Include="Analysis\SubordinateClauseIdentifier.cs" />
     <Compile Include="IEnumerableExtensions\IEnumerableOfIPronounExtensions.cs" />
     <Compile Include="LexicalLookup\Gender.cs" />
+    <Compile Include="LexicalLookup\WordFormGeneration\AdverbConjugator.cs" />
     <Compile Include="LexicalStructures\MiscLanguageConstructs\UnknownWord.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\ISimpleGendered.cs" />
     <Compile Include="LexicalStructures\UnderpinningTypes\IAggregateLexical.cs" />

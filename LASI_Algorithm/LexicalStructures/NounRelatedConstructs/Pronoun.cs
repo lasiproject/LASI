@@ -32,17 +32,14 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="target">The entity to which to bind.</param>
         public void BindAsReferringTo(IEntity target) {
-            var useOrAppend = target.Match().Yield<IEntity>()
-                .When<Noun>(wd => wd.Phrase.Words.GetEntities().None(x => x != wd) && wd.Phrase is IEntity)
-                .Then<Noun>(wd => wd.Phrase as IEntity)
-                .Case<Pronoun>(wd => wd as IEntity)
-                .Result(target);
-            RefersTo = RefersTo.Match().Yield<AggregateEntity>()
-                .When(RefersTo == null)
-                .Then(new AggregateEntity(new[] { useOrAppend }))
-                .Result(new AggregateEntity(RefersTo.Append(useOrAppend)));
+            if (RefersTo == null) {
+                RefersTo = new AggregateEntity(new[] { target });
+            } else {
+                RefersTo = new AggregateEntity(RefersTo.Append(target));
+            }
+            EntityKind = RefersTo.EntityKind;
         }
-        /// <summary>
+        /// <summary>   
         /// Returns a string representation of the Pronoun.
         /// </summary>
         /// <returns>A string representation of the Pronoun.</returns>

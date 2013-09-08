@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LASI.Algorithm.Lookup.Morphemization;
 
 namespace LASI.Algorithm.Lookup
 {
@@ -97,6 +98,34 @@ namespace LASI.Algorithm.Lookup
         public static bool IsSynonymFor(this Adjective word, Adjective other) {
             return InternalLookup(word).Contains(other.Text);
         }
+
+        #region Private Adjective Specific Lookups
+        static bool IsSynonymFor(this Adjective word, SuperlativeAdjective other) {
+            return InternalLookup(word).Contains(other.Text);
+        }
+        static bool IsSynonymFor(this SuperlativeAdjective word, Adjective other) {
+            return InternalLookup(word).Contains(other.Text);
+        }
+        static bool IsSynonymFor(this SuperlativeAdjective word, SuperlativeAdjective other) {
+            return InternalLookup(word).Contains(other.Text);
+        }
+        static bool IsSynonymFor(this ComparativeAdjective word, ComparativeAdjective other) {
+            return InternalLookup(word).Contains(other.Text);
+        }
+        static bool IsSynonymFor(this Adjective word, ComparativeAdjective other) {
+            return InternalLookup(word).Contains(other.Text);
+        }
+        static bool IsSynonymFor(this ComparativeAdjective word, Adjective other) {
+            return InternalLookup(word).Contains(other.Text);
+        }
+        static bool IsSynonymFor(this ComparativeAdjective word, SuperlativeAdjective other) {
+            return InternalLookup(word).Contains(other.Text);
+        }
+        static bool IsSynonymFor(this SuperlativeAdjective word, ComparativeAdjective other) {
+            return InternalLookup(word).Contains(other.Text);
+        }
+        #endregion
+
         /// <summary>
         /// Determines if two Adverb instances are synonymous.
         /// </summary>
@@ -106,6 +135,36 @@ namespace LASI.Algorithm.Lookup
         public static bool IsSynonymFor(this Adverb word, Adverb other) {
             return InternalLookup(word).Contains(other.Text);
         }
+
+
+        #region Private Adverb Specific Lookups
+        static bool IsSynonymFor(this Adverb word, SuperlativeAdverb other) {
+            return InternalLookup(word).Contains(other.Text);
+        }
+        static bool IsSynonymFor(this SuperlativeAdverb word, Adverb other) {
+            return InternalLookup(word).Contains(other.Text);
+        }
+        static bool IsSynonymFor(this SuperlativeAdverb word, SuperlativeAdverb other) {
+            return InternalLookup(word).Contains(other.Text);
+        }
+        static bool IsSynonymFor(this ComparativeAdverb word, ComparativeAdverb other) {
+            return InternalLookup(word).Contains(other.Text);
+        }
+        static bool IsSynonymFor(this Adverb word, ComparativeAdverb other) {
+            var otherRoot = AdverbConjugator.FindRoot(other);
+            return InternalLookup(word).Contains(other.Text);
+        }
+        static bool IsSynonymFor(this ComparativeAdverb word, Adverb other) {
+            return InternalLookup(word).Contains(other.Text);
+        }
+        static bool IsSynonymFor(this ComparativeAdverb word, SuperlativeAdverb other) {
+            return InternalLookup(word).Contains(other.Text);
+        }
+        static bool IsSynonymFor(this SuperlativeAdverb word, ComparativeAdverb other) {
+            return InternalLookup(word).Contains(other.Text);
+        }
+        #endregion
+
 
         #endregion
 
@@ -188,7 +247,7 @@ namespace LASI.Algorithm.Lookup
                     .Case<AdjectivePhrase>(jp1 =>
                         second.Match().Yield<SimResult>()
                           .Case<AdjectivePhrase>(jp2 => jp1.IsSimilarTo(jp2))
-                          .Case<Adjective>(j2 => j2.IsSimilarTo(jp1))
+                          .Case<Adjective>(j2 => jp1.IsSimilarTo(j2))
                         .Result())
                     .Result();
         }
@@ -214,7 +273,7 @@ namespace LASI.Algorithm.Lookup
                         .Result())
                     .Case<AdverbPhrase>(ap1 => second.Match().Yield<SimResult>()
                         .Case<AdverbPhrase>(ap2 => ap1.IsSimilarTo(ap2))
-                        .Case<Adverb>(a2 => ap1.IsSimilarTo(ap1))
+                        .Case<Adverb>(a2 => ap1.IsSimilarTo(a2))
                     .Result())
                 .Result();
         }

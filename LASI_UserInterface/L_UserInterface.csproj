@@ -533,6 +533,12 @@
     <None Include="Resources\TaggingPackage\WordNet\2.1\dict\verb.Framestext">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="Resources\WordNetThesaurusData\adj.exc">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\WordNetThesaurusData\adv.exc">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Resources\WordNetThesaurusData\data.adj">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

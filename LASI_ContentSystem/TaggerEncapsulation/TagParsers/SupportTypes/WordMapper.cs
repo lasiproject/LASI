@@ -1,5 +1,6 @@
 ﻿using LASI;
 using LASI.Algorithm;
+using LASI.Utilities.Text;
 using LASI.ContentSystem.TaggerEncapsulation;
 using System;
 using System.Collections.Generic;
@@ -41,7 +42,8 @@ namespace LASI.ContentSystem
         public Word CreateWord(TextTagPair taggedText) {
             if (string.IsNullOrWhiteSpace(taggedText.Text))
                 return null;
-            try { return LookupMapping(taggedText.Tag)(taggedText.Text); } catch (POSTagException) { return new UnknownWord(taggedText.Tag); }
+            try { return LookupMapping(taggedText.Tag)(taggedText.Text); }
+            catch (POSTagException) { return new UnknownWord(taggedText.Tag); }
         }
         /// <summary>
         /// Returns a function which, when invoked, Creates a new Instance of the Word class which corresponds to the given text token and Part Of Speech tag.
@@ -49,10 +51,12 @@ namespace LASI.ContentSystem
         /// <param name="taggedText">A Word or Punctuation string and its associated Part Of Speech tag.</param>
         /// <returns>A function which, when invoked, Creates a new Instance of the Word class which corresponds to the given text token and Part Of Speech tag.</returns>
         private Func<Word> GetWordExpression(TextTagPair taggedText) {
-            if (string.IsNullOrWhiteSpace(taggedText.Text))
+            if (taggedText.Text.IsNotWsOrNull()) {
+                var Constructor = LookupMapping(taggedText.Tag);
+                return () => Constructor(taggedText.Text);
+            } else
                 return null;
-            var Constructor = LookupMapping(taggedText.Tag);
-            return () => Constructor(taggedText.Text);
+
         }
 
         private Func<string, Word> LookupMapping(string tag) {
@@ -60,9 +64,11 @@ namespace LASI.ContentSystem
             try {
                 var constructor = context[tag];
                 return constructor;
-            } catch (EmptyWordTagException) {
+            }
+            catch (EmptyWordTagException) {
                 return (t) => new LASI.Algorithm.UnknownWord(t);
-            } catch (UnknownWordTagException) {
+            }
+            catch (UnknownWordTagException) {
                 if (tag.Length == 1) {
                     return (s) => (s == "." || s == "!" || s == "?") ? new SentenceEnding(s[0]) : new Punctuation(s[0]);
                 } else {
