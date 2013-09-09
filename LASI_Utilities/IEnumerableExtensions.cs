@@ -23,6 +23,9 @@ namespace LASI
         public static string Format<T>(this IEnumerable<T> source) {
             return source.Format(Tuple.Create('[', ',', ']'));
         }
+        public static string Format(this IEnumerable<string> source) {
+            return source.Format(Tuple.Create('[', ',', ']'));
+        }
         /// <summary>
         /// Returns a formated string representation of the IEnumerable sequence with the pattern: [ element0, element1, ..., elementN ]
         /// such that the string representation of each element is produced by calling its ToString method. The resultant string is line broken based on the provided line length.
@@ -32,6 +35,9 @@ namespace LASI
         /// <param name="lineLength">Indicates the number of characters after which a line break is to be inserted.</param>
         /// <returns>A formated string representation of the IEnumerable sequence with the pattern: [ element0, element1, ..., elementN ].</returns>
         public static string Format<T>(this IEnumerable<T> source, long lineLength) {
+            return source.Format(Tuple.Create('[', ',', ']'), lineLength);
+        }
+        public static string Format(this IEnumerable<string> source, long lineLength) {
             return source.Format(Tuple.Create('[', ',', ']'), lineLength);
         }
         /// <summary>
@@ -44,6 +50,9 @@ namespace LASI
         /// <returns>A formated string representation of the IEnumerable sequence with the pattern: [ element0, element1, ..., elementN ].</returns>
         public static string Format<T>(this IEnumerable<T> source, Tuple<char, char, char> delimsToUse) {
             return source.Aggregate(delimsToUse.Item1 + " ", (sum, current) => sum += current.ToString() + delimsToUse.Item2 + ' ').TrimEnd(' ', delimsToUse.Item2) + ' ' + delimsToUse.Item3;
+        }
+        public static string Format(this IEnumerable<string> source, Tuple<char, char, char> delimsToUse) {
+            return source.Aggregate(delimsToUse.Item1 + " ", (sum, current) => sum += current + delimsToUse.Item2 + ' ').TrimEnd(' ', delimsToUse.Item2) + ' ' + delimsToUse.Item3;
         }
         /// <summary>
         /// Returns a formated string representation of the IEnumerable sequence with the pattern: [ element0, element1, ..., elementN ]
@@ -58,6 +67,18 @@ namespace LASI
             int len = 2;
             return source.Aggregate(delimsToUse.Item1 + " ", (sum, current) => {
                 var cETS = current.ToString() + delimsToUse.Item2 + ' ';
+                len += cETS.Length;
+                if (len > lineLength) {
+                    len = cETS.Length;
+                    sum += '\n';
+                }
+                return sum += cETS;
+            }).TrimEnd(' ', delimsToUse.Item2) + " " + delimsToUse.Item3;
+        }
+        public static string Format(this IEnumerable<string> source, Tuple<char, char, char> delimsToUse, long lineLength) {
+            int len = 2;
+            return source.Aggregate(delimsToUse.Item1 + " ", (sum, current) => {
+                var cETS = current + delimsToUse.Item2 + ' ';
                 len += cETS.Length;
                 if (len > lineLength) {
                     len = cETS.Length;

@@ -24,8 +24,6 @@ namespace LASI.Algorithm.Lookup
             InitCategoryGroupsDictionary();
         }
 
-
-
         SortedDictionary<int, NounSynSet> data = new SortedDictionary<int, NounSynSet>();
 
         /// <summary>
@@ -89,10 +87,12 @@ namespace LASI.Algorithm.Lookup
         }
 
 
+        public ISet<string> AllNouns { get { return allNouns = allNouns ?? new SortedSet<string>(data.SelectMany(nss => nss.Value.Words)); } }
+
         public ISet<string> this[string search] {
             get {
                 try {
-                    return new HashSet<string>(SearchFor(NounConjugator.FindRoot(search)).SelectMany(syn => NounConjugator.GetLexicalForms(syn)).DefaultIfEmpty(search));
+                    return new HashSet<string>(SearchFor(NounMorpher.FindRoot(search)).SelectMany(syn => NounMorpher.GetLexicalForms(syn)).DefaultIfEmpty(search));
                 }
                 catch (AggregateException) { }
                 catch (InvalidOperationException) { }
@@ -131,6 +131,7 @@ namespace LASI.Algorithm.Lookup
 
         private string filePath;
 
+        private SortedSet<string> allNouns;
 
         private static bool IncludeReference(NounSetRelationship referenceRelationship) {
             return

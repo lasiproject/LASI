@@ -2131,7 +2131,7 @@ namespace AlgorithmAssemblyUnitTestProject
             string conjugated = "birds";
             string expected = "bird"; // TODO: Initialize to an appropriate value
             string actual;
-            actual = NounConjugator.FindRoot(conjugated);
+            actual = NounMorpher.FindRoot(conjugated);
             Assert.AreEqual(expected, actual);
         }
 
@@ -2143,7 +2143,7 @@ namespace AlgorithmAssemblyUnitTestProject
             string root = "kitten";
             IEnumerable<string> expected = new[] { "kittens" }; // TODO: Initialize to an appropriate value
             IEnumerable<string> actual;
-            actual = NounConjugator.GetLexicalForms(root);
+            actual = NounMorpher.GetLexicalForms(root);
             foreach (var a in expected) {
                 Assert.IsTrue(actual.Contains(a));
             }

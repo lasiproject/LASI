@@ -13,7 +13,7 @@ namespace LASI.Algorithm.Lookup.Morphemization
     /// <summary>
     /// Performs both verb root extraction and verb conjugation generation.
     /// </summary>
-    public static class VerbConjugator
+    public static class VerbMorpher
     {
         /// <summary>
         /// Gets all forms of the verb root.
@@ -104,7 +104,7 @@ namespace LASI.Algorithm.Lookup.Morphemization
         }
         private static ConcurrentDictionary<string, IEnumerable<string>> exceptionData;
 
-        static VerbConjugator() { LoadExceptionFile(exceptionFilePath); }
+        static VerbMorpher() { LoadExceptionFile(exceptionFilePath); }
 
         #endregion
     }

@@ -168,7 +168,7 @@
     <Compile Include="ResourceManagement\Concurrency.cs" />
     <Compile Include="LexicalLookup\Lookups\AdjectiveLookup.cs" />
     <Compile Include="LexicalLookup\Lookups\AdverbLookup.cs" />
-    <Compile Include="LexicalLookup\WordFormGeneration\NounConjugator.cs" />
+    <Compile Include="LexicalLookup\WordFormGeneration\NounMorpher.cs" />
     <Compile Include="LexicalLookup\Exceptions\LookupExceptions.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\RelativePronoun.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\GenericNoun.cs" />
@@ -236,7 +236,7 @@
     <Compile Include="LexicalStructures\NounRelatedConstructs\ProperSingularNoun.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="LexicalStructures\BridgingConstructs\ToLinker.cs" />
-    <Compile Include="LexicalLookup\WordFormGeneration\VerbConjugator.cs" />
+    <Compile Include="LexicalLookup\WordFormGeneration\VerbMorpher.cs" />
     <Compile Include="LexicalLookup\Lookups\VerbLookup.cs" />
     <Compile Include="LexicalStructures\VerbRelatedConstructs\Verb.cs" />
     <Compile Include="LexicalStructures\VerbRelatedConstructs\VerbPhrase.cs" />

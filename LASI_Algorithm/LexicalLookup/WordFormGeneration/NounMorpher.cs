@@ -14,10 +14,10 @@ namespace LASI.Algorithm.Lookup.Morphemization
     /// <summary>
     /// Performs both noun root extraction and noun form generation.
     /// </summary>
-    public static class NounConjugator
+    public static class NounMorpher
     {
 
-        static NounConjugator() {
+        static NounMorpher() {
             LoadExceptionFile(exceptionFilePath);
 
         }

@@ -1,6 +1,7 @@
 ﻿using LASI.Algorithm;
 using LASI.Algorithm.Binding;
 using LASI.Algorithm.Lookup;
+using LASI.Algorithm.Lookup.Morphemization;
 using LASI.ContentSystem;
 using System;
 using LASI.Algorithm.Patternization;
@@ -16,18 +17,11 @@ namespace LASI.Experimentation.CommandLine
         static void Main(string[] args) {
             Word.VerboseOutput = true;
             Phrase.VerboseOutput = true;
-            LexicalLookup.GetLoadingTasks().AsParallel().ForAll(t => t.Wait());
-            Console.WriteLine("enter a verb");
-            for (var input = Console.ReadLine(); input != "~"; input = Console.ReadLine()) {
-                Console.WriteLine(LexicalLookup.GetSynonyms(new Verb(input, VerbForm.Base)).Format());
+            LexicalLookup.LoadAllData();
+            foreach (var noun in LexicalLookup.NounStringDictionary) {
+                Console.Write(noun + ", ");
             }
-
-            var doc = Tagger.DocumentFromRaw(new DocXFile(@"C:\Users\Aluan\Desktop\documents\C++_for _LASI.docx"));
-            Binder.Bind(doc);
-
-
-
-            Console.WriteLine(doc.Phrases.Format(w => '\n' + w.ToString()));
+            Console.WriteLine();
             Input.WaitForKey();
         }
 

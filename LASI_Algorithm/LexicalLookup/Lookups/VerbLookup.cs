@@ -75,7 +75,7 @@ namespace LASI.Algorithm.Lookup
         private ISet<string> SearchFor(string search) {
             try {
                 var result = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-                var verbRoots = VerbConjugator.FindRoots(search);
+                var verbRoots = VerbMorpher.FindRoots(search);
                 VerbSynSet containingSet;
                 foreach (var root in verbRoots) {
                     verbData.TryGetValue(root, out containingSet);
@@ -88,7 +88,7 @@ namespace LASI.Algorithm.Lookup
                              .SelectMany(id => { VerbSynSet temp; setsBySetID.TryGetValue(id, out temp); return temp != null ? temp.ReferencedIndexes : Enumerable.Empty<int>(); })
                              .Select(s => { VerbSynSet temp; setsBySetID.TryGetValue(s, out temp); return temp; })
                              .Where(r => r != null && r.LexName == containingSet.LexName)
-                             .SelectMany(r => r.Words.SelectMany(w => VerbConjugator.GetConjugations(w)))
+                             .SelectMany(r => r.Words.SelectMany(w => VerbMorpher.GetConjugations(w)))
                              .Append(root) : new[] { search });
                 }
                 return result;

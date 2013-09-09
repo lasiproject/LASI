@@ -77,7 +77,7 @@ namespace AlgorithmAssemblyUnitTestProject
             string root = "walk";
             IEnumerable<string> expected = new[] { "walked", "walks", "walking" }.ToList();
             IEnumerable<string> actual;
-            actual = VerbConjugator.GetConjugations(root);
+            actual = VerbMorpher.GetConjugations(root);
             foreach (var f in actual)
                 Debug.WriteLine(f);
             Assert.IsTrue((from f in expected
@@ -96,7 +96,7 @@ namespace AlgorithmAssemblyUnitTestProject
             List<string> expected = new[] { "walk" }.ToList();
             List<string> actual = new List<string>();
             foreach (var c in conjugated) {
-                actual.AddRange(VerbConjugator.FindRoots(c));
+                actual.AddRange(VerbMorpher.FindRoots(c));
 
             }
             Assert.IsTrue((from f in expected

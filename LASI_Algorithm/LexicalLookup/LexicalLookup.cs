@@ -794,6 +794,13 @@ namespace LASI.Algorithm.Lookup
                 LoadingTaskBuilder.NameDataLoadTask }
             .Where(t => t != null);
         }
+        /// <summary>
+        /// Auto matically loads all resources used by the LexicalLookup class.
+        /// </summary>
+        public static void LoadAllData() {
+            Task.WaitAll(GetLoadingTasks().ToArray());
+        }
+
         #endregion
 
         #endregion
@@ -853,6 +860,15 @@ namespace LASI.Algorithm.Lookup
         #endregion
 
         #region Public Properties
+
+        #region Typed Word String Set Accessors
+
+        /// <summary>
+        /// Gets a set of strings corresponding to all nouns in the WordNet data bank. The set uses a case sensitive IComparer&lt;string&gt;.
+        /// </summary>
+        public static ISet<string> NounStringDictionary { get { return nounLookup.AllNouns; } }
+
+        #endregion
 
         #region Name Collection Accessors
 
