@@ -18,24 +18,9 @@ namespace LASI.Experimentation.CommandLine
             Word.VerboseOutput = true;
             Phrase.VerboseOutput = true;
             LexicalLookup.LoadAllData();
-            foreach (var noun in LexicalLookup.NounStringDictionary) {
-                Console.Write(noun + ", ");
-            }
-            Console.WriteLine();
+
+            LexicalLookup.NounStringDictionary.GroupBy(s => s[0]).ToList().ForEach(g => Console.WriteLine(g.Format()));
             Input.WaitForKey();
-        }
-
-
-        int NumberOfSimilarWords(LASI.Algorithm.DocumentConstructs.Document doc, Noun find) {
-
-
-            var matches = from word in doc.Words
-                          where word.Match().Yield<bool>()
-                          .Case<Noun>(n => n.IsSynonymFor(find))
-                          .Case<IPronoun>(p => p.RefersTo.IsSimilarTo(find))
-                          .Result()
-                          select word;
-            return matches.Count();
         }
 
     }

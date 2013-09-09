@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace LASI.Utilities.Text
 {
+    /// <summary>
+    /// Defines various useful methods for working with System.Char instances.
+    /// </summary>
     public static class CharExtensions
     {
         /// <summary>

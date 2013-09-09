@@ -23,9 +23,6 @@ namespace LASI
         public static string Format<T>(this IEnumerable<T> source) {
             return source.Format(Tuple.Create('[', ',', ']'));
         }
-        public static string Format(this IEnumerable<string> source) {
-            return source.Format(Tuple.Create('[', ',', ']'));
-        }
         /// <summary>
         /// Returns a formated string representation of the IEnumerable sequence with the pattern: [ element0, element1, ..., elementN ]
         /// such that the string representation of each element is produced by calling its ToString method. The resultant string is line broken based on the provided line length.
@@ -37,9 +34,6 @@ namespace LASI
         public static string Format<T>(this IEnumerable<T> source, long lineLength) {
             return source.Format(Tuple.Create('[', ',', ']'), lineLength);
         }
-        public static string Format(this IEnumerable<string> source, long lineLength) {
-            return source.Format(Tuple.Create('[', ',', ']'), lineLength);
-        }
         /// <summary>
         /// Returns a formated string representation of the IEnumerable sequence with the pattern: [ element0, element1, ..., elementN ]
         /// such that the string representation of each element is produced by calling its ToString method.
@@ -49,10 +43,7 @@ namespace LASI
         /// <param name="delimsToUse">A value indicating the pair of delimiters to surround the elements.</param>
         /// <returns>A formated string representation of the IEnumerable sequence with the pattern: [ element0, element1, ..., elementN ].</returns>
         public static string Format<T>(this IEnumerable<T> source, Tuple<char, char, char> delimsToUse) {
-            return source.Aggregate(delimsToUse.Item1 + " ", (sum, current) => sum += current.ToString() + delimsToUse.Item2 + ' ').TrimEnd(' ', delimsToUse.Item2) + ' ' + delimsToUse.Item3;
-        }
-        public static string Format(this IEnumerable<string> source, Tuple<char, char, char> delimsToUse) {
-            return source.Aggregate(delimsToUse.Item1 + " ", (sum, current) => sum += current + delimsToUse.Item2 + ' ').TrimEnd(' ', delimsToUse.Item2) + ' ' + delimsToUse.Item3;
+            return source.Aggregate(new StringBuilder(delimsToUse.Item1 + " "), (sum, current) => sum.Append(current.ToString() + delimsToUse.Item2 + ' ')).ToString().TrimEnd(' ', delimsToUse.Item2) + ' ' + delimsToUse.Item3;
         }
         /// <summary>
         /// Returns a formated string representation of the IEnumerable sequence with the pattern: [ element0, element1, ..., elementN ]
@@ -65,27 +56,15 @@ namespace LASI
         /// <returns>A formated string representation of the IEnumerable sequence with the pattern: [ element0, element1, ..., elementN ].</returns>
         public static string Format<T>(this IEnumerable<T> source, Tuple<char, char, char> delimsToUse, long lineLength) {
             int len = 2;
-            return source.Aggregate(delimsToUse.Item1 + " ", (sum, current) => {
+            return source.Aggregate(new StringBuilder(delimsToUse.Item1 + " "), (sum, current) => {
                 var cETS = current.ToString() + delimsToUse.Item2 + ' ';
                 len += cETS.Length;
                 if (len > lineLength) {
                     len = cETS.Length;
-                    sum += '\n';
+                    sum.Append('\n');
                 }
-                return sum += cETS;
-            }).TrimEnd(' ', delimsToUse.Item2) + " " + delimsToUse.Item3;
-        }
-        public static string Format(this IEnumerable<string> source, Tuple<char, char, char> delimsToUse, long lineLength) {
-            int len = 2;
-            return source.Aggregate(delimsToUse.Item1 + " ", (sum, current) => {
-                var cETS = current + delimsToUse.Item2 + ' ';
-                len += cETS.Length;
-                if (len > lineLength) {
-                    len = cETS.Length;
-                    sum += '\n';
-                }
-                return sum += cETS;
-            }).TrimEnd(' ', delimsToUse.Item2) + " " + delimsToUse.Item3;
+                return sum.Append(cETS);
+            }).ToString().TrimEnd(' ', delimsToUse.Item2) + " " + delimsToUse.Item3;
         }
         /// <summary>
         /// Returns a formated string representation of the IEnumerable sequence with the pattern: [ elementToString(element0), elementToString(element1), ..., elementToString(elementN) ]
@@ -96,7 +75,7 @@ namespace LASI
         /// <param name="stringSelector">The function used to produce a string representation for each element.</param>
         /// <returns>A formated string representation of the IEnumerable sequence with the pattern: [ element0, element1, ..., elementN ].</returns>
         public static string Format<T>(this IEnumerable<T> source, Func<T, string> stringSelector) {
-            return source.Aggregate("[ ", (sum, current) => sum += stringSelector(current) + ", ").TrimEnd(' ', ',') + " ]";
+            return source.Aggregate(new StringBuilder("[ "), (sum, current) => sum.Append(stringSelector(current) + ", ")).ToString().TrimEnd(' ', ',') + " ]";
         }
         /// <summary>
         /// Returns a formated string representation of the IEnumerable sequence with the pattern: [ elementToString(element0), elementToString(element1), ..., elementToString(elementN) ]
@@ -121,15 +100,15 @@ namespace LASI
         /// <returns>A formated string representation of the IEnumerable sequence with the pattern: [ element0, element1, ..., elementN ].</returns>
         public static string Format<T>(this IEnumerable<T> source, long lineLength, Func<T, string> stringSelector) {
             int len = 2;
-            return source.Aggregate("[ ", (sum, current) => {
+            return source.Aggregate(new StringBuilder("[ "), (sum, current) => {
                 var cETS = stringSelector(current) + ", ";
                 len += cETS.Length;
                 if (len > lineLength) {
                     len = cETS.Length;
-                    sum += '\n';
+                    sum.Append('\n');
                 }
-                return sum += cETS;
-            }).TrimEnd(' ', ',') + " ]";
+                return sum.Append(cETS);
+            }).ToString().TrimEnd(' ', ',') + " ]";
         }
         /// <summary>
         /// Returns a formated string representation of the IEnumerable sequence with the pattern: [ elementToString(element0), elementToString(element1), ..., elementToString(elementN) ]
