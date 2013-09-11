@@ -867,6 +867,11 @@ namespace LASI.Algorithm.Lookup
         /// Gets a set of strings corresponding to all nouns in the WordNet data bank. The set uses a case sensitive IComparer&lt;string&gt;.
         /// </summary>
         public static ISet<string> NounStringDictionary { get { return nounLookup.AllNouns; } }
+        
+        /// <summary>
+        /// Gets a set of strings corresponding to all verbs in the WordNet data bank. The set uses a case sensitive IComparer&lt;string&gt;.
+        /// </summary>
+        public static ISet<string> VerbStringDitionary { get { return verbLookup.AllVerbs; } }
 
         #endregion
 

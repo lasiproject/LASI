@@ -21,13 +21,7 @@ namespace LASI.Experimentation.CommandLine
 
             ISet<string> allNouns = LexicalLookup.NounStringDictionary;
             var doc = Tagger.DocumentFromPDF(new PdfFile(@"C:\Users\Dustin\Documents\Was Hitler a Darwinian.pdf"));
-
-            foreach (var p in doc.Words.GetProperNouns())
-            {
-                if(
-            }
             Console.ReadKey();
         }
-
     }
 }

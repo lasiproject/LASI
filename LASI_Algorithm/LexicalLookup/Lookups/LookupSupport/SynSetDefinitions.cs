@@ -13,18 +13,19 @@ namespace LASI.Algorithm.Lookup
     /// <summary>
     /// Represents a synset parsed from a line of the data.noun file of the WordNet package.
     /// </summary>
-    sealed class NounSynSet
+    struct NounSynSet : IEquatable<NounSynSet>
     {
 
         /// <summary>
         /// Initializes a new instance of the NounSynSet class based on provided arguments.
         /// </summary>
-        /// <param name="ID">The noun synset unique set id.</param>
+        /// <param name="id">The noun synset unique set id.</param>
         /// <param name="words">The collection of word strings contained directly within the synset.</param>
         /// <param name="pointerRelations">A collection of pairs each representing a reference to another synset in data.noun and its relationship to the initialized synset.</param>
         /// <param name="lexCategory">The lexical noun category of the synset.</param>
-        public NounSynSet(int ID, IEnumerable<string> words, IEnumerable<KeyValuePair<NounSetRelationship, int>> pointerRelations, NounCategory lexCategory) {
-            this.ID = ID;
+        public NounSynSet(int id, IEnumerable<string> words, IEnumerable<KeyValuePair<NounSetRelationship, int>> pointerRelations, NounCategory lexCategory)
+            : this() {
+            ID = id;
             LexName = lexCategory;
             Words = new HashSet<string>(words);
             relatedSetsByRelationKind = pointerRelations.ToLookup(rel => rel.Key, rel => rel.Value);
@@ -44,8 +45,12 @@ namespace LASI.Algorithm.Lookup
         public override int GetHashCode() {
             return ID;
         }
+        public bool Equals(NounSynSet other) {
+            return this == other;
+        }
+
         public override bool Equals(object obj) {
-            return this == obj as NounSynSet;
+            return obj is NounSynSet && (NounSynSet)obj == this;
         }
 
         public NounCategory LexName {
@@ -100,20 +105,23 @@ namespace LASI.Algorithm.Lookup
         }
 
 
+
+
     }
 
     /// <summary>
     /// Represents a synset parsed from a line of the data.verb file of the WordNet package.
     /// </summary>
-    sealed class VerbSynSet
+    struct VerbSynSet : IEquatable<VerbSynSet>
     {
         public VerbCategory LexName {
             get;
             private set;
         }
 
-        public VerbSynSet(int ID, IEnumerable<string> words, IEnumerable<KeyValuePair<VerbSetRelationship, int>> pointerRelations, VerbCategory lexCategory) {
-            this.ID = ID;
+        public VerbSynSet(int id, IEnumerable<string> words, IEnumerable<KeyValuePair<VerbSetRelationship, int>> pointerRelations, VerbCategory lexCategory)
+            : this() {
+            ID = id;
             LexName = lexCategory;
             Words = new HashSet<string>(words);
             relatedSetsByRelationKind = pointerRelations.ToLookup(rel => rel.Key, rel => rel.Value);
@@ -132,8 +140,11 @@ namespace LASI.Algorithm.Lookup
         public override int GetHashCode() {
             return ID;
         }
+        public bool Equals(VerbSynSet other) {
+            return this == other;
+        }
         public override bool Equals(object obj) {
-            return this == obj as VerbSynSet;
+            return obj is VerbSynSet && this == (VerbSynSet)obj;
         }
         public static bool operator ==(VerbSynSet lhs, VerbSynSet rhs) {
             if (ReferenceEquals(lhs, null))

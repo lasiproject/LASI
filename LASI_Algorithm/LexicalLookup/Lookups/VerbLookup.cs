@@ -76,20 +76,26 @@ namespace LASI.Algorithm.Lookup
             try {
                 var result = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
                 var verbRoots = VerbMorpher.FindRoots(search);
-                VerbSynSet containingSet;
+                VerbSynSet? containingSet = null;
                 foreach (var root in verbRoots) {
-                    verbData.TryGetValue(root, out containingSet);
-                    containingSet = containingSet ?? verbData.FirstOrDefault(kv => kv.Value.Words.Contains(root)).Value;
+                    VerbSynSet tryGetVal;
+                    if (verbData.TryGetValue(root, out tryGetVal)) { containingSet = tryGetVal; } else {
 
+                        try {
+                            containingSet = verbData.First(kv => kv.Value.Words.Contains(root)).Value;
+                        }
+                        catch (InvalidOperationException) { }
+                    }
                     result.UnionWith(
 
                         containingSet != null ?
-                        containingSet.ReferencedIndexes
-                             .SelectMany(id => { VerbSynSet temp; setsBySetID.TryGetValue(id, out temp); return temp != null ? temp.ReferencedIndexes : Enumerable.Empty<int>(); })
-                             .Select(s => { VerbSynSet temp; setsBySetID.TryGetValue(s, out temp); return temp; })
-                             .Where(r => r != null && r.LexName == containingSet.LexName)
-                             .SelectMany(r => r.Words.SelectMany(w => VerbMorpher.GetConjugations(w)))
-                             .Append(root) : new[] { search });
+                        containingSet.Value.ReferencedIndexes
+                             .SelectMany(id => { VerbSynSet temp; return setsBySetID.TryGetValue(id, out temp) ? temp.ReferencedIndexes : Enumerable.Empty<int>(); })
+                             .Select(s => { VerbSynSet temp; return setsBySetID.TryGetValue(s, out temp) ? new Nullable<VerbSynSet>(temp) : new Nullable<VerbSynSet>(); })
+                             .Where(s => s.HasValue)
+                             .Select(s => s.Value)
+                             .Where(s => s.LexName == containingSet.Value.LexName)
+                             .SelectMany(s => s.Words.SelectMany(w => VerbMorpher.GetConjugations(w))).Append(root) : new[] { search });
                 }
                 return result;
             }
@@ -127,6 +133,9 @@ namespace LASI.Algorithm.Lookup
         private ConcurrentDictionary<int, VerbSynSet> setsBySetID = new ConcurrentDictionary<int, VerbSynSet>();
         private ConcurrentDictionary<string, VerbSynSet> verbData = new ConcurrentDictionary<string, VerbSynSet>();
         private static VerbPointerSymbolMap RelationMap = new VerbPointerSymbolMap();
+        private SortedSet<string> allVerbs;
+
+        public SortedSet<string> AllVerbs { get { return allVerbs = allVerbs ?? new SortedSet<string>(verbData.SelectMany(set => set.Value.Words)); } }
         private const string WORD_REGEX = @"\b[A-Za-z-_]{2,}";
         private const string POINTER_REGEX = @"\D{1,2}\s*[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+";
         private string filePath;

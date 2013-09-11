@@ -71,11 +71,12 @@ namespace LASI.Algorithm.Lookup
 
 
         private ISet<string> SearchFor(string word) {
-            var containingSet = data.Values.FirstOrDefault(set => set.Words.Contains(word));
+            NounSynSet? containingSet = data.Values.FirstOrDefault(set => set.Words.Contains(word));
+            containingSet = containingSet != default(NounSynSet) ? containingSet : null;
             if (containingSet != null) {
                 try {
                     List<string> results = new List<string>();
-                    SearchSubsets(containingSet, results, new HashSet<NounSynSet>());
+                    SearchSubsets(containingSet.Value, results, new HashSet<NounSynSet>());
                     return new HashSet<string>(results);
                 }
                 catch (InvalidOperationException e) {
@@ -112,9 +113,9 @@ namespace LASI.Algorithm.Lookup
             results.AddRange(containingSet.Words);
             results.AddRange(containingSet[NounSetRelationship.HypERnym].Where(set => data.ContainsKey(set)).SelectMany(set => data[set].Words));
             setsSearched.Add(containingSet);
-            foreach (var set in containingSet.ReferencedIndexes.Except(containingSet[NounSetRelationship.HypERnym]).Select(pointer => data.ContainsKey(pointer) ? data[pointer] : null)) {
-                if (set != null && set.LexName == containingSet.LexName && !setsSearched.Contains(set)) {
-                    SearchSubsets(set, results, setsSearched);
+            foreach (var set in containingSet.ReferencedIndexes.Except(containingSet[NounSetRelationship.HypERnym]).Select(pointer => { NounSynSet result; return data.TryGetValue(pointer, out result) ? result : default(NounSynSet?); })) {
+                if (set != null && set.Value.LexName == containingSet.LexName && !setsSearched.Contains(set.Value)) {
+                    SearchSubsets(set.Value, results, setsSearched);
                 }
             }
         }
