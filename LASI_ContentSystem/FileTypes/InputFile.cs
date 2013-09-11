@@ -17,7 +17,7 @@ namespace LASI.ContentSystem
         public InputFile(string path) {
             if (!System.IO.File.Exists(path))
                 throw new System.IO.FileNotFoundException("File Not Found.", path);
-            fileData = new FileData(path);
+                     fileData = new FileData(path);
         }
         /// <summary>
         /// Gets the full file path, including the file name and extension of the file.

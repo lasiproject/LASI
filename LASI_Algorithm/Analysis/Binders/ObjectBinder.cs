@@ -55,8 +55,7 @@ namespace LASI.Algorithm.Binding
                     new State[] { St0, St1, St2, St4, St5, St6 }.ToList().ForEach(state => state.Stream = inputstream);
                     try {
                         St0.Transition(inputstream.Pop() as dynamic);
-                    }
-                    catch (InvalidOperationException) {
+                    } catch (InvalidOperationException) {
                     }
                 }
             }
@@ -127,8 +126,7 @@ namespace LASI.Algorithm.Binding
             public override void Transition(Phrase phrase) {
                 try {
                     InternalBind(phrase);
-                }
-                catch (InvalidOperationException) {
+                } catch (InvalidOperationException) {
                     PerformExceptionFallback();
                 }
             }
@@ -193,9 +191,10 @@ namespace LASI.Algorithm.Binding
             }
 
             private void WhenSbar(Phrase phrase) {
+            
                 var subordinateClauseConstituents = new List<Phrase> {
                     phrase};
-                for (var r = Stream.Count > 0 ? Stream.Pop() : null; !(r.Words.First() is Punctuation) && Stream.Count > 0; r = Stream.Pop()) {
+                for (var r = Stream.Count > 0 ? Stream.Pop() : null; r != null && !(r.Words.First() is Punctuation) && Stream.Count > 0; r = Stream.Pop()) {
                     subordinateClauseConstituents.Add(r);
                 }
                 var subClause = new SubordinateClause(subordinateClauseConstituents);
@@ -210,8 +209,7 @@ namespace LASI.Algorithm.Binding
             public override void Transition(Phrase phrase) {
                 try {
                     InternalBind(phrase);
-                }
-                catch (InvalidOperationException) {
+                } catch (InvalidOperationException) {
                     PerformExceptionFallback();
                 }
             }
@@ -263,8 +261,7 @@ namespace LASI.Algorithm.Binding
 
                 try {
                     Machine.St4.Transition(Stream.Pop() as dynamic);
-                }
-                catch (InvalidOperationException) {
+                } catch (InvalidOperationException) {
                     PerformExceptionFallback();
                 }
 
@@ -274,8 +271,7 @@ namespace LASI.Algorithm.Binding
 
                 try {
                     Machine.St4.Transition(Stream.Pop() as dynamic);
-                }
-                catch (InvalidOperationException) {
+                } catch (InvalidOperationException) {
                     PerformExceptionFallback();
                 }
 
@@ -295,8 +291,7 @@ namespace LASI.Algorithm.Binding
                     Machine.lastPrepositional = phrase;
 
                     Machine.entities.Last().PrepositionOnRight = Machine.lastPrepositional;
-                }
-                catch (InvalidOperationException) {
+                } catch (InvalidOperationException) {
                 }
                 phrase.ToTheLeftOf = Machine.entities.Last();
                 Machine.entities.Clear();
@@ -304,8 +299,7 @@ namespace LASI.Algorithm.Binding
                 Machine.ConjunctNounPhrases.Clear();
                 try {
                     Machine.St0.Transition(Stream.Pop() as dynamic);
-                }
-                catch (InvalidOperationException) {
+                } catch (InvalidOperationException) {
                     PerformExceptionFallback();
                 }
             }
@@ -325,8 +319,7 @@ namespace LASI.Algorithm.Binding
 
                 try {
                     Machine.St0.Transition(Stream.Pop() as dynamic);
-                }
-                catch (InvalidOperationException) {
+                } catch (InvalidOperationException) {
                     PerformExceptionFallback();
                 }
             }
@@ -356,11 +349,11 @@ namespace LASI.Algorithm.Binding
                 if (Stream.Any) {
                     try {
                         Machine.St0.Transition(Stream.Pop() as dynamic);
-                    }
-                    catch (InvalidOperationException) {
+                    } catch (InvalidOperationException) {
                         PerformExceptionFallback();
                     }
-                } else { return; }
+                }
+                else { return; }
 
             }
         }
@@ -371,8 +364,7 @@ namespace LASI.Algorithm.Binding
             public override void Transition(Phrase phrase) {
                 try {
                     InternalBind(phrase);
-                }
-                catch (InvalidOperationException) {
+                } catch (InvalidOperationException) {
                     PerformExceptionFallback();
                 }
             }
@@ -417,8 +409,7 @@ namespace LASI.Algorithm.Binding
             public override void Transition(Phrase phrase) {
                 try {
                     InternalBind(phrase);
-                }
-                catch (InvalidOperationException) {
+                } catch (InvalidOperationException) {
                     PerformExceptionFallback();
                 }
             }
@@ -473,8 +464,7 @@ namespace LASI.Algorithm.Binding
 
                 try {
                     Machine.St5.Transition(Stream.Pop() as dynamic);
-                }
-                catch (InvalidOperationException) {
+                } catch (InvalidOperationException) {
                     PerformExceptionFallback();
                 }
             }
@@ -494,8 +484,7 @@ namespace LASI.Algorithm.Binding
 
                 try {
                     Machine.St2.Transition(Stream.Pop() as dynamic);
-                }
-                catch (InvalidOperationException) {
+                } catch (InvalidOperationException) {
                     PerformExceptionFallback();
                 }
             }

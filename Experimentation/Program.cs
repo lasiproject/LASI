@@ -17,9 +17,9 @@ namespace LASI.Experimentation.CommandLine
         static void Main(string[] args) {
             Word.VerboseOutput = true;
             Phrase.VerboseOutput = true;
-            LexicalLookup.LoadAllData();
+            Lookup.LoadAllData();
 
-            ISet<string> allNouns = LexicalLookup.NounStringDictionary;
+            ISet<string> allNouns = Lookup.NounStringDictionary;
             var doc = Tagger.DocumentFromPDF(new PdfFile(@"C:\Users\Dustin\Documents\Was Hitler a Darwinian.pdf"));
             Console.ReadKey();
         }
