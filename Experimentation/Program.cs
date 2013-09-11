@@ -19,8 +19,14 @@ namespace LASI.Experimentation.CommandLine
             Phrase.VerboseOutput = true;
             LexicalLookup.LoadAllData();
 
-            LexicalLookup.NounStringDictionary.GroupBy(s => s[0]).ToList().ForEach(g => Console.WriteLine(g.Format()));
-            Input.WaitForKey();
+            ISet<string> allNouns = LexicalLookup.NounStringDictionary;
+            var doc = Tagger.DocumentFromPDF(new PdfFile(@"C:\Users\Dustin\Documents\Was Hitler a Darwinian.pdf"));
+
+            foreach (var p in doc.Words.GetProperNouns())
+            {
+                if(
+            }
+            Console.ReadKey();
         }
 
     }

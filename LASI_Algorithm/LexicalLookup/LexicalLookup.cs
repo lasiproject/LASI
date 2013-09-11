@@ -922,11 +922,13 @@ namespace LASI.Algorithm.Lookup
         private static readonly string verbWNFilePath = ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "data.verb";
         private static readonly string adverbWNFilePath = ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "data.adv";
         private static readonly string adjectiveWNFilePath = ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "data.adj";
+        private static readonly string scrabbleDictsFilePath = ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "dictionary.txt"; //scrabble dictionary
         // Internal Thesauri
         private static NounLookup nounLookup = new NounLookup(nounWNFilePath);
         private static VerbLookup verbLookup = new VerbLookup(verbWNFilePath);
         private static AdjectiveLookup adjectiveLookup = new AdjectiveLookup(adjectiveWNFilePath);
         private static AdverbLookup adverbLookup = new AdverbLookup(adverbWNFilePath);
+        private static NounLookup nonpronounLookup = new NounLookup(scrabbleDictsFilePath);
         // Synonym Lookup Caches
         private static ConcurrentDictionary<string, ISet<string>> cachedNounData = new ConcurrentDictionary<string, ISet<string>>(Concurrency.Max, 40960);
         private static ConcurrentDictionary<string, ISet<string>> cachedVerbData = new ConcurrentDictionary<string, ISet<string>>(Concurrency.Max, 40960);
