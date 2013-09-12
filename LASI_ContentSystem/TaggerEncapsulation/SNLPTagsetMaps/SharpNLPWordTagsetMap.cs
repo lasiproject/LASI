@@ -6,6 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using LASI.Algorithm.LexicalLookup; 
 namespace LASI.ContentSystem.TaggerEncapsulation
 {
     using WordCreator = Func<string, Word>;
@@ -54,8 +55,8 @@ namespace LASI.ContentSystem.TaggerEncapsulation
             //Noun mappings
             { "NN", t => new GenericSingularNoun(t) }, //Noun, singular or mass
             { "NNS", t => new GenericPluralNoun(t) }, //Noun, plural
-            { "NNP", t => new ProperSingularNoun(t) }, //Proper noun, singular
-            { "NNPS", t => new ProperPluralNoun(t) }, //Proper noun, plural
+            { "NNP", t => {if(Lookup.ScrabbleDictionary.Contains(t.ToLower())) return new GenericSingularNoun(t); else return new ProperSingularNoun(t);}}, //Proper noun, singular
+            { "NNPS", t => {if(Lookup.ScrabbleDictionary.Contains(t.ToLower())) return new GenericPluralNoun(t); else return new ProperPluralNoun(t);}}, //Proper noun, plural
             //Pronoun mappings
             { "PDT", t => new PreDeterminer(t) }, //Predeterminer
             { "POS", t => new PossessiveEnding(t) }, //isPossessive ending

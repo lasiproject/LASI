@@ -1,7 +1,7 @@
 ﻿using LASI.Algorithm;
 using LASI.Algorithm.Binding;
-using LASI.Algorithm.Lookup;
-using LASI.Algorithm.Lookup.Morphemization;
+using LASI.Algorithm.LexicalLookup;
+using LASI.Algorithm.LexicalLookup.Morphemization;
 using LASI.ContentSystem;
 using System;
 using LASI.Algorithm.Patternization;

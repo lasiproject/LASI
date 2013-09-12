@@ -1,5 +1,5 @@
 ﻿using LASI.Algorithm.DocumentConstructs;
-using LASI.Algorithm.Lookup;
+using LASI.Algorithm.LexicalLookup;
 using LASI.Utilities;
 using LASI.Algorithm.Patternization;
 using LASI.Algorithm.Aliasing;

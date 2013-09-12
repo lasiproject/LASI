@@ -6,7 +6,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 
 
-namespace LASI.Algorithm.Lookup
+namespace LASI.Algorithm.LexicalLookup
 {
     using SetReference = System.Collections.Generic.KeyValuePair<AdjectiveSetRelationship, int>;
     internal sealed class AdjectiveLookup : IWordNetLookup<Adjective>
@@ -87,8 +87,8 @@ namespace LASI.Algorithm.Lookup
         }
 
 
-        private static readonly LASI.Algorithm.Lookup.InterSetRelationshipManagement.AdjectivePointerSymbolMap relationMap =
-            new LASI.Algorithm.Lookup.InterSetRelationshipManagement.AdjectivePointerSymbolMap();
+        private static readonly LASI.Algorithm.LexicalLookup.InterSetRelationshipManagement.AdjectivePointerSymbolMap relationMap =
+            new LASI.Algorithm.LexicalLookup.InterSetRelationshipManagement.AdjectivePointerSymbolMap();
 
         private string filePath;
 

@@ -1,4 +1,4 @@
-﻿using LASI.Algorithm.Lookup;
+﻿using LASI.Algorithm.LexicalLookup;
 using System;
 using LASI.Algorithm.Patternization;
 using System.Collections.Generic;

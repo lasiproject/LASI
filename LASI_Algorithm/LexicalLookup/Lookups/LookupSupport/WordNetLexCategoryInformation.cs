@@ -1,4 +1,4 @@
-﻿namespace LASI.Algorithm.Lookup
+﻿namespace LASI.Algorithm.LexicalLookup
 {
     /// <summary>
     /// Defines the broad lexical categories assigned to Nouns in the WordNet system.

@@ -3,6 +3,6 @@ namespace LASI.Algorithm
 {
     interface IGendered : IEntity
     {
-        Lookup.Gender Gender { get; }
+        LexicalLookup.Gender Gender { get; }
     }
 }

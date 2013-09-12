@@ -1,6 +1,6 @@
 ﻿using LASI.Algorithm.Binding;
 using LASI.Algorithm.DocumentConstructs;
-using LASI.Algorithm.Lookup;
+using LASI.Algorithm.LexicalLookup;
 using LASI.Algorithm.Weighting;
 using LASI.ContentSystem;
 using LASI.Utilities;
@@ -126,7 +126,7 @@ namespace LASI.InteropLayer
 
         private async Task LoadThesaurus() {
             await updateProgressDisplay("Loading Thesaurus...", stepSize);
-            var thesaurusTasks = LexicalLookup.GetLoadingTasks().ToList();
+            var thesaurusTasks = Lookup.GetLoadingTasks().ToList();
             while (thesaurusTasks.Any()) {
                 var currentTask = await Task.WhenAny(thesaurusTasks);
                 await updateProgressDisplay(await currentTask, 3);

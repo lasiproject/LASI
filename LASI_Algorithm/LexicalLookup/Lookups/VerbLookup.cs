@@ -1,4 +1,4 @@
-﻿using LASI.Algorithm.Lookup.InterSetRelationshipManagement;
+﻿using LASI.Algorithm.LexicalLookup.InterSetRelationshipManagement;
 using LASI.Utilities;
 using System;
 using System.Collections.Concurrent;
@@ -10,9 +10,9 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace LASI.Algorithm.Lookup
+namespace LASI.Algorithm.LexicalLookup
 {
-    using LASI.Algorithm.Lookup.Morphemization;
+    using LASI.Algorithm.LexicalLookup.Morphemization;
     using SetReference = System.Collections.Generic.KeyValuePair<VerbSetRelationship, int>;
 
     internal sealed class VerbLookup : IWordNetLookup<Verb>

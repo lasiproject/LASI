@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace LASI.Algorithm.Lookup
+namespace LASI.Algorithm.LexicalLookup
 {
     /// <summary>
     /// Contains values corresponding to distinct genders.
-    /// </summary>
+    /// </summary>C:\Users\Dustin\Documents\GitHub\LASI\LASI_Algorithm\LexicalLookup\Gender.cs
     /// <see cref="PronounKind">Defines the various kinds of Personal Pronouns.</see>
     /// <seealso cref="EntityKind">Defines the various kinds of Entities.</seealso>
     public enum Gender : byte

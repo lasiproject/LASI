@@ -8,25 +8,26 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using LASI.Algorithm.Lookup.Morphemization;
+using LASI.Algorithm.LexicalLookup.Morphemization;
 
-namespace LASI.Algorithm.Lookup
+namespace LASI.Algorithm.LexicalLookup
 {
     /// <summary>
     /// Provides Comprehensive static facilities for Synoynm Identification, Word and Phrase Comparison, Gender Stratification, and Named Entity Recognition.
     /// </summary>
-    public static class LexicalLookup
+    public static class Lookup
     {
         #region Public Methods
 
-        #region Synonym Lookup Methods
+        #region Synonym LexicalLookup Methods
 
         /// <summary>
         /// Returns the synonyms for the provided Noun.
         /// </summary>
         /// <param name="noun">The Noun to lookup.</param>
         /// <returns>The synonyms for the provided Noun.</returns>
-        public static IEnumerable<string> GetSynonyms(this Noun noun) {
+        public static IEnumerable<string> GetSynonyms(this Noun noun)
+        {
             return InternalLookup(noun);
         }
         /// <summary>
@@ -34,7 +35,8 @@ namespace LASI.Algorithm.Lookup
         /// </summary>
         /// <param name="verb">The Verb to lookup.</param>
         /// <returns>The synonyms for the provided Verb.</returns>
-        public static IEnumerable<string> GetSynonyms(this Verb verb) {
+        public static IEnumerable<string> GetSynonyms(this Verb verb)
+        {
             return InternalLookup(verb);
         }
         /// <summary>
@@ -42,7 +44,8 @@ namespace LASI.Algorithm.Lookup
         /// </summary>
         /// <param name="adjective">The Adjective to lookup.</param>
         /// <returns>The synonyms for the provided Adjective.</returns>
-        public static IEnumerable<string> GetSynonyms(this Adjective adjective) {
+        public static IEnumerable<string> GetSynonyms(this Adjective adjective)
+        {
             return InternalLookup(adjective);
         }
         /// <summary>
@@ -50,7 +53,8 @@ namespace LASI.Algorithm.Lookup
         /// </summary>
         /// <param name="adverb">The Adverb to lookup.</param>
         /// <returns>The synonyms for the provided Adverb.</returns>
-        public static IEnumerable<string> GetSynonyms(this Adverb adverb) {
+        public static IEnumerable<string> GetSynonyms(this Adverb adverb)
+        {
             return InternalLookup(adverb);
         }
 
@@ -65,7 +69,8 @@ namespace LASI.Algorithm.Lookup
         /// <code>if ( vp1.IsSimilarTo(vp2) ) { ... }</code>
         /// Please prefer the second convention.
         /// </remarks>
-        public static bool IsSynonymFor(this Noun first, Noun second) {
+        public static bool IsSynonymFor(this Noun first, Noun second)
+        {
             return InternalLookup(first).Contains(second.Text);
         }
         /// <summary>
@@ -79,7 +84,8 @@ namespace LASI.Algorithm.Lookup
         /// <code>if ( vp1.IsSimilarTo(vp2) ) { ... }</code>
         /// Please prefer the second convention.
         /// </remarks>
-        public static bool IsSynonymFor(this Verb first, Verb second) {
+        public static bool IsSynonymFor(this Verb first, Verb second)
+        {
             if (first == null || second == null)
                 return false;
             return InternalLookup(first).Contains(second.Text);
@@ -95,33 +101,42 @@ namespace LASI.Algorithm.Lookup
         /// <code>if ( vp1.IsSimilarTo(vp2) ) { ... }</code>
         /// Please prefer the second convention.
         /// </remarks>
-        public static bool IsSynonymFor(this Adjective word, Adjective other) {
+        public static bool IsSynonymFor(this Adjective word, Adjective other)
+        {
             return InternalLookup(word).Contains(other.Text);
         }
 
         #region Private Adjective Specific Lookups
-        static bool IsSynonymFor(this Adjective word, SuperlativeAdjective other) {
+        static bool IsSynonymFor(this Adjective word, SuperlativeAdjective other)
+        {
             return InternalLookup(word).Contains(other.Text);
         }
-        static bool IsSynonymFor(this SuperlativeAdjective word, Adjective other) {
+        static bool IsSynonymFor(this SuperlativeAdjective word, Adjective other)
+        {
             return InternalLookup(word).Contains(other.Text);
         }
-        static bool IsSynonymFor(this SuperlativeAdjective word, SuperlativeAdjective other) {
+        static bool IsSynonymFor(this SuperlativeAdjective word, SuperlativeAdjective other)
+        {
             return InternalLookup(word).Contains(other.Text);
         }
-        static bool IsSynonymFor(this ComparativeAdjective word, ComparativeAdjective other) {
+        static bool IsSynonymFor(this ComparativeAdjective word, ComparativeAdjective other)
+        {
             return InternalLookup(word).Contains(other.Text);
         }
-        static bool IsSynonymFor(this Adjective word, ComparativeAdjective other) {
+        static bool IsSynonymFor(this Adjective word, ComparativeAdjective other)
+        {
             return InternalLookup(word).Contains(other.Text);
         }
-        static bool IsSynonymFor(this ComparativeAdjective word, Adjective other) {
+        static bool IsSynonymFor(this ComparativeAdjective word, Adjective other)
+        {
             return InternalLookup(word).Contains(other.Text);
         }
-        static bool IsSynonymFor(this ComparativeAdjective word, SuperlativeAdjective other) {
+        static bool IsSynonymFor(this ComparativeAdjective word, SuperlativeAdjective other)
+        {
             return InternalLookup(word).Contains(other.Text);
         }
-        static bool IsSynonymFor(this SuperlativeAdjective word, ComparativeAdjective other) {
+        static bool IsSynonymFor(this SuperlativeAdjective word, ComparativeAdjective other)
+        {
             return InternalLookup(word).Contains(other.Text);
         }
         #endregion
@@ -132,35 +147,44 @@ namespace LASI.Algorithm.Lookup
         /// <param name="word">The first Adverb.</param>
         /// <param name="other">The second Adverb</param>
         /// <returns>True if the Adverb instances are synonymous, false otherwise.</returns>
-        public static bool IsSynonymFor(this Adverb word, Adverb other) {
+        public static bool IsSynonymFor(this Adverb word, Adverb other)
+        {
             return InternalLookup(word).Contains(other.Text);
         }
 
 
         #region Private Adverb Specific Lookups
-        static bool IsSynonymFor(this Adverb word, SuperlativeAdverb other) {
+        static bool IsSynonymFor(this Adverb word, SuperlativeAdverb other)
+        {
             return InternalLookup(word).Contains(other.Text);
         }
-        static bool IsSynonymFor(this SuperlativeAdverb word, Adverb other) {
+        static bool IsSynonymFor(this SuperlativeAdverb word, Adverb other)
+        {
             return InternalLookup(word).Contains(other.Text);
         }
-        static bool IsSynonymFor(this SuperlativeAdverb word, SuperlativeAdverb other) {
+        static bool IsSynonymFor(this SuperlativeAdverb word, SuperlativeAdverb other)
+        {
             return InternalLookup(word).Contains(other.Text);
         }
-        static bool IsSynonymFor(this ComparativeAdverb word, ComparativeAdverb other) {
+        static bool IsSynonymFor(this ComparativeAdverb word, ComparativeAdverb other)
+        {
             return InternalLookup(word).Contains(other.Text);
         }
-        static bool IsSynonymFor(this Adverb word, ComparativeAdverb other) {
+        static bool IsSynonymFor(this Adverb word, ComparativeAdverb other)
+        {
             var otherRoot = AdverbConjugator.FindRoot(other);
             return InternalLookup(word).Contains(other.Text);
         }
-        static bool IsSynonymFor(this ComparativeAdverb word, Adverb other) {
+        static bool IsSynonymFor(this ComparativeAdverb word, Adverb other)
+        {
             return InternalLookup(word).Contains(other.Text);
         }
-        static bool IsSynonymFor(this ComparativeAdverb word, SuperlativeAdverb other) {
+        static bool IsSynonymFor(this ComparativeAdverb word, SuperlativeAdverb other)
+        {
             return InternalLookup(word).Contains(other.Text);
         }
-        static bool IsSynonymFor(this SuperlativeAdverb word, ComparativeAdverb other) {
+        static bool IsSynonymFor(this SuperlativeAdverb word, ComparativeAdverb other)
+        {
             return InternalLookup(word).Contains(other.Text);
         }
         #endregion
@@ -181,7 +205,8 @@ namespace LASI.Algorithm.Lookup
         /// <code>if ( e1.IsSimilarTo(e2) ) { ... }</code>
         /// Please prefer the second convention.
         /// </remarks>
-        public static SimResult IsSimilarTo(this IEntity first, IEntity second) {
+        public static SimResult IsSimilarTo(this IEntity first, IEntity second)
+        {
             return first.Match().Yield<SimResult>()
                     .When(string.Equals(first.Text, second.Text, StringComparison.OrdinalIgnoreCase))
                         .Then(SimResult.Similar)
@@ -208,7 +233,8 @@ namespace LASI.Algorithm.Lookup
         /// <code>if ( v1.IsSimilarTo(v2) ) { ... }</code> 
         /// Please prefer the second convention.
         /// </remarks>
-        public static SimResult IsSimilarTo(this IVerbal first, IVerbal second) {
+        public static SimResult IsSimilarTo(this IVerbal first, IVerbal second)
+        {
             return first.Match().Yield<SimResult>()
                     .When(string.Equals(first.Text, second.Text, StringComparison.OrdinalIgnoreCase))
                         .Then(SimResult.Similar)
@@ -235,7 +261,8 @@ namespace LASI.Algorithm.Lookup
         /// <code>if ( d1.IsSimilarTo(d2) ) { ... }</code> 
         /// Please prefer the second convention.
         /// </remarks>
-        public static SimResult IsSimilarTo(this IDescriptor first, IDescriptor second) {
+        public static SimResult IsSimilarTo(this IDescriptor first, IDescriptor second)
+        {
             return first.Match().Yield<SimResult>()
                     .When(string.Equals(first.Text, second.Text, StringComparison.OrdinalIgnoreCase))
                         .Then(SimResult.Similar)
@@ -262,7 +289,8 @@ namespace LASI.Algorithm.Lookup
         /// <code>if ( a1.IsSimilarTo(a2) ) { ... }</code> 
         /// Please prefer the second convention.
         /// </remarks>
-        public static SimResult IsSimilarTo(this IAdverbial first, IAdverbial second) {
+        public static SimResult IsSimilarTo(this IAdverbial first, IAdverbial second)
+        {
             return first.Match().Yield<SimResult>()
                     .When(string.Equals(first.Text, second.Text, StringComparison.OrdinalIgnoreCase))
                         .Then(SimResult.Similar)
@@ -289,7 +317,8 @@ namespace LASI.Algorithm.Lookup
         /// <code>if ( n1.IsSimilarTo(np2) ) { ... }</code>
         /// Please prefer the second convention.
         /// </remarks>
-        public static SimResult IsSimilarTo(this Noun first, NounPhrase second) {
+        public static SimResult IsSimilarTo(this Noun first, NounPhrase second)
+        {
             var phraseNouns = second.Words.GetNouns();
             return new SimResult(phraseNouns.Count() == 1 && phraseNouns.First().IsSynonymFor(first));
         }
@@ -304,7 +333,8 @@ namespace LASI.Algorithm.Lookup
         /// <code>if ( np1.IsSimilarTo(n2) ) { ... }</code>
         /// Please prefer the second convention.
         /// </remarks>
-        public static SimResult IsSimilarTo(this NounPhrase first, Noun second) {
+        public static SimResult IsSimilarTo(this NounPhrase first, Noun second)
+        {
             return second.IsSimilarTo(first);
         }
         /// <summary>
@@ -318,7 +348,8 @@ namespace LASI.Algorithm.Lookup
         /// <code>if ( n1.IsSimilarTo(n2) ) { ... }</code>
         /// Please prefer the second convention.
         /// </remarks>
-        public static SimResult IsSimilarTo(this Noun first, Noun second) {
+        public static SimResult IsSimilarTo(this Noun first, Noun second)
+        {
             return new SimResult(first.IsSynonymFor(second));
         }
         /// <summary>
@@ -332,7 +363,8 @@ namespace LASI.Algorithm.Lookup
         /// <code>if ( v1.IsSimilarTo(v2) ) { ... }</code>
         /// Please prefer the second convention.
         /// </remarks>
-        public static SimResult IsSimilarTo(this Verb first, Verb second) {
+        public static SimResult IsSimilarTo(this Verb first, Verb second)
+        {
             return new SimResult(first.IsSynonymFor(second));
         }
         /// <summary>
@@ -346,7 +378,8 @@ namespace LASI.Algorithm.Lookup
         /// <code>if ( vp1.IsSimilarTo(v2) ) { ... }</code>
         /// Please prefer the second convention.
         /// </remarks>
-        public static SimResult IsSimilarTo(this VerbPhrase first, Verb second) {
+        public static SimResult IsSimilarTo(this VerbPhrase first, Verb second)
+        {
             return second.IsSimilarTo(first);
         }
         /// <summary>
@@ -360,7 +393,8 @@ namespace LASI.Algorithm.Lookup
         /// <code>if ( v1.IsSimilarTo(vp2) ) { ... }</code>
         /// Please prefer the second convention.
         /// </remarks>
-        public static SimResult IsSimilarTo(this Verb first, VerbPhrase second) {
+        public static SimResult IsSimilarTo(this Verb first, VerbPhrase second)
+        {
             return new SimResult(second.Words.TakeWhile(w => !(w is ToLinker)).GetVerbs().Any(v => v.IsSynonymFor(first)));//This is kind of rough.
         }
 
@@ -375,7 +409,8 @@ namespace LASI.Algorithm.Lookup
         /// <code>if ( np1.IsSimilarTo(np2) ) { ... }</code>
         /// Please prefer the second convention.
         /// </remarks>
-        public static SimResult IsSimilarTo(this NounPhrase first, NounPhrase second) {
+        public static SimResult IsSimilarTo(this NounPhrase first, NounPhrase second)
+        {
             var ratio = GetSimilarityRatio(first, second);
             return new SimResult(ratio > SIMILARITY_THRESHOLD, ratio);
         }
@@ -390,7 +425,8 @@ namespace LASI.Algorithm.Lookup
         /// <code>if ( vp1.IsSimilarTo(vp2) ) { ... }</code>
         /// Please prefer the second convention.
         /// </remarks>
-        public static SimResult IsSimilarTo(this VerbPhrase first, VerbPhrase second) {
+        public static SimResult IsSimilarTo(this VerbPhrase first, VerbPhrase second)
+        {
 
             //Look into refining this
             List<Verb> leftHandVerbs = first.Words.GetVerbs().ToList();
@@ -398,13 +434,17 @@ namespace LASI.Algorithm.Lookup
 
             bool result = leftHandVerbs.Count == rightHandVerbs.Count;
 
-            if (result) {
-                try {
-                    for (var i = 0; i < leftHandVerbs.Count; ++i) {
+            if (result)
+            {
+                try
+                {
+                    for (var i = 0; i < leftHandVerbs.Count; ++i)
+                    {
                         result &= leftHandVerbs[i].IsSynonymFor(rightHandVerbs[i]);
                     }
                 }
-                catch (NullReferenceException) {
+                catch (NullReferenceException)
+                {
                     return SimResult.Dissimilar;
                 }
             }
@@ -422,7 +462,8 @@ namespace LASI.Algorithm.Lookup
         /// <code>if ( a1.IsSimilarTo(a2) ) { ... }</code>
         /// Please prefer the second convention.
         /// </remarks>
-        public static SimResult IsSimilarTo(this Adjective first, Adjective second) {
+        public static SimResult IsSimilarTo(this Adjective first, Adjective second)
+        {
             return new SimResult(first.IsSynonymFor(second));
         }
         /// <summary>
@@ -436,7 +477,8 @@ namespace LASI.Algorithm.Lookup
         /// <code>if ( ap1.IsSimilarTo(a2) ) { ... }</code>
         /// Please prefer the second convention.
         /// </remarks>
-        public static SimResult IsSimilarTo(this AdjectivePhrase first, Adjective second) {
+        public static SimResult IsSimilarTo(this AdjectivePhrase first, Adjective second)
+        {
             return second.IsSimilarTo(first);
         }
         /// <summary>
@@ -450,7 +492,8 @@ namespace LASI.Algorithm.Lookup
         /// <code>if ( a1.IsSimilarTo(ap2) ) { ... }</code>
         /// Please prefer the second convention.
         /// </remarks>
-        public static SimResult IsSimilarTo(this Adjective first, AdjectivePhrase second) {
+        public static SimResult IsSimilarTo(this Adjective first, AdjectivePhrase second)
+        {
             return new SimResult(second.Words.GetAdjectives().Any(adj => adj.IsSynonymFor(first)));
         }
 
@@ -466,7 +509,8 @@ namespace LASI.Algorithm.Lookup
         /// <code>if ( ap1.IsSimilarTo(ap2) ) { ... }</code>
         /// Please prefer the second convention.
         /// </remarks>
-        public static SimResult IsSimilarTo(this AdjectivePhrase first, AdjectivePhrase second) {
+        public static SimResult IsSimilarTo(this AdjectivePhrase first, AdjectivePhrase second)
+        {
 
             //Look into refining this
             List<Adjective> leftHandAdjectives = first.Words.GetAdjectives().ToList();
@@ -474,13 +518,17 @@ namespace LASI.Algorithm.Lookup
 
             bool result = leftHandAdjectives.Count == rightHandAdjectives.Count;
 
-            if (result) {
-                try {
-                    for (var i = 0; i < leftHandAdjectives.Count; ++i) {
+            if (result)
+            {
+                try
+                {
+                    for (var i = 0; i < leftHandAdjectives.Count; ++i)
+                    {
                         result &= leftHandAdjectives[i].IsSynonymFor(rightHandAdjectives[i]);
                     }
                 }
-                catch (NullReferenceException) {
+                catch (NullReferenceException)
+                {
                     return SimResult.Dissimilar;
                 }
             }
@@ -497,7 +545,8 @@ namespace LASI.Algorithm.Lookup
         /// <code>if ( a1.IsSimilarTo(a2) ) { ... }</code>
         /// Please prefer the second convention.
         /// </remarks>
-        public static SimResult IsSimilarTo(this Adverb first, Adverb second) {
+        public static SimResult IsSimilarTo(this Adverb first, Adverb second)
+        {
             return new SimResult(first.IsSynonymFor(second));
         }
         /// <summary>
@@ -511,7 +560,8 @@ namespace LASI.Algorithm.Lookup
         /// <code>if ( ap1.IsSimilarTo(a2) ) { ... }</code>
         /// Please prefer the second convention.
         /// </remarks>
-        public static SimResult IsSimilarTo(this AdverbPhrase first, Adverb second) {
+        public static SimResult IsSimilarTo(this AdverbPhrase first, Adverb second)
+        {
             return second.IsSimilarTo(first);
         }
         /// <summary>
@@ -525,7 +575,8 @@ namespace LASI.Algorithm.Lookup
         /// <code>if ( a1.IsSimilarTo(ap2) ) { ... }</code>
         /// Please prefer the second convention.
         /// </remarks>
-        public static SimResult IsSimilarTo(this Adverb first, AdverbPhrase second) {
+        public static SimResult IsSimilarTo(this Adverb first, AdverbPhrase second)
+        {
             return new SimResult(second.Words.GetAdverbs().Any(adj => adj.IsSynonymFor(first)));
             // Must refine this to check for negators and modals which will potentially invert the meaning.
         }
@@ -541,7 +592,8 @@ namespace LASI.Algorithm.Lookup
         /// <code>if ( ap1.IsSimilarTo(ap2) ) { ... }</code>
         /// Please prefer the second convention.
         /// </remarks>
-        public static SimResult IsSimilarTo(this AdverbPhrase first, AdverbPhrase second) {
+        public static SimResult IsSimilarTo(this AdverbPhrase first, AdverbPhrase second)
+        {
 
             //Look into refining this
             List<Adverb> leftHandAdjectives = first.Words.GetAdverbs().ToList();
@@ -549,13 +601,17 @@ namespace LASI.Algorithm.Lookup
 
             bool result = leftHandAdjectives.Count == rightHandAdjectives.Count;
 
-            if (result) {
-                try {
-                    for (var i = 0; i < leftHandAdjectives.Count; ++i) {
+            if (result)
+            {
+                try
+                {
+                    for (var i = 0; i < leftHandAdjectives.Count; ++i)
+                    {
                         result &= leftHandAdjectives[i].IsSynonymFor(rightHandAdjectives[i]);
                     }
                 }
-                catch (NullReferenceException) {
+                catch (NullReferenceException)
+                {
                     return SimResult.Dissimilar;
                 }
             }
@@ -567,22 +623,29 @@ namespace LASI.Algorithm.Lookup
         /// <param name="first">The first NounPhrase</param>
         /// <param name="second">The second NounPhrase</param>
         /// <returns>A double value indicating the degree of similarity between two NounPhrases.</returns>
-        private static double GetSimilarityRatio(NounPhrase first, NounPhrase second) {
+        private static double GetSimilarityRatio(NounPhrase first, NounPhrase second)
+        {
             NounPhrase outer = null;
             NounPhrase inner = null;
             double similarCount = 0.0d;
 
-            if (first.Words.Count() >= second.Words.Count()) {
+            if (first.Words.Count() >= second.Words.Count())
+            {
                 outer = first;
                 inner = second;
-            } else {
+            }
+            else
+            {
                 outer = second;
                 inner = first;
             }
 
-            if ((outer.Words.GetNouns().Count() != 0) && (inner.Words.GetNouns().Count() != 0)) {
-                foreach (var o in outer.Words.GetNouns()) {
-                    foreach (var i in inner.Words.GetNouns()) {
+            if ((outer.Words.GetNouns().Count() != 0) && (inner.Words.GetNouns().Count() != 0))
+            {
+                foreach (var o in outer.Words.GetNouns())
+                {
+                    foreach (var i in inner.Words.GetNouns())
+                    {
                         if (i.IsSimilarTo(o))
                             similarCount += 0.7;
                     }
@@ -596,14 +659,15 @@ namespace LASI.Algorithm.Lookup
 
         #endregion
 
-        #region Name Gender Lookup Methods
+        #region Name Gender LexicalLookup Methods
 
         /// <summary>
         /// Returns a NameGender value indiciating the likely gender of the entity.
         /// </summary>
         /// <param name="entity">The entity whose gender to lookup.</param>
         /// <returns>A NameGender value indiciating the likely gender of the entity.</returns>
-        public static Gender GetGender(this IEntity entity) {
+        public static Gender GetGender(this IEntity entity)
+        {
             return entity.Match().Yield<Gender>()
                     .Case<IGendered>(p => p.Gender)
                     .Case<IPronoun>(p => p.GetPronounGender())
@@ -622,7 +686,8 @@ namespace LASI.Algorithm.Lookup
         /// </summary>
         /// <param name="pronoun">The Pronoun whose gender to lookup.</param>
         /// <returns>A NameGender value indiciating the likely gender of the Pronoun.</returns>
-        private static Gender GetPronounGender(this IPronoun pronoun) {
+        private static Gender GetPronounGender(this IPronoun pronoun)
+        {
             return pronoun != null ?
                 pronoun.Match().Yield<Gender>()
                     .Case<IGendered>(p => p.Gender)
@@ -630,7 +695,8 @@ namespace LASI.Algorithm.Lookup
                 .Result() :
                 pronoun.Match().Yield<Gender>()
                 .When<IPronoun>(p => p.RefersTo != null)
-                .Then<IPronoun>(p => {
+                .Then<IPronoun>(p =>
+                {
                     return (from referent in p.RefersTo
                             let gen =
                                referent.Match().Yield<Gender>()
@@ -650,7 +716,8 @@ namespace LASI.Algorithm.Lookup
         /// </summary>
         /// <param name="name">The NounPhrase whose prevailing gender to lookup.</param>
         /// <returns>A NameGender value indiciating the likely prevailing gender of the NounPhrase.</returns>
-        static Gender GetGender(this NounPhrase name) {
+        static Gender GetGender(this NounPhrase name)
+        {
             return GetNounPhraseGender(name);
         }
 
@@ -659,7 +726,8 @@ namespace LASI.Algorithm.Lookup
         /// </summary>
         /// <param name="name">The NounPhrase to check.</param>
         /// <returns>True if the provided NounPhrase is a known Full Name, false otherwise.</returns>
-        public static bool IsFullName(this NounPhrase name) {
+        public static bool IsFullName(this NounPhrase name)
+        {
             return GetNounPhraseGender(name).IsMaleOrFemale() && name.Words.GetProperNouns().Any(n => n.IsLastName());
 
         }
@@ -668,7 +736,8 @@ namespace LASI.Algorithm.Lookup
         /// </summary>
         /// <param name="name">The NounPhrase to check.</param>
         /// <returns>True if the provided NounPhrase is a known Full Female Name, false otherwise.</returns>
-        public static bool IsFullFemale(this NounPhrase name) {
+        public static bool IsFullFemale(this NounPhrase name)
+        {
             return GetNounPhraseGender(name).IsFemale();
         }
         /// <summary>
@@ -676,19 +745,22 @@ namespace LASI.Algorithm.Lookup
         /// </summary>
         /// <param name="name">The NounPhrase to check.</param>
         /// <returns>True if the provided NounPhrase is a known Full Male Name, false otherwise.</returns>
-        public static bool IsFullMale(this NounPhrase name) {
+        public static bool IsFullMale(this NounPhrase name)
+        {
             return GetNounPhraseGender(name).IsMale();
         }
 
 
-        private static Gender GetNounPhraseGender(NounPhrase name) {
+        private static Gender GetNounPhraseGender(NounPhrase name)
+        {
             var propers = name.Words.GetProperNouns();
             var first = propers.GetSingular().FirstOrDefault(n => n.Gender.IsMaleOrFemale());
             var last = propers.LastOrDefault(n => n != first && n.IsLastName());
             return first != null && (last != null || propers.All(n => n.GetGender() == first.Gender)) ?
                 first.Gender : name.Words.GetNouns().All(n => n.GetGender().IsNeutral()) ? Gender.Neutral : Gender.Undetermined;
         }
-        private static Gender GetPhraseGender(PronounPhrase name) {
+        private static Gender GetPhraseGender(PronounPhrase name)
+        {
             if (name.Words.All(w => w is Determiner))
                 return Gender.Neutral;
             var genderedWords = name.Words.OfType<IGendered>().Select(w => w.Gender);
@@ -703,13 +775,14 @@ namespace LASI.Algorithm.Lookup
 
         #endregion
 
-        #region First Name Lookup Methods
+        #region First Name LexicalLookup Methods
         /// <summary>
         /// Determines wether the provided ProperNoun is a FirstName.
         /// </summary>
         /// <param name="proper">The ProperNoun to check.</param>
         /// <returns>True if the provided ProperNoun is a FirstName, false otherwise.</returns>
-        public static bool IsFirstName(this ProperNoun proper) {
+        public static bool IsFirstName(this ProperNoun proper)
+        {
             return IsFirstName(proper.Text);
         }
         /// <summary>
@@ -718,7 +791,8 @@ namespace LASI.Algorithm.Lookup
         /// </summary>
         /// <param name="proper">The ProperNoun to check.</param>
         /// <returns>True if the ProperNoun's text corresponds to a last name in the english language, false otherwise.</returns>
-        public static bool IsLastName(this ProperNoun proper) {
+        public static bool IsLastName(this ProperNoun proper)
+        {
             return IsLastName(proper.Text);
         }
         /// <summary>
@@ -727,7 +801,8 @@ namespace LASI.Algorithm.Lookup
         /// </summary>
         /// <param name="proper">The ProperNoun to test.</param>
         /// <returns>True if the ProperNoun's text corresponds to a female first name in the english language, false otherwise.</returns>
-        public static bool IsFemaleFirstName(this ProperNoun proper) {
+        public static bool IsFemaleFirstName(this ProperNoun proper)
+        {
             return IsFemaleFirstName(proper.Text);
         }
         /// <summary>
@@ -736,7 +811,8 @@ namespace LASI.Algorithm.Lookup
         /// </summary>
         /// <param name="proper">The ProperNoun to test.</param>
         /// <returns>True if the ProperNoun's text corresponds to a male first name in the english language, false otherwise.</returns>
-        public static bool IsMaleFirstName(this ProperNoun proper) {
+        public static bool IsMaleFirstName(this ProperNoun proper)
+        {
             return IsMaleFirstName(proper.Text);
         }
         /// <summary>
@@ -744,7 +820,8 @@ namespace LASI.Algorithm.Lookup
         /// </summary>
         /// <param name="text">The text to check.</param>
         /// <returns>True if the provided text is in the set of Female or Male first names, false otherwise.</returns>
-        private static bool IsFirstName(string text) {
+        private static bool IsFirstName(string text)
+        {
             return femaleNames.Count > maleNames.Count ?
                 maleNames.Contains(text) || femaleNames.Contains(text) :
                 femaleNames.Contains(text) || maleNames.Contains(text);
@@ -755,7 +832,8 @@ namespace LASI.Algorithm.Lookup
         /// </summary>
         /// <param name="text">The Name to lookup</param>
         /// <returns>True if the provided string corresponds to a common lastname in the english language, false otherwise.</returns>
-        private static bool IsLastName(string text) {
+        private static bool IsLastName(string text)
+        {
             return lastNames.Contains(text);
         }
         /// <summary>
@@ -764,7 +842,8 @@ namespace LASI.Algorithm.Lookup
         /// </summary>
         /// <param name="text">The Name to lookup</param>
         /// <returns>True if the provided string corresponds to a common female name in the english language, false otherwise.</returns>
-        private static bool IsFemaleFirstName(string text) {
+        private static bool IsFemaleFirstName(string text)
+        {
             return femaleNames.Contains(text);
         }
         /// <summary>
@@ -773,31 +852,36 @@ namespace LASI.Algorithm.Lookup
         /// </summary>
         /// <param name="text">The Name to lookup</param>
         /// <returns>True if the provided string corresponds to a common male name in the english language, false otherwise.</returns>
-        private static bool IsMaleFirstName(string text) {
+        private static bool IsMaleFirstName(string text)
+        {
             return maleNames.Contains(text);
         }
 
         #endregion
 
-        #region Lookup Loading Methods
+        #region LexicalLookup Loading Methods
         /// <summary>
         /// Returns a sequence of Tasks containing all of the yet unstarted LexicalLookup loading operations.
         /// Await each Task to start its corresponding loading operation.
         /// </summary>
         /// <returns>a sequence of Tasks containing all of the yet unstarted LexicalLookup loading operations.</returns>
-        public static IEnumerable<Task<string>> GetLoadingTasks() {
+        public static IEnumerable<Task<string>> GetLoadingTasks()
+        {
             return new[] {
                 LoadingTaskBuilder.NounThesaurusLoadTask,
                 LoadingTaskBuilder.VerbThesaurusLoadTask, 
                 LoadingTaskBuilder.AdjectiveThesaurusLoadTask, 
                 LoadingTaskBuilder.AdverbThesaurusLoadTask, 
-                LoadingTaskBuilder.NameDataLoadTask }
+                LoadingTaskBuilder.NameDataLoadTask,
+                ScrabbleDictionaryLoadTask
+                }
             .Where(t => t != null);
         }
         /// <summary>
         /// Auto matically loads all resources used by the LexicalLookup class.
         /// </summary>
-        public static void LoadAllData() {
+        public static void LoadAllData()
+        {
             Task.WaitAll(GetLoadingTasks().ToArray());
         }
 
@@ -807,31 +891,37 @@ namespace LASI.Algorithm.Lookup
 
         #region Private Methods
 
-        #region Internal Syonym Lookup Methods
+        #region Internal Syonym LexicalLookup Methods
 
-        private static ISet<string> InternalLookup(Noun noun) {
+        private static ISet<string> InternalLookup(Noun noun)
+        {
             return cachedNounData.GetOrAdd(noun.Text, key => nounLookup[key]);
         }
-        private static ISet<string> InternalLookup(Verb verb) {
+        private static ISet<string> InternalLookup(Verb verb)
+        {
             return cachedVerbData.GetOrAdd(verb.Text, key => verbLookup[key]);
         }
-        private static ISet<string> InternalLookup(Adverb adverb) {
+        private static ISet<string> InternalLookup(Adverb adverb)
+        {
             return cachedAdverbData.GetOrAdd(adverb.Text, key => adverbLookup[key]);
         }
-        private static ISet<string> InternalLookup(Adjective adjective) {
+        private static ISet<string> InternalLookup(Adjective adjective)
+        {
             return cachedAdjectiveData.GetOrAdd(adjective.Text, key => adjectiveLookup[key]);
         }
 
         #endregion
 
-        private static async Task LoadNameDataAsync() {
+        private static async Task LoadNameDataAsync()
+        {
             await Task.Factory.ContinueWhenAll(
                 new[] {  
                     Task.Run(async () => lastNames = await GetLinesAsync(lastNamesFilePath)),
                     Task.Run(async () => femaleNames = await GetLinesAsync(femaleNamesFilePath)),
                     Task.Run(async () => maleNames = await GetLinesAsync(maleNamesFilePath)) 
                 },
-                results => {
+                results =>
+                {
                     genderAmbiguousNames =
                         new HashSet<string>(maleNames.Intersect(femaleNames).Concat(femaleNames.Intersect(maleNames)), StringComparer.OrdinalIgnoreCase);
 
@@ -847,8 +937,10 @@ namespace LASI.Algorithm.Lookup
             );
         }
 
-        private static async Task<HashSet<string>> GetLinesAsync(string fileName) {
-            using (var reader = new StreamReader(fileName)) {
+        private static async Task<HashSet<string>> GetLinesAsync(string fileName)
+        {
+            using (var reader = new StreamReader(fileName))
+            {
                 return new HashSet<string>(
                     (await reader.ReadToEndAsync()).Split(
                         new[] { '\r', '\n' },
@@ -857,6 +949,19 @@ namespace LASI.Algorithm.Lookup
             }
         }
 
+        private static Task<string> ScrabbleDictionaryLoadTask = Task.Run(() =>
+        {
+            scrabbleDictionary = new List<string>();
+            using (var reader = new StreamReader(scrabbleDictsFilePath))
+            {
+                var data = reader.ReadToEnd().Split(new[] { '\r', '\n' },
+                StringSplitOptions.RemoveEmptyEntries).Select(s => s.ToLower());
+            }
+            return "Finished Loading Scrabble Dictionary";
+        });
+        
+             
+        
         #endregion
 
         #region Public Properties
@@ -867,11 +972,13 @@ namespace LASI.Algorithm.Lookup
         /// Gets a set of strings corresponding to all nouns in the WordNet data bank. The set uses a case sensitive IComparer&lt;string&gt;.
         /// </summary>
         public static ISet<string> NounStringDictionary { get { return nounLookup.AllNouns; } }
-        
+
         /// <summary>
         /// Gets a set of strings corresponding to all verbs in the WordNet data bank. The set uses a case sensitive IComparer&lt;string&gt;.
         /// </summary>
         public static ISet<string> VerbStringDitionary { get { return verbLookup.AllVerbs; } }
+
+        public static IEnumerable<string> ScrabbleDictionary { get { return scrabbleDictionary; } }
 
         #endregion
 
@@ -880,32 +987,40 @@ namespace LASI.Algorithm.Lookup
         /// <summary>
         /// Gets a sequence of all known Last Names.
         /// </summary>
-        public static IReadOnlyCollection<string> LastNames {
-            get {
+        public static IReadOnlyCollection<string> LastNames
+        {
+            get
+            {
                 return lastNames.ToList().AsReadOnly();
             }
         }
         /// <summary>
         /// Gets a sequence of all known Female Names.
         /// </summary>
-        public static IReadOnlyCollection<string> FemaleNames {
-            get {
+        public static IReadOnlyCollection<string> FemaleNames
+        {
+            get
+            {
                 return femaleNames.ToList().AsReadOnly();
             }
         }
         /// <summary>
         /// Gets a sequence of all known Male Names.
         /// </summary>
-        public static IReadOnlyCollection<string> MaleNames {
-            get {
+        public static IReadOnlyCollection<string> MaleNames
+        {
+            get
+            {
                 return maleNames.ToList().AsReadOnly();
             }
         }
         /// <summary>
         /// Gets a sequence of all known Names which are just as likely to be Female or Male.
         /// </summary>
-        public static IReadOnlyCollection<string> GenderAmbiguousNames {
-            get {
+        public static IReadOnlyCollection<string> GenderAmbiguousNames
+        {
+            get
+            {
                 return genderAmbiguousNames.ToList().AsReadOnly();
             }
         }
@@ -934,7 +1049,7 @@ namespace LASI.Algorithm.Lookup
         private static AdjectiveLookup adjectiveLookup = new AdjectiveLookup(adjectiveWNFilePath);
         private static AdverbLookup adverbLookup = new AdverbLookup(adverbWNFilePath);
         private static NounLookup nonpronounLookup = new NounLookup(scrabbleDictsFilePath);
-        // Synonym Lookup Caches
+        // Synonym LexicalLookup Caches
         private static ConcurrentDictionary<string, ISet<string>> cachedNounData = new ConcurrentDictionary<string, ISet<string>>(Concurrency.Max, 40960);
         private static ConcurrentDictionary<string, ISet<string>> cachedVerbData = new ConcurrentDictionary<string, ISet<string>>(Concurrency.Max, 40960);
         private static ConcurrentDictionary<string, ISet<string>> cachedAdjectiveData = new ConcurrentDictionary<string, ISet<string>>(Concurrency.Max, 40960);
@@ -948,6 +1063,7 @@ namespace LASI.Algorithm.Lookup
         private static ISet<string> maleNames;
         private static ISet<string> femaleNames;
         private static ISet<string> genderAmbiguousNames;
+        private static List<string> scrabbleDictionary;
         //Loading states for specific data items
         private static LoadingState nounLoadingState = LoadingState.NotStarted;
         private static LoadingState verbLoadingState = LoadingState.NotStarted;
@@ -990,7 +1106,8 @@ namespace LASI.Algorithm.Lookup
             /// <param name="similar">Indicates the result the true of false result of an IsSimilarTo test.</param>
             /// <param name="similarityRatio">Represents the similarity ratio between the tested elements, if applicable.</param>
             internal SimResult(bool similar, double similarityRatio)
-                : this() {
+                : this()
+            {
                 booleanResult = similar;
                 rationalResult = similarityRatio;
             }
@@ -1011,7 +1128,8 @@ namespace LASI.Algorithm.Lookup
             ///  </summary>
             /// <param name="other">An object to compare with this object.</param>
             /// <returns>true if the current object is equal to the other parameter, false otherwise.</returns>
-            public bool Equals(SimResult other) {
+            public bool Equals(SimResult other)
+            {
                 return this == other;
             }
             /// <summary>
@@ -1019,7 +1137,8 @@ namespace LASI.Algorithm.Lookup
             /// </summary>
             /// <param name="obj">The object to compare with.</param> 
             /// <returns>True if the specified object is equal to the current SimResult, false otherwise.</returns> 
-            public override bool Equals(object obj) {
+            public override bool Equals(object obj)
+            {
                 return obj != null && obj is SimResult && this == (SimResult)obj;
             }
             /// <summary>
@@ -1032,14 +1151,16 @@ namespace LASI.Algorithm.Lookup
             /// This object is less than the other parameter.Zero This object is equal to
             /// other. Greater than zero This object is greater than other.
             /// </returns>
-            public int CompareTo(SimResult other) {
+            public int CompareTo(SimResult other)
+            {
                 return this.rationalResult.CompareTo(other.rationalResult);
             }
             /// <summary>
             /// Returns the hash code for this instance.
             /// </summary>
             /// <returns>A 32-bit signed integer hash code.</returns>
-            public override int GetHashCode() {
+            public override int GetHashCode()
+            {
                 return rationalResult.GetHashCode() ^ booleanResult.GetHashCode();
             }
             #endregion
@@ -1086,7 +1207,8 @@ namespace LASI.Algorithm.Lookup
             /// <param name="left">The SimRult on the left hand side.</param>
             /// <param name="right">The SimRult on the right hand side.</param>
             /// <returns>True if the SimResult on the left is equal to the SimResult on the right.</returns>
-            public static bool operator ==(SimResult left, SimResult right) {
+            public static bool operator ==(SimResult left, SimResult right)
+            {
                 return left.rationalResult == right.rationalResult && left.booleanResult == right.booleanResult;
             }
             /// <summary>
@@ -1101,7 +1223,8 @@ namespace LASI.Algorithm.Lookup
             /// <param name="left">The SimRult on the left hand side.</param>
             /// <param name="right">The SimRult on the right hand side.</param>
             /// <returns>False if the SimResult on the left is equal to the SimResult on the right.</returns>
-            public static bool operator !=(SimResult left, SimResult right) {
+            public static bool operator !=(SimResult left, SimResult right)
+            {
                 return !(left == right);
             }
             #endregion
@@ -1120,10 +1243,13 @@ namespace LASI.Algorithm.Lookup
         /// </summary>
         private static class LoadingTaskBuilder
         {
-            internal static Task<string> AdjectiveThesaurusLoadTask {
-                get {
+            internal static Task<string> AdjectiveThesaurusLoadTask
+            {
+                get
+                {
                     var result = adjectiveLoadingState == LoadingState.NotStarted ?
-                        Task.Run(async () => {
+                        Task.Run(async () =>
+                        {
                             await adjectiveLookup.LoadAsync();
                             adjectiveLoadingState = LoadingState.Finished;
                             return "Adjective Thesaurus Loaded";
@@ -1133,10 +1259,13 @@ namespace LASI.Algorithm.Lookup
                     return result;
                 }
             }
-            internal static Task<string> AdverbThesaurusLoadTask {
-                get {
+            internal static Task<string> AdverbThesaurusLoadTask
+            {
+                get
+                {
                     var result = adverbLoadingState == LoadingState.NotStarted ?
-                        Task.Run(async () => {
+                        Task.Run(async () =>
+                        {
                             await adverbLookup.LoadAsync();
                             adverbLoadingState = LoadingState.Finished;
                             return "Adverb Thesaurus Loaded";
@@ -1146,10 +1275,13 @@ namespace LASI.Algorithm.Lookup
                     return result;
                 }
             }
-            internal static Task<string> VerbThesaurusLoadTask {
-                get {
+            internal static Task<string> VerbThesaurusLoadTask
+            {
+                get
+                {
                     var result = verbLoadingState == LoadingState.NotStarted ?
-                        Task.Run(async () => {
+                        Task.Run(async () =>
+                        {
                             await verbLookup.LoadAsync();
                             verbLoadingState = LoadingState.Finished;
                             return "Verb Thesaurus Loaded";
@@ -1159,10 +1291,13 @@ namespace LASI.Algorithm.Lookup
                     return result;
                 }
             }
-            internal static Task<string> NounThesaurusLoadTask {
-                get {
+            internal static Task<string> NounThesaurusLoadTask
+            {
+                get
+                {
                     var result = nounLoadingState == LoadingState.NotStarted ?
-                        Task.Run(async () => {
+                        Task.Run(async () =>
+                        {
                             await nounLookup.LoadAsync();
                             nounLoadingState = LoadingState.Finished;
                             return "Noun Thesaurus Loaded";
@@ -1172,10 +1307,13 @@ namespace LASI.Algorithm.Lookup
                     return result;
                 }
             }
-            internal static Task<string> NameDataLoadTask {
-                get {
+            internal static Task<string> NameDataLoadTask
+            {
+                get
+                {
                     var result = nameDataLoadingState == LoadingState.NotStarted ?
-                        Task.Run(async () => {
+                        Task.Run(async () =>
+                        {
                             await LoadNameDataAsync();
                             nameDataLoadingState = LoadingState.Finished;
                             return "Loaded Name Data";

@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LASI.Algorithm.Lookup.Morphemization
+namespace LASI.Algorithm.LexicalLookup.Morphemization
 {
     /// <summary>
     /// Performs both noun root extraction and noun form generation.

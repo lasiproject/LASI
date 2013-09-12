@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace LASI.Algorithm.Lookup
+namespace LASI.Algorithm.LexicalLookup
 {
     using SetReference = System.Collections.Generic.KeyValuePair<AdverbSetRelationship, int>;
     internal sealed class AdverbLookup : IWordNetLookup<Adverb>
@@ -105,8 +105,8 @@ namespace LASI.Algorithm.Lookup
             }
         }
 
-        private static readonly LASI.Algorithm.Lookup.InterSetRelationshipManagement.AdverbPointerSymbolMap relationMap =
-            new LASI.Algorithm.Lookup.InterSetRelationshipManagement.AdverbPointerSymbolMap();
+        private static readonly LASI.Algorithm.LexicalLookup.InterSetRelationshipManagement.AdverbPointerSymbolMap relationMap =
+            new LASI.Algorithm.LexicalLookup.InterSetRelationshipManagement.AdverbPointerSymbolMap();
 
         private string filePath;
 

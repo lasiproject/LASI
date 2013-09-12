@@ -1,7 +1,7 @@
 ﻿using LASI;
 using LASI.Algorithm;
 using LASI.Algorithm.DocumentConstructs;
-using LASI.Algorithm.Lookup;
+using LASI.Algorithm.LexicalLookup;
 using LASI.Algorithm.Aliasing;
 using System;
 using System.Collections.Generic;

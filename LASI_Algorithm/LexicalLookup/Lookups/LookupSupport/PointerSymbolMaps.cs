@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LASI.Algorithm.Lookup.InterSetRelationshipManagement
+namespace LASI.Algorithm.LexicalLookup.InterSetRelationshipManagement
 {
     /// <summary>
     /// Provides an indexed lookup between the values of the Noun enum and their corresponding string representation in WordNet data.noun files.

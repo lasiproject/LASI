@@ -6,12 +6,12 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using LASI.Algorithm.Lookup.InterSetRelationshipManagement;
+using LASI.Algorithm.LexicalLookup.InterSetRelationshipManagement;
 
-namespace LASI.Algorithm.Lookup
+namespace LASI.Algorithm.LexicalLookup
 {
     using SetReference = System.Collections.Generic.KeyValuePair<NounSetRelationship, int>;
-    using LASI.Algorithm.Lookup.Morphemization;
+    using LASI.Algorithm.LexicalLookup.Morphemization;
     internal sealed class NounLookup : IWordNetLookup<Noun>
     {
         private const int HEADER_LENGTH = 29;

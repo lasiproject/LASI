@@ -1,5 +1,5 @@
-﻿using LASI.Algorithm.Lookup;
-using LASI.Algorithm.Lookup.Morphemization;
+﻿using LASI.Algorithm.LexicalLookup;
+using LASI.Algorithm.LexicalLookup.Morphemization;
 using LASI.Algorithm.Patternization;
 using System;
 using System.Collections.Concurrent;
