@@ -80,7 +80,7 @@ namespace AlgorithmAssemblyUnitTestProject
         public void OnLeftTest() {
             string text = "and";
             Conjunction target = new Conjunction(text);
-            ILexical expected = new NounPhrase(new Word[] { new Determiner("the"), new GenericSingularNoun("program") });
+            ILexical expected = new NounPhrase(new Word[] { new Determiner("the"), new CommonSingularNoun("program") });
             ILexical actual;
             target.JoinedLeft = expected;
             actual = target.JoinedLeft;
@@ -95,7 +95,7 @@ namespace AlgorithmAssemblyUnitTestProject
         public void OnRightTest() {
             string text = "and";
             Conjunction target = new Conjunction(text);
-            ILexical expected = new NounPhrase(new Word[] { new Determiner("the"), new GenericSingularNoun("program") });
+            ILexical expected = new NounPhrase(new Word[] { new Determiner("the"), new CommonSingularNoun("program") });
             ILexical actual;
             target.JoinedRight = expected;
             actual = target.JoinedRight;

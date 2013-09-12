@@ -1,6 +1,6 @@
 ﻿using LASI;
 using LASI.Algorithm;
-using LASI.Algorithm.DocumentConstructs;
+using LASI.Algorithm.DocumentStructures;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Xml;
@@ -66,7 +66,7 @@ namespace AlgorithmAssemblyUnitTestProject
 
 
         internal virtual Word CreateWord() {
-            Word target = new GenericSingularNoun("dog");
+            Word target = new CommonSingularNoun("dog");
             return target;
         }
 

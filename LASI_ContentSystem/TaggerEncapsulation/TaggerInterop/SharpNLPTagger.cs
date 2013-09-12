@@ -4,7 +4,7 @@ using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Text;
-using  LASI.Utilities.Text;
+using LASI.Utilities.Text;
 using System.Threading.Tasks;
 
 namespace TaggerInterop
@@ -83,15 +83,18 @@ namespace TaggerInterop
         private string LoadSourceText() {
             using (
                 var reader = new StreamReader(
-                new FileStream(
-                    inputFilePath,
+                new FileStream(inputFilePath,
                     FileMode.Open,
                     FileAccess.Read,
                     FileShare.None, 1024,
                     FileOptions.SequentialScan),
-                    Encoding.UTF8
-                    )) {
-                return String.Join(" ", reader.ReadToEnd().Split(new[] { ' ', '\t', '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries).ToList().Select(s => s.Trim()));
+                    Encoding.UTF8)) {
+                return string.Join(" ",
+                    reader.ReadToEnd()
+                    .SplitRemoveEmpty(' ', '\t', '\n', '\r')
+                    .ToList()
+                    .Select(s => s.Trim())
+                    );
             }
         }
         protected async System.Threading.Tasks.Task<string> ParseViaTaggingModeAsync(TaggerMode taggingMode) {

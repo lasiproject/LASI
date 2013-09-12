@@ -95,12 +95,12 @@ namespace AlgorithmAssemblyUnitTestProject
         public void DescribesTest() {
             string text = "funny";
             Adjective target = new Adjective(text);
-            IDescribable expected = new GenericSingularNoun("man");
+            IDescribable expected = new CommonSingularNoun("man");
             IDescribable actual;
             target.Describes = expected;
             actual = target.Describes;
             Assert.AreEqual(expected, actual);
-            expected = new NounPhrase(new Word[] { new Determiner("the"), new GenericSingularNoun("woman") });
+            expected = new NounPhrase(new Word[] { new Determiner("the"), new CommonSingularNoun("woman") });
             target.Describes = expected;
             actual = target.Describes;
             Assert.AreEqual(expected, actual);

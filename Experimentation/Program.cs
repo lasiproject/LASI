@@ -19,8 +19,7 @@ namespace LASI.Experimentation.CommandLine
             Phrase.VerboseOutput = true;
             Lookup.LoadAllData();
 
-            ISet<string> allNouns = Lookup.NounStringDictionary;
-            var doc = Tagger.DocumentFromPDF(new PdfFile(@"C:\Users\Dustin\Documents\Was Hitler a Darwinian.pdf"));
+            var commonNouns = Lookup.ScrabbleDictionary;
             Console.ReadKey();
         }
     }

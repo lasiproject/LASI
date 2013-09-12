@@ -1,6 +1,6 @@
 ﻿using LASI;
 using LASI.Algorithm;
-using LASI.Algorithm.DocumentConstructs;
+using LASI.Algorithm.DocumentStructures;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -86,7 +86,7 @@ namespace AlgorithmAssemblyUnitTestProject
                             }),
                             new NounPhrase(new Word[] { 
                                 new Adjective("blue"), 
-                                new GenericSingularNoun("team") }
+                                new CommonSingularNoun("team") }
                                 )}
                             )}, new SentenceEnding('!')),
                         new Sentence(new Clause[]{new Clause( new Phrase[]{
@@ -174,9 +174,9 @@ namespace AlgorithmAssemblyUnitTestProject
                             }), new PersonalPronoun("We"),
                             new NounPhrase(new Word[] { 
                                 new Adjective("blue"), 
-                                new GenericSingularNoun("team") }
+                                new CommonSingularNoun("team") }
                                 ),
-                             new GenericSingularNoun("team") ,
+                             new CommonSingularNoun("team") ,
                              new NounPhrase(new Word[]{
                             new PersonalPronoun("We")}),  
                             new PersonalPronoun("We"), 
@@ -245,7 +245,7 @@ namespace AlgorithmAssemblyUnitTestProject
                             }),
                             new NounPhrase(new Word[] { 
                                 new Adjective("blue"), 
-                                new GenericSingularNoun("team") }
+                                new CommonSingularNoun("team") }
                                 )}
                             )}, new SentenceEnding('!')),
                         new Sentence(new Clause[]{new Clause( new Phrase[]{

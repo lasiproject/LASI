@@ -107,7 +107,7 @@ namespace AlgorithmAssemblyUnitTestProject
         public void OnRightSideTest() {
             string text = "about";
             Particle target = new Particle(text);
-            ILexical expected = new NounPhrase(new Word[] { new Determiner("the"), new GenericPluralNoun("grounds") });
+            ILexical expected = new NounPhrase(new Word[] { new Determiner("the"), new CommonPluralNoun("grounds") });
             ILexical actual;
             target.ToTheRightOf = expected;
             actual = target.ToTheRightOf;

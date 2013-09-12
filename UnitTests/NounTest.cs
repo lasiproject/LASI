@@ -66,7 +66,7 @@ namespace AlgorithmAssemblyUnitTestProject
 
 
         internal virtual Noun CreateNoun() {
-            Noun target = new GenericSingularNoun("dog");
+            Noun target = new CommonSingularNoun("dog");
             return target;
         }
 
@@ -76,7 +76,7 @@ namespace AlgorithmAssemblyUnitTestProject
         [TestMethod()]
         public void AddPossessionTest() {
             Noun target = CreateNoun();
-            IEntity possession = new NounPhrase(new[] { new GenericSingularNoun("chew"), new GenericSingularNoun("toy") });
+            IEntity possession = new NounPhrase(new[] { new CommonSingularNoun("chew"), new CommonSingularNoun("toy") });
             target.AddPossession(possession);
             Assert.IsTrue(target.Possessed.Contains(possession) && possession.Possesser == target);
         }
@@ -183,7 +183,7 @@ namespace AlgorithmAssemblyUnitTestProject
         [TestMethod()]
         public void PossesserTest() {
             Noun target = CreateNoun(); // TODO: Initialize to an appropriate value
-            IEntity expected = new NounPhrase(new Word[] { new Adjective("Red"), new GenericSingularNoun("Team") });
+            IEntity expected = new NounPhrase(new Word[] { new Adjective("Red"), new CommonSingularNoun("Team") });
             IPossesser actual;
             target.Possesser = expected;
             actual = target.Possesser;

@@ -81,7 +81,7 @@ namespace AlgorithmAssemblyUnitTestProject
         public void DeterminesTest() {
             string text = "the";
             Determiner target = new Determiner(text);
-            IEntity expected = new GenericSingularNoun("organization");
+            IEntity expected = new CommonSingularNoun("organization");
             IEntity actual;
             target.Determines = expected;
             actual = target.Determines;

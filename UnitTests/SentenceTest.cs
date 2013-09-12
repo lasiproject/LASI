@@ -1,6 +1,6 @@
 ﻿using LASI;
 using LASI.Algorithm;
-using LASI.Algorithm.DocumentConstructs;
+using LASI.Algorithm.DocumentStructures;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 

@@ -15,13 +15,6 @@ namespace LASI
     {
 
         /// <summary>
-        /// Waits for the user to enter a key before continuing. Provides analogous functionality to the infamous system("pause") command in C++, but is safe and platform independent.
-        /// </summary>
-        public static void WaitForAnyKey(string message = "Press any key to continue...") {
-            Console.WriteLine(message);
-            Console.ReadKey(true);
-        }
-        /// <summary>
         /// Waits for the user to enter a specific key before continuing.
         /// </summary>
         /// <param name="key">The key the user must enter to continue.</param>
@@ -57,11 +50,6 @@ namespace LASI
             else
                 WaitForString(stringToWaitFor, ignoreCase);
         }
-        /// <summary>
-        /// Simply waits for any key press before continuing
-        /// </summary>
-        public static void WaitForAnyKey() {
-            Console.ReadKey();
-        }
+
     }
 }

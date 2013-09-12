@@ -68,7 +68,7 @@ namespace AlgorithmAssemblyUnitTestProject
         [TestMethod()]
         public void GenericPluralNounConstructorTest() {
             string text = "clowns";
-            GenericPluralNoun target = new GenericPluralNoun(text);
+            CommonPluralNoun target = new CommonPluralNoun(text);
             Assert.IsTrue(target.Text == text);
         }
 
@@ -78,7 +78,7 @@ namespace AlgorithmAssemblyUnitTestProject
         [TestMethod()]
         public void QuantifierTest() {
             string text = "clowns";
-            GenericPluralNoun target = new GenericPluralNoun(text);
+            CommonPluralNoun target = new CommonPluralNoun(text);
             IQuantifier expected = new Quantifier("22");
             IQuantifier actual;
             target.QuantifiedBy = expected;

@@ -6,7 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using LASI.Algorithm.LexicalLookup; 
+using LASI.Algorithm.LexicalLookup;
 namespace LASI.ContentSystem.TaggerEncapsulation
 {
     using WordCreator = Func<string, Word>;
@@ -53,10 +53,10 @@ namespace LASI.ContentSystem.TaggerEncapsulation
             { "''", t => new Punctuation(t) }, //Single quote * should be remapped
             { "MD", t => new ModalAuxilary(t) }, //ModalAuxilary
             //Noun mappings
-            { "NN", t => new GenericSingularNoun(t) }, //Noun, singular or mass
-            { "NNS", t => new GenericPluralNoun(t) }, //Noun, plural
-            { "NNP", t => {if(Lookup.ScrabbleDictionary.Contains(t.ToLower())) return new GenericSingularNoun(t); else return new ProperSingularNoun(t);}}, //Proper noun, singular
-            { "NNPS", t => {if(Lookup.ScrabbleDictionary.Contains(t.ToLower())) return new GenericPluralNoun(t); else return new ProperPluralNoun(t);}}, //Proper noun, plural
+            { "NN", t => new CommonSingularNoun(t) }, //Noun, singular or mass
+            { "NNS", t => new CommonPluralNoun(t) }, //Noun, plural
+            { "NNP", t => Lookup.ScrabbleDictionary.Contains(t.ToLower())? new CommonSingularNoun(t): new ProperSingularNoun(t) as Noun }, //Proper noun, singular
+            { "NNPS", t => Lookup.ScrabbleDictionary.Contains(t.ToLower())? new CommonPluralNoun(t): new ProperPluralNoun(t) as Noun }, //Proper noun, plural
             //Pronoun mappings
             { "PDT", t => new PreDeterminer(t) }, //Predeterminer
             { "POS", t => new PossessiveEnding(t) }, //isPossessive ending
@@ -109,7 +109,8 @@ namespace LASI.ContentSystem.TaggerEncapsulation
             get {
                 try {
                     return typeDictionary[posTag];
-                } catch (KeyNotFoundException) {
+                }
+                catch (KeyNotFoundException) {
                     throw new UnknownWordTagException(posTag);
                 }
             }
@@ -123,7 +124,8 @@ namespace LASI.ContentSystem.TaggerEncapsulation
             get {
                 try {
                     return typeDictionary.First(pair => pair.Value.Method.ReturnType == wordCreator.Method.ReturnType).Key;
-                } catch (InvalidOperationException) {
+                }
+                catch (InvalidOperationException) {
                     throw new UnmappedWordTypeException(string.Format("Word constructor\n{0}\nis not mapped by this Tagset.\nFunction Type: {1} => {2}",
                         wordCreator,
                         wordCreator.Method.GetParameters().Aggregate("", (s, p) => s += p.ParameterType.FullName + ", ").TrimEnd(',', ' '),
@@ -142,7 +144,8 @@ namespace LASI.ContentSystem.TaggerEncapsulation
             get {
                 try {
                     return typeDictionary.First(funcPosTagPair => funcPosTagPair.Value.Method.ReturnType == word.GetType()).Key;
-                } catch (InvalidOperationException) {
+                }
+                catch (InvalidOperationException) {
                     throw new UnmappedWordTypeException(string.Format("The indexing LASI.Algorithm.Word has type {0}, a type which is not mapped by {1}.",
                         word.GetType(),
                         this.GetType()

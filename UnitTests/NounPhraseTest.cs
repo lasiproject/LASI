@@ -85,7 +85,7 @@ namespace AlgorithmAssemblyUnitTestProject
         public void BindDescriberTest() {
             IEnumerable<Word> composedWords = new Word[] { new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians") };
             NounPhrase target = new NounPhrase(composedWords);
-            IDescriptor adj = new AdjectivePhrase(new Word[] { new GenericSingularNoun("peace"), new PresentParticipleGerund("loving") });
+            IDescriptor adj = new AdjectivePhrase(new Word[] { new CommonSingularNoun("peace"), new PresentParticipleGerund("loving") });
             target.BindDescriptor(adj);
             Assert.IsTrue(target.Descriptors.Contains(adj));
         }
@@ -121,7 +121,7 @@ namespace AlgorithmAssemblyUnitTestProject
             IEnumerable<Word> composedWords = new Word[] { new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians") };
             NounPhrase target = new NounPhrase(composedWords);
             Assert.IsTrue(target.Descriptors.Count() == 0);
-            IDescriptor adj = new AdjectivePhrase(new Word[] { new GenericSingularNoun("peace"), new PresentParticipleGerund("loving") });
+            IDescriptor adj = new AdjectivePhrase(new Word[] { new CommonSingularNoun("peace"), new PresentParticipleGerund("loving") });
             target.BindDescriptor(adj);
             Assert.IsTrue(target.Descriptors.Contains(adj));
             IDescriptor adj2 = new Adjective("proud");
@@ -207,7 +207,7 @@ namespace AlgorithmAssemblyUnitTestProject
         public void AddPossessionTest() {
             IEnumerable<Word> composedWords = new Word[] { new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians") };
             NounPhrase target = new NounPhrase(composedWords);
-            IEntity possession = new NounPhrase(new Word[] { new Adverb("relatively"), new Adjective("affluent"), new GenericPluralNoun("lifestyles") });
+            IEntity possession = new NounPhrase(new Word[] { new Adverb("relatively"), new Adjective("affluent"), new CommonPluralNoun("lifestyles") });
             target.AddPossession(possession);
             Assert.IsTrue(target.Possessed.Contains(possession) && possession.Possesser == target);
         }

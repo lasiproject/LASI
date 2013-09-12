@@ -1,5 +1,5 @@
 ﻿using LASI.Algorithm.Binding;
-using LASI.Algorithm.DocumentConstructs;
+using LASI.Algorithm.DocumentStructures;
 using LASI.Algorithm.LexicalLookup;
 using LASI.Algorithm.Weighting;
 using LASI.ContentSystem;

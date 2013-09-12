@@ -105,7 +105,7 @@ namespace AlgorithmAssemblyUnitTestProject
             string text = "gave";
             VerbForm tense = VerbForm.Base;
             Verb target = new Verb(text, tense);
-            IEntity directObject = new NounPhrase(new Word[] { new Determiner("a"), new GenericSingularNoun("cake") });
+            IEntity directObject = new NounPhrase(new Word[] { new Determiner("a"), new CommonSingularNoun("cake") });
             target.BindDirectObject(directObject);
             Assert.IsTrue(target.DirectObjects.Count() == 1);
             Assert.IsTrue(target.DirectObjects.Contains(directObject));

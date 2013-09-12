@@ -84,11 +84,11 @@ namespace AlgorithmAssemblyUnitTestProject
         [TestMethod()]
         public void AddPossessionTest() {
             IEnumerable<IEntity> members = new[] {
-                new NounPhrase(new Word[] { new GenericPluralNoun("cats") }),
-                new NounPhrase(new Word[] { new GenericPluralNoun("dogs") })
+                new NounPhrase(new Word[] { new CommonPluralNoun("cats") }),
+                new NounPhrase(new Word[] { new CommonPluralNoun("dogs") })
             };
             AggregateEntity target = new AggregateEntity(members);
-            IPossessable possession = new NounPhrase(new Word[] { new GenericSingularNoun("fur") });
+            IPossessable possession = new NounPhrase(new Word[] { new CommonSingularNoun("fur") });
             target.AddPossession(possession);
             Assert.IsTrue(target.Possessed.Contains(possession));
         }
@@ -202,8 +202,8 @@ namespace AlgorithmAssemblyUnitTestProject
         [TestMethod()]
         public void DirectObjectOfTest() {
             IEnumerable<IEntity> members = new[] {
-                new NounPhrase(new Word[] { new GenericPluralNoun("cats") }),
-                new NounPhrase(new Word[] { new GenericPluralNoun("dogs") })
+                new NounPhrase(new Word[] { new CommonPluralNoun("cats") }),
+                new NounPhrase(new Word[] { new CommonPluralNoun("dogs") })
             };
             AggregateEntity target = new AggregateEntity(members);
             IVerbal expected = new VerbPhrase(new Verb[] { new Verb("eat", VerbForm.Base) }); // TODO: Initialize to an appropriate value
@@ -218,7 +218,7 @@ namespace AlgorithmAssemblyUnitTestProject
         ///</summary>
         [TestMethod()]
         public void IndirectObjectOfTest() {
-            IEnumerable<IEntity> members = new[] { new GenericSingularNoun("spoon"), new GenericSingularNoun("fork") };
+            IEnumerable<IEntity> members = new[] { new CommonSingularNoun("spoon"), new CommonSingularNoun("fork") };
             AggregateEntity target = new AggregateEntity(members);
             IVerbal expected = new VerbPhrase(new Verb[] { new PastTenseVerb("were"), new PastParticipleVerb("eaten") });
             IVerbal actual;
@@ -247,12 +247,12 @@ namespace AlgorithmAssemblyUnitTestProject
         [TestMethod()]
         public void PossessedTest() {
             IEnumerable<IEntity> members = new[] {
-                new NounPhrase(new Word[] { new GenericPluralNoun("cats") }),
-                new NounPhrase(new Word[] { new GenericPluralNoun("dogs") })
+                new NounPhrase(new Word[] { new CommonPluralNoun("cats") }),
+                new NounPhrase(new Word[] { new CommonPluralNoun("dogs") })
             };
             var possessions = new[]  {
-                new NounPhrase(new Word[] { new GenericPluralNoun("claws") }),
-                new NounPhrase(new Word[] { new GenericPluralNoun("teeth") })
+                new NounPhrase(new Word[] { new CommonPluralNoun("claws") }),
+                new NounPhrase(new Word[] { new CommonPluralNoun("teeth") })
             };
             AggregateEntity target = new AggregateEntity(members);
             IEnumerable<IPossessable> actual;
@@ -268,8 +268,8 @@ namespace AlgorithmAssemblyUnitTestProject
         [TestMethod()]
         public void PossesserTest() {
             IEnumerable<IEntity> members = new[] {
-                new NounPhrase(new Word[] { new GenericPluralNoun("cats") }),
-                new NounPhrase(new Word[] { new GenericPluralNoun("dogs") })
+                new NounPhrase(new Word[] { new CommonPluralNoun("cats") }),
+                new NounPhrase(new Word[] { new CommonPluralNoun("dogs") })
             };
             AggregateEntity target = new AggregateEntity(members);
             IPossesser expected = new NounPhrase(new Word[] { new ProperPluralNoun("Americans") });
@@ -285,8 +285,8 @@ namespace AlgorithmAssemblyUnitTestProject
         [TestMethod()]
         public void SubjectOfTest() {
             IEnumerable<IEntity> members = new[] {
-                new NounPhrase(new Word[] { new GenericPluralNoun("cats") }),
-                new NounPhrase(new Word[] { new GenericPluralNoun("dogs") })
+                new NounPhrase(new Word[] { new CommonPluralNoun("cats") }),
+                new NounPhrase(new Word[] { new CommonPluralNoun("dogs") })
             };
             AggregateEntity target = new AggregateEntity(members);
             IVerbal expected = new Verb("eat", VerbForm.Base);

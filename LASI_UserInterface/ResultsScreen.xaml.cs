@@ -1,7 +1,7 @@
 using LASI;
 using LASI.Algorithm;
 using LASI.Algorithm.Binding;
-using LASI.Algorithm.DocumentConstructs;
+using LASI.Algorithm.DocumentStructures;
 using LASI.Algorithm.LexicalLookup;
 using LASI.Algorithm.Patternization;
 using LASI.ContentSystem;

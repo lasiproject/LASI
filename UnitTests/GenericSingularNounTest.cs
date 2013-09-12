@@ -68,7 +68,7 @@ namespace AlgorithmAssemblyUnitTestProject
         [TestMethod()]
         public void GenericSingularNounConstructorTest() {
             string text = "LASI"; // TODO: Initialize to an appropriate value
-            GenericSingularNoun target = new GenericSingularNoun(text);
+            CommonSingularNoun target = new CommonSingularNoun(text);
             Assert.AreEqual(target.Text, text);
         }
     }

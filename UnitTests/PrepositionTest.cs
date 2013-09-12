@@ -81,7 +81,7 @@ namespace AlgorithmAssemblyUnitTestProject
         public void BindObjectOfPrepositionTest() {
             string text = "into";
             Preposition target = new Preposition(text);
-            ILexical prepositionalObject = new NounPhrase(new Word[] { new Determiner("the"), new GenericSingularNoun("drawer") });
+            ILexical prepositionalObject = new NounPhrase(new Word[] { new Determiner("the"), new CommonSingularNoun("drawer") });
             target.BindObject(prepositionalObject);
             Assert.IsTrue(target.BoundObject == prepositionalObject);
         }
@@ -109,7 +109,7 @@ namespace AlgorithmAssemblyUnitTestProject
         public void OnRightSideTest() {
             string text = "inside";
             Preposition target = new Preposition(text);
-            ILexical expected = new NounPhrase(new Word[] { new PossessivePronoun("your"), new GenericSingularNoun("soul") });
+            ILexical expected = new NounPhrase(new Word[] { new PossessivePronoun("your"), new CommonSingularNoun("soul") });
             ILexical actual;
             target.ToTheRightOf = expected;
             actual = target.ToTheRightOf;
