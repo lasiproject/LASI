@@ -7,7 +7,9 @@ location in a sentence,
 part of speech,
 and a number of other measures.
 
-LASI is built in C# and must run on a 64 bit Windows machine.
+LASI is built in C# and must run on a 64 bit Windows machine running .NET 4.5 + framework.
+
+The Preferred IDE is Visual Studio 2012 Ultimate Edition. 
 
 This project should be built as a project using Visual Studio 2012 Ultimate and the SLN file should provide you with 
 ideal settings to make sure that this project compiles and performs as expected.
