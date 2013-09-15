@@ -52,12 +52,24 @@
         /// </summary>
         /// <returns>True if the IVerbal has at least one object, false otherwise.</returns>
         bool HasObject();
+
         /// <summary>
         /// Gets a value indicating if the IVerbal has at least one direct or indirect object matching the provided predicate.
         /// </summary>
         /// <param name="predicate">A predicate to test each object.</param>
         /// <returns>True if the IVerbal has at least one direct or indirect object  matching the provided predicate, false otherwise.</returns>
         bool HasObject(System.Func<IEntity, bool> predicate);
+        /// <summary>
+        /// Gets a value indicating if the IVerbal has at least one subject, direct object, or indirect object.
+        /// </summary>
+        /// <returns>True if the IVerbal has at least one subject, direct object, or indirect object, false otherwise.</returns>
+        bool HasSubjectOrObject();
+        /// <summary>
+        /// Gets a value indicating if the IVerbal has at least one subject, direct object, or indirect object matching the provided predicate.
+        /// </summary>
+        /// <param name="predicate">A predicate to test each associated subject, direct object, or indirect object..</param>
+        /// <returns>True if the IVerbal has at least one subject, direct object, or indirect object  matching the provided predicate, false otherwise.</returns>
+        bool HasSubjectOrObject(System.Func<IEntity, bool> predicate);
         #endregion
 
         #region Properties

@@ -57,7 +57,7 @@ namespace LASI.ContentSystem.TaggerEncapsulation
         /// </summary>
         /// <param name="posTag">The textual representation of a Phrase Part Of Speech tag.</param>
         /// <returns>A function which creates an instance of the run-time Phrase type associated with the textual tag.</returns>
-        /// <exception cref="UnknownWordTagException">Thrown when the indexing tag string is not defined by the tagset.</exception>
+        /// <exception cref="UnknownPhraseTagException">Thrown when the indexing tag string is not defined by the tagset.</exception>
         public override PhraseCreator this[string posTag] {
             get {
                 try {

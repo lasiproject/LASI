@@ -17,7 +17,7 @@ namespace LASI.ContentSystem
         /// </summary>
         /// <param name="posTagString">A description of the error. The content of message is intended to be understood by humans.</param>
         public UnknownWordTagException(string posTagString)
-            : base(string.Format("The word tag for {0}\nis not defined by the TagSet", posTagString)) {
+            : base(string.Format("The Word Level Tag \"{0}\" is not defined by the TagSet", posTagString)) {
         }
         /// <summary>
         /// Initializes a new instance of the UnknownPOSException class with its message string set to message.

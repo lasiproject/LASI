@@ -42,8 +42,8 @@ namespace LASI.ContentSystem
         public Word CreateWord(TextTagPair taggedText) {
             if (string.IsNullOrWhiteSpace(taggedText.Text))
                 return null;
-            try { return LookupMapping(taggedText.Tag)(taggedText.Text); }
-            catch (POSTagException) { return new UnknownWord(taggedText.Tag); }
+            return LookupMapping(taggedText.Tag)(taggedText.Text);
+            //catch (POSTagException) { return new UnknownWord(taggedText.Tag); }
         }
         /// <summary>
         /// Returns a function which, when invoked, Creates a new Instance of the Word class which corresponds to the given text token and Part Of Speech tag.
@@ -73,7 +73,6 @@ namespace LASI.ContentSystem
                     return (s) => (s == "." || s == "!" || s == "?") ? new SentenceEnding(s[0]) : new Punctuation(s[0]);
                 } else {
                     return (t) => new LASI.Algorithm.UnknownWord(t);
-                    //throw;
                 }
             }
         }

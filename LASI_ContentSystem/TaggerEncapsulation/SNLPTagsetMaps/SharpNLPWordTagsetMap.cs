@@ -38,10 +38,14 @@ namespace LASI.ContentSystem.TaggerEncapsulation
             { ",", t => new Punctuation(t) }, //Comma punctuation
             { ";", t => new Punctuation(t) }, //Semicolon punctuation
             { ":", t => new Punctuation(t) }, //Colon punctuation
+            //{ ".", t => new SentenceEnding(t.First()) }, //Period punctuation
+            //{ "!", t => new SentenceEnding(t.First()) }, //Exclamation Mark punctuation
+            //{ "?", t => new SentenceEnding(t.First()) }, //Question Mark punctuation
+            { "``", t => new QuotationMark() }, //Question Mark punctuation
             { "CD", t => new Quantifier(t) }, //Cardinal number
             { "DT", t => new Determiner(t) }, //Determiner
             { "EX", t => new Existential(t) }, //Existential 'there'
-            { "FW", t => new ForeignWord(t) }, //Foreign wd
+            { "FW", t => new ForeignWord(t) }, //Foreign word
             { "IN", t => new Preposition(t) }, //Preposition or subordinating conjunction
             //Adjective mappings
             { "JJ", t => new Adjective(t) }, //Adjective
@@ -59,9 +63,9 @@ namespace LASI.ContentSystem.TaggerEncapsulation
             { "NNPS", t => Lookup.ScrabbleDictionary.Contains(t.ToLower())? new CommonPluralNoun(t): new ProperPluralNoun(t) as Noun }, //Proper noun, plural
             //Pronoun mappings
             { "PDT", t => new PreDeterminer(t) }, //Predeterminer
-            { "POS", t => new PossessiveEnding(t) }, //isPossessive ending
+            { "POS", t => new PossessiveEnding(t) }, //Possessive ending
             { "PRP", t => new PersonalPronoun(t) }, //Personal pronoun
-            { "PRP$", t => new PossessivePronoun(t) }, //isPossessive pronoun
+            { "PRP$", t => new PossessivePronoun(t) }, //Possessive pronoun
             //Adverb mappings
             { "RB", t => new Adverb(t) }, //Adverb
             { "RBR", t => new ComparativeAdverb(t) }, //Adverb, comparative
@@ -74,9 +78,9 @@ namespace LASI.ContentSystem.TaggerEncapsulation
             { "VBP", t => new Verb(t, VerbForm.SingularPresent) }, //Verb, non-3rd person singular present
             { "VBZ", t => new Verb(t, VerbForm.ThirdPersonSingularPresent) }, //Verb, 3rd person singular present
             //WH-word mappings
-            { "WDT", t => new Determiner(t) }, //Wh-leftNPDeterminer
-            { "WP", t => new RelativePronoun(t) }, //Wh-pronoun
-            { "WP$", t => new RelativePossessivePronoun(t) }, //isPossessive wh-pronoun
+            { "WDT", t => new Determiner(t) }, //Wh-Determiner
+            { "WP", t => new RelativePronoun(t) }, //Wh-Pronoun
+            { "WP$", t => new RelativePossessivePronoun(t) }, //Possessive wh-pronoun
             { "WRB", t => new Adverb(t) }, //Wh-word
             //Additional mappings
             { "RP", t => new Particle(t) }, //Particle

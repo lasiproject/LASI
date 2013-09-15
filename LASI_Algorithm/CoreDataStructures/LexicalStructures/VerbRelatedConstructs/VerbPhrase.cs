@@ -179,6 +179,21 @@ namespace LASI.Algorithm
         public bool HasObject(Func<IEntity, bool> predicate) {
             return HasDirectObject(predicate) || HasIndirectObject(predicate);
         }
+        /// <summary>
+        /// Gets a value indicating if the VerbPhrase has at least one subject, direct object, or indirect object.
+        /// </summary>
+        /// <returns>True if the VerbPhrase has at least one subject, direct object, or indirect object, false otherwise.</returns>
+        public bool HasSubjectOrObject() {
+            return HasObject() || HasSubject();
+        }
+        /// <summary>
+        /// Gets a value indicating if the VerbPhrase has at least one subject, direct object, or indirect object matching the provided predicate.
+        /// </summary>
+        /// <param name="predicate">A predicate to test each associated subject, direct object, or indirect object..</param>
+        /// <returns>True if the VerbPhrase has at least one subject, direct object, or indirect object  matching the provided predicate, false otherwise.</returns>
+        public bool HasSubjectOrObject(Func<IEntity, bool> predicate) {
+            return HasObject(predicate) || HasSubject(predicate);
+        }
 
 
 
@@ -272,6 +287,9 @@ namespace LASI.Algorithm
         private bool? isClassifier = null;
         private bool? isPossessive = null;
         #endregion
+
+
+
 
 
     }

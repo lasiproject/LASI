@@ -341,20 +341,28 @@ namespace LASI.UserInterface
 
             var openDialog = new Microsoft.Win32.OpenFileDialog {
                 Filter = "LASI File Types|*.doc; *.docx; *.pdf; *.txt",
+                Multiselect = true,
+
             };
             openDialog.ShowDialog(this);
-            if (openDialog.FileNames.Any()) {
-                if (!DocumentManager.FileNamePresent(openDialog.SafeFileName)) {
+            if (openDialog.FileNames.Count() <= 0) {
+                return;
+            }
+            for (int i = 0; i < openDialog.SafeFileNames.Length; i++) {
+                var file = new FileInfo(openDialog.FileNames[i]);
+                if (DocumentManager.FileNamePresent(file.Name)) {
+                    MessageBox.Show(this, string.Format("A document named {0} is already part of the project.", file));
+                } else if (!DocumentManager.FileIsLocked(file)) {
+                    DocumentManager.AddDocument(file.Name, file.FullName);
                     currentOperationLabel.Content = string.Format("Converting {0}...", openDialog.FileName);
                     currentOperationFeedbackCanvas.Visibility = Visibility.Visible;
                     currentOperationProgressBar.Value = 0;
-                    await ProcessNewDocument(openDialog.FileName);
-                    //currentOperationFeedbackCanvas.Visibility = Visibility.Hidden;
+                    await ProcessNewDocument(file.FullName);
                 } else {
-                    MessageBox.Show(this, string.Format("A document named {0} is already part of the project.", openDialog.SafeFileName));
+                    MessageBox.Show(this, string.Format("The document {0} is in use by another process, please close any applications which may be using the document and try again.", file));
                 }
-            }
 
+            }
         }
 
         #endregion

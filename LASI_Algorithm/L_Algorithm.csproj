@@ -113,6 +113,7 @@
     <Compile Include="CoreDataStructures\Support\PatternMatching\LexicalSpecific\ITestedMatchCase.cs" />
     <Compile Include="CoreDataStructures\Support\PatternMatching\LexicalSpecific\MatchCase.cs" />
     <Compile Include="CoreDataStructures\Support\PatternMatching\LexicalSpecific\PatternMatching.cs" />
+    <Compile Include="CoreDataStructures\LexicalStructures\MiscLanguageConstructs\QuotationMark.cs" />
     <Compile Include="SupportAndInterop\ResourceManagement\Memory.cs" />
     <Compile Include="SupportAndInterop\TextSourceBases\IUntaggedTextSource.cs" />
     <Compile Include="CoreDataStructures\Support\EntityKindClassificationExtensions.cs" />

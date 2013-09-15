@@ -80,10 +80,15 @@ namespace LASI.Algorithm.Binding
             try {
                 sentences.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                     .ForAll(s => {
-                        try { new SubjectBinder().Bind(s); } catch (NullReferenceException) { }
-                        try { new ObjectBinder().Bind(s); } catch (InvalidStateTransitionException) { } catch (VerblessPhrasalSequenceException) { } catch (InvalidOperationException) { }
+                        try { new SubjectBinder().Bind(s); }
+                        catch (NullReferenceException) { }
+                        try { new ObjectBinder().Bind(s); }
+                        catch (InvalidStateTransitionException) { }
+                        catch (VerblessPhrasalSequenceException) { }
+                        catch (InvalidOperationException) { }
                     });
-            } catch (Exception e) { Output.WriteLine(e.Message); }
+            }
+            catch (Exception e) { Output.WriteLine(e.Message); }
         }
 
         private static void BindIntraPhrase(IEnumerable<Phrase> phrases) {

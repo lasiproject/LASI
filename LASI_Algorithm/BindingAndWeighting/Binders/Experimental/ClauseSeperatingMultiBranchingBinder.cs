@@ -37,7 +37,7 @@ namespace LASI.Algorithm.Binding.Experimental
                    let np = noun.Phrase as NounPhrase
                    let gen = np != null ?
                    noun.Match().Yield<char>()
-                       .Case<ProperSingularNoun>(n => n.IsFemaleFirstName() == !np.IsFullMale() ? 'F' : n.IsMaleFirstName() && !np.IsFullFemale() ? 'M' : !n.IsFirstName() ? 's' : 'A')
+                       .Case<ProperSingularNoun>(n => n.IsFemaleFirstName() && !np.IsFullMale() ? 'F' : n.IsMaleFirstName() && !np.IsFullFemale() ? 'M' : !n.IsFirstName() ? 's' : 'A')
                        .Case<CommonSingularNoun>('s')
                        .Case<ProperPluralNoun>('p')
                        .Case<CommonPluralNoun>('p')

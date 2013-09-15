@@ -15,9 +15,9 @@ namespace LASI.UserInterface
             return lexical.Match().Yield<Brush>()
                 .Case<Phrase>(p =>
                     p.Match().Yield<Brush>()
+                        .Case<PronounPhrase>(Brushes.HotPink)
                         .When<NounPhrase>(n => n.Words.GetProperNouns().Any())
                         .Then(Brushes.DarkBlue)
-                        .Case<PronounPhrase>(Brushes.HotPink)
                         .Case<NounPhrase>(Brushes.MediumTurquoise)
                         .Case<InfinitivePhrase>(Brushes.Teal)
                         .Case<IPronoun>(Brushes.DarkCyan)
