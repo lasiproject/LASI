@@ -12,22 +12,22 @@ namespace LASI.ContentSystem.Serialization.XML.ILexicalExtensions
 {
     static class SerializationExtensions
     {
-        static XElement ToXml(this ILexical lex) {
-            return new XElement(lex.Type.Name,
-                new XAttribute("ID",
-                    lex.Match().Yield<int>()
-                            .Case((Phrase p) => p.ID)
-                            .Case((Word w) => w.ID)
-                            .Result()),
-                    lex
-                    .MatchMany()
-                    .Yield()
-                        .With<IEntity>(e => e.SerializeAspects())
-                        .With<Clause>(c => new XElement("Phrases", c.Phrases.Select(r => r.ToXml())))
-                        .With<Phrase>(r => new XElement("Words", r.Words.Select(w => w.ToXml())))
-                    .Always(lex.Text).Results()
-                        );
-        }
+        //   static XElement ToXml(this ILexical lex) {
+        //return new XElement(lex.Type.Name,
+        //    new XAttribute("ID",
+        //        lex.Match().Yield<int>()
+        //                .Case((Phrase p) => p.ID)
+        //                .Case((Word w) => w.ID)
+        //                .Result()),
+        //        lex
+        //        .MatchMany()
+        //        .Yield()
+        //            .With<IEntity>(e => e.SerializeAspects())
+        //            .With<Clause>(c => new XElement("Phrases", c.Phrases.Select(r => r.ToXml())))
+        //            .With<Phrase>(r => new XElement("Words", r.Words.Select(w => w.ToXml())))
+        //        .Always(lex.Text).Results()
+        //            );
+        //      }
 
         static IEnumerable<XObject> SerializeAspects(this IEntity entity) {
 
@@ -51,9 +51,7 @@ namespace LASI.ContentSystem.Serialization.XML.ILexicalExtensions
                     select new XElement("Possesses", content))
             };
         }
-
-
-
+         
         #region Serialization Helpers
 
         private static string GetIdentityString(this ILexical element) {

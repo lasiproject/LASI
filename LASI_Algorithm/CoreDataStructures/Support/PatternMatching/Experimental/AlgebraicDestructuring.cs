@@ -10,20 +10,20 @@ namespace LASI.Algorithm.Patternization
     /// <summary>
     /// Provides static access to Type wise Destructuring functionality.
     /// </summary>
-    public static class Destructure
+    static class Destructure
     {
         /// <summary>
         /// Constructs the head of a possibly result returning decomposition over the specified object.
         /// </summary> 
         /// <param name="composed">The object to decompose.</param>
         /// <returns>The head of a possibly result returning decomposition over the specified object..</returns>
-        public static FromTo MatchMany(this ILexical composed) {
+         static FromTo MatchMany(this ILexical composed) {
             return new FromTo(composed);
         }
         /// <summary>
         /// Represents the head of a possibly result returning decomposition expression.
         /// </summary>
-        public struct FromTo
+          struct FromTo
         {
             internal FromTo(ILexical value) {
                 _value = value;
@@ -35,7 +35,7 @@ namespace LASI.Algorithm.Patternization
             /// <returns>
             ///  The head of a result-yielding, Type based Destructure expression.
             ///  </returns>  
-            public TraitCase<R> Yield<R>() {
+              TraitCase<R> Yield<R>() {
                 return new TraitCase<R>(_value);
             }
             /// <summary>
@@ -44,7 +44,7 @@ namespace LASI.Algorithm.Patternization
             /// <returns>
             ///  The head of a result-yielding, Type based Destructure expression.
             ///  </returns>  
-            public TraitCase<object> Yield() {
+              TraitCase<object> Yield() {
                 return new TraitCase<object>(_value);
             }
             private ILexical _value;
