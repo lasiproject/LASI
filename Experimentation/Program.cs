@@ -36,7 +36,7 @@ namespace LASI.Experimentation.CommandLine
                 (d, e) => d.GetActions().WithSubjectOrObject(subOrObj => subOrObj.IsSimilarTo(e));
 
             var results = associatedVerbs(aboutCats, new CommonSingularNoun("feline"));
-            foreach (var v in results.Select(v => v.Subjects.Format(s => s.Text) + " -> " + v.Text + " -> " + v.DirectObjects.Format(s => s.Text) + " -> " + v.IndirectObjects.Format(s => s.Text))) { Console.WriteLine(v); }
+            foreach ( var v in results.Select(v => v.Subjects.Format(s => s.Text) + " -> " + v.Text + " -> " + v.DirectObjects.Format(s => s.Text) + " -> " + v.IndirectObjects.Format(s => s.Text)) ) { Console.WriteLine(v); }
 
 
 

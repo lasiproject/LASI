@@ -35,7 +35,8 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\Algorithm.XML</DocumentationFile>
+    <DocumentationFile>
+    </DocumentationFile>
     <PlatformTarget>x64</PlatformTarget>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
@@ -134,7 +135,7 @@
     <Compile Include="BindingAndWeighting\Binders\PhraseWiseEntityGroupBinder.cs" />
     <Compile Include="BindingAndWeighting\Binders\PronounBinder.cs" />
     <Compile Include="BindingAndWeighting\Binders\SubjectBinder.cs" />
-    <Compile Include="BindingAndWeighting\Weighter.cs" />
+    <Compile Include="Weighting\Weighter.cs" />
     <Compile Include="CoreDataStructures\LexicalStructures\UnderpinningTypes\SubordinateClauseBeginPhrase.cs" />
     <Compile Include="BindingAndWeighting\Binders\Experimental\RelationshipLookups\AliasDictionary.cs" />
     <Compile Include="CoreDataStructures\Support\IEnumerableExtensions\IEnumerableOfIEntityExtensions.cs" />

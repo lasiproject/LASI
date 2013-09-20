@@ -106,15 +106,13 @@ namespace LASI.InteropLayer
             var doc = await Tagger.DocumentFromTaggedAsync(tagged);
             await updateProgressDisplay(string.Format("{0}: Loaded", fileName), 4);
             await updateProgressDisplay(string.Format("{0}: Analyzing Syntax...", fileName), 0);
-            var bindingWorkUnits = Binder.GetBindingTasksForDocument(doc).ToList();
-            foreach (var task in bindingWorkUnits) {
+            foreach (var task in doc.GetBindingTasks()) {
                 await updateProgressDisplay(task.InitializationMessage, 0);
                 await task.Task;
                 await updateProgressDisplay(task.CompletionMessage, task.PercentWorkRepresented * 0.5 / documentsInWorkLoad);
             }
             await updateProgressDisplay(string.Format("{0}: Correlating Relationships...", fileName), 0);
-            var weightingWorkUnits = Weighter.GetWeightingProcessingTasks(doc).ToList();
-            foreach (var task in weightingWorkUnits) {
+            foreach (var task in doc.GetWeightingTasks()) {
                 await updateProgressDisplay(task.InitializationMessage, 0);
                 await task.Task;
                 await updateProgressDisplay(task.CompletionMessage, task.PercentWorkRepresented * 0.5 / documentsInWorkLoad);

@@ -189,8 +189,7 @@ namespace LASI.UserInterface
             var focusedChart = (FrequencyCharts.SelectedItem as TabItem).Content as Visual;
             try {
                 printDialog.PrintVisual(focusedChart, "Current View");
-            }
-            catch (NullReferenceException) { // There is no chart selected by the user.
+            } catch (NullReferenceException) { // There is no chart selected by the user.
             }
 
         }
@@ -213,8 +212,7 @@ namespace LASI.UserInterface
             var chosenFile = FileManager.AddFile(docPath, true);
             try {
                 await FileManager.ConvertAsNeededAsync();
-            }
-            catch (FileConversionFailureException e) {
+            } catch (FileConversionFailureException e) {
                 FileManager.RemoveFile(chosenFile);
                 MessageBox.Show(this, string.Format(".doc file conversion failed\n{0}", e.Message));
             }
@@ -226,7 +224,7 @@ namespace LASI.UserInterface
             var doc = await Tagger.DocumentFromRawAsync(textfile);
             await StepProgress(10);
             currentOperationLabel.Content = string.Format("{0}: Analyzing Syntax...", chosenFile.NameSansExt);
-            foreach (var task in Binder.GetBindingTasksForDocument(doc)) {
+            foreach (var task in doc.GetBindingTasks()) {
                 currentOperationLabel.Content = task.InitializationMessage;
                 await task.Task;
                 await StepProgress(task.PercentWorkRepresented);
@@ -235,8 +233,8 @@ namespace LASI.UserInterface
 
             await StepProgress(3);
             currentOperationLabel.Content = string.Format("{0}: Correlating Relationships...", chosenFile.NameSansExt);
-            var tasks = Weighter.GetWeightingProcessingTasks(doc).ToList();
-            foreach (var task in tasks) {
+
+            foreach (var task in doc.GetWeightingTasks()) {
 
                 var message = task.InitializationMessage;
                 currentOperationLabel.Content = message;
@@ -284,11 +282,9 @@ namespace LASI.UserInterface
         private void OpenManualMenuItem_Click_1(object sender, RoutedEventArgs e) {
             try {
                 System.Diagnostics.Process.Start(System.AppDomain.CurrentDomain.BaseDirectory + @"\Manual.pdf");
-            }
-            catch (FileNotFoundException) {
+            } catch (FileNotFoundException) {
                 MessageBox.Show(this, "Unable to locate the User Manual, please contact the LASI team for further support.");
-            }
-            catch (Exception) {
+            } catch (Exception) {
                 MessageBox.Show(this, "Sorry, the manual could not be opened. Please ensure you have a pdf viewer installed.");
             }
         }

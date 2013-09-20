@@ -20,22 +20,13 @@ namespace LASI.Algorithm
         /// <param name="initializationMessage">A message indicating the start of specific the ProcessingTask.</param>
         /// <param name="completionMessage">A message indicating the end of specific the ProcessingTask.</param>
         /// <param name="percentWorkRepresented">An arbitrary double value corresponding to a relative amount of work the ProcessingTask represents.</param>
-        public ProcessingTask(Document document, Task workToPerform, string initializationMessage, string completionMessage, double percentWorkRepresented) {
-            Document = document;
+        public ProcessingTask(Task workToPerform, string initializationMessage, string completionMessage, double percentWorkRepresented) {
             Task = workToPerform;
             InitializationMessage = initializationMessage;
             CompletionMessage = completionMessage;
             PercentWorkRepresented = percentWorkRepresented;
-
         }
-
-        /// <summary>
-        /// Gets the document over which the ProcessingTask will operate.
-        /// </summary>
-        public Document Document {
-            get;
-            private set;
-        }
+        public ProcessingTask(Action workToPerform, string initializationMessage, string completionMessage, double percentWorkRepresented) : this(Task.Run(workToPerform), initializationMessage, completionMessage, percentWorkRepresented) { }
         /// <summary>
         /// Gets the work the ProcessingTask will perform.
         /// </summary>
