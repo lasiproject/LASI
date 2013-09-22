@@ -9,12 +9,13 @@ and a number of other measures.
 
 LASI is built in C# and must run on a 64 bit Windows machine running .NET 4.5 + framework.
 
-The Preferred IDE is Visual Studio 2012 Ultimate Edition. 
+The Preferred IDE is Visual Studio 2012. 
 
-This project should be built as a project using Visual Studio 2012 Ultimate and the SLN file should provide you with 
-ideal settings to make sure that this project compiles and performs as expected.
+This project should be built as a project using Visual Studio 2012 and the SLN file should provide you with 
+ideal settings to make sure that this project compiles and performs as expected. 
+This project has also been successfully built using Visual Studio 2013 RC.
+
 
 To test the standard program, make LASI_Userinterface the startup project in Visual Studio. 
 
-This project will not run in Mono due to the fact that Mono doesn't currently support WPF Toolkit, which is the tool
-that renders the graphs of our results in the "Top Results" screen.
+The primary application will not run under Mono due to the fact that Mono does not currently implement the Windows Presentation Foundation (WPF) runtime and libraries which are required by the graphical user interface.
