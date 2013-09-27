@@ -25,7 +25,7 @@
                             Checked="autoNameCheckBox_Checked" />
                         <CheckBox
                             x:Name="minimizeToTrayCheckBox"
-                            Content="Minimize to the system tray"
+                            Content="Minimize to the system tray (requires restart)"
                             Height="18"
                             VerticalAlignment="Top"
                             Margin="0,33,0,0"
@@ -84,7 +84,6 @@
                                     Checked="anyPerformanceMode_Checked" />
                             </Grid>
                         </Viewbox>
-                       
                     </Grid>
                 </TabItem>
             </TabControl>

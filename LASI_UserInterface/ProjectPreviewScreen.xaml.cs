@@ -17,7 +17,8 @@ namespace LASI.UserInterface
         /// <summary>
         /// Initializes a new instance of the ProjectPreviewScreen class.
         /// </summary>
-        public ProjectPreviewScreen() {
+        public ProjectPreviewScreen()
+        {
             InitializeComponent();
             var titleText = Resources["CurrentProjectName"] as string ?? Title;
         }
@@ -28,35 +29,43 @@ namespace LASI.UserInterface
         /// <summary>
         /// Loads and displays a text preview tab for each document in the project.
         /// </summary>
-        public async void LoadDocumentPreviews() {
+        public async void LoadDocumentPreviews()
+        {
             foreach (var textfile in FileManager.TextFiles) {
                 await LoadTextandTabAsync(textfile);
             }
             DocumentPreview.SelectedIndex = 0;
         }
 
-        private async Task LoadTextandTabAsync(TextFile textfile) {
+        private async Task LoadTextandTabAsync(TextFile textfile)
+        {
             var processedText = await await textfile.GetTextAsync().ContinueWith(async (t) => {
                 var data = await t;
                 return data.Split(new[] { "\r\n\r\n", "<paragraph>", "</paragraph>" }, StringSplitOptions.RemoveEmptyEntries)
                     .Select(s => s.Trim())
                     .Aggregate((sum, s) => sum += "\n\t" + s);
             });
-            var item = new TabItem {
+            var item = new TabItem
+            {
                 Header = textfile.NameSansExt,
-                Content = new TextBox {
+                AllowDrop = true,
+                Content = new TextBox
+                {
                     IsReadOnly = true,
                     VerticalScrollBarVisibility = ScrollBarVisibility.Auto,
                     TextWrapping = TextWrapping.Wrap,
                     Text = processedText,
-                    FontSize = 12
+                    FontSize = 12,
+
                 },
             };
+            item.Drop += Grid_Drop;
             DocumentPreview.Items.Add(item);
             DocumentPreview.SelectedItem = item;
         }
 
-        private async Task AddNewDocument(string docPath) {
+        private async Task AddNewDocument(string docPath)
+        {
             var chosenFile = FileManager.AddFile(docPath, true);
             try {
                 await FileManager.ConvertAsNeededAsync();
@@ -71,7 +80,8 @@ namespace LASI.UserInterface
             StartProcessMenuItem.IsEnabled = true;
         }
 
-        private void CheckIfAddingAllowed() {
+        private void CheckIfAddingAllowed()
+        {
             var addingEnabled = DocumentManager.AddingAllowed;
             AddNewDocumentButton.IsEnabled = addingEnabled;
             FileMenuAdd.IsEnabled = addingEnabled;
@@ -81,20 +91,23 @@ namespace LASI.UserInterface
 
         #region Named Event Handlers
 
-        private async void StartButton_Click(object sender, RoutedEventArgs e) {
+        private async void StartButton_Click(object sender, RoutedEventArgs e)
+        {
             this.Hide();
             WindowManager.InProgressScreen.Show();
             await WindowManager.InProgressScreen.ParseDocuments();
         }
 
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e) {
-            Application.Current.Shutdown();
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
         }
-        private void FileExitMenuItem_Click(object sender, RoutedEventArgs e) {
+        private void FileExitMenuItem_Click(object sender, RoutedEventArgs e)
+        {
             this.Close();
             Application.Current.Shutdown();
         }
-        private void RemoveCurrentDocument_Click(object sender, RoutedEventArgs e) {
+        private void RemoveCurrentDocument_Click(object sender, RoutedEventArgs e)
+        {
             var docSelected = DocumentPreview.SelectedItem;
             if (docSelected != null) {
                 DocumentPreview.Items.Remove(docSelected);
@@ -109,30 +122,14 @@ namespace LASI.UserInterface
             }
 
         }
-        private async void mainGrid_Drop(object sender, DragEventArgs e) {
-            if (DocumentManager.AddingAllowed) {
-                var validDroppedFiles = DocumentManager.GetValidFilesInPathList(e.Data.GetData(System.Windows.DataFormats.FileDrop, true) as string[]);
-                if (validDroppedFiles.None()) {
-                    MessageBox.Show(this, string.Format("Only the following file formats are accepted:\n{0}", string.Join(", ", DocumentManager.AcceptedFormats)));
-                } else if (validDroppedFiles.None(fn => !DocumentManager.FileNamePresent(fn.Name))) {
-                    MessageBox.Show(this, string.Format("A document named {0} is already part of the project.", validDroppedFiles.First()));
-                } else {
-                    foreach (var droppedFile in validDroppedFiles) {
-                        if (!DocumentManager.FileIsLocked(droppedFile)) {
-                            DocumentManager.AddDocument(droppedFile.Name, droppedFile.FullName);
-                            await AddNewDocument(droppedFile.FullName);
-                        } else {
-                            MessageBox.Show(this, string.Format("The document {0} is in use by another process, please close any applications which may be using the file and try again.", droppedFile));
-                        }
-
-                    }
-                }
-            } else {
-                MessageBox.Show(this, "A single project may only contain 5 documents.");
-            }
+        private async void Grid_Drop(object sender, DragEventArgs e)
+        {
+            await SharedScreenFunctionality.HandleDropAddAttemptAsync(this, e, async fi => { DocumentManager.AddDocument(fi.Name, fi.FullName); await AddNewDocument(fi.FullName); });
         }
-        private async void AddNewDocument_Click(object sender, RoutedEventArgs e) {
-            var openDialog = new Microsoft.Win32.OpenFileDialog {
+        private async void AddNewDocument_Click(object sender, RoutedEventArgs e)
+        {
+            var openDialog = new Microsoft.Win32.OpenFileDialog
+            {
                 Filter = "LASI File Types|*.doc; *.docx; *.pdf; *.txt",
                 Multiselect = true,
 
@@ -154,11 +151,9 @@ namespace LASI.UserInterface
 
             }
         }
-        private void openPreferencesMenuItem_Click(object sender, RoutedEventArgs e) {
-            var preferences = new PreferencesWindow();
-            preferences.Left = (this.Left - preferences.Left) / 2;
-            preferences.Top = (this.Top - preferences.Top) / 2;
-            var saved = preferences.ShowDialog();
+        private void openPreferencesMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            SharedScreenFunctionality.OpenPreferencesWindow(this);
         }
 
         #endregion
@@ -167,20 +162,15 @@ namespace LASI.UserInterface
 
         #region Help Menu
 
-        private void OpenManualMenuItem_Click_1(object sender, RoutedEventArgs e) {
-            try {
-                System.Diagnostics.Process.Start(System.AppDomain.CurrentDomain.BaseDirectory + @"\Manual.pdf");
-            }
-            catch (FileNotFoundException) {
-                MessageBox.Show(this, "Unable to locate the User Manual, please contact the LASI team (thelasiproject@gmail.com) for further support.");
-            }
-            catch (Exception) {
-                MessageBox.Show(this, "Sorry, the manual could not be opened. Please ensure you have a pdf viewer installed.");
-            }
+        private void OpenManualMenuItem_Click_1(object sender, RoutedEventArgs e)
+        {
+            SharedScreenFunctionality.ProcessOpenManualRequest(this);
         }
 
-        private void openLicensesMenuItem_Click_1(object sender, RoutedEventArgs e) {
-            var componentsDisplay = new ComponentInfoDialogWindow {
+        private void openLicensesMenuItem_Click_1(object sender, RoutedEventArgs e)
+        {
+            var componentsDisplay = new ComponentInfoDialogWindow
+            {
                 Left = this.Left,
                 Top = this.Top,
                 Owner = this
@@ -188,16 +178,15 @@ namespace LASI.UserInterface
             componentsDisplay.ShowDialog();
         }
 
-        private void MenuItem_Click(object sender, RoutedEventArgs e) {
-            try {
-                System.Diagnostics.Process.Start("http://lasi-project.org");
-            }
-            catch (Exception) {
-                MessageBox.Show(this, "Sorry, the LASI project website could not be opened");
-            }
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            SharedScreenFunctionality.ProcessOpenWebsiteRequest(this);
         }
 
         #endregion
+
+
+
 
     }
 }

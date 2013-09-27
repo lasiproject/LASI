@@ -9,8 +9,9 @@
     WindowStartupLocation="CenterOwner"
     AllowDrop="True"
     Closing="Window_Closing"
-    Drop="mainGrid_Drop">
+    Drop="Grid_Drop">
     <Grid
+        AllowDrop="True"
         Name="mainGrid">
         <Canvas
             Background="#FFF6F6F6"
@@ -67,7 +68,7 @@
         <TabControl
             x:Name="DocumentPreview"
             AllowDrop="True"
-            Drop="mainGrid_Drop"
+            Drop="Grid_Drop"
             Margin="158,70,45,10" />
         <Menu
             Height="26"

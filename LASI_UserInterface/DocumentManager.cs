@@ -9,24 +9,30 @@ namespace LASI.UserInterface
 {
     internal static class DocumentManager
     {
-        public static void Initialize(System.Windows.Controls.ListBox listBox, System.Windows.Controls.Panel xbuttons, System.Windows.UIElement browseButton, System.Windows.Controls.TextBox lastPathTextBox) {
+        public static void Initialize(System.Windows.Controls.ListBox listBox, System.Windows.Controls.Panel xbuttons, System.Windows.UIElement browseButton, System.Windows.Controls.TextBox lastPathTextBox)
+        {
             runningListBox = listBox;
             xButtons = xbuttons;
             browseForDocButton = browseButton;
             lastDocumentPathTextBox = lastPathTextBox;
         }
-        public static bool FileNamePresent(string documentName) {
+        public static bool FileNamePresent(string documentName)
+        {
             return (from alreadyAdded in runningListBox.Items.OfType<System.Windows.Controls.ListViewItem>()
                     select alreadyAdded.Content.ToString()).Any(doc => doc.Trim().ToUpper() == documentName.Trim().ToUpper());
         }
-        public static IEnumerable<FileInfo> GetValidFilesInPathList(IEnumerable<string> filePaths) {
+        public static IEnumerable<FileInfo> GetValidFilesInPathList(IEnumerable<string> filePaths)
+        {
             return (from path in filePaths
-                    let fileInfo = new FileInfo(path)
-                    where AcceptedFormats.Contains(fileInfo.Extension)
-                    select fileInfo).Take(MaxDocuments - numberOfDocuments);
+                    let contentsIfDir = Directory.Exists(path) ? Directory.EnumerateFileSystemEntries(path) : Enumerable.Empty<string>()
+                    let dirContentsOrFile = contentsIfDir.Any() ? GetValidFilesInPathList(contentsIfDir) : Enumerable.Repeat(new FileInfo(path), 1)
+                    from fi in dirContentsOrFile
+                    where AcceptedFormats.Contains(fi.Extension)
+                    select fi).Take(MaxDocuments - numberOfDocuments);
 
         }
-        public static void RemoveDocument(string fileName) {
+        public static void RemoveDocument(string fileName)
+        {
             var remove = (from item in itemsAdded
                           where item.Content.ToString().Substring(0, item.Content.ToString().LastIndexOf('.')) == fileName
                           select item).FirstOrDefault();
@@ -36,12 +42,15 @@ namespace LASI.UserInterface
                 --numberOfDocuments;
             }
         }
-        public static void AddDocument(string fileName, string filePath) {
-            var docEntry = new System.Windows.Controls.ListViewItem {
+        public static void AddDocument(string fileName, string filePath)
+        {
+            var docEntry = new System.Windows.Controls.ListViewItem
+            {
                 Tag = filePath,
                 Content = fileName
             };
-            var button = new System.Windows.Controls.Button {
+            var button = new System.Windows.Controls.Button
+            {
                 Content = "x",
                 Height = 16,
                 Width = 16,
@@ -78,23 +87,27 @@ namespace LASI.UserInterface
 
 
         private static int numberOfDocuments;
-        public const int MaxDocuments = 5;
+        public const int MaxDocuments = 10;
         private static System.Windows.Controls.Panel xButtons;
         private static System.Windows.UIElement browseForDocButton;
         private static System.Windows.Controls.TextBox lastDocumentPathTextBox;
         /// <summary>
         /// Gets a value indicating wether or not there is space for at least one additional document in the DocumentManager's working set.
         /// </summary>
-        public static bool AddingAllowed {
-            get {
+        public static bool AddingAllowed
+        {
+            get
+            {
                 return MaxDocuments - numberOfDocuments > 0;
             }
         }
         /// <summary>
         /// Gets a value indicating wether or not the DocumentManager has any documents in its working set.
         /// </summary>
-        public static bool IsEmpty {
-            get {
+        public static bool IsEmpty
+        {
+            get
+            {
                 return numberOfDocuments == 0;
             }
         }
@@ -103,7 +116,8 @@ namespace LASI.UserInterface
         /// </summary>
         /// <param name="file"></param>
         /// <returns>true if the file represented by the given file info is locked by the operating system or another application, false otherwise.</returns>
-        public static bool FileIsLocked(FileInfo file) {
+        public static bool FileIsLocked(FileInfo file)
+        {
             try {
                 using (Stream stream = new FileStream(file.FullName, FileMode.Open)) {
                     return false;
@@ -120,8 +134,10 @@ namespace LASI.UserInterface
         /// <summary>e
         /// Gets a string array containing all of the file extensions accepted by the DocumentManager.
         /// </summary>
-        public static IEnumerable<string> AcceptedFormats {
-            get {
+        public static IEnumerable<string> AcceptedFormats
+        {
+            get
+            {
                 return acceptedFormats;
             }
         }

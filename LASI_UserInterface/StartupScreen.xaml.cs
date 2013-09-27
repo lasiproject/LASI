@@ -30,7 +30,8 @@ namespace LASI.UserInterface
         /// <summary>
         /// Initializes a new instance of the StartupScreen class.
         /// </summary>
-        public StartupScreen() {
+        public StartupScreen()
+        {
             SetupLogging(Environment.GetCommandLineArgs()[0], "lasi_log");
             InitializeComponent();
             ProjectNameTextBox.Text = Properties.Settings.Default.AutoNameProjects ? "MyProject" : "";
@@ -43,7 +44,8 @@ namespace LASI.UserInterface
             ProcessOpenWithFiles(System.Environment.GetCommandLineArgs().Skip(1));
         }
 
-        private void SetupLogging(string logFileParentDirectory, string logFileName) {
+        private void SetupLogging(string logFileParentDirectory, string logFileName)
+        {
             if (Properties.Settings.Default.LogProcessMessagesToFile) {
                 try {
                     var logDir = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "LASI");
@@ -63,14 +65,16 @@ namespace LASI.UserInterface
 
         #region Intialization Methods
 
-        private void ProcessOpenWithFiles(IEnumerable<string> filePaths) {
+        private void ProcessOpenWithFiles(IEnumerable<string> filePaths)
+        {
             foreach (var f in DocumentManager.GetValidFilesInPathList(filePaths)) {
                 DocumentManager.AddDocument(f.Name, f.FullName);
             }
             if (!DocumentManager.IsEmpty) { expandCreatePanelButton_Click(expandCreatePanelButton, new RoutedEventArgs()); }
         }
 
-        private async Task SetUpDefaultDirectory() {
+        private async Task SetUpDefaultDirectory()
+        {
             locationTextBox.Text = await Task.Run(() => {
                 var location =
                     System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData,
@@ -88,7 +92,8 @@ namespace LASI.UserInterface
             locationTextBox.TextChanged += (s, e) => locationTextBox.ScrollToEnd();
         }
 
-        private async Task InitializeFileManager() {
+        private async Task InitializeFileManager()
+        {
             var initPath = System.IO.Path.Combine(locationTextBox.Text, ProjectNameTextBox.Text);
             for (var i = 0; i < Int32.MaxValue - 1; ++i) {
                 if (Directory.Exists(initPath))
@@ -115,7 +120,8 @@ namespace LASI.UserInterface
 
         #region Validation Methods
 
-        private void AlertUserAboutInvalidFields() {
+        private void AlertUserAboutInvalidFields()
+        {
             threepaws.Visibility = Visibility.Hidden;
 
             if (!ValidateProjectNameField() && !ValidateProjectDocumentField()) {
@@ -138,7 +144,8 @@ namespace LASI.UserInterface
         }
 
 
-        private bool ValidateProjectNameField() {
+        private bool ValidateProjectNameField()
+        {
             if (String.IsNullOrWhiteSpace(ProjectNameTextBox.Text) ||
                 String.IsNullOrEmpty(ProjectNameTextBox.Text) &&
                 !(from char c1 in ProjectNameTextBox.Text
@@ -153,7 +160,8 @@ namespace LASI.UserInterface
         }
 
 
-        private bool ValidateProjectLocationField() {
+        private bool ValidateProjectLocationField()
+        {
             if (String.IsNullOrWhiteSpace(locationTextBox.Text)
                 || String.IsNullOrEmpty(locationTextBox.Text) ||
                 !Directory.Exists(locationTextBox.Text.Substring(0, locationTextBox.Text.LastIndexOf("\\")))
@@ -164,7 +172,8 @@ namespace LASI.UserInterface
             return true;
         }
 
-        private bool ValidateProjectDocumentField() {
+        private bool ValidateProjectDocumentField()
+        {
             if (DocumentManager.IsEmpty) {
                 lastDocPathTextBox.ToolTip = new ToolTip { Content = ErrorNoDocumentsAddedMessage };
                 return false;
@@ -177,11 +186,13 @@ namespace LASI.UserInterface
         #region Named Event Handlers
 
 
-        private void closeButton_Click(object sender, RoutedEventArgs e) {
+        private void closeButton_Click(object sender, RoutedEventArgs e)
+        {
             Application.Current.Shutdown();
         }
 
-        private async void expandCreatePanelButton_Click(object sender, RoutedEventArgs e) {
+        private async void expandCreatePanelButton_Click(object sender, RoutedEventArgs e)
+        {
             expandCreatePanelButton.Click -= expandCreatePanelButton_Click;//remove this event handler
 
             Resources["createButtonContent"] = "Cancel";
@@ -198,7 +209,8 @@ namespace LASI.UserInterface
             Resources["createButtonContent"] = "Cancel";
 
         }
-        private async void cancelButton_Click(object sender, RoutedEventArgs e) {
+        private async void cancelButton_Click(object sender, RoutedEventArgs e)
+        {
 
             expandCreatePanelButton.Click -= cancelButton_Click;            //remove this event handler and 
 
@@ -214,9 +226,11 @@ namespace LASI.UserInterface
             Resources["createButtonContent"] = "Create";
         }
 
-        private void browseForDocButton_Click(object sender, RoutedEventArgs e) {
+        private void browseForDocButton_Click(object sender, RoutedEventArgs e)
+        {
             if (DocumentManager.AddingAllowed) {
-                var openDialog = new Microsoft.Win32.OpenFileDialog {
+                var openDialog = new Microsoft.Win32.OpenFileDialog
+                {
                     Filter = "LASI File Types|*.doc; *.docx; *.pdf; *.txt",
                     Multiselect = true
                 };
@@ -235,7 +249,8 @@ namespace LASI.UserInterface
             }
         }
 
-        private async void completeSetupAndContinueButton_Click(object sender, RoutedEventArgs e) {
+        private async void completeSetupAndContinueButton_Click(object sender, RoutedEventArgs e)
+        {
             if (!Directory.Exists(locationTextBox.Text)) {
                 try {
                     Directory.CreateDirectory(locationTextBox.Text);
@@ -257,7 +272,8 @@ namespace LASI.UserInterface
             }
         }
 
-        private void SelectProjFolderButton_Click(object sender, RoutedEventArgs e) {
+        private void SelectProjFolderButton_Click(object sender, RoutedEventArgs e)
+        {
             var locationSelectDialog = new System.Windows.Forms.FolderBrowserDialog();
             System.Windows.Forms.DialogResult dirResult = locationSelectDialog.ShowDialog();
             if (dirResult == System.Windows.Forms.DialogResult.OK) {
@@ -266,31 +282,17 @@ namespace LASI.UserInterface
         }
 
 
-        private void MenuItem_Click_3(object sender, RoutedEventArgs e) {
-            Application.Current.Shutdown();
+
+
+
+        private void Grid_Drop(object sender, DragEventArgs e)
+        {
+            SharedScreenFunctionality.HandleDropAddAttempt(this, e, fi => DocumentManager.AddDocument(fi.Name, fi.FullName));
         }
 
-        private void EnteredProjectName_TextChanged(object sender, TextChangedEventArgs e) {
-            locationTextBox.Text = locationTextBox.Text.Substring(0, locationTextBox.Text.LastIndexOf(@"\")) + @"\" + ProjectNameTextBox.Text;
-        }
 
-        private void Grid_Drop(object sender, DragEventArgs e) {
-            var filesInValidFormats = DocumentManager.GetValidFilesInPathList(e.Data.GetData(System.Windows.DataFormats.FileDrop, true) as string[]);
-            if (filesInValidFormats.None()) {
-                MessageBox.Show(this, string.Format("Only the following file formats are accepted:\n{0}", string.Join(",", DocumentManager.AcceptedFormats)));
-            } else if (filesInValidFormats.None(fn => !DocumentManager.FileNamePresent(fn.Name))) {
-                MessageBox.Show(this, string.Format("A document named {0} is already part of the projects.", filesInValidFormats.First()));
-            } else {
-                foreach (var droppedFile in filesInValidFormats) {
-                    if (!DocumentManager.FileIsLocked(droppedFile)) {
-                        DocumentManager.AddDocument(droppedFile.Name, droppedFile.FullName);
-                    } else {
-                        MessageBox.Show(this, string.Format("The document {0} is in use by another process, please close any applications which may be using the file and try again.", droppedFile));
-                    }
-                }
-            }
-        }
-        private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e) {
+        private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
             DragMove();
         }
         #endregion
@@ -300,14 +302,16 @@ namespace LASI.UserInterface
         /// Hides all of the provided UIElements.
         /// </summary>
         /// <param name="elements">Zero or more UIElements to hide.</param>
-        private void HideElements(params UIElement[] elements) {
+        private void HideElements(params UIElement[] elements)
+        {
             foreach (var e in elements) { e.Visibility = Visibility.Hidden; }
         }
         /// <summary>
         /// Shows all of the provided UIElements.
         /// </summary>
         /// <param name="elements">Zero or more UIElements to show.</param>
-        private void ShowElements(params UIElement[] elements) {
+        private void ShowElements(params UIElement[] elements)
+        {
             foreach (var e in elements) { e.Visibility = Visibility.Visible; }
         }
         #endregion
@@ -323,6 +327,13 @@ namespace LASI.UserInterface
         const string ErrorEmptyProjectNameMessage = "You must enter a name for your new project";
         #endregion
 
+        private void mainGrid_Drop(object sender, DragEventArgs e)
+        {
+
+        }
+
         #endregion
+
+
     }
 }

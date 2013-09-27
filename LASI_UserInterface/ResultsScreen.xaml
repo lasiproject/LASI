@@ -13,9 +13,12 @@
     ResizeMode="CanResizeWithGrip"
     Icon="MiscImages\LasiLogo.ico"
     WindowStartupLocation="CenterOwner"
-    WindowState="Normal">
+    WindowState="Normal"
+    Drop="Grid_Drop"
+    AllowDrop="True">
     <Grid
-        Background="White">
+        Background="White"
+        AllowDrop="True">   
         <Menu
             Height="47"
             VerticalAlignment="Top"
@@ -32,6 +35,7 @@
                         Click="NewProjectMenuItem_Click_1" />
                 </MenuItem>
                 <MenuItem
+                    Name="addDocumentMenuItem"
                     Header="Add Document"
                     HorizontalAlignment="Left"
                     Width="200"
