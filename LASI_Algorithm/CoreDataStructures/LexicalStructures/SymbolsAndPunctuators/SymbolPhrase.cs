@@ -17,14 +17,16 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="composedWords">The words which compose to form the SymbolPhrase.</param>
         public SymbolPhrase(IEnumerable<Word> composedWords)
-            : base(composedWords) {
+            : base(composedWords)
+        {
 
             LastPunctutionWord = composedWords.Last(p => p is Punctuation) as Punctuation;
         }
         /// <summary>
         /// Gets the last punctuation Word in the SymbolPhrase.
         /// </summary>
-        public Punctuation LastPunctutionWord {
+        public Punctuation LastPunctutionWord
+        {
             get;
             protected set;
         }

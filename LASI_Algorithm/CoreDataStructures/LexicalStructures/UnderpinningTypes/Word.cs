@@ -20,7 +20,8 @@ namespace LASI.Algorithm
         /// and behaviors of a word-level grammatical element.
         /// </summary>
         /// <param name="text">The text content of the word.</param>
-        protected Word(string text) {
+        protected Word(string text)
+        {
             ID = IDProvider++;
             Text = text;
             Weight = 1;
@@ -110,7 +111,6 @@ namespace LASI.Algorithm
         public static bool VerboseOutput { get; set; }
 
         #endregion
-
 
 
 

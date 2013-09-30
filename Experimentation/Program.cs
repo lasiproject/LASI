@@ -17,26 +17,29 @@ namespace LASI.Experimentation.CommandLine
     using LASI.Algorithm.Weighting;
     class Program
     {
-        static void Main(string[] args) {
+        static void Main(string[] args)
+        {
             Output.SetToFile(@"C:\Users\Aluan\Desktop\log1.txt");
             Word.VerboseOutput = true;
             Phrase.VerboseOutput = true;
-            Lookup.LoadAllData();
+            Task.WaitAll(Lookup.GetLoadingTasks().ToArray());
 
 
 
-            var aboutCats = Tagger.DocumentFromRaw(new TextFile(@"C:\Users\Aluan\Desktop\cats.txt"));
+            var aboutCats = Tagger.DocumentFromRaw(new TextFile(@"C:\Users\Aluan\Desktop\documents\ducks.txt"));
             Binder.Bind(aboutCats);
-            Weighter.Weight(aboutCats);
+            //Weighter.Weight(aboutCats);
+
+
+            foreach (var word in aboutCats.Words.OfType<Symbol>()) { Console.WriteLine(word); }
 
 
 
+            //Func<Document, IEntity, VerbalsSet> associatedVerbs =
+            //    (d, e) => d.GetActions().WithSubjectOrObject(subOrObj => subOrObj.IsSimilarTo(e));
 
-            Func<Document, IEntity, VerbalsSet> associatedVerbs =
-                (d, e) => d.GetActions().WithSubjectOrObject(subOrObj => subOrObj.IsSimilarTo(e));
-
-            var results = associatedVerbs(aboutCats, new CommonSingularNoun("feline"));
-            foreach ( var v in results.Select(v => v.Subjects.Format(s => s.Text) + " -> " + v.Text + " -> " + v.DirectObjects.Format(s => s.Text) + " -> " + v.IndirectObjects.Format(s => s.Text)) ) { Console.WriteLine(v); }
+            //var results = associatedVerbs(aboutCats, new CommonSingularNoun("feline"));
+            //foreach (var v in results.Select(v => v.Subjects.Format(s => s.Text) + " -> " + v.Text + " -> " + v.DirectObjects.Format(s => s.Text) + " -> " + v.IndirectObjects.Format(s => s.Text))) { Console.WriteLine(v); }
 
 
 

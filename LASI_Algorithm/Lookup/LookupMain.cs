@@ -27,7 +27,8 @@ namespace LASI.Algorithm.LexicalLookup
         /// </summary>
         /// <param name="entity">The entity whose gender to lookup.</param>
         /// <returns>A NameGender value indiciating the likely gender of the entity.</returns>
-        public static Gender GetGender(this IEntity entity) {
+        public static Gender GetGender(this IEntity entity)
+        {
             return entity.Match().Yield<Gender>()
                     .Case<IGendered>(p => p.Gender)
                     .Case<IPronoun>(p => p.GetPronounGender())
@@ -46,7 +47,8 @@ namespace LASI.Algorithm.LexicalLookup
         /// </summary>
         /// <param name="pronoun">The Pronoun whose gender to lookup.</param>
         /// <returns>A NameGender value indiciating the likely gender of the Pronoun.</returns>
-        private static Gender GetPronounGender(this IPronoun pronoun) {
+        private static Gender GetPronounGender(this IPronoun pronoun)
+        {
             return pronoun != null ?
                 pronoun.Match().Yield<Gender>()
                     .Case<IGendered>(p => p.Gender)
@@ -74,7 +76,8 @@ namespace LASI.Algorithm.LexicalLookup
         /// </summary>
         /// <param name="name">The NounPhrase whose prevailing gender to lookup.</param>
         /// <returns>A NameGender value indiciating the likely prevailing gender of the NounPhrase.</returns>
-        static Gender GetGender(this NounPhrase name) {
+        static Gender GetGender(this NounPhrase name)
+        {
             return GetNounPhraseGender(name);
         }
 
@@ -83,7 +86,8 @@ namespace LASI.Algorithm.LexicalLookup
         /// </summary>
         /// <param name="name">The NounPhrase to check.</param>
         /// <returns>True if the provided NounPhrase is a known Full Name, false otherwise.</returns>
-        public static bool IsFullName(this NounPhrase name) {
+        public static bool IsFullName(this NounPhrase name)
+        {
             return GetNounPhraseGender(name).IsMaleOrFemale() && name.Words.GetProperNouns().Any(n => n.IsLastName());
 
         }
@@ -92,7 +96,8 @@ namespace LASI.Algorithm.LexicalLookup
         /// </summary>
         /// <param name="name">The NounPhrase to check.</param>
         /// <returns>True if the provided NounPhrase is a known Full Female Name, false otherwise.</returns>
-        public static bool IsFullFemale(this NounPhrase name) {
+        public static bool IsFullFemale(this NounPhrase name)
+        {
             return GetNounPhraseGender(name).IsFemale();
         }
         /// <summary>
@@ -100,19 +105,22 @@ namespace LASI.Algorithm.LexicalLookup
         /// </summary>
         /// <param name="name">The NounPhrase to check.</param>
         /// <returns>True if the provided NounPhrase is a known Full Male Name, false otherwise.</returns>
-        public static bool IsFullMale(this NounPhrase name) {
+        public static bool IsFullMale(this NounPhrase name)
+        {
             return GetNounPhraseGender(name).IsMale();
         }
 
 
-        private static Gender GetNounPhraseGender(NounPhrase name) {
+        private static Gender GetNounPhraseGender(NounPhrase name)
+        {
             var propers = name.Words.GetProperNouns();
             var first = propers.GetSingular().FirstOrDefault(n => n.Gender.IsMaleOrFemale());
             var last = propers.LastOrDefault(n => n != first && n.IsLastName());
             return first != null && (last != null || propers.All(n => n.GetGender() == first.Gender)) ?
                 first.Gender : name.Words.GetNouns().All(n => n.GetGender().IsNeutral()) ? Gender.Neutral : Gender.Undetermined;
         }
-        private static Gender GetPhraseGender(PronounPhrase name) {
+        private static Gender GetPhraseGender(PronounPhrase name)
+        {
             if (name.Words.All(w => w is Determiner))
                 return Gender.Neutral;
             var genderedWords = name.Words.OfType<IGendered>().Select(w => w.Gender);
@@ -133,7 +141,8 @@ namespace LASI.Algorithm.LexicalLookup
         /// </summary>
         /// <param name="proper">The ProperNoun to check.</param>
         /// <returns>True if the provided ProperNoun is a FirstName, false otherwise.</returns>
-        public static bool IsFirstName(this ProperNoun proper) {
+        public static bool IsFirstName(this ProperNoun proper)
+        {
             return IsFirstName(proper.Text);
         }
         /// <summary>
@@ -142,7 +151,8 @@ namespace LASI.Algorithm.LexicalLookup
         /// </summary>
         /// <param name="proper">The ProperNoun to check.</param>
         /// <returns>True if the ProperNoun's text corresponds to a last name in the english language, false otherwise.</returns>
-        public static bool IsLastName(this ProperNoun proper) {
+        public static bool IsLastName(this ProperNoun proper)
+        {
             return IsLastName(proper.Text);
         }
         /// <summary>
@@ -151,7 +161,8 @@ namespace LASI.Algorithm.LexicalLookup
         /// </summary>
         /// <param name="proper">The ProperNoun to test.</param>
         /// <returns>True if the ProperNoun's text corresponds to a female first name in the english language, false otherwise.</returns>
-        public static bool IsFemaleFirstName(this ProperNoun proper) {
+        public static bool IsFemaleFirstName(this ProperNoun proper)
+        {
             return IsFemaleFirstName(proper.Text);
         }
         /// <summary>
@@ -160,7 +171,8 @@ namespace LASI.Algorithm.LexicalLookup
         /// </summary>
         /// <param name="proper">The ProperNoun to test.</param>
         /// <returns>True if the ProperNoun's text corresponds to a male first name in the english language, false otherwise.</returns>
-        public static bool IsMaleFirstName(this ProperNoun proper) {
+        public static bool IsMaleFirstName(this ProperNoun proper)
+        {
             return IsMaleFirstName(proper.Text);
         }
         /// <summary>
@@ -168,7 +180,8 @@ namespace LASI.Algorithm.LexicalLookup
         /// </summary>
         /// <param name="text">The text to check.</param>
         /// <returns>True if the provided text is in the set of Female or Male first names, false otherwise.</returns>
-        private static bool IsFirstName(string text) {
+        private static bool IsFirstName(string text)
+        {
             return femaleNames.Count > maleNames.Count ?
                 maleNames.Contains(text) || femaleNames.Contains(text) :
                 femaleNames.Contains(text) || maleNames.Contains(text);
@@ -179,7 +192,8 @@ namespace LASI.Algorithm.LexicalLookup
         /// </summary>
         /// <param name="text">The Name to lookup</param>
         /// <returns>True if the provided string corresponds to a common lastname in the english language, false otherwise.</returns>
-        private static bool IsLastName(string text) {
+        private static bool IsLastName(string text)
+        {
             return lastNames.Contains(text);
         }
         /// <summary>
@@ -188,7 +202,8 @@ namespace LASI.Algorithm.LexicalLookup
         /// </summary>
         /// <param name="text">The Name to lookup</param>
         /// <returns>True if the provided string corresponds to a common female name in the english language, false otherwise.</returns>
-        private static bool IsFemaleFirstName(string text) {
+        private static bool IsFemaleFirstName(string text)
+        {
             return femaleNames.Contains(text);
         }
         /// <summary>
@@ -197,7 +212,8 @@ namespace LASI.Algorithm.LexicalLookup
         /// </summary>
         /// <param name="text">The Name to lookup</param>
         /// <returns>True if the provided string corresponds to a common male name in the english language, false otherwise.</returns>
-        private static bool IsMaleFirstName(string text) {
+        private static bool IsMaleFirstName(string text)
+        {
             return maleNames.Contains(text);
         }
 
@@ -209,7 +225,8 @@ namespace LASI.Algorithm.LexicalLookup
         /// Await each Task to start its corresponding loading operation.
         /// </summary>
         /// <returns>a sequence of Tasks containing all of the yet unstarted Lookup loading operations.</returns>
-        public static IEnumerable<Task<string>> GetLoadingTasks() {
+        public static IEnumerable<Task<string>> GetLoadingTasks()
+        {
             return new[] {
                 NounThesaurusLoadTask,
                 VerbThesaurusLoadTask, 
@@ -223,7 +240,8 @@ namespace LASI.Algorithm.LexicalLookup
         /// <summary>
         /// Automatically loads all resources used by the Lookup class.
         /// </summary>
-        public static void LoadAllData() {
+        public static void LoadAllData()
+        {
             Task.WaitAll(GetLoadingTasks().ToArray());
         }
         /// <summary>
@@ -240,7 +258,8 @@ namespace LASI.Algorithm.LexicalLookup
 
 
 
-        private static async Task LoadNameDataAsync() {
+        private static async Task LoadNameDataAsync()
+        {
             await Task.Factory.ContinueWhenAll(
                 new[] {  
                     Task.Run(async () => lastNames = await GetLinesAsync(lastNamesFilePath)),
@@ -263,7 +282,8 @@ namespace LASI.Algorithm.LexicalLookup
             );
         }
 
-        private static async Task<ISet<string>> GetLinesAsync(string fileName) {
+        private static async Task<ISet<string>> GetLinesAsync(string fileName)
+        {
             using (var reader = new StreamReader(fileName)) {
                 string data = await reader.ReadToEndAsync();
                 return data.SplitRemoveEmpty('\r', '\n').Select(s => s.Trim()).ToSet(StringComparer.OrdinalIgnoreCase);
@@ -294,32 +314,40 @@ namespace LASI.Algorithm.LexicalLookup
         /// <summary>
         /// Gets a sequence of all known Last Names.
         /// </summary>
-        public static IReadOnlyCollection<string> LastNames {
-            get {
+        public static IReadOnlyCollection<string> LastNames
+        {
+            get
+            {
                 return lastNames.ToList().AsReadOnly();
             }
         }
         /// <summary>
         /// Gets a sequence of all known Female Names.
         /// </summary>
-        public static IReadOnlyCollection<string> FemaleNames {
-            get {
+        public static IReadOnlyCollection<string> FemaleNames
+        {
+            get
+            {
                 return femaleNames.ToList().AsReadOnly();
             }
         }
         /// <summary>
         /// Gets a sequence of all known Male Names.
         /// </summary>
-        public static IReadOnlyCollection<string> MaleNames {
-            get {
+        public static IReadOnlyCollection<string> MaleNames
+        {
+            get
+            {
                 return maleNames.ToList().AsReadOnly();
             }
         }
         /// <summary>
         /// Gets a sequence of all known Names which are just as likely to be Female or Male.
         /// </summary>
-        public static IReadOnlyCollection<string> GenderAmbiguousNames {
-            get {
+        public static IReadOnlyCollection<string> GenderAmbiguousNames
+        {
+            get
+            {
                 return genderAmbiguousNames.ToList().AsReadOnly();
             }
         }
@@ -342,8 +370,10 @@ namespace LASI.Algorithm.LexicalLookup
             }
             return "Finished Loading Scrabble Dictionary";
         });
-        internal static Task<string> AdjectiveThesaurusLoadTask {
-            get {
+        internal static Task<string> AdjectiveThesaurusLoadTask
+        {
+            get
+            {
                 var result = adjectiveLoadingState == LoadingState.NotStarted ?
                     Task.Run(async () => {
                         await adjectiveLookup.LoadAsync();
@@ -355,8 +385,10 @@ namespace LASI.Algorithm.LexicalLookup
                 return result;
             }
         }
-        internal static Task<string> AdverbThesaurusLoadTask {
-            get {
+        internal static Task<string> AdverbThesaurusLoadTask
+        {
+            get
+            {
                 var result = adverbLoadingState == LoadingState.NotStarted ?
                     Task.Run(async () => {
                         await adverbLookup.LoadAsync();
@@ -368,8 +400,10 @@ namespace LASI.Algorithm.LexicalLookup
                 return result;
             }
         }
-        internal static Task<string> VerbThesaurusLoadTask {
-            get {
+        internal static Task<string> VerbThesaurusLoadTask
+        {
+            get
+            {
                 var result = verbLoadingState == LoadingState.NotStarted ?
                     Task.Run(async () => {
                         await verbLookup.LoadAsync();
@@ -381,8 +415,10 @@ namespace LASI.Algorithm.LexicalLookup
                 return result;
             }
         }
-        internal static Task<string> NounThesaurusLoadTask {
-            get {
+        internal static Task<string> NounThesaurusLoadTask
+        {
+            get
+            {
                 var result = nounLoadingState == LoadingState.NotStarted ?
                     Task.Run(async () => {
                         await nounLookup.LoadAsync();
@@ -394,8 +430,10 @@ namespace LASI.Algorithm.LexicalLookup
                 return result;
             }
         }
-        internal static Task<string> NameDataLoadTask {
-            get {
+        internal static Task<string> NameDataLoadTask
+        {
+            get
+            {
                 var result = nameDataLoadingState == LoadingState.NotStarted ?
                     Task.Run(async () => {
                         await LoadNameDataAsync();
@@ -415,38 +453,38 @@ namespace LASI.Algorithm.LexicalLookup
 
         #region Private Fields
         // WordNet Data File Paths
-        private static readonly string nounWNFilePath = ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "data.noun";
-        private static readonly string verbWNFilePath = ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "data.verb";
-        private static readonly string adverbWNFilePath = ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "data.adv";
-        private static readonly string adjectiveWNFilePath = ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "data.adj";
-        private static readonly string scrabbleDictsFilePath = ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "dictionary.txt"; //scrabble dictionary
+        static readonly string nounWNFilePath = ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "data.noun";
+        static readonly string verbWNFilePath = ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "data.verb";
+        static readonly string adverbWNFilePath = ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "data.adv";
+        static readonly string adjectiveWNFilePath = ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "data.adj";
+        static readonly string scrabbleDictsFilePath = ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "dictionary.txt"; //scrabble dictionary
         // Internal Thesauri
-        private static NounLookup nounLookup = new NounLookup(nounWNFilePath);
-        private static VerbLookup verbLookup = new VerbLookup(verbWNFilePath);
-        private static AdjectiveLookup adjectiveLookup = new AdjectiveLookup(adjectiveWNFilePath);
-        private static AdverbLookup adverbLookup = new AdverbLookup(adverbWNFilePath);
-        private static NounLookup nonpronounLookup = new NounLookup(scrabbleDictsFilePath);
+        static NounLookup nounLookup = new NounLookup(nounWNFilePath);
+        static VerbLookup verbLookup = new VerbLookup(verbWNFilePath);
+        static AdjectiveLookup adjectiveLookup = new AdjectiveLookup(adjectiveWNFilePath);
+        static AdverbLookup adverbLookup = new AdverbLookup(adverbWNFilePath);
+        static NounLookup nonpronounLookup = new NounLookup(scrabbleDictsFilePath);
         // Synonym LexicalLookup Caches
-        private static ConcurrentDictionary<string, ISet<string>> cachedNounData = new ConcurrentDictionary<string, ISet<string>>(Concurrency.Max, 40960);
-        private static ConcurrentDictionary<string, ISet<string>> cachedVerbData = new ConcurrentDictionary<string, ISet<string>>(Concurrency.Max, 40960);
-        private static ConcurrentDictionary<string, ISet<string>> cachedAdjectiveData = new ConcurrentDictionary<string, ISet<string>>(Concurrency.Max, 40960);
-        private static ConcurrentDictionary<string, ISet<string>> cachedAdverbData = new ConcurrentDictionary<string, ISet<string>>(Concurrency.Max, 40960);
+        static ConcurrentDictionary<string, ISet<string>> cachedNounData = new ConcurrentDictionary<string, ISet<string>>(Concurrency.Max, 40960);
+        static ConcurrentDictionary<string, ISet<string>> cachedVerbData = new ConcurrentDictionary<string, ISet<string>>(Concurrency.Max, 40960);
+        static ConcurrentDictionary<string, ISet<string>> cachedAdjectiveData = new ConcurrentDictionary<string, ISet<string>>(Concurrency.Max, 40960);
+        static ConcurrentDictionary<string, ISet<string>> cachedAdverbData = new ConcurrentDictionary<string, ISet<string>>(Concurrency.Max, 40960);
         // Name Data File Paths
-        private static readonly string lastNamesFilePath = ConfigurationManager.AppSettings["NameDataDirectory"] + "last.txt";
-        private static readonly string femaleNamesFilePath = ConfigurationManager.AppSettings["NameDataDirectory"] + "femalefirst.txt";
-        private static readonly string maleNamesFilePath = ConfigurationManager.AppSettings["NameDataDirectory"] + "malefirst.txt";
+        static readonly string lastNamesFilePath = ConfigurationManager.AppSettings["NameDataDirectory"] + "last.txt";
+        static readonly string femaleNamesFilePath = ConfigurationManager.AppSettings["NameDataDirectory"] + "femalefirst.txt";
+        static readonly string maleNamesFilePath = ConfigurationManager.AppSettings["NameDataDirectory"] + "malefirst.txt";
         // Name Data Sets
-        private static ISet<string> lastNames;
-        private static ISet<string> maleNames;
-        private static ISet<string> femaleNames;
-        private static ISet<string> genderAmbiguousNames;
-        private static List<string> scrabbleDictionary;
+        static ISet<string> lastNames;
+        static ISet<string> maleNames;
+        static ISet<string> femaleNames;
+        static ISet<string> genderAmbiguousNames;
+        static List<string> scrabbleDictionary;
         //Loading states for specific data items
-        private static LoadingState nounLoadingState = LoadingState.NotStarted;
-        private static LoadingState verbLoadingState = LoadingState.NotStarted;
-        private static LoadingState adjectiveLoadingState = LoadingState.NotStarted;
-        private static LoadingState adverbLoadingState = LoadingState.NotStarted;
-        private static LoadingState nameDataLoadingState = LoadingState.NotStarted;
+        static LoadingState nounLoadingState = LoadingState.NotStarted;
+        static LoadingState verbLoadingState = LoadingState.NotStarted;
+        static LoadingState adjectiveLoadingState = LoadingState.NotStarted;
+        static LoadingState adverbLoadingState = LoadingState.NotStarted;
+        static LoadingState nameDataLoadingState = LoadingState.NotStarted;
 
         /// <summary>
         /// Similarity threshold for lexical element comparisons. If the computed ration of a similarity comparison is >= the threshold, 

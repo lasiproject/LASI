@@ -16,7 +16,8 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="message">A description of the error. The content of message is intended to be understood by humans.</param>
         public ConflictingClauseRoleException(string message)
-            : base(message) {
+            : base(message)
+        {
 
         }
         /// <summary>
@@ -29,7 +30,8 @@ namespace LASI.Algorithm
         /// The object that holds the serialized object data about the exception being
         /// thrown.</param>
         protected ConflictingClauseRoleException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
-            : base(info, context) {
+            : base(info, context)
+        {
 
         }
     }

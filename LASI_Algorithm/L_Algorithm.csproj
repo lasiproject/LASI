@@ -92,6 +92,7 @@
     <Compile Include="BindingAndWeighting\Binders\Binder.cs" />
     <Compile Include="BindingAndWeighting\Binders\AttributivePhraseBinder.cs" />
     <Compile Include="BindingAndWeighting\Binders\AdjectivePhraseBinder.cs" />
+    <Compile Include="BindingAndWeighting\Binders\Experimental\PreBinder.cs" />
     <Compile Include="BindingAndWeighting\Binders\ScopedAliasMap.cs" />
     <Compile Include="BindingAndWeighting\Binders\Experimental\ClauseSeperatingMultiBranchingBinder.cs" />
     <Compile Include="BindingAndWeighting\Binders\Experimental\ExperimentalLexicalTypes\AggregatePhrase.cs" />
@@ -100,6 +101,9 @@
     <Compile Include="BindingAndWeighting\Binders\Experimental\ObjectBinderV2.cs" />
     <Compile Include="BindingAndWeighting\ProcessingTask.cs" />
     <Compile Include="BindingAndWeighting\SubordinateClauseIdentifier.cs" />
+    <Compile Include="CoreDataStructures\LexicalStructures\SymbolsAndPunctuators\SingleQuote.cs" />
+    <Compile Include="CoreDataStructures\LexicalStructures\SymbolsAndPunctuators\QuotationMark.cs" />
+    <Compile Include="CoreDataStructures\LexicalStructures\SymbolsAndPunctuators\DoubleQuote.cs" />
     <Compile Include="CoreDataStructures\Support\IEnumerableExtensions\IEnumerableOfIPronounExtensions.cs" />
     <Compile Include="CoreDataStructures\LexicalStructures\NounRelatedConstructs\Gender.cs" />
     <Compile Include="Lookup\LookupComparisons.cs" />
@@ -114,7 +118,7 @@
     <Compile Include="CoreDataStructures\Support\PatternMatching\LexicalSpecific\ITestedMatchCase.cs" />
     <Compile Include="CoreDataStructures\Support\PatternMatching\LexicalSpecific\MatchCase.cs" />
     <Compile Include="CoreDataStructures\Support\PatternMatching\LexicalSpecific\PatternMatching.cs" />
-    <Compile Include="CoreDataStructures\LexicalStructures\MiscLanguageConstructs\QuotationMark.cs" />
+    <Compile Include="CoreDataStructures\LexicalStructures\SymbolsAndPunctuators\IPairedPunctuator.cs" />
     <Compile Include="SupportAndInterop\ResourceManagement\Memory.cs" />
     <Compile Include="SupportAndInterop\TextSourceBases\IUntaggedTextSource.cs" />
     <Compile Include="CoreDataStructures\Support\EntityKindClassificationExtensions.cs" />
@@ -143,7 +147,7 @@
     <Compile Include="CoreDataStructures\LexicalStructures\BridgingConstructs\PrepositionRole.cs" />
     <Compile Include="CoreDataStructures\LexicalStructures\NounRelatedConstructs\NounRelatedModifiers\DeterminerKind.cs" />
     <Compile Include="CoreDataStructures\LexicalStructures\NounRelatedConstructs\NounRelatedModifiers\IDeterminable.cs" />
-    <Compile Include="CoreDataStructures\LexicalStructures\MiscLanguageConstructs\SymbolPhrase.cs" />
+    <Compile Include="CoreDataStructures\LexicalStructures\SymbolsAndPunctuators\SymbolPhrase.cs" />
     <Compile Include="CoreDataStructures\LexicalStructures\MiscLanguageConstructs\UnknownPhrase.cs" />
     <Compile Include="CoreDataStructures\LexicalStructures\NounRelatedConstructs\IPronoun.cs" />
     <Compile Include="CoreDataStructures\LexicalStructures\NounRelatedConstructs\AggregateEntity.cs" />
@@ -222,12 +226,12 @@
     <Compile Include="CoreDataStructures\LexicalStructures\VerbRelatedConstructs\ModalAuxilary.cs" />
     <Compile Include="CoreDataStructures\LexicalStructures\BridgingConstructs\Particle.cs" />
     <Compile Include="CoreDataStructures\LexicalStructures\NounRelatedConstructs\ProperPluralNoun.cs" />
-    <Compile Include="CoreDataStructures\LexicalStructures\MiscLanguageConstructs\Punctuation.cs" />
+    <Compile Include="CoreDataStructures\LexicalStructures\SymbolsAndPunctuators\Punctuation.cs" />
     <Compile Include="CoreDataStructures\LexicalStructures\MiscLanguageConstructs\SimpleDeclarativePhrase.cs" />
-    <Compile Include="CoreDataStructures\LexicalStructures\MiscLanguageConstructs\SentenceEnding.cs" />
+    <Compile Include="CoreDataStructures\LexicalStructures\SymbolsAndPunctuators\SentenceEnding.cs" />
     <Compile Include="CoreDataStructures\LexicalStructures\NounRelatedConstructs\PersonalPronoun.cs" />
     <Compile Include="CoreDataStructures\LexicalStructures\AdverbRelatedConstructs\SuperlativeAdverb.cs" />
-    <Compile Include="CoreDataStructures\LexicalStructures\MiscLanguageConstructs\Symbol.cs" />
+    <Compile Include="CoreDataStructures\LexicalStructures\SymbolsAndPunctuators\Symbol.cs" />
     <Compile Include="Lookup\Lookups\IWordNetLookup.cs" />
     <Compile Include="CoreDataStructures\LexicalStructures\VerbRelatedConstructs\IVerbal.cs" />
     <Compile Include="CoreDataStructures\LexicalStructures\NounRelatedConstructs\Noun.cs" />

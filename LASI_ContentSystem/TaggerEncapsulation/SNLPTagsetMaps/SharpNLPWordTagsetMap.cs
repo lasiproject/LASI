@@ -33,28 +33,26 @@ namespace LASI.ContentSystem.TaggerEncapsulation
         #region Fields
 
         private static readonly IReadOnlyDictionary<string, WordCreator> typeDictionary = new Dictionary<string, WordCreator> {
-            
-            { "CC", t => new Conjunction(t) }, //Coordinating conjunction
+            //Punctation Mappings
             { ",", t => new Punctuation(t) }, //Comma punctuation
             { ";", t => new Punctuation(t) }, //Semicolon punctuation
-            { ":", t => new Punctuation(t) }, //Colon punctuation
-            //{ ".", t => new SentenceEnding(t.First()) }, //Period punctuation
-            //{ "!", t => new SentenceEnding(t.First()) }, //Exclamation Mark punctuation
-            //{ "?", t => new SentenceEnding(t.First()) }, //Question Mark punctuation
-            { "``", t => new QuotationMark() }, //Question Mark punctuation
+            { ":", t => new Punctuation(t) }, //Colon punctuation 
+            { "``", t => new DoubleQuote() }, //Single quote * should be remapped
+            { "''", t => new DoubleQuote() }, //Double Quotation Mark punctuation
+            { "LS", t => new Punctuation(t) }, //List item marker
+            { "-LRB-", t => new Punctuation(t) }, //Left Brackets
+            { "-RRB-", t => new Punctuation(t) },  //Right Bracket
+            //Determinism mappings
             { "CD", t => new Quantifier(t) }, //Cardinal number
             { "DT", t => new Determiner(t) }, //Determiner
             { "EX", t => new Existential(t) }, //Existential 'there'
             { "FW", t => new ForeignWord(t) }, //Foreign word
             { "IN", t => new Preposition(t) }, //Preposition or subordinating conjunction
+            { "CC", t => new Conjunction(t) }, //Coordinating conjunction
             //Adjective mappings
             { "JJ", t => new Adjective(t) }, //Adjective
             { "JJR", t => new ComparativeAdjective(t) }, //Adjective, comparative
             { "JJS", t => new SuperlativeAdjective(t) }, //Adjective, superlative
-            { "LS", t => new Punctuation(t) }, //List item marker
-            { "-LRB-", t => new Punctuation(t) }, //Left Bracket
-            { "-RRB-", t => new Punctuation(t) },  //Right Bracket
-            { "''", t => new Punctuation(t) }, //Single quote * should be remapped
             { "MD", t => new ModalAuxilary(t) }, //ModalAuxilary
             //Noun mappings
             { "NN", t => new CommonSingularNoun(t) }, //Noun, singular or mass
@@ -98,8 +96,10 @@ namespace LASI.ContentSystem.TaggerEncapsulation
         /// <summary>
         /// Gets the Read Only Dictionary which represents the mapping between Part Of Speech tags and the cunstructors which instantiate their run-time representations.
         /// </summary>
-        protected override IReadOnlyDictionary<string, WordCreator> TypeDictionary {
-            get {
+        protected override IReadOnlyDictionary<string, WordCreator> TypeDictionary
+        {
+            get
+            {
                 return typeDictionary;
             }
         }
@@ -109,8 +109,10 @@ namespace LASI.ContentSystem.TaggerEncapsulation
         /// <param name="posTag">The textual representation of a Part Of Speech tag.</param>
         /// <returns>A function which creates an instance of the run-time type associated with the textual tag.</returns>
         /// <exception cref="UnknownWordTagException">Thrown when the indexing tag string is not defined by the tagset.</exception>
-        public override WordCreator this[string posTag] {
-            get {
+        public override WordCreator this[string posTag]
+        {
+            get
+            {
                 try {
                     return typeDictionary[posTag];
                 }
@@ -124,8 +126,10 @@ namespace LASI.ContentSystem.TaggerEncapsulation
         /// </summary>
         /// <param name="wordCreator">The function of type { System.string => LASI.Algorithm.Word } for which to get the corresponding tag.</param>
         /// <returns>The PosTag string corresponding to the runtime System.Type of the Return Type of given function of type { System.string => LASI.Algorithm.Word }.</returns>
-        public override string this[WordCreator wordCreator] {
-            get {
+        public override string this[WordCreator wordCreator]
+        {
+            get
+            {
                 try {
                     return typeDictionary.First(pair => pair.Value.Method.ReturnType == wordCreator.Method.ReturnType).Key;
                 }
@@ -144,8 +148,10 @@ namespace LASI.ContentSystem.TaggerEncapsulation
         /// </summary>
         /// <param name="word">The LASI.Algorithm.Word for which to get the corresponding tag.</param>
         /// <returns>The PosTag string corresponding to the System.Type of the given LASI.Algorithm.Word.</returns>
-        public override string this[Word word] {
-            get {
+        public override string this[Word word]
+        {
+            get
+            {
                 try {
                     return typeDictionary.First(funcPosTagPair => funcPosTagPair.Value.Method.ReturnType == word.GetType()).Key;
                 }

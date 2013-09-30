@@ -13,7 +13,8 @@ namespace LASI.Algorithm.Analysis.Binders.Experimental
     class ObjectBinderV2
     {
         public void Bind(Sentence sentence) { Bind(sentence.Phrases); }
-        public void Bind(IEnumerable<Phrase> phrases) {
+        public void Bind(IEnumerable<Phrase> phrases)
+        {
             if (phrases.GetVerbPhrases().None()) { throw new VerblessPhrasalSequenceException(); }
 
             var releventElements =
@@ -36,7 +37,8 @@ namespace LASI.Algorithm.Analysis.Binders.Experimental
             }
         }
 
-        private static IEnumerable<Func<Phrase>> ImagineBindings(IEnumerable<Phrase> elements) {
+        private static IEnumerable<Func<Phrase>> ImagineBindings(IEnumerable<Phrase> elements)
+        {
             var results = new List<Func<Phrase>>();
             var targetVPS = elements.Select(e =>
                 e.Match().Yield<VerbPhrase>()
