@@ -17,20 +17,23 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="composedWords">The words which compose to form the PrepositionalPhrase.</param>
         public PrepositionalPhrase(IEnumerable<Word> composedWords)
-            : base(composedWords) {
+            : base(composedWords)
+        {
             Role = PrepositionRole.Undetermined;
         }
         /// <summary>
         /// Gets or sets the ILexical construct on the right-hand-side of the Preposition.
         /// </summary>
-        public virtual ILexical ToTheRightOf {
+        public virtual ILexical ToTheRightOf
+        {
             get;
             set;
         }
         /// <summary>
         /// Gets or sets the ILexical construct on the left-hand-side of the Preposition.
         /// </summary>
-        public virtual ILexical ToTheLeftOf {
+        public virtual ILexical ToTheLeftOf
+        {
             get;
             set;
         }
@@ -39,7 +42,8 @@ namespace LASI.Algorithm
         /// Returns a string representation of the PrepositionalPhrase.
         /// </summary>
         /// <returns>A string representation of the PrepositionalPhrase.</returns>
-        public override string ToString() {
+        public override string ToString()
+        {
             if (Phrase.VerboseOutput) {
                 var result = base.ToString();
                 if (ToTheLeftOf != null)
@@ -58,7 +62,8 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets the object of the IPrepositional construct.
         /// </summary>
-        public ILexical BoundObject {
+        public ILexical BoundObject
+        {
             get;
             protected set;
         }
@@ -67,7 +72,8 @@ namespace LASI.Algorithm
         /// Lexical constructs include word, Phrase, and Clause Types.
         /// </summary>
         /// <param name="prepositionalObject">The ILexical construct as the object of the PrepositionalPhrase.</param>
-        public void BindObject(ILexical prepositionalObject) {
+        public void BindObject(ILexical prepositionalObject)
+        {
             BoundObject = prepositionalObject;
         }
 
@@ -75,7 +81,8 @@ namespace LASI.Algorithm
         /// Gets or sets the contextually extrapolated role of the PrepositionalPhrase.
         /// </summary>
         /// <see cref="PrepositionRole"/>
-        public PrepositionRole Role {
+        public PrepositionRole Role
+        {
             get;
             set;
         }

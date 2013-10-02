@@ -20,7 +20,8 @@ namespace LASI.Algorithm
         /// Initializes a new instance of EntityGroup forming, an aggregate entity composed of the given entities
         /// </summary>
         /// <param name="members">The Entities aggregated into the group.</param>
-        public AggregateEntity(IEnumerable<IEntity> members) {
+        public AggregateEntity(IEnumerable<IEntity> members)
+        {
             _members = members.Distinct();
         }
 
@@ -31,7 +32,8 @@ namespace LASI.Algorithm
         /// If the item is already possessed by the current instance, this method has no effect.
         /// </summary>
         /// <param name="possession">The possession to add.</param>
-        public void AddPossession(IPossessable possession) {
+        public void AddPossession(IPossessable possession)
+        {
             _possessions.Add(possession);
             possession.Possesser = this;
         }
@@ -39,7 +41,8 @@ namespace LASI.Algorithm
         /// Binds an IDescriptor, generally an Adjective or AdjectivePhrase, as a descriptor of the EntityGroup.
         /// </summary>
         /// <param name="descriptor">The IDescriptor instance which will be added to the EntityGroup's descriptors.</param>
-        public void BindDescriptor(IDescriptor descriptor) {
+        public void BindDescriptor(IDescriptor descriptor)
+        {
             _descriptors.Add(descriptor);
 
             descriptor.Describes = this;
@@ -48,7 +51,8 @@ namespace LASI.Algorithm
         /// Binds an IPronoun, generally a Pronoun or PronounPhrase, as a reference to the EntityGroup.
         /// </summary>
         /// <param name="pro">The referencer which refers to the EntityGroup Instance.</param>
-        public void BindPronoun(IPronoun pro) {
+        public void BindPronoun(IPronoun pro)
+        {
             _boundPronouns.Add(pro);
             pro.BindAsReference(this);
         }
@@ -56,17 +60,20 @@ namespace LASI.Algorithm
         /// Returns an enumerator that iterates through the members of the EntityGroup.
         /// </summary>
         /// <returns>An enumerator that iterates through the members of the EntityGroup.</returns>
-        public IEnumerator<IEntity> GetEnumerator() {
+        public IEnumerator<IEntity> GetEnumerator()
+        {
             return _members.AsNestedEnumerable().GetEnumerator();
         }
-        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() {
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        {
             return _members.AsNestedEnumerable().GetEnumerator();
         }
         /// <summary>
         /// Returns a string representation of the EntityGroup.
         /// </summary>
         /// <returns>A string representation of the EntityGroup.</returns>
-        public override string ToString() {
+        public override string ToString()
+        {
             return string.Format("{0}{1}", _members.Count() > 1 ? "[ " + _members.Count() + " ] " : string.Empty, string.Join(" ", _members.AsNestedEnumerable()
                 .Where(m => !(m is IAggregateEntity))
                 .Select(p => p.Type.Name + " \"" + p.Text + "\"")));
@@ -111,9 +118,11 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets a textual representation of the EntityGroup.
         /// </summary>
-        public string Text {
-            get {
-                return string.Join(" , ", _members.AsNestedEnumerable().Select(p => p.Text + (p.PrepositionOnRight != null ? p.PrepositionOnRight.Text : string.Empty)));
+        public string Text
+        {
+            get
+            {
+                return string.Join(" , ", _members.AsNestedEnumerable().Select(p => p.Text + (p.PrepositionOnRight != null ? " " + p.PrepositionOnRight.Text : string.Empty)));
             }
         }
         //}

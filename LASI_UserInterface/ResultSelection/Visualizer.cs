@@ -304,11 +304,9 @@ namespace LASI.UserInterface
                    select new
                    {
                        Subject = e.Subject != null ? e.Subject.Text : "",
-                       Verbial = e.Verbal != null ? (e.Verbal.PrepositionOnLeft != null ? " " + e.Verbal.PrepositionOnLeft.Text + " " : "") + (e.Verbal.Modality != null ? e.Verbal.Modality.Text : "") + e.Verbal.Text + (e.Verbal.Modifiers.Any() ? " (adv)> " + string.Join(" ", e.Verbal.Modifiers.Select(m => m.Text)) : "") : " ",
-                       Direct = e.Direct != null ? (e.Direct.PrepositionOnLeft != null ? " " + e.Direct.PrepositionOnLeft.Text + " " : "") + " " + e.Direct.Text + " " : "",
-                       Indirect = e.Indirect != null ?
-                       (e.Indirect.PrepositionOnLeft != null ?
-                       " " + e.Indirect.PrepositionOnLeft.Text + " " : "") + e.Indirect.Text : "",
+                       Verbial = e.Verbal != null ? (e.Verbal.PrepositionOnLeft != null ? " " + e.Verbal.PrepositionOnLeft.Text + " " : "") + (e.Verbal.Modality != null ? e.Verbal.Modality.Text : "") + e.Verbal.Text + (e.Verbal.Modifiers.Any() ? " (adv)> " + string.Join(" ", e.Verbal.Modifiers.Select(m => m.Text)) : "") : "",
+                       Direct = e.Direct != null ? (e.Direct.PrepositionOnLeft != null ? " " + e.Direct.PrepositionOnLeft.Text + " " : "") + e.Direct.Text : "",
+                       Indirect = e.Indirect != null ? (e.Indirect.PrepositionOnLeft != null ? " " + e.Indirect.PrepositionOnLeft.Text + " " : "") + e.Indirect.Text : "",
                        Prepositional = e.Prepositional != null ? " " + e.Prepositional.Text : ""
                    };
         }
