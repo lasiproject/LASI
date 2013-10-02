@@ -54,7 +54,7 @@ namespace LASI.UserInterface
             var analyzedDocuments = await processController.AnalyseAllDocumentsAsync(FileManager.TextFiles, async (message, increment) => {
                 progressLabel.Content = message;
                 progressBar.ToolTip = message;
-                var animateStep = 0.030 * increment;
+                var animateStep = 0.028 * increment;
                 for (int i = 0; i < 33; ++i) {
                     progressBar.Value += animateStep;
                     await Task.Delay(1);

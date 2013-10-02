@@ -50,7 +50,7 @@ namespace LASI.Algorithm
         /// <param name="pro">The referencer which refers to the EntityGroup Instance.</param>
         public void BindPronoun(IPronoun pro) {
             _boundPronouns.Add(pro);
-            pro.BindAsReferringTo(this);
+            pro.BindAsReference(this);
         }
         /// <summary>
         /// Returns an enumerator that iterates through the members of the EntityGroup.

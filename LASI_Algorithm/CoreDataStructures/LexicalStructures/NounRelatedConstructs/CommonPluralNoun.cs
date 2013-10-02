@@ -16,14 +16,16 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="text">The key text content of the GenericPluralNoun</param>
         public CommonPluralNoun(string text)
-            : base(text) {
+            : base(text)
+        {
         }
 
         /// <summary>
         /// Gets or sets the Qunatifier which specifies the number of units of the GenericPluralNoun which are referred to in this occurance.
         /// e.g. "[five] miscreants"
         /// </summary>
-        public override IQuantifier QuantifiedBy {
+        public override IQuantifier QuantifiedBy
+        {
             get;
             set;
         }

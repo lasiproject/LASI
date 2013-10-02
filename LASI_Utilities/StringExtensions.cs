@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LASI.Utilities.Text
+namespace LASI.Utilities 
 {
     /// <summary>
     /// Defines various useful methods for working with System.String instances.

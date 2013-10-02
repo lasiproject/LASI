@@ -3,7 +3,6 @@ using LASI.Algorithm;
 using LASI.Algorithm.DocumentStructures;
 using LASI.ContentSystem.TaggerEncapsulation;
 using LASI.Utilities;
-using LASI.Utilities.Text;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -120,6 +119,7 @@ namespace LASI.ContentSystem
                                 if (words.Any(w => w is DoubleQuote || w is SingleQuote)) {
                                     parsedPhrases.Add(new SymbolPhrase(words));
                                     parsedClauses.Add(new Clause(parsedPhrases.Take(parsedPhrases.Count)));
+                                    parsedPhrases = new List<Phrase>();
                                 } else {
                                     if (words.All(w => w is Conjunction) || (words.Count == 2 && words[0] is Punctuation && words[1] is Conjunction)) {
                                         parsedPhrases.Add(new ConjunctionPhrase(words));

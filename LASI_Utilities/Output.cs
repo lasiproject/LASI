@@ -9,13 +9,14 @@ using System.Threading.Tasks;
 namespace LASI
 {
     /// <summary>
-    /// Maps standard output operations, providing a common interface for writing to the Console, Debug, and text file output streams.
+    /// Maps standard output operations, providing a common interface for writing to the Console, Debug, and File output streams.
     /// </summary>
     public static class Output
     {
         #region Static Constructor
 
-        static Output() {
+        static Output()
+        {
             SetToConsole();
         }
 
@@ -26,7 +27,8 @@ namespace LASI
         /// <summary>
         /// Sets the current output stream to Console.Out, the default.
         /// </summary>
-        public static void SetToConsole() {
+        public static void SetToConsole()
+        {
             OutputMode = OutputMode.Console;
             currentStream = Console.Out as StreamWriter;
         }
@@ -35,7 +37,8 @@ namespace LASI
         /// Sets the current output to the file specified by the given path.
         /// Defaults to the current working directory of the application.
         /// </summary>
-        public static void SetToFile(string path = @".\LasiLog.txt") {
+        public static void SetToFile(string path = @".\LasiLog.txt")
+        {
             OutputMode = OutputMode.File;
             var newFile = !File.Exists(path);
             fileStream = new FileStream(path, newFile ? FileMode.Create : FileMode.Append, FileAccess.Write);
@@ -50,7 +53,8 @@ namespace LASI
         /// <summary>
         /// Sets the current output stream to Debug.Out
         /// </summary>
-        public static void SetToDebug() {
+        public static void SetToDebug()
+        {
             OutputMode = OutputMode.Debug;
         }
 
@@ -58,7 +62,8 @@ namespace LASI
         /// Blocks all further output until a call is made to one of the following: 
         /// SetToConsole, SetToFile, SetToDebug, or SetToStringBuilder.
         /// </summary>
-        public static void SilenceAll() {
+        public static void SilenceAll()
+        {
             OutputMode = OutputMode.Silent;
             currentStream = null;
         }
@@ -68,7 +73,8 @@ namespace LASI
         /// Writes a bool to the text output stream.
         /// </summary>
         /// <param name="value">The bool to write to the text output stream.</param>
-        public static void Write(bool value) {
+        public static void Write(bool value)
+        {
             if (OutputMode != OutputMode.Silent) {
                 if (OutputMode == OutputMode.File)
                     using (var writer = new StreamWriter(fileStream, Encoding.ASCII, 1024, true)) { writer.Write(value); } else if (OutputMode == OutputMode.Console)
@@ -82,7 +88,8 @@ namespace LASI
         /// Writes an int to the text output stream.
         /// </summary>
         /// <param name="value">The int to write to the text output stream.</param>
-        public static void Write(int value) {
+        public static void Write(int value)
+        {
             if (OutputMode != OutputMode.Silent) {
                 if (OutputMode == OutputMode.File)
                     using (var writer = new StreamWriter(fileStream, Encoding.ASCII, 1024, true)) { writer.Write(value); } else if (OutputMode == OutputMode.Console)
@@ -96,7 +103,8 @@ namespace LASI
         /// Writes a double to the text output stream.
         /// </summary>
         /// <param name="value">The double to write to the text output stream.</param>
-        public static void Write(double value) {
+        public static void Write(double value)
+        {
             if (OutputMode != OutputMode.Silent) {
                 if (OutputMode == OutputMode.File)
                     using (var writer = new StreamWriter(fileStream, Encoding.ASCII, 1024, true)) { writer.Write(value); } else if (OutputMode == OutputMode.Console)
@@ -109,7 +117,8 @@ namespace LASI
         /// Writes a decimal to the text output stream.
         /// </summary>
         /// <param name="value">The decimal to write to the text output stream.</param>
-        public static void Write(decimal value) {
+        public static void Write(decimal value)
+        {
             if (OutputMode != OutputMode.Silent) {
                 if (OutputMode == OutputMode.File)
                     using (var writer = new StreamWriter(fileStream, Encoding.ASCII, 1024, true)) { writer.Write(value); } else if (OutputMode == OutputMode.Console)
@@ -122,7 +131,8 @@ namespace LASI
         /// Writes a float to the text output stream.
         /// </summary>
         /// <param name="value">The float to write to the text output stream.</param>
-        public static void Write(float value) {
+        public static void Write(float value)
+        {
             if (OutputMode != OutputMode.Silent) {
                 if (OutputMode == OutputMode.File)
                     using (var writer = new StreamWriter(fileStream, Encoding.ASCII, 1024, true)) { writer.Write(value); } else if (OutputMode == OutputMode.Console)
@@ -135,7 +145,8 @@ namespace LASI
         /// Writes a character to the text output stream.
         /// </summary>
         /// <param name="value">The character to write to the text output stream.</param>
-        public static void Write(char value) {
+        public static void Write(char value)
+        {
             if (OutputMode != OutputMode.Silent) {
                 if (OutputMode == OutputMode.File)
                     using (var writer = new StreamWriter(fileStream, Encoding.ASCII, 1024, true)) { writer.Write(value); } else if (OutputMode == OutputMode.Console)
@@ -148,7 +159,8 @@ namespace LASI
         /// Writes a character array to the text output stream.
         /// </summary>
         /// <param name="buffer">The character array to write to the text output stream.</param>
-        public static void Write(char[] buffer) {
+        public static void Write(char[] buffer)
+        {
             if (OutputMode != OutputMode.Silent) {
                 if (OutputMode == OutputMode.File)
                     using (var writer = new StreamWriter(fileStream, Encoding.ASCII, 1024, true)) { writer.Write(buffer); } else if (OutputMode == OutputMode.Console)
@@ -166,7 +178,8 @@ namespace LASI
         /// <exception cref="System.ArgumentException">The buffer length minus index is less than count.</exception>
         /// <exception cref="System.ArgumentNullException">The buffer parameter is null.</exception>
         /// <exception cref="System.ArgumentOutOfRangeException">index or count is negative.</exception>  
-        public static void Write(char[] buffer, int index, int count) {
+        public static void Write(char[] buffer, int index, int count)
+        {
             if (OutputMode != OutputMode.Silent) {
                 if (OutputMode == OutputMode.File)
                     using (var writer = new StreamWriter(fileStream, Encoding.ASCII, 1024, true)) { writer.Write(buffer, index, count); } else if (OutputMode == OutputMode.Console)
@@ -179,7 +192,8 @@ namespace LASI
         /// Writes a uint to the text output stream.
         /// </summary>
         /// <param name="value">The uint to write to the text output stream.</param>
-        public static void Write(uint value) {
+        public static void Write(uint value)
+        {
             if (OutputMode != OutputMode.Silent) {
                 if (OutputMode == OutputMode.File)
                     using (var writer = new StreamWriter(fileStream, Encoding.ASCII, 1024, true)) { writer.Write(value); } else if (OutputMode == OutputMode.Console)
@@ -192,7 +206,8 @@ namespace LASI
         /// Writes a long to the text output stream.
         /// </summary>
         /// <param name="value">The long to write to the text output stream.</param>
-        public static void Write(long value) {
+        public static void Write(long value)
+        {
             if (OutputMode != OutputMode.Silent) {
                 if (OutputMode == OutputMode.File)
                     using (var writer = new StreamWriter(fileStream, Encoding.ASCII, 1024, true)) { writer.Write(value); } else if (OutputMode == OutputMode.Console)
@@ -205,7 +220,8 @@ namespace LASI
         /// Writes a ulong to the text output stream.
         /// </summary>
         /// <param name="value">The ulong to write to the text output stream.</param>
-        public static void Write(ulong value) {
+        public static void Write(ulong value)
+        {
             if (OutputMode != OutputMode.Silent) {
                 if (OutputMode == OutputMode.File)
                     using (var writer = new StreamWriter(fileStream, Encoding.ASCII, 1024, true)) { writer.Write(value); } else if (OutputMode == OutputMode.Console)
@@ -218,7 +234,8 @@ namespace LASI
         /// Writes a string to the text output stream.
         /// </summary>
         /// <param name="value">The string to write to the text output stream.</param>
-        public static void Write(string value) {
+        public static void Write(string value)
+        {
             if (OutputMode != OutputMode.Silent) {
                 if (OutputMode == OutputMode.File)
                     using (var writer = new StreamWriter(fileStream, Encoding.ASCII, 1024, true)) { writer.Write(value); } else if (OutputMode == OutputMode.Console)
@@ -238,7 +255,8 @@ namespace LASI
         /// item is less than 0 (zero), or greater than or equal to the number of objects
         /// to be formatted (which, for this method overload, is one).
         /// </exception>
-        public static void Write(string format, object arg0) {
+        public static void Write(string format, object arg0)
+        {
             if (OutputMode != OutputMode.Silent) {
                 if (OutputMode == OutputMode.File)
                     using (var writer = new StreamWriter(fileStream, Encoding.ASCII, 1024, true)) { writer.Write(format, arg0); } else if (OutputMode == OutputMode.Console)
@@ -259,7 +277,8 @@ namespace LASI
         /// item is less than 0 (zero), or greater than or equal to the number of objects
         /// to be formatted (which, for this method overload, is one).
         /// </exception>
-        public static void Write(string format, object arg0, object arg1) {
+        public static void Write(string format, object arg0, object arg1)
+        {
             if (OutputMode != OutputMode.Silent) {
                 if (OutputMode == OutputMode.File)
                     using (var writer = new StreamWriter(fileStream, Encoding.ASCII, 1024, true)) { writer.Write(format, arg0, arg1); } else if (OutputMode == OutputMode.Console)
@@ -281,7 +300,8 @@ namespace LASI
         /// item is less than 0 (zero), or greater than or equal to the number of objects
         /// to be formatted (which, for this method overload, is one).
         /// </exception>
-        public static void Write(string format, object arg0, object arg1, object arg2) {
+        public static void Write(string format, object arg0, object arg1, object arg2)
+        {
             if (OutputMode != OutputMode.Silent) {
                 if (OutputMode == OutputMode.File)
                     using (var writer = new StreamWriter(fileStream, Encoding.ASCII, 1024, true)) { writer.Write(format, arg0, arg1, arg2); } else if (OutputMode == OutputMode.Console)
@@ -301,7 +321,8 @@ namespace LASI
         /// item is less than 0 (zero), or greater than or equal to the number of objects
         /// to be formatted (which, for this method overload, is one).
         /// </exception>
-        public static void Write(string format, params object[] args) {
+        public static void Write(string format, params object[] args)
+        {
             if (OutputMode != OutputMode.Silent) {
                 if (OutputMode == OutputMode.File)
                     using (var writer = new StreamWriter(fileStream, Encoding.ASCII, 1024, true)) { writer.Write(format, args); } else if (OutputMode == OutputMode.Console)
@@ -314,7 +335,8 @@ namespace LASI
         /// Writes an object to the text output stream.
         /// </summary>
         /// <param name="value">The object to write to the text output stream.</param>
-        public static void Write(object value) {
+        public static void Write(object value)
+        {
             if (OutputMode != OutputMode.Silent) {
                 if (OutputMode == OutputMode.File)
                     using (var writer = new StreamWriter(fileStream, Encoding.ASCII, 1024, true)) { writer.Write(value); } else if (OutputMode == OutputMode.Console)
@@ -330,7 +352,8 @@ namespace LASI
         /// <summary>
         /// Writes a line terminator to the ouput stream.
         /// </summary>
-        public static void WriteLine() {
+        public static void WriteLine()
+        {
             if (OutputMode != OutputMode.Silent) {
                 if (OutputMode == OutputMode.File)
                     using (var writer = new StreamWriter(fileStream, Encoding.ASCII, 1024, true)) { writer.WriteLine(); } else if (OutputMode == OutputMode.Console)
@@ -344,7 +367,8 @@ namespace LASI
         /// Writes a bool to the text output stream.
         /// </summary>
         /// <param name="value">The bool to write to the text output stream.</param>
-        public static void WriteLine(bool value) {
+        public static void WriteLine(bool value)
+        {
             if (OutputMode != OutputMode.Silent) {
                 if (OutputMode == OutputMode.File)
                     using (var writer = new StreamWriter(fileStream, Encoding.ASCII, 1024, true)) { writer.Write(value); } else if (OutputMode == OutputMode.Console)
@@ -357,7 +381,8 @@ namespace LASI
         /// Writes a int to the text output stream.
         /// </summary>
         /// <param name="value">The int to write to the text output stream.</param>
-        public static void WriteLine(int value) {
+        public static void WriteLine(int value)
+        {
             if (OutputMode != OutputMode.Silent) {
                 if (OutputMode == OutputMode.File)
                     using (var writer = new StreamWriter(fileStream, Encoding.ASCII, 1024, true)) { writer.Write(value); } else if (OutputMode == OutputMode.Console)
@@ -370,7 +395,8 @@ namespace LASI
         /// Writes a double to the text output stream.
         /// </summary>
         /// <param name="value">The double to write to the text output stream.</param>
-        public static void WriteLine(double value) {
+        public static void WriteLine(double value)
+        {
             if (OutputMode != OutputMode.Silent) {
                 if (OutputMode == OutputMode.File)
                     using (var writer = new StreamWriter(fileStream, Encoding.ASCII, 1024, true)) { writer.Write(value); } else if (OutputMode == OutputMode.Console)
@@ -383,7 +409,8 @@ namespace LASI
         /// Writes a decimal to the text output stream.
         /// </summary>
         /// <param name="value">The decimal to write to the text output stream.</param>
-        public static void WriteLine(decimal value) {
+        public static void WriteLine(decimal value)
+        {
             if (OutputMode != OutputMode.Silent) {
                 if (OutputMode == OutputMode.File)
                     using (var writer = new StreamWriter(fileStream, Encoding.ASCII, 1024, true)) { writer.Write(value); } else if (OutputMode == OutputMode.Console)
@@ -396,7 +423,8 @@ namespace LASI
         /// Writes a float to the text output stream.
         /// </summary>
         /// <param name="value">The float to write to the text output stream.</param>
-        public static void WriteLine(float value) {
+        public static void WriteLine(float value)
+        {
             if (OutputMode != OutputMode.Silent) {
                 if (OutputMode == OutputMode.File)
                     using (var writer = new StreamWriter(fileStream, Encoding.ASCII, 1024, true)) { writer.Write(value); } else if (OutputMode == OutputMode.Console)
@@ -409,7 +437,8 @@ namespace LASI
         /// Writes a char to the text output stream.
         /// </summary>
         /// <param name="value">The char to write to the text output stream.</param>
-        public static void WriteLine(char value) {
+        public static void WriteLine(char value)
+        {
             if (OutputMode != OutputMode.Silent) {
                 if (OutputMode == OutputMode.File)
                     using (var writer = new StreamWriter(fileStream, Encoding.ASCII, 1024, true)) { writer.Write(value); } else if (OutputMode == OutputMode.Console)
@@ -422,7 +451,8 @@ namespace LASI
         /// Writes a character array followed by a line terminator to the text output stream.
         /// </summary>
         /// <param name="buffer">The character array to write to the text output stream.</param>
-        public static void WriteLine(char[] buffer) {
+        public static void WriteLine(char[] buffer)
+        {
             if (OutputMode != OutputMode.Silent) {
                 if (OutputMode == OutputMode.File)
                     using (var writer = new StreamWriter(fileStream, Encoding.ASCII, 1024, true)) { writer.WriteLine(buffer); } else if (OutputMode == OutputMode.Console)
@@ -440,7 +470,8 @@ namespace LASI
         /// <exception cref="System.ArgumentException">The buffer length minus index is less than count.</exception>
         /// <exception cref="System.ArgumentNullException">The buffer parameter is null.</exception>
         /// <exception cref="System.ArgumentOutOfRangeException">index or count is negative.</exception>  
-        public static void WriteLine(char[] buffer, int index, int count) {
+        public static void WriteLine(char[] buffer, int index, int count)
+        {
             if (OutputMode != OutputMode.Silent) {
                 if (OutputMode == OutputMode.File)
                     using (var writer = new StreamWriter(fileStream, Encoding.ASCII, 1024, true)) { writer.WriteLine(buffer, index, count); } else if (OutputMode == OutputMode.Console)
@@ -453,7 +484,8 @@ namespace LASI
         /// Writes a char to the text output stream.
         /// </summary>
         /// <param name="value">The char to write to the text output stream.</param>
-        public static void WriteLine(uint value) {
+        public static void WriteLine(uint value)
+        {
             if (OutputMode != OutputMode.Silent) {
                 if (OutputMode == OutputMode.File)
                     using (var writer = new StreamWriter(fileStream, Encoding.ASCII, 1024, true)) { writer.Write(value); } else if (OutputMode == OutputMode.Console)
@@ -466,7 +498,8 @@ namespace LASI
         /// Writes a long to the text output stream.
         /// </summary>
         /// <param name="value">The long to write to the text output stream.</param>
-        public static void WriteLine(long value) {
+        public static void WriteLine(long value)
+        {
             if (OutputMode != OutputMode.Silent) {
                 if (OutputMode == OutputMode.File)
                     using (var writer = new StreamWriter(fileStream, Encoding.ASCII, 1024, true)) { writer.Write(value); } else if (OutputMode == OutputMode.Console)
@@ -479,7 +512,8 @@ namespace LASI
         /// Writes a ulong to the text output stream.
         /// </summary>
         /// <param name="value">The ulong to write to the text output stream.</param>
-        public static void WriteLine(ulong value) {
+        public static void WriteLine(ulong value)
+        {
             if (OutputMode != OutputMode.Silent) {
                 if (OutputMode == OutputMode.File)
                     using (var writer = new StreamWriter(fileStream, Encoding.ASCII, 1024, true)) { writer.Write(value); } else if (OutputMode == OutputMode.Console)
@@ -492,7 +526,8 @@ namespace LASI
         /// Writes a string to the text output stream.
         /// </summary>
         /// <param name="value">The string to write to the text output stream.</param>
-        public static void WriteLine(string value) {
+        public static void WriteLine(string value)
+        {
             if (OutputMode != OutputMode.Silent) {
                 if (OutputMode == OutputMode.File)
                     using (var writer = new StreamWriter(fileStream, Encoding.ASCII, 1024, true)) { writer.Write(value); } else if (OutputMode == OutputMode.Console)
@@ -512,7 +547,8 @@ namespace LASI
         /// item is less than 0 (zero), or greater than or equal to the number of objects
         /// to be formatted (which, for this method overload, is one).
         /// </exception>
-        public static void WriteLine(string format, object arg0) {
+        public static void WriteLine(string format, object arg0)
+        {
             if (OutputMode != OutputMode.Silent) {
                 if (OutputMode == OutputMode.File)
                     using (var writer = new StreamWriter(fileStream, Encoding.ASCII, 1024, true)) { writer.WriteLine(format, arg0); } else if (OutputMode == OutputMode.Console)
@@ -533,7 +569,8 @@ namespace LASI
         /// item is less than 0 (zero), or greater than or equal to the number of objects
         /// to be formatted (which, for this method overload, is one).
         /// </exception>
-        public static void WriteLine(string format, object arg0, object arg1) {
+        public static void WriteLine(string format, object arg0, object arg1)
+        {
             if (OutputMode != OutputMode.Silent) {
                 if (OutputMode == OutputMode.File)
                     using (var writer = new StreamWriter(fileStream, Encoding.ASCII, 1024, true)) { writer.WriteLine(format, arg0, arg1); } else if (OutputMode == OutputMode.Console)
@@ -555,7 +592,8 @@ namespace LASI
         /// item is less than 0 (zero), or greater than or equal to the number of objects
         /// to be formatted (which, for this method overload, is one).
         /// </exception>
-        public static void WriteLine(string format, object arg0, object arg1, object arg2) {
+        public static void WriteLine(string format, object arg0, object arg1, object arg2)
+        {
             if (OutputMode != OutputMode.Silent) {
                 if (OutputMode == OutputMode.File)
                     using (var writer = new StreamWriter(fileStream, Encoding.ASCII, 1024, true)) { writer.WriteLine(format, arg0, arg1, arg2); } else if (OutputMode == OutputMode.Console)
@@ -575,7 +613,8 @@ namespace LASI
         /// item is less than 0 (zero), or greater than or equal to the number of objects
         /// to be formatted (which, for this method overload, is one).
         /// </exception>
-        public static void WriteLine(string format, params object[] args) {
+        public static void WriteLine(string format, params object[] args)
+        {
             if (OutputMode != OutputMode.Silent) {
                 if (OutputMode == OutputMode.File)
                     using (var writer = new StreamWriter(fileStream, Encoding.ASCII, 1024, true)) { writer.WriteLine(format, args); } else if (OutputMode == OutputMode.Console)
@@ -588,7 +627,8 @@ namespace LASI
         /// Writes an object to the text output stream.
         /// </summary>
         /// <param name="value">The object to write to the text output stream.</param>
-        public static void WriteLine(object value) {
+        public static void WriteLine(object value)
+        {
             if (OutputMode != OutputMode.Silent) {
                 if (OutputMode == OutputMode.File)
                     using (var writer = new StreamWriter(fileStream, Encoding.ASCII, 1024, true)) { writer.Write(value); } else if (OutputMode == OutputMode.Console)
@@ -614,7 +654,8 @@ namespace LASI
         /// <summary>
         /// Gets the OutputMode indicating where the output is being directed.
         /// </summary>
-        public static OutputMode OutputMode {
+        public static OutputMode OutputMode
+        {
             get;
             private set;
         }

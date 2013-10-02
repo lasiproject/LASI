@@ -25,7 +25,7 @@ namespace LASI.Algorithm
         /// Binds the RelativePronoun to refer to the given Entity.
         /// </summary>
         /// <param name="target">The entity to which to bind.</param>
-        public void BindAsReferringTo(IEntity target) {
+        public void BindAsReference(IEntity target) {
             if (RefersTo != null || RefersTo.None())
                 RefersTo = new AggregateEntity(new[] { target });
             else
@@ -54,7 +54,7 @@ namespace LASI.Algorithm
         /// <param name="pro">The EntityReferency to Bind.</param>
         public void BindPronoun(IPronoun pro) {
             _boundPronouns.Add(pro);
-            pro.BindAsReferringTo(this);
+            pro.BindAsReference(this);
         }
         /// <summary>
         /// Binds an IDescriptor, generally an Adjective or AdjectivePhrase, as a descriptor of the RelativePronoun.

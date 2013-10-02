@@ -13,7 +13,7 @@ namespace LASI.Algorithm
     public class SingleQuote : QuotationMark<SingleQuote>
     {
         /// <summary>
-        /// Initializes a new instance of the DoubleQuote class.
+        /// Initializes a new instance of the SingleQuote class.
         /// </summary>
         public SingleQuote() : base('\'') { }
         /// <summary>

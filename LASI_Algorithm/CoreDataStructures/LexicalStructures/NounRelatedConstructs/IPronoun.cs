@@ -19,7 +19,7 @@ namespace LASI.Algorithm
         /// Binds the IPronoun to refer to the given Entity.
         /// </summary>
         /// <param name="target">The entity to which to bind.</param>
-        void BindAsReferringTo(IEntity target);
+        void BindAsReference(IEntity target);
 
     }
 }

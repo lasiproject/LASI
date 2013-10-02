@@ -52,7 +52,7 @@ namespace LASI.Algorithm
         /// Binds the PronounPhrase to refer to the given Entity.
         /// </summary>
         /// <param name="target">The entity to which to bind.</param>
-        public void BindAsReferringTo(IEntity target) {
+        public void BindAsReference(IEntity target) {
             if (_refersTo == null) {
                 _refersTo = new AggregateEntity(new[] { target });
             } else {

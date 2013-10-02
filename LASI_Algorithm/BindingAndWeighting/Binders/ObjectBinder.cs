@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using LASI.Utilities.FunctionExtensions;
+
 namespace LASI.Algorithm.Binding
 {
     /// <summary>
@@ -377,7 +377,7 @@ namespace LASI.Algorithm.Binding
                 })
                .Default(() => base.Transition(phrase));
             }
-            public State3(ObjectBinder machine) : base(machine, "s4") { }
+            public State3(ObjectBinder machine) : base(machine, "s3") { }
         }
 
         class State4 : State
@@ -424,7 +424,7 @@ namespace LASI.Algorithm.Binding
                 })
                .Default(() => base.Transition(phrase));
             }
-            public State4(ObjectBinder machine) : base(machine, "s5") { }
+            public State4(ObjectBinder machine) : base(machine, "s4") { }
         }
 
         class State5 : State
@@ -470,7 +470,7 @@ namespace LASI.Algorithm.Binding
                 .Default(() => base.Transition(phrase));
             }
 
-            public State5(ObjectBinder machine) : base(machine, "s6") { }
+            public State5(ObjectBinder machine) : base(machine, "s5") { }
         }
 
 

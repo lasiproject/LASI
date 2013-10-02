@@ -21,7 +21,8 @@ namespace LASI.Algorithm
         /// <param name="words">A sequence of word objects</param>
         /// <param name="startAfter">The delimiting word</param>
         /// <returns>All words in the Word collection which come after the given word.</returns>
-        public static IEnumerable<Word> GetWordsAfter(this IEnumerable<Word> words, Word startAfter) {
+        public static IEnumerable<Word> GetWordsAfter(this IEnumerable<Word> words, Word startAfter)
+        {
             if (startAfter == null) { throw new ArgumentNullException("startFrom", "The provided Word to take after was null."); }
             return words.SkipWhile(w => w != startAfter).Skip(1);
         }
@@ -32,7 +33,8 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="words">The sequence of Words to filter.</param>
         /// <returns>All Adverbs in the collection.</returns>
-        public static IEnumerable<Adverb> GetAdverbs(this IEnumerable<Word> words) {
+        public static IEnumerable<Adverb> GetAdverbs(this IEnumerable<Word> words)
+        {
             return words.OfType<Adverb>();
         }
         /// <summary>
@@ -40,7 +42,8 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="words">The sequence of Words to filter.</param>
         /// <returns>All Adjectives in the collection.</returns>
-        public static IEnumerable<Adjective> GetAdjectives(this IEnumerable<Word> words) {
+        public static IEnumerable<Adjective> GetAdjectives(this IEnumerable<Word> words)
+        {
             return words.OfType<Adjective>();
         }
         /// <summary>
@@ -48,7 +51,8 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="words">The sequence of Words to filter.</param>
         /// <returns>All Nouns in the collection.</returns>
-        public static IEnumerable<Noun> GetNouns(this IEnumerable<Word> words) {
+        public static IEnumerable<Noun> GetNouns(this IEnumerable<Word> words)
+        {
             return words.OfType<Noun>();
         }
         /// <summary>
@@ -56,7 +60,8 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="words">The sequence of Words to filter.</param>
         /// <returns>All ProperNouns in the collection.</returns>
-        public static IEnumerable<ProperNoun> GetProperNouns(this IEnumerable<Word> words) {
+        public static IEnumerable<ProperNoun> GetProperNouns(this IEnumerable<Word> words)
+        {
             return words.OfType<ProperNoun>();
         }
         /// <summary>
@@ -64,7 +69,8 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="words">The sequence of Words to filter.</param>
         /// <returns>All GenericNouns in the collection.</returns>
-        public static IEnumerable<CommonNoun> GetGenericNouns(this IEnumerable<Word> words) {
+        public static IEnumerable<CommonNoun> GetGenericNouns(this IEnumerable<Word> words)
+        {
             return words.OfType<CommonNoun>();
         }
         /// <summary>
@@ -72,7 +78,8 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="nouns">The sequence of GenericNouns to filter.</param>
         /// <returns>All GenericSingularNouns in the GenericNoun sequence.</returns>
-        public static IEnumerable<CommonSingularNoun> GetSingular(this IEnumerable<CommonNoun> nouns) {
+        public static IEnumerable<CommonSingularNoun> GetSingular(this IEnumerable<CommonNoun> nouns)
+        {
             return nouns.OfType<CommonSingularNoun>();
         }
         /// <summary>
@@ -80,14 +87,16 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="nouns">The sequence of GenericNouns to filter.</param>
         /// <returns>All GenericNouns in the GenericNoun sequence.</returns>
-        public static IEnumerable<CommonPluralNoun> GetPlural(this IEnumerable<CommonNoun> nouns) {
+        public static IEnumerable<CommonPluralNoun> GetPlural(this IEnumerable<CommonNoun> nouns)
+        {
             return nouns.OfType<CommonPluralNoun>();
         }/// <summary>
         /// Returns all ProperSingularNouns in the ProperNoun sequence.
         /// </summary>
         /// <param name="nouns">The sequence of ProperNouns to filter.</param>
         /// <returns>All ProperSingularNouns in the ProperNoun sequence.</returns>
-        public static IEnumerable<ProperSingularNoun> GetSingular(this IEnumerable<ProperNoun> nouns) {
+        public static IEnumerable<ProperSingularNoun> GetSingular(this IEnumerable<ProperNoun> nouns)
+        {
             return nouns.OfType<ProperSingularNoun>();
         }
         /// <summary>
@@ -95,7 +104,8 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="nouns">The sequence of ProperNouns to filter.</param>
         /// <returns>All ProperPluralNouns in the ProperNoun sequence.</returns>
-        public static IEnumerable<ProperPluralNoun> GetPlural(this IEnumerable<ProperNoun> nouns) {
+        public static IEnumerable<ProperPluralNoun> GetPlural(this IEnumerable<ProperNoun> nouns)
+        {
             return nouns.OfType<ProperPluralNoun>();
         }
         /// <summary>
@@ -104,7 +114,8 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="words">The sequence of Words to filter.</param>
         /// <returns>All Pronouns in the collection.</returns>
-        public static IEnumerable<Pronoun> GetPronouns(this IEnumerable<Word> words) {
+        public static IEnumerable<Pronoun> GetPronouns(this IEnumerable<Word> words)
+        {
             return words.OfType<Pronoun>();
         }
         /// <summary>
@@ -113,7 +124,8 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="words">The sequence of Words to filter.</param>
         /// <returns>All RelativePronouns in the collection.</returns>
-        public static IEnumerable<RelativePronoun> GetRelativePronouns(this IEnumerable<Word> words) {
+        public static IEnumerable<RelativePronoun> GetRelativePronouns(this IEnumerable<Word> words)
+        {
             return words.OfType<RelativePronoun>();
         }
         /// <summary>
@@ -121,7 +133,8 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="words">The sequence of Words to filter.</param>
         /// <returns>All Verbs in the collection.</returns>
-        public static IEnumerable<Verb> GetVerbs(this IEnumerable<Word> words) {
+        public static IEnumerable<Verb> GetVerbs(this IEnumerable<Word> words)
+        {
             return words.OfType<Verb>();
         }
         /// <summary>
@@ -130,7 +143,8 @@ namespace LASI.Algorithm
         /// <param name="words">The sequence of Words to filter.</param>
         /// <param name="tense">The tense to match against</param>
         /// <returns>All Verbs in the collection.</returns>
-        public static IEnumerable<Verb> GetVerbs(this IEnumerable<Word> words, VerbForm tense) {
+        public static IEnumerable<Verb> GetVerbs(this IEnumerable<Word> words, VerbForm tense)
+        {
             return words.OfType<Verb>().Where(v => v.Tense == tense);
         }
         /// <summary>
@@ -138,7 +152,8 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="words">The sequence of Words to filter.</param>
         /// <returns>All ToLinkers in the collection.</returns>
-        public static IEnumerable<ToLinker> GetToLinkers(this IEnumerable<Word> words) {
+        public static IEnumerable<ToLinker> GetToLinkers(this IEnumerable<Word> words)
+        {
             return words.OfType<ToLinker>();
         }
         /// <summary>
@@ -146,7 +161,8 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="words">The sequence of Words to filter.</param>
         /// <returns>All ModalAuxilarys in the collection.</returns>
-        public static IEnumerable<ModalAuxilary> GetModals(this IEnumerable<Word> words) {
+        public static IEnumerable<ModalAuxilary> GetModals(this IEnumerable<Word> words)
+        {
             return words.OfType<ModalAuxilary>();
         }
         /// <summary>
@@ -154,7 +170,8 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="words">The sequence of Words to filter.</param>
         /// <returns>All Determiners in the collection.</returns>
-        public static IEnumerable<Determiner> GetDeterminers(this IEnumerable<Word> words) {
+        public static IEnumerable<Determiner> GetDeterminers(this IEnumerable<Word> words)
+        {
             return words.OfType<Determiner>();
         }
         /// <summary>
@@ -162,7 +179,8 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="words">The sequence of Words to filter.</param>
         /// <returns>All Quantifiers in the collection.</returns>
-        public static IEnumerable<Quantifier> GetQuantifiers(this IEnumerable<Word> words) {
+        public static IEnumerable<Quantifier> GetQuantifiers(this IEnumerable<Word> words)
+        {
             return words.OfType<Quantifier>();
         }
         #endregion
@@ -177,7 +195,8 @@ namespace LASI.Algorithm
         /// <param name="words">A sequence of word objects</param>
         /// <param name="startAfter">The delimiting word</param>
         /// <returns>All words in the Word collection which come after the given word.</returns>
-        public static ParallelQuery<Word> GetWordsAfter(this ParallelQuery<Word> words, Word startAfter) {
+        public static ParallelQuery<Word> GetWordsAfter(this ParallelQuery<Word> words, Word startAfter)
+        {
             if (startAfter == null) { throw new ArgumentNullException("startFrom", "The provided Word to take after was null."); }
             return words.SkipWhile(w => w != startAfter).Skip(1);
         }
@@ -188,7 +207,8 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="words">The sequence of Words to filter.</param>
         /// <returns>All Adverbs in the collection.</returns>
-        public static ParallelQuery<Adverb> GetAdverbs(this ParallelQuery<Word> words) {
+        public static ParallelQuery<Adverb> GetAdverbs(this ParallelQuery<Word> words)
+        {
             return words.OfType<Adverb>();
         }
         /// <summary>
@@ -196,7 +216,8 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="words">The sequence of Words to filter.</param>
         /// <returns>All Adjectives in the collection.</returns>
-        public static ParallelQuery<Adjective> GetAdjectives(this ParallelQuery<Word> words) {
+        public static ParallelQuery<Adjective> GetAdjectives(this ParallelQuery<Word> words)
+        {
             return words.OfType<Adjective>();
         }
         /// <summary>
@@ -204,7 +225,8 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="words">The sequence of Words to filter.</param>
         /// <returns>All Nouns in the collection.</returns>
-        public static ParallelQuery<Noun> GetNouns(this ParallelQuery<Word> words) {
+        public static ParallelQuery<Noun> GetNouns(this ParallelQuery<Word> words)
+        {
             return words.OfType<Noun>();
         }
         /// <summary>
@@ -212,7 +234,8 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="words">The sequence of Words to filter.</param>
         /// <returns>All ProperNouns in the collection.</returns>
-        public static ParallelQuery<ProperNoun> GetProperNouns(this ParallelQuery<Word> words) {
+        public static ParallelQuery<ProperNoun> GetProperNouns(this ParallelQuery<Word> words)
+        {
             return words.OfType<ProperNoun>();
         }
         /// <summary>
@@ -220,7 +243,8 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="words">The sequence of Words to filter.</param>
         /// <returns>All GenericNouns in the collection.</returns>
-        public static ParallelQuery<CommonNoun> GetGenericNouns(this ParallelQuery<Word> words) {
+        public static ParallelQuery<CommonNoun> GetGenericNouns(this ParallelQuery<Word> words)
+        {
             return words.OfType<CommonNoun>();
         }
         /// <summary>
@@ -228,7 +252,8 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="nouns">The sequence of GenericNouns to filter.</param>
         /// <returns>All GenericSingularNouns in the GenericNoun sequence.</returns>
-        public static ParallelQuery<CommonSingularNoun> GetSingular(this ParallelQuery<CommonNoun> nouns) {
+        public static ParallelQuery<CommonSingularNoun> GetSingular(this ParallelQuery<CommonNoun> nouns)
+        {
             return nouns.OfType<CommonSingularNoun>();
         }
         /// <summary>
@@ -236,14 +261,16 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="nouns">The sequence of GenericNouns to filter.</param>
         /// <returns>All GenericNouns in the GenericNoun sequence.</returns>
-        public static ParallelQuery<CommonPluralNoun> GetPlural(this ParallelQuery<CommonNoun> nouns) {
+        public static ParallelQuery<CommonPluralNoun> GetPlural(this ParallelQuery<CommonNoun> nouns)
+        {
             return nouns.OfType<CommonPluralNoun>();
         }/// <summary>
         /// Returns all ProperSingularNouns in the ProperNoun sequence.
         /// </summary>
         /// <param name="nouns">The sequence of ProperNouns to filter.</param>
         /// <returns>All ProperSingularNouns in the ProperNoun sequence.</returns>
-        public static ParallelQuery<ProperSingularNoun> GetSingular(this ParallelQuery<ProperNoun> nouns) {
+        public static ParallelQuery<ProperSingularNoun> GetSingular(this ParallelQuery<ProperNoun> nouns)
+        {
             return nouns.OfType<ProperSingularNoun>();
         }
         /// <summary>
@@ -251,7 +278,8 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="nouns">The sequence of ProperNouns to filter.</param>
         /// <returns>All ProperPluralNouns in the ProperNoun sequence.</returns>
-        public static ParallelQuery<ProperPluralNoun> GetPlural(this ParallelQuery<ProperNoun> nouns) {
+        public static ParallelQuery<ProperPluralNoun> GetPlural(this ParallelQuery<ProperNoun> nouns)
+        {
             return nouns.OfType<ProperPluralNoun>();
         }
         /// <summary>
@@ -260,7 +288,8 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="words">The sequence of Words to filter.</param>
         /// <returns>All Pronouns in the collection.</returns>
-        public static ParallelQuery<Pronoun> GetPronouns(this ParallelQuery<Word> words) {
+        public static ParallelQuery<Pronoun> GetPronouns(this ParallelQuery<Word> words)
+        {
             return words.OfType<Pronoun>();
         }
         /// <summary>
@@ -269,7 +298,8 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="words">The sequence of Words to filter.</param>
         /// <returns>All RelativePronouns in the collection.</returns>
-        public static ParallelQuery<RelativePronoun> GetRelativePronouns(this ParallelQuery<Word> words) {
+        public static ParallelQuery<RelativePronoun> GetRelativePronouns(this ParallelQuery<Word> words)
+        {
             return words.OfType<RelativePronoun>();
         }
         /// <summary>
@@ -277,7 +307,8 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="words">The sequence of Words to filter.</param>
         /// <returns>All Verbs in the collection.</returns>
-        public static ParallelQuery<Verb> GetVerbs(this ParallelQuery<Word> words) {
+        public static ParallelQuery<Verb> GetVerbs(this ParallelQuery<Word> words)
+        {
             return words.OfType<Verb>();
         }
         /// <summary>
@@ -286,7 +317,8 @@ namespace LASI.Algorithm
         /// <param name="words">The sequence of Words to filter.</param>
         /// <param name="tense">The tense to match against</param>
         /// <returns>All Verbs in the collection.</returns>
-        public static ParallelQuery<Verb> GetVerbs(this ParallelQuery<Word> words, VerbForm tense) {
+        public static ParallelQuery<Verb> GetVerbs(this ParallelQuery<Word> words, VerbForm tense)
+        {
             return words.OfType<Verb>().Where(v => v.Tense == tense);
         }
         /// <summary>
@@ -294,7 +326,8 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="words">The sequence of Words to filter.</param>
         /// <returns>All ToLinkers in the collection.</returns>
-        public static ParallelQuery<ToLinker> GetToLinkers(this ParallelQuery<Word> words) {
+        public static ParallelQuery<ToLinker> GetToLinkers(this ParallelQuery<Word> words)
+        {
             return words.OfType<ToLinker>();
         }
         /// <summary>
@@ -302,7 +335,8 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="words">The sequence of Words to filter.</param>
         /// <returns>All ModalAuxilarys in the collection.</returns>
-        public static ParallelQuery<ModalAuxilary> GetModals(this ParallelQuery<Word> words) {
+        public static ParallelQuery<ModalAuxilary> GetModals(this ParallelQuery<Word> words)
+        {
             return words.OfType<ModalAuxilary>();
         }
         /// <summary>
@@ -310,7 +344,8 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="words">The sequence of Words to filter.</param>
         /// <returns>All Determiners in the collection.</returns>
-        public static ParallelQuery<Determiner> GetDeterminers(this ParallelQuery<Word> words) {
+        public static ParallelQuery<Determiner> GetDeterminers(this ParallelQuery<Word> words)
+        {
             return words.OfType<Determiner>();
         }
         /// <summary>
@@ -318,7 +353,8 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="words">The sequence of Words to filter.</param>
         /// <returns>All Quantifiers in the collection.</returns>
-        public static ParallelQuery<Quantifier> GetQuantifiers(this ParallelQuery<Word> words) {
+        public static ParallelQuery<Quantifier> GetQuantifiers(this ParallelQuery<Word> words)
+        {
             return words.OfType<Quantifier>();
         }
         #endregion
@@ -326,4 +362,4 @@ namespace LASI.Algorithm
         #endregion
     }
 
-}
+}   

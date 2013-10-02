@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
+using LASI.Utilities;
 
 namespace LASI.Algorithm
 {
@@ -53,7 +54,7 @@ namespace LASI.Algorithm
         /// <param name="pro">The referencer which refers to the NounPhrase Instance.</param>
         public virtual void BindPronoun(IPronoun pro) {
             _boundPronouns.Add(pro);
-            pro.BindAsReferringTo(this);
+            pro.BindAsReference(this);
         }
         /// <summary>
         /// Binds an IDescriptor, generally an Adjective or AdjectivePhrase, as a descriptor of the NounPhrase.

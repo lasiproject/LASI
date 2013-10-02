@@ -1,7 +1,6 @@
 ﻿using LASI.Algorithm.LexicalLookup.Morphemization;
 using LASI.Algorithm.Patternization;
 using LASI.Utilities;
-using LASI.Utilities.Text;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;

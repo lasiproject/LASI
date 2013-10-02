@@ -11,7 +11,8 @@ namespace LASI.UserInterface
 {
     static class SyntacticStylization
     {
-        public static Brush GetBrush(this ILexical lexical) {
+        public static Brush GetBrush(this ILexical lexical)
+        {
             return lexical.Match().Yield<Brush>()
                 .Case<Phrase>(p =>
                     p.Match().Yield<Brush>()

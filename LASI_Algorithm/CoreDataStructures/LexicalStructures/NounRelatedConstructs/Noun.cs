@@ -50,7 +50,7 @@ namespace LASI.Algorithm
         /// <param name="pro">The EntityReferency to Bind.</param>
         public virtual void BindPronoun(IPronoun pro) {
             _boundPronouns.Add(pro);
-            pro.BindAsReferringTo(this);
+            pro.BindAsReference(this);
         }
 
         /// <summary>

@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LASI.Algorithm.DocumentStructures;
+using LASI.Utilities;
 
 namespace LASI.Experimentation.CommandLine
 {

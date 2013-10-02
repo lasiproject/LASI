@@ -16,15 +16,18 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="text">The key text content of the ProperSingularNoun.</param>
         public ProperSingularNoun(string text)
-            : base(text) {
+            : base(text)
+        {
             EntityKind = text.All(c => char.IsUpper(c) || c == '.') ? EntityKind.Organization : EntityKind;
         }
         private Gender? gender = null;
         /// <summary>
         /// Gets the Gender value indiciating the likely gender of the ProperNoun.
         /// </summary>
-        public virtual Gender Gender {
-            get {
+        public virtual Gender Gender
+        {
+            get
+            {
                 gender = gender ?? (this.IsFemaleFirstName() ? Gender.Female :
                     this.IsMaleFirstName() ? Gender.Male :
                     this.IsLastName() ? Gender.Neutral : Gender.Undetermined);

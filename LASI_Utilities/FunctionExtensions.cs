@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LASI.Utilities.FunctionExtensions
+namespace LASI.Utilities
 {
     /// <summary>
     /// Defines extension methods for System.Func&lt;T, TResult&gt; instances.
@@ -21,8 +21,10 @@ namespace LASI.Utilities.FunctionExtensions
         /// <param name="f">The outer function f, of the composition to perform f(g)</param>
         /// <param name="g">The inner function g, of the composition to perform f(g)</param>
         /// <returns>a new function which when invoked is equivalent to invoking the first function on the result of invoking the second on some arbitrary U, u</returns>
-        public static Func<U, T> Compose<R, U, T>(this Func<R, T> f, Func<U, R> g) {
+        public static Func<U, T> Compose<R, U, T>(this Func<R, T> f, Func<U, R> g)
+        {
             return t => f(g(t));
         }
+        public static Action AsF(this Action a) { return new Action(a); }
     }
 }

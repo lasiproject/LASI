@@ -5,7 +5,7 @@ using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LASI
+namespace LASI.Utilities
 {
 
     /// <summary>

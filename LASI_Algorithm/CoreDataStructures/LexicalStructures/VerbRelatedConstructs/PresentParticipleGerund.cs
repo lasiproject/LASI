@@ -28,7 +28,7 @@ namespace LASI.Algorithm
         public void BindPronoun(IPronoun pro) {
 
             _boundPronouns.Add(pro);
-            pro.BindAsReferringTo(this);
+            pro.BindAsReference(this);
         }
 
 
