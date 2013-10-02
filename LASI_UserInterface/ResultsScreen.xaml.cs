@@ -350,7 +350,7 @@ namespace LASI.UserInterface
 
             var r = await new CrossDocumentJoiner().JoinDocumentsAsnyc(dialog.SelectDocuments);
 
-            metaRelationshipsDataGrid.ItemsSource = Visualizer.CreateRelationshipData(r);
+            metaRelationshipsDataGrid.ItemsSource = Visualizer.TransformToGrid(r);
 
 
         }

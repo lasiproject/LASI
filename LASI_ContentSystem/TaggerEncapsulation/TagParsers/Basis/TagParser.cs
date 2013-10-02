@@ -11,10 +11,6 @@ namespace LASI.ContentSystem.TaggerEncapsulation
         public abstract System.Collections.Generic.IEnumerable<Paragraph> LoadParagraphs();
 
 
-        public virtual async Task<IEnumerable<Paragraph>> LoadParagraphsAsync()
-        {
-            return await Task.Run(() => LoadParagraphs());
-        }
         public abstract Task<LASI.Algorithm.DocumentStructures.Document> LoadDocumentAsync();
         public LASI.ContentSystem.TaggedFile TaggededDocumentFile
         {
@@ -32,10 +28,7 @@ namespace LASI.ContentSystem.TaggerEncapsulation
             return from d in data.Split(new[] { "\r\n\r\n", "\n\n", "<paragraph>", "</paragraph>" }, StringSplitOptions.RemoveEmptyEntries)
                    select d.Trim();
         }
-        protected async virtual Task<IEnumerable<string>> ParseParagraphsAsync(string data)
-        {
-            return await Task.Run(() => ParseParagraphs(data));
-        }
+
 
         /// <summary>
         /// Gets the newPath of the tagged file which the TaggedFileParser governs.

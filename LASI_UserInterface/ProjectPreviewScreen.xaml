@@ -7,8 +7,7 @@
     Icon="MiscImages\LasiLogo.ico"
     WindowState="Normal"
     WindowStartupLocation="CenterOwner"
-    AllowDrop="True"
-    Closing="Window_Closing"
+    AllowDrop="True" 
     Drop="Grid_Drop">
     <Grid
         AllowDrop="True"

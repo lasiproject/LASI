@@ -156,9 +156,9 @@ namespace LASI.Algorithm.Weighting
         }
         private static void WeightSimilarEntities(Document doc)
         {
-            var entities = doc.GetEntities().AsParallel().WithDegreeOfParallelism(Concurrency.Max).InSubjectOrObjectRole();
+            var entities = doc.GetEntities().ToList();
 
-            foreach (var outer in entities) {
+            doc.GetEntities().AsParallel().WithDegreeOfParallelism(Concurrency.Max).ForAll(outer => {
                 var groups = from inner in entities.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                              where inner.IsAliasFor(outer) || inner.IsSimilarTo(outer)
                              group inner by outer;
@@ -168,7 +168,7 @@ namespace LASI.Algorithm.Weighting
                         inner.Weight += weightIncrease;
                     }
                 }
-            }
+            });
 
         }
         private static void HackSubjectPropernounImportance(Document doc)

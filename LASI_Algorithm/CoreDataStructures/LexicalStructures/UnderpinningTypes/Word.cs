@@ -22,7 +22,6 @@ namespace LASI.Algorithm
         /// <param name="text">The text content of the word.</param>
         protected Word(string text)
         {
-            ID = IDProvider++;
             Text = text;
             Weight = 1;
             MetaWeight = 1;
@@ -104,7 +103,6 @@ namespace LASI.Algorithm
 
         #region Static Members
 
-        private static int IDProvider;
         /// <summary>
         /// Controls the level detail of the information provided by the ToString method of all instances of the Word class.
         /// </summary>

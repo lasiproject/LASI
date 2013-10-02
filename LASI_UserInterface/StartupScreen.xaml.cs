@@ -327,11 +327,6 @@ namespace LASI.UserInterface
         const string ErrorEmptyProjectNameMessage = "You must enter a name for your new project";
         #endregion
 
-        private void mainGrid_Drop(object sender, DragEventArgs e)
-        {
-
-        }
-
         #endregion
 
 

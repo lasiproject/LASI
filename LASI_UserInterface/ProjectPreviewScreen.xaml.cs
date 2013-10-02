@@ -98,9 +98,7 @@ namespace LASI.UserInterface
             await WindowManager.InProgressScreen.ParseDocuments();
         }
 
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-        }
+
         private void FileExitMenuItem_Click(object sender, RoutedEventArgs e)
         {
             this.Close();

@@ -29,7 +29,8 @@ namespace LASI.ContentSystem.Serialization.XML.ILexicalExtensions
         //            );
         //      }
 
-        static IEnumerable<XObject> SerializeAspects(this IEntity entity) {
+        static IEnumerable<XObject> SerializeAspects(this IEntity entity)
+        {
 
             return new XObject[]{ 
                 new XAttribute("Weight", entity.Weight),
@@ -51,21 +52,17 @@ namespace LASI.ContentSystem.Serialization.XML.ILexicalExtensions
                     select new XElement("Possesses", content))
             };
         }
-         
+
         #region Serialization Helpers
 
-        private static string GetIdentityString(this ILexical element) {
+        private static string GetIdentityString(this ILexical element)
+        {
             if (element == null)
                 return string.Empty;
             var result = element.Type.Name + " ";
             var w = element as Word;
             if (w != null) {
                 result += w.ID;
-            } else {
-                var p = element as Phrase;
-                if (p != null) {
-                    result += p.ID;
-                }
             }
             return result;
         }

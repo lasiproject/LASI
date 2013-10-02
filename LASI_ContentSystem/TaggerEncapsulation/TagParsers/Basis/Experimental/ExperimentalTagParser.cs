@@ -11,28 +11,34 @@ namespace LASI.ContentSystem.TaggerEncapsulation.TagParsers.Experiment.Support
 {
     class ExperimentalTagParser : TagParser
     {
-        public ExperimentalTagParser(TaggedFile file) {
+        public ExperimentalTagParser(TaggedFile file)
+        {
             TaggededDocumentFile = file;
             FilePath = TaggededDocumentFile.FullPath;
             TaggedInputData = LoadDocumentFile();
         }
-        public ExperimentalTagParser(string taggedText) {
+        public ExperimentalTagParser(string taggedText)
+        {
             TaggedInputData = taggedText;
         }
-        private string LoadDocumentFile() {
+        private string LoadDocumentFile()
+        {
             using (var reader = new StreamReader(FilePath, Encoding.UTF8)) {
                 return reader.ReadToEnd();
             }
         }
-        public override Document LoadDocument() {
+        public override Document LoadDocument()
+        {
             throw new NotImplementedException();
         }
-        public override async Task<Document> LoadDocumentAsync() {
+        public override async Task<Document> LoadDocumentAsync()
+        {
             return await Task.Run(() => LoadDocument());
         }
 
 
-        public override IEnumerable<Paragraph> LoadParagraphs() {
+        public override IEnumerable<Paragraph> LoadParagraphs()
+        {
 
             var textParagraphs = ParseParagraphs(TaggedInputData);
             foreach (var paraText in textParagraphs) {
@@ -43,7 +49,8 @@ namespace LASI.ContentSystem.TaggerEncapsulation.TagParsers.Experiment.Support
             throw new NotImplementedException();
         }
 
-        private Paragraph CreateParagraph(string paraText) {
+        private Paragraph CreateParagraph(string paraText)
+        {
             var sentences = BreakSentences(paraText);
             foreach (var sentence in sentences) {
                 Sentence sent = CreateSentence(sentence);
@@ -51,7 +58,8 @@ namespace LASI.ContentSystem.TaggerEncapsulation.TagParsers.Experiment.Support
             throw new NotImplementedException();
         }
 
-        private Sentence CreateSentence(string sentence) {
+        private Sentence CreateSentence(string sentence)
+        {
             var clauses = new List<Clause>();
             var begin = sentence.IndexOfAny(new[] { ' ', '\r', '\t', '\n' });
             for (; ; ) {
@@ -65,7 +73,8 @@ namespace LASI.ContentSystem.TaggerEncapsulation.TagParsers.Experiment.Support
             throw new NotImplementedException();
         }
 
-        private Clause CreateClause(string data) {
+        private Clause CreateClause(string data)
+        {
             Console.WriteLine(data);
             var phrases = new List<Phrase>();
             while (data.Contains("(")) {
@@ -75,7 +84,8 @@ namespace LASI.ContentSystem.TaggerEncapsulation.TagParsers.Experiment.Support
             throw new NotImplementedException();
         }
 
-        private int FindEndOfClause(string data) {
+        private int FindEndOfClause(string data)
+        {
             var clauseTagDelims = new[] { "(S", "(SBAR", "SBARQ", "(SQ", "(SINV" };
             var indeces = from D in clauseTagDelims
                           let I = data.IndexOf(D)
@@ -89,7 +99,8 @@ namespace LASI.ContentSystem.TaggerEncapsulation.TagParsers.Experiment.Support
             }
         }
 
-        private IEnumerable<string> BreakSentences(string paraText) {
+        private IEnumerable<string> BreakSentences(string paraText)
+        {
             return paraText.Split(new[] { "(TOP" }, StringSplitOptions.RemoveEmptyEntries).AsEnumerable().Select(s => s.Trim());
         }
 
@@ -160,9 +171,7 @@ namespace LASI.ContentSystem.TaggerEncapsulation.TagParsers.Experiment.Support
 
         #endregion
 
-        #region enums
 
-        #endregion
     }
     internal static class NodeStringExtensions
     {
@@ -170,10 +179,13 @@ namespace LASI.ContentSystem.TaggerEncapsulation.TagParsers.Experiment.Support
         static bool IsPhraseLevel(this string nodeKind) { return ExperimentalTagParser.map[nodeKind] == NodeTeir.Phrase; }
         static bool IsWordLevel(this string nodeKind) { return ExperimentalTagParser.map[nodeKind] == NodeTeir.Word; }
     }
+    #region enums
     enum NodeTeir
     {
         Word,
         Phrase,
         Clause
     }
+
+    #endregion
 }

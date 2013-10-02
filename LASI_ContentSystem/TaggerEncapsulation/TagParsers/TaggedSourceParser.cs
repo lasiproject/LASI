@@ -33,12 +33,6 @@ namespace LASI.ContentSystem
 
         #region Methods
 
-        private string LoadDocumentFile()
-        {
-            using (var reader = new StreamReader(FilePath, Encoding.UTF8)) {
-                return reader.ReadToEnd();
-            }
-        }
         /// <summary>
         /// Returns an instance of Document which contains the run time representation of all of the textual construct in the document, for the Algorithm to analyse.
         /// </summary>
@@ -64,7 +58,7 @@ namespace LASI.ContentSystem
         public override IEnumerable<Paragraph> LoadParagraphs()
         {
 
-            var data = PreProcessTextData(TaggedInputData.Trim());
+            var data = PreProcessText(TaggedInputData.Trim());
             var results = new List<Paragraph>();
             foreach (var paragraph in ParseParagraphs(data))
                 results.Add(BuildParagraph(paragraph));
@@ -72,16 +66,6 @@ namespace LASI.ContentSystem
             return results;
         }
 
-        public override async Task<IEnumerable<Paragraph>> LoadParagraphsAsync()
-        {
-
-            return await Task.Run(() => LoadParagraphs());
-
-        }
-        private async Task<Paragraph> BuildParagraphAsync(string paragraph)
-        {
-            return await Task.Run(() => BuildParagraph(paragraph));
-        }
         private Paragraph BuildParagraph(string paragraph)
         {
             var parsedSentences = new List<Sentence>();
@@ -167,7 +151,7 @@ namespace LASI.ContentSystem
         /// </summary>
         /// <param name="data">The string containing raw SharpNLP tagged-text to process.</param>
         /// <returns>The string containing the processed text.</returns>
-        protected virtual string PreProcessTextData(string data)
+        protected virtual string PreProcessText(string data)
         {
 
             data = data.Replace(" [/-LRB-", " LEFT_SQUARE_BRACKET/-LRB-");
@@ -179,7 +163,7 @@ namespace LASI.ContentSystem
         /// </summary>
         /// <param name="data">The string containing raw SharpNLP tagged-text to process.</param>
         /// <returns>The string containing the processed text.</returns>
-        protected virtual async Task<string> PreProcessTextDataAsync(string data)
+        protected virtual async Task<string> PreProcessTextAsync(string data)
         {
             return await Task.Run(() => {
                 data = data.Replace(" [/-LRB-", " LEFT_SQUARE_BRACKET/-LRB-");
@@ -199,7 +183,7 @@ namespace LASI.ContentSystem
             var phraseTag = taggedPhraseElement.Tag.Trim();
             var words = CreateWords(taggedPhraseElement.Text);
             try {
-                var phraseConstructor = PhraseTagset[phraseTag];
+                var phraseConstructor = phraseTagset[phraseTag];
                 return phraseConstructor(words);
             }
             catch (UnknownPhraseTagException e) {
@@ -221,7 +205,7 @@ namespace LASI.ContentSystem
             var phraseTag = taggedPhraseElement.Tag.Trim();
             var words = await CreateWordsAsync(taggedPhraseElement.Text);
             try {
-                var phraseConstructor = PhraseTagset[phraseTag];
+                var phraseConstructor = phraseTagset[phraseTag];
                 return phraseConstructor(words);
             }
             catch (UnknownPhraseTagException e) {
@@ -238,7 +222,7 @@ namespace LASI.ContentSystem
             var phraseTag = taggedPhraseElement.Tag.Trim();
             var wordExprs = CreateWordExpressions(taggedPhraseElement.Text);
             try {
-                var phraseConstructor = PhraseTagset[phraseTag];
+                var phraseConstructor = phraseTagset[phraseTag];
                 return () => phraseConstructor(wordExprs.Select(we => we.Value));
             }
             catch (UnknownPhraseTagException e) {
@@ -268,7 +252,7 @@ namespace LASI.ContentSystem
             var elements = GetTaggedWordLevelTokens(wordData);
             var wordExtractor = new WordExtractor();
 
-            var wordMapper = new WordMapper();
+            var wordMapper = new WordMapper(wordTagset);
             foreach (var element in elements) {
                 TextTagPair? textTagPair = wordExtractor.ExtractNextPos(element);
                 if (textTagPair.HasValue) {
@@ -303,7 +287,7 @@ namespace LASI.ContentSystem
             var elements = GetTaggedWordLevelTokens(wordData);
             var posExtractor = new WordExtractor();
 
-            var tagParser = new WordMapper();
+            var tagParser = new WordMapper(wordTagset);
             foreach (var element in elements) {
                 TextTagPair? textTagPair = posExtractor.ExtractNextPos(element);
                 if (textTagPair.HasValue) {
@@ -322,11 +306,11 @@ namespace LASI.ContentSystem
 
         #endregion
 
-        #region Properties
+        #region Fields
 
-        private readonly WordTagsetMap WordTagset = new SharpNLPWordTagsetMap();
+        private readonly WordTagsetMap wordTagset = new SharpNLPWordTagsetMap();
 
-        private readonly PhraseTagsetMap PhraseTagset = new SharpNLPPhraseTagsetMap();
+        private readonly PhraseTagsetMap phraseTagset = new SharpNLPPhraseTagsetMap();
 
 
 

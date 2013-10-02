@@ -15,19 +15,22 @@ namespace LASI.UserInterface
     /// </summary>
     public partial class App : Application
     {
-        App() {
+        App()
+        {
             LoadPreferences();
             Exit += (sender, e) => {
                 if (Settings.Default.AutoCleanProjectFiles) {
                     try {
                         LASI.ContentSystem.FileManager.DecimateProject();
-                    } catch (ContentSystem.FileManagerNotInitializedException) {
+                    }
+                    catch (ContentSystem.FileManagerNotInitializedException) {
                     }
                 }
             };
         }
 
-        private static void LoadPreferences() {
+        private static void LoadPreferences()
+        {
             PerforamanceLevel performanceLevel;
             if (Enum.TryParse<PerforamanceLevel>(Settings.Default.PerformanceLevel, out performanceLevel)) {
                 PerformanceManager.SetPerformanceLevel(performanceLevel);

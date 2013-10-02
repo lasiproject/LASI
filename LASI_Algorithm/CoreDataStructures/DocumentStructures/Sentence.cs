@@ -13,8 +13,8 @@ namespace LASI.Algorithm.DocumentStructures
     public sealed class Sentence
     {
         #region Constructors
-        private Sentence() {
-            ID = IDProvider++;
+        private Sentence()
+        {
         }
 
         /// <summary>
@@ -23,7 +23,8 @@ namespace LASI.Algorithm.DocumentStructures
         /// <param name="phrases">The sequence of Phrase elements which comprise the Sentence.</param>
         /// <param name="sentencePunctuation">The SentenceEnding which terminates the Sentence. If not provided, a period will be assumed, and an instance of SentenceEnding created to represent it.</param>
         public Sentence(IEnumerable<Phrase> phrases, SentenceEnding sentencePunctuation = null)
-            : this() {
+            : this()
+        {
             Clauses = new[] { new Clause(from P in phrases select P) };
             EndingPunctuation = sentencePunctuation ?? new SentenceEnding('.');
         }
@@ -43,7 +44,8 @@ namespace LASI.Algorithm.DocumentStructures
         /// <param name="clauses">The sequence of Clause elements which comprise the Sentence.</param>
         /// <param name="sentencePunctuation">The SentenceEnding which terminates the Sentence. If not provided, a period will be assumed, and an instance of SentenceEnding created to represent it.</param>
         public Sentence(IEnumerable<Clause> clauses, SentenceEnding sentencePunctuation = null)
-            : this() {
+            : this()
+        {
             Clauses = clauses;
             EndingPunctuation = sentencePunctuation ?? new SentenceEnding('.');
         }
@@ -52,7 +54,8 @@ namespace LASI.Algorithm.DocumentStructures
         /// </summary>
         /// <param name="phrase">The Phrase from which to start.</param>
         /// <returns>The Phrase elements in the Sentence, following and not including the given Phrase. </returns>
-        public IEnumerable<Phrase> GetPhrasesAfter(Phrase phrase) {
+        public IEnumerable<Phrase> GetPhrasesAfter(Phrase phrase)
+        {
             return Phrases.SkipWhile(r => r != phrase).Skip(1);
         }
         #endregion
@@ -62,7 +65,8 @@ namespace LASI.Algorithm.DocumentStructures
         /// Returns a string representation of the Sentence.
         /// </summary>
         /// <returns>A string representation of the Sentence.</returns>
-        public override string ToString() {
+        public override string ToString()
+        {
             return base.ToString() + " \"" + Text + "\"";
         }
         #endregion
@@ -77,7 +81,11 @@ namespace LASI.Algorithm.DocumentStructures
         /// Establishes the linkages between the Sentence, its parent Paragraph, and its child Clauses.
         /// </summary>
         /// <param name="parent">The Paragraph to which the Sentence belongs.</param>
-        public void EstablishParenthood(Paragraph parent) {
+        public void EstablishParenthood(Paragraph parent)
+        {
+            IsParagraphEnd = this == parent.Sentences.Last();
+            IsParagraphBegin = this == parent.Sentences.First();
+
             Paragraph = parent;
             foreach (var C in Clauses)
                 C.EstablishParent(this);
@@ -101,8 +109,10 @@ namespace LASI.Algorithm.DocumentStructures
         /// <summary>
         /// Gets the concatenated text content of all of the Words which compose the Sentence.
         /// </summary>
-        public string Text {
-            get {
+        public string Text
+        {
+            get
+            {
                 return (Phrases.Aggregate("", (sum, currentPhrase) => sum + " " + currentPhrase.Text) + EndingPunctuation.Text).Trim();
             }
         }
@@ -116,8 +126,10 @@ namespace LASI.Algorithm.DocumentStructures
         /// <summary>
         /// Gets the Document to which the Sentence Belongs.
         /// </summary>
-        public Document Document {
-            get {
+        public Document Document
+        {
+            get
+            {
                 return Paragraph != null ? Paragraph.Document : null;
             }
         }
@@ -127,13 +139,12 @@ namespace LASI.Algorithm.DocumentStructures
         /// </summary>
         public bool IsInverted { get; set; }
 
-        private static int IDProvider;
 
-        /// <summary>
-        /// Gets the unique ID number of the Sentence.
-        /// </summary>
-        public int ID { get; private set; }
         #endregion
+
+        public bool IsParagraphBegin { get; private set; }
+
+        public bool IsParagraphEnd { get; private set; }
     }
 
 }

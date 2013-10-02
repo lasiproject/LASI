@@ -14,7 +14,8 @@ namespace LASI.UserInterface
     internal static class WindowManager
     {
         #region Methods
-        internal static void Intialize() {
+        internal static void Intialize()
+        {
             startupScreen = App.Current.Windows.OfType<StartupScreen>().First();
         }
         #endregion
@@ -35,19 +36,22 @@ namespace LASI.UserInterface
 
         #region Extension Methods
 
-        public static void PositionOver(this Window window, Window other) {
-            other.Left = window.Left;
-            other.Top = window.Top;
+        public static void PositionAt(this Window window, Window other)
+        {
+            window.PositionAt(other.Left, other.Top);
         }
-        public static void PositionAt(this Window window, double left, double top) {
+        public static void PositionAt(this Window window, double left, double top)
+        {
             window.Left = left;
             window.Top = top;
         }
-        public static void SetTitle(this Window window, string title) {
+        public static void SetTitle(this Window window, string title)
+        {
             window.Title = title;
         }
-        public static void SwapWith(this Window window, Window other) {
-            other.PositionOver(window);
+        public static void SwapWith(this Window window, Window other)
+        {
+            other.PositionAt(window);
             other.Show();
             window.Hide();
         }
@@ -67,14 +71,16 @@ namespace LASI.UserInterface
         /// Enables "minimize to tray" behavior for the specified Window.
         /// </summary>
         /// <param name="window">Window to enable the behavior for.</param>
-        public static void Enable(Window window) {
+        public static void Enable(Window window)
+        {
             // No need to track this instance; its event handlers will keep it alive
             new TrayMinimizationProvider(window);
         }/// <summary>
         /// Enables "minimize to tray" behavior for the specified Window.
         /// </summary>
         /// <param name="window">Window to enable the behavior for.</param>
-        public static void Enable(InProgressScreen window) {
+        public static void Enable(InProgressScreen window)
+        {
             // No need to track this instance; its event handlers will keep it alive
             new TrayMinimizationProvider(window);
         }
@@ -91,12 +97,14 @@ namespace LASI.UserInterface
             /// Initializes a new instance of the MinimizeToTrayInstance class.
             /// </summary>
             /// <param name="window">Window instance to attach to.</param>
-            internal TrayMinimizationProvider(Window window) {
+            internal TrayMinimizationProvider(Window window)
+            {
                 //System.Diagnostics.Debug.Assert(window != null, "window parameter is null.");
                 _window = window;
                 _window.StateChanged += HandleStateChanged;
             }
-            internal TrayMinimizationProvider(InProgressScreen window) {
+            internal TrayMinimizationProvider(InProgressScreen window)
+            {
                 window.ProcessingComplete += (s, e) => window.Title = "Analysis Complete";
                 window.ProcessingComplete += HandleStateChanged;
                 //System.Diagnostics.Debug.Assert(window != null, "window parameter is null.");
@@ -109,7 +117,8 @@ namespace LASI.UserInterface
             /// </summary>
             /// <param name="sender">Event source.</param>
             /// <param name="e">Event arguments.</param>
-            private void HandleStateChanged(object sender, EventArgs e) {
+            private void HandleStateChanged(object sender, EventArgs e)
+            {
                 if (_notifyIcon == null) {
                     // Initialize NotifyIcon instance "on demand"
                     _notifyIcon = new System.Windows.Forms.NotifyIcon();
@@ -135,7 +144,8 @@ namespace LASI.UserInterface
             /// </summary>
             /// <param name="sender">Event source.</param>
             /// <param name="e">Event arguments.</param>
-            private void HandleNotifyIconOrBalloonClicked(object sender, EventArgs e) {
+            private void HandleNotifyIconOrBalloonClicked(object sender, EventArgs e)
+            {
                 // Restore the Window
                 _window.WindowState = WindowState.Normal;
             }

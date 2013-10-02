@@ -99,7 +99,6 @@
     <Compile Include="TaggerEncapsulation\TagParsers\Basis\Experimental\ExperimentalTagParser.cs" />
     <Compile Include="Tagger.cs" />
     <Compile Include="TaggerEncapsulation\TagParsers\Basis\Experimental\RecursiveTagMap.cs" />
-    <Compile Include="TaggerEncapsulation\TagParsers\Basis\Support\TagIdentifier.cs" />
     <Compile Include="TaggerEncapsulation\TagParsers\Basis\TagParser.cs" />
     <Compile Include="TaggerEncapsulation\TagParsers\SupportTypes\PhraseExtractor.cs" />
     <Compile Include="TaggerEncapsulation\TagmapBases\PhraseTagsetMap.cs" />
@@ -140,6 +139,9 @@
       <Project>{bc10a8f0-77ff-46d0-9f9a-38e2fda22d21}</Project>
       <Name>L_Utilities</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="TaggerEncapsulation\TagParsers\Basis\Support\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

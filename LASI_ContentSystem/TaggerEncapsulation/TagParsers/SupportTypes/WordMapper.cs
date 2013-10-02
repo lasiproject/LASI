@@ -19,14 +19,7 @@ namespace LASI.ContentSystem
     /// </summary>
     public class WordMapper
     {
-        /// <summary>
-        /// Initializes an instance of the TaggedWordParser class using the default Tagset (SharpNLP).
-        /// <see cref="SharpNLPWordTagsetMap"/>
-        /// </summary>
-        public WordMapper()
-        {
-            context = new SharpNLPWordTagsetMap();
-        }
+
         /// <summary>
         /// Initialized an instance of the TaggedWordParser class using the Tagset provided defined by the TaggingContext argument.
         /// </summary>
@@ -93,5 +86,13 @@ namespace LASI.ContentSystem
         }
 
         private WordTagsetMap context;
+
+        /// <summary>
+        /// Gets the WordTagsetMap which defines the context for the WordMapper.
+        /// </summary>
+        public WordTagsetMap Context
+        {
+            get { return context; }
+        }
     }
 }

@@ -40,10 +40,10 @@ namespace LASI.UserInterface
 
                 switch (chartKind) {
                     case ChartKind.SubjectVerbObject:
-                        data = GetSVOIData(doc);
+                        data = GetVerbWiseData(doc);
                         break;
                     case ChartKind.NounPhrasesOnly:
-                        data = GetNounPhraseData(doc);
+                        data = GetNounWiseData(doc);
                         break;
                 }
                 data = data.Take(CHART_ITEM_LIMIT);
@@ -69,7 +69,7 @@ namespace LASI.UserInterface
         public static async Task ToColumnCharts()
         {
             foreach (var chart in WindowManager.ResultsScreen.FrequencyCharts.Items.OfType<TabItem>().Select(item => item.Content as Chart).Where(c => c != null)) {
-                var items = GetItemSourceFor(chart);
+                var items = chart.GetItemSource();
                 var series = new ColumnSeries
                 {
                     DependentValuePath = "Value",
@@ -91,7 +91,7 @@ namespace LASI.UserInterface
         public static async Task ToPieCharts()
         {
             foreach (var chart in WindowManager.ResultsScreen.FrequencyCharts.Items.OfType<TabItem>().Select(item => item.Content as Chart).Where(c => c != null)) {
-                var items = GetItemSourceFor(chart);
+                var items = chart.GetItemSource();
                 var series = new PieSeries
                 {
                     DependentValuePath = "Value",
@@ -115,7 +115,7 @@ namespace LASI.UserInterface
         public static async Task ToBarCharts()
         {
             foreach (var chart in WindowManager.ResultsScreen.FrequencyCharts.Items.OfType<TabItem>().Select(item => item.Content as Chart).Where(c => c != null)) {
-                var items = GetItemSourceFor(chart);
+                var items = chart.GetItemSource();
                 var series = new BarSeries
                 {
                     DependentValuePath = "Value",
@@ -151,7 +151,9 @@ namespace LASI.UserInterface
         private static async Task<Chart> BuildBarChart(Document document)
         {
 
-            var dataPointSource = ChartKind == ChartKind.NounPhrasesOnly ? await GetNounPhraseDataAsync(document) : ChartKind == ChartKind.SubjectVerbObject ? GetSVOIData(document) : GetSVOIData(document);
+            var dataPointSource = ChartKind == ChartKind.NounPhrasesOnly ? await GetNounWiseDataAsync(document) :
+                ChartKind == ChartKind.SubjectVerbObject ? GetVerbWiseData(document) :
+                GetVerbWiseData(document);
             var topPoints = dataPointSource.OrderByDescending(e => e.Value).Take(CHART_ITEM_LIMIT);
             Series series = new BarSeries
             {
@@ -193,16 +195,16 @@ namespace LASI.UserInterface
             chart.Series.Add(series);
         }
 
-        private static IEnumerable<KeyValuePair<string, float>> GetItemSourceFor(Chart chart)
+        private static IEnumerable<KeyValuePair<string, float>> GetItemSource(this Chart chart)
         {
             return (chart.Tag as IEnumerable<KeyValuePair<string, float>>).OrderByDescending(e => e.Value).Take(CHART_ITEM_LIMIT).Reverse();
 
         }
 
         #endregion
-        private static IEnumerable<KeyValuePair<string, float>> GetSVOIData(Document doc)
+        private static IEnumerable<KeyValuePair<string, float>> GetVerbWiseData(Document doc)
         {
-            var data = GetVerbWiseAssociationData(doc);
+            var data = GetVerbWiseRelationships(doc);
             return from svs in data
 
                    let SV = new KeyValuePair<string, float>(
@@ -214,7 +216,7 @@ namespace LASI.UserInterface
                    select svg.Key;
 
         }
-        private static IEnumerable<RelationshipTuple> GetVerbWiseAssociationData(Document doc)
+        private static IEnumerable<RelationshipTuple> GetVerbWiseRelationships(Document doc)
         {
             var data =
                  from svPair in
@@ -248,9 +250,9 @@ namespace LASI.UserInterface
                  select svps;
             return data;
         }
-        private static async Task<IEnumerable<KeyValuePair<string, float>>> GetNounPhraseDataAsync(Document doc) { return await Task.Run(() => GetNounPhraseData(doc)); }
+        private static async Task<IEnumerable<KeyValuePair<string, float>>> GetNounWiseDataAsync(Document doc) { return await Task.Run(() => GetNounWiseData(doc)); }
 
-        private static IEnumerable<KeyValuePair<string, float>> GetNounPhraseData(Document doc)
+        private static IEnumerable<KeyValuePair<string, float>> GetNounWiseData(Document doc)
         {
             return from NP in doc.Phrases.GetNounPhrases().Distinct().AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                    group NP by new
@@ -272,7 +274,7 @@ namespace LASI.UserInterface
         {
 
             var transformedData = await Task.Factory.StartNew(() => {
-                return CreateRelationshipData(GetVerbWiseAssociationData(document));
+                return TransformToGrid(GetVerbWiseRelationships(document));
             });
             var wpfToolKitDataGrid = new Microsoft.Windows.Controls.DataGrid
             {
@@ -287,17 +289,13 @@ namespace LASI.UserInterface
             WindowManager.ResultsScreen.SVODResultsTabControl.SelectedItem = tab;
 
         }
-
-        private static async Task<IEnumerable<object>> CreateRelationshipDataAsync(IEnumerable<RelationshipTuple> elementsToConvert) { return await Task.Run(() => CreateRelationshipData(elementsToConvert)); }
-
-
         /// <summary>
         /// Creates and returns a sequence of textual display elements from the given sequence of RelationshipTuple elements.
         /// The resulting sequence is suitable for direct insertion into a DataGrid.
         /// </summary>
         /// <param name="elementsToConvert">The sequence of Relationship Tuple to tranform into textual display elements.</param>
         /// <returns>A sequence of textual display elements from the given sequence of RelationshipTuple elements.</returns>
-        internal static IEnumerable<object> CreateRelationshipData(IEnumerable<RelationshipTuple> elementsToConvert)
+        internal static IEnumerable<object> TransformToGrid(IEnumerable<RelationshipTuple> elementsToConvert)
         {
             return from e in elementsToConvert.Distinct()
                    orderby e.CombinedWeight

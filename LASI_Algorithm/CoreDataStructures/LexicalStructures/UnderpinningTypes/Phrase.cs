@@ -25,7 +25,6 @@ namespace LASI.Algorithm
             //if (composedWords.Count() == 0)
             //    throw new EmptyPhraseTagException();
             Words = composedWords;
-            ID = IDProvider++;
             Weight = 1;
             MetaWeight = 1;
         }
@@ -109,14 +108,7 @@ namespace LASI.Algorithm
         /// </summary>
         public IEnumerable<Word> Words { get; protected set; }
 
-        /// <summary>
-        /// Gets the globally-unique identification number associated with the Phrase instance.
-        /// </summary>
-        public int ID
-        {
-            get;
-            protected set;
-        }
+
 
         /// <summary>
         /// Gets the System.Type of the current Instance.
@@ -158,7 +150,6 @@ namespace LASI.Algorithm
 
         #region Static Fields
 
-        private static int IDProvider;
 
         #endregion
 
