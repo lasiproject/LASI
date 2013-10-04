@@ -24,11 +24,14 @@ namespace AlgorithmAssemblyUnitTestProject
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
         ///</summary>
-        public TestContext TestContext {
-            get {
+        public TestContext TestContext
+        {
+            get
+            {
                 return testContextInstance;
             }
-            set {
+            set
+            {
                 testContextInstance = value;
             }
         }
@@ -68,7 +71,8 @@ namespace AlgorithmAssemblyUnitTestProject
         ///A test for ToString
         ///</summary>
         [TestMethod()]
-        public void ToStringTest() {
+        public void ToStringTest()
+        {
             Phrase[] phrases1 = new Phrase[] { 
                 new NounPhrase(new Word[] { new ProperSingularNoun("LASI") }), 
                 new VerbPhrase(new Word[] { new PastTenseVerb("found") }),
@@ -102,7 +106,8 @@ namespace AlgorithmAssemblyUnitTestProject
         ///A test for Text
         ///</summary>
         [TestMethod()]
-        public void TextTest() {
+        public void TextTest()
+        {
             Phrase[] phrases1 = new Phrase[] { 
                 new NounPhrase(new Word[] { new ProperSingularNoun("LASI") }),
                 new VerbPhrase(new Word[] { new PastTenseVerb("found")}),
@@ -136,7 +141,8 @@ namespace AlgorithmAssemblyUnitTestProject
         ///A test for EstablishParent
         ///</summary>
         [TestMethod()]
-        public void EstablishParentTest() {
+        public void EstablishParentTest()
+        {
             Phrase[] phrases1 = new Phrase[] { 
                    new NounPhrase(new Word[] { new ProperSingularNoun("LASI") }),
                    new VerbPhrase(new Word[] { new PastTenseVerb("found")}),

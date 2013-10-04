@@ -6,7 +6,7 @@ namespace LASI.Algorithm.Patternization
     /// </summary>
     /// <typeparam name="T">The Type of the value being matched over.</typeparam>
     /// <typeparam name="R">The Type of the result which the match expression may return.</typeparam>
-    public interface IPredicatedPatternMatching<T, R>
+    public interface IPredicatedMatchCase<T, R>
       where T : class, LASI.Algorithm.ILexical
     {
         /// <summary>
@@ -89,7 +89,7 @@ namespace LASI.Algorithm.Patternization
     /// Specifies the required behavior for a pattern matching expression clause which immediately follows a When expression.
     /// </summary>
     /// <typeparam name="T">The Type of the value being matched over.</typeparam>
-    public interface IPredicatedPatternMatching<T>
+    public interface IPredicatedMatchCase<T>
     where T : class, LASI.Algorithm.ILexical
     {
         /// <summary>
@@ -100,7 +100,7 @@ namespace LASI.Algorithm.Patternization
         /// this Then expression will be selected and the provided action invoked.</typeparam>
         /// <param name="action">Action to invoke if this Then expression is matched.</param>
         /// <returns>The IPatternMatching&lt;T&gt; describing the Match expression so far.</returns>
-        IPatternMatching<T> Then<TCase>(Action action) where TCase : class, T;
+        IMatchCase<T> Then<TCase>(Action action) where TCase : class, T;
         /// <summary>
         /// Appends a Then expression to the current pattern. Then expressions work exactly like Case expressions but are only matched if they immediately follow a When expression which evaluates to true.
         /// </summary>
@@ -109,19 +109,19 @@ namespace LASI.Algorithm.Patternization
         /// this Then expression will be selected and the provided action invoked.</typeparam>
         /// <param name="action">Action taking to invoke on the matched value if this Then expression is matched.</param>
         /// <returns>The IPatternMatching&lt;T&gt; describing the Match expression so far.</returns>
-        IPatternMatching<T> Then<TCase>(Action<TCase> action) where TCase : class, T;
+        IMatchCase<T> Then<TCase>(Action<TCase> action) where TCase : class, T;
         /// <summary>
         /// Appends a Then expression to the current pattern. Then expressions work exactly like Case expressions but are only matched if they immediately follow a When expression which evaluates to true.
         /// </summary> 
         /// <param name="action">The Action to invoke if this Then expression is matched.</param>
         /// <returns>The IPatternMatching&lt;T R&gt; describing the Match expression so far.</returns>
-        IPatternMatching<T> Then(Action action);
+        IMatchCase<T> Then(Action action);
         /// <summary>
         /// Appends a Then expression to the current pattern. Then expressions work exactly like Case expressions but are only matched if they immediately follow a When expression which evaluates to true.
         /// </summary> 
         /// <param name="action">The Action&lt;T R&gt; to invoke if this Then expression is matched.</param>
         /// <returns>The IPatternMatching&lt;T R&gt; describing the Match expression so far.</returns>
-        IPatternMatching<T> Then(Action<T> action);
+        IMatchCase<T> Then(Action<T> action);
 
     }
 }

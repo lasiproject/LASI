@@ -140,7 +140,7 @@ namespace LASI.ContentSystem
         /// <remarks>No files are created when calling this function.</remarks>
         public static string TaggedFromRaw(IEnumerable<string> strs)
         {
-            return new QuickTagger(TaggerMode).TagTextSource(String.Join(" ", strs));
+            return new QuickTagger(TaggerMode).TagTextSource(string.Join(" ", strs));
         }
         /// <summary>
         /// Parses any number of pre-tagged strings into a new Document instance.

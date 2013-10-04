@@ -2,6 +2,7 @@
 using LASI.Algorithm;
 using LASI.Algorithm.DocumentStructures;
 using LASI.Algorithm.LexicalLookup;
+using LASI.Algorithm.Patternization;
 using LASI.Algorithm.Aliasing;
 using System;
 using System.Collections.Generic;
@@ -21,15 +22,14 @@ namespace LASI.UserInterface
         /// </summary>
         /// <param name="documents">The Documents to Join.</param>
         /// <returns>A Task&lt;IEnumerable&lt;RelationshipTuple&gt;&gt; corresponding to the intersection of the Documents to be joined .</returns>
-        internal async Task<IEnumerable<RelationshipTuple>> JoinDocumentsAsnyc(IEnumerable<Document> documents) {
-
+        internal async Task<IEnumerable<Relationship>> JoinDocumentsAsnyc(IEnumerable<Document> documents) {
             return await await Task.Factory.ContinueWhenAll(
                 new[] {  
                     Task.Run(()=> GetCommonalitiesByVerbals(documents)),
                     Task.Run(()=> GetCommonalitiesByEntities(documents))
                 },
                 async tasks => {
-                    var results = new List<RelationshipTuple>();
+                    var results = new List<Relationship>();
                     foreach (var t in tasks) {
                         results.AddRange(await t);
                     }
@@ -37,129 +37,100 @@ namespace LASI.UserInterface
                 }
             );
         }
+        private async Task<IEnumerable<Relationship>> GetCommonalitiesByEntities(IEnumerable<Document> documents) {
+            var topNPsByDoc = from doc in documents
+                               .AsParallel()
+                               .WithDegreeOfParallelism(Concurrency.Max)
+                              select new { topNPs = GetTopNounPhrases(doc), doc };
 
-        private async Task<IEnumerable<RelationshipTuple>> GetCommonalitiesByEntities(IEnumerable<Document> documents) {
-            var topNPsByDoc = from doc in documents.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                              select GetTopNounPhrases(doc);
-            var nounCommonalities = (from outerSet in topNPsByDoc
-                                         .AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                                     from np in outerSet
-                                     from innerSet in topNPsByDoc
-                                     where innerSet != outerSet
-                                     where innerSet.Contains(np, (left, right) => {
-                                         var result = left.Text == right.Text ||
-                                             left.IsAliasFor(right) ||
-                                             left.IsSimilarTo(right);
-                                         if (!result) {
-                                             var leftAsPro = left as IPronoun;
-                                             var rightAsPro = right as IPronoun;
-                                             result = rightAsPro != null &&
-                                                 left.BoundPronouns.Contains(rightAsPro) ||
-                                                 leftAsPro != null &&
-                                                 right.BoundPronouns.Contains(leftAsPro);
-                                         }
-                                         return result;
-                                     })
-                                     select np).Distinct((left, right) => {
-                                         var result = left.Text == right.Text ||
-                                             left.IsAliasFor(right) ||
-                                             left.IsSimilarTo(right);
-                                         if (!result) {
-                                             var leftAsPro = left as IPronoun;
-                                             var rightAsPro = right as IPronoun;
-                                             result = rightAsPro != null &&
-                                                 left.BoundPronouns.Contains(rightAsPro) ||
-                                                 leftAsPro != null &&
-                                                 right.BoundPronouns.Contains(leftAsPro);
-                                         }
-                                         return result;
-                                     });
-            var results = from n in nounCommonalities
-                              .InSubjectRole()
-                              .AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                          select new RelationshipTuple {
-                              Subject = new AggregateEntity(new[] { n }),
+            var crossReferenced = from outer in topNPsByDoc
+                                  from inner in topNPsByDoc
+                                  where inner.doc != outer.doc
+                                  from n in outer.topNPs
+                                  where inner.topNPs.Contains(n, CompareNounPhrases)
+                                  select n;
+            var results = from n in crossReferenced.Distinct(CompareNounPhrases)
+                          select new Relationship {
                               Verbal = n.SubjectOf,
+                              Subject = new AggregateEntity(new[] { n }),
                               Direct = new AggregateEntity(n.SubjectOf.DirectObjects),
                               Indirect = new AggregateEntity(n.SubjectOf.IndirectObjects),
                               Prepositional = n.SubjectOf.ObjectOfThePreoposition
                           } into result
-                          group result by result.Subject.Text into resultGrouped
-                          select resultGrouped.First() into result
-                          orderby result.Subject.Weight
+                          orderby result.Subject.Text
                           select result;
             await Task.Yield();
             return results.Distinct();
-
-        }
-        private async Task<IEnumerable<RelationshipTuple>> GetCommonalitiesByVerbals(IEnumerable<Document> documents) {
-            var topVerbalsByDoc = await Task.WhenAll(from doc in documents.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                                                     select GetTopVerbPhrasesAsync(doc));
-            var verbalCominalities = from verbPhraseSet in topVerbalsByDoc.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                                     from vp in verbPhraseSet
-                                     where (from verbs in topVerbalsByDoc
-                                            select verbs.Contains(vp, (L, R) => L.Text == R.Text || R.IsSimilarTo(R)))
-                                            .Aggregate(true, (product, result) => product &= result)
-                                     select vp;
-            return (from v in verbalCominalities
-                    select new RelationshipTuple {
-                        Verbal = v,
-                        Subject = new AggregateEntity(v.Subjects
-                            .Select(s => (s as IPronoun) == null ? s : (s as IPronoun).RefersTo)),
-                        Direct = new AggregateEntity(v.DirectObjects
-                            .Select(s => (s as IPronoun) == null ? s : (s as IPronoun).RefersTo)),
-                        Indirect = new AggregateEntity(v.IndirectObjects
-                            .Select(s => (s as IPronoun) == null ? s : (s as IPronoun).RefersTo)),
-                        Prepositional = v.ObjectOfThePreoposition
-                    } into result
-                    where result.Subject != null
-                    group result by result.Verbal.Text into groupedResult
-                    select groupedResult.First() into result
-                    orderby result.Verbal.Weight
-                    select result);
-        }
-
-        private async Task<IEnumerable<NounPhrase>> GetTopNounPhrasesAsync(Document document) {
-            return await Task.Run(() => document.Phrases
-                .AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                .GetNounPhrases()
-                .InSubjectRole()
-                .InObjectRole()
-                .Distinct((left, right) => {
-                    var result = left.Text == right.Text || left.IsAliasFor(right) || left.IsSimilarTo(right);
-                    if (!result) {
-                        var leftAsPro = left as IPronoun;
-                        var rightAsPro = right as IPronoun;
-                        result = rightAsPro != null && left.BoundPronouns.Contains(rightAsPro) || leftAsPro != null && right.BoundPronouns.Contains(leftAsPro);
-                    }
-                    return result;
-                })
-                .OrderBy(dnp => dnp.Weight));
-
         }
         private IEnumerable<NounPhrase> GetTopNounPhrases(Document document) {
             return document.Phrases
-                       .AsParallel().WithDegreeOfParallelism(Concurrency.Max).GetNounPhrases()
+                       .AsParallel()
+                       .WithDegreeOfParallelism(Concurrency.Max)
+                       .GetNounPhrases()
                        .InSubjectRole()
                        .InObjectRole()
-                       .Distinct((left, right) => {
-                           var result = left.Text == right.Text || left.IsAliasFor(right) || left.IsSimilarTo(right);
-                           if (!result) {
-                               var leftAsPro = left as IPronoun;
-                               var rightAsPro = right as IPronoun;
-                               result = rightAsPro != null && left.BoundPronouns.Contains(rightAsPro) || leftAsPro != null && right.BoundPronouns.Contains(leftAsPro);
-                           }
-                           return result;
-                       })
-                       .OrderBy(dnp => dnp.Weight);
+                       .Distinct(CompareNounPhrases)
+                       .OrderBy(np => np.Weight);
+        }
+        private async Task<IEnumerable<Relationship>> GetCommonalitiesByVerbals(IEnumerable<Document> documents) {
+            var topVerbalsByDoc = await Task.WhenAll(from doc in documents.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
+                                                     select GetTopVerbPhrasesAsync(doc));
+            var verbalCominalities = from topVPs in topVerbalsByDoc
+                                     from verbal in topVPs
+                                     where (
+                                        from verbs in topVerbalsByDoc
+                                        select verbs.Contains(verbal, (x, y) => x.Text == y.Text || y.IsSimilarTo(y)))
+                                     .Aggregate(true, (product, result) => product &= result)
+                                     select verbal;
+            return from verbal in verbalCominalities
+                   let testPronouns = new Func<IEnumerable<IEntity>, AggregateEntity>(
+                   entities => new AggregateEntity(from s in entities let asPro = s as IPronoun select asPro != null ? asPro.RefersTo : s))
+                   select new Relationship {
+                       Verbal = verbal,
+                       Subject = testPronouns(verbal.Subjects),
+                       Direct = testPronouns(verbal.DirectObjects),
+                       Indirect = testPronouns(verbal.IndirectObjects),
+                       Prepositional = verbal.ObjectOfThePreoposition
+                   } into result
+                   where result.Subject.Any()
+                   orderby result.Verbal.Weight
+                   group result by result.Verbal.Text into groupedResult
+                   select groupedResult.First();
         }
         private async Task<ParallelQuery<VerbPhrase>> GetTopVerbPhrasesAsync(Document document) {
             return await Task.Run(() => {
-                var vpsWithSubject = document.Phrases.AsParallel().GetVerbPhrases().WithSubject();
-                return from vp in vpsWithSubject.WithDirectObject().Concat(vpsWithSubject.WithIndirectObject()).Distinct((vLeft, vRight) => vLeft.IsSimilarTo(vRight))
+                var vpsWithSubject =
+                    document.Phrases
+                    .AsParallel().WithDegreeOfParallelism(Concurrency.Max)
+                    .GetVerbPhrases()
+                    .WithSubject();
+                return from vp in vpsWithSubject.WithObject().Distinct((vLeft, vRight) => vLeft.IsSimilarTo(vRight))
                        orderby vp.Weight + vp.Subjects.Sum(e => e.Weight) + vp.DirectObjects.Sum(e => e.Weight) + vp.IndirectObjects.Sum(e => e.Weight)
                        select vp;
             });
+        }
+
+        private static bool CompareNounPhrases(NounPhrase x, NounPhrase y) {
+            return
+                x.Text == y.Text ||
+                x.IsAliasFor(y) ||
+                x.IsSimilarTo(y) ||
+                x.Match().Yield<bool>()
+                .Case<IPronoun>(pro => pro.RefersTo.Any(rX =>
+                    rX.Text == y.Text ||
+                    rX.IsAliasFor(y) ||
+                    rX.IsSimilarTo(y))
+                ).Result();
+        }
+        private static bool CompareNounPhrasesOld(NounPhrase x, NounPhrase y) {
+
+            var result = x.Text == y.Text || x.IsAliasFor(y) || x.IsSimilarTo(y);
+            if (!result) {
+                var leftAsPro = x as IPronoun;
+                var rightAsPro = y as IPronoun;
+                result = rightAsPro != null && x.BoundPronouns.Contains(rightAsPro) || leftAsPro != null && y.BoundPronouns.Contains(leftAsPro);
+            }
+            return result;
         }
     }
 

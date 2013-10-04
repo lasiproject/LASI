@@ -137,7 +137,7 @@ namespace TaggerInterop
         {
             string[] sentences = SplitSentences(SourceText);
 
-            var result = String.Join("\r\n\r\n", sentences);
+            var result = string.Join("\r\n\r\n", sentences);
             return result;
         }
 
@@ -199,7 +199,7 @@ namespace TaggerInterop
                                             select s) {
                     string[] tokens = TokenizeSentence(sentence);
                     string[] tags = PosTagTokens(tokens);
-                    output.Append(String.Format("<sentence>{0}</sentence>", ChunkSentence(tokens, tags)));
+                    output.Append(string.Format("<sentence>{0}</sentence>", ChunkSentence(tokens, tags)));
                 }
                 output.Insert(0, "<paragraph>").Append("</paragraph>");
             }
@@ -251,7 +251,7 @@ namespace TaggerInterop
 
             foreach (string sentence in sentences) {
 
-                output.Append(String.Format("<sentence id = \"{0}\">{1}</sentence>", sentenceID++, ParseSentence(sentence).Show())).Append("\r\n\r\n");
+                output.Append(string.Format("<sentence id = \"{0}\">{1}</sentence>", sentenceID++, ParseSentence(sentence).Show())).Append("\r\n\r\n");
             }
 
             var result = output.ToString();

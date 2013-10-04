@@ -260,9 +260,9 @@ namespace LASI
             if (OutputMode != OutputMode.Silent) {
                 if (OutputMode == OutputMode.File)
                     using (var writer = new StreamWriter(fileStream, Encoding.ASCII, 1024, true)) { writer.Write(format, arg0); } else if (OutputMode == OutputMode.Console)
-                    Console.Write(String.Format(format, arg0));
+                    Console.Write(string.Format(format, arg0));
                 else
-                    Debug.Write(String.Format(format, arg0));
+                    Debug.Write(string.Format(format, arg0));
             }
         }
         /// <summary>
@@ -282,9 +282,9 @@ namespace LASI
             if (OutputMode != OutputMode.Silent) {
                 if (OutputMode == OutputMode.File)
                     using (var writer = new StreamWriter(fileStream, Encoding.ASCII, 1024, true)) { writer.Write(format, arg0, arg1); } else if (OutputMode == OutputMode.Console)
-                    Console.Write(String.Format(format, arg0, arg1));
+                    Console.Write(string.Format(format, arg0, arg1));
                 else
-                    Debug.Write(String.Format(format, arg0, arg1));
+                    Debug.Write(string.Format(format, arg0, arg1));
             }
         }
         /// <summary>
@@ -305,9 +305,9 @@ namespace LASI
             if (OutputMode != OutputMode.Silent) {
                 if (OutputMode == OutputMode.File)
                     using (var writer = new StreamWriter(fileStream, Encoding.ASCII, 1024, true)) { writer.Write(format, arg0, arg1, arg2); } else if (OutputMode == OutputMode.Console)
-                    Console.Write(String.Format(format, arg0, arg1, arg2));
+                    Console.Write(string.Format(format, arg0, arg1, arg2));
                 else
-                    Debug.Write(String.Format(format, arg0, arg1, arg2));
+                    Debug.Write(string.Format(format, arg0, arg1, arg2));
             }
         }
         /// <summary>
@@ -328,7 +328,7 @@ namespace LASI
                     using (var writer = new StreamWriter(fileStream, Encoding.ASCII, 1024, true)) { writer.Write(format, args); } else if (OutputMode == OutputMode.Console)
                     Console.Write(format, args);
                 else
-                    Debug.Write(String.Format(format, args));
+                    Debug.Write(string.Format(format, args));
             }
         }
         /// <summary>
@@ -554,7 +554,7 @@ namespace LASI
                     using (var writer = new StreamWriter(fileStream, Encoding.ASCII, 1024, true)) { writer.WriteLine(format, arg0); } else if (OutputMode == OutputMode.Console)
                     Console.WriteLine(format, arg0);
                 else
-                    Debug.WriteLine(String.Format(format, arg0));
+                    Debug.WriteLine(string.Format(format, arg0));
             }
         }
         /// <summary>
@@ -576,7 +576,7 @@ namespace LASI
                     using (var writer = new StreamWriter(fileStream, Encoding.ASCII, 1024, true)) { writer.WriteLine(format, arg0, arg1); } else if (OutputMode == OutputMode.Console)
                     Console.WriteLine(format, arg0, arg1);
                 else
-                    Debug.WriteLine(String.Format(format, arg0, arg1));
+                    Debug.WriteLine(string.Format(format, arg0, arg1));
             }
         }
         /// <summary>
@@ -599,7 +599,7 @@ namespace LASI
                     using (var writer = new StreamWriter(fileStream, Encoding.ASCII, 1024, true)) { writer.WriteLine(format, arg0, arg1, arg2); } else if (OutputMode == OutputMode.Console)
                     Console.WriteLine(format, arg0, arg1, arg2);
                 else
-                    Debug.WriteLine(String.Format(format, arg0, arg1, arg2));
+                    Debug.WriteLine(string.Format(format, arg0, arg1, arg2));
             }
         }
         /// <summary>
@@ -620,7 +620,7 @@ namespace LASI
                     using (var writer = new StreamWriter(fileStream, Encoding.ASCII, 1024, true)) { writer.WriteLine(format, args); } else if (OutputMode == OutputMode.Console)
                     Console.WriteLine(format, args);
                 else
-                    Debug.WriteLine(String.Format(format, args));
+                    Debug.WriteLine(string.Format(format, args));
             }
         }
         /// <summary>

@@ -213,6 +213,35 @@ namespace LASI.Algorithm
                    select e;
         }
         /// <summary>
+        /// Returns all IEntity constructs in the source sequence which have been bound as the Direct OR Indirect Object of an IVerbal construct.
+        /// </summary>
+        /// <typeparam name="T">Any Type which implemenets the IEntity interface.</typeparam>
+        /// <param name="entities">The sequence of IEntity constructs to filter.</param>
+        /// <returns>All IEntity constructs in the source sequence which have been bound as the Direct OR Indirect Object of an IVerbal construct.</returns>
+        public static ParallelQuery<T> InObjectRole<T>(this ParallelQuery<T> entities) where T : IEntity {
+            return entities.InDirectObjectRole()
+                .AsSequential()
+                .Union(entities.InIndirectObjectRole()
+                    .AsSequential()
+                ).AsParallel()
+                .WithDegreeOfParallelism(Concurrency.Max);
+        }
+        /// <summary>
+        /// Returns all IEntity constructs in the source sequence which have been bound as the Direct OR Indirect Object of any IVerbal construct which conforms the logic of the IVerbal selector function.
+        /// </summary>
+        /// <typeparam name="T">Any Type which implemenets the IEntity interface.</typeparam>
+        /// <param name="entities">The sequence of IEntity constructs to filter.</param>
+        /// <param name="condition">The function which examines the IndirectObjectOf property of each entity to determine if it should be included in the resulting sequence.</param>
+        /// <returns>All IEntity constructs in the source sequence which have been bound as the Direct OR Indirect Object of any IVerbal construct which conforms the logic of the IVerbal selector function.</returns>
+        public static ParallelQuery<T> InObjectRole<T>(this ParallelQuery<T> entities, Func<IVerbal, bool> condition) where T : IEntity {
+            return entities.InDirectObjectRole(condition)
+                .AsSequential()
+                .Union(entities.InIndirectObjectRole(condition)
+                    .AsSequential()
+                ).AsParallel()
+                .WithDegreeOfParallelism(Concurrency.Max);
+        }
+        /// <summary>
         /// Returns all IEntity constructs in the source sequence which have been bound as the Subject, Direct Object, or Indirect Object of an IVerbal construct.
         /// </summary>
         /// <typeparam name="T">Any Type which implemenets the IEntity interface.</typeparam>

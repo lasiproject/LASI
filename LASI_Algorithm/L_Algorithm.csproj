@@ -115,7 +115,7 @@
     <Compile Include="CoreDataStructures\Support\PatternMatching\Experimental\AlgebraicDestructuring.cs" />
     <Compile Include="CoreDataStructures\Support\PatternMatching\Generalized\Basis\MatchCase.cs" />
     <Compile Include="CoreDataStructures\Support\PatternMatching\LexicalSpecific\IMatchCase.cs" />
-    <Compile Include="CoreDataStructures\Support\PatternMatching\LexicalSpecific\ITestedMatchCase.cs" />
+    <Compile Include="CoreDataStructures\Support\PatternMatching\LexicalSpecific\IPredicatedMatchCase.cs" />
     <Compile Include="CoreDataStructures\Support\PatternMatching\LexicalSpecific\MatchCase.cs" />
     <Compile Include="CoreDataStructures\Support\PatternMatching\LexicalSpecific\PatternMatching.cs" />
     <Compile Include="CoreDataStructures\LexicalStructures\SymbolsAndPunctuators\IPairedPunctuator.cs" />

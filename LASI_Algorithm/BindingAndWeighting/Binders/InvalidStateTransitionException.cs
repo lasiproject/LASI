@@ -18,7 +18,7 @@ namespace LASI.Algorithm.Binding
         /// <param name="stateNumber">The number representing the State where the error occured.</param>
         /// <param name="errorOn">The ILeixcal instance which caused the error.</param>
         public InvalidStateTransitionException(int stateNumber, ILexical errorOn)
-            : base(String.Format("Invalid Transition\nAt State {0}\nOn {1}", stateNumber, errorOn)) {
+            : base(string.Format("Invalid Transition\nAt State {0}\nOn {1}", stateNumber, errorOn)) {
         }
         /// <summary>
         /// Initializes a new isntance of the InvalidStateTransitionException with a message indicating the state where the error occured and the ILexical instance whicg caused the error.
@@ -26,7 +26,8 @@ namespace LASI.Algorithm.Binding
         /// <param name="stateName">The number representing the State where the error occured.</param>
         /// <param name="errorOn">The ILeixcal instance which caused the error.</param>
         public InvalidStateTransitionException(string stateName, ILexical errorOn)
-            : base(String.Format("Invalid Transition\nAt State {0}\nOn {1}", stateName, errorOn)) {
+            : base(string.Format("Invalid Transition\nAt State {0}\nOn {1}", stateName, errorOn))
+        {
         }
         private InvalidStateTransitionException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
             : base(info, context) {

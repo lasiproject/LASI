@@ -70,6 +70,7 @@ namespace LASI.Algorithm
         public static IEnumerable<TLexical> Distinct<TLexical>(this IEnumerable<TLexical> elements, Func<TLexical, TLexical, bool> comparison) where TLexical : ILexical {
             return elements.Distinct(LexicalComparers<TLexical>.CreateCustom(comparison));
         }
+
         /// <summary>
         ///  Produces the set intersection of two sequences of TLexical constructs by using the specified comparison function to compare values.
         /// </summary>

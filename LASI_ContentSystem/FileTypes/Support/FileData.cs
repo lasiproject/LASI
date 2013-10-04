@@ -15,7 +15,8 @@ namespace LASI.ContentSystem
         /// <param name="fileName">The name of the file, not including the file extension.</param>
         /// <param name="fileExt">The extension of the file.</param>
         public FileData(string directory, string fileName, string fileExt)
-            : this() {
+            : this()
+        {
             Directory = directory;
             FileNameSansExt = fileName;
             Ext = fileExt;
@@ -29,14 +30,16 @@ namespace LASI.ContentSystem
         /// <param name="directory">The full newPath to the file, not including the file name itself.</param>
         /// <param name="fileNameWithExt">The name of the file, including the file extension.</param>
         public FileData(string directory, string fileNameWithExt)
-            : this() {
+            : this()
+        {
             Directory = directory;
             FileName = fileNameWithExt;
             try {
                 Ext = FileName.Substring(FileName.LastIndexOf('.'));
                 FileNameSansExt = FileName.Substring(0, FileName.LastIndexOf('.'));
                 FullPathAndExt = directory + fileNameWithExt;
-            } catch (ArgumentOutOfRangeException) {
+            }
+            catch (ArgumentOutOfRangeException) {
                 Ext = "";
                 FileNameSansExt = FileName;
 
@@ -50,7 +53,8 @@ namespace LASI.ContentSystem
         /// </summary>
         /// <param name="fileNameWithPathAndExt">The full newPath, filename, and file extension of the file as single, non escaped, string.</param>
         public FileData(string fileNameWithPathAndExt)
-            : this() {
+            : this()
+        {
             Directory = fileNameWithPathAndExt.Substring(0, fileNameWithPathAndExt.LastIndexOf('\\') + 1);
             FileName = fileNameWithPathAndExt.Substring(fileNameWithPathAndExt.LastIndexOf('\\') + 1);
 
@@ -60,7 +64,8 @@ namespace LASI.ContentSystem
                 FileNameSansExt = FileName.Substring(0, FileName.LastIndexOf('.'));
                 FullPathSansExt = Directory + FileNameSansExt;
 
-            } catch (ArgumentOutOfRangeException) {
+            }
+            catch (ArgumentOutOfRangeException) {
                 Ext = "";
                 FileNameSansExt = FileName;
                 FullPathSansExt = Directory + FileNameSansExt;
@@ -75,18 +80,21 @@ namespace LASI.ContentSystem
         /// Returns a string prepsentation of the FileData, containing its directory path and full name.
         /// </summary>
         /// <returns>A string prepsentation of the FileData, containing its directory path and full name.</returns>
-        public override string ToString() {
-            return String.Format("  -  File:  {0}, Location:  {1}", FileName, Directory);
+        public override string ToString()
+        {
+            return string.Format("  -  File:  {0}, Location:  {1}", FileName, Directory);
         }
         /// <summary>
         /// Determines if the current instance is equal to the given object.
         /// </summary> 
         /// <param name="obj">The object to equate to the current instance.</param>
         /// <returns>True if the two instances should be considered equal, false otherwise.</returns>
-        public override bool Equals(object obj) {
+        public override bool Equals(object obj)
+        {
             try {
                 return this == (FileData)obj;
-            } catch (InvalidCastException) {
+            }
+            catch (InvalidCastException) {
                 return false;
             }
         }
@@ -94,7 +102,8 @@ namespace LASI.ContentSystem
         /// Gets the hash code of the FileData.
         /// </summary>
         /// <returns>The hash code of the FileData.</returns>
-        public override int GetHashCode() {
+        public override int GetHashCode()
+        {
             return FullPathAndExt.GetHashCode();
         }
         #endregion
@@ -104,42 +113,48 @@ namespace LASI.ContentSystem
         /// <summary>
         /// Gets the full path of the directory in which the file resides.
         /// </summary>
-        public string Directory {
+        public string Directory
+        {
             get;
             private set;
         }
         /// <summary>
         /// Gets the extension of the file.
         /// </summary>
-        public string Ext {
+        public string Ext
+        {
             get;
             private set;
         }
         /// <summary>
         /// Gets the name of the file.
         /// </summary>
-        public string FileName {
+        public string FileName
+        {
             get;
             private set;
         }
         /// <summary>
         /// Gets the name of the file, not encluding its extension.
         /// </summary>
-        public string FileNameSansExt {
+        public string FileNameSansExt
+        {
             get;
             private set;
         }
         /// <summary>
         /// Gets the full path of the file.
         /// </summary>
-        public string FullPathAndExt {
+        public string FullPathAndExt
+        {
             get;
             private set;
         }
         /// <summary>
         /// Gets the full path of the file, not encluding its extension..
         /// </summary>
-        public string FullPathSansExt {
+        public string FullPathSansExt
+        {
             get;
             private set;
         }
@@ -154,7 +169,8 @@ namespace LASI.ContentSystem
         /// <param name="A">The first FileData</param>
         /// <param name="B">The second FileData</param>
         /// <returns>True if the two instances should be considered equal, false otherwise.</returns>
-        public static bool operator ==(FileData A, FileData B) {
+        public static bool operator ==(FileData A, FileData B)
+        {
             return string.Equals(A.FullPathAndExt, B.FullPathAndExt, StringComparison.OrdinalIgnoreCase);
 
         }
@@ -164,7 +180,8 @@ namespace LASI.ContentSystem
         /// <param name="A">The first FileData</param>
         /// <param name="B">The second FileData</param>
         /// <returns>True if the two instances should be considered unequal, false otherwise.</returns>
-        public static bool operator !=(FileData A, FileData B) {
+        public static bool operator !=(FileData A, FileData B)
+        {
             return !(A == B);
         }
 

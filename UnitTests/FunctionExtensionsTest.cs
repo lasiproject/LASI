@@ -12,7 +12,7 @@ namespace AlgorithmAssemblyUnitTestProject
     ///</summary>
     [TestClass()]
     public class FunctionExtensionsTest
-    { 
+    {
         private TestContext testContextInstance;
 
         /// <summary>
@@ -69,8 +69,8 @@ namespace AlgorithmAssemblyUnitTestProject
             Func<U, R> g = u => default(R);
             Func<U, T> expected = u => default(T);
             Func<U, T> actual;
-            var y = f.Compose(g);
-            actual = FunctionExtensions.Compose<R, U, T>(f, g);
+            var y = g.Compose(f);
+            actual = FunctionExtensions.Compose(g, f);
             Assert.AreEqual(expected(default(U)), default(T));
 
         }

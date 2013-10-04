@@ -10,11 +10,13 @@ namespace LASI.Algorithm.Binding.Experimental
     class NestableClause : Clause, INestableLexical<NestableClause>
     {
         public NestableClause(IEnumerable<INestableLexical<NestableClause>> constituentClauses, NestableClause parent = null)
-            : base(from clause in constituentClauses from phrase in clause.Self.Phrases select phrase) {
+            : base(from clause in constituentClauses from phrase in clause.Self.Phrases select phrase)
+        {
             Parent = parent;
             Children = constituentClauses;
         }
-        public IEnumerable<NestableClause> GetClausesSkippingSubordinates() {
+        public IEnumerable<NestableClause> GetClausesSkippingSubordinates()
+        {
             var temp = Children.TakeWhile(c => !(c is SubordinateClause));
             var bookend = Children.Skip(temp.Count() + 1).Take(1);
             var result = temp.Take(temp.Count() - 1).Concat(new[] { new NestableClause(new[] { temp.Last(), bookend.FirstOrDefault() }), this });

@@ -146,8 +146,8 @@ namespace LASI.UserInterface
 
         private bool ValidateProjectNameField()
         {
-            if (String.IsNullOrWhiteSpace(ProjectNameTextBox.Text) ||
-                String.IsNullOrEmpty(ProjectNameTextBox.Text) &&
+            if (string.IsNullOrWhiteSpace(ProjectNameTextBox.Text) ||
+                string.IsNullOrEmpty(ProjectNameTextBox.Text) &&
                 !(from char c1 in ProjectNameTextBox.Text
                   join c2 in System.IO.Path.GetInvalidFileNameChars()
                   on c1 equals c2
@@ -162,8 +162,8 @@ namespace LASI.UserInterface
 
         private bool ValidateProjectLocationField()
         {
-            if (String.IsNullOrWhiteSpace(locationTextBox.Text)
-                || String.IsNullOrEmpty(locationTextBox.Text) ||
+            if (string.IsNullOrWhiteSpace(locationTextBox.Text)
+                || string.IsNullOrEmpty(locationTextBox.Text) ||
                 !Directory.Exists(locationTextBox.Text.Substring(0, locationTextBox.Text.LastIndexOf("\\")))
                 ) {
                 locationTextBox.ToolTip = new ToolTip { Content = ErrorOnProjectLocationMessage };

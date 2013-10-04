@@ -1,6 +1,7 @@
 ﻿using LASI;
 using LASI.Algorithm.LexicalLookup;
 using LASI.Algorithm.Aliasing;
+using LASI.Algorithm.Patternization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,15 +20,17 @@ namespace LASI.Algorithm
     {
         private static TextualComparer textual = new TextualComparer();
         private static AliasComparer alias = new AliasComparer();
-        private static SimilarityComparer<IEntity> similarity = new SimilarityComparer<IEntity>();
+        private static SimilarityComparer similarity = new SimilarityComparer();
         private static AliasOrSimilarityComparer<IEntity> aliasOrSimilarity = new AliasOrSimilarityComparer<IEntity>();
         /// <summary>
         /// Alias based comparer where if not textually equivalent if will check to see if the Entities are aliases for each other.
         /// All of comparers provided here perform textual comparions implicitely.
         /// Because the GetHashCode implementation of the comparer forces collisions, the comparer is suitable for use with Standard Query operators such as Distinct, Contains, Union, Interset, Except, and SequenceEqual. 
         /// </summary>
-        public static AliasComparer Alias {
-            get {
+        public static AliasComparer Alias
+        {
+            get
+            {
                 return (typeof(TLexical).GetInterfaces()).Contains(typeof(IEntity)) ? alias : null;
 
             }
@@ -37,8 +40,10 @@ namespace LASI.Algorithm
         /// All of comparers provided here perform textual comparions implicitely.
         /// Because the GetHashCode implementation of the comparer forces collisions, the comparer is suitable for use with Standard Query operators such as Distinct, Contains, Union, Interset, Except, and SequenceEqual. 
         /// </summary>
-        public static AliasOrSimilarityComparer<IEntity> AliasOrSimilarity {
-            get {
+        public static AliasOrSimilarityComparer<IEntity> AliasOrSimilarity
+        {
+            get
+            {
                 return aliasOrSimilarity;
             }
         }
@@ -48,8 +53,10 @@ namespace LASI.Algorithm
         /// All of comparers provided here perform textual comparions implicitely.
         /// Because the GetHashCode implementation of the comparer forces collisions, the comparer is suitable for use with Standard Query operators such as Distinct, Contains, Union, Interset, Except, and SequenceEqual. 
         /// </summary>
-        public static SimilarityComparer<IEntity> Similarity {
-            get {
+        public static SimilarityComparer Similarity
+        {
+            get
+            {
                 return similarity;
             }
         }
@@ -58,8 +65,10 @@ namespace LASI.Algorithm
         /// All of comparers provided here perform textual comparions implicitely.
         /// /// Because the GetHashCode implementation of the comparer forces collisions, the comparer is suitable for use with Standard Query operators such as Distinct, Contains, Union, Interset, Except, and SequenceEqual. 
         /// </summary>
-        public static TextualComparer Textual {
-            get {
+        public static TextualComparer Textual
+        {
+            get
+            {
                 return textual;
             }
         }
@@ -80,10 +89,14 @@ namespace LASI.Algorithm
         /// Specifically, the complexity of a calling IEnumerable.Contains(CreateCustom(Func)) or IEnumerable.Distinct(CreateCustom(Func))
         /// approaches O(N^2), where as calls which use the default reference based, hash if possible comparers, IEqualityComparers only approach approach O(N).
         /// </remarks>
-        public static IEqualityComparer<TLexical> CreateCustom(Func<TLexical, TLexical, bool> equals) {
+        public static CustomComparer<TLexical> CreateCustom(Func<TLexical, TLexical, bool> equals)
+        {
             return new CustomComparer<TLexical>(equals);
         }
-
+        public static CustomComparer<TLexical> CreateCustom(Func<TLexical, bool> equals)
+        {
+            return new CustomComparer<TLexical>((x, y) => equals(y));
+        }
 
         #region Specialized IEqualityComparer implementations for various ILexical constructs
 
@@ -96,7 +109,8 @@ namespace LASI.Algorithm
             /// <summary>
             /// Initializes a new isntance of the TextualComparer class.
             /// </summary>
-            protected internal TextualComparer() {
+            protected internal TextualComparer()
+            {
             }
             /// <summary>
             /// Determines whether the specified objects are equal.
@@ -104,7 +118,8 @@ namespace LASI.Algorithm
             /// <param name="x">The first object of type T to compare.</param>
             /// <param name="y">The second object of type T to compare.</param>
             /// <returns>true if the specified objects are equal; otherwise, false.</returns>
-            public override bool Equals(TLexical x, TLexical y) {
+            public override bool Equals(TLexical x, TLexical y)
+            {
                 return x.Text == y.Text;
             }
 
@@ -113,21 +128,21 @@ namespace LASI.Algorithm
             /// </summary>
             /// <param name="obj">The System.Object for which a hash code is to be returned.</param>
             /// <returns>Always 1 unless the given object is null in which case 0 is returned.</returns>
-            public override int GetHashCode(TLexical obj) {
+            public override int GetHashCode(TLexical obj)
+            {
                 return obj.Text.GetHashCode();
             }
         }
         /// <summary>
         /// An IEquality Comparer implementation using a: Similarity implies Equality definition.
-        /// </summary>
-        /// <typeparam name="R">Any Type which implements the IEntity interface.</typeparam>
-        public class SimilarityComparer<R> : EqualityComparer<R>
-            where R : IEntity
+        /// </summary> 
+        public class SimilarityComparer : EqualityComparer<TLexical>
         {
             /// <summary>
             /// Initializes a new isntance of the SimilarityComparer class.
             /// </summary>
-            protected internal SimilarityComparer() {
+            protected internal SimilarityComparer()
+            {
             }
             /// <summary>
             /// Determines whether the specified IEntity implementors are equal based on wether or not they are considered similar by the associated LexicalLookup logic.
@@ -135,14 +150,29 @@ namespace LASI.Algorithm
             /// <param name="x">The first object of type T to compare.</param>
             /// <param name="y">The second object of type T to compare.</param>
             /// <returns>true if the specified objects are equal; otherwise, false.</returns>
-            public override bool Equals(R x, R y) {
+            public override bool Equals(TLexical x, TLexical y)
+            {
                 if (ReferenceEquals(x, null))
                     return ReferenceEquals(y, null);
                 else if (ReferenceEquals(y, null))
                     return ReferenceEquals(x, null);
-                else
-                    return x.Text == y.Text || x.IsSimilarTo(y);
-
+                else {
+                    Func<bool> tc = () => x.Text == y.Text;
+                    return x.Match().Yield<bool>()
+                           .Case<IEntity>(X => y.Match().Yield<bool>()
+                                   .Case<IEntity>(Y => tc() || X.IsSimilarTo(Y))
+                               .Result())
+                           .Case<IVerbal>(X => y.Match().Yield<bool>()
+                                   .Case<IVerbal>(Y => tc() || X.IsSimilarTo(Y))
+                               .Result())
+                           .Case<IDescriptor>(X => y.Match().Yield<bool>()
+                                   .Case<IDescriptor>(Y => tc() || X.IsSimilarTo(Y))
+                               .Result())
+                           .Case<IAdverbial>(X => y.Match().Yield<bool>()
+                                   .Case<IAdverbial>(Y => tc() || X.IsSimilarTo(Y))
+                               .Result())
+                            .Result();
+                }
             }
 
             /// <summary>
@@ -150,7 +180,8 @@ namespace LASI.Algorithm
             /// </summary>
             /// <param name="obj">The System.Object for which a hash code is to be returned.</param>
             /// <returns>Always 1 unless the given object is null in which case 0 is returned.</returns>
-            public override int GetHashCode(R obj) {
+            public override int GetHashCode(TLexical obj)
+            {
                 return obj == null ? 0 : 1;
             }
         }
@@ -162,7 +193,8 @@ namespace LASI.Algorithm
             /// <summary>
             /// Initializes a new isntance of the AliasComparer class.
             /// </summary>
-            protected internal AliasComparer() {
+            protected internal AliasComparer()
+            {
             }
             /// <summary>
             /// Determines whether the specified IEntity implementors are equal based on wether or not one is a defined alias for the other in the AliasDictionary or.
@@ -170,7 +202,8 @@ namespace LASI.Algorithm
             /// <param name="x">The first object of type IEntity to compare.</param>
             /// <param name="y">The second object of type IEntity to compare.</param>
             /// <returns>true if the specified objects are equal; otherwise, false.</returns>
-            public override bool Equals(IEntity x, IEntity y) {
+            public override bool Equals(IEntity x, IEntity y)
+            {
                 if (ReferenceEquals(x, null))
                     return ReferenceEquals(y, null);
                 else if (ReferenceEquals(y, null))
@@ -184,7 +217,8 @@ namespace LASI.Algorithm
             /// </summary>
             /// <param name="obj">The System.Object for which a hash code is to be returned.</param>
             /// <returns>Always 1 unless the given object is null in which case 0 is returned.</returns>
-            public override int GetHashCode(IEntity obj) {
+            public override int GetHashCode(IEntity obj)
+            {
                 return obj == null ? 0 : 1;
             }
 
@@ -193,14 +227,15 @@ namespace LASI.Algorithm
         /// <summary>
         /// An IEquality Comparer implementation using a: Either a known Alias relationship OR a Similarity relationship implies Equality definition.
         /// </summary>
-        /// <typeparam name="S">Any Type which implements the IEntity interface.</typeparam>
-        public class AliasOrSimilarityComparer<S> : EqualityComparer<S>
-            where S : IEntity
+        /// <typeparam name="T">Any Type which implements the IEntity interface.</typeparam>
+        public class AliasOrSimilarityComparer<T> : EqualityComparer<T>
+            where T : IEntity
         {
             /// <summary>
             /// Initializes a new isntance of the AliasOrSimilarityComparer class.
             /// </summary>
-            protected internal AliasOrSimilarityComparer() {
+            protected internal AliasOrSimilarityComparer()
+            {
             }
             /// <summary>
             /// Determines whether the specified IEntity implementors are equal based on wether or not one is a defined alias for the other in the AliasDictionary or, if not,
@@ -209,7 +244,8 @@ namespace LASI.Algorithm
             /// <param name="x">The first object of type T to compare.</param>
             /// <param name="y">The second object of type T to compare.</param>
             /// <returns>true if the specified objects are equal; otherwise, false.</returns>
-            public override bool Equals(S x, S y) {
+            public override bool Equals(T x, T y)
+            {
                 if (ReferenceEquals(x, null))
                     return ReferenceEquals(y, null);
                 else if (ReferenceEquals(y, null))
@@ -223,27 +259,30 @@ namespace LASI.Algorithm
             /// </summary>
             /// <param name="obj">The System.Object for which a hash code is to be returned.</param>
             /// <returns>Always 1 unless the given object is null in which case 0 is returned.</returns>
-            public override int GetHashCode(S obj) {
+            public override int GetHashCode(T obj)
+            {
                 return obj == null ? 0 : 1;
             }
         }
+        //public interface ICustomComparer<in T> : IEqualityComparer<T> where T : ILexical { }
         /// <summary>
         /// An IEquality Comparer implementation using a:
         /// </summary>
-        public class CustomComparer<S> : EqualityComparer<S> where S : TLexical
+        public class CustomComparer<T> : EqualityComparer<T> where T : TLexical
         {
-            private Func<S, S, bool> customEquals;
-            private Func<S, int> customGetHashCode;
+            private Func<T, T, bool> customEquals;
+            private Func<T, int> customGetHashCode;
             /// <summary>
             /// Initializes a new instance of the CustomComparer class conforming to the logic of the provided equals function.
             /// </summary>
             /// <param name="equals">The function used test two elements for equality.</param>
             /// <exception cref="ArgumentNullException">Thrown if the provided equality function is null.</exception>
-            protected internal CustomComparer(Func<S, S, bool> equals) {
+            protected internal CustomComparer(Func<T, T, bool> equals)
+            {
                 if (equals == null)
                     throw new ArgumentNullException("equals", "A null equals function was provided.");
                 customEquals = equals;
-                customGetHashCode = ((S obj) => {
+                customGetHashCode = ((T obj) => {
                     return obj == null ? 0 : 1;
                 });
             }
@@ -253,7 +292,8 @@ namespace LASI.Algorithm
             /// <param name="equals">The function used test two elements for equality.</param>
             /// <param name="getHashCode">The function to extract a hash code from each element.</param>
             /// <exception cref="ArgumentNullException">Thrown if either the provided equality or the provided getHashCode functions is null.</exception>
-            protected internal CustomComparer(Func<S, S, bool> equals, Func<S, int> getHashCode) {
+            protected internal CustomComparer(Func<T, T, bool> equals, Func<T, int> getHashCode)
+            {
                 if (equals == null)
                     throw new ArgumentNullException("equals", "A null equals function was provided.");
                 customEquals = equals;
@@ -268,7 +308,8 @@ namespace LASI.Algorithm
             /// <param name="x">The first object of type T to compare.</param>
             /// <param name="y">The second object of type T to compare.</param>
             /// <returns>true if the specified objects are equal; otherwise, false.</returns>
-            public override bool Equals(S x, S y) {
+            public override bool Equals(T x, T y)
+            {
                 if (ReferenceEquals(x, null))
                     return ReferenceEquals(y, null);
                 else if (ReferenceEquals(y, null))
@@ -281,7 +322,8 @@ namespace LASI.Algorithm
             /// </summary>
             /// <param name="obj">The System.Object for which a hash code is to be returned.</param>
             /// <returns>Always 1 unless the given object is null in which case 0 is returned.</returns>
-            public override int GetHashCode(S obj) {
+            public override int GetHashCode(T obj)
+            {
                 return customGetHashCode(obj);
             }
         }

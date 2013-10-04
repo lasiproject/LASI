@@ -12,32 +12,28 @@ namespace LASI.Algorithm.Patternization.Generalized.Basis
         protected internal MatchCase(object value) { _value = value; }
         #endregion
         #region With Expressions
-        public MatchCase<TResult> With<TCase>(Func<TResult> actn)
-        {
+        public MatchCase<TResult> With<TCase>(Func<TResult> actn) {
             if (!_matchFound && _value is TCase) {
                 _matchFound = true;
                 _result = actn();
             }
             return this;
         }
-        public MatchCase<TResult> With<TCase>(Func<TCase, TResult> actn)
-        {
+        public MatchCase<TResult> With<TCase>(Func<TCase, TResult> actn) {
             if (!_matchFound && _value is TCase) {
                 _matchFound = true;
                 _result = actn((TCase)_value);
             }
             return this;
         }
-        public MatchCase<TResult> With<TCase>(Func<TCase, bool> when, Func<TResult> actn)
-        {
+        public MatchCase<TResult> With<TCase>(Func<TCase, bool> when, Func<TResult> actn) {
             if (!_matchFound && _value is TCase && when((TCase)_value)) {
                 _matchFound = true;
                 _result = actn();
             }
             return this;
         }
-        public MatchCase<TResult> With<TCase>(Func<TCase, bool> when, Func<TCase, TResult> actn)
-        {
+        public MatchCase<TResult> With<TCase>(Func<TCase, bool> when, Func<TCase, TResult> actn) {
             if (!_matchFound && _value is TCase && when((TCase)_value)) {
                 _matchFound = true;
                 _result = actn((TCase)_value);
@@ -61,51 +57,44 @@ namespace LASI.Algorithm.Patternization.Generalized.Basis
         protected internal MatchCase(object value) { _value = value; }
         #endregion
 
-        public MatchCase<R> Yield<R>()
-        {
+        public MatchCase<R> Yield<R>() {
             return new MatchCase<R>(_value);
         }
         #region With Expressions
-        public MatchCase With(Func<object, bool> when, Action actn)
-        {
+        public MatchCase With(Func<object, bool> when, Action actn) {
             if (!_matchFound && when(_value)) {
                 actn();
             }
             return this;
         }
-        public MatchCase With(Func<object, bool> when, Action<object> actn)
-        {
+        public MatchCase With(Func<object, bool> when, Action<object> actn) {
             if (!_matchFound && when(_value)) {
                 actn(_value);
             }
             return this;
         }
-        public MatchCase With<TCase>(Action actn)
-        {
+        public MatchCase With<TCase>(Action actn) {
             if (!_matchFound && _value is TCase) {
                 _matchFound = true;
                 actn();
             }
             return this;
         }
-        public MatchCase With<TCase>(Action<TCase> actn)
-        {
+        public MatchCase With<TCase>(Action<TCase> actn) {
             if (!_matchFound && _value is TCase) {
                 _matchFound = true;
                 actn((TCase)_value);
             }
             return this;
         }
-        public MatchCase With<TCase>(Func<TCase, bool> when, Action actn)
-        {
+        public MatchCase With<TCase>(Func<TCase, bool> when, Action actn) {
             if (!_matchFound && _value is TCase && when((TCase)_value)) {
                 _matchFound = true;
                 actn();
             }
             return this;
         }
-        public MatchCase With<TCase>(Func<TCase, bool> when, Action<TCase> actn)
-        {
+        public MatchCase With<TCase>(Func<TCase, bool> when, Action<TCase> actn) {
             if (!_matchFound && _value is TCase && when((TCase)_value)) {
                 _matchFound = true;
                 actn((TCase)_value);
@@ -117,15 +106,13 @@ namespace LASI.Algorithm.Patternization.Generalized.Basis
 
         #region Default Expressions
 
-        public MatchCase Perform(Action actn)
-        {
+        public MatchCase Perform(Action actn) {
             if (!_matchFound) {
                 actn();
             }
             return this;
         }
-        public MatchCase Perform(Action<object> actn)
-        {
+        public MatchCase Perform(Action<object> actn) {
             if (!_matchFound) {
                 actn(_value);
             }
