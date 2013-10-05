@@ -6,8 +6,8 @@
     ResizeMode="CanResizeWithGrip"
     Icon="MiscImages\LasiLogo.ico"
     WindowState="Normal"
-    WindowStartupLocation="CenterOwner"
-    AllowDrop="True" 
+    WindowStartupLocation="Manual"
+    AllowDrop="True"
     Drop="Grid_Drop">
     <Grid
         AllowDrop="True"

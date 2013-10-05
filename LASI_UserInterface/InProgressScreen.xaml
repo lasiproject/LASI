@@ -7,7 +7,7 @@
     Width="660"
     ResizeMode="CanMinimize"
     Icon="MiscImages\LasiLogo.ico"
-    WindowStartupLocation="CenterOwner"
+    WindowStartupLocation="Manual"
     WindowStyle="None"
     BorderBrush="#FF636366"
     Title="Analyzing Documents"

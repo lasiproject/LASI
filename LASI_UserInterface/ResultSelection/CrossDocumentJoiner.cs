@@ -22,7 +22,8 @@ namespace LASI.UserInterface
         /// </summary>
         /// <param name="documents">The Documents to Join.</param>
         /// <returns>A Task&lt;IEnumerable&lt;RelationshipTuple&gt;&gt; corresponding to the intersection of the Documents to be joined .</returns>
-        internal async Task<IEnumerable<Relationship>> JoinDocumentsAsnyc(IEnumerable<Document> documents) {
+        internal async Task<IEnumerable<Relationship>> JoinDocumentsAsnyc(IEnumerable<Document> documents)
+        {
             return await await Task.Factory.ContinueWhenAll(
                 new[] {  
                     Task.Run(()=> GetCommonalitiesByVerbals(documents)),
@@ -37,7 +38,8 @@ namespace LASI.UserInterface
                 }
             );
         }
-        private async Task<IEnumerable<Relationship>> GetCommonalitiesByEntities(IEnumerable<Document> documents) {
+        private async Task<IEnumerable<Relationship>> GetCommonalitiesByEntities(IEnumerable<Document> documents)
+        {
             var topNPsByDoc = from doc in documents
                                .AsParallel()
                                .WithDegreeOfParallelism(Concurrency.Max)
@@ -50,7 +52,8 @@ namespace LASI.UserInterface
                                   where inner.topNPs.Contains(n, CompareNounPhrases)
                                   select n;
             var results = from n in crossReferenced.Distinct(CompareNounPhrases)
-                          select new Relationship {
+                          select new Relationship
+                          {
                               Verbal = n.SubjectOf,
                               Subject = new AggregateEntity(new[] { n }),
                               Direct = new AggregateEntity(n.SubjectOf.DirectObjects),
@@ -62,7 +65,8 @@ namespace LASI.UserInterface
             await Task.Yield();
             return results.Distinct();
         }
-        private IEnumerable<NounPhrase> GetTopNounPhrases(Document document) {
+        private IEnumerable<NounPhrase> GetTopNounPhrases(Document document)
+        {
             return document.Phrases
                        .AsParallel()
                        .WithDegreeOfParallelism(Concurrency.Max)
@@ -72,7 +76,8 @@ namespace LASI.UserInterface
                        .Distinct(CompareNounPhrases)
                        .OrderBy(np => np.Weight);
         }
-        private async Task<IEnumerable<Relationship>> GetCommonalitiesByVerbals(IEnumerable<Document> documents) {
+        private async Task<IEnumerable<Relationship>> GetCommonalitiesByVerbals(IEnumerable<Document> documents)
+        {
             var topVerbalsByDoc = await Task.WhenAll(from doc in documents.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                                                      select GetTopVerbPhrasesAsync(doc));
             var verbalCominalities = from topVPs in topVerbalsByDoc
@@ -85,7 +90,8 @@ namespace LASI.UserInterface
             return from verbal in verbalCominalities
                    let testPronouns = new Func<IEnumerable<IEntity>, AggregateEntity>(
                    entities => new AggregateEntity(from s in entities let asPro = s as IPronoun select asPro != null ? asPro.RefersTo : s))
-                   select new Relationship {
+                   select new Relationship
+                   {
                        Verbal = verbal,
                        Subject = testPronouns(verbal.Subjects),
                        Direct = testPronouns(verbal.DirectObjects),
@@ -97,7 +103,8 @@ namespace LASI.UserInterface
                    group result by result.Verbal.Text into groupedResult
                    select groupedResult.First();
         }
-        private async Task<ParallelQuery<VerbPhrase>> GetTopVerbPhrasesAsync(Document document) {
+        private async Task<ParallelQuery<VerbPhrase>> GetTopVerbPhrasesAsync(Document document)
+        {
             return await Task.Run(() => {
                 var vpsWithSubject =
                     document.Phrases
@@ -110,7 +117,8 @@ namespace LASI.UserInterface
             });
         }
 
-        private static bool CompareNounPhrases(NounPhrase x, NounPhrase y) {
+        private static bool CompareNounPhrases(NounPhrase x, NounPhrase y)
+        {
             return
                 x.Text == y.Text ||
                 x.IsAliasFor(y) ||
@@ -122,7 +130,8 @@ namespace LASI.UserInterface
                     rX.IsSimilarTo(y))
                 ).Result();
         }
-        private static bool CompareNounPhrasesOld(NounPhrase x, NounPhrase y) {
+        private static bool CompareNounPhrasesOld(NounPhrase x, NounPhrase y)
+        {
 
             var result = x.Text == y.Text || x.IsAliasFor(y) || x.IsSimilarTo(y);
             if (!result) {

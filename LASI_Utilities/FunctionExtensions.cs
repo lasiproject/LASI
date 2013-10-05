@@ -31,7 +31,6 @@ namespace LASI.Utilities
             var e = d.Compose(x => x.ToString());
             var fs = (Func<int, double>)(y => e.Compose(x => x + "00").Compose(x => Int32.Parse(x)).Compose(g).Compose(x => x + 2)(y));
 
-            fs(4);
         }
     }
 }

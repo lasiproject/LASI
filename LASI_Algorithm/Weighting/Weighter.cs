@@ -28,7 +28,8 @@ namespace LASI.Algorithm.Weighting
         /// However, to ensure the consistency/determinism of the Weighting process, it is recommended that they be executed (awaited) in the order
         /// in which they are hereby returned.
         /// </remarks>
-        public static IEnumerable<ProcessingTask> GetWeightingTasks(this DocumentStructures.Document document) {
+        public static IEnumerable<ProcessingTask> GetWeightingTasks(this DocumentStructures.Document document)
+        {
             yield return new ProcessingTask(() => WeightByLiteralFrequency(document.Words),
                 string.Format("{0}: Aggregating Literals", document.Name),
                 string.Format("{0}: Aggregated Literals", document.Name),
@@ -69,10 +70,12 @@ namespace LASI.Algorithm.Weighting
         /// Assigns numeric Weights to each elemenet in the given Document.
         /// </summary>
         /// <param name="document">The Document whose elements are to be assigned numeric weights.</param>
-        public static void Weight(Document document) {
+        public static void Weight(Document document)
+        {
             Task.WaitAll(document.GetWeightingTasks().Select(t => t.Task).ToArray());
         }
-        private static void NormalizeWeights(Document doc) {
+        private static void NormalizeWeights(Document doc)
+        {
             if (doc.Phrases.Any()) {
                 var maxWeight = doc.Phrases.Max(p => p.Weight);
                 if (maxWeight != 0)
@@ -83,7 +86,8 @@ namespace LASI.Algorithm.Weighting
                     }
             }
         }
-        private static void ModifyVerbWeightsBySynonyms(Document doc) {
+        private static void ModifyVerbWeightsBySynonyms(Document doc)
+        {
             var verbsToConsider = doc.Words.GetVerbs().AsParallel().WithDegreeOfParallelism(Concurrency.Max).WithSubjectOrObject();
             var groups = from outer in verbsToConsider
                          from inner in verbsToConsider
@@ -100,7 +104,8 @@ namespace LASI.Algorithm.Weighting
         /// Increase noun weights in a document by abstracting over synonyms
         /// </summary>
         /// <param name="doc">the Document whose noun weights may be modiffied</param>
-        private static void ModifyNounWeightsBySynonyms(Document doc) {
+        private static void ModifyNounWeightsBySynonyms(Document doc)
+        {
             //Currently, include only those nouns which exist in relationships with some IVerbal or IPronoun.
             var toConsider = doc.Words.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                 .GetNouns().InSubjectOrObjectRole()
@@ -117,7 +122,8 @@ namespace LASI.Algorithm.Weighting
                  }
              });
         }
-        private static void WeightByLiteralFrequency(IEnumerable<ILexical> syntacticElements) {
+        private static void WeightByLiteralFrequency(IEnumerable<ILexical> syntacticElements)
+        {
             var byTypeAndText = from e in syntacticElements.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                                 group e by new { e.Type, e.Text } into g
                                 select new { Increase = g.Count(), Elements = g.ToList() };
@@ -128,7 +134,8 @@ namespace LASI.Algorithm.Weighting
         /// For each noun parent in a document that is similar to another noun parent, increase the weight of that noun
         /// </summary>
         /// <param name="doc">Document containing the componentPhrases to weight</param>
-        private static void WeightSimilarNounPhrases(Document doc) {
+        private static void WeightSimilarNounPhrases(Document doc)
+        {
 
             var nps = from outer in doc.Phrases.AsParallel().WithDegreeOfParallelism(Concurrency.Max).GetNounPhrases().InSubjectOrObjectRole()
                       from inner in doc.Phrases.AsParallel().WithDegreeOfParallelism(Concurrency.Max).GetNounPhrases().InSubjectOrObjectRole()
@@ -137,7 +144,8 @@ namespace LASI.Algorithm.Weighting
                       select new { WeightIncrease = grouped.Count() * 0.5, Elements = grouped };
             nps.ForAll(grp => { foreach (var e in grp.Elements) { e.Weight += grp.WeightIncrease; } });
         }
-        private static void WeightSimilarVerbPhrases(Document doc) {
+        private static void WeightSimilarVerbPhrases(Document doc)
+        {
             var vps = from outer in doc.Phrases.AsParallel().WithDegreeOfParallelism(Concurrency.Max).GetVerbPhrases().WithSubjectOrObject()
                       from inner in doc.Phrases.AsParallel().WithDegreeOfParallelism(Concurrency.Max).GetVerbPhrases().WithSubjectOrObject()
                       where inner.IsSimilarTo(outer)
@@ -146,7 +154,8 @@ namespace LASI.Algorithm.Weighting
             vps.ForAll(grp => { foreach (var e in grp.Elements) { e.Weight += grp.WeightIncrease; } });
 
         }
-        private static void WeightSimilarEntities(Document doc) {
+        private static void WeightSimilarEntities(Document doc)
+        {
             var entities = doc.GetEntities().ToList();
 
             doc.GetEntities().AsParallel().WithDegreeOfParallelism(Concurrency.Max).ForAll(outer => {
@@ -162,14 +171,16 @@ namespace LASI.Algorithm.Weighting
             });
 
         }
-        private static void HackSubjectPropernounImportance(Document doc) {
+        private static void HackSubjectPropernounImportance(Document doc)
+        {
             doc.Phrases.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                 .GetNounPhrases()
                 .Where(np => np.Words.Any(w => w is ProperNoun))
                 .ForAll(np => np.Weight *= 2);
 
         }
-        private static void OldNormalizationProcedure(Document doc) {
+        private static void OldNormalizationProcedure(Document doc)
+        {
             double TotPhraseWeight = 0.0;
             double MaxWeight = 0.0;
             int NonZeroWghts = 0;
@@ -206,7 +217,8 @@ namespace LASI.Algorithm.Weighting
         /// .2 - Frequency of word (/Phrase?) in document compared to second documents in set -EXCLUDED FOR 1-DOCUMENT DEMO
         /// </summary>
         /// <param name="doc">The document whose contents are to be weighted,</param>
-        private static void WeightWordsBySyntacticSequence(Document doc) {
+        private static void WeightWordsBySyntacticSequence(Document doc)
+        {
 
             int primary, secondary, tertiary, quaternary, quinary, senary;
             int based = 20;
@@ -268,7 +280,9 @@ namespace LASI.Algorithm.Weighting
                            Preposition(next, nextNext, out modOne, out modTwo);
                        })
                        .Case<Determiner>(() => {
-                           Determiner(next, nextNext, out modOne, out modTwo);
+                           var values = Determiner(next, nextNext);
+                           modOne = values.Item1;
+                           modTwo = values.Item2;
                        })
                        .Default(() => {
                            modOne = 0.1d;
@@ -287,63 +301,20 @@ namespace LASI.Algorithm.Weighting
         #region  Syntactic Sequence Weighting methods
 
 
-        private static void Determiner(Word next, Word nextNext, out double outModOne, out double outModTwo) {
-            double modOne = 0;
-            double modTwo = 0;
-            PatternMatching.Match(next)
-                     .Case<Noun>(() => {
-                         modOne = 0.9d; //determiner-noun
-
-                         //second (Determiner -> Noun)
-                         modTwo = PronounNoun(nextNext);
-                     })
-                     .Case<Adjective>(() => {
-                         modOne = 0.8d;  //deteminer-adjective
-
-                         //second (Determiner -> Adjective)
-                         modTwo = PronounAdjective(nextNext);
-                     })
-                     .Case<Adverb>(() => {
-                         modOne = 0.7d;  //determiner-adverb
-
-                         //second (Determiner -> Adverb)
-                         modTwo = PronounAdverb(nextNext);
-                     })
-                     .Case<Pronoun>(() => {
-                         modOne = 0.9d; //determiner-pronoun
-
-                         //second (Determiner -> Noun)
-                         modTwo = PronounPronoun(nextNext);
-                     })
-                     .Case<ToLinker>(() => {
-                         modOne = 0.7d; //determiner-tolinker
-
-                         //second (Determiner -> ToLinker)
-                         modTwo = PronounToLinker(nextNext);
-                     })
-                     .Case<Preposition>(() => {
-                         modOne = 0.3d; //determiner positional
-
-                         //second Determiner -> Preposition)
-                         modTwo = PronounPreposition(nextNext);
-                     })
-                     .Case<Determiner>(() => {
-                         modOne = 0d; //determiner-determiner
-
-                         //second (Determiner -> Determiner)
-                         modTwo = PronounDeterminer(nextNext);
-                     })
-                     .Default(() => {
-                         modOne = 0.1d;
-
-                         //second (Determiner -> UNCAUGHT)
-                         modTwo = PronounUncaught(nextNext);
-                     });
-
-            outModOne = modOne;
-            outModTwo = modTwo;
+        private static Tuple<double, double> Determiner(Word next, Word nextNext)
+        {
+            return next.Match().Yield<Tuple<double, double>>()
+                 .Case<Noun>(() => Tuple.Create(0.9d, PronounNoun(nextNext)))
+                 .Case<Adjective>(() => Tuple.Create(0.8d, PronounAdjective(nextNext)))
+                 .Case<Adverb>(() => Tuple.Create(0.7d, PronounAdverb(nextNext)))
+                 .Case<Pronoun>(() => Tuple.Create(0.9d, PronounPronoun(nextNext)))
+                 .Case<ToLinker>(() => Tuple.Create(0.7d, PronounToLinker(nextNext)))
+                 .Case<Preposition>(() => Tuple.Create(0.3d, PronounPreposition(nextNext)))
+                 .Case<Determiner>(() => Tuple.Create(0d, PronounDeterminer(nextNext)))
+             .Result(Tuple.Create(0.1d, PronounUncaught(nextNext)));
         }
-        private static void Preposition(Word next, Word nextNext, out double outModOne, out double outModTwo) {
+        private static void Preposition(Word next, Word nextNext, out double outModOne, out double outModTwo)
+        {
             double modOne = 0;
             double modTwo = 0;
             PatternMatching.Match(next)
@@ -376,7 +347,8 @@ namespace LASI.Algorithm.Weighting
             outModTwo = modTwo;
         }
 
-        private static void Pronoun(Word next, Word nextNext, out double outModOne, out double outModTwo) {
+        private static void Pronoun(Word next, Word nextNext, out double outModOne, out double outModTwo)
+        {
             double modOne = 0;
             double modTwo = 0;
             PatternMatching.Match(next)
@@ -432,7 +404,8 @@ namespace LASI.Algorithm.Weighting
             outModTwo = modTwo;
         }
 
-        private static void Adverb(Word next, Word nextNext, out double outModOne, out double outModTwo) {
+        private static void Adverb(Word next, Word nextNext, out double outModOne, out double outModTwo)
+        {
             double modOne = 0;
             double modTwo = 0;
             PatternMatching.Match(next)
@@ -489,7 +462,8 @@ namespace LASI.Algorithm.Weighting
             outModTwo = modTwo;
         }
 
-        private static void Adjective(Word next, Word nextNext, out double outModOne, out double outModTwo) {
+        private static void Adjective(Word next, Word nextNext, out double outModOne, out double outModTwo)
+        {
             double modOne = 0;
             double modTwo = 0;
             PatternMatching.Match(next)
@@ -546,7 +520,8 @@ namespace LASI.Algorithm.Weighting
             outModTwo = modTwo;
         }
 
-        private static void Verb(Word next, Word nextNext, out double outModOne, out double outModTwo) {
+        private static void Verb(Word next, Word nextNext, out double outModOne, out double outModTwo)
+        {
             double modOne = 0;
             double modTwo = 0;
             PatternMatching.Match(next)
@@ -609,7 +584,8 @@ namespace LASI.Algorithm.Weighting
             outModTwo = modTwo;
         }
 
-        private static void Noun(Word next, Word nextNext, out double outModOne, out double outModTwo) {
+        private static void Noun(Word next, Word nextNext, out double outModOne, out double outModTwo)
+        {
             double modOne = 0; //Renamed parameters and bound created temporary variables to pass into the switch blocks 
             double modTwo = 0;
             PatternMatching.Match(next)
@@ -673,7 +649,8 @@ namespace LASI.Algorithm.Weighting
             outModTwo = modTwo;//There is a better way to handle this, but this works without any changes
         }
 
-        private static double UncaughtUncaught(Word nextNext) {
+        private static double UncaughtUncaught(Word nextNext)
+        {
             return
                 PatternMatching.Match(nextNext).Yield<double>()
                  .Case<Noun>(0.1d) //uncaught-uncaught-noun
@@ -687,7 +664,8 @@ namespace LASI.Algorithm.Weighting
                  .Result(defaultValue: 0.1d); //uncaught-uncaught-uncaught (epic fail)
         }
 
-        private static double PrepositionUncaught(Word nextNext) {
+        private static double PrepositionUncaught(Word nextNext)
+        {
             double modTwo = 0;
             PatternMatching.Match(nextNext)
                 .Case<Noun>(() => {
@@ -720,7 +698,8 @@ namespace LASI.Algorithm.Weighting
             return modTwo;
         }
 
-        private static double PrepositionDeterminer(Word nextNext) {
+        private static double PrepositionDeterminer(Word nextNext)
+        {
             return
                 PatternMatching.Match(nextNext).Yield<double>()
                  .Case<Noun>(0.7d) //preposition-determiner-noun
@@ -734,7 +713,8 @@ namespace LASI.Algorithm.Weighting
                  .Result(defaultValue: 0.1d);
         }
 
-        private static double PrepositionPronoun(Word nextNext) {
+        private static double PrepositionPronoun(Word nextNext)
+        {
             return
                 PatternMatching.Match(nextNext).Yield<double>()
                   .Case<Noun>(0.5d) //preposition-compound noun
@@ -748,7 +728,8 @@ namespace LASI.Algorithm.Weighting
                   .Result(defaultValue: 0.1d);
         }
 
-        private static double PrepositionNoun(Word nextNext) {
+        private static double PrepositionNoun(Word nextNext)
+        {
             double modTwo = 0;
             PatternMatching.Match(nextNext)
                 .Case<Noun>(() => {
@@ -781,7 +762,8 @@ namespace LASI.Algorithm.Weighting
             return modTwo;
         }
 
-        private static double PronounUncaught(Word nextNext) {
+        private static double PronounUncaught(Word nextNext)
+        {
             double modTwo = 0;
             PatternMatching.Match(nextNext)
                 .Case<Noun>(() => {
@@ -814,7 +796,8 @@ namespace LASI.Algorithm.Weighting
             return modTwo;
         }
 
-        private static double PronounDeterminer(Word nextNext) {
+        private static double PronounDeterminer(Word nextNext)
+        {
             double modTwo = 0;
             PatternMatching.Match(nextNext)
                 .Case<Noun>(() => {
@@ -847,7 +830,8 @@ namespace LASI.Algorithm.Weighting
             return modTwo;
         }
 
-        private static double PronounPreposition(Word nextNext) {
+        private static double PronounPreposition(Word nextNext)
+        {
             double modTwo = 0;
             PatternMatching.Match(nextNext)
                 .Case<Noun>(() => {
@@ -880,7 +864,8 @@ namespace LASI.Algorithm.Weighting
             return modTwo;
         }
 
-        private static double PronounToLinker(Word nextNext) {
+        private static double PronounToLinker(Word nextNext)
+        {
             double modTwo = 0;
             PatternMatching.Match(nextNext)
                 .Case<Noun>(() => {
@@ -913,7 +898,8 @@ namespace LASI.Algorithm.Weighting
             return modTwo;
         }
 
-        private static double PronounPronoun(Word nextNext) {
+        private static double PronounPronoun(Word nextNext)
+        {
             double modTwo = 0;
             PatternMatching.Match(nextNext)
                 .Case<Noun>(() => {
@@ -946,7 +932,8 @@ namespace LASI.Algorithm.Weighting
             return modTwo;
         }
 
-        private static double PronounAdverb(Word nextNext) {
+        private static double PronounAdverb(Word nextNext)
+        {
             double modTwo = 0;
             PatternMatching.Match(nextNext)
                 .Case<Noun>(() => {
@@ -979,7 +966,8 @@ namespace LASI.Algorithm.Weighting
             return modTwo;
         }
 
-        private static double PronounAdjective(Word nextNext) {
+        private static double PronounAdjective(Word nextNext)
+        {
             double modTwo = 0;
             PatternMatching.Match(nextNext)
                 .Case<Noun>(() => {
@@ -1012,7 +1000,8 @@ namespace LASI.Algorithm.Weighting
             return modTwo;
         }
 
-        private static double PronounNoun(Word nextNext) {
+        private static double PronounNoun(Word nextNext)
+        {
             double modTwo = 0;
             PatternMatching.Match(nextNext)
                 .Case<Noun>(() => {
@@ -1045,7 +1034,8 @@ namespace LASI.Algorithm.Weighting
             return modTwo;
         }
 
-        private static double AdverbUncaught(Word nextNext) {
+        private static double AdverbUncaught(Word nextNext)
+        {
             double modTwo = 0;
             PatternMatching.Match(nextNext)
                 .Case<Noun>(() => {
@@ -1078,7 +1068,8 @@ namespace LASI.Algorithm.Weighting
             return modTwo;
         }
 
-        private static double AdverbDeterminer(Word nextNext) {
+        private static double AdverbDeterminer(Word nextNext)
+        {
             double modTwo = 0;
             PatternMatching.Match(nextNext)
                 .Case<Noun>(() => {
@@ -1111,7 +1102,8 @@ namespace LASI.Algorithm.Weighting
             return modTwo;
         }
 
-        private static double AdverbPreposition(Word nextNext) {
+        private static double AdverbPreposition(Word nextNext)
+        {
             double modTwo = 0;
             PatternMatching.Match(nextNext)
                 .Case<Noun>(() => {
@@ -1144,7 +1136,8 @@ namespace LASI.Algorithm.Weighting
             return modTwo;
         }
 
-        private static double AdverbToLinker(Word nextNext) {
+        private static double AdverbToLinker(Word nextNext)
+        {
             double modTwo = 0;
             PatternMatching.Match(nextNext)
                 .Case<Noun>(() => {
@@ -1177,7 +1170,8 @@ namespace LASI.Algorithm.Weighting
             return modTwo;
         }
 
-        private static double AdverbPronoun(Word nextNext) {
+        private static double AdverbPronoun(Word nextNext)
+        {
             double modTwo = 0;
             PatternMatching.Match(nextNext)
                 .Case<Noun>(() => {
@@ -1210,7 +1204,8 @@ namespace LASI.Algorithm.Weighting
             return modTwo;
         }
 
-        private static double AdverbAdverb(Word nextNext) {
+        private static double AdverbAdverb(Word nextNext)
+        {
             double modTwo = 0;
             PatternMatching.Match(nextNext)
                 .Case<Noun>(() => {
@@ -1243,7 +1238,8 @@ namespace LASI.Algorithm.Weighting
             return modTwo;
         }
 
-        private static double AdverbAdjective(Word nextNext) {
+        private static double AdverbAdjective(Word nextNext)
+        {
             double modTwo = 0;
             PatternMatching.Match(nextNext)
                 .Case<Noun>(() => {
@@ -1276,7 +1272,8 @@ namespace LASI.Algorithm.Weighting
             return modTwo;
         }
 
-        private static double AdverbNoun(Word nextNext) {
+        private static double AdverbNoun(Word nextNext)
+        {
             double modTwo = 0;
             PatternMatching.Match(nextNext)
                 .Case<Noun>(() => {
@@ -1309,7 +1306,8 @@ namespace LASI.Algorithm.Weighting
             return modTwo;
         }
 
-        private static double AdjectiveUncaught(Word nextNext) {
+        private static double AdjectiveUncaught(Word nextNext)
+        {
             double modTwo = 0;
             PatternMatching.Match(nextNext)
                 .Case<Noun>(() => {
@@ -1342,7 +1340,8 @@ namespace LASI.Algorithm.Weighting
             return modTwo;
         }
 
-        private static double AdjectiveDeterminer(Word nextNext) {
+        private static double AdjectiveDeterminer(Word nextNext)
+        {
             double modTwo = 0;
             PatternMatching.Match(nextNext)
                 .Case<Noun>(() => {
@@ -1375,7 +1374,8 @@ namespace LASI.Algorithm.Weighting
             return modTwo;
         }
 
-        private static double AdjectivePreposition(Word nextNext) {
+        private static double AdjectivePreposition(Word nextNext)
+        {
             double modTwo = 0;
             PatternMatching.Match(nextNext)
                 .Case<Noun>(() => {
@@ -1408,7 +1408,8 @@ namespace LASI.Algorithm.Weighting
             return modTwo;
         }
 
-        private static double AdjectiveToLinker(Word nextNext) {
+        private static double AdjectiveToLinker(Word nextNext)
+        {
             double modTwo = 0;
             PatternMatching.Match(nextNext)
                 .Case<Noun>(() => {
@@ -1441,7 +1442,8 @@ namespace LASI.Algorithm.Weighting
             return modTwo;
         }
 
-        private static double AdjectivePronoun(Word nextNext) {
+        private static double AdjectivePronoun(Word nextNext)
+        {
             double modTwo = 0;
             PatternMatching.Match(nextNext)
                 .Case<Noun>(() => {
@@ -1474,7 +1476,8 @@ namespace LASI.Algorithm.Weighting
             return modTwo;
         }
 
-        private static double AdjectiveAdverb(Word nextNext) {
+        private static double AdjectiveAdverb(Word nextNext)
+        {
             double modTwo = 0;
             PatternMatching.Match(nextNext)
                 .Case<Noun>(() => {
@@ -1507,7 +1510,8 @@ namespace LASI.Algorithm.Weighting
             return modTwo;
         }
 
-        private static double AdjectiveAdjective(Word nextNext) {
+        private static double AdjectiveAdjective(Word nextNext)
+        {
             double modTwo = 0;
             PatternMatching.Match(nextNext)
                 .Case<Noun>(() => {
@@ -1540,7 +1544,8 @@ namespace LASI.Algorithm.Weighting
             return modTwo;
         }
 
-        private static double AdjectiveNoun(Word nextNext) {
+        private static double AdjectiveNoun(Word nextNext)
+        {
             double modTwo = 0;
             PatternMatching.Match(nextNext)
                 .Case<Noun>(() => {
@@ -1573,7 +1578,8 @@ namespace LASI.Algorithm.Weighting
             return modTwo;
         }
 
-        private static double VerbUncaught(Word nextNext) {
+        private static double VerbUncaught(Word nextNext)
+        {
             double modTwo = 0;
             PatternMatching.Match(nextNext)
                 .Case<Noun>(() => {
@@ -1606,7 +1612,8 @@ namespace LASI.Algorithm.Weighting
             return modTwo;
         }
 
-        private static double VerbDeterminer(Word nextNext) {
+        private static double VerbDeterminer(Word nextNext)
+        {
             double modTwo = 0;
             PatternMatching.Match(nextNext)
                 .Case<Noun>(() => {
@@ -1639,7 +1646,8 @@ namespace LASI.Algorithm.Weighting
             return modTwo;
         }
 
-        private static double VerbPreposition(Word nextNext) {
+        private static double VerbPreposition(Word nextNext)
+        {
             double modTwo = 0;
             PatternMatching.Match(nextNext)
                 .Case<Noun>(() => {
@@ -1672,7 +1680,8 @@ namespace LASI.Algorithm.Weighting
             return modTwo;
         }
 
-        private static double VerbToLinker(Word nextNext) {
+        private static double VerbToLinker(Word nextNext)
+        {
             double modTwo = 0;
             PatternMatching.Match(nextNext)
                 .Case<Noun>(() => {
@@ -1705,7 +1714,8 @@ namespace LASI.Algorithm.Weighting
             return modTwo;
         }
 
-        private static double VerbPronoun(Word nextNext) {
+        private static double VerbPronoun(Word nextNext)
+        {
             double modTwo = 0;
             PatternMatching.Match(nextNext)
                 .Case<Noun>(() => {
@@ -1738,7 +1748,8 @@ namespace LASI.Algorithm.Weighting
             return modTwo;
         }
 
-        private static double VerbAdverb(Word nextNext) {
+        private static double VerbAdverb(Word nextNext)
+        {
             double modTwo = 0;
             PatternMatching.Match(nextNext)
                 .Case<Noun>(() => {
@@ -1771,7 +1782,8 @@ namespace LASI.Algorithm.Weighting
             return modTwo;
         }
 
-        private static double VerbAdjective(Word nextNext) {
+        private static double VerbAdjective(Word nextNext)
+        {
             double modTwo = 0;
             PatternMatching.Match(nextNext)
                 .Case<Noun>(() => {
@@ -1804,7 +1816,8 @@ namespace LASI.Algorithm.Weighting
             return modTwo;
         }
 
-        private static double VerbPastParticipleVerb(Word nextNext) {
+        private static double VerbPastParticipleVerb(Word nextNext)
+        {
             double modTwo = 0;
             PatternMatching.Match(nextNext)
                 .Case<Noun>(() => {
@@ -1837,7 +1850,8 @@ namespace LASI.Algorithm.Weighting
             return modTwo;
         }
 
-        private static double VerbNoun(Word nextNext) {
+        private static double VerbNoun(Word nextNext)
+        {
             double modTwo = 0;
             PatternMatching.Match(nextNext)
                 .Case<Noun>(() => {
@@ -1870,7 +1884,8 @@ namespace LASI.Algorithm.Weighting
             return modTwo;
         }
 
-        private static double NounUncaught(Word nextNext) {
+        private static double NounUncaught(Word nextNext)
+        {
             double modTwo = 0;
             PatternMatching.Match(nextNext)
                 .Case<Noun>(() => {
@@ -1903,7 +1918,8 @@ namespace LASI.Algorithm.Weighting
             return modTwo;
         }
 
-        private static double NounDeterminer(Word nextNext) {
+        private static double NounDeterminer(Word nextNext)
+        {
             double modTwo = 0;
             PatternMatching.Match(nextNext)
                 .Case<Noun>(() => {
@@ -1936,7 +1952,8 @@ namespace LASI.Algorithm.Weighting
             return modTwo;
         }
 
-        private static double NounPreposition(Word nextNext) {
+        private static double NounPreposition(Word nextNext)
+        {
             double modTwo = 0;
             PatternMatching.Match(nextNext)
                 .Case<Noun>(() => {
@@ -1969,7 +1986,8 @@ namespace LASI.Algorithm.Weighting
             return modTwo;
         }
 
-        private static double NounToLinker(Word nextNext) {
+        private static double NounToLinker(Word nextNext)
+        {
             double modTwo = 0;
             PatternMatching.Match(nextNext)
                 .Case<Noun>(nlnkn => {
@@ -2002,7 +2020,8 @@ namespace LASI.Algorithm.Weighting
             return modTwo;
         }
 
-        private static double NounPronoun(Word nextNext) {
+        private static double NounPronoun(Word nextNext)
+        {
             double modTwo = 0;
             PatternMatching.Match(nextNext)
                 .Case<Noun>(() => {
@@ -2035,7 +2054,8 @@ namespace LASI.Algorithm.Weighting
             return modTwo;
         }
 
-        private static double NounAdverb(Word nextNext) {
+        private static double NounAdverb(Word nextNext)
+        {
             double modTwo = 0;
             PatternMatching.Match(nextNext)
                 .Case<Noun>(() => {
@@ -2068,7 +2088,8 @@ namespace LASI.Algorithm.Weighting
             return modTwo;
         }
 
-        private static double NounVerb(Word nextNext) {
+        private static double NounVerb(Word nextNext)
+        {
             double modTwo = 0;
             PatternMatching.Match(nextNext)
                 .Case<Noun>(() => {
@@ -2101,7 +2122,8 @@ namespace LASI.Algorithm.Weighting
             return modTwo;
         }
 
-        private static double NounAdjective(Word nextNext) {
+        private static double NounAdjective(Word nextNext)
+        {
             double modTwo = 0;
             PatternMatching.Match(nextNext)
                 .Case<Noun>(nadjn => {
@@ -2134,7 +2156,8 @@ namespace LASI.Algorithm.Weighting
             return modTwo;
         }
 
-        private static double NounNoun(Word nextNext) {
+        private static double NounNoun(Word nextNext)
+        {
             double modTwo = 0;
             PatternMatching.Match(nextNext)
                 .Case<Noun>(() => {
@@ -2167,7 +2190,8 @@ namespace LASI.Algorithm.Weighting
             return modTwo;
         }
 
-        private static double DeterminerUncaught(Word nextNext) {
+        private static double DeterminerUncaught(Word nextNext)
+        {
             double modTwo = 0;
             PatternMatching.Match(nextNext)
                 .Case<Noun>(() => {
@@ -2200,7 +2224,8 @@ namespace LASI.Algorithm.Weighting
             return modTwo;
         }
 
-        private static double DeterminerDeterminer(Word nextNext) {
+        private static double DeterminerDeterminer(Word nextNext)
+        {
             double modTwo = 0;
             PatternMatching.Match(nextNext)
                 .Case<Noun>(() => {
@@ -2233,7 +2258,8 @@ namespace LASI.Algorithm.Weighting
             return modTwo;
         }
 
-        private static double DeterminerPreposition(Word nextNext) {
+        private static double DeterminerPreposition(Word nextNext)
+        {
             double modTwo = 0;
             PatternMatching.Match(nextNext)
                 .Case<Noun>(() => {
@@ -2266,7 +2292,8 @@ namespace LASI.Algorithm.Weighting
             return modTwo;
         }
 
-        private static double DeterminerToLinker(Word nextNext) {
+        private static double DeterminerToLinker(Word nextNext)
+        {
             double modTwo = 0;
             PatternMatching.Match(nextNext)
                 .Case<Noun>(() => {
@@ -2299,7 +2326,8 @@ namespace LASI.Algorithm.Weighting
             return modTwo;
         }
 
-        private static double DeterminerPronoun(Word nextNext) {
+        private static double DeterminerPronoun(Word nextNext)
+        {
             double modTwo = 0;
             PatternMatching.Match(nextNext)
                 .Case<Noun>(() => {
@@ -2332,7 +2360,8 @@ namespace LASI.Algorithm.Weighting
             return modTwo;
         }
 
-        private static double DeterminerAdverb(Word nextNext) {
+        private static double DeterminerAdverb(Word nextNext)
+        {
             double modTwo = 0;
             PatternMatching.Match(nextNext)
                 .Case<Noun>(() => {
@@ -2365,7 +2394,8 @@ namespace LASI.Algorithm.Weighting
             return modTwo;
         }
 
-        private static double DeterminerAdjective(Word nextNext) {
+        private static double DeterminerAdjective(Word nextNext)
+        {
             double modTwo = 0;
             PatternMatching.Match(nextNext)
                 .Case<Noun>(() => {
@@ -2398,7 +2428,8 @@ namespace LASI.Algorithm.Weighting
             return modTwo;
         }
 
-        private static double DeterminerNoun(Word nextNext) {
+        private static double DeterminerNoun(Word nextNext)
+        {
             double modTwo = 0;
             PatternMatching.Match(nextNext)
                 .Case<Noun>(() => {
