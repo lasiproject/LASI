@@ -13,14 +13,14 @@ LASI is implemented in C# 5.0 and targets the .NET framework 4.5
 
 (The Mono framework supports this implicit-callback-generating, language level asynchrony since version 3.0)
 
-You are also welcome to extend lasi using any .NET 4.5 compliant language, including Visual Basic and F#, note that use of C++/CLI is supported but discouraged.
+You are also welcome to extend lasi using any .NET 4.5 compliant language, including Visual Basic and F#, note that use of C++/CLI is supported but discouraged
 
-Application - System - Requirements
+User - System - Requirements
 - x64 based dual core cpu
 - 64 bit operating system
 - 4GB RAM
 
-Development - System - Requirements
+Developer - System - Requirements
 - intel core i7 quad core CPU
 - 8GB DDR3 1333+ with 7-7-7 timings
 - Solid State Disk with 200+ MB/s read
