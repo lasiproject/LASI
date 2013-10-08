@@ -1,11 +1,10 @@
 LASI
 ====
 
-LASI is a lexical parsing tool that attempts to identify important words and phrases across multiple document based on 
-frequency, 
-location in a sentence, 
-part of speech,
-and a number of other measures.
+LASI is a lexical parsing tool that attempts to identify important associations and generalizable patterns between the words and phrases over a set of one or more documents.
+Some of the heurisitcs appled include: 
+
+lifted frequencies, syntactic identification, sentence level locality, and gender aware pronoun inference
 
 LASI is implemented in C# 5.0 and targets the .NET framework 4.5
 
@@ -36,3 +35,5 @@ This project has also been successfully built using Visual Studio 2013 RC withou
 To test the standard program, make LASI_UserInterface the startup project in Visual Studio. 
 
 The primary application will not run under Mono due to the fact that Mono does not currently implement the Windows Presentation Foundation (WPF) runtime and libraries which are required by the graphical user interface.
+
+LASI is [Open Source Software](http://opensource.org/) Licenced Under the [Lesser GNU Plublic Lecense v2.1](http://opensource.org/licenses/LGPL-2.1)
