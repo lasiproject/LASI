@@ -36,4 +36,4 @@ To test the standard program, make LASI_UserInterface the startup project in Vis
 
 The primary application will not run under Mono due to the fact that Mono does not currently implement the Windows Presentation Foundation (WPF) runtime and libraries which are required by the graphical user interface.
 
-LASI is [Open Source Software](http://opensource.org/) Licenced Under the [Lesser GNU Plublic Lecense v2.1](http://opensource.org/licenses/LGPL-2.1)
+LASI is [Open Source Software](http://opensource.org/) Licensed Under the [Lesser GNU Public License v2.1](http://opensource.org/licenses/LGPL-2.1)
