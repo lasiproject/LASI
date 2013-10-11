@@ -12,7 +12,7 @@ namespace LASI.Algorithm
     /// Defines extension methods which augment specific enum Types for quick, centralized access to common usage patterns.
     /// </summary>
     /// <see cref="PronounKind"/>
-    public static class EntityKindClassificationExtensions
+    public static class EntityClassificationExtensions
     {
         #region PronounKind Value Extensions
 

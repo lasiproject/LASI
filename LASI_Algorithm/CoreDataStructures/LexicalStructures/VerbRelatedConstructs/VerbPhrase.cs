@@ -136,7 +136,7 @@ namespace LASI.Algorithm
         /// </summary>
         /// <returns>True if the Verb has any subjects bound to it which match the given predicate function, false otherwise.</returns>
         public bool HasSubject(Func<IEntity, bool> predicate) {
-            return Subjects.Any(predicate) || Subjects.OfType<IPronoun>().Any(p => predicate(p.RefersTo));
+            return Subjects.Any(predicate) || Subjects.OfType<IReferencer>().Any(p => predicate(p.Referent));
         }
         /// <summary>
         /// Return a value indicating if the Verb has any direct objects bound to it.
@@ -150,7 +150,7 @@ namespace LASI.Algorithm
         /// </summary>
         /// <returns>True if the Verb has any direct objects bound to it which match the given predicate function, false otherwise.</returns>
         public bool HasDirectObject(Func<IEntity, bool> predicate) {
-            return DirectObjects.Any(predicate) || DirectObjects.OfType<IPronoun>().Any(p => predicate(p.RefersTo));
+            return DirectObjects.Any(predicate) || DirectObjects.OfType<IReferencer>().Any(p => predicate(p.Referent));
         }
         /// <summary>
         /// Return a value indicating if the Verb has any indirect objects bound to it.
@@ -164,7 +164,7 @@ namespace LASI.Algorithm
         /// </summary>
         /// <returns>True if the Verb has any indirect objects bound to it which match the given predicate function, false otherwise.</returns>
         public bool HasIndirectObject(Func<IEntity, bool> predicate) {
-            return IndirectObjects.Any(predicate) || IndirectObjects.OfType<IPronoun>().Any(p => predicate(p.RefersTo));
+            return IndirectObjects.Any(predicate) || IndirectObjects.OfType<IReferencer>().Any(p => predicate(p.Referent));
         }
         /// <summary>
         /// Return a value indicating if the Verb has any direct OR indirect objects bound to it.

@@ -6,13 +6,13 @@ namespace LASI.Algorithm
     /// Defines the role reqirements for Pronoun elements, generally Pronouns or Pronoun Phrases, which can be bound to indirectly refer to an Entity.
     /// Along with the other interfaces in the Syntactic Interfaces Library, the IPronoun interface provides for generalization and abstraction over word and Phrase types.
     /// </summary>
-    public interface IPronoun : IEntity
+    public interface IReferencer : IEntity
     {
 
         /// <summary>
         /// Gets the Entity which the IPronoun references.
         /// </summary>
-        IAggregateEntity RefersTo {
+        IAggregateEntity Referent {
             get;
         }
         /// <summary>

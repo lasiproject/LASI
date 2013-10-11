@@ -9,10 +9,10 @@ namespace LASI.Algorithm
     /// <summary>
     /// Defines extension methods for sequences of objects implementing the IPronoun interface.
     /// </summary>
-    /// <see cref="IPronoun"/>
+    /// <see cref="IReferencer"/>
     /// <seealso cref="PersonalPronoun"/>
     /// <seealso cref="RelativePronoun"/>
-    public static class IEnumerableOfIPronounExtensions
+    public static class EnumerableOfIPronounExtensions
     {
         #region Sequential Implementation
         /// <summary>
@@ -21,9 +21,9 @@ namespace LASI.Algorithm
         ///<typeparam name="T">Any Type which implements the IPronoun interface.</typeparam>
         /// <param name="source">The sequence of IPronoun elements to filter.</param>
         /// <returns>All Pronouns in the collection that are bound as references of some entity.</returns>
-        public static IEnumerable<T> Referencing<T>(this IEnumerable<T> source) where T : IPronoun {
+        public static IEnumerable<T> Referencing<T>(this IEnumerable<T> source) where T : IReferencer {
             return from pro in source
-                   where pro.RefersTo != null
+                   where pro.Referent != null
                    select pro;
         }
         /// <summary>
@@ -33,9 +33,9 @@ namespace LASI.Algorithm
         /// <param name="source">The sequence of IPronoun elements to filter.</param>
         /// <param name="referenced">The entity whose referencing pronouns will be returned.</param>
         /// <returns>All Pronouns in the collection that refer to the given entity</returns>
-        public static IEnumerable<T> Referencing<T>(this IEnumerable<T> source, IEntity referenced) where T : IPronoun {
+        public static IEnumerable<T> Referencing<T>(this IEnumerable<T> source, IEntity referenced) where T : IReferencer {
             return from pro in source
-                   where pro.RefersTo == referenced
+                   where pro.Referent == referenced
                    select pro;
         }
         /// <summary>
@@ -45,9 +45,9 @@ namespace LASI.Algorithm
         /// <param name="source">The sequence of IPronoun elements to filter.</param>
         /// <param name="condition">The function which tests the referenced entity of each IPronoun to determine if the IPronoun should be selected.</param>
         /// <returns>All IPronoun constructs in the collection that refer to the given entity</returns>
-        public static IEnumerable<T> Referencing<T>(this IEnumerable<T> source, Func<IEntity, bool> condition) where T : IPronoun {
+        public static IEnumerable<T> Referencing<T>(this IEnumerable<T> source, Func<IEntity, bool> condition) where T : IReferencer {
             return from pro in source
-                   where pro.RefersTo != null && condition(pro.RefersTo)
+                   where pro.Referent != null && condition(pro.Referent)
                    select pro;
         }
         #endregion
@@ -59,9 +59,9 @@ namespace LASI.Algorithm
         ///<typeparam name="T">Any Type which implements the IPronoun interface.</typeparam>
         /// <param name="source">The sequence of IPronoun elements to filter.</param>
         /// <returns>All Pronouns in the collection that are bound as references of some entity.</returns>
-        public static ParallelQuery<T> Referencing<T>(this ParallelQuery<T> source) where T : IPronoun {
+        public static ParallelQuery<T> Referencing<T>(this ParallelQuery<T> source) where T : IReferencer {
             return from pro in source
-                   where pro.RefersTo != null
+                   where pro.Referent != null
                    select pro;
         }
         /// <summary>
@@ -71,9 +71,9 @@ namespace LASI.Algorithm
         /// <param name="source">The sequence of IPronoun elements to filter.</param>
         /// <param name="referenced">The entity whose referencing pronouns will be returned.</param>
         /// <returns>All Pronouns in the collection that refer to the given entity</returns>
-        public static ParallelQuery<T> Referencing<T>(this ParallelQuery<T> source, IEntity referenced) where T : IPronoun {
+        public static ParallelQuery<T> Referencing<T>(this ParallelQuery<T> source, IEntity referenced) where T : IReferencer {
             return from ER in source
-                   where ER.RefersTo == referenced
+                   where ER.Referent == referenced
                    select ER;
         }
         /// <summary>
@@ -83,9 +83,9 @@ namespace LASI.Algorithm
         /// <param name="source">The sequence of IPronoun elements to filter.</param>
         /// <param name="condition">The function which tests the referenced entity of each IPronoun to determine if the IPronoun should be selected.</param>
         /// <returns>All IPronoun constructs in the collection that refer to the given entity</returns>
-        public static ParallelQuery<T> Referencing<T>(this ParallelQuery<T> source, Func<IEntity, bool> condition) where T : IPronoun {
+        public static ParallelQuery<T> Referencing<T>(this ParallelQuery<T> source, Func<IEntity, bool> condition) where T : IReferencer {
             return from pro in source
-                   where pro.RefersTo != null && condition(pro.RefersTo)
+                   where pro.Referent != null && condition(pro.Referent)
                    select pro;
         }
         #endregion

@@ -114,8 +114,8 @@ namespace LASI.Algorithm.Aliasing
                 .Then<IEntity>(e => e.SubjectOf
                     .DirectObjects
                     .SelectMany(direct => direct.Match().Yield<IEnumerable<string>>()
-                        .When<IPronoun>(p => p.RefersTo.Any())
-                        .Then<IPronoun>(p => p.RefersTo.SelectMany(r => GetLikelyAliases(r)))
+                        .When<IReferencer>(p => p.Referent.Any())
+                        .Then<IReferencer>(p => p.Referent.SelectMany(r => GetLikelyAliases(r)))
                         .Case<Noun>(n => n.GetSynonyms())
                     .Result()))
                 .Result(defaultValue: Enumerable.Empty<string>());

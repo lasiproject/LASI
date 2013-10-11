@@ -11,7 +11,7 @@ namespace LASI.Algorithm
     /// Defines extension methods for sequences of Word instances.
     /// </summary>
     /// <see cref="Word"/>
-    public static class IEnumerableOfWordExtensions
+    public static class EnumerableOfWordExtensions
     {
         #region Sequential Implementations
 

@@ -13,7 +13,7 @@ namespace LASI.Algorithm
     /// <see cref="DocumentStructures.Document"/>
     /// <seealso cref="DocumentStructures.Sentence"/>
     /// <seealso cref="DocumentStructures.Paragraph"/>
-    static class IEnumerableOfDocumentStructureExtensions
+    static class EnumerableOfDocumentStructureExtensions
     {
         #region Sequential Implementations
         /// <summary>

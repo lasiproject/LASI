@@ -7,17 +7,17 @@ namespace LASI.Algorithm
     /// for long stretches during which they may not be longer directly mentioned
     /// Along with the other interfaces in the Syntactic Interfaces Library, the IPronounBindable interface provides for generalization and abstraction over word and Phrase types.
     /// </summary>
-    public interface IPronounBindable
+    public interface IReferenceable
     {
         /// <summary>
         /// Binds an IPronoun, generally a Pronoun or PronounPhrase, as a reference to the IPronounBindable.
         /// </summary>
         /// <param name="pro">The IPronoun which will be bound to refer to the IPronounBindable.</param>
-        void BindPronoun(IPronoun pro);
+        void BindPronoun(IReferencer pro);
         /// <summary>
         /// Gets all of the IPronoun instances, generally Pronouns or PronounPhrases, which refer to the IPronounBindable.
         /// </summary>
-        IEnumerable<IPronoun> BoundPronouns {
+        IEnumerable<IReferencer> BoundPronouns {
             get;
         }
     }

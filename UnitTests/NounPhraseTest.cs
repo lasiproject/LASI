@@ -99,7 +99,7 @@ namespace AlgorithmAssemblyUnitTestProject
             NounPhrase target = new NounPhrase(composedWords);
             Pronoun pro = new PersonalPronoun("they");
             target.BindPronoun(pro);
-            Assert.IsTrue(target.BoundPronouns.Contains(pro) && pro.RefersTo.Any(e => e == target));
+            Assert.IsTrue(target.BoundPronouns.Contains(pro) && pro.Referent.Any(e => e == target));
         }
 
 
@@ -167,7 +167,7 @@ namespace AlgorithmAssemblyUnitTestProject
             Assert.IsFalse(target.BoundPronouns.Any());
             Pronoun pro = new PersonalPronoun("they");
             target.BindPronoun(pro);
-            Assert.IsTrue(target.BoundPronouns.Contains(pro) && pro.RefersTo.Any(e => e == target));
+            Assert.IsTrue(target.BoundPronouns.Contains(pro) && pro.Referent.Any(e => e == target));
         }
 
         /// <summary>

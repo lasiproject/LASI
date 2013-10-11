@@ -87,19 +87,19 @@ namespace LASI.UserInterface.LexicalElementInfo
             };
             return visitSubjectMI;
         }
-        public static ContextMenu MakePronounContextMenu(IEnumerable<Label> labelsInContext, IPronoun pro) {
+        public static ContextMenu MakePronounContextMenu(IEnumerable<Label> labelsInContext, IReferencer pro) {
             var result = new ContextMenu();
-            if (pro.RefersTo != null && pro.RefersTo.Any()) {
+            if (pro.Referent != null && pro.Referent.Any()) {
                 result.Items.Add(CreatePronounReferredToMenuItem(labelsInContext, pro));
             }
             return result;
         }
-        private static MenuItem CreatePronounReferredToMenuItem(IEnumerable<Label> labelsInContext, IPronoun pro) {
+        private static MenuItem CreatePronounReferredToMenuItem(IEnumerable<Label> labelsInContext, IReferencer pro) {
             var visitBoundEntity = new MenuItem { Header = "view referred to" };
             visitBoundEntity.Click += (sender, e) => {
                 var objlabels = from l in labelsInContext
-                                where pro.RefersTo == l.Tag || l.Tag is NounPhrase&&
-                                pro.RefersTo.ToSet().Overlaps((l.Tag as NounPhrase).Words.OfEntity())
+                                where pro.Referent == l.Tag || l.Tag is NounPhrase&&
+                                pro.Referent.ToSet().Overlaps((l.Tag as NounPhrase).Words.OfEntity())
                                    
                                 select l;
                 foreach (var l in objlabels) {

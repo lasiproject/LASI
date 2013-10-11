@@ -52,7 +52,7 @@ namespace LASI.Algorithm
         /// Binds an IPronoun, generally a Pronoun or PronounPhrase, as a reference to the NounPhrase.
         /// </summary>
         /// <param name="pro">The referencer which refers to the NounPhrase Instance.</param>
-        public virtual void BindPronoun(IPronoun pro) {
+        public virtual void BindPronoun(IReferencer pro) {
             _boundPronouns.Add(pro);
             pro.BindAsReference(this);
         }
@@ -142,7 +142,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets all of the IPronoun instances, generally Pronouns or PronounPhrases, which refer to the NounPhrase.
         /// </summary>
-        public IEnumerable<IPronoun> BoundPronouns { get { return _boundPronouns; } }
+        public IEnumerable<IReferencer> BoundPronouns { get { return _boundPronouns; } }
 
         /// <summary>
         /// Gets all of the IDescriptor constructs,generally Adjectives or AdjectivePhrases, which describe the NounPhrase.
@@ -187,7 +187,7 @@ namespace LASI.Algorithm
 
         private HashSet<IDescriptor> _descriptors = new HashSet<IDescriptor>();
         private HashSet<IPossessable> _possessed = new HashSet<IPossessable>();
-        private HashSet<IPronoun> _boundPronouns = new HashSet<IPronoun>();
+        private HashSet<IReferencer> _boundPronouns = new HashSet<IReferencer>();
         private IPossesser _possessor;
         private IVerbal _direcObjectOf;
         private IVerbal _indirecObjectOf;

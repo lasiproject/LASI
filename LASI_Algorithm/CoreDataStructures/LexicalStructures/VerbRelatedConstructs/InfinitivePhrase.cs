@@ -62,7 +62,7 @@ namespace LASI.Algorithm
         /// Binds an IPronoun, generally a Pronoun or PronounPhrase, as a reference to the InfinitivePhrase.
         /// </summary>
         /// <param name="pro">The referencer which refers to the InfinitivePhrase Instance.</param>
-        public void BindPronoun(IPronoun pro)
+        public void BindPronoun(IReferencer pro)
         {
             _boundPronouns.Add(pro);
             pro.BindAsReference(this);
@@ -70,7 +70,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets all of the IPronoun instances, generally Pronouns or PronounPhrases, which refer to the InfinitivePhrase Instance.
         /// </summary>
-        public IEnumerable<IPronoun> BoundPronouns
+        public IEnumerable<IReferencer> BoundPronouns
         {
             get
             {
@@ -129,7 +129,7 @@ namespace LASI.Algorithm
 
         #region Fields
 
-        ISet<IPronoun> _boundPronouns = new HashSet<IPronoun>();
+        ISet<IReferencer> _boundPronouns = new HashSet<IReferencer>();
         ISet<IPossessable> _possessions = new HashSet<IPossessable>();
         ISet<IDescriptor> _descriptors = new HashSet<IDescriptor>();
 

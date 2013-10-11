@@ -12,7 +12,7 @@ namespace LASI.Algorithm
     /// Defines extension methods for sequences of objects implementing the IVerbal interface.
     /// </summary>
     /// <see cref="IVerbal"/>
-    public static class IEnumerableOfIVerbalExtensions
+    public static class EnumerableOfIVerbalExtensions
     {
         #region Sequential Implementations
         /// <summary>

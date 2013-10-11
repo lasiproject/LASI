@@ -21,7 +21,7 @@ namespace LASI.UserInterface
                         .Then(Brushes.DarkBlue)
                         .Case<NounPhrase>(Brushes.MediumTurquoise)
                         .Case<InfinitivePhrase>(Brushes.Teal)
-                        .Case<IPronoun>(Brushes.DarkCyan)
+                        .Case<IReferencer>(Brushes.DarkCyan)
                         .Case<IEntity>(Brushes.DeepSkyBlue)
                         .Case<IVerbal>(Brushes.Green)
                         .Case<IPrepositional>(Brushes.DarkOrange)

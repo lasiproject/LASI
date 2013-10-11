@@ -110,7 +110,7 @@ namespace LASI.Algorithm.Weighting
             var toConsider = doc.Words.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                 .OfNoun().InSubjectOrObjectRole()
                 .Concat<IEntity>(doc.Words
-                .OfPronoun().InSubjectOrObjectRole().Select(e => e.RefersTo ?? e as IEntity)).AsParallel().WithDegreeOfParallelism(Concurrency.Max);
+                .OfPronoun().InSubjectOrObjectRole().Select(e => e.Referent ?? e as IEntity)).AsParallel().WithDegreeOfParallelism(Concurrency.Max);
             (from outer in toConsider
              from inner in toConsider
              where outer.IsSimilarTo(inner)

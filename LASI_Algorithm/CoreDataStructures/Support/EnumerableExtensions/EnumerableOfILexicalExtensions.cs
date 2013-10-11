@@ -14,7 +14,7 @@ namespace LASI.Algorithm
     /// <see cref="ILexical"/>
     /// <seealso cref="System.Collections.Generic.IEnumerable{T}"/>
     /// <seealso cref="System.Linq.Enumerable"/>
-    public static class IEnumerableOfILexicalExtensions
+    public static class EnumerableOfILexicalExtensions
     {
         #region Sequential Implementations
         /// <summary>

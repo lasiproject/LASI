@@ -30,7 +30,7 @@ namespace LASI.Algorithm.LexicalLookup
         {
             return entity.Match().Yield<Gender>()
                     .Case<IGendered>(p => p.Gender)
-                    .Case<IPronoun>(p => p.GetPronounGender())
+                    .Case<IReferencer>(p => p.GetPronounGender())
                     .Case<NounPhrase>(n => n.GetGender())
                     .Case<CommonNoun>(n => Gender.Neutral)
                     .When(e => e.BoundPronouns.Any())
@@ -46,7 +46,7 @@ namespace LASI.Algorithm.LexicalLookup
         /// </summary>
         /// <param name="pronoun">The Pronoun whose gender to lookup.</param>
         /// <returns>A NameGender value indiciating the likely gender of the Pronoun.</returns>
-        private static Gender GetPronounGender(this IPronoun pronoun)
+        private static Gender GetPronounGender(this IReferencer pronoun)
         {
             return pronoun != null ?
                 pronoun.Match().Yield<Gender>()
@@ -54,9 +54,9 @@ namespace LASI.Algorithm.LexicalLookup
                     .Case<PronounPhrase>(p => GetPhraseGender(p))
                 .Result() :
                 pronoun.Match().Yield<Gender>()
-                .When<IPronoun>(p => p.RefersTo != null)
-                .Then<IPronoun>(p => {
-                    return (from referent in p.RefersTo
+                .When<IReferencer>(p => p.Referent != null)
+                .Then<IReferencer>(p => {
+                    return (from referent in p.Referent
                             let gen =
                                referent.Match().Yield<Gender>()
                                    .Case<NounPhrase>(r => r.GetGender())
@@ -65,7 +65,7 @@ namespace LASI.Algorithm.LexicalLookup
                                    .Case<CommonNoun>(n => Gender.Neutral)
                                .Result()
                             group gen by gen into byGen
-                            where byGen.Count() == pronoun.RefersTo.Count()
+                            where byGen.Count() == pronoun.Referent.Count()
                             select byGen.Key).FirstOrDefault();
                 }).Result();
         }
