@@ -23,8 +23,8 @@ namespace LASI.Algorithm
         public VerbPhrase(IEnumerable<Word> composedWords)
             : base(composedWords) {
 
-            Tense = composedWords.GetVerbs().Any() ?
-                (from v in composedWords.GetVerbs()
+            Tense = composedWords.OfVerb().Any() ?
+                (from v in composedWords.OfVerb()
                  group v.Tense by v.Tense into tenseGroup
                  orderby tenseGroup.Count()
                  select tenseGroup).First().Key : VerbForm.Base;
@@ -111,7 +111,7 @@ namespace LASI.Algorithm
         /// </summary>
         /// <returns>True if the VerbPhrase is a possessive relationship specifier, false otherwise.</returns>
         protected virtual bool DetermineIsPossessive() {
-            isPossessive = Words.GetVerbs().Any() && Words.GetVerbs().Last().IsPossessive;
+            isPossessive = Words.OfVerb().Any() && Words.OfVerb().Last().IsPossessive;
             return isPossessive.Value;
         }
         /// <summary>
@@ -119,7 +119,7 @@ namespace LASI.Algorithm
         /// </summary>
         /// <returns>True if the VerbPhrase is a classifier, false otherwise.</returns>
         protected virtual bool DetermineIsClassifier() {
-            isClassifier = Words.GetVerbs().Any() && Words.GetVerbs().Last().IsClassifier;
+            isClassifier = Words.OfVerb().Any() && Words.OfVerb().Last().IsClassifier;
             return isClassifier.Value;
         }
 

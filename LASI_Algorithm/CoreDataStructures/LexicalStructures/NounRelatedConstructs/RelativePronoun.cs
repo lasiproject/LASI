@@ -43,7 +43,8 @@ namespace LASI.Algorithm
         public void AddPossession(IPossessable possession) {
             if (IsBound) {
                 RefersTo.AddPossession(possession);
-            } else {
+            }
+            else {
                 _possessed.Add(possession);
                 possession.Possesser = this;
             }
@@ -178,7 +179,7 @@ namespace LASI.Algorithm
 
 
         private static readonly string[] subjectRolePersonal = { "who", "that" };
-        private static readonly string[] objectRoleEntity = { "whom", "who", "that" };
+        private static readonly string[] objectRoleEntity = { "whom", "which", "who", "that" };
         private static readonly string[] objectRoleLocationals = { "where" };
         private static readonly string[] objectRoleTemporals = { "when" };
         private static readonly string[] objectRoleExpositories = { "what", "why" };

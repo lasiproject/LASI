@@ -99,7 +99,7 @@ namespace LASI.UserInterface.LexicalElementInfo
             visitBoundEntity.Click += (sender, e) => {
                 var objlabels = from l in labelsInContext
                                 where pro.RefersTo == l.Tag || l.Tag is NounPhrase&&
-                                pro.RefersTo.ToSet().Overlaps((l.Tag as NounPhrase).Words.GetEntities())
+                                pro.RefersTo.ToSet().Overlaps((l.Tag as NounPhrase).Words.OfEntity())
                                    
                                 select l;
                 foreach (var l in objlabels) {

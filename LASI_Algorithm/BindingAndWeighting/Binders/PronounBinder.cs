@@ -35,7 +35,7 @@ namespace LASI.Algorithm.Binding
         /// </summary>
         /// <param name="phrases">The sequence of phrases to bind within.</param>
         private static void BindPosessivePronouns(IEnumerable<Phrase> phrases) {
-            foreach (var vp in phrases.GetVerbPhrases()
+            foreach (var vp in phrases.OfVerbPhrase()
                 .WithObject(o => o is IWeakPossessor)) {
                 var pronouns = vp.DirectObjects.Concat(vp.IndirectObjects).OfType<IWeakPossessor>();
                 foreach (var pro in pronouns) {

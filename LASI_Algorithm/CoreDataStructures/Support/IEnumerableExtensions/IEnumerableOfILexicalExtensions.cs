@@ -124,7 +124,7 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="elements">The source sequence of ILexical instances.</param>
         /// <returns>all of the word instances in the sequence of ILexicals.</returns>
-        public static IEnumerable<Word> GetWords(this IEnumerable<Phrase> elements) {
+        public static IEnumerable<Word> OfWord(this IEnumerable<Phrase> elements) {
             return elements.SelectMany(p => p.Words);
         }
         /// <summary>
@@ -132,7 +132,7 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="elements">The source sequence of ILexical instances.</param>
         /// <returns>all of the Phrase instances in the sequence of ILexicals.</returns>
-        public static IEnumerable<Phrase> GetPhrases(this IEnumerable<Clause> elements) {
+        public static IEnumerable<Phrase> OfPhrase(this IEnumerable<Clause> elements) {
             return elements.SelectMany(c => c.Phrases);
         }
         /// <summary>
@@ -140,7 +140,7 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="elements">The sequence of ILexial instances to filter.</param>
         /// <returns>All IEntity in the sequence</returns>
-        public static IEnumerable<IEntity> GetEntities(this IEnumerable<ILexical> elements) {
+        public static IEnumerable<IEntity> OfEntity(this IEnumerable<ILexical> elements) {
             return elements.OfType<IEntity>();
         }
         /// <summary>
@@ -262,7 +262,7 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="elements">The source sequence of ILexical instances.</param>
         /// <returns>all of the word instances in the sequence of ILexicals.</returns>
-        public static ParallelQuery<Word> GetWords(this ParallelQuery<Phrase> elements) {
+        public static ParallelQuery<Word> OfWord(this ParallelQuery<Phrase> elements) {
             return elements.SelectMany(p => p.Words);
         }
         /// <summary>
@@ -270,7 +270,7 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="elements">The source sequence of ILexical instances.</param>
         /// <returns>all of the Phrase instances in the sequence of ILexicals.</returns>
-        public static ParallelQuery<Phrase> GetPhrases(this ParallelQuery<Clause> elements) {
+        public static ParallelQuery<Phrase> OfPhrase(this ParallelQuery<Clause> elements) {
             return elements.SelectMany(c => c.Phrases);
         }
         /// <summary>
@@ -278,7 +278,7 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="elements">The sequence of componentPhrases to filter</param>
         /// <returns>All AdjectivePhrases in the sequence</returns>
-        public static ParallelQuery<IEntity> GetEntities(this ParallelQuery<ILexical> elements) {
+        public static ParallelQuery<IEntity> OfEntity(this ParallelQuery<ILexical> elements) {
             return elements.OfType<IEntity>();
         }
         /// <summary>

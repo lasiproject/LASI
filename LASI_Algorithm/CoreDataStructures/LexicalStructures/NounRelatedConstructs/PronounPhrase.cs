@@ -22,8 +22,8 @@ namespace LASI.Algorithm
         /// <param name="composedWords">The words which compose to form the PronounPhrase.</param>
         public PronounPhrase(IEnumerable<Word> composedWords)
             : base(composedWords) {
-            if (composedWords.GetPronouns().Any(p => p.RefersTo != null)) {
-                _refersTo = new AggregateEntity(composedWords.GetPronouns().Select(p => p.RefersTo));
+            if (composedWords.OfPronoun().Any(p => p.RefersTo != null)) {
+                _refersTo = new AggregateEntity(composedWords.OfPronoun().Select(p => p.RefersTo));
             }
         }
 
@@ -42,7 +42,7 @@ namespace LASI.Algorithm
         /// </summary>
         public IAggregateEntity RefersTo {
             get {
-                _refersTo = _refersTo ?? new AggregateEntity(Words.GetPronouns().Where(p => p.RefersTo != null).Select(p => p.RefersTo));
+                _refersTo = _refersTo ?? new AggregateEntity(Words.OfPronoun().Where(p => p.RefersTo != null).Select(p => p.RefersTo));
                 return _refersTo;
             }
 

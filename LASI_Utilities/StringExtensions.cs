@@ -1,10 +1,11 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LASI.Utilities 
+namespace LASI.Utilities
 {
     /// <summary>
     /// Defines various useful methods for working with System.String instances.

@@ -32,7 +32,7 @@ namespace LASI.Algorithm.Binding
         }
 
         private static void ProcessContiguous(IEnumerable<Phrase> cnps) {
-            foreach (var prepPhrase in cnps.GetPrepositionalPhrases()) {
+            foreach (var prepPhrase in cnps.OfPrepositionalPhrase()) {
                 ProcessLinkingPrepositionalPhrase(prepPhrase);
             }
             while (cnps.Count(n => n is NounPhrase) > 1) {

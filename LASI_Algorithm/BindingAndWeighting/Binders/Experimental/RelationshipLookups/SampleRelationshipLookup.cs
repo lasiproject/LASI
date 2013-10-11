@@ -26,7 +26,7 @@ namespace LASI.Algorithm.RelationshipLookups
         /// </summary>
         /// <param name="domain">The sequence of Sentence instances which contain the relevant lexical data set.</param>
         public SampleRelationshipLookup(IEnumerable<DocumentStructures.Sentence> domain)
-            : this(from s in domain.GetPhrases().GetVerbPhrases()
+            : this(from s in domain.OfPhrase().OfVerbPhrase()
                    select s) {
         }
         /// <summary>
@@ -34,7 +34,7 @@ namespace LASI.Algorithm.RelationshipLookups
         /// </summary>
         /// <param name="domain">The sequence of Paragraph instances which contain the relevant lexical data set.</param>
         public SampleRelationshipLookup(IEnumerable<DocumentStructures.Paragraph> domain)
-            : this(domain.GetSentences()) {
+            : this(domain.OfSentence()) {
         }
         /// <summary>
         /// Initializes a new instance of the SampleRelationshipLookup class over the given domain.

@@ -77,7 +77,7 @@ namespace LASI.UserInterface
 
             var nounPhraseLabels = from s in page1 != null ? page1.Sentences : document.Paragraphs.SelectMany(p => p.Sentences)
                                         .AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                                   select s.Phrases.GetNounPhrases() into nounPhrases
+                                   select s.Phrases.OfNounPhrase() into nounPhrases
                                    from np in nounPhrases
                                         .AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                                    group np by new { np.Text, np.Type }

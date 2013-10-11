@@ -307,7 +307,7 @@ namespace LASI.Algorithm.LexicalLookup
         /// Please prefer the second convention.
         /// </remarks>
         public static SimResult IsSimilarTo(this Noun first, NounPhrase second) {
-            var phraseNouns = second.Words.GetNouns();
+            var phraseNouns = second.Words.OfNoun();
             return new SimResult(phraseNouns.Count() == 1 && phraseNouns.First().IsSynonymFor(first));
         }
         /// <summary>
@@ -378,7 +378,7 @@ namespace LASI.Algorithm.LexicalLookup
         /// Please prefer the second convention.
         /// </remarks>
         public static SimResult IsSimilarTo(this Verb first, VerbPhrase second) {
-            return new SimResult(second.Words.TakeWhile(w => !(w is ToLinker)).GetVerbs().Any(v => v.IsSynonymFor(first)));//This is kind of rough.
+            return new SimResult(second.Words.TakeWhile(w => !(w is ToLinker)).OfVerb().Any(v => v.IsSynonymFor(first)));//This is kind of rough.
         }
 
         /// <summary>
@@ -410,8 +410,8 @@ namespace LASI.Algorithm.LexicalLookup
         public static SimResult IsSimilarTo(this VerbPhrase first, VerbPhrase second) {
 
             //Look into refining this
-            List<Verb> leftHandVerbs = first.Words.GetVerbs().ToList();
-            List<Verb> rightHandVerbs = second.Words.GetVerbs().ToList();
+            List<Verb> leftHandVerbs = first.Words.OfVerb().ToList();
+            List<Verb> rightHandVerbs = second.Words.OfVerb().ToList();
 
             bool result = leftHandVerbs.Count == rightHandVerbs.Count;
 
@@ -468,7 +468,7 @@ namespace LASI.Algorithm.LexicalLookup
         /// Please prefer the second convention.
         /// </remarks>
         public static SimResult IsSimilarTo(this Adjective first, AdjectivePhrase second) {
-            return new SimResult(second.Words.GetAdjectives().Any(adj => adj.IsSynonymFor(first)));
+            return new SimResult(second.Words.OfAdjective().Any(adj => adj.IsSynonymFor(first)));
         }
 
 
@@ -486,8 +486,8 @@ namespace LASI.Algorithm.LexicalLookup
         public static SimResult IsSimilarTo(this AdjectivePhrase first, AdjectivePhrase second) {
 
             //Look into refining this
-            List<Adjective> leftHandAdjectives = first.Words.GetAdjectives().ToList();
-            List<Adjective> rightHandAdjectives = second.Words.GetAdjectives().ToList();
+            List<Adjective> leftHandAdjectives = first.Words.OfAdjective().ToList();
+            List<Adjective> rightHandAdjectives = second.Words.OfAdjective().ToList();
 
             bool result = leftHandAdjectives.Count == rightHandAdjectives.Count;
 
@@ -543,7 +543,7 @@ namespace LASI.Algorithm.LexicalLookup
         /// Please prefer the second convention.
         /// </remarks>
         public static SimResult IsSimilarTo(this Adverb first, AdverbPhrase second) {
-            return new SimResult(second.Words.GetAdverbs().Any(adj => adj.IsSynonymFor(first)));
+            return new SimResult(second.Words.OfAdverb().Any(adj => adj.IsSynonymFor(first)));
             // Must refine this to check for negators and modals which will potentially invert the meaning.
         }
 
@@ -561,8 +561,8 @@ namespace LASI.Algorithm.LexicalLookup
         public static SimResult IsSimilarTo(this AdverbPhrase first, AdverbPhrase second) {
 
             //Look into refining this
-            List<Adverb> leftHandAdjectives = first.Words.GetAdverbs().ToList();
-            List<Adverb> rightHandAdjectives = second.Words.GetAdverbs().ToList();
+            List<Adverb> leftHandAdjectives = first.Words.OfAdverb().ToList();
+            List<Adverb> rightHandAdjectives = second.Words.OfAdverb().ToList();
 
             bool result = leftHandAdjectives.Count == rightHandAdjectives.Count;
 
@@ -597,13 +597,13 @@ namespace LASI.Algorithm.LexicalLookup
                 inner = first;
             }
 
-            if ((outer.Words.GetNouns().Count() != 0) && (inner.Words.GetNouns().Count() != 0)) {
-                foreach (var o in outer.Words.GetNouns()) {
-                    foreach (var i in inner.Words.GetNouns()) {
+            if ((outer.Words.OfNoun().Count() != 0) && (inner.Words.OfNoun().Count() != 0)) {
+                foreach (var o in outer.Words.OfNoun()) {
+                    foreach (var i in inner.Words.OfNoun()) {
                         if (i.IsSimilarTo(o))
                             similarCount += 0.7;
                     }
-                    var scaleFactor = inner.Words.GetNouns().Count() * outer.Words.GetNouns().Count();
+                    var scaleFactor = inner.Words.OfNoun().Count() * outer.Words.OfNoun().Count();
                     return (similarCount / scaleFactor == 0 ? 1 : scaleFactor);
                 }
 

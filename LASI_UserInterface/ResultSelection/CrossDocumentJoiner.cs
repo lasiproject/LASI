@@ -70,7 +70,7 @@ namespace LASI.UserInterface
             return document.Phrases
                        .AsParallel()
                        .WithDegreeOfParallelism(Concurrency.Max)
-                       .GetNounPhrases()
+                       .OfNounPhrase()
                        .InSubjectRole()
                        .InObjectRole()
                        .Distinct(CompareNounPhrases)
@@ -109,7 +109,7 @@ namespace LASI.UserInterface
                 var vpsWithSubject =
                     document.Phrases
                     .AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                    .GetVerbPhrases()
+                    .OfVerbPhrase()
                     .WithSubject();
                 return from vp in vpsWithSubject.WithObject().Distinct((vLeft, vRight) => vLeft.IsSimilarTo(vRight))
                        orderby vp.Weight + vp.Subjects.Sum(e => e.Weight) + vp.DirectObjects.Sum(e => e.Weight) + vp.IndirectObjects.Sum(e => e.Weight)

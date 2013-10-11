@@ -88,7 +88,7 @@ namespace LASI.Algorithm.Weighting
         }
         private static void ModifyVerbWeightsBySynonyms(Document doc)
         {
-            var verbsToConsider = doc.Words.GetVerbs().AsParallel().WithDegreeOfParallelism(Concurrency.Max).WithSubjectOrObject();
+            var verbsToConsider = doc.Words.OfVerb().AsParallel().WithDegreeOfParallelism(Concurrency.Max).WithSubjectOrObject();
             var groups = from outer in verbsToConsider
                          from inner in verbsToConsider
                          where outer.IsSynonymFor(inner)
@@ -108,9 +108,9 @@ namespace LASI.Algorithm.Weighting
         {
             //Currently, include only those nouns which exist in relationships with some IVerbal or IPronoun.
             var toConsider = doc.Words.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                .GetNouns().InSubjectOrObjectRole()
+                .OfNoun().InSubjectOrObjectRole()
                 .Concat<IEntity>(doc.Words
-                .GetPronouns().InSubjectOrObjectRole().Select(e => e.RefersTo ?? e as IEntity)).AsParallel().WithDegreeOfParallelism(Concurrency.Max);
+                .OfPronoun().InSubjectOrObjectRole().Select(e => e.RefersTo ?? e as IEntity)).AsParallel().WithDegreeOfParallelism(Concurrency.Max);
             (from outer in toConsider
              from inner in toConsider
              where outer.IsSimilarTo(inner)
@@ -137,8 +137,8 @@ namespace LASI.Algorithm.Weighting
         private static void WeightSimilarNounPhrases(Document doc)
         {
 
-            var nps = from outer in doc.Phrases.AsParallel().WithDegreeOfParallelism(Concurrency.Max).GetNounPhrases().InSubjectOrObjectRole()
-                      from inner in doc.Phrases.AsParallel().WithDegreeOfParallelism(Concurrency.Max).GetNounPhrases().InSubjectOrObjectRole()
+            var nps = from outer in doc.Phrases.AsParallel().WithDegreeOfParallelism(Concurrency.Max).OfNounPhrase().InSubjectOrObjectRole()
+                      from inner in doc.Phrases.AsParallel().WithDegreeOfParallelism(Concurrency.Max).OfNounPhrase().InSubjectOrObjectRole()
                       where inner.IsAliasFor(outer) || inner.IsSimilarTo(outer)
                       group inner by outer into grouped
                       select new { WeightIncrease = grouped.Count() * 0.5, Elements = grouped };
@@ -146,8 +146,8 @@ namespace LASI.Algorithm.Weighting
         }
         private static void WeightSimilarVerbPhrases(Document doc)
         {
-            var vps = from outer in doc.Phrases.AsParallel().WithDegreeOfParallelism(Concurrency.Max).GetVerbPhrases().WithSubjectOrObject()
-                      from inner in doc.Phrases.AsParallel().WithDegreeOfParallelism(Concurrency.Max).GetVerbPhrases().WithSubjectOrObject()
+            var vps = from outer in doc.Phrases.AsParallel().WithDegreeOfParallelism(Concurrency.Max).OfVerbPhrase().WithSubjectOrObject()
+                      from inner in doc.Phrases.AsParallel().WithDegreeOfParallelism(Concurrency.Max).OfVerbPhrase().WithSubjectOrObject()
                       where inner.IsSimilarTo(outer)
                       group inner by outer into grouped
                       select new { WeightIncrease = grouped.Count() * 0.5, Elements = grouped };
@@ -174,7 +174,7 @@ namespace LASI.Algorithm.Weighting
         private static void HackSubjectPropernounImportance(Document doc)
         {
             doc.Phrases.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                .GetNounPhrases()
+                .OfNounPhrase()
                 .Where(np => np.Words.Any(w => w is ProperNoun))
                 .ForAll(np => np.Weight *= 2);
 
