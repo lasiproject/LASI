@@ -10,7 +10,7 @@ namespace LASI.Algorithm
     /// Defines extension methods for sequences of Phrase instances.
     /// </summary>
     /// <see cref="Phrase"/>
-    public static class IEnumerableOfPhraseExtensions
+    public static class EnumerableOfPhraseExtensions
     {
         /// <summary>
         /// Returns all Phrases in the document which are in between the provided Phrases. The range of the resulting sequence is neither upper nor lower inclusive.
@@ -51,7 +51,7 @@ namespace LASI.Algorithm
         /// <param name="phrases">The source sequence of Phrases.</param>
         /// <param name="after">The exclusive lower bound of the desired subset of Phrases.</param>
         /// <returns>A new sequence containing all of the Phrases which follow the given Phrase in the source sequence.</returns>
-        public static IEnumerable<Phrase> GetPhrasesAfter(this IEnumerable<Phrase> phrases, Phrase after) {
+        public static IEnumerable<Phrase> PhrasesFollowing(this IEnumerable<Phrase> phrases, Phrase after) {
             return phrases.SkipWhile(r => r != after).Skip(1);
         }
         /// <summary>
@@ -60,7 +60,7 @@ namespace LASI.Algorithm
         /// <param name="phrases">The source sequence of Phrases.</param>
         /// <param name="startSelector">The function which will select be used to select the exclusive lower bound of the new sequence.</param>
         /// <returns>A new sequence containing all of the Phrases which follow the first Phrase in the source sequence which matches the provided selector function..</returns>
-        public static IEnumerable<Phrase> GetPhrasesAfter(this IEnumerable<Phrase> phrases, Func<Phrase, bool> startSelector) {
+        public static IEnumerable<Phrase> PhrasesFollowing(this IEnumerable<Phrase> phrases, Func<Phrase, bool> startSelector) {
             return phrases.SkipWhile(r => !startSelector(r)).Skip(1);
         }
         /// <summary>
@@ -68,7 +68,7 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="phrases">The sequence of componentPhrases to filter</param>
         /// <returns>All NounPhrases in the sequence</returns>
-        public static IEnumerable<NounPhrase> GetNounPhrases(this IEnumerable<Phrase> phrases) {
+        public static IEnumerable<NounPhrase> OfNounPhrase(this IEnumerable<Phrase> phrases) {
             return phrases.OfType<NounPhrase>();
         }
         /// <summary>
@@ -76,7 +76,7 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="phrases">The sequence of componentPhrases to filter.</param>
         /// <returns>All VerbPhrases in the sequence</returns>
-        public static IEnumerable<VerbPhrase> GetVerbPhrases(this IEnumerable<Phrase> phrases) {
+        public static IEnumerable<VerbPhrase> OfVerbPhrase(this IEnumerable<Phrase> phrases) {
             return phrases.OfType<VerbPhrase>();
         }
         /// <summary>
@@ -84,7 +84,7 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="phrases">The sequence of componentPhrases to filter</param>
         /// <returns>All AdverbPhrases in the sequence</returns>
-        public static IEnumerable<AdverbPhrase> GetAdverbPhrases(this IEnumerable<Phrase> phrases) {
+        public static IEnumerable<AdverbPhrase> OfAdverbPhrase(this IEnumerable<Phrase> phrases) {
             return phrases.OfType<AdverbPhrase>();
         }
         /// <summary>
@@ -92,7 +92,7 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="phrases">The sequence of componentPhrases to filter</param>
         /// <returns>All ConjunctionPhrases in the sequence</returns>
-        public static IEnumerable<ConjunctionPhrase> GetConjunctionPhrases(this IEnumerable<Phrase> phrases) {
+        public static IEnumerable<ConjunctionPhrase> OfConjunctionPhrase(this IEnumerable<Phrase> phrases) {
             return phrases.OfType<ConjunctionPhrase>();
         }
         /// <summary>
@@ -100,7 +100,7 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="phrases">The sequence of componentPhrases to filter</param>
         /// <returns>All PrepositionalPhrases in the sequence</returns>
-        public static IEnumerable<PrepositionalPhrase> GetPrepositionalPhrases(this IEnumerable<Phrase> phrases) {
+        public static IEnumerable<PrepositionalPhrase> OfPrepositionalPhrase(this IEnumerable<Phrase> phrases) {
             return phrases.OfType<PrepositionalPhrase>();
         }
         /// <summary>
@@ -108,7 +108,7 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="phrases">The sequence of componentPhrases to filter</param>
         /// <returns>All PronounPhrase in the sequence</returns>
-        public static IEnumerable<PronounPhrase> GetPronounPhrases(this IEnumerable<Phrase> phrases) {
+        public static IEnumerable<PronounPhrase> OfPronounPhrase(this IEnumerable<Phrase> phrases) {
             return phrases.OfType<PronounPhrase>();
         }
         /// <summary>
@@ -116,7 +116,7 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="phrases">The sequence of componentPhrases to filter</param>
         /// <returns>All AdjectivePhrases in the sequence</returns>
-        public static IEnumerable<AdjectivePhrase> GetAdjectivePhrases(this IEnumerable<Phrase> phrases) {
+        public static IEnumerable<AdjectivePhrase> OfAdjectivePhrase(this IEnumerable<Phrase> phrases) {
             return phrases.OfType<AdjectivePhrase>();
         }
 
@@ -129,7 +129,7 @@ namespace LASI.Algorithm
         /// <param name="phrases">The source sequence of Phrases.</param>
         /// <param name="after">The exclusive lower bound of the desired subset of Phrases.</param>
         /// <returns>A new sequence containing all of the Phrases which follow the given Phrase in the source sequence.</returns>
-        public static ParallelQuery<Phrase> GetPhrasesAfter(this ParallelQuery<Phrase> phrases, Phrase after) {
+        public static ParallelQuery<Phrase> PhrasesFollowing(this ParallelQuery<Phrase> phrases, Phrase after) {
             return phrases.SkipWhile(r => r != after).Skip(1);
         }
         /// <summary>
@@ -138,7 +138,7 @@ namespace LASI.Algorithm
         /// <param name="phrases">The source sequence of Phrases.</param>
         /// <param name="startSelector">The function which will select be used to select the exclusive lower bound of the new sequence.</param>
         /// <returns>A new sequence containing all of the Phrases which follow the first Phrase in the source sequence which matches the provided selector function..</returns>
-        public static ParallelQuery<Phrase> GetPhrasesAfter(this ParallelQuery<Phrase> phrases, Func<Phrase, bool> startSelector) {
+        public static ParallelQuery<Phrase> PhrasesFollowing(this ParallelQuery<Phrase> phrases, Func<Phrase, bool> startSelector) {
             return phrases.SkipWhile(r => !startSelector(r)).Skip(1);
         }
         /// <summary>
@@ -146,7 +146,7 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="phrases">The sequence of componentPhrases to filter</param>
         /// <returns>All NounPhrases in the sequence</returns>
-        public static ParallelQuery<NounPhrase> GetNounPhrases(this ParallelQuery<Phrase> phrases) {
+        public static ParallelQuery<NounPhrase> OfNounPhrase(this ParallelQuery<Phrase> phrases) {
             return phrases.OfType<NounPhrase>();
         }
         /// <summary>
@@ -154,7 +154,7 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="phrases">The sequence of componentPhrases to filter.</param>
         /// <returns>All VerbPhrases in the sequence</returns>
-        public static ParallelQuery<VerbPhrase> GetVerbPhrases(this ParallelQuery<Phrase> phrases) {
+        public static ParallelQuery<VerbPhrase> OfVerbPhrase(this ParallelQuery<Phrase> phrases) {
             return phrases.OfType<VerbPhrase>();
         }
         /// <summary>
@@ -162,7 +162,7 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="phrases">The sequence of componentPhrases to filter</param>
         /// <returns>All AdverbPhrases in the sequence</returns>
-        public static ParallelQuery<AdverbPhrase> GetAdverbPhrases(this ParallelQuery<Phrase> phrases) {
+        public static ParallelQuery<AdverbPhrase> OfAdverbPhrase(this ParallelQuery<Phrase> phrases) {
             return phrases.OfType<AdverbPhrase>();
         }
         /// <summary>
@@ -170,7 +170,7 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="phrases">The sequence of componentPhrases to filter</param>
         /// <returns>All ConjunctionPhrases in the sequence</returns>
-        public static ParallelQuery<ConjunctionPhrase> GetConjunctionPhrases(this ParallelQuery<Phrase> phrases) {
+        public static ParallelQuery<ConjunctionPhrase> OfConjunctionPhrase(this ParallelQuery<Phrase> phrases) {
             return phrases.OfType<ConjunctionPhrase>();
         }
         /// <summary>
@@ -178,7 +178,7 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="phrases">The sequence of componentPhrases to filter</param>
         /// <returns>All PrepositionalPhrases in the sequence</returns>
-        public static ParallelQuery<PrepositionalPhrase> GetPrepositionalPhrases(this ParallelQuery<Phrase> phrases) {
+        public static ParallelQuery<PrepositionalPhrase> OfPrepositionalPhrase(this ParallelQuery<Phrase> phrases) {
             return phrases.OfType<PrepositionalPhrase>();
         }
         /// <summary>
@@ -186,7 +186,7 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="phrases">The sequence of componentPhrases to filter</param>
         /// <returns>All PronounPhrase in the sequence</returns>
-        public static ParallelQuery<PronounPhrase> GetPronounPhrases(this ParallelQuery<Phrase> phrases) {
+        public static ParallelQuery<PronounPhrase> OfPronounPhrase(this ParallelQuery<Phrase> phrases) {
             return phrases.OfType<PronounPhrase>();
         }
         /// <summary>
@@ -194,7 +194,7 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="phrases">The sequence of componentPhrases to filter</param>
         /// <returns>All AdjectivePhrases in the sequence</returns>
-        public static ParallelQuery<AdjectivePhrase> GetAdjectivePhrases(this ParallelQuery<Phrase> phrases) {
+        public static ParallelQuery<AdjectivePhrase> OfAdjectivePhrase(this ParallelQuery<Phrase> phrases) {
             return phrases.OfType<AdjectivePhrase>();
         }
         #endregion

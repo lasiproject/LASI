@@ -48,7 +48,7 @@ namespace LASI.Algorithm
         /// Binds an EntityReferencer, generall a Pronoun or PronounPhrase to refer to the Noun.
         /// </summary>
         /// <param name="pro">The EntityReferency to Bind.</param>
-        public virtual void BindPronoun(IPronoun pro) {
+        public virtual void BindPronoun(IReferencer pro) {
             _boundPronouns.Add(pro);
             pro.BindAsReference(this);
         }
@@ -94,7 +94,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets all of the IEntityReferences instances, generally Pronouns or PronounPhrases, which refer to the Noun Instance.
         /// </summary>
-        public virtual IEnumerable<IPronoun> BoundPronouns { get { return _boundPronouns; } }
+        public virtual IEnumerable<IReferencer> BoundPronouns { get { return _boundPronouns; } }
 
         /// <summary>
         /// Gets all of the IDescriptor constructs,generally Adjectives or AdjectivePhrases, which describe the Noun Instance.
@@ -157,7 +157,7 @@ namespace LASI.Algorithm
 
         private HashSet<IDescriptor> _descriptors = new HashSet<IDescriptor>();
         private HashSet<IPossessable> _possessed = new HashSet<IPossessable>();
-        private HashSet<IPronoun> _boundPronouns = new HashSet<IPronoun>();
+        private HashSet<IReferencer> _boundPronouns = new HashSet<IReferencer>();
         private IQuantifier _quantity;
         private IPossesser _possessor;
 

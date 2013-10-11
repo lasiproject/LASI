@@ -11,7 +11,7 @@ namespace LASI.Algorithm
     /// <summary>
     /// Represents a pronoun which gernerally refers back to a previously defined Entity, such as a Noun or NounPhrase.
     /// </summary>
-    public abstract class Pronoun : Word, IPronoun, IGendered
+    public abstract class Pronoun : Word, IReferencer, IGendered
     {
         #region Constructors
 
@@ -32,19 +32,20 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="target">The entity to which to bind.</param>
         public void BindAsReference(IEntity target) {
-            if (RefersTo == null) {
-                RefersTo = new AggregateEntity(new[] { target });
-            } else {
-                RefersTo = new AggregateEntity(RefersTo.Append(target));
+            if (Referent == null) {
+                Referent = new AggregateEntity(new[] { target });
             }
-            EntityKind = RefersTo.EntityKind;
+            else {
+                Referent = new AggregateEntity(Referent.Append(target));
+            }
+            EntityKind = Referent.EntityKind;
         }
         /// <summary>   
         /// Returns a string representation of the Pronoun.
         /// </summary>
         /// <returns>A string representation of the Pronoun.</returns>
         public override string ToString() {
-            return Type.Name + " \"" + Text + "\"" + (VerboseOutput ? " " + PronounKind + (RefersTo != null ? " referring to -> " + RefersTo.Text : string.Empty) : string.Empty);
+            return Type.Name + " \"" + Text + "\"" + (VerboseOutput ? " " + PronounKind + (Referent != null ? " referring to -> " + Referent.Text : string.Empty) : string.Empty);
 
         }
 
@@ -52,7 +53,7 @@ namespace LASI.Algorithm
         /// Binds another IPronoun, generally another pronoun but possibly a PronounPhrase, to refer to the Pronoun.
         /// </summary>
         /// <param name="pro">An IPronoun which will be bound to refer to the Pronoun.</param>
-        public virtual void BindPronoun(IPronoun pro) {
+        public virtual void BindPronoun(IReferencer pro) {
             _boundPronouns.Add(pro);
             pro.BindAsReference(this);
         }
@@ -71,9 +72,10 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="possession">The possession to add.</param>
         public virtual void AddPossession(IPossessable possession) {
-            if (RefersTo != null) {
-                RefersTo.AddPossession(possession);
-            } else {
+            if (Referent != null) {
+                Referent.AddPossession(possession);
+            }
+            else {
                 _possessed.Add(possession);
                 possession.Possesser = this;
             }
@@ -96,7 +98,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets or sets the Entity which the Pronoun references.
         /// </summary>
-        public virtual IAggregateEntity RefersTo { get; private set; }
+        public virtual IAggregateEntity Referent { get; private set; }
 
         /// <summary>
         /// Gets or sets the ISubjectTaker instance, generally a Verb or VerbPhrase, which the Pronoun is the subject of.
@@ -109,7 +111,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets all of the IPronoun instances, generally Pronouns or PronounPhrases, which refer to the Pronoun.
         /// </summary>
-        public IEnumerable<IPronoun> BoundPronouns { get { return _boundPronouns; } }
+        public IEnumerable<IReferencer> BoundPronouns { get { return _boundPronouns; } }
         /// <summary>
         /// Gets the IVerbal instance, generally a TransitiveVerb or TransitiveVerbPhrase, which the Pronoun is the INDIRECT object of.
         /// </summary>
@@ -146,7 +148,7 @@ namespace LASI.Algorithm
         #region Fields
         private HashSet<IDescriptor> _descriptors = new HashSet<IDescriptor>();
         private HashSet<IPossessable> _possessed = new HashSet<IPossessable>();
-        private HashSet<IPronoun> _boundPronouns = new HashSet<IPronoun>();
+        private HashSet<IReferencer> _boundPronouns = new HashSet<IReferencer>();
         #endregion
 
         #region Static Members

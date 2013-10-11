@@ -100,7 +100,7 @@ namespace AlgorithmAssemblyUnitTestProject
             Noun target = CreateNoun();
             Pronoun pro = new PersonalPronoun("it");
             target.BindPronoun(pro);
-            Assert.IsTrue(target.BoundPronouns.Contains(pro) && pro.RefersTo.Any(e => e == target));
+            Assert.IsTrue(target.BoundPronouns.Contains(pro) && pro.Referent.Any(e => e == target));
         }
 
         ///// <summary>
@@ -161,7 +161,7 @@ namespace AlgorithmAssemblyUnitTestProject
         [TestMethod()]
         public void IndirectReferencesTest() {
             Noun target = CreateNoun();
-            IEnumerable<IPronoun> actual;
+            IEnumerable<IReferencer> actual;
             actual = target.BoundPronouns;
             Assert.IsTrue(actual != null && actual.Count() == 0);
         }

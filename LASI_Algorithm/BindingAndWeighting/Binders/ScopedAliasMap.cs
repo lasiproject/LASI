@@ -25,7 +25,7 @@ namespace LASI.Algorithm.Analysis.Binders
 
         private ScopedAliasMap(params IEnumerable<ILexical>[] scope) {
             domain = scope.SelectMany(s => s);
-            foreach (var e in domain.GetEntities()) {
+            foreach (var e in domain.OfEntity()) {
                 assumedAliases[e.Text] = new HashSet<string>(AliasDictionary.GetLikelyAliases(e));
             }
         }
@@ -41,9 +41,9 @@ namespace LASI.Algorithm.Analysis.Binders
         /// <returns>The IEntity instances which have been so far identified as aliases of the indexing IEntity instance within the lexical scope of the ScopedAliasMap.</returns>
         public IEnumerable<IEntity> this[IEntity key] {
             get {
-                return domain.GetEntities().ToDictionary(e => e,
+                return domain.OfEntity().ToDictionary(e => e,
                     e => from aliasString in assumedAliases[e.Text]
-                         from i in domain.GetEntities()
+                         from i in domain.OfEntity()
                          where i.Text == aliasString
                          select i)[key];
             }

@@ -70,7 +70,7 @@ namespace LASI.UserInterface
             return document.Phrases
                        .AsParallel()
                        .WithDegreeOfParallelism(Concurrency.Max)
-                       .GetNounPhrases()
+                       .OfNounPhrase()
                        .InSubjectRole()
                        .InObjectRole()
                        .Distinct(CompareNounPhrases)
@@ -89,7 +89,7 @@ namespace LASI.UserInterface
                                      select verbal;
             return from verbal in verbalCominalities
                    let testPronouns = new Func<IEnumerable<IEntity>, AggregateEntity>(
-                   entities => new AggregateEntity(from s in entities let asPro = s as IPronoun select asPro != null ? asPro.RefersTo : s))
+                   entities => new AggregateEntity(from s in entities let asPro = s as IReferencer select asPro != null ? asPro.Referent : s))
                    select new Relationship
                    {
                        Verbal = verbal,
@@ -109,7 +109,7 @@ namespace LASI.UserInterface
                 var vpsWithSubject =
                     document.Phrases
                     .AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                    .GetVerbPhrases()
+                    .OfVerbPhrase()
                     .WithSubject();
                 return from vp in vpsWithSubject.WithObject().Distinct((vLeft, vRight) => vLeft.IsSimilarTo(vRight))
                        orderby vp.Weight + vp.Subjects.Sum(e => e.Weight) + vp.DirectObjects.Sum(e => e.Weight) + vp.IndirectObjects.Sum(e => e.Weight)
@@ -124,7 +124,7 @@ namespace LASI.UserInterface
                 x.IsAliasFor(y) ||
                 x.IsSimilarTo(y) ||
                 x.Match().Yield<bool>()
-                .Case<IPronoun>(pro => pro.RefersTo.Any(rX =>
+                .Case<IReferencer>(pro => pro.Referent.Any(rX =>
                     rX.Text == y.Text ||
                     rX.IsAliasFor(y) ||
                     rX.IsSimilarTo(y))
@@ -135,8 +135,8 @@ namespace LASI.UserInterface
 
             var result = x.Text == y.Text || x.IsAliasFor(y) || x.IsSimilarTo(y);
             if (!result) {
-                var leftAsPro = x as IPronoun;
-                var rightAsPro = y as IPronoun;
+                var leftAsPro = x as IReferencer;
+                var rightAsPro = y as IReferencer;
                 result = rightAsPro != null && x.BoundPronouns.Contains(rightAsPro) || leftAsPro != null && y.BoundPronouns.Contains(leftAsPro);
             }
             return result;

@@ -118,12 +118,12 @@ namespace AlgorithmAssemblyUnitTestProject
                 new NounPhrase(new Word[] { new ProperPluralNoun("Canadians") })
             };
             AggregateEntity target = new AggregateEntity(members);
-            IPronoun pro = new PersonalPronoun("them");
+            IReferencer pro = new PersonalPronoun("them");
             target.BindPronoun(pro);
             Assert.IsTrue(target.BoundPronouns.Contains(pro));
-            Assert.IsTrue(pro.RefersTo.Contains(target));
+            Assert.IsTrue(pro.Referent.Contains(target));
             foreach (IEntity e in members) {
-                Assert.IsTrue(pro.RefersTo.Contains(e));
+                Assert.IsTrue(pro.Referent.Contains(e));
                 e.BoundPronouns.Contains(pro);
             }
         }
@@ -169,8 +169,8 @@ namespace AlgorithmAssemblyUnitTestProject
                 new NounPhrase(new Word[] { new ProperPluralNoun("Canadians") })
             };
             AggregateEntity target = new AggregateEntity(members); // TODO: Initialize to an appropriate value
-            IEnumerable<IPronoun> actual;
-            IEnumerable<IPronoun> expected = new[] { new PersonalPronoun("them") };
+            IEnumerable<IReferencer> actual;
+            IEnumerable<IReferencer> expected = new[] { new PersonalPronoun("them") };
             actual = target.BoundPronouns;
             foreach (var pro in expected) { target.BindPronoun(pro); }
             foreach (var pro in expected) { Assert.IsTrue(actual.Contains(pro)); }

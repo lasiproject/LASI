@@ -26,12 +26,12 @@ namespace LASI.Algorithm.Binding
             return
                 from bindingPair in
                     (
-                        from ADJP in sentence.Phrases.GetAdjectivePhrases()
+                        from ADJP in sentence.Phrases.OfAdjectivePhrase()
                         let NP = ADJP.NextPhrase as NounPhrase
                         select new { ADJP, NP })
                         .Concat(
                         from clause in sentence.Clauses
-                        from ADJP in clause.Phrases.Reverse().Take(1).GetAdjectivePhrases()
+                        from ADJP in clause.Phrases.Reverse().Take(1).OfAdjectivePhrase()
                         let NP = ADJP.PreviousPhrase as NounPhrase
                         select new { ADJP, NP })
                 where bindingPair.NP != null && bindingPair.NP.Clause == bindingPair.ADJP.Clause

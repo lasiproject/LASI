@@ -51,11 +51,11 @@ namespace LASI.Algorithm.Analysis.Binders.Experimental.ExperimentalLexicalTypes
 
         public IVerbal IndirectObjectOf { get; set; }
 
-        public void BindPronoun(IPronoun pro) {
+        public void BindPronoun(IReferencer pro) {
             if (!_boundPronouns.Contains(pro)) { _boundPronouns.Add(pro); }
         }
 
-        public IEnumerable<IPronoun> BoundPronouns {
+        public IEnumerable<IReferencer> BoundPronouns {
             get { return _boundPronouns; }
         }
 
@@ -98,7 +98,7 @@ namespace LASI.Algorithm.Analysis.Binders.Experimental.ExperimentalLexicalTypes
 
         HashSet<IEntity> _possessions = new HashSet<IEntity>();
         HashSet<IDescriptor> _descriptors = new HashSet<IDescriptor>();
-        HashSet<IPronoun> _boundPronouns = new HashSet<IPronoun>();
+        HashSet<IReferencer> _boundPronouns = new HashSet<IReferencer>();
         protected IList<IEntity> _constituents;
     }
 }

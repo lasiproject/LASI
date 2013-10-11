@@ -13,32 +13,30 @@ namespace LASI.Algorithm.Analysis.Binders.Experimental
     class ObjectBinderV2
     {
         public void Bind(Sentence sentence) { Bind(sentence.Phrases); }
-        public void Bind(IEnumerable<Phrase> phrases)
-        {
-            if (phrases.GetVerbPhrases().None()) { throw new VerblessPhrasalSequenceException(); }
+        public void Bind(IEnumerable<Phrase> phrases) {
+            if (phrases.OfVerbPhrase().None()) { throw new VerblessPhrasalSequenceException(); }
 
             var releventElements =
                 from phrase in phrases.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                select phrase.Match().Yield<ILexical>()
-                        .Case<IPrepositional>(p => p)
-                        .Case<IConjunctive>(p => p)
-                        .Case<IEntity>(p => p)
-                        .Case<IVerbal>(p => p)
-                        .Case<SubordinateClauseBeginPhrase>(p => p)
-                        .Case<SymbolPhrase>(p => p)
-                        .Result() as Phrase into result
+                select phrase.Match().Yield<Phrase>()
+                        .Case<IPrepositional>(phrase)
+                        .Case<IConjunctive>(phrase)
+                        .Case<IEntity>(phrase)
+                        .Case<IVerbal>(phrase)
+                        .Case<SubordinateClauseBeginPhrase>(phrase)
+                        .Case<SymbolPhrase>(phrase)
+                        .Result() into result
                 where result != null
                 select result;
             var bindingActions = ImagineBindings(releventElements.SkipWhile(p => !(p is VerbPhrase)));
             Phrase last = null;
             foreach (var f in bindingActions) { last = f(); }
             if (last != null) {
-                Bind(phrases.GetPhrasesAfter(last));
+                Bind(phrases.PhrasesFollowing(last));
             }
         }
 
-        private static IEnumerable<Func<Phrase>> ImagineBindings(IEnumerable<Phrase> elements)
-        {
+        private static IEnumerable<Func<Phrase>> ImagineBindings(IEnumerable<Phrase> elements) {
             var results = new List<Func<Phrase>>();
             var targetVPS = elements.Select(e =>
                 e.Match().Yield<VerbPhrase>()

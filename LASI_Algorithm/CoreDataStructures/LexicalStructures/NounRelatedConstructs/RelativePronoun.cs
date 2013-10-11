@@ -9,7 +9,7 @@ namespace LASI.Algorithm
     /// <summary>
     /// Represents a Relative Pronoun such as "that", "Which, "What" or "who".
     /// </summary>
-    public class RelativePronoun : Word, IPronoun
+    public class RelativePronoun : Word, IReferencer
     {
         /// <summary>
         /// Initialiazes a new instance of the RelativePronoun class.
@@ -26,11 +26,11 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="target">The entity to which to bind.</param>
         public void BindAsReference(IEntity target) {
-            if (RefersTo != null || RefersTo.None())
-                RefersTo = new AggregateEntity(new[] { target });
+            if (Referent != null || Referent.None())
+                Referent = new AggregateEntity(new[] { target });
             else
-                RefersTo = new AggregateEntity(RefersTo.Append(target));
-            EntityKind = RefersTo.EntityKind;
+                Referent = new AggregateEntity(Referent.Append(target));
+            EntityKind = Referent.EntityKind;
         }
 
 
@@ -42,8 +42,9 @@ namespace LASI.Algorithm
         /// <param name="possession">The possession to add.</param>
         public void AddPossession(IPossessable possession) {
             if (IsBound) {
-                RefersTo.AddPossession(possession);
-            } else {
+                Referent.AddPossession(possession);
+            }
+            else {
                 _possessed.Add(possession);
                 possession.Possesser = this;
             }
@@ -52,7 +53,7 @@ namespace LASI.Algorithm
         /// Binds an EntityReferencer, generall a Pronoun or PronounPhrase to refer to the RelativePronoun.
         /// </summary>
         /// <param name="pro">The EntityReferency to Bind.</param>
-        public void BindPronoun(IPronoun pro) {
+        public void BindPronoun(IReferencer pro) {
             _boundPronouns.Add(pro);
             pro.BindAsReference(this);
         }
@@ -77,7 +78,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets the Entity which the RelativePronoun references.
         /// </summary>
-        public IAggregateEntity RefersTo {
+        public IAggregateEntity Referent {
             get;
             private set;
         }
@@ -116,7 +117,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets all of the IEntityReferences instances, generally Pronouns or PronounPhrases, which refer to the RelativePronoun Instance.
         /// </summary>
-        public IEnumerable<IPronoun> BoundPronouns {
+        public IEnumerable<IReferencer> BoundPronouns {
             get {
                 return _boundPronouns;
             }
@@ -162,7 +163,7 @@ namespace LASI.Algorithm
         }
         private HashSet<IDescriptor> _describers = new HashSet<IDescriptor>();
         private HashSet<IPossessable> _possessed = new HashSet<IPossessable>();
-        private HashSet<IPronoun> _boundPronouns = new HashSet<IPronoun>();
+        private HashSet<IReferencer> _boundPronouns = new HashSet<IReferencer>();
 
 
         private static RelativePronounKind DetermineKind(RelativePronoun relativePronoun) {
@@ -178,7 +179,7 @@ namespace LASI.Algorithm
 
 
         private static readonly string[] subjectRolePersonal = { "who", "that" };
-        private static readonly string[] objectRoleEntity = { "whom", "who", "that" };
+        private static readonly string[] objectRoleEntity = { "whom", "which", "who", "that" };
         private static readonly string[] objectRoleLocationals = { "where" };
         private static readonly string[] objectRoleTemporals = { "when" };
         private static readonly string[] objectRoleExpositories = { "what", "why" };

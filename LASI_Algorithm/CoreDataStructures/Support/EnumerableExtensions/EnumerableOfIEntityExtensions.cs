@@ -13,7 +13,7 @@ namespace LASI.Algorithm
     /// <see cref="IEntity"/>
     /// <seealso cref="System.Collections.Generic.IEnumerable{T}"/>
     /// <seealso cref="System.Linq.Enumerable"/>
-    public static class IEnumerableOfIEntityExtensions
+    public static class EnumerableOfIEntityExtensions
     {
         #region Sequential Implementations
         /// <summary>

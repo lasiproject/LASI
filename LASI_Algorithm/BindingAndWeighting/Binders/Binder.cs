@@ -95,9 +95,9 @@ namespace LASI.Algorithm.Binding
         private static void BindIntraPhrase(IEnumerable<Phrase> phrases)
         {
             phrases.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                .GetNounPhrases().ForAll(np => IntraPhraseWordBinder.Bind(np));
+                .OfNounPhrase().ForAll(np => IntraPhraseWordBinder.Bind(np));
             phrases.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                .GetVerbPhrases().ForAll(vp => IntraPhraseWordBinder.Bind(vp));
+                .OfVerbPhrase().ForAll(vp => IntraPhraseWordBinder.Bind(vp));
         }
 
         private static void BindPronouns(IEnumerable<Sentence> sentences)

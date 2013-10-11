@@ -33,7 +33,7 @@ namespace LASI.ContentSystem.TaggerEncapsulation
         private static readonly IReadOnlyDictionary<string, PhraseCreator> typeDictionary = new Dictionary<string, PhraseCreator> {
             
             { "VP", ws => ws.Any(w=> w is Punctuation) ? new SymbolPhrase(ws): ws.TakeWhile(w=>!(w is IVerbal)).FirstOrDefault(w=>w is ToLinker)!=null ? new InfinitivePhrase(ws) : new VerbPhrase(ws) as Phrase  },
-            { "NP", ws => ws.OfType<IEntity>().All(w=>w is IPronoun) ? new PronounPhrase(ws) : ws.All(w=>w is Adverb) ?new AdverbPhrase(ws) : new NounPhrase(ws) as Phrase },
+            { "NP", ws => ws.OfType<IEntity>().All(w=>w is IReferencer) ? new PronounPhrase(ws) : ws.All(w=>w is Adverb) ?new AdverbPhrase(ws) : new NounPhrase(ws) as Phrase },
             { "PP", ws => new PrepositionalPhrase(ws) },
             { "ADVP", ws => new AdverbPhrase(ws) },
             { "ADJP", ws => new AdjectivePhrase(ws) },

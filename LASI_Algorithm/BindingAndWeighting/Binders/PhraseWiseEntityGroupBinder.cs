@@ -41,7 +41,7 @@ namespace LASI.Algorithm.Binding
             var betwixt = FindAllBetwixt(sentence);
             var aggregateEntities = new List<NounPhrase>();
             foreach (var b in betwixt) {
-                if (b.TillNextNP.GetConjunctionPhrases().Count() + b.TillNextNP.OfType<SymbolPhrase>().Count() != b.TillNextNP.Count() && b.TillNextNP.Count() < 3) {
+                if (b.TillNextNP.OfConjunctionPhrase().Count() + b.TillNextNP.OfType<SymbolPhrase>().Count() != b.TillNextNP.Count() && b.TillNextNP.Count() < 3) {
                     aggregateEntities.Add(b.NP);
                     if (aggregateEntities.Count > 2) {
                         EntityGroups.Add(new AggregateEntity(aggregateEntities));
@@ -57,16 +57,16 @@ namespace LASI.Algorithm.Binding
         private List<NpWithBetween> FindAllBetwixt(Sentence sentence)
         {
             var betwixtAll = new List<NpWithBetween>();
-            var nPS = sentence.Phrases.GetNounPhrases();
+            var nPS = sentence.Phrases.OfNounPhrase();
             while (nPS.Any()) {
                 var n1 = nPS.First();
-                var nss = sentence.GetPhrasesAfter(n1).GetNounPhrases();
+                var nss = sentence.GetPhrasesAfter(n1).OfNounPhrase();
                 if (nss.Any()) {
                     var betwixt = nPS.First().Between(nss.First());
                     betwixtAll.Add(new NpWithBetween(n1, betwixt));
 
                 }
-                nPS = sentence.GetPhrasesAfter(n1).GetNounPhrases();
+                nPS = sentence.GetPhrasesAfter(n1).OfNounPhrase();
 
 
             }

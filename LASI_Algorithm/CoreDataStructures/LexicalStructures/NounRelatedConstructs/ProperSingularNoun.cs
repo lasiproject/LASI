@@ -28,8 +28,8 @@ namespace LASI.Algorithm
         {
             get
             {
-                gender = gender ?? (this.IsFemaleFirstName() ? Gender.Female :
-                    this.IsMaleFirstName() ? Gender.Male :
+                gender = gender ?? (this.IsFemaleFirst() ? Gender.Female :
+                    this.IsMaleFirst() ? Gender.Male :
                     this.IsLastName() ? Gender.Neutral : Gender.Undetermined);
                 return gender.Value;
             }

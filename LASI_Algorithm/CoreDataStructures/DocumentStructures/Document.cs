@@ -46,7 +46,7 @@ namespace LASI.Algorithm.DocumentStructures
         {
             _sentences = (from p in _paragraphs
                           from s in p.Sentences
-                          where s.Words.GetVerbs().Any()
+                          where s.Words.OfVerb().Any()
                           select s).ToList();
             _phrases = (from s in _sentences
                         from r in s.Phrases
@@ -94,7 +94,7 @@ namespace LASI.Algorithm.DocumentStructures
         /// <returns>all of the Action identified within the docimument.</returns>
         public IEnumerable<IVerbal> GetActions()
         {
-            return from a in _words.GetVerbs().Concat<IVerbal>(_phrases.GetVerbPhrases())
+            return from a in _words.OfVerb().Concat<IVerbal>(_phrases.OfVerbPhrase())
                    select a;
         }
 

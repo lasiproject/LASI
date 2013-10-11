@@ -51,7 +51,7 @@ namespace LASI.Algorithm
         /// Binds an IPronoun, generally a Pronoun or PronounPhrase, as a reference to the EntityGroup.
         /// </summary>
         /// <param name="pro">The referencer which refers to the EntityGroup Instance.</param>
-        public void BindPronoun(IPronoun pro)
+        public void BindPronoun(IReferencer pro)
         {
             _boundPronouns.Add(pro);
             pro.BindAsReference(this);
@@ -102,7 +102,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets all of the IPronoun instances, generally Pronouns or PronounPhrases, which refer to the EntityGroup.
         /// </summary>
-        public IEnumerable<IPronoun> BoundPronouns { get { return _boundPronouns; } }
+        public IEnumerable<IReferencer> BoundPronouns { get { return _boundPronouns; } }
         /// <summary>
         /// Gets all of the IDescriptor constructs,generally Adjectives or AdjectivePhrases, which describe the EntityGroup.
         /// </summary>
@@ -158,7 +158,7 @@ namespace LASI.Algorithm
         private IEnumerable<IEntity> _members;
         HashSet<IPossessable> _possessions = new HashSet<IPossessable>();
         HashSet<IDescriptor> _descriptors = new HashSet<IDescriptor>();
-        HashSet<IPronoun> _boundPronouns = new HashSet<IPronoun>();
+        HashSet<IReferencer> _boundPronouns = new HashSet<IReferencer>();
 
         #endregion
 

@@ -30,7 +30,7 @@ namespace LASI.Algorithm.LexicalLookup
         {
             return entity.Match().Yield<Gender>()
                     .Case<IGendered>(p => p.Gender)
-                    .Case<IPronoun>(p => p.GetPronounGender())
+                    .Case<IReferencer>(p => p.GetPronounGender())
                     .Case<NounPhrase>(n => n.GetGender())
                     .Case<CommonNoun>(n => Gender.Neutral)
                     .When(e => e.BoundPronouns.Any())
@@ -46,7 +46,7 @@ namespace LASI.Algorithm.LexicalLookup
         /// </summary>
         /// <param name="pronoun">The Pronoun whose gender to lookup.</param>
         /// <returns>A NameGender value indiciating the likely gender of the Pronoun.</returns>
-        private static Gender GetPronounGender(this IPronoun pronoun)
+        private static Gender GetPronounGender(this IReferencer pronoun)
         {
             return pronoun != null ?
                 pronoun.Match().Yield<Gender>()
@@ -54,9 +54,9 @@ namespace LASI.Algorithm.LexicalLookup
                     .Case<PronounPhrase>(p => GetPhraseGender(p))
                 .Result() :
                 pronoun.Match().Yield<Gender>()
-                .When<IPronoun>(p => p.RefersTo != null)
-                .Then<IPronoun>(p => {
-                    return (from referent in p.RefersTo
+                .When<IReferencer>(p => p.Referent != null)
+                .Then<IReferencer>(p => {
+                    return (from referent in p.Referent
                             let gen =
                                referent.Match().Yield<Gender>()
                                    .Case<NounPhrase>(r => r.GetGender())
@@ -65,7 +65,7 @@ namespace LASI.Algorithm.LexicalLookup
                                    .Case<CommonNoun>(n => Gender.Neutral)
                                .Result()
                             group gen by gen into byGen
-                            where byGen.Count() == pronoun.RefersTo.Count()
+                            where byGen.Count() == pronoun.Referent.Count()
                             select byGen.Key).FirstOrDefault();
                 }).Result();
         }
@@ -87,7 +87,7 @@ namespace LASI.Algorithm.LexicalLookup
         /// <returns>True if the provided NounPhrase is a known Full Name, false otherwise.</returns>
         public static bool IsFullName(this NounPhrase name)
         {
-            return GetNounPhraseGender(name).IsMaleOrFemale() && name.Words.GetProperNouns().Any(n => n.IsLastName());
+            return GetNounPhraseGender(name).IsMaleOrFemale() && name.Words.OfProperNoun().Any(n => n.IsLastName());
 
         }
         /// <summary>
@@ -95,7 +95,7 @@ namespace LASI.Algorithm.LexicalLookup
         /// </summary>
         /// <param name="name">The NounPhrase to check.</param>
         /// <returns>True if the provided NounPhrase is a known Full Female Name, false otherwise.</returns>
-        public static bool IsFullFemale(this NounPhrase name)
+        public static bool IsFemaleFull(this NounPhrase name)
         {
             return GetNounPhraseGender(name).IsFemale();
         }
@@ -104,7 +104,7 @@ namespace LASI.Algorithm.LexicalLookup
         /// </summary>
         /// <param name="name">The NounPhrase to check.</param>
         /// <returns>True if the provided NounPhrase is a known Full Male Name, false otherwise.</returns>
-        public static bool IsFullMale(this NounPhrase name)
+        public static bool IsMaleFull(this NounPhrase name)
         {
             return GetNounPhraseGender(name).IsMale();
         }
@@ -112,18 +112,18 @@ namespace LASI.Algorithm.LexicalLookup
 
         private static Gender GetNounPhraseGender(NounPhrase name)
         {
-            var propers = name.Words.GetProperNouns();
-            var first = propers.GetSingular().FirstOrDefault(n => n.Gender.IsMaleOrFemale());
+            var propers = name.Words.OfProperNoun();
+            var first = propers.Singulars().FirstOrDefault(n => n.Gender.IsMaleOrFemale());
             var last = propers.LastOrDefault(n => n != first && n.IsLastName());
             return first != null && (last != null || propers.All(n => n.GetGender() == first.Gender)) ?
-                first.Gender : name.Words.GetNouns().All(n => n.GetGender().IsNeutral()) ? Gender.Neutral : Gender.Undetermined;
+                first.Gender : name.Words.OfNoun().All(n => n.GetGender().IsNeutral()) ? Gender.Neutral : Gender.Undetermined;
         }
         private static Gender GetPhraseGender(PronounPhrase name)
         {
             if (name.Words.All(w => w is Determiner))
                 return Gender.Neutral;
             var genderedWords = name.Words.OfType<IGendered>().Select(w => w.Gender);
-            return name.Words.GetProperNouns().Any(n => !(n is IGendered)) ?
+            return name.Words.OfProperNoun().Any(n => !(n is IGendered)) ?
                 GetNounPhraseGender(name)
                 :
                 genderedWords.All(p => p.IsFemale()) ? Gender.Female :
@@ -160,9 +160,9 @@ namespace LASI.Algorithm.LexicalLookup
         /// </summary>
         /// <param name="proper">The ProperNoun to test.</param>
         /// <returns>True if the ProperNoun's text corresponds to a female first name in the english language, false otherwise.</returns>
-        public static bool IsFemaleFirstName(this ProperNoun proper)
+        public static bool IsFemaleFirst(this ProperNoun proper)
         {
-            return IsFemaleFirstName(proper.Text);
+            return IsFemaleFirst(proper.Text);
         }
         /// <summary>
         /// Returns a value indicating wether the ProperNoun's text corresponds to a male first name in the english language. 
@@ -170,9 +170,9 @@ namespace LASI.Algorithm.LexicalLookup
         /// </summary>
         /// <param name="proper">The ProperNoun to test.</param>
         /// <returns>True if the ProperNoun's text corresponds to a male first name in the english language, false otherwise.</returns>
-        public static bool IsMaleFirstName(this ProperNoun proper)
+        public static bool IsMaleFirst(this ProperNoun proper)
         {
-            return IsMaleFirstName(proper.Text);
+            return IsMaleFirst(proper.Text);
         }
         /// <summary>
         /// Determines if provided text is in the set of Female or Male first names.
@@ -201,7 +201,7 @@ namespace LASI.Algorithm.LexicalLookup
         /// </summary>
         /// <param name="text">The Name to lookup</param>
         /// <returns>True if the provided string corresponds to a common female name in the english language, false otherwise.</returns>
-        private static bool IsFemaleFirstName(string text)
+        private static bool IsFemaleFirst(string text)
         {
             return femaleNames.Contains(text);
         }
@@ -211,7 +211,7 @@ namespace LASI.Algorithm.LexicalLookup
         /// </summary>
         /// <param name="text">The Name to lookup</param>
         /// <returns>True if the provided string corresponds to a common male name in the english language, false otherwise.</returns>
-        private static bool IsMaleFirstName(string text)
+        private static bool IsMaleFirst(string text)
         {
             return maleNames.Contains(text);
         }

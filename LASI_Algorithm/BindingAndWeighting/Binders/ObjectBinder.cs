@@ -35,7 +35,7 @@ namespace LASI.Algorithm.Binding
         /// <param name="sentence">The Sentence to bind within.</param>
         public void Bind(Sentence sentence)
         {
-            if (sentence.Phrases.GetVerbPhrases().None()) {
+            if (sentence.Phrases.OfVerbPhrase().None()) {
                 throw new VerblessPhrasalSequenceException();
             }
             Bind(sentence.Phrases);
@@ -287,7 +287,7 @@ namespace LASI.Algorithm.Binding
                     .Case<VerbPhrase>(phr => {
                         InfinitivePhrase infinitive = new InfinitivePhrase(
                             phrase.Words.Concat(
-                            phrase.Sentence.GetPhrasesAfter(phrase).TakeWhile(w => !(w is IConjunctive || w is IPrepositional)).GetWords()));
+                            phrase.Sentence.GetPhrasesAfter(phrase).TakeWhile(w => !(w is IConjunctive || w is IPrepositional)).OfWord()));
                         Machine.directObject = infinitive;
                     })
                     .Case<PrepositionalPhrase>(phr => {
