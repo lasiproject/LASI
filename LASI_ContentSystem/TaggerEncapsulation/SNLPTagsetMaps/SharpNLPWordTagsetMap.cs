@@ -18,7 +18,7 @@ namespace LASI.ContentSystem.TaggerEncapsulation
     /// This class is sealed and thus may not be extended.
     /// If a new tagset is to be implemented, extend the base class, TaggingContext.
     /// <see cref="WordTagsetMap"/>
-    ///<see cref="WordMapper"/> 
+    ///<see cref="WordFactory"/> 
     /// </summary>    
     /// <example>
     /// Example:
@@ -34,14 +34,17 @@ namespace LASI.ContentSystem.TaggerEncapsulation
 
         private static readonly IReadOnlyDictionary<string, WordCreator> typeDictionary = new Dictionary<string, WordCreator> {
             //Punctation Mappings
-            { ",", t => new Punctuation(t) }, //Comma punctuation
-            { ";", t => new Punctuation(t) }, //Semicolon punctuation
-            { ":", t => new Punctuation(t) }, //Colon punctuation 
+            { ",", t => new Punctuator(t) }, //Comma punctuation
+            { ";", t => new Punctuator(t) }, //Semicolon punctuation
+            { ":", t => new Punctuator(t) }, //Colon punctuation 
+            { ".", t => t == "." || t == "!" || t == "?" ? new SentenceEnding(t[0]) : new UnknownWord(t) as Word }, //. sentence ending
+            { "!", t => t == "." || t == "!" || t == "?" ? new SentenceEnding(t[0]) : new UnknownWord(t) as Word }, //! sentence ending
+            { "?", t => t == "." || t == "!" || t == "?" ? new SentenceEnding(t[0]) : new UnknownWord(t) as Word }, //? sentence ending
             { "``", t => new DoubleQuote() }, //Single quote * should be remapped
             { "''", t => new DoubleQuote() }, //Double Quotation Mark punctuation
-            { "LS", t => new Punctuation(t) }, //List item marker
-            { "-LRB-", t => new Punctuation(t) }, //Left Brackets
-            { "-RRB-", t => new Punctuation(t) },  //Right Bracket
+            { "LS", t => new Punctuator(t) }, //List item marker
+            { "-LRB-", t => new Punctuator(t) }, //Left Brackets
+            { "-RRB-", t => new Punctuator(t) },  //Right Bracket
             //Determinism mappings
             { "CD", t => new Quantifier(t) }, //Cardinal number
             { "DT", t => new Determiner(t) }, //Determiner
@@ -96,10 +99,8 @@ namespace LASI.ContentSystem.TaggerEncapsulation
         /// <summary>
         /// Gets the Read Only Dictionary which represents the mapping between Part Of Speech tags and the cunstructors which instantiate their run-time representations.
         /// </summary>
-        protected override IReadOnlyDictionary<string, WordCreator> TypeDictionary
-        {
-            get
-            {
+        protected override IReadOnlyDictionary<string, WordCreator> TypeDictionary {
+            get {
                 return typeDictionary;
             }
         }
@@ -109,10 +110,8 @@ namespace LASI.ContentSystem.TaggerEncapsulation
         /// <param name="posTag">The textual representation of a Part Of Speech tag.</param>
         /// <returns>A function which creates an instance of the run-time type associated with the textual tag.</returns>
         /// <exception cref="UnknownWordTagException">Thrown when the indexing tag string is not defined by the tagset.</exception>
-        public override WordCreator this[string posTag]
-        {
-            get
-            {
+        public override WordCreator this[string posTag] {
+            get {
                 try {
                     return typeDictionary[posTag];
                 }
@@ -126,10 +125,8 @@ namespace LASI.ContentSystem.TaggerEncapsulation
         /// </summary>
         /// <param name="wordCreator">The function of type { System.string => LASI.Algorithm.Word } for which to get the corresponding tag.</param>
         /// <returns>The PosTag string corresponding to the runtime System.Type of the Return Type of given function of type { System.string => LASI.Algorithm.Word }.</returns>
-        public override string this[WordCreator wordCreator]
-        {
-            get
-            {
+        public override string this[WordCreator wordCreator] {
+            get {
                 try {
                     return typeDictionary.First(pair => pair.Value.Method.ReturnType == wordCreator.Method.ReturnType).Key;
                 }
@@ -148,10 +145,8 @@ namespace LASI.ContentSystem.TaggerEncapsulation
         /// </summary>
         /// <param name="word">The LASI.Algorithm.Word for which to get the corresponding tag.</param>
         /// <returns>The PosTag string corresponding to the System.Type of the given LASI.Algorithm.Word.</returns>
-        public override string this[Word word]
-        {
-            get
-            {
+        public override string this[Word word] {
+            get {
                 try {
                     return typeDictionary.First(funcPosTagPair => funcPosTagPair.Value.Method.ReturnType == word.GetType()).Key;
                 }

@@ -22,8 +22,7 @@ namespace LASI.ContentSystem
         /// Initialized a new instance of the TaggedFilerParser class to parse the contents of the specified file.
         /// </summary>
         /// <param name="file">The wrapper which encapsulates the newPath information for the pre-POS-tagged file to parse.</param>
-        public TaggedSourceParser(ITaggedTextSource file)
-        {
+        public TaggedSourceParser(ITaggedTextSource file) {
 
             TaggedInputData = file.GetText().Trim();
         }
@@ -34,11 +33,11 @@ namespace LASI.ContentSystem
         #region Methods
 
         /// <summary>
-        /// Returns an instance of Document which contains the run time representation of all of the textual construct in the document, for the Algorithm to analyse.
+        /// Returns a LASI.Algorithm.DocumentConstructs.Document instance representating of all of the textual constructs in the source.
         /// </summary>
-        /// <returns>A traversable, queriable document object defining the run time representation of the tagged file which the TaggedFileParser governs. </returns>
-        public override Document LoadDocument()
-        {
+        /// <returns>A traversable, queriable LASI.Algorithm.DocumentConstructs.Document instance defining representing the textual constructs of the tagged file which the TaggedSourceParser governs. 
+        /// </returns>
+        public override Document LoadDocument() {
             return new Document(LoadParagraphs())
             {
                 Name = TaggededDocumentFile != null ? TaggededDocumentFile.NameSansExt : "Untitled"
@@ -47,16 +46,14 @@ namespace LASI.ContentSystem
 
 
 
-        public override async Task<Document> LoadDocumentAsync()
-        {
+        public override async Task<Document> LoadDocumentAsync() {
             return await Task.Run(() => LoadDocument());
         }
         /// <summary>
-        /// Returns the run time representations of the sentences, componentPhrases,and words extracted from the tagged file the TaggedFileParser governs.
+        /// Returns the strongly typed representations of the sentences, componentPhrases,and words extracted from the tagged file the TaggedSourceParser governs.
         /// </summary>
-        /// <returns>The run time constructs which represent the text of the document, aggregated into paragraphs.</returns>
-        public override IEnumerable<Paragraph> LoadParagraphs()
-        {
+        /// <returns>The stringly typed constructs which represent the text of the document, aggregated into paragraphs.</returns>
+        public override IEnumerable<Paragraph> LoadParagraphs() {
 
             var data = PreProcessText(TaggedInputData.Trim());
             var results = new List<Paragraph>();
@@ -66,8 +63,7 @@ namespace LASI.ContentSystem
             return results;
         }
 
-        private Paragraph BuildParagraph(string paragraph)
-        {
+        private Paragraph BuildParagraph(string paragraph) {
             var parsedSentences = new List<Sentence>();
             bool hasBulletOrHeading;
             var sentences = from s in SplitIntoSentences(paragraph, out hasBulletOrHeading)
@@ -105,13 +101,13 @@ namespace LASI.ContentSystem
                                     parsedClauses.Add(new Clause(parsedPhrases.Take(parsedPhrases.Count)));
                                     parsedPhrases = new List<Phrase>();
                                 } else {
-                                    if (words.All(w => w is Conjunction) || (words.Count == 2 && words[0] is Punctuation && words[1] is Conjunction)) {
+                                    if (words.All(w => w is Conjunction) || (words.Count == 2 && words[0] is Punctuator && words[1] is Conjunction)) {
                                         parsedPhrases.Add(new ConjunctionPhrase(words));
                                     } else if (words.Count == 1 && words[0] is SentenceEnding) {
                                         sentencePunctuation = words.First() as SentenceEnding;
                                         parsedClauses.Add(new Clause(parsedPhrases.Take(parsedPhrases.Count)));
                                         parsedPhrases = new List<Phrase>();
-                                    } else if (words.All(w => w is Punctuation) || words.All(w => w is Punctuation || w is Conjunction)) {
+                                    } else if (words.All(w => w is Punctuator) || words.All(w => w is Punctuator || w is Conjunction)) {
                                         parsedPhrases.Add(new SymbolPhrase(words));
                                     } else {
                                         parsedPhrases.Add(new UnknownPhrase(words));
@@ -126,14 +122,12 @@ namespace LASI.ContentSystem
             return new Paragraph(parsedSentences, hasBulletOrHeading ? ParagraphKind.NumberedOrBullettedContent : ParagraphKind.Default);
         }
 
-        private static IEnumerable<string> SplitIntoSentences(string paragraph, out bool hasBulletOrHeading)
-        {
+        private static IEnumerable<string> SplitIntoSentences(string paragraph, out bool hasBulletOrHeading) {
             hasBulletOrHeading = paragraph.Contains("<enumeration>");
             return paragraph.SplitRemoveEmpty("<sentence>", "</sentence>").Select(s => s.RemoveElements("<enumeration>", "</enumeration>"));
         }
 
-        private static char SkipToNextElement(string chunk)
-        {
+        private static char SkipToNextElement(string chunk) {
             var reader2 = (new StringReader(chunk));
             char token = '~';
             while (reader2.Peek() != ' ' && reader2.Peek() != '/') {
@@ -151,8 +145,7 @@ namespace LASI.ContentSystem
         /// </summary>
         /// <param name="data">The string containing raw SharpNLP tagged-text to process.</param>
         /// <returns>The string containing the processed text.</returns>
-        protected virtual string PreProcessText(string data)
-        {
+        protected virtual string PreProcessText(string data) {
 
             data = data.Replace(" [/-LRB-", " LEFT_SQUARE_BRACKET/-LRB-");
 
@@ -163,8 +156,7 @@ namespace LASI.ContentSystem
         /// </summary>
         /// <param name="data">The string containing raw SharpNLP tagged-text to process.</param>
         /// <returns>The string containing the processed text.</returns>
-        protected virtual async Task<string> PreProcessTextAsync(string data)
-        {
+        protected virtual async Task<string> PreProcessTextAsync(string data) {
             return await Task.Run(() => {
                 data = data.Replace(" [/-LRB-", " LEFT_SQUARE_BRACKET/-LRB-");
 
@@ -174,12 +166,11 @@ namespace LASI.ContentSystem
         }
 
         /// <summary>
-        /// Reads an [outerNP Square Brack Delimited Phrase Chunk] and returns the start-tag determined subtype of LASI.Algorithm.Phrase which in turn contains all the run time representations of the individual words within it.
+        /// Reads an [NP Square Brack Delimited Phrase Chunk] and returns the start-tag determined subtype of LASI.Algorithm.Phrase which in turn contains all the Part of Speech subtyped LASI.Algorithm.Word instances of the individual words within the chunk.
         /// </summary>
         /// <param name="taggedPhraseElement">The TextTagPair instance which contains the content of the start and its Tag.</param>
         /// <returns>A LASI.Algorithm.Phrase instance corresponding to the given phrase tag and containing the words within it.</returns>
-        protected virtual Phrase ParsePhrase(TextTagPair taggedPhraseElement)
-        {
+        protected virtual Phrase ParsePhrase(TextTagPair taggedPhraseElement) {
             var phraseTag = taggedPhraseElement.Tag.Trim();
             var words = CreateWords(taggedPhraseElement.Text);
             try {
@@ -196,12 +187,11 @@ namespace LASI.ContentSystem
             }
         }
         /// <summary>
-        /// Reads an [outerNP Square Brack Delimited Phrase Chunk] and returns the start-tag determined subtype of LASI.Phrase which in turn contains all the run time representations of the individual words within it.
+        /// Reads an [NP Square Brack Delimited Phrase Chunk] and returns the start-tag determined subtype of LASI.Phrase which in turn contains all the Part of Speech subtyped LASI.Algorithm.Word instances of the individual words within the chunk.
         /// </summary>
         /// <param name="taggedPhraseElement">The TextTagPair instance which contains the content of the Phrase and its Tag.</param>
         /// <returns>A Task&lt;string&gt; which, when awaited, yields a LASI.Algorithm.Phrase instance corresponding to the given phrase tag and containing the words within it. </returns>
-        protected virtual async Task<Phrase> ParsePhraseAsync(TextTagPair taggedPhraseElement)
-        {
+        protected virtual async Task<Phrase> ParsePhraseAsync(TextTagPair taggedPhraseElement) {
             var phraseTag = taggedPhraseElement.Tag.Trim();
             var words = await CreateWordsAsync(taggedPhraseElement.Text);
             try {
@@ -217,8 +207,7 @@ namespace LASI.ContentSystem
                 return new UnknownPhrase(words);
             }
         }
-        protected virtual Func<Phrase> CreatePhraseExpression(TextTagPair taggedPhraseElement)
-        {
+        protected virtual Func<Phrase> CreatePhraseExpression(TextTagPair taggedPhraseElement) {
             var phraseTag = taggedPhraseElement.Tag.Trim();
             var wordExprs = CreateWordExpressions(taggedPhraseElement.Text);
             try {
@@ -234,30 +223,27 @@ namespace LASI.ContentSystem
                 return () => new UnknownPhrase(wordExprs.Select(we => we.Value));
             }
         }
-        protected virtual async Task<List<Word>> CreateWordsAsync(string wordData)
-        {
+        protected virtual async Task<List<Word>> CreateWordsAsync(string wordData) {
             return await Task.Run(() => CreateWords(wordData));
         }
 
         /// <summary>
         /// Parses a string of text containing tagged words 
         /// e.g. "LASI/NNP can/MD sniff-out/VBP the/DT problem/NN" 
-        /// into a collection of Part of Speech subtyped word instances which represent them.
+        /// into a collection of Part of Speech subtyped LASI.Algorithm.Word instances which represent them.
         /// </summary>
-        /// <param name="wordData">A string containing tagged words.</param>
-        /// <returns>The collection of word objects that is their run time representation.</returns>
-        protected virtual List<Word> CreateWords(string wordData)
-        {
+        /// <param name="text">A string containing tagged words from which to instantiate LASI.Algorithm.Word instances.</param>
+        /// <returns>The collection of Part of Speech subtyped LASI.Algorithm.Word instances each corresponding to a tagged word element.</returns>
+        protected virtual List<Word> CreateWords(string text) {
             var parsedWords = new List<Word>();
-            var elements = GetTaggedWordLevelTokens(wordData);
-            var wordExtractor = new WordExtractor();
+            var wordExtractor = new TaggedWordExtractor();
 
-            var wordMapper = new WordMapper(wordTagset);
-            foreach (var element in elements) {
-                TextTagPair? textTagPair = wordExtractor.ExtractNextPos(element);
+            var wordMapper = new WordFactory(wordTagset);
+            foreach (var element in GetTaggedWordStrings(text)) {
+                TextTagPair? textTagPair = wordExtractor.Extract(element);
                 if (textTagPair.HasValue) {
                     try {
-                        parsedWords.Add(wordMapper.CreateWord(textTagPair.Value));
+                        parsedWords.Add(wordMapper.Create(textTagPair.Value));
                     }
                     catch (UnknownWordTagException x) {
                         Output.WriteLine("\n{0}\nText: {1}\nInstantiating new LASI.Algorithm.UnknownWord to compensate\nAttempting to parse data: {2}", x.Message, textTagPair.GetValueOrDefault().Text, element);
@@ -268,8 +254,7 @@ namespace LASI.ContentSystem
             return parsedWords;
         }
 
-        private static string[] GetTaggedWordLevelTokens(string wordData)
-        {
+        private static string[] GetTaggedWordStrings(string wordData) {
             var elements = wordData.Split(new[] { ' ', '\r', '\n', '\t' }, StringSplitOptions.RemoveEmptyEntries);
             return elements;
         }
@@ -280,22 +265,21 @@ namespace LASI.ContentSystem
         /// representing that word.
         /// </summary>
         /// <param name="wordData">A string containing tagged words.</param>
-        /// <returns>The List of constructor function instances which, when invoked, create run time objects which represent each word in the source</returns>
-        protected virtual List<Lazy<Word>> CreateWordExpressions(string wordData)
-        {
+        /// <returns>The List of constructor function instances which, when invoked, create the instances LASI.Algorithm.Word which represent each word in the source</returns>
+        protected virtual List<Lazy<Word>> CreateWordExpressions(string wordData) {
             var wordExpressions = new List<Lazy<Word>>();
-            var elements = GetTaggedWordLevelTokens(wordData);
-            var posExtractor = new WordExtractor();
+            var elements = GetTaggedWordStrings(wordData);
+            var posExtractor = new TaggedWordExtractor();
 
-            var tagParser = new WordMapper(wordTagset);
+            var tagParser = new WordFactory(wordTagset);
             foreach (var element in elements) {
-                TextTagPair? textTagPair = posExtractor.ExtractNextPos(element);
+                TextTagPair? textTagPair = posExtractor.Extract(element);
                 if (textTagPair.HasValue) {
                     try {
-                        wordExpressions.Add(tagParser.GetLazyWord(textTagPair.Value));
+                        wordExpressions.Add(new Lazy<Word>(() => tagParser.Create(textTagPair.Value)));
                     }
-                    catch (UnknownWordTagException x) {
-                        Output.WriteLine("\n{0}\nText: {1}\nInstantiating new Lazy<LASI.Algorithm.UnknownWord> to compensate\nAttempting to parse data: {2}", x.Message, textTagPair.GetValueOrDefault().Text, element);
+                    catch (UnknownWordTagException e) {
+                        Output.WriteLine("\n{0}\nText: {1}\nInstantiating new Lazy<LASI.Algorithm.UnknownWord> to compensate\nAttempting to parse data: {2}", e.Message, textTagPair.GetValueOrDefault().Text, element);
                         wordExpressions.Add(new Lazy<Word>(() => new UnknownWord(textTagPair.Value.Text)));
                     }
                 }

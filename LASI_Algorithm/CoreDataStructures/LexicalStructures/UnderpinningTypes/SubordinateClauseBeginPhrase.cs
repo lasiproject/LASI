@@ -19,12 +19,12 @@ namespace LASI.Algorithm
             : base(composed) {
         }
         private void deterimineEndOfClause() {
-            EndOfClause = Sentence.Words.SkipWhile(w => w != Words.Last()).First(w => w is Punctuation) as Punctuation;
+            EndOfClause = Sentence.Words.SkipWhile(w => w != Words.Last()).First(w => w is Punctuator) as Punctuator;
         }
         /// <summary>
         /// Gets or sets the Punctuation which terminates the Clause.
         /// </summary>
-        public Punctuation EndOfClause {
+        public Punctuator EndOfClause {
             get;
             set;
         }

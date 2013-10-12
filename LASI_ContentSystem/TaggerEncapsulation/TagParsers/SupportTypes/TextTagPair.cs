@@ -17,7 +17,7 @@ namespace LASI.ContentSystem
         /// </summary>
         /// <param name="elementText">The text content string of the element.</param>
         /// <param name="elementTag">The pos tag string of the element.</param>
-        public TextTagPair(string elementText, string elementTag) : this() { Text = elementText; Tag = elementTag; }
+        public TextTagPair(string elementText, string elementTag) : this() { Text = elementText; Tag = elementTag.Trim(); }
 
         /// <summary>
         /// Gets the english text of a tagged word.

@@ -68,7 +68,7 @@ namespace AlgorithmAssemblyUnitTestProject
         [TestMethod()]
         public void PunctuatorConstructorTest() {
             char puncChar = '\u0021';
-            Punctuation target = new Punctuation(puncChar);
+            Punctuator target = new Punctuator(puncChar);
             Assert.IsTrue(target.ActualCharacter == puncChar, "Punctuator Character Constructor Works!");
         }
 
@@ -78,7 +78,7 @@ namespace AlgorithmAssemblyUnitTestProject
         [TestMethod()]
         public void PunctuatorConstructorTest1() {
             string puncString = "!";
-            Punctuation target = new Punctuation(puncString);
+            Punctuator target = new Punctuator(puncString);
             Assert.IsTrue(target.AliasString == puncString, "Punctuator String Constructor Works!"); //possibly?
         }
 
@@ -88,7 +88,7 @@ namespace AlgorithmAssemblyUnitTestProject
         [TestMethod()]
         public void TextTest() {
             char puncChar = '\u0021';
-            Punctuation target = new Punctuation(puncChar);
+            Punctuator target = new Punctuator(puncChar);
             string expected = "!";
             string actual;
             actual = target.Text;

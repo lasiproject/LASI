@@ -20,12 +20,12 @@ namespace LASI.Algorithm
             : base(composedWords)
         {
 
-            LastPunctutionWord = composedWords.Last(p => p is Punctuation) as Punctuation;
+            LastPunctutionWord = composedWords.Last(p => p is Punctuator) as Punctuator;
         }
         /// <summary>
         /// Gets the last punctuation Word in the SymbolPhrase.
         /// </summary>
-        public Punctuation LastPunctutionWord
+        public Punctuator LastPunctutionWord
         {
             get;
             protected set;

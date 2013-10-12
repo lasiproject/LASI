@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LASI
+namespace LASI.Utilities
 {
     /// <summary>
     /// Maps standard output operations, providing a common interface for writing to the Console, Debug, and File output streams.

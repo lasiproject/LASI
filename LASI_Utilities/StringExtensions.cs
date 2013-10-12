@@ -29,7 +29,12 @@ namespace LASI.Utilities
         /// An array whose elements contain the substrings in this string that are delimited
         /// by one or more characters in separator. No empty strings will be included.
         /// </returns>
-        public static string[] SplitRemoveEmpty(this string value, params char[] seperator) { return value.Split(seperator, StringSplitOptions.RemoveEmptyEntries); }
+        /// <exception cref="System.ArgumentNullException">Thrown when value is null.</exception>
+        public static string[] SplitRemoveEmpty(this string value, params char[] seperator) {
+            if (value == null)
+                throw new ArgumentNullException("value");
+            return value.Split(seperator, StringSplitOptions.RemoveEmptyEntries);
+        }
         /// <summary>
         /// Returns a string array that contains the substrings in this string that are
         /// delimited by elements of a specified string array. No empty entries are included.
@@ -40,7 +45,12 @@ namespace LASI.Utilities
         /// An array whose elements contain the substrings in this string that are delimited
         /// by one or more characters in separator. No empty strings will be included.
         /// </returns>
-        public static string[] SplitRemoveEmpty(this string value, params string[] seperator) { return value.Split(seperator, StringSplitOptions.RemoveEmptyEntries); }
+        /// <exception cref="System.ArgumentNullException">Thrown when value is null.</exception>
+        public static string[] SplitRemoveEmpty(this string value, params string[] seperator) {
+            if (value == null)
+                throw new ArgumentNullException("value");
+            return value.Split(seperator, StringSplitOptions.RemoveEmptyEntries);
+        }
         /// <summary>
         /// Returns a new string in which all occurrences of any of the specified strings
         /// in the current instance have been removed.
@@ -48,10 +58,14 @@ namespace LASI.Utilities
         /// <param name="value">The string to filter.</param>
         /// <param name="remove">Zero or more strings to remove from the string.</param>
         /// <returns>A new string in which all occurrences of any of the specified strings
-        /// in the current instance have been removed.</returns> 
-        /// <exception cref="System.ArgumentException">Thrown when one or more of the strings to remove was the empty string ("").</exception>
+        /// in the current instance have been removed.</returns>         
+        /// <exception cref="System.ArgumentNullException">Thrown when value is null.</exception>
+        /// <exception cref="System.ArgumentException">Thrown when the array of strings to remove contains an empty string.</exception>
         public static string RemoveElements(this string value, params string[] remove) {
-            if (remove.Contains(string.Empty)) { throw new ArgumentException("The string[] removed contained an empty string", "remove"); }
+            if (value == null)
+                throw new ArgumentNullException("value");
+            if (remove.Contains(string.Empty))
+                throw new ArgumentException("The string[] removed contained an empty string", "remove");
             foreach (var r in remove) {
                 value = value.Replace(r, string.Empty);
             }
@@ -65,7 +79,10 @@ namespace LASI.Utilities
         /// <param name="remove">Zero or more characters to remove from the string.</param>
         /// <returns>A new string in which all occurrences of any of the specified Unicode characters
         /// in the current instance are replaced with another specified Unicode character.</returns>  
+        /// <exception cref="System.ArgumentNullException">Thrown when value is null.</exception>
         public static string RemoveElements(this string value, params char[] remove) {
+            if (value == null)
+                throw new ArgumentNullException("value");
             return RemoveElements(value, remove.Select(c => c.ToString()).ToArray());
         }
     }

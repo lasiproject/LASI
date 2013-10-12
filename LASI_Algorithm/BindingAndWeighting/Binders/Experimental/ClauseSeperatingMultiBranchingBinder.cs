@@ -19,7 +19,7 @@ namespace LASI.Algorithm.Binding.Experimental
         /// <param name="elements">The set of Words to bind over.</param>
         public static void Bind(IEnumerable<Word> elements) {
             var splitters = elements
-                .Select((e, index) => new { Word = e as Preposition ?? e as Punctuation ?? e as Conjunction as Word, Location = index })
+                .Select((e, index) => new { Word = e as Preposition ?? e as Punctuator ?? e as Conjunction as Word, Location = index })
                 .Where(r => r.Word != null)
                 .Select(r => r.Location);
             if (splitters.Any()) {
@@ -38,35 +38,24 @@ namespace LASI.Algorithm.Binding.Experimental
 
         private static IEnumerable<Action> ImagineBindings(IEnumerable<Word> words) {
             return from noun in words.OfNoun()
-                   let GetIndex = GetIndexer(words)
                    let np = noun.Phrase as NounPhrase
-                   let G = np == null ? 'U' :
+                   let gen = np != null ?
                    noun.Match().Yield<char>()
-                       .Case<ProperNoun>(n => n.IsFemaleFirst() && !np.IsMaleFull() ?
-                                'F' : n.IsMaleFirst() && !np.IsFemaleFull() ?
-                                'M' : !n.IsFirstName() ? 'S' : 'A')
-                       .When(noun is IQuantifiable)
-                       .Then('P')
-                   .Result('U')
-                   let outer = new { N = noun, G }
+                       .Case<ProperSingularNoun>(n => n.IsFemaleFirst() && !np.IsMaleFull() ? 'F' : n.IsMaleFirst() && !np.IsFemaleFull() ? 'M' : !n.IsFirstName() ? 's' : 'A')
+                       .Case<CommonSingularNoun>('s')
+                       .Case<ProperPluralNoun>('p')
+                       .Case<CommonPluralNoun>('p')
+                   .Result('U') : 'U'
+                   let outer = new { noun, gen }
                    join inner in
-                       from P in words.OfPronoun()
-                       let G = P.IsFemale() ? 'F' : P.IsMale() ?
-                       'M' : P.IsGenderAmbiguous() ?
-                       'A' : P.IsPlural() ? 'P' : !P.IsPlural() ? 'S' : 'U'
-                       select new { P, G }
-                   on outer.G equals inner.G
-                   where GetIndex(outer.N) < GetIndex(inner.P)
-                   group new { P = inner.P, N = outer.N } by inner.P into byPro
-                   where byPro.Any()
-                   let pair = byPro.First()
-                   select (Action)(() => pair.P.BindAsReference(pair.N));
-        }
-
-
-        private static Func<Word, int> GetIndexer(IEnumerable<Word> indexProvider) {
-            var l = indexProvider.ToList();
-            return w => l.IndexOf(w);
+                       from pro in words.OfPronoun()
+                       let gen = pro.IsFemale() ? 'F' : pro.IsMale() ? 'M' : pro.IsGenderAmbiguous() ? 'A' : pro.IsPlural() ? 'p' : !pro.IsPlural() ? 's' : 'U'
+                       select new { pro, gen }
+                   on outer.gen equals inner.gen
+                   let indexProvider = words.ToList()
+                   where indexProvider.IndexOf(outer.noun) < indexProvider.IndexOf(inner.pro)
+                   group new { outer.noun, inner.pro } by inner.pro into byPronoun
+                   select new Action(() => byPronoun.Key.BindAsReference(byPronoun.First().noun));
         }
     }
 }

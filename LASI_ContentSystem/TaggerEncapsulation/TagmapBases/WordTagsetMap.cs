@@ -15,7 +15,7 @@ namespace LASI.ContentSystem.TaggerEncapsulation
     /// This class represents the tagset => runtime-type mapping for word occurances.
     /// <see cref="WordTagsetMap"/>
     /// <seealso cref="PhraseTagsetMap"/>  
-    /// <seealso cref="WordMapper"/>
+    /// <seealso cref="WordFactory"/>
     /// <example>
     /// Example:
     ///<code> 

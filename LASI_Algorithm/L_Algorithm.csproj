@@ -226,7 +226,7 @@
     <Compile Include="CoreDataStructures\LexicalStructures\VerbRelatedConstructs\ModalAuxilary.cs" />
     <Compile Include="CoreDataStructures\LexicalStructures\BridgingConstructs\Particle.cs" />
     <Compile Include="CoreDataStructures\LexicalStructures\NounRelatedConstructs\ProperPluralNoun.cs" />
-    <Compile Include="CoreDataStructures\LexicalStructures\SymbolsAndPunctuators\Punctuation.cs" />
+    <Compile Include="CoreDataStructures\LexicalStructures\SymbolsAndPunctuators\Punctuator.cs" />
     <Compile Include="CoreDataStructures\LexicalStructures\MiscLanguageConstructs\SimpleDeclarativePhrase.cs" />
     <Compile Include="CoreDataStructures\LexicalStructures\SymbolsAndPunctuators\SentenceEnding.cs" />
     <Compile Include="CoreDataStructures\LexicalStructures\NounRelatedConstructs\PersonalPronoun.cs" />

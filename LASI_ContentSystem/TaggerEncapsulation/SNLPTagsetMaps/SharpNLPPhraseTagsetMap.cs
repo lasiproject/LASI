@@ -17,7 +17,7 @@ namespace LASI.ContentSystem.TaggerEncapsulation
     /// This class is sealed and thus may not be extended.
     /// If a new tagset is to be implemented, extend the base class, TaggingContext.
     /// <see cref="WordTagsetMap"/>
-    ///<see cref="WordMapper"/> 
+    ///<see cref="WordFactory"/> 
     /// </summary>    
     /// <example>
     /// Example:
@@ -32,7 +32,7 @@ namespace LASI.ContentSystem.TaggerEncapsulation
         #region Fields
         private static readonly IReadOnlyDictionary<string, PhraseCreator> typeDictionary = new Dictionary<string, PhraseCreator> {
             
-            { "VP", ws => ws.Any(w=> w is Punctuation) ? new SymbolPhrase(ws): ws.TakeWhile(w=>!(w is IVerbal)).FirstOrDefault(w=>w is ToLinker)!=null ? new InfinitivePhrase(ws) : new VerbPhrase(ws) as Phrase  },
+            { "VP", ws => ws.Any(w=> w is Punctuator) ? new SymbolPhrase(ws): ws.TakeWhile(w=>!(w is IVerbal)).FirstOrDefault(w=>w is ToLinker)!=null ? new InfinitivePhrase(ws) : new VerbPhrase(ws) as Phrase  },
             { "NP", ws => ws.OfType<IEntity>().All(w=>w is IReferencer) ? new PronounPhrase(ws) : ws.All(w=>w is Adverb) ?new AdverbPhrase(ws) : new NounPhrase(ws) as Phrase },
             { "PP", ws => new PrepositionalPhrase(ws) },
             { "ADVP", ws => new AdverbPhrase(ws) },

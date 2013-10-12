@@ -106,7 +106,7 @@
     <Compile Include="TaggerEncapsulation\TagParsers\SupportTypes\WordExtractor.cs" />
     <Compile Include="TaggerEncapsulation\TaggerInterop\SharpNLPTagger.cs" />
     <Compile Include="TaggerEncapsulation\SNLPTagsetMaps\SharpNLPWordTagsetMap.cs" />
-    <Compile Include="TaggerEncapsulation\TagParsers\SupportTypes\WordMapper.cs" />
+    <Compile Include="TaggerEncapsulation\TagParsers\SupportTypes\WordFactory.cs" />
     <Compile Include="FileTypes\DocXFile.cs" />
     <Compile Include="FileTypes\Support\FileData.cs" />
     <Compile Include="FileTypes\PdfFile.cs" />

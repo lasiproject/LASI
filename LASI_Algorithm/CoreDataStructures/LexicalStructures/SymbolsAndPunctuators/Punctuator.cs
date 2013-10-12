@@ -8,15 +8,14 @@ namespace LASI.Algorithm
     /// <summary>
     /// Represents a punctuation character at the Word level.
     /// </summary>
-    public class Punctuation : Symbol
+    public class Punctuator : Symbol
     {
         /// <summary>
         /// Initializes a new instance of the Punctuation class.
         /// </summary>
         /// <param name="puncChar">The punctuation character symbol.</param>
-        public Punctuation(char puncChar)
-            : base(puncChar)
-        {
+        public Punctuator(char puncChar)
+            : base(puncChar) {
             ActualCharacter = puncChar;
             AliasString = PunctuationAliasMap.GetAliasStringForChar(ActualCharacter);
         }
@@ -25,9 +24,8 @@ namespace LASI.Algorithm
         /// Initializes a new instances of the Punctuation class.
         /// </summary>
         /// <param name="puncString">Text which is an alias for a punctuator character. e.g. "LEFT_SQUARE_BRACKET"</param>
-        public Punctuation(string puncString)
-            : base(puncString)
-        {
+        public Punctuator(string puncString)
+            : base(puncString) {
             AliasString = puncString;
             ActualCharacter = PunctuationAliasMap.GetCharForAliasString(AliasString);
 
@@ -35,16 +33,14 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets the literal puntuation character.
         /// </summary>
-        public char ActualCharacter
-        {
+        public char ActualCharacter {
             get;
             protected set;
         }
         /// <summary>
         /// Gets the alias string corresponding to the puntuation symbol.
         /// </summary>
-        public string AliasString
-        {
+        public string AliasString {
             get;
             protected set;
         }
@@ -62,13 +58,11 @@ namespace LASI.Algorithm
                 { "END_OF_PARAGRAPH", '\n' }  
             };
 
-            public static char GetCharForAliasString(string alias)
-            {
+            public static char GetCharForAliasString(string alias) {
                 char result;
                 return aliasMap.TryGetValue(alias, out result) ? result : ' ';
             }
-            public static string GetAliasStringForChar(char actual)
-            {
+            public static string GetAliasStringForChar(char actual) {
 
                 var alias = from KV in aliasMap
                             where KV.Value == actual

@@ -66,7 +66,7 @@ namespace LASI.Algorithm.Binding
             var temp = phrases;
             while (temp.Any()) {
 
-                result.Add(temp.TakeWhile(n => n is NounPhrase || ((n is PrepositionalPhrase || n.Words.Count(w => w is Punctuation) == n.Words.Count()) && n.NextPhrase is NounPhrase && n.PreviousPhrase is NounPhrase)));
+                result.Add(temp.TakeWhile(n => n is NounPhrase || ((n is PrepositionalPhrase || n.Words.Count(w => w is Punctuator) == n.Words.Count()) && n.NextPhrase is NounPhrase && n.PreviousPhrase is NounPhrase)));
                 temp = temp.SkipWhile(n => !(n is NounPhrase)).Skip(result.Last().Count()).ToList();
             }
             return from r in result

@@ -199,7 +199,7 @@ namespace LASI.Algorithm.Binding
             {
                 var subordinateClauseConstituents = new List<Phrase> {
                     phrase};
-                for (var r = Stream.Count > 0 ? Stream.Get() : null; r != null && !(r.Words.First() is Punctuation) && Stream.Count > 0; r = Stream.Get()) {
+                for (var r = Stream.Count > 0 ? Stream.Get() : null; r != null && !(r.Words.First() is Punctuator) && Stream.Count > 0; r = Stream.Get()) {
                     subordinateClauseConstituents.Add(r);
                 }
                 var subClause = new SubordinateClause(subordinateClauseConstituents);

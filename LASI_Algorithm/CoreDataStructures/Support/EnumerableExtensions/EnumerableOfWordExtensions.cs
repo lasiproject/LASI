@@ -21,8 +21,9 @@ namespace LASI.Algorithm
         /// <param name="words">A sequence of word objects</param>
         /// <param name="startAfter">The delimiting word</param>
         /// <returns>All words in the Word collection which come after the given word.</returns>
+        /// <exception cref="System.ArgumentNullException">Thrown when words or startAfter is null.</exception>
         public static IEnumerable<Word> WordsFollowing(this IEnumerable<Word> words, Word startAfter) {
-            if (startAfter == null) { throw new ArgumentNullException("startFrom", "The provided Word to take after was null."); }
+            if (words == null || startAfter == null) { throw new ArgumentNullException("startFrom", "The provided Word to take after was null."); }
             return words.SkipWhile(w => w != startAfter).Skip(1);
         }
 
@@ -171,16 +172,6 @@ namespace LASI.Algorithm
 
         #region Parallel Implementations
 
-        /// <summary>
-        /// Returns all words in the Word collection which come after the given word.
-        /// </summary>
-        /// <param name="words">A sequence of word objects</param>
-        /// <param name="startAfter">The delimiting word</param>
-        /// <returns>All words in the Word collection which come after the given word.</returns>
-        public static ParallelQuery<Word> WordsFollowing(this ParallelQuery<Word> words, Word startAfter) {
-            if (startAfter == null) { throw new ArgumentNullException("startFrom", "The provided Word to take after was null."); }
-            return words.SkipWhile(w => w != startAfter).Skip(1);
-        }
 
         #region Syntactic Type Filtering
         /// <summary>

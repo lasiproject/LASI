@@ -9,7 +9,7 @@ namespace LASI.Algorithm.CoreDataStructures.LexicalStructures.MiscLanguageConstr
     /// <summary>
     /// Represents a quoation mark. Implementing the IPairedPunctuator interface, it provides for a pairing to the its complementary quotation mark type quote.
     /// </summary>
-    public abstract class QuotationMark<TQuote> : Punctuation, IPairedPunctuator<TQuote>
+    public abstract class QuotationMark<TQuote> : Punctuator, IPairedPunctuator<TQuote>
     where TQuote : QuotationMark<TQuote>, IPairedPunctuator<TQuote>
     {
         /// <summary>
