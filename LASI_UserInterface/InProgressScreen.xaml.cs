@@ -18,21 +18,18 @@ namespace LASI.UserInterface
         /// <summary>
         /// Initializes a new instance of the InProgressScreen class.
         /// </summary>
-        public InProgressScreen()
-        {
+        public InProgressScreen() {
             InitializeComponent();
             ConfigureOptions();
         }
 
 
 
-        private void ConfigureOptions()
-        {
+        private void ConfigureOptions() {
             SetPlatformSpecificStyling();
         }
 
-        private void SetPlatformSpecificStyling()
-        {
+        private void SetPlatformSpecificStyling() {
             var osVersionInfo = System.Environment.Version;
             //Check if current OS is windows NT or later (PlatformID) and then check if Vista or 7 (Major) then check if 7 
             if (System.Environment.OSVersion.Platform == PlatformID.Win32NT && osVersionInfo.Major == 6 && osVersionInfo.Minor == 1) {
@@ -47,19 +44,20 @@ namespace LASI.UserInterface
         /// Asynchronously processes all documents in the project in a comprehensive manner.
         /// </summary>
         /// <returns>A System.Threading.Tasks.Task representing the asynchronous processing operation.</returns>
-        public async Task ParseDocuments()
-        {
+        public async Task ParseDocuments() {
 
             var processController = new ProcessController();
-            var analyzedDocuments = await processController.AnalyseAllDocumentsAsync(FileManager.TextFiles, async (message, increment) => {
-                progressLabel.Content = message;
-                progressBar.ToolTip = message;
-                var animateStep = 0.028 * increment;
+            processController.ProgressChanged += async (sender, e) => {
+                progressLabel.Content = e.Message;
+                progressBar.ToolTip = e.Message;
+                var animateStep = 0.028 * e.Increment;
                 for (int i = 0; i < 33; ++i) {
                     progressBar.Value += animateStep;
                     await Task.Delay(1);
                 }
-            });
+            };
+            var analyzedDocuments = await processController.AnalyseAllDocumentsAsync(FileManager.TextFiles);
+
             progressBar.Value = 100;
             progressLabel.Content = "Complete";
             progressBar.ToolTip = "Complete";
@@ -74,8 +72,7 @@ namespace LASI.UserInterface
 
 
 
-        private async Task ProceedToResultsView()
-        {
+        private async Task ProceedToResultsView() {
             WindowManager.ResultsScreen.SetTitle(WindowManager.StartupScreen.ProjectNameTextBox.Text + " - L.A.S.I.");
             this.SwapWith(WindowManager.ResultsScreen);
 
@@ -89,8 +86,7 @@ namespace LASI.UserInterface
 
         #region Event Handlers
 
-        private void progressBar_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
+        private void progressBar_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e) {
             this.TaskbarItemInfo.ProgressState = System.Windows.Shell.TaskbarItemProgressState.Normal;
             this.TaskbarItemInfo.ProgressValue = e.NewValue / 100;
         }
@@ -98,19 +94,16 @@ namespace LASI.UserInterface
 
 
 
-        private void closeButton_Click(object sender, RoutedEventArgs e)
-        {
+        private void closeButton_Click(object sender, RoutedEventArgs e) {
             Application.Current.Shutdown();
         }
-        private void ExitMenuItem_Click_3(object sender, RoutedEventArgs e)
-        {
+        private void ExitMenuItem_Click_3(object sender, RoutedEventArgs e) {
             this.Close();
             Application.Current.Shutdown();
         }
 
 
-        private void Window_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
-        {
+        private void Window_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
             try {
                 DragMove();
             }
@@ -119,18 +112,15 @@ namespace LASI.UserInterface
             }
         }
 
-        private async void proceedtoResultsButton_Click(object sender, RoutedEventArgs e)
-        {
+        private async void proceedtoResultsButton_Click(object sender, RoutedEventArgs e) {
             await ProceedToResultsView();
         }
-        private void minButton_Click(object sender, RoutedEventArgs e)
-        {
+        private void minButton_Click(object sender, RoutedEventArgs e) {
             WindowState = WindowState.Minimized;
         }
 
 
-        private void Window_Activated(object sender, EventArgs e)
-        {
+        private void Window_Activated(object sender, EventArgs e) {
             //if (WindowState == System.Windows.WindowState.Minimized) {
             //    var currentForgroundPerformance = (PerforamanceLevel)Enum.Parse(typeof(PerforamanceLevel), Properties.Settings.Default.PerformanceLevel);
             //PerformanceManager.SetPerformanceLevel(currentForgroundPerformance);
@@ -166,8 +156,7 @@ namespace LASI.UserInterface
         /// <summary>
         /// Causes the application icon to begin flashing in the Windows Taskbar.
         /// </summary>
-        private void StartFlashing()
-        {
+        private void StartFlashing() {
             {
                 FLASHWINFO fInfo = new FLASHWINFO();
                 fInfo.cbSize = System.Convert.ToUInt32(Marshal.SizeOf(fInfo));
@@ -188,8 +177,7 @@ namespace LASI.UserInterface
         /// <summary>
         /// Cuases the application icon in the Windows Taskbar to dicontinue flashing.
         /// </summary>
-        private void StopFlashing()
-        {
+        private void StopFlashing() {
             FLASHWINFO fInfo = new FLASHWINFO();
 
 

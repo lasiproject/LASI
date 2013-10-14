@@ -17,67 +17,26 @@ namespace LASI.InteropLayer
     /// Governs the complete analysis and processing of one or more text sources.
     /// Provides synchronous and asynchronoun callback based progress reports.
     /// </summary>
-    public sealed class ProcessController : Progress<double>
+    public sealed class ProcessController : Progress<LASI.InteropLayer.ProcessController.Report>
     {
-
-        /// <summary>
-        /// Gets a Task&lt;IEnumerable&lt;LASI.Algorithm.Document&gt;&gt; which, when awaited, loads and analyizes, and aggregates all of the provided TextFile instances as individual documents, collecting them as
-        /// a sequence of Bound and Weighted LASI.Algorithm.Document instances.
-        /// </summary>
-        /// <param name="filesToProcess">The collection of TextFiles to analyize.</param>
-        /// <returns>A Task&lt;IEnumerable&lt;LASI.Algorithm.Document&gt;&gt; which, when awaited, loads, analyizes, and aggregates all of the provided TextFile instances as individual documents, collecting them as
-        /// a sequence of Bound and Weighted LASI.Algorithm.Document instances.</returns>
-        public async Task<IEnumerable<Document>> AnalyseAllDocumentsAsync(IEnumerable<LASI.Algorithm.IUntaggedTextSource> filesToProcess) {
-            return await AnalyseAllDocumentsAsync(filesToProcess, (s, d) => { });
-        }
-        /// <summary>
-        /// Gets a Task&lt;IEnumerable&lt;LASI.Algorithm.Document&gt;&gt; which, when awaited, loads, analyizes, and aggregates all of the provided TextFile instances as individual documents, collecting them as
-        /// a sequence of Bound and Weighted LASI.Algorithm.Document instances. Progress update logic is specified via a function parameter.
-        /// </summary>
-        /// <param name="filesToProcess">The collection of TextFiles to analyize.</param>
-        /// <param name="onProgressUpdate">A void function to invoke with each progress increment.
-        /// <example>
-        /// Example lambda function:
-        /// <code> (s, d) => { ... }
-        /// </code>
-        /// Example named function:
-        /// <code>
-        /// public void UpdateSomethingMethod(string s, double d){ ... }
-        /// </code>
-        /// </example>
-        /// The function must take a string, representing a status message, and a double, representing the percentage of total work incremented.
-        /// </param>
-        /// <returns>A Task&lt;IEnumerable&lt;LASI.Algorithm.Document&gt;&gt; which, when awaited, loads and analyizes, and aggregates all of the provided TextFile instances as individual documents, collecting them as
-        /// a sequence of Bound and Weighted LASI.Algorithm.Document instances.</returns>
-        public async Task<IEnumerable<Document>> AnalyseAllDocumentsAsync(IEnumerable<LASI.Algorithm.IUntaggedTextSource> filesToProcess, Action<string, double> onProgressUpdate) {
-            return await AnalyseAllDocumentsAsync(filesToProcess, async (s, d) => await Task.Run(() => onProgressUpdate(s, d)));
-        }
         /// <summary>
         /// Gets a Task&lt;IEnumerable&lt;LASI.Algorithm.Document&gt;&gt; which, when awaited, loads, analyizes, and aggregates all of the provided TextFile instances as individual documents, collecting them as
         /// a sequence of Bound and Weighted LASI.Algorithm.Document instances. Progress update logic is specified via an asynchronous function parameter.
         /// </summary>
-        /// <param name="filesToProcess">The collection of TextFiles to analyize.</param> 
-        /// <param name="onProgressUpdate">A function to invoke with each progress increment. 
-        /// The function must be asynchronous (must return a Task), and take a string, representing a status message, and a double, representing the percentage of total work incremented.
-        /// <example>
-        ///Example lambda function:
-        ///<code>
-        /// async (s, d) => { await ... }
-        /// </code>
-        /// Example named function:
-        /// <code> 
-        /// public async Task UpdateSomethingMethodAsync(string s, double d){ await ... }
-        /// </code>
-        /// </example>
-        /// </param>
+        /// <param name="filesToProcess">The collection of TextFiles to analyize.</param>
         /// <returns>A Task&lt;IEnumerable&lt;LASI.Algorithm.Document&gt;&gt;, when awaited, loads and analyizes, and aggregates all of the provided TextFile instances as individual documents, collecting them as
         /// a sequence of Bound and Weighted LASI.Algorithm.Document instances.</returns>
-        public async Task<IEnumerable<Document>> AnalyseAllDocumentsAsync(IEnumerable<LASI.Algorithm.IUntaggedTextSource> filesToProcess, Func<string, double, Task> onProgressUpdate) {
+        /// <example>
+        ///Example event registration:
+        ///<code>
+        /// myProcessController.ProgressChanged += async (sender, e) => MsgBox.Show(e.Message + " " + e.Increment);
+        /// </code>
+        /// </example>
+        public async Task<IEnumerable<Document>> AnalyseAllDocumentsAsync(IEnumerable<LASI.Algorithm.IUntaggedTextSource> filesToProcess) {
             documentsInWorkLoad = filesToProcess.Count();
             stepSize = 2d / documentsInWorkLoad;
-            updateProgressDisplay = onProgressUpdate;
             await LoadThesaurus();
-            await updateProgressDisplay("Tagging Documents", 0);
+            OnReport(new Report { Message = "Tagging Documents", Increment = 0 });
             var taggingTasks = filesToProcess.Select(F => Task.Run(async () => await Tagger.TaggedFromRawAsync(F))).ToList();
             var taggedFiles = new ConcurrentBag<LASI.Algorithm.ITaggedTextSource>();
             while (taggingTasks.Any()) {
@@ -85,9 +44,9 @@ namespace LASI.InteropLayer
                 var taggedFile = await currentTask;
                 taggingTasks.Remove(currentTask);
                 taggedFiles.Add(taggedFile);
-                await updateProgressDisplay(string.Format("{0}: Tagged", taggedFile.TextSourceName), stepSize + 1.5);
+                OnReport(new Report { Message = string.Format("{0}: Tagged", taggedFile.TextSourceName), Increment = stepSize + 1.5 });
             }
-            await updateProgressDisplay("Tagged Documents", 3);
+            OnReport(new Report { Message = "Tagged Documents", Increment = 3 });
             var tasks = taggedFiles.Select(tagged => ProcessTaggedFileAsync(tagged)).ToList();
             var documents = new ConcurrentBag<Document>();
             while (tasks.Any()) {
@@ -102,39 +61,52 @@ namespace LASI.InteropLayer
 
         private async Task<Document> ProcessTaggedFileAsync(LASI.Algorithm.ITaggedTextSource tagged) {
             var fileName = tagged.TextSourceName;
-            await updateProgressDisplay(string.Format("{0}: Loading...", fileName), 0);
+            OnReport(new Report { Message = string.Format("{0}: Loading...", fileName), Increment = 0 });
             var doc = await Tagger.DocumentFromTaggedAsync(tagged);
-            await updateProgressDisplay(string.Format("{0}: Loaded", fileName), 4);
-            await updateProgressDisplay(string.Format("{0}: Analyzing Syntax...", fileName), 0);
+            OnReport(new Report { Message = string.Format("{0}: Loaded", fileName), Increment = 4 });
+            OnReport(new Report { Message = string.Format("{0}: Analyzing Syntax...", fileName), Increment = 0 });
             foreach (var task in doc.GetBindingTasks()) {
-                await updateProgressDisplay(task.InitializationMessage, 0);
+                OnReport(new Report { Message = task.InitializationMessage, Increment = 0 });
                 await task.Task;
-                await updateProgressDisplay(task.CompletionMessage, task.PercentWorkRepresented * 0.5 / documentsInWorkLoad);
+                OnReport(new Report { Message = task.CompletionMessage, Increment = task.PercentWorkRepresented * 0.5 / documentsInWorkLoad });
             }
-            await updateProgressDisplay(string.Format("{0}: Correlating Relationships...", fileName), 0);
+            OnReport(new Report { Message = string.Format("{0}: Correlating Relationships...", fileName), Increment = 0 });
             foreach (var task in doc.GetWeightingTasks()) {
-                await updateProgressDisplay(task.InitializationMessage, 0);
+                OnReport(new Report { Message = task.InitializationMessage, Increment = 0 });
                 await task.Task;
-                await updateProgressDisplay(task.CompletionMessage, task.PercentWorkRepresented * 0.5 / documentsInWorkLoad);
+                OnReport(new Report { Message = task.CompletionMessage, Increment = task.PercentWorkRepresented * 0.5 / documentsInWorkLoad });
             }
 
-            await updateProgressDisplay(string.Format("{0}: Completing Parse...", fileName), stepSize);
+            OnReport(new Report { Message = string.Format("{0}: Completing Parse...", fileName), Increment = stepSize });
             return doc;
         }
 
         private async Task LoadThesaurus() {
-            await updateProgressDisplay("Loading Thesaurus...", stepSize);
+            OnReport(new Report { Message = "Loading Thesaurus...", Increment = stepSize });
             var thesaurusTasks = Lookup.GetLoadingTasks().ToList();
             while (thesaurusTasks.Any()) {
                 var currentTask = await Task.WhenAny(thesaurusTasks);
-                await updateProgressDisplay(await currentTask, 3);
+                OnReport(new Report { Message = await currentTask, Increment = 3 });
                 thesaurusTasks.Remove(currentTask);
             }
         }
 
+        protected override void OnReport(Report value) {
+
+            base.OnReport(value);
+        }
         private double documentsInWorkLoad;
         private double stepSize;
-        private Func<string, double, Task> updateProgressDisplay;
+        //private Func<string, double, Task> updateProgressDisplay;
+
+        #region Helper Types
+        public struct Report
+        {
+            public string Message { get; internal set; }
+            public double Increment { get; internal set; }
+        }
+
+        #endregion
     }
 
 
