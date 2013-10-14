@@ -1,5 +1,5 @@
 ﻿<Window
-    x:Class="LASI.UserInterface.ProjectPreviewScreen"
+    x:Class="LASI.UserInterface.ProjectPreviewWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     Title="Project - L.A.S.I."
@@ -8,7 +8,41 @@
     WindowState="Normal"
     WindowStartupLocation="Manual"
     AllowDrop="True"
-    Drop="Grid_Drop">
+    Drop="Grid_Drop"
+    HorizontalAlignment="Center"
+    VerticalAlignment="Center">
+    <Window.CommandBindings>
+        <CommandBinding
+            Command="{x:Static ApplicationCommands.Close}"
+            Executed="CloseApp_CommandBinding_Executed" />
+        <CommandBinding
+            Command="{x:Static ApplicationCommands.Open}"
+            Executed="AddDocument_CommandBinding_Executed" />
+        <CommandBinding
+            Command="{x:Static ApplicationCommands.Properties}"
+            Executed="OpenPreferences_CommandBinding_Executed" />
+        <CommandBinding
+            Command="{x:Static ApplicationCommands.Help}"
+            Executed="OpenManual_CommandBinding_Executed" />
+    </Window.CommandBindings>
+    <Window.InputBindings>
+        <KeyBinding
+            Key="F4"
+            Modifiers="Alt"
+            Command="{x:Static ApplicationCommands.Close}" />
+        <KeyBinding
+            Key="O"
+            Modifiers="Control"
+            Command="{x:Static ApplicationCommands.Open}" />
+        <KeyBinding
+            Key="I"
+            Modifiers="Control"
+            Command="{x:Static ApplicationCommands.Properties}" />
+        <KeyBinding
+            Key="M"
+            Modifiers="Control"
+            Command="{x:Static ApplicationCommands.Help}" />
+    </Window.InputBindings>
     <Grid
         AllowDrop="True"
         Name="mainGrid">
@@ -44,7 +78,7 @@
                     Canvas.Top="40"
                     Height="35"
                     Width="35"
-                    Click="AddNewDocument_Click"
+                    Command="{x:Static ApplicationCommands.Open}"
                     Style="{DynamicResource AddDocumentStyle}"
                     OpacityMask="#FFDDDDDD" />
             </Canvas>
@@ -77,15 +111,12 @@
                 <MenuItem
                     x:Name="FileMenuAdd"
                     Header="Add"
-                    HorizontalAlignment="Left"
-                    Width="200"
-                    Click="AddNewDocument_Click">
-                    <MenuItem
-                        Header="File" />
-                </MenuItem>
+                    Command="{x:Static ApplicationCommands.Open}"
+                    InputGestureText="Ctrl+O" />
                 <MenuItem
                     Header="Exit"
-                    Click="FileExitMenuItem_Click" />
+                    Command="{x:Static ApplicationCommands.Close}"
+                    InputGestureText="Alt+F4" />
             </MenuItem>
             <MenuItem
                 Header="Build">
@@ -99,13 +130,15 @@
                 <MenuItem
                     Header="Preferences"
                     Name="openPreferencesMenuItem"
-                    Click="openPreferencesMenuItem_Click" />
+                    Command="{x:Static ApplicationCommands.Properties}"
+                    InputGestureText="Ctrl+I" />
             </MenuItem>
             <MenuItem
                 Header="Help">
                 <MenuItem
                     Header="View Manual"
-                    Click="OpenManualMenuItem_Click_1" />
+                    Command="{x:Static ApplicationCommands.Help }"
+                    InputGestureText="Ctrl+M" />
                 <MenuItem
                     Header="About LASI"
                     Click="MenuItem_Click" />

@@ -5,14 +5,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 using LASI.Utilities;
 
 namespace LASI.UserInterface
 {
-    static class SharedScreenFunctionality
+    static class SharedFunctionality
     {
-        internal static void ProcessOpenWebsiteRequest(Window sourceOfRequest)
-        {
+        internal static void ProcessOpenWebsiteRequest(Window sourceOfRequest) {
             try {
                 System.Diagnostics.Process.Start("http://lasi-project.org");
             }
@@ -20,8 +20,7 @@ namespace LASI.UserInterface
                 MessageBox.Show(sourceOfRequest, "Sorry, the LASI project website could not be opened");
             }
         }
-        internal static void ProcessOpenManualRequest(Window sourceOfRequest)
-        {
+        internal static void ProcessOpenManualRequest(Window sourceOfRequest) {
             try {
                 System.Diagnostics.Process.Start(System.AppDomain.CurrentDomain.BaseDirectory + @"\Manual.pdf");
             }
@@ -32,16 +31,14 @@ namespace LASI.UserInterface
                 MessageBox.Show(sourceOfRequest, "Sorry, the manual could not be opened. Please ensure you have a pdf viewer installed.");
             }
         }
-        internal static void OpenPreferencesWindow(Window sourceOfRequest)
-        {
+        internal static void OpenPreferencesWindow(Window sourceOfRequest) {
             var preferences = new PreferencesWindow();
             preferences.Left = (sourceOfRequest.Left - preferences.Left) / 2;
             preferences.Top = (sourceOfRequest.Top - preferences.Top) / 2;
             var saved = preferences.ShowDialog();
         }
 
-        internal static async Task HandleDropAddAttemptAsync(Window targetWindow, DragEventArgs e, Func<FileInfo, Task> validDocumentProcess)
-        {
+        internal static async Task HandleDropAddAttemptAsync(Window targetWindow, DragEventArgs e, Func<FileInfo, Task> validDocumentProcess) {
             if (DocumentManager.AddingAllowed) {
                 var filesInValidFormats = DocumentManager.GetValidFilesInPathList(e.Data.GetData(System.Windows.DataFormats.FileDrop, true) as string[]);
                 if (filesInValidFormats.None()) {
@@ -63,8 +60,7 @@ namespace LASI.UserInterface
                 MessageBox.Show(targetWindow, string.Format("A single project may only contain {0} documents.", DocumentManager.MaxDocuments));
             }
         }
-        internal static void HandleDropAddAttempt(Window targetWindow, DragEventArgs e, Action<FileInfo> validDocumentProcess)
-        {
+        internal static void HandleDropAddAttempt(Window targetWindow, DragEventArgs e, Action<FileInfo> validDocumentProcess) {
             if (DocumentManager.AddingAllowed) {
                 var filesInValidFormats = DocumentManager.GetValidFilesInPathList(e.Data.GetData(System.Windows.DataFormats.FileDrop, true) as string[]);
                 if (filesInValidFormats.None()) {
@@ -86,5 +82,15 @@ namespace LASI.UserInterface
                 MessageBox.Show(targetWindow, string.Format("A single project may only contain {0} documents.", DocumentManager.MaxDocuments));
             }
         }
+
+    }
+
+}
+namespace LASI.UserInterface.Commands
+{
+    static class MyApplicationCommands
+    {
+        static MyApplicationCommands() { CommandManager.RegisterClassCommandBinding(typeof(MyApplicationCommands), new CommandBinding(exitCommand)); }
+        public static RoutedUICommand exitCommand { get { return new RoutedUICommand("Exit", "Exit", typeof(MyApplicationCommands)); } }
     }
 }

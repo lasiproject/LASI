@@ -12,13 +12,12 @@ namespace LASI.UserInterface
     /// <summary>
     /// Interaction logic for ExportResultsDialog.xaml
     /// </summary>
-    public partial class ProjectPreviewScreen : Window
+    public partial class ProjectPreviewWindow : Window
     {
         /// <summary>
         /// Initializes a new instance of the ProjectPreviewScreen class.
         /// </summary>
-        public ProjectPreviewScreen()
-        {
+        public ProjectPreviewWindow() {
             InitializeComponent();
             var titleText = Resources["CurrentProjectName"] as string ?? Title;
         }
@@ -29,16 +28,14 @@ namespace LASI.UserInterface
         /// <summary>
         /// Loads and displays a text preview tab for each document in the project.
         /// </summary>
-        public async void LoadDocumentPreviews()
-        {
+        public async void LoadDocumentPreviews() {
             foreach (var textfile in FileManager.TextFiles) {
                 await LoadTextandTabAsync(textfile);
             }
             DocumentPreview.SelectedIndex = 0;
         }
 
-        private async Task LoadTextandTabAsync(TextFile textfile)
-        {
+        private async Task LoadTextandTabAsync(TextFile textfile) {
             var processedText = await await textfile.GetTextAsync().ContinueWith(async (t) => {
                 var data = await t;
                 return data.Split(new[] { "\r\n\r\n", "<paragraph>", "</paragraph>" }, StringSplitOptions.RemoveEmptyEntries)
@@ -64,8 +61,7 @@ namespace LASI.UserInterface
             DocumentPreview.SelectedItem = item;
         }
 
-        private async Task AddNewDocument(string docPath)
-        {
+        private async Task AddNewDocument(string docPath) {
             var chosenFile = FileManager.AddFile(docPath, true);
             try {
                 await FileManager.ConvertAsNeededAsync();
@@ -80,8 +76,7 @@ namespace LASI.UserInterface
             StartProcessMenuItem.IsEnabled = true;
         }
 
-        private void CheckIfAddingAllowed()
-        {
+        private void CheckIfAddingAllowed() {
             var addingEnabled = DocumentManager.AddingAllowed;
             AddNewDocumentButton.IsEnabled = addingEnabled;
             FileMenuAdd.IsEnabled = addingEnabled;
@@ -91,21 +86,15 @@ namespace LASI.UserInterface
 
         #region Named Event Handlers
 
-        private async void StartButton_Click(object sender, RoutedEventArgs e)
-        {
+        private async void StartButton_Click(object sender, RoutedEventArgs e) {
+
+            WindowManager.InProgressScreen.PositionAt(this);
             this.Hide();
             WindowManager.InProgressScreen.Show();
             await WindowManager.InProgressScreen.ParseDocuments();
         }
 
-
-        private void FileExitMenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            this.Close();
-            Application.Current.Shutdown();
-        }
-        private void RemoveCurrentDocument_Click(object sender, RoutedEventArgs e)
-        {
+        private void RemoveCurrentDocument_Click(object sender, RoutedEventArgs e) {
             var docSelected = DocumentPreview.SelectedItem;
             if (docSelected != null) {
                 DocumentPreview.Items.Remove(docSelected);
@@ -120,12 +109,10 @@ namespace LASI.UserInterface
             }
 
         }
-        private async void Grid_Drop(object sender, DragEventArgs e)
-        {
-            await SharedScreenFunctionality.HandleDropAddAttemptAsync(this, e, async fi => { DocumentManager.AddDocument(fi.Name, fi.FullName); await AddNewDocument(fi.FullName); });
+        private async void Grid_Drop(object sender, DragEventArgs e) {
+            await SharedFunctionality.HandleDropAddAttemptAsync(this, e, async fi => { DocumentManager.AddDocument(fi.Name, fi.FullName); await AddNewDocument(fi.FullName); });
         }
-        private async void AddNewDocument_Click(object sender, RoutedEventArgs e)
-        {
+        private async void AddNewDocument() {
             var openDialog = new Microsoft.Win32.OpenFileDialog
             {
                 Filter = "LASI File Types|*.doc; *.docx; *.pdf; *.txt",
@@ -149,24 +136,10 @@ namespace LASI.UserInterface
 
             }
         }
-        private void openPreferencesMenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            SharedScreenFunctionality.OpenPreferencesWindow(this);
-        }
 
-        #endregion
 
-        #endregion
 
-        #region Help Menu
-
-        private void OpenManualMenuItem_Click_1(object sender, RoutedEventArgs e)
-        {
-            SharedScreenFunctionality.ProcessOpenManualRequest(this);
-        }
-
-        private void openLicensesMenuItem_Click_1(object sender, RoutedEventArgs e)
-        {
+        private void openLicensesMenuItem_Click_1(object sender, RoutedEventArgs e) {
             var componentsDisplay = new ComponentInfoDialogWindow
             {
                 Left = this.Left,
@@ -176,14 +149,32 @@ namespace LASI.UserInterface
             componentsDisplay.ShowDialog();
         }
 
-        private void MenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            SharedScreenFunctionality.ProcessOpenWebsiteRequest(this);
+        private void MenuItem_Click(object sender, RoutedEventArgs e) {
+            SharedFunctionality.ProcessOpenWebsiteRequest(this);
         }
+
+        private void AddDocument_CommandBinding_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e) {
+            AddNewDocument();
+        }
+
+        private void CloseApp_CommandBinding_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e) {
+            this.Close();
+            Application.Current.Shutdown();
+        }
+
+        private void OpenPreferences_CommandBinding_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e) {
+            SharedFunctionality.OpenPreferencesWindow(this);
+        }
+
+        private void OpenManual_CommandBinding_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e) {
+            SharedFunctionality.ProcessOpenManualRequest(this);
+        }
+
+
 
         #endregion
 
-
+        #endregion
 
 
     }

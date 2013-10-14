@@ -24,14 +24,13 @@ namespace LASI.UserInterface
     /// <summary>
     /// Interaction logic for StartupScreen.xaml
     /// </summary>
-    public partial class StartupScreen : Window
+    public partial class StartupWindow : Window
     {
         #region Constructor
         /// <summary>
         /// Initializes a new instance of the StartupScreen class.
         /// </summary>
-        public StartupScreen()
-        {
+        public StartupWindow() {
             SetupLogging(Environment.GetCommandLineArgs()[0], "lasi_log");
             InitializeComponent();
             ProjectNameTextBox.Text = Properties.Settings.Default.AutoNameProjects ? "MyProject" : "";
@@ -44,8 +43,7 @@ namespace LASI.UserInterface
             ProcessOpenWithFiles(System.Environment.GetCommandLineArgs().Skip(1));
         }
 
-        private void SetupLogging(string logFileParentDirectory, string logFileName)
-        {
+        private void SetupLogging(string logFileParentDirectory, string logFileName) {
             if (Properties.Settings.Default.LogProcessMessagesToFile) {
                 try {
                     var logDir = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "LASI");
@@ -65,16 +63,14 @@ namespace LASI.UserInterface
 
         #region Intialization Methods
 
-        private void ProcessOpenWithFiles(IEnumerable<string> filePaths)
-        {
+        private void ProcessOpenWithFiles(IEnumerable<string> filePaths) {
             foreach (var f in DocumentManager.GetValidFilesInPathList(filePaths)) {
                 DocumentManager.AddDocument(f.Name, f.FullName);
             }
             if (!DocumentManager.IsEmpty) { expandCreatePanelButton_Click(expandCreatePanelButton, new RoutedEventArgs()); }
         }
 
-        private async Task SetUpDefaultDirectory()
-        {
+        private async Task SetUpDefaultDirectory() {
             locationTextBox.Text = await Task.Run(() => {
                 var location =
                     System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData,
@@ -92,8 +88,7 @@ namespace LASI.UserInterface
             locationTextBox.TextChanged += (s, e) => locationTextBox.ScrollToEnd();
         }
 
-        private async Task InitializeFileManager()
-        {
+        private async Task InitializeFileManager() {
             var initPath = System.IO.Path.Combine(locationTextBox.Text, ProjectNameTextBox.Text);
             for (var i = 0; i < Int32.MaxValue - 1; ++i) {
                 if (Directory.Exists(initPath))
@@ -120,8 +115,7 @@ namespace LASI.UserInterface
 
         #region Validation Methods
 
-        private void AlertUserAboutInvalidFields()
-        {
+        private void AlertUserAboutInvalidFields() {
             threepaws.Visibility = Visibility.Hidden;
 
             if (!ValidateProjectNameField() && !ValidateProjectDocumentField()) {
@@ -144,8 +138,7 @@ namespace LASI.UserInterface
         }
 
 
-        private bool ValidateProjectNameField()
-        {
+        private bool ValidateProjectNameField() {
             if (string.IsNullOrWhiteSpace(ProjectNameTextBox.Text) ||
                 string.IsNullOrEmpty(ProjectNameTextBox.Text) &&
                 !(from char c1 in ProjectNameTextBox.Text
@@ -160,8 +153,7 @@ namespace LASI.UserInterface
         }
 
 
-        private bool ValidateProjectLocationField()
-        {
+        private bool ValidateProjectLocationField() {
             if (string.IsNullOrWhiteSpace(locationTextBox.Text)
                 || string.IsNullOrEmpty(locationTextBox.Text) ||
                 !Directory.Exists(locationTextBox.Text.Substring(0, locationTextBox.Text.LastIndexOf("\\")))
@@ -172,8 +164,7 @@ namespace LASI.UserInterface
             return true;
         }
 
-        private bool ValidateProjectDocumentField()
-        {
+        private bool ValidateProjectDocumentField() {
             if (DocumentManager.IsEmpty) {
                 lastDocPathTextBox.ToolTip = new ToolTip { Content = ErrorNoDocumentsAddedMessage };
                 return false;
@@ -186,13 +177,11 @@ namespace LASI.UserInterface
         #region Named Event Handlers
 
 
-        private void closeButton_Click(object sender, RoutedEventArgs e)
-        {
+        private void closeButton_Click(object sender, RoutedEventArgs e) {
             Application.Current.Shutdown();
         }
 
-        private async void expandCreatePanelButton_Click(object sender, RoutedEventArgs e)
-        {
+        private async void expandCreatePanelButton_Click(object sender, RoutedEventArgs e) {
             expandCreatePanelButton.Click -= expandCreatePanelButton_Click;//remove this event handler
 
             Resources["createButtonContent"] = "Cancel";
@@ -205,12 +194,12 @@ namespace LASI.UserInterface
                     await Task.Delay(8);
                 }
             }
+            MinHeight = 550;
             expandCreatePanelButton.Click += cancelButton_Click;           //add the cancelButton_Click event handler
             Resources["createButtonContent"] = "Cancel";
 
         }
-        private async void cancelButton_Click(object sender, RoutedEventArgs e)
-        {
+        private async void cancelButton_Click(object sender, RoutedEventArgs e) {
 
             expandCreatePanelButton.Click -= cancelButton_Click;            //remove this event handler and 
 
@@ -222,12 +211,12 @@ namespace LASI.UserInterface
                     await Task.Delay(8);
                 }
             }
+            MinHeight = 250;
             expandCreatePanelButton.Click += expandCreatePanelButton_Click; //add the expandCreatePanelButton_Click event handler.
             Resources["createButtonContent"] = "Create";
         }
 
-        private void browseForDocButton_Click(object sender, RoutedEventArgs e)
-        {
+        private void browseForDocButton_Click(object sender, RoutedEventArgs e) {
             if (DocumentManager.AddingAllowed) {
                 var openDialog = new Microsoft.Win32.OpenFileDialog
                 {
@@ -249,8 +238,7 @@ namespace LASI.UserInterface
             }
         }
 
-        private async void completeSetupAndContinueButton_Click(object sender, RoutedEventArgs e)
-        {
+        private async void completeSetupAndContinueButton_Click(object sender, RoutedEventArgs e) {
             if (!Directory.Exists(locationTextBox.Text)) {
                 try {
                     Directory.CreateDirectory(locationTextBox.Text);
@@ -272,8 +260,7 @@ namespace LASI.UserInterface
             }
         }
 
-        private void SelectProjFolderButton_Click(object sender, RoutedEventArgs e)
-        {
+        private void SelectProjFolderButton_Click(object sender, RoutedEventArgs e) {
             var locationSelectDialog = new System.Windows.Forms.FolderBrowserDialog();
             System.Windows.Forms.DialogResult dirResult = locationSelectDialog.ShowDialog();
             if (dirResult == System.Windows.Forms.DialogResult.OK) {
@@ -285,14 +272,12 @@ namespace LASI.UserInterface
 
 
 
-        private void Grid_Drop(object sender, DragEventArgs e)
-        {
-            SharedScreenFunctionality.HandleDropAddAttempt(this, e, fi => DocumentManager.AddDocument(fi.Name, fi.FullName));
+        private void Grid_Drop(object sender, DragEventArgs e) {
+            SharedFunctionality.HandleDropAddAttempt(this, e, fi => DocumentManager.AddDocument(fi.Name, fi.FullName));
         }
 
 
-        private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
+        private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e) {
             DragMove();
         }
         #endregion
@@ -302,16 +287,14 @@ namespace LASI.UserInterface
         /// Hides all of the provided UIElements.
         /// </summary>
         /// <param name="elements">Zero or more UIElements to hide.</param>
-        private void HideElements(params UIElement[] elements)
-        {
+        private void HideElements(params UIElement[] elements) {
             foreach (var e in elements) { e.Visibility = Visibility.Hidden; }
         }
         /// <summary>
         /// Shows all of the provided UIElements.
         /// </summary>
         /// <param name="elements">Zero or more UIElements to show.</param>
-        private void ShowElements(params UIElement[] elements)
-        {
+        private void ShowElements(params UIElement[] elements) {
             foreach (var e in elements) { e.Visibility = Visibility.Visible; }
         }
         #endregion

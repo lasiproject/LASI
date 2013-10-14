@@ -4,63 +4,108 @@
     xmlns:chartingToolkit="clr-namespace:System.Windows.Controls.DataVisualization.Charting;assembly=System.Windows.Controls.DataVisualization.Toolkit"
     xmlns:Custom="http://schemas.microsoft.com/wpf/2008/toolkit"
     x:Name="window"
-    x:Class="LASI.UserInterface.ResultsScreen"
+    x:Class="LASI.UserInterface.ResultsWindow"
     Title="Results - L.A.S.I."
     Height="526"
     MinHeight="526"
     Width="800"
-    MinWidth="700"
+    MinWidth="800"
     ResizeMode="CanResizeWithGrip"
     Icon="MiscImages\LasiLogo.ico"
-    WindowStartupLocation="CenterOwner"
+    WindowStartupLocation="Manual"
     WindowState="Normal"
-    Drop="Grid_Drop"
-    AllowDrop="True">
+    Drop="Grid_Drop" 
+    AllowDrop="True"
+    VerticalAlignment="Center"
+    HorizontalAlignment="Center">
+    <Window.CommandBindings>
+        <CommandBinding
+            Command="{x:Static ApplicationCommands.Close}"
+            Executed="CloseApp_CommandBinding_Executed" />
+        <CommandBinding
+            Command="{x:Static ApplicationCommands.Open}"
+            Executed="AddDocument_CommandBinding_Executed" />
+        <CommandBinding
+            Command="{x:Static ApplicationCommands.Print}"
+            Executed="Print_CommandBinding_Executed" />
+        <CommandBinding
+            Command="{x:Static ApplicationCommands.Properties}"
+            Executed="OpenPreferences_CommandBinding_Executed" />
+        <CommandBinding
+            Command="{x:Static ApplicationCommands.Help}"
+            Executed="OpenManual_CommandBinding_Executed" />
+    </Window.CommandBindings>
+    <Window.InputBindings>
+        <KeyBinding
+            Key="F4"
+            Modifiers="Alt"
+            Command="{x:Static ApplicationCommands.Close}" />
+        <KeyBinding
+            Key="O"
+            Modifiers="Control"
+            Command="{x:Static ApplicationCommands.Open}" />
+        <KeyBinding
+            Key="P"
+            Modifiers="Control"
+            Command="{x:Static ApplicationCommands.Print}" />
+        <KeyBinding
+            Key="I"
+            Modifiers="Control"
+            Command="{x:Static ApplicationCommands.Properties}" />
+        <KeyBinding
+            Key="M"
+            Modifiers="Control"
+            Command="{x:Static ApplicationCommands.Help}" />
+    </Window.InputBindings>
     <Grid
         Background="White"
-        AllowDrop="True">   
+        AllowDrop="True">
         <Menu
-            Height="47"
             VerticalAlignment="Top"
             HorizontalAlignment="Stretch">
             <MenuItem
                 Header="File"
                 HorizontalAlignment="Left">
                 <MenuItem
-                    Header="New"
+                    Header="New Project"
+                    Width="200"
                     HorizontalAlignment="Left"
-                    Width="200">
-                    <MenuItem
-                        Header="Project"
-                        Click="NewProjectMenuItem_Click_1" />
-                </MenuItem>
+                    Click="NewProjectMenuItem_Click_1" />
                 <MenuItem
                     Name="addDocumentMenuItem"
                     Header="Add Document"
-                    HorizontalAlignment="Left"
                     Width="200"
-                    Click="AddMenuItem_Click" />
+                    HorizontalAlignment="Left"
+                    Command="{x:Static ApplicationCommands.Open}"
+                    InputGestureText="Ctrl+O" />
                 <MenuItem
                     Header="Print"
+                    Width="200"
+                    Command="{x:Static ApplicationCommands.Print}"
                     HorizontalAlignment="Left"
-                    Click="printButton_Click_1" />
+                    InputGestureText="Ctrl+P" />
                 <MenuItem
+                    Width="200"
                     Header="Exit"
-                    Click="ExitMenuItem_Click" />
+                    Command="{x:Static ApplicationCommands.Close}"
+                    HorizontalAlignment="Left"
+                    InputGestureText="Alt+F4" />
             </MenuItem>
             <MenuItem
                 Header="Tools">
                 <MenuItem
                     Header="Preferences"
                     Name="openPreferencesMenuItem"
-                    Click="openPreferencesMenuItem_Click" />
+                    Command="{x:Static ApplicationCommands.Properties}"
+                    InputGestureText="Ctrl+I" />
             </MenuItem>
             <MenuItem
                 Header="Help"
                 HorizontalAlignment="Left">
                 <MenuItem
                     Header="View Manual"
-                    Click="OpenManualMenuItem_Click_1" />
+                    Command="{x:Static ApplicationCommands.Help}"
+                    InputGestureText="Ctrl+M" />
                 <MenuItem
                     Header="About LASI"
                     Click="MenuItem_Click_1" />
@@ -99,7 +144,7 @@
             <Canvas
                 Background="#FFE5E5E5"
                 OpacityMask="#FF5A5A62"
-                Margin="0,24,0,34"
+                Margin="0,20,0,34"
                 HorizontalAlignment="Left"
                 Width="152">
                 <Button
@@ -205,14 +250,14 @@
                     ScrollViewer.VerticalScrollBarVisibility="Auto"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
-                    ToolTip="Join two or more documents to see their thematic intersection." />
+                    ToolTip="Join two or more documents to see their thematic intersection displayed in the Meta View tab." />
             </Canvas>
         </Grid>
         <TabControl
             x:Name="ResultsTabControl"
             ScrollViewer.HorizontalScrollBarVisibility="Auto"
             ScrollViewer.VerticalScrollBarVisibility="Auto"
-            Margin="152,24,0,34"
+            Margin="152,20,0,34"
             ClipToBounds="True">
             <TabItem
                 x:Name="topResultsTab"
@@ -264,7 +309,7 @@
             </TabItem>
             <TabItem
                 x:Name="metaViewTab"
-                Header="MetaView"
+                Header="Meta View"
                 HorizontalAlignment="Left"
                 Height="20"
                 VerticalAlignment="Top"

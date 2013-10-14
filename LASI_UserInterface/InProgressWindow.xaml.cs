@@ -13,12 +13,12 @@ namespace LASI.UserInterface
     /// <summary>
     /// Interaction logic for DialogToProceedToResults.xaml
     /// </summary>
-    public partial class InProgressScreen : Window
+    public partial class InProgressWindow : Window
     {
         /// <summary>
         /// Initializes a new instance of the InProgressScreen class.
         /// </summary>
-        public InProgressScreen() {
+        public InProgressWindow() {
             InitializeComponent();
             ConfigureOptions();
         }
@@ -69,9 +69,6 @@ namespace LASI.UserInterface
 
         }
 
-
-
-
         private async Task ProceedToResultsView() {
             WindowManager.ResultsScreen.SetTitle(WindowManager.StartupScreen.ProjectNameTextBox.Text + " - L.A.S.I.");
             this.SwapWith(WindowManager.ResultsScreen);
@@ -90,9 +87,6 @@ namespace LASI.UserInterface
             this.TaskbarItemInfo.ProgressState = System.Windows.Shell.TaskbarItemProgressState.Normal;
             this.TaskbarItemInfo.ProgressValue = e.NewValue / 100;
         }
-
-
-
 
         private void closeButton_Click(object sender, RoutedEventArgs e) {
             Application.Current.Shutdown();

@@ -28,15 +28,13 @@ namespace LASI.UserInterface
     /// <summary>
     /// Interaction logic for ResultsWindow.xaml
     /// </summary>
-    public partial class ResultsScreen : Window
+    public partial class ResultsWindow : Window
     {
         #region Constructor
         /// <summary>
         /// Initializes a new instance of the ResultsScreen class.
         /// </summary>
-        public ResultsScreen()
-        {
-
+        public ResultsWindow() {
             InitializeComponent();
             currentOperationFeedbackCanvas.Visibility = Visibility.Hidden;
             Visualizer.ChangeChartKind(ChartKind.NounPhrasesOnly);
@@ -52,8 +50,7 @@ namespace LASI.UserInterface
         /// This function associates The buttons which allow the user to modify various aspects of the chart views with their respective functionality.
         /// This is done to allow the functionality to be exposed only after the charts have been 
         /// </summary>
-        private void SetupChartViewControls()
-        {
+        private void SetupChartViewControls() {
             changeToBarChartButton.Click += ChangeToBarChartButton_Click;
             changeToColumnChartButton.Click += ChangeToColumnChartButton_Click;
             changeToPieChartButton.Click += ChangeToPieChartButton_Click;
@@ -62,8 +59,7 @@ namespace LASI.UserInterface
         /// Creates and displays a weighted list of the top NounPhrases for each document.
         /// </summary>
         /// <returns>A System.Threading.Tasks.Task representing the ongoing asynchronous operation.</returns>
-        public async Task CreateWeightViewsForAllDocumentsAsync()
-        {
+        public async Task CreateWeightViewsForAllDocumentsAsync() {
             foreach (var doc in documents) {
                 await CreateWeightViewAsync(doc);
 
@@ -71,8 +67,7 @@ namespace LASI.UserInterface
             SetupChartViewControls();
         }
 
-        private async Task CreateWeightViewAsync(Document document)
-        {
+        private async Task CreateWeightViewAsync(Document document) {
             var page1 = document.Paginate(100).FirstOrDefault();
 
             var nounPhraseLabels = from s in page1 != null ? page1.Sentences : document.Paragraphs.SelectMany(p => p.Sentences)
@@ -101,8 +96,7 @@ namespace LASI.UserInterface
             await Visualizer.DisplayKeyRelationships(document);
         }
 
-        private static Label CreateLabelForWeightedView(NounPhrase np)
-        {
+        private static Label CreateLabelForWeightedView(NounPhrase np) {
             var gender = np.GetGender();
             var label = new Label
             {
@@ -129,8 +123,7 @@ namespace LASI.UserInterface
         /// Asynchronously builds and displays the reconstructed text views for all documents.
         /// </summary>
         /// <returns>A System.Threading.Tasks.Task object representing the ongoing asynchronous operation.</returns>
-        public async Task BuildTextViewsForAllDocumentsAsync()
-        {  // This is for the lexial relationships tab
+        public async Task BuildTextViewsForAllDocumentsAsync() {  // This is for the lexial relationships tab
             var tasks = documents.Select(d => BuildTextViewOfDocument(d)).ToList();
             while (tasks.Any()) {
                 var finishedTask = await Task.WhenAny(tasks);
@@ -139,8 +132,7 @@ namespace LASI.UserInterface
 
         }
 
-        private async Task BuildTextViewOfDocument(Document document)
-        {
+        private async Task BuildTextViewOfDocument(Document document) {
             Phrase.VerboseOutput = true;
             Word.VerboseOutput = true;
             var panel = new WrapPanel();
@@ -189,8 +181,7 @@ namespace LASI.UserInterface
         #endregion
 
 
-        private async Task ProcessNewDocument(string docPath, ProgressBar progressBar, Label progressLabel)
-        {
+        private async Task ProcessNewDocument(string docPath, ProgressBar progressBar, Label progressLabel) {
             try {
                 var chosenFile = await AttemptToAddNewDocument(docPath);
                 var docName = chosenFile.NameSansExt;
@@ -204,8 +195,7 @@ namespace LASI.UserInterface
             }
         }
 
-        private async Task<Document> ProcessNewDocDocument(string docName)
-        {
+        private async Task<Document> ProcessNewDocDocument(string docName) {
             await StepProgress(2);
             currentOperationLabel.Content = string.Format("Tagging {0}...", docName);
             var textfile = FileManager.TextFiles.Where(f => f.NameSansExt == docName).First();
@@ -237,8 +227,7 @@ namespace LASI.UserInterface
             return doc;
         }
 
-        private async Task<InputFile> AttemptToAddNewDocument(string docPath)
-        {
+        private async Task<InputFile> AttemptToAddNewDocument(string docPath) {
             var chosenFile = FileManager.AddFile(docPath, true);
             try {// Attempt to convert the newly added file
                 await FileManager.ConvertAsNeededAsync();
@@ -250,8 +239,7 @@ namespace LASI.UserInterface
             }
         }
 
-        private async Task StepProgress(double steps)
-        {
+        private async Task StepProgress(double steps) {
             for (int i = 0; i < 9; i++) {
                 currentOperationProgressBar.Value += 1;
                 await Task.Delay(1);
@@ -263,8 +251,7 @@ namespace LASI.UserInterface
         /// </summary>
         /// <param name="docPath">The file system path to a document file.</param>
         /// <returns>A System.Threading.Tasks.Task object representing the ongoing work while the document is being processed.</returns>
-        private async Task ProcessNewDocument(string docPath)
-        {
+        private async Task ProcessNewDocument(string docPath) {
             await ProcessNewDocument(docPath, currentOperationProgressBar, currentOperationLabel);
         }
 
@@ -272,13 +259,12 @@ namespace LASI.UserInterface
 
         #region Named Event Handlers
 
-        private void ExitMenuItem_Click(object sender, RoutedEventArgs e)
-        {
+        private void ExitMenuItem_Click(object sender, RoutedEventArgs e) {
             this.Close();
             Application.Current.Shutdown();
         }
-        private void printButton_Click_1(object sender, RoutedEventArgs e)
-        {
+
+        private void printButton_Click_1(object sender, RoutedEventArgs e) {
             var printDialog = new PrintDialog();
             printDialog.ShowDialog();
             var focusedChart = (FrequencyCharts.SelectedItem as TabItem).Content as Visual;
@@ -289,30 +275,24 @@ namespace LASI.UserInterface
                 Output.WriteLine("There is no chart selected by the user, there is nothing to print.");
             }
         }
-        private async void ChangeToBarChartButton_Click(object sender, RoutedEventArgs e)
-        {
+        private async void ChangeToBarChartButton_Click(object sender, RoutedEventArgs e) {
             await Visualizer.ToBarCharts();
         }
-        private async void ChangeToColumnChartButton_Click(object sender, RoutedEventArgs e)
-        {
+        private async void ChangeToColumnChartButton_Click(object sender, RoutedEventArgs e) {
             await Visualizer.ToColumnCharts();
         }
-        private async void ChangeToPieChartButton_Click(object sender, RoutedEventArgs e)
-        {
+        private async void ChangeToPieChartButton_Click(object sender, RoutedEventArgs e) {
             await Visualizer.ToPieCharts();
         }
-        private void NewProjectMenuItem_Click_1(object sender, RoutedEventArgs e)
-        {  //Hacky solution to make every option function. This makes new project restart LASI.
+        private void NewProjectMenuItem_Click_1(object sender, RoutedEventArgs e) {  //Hacky solution to make every option function. This makes new project restart LASI.
             App.Current.Exit += (sndr, evt) => System.Windows.Forms.Application.Restart();
             App.Current.Shutdown();
         }
 
-        private void OpenManualMenuItem_Click_1(object sender, RoutedEventArgs e)
-        {
-            SharedScreenFunctionality.ProcessOpenManualRequest(this);
+        private void OpenManualMenuItem_Click_1(object sender, RoutedEventArgs e) {
+            SharedFunctionality.ProcessOpenManualRequest(this);
         }
-        private void openLicensesMenuItem_Click_1(object sender, RoutedEventArgs e)
-        {
+        private void openLicensesMenuItem_Click_1(object sender, RoutedEventArgs e) {
             var componentsDisplay = new ComponentInfoDialogWindow
             {
                 Left = this.Left,
@@ -321,12 +301,10 @@ namespace LASI.UserInterface
             };
             componentsDisplay.ShowDialog();
         }
-        private void MenuItem_Click_1(object sender, RoutedEventArgs e)
-        {
+        private void MenuItem_Click_1(object sender, RoutedEventArgs e) {
             Process.Start("http://lasi-project.org");
         }
-        private async void exportButton_Click(object sender, RoutedEventArgs e)
-        {
+        private async void exportButton_Click(object sender, RoutedEventArgs e) {
             foreach (var doc in documents) {
                 using (
                     var docWriter = new SimpleLexicalSerializer(
@@ -340,8 +318,7 @@ namespace LASI.UserInterface
             var exportDialog = new ExportResultsDialog();
             exportDialog.ShowDialog();
         }
-        private async void documentJoinButton_Click(object sender, RoutedEventArgs e)
-        {
+        private async void documentJoinButton_Click(object sender, RoutedEventArgs e) {
             var dialog = new CrossJoinSelectDialog(this)
             {
                 Left = this.Left,
@@ -353,8 +330,7 @@ namespace LASI.UserInterface
                 metaRelationshipsDataGrid.ItemsSource = Visualizer.TransformToGrid(joinedRelationshipResults);
             }
         }
-        private async void AddMenuItem_Click(object sender, RoutedEventArgs e)
-        {
+        private async void AddMenuItem_Click(object sender, RoutedEventArgs e) {
             var openDialog = new Microsoft.Win32.OpenFileDialog
             {
                 Filter = "LASI File Types|*.doc; *.docx; *.pdf; *.txt",
@@ -376,19 +352,16 @@ namespace LASI.UserInterface
                 }
             }
         }
-        private async void Grid_Drop(object sender, DragEventArgs e)
-        {
-            await SharedScreenFunctionality.HandleDropAddAttemptAsync(this, e, AddNewDocument);
+        private async void Grid_Drop(object sender, DragEventArgs e) {
+            await SharedFunctionality.HandleDropAddAttemptAsync(this, e, AddNewDocument);
         }
-        private void openPreferencesMenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            SharedScreenFunctionality.OpenPreferencesWindow(this);
+        private void openPreferencesMenuItem_Click(object sender, RoutedEventArgs e) {
+            SharedFunctionality.OpenPreferencesWindow(this);
         }
 
         #endregion
 
-        private async Task AddNewDocument(FileInfo file)
-        {
+        private async Task AddNewDocument(FileInfo file) {
             addDocumentMenuItem.IsEnabled = DocumentManager.AddingAllowed;
             DocumentManager.AddDocument(file.Name, file.FullName);
             currentOperationLabel.Content = string.Format("Converting {0}...", file.Name);
@@ -409,19 +382,39 @@ namespace LASI.UserInterface
         /// <summary>
         /// Gets or sets the list of LASI.Algorithm.Document objects in the current project.
         /// </summary>
-        public List<Document> Documents
-        {
-            get
-            {
+        public List<Document> Documents {
+            get {
                 return documents;
             }
-            set
-            {
+            set {
                 documents = value;
             }
         }
 
         #endregion
+
+        private void CloseApp_CommandBinding_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e) {
+            this.Close();
+            Application.Current.Shutdown();
+        }
+
+        private void AddDocument_CommandBinding_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e) {
+            AddMenuItem_Click(sender, e);
+        }
+
+        private void Print_CommandBinding_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e) {
+            printButton_Click_1(sender, e);
+        }
+
+        private void OpenPreferences_CommandBinding_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e) {
+            openPreferencesMenuItem_Click(sender, e);
+        }
+
+        private void OpenManual_CommandBinding_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e) {
+            OpenManualMenuItem_Click_1(sender, e);
+        }
+
+
 
     }
 

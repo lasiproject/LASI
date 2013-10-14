@@ -131,17 +131,17 @@
     </Compile>
     <Compile Include="ResultSelection\ChartKind.cs" />
     <Compile Include="DocumentManager.cs" />
-    <Compile Include="InProgressScreen.xaml.cs">
-      <DependentUpon>InProgressScreen.xaml</DependentUpon>
+    <Compile Include="InProgressWindow.xaml.cs">
+      <DependentUpon>InProgressWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="PreferencesWindow.xaml.cs">
       <DependentUpon>PreferencesWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ProjectPreviewScreen.xaml.cs">
-      <DependentUpon>ProjectPreviewScreen.xaml</DependentUpon>
+    <Compile Include="ProjectPreviewWindow.xaml.cs">
+      <DependentUpon>ProjectPreviewWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Settings.cs" />
-    <Compile Include="SharedScreenFunctionality.cs" />
+    <Compile Include="SharedFunctionality.cs" />
     <Compile Include="WindowManager.cs" />
     <Page Include="Dialogs\ComponentInfoDialogWindow.xaml">
       <SubType>Designer</SubType>
@@ -163,11 +163,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ResultsScreen.xaml">
+    <Page Include="ResultsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="StartupScreen.xaml">
+    <Page Include="StartupWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -175,18 +175,18 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ResultsScreen.xaml.cs">
-      <DependentUpon>ResultsScreen.xaml</DependentUpon>
+    <Compile Include="ResultsWindow.xaml.cs">
+      <DependentUpon>ResultsWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="StartupScreen.xaml.cs">
-      <DependentUpon>StartupScreen.xaml</DependentUpon>
+    <Compile Include="StartupWindow.xaml.cs">
+      <DependentUpon>StartupWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="InProgressScreen.xaml">
+    <Page Include="InProgressWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ProjectPreviewScreen.xaml">
+    <Page Include="ProjectPreviewWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

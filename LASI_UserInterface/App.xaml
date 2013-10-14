@@ -2,7 +2,7 @@
     x:Class="LASI.UserInterface.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    StartupUri="StartupScreen.xaml">
+    StartupUri="StartupWindow.xaml">
     <Application.Resources>
         <AccessText
             x:Key="CurrentProjectName">
