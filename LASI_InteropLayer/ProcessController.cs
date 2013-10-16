@@ -3,12 +3,10 @@ using LASI.Algorithm.DocumentStructures;
 using LASI.Algorithm.LexicalLookup;
 using LASI.Algorithm.Weighting;
 using LASI.ContentSystem;
-using LASI.Utilities;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 namespace LASI.InteropLayer
 {
@@ -91,18 +89,24 @@ namespace LASI.InteropLayer
             }
         }
 
-        protected override void OnReport(Report value) {
+        protected override void OnReport(Report value) { base.OnReport(value); }
 
-            base.OnReport(value);
-        }
         private double documentsInWorkLoad;
         private double stepSize;
-        //private Func<string, double, Task> updateProgressDisplay;
 
         #region Helper Types
+        /// <summary>
+        /// Represents a progress report indicating the current state and progress of analysis.
+        /// </summary>
         public struct Report
         {
+            /// <summary>
+            /// Gets a message indicating the phase of analysis underway when they Report was created.
+            /// </summary>
             public string Message { get; internal set; }
+            /// <summary>
+            /// Gets a value indicating the amount by which overall progress of analysis has increased since the last Report was created.
+            /// </summary>
             public double Increment { get; internal set; }
         }
 

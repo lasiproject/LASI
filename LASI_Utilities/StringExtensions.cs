@@ -83,7 +83,7 @@ namespace LASI.Utilities
         public static string RemoveElements(this string value, params char[] remove) {
             if (value == null)
                 throw new ArgumentNullException("value");
-            return RemoveElements(value, remove.Select(c => c.ToString()).ToArray());
+            return RemoveElements(value, (from c in remove select c.ToString()).ToArray());
         }
     }
 }
