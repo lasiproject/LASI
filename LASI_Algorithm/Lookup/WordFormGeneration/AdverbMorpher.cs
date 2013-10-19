@@ -39,7 +39,7 @@ namespace LASI.Algorithm.LexicalLookup.Morphemization
             if (!exceptionData.TryGetValue(root, out results)) {
                 results = new List<string>();
                 for (var i = 0; i < SUFFICIES.Length; i++) {
-                    if (root.EndsWith(ENDINGS[i]) || ENDINGS[i] == "") {
+                    if (root.EndsWith(ENDINGS[i]) || string.IsNullOrEmpty(ENDINGS[i])) {
                         results.Add(root.Substring(0, root.Length - ENDINGS[i].Length) + SUFFICIES[i]);
                         break;
                     }

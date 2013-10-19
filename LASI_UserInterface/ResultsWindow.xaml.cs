@@ -201,7 +201,7 @@ namespace LASI.UserInterface
             var textfile = FileManager.TextFiles.Where(f => f.NameSansExt == docName).First();
 
             var doc = await Tagger.DocumentFromRawAsync(textfile);
-            await StepProgress(5);
+            await StepProgress(3);
             currentOperationLabel.Content = string.Format("{0}: Analyzing Syntax...", docName);
             foreach (var task in doc.GetBindingTasks()) {
                 currentOperationLabel.Content = task.InitializationMessage;
@@ -216,7 +216,7 @@ namespace LASI.UserInterface
                 var message = task.InitializationMessage;
                 currentOperationLabel.Content = message;
                 await task.Task;
-                await StepProgress(3);
+                await StepProgress(1);
             }
             currentOperationProgressBar.Value += 3;
             currentOperationLabel.Content = string.Format("{0}: Visualizing...", docName);
@@ -375,24 +375,6 @@ namespace LASI.UserInterface
 
         #endregion
 
-
-        #region Properties and Fields
-
-        private List<Document> documents = new List<Document>();
-        /// <summary>
-        /// Gets or sets the list of LASI.Algorithm.Document objects in the current project.
-        /// </summary>
-        public List<Document> Documents {
-            get {
-                return documents;
-            }
-            set {
-                documents = value;
-            }
-        }
-
-        #endregion
-
         private void CloseApp_CommandBinding_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e) {
             this.Close();
             Application.Current.Shutdown();
@@ -415,6 +397,23 @@ namespace LASI.UserInterface
         }
 
 
+
+        #region Properties and Fields
+
+        private List<Document> documents = new List<Document>();
+        /// <summary>
+        /// Gets or sets the list of LASI.Algorithm.Document objects in the current project.
+        /// </summary>
+        public List<Document> Documents {
+            get {
+                return documents;
+            }
+            set {
+                documents = value;
+            }
+        }
+
+        #endregion
 
     }
 

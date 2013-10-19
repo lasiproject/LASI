@@ -21,8 +21,8 @@ namespace LASI.Algorithm.LexicalLookup.Morphemization
         /// </summary>
         /// <param name="containingRoot">The root of a verb as a string.</param>
         /// <returns>All forms of the verb root.</returns>
-        public static IEnumerable<string> GetConjugations(string containingRoot)
-        {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1820:TestForEmptyStringsUsingStringLength")]
+        public static IEnumerable<string> GetConjugations(string containingRoot) {
 
             var hyphIndex = containingRoot.IndexOf('-');
 
@@ -43,14 +43,12 @@ namespace LASI.Algorithm.LexicalLookup.Morphemization
         /// </summary>
         /// <param name="search">The verb string to find the root of.</param>
         /// <returns>The root of the given verb string. If no root can be found, the verb string itself is returned.</returns>
-        public static IEnumerable<string> FindRoots(string search)
-        {
+        public static IEnumerable<string> FindRoots(string search) {
             var result = CheckSpecialForms(search);
             return result.Any() ? result.Distinct() : BuildLexicalForms(search).DefaultIfEmpty(search);
         }
 
-        private static IEnumerable<string> BuildLexicalForms(string root)
-        {
+        private static IEnumerable<string> BuildLexicalForms(string root) {
             var hyphIndex = root.IndexOf('-');
             var afterHyphen = hyphIndex > -1 ? root.Substring(hyphIndex) : string.Empty;
             var results = new List<string>();
@@ -66,8 +64,7 @@ namespace LASI.Algorithm.LexicalLookup.Morphemization
             return results.Select(r => r + afterHyphen).DefaultIfEmpty(root);
         }
 
-        private static IEnumerable<string> CheckSpecialForms(string checkFor)
-        {
+        private static IEnumerable<string> CheckSpecialForms(string checkFor) {
             return from verbExceptKVs in exceptionData
                    where verbExceptKVs.Value.Contains(checkFor)
                    from v in verbExceptKVs.Value
@@ -89,8 +86,7 @@ namespace LASI.Algorithm.LexicalLookup.Morphemization
             { "y", new []{ "ies" } },
         };
 
-        private static void LoadExceptionFile(string filePath)
-        {
+        private static void LoadExceptionFile(string filePath) {
             using (var reader = new StreamReader(filePath)) {
                 var exceptions = from line in reader.ReadToEnd().Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries)
                                  select line.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).Select(r => r.Replace('_', '-'));

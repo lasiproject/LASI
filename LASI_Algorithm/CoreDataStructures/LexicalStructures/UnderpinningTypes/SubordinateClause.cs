@@ -46,10 +46,11 @@ namespace LASI.Algorithm
                 if (_described == null)
                     _modified = value;
                 else
-                    throw new ConflictingClauseRoleException(string.Format(@"Cannot bind {0}\n
-                                                    as an Verbal discriptive modifier of {1}\n
-                                                    because it is already indicated as an Action
-                                                    descriptive modifier of\n{2}", this, value, _described));
+                    throw new ConflictingClauseRoleException(
+                        string.Format(@"Cannot bind {0}\n
+                                        as a descriptive modifier of {1}\n
+                                        because it is already indicated as a Verbal
+                                        descriptive modifier of\n{2}", this, value, _described));
             }
         }
         /// <summary>
@@ -64,10 +65,11 @@ namespace LASI.Algorithm
                 if (_modified == null)
                     _described = value;
                 else
-                    throw new ConflictingClauseRoleException(string.Format(@"Cannot bind {0}\n
-                                                    as an Entitiy discriptive modifier of {1}\n
-                                                    because it is already indicated as an Action
-                                                    descriptive modifier of\n{2}", this, value, _modified));
+                    throw new ConflictingClauseRoleException(
+                        string.Format(@"Cannot bind {0}\n
+                                        as an Entity descriptive modifier of {1}\n
+                                        because it is already indicated as an Action
+                                        descriptive modifier of\n{2}", this, value, _modified));
             }
         }
         #endregion

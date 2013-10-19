@@ -172,22 +172,22 @@ namespace LASI.Algorithm.LexicalLookup
         /// <code>if ( e1.IsSimilarTo(e2) ) { ... }</code>
         /// Please prefer the second convention.
         /// </remarks>
-        public static SimResult IsSimilarTo(this IEntity first, IEntity second) {
-            return first.Match().Yield<SimResult>()
+        public static SimilarityResult IsSimilarTo(this IEntity first, IEntity second) {
+            return first.Match().Yield<SimilarityResult>()
                     .When(string.Equals(first.Text, second.Text, StringComparison.OrdinalIgnoreCase))
-                        .Then(SimResult.Similar)
+                        .Then(SimilarityResult.Similar)
                     .Case<AggregateEntity>(ae1 =>
-                        second.Match().Yield<SimResult>()
+                        second.Match().Yield<SimilarityResult>()
                           .Case<AggregateEntity>(ae2 => ae1.IsSimilarTo(ae2))
-                          .Case<IEntity>(e2 => new SimResult(ae1.Any(entity => entity.IsSimilarTo(e2))))
+                          .Case<IEntity>(e2 => new SimilarityResult(ae1.Any(entity => entity.IsSimilarTo(e2))))
                         .Result())
                     .Case<Noun>(n1 =>
-                        second.Match().Yield<SimResult>()
-                          .Case<Noun>(n2 => new SimResult(n1.IsSynonymFor(n2)))
+                        second.Match().Yield<SimilarityResult>()
+                          .Case<Noun>(n2 => new SimilarityResult(n1.IsSynonymFor(n2)))
                           .Case<NounPhrase>(np2 => n1.IsSimilarTo(np2))
                         .Result())
                     .Case<NounPhrase>(np1 =>
-                        second.Match().Yield<SimResult>()
+                        second.Match().Yield<SimilarityResult>()
                           .Case<NounPhrase>(np2 => np1.IsSimilarTo(np2))
                           .Case<Noun>(n2 => np1.IsSimilarTo(n2))
                         .Result())
@@ -204,7 +204,7 @@ namespace LASI.Algorithm.LexicalLookup
         /// <code>if ( e1.IsSimilarTo(e2) ) { ... }</code>
         /// Please prefer the second convention.
         /// </remarks>
-        public static SimResult IsSimilarTo(this IAggregateEntity first, IAggregateEntity second) {
+        public static SimilarityResult IsSimilarTo(this IAggregateEntity first, IAggregateEntity second) {
             var simResults = from e1 in first
                              from e2 in second
                              select e1.IsSimilarTo(e2) into result
@@ -212,7 +212,7 @@ namespace LASI.Algorithm.LexicalLookup
                              let Count = (double)byResult.Count()
                              orderby Count descending
                              select new { byResult.Key, Count };
-            return new SimResult(simResults.First().Key, simResults.Skip(1).Aggregate(simResults.First().Count, (ratioSoFar, current) => ratioSoFar /= current.Count));
+            return new SimilarityResult(simResults.First().Key, simResults.Skip(1).Aggregate(simResults.First().Count, (ratioSoFar, current) => ratioSoFar /= current.Count));
         }
         /// <summary>
         /// Determines if two IVerbal instances are similar.
@@ -225,17 +225,17 @@ namespace LASI.Algorithm.LexicalLookup
         /// <code>if ( v1.IsSimilarTo(v2) ) { ... }</code> 
         /// Please prefer the second convention.
         /// </remarks>
-        public static SimResult IsSimilarTo(this IVerbal first, IVerbal second) {
-            return first.Match().Yield<SimResult>()
+        public static SimilarityResult IsSimilarTo(this IVerbal first, IVerbal second) {
+            return first.Match().Yield<SimilarityResult>()
                     .When(string.Equals(first.Text, second.Text, StringComparison.OrdinalIgnoreCase))
-                        .Then(SimResult.Similar)
+                        .Then(SimilarityResult.Similar)
                     .Case<Verb>(v1 =>
-                        second.Match().Yield<SimResult>()
-                          .Case<Verb>(v2 => new SimResult(v1.IsSynonymFor(v2)))
+                        second.Match().Yield<SimilarityResult>()
+                          .Case<Verb>(v2 => new SimilarityResult(v1.IsSynonymFor(v2)))
                           .Case<VerbPhrase>(vp2 => v1.IsSimilarTo(vp2))
                         .Result())
                     .Case<VerbPhrase>(vp1 =>
-                        second.Match().Yield<SimResult>()
+                        second.Match().Yield<SimilarityResult>()
                           .Case<VerbPhrase>(vp2 => vp1.IsSimilarTo(vp2))
                           .Case<Verb>(v2 => vp1.IsSimilarTo(v2))
                         .Result())
@@ -252,17 +252,17 @@ namespace LASI.Algorithm.LexicalLookup
         /// <code>if ( d1.IsSimilarTo(d2) ) { ... }</code> 
         /// Please prefer the second convention.
         /// </remarks>
-        public static SimResult IsSimilarTo(this IDescriptor first, IDescriptor second) {
-            return first.Match().Yield<SimResult>()
+        public static SimilarityResult IsSimilarTo(this IDescriptor first, IDescriptor second) {
+            return first.Match().Yield<SimilarityResult>()
                     .When(string.Equals(first.Text, second.Text, StringComparison.OrdinalIgnoreCase))
-                        .Then(SimResult.Similar)
+                        .Then(SimilarityResult.Similar)
                     .Case<Adjective>(j1 =>
-                        second.Match().Yield<SimResult>()
-                            .Case<Adjective>(j2 => new SimResult(j1.IsSynonymFor(j2)))
+                        second.Match().Yield<SimilarityResult>()
+                            .Case<Adjective>(j2 => new SimilarityResult(j1.IsSynonymFor(j2)))
                             .Case<AdjectivePhrase>(jp2 => jp2.IsSimilarTo(j1))
                         .Result())
                     .Case<AdjectivePhrase>(jp1 =>
-                        second.Match().Yield<SimResult>()
+                        second.Match().Yield<SimilarityResult>()
                           .Case<AdjectivePhrase>(jp2 => jp1.IsSimilarTo(jp2))
                           .Case<Adjective>(j2 => jp1.IsSimilarTo(j2))
                         .Result())
@@ -279,16 +279,16 @@ namespace LASI.Algorithm.LexicalLookup
         /// <code>if ( a1.IsSimilarTo(a2) ) { ... }</code> 
         /// Please prefer the second convention.
         /// </remarks>
-        public static SimResult IsSimilarTo(this IAdverbial first, IAdverbial second) {
-            return first.Match().Yield<SimResult>()
+        public static SimilarityResult IsSimilarTo(this IAdverbial first, IAdverbial second) {
+            return first.Match().Yield<SimilarityResult>()
                     .When(string.Equals(first.Text, second.Text, StringComparison.OrdinalIgnoreCase))
-                        .Then(SimResult.Similar)
+                        .Then(SimilarityResult.Similar)
                     .Case<Adverb>(a1 =>
-                        second.Match().Yield<SimResult>()
-                            .Case<Adverb>(a2 => new SimResult(a1.IsSynonymFor(a2)))
+                        second.Match().Yield<SimilarityResult>()
+                            .Case<Adverb>(a2 => new SimilarityResult(a1.IsSynonymFor(a2)))
                             .Case<AdverbPhrase>(ap2 => ap2.IsSimilarTo(a1))
                         .Result())
-                    .Case<AdverbPhrase>(ap1 => second.Match().Yield<SimResult>()
+                    .Case<AdverbPhrase>(ap1 => second.Match().Yield<SimilarityResult>()
                         .Case<AdverbPhrase>(ap2 => ap1.IsSimilarTo(ap2))
                         .Case<Adverb>(a2 => ap1.IsSimilarTo(a2))
                     .Result())
@@ -306,9 +306,9 @@ namespace LASI.Algorithm.LexicalLookup
         /// <code>if ( n1.IsSimilarTo(np2) ) { ... }</code>
         /// Please prefer the second convention.
         /// </remarks>
-        public static SimResult IsSimilarTo(this Noun first, NounPhrase second) {
+        public static SimilarityResult IsSimilarTo(this Noun first, NounPhrase second) {
             var phraseNouns = second.Words.OfNoun();
-            return new SimResult(phraseNouns.Count() == 1 && phraseNouns.First().IsSynonymFor(first));
+            return new SimilarityResult(phraseNouns.Count() == 1 && phraseNouns.First().IsSynonymFor(first));
         }
         /// <summary>
         /// Determines if the provided NounPhrase is similar to the provided Noun.
@@ -321,7 +321,7 @@ namespace LASI.Algorithm.LexicalLookup
         /// <code>if ( np1.IsSimilarTo(n2) ) { ... }</code>
         /// Please prefer the second convention.
         /// </remarks>
-        public static SimResult IsSimilarTo(this NounPhrase first, Noun second) {
+        public static SimilarityResult IsSimilarTo(this NounPhrase first, Noun second) {
             return second.IsSimilarTo(first);
         }
         /// <summary>
@@ -335,8 +335,8 @@ namespace LASI.Algorithm.LexicalLookup
         /// <code>if ( n1.IsSimilarTo(n2) ) { ... }</code>
         /// Please prefer the second convention.
         /// </remarks>
-        public static SimResult IsSimilarTo(this Noun first, Noun second) {
-            return new SimResult(first.IsSynonymFor(second));
+        public static SimilarityResult IsSimilarTo(this Noun first, Noun second) {
+            return new SimilarityResult(first.IsSynonymFor(second));
         }
         /// <summary>
         /// Determines if the two provided Verb instances are similar.
@@ -349,8 +349,8 @@ namespace LASI.Algorithm.LexicalLookup
         /// <code>if ( v1.IsSimilarTo(v2) ) { ... }</code>
         /// Please prefer the second convention.
         /// </remarks>
-        public static SimResult IsSimilarTo(this Verb first, Verb second) {
-            return new SimResult(first.IsSynonymFor(second));
+        public static SimilarityResult IsSimilarTo(this Verb first, Verb second) {
+            return new SimilarityResult(first.IsSynonymFor(second));
         }
         /// <summary>
         /// Determines if the provided VerbPhrase is similar to the provided Verb.
@@ -363,7 +363,7 @@ namespace LASI.Algorithm.LexicalLookup
         /// <code>if ( vp1.IsSimilarTo(v2) ) { ... }</code>
         /// Please prefer the second convention.
         /// </remarks>
-        public static SimResult IsSimilarTo(this VerbPhrase first, Verb second) {
+        public static SimilarityResult IsSimilarTo(this VerbPhrase first, Verb second) {
             return second.IsSimilarTo(first);
         }
         /// <summary>
@@ -377,8 +377,8 @@ namespace LASI.Algorithm.LexicalLookup
         /// <code>if ( v1.IsSimilarTo(vp2) ) { ... }</code>
         /// Please prefer the second convention.
         /// </remarks>
-        public static SimResult IsSimilarTo(this Verb first, VerbPhrase second) {
-            return new SimResult(second.Words.TakeWhile(w => !(w is ToLinker)).OfVerb().Any(v => v.IsSynonymFor(first)));//This is kind of rough.
+        public static SimilarityResult IsSimilarTo(this Verb first, VerbPhrase second) {
+            return new SimilarityResult(second.Words.TakeWhile(w => !(w is ToLinker)).OfVerb().Any(v => v.IsSynonymFor(first)));//This is kind of rough.
         }
 
         /// <summary>
@@ -392,9 +392,9 @@ namespace LASI.Algorithm.LexicalLookup
         /// <code>if ( np1.IsSimilarTo(np2) ) { ... }</code>
         /// Please prefer the second convention.
         /// </remarks>
-        public static SimResult IsSimilarTo(this NounPhrase first, NounPhrase second) {
+        public static SimilarityResult IsSimilarTo(this NounPhrase first, NounPhrase second) {
             var ratio = GetSimilarityRatio(first, second);
-            return new SimResult(ratio > SIMILARITY_THRESHOLD, ratio);
+            return new SimilarityResult(ratio > SIMILARITY_THRESHOLD, ratio);
         }
         /// <summary>
         /// Determines if two VerbPhrases are similar.
@@ -407,7 +407,7 @@ namespace LASI.Algorithm.LexicalLookup
         /// <code>if ( vp1.IsSimilarTo(vp2) ) { ... }</code>
         /// Please prefer the second convention.
         /// </remarks>
-        public static SimResult IsSimilarTo(this VerbPhrase first, VerbPhrase second) {
+        public static SimilarityResult IsSimilarTo(this VerbPhrase first, VerbPhrase second) {
 
             //Look into refining this
             List<Verb> leftHandVerbs = first.Words.OfVerb().ToList();
@@ -422,11 +422,11 @@ namespace LASI.Algorithm.LexicalLookup
                     }
                 }
                 catch (NullReferenceException) {
-                    return SimResult.Dissimilar;
+                    return SimilarityResult.Dissimilar;
                 }
             }
 
-            return new SimResult(result);
+            return new SimilarityResult(result);
         }
         /// <summary>
         /// Determines if the two provided Adjective instances are similar.
@@ -439,8 +439,8 @@ namespace LASI.Algorithm.LexicalLookup
         /// <code>if ( a1.IsSimilarTo(a2) ) { ... }</code>
         /// Please prefer the second convention.
         /// </remarks>
-        public static SimResult IsSimilarTo(this Adjective first, Adjective second) {
-            return new SimResult(first.IsSynonymFor(second));
+        public static SimilarityResult IsSimilarTo(this Adjective first, Adjective second) {
+            return new SimilarityResult(first.IsSynonymFor(second));
         }
         /// <summary>
         /// Determines if the provided AdjectivePhrase is similar to the provided Adjective.
@@ -453,7 +453,7 @@ namespace LASI.Algorithm.LexicalLookup
         /// <code>if ( ap1.IsSimilarTo(a2) ) { ... }</code>
         /// Please prefer the second convention.
         /// </remarks>
-        public static SimResult IsSimilarTo(this AdjectivePhrase first, Adjective second) {
+        public static SimilarityResult IsSimilarTo(this AdjectivePhrase first, Adjective second) {
             return second.IsSimilarTo(first);
         }
         /// <summary>
@@ -467,8 +467,8 @@ namespace LASI.Algorithm.LexicalLookup
         /// <code>if ( a1.IsSimilarTo(ap2) ) { ... }</code>
         /// Please prefer the second convention.
         /// </remarks>
-        public static SimResult IsSimilarTo(this Adjective first, AdjectivePhrase second) {
-            return new SimResult(second.Words.OfAdjective().Any(adj => adj.IsSynonymFor(first)));
+        public static SimilarityResult IsSimilarTo(this Adjective first, AdjectivePhrase second) {
+            return new SimilarityResult(second.Words.OfAdjective().Any(adj => adj.IsSynonymFor(first)));
         }
 
 
@@ -483,25 +483,12 @@ namespace LASI.Algorithm.LexicalLookup
         /// <code>if ( ap1.IsSimilarTo(ap2) ) { ... }</code>
         /// Please prefer the second convention.
         /// </remarks>
-        public static SimResult IsSimilarTo(this AdjectivePhrase first, AdjectivePhrase second) {
-
-            //Look into refining this
-            List<Adjective> leftHandAdjectives = first.Words.OfAdjective().ToList();
-            List<Adjective> rightHandAdjectives = second.Words.OfAdjective().ToList();
-
-            bool result = leftHandAdjectives.Count == rightHandAdjectives.Count;
-
-            if (result) {
-                try {
-                    for (var i = 0; i < leftHandAdjectives.Count; ++i) {
-                        result &= leftHandAdjectives[i].IsSynonymFor(rightHandAdjectives[i]);
-                    }
-                }
-                catch (NullReferenceException) {
-                    return SimResult.Dissimilar;
-                }
-            }
-            return new SimResult(result);
+        public static SimilarityResult IsSimilarTo(this AdjectivePhrase first, AdjectivePhrase second) {
+            var synResults =
+                first.Words.OfAdjective()
+                .Zip(second.Words.OfAdjective(), IsSynonymFor)
+                .Aggregate(new { Trues = 0f, Falses = 0f }, (a, c) => new { Trues = a.Trues + (c ? 1 : 0), Falses = a.Falses + (c ? 0 : 1) });
+            return new SimilarityResult(first == second || synResults.Trues / (synResults.Falses + synResults.Trues) > SIMILARITY_THRESHOLD);
         }
         /// <summary>
         /// Determines if the two provided Adverb instances are similar.
@@ -514,8 +501,8 @@ namespace LASI.Algorithm.LexicalLookup
         /// <code>if ( a1.IsSimilarTo(a2) ) { ... }</code>
         /// Please prefer the second convention.
         /// </remarks>
-        public static SimResult IsSimilarTo(this Adverb first, Adverb second) {
-            return new SimResult(first.IsSynonymFor(second));
+        public static SimilarityResult IsSimilarTo(this Adverb first, Adverb second) {
+            return new SimilarityResult(first.IsSynonymFor(second));
         }
         /// <summary>
         /// Determines if the provided AdverbPhrase is similar to the provided Adverb.
@@ -528,7 +515,7 @@ namespace LASI.Algorithm.LexicalLookup
         /// <code>if ( ap1.IsSimilarTo(a2) ) { ... }</code>
         /// Please prefer the second convention.
         /// </remarks>
-        public static SimResult IsSimilarTo(this AdverbPhrase first, Adverb second) {
+        public static SimilarityResult IsSimilarTo(this AdverbPhrase first, Adverb second) {
             return second.IsSimilarTo(first);
         }
         /// <summary>
@@ -542,8 +529,8 @@ namespace LASI.Algorithm.LexicalLookup
         /// <code>if ( a1.IsSimilarTo(ap2) ) { ... }</code>
         /// Please prefer the second convention.
         /// </remarks>
-        public static SimResult IsSimilarTo(this Adverb first, AdverbPhrase second) {
-            return new SimResult(second.Words.OfAdverb().Any(adj => adj.IsSynonymFor(first)));
+        public static SimilarityResult IsSimilarTo(this Adverb first, AdverbPhrase second) {
+            return new SimilarityResult(second.Words.OfAdverb().Any(adj => adj.IsSynonymFor(first)));
             // Must refine this to check for negators and modals which will potentially invert the meaning.
         }
 
@@ -558,25 +545,12 @@ namespace LASI.Algorithm.LexicalLookup
         /// <code>if ( ap1.IsSimilarTo(ap2) ) { ... }</code>
         /// Please prefer the second convention.
         /// </remarks>
-        public static SimResult IsSimilarTo(this AdverbPhrase first, AdverbPhrase second) {
-
-            //Look into refining this
-            List<Adverb> leftHandAdjectives = first.Words.OfAdverb().ToList();
-            List<Adverb> rightHandAdjectives = second.Words.OfAdverb().ToList();
-
-            bool result = leftHandAdjectives.Count == rightHandAdjectives.Count;
-
-            if (result) {
-                try {
-                    for (var i = 0; i < leftHandAdjectives.Count; ++i) {
-                        result &= leftHandAdjectives[i].IsSynonymFor(rightHandAdjectives[i]);
-                    }
-                }
-                catch (NullReferenceException) {
-                    return SimResult.Dissimilar;
-                }
-            }
-            return new SimResult(result);
+        public static SimilarityResult IsSimilarTo(this AdverbPhrase first, AdverbPhrase second) {
+            var synResults =
+                first.Words.OfAdverb()
+                .Zip(second.Words.OfAdverb(), IsSynonymFor)
+                .Aggregate(new { Trues = 0f, Falses = 0f }, (a, c) => new { Trues = a.Trues + (c ? 1 : 0), Falses = a.Falses + (c ? 0 : 1) });
+            return new SimilarityResult(first == second || synResults.Trues / (synResults.Falses + synResults.Trues) > SIMILARITY_THRESHOLD);
         }
         /// <summary>
         /// Returns a double value indicating the degree of similarity between two NounPhrases.

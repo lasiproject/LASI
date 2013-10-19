@@ -20,6 +20,7 @@ namespace LASI.Algorithm.RelationshipLookups
         /// <param name="performer">The first IEntity, the peformer of the action.</param>
         /// <param name="receiver">The second IEntity, the receiver of the action.</param>
         /// <returns>An object containing all of the IVerbals on which the two IEntity constructs are related or null if they have no established IVerbal relationships.</returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "SetRelationshipLookup")]
         public static ActionsRelatedOn? IsRelatedTo(this IEntity performer, IEntity receiver) {
             Func<IEntity, IEntity, bool> predicate = (L, R) => L.IsAliasFor(R) || L.IsSimilarTo(R);
 

@@ -47,9 +47,11 @@ namespace LASI.UserInterface
         public async Task ParseDocuments() {
 
             var processController = new ProcessController();
-            processController.ProgressChanged += async (sender, e) => {
+            processController.ProgressChanged += (sender, e) => {
                 progressLabel.Content = e.Message;
                 progressBar.ToolTip = e.Message;
+            };
+            processController.ProgressChanged += async (sender, e) => {
                 var animateStep = 0.028 * e.Increment;
                 for (int i = 0; i < 33; ++i) {
                     progressBar.Value += animateStep;

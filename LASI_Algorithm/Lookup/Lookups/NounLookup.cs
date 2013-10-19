@@ -47,7 +47,7 @@ namespace LASI.Algorithm.LexicalLookup
             lexicalGoups[set.LexName].Add(set);
         }
 
-        private NounSynSet CreateSet(string fileLine) {
+        private static NounSynSet CreateSet(string fileLine) {
 
             string line = fileLine.Substring(0, fileLine.IndexOf('|'));
 

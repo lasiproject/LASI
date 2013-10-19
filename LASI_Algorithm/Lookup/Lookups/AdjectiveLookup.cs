@@ -35,7 +35,7 @@ namespace LASI.Algorithm.LexicalLookup
             }
         }
 
-        AdjectiveSynSet CreateSet(string fileLine) {
+        static AdjectiveSynSet CreateSet(string fileLine) {
 
 
 

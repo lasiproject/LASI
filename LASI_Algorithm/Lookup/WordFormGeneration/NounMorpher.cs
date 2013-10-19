@@ -32,6 +32,7 @@ namespace LASI.Algorithm.LexicalLookup.Morphemization
 
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1820:TestForEmptyStringsUsingStringLength")]
         private static IEnumerable<string> TryComputeConjugations(string containingRoot) {
             var hyphenIndex = containingRoot.IndexOf('-');
             var root = FindRoot(hyphenIndex > -1 ? containingRoot.Substring(0, hyphenIndex) : containingRoot);

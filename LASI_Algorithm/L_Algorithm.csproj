@@ -35,9 +35,13 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\Algorithm.XML</DocumentationFile>
+    <DocumentationFile>
+    </DocumentationFile>
     <PlatformTarget>x64</PlatformTarget>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -106,6 +110,7 @@
     <Compile Include="CoreDataStructures\LexicalStructures\SymbolsAndPunctuators\DoubleQuote.cs" />
     <Compile Include="CoreDataStructures\Support\EnumerableExtensions\EnumerableOfIPronounExtensions.cs" />
     <Compile Include="CoreDataStructures\LexicalStructures\NounRelatedConstructs\Gender.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Lookup\LookupComparisons.cs" />
     <Compile Include="Lookup\Support\SimResult.cs" />
     <Compile Include="Lookup\WordFormGeneration\AdverbMorpher.cs" />

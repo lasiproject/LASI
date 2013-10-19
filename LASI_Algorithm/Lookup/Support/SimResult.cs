@@ -21,7 +21,7 @@ namespace LASI.Algorithm.LexicalLookup
         /// Instead one may simple write the same logic as: 
         /// <code>if ( a.IsSimilarTo(b) > 0.7 ) { ... }</code>
         /// </summary>
-        public struct SimResult : IEquatable<SimResult>, IComparable<SimResult>
+        public struct SimilarityResult : IEquatable<SimilarityResult>, IComparable<SimilarityResult>
         {
             #region Constructors
 
@@ -30,7 +30,7 @@ namespace LASI.Algorithm.LexicalLookup
             /// </summary>
             /// <param name="similar">Indicates the result the true of false result of an IsSimilarTo test.</param>
             /// <param name="similarityRatio">Represents the similarity ratio between the tested elements, if applicable.</param>
-            internal SimResult(bool similar, double similarityRatio)
+            internal SimilarityResult(bool similar, double similarityRatio)
                 : this() {
                 booleanResult = similar;
                 rationalResult = similarityRatio;
@@ -42,7 +42,7 @@ namespace LASI.Algorithm.LexicalLookup
             /// <remarks>Use this constructor when the ratio itself is not specified or not provided.
             /// In such cases, the RatioResult property will be automatically set to 1 or 0 based on the truthfullness of the provided similar argument.
             /// </remarks>
-            internal SimResult(bool similar) : this(similar, similar ? 1 : 0) { }
+            internal SimilarityResult(bool similar) : this(similar, similar ? 1 : 0) { }
 
             #endregion
 
@@ -52,7 +52,7 @@ namespace LASI.Algorithm.LexicalLookup
             ///  </summary>
             /// <param name="other">An object to compare with this object.</param>
             /// <returns>true if the current object is equal to the other parameter, false otherwise.</returns>
-            public bool Equals(SimResult other) {
+            public bool Equals(SimilarityResult other) {
                 return this == other;
             }
             /// <summary>
@@ -61,7 +61,7 @@ namespace LASI.Algorithm.LexicalLookup
             /// <param name="obj">The object to compare with.</param> 
             /// <returns>True if the specified object is equal to the current SimResult, false otherwise.</returns> 
             public override bool Equals(object obj) {
-                return obj != null && obj is SimResult && this == (SimResult)obj;
+                return obj != null && obj is SimilarityResult && this == (SimilarityResult)obj;
             }
             /// <summary>
             /// Compares the current object with another object of the same type.
@@ -73,7 +73,7 @@ namespace LASI.Algorithm.LexicalLookup
             /// This object is less than the other parameter.Zero This object is equal to
             /// other. Greater than zero This object is greater than other.
             /// </returns>
-            public int CompareTo(SimResult other) {
+            public int CompareTo(SimilarityResult other) {
                 return this.rationalResult.CompareTo(other.rationalResult);
             }
             /// <summary>
@@ -104,13 +104,13 @@ namespace LASI.Algorithm.LexicalLookup
             /// </summary>
             /// <param name="sr">The SimResult to convert.</param>
             /// <returns>A boolean with the same value as the conversion target's booleanResult Property.</returns>
-            public static implicit operator bool(SimResult sr) { return sr.booleanResult; }
+            public static implicit operator bool(SimilarityResult sr) { return sr.booleanResult; }
             /// <summary>
             /// Converts the SimResult into its double representation. The resulting boolean has the same value as the conversion target's RatioResult Property.
             /// </summary>
             /// <param name="sr">The SimResult to convert.</param>
             /// <returns>A double with the same value as the conversion target's RatioResult Property.</returns>
-            public static implicit operator double(SimResult sr) { return sr.rationalResult; }
+            public static implicit operator double(SimilarityResult sr) { return sr.rationalResult; }
 
             #endregion
 
@@ -127,7 +127,7 @@ namespace LASI.Algorithm.LexicalLookup
             /// <param name="left">The SimRult on the left hand side.</param>
             /// <param name="right">The SimRult on the right hand side.</param>
             /// <returns>True if the SimResult on the left is equal to the SimResult on the right.</returns>
-            public static bool operator ==(SimResult left, SimResult right) {
+            public static bool operator ==(SimilarityResult left, SimilarityResult right) {
                 return left.rationalResult == right.rationalResult && left.booleanResult == right.booleanResult;
             }
             /// <summary>
@@ -142,7 +142,7 @@ namespace LASI.Algorithm.LexicalLookup
             /// <param name="left">The SimRult on the left hand side.</param>
             /// <param name="right">The SimRult on the right hand side.</param>
             /// <returns>False if the SimResult on the left is equal to the SimResult on the right.</returns>
-            public static bool operator !=(SimResult left, SimResult right) {
+            public static bool operator !=(SimilarityResult left, SimilarityResult right) {
                 return !(left == right);
             }
             #endregion
@@ -150,8 +150,8 @@ namespace LASI.Algorithm.LexicalLookup
             #endregion
 
             #region Static Properties
-            internal static readonly SimResult Similar = new SimResult(true, 1);
-            internal static readonly SimResult Dissimilar = new SimResult(false, 0);
+            internal static readonly SimilarityResult Similar = new SimilarityResult(true, 1);
+            internal static readonly SimilarityResult Dissimilar = new SimilarityResult(false, 0);
             #endregion
         }
     }

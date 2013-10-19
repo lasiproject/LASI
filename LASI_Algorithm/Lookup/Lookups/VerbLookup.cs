@@ -27,19 +27,21 @@ namespace LASI.Algorithm.LexicalLookup
         /// <summary>
         /// Parses the contents of the underlying WordNet database file.
         /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
         public void Load() {
             using (var reader = new StreamReader(new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.None, 10024, FileOptions.SequentialScan))) {
                 var fileLines = reader.ReadToEnd().Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries).Skip(HEADER_LENGTH);
                 foreach (var line in fileLines) {
                     LinkSynset(CreateSet(line));
                 }
+                reader.BaseStream.Dispose();
             }
         }
         public async Task LoadAsync() {
             await System.Threading.Tasks.Task.Run(() => Load());
         }
 
-        private VerbSynSet CreateSet(string fileLine) {
+        private static VerbSynSet CreateSet(string fileLine) {
             var line = fileLine.Substring(0, fileLine.IndexOf('|'));
 
             var referencedSets = from Match M in Regex.Matches(line, POINTER_REGEX)

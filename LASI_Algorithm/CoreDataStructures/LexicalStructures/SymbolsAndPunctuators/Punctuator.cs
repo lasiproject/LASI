@@ -13,20 +13,20 @@ namespace LASI.Algorithm
         /// <summary>
         /// Initializes a new instance of the Punctuation class.
         /// </summary>
-        /// <param name="puncChar">The punctuation character symbol.</param>
-        public Punctuator(char puncChar)
-            : base(puncChar) {
-            ActualCharacter = puncChar;
+        /// <param name="punctuation">The punctuation character symbol.</param>
+        public Punctuator(char punctuation)
+            : base(punctuation) {
+            ActualCharacter = punctuation;
             AliasString = PunctuationAliasMap.GetAliasStringForChar(ActualCharacter);
         }
 
         /// <summary>
         /// Initializes a new instances of the Punctuation class.
         /// </summary>
-        /// <param name="puncString">Text which is an alias for a punctuator character. e.g. "LEFT_SQUARE_BRACKET"</param>
-        public Punctuator(string puncString)
-            : base(puncString) {
-            AliasString = puncString;
+        /// <param name="punctuation">Text which is an alias for a punctuator character. e.g. "LEFT_SQUARE_BRACKET"</param>
+        public Punctuator(string punctuation)
+            : base(punctuation) {
+            AliasString = punctuation;
             ActualCharacter = PunctuationAliasMap.GetCharForAliasString(AliasString);
 
         }

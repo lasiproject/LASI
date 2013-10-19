@@ -19,6 +19,7 @@ namespace LASI.Algorithm.LexicalLookup.InterSetRelationshipManagement
         /// <param name="key">The Key string for which to retrieve a Noun value.</param>
         /// <returns>The Noun value corresponding to the Key string.
         /// The Value UNDEFINED is returned if no value is mapped to the key.</returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic")]
         public NounSetRelationship this[string key] {
             get {
                 NounSetRelationship result;
@@ -132,6 +133,7 @@ namespace LASI.Algorithm.LexicalLookup.InterSetRelationshipManagement
         /// <param name="key">The Key string for which to retrieve a Noun value.</param>
         /// <returns>The VerbPointerSymbol value corresponding to the Key string.
         /// The Value UNDEFINED is returned if no value is mapped to the key.</returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic")]
         public AdverbSetRelationship this[string key] {
             get {
                 AdverbSetRelationship result;

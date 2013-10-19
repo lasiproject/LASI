@@ -84,9 +84,9 @@ namespace LASI.Algorithm.Weighting
             }
         }
         private static void ModifyVerbWeightsBySynonyms(Document doc) {
-            var verbsToConsider = doc.Words.OfVerb().AsParallel().WithDegreeOfParallelism(Concurrency.Max).WithSubjectOrObject();
-            var groups = from outer in verbsToConsider
-                         from inner in verbsToConsider
+            var verbsToConsider = doc.Words.OfVerb().AsParallel().WithDegreeOfParallelism(Concurrency.Max).WithSubjectOrObject().ToList();
+            var groups = from outer in verbsToConsider.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
+                         from inner in verbsToConsider.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                          where outer.IsSynonymFor(inner)
                          group inner by outer;
             groups.ForAll(grp => {
@@ -101,21 +101,28 @@ namespace LASI.Algorithm.Weighting
         /// </summary>
         /// <param name="doc">the Document whose noun weights may be modiffied</param>
         private static void ModifyNounWeightsBySynonyms(Document doc) {
-            //Currently, include only those nouns which exist in relationships with some IVerbal or IPronoun.
-            var toConsider = doc.Words.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                .OfNoun().InSubjectOrObjectRole()
-                .Concat<IEntity>(doc.Words
-                .OfPronoun().InSubjectOrObjectRole().Select(e => e.Referent ?? e as IEntity)).ToList();
-            (from outer in toConsider.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-             from inner in toConsider.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-             where outer.IsSimilarTo(inner)
-             group inner by outer)
-             .ForAll(grp => {
-                 var increase = grp.Count();
-                 foreach (var e in grp) {
-                     e.Weight += increase;
-                 }
-             });
+            var toConsider = (from e in doc.Words
+                                 .AsParallel().WithDegreeOfParallelism(Concurrency.Max)
+                                 .OfEntity().InSubjectOrObjectRole() //Currently, include only those nouns which exist in relationships with some IVerbal or IPronoun.
+                              let result = e.Match().Yield<IEntity>()
+                                  .Case<Noun>(e)
+                                  .Case<IReferencer>(r => r.Referent ?? r as IEntity)
+                              .Result()
+                              where result != null
+                              select result).ToList();
+
+            var synonymGroups =
+                from outer in toConsider.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
+                from inner in toConsider.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
+                where outer.IsSimilarTo(inner)
+                group inner by outer;
+
+            synonymGroups.ForAll(grp => {
+                var increase = grp.Count();
+                foreach (var e in grp) {
+                    e.Weight += increase;
+                }
+            });
         }
         private static void WeightByLiteralFrequency(IEnumerable<ILexical> syntacticElements) {
             var byTypeAndText = from e in syntacticElements.AsParallel().WithDegreeOfParallelism(Concurrency.Max)

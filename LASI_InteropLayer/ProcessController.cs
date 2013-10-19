@@ -33,8 +33,8 @@ namespace LASI.InteropLayer
         /// </code>
         /// </example>
         public async Task<IEnumerable<Document>> AnalyseAllDocumentsAsync(IEnumerable<LASI.Algorithm.IUntaggedTextSource> filesToProcess) {
-            documentsInWorkLoad = filesToProcess.Count();
-            stepSize = 2d / documentsInWorkLoad;
+            numDocs = filesToProcess.Count();
+            stepSize = 2d / numDocs;
             await LoadThesaurus();
             OnReport(new Report { Message = "Tagging Documents", Increment = 0 });
             var taggingTasks = filesToProcess.Select(F => Task.Run(async () => await Tagger.TaggedFromRawAsync(F))).ToList();
@@ -68,19 +68,18 @@ namespace LASI.InteropLayer
             foreach (var task in doc.GetBindingTasks()) {
                 OnReport(new Report { Message = task.InitializationMessage, Increment = 0 });
                 await task.Task;
-                OnReport(new Report { Message = task.CompletionMessage, Increment = task.PercentWorkRepresented * 0.5 / documentsInWorkLoad });
+                OnReport(new Report { Message = task.CompletionMessage, Increment = task.PercentWorkRepresented * 0.5 / numDocs });
             }
             OnReport(new Report { Message = string.Format("{0}: Correlating Relationships...", fileName), Increment = 0 });
             foreach (var task in doc.GetWeightingTasks()) {
-                OnReport(new Report { Message = task.InitializationMessage, Increment = 0 });
+                OnReport(new Report { Message = task.InitializationMessage, Increment = 1 / numDocs });
                 await task.Task;
-                OnReport(new Report { Message = task.CompletionMessage, Increment = task.PercentWorkRepresented * 0.5 / documentsInWorkLoad });
+                OnReport(new Report { Message = task.CompletionMessage, Increment = task.PercentWorkRepresented * 0.5 / numDocs });
             }
 
             OnReport(new Report { Message = string.Format("{0}: Completing Parse...", fileName), Increment = stepSize });
             return doc;
         }
-
         private async Task LoadThesaurus() {
             OnReport(new Report { Message = "Loading Thesaurus...", Increment = stepSize });
             var thesaurusTasks = Lookup.GetLoadingTasks().ToList();
@@ -95,9 +94,8 @@ namespace LASI.InteropLayer
 
             base.OnReport(value);
         }
-        private double documentsInWorkLoad;
+        private double numDocs;
         private double stepSize;
-        //private Func<string, double, Task> updateProgressDisplay;
 
         #region Helper Types
         public struct Report

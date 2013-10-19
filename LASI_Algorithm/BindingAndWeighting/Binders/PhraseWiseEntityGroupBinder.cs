@@ -21,14 +21,11 @@ namespace LASI.Algorithm.Binding
         /// <summary>
         /// Gets the collection of IEntityGroup constructs which were formed from all of the all binding Binder's activities over the course of its lifetime.
         /// </summary>
-        public List<IAggregateEntity> EntityGroups
-        {
-            get
-            {
+        public List<IAggregateEntity> EntityGroups {
+            get {
                 return entityGroups;
             }
-            private set
-            {
+            private set {
                 entityGroups = value;
             }
         }
@@ -36,8 +33,7 @@ namespace LASI.Algorithm.Binding
         /// Aggregates and binds the Phrase elvel IEntity constructs within the Sentence into instances aggregate objects which implement IEntityGroup.
         /// </summary>
         /// <param name="sentence">The Sentence to bind within.</param>
-        public void Bind(Sentence sentence)
-        {
+        public void Bind(Sentence sentence) {
             var betwixt = FindAllBetwixt(sentence);
             var aggregateEntities = new List<NounPhrase>();
             foreach (var b in betwixt) {
@@ -54,8 +50,7 @@ namespace LASI.Algorithm.Binding
             }
         }
 
-        private List<NpWithBetween> FindAllBetwixt(Sentence sentence)
-        {
+        private static List<NpWithBetween> FindAllBetwixt(Sentence sentence) {
             var betwixtAll = new List<NpWithBetween>();
             var nPS = sentence.Phrases.OfNounPhrase();
             while (nPS.Any()) {
@@ -75,20 +70,17 @@ namespace LASI.Algorithm.Binding
         internal struct NpWithBetween
         {
             internal NpWithBetween(NounPhrase nounPhrase, IEnumerable<Phrase> tillNextNounPhrase)
-                : this()
-            {
+                : this() {
                 NP = nounPhrase;
                 TillNextNP = tillNextNounPhrase;
             }
 
-            public IEnumerable<Phrase> TillNextNP
-            {
+            public IEnumerable<Phrase> TillNextNP {
                 get;
                 private set;
             }
 
-            public NounPhrase NP
-            {
+            public NounPhrase NP {
                 get;
                 private set;
             }

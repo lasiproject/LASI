@@ -34,7 +34,7 @@ namespace LASI.Algorithm.LexicalLookup
             }
         }
 
-        AdverbSynSet CreateSet(string fileLine) {
+        static AdverbSynSet CreateSet(string fileLine) {
 
 
             var line = fileLine.Substring(0, fileLine.IndexOf('|'));
@@ -60,9 +60,9 @@ namespace LASI.Algorithm.LexicalLookup
         private ISet<string> SearchFor(string word) {
 
             //gets pointers of searched word
-            //var tempResults = from sn in allSets
-            //                  where sn.Words.Contains(word)
-            //                  select sn.ReferencedIndexes;
+            var tempResults = from sn in allSets
+                              where sn.Words.Contains(word)
+                              select sn.ReferencedIndexes;
             //var flatPointers = from R in tempResults
             //                   from r in R
             //                   select r;

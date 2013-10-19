@@ -140,7 +140,7 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="elements">The sequence of ILexial instances to filter.</param>
         /// <returns>All IEntity in the sequence</returns>
-        public static IEnumerable<IEntity> OfEntity(this IEnumerable<ILexical> elements) {
+        public static IEnumerable<IEntity> OfEntity<TLexical>(this IEnumerable<TLexical> elements) {
             return elements.OfType<IEntity>();
         }
         /// <summary>
@@ -278,7 +278,7 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="elements">The sequence of componentPhrases to filter</param>
         /// <returns>All AdjectivePhrases in the sequence</returns>
-        public static ParallelQuery<IEntity> OfEntity(this ParallelQuery<ILexical> elements) {
+        public static ParallelQuery<IEntity> OfEntity<TLexical>(this ParallelQuery<TLexical> elements) {
             return elements.OfType<IEntity>();
         }
         /// <summary>
