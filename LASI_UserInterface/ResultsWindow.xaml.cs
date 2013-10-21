@@ -147,8 +147,8 @@ namespace LASI.UserInterface
                 }
             };
             var elementLabels = new List<Label>();
-            var dataSource = document.Paginate(50).FirstOrDefault();
-            foreach (var phrase in (dataSource != null ? dataSource.Sentences : document.Sentences).SelectMany(p => p.Phrases)) {
+            var phrases = document.Paginate(50).Select(p => p.Sentences).DefaultIfEmpty(document.Sentences).SelectMany(ss => ss.SelectMany(s => s.Phrases));
+            foreach (var phrase in phrases) {
                 var label = new Label
                 {
                     Content = phrase.Text + (phrase is SymbolPhrase ? " " : string.Empty),
@@ -157,17 +157,11 @@ namespace LASI.UserInterface
                     Background = Brushes.White,
                     OpacityMask = Brushes.White,
                     Padding = new Thickness(1, 1, 1, 1),
-                    ContextMenu = new ContextMenu(),
+                    ContextMenu = ContextMenuFactory.ForLexical(phrase, elementLabels) ?? new ContextMenu(),
                     ToolTip = phrase.ToString()
                         .Split(new[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries)
                         .Format(Tuple.Create(' ', ' ', ' '), s => s + '\n')
                 };
-                label.ContextMenu =
-                    phrase.Match()
-                    .Yield<ContextMenu>()
-                        .Case<IReferencer>(p => ContextMenuFactory.MakePronounContextMenu(elementLabels, p))
-                        .Case<IVerbal>(v => ContextMenuFactory.MakeVerbalContextMenu(elementLabels, v))
-                    .Result(label.ContextMenu);
                 elementLabels.Add(label);
             }
             foreach (var l in elementLabels) {

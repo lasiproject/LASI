@@ -19,23 +19,16 @@ namespace LASI.Experimentation.CommandLine
     class Program
     {
         static void Main(string[] args) {
-            Output.SetToFile(@"C:\Users\Aluan\Desktop\log1.txt");
-            Word.VerboseOutput = true;
-            Phrase.VerboseOutput = true;
-            Task.WaitAll(Lookup.GetLoadingTasks().ToArray());
+            
 
-
-
-            var aboutCats = Tagger.DocumentFromRaw(new TextFile(@"C:\Users\Aluan\Desktop\documents\ducks.txt"));
+            var aboutCats = Tagger.DocumentFromRaw(new TextFile(@"C:\Users\dpatrick\Documents\lasipage.txt"));
             Binder.Bind(aboutCats);
             Weighter.Weight(aboutCats);
-            Console.WriteLine(aboutCats.Paragraphs.Format(w => w.Text));
-            Console.WriteLine(aboutCats.Sentences.Format(w => w.Text));
-            Console.WriteLine(aboutCats.Clauses.Format(w => w.Text));
-            Console.WriteLine(aboutCats.Phrases.Format(w => w.Text));
-            Console.WriteLine(aboutCats.Words.Format(w => w.Text));
-
-
+            
+            foreach (var i in aboutCats.Words)
+            {
+                Console.WriteLine(i);
+            }
 
 
             Input.WaitForKey();

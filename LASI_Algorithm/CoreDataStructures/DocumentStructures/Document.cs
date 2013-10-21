@@ -27,8 +27,7 @@ namespace LASI.Algorithm.DocumentStructures
         /// Initializes a new instance of the Document class comprised from the provided paragraphs.
         /// </summary>
         /// <param name="paragrpahs">The collection of paragraphs which contain all text in the document.</param>
-        public Document(IEnumerable<Paragraph> paragrpahs)
-        {
+        public Document(IEnumerable<Paragraph> paragrpahs) {
             _paragraphs = paragrpahs.ToList();
             _paragraphsWithBulletsOrHeadings =
                 (from p in _paragraphs
@@ -42,8 +41,7 @@ namespace LASI.Algorithm.DocumentStructures
             EstablishLexicalLinks();
         }
 
-        private void AssignMembers(IEnumerable<Paragraph> paragrpahs)
-        {
+        private void AssignMembers(IEnumerable<Paragraph> paragrpahs) {
             _sentences = (from p in _paragraphs
                           from s in p.Sentences
                           where s.Words.OfVerb().Any()
@@ -63,8 +61,7 @@ namespace LASI.Algorithm.DocumentStructures
         /// <summary>
         /// Establishes the compositional linkages over all of the structures which comprise the Document.
         /// </summary>
-        private void EstablishLexicalLinks()
-        {
+        private void EstablishLexicalLinks() {
             if (_words.Count > 1) {
                 for (int i = 1; i < _words.Count(); ++i) {
                     _words[i].PreviousWord = _words[i - 1];
@@ -92,8 +89,7 @@ namespace LASI.Algorithm.DocumentStructures
         /// Returns all of the Action identified within the docimument.
         /// </summary>
         /// <returns>all of the Action identified within the docimument.</returns>
-        public IEnumerable<IVerbal> GetActions()
-        {
+        public IEnumerable<IVerbal> GetActions() {
             return from a in _words.OfVerb().Concat<IVerbal>(_phrases.OfVerbPhrase())
                    select a;
         }
@@ -102,8 +98,7 @@ namespace LASI.Algorithm.DocumentStructures
         /// Returns all of the word and phrase level describables identified in the document.
         /// </summary>
         /// <returns> All of the word and phrase level describables identified in the document.</returns>
-        public IEnumerable<IEntity> GetEntities()
-        {
+        public IEnumerable<IEntity> GetEntities() {
             return from e in _words.OfType<IEntity>().Concat(Phrases.OfType<IEntity>())
                    select e;
         }
@@ -112,8 +107,7 @@ namespace LASI.Algorithm.DocumentStructures
         /// </summary>
         /// <param name="sentencesPerPage">The number of sentences each page can contain. This varies inversely with the number of pages in the resulting sequence.</param>
         /// <returns>A representation of the Document as sequence of pages.</returns>
-        public IEnumerable<Page> Paginate(int sentencesPerPage)
-        {
+        public IEnumerable<Page> Paginate(int sentencesPerPage) {
             if (sentencesPerPage < 1) {
                 throw new ArgumentOutOfRangeException(
                     "sentencesPerPage",
@@ -127,8 +121,7 @@ namespace LASI.Algorithm.DocumentStructures
         /// Returns a string representation of the current document. The result contains the entire textual contents of the Document, thus resulting in the instance's full materialization and reification.
         /// </summary>
         /// <returns>A string representation of the current document. The result contains the entire textual contents of the Document, thus resulting in the instance's full materialization and reification.</returns>
-        public override string ToString()
-        {
+        public override string ToString() {
             return this.GetType() + ":  " + Name + "\nParagraphs: \n" + Paragraphs.Format();
         }
 
@@ -190,8 +183,7 @@ namespace LASI.Algorithm.DocumentStructures
             /// </summary>
             /// <param name="sentences">The Sentences which comprise the Page.</param>
             /// <param name="document">The Document to which the page belongs.</param>
-            internal Page(IEnumerable<Sentence> sentences, Document document)
-            {
+            internal Page(IEnumerable<Sentence> sentences, Document document) {
                 Document = document;
                 Sentences = sentences;
             }

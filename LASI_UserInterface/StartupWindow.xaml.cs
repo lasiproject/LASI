@@ -113,66 +113,6 @@ namespace LASI.UserInterface
 
         #endregion
 
-        #region Validation Methods
-
-        private void AlertUserAboutInvalidFields() {
-            threepaws.Visibility = Visibility.Hidden;
-
-            if (!ValidateProjectNameField() && !ValidateProjectDocumentField()) {
-                ShowElements(NothingFilledImage);
-
-            } else {
-                HideElements(NothingFilledImage);
-            }
-            if (!ValidateProjectNameField() && ValidateProjectDocumentField()) {
-                ShowElements(ProjNameErrorLabel, ProjNameErrorImage, ProjLocationErrorLabel);
-            } else {
-                HideElements(ProjLocationErrorLabel, ProjNameErrorLabel, ProjNameErrorImage);
-            }
-
-            if (ValidateProjectNameField() && !ValidateProjectDocumentField()) {
-                ShowElements(ProjDocumentErrorLabel, NoDocumentsImage);
-            } else {
-                HideElements(ProjDocumentErrorLabel, NoDocumentsImage);
-            }
-        }
-
-
-        private bool ValidateProjectNameField() {
-            if (string.IsNullOrWhiteSpace(ProjectNameTextBox.Text) ||
-                string.IsNullOrEmpty(ProjectNameTextBox.Text) &&
-                !(from char c1 in ProjectNameTextBox.Text
-                  join c2 in System.IO.Path.GetInvalidFileNameChars()
-                  on c1 equals c2
-                  select false).Any()
-                ) {
-                ProjectNameTextBox.ToolTip = new ToolTip { Content = ErrorEmptyProjectNameMessage };
-                return false;
-            }
-            return true;
-        }
-
-
-        private bool ValidateProjectLocationField() {
-            if (string.IsNullOrWhiteSpace(locationTextBox.Text)
-                || string.IsNullOrEmpty(locationTextBox.Text) ||
-                !Directory.Exists(locationTextBox.Text.Substring(0, locationTextBox.Text.LastIndexOf("\\")))
-                ) {
-                locationTextBox.ToolTip = new ToolTip { Content = ErrorOnProjectLocationMessage };
-                return false;
-            }
-            return true;
-        }
-
-        private bool ValidateProjectDocumentField() {
-            if (DocumentManager.IsEmpty) {
-                lastDocPathTextBox.ToolTip = new ToolTip { Content = ErrorNoDocumentsAddedMessage };
-                return false;
-            }
-            return true;
-        }
-
-        #endregion
 
         #region Named Event Handlers
 
@@ -194,7 +134,7 @@ namespace LASI.UserInterface
                     await Task.Delay(8);
                 }
             }
-            MinHeight = 550;
+            Height = 550;
             expandCreatePanelButton.Click += cancelButton_Click;           //add the cancelButton_Click event handler
             Resources["createButtonContent"] = "Cancel";
 
@@ -205,13 +145,13 @@ namespace LASI.UserInterface
 
             Resources["createButtonContent"] = "Create";
             mainGrid.AllowDrop = false;
-            if (Height == 520) {
+            if (Height == 550) {
                 for (var i = 0; i < 270 && Height > 250; i += 10) {
                     Height -= 10;
                     await Task.Delay(8);
                 }
             }
-            MinHeight = 250;
+            Height = 250;
             expandCreatePanelButton.Click += expandCreatePanelButton_Click; //add the expandCreatePanelButton_Click event handler.
             Resources["createButtonContent"] = "Create";
         }
@@ -280,6 +220,69 @@ namespace LASI.UserInterface
         private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e) {
             DragMove();
         }
+        #endregion
+
+
+
+        #region Validation Methods
+
+        private void AlertUserAboutInvalidFields() {
+            threepaws.Visibility = Visibility.Hidden;
+
+            if (!ValidateProjectNameField() && !ValidateProjectDocumentField()) {
+                ShowElements(NothingFilledImage);
+
+            } else {
+                HideElements(NothingFilledImage);
+            }
+            if (!ValidateProjectNameField() && ValidateProjectDocumentField()) {
+                ShowElements(ProjNameErrorLabel, ProjNameErrorImage, ProjLocationErrorLabel);
+            } else {
+                HideElements(ProjLocationErrorLabel, ProjNameErrorLabel, ProjNameErrorImage);
+            }
+
+            if (ValidateProjectNameField() && !ValidateProjectDocumentField()) {
+                ShowElements(ProjDocumentErrorLabel, NoDocumentsImage);
+            } else {
+                HideElements(ProjDocumentErrorLabel, NoDocumentsImage);
+            }
+        }
+
+
+        private bool ValidateProjectNameField() {
+            if (string.IsNullOrWhiteSpace(ProjectNameTextBox.Text) ||
+                string.IsNullOrEmpty(ProjectNameTextBox.Text) &&
+                !(from char c1 in ProjectNameTextBox.Text
+                  join c2 in System.IO.Path.GetInvalidFileNameChars()
+                  on c1 equals c2
+                  select false).Any()
+                ) {
+                ProjectNameTextBox.ToolTip = new ToolTip { Content = ErrorEmptyProjectNameMessage };
+                return false;
+            }
+            return true;
+        }
+
+
+        private bool ValidateProjectLocationField() {
+            if (string.IsNullOrWhiteSpace(locationTextBox.Text)
+                || string.IsNullOrEmpty(locationTextBox.Text) ||
+                !Directory.Exists(locationTextBox.Text.Substring(0, locationTextBox.Text.LastIndexOf("\\")))
+                ) {
+                locationTextBox.ToolTip = new ToolTip { Content = ErrorOnProjectLocationMessage };
+                return false;
+            }
+            return true;
+        }
+
+        private bool ValidateProjectDocumentField() {
+            if (DocumentManager.IsEmpty) {
+                lastDocPathTextBox.ToolTip = new ToolTip { Content = ErrorNoDocumentsAddedMessage };
+                return false;
+            }
+            return true;
+        }
+
         #endregion
 
         #region Helper Methods
