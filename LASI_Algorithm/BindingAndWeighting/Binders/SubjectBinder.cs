@@ -20,9 +20,6 @@ namespace LASI.Algorithm.Binding
         /// <param name="s">The sentence to bind within.</param>
         public void Bind(Sentence s) {
 
-            //This variable was not being used.
-            //List<VerbPhrase> v1 = new List<VerbPhrase>(s.Phrases.GetVerbPhrases());
-
             foreach (var i in s.Phrases) {
                 if (i is AdjectivePhrase) {
                     State s2 = new State();
@@ -46,8 +43,7 @@ namespace LASI.Algorithm.Binding
                     stateList.Add(s5);
                 }
 
-                //Aluan says just an experiment
-                //if (i is VerbPhrase && i.Words.Count(n => n is PresentParticipleGerund) == 0) {
+
                 if (i is VerbPhrase && i.Words.Any(w => w is Verb && !(w is PresentParticipleGerund))) {
                     State s6 = new State();
                     s6.StatePhrase = i;
@@ -61,7 +57,7 @@ namespace LASI.Algorithm.Binding
                         (i as VerbPhrase).BindSubject(i.PreviousPhrase as NounPhrase); //(i.PreviousPhrase as NounPhrase).WasSubjectBound = true;
 
                     }
-                    if (i.PreviousPhrase != null && ((i.PreviousPhrase.PreviousPhrase is NounPhrase) &&
+                    if ((hasSubjectPronoun(i.PreviousPhrase) || (hasSubjectPronoun(i.PreviousPhrase.PreviousPhrase))) || ((i.PreviousPhrase != null) && (i.PreviousPhrase.PreviousPhrase is NounPhrase) &&
                         (i.PreviousPhrase.PreviousPhrase.Sentence == i.Sentence) &&
                          (i.PreviousPhrase.PreviousPhrase as NounPhrase).SubjectOf == null)) {
 
@@ -78,19 +74,9 @@ namespace LASI.Algorithm.Binding
                 //handle case of inverted sentence (http://en.wikipedia.org/wiki/Inverted_sentence)
                 if ((i is AdverbPhrase) && (i.NextPhrase is VerbPhrase) && (i.NextPhrase.NextPhrase is NounPhrase)
                     && (i.Sentence == i.NextPhrase.NextPhrase.Sentence)
-                    //Aluan says
-                    //I don't think the WasBound property is needed because we can check if the SubjectOf property of the NounPhrase is null. 
-                    //If it is, that indicates that the NounPhrase was bound as the subject of an IVerbal, 
-                    //which is what I think you are checking with this line: && !(i.NextPhrase.NextPhrase as NounPhrase).WasBound)
                     && (i.NextPhrase.NextPhrase as NounPhrase).SubjectOf == null) {
                     (i.NextPhrase as VerbPhrase).BindSubject(i.NextPhrase.NextPhrase as NounPhrase);
-                    //Aluan says
-                    //I changed the name of this property from IsStandard to IsInverted because it is a rarer case.
-                    //Hence, the next line sets the property to true instead of fasle.
                     s.IsInverted = true;
-                    //Aluan says
-                    //I don't think this line is needed because of the change in the if condition mentioned above.
-                    //(i.NextPhrase.NextPhrase as NounPhrase).WasSubjectBound = true;
 
                 }
 
@@ -114,6 +100,7 @@ namespace LASI.Algorithm.Binding
                     s10.StatePhrase = i;
                     stateList.Add(s10);
                 }
+                
 
             }
         }
@@ -129,6 +116,24 @@ namespace LASI.Algorithm.Binding
                 Output.WriteLine();
             }
 
+        }
+
+        /// <summary>
+        /// Takes in a phrase and evaluates to see if anything in that phrase is a pronoun that could only be in the subject of a sentence. Will cut down on the number of compares for certian phrases. 
+        /// </summary>
+        /// <param name="p">Any phrase</param>
+        /// <returns>Returns true of false if a phrase has a pronoune in it that can only be in the subject of a sentence</returns>
+        private bool hasSubjectPronoun(Phrase p)
+        {
+            bool val = false;
+            foreach (var w in p.Words)
+            {
+                if ((w is Pronoun) && (w.Text == "he") || (w.Text == "they") || (w.Text == "she"))
+                {
+                    val = true;
+                }
+            }
+            return val;
         }
         internal class State
         {
