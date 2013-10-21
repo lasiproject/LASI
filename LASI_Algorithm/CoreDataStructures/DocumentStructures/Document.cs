@@ -20,9 +20,9 @@ namespace LASI.Algorithm.DocumentStructures
         /// <summary>
         /// Initializes a new instance of the Document class comprised from the provided paragraphs and having the provided name.
         /// </summary>
-        /// <param name="paragrpahs">The collection of paragraphs which contain all text in the document.</param>
+        /// <param name="paragraphs">The collection of paragraphs which contain all text in the document.</param>
         /// <param name="name">The name for the document.</param>
-        public Document(IEnumerable<Paragraph> paragrpahs, string name) : this(paragrpahs) { Name = name; }
+        public Document(IEnumerable<Paragraph> paragraphs, string name) : this(paragraphs) { Name = name; }
         /// <summary>
         /// Initializes a new instance of the Document class comprised from the provided paragraphs.
         /// </summary>
