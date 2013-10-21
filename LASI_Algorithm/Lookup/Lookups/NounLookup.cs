@@ -77,8 +77,7 @@ namespace LASI.Algorithm.LexicalLookup
                     List<string> results = new List<string>();
                     SearchSubsets(containingSet, results, new HashSet<NounSynSet>());
                     return new HashSet<string>(results);
-                }
-                catch (InvalidOperationException e) {
+                } catch (InvalidOperationException e) {
                     Output.WriteLine(string.Format("{0} was thrown when attempting to get synonyms for word {1}: , containing set: {2}", e, word, containingSet));
 
                 }
@@ -93,9 +92,7 @@ namespace LASI.Algorithm.LexicalLookup
             get {
                 try {
                     return new HashSet<string>(SearchFor(NounMorpher.FindRoot(search)).SelectMany(syn => NounMorpher.GetLexicalForms(syn)).DefaultIfEmpty(search));
-                }
-                catch (AggregateException) { }
-                catch (InvalidOperationException) { }
+                } catch (AggregateException) { } catch (InvalidOperationException) { }
                 return this[search];
             }
         }

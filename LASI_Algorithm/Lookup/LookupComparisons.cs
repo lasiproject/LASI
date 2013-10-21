@@ -212,7 +212,10 @@ namespace LASI.Algorithm.LexicalLookup
                              let Count = (double)byResult.Count()
                              orderby Count descending
                              select new { byResult.Key, Count };
-            return new SimilarityResult(simResults.First().Key, simResults.Skip(1).Aggregate(simResults.First().Count, (ratioSoFar, current) => ratioSoFar /= current.Count));
+            return new SimilarityResult(simResults.Any() && simResults.First().Key,
+                simResults.Any() ?
+                simResults.Skip(1).Aggregate(simResults.First().Count, (ratioSoFar, current) => ratioSoFar /= current.Count) :
+                0);
         }
         /// <summary>
         /// Determines if two IVerbal instances are similar.
@@ -420,8 +423,7 @@ namespace LASI.Algorithm.LexicalLookup
                     for (var i = 0; i < leftHandVerbs.Count; ++i) {
                         result &= leftHandVerbs[i].IsSynonymFor(rightHandVerbs[i]);
                     }
-                }
-                catch (NullReferenceException) {
+                } catch (NullReferenceException) {
                     return SimilarityResult.Dissimilar;
                 }
             }
@@ -566,7 +568,8 @@ namespace LASI.Algorithm.LexicalLookup
             if (first.Words.Count() >= second.Words.Count()) {
                 outer = first;
                 inner = second;
-            } else {
+            }
+            else {
                 outer = second;
                 inner = first;
             }

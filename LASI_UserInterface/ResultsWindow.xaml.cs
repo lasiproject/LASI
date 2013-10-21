@@ -98,8 +98,7 @@ namespace LASI.UserInterface
 
         private static Label CreateLabelForWeightedView(NounPhrase np) {
             var gender = np.GetGender();
-            var label = new Label
-            {
+            var label = new Label {
                 Tag = np,
                 Content = String.Format("Weight : {0}  \"{1}\"", np.Weight, np.Text),
                 Foreground = Brushes.Black,
@@ -136,11 +135,9 @@ namespace LASI.UserInterface
             Phrase.VerboseOutput = true;
             Word.VerboseOutput = true;
             var panel = new WrapPanel();
-            var tab = new TabItem
-            {
+            var tab = new TabItem {
                 Header = document.Name,
-                Content = new ScrollViewer
-                {
+                Content = new ScrollViewer {
                     Content = panel,
                     Background = Brushes.White,
                     OpacityMask = Brushes.White,
@@ -149,8 +146,7 @@ namespace LASI.UserInterface
             var elementLabels = new List<Label>();
             var phrases = document.Paginate(50).Select(p => p.Sentences).DefaultIfEmpty(document.Sentences).SelectMany(ss => ss.SelectMany(s => s.Phrases));
             foreach (var phrase in phrases) {
-                var label = new Label
-                {
+                var label = new Label {
                     Content = phrase.Text + (phrase is SymbolPhrase ? " " : string.Empty),
                     Tag = phrase,
                     Foreground = phrase.GetBrush(),
@@ -181,8 +177,7 @@ namespace LASI.UserInterface
                 var docName = chosenFile.NameSansExt;
                 var doc = await ProcessNewDocDocument(docName);
                 documents.Add(doc);
-            }
-            catch (FileConversionFailureException e) {
+            } catch (FileConversionFailureException e) {
                 var failureMessage = string.Format(".doc file conversion failed\n{0}", e.Message);
                 Output.WriteLine(failureMessage);
                 MessageBox.Show(this, failureMessage);
@@ -226,8 +221,7 @@ namespace LASI.UserInterface
             try {// Attempt to convert the newly added file
                 await FileManager.ConvertAsNeededAsync();
                 return chosenFile;
-            }
-            catch (FileConversionFailureException) {
+            } catch (FileConversionFailureException) {
                 FileManager.RemoveFile(chosenFile);// Remove the original file from the project
                 throw;
             }
@@ -264,8 +258,7 @@ namespace LASI.UserInterface
             var focusedChart = (FrequencyCharts.SelectedItem as TabItem).Content as Visual;
             try {
                 printDialog.PrintVisual(focusedChart, "Current View");
-            }
-            catch (NullReferenceException) {
+            } catch (NullReferenceException) {
                 Output.WriteLine("There is no chart selected by the user, there is nothing to print.");
             }
         }
@@ -287,8 +280,7 @@ namespace LASI.UserInterface
             SharedFunctionality.ProcessOpenManualRequest(this);
         }
         private void openLicensesMenuItem_Click_1(object sender, RoutedEventArgs e) {
-            var componentsDisplay = new ComponentInfoDialogWindow
-            {
+            var componentsDisplay = new ComponentInfoDialogWindow {
                 Left = this.Left,
                 Top = this.Top,
                 Owner = this
@@ -313,8 +305,7 @@ namespace LASI.UserInterface
             exportDialog.ShowDialog();
         }
         private async void documentJoinButton_Click(object sender, RoutedEventArgs e) {
-            var dialog = new CrossJoinSelectDialog(this)
-            {
+            var dialog = new CrossJoinSelectDialog(this) {
                 Left = this.Left,
                 Top = this.Top,
             };
@@ -325,8 +316,7 @@ namespace LASI.UserInterface
             }
         }
         private async void AddMenuItem_Click(object sender, RoutedEventArgs e) {
-            var openDialog = new Microsoft.Win32.OpenFileDialog
-            {
+            var openDialog = new Microsoft.Win32.OpenFileDialog {
                 Filter = "LASI File Types|*.doc; *.docx; *.pdf; *.txt",
                 Multiselect = true,
 
@@ -339,9 +329,11 @@ namespace LASI.UserInterface
                 var file = new FileInfo(openDialog.FileNames[i]);
                 if (DocumentManager.FileNamePresent(file.Name)) {
                     MessageBox.Show(this, string.Format("A document named {0} is already part of the project.", file));
-                } else if (!DocumentManager.FileIsLocked(file)) {
+                }
+                else if (!DocumentManager.FileIsLocked(file)) {
                     await AddNewDocument(file);
-                } else {
+                }
+                else {
                     MessageBox.Show(this, string.Format("The document {0} is in use by another process, please close any applications which may be using the document and try again.", file));
                 }
             }

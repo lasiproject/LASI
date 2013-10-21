@@ -361,8 +361,7 @@ namespace LASI.Algorithm.LexicalLookup
                         await adverbLookup.LoadAsync();
                         adverbLoadingState = LoadingState.Finished;
                         return "Adverb Thesaurus Loaded";
-                    }) :
-                    null;
+                    }) : null;
                 adverbLoadingState = LoadingState.InProgress;
                 return result;
             }
@@ -374,8 +373,7 @@ namespace LASI.Algorithm.LexicalLookup
                         await verbLookup.LoadAsync();
                         verbLoadingState = LoadingState.Finished;
                         return "Verb Thesaurus Loaded";
-                    }) :
-                    null;
+                    }) : null;
                 verbLoadingState = LoadingState.InProgress;
                 return result;
             }
@@ -387,8 +385,7 @@ namespace LASI.Algorithm.LexicalLookup
                         await nounLookup.LoadAsync();
                         nounLoadingState = LoadingState.Finished;
                         return "Noun Thesaurus Loaded";
-                    }) :
-                    null;
+                    }) : null;
                 nounLoadingState = LoadingState.InProgress;
                 return result;
             }
@@ -400,8 +397,7 @@ namespace LASI.Algorithm.LexicalLookup
                         await LoadNameDataAsync();
                         nameDataLoadingState = LoadingState.Finished;
                         return "Loaded Name Data";
-                    }) :
-                    null;
+                    }) : null;
                 nameDataLoadingState = LoadingState.InProgress;
                 return result;
             }

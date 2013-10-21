@@ -61,7 +61,7 @@ namespace LASI.InteropLayer
             var fileName = tagged.TextSourceName;
             OnReport(new Report { Message = string.Format("{0}: Loading...", fileName), Increment = 0 });
             var doc = await Tagger.DocumentFromTaggedAsync(tagged);
-            OnReport(new Report { Message = string.Format("{0}: Loaded", fileName), Increment = 4 });
+            OnReport(new Report { Message = string.Format("{0}: Loaded", fileName), Increment = 4 / numDocs });
             OnReport(new Report { Message = string.Format("{0}: Analyzing Syntax...", fileName), Increment = 0 });
             foreach (var task in doc.GetBindingTasks()) {
                 OnReport(new Report { Message = task.InitializationMessage, Increment = 0 });

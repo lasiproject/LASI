@@ -49,8 +49,7 @@ namespace LASI.UserInterface
                 }
                 data = data.Take(CHART_ITEM_LIMIT);
                 chart.Series.Clear();
-                chart.Series.Add(new BarSeries
-                {
+                chart.Series.Add(new BarSeries {
                     DependentValuePath = "Value",
                     IndependentValuePath = "Key",
                     ItemsSource = data,
@@ -70,8 +69,7 @@ namespace LASI.UserInterface
         public static async Task ToColumnCharts() {
             foreach (var chart in WindowManager.ResultsScreen.FrequencyCharts.Items.OfType<TabItem>().Select(item => item.Content as Chart).Where(c => c != null)) {
                 var items = chart.GetItemSource();
-                var series = new ColumnSeries
-                {
+                var series = new ColumnSeries {
                     DependentValuePath = "Value",
                     IndependentValuePath = "Key",
                     ItemsSource = items,
@@ -91,8 +89,7 @@ namespace LASI.UserInterface
         public static async Task ToPieCharts() {
             foreach (var chart in WindowManager.ResultsScreen.FrequencyCharts.Items.OfType<TabItem>().Select(item => item.Content as Chart).Where(c => c != null)) {
                 var items = chart.GetItemSource();
-                var series = new PieSeries
-                {
+                var series = new PieSeries {
                     DependentValuePath = "Value",
                     IndependentValuePath = "Key",
                     ItemsSource = items,
@@ -114,8 +111,7 @@ namespace LASI.UserInterface
         public static async Task ToBarCharts() {
             foreach (var chart in WindowManager.ResultsScreen.FrequencyCharts.Items.OfType<TabItem>().Select(item => item.Content as Chart).Where(c => c != null)) {
                 var items = chart.GetItemSource();
-                var series = new BarSeries
-                {
+                var series = new BarSeries {
                     DependentValuePath = "Value",
                     IndependentValuePath = "Key",
                     ItemsSource = items,
@@ -133,8 +129,7 @@ namespace LASI.UserInterface
         public static async Task InitChartDisplayAsync(Document document) {
             var chart = await BuildBarChart(document);
             documentsByChart.Add(chart, document);
-            var tab = new TabItem
-            {
+            var tab = new TabItem {
                 Header = document.Name,
                 Content = chart,
                 Tag = chart
@@ -151,8 +146,7 @@ namespace LASI.UserInterface
                 ChartKind == ChartKind.SubjectVerbObject ? GetVerbWiseData(document) :
                 GetVerbWiseData(document);
             var topPoints = dataPointSource.OrderByDescending(e => e.Value).Take(CHART_ITEM_LIMIT);
-            Series series = new BarSeries
-            {
+            Series series = new BarSeries {
                 DependentValuePath = "Value",
                 IndependentValuePath = "Key",
                 ItemsSource = dataPointSource,
@@ -161,8 +155,7 @@ namespace LASI.UserInterface
 
             };
 
-            var chart = new Chart
-            {
+            var chart = new Chart {
                 Title = string.Format("Key Subjects in {0}", document.Name),
                 Tag = dataPointSource.ToArray()
             };
@@ -221,8 +214,7 @@ namespace LASI.UserInterface
                       from dobj in vp.DirectObjects.DefaultIfEmpty()
                       from iobj in vp.IndirectObjects.DefaultIfEmpty()
 
-                      select new Relationship
-                      {
+                      select new Relationship {
                           Subject = vp.AggregateSubject,
                           Verbal = vp,
                           Direct = vp.AggregateDirectObject,
@@ -245,13 +237,14 @@ namespace LASI.UserInterface
         private static async Task<IEnumerable<KeyValuePair<string, float>>> GetNounWiseDataAsync(Document doc) { return await Task.Run(() => GetNounWiseData(doc)); }
 
         private static IEnumerable<KeyValuePair<string, float>> GetNounWiseData(Document doc) {
-            return from NP in doc.Phrases.OfNounPhrase().AsParallel().WithDegreeOfParallelism(Concurrency.Max)
+            return from NP in doc.Phrases.OfNounPhrase()
+                        .AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                        .Distinct((x, y) => x.IsSimilarTo(y))
-
-                   group NP by new
-                   {
-                       NP.Text,
-                       NP.Weight
+                   where !(NP is IReferencer) || (NP as IReferencer).Referent != null
+                   let np = NP is IReferencer ? (NP as IReferencer).Referent : NP as IEntity
+                   group np by new {
+                       np.Text,
+                       np.Weight
                    } into NP
                    select NP.Key into master
                    orderby master.Weight
@@ -268,12 +261,10 @@ namespace LASI.UserInterface
             var transformedData = await Task.Factory.StartNew(() => {
                 return TransformToGrid(GetVerbWiseRelationships(document));
             });
-            var wpfToolKitDataGrid = new Microsoft.Windows.Controls.DataGrid
-            {
+            var wpfToolKitDataGrid = new Microsoft.Windows.Controls.DataGrid {
                 ItemsSource = transformedData,
             };
-            var tab = new TabItem
-            {
+            var tab = new TabItem {
                 Header = document.Name,
                 Content = wpfToolKitDataGrid
             };
@@ -290,8 +281,7 @@ namespace LASI.UserInterface
         internal static IEnumerable<object> TransformToGrid(IEnumerable<Relationship> elementsToConvert) {
             return from e in elementsToConvert.Distinct()
                    orderby e.CombinedWeight
-                   select new
-                   {
+                   select new {
                        Subject = e.Subject != null ? e.Subject.Text : string.Empty,
                        Verbial = e.Verbal != null ?
                               (e.Verbal.PrepositionOnLeft != null ? e.Verbal.PrepositionOnLeft.Text : string.Empty)
@@ -427,11 +417,13 @@ namespace LASI.UserInterface
                 result &= LexicalComparers<IEntity>.AliasOrSimilarity.Equals(lhs.Subject, rhs.Subject);
                 if (lhs.Direct != null && rhs.Direct != null) {
                     result &= LexicalComparers<IEntity>.AliasOrSimilarity.Equals(lhs.Direct, rhs.Direct);
-                } else if (lhs.Direct == null || rhs.Direct == null)
+                }
+                else if (lhs.Direct == null || rhs.Direct == null)
                     return false;
                 if (lhs.Indirect != null && rhs.Indirect != null) {
                     result &= LexicalComparers<IEntity>.AliasOrSimilarity.Equals(lhs.Indirect, rhs.Indirect);
-                } else if (lhs.Indirect == null || rhs.Indirect == null)
+                }
+                else if (lhs.Indirect == null || rhs.Indirect == null)
                     return false;
                 return result;
             }

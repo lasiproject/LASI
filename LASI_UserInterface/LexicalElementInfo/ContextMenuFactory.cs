@@ -60,7 +60,7 @@ namespace LASI.UserInterface.LexicalElementInfo
             public static MenuItem ForPrepositionalObject(IEnumerable<Label> labelsInContext, IVerbal verbal) {
                 var visitSubjectMI = new MenuItem { Header = "view prepositional object" };
                 visitSubjectMI.Click += (sender, e) => {
-                    ResetUninvolvedLabelColoration(labelsInContext);
+                    ResetUnassociatedLabelBrushes(labelsInContext, verbal);
                     var labels = from label in labelsInContext
                                  where label.Tag.Equals(verbal.ObjectOfThePreoposition)
                                  select new { label, brush = (label.Tag as ILexical).GetBrush() };
@@ -75,7 +75,7 @@ namespace LASI.UserInterface.LexicalElementInfo
             public static MenuItem ForIndirectObject(IEnumerable<Label> labelsInContext, IVerbal verbal) {
                 var visitSubjectMI = new MenuItem { Header = "view indirect objects" };
                 visitSubjectMI.Click += (sender, e) => {
-                    ResetUninvolvedLabelColoration(labelsInContext);
+                    ResetUnassociatedLabelBrushes(labelsInContext, verbal);
                     var labels = from r in verbal.IndirectObjects
                                  join label in labelsInContext on r equals label.Tag
                                  select new { label, brush = (label.Tag as ILexical).GetBrush() };
@@ -90,7 +90,7 @@ namespace LASI.UserInterface.LexicalElementInfo
             public static MenuItem ForDirectObject(IEnumerable<Label> labelsInContext, IVerbal verbal) {
                 var visitSubjectMI = new MenuItem { Header = "view direct objects" };
                 visitSubjectMI.Click += (sender, e) => {
-                    ResetUninvolvedLabelColoration(labelsInContext);
+                    ResetUnassociatedLabelBrushes(labelsInContext, verbal);
                     var labels = from r in verbal.DirectObjects
                                  join label in labelsInContext on r equals label.Tag
                                  select new { label, brush = (label.Tag as ILexical).GetBrush() };
@@ -107,7 +107,7 @@ namespace LASI.UserInterface.LexicalElementInfo
             public static MenuItem ForSubject(IEnumerable<Label> labelsInContext, IVerbal verbal) {
                 var visitSubjectMI = new MenuItem { Header = "view subjects" };
                 visitSubjectMI.Click += (sender, e) => {
-                    ResetUninvolvedLabelColoration(labelsInContext);
+                    ResetUnassociatedLabelBrushes(labelsInContext, verbal);
                     var labels = from r in verbal.Subjects
                                  join l in labelsInContext on r equals l.Tag
                                  select l;
@@ -124,7 +124,7 @@ namespace LASI.UserInterface.LexicalElementInfo
             public static MenuItem ForReferredTo(IEnumerable<Label> labelsInContext, IReferencer pro) {
                 var visitBoundEntity = new MenuItem { Header = "view referred to" };
                 visitBoundEntity.Click += (sender, e) => {
-                    ResetUninvolvedLabelColoration(labelsInContext);
+                    ResetLabelBrushes(labelsInContext);
                     var labels = from l in labelsInContext
                                  where pro.Referent == l.Tag || l.Tag is NounPhrase &&
                                  pro.Referent.ToSet().Overlaps((l.Tag as NounPhrase).Words.OfEntity())
@@ -140,8 +140,17 @@ namespace LASI.UserInterface.LexicalElementInfo
 
         #endregion
         #region Helper Methods
-        static void ResetUninvolvedLabelColoration(IEnumerable<Label> labelsInContext) {
+        static void ResetLabelBrushes(IEnumerable<Label> labelsInContext) {
             foreach (var l in labelsInContext) {
+                l.Foreground = (l.Tag as ILexical).GetBrush();
+                l.Background = Brushes.White;
+            }
+        }
+        private static void ResetUnassociatedLabelBrushes(IEnumerable<Label> labelsInContext, IVerbal verbal) {
+            foreach (var l in from l in labelsInContext
+                              let e = l.Tag as IEntity
+                              where e != null && !verbal.HasSubjectOrObject(i => i == e)
+                              select l) {
                 l.Foreground = (l.Tag as ILexical).GetBrush();
                 l.Background = Brushes.White;
             }

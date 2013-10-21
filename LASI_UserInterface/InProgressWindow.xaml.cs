@@ -47,11 +47,9 @@ namespace LASI.UserInterface
         public async Task ParseDocuments() {
 
             var processController = new ProcessController();
-            processController.ProgressChanged += (sender, e) => {
+            processController.ProgressChanged += async (sender, e) => {
                 progressLabel.Content = e.Message;
                 progressBar.ToolTip = e.Message;
-            };
-            processController.ProgressChanged += async (sender, e) => {
                 var animateStep = 0.028 * e.Increment;
                 for (int i = 0; i < 33; ++i) {
                     progressBar.Value += animateStep;
@@ -66,24 +64,23 @@ namespace LASI.UserInterface
             WindowManager.ResultsScreen.Documents = analyzedDocuments.ToList();
             proceedtoResultsButton.Visibility = Visibility.Visible;
             StartFlashing();
-            if (ProcessingComplete != null)
+            if (ProcessingComplete != null) {
                 ProcessingComplete(this, new EventArgs());
-
-        }
-
-        private async Task ProceedToResultsView() {
-            WindowManager.ResultsScreen.SetTitle(WindowManager.StartupScreen.ProjectNameTextBox.Text + " - L.A.S.I.");
-            this.SwapWith(WindowManager.ResultsScreen);
-
+            }
             await WindowManager.ResultsScreen.CreateWeightViewsForAllDocumentsAsync();
             await WindowManager.ResultsScreen.BuildTextViewsForAllDocumentsAsync();
 
         }
+
+        private void ProceedToResultsView() {
+            WindowManager.ResultsScreen.SetTitle(WindowManager.StartupScreen.ProjectNameTextBox.Text + " - L.A.S.I.");
+
+            this.SwapWith(WindowManager.ResultsScreen);
+
+        }
         #endregion
 
-
-
-        #region Event Handlers
+        #region Named Event Handlers
 
         private void progressBar_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e) {
             this.TaskbarItemInfo.ProgressState = System.Windows.Shell.TaskbarItemProgressState.Normal;
@@ -102,14 +99,13 @@ namespace LASI.UserInterface
         private void Window_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
             try {
                 DragMove();
-            }
-            catch (ArgumentOutOfRangeException) {
+            } catch (ArgumentOutOfRangeException) {
 
             }
         }
 
-        private async void proceedtoResultsButton_Click(object sender, RoutedEventArgs e) {
-            await ProceedToResultsView();
+        private void proceedtoResultsButton_Click(object sender, RoutedEventArgs e) {
+            ProceedToResultsView();
         }
         private void minButton_Click(object sender, RoutedEventArgs e) {
             WindowState = WindowState.Minimized;
@@ -123,7 +119,6 @@ namespace LASI.UserInterface
             //}
         }
         #endregion
-
 
         #region Taskbar Notification
 
