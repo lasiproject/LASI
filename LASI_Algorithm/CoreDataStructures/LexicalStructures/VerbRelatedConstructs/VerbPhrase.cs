@@ -21,7 +21,8 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="composedWords">The words which compose to form the VerbPhrase.</param>
         public VerbPhrase(IEnumerable<Word> composedWords)
-            : base(composedWords) {
+            : base(composedWords)
+        {
 
             Tense = composedWords.OfVerb().Any() ?
                 (from v in composedWords.OfVerb()
@@ -38,7 +39,8 @@ namespace LASI.Algorithm
         /// Attaches an Adverbial construct, such as an Adverb or AdverbPhrase, as a modifier of the Verb.
         /// </summary>
         /// <param name="adv">The Adverbial construct by which to modify the AdjectivePhrase.</param>
-        public void ModifyWith(IAdverbial adv) {
+        public void ModifyWith(IAdverbial adv)
+        {
             _modifiers.Add(adv);
             adv.Modifies = this;
         }
@@ -47,7 +49,8 @@ namespace LASI.Algorithm
         /// Example: He "ran" to work. where "work" is the object of ran via the prepositional construct "to"
         /// </summary>
         /// <param name="prepositional">The IPrepositional construct through which the Object is associated.</param>
-        public virtual void AttachObjectViaPreposition(IPrepositional prepositional) {
+        public virtual void AttachObjectViaPreposition(IPrepositional prepositional)
+        {
             ObjectOfThePreoposition = prepositional.BoundObject;
             PrepositionalToObject = prepositional;
         }
@@ -55,25 +58,38 @@ namespace LASI.Algorithm
         /// Binds the given Entity as a subject of the VerbPhrase instance.
         /// </summary>
         /// <param name="subject">The Entity to attach to the VerbPhrase as a subject.</param>
-        public virtual void BindSubject(IEntity subject) {
-            _subjects.Add(subject);
-            subject.SubjectOf = this;
+        public virtual void BindSubject(IEntity subject)
+        {
+            if (subject != null)
+            {
+                _subjects.Add(subject);
+                subject.SubjectOf = this;
+            }
         }
 
         /// <summary>
         /// Binds the given Entity as a direct object of the VerbPhrase instance.
         /// </summary>
         /// <param name="directObject">The Entity to attach to the VerbPhrase as a direct object.</param>
-        public virtual void BindDirectObject(IEntity directObject) {
-            _directObjects.Add(directObject);
-            directObject.DirectObjectOf = this;
-            if (IsPossessive) {
-                foreach (var subject in this.Subjects) {
-                    subject.AddPossession(directObject);
+        public virtual void BindDirectObject(IEntity directObject)
+        {
+            if (directObject != null)
+            {
+                _directObjects.Add(directObject);
+                directObject.DirectObjectOf = this;
+                if (IsPossessive)
+                {
+                    foreach (var subject in this.Subjects)
+                    {
+                        subject.AddPossession(directObject);
+                    }
                 }
-            } else if (IsClassifier) {
-                foreach (var subject in this.Subjects) {
-                    AliasDictionary.DefineAlias(subject, directObject);
+                else if (IsClassifier)
+                {
+                    foreach (var subject in this.Subjects)
+                    {
+                        AliasDictionary.DefineAlias(subject, directObject);
+                    }
                 }
             }
         }
@@ -81,20 +97,26 @@ namespace LASI.Algorithm
         /// Binds the given Entity as an indirect object of the VerbPhrase instance.
         /// </summary>
         /// <param name="indirectObject">The Entity to attach to the VerbPhrase as an indirect object.</param>
-        public virtual void BindIndirectObject(IEntity indirectObject) {
-            _indirectObjects.Add(indirectObject);
-            indirectObject.IndirectObjectOf = this;
+        public virtual void BindIndirectObject(IEntity indirectObject)
+        {
+            if (indirectObject != null)
+            {
+                _indirectObjects.Add(indirectObject);
+                indirectObject.IndirectObjectOf = this;
+            }
         }
 
         /// <summary>
         /// Returns a string representation of the VerbPhrase.
         /// </summary>
         /// <returns>A string representation of the VerbPhrase.</returns>
-        public override string ToString() {
+        public override string ToString()
+        {
             var result = base.ToString();
-            if (Phrase.VerboseOutput) {
-                result += Subjects.Any() ? "\nSubjects: " + Subjects.Where(s=>s!=null).Format(s => s.Text + ", ") : string.Empty;
-                result += DirectObjects.Any() ? "\nDirect Objects: " + DirectObjects.Where(s => s != null).Format(s => s.Text + ", ") : string.Empty;
+            if (Phrase.VerboseOutput)
+            {
+                result += Subjects.Any() ? "\nSubjects: " + Subjects.Format(s => s.Text + ", ") : string.Empty;
+                result += DirectObjects.Any() ? "\nDirect Objects: " + DirectObjects.Format(s => s.Text + ", ") : string.Empty;
                 result += IndirectObjects.Any() ? "\nIndirect Objects: " + IndirectObjects.Format(s => s.Text + ", ") : string.Empty;
                 result += ObjectOfThePreoposition != null ? "\nVia Preposition Object: " + ObjectOfThePreoposition.Text : string.Empty;
                 result += Modality != null ? "\nModal Aux: " + Modality.Text : string.Empty;
@@ -110,7 +132,8 @@ namespace LASI.Algorithm
         /// "They certainly have a lot of ideas." the VerbPhrase "certainly have" asserts a possessor possessee relationship between "They" and "a lot of ideas".
         /// </summary>
         /// <returns>True if the VerbPhrase is a possessive relationship specifier, false otherwise.</returns>
-        protected virtual bool DetermineIsPossessive() {
+        protected virtual bool DetermineIsPossessive()
+        {
             isPossessive = Words.OfVerb().Any() && Words.OfVerb().Last().IsPossessive;
             return isPossessive.Value;
         }
@@ -118,7 +141,8 @@ namespace LASI.Algorithm
         /// Determines if the VerbPhrase acts as a classifier. E.g. in the senetence "Rodents are definitely prey animals." the VerbPhrase "are definitely" acts as a classification tool because it states that rodents are a subset of prey animals.
         /// </summary>
         /// <returns>True if the VerbPhrase is a classifier, false otherwise.</returns>
-        protected virtual bool DetermineIsClassifier() {
+        protected virtual bool DetermineIsClassifier()
+        {
             isClassifier = Words.OfVerb().Any() && Words.OfVerb().Last().IsClassifier;
             return isClassifier.Value;
         }
@@ -128,63 +152,72 @@ namespace LASI.Algorithm
         /// Return a value indicating if the Verb has any subjects bound to it.
         /// </summary>
         /// <returns>True if the Verb has any Subjects bound to it, false otherwise.</returns>
-        public bool HasSubject() {
+        public bool HasSubject()
+        {
             return _subjects.Any();
         }
         /// <summary>
         /// Return a value indicating if the Verb has any subjects bound to it which match the given predicate function.
         /// </summary>
         /// <returns>True if the Verb has any subjects bound to it which match the given predicate function, false otherwise.</returns>
-        public bool HasSubject(Func<IEntity, bool> predicate) {
+        public bool HasSubject(Func<IEntity, bool> predicate)
+        {
             return Subjects.Any(predicate) || Subjects.OfType<IReferencer>().Any(p => predicate(p.Referent));
         }
         /// <summary>
         /// Return a value indicating if the Verb has any direct objects bound to it.
         /// </summary>
         /// <returns>True if the Verb has any direct objects bound to it, false otherwise.</returns>
-        public bool HasDirectObject() {
+        public bool HasDirectObject()
+        {
             return DirectObjects.Any();
         }
         /// <summary>
         /// Return a value indicating if the Verb has any direct objects bound to it which match the given predicate function.
         /// </summary>
         /// <returns>True if the Verb has any direct objects bound to it which match the given predicate function, false otherwise.</returns>
-        public bool HasDirectObject(Func<IEntity, bool> predicate) {
+        public bool HasDirectObject(Func<IEntity, bool> predicate)
+        {
             return DirectObjects.Any(predicate) || DirectObjects.OfType<IReferencer>().Any(p => predicate(p.Referent));
         }
         /// <summary>
         /// Return a value indicating if the Verb has any indirect objects bound to it.
         /// </summary>
         /// <returns>True if the Verb has any direct objects bound to it, false otherwise.</returns>
-        public bool HasIndirectObject() {
+        public bool HasIndirectObject()
+        {
             return IndirectObjects.Any();
         }
         /// <summary>
         /// Return a value indicating if the Verb has any indirect objects bound to it which match the given predicate function.
         /// </summary>
         /// <returns>True if the Verb has any indirect objects bound to it which match the given predicate function, false otherwise.</returns>
-        public bool HasIndirectObject(Func<IEntity, bool> predicate) {
+        public bool HasIndirectObject(Func<IEntity, bool> predicate)
+        {
             return IndirectObjects.Any(predicate) || IndirectObjects.OfType<IReferencer>().Any(p => predicate(p.Referent));
         }
         /// <summary>
         /// Return a value indicating if the Verb has any direct OR indirect objects bound to it.
         /// </summary>
         /// <returns>True if the Verb has any direct OR indirect objects bound to it, false otherwise.</returns>
-        public bool HasObject() {
+        public bool HasObject()
+        {
             return HasDirectObject() || HasIndirectObject();
         }
         /// <summary>
         /// Return a value indicating if the Verb has any direct OR indirect objects bound to it which match the given predicate function.
         /// </summary>
         /// <returns>True if the Verb has any direct OR indirect objects bound to it which match the given predicate function, false otherwise.</returns>
-        public bool HasObject(Func<IEntity, bool> predicate) {
+        public bool HasObject(Func<IEntity, bool> predicate)
+        {
             return HasDirectObject(predicate) || HasIndirectObject(predicate);
         }
         /// <summary>
         /// Gets a value indicating if the VerbPhrase has at least one subject, direct object, or indirect object.
         /// </summary>
         /// <returns>True if the VerbPhrase has at least one subject, direct object, or indirect object, false otherwise.</returns>
-        public bool HasSubjectOrObject() {
+        public bool HasSubjectOrObject()
+        {
             return HasObject() || HasSubject();
         }
         /// <summary>
@@ -192,7 +225,8 @@ namespace LASI.Algorithm
         /// </summary>
         /// <param name="predicate">A predicate to test each associated subject, direct object, or indirect object..</param>
         /// <returns>True if the VerbPhrase has at least one subject, direct object, or indirect object  matching the provided predicate, false otherwise.</returns>
-        public bool HasSubjectOrObject(Func<IEntity, bool> predicate) {
+        public bool HasSubjectOrObject(Func<IEntity, bool> predicate)
+        {
             return HasObject(predicate) || HasSubject(predicate);
         }
 
@@ -216,8 +250,10 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets the collection of IAdverbial modifiers which modify the VerbPhrase.
         /// </summary>
-        public IEnumerable<IAdverbial> Modifiers {
-            get {
+        public IEnumerable<IAdverbial> Modifiers
+        {
+            get
+            {
                 return _modifiers;
             }
         }
@@ -237,8 +273,10 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets a value indicating wether or not the VerbPhrase has possessive semantics. E.g. "A (has) a B"
         /// </summary>
-        public bool IsPossessive {
-            get {
+        public bool IsPossessive
+        {
+            get
+            {
                 return isPossessive ?? DetermineIsPossessive();
             }
         }
@@ -246,8 +284,10 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets a value indicating wether or not the VerbPhrase has classifying semantics. E.g. "A (is) a B"
         /// </summary>
-        public bool IsClassifier {
-            get {
+        public bool IsClassifier
+        {
+            get
+            {
                 return isClassifier ?? DetermineIsClassifier();
             }
         }
@@ -259,11 +299,11 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets the direct objects of the VerbPhrase.
         /// </summary>
-        public   IEnumerable<IEntity> DirectObjects { get { return _directObjects; } }
+        public IEnumerable<IEntity> DirectObjects { get { return _directObjects; } }
         /// <summary>
         /// Gets the indirect objects of the VerbPhrase.
         /// </summary>
-        public   IEnumerable<IEntity> IndirectObjects { get { return _indirectObjects; } } 
+        public IEnumerable<IEntity> IndirectObjects { get { return _indirectObjects; } }
         /// <summary>
         /// Gets the VerbPhrases's object, If the VerbPhrase has an object bound via a Prepositional. This can be any ILexical construct including a word, phrase, or clause.
         /// </summary>
