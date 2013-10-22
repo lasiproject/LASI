@@ -54,6 +54,10 @@ namespace LASI.Utilities
         /// <param name="stringSelector">The function used to produce a string representation for each element.</param>
         /// <returns>A formated string representation of the IEnumerable sequence with the pattern: [ element0, element1, ..., elementN ].</returns>
         public static string Format<T>(this IEnumerable<T> source, Func<T, string> stringSelector) {
+            if (source == null)
+                throw new ArgumentNullException("source");
+            if (stringSelector == null)
+                throw new ArgumentNullException("stringSelector");
             return source.Aggregate(new StringBuilder("[ "), (sum, current) => sum.Append(stringSelector(current) + ", ")).ToString().TrimEnd(' ', ',') + " ]";
         }
         /// <summary>
@@ -66,6 +70,10 @@ namespace LASI.Utilities
         /// <param name="stringSelector">The function used to produce a string representation for each element.</param>
         /// <returns>A formated string representation of the IEnumerable sequence with the pattern: [ element0, element1, ..., elementN ].</returns>
         public static string Format<T>(this IEnumerable<T> source, Tuple<char, char, char> delimsToUse, Func<T, string> stringSelector) {
+            if (source == null)
+                throw new ArgumentNullException("source");
+            if (stringSelector == null)
+                throw new ArgumentNullException("stringSelector");
             return source.Select(stringSelector).Format(delimsToUse);
         }
         /// <summary>
@@ -80,6 +88,8 @@ namespace LASI.Utilities
         public static string Format<T>(this IEnumerable<T> source, long lineLength, Func<T, string> stringSelector) {
             if (source == null)
                 throw new ArgumentNullException("source");
+            if (stringSelector == null)
+                throw new ArgumentNullException("stringSelector");
             int len = 2;
             return source.Aggregate(new StringBuilder("[ "),
                 (sum, current) => {
@@ -105,6 +115,8 @@ namespace LASI.Utilities
         public static string Format<T>(this IEnumerable<T> source, Tuple<char, char, char> delimsToUse, long lineLength, Func<T, string> stringSelector) {
             if (source == null)
                 throw new ArgumentNullException("source");
+            if (stringSelector == null)
+                throw new ArgumentNullException("stringSelector");
             int len = 2;
             return source.Aggregate(delimsToUse.Item1 + " ",
                 (sum, current) => {

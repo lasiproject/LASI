@@ -93,8 +93,8 @@ namespace LASI.Algorithm
         public override string ToString() {
             var result = base.ToString();
             if (Phrase.VerboseOutput) {
-                result += Subjects.Any() ? "\nSubjects: " + Subjects.Format(s => s.Text + ", ") : string.Empty;
-                result += DirectObjects.Any() ? "\nDirect Objects: " + DirectObjects.Format(s => s.Text + ", ") : string.Empty;
+                result += Subjects.Any() ? "\nSubjects: " + Subjects.Where(s=>s!=null).Format(s => s.Text + ", ") : string.Empty;
+                result += DirectObjects.Any() ? "\nDirect Objects: " + DirectObjects.Where(s => s != null).Format(s => s.Text + ", ") : string.Empty;
                 result += IndirectObjects.Any() ? "\nIndirect Objects: " + IndirectObjects.Format(s => s.Text + ", ") : string.Empty;
                 result += ObjectOfThePreoposition != null ? "\nVia Preposition Object: " + ObjectOfThePreoposition.Text : string.Empty;
                 result += Modality != null ? "\nModal Aux: " + Modality.Text : string.Empty;
@@ -259,14 +259,11 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets the direct objects of the VerbPhrase.
         /// </summary>
-        public virtual IEnumerable<IEntity> DirectObjects { get { return _directObjects; } }
+        public   IEnumerable<IEntity> DirectObjects { get { return _directObjects; } }
         /// <summary>
         /// Gets the indirect objects of the VerbPhrase.
         /// </summary>
-        public virtual IEnumerable<IEntity> IndirectObjects { get { return _indirectObjects; } }
-        //virtual IEntityGroup Subject { get { return new EntityGroup(subjects); } }
-        //virtual IEntityGroup DirectObject { get { return new EntityGroup(directObjects); } }
-        //virtual IEntityGroup IndirectObject { get { return new EntityGroup(indirectObjects); } }
+        public   IEnumerable<IEntity> IndirectObjects { get { return _indirectObjects; } } 
         /// <summary>
         /// Gets the VerbPhrases's object, If the VerbPhrase has an object bound via a Prepositional. This can be any ILexical construct including a word, phrase, or clause.
         /// </summary>

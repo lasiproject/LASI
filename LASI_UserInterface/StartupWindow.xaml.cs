@@ -40,7 +40,7 @@ namespace LASI.UserInterface
             this.Top = (System.Windows.SystemParameters.WorkArea.Height - this.MaxHeight) / 2;
 
             DocumentManager.Initialize(documentsAddedListBox, xbuttons, browseForDocButton, lastDocPathTextBox);
-            ProcessOpenWithFiles(System.Environment.GetCommandLineArgs().Skip(1));
+            ProcessCommandLineArgs(System.Environment.GetCommandLineArgs().Skip(1));
         }
 
         private void SetupLogging(string logFileParentDirectory, string logFileName) {
@@ -63,11 +63,12 @@ namespace LASI.UserInterface
 
         #region Intialization Methods
 
-        private void ProcessOpenWithFiles(IEnumerable<string> filePaths) {
+        private void ProcessCommandLineArgs(IEnumerable<string> filePaths) {
             foreach (var f in DocumentManager.GetValidFilesInPathList(filePaths)) {
                 DocumentManager.AddDocument(f.Name, f.FullName);
             }
             if (!DocumentManager.IsEmpty) { expandCreatePanelButton_Click(expandCreatePanelButton, new RoutedEventArgs()); }
+            System.IO.Directory.SetCurrentDirectory(AppDomain.CurrentDomain.BaseDirectory);
         }
 
         private async Task SetUpDefaultDirectory() {

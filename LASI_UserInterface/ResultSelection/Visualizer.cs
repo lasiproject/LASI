@@ -239,12 +239,10 @@ namespace LASI.UserInterface
         private static IEnumerable<KeyValuePair<string, float>> GetNounWiseData(Document doc) {
             return from NP in doc.Phrases.OfNounPhrase()
                         .AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                       .Distinct((x, y) => x.IsSimilarTo(y))
-                   where !(NP is IReferencer) || (NP as IReferencer).Referent != null
-                   let np = NP is IReferencer ? (NP as IReferencer).Referent : NP as IEntity
-                   group np by new {
-                       np.Text,
-                       np.Weight
+                       .Distinct((x, y) => x.IsSimilarTo(y)) 
+                   group NP by new {
+                       NP.Text,
+                       NP.Weight
                    } into NP
                    select NP.Key into master
                    orderby master.Weight
