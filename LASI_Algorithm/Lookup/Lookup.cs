@@ -1,4 +1,4 @@
-﻿using LASI.Algorithm.LexicalLookup.Morphemization;
+﻿using LASI.Algorithm.ComparativeHeuristics.Morphemization;
 using LASI.Algorithm.Patternization;
 using LASI.Utilities;
 using System;
@@ -10,12 +10,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LASI.Algorithm.LexicalLookup
+namespace LASI.Algorithm.ComparativeHeuristics
 {
     /// <summary>
     /// Provides Comprehensive static facilities for Synoynm Identification, Word and Phrase Comparison, Gender Stratification, and Named Entity Recognition.
     /// </summary>
-    public static partial class Lookup
+    public static class Lookup
     {
         #region Public Methods
 
@@ -46,12 +46,7 @@ namespace LASI.Algorithm.LexicalLookup
         /// <param name="pronoun">The Pronoun whose gender to lookup.</param>
         /// <returns>A NameGender value indiciating the likely gender of the Pronoun.</returns>
         private static Gender GetPronounGender(this IReferencer pronoun) {
-            return pronoun != null ?
-                pronoun.Match().Yield<Gender>()
-                    .Case<IGendered>(p => p.Gender)
-                    .Case<PronounPhrase>(p => GetPhraseGender(p))
-                .Result() :
-                pronoun.Match().Yield<Gender>()
+            return pronoun.Match().Yield<Gender>()
                 .When<IReferencer>(p => p.Referent != null)
                 .Then<IReferencer>(p => {
                     return (from referent in p.Referent
@@ -65,7 +60,10 @@ namespace LASI.Algorithm.LexicalLookup
                             group gen by gen into byGen
                             where byGen.Count() == pronoun.Referent.Count()
                             select byGen.Key).FirstOrDefault();
-                }).Result();
+                })
+                    .Case<IGendered>(p => p.Gender)
+                    .Case<PronounPhrase>(p => GetPhraseGender(p))
+                .Result();
         }
 
         /// <summary>
@@ -232,7 +230,172 @@ namespace LASI.Algorithm.LexicalLookup
         public static async Task LoadAllDataAsync() { await Task.WhenAll(GetLoadingTasks().ToArray()); }
 
         #endregion
+        #region Synonym Lookup Methods
 
+        /// <summary>
+        /// Returns the synonyms for the provided Noun.
+        /// </summary>
+        /// <param name="noun">The Noun to lookup.</param>
+        /// <returns>The synonyms for the provided Noun.</returns>
+        public static IEnumerable<string> GetSynonyms(this Noun noun) {
+            return InternalLookup(noun);
+        }
+        /// <summary>
+        /// Returns the synonyms for the provided Verb.
+        /// </summary>
+        /// <param name="verb">The Verb to lookup.</param>
+        /// <returns>The synonyms for the provided Verb.</returns>
+        public static IEnumerable<string> GetSynonyms(this Verb verb) {
+            return InternalLookup(verb);
+        }
+        /// <summary>
+        /// Returns the synonyms for the provided Adjective.
+        /// </summary>
+        /// <param name="adjective">The Adjective to lookup.</param>
+        /// <returns>The synonyms for the provided Adjective.</returns>
+        public static IEnumerable<string> GetSynonyms(this Adjective adjective) {
+            return InternalLookup(adjective);
+        }
+        /// <summary>
+        /// Returns the synonyms for the provided Adverb.
+        /// </summary>
+        /// <param name="adverb">The Adverb to lookup.</param>
+        /// <returns>The synonyms for the provided Adverb.</returns>
+        public static IEnumerable<string> GetSynonyms(this Adverb adverb) {
+            return InternalLookup(adverb);
+        }
+
+        /// <summary>
+        /// Determines if two Noun instances are synonymous.
+        /// </summary>
+        /// <param name="first">The first Noun.</param>
+        /// <param name="second">The second Noun</param>
+        /// <returns>True if the Noun instances are synonymous, false otherwise.</returns>
+        /// <remarks>There are two calling conventions for this method. See the following examples:
+        /// <code>if ( Lookup.IsSimilarTo(vp1, vp2) ) { ... }</code>
+        /// <code>if ( vp1.IsSimilarTo(vp2) ) { ... }</code>
+        /// Please prefer the second convention.
+        /// </remarks>
+        public static bool IsSynonymFor(this Noun first, Noun second) {
+            return InternalLookup(first).Contains(second.Text);
+        }
+        /// <summary>
+        /// Determines if two Verb instances are synonymous.
+        /// </summary>
+        /// <param name="first">The first Verb.</param>
+        /// <param name="second">The second Verb</param>
+        /// <returns>True if the Verb instances are synonymous, false otherwise.</returns>
+        /// <remarks>There are two calling conventions for this method. See the following examples:
+        /// <code>if ( Lookup.IsSimilarTo(vp1, vp2) ) { ... }</code>
+        /// <code>if ( vp1.IsSimilarTo(vp2) ) { ... }</code>
+        /// Please prefer the second convention.
+        /// </remarks>
+        public static bool IsSynonymFor(this Verb first, Verb second) {
+            if (first == null || second == null)
+                return false;
+            return InternalLookup(first).Contains(second.Text);
+        }
+        /// <summary>
+        /// Determines if two Adjective instances are synonymous.
+        /// </summary>
+        /// <param name="word">The first Adjective.</param>
+        /// <param name="other">The second Adjective</param>
+        /// <returns>True if the Adjective instances are synonymous, false otherwise.</returns>
+        /// <remarks>There are two calling conventions for this method. See the following examples:
+        /// <code>if ( Lookup.IsSimilarTo(vp1, vp2) ) { ... }</code>
+        /// <code>if ( vp1.IsSimilarTo(vp2) ) { ... }</code>
+        /// Please prefer the second convention.
+        /// </remarks>
+        public static bool IsSynonymFor(this Adjective word, Adjective other) {
+            return InternalLookup(word).Contains(other.Text);
+        }
+
+        #region Adjective Specific Lookups
+        static bool IsSynonymFor(this Adjective word, SuperlativeAdjective other) {
+            return InternalLookup(word).Contains(other.Text);
+        }
+        static bool IsSynonymFor(this SuperlativeAdjective word, Adjective other) {
+            return InternalLookup(word).Contains(other.Text);
+        }
+        static bool IsSynonymFor(this SuperlativeAdjective word, SuperlativeAdjective other) {
+            return InternalLookup(word).Contains(other.Text);
+        }
+        static bool IsSynonymFor(this ComparativeAdjective word, ComparativeAdjective other) {
+            return InternalLookup(word).Contains(other.Text);
+        }
+        static bool IsSynonymFor(this Adjective word, ComparativeAdjective other) {
+            return InternalLookup(word).Contains(other.Text);
+        }
+        static bool IsSynonymFor(this ComparativeAdjective word, Adjective other) {
+            return InternalLookup(word).Contains(other.Text);
+        }
+        static bool IsSynonymFor(this ComparativeAdjective word, SuperlativeAdjective other) {
+            return InternalLookup(word).Contains(other.Text);
+        }
+        static bool IsSynonymFor(this SuperlativeAdjective word, ComparativeAdjective other) {
+            return InternalLookup(word).Contains(other.Text);
+        }
+        #endregion
+
+        /// <summary>
+        /// Determines if two Adverb instances are synonymous.
+        /// </summary>
+        /// <param name="word">The first Adverb.</param>
+        /// <param name="other">The second Adverb</param>
+        /// <returns>True if the Adverb instances are synonymous, false otherwise.</returns>
+        public static bool IsSynonymFor(this Adverb word, Adverb other) {
+            return InternalLookup(word).Contains(other.Text);
+        }
+
+
+        #region Adverb Specific Lookups
+        static bool IsSynonymFor(this Adverb word, SuperlativeAdverb other) {
+            return InternalLookup(word).Contains(other.Text);
+        }
+        static bool IsSynonymFor(this SuperlativeAdverb word, Adverb other) {
+            return InternalLookup(word).Contains(other.Text);
+        }
+        static bool IsSynonymFor(this SuperlativeAdverb word, SuperlativeAdverb other) {
+            return InternalLookup(word).Contains(other.Text);
+        }
+        static bool IsSynonymFor(this ComparativeAdverb word, ComparativeAdverb other) {
+            return InternalLookup(word).Contains(other.Text);
+        }
+        static bool IsSynonymFor(this Adverb word, ComparativeAdverb other) {
+            var otherRoot = AdverbMorpher.FindRoot(other);
+            return InternalLookup(word).Contains(otherRoot);
+        }
+        static bool IsSynonymFor(this ComparativeAdverb word, Adverb other) {
+            return InternalLookup(word).Contains(other.Text);
+        }
+        static bool IsSynonymFor(this ComparativeAdverb word, SuperlativeAdverb other) {
+            return InternalLookup(word).Contains(other.Text);
+        }
+        static bool IsSynonymFor(this SuperlativeAdverb word, ComparativeAdverb other) {
+            return InternalLookup(word).Contains(other.Text);
+        }
+        #endregion
+
+
+        #endregion
+
+
+        #region Internal Syonym Lookup Methods
+
+        private static ISet<string> InternalLookup(Noun noun) {
+            return cachedNounData.GetOrAdd(noun.Text, key => nounLookup[key]);
+        }
+        private static ISet<string> InternalLookup(Verb verb) {
+            return cachedVerbData.GetOrAdd(verb.Text, key => verbLookup[key]);
+        }
+        private static ISet<string> InternalLookup(Adverb adverb) {
+            return cachedAdverbData.GetOrAdd(adverb.Text, key => adverbLookup[key]);
+        }
+        private static ISet<string> InternalLookup(Adjective adjective) {
+            return cachedAdjectiveData.GetOrAdd(adjective.Text, key => adjectiveLookup[key]);
+        }
+
+        #endregion
         #endregion
 
         #region Private Methods
@@ -273,13 +436,7 @@ namespace LASI.Algorithm.LexicalLookup
 
         #region Public Properties
 
-        #region Typed Word String Set Accessors
 
-
-        /// <summary>
-        /// Gets a set of strings corresponding to all verbs in the WordNet data bank. The set uses a case sensitive IComparer&lt;string&gt;.
-        /// </summary>
-        public static ISet<string> VerbStringDitionary { get { return verbLookup.AllVerbs; } }
 
         /// <summary>
         /// Gets the sequence of strings corresponding to all nouns in the Scrabble Dictionary data source.
@@ -325,7 +482,6 @@ namespace LASI.Algorithm.LexicalLookup
 
         #endregion
 
-        #endregion
 
         #region Private Properties
 
@@ -337,7 +493,7 @@ namespace LASI.Algorithm.LexicalLookup
         internal static Task<string> ScrabbleDictionaryLoadTask = Task.Run(() => {
             scrabbleDictionary = new List<string>();
             using (var reader = new StreamReader(scrabbleDictsFilePath)) {
-                var data = reader.ReadToEnd().SplitRemoveEmpty('\r', '\n').Select(s => s.ToLower());
+                scrabbleDictionary = reader.ReadToEnd().SplitRemoveEmpty('\r', '\n').Select(s => s.ToLower()).ToList();
             }
             return "Finished Loading Scrabble Dictionary";
         });
@@ -420,7 +576,6 @@ namespace LASI.Algorithm.LexicalLookup
         static VerbLookup verbLookup = new VerbLookup(verbWNFilePath);
         static AdjectiveLookup adjectiveLookup = new AdjectiveLookup(adjectiveWNFilePath);
         static AdverbLookup adverbLookup = new AdverbLookup(adverbWNFilePath);
-        static NounLookup nonpronounLookup = new NounLookup(scrabbleDictsFilePath);
         // Synonym LexicalLookup Caches
         static ConcurrentDictionary<string, ISet<string>> cachedNounData = new ConcurrentDictionary<string, ISet<string>>(Concurrency.Max, 40960);
         static ConcurrentDictionary<string, ISet<string>> cachedVerbData = new ConcurrentDictionary<string, ISet<string>>(Concurrency.Max, 40960);

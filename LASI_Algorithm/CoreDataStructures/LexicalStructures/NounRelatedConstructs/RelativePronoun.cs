@@ -43,8 +43,7 @@ namespace LASI.Algorithm
         public void AddPossession(IPossessable possession) {
             if (IsBound) {
                 Referent.AddPossession(possession);
-            }
-            else {
+            } else {
                 _possessed.Add(possession);
                 possession.Possesser = this;
             }
@@ -75,42 +74,41 @@ namespace LASI.Algorithm
             return result;
         }
         #endregion
+
+        #region Properties
+        /// <summary>
+        /// Gets the IEntity which can be said to "own" the RelativePronoun.
+        /// </summary>
+        public IPossesser Possesser { get; set; }
+        /// <summary>
+        /// Indicates wether or not the IPronoun is bound to an Entity.
+        /// </summary>
+        public bool IsBound { get; private set; }
+        /// <summary>
+        /// Gets the RelativePronounKind of the RelativePronoun.
+        /// </summary>
+        public RelativePronounKind RelativePronounKind { get; private set; }
         /// <summary>
         /// Gets the Entity which the RelativePronoun references.
         /// </summary>
-        public IAggregateEntity Referent {
-            get;
-            private set;
-        }
+        public IAggregateEntity Referent { get; private set; }
 
         /// <summary>
         /// Gets the EntityKind; Person, Place, Thing, Organization, or Activity;  of the Noun.
         /// </summary>
-        public EntityKind EntityKind {
-            get;
-            private set;
-        }
+        public EntityKind EntityKind { get; private set; }
         /// <summary>
         ///Gets or sets the IVerbal instance the RelativePronoun is the subject object of.
         /// </summary>
-        public IVerbal SubjectOf {
-            get;
-            set;
-        }
+        public IVerbal SubjectOf { get; set; }
         /// <summary>
         ///Gets or sets the IVerbal instance the RelativePronoun is the direct object of.
         /// </summary>
-        public IVerbal DirectObjectOf {
-            get;
-            set;
-        }
+        public IVerbal DirectObjectOf { get; set; }
         /// <summary>
         ///Gets or sets the IVerbal instance the RelativePronoun is the indirect object of.
         /// </summary>
-        public IVerbal IndirectObjectOf {
-            get;
-            set;
-        }
+        public IVerbal IndirectObjectOf { get; set; }
 
 
 
@@ -139,28 +137,9 @@ namespace LASI.Algorithm
                 return _possessed;
             }
         }
+        #endregion
 
-        /// <summary>
-        /// Gets the IEntity which can be said to "own" the RelativePronoun.
-        /// </summary>
-        public IPossesser Possesser {
-            get;
-            set;
-        }
-        /// <summary>
-        /// Indicates wether or not the IPronoun is bound to an Entity.
-        /// </summary>
-        public bool IsBound {
-            get;
-            private set;
-        }
-        /// <summary>
-        /// Gets the RelativePronounKind of the RelativePronoun.
-        /// </summary>
-        public RelativePronounKind RelativePronounKind {
-            get;
-            private set;
-        }
+
         private HashSet<IDescriptor> _describers = new HashSet<IDescriptor>();
         private HashSet<IPossessable> _possessed = new HashSet<IPossessable>();
         private HashSet<IReferencer> _boundPronouns = new HashSet<IReferencer>();

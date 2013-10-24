@@ -334,8 +334,8 @@ namespace LASI.Algorithm.Patternization
     public class TestedMatchCase<T, TResult> : IPredicatedMatchCase<T, TResult> where T : class, ILexical
     {
         protected internal TestedMatchCase(bool accepted, MatchCase<T, TResult> inner) { _accepted = accepted; _inner = inner; }
-        protected bool _accepted;
-        protected internal IMatchCase<T, TResult> _inner;
+       private bool _accepted;
+        private   IMatchCase<T, TResult> _inner;
         public IMatchCase<T, TResult> Then<TCase>(TResult result)
              where TCase : class, T {
             return _accepted ? this._inner.Case<TCase>(result) : this._inner;

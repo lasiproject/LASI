@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LASI.Utilities;
 
 namespace LASI.ContentSystem
 {
@@ -63,10 +64,9 @@ namespace LASI.ContentSystem
     {
         private static string FormatMessage(string unsupportedFormat) {
             return string.Format(
-                 "Files of type \"{0}\" are not supported. Supported types are {1}, {2}, {3}, and {4}",
+                 "Files of type \"{0}\" are not supported. Supported types are {1}",
                  unsupportedFormat,
-                 from k in FileManager.WrapperMap.Keys.Take(4)
-                 select k);
+                 FileManager.WrapperMap.Keys.Take(4).Format());
         }
         /// <summary>
         /// Initializes a new instance of the UnsupportedFileTypeAddedException class with its message string set to message.
@@ -142,6 +142,20 @@ namespace LASI.ContentSystem
         protected FileManagerException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
             : base(info, context) {
             CollectDirInfo();
+        }
+        /// <summary>
+        /// Sets the System.Runtime.Serialization.SerializationInfo with information about the exception.
+        /// </summary>
+        /// <param name="info">
+        /// The System.Runtime.Serialization.SerializationInfo that holds the serialized
+        /// object data about the exception being thrown.
+        /// </param>
+        /// <param name="context">
+        ///  The System.Runtime.Serialization.StreamingContext that contains contextual
+        ///  information about the source or destination.
+        /// </param>
+        public override void GetObjectData(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context) {
+            base.GetObjectData(info, context);
         }
         /// <summary>
         /// Sets data about the current contents of the ProjectDirectory at the time the FileManagerException is constructed.

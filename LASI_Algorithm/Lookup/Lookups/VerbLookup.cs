@@ -1,18 +1,15 @@
-﻿using LASI.Algorithm.LexicalLookup.InterSetRelationshipManagement;
-using LASI.Utilities;
-using System;
+﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using LASI.Utilities;
 
-namespace LASI.Algorithm.LexicalLookup
+namespace LASI.Algorithm.ComparativeHeuristics
 {
-    using LASI.Algorithm.LexicalLookup.Morphemization;
+    using LASI.Algorithm.ComparativeHeuristics.Morphemization;
     using SetReference = System.Collections.Generic.KeyValuePair<VerbSetRelationship, int>;
 
     internal sealed class VerbLookup : IWordNetLookup<Verb>
@@ -26,8 +23,7 @@ namespace LASI.Algorithm.LexicalLookup
         }
         /// <summary>
         /// Parses the contents of the underlying WordNet database file.
-        /// </summary>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
+        /// </summary> 
         public void Load() {
             using (var reader = new StreamReader(new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.None, 10024, FileOptions.SequentialScan))) {
                 var fileLines = reader.ReadToEnd().Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries).Skip(HEADER_LENGTH);
@@ -41,35 +37,35 @@ namespace LASI.Algorithm.LexicalLookup
             await System.Threading.Tasks.Task.Run(() => Load());
         }
 
-        private static VerbSynSet CreateSet(string fileLine) {
+        private static VerbSynSet CreateSet(string fileLine) { 
             var line = fileLine.Substring(0, fileLine.IndexOf('|'));
 
             var referencedSets = from Match M in Regex.Matches(line, POINTER_REGEX)
                                  let split = M.Value.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
                                  where split.Count() > 1
-                                 select new SetReference(RelationMap[split[0]], Int32.Parse(split[1]));
+                                 select new SetReference(interSetRelationshipMap[split[0]], Int32.Parse(split[1]));
 
             var words = from Match ContainedWord in Regex.Matches(line.Substring(17), WORD_REGEX)
                         select ContainedWord.Value.Replace('_', '-').ToLower();
             var id = Int32.Parse(line.Substring(0, 8));
-            var lexCategory = (VerbCategory)Int32.Parse(line.Substring(9, 2));
+            var lexCategory = (Category)Int32.Parse(line.Substring(9, 2));
             return new VerbSynSet(id, words, referencedSets, lexCategory);
         }
 
 
         private void LinkSynset(VerbSynSet synset) {
-            setsBySetID[synset.ID] = synset;
+            setsBySetID[synset.Id] = synset;
             foreach (var word in synset.Words) {
-                if (verbData.ContainsKey(word)) {
+                if (data.ContainsKey(word)) {
                     var newSet = new VerbSynSet(
-                        verbData[word].ID,
-                        verbData[word].Words.Concat(synset.Words),
-                        verbData[word].RelatedSetsByRelationKind
+                        data[word].Id,
+                        data[word].Words.Concat(synset.Words),
+                        data[word].RelatedSetsByRelationKind
                             .Concat(synset.RelatedSetsByRelationKind)
-                            .SelectMany(grouping => grouping.Select(pointer => new SetReference(grouping.Key, pointer))), verbData[word].LexName);
-                    verbData[word] = newSet;
+                            .SelectMany(grouping => grouping.Select(pointer => new SetReference(grouping.Key, pointer))), data[word].LexicalCategory);
+                    data[word] = newSet;
                 } else {
-                    verbData[word] = synset;
+                    data[word] = synset;
                 }
             }
         }
@@ -78,32 +74,24 @@ namespace LASI.Algorithm.LexicalLookup
             try {
                 var result = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
                 var verbRoots = VerbMorpher.FindRoots(search);
-                VerbSynSet? containingSet = null;
+                VerbSynSet containingSet = null;
                 foreach (var root in verbRoots) {
                     VerbSynSet tryGetVal;
-                    if (verbData.TryGetValue(root, out tryGetVal)) { containingSet = tryGetVal; } else {
-
+                    if (data.TryGetValue(root, out tryGetVal)) { containingSet = tryGetVal; } else {
                         try {
-                            containingSet = verbData.First(kv => kv.Value.Words.Contains(root)).Value;
+                            containingSet = data.First(kv => kv.Value.Words.Contains(root)).Value;
                         }
                         catch (InvalidOperationException) { }
                     }
-                    result.UnionWith(
-
-                        containingSet != null ?
-                        containingSet.Value.ReferencedIndexes
-                             .SelectMany(id => { VerbSynSet temp; return setsBySetID.TryGetValue(id, out temp) ? temp.ReferencedIndexes : Enumerable.Empty<int>(); })
-                             .Select(s => { VerbSynSet temp; return setsBySetID.TryGetValue(s, out temp) ? new Nullable<VerbSynSet>(temp) : new Nullable<VerbSynSet>(); })
-                             .Where(s => s.HasValue)
-                             .Select(s => s.Value)
-                             .Where(s => s.LexName == containingSet.Value.LexName)
+                    result.UnionWith(containingSet != null ?
+                        containingSet.ReferencedIndeces
+                             .SelectMany(id => { VerbSynSet temp; return setsBySetID.TryGetValue(id, out temp) ? temp.ReferencedIndeces : Enumerable.Empty<int>(); })
+                             .Select(s => { VerbSynSet temp; return setsBySetID.TryGetValue(s, out temp) ? temp : null; })
+                             .Where(s => s != null)
+                             .Where(s => s.LexicalCategory == containingSet.LexicalCategory)
                              .SelectMany(s => s.Words.SelectMany(w => VerbMorpher.GetConjugations(w))).Append(root) : new[] { search });
                 }
                 return result;
-            }
-            catch (ArgumentOutOfRangeException) {
-            }
-            catch (IndexOutOfRangeException) {
             }
             catch (KeyNotFoundException) {
             }
@@ -131,20 +119,88 @@ namespace LASI.Algorithm.LexicalLookup
                 return this[search.Text];
             }
         }
-
+        private string filePath;
         private ConcurrentDictionary<int, VerbSynSet> setsBySetID = new ConcurrentDictionary<int, VerbSynSet>();
-        private ConcurrentDictionary<string, VerbSynSet> verbData = new ConcurrentDictionary<string, VerbSynSet>();
-        private static VerbPointerSymbolMap RelationMap = new VerbPointerSymbolMap();
-        private SortedSet<string> allVerbs;
-
-        public SortedSet<string> AllVerbs { get { return allVerbs = allVerbs ?? new SortedSet<string>(verbData.SelectMany(set => set.Value.Words)); } }
+        private ConcurrentDictionary<string, VerbSynSet> data = new ConcurrentDictionary<string, VerbSynSet>();
         private const string WORD_REGEX = @"\b[A-Za-z-_]{2,}";
         private const string POINTER_REGEX = @"\D{1,2}\s*[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+";
-        private string filePath;
         private const int HEADER_LENGTH = 29;
 
+        // Provides an indexed lookup between the values of the VerbPointerSymbol enum and their corresponding string representation in WordNet data.verb files.
+        private static readonly IReadOnlyDictionary<string, VerbSetRelationship> interSetRelationshipMap = new Dictionary<string, VerbSetRelationship> {
+            { "!", VerbSetRelationship. Antonym }, 
+            { "@", VerbSetRelationship.Hypernym },
+            { "~", VerbSetRelationship.Hyponym },
+            { "*", VerbSetRelationship.Entailment },
+            { ">", VerbSetRelationship.Cause },
+            { "^", VerbSetRelationship. AlsoSee },
+            { "$", VerbSetRelationship.Verb_Group },
+            { "+", VerbSetRelationship.DerivationallyRelatedForm },
+            { ";c", VerbSetRelationship.DomainOfSynset_TOPIC },
+            { ";r", VerbSetRelationship.DomainOfSynset_REGION },
+            { ";u", VerbSetRelationship.DomainOfSynset_USAGE}
+        };
+        /// <summary>
+        /// Defines the broad lexical categories assigned to Verbs in the WordNet system.
+        /// </summary>
+        public enum Category : byte
+        {
+            /// <summary>
+            /// Body
+            /// </summary>
+            Body = 29,
+            /// <summary>
+            /// Cognition
+            /// </summary>
+            Cognition,
+            /// <summary>
+            /// Communication
+            /// </summary>
+            Communication,
+            /// <summary>
+            /// Competition
+            /// </summary>
+            Competition,
+            /// <summary>
+            /// Consumption
+            /// </summary>
+            Consumption,
+            /// <summary>
+            /// Contact
+            /// </summary>
+            Contact,
+            /// <summary>
+            /// Creation
+            /// </summary>
+            Creation,
+            /// <summary>
+            /// Emotion
+            /// </summary>
+            Emotion,
+            /// <summary>
+            /// Motion
+            /// </summary>
+            Motion,
+            /// <summary>
+            /// Perception
+            /// </summary>
+            Perception,
+            /// <summary>
+            /// Possession
+            /// </summary>
+            Possession,
+            /// <summary>
+            /// Social
+            /// </summary>
+            Social,
+            /// <summary>
+            /// Stative
+            /// </summary>
+            Stative,
+            /// <summary>
+            /// Weather
+            /// </summary>
+            Weather,
+        }
     }
-
-
-
 }

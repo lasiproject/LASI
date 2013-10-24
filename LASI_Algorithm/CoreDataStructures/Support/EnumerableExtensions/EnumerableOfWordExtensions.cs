@@ -1,4 +1,4 @@
-﻿using LASI.Algorithm.LexicalLookup;
+﻿using LASI.Algorithm.ComparativeHeuristics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,7 +23,7 @@ namespace LASI.Algorithm
         /// <returns>All words in the Word collection which come after the given word.</returns>
         /// <exception cref="System.ArgumentNullException">Thrown when words or startAfter is null.</exception>
         public static IEnumerable<Word> WordsFollowing(this IEnumerable<Word> words, Word startAfter) {
-            if (words == null || startAfter == null) { throw new ArgumentNullException("startFrom", "The provided Word to take after was null."); }
+            if (words == null || startAfter == null) { throw new ArgumentNullException("startAfter", "The provided Word to take after was null."); }
             return words.SkipWhile(w => w != startAfter).Skip(1);
         }
 

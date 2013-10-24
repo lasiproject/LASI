@@ -6,7 +6,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 
 
-namespace LASI.Algorithm.LexicalLookup
+namespace LASI.Algorithm.ComparativeHeuristics
 {
     using SetReference = System.Collections.Generic.KeyValuePair<AdjectiveSetRelationship, int>;
     internal sealed class AdjectiveLookup : IWordNetLookup<Adjective>
@@ -28,11 +28,14 @@ namespace LASI.Algorithm.LexicalLookup
         /// Parses the contents of the underlying WordNet database file.
         /// </summary>
         public void Load() {
+
             using (StreamReader reader = new StreamReader(filePath)) {
                 foreach (var line in reader.ReadToEnd().Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries).Skip(HEADER_LENGTH)) {
-                    allSets.Add(CreateSet(line));
+                    try { allSets.Add(CreateSet(line)); }
+                    catch (KeyNotFoundException) { }
                 }
             }
+
         }
 
         static AdjectiveSynSet CreateSet(string fileLine) {
@@ -44,14 +47,14 @@ namespace LASI.Algorithm.LexicalLookup
             var referencedSets = from match in Regex.Matches(line, pointerRegex).Cast<Match>()
                                  let split = match.Value.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
                                  where split.Count() > 1
-                                 select new SetReference(relationMap[split[0]], Int32.Parse(split[1]));
+                                 select new SetReference(interSetRelationshipMap[split[0]], Int32.Parse(split[1]));
 
 
             IEnumerable<string> words = from match in Regex.Matches(line, wordRegex).Cast<Match>()
                                         select match.Value.Replace('_', '-');
-            int id = Int32.Parse(line.Substring(0, 8));
+            int id = Int32.Parse(line.Substring(0, 8), System.Globalization.CultureInfo.InvariantCulture);
 
-            AdjectiveCategory lexCategory = (AdjectiveCategory)Int32.Parse(line.Substring(9, 2));
+            Category lexCategory = (Category)Int32.Parse(line.Substring(9, 2));
             return new AdjectiveSynSet(id, words, referencedSets, lexCategory);
 
 
@@ -87,13 +90,43 @@ namespace LASI.Algorithm.LexicalLookup
         }
 
 
-        private static readonly LASI.Algorithm.LexicalLookup.InterSetRelationshipManagement.AdjectivePointerSymbolMap relationMap =
-            new LASI.Algorithm.LexicalLookup.InterSetRelationshipManagement.AdjectivePointerSymbolMap();
-
         private string filePath;
 
         public async System.Threading.Tasks.Task LoadAsync() {
             await System.Threading.Tasks.Task.Run(() => Load());
         }
+
+        // Provides an indexed lookup between the values of the AdjectivePointerSymbol enum and their corresponding string representation in WordNet data.adj files.
+        private static readonly IReadOnlyDictionary<string, AdjectiveSetRelationship> interSetRelationshipMap = new Dictionary<string, AdjectiveSetRelationship> {
+            { "!", AdjectiveSetRelationship. Antonym }, 
+            { "&", AdjectiveSetRelationship.SimilarTo},
+            { "<", AdjectiveSetRelationship.ParticipleOfVerb},
+            { @"\", AdjectiveSetRelationship.Pertainym_pertains_to_noun},
+            { "=", AdjectiveSetRelationship.Attribute},
+            { "^", AdjectiveSetRelationship.AlsoSee },
+            { ";c", AdjectiveSetRelationship.DomainOfSynset_TOPIC },
+            { ";r", AdjectiveSetRelationship.DomainOfSynset_REGION },
+            { ";u", AdjectiveSetRelationship.DomainOfSynset_USAGE}
+        };
+        /// <summary>
+        /// Defines the broad lexical categories assigned to Adjectives in the WordNet system.
+        /// </summary>
+        public enum Category : byte
+        {
+            /// <summary>
+            /// all adjective clusters
+            /// </summary>
+            All = 0,
+            /// <summary>
+            /// relational adjectives (pertainyms)
+            /// </summary>
+            Pert = 1,
+            /// <summary>
+            /// participial adjectives
+            /// </summary>
+            PPL = 44,
+        }
     }
+
 }
+

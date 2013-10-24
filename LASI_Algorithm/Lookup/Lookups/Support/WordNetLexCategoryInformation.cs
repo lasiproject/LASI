@@ -1,217 +1,14 @@
-﻿namespace LASI.Algorithm.LexicalLookup
+﻿namespace LASI.Algorithm.ComparativeHeuristics
 {
-    /// <summary>
-    /// Defines the broad lexical categories assigned to Nouns in the WordNet system.
-    /// </summary>
-    enum NounCategory : byte
-    {
-        /// <summary>
-        /// Tops
-        /// </summary>
-        Tops = 3,
-        /// <summary>
-        /// Act
-        /// </summary>
-        Act,
-        /// <summary>
-        /// Animal
-        /// </summary>
-        Animal,
-        /// <summary>
-        /// Artifact
-        /// </summary>
-        Artifact,
-        /// <summary>
-        /// Attribute
-        /// </summary>
-        Attribute,
-        /// <summary>
-        /// Body
-        /// </summary>
-        Body,
-        /// <summary>
-        /// Cognition
-        /// </summary>
-        Cognition,
-        /// <summary>
-        /// Communication
-        /// </summary>
-        Communication,
-        /// <summary>
-        /// Event
-        /// </summary>
-        Event,
-        /// <summary>
-        /// Feeling
-        /// </summary>
-        Feeling,
-        /// <summary>
-        /// Food
-        /// </summary>
-        Food,
-        /// <summary>
-        /// Group
-        /// </summary>
-        Group,
-        /// <summary>
-        /// Location
-        /// </summary>
-        Location,
-        /// <summary>
-        /// Motive
-        /// </summary>
-        Motive,
-        /// <summary>
-        /// Object
-        /// </summary>
-        Object,
-        /// <summary>
-        /// Person
-        /// </summary>
-        Person,
-        /// <summary>
-        /// Phenomenon
-        /// </summary>
-        Phenomenon,
-        /// <summary>
-        /// Plant
-        /// </summary>
-        Plant,
-        /// <summary>
-        /// Possession
-        /// </summary>
-        Possession,
-        /// <summary>
-        /// Process
-        /// </summary>
-        Process,
-        /// <summary>
-        /// Quantity
-        /// </summary>
-        Quantity,
-        /// <summary>
-        /// Relation
-        /// </summary>
-        Relation,
-        /// <summary>
-        /// Shape
-        /// </summary>
-        Shape,
-        /// <summary>
-        /// State
-        /// </summary>
-        State,
-        /// <summary>
-        /// Substance
-        /// </summary>
-        Substance,
-        /// <summary>
-        /// Time
-        /// </summary>
-        Time,
-
-    }
-    /// <summary>
-    /// Defines the broad lexical categories assigned to Verbs in the WordNet system.
-    /// </summary>
-    enum VerbCategory : byte
-    {
-        /// <summary>
-        /// Body
-        /// </summary>
-        Body = 29,
-        /// <summary>
-        /// Cognition
-        /// </summary>
-        Cognition,
-        /// <summary>
-        /// Communication
-        /// </summary>
-        Communication,
-        /// <summary>
-        /// Competition
-        /// </summary>
-        Competition,
-        /// <summary>
-        /// Consumption
-        /// </summary>
-        Consumption,
-        /// <summary>
-        /// Contact
-        /// </summary>
-        Contact,
-        /// <summary>
-        /// Creation
-        /// </summary>
-        Creation,
-        /// <summary>
-        /// Emotion
-        /// </summary>
-        Emotion,
-        /// <summary>
-        /// Motion
-        /// </summary>
-        Motion,
-        /// <summary>
-        /// Perception
-        /// </summary>
-        Perception,
-        /// <summary>
-        /// Possession
-        /// </summary>
-        Possession,
-        /// <summary>
-        /// Social
-        /// </summary>
-        Social,
-        /// <summary>
-        /// Stative
-        /// </summary>
-        Stative,
-        /// <summary>
-        /// Weather
-        /// </summary>
-        Weather,
-
-    }
-    /// <summary>
-    /// Defines the broad lexical categories assigned to Adjectives in the WordNet system.
-    /// </summary>
-    enum AdjectiveCategory : byte
-    {
-        /// <summary>
-        /// all adjective clusters
-        /// </summary>
-        All = 0,
-        /// <summary>
-        /// relational adjectives (pertainyms)
-        /// </summary>
-        Pert = 1,
-        /// <summary>
-        /// participial adjectives
-        /// </summary>
-        PPL = 44,
-    }
-    /// <summary>
-    /// Defines the broad lexical categories assigned to Adverbs in the WordNet system.
-    /// </summary>
-    enum AdverbCategory : byte
-    {
-        /// <summary>
-        /// All adverbs have the same category. This value is simply included for completeness.
-        /// </summary>
-        All = 2
-    }
-
     /// <summary>
     /// Defines the different kinds of pointer relationships on which Noun Synsets can relate to one another.
     /// </summary>
     enum NounSetRelationship : byte
     {
         /// <summary>
-        /// UNDEFINED
+        /// UNDEFINED. The presence of this value indicates that an inter set relationship was improperly mapped from a WordNet data file.
         /// </summary>
-        UNDEFINED = 0,
+        Undefined = 0,
         /// <summary>
         /// Antonym
         /// </summary>
@@ -295,9 +92,9 @@
     enum VerbSetRelationship : byte
     {
         /// <summary>
-        /// UNDEFINED
+        /// UNDEFINED. The presence of this value indicates that an inter set relationship was improperly mapped from a WordNet data file.
         /// </summary>
-        UNDEFINED = 0,
+        Undefined = 0,
         /// <summary>
         /// Antonym
         /// </summary>
@@ -349,9 +146,9 @@
     enum AdjectiveSetRelationship : byte
     {
         /// <summary>
-        /// UNDEFINED
+        /// UNDEFINED. The presence of this value indicates that an inter set relationship was improperly mapped from a WordNet data file.
         /// </summary>
-        UNDEFINED = 0,
+        Undefined = 0,
         /// <summary>
         /// Antonym
         /// </summary>
@@ -395,9 +192,9 @@
     enum AdverbSetRelationship : byte
     {
         /// <summary>
-        /// UNDEFINED
+        /// UNDEFINED. The presence of this value indicates that an inter set relationship was improperly mapped from a WordNet data file.
         /// </summary>
-        UNDEFINED = 0,
+        Undefined = 0,
         /// <summary>
         /// Antonym
         /// </summary>

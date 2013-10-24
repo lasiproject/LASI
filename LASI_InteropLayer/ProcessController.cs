@@ -1,7 +1,7 @@
-﻿using LASI.Algorithm.Binding;
+﻿using LASI.Algorithm;
+using LASI.Algorithm.Binding;
 using LASI.Algorithm.DocumentStructures;
-using LASI.Algorithm.LexicalLookup;
-using LASI.Algorithm.Weighting;
+using LASI.Algorithm.ComparativeHeuristics;
 using LASI.ContentSystem;
 using System;
 using System.Collections.Concurrent;
@@ -88,7 +88,6 @@ namespace LASI.InteropLayer
             }
         }
 
-        protected override void OnReport(Report value) { base.OnReport(value); }
 
         #region Fields
 

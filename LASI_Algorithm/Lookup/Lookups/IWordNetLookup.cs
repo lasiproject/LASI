@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace LASI.Algorithm.LexicalLookup
+namespace LASI.Algorithm.ComparativeHeuristics
 {
     internal interface IWordNetLookup<TWord> where TWord : Word
     {

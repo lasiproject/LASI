@@ -28,8 +28,7 @@ namespace LASI.Algorithm.Binding
         /// However, to ensure the consistency/determinism of the Binding process, it is recommended that they be executed (awaited) in the order
         /// in which they are hereby returned.
         /// </remarks>
-        public static IEnumerable<ProcessingTask> GetBindingTasks(this Document document)
-        {
+        public static IEnumerable<ProcessingTask> GetBindingTasks(this Document document) {
 
             yield return new ProcessingTask(() => BindAttributives(document.Sentences),
                     string.Format("{0}: Binding Attributives", document.Name),
@@ -45,10 +44,9 @@ namespace LASI.Algorithm.Binding
                     string.Format("{0}: Abstracted References", document.Name), 5);
         }
 
-        private static void PreBind(IEnumerable<Paragraph> enumerable)
-        {
+        private static void PreBind(IEnumerable<Paragraph> enumerable) {
             foreach (var p in enumerable) {
-                LASI.Algorithm.BindingAndWeighting.Binders.Experimental.PreBinder.BindPairedDelimiters(p);
+                LASI.Algorithm.Binding.Experimental.PreBinder.BindPairedDelimiters(p);
             }
         }
 
@@ -56,8 +54,7 @@ namespace LASI.Algorithm.Binding
         ///  Performs all binding procedures on the given Document.
         /// </summary>
         /// <param name="document">The Document to bind within.</param> 
-        public static void Bind(Document document)
-        {
+        public static void Bind(Document document) {
             Task.WaitAll(document.GetBindingTasks().Select(t => t.Task).ToArray());
         }
 
@@ -66,18 +63,15 @@ namespace LASI.Algorithm.Binding
 
         #region Standard Implementations
 
-        private static void BindAdjectivePhrases(IEnumerable<Sentence> sentences)
-        {
+        private static void BindAdjectivePhrases(IEnumerable<Sentence> sentences) {
             sentences.AsParallel().WithDegreeOfParallelism(Concurrency.Max).ForAll(s => AdjectivePhraseBinder.Bind(s));
         }
 
-        private static void BindAttributives(IEnumerable<Sentence> sentences)
-        {
+        private static void BindAttributives(IEnumerable<Sentence> sentences) {
             sentences.AsParallel().WithDegreeOfParallelism(Concurrency.Max).ForAll(s => AttributivePhraseBinder.Bind(s));
         }
 
-        private static void BindSubjectsAndObjects(IEnumerable<Sentence> sentences)
-        {
+        private static void BindSubjectsAndObjects(IEnumerable<Sentence> sentences) {
             try {
                 sentences.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                     .ForAll(s => {
@@ -89,23 +83,21 @@ namespace LASI.Algorithm.Binding
                         catch (InvalidOperationException e) { Output.WriteLine(e.Message); }
                     });
             }
-            catch (Exception e) { Output.WriteLine(e.Message); }
+            catch (SystemException e) { Output.WriteLine(e.Message); }
         }
 
-        private static void BindIntraPhrase(IEnumerable<Phrase> phrases)
-        {
+        private static void BindIntraPhrase(IEnumerable<Phrase> phrases) {
             phrases.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                 .OfNounPhrase().ForAll(np => IntraPhraseWordBinder.Bind(np));
             phrases.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                 .OfVerbPhrase().ForAll(vp => IntraPhraseWordBinder.Bind(vp));
         }
 
-        private static void BindPronouns(IEnumerable<Sentence> sentences)
-        {
+        private static void BindPronouns(IEnumerable<Sentence> sentences) {
             sentences.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                 .ForAll(s => PronounBinder.Bind(s));
             sentences.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                .ForAll(s => ClauseSeperatingMultiBranchingBinder.Bind(s.Words));
+                .ForAll(s => ClauseSeperatingBranchingBinder.Bind(s.Words));
 
         }
 

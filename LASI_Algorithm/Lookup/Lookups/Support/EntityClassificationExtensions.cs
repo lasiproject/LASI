@@ -1,4 +1,4 @@
-﻿using LASI.Algorithm.LexicalLookup;
+﻿using LASI.Algorithm.ComparativeHeuristics;
 using LASI.Utilities;
 using System;
 using System.Collections.Generic;
@@ -140,7 +140,7 @@ namespace LASI.Algorithm
         /// <returns>True if the Pronoun is among the semantic categories which are thought of as explicitely gender neutral, false otherwise.</returns>
         public static bool IsNeutral(this Pronoun pronoun) {
             var kind = pronoun.PronounKind;
-            var intSet = new[] { 1, 2, 3, 4, 5, 6, 7 }.ToSet((i, j) => i % 2 == j % 2, i => i.GetHashCode());
+            //var intSet = new[] { 1, 2, 3, 4, 5, 6, 7 }.ToSet((i, j) => i % 2 == j % 2, i => i.GetHashCode());
             return kind == PronounKind.GenderNeurtral || kind == PronounKind.GenderNeurtralReflexive;
         }
         /// <summary>

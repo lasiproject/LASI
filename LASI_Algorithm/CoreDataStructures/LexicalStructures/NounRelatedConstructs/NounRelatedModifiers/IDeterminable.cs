@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LASI.Algorithm
 {
-    interface IDeterminable
+    public interface IDeterminable
     {
         Determiner Determiner {
             get;

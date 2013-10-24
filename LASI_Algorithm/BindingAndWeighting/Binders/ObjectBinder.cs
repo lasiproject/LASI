@@ -17,8 +17,7 @@ namespace LASI.Algorithm.Binding
         /// <summary>
         /// Initializes a new instance of ObjectBinder class.
         /// </summary>
-        public ObjectBinder()
-        {
+        public ObjectBinder() {
             St0 = new State0(this);
             St1 = new State1(this);
             St2 = new State2(this);
@@ -33,8 +32,7 @@ namespace LASI.Algorithm.Binding
         /// Performance IVerbal :=: IVerbalObject binding between the applicable elements within the provuded sentence.
         /// </summary>
         /// <param name="sentence">The Sentence to bind within.</param>
-        public void Bind(Sentence sentence)
-        {
+        public void Bind(Sentence sentence) {
             if (sentence.Phrases.OfVerbPhrase().None()) {
                 throw new VerblessPhrasalSequenceException();
             }
@@ -45,8 +43,7 @@ namespace LASI.Algorithm.Binding
         /// Performs IVerbal :=: IVerbalObject binding between the applicable elements within the provuded sequence of Phrase instances.
         /// </summary>
         /// <param name="contiguousPhrases">The sequence of Phrase instances to bind within.</param>
-        public void Bind(IEnumerable<Phrase> contiguousPhrases)
-        {
+        public void Bind(IEnumerable<Phrase> contiguousPhrases) {
             var phrases = contiguousPhrases.ToList();
             var verbPhraseIndex = phrases.FindIndex(r => r is VerbPhrase);
             bindingTarget = contiguousPhrases.ElementAtOrDefault(verbPhraseIndex) as VerbPhrase;
@@ -64,8 +61,7 @@ namespace LASI.Algorithm.Binding
                 }
             }
         }
-        private void AssociateDirect()
-        {
+        private void AssociateDirect() {
             foreach (var e in entities) {
                 bindingTarget.BindDirectObject(e);
             }
@@ -73,16 +69,14 @@ namespace LASI.Algorithm.Binding
             ConjunctNounPhrases.Clear();
             directFound = true;
         }
-        private void AssociateIndirect()
-        {
+        private void AssociateIndirect() {
             foreach (var e in entities) {
                 bindingTarget.BindIndirectObject(e);
             }
             entities.Clear();
             ConjunctNounPhrases.Clear();
         }
-        private void BindBuiltupAdjectivePhrases(NounPhrase phrase)
-        {
+        private void BindBuiltupAdjectivePhrases(NounPhrase phrase) {
             foreach (var adjp in this.lastAdjectivals) {
                 phrase.BindDescriptor(adjp);
             }
@@ -130,14 +124,12 @@ namespace LASI.Algorithm.Binding
         {
             public State0(ObjectBinder machine) : base(machine, "s0") { }
 
-            public override void Transition(Phrase phrase)
-            {
+            public override void Transition(Phrase phrase) {
                 try { InternalBind(phrase); }
                 catch (InvalidOperationException) { PerformExceptionFallback(); }
             }
 
-            private void InternalBind(Phrase phrase)
-            {
+            private void InternalBind(Phrase phrase) {
                 phrase.Match()
                     .Case<PrepositionalPhrase>(phr => {
                         Machine.lastPrepositional = phr;
@@ -195,8 +187,7 @@ namespace LASI.Algorithm.Binding
                     .Default(() => base.Transition(phrase));
             }
 
-            private void WhenSbar(Phrase phrase)
-            {
+            private void WhenSbar(Phrase phrase) {
                 var subordinateClauseConstituents = new List<Phrase> {
                     phrase};
                 for (var r = Stream.Count > 0 ? Stream.Get() : null; r != null && !(r.Words.First() is Punctuator) && Stream.Count > 0; r = Stream.Get()) {
@@ -211,14 +202,12 @@ namespace LASI.Algorithm.Binding
         class State1 : State
         {
             public State1(ObjectBinder machine) : base(machine, "s1") { }
-            public override void Transition(Phrase phrase)
-            {
+            public override void Transition(Phrase phrase) {
                 try { InternalBind(phrase); }
                 catch (InvalidOperationException) { PerformExceptionFallback(); }
             }
 
-            private void InternalBind(Phrase phrase)
-            {
+            private void InternalBind(Phrase phrase) {
                 phrase.Match()
                 .Case<VerbPhrase>(phr => {
                     phr.AdjectivalModifier = Machine.lastAdjectivals.Last();
@@ -248,14 +237,12 @@ namespace LASI.Algorithm.Binding
         {
             public State2(ObjectBinder machine) : base(machine, "s2") { }
 
-            public override void Transition(Phrase phrase)
-            {
+            public override void Transition(Phrase phrase) {
                 try { InternalBind(phrase); }
                 catch (InvalidOperationException) { PerformExceptionFallback(); }
             }
 
-            private void InternalBind(Phrase phrase)
-            {
+            private void InternalBind(Phrase phrase) {
                 phrase.Match()
                     .Case<ConjunctionPhrase>(phr => {
                         phr.JoinedLeft = Machine.entities.Peek();
@@ -320,8 +307,8 @@ namespace LASI.Algorithm.Binding
                     .Default(() => base.Transition(phrase));
             }
 
-            private void WhenSbar(Phrase phrase)
-            {
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "phrase")]
+            private void WhenSbar(Phrase phrase) {
                 while (Stream.Count > 1) {
                     var endOfSbar = Stream.Get();
                     if (endOfSbar is SymbolPhrase || endOfSbar is SubordinateClauseBeginPhrase) { break; }
@@ -334,8 +321,7 @@ namespace LASI.Algorithm.Binding
 
         class State3 : State
         {
-            public override void Transition(Phrase phrase)
-            {
+            public override void Transition(Phrase phrase) {
                 try {
                     InternalBind(phrase);
                 }
@@ -344,8 +330,7 @@ namespace LASI.Algorithm.Binding
                 }
             }
 
-            private void InternalBind(Phrase phrase)
-            {
+            private void InternalBind(Phrase phrase) {
                 phrase.Match()
                 .Case<AdjectivePhrase>(phr => {
                     Machine.lastAdjectivals.Add(phr);
@@ -382,8 +367,7 @@ namespace LASI.Algorithm.Binding
 
         class State4 : State
         {
-            public override void Transition(Phrase phrase)
-            {
+            public override void Transition(Phrase phrase) {
                 try {
                     InternalBind(phrase);
                 }
@@ -391,8 +375,7 @@ namespace LASI.Algorithm.Binding
                     PerformExceptionFallback();
                 }
             }
-            private void InternalBind(Phrase phrase)
-            {
+            private void InternalBind(Phrase phrase) {
                 phrase.Match()
                 .Case<NounPhrase>(phr => {
                     Machine.ConjunctNounPhrases.Add(phr);
@@ -430,16 +413,14 @@ namespace LASI.Algorithm.Binding
         class State5 : State
         {
 
-            public override void Transition(Phrase phrase)
-            {
+            public override void Transition(Phrase phrase) {
                 try { InternalBind(phrase); }
                 catch (InvalidOperationException) {
                     PerformExceptionFallback();
                 }
             }
 
-            private void InternalBind(Phrase phrase)
-            {
+            private void InternalBind(Phrase phrase) {
                 phrase.Match()
                 .Case<AdjectivePhrase>(phr => {
                     Machine.lastAdjectivals.Add(phr);
@@ -478,8 +459,7 @@ namespace LASI.Algorithm.Binding
         {
             protected State(ObjectBinder machine, string stateName) { Machine = machine; Stream = machine.inputstream; StateName = stateName; }
             public virtual void Transition(Phrase phrase) { throw new InvalidStateTransitionException(StateName, phrase); }
-            public virtual void PerformExceptionFallback()
-            {
+            public virtual void PerformExceptionFallback() {
                 Machine.AssociateDirect();
                 Machine.AssociateIndirect();
             }

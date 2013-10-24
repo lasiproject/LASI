@@ -398,7 +398,7 @@ namespace LASI.ContentSystem
     /// If one encounters an exception not suited for one of its derrived types, a new exception class should be derrived from this class.
     /// </summary>
     [Serializable]
-    public abstract class POSTagException : Exception
+    public abstract class POSTagException : NotSupportedException
     {
         /// <summary>
         /// Initializes a new instance of the POSTagException class with its message string set to message.

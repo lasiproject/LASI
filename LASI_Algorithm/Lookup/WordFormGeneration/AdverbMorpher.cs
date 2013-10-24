@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LASI.Algorithm.LexicalLookup.Morphemization
+namespace LASI.Algorithm.ComparativeHeuristics.Morphemization
 {
     /// <summary>
     /// Performs both noun root extraction and noun form generation.
@@ -17,7 +17,7 @@ namespace LASI.Algorithm.LexicalLookup.Morphemization
     {
 
         static AdverbMorpher() {
-            LoadExceptionFile(exceptionFilePath);
+            LoadExceptionFile();
 
         }
 
@@ -92,9 +92,8 @@ namespace LASI.Algorithm.LexicalLookup.Morphemization
 
 
         #region Exception File Processing
-        private static string exceptionFilePath = ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "adv.exc";
-        private static void LoadExceptionFile(string filePath) {
-            using (var reader = new StreamReader(filePath)) {
+        private static void LoadExceptionFile() {
+            using (var reader = new StreamReader(ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "adv.exc")) {
                 while (!reader.EndOfStream) {
                     var keyVal = ProcessLine(reader.ReadLine());
                     exceptionData[keyVal.Key] = keyVal.Value;

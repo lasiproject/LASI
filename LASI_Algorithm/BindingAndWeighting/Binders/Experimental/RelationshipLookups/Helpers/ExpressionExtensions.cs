@@ -1,13 +1,11 @@
-﻿using LASI.Algorithm.LexicalLookup;
-using LASI.Algorithm.Aliasing;
-using System;
+﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LASI.Algorithm.RelationshipLookups
+namespace LASI.Algorithm.ComparativeHeuristics
 {
     /// <summary>
     /// Provides convenient extension methods for working with IEntity and IVerbal constructs in the context of an applicable IRelationshipLookup.
@@ -20,7 +18,6 @@ namespace LASI.Algorithm.RelationshipLookups
         /// <param name="performer">The first IEntity, the peformer of the action.</param>
         /// <param name="receiver">The second IEntity, the receiver of the action.</param>
         /// <returns>An object containing all of the IVerbals on which the two IEntity constructs are related or null if they have no established IVerbal relationships.</returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "SetRelationshipLookup")]
         public static ActionsRelatedOn? IsRelatedTo(this IEntity performer, IEntity receiver) {
             Func<IEntity, IEntity, bool> predicate = (L, R) => L.IsAliasFor(R) || L.IsSimilarTo(R);
 
@@ -33,7 +30,7 @@ namespace LASI.Algorithm.RelationshipLookups
                 else
                     return null;
             } else {
-                throw new InvalidOperationException(string.Format(@"There is no relationship lookup Context associated with {0} or {1}.\n
+                throw new InvalidOperationException(string.Format(@"There is no relationship lookup context associated with {0} or {1}.\n
                     Please associate a context by calling {2}.SetRelationshipLookup or {3}.SetRelationshipLookup appropriately.",
                     performer, receiver,
                     performer, receiver));
@@ -63,38 +60,45 @@ namespace LASI.Algorithm.RelationshipLookups
 
 
         private static ConcurrentDictionary<IEntity, IRelationshipLookup<IEntity, IVerbal>> entityLookupContexts = new ConcurrentDictionary<IEntity, IRelationshipLookup<IEntity, IVerbal>>();
-        /// <summary>
-        /// Provides a nullable sequence of IVerbal constructs. Instances of the structure will implicitely collapse to true or false as needed
-        /// </summary>
-        public struct ActionsRelatedOn
-        {
+    }
+    /// <summary>
+    /// Provides a nullable sequence of IVerbal constructs. Instances of the structure will implicitely collapse to true or false as needed
+    /// </summary>
+    public struct ActionsRelatedOn
+    {
 
-            internal ActionsRelatedOn(IEnumerable<IVerbal> actionsRelatedOn)
-                : this() {
-                RelatedOn = actionsRelatedOn;
-            }
-
-            internal IEnumerable<IVerbal> RelatedOn {
-                get;
-                private set;
-            }
-            /// <summary>
-            /// Returms true only if the set is not null;
-            /// </summary>
-            /// <param name="set"></param>
-            /// <returns></returns>
-            public static bool operator true(ActionsRelatedOn? set) {
-                return set != null;
-            }
-
-            /// <summary>
-            /// Returms true onl if the set is null;
-            /// </summary>
-            /// <param name="set"></param>
-            /// <returns></returns>
-            public static bool operator false(ActionsRelatedOn? set) {
-                return set == null;
-            }
+        internal ActionsRelatedOn(IEnumerable<IVerbal> actionsRelatedOn)
+            : this() {
+            RelatedOn = actionsRelatedOn;
         }
+        public override bool Equals(object obj) {
+            return obj is ActionsRelatedOn && RelatedOn.SequenceEqual(((ActionsRelatedOn)obj).RelatedOn);
+        }
+        public override int GetHashCode() {
+            return RelatedOn.Aggregate(0, (hash, action) => hash ^= action.GetHashCode());
+        }
+        internal IEnumerable<IVerbal> RelatedOn {
+            get;
+            private set;
+        }
+        /// <summary>
+        /// Returms true only if the set is not null;
+        /// </summary>
+        /// <param name="set"></param>
+        /// <returns></returns>
+        public static bool operator true(ActionsRelatedOn? set) {
+            return set != null;
+        }
+
+        /// <summary>
+        /// Returms true onl if the set is null;
+        /// </summary>
+        /// <param name="set"></param>
+        /// <returns></returns>
+        public static bool operator false(ActionsRelatedOn? set) {
+            return set == null;
+        }
+        public static bool operator ==(ActionsRelatedOn left, ActionsRelatedOn right) { return left.Equals(right); }
+        public static bool operator !=(ActionsRelatedOn left, ActionsRelatedOn right) { return !(left == right); }
     }
 }

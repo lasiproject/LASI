@@ -1,9 +1,8 @@
 ﻿using LASI;
 using LASI.Algorithm;
 using LASI.Algorithm.DocumentStructures;
-using LASI.Algorithm.LexicalLookup;
-using LASI.Algorithm.Aliasing;
-using LASI.Algorithm.Patternization;
+using LASI.Algorithm.ComparativeHeuristics;
+ using LASI.Algorithm.Patternization;
 using LASI.InteropLayer;
 using System;
 using System.Collections.Generic;
@@ -467,16 +466,16 @@ namespace LASI.UserInterface
             else
             {
                 bool result = lhs.Verbal.Text == rhs.Verbal.Text || lhs.Verbal.IsSimilarTo(rhs.Verbal);
-                result &= LexicalComparers<IEntity>.AliasOrSimilarity.Equals(lhs.Subject, rhs.Subject);
+                result &= Comparers<IEntity>.AliasOrSimilarity.Equals(lhs.Subject, rhs.Subject);
                 if (lhs.Direct != null && rhs.Direct != null)
                 {
-                    result &= LexicalComparers<IEntity>.AliasOrSimilarity.Equals(lhs.Direct, rhs.Direct);
+                    result &= Comparers<IEntity>.AliasOrSimilarity.Equals(lhs.Direct, rhs.Direct);
                 }
                 else if (lhs.Direct == null || rhs.Direct == null)
                     return false;
                 if (lhs.Indirect != null && rhs.Indirect != null)
                 {
-                    result &= LexicalComparers<IEntity>.AliasOrSimilarity.Equals(lhs.Indirect, rhs.Indirect);
+                    result &= Comparers<IEntity>.AliasOrSimilarity.Equals(lhs.Indirect, rhs.Indirect);
                 }
                 else if (lhs.Indirect == null || rhs.Indirect == null)
                     return false;

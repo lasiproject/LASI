@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LASI.Algorithm.CoreDataStructures.LexicalStructures.MiscLanguageConstructs
+namespace LASI.Algorithm
 {
     /// <summary>
     /// Represents a quoation mark. Implementing the IPairedPunctuator interface, it provides for a pairing to the its complementary quotation mark type quote.
@@ -26,13 +26,11 @@ namespace LASI.Algorithm.CoreDataStructures.LexicalStructures.MiscLanguageConstr
         /// Gets the QuotationMark 
         /// which, together with the current instance, bookends some lexical content.
         /// </summary>
-        public TQuote PairedInstance
-        {
+        public TQuote PairedInstance {
             get;
             protected set;
         }
-        public override string ToString()
-        {
+        public override string ToString() {
             return base.ToString() + " Paired With " + (PairedInstance != null ? (PairedInstance.Text + PairedInstance.ID) : string.Empty);
         }
     }

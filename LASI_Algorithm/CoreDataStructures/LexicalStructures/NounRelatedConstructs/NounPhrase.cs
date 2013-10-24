@@ -1,10 +1,10 @@
-﻿using LASI.Algorithm.Aliasing;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 using LASI.Utilities;
+using LASI.Algorithm.ComparativeHeuristics;
 
 namespace LASI.Algorithm
 {
@@ -24,7 +24,6 @@ namespace LASI.Algorithm
             determineEntityType();
         }
         #endregion
-
 
         #region Methods
 
@@ -85,7 +84,7 @@ namespace LASI.Algorithm
                 result += Possesser != null ? "\nOwned By: " + Possesser.Text : string.Empty;
                 result += InnerAttributive != null ? "\nDefines: " + InnerAttributive.Text : string.Empty;
                 result += OuterAttributive != null ? "\nDefines: " + OuterAttributive.Text : string.Empty;
-                result += (AliasDictionary.GetDefinedAliases(this).Any() ? "\nClassified as: " + AliasDictionary.GetDefinedAliases(this).Format() : string.Empty);
+                result += (AliasLookup.GetDefinedAliases(this).Any() ? "\nClassified as: " + AliasLookup.GetDefinedAliases(this).Format() : string.Empty);
                 result += SubjectOf != null ? "\nSubject Of: " + SubjectOf.Text : string.Empty;
                 result += DirectObjectOf != null ? "\nDirect Object Of: " + DirectObjectOf.Text : string.Empty;
                 result += IndirectObjectOf != null ? "\nIndirect Object Of: " + IndirectObjectOf.Text : string.Empty;
@@ -95,6 +94,54 @@ namespace LASI.Algorithm
         }
 
         #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets all of the IPronoun instances, generally Pronouns or PronounPhrases, which refer to the NounPhrase.
+        /// </summary>
+        public IEnumerable<IReferencer> BoundPronouns { get { return _boundPronouns; } }
+
+        /// <summary>
+        /// Gets all of the IDescriptor constructs,generally Adjectives or AdjectivePhrases, which describe the NounPhrase.
+        /// </summary>
+        public IEnumerable<IDescriptor> Descriptors { get { return _descriptors; } }
+        /// <summary>
+        /// Gets or sets another NounPhrase, to the left of current instance, which is functions as an Attributor of current instance.
+        /// </summary>
+        public NounPhrase OuterAttributive { get; set; }
+        /// <summary>
+        /// Gets or sets another NounPhrase, to the right of current instance, which is functions as an Attributor of current instance.
+        /// </summary>
+        public NounPhrase InnerAttributive { get; set; }
+        /// <summary>
+        /// Gets the Entity PronounKind; Person, Place, Thing, Organization, or Activity; of the NounPhrase.
+        /// </summary>
+        public EntityKind EntityKind { get; protected set; }
+
+
+        /// <summary>
+        /// Gets all of the constructs which the NounPhrase "owns".
+        /// </summary>
+        public IEnumerable<IPossessable> Possessed {
+            get { return _possessed; }
+        }
+        /// <summary>
+        /// Gets or sets the Entity which "owns" the NounPhrase.
+        /// </summary>
+        public IPossesser Possesser {
+            get {
+                return _possessor;
+            }
+            set {
+                _possessor = value;
+                if (value != null) {
+                    foreach (var item in this.Words.OfType<IEntity>()) {
+                        value.AddPossession(item);
+                    }
+                }
+            }
+        }
 
         /// <summary>
         /// Gets or sets the IVerbal instance, generally a Verb or VerbPhrase, which the NounPhrase is the subject of.
@@ -136,54 +183,9 @@ namespace LASI.Algorithm
                     N.IndirectObjectOf = IndirectObjectOf;
             }
         }
+        #endregion
 
-
-
-        /// <summary>
-        /// Gets all of the IPronoun instances, generally Pronouns or PronounPhrases, which refer to the NounPhrase.
-        /// </summary>
-        public IEnumerable<IReferencer> BoundPronouns { get { return _boundPronouns; } }
-
-        /// <summary>
-        /// Gets all of the IDescriptor constructs,generally Adjectives or AdjectivePhrases, which describe the NounPhrase.
-        /// </summary>
-        public IEnumerable<IDescriptor> Descriptors { get { return _descriptors; } }
-
-
-        /// <summary>
-        /// Gets all of the constructs which the NounPhrase "owns".
-        /// </summary>
-        public IEnumerable<IPossessable> Possessed {
-            get { return _possessed; }
-        }
-        /// <summary>
-        /// Gets or sets the Entity which "owns" the NounPhrase.
-        /// </summary>
-        public IPossesser Possesser {
-            get {
-                return _possessor;
-            }
-            set {
-                _possessor = value;
-                if (value != null) {
-                    foreach (var item in this.Words.OfType<IEntity>()) {
-                        value.AddPossession(item);
-                    }
-                }
-            }
-        }
-        /// <summary>
-        /// Gets or sets another NounPhrase, to the left of current instance, which is functions as an Attributor of current instance.
-        /// </summary>
-        public NounPhrase OuterAttributive { get; set; }
-        /// <summary>
-        /// Gets or sets another NounPhrase, to the right of current instance, which is functions as an Attributor of current instance.
-        /// </summary>
-        public NounPhrase InnerAttributive { get; set; }
-        /// <summary>
-        /// Gets the Entity PronounKind; Person, Place, Thing, Organization, or Activity; of the NounPhrase.
-        /// </summary>
-        public EntityKind EntityKind { get; protected set; }
+        #region Fields
 
         private HashSet<IDescriptor> _descriptors = new HashSet<IDescriptor>();
         private HashSet<IPossessable> _possessed = new HashSet<IPossessable>();
@@ -193,8 +195,6 @@ namespace LASI.Algorithm
         private IVerbal _indirecObjectOf;
         private IVerbal _subjectOf;
 
-
-
-
+        #endregion
     }
 }

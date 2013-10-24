@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LASI.Algorithm.Patternization.Generalized.Basis
+namespace LASI.Algorithm.Patternization.Generalized
 {
     class MatchCase<TResult>
     {
@@ -61,40 +61,40 @@ namespace LASI.Algorithm.Patternization.Generalized.Basis
             return new MatchCase<R>(_value);
         }
         #region With Expressions
-        public MatchCase With(Func<object, bool> when, Action actn) {
+        public MatchCase Case(Func<object, bool> when, Action actn) {
             if (!_matchFound && when(_value)) {
                 actn();
             }
             return this;
         }
-        public MatchCase With(Func<object, bool> when, Action<object> actn) {
+        public MatchCase Case(Func<object, bool> when, Action<object> actn) {
             if (!_matchFound && when(_value)) {
                 actn(_value);
             }
             return this;
         }
-        public MatchCase With<TCase>(Action actn) {
+        public MatchCase Case<TCase>(Action actn) {
             if (!_matchFound && _value is TCase) {
                 _matchFound = true;
                 actn();
             }
             return this;
         }
-        public MatchCase With<TCase>(Action<TCase> actn) {
+        public MatchCase Case<TCase>(Action<TCase> actn) {
             if (!_matchFound && _value is TCase) {
                 _matchFound = true;
                 actn((TCase)_value);
             }
             return this;
         }
-        public MatchCase With<TCase>(Func<TCase, bool> when, Action actn) {
+        public MatchCase Case<TCase>(Func<TCase, bool> when, Action actn) {
             if (!_matchFound && _value is TCase && when((TCase)_value)) {
                 _matchFound = true;
                 actn();
             }
             return this;
         }
-        public MatchCase With<TCase>(Func<TCase, bool> when, Action<TCase> actn) {
+        public MatchCase Case<TCase>(Func<TCase, bool> when, Action<TCase> actn) {
             if (!_matchFound && _value is TCase && when((TCase)_value)) {
                 _matchFound = true;
                 actn((TCase)_value);

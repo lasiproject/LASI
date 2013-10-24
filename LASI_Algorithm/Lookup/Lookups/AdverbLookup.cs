@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace LASI.Algorithm.LexicalLookup
+namespace LASI.Algorithm.ComparativeHeuristics
 {
     using SetReference = System.Collections.Generic.KeyValuePair<AdverbSetRelationship, int>;
     internal sealed class AdverbLookup : IWordNetLookup<Adverb>
@@ -28,7 +28,8 @@ namespace LASI.Algorithm.LexicalLookup
             using (StreamReader reader = new StreamReader(filePath)) {
 
                 foreach (var line in reader.ReadToEnd().Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries).Skip(HEADER_LENGTH)) {
-                    allSets.Add(CreateSet(line));
+                    try { allSets.Add(CreateSet(line)); }
+                    catch (KeyNotFoundException) { }
                 }
 
             }
@@ -42,14 +43,14 @@ namespace LASI.Algorithm.LexicalLookup
             var referencedSets = from match in Regex.Matches(line, pointerRegex).Cast<Match>()
                                  let split = match.Value.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
                                  where split.Count() > 1
-                                 select new SetReference(relationMap[split[0]], Int32.Parse(split[1]));
+                                 select new SetReference(interSetRelationshipMap[split[0]], Int32.Parse(split[1]));
 
             IEnumerable<string> words = from match in Regex.Matches(line, wordRegex).Cast<Match>()
                                         select match.Value.Replace('_', '-');
 
             int id = Int32.Parse(line.Substring(0, 8));
 
-            AdverbCategory lexCategory = (AdverbCategory)Int32.Parse(line.Substring(9, 2));
+            Category lexCategory = (Category)Int32.Parse(line.Substring(9, 2));
             return new AdverbSynSet(id, words, referencedSets, lexCategory);
 
 
@@ -60,18 +61,18 @@ namespace LASI.Algorithm.LexicalLookup
         private ISet<string> SearchFor(string word) {
 
             //gets pointers of searched word
-            var tempResults = from sn in allSets
-                              where sn.Words.Contains(word)
-                              select sn.ReferencedIndexes;
-            //var flatPointers = from R in tempResults
-            //                   from r in R
-            //                   select r;
-            ////gets words of searched word
-            //var tempWords = from sw in allSets
-            //                where sw.Words.Contains(word)
-            //                select sw.Words;
-            HashSet<string> results = new HashSet<string>();
-            //from Q in tempWords
+            //var tempResults = from sn in allSets
+            //                  where sn.Words.Contains(word)
+            //                  select sn.ReferencedIndexes;
+            ////var flatPointers = from R in tempResults
+            ////                   from r in R
+            ////                   select r;
+            //////gets words of searched word
+            ////var tempWords = from sw in allSets
+            ////                where sw.Words.Contains(word)
+            ////                select sw.Words;
+            //HashSet<string> results = new HashSet<string>();
+            ////from Q in tempWords
             //from q in Q
             //select q);
 
@@ -89,7 +90,8 @@ namespace LASI.Algorithm.LexicalLookup
 
             //}
 
-            return new HashSet<string>(results);
+            //return new HashSet<string>(results);
+            throw new NotImplementedException();
         }
 
         public ISet<string> this[string search] {
@@ -105,13 +107,31 @@ namespace LASI.Algorithm.LexicalLookup
             }
         }
 
-        private static readonly LASI.Algorithm.LexicalLookup.InterSetRelationshipManagement.AdverbPointerSymbolMap relationMap =
-            new LASI.Algorithm.LexicalLookup.InterSetRelationshipManagement.AdverbPointerSymbolMap();
-
         private string filePath;
 
         public async System.Threading.Tasks.Task LoadAsync() {
             await System.Threading.Tasks.Task.Run(() => Load());
         }
+
+
+        // Provides an indexed lookup between the values of the AdjectivePointerSymbol enum and their corresponding string representation in WordNet data.adv files.
+        private static readonly IReadOnlyDictionary<string, AdverbSetRelationship> interSetRelationshipMap = new Dictionary<string, AdverbSetRelationship> {
+            { "!", AdverbSetRelationship. Antonym }, 
+            { @"\", AdverbSetRelationship.DerivedFromAdjective},
+            { ";c", AdverbSetRelationship.DomainOfSynset_TOPIC },
+            { ";r", AdverbSetRelationship.DomainOfSynset_REGION },
+            { ";u", AdverbSetRelationship.DomainOfSynset_USAGE}
+        };
+        /// <summary>
+        /// Defines the broad lexical categories assigned to Adverbs in the WordNet system.
+        /// </summary>
+        public enum Category : byte
+        {
+            /// <summary>
+            /// All adverbs have the same category. This value is simply included for completeness.
+            /// </summary>
+            All = 2
+        }
     }
 }
+

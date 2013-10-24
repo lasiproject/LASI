@@ -84,9 +84,10 @@ namespace LASI.Algorithm
         /// <param name="condition">The function which tests the referenced entity of each IPronoun to determine if the IPronoun should be selected.</param>
         /// <returns>All IPronoun constructs in the collection that refer to the given entity</returns>
         public static ParallelQuery<T> Referencing<T>(this ParallelQuery<T> source, Func<IEntity, bool> condition) where T : IReferencer {
-            return from pro in source
-                   where pro.Referent != null && condition(pro.Referent)
-                   select pro;
+            return
+                from pro in source
+                where pro.Referent != null && condition(pro.Referent)
+                select pro;
         }
         #endregion
 

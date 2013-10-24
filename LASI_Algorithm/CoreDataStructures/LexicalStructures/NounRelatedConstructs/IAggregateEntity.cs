@@ -1,5 +1,4 @@
-﻿using LASI.Algorithm.LexicalStructures.UnderpinningTypes;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace LASI.Algorithm
 {

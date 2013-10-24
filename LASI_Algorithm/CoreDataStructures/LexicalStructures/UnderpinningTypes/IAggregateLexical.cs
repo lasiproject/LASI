@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LASI.Algorithm.LexicalStructures.UnderpinningTypes
+namespace LASI.Algorithm
 {
     /// <summary>
     /// Defines the requirements for a Lexical type which is simultaneously a single element and a composition of other Lexical elements.

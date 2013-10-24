@@ -16,16 +16,7 @@ namespace LASI.Algorithm
     static class EnumerableOfDocumentStructureExtensions
     {
         #region Sequential Implementations
-        /// <summary>
-        /// Gets the linear aggregation of all Sentence instances contained within the sequence of Paragraph instances.
-        /// </summary>
-        /// <param name="paragraphs">A sequence of Paragraph instances.</param>
-        /// <returns>The linear aggregation of all Sentence instances contained within the sequence of Paragraph instances.</returns>
-        public static IEnumerable<Sentence> OfSentence(this IEnumerable<Paragraph> paragraphs) {
-            return from p in paragraphs
-                   from s in p.Sentences
-                   select s;
-        }
+ 
         /// <summary>
         /// Gets the linear aggregation of all Phrase instances contained within the sequence of Paragraph instances.
         /// </summary>
@@ -71,16 +62,7 @@ namespace LASI.Algorithm
         #endregion
 
         #region Parallel Implementations
-        /// <summary>
-        /// Gets the parallel aggregation of all Sentence instances contained within the sequence of Paragraph instances.
-        /// </summary>
-        /// <param name="paragraphs">A sequence of Paragraph instances.</param>
-        /// <returns>The parallel aggregation of all Sentence instances contained within the sequence of Paragraph instances.</returns>
-        public static ParallelQuery<Sentence> OfSentence(this ParallelQuery<Paragraph> paragraphs) {
-            return from p in paragraphs
-                   from s in p.Sentences
-                   select s;
-        }
+
         /// <summary>
         /// Gets the parallel aggregation of all Phrase instances contained within the sequence of Paragraph instances.
         /// </summary>

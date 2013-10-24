@@ -1,5 +1,4 @@
-﻿using LASI.Algorithm.CoreDataStructures.LexicalStructures.MiscLanguageConstructs;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,8 +19,7 @@ namespace LASI.Algorithm
         /// Pairs one SingleQuote with another SingleQuote, establishing a reflexive link between the two.
         /// </summary>
         /// <param name="complement">A matching SingleQuote with which to pair.</param>
-        public override void PairWith(SingleQuote complement)
-        {
+        public override void PairWith(SingleQuote complement) {
             this.PairedInstance = complement;
             complement.PairedInstance = this;
         }

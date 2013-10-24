@@ -31,7 +31,7 @@ namespace LASI.Algorithm
         {
             get
             {
-                return EntityKind.Activitiy;
+                return EntityKind.Activity;
             }
         }
         /// <summary>

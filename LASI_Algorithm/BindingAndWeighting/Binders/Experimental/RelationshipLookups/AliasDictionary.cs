@@ -1,5 +1,5 @@
-﻿using LASI.Algorithm.LexicalLookup;
-using LASI.Algorithm.LexicalLookup.Morphemization;
+﻿using LASI.Algorithm.ComparativeHeuristics;
+using LASI.Algorithm.ComparativeHeuristics.Morphemization;
 using LASI.Algorithm.Patternization;
 using System;
 using System.Collections.Concurrent;
@@ -10,12 +10,12 @@ using LASI.Utilities;
 using System.Threading.Tasks;
 
 
-namespace LASI.Algorithm.Aliasing
+namespace LASI.Algorithm.ComparativeHeuristics
 {
     /// <summary>
     /// Provides for registration of Entities as aliases for other Entities.
     /// </summary>
-    public static class AliasDictionary
+    public static class AliasLookup
     {
         /// <summary>
         /// Checks to see if one Entity is a known alias for another.
@@ -23,13 +23,11 @@ namespace LASI.Algorithm.Aliasing
         /// <param name="possibleAlias">The first Entity</param>
         /// <param name="other">The second Entity</param>
         /// <returns>true if the Entities are aliases for one another, false otherwise</returns>
-        public static bool IsAliasFor(this IEntity possibleAlias, IEntity other)
-        {
+        public static bool IsAliasFor(this IEntity possibleAlias, IEntity other) {
             return possibleAlias != null && other != null && LookupAlias(other, possibleAlias);
         }
 
-        private static bool LookupAlias(IEntity possibleAlias, IEntity possiblyAliasedBy)
-        {
+        private static bool LookupAlias(IEntity possibleAlias, IEntity possiblyAliasedBy) {
             ISet<IEntity> aliasedBy;
             ISet<string> aliases;
             return aliasedEntityReferenceMap.TryGetValue(possiblyAliasedBy, out aliasedBy) &&
@@ -42,8 +40,7 @@ namespace LASI.Algorithm.Aliasing
         /// </summary>
         /// <param name="entity">The Entity to register an alias for</param>
         /// <param name="textualAlias">The textual alias which will be registered</param>
-        public static void DefineAlias(IEntity entity, string textualAlias)
-        {
+        public static void DefineAlias(IEntity entity, string textualAlias) {
             DefineAliasInDictionary(entity.Text, textualAlias);
         }
         /// <summary>
@@ -51,8 +48,7 @@ namespace LASI.Algorithm.Aliasing
         /// </summary>
         /// <param name="entity">The first Entity</param>
         /// <param name="other">The second Entity</param>
-        public static void DefineAlias(IEntity entity, IEntity other)
-        {
+        public static void DefineAlias<TE>(TE entity, TE other) where TE : IEntity {
             DefineAliasInDictionary(entity.Text, other.Text);
         }
         /// <summary>
@@ -60,8 +56,7 @@ namespace LASI.Algorithm.Aliasing
         /// </summary>
         /// <param name="entityText">The first Entity</param>
         /// <param name="aliasText">The second Entity</param>
-        public static void DefineAlias(string entityText, string aliasText)
-        {
+        public static void DefineAlias(string entityText, string aliasText) {
             DefineAliasInDictionary(entityText, aliasText);
         }
 
@@ -70,15 +65,13 @@ namespace LASI.Algorithm.Aliasing
         /// </summary>
         /// <param name="entityText">The text of the entity to define an the alias for.</param>
         /// <param name="textualAliases">One or more textual alias to define for the given entity text.</param>
-        private static void DefineAliasInDictionary(string entityText, params string[] textualAliases)
-        {
+        private static void DefineAliasInDictionary(string entityText, params string[] textualAliases) {
             aliasDictionary.AddOrUpdate(
                    entityText, new HashSet<string>(textualAliases),
                    (key, current) => current.Concat(textualAliases).ToSet()
                    );
         }
-        private static void DefineAliasInDictionary(IEntity entity, params IEntity[] aliases)
-        {
+        private static void DefineAliasInDictionary(IEntity entity, params IEntity[] aliases) {
             aliasDictionary.AddOrUpdate(entity.Text, key => aliases
                 .Select(a => a.Text).ToSet(),
                 (key, current) => current.Concat(aliases.Select(a => a.Text)).ToSet());
@@ -93,8 +86,7 @@ namespace LASI.Algorithm.Aliasing
         /// </summary>
         /// <param name="aliased">The entity who's aliases will be returned.</param>
         /// <returns>The textual representations of all known aliases defined for the given entity.</returns>
-        public static IEnumerable<string> GetDefinedAliases(this IEntity aliased)
-        {
+        public static IEnumerable<string> GetDefinedAliases(this IEntity aliased) {
             ISet<string> outval1;
             aliasDictionary.TryGetValue(aliased.Text, out outval1);
             outval1 = outval1 ?? new HashSet<string>();
@@ -106,8 +98,7 @@ namespace LASI.Algorithm.Aliasing
         }
 
 
-        internal static IEnumerable<string> GetLikelyAliases(IEntity entity)
-        {
+        internal static IEnumerable<string> GetLikelyAliases(IEntity entity) {
             return entity.Match().Yield<IEnumerable<string>>()
                 .Case<NounPhrase>(n => DefineAliases(n))
                 .When(e => e.SubjectOf.IsClassifier)
@@ -121,9 +112,8 @@ namespace LASI.Algorithm.Aliasing
                 .Result(defaultValue: Enumerable.Empty<string>());
         }
 
-        private static IEnumerable<string> DefineAliases(NounPhrase nounPhrase)
-        {
-            throw new NotImplementedException();
+        private static IEnumerable<string> DefineAliases(NounPhrase nounPhrase) {
+            return nounPhrase.Words.OfNoun().Count() == 1 && nounPhrase.Words.None(w => w is ProperNoun) ? Lookup.GetSynonyms(nounPhrase.Words.OfNoun().First()) : Enumerable.Empty<string>();
         }
 
         private static ConcurrentDictionary<IEntity, ISet<IEntity>> aliasedEntityReferenceMap = new ConcurrentDictionary<IEntity, ISet<IEntity>>();

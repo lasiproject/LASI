@@ -1,10 +1,11 @@
-﻿using System;
+﻿using LASI.Algorithm.ComparativeHeuristics;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using LASI.Algorithm.Aliasing;
+using LASI.Utilities;
 
 namespace LASI.Algorithm
 {
@@ -69,7 +70,7 @@ namespace LASI.Algorithm
                 }
             } else if (IsClassifier) {
                 foreach (var subject in this.Subjects) {
-                    AliasDictionary.DefineAlias(subject, directObject);
+                    AliasLookup.DefineAlias(subject, directObject);
                 }
             }
 
@@ -89,7 +90,7 @@ namespace LASI.Algorithm
         /// </summary>
         /// <returns>True if the Verb is a possessive relationship specifier, false otherwise.</returns>
         protected virtual bool DetermineIsPossessive() {
-            var syns = LASI.Algorithm.LexicalLookup.Lookup.GetSynonyms(this);
+            var syns = LASI.Algorithm.ComparativeHeuristics.Lookup.GetSynonyms(this);
             return syns.Contains("have", caseIgnoringComp);
         }
         /// <summary>
@@ -97,8 +98,8 @@ namespace LASI.Algorithm
         /// </summary>
         /// <returns>True if the Verb is a classifier, false otherwise.</returns>
         protected virtual bool DetermineIsClassifier() {
-            var syns = LASI.Algorithm.LexicalLookup.Lookup.GetSynonyms(this);
-            return syns.Contains("is", caseIgnoringComp);
+            var syns = LASI.Algorithm.ComparativeHeuristics.Lookup.GetSynonyms(this);
+            return !IsPossessive && Modality == null && Modifiers.None() && syns.Contains("is", caseIgnoringComp);
         }
 
 

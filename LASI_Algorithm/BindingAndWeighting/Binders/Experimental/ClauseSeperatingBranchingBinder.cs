@@ -1,17 +1,14 @@
-﻿using LASI.Algorithm.LexicalLookup;
-using LASI.Utilities;
+﻿using LASI.Algorithm.ComparativeHeuristics;
 using System;
 using LASI.Algorithm.Patternization;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 namespace LASI.Algorithm.Binding.Experimental
 {
     /// <summary>
     /// An experimental class which uses a variety of binding techniques to infer the likely clause structure of a set of contiguous lexical elements.
     /// </summary>
-    public static class ClauseSeperatingMultiBranchingBinder
+    public static class ClauseSeperatingBranchingBinder
     {
         /// <summary>
         /// Binds and identifies Clauses over the provided set of Words. Assumes that the Words supplied begin a sentence (or possibly follow a semicolon).
@@ -49,7 +46,7 @@ namespace LASI.Algorithm.Binding.Experimental
                    let outer = new { noun, gen }
                    join inner in
                        from pro in words.OfPronoun()
-                       let gen = pro.IsFemale() ? 'F' : pro.IsMale() ? 'M' : pro.IsGenderAmbiguous() ? 'A' : pro.IsPlural() ? 'p' : !pro.IsPlural() ? 's' : 'U'
+                       let gen = pro.IsFemale() ? 'F' : pro.IsMale() ? 'M' : pro.IsPlural() ? 'p' : pro.IsGenderAmbiguous() ? 'A' : !pro.IsPlural() ? 's' : 'U'
                        select new { pro, gen }
                    on outer.gen equals inner.gen
                    let indexProvider = words.ToList()

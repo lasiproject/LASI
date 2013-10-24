@@ -8,7 +8,7 @@ using System.Text;
 using LASI.Utilities;
 using System.Threading.Tasks;
 
-namespace LASI.Algorithm.Analysis.Binders.Experimental
+namespace LASI.Algorithm.Binding.Experimental
 {
     class ObjectBinderV2
     {
@@ -44,8 +44,8 @@ namespace LASI.Algorithm.Analysis.Binders.Experimental
                     .Case<SymbolPhrase>(s =>
                         s.NextPhrase.Match().Yield<VerbPhrase>()
                             .Case<VerbPhrase>(v => v)
-                            .When<ConjunctionPhrase>(c => c.NextPhrase is VerbPhrase)
-                            .Then<ConjunctionPhrase>(c => c.NextPhrase as VerbPhrase)
+                            .When(n => n is VerbPhrase)
+                            .Then<Phrase>(n => n.NextPhrase as VerbPhrase)
                             .Result())
                     .Case<VerbPhrase>(v => v)
                 .Result()).Distinct().TakeWhile(v => v != null);

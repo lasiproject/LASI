@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LASI.Utilities;
 
-namespace LASI.Algorithm.Analysis.Binders.Experimental.ExperimentalLexicalTypes
+namespace LASI.Algorithm.Binding.Experimental
 {
     interface IAggregateLexical<TPrimary, TBase> : ILexical
         where TPrimary : TBase, ILexical
@@ -18,7 +18,7 @@ namespace LASI.Algorithm.Analysis.Binders.Experimental.ExperimentalLexicalTypes
 
 
     }
-    class AggregateNounPhrase : IAggregateLexical<NounPhrase, IEntity>
+    class AggregateNounPhrase : IAggregateLexical<NounPhrase, IEntity>, IEntity
     {
 
         protected AggregateNounPhrase(IEnumerable<IEntity> constituents) {
@@ -67,15 +67,15 @@ namespace LASI.Algorithm.Analysis.Binders.Experimental.ExperimentalLexicalTypes
             get { return _descriptors; }
         }
 
-        public IEnumerable<IEntity> Possessed {
+        public IEnumerable<IPossessable> Possessed {
             get { return _possessions; }
         }
 
-        public void AddPossession(IEntity possession) {
+        public void AddPossession(IPossessable possession) {
             _possessions.Add(possession);
         }
 
-        public IEntity Possesser {
+        public IPossesser Possesser {
             get;
             set;
         }
@@ -96,7 +96,7 @@ namespace LASI.Algorithm.Analysis.Binders.Experimental.ExperimentalLexicalTypes
 
         public double MetaWeight { get; set; }
 
-        HashSet<IEntity> _possessions = new HashSet<IEntity>();
+        HashSet<IPossessable> _possessions = new HashSet<IPossessable>();
         HashSet<IDescriptor> _descriptors = new HashSet<IDescriptor>();
         HashSet<IReferencer> _boundPronouns = new HashSet<IReferencer>();
         protected IList<IEntity> _constituents;

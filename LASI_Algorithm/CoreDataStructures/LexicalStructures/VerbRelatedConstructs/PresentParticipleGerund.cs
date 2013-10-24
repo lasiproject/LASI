@@ -17,7 +17,7 @@ namespace LASI.Algorithm
         /// <param name="text">The key text content of the Verb.</param>
         public PresentParticipleGerund(string text)
             : base(text, VerbForm.PresentParticiple) {
-            EntityKind = EntityKind.Activitiy;
+            EntityKind = EntityKind.Activity;
         }
         #region Methods
 

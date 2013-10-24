@@ -1,7 +1,7 @@
 ﻿using LASI.Algorithm;
 using LASI.Algorithm.Binding;
-using LASI.Algorithm.LexicalLookup;
-using LASI.Algorithm.LexicalLookup.Morphemization;
+using LASI.Algorithm.ComparativeHeuristics;
+using LASI.Algorithm.ComparativeHeuristics.Morphemization;
 using LASI.ContentSystem;
 using System;
 using LASI.Algorithm.Patternization;
@@ -15,8 +15,7 @@ using LASI.Utilities;
 namespace LASI.Experimentation.CommandLine
 {
     using VerbalsSet = System.Collections.Generic.IEnumerable<IVerbal>;
-    using LASI.Algorithm.Weighting;
-    class Program
+     class Program
     {
         static void Main(string[] args) {
             

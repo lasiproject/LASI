@@ -2,7 +2,7 @@ using LASI;
 using LASI.Algorithm;
 using LASI.Algorithm.Binding;
 using LASI.Algorithm.DocumentStructures;
-using LASI.Algorithm.LexicalLookup;
+using LASI.Algorithm.ComparativeHeuristics;
 using LASI.Algorithm.Patternization;
 using LASI.ContentSystem;
 using LASI.ContentSystem.Serialization.XML;
@@ -20,8 +20,7 @@ using System.Windows.Controls;
 using System.Windows.Controls.DataVisualization.Charting;
 using System.Windows.Media;
 using LASI.UserInterface.LexicalElementInfo;
-using LASI.Algorithm.Weighting;
-
+ 
 
 namespace LASI.UserInterface
 {

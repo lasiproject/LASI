@@ -60,7 +60,7 @@ namespace LASI.UserInterface
     /// Get out of the way with the tray ["Minimize to tray" sample implementation for WPF]
     /// http://blogs.msdn.com/b/delay/archive/2009/08/31/get-out-of-the-way-with-the-tray-minimize-to-tray-sample-implementation-for-wpf.aspx
     /// </summary>
-    public static class SystemTrayManager
+    public static class TrayIconManager
     {
         /// <summary>
         /// Enables "minimize to tray" behavior for the specified Window.
@@ -68,37 +68,33 @@ namespace LASI.UserInterface
         /// <param name="window">Window to enable the behavior for.</param>
         public static void Enable(Window window) {
             // No need to track this instance; its event handlers will keep it alive
-            new TrayMinimizationProvider(window);
+            new TrayIconProvider(window);
         }/// <summary>
         /// Enables "minimize to tray" behavior for the specified Window.
         /// </summary>
         /// <param name="window">Window to enable the behavior for.</param>
         public static void Enable(InProgressWindow window) {
             // No need to track this instance; its event handlers will keep it alive
-            new TrayMinimizationProvider(window);
+            new TrayIconProvider(window);
         }
 
         /// <summary>
         /// Class implementing "minimize to tray" functionality for a Window instance.
         /// </summary>
-        class TrayMinimizationProvider
+        class TrayIconProvider : IDisposable
         {
-            private Window _window;
-            private System.Windows.Forms.NotifyIcon _notifyIcon;
 
             /// <summary>
             /// Initializes a new instance of the MinimizeToTrayInstance class.
             /// </summary>
             /// <param name="window">Window instance to attach to.</param>
-            internal TrayMinimizationProvider(Window window) {
-                //System.Diagnostics.Debug.Assert(window != null, "window parameter is null.");
+            public TrayIconProvider(Window window) {
                 _window = window;
                 _window.StateChanged += HandleStateChanged;
             }
-            internal TrayMinimizationProvider(InProgressWindow window) {
+            public TrayIconProvider(InProgressWindow window) {
                 window.ProcessingComplete += (s, e) => window.Title = "Analysis Complete";
                 window.ProcessingComplete += HandleStateChanged;
-                //System.Diagnostics.Debug.Assert(window != null, "window parameter is null.");
                 _window = window;
                 _window.StateChanged += HandleStateChanged;
             }
@@ -138,6 +134,22 @@ namespace LASI.UserInterface
                 // Restore the Window
                 _window.WindowState = WindowState.Normal;
             }
+
+            public void Dispose() {
+                Dispose(true);
+                GC.SuppressFinalize(this);
+            }
+
+            private void Dispose(bool fromDispose) {
+                if (fromDispose) {
+                    _notifyIcon.Dispose();
+                }
+            }
+
+            #region Fields
+            private Window _window;
+            private System.Windows.Forms.NotifyIcon _notifyIcon;
+            #endregion
         }
     }
 }

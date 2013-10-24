@@ -20,8 +20,7 @@ namespace LASI.Algorithm
         /// Initializes a new instance of the Phrase class.
         /// </summary>
         /// <param name="composedWords">The one or more instances of the word class of which the Phrase is composed.</param>
-        protected Phrase(IEnumerable<Word> composedWords)
-        {
+        protected Phrase(IEnumerable<Word> composedWords) {
             //if (composedWords.Count() == 0)
             //    throw new EmptyPhraseTagException();
             Words = composedWords;
@@ -37,16 +36,14 @@ namespace LASI.Algorithm
         /// Overrides the ToString method to augment the string representation of Phrase to include the text of the words it is composed of.
         /// </summary>
         /// <returns>A string containing the Type information of the instance as well as the textual representations of the words it is composed of.</returns>
-        public override string ToString()
-        {
+        public override string ToString() {
             return GetType().Name + " \"" + Text + "\"";
         }
         /// <summary>
         /// Establish the nested links between the Phrase, its parent Clause, and the Words comprising it.
         /// </summary>
         /// <param name="parent">The Clause to which the Phrase belongs.</param>
-        public void EstablishParent(Clause parent)
-        {
+        public void EstablishParent(Clause parent) {
             Clause = parent;
             Sentence = parent.Sentence;
             Document = Sentence.Document;
@@ -93,10 +90,8 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets the concatenated text content of all of the words which comprise the Phrase.
         /// </summary>
-        public string Text
-        {
-            get
-            {
+        public string Text {
+            get {
                 _text = _text ?? (Words.Count(w => !string.IsNullOrWhiteSpace(w.Text)) > 0 ?
                     Words.Aggregate("", (str, word) => str + " " + word.Text).Trim() : string.Empty);
                 return _text;
@@ -113,10 +108,8 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets the System.Type of the current Instance.
         /// </summary>
-        public Type Type
-        {
-            get
-            {
+        public Type Type {
+            get {
                 return GetType();
             }
         }

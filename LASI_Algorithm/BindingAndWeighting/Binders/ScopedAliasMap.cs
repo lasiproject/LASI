@@ -1,12 +1,12 @@
 ﻿using LASI.Algorithm.DocumentStructures;
-using LASI.Algorithm.Aliasing;
+using LASI.Algorithm.ComparativeHeuristics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LASI.Algorithm.Analysis.Binders
+namespace LASI.Algorithm.Binding
 {
     /// <summary>
     /// Represents an alias Mapping between IEntity instances within a constrained scope.
@@ -19,14 +19,14 @@ namespace LASI.Algorithm.Analysis.Binders
         /// Initializes a new instance of the ScopedAliasMap class, its scope constrained by the provided Paragraph.
         /// </summary>
         /// <param name="paragraph"></param>
-        public ScopedAliasMap(Paragraph paragraph)
+        private ScopedAliasMap(Paragraph paragraph)
             : this(paragraph.Words, paragraph.Phrases) {
         }
 
         private ScopedAliasMap(params IEnumerable<ILexical>[] scope) {
             domain = scope.SelectMany(s => s);
             foreach (var e in domain.OfEntity()) {
-                assumedAliases[e.Text] = new HashSet<string>(AliasDictionary.GetLikelyAliases(e));
+                assumedAliases[e.Text] = new HashSet<string>(AliasLookup.GetLikelyAliases(e));
             }
         }
 

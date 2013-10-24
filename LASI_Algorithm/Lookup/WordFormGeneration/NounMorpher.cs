@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LASI.Utilities;
 
-namespace LASI.Algorithm.LexicalLookup.Morphemization
+namespace LASI.Algorithm.ComparativeHeuristics.Morphemization
 {
     /// <summary>
     /// Performs both noun root extraction and noun form generation.
@@ -18,7 +18,7 @@ namespace LASI.Algorithm.LexicalLookup.Morphemization
     {
 
         static NounMorpher() {
-            LoadExceptionFile(exceptionFilePath);
+            LoadExceptionFile();
 
         }
 
@@ -32,7 +32,6 @@ namespace LASI.Algorithm.LexicalLookup.Morphemization
 
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1820:TestForEmptyStringsUsingStringLength")]
         private static IEnumerable<string> TryComputeConjugations(string containingRoot) {
             var hyphenIndex = containingRoot.IndexOf('-');
             var root = FindRoot(hyphenIndex > -1 ? containingRoot.Substring(0, hyphenIndex) : containingRoot);
@@ -40,7 +39,7 @@ namespace LASI.Algorithm.LexicalLookup.Morphemization
             if (!exceptionData.TryGetValue(root, out results)) {
                 results = new List<string>();
                 for (var i = 0; i < SUFFICIES.Length; i++) {
-                    if (root.EndsWith(ENDINGS[i]) || ENDINGS[i] == "") {
+                    if (root.EndsWith(ENDINGS[i]) || ENDINGS[i].Length == 0) {
                         results.Add(root.Substring(0, root.Length - ENDINGS[i].Length) + SUFFICIES[i]);
                         break;
                     }
@@ -90,9 +89,8 @@ namespace LASI.Algorithm.LexicalLookup.Morphemization
 
 
         #region Exception File Processing
-        private static string exceptionFilePath = ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "noun.exc";
-        private static void LoadExceptionFile(string filePath) {
-            using (var reader = new StreamReader(filePath)) {
+        private static void LoadExceptionFile() {
+            using (var reader = new StreamReader(ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "noun.exc")) {
                 while (!reader.EndOfStream) {
                     var keyVal = ProcessLine(reader.ReadLine());
                     exceptionData[keyVal.Key] = keyVal.Value;

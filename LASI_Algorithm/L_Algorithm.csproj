@@ -38,10 +38,11 @@
     <DocumentationFile>
     </DocumentationFile>
     <PlatformTarget>x64</PlatformTarget>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
     <RunCodeAnalysis>false</RunCodeAnalysis>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisIgnoreGeneratedCode>true</CodeAnalysisIgnoreGeneratedCode>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -75,6 +76,9 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -98,7 +102,7 @@
     <Compile Include="BindingAndWeighting\Binders\AdjectivePhraseBinder.cs" />
     <Compile Include="BindingAndWeighting\Binders\Experimental\PreBinder.cs" />
     <Compile Include="BindingAndWeighting\Binders\ScopedAliasMap.cs" />
-    <Compile Include="BindingAndWeighting\Binders\Experimental\ClauseSeperatingMultiBranchingBinder.cs" />
+    <Compile Include="BindingAndWeighting\Binders\Experimental\ClauseSeperatingBranchingBinder.cs" />
     <Compile Include="BindingAndWeighting\Binders\Experimental\ExperimentalLexicalTypes\AggregatePhrase.cs" />
     <Compile Include="BindingAndWeighting\Binders\Experimental\INestableLexical.cs" />
     <Compile Include="BindingAndWeighting\Binders\Experimental\ExperimentalLexicalTypes\NestingClause.cs" />
@@ -110,8 +114,10 @@
     <Compile Include="CoreDataStructures\LexicalStructures\SymbolsAndPunctuators\DoubleQuote.cs" />
     <Compile Include="CoreDataStructures\Support\EnumerableExtensions\EnumerableOfIPronounExtensions.cs" />
     <Compile Include="CoreDataStructures\LexicalStructures\NounRelatedConstructs\Gender.cs" />
-    <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="Lookup\LookupComparisons.cs" />
+    <Compile Include="Lookup\AdverbialSimilarityProvider.cs" />
+    <Compile Include="Lookup\VerbalSimilarityProvider.cs" />
+    <Compile Include="Lookup\EntitySimilarityProvider.cs" />
+    <Compile Include="Lookup\DescriptorSimilarityProvider.cs" />
     <Compile Include="Lookup\Support\SimResult.cs" />
     <Compile Include="Lookup\WordFormGeneration\AdverbMorpher.cs" />
     <Compile Include="CoreDataStructures\LexicalStructures\MiscLanguageConstructs\UnknownWord.cs" />
@@ -125,12 +131,12 @@
     <Compile Include="CoreDataStructures\Support\PatternMatching\LexicalSpecific\PatternMatching.cs" />
     <Compile Include="CoreDataStructures\LexicalStructures\SymbolsAndPunctuators\IPairedPunctuator.cs" />
     <Compile Include="SupportAndInterop\ResourceManagement\Memory.cs" />
-    <Compile Include="SupportAndInterop\TextSourceBases\IUntaggedTextSource.cs" />
-    <Compile Include="CoreDataStructures\LexicalStructures\NounRelatedConstructs\EntityClassificationExtensions.cs" />
+    <Compile Include="SupportAndInterop\TextSources\IUntaggedTextSource.cs" />
+    <Compile Include="Lookup\Lookups\Support\EntityClassificationExtensions.cs" />
     <Compile Include="CoreDataStructures\Support\EnumerableExtensions\EnumerableOfRecursiveIEnumerableILexicalsExtenstions.cs" />
-    <Compile Include="SupportAndInterop\TextSourceBases\ITaggedTextSource.cs" />
+    <Compile Include="SupportAndInterop\TextSources\ITaggedTextSource.cs" />
     <Compile Include="CoreDataStructures\LexicalStructures\NounRelatedConstructs\RelativePronounKind.cs" />
-    <Compile Include="SupportAndInterop\TextSourceBases\RawTextFragment.cs" />
+    <Compile Include="SupportAndInterop\TextSources\RawTextFragment.cs" />
     <Compile Include="BindingAndWeighting\Binders\Experimental\RelationshipLookups\Helpers\ActionReceiverPair.cs" />
     <Compile Include="BindingAndWeighting\Binders\Experimental\RelationshipLookups\Helpers\PerformerReceiverPair.cs" />
     <Compile Include="BindingAndWeighting\Binders\Experimental\RelationshipLookups\Helpers\ExpressionExtensions.cs" />
@@ -177,7 +183,7 @@
     <Compile Include="CoreDataStructures\LexicalStructures\NounRelatedConstructs\IPossesser.cs" />
     <Compile Include="CoreDataStructures\LexicalStructures\NounRelatedConstructs\IQuantifer.cs" />
     <Compile Include="CoreDataStructures\LexicalStructures\VerbRelatedConstructs\IModalityModdifiable.cs" />
-    <Compile Include="CoreDataStructures\Support\LexicalComparers.cs" />
+    <Compile Include="CoreDataStructures\Support\Comparers.cs" />
     <Compile Include="SupportAndInterop\ResourceManagement\Concurrency.cs" />
     <Compile Include="Lookup\Lookups\AdjectiveLookup.cs" />
     <Compile Include="Lookup\Lookups\AdverbLookup.cs" />
@@ -198,9 +204,8 @@
     <Compile Include="CoreDataStructures\LexicalStructures\AdjectiveRelatedConstructs\SuperlativeAdjective .cs" />
     <Compile Include="CoreDataStructures\LexicalStructures\MiscLanguageConstructs\PossessiveEnding.cs" />
     <Compile Include="Lookup\Lookups\NounLookup.cs" />
-    <Compile Include="Lookup\Lookups\Support\PointerSymbolMaps.cs" />
-    <Compile Include="Lookup\Lookups\Support\SynSetDefinitions.cs" />
-    <Compile Include="Lookup\LookupMain.cs" />
+    <Compile Include="Lookup\Lookups\Support\SynSet.cs" />
+    <Compile Include="Lookup\Lookup.cs" />
     <Compile Include="CoreDataStructures\LexicalStructures\AdjectiveRelatedConstructs\Adjective.cs" />
     <Compile Include="CoreDataStructures\LexicalStructures\AdjectiveRelatedConstructs\AdjectivePhrase.cs" />
     <Compile Include="CoreDataStructures\LexicalStructures\AdverbRelatedConstructs\Adverb.cs" />
@@ -258,7 +263,8 @@
     <Compile Include="CoreDataStructures\LexicalStructures\UnderpinningTypes\Word.cs" />
     <Compile Include="CoreDataStructures\Support\EnumerableExtensions\EnumerableOfWordExtensions.cs" />
     <Compile Include="Lookup\Lookups\Support\WordNetLexCategoryInformation.cs" />
-    <Compile Include="SupportAndInterop\TextSourceBases\TaggedTextFragment.cs" />
+    <Compile Include="SupportAndInterop\TextSources\TaggedTextFragment.cs" />
+    <None Include="ClassDiagram1.cd" />
     <None Include="CoreDataStructures\LexicalStructures\UnderpinningTypes\ClassDiagram1.cd" />
   </ItemGroup>
   <ItemGroup>

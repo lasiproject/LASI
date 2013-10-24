@@ -21,12 +21,9 @@ namespace LASI.Algorithm.Binding
         /// <summary>
         /// Gets the collection of IEntityGroup constructs which were formed from all of the all binding Binder's activities over the course of its lifetime.
         /// </summary>
-        public List<IAggregateEntity> EntityGroups {
+        public IEnumerable<IAggregateEntity> EntityGroups {
             get {
                 return entityGroups;
-            }
-            private set {
-                entityGroups = value;
             }
         }
         /// <summary>
@@ -40,7 +37,7 @@ namespace LASI.Algorithm.Binding
                 if (b.TillNextNP.OfConjunctionPhrase().Count() + b.TillNextNP.OfType<SymbolPhrase>().Count() != b.TillNextNP.Count() && b.TillNextNP.Count() < 3) {
                     aggregateEntities.Add(b.NP);
                     if (aggregateEntities.Count > 2) {
-                        EntityGroups.Add(new AggregateEntity(aggregateEntities));
+                        entityGroups.Add(new AggregateEntity(aggregateEntities));
                     }
                 } else {
                     aggregateEntities = new List<NounPhrase>();

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LASI.Algorithm.RelationshipLookups
+namespace LASI.Algorithm.ComparativeHeuristics
 {
     /// <summary>
     /// Defines the behaviors required of a lookup  table which indexes on various relationships between various combinations of IEntity and IVerbal constructs. 
@@ -39,9 +39,9 @@ namespace LASI.Algorithm.RelationshipLookups
         /// <summary>
         /// Gets the collection of Performer - Receiver EntityPairs which consists of all pairing of Entities which are related by the given Verbal.
         /// </summary>
-        /// <param name="relater">The verbal for which to find relationships over.</param>
+        /// <param name="relator">The verbal for which to find relationships over.</param>
         /// <returns>The collection of Performer - Receiver EntityPairs which consists of all pairing of Entities which are related by the given Verbal.</returns>
-        IEnumerable<PerformerReceiverPair<TEntity, TEntity>> this[TVerbal relater] {
+        IEnumerable<PerformerReceiverPair<TEntity, TEntity>> this[TVerbal relator] {
             get;
         }
         /// <summary>

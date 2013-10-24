@@ -1,15 +1,14 @@
 ﻿using LASI.Algorithm.DocumentStructures;
-using LASI.Algorithm.LexicalLookup;
+using LASI.Algorithm.ComparativeHeuristics;
 using LASI.Utilities;
 using LASI.Algorithm.Patternization;
-using LASI.Algorithm.Aliasing;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LASI.Algorithm.Weighting
+namespace LASI.Algorithm
 {
     /// <summary>
     /// Provides static access to a comprehensive set of weighting operations which are applicable to a document.
@@ -190,7 +189,6 @@ namespace LASI.Algorithm.Weighting
                     MaxWeight = w.Weight;
             }
             if (NonZeroWghts != 0) {//Caused a devide by zero exception if document was empty.
-                var AvgWght = TotPhraseWeight / NonZeroWghts;
                 var ratio = 100 / MaxWeight;
 
                 foreach (var p in doc.Phrases) {
@@ -250,9 +248,9 @@ namespace LASI.Algorithm.Weighting
                     Word next = w ?? w.NextWord;
                     Word nextNext = next ?? next.NextWord;
 
-                    //cut?
-                    Word prev = w ?? w.PreviousWord;
-                    Word prevPrev = prev ?? prev.PreviousWord;
+                    ////cut?
+                    //Word prev = w ?? w.PreviousWord;
+                    //Word prevPrev = prev ?? prev.PreviousWord;
 
 
                     PatternMatching.Match(w)

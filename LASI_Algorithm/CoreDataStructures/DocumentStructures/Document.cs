@@ -26,22 +26,22 @@ namespace LASI.Algorithm.DocumentStructures
         /// <summary>
         /// Initializes a new instance of the Document class comprised from the provided paragraphs.
         /// </summary>
-        /// <param name="paragrpahs">The collection of paragraphs which contain all text in the document.</param>
-        public Document(IEnumerable<Paragraph> paragrpahs) {
-            _paragraphs = paragrpahs.ToList();
+        /// <param name="paragraphs">The collection of paragraphs which contain all text in the document.</param>
+        public Document(IEnumerable<Paragraph> paragraphs) {
+            _paragraphs = paragraphs.ToList();
             _paragraphsWithBulletsOrHeadings =
                 (from p in _paragraphs
                  where p.ParagraphKind == ParagraphKind.NumberedOrBullettedContent
                  select p).ToList();
 
-            AssignMembers(paragrpahs);
+            AssignMembers();
             foreach (var p in _paragraphs) {
                 p.EstablishParent(this);
             }
             EstablishLexicalLinks();
         }
 
-        private void AssignMembers(IEnumerable<Paragraph> paragrpahs) {
+        private void AssignMembers() {
             _sentences = (from p in _paragraphs
                           from s in p.Sentences
                           where s.Words.OfVerb().Any()

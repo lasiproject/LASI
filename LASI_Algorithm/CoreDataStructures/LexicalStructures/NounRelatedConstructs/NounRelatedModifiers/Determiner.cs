@@ -19,7 +19,7 @@ namespace LASI.Algorithm
         /// <param name="text">The text content of the Determiner.</param>
         public Determiner(string text)
             : base(text) {
-            if (string.Compare(text, "the", true) == 0)
+            if (string.Compare(text, "the", true, System.Globalization.CultureInfo.InvariantCulture) == 0)
                 DeterminerKind = DeterminerKind.Definite;
             else
                 DeterminerKind = DeterminerKind.Indefinite;

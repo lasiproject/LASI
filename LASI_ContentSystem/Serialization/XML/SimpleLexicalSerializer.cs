@@ -15,7 +15,7 @@ namespace LASI.ContentSystem.Serialization.XML
     /// <summary>
     /// Provides basic Xml serialization of for various configuration of ILexical elements.
     /// </summary>
-    public class SimpleLexicalSerializer : ILexicalWriter<IEnumerable<ILexical>, ILexical, XmlWriter>
+    public sealed class SimpleLexicalSerializer : ILexicalWriter<IEnumerable<ILexical>, ILexical, XmlWriter>
     {
         /// <summary>
         /// Initializes a new instance of the SimpleLexicalSerializer class which will output to the given XmlWriter.
@@ -82,13 +82,14 @@ namespace LASI.ContentSystem.Serialization.XML
         /// </summary>
         public XmlWriter Target {
             get;
-            protected set;
+            private set;
         }
         /// <summary>
         /// Frees any unmanaged resources associated with the SimpleLexicalSerializer.
         /// </summary>
         public void Dispose() {
             Target.Dispose();
+            GC.SuppressFinalize(this);
         }
         /// <summary>
         /// Serializes the provided sequence of ILexical instances into xml elements, writing them to the XmlWriter associated with this instance.

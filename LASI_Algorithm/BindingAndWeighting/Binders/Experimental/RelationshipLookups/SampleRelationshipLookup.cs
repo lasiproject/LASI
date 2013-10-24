@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LASI.Algorithm.RelationshipLookups
+namespace LASI.Algorithm.ComparativeHeuristics
 {
-    using ActionReceiverPair = LASI.Algorithm.RelationshipLookups.ActionReceiverPair<IVerbal, IEntity>;
-    using EntityPair = LASI.Algorithm.RelationshipLookups.PerformerReceiverPair<IEntity, IEntity>;
+    using ActionReceiverPair = LASI.Algorithm.ComparativeHeuristics.ActionReceiverPair<IVerbal, IEntity>;
+    using EntityPair = LASI.Algorithm.ComparativeHeuristics.PerformerReceiverPair<IEntity, IEntity>;
     /// <summary>
     /// A sample (or test) implementation of the IRelationshipLookup interface.
     /// </summary>
@@ -34,7 +34,7 @@ namespace LASI.Algorithm.RelationshipLookups
         /// </summary>
         /// <param name="domain">The sequence of Paragraph instances which contain the relevant lexical data set.</param>
         public SampleRelationshipLookup(IEnumerable<DocumentStructures.Paragraph> domain)
-            : this(domain.OfSentence()) {
+            : this(domain.SelectMany(p => p.Sentences)) {
         }
         /// <summary>
         /// Initializes a new instance of the SampleRelationshipLookup class over the given domain.
@@ -96,13 +96,13 @@ namespace LASI.Algorithm.RelationshipLookups
         /// <summary>
         /// Gets the collection of Action - Receiver ActionReceiverPairs which consists of all pairings of Actions and Receivers for all received Actions the given Entity performs.
         /// </summary>
-        /// <param name="actionPerformer">The verbal for which to find relationships over.</param>
+        /// <param name="performer">The verbal for which to find relationships over.</param>
         /// <returns>The collection of Action - Receiver ActionReceiverPairs which consists of all pairings of Actions and Receivers for all received Actions the given Entity performs.</returns>
-        public IEnumerable<ActionReceiverPair> this[IEntity actionPerformer] {
+        public IEnumerable<ActionReceiverPair> this[IEntity performer] {
             get {
                 return from action in verbalRelationshipDomain
                        from doer in action.Subjects
-                       where doer == actionPerformer
+                       where doer == performer
                        from receiver in action.DirectObjects.Concat(action.IndirectObjects)
                        select new ActionReceiverPair(action, receiver);
             }
@@ -111,14 +111,14 @@ namespace LASI.Algorithm.RelationshipLookups
         /// Gets the collection of Action - Receiver ActionReceiverPairs which consists of all pairings of Actions and Receivers which for all received Actions the given Entity performs.
         /// The extant performers within the data set are matched based on the logic of the supplied predicate function.
         /// </summary>
-        /// <param name="actionPerformer">The verbal for which to find relationships over.</param>
+        /// <param name="performer">The verbal for which to find relationships over.</param>
         /// <param name="performerComparer">A predicate function which determines how to find matches for action Performer.</param>
         /// <returns>The collection of Action - Receiver ActionReceiverPairs which consists of all pairings of Actions and Receivers which for all received Actions the given Entity performs.</returns>
-        public IEnumerable<ActionReceiverPair> this[IEntity actionPerformer, Func<IEntity, IEntity, bool> performerComparer] {
+        public IEnumerable<ActionReceiverPair> this[IEntity performer, Func<IEntity, IEntity, bool> performerComparer] {
             get {
                 return from action in verbalRelationshipDomain
                        from doer in action.Subjects
-                       where performerComparer(doer, actionPerformer)
+                       where performerComparer(doer, performer)
                        from receiver in action.DirectObjects.Concat(action.IndirectObjects)
                        select new ActionReceiverPair(action, receiver);
             }

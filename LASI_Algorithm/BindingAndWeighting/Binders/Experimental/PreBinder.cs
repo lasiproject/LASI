@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LASI.Algorithm.Patternization;
-using LASI.Algorithm.CoreDataStructures.LexicalStructures.MiscLanguageConstructs;
 using LASI.Algorithm.DocumentStructures;
-namespace LASI.Algorithm.BindingAndWeighting.Binders.Experimental
+
+namespace LASI.Algorithm.Binding.Experimental
 {
     static class PreBinder
     {

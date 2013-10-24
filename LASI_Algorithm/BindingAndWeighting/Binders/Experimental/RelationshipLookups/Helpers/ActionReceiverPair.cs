@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace LASI.Algorithm.RelationshipLookups
+namespace LASI.Algorithm.ComparativeHeuristics
 {
     /// <summary>
     /// Stores the relationship between a Verbal construct used transitively (having at least one direct or indirect object) 
@@ -26,6 +26,12 @@ namespace LASI.Algorithm.RelationshipLookups
             Action = action;
             Receiver = receiver;
         }
+        public override bool Equals(object obj) {
+            return obj is ActionReceiverPair<TVerbal, TEntity> && Action.Equals(((ActionReceiverPair<TVerbal, TEntity>)obj).Action) && Receiver.Equals(((ActionReceiverPair<TVerbal, TEntity>)obj).Receiver);
+        }
+        public override int GetHashCode() {
+            return Action.GetHashCode() ^ Receiver.GetHashCode();
+        }
         /// <summary>
         /// Gets the Action.
         /// </summary>
@@ -40,5 +46,7 @@ namespace LASI.Algorithm.RelationshipLookups
             get;
             private set;
         }
+        public static bool operator ==(ActionReceiverPair<TVerbal, TEntity> left, ActionReceiverPair<TVerbal, TEntity> right) { return left.Equals(right); }
+        public static bool operator !=(ActionReceiverPair<TVerbal, TEntity> left, ActionReceiverPair<TVerbal, TEntity> right) { return !(left == right); }
     }
 }

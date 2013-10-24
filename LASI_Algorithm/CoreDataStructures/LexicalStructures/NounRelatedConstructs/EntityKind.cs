@@ -14,7 +14,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// UNDEFINED 
         /// </summary>
-        UNDEFINED = 0,
+        Undefined = 0,
         /// <summary>
         /// Person
         /// </summary>
@@ -47,6 +47,6 @@ namespace LASI.Algorithm
         /// Activitiy: Generally corresonds to a gerund or a gerund-dominated phrase.
         /// E.g. in the sentence "He really enjoys attacking.", "attacking" refers to a behavior, the act of attacking, and is thus an activity.
         /// </summary>
-        Activitiy,
+        Activity,
     }
 }

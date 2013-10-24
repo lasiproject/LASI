@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace LASI.Algorithm.RelationshipLookups
+namespace LASI.Algorithm.ComparativeHeuristics
 {
     /// <summary>
     /// Stores the relationship between two Entity constructs which are related together by the first performing an action received by the second.
@@ -25,6 +25,14 @@ namespace LASI.Algorithm.RelationshipLookups
             Performer = performer;
             Receiver = receiver;
         }
+        public override bool Equals(object obj) {
+            return obj is PerformerReceiverPair<TPerformer, TReceiver> &&
+                Performer.Equals((PerformerReceiverPair<TPerformer, TReceiver>)obj) &&
+                Receiver.Equals((PerformerReceiverPair<TPerformer, TReceiver>)obj);
+        }
+        public override int GetHashCode() {
+            return Performer.GetHashCode() ^ Receiver.GetHashCode();
+        }
         /// <summary>
         /// Gets the Performer.
         /// </summary>
@@ -39,5 +47,7 @@ namespace LASI.Algorithm.RelationshipLookups
             get;
             private set;
         }
+        public static bool operator ==(PerformerReceiverPair<TPerformer, TReceiver> left, PerformerReceiverPair<TPerformer, TReceiver> right) { return left.Equals(right); }
+        public static bool operator !=(PerformerReceiverPair<TPerformer, TReceiver> left, PerformerReceiverPair<TPerformer, TReceiver> right) { return !(left == right); }
     }
 }

@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LASI.Utilities;
 
-namespace LASI.Algorithm.LexicalLookup.Morphemization
+namespace LASI.Algorithm.ComparativeHeuristics.Morphemization
 {
     /// <summary>
     /// Performs both verb root extraction and verb conjugation generation.
@@ -75,7 +75,6 @@ namespace LASI.Algorithm.LexicalLookup.Morphemization
         #region Exception File Processing
 
 
-        private static string exceptionFilePath = ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "verb.exc";
 
 
         private readonly static string[] ENDINGS = { "", "y", "e", "", " e", "", "e", "" };
@@ -86,8 +85,8 @@ namespace LASI.Algorithm.LexicalLookup.Morphemization
             { "y", new []{ "ies" } },
         };
 
-        private static void LoadExceptionFile(string filePath) {
-            using (var reader = new StreamReader(filePath)) {
+        private static void LoadExceptionFile() {
+            using (var reader = new StreamReader(ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "verb.exc")) {
                 var exceptions = from line in reader.ReadToEnd().Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries)
                                  select line.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).Select(r => r.Replace('_', '-'));
 
@@ -106,7 +105,7 @@ namespace LASI.Algorithm.LexicalLookup.Morphemization
         }
         private static ConcurrentDictionary<string, IEnumerable<string>> exceptionData;
 
-        static VerbMorpher() { LoadExceptionFile(exceptionFilePath); }
+        static VerbMorpher() { LoadExceptionFile(); }
 
         #endregion
     }

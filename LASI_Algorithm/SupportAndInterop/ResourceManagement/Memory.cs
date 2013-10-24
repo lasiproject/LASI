@@ -220,6 +220,7 @@ namespace LASI.Algorithm
         /// <param name="left">The uint to compare.</param>
         /// <param name="right">The MB to compare.</param>
         /// <returns>True if the uint on the left is less than the MB on the right.</returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2225:OperatorOverloadsHaveNamedAlternates")]
         public static bool operator <(uint left, MB right) { return left < right.Quantity; }
         /// <summary>
         /// Returns a value that indicates whether a specified MB is greater than a specified uint.

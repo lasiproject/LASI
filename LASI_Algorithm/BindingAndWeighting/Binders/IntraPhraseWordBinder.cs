@@ -16,7 +16,7 @@ namespace LASI.Algorithm.Binding
         /// Binds some of the words within a NounPhrase.
         /// </summary>
         /// <param name="np">The NounPhrase to bind within.</param>
-        public static void Bind(NounPhrase np) {
+        public static void Bind<TNounPhrase>(TNounPhrase np) where TNounPhrase : NounPhrase {
             /*
              * Noun Phrase Assumption:  The Last Noun in a Noun Phrase is the important one
              */
@@ -35,10 +35,11 @@ namespace LASI.Algorithm.Binding
                 /*
                  *  if word prior to LastNoun is also a Noun associate them
                  */
-                if (LastNoun.PreviousWord is Noun) {
-                    var PrevWrd = LastNoun.PreviousWord;
-                    LastNoun.SuperTaxonomicNoun = (PrevWrd as Noun);
-                    (PrevWrd as Noun).SubTaxonomicNoun = LastNoun;
+
+                var previousAsNoun = LastNoun.PreviousWord as Noun;
+                if (previousAsNoun != null) {
+                    LastNoun.SuperTaxonomicNoun = previousAsNoun;
+                    previousAsNoun.SubTaxonomicNoun = LastNoun;
                 }
 
 

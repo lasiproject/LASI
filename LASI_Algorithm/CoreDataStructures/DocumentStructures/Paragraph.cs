@@ -1,5 +1,4 @@
-﻿using LASI.Algorithm.Analysis.Binders;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,7 +16,7 @@ namespace LASI.Algorithm.DocumentStructures
         /// </summary>
         /// <param name="sentences">The collection of sentences which comprise the Paragraph.</param>
         ///<param name="paraKind">Argument indicating the kind of parent.</param>
-        public Paragraph(IEnumerable<Sentence> sentences, ParagraphKind paraKind = ParagraphKind.Default) {
+        public Paragraph(IEnumerable<Sentence> sentences, ParagraphKind paraKind) {
             ParagraphKind = paraKind;
             Sentences = sentences;
             ID = IDNumProvider++;

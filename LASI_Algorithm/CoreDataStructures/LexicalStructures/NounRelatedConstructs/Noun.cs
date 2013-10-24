@@ -18,7 +18,7 @@ namespace LASI.Algorithm
         /// <param name="text">The key text content of the Noun.</param>
         protected Noun(string text)
             : base(text) {
-            EntityKind = EntityKind.UNDEFINED;
+            EntityKind = EntityKind.Undefined;
             EstablishKind();
         }
 

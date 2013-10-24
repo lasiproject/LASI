@@ -1,4 +1,4 @@
-﻿using LASI.Algorithm.LexicalLookup;
+﻿using LASI.Algorithm.ComparativeHeuristics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,7 +28,7 @@ namespace LASI.Algorithm
                 return IsFirstName || IsLastName;
             }
         }
-        internal bool IsLastName { get { return Lookup.IsLastName(this); } }
-        internal bool IsFirstName { get { return Lookup.IsFirstName(this); } }
+        internal bool IsLastName { get { return ComparativeHeuristics.Lookup.IsLastName(this); } }
+        internal bool IsFirstName { get { return ComparativeHeuristics.Lookup.IsFirstName(this); } }
     }
 }
