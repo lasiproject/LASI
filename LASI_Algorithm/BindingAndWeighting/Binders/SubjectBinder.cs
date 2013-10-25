@@ -20,6 +20,12 @@ namespace LASI.Algorithm.Binding
         /// <param name="s">The sentence to bind within.</param>
         public void Bind(Sentence s) {
 
+            //Handle case of verbless sentence. Needs to be included for the sake of security of the code. 
+            if (s.Phrases.OfVerbPhrase().None())
+            {
+                throw new VerblessPhrasalSequenceException();
+            }
+
             foreach (var i in s.Phrases) {
                 if (i is AdjectivePhrase) {
                     State s2 = new State();
