@@ -22,7 +22,8 @@ namespace LASI.Algorithm.ComparativeHeuristics
         /// Please prefer the second convention.
         /// </remarks>
         public static SimilarityResult IsSimilarTo(this IDescriptor first, IDescriptor second) {
-            return first.Match().Yield<bool>()
+            return new SimilarityResult(
+                first.Match().Yield<bool>()
                     .When(first.Text.ToUpper() == second.Text.ToUpper())
                         .Then(true)
                     .Case<Adjective>(j1 =>
@@ -35,7 +36,7 @@ namespace LASI.Algorithm.ComparativeHeuristics
                           .Case<AdjectivePhrase>(jp2 => jp1.IsSimilarTo(jp2))
                           .Case<Adjective>(j2 => jp1.IsSimilarTo(j2))
                         .Result())
-                    .Result();
+                    .Result());
         }
         /// <summary>
         /// Determines if the two provided Adjective instances are similar.

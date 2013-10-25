@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LASI.Algorithm
+namespace LASI.Algorithm.Interop
 {
     /// <summary>
     /// Centrailizes management and control of the memory (RAM) consumed by lookup caches.

@@ -21,7 +21,8 @@ namespace LASI.Algorithm.ComparativeHeuristics
         /// Please prefer the second convention.
         /// </remarks>
         public static SimilarityResult IsSimilarTo(this IEntity first, IEntity second) {
-            return first.Match().Yield<bool>()
+            return new SimilarityResult(
+                first.Match().Yield<bool>()
                     .When(first.Text.ToUpper() == second.Text.ToUpper())
                         .Then(true)
                     .Case<AggregateEntity>(ae1 =>
@@ -39,7 +40,7 @@ namespace LASI.Algorithm.ComparativeHeuristics
                           .Case<NounPhrase>(np2 => np1.IsSimilarTo(np2))
                           .Case<Noun>(n2 => np1.IsSimilarTo(n2))
                         .Result())
-                    .Result();
+                    .Result());
         }
         /// <summary>
         /// Determines if two IAggregateEntity instances are similar.

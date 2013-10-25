@@ -19,7 +19,6 @@ namespace LASI.Algorithm
     {
         private static TextualComparer<TLexical> textual = new TextualComparer<TLexical>();
         private static AliasComparer alias = new AliasComparer();
-        private static SimilarityComparer<TLexical> similarity = new SimilarityComparer<TLexical>();
         private static AliasOrSimilarityComparer<IEntity> aliasOrSimilarity = new AliasOrSimilarityComparer<IEntity>();
         /// <summary>
         /// Alias based comparer where if not textually equivalent if will check to see if the Entities are aliases for each other.
@@ -43,16 +42,6 @@ namespace LASI.Algorithm
             }
         }
 
-        /// <summary>
-        /// SimilarityComparer based comparer where if not textually equivalent if will check to see if the NounPhrases are similar tp eachother.
-        /// All of comparers provided here perform textual comparions implicitely.
-        /// Because the GetHashCode implementation of the comparer forces collisions, the comparer is suitable for use with Standard Query operators such as Distinct, Contains, Union, Interset, Except, and SequenceEqual. 
-        /// </summary>
-        public static SimilarityComparer<TLexical> Similarity {
-            get {
-                return similarity;
-            }
-        }
         /// <summary>
         /// Text based comparer which compares the key textual of two NounPhrases to see if they are Identical.
         /// All of comparers provided here perform textual comparions implicitely.
@@ -120,55 +109,7 @@ namespace LASI.Algorithm
             return obj.Text.GetHashCode();
         }
     }
-    /// <summary>
-    /// An IEquality Comparer implementation using a: Similarity implies Equality definition.
-    /// </summary> 
-    public class SimilarityComparer<TLexical> : EqualityComparer<TLexical> where TLexical : LASI.Algorithm.ILexical
-    {
-        /// <summary>
-        /// Initializes a new isntance of the SimilarityComparer class.
-        /// </summary>
-        protected internal SimilarityComparer() {
-        }
-        /// <summary>
-        /// Determines whether the specified IEntity implementors are equal based on wether or not they are considered similar by the associated LexicalLookup logic.
-        /// </summary>
-        /// <param name="x">The first object of type T to compare.</param>
-        /// <param name="y">The second object of type T to compare.</param>
-        /// <returns>true if the specified objects are equal; otherwise, false.</returns>
-        public override bool Equals(TLexical x, TLexical y) {
-            if (ReferenceEquals(x, null))
-                return ReferenceEquals(y, null);
-            else if (ReferenceEquals(y, null))
-                return ReferenceEquals(x, null);
-            else {
-                Func<bool> tc = () => x.Text == y.Text;
-                return x.Match().Yield<bool>()
-                       .Case<IEntity>(X => y.Match().Yield<bool>()
-                               .Case<IEntity>(Y => tc() || X.IsSimilarTo(Y))
-                           .Result())
-                       .Case<IVerbal>(X => y.Match().Yield<bool>()
-                               .Case<IVerbal>(Y => tc() || X.IsSimilarTo(Y))
-                           .Result())
-                       .Case<IDescriptor>(X => y.Match().Yield<bool>()
-                               .Case<IDescriptor>(Y => tc() || X.IsSimilarTo(Y))
-                           .Result())
-                       .Case<IAdverbial>(X => y.Match().Yield<bool>()
-                               .Case<IAdverbial>(Y => tc() || X.IsSimilarTo(Y))
-                           .Result())
-                        .Result();
-            }
-        }
 
-        /// <summary>
-        /// Always returns 1 unless the given object is null in which case 0 is returned.
-        /// </summary>
-        /// <param name="obj">The System.Object for which a hash code is to be returned.</param>
-        /// <returns>Always 1 unless the given object is null in which case 0 is returned.</returns>
-        public override int GetHashCode(TLexical obj) {
-            return obj == null ? 0 : 1;
-        }
-    }
     /// <summary>
     /// An IEquality Comparer implementation using a: known Alias relationship implies Equality definition.
     /// </summary>

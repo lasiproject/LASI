@@ -22,7 +22,8 @@ namespace LASI.Algorithm.ComparativeHeuristics
         /// Please prefer the second convention.
         /// </remarks>
         public static SimilarityResult IsSimilarTo(this IVerbal first, IVerbal second) {
-            return first.Match().Yield<bool>()
+            return new SimilarityResult(
+                first.Match().Yield<bool>()
                     .When(first.Text.ToUpper() == second.Text.ToUpper()).Then(true)
                     .Case<Verb>(v1 =>
                         second.Match().Yield<bool>()
@@ -34,7 +35,7 @@ namespace LASI.Algorithm.ComparativeHeuristics
                           .Case<VerbPhrase>(vp2 => vp1.IsSimilarTo(vp2))
                           .Case<Verb>(v2 => vp1.IsSimilarTo(v2))
                         .Result())
-                    .Result();
+                    .Result());
         }
         /// <summary>
         /// Determines if the two provided Verb instances are similar.
@@ -112,6 +113,5 @@ namespace LASI.Algorithm.ComparativeHeuristics
             }
             return new SimilarityResult(result);
         }
-
     }
 }

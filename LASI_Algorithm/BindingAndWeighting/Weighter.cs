@@ -13,7 +13,7 @@ namespace LASI.Algorithm
     /// <summary>
     /// Provides static access to a comprehensive set of weighting operations which are applicable to a document.
     /// </summary>
-    static public class Weighter
+    public static class Weighter
     {
         /// <summary>
         /// Gets an ordered collection of ProcessingTask objects which correspond to the steps required to Weight the given document.

@@ -15,7 +15,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "L_UserInterface", "LASI_Use
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTestProjects", "UnitTestProjects", "{B3482180-A78D-4A20-B744-81620578B79B}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WordNetThesaurusData", "WordNetThesaurusData", "{20C3B51F-FF54-4452-B69E-67D596843284}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WordNet", "WordNet", "{20C3B51F-FF54-4452-B69E-67D596843284}"
 	ProjectSection(SolutionItems) = preProject
 		WordNetThesaurusData\data.adj = WordNetThesaurusData\data.adj
 		WordNetThesaurusData\data.adv = WordNetThesaurusData\data.adv
@@ -143,6 +143,7 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{B012451A-BCB9-423F-8119-BE8027CA8474} = {E61EB5D5-494B-437A-A9ED-20756769E139}
+		{BB8A5BF2-C41F-4330-B55B-D1097569B529} = {E61EB5D5-494B-437A-A9ED-20756769E139}
 		{F4ABC10C-0BE9-4195-99E7-DB027757EC6B} = {B3482180-A78D-4A20-B744-81620578B79B}
 		{8829F489-A966-4321-BD4A-FDC4536D0BBA} = {BB8A5BF2-C41F-4330-B55B-D1097569B529}
 	EndGlobalSection

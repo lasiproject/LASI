@@ -110,9 +110,7 @@ namespace LASI.Algorithm.ComparativeHeuristics
         /// <param name="sr">The SimResult to convert.</param>
         /// <returns>A double with the same value as the conversion target's RatioResult Property.</returns>
         public static implicit operator double(SimilarityResult sr) { return sr.rationalResult; }
-        public static implicit operator SimilarityResult(bool similar) {
-            return new SimilarityResult(similar);
-        }
+
         #endregion
 
         #region Comparison Operators

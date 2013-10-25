@@ -21,7 +21,8 @@ namespace LASI.Algorithm.ComparativeHeuristics
         /// Please prefer the second convention.
         /// </remarks>
         public static SimilarityResult IsSimilarTo(this IAdverbial first, IAdverbial second) {
-            return first.Match().Yield<bool>()
+            return new SimilarityResult(
+                first.Match().Yield<bool>()
                     .When(first.Text.ToUpper() == second.Text.ToUpper())
                         .Then(true)
                     .Case<Adverb>(a1 =>
@@ -34,7 +35,7 @@ namespace LASI.Algorithm.ComparativeHeuristics
                         .Case<AdverbPhrase>(ap2 => ap1.IsSimilarTo(ap2))
                         .Case<Adverb>(a2 => ap1.IsSimilarTo(a2))
                     .Result())
-                .Result();
+                .Result());
         }
         /// <summary>
         /// Determines if the two provided Adverb instances are similar.
