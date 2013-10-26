@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LASI.Algorithm.ComparativeHeuristics
+namespace LASI.Core.ComparativeHeuristics
 {
 
     /// <summary>

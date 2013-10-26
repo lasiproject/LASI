@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace LASI.Algorithm
+namespace LASI.Core
 {
     /// <summary>
     /// Represents an adverb which 'absolutely' specifies a verb or adjective relative to all comparable occurances of that verb or adjective.

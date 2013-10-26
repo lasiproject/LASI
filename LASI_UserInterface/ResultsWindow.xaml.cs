@@ -1,9 +1,9 @@
 using LASI;
-using LASI.Algorithm;
-using LASI.Algorithm.Binding;
-using LASI.Algorithm.DocumentStructures;
-using LASI.Algorithm.ComparativeHeuristics;
-using LASI.Algorithm.Patternization;
+using LASI.Core;
+using LASI.Core.Binding;
+using LASI.Core.DocumentStructures;
+using LASI.Core.ComparativeHeuristics;
+using LASI.Core.Patternization;
 using LASI.ContentSystem;
 using LASI.ContentSystem.Serialization.XML;
 using LASI.InteropLayer;

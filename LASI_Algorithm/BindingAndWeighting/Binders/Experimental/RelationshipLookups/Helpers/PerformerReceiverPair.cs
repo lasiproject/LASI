@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace LASI.Algorithm.ComparativeHeuristics
+namespace LASI.Core.ComparativeHeuristics
 {
     /// <summary>
     /// Stores the relationship between two Entity constructs which are related together by the first performing an action received by the second.

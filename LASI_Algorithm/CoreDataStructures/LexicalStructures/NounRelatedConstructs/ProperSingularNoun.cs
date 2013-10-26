@@ -1,10 +1,10 @@
-﻿using LASI.Algorithm.ComparativeHeuristics;
+﻿using LASI.Core.ComparativeHeuristics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-namespace LASI.Algorithm
+namespace LASI.Core
 {
     /// <summary>
     /// Represents a Proper Singular Noun.

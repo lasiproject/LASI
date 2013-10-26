@@ -1,7 +1,7 @@
-﻿using LASI.Algorithm;
-using LASI.Algorithm.Binding;
-using LASI.Algorithm.DocumentStructures;
-using LASI.Algorithm.ComparativeHeuristics;
+﻿using LASI.Core;
+using LASI.Core.Binding;
+using LASI.Core.DocumentStructures;
+using LASI.Core.ComparativeHeuristics;
 using LASI.ContentSystem;
 using System;
 using System.Collections.Concurrent;
@@ -30,13 +30,13 @@ namespace LASI.InteropLayer
         /// myProcessController.ProgressChanged += async (sender, e) => MsgBox.Show(e.Message + " " + e.Increment);
         /// </code>
         /// </example>
-        public async Task<IEnumerable<Document>> AnalyseAllDocumentsAsync(IEnumerable<LASI.Algorithm.IUntaggedTextSource> filesToProcess) {
+        public async Task<IEnumerable<Document>> AnalyseAllDocumentsAsync(IEnumerable<LASI.Core.IUntaggedTextSource> filesToProcess) {
             numDocs = filesToProcess.Count();
             stepSize = 2d / numDocs;
             await LoadThesaurus();
             OnReport(new Report { Message = "Tagging Documents", Increment = 0 });
             var taggingTasks = filesToProcess.Select(F => Task.Run(async () => await Tagger.TaggedFromRawAsync(F))).ToList();
-            var taggedFiles = new ConcurrentBag<LASI.Algorithm.ITaggedTextSource>();
+            var taggedFiles = new ConcurrentBag<LASI.Core.ITaggedTextSource>();
             while (taggingTasks.Any()) {
                 var currentTask = await Task.WhenAny(taggingTasks);
                 var taggedFile = await currentTask;
@@ -57,7 +57,7 @@ namespace LASI.InteropLayer
         }
 
 
-        private async Task<Document> ProcessTaggedFileAsync(LASI.Algorithm.ITaggedTextSource tagged) {
+        private async Task<Document> ProcessTaggedFileAsync(LASI.Core.ITaggedTextSource tagged) {
             var fileName = tagged.TextSourceName;
             OnReport(new Report { Message = string.Format("{0}: Loading...", fileName), Increment = 0 });
             var doc = await Tagger.DocumentFromTaggedAsync(tagged);

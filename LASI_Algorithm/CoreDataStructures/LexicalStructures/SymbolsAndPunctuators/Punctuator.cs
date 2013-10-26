@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace LASI.Algorithm
+namespace LASI.Core
 {
     /// <summary>
     /// Represents a punctuation character at the Word level.

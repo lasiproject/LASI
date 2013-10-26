@@ -1,6 +1,6 @@
 ﻿using LASI;
-using LASI.Algorithm;
-using LASI.Algorithm.DocumentStructures;
+using LASI.Core;
+using LASI.Core.DocumentStructures;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -91,11 +91,10 @@ namespace AlgorithmAssemblyUnitTestProject
 
             Paragraph target = new Paragraph(sentences, ParagraphKind.Default);
 
-            string expected = String.Format("LASI.Algorithm.DocumentConstructs.Paragraph: {0} sentences\n\"LASI found TIMIS. LASI SNIFd them. Richard did awesome.\"", sentences.Length);
+            string expected = String.Format("LASI.Algorithm.DocumentStructures.Paragraph: {0} sentences\n\"LASI found TIMIS. LASI SNIFd them. Richard did awesome.\"", sentences.Length);
             string actual;
             actual = target.ToString();
             Assert.AreEqual(expected, actual);
-            //Assert.Inconclusive("Verify the correctness of this test method.");
         }
 
         /// <summary>
@@ -129,7 +128,6 @@ namespace AlgorithmAssemblyUnitTestProject
             string actual;
             actual = target.Text;
             Assert.AreEqual(expected, actual);
-            //Assert.Inconclusive("Verify the correctness of this test method.");
         }
 
         /// <summary>

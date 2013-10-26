@@ -1,12 +1,12 @@
 ﻿using System;
-using LASI.Algorithm.Patternization;
+using LASI.Core.Patternization;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using LASI.Algorithm.ComparativeHeuristics.Morphemization;
+using LASI.Core.ComparativeHeuristics.Morphemization;
 
-namespace LASI.Algorithm.ComparativeHeuristics
+namespace LASI.Core.ComparativeHeuristics
 {
     public static class DescriptorSimilarityProvider
     {

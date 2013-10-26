@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LASI.Algorithm
+namespace LASI.Core
 {
     /// <summary>
     /// Represents a Word which does not correspond to a known syntactic category.

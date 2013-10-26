@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LASI.Algorithm
+namespace LASI.Core
 {
     /// <summary>
     /// This class is currently experimental and is not a tier in the Document objects created by the tagged file parsers

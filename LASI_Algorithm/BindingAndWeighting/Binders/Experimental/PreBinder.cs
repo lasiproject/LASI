@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using LASI.Algorithm.Patternization;
-using LASI.Algorithm.DocumentStructures;
+using LASI.Core.Patternization;
+using LASI.Core.DocumentStructures;
 
-namespace LASI.Algorithm.Binding.Experimental
+namespace LASI.Core.Binding.Experimental
 {
     static class PreBinder
     {

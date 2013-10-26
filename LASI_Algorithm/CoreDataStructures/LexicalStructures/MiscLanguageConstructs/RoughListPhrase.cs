@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 
-namespace LASI.Algorithm
+namespace LASI.Core
 {
     /// <summary>
     /// A rought representation of a listed (bulleted or numbered) lexical element.

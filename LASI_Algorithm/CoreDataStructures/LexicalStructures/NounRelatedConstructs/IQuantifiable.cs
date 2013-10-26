@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace LASI.Algorithm
+namespace LASI.Core
 {
     /// <summary>
     /// Defines the role requirements for Quantififiable constructs, generally Nouns or NounPhrases e.g. in the sentence "I have 2 apples.", "apples" is Quantifiable.

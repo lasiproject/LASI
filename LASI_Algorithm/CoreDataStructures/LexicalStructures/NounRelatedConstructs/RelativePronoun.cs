@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace LASI.Algorithm
+namespace LASI.Core
 {
     /// <summary>
     /// Represents a Relative Pronoun such as "that", "Which, "What" or "who".

@@ -1,5 +1,5 @@
 ﻿using LASI;
-using LASI.Algorithm;
+using LASI.Core;
 using LASI.Utilities;
 using LASI.ContentSystem.TaggerEncapsulation;
 using System;

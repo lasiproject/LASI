@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LASI.Algorithm.ComparativeHeuristics
+namespace LASI.Core.ComparativeHeuristics
 {
     /// <summary>
     /// Provides convenient extension methods for working with IEntity and IVerbal constructs in the context of an applicable IRelationshipLookup.

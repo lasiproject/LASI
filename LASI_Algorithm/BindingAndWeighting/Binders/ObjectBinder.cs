@@ -1,13 +1,13 @@
-﻿using LASI.Algorithm.DocumentStructures;
+﻿using LASI.Core.DocumentStructures;
 using LASI.Utilities;
-using LASI.Algorithm.Patternization;
+using LASI.Core.Patternization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LASI.Algorithm.Binding
+namespace LASI.Core.Binding
 {
     /// <summary>
     /// Attempts to establish bindings between verbals and their objects at the Phrase level.

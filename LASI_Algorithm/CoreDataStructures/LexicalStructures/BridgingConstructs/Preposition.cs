@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-namespace LASI.Algorithm
+namespace LASI.Core
 {
     /// <summary>
     /// Represents a preposition such as "below", "atop", "into", "through", "by","via", or "for".

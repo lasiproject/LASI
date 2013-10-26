@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace LASI.Algorithm.DocumentStructures
+namespace LASI.Core.DocumentStructures
 {
     /// <summary>
     /// A data structure containing all of the paragraph, sentence, clause, phrase, and word objects which comprise a single document.

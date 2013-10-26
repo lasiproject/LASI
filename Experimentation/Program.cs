@@ -1,15 +1,15 @@
-﻿using LASI.Algorithm;
-using LASI.Algorithm.Binding;
-using LASI.Algorithm.ComparativeHeuristics;
-using LASI.Algorithm.ComparativeHeuristics.Morphemization;
+﻿using LASI.Core;
+using LASI.Core.Binding;
+using LASI.Core.ComparativeHeuristics;
+using LASI.Core.ComparativeHeuristics.Morphemization;
 using LASI.ContentSystem;
 using System;
-using LASI.Algorithm.Patternization;
+using LASI.Core.Patternization;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using LASI.Algorithm.DocumentStructures;
+using LASI.Core.DocumentStructures;
 using LASI.Utilities;
 
 namespace LASI.Experimentation.CommandLine

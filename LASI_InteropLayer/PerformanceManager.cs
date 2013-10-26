@@ -1,11 +1,11 @@
 ﻿using LASI;
-using LASI.Algorithm;
+using LASI.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using LASI.Algorithm.Interop;
+using LASI.Core.Interop;
 
 namespace LASI.InteropLayer
 {
@@ -21,16 +21,16 @@ namespace LASI.InteropLayer
         public static void SetPerformanceLevel(PerforamanceLevel mode) {
             switch (mode) {
                 case PerforamanceLevel.High:
-                    Concurrency.SetFromResourceUsageMode(ResourceMode.High);
-                    Memory.SetFromResourceUsageMode(ResourceMode.High);
+                    Concurrency.SetFromResourceMode(ResourceMode.High);
+                    Memory.SetFromResourceMode(ResourceMode.High);
                     break;
                 case PerforamanceLevel.Normal:
-                    Concurrency.SetFromResourceUsageMode(ResourceMode.Normal);
-                    Memory.SetFromResourceUsageMode(ResourceMode.Normal);
+                    Concurrency.SetFromResourceMode(ResourceMode.Normal);
+                    Memory.SetFromResourceMode(ResourceMode.Normal);
                     break;
                 case PerforamanceLevel.Low:
-                    Concurrency.SetFromResourceUsageMode(ResourceMode.Low);
-                    Memory.SetFromResourceUsageMode(ResourceMode.Low);
+                    Concurrency.SetFromResourceMode(ResourceMode.Low);
+                    Memory.SetFromResourceMode(ResourceMode.Low);
                     break;
             }
         }

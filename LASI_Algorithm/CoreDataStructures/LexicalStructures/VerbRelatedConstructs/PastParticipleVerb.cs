@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LASI.Algorithm
+namespace LASI.Core
 {
     /// <summary>
     /// Reprepsents a verb in its past-participle-tense.

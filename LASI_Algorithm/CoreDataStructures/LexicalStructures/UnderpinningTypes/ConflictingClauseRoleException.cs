@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace LASI.Algorithm
+namespace LASI.Core
 {
     /// <summary>
     /// The Exception to be thrown if and when an attempt is to bind a Subordinate clause as a modifer of some element when it has already been bound as a different kind of modifer.

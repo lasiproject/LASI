@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 
-namespace LASI.Algorithm
+namespace LASI.Core
 {
     /// <summary>
     /// Represents a Phrase which does not correspond to a known category.

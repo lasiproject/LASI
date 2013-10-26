@@ -1,4 +1,4 @@
-﻿using LASI.Algorithm.DocumentStructures;
+﻿using LASI.Core.DocumentStructures;
 using LASI.Utilities;
 using System;
 using System.Collections.Generic;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LASI.Algorithm.Binding
+namespace LASI.Core.Binding
 {
     /// <summary>
     /// Establishes bindings between verbals and their subjects at the Phrase level.

@@ -1,5 +1,5 @@
 ﻿
-namespace LASI.Algorithm
+namespace LASI.Core
 {
     /// <summary>
     /// Defines the role reqirements for Action elements, generally Verbs or VerbPhrases, which can be bound to a one or more subjects.

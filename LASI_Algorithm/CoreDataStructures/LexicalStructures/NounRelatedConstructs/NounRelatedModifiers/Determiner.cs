@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 
 
-namespace LASI.Algorithm
+namespace LASI.Core
 {
     /// <summary>
     /// Represents a Determiner word such as "the" or "a"

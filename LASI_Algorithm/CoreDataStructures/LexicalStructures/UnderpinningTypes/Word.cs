@@ -1,4 +1,4 @@
-﻿using LASI.Algorithm.DocumentStructures;
+﻿using LASI.Core.DocumentStructures;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 
 
-namespace LASI.Algorithm
+namespace LASI.Core
 {
     /// <summary>
     /// Provides the base class, properties, and behaviors for all word level gramatical constructs.

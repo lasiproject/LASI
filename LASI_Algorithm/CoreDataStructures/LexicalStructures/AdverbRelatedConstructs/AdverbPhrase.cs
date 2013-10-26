@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 
-namespace LASI.Algorithm
+namespace LASI.Core
 {
     /// <summary>
     /// Represents an adverb phrase which modifies either an IDescriptor, such as an Adjective or AdjectivePhrase construct, or an IVerbal, such as a Verb or VerbPhrase construct.

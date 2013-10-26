@@ -131,9 +131,9 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\LASI_Algorithm\L_Algorithm.csproj">
+    <ProjectReference Include="..\LASI_Algorithm\L_Core.csproj">
       <Project>{8c562a93-a885-4fe9-8b8c-5ce34ccbaec1}</Project>
-      <Name>L_Algorithm</Name>
+      <Name>L_Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\LASI_Utilities\L_Utilities.csproj">
       <Project>{bc10a8f0-77ff-46d0-9f9a-38e2fda22d21}</Project>

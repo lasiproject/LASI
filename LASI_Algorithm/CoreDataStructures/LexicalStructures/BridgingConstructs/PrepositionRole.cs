@@ -1,4 +1,4 @@
-﻿namespace LASI.Algorithm
+﻿namespace LASI.Core
 {
     /// <summary>
     /// Defines the various roles which preposition can play.

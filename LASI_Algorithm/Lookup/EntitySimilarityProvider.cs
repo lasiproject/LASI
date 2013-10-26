@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using LASI.Algorithm.Patternization;
+using LASI.Core.Patternization;
 
-namespace LASI.Algorithm.ComparativeHeuristics
+namespace LASI.Core.ComparativeHeuristics
 {
     public static class EntitySimilarityProvider
     {

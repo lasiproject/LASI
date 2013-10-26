@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace LASI.Algorithm
+namespace LASI.Core
 {
     /// <summary>
     /// Defines the role reqirements for Pronoun elements, generally Pronouns or Pronoun Phrases, which can be bound to indirectly refer to an Entity.

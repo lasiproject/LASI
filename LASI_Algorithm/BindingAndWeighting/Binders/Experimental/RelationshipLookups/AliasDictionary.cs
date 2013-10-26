@@ -1,6 +1,6 @@
-﻿using LASI.Algorithm.ComparativeHeuristics;
-using LASI.Algorithm.ComparativeHeuristics.Morphemization;
-using LASI.Algorithm.Patternization;
+﻿using LASI.Core.ComparativeHeuristics;
+using LASI.Core.ComparativeHeuristics.Morphemization;
+using LASI.Core.Patternization;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -10,7 +10,7 @@ using LASI.Utilities;
 using System.Threading.Tasks;
 
 
-namespace LASI.Algorithm.ComparativeHeuristics
+namespace LASI.Core.ComparativeHeuristics
 {
     /// <summary>
     /// Provides for registration of Entities as aliases for other Entities.

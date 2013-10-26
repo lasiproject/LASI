@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LASI.Algorithm
+namespace LASI.Core
 {
     /// <summary>
     /// Represents a quoation mark. Implementing the IPairedPunctuator interface, it provides for a pairing to the its complementary quotation mark type quote.

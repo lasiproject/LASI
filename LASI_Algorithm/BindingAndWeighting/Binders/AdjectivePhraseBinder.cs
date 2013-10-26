@@ -1,11 +1,11 @@
-﻿using LASI.Algorithm.DocumentStructures;
+﻿using LASI.Core.DocumentStructures;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LASI.Algorithm.Binding
+namespace LASI.Core.Binding
 {
     /// <summary>
     /// A Binder which binds the AdjectivePhrases within a sentence to Applicable NounPhrases.

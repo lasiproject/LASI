@@ -1,6 +1,6 @@
 ﻿using LASI;
-using LASI.Algorithm.ComparativeHeuristics;
-using LASI.Algorithm.Patternization;
+using LASI.Core.ComparativeHeuristics;
+using LASI.Core.Patternization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,14 +8,14 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LASI.Algorithm
+namespace LASI.Core
 {
     /// <summary>
     /// Provides access to predefined and customizable IEqualityComparer implementations which operate on instances of applicable ILexical constructs.
     /// </summary>
     /// <typeparam name="TLexical">Any Type which implements the ILexical interface. E.g. Word or Phrase</typeparam>
     /// <see cref="ILexical"/>
-    public static class Comparers<TLexical> where TLexical : LASI.Algorithm.ILexical
+    public static class Comparers<TLexical> where TLexical : LASI.Core.ILexical
     {
         private static TextualComparer<TLexical> textual = new TextualComparer<TLexical>();
         private static AliasComparer alias = new AliasComparer();
@@ -83,7 +83,7 @@ namespace LASI.Algorithm
     /// <summary>
     /// Basic, naive comparer that only takes into account the Text property values of ILexical instances.
     /// </summary>
-    public class TextualComparer<TLexical> : EqualityComparer<TLexical> where TLexical : LASI.Algorithm.ILexical
+    public class TextualComparer<TLexical> : EqualityComparer<TLexical> where TLexical : LASI.Core.ILexical
     {
         /// <summary>
         /// Initializes a new isntance of the TextualComparer class.

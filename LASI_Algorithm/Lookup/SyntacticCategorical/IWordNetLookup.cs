@@ -1,10 +1,10 @@
 ﻿using LASI;
-using LASI.Algorithm;
+using LASI.Core;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace LASI.Algorithm.ComparativeHeuristics
+namespace LASI.Core.ComparativeHeuristics
 {
     internal interface IWordNetLookup<TWord> where TWord : Word
     {

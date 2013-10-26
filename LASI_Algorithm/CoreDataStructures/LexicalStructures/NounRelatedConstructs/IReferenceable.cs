@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace LASI.Algorithm
+namespace LASI.Core
 {
     /// <summary>
     /// Defines the role requirements for Entities; generally Nouns, Nounphrases; which can be indirectly, and implicitely referred to by Pronouns, thus allowing their semantic influence to persist 

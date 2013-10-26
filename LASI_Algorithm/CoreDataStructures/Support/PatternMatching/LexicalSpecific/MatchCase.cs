@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LASI.Algorithm.Patternization
+namespace LASI.Core.Patternization
 {
     /// <summary>
     /// Provides for the representation and free form structuring of Type based Pattern Matching expressions which match with a value of Type T and does not yield a result.
@@ -334,8 +334,8 @@ namespace LASI.Algorithm.Patternization
     public class TestedMatchCase<T, TResult> : IPredicatedMatchCase<T, TResult> where T : class, ILexical
     {
         protected internal TestedMatchCase(bool accepted, MatchCase<T, TResult> inner) { _accepted = accepted; _inner = inner; }
-       private bool _accepted;
-        private   IMatchCase<T, TResult> _inner;
+        private bool _accepted;
+        private IMatchCase<T, TResult> _inner;
         public IMatchCase<T, TResult> Then<TCase>(TResult result)
              where TCase : class, T {
             return _accepted ? this._inner.Case<TCase>(result) : this._inner;

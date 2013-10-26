@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 
 
-namespace LASI.Algorithm.Binding
+namespace LASI.Core.Binding
 {
     /// <summary>
     /// The Exception which is to be thrown when attempting to transition from a state on a lexical Type for which no transition has been defined.

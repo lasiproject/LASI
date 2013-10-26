@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LASI.Algorithm.Binding.Experimental
+namespace LASI.Core.Binding.Experimental
 {
     interface INestableLexical<out TLexical> : ILexical where TLexical : ILexical
     {

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LASI.Utilities;
 
-namespace LASI.Algorithm.Binding.Experimental
+namespace LASI.Core.Binding.Experimental
 {
     interface IAggregateLexical<TPrimary, TBase> : ILexical
         where TPrimary : TBase, ILexical

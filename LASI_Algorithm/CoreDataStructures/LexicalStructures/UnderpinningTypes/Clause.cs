@@ -1,4 +1,4 @@
-﻿using LASI.Algorithm.DocumentStructures;
+﻿using LASI.Core.DocumentStructures;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +6,7 @@ using System.Text;
 using System.Xml.Linq;
 
 
-namespace LASI.Algorithm
+namespace LASI.Core
 {
     /// <summary>
     /// Represents a Clause Level construct.
@@ -37,7 +37,7 @@ namespace LASI.Algorithm
         /// Establishes the nested links between the Clause, its parent Sentence and Phrases which comprise it.
         /// </summary>
         /// <param name="sentence">The Sentence containing the Clause.</param>
-        public void EstablishParent(LASI.Algorithm.DocumentStructures.Sentence sentence)
+        public void EstablishParent(LASI.Core.DocumentStructures.Sentence sentence)
         {
             Sentence = sentence;
             foreach (var r in Phrases)
@@ -54,7 +54,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets or set the Document instance to which the Clause belongs.
         /// </summary>
-        public LASI.Algorithm.DocumentStructures.Document ParentDocument
+        public LASI.Core.DocumentStructures.Document ParentDocument
         {
             get
             {
@@ -112,7 +112,7 @@ namespace LASI.Algorithm
         /// <summary>
         /// Gets the Sentence which contains The Clause.
         /// </summary>
-        public LASI.Algorithm.DocumentStructures.Sentence Sentence { get; private set; }
+        public LASI.Core.DocumentStructures.Sentence Sentence { get; private set; }
         /// <summary>
         /// Gets the unique ID number of the Clause
         /// </summary>

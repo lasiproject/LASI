@@ -1,6 +1,6 @@
 ﻿using LASI;
-using LASI.Algorithm;
-using LASI.Algorithm.DocumentStructures;
+using LASI.Core;
+using LASI.Core.DocumentStructures;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Xml;
@@ -119,7 +119,7 @@ namespace AlgorithmAssemblyUnitTestProject
         [TestMethod()]
         public void ToStringTest() {
             Word target = CreateWord();
-            string expected = "GenericSingularNoun " + "\"" + target.Text + "\"";
+            string expected = target.Type.Name + " \"" + target.Text + "\"";
             string actual;
             actual = target.ToString();
             Assert.AreEqual(expected, actual);

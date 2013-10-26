@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LASI.Algorithm
+namespace LASI.Core
 {
     /// <summary>
     /// Encapsulates a string containing Tagged Text and an associated name. Provides synchronous and asynchronous acess to it contents.

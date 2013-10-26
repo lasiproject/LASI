@@ -1,4 +1,4 @@
-﻿using LASI.Algorithm.DocumentStructures;
+﻿using LASI.Core.DocumentStructures;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace LASI.Algorithm
+namespace LASI.Core
 {
     static class SubordinateClauseIdentifier
     {

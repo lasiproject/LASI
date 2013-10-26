@@ -6,7 +6,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 
 
-namespace LASI.Algorithm.ComparativeHeuristics
+namespace LASI.Core.ComparativeHeuristics
 {
     using SetReference = System.Collections.Generic.KeyValuePair<AdjectiveSetRelationship, int>;
     internal sealed class AdjectiveLookup : IWordNetLookup<Adjective>

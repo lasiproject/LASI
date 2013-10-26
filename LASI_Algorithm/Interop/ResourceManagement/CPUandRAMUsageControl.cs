@@ -3,9 +3,43 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LASI.Core.Interop;
 
-namespace LASI.Algorithm.Interop
+namespace LASI.Core
 {
+    /// <summary>
+    /// Centrailizes management and control of the concurrency level of concurrent operations.
+    /// </summary>
+    public static class Concurrency
+    {
+        /// <summary>
+        /// Sets the maximum allowed Concurrency level based on the supplied ResourceUsageMode.
+        /// </summary>
+        /// <param name="mode">The ResourceUsageMode value from which to determine concurrency settings.</param>
+        public static void SetFromResourceMode(ResourceMode mode) {
+            var logicalCPUs = System.Environment.ProcessorCount;
+            Max = mode == ResourceMode.High ?
+                logicalCPUs < 3 ? logicalCPUs : logicalCPUs - 1 :
+               mode == ResourceMode.Normal ?
+                logicalCPUs < 3 ? 2 : logicalCPUs - 2 :
+               mode == ResourceMode.Low ?
+                logicalCPUs < 4 ? 1 : logicalCPUs - 3 : GetDefaultParallelMax();
+        }
+        /// <summary>
+        /// Gets the default maxiumum number of logical CPU cores, based on the executing hardware, the document analysis process is allowed to utilize.
+        /// </summary>
+        /// <returns>The default maxiumum number of logical CPU cores the document analysis process is allowed to utilize.</returns>
+        private static int GetDefaultParallelMax() {
+            var logicalCPUs = System.Environment.ProcessorCount;
+            return logicalCPUs < 3 ? logicalCPUs : logicalCPUs - 1;
+        }
+        /// <summary>
+        /// Gets the maximum allowed Concurrency level for Parallel operations.
+        /// </summary>
+        public static int Max { get; private set; }
+
+        static Concurrency() { Max = GetDefaultParallelMax(); }
+    }
     /// <summary>
     /// Centrailizes management and control of the memory (RAM) consumed by lookup caches.
     /// </summary>
@@ -15,7 +49,7 @@ namespace LASI.Algorithm.Interop
         /// Sets the maximum size to which the lookup caches can collectively grow based on the specified ResourceMode
         /// </summary>
         /// <param name="mode">The ResourceMode which will be used to determine the maximum collective cache size</param>
-        public static void SetFromResourceUsageMode(ResourceMode mode) {
+        public static void SetFromResourceMode(ResourceMode mode) {
             MaxLookupCacheSize = mode == ResourceMode.High ? (MB)4096 : mode == ResourceMode.Normal ? (MB)3072 : (MB)1536;
         }
         /// <summary>

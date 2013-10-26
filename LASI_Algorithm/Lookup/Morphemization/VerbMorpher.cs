@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LASI.Utilities;
 
-namespace LASI.Algorithm.ComparativeHeuristics.Morphemization
+namespace LASI.Core.ComparativeHeuristics.Morphemization
 {
     /// <summary>
     /// Performs both verb root extraction and verb conjugation generation.

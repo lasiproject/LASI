@@ -1,12 +1,12 @@
-﻿using LASI.Algorithm.Patternization;
-using LASI.Algorithm.ComparativeHeuristics;
+﻿using LASI.Core.Patternization;
+using LASI.Core.ComparativeHeuristics;
 using LASI.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-namespace LASI.Algorithm
+namespace LASI.Core
 {
     /// <summary>
     /// Represents a pronoun which gernerally refers back to a previously defined Entity, such as a Noun or NounPhrase.

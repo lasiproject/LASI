@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LASI.Algorithm
+namespace LASI.Core
 {
     /// <summary>
     /// Defines the role requirements for "weakly possessive" lexical elements; generally PossiveEnding or PossessivePronoun objects. Weak possessive means that, while they 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace LASI.Algorithm
+namespace LASI.Core
 {
     /// <summary>
     /// Defines the structure of Punctuation Words which are used as bookending delimiters, e.g. '(...)' and '[...], 

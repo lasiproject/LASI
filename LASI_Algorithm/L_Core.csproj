@@ -7,8 +7,8 @@
     <ProjectGuid>{8C562A93-A885-4FE9-8B8C-5CE34CCBAEC1}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>LASI.Algorithm</RootNamespace>
-    <AssemblyName>Algorithm</AssemblyName>
+    <RootNamespace>LASI.Core</RootNamespace>
+    <AssemblyName>Core</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <PublishUrl>publish\</PublishUrl>
@@ -130,7 +130,6 @@
     <Compile Include="CoreDataStructures\Support\PatternMatching\LexicalSpecific\MatchCase.cs" />
     <Compile Include="CoreDataStructures\Support\PatternMatching\LexicalSpecific\PatternMatching.cs" />
     <Compile Include="CoreDataStructures\LexicalStructures\SymbolsAndPunctuators\IPairedPunctuator.cs" />
-    <Compile Include="Interop\ResourceManagement\Memory.cs" />
     <Compile Include="Interop\Content\IUntaggedTextSource.cs" />
     <Compile Include="Lookup\SyntacticCategorical\Support\EntityClassificationExtensions.cs" />
     <Compile Include="CoreDataStructures\Support\EnumerableExtensions\EnumerableOfRecursiveIEnumerableILexicalsExtenstions.cs" />
@@ -184,7 +183,7 @@
     <Compile Include="CoreDataStructures\LexicalStructures\NounRelatedConstructs\IQuantifer.cs" />
     <Compile Include="CoreDataStructures\LexicalStructures\VerbRelatedConstructs\IModalityModdifiable.cs" />
     <Compile Include="CoreDataStructures\Support\Comparers.cs" />
-    <Compile Include="Interop\ResourceManagement\Concurrency.cs" />
+    <Compile Include="Interop\ResourceManagement\CPUandRAMUsageControl.cs" />
     <Compile Include="Lookup\SyntacticCategorical\AdjectiveLookup.cs" />
     <Compile Include="Lookup\SyntacticCategorical\AdverbLookup.cs" />
     <Compile Include="Lookup\Morphemization\NounMorpher.cs" />

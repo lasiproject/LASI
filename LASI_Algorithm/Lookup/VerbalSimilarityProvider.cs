@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using LASI.Algorithm.Patternization;
+using LASI.Core.Patternization;
 using System.Threading.Tasks;
 
-namespace LASI.Algorithm.ComparativeHeuristics
+namespace LASI.Core.ComparativeHeuristics
 {
 
     public static class VerbalSimilarityProvider

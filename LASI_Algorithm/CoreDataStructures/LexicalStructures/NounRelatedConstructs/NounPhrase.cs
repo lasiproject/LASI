@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 using LASI.Utilities;
-using LASI.Algorithm.ComparativeHeuristics;
+using LASI.Core.ComparativeHeuristics;
 
-namespace LASI.Algorithm
+namespace LASI.Core
 {
     /// <summary>
     /// Represents a noun phrase such as "The Pinko-Commy Conspiracy".

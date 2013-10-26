@@ -1,8 +1,8 @@
 ﻿using LASI;
-using LASI.Algorithm;
-using LASI.Algorithm.DocumentStructures;
-using LASI.Algorithm.ComparativeHeuristics;
-using LASI.Algorithm.Patternization;
+using LASI.Core;
+using LASI.Core.DocumentStructures;
+using LASI.Core.ComparativeHeuristics;
+using LASI.Core.Patternization;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-namespace LASI.Algorithm
+namespace LASI.Core
 {
     /// <summary>
     /// Represents a particle such as "about". Note that the distintion between particle and prepositions can sometimes be tricky and is heavily dependent on nuances of grammatical usage.

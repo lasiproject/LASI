@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using LASI.Algorithm.ComparativeHeuristics.Morphemization;
+using LASI.Core.ComparativeHeuristics.Morphemization;
 
-namespace LASI.Algorithm
+namespace LASI.Core
 {
     /// <summary>
     /// Represents an collection of usually contiguous entities which combine to form a single subject or object.
@@ -22,7 +22,7 @@ namespace LASI.Algorithm
         /// <param name="members">The Entities aggregated into the group.</param>
         public AggregateEntity(IEnumerable<IEntity> members) {
             _members = members.Distinct();
-            EntityKind = Algorithm.EntityKind.ThingUnknownMultiple;
+            EntityKind = Core.EntityKind.ThingUnknownMultiple;
         }
 
         #region Methods

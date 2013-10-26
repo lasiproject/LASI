@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Xml.Linq;
 
-namespace LASI.Algorithm
+namespace LASI.Core
 {
     /// <summary>
     /// Represents a prepositional phrase, an object which has Prepositional properties at the phrase level.

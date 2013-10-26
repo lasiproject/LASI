@@ -1,6 +1,6 @@
 ﻿using LASI;
-using LASI.Algorithm;
-using LASI.Algorithm.DocumentStructures;
+using LASI.Core;
+using LASI.Core.DocumentStructures;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 
@@ -70,7 +70,7 @@ namespace AlgorithmAssemblyUnitTestProject
         public void ToStringTest() {
             Phrase[] phrases = new Phrase[] { new NounPhrase(new Word[] { new ProperSingularNoun("LASI") }), new VerbPhrase(new Word[] { new PastTenseVerb("found") }), new NounPhrase(new Word[] { new ProperPluralNoun("TIMIS") }) };
             Sentence target = new Sentence(phrases, new SentenceEnding('.'));
-            string expected = "LASI.Algorithm.DocumentConstructs.Sentence \"LASI found TIMIS.\"";
+            string expected = "LASI.Algorithm.DocumentStructures.Sentence \"LASI found TIMIS.\"";
             string actual = target.ToString();
             Assert.AreEqual(expected, actual);
         }

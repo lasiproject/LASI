@@ -1,15 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.20827.3
-MinimumVisualStudioVersion = 10.0.40219.1
+# Visual Studio 2012
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E61EB5D5-494B-437A-A9ED-20756769E139}"
 	ProjectSection(SolutionItems) = preProject
 		LasiClassFramework.vsmdi = LasiClassFramework.vsmdi
 		TestSettings.runsettings = TestSettings.runsettings
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "L_Algorithm", "LASI_Algorithm\L_Algorithm.csproj", "{8C562A93-A885-4FE9-8B8C-5CE34CCBAEC1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "L_Core", "LASI_Algorithm\L_Core.csproj", "{8C562A93-A885-4FE9-8B8C-5CE34CCBAEC1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "L_UserInterface", "LASI_UserInterface\L_UserInterface.csproj", "{6C8D6DA8-BD8B-48C8-ACB9-8FDE7E3A672E}"
 EndProject
@@ -63,6 +61,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExperimentationWPF", "WPFExperimentation\ExperimentationWPF.csproj", "{F57E105E-00CD-429A-8819-FAC415678F84}"
 EndProject
 Global
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = LasiClassFramework.vsmdi
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|x64 = Debug|x64
@@ -142,15 +143,12 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{B012451A-BCB9-423F-8119-BE8027CA8474} = {E61EB5D5-494B-437A-A9ED-20756769E139}
 		{BB8A5BF2-C41F-4330-B55B-D1097569B529} = {E61EB5D5-494B-437A-A9ED-20756769E139}
+		{B012451A-BCB9-423F-8119-BE8027CA8474} = {E61EB5D5-494B-437A-A9ED-20756769E139}
 		{F4ABC10C-0BE9-4195-99E7-DB027757EC6B} = {B3482180-A78D-4A20-B744-81620578B79B}
 		{8829F489-A966-4321-BD4A-FDC4536D0BBA} = {BB8A5BF2-C41F-4330-B55B-D1097569B529}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		VisualSVNWorkingCopyRoot = .
-	EndGlobalSection
-	GlobalSection(TestCaseManagementSettings) = postSolution
-		CategoryFile = LasiClassFramework.vsmdi
 	EndGlobalSection
 EndGlobal

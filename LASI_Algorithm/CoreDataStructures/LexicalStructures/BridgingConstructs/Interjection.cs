@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
-namespace LASI.Algorithm
+namespace LASI.Core
 {
     /// <summary>
     /// Represents interjection words, such as "by-jove!"

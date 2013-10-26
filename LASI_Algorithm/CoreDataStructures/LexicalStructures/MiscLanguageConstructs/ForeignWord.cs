@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 
 
-namespace LASI.Algorithm
+namespace LASI.Core
 {
     /// <summary>
     /// Represents a foriegn word embedded in an english written work.

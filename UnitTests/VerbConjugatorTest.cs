@@ -1,5 +1,5 @@
-﻿using LASI.Algorithm.ComparativeHeuristics;
-using LASI.Algorithm.ComparativeHeuristics.Morphemization;
+﻿using LASI.Core.ComparativeHeuristics;
+using LASI.Core.ComparativeHeuristics.Morphemization;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;

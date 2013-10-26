@@ -1,5 +1,5 @@
 ﻿using LASI;
-using LASI.Algorithm;
+using LASI.Core;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
@@ -222,7 +222,7 @@ namespace AlgorithmAssemblyUnitTestProject
             string expected = "NounPhrase \"LASI and Timmy\"";
             string actual;
             actual = target.ToString();
-            Assert.AreEqual(expected, actual);//TODO: Implement Verbosity test also!
+            Assert.AreEqual(expected, actual);
         }
     }
 }

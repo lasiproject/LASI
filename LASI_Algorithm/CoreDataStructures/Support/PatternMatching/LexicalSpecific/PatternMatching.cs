@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Reflection;
 
-namespace LASI.Algorithm.Patternization
+namespace LASI.Core.Patternization
 {
     /// <summary>
     /// Provides for the construction of flexible Pattern Matching expressions.

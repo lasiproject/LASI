@@ -1,16 +1,16 @@
-﻿using LASI.Algorithm.Binding;
-using LASI.Algorithm.Binding.Experimental;
-using LASI.Algorithm.DocumentStructures;
-using LASI.Algorithm.Patternization;
+﻿using LASI.Core.Binding;
+using LASI.Core.Binding.Experimental;
+using LASI.Core.DocumentStructures;
+using LASI.Core.Patternization;
 using LASI.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using LASI.Algorithm.Interop;
+using LASI.Core.Interop;
 
-namespace LASI.Algorithm.Binding
+namespace LASI.Core.Binding
 {
     /// <summary>
     /// Provides static acess to a comprehensive set of binding operations which are applicable to a document.
@@ -47,7 +47,7 @@ namespace LASI.Algorithm.Binding
 
         private static void PreBind(IEnumerable<Paragraph> enumerable) {
             foreach (var p in enumerable) {
-                LASI.Algorithm.Binding.Experimental.PreBinder.BindPairedDelimiters(p);
+                LASI.Core.Binding.Experimental.PreBinder.BindPairedDelimiters(p);
             }
         }
 

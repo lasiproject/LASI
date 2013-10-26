@@ -5,7 +5,7 @@ using System.Text;
 using System.Xml.Linq;
 
 
-namespace LASI.Algorithm
+namespace LASI.Core
 {
     /// <summary>
     /// Represents a conjunction phrase which links two Clauses, Words or Phrases together.

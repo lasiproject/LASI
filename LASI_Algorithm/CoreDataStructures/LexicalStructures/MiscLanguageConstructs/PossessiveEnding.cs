@@ -5,7 +5,7 @@ using System.Text;
 using LASI.Utilities;
 
 
-namespace LASI.Algorithm
+namespace LASI.Core
 {
     /// <summary>
     /// Represents a possessive ending such as ('s) which indicates that the Entity preceding it has a possessive relationship with respect to the Entity which follows it. 

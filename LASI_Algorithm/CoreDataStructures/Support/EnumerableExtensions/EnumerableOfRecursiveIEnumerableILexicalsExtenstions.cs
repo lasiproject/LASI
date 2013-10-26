@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LASI.Algorithm
+namespace LASI.Core
 {
     /// <summary>
     /// Defines extension methods for sequences of ILexical instances which are in themselves sequences of ILexical instances of arbitrary recursive depth.

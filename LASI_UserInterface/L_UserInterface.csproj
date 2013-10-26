@@ -596,9 +596,9 @@
     <Resource Include="MiscImages\collie1.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\LASI_Algorithm\L_Algorithm.csproj">
+    <ProjectReference Include="..\LASI_Algorithm\L_Core.csproj">
       <Project>{8C562A93-A885-4FE9-8B8C-5CE34CCBAEC1}</Project>
-      <Name>L_Algorithm</Name>
+      <Name>L_Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\LASI_ContentSystem\L_ContentSystem.csproj">
       <Project>{f13d6c6d-a004-45bd-8fb8-e044e20f1204}</Project>

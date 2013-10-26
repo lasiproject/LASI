@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LASI.Algorithm
+namespace LASI.Core
 {
     /// <summary>
     /// Defines the role requirements for Quantifier constructs, generally Nouns or NounPhrases e.g. in the sentence "I have 2 apples.", "2" is a Quantifier. 

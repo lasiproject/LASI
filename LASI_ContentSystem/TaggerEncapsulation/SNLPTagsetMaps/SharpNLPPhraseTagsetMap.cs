@@ -1,5 +1,5 @@
 ﻿using LASI;
-using LASI.Algorithm;
+using LASI.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace LASI.ContentSystem.TaggerEncapsulation
 {
-    using PhraseCreator = System.Func<IEnumerable<LASI.Algorithm.Word>, LASI.Algorithm.Phrase>;
+    using PhraseCreator = System.Func<IEnumerable<LASI.Core.Word>, LASI.Core.Phrase>;
     /// <summary>
     /// Represents a Word Level tagset-to-runtime-type-mapping context which translates
     /// between The SharpNLP Tagger's tagset and the classes whose instances provide 

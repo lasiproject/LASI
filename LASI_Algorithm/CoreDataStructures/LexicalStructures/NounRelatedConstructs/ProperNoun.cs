@@ -1,11 +1,11 @@
-﻿using LASI.Algorithm;
+﻿using LASI.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LASI.Algorithm
+namespace LASI.Core
 {
     /// <summary>
     /// Provides the base class and functionality for classes which represent Proper Nouns.

@@ -10,7 +10,7 @@ namespace LASI.ContentSystem
     /// <summary>
     /// A strongly typed wrapper that encapsulates a tagged file (.tagged), a file with embedded syntactic annotations.
     /// </summary>
-    public sealed class TaggedFile : InputFile, LASI.Algorithm.ITaggedTextSource
+    public sealed class TaggedFile : InputFile, LASI.Core.ITaggedTextSource
     {
         /// <summary>
         /// Initializes a new instance of the TaggedFile class for the given path.

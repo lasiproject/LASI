@@ -1,5 +1,5 @@
 ﻿using System;
-namespace LASI.Algorithm
+namespace LASI.Core
 {
     public interface IGendered : IEntity
     {

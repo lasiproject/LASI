@@ -7,9 +7,9 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using LASI.Utilities;
 
-namespace LASI.Algorithm.ComparativeHeuristics
+namespace LASI.Core.ComparativeHeuristics
 {
-    using LASI.Algorithm.ComparativeHeuristics.Morphemization;
+    using LASI.Core.ComparativeHeuristics.Morphemization;
     using SetReference = System.Collections.Generic.KeyValuePair<VerbSetRelationship, int>;
 
     internal sealed class VerbLookup : IWordNetLookup<Verb>

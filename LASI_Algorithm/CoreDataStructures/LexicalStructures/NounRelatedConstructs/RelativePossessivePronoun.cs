@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace LASI.Algorithm
+namespace LASI.Core
 {
     /// <summary>
     /// Represents a Possessive Relative Pronoun such as "whose". isPossessive Relative Pronouns provide contextual ownership semantics.

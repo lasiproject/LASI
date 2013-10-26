@@ -1,5 +1,5 @@
 ﻿using System;
-namespace LASI.Algorithm.Patternization
+namespace LASI.Core.Patternization
 {
     /// <summary>
     /// Specifies the required behavior for a pattern matching expression clause which immediately follows a When expression.
@@ -7,7 +7,7 @@ namespace LASI.Algorithm.Patternization
     /// <typeparam name="T">The Type of the value being matched over.</typeparam>
     /// <typeparam name="TResult">The Type of the result which the match expression may return.</typeparam>
     public interface IPredicatedMatchCase<T, TResult>
-      where T : class, LASI.Algorithm.ILexical
+      where T : class, LASI.Core.ILexical
     {
         /// <summary>
         /// Appends a Then expression to the current pattern. Then expressions work exactly like Case expressions but are only matched if they immediately follow a When expression which evaluates to true.
@@ -90,7 +90,7 @@ namespace LASI.Algorithm.Patternization
     /// </summary>
     /// <typeparam name="T">The Type of the value being matched over.</typeparam>
     public interface IPredicatedMatchCase<T>
-    where T : class, LASI.Algorithm.ILexical
+    where T : class, LASI.Core.ILexical
     {
         /// <summary>
         /// Appends a Then expression to the current pattern. Then expressions work exactly like Case expressions but are only matched if they immediately follow a When expression which evaluates to true.

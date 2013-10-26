@@ -1,4 +1,4 @@
-﻿namespace LASI.Algorithm
+﻿namespace LASI.Core
 {
     /// <summary>
     /// Defines the role reqirements for Transitive elements, generally Verbs or VerbPhrases,

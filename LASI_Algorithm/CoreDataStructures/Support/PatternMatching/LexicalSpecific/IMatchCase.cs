@@ -1,5 +1,5 @@
 ﻿using System;
-namespace LASI.Algorithm.Patternization
+namespace LASI.Core.Patternization
 {
     /// <summary>
     /// Specifies the required behavior for Pattern Matching expression component that does not yield a value.
@@ -69,7 +69,7 @@ namespace LASI.Algorithm.Patternization
     /// <typeparam name="T">The Type of the value being matched over.</typeparam>
     /// <typeparam name="TResult">The Type of Results the matching expression will yield.</typeparam>
     public interface IMatchCase<T, TResult>
-    where T : class, LASI.Algorithm.ILexical
+    where T : class, LASI.Core.ILexical
     {
         /// <summary>
         /// Returns the result of the Pattern Matching expression. 

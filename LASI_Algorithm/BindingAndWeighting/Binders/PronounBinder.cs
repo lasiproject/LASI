@@ -1,9 +1,9 @@
 ﻿using LASI;
-using LASI.Algorithm;
-using LASI.Algorithm.DocumentStructures;
-using LASI.Algorithm.ComparativeHeuristics;
+using LASI.Core;
+using LASI.Core.DocumentStructures;
+using LASI.Core.ComparativeHeuristics;
 using LASI.Utilities;
-using LASI.Algorithm.Patternization;
+using LASI.Core.Patternization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace LASI.Algorithm.Binding
+namespace LASI.Core.Binding
 {
     /// <summary>
     /// Attempts to bind pronouns to the entities they refer to.

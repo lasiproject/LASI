@@ -1,6 +1,6 @@
-﻿using LASI.Algorithm.Binding;
-using LASI.Algorithm.Patternization;
-using LASI.Algorithm.DocumentStructures;
+﻿using LASI.Core.Binding;
+using LASI.Core.Patternization;
+using LASI.Core.DocumentStructures;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +8,7 @@ using System.Text;
 using LASI.Utilities;
 using System.Threading.Tasks;
 
-namespace LASI.Algorithm.Binding.Experimental
+namespace LASI.Core.Binding.Experimental
 {
     class ObjectBinderV2
     {

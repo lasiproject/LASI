@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LASI.Algorithm.Patternization.Generalized
+namespace LASI.Core.Patternization.Generalized
 {
     class MatchCase<TResult>
     {

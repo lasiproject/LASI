@@ -1,4 +1,4 @@
-﻿using LASI.Algorithm.ComparativeHeuristics;
+﻿using LASI.Core.ComparativeHeuristics;
 using LASI.Utilities;
 using System;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace LASI.Algorithm
+namespace LASI.Core
 {
     /// <summary>
     /// This class is Experimental! It represents a PronounPhrase. A PronounPhrase is a custom Phrase type introduced by LASI.

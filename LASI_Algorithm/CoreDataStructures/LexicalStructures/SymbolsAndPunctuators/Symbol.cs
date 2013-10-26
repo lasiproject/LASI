@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace LASI.Algorithm
+namespace LASI.Core
 {
     /// <summary>
     /// Represents a symbol existing at the Word level. E.g. in the sentence "They had over $ 100" "$" is symbol acting as a word in that it is a separate token and is modified by 100.

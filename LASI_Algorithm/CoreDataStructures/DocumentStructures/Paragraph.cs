@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LASI.Algorithm.DocumentStructures
+namespace LASI.Core.DocumentStructures
 {
     /// <summary>
     /// Represents a paragrph.

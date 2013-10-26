@@ -1,9 +1,9 @@
-﻿using LASI.Algorithm.ComparativeHeuristics;
+﻿using LASI.Core.ComparativeHeuristics;
 using System;
-using LASI.Algorithm.Patternization;
+using LASI.Core.Patternization;
 using System.Collections.Generic;
 using System.Linq;
-namespace LASI.Algorithm.Binding.Experimental
+namespace LASI.Core.Binding.Experimental
 {
     /// <summary>
     /// An experimental class which uses a variety of binding techniques to infer the likely clause structure of a set of contiguous lexical elements.

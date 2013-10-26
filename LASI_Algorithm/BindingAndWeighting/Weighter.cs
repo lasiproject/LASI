@@ -1,14 +1,14 @@
-﻿using LASI.Algorithm.DocumentStructures;
-using LASI.Algorithm.ComparativeHeuristics;
+﻿using LASI.Core.DocumentStructures;
+using LASI.Core.ComparativeHeuristics;
 using LASI.Utilities;
-using LASI.Algorithm.Patternization;
+using LASI.Core.Patternization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LASI.Algorithm
+namespace LASI.Core
 {
     /// <summary>
     /// Provides static access to a comprehensive set of weighting operations which are applicable to a document.

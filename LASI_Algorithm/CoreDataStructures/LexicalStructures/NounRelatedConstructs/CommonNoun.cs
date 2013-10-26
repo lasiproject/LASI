@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LASI.Algorithm
+namespace LASI.Core
 {
     /// <summary>
     /// Provides the base class and functionality for classes which represent Generic Nouns.
@@ -19,7 +19,7 @@ namespace LASI.Algorithm
         /// <param name="text">The key text content of the GenericNoun</param>
         protected CommonNoun(string text)
             : base(text) {
-            EntityKind = LASI.Algorithm.EntityKind.ThingUnknown;
+            EntityKind = LASI.Core.EntityKind.ThingUnknown;
         }
     }
 }

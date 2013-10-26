@@ -1,12 +1,12 @@
 ﻿using LASI;
-using LASI.Algorithm;
+using LASI.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using LASI.Algorithm.ComparativeHeuristics;
+using LASI.Core.ComparativeHeuristics;
 namespace LASI.ContentSystem.TaggerEncapsulation
 {
     using WordCreator = Func<string, Word>;

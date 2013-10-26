@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace LASI.Algorithm
+namespace LASI.Core
 {
     /// <summary>
     /// Defines the role reqirements for Adverbial elements, generally Adverbs or or AdvebPhrases, which may modify the meaning of IAdverbialModifiable elememts such as Verbs, VerbPhrases, Adjectives, and AdjectivePhrases.

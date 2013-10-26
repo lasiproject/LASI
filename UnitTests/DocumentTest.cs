@@ -1,6 +1,6 @@
 ﻿using LASI;
-using LASI.Algorithm;
-using LASI.Algorithm.DocumentStructures;
+using LASI.Core;
+using LASI.Core.DocumentStructures;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -223,7 +223,7 @@ namespace AlgorithmAssemblyUnitTestProject
             IEnumerable<Phrase> actual;
             actual = target.Phrases;
             var expectedResult = actual.Zip(
-                new[] { "We", "must attack", "blue team", "We", "must do", "this", "quickly" },
+                new[] { "We", "must attack", "blue team", "!", "We", "must do", "this", "quickly", "!" },
                 (r, s) => r.Text == s).Aggregate(true, (aggr, val) => aggr &= val);
             Assert.IsTrue(expectedResult);
         }
@@ -264,7 +264,7 @@ namespace AlgorithmAssemblyUnitTestProject
                     })}, new SentenceEnding('!'))
                 };
 
-            Document target = new Document(new[] { new Paragraph(firstParagraphSentences , ParagraphKind.Default) });
+            Document target = new Document(new[] { new Paragraph(firstParagraphSentences, ParagraphKind.Default) });
             IEnumerable<Sentence> actual;
             actual = target.Sentences;
             for (var i = 0; i < actual.Count(); ++i) {

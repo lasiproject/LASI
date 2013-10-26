@@ -1,4 +1,4 @@
-﻿using LASI.Algorithm.ComparativeHeuristics;
+﻿using LASI.Core.ComparativeHeuristics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using LASI.Utilities;
 
-namespace LASI.Algorithm
+namespace LASI.Core
 {
     /// <summary>
     /// Provides the base class for all word level verb constructs. An instance of this class represents a verb in its base tense.
@@ -90,7 +90,7 @@ namespace LASI.Algorithm
         /// </summary>
         /// <returns>True if the Verb is a possessive relationship specifier, false otherwise.</returns>
         protected virtual bool DetermineIsPossessive() {
-            var syns = LASI.Algorithm.Lookup.GetSynonyms(this);
+            var syns = LASI.Core.Lookup.GetSynonyms(this);
             return syns.Contains("have", caseIgnoringComp);
         }
         /// <summary>
@@ -98,7 +98,7 @@ namespace LASI.Algorithm
         /// </summary>
         /// <returns>True if the Verb is a classifier, false otherwise.</returns>
         protected virtual bool DetermineIsClassifier() {
-            var syns = LASI.Algorithm.Lookup.GetSynonyms(this);
+            var syns = LASI.Core.Lookup.GetSynonyms(this);
             return !IsPossessive && Modality == null && Modifiers.None() && syns.Contains("is", caseIgnoringComp);
         }
 

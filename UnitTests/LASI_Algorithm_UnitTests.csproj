@@ -137,9 +137,9 @@
     <Compile Include="WordTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\LASI_Algorithm\L_Algorithm.csproj">
+    <ProjectReference Include="..\LASI_Algorithm\L_Core.csproj">
       <Project>{8c562a93-a885-4fe9-8b8c-5ce34ccbaec1}</Project>
-      <Name>L_Algorithm</Name>
+      <Name>L_Core</Name>
       <EmbedInteropTypes>False</EmbedInteropTypes>
       <Private>True</Private>
     </ProjectReference>

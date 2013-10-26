@@ -1,7 +1,7 @@
-﻿using LASI.Algorithm.ComparativeHeuristics.Morphemization;
-using LASI.Algorithm.Patternization;
+﻿using LASI.Core.ComparativeHeuristics.Morphemization;
+using LASI.Core.Patternization;
 using LASI.Utilities;
-using LASI.Algorithm;
+using LASI.Core;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -10,10 +10,10 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using LASI.Algorithm.Interop;
-using LASI.Algorithm.ComparativeHeuristics;
+using LASI.Core.Interop;
+using LASI.Core.ComparativeHeuristics;
 
-namespace LASI.Algorithm
+namespace LASI.Core
 {
     /// <summary>
     /// Provides Comprehensive static facilities for Synoynm Identification, Word and Phrase Comparison, Gender Stratification, and Named Entity Recognition.

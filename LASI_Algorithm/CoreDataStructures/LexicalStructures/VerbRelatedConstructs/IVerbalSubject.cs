@@ -1,5 +1,5 @@
 ﻿
-namespace LASI.Algorithm
+namespace LASI.Core
 {
     /// <summary>
     /// Defines the role reqirements for Action Subjects, generally the subjects of Verbs or VerbPhrases.

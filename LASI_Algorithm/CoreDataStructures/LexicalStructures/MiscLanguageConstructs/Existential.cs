@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 
-namespace LASI.Algorithm
+namespace LASI.Core
 {
     /// <summary>
     /// Represents a word which is used to make existential assertions.

@@ -1,12 +1,12 @@
-﻿using LASI.Algorithm.DocumentStructures;
-using LASI.Algorithm.ComparativeHeuristics;
+﻿using LASI.Core.DocumentStructures;
+using LASI.Core.ComparativeHeuristics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LASI.Algorithm.Binding
+namespace LASI.Core.Binding
 {
     /// <summary>
     /// Represents an alias Mapping between IEntity instances within a constrained scope.

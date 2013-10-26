@@ -1,4 +1,4 @@
-﻿using LASI.Algorithm.ComparativeHeuristics;
+﻿using LASI.Core.ComparativeHeuristics;
 using LASI.Utilities;
 using System;
 using System.Collections.Generic;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LASI.Algorithm
+namespace LASI.Core
 {
     /// <summary>
     /// Defines extension methods which augment specific enum Types for quick, centralized access to common usage patterns.
