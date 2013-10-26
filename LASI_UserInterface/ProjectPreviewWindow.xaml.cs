@@ -1,4 +1,5 @@
 ﻿using LASI.ContentSystem;
+using LASI.Utilities;
 using LASI.UserInterface.Dialogs;
 using System;
 using System.IO;
@@ -20,6 +21,11 @@ namespace LASI.UserInterface
         public ProjectPreviewWindow() {
             InitializeComponent();
             var titleText = Resources["CurrentProjectName"] as string ?? Title;
+            SetupEvents();
+        }
+
+        private void SetupEvents() {
+            DocumentManager.NumberOfDocumentsChanged += (sender, e) => numDocsLabel.Content = e.NewValue;
         }
 
         #region Methods
@@ -34,20 +40,23 @@ namespace LASI.UserInterface
             }
             DocumentPreview.SelectedIndex = 0;
         }
-
+        /// <summary>
+        /// Asynchronously loads the text of the given file into a new preview tab, displaying it with some rudimentary formatting.
+        /// </summary>
+        /// <param name="textfile">The Text File from which to load text.</param>
+        /// <returns>A System.Threading.Tasks.Task representing the ongoing asynchronous operation.</returns>
         private async Task LoadTextandTabAsync(TextFile textfile) {
-            var processedText = await await textfile.GetTextAsync().ContinueWith(async (t) => {
+            var processedText = await await textfile.GetTextAsync().ContinueWith(async t => {
                 var data = await t;
-                return data.Split(new[] { "\r\n\r\n", "<paragraph>", "</paragraph>" }, StringSplitOptions.RemoveEmptyEntries)
+                return data
+                    .SplitRemoveEmpty(new[] { "\r\n\r\n", "<paragraph>", "</paragraph>" })
                     .Select(s => s.Trim())
-                    .Aggregate((sum, s) => sum += "\n\t" + s);
+                    .Aggregate((sum, current) => sum += "\n\t" + current);
             });
-            var item = new TabItem
-            {
+            var item = new TabItem {
                 Header = textfile.NameSansExt,
                 AllowDrop = true,
-                Content = new TextBox
-                {
+                Content = new TextBox {
                     IsReadOnly = true,
                     VerticalScrollBarVisibility = ScrollBarVisibility.Auto,
                     TextWrapping = TextWrapping.Wrap,
@@ -60,20 +69,28 @@ namespace LASI.UserInterface
             DocumentPreview.Items.Add(item);
             DocumentPreview.SelectedItem = item;
         }
-
-        private async Task AddNewDocument(string docPath) {
+        /// <summary>
+        /// Asynchronously adds a new document by the specified file path.
+        /// </summary>
+        /// <param name="docPath">The file path specifying where to find the document.</param>
+        /// <returns>A System.Threading.Tasks.Task representing the ongoing asynchronous operation.</returns>
+        private async Task DisplayAddNewDocumentDialog(string docPath) {
             var chosenFile = FileManager.AddFile(docPath, true);
             try {
                 await FileManager.ConvertAsNeededAsync();
             }
             catch (FileConversionFailureException e) {
-                MessageBox.Show(this, string.Format(".doc file conversion failed\n{0}", e.Message));
+                MessageBox.Show(this, MakeConversionFailureMessage(e.Message));
             }
             var textfile = FileManager.TextFiles.Where(f => f.NameSansExt == chosenFile.NameSansExt).First();
             await LoadTextandTabAsync(textfile);
             CheckIfAddingAllowed();
             startProcessingButton.IsEnabled = true;
             StartProcessMenuItem.IsEnabled = true;
+        }
+
+        private static string MakeConversionFailureMessage(string message) {
+            return string.Format(".doc file conversion failed\n{0}", message);
         }
 
         private void CheckIfAddingAllowed() {
@@ -110,11 +127,15 @@ namespace LASI.UserInterface
 
         }
         private async void Grid_Drop(object sender, DragEventArgs e) {
-            await SharedFunctionality.HandleDropAddAttemptAsync(this, e, async fi => { DocumentManager.AddDocument(fi.Name, fi.FullName); await AddNewDocument(fi.FullName); });
+            await SharedFunctionality.HandleDropAddAttemptAsync(this,
+                e,
+                async fi => {
+                    DocumentManager.AddDocument(fi.Name, fi.FullName);
+                    await DisplayAddNewDocumentDialog(fi.FullName);
+                });
         }
-        private async void AddNewDocument() {
-            var openDialog = new Microsoft.Win32.OpenFileDialog
-            {
+        private async void DisplayAddNewDocumentDialog() {
+            var openDialog = new Microsoft.Win32.OpenFileDialog {
                 Filter = "LASI File Types|*.doc; *.docx; *.pdf; *.txt",
                 Multiselect = true,
 
@@ -129,7 +150,7 @@ namespace LASI.UserInterface
                     MessageBox.Show(this, string.Format("A document named {0} is already part of the project.", file));
                 } else if (!DocumentManager.FileIsLocked(file)) {
                     DocumentManager.AddDocument(file.Name, file.FullName);
-                    await AddNewDocument(file.FullName);
+                    await DisplayAddNewDocumentDialog(file.FullName);
                 } else {
                     MessageBox.Show(this, string.Format("The document {0} is in use by another process, please close any applications which may be using the document and try again.", file));
                 }
@@ -140,8 +161,7 @@ namespace LASI.UserInterface
 
 
         private void openLicensesMenuItem_Click_1(object sender, RoutedEventArgs e) {
-            var componentsDisplay = new ComponentInfoDialogWindow
-            {
+            var componentsDisplay = new ComponentInfoDialogWindow {
                 Left = this.Left,
                 Top = this.Top,
                 Owner = this
@@ -154,7 +174,7 @@ namespace LASI.UserInterface
         }
 
         private void AddDocument_CommandBinding_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e) {
-            AddNewDocument();
+            DisplayAddNewDocumentDialog();
         }
 
         private void CloseApp_CommandBinding_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e) {
@@ -173,6 +193,10 @@ namespace LASI.UserInterface
 
 
         #endregion
+
+        private void AddNewDocumentButton_Click(object sender, RoutedEventArgs e) {
+            DisplayAddNewDocumentDialog();
+        }
 
         #endregion
 

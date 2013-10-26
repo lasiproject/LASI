@@ -73,15 +73,27 @@
                     Style="{DynamicResource RemoveDocumentStyle}" />
                 <Button
                     x:Name="AddNewDocumentButton"
+                    Click="AddNewDocumentButton_Click"
                     Content="Add"
                     Canvas.Left="80"
                     Canvas.Top="40"
+                    IsEnabled="True"
                     Height="35"
                     Width="35"
                     Command="{x:Static ApplicationCommands.Open}"
                     Style="{DynamicResource AddDocumentStyle}"
                     OpacityMask="#FFDDDDDD" />
             </Canvas>
+            <Label
+                x:Name="label"
+                Content="Docs:"
+                Foreground="#FFBC1200"
+                Margin="10,86,708,393" />
+            <Label
+                x:Name="numDocsLabel"
+                Foreground="#FFBC1200"
+                Content="0"
+                Margin="52,86,676,393" />
         </Grid>
         <Menu
             Height="30"

@@ -54,6 +54,6 @@ namespace LASI.ContentSystem.Serialization.XML
         /// <summary>
         /// All elements will in the input set will be serialized.
         /// </summary>
-        Comprehensive, 
+        Comprehensive,
     }
 }

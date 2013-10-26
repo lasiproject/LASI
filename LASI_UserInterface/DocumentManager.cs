@@ -4,19 +4,21 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
 
 namespace LASI.UserInterface
 {
     internal static class DocumentManager
     {
-        public static void Initialize(System.Windows.Controls.ListBox listBox, System.Windows.Controls.Panel xbuttons, System.Windows.UIElement browseButton, System.Windows.Controls.TextBox lastPathTextBox) {
+        public static void Initialize(ListBox listBox, Panel xbuttons, UIElement browseButton, TextBox lastPathTextBox) {
             runningListBox = listBox;
             xButtons = xbuttons;
             browseForDocButton = browseButton;
             lastDocumentPathTextBox = lastPathTextBox;
         }
         public static bool FileNamePresent(string documentName) {
-            return (from alreadyAdded in runningListBox.Items.OfType<System.Windows.Controls.ListViewItem>()
+            return (from alreadyAdded in runningListBox.Items.OfType<ListViewItem>()
                     select alreadyAdded.Content.ToString()).Any(doc => doc.Trim().ToUpper() == documentName.Trim().ToUpper());
         }
         public static IEnumerable<FileInfo> GetValidFilesInPathList(IEnumerable<string> filePaths) {
@@ -37,21 +39,14 @@ namespace LASI.UserInterface
                 runningListBox.Items.Remove(remove);
                 --numberOfDocuments;
             }
+            var handler = NumberOfDocumentsChanged;
+            if (handler != null) {
+                handler(DocumentManager.runningListBox, new RoutedPropertyChangedEventArgs<double>(numberOfDocuments + 1, numberOfDocuments));
+            }
         }
         public static void AddDocument(string fileName, string filePath) {
-            var docEntry = new System.Windows.Controls.ListViewItem
-            {
-                Tag = filePath,
-                Content = fileName
-            };
-            var button = new System.Windows.Controls.Button
-            {
-                Content = "x",
-                Height = 16,
-                Width = 16,
-                Padding = new System.Windows.Thickness(0.5),
-
-            };
+            var docEntry = new ListViewItem { Tag = filePath, Content = fileName };
+            var button = new Button { Content = "x", Height = 16, Width = 16, Padding = new Thickness(0.5), };
             button.Click += (s, args) => {
                 runningListBox.Items.Remove(docEntry);
                 xButtons.Children.Remove(button);
@@ -68,24 +63,26 @@ namespace LASI.UserInterface
 
 
             lastDocumentPathTextBox.Text = fileName;
-
             ++numberOfDocuments;
             if (AddingAllowed) {
-
                 runningListBox.Opacity = 1.0;
             } else {
                 browseForDocButton.IsEnabled = false;
             }
+            var handler = NumberOfDocumentsChanged;
+            if (handler != null) {
+                handler(DocumentManager.runningListBox, new RoutedPropertyChangedEventArgs<double>(numberOfDocuments - 1, numberOfDocuments));
+            }
         }
-        static System.Windows.Controls.ListBox runningListBox;
-        static List<System.Windows.Controls.ListViewItem> itemsAdded = new List<System.Windows.Controls.ListViewItem>();
+        static ListBox runningListBox;
+        static List<ListViewItem> itemsAdded = new List<ListViewItem>();
 
 
         private static int numberOfDocuments;
         public const int MaxDocuments = 10;
-        private static System.Windows.Controls.Panel xButtons;
-        private static System.Windows.UIElement browseForDocButton;
-        private static System.Windows.Controls.TextBox lastDocumentPathTextBox;
+        private static Panel xButtons;
+        private static UIElement browseForDocButton;
+        private static TextBox lastDocumentPathTextBox;
         /// <summary>
         /// Gets a value indicating wether or not there is space for at least one additional document in the DocumentManager's working set.
         /// </summary>
@@ -129,5 +126,10 @@ namespace LASI.UserInterface
                 return acceptedFormats;
             }
         }
+        #region Events
+
+        public static event System.Windows.RoutedPropertyChangedEventHandler<double> NumberOfDocumentsChanged;
+
+        #endregion
     }
 }
