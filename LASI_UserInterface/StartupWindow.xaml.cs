@@ -19,7 +19,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace LASI.UserInterface
+namespace LASI.App
 {
     /// <summary>
     /// Interaction logic for StartupScreen.xaml

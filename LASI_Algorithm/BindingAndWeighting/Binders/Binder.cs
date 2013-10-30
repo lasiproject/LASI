@@ -62,7 +62,6 @@ namespace LASI.Core.Binding
 
         #region Private Static Methods
 
-        #region Standard Implementations
 
         private static void BindAdjectivePhrases(IEnumerable<Sentence> sentences) {
             sentences.AsParallel().WithDegreeOfParallelism(Concurrency.Max).ForAll(s => AdjectivePhraseBinder.Bind(s));
@@ -77,11 +76,25 @@ namespace LASI.Core.Binding
                 sentences.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                     .ForAll(s => {
                         try { new SubjectBinder().Bind(s); }
-                        catch (NullReferenceException e) { Output.WriteLine(e.Message); }
+                        catch (NullReferenceException e) {
+                            Output.WriteLine(e.Message);
+                        }
+                        // Sentence did not have a valid structure or was incorrectly identified.
+                        catch (VerblessPhrasalSequenceException e) {
+                            Output.WriteLine(e.Message);
+                        }
                         try { new ObjectBinder().Bind(s); }
-                        catch (InvalidStateTransitionException e) { Output.WriteLine(e.Message); }
-                        catch (VerblessPhrasalSequenceException e) { Output.WriteLine(e.Message); }
-                        catch (InvalidOperationException e) { Output.WriteLine(e.Message); }
+                        // A state path within the object binder was undefined for a sequence of types within Sentence
+                        catch (InvalidStateTransitionException e) {
+                            Output.WriteLine(e.Message);
+                        }
+                        // Sentence did not have a valid structure or was incorrectly identified.
+                        catch (VerblessPhrasalSequenceException e) {
+                            Output.WriteLine(e.Message);
+                        }
+                        catch (InvalidOperationException e) {
+                            Output.WriteLine(e.Message);
+                        }
                     });
             }
             catch (SystemException e) { Output.WriteLine(e.Message); }
@@ -101,9 +114,6 @@ namespace LASI.Core.Binding
                 .ForAll(s => ClauseSeperatingBranchingBinder.Bind(s.Words));
 
         }
-
-        #endregion
-
 
         #endregion
 

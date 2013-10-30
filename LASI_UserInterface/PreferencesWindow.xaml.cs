@@ -1,5 +1,5 @@
 ﻿using LASI.InteropLayer;
-using LASI.UserInterface.Properties;
+using LASI.App.Properties;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -15,7 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace LASI.UserInterface
+namespace LASI.App
 {
     /// <summary>
     /// Interaction logic for PreferencesWindow.xaml

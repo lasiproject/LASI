@@ -13,7 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace LASI.UserInterface.Dialogs
+namespace LASI.App.Dialogs
 {
     /// <summary>
     /// Interaction logic for CrossJoinSelectDialog.xaml

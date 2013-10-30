@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Media;
 using LASI.Core.Patternization;
 
-namespace LASI.UserInterface
+namespace LASI.App
 {
     static class SyntacticStylization
     {

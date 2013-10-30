@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace LASI.UserInterface
+namespace LASI.App
 {
     /// <summary>
     /// Represents the various kinds of datasets that a Chart can display.

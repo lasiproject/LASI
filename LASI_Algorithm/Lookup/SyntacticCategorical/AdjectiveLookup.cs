@@ -46,7 +46,7 @@ namespace LASI.Core.ComparativeHeuristics
 
             var referencedSets = from match in Regex.Matches(line, pointerRegex).Cast<Match>()
                                  let split = match.Value.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
-                                 where split.Count() > 1
+                                 where split.Count() > 1 && interSetRelationshipMap.ContainsKey(split[0])
                                  select new SetReference(interSetRelationshipMap[split[0]], Int32.Parse(split[1]));
 
 

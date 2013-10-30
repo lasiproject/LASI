@@ -1,4 +1,4 @@
-﻿namespace LASI.UserInterface.Properties
+﻿namespace LASI.App.Properties
 {
 
 

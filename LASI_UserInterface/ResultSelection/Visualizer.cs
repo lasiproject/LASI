@@ -13,7 +13,7 @@ using System.Windows.Controls;
 using System.Windows.Controls.DataVisualization.Charting;
 
 
-namespace LASI.UserInterface
+namespace LASI.App
 {
     /// <summary>
     /// Provides static methods for formatting and displaying results to the user.
@@ -46,7 +46,7 @@ namespace LASI.UserInterface
                         data = GetNounWiseData(doc);
                         break;
                 }
-                data = data.Take(CHART_ITEM_LIMIT);
+                //data = data.Take(CHART_ITEM_LIMIT);
                 chart.Series.Clear();
                 chart.Series.Add(new BarSeries {
                     DependentValuePath = "Value",
@@ -108,6 +108,8 @@ namespace LASI.UserInterface
         /// </summary>
         /// <returns>A Task which completes on the successful reconstruction of all charts</returns>
         public static async Task ToBarCharts() {
+
+            await Task.Yield();
             foreach (var chart in WindowManager.ResultsScreen.FrequencyCharts.Items.OfType<TabItem>().Select(item => item.Content as Chart).Where(c => c != null)) {
                 var items = chart.GetItemSource();
                 var series = new BarSeries {
@@ -118,7 +120,6 @@ namespace LASI.UserInterface
                 };
                 ResetChartContent(chart, series);
             }
-            await Task.Delay(1);
         }
         /// <summary>
         /// Asynchronously initializes, creates and displays the default Chart for the given document. This method should only be called once.
@@ -141,10 +142,14 @@ namespace LASI.UserInterface
 
         private static async Task<Chart> BuildBarChart(Document document) {
 
-            var dataPointSource = ChartKind == ChartKind.NounPhrasesOnly ? await GetNounWiseDataAsync(document) :
-                ChartKind == ChartKind.SubjectVerbObject ? GetVerbWiseData(document) :
+            var dataPointSource =
+                ChartKind == ChartKind.NounPhrasesOnly ?
+                await GetNounWiseDataAsync(document) :
+                ChartKind == ChartKind.SubjectVerbObject ?
+                GetVerbWiseData(document) :
                 GetVerbWiseData(document);
-            var topPoints = dataPointSource.OrderByDescending(p => p.Value).Take(CHART_ITEM_LIMIT);
+            // Materialize item source so that changing chart types is less expensive.s
+            var topPoints = dataPointSource.OrderByDescending(point => point.Value).Take(CHART_ITEM_LIMIT).ToList();
             Series series = new BarSeries {
                 DependentValuePath = "Value",
                 IndependentValuePath = "Key",
@@ -156,7 +161,7 @@ namespace LASI.UserInterface
 
             var chart = new Chart {
                 Title = string.Format("Key Subjects in {0}", document.Name),
-                Tag = topPoints.ToArray()
+                Tag = topPoints
             };
 
             series.MouseMove += (sender, e) => {
@@ -183,7 +188,7 @@ namespace LASI.UserInterface
         }
 
         private static IEnumerable<KeyValuePair<string, float>> GetItemSource(this Chart chart) {
-            return (chart.Tag as IEnumerable<KeyValuePair<string, float>>).OrderByDescending(e => e.Value).Take(CHART_ITEM_LIMIT).Reverse();
+            return (chart.Tag as IEnumerable<KeyValuePair<string, float>>).Reverse();//.Take(CHART_ITEM_LIMIT);
 
         }
 
@@ -234,17 +239,15 @@ namespace LASI.UserInterface
         private static async Task<IEnumerable<KeyValuePair<string, float>>> GetNounWiseDataAsync(Document doc) { return await Task.Run(() => GetNounWiseData(doc)); }
 
         private static IEnumerable<KeyValuePair<string, float>> GetNounWiseData(Document doc) {
-            return from NP in doc.Phrases.OfNounPhrase()
+            return (from NP in doc.Phrases.OfNounPhrase()
                         .AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                       .Distinct((x, y) => x.IsSimilarTo(y))
-                   group NP by new
-                   {
-                       NP.Text,
-                       NP.Weight
-                   } into NP
-                   select NP.Key into master
-                   orderby master.Weight descending
-                   select new KeyValuePair<string, float>(master.Text, (float)Math.Round(master.Weight, 2));
+                    group NP by new
+                    {
+                        NP.Text,
+                        NP.Weight
+                    } into NP
+                    select NP.Key into master
+                    select new KeyValuePair<string, float>(master.Text, (float)Math.Round(master.Weight, 2))).Distinct();
         }
 
         /// <summary>
@@ -280,22 +283,21 @@ namespace LASI.UserInterface
                    select new
                    {
                        Subject = e.Subject != null ? e.Subject.Text : string.Empty,
-                       Verbial = e.Verbal != null ?
-                              (e.Verbal.PrepositionOnLeft != null ? e.Verbal.PrepositionOnLeft.Text : string.Empty)
-                                   + (e.Verbal.Modality != null ? e.Verbal.Modality.Text : string.Empty)
-                                   + e.Verbal.Text + (e.Verbal.Modifiers.Any() ? " (adv)> "
-                                   + string.Join(" ", e.Verbal.Modifiers.Select(m => m.Text)) : string.Empty)
-                               : string.Empty,
+                       Verbal = e.Verbal != null ?
+                                (e.Verbal.PrepositionOnLeft != null ? e.Verbal.PrepositionOnLeft.Text : string.Empty)
+                                + (e.Verbal.Modality != null ? e.Verbal.Modality.Text : string.Empty)
+                                + e.Verbal.Text + (e.Verbal.Modifiers.Any() ? " (adv)> "
+                                + string.Join(" ", e.Verbal.Modifiers.Select(m => m.Text)) : string.Empty) :
+                                string.Empty,
                        Direct = e.Direct != null ?
-                            (e.Direct.PrepositionOnLeft != null ? e.Direct.PrepositionOnLeft.Text
-                                : string.Empty + e.Direct.Text)
-                            : string.Empty,
+                                (e.Direct.PrepositionOnLeft != null ? e.Direct.PrepositionOnLeft.Text
+                                : string.Empty + e.Direct.Text) :
+                                string.Empty,
                        Indirect = e.Indirect != null ?
-                            (e.Indirect.PrepositionOnLeft != null ? e.Indirect.PrepositionOnLeft.Text : string.Empty)
-                                + e.Indirect.Text
-                            : string.Empty,
-                       //Prepositional = e.Prepositional != null ?
-                       //     e.Prepositional.Text : string.Empty
+                                (e.Indirect.PrepositionOnLeft != null ? e.Indirect.PrepositionOnLeft.Text : string.Empty)
+                                + e.Indirect.Text :
+                                string.Empty
+
                    };
         }
         /// <summary>

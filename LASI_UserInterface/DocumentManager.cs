@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace LASI.UserInterface
+namespace LASI.App
 {
     internal static class DocumentManager
     {

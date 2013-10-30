@@ -1,6 +1,6 @@
 ﻿using LASI.ContentSystem;
 using LASI.Utilities;
-using LASI.UserInterface.Dialogs;
+using LASI.App.Dialogs;
 using System;
 using System.IO;
 using System.Linq;
@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace LASI.UserInterface
+namespace LASI.App
 {
     /// <summary>
     /// Interaction logic for ExportResultsDialog.xaml

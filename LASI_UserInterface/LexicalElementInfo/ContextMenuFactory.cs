@@ -9,7 +9,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using LASI.Utilities;
 
-namespace LASI.UserInterface.LexicalElementInfo
+namespace LASI.App.LexicalElementInfo
 {
     static class ContextMenuFactory
     {

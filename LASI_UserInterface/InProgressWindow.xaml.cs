@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace LASI.UserInterface
+namespace LASI.App
 {
     /// <summary>
     /// Interaction logic for DialogToProceedToResults.xaml

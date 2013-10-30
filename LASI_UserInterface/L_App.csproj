@@ -7,7 +7,7 @@
     <ProjectGuid>{6C8D6DA8-BD8B-48C8-ACB9-8FDE7E3A672E}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>LASI.UserInterface</RootNamespace>
+    <RootNamespace>LASI.App</RootNamespace>
     <AssemblyName>LASI</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -61,7 +61,7 @@
     <ApplicationIcon>LasiLogo.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>LASI.UserInterface.App</StartupObject>
+    <StartupObject>LASI.App.App</StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'xft32|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>

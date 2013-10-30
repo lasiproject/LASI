@@ -4,7 +4,7 @@
     xmlns:chartingToolkit="clr-namespace:System.Windows.Controls.DataVisualization.Charting;assembly=System.Windows.Controls.DataVisualization.Toolkit"
     xmlns:Custom="http://schemas.microsoft.com/wpf/2008/toolkit"
     x:Name="window"
-    x:Class="LASI.UserInterface.ResultsWindow"
+    x:Class="LASI.App.ResultsWindow"
     Title="Results - L.A.S.I."
     Height="526"
     MinHeight="526"

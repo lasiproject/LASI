@@ -7,7 +7,7 @@ using LASI.Core.Patternization;
 using LASI.ContentSystem;
 using LASI.ContentSystem.Serialization.XML;
 using LASI.InteropLayer;
-using LASI.UserInterface.Dialogs;
+using LASI.App.Dialogs;
 using LASI.Utilities;
 using System;
 using System.Collections.Generic;
@@ -19,10 +19,10 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.DataVisualization.Charting;
 using System.Windows.Media;
-using LASI.UserInterface.LexicalElementInfo;
+using LASI.App.LexicalElementInfo;
  
 
-namespace LASI.UserInterface
+namespace LASI.App
 {
     /// <summary>
     /// Interaction logic for ResultsWindow.xaml

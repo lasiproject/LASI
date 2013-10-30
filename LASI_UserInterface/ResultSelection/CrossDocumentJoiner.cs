@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LASI.UserInterface
+namespace LASI.App
 {
     /// <summary>
     /// Facilitates the joining of multiple documents into a single result set based on overlap and intersection tequniques.

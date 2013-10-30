@@ -8,7 +8,7 @@ using System.Windows;
 using System.Windows.Input;
 using LASI.Utilities;
 
-namespace LASI.UserInterface
+namespace LASI.App
 {
     static class SharedFunctionality
     {
@@ -86,7 +86,7 @@ namespace LASI.UserInterface
     }
 
 }
-namespace LASI.UserInterface.Commands
+namespace LASI.App.Commands
 {
     static class MyApplicationCommands
     {
