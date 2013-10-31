@@ -9,15 +9,14 @@ namespace LASI.Core
     /// The Exception to be thrown if and when an attempt is to bind a Subordinate clause as a modifer of some element when it has already been bound as a different kind of modifer.
     /// </summary>
     [Serializable]
-    public class ConflictingClauseRoleException : Exception
+    class ConflictingClauseRoleException : Exception
     {
         /// <summary>
         /// Initializes a new instance of the ConflictingClauseRoleException class with its message string set to message.
         /// </summary>
         /// <param name="message">A description of the error. The content of message is intended to be understood by humans.</param>
         public ConflictingClauseRoleException(string message)
-            : base(message)
-        {
+            : base(message) {
 
         }
         /// <summary>
@@ -30,8 +29,7 @@ namespace LASI.Core
         /// The object that holds the serialized object data about the exception being
         /// thrown.</param>
         protected ConflictingClauseRoleException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
-            : base(info, context)
-        {
+            : base(info, context) {
 
         }
     }

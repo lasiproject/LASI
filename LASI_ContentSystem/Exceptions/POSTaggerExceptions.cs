@@ -88,7 +88,7 @@ namespace LASI.ContentSystem
     /// The Exception that is thrown when attempting to parse an empty Word Tag
     /// </summary>
     [Serializable]
-    public class EmptyWordTagException : POSTagException
+    public sealed class EmptyWordTagException : POSTagException
     {
         /// <summary>
         /// Initializes a new instance of the EmptyTagException class with its message string set to message.

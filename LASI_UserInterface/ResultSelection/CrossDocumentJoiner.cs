@@ -49,8 +49,7 @@ namespace LASI.App
                                   where inner.topNPs.Contains(n, CompareNounPhrases)
                                   select n;
             var results = from n in crossReferenced.Distinct(CompareNounPhrases)
-                          select new Relationship
-                          {
+                          select new Relationship {
                               Verbal = n.SubjectOf,
                               Subject = new AggregateEntity(new[] { n }),
                               Direct = new AggregateEntity(n.SubjectOf.DirectObjects),
@@ -85,8 +84,7 @@ namespace LASI.App
             return from verbal in verbalCominalities
                    let testPronouns = new Func<IEnumerable<IEntity>, AggregateEntity>(
                    entities => new AggregateEntity(from s in entities let asPro = s as IReferencer select asPro != null ? asPro.Referent.Any() ? asPro.Referent : s : s))
-                   select new Relationship
-                   {
+                   select new Relationship {
                        Verbal = verbal,
                        Subject = testPronouns(verbal.Subjects),
                        Direct = testPronouns(verbal.DirectObjects),

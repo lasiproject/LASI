@@ -10,7 +10,7 @@ namespace LASI.ContentSystem
     /// strongly typed file Wrapper around a file with a different extension than the wrappers Type allows for.
     /// </summary>
     [Serializable]
-    class FileTypeWrapperMismatchException : FileSystemException
+    public class FileTypeWrapperMismatchException : FileSystemException
     {
         public FileTypeWrapperMismatchException(string message)
             : base(message) {

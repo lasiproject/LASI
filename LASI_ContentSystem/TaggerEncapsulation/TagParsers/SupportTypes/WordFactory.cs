@@ -17,7 +17,7 @@ namespace LASI.ContentSystem
     /// <summary>
     /// Parses pairs of text and tag tokens into their runtime type equivalents as specified by the Tagset
     /// </summary>
-    public class WordFactory
+    internal class WordFactory
     {
 
         /// <summary>

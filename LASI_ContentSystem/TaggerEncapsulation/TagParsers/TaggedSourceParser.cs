@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace LASI.ContentSystem
 {
-    class TaggedSourceParser : LASI.ContentSystem.TaggerEncapsulation.TagParser
+    internal class TaggedSourceParser : LASI.ContentSystem.TaggerEncapsulation.TagParser
     {
         #region Construtors
         /// <summary>

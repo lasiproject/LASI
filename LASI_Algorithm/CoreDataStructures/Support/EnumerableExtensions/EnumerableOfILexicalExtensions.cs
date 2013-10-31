@@ -270,7 +270,7 @@ namespace LASI.Core
         /// </summary>
         /// <param name="elements">The source sequence of ILexical instances.</param>
         /// <returns>all of the Phrase instances in the sequence of ILexicals.</returns>
-        public static ParallelQuery<Phrase> OfPhrase(this ParallelQuery<Clause> elements) {
+        static ParallelQuery<Phrase> OfPhrase(this ParallelQuery<Clause> elements) {
             return elements.SelectMany(c => c.Phrases);
         }
         /// <summary>

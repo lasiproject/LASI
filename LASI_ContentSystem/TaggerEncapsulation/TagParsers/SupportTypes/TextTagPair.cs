@@ -10,7 +10,7 @@ namespace LASI.ContentSystem
     /// Holds a pair of strings representing a piece of natural language text and its NLP word tag.
     /// Note, use with the elegant object initializer sytnax when creating an instance. 
     /// </summary>
-    public struct TextTagPair
+    internal struct TextTagPair
     {
         /// <summary>
         /// Initializes a new instance of the TextTagPair structure from the provided text string and pos tag string.

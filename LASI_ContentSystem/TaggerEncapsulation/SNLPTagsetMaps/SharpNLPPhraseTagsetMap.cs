@@ -27,7 +27,7 @@ namespace LASI.ContentSystem.TaggerEncapsulation
     /// var runTimePhrase = constructorFunction(itemText);
     /// </code>
     /// </example>
-    public sealed class SharpNLPPhraseTagsetMap : PhraseTagsetMap
+      sealed class SharpNLPPhraseTagsetMap : PhraseTagsetMap
     {
         #region Fields
         private static readonly IReadOnlyDictionary<string, PhraseCreator> typeDictionary = new Dictionary<string, PhraseCreator> {

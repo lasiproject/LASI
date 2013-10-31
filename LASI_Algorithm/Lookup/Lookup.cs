@@ -611,9 +611,6 @@ namespace LASI.Core
 
         #region Utility Types
 
-
-
-
         /// <summary>
         /// Represents the various states of a loading operation.
         /// </summary>

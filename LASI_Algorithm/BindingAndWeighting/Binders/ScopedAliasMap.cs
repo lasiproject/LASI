@@ -11,7 +11,7 @@ namespace LASI.Core.Binding
     /// <summary>
     /// Represents an alias Mapping between IEntity instances within a constrained scope.
     /// </summary>
-    public class ScopedAliasMap
+    class ScopedAliasMap
     {
         #region Constructors
 

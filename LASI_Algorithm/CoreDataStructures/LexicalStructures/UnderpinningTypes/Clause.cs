@@ -19,8 +19,7 @@ namespace LASI.Core
         /// Initializes a new instance of the Clause class, by composing the given linear sequence of componentPhrases.
         /// </summary>
         /// <param name="phrases">The linear sequence of Phrases which compose to form the Clause.</param>
-        public Clause(IEnumerable<Phrase> phrases)
-        {
+        public Clause(IEnumerable<Phrase> phrases) {
             Phrases = phrases;
         }
         ///// <summary>
@@ -37,8 +36,7 @@ namespace LASI.Core
         /// Establishes the nested links between the Clause, its parent Sentence and Phrases which comprise it.
         /// </summary>
         /// <param name="sentence">The Sentence containing the Clause.</param>
-        public void EstablishParent(LASI.Core.DocumentStructures.Sentence sentence)
-        {
+        public void EstablishParent(LASI.Core.DocumentStructures.Sentence sentence) {
             Sentence = sentence;
             foreach (var r in Phrases)
                 r.EstablishParent(this);
@@ -47,27 +45,22 @@ namespace LASI.Core
         /// Returns a string representation of the Clause.
         /// </summary>
         /// <returns>A string representation of the Clause.</returns>
-        public override string ToString()
-        {
+        public override string ToString() {
             return base.ToString() + " \"" + Text + "\"";
         }
         /// <summary>
         /// Gets or set the Document instance to which the Clause belongs.
         /// </summary>
-        public LASI.Core.DocumentStructures.Document ParentDocument
-        {
-            get
-            {
+        public LASI.Core.DocumentStructures.Document ParentDocument {
+            get {
                 return Sentence != null ? Sentence.Document : null;
             }
         }
         /// <summary>
         /// Gets or set the Paragraph instance to which the Clause belongs.
         /// </summary>
-        public Paragraph ParentParagraph
-        {
-            get
-            {
+        public Paragraph ParentParagraph {
+            get {
                 return Sentence != null ? Sentence.Paragraph : null;
             }
         }
@@ -91,10 +84,8 @@ namespace LASI.Core
         /// <summary>
         /// Gets the concatenated text content of all of the Phrases which compose the Clause.
         /// </summary>
-        public string Text
-        {
-            get
-            {
+        public string Text {
+            get {
                 return string.Join(" ", Phrases.Select(p => p.Text));
             }
         }

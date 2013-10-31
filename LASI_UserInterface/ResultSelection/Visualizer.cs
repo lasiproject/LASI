@@ -322,7 +322,7 @@ namespace LASI.App
     /// Sometimes an anonymous type simple will not do. So this little class is defined to 
     /// store temporary query data from transposed tables. god it is late. I can't document properly.
     /// </summary>
-    internal class Relationship : IEquatable<Relationship>
+      class Relationship : IEquatable<Relationship>
     {
         private IVerbal verbal;
         private IAggregateEntity subject;

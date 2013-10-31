@@ -10,7 +10,7 @@ namespace LASI.ContentSystem
     /// <summary>
     /// Extracts tagged words from a string.
     /// </summary>
-    public class TaggedWordExtractor
+    internal class TaggedWordExtractor
     {
         /// <summary>
         /// Extracts the text and tag pair from the given string.

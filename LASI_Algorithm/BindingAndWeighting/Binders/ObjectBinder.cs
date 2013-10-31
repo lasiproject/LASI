@@ -105,9 +105,9 @@ namespace LASI.Core.Binding
         #endregion
 
         #region Helper Classes
-        class PhraseStackWrapper
+        private class PhraseStackWrapper
         {
-            protected internal PhraseStackWrapper(Stack<Phrase> source, ObjectBinder machine) { Machine = machine; stream = new Stack<Phrase>(source); }
+            public PhraseStackWrapper(Stack<Phrase> source, ObjectBinder machine) { Machine = machine; stream = new Stack<Phrase>(source); }
             public ObjectBinder Machine { get; private set; }
             public Phrase Get() { return stream.Pop(); }
             public bool Any { get { return stream.Any(); } }
@@ -298,17 +298,12 @@ namespace LASI.Core.Binding
                         }
                         Machine.St0.Transition(Stream.Get());
                     })
-                    .Case<SymbolPhrase>(phr => {
-                        WhenSbar(phr);
-                    })
-                    .Case<SubordinateClauseBeginPhrase>(phr => {
-                        WhenSbar(phr);
-                    })
+                    .Case<SymbolPhrase>(WhenSbar)
+                    .Case<SubordinateClauseBeginPhrase>(WhenSbar)
                     .Default(() => base.Transition(phrase));
             }
 
-            [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "phrase")]
-            private void WhenSbar(Phrase phrase) {
+            private void WhenSbar() {
                 while (Stream.Count > 1) {
                     var endOfSbar = Stream.Get();
                     if (endOfSbar is SymbolPhrase || endOfSbar is SubordinateClauseBeginPhrase) { break; }

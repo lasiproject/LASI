@@ -28,7 +28,7 @@ namespace LASI.ContentSystem.TaggerEncapsulation
     /// var runTimeWord = constructorFunction(itemText);
     /// </code>
     /// </example>
-    public sealed class SharpNLPWordTagsetMap : WordTagsetMap
+    sealed class SharpNLPWordTagsetMap : WordTagsetMap
     {
         #region Fields
 

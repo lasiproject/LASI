@@ -18,7 +18,7 @@ namespace LASI.ContentSystem
     /// <summary>
     /// A strongly typed wrapper that encapsulates an XML document (.xml).
     /// </summary>
-    public sealed class GenericXMLFile : InputFile
+    sealed class GenericXMLFile : InputFile
     {
         /// <summary>
         /// Initializes a new instance of the GenericXMLFile class for the given path.

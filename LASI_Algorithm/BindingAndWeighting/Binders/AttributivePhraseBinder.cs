@@ -10,7 +10,7 @@ namespace LASI.Core.Binding
     /// <summary>
     /// Binds the attributely related NounPhrase elements within a source together.
     /// </summary>
-    public static class AttributivePhraseBinder
+      static class AttributivePhraseBinder
     {
         /// <summary>
         /// Binds the attributely related NounPhrase elements within the given sentence.

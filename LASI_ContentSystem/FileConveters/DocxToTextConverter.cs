@@ -94,7 +94,7 @@ namespace LASI.ContentSystem
         /// </summary>
         /// <param name="arch">The object which represents the zip file from which to extract.</param>
         /// <returns>An Instance of GenericXMLFile which wraps the extracted .xml.</returns>
-        protected virtual GenericXMLFile GetRelevantXMLFile(ZipArchive arch) {
+        GenericXMLFile GetRelevantXMLFile(ZipArchive arch) {
             var extractedFile = arch.GetEntry(@"word/document.xml");
             var absolutePath = Original.PathSansExt + @"/" + extractedFile.FullName;
             return new GenericXMLFile(absolutePath);
