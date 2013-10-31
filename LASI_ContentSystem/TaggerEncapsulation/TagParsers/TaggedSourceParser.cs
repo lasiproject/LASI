@@ -38,8 +38,7 @@ namespace LASI.ContentSystem
         /// <returns>A traversable, queriable LASI.Algorithm.DocumentConstructs.Document instance defining representing the textual constructs of the tagged file which the TaggedSourceParser governs. 
         /// </returns>
         public override Document LoadDocument() {
-            return new Document(LoadParagraphs())
-            {
+            return new Document(LoadParagraphs()) {
                 Name = TaggededDocumentFile != null ? TaggededDocumentFile.NameSansExt : "Untitled"
             };
         }
@@ -173,18 +172,7 @@ namespace LASI.ContentSystem
         protected virtual Phrase ParsePhrase(TextTagPair taggedPhraseElement) {
             var phraseTag = taggedPhraseElement.Tag.Trim();
             var words = CreateWords(taggedPhraseElement.Text);
-            try {
-                var phraseConstructor = phraseTagset[phraseTag];
-                return phraseConstructor(words);
-            }
-            catch (UnknownPhraseTagException e) {
-                Output.WriteLine("\n{0}\nPhrase Words: {1}\nInstantiating new LASI.Algorithm.UnknownPhrase to compensate", e.Message, words.Format());
-                return new UnknownPhrase(words);
-            }
-            catch (EmptyPhraseTagException e) {
-                Output.WriteLine("\n{0}\nPhrase Words: {1}\nInstantiating new LASI.Algorithm.UnknownPhrase to compensate", e.Message, words.Format());
-                return new UnknownPhrase(words);
-            }
+            return parsePhrase(phraseTag, words);
         }
         /// <summary>
         /// Reads an [NP Square Brack Delimited Phrase Chunk] and returns the start-tag determined subtype of LASI.Phrase which in turn contains all the Part of Speech subtyped LASI.Algorithm.Word instances of the individual words within the chunk.
@@ -194,6 +182,10 @@ namespace LASI.ContentSystem
         protected virtual async Task<Phrase> ParsePhraseAsync(TextTagPair taggedPhraseElement) {
             var phraseTag = taggedPhraseElement.Tag.Trim();
             var words = await CreateWordsAsync(taggedPhraseElement.Text);
+            return parsePhrase(phraseTag, words);
+        }
+
+        private Phrase parsePhrase(string phraseTag, List<Word> words) {
             try {
                 var phraseConstructor = phraseTagset[phraseTag];
                 return phraseConstructor(words);

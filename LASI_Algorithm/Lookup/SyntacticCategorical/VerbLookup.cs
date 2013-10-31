@@ -10,9 +10,9 @@ using LASI.Utilities;
 namespace LASI.Core.ComparativeHeuristics
 {
     using LASI.Core.ComparativeHeuristics.Morphemization;
-    using SetReference = System.Collections.Generic.KeyValuePair<VerbSetRelationship, int>;
+    using SetReference = System.Collections.Generic.KeyValuePair<VerbSetLink, int>;
 
-    internal sealed class VerbLookup : IWordNetLookup<Verb>
+    internal sealed class VerbLookup : WordNetLookup<Verb>
     {
         /// <summary>
         /// Initializes a new instance of the VerbThesaurus class. 
@@ -24,7 +24,7 @@ namespace LASI.Core.ComparativeHeuristics
         /// <summary>
         /// Parses the contents of the underlying WordNet database file.
         /// </summary> 
-        public void Load() {
+        internal override void Load() {
             using (var reader = new StreamReader(new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.None, 10024, FileOptions.SequentialScan))) {
                 var fileLines = reader.ReadToEnd().Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries).Skip(HEADER_LENGTH);
                 foreach (var line in fileLines) {
@@ -33,17 +33,15 @@ namespace LASI.Core.ComparativeHeuristics
                 reader.BaseStream.Dispose();
             }
         }
-        public async Task LoadAsync() {
-            await System.Threading.Tasks.Task.Run(() => Load());
-        }
 
-        private static VerbSynSet CreateSet(string fileLine) { 
+
+        private static VerbSynSet CreateSet(string fileLine) {
             var line = fileLine.Substring(0, fileLine.IndexOf('|'));
 
             var referencedSets = from Match M in Regex.Matches(line, POINTER_REGEX)
                                  let split = M.Value.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
                                  where split.Count() > 1
-                                 select new SetReference(interSetRelationshipMap[split[0]], Int32.Parse(split[1]));
+                                 select new SetReference(interSetMap[split[0]], Int32.Parse(split[1]));
 
             var words = from Match ContainedWord in Regex.Matches(line.Substring(17), WORD_REGEX)
                         select ContainedWord.Value.Replace('_', '-').ToLower();
@@ -89,7 +87,8 @@ namespace LASI.Core.ComparativeHeuristics
                              .Select(s => { VerbSynSet temp; return setsBySetID.TryGetValue(s, out temp) ? temp : null; })
                              .Where(s => s != null)
                              .Where(s => s.LexicalCategory == containingSet.LexicalCategory)
-                             .SelectMany(s => s.Words.SelectMany(w => VerbMorpher.GetConjugations(w))).Append(root) : new[] { search });
+                             .SelectMany(s => s.Words.SelectMany(w => VerbMorpher.GetConjugations(w)))
+                             .Append(root) : new[] { search });
                 }
                 return result;
             }
@@ -103,7 +102,7 @@ namespace LASI.Core.ComparativeHeuristics
         /// </summary>
         /// <param name="search">The text of the verb to look for.</param>
         /// <returns>A collection of strings containing all of the synonyms of the given verb.</returns>
-        public ISet<string> this[string search] {
+        internal override ISet<string> this[string search] {
             get {
                 return SearchFor(search);
             }
@@ -114,7 +113,7 @@ namespace LASI.Core.ComparativeHeuristics
         /// </summary>
         /// <param name="search">An instance of Verb</param>
         /// <returns>A collection of strings containing all of the synonyms of the given Verb.</returns>
-        public ISet<string> this[Verb search] {
+        internal override ISet<string> this[Verb search] {
             get {
                 return this[search.Text];
             }
@@ -124,21 +123,20 @@ namespace LASI.Core.ComparativeHeuristics
         private ConcurrentDictionary<string, VerbSynSet> data = new ConcurrentDictionary<string, VerbSynSet>();
         private const string WORD_REGEX = @"\b[A-Za-z-_]{2,}";
         private const string POINTER_REGEX = @"\D{1,2}\s*[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+";
-        private const int HEADER_LENGTH = 29;
 
         // Provides an indexed lookup between the values of the VerbPointerSymbol enum and their corresponding string representation in WordNet data.verb files.
-        private static readonly IReadOnlyDictionary<string, VerbSetRelationship> interSetRelationshipMap = new Dictionary<string, VerbSetRelationship> {
-            { "!", VerbSetRelationship. Antonym }, 
-            { "@", VerbSetRelationship.Hypernym },
-            { "~", VerbSetRelationship.Hyponym },
-            { "*", VerbSetRelationship.Entailment },
-            { ">", VerbSetRelationship.Cause },
-            { "^", VerbSetRelationship. AlsoSee },
-            { "$", VerbSetRelationship.Verb_Group },
-            { "+", VerbSetRelationship.DerivationallyRelatedForm },
-            { ";c", VerbSetRelationship.DomainOfSynset_TOPIC },
-            { ";r", VerbSetRelationship.DomainOfSynset_REGION },
-            { ";u", VerbSetRelationship.DomainOfSynset_USAGE}
+        private static readonly IReadOnlyDictionary<string, VerbSetLink> interSetMap = new Dictionary<string, VerbSetLink> {
+            { "!", VerbSetLink. Antonym }, 
+            { "@", VerbSetLink.Hypernym },
+            { "~", VerbSetLink.Hyponym },
+            { "*", VerbSetLink.Entailment },
+            { ">", VerbSetLink.Cause },
+            { "^", VerbSetLink. AlsoSee },
+            { "$", VerbSetLink.Verb_Group },
+            { "+", VerbSetLink.DerivationallyRelatedForm },
+            { ";c", VerbSetLink.DomainOfSynset_TOPIC },
+            { ";r", VerbSetLink.DomainOfSynset_REGION },
+            { ";u", VerbSetLink.DomainOfSynset_USAGE}
         };
         /// <summary>
         /// Defines the broad lexical categories assigned to Verbs in the WordNet system.

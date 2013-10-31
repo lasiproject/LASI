@@ -8,10 +8,10 @@ using System.Text.RegularExpressions;
 
 namespace LASI.Core.ComparativeHeuristics
 {
-    using SetReference = System.Collections.Generic.KeyValuePair<AdjectiveSetRelationship, int>;
-    internal sealed class AdjectiveLookup : IWordNetLookup<Adjective>
+    using SetReference = System.Collections.Generic.KeyValuePair<AdjectiveSetLink, int>;
+    internal sealed class AdjectiveLookup : WordNetLookup<Adjective>
     {
-        private const int HEADER_LENGTH = 29;
+
 
         /// <summary>
         /// Initializes a new instance of the AdjectiveThesaurus class.
@@ -27,7 +27,7 @@ namespace LASI.Core.ComparativeHeuristics
         /// <summary>
         /// Parses the contents of the underlying WordNet database file.
         /// </summary>
-        public void Load() {
+        internal override void Load() {
 
             using (StreamReader reader = new StreamReader(filePath)) {
                 foreach (var line in reader.ReadToEnd().Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries).Skip(HEADER_LENGTH)) {
@@ -46,8 +46,8 @@ namespace LASI.Core.ComparativeHeuristics
 
             var referencedSets = from match in Regex.Matches(line, pointerRegex).Cast<Match>()
                                  let split = match.Value.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
-                                 where split.Count() > 1 && interSetRelationshipMap.ContainsKey(split[0])
-                                 select new SetReference(interSetRelationshipMap[split[0]], Int32.Parse(split[1]));
+                                 where split.Count() > 1 && interSetMap.ContainsKey(split[0])
+                                 select new SetReference(interSetMap[split[0]], Int32.Parse(split[1]));
 
 
             IEnumerable<string> words = from match in Regex.Matches(line, wordRegex).Cast<Match>()
@@ -78,12 +78,12 @@ namespace LASI.Core.ComparativeHeuristics
             return results;
 
         }
-        public ISet<string> this[string search] {
+        internal override ISet<string> this[string search] {
             get {
                 return SearchFor(search);
             }
         }
-        public ISet<string> this[Adjective search] {
+        internal override ISet<string> this[Adjective search] {
             get {
                 return this[search.Text];
             }
@@ -92,21 +92,19 @@ namespace LASI.Core.ComparativeHeuristics
 
         private string filePath;
 
-        public async System.Threading.Tasks.Task LoadAsync() {
-            await System.Threading.Tasks.Task.Run(() => Load());
-        }
+
 
         // Provides an indexed lookup between the values of the AdjectivePointerSymbol enum and their corresponding string representation in WordNet data.adj files.
-        private static readonly IReadOnlyDictionary<string, AdjectiveSetRelationship> interSetRelationshipMap = new Dictionary<string, AdjectiveSetRelationship> {
-            { "!", AdjectiveSetRelationship. Antonym }, 
-            { "&", AdjectiveSetRelationship.SimilarTo},
-            { "<", AdjectiveSetRelationship.ParticipleOfVerb},
-            { @"\", AdjectiveSetRelationship.Pertainym_pertains_to_noun},
-            { "=", AdjectiveSetRelationship.Attribute},
-            { "^", AdjectiveSetRelationship.AlsoSee },
-            { ";c", AdjectiveSetRelationship.DomainOfSynset_TOPIC },
-            { ";r", AdjectiveSetRelationship.DomainOfSynset_REGION },
-            { ";u", AdjectiveSetRelationship.DomainOfSynset_USAGE}
+        private static readonly IReadOnlyDictionary<string, AdjectiveSetLink> interSetMap = new Dictionary<string, AdjectiveSetLink> {
+            { "!", AdjectiveSetLink. Antonym }, 
+            { "&", AdjectiveSetLink.SimilarTo},
+            { "<", AdjectiveSetLink.ParticipleOfVerb},
+            { @"\", AdjectiveSetLink.Pertainym_pertains_to_noun},
+            { "=", AdjectiveSetLink.Attribute},
+            { "^", AdjectiveSetLink.AlsoSee },
+            { ";c", AdjectiveSetLink.DomainOfSynset_TOPIC },
+            { ";r", AdjectiveSetLink.DomainOfSynset_REGION },
+            { ";u", AdjectiveSetLink.DomainOfSynset_USAGE}
         };
         /// <summary>
         /// Defines the broad lexical categories assigned to Adjectives in the WordNet system.

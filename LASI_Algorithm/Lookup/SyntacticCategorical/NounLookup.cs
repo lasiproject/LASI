@@ -9,11 +9,10 @@ using System.Text.RegularExpressions;
 
 namespace LASI.Core.ComparativeHeuristics
 {
-    using SetReference = System.Collections.Generic.KeyValuePair<NounSetRelationship, int>;
+    using SetReference = System.Collections.Generic.KeyValuePair<NounSetLink, int>;
     using LASI.Core.ComparativeHeuristics.Morphemization;
-    internal sealed class NounLookup : IWordNetLookup<Noun>
+    internal sealed class NounLookup : WordNetLookup<Noun>
     {
-        private const int HEADER_LENGTH = 29;
         /// <summary>
         /// Initializes a new instance of the NounProvider class.
         /// </summary>
@@ -28,19 +27,16 @@ namespace LASI.Core.ComparativeHeuristics
         /// <summary>
         /// Parses the contents of the underlying WordNet database file.
         /// </summary>
-        public void Load() {
+        internal override void Load() {
             using (StreamReader reader = new StreamReader(filePath)) {
                 for (int i = 0; i < HEADER_LENGTH; ++i) {
                     reader.ReadLine();
                 }
-                while (!reader.EndOfStream) {
-                    InsertSetData(CreateSet(reader.ReadLine()));
-                }
+                var sets = reader.ReadToEnd().Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries).AsParallel().Select(line => CreateSet(line));
+                foreach (var set in sets) { InsertSetData(set); }
             }
         }
-        public async System.Threading.Tasks.Task LoadAsync() {
-            await System.Threading.Tasks.Task.Run(() => Load());
-        }
+
         private void InsertSetData(NounSynSet set) {
             data[set.Id] = set;
             lexicalGoups[set.LexicalCategory].Add(set);
@@ -53,8 +49,8 @@ namespace LASI.Core.ComparativeHeuristics
             IEnumerable<SetReference> referencedSets =
                 from match in Regex.Matches(line, POINTER_REGEX).Cast<Match>()
                 let split = match.Value.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
-                where split.Count() > 1 && IncludeReference(interSetRelationshipMap[split[0]])
-                select new SetReference(interSetRelationshipMap[split[0]], Int32.Parse(split[1], System.Globalization.CultureInfo.InvariantCulture));
+                where split.Count() > 1 && IncludeReference(interSetMap[split[0]])
+                select new SetReference(interSetMap[split[0]], Int32.Parse(split[1], System.Globalization.CultureInfo.InvariantCulture));
 
 
             IEnumerable<string> words = from Match match in Regex.Matches(line, WORD_REGEX)
@@ -88,10 +84,12 @@ namespace LASI.Core.ComparativeHeuristics
 
         public ISet<string> AllNouns { get { return allNouns = allNouns ?? new SortedSet<string>(data.SelectMany(nss => nss.Value.Words)); } }
 
-        public ISet<string> this[string search] {
+        internal override ISet<string> this[string search] {
             get {
                 try {
-                    return new HashSet<string>(SearchFor(NounMorpher.FindRoot(search)).SelectMany(syn => NounMorpher.GetLexicalForms(syn)).DefaultIfEmpty(search));
+                    return new HashSet<string>(SearchFor(NounMorpher.FindRoot(search))
+                        .SelectMany(syn => NounMorpher.GetLexicalForms(syn))
+                        .DefaultIfEmpty(search));
                 }
                 catch (AggregateException) { }
                 catch (InvalidOperationException) { }
@@ -100,7 +98,7 @@ namespace LASI.Core.ComparativeHeuristics
         }
 
 
-        public ISet<string> this[Noun search] {
+        internal override ISet<string> this[Noun search] {
             get {
                 return this[search.Text];
             }
@@ -109,9 +107,11 @@ namespace LASI.Core.ComparativeHeuristics
 
         private void SearchSubsets(NounSynSet containingSet, List<string> results, HashSet<NounSynSet> setsSearched) {
             results.AddRange(containingSet.Words);
-            results.AddRange(containingSet[NounSetRelationship.HypERnym].Where(set => data.ContainsKey(set)).SelectMany(set => data[set].Words));
+            results.AddRange(containingSet[NounSetLink.HypERnym].Where(set => data.ContainsKey(set)).SelectMany(set => data[set].Words));
             setsSearched.Add(containingSet);
-            foreach (var set in containingSet.ReferencedIndeces.Except(containingSet[NounSetRelationship.HypERnym]).Select(pointer => { NounSynSet result; data.TryGetValue(pointer, out result); return result; })) {
+            foreach (var set in containingSet.ReferencedIndeces
+                .Except(containingSet[NounSetLink.HypERnym])
+                .Select(pointer => { NounSynSet result; data.TryGetValue(pointer, out result); return result; })) {
                 if (set != null && set.LexicalCategory == containingSet.LexicalCategory && !setsSearched.Contains(set)) {
                     SearchSubsets(set, results, setsSearched);
                 }
@@ -132,18 +132,18 @@ namespace LASI.Core.ComparativeHeuristics
 
         private SortedSet<string> allNouns;
 
-        private static bool IncludeReference(NounSetRelationship referenceRelationship) {
+        private static bool IncludeReference(NounSetLink referenceRelationship) {
             return
-                referenceRelationship == NounSetRelationship.MemberOfThisDomain_REGION ||
-                referenceRelationship == NounSetRelationship.MemberOfThisDomain_TOPIC ||
-                referenceRelationship == NounSetRelationship.MemberOfThisDomain_USAGE ||
-                referenceRelationship == NounSetRelationship.DomainOfSynset_REGION ||
-                referenceRelationship == NounSetRelationship.DomainOfSynset_TOPIC ||
-                referenceRelationship == NounSetRelationship.DomainOfSynset_USAGE ||
-                referenceRelationship == NounSetRelationship.HypOnym ||
-                referenceRelationship == NounSetRelationship.InstanceHypOnym ||
-                referenceRelationship == NounSetRelationship.InstanceHypERnym ||
-                referenceRelationship == NounSetRelationship.HypERnym;
+                referenceRelationship == NounSetLink.MemberOfThisDomain_REGION ||
+                referenceRelationship == NounSetLink.MemberOfThisDomain_TOPIC ||
+                referenceRelationship == NounSetLink.MemberOfThisDomain_USAGE ||
+                referenceRelationship == NounSetLink.DomainOfSynset_REGION ||
+                referenceRelationship == NounSetLink.DomainOfSynset_TOPIC ||
+                referenceRelationship == NounSetLink.DomainOfSynset_USAGE ||
+                referenceRelationship == NounSetLink.HypOnym ||
+                referenceRelationship == NounSetLink.InstanceHypOnym ||
+                referenceRelationship == NounSetLink.InstanceHypERnym ||
+                referenceRelationship == NounSetLink.HypERnym;
         }
 
         private const string WORD_REGEX = @"(?<word>[A-Za-z_\-\']{3,})";
@@ -151,26 +151,26 @@ namespace LASI.Core.ComparativeHeuristics
 
         private const string POINTER_REGEX = @"\D{1,2}\s*\d{8}";
         // Provides an indexed lookup between the values of the Noun enum and their corresponding string representation in WordNet data.noun files.
-        private static readonly IReadOnlyDictionary<string, NounSetRelationship> interSetRelationshipMap = new Dictionary<string, NounSetRelationship>{ 
-            { "!", NounSetRelationship.Antonym },
-            { "@", NounSetRelationship.HypERnym },
-            { "@i", NounSetRelationship.InstanceHypERnym },
-            { "~", NounSetRelationship.HypOnym },
-            { "~i", NounSetRelationship.InstanceHypOnym },
-            { "#m", NounSetRelationship.MemberHolonym },
-            { "#s", NounSetRelationship.SubstanceHolonym },
-            { "#p", NounSetRelationship.PartHolonym },
-            { "%m", NounSetRelationship.MemberMeronym },
-            { "%s", NounSetRelationship.SubstanceMeronym },
-            { "%p", NounSetRelationship.PartMeronym },
-            { "=", NounSetRelationship.Attribute },
-            { "+", NounSetRelationship.DerivationallyRelatedForm },
-            { ";c", NounSetRelationship.DomainOfSynset_TOPIC },
-            { "-c", NounSetRelationship.MemberOfThisDomain_TOPIC },
-            { ";r", NounSetRelationship.DomainOfSynset_REGION },
-            { "-r", NounSetRelationship.MemberOfThisDomain_REGION },
-            { ";u", NounSetRelationship.DomainOfSynset_USAGE },
-            { "-u", NounSetRelationship.MemberOfThisDomain_USAGE }
+        private static readonly IReadOnlyDictionary<string, NounSetLink> interSetMap = new Dictionary<string, NounSetLink>{ 
+            { "!", NounSetLink.Antonym },
+            { "@", NounSetLink.HypERnym },
+            { "@i", NounSetLink.InstanceHypERnym },
+            { "~", NounSetLink.HypOnym },
+            { "~i", NounSetLink.InstanceHypOnym },
+            { "#m", NounSetLink.MemberHolonym },
+            { "#s", NounSetLink.SubstanceHolonym },
+            { "#p", NounSetLink.PartHolonym },
+            { "%m", NounSetLink.MemberMeronym },
+            { "%s", NounSetLink.SubstanceMeronym },
+            { "%p", NounSetLink.PartMeronym },
+            { "=", NounSetLink.Attribute },
+            { "+", NounSetLink.DerivationallyRelatedForm },
+            { ";c", NounSetLink.DomainOfSynset_TOPIC },
+            { "-c", NounSetLink.MemberOfThisDomain_TOPIC },
+            { ";r", NounSetLink.DomainOfSynset_REGION },
+            { "-r", NounSetLink.MemberOfThisDomain_REGION },
+            { ";u", NounSetLink.DomainOfSynset_USAGE },
+            { "-u", NounSetLink.MemberOfThisDomain_USAGE }
         };
         /// <summary>
         /// Defines the broad lexical categories assigned to Nouns in the WordNet system.

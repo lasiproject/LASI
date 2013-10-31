@@ -91,7 +91,7 @@ namespace AlgorithmAssemblyUnitTestProject
 
             Paragraph target = new Paragraph(sentences, ParagraphKind.Default);
 
-            string expected = String.Format("LASI.Algorithm.DocumentStructures.Paragraph: {0} sentences\n\"LASI found TIMIS. LASI SNIFd them. Richard did awesome.\"", sentences.Length);
+            string expected = String.Format("LASI.Core.DocumentStructures.Paragraph: {0} sentences\n\"LASI found TIMIS. LASI SNIFd them. Richard did awesome.\"", sentences.Length);
             string actual;
             actual = target.ToString();
             Assert.AreEqual(expected, actual);

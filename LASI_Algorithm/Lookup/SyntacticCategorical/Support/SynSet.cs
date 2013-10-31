@@ -78,9 +78,9 @@ namespace LASI.Core.ComparativeHeuristics
     /// <summary>
     /// Represents a synset parsed from a line of the data.noun file of the WordNet package.
     /// </summary>
-    internal sealed class NounSynSet : SynSet<NounSetRelationship>
+    internal sealed class NounSynSet : SynSet<NounSetLink>
     {
-        public NounSynSet(int id, IEnumerable<string> words, IEnumerable<KeyValuePair<NounSetRelationship, int>> pointerRelationships, NounLookup.Category lexicalCategory)
+        public NounSynSet(int id, IEnumerable<string> words, IEnumerable<KeyValuePair<NounSetLink, int>> pointerRelationships, NounLookup.Category lexicalCategory)
             : base(id, words, pointerRelationships) {
             LexicalCategory = lexicalCategory;
         }
@@ -90,9 +90,9 @@ namespace LASI.Core.ComparativeHeuristics
     /// <summary>
     /// Represents a synset parsed from a line of the data.verb file of the WordNet package.
     /// </summary>
-    internal sealed class VerbSynSet : SynSet<VerbSetRelationship>
+    internal sealed class VerbSynSet : SynSet<VerbSetLink>
     {
-        public VerbSynSet(int id, IEnumerable<string> words, IEnumerable<KeyValuePair<VerbSetRelationship, int>> pointerRelationships, VerbLookup.Category lexicalCategory)
+        public VerbSynSet(int id, IEnumerable<string> words, IEnumerable<KeyValuePair<VerbSetLink, int>> pointerRelationships, VerbLookup.Category lexicalCategory)
             : base(id, words, pointerRelationships) {
             LexicalCategory = lexicalCategory;
         }
@@ -101,9 +101,9 @@ namespace LASI.Core.ComparativeHeuristics
     /// <summary>
     /// Represents a synset parsed from the data.adj file of the WordNet package.
     /// </summary>
-    internal sealed class AdjectiveSynSet : SynSet<AdjectiveSetRelationship>
+    internal sealed class AdjectiveSynSet : SynSet<AdjectiveSetLink>
     {
-        public AdjectiveSynSet(int id, IEnumerable<string> words, IEnumerable<KeyValuePair<AdjectiveSetRelationship, int>> pointerRelationships, AdjectiveLookup.Category lexicalCategory)
+        public AdjectiveSynSet(int id, IEnumerable<string> words, IEnumerable<KeyValuePair<AdjectiveSetLink, int>> pointerRelationships, AdjectiveLookup.Category lexicalCategory)
             : base(id, words, pointerRelationships) {
             LexicalCategory = lexicalCategory;
         }
@@ -113,9 +113,9 @@ namespace LASI.Core.ComparativeHeuristics
     /// <summary>
     /// Represents a synset parsed from a line of the data.adv file of the WordNet package.
     /// </summary>
-    internal sealed class AdverbSynSet : SynSet<AdverbSetRelationship>
+    internal sealed class AdverbSynSet : SynSet<AdverbSetLink>
     {
-        public AdverbSynSet(int id, IEnumerable<string> words, IEnumerable<KeyValuePair<AdverbSetRelationship, int>> pointerRelationships, AdverbLookup.Category lexicalCategory)
+        public AdverbSynSet(int id, IEnumerable<string> words, IEnumerable<KeyValuePair<AdverbSetLink, int>> pointerRelationships, AdverbLookup.Category lexicalCategory)
             : base(id, words, pointerRelationships) {
             LexicalCategory = lexicalCategory;
         }

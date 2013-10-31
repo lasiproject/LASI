@@ -3,7 +3,7 @@
     /// <summary>
     /// Defines the different kinds of pointer relationships on which Noun Synsets can relate to one another.
     /// </summary>
-    enum NounSetRelationship : byte
+    enum NounSetLink : byte
     {
         /// <summary>
         /// UNDEFINED. The presence of this value indicates that an inter set relationship was improperly mapped from a WordNet data file.
@@ -89,7 +89,7 @@
     /// <summary>
     /// Defines the different kinds of pointer relationships on which Verb Synsets can relate to one another.
     /// </summary>
-    enum VerbSetRelationship : byte
+    enum VerbSetLink : byte
     {
         /// <summary>
         /// UNDEFINED. The presence of this value indicates that an inter set relationship was improperly mapped from a WordNet data file.
@@ -143,7 +143,7 @@
     /// <summary>
     /// Defines the different kinds of pointer relationships on which Adjective Synsets can relate to one another.
     /// </summary>
-    enum AdjectiveSetRelationship : byte
+    enum AdjectiveSetLink : byte
     {
         /// <summary>
         /// UNDEFINED. The presence of this value indicates that an inter set relationship was improperly mapped from a WordNet data file.
@@ -189,7 +189,7 @@
     /// <summary>
     /// Defines the different kinds of pointer relationships on which Adverb Synsets can relate to one another.
     /// </summary>
-    enum AdverbSetRelationship : byte
+    enum AdverbSetLink : byte
     {
         /// <summary>
         /// UNDEFINED. The presence of this value indicates that an inter set relationship was improperly mapped from a WordNet data file.

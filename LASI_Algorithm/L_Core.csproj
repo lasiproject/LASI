@@ -52,8 +52,7 @@
     </DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>
-    </DocumentationFile>
+    <DocumentationFile>bin\Release\Core.XML</DocumentationFile>
     <PlatformTarget>x64</PlatformTarget>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
     <UseVSHostingProcess>false</UseVSHostingProcess>
@@ -241,7 +240,7 @@
     <Compile Include="CoreDataStructures\LexicalStructures\NounRelatedConstructs\PersonalPronoun.cs" />
     <Compile Include="CoreDataStructures\LexicalStructures\AdverbRelatedConstructs\SuperlativeAdverb.cs" />
     <Compile Include="CoreDataStructures\LexicalStructures\SymbolsAndPunctuators\Symbol.cs" />
-    <Compile Include="Lookup\SyntacticCategorical\IWordNetLookup.cs" />
+    <Compile Include="Lookup\SyntacticCategorical\WordNetLookup.cs" />
     <Compile Include="CoreDataStructures\LexicalStructures\VerbRelatedConstructs\IVerbal.cs" />
     <Compile Include="CoreDataStructures\LexicalStructures\NounRelatedConstructs\Noun.cs" />
     <Compile Include="CoreDataStructures\LexicalStructures\NounRelatedConstructs\NounPhrase.cs" />
