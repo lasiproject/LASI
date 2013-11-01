@@ -17,7 +17,7 @@ namespace LASI.Core.Binding
         /// </summary>
         /// <param name="stateNumber">The number representing the State where the error occured.</param>
         /// <param name="errorOn">The ILeixcal instance which caused the error.</param>
-        public InvalidStateTransitionException(int stateNumber, ILexical errorOn)
+        internal InvalidStateTransitionException(int stateNumber, ILexical errorOn)
             : base(string.Format("Invalid Transition\nAt State {0}\nOn {1}", stateNumber, errorOn)) {
         }
         /// <summary>
@@ -25,7 +25,7 @@ namespace LASI.Core.Binding
         /// </summary>
         /// <param name="stateName">The number representing the State where the error occured.</param>
         /// <param name="errorOn">The ILeixcal instance which caused the error.</param>
-        public InvalidStateTransitionException(string stateName, ILexical errorOn)
+        internal InvalidStateTransitionException(string stateName, ILexical errorOn)
             : base(string.Format("Invalid Transition\nAt State {0}\nOn {1}", stateName, errorOn)) {
         }
         private InvalidStateTransitionException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
@@ -41,7 +41,7 @@ namespace LASI.Core.Binding
         /// <summary>
         /// Initializes a new isntance of the VerblessPhrasalSequenceException with a defualt message indicating that the sequence contained no VerbPhrase instances.
         /// </summary>
-        public VerblessPhrasalSequenceException()
+        internal VerblessPhrasalSequenceException()
             : base("No verb phrases in sequence") {
         }
         private VerblessPhrasalSequenceException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)

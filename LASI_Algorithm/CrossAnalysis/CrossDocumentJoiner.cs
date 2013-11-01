@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LASI.App
+namespace LASI.Core
 {
     /// <summary>
     /// Facilitates the joining of multiple documents into a single result set based on overlap and intersection tequniques.
@@ -21,7 +21,7 @@ namespace LASI.App
         /// </summary>
         /// <param name="documents">The Documents to Join.</param>
         /// <returns>A Task&lt;IEnumerable&lt;RelationshipTuple&gt;&gt; corresponding to the intersection of the Documents to be joined .</returns>
-        internal async Task<IEnumerable<Relationship>> JoinDocumentsAsnyc(IEnumerable<Document> documents) {
+        public async Task<IEnumerable<Relationship>> JoinDocumentsAsnyc(IEnumerable<Document> documents) {
             return await await Task.Factory.ContinueWhenAll(
                 new[] {  
                     Task.Run(()=> GetCommonalitiesByVerbals(documents)),

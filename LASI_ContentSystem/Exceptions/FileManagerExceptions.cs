@@ -21,7 +21,7 @@ namespace LASI.ContentSystem
         /// <param name="fileName">The name of the file for which conversion failed.</param>
         /// <param name="sourceType">The extension of the source file format.</param>
         /// <param name="targetType">The extension of the target file format</param>
-        public FileConversionFailureException(string fileName, string sourceType, string targetType) : base(string.Format("File conversion failed\nCould not convert {0} from {1} to {2}.", fileName, sourceType, targetType)) { }
+        internal FileConversionFailureException(string fileName, string sourceType, string targetType) : base(string.Format("File conversion failed\nCould not convert {0} from {1} to {2}.", fileName, sourceType, targetType)) { }
         /// <summary>
         /// Initializes a new instance of the FileConversionFailureException with a message based on the supplied fileName, source type, and target type
         /// </summary>
@@ -31,7 +31,7 @@ namespace LASI.ContentSystem
         /// <param name="inner">The exception that is the cause of the current exception. If the innerException
         /// parameter is not null, the current exception is raised in a catch block that
         /// handles the inner exception.</param>
-        public FileConversionFailureException(string fileName, string sourceType, string targetType, Exception inner) : base(string.Format("File conversion failed\nCould not convert {0} from {1} to {2}.", fileName, sourceType, targetType), inner) { }
+        internal FileConversionFailureException(string fileName, string sourceType, string targetType, Exception inner) : base(string.Format("File conversion failed\nCould not convert {0} from {1} to {2}.", fileName, sourceType, targetType), inner) { }
         private FileConversionFailureException(string message) : base(message) { }
         private FileConversionFailureException(string message, Exception inner) : base(message, inner) { }
         private FileConversionFailureException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
@@ -45,7 +45,7 @@ namespace LASI.ContentSystem
         /// <summary>
         /// Initializes a new instance of the FileManagerNotInitializedException class with its message string set to message.
         /// </summary> 
-        public FileManagerNotInitializedException()
+        internal FileManagerNotInitializedException()
             : base("File Manager has not been initialized. No directory context in which to operate.") {
         }
 
@@ -72,7 +72,7 @@ namespace LASI.ContentSystem
         /// Initializes a new instance of the UnsupportedFileTypeAddedException class with its message string set to message.
         /// </summary>
         /// <param name="unsupportedFormat">A description of the error. The content of message is intended to be understood</param>
-        public UnsupportedFileTypeAddedException(string unsupportedFormat)
+        internal UnsupportedFileTypeAddedException(string unsupportedFormat)
             : base(FormatMessage(unsupportedFormat)) {
         }
         /// <summary>
@@ -84,7 +84,7 @@ namespace LASI.ContentSystem
         /// parameter is not null, the current exception is raised in a catch block that
         /// handles the inner exception.
         /// </param>
-        public UnsupportedFileTypeAddedException(string unsupportedFormat, Exception inner)
+        internal UnsupportedFileTypeAddedException(string unsupportedFormat, Exception inner)
             : base(FormatMessage(unsupportedFormat), inner) {
 
         }

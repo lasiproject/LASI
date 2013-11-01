@@ -122,7 +122,6 @@
     <Compile Include="LexicalElementInfo\ContextMenuFactory.cs" />
     <Compile Include="LexicalElementStyling\SyntacticColorMapping.cs" />
     <Compile Include="ResultSelection\Visualizer.cs" />
-    <Compile Include="ResultSelection\CrossDocumentJoiner.cs" />
     <Compile Include="Dialogs\CrossJoinSelectDialog.xaml.cs">
       <DependentUpon>CrossJoinSelectDialog.xaml</DependentUpon>
     </Compile>

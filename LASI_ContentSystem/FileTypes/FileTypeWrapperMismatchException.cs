@@ -12,16 +12,16 @@ namespace LASI.ContentSystem
     [Serializable]
     public class FileTypeWrapperMismatchException : FileSystemException
     {
-        public FileTypeWrapperMismatchException(string message)
+        internal FileTypeWrapperMismatchException(string message)
             : base(message) {
         }
-        public FileTypeWrapperMismatchException(string wrapperName, string actualExtension)
+        internal FileTypeWrapperMismatchException(string wrapperName, string actualExtension)
             : base(String.Format("Type mismatch between\nWrapper Type: {0} and File Extension{1}", wrapperName, actualExtension)) {
         }
-        public FileTypeWrapperMismatchException(string message, Exception inner)
+        internal FileTypeWrapperMismatchException(string message, Exception inner)
             : base(message, inner) {
         }
-        public FileTypeWrapperMismatchException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
+        internal FileTypeWrapperMismatchException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
             : base(info, context) {
         }
     }

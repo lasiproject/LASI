@@ -102,9 +102,9 @@
     <Compile Include="BindingAndWeighting\Binders\Experimental\PreBinder.cs" />
     <Compile Include="BindingAndWeighting\Binders\ScopedAliasMap.cs" />
     <Compile Include="BindingAndWeighting\Binders\Experimental\ClauseSeperatingBranchingBinder.cs" />
-    <Compile Include="BindingAndWeighting\Binders\Experimental\ExperimentalLexicalTypes\AggregatePhrase.cs" />
+    <Compile Include="Experimental\AggregatePhrase.cs" />
     <Compile Include="BindingAndWeighting\Binders\Experimental\INestableLexical.cs" />
-    <Compile Include="BindingAndWeighting\Binders\Experimental\ExperimentalLexicalTypes\NestingClause.cs" />
+    <Compile Include="Experimental\NestingClause.cs" />
     <Compile Include="BindingAndWeighting\Binders\Experimental\ObjectBinderV2.cs" />
     <Compile Include="BindingAndWeighting\ProcessingTask.cs" />
     <Compile Include="BindingAndWeighting\SubordinateClauseIdentifier.cs" />
@@ -113,6 +113,8 @@
     <Compile Include="CoreDataStructures\LexicalStructures\SymbolsAndPunctuators\DoubleQuote.cs" />
     <Compile Include="CoreDataStructures\Support\EnumerableExtensions\EnumerableOfIPronounExtensions.cs" />
     <Compile Include="CoreDataStructures\LexicalStructures\NounRelatedConstructs\Gender.cs" />
+    <Compile Include="CrossAnalysis\CrossDocumentJoiner.cs" />
+    <Compile Include="CrossAnalysis\Relationship.cs" />
     <Compile Include="Lookup\AdverbialSimilarityProvider.cs" />
     <Compile Include="Lookup\VerbalSimilarityProvider.cs" />
     <Compile Include="Lookup\EntitySimilarityProvider.cs" />

@@ -16,7 +16,7 @@ namespace LASI.ContentSystem
         /// Initializes a new instance of the UnknownPOSException class with its message string set to message.
         /// </summary>
         /// <param name="posTagString">A description of the error. The content of message is intended to be understood by humans.</param>
-        public UnknownWordTagException(string posTagString)
+        internal UnknownWordTagException(string posTagString)
             : base(string.Format("The Word Level Tag \"{0}\" is not defined by the TagSet", posTagString)) {
         }
         /// <summary>
@@ -28,7 +28,7 @@ namespace LASI.ContentSystem
         /// parameter is not null, the current exception is raised in a catch block that
         /// handles the inner exception.
         /// </param>
-        public UnknownWordTagException(string message, Exception inner)
+        internal UnknownWordTagException(string message, Exception inner)
             : base(message, inner) {
         }
         /// <summary>
@@ -55,7 +55,7 @@ namespace LASI.ContentSystem
         /// Initializes a new instance of the UnknownPhraseTypeException class with its message string set to message.
         /// </summary>
         /// <param name="posTagString">A description of the error. The content of message is intended to be understood by humans.</param>
-        public UnknownPhraseTagException(string posTagString)
+        internal UnknownPhraseTagException(string posTagString)
             : base(string.Format("The phrase tag {0}\nis not defined by the TagSet", posTagString)) {
         }
         /// <summary>
@@ -67,7 +67,7 @@ namespace LASI.ContentSystem
         /// parameter is not null, the current exception is raised in a catch block that
         /// handles the inner exception.
         /// </param>
-        public UnknownPhraseTagException(string message, Exception inner)
+        internal UnknownPhraseTagException(string message, Exception inner)
             : base(message, inner) {
         }
         /// <summary>
@@ -94,7 +94,7 @@ namespace LASI.ContentSystem
         /// Initializes a new instance of the EmptyTagException class with its message string set to message.
         /// </summary>
         /// <param name="wordText">A description of the error. The content of message is intended to be understood by humans.</param>
-        public EmptyWordTagException(string wordText)
+        internal EmptyWordTagException(string wordText)
             : base(string.Format("The tag for word: {0} is empty", wordText)) {
         }
         /// <summary>
@@ -106,7 +106,7 @@ namespace LASI.ContentSystem
         /// parameter is not null, the current exception is raised in a catch block that
         /// handles the inner exception.
         /// </param>
-        public EmptyWordTagException(string message, Exception inner)
+        internal EmptyWordTagException(string message, Exception inner)
             : base(message, inner) {
         }
         /// <summary>
@@ -132,7 +132,7 @@ namespace LASI.ContentSystem
         /// Initializes a new instance of the EmptyPhraseTagException class with its message string set to message.
         /// </summary>
         /// <param name="phraseText">A description of the error. The content of message is intended to be understood by humans.</param>
-        public EmptyPhraseTagException(string phraseText)
+        internal EmptyPhraseTagException(string phraseText)
             : base(string.Format("The tag for phrase: {0} is empty", phraseText)) {
         }
         /// <summary>
@@ -144,7 +144,7 @@ namespace LASI.ContentSystem
         /// parameter is not null, the current exception is raised in a catch block that
         /// handles the inner exception.
         /// </param>
-        public EmptyPhraseTagException(string message, Exception inner)
+        internal EmptyPhraseTagException(string message, Exception inner)
             : base(message, inner) {
         }
         /// <summary>
@@ -171,7 +171,7 @@ namespace LASI.ContentSystem
         /// Initializes a new instance of the UntaggedElementException class with its message string set to message.
         /// </summary>
         /// <param name="wordText">A description of the error. The content of message is intended to be understood by humans.</param>
-        public UntaggedWordException(string wordText)
+        internal UntaggedWordException(string wordText)
             : base(string.Format("The word level token: {0} has no tag", wordText)) {
         }
         /// <summary>
@@ -183,7 +183,7 @@ namespace LASI.ContentSystem
         /// parameter is not null, the current exception is raised in a catch block that
         /// handles the inner exception.
         /// </param>
-        public UntaggedWordException(string message, Exception inner)
+        internal UntaggedWordException(string message, Exception inner)
             : base(message, inner) {
         }
         /// <summary>
@@ -209,7 +209,7 @@ namespace LASI.ContentSystem
         /// Initializes a new instance of the UntaggedElementException class with its message string set to message.
         /// </summary>
         /// <param name="phraseText">A description of the error. The content of message is intended to be understood by humans.</param>
-        public UntaggedPhraseException(string phraseText)
+        internal UntaggedPhraseException(string phraseText)
             : base(string.Format("The word level token: {0} has no tag", phraseText)) {
         }
         /// <summary>
@@ -221,7 +221,7 @@ namespace LASI.ContentSystem
         /// parameter is not null, the current exception is raised in a catch block that
         /// handles the inner exception.
         /// </param>
-        public UntaggedPhraseException(string message, Exception inner)
+        internal UntaggedPhraseException(string message, Exception inner)
             : base(message, inner) {
         }
         /// <summary>
@@ -249,7 +249,7 @@ namespace LASI.ContentSystem
         /// Initializes a new instance of the UnmappedWordConstructorException class with its message string set to message.
         /// </summary>
         /// <param name="message">A description of the error. The content of message is intended to be understood by humans.</param>
-        public UnmappedWordTypeException(string message)
+        internal UnmappedWordTypeException(string message)
             : base(message) {
         }
         /// <summary>
@@ -261,7 +261,7 @@ namespace LASI.ContentSystem
         /// parameter is not null, the current exception is raised in a catch block that
         /// handles the inner exception.
         /// </param>
-        public UnmappedWordTypeException(string message, Exception inner)
+        internal UnmappedWordTypeException(string message, Exception inner)
             : base(message, inner) {
         }
         /// <summary>
@@ -287,7 +287,7 @@ namespace LASI.ContentSystem
         /// Initializes a new instance of the UnmappedPhraseTagException class with its message string set to message.
         /// </summary>
         /// <param name="message">A description of the error. The content of message is intended to be understood by humans.</param>
-        public UnmappedPhraseTypeException(string message)
+        internal UnmappedPhraseTypeException(string message)
             : base(message) {
         }
         /// <summary>
@@ -299,7 +299,7 @@ namespace LASI.ContentSystem
         /// parameter is not null, the current exception is raised in a catch block that
         /// handles the inner exception.
         /// </param>
-        public UnmappedPhraseTypeException(string message, Exception inner)
+        internal UnmappedPhraseTypeException(string message, Exception inner)
             : base(message, inner) {
         }
         /// <summary>
@@ -326,7 +326,7 @@ namespace LASI.ContentSystem
         /// Initializes a new instance of the UndelimitedPhraseException class with its message string set to message.
         /// </summary>
         /// <param name="message">A description of the error. The content of message is intended to be understood by humans.</param>
-        public UndelimitedPhraseException(string message)
+        internal UndelimitedPhraseException(string message)
             : base(message) {
         }
         /// <summary>
@@ -338,7 +338,7 @@ namespace LASI.ContentSystem
         /// parameter is not null, the current exception is raised in a catch block that
         /// handles the inner exception.
         /// </param>
-        public UndelimitedPhraseException(string message, Exception inner)
+        internal UndelimitedPhraseException(string message, Exception inner)
             : base(message, inner) {
         }
         /// <summary>
@@ -364,7 +364,7 @@ namespace LASI.ContentSystem
         /// Initializes a new instance of the UnknownClauseTypeException class with its message string set to message.
         /// </summary>
         /// <param name="message">A description of the error. The content of message is intended to be understood by humans.</param>
-        public UnknownClauseTypeException(string message)
+        internal UnknownClauseTypeException(string message)
             : base(message) {
         }
         /// <summary>
@@ -376,7 +376,7 @@ namespace LASI.ContentSystem
         /// parameter is not null, the current exception is raised in a catch block that
         /// handles the inner exception.
         /// </param>
-        public UnknownClauseTypeException(string message, Exception inner)
+        internal UnknownClauseTypeException(string message, Exception inner)
             : base(message, inner) {
         }
         /// <summary>
