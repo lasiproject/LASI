@@ -16,6 +16,16 @@ namespace LASI.Core
         /// <param name="text">The key text content of the PersonalPronoun.</param>
         public PersonalPronoun(string text)
             : base(text) {
+
+        }
+        /// <summary>
+        /// Gets the EntityKind of the PersonalPronoun
+        /// </summary>
+        public override EntityKind EntityKind {
+            get {
+                return Gender.IsFemale() ? EntityKind.PersonFemale :
+               Gender.IsMale() ? EntityKind.PersonMale : base.EntityKind;
+            }
         }
     }
 }

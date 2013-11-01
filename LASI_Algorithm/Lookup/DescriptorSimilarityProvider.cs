@@ -8,7 +8,8 @@ using LASI.Core.ComparativeHeuristics.Morphemization;
 
 namespace LASI.Core.ComparativeHeuristics
 {
-    public static class DescriptorSimilarityProvider
+    using SR = SimilarityResult;
+    public static partial class Lookup
     {
         /// <summary>
         /// Determines if two IDescriptor instances are similar.
@@ -22,21 +23,21 @@ namespace LASI.Core.ComparativeHeuristics
         /// Please prefer the second convention.
         /// </remarks>
         public static SimilarityResult IsSimilarTo(this IDescriptor first, IDescriptor second) {
-            return new SimilarityResult(
-                first.Match().Yield<bool>()
+            return
+                first.Match().Yield<SR>()
                     .When(first.Text.ToUpper() == second.Text.ToUpper())
-                        .Then(true)
+                        .Then(SR.Similar)
                     .Case<Adjective>(j1 =>
-                        second.Match().Yield<bool>()
-                            .Case<Adjective>(j2 => j1.IsSynonymFor(j2))
+                        second.Match().Yield<SR>()
+                            .Case<Adjective>(j2 => new SR(j1.IsSynonymFor(j2)))
                             .Case<AdjectivePhrase>(jp2 => jp2.IsSimilarTo(j1))
                         .Result())
                     .Case<AdjectivePhrase>(jp1 =>
-                        second.Match().Yield<bool>()
+                        second.Match().Yield<SR>()
                           .Case<AdjectivePhrase>(jp2 => jp1.IsSimilarTo(jp2))
                           .Case<Adjective>(j2 => jp1.IsSimilarTo(j2))
                         .Result())
-                    .Result());
+                    .Result();
         }
         /// <summary>
         /// Determines if the two provided Adjective instances are similar.
@@ -50,7 +51,7 @@ namespace LASI.Core.ComparativeHeuristics
         /// Please prefer the second convention.
         /// </remarks>
         public static SimilarityResult IsSimilarTo(this Adjective first, Adjective second) {
-            return new SimilarityResult(first.IsSynonymFor(second));
+            return new SR(first.IsSynonymFor(second));
         }
         /// <summary>
         /// Determines if the provided AdjectivePhrase is similar to the provided Adjective.
@@ -78,7 +79,7 @@ namespace LASI.Core.ComparativeHeuristics
         /// Please prefer the second convention.
         /// </remarks>
         public static SimilarityResult IsSimilarTo(this Adjective first, AdjectivePhrase second) {
-            return new SimilarityResult(second.Words.OfAdjective().Any(adj => adj.IsSynonymFor(first)));
+            return new SR(second.Words.OfAdjective().Any(adj => adj.IsSynonymFor(first)));
         }
 
         /// <summary>
@@ -97,7 +98,7 @@ namespace LASI.Core.ComparativeHeuristics
                 first.Words.OfAdjective()
                 .Zip(second.Words.OfAdjective(), (a, b) => a.IsSynonymFor(b))
                 .Aggregate(new { Trues = 0f, Falses = 0f }, (a, c) => new { Trues = a.Trues + (c ? 1 : 0), Falses = a.Falses + (c ? 0 : 1) });
-            return new SimilarityResult(first == second || synResults.Trues / (synResults.Falses + synResults.Trues) > Lookup.SIMILARITY_THRESHOLD);
+            return new SR(first == second || synResults.Trues / (synResults.Falses + synResults.Trues) > Lookup.SIMILARITY_THRESHOLD);
         }
     }
 }

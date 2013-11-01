@@ -13,12 +13,13 @@ using System.Threading.Tasks;
 using LASI.Core.Interop;
 using LASI.Core.ComparativeHeuristics;
 
-namespace LASI.Core
+namespace LASI.Core.ComparativeHeuristics
 {
+
     /// <summary>
     /// Provides Comprehensive static facilities for Synoynm Identification, Word and Phrase Comparison, Gender Stratification, and Named Entity Recognition.
     /// </summary>
-    public static class Lookup
+    public static partial class Lookup
     {
         #region Public Methods
 
@@ -106,23 +107,29 @@ namespace LASI.Core
 
 
         private static Gender GetNounPhraseGender(NounPhrase name) {
-            var propers = name.Words.OfProperNoun();
-            var first = propers.Singulars().FirstOrDefault(n => n.Gender.IsMaleOrFemale());
-            var last = propers.LastOrDefault(n => n != first && n.IsLastName());
+            var propers = name.Words
+                .OfProperNoun();
+            var first = propers
+                .Singulars()
+                .FirstOrDefault(n => n.Gender.IsMaleOrFemale());
+            var last = propers
+                .LastOrDefault(n => n != first && n.IsLastName());
             return first != null && (last != null || propers.All(n => n.GetGender() == first.Gender)) ?
-                first.Gender : name.Words.OfNoun().All(n => n.GetGender().IsNeutral()) ? Gender.Neutral : Gender.Undetermined;
+                first.Gender :
+                name.Words.OfNoun().All(n => n.GetGender().IsNeutral()) ?
+                Gender.Neutral :
+                Gender.Unknown;
         }
         private static Gender GetPhraseGender(PronounPhrase name) {
             if (name.Words.All(w => w is Determiner))
-                return Gender.Neutral;
-            var genderedWords = name.Words.OfType<IGendered>().Select(w => w.Gender);
+                return Gender.Unknown;
+            var genders = name.Words.OfType<IGendered>().Select(w => w.Gender);
             return name.Words.OfProperNoun().Any(n => !(n is IGendered)) ?
-                GetNounPhraseGender(name)
-                :
-                genderedWords.All(p => p.IsFemale()) ? Gender.Female :
-                genderedWords.All(p => p.IsMale()) ? Gender.Male :
-                genderedWords.All(p => p.IsNeutral()) ? Gender.Neutral :
-                Gender.Undetermined;
+                GetNounPhraseGender(name) :
+                genders.All(g => g.IsFemale()) ? Gender.Female :
+                genders.All(g => g.IsMale()) ? Gender.Male :
+                genders.All(g => g.IsNeutral()) ? Gender.Neutral :
+                Gender.Unknown;
         }
 
         #endregion
@@ -241,7 +248,7 @@ namespace LASI.Core
         /// <param name="noun">The Noun to lookup.</param>
         /// <returns>The synonyms for the provided Noun.</returns>
         public static IEnumerable<string> GetSynonyms(this Noun noun) {
-            return InternalLookup(noun);
+            return lookup(noun);
         }
         /// <summary>
         /// Returns the synonyms for the provided Verb.
@@ -249,7 +256,7 @@ namespace LASI.Core
         /// <param name="verb">The Verb to lookup.</param>
         /// <returns>The synonyms for the provided Verb.</returns>
         public static IEnumerable<string> GetSynonyms(this Verb verb) {
-            return InternalLookup(verb);
+            return lookup(verb);
         }
         /// <summary>
         /// Returns the synonyms for the provided Adjective.
@@ -257,7 +264,7 @@ namespace LASI.Core
         /// <param name="adjective">The Adjective to lookup.</param>
         /// <returns>The synonyms for the provided Adjective.</returns>
         public static IEnumerable<string> GetSynonyms(this Adjective adjective) {
-            return InternalLookup(adjective);
+            return lookup(adjective);
         }
         /// <summary>
         /// Returns the synonyms for the provided Adverb.
@@ -265,7 +272,7 @@ namespace LASI.Core
         /// <param name="adverb">The Adverb to lookup.</param>
         /// <returns>The synonyms for the provided Adverb.</returns>
         public static IEnumerable<string> GetSynonyms(this Adverb adverb) {
-            return InternalLookup(adverb);
+            return lookup(adverb);
         }
 
         /// <summary>
@@ -280,7 +287,7 @@ namespace LASI.Core
         /// Please prefer the second convention.
         /// </remarks>
         public static bool IsSynonymFor(this Noun first, Noun second) {
-            return InternalLookup(first).Contains(second.Text);
+            return lookup(first).Contains(second.Text);
         }
         /// <summary>
         /// Determines if two Verb instances are synonymous.
@@ -296,7 +303,7 @@ namespace LASI.Core
         public static bool IsSynonymFor(this Verb first, Verb second) {
             if (first == null || second == null)
                 return false;
-            return InternalLookup(first).Contains(second.Text);
+            return lookup(first).Contains(second.Text);
         }
         /// <summary>
         /// Determines if two Adjective instances are synonymous.
@@ -310,33 +317,33 @@ namespace LASI.Core
         /// Please prefer the second convention.
         /// </remarks>
         public static bool IsSynonymFor(this Adjective word, Adjective other) {
-            return InternalLookup(word).Contains(other.Text);
+            return lookup(word).Contains(other.Text);
         }
 
         #region Adjective Specific Lookups
         static bool IsSynonymFor(this Adjective word, SuperlativeAdjective other) {
-            return InternalLookup(word).Contains(other.Text);
+            return lookup(word).Contains(other.Text);
         }
         static bool IsSynonymFor(this SuperlativeAdjective word, Adjective other) {
-            return InternalLookup(word).Contains(other.Text);
+            return lookup(word).Contains(other.Text);
         }
         static bool IsSynonymFor(this SuperlativeAdjective word, SuperlativeAdjective other) {
-            return InternalLookup(word).Contains(other.Text);
+            return lookup(word).Contains(other.Text);
         }
         static bool IsSynonymFor(this ComparativeAdjective word, ComparativeAdjective other) {
-            return InternalLookup(word).Contains(other.Text);
+            return lookup(word).Contains(other.Text);
         }
         static bool IsSynonymFor(this Adjective word, ComparativeAdjective other) {
-            return InternalLookup(word).Contains(other.Text);
+            return lookup(word).Contains(other.Text);
         }
         static bool IsSynonymFor(this ComparativeAdjective word, Adjective other) {
-            return InternalLookup(word).Contains(other.Text);
+            return lookup(word).Contains(other.Text);
         }
         static bool IsSynonymFor(this ComparativeAdjective word, SuperlativeAdjective other) {
-            return InternalLookup(word).Contains(other.Text);
+            return lookup(word).Contains(other.Text);
         }
         static bool IsSynonymFor(this SuperlativeAdjective word, ComparativeAdjective other) {
-            return InternalLookup(word).Contains(other.Text);
+            return lookup(word).Contains(other.Text);
         }
         #endregion
 
@@ -347,35 +354,35 @@ namespace LASI.Core
         /// <param name="other">The second Adverb</param>
         /// <returns>True if the Adverb instances are synonymous, false otherwise.</returns>
         public static bool IsSynonymFor(this Adverb word, Adverb other) {
-            return InternalLookup(word).Contains(other.Text);
+            return lookup(word).Contains(other.Text);
         }
 
 
         #region Adverb Specific Lookups
         static bool IsSynonymFor(this Adverb word, SuperlativeAdverb other) {
-            return InternalLookup(word).Contains(other.Text);
+            return lookup(word).Contains(other.Text);
         }
         static bool IsSynonymFor(this SuperlativeAdverb word, Adverb other) {
-            return InternalLookup(word).Contains(other.Text);
+            return lookup(word).Contains(other.Text);
         }
         static bool IsSynonymFor(this SuperlativeAdverb word, SuperlativeAdverb other) {
-            return InternalLookup(word).Contains(other.Text);
+            return lookup(word).Contains(other.Text);
         }
         static bool IsSynonymFor(this ComparativeAdverb word, ComparativeAdverb other) {
-            return InternalLookup(word).Contains(other.Text);
+            return lookup(word).Contains(other.Text);
         }
         static bool IsSynonymFor(this Adverb word, ComparativeAdverb other) {
             var otherRoot = AdverbMorpher.FindRoot(other);
-            return InternalLookup(word).Contains(otherRoot);
+            return lookup(word).Contains(otherRoot);
         }
         static bool IsSynonymFor(this ComparativeAdverb word, Adverb other) {
-            return InternalLookup(word).Contains(other.Text);
+            return lookup(word).Contains(other.Text);
         }
         static bool IsSynonymFor(this ComparativeAdverb word, SuperlativeAdverb other) {
-            return InternalLookup(word).Contains(other.Text);
+            return lookup(word).Contains(other.Text);
         }
         static bool IsSynonymFor(this SuperlativeAdverb word, ComparativeAdverb other) {
-            return InternalLookup(word).Contains(other.Text);
+            return lookup(word).Contains(other.Text);
         }
         #endregion
 
@@ -385,16 +392,16 @@ namespace LASI.Core
 
         #region Internal Syonym Lookup Methods
 
-        private static ISet<string> InternalLookup(Noun noun) {
+        private static ISet<string> lookup(Noun noun) {
             return cachedNounData.GetOrAdd(noun.Text, key => nounLookup[key]);
         }
-        private static ISet<string> InternalLookup(Verb verb) {
+        private static ISet<string> lookup(Verb verb) {
             return cachedVerbData.GetOrAdd(verb.Text, key => verbLookup[key]);
         }
-        private static ISet<string> InternalLookup(Adverb adverb) {
+        private static ISet<string> lookup(Adverb adverb) {
             return cachedAdverbData.GetOrAdd(adverb.Text, key => adverbLookup[key]);
         }
-        private static ISet<string> InternalLookup(Adjective adjective) {
+        private static ISet<string> lookup(Adjective adjective) {
             return cachedAdjectiveData.GetOrAdd(adjective.Text, key => adjectiveLookup[key]);
         }
 

@@ -99,9 +99,9 @@ namespace LASI.ContentSystem
             }
         }
         /// <summary>
-        /// Gets the hash code of the FileData.
+        /// Gets a hash code for the FileData instance.
         /// </summary>
-        /// <returns>The hash code of the FileData.</returns>
+        /// <returns>A hash code of the current FileData instance.</returns>
         public override int GetHashCode()
         {
             return FullPathAndExt.GetHashCode();
@@ -164,22 +164,22 @@ namespace LASI.ContentSystem
         #region Operators
 
         /// <summary>
-        /// Determines if two instances of the FileData struct should be consisdered equal.
+        /// Determines if two instances of the FileData structure are equal.
         /// </summary>
         /// <param name="A">The first FileData</param>
         /// <param name="B">The second FileData</param>
-        /// <returns>True if the two instances should be considered equal, false otherwise.</returns>
+        /// <returns>True if two instances of the FileData structure should be considered equal, false otherwise.</returns>
         public static bool operator ==(FileData A, FileData B)
         {
             return string.Equals(A.FullPathAndExt, B.FullPathAndExt, StringComparison.OrdinalIgnoreCase);
 
         }
         /// <summary>
-        /// Determines if two instances of the FileData struct should be consisdered unequal.
+        /// Determines if two instances of the FileData structure are unequal.
         /// </summary>
         /// <param name="A">The first FileData</param>
         /// <param name="B">The second FileData</param>
-        /// <returns>True if the two instances should be considered unequal, false otherwise.</returns>
+        /// <returns>True if two instances of the FileData structure should be considered unequal, false otherwise.</returns>
         public static bool operator !=(FileData A, FileData B)
         {
             return !(A == B);

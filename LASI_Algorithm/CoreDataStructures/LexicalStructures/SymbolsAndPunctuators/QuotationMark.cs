@@ -30,6 +30,10 @@ namespace LASI.Core
             get;
             protected set;
         }
+        /// <summary>
+        /// Returns a string representation of the QuotationMark&lt;TQuote&gt;.
+        /// </summary>
+        /// <returns>A string representation of the QuotationMark&lt;TQuote&gt;.</returns>
         public override string ToString() {
             return base.ToString() + " Paired With " + (PairedInstance != null ? (PairedInstance.Text + PairedInstance.ID) : string.Empty);
         }

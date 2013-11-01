@@ -7,7 +7,6 @@ using LASI.Core.ComparativeHeuristics;
 
 namespace LASI.Core
 {
-    #region Result Bulding Helper Types
 
     /// <summary>
     /// Sometimes an anonymous type simple will not do. So this little class is defined to 
@@ -22,6 +21,9 @@ namespace LASI.Core
         private ILexical prepositional;
         private HashSet<ILexical> elements = new HashSet<ILexical>();
 
+        /// <summary>
+        /// Gets or sets the Subject component of the Relationship.
+        /// </summary>
         public IAggregateEntity Subject {
             get {
                 return subject;
@@ -31,6 +33,10 @@ namespace LASI.Core
                 elements.Add(value);
             }
         }
+
+        /// <summary>
+        /// Gets or sets the Verbal component of the Relationship.
+        /// </summary>
         public IVerbal Verbal {
             get {
                 return verbal;
@@ -40,6 +46,10 @@ namespace LASI.Core
                 elements.Add(value);
             }
         }
+
+        /// <summary>
+        /// Gets or sets the Direct Object component of the Relationship.
+        /// </summary>
         public IAggregateEntity Direct {
             get {
                 return direct;
@@ -49,6 +59,9 @@ namespace LASI.Core
                 elements.Add(value);
             }
         }
+        /// <summary>
+        /// Gets or sets the Indirect Object component of the Relationship.
+        /// </summary>
         public IAggregateEntity Indirect {
             get {
                 return indirect;
@@ -58,6 +71,9 @@ namespace LASI.Core
                 elements.Add(value);
             }
         }
+        /// <summary>
+        /// Gets or sets the Prepositional component of the Relationship.
+        /// </summary>
         public ILexical Prepositional {
             get {
                 return prepositional;
@@ -67,20 +83,25 @@ namespace LASI.Core
                 elements.Add(value);
             }
         }
-
-        public HashSet<ILexical> Elements {
+        /// <summary>
+        /// Gets all of the Lexical elements participating in Relationship.
+        /// </summary>
+        public IEnumerable<ILexical> Elements {
             get {
                 return elements;
             }
         }
+        /// <summary>
+        /// Gets the weight of the Relationship.
+        /// </summary>
         public double CombinedWeight {
             get;
             set;
         }
         /// <summary>
-        /// Returns a textual representation of the RelationshipTuple.
+        /// Returns a string representation of the Relationship.
         /// </summary>
-        /// <returns>A textual representation of the RelationshipTuple.</returns>
+        /// <returns>A string representation of the Relationship.</returns>
         public override string ToString() {
             var result = Subject.Text + Verbal.Text;
             if (Direct != null) {
@@ -91,36 +112,58 @@ namespace LASI.Core
             }
             return result;
         }
+        /// <summary>   
+        /// Determines if the current Relationship instance is equal to another Relationship instance.
+        /// </summary>
+        /// <param name="other">The Relationship to compare to.</param>
+        /// <returns>True if the current Relationship is equal to the supplied Relationship.</returns>
         public bool Equals(Relationship other) { return this == other; }
+        /// <summary>
+        /// Determines if the current Relationship instance is equal to the specified System.Object.
+        /// </summary>
+        /// <param name="obj">The System.Object to compare to.</param>
+        /// <returns>True if the current Relationship is equal to the specified System.Object.</returns>
         public override bool Equals(object obj) { return this == obj as Relationship; }
-
+        /// <summary>
+        /// Gets a hash code for the current Relationship instance.
+        /// </summary>
+        /// <returns>A hash code of the current Relationship instance.</returns>
         public override int GetHashCode() { return elements.Count; }
+        /// <summary>
+        /// Determines if two Relationship instances are considered equal.
+        /// </summary>
+        /// <param name="left">The first Relationship instance.</param>
+        /// <param name="right">The second Relationship instance.</param>
+        /// <returns>True if the Relationship instances are considered equal, false otherwise.</returns>
+        public static bool operator ==(Relationship left, Relationship right) {
 
-        public static bool operator ==(Relationship lhs, Relationship rhs) {
-
-            if ((lhs as object != null || rhs as object == null) || (lhs as object == null || rhs as object != null))
+            if ((left as object != null || right as object == null) || (left as object == null || right as object != null))
                 return false;
-            else if (lhs as object == null && rhs as object == null)
+            else if (left as object == null && right as object == null)
                 return true;
             else {
-                bool result = lhs.Verbal.Text == rhs.Verbal.Text || lhs.Verbal.IsSimilarTo(rhs.Verbal);
-                result &= Comparers<IEntity>.AliasOrSimilarity.Equals(lhs.Subject, rhs.Subject);
-                if (lhs.Direct != null && rhs.Direct != null) {
-                    result &= Comparers<IEntity>.AliasOrSimilarity.Equals(lhs.Direct, rhs.Direct);
-                } else if (lhs.Direct == null || rhs.Direct == null)
+                bool result = left.Verbal.Text == right.Verbal.Text || left.Verbal.IsSimilarTo(right.Verbal);
+                result &= left.Subject.IsAliasFor(right.Subject) || left.Subject.IsSimilarTo(right.Subject);
+                if (left.Direct != null && right.Direct != null) {
+                    result &= left.Direct.IsAliasFor(right.Direct) || left.Direct.IsSimilarTo(right.Direct);
+                } else if (left.Direct == null || right.Direct == null)
                     return false;
-                if (lhs.Indirect != null && rhs.Indirect != null) {
-                    result &= Comparers<IEntity>.AliasOrSimilarity.Equals(lhs.Indirect, rhs.Indirect);
-                } else if (lhs.Indirect == null || rhs.Indirect == null)
+                if (left.Indirect != null && right.Indirect != null) {
+                    result &= left.Indirect.IsAliasFor(right.Indirect) || left.Indirect.IsSimilarTo(right.Indirect);
+                } else if (left.Indirect == null || right.Indirect == null)
                     return false;
                 return result;
             }
         }
-
-        public static bool operator !=(Relationship lhs, Relationship rhs) {
-            return !(lhs == rhs);
+        /// <summary>
+        /// Determines if two Relationship instances are considered unequal.
+        /// </summary>
+        /// <param name="left">The first Relationship instance.</param>
+        /// <param name="right">The second Relationship instance.</param>
+        /// <returns>True if the Relationship instances are considered unequal, false otherwise.</returns>
+        public static bool operator !=(Relationship left, Relationship right) {
+            return !(left == right);
         }
     }
 
-    #endregion
 }

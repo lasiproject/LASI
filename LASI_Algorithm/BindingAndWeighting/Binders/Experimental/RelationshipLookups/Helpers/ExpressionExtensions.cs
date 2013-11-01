@@ -64,16 +64,33 @@ namespace LASI.Core.ComparativeHeuristics
     /// <summary>
     /// Provides a nullable sequence of IVerbal constructs. Instances of the structure will implicitely collapse to true or false as needed
     /// </summary>
-    public struct ActionsRelatedOn
+    public struct ActionsRelatedOn : IEquatable<ActionsRelatedOn>
     {
 
         internal ActionsRelatedOn(IEnumerable<IVerbal> actionsRelatedOn)
             : this() {
             RelatedOn = actionsRelatedOn;
         }
+        /// <summary>
+        /// Determines if the current ActionsRelatedOn instance is equal to another ActionsRelatedOn instance.
+        /// </summary>
+        /// <param name="other">The ActionsRelatedOn to compare to.</param>
+        /// <returns>True if the current ActionsRelatedOn is equal to the supplied ActionsRelatedOn.</returns>
+        public bool Equals(ActionsRelatedOn other) {
+            throw new NotImplementedException();
+        }
+        /// <summary>
+        /// Determines if the current ActionsRelatedOn instance is equal to the specified System.Object.
+        /// </summary>
+        /// <param name="obj">The System.Object to compare to.</param>
+        /// <returns>True if the current ActionsRelatedOn is equal to the specified System.Object.</returns>
         public override bool Equals(object obj) {
             return obj is ActionsRelatedOn && RelatedOn.SequenceEqual(((ActionsRelatedOn)obj).RelatedOn);
         }
+        /// <summary>
+        /// Computes the hash code for the ActionsRelatedOn instance.
+        /// </summary>
+        /// <returns>The hash code for the ActionsRelatedOn instance.</returns>
         public override int GetHashCode() {
             return RelatedOn.Aggregate(0, (hash, action) => hash ^= action.GetHashCode());
         }
@@ -82,23 +99,37 @@ namespace LASI.Core.ComparativeHeuristics
             private set;
         }
         /// <summary>
-        /// Returms true only if the set is not null;
+        /// Returms true only if the given the ActionsRelatedOn? is not null;
         /// </summary>
-        /// <param name="set"></param>
-        /// <returns></returns>
-        public static bool operator true(ActionsRelatedOn? set) {
-            return set != null;
+        /// <param name="actions">The ActionsRelatedOn? structure to test.</param>
+        /// <returns>True if the given the ActionsRelatedOn? is not null, false otherwise.</returns>
+        public static bool operator true(ActionsRelatedOn? actions) {
+            return actions != null;
         }
 
         /// <summary>
-        /// Returms true onl if the set is null;
+        /// Returms true only if given the ActionsRelatedOn? is null;
         /// </summary>
-        /// <param name="set"></param>
-        /// <returns></returns>
-        public static bool operator false(ActionsRelatedOn? set) {
-            return set == null;
+        /// <param name="actions">The ActionsRelatedOn? structure to test.</param>
+        /// <returns>True if the given ActionsRelatedOn? is null, false otherwise.</returns>
+        public static bool operator false(ActionsRelatedOn? actions) {
+            return actions == null;
         }
+        /// <summary>
+        /// Determines if two ActionsRelatedOn instances are equa;.
+        /// </summary>
+        /// <param name="left">The first ActionsRelatedOn instance.</param>
+        /// <param name="right">The second ActionsRelatedOn instance.</param>
+        /// <returns>True if the ActionsRelatedOn instances are equal, false otherwise.</returns>
         public static bool operator ==(ActionsRelatedOn left, ActionsRelatedOn right) { return left.Equals(right); }
+        /// <summary>
+        /// Determines if two ActionsRelatedOn instances are unequal.
+        /// </summary>
+        /// <param name="left">The first ActionsRelatedOn instance.</param>
+        /// <param name="right">The second ActionsRelatedOn instance.</param>
+        /// <returns>True if the ActionsRelatedOn instances are unequal, false otherwise.</returns>
         public static bool operator !=(ActionsRelatedOn left, ActionsRelatedOn right) { return !(left == right); }
+
+
     }
 }

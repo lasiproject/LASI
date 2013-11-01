@@ -16,21 +16,18 @@ namespace LASI.Core
         /// </summary>
         /// <param name="text">The key text content of the ProperSingularNoun.</param>
         public ProperSingularNoun(string text)
-            : base(text)
-        {
-            EntityKind = text.All(c => char.IsUpper(c) || c == '.') ? EntityKind.Organization : EntityKind;
+            : base(text) {
+            EntityKind = text.All(c => char.IsUpper(c) || c == '.') ? EntityKind.Organization : Gender.IsMaleOrFemale() ? EntityKind.Person : EntityKind;
         }
         private Gender? gender = null;
         /// <summary>
         /// Gets the Gender value indiciating the likely gender of the ProperNoun.
         /// </summary>
-        public virtual Gender Gender
-        {
-            get
-            {
+        public virtual Gender Gender {
+            get {
                 gender = gender ?? (this.IsFemaleFirst() ? Gender.Female :
                     this.IsMaleFirst() ? Gender.Male :
-                    this.IsLastName() ? Gender.Neutral : Gender.Undetermined);
+                    this.IsLastName() ? Gender.Neutral : Gender.Unknown);
                 return gender.Value;
             }
         }

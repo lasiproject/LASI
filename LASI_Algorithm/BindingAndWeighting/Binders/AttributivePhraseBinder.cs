@@ -18,7 +18,7 @@ namespace LASI.Core.Binding
         /// <param name="sentence">The sentence to bind within.</param>
         public static void Bind(Sentence sentence) {
             foreach (var cg in FindContiguousNounPhrases(sentence.Phrases)) {
-                ProcessContiguous(cg);
+                ProcessContiguous(cg);      
             }
         }
         /// <summary>

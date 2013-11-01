@@ -50,7 +50,7 @@ namespace LASI.Core.Patternization
         /// </summary>
         /// <typeparam name="TResult">The Type of the result which the match expression may now return.</typeparam>
         /// <returns>A IPatternMatching&lt;T, R&gt; describing the Match expression so far.</returns> 
-        MatchCase<T, TResult> Yield<TResult>();
+        IMatchCase<T, TResult> Yield<TResult>();
 
         /// <summary>
         /// Appends the Default expression to the current Pattern Matching expression.

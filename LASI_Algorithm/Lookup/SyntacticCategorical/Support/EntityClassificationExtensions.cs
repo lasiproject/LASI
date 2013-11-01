@@ -309,13 +309,13 @@ namespace LASI.Core
         /// </summary>
         /// <param name="gender">The Gender value to test.</param>
         /// <returns>True if the Gender is is either male, female, or neutral or not undefined., false otherwise.</returns>
-        public static bool IsDefined(this Gender gender) { return gender != Gender.Undetermined; }
+        public static bool IsDefined(this Gender gender) { return gender != Gender.Unknown; }
         /// <summary>
         /// Gets a value indicating wether or not the Gender value is either neutral or undefined.
         /// </summary>
         /// <param name="gender">The Gender value to test.</param>
         /// <returns>True if the Gender is is either  neutral or undefined., false otherwise.</returns>
-        public static bool IsNeutralOrUndefined(this Gender gender) { return gender == Gender.Undetermined || gender == Gender.Neutral; }
+        public static bool IsNeutralOrUndefined(this Gender gender) { return gender == Gender.Unknown || gender == Gender.Neutral; }
         #endregion
     }
 }

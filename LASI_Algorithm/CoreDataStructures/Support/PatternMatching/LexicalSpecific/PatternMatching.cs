@@ -57,7 +57,7 @@ namespace LASI.Core.Patternization
         /// <typeparam name="TResult">The Type of the result to be yielded.</typeparam> 
         /// <param name="value">The value to match with.</param>     
         /// <returns>The head of a result-yielding, Type based Pattern Matching expression over the specified value.</returns>
-        public static MatchCase<T, TResult> MatchAndYield<T, TResult>(T value) where T : class, ILexical { return new MatchCase<T, TResult>(value); }
+        public static IMatchCase<T, TResult> MatchAndYield<T, TResult>(T value) where T : class, ILexical { return new MatchCase<T, TResult>(value); }
 
 
     }

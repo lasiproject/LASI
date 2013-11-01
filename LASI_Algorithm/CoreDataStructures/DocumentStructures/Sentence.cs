@@ -68,8 +68,8 @@ namespace LASI.Core.DocumentStructures
         /// </summary>
         /// <param name="parent">The Paragraph to which the Sentence belongs.</param>
         public void EstablishParenthood(Paragraph parent) {
-            IsParagraphEnd = this == parent.Sentences.Last();
-            IsParagraphBegin = this == parent.Sentences.First();
+            EndsParagraph = this == parent.Sentences.Last();
+            BeginsParagraph = this == parent.Sentences.First();
 
             Paragraph = parent;
             foreach (var C in Clauses)
@@ -123,9 +123,14 @@ namespace LASI.Core.DocumentStructures
 
         #endregion
 
-        public bool IsParagraphBegin { get; private set; }
-
-        public bool IsParagraphEnd { get; private set; }
+        /// <summary>
+        /// Gets a value indicating wether the Sentence is the first Sentence in its Paragraph.
+        /// </summary>
+        public bool BeginsParagraph { get; private set; }
+        /// <summary>
+        /// Gets a value indicating wether the Sentence is the Last Sentence in its Paragraph.
+        /// </summary>
+        public bool EndsParagraph { get; private set; }
     }
 
 }

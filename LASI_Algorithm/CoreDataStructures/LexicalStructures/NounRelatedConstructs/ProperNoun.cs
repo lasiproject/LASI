@@ -28,7 +28,7 @@ namespace LASI.Core
                 return IsFirstName || IsLastName;
             }
         }
-        internal bool IsLastName { get { return Lookup.IsLastName(this); } }
-        internal bool IsFirstName { get { return Lookup.IsFirstName(this); } }
+        internal bool IsLastName { get { return LASI.Core.ComparativeHeuristics.Lookup.IsLastName(this); } }
+        internal bool IsFirstName { get { return LASI.Core.ComparativeHeuristics.Lookup.IsFirstName(this); } }
     }
 }

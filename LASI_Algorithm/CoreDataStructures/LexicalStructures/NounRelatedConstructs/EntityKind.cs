@@ -20,7 +20,15 @@ namespace LASI.Core
         /// </summary>
         Person,
         /// <summary>
-        /// A group of Persons
+        /// Person Female
+        /// </summary>
+        PersonFemale,
+        /// <summary>
+        /// Person Male
+        /// </summary>
+        PersonMale,
+        /// <summary>
+        /// A Group of Persons
         /// </summary>
         PersonMultiple,
         /// <summary>
@@ -32,17 +40,25 @@ namespace LASI.Core
         /// </summary>
         Organization,
         /// <summary>
-        /// ProperUnknown
+        /// Proper Unknown
         /// </summary>
         ProperUnknown,
         /// <summary>
-        /// ThingUnknown
+        /// Thing Unknown
         /// </summary>
         ThingUnknown,
         /// <summary>
-        /// Thing Multiple
+        /// Thing Unknown Multiple
         /// </summary>
         ThingUnknownMultiple,
+        /// <summary>
+        /// Thing
+        /// </summary>
+        Thing,
+        /// <summary>
+        /// Thing Multiple
+        /// </summary>
+        ThingMultiple,
         /// <summary>
         /// Activitiy: Generally corresonds to a gerund or a gerund-dominated phrase.
         /// E.g. in the sentence "He really enjoys attacking.", "attacking" refers to a behavior, the act of attacking, and is thus an activity.

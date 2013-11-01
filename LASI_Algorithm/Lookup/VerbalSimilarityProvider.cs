@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace LASI.Core.ComparativeHeuristics
 {
-
-    public static class VerbalSimilarityProvider
+    using SR = SimilarityResult;
+    public static partial class Lookup
     {
         /// <summary>
         /// Determines if two IVerbal instances are similar.
@@ -22,20 +22,20 @@ namespace LASI.Core.ComparativeHeuristics
         /// Please prefer the second convention.
         /// </remarks>
         public static SimilarityResult IsSimilarTo(this IVerbal first, IVerbal second) {
-            return new SimilarityResult(
-                first.Match().Yield<bool>()
-                    .When(first.Text.ToUpper() == second.Text.ToUpper()).Then(true)
+            return
+                first.Match().Yield<SR>()
+                    .When(first.Text.ToUpper() == second.Text.ToUpper()).Then(SR.Similar)
                     .Case<Verb>(v1 =>
-                        second.Match().Yield<bool>()
-                          .Case<Verb>(v2 => v1.IsSynonymFor(v2))
+                        second.Match().Yield<SR>()
+                          .Case<Verb>(v2 => new SR(v1.IsSynonymFor(v2)))
                           .Case<VerbPhrase>(vp2 => v1.IsSimilarTo(vp2))
                         .Result())
                     .Case<VerbPhrase>(vp1 =>
-                        second.Match().Yield<bool>()
+                        second.Match().Yield<SR>()
                           .Case<VerbPhrase>(vp2 => vp1.IsSimilarTo(vp2))
                           .Case<Verb>(v2 => vp1.IsSimilarTo(v2))
                         .Result())
-                    .Result());
+                    .Result();
         }
         /// <summary>
         /// Determines if the two provided Verb instances are similar.
@@ -49,7 +49,7 @@ namespace LASI.Core.ComparativeHeuristics
         /// Please prefer the second convention.
         /// </remarks>
         public static SimilarityResult IsSimilarTo(this Verb first, Verb second) {
-            return new SimilarityResult(first.IsSynonymFor(second));
+            return new SR(first.IsSynonymFor(second));
         }
         /// <summary>
         /// Determines if the provided VerbPhrase is similar to the provided Verb.
@@ -77,8 +77,7 @@ namespace LASI.Core.ComparativeHeuristics
         /// Please prefer the second convention.
         /// </remarks>
         public static SimilarityResult IsSimilarTo(this Verb first, VerbPhrase second) {
-            return new SimilarityResult(
-                second.Words.TakeWhile(w => !(w is ToLinker))
+            return new SR(second.Words.TakeWhile(w => !(w is ToLinker))
                 .OfVerb()
                 .Any(v => v.IsSynonymFor(first)));//This is kind of rough.
         }
@@ -108,10 +107,10 @@ namespace LASI.Core.ComparativeHeuristics
                     }
                 }
                 catch (NullReferenceException) {
-                    return SimilarityResult.Dissimilar;
+                    return SR.Dissimilar;
                 }
             }
-            return new SimilarityResult(result);
+            return new SR(result);
         }
     }
 }

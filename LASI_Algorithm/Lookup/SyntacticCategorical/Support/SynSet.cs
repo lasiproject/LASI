@@ -39,7 +39,6 @@ namespace LASI.Core.ComparativeHeuristics
         /// <summary>
         /// Returns the IDs of all other SynSets which are referenced from the current SynSet in the indicated fashion. 
         /// </summary>
-        /// <param name="relationshipKind">The kind of external set references to relationships to return.</param>
         /// <returns>The IDs of all other SynSets which are referenced from the current SynSet in the indicated fashion.</returns>
         public ILookup<TSetRelationship, int> RelatedSetsByRelationKind {
             get { return relatedSetsByRelationKind; }

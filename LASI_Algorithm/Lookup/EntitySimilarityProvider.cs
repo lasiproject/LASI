@@ -7,7 +7,9 @@ using LASI.Core.Patternization;
 
 namespace LASI.Core.ComparativeHeuristics
 {
-    public static class EntitySimilarityProvider
+    using SR = SimilarityResult;
+
+    public static partial class Lookup
     {
         /// <summary>
         /// Determines if two IEntity instances are similar.
@@ -21,26 +23,26 @@ namespace LASI.Core.ComparativeHeuristics
         /// Please prefer the second convention.
         /// </remarks>
         public static SimilarityResult IsSimilarTo(this IEntity first, IEntity second) {
-            return new SimilarityResult(
-                first.Match().Yield<bool>()
+            return
+                first.Match().Yield<SR>()
                     .When(first.Text.ToUpper() == second.Text.ToUpper())
-                        .Then(true)
+                        .Then(SR.Similar)
                     .Case<AggregateEntity>(ae1 =>
-                        second.Match().Yield<bool>()
-                          .Case<AggregateEntity>(ae2 => ae1.IsSimilarTo(ae2))
-                          .Case<IEntity>(e2 => ae1.Any(entity => entity.IsSimilarTo(e2)))
+                        second.Match().Yield<SR>()
+                          .Case<AggregateEntity>(ae2 => new SR(ae1.IsSimilarTo(ae2)))
+                          .Case<IEntity>(e2 => new SR(ae1.Any(entity => entity.IsSimilarTo(e2))))
                         .Result())
                     .Case<Noun>(n1 =>
-                        second.Match().Yield<bool>()
-                          .Case<Noun>(n2 => n1.IsSynonymFor(n2))
+                        second.Match().Yield<SR>()
+                          .Case<Noun>(n2 => new SR(n1.IsSynonymFor(n2)))
                           .Case<NounPhrase>(np2 => n1.IsSimilarTo(np2))
                         .Result())
                     .Case<NounPhrase>(np1 =>
-                        second.Match().Yield<bool>()
+                        second.Match().Yield<SR>()
                           .Case<NounPhrase>(np2 => np1.IsSimilarTo(np2))
                           .Case<Noun>(n2 => np1.IsSimilarTo(n2))
                         .Result())
-                    .Result());
+                    .Result();
         }
         /// <summary>
         /// Determines if two IAggregateEntity instances are similar.
@@ -61,7 +63,7 @@ namespace LASI.Core.ComparativeHeuristics
                              let Count = (double)byResult.Count()
                              orderby Count descending
                              select new { byResult.Key, Count };
-            return new SimilarityResult(simResults.Any() && simResults.First().Key,
+            return new SR(simResults.Any() && simResults.First().Key,
                 simResults.Any() ?
                 simResults.Skip(1).Aggregate(simResults.First().Count, (ratioSoFar, current) => ratioSoFar /= current.Count) :
                 0);
@@ -79,7 +81,7 @@ namespace LASI.Core.ComparativeHeuristics
         /// </remarks>
         public static SimilarityResult IsSimilarTo(this Noun first, NounPhrase second) {
             var phraseNouns = second.Words.OfNoun().ToList();
-            return new SimilarityResult(phraseNouns.Count == 1 && phraseNouns.First().IsSynonymFor(first));
+            return new SR(phraseNouns.Count == 1 && phraseNouns.First().IsSynonymFor(first));
         }
         /// <summary>
         /// Determines if the provided NounPhrase is similar to the provided Noun.
@@ -108,7 +110,7 @@ namespace LASI.Core.ComparativeHeuristics
         /// </remarks>
         public static SimilarityResult IsSimilarTo(this NounPhrase first, NounPhrase second) {
             var ratio = GetSimilarityRatio(first, second);
-            return new SimilarityResult(ratio > Lookup.SIMILARITY_THRESHOLD, ratio);
+            return new SR(ratio > SIMILARITY_THRESHOLD, ratio);
         }
         /// <summary>
         /// Determines if the two provided Noun instances are similar.
@@ -122,7 +124,7 @@ namespace LASI.Core.ComparativeHeuristics
         /// Please prefer the second convention.
         /// </remarks>
         public static SimilarityResult IsSimilarTo(this Noun first, Noun second) {
-            return new SimilarityResult(first.IsSynonymFor(second));
+            return new SR(first.IsSynonymFor(second));
         }
         /// <summary>
         /// Returns a double value indicating the degree of similarity between two NounPhrases.

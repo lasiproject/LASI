@@ -26,9 +26,19 @@ namespace LASI.Core.ComparativeHeuristics
             Action = action;
             Receiver = receiver;
         }
+        /// <summary>
+        /// Determines if the ActionReceiverPair&lt;TVerbal, TEntity&gt; is equal to the given object.
+        /// </summary>
+        /// <param name="obj">The object to compare for equality.</param>
+        /// <returns>True if the ActionReceiverPair&lt;TVerbal, TEntity&gt; is equal to the given object, otherwise false.</returns>
         public override bool Equals(object obj) {
             return obj is ActionReceiverPair<TVerbal, TEntity> && Action.Equals(((ActionReceiverPair<TVerbal, TEntity>)obj).Action) && Receiver.Equals(((ActionReceiverPair<TVerbal, TEntity>)obj).Receiver);
         }
+
+        /// <summary>
+        /// Gets a hash code for the current ActionReceiverPair instance.
+        /// </summary>
+        /// <returns>A hash code of the current ActionReceiverPair instance.</returns>
         public override int GetHashCode() {
             return Action.GetHashCode() ^ Receiver.GetHashCode();
         }
@@ -46,7 +56,23 @@ namespace LASI.Core.ComparativeHeuristics
             get;
             private set;
         }
-        public static bool operator ==(ActionReceiverPair<TVerbal, TEntity> left, ActionReceiverPair<TVerbal, TEntity> right) { return left.Equals(right); }
-        public static bool operator !=(ActionReceiverPair<TVerbal, TEntity> left, ActionReceiverPair<TVerbal, TEntity> right) { return !(left == right); }
+        /// <summary>
+        /// Determines if two ActionReceiverPair&lt;TVerbal, TEntity&gt; instances are considered equal.
+        /// </summary>
+        /// <param name="left">The first ActionReceiverPair&lt;TVerbal, TEntity&gt; instance.</param>
+        /// <param name="right">The second ActionReceiverPair&lt;TVerbal, TEntity&gt; instance.</param>
+        /// <returns>True if the ActionReceiverPair&lt;TVerbal, TEntity&gt; instances are considered equal, false otherwise.</returns>
+        public static bool operator ==(ActionReceiverPair<TVerbal, TEntity> left, ActionReceiverPair<TVerbal, TEntity> right) {
+            return left.Equals(right);
+        }
+        /// <summary>
+        /// Determines if two ActionReceiverPair&lt;TVerbal, TEntity&gt; instances are considered unequal.
+        /// </summary>
+        /// <param name="left">The first ActionReceiverPair&lt;TVerbal, TEntity&gt; instance.</param>
+        /// <param name="right">The second ActionReceiverPair&lt;TVerbal, TEntity&gt; instance.</param>
+        /// <returns>True if the ActionReceiverPair&lt;TVerbal, TEntity&gt; instances are considered unequal, false otherwise.</returns>
+        public static bool operator !=(ActionReceiverPair<TVerbal, TEntity> left, ActionReceiverPair<TVerbal, TEntity> right) {
+            return !(left == right);
+        }
     }
 }

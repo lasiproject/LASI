@@ -34,8 +34,7 @@ namespace LASI.Core
         public void BindAsReference(IEntity target) {
             if (Referent == null) {
                 Referent = new AggregateEntity(new[] { target });
-            }
-            else {
+            } else {
                 Referent = new AggregateEntity(Referent.Append(target));
             }
             EntityKind = Referent.EntityKind;
@@ -50,9 +49,9 @@ namespace LASI.Core
         }
 
         /// <summary>
-        /// Binds another IPronoun, generally another pronoun but possibly a PronounPhrase, to refer to the Pronoun.
+        /// Binds another IReferencer, generally another Pronoun but possibly a PronounPhrase, to refer to the Pronoun.
         /// </summary>
-        /// <param name="pro">An IPronoun which will be bound to refer to the Pronoun.</param>
+        /// <param name="pro">An IReferencer which will be bound to refer to the Pronoun.</param>
         public virtual void BindPronoun(IReferencer pro) {
             _boundPronouns.Add(pro);
             pro.BindAsReference(this);
@@ -74,8 +73,7 @@ namespace LASI.Core
         public virtual void AddPossession(IPossessable possession) {
             if (Referent != null) {
                 Referent.AddPossession(possession);
-            }
-            else {
+            } else {
                 _possessed.Add(possession);
                 possession.Possesser = this;
             }
@@ -109,7 +107,7 @@ namespace LASI.Core
         /// </summary>
         public IVerbal DirectObjectOf { get; set; }
         /// <summary>
-        /// Gets all of the IPronoun instances, generally Pronouns or PronounPhrases, which refer to the Pronoun.
+        /// Gets all of the IReferencer instances, generally Pronouns or PronounPhrases, which refer to the Pronoun.
         /// </summary>
         public IEnumerable<IReferencer> BoundPronouns { get { return _boundPronouns; } }
         /// <summary>
@@ -139,7 +137,7 @@ namespace LASI.Core
                     this.IsFemale() ? Gender.Female :
                     this.IsMale() ? Gender.Male :
                     this.IsNeutral() ? Gender.Neutral :
-                    Gender.Undetermined;
+                    Gender.Unknown;
             }
         }
 

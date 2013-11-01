@@ -10,14 +10,14 @@ namespace LASI.Core.Patternization
     /// Provides for the representation and free form structuring of Type based Pattern Matching expressions which match with a value of Type T and does not yield a result.
     /// </summary>
     /// <typeparam name="T">The Type of the value which the the Pattern Matching expression will match with.</typeparam> 
-    public class MatchCase<T> : IMatchCase<T> where T : class, ILexical
+    class MatchCase<T> : IMatchCase<T> where T : class, ILexical
     {
         #region Constructors
         /// <summary>
         /// Initializes a new instance of the MatchCase&lt;T&gt; class which will match against the supplied value.
         /// </summary>
         /// <param name="value">The value to match against.</param>
-        protected internal MatchCase(T value) { _value = value; }
+        public MatchCase(T value) { _value = value; }
         #endregion
 
         #region Expression Transformations
@@ -27,7 +27,7 @@ namespace LASI.Core.Patternization
         /// </summary>
         /// <typeparam name="TResult">The Type of the result which the match expression may now return.</typeparam>
         /// <returns>A Case&lt;T, R&gt; describing the Match expression so far.</returns> 
-        public MatchCase<T, TResult> Yield<TResult>() { return new MatchCase<T, TResult>(_value); }
+        public IMatchCase<T, TResult> Yield<TResult>() { return new MatchCase<T, TResult>(_value); }
         #endregion
         #region When Expressions
         /// <summary>
@@ -120,7 +120,6 @@ namespace LASI.Core.Patternization
         }
 
         #endregion
-
         #region Fields
 
         /// <summary>
@@ -137,7 +136,7 @@ namespace LASI.Core.Patternization
     /// </summary>
     /// <typeparam name="T">The Type of the value which the the Pattern Matching expression will match with.</typeparam>
     /// <typeparam name="TResult">The Type of the result to be yielded by the Pattern Matching expression.</typeparam> 
-    public class MatchCase<T, TResult> : IMatchCase<T, TResult> where T : class, ILexical
+    class MatchCase<T, TResult> : IMatchCase<T, TResult> where T : class, ILexical
     {
         #region Constructors
 
@@ -145,7 +144,7 @@ namespace LASI.Core.Patternization
         /// Initailizes a new instance of the Case&lt;T,R&gt; which will allow for Pattern Matching with the provided value.
         /// </summary>
         /// <param name="value">The value to match with.</param>
-        protected internal MatchCase(T value) { _value = value; }
+        public MatchCase(T value) { _value = value; }
 
         #endregion
 
@@ -310,11 +309,9 @@ namespace LASI.Core.Patternization
 
 
     }
-    public class TestedMatchCase<T> : IPredicatedMatchCase<T> where T : class, ILexical
+    class TestedMatchCase<T> : IPredicatedMatchCase<T> where T : class, ILexical
     {
-        private IMatchCase<T> _inner;
-        private bool _accepted;
-        protected internal TestedMatchCase(bool accepted, MatchCase<T> inner) { _accepted = accepted; _inner = inner; }
+        public TestedMatchCase(bool accepted, MatchCase<T> inner) { _accepted = accepted; _inner = inner; }
         public IMatchCase<T> Then<TCase>(Action action) where TCase : class, T {
             return _accepted ? this._inner.Case<TCase>(action) : this._inner;
         }
@@ -329,12 +326,14 @@ namespace LASI.Core.Patternization
         public IMatchCase<T> Then(Action<T> action) {
             return _accepted ? this._inner.Case<T>(action) : this._inner;
         }
+        private IMatchCase<T> _inner;
+        private bool _accepted;
     }
 
-    public class TestedMatchCase<T, TResult> : IPredicatedMatchCase<T, TResult> where T : class, ILexical
+    class TestedMatchCase<T, TResult> : IPredicatedMatchCase<T, TResult> where T : class, ILexical
     {
-        protected internal TestedMatchCase(bool accepted, MatchCase<T, TResult> inner) { _accepted = accepted; _inner = inner; }
-        private bool _accepted;
+        public TestedMatchCase(bool accepted, MatchCase<T, TResult> inner) { _accepted = accepted; _inner = inner; }
+
         private IMatchCase<T, TResult> _inner;
         public IMatchCase<T, TResult> Then<TCase>(TResult result)
              where TCase : class, T {
@@ -374,6 +373,7 @@ namespace LASI.Core.Patternization
         public TResult Result(Func<T, TResult> func) {
             return _inner.Result(func);
         }
+        private bool _accepted;
     }
 
 }

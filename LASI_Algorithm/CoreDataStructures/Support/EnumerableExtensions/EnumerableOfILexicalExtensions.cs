@@ -35,7 +35,7 @@ namespace LASI.Core
         /// </code>
         /// </example>
         public static bool Contains<TLexical>(this IEnumerable<TLexical> elements, TLexical element, Func<TLexical, TLexical, bool> comparison) where TLexical : ILexical {
-            return elements.Contains(element, Comparers<TLexical>.CreateCustom(comparison));
+            return elements.Contains(element, LexicalComparer.Create(comparison));
 
         }
         /// <summary>
@@ -47,7 +47,7 @@ namespace LASI.Core
         /// <param name="comparison">A function to compare two instances of type TLexical and return true or false.</param>
         /// <returns>A sequence that contains the set difference of the elements of two sequences.</returns>
         public static IEnumerable<TLexical> Except<TLexical>(this IEnumerable<TLexical> first, IEnumerable<TLexical> second, Func<TLexical, TLexical, bool> comparison) where TLexical : ILexical {
-            return first.Except(second, Comparers<TLexical>.CreateCustom(comparison));
+            return first.Except(second, LexicalComparer.Create(comparison));
 
         }
         /// <summary>
@@ -68,7 +68,7 @@ namespace LASI.Core
         /// </code>
         /// </example>
         public static IEnumerable<TLexical> Distinct<TLexical>(this IEnumerable<TLexical> elements, Func<TLexical, TLexical, bool> comparison) where TLexical : ILexical {
-            return elements.Distinct(Comparers<TLexical>.CreateCustom(comparison));
+            return elements.Distinct(LexicalComparer.Create(comparison));
         }
 
         /// <summary>
@@ -87,7 +87,7 @@ namespace LASI.Core
         /// </code>
         /// </example>
         public static IEnumerable<TLexical> Intersect<TLexical>(this IEnumerable<TLexical> first, IEnumerable<TLexical> second, Func<TLexical, TLexical, bool> comparison) where TLexical : ILexical {
-            return first.Intersect(second, Comparers<TLexical>.CreateCustom(comparison));
+            return first.Intersect(second, LexicalComparer.Create(comparison));
         }
         /// <summary>
         /// Determines whether two sequences of TLexical are equal by comparing their elements by the specified comparison function.
@@ -99,7 +99,7 @@ namespace LASI.Core
         /// <returns>True if the two source sequences are of equal length and their corresponding elements compare equal according to provided Lexical comparison function, false otherwise.
         /// </returns>
         public static bool SequenceEqual<TLexical>(this IEnumerable<TLexical> first, IEnumerable<TLexical> second, Func<TLexical, TLexical, bool> comparison) where TLexical : ILexical {
-            return first.SequenceEqual(second, Comparers<TLexical>.CreateCustom(comparison));
+            return first.SequenceEqual(second, LexicalComparer.Create(comparison));
         }
         /// <summary>
         ///  Produces the set union of two sequences of ILexical constructs by using the specified comparison function to compare values.
@@ -117,7 +117,7 @@ namespace LASI.Core
         /// </code>
         /// </example>
         public static IEnumerable<TLexical> Union<TLexical>(this IEnumerable<TLexical> first, IEnumerable<TLexical> second, Func<TLexical, TLexical, bool> comparison) where TLexical : ILexical {
-            return first.Union(second, Comparers<TLexical>.CreateCustom(comparison));
+            return first.Union(second, LexicalComparer.Create(comparison));
         }
         /// <summary>
         /// Gets all of the word instances in the sequence of ILexicals.
@@ -151,7 +151,7 @@ namespace LASI.Core
         /// <param name="comparison">A function which compares two elements, returning false if they should be considered distinct and true otherwise.</param>
         /// <returns>A set representation of the given sequence of ILexical using the provided comparison function to determine element distinctness.</returns>
         public static ISet<TLexical> ToSet<TLexical>(this IEnumerable<TLexical> source, Func<TLexical, TLexical, bool> comparison) where TLexical : ILexical {
-            return new HashSet<TLexical>(source, Comparers<TLexical>.CreateCustom(comparison));
+            return new HashSet<TLexical>(source, LexicalComparer.Create(comparison));
         }
         #endregion
 
@@ -174,7 +174,7 @@ namespace LASI.Core
         /// </code>
         /// </example>
         public static bool Contains<TLexical>(this ParallelQuery<TLexical> elements, TLexical element, Func<TLexical, TLexical, bool> comparison) where TLexical : ILexical {
-            return elements.Contains(element, Comparers<TLexical>.CreateCustom(comparison));
+            return elements.Contains(element, LexicalComparer.Create(comparison));
 
         }
         /// <summary>
@@ -186,7 +186,7 @@ namespace LASI.Core
         /// <param name="comparison">A function to compare two instances of type TLexical and return true or false.</param>
         /// <returns>A sequence that contains the set difference of the elements of two sequences.</returns>
         public static ParallelQuery<TLexical> Except<TLexical>(this ParallelQuery<TLexical> first, ParallelQuery<TLexical> second, Func<TLexical, TLexical, bool> comparison) where TLexical : ILexical {
-            return first.Except(second, Comparers<TLexical>.CreateCustom(comparison));
+            return first.Except(second, LexicalComparer.Create(comparison));
 
         }
         /// <summary>
@@ -207,7 +207,7 @@ namespace LASI.Core
         /// </code>
         /// </example>
         public static ParallelQuery<TLexical> Distinct<TLexical>(this ParallelQuery<TLexical> elements, Func<TLexical, TLexical, bool> comparison) where TLexical : ILexical {
-            return elements.Distinct(Comparers<TLexical>.CreateCustom(comparison));
+            return elements.Distinct(LexicalComparer.Create(comparison));
         }
         /// <summary>
         ///  Produces the set intersection of two sequences of TLexical constructs by using the specified comparison function to compare values.
@@ -225,7 +225,7 @@ namespace LASI.Core
         /// </code>
         /// </example>
         public static ParallelQuery<TLexical> Intersect<TLexical>(this ParallelQuery<TLexical> first, ParallelQuery<TLexical> second, Func<TLexical, TLexical, bool> comparison) where TLexical : ILexical {
-            return first.Intersect(second, Comparers<TLexical>.CreateCustom(comparison));
+            return first.Intersect(second, LexicalComparer.Create(comparison));
         }
         /// <summary>
         /// Determines whether two sequences of TLexical are equal by comparing their elements by the specified comparison function.
@@ -237,7 +237,7 @@ namespace LASI.Core
         /// <returns>True if the two source sequences are of equal length and their corresponding elements compare equal according to provided Lexical comparison function, false otherwise.
         /// </returns>
         public static bool SequenceEqual<TLexical>(this ParallelQuery<TLexical> first, ParallelQuery<TLexical> second, Func<TLexical, TLexical, bool> comparison) where TLexical : ILexical {
-            return first.SequenceEqual(second, Comparers<TLexical>.CreateCustom(comparison));
+            return first.SequenceEqual(second, LexicalComparer.Create(comparison));
         }
         /// <summary>
         ///  Produces the set union of two sequences of ILexical constructs by using the specified comparison function to compare values.
@@ -255,7 +255,7 @@ namespace LASI.Core
         /// </code>
         /// </example>
         public static ParallelQuery<TLexical> Union<TLexical>(this ParallelQuery<TLexical> first, ParallelQuery<TLexical> second, Func<TLexical, TLexical, bool> comparison) where TLexical : ILexical {
-            return first.Union(second, Comparers<TLexical>.CreateCustom(comparison));
+            return first.Union(second, LexicalComparer.Create(comparison));
         }
         /// <summary>
         /// Gets all of the word instances in the sequence of ILexicals.
@@ -289,7 +289,7 @@ namespace LASI.Core
         /// <param name="comparison">A function which compares two elements, returning false if they should be considered distinct and true otherwise.</param>
         /// <returns>A set representation of the given sequence of ILexical using the provided comparison function to determine element distinctness.</returns>
         public static ISet<TLexical> ToSet<TLexical>(this ParallelQuery<TLexical> source, Func<TLexical, TLexical, bool> comparison) where TLexical : ILexical {
-            return new HashSet<TLexical>(source, Comparers<TLexical>.CreateCustom(comparison));
+            return new HashSet<TLexical>(source, LexicalComparer.Create(comparison));
         }
         #endregion
 

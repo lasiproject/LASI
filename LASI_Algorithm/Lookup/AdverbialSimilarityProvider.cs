@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace LASI.Core.ComparativeHeuristics
 {
-    public static class AdverbialSimilarityProvider
+    public static partial class Lookup
     {
         /// <summary>
         /// Determines if two IAdverbial instances are similar.

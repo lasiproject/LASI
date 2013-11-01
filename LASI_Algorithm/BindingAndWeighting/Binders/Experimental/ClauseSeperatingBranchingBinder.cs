@@ -8,7 +8,7 @@ namespace LASI.Core.Binding.Experimental
     /// <summary>
     /// An experimental class which uses a variety of binding techniques to infer the likely clause structure of a set of contiguous lexical elements.
     /// </summary>
-      static class ClauseSeperatingBranchingBinder
+    static class ClauseSeperatingBranchingBinder
     {
         /// <summary>
         /// Binds and identifies Clauses over the provided set of Words. Assumes that the Words supplied begin a sentence (or possibly follow a semicolon).
