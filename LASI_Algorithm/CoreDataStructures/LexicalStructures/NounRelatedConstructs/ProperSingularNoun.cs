@@ -17,7 +17,7 @@ namespace LASI.Core
         /// <param name="text">The key text content of the ProperSingularNoun.</param>
         public ProperSingularNoun(string text)
             : base(text) {
-            EntityKind = text.All(c => char.IsUpper(c) || c == '.') ? EntityKind.Organization : Gender.IsMaleOrFemale() ? EntityKind.Person : EntityKind;
+            EntityKind = text.All(c => char.IsUpper(c) || c == '.') ? EntityKind.Organization : (gender ?? Gender.Unknown).IsMaleOrFemale() ? EntityKind.Person : EntityKind;
         }
         private Gender? gender = null;
         /// <summary>
