@@ -47,7 +47,7 @@ namespace LASI.Core.Binding
 
         private static void PreBind(IEnumerable<Paragraph> enumerable) {
             foreach (var p in enumerable) {
-                LASI.Core.Binding.Experimental.PreBinder.BindPairedDelimiters(p);
+                LASI.Core.Binding.Experimental.PreBinder.BindPairedDelimiters(p);       
             }
         }
 
