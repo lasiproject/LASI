@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LASI.Core.Interop;
 
-namespace LASI.InteropLayer
+namespace LASI.Interop
 {
     /// <summary>
     /// Controls global performance and resource usage settings.

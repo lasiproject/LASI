@@ -8,14 +8,14 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-namespace LASI.InteropLayer
+namespace LASI.Interop
 {
 
     /// <summary>
     /// Governs the complete analysis and processing of one or more text sources.
     /// Provides synchronous and asynchronoun callback based progress reports.
     /// </summary>
-    public sealed class ProcessController : Progress<LASI.InteropLayer.ProcessController.Report>
+    public sealed class ProcessController : Progress<LASI.Interop.ProcessController.Report>
     {
         /// <summary>
         /// Gets a Task&lt;IEnumerable&lt;LASI.Algorithm.Document&gt;&gt; which, when awaited, loads, analyizes, and aggregates all of the provided TextFile instances as individual documents, collecting them as

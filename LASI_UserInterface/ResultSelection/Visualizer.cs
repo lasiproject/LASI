@@ -3,7 +3,7 @@ using LASI.Core;
 using LASI.Core.DocumentStructures;
 using LASI.Core.ComparativeHeuristics;
 using LASI.Core.Patternization;
-using LASI.InteropLayer;
+using LASI.Interop;
 using System;
 using System.Collections.Generic;
 using System.Linq;

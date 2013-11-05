@@ -1,5 +1,5 @@
 ﻿using LASI.ContentSystem;
-using LASI.InteropLayer;
+using LASI.Interop;
 using System;
 using System.Configuration;
 using System.Linq;

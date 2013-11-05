@@ -6,7 +6,7 @@ using LASI.Core.ComparativeHeuristics;
 using LASI.Core.Patternization;
 using LASI.ContentSystem;
 using LASI.ContentSystem.Serialization.XML;
-using LASI.InteropLayer;
+using LASI.Interop;
 using LASI.App.Dialogs;
 using LASI.Utilities;
 using System;

@@ -89,7 +89,7 @@
       </ComponentConfig>
     </ComponentConfigurations>
     <DocumentationSources>
-      <DocumentationSource sourceFile="..\LASI_Algorithm\L_Core.csproj" />
+      <DocumentationSource sourceFile="..\LASI_Core\L_Core.csproj" />
       <DocumentationSource sourceFile="..\LASI_UserInterface\L_App.csproj" />
       <DocumentationSource sourceFile="..\LASI_ContentSystem\L_ContentSystem.csproj" />
       <DocumentationSource sourceFile="..\LASI_InteropLayer\L_InteropLayer.csproj" />
@@ -123,18 +123,13 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|Win32' ">
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\LASI_Algorithm\L_Core.csproj">
-      <Name>L_Core</Name>
-      <Project>{8c562a93-a885-4fe9-8b8c-5ce34ccbaec1}</Project>
-      <Private>True</Private>
-    </ProjectReference>
     <ProjectReference Include="..\LASI_ContentSystem\L_ContentSystem.csproj">
       <Name>L_ContentSystem</Name>
       <Project>{f13d6c6d-a004-45bd-8fb8-e044e20f1204}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\LASI_InteropLayer\L_InteropLayer.csproj">
-      <Name>L_InteropLayer</Name>
+    <ProjectReference Include="..\LASI_InteropLayer\L_Interop.csproj">
+      <Name>L_Interop</Name>
       <Project>{06b96679-9758-4b15-8e75-0f46416e68b7}</Project>
       <Private>True</Private>
     </ProjectReference>

@@ -586,17 +586,17 @@
     <Resource Include="MiscImages\collie1.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\LASI_Algorithm\L_Core.csproj">
-      <Project>{8C562A93-A885-4FE9-8B8C-5CE34CCBAEC1}</Project>
-      <Name>L_Core</Name>
-    </ProjectReference>
     <ProjectReference Include="..\LASI_ContentSystem\L_ContentSystem.csproj">
       <Project>{f13d6c6d-a004-45bd-8fb8-e044e20f1204}</Project>
       <Name>L_ContentSystem</Name>
     </ProjectReference>
-    <ProjectReference Include="..\LASI_InteropLayer\L_InteropLayer.csproj">
+    <ProjectReference Include="..\LASI_Core\L_Core.csproj">
+      <Project>{8c562a93-a885-4fe9-8b8c-5ce34ccbaec1}</Project>
+      <Name>L_Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LASI_InteropLayer\L_Interop.csproj">
       <Project>{06b96679-9758-4b15-8e75-0f46416e68b7}</Project>
-      <Name>L_InteropLayer</Name>
+      <Name>L_Interop</Name>
     </ProjectReference>
     <ProjectReference Include="..\LASI_Utilities\L_Utilities.csproj">
       <Project>{bc10a8f0-77ff-46d0-9f9a-38e2fda22d21}</Project>

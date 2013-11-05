@@ -7,8 +7,8 @@
     <ProjectGuid>{06B96679-9758-4B15-8E75-0F46416E68B7}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>LASI.InteropLayer</RootNamespace>
-    <AssemblyName>InteropLayer</AssemblyName>
+    <RootNamespace>LASI.Interop</RootNamespace>
+    <AssemblyName>Interop</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -36,7 +36,7 @@
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x64</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
-    <DocumentationFile>bin\Release\InteropLayer.XML</DocumentationFile>
+    <DocumentationFile>bin\Release\Interop.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="PresentationCore" />
@@ -58,13 +58,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\LASI_Algorithm\L_Core.csproj">
-      <Project>{8c562a93-a885-4fe9-8b8c-5ce34ccbaec1}</Project>
-      <Name>L_Core</Name>
-    </ProjectReference>
     <ProjectReference Include="..\LASI_ContentSystem\L_ContentSystem.csproj">
       <Project>{f13d6c6d-a004-45bd-8fb8-e044e20f1204}</Project>
       <Name>L_ContentSystem</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LASI_Core\L_Core.csproj">
+      <Project>{8c562a93-a885-4fe9-8b8c-5ce34ccbaec1}</Project>
+      <Name>L_Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\LASI_Utilities\L_Utilities.csproj">
       <Project>{bc10a8f0-77ff-46d0-9f9a-38e2fda22d21}</Project>
