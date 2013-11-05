@@ -1,4 +1,4 @@
-﻿namespace AlgorithmAssemblyUnitTestProject.Properties
+﻿namespace UnitTests.Properties
 {
 
 

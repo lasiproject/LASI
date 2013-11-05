@@ -265,6 +265,7 @@ namespace LASI.Core
             //    entityKind == EntityKind.PersonMale :
             //    false;
         }
+        public static bool IsGenderEquivalentTo(this  IEntity first, IEntity second) { return first.GetGender() == second.GetGender(); }
 
         #endregion
         #region Gender Helpers

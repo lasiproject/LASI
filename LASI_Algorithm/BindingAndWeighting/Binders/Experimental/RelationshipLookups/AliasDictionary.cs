@@ -68,16 +68,16 @@ namespace LASI.Core.ComparativeHeuristics
         private static void DefineAliasInDictionary(string entityText, params string[] textualAliases) {
             aliasDictionary.AddOrUpdate(
                    entityText, new HashSet<string>(textualAliases),
-                   (key, current) => current.Concat(textualAliases).ToSet()
+                   (key, current) => current.Concat(textualAliases).ToHashSet()
                    );
         }
         private static void DefineAliasInDictionary(IEntity entity, params IEntity[] aliases) {
             aliasDictionary.AddOrUpdate(entity.Text, key => aliases
-                .Select(a => a.Text).ToSet(),
-                (key, current) => current.Concat(aliases.Select(a => a.Text)).ToSet());
+                .Select(a => a.Text).ToHashSet(),
+                (key, current) => current.Concat(aliases.Select(a => a.Text)).ToHashSet());
             aliasedEntityReferenceMap.AddOrUpdate(
                 entity, new HashSet<IEntity>(aliases),
-                (key, current) => current.Union(aliases).ToSet()
+                (key, current) => current.Union(aliases).ToHashSet()
                 );
 
         }

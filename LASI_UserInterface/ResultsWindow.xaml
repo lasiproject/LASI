@@ -14,7 +14,7 @@
     Icon="MiscImages\LasiLogo.ico"
     WindowStartupLocation="Manual"
     WindowState="Normal"
-    Drop="Grid_Drop" 
+    Drop="Grid_Drop"
     AllowDrop="True"
     VerticalAlignment="Center"
     HorizontalAlignment="Center">

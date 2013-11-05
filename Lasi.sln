@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.20827.3
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E61EB5D5-494B-437A-A9ED-20756769E139}"
 	ProjectSection(SolutionItems) = preProject
 		LasiClassFramework.vsmdi = LasiClassFramework.vsmdi
@@ -41,7 +43,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SchemaTestFiles", "SchemaTe
 		LASI_FileSystem\XMLFile1.xml = LASI_FileSystem\XMLFile1.xml
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LASI_Algorithm_UnitTests", "UnitTests\LASI_Algorithm_UnitTests.csproj", "{F4ABC10C-0BE9-4195-99E7-DB027757EC6B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "L_Core_Test", "UnitTests\L_Core_Test.csproj", "{F4ABC10C-0BE9-4195-99E7-DB027757EC6B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "L_InteropLayer", "LASI_InteropLayer\L_InteropLayer.csproj", "{06B96679-9758-4B15-8E75-0F46416E68B7}"
 EndProject
@@ -70,9 +72,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Icons", "Icons", "{E81FAED7
 	EndProjectSection
 EndProject
 Global
-	GlobalSection(TestCaseManagementSettings) = postSolution
-		CategoryFile = LasiClassFramework.vsmdi
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|x64 = Debug|x64
@@ -165,5 +164,8 @@ Global
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		VisualSVNWorkingCopyRoot = .
+	EndGlobalSection
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = LasiClassFramework.vsmdi
 	EndGlobalSection
 EndGlobal

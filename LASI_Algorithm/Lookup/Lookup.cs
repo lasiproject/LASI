@@ -33,8 +33,8 @@ namespace LASI.Core.ComparativeHeuristics
         public static Gender GetGender(this IEntity entity) {
             return entity.Match().Yield<Gender>()
                     .Case<IGendered>(p => p.Gender)
-                    .Case<IReferencer>(p => p.GetPronounGender())
-                    .Case<NounPhrase>(n => n.GetGender())
+                    .Case<IReferencer>(p => GetGender(p))
+                    .Case<NounPhrase>(n => GetNounPhraseGender(n))
                     .Case<CommonNoun>(n => Gender.Neutral)
                     .When(e => e.BoundPronouns.Any())
                     .Then<IEntity>(e => (from pro in e.BoundPronouns
@@ -47,47 +47,30 @@ namespace LASI.Core.ComparativeHeuristics
         /// <summary>
         /// Returns a NameGender value indiciating the likely gender of the Pronoun based on its referrent if known, or else its PronounKind.
         /// </summary>
-        /// <param name="pronoun">The Pronoun whose gender to lookup.</param>
+        /// <param name="referee">The Pronoun whose gender to lookup.</param>
         /// <returns>A NameGender value indiciating the likely gender of the Pronoun.</returns>
-        private static Gender GetPronounGender(this IReferencer pronoun) {
-            return pronoun.Match().Yield<Gender>()
-                .When<IReferencer>(p => p.Referent != null)
-                .Then<IReferencer>(p => {
-                    return (from referent in p.Referent
-                            let gen =
-                               referent.Match().Yield<Gender>()
-                                   .Case<NounPhrase>(r => r.GetGender())
-                                   .Case<Pronoun>(r => r.GetPronounGender())
-                                   .Case<ProperSingularNoun>(r => r.Gender)
-                                   .Case<CommonNoun>(n => Gender.Neutral)
-                               .Result()
-                            group gen by gen into byGen
-                            where byGen.Count() == pronoun.Referent.Count()
-                            select byGen.Key).FirstOrDefault();
-                })
-                    .Case<IGendered>(p => p.Gender)
-                    .Case<PronounPhrase>(p => GetPhraseGender(p))
+        private static Gender GetGender(IReferencer referee) {
+            return referee.Match().Yield<Gender>()
+                .Case<PronounPhrase>(p => GetPhraseGender(p))
+                .When(referee.Referent != null)
+                .Then((from referent in referee.Referent
+                       let gen =
+                          referent.Match().Yield<Gender>()
+                              .Case<NounPhrase>(n => GetNounPhraseGender(n))
+                              .Case<Pronoun>(r => r.Gender)
+                              .Case<ProperSingularNoun>(r => r.Gender)
+                              .Case<CommonNoun>(n => Gender.Neutral)
+                          .Result()
+                       group gen by gen into byGen
+                       where byGen.Count() == referee.Referent.Count()
+                       select byGen.Key).FirstOrDefault())
+                .Case<IGendered>(p => p.Gender)
                 .Result();
         }
 
-        /// <summary>
-        /// Returns a NameGender value indiciating the likely prevailing gender within the NounPhrase.
-        /// </summary>
-        /// <param name="name">The NounPhrase whose prevailing gender to lookup.</param>
-        /// <returns>A NameGender value indiciating the likely prevailing gender of the NounPhrase.</returns>
-        static Gender GetGender(this NounPhrase name) {
-            return GetNounPhraseGender(name);
-        }
 
-        /// <summary>
-        /// Determines if the provided NounPhrase is a known Full Name.
-        /// </summary>
-        /// <param name="name">The NounPhrase to check.</param>
-        /// <returns>True if the provided NounPhrase is a known Full Name, false otherwise.</returns>
-        public static bool IsFullName(this NounPhrase name) {
-            return GetNounPhraseGender(name).IsMaleOrFemale() && name.Words.OfProperNoun().Any(n => n.IsLastName());
 
-        }
+
         /// <summary>
         /// Determines if the provided NounPhrase is a known Full Female Name.
         /// </summary>
@@ -126,9 +109,9 @@ namespace LASI.Core.ComparativeHeuristics
             var genders = name.Words.OfType<IGendered>().Select(w => w.Gender);
             return name.Words.OfProperNoun().Any(n => !(n is IGendered)) ?
                 GetNounPhraseGender(name) :
-                genders.All(g => g.IsFemale()) ? Gender.Female :
-                genders.All(g => g.IsMale()) ? Gender.Male :
-                genders.All(g => g.IsNeutral()) ? Gender.Neutral :
+                genders.Any() && genders.All(g => g.IsFemale()) ? Gender.Female :
+                genders.Any() && genders.All(g => g.IsMale()) ? Gender.Male :
+                genders.Any() && genders.All(g => g.IsNeutral()) ? Gender.Neutral :
                 Gender.Unknown;
         }
 
@@ -222,8 +205,7 @@ namespace LASI.Core.ComparativeHeuristics
                 VerbThesaurusLoadTask, 
                 AdjectiveThesaurusLoadTask, 
                 AdverbThesaurusLoadTask, 
-                NameDataLoadTask,
-                ScrabbleDictionaryLoadTask
+                NominalEntityLoadTask, 
                 }
             .Where(t => t != null);
         }
@@ -233,11 +215,8 @@ namespace LASI.Core.ComparativeHeuristics
         public static void LoadAllData() {
             Task.WaitAll(GetLoadingTasks().ToArray());
         }
-        /// <summary>
-        /// Returns a single Task which, when awaited, will load all resources used by the Lookup class.
-        /// </summary>
-        /// <returns>A single Task which, when awaited, will load all resources used by the Lookup class.</returns>
-        public static async Task LoadAllDataAsync() { await Task.WhenAll(GetLoadingTasks().ToArray()); }
+
+
 
         #endregion
         #region Synonym Lookup Methods
@@ -438,7 +417,7 @@ namespace LASI.Core.ComparativeHeuristics
         private static async Task<ISet<string>> GetLinesAsync(string fileName) {
             using (var reader = new StreamReader(fileName)) {
                 string data = await reader.ReadToEndAsync();
-                return data.SplitRemoveEmpty('\r', '\n').Select(s => s.Trim()).ToSet(StringComparer.OrdinalIgnoreCase);
+                return data.SplitRemoveEmpty('\r', '\n').Select(s => s.Trim()).ToHashSet(StringComparer.OrdinalIgnoreCase);
             }
         }
 
@@ -500,13 +479,20 @@ namespace LASI.Core.ComparativeHeuristics
         /// </summary>
         #region Loading Task Builders
 
-        internal static Task<string> ScrabbleDictionaryLoadTask = Task.Run(() => {
-            scrabbleDictionary = new List<string>();
-            using (var reader = new StreamReader(scrabbleDictsFilePath)) {
-                scrabbleDictionary = reader.ReadToEnd().SplitRemoveEmpty('\r', '\n').Select(s => s.ToLower()).ToList();
+        internal static Task<string> ScrabbleDictionaryLoadTask {
+            get {
+                return Task.Run(() => {
+                    scrabbleDictionary = new HashSet<string>();
+                    using (var reader = new StreamReader(scrabbleDictsFilePath)) {
+                        scrabbleDictionary = reader.ReadToEnd().SplitRemoveEmpty('\r', '\n')
+                            .Select(s => s.ToLower())
+                            .Except(maleNames.Union(femaleNames).Union(lastNames), StringComparer.OrdinalIgnoreCase)
+                            .ToHashSet(StringComparer.OrdinalIgnoreCase);
+                    }
+                    return "Finished Loading Scrabble Dictionary";
+                });
             }
-            return "Finished Loading Scrabble Dictionary";
-        });
+        }
         internal static Task<string> AdjectiveThesaurusLoadTask {
             get {
                 var result = adjectiveLoadingState == LoadingState.NotStarted ?
@@ -556,15 +542,17 @@ namespace LASI.Core.ComparativeHeuristics
                 return result;
             }
         }
-        internal static Task<string> NameDataLoadTask {
+        internal static Task<string> NominalEntityLoadTask {
             get {
-                var result = nameDataLoadingState == LoadingState.NotStarted ?
+                var result = nominalInfoormationLoadingState == LoadingState.NotStarted ?
                     Task.Run(async () => {
                         await LoadNameDataAsync();
-                        nameDataLoadingState = LoadingState.Finished;
-                        return "Loaded Name Data";
+                        await ScrabbleDictionaryLoadTask;
+
+                        nominalInfoormationLoadingState = LoadingState.Finished;
+                        return "Loaded Nominal Information";
                     }) : null;
-                nameDataLoadingState = LoadingState.InProgress;
+                nominalInfoormationLoadingState = LoadingState.InProgress;
                 return result;
             }
 
@@ -600,13 +588,13 @@ namespace LASI.Core.ComparativeHeuristics
         static ISet<string> maleNames;
         static ISet<string> femaleNames;
         static ISet<string> genderAmbiguousNames;
-        static List<string> scrabbleDictionary;
+        static ISet<string> scrabbleDictionary;
         //Loading states for specific data items
         static LoadingState nounLoadingState = LoadingState.NotStarted;
         static LoadingState verbLoadingState = LoadingState.NotStarted;
         static LoadingState adjectiveLoadingState = LoadingState.NotStarted;
         static LoadingState adverbLoadingState = LoadingState.NotStarted;
-        static LoadingState nameDataLoadingState = LoadingState.NotStarted;
+        static LoadingState nominalInfoormationLoadingState = LoadingState.NotStarted;
 
         /// <summary>
         /// Similarity threshold for lexical element comparisons. If the computed ration of a similarity comparison is >= the threshold, 

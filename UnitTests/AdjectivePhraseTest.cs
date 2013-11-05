@@ -4,7 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 
-namespace AlgorithmAssemblyUnitTestProject
+namespace UnitTests
 {
 
 
@@ -15,7 +15,6 @@ namespace AlgorithmAssemblyUnitTestProject
     [TestClass()]
     public class AdjectivePhraseTest
     {
-
 
         private TestContext testContextInstance;
 

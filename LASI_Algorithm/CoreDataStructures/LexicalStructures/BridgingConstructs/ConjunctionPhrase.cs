@@ -24,8 +24,6 @@ namespace LASI.Core
 
         #endregion
 
-
-
         #region Properties
 
         /// <summary>
@@ -42,7 +40,6 @@ namespace LASI.Core
             get;
             set;
         }
-
 
         #endregion
 

@@ -4,7 +4,7 @@ using LASI.Core.DocumentStructures;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 
-namespace AlgorithmAssemblyUnitTestProject
+namespace UnitTests
 {
 
 

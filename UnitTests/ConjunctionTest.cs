@@ -4,7 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 
 
-namespace AlgorithmAssemblyUnitTestProject
+namespace  UnitTests
 {
 
 
@@ -96,6 +96,34 @@ namespace AlgorithmAssemblyUnitTestProject
             string text = "and";
             Conjunction target = new Conjunction(text);
             ILexical expected = new NounPhrase(new Word[] { new Determiner("the"), new CommonSingularNoun("program") });
+            ILexical actual;
+            target.JoinedRight = expected;
+            actual = target.JoinedRight;
+            Assert.AreEqual(expected, actual);
+        }
+
+        /// <summary>
+        ///A test for JoinedLeft
+        ///</summary>
+        [TestMethod()]
+        public void JoinedLeftTest() {
+            string text = "or";
+            Conjunction target = new Conjunction(text);
+            ILexical expected = new ProperSingularNoun("Jacob");
+            ILexical actual;
+            target.JoinedLeft = expected;
+            actual = target.JoinedLeft;
+            Assert.AreEqual(expected, actual);
+        }
+
+        /// <summary>
+        ///A test for JoinedRight
+        ///</summary>
+        [TestMethod()]
+        public void JoinedRightTest() {
+            string text = "and";
+            Conjunction target = new Conjunction(text);
+            ILexical expected = new AggregateEntity(new[] { new ProperSingularNoun("Jacob"), new ProperSingularNoun("Jessica") });
             ILexical actual;
             target.JoinedRight = expected;
             actual = target.JoinedRight;

@@ -5,7 +5,7 @@ using System;
 using System.Linq;
 
 
-namespace AlgorithmAssemblyUnitTestProject
+namespace UnitTests
 {
 
 

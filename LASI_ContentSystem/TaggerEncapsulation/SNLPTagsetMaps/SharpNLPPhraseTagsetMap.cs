@@ -27,13 +27,13 @@ namespace LASI.ContentSystem.TaggerEncapsulation
     /// var runTimePhrase = constructorFunction(itemText);
     /// </code>
     /// </example>
-      sealed class SharpNLPPhraseTagsetMap : PhraseTagsetMap
+    sealed class SharpNLPPhraseTagsetMap : PhraseTagsetMap
     {
         #region Fields
         private static readonly IReadOnlyDictionary<string, PhraseCreator> typeDictionary = new Dictionary<string, PhraseCreator> {
             
             { "VP", ws => ws.Any(w=> w is Punctuator) ? new SymbolPhrase(ws): ws.TakeWhile(w=>!(w is IVerbal)).FirstOrDefault(w=>w is ToLinker)!=null ? new InfinitivePhrase(ws) : new VerbPhrase(ws) as Phrase  },
-            { "NP", ws => ws.OfType<IEntity>().All(w=>w is IReferencer) ? new PronounPhrase(ws) : ws.All(w=>w is Adverb) ?new AdverbPhrase(ws) : new NounPhrase(ws) as Phrase },
+            { "NP", ws => ws.OfType<IEntity>().Any()&&ws.All(w=>w is Pronoun) ? new PronounPhrase(ws) : ws.All(w=>w is Adverb) ?new AdverbPhrase(ws) : new NounPhrase(ws) as Phrase },
             { "PP", ws => new PrepositionalPhrase(ws) },
             { "ADVP", ws => new AdverbPhrase(ws) },
             { "ADJP", ws => new AdjectivePhrase(ws) },

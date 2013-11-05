@@ -211,4 +211,11 @@ namespace LASI.Core.ComparativeHeuristics
             : base(info, context) {
         }
     }
+    [Serializable]
+    public class NameDataNotLoadedException : WordDataNotLoadedException
+    {
+        public NameDataNotLoadedException() : base("An attempt was made to access Name data before associated loading could complete") { }
+        public NameDataNotLoadedException(string message, Exception inner) : base(message, inner) { }
+        protected NameDataNotLoadedException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
+    }
 }

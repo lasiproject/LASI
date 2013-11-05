@@ -17,7 +17,8 @@ namespace LASI.Core.ComparativeHeuristics
         /// <param name="first">The first IDescriptor</param>
         /// <param name="second">The second IDescriptor</param>
         /// <returns>True if the given IDescriptor instances are similar, false otherwise.</returns>
-        /// <remarks>There are two calling conventions for this method. See the following examples
+        /// <remarks>
+        /// are two calling conventions for this method. See the following examples
         /// <code>if ( Lookup.IsSimilarTo(d1, d2) ) { ... }</code>
         /// <code>if ( d1.IsSimilarTo(d2) ) { ... }</code> 
         /// Please prefer the second convention.
@@ -81,7 +82,6 @@ namespace LASI.Core.ComparativeHeuristics
         public static SimilarityResult IsSimilarTo(this Adjective first, AdjectivePhrase second) {
             return new SR(second.Words.OfAdjective().Any(adj => adj.IsSynonymFor(first)));
         }
-
         /// <summary>
         /// Determines if two AdjectivePhrase are similar.
         /// </summary>

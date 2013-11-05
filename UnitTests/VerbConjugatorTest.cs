@@ -7,7 +7,7 @@ using System.Configuration;
 using System.Diagnostics;
 using System.Linq;
 
-namespace AlgorithmAssemblyUnitTestProject
+namespace UnitTests
 {
 
 

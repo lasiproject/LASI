@@ -12,7 +12,7 @@ namespace LASI.Core
     /// <see cref="IReferencer"/>
     /// <seealso cref="PersonalPronoun"/>
     /// <seealso cref="RelativePronoun"/>
-    public static class EnumerableOfIPronounExtensions
+    public static partial class LASIEnumerable
     {
         #region Sequential Implementation
         /// <summary>

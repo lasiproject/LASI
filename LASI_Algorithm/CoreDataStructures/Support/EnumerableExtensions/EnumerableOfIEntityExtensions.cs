@@ -13,7 +13,7 @@ namespace LASI.Core
     /// <see cref="IEntity"/>
     /// <seealso cref="System.Collections.Generic.IEnumerable{T}"/>
     /// <seealso cref="System.Linq.Enumerable"/>
-    public static class EnumerableOfIEntityExtensions
+    public static partial class LASIEnumerable
     {
         #region Sequential Implementations
         /// <summary>

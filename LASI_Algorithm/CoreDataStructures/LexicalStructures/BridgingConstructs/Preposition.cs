@@ -1,4 +1,4 @@
-﻿
+﻿using LASI.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -27,7 +27,7 @@ namespace LASI.Core
         }
 
         private static PrepositionRole GetPrepositionalRole(string text) {
-            return KnownSubordinatingWordStrings.Contains(text) ?
+            return knownSubordinators.Contains(text) ?
                 PrepositionRole.SubordinatingConjunction : PrepositionRole.Undetermined;
         }
         /// <summary>
@@ -93,19 +93,22 @@ namespace LASI.Core
         #endregion
 
 
-
+        /// <summary>
+        /// Static constructor which loads preposition identification and categorization information.
+        /// </summary>
         static Preposition() {
-            using (var reader = new System.IO.StreamReader(ConfigurationManager.AppSettings["PrepositionDataFilePath"]))
-                for (var l = reader.ReadLine(); !reader.EndOfStream; l = reader.ReadLine())
-                    knownSubordinatingWordStrings.Add(new string(new string(l.TakeWhile(c => c != '/').ToArray()).Trim().TakeWhile(c => c != ' ').ToArray()));
-            knownSubordinatingWordStrings = knownSubordinatingWordStrings.Distinct().ToList();
+            using (var reader = new System.IO.StreamReader(ConfigurationManager.AppSettings["SubordinatingPrepositionalsInfoFile"]))
+                knownSubordinators = reader.ReadToEnd()
+                    .SplitRemoveEmpty('\r', '\n')
+                    .AsParallel()
+                    .Select(line => new string(line
+                        .TakeWhile(c => c != '/')
+                        .Where(c => c != ' ')
+                        .ToArray()));
+
         }
 
-        private static List<string> knownSubordinatingWordStrings = new List<string>();
-        private static IReadOnlyList<string> KnownSubordinatingWordStrings {
-            get {
-                return knownSubordinatingWordStrings;
-            }
-        }
+        private static IEnumerable<string> knownSubordinators;
+
     }
 }

@@ -127,7 +127,7 @@ namespace LASI.App.LexicalElementInfo
                     ResetLabelBrushes(labelsInContext);
                     var labels = from l in labelsInContext
                                  where pro.Referent == l.Tag || l.Tag is NounPhrase &&
-                                 pro.Referent.ToSet().Overlaps((l.Tag as NounPhrase).Words.OfEntity())
+                                 pro.Referent.ToHashSet().Overlaps((l.Tag as NounPhrase).Words.OfEntity())
                                  select l;
                     foreach (var l in labels) {
                         l.Foreground = Brushes.White;

@@ -13,10 +13,10 @@ namespace LASI.Core
     /// <see cref="DocumentStructures.Document"/>
     /// <seealso cref="DocumentStructures.Sentence"/>
     /// <seealso cref="DocumentStructures.Paragraph"/>
-    static class EnumerableOfDocumentStructureExtensions
+    public static partial class LASIEnumerable
     {
         #region Sequential Implementations
- 
+
         /// <summary>
         /// Gets the linear aggregation of all Phrase instances contained within the sequence of Paragraph instances.
         /// </summary>

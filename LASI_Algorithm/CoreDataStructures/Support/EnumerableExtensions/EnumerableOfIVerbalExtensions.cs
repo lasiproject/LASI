@@ -12,7 +12,7 @@ namespace LASI.Core
     /// Defines extension methods for sequences of objects implementing the IVerbal interface.
     /// </summary>
     /// <see cref="IVerbal"/>
-    public static class EnumerableOfIVerbalExtensions
+    public static partial class LASIEnumerable
     {
         #region Sequential Implementations
         /// <summary>

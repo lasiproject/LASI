@@ -683,7 +683,7 @@
     <Resource Include="MiscImages\NothingFilledError.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\LASICustom\Binding\SubordinatingConjunctionsTest.txt">
+    <None Include="Resources\LASICustom\Binding\KnownSubordinators.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

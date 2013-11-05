@@ -268,7 +268,7 @@
     <None Include="CoreDataStructures\LexicalStructures\UnderpinningTypes\ClassDiagram1.cd" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="BindingAndWeighting\Binders\SubordinatingConjunctionsTest.txt" />
+    <Content Include="BindingAndWeighting\Binders\KnownSubordinators.txt" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LASI_Utilities\L_Utilities.csproj">

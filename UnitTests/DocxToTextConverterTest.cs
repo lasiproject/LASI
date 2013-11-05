@@ -4,7 +4,7 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace AlgorithmAssemblyUnitTestProject
+namespace UnitTests
 {
 
 

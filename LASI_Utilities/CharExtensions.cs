@@ -39,7 +39,7 @@ namespace LASI.Utilities
         {
             return char.IsLetter(value);
         }
-        private static readonly ISet<char> vowels = new[] { 'a', 'e', 'i', 'o', 'u', 'y', 'A', 'E', 'I', 'O', 'U', 'Y' }.ToSet();
+        private static readonly ISet<char> vowels = new[] { 'a', 'e', 'i', 'o', 'u', 'y', 'A', 'E', 'I', 'O', 'U', 'Y' }.ToHashSet();
     }
 }
 

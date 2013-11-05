@@ -227,7 +227,7 @@ namespace LASI.Utilities
         /// <typeparam name="T">The type of elements in the sequence.</typeparam>
         /// <param name="source">The sequence whose distinct elements will comprise the resulting set.</param>
         /// <returns>A set representation of the given sequence using the default System.Collections.Generic.IEqualityComparer for the given element type.</returns>
-        public static ISet<T> ToSet<T>(this IEnumerable<T> source) {
+        public static HashSet<T> ToHashSet<T>(this IEnumerable<T> source) {
             if (source == null)
                 throw new ArgumentNullException("source");
             return new HashSet<T>(source);
@@ -239,7 +239,7 @@ namespace LASI.Utilities
         /// <param name="source">The sequence whose distinct elements will comprise the resulting set.</param>
         /// <param name="comparer">The System.Collections.Generic.IEqualityComparer implementation which will determine the distinctness of elements.</param>
         /// <returns>A set representation of the given sequence using the default IEqualityComparer for the given element type.</returns>
-        public static ISet<T> ToSet<T>(this IEnumerable<T> source, IEqualityComparer<T> comparer) {
+        public static HashSet<T> ToHashSet<T>(this IEnumerable<T> source, IEqualityComparer<T> comparer) {
             if (source == null)
                 throw new ArgumentNullException("source");
             return new HashSet<T>(source, comparer);
@@ -253,7 +253,7 @@ namespace LASI.Utilities
         /// <param name="equals">A function Func&lt;T, T, bool&gt; to which will determine the distinctness of elements.</param>
         /// <param name="getHashCode">The function to extract a hash code from each element.</param>
         /// <returns>A set representation of the given sequence using the default IEqualityComparer for the given element type.</returns>
-        public static ISet<T> ToSet<T>(this IEnumerable<T> source, Func<T, T, bool> equals, Func<T, int> getHashCode) {
+        public static HashSet<T> ToHashSet<T>(this IEnumerable<T> source, Func<T, T, bool> equals, Func<T, int> getHashCode) {
             if (source == null)
                 throw new ArgumentNullException("source");
             return new HashSet<T>(source, new CustomComaparer<T>(equals, getHashCode));

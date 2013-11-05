@@ -20,22 +20,22 @@
     <HtmlHelpName>Documentation</HtmlHelpName>
     <Language>en-US</Language>
     <BuildAssemblerVerbosity>OnlyErrors</BuildAssemblerVerbosity>
-    <HelpFileFormat>MSHelpViewer, Website</HelpFileFormat>
+    <HelpFileFormat>Website</HelpFileFormat>
     <IndentHtml>False</IndentHtml>
     <KeepLogFile>True</KeepLogFile>
     <DisableCodeBlockComponent>False</DisableCodeBlockComponent>
     <CppCommentsFixup>False</CppCommentsFixup>
     <CleanIntermediates>True</CleanIntermediates>
-    <SyntaxFilters>CSharp, VisualBasic, CPlusPlus, FSharp</SyntaxFilters>
+    <SyntaxFilters>CSharp</SyntaxFilters>
     <SdkLinkTarget>Blank</SdkLinkTarget>
     <RootNamespaceContainer>False</RootNamespaceContainer>
-    <PresentationStyle>VS2010</PresentationStyle>
+    <PresentationStyle>VS2005</PresentationStyle>
     <Preliminary>False</Preliminary>
     <NamingMethod>Guid</NamingMethod>
     <HelpTitle>LASI Class Library</HelpTitle>
     <ContentPlacement>AboveNamespaces</ContentPlacement>
     <MissingTags>AutoDocumentCtors, AutoDocumentDispose</MissingTags>
-    <VisibleItems>ExplicitInterfaceImplementations, InheritedMembers, InheritedFrameworkMembers, Internals, Privates, Protected, SealedProtected, PrivateFields</VisibleItems>
+    <VisibleItems>ExplicitInterfaceImplementations, InheritedMembers, Internals, Protected, SealedProtected</VisibleItems>
     <PlugInConfigurations>
       <PlugInConfig id="Hierarchical Table of Contents" enabled="True" xmlns="">
         <configuration>
@@ -62,13 +62,13 @@
     <CatalogVersion>100</CatalogVersion>
     <CatalogProductId>VS</CatalogProductId>
     <ComponentConfigurations>
-      <ComponentConfig id="API Token Resolution" enabled="True" xmlns="">
+      <ComponentConfig id="API Token Resolution" enabled="True">
         <component id="API Token Resolution" type="Microsoft.Ddue.Tools.SharedContentComponent" assembly="{@SandcastlePath}ProductionTools\BuildComponents.dll">
 
 			{@TokenFiles}
 			<replace elements="/*//token" item="string(.)" /></component>
       </ComponentConfig>
-      <ComponentConfig id="Code Block Component" enabled="True" xmlns="">
+      <ComponentConfig id="Code Block Component" enabled="True">
         <component id="Code Block Component" type="SandcastleBuilder.Components.CodeBlockComponent" assembly="{@SHFBFolder}SandcastleBuilder.Components.dll">
           <basePath value="{@HtmlEncProjectFolder}" />
           <outputPaths>{@HelpFormatOutputPaths}</outputPaths>
@@ -77,7 +77,7 @@
           <colorizer syntaxFile="{@SHFBFolder}Colorizer\highlight.xml" styleFile="{@SHFBFolder}Colorizer\highlight.xsl" stylesheet="{@SHFBFolder}Colorizer\highlight.css" scriptFile="{@SHFBFolder}Colorizer\highlight.js" language="cs" tabSize="0" numberLines="false" outlining="true" keepSeeTags="true" defaultTitle="true" />
         </component>
       </ComponentConfig>
-      <ComponentConfig id="IntelliSense Component" enabled="True" xmlns="">
+      <ComponentConfig id="IntelliSense Component" enabled="True">
         <component id="IntelliSense Component" type="Microsoft.Ddue.Tools.IntelliSenseComponent" assembly="{@SandcastlePath}ProductionTools\BuildComponents.dll">
           <!-- Output options (optional)
 					 Attributes:

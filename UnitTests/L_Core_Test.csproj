@@ -9,8 +9,8 @@
     <ProjectGuid>{F4ABC10C-0BE9-4195-99E7-DB027757EC6B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AlgorithmAssemblyUnitTestProject</RootNamespace>
-    <AssemblyName>AlgorithmAssemblyUnitTestProject</AssemblyName>
+    <RootNamespace>UnitTests</RootNamespace>
+    <AssemblyName>L_Core_Test</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -89,6 +89,7 @@
     <Reference Include="System.Runtime.Serialization.Formatters.Soap" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
@@ -129,6 +130,7 @@
     <Compile Include="PunctuatorTest.cs" />
     <Compile Include="SentenceTest.cs" />
     <Compile Include="Settings.cs" />
+    <Compile Include="TestEnvironmentManager.cs" />
     <Compile Include="TransitiveVerbTest.cs" />
     <Compile Include="VerbConjugatorTest.cs" />
     <Compile Include="VerbPhraseTest.cs" />

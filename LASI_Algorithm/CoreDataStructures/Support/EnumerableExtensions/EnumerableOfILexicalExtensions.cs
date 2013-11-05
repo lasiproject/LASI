@@ -14,7 +14,7 @@ namespace LASI.Core
     /// <see cref="ILexical"/>
     /// <seealso cref="System.Collections.Generic.IEnumerable{T}"/>
     /// <seealso cref="System.Linq.Enumerable"/>
-    public static class EnumerableOfILexicalExtensions
+    public static partial class LASIEnumerable
     {
         #region Sequential Implementations
         /// <summary>

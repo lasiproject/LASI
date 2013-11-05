@@ -88,6 +88,8 @@ namespace LASI.Core
                 result += SubjectOf != null ? "\nSubject Of: " + SubjectOf.Text : string.Empty;
                 result += DirectObjectOf != null ? "\nDirect Object Of: " + DirectObjectOf.Text : string.Empty;
                 result += IndirectObjectOf != null ? "\nIndirect Object Of: " + IndirectObjectOf.Text : string.Empty;
+                var gender = this.GetGender();
+                result += gender.IsDefined() ? "\nPrevailing Gender: " + this.GetGender() : string.Empty;
             }
             return result;
 
