@@ -1,0 +1,104 @@
+﻿using LASI.Core;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Collections.Generic;
+
+namespace UnitTests
+{
+    
+    
+    /// <summary>
+    ///This is a test class for IInderectObjectTakerTest and is intended
+    ///to contain all IInderectObjectTakerTest Unit Tests
+    ///</summary>
+    [TestClass()]
+    public class IInderectObjectTakerTest
+    {
+
+
+        private TestContext testContextInstance;
+
+        /// <summary>
+        ///Gets or sets the test context which provides
+        ///information about and functionality for the current test run.
+        ///</summary>
+        public TestContext TestContext {
+            get {
+                return testContextInstance;
+            }
+            set {
+                testContextInstance = value;
+            }
+        }
+
+        #region Additional test attributes
+        // 
+        //You can use the following additional attributes as you write your tests:
+        //
+        //Use ClassInitialize to run code before running the first test in the class
+        //[ClassInitialize()]
+        //public static void MyClassInitialize(TestContext testContext)
+        //{
+        //}
+        //
+        //Use ClassCleanup to run code after all tests in a class have run
+        //[ClassCleanup()]
+        //public static void MyClassCleanup()
+        //{
+        //}
+        //
+        //Use TestInitialize to run code before running each test
+        //[TestInitialize()]
+        //public void MyTestInitialize()
+        //{
+        //}
+        //
+        //Use TestCleanup to run code after each test has run
+        //[TestCleanup()]
+        //public void MyTestCleanup()
+        //{
+        //}
+        //
+        #endregion
+
+
+        internal virtual IInderectObjectTaker CreateIInderectObjectTaker() {
+            // TODO: Instantiate an appropriate concrete class.
+            IInderectObjectTaker target = null;
+            return target;
+        }
+
+        /// <summary>
+        ///A test for BindIndirectObject
+        ///</summary>
+        [TestMethod()]
+        public void BindIndirectObjectTest() {
+            IInderectObjectTaker target = CreateIInderectObjectTaker(); // TODO: Initialize to an appropriate value
+            IEntity indirectObject = null; // TODO: Initialize to an appropriate value
+            target.BindIndirectObject(indirectObject);
+            Assert.Inconclusive("A method that does not return a value cannot be verified.");
+        }
+
+        /// <summary>
+        ///A test for AggregateIndirectObject
+        ///</summary>
+        [TestMethod()]
+        public void AggregateIndirectObjectTest() {
+            IInderectObjectTaker target = CreateIInderectObjectTaker(); // TODO: Initialize to an appropriate value
+            IAggregateEntity actual;
+            actual = target.AggregateIndirectObject;
+            Assert.Inconclusive("Verify the correctness of this test method.");
+        }
+
+        /// <summary>
+        ///A test for IndirectObjects
+        ///</summary>
+        [TestMethod()]
+        public void IndirectObjectsTest() {
+            IInderectObjectTaker target = CreateIInderectObjectTaker(); // TODO: Initialize to an appropriate value
+            IEnumerable<IEntity> actual;
+            actual = target.IndirectObjects;
+            Assert.Inconclusive("Verify the correctness of this test method.");
+        }
+    }
+}

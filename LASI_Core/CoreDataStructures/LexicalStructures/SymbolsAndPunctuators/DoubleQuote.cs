@@ -20,8 +20,10 @@ namespace LASI.Core
         /// </summary>
         /// <param name="complement">A matching DoubleQuote with which to pair.</param>
         public override void PairWith(DoubleQuote complement) {
-            PairedInstance = complement;
-            complement.PairedInstance = this;
+            if (complement != this) {
+                PairedInstance = complement;
+                complement.PairedInstance = this;
+            }
         }
 
     }

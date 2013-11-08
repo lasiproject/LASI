@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Text;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -12,7 +13,9 @@ namespace UnitTests
     public class TestEnvironmentManager
     {
         [AssemblyInitialize]
-        public static void TestEnvironmentInitialize(TestContext context) { LASI.Core.ComparativeHeuristics.Lookup.LoadAllData(); }
+        public static void TestEnvironmentInitialize(TestContext context) {
+            LASI.Core.ComparativeHeuristics.Lookup.GetLoadingTasks().AsParallel().ForAll(async t => await t);
+        }
 
         //[AssemblyCleanup]
         //public static void TestEnvironmentCleanup() { }

@@ -23,7 +23,7 @@ namespace LASI.Core
             EntityKind = EntityKind.ProperUnknown;
         }
 
-        internal bool IsPersonalName {
+        public bool IsPersonalName {
             get {
                 return IsFirstName || IsLastName;
             }

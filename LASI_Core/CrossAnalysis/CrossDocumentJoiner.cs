@@ -111,23 +111,26 @@ namespace LASI.Core
 
         private static bool CompareNounPhrases(NounPhrase x, NounPhrase y) {
             return
+                ReferencerTestCompare(x, y) ||
+                ReferencerTestCompare(y, x) ||
                 x.Text == y.Text ||
-                x.IsAliasFor(y) ||
-                x.IsSimilarTo(y) ||
-                x.Match().Yield<bool>()
-                .Case<IReferencer>(pro => pro.Referent.Any(rX =>
-                    rX.Text == y.Text ||
-                    rX.IsAliasFor(y) ||
-                    rX.IsSimilarTo(y))
-                ).Result();
+                x.IsAliasFor(y) || x.IsSimilarTo(y);
+        }
+
+        private static bool ReferencerTestCompare(NounPhrase x, NounPhrase y) {
+            return x.Match().Yield<bool>()
+                            .Case<IReferencer>(pro => pro.Referent.Any(rX =>
+                                rX.Text == y.Text ||
+                                rX.IsAliasFor(y) ||
+                                rX.IsSimilarTo(y))).Result();
         }
         private static bool CompareNounPhrasesOld(NounPhrase x, NounPhrase y) {
+            var leftAsPro = x as IReferencer;
+            var rightAsPro = y as IReferencer;
+            var result = rightAsPro != null && x.Referees.Contains(rightAsPro) || leftAsPro != null && y.Referees.Contains(leftAsPro);
 
-            var result = x.Text == y.Text || x.IsAliasFor(y) || x.IsSimilarTo(y);
             if (!result) {
-                var leftAsPro = x as IReferencer;
-                var rightAsPro = y as IReferencer;
-                result = rightAsPro != null && x.BoundPronouns.Contains(rightAsPro) || leftAsPro != null && y.BoundPronouns.Contains(leftAsPro);
+                result = x.Text == y.Text || x.IsAliasFor(y) || x.IsSimilarTo(y);
             }
             return result;
         }

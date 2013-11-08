@@ -32,10 +32,10 @@ namespace LASI.Core.ComparativeHeuristics
                         .Result())
                     .Case<AdverbPhrase>(ap1 =>
                         second.Match().Yield<bool>()
-                        .Case<AdverbPhrase>(ap2 => ap1.IsSimilarTo(ap2))
-                        .Case<Adverb>(a2 => ap1.IsSimilarTo(a2))
-                    .Result())
-                .Result());
+                            .Case<AdverbPhrase>(ap2 => ap1.IsSimilarTo(ap2))
+                            .Case<Adverb>(a2 => ap1.IsSimilarTo(a2))
+                        .Result())
+                    .Result());
         }
         /// <summary>
         /// Determines if the two provided Adverb instances are similar.

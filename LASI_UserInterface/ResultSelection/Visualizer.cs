@@ -1,13 +1,9 @@
-﻿using LASI;
-using LASI.Core;
-using LASI.Core.DocumentStructures;
+﻿using LASI.Core;
 using LASI.Core.ComparativeHeuristics;
-using LASI.Core.Patternization;
-using LASI.Interop;
+using LASI.Core.DocumentStructures;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Controls.DataVisualization.Charting;

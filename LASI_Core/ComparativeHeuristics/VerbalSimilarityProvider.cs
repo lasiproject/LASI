@@ -34,8 +34,8 @@ namespace LASI.Core.ComparativeHeuristics
                         second.Match().Yield<SR>()
                           .Case<VerbPhrase>(vp2 => vp1.IsSimilarTo(vp2))
                           .Case<Verb>(v2 => vp1.IsSimilarTo(v2))
-                        .Result())
-                    .Result();
+                    .Result())
+                .Result();
         }
         /// <summary>
         /// Determines if the two provided Verb instances are similar.

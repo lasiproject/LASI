@@ -1,19 +1,19 @@
-﻿using LASI;
-using LASI.Core;
+﻿using LASI.Core;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-
+using System.Linq;
+using System.Collections.Generic;
 
 namespace UnitTests
 {
 
 
     /// <summary>
-    ///This is A test class for ConjunctionTest and is intended
-    ///to contain all ConjunctionTest Unit Tests
+    ///This is a test class for ConjunctionPhraseTest and is intended
+    ///to contain all ConjunctionPhraseTest Unit Tests
     ///</summary>
     [TestClass()]
-    public class ConjunctionTest
+    public class ConjunctionPhraseTest
     {
 
 
@@ -42,7 +42,7 @@ namespace UnitTests
         //{
         //}
         //
-        //Use ClassCleanup to run code after all tests in A class have run
+        //Use ClassCleanup to run code after all tests in a class have run
         //[ClassCleanup()]
         //public static void MyClassCleanup()
         //{
@@ -64,42 +64,13 @@ namespace UnitTests
 
 
         /// <summary>
-        ///A test for Conjunction Constructor
+        ///A test for ConjunctionPhrase Constructor
         ///</summary>
         [TestMethod()]
-        public void ConjunctionConstructorTest() {
-            string text = "and";
-            Conjunction target = new Conjunction(text);
-            Assert.AreEqual(target.Text, text);
-        }
-
-        /// <summary>
-        ///A test for OnLeft
-        ///</summary>
-        [TestMethod()]
-        public void OnLeftTest() {
-            string text = "and";
-            Conjunction target = new Conjunction(text);
-            ILexical expected = new NounPhrase(new Word[] { new Determiner("the"), new CommonSingularNoun("program") });
-            ILexical actual;
-            target.JoinedLeft = expected;
-            actual = target.JoinedLeft;
-            Assert.AreEqual(expected, actual);
-
-        }
-
-        /// <summary>
-        ///A test for OnRight
-        ///</summary>
-        [TestMethod()]
-        public void OnRightTest() {
-            string text = "and";
-            Conjunction target = new Conjunction(text);
-            ILexical expected = new NounPhrase(new Word[] { new Determiner("the"), new CommonSingularNoun("program") });
-            ILexical actual;
-            target.JoinedRight = expected;
-            actual = target.JoinedRight;
-            Assert.AreEqual(expected, actual);
+        public void ConjunctionPhraseConstructorTest() {
+            IEnumerable<Word> composedWords = new[] { new Conjunction("or") };
+            ConjunctionPhrase target = new ConjunctionPhrase(composedWords);
+            Assert.AreEqual(target.Text, string.Join(" ", composedWords.Select(w => w.Text)));
         }
 
         /// <summary>
@@ -107,9 +78,9 @@ namespace UnitTests
         ///</summary>
         [TestMethod()]
         public void JoinedLeftTest() {
-            string text = "or";
-            Conjunction target = new Conjunction(text);
-            ILexical expected = new ProperSingularNoun("Jacob");
+            IEnumerable<Word> composedWords = new[] { new Conjunction("and") };
+            ConjunctionPhrase target = new ConjunctionPhrase(composedWords);
+            ILexical expected = new NounPhrase(new[] { new CommonSingularNoun("cake") });
             ILexical actual;
             target.JoinedLeft = expected;
             actual = target.JoinedLeft;
@@ -121,15 +92,13 @@ namespace UnitTests
         ///</summary>
         [TestMethod()]
         public void JoinedRightTest() {
-            string text = "and";
-            Conjunction target = new Conjunction(text);
-            ILexical expected = new AggregateEntity(new[] { new ProperSingularNoun("Jacob"), new ProperSingularNoun("Jessica") });
+            IEnumerable<Word> composedWords = new[] { new Conjunction("and") };
+            ConjunctionPhrase target = new ConjunctionPhrase(composedWords);
+            ILexical expected = new CommonPluralNoun("pies");
             ILexical actual;
             target.JoinedRight = expected;
             actual = target.JoinedRight;
             Assert.AreEqual(expected, actual);
         }
-
-
     }
 }

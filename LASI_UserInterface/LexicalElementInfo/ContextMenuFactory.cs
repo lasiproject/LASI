@@ -1,13 +1,10 @@
 ﻿using LASI.Core;
 using LASI.Core.Patternization;
-using System;
+using LASI.Utilities;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Media;
-using LASI.Utilities;
 
 namespace LASI.App.LexicalElementInfo
 {

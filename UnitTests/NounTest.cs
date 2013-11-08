@@ -100,7 +100,7 @@ namespace UnitTests
             Noun target = CreateNoun();
             Pronoun pro = new PersonalPronoun("it");
             target.BindPronoun(pro);
-            Assert.IsTrue(target.BoundPronouns.Contains(pro) && pro.Referent.Any(e => e == target));
+            Assert.IsTrue(target.Referees.Contains(pro) && pro.Referent.Any(e => e == target));
         }
 
         ///// <summary>
@@ -162,7 +162,7 @@ namespace UnitTests
         public void IndirectReferencesTest() {
             Noun target = CreateNoun();
             IEnumerable<IReferencer> actual;
-            actual = target.BoundPronouns;
+            actual = target.Referees;
             Assert.IsTrue(actual != null && actual.Count() == 0);
         }
 

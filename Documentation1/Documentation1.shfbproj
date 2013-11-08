@@ -128,6 +128,11 @@
       <Project>{f13d6c6d-a004-45bd-8fb8-e044e20f1204}</Project>
       <Private>True</Private>
     </ProjectReference>
+    <ProjectReference Include="..\LASI_Core\L_Core.csproj">
+      <Name>L_Core</Name>
+      <Project>{8c562a93-a885-4fe9-8b8c-5ce34ccbaec1}</Project>
+      <Private>True</Private>
+    </ProjectReference>
     <ProjectReference Include="..\LASI_InteropLayer\L_Interop.csproj">
       <Name>L_Interop</Name>
       <Project>{06b96679-9758-4b15-8e75-0f46416e68b7}</Project>

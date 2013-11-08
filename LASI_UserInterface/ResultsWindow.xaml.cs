@@ -1,13 +1,11 @@
-using LASI;
-using LASI.Core;
-using LASI.Core.Binding;
-using LASI.Core.DocumentStructures;
-using LASI.Core.ComparativeHeuristics;
-using LASI.Core.Patternization;
+using LASI.App.Dialogs;
+using LASI.App.LexicalElementInfo;
 using LASI.ContentSystem;
 using LASI.ContentSystem.Serialization.XML;
-using LASI.Interop;
-using LASI.App.Dialogs;
+using LASI.Core;
+using LASI.Core.Binding;
+using LASI.Core.ComparativeHeuristics;
+using LASI.Core.DocumentStructures;
 using LASI.Utilities;
 using System;
 using System.Collections.Generic;
@@ -17,9 +15,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.DataVisualization.Charting;
 using System.Windows.Media;
-using LASI.App.LexicalElementInfo;
 
 
 namespace LASI.App

@@ -90,7 +90,7 @@ namespace LASI.Core
         /// </summary>
         /// <returns>True if the Verb is a possessive relationship specifier, false otherwise.</returns>
         protected virtual bool DetermineIsPossessive() {
-            var syns = Lookup.GetSynonyms(this);
+            var syns = LASI.Core.ComparativeHeuristics.Lookup.GetSynonyms(this);
             return syns.Contains("have", caseIgnoringComp);
         }
         /// <summary>

@@ -52,7 +52,8 @@
     </DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\Core.XML</DocumentationFile>
+    <DocumentationFile>
+    </DocumentationFile>
     <PlatformTarget>x64</PlatformTarget>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
     <UseVSHostingProcess>false</UseVSHostingProcess>
@@ -105,12 +106,13 @@
     <Compile Include="CoreDataStructures\LexicalStructures\NounRelatedConstructs\Gender.cs" />
     <Compile Include="CrossAnalysis\CrossDocumentJoiner.cs" />
     <Compile Include="CrossAnalysis\Relationship.cs" />
-    <Compile Include="Lookup\AdverbialSimilarityProvider.cs" />
-    <Compile Include="Lookup\VerbalSimilarityProvider.cs" />
-    <Compile Include="Lookup\EntitySimilarityProvider.cs" />
-    <Compile Include="Lookup\DescriptorSimilarityProvider.cs" />
-    <Compile Include="Lookup\Support\SimilarityResult.cs" />
-    <Compile Include="Lookup\Morphemization\AdverbMorpher.cs" />
+    <Compile Include="ComparativeHeuristics\AdverbialSimilarityProvider.cs" />
+    <Compile Include="ComparativeHeuristics\RepresentationalDeterminer.cs" />
+    <Compile Include="ComparativeHeuristics\VerbalSimilarityProvider.cs" />
+    <Compile Include="ComparativeHeuristics\EntitySimilarityProvider.cs" />
+    <Compile Include="ComparativeHeuristics\DescriptorSimilarityProvider.cs" />
+    <Compile Include="ComparativeHeuristics\Support\SimilarityResult.cs" />
+    <Compile Include="ComparativeHeuristics\Morphemization\AdverbMorpher.cs" />
     <Compile Include="CoreDataStructures\LexicalStructures\MiscLanguageConstructs\UnknownWord.cs" />
     <Compile Include="CoreDataStructures\LexicalStructures\NounRelatedConstructs\ISimpleGendered.cs" />
     <Compile Include="CoreDataStructures\LexicalStructures\UnderpinningTypes\IAggregateLexical.cs" />
@@ -122,7 +124,7 @@
     <Compile Include="CoreDataStructures\Support\PatternMatching\LexicalSpecific\PatternMatching.cs" />
     <Compile Include="CoreDataStructures\LexicalStructures\SymbolsAndPunctuators\IPairedPunctuator.cs" />
     <Compile Include="Interop\Content\IUntaggedTextSource.cs" />
-    <Compile Include="Lookup\SyntacticCategorical\Support\EntityClassificationExtensions.cs" />
+    <Compile Include="ComparativeHeuristics\SyntacticCategorical\Support\EntityClassificationExtensions.cs" />
     <Compile Include="CoreDataStructures\Support\EnumerableExtensions\EnumerableOfRecursiveIEnumerableILexicalsExtenstions.cs" />
     <Compile Include="Interop\Content\ITaggedTextSource.cs" />
     <Compile Include="CoreDataStructures\LexicalStructures\NounRelatedConstructs\RelativePronounKind.cs" />
@@ -175,10 +177,10 @@
     <Compile Include="CoreDataStructures\LexicalStructures\VerbRelatedConstructs\IModalityModdifiable.cs" />
     <Compile Include="CoreDataStructures\Support\Comparers.cs" />
     <Compile Include="Interop\ResourceManagement\CPUandRAMUsageControl.cs" />
-    <Compile Include="Lookup\SyntacticCategorical\AdjectiveLookup.cs" />
-    <Compile Include="Lookup\SyntacticCategorical\AdverbLookup.cs" />
-    <Compile Include="Lookup\Morphemization\NounMorpher.cs" />
-    <Compile Include="Lookup\Support\Exceptions\LookupExceptions.cs" />
+    <Compile Include="ComparativeHeuristics\SyntacticCategorical\AdjectiveLookup.cs" />
+    <Compile Include="ComparativeHeuristics\SyntacticCategorical\AdverbLookup.cs" />
+    <Compile Include="ComparativeHeuristics\Morphemization\NounMorpher.cs" />
+    <Compile Include="ComparativeHeuristics\Support\Exceptions\LookupExceptions.cs" />
     <Compile Include="CoreDataStructures\LexicalStructures\NounRelatedConstructs\RelativePronoun.cs" />
     <Compile Include="CoreDataStructures\LexicalStructures\NounRelatedConstructs\CommonNoun.cs" />
     <Compile Include="CoreDataStructures\LexicalStructures\NounRelatedConstructs\ProperNoun.cs" />
@@ -193,9 +195,9 @@
     <Compile Include="CoreDataStructures\LexicalStructures\AdjectiveRelatedConstructs\ComparativeAdjective.cs" />
     <Compile Include="CoreDataStructures\LexicalStructures\AdjectiveRelatedConstructs\SuperlativeAdjective .cs" />
     <Compile Include="CoreDataStructures\LexicalStructures\MiscLanguageConstructs\PossessiveEnding.cs" />
-    <Compile Include="Lookup\SyntacticCategorical\NounLookup.cs" />
-    <Compile Include="Lookup\SyntacticCategorical\Support\SynSet.cs" />
-    <Compile Include="Lookup\Lookup.cs" />
+    <Compile Include="ComparativeHeuristics\SyntacticCategorical\NounLookup.cs" />
+    <Compile Include="ComparativeHeuristics\SyntacticCategorical\Support\SynSet.cs" />
+    <Compile Include="ComparativeHeuristics\Lookup.cs" />
     <Compile Include="CoreDataStructures\LexicalStructures\AdjectiveRelatedConstructs\Adjective.cs" />
     <Compile Include="CoreDataStructures\LexicalStructures\AdjectiveRelatedConstructs\AdjectivePhrase.cs" />
     <Compile Include="CoreDataStructures\LexicalStructures\AdverbRelatedConstructs\Adverb.cs" />
@@ -232,7 +234,7 @@
     <Compile Include="CoreDataStructures\LexicalStructures\NounRelatedConstructs\PersonalPronoun.cs" />
     <Compile Include="CoreDataStructures\LexicalStructures\AdverbRelatedConstructs\SuperlativeAdverb.cs" />
     <Compile Include="CoreDataStructures\LexicalStructures\SymbolsAndPunctuators\Symbol.cs" />
-    <Compile Include="Lookup\SyntacticCategorical\WordNetLookup.cs" />
+    <Compile Include="ComparativeHeuristics\SyntacticCategorical\WordNetLookup.cs" />
     <Compile Include="CoreDataStructures\LexicalStructures\VerbRelatedConstructs\IVerbal.cs" />
     <Compile Include="CoreDataStructures\LexicalStructures\NounRelatedConstructs\Noun.cs" />
     <Compile Include="CoreDataStructures\LexicalStructures\NounRelatedConstructs\NounPhrase.cs" />
@@ -244,21 +246,21 @@
     <Compile Include="CoreDataStructures\LexicalStructures\NounRelatedConstructs\ProperSingularNoun.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CoreDataStructures\LexicalStructures\BridgingConstructs\ToLinker.cs" />
-    <Compile Include="Lookup\Morphemization\VerbMorpher.cs" />
-    <Compile Include="Lookup\SyntacticCategorical\VerbLookup.cs" />
+    <Compile Include="ComparativeHeuristics\Morphemization\VerbMorpher.cs" />
+    <Compile Include="ComparativeHeuristics\SyntacticCategorical\VerbLookup.cs" />
     <Compile Include="CoreDataStructures\LexicalStructures\VerbRelatedConstructs\Verb.cs" />
     <Compile Include="CoreDataStructures\LexicalStructures\VerbRelatedConstructs\VerbPhrase.cs" />
     <Compile Include="CoreDataStructures\Support\EnumerableExtensions\EnumerableOfIVerbalExtensions.cs" />
     <Compile Include="CoreDataStructures\LexicalStructures\VerbRelatedConstructs\VerbForm.cs" />
     <Compile Include="CoreDataStructures\LexicalStructures\UnderpinningTypes\Word.cs" />
     <Compile Include="CoreDataStructures\Support\EnumerableExtensions\EnumerableOfWordExtensions.cs" />
-    <Compile Include="Lookup\SyntacticCategorical\Support\WordNetLexCategoryInformation.cs" />
+    <Compile Include="ComparativeHeuristics\SyntacticCategorical\Support\WordNetLexCategoryInformation.cs" />
     <Compile Include="Interop\Content\TaggedTextFragment.cs" />
     <None Include="ClassDiagram1.cd" />
-    <None Include="CoreDataStructures\LexicalStructures\UnderpinningTypes\ClassDiagram1.cd" />
+    <None Include="ClassDiagram2.cd" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="BindingAndWeighting\Binders\KnownSubordinators.txt" />
+    <Content Include="KnownSubordinators.txt" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LASI_Utilities\L_Utilities.csproj">

@@ -109,7 +109,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets all of the IReferencer instances, generally Pronouns or PronounPhrases, which refer to the Pronoun.
         /// </summary>
-        public IEnumerable<IReferencer> BoundPronouns { get { return _boundPronouns; } }
+        public IEnumerable<IReferencer> Referees { get { return _boundPronouns; } }
         /// <summary>
         /// Gets the IVerbal instance, generally a TransitiveVerb or TransitiveVerbPhrase, which the Pronoun is the INDIRECT object of.
         /// </summary>

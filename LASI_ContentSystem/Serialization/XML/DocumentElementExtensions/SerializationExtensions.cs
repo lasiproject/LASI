@@ -39,7 +39,7 @@ namespace LASI.ContentSystem.Serialization.XML.ILexicalExtensions
                 new XElement("DirectObjectOf", GetIdentityString(entity.DirectObjectOf)),
                 new XElement("IndirectObjectOf", GetIdentityString(entity.IndirectObjectOf)),
                 new XElement("Bound Pronouns",
-                    from e in entity.BoundPronouns
+                    from e in entity.Referees
                     let content = e.GetIdentityString()
                     select new XElement("ReferencedBy", content)),
                 new XElement("Descriptors",

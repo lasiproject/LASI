@@ -153,6 +153,7 @@ namespace LASI.Core
         public static ISet<TLexical> ToSet<TLexical>(this IEnumerable<TLexical> source, Func<TLexical, TLexical, bool> comparison) where TLexical : ILexical {
             return new HashSet<TLexical>(source, LexicalComparer.Create(comparison));
         }
+
         #endregion
 
         #region Parallel Implementations

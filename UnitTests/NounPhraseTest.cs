@@ -99,7 +99,7 @@ namespace UnitTests
             NounPhrase target = new NounPhrase(composedWords);
             Pronoun pro = new PersonalPronoun("they");
             target.BindPronoun(pro);
-            Assert.IsTrue(target.BoundPronouns.Contains(pro) && pro.Referent.Any(e => e == target));
+            Assert.IsTrue(target.Referees.Contains(pro) && pro.Referent.Any(e => e == target));
         }
 
 
@@ -164,10 +164,10 @@ namespace UnitTests
         public void IndirectReferencesTest() {
             IEnumerable<Word> composedWords = new Word[] { new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians") };
             NounPhrase target = new NounPhrase(composedWords);
-            Assert.IsFalse(target.BoundPronouns.Any());
+            Assert.IsFalse(target.Referees.Any());
             Pronoun pro = new PersonalPronoun("they");
             target.BindPronoun(pro);
-            Assert.IsTrue(target.BoundPronouns.Contains(pro) && pro.Referent.Any(e => e == target));
+            Assert.IsTrue(target.Referees.Contains(pro) && pro.Referent.Any(e => e == target));
         }
 
         /// <summary>

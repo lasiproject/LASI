@@ -55,7 +55,7 @@ namespace LASI.Core.Binding.Experimental
             if (!_boundPronouns.Contains(pro)) { _boundPronouns.Add(pro); }
         }
 
-        public IEnumerable<IReferencer> BoundPronouns {
+        public IEnumerable<IReferencer> Referees {
             get { return _boundPronouns; }
         }
 

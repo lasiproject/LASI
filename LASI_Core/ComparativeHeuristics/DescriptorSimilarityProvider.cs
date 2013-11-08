@@ -27,18 +27,18 @@ namespace LASI.Core.ComparativeHeuristics
             return
                 first.Match().Yield<SR>()
                     .When(first.Text.ToUpper() == second.Text.ToUpper())
-                        .Then(SR.Similar)
-                    .Case<Adjective>(j1 =>
-                        second.Match().Yield<SR>()
+                    .Then(SR.Similar)
+                    .Case<Adjective>(j1 => second.Match()
+                        .Yield<SR>()
                             .Case<Adjective>(j2 => new SR(j1.IsSynonymFor(j2)))
                             .Case<AdjectivePhrase>(jp2 => jp2.IsSimilarTo(j1))
                         .Result())
-                    .Case<AdjectivePhrase>(jp1 =>
-                        second.Match().Yield<SR>()
-                          .Case<AdjectivePhrase>(jp2 => jp1.IsSimilarTo(jp2))
-                          .Case<Adjective>(j2 => jp1.IsSimilarTo(j2))
+                    .Case<AdjectivePhrase>(jp1 => second.Match()
+                        .Yield<SR>()
+                            .Case<AdjectivePhrase>(jp2 => jp1.IsSimilarTo(jp2))
+                            .Case<Adjective>(j2 => jp1.IsSimilarTo(j2))
                         .Result())
-                    .Result();
+                .Result();
         }
         /// <summary>
         /// Determines if the two provided Adjective instances are similar.

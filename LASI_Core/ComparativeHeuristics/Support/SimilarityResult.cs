@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LASI.Core.ComparativeHeuristics
 {
-    
+
     /// <summary>
     /// Encapsulates multiple pieces of information gathered during a similarity comparison into a light weight type.
     /// The structure cannot be created from outside of the Lookup class and is used to convey internal results.
@@ -120,7 +120,7 @@ namespace LASI.Core.ComparativeHeuristics
         /// Returns a value that indicates whether the SimResult on the left is equal to the SimResult on the right.
         /// Although it seems unlikely that two instances of SimResult will be compared directly for equality. 
         /// The == and != operators or defined to ensure type coersion does not result from the implicit conversions which make the class convenient.
-        /// Equality is defined strictly such that both RatioResult properties must match exactly in addition to both booleanResult properties.
+        /// Equality is defined strictly such that both RatioResult properties must match exactly to 5 digits, in addition to both booleanResult properties being equivalent.
         /// Keep this in mind if, for some reason, it is ever necessary to write code such as: 
         /// <code>if ( a.IsSimilarTo(b) == b.IsSimilarTo(a) ) { ... } </code>
         /// as the lexical lookup class itself currently makes no guarantees about reflexive equality over phrase-wise comparisons.
@@ -129,13 +129,13 @@ namespace LASI.Core.ComparativeHeuristics
         /// <param name="right">The SimRult on the right hand side.</param>
         /// <returns>True if the SimResult on the left is equal to the SimResult on the right.</returns>
         public static bool operator ==(SimilarityResult left, SimilarityResult right) {
-            return left.boolean == right.boolean && Math.Round(left.rational, 2) == Math.Round(right.rational, 2);
+            return left.boolean == right.boolean && Math.Round(left.rational, 5) == Math.Round(right.rational, 5);
         }
         /// <summary>
         /// Returns a value that indicates whether the SimResult on the left is not equal to the SimResult on the right.
         /// Although it seems unlikely that two instances of SimResult will be compared directly for equality. 
         /// The == and != operators or defined to ensure type coersion does not result from the implicit conversions which make the class convenient.
-        /// Equality is defined strictly such that both RatioResult properties must match exactly in addition to both booleanResult properties.
+        /// Equality is defined strictly such that both RatioResult properties must match exactly to 5 digits, in addition to both booleanResult properties being equivalent.
         /// Keep this in mind if, for some reason, it is ever necessary to write code such as:
         /// <code>if ( a.IsSimilarTo(b) == b.IsSimilarTo(a) ) { ... }</code> 
         /// as the lexical lookup class itself currently makes no guarantees about reflexive equality over phrase-wise comparisons.

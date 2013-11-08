@@ -94,7 +94,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets all of the IEntityReferences instances, generally Pronouns or PronounPhrases, which refer to the Noun Instance.
         /// </summary>
-        public virtual IEnumerable<IReferencer> BoundPronouns { get { return _boundPronouns; } }
+        public virtual IEnumerable<IReferencer> Referees { get { return _boundPronouns; } }
 
         /// <summary>
         /// Gets all of the IDescriptor constructs,generally Adjectives or AdjectivePhrases, which describe the Noun Instance.
@@ -145,9 +145,17 @@ namespace LASI.Core
         /// e.g. "[18] Pinkos"
         /// </summary>
         public virtual IQuantifier QuantifiedBy {
-            get { return _quantity; }
+            get {
+                return _quantity;
+            }
             set {
-                if (_quantity != null) { _quantity.QuantifiedBy = value; value.Quantifies = _quantity; } else { _quantity = value; value.Quantifies = this; }
+                if (_quantity != null) {
+                    _quantity.QuantifiedBy = value;
+                    value.Quantifies = _quantity;
+                } else {
+                    _quantity = value;
+                    value.Quantifies = this;
+                }
             }
         }
 

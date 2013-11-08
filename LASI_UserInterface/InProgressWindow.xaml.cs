@@ -1,12 +1,10 @@
 ﻿using LASI.ContentSystem;
 using LASI.Interop;
 using System;
-using System.Configuration;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 
 namespace LASI.App
 {

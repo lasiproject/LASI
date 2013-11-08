@@ -68,9 +68,8 @@ namespace LASI.Core
         }
 
         #region Fields
-
         private HashSet<IPossessable> _possessed = new HashSet<IPossessable>();
         private IPossesser _possessesFor;
-        #endregion
+        #endregion Fields
     }
 }

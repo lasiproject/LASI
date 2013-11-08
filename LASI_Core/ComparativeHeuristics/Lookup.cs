@@ -36,13 +36,15 @@ namespace LASI.Core.ComparativeHeuristics
                     .Case<IReferencer>(p => GetGender(p))
                     .Case<NounPhrase>(n => GetNounPhraseGender(n))
                     .Case<CommonNoun>(n => Gender.Neutral)
-                    .When(e => e.BoundPronouns.Any())
-                    .Then<IEntity>(e => (from pro in e.BoundPronouns
-                                         let gen = pro.Match().Yield<Gender>().Case<IGendered>(p => p.Gender).Result()
+                    .When(e => e.Referees.Any())
+                    .Then<IEntity>(e => (from pro in e.Referees
+                                         let gen = pro.Match()
+                                         .Yield<Gender>()
+                                            .Case<IGendered>(p => p.Gender)
+                                        .Result()
                                          group gen by gen into byGen
                                          orderby byGen.Count() descending
-                                         select byGen.Key).FirstOrDefault())
-                    .Result();
+                                         select byGen.Key).FirstOrDefault()).Result();
         }
         /// <summary>
         /// Returns a NameGender value indiciating the likely gender of the Pronoun based on its referrent if known, or else its PronounKind.
@@ -51,20 +53,21 @@ namespace LASI.Core.ComparativeHeuristics
         /// <returns>A NameGender value indiciating the likely gender of the Pronoun.</returns>
         private static Gender GetGender(IReferencer referee) {
             return referee.Match().Yield<Gender>()
-                .Case<PronounPhrase>(p => GetPhraseGender(p))
-                .When(referee.Referent != null)
-                .Then((from referent in referee.Referent
-                       let gen =
-                          referent.Match().Yield<Gender>()
-                              .Case<NounPhrase>(n => GetNounPhraseGender(n))
-                              .Case<Pronoun>(r => r.Gender)
-                              .Case<ProperSingularNoun>(r => r.Gender)
-                              .Case<CommonNoun>(n => Gender.Neutral)
-                          .Result()
-                       group gen by gen into byGen
-                       where byGen.Count() == referee.Referent.Count()
-                       select byGen.Key).FirstOrDefault())
-                .Case<IGendered>(p => p.Gender)
+                    .Case<PronounPhrase>(p => GetPhraseGender(p))
+                    .When(referee.Referent != null)
+                    .Then((from referent in referee.Referent
+                           let gen =
+                              referent.Match()
+                              .Yield<Gender>()
+                                  .Case<NounPhrase>(n => GetNounPhraseGender(n))
+                                  .Case<Pronoun>(r => r.Gender)
+                                  .Case<ProperSingularNoun>(r => r.Gender)
+                                  .Case<CommonNoun>(n => Gender.Neutral)
+                             .Result()
+                           group gen by gen into byGen
+                           where byGen.Count() == referee.Referent.Count()
+                           select byGen.Key).FirstOrDefault())
+                    .Case<IGendered>(p => p.Gender)
                 .Result();
         }
 

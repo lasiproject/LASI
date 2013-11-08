@@ -24,13 +24,18 @@ namespace LASI.Utilities
         public static Func<A, C> Compose<A, B, C>(this Func<A, B> f, Func<B, C> g) {
             return t => g(f(t));
         }
-        static void Test() {
-            Func<int, int> f = x => x * x;
-            Func<int, double> g = x => x / 2.0;
-            var d = f.Compose(x => x * 2.0).Compose(x => (int)x);
-            var e = d.Compose(x => x.ToString());
-            var fs = (Func<int, double>)(y => e.Compose(x => x + "00").Compose(x => Int32.Parse(x)).Compose(g).Compose(x => x + 2)(y));
 
+        public static Func<T, TResult2> Select<T, TResult, TResult2>(
+                  this Func<T, TResult> func,
+                  Func<TResult, TResult2> selector) {
+            return x => selector(func(x));
         }
+
+        public static Func<T, TResult> ToFn<T, TResult>(Func<T, TResult> fn) { return fn; }
+        //public static MatchFunc<T, TResult> ToFn<T, TResult>(Func<T, TResult> fn) { return x => fn(x); }
+        //public static Func<T, TResult> ToFn<T, TResult>(MatchFunc<T, TResult> fn) { return x => fn(x); }
+
+
     }
+    public delegate TResult MatchFunc<T, TResult>(T arg);
 }

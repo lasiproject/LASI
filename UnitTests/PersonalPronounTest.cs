@@ -85,7 +85,7 @@ namespace UnitTests
             PersonalPronoun target = new PersonalPronoun(text);
             Pronoun pro = new PersonalPronoun("them");
             target.BindPronoun(pro);
-            Assert.IsTrue(target.BoundPronouns.Contains(pro));
+            Assert.IsTrue(target.Referees.Contains(pro));
         }
 
         /// <summary>
@@ -158,7 +158,7 @@ namespace UnitTests
             PersonalPronoun target = new PersonalPronoun(text);
             Pronoun referencer = new PersonalPronoun("himslef");
             target.BindPronoun(referencer);
-            Assert.IsTrue(target.BoundPronouns.Contains(referencer));
+            Assert.IsTrue(target.Referees.Contains(referencer));
         }
 
         /// <summary>

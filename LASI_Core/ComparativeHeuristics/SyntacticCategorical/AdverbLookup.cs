@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 
 namespace LASI.Core.ComparativeHeuristics
 {
-    using SetReference = System.Collections.Generic.KeyValuePair<AdverbSetLink, int>;
+    using SetReference = KeyValuePair<AdverbSetLink, int>;
     internal sealed class AdverbLookup : WordNetLookup<Adverb>
     {
         /// <summary>

@@ -18,14 +18,14 @@ namespace LASI.Core.Binding.Experimental
 
             var releventElements =
                 from phrase in phrases.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                select phrase.Match().Yield<Phrase>()
+                let result = phrase.Match().Yield<Phrase>()
                         .Case<IPrepositional>(phrase)
                         .Case<IConjunctive>(phrase)
                         .Case<IEntity>(phrase)
                         .Case<IVerbal>(phrase)
                         .Case<SubordinateClauseBeginPhrase>(phrase)
-                        .Case<SymbolPhrase>(phrase)
-                        .Result() into result
+                        .Case<SymbolPhrase>(phrase).Result()
+
                 where result != null
                 select result;
             var bindingActions = ImagineBindings(releventElements.SkipWhile(p => !(p is VerbPhrase)));
@@ -46,9 +46,10 @@ namespace LASI.Core.Binding.Experimental
                             .Case<VerbPhrase>(v => v)
                             .When(n => n is VerbPhrase)
                             .Then<Phrase>(n => n.NextPhrase as VerbPhrase)
-                            .Result())
+                         .Result())
                     .Case<VerbPhrase>(v => v)
-                .Result()).Distinct().TakeWhile(v => v != null);
+                .Result())
+                .Distinct().TakeWhile(v => v != null);
             var next = targetVPS.LastOrDefault(v => v.NextPhrase != null && v.Sentence == v.NextPhrase.Sentence);
             if (next != null) {
                 results.Add(targetVPS.Last().NextPhrase.Match().Yield<Func<Phrase>>()
@@ -64,8 +65,7 @@ namespace LASI.Core.Binding.Experimental
                         .Then<PrepositionalPhrase>(p => () => {
                             targetVPS.ToList().ForEach(v => v.BindIndirectObject(p.NextPhrase as IEntity));
                             return p;
-                        })
-                        .Result());
+                        }).Result());
             }
             return results;
         }

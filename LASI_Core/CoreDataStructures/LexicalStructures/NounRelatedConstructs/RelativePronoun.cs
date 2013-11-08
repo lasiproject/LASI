@@ -115,7 +115,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets all of the IEntityReferences instances, generally Pronouns or PronounPhrases, which refer to the RelativePronoun Instance.
         /// </summary>
-        public IEnumerable<IReferencer> BoundPronouns {
+        public IEnumerable<IReferencer> Referees {
             get {
                 return _boundPronouns;
             }

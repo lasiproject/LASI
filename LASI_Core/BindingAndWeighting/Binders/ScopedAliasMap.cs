@@ -18,7 +18,7 @@ namespace LASI.Core.Binding
         /// <summary>
         /// Initializes a new instance of the ScopedAliasMap class, its scope constrained by the provided Paragraph.
         /// </summary>
-        /// <param name="paragraph"></param>
+        /// <param name="paragraph">The Paragraph whose lexical scope over which the map will be defined.</param>
         private ScopedAliasMap(Paragraph paragraph)
             : this(paragraph.Words, paragraph.Phrases) {
         }

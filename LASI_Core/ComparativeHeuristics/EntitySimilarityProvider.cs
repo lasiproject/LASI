@@ -8,7 +8,6 @@ using LASI.Core.Patternization;
 namespace LASI.Core.ComparativeHeuristics
 {
     using SR = SimilarityResult;
-
     public static partial class Lookup
     {
         /// <summary>
@@ -34,9 +33,9 @@ namespace LASI.Core.ComparativeHeuristics
                         .Result())
                     .Case<Noun>(n1 =>
                         second.Match().Yield<SR>()
-                          .Case<Noun>(n2 => new SR(n1.IsSynonymFor(n2)))
-                          .Case<NounPhrase>(np2 => n1.IsSimilarTo(np2))
-                        .Result())
+                            .Case<Noun>(n2 => new SR(n1.IsSynonymFor(n2)))
+                            .Case<NounPhrase>(np2 => n1.IsSimilarTo(np2))
+                          .Result())
                     .Case<NounPhrase>(np1 =>
                         second.Match().Yield<SR>()
                           .Case<NounPhrase>(np2 => np1.IsSimilarTo(np2))
@@ -60,7 +59,7 @@ namespace LASI.Core.ComparativeHeuristics
                              from e2 in second
                              select e1.IsSimilarTo(e2) into result
                              group result by (bool)result into byResult
-                             let Count = (double)byResult.Count()
+                             let Count = byResult.Count()
                              orderby Count descending
                              select new { byResult.Key, Count };
             return new SR(simResults.Any() && simResults.First().Key,
