@@ -1,4 +1,4 @@
-﻿using LASI.Core.ComparativeHeuristics;
+﻿using LASI.Core.Heuristics;
 
 namespace LASI.Core
 {

@@ -1,4 +1,4 @@
-﻿namespace LASI.Core.ComparativeHeuristics
+﻿namespace LASI.Core.Heuristics
 {
     /// <summary>
     /// Defines the different kinds of pointer relationships on which Noun Synsets can relate to one another.

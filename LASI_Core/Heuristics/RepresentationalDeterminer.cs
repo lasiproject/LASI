@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LASI.Core.ComparativeHeuristics
+namespace LASI.Core.Heuristics
 {
     static class RepresentationalDeterminer
     {

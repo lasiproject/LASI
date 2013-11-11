@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using LASI.Core.ComparativeHeuristics.Morphemization;
+using LASI.Core.Heuristics.Morphemization;
 
 namespace LASI.Core
 {

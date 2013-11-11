@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 using LASI.Utilities;
-using LASI.Core.ComparativeHeuristics;
+using LASI.Core.Heuristics;
 
 namespace LASI.Core
 {

@@ -7,10 +7,10 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace LASI.Core.ComparativeHeuristics
+namespace LASI.Core.Heuristics
 {
     using SetReference = System.Collections.Generic.KeyValuePair<NounSetLink, int>;
-    using LASI.Core.ComparativeHeuristics.Morphemization;
+    using LASI.Core.Heuristics.Morphemization;
     internal sealed class NounLookup : WordNetLookup<Noun>
     {
         /// <summary>

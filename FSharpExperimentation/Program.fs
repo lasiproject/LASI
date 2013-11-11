@@ -1,23 +1,17 @@
 ﻿// Learn more about F# at http://fsharp.net
 // See the 'F# Tutorial' project for more help.
 open LASI.Core
-open LASI.Core.ComparativeHeuristics
+open LASI.Core.Heuristics
 open LASI.ContentSystem
 open System.Linq
 open System.Threading.Tasks
 
 [<EntryPoint>]
 let main argv =
-    // load Lookup printing loading feedback messages
-    Lookup.ResourceStartedLoading.Add(fun e-> printfn "Started loading %A" e)
-    Lookup.ResourceFinishedLoading.Add(fun e-> printfn "Finished loading %A" e)
-    let load (t:Task) = async {
-                    let! i =  Async.AwaitIAsyncResult(t)|>Async.Ignore
-                    return i
-        } 
-        
-        
- 
+    // Register callbacks to print operation progress to the terminal
+    Lookup.StartedResourceLoading.Add(fun e-> printfn "Started loading %A" e)
+    Lookup.FinishedResourceLoading.Add(fun e-> printfn "Finished loading %A" e)
+     
     // tag, parse, and construct a Document 
     let doc = Tagger.DocumentFromDocX(DocXFile @"C:\Users\Aluan\Desktop\documents\sec22.docx")
     // perform default binding on the Document

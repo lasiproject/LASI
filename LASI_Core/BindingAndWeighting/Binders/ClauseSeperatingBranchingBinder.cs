@@ -1,4 +1,4 @@
-﻿using LASI.Core.ComparativeHeuristics;
+﻿using LASI.Core.Heuristics;
 using System;
 using LASI.Core.Patternization;
 using System.Collections.Generic;
@@ -37,11 +37,10 @@ namespace LASI.Core.Binding.Experimental
             return from noun in words.OfNoun()
                    let np = noun.Phrase as NounPhrase
                    let gen = np != null ?
-                   noun.Match().Yield<char>()
-                       .With<ProperSingularNoun>(n => n.IsGenderEquivalentTo(np) ? n.Gender.IsFemale() ? 'F' : n.Gender.IsMale() ? 'M' : 's' : 'A')
-                       .With<CommonSingularNoun>('s')
-                       .With<ProperPluralNoun>('p')
-                       .With<CommonPluralNoun>('p')
+                   (noun as Word).Match().Yield<char>()
+                       ._<ProperSingularNoun>(n => n.IsGenderEquivalentTo(np) ? n.Gender.IsFemale() ? 'F' : n.Gender.IsMale() ? 'M' : 's' : 'A')
+                       ._<CommonSingularNoun>('s')
+                       ._<IQuantifiable>('p')
                    .Result('U') : 'U'
                    let outer = new { noun, gen }
                    join inner in

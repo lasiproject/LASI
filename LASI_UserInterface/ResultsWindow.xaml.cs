@@ -4,7 +4,7 @@ using LASI.ContentSystem;
 using LASI.ContentSystem.Serialization.XML;
 using LASI.Core;
 using LASI.Core.Binding;
-using LASI.Core.ComparativeHeuristics;
+using LASI.Core.Heuristics;
 using LASI.Core.DocumentStructures;
 using LASI.Utilities;
 using System;

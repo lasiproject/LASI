@@ -12,7 +12,7 @@ namespace LASI.Core
     /// Represents a preposition such as "below", "atop", "into", "through", "by","via", or "for".
     /// Example: The duplicitous blue bird, via its trecherous machinations, betrayed the ardent, hard-working dog.
     /// </summary>
-    public class Preposition : Word, IPrepositional
+    public class Preposition : Word, IPrepositional, ISubordinator
     {
 
         #region Constructors

@@ -1,7 +1,7 @@
 ﻿using LASI.Core;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using LASI.Core.ComparativeHeuristics;
+using LASI.Core.Heuristics;
 
 namespace UnitTests
 {

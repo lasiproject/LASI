@@ -1,7 +1,7 @@
 ﻿using LASI;
 using LASI.Core;
 using LASI.Core.DocumentStructures;
-using LASI.Core.ComparativeHeuristics;
+using LASI.Core.Heuristics;
 using LASI.Utilities;
 using LASI.Core.Patternization;
 using System;

@@ -1,4 +1,4 @@
-﻿using LASI.Core.ComparativeHeuristics;
+﻿using LASI.Core.Heuristics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -70,7 +70,7 @@ namespace LASI.Core
                 }
             } else if (IsClassifier) {
                 foreach (var subject in this.Subjects) {
-                    LASI.Core.ComparativeHeuristics.AliasLookup.DefineAlias(subject, directObject);
+                    LASI.Core.Heuristics.AliasLookup.DefineAlias(subject, directObject);
                 }
             }
 
@@ -90,7 +90,7 @@ namespace LASI.Core
         /// </summary>
         /// <returns>True if the Verb is a possessive relationship specifier, false otherwise.</returns>
         protected virtual bool DetermineIsPossessive() {
-            var syns = LASI.Core.ComparativeHeuristics.Lookup.GetSynonyms(this);
+            var syns = LASI.Core.Heuristics.Lookup.GetSynonyms(this);
             return syns.Contains("have", caseIgnoringComp);
         }
         /// <summary>
@@ -98,7 +98,7 @@ namespace LASI.Core
         /// </summary>
         /// <returns>True if the Verb is a classifier, false otherwise.</returns>
         protected virtual bool DetermineIsClassifier() {
-            var syns = LASI.Core.ComparativeHeuristics.Lookup.GetSynonyms(this);
+            var syns = LASI.Core.Heuristics.Lookup.GetSynonyms(this);
             return !IsPossessive && Modality == null && Modifiers.None() && syns.Contains("is", caseIgnoringComp);
         }
 

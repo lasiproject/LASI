@@ -2,7 +2,7 @@
 namespace LASI.Core
 {
     /// <summary>
-    /// Defines the role reqirements for Prepositional elements, generally Prepositions or Prepositional Phrases, which serve a wide array of linguistic function.
+    /// Defines the role reqirements for Prepositional elements, generally Prepositions or Prepositional Phrases, which serve a wide array of linguistic functions.
     /// Along with the other interfaces in the Syntactic Interfaces Library, the IPrepositional interface provides for generalization and abstraction over word and Phrase types.
     /// </summary>
     public interface IPrepositional : ILexical

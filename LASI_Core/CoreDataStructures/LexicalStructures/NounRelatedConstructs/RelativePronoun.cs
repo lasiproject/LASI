@@ -9,7 +9,7 @@ namespace LASI.Core
     /// <summary>
     /// Represents a Relative Pronoun such as "that", "Which, "What" or "who".
     /// </summary>
-    public class RelativePronoun : Word, IReferencer
+    public class RelativePronoun : Word, IReferencer, ISubordinator
     {
         /// <summary>
         /// Initialiazes a new instance of the RelativePronoun class.

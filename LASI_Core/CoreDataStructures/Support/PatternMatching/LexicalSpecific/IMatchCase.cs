@@ -14,14 +14,14 @@ namespace LASI.Core.Patternization
         /// <typeparam name="TPattern">The Type to match with. If the value being matched is of this type, this Case expression will be selected and the provided action invoked.</typeparam>
         /// <param name="action">The Action which, if this Case expression is Matched, will be invoked.</param>
         /// <returns>The IPatternMatching&lt;T, R&gt; describing the Match expression so far.</returns>
-        IMatchCase<T> With<TPattern>(Action action) where TPattern : class, T;
+        IMatchCase<T> _<TPattern>(Action action) where TPattern : class, T;
         /// <summary>
         /// Appends a Match with Type expression to the current PatternMatching Expression.
         /// </summary>
         /// <typeparam name="TPattern">The Type to match with. If the value being matched is of this type, this Case expression will be selected and the provided action invoked.</typeparam>
         /// <param name="action">The Action&lt;TPattern&gt; which, if this Case expression is Matched, will be invoked on the value being matched over by the PatternMatching expression.</param>
         /// <returns>The IPatternMatching&lt;T, R&gt; describing the Match expression so far.</returns>
-        IMatchCase<T> With<TPattern>(Action<TPattern> action) where TPattern : class, T;
+        IMatchCase<T> _<TPattern>(Action<TPattern> action) where TPattern : class, T;
         /// <summary>
         /// Appends a When expression to the current PatternMatching Expression. The When expression applies a predicate to the value being matched over. 
         /// It must be followed by a Then expression which is only considered if the predicate applied here returns true.
@@ -91,16 +91,16 @@ namespace LASI.Core.Patternization
         /// Appends a Result Expression to the current pattern, thus specifying the default result to yield when no other patterns have been matched.
         /// Although not enforced by the compiler, Result should only be used as the last clause in the match expression, never in between Case clauses.
         /// </summary>
-        /// <param name="defaultValueFactory">The factory function returning a desired default value.</param>
+        /// <param name="valueSelector">The factory function returning a desired default value.</param>
         /// <returns>The result corresponding to the first matched Case expression or the result of invoking the supplied factory function if no Cases were matched.</returns> 
-        TResult Result(Func<TResult> defaultValueFactory);
+        TResult Result(Func<TResult> valueSelector);
         /// <summary>
         /// Appends a Result Expression to the current pattern, thus specifying the default result to yield when no other patterns have been matched.
         /// Although not enforced by the compiler, Result should only be used as the last clause in the match expression, never in between Case clauses.
         /// </summary>
-        /// <param name="defaultProjectionFunction">The factory function returning a desired default value.</param>
+        /// <param name="valueSelector">The factory function returning a desired default value.</param>
         /// <returns>The result corresponding to the first matched Case expression or the result of invoking the supplied function on the value being matched if no Cases were matched.</returns> 
-        TResult Result(Func<T, TResult> defaultProjectionFunction);
+        TResult Result(Func<T, TResult> valueSelector);
         /// <summary>
         /// Appends a When expression to the current pattern. 
         /// This applies a predicate to the value being matched suched that the subsequent Then expression will only be chosen if the predicate returns true.
@@ -129,20 +129,20 @@ namespace LASI.Core.Patternization
         /// <typeparam name="TPattern">The Type to match with. If the value being matched is of this type, this Case expression will be selected and executed.</typeparam>
         /// <param name="result">The value which, if this Case expression is Matched, will be the result of the Pattern Match.</param>
         /// <returns>The IPatternMatching&lt;T, R&gt; describing the Match expression so far.</returns>
-        IMatchCase<T, TResult> With<TPattern>(TResult result) where TPattern : class, T;
+        IMatchCase<T, TResult> _<TPattern>(TResult result) where TPattern : class, T;
         /// <summary>
         /// Appends a Match with Type expression to the current PatternMatching Expression.
         /// </summary>
         /// <typeparam name="TPattern">The Type to match with. If the value being matched is of this type, this Case expression will be selected and executed.</typeparam>
-        /// <param name="func">The function which, if this Case expression is Matched, will be invoked to produce the corresponding desired result for a Match with TPattern.</param>
+        /// <param name="valueSelector">The function which, if this Case expression is Matched, will be invoked to produce the corresponding desired result for a Match with TPattern.</param>
         /// <returns>The IPatternMatching&lt;T, R&gt; describing the Match expression so far.</returns>
-        IMatchCase<T, TResult> With<TPattern>(Func<TResult> func) where TPattern : class, T;
+        IMatchCase<T, TResult> _<TPattern>(Func<TResult> valueSelector) where TPattern : class, T;
         /// <summary>
         /// Appends a Match with Type expression to the current PatternMatching Expression.
         /// </summary>
         /// <typeparam name="TPattern">The Type to match with. If the value being matched is of this type, this Case expression will be selected and executed.</typeparam>
-        /// <param name="func">The function which, if this Case expression is Matched, will be invoked on the value being matched with to produce the desired result for a Match with TPattern.</param>
+        /// <param name="valueSelector">The function which, if this Case expression is Matched, will be invoked on the value being matched with to produce the desired result for a Match with TPattern.</param>
         /// <returns>The IPatternMatching&lt;T, R&gt; describing the Match expression so far.</returns>
-        IMatchCase<T, TResult> With<TPattern>(Func<TPattern, TResult> func) where TPattern : class, T;
+        IMatchCase<T, TResult> _<TPattern>(Func<TPattern, TResult> valueSelector) where TPattern : class, T;
     }
 }

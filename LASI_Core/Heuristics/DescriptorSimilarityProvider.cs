@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using LASI.Core.ComparativeHeuristics.Morphemization;
+using LASI.Core.Heuristics.Morphemization;
 
-namespace LASI.Core.ComparativeHeuristics
+namespace LASI.Core.Heuristics
 {
     using SR = SimilarityResult;
     public static partial class Lookup
@@ -28,15 +28,15 @@ namespace LASI.Core.ComparativeHeuristics
                 first.Match().Yield<SR>()
                     .When(first.Text.ToUpper() == second.Text.ToUpper())
                     .Then(SR.Similar)
-                    .With<Adjective>(j1 => second.Match()
+                    ._<Adjective>(j1 => second.Match()
                         .Yield<SR>()
-                            .With<Adjective>(j2 => new SR(j1.IsSynonymFor(j2)))
-                            .With<AdjectivePhrase>(jp2 => jp2.IsSimilarTo(j1))
+                            ._<Adjective>(j2 => new SR(j1.IsSynonymFor(j2)))
+                            ._<AdjectivePhrase>(jp2 => jp2.IsSimilarTo(j1))
                         .Result())
-                    .With<AdjectivePhrase>(jp1 => second.Match()
+                    ._<AdjectivePhrase>(jp1 => second.Match()
                         .Yield<SR>()
-                            .With<AdjectivePhrase>(jp2 => jp1.IsSimilarTo(jp2))
-                            .With<Adjective>(j2 => jp1.IsSimilarTo(j2))
+                            ._<AdjectivePhrase>(jp2 => jp1.IsSimilarTo(jp2))
+                            ._<Adjective>(j2 => jp1.IsSimilarTo(j2))
                         .Result())
                 .Result();
         }

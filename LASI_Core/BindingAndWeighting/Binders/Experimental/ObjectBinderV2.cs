@@ -19,12 +19,13 @@ namespace LASI.Core.Binding.Experimental
             var releventElements =
                 from phrase in phrases.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                 let result = phrase.Match().Yield<Phrase>()
-                        .With<IPrepositional>(phrase)
-                        .With<IConjunctive>(phrase)
-                        .With<IEntity>(phrase)
-                        .With<IVerbal>(phrase)
-                        .With<SubordinateClauseBeginPhrase>(phrase)
-                        .With<SymbolPhrase>(phrase).Result()
+                        ._<IPrepositional>(phrase)
+                        ._<IConjunctive>(phrase)
+                        ._<IEntity>(phrase)
+                        ._<IVerbal>(phrase)
+                        ._<SubordinateClauseBeginPhrase>(phrase)
+                        ._<SymbolPhrase>(phrase)
+                        .Result()
 
                 where result != null
                 select result;
@@ -39,33 +40,33 @@ namespace LASI.Core.Binding.Experimental
         private static IEnumerable<Func<Phrase>> ImagineBindings(IEnumerable<Phrase> elements) {
             var results = new List<Func<Phrase>>();
             var targetVPS = elements.Select(e =>
-                e.Match().Yield<VerbPhrase>()
-                    .With<ConjunctionPhrase>(c => c.NextPhrase as VerbPhrase)
-                    .With<SymbolPhrase>(s =>
-                        s.NextPhrase.Match().Yield<VerbPhrase>()
-                            .With<VerbPhrase>(v => v)
+                e.Match().Yield<VerbPhrase>() 
+                    ._<ConjunctionPhrase>(c => c.NextPhrase as VerbPhrase) 
+                    ._<SymbolPhrase>(s =>
+                        s.NextPhrase.Match().Yield<VerbPhrase>() 
+                            ._<VerbPhrase>(v => v)
                             .When(n => n is VerbPhrase)
-                            .Then<Phrase>(n => n.NextPhrase as VerbPhrase)
-                         .Result())
-                    .With<VerbPhrase>(v => v)
+                            .Then<Phrase>(n => n.NextPhrase as VerbPhrase) 
+                         .Result()) 
+                    ._<VerbPhrase>(v => v)
                 .Result())
                 .Distinct().TakeWhile(v => v != null);
             var next = targetVPS.LastOrDefault(v => v.NextPhrase != null && v.Sentence == v.NextPhrase.Sentence);
             if (next != null) {
-                results.Add(targetVPS.Last().NextPhrase.Match().Yield<Func<Phrase>>()
-                        .With<NounPhrase>(n => () => {
-                            targetVPS.ToList().ForEach(v => v.BindDirectObject(n));
-                            return n;
-                        })
-                        .With<InfinitivePhrase>(i => () => {
-                            targetVPS.ToList().ForEach(v => v.BindDirectObject(i));
-                            return i;
-                        })
-                        .When<Phrase>(i => i.NextPhrase is IEntity)
-                        .Then<PrepositionalPhrase>(p => () => {
-                            targetVPS.ToList().ForEach(v => v.BindIndirectObject(p.NextPhrase as IEntity));
-                            return p;
-                        }).Result());
+                results.Add(targetVPS.Last().NextPhrase.Match().Yield<Func<Phrase>>() 
+                    ._<NounPhrase>(n => () => {
+                        targetVPS.ToList().ForEach(v => v.BindDirectObject(n));
+                        return n;
+                    })
+                    ._<InfinitivePhrase>(i => () => {
+                        targetVPS.ToList().ForEach(v => v.BindDirectObject(i));
+                        return i;
+                    }) 
+                    .When<Phrase>(i => i.NextPhrase is IEntity) 
+                    .Then<PrepositionalPhrase>(p => () => {
+                        targetVPS.ToList().ForEach(v => v.BindIndirectObject(p.NextPhrase as IEntity));
+                        return p;
+                    }).Result());
             }
             return results;
         }

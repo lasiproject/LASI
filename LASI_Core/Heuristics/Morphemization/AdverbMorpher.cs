@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LASI.Core.Interop;
 
-namespace LASI.Core.ComparativeHeuristics.Morphemization
+namespace LASI.Core.Heuristics.Morphemization
 {
     /// <summary>
     /// Performs both noun root extraction and noun form generation.

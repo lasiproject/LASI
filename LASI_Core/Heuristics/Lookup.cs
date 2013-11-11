@@ -8,7 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace LASI.Core.ComparativeHeuristics
+namespace LASI.Core.Heuristics
 {
 
     /// <summary>
@@ -26,20 +26,19 @@ namespace LASI.Core.ComparativeHeuristics
         /// <param name="entity">The entity whose gender to lookup.</param>
         /// <returns>A NameGender value indiciating the likely gender of the entity.</returns>
         public static Gender GetGender(this IEntity entity) {
-            return entity.Match().Yield<Gender>()
-                    .With<IGendered>(p => p.Gender)
-                    .With<IReferencer>(p => GetGender(p))
-                    .With<NounPhrase>(n => GetNounPhraseGender(n))
-                    .With<CommonNoun>(n => Gender.Neutral)
-                    .When(e => e.Referees.Any())
-                    .Then<IEntity>(e => (from pro in e.Referees
-                                         let gen = pro.Match()
-                                         .Yield<Gender>()
-                                            .With<IGendered>(p => p.Gender)
+            return entity.Match().Yield<Gender>().
+                    _<IGendered>(p => p.Gender).
+                    _<IReferencer>(p => GetGender(p)).
+                    _<NounPhrase>(n => GetNounPhraseGender(n)).
+                    _<CommonNoun>(n => Gender.Neutral).
+                    When(e => e.Referees.Any()).
+                    Then<IEntity>(e => (from pro in e.Referees
+                                        let gen = pro.Match().Yield<Gender>().
+                                            _<IGendered>(p => p.Gender)
                                         .Result()
-                                         group gen by gen into byGen
-                                         orderby byGen.Count() descending
-                                         select byGen.Key).FirstOrDefault()).Result();
+                                        group gen by gen into byGen
+                                        orderby byGen.Count() descending
+                                        select byGen.Key).FirstOrDefault()).Result();
         }
         /// <summary>
         /// Returns a NameGender value indiciating the likely gender of the Pronoun based on its referrent if known, or else its PronounKind.
@@ -48,21 +47,20 @@ namespace LASI.Core.ComparativeHeuristics
         /// <returns>A NameGender value indiciating the likely gender of the Pronoun.</returns>
         private static Gender GetGender(IReferencer referee) {
             return referee.Match().Yield<Gender>()
-                    .With<PronounPhrase>(p => GetPronounPhraseGender(p))
+                    ._<PronounPhrase>(p => GetPronounPhraseGender(p))
                     .When(referee.Referent != null)
                     .Then((from referent in referee.Referent
                            let gen =
-                              referent.Match()
-                              .Yield<Gender>()
-                                  .With<NounPhrase>(n => GetNounPhraseGender(n))
-                                  .With<Pronoun>(r => r.Gender)
-                                  .With<ProperSingularNoun>(r => r.Gender)
-                                  .With<CommonNoun>(n => Gender.Neutral)
-                             .Result()
+                           referent.Match().Yield<Gender>().
+                                  _<NounPhrase>(n => GetNounPhraseGender(n)).
+                                  _<Pronoun>(r => r.Gender).
+                                  _<ProperSingularNoun>(r => r.Gender).
+                                  _<CommonNoun>(n => Gender.Neutral).
+                           Result()
                            group gen by gen into byGen
                            where byGen.Count() == referee.Referent.Count()
-                           select byGen.Key).FirstOrDefault())
-                    .With<IGendered>(p => p.Gender)
+                           select byGen.Key).FirstOrDefault()).
+                    _<IGendered>(p => p.Gender)
                 .Result();
         }
 
@@ -247,7 +245,7 @@ namespace LASI.Core.ComparativeHeuristics
         }
 
 
-        
+
         #endregion
 
 
@@ -270,16 +268,15 @@ namespace LASI.Core.ComparativeHeuristics
         }
 
         #endregion
-        #endregion
 
         private static WordNetLookup<TWord> LazyLoad<TWord>(WordNetLookup<TWord> lookup) where TWord : Word {
-            var startedHandler = ResourceStartedLoading;
+            var startedHandler = StartedResourceLoading;
             var resourceName = typeof(TWord).Name + " Thesaurus";
             if (startedHandler != null) {
                 startedHandler(new object(), resourceName);
             }
             lookup.Load();
-            var finishedHandler = ResourceFinishedLoading;
+            var finishedHandler = FinishedResourceLoading;
             if (finishedHandler != null) {
                 finishedHandler(new object(), resourceName);
             }
@@ -298,14 +295,16 @@ namespace LASI.Core.ComparativeHeuristics
 
         #endregion
 
+        #region Events
         /// <summary>
         /// Raised when a resource starts loading.
         /// </summary>
-        public static event EventHandler<string> ResourceStartedLoading;
+        public static event EventHandler<string> StartedResourceLoading;
         /// <summary>
         /// Raised when a data set resource finishes loading.
         /// </summary>
-        public static event EventHandler<string> ResourceFinishedLoading;
+        public static event EventHandler<string> FinishedResourceLoading;
+        #endregion
 
 
         internal static WordNetLookup<Noun> NounLookup {
@@ -346,13 +345,13 @@ namespace LASI.Core.ComparativeHeuristics
 
         static Lazy<NameProvider> names = new Lazy<NameProvider>(() => {
             var resourceName = "Name Data";
-            var startedHandler = ResourceStartedLoading;
+            var startedHandler = StartedResourceLoading;
             if (startedHandler != null) {
                 startedHandler(new object(), resourceName);
             }
             var val = new NameProvider();
             val.Load();
-            var finishedHandler = ResourceFinishedLoading;
+            var finishedHandler = FinishedResourceLoading;
             if (finishedHandler != null) {
                 finishedHandler(new object(), resourceName);
             }
@@ -365,7 +364,7 @@ namespace LASI.Core.ComparativeHeuristics
 
         static Lazy<ISet<string>> scrabbleDictionary = new Lazy<ISet<string>>(() => {
             var resourceName = "Scrabble Dictionary";
-            var startedHandler = ResourceStartedLoading;
+            var startedHandler = StartedResourceLoading;
             if (startedHandler != null) {
                 startedHandler(new object(), resourceName);
             }
@@ -376,7 +375,7 @@ namespace LASI.Core.ComparativeHeuristics
                       .Except(Names.AllNameStrings, StringComparer.OrdinalIgnoreCase)
                       .ToHashSet(StringComparer.OrdinalIgnoreCase);
             }
-            var finishedHandler = ResourceFinishedLoading;
+            var finishedHandler = FinishedResourceLoading;
             if (finishedHandler != null) {
                 finishedHandler(new object(), resourceName);
             }
@@ -518,6 +517,6 @@ namespace LASI.Core.ComparativeHeuristics
             #endregion
 
         }
-
+        #endregion
     }
 }

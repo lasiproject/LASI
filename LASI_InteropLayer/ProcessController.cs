@@ -1,7 +1,7 @@
 ﻿using LASI.Core;
 using LASI.Core.Binding;
 using LASI.Core.DocumentStructures;
-using LASI.Core.ComparativeHeuristics;
+using LASI.Core.Heuristics;
 using LASI.ContentSystem;
 using System;
 using System.Collections.Concurrent;
@@ -33,8 +33,8 @@ namespace LASI.Interop
         public async Task<IEnumerable<Document>> AnalyseAllDocumentsAsync(IEnumerable<LASI.Core.IUntaggedTextSource> filesToProcess) {
             numDocs = filesToProcess.Count();
             stepSize = 2d / numDocs;
-            Lookup.ResourceFinishedLoading += (s, e) => { OnReport(new Report { Message = "Started Loading " + e, Increment = 1.5 }); };
-            Lookup.ResourceFinishedLoading += (s, e) => { OnReport(new Report { Message = "Finished Loading " + e, Increment = 1.5 }); };
+            Lookup.FinishedResourceLoading += (s, e) => { OnReport(new Report { Message = "Started Loading " + e, Increment = 1.5 }); };
+            Lookup.FinishedResourceLoading += (s, e) => { OnReport(new Report { Message = "Finished Loading " + e, Increment = 1.5 }); };
             OnReport(new Report { Message = "Tagging Documents", Increment = 0 });
             var taggingTasks = filesToProcess.Select(F => Task.Run(async () => await Tagger.TaggedFromRawAsync(F))).ToList();
             var taggedFiles = new ConcurrentBag<LASI.Core.ITaggedTextSource>();

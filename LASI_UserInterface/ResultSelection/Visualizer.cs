@@ -1,5 +1,5 @@
 ﻿using LASI.Core;
-using LASI.Core.ComparativeHeuristics;
+using LASI.Core.Heuristics;
 using LASI.Core.DocumentStructures;
 using System;
 using System.Collections.Generic;

@@ -5,7 +5,7 @@ using System.Text;
 using LASI.Core.Patternization;
 using System.Threading.Tasks;
 
-namespace LASI.Core.ComparativeHeuristics
+namespace LASI.Core.Heuristics
 {
     using SR = SimilarityResult;
     public static partial class Lookup
@@ -25,15 +25,15 @@ namespace LASI.Core.ComparativeHeuristics
             return
                 first.Match().Yield<SR>()
                     .When(first.Text.ToUpper() == second.Text.ToUpper()).Then(SR.Similar)
-                    .With<Verb>(v1 =>
+                    ._<Verb>(v1 =>
                         second.Match().Yield<SR>()
-                          .With<Verb>(v2 => new SR(v1.IsSynonymFor(v2)))
-                          .With<VerbPhrase>(vp2 => v1.IsSimilarTo(vp2))
+                          ._<Verb>(v2 => new SR(v1.IsSynonymFor(v2)))
+                          ._<VerbPhrase>(vp2 => v1.IsSimilarTo(vp2))
                         .Result())
-                    .With<VerbPhrase>(vp1 =>
+                    ._<VerbPhrase>(vp1 =>
                         second.Match().Yield<SR>()
-                          .With<VerbPhrase>(vp2 => vp1.IsSimilarTo(vp2))
-                          .With<Verb>(v2 => vp1.IsSimilarTo(v2))
+                          ._<VerbPhrase>(vp2 => vp1.IsSimilarTo(vp2))
+                          ._<Verb>(v2 => vp1.IsSimilarTo(v2))
                     .Result())
                 .Result();
         }

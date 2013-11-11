@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LASI.Core.Patternization;
 
-namespace LASI.Core.ComparativeHeuristics
+namespace LASI.Core.Heuristics
 {
     using SR = SimilarityResult;
     public static partial class Lookup
@@ -26,20 +26,20 @@ namespace LASI.Core.ComparativeHeuristics
                 first.Match().Yield<SR>()
                     .When(first.Text.ToUpper() == second.Text.ToUpper())
                         .Then(SR.Similar)
-                    .With<AggregateEntity>(ae1 =>
+                    ._<AggregateEntity>(ae1 =>
                         second.Match().Yield<SR>()
-                          .With<AggregateEntity>(ae2 => new SR(ae1.IsSimilarTo(ae2)))
-                          .With<IEntity>(e2 => new SR(ae1.Any(entity => entity.IsSimilarTo(e2))))
+                          ._<AggregateEntity>(ae2 => new SR(ae1.IsSimilarTo(ae2)))
+                          ._<IEntity>(e2 => new SR(ae1.Any(entity => entity.IsSimilarTo(e2))))
                         .Result())
-                    .With<Noun>(n1 =>
+                    ._<Noun>(n1 =>
                         second.Match().Yield<SR>()
-                            .With<Noun>(n2 => new SR(n1.IsSynonymFor(n2)))
-                            .With<NounPhrase>(np2 => n1.IsSimilarTo(np2))
+                            ._<Noun>(n2 => new SR(n1.IsSynonymFor(n2)))
+                            ._<NounPhrase>(np2 => n1.IsSimilarTo(np2))
                           .Result())
-                    .With<NounPhrase>(np1 =>
+                    ._<NounPhrase>(np1 =>
                         second.Match().Yield<SR>()
-                          .With<NounPhrase>(np2 => np1.IsSimilarTo(np2))
-                          .With<Noun>(n2 => np1.IsSimilarTo(n2))
+                          ._<NounPhrase>(np2 => np1.IsSimilarTo(np2))
+                          ._<Noun>(n2 => np1.IsSimilarTo(n2))
                         .Result())
                     .Result();
         }

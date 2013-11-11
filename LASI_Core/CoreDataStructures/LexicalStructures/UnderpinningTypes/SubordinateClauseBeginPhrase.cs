@@ -9,7 +9,7 @@ namespace LASI.Core
     /// <summary>
     /// A phrase indicating the beginning of a subordinate clause.
     /// </summary>
-    public class SubordinateClauseBeginPhrase : Phrase
+    public class SubordinateClauseBeginPhrase : Phrase, ISubordinator
     {
         /// <summary>
         /// Initializes a new instance of the SubordinateClauseBeginPhrase class.

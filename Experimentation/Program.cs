@@ -1,7 +1,7 @@
 ﻿using LASI.Core;
 using LASI.Core.Binding;
-using LASI.Core.ComparativeHeuristics;
-using LASI.Core.ComparativeHeuristics.Morphemization;
+using LASI.Core.Heuristics;
+using LASI.Core.Heuristics.Morphemization;
 using LASI.ContentSystem;
 using System;
 using LASI.Core.Patternization;
@@ -27,7 +27,7 @@ class Program
          var d = doc.GetEntities().FirstOrDefault();
         var k = d.Match()
             .Yield<string>()
-            .With((IEntity e) => e.Text)
+            ._((IEntity e) => e.Text)
             .Result();
         Output.WriteLine(doc);
 

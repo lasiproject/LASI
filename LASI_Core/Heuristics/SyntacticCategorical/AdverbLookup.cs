@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace LASI.Core.ComparativeHeuristics
+namespace LASI.Core.Heuristics
 {
     using SetReference = KeyValuePair<AdverbSetLink, int>;
     internal sealed class AdverbLookup : WordNetLookup<Adverb>

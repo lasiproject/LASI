@@ -5,7 +5,7 @@ using System.Text;
 using LASI.Core.Patternization;
 using System.Threading.Tasks;
 
-namespace LASI.Core.ComparativeHeuristics
+namespace LASI.Core.Heuristics
 {
     public static partial class Lookup
     {
@@ -25,15 +25,15 @@ namespace LASI.Core.ComparativeHeuristics
                 first.Match().Yield<bool>()
                     .When(first.Text.ToUpper() == second.Text.ToUpper())
                         .Then(true)
-                    .With<Adverb>(a1 =>
+                    ._<Adverb>(a1 =>
                         second.Match().Yield<bool>()
-                            .With<Adverb>(a2 => a1.IsSynonymFor(a2))
-                            .With<AdverbPhrase>(ap2 => ap2.IsSimilarTo(a1))
+                            ._<Adverb>(a2 => a1.IsSynonymFor(a2))
+                            ._<AdverbPhrase>(ap2 => ap2.IsSimilarTo(a1))
                         .Result())
-                    .With<AdverbPhrase>(ap1 =>
+                    ._<AdverbPhrase>(ap1 =>
                         second.Match().Yield<bool>()
-                            .With<AdverbPhrase>(ap2 => ap1.IsSimilarTo(ap2))
-                            .With<Adverb>(a2 => ap1.IsSimilarTo(a2))
+                            ._<AdverbPhrase>(ap2 => ap1.IsSimilarTo(ap2))
+                            ._<Adverb>(a2 => ap1.IsSimilarTo(a2))
                         .Result())
                     .Result());
         }

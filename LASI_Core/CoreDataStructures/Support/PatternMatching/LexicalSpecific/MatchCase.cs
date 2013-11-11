@@ -65,7 +65,7 @@ namespace LASI.Core.Patternization
         /// <typeparam name="TPattern">The Type to match with. If the value being matched is of this type, this With expression will be selected and the provided action invoked.</typeparam>
         /// <param name="action">The Action which, if this With expression is Matched, will be invoked.</param>
         /// <returns>The ICase&lt;T, R&gt; describing the Match expression so far.</returns>
-        public IMatchCase<T> With<TPattern>(Action action) where TPattern : class ,T {
+        public IMatchCase<T> _<TPattern>(Action action) where TPattern : class ,T {
             if (_value != null) {
                 if (!_matchFound) {
                     if (_value is TPattern) {
@@ -82,7 +82,7 @@ namespace LASI.Core.Patternization
         /// <typeparam name="TPattern">The Type to match with. If the value being matched is of this type, this With expression will be selected and the provided action invoked.</typeparam>
         /// <param name="action">The Action&lt;TPattern&gt; which, if this With expression is Matched, will be invoked on the value being matched over by the PatternMatching expression.</param>
         /// <returns>The ICase&lt;T, R&gt; describing the Match expression so far.</returns>
-        public IMatchCase<T> With<TPattern>(Action<TPattern> action) where TPattern : class,T {
+        public IMatchCase<T> _<TPattern>(Action<TPattern> action) where TPattern : class,T {
             if (_value != null) {
                 if (!_matchFound) {
                     var matched = _value as TPattern;
@@ -185,7 +185,7 @@ namespace LASI.Core.Patternization
         /// <typeparam name="TPattern">The Type to match with. If the value being matched is of this type, this With expression will be selected and executed.</typeparam>
         /// <param name="func">The function which, if this With expression is Matched, will be invoked to produce the corresponding desired result for a Match with TPattern.</param>
         /// <returns>The MatchCase&lt;T, R&gt; describing the Match expression so far.</returns>
-        public IMatchCase<T, TResult> With<TPattern>(Func<TResult> func) where TPattern : class, T {
+        public IMatchCase<T, TResult> _<TPattern>(Func<TResult> func) where TPattern : class, T {
             if (_value != null) {
                 if (!_matchFound) {
                     if (_value is TPattern) {
@@ -202,7 +202,7 @@ namespace LASI.Core.Patternization
         /// <typeparam name="TPattern">The Type to match with. If the value being matched is of this type, this With expression will be selected and executed.</typeparam>
         /// <param name="func">The function which, if this With expression is Matched, will be invoked on the value being matched with to produce the desired result for a Match with TPattern.</param>
         /// <returns>The MatchCase&lt;T, R&gt; describing the Match expression so far.</returns>
-        public IMatchCase<T, TResult> With<TPattern>(Func<TPattern, TResult> func) where TPattern : class, T {
+        public IMatchCase<T, TResult> _<TPattern>(Func<TPattern, TResult> func) where TPattern : class, T {
             if (_value != null) {
                 if (!_matchFound) {
                     var matched = _value as TPattern;
@@ -220,7 +220,7 @@ namespace LASI.Core.Patternization
         /// <typeparam name="TPattern">The Type to match with. If the value being matched is of this type, this With expression will be selected and executed.</typeparam>
         /// <param name="result">The value which, if this With expression is Matched, will be the result of the Pattern Match.</param>
         /// <returns>The MatchCase&lt;T, R&gt; describing the Match expression so far.</returns>
-        public IMatchCase<T, TResult> With<TPattern>(TResult result) where TPattern : class, T {
+        public IMatchCase<T, TResult> _<TPattern>(TResult result) where TPattern : class, T {
             if (_value != null) {
                 if (!_matchFound) {
                     var matched = _value as TPattern;
@@ -313,18 +313,18 @@ namespace LASI.Core.Patternization
     {
         public TestedMatchCase(bool accepted, MatchCase<T> inner) { _accepted = accepted; _inner = inner; }
         public IMatchCase<T> Then<TPattern>(Action action) where TPattern : class, T {
-            return _accepted ? this._inner.With<TPattern>(action) : this._inner;
+            return _accepted ? this._inner._<TPattern>(action) : this._inner;
         }
         public IMatchCase<T> Then<TPattern>(Action<TPattern> action) where TPattern : class, T {
-            return _accepted ? this._inner.With(action) : this._inner;
+            return _accepted ? this._inner._(action) : this._inner;
         }
 
 
         public IMatchCase<T> Then(Action action) {
-            return _accepted ? this._inner.With<T>(action) : this._inner;
+            return _accepted ? this._inner._<T>(action) : this._inner;
         }
         public IMatchCase<T> Then(Action<T> action) {
-            return _accepted ? this._inner.With<T>(action) : this._inner;
+            return _accepted ? this._inner._<T>(action) : this._inner;
         }
         private IMatchCase<T> _inner;
         private bool _accepted;
@@ -337,26 +337,26 @@ namespace LASI.Core.Patternization
         private IMatchCase<T, TResult> _inner;
         public IMatchCase<T, TResult> Then<TPattern>(TResult result)
              where TPattern : class, T {
-            return _accepted ? this._inner.With<TPattern>(result) : this._inner;
+            return _accepted ? this._inner._<TPattern>(result) : this._inner;
         }
         public IMatchCase<T, TResult> Then<TPattern>(Func<TResult> func)
             where TPattern : class, T {
-            return _accepted ? this._inner.With<TPattern>(func) : this._inner;
+            return _accepted ? this._inner._<TPattern>(func) : this._inner;
         }
         public IMatchCase<T, TResult> Then<TPattern>(Func<TPattern, TResult> func)
             where TPattern : class, T {
-            return _accepted ? this._inner.With<TPattern>(func) : this._inner;
+            return _accepted ? this._inner._<TPattern>(func) : this._inner;
         }
 
         public IMatchCase<T, TResult> Then(Func<T, TResult> func) {
-            return _accepted ? this._inner.With<T>(func) : this._inner;
+            return _accepted ? this._inner._<T>(func) : this._inner;
         }
 
         public IMatchCase<T, TResult> Then(TResult resultValue) {
-            return _accepted ? _inner.With<T>(resultValue) : this._inner;
+            return _accepted ? _inner._<T>(resultValue) : this._inner;
         }
         public IMatchCase<T, TResult> Then(Func<TResult> func) {
-            return _accepted ? this._inner.With<T>(func) : this._inner;
+            return _accepted ? this._inner._<T>(func) : this._inner;
         }
         public TResult Result() {
             return _inner.Result();

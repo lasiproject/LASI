@@ -1,7 +1,7 @@
 ﻿using LASI;
 using LASI.Core;
 using LASI.Core.DocumentStructures;
-using LASI.Core.ComparativeHeuristics;
+using LASI.Core.Heuristics;
 using LASI.Core.Patternization;
 using System;
 using System.Collections.Generic;
@@ -119,7 +119,7 @@ namespace LASI.Core
 
         private static bool ReferencerTestCompare(NounPhrase x, NounPhrase y) {
             return x.Match().Yield<bool>()
-                            .With<IReferencer>(pro => pro.Referent.Any(rX =>
+                            ._<IReferencer>(pro => pro.Referent.Any(rX =>
                                 rX.Text == y.Text ||
                                 rX.IsAliasFor(y) ||
                                 rX.IsSimilarTo(y))).Result();

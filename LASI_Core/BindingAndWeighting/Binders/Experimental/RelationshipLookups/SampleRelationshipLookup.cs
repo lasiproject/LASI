@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LASI.Core.ComparativeHeuristics
+namespace LASI.Core.Heuristics
 {
-    using ActionReceiverPair = LASI.Core.ComparativeHeuristics.ActionReceiverPair<IVerbal, IEntity>;
-    using EntityPair = LASI.Core.ComparativeHeuristics.PerformerReceiverPair<IEntity, IEntity>;
+    using ActionReceiverPair = LASI.Core.Heuristics.ActionReceiverPair<IVerbal, IEntity>;
+    using EntityPair = LASI.Core.Heuristics.PerformerReceiverPair<IEntity, IEntity>;
     /// <summary>
     /// A sample (or test) implementation of the IRelationshipLookup interface.
     /// </summary>

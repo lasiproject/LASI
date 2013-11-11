@@ -1,5 +1,5 @@
-﻿using LASI.Core.ComparativeHeuristics;
-using LASI.Core.ComparativeHeuristics.Morphemization;
+﻿using LASI.Core.Heuristics;
+using LASI.Core.Heuristics.Morphemization;
 using LASI.Core.Patternization;
 using System;
 using System.Collections.Concurrent;
@@ -10,7 +10,7 @@ using LASI.Utilities;
 using System.Threading.Tasks;
 
 
-namespace LASI.Core.ComparativeHeuristics
+namespace LASI.Core.Heuristics
 {
     /// <summary>
     /// Provides for registration of Entities as aliases for other Entities.
@@ -100,14 +100,14 @@ namespace LASI.Core.ComparativeHeuristics
 
         internal static IEnumerable<string> GetLikelyAliases(IEntity entity) {
             return entity.Match().Yield<IEnumerable<string>>()
-                .With<NounPhrase>(n => DefineAliases(n))
+                ._<NounPhrase>(n => DefineAliases(n))
                 .When(e => e.SubjectOf.IsClassifier)
                 .Then<IEntity>(e => e.SubjectOf
                     .DirectObjects
                     .SelectMany(direct => direct.Match().Yield<IEnumerable<string>>()
                         .When<IReferencer>(p => p.Referent.Any())
                         .Then<IReferencer>(p => p.Referent.SelectMany(r => GetLikelyAliases(r)))
-                        .With<Noun>(n => n.GetSynonyms())
+                        ._<Noun>(n => n.GetSynonyms())
                     .Result()))
                 .Result(defaultValue: Enumerable.Empty<string>());
         }

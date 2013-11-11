@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LASI.Core.ComparativeHeuristics
+namespace LASI.Core.Heuristics
 {
     /// <summary>
     /// Defines the behaviors required of a lookup  table which indexes on various relationships between various combinations of IEntity and IVerbal constructs. 

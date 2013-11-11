@@ -1,5 +1,5 @@
 ﻿using LASI.Core.Patternization;
-using LASI.Core.ComparativeHeuristics;
+using LASI.Core.Heuristics;
 using LASI.Utilities;
 using System;
 using System.Collections.Generic;
