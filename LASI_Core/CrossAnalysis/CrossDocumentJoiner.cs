@@ -119,7 +119,7 @@ namespace LASI.Core
 
         private static bool ReferencerTestCompare(NounPhrase x, NounPhrase y) {
             return x.Match().Yield<bool>()
-                            .Case<IReferencer>(pro => pro.Referent.Any(rX =>
+                            .With<IReferencer>(pro => pro.Referent.Any(rX =>
                                 rX.Text == y.Text ||
                                 rX.IsAliasFor(y) ||
                                 rX.IsSimilarTo(y))).Result();

@@ -12,8 +12,8 @@ namespace LASI.App.LexicalElementInfo
     {
         public static ContextMenu ForLexical(ILexical element, IEnumerable<Label> labelsInContext) {
             return element.Match().Yield<ContextMenu>()
-                .Case<IVerbal>(e => ForVerbal(e, labelsInContext))
-                .Case<IReferencer>(e => ForReferencer(e, labelsInContext))
+                .With<IVerbal>(e => ForVerbal(e, labelsInContext))
+                .With<IReferencer>(e => ForReferencer(e, labelsInContext))
                 .Result();
         }
         #region Lexical Element Context Menu Construction
@@ -60,7 +60,7 @@ namespace LASI.App.LexicalElementInfo
                     ResetUnassociatedLabelBrushes(labelsInContext, verbal);
                     var labels = from label in labelsInContext
                                  where label.Tag.Equals(verbal.ObjectOfThePreoposition)
-                                 select new { label, brush = (label.Tag as ILexical).GetBrush() };
+                                 select new { label, brush = (label.Tag as ILexical).GetSyntacticColorization() };
                     foreach (var l in labels) {
                         l.label.Foreground = l.brush;
                         l.label.Background = Brushes.Red;
@@ -75,7 +75,7 @@ namespace LASI.App.LexicalElementInfo
                     ResetUnassociatedLabelBrushes(labelsInContext, verbal);
                     var labels = from r in verbal.IndirectObjects
                                  join label in labelsInContext on r equals label.Tag
-                                 select new { label, brush = (label.Tag as ILexical).GetBrush() };
+                                 select new { label, brush = (label.Tag as ILexical).GetSyntacticColorization() };
                     foreach (var l in labels) {
                         l.label.Foreground = l.brush;
                         l.label.Background = Brushes.Red;
@@ -90,7 +90,7 @@ namespace LASI.App.LexicalElementInfo
                     ResetUnassociatedLabelBrushes(labelsInContext, verbal);
                     var labels = from r in verbal.DirectObjects
                                  join label in labelsInContext on r equals label.Tag
-                                 select new { label, brush = (label.Tag as ILexical).GetBrush() };
+                                 select new { label, brush = (label.Tag as ILexical).GetSyntacticColorization() };
                     foreach (var l in labels) {
                         l.label.Foreground = l.brush;
                         l.label.Background = Brushes.Red;
@@ -139,7 +139,7 @@ namespace LASI.App.LexicalElementInfo
         #region Helper Methods
         static void ResetLabelBrushes(IEnumerable<Label> labelsInContext) {
             foreach (var l in labelsInContext) {
-                l.Foreground = (l.Tag as ILexical).GetBrush();
+                l.Foreground = (l.Tag as ILexical).GetSyntacticColorization();
                 l.Background = Brushes.White;
             }
         }
@@ -148,7 +148,7 @@ namespace LASI.App.LexicalElementInfo
                               let e = l.Tag as IEntity
                               where e != null && !verbal.HasSubjectOrObject(i => i == e)
                               select l) {
-                l.Foreground = (l.Tag as ILexical).GetBrush();
+                l.Foreground = (l.Tag as ILexical).GetSyntacticColorization();
                 l.Background = Brushes.White;
             }
         }

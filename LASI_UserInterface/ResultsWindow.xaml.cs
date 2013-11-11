@@ -144,7 +144,7 @@ namespace LASI.App
                 var label = new Label {
                     Content = phrase.Text + (phrase is SymbolPhrase ? " " : string.Empty),
                     Tag = phrase,
-                    Foreground = phrase.GetBrush(),
+                    Foreground = phrase.GetSyntacticColorization(),
                     Background = Brushes.White,
                     OpacityMask = Brushes.White,
                     Padding = new Thickness(1, 1, 1, 1),

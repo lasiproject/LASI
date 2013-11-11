@@ -25,15 +25,15 @@ namespace LASI.Core.ComparativeHeuristics
             return
                 first.Match().Yield<SR>()
                     .When(first.Text.ToUpper() == second.Text.ToUpper()).Then(SR.Similar)
-                    .Case<Verb>(v1 =>
+                    .With<Verb>(v1 =>
                         second.Match().Yield<SR>()
-                          .Case<Verb>(v2 => new SR(v1.IsSynonymFor(v2)))
-                          .Case<VerbPhrase>(vp2 => v1.IsSimilarTo(vp2))
+                          .With<Verb>(v2 => new SR(v1.IsSynonymFor(v2)))
+                          .With<VerbPhrase>(vp2 => v1.IsSimilarTo(vp2))
                         .Result())
-                    .Case<VerbPhrase>(vp1 =>
+                    .With<VerbPhrase>(vp1 =>
                         second.Match().Yield<SR>()
-                          .Case<VerbPhrase>(vp2 => vp1.IsSimilarTo(vp2))
-                          .Case<Verb>(v2 => vp1.IsSimilarTo(v2))
+                          .With<VerbPhrase>(vp2 => vp1.IsSimilarTo(vp2))
+                          .With<Verb>(v2 => vp1.IsSimilarTo(v2))
                     .Result())
                 .Result();
         }

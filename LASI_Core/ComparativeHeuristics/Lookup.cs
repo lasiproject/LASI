@@ -1,17 +1,12 @@
-﻿using LASI.Core.ComparativeHeuristics.Morphemization;
-using LASI.Core.Patternization;
+﻿using LASI.Core.Patternization;
 using LASI.Utilities;
-using LASI.Core;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using LASI.Core.Interop;
-using LASI.Core.ComparativeHeuristics;
 
 namespace LASI.Core.ComparativeHeuristics
 {
@@ -32,15 +27,15 @@ namespace LASI.Core.ComparativeHeuristics
         /// <returns>A NameGender value indiciating the likely gender of the entity.</returns>
         public static Gender GetGender(this IEntity entity) {
             return entity.Match().Yield<Gender>()
-                    .Case<IGendered>(p => p.Gender)
-                    .Case<IReferencer>(p => GetGender(p))
-                    .Case<NounPhrase>(n => GetNounPhraseGender(n))
-                    .Case<CommonNoun>(n => Gender.Neutral)
+                    .With<IGendered>(p => p.Gender)
+                    .With<IReferencer>(p => GetGender(p))
+                    .With<NounPhrase>(n => GetNounPhraseGender(n))
+                    .With<CommonNoun>(n => Gender.Neutral)
                     .When(e => e.Referees.Any())
                     .Then<IEntity>(e => (from pro in e.Referees
                                          let gen = pro.Match()
                                          .Yield<Gender>()
-                                            .Case<IGendered>(p => p.Gender)
+                                            .With<IGendered>(p => p.Gender)
                                         .Result()
                                          group gen by gen into byGen
                                          orderby byGen.Count() descending
@@ -53,21 +48,21 @@ namespace LASI.Core.ComparativeHeuristics
         /// <returns>A NameGender value indiciating the likely gender of the Pronoun.</returns>
         private static Gender GetGender(IReferencer referee) {
             return referee.Match().Yield<Gender>()
-                    .Case<PronounPhrase>(p => GetPronounPhraseGender(p))
+                    .With<PronounPhrase>(p => GetPronounPhraseGender(p))
                     .When(referee.Referent != null)
                     .Then((from referent in referee.Referent
                            let gen =
                               referent.Match()
                               .Yield<Gender>()
-                                  .Case<NounPhrase>(n => GetNounPhraseGender(n))
-                                  .Case<Pronoun>(r => r.Gender)
-                                  .Case<ProperSingularNoun>(r => r.Gender)
-                                  .Case<CommonNoun>(n => Gender.Neutral)
+                                  .With<NounPhrase>(n => GetNounPhraseGender(n))
+                                  .With<Pronoun>(r => r.Gender)
+                                  .With<ProperSingularNoun>(r => r.Gender)
+                                  .With<CommonNoun>(n => Gender.Neutral)
                              .Result()
                            group gen by gen into byGen
                            where byGen.Count() == referee.Referent.Count()
                            select byGen.Key).FirstOrDefault())
-                    .Case<IGendered>(p => p.Gender)
+                    .With<IGendered>(p => p.Gender)
                 .Result();
         }
 
@@ -303,7 +298,13 @@ namespace LASI.Core.ComparativeHeuristics
 
         #endregion
 
+        /// <summary>
+        /// Raised when a resource starts loading.
+        /// </summary>
         public static event EventHandler<string> ResourceStartedLoading;
+        /// <summary>
+        /// Raised when a data set resource finishes loading.
+        /// </summary>
         public static event EventHandler<string> ResourceFinishedLoading;
 
 

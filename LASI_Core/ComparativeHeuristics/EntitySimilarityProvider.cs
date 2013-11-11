@@ -26,20 +26,20 @@ namespace LASI.Core.ComparativeHeuristics
                 first.Match().Yield<SR>()
                     .When(first.Text.ToUpper() == second.Text.ToUpper())
                         .Then(SR.Similar)
-                    .Case<AggregateEntity>(ae1 =>
+                    .With<AggregateEntity>(ae1 =>
                         second.Match().Yield<SR>()
-                          .Case<AggregateEntity>(ae2 => new SR(ae1.IsSimilarTo(ae2)))
-                          .Case<IEntity>(e2 => new SR(ae1.Any(entity => entity.IsSimilarTo(e2))))
+                          .With<AggregateEntity>(ae2 => new SR(ae1.IsSimilarTo(ae2)))
+                          .With<IEntity>(e2 => new SR(ae1.Any(entity => entity.IsSimilarTo(e2))))
                         .Result())
-                    .Case<Noun>(n1 =>
+                    .With<Noun>(n1 =>
                         second.Match().Yield<SR>()
-                            .Case<Noun>(n2 => new SR(n1.IsSynonymFor(n2)))
-                            .Case<NounPhrase>(np2 => n1.IsSimilarTo(np2))
+                            .With<Noun>(n2 => new SR(n1.IsSynonymFor(n2)))
+                            .With<NounPhrase>(np2 => n1.IsSimilarTo(np2))
                           .Result())
-                    .Case<NounPhrase>(np1 =>
+                    .With<NounPhrase>(np1 =>
                         second.Match().Yield<SR>()
-                          .Case<NounPhrase>(np2 => np1.IsSimilarTo(np2))
-                          .Case<Noun>(n2 => np1.IsSimilarTo(n2))
+                          .With<NounPhrase>(np2 => np1.IsSimilarTo(np2))
+                          .With<Noun>(n2 => np1.IsSimilarTo(n2))
                         .Result())
                     .Result();
         }

@@ -22,7 +22,9 @@ namespace LASI.Core
             : base(text) {
             EntityKind = EntityKind.ProperUnknown;
         }
-
+        /// <summary>
+        /// Gets a value indicating if the ProperNoun is Lexically equal to a personal name. Known First and Last names are considered.
+        /// </summary>
         public bool IsPersonalName {
             get {
                 return IsFirstName || IsLastName;

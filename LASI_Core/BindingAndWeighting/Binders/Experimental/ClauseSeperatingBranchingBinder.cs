@@ -38,10 +38,10 @@ namespace LASI.Core.Binding.Experimental
                    let np = noun.Phrase as NounPhrase
                    let gen = np != null ?
                    noun.Match().Yield<char>()
-                       .Case<ProperSingularNoun>(n => n.IsGenderEquivalentTo(np) ? n.Gender.IsFemale() ? 'F' : n.Gender.IsMale() ? 'M' : 's' : 'A')
-                       .Case<CommonSingularNoun>('s')
-                       .Case<ProperPluralNoun>('p')
-                       .Case<CommonPluralNoun>('p')
+                       .With<ProperSingularNoun>(n => n.IsGenderEquivalentTo(np) ? n.Gender.IsFemale() ? 'F' : n.Gender.IsMale() ? 'M' : 's' : 'A')
+                       .With<CommonSingularNoun>('s')
+                       .With<ProperPluralNoun>('p')
+                       .With<CommonPluralNoun>('p')
                    .Result('U') : 'U'
                    let outer = new { noun, gen }
                    join inner in

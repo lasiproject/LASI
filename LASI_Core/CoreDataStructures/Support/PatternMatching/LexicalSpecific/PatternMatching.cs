@@ -50,15 +50,5 @@ namespace LASI.Core.Patternization
         /// <returns>The head of a non result yielding Type based Pattern Matching expression over the specified IPrepositionale value.</returns>
         public static IMatchCase<IPrepositional> Match(this IPrepositional value) { return new MatchCase<IPrepositional>(value); }
 
-        /// <summary>
-        /// Begins a result-yielding, Type based Pattern Matching expression over the specified value.
-        /// </summary>
-        /// <typeparam name="T">The Type of the value to match with.</typeparam>
-        /// <typeparam name="TResult">The Type of the result to be yielded.</typeparam> 
-        /// <param name="value">The value to match with.</param>     
-        /// <returns>The head of a result-yielding, Type based Pattern Matching expression over the specified value.</returns>
-        public static IMatchCase<T, TResult> MatchAndYield<T, TResult>(T value) where T : class, ILexical { return new MatchCase<T, TResult>(value); }
-
-
     }
 }

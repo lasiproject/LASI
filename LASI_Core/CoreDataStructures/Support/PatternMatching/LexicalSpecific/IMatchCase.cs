@@ -11,17 +11,17 @@ namespace LASI.Core.Patternization
         /// <summary>
         /// Appends a Match with Type expression to the current PatternMatching Expression.
         /// </summary>
-        /// <typeparam name="TCase">The Type to match with. If the value being matched is of this type, this Case expression will be selected and the provided action invoked.</typeparam>
+        /// <typeparam name="TPattern">The Type to match with. If the value being matched is of this type, this Case expression will be selected and the provided action invoked.</typeparam>
         /// <param name="action">The Action which, if this Case expression is Matched, will be invoked.</param>
         /// <returns>The IPatternMatching&lt;T, R&gt; describing the Match expression so far.</returns>
-        IMatchCase<T> Case<TCase>(Action action) where TCase : class, T;
+        IMatchCase<T> With<TPattern>(Action action) where TPattern : class, T;
         /// <summary>
         /// Appends a Match with Type expression to the current PatternMatching Expression.
         /// </summary>
-        /// <typeparam name="TCase">The Type to match with. If the value being matched is of this type, this Case expression will be selected and the provided action invoked.</typeparam>
-        /// <param name="action">The Action&lt;TCase&gt; which, if this Case expression is Matched, will be invoked on the value being matched over by the PatternMatching expression.</param>
+        /// <typeparam name="TPattern">The Type to match with. If the value being matched is of this type, this Case expression will be selected and the provided action invoked.</typeparam>
+        /// <param name="action">The Action&lt;TPattern&gt; which, if this Case expression is Matched, will be invoked on the value being matched over by the PatternMatching expression.</param>
         /// <returns>The IPatternMatching&lt;T, R&gt; describing the Match expression so far.</returns>
-        IMatchCase<T> Case<TCase>(Action<TCase> action) where TCase : class, T;
+        IMatchCase<T> With<TPattern>(Action<TPattern> action) where TPattern : class, T;
         /// <summary>
         /// Appends a When expression to the current PatternMatching Expression. The When expression applies a predicate to the value being matched over. 
         /// It must be followed by a Then expression which is only considered if the predicate applied here returns true.
@@ -33,10 +33,10 @@ namespace LASI.Core.Patternization
         /// Appends a When expression to the current PatternMatching Expression. The When expression applies a predicate to the value being matched over. 
         /// It must be followed by a Then expression which is only considered if the predicate applied here returns true.
         /// </summary>
-        /// <typeparam name="TCase">The Type to match with. That the value being matched is of this type is also necessary for the following then expression to be selected.</typeparam>
+        /// <typeparam name="TPattern">The Type to match with. That the value being matched is of this type is also necessary for the following then expression to be selected.</typeparam>
         /// <param name="predicate">The predicate to test the value being matched over.</param>
         /// <returns>The IPredicatedPatternMatching&lt;T&gt; describing the Match expression so far. This must be followed by a single Then expression.</returns>
-        IPredicatedMatchCase<T> When<TCase>(Func<TCase, bool> predicate) where TCase : class,ILexical;
+        IPredicatedMatchCase<T> When<TPattern>(Func<TPattern, bool> predicate) where TPattern : class,ILexical;
         /// <summary>
         /// Appends a When expression to the current pattern. 
         /// This tests a boolean condition that the subsequent Then expression will only be chosen if the condition is true.
@@ -119,30 +119,30 @@ namespace LASI.Core.Patternization
         /// Appends a When expression to the current pattern. 
         /// This applies a predicate to the value being matched suched that the subsequent Then expression will only be chosen if the predicate returns true.
         /// </summary>
-        /// <typeparam name="TCase">The Type to match with. That the value being matched is of this type is also necessary for the following then expression to be selected.</typeparam>
+        /// <typeparam name="TPattern">The Type to match with. That the value being matched is of this type is also necessary for the following then expression to be selected.</typeparam>
         /// <param name="predicate">The predicate to test the value being matched.</param>
         /// <returns>The IPredicatedPatternMatching&lt;T, R&gt; describing the Match expression so far. This must be followed by a single Then expression.</returns>
-        IPredicatedMatchCase<T, TResult> When<TCase>(Func<TCase, bool> predicate) where TCase : class, T;
+        IPredicatedMatchCase<T, TResult> When<TPattern>(Func<TPattern, bool> predicate) where TPattern : class, T;
         /// <summary>
         /// Appends a Match with Type expression to the current PatternMatching Expression.
         /// </summary>
-        /// <typeparam name="TCase">The Type to match with. If the value being matched is of this type, this Case expression will be selected and executed.</typeparam>
+        /// <typeparam name="TPattern">The Type to match with. If the value being matched is of this type, this Case expression will be selected and executed.</typeparam>
         /// <param name="result">The value which, if this Case expression is Matched, will be the result of the Pattern Match.</param>
         /// <returns>The IPatternMatching&lt;T, R&gt; describing the Match expression so far.</returns>
-        IMatchCase<T, TResult> Case<TCase>(TResult result) where TCase : class, T;
+        IMatchCase<T, TResult> With<TPattern>(TResult result) where TPattern : class, T;
         /// <summary>
         /// Appends a Match with Type expression to the current PatternMatching Expression.
         /// </summary>
-        /// <typeparam name="TCase">The Type to match with. If the value being matched is of this type, this Case expression will be selected and executed.</typeparam>
-        /// <param name="func">The function which, if this Case expression is Matched, will be invoked to produce the corresponding desired result for a Match with TCase.</param>
+        /// <typeparam name="TPattern">The Type to match with. If the value being matched is of this type, this Case expression will be selected and executed.</typeparam>
+        /// <param name="func">The function which, if this Case expression is Matched, will be invoked to produce the corresponding desired result for a Match with TPattern.</param>
         /// <returns>The IPatternMatching&lt;T, R&gt; describing the Match expression so far.</returns>
-        IMatchCase<T, TResult> Case<TCase>(Func<TResult> func) where TCase : class, T;
+        IMatchCase<T, TResult> With<TPattern>(Func<TResult> func) where TPattern : class, T;
         /// <summary>
         /// Appends a Match with Type expression to the current PatternMatching Expression.
         /// </summary>
-        /// <typeparam name="TCase">The Type to match with. If the value being matched is of this type, this Case expression will be selected and executed.</typeparam>
-        /// <param name="func">The function which, if this Case expression is Matched, will be invoked on the value being matched with to produce the desired result for a Match with TCase.</param>
+        /// <typeparam name="TPattern">The Type to match with. If the value being matched is of this type, this Case expression will be selected and executed.</typeparam>
+        /// <param name="func">The function which, if this Case expression is Matched, will be invoked on the value being matched with to produce the desired result for a Match with TPattern.</param>
         /// <returns>The IPatternMatching&lt;T, R&gt; describing the Match expression so far.</returns>
-        IMatchCase<T, TResult> Case<TCase>(Func<TCase, TResult> func) where TCase : class, T;
+        IMatchCase<T, TResult> With<TPattern>(Func<TPattern, TResult> func) where TPattern : class, T;
     }
 }

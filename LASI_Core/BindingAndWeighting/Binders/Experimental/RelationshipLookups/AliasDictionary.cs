@@ -100,14 +100,14 @@ namespace LASI.Core.ComparativeHeuristics
 
         internal static IEnumerable<string> GetLikelyAliases(IEntity entity) {
             return entity.Match().Yield<IEnumerable<string>>()
-                .Case<NounPhrase>(n => DefineAliases(n))
+                .With<NounPhrase>(n => DefineAliases(n))
                 .When(e => e.SubjectOf.IsClassifier)
                 .Then<IEntity>(e => e.SubjectOf
                     .DirectObjects
                     .SelectMany(direct => direct.Match().Yield<IEnumerable<string>>()
                         .When<IReferencer>(p => p.Referent.Any())
                         .Then<IReferencer>(p => p.Referent.SelectMany(r => GetLikelyAliases(r)))
-                        .Case<Noun>(n => n.GetSynonyms())
+                        .With<Noun>(n => n.GetSynonyms())
                     .Result()))
                 .Result(defaultValue: Enumerable.Empty<string>());
         }

@@ -19,12 +19,12 @@ namespace LASI.Core.Binding.Experimental
             var releventElements =
                 from phrase in phrases.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                 let result = phrase.Match().Yield<Phrase>()
-                        .Case<IPrepositional>(phrase)
-                        .Case<IConjunctive>(phrase)
-                        .Case<IEntity>(phrase)
-                        .Case<IVerbal>(phrase)
-                        .Case<SubordinateClauseBeginPhrase>(phrase)
-                        .Case<SymbolPhrase>(phrase).Result()
+                        .With<IPrepositional>(phrase)
+                        .With<IConjunctive>(phrase)
+                        .With<IEntity>(phrase)
+                        .With<IVerbal>(phrase)
+                        .With<SubordinateClauseBeginPhrase>(phrase)
+                        .With<SymbolPhrase>(phrase).Result()
 
                 where result != null
                 select result;
@@ -40,24 +40,24 @@ namespace LASI.Core.Binding.Experimental
             var results = new List<Func<Phrase>>();
             var targetVPS = elements.Select(e =>
                 e.Match().Yield<VerbPhrase>()
-                    .Case<ConjunctionPhrase>(c => c.NextPhrase as VerbPhrase)
-                    .Case<SymbolPhrase>(s =>
+                    .With<ConjunctionPhrase>(c => c.NextPhrase as VerbPhrase)
+                    .With<SymbolPhrase>(s =>
                         s.NextPhrase.Match().Yield<VerbPhrase>()
-                            .Case<VerbPhrase>(v => v)
+                            .With<VerbPhrase>(v => v)
                             .When(n => n is VerbPhrase)
                             .Then<Phrase>(n => n.NextPhrase as VerbPhrase)
                          .Result())
-                    .Case<VerbPhrase>(v => v)
+                    .With<VerbPhrase>(v => v)
                 .Result())
                 .Distinct().TakeWhile(v => v != null);
             var next = targetVPS.LastOrDefault(v => v.NextPhrase != null && v.Sentence == v.NextPhrase.Sentence);
             if (next != null) {
                 results.Add(targetVPS.Last().NextPhrase.Match().Yield<Func<Phrase>>()
-                        .Case<NounPhrase>(n => () => {
+                        .With<NounPhrase>(n => () => {
                             targetVPS.ToList().ForEach(v => v.BindDirectObject(n));
                             return n;
                         })
-                        .Case<InfinitivePhrase>(i => () => {
+                        .With<InfinitivePhrase>(i => () => {
                             targetVPS.ToList().ForEach(v => v.BindDirectObject(i));
                             return i;
                         })

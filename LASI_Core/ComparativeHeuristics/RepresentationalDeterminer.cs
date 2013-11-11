@@ -6,15 +6,9 @@ using System.Threading.Tasks;
 
 namespace LASI.Core.ComparativeHeuristics
 {
-    public static class RepresentationalDeterminer
+    static class RepresentationalDeterminer
     {
-        public static TLexical ToCommonRepresentation<TLexical>(this IEnumerable<TLexical> similarElements) where TLexical : ILexical {
-
-
-
-
-
-
+        static TLexical ToCommonRepresentation<TLexical>(this IEnumerable<TLexical> similarElements) where TLexical : ILexical {
 
             var byText =
                 from element in similarElements
@@ -22,16 +16,6 @@ namespace LASI.Core.ComparativeHeuristics
                     into textGroup
                     orderby textGroup.Count() descending
                     select textGroup.Key;
-
-
-
-
-
-
-
-
-
-
 
             throw new NotImplementedException();
         }
