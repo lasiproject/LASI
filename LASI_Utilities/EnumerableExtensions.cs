@@ -153,6 +153,25 @@ namespace LASI.Utilities
                     return sum.Append(cETS);
                 }).ToString().TrimEnd(' ', delimsToUse.Item2) + " " + delimsToUse.Item3;
         }
+
+        #endregion
+
+        #region Generator Methods
+        /// <summary>
+        /// Generates a sequence of integral numbers within the specified range.
+        /// </summary>
+        /// <param name="from">The value of the first integer in the sequence.</param>
+        /// <param name="until">The number of sequential integers to generate.</param>
+        /// <returns>
+        /// A lazily evaluated sequence of integral numbers. 
+        /// </returns>
+        /// <exception cref="System.ArgumentOutOfRangeException">
+        /// count is less than 0.-or-start + count -1 is larger than System.Int32.MaxValue."
+        ///</exception>
+        public static IEnumerable<int> To(this int from, int until) {
+            return Enumerable.Range(from, until - from);
+        }
+
         #endregion
 
         #region Custom Query Operators

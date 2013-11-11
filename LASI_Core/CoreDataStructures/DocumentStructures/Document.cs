@@ -99,7 +99,7 @@ namespace LASI.Core.DocumentStructures
         /// </summary>
         /// <returns> All of the word and phrase level describables identified in the document.</returns>
         public IEnumerable<IEntity> GetEntities() {
-            return from e in _words.OfType<IEntity>().Concat(Phrases.OfType<IEntity>())
+            return from e in _words.OfType<IEntity>().Concat(_phrases.OfType<IEntity>())
                    select e;
         }
         /// <summary>

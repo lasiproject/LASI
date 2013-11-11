@@ -53,7 +53,7 @@ namespace LASI.Core.ComparativeHeuristics
         /// <returns>A NameGender value indiciating the likely gender of the Pronoun.</returns>
         private static Gender GetGender(IReferencer referee) {
             return referee.Match().Yield<Gender>()
-                    .Case<PronounPhrase>(p => GetPhraseGender(p))
+                    .Case<PronounPhrase>(p => GetPronounPhraseGender(p))
                     .When(referee.Referent != null)
                     .Then((from referent in referee.Referent
                            let gen =
@@ -106,7 +106,7 @@ namespace LASI.Core.ComparativeHeuristics
                 Gender.Neutral :
                 Gender.Unknown;
         }
-        private static Gender GetPhraseGender(PronounPhrase name) {
+        private static Gender GetPronounPhraseGender(PronounPhrase name) {
             if (name.Words.All(w => w is Determiner))
                 return Gender.Unknown;
             var genders = name.Words.OfType<IGendered>().Select(w => w.Gender);
@@ -127,7 +127,7 @@ namespace LASI.Core.ComparativeHeuristics
         /// <param name="proper">The ProperNoun to check.</param>
         /// <returns>True if the provided ProperNoun is a FirstName, false otherwise.</returns>
         public static bool IsFirstName(this ProperNoun proper) {
-            return IsFirstName(proper.Text);
+            return Names.IsFirstName(proper.Text);
         }
         /// <summary>
         /// Determines wether the ProperNoun's text corresponds to a last name in the english language.
@@ -136,7 +136,7 @@ namespace LASI.Core.ComparativeHeuristics
         /// <param name="proper">The ProperNoun to check.</param>
         /// <returns>True if the ProperNoun's text corresponds to a last name in the english language, false otherwise.</returns>
         public static bool IsLastName(this ProperNoun proper) {
-            return IsLastName(proper.Text);
+            return Names.IsLastName(proper.Text);
         }
         /// <summary>
         /// Determines wether the ProperNoun's text corresponds to a female first name in the english language.
@@ -145,7 +145,7 @@ namespace LASI.Core.ComparativeHeuristics
         /// <param name="proper">The ProperNoun to test.</param>
         /// <returns>True if the ProperNoun's text corresponds to a female first name in the english language, false otherwise.</returns>
         public static bool IsFemaleFirst(this ProperNoun proper) {
-            return IsFemaleFirst(proper.Text);
+            return Names.IsFemaleFirst(proper.Text);
         }
         /// <summary>
         /// Returns a value indicating wether the ProperNoun's text corresponds to a male first name in the english language. 
@@ -154,74 +154,12 @@ namespace LASI.Core.ComparativeHeuristics
         /// <param name="proper">The ProperNoun to test.</param>
         /// <returns>True if the ProperNoun's text corresponds to a male first name in the english language, false otherwise.</returns>
         public static bool IsMaleFirst(this ProperNoun proper) {
-            return IsMaleFirst(proper.Text);
-        }
-        /// <summary>
-        /// Determines if provided text is in the set of Female or Male first names.
-        /// </summary>
-        /// <param name="text">The text to check.</param>
-        /// <returns>True if the provided text is in the set of Female or Male first names, false otherwise.</returns>
-        private static bool IsFirstName(string text) {
-            return femaleNames.Count > maleNames.Count ?
-                maleNames.Contains(text) || femaleNames.Contains(text) :
-                femaleNames.Contains(text) || maleNames.Contains(text);
-        }
-        /// <summary>
-        /// Returns a value indicating wether the provided string corresponds to a common lastname in the english language. 
-        /// Lookups are performed in a case insensitive manner and currently do not respect plurality.
-        /// </summary>
-        /// <param name="text">The Name to lookup</param>
-        /// <returns>True if the provided string corresponds to a common lastname in the english language, false otherwise.</returns>
-        private static bool IsLastName(string text) {
-            return lastNames.Contains(text);
-        }
-        /// <summary>
-        /// Returns a value indicating wether the provided string corresponds to a common female name in the english language. 
-        /// Lookups are performed in a case insensitive manner and currently do not respect plurality.
-        /// </summary>
-        /// <param name="text">The Name to lookup</param>
-        /// <returns>True if the provided string corresponds to a common female name in the english language, false otherwise.</returns>
-        private static bool IsFemaleFirst(string text) {
-            return femaleNames.Contains(text);
-        }
-        /// <summary>
-        /// Returns a value indicating wether the provided string corresponds to a common male name in the english language. 
-        /// Lookups are performed in a case insensitive manner and currently do not respect plurality.
-        /// </summary>
-        /// <param name="text">The Name to lookup</param>
-        /// <returns>True if the provided string corresponds to a common male name in the english language, false otherwise.</returns>
-        private static bool IsMaleFirst(string text) {
-            return maleNames.Contains(text);
-        }
-
-        #endregion
-
-        #region Lookup Loading Methods
-        /// <summary>
-        /// Returns a sequence of Tasks containing all of the yet unstarted Lookup loading operations.
-        /// Await each Task to start its corresponding loading operation.
-        /// </summary>
-        /// <returns>a sequence of Tasks containing all of the yet unstarted Lookup loading operations.</returns>
-        public static IEnumerable<Task<string>> GetLoadingTasks() {
-            return new[] {
-                NounThesaurusLoadTask,
-                VerbThesaurusLoadTask, 
-                AdjectiveThesaurusLoadTask, 
-                AdverbThesaurusLoadTask, 
-                NominalEntityLoadTask, 
-                }
-            .Where(t => t != null);
-        }
-        /// <summary>
-        /// Automatically loads all resources used by the Lookup class.
-        /// </summary>
-        public static void LoadAllData() {
-            Task.WaitAll(GetLoadingTasks().ToArray());
+            return Names.IsMaleFirst(proper.Text);
         }
 
 
 
-        #endregion
+
         #region Synonym Lookup Methods
 
         /// <summary>
@@ -230,7 +168,7 @@ namespace LASI.Core.ComparativeHeuristics
         /// <param name="noun">The Noun to lookup.</param>
         /// <returns>The synonyms for the provided Noun.</returns>
         public static IEnumerable<string> GetSynonyms(this Noun noun) {
-            return lookup(noun);
+            return FindSynonyms(noun);
         }
         /// <summary>
         /// Returns the synonyms for the provided Verb.
@@ -238,7 +176,7 @@ namespace LASI.Core.ComparativeHeuristics
         /// <param name="verb">The Verb to lookup.</param>
         /// <returns>The synonyms for the provided Verb.</returns>
         public static IEnumerable<string> GetSynonyms(this Verb verb) {
-            return lookup(verb);
+            return FindSynonyms(verb);
         }
         /// <summary>
         /// Returns the synonyms for the provided Adjective.
@@ -246,7 +184,7 @@ namespace LASI.Core.ComparativeHeuristics
         /// <param name="adjective">The Adjective to lookup.</param>
         /// <returns>The synonyms for the provided Adjective.</returns>
         public static IEnumerable<string> GetSynonyms(this Adjective adjective) {
-            return lookup(adjective);
+            return FindSynonyms(adjective);
         }
         /// <summary>
         /// Returns the synonyms for the provided Adverb.
@@ -254,7 +192,7 @@ namespace LASI.Core.ComparativeHeuristics
         /// <param name="adverb">The Adverb to lookup.</param>
         /// <returns>The synonyms for the provided Adverb.</returns>
         public static IEnumerable<string> GetSynonyms(this Adverb adverb) {
-            return lookup(adverb);
+            return FindSynonyms(adverb);
         }
 
         /// <summary>
@@ -269,7 +207,7 @@ namespace LASI.Core.ComparativeHeuristics
         /// Please prefer the second convention.
         /// </remarks>
         public static bool IsSynonymFor(this Noun first, Noun second) {
-            return lookup(first).Contains(second.Text);
+            return FindSynonyms(first).Contains(second.Text);
         }
         /// <summary>
         /// Determines if two Verb instances are synonymous.
@@ -285,7 +223,7 @@ namespace LASI.Core.ComparativeHeuristics
         public static bool IsSynonymFor(this Verb first, Verb second) {
             if (first == null || second == null)
                 return false;
-            return lookup(first).Contains(second.Text);
+            return FindSynonyms(first).Contains(second.Text);
         }
         /// <summary>
         /// Determines if two Adjective instances are synonymous.
@@ -299,35 +237,9 @@ namespace LASI.Core.ComparativeHeuristics
         /// Please prefer the second convention.
         /// </remarks>
         public static bool IsSynonymFor(this Adjective word, Adjective other) {
-            return lookup(word).Contains(other.Text);
+            return FindSynonyms(word).Contains(other.Text);
         }
 
-        #region Adjective Specific Lookups
-        static bool IsSynonymFor(this Adjective word, SuperlativeAdjective other) {
-            return lookup(word).Contains(other.Text);
-        }
-        static bool IsSynonymFor(this SuperlativeAdjective word, Adjective other) {
-            return lookup(word).Contains(other.Text);
-        }
-        static bool IsSynonymFor(this SuperlativeAdjective word, SuperlativeAdjective other) {
-            return lookup(word).Contains(other.Text);
-        }
-        static bool IsSynonymFor(this ComparativeAdjective word, ComparativeAdjective other) {
-            return lookup(word).Contains(other.Text);
-        }
-        static bool IsSynonymFor(this Adjective word, ComparativeAdjective other) {
-            return lookup(word).Contains(other.Text);
-        }
-        static bool IsSynonymFor(this ComparativeAdjective word, Adjective other) {
-            return lookup(word).Contains(other.Text);
-        }
-        static bool IsSynonymFor(this ComparativeAdjective word, SuperlativeAdjective other) {
-            return lookup(word).Contains(other.Text);
-        }
-        static bool IsSynonymFor(this SuperlativeAdjective word, ComparativeAdjective other) {
-            return lookup(word).Contains(other.Text);
-        }
-        #endregion
 
         /// <summary>
         /// Determines if two Adverb instances are synonymous.
@@ -336,36 +248,11 @@ namespace LASI.Core.ComparativeHeuristics
         /// <param name="other">The second Adverb</param>
         /// <returns>True if the Adverb instances are synonymous, false otherwise.</returns>
         public static bool IsSynonymFor(this Adverb word, Adverb other) {
-            return lookup(word).Contains(other.Text);
+            return FindSynonyms(word).Contains(other.Text);
         }
 
 
-        #region Adverb Specific Lookups
-        static bool IsSynonymFor(this Adverb word, SuperlativeAdverb other) {
-            return lookup(word).Contains(other.Text);
-        }
-        static bool IsSynonymFor(this SuperlativeAdverb word, Adverb other) {
-            return lookup(word).Contains(other.Text);
-        }
-        static bool IsSynonymFor(this SuperlativeAdverb word, SuperlativeAdverb other) {
-            return lookup(word).Contains(other.Text);
-        }
-        static bool IsSynonymFor(this ComparativeAdverb word, ComparativeAdverb other) {
-            return lookup(word).Contains(other.Text);
-        }
-        static bool IsSynonymFor(this Adverb word, ComparativeAdverb other) {
-            var otherRoot = AdverbMorpher.FindRoot(other);
-            return lookup(word).Contains(otherRoot);
-        }
-        static bool IsSynonymFor(this ComparativeAdverb word, Adverb other) {
-            return lookup(word).Contains(other.Text);
-        }
-        static bool IsSynonymFor(this ComparativeAdverb word, SuperlativeAdverb other) {
-            return lookup(word).Contains(other.Text);
-        }
-        static bool IsSynonymFor(this SuperlativeAdverb word, ComparativeAdverb other) {
-            return lookup(word).Contains(other.Text);
-        }
+        
         #endregion
 
 
@@ -374,197 +261,67 @@ namespace LASI.Core.ComparativeHeuristics
 
         #region Internal Syonym Lookup Methods
 
-        private static ISet<string> lookup(Noun noun) {
-            return cachedNounData.GetOrAdd(noun.Text, key => nounLookup[key]);
+        private static ISet<string> FindSynonyms(Noun noun) {
+            return cachedNounData.GetOrAdd(noun.Text, key => NounLookup[key]);
         }
-        private static ISet<string> lookup(Verb verb) {
-            return cachedVerbData.GetOrAdd(verb.Text, key => verbLookup[key]);
+        private static ISet<string> FindSynonyms(Verb verb) {
+            return cachedVerbData.GetOrAdd(verb.Text, key => VerbLookup[key]);
         }
-        private static ISet<string> lookup(Adverb adverb) {
-            return cachedAdverbData.GetOrAdd(adverb.Text, key => adverbLookup[key]);
+        private static ISet<string> FindSynonyms(Adverb adverb) {
+            return cachedAdverbData.GetOrAdd(adverb.Text, key => AdverbLookup[key]);
         }
-        private static ISet<string> lookup(Adjective adjective) {
-            return cachedAdjectiveData.GetOrAdd(adjective.Text, key => adjectiveLookup[key]);
+        private static ISet<string> FindSynonyms(Adjective adjective) {
+            return cachedAdjectiveData.GetOrAdd(adjective.Text, key => AdjectiveLookup[key]);
         }
 
         #endregion
         #endregion
 
-        #region Private Methods
-
-
-
-        private static async Task LoadNameDataAsync() {
-            await Task.Factory.ContinueWhenAll(
-                new[] {  
-                    Task.Run(async () => lastNames = await GetLinesAsync(lastNamesFilePath)),
-                    Task.Run(async () => femaleNames = await GetLinesAsync(femaleNamesFilePath)),
-                    Task.Run(async () => maleNames = await GetLinesAsync(maleNamesFilePath)) 
-                },
-                results => {
-                    genderAmbiguousNames =
-                        new HashSet<string>(maleNames.Intersect(femaleNames).Concat(femaleNames.Intersect(maleNames)), StringComparer.OrdinalIgnoreCase);
-
-                    var stratified =
-                        from m in maleNames.Select((s, i) => new { Rank = (double)i / maleNames.Count, Name = s })
-                        join f in femaleNames.Select((s, i) => new { Rank = (double)i / femaleNames.Count, Name = s })
-                        on m.Name equals f.Name
-                        group f.Name by f.Rank / m.Rank > 1 ? 'M' : m.Rank / f.Rank > 1 ? 'F' : 'U';
-
-                    maleNames.ExceptWith(from s in stratified where s.Key == 'F' from n in s select n);
-                    femaleNames.ExceptWith(from s in stratified where s.Key == 'M' from n in s select n);
-                }
-            );
-        }
-
-        private static async Task<ISet<string>> GetLinesAsync(string fileName) {
-            using (var reader = new StreamReader(fileName)) {
-                string data = await reader.ReadToEndAsync();
-                return data.SplitRemoveEmpty('\r', '\n').Select(s => s.Trim()).ToHashSet(StringComparer.OrdinalIgnoreCase);
+        private static WordNetLookup<TWord> LazyLoad<TWord>(WordNetLookup<TWord> lookup) where TWord : Word {
+            var startedHandler = ResourceStartedLoading;
+            var resourceName = typeof(TWord).Name + " Thesaurus";
+            if (startedHandler != null) {
+                startedHandler(new object(), resourceName);
             }
+            lookup.Load();
+            var finishedHandler = ResourceFinishedLoading;
+            if (finishedHandler != null) {
+                finishedHandler(new object(), resourceName);
+            }
+            return lookup;
         }
 
-        #endregion
-
-        #region Public Properties
+        #region Properties
 
 
 
         /// <summary>
         /// Gets the sequence of strings corresponding to all nouns in the Scrabble Dictionary data source.
         /// </summary>
-        public static IEnumerable<string> ScrabbleDictionary { get { return scrabbleDictionary; } }
-
-        #endregion
-
-        #region Name Collection Accessors
-
-        /// <summary>
-        /// Gets a sequence of all known Last Names.
-        /// </summary>
-        public static IReadOnlyCollection<string> LastNames {
-            get {
-                return lastNames.ToList().AsReadOnly();
-            }
-        }
-        /// <summary>
-        /// Gets a sequence of all known Female Names.
-        /// </summary>
-        public static IReadOnlyCollection<string> FemaleNames {
-            get {
-                return femaleNames.ToList().AsReadOnly();
-            }
-        }
-        /// <summary>
-        /// Gets a sequence of all known Male Names.
-        /// </summary>
-        public static IReadOnlyCollection<string> MaleNames {
-            get {
-                return maleNames.ToList().AsReadOnly();
-            }
-        }
-        /// <summary>
-        /// Gets a sequence of all known Names which are just as likely to be Female or Male.
-        /// </summary>
-        public static IReadOnlyCollection<string> GenderAmbiguousNames {
-            get {
-                return genderAmbiguousNames.ToList().AsReadOnly();
-            }
-        }
-
-        #endregion
-
-
-        #region Private Properties
-
-        /// <summary>
-        /// Exposes properties which construct the Tasks which correspond to the various loading operations of the Lookup class.
-        /// </summary>
-        #region Loading Task Builders
-
-        internal static Task<string> ScrabbleDictionaryLoadTask {
-            get {
-                return Task.Run(() => {
-                    scrabbleDictionary = new HashSet<string>();
-                    using (var reader = new StreamReader(scrabbleDictsFilePath)) {
-                        scrabbleDictionary = reader.ReadToEnd().SplitRemoveEmpty('\r', '\n')
-                            .Select(s => s.ToLower())
-                            .Except(maleNames.Union(femaleNames).Union(lastNames), StringComparer.OrdinalIgnoreCase)
-                            .ToHashSet(StringComparer.OrdinalIgnoreCase);
-                    }
-                    return "Finished Loading Scrabble Dictionary";
-                });
-            }
-        }
-        internal static Task<string> AdjectiveThesaurusLoadTask {
-            get {
-                var result = adjectiveLoadingState == LoadingState.NotStarted ?
-                    Task.Run(async () => {
-                        await adjectiveLookup.LoadAsync();
-                        adjectiveLoadingState = LoadingState.Finished;
-                        return "Adjective Thesaurus Loaded";
-                    }) :
-                    null;
-                adjectiveLoadingState = LoadingState.InProgress;
-                return result;
-            }
-        }
-        internal static Task<string> AdverbThesaurusLoadTask {
-            get {
-                var result = adverbLoadingState == LoadingState.NotStarted ?
-                    Task.Run(async () => {
-                        await adverbLookup.LoadAsync();
-                        adverbLoadingState = LoadingState.Finished;
-                        return "Adverb Thesaurus Loaded";
-                    }) : null;
-                adverbLoadingState = LoadingState.InProgress;
-                return result;
-            }
-        }
-        internal static Task<string> VerbThesaurusLoadTask {
-            get {
-                var result = verbLoadingState == LoadingState.NotStarted ?
-                    Task.Run(async () => {
-                        await verbLookup.LoadAsync();
-                        verbLoadingState = LoadingState.Finished;
-                        return "Verb Thesaurus Loaded";
-                    }) : null;
-                verbLoadingState = LoadingState.InProgress;
-                return result;
-            }
-        }
-        internal static Task<string> NounThesaurusLoadTask {
-            get {
-                var result = nounLoadingState == LoadingState.NotStarted ?
-                    Task.Run(async () => {
-                        await nounLookup.LoadAsync();
-                        nounLoadingState = LoadingState.Finished;
-                        return "Noun Thesaurus Loaded";
-                    }) : null;
-                nounLoadingState = LoadingState.InProgress;
-                return result;
-            }
-        }
-        internal static Task<string> NominalEntityLoadTask {
-            get {
-                var result = nominalInfoormationLoadingState == LoadingState.NotStarted ?
-                    Task.Run(async () => {
-                        await LoadNameDataAsync();
-                        await ScrabbleDictionaryLoadTask;
-
-                        nominalInfoormationLoadingState = LoadingState.Finished;
-                        return "Loaded Nominal Information";
-                    }) : null;
-                nominalInfoormationLoadingState = LoadingState.InProgress;
-                return result;
-            }
-
-        }
-        #endregion
+        public static IEnumerable<string> ScrabbleDictionary { get { return scrabbleDictionary.Value; } }
 
 
         #endregion
 
+        public static event EventHandler<string> ResourceStartedLoading;
+        public static event EventHandler<string> ResourceFinishedLoading;
+
+
+        internal static WordNetLookup<Noun> NounLookup {
+            get { return Lookup.nounLookup.Value; }
+        }
+
+        internal static WordNetLookup<Verb> VerbLookup {
+            get { return Lookup.verbLookup.Value; }
+        }
+
+        internal static WordNetLookup<Adjective> AdjectiveLookup {
+            get { return Lookup.adjectiveLookup.Value; }
+        }
+
+        internal static WordNetLookup<Adverb> AdverbLookup {
+            get { return Lookup.adverbLookup.Value; }
+        }
         #region Private Fields
         // WordNet Data File Paths
         static readonly string nounWNFilePath = ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "data.noun";
@@ -572,32 +329,59 @@ namespace LASI.Core.ComparativeHeuristics
         static readonly string adverbWNFilePath = ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "data.adv";
         static readonly string adjectiveWNFilePath = ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "data.adj";
         static readonly string scrabbleDictsFilePath = ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "dictionary.txt"; //scrabble dictionary
-        // Internal Thesauri
-        static NounLookup nounLookup = new NounLookup(nounWNFilePath);
-        static VerbLookup verbLookup = new VerbLookup(verbWNFilePath);
-        static AdjectiveLookup adjectiveLookup = new AdjectiveLookup(adjectiveWNFilePath);
-        static AdverbLookup adverbLookup = new AdverbLookup(adverbWNFilePath);
+        // Internal Lookups
+        static Lazy<WordNetLookup<Noun>> nounLookup = new Lazy<WordNetLookup<Noun>>(() => LazyLoad(new NounLookup(nounWNFilePath)), true);
+        static Lazy<WordNetLookup<Verb>> verbLookup = new Lazy<WordNetLookup<Verb>>(() => LazyLoad(new VerbLookup(verbWNFilePath)), true);
+        static Lazy<WordNetLookup<Adjective>> adjectiveLookup = new Lazy<WordNetLookup<Adjective>>(() => LazyLoad(new AdjectiveLookup(adjectiveWNFilePath)), true);
+        static Lazy<WordNetLookup<Adverb>> adverbLookup = new Lazy<WordNetLookup<Adverb>>(() => LazyLoad(new AdverbLookup(adverbWNFilePath)), true);
+
+
         // Synonym LexicalLookup Caches
         static ConcurrentDictionary<string, ISet<string>> cachedNounData = new ConcurrentDictionary<string, ISet<string>>(Concurrency.Max, 40960);
         static ConcurrentDictionary<string, ISet<string>> cachedVerbData = new ConcurrentDictionary<string, ISet<string>>(Concurrency.Max, 40960);
         static ConcurrentDictionary<string, ISet<string>> cachedAdjectiveData = new ConcurrentDictionary<string, ISet<string>>(Concurrency.Max, 40960);
         static ConcurrentDictionary<string, ISet<string>> cachedAdverbData = new ConcurrentDictionary<string, ISet<string>>(Concurrency.Max, 40960);
-        // Name Data File Paths
-        static readonly string lastNamesFilePath = ConfigurationManager.AppSettings["NameDataDirectory"] + "last.txt";
-        static readonly string femaleNamesFilePath = ConfigurationManager.AppSettings["NameDataDirectory"] + "femalefirst.txt";
-        static readonly string maleNamesFilePath = ConfigurationManager.AppSettings["NameDataDirectory"] + "malefirst.txt";
-        // Name Data Sets
-        static ISet<string> lastNames;
-        static ISet<string> maleNames;
-        static ISet<string> femaleNames;
-        static ISet<string> genderAmbiguousNames;
-        static ISet<string> scrabbleDictionary;
-        //Loading states for specific data items
-        static LoadingState nounLoadingState = LoadingState.NotStarted;
-        static LoadingState verbLoadingState = LoadingState.NotStarted;
-        static LoadingState adjectiveLoadingState = LoadingState.NotStarted;
-        static LoadingState adverbLoadingState = LoadingState.NotStarted;
-        static LoadingState nominalInfoormationLoadingState = LoadingState.NotStarted;
+
+
+        static Lazy<NameProvider> names = new Lazy<NameProvider>(() => {
+            var resourceName = "Name Data";
+            var startedHandler = ResourceStartedLoading;
+            if (startedHandler != null) {
+                startedHandler(new object(), resourceName);
+            }
+            var val = new NameProvider();
+            val.Load();
+            var finishedHandler = ResourceFinishedLoading;
+            if (finishedHandler != null) {
+                finishedHandler(new object(), resourceName);
+            }
+            return val;
+        }, true);
+
+        private static NameProvider Names {
+            get { return Lookup.names.Value; }
+        }
+
+        static Lazy<ISet<string>> scrabbleDictionary = new Lazy<ISet<string>>(() => {
+            var resourceName = "Scrabble Dictionary";
+            var startedHandler = ResourceStartedLoading;
+            if (startedHandler != null) {
+                startedHandler(new object(), resourceName);
+            }
+            ISet<string> dict;
+            using (var reader = new StreamReader(scrabbleDictsFilePath)) {
+                dict = reader.ReadToEnd().SplitRemoveEmpty('\r', '\n')
+                      .Select(s => s.ToLower())
+                      .Except(Names.AllNameStrings, StringComparer.OrdinalIgnoreCase)
+                      .ToHashSet(StringComparer.OrdinalIgnoreCase);
+            }
+            var finishedHandler = ResourceFinishedLoading;
+            if (finishedHandler != null) {
+                finishedHandler(new object(), resourceName);
+            }
+            return dict;
+        }, true);
+
 
         /// <summary>
         /// Similarity threshold for lexical element comparisons. If the computed ration of a similarity comparison is >= the threshold, 
@@ -607,17 +391,132 @@ namespace LASI.Core.ComparativeHeuristics
 
         #endregion
 
-        #region Utility Types
 
-        /// <summary>
-        /// Represents the various states of a loading operation.
-        /// </summary>
-        private enum LoadingState
+        private sealed class NameProvider
         {
-            NotStarted,
-            InProgress,
-            Finished
+            public void Load() {
+                Task.Factory.ContinueWhenAll(
+                  new[] {  
+                    Task.Run(async () => _last = await GetLinesAsync(lastFilePath)),
+                    Task.Run(async () => _female = await GetLinesAsync(femaleFilePath)),
+                    Task.Run(async () => _male = await GetLinesAsync(maleFilePath)) 
+                },
+                  results => {
+                      _genderAmbiguous =
+                          new HashSet<string>(_male.Intersect(_female, comparer).Union(_female.Intersect(_male, comparer)), comparer);
+
+                      var stratified =
+                          from m in _male.Select((s, i) => new { Rank = (double)i / _male.Count, Name = s })
+                          join f in _female.Select((s, i) => new { Rank = (double)i / _female.Count, Name = s })
+                          on m.Name equals f.Name
+                          group f.Name by f.Rank / m.Rank > 1 ? 'M' : m.Rank / f.Rank > 1 ? 'F' : 'U';
+
+                      _male.ExceptWith(from s in stratified where s.Key == 'F' from n in s select n);
+                      _female.ExceptWith(from s in stratified where s.Key == 'M' from n in s select n);
+                  }
+              ).Wait();
+            }
+
+            /// <summary>
+            /// Determines if provided text is in the set of Female or Male first names.
+            /// </summary>
+            /// <param name="text">The text to check.</param>
+            /// <returns>True if the provided text is in the set of Female or Male first names, false otherwise.</returns>
+            public bool IsFirstName(string text) {
+                return _female.Count > _male.Count ?
+                    _male.Contains(text) || _female.Contains(text) :
+                    _female.Contains(text) || _male.Contains(text);
+            }
+            /// <summary>
+            /// Returns a value indicating wether the provided string corresponds to a common lastname in the english language. 
+            /// Lookups are performed in a case insensitive manner and currently do not respect plurality.
+            /// </summary>
+            /// <param name="text">The Name to lookup</param>
+            /// <returns>True if the provided string corresponds to a common lastname in the english language, false otherwise.</returns>
+            public bool IsLastName(string text) {
+                return _last.Contains(text);
+            }
+            /// <summary>
+            /// Returns a value indicating wether the provided string corresponds to a common female name in the english language. 
+            /// Lookups are performed in a case insensitive manner and currently do not respect plurality.
+            /// </summary>
+            /// <param name="text">The Name to lookup</param>
+            /// <returns>True if the provided string corresponds to a common female name in the english language, false otherwise.</returns>
+            public bool IsFemaleFirst(string text) {
+                return _female.Contains(text);
+            }
+            /// <summary>
+            /// Returns a value indicating wether the provided string corresponds to a common male name in the english language. 
+            /// Lookups are performed in a case insensitive manner and currently do not respect plurality.
+            /// </summary>
+            /// <param name="text">The Name to lookup</param>
+            /// <returns>True if the provided string corresponds to a common male name in the english language, false otherwise.</returns>
+            public bool IsMaleFirst(string text) {
+                return _male.Contains(text);
+            }
+
+
+            private static async Task<ISet<string>> GetLinesAsync(string fileName) {
+                using (var reader = new StreamReader(fileName)) {
+                    string data = await reader.ReadToEndAsync();
+                    return data.SplitRemoveEmpty('\r', '\n').Select(s => s.Trim()).ToHashSet(comparer);
+                }
+            }
+
+
+
+            /// <summary>
+            /// Gets a sequence of all known Last Names.
+            /// </summary>
+            public IReadOnlyCollection<string> Last {
+                get {
+                    return _last.ToList().AsReadOnly();
+                }
+            }
+            /// <summary>
+            /// Gets a sequence of all known Female Names.
+            /// </summary>
+            public IReadOnlyCollection<string> Female {
+                get {
+                    return _female.ToList().AsReadOnly();
+                }
+            }
+            /// <summary>
+            /// Gets a sequence of all known Male Names.
+            /// </summary>
+            public IReadOnlyCollection<string> Male {
+                get {
+                    return _male.ToList().AsReadOnly();
+                }
+            }
+            /// <summary>
+            /// Gets a sequence of all known Names which are just as likely to be Female or Male.
+            /// </summary>
+            public IReadOnlyCollection<string> GenderAmbiguous {
+                get {
+                    return _genderAmbiguous.ToList().AsReadOnly();
+                }
+            }
+            public IReadOnlyCollection<string> AllNameStrings {
+                get { return _last.Union(_male, comparer).Union(_female, comparer).Union(_genderAmbiguous, comparer).ToList().AsReadOnly(); }
+            }
+
+            #region Fields
+
+            // Name Data File Paths
+            private static readonly string lastFilePath = ConfigurationManager.AppSettings["NameDataDirectory"] + "last.txt";
+            private static readonly string femaleFilePath = ConfigurationManager.AppSettings["NameDataDirectory"] + "femalefirst.txt";
+            private static readonly string maleFilePath = ConfigurationManager.AppSettings["NameDataDirectory"] + "malefirst.txt";
+            // Name Data Sets
+            private static ISet<string> _last;
+            private static ISet<string> _male;
+            private static ISet<string> _female;
+            private static ISet<string> _genderAmbiguous;
+
+            private static StringComparer comparer = StringComparer.OrdinalIgnoreCase;
+            #endregion
+
         }
-        #endregion
+
     }
 }

@@ -14,7 +14,7 @@ namespace UnitTests
     {
         [AssemblyInitialize]
         public static void TestEnvironmentInitialize(TestContext context) {
-            LASI.Core.ComparativeHeuristics.Lookup.GetLoadingTasks().AsParallel().ForAll(async t => await t);
+            //LASI.Core.ComparativeHeuristics.Lookup.GetLoadingTasks().AsParallel().ForAll(async t => await t);
         }
 
         //[AssemblyCleanup]

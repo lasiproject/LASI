@@ -9,14 +9,23 @@ open System.Threading.Tasks
 [<EntryPoint>]
 let main argv =
     // load Lookup printing loading feedback messages
-    let tasks = Lookup.GetLoadingTasks().AsParallel().ForAll(fun t-> printfn "%A" t.Result)
-
+    Lookup.ResourceStartedLoading.Add(fun e-> printfn "Started loading %A" e)
+    Lookup.ResourceFinishedLoading.Add(fun e-> printfn "Finished loading %A" e)
+    let load (t:Task) = async {
+                    let! i =  Async.AwaitIAsyncResult(t)|>Async.Ignore
+                    return i
+        } 
+        
+        
+ 
     // tag, parse, and construct a Document 
-    let doc = Tagger.DocumentFromDocX(DocXFile(@"C:\Users\Aluan\Desktop\documents\sec22.docx"))
+    let doc = Tagger.DocumentFromDocX(DocXFile @"C:\Users\Aluan\Desktop\documents\sec22.docx")
     // perform default binding on the Document
-    Binding.Binder.Bind doc
+    do 
+        Binding.Binder.Bind doc
+        Weighter.Weight doc
     // perform default weighting on the Document
-    Weighter.Weight doc
+
     
     // print the document while pattern matching on various Phrase Types and naively binding Pronouns at the phrasal level
     let rec processPhrases (phrs:list<Phrase>)= 
@@ -26,22 +35,21 @@ let main argv =
             | :? NounPhrase as np->  
                 match np.Paragraph.Phrases.OfPronounPhrase().FirstOrDefault() with 
                     | null -> () // no pronoun Phrase within the paragraph of NounPhrase np
-                    | pro -> np.BindPronoun(pro) // bind naively (this is just an example)
+                    | pro -> np.BindPronoun pro // bind naively (this is just an example)
                 printfn "NP Matched %A" np
             | :? VerbPhrase as vp-> printfn "VP Matched %A" vp        
-            | p -> printfn "Not Matched %A" p; 
+            | p -> printfn "Not Matched %A" p
             processPhrases tail // recursive tail call to continue processing
         | [] -> printfn "" // list has been exhausted
     
-    processPhrases (Seq.toList doc.Phrases) //bind and output the document doings.
+    do processPhrases (Seq.toList doc.Phrases) //bind and output the document doings.
 
     // keep reading from the console until the string "exit" is entered.
     let rec input line = 
         match line with
         |"exit" -> ()
-        |_ -> input(stdin.ReadLine())
-    let line = stdin.ReadLine()
-    input line 
+        |_ -> input (stdin.ReadLine())
+    input (stdin.ReadLine())
     // the last value computed by the function is the exit code
     0 
  

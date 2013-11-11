@@ -25,17 +25,12 @@ namespace LASI.Utilities
             return t => g(f(t));
         }
 
-        public static Func<T, TResult2> Select<T, TResult, TResult2>(
-                  this Func<T, TResult> func,
-                  Func<TResult, TResult2> selector) {
+        static Func<T, TResult2> Select<T, TResult, TResult2>(
+                this Func<T, TResult> func,
+                Func<TResult, TResult2> selector) {
             return x => selector(func(x));
         }
 
-        public static Func<T, TResult> ToFn<T, TResult>(Func<T, TResult> fn) { return fn; }
-        //public static MatchFunc<T, TResult> ToFn<T, TResult>(Func<T, TResult> fn) { return x => fn(x); }
-        //public static Func<T, TResult> ToFn<T, TResult>(MatchFunc<T, TResult> fn) { return x => fn(x); }
-
-
     }
-    public delegate TResult MatchFunc<T, TResult>(T arg);
+
 }
