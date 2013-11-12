@@ -130,7 +130,6 @@
     <Compile Include="PunctuatorTest.cs" />
     <Compile Include="SentenceTest.cs" />
     <Compile Include="Settings.cs" />
-    <Compile Include="TestEnvironmentManager.cs" />
     <Compile Include="TransitiveVerbTest.cs" />
     <Compile Include="VerbConjugatorTest.cs" />
     <Compile Include="VerbPhraseTest.cs" />

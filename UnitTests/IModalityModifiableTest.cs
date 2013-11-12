@@ -62,8 +62,8 @@ namespace UnitTests
 
 
         internal virtual IModalityModifiable CreateIModalityModifiable() {
-            // TODO: Instantiate an appropriate concrete class.
-            IModalityModifiable target = null;
+
+            IModalityModifiable target = new Verb("laugh",VerbForm.Base);
             return target;
         }
 
@@ -72,13 +72,12 @@ namespace UnitTests
         ///</summary>
         [TestMethod()]
         public void ModalityTest() {
-            IModalityModifiable target = CreateIModalityModifiable(); // TODO: Initialize to an appropriate value
-            ModalAuxilary expected = null; // TODO: Initialize to an appropriate value
+            IModalityModifiable target = CreateIModalityModifiable();
+            ModalAuxilary expected = new ModalAuxilary("might");
             ModalAuxilary actual;
             target.Modality = expected;
             actual = target.Modality;
-            Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
+            Assert.AreEqual(expected, actual); 
         }
     }
 }

@@ -95,6 +95,7 @@ namespace LASI.Core.Patternization
             return this;
         }
 
+
         #endregion
         #region Default Expressions
 
@@ -305,8 +306,20 @@ namespace LASI.Core.Patternization
         private TResult _result = default(TResult);
         #endregion
 
-
-
+        //public static MatchCase<T, TResult> operator |(MatchCase<T, TResult> left, System.Linq.Expressions.Expression<Func<T, TResult>> fn) {
+        //    return left._<T>(fn.Compile()) as MatchCase<T, TResult>;
+        //}
+        //public static MatchCase<T, TResult> operator |(MatchCase<T, TResult> left, Func<T, TResult> fn) {
+        //    return left._<T>(fn) as MatchCase<T, TResult>;
+        //}
+        //public static MatchCase<T, TResult> operator |(MatchCase<T, TResult> left, System.Linq.Expressions.LabelExpression<T, TResult> fn) {
+        //    return left._<T>(fn.Compile()) as MatchCase<T, TResult>;
+        //}
+        
+        //static void TT(IEntity e) {
+        //    var head = e.Match().Yield<string>() as MatchCase<IEntity, string>;
+        //    head | new Func<Noun, string>(n => { return n.Text; });
+        //}
 
     }
     class TestedMatchCase<T> : IPredicatedMatchCase<T> where T : class, ILexical

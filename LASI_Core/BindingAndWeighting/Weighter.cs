@@ -62,8 +62,8 @@ namespace LASI.Core
                 3);
         }
 
-        static void ProcessPhrase(Task phase, string documentSpecificMessageText, double numericValue) {
-            var startHandler = StartedWeighingPhase;
+        static void PerformWeightingPhrase(Task phase, string documentSpecificMessageText, double numericValue) {
+            var startHandler = StartedWeightingPhase;
             if (startHandler != null) {
                 startHandler(new object(), new WeighterProgressUpdateEventArgs {
                     TextualProgressUpdate = documentSpecificMessageText,
@@ -71,7 +71,7 @@ namespace LASI.Core
                 });
             };
             phase.Wait();
-            var endHandler = FinishedWeighingPhase;
+            var endHandler = FinishedWeightingPhase;
             if (endHandler != null) {
                 endHandler(new object(), new WeighterProgressUpdateEventArgs {
                     TextualProgressUpdate = documentSpecificMessageText,
@@ -79,7 +79,7 @@ namespace LASI.Core
                 });
             }
         }
- 
+
 
 
         /// <summary>
@@ -228,8 +228,8 @@ namespace LASI.Core
         }
 
         #region Events
-        public static event EventHandler<WeighterProgressUpdateEventArgs> StartedWeighingPhase;
-        public static event EventHandler<WeighterProgressUpdateEventArgs> FinishedWeighingPhase;
+        public static event EventHandler<WeighterProgressUpdateEventArgs> StartedWeightingPhase;
+        public static event EventHandler<WeighterProgressUpdateEventArgs> FinishedWeightingPhase;
         #endregion Events
 
     }

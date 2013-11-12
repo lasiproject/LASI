@@ -5,8 +5,8 @@ using LASI.Core.Heuristics;
 
 namespace UnitTests
 {
-    
-    
+
+
     /// <summary>
     ///This is a test class for IGenderedTest and is intended
     ///to contain all IGenderedTest Unit Tests
@@ -63,8 +63,8 @@ namespace UnitTests
 
 
         internal virtual IGendered CreateIGendered() {
-            // TODO: Instantiate an appropriate concrete class.
-            IGendered target = null;
+
+            IGendered target = new PersonalPronoun("he");
             return target;
         }
 
@@ -73,10 +73,10 @@ namespace UnitTests
         ///</summary>
         [TestMethod()]
         public void GenderTest() {
-            IGendered target = CreateIGendered(); // TODO: Initialize to an appropriate value
+            IGendered target = CreateIGendered();  
             Gender actual;
             actual = target.Gender;
-            Assert.Inconclusive("Verify the correctness of this test method.");
+            Assert.AreEqual(actual,target.Gender);
         }
     }
 }

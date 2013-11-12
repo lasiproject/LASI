@@ -16,7 +16,7 @@ let main argv =
     let doc = Tagger.DocumentFromDocX(DocXFile @"C:\Users\Aluan\Desktop\documents\sec22.docx")
     // perform default binding on the Document
     do 
-        Binding.Binder.Bind doc
+        Binder.Bind doc
         Weighter.Weight doc
     // perform default weighting on the Document
 
@@ -42,7 +42,7 @@ let main argv =
     let rec input line = 
         match line with
         |"exit" -> ()
-        |_ -> input (stdin.ReadLine())
+        |_ -> input (stdin.ReadLine())  
     input (stdin.ReadLine())
     // the last value computed by the function is the exit code
     0 

@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LASI.Core.Interop;
 
-namespace LASI.Core.Binding
+namespace LASI.Core
 {
     /// <summary>
     /// Provides static acess to a comprehensive set of binding operations which are applicable to a document.

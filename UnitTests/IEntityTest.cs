@@ -4,8 +4,8 @@ using System;
 
 namespace UnitTests
 {
-    
-    
+
+
     /// <summary>
     ///This is a test class for IEntityTest and is intended
     ///to contain all IEntityTest Unit Tests
@@ -62,8 +62,8 @@ namespace UnitTests
 
 
         internal virtual IEntity CreateIEntity() {
-            // TODO: Instantiate an appropriate concrete class.
-            IEntity target = null;
+
+            IEntity target = new CommonSingularNoun("cat");
             return target;
         }
 
@@ -72,10 +72,10 @@ namespace UnitTests
         ///</summary>
         [TestMethod()]
         public void EntityKindTest() {
-            IEntity target = CreateIEntity(); // TODO: Initialize to an appropriate value
+            IEntity target = CreateIEntity();
             EntityKind actual;
             actual = target.EntityKind;
-            Assert.Inconclusive("Verify the correctness of this test method.");
+            Assert.AreEqual(actual, target.EntityKind);
         }
     }
 }

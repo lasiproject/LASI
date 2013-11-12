@@ -1,11 +1,12 @@
 ﻿using LASI.Core;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Linq;
 
 namespace UnitTests
 {
-    
-    
+
+
     /// <summary>
     ///This is a test class for ILexicalTest and is intended
     ///to contain all ILexicalTest Unit Tests
@@ -62,8 +63,11 @@ namespace UnitTests
 
 
         internal virtual ILexical CreateILexical() {
-            // TODO: Instantiate an appropriate concrete class.
-            ILexical target = null;
+            ILexical target = new AggregateEntity(new IEntity[] {
+                    new PersonalPronoun("him"),
+                    new ProperSingularNoun("Patrick"), 
+                    new NounPhrase(new Word[] { new ProperSingularNoun("Brittany") })
+                });
             return target;
         }
 
@@ -72,13 +76,12 @@ namespace UnitTests
         ///</summary>
         [TestMethod()]
         public void MetaWeightTest() {
-            ILexical target = CreateILexical(); // TODO: Initialize to an appropriate value
-            double expected = 0F; // TODO: Initialize to an appropriate value
+            ILexical target = CreateILexical();
+            double expected = 1d;
             double actual;
             target.MetaWeight = expected;
             actual = target.MetaWeight;
             Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
         }
 
         /// <summary>
@@ -86,13 +89,12 @@ namespace UnitTests
         ///</summary>
         [TestMethod()]
         public void PrepositionOnLeftTest() {
-            ILexical target = CreateILexical(); // TODO: Initialize to an appropriate value
-            IPrepositional expected = null; // TODO: Initialize to an appropriate value
+            ILexical target = CreateILexical();
+            IPrepositional expected = new Preposition("with");
             IPrepositional actual;
             target.PrepositionOnLeft = expected;
             actual = target.PrepositionOnLeft;
             Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
         }
 
         /// <summary>
@@ -100,13 +102,12 @@ namespace UnitTests
         ///</summary>
         [TestMethod()]
         public void PrepositionOnRightTest() {
-            ILexical target = CreateILexical(); // TODO: Initialize to an appropriate value
-            IPrepositional expected = null; // TODO: Initialize to an appropriate value
+            ILexical target = CreateILexical();
+            IPrepositional expected = new Preposition("with");
             IPrepositional actual;
             target.PrepositionOnRight = expected;
             actual = target.PrepositionOnRight;
             Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
         }
 
         /// <summary>
@@ -114,10 +115,10 @@ namespace UnitTests
         ///</summary>
         [TestMethod()]
         public void TextTest() {
-            ILexical target = CreateILexical(); // TODO: Initialize to an appropriate value
+            ILexical target = CreateILexical();
             string actual;
             actual = target.Text;
-            Assert.Inconclusive("Verify the correctness of this test method.");
+            Assert.AreEqual(target.Text, actual);
         }
 
         /// <summary>
@@ -125,10 +126,10 @@ namespace UnitTests
         ///</summary>
         [TestMethod()]
         public void TypeTest() {
-            ILexical target = CreateILexical(); // TODO: Initialize to an appropriate value
+            ILexical target = CreateILexical();  
             Type actual;
             actual = target.Type;
-            Assert.Inconclusive("Verify the correctness of this test method.");
+            Assert.AreEqual(target.GetType(), actual);
         }
 
         /// <summary>
@@ -136,13 +137,12 @@ namespace UnitTests
         ///</summary>
         [TestMethod()]
         public void WeightTest() {
-            ILexical target = CreateILexical(); // TODO: Initialize to an appropriate value
-            double expected = 0F; // TODO: Initialize to an appropriate value
+            ILexical target = CreateILexical();
+            double expected = 1d;
             double actual;
             target.Weight = expected;
             actual = target.Weight;
             Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
         }
     }
 }

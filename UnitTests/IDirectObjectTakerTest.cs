@@ -76,7 +76,7 @@ namespace UnitTests
             IDirectObjectTaker target = CreateIDirectObjectTaker();
             IEntity directObject = new PersonalPronoun("them");
             target.BindDirectObject(directObject);
-            Assert.IsTrue(target.DirectObjects.Where(o => o == target).Count() > 0);
+            Assert.IsTrue(target.DirectObjects.Any(o => o == directObject));
         }
 
         /// <summary>
@@ -87,7 +87,7 @@ namespace UnitTests
             IDirectObjectTaker target = CreateIDirectObjectTaker();
             IAggregateEntity actual;
             actual = target.AggregateDirectObject;
-            Assert.Inconclusive("Verify the correctness of this test method.");
+            Assert.IsTrue(target.AggregateDirectObject.SequenceEqual(actual));
         }
 
         /// <summary>
@@ -95,10 +95,10 @@ namespace UnitTests
         ///</summary>
         [TestMethod()]
         public void DirectObjectsTest() {
-            IDirectObjectTaker target = CreateIDirectObjectTaker(); // TODO: Initialize to an appropriate value
+            IDirectObjectTaker target = CreateIDirectObjectTaker();
             IEnumerable<IEntity> actual;
             actual = target.DirectObjects;
-            Assert.Inconclusive("Verify the correctness of this test method.");
+            Assert.AreEqual(target.DirectObjects, actual);
         }
     }
 }

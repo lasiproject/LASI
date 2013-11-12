@@ -2,11 +2,12 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace UnitTests
 {
-    
-    
+
+
     /// <summary>
     ///This is a test class for IInderectObjectTakerTest and is intended
     ///to contain all IInderectObjectTakerTest Unit Tests
@@ -63,8 +64,7 @@ namespace UnitTests
 
 
         internal virtual IInderectObjectTaker CreateIInderectObjectTaker() {
-            // TODO: Instantiate an appropriate concrete class.
-            IInderectObjectTaker target = null;
+            IInderectObjectTaker target = new Verb("walk", VerbForm.Base);
             return target;
         }
 
@@ -73,10 +73,11 @@ namespace UnitTests
         ///</summary>
         [TestMethod()]
         public void BindIndirectObjectTest() {
-            IInderectObjectTaker target = CreateIInderectObjectTaker(); // TODO: Initialize to an appropriate value
-            IEntity indirectObject = null; // TODO: Initialize to an appropriate value
+            IInderectObjectTaker target = CreateIInderectObjectTaker();
+            IEntity indirectObject = new NounPhrase(new Word[] { new PossessivePronoun("my"), new CommonSingularNoun("friend") });
             target.BindIndirectObject(indirectObject);
-            Assert.Inconclusive("A method that does not return a value cannot be verified.");
+            Assert.IsTrue(target.IndirectObjects.Contains(indirectObject));
+            Assert.IsTrue(target.AggregateIndirectObject.Contains(indirectObject));
         }
 
         /// <summary>
@@ -84,21 +85,30 @@ namespace UnitTests
         ///</summary>
         [TestMethod()]
         public void AggregateIndirectObjectTest() {
-            IInderectObjectTaker target = CreateIInderectObjectTaker(); // TODO: Initialize to an appropriate value
-            IAggregateEntity actual;
+            IInderectObjectTaker target = CreateIInderectObjectTaker();
+            IAggregateEntity actual =
+                new AggregateEntity(new IEntity[] {
+                    new PersonalPronoun("him"),
+                    new ProperSingularNoun("Patrick"), 
+                    new NounPhrase(new Word[] { new ProperSingularNoun("Brittany") })
+                });
             actual = target.AggregateIndirectObject;
-            Assert.Inconclusive("Verify the correctness of this test method.");
-        }
+            Assert.IsTrue(target.AggregateIndirectObject.SequenceEqual(actual));
+         }
 
         /// <summary>
         ///A test for IndirectObjects
         ///</summary>
         [TestMethod()]
         public void IndirectObjectsTest() {
-            IInderectObjectTaker target = CreateIInderectObjectTaker(); // TODO: Initialize to an appropriate value
-            IEnumerable<IEntity> actual;
+            IInderectObjectTaker target = CreateIInderectObjectTaker();
+            IEnumerable<IEntity> actual = new IEntity[] {
+                    new PersonalPronoun("him"),
+                    new ProperSingularNoun("Patrick"), 
+                    new NounPhrase(new Word[] { new ProperSingularNoun("Brittany") })
+                };
             actual = target.IndirectObjects;
-            Assert.Inconclusive("Verify the correctness of this test method.");
-        }
+            Assert.IsTrue(target.IndirectObjects.SequenceEqual(actual));
+         }
     }
 }
