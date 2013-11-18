@@ -63,12 +63,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExperimentationWPF", "WPFEx
 EndProject
 Project("{7CF6DF6D-3B04-46F8-A40B-537D21BCA0B4}") = "Documentation1", "Documentation1\Documentation1.shfbproj", "{E10BFCCC-7C50-4E25-B9E5-58ADB438A334}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Icons", "Icons", "{E81FAED7-25CB-4155-BF37-49561E089936}"
-	ProjectSection(SolutionItems) = preProject
-		..\..\..\favicon.ico = ..\..\..\favicon.ico
-		..\..\..\Pictures\logo.png = ..\..\..\Pictures\logo.png
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "L_Core", "LASI_Core\L_Core.csproj", "{8C562A93-A885-4FE9-8B8C-5CE34CCBAEC1}"
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FSharpExperimentation", "FSharpExperimentation\FSharpExperimentation.fsproj", "{8BC22765-5BE2-4D70-9B4F-6CA3360D8562}"
@@ -172,7 +166,6 @@ Global
 		{F57E105E-00CD-429A-8819-FAC415678F84}.Release|x86.ActiveCfg = Release|Any CPU
 		{E10BFCCC-7C50-4E25-B9E5-58ADB438A334}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E10BFCCC-7C50-4E25-B9E5-58ADB438A334}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{E10BFCCC-7C50-4E25-B9E5-58ADB438A334}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
 		{E10BFCCC-7C50-4E25-B9E5-58ADB438A334}.Debug|x64.ActiveCfg = Debug|Any CPU
 		{E10BFCCC-7C50-4E25-B9E5-58ADB438A334}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{E10BFCCC-7C50-4E25-B9E5-58ADB438A334}.Release|Any CPU.ActiveCfg = Release|Any CPU

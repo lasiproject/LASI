@@ -309,7 +309,7 @@ namespace LASI.App
             };
 
             if (dialog.ShowDialog() ?? false) {
-                var joinedRelationshipResults = await new CrossDocumentJoiner().JoinDocumentsAsnyc(dialog.SelectDocuments);
+                var joinedRelationshipResults = await new CrossDocumentJoiner().GetCommonResultsAsnyc(dialog.SelectDocuments);
                 metaRelationshipsDataGrid.ItemsSource = Visualizer.TransformToGrid(joinedRelationshipResults);
             }
         }

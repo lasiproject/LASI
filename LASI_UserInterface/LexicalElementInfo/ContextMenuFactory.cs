@@ -12,8 +12,8 @@ namespace LASI.App.LexicalElementInfo
     {
         public static ContextMenu ForLexical(ILexical element, IEnumerable<Label> labelsInContext) {
             return element.Match().Yield<ContextMenu>()
-                ._<IVerbal>(e => ForVerbal(e, labelsInContext))
-                ._<IReferencer>(e => ForReferencer(e, labelsInContext))
+                .With<IVerbal>(e => ForVerbal(e, labelsInContext))
+                .With<IReferencer>(e => ForReferencer(e, labelsInContext))
                 .Result();
         }
         #region Lexical Element Context Menu Construction

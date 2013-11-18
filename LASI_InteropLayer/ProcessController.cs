@@ -61,25 +61,25 @@ namespace LASI.Interop
         private async Task<Document> ProcessTaggedFileAsync(LASI.Core.ITaggedTextSource tagged) {
             var fileName = tagged.TextSourceName;
             OnReport(new Report { Message = string.Format("{0}: Loading...", fileName), Increment = 0 });
-            var doc = await Tagger.DocumentFromTaggedAsync(tagged);
+            var document = await Tagger.DocumentFromTaggedAsync(tagged);
             OnReport(new Report { Message = string.Format("{0}: Loaded", fileName), Increment = 4 / numDocs });
             OnReport(new Report { Message = string.Format("{0}: Analyzing Syntax...", fileName), Increment = 0 });
-            foreach (var task in doc.GetBindingTasks()) {
+            foreach (var task in document.GetBindingTasks()) {
                 OnReport(new Report { Message = task.InitializationMessage, Increment = 0 });
                 await task.Task;
                 OnReport(new Report { Message = task.CompletionMessage, Increment = task.PercentWorkRepresented * 0.5 / numDocs });
             }
             OnReport(new Report { Message = string.Format("{0}: Correlating Relationships...", fileName), Increment = 0 });
-            foreach (var task in doc.GetWeightingTasks()) {
+            foreach (var task in document.GetWeightingTasks()) {
                 OnReport(new Report { Message = task.InitializationMessage, Increment = 1 / numDocs });
                 await task.Task;
                 OnReport(new Report { Message = task.CompletionMessage, Increment = task.PercentWorkRepresented * 0.5 / numDocs });
             }
 
             OnReport(new Report { Message = string.Format("{0}: Completing Parse...", fileName), Increment = stepSize });
-            return doc;
+            return document;
         }
-     
+
 
 
         #region Fields

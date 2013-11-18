@@ -201,7 +201,7 @@ namespace LASI.App
                    select svg.Key;
 
         }
-        private static IEnumerable<Relationship> GetVerbWiseRelationships(Document doc) {
+        private static IEnumerable<SVORelationship> GetVerbWiseRelationships(Document doc) {
             var data =
                  from svPair in
                      (from vp in doc.Phrases.OfVerbPhrase()
@@ -213,7 +213,7 @@ namespace LASI.App
                       from dobj in vp.DirectObjects.DefaultIfEmpty()
                       from iobj in vp.IndirectObjects.DefaultIfEmpty()
 
-                      select new Relationship {
+                      select new SVORelationship {
                           Subject = vp.AggregateSubject,
                           Verbal = vp,
                           Direct = vp.AggregateDirectObject,
@@ -288,7 +288,7 @@ namespace LASI.App
         /// </summary>
         /// <param name="elementsToConvert">The sequence of Relationship Tuple to tranform into textual display elements.</param>
         /// <returns>A sequence of textual display elements from the given sequence of RelationshipTuple elements.</returns>
-        internal static IEnumerable<object> TransformToGrid(IEnumerable<Relationship> elementsToConvert) {
+        internal static IEnumerable<object> TransformToGrid(IEnumerable<SVORelationship> elementsToConvert) {
             return from e in elementsToConvert.Distinct()
                    orderby e.CombinedWeight
                    select new

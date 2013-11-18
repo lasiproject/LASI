@@ -27,7 +27,7 @@ class Program
          var d = doc.GetEntities().FirstOrDefault();
         var k = d.Match()
             .Yield<string>()
-            ._((IEntity e) => e.Text)
+            .With((IEntity e) => e.Text)
             .Result();
         Output.WriteLine(doc);
 
