@@ -118,7 +118,7 @@ namespace LASI.ContentSystem
 
                 File.Copy(originalFile.FullPath, newPath, overwrite);
                 var newFile = WrapperMap[ext](newPath);
-                addedFileNames.Add(newFile.NameSansExt);
+                allFileNames.Add(newFile.NameSansExt);
                 AddToTypedList(newFile as dynamic);
                 return newFile;
             }
@@ -169,7 +169,7 @@ namespace LASI.ContentSystem
                 SkipWhile(c => c != '.').
                 Skip(1).TakeWhile(c => c != '\\').
                 Reverse().ToArray());
-            return !addedFileNames.Contains(fileName);
+            return !allFileNames.Contains(fileName);
         }
         /// <summary>
         /// Returns a value indicating whether a file with the same name as that of the given InputFile, irrespective of its extension, is part of the project. 
@@ -178,7 +178,7 @@ namespace LASI.ContentSystem
         /// <returns>False if a file with the same name, irrespective of it's extension, is part of the project. False otherwise.</returns>
         public static bool HasSimilarFile(InputFile inputFile)
         {
-            return !addedFileNames.Contains(inputFile.NameSansExt);
+            return !allFileNames.Contains(inputFile.NameSansExt);
         }
 
         /// <summary>
@@ -202,7 +202,7 @@ namespace LASI.ContentSystem
             if (!Initialized) {
                 throw new FileManagerNotInitializedException();
             }
-            var toRemove = from f in addedFileNames
+            var toRemove = from f in allFileNames
                            where (from k in filesToKeep
                                   where f == k.NameSansExt
                                   select k).Any()
@@ -715,7 +715,7 @@ namespace LASI.ContentSystem
         #endregion
 
         #region Fields
-        private static HashSet<string> addedFileNames = new HashSet<string>();
+        private static HashSet<string> allFileNames = new HashSet<string>();
         private static List<DocFile> docFiles = new List<DocFile>();
         private static List<DocXFile> docXFiles = new List<DocXFile>();
         private static List<PdfFile> pdfFiles = new List<PdfFile>();

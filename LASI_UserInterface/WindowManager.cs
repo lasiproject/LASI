@@ -86,14 +86,14 @@ namespace LASI.App
             /// </summary>
             /// <param name="window">Window instance to attach to.</param>
             public TrayIconProvider(Window window) {
-                _window = window;
-                _window.StateChanged += HandleStateChanged;
+                this.window = window;
+                window.StateChanged += HandleStateChanged;
             }
             public TrayIconProvider(InProgressWindow window) {
-                window.ProcessingComplete += (s, e) => window.Title = "Analysis Complete";
-                window.ProcessingComplete += HandleStateChanged;
-                _window = window;
-                _window.StateChanged += HandleStateChanged;
+                window.ProcessingCompleted += (s, e) => window.Title = "Analysis Complete";
+                window.ProcessingCompleted += HandleStateChanged;
+                this.window = window;
+                window.StateChanged += HandleStateChanged;
             }
 
             /// <summary>
@@ -102,23 +102,23 @@ namespace LASI.App
             /// <param name="sender">Event source.</param>
             /// <param name="e">Event arguments.</param>
             private void HandleStateChanged(object sender, EventArgs e) {
-                if (_notifyIcon == null) {
+                if (notifyIcon == null) {
                     // Initialize NotifyIcon instance "on demand"
-                    _notifyIcon = new System.Windows.Forms.NotifyIcon();
-                    _notifyIcon.Icon = System.Drawing.Icon.ExtractAssociatedIcon(System.Reflection.Assembly.GetEntryAssembly().Location);
-                    _notifyIcon.MouseClick += HandleNotifyIconOrBalloonClicked;
-                    _notifyIcon.BalloonTipClicked += HandleNotifyIconOrBalloonClicked;
+                    notifyIcon = new System.Windows.Forms.NotifyIcon();
+                    notifyIcon.Icon = System.Drawing.Icon.ExtractAssociatedIcon(System.Reflection.Assembly.GetEntryAssembly().Location);
+                    notifyIcon.MouseClick += HandleNotifyIconOrBalloonClicked;
+                    notifyIcon.BalloonTipClicked += HandleNotifyIconOrBalloonClicked;
                 }
                 // Update copy of Window Title in case it has changed
-                _notifyIcon.Text = _window.Title;
+                notifyIcon.Text = window.Title;
 
                 // Show/hide Window and NotifyIcon
-                var minimized = (_window.WindowState == WindowState.Minimized);
-                _window.ShowInTaskbar = !minimized;
-                _notifyIcon.Visible = minimized;
+                var minimized = (window.WindowState == WindowState.Minimized);
+                window.ShowInTaskbar = !minimized;
+                notifyIcon.Visible = minimized;
                 if (minimized) {
-                    _notifyIcon.Visible = true;
-                    _notifyIcon.ShowBalloonTip(1000, null, _window.Title, System.Windows.Forms.ToolTipIcon.None);
+                    notifyIcon.Visible = true;
+                    notifyIcon.ShowBalloonTip(1000, null, window.Title, System.Windows.Forms.ToolTipIcon.None);
                 }
             }
 
@@ -129,7 +129,7 @@ namespace LASI.App
             /// <param name="e">Event arguments.</param>
             private void HandleNotifyIconOrBalloonClicked(object sender, EventArgs e) {
                 // Restore the Window
-                _window.WindowState = WindowState.Normal;
+                window.WindowState = WindowState.Normal;
             }
 
             public void Dispose() {
@@ -139,13 +139,13 @@ namespace LASI.App
 
             private void Dispose(bool fromDispose) {
                 if (fromDispose) {
-                    _notifyIcon.Dispose();
+                    notifyIcon.Dispose();
                 }
             }
 
             #region Fields
-            private Window _window;
-            private System.Windows.Forms.NotifyIcon _notifyIcon;
+            private Window window;
+            private System.Windows.Forms.NotifyIcon notifyIcon;
             #endregion
         }
     }

@@ -59,13 +59,5 @@ namespace LASI.Core
         public static implicit operator string(RawTextFragment fragment) {
             return fragment.GetText();
         }
-        ///// <summary>
-        ///// implicitely converts the RawText into a string array containing all its content seperated on line breaks.
-        ///// </summary>
-        ///// <param name="fragment">The RawTextFragment to convert.</param>
-        ///// <returns>A string containing the content of the RawTextFragment.</returns>
-        //public static implicit operator string[](RawTextFragment fragment) {
-        //    return fragment.content.Split('\n');
-        //}
     }
 }

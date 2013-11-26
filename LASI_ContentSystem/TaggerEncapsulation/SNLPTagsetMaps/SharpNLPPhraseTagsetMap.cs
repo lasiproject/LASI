@@ -30,7 +30,7 @@ namespace LASI.ContentSystem.TaggerEncapsulation
     sealed class SharpNLPPhraseTagsetMap : PhraseTagsetMap
     {
         #region Fields
-        private static readonly IReadOnlyDictionary<string, PhraseCreator> typeDictionary = new Dictionary<string, PhraseCreator> {
+        private static readonly IReadOnlyDictionary<string, PhraseCreator> map = new Dictionary<string, PhraseCreator> {
             
             { "VP", ws => ws.Any(w=> w is Punctuator) ? new SymbolPhrase(ws): ws.TakeWhile(w=>!(w is IVerbal)).FirstOrDefault(w=>w is ToLinker)!=null ? new InfinitivePhrase(ws) : new VerbPhrase(ws) as Phrase  },
             { "NP", ws => ws.OfType<IEntity>().Any()&&ws.All(w=>w is Pronoun) ? new PronounPhrase(ws) : ws.All(w=>w is Adverb) ?new AdverbPhrase(ws) : new NounPhrase(ws) as Phrase },
@@ -61,7 +61,7 @@ namespace LASI.ContentSystem.TaggerEncapsulation
         public override PhraseCreator this[string posTag] {
             get {
                 try {
-                    return typeDictionary[posTag];
+                    return map[posTag];
                 }
                 catch (KeyNotFoundException) {
                     throw new UnknownPhraseTagException(posTag);
@@ -76,7 +76,7 @@ namespace LASI.ContentSystem.TaggerEncapsulation
         public override string this[PhraseCreator phraseCreatingFunc] {
             get {
                 try {
-                    return typeDictionary.First(pair => pair.Value.Method.ReturnType == phraseCreatingFunc.Method.ReturnType).Key;
+                    return map.First(pair => pair.Value.Method.ReturnType == phraseCreatingFunc.Method.ReturnType).Key;
                 }
                 catch (InvalidOperationException) {
                     throw new UnmappedPhraseTypeException(string.Format("Phrase constructor\n{0}\nis not mapped by this Tagset.\nFunction Type: {1} => {2}",
@@ -97,7 +97,7 @@ namespace LASI.ContentSystem.TaggerEncapsulation
         public override string this[Phrase phrase] {
             get {
                 try {
-                    return typeDictionary.First(funcPosTagPair => funcPosTagPair.Value.Method.ReturnType == phrase.GetType()).Key;
+                    return map.First(funcPosTagPair => funcPosTagPair.Value.Method.ReturnType == phrase.GetType()).Key;
                 }
                 catch (InvalidOperationException) {
                     throw new UnmappedPhraseTypeException(string.Format("The indexing LASI.Algorithm.Phrase has type {0}, a type which is not mapped by {1}.", phrase.GetType(), this.GetType()));
@@ -109,7 +109,7 @@ namespace LASI.ContentSystem.TaggerEncapsulation
         /// </summary>
         protected override IReadOnlyDictionary<string, PhraseCreator> TypeDictionary {
             get {
-                return typeDictionary;
+                return map;
             }
         }
 

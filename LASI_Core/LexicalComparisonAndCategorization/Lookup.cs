@@ -299,11 +299,11 @@ namespace LASI.Core.Heuristics
         /// <summary>
         /// Raised when a resource starts loading.
         /// </summary>
-        public static event EventHandler<string> ResourceLoading;
+        public static event EventHandler<string> ResourceLoading = delegate { };
         /// <summary>
         /// Raised when a data set resource finishes loading.
         /// </summary>
-        public static event EventHandler<string> ResourceLoaded;
+        public static event EventHandler<string> ResourceLoaded = delegate { };
         #endregion
 
 

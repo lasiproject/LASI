@@ -32,7 +32,7 @@ namespace LASI.ContentSystem.TaggerEncapsulation
     {
         #region Fields
 
-        private static readonly IReadOnlyDictionary<string, WordCreator> typeDictionary = new Dictionary<string, WordCreator> {
+        private static readonly IReadOnlyDictionary<string, WordCreator> map = new Dictionary<string, WordCreator> {
             //Punctation Mappings
             { ",", t => new Punctuator(t) }, //Comma punctuation
             { ";", t => new Punctuator(t) }, //Semicolon punctuation
@@ -101,7 +101,7 @@ namespace LASI.ContentSystem.TaggerEncapsulation
         /// </summary>
         protected override IReadOnlyDictionary<string, WordCreator> TypeDictionary {
             get {
-                return typeDictionary;
+                return map;
             }
         }
         /// <summary>
@@ -113,7 +113,7 @@ namespace LASI.ContentSystem.TaggerEncapsulation
         public override WordCreator this[string posTag] {
             get {
                 try {
-                    return typeDictionary[posTag];
+                    return map[posTag];
                 }
                 catch (KeyNotFoundException) {
                     throw new UnknownWordTagException(posTag);
@@ -128,7 +128,7 @@ namespace LASI.ContentSystem.TaggerEncapsulation
         public override string this[WordCreator wordCreator] {
             get {
                 try {
-                    return typeDictionary.First(pair => pair.Value.Method.ReturnType == wordCreator.Method.ReturnType).Key;
+                    return map.First(pair => pair.Value.Method.ReturnType == wordCreator.Method.ReturnType).Key;
                 }
                 catch (InvalidOperationException) {
                     throw new UnmappedWordTypeException(string.Format("Word constructor\n{0}\nis not mapped by this Tagset.\nFunction Type: {1} => {2}",
@@ -148,7 +148,7 @@ namespace LASI.ContentSystem.TaggerEncapsulation
         public override string this[Word word] {
             get {
                 try {
-                    return typeDictionary.First(funcPosTagPair => funcPosTagPair.Value.Method.ReturnType == word.GetType()).Key;
+                    return map.First(funcPosTagPair => funcPosTagPair.Value.Method.ReturnType == word.GetType()).Key;
                 }
                 catch (InvalidOperationException) {
                     throw new UnmappedWordTypeException(string.Format("The indexing LASI.Algorithm.Word has type {0}, a type which is not mapped by {1}.",

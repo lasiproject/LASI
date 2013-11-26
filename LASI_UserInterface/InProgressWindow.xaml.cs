@@ -62,8 +62,8 @@ namespace LASI.App
             WindowManager.ResultsScreen.Documents = analyzedDocuments.ToList();
             proceedtoResultsButton.Visibility = Visibility.Visible;
             NativeMethods.StartFlashing(this);
-            if (ProcessingComplete != null) {
-                ProcessingComplete(this, new EventArgs());
+            if (ProcessingCompleted != null) {
+                ProcessingCompleted(this, new EventArgs());
             }
             await WindowManager.ResultsScreen.CreateWeightViewsForAllDocumentsAsync();
             await WindowManager.ResultsScreen.BuildTextViewsForAllDocumentsAsync();
@@ -182,7 +182,7 @@ namespace LASI.App
         /// <summary>
         /// Raised when processing of all documents has been completed.
         /// </summary>
-        public event EventHandler ProcessingComplete;
+        public event EventHandler ProcessingCompleted;
 
     }
 }
