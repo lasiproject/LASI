@@ -57,50 +57,50 @@ namespace LASI.Core.Patternization.Generalized
     class MatchClause
     {
         #region Constructors
-        protected internal MatchClause(object value) { _value = value; }
+        protected internal MatchClause(object value) { this.value = value; }
         #endregion
 
         public MatchClause<R> Yield<R>() {
-            return new MatchClause<R>(_value);
+            return new MatchClause<R>(value);
         }
         #region With Expressions
         public MatchClause Case(Func<object, bool> when, Action actn) {
-            if (!_matchFound && when(_value)) {
+            if (!_matchFound && when(value)) {
                 actn();
             }
             return this;
         }
         public MatchClause Case(Func<object, bool> when, Action<object> actn) {
-            if (!_matchFound && when(_value)) {
-                actn(_value);
+            if (!_matchFound && when(value)) {
+                actn(value);
             }
             return this;
         }
         public MatchClause Case<TCase>(Action actn) {
-            if (!_matchFound && _value is TCase) {
+            if (!_matchFound && value is TCase) {
                 _matchFound = true;
                 actn();
             }
             return this;
         }
         public MatchClause Case<TCase>(Action<TCase> actn) {
-            if (!_matchFound && _value is TCase) {
+            if (!_matchFound && value is TCase) {
                 _matchFound = true;
-                actn((TCase)_value);
+                actn((TCase)value);
             }
             return this;
         }
         public MatchClause Case<TCase>(Func<TCase, bool> when, Action actn) {
-            if (!_matchFound && _value is TCase && when((TCase)_value)) {
+            if (!_matchFound && value is TCase && when((TCase)value)) {
                 _matchFound = true;
                 actn();
             }
             return this;
         }
         public MatchClause Case<TCase>(Func<TCase, bool> when, Action<TCase> actn) {
-            if (!_matchFound && _value is TCase && when((TCase)_value)) {
+            if (!_matchFound && value is TCase && when((TCase)value)) {
                 _matchFound = true;
-                actn((TCase)_value);
+                actn((TCase)value);
             }
             return this;
         }
@@ -117,7 +117,7 @@ namespace LASI.Core.Patternization.Generalized
         }
         public MatchClause Perform(Action<object> actn) {
             if (!_matchFound) {
-                actn(_value);
+                actn(value);
             }
             return this;
         }
@@ -125,7 +125,7 @@ namespace LASI.Core.Patternization.Generalized
         #endregion
 
         #region Fields
-        private object _value;
+        private object value;
         private bool _matchFound;
         #endregion
 

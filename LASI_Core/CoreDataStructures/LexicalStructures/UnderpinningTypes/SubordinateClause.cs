@@ -40,17 +40,17 @@ namespace LASI.Core
             //get;
             //set;
             get {
-                return _modified;
+                return modifies;
             }
             set {
-                if (_described == null)
-                    _modified = value;
+                if (described == null)
+                    modifies = value;
                 else
                     throw new ConflictingClauseRoleException(
                         string.Format(@"Cannot bind {0}\n
                                         as a descriptive modifier of {1}\n
                                         because it is already indicated as a Verbal
-                                        descriptive modifier of\n{2}", this, value, _described));
+                                        descriptive modifier of\n{2}", this, value, described));
             }
         }
         /// <summary>
@@ -59,24 +59,24 @@ namespace LASI.Core
         public IDescribable Describes {
 
             get {
-                return _described;
+                return described;
             }
             set {
-                if (_modified == null)
-                    _described = value;
+                if (modifies == null)
+                    described = value;
                 else
                     throw new ConflictingClauseRoleException(
                         string.Format(@"Cannot bind {0}\n
                                         as an Entity descriptive modifier of {1}\n
                                         because it is already indicated as an Action
-                                        descriptive modifier of\n{2}", this, value, _modified));
+                                        descriptive modifier of\n{2}", this, value, modifies));
             }
         }
         #endregion
 
         #region Fields
-        private IDescribable _described;
-        private IAdverbialModifiable _modified;
+        private IDescribable described;
+        private IAdverbialModifiable modifies;
         #endregion
 
     }

@@ -39,7 +39,7 @@ namespace LASI.Core
         /// </summary>
         /// <param name="adv">The Adverbial construct by which to modify the AdjectivePhrase.</param>
         public void ModifyWith(IAdverbial adv) {
-            _modifiers.Add(adv);
+            modifiers.Add(adv);
             adv.Modifies = this;
         }
         /// <summary>
@@ -57,7 +57,7 @@ namespace LASI.Core
         /// <param name="subject">The Entity to attach to the VerbPhrase as a subject.</param>
         public virtual void BindSubject(IEntity subject) {
             if (subject != null) {
-                _subjects.Add(subject);
+                subjects.Add(subject);
                 subject.SubjectOf = this;
             }
         }
@@ -68,13 +68,13 @@ namespace LASI.Core
         /// <param name="directObject">The Entity to attach to the VerbPhrase as a direct object.</param>
         public virtual void BindDirectObject(IEntity directObject) {
             if (directObject != null) {
-                _directObjects.Add(directObject);
+                directObjects.Add(directObject);
                 directObject.DirectObjectOf = this;
-                if (IsPossessive) {
+                if (Possessive) {
                     foreach (var subject in this.Subjects) {
                         subject.AddPossession(directObject);
                     }
-                } else if (IsClassifier) {
+                } else if (Classifier) {
                     foreach (var subject in this.Subjects) {
                         AliasLookup.DefineAlias(subject, directObject);
                     }
@@ -87,7 +87,7 @@ namespace LASI.Core
         /// <param name="indirectObject">The Entity to attach to the VerbPhrase as an indirect object.</param>
         public virtual void BindIndirectObject(IEntity indirectObject) {
             if (indirectObject != null) {
-                _indirectObjects.Add(indirectObject);
+                indirectObjects.Add(indirectObject);
                 indirectObject.IndirectObjectOf = this;
             }
         }
@@ -105,7 +105,7 @@ namespace LASI.Core
                 result += ObjectOfThePreoposition != null ? "\nVia Preposition Object: " + ObjectOfThePreoposition.Text : string.Empty;
                 result += Modality != null ? "\nModal Aux: " + Modality.Text : string.Empty;
                 result += Modifiers.Any() ? "\nModifiers: " + Modifiers.Format(s => s.Text + '\n') : string.Empty;
-                result += string.Format("\nCharacteristics: Possessive Indicator? [{0}]\nCategorizatizer? [{1}]\nPrevailing Tense: [{2}]", IsPossessive, IsClassifier, Tense);
+                result += string.Format("\nCharacteristics: Possessive Indicator? [{0}]\nCategorizatizer? [{1}]\nPrevailing Tense: [{2}]", Possessive, Classifier, Tense);
             }
             return result;
         }
@@ -117,15 +117,15 @@ namespace LASI.Core
         /// </summary>
         /// <returns>True if the VerbPhrase is a possessive relationship specifier, false otherwise.</returns>
         protected virtual bool DetermineIsPossessive() {
-            isPossessive = Words.OfVerb().Any() && Words.OfVerb().Last().IsPossessive;
-            return isPossessive.Value;
+            possessive = Words.OfVerb().Any() && Words.OfVerb().Last().Possessive;
+            return possessive.Value;
         }
         /// <summary>
         /// Determines if the VerbPhrase acts as a classifier. E.g. in the senetence "Rodents are definitely prey animals." the VerbPhrase "are definitely" acts as a classification tool because it states that rodents are a subset of prey animals.
         /// </summary>
         /// <returns>True if the VerbPhrase is a classifier, false otherwise.</returns>
         protected virtual bool DetermineIsClassifier() {
-            return !IsPossessive && Modality == null && Modifiers.None() && Words.OfVerb().Any() && Words.OfVerb().All(v => v.IsClassifier);
+            return !Possessive && Modality == null && Modifiers.None() && Words.OfVerb().Any() && Words.OfVerb().All(v => v.Classifier);
         }
 
 
@@ -134,7 +134,7 @@ namespace LASI.Core
         /// </summary>
         /// <returns>True if the Verb has any Subjects bound to it, false otherwise.</returns>
         public bool HasSubject() {
-            return _subjects.Any();
+            return subjects.Any();
         }
         /// <summary>
         /// Return a value indicating if the Verb has any subjects bound to it which match the given predicate function.
@@ -209,21 +209,21 @@ namespace LASI.Core
         /// <summary>
         /// Gets an IAggregateEntity implementation composed from all of the VerbPhrase's subjects.
         /// </summary>
-        public IAggregateEntity AggregateSubject { get { return new AggregateEntity(_subjects); } }
+        public IAggregateEntity AggregateSubject { get { return new AggregateEntity(subjects); } }
         /// <summary>
         /// Gets an IAggregateEntity implementation composed from all of the VerbPhrase's directobjects.
         /// </summary>
-        public IAggregateEntity AggregateDirectObject { get { return new AggregateEntity(_directObjects); } }
+        public IAggregateEntity AggregateDirectObject { get { return new AggregateEntity(directObjects); } }
         /// <summary>
         /// Gets an IAggregateEntity implementation composed from all of the VerbPhrase's indirectobjects.
         /// </summary>
-        public IAggregateEntity AggregateIndirectObject { get { return new AggregateEntity(_indirectObjects); } }
+        public IAggregateEntity AggregateIndirectObject { get { return new AggregateEntity(indirectObjects); } }
         /// <summary>
         /// Gets the collection of IAdverbial modifiers which modify the VerbPhrase.
         /// </summary>
         public IEnumerable<IAdverbial> Modifiers {
             get {
-                return _modifiers;
+                return modifiers;
             }
         }
         /// <summary>
@@ -242,33 +242,33 @@ namespace LASI.Core
         /// <summary>
         /// Gets a value indicating wether or not the VerbPhrase has possessive semantics. E.g. "A (has) a B"
         /// </summary>
-        public bool IsPossessive {
+        public bool Possessive {
             get {
-                return isPossessive ?? DetermineIsPossessive();
+                return possessive ?? DetermineIsPossessive();
             }
         }
 
         /// <summary>
         /// Gets a value indicating wether or not the VerbPhrase has classifying semantics. E.g. "A (is) a B"
         /// </summary>
-        public bool IsClassifier {
+        public bool Classifier {
             get {
-                return isClassifier ?? DetermineIsClassifier();
+                return classifier ?? DetermineIsClassifier();
             }
         }
 
         /// <summary>
         /// Gets the subjects of the VerbPhrase.
         /// </summary>
-        public IEnumerable<IEntity> Subjects { get { return _subjects; } }
+        public IEnumerable<IEntity> Subjects { get { return subjects; } }
         /// <summary>
         /// Gets the direct objects of the VerbPhrase.
         /// </summary>
-        public IEnumerable<IEntity> DirectObjects { get { return _directObjects; } }
+        public IEnumerable<IEntity> DirectObjects { get { return directObjects; } }
         /// <summary>
         /// Gets the indirect objects of the VerbPhrase.
         /// </summary>
-        public IEnumerable<IEntity> IndirectObjects { get { return _indirectObjects; } }
+        public IEnumerable<IEntity> IndirectObjects { get { return indirectObjects; } }
         /// <summary>
         /// Gets the VerbPhrases's object, If the VerbPhrase has an object bound via a Prepositional. This can be any ILexical construct including a word, phrase, or clause.
         /// </summary>
@@ -283,18 +283,13 @@ namespace LASI.Core
 
         #region Fields
 
-        private HashSet<IAdverbial> _modifiers = new HashSet<IAdverbial>();
-        private HashSet<IEntity> _subjects = new HashSet<IEntity>();
-        private HashSet<IEntity> _directObjects = new HashSet<IEntity>();
-        private HashSet<IEntity> _indirectObjects = new HashSet<IEntity>();
-        private bool? isClassifier = null;
-        private bool? isPossessive = null;
+        private HashSet<IAdverbial> modifiers = new HashSet<IAdverbial>();
+        private HashSet<IEntity> subjects = new HashSet<IEntity>();
+        private HashSet<IEntity> directObjects = new HashSet<IEntity>();
+        private HashSet<IEntity> indirectObjects = new HashSet<IEntity>();
+        private bool? classifier = null;
+        private bool? possessive = null;
         #endregion
-
-
-
-
-
     }
 }
 

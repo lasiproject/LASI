@@ -79,7 +79,7 @@ namespace UnitTests
             Assert.IsTrue(target.DirectObjects.Count() == 0);
             Assert.IsTrue(target.IndirectObjects.Count() == 0);
             Assert.IsTrue(target.Modality == null);
-            Assert.IsTrue(target.IsPossessive == false);
+            Assert.IsTrue(target.Possessive == false);
         }
 
         /// <summary>

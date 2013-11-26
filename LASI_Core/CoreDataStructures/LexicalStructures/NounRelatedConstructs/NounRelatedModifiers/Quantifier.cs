@@ -18,7 +18,6 @@ namespace LASI.Core
         public Quantifier(string text) : base(text) { }
         #endregion
 
-
         #region Properties
         /// <summary>
         /// Gets or sets the IQuantifiable instance which the IQuantifier quantifies.

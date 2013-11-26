@@ -17,7 +17,7 @@ namespace LASI.Core.Patternization
         /// Initializes a new instance of the MatchCase&lt;T&gt; class which will match against the supplied value.
         /// </summary>
         /// <param name="value">The value to match against.</param>
-        public MatchCase(T value) { _value = value; }
+        public MatchCase(T value) { this.value = value; }
         #endregion
 
         #region Expression Transformations
@@ -27,7 +27,7 @@ namespace LASI.Core.Patternization
         /// </summary>
         /// <typeparam name="TResult">The Type of the result which the match expression may now return.</typeparam>
         /// <returns>A Case&lt;T, R&gt; describing the Match expression so far.</returns> 
-        public IMatchClause<T, TResult> Yield<TResult>() { return new MatchCase<T, TResult>(_value); }
+        public IMatchClause<T, TResult> Yield<TResult>() { return new MatchCase<T, TResult>(value); }
         #endregion
         #region When Expressions
         /// <summary>
@@ -36,7 +36,7 @@ namespace LASI.Core.Patternization
         /// </summary>
         /// <param name="predicate">The predicate to test the value being matched over.</param>
         /// <returns>The IPredicatedPatternMatching&lt;T&gt; describing the Match expression so far. This must be followed by a single Then expression.</returns>
-        public IPredicatedMatchCase<T> When(Func<T, bool> predicate) { return new TestedMatchCase<T>(predicate(_value), this); }
+        public IPredicatedMatchCase<T> When(Func<T, bool> predicate) { return new TestedMatchCase<T>(predicate(value), this); }
         /// <summary>
         /// Appends a When expression to the current PatternMatching Expression. The When expression applies a predicate to the value being matched over. 
         /// It must be followed by a Then expression which is only considered if the predicate applied here returns true.
@@ -45,7 +45,7 @@ namespace LASI.Core.Patternization
         /// <param name="predicate">The predicate to test the value being matched over.</param>
         /// <returns>The IPredicatedPatternMatching&lt;T&gt; describing the Match expression so far. This must be followed by a single Then expression.</returns>
         public IPredicatedMatchCase<T> When<TPattern>(Func<TPattern, bool> predicate) where TPattern : class,ILexical {
-            var typed = _value as TPattern;
+            var typed = value as TPattern;
             return new TestedMatchCase<T>(typed != null && predicate(typed), this);
         }
         /// <summary>
@@ -65,11 +65,11 @@ namespace LASI.Core.Patternization
         /// <typeparam name="TPattern">The Type to match with. If the value being matched is of this type, this With expression will be selected and the provided action invoked.</typeparam>
         /// <param name="action">The Action which, if this With expression is Matched, will be invoked.</param>
         /// <returns>The ICase&lt;T, R&gt; describing the Match expression so far.</returns>
-        public IMatchClause<T> _<TPattern>(Action action) where TPattern : class ,T {
-            if (_value != null) {
-                if (!_matchFound) {
-                    if (_value is TPattern) {
-                        _matchFound = true;
+        public IMatchClause<T> With<TPattern>(Action action) where TPattern : class ,T {
+            if (value != null) {
+                if (!matchFound) {
+                    if (value is TPattern) {
+                        matchFound = true;
                         action();
                     }
                 }
@@ -82,12 +82,12 @@ namespace LASI.Core.Patternization
         /// <typeparam name="TPattern">The Type to match with. If the value being matched is of this type, this With expression will be selected and the provided action invoked.</typeparam>
         /// <param name="action">The Action&lt;TPattern&gt; which, if this With expression is Matched, will be invoked on the value being matched over by the PatternMatching expression.</param>
         /// <returns>The ICase&lt;T, R&gt; describing the Match expression so far.</returns>
-        public IMatchClause<T> _<TPattern>(Action<TPattern> action) where TPattern : class,T {
-            if (_value != null) {
-                if (!_matchFound) {
-                    var matched = _value as TPattern;
+        public IMatchClause<T> With<TPattern>(Action<TPattern> action) where TPattern : class,T {
+            if (value != null) {
+                if (!matchFound) {
+                    var matched = value as TPattern;
                     if (matched != null) {
-                        _matchFound = true;
+                        matchFound = true;
                         action(matched);
                     }
                 }
@@ -104,7 +104,7 @@ namespace LASI.Core.Patternization
         /// </summary>
         /// <param name="actn">The function to invoke if no matches in the expression succeeded.</param>
         public void Default(Action actn) {
-            if (!_matchFound) {
+            if (!matchFound) {
                 actn();
             }
         }
@@ -113,9 +113,9 @@ namespace LASI.Core.Patternization
         /// </summary>
         /// <param name="actn">The function to invoke on the match with value if no matches in the expression succeeded.</param>
         public void Default(Action<T> actn) {
-            if (_value != null) {
-                if (!_matchFound) {
-                    actn(_value);
+            if (value != null) {
+                if (!matchFound) {
+                    actn(value);
                 }
             }
         }
@@ -126,8 +126,8 @@ namespace LASI.Core.Patternization
         /// <summary>
         /// The value indicating if a match was found or if the default value will be yielded by the Result method.
         /// </summary>
-        private bool _matchFound;
-        private T _value;
+        private bool matchFound;
+        private T value;
         #endregion
 
 
@@ -315,7 +315,7 @@ namespace LASI.Core.Patternization
         //public static MatchCase<T, TResult> operator |(MatchCase<T, TResult> left, System.Linq.Expressions.LabelExpression<T, TResult> fn) {
         //    return left._<T>(fn.Compile()) as MatchCase<T, TResult>;
         //}
-        
+
         //static void TT(IEntity e) {
         //    var head = e.Match().Yield<string>() as MatchCase<IEntity, string>;
         //    head | new Func<Noun, string>(n => { return n.Text; });
@@ -326,18 +326,18 @@ namespace LASI.Core.Patternization
     {
         public TestedMatchCase(bool accepted, MatchCase<T> inner) { _accepted = accepted; _inner = inner; }
         public IMatchClause<T> Then<TPattern>(Action action) where TPattern : class, T {
-            return _accepted ? this._inner._<TPattern>(action) : this._inner;
+            return _accepted ? this._inner.With<TPattern>(action) : this._inner;
         }
         public IMatchClause<T> Then<TPattern>(Action<TPattern> action) where TPattern : class, T {
-            return _accepted ? this._inner._(action) : this._inner;
+            return _accepted ? this._inner.With(action) : this._inner;
         }
 
 
         public IMatchClause<T> Then(Action action) {
-            return _accepted ? this._inner._<T>(action) : this._inner;
+            return _accepted ? this._inner.With<T>(action) : this._inner;
         }
         public IMatchClause<T> Then(Action<T> action) {
-            return _accepted ? this._inner._<T>(action) : this._inner;
+            return _accepted ? this._inner.With<T>(action) : this._inner;
         }
         private IMatchClause<T> _inner;
         private bool _accepted;

@@ -44,7 +44,7 @@ namespace LASI.Core
             if (IsBound) {
                 Referent.AddPossession(possession);
             } else {
-                _possessed.Add(possession);
+                possessed.Add(possession);
                 possession.Possesser = this;
             }
         }
@@ -53,7 +53,7 @@ namespace LASI.Core
         /// </summary>
         /// <param name="pro">The EntityReferency to Bind.</param>
         public void BindPronoun(IReferencer pro) {
-            _boundPronouns.Add(pro);
+            boundPronouns.Add(pro);
             pro.BindAsReference(this);
         }
         /// <summary>
@@ -61,7 +61,7 @@ namespace LASI.Core
         /// </summary>
         /// <param name="descriptor">The IDescriptor instance which will be added to the RelativePronoun's descriptors.</param>
         public void BindDescriptor(IDescriptor descriptor) {
-            _describers.Add(descriptor);
+            descriptors.Add(descriptor);
             descriptor.Describes = this;
         }
         /// <summary>
@@ -117,7 +117,7 @@ namespace LASI.Core
         /// </summary>
         public IEnumerable<IReferencer> Referees {
             get {
-                return _boundPronouns;
+                return boundPronouns;
             }
         }
 
@@ -126,7 +126,7 @@ namespace LASI.Core
         /// </summary>
         public IEnumerable<IDescriptor> Descriptors {
             get {
-                return _describers;
+                return descriptors;
             }
         }
         /// <summary>
@@ -134,15 +134,15 @@ namespace LASI.Core
         /// </summary>
         public IEnumerable<IPossessable> Possessed {
             get {
-                return _possessed;
+                return possessed;
             }
         }
         #endregion
 
 
-        private HashSet<IDescriptor> _describers = new HashSet<IDescriptor>();
-        private HashSet<IPossessable> _possessed = new HashSet<IPossessable>();
-        private HashSet<IReferencer> _boundPronouns = new HashSet<IReferencer>();
+        private HashSet<IDescriptor> descriptors = new HashSet<IDescriptor>();
+        private HashSet<IPossessable> possessed = new HashSet<IPossessable>();
+        private HashSet<IReferencer> boundPronouns = new HashSet<IReferencer>();
 
 
         private static RelativePronounKind DetermineKind(RelativePronoun relativePronoun) {

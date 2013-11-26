@@ -53,7 +53,7 @@ namespace LASI.Core
         /// </summary>
         /// <param name="pro">An IReferencer which will be bound to refer to the Pronoun.</param>
         public virtual void BindPronoun(IReferencer pro) {
-            _boundPronouns.Add(pro);
+            boundPronouns.Add(pro);
             pro.BindAsReference(this);
         }
         /// <summary>
@@ -61,7 +61,7 @@ namespace LASI.Core
         /// </summary>
         /// <param name="descriptor">The IDescriptor instance which will be added to the Pronoun's descriptors.</param>
         public virtual void BindDescriptor(IDescriptor descriptor) {
-            _descriptors.Add(descriptor);
+            descriptors.Add(descriptor);
             descriptor.Describes = this;
         }
         /// <summary>
@@ -74,7 +74,7 @@ namespace LASI.Core
             if (Referent != null) {
                 Referent.AddPossession(possession);
             } else {
-                _possessed.Add(possession);
+                possessed.Add(possession);
                 possession.Possesser = this;
             }
         }
@@ -87,11 +87,11 @@ namespace LASI.Core
         /// <summary>
         /// Gets all of the IDescriptor constructs,generally Adjectives or AdjectivePhrases, which describe the Pronoun.
         /// </summary>
-        public IEnumerable<IDescriptor> Descriptors { get { return _descriptors; } }
+        public IEnumerable<IDescriptor> Descriptors { get { return descriptors; } }
         /// <summary>
         /// Gets all of the constructs the Pronoun can be determined to "own".
         /// </summary>
-        public IEnumerable<IPossessable> Possessed { get { return _possessed; } }
+        public IEnumerable<IPossessable> Possessed { get { return possessed; } }
 
         /// <summary>
         /// Gets or sets the Entity which the Pronoun references.
@@ -109,7 +109,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets all of the IReferencer instances, generally Pronouns or PronounPhrases, which refer to the Pronoun.
         /// </summary>
-        public IEnumerable<IReferencer> Referees { get { return _boundPronouns; } }
+        public IEnumerable<IReferencer> Referees { get { return boundPronouns; } }
         /// <summary>
         /// Gets the IVerbal instance, generally a TransitiveVerb or TransitiveVerbPhrase, which the Pronoun is the INDIRECT object of.
         /// </summary>
@@ -144,9 +144,9 @@ namespace LASI.Core
         #endregion
 
         #region Fields
-        private HashSet<IDescriptor> _descriptors = new HashSet<IDescriptor>();
-        private HashSet<IPossessable> _possessed = new HashSet<IPossessable>();
-        private HashSet<IReferencer> _boundPronouns = new HashSet<IReferencer>();
+        private HashSet<IDescriptor> descriptors = new HashSet<IDescriptor>();
+        private HashSet<IPossessable> possessed = new HashSet<IPossessable>();
+        private HashSet<IReferencer> boundPronouns = new HashSet<IReferencer>();
         #endregion
 
         #region Static Members

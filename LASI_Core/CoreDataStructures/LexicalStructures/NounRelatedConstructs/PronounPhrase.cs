@@ -23,7 +23,7 @@ namespace LASI.Core
         public PronounPhrase(IEnumerable<Word> composedWords)
             : base(composedWords) {
             if (composedWords.OfPronoun().Any(p => p.Referent != null)) {
-                _refersTo = new AggregateEntity(composedWords.OfPronoun().Select(p => p.Referent));
+                refersTo = new AggregateEntity(composedWords.OfPronoun().Select(p => p.Referent));
             }
         }
 
@@ -36,14 +36,14 @@ namespace LASI.Core
             result += (AliasLookup.GetDefinedAliases(Referent ?? this as IEntity).Any() ? "\nClassified as: " + AliasLookup.GetDefinedAliases(Referent ?? this as IEntity).Format() : string.Empty);
             return result;
         }
-        private IAggregateEntity _refersTo;
+        private IAggregateEntity refersTo;
         /// <summary>
         /// Gets the Entity which the IPronoun references.
         /// </summary>
         public IAggregateEntity Referent {
             get {
-                _refersTo = _refersTo ?? new AggregateEntity(Words.OfPronoun().Where(p => p.Referent != null).Select(p => p.Referent));
-                return _refersTo;
+                refersTo = refersTo ?? new AggregateEntity(Words.OfPronoun().Where(p => p.Referent != null).Select(p => p.Referent));
+                return refersTo;
             }
 
         }
@@ -53,12 +53,12 @@ namespace LASI.Core
         /// </summary>
         /// <param name="target">The entity to which to bind.</param>
         public void BindAsReference(IEntity target) {
-            if (_refersTo == null) {
-                _refersTo = new AggregateEntity(new[] { target });
+            if (refersTo == null) {
+                refersTo = new AggregateEntity(new[] { target });
             } else {
-                _refersTo = new AggregateEntity(_refersTo.Append(target));
+                refersTo = new AggregateEntity(refersTo.Append(target));
             }
-            EntityKind = _refersTo.EntityKind;
+            EntityKind = refersTo.EntityKind;
         }
 
 

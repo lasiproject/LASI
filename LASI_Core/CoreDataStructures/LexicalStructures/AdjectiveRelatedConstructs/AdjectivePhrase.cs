@@ -26,17 +26,17 @@ namespace LASI.Core
         /// </summary>
         /// <param name="adv">The Adverbial construct by which to modify the AdjectivePhrase.</param>
         public virtual void ModifyWith(IAdverbial adv) {
-            _modifiers.Add(adv);
+            modifiers.Add(adv);
             adv.Modifies = this;
         }
-        private HashSet<IAdverbial> _modifiers = new HashSet<IAdverbial>();
+        private HashSet<IAdverbial> modifiers = new HashSet<IAdverbial>();
 
         /// <summary>
         /// Gets the collection of Adverbial constructs which modify the AdjectivePhrase.
         /// </summary>
         public virtual IEnumerable<IAdverbial> Modifiers {
             get {
-                return _modifiers;
+                return modifiers;
             }
         }
         /// <summary>

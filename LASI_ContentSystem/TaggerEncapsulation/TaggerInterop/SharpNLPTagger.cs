@@ -174,14 +174,11 @@ namespace TaggerInterop
         private string Chunk() {
 
             StringBuilder output = new StringBuilder();
-            var paragraphs = from p in SourceText.Split(new[] { "\r\n\r\n", "<paragraph>", "</paragraph>" }, StringSplitOptions.RemoveEmptyEntries)
-                             select p;
+            var paragraphs = SourceText.Split(new[] { "\r\n\r\n", "<paragraph>", "</paragraph>" }, StringSplitOptions.RemoveEmptyEntries);
             foreach (var paragraph in paragraphs.AsParallel().AsOrdered().Select(p => StripParentheticals(p))) {
                 string[] sentences = SplitSentences(paragraph);
 
-                foreach (string sentence in from s in sentences
-                                            where s.IsNotWsOrNull()
-                                            select s) {
+                foreach (var sentence in sentences.Where(s => s.IsNotWsOrNull())) {
                     string[] tokens = TokenizeSentence(sentence);
                     string[] tags = PosTagTokens(tokens);
                     output.Append(string.Format("<sentence>{0}</sentence>", ChunkSentence(tokens, tags)));

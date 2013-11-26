@@ -85,12 +85,6 @@ namespace LASI.Core
         }
         #endregion
 
-        #region Fields
-
-
-
-
-        #endregion
 
 
         /// <summary>

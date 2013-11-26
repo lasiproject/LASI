@@ -35,8 +35,8 @@ namespace LASI.Core
         /// <param name="adv">The IAdverbial construct by which to modify the current Adverb.</param>
         /// </summary>
         public void ModifyWith(IAdverbial adv) {
-            if (!_modifiers.Contains(adv)) {
-                _modifiers.Add(adv);
+            if (!modifiers.Contains(adv)) {
+                modifiers.Add(adv);
             }
         }
         /// <summary>
@@ -44,9 +44,9 @@ namespace LASI.Core
         /// </summary>
         public IEnumerable<IAdverbial> Modifiers {
             get {
-                return _modifiers;
+                return modifiers;
             }
         }
-        private ICollection<IAdverbial> _modifiers = new List<IAdverbial>();
+        private ICollection<IAdverbial> modifiers = new List<IAdverbial>();
     }
 }

@@ -9,8 +9,8 @@ open System.Threading.Tasks
 [<EntryPoint>]
 let main argv =
     // Register callbacks to print operation progress to the terminal
-    Lookup.StartedResourceLoading.Add(fun e-> printfn "Started loading %A" e)
-    Lookup.FinishedResourceLoading.Add(fun e-> printfn "Finished loading %A" e)
+    Lookup.ResourceLoading.Add(fun e-> printfn "Started loading %A" e)
+    Lookup.ResourceLoaded.Add(fun e-> printfn "Finished loading %A" e)
      
     // tag, parse, and construct a Document 
     let doc = Tagger.DocumentFromDocX(DocXFile @"C:\Users\Aluan\Desktop\documents\sec22.docx")

@@ -88,11 +88,11 @@
         /// <summary>
         /// Gets a value indicating wether or not the IVerbal has classifying semantics. E.g. "A (is) a B"
         /// </summary>
-        bool IsClassifier { get; }
+        bool Classifier { get; }
         /// <summary>
         /// Gets a value indicating wether or not the IVerbal has possessive semantics. E.g. "A (has) a B"
         /// </summary>
-        bool IsPossessive { get; }
+        bool Possessive { get; }
         #endregion
     }
 }

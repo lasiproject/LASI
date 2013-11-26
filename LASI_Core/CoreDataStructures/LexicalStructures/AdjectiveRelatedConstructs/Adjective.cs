@@ -33,17 +33,17 @@ namespace LASI.Core
         /// </summary>
         /// <param name="adv">The IModifier instance (probably an Adverb or AdverbPhrase) to Bind to the Adjective.</param>
         public virtual void ModifyWith(IAdverbial adv) {
-            _modifiers.Add(adv);
+            modifiers.Add(adv);
         }
 
-        private IList<IAdverbial> _modifiers = new List<IAdverbial>();
+        private IList<IAdverbial> modifiers = new List<IAdverbial>();
 
         /// <summary>
         /// Gets the collection of Adverbial constructs which modify the AdjectivePhrase
         /// </summary>
         public virtual IEnumerable<IAdverbial> Modifiers {
             get {
-                return _modifiers;
+                return modifiers;
             }
 
         }

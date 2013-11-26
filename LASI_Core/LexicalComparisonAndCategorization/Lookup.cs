@@ -270,13 +270,13 @@ namespace LASI.Core.Heuristics
         #endregion
 
         private static WordNetLookup<TWord> LazyLoad<TWord>(WordNetLookup<TWord> lookup) where TWord : Word {
-            var startedHandler = StartedResourceLoading;
+            var startedHandler = ResourceLoading;
             var resourceName = typeof(TWord).Name + " Thesaurus";
             if (startedHandler != null) {
                 startedHandler(new object(), resourceName);
             }
             lookup.Load();
-            var finishedHandler = FinishedResourceLoading;
+            var finishedHandler = ResourceLoaded;
             if (finishedHandler != null) {
                 finishedHandler(new object(), resourceName);
             }
@@ -299,11 +299,11 @@ namespace LASI.Core.Heuristics
         /// <summary>
         /// Raised when a resource starts loading.
         /// </summary>
-        public static event EventHandler<string> StartedResourceLoading;
+        public static event EventHandler<string> ResourceLoading;
         /// <summary>
         /// Raised when a data set resource finishes loading.
         /// </summary>
-        public static event EventHandler<string> FinishedResourceLoading;
+        public static event EventHandler<string> ResourceLoaded;
         #endregion
 
 
@@ -345,13 +345,13 @@ namespace LASI.Core.Heuristics
 
         static Lazy<NameProvider> names = new Lazy<NameProvider>(() => {
             var resourceName = "Name Data";
-            var startedHandler = StartedResourceLoading;
+            var startedHandler = ResourceLoading;
             if (startedHandler != null) {
                 startedHandler(new object(), resourceName);
             }
             var val = new NameProvider();
             val.Load();
-            var finishedHandler = FinishedResourceLoading;
+            var finishedHandler = ResourceLoaded;
             if (finishedHandler != null) {
                 finishedHandler(new object(), resourceName);
             }
@@ -364,7 +364,7 @@ namespace LASI.Core.Heuristics
 
         static Lazy<ISet<string>> scrabbleDictionary = new Lazy<ISet<string>>(() => {
             var resourceName = "Scrabble Dictionary";
-            var startedHandler = StartedResourceLoading;
+            var startedHandler = ResourceLoading;
             if (startedHandler != null) {
                 startedHandler(new object(), resourceName);
             }
@@ -375,7 +375,7 @@ namespace LASI.Core.Heuristics
                       .Except(Names.AllNameStrings, StringComparer.OrdinalIgnoreCase)
                       .ToHashSet(StringComparer.OrdinalIgnoreCase);
             }
-            var finishedHandler = FinishedResourceLoading;
+            var finishedHandler = ResourceLoaded;
             if (finishedHandler != null) {
                 finishedHandler(new object(), resourceName);
             }
@@ -397,22 +397,22 @@ namespace LASI.Core.Heuristics
             public void Load() {
                 Task.Factory.ContinueWhenAll(
                   new[] {  
-                    Task.Run(async () => _last = await GetLinesAsync(lastFilePath)),
-                    Task.Run(async () => _female = await GetLinesAsync(femaleFilePath)),
-                    Task.Run(async () => _male = await GetLinesAsync(maleFilePath)) 
+                    Task.Run(async () => last = await GetLinesAsync(lastFilePath)),
+                    Task.Run(async () => female = await GetLinesAsync(femaleFilePath)),
+                    Task.Run(async () => male = await GetLinesAsync(maleFilePath)) 
                 },
                   results => {
-                      _genderAmbiguous =
-                          new HashSet<string>(_male.Intersect(_female, comparer).Union(_female.Intersect(_male, comparer)), comparer);
+                      genderAmbiguous =
+                          new HashSet<string>(male.Intersect(female, comparer).Union(female.Intersect(male, comparer)), comparer);
 
                       var stratified =
-                          from m in _male.Select((s, i) => new { Rank = (double)i / _male.Count, Name = s })
-                          join f in _female.Select((s, i) => new { Rank = (double)i / _female.Count, Name = s })
+                          from m in male.Select((s, i) => new { Rank = (double)i / male.Count, Name = s })
+                          join f in female.Select((s, i) => new { Rank = (double)i / female.Count, Name = s })
                           on m.Name equals f.Name
                           group f.Name by f.Rank / m.Rank > 1 ? 'M' : m.Rank / f.Rank > 1 ? 'F' : 'U';
 
-                      _male.ExceptWith(from s in stratified where s.Key == 'F' from n in s select n);
-                      _female.ExceptWith(from s in stratified where s.Key == 'M' from n in s select n);
+                      male.ExceptWith(from s in stratified where s.Key == 'F' from n in s select n);
+                      female.ExceptWith(from s in stratified where s.Key == 'M' from n in s select n);
                   }
               ).Wait();
             }
@@ -423,9 +423,9 @@ namespace LASI.Core.Heuristics
             /// <param name="text">The text to check.</param>
             /// <returns>True if the provided text is in the set of Female or Male first names, false otherwise.</returns>
             public bool IsFirstName(string text) {
-                return _female.Count > _male.Count ?
-                    _male.Contains(text) || _female.Contains(text) :
-                    _female.Contains(text) || _male.Contains(text);
+                return female.Count > male.Count ?
+                    male.Contains(text) || female.Contains(text) :
+                    female.Contains(text) || male.Contains(text);
             }
             /// <summary>
             /// Returns a value indicating wether the provided string corresponds to a common lastname in the english language. 
@@ -434,7 +434,7 @@ namespace LASI.Core.Heuristics
             /// <param name="text">The Name to lookup</param>
             /// <returns>True if the provided string corresponds to a common lastname in the english language, false otherwise.</returns>
             public bool IsLastName(string text) {
-                return _last.Contains(text);
+                return last.Contains(text);
             }
             /// <summary>
             /// Returns a value indicating wether the provided string corresponds to a common female name in the english language. 
@@ -443,7 +443,7 @@ namespace LASI.Core.Heuristics
             /// <param name="text">The Name to lookup</param>
             /// <returns>True if the provided string corresponds to a common female name in the english language, false otherwise.</returns>
             public bool IsFemaleFirst(string text) {
-                return _female.Contains(text);
+                return female.Contains(text);
             }
             /// <summary>
             /// Returns a value indicating wether the provided string corresponds to a common male name in the english language. 
@@ -452,7 +452,7 @@ namespace LASI.Core.Heuristics
             /// <param name="text">The Name to lookup</param>
             /// <returns>True if the provided string corresponds to a common male name in the english language, false otherwise.</returns>
             public bool IsMaleFirst(string text) {
-                return _male.Contains(text);
+                return male.Contains(text);
             }
 
 
@@ -470,7 +470,7 @@ namespace LASI.Core.Heuristics
             /// </summary>
             public IReadOnlyCollection<string> Last {
                 get {
-                    return _last.ToList().AsReadOnly();
+                    return last.ToList().AsReadOnly();
                 }
             }
             /// <summary>
@@ -478,7 +478,7 @@ namespace LASI.Core.Heuristics
             /// </summary>
             public IReadOnlyCollection<string> Female {
                 get {
-                    return _female.ToList().AsReadOnly();
+                    return female.ToList().AsReadOnly();
                 }
             }
             /// <summary>
@@ -486,7 +486,7 @@ namespace LASI.Core.Heuristics
             /// </summary>
             public IReadOnlyCollection<string> Male {
                 get {
-                    return _male.ToList().AsReadOnly();
+                    return male.ToList().AsReadOnly();
                 }
             }
             /// <summary>
@@ -494,11 +494,11 @@ namespace LASI.Core.Heuristics
             /// </summary>
             public IReadOnlyCollection<string> GenderAmbiguous {
                 get {
-                    return _genderAmbiguous.ToList().AsReadOnly();
+                    return genderAmbiguous.ToList().AsReadOnly();
                 }
             }
             public IReadOnlyCollection<string> AllNameStrings {
-                get { return _last.Union(_male, comparer).Union(_female, comparer).Union(_genderAmbiguous, comparer).ToList().AsReadOnly(); }
+                get { return last.Union(male, comparer).Union(female, comparer).Union(genderAmbiguous, comparer).ToList().AsReadOnly(); }
             }
 
             #region Fields
@@ -508,10 +508,10 @@ namespace LASI.Core.Heuristics
             private static readonly string femaleFilePath = ConfigurationManager.AppSettings["NameDataDirectory"] + "femalefirst.txt";
             private static readonly string maleFilePath = ConfigurationManager.AppSettings["NameDataDirectory"] + "malefirst.txt";
             // Name Data Sets
-            private static ISet<string> _last;
-            private static ISet<string> _male;
-            private static ISet<string> _female;
-            private static ISet<string> _genderAmbiguous;
+            private static ISet<string> last;
+            private static ISet<string> male;
+            private static ISet<string> female;
+            private static ISet<string> genderAmbiguous;
 
             private static StringComparer comparer = StringComparer.OrdinalIgnoreCase;
             #endregion

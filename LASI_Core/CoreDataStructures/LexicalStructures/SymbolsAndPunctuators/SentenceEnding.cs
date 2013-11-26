@@ -14,13 +14,13 @@ namespace LASI.Core
         /// <summary>
         /// Initializes a new instance of the SentenceEnding class.
         /// </summary>
-        /// <param name="endOfSentenceMarker">A character which denotes the end of a sentence (valid values are '?', '!', and '.'</param>
+        /// <param name="sentenceEnding">A character which denotes the end of a sentence (valid values are '?', '!', and '.'</param>
         /// <exception cref="ArgumentException">Thrown when a character not within the specified set of valid values is passed to the constructor.</exception>
-        public SentenceEnding(char endOfSentenceMarker)
-            : base(endOfSentenceMarker) {
-            if (endOfSentenceMarker != '.' && endOfSentenceMarker != '!' &&
-                endOfSentenceMarker != '?')
-                throw new ArgumentException(string.Format("A sentence cannot end with the character {0}", endOfSentenceMarker));
+        public SentenceEnding(char sentenceEnding)
+            : base(sentenceEnding) {
+            if (sentenceEnding != '.' && sentenceEnding != '!' &&
+                sentenceEnding != '?')
+                throw new ArgumentException(string.Format("A sentence cannot end with the character {0}", sentenceEnding));
         }
     }
 }

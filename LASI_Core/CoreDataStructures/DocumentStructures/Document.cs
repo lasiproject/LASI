@@ -20,36 +20,36 @@ namespace LASI.Core.DocumentStructures
         /// <summary>
         /// Initializes a new instance of the Document class comprised from the provided paragraphs and having the provided name.
         /// </summary>
-        /// <param name="paragraphs">The collection of paragraphs which contain all text in the document.</param>
+        /// <param name="content">The collection of paragraphs which contain all text in the document.</param>
         /// <param name="name">The name for the document.</param>
-        public Document(IEnumerable<Paragraph> paragraphs, string name) : this(paragraphs) { Name = name; }
+        public Document(IEnumerable<Paragraph> content, string name) : this(content) { Name = name; }
         /// <summary>
         /// Initializes a new instance of the Document class comprised from the provided paragraphs.
         /// </summary>
-        /// <param name="paragraphs">The collection of paragraphs which contain all text in the document.</param>
-        public Document(IEnumerable<Paragraph> paragraphs) {
-            _paragraphs = paragraphs.ToList();
-            _paragraphsWithBulletsOrHeadings =
-                (from p in _paragraphs
+        /// <param name="content">The collection of paragraphs which contain all text in the document.</param>
+        public Document(IEnumerable<Paragraph> content) {
+            this.paragraphs = content.ToList();
+            paragraphsWithBulletsOrHeadings =
+                (from p in this.paragraphs
                  where p.ParagraphKind == ParagraphKind.NumberedOrBullettedContent
                  select p).ToList();
 
             AssignMembers();
-            foreach (var p in _paragraphs) {
+            foreach (var p in this.paragraphs) {
                 p.EstablishParent(this);
             }
             EstablishLexicalLinks();
         }
 
         private void AssignMembers() {
-            _sentences = (from p in _paragraphs
+            sentences = (from p in this.paragraphs
                           from s in p.Sentences
                           where s.Words.OfVerb().Any()
                           select s).ToList();
-            _phrases = (from s in _sentences
+            phrases = (from s in sentences
                         from r in s.Phrases
                         select r).ToList();
-            _words = (from s in _sentences
+            words = (from s in sentences
                       from w in s.Words.Append(s.EndingPunctuation)
                       select w).ToList();
         }
@@ -62,24 +62,24 @@ namespace LASI.Core.DocumentStructures
         /// Establishes the compositional linkages over all of the structures which comprise the Document.
         /// </summary>
         private void EstablishLexicalLinks() {
-            if (_words.Count > 1) {
-                for (int i = 1; i < _words.Count(); ++i) {
-                    _words[i].PreviousWord = _words[i - 1];
-                    _words[i - 1].NextWord = _words[i];
+            if (words.Count > 1) {
+                for (int i = 1; i < words.Count(); ++i) {
+                    words[i].PreviousWord = words[i - 1];
+                    words[i - 1].NextWord = words[i];
                 }
 
-                var lastWord = _words[_words.Count - 1];
-                if (_words.IndexOf(lastWord) > 0)
-                    lastWord.PreviousWord = _words[_words.Count - 1];
+                var lastWord = words[words.Count - 1];
+                if (words.IndexOf(lastWord) > 0)
+                    lastWord.PreviousWord = words[words.Count - 1];
                 else
                     lastWord.PreviousWord = null;
                 lastWord.NextWord = null;
             }
-            if (_phrases.Count() > 1) {
+            if (phrases.Count() > 1) {
 
-                for (var i = 1; i < _phrases.Count; ++i) {
-                    _phrases[i].PreviousPhrase = _phrases[i - 1];
-                    _phrases[i - 1].NextPhrase = _phrases[i];
+                for (var i = 1; i < phrases.Count; ++i) {
+                    phrases[i].PreviousPhrase = phrases[i - 1];
+                    phrases[i - 1].NextPhrase = phrases[i];
                 }
             }
 
@@ -90,7 +90,7 @@ namespace LASI.Core.DocumentStructures
         /// </summary>
         /// <returns>all of the Action identified within the docimument.</returns>
         public IEnumerable<IVerbal> GetActions() {
-            return from a in _words.OfVerb().Concat<IVerbal>(_phrases.OfVerbPhrase())
+            return from a in words.OfVerb().Concat<IVerbal>(phrases.OfVerbPhrase())
                    select a;
         }
 
@@ -99,7 +99,7 @@ namespace LASI.Core.DocumentStructures
         /// </summary>
         /// <returns> All of the word and phrase level describables identified in the document.</returns>
         public IEnumerable<IEntity> GetEntities() {
-            return from e in _words.OfType<IEntity>().Concat(_phrases.OfType<IEntity>())
+            return from e in words.OfType<IEntity>().Concat(phrases.OfType<IEntity>())
                    select e;
         }
         /// <summary>
@@ -133,12 +133,12 @@ namespace LASI.Core.DocumentStructures
         /// <summary>
         /// Gets the Sentences the document contains in linear, left to right order.
         /// </summary>
-        public IEnumerable<Sentence> Sentences { get { return _sentences; } }
+        public IEnumerable<Sentence> Sentences { get { return sentences; } }
 
         /// <summary>
         /// Gets the Paragraphs the document contains in linear, left to right order.
         /// </summary>
-        public IEnumerable<Paragraph> Paragraphs { get { return _paragraphs.Except(_paragraphsWithBulletsOrHeadings); } }
+        public IEnumerable<Paragraph> Paragraphs { get { return paragraphs.Except(paragraphsWithBulletsOrHeadings); } }
 
 
         /// <summary>
@@ -148,11 +148,11 @@ namespace LASI.Core.DocumentStructures
         /// <summary>
         /// Gets the Phrases the document contains in linear, left to right order.
         /// </summary>
-        public IEnumerable<Phrase> Phrases { get { return _phrases; } }
+        public IEnumerable<Phrase> Phrases { get { return phrases; } }
         /// <summary>
         /// Gets the Words the document contains in linear, left to right order.
         /// </summary>
-        public IEnumerable<Word> Words { get { return _words; } }
+        public IEnumerable<Word> Words { get { return words; } }
 
         /// <summary>
         /// The name of the file the Document instance was parsed from.
@@ -163,12 +163,12 @@ namespace LASI.Core.DocumentStructures
 
         #region Fields
 
-        private IList<Word> _words;
-        private IList<Phrase> _phrases;
+        private IList<Word> words;
+        private IList<Phrase> phrases;
         //private IList<Clause> _clauses;
-        private IList<Sentence> _sentences;
-        private IList<Paragraph> _paragraphs;
-        private IList<Paragraph> _paragraphsWithBulletsOrHeadings;
+        private IList<Sentence> sentences;
+        private IList<Paragraph> paragraphs;
+        private IList<Paragraph> paragraphsWithBulletsOrHeadings;
 
 
 

@@ -27,7 +27,7 @@ namespace LASI.Core
         /// <param name="pro">The Pronoun or PronounPhrase to Bind to the gerund</param>
         public void BindPronoun(IReferencer pro) {
 
-            _boundPronouns.Add(pro);
+            boundPronouns.Add(pro);
             pro.BindAsReference(this);
         }
 
@@ -37,7 +37,7 @@ namespace LASI.Core
         /// </summary>
         /// <param name="descriptor">The IDescriptor instance which will be added to the PresentParticipleGerund' descriptors.</param>
         public void BindDescriptor(IDescriptor descriptor) {
-            _descriptors.Add(descriptor);
+            descriptors.Add(descriptor);
             descriptor.Describes = this;
         }
         /// <summary>
@@ -47,7 +47,7 @@ namespace LASI.Core
         /// </summary>
         /// <param name="possession">The possession to add.</param>
         public void AddPossession(IPossessable possession) {
-            _possessed.Add(possession);
+            possessed.Add(possession);
             possession.Possesser = this;
         }
 
@@ -57,15 +57,15 @@ namespace LASI.Core
         /// <summary>
         /// Gets all of the IDescriptor constructs,generally Adjectives or AdjectivePhrases, which describe the PresentParticipleGerund.
         /// </summary>
-        public IEnumerable<IDescriptor> Descriptors { get { return _descriptors; } }
+        public IEnumerable<IDescriptor> Descriptors { get { return descriptors; } }
         /// <summary>
         /// Gets all of the constructs which the PresentParticipleGerund "owns".
         /// </summary>
-        public IEnumerable<IPossessable> Possessed { get { return _possessed; } }
+        public IEnumerable<IPossessable> Possessed { get { return possessed; } }
         /// <summary>
         /// Gets the collection of pronouns which are known to refer to the Gerund.
         /// </summary>
-        public IEnumerable<IReferencer> Referees { get { return _boundPronouns; } }
+        public IEnumerable<IReferencer> Referees { get { return boundPronouns; } }
         /// <summary>
         /// The Verb construct which the Gerund is the subject of.
         /// </summary>
@@ -92,12 +92,10 @@ namespace LASI.Core
 
         #region Fields
 
-        private ICollection<IDescriptor> _descriptors = new List<IDescriptor>();
-        private ICollection<IPossessable> _possessed = new List<IPossessable>();
-        private ICollection<IReferencer> _boundPronouns = new List<IReferencer>();
+        private ICollection<IDescriptor> descriptors = new List<IDescriptor>();
+        private ICollection<IPossessable> possessed = new List<IPossessable>();
+        private ICollection<IReferencer> boundPronouns = new List<IReferencer>();
 
-        #endregion
-
-
+        #endregion 
     }
 }

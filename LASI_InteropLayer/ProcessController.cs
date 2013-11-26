@@ -32,9 +32,9 @@ namespace LASI.Interop
         /// </example>
         public async Task<IEnumerable<Document>> AnalyseAllDocumentsAsync(IEnumerable<LASI.Core.IUntaggedTextSource> filesToProcess) {
             numDocs = filesToProcess.Count();
-            stepSize = 2d / numDocs;
-            Lookup.FinishedResourceLoading += (s, e) => { OnReport(new Report { Message = "Started Loading " + e, Increment = 1.5 }); };
-            Lookup.FinishedResourceLoading += (s, e) => { OnReport(new Report { Message = "Finished Loading " + e, Increment = 1.5 }); };
+            step = 2d / numDocs;
+            Lookup.ResourceLoaded += (s, e) => { OnReport(new Report { Message = "Started Loading " + e, Increment = 1.5 }); };
+            Lookup.ResourceLoaded += (s, e) => { OnReport(new Report { Message = "Finished Loading " + e, Increment = 1.5 }); };
             OnReport(new Report { Message = "Tagging Documents", Increment = 0 });
             var taggingTasks = filesToProcess.Select(F => Task.Run(async () => await Tagger.TaggedFromRawAsync(F))).ToList();
             var taggedFiles = new ConcurrentBag<LASI.Core.ITaggedTextSource>();
@@ -43,7 +43,7 @@ namespace LASI.Interop
                 var taggedFile = await currentTask;
                 taggingTasks.Remove(currentTask);
                 taggedFiles.Add(taggedFile);
-                OnReport(new Report { Message = string.Format("{0}: Tagged", taggedFile.TextSourceName), Increment = stepSize + 1.5 });
+                OnReport(new Report { Message = string.Format("{0}: Tagged", taggedFile.TextSourceName), Increment = step + 1.5 });
             }
             OnReport(new Report { Message = "Tagged Documents", Increment = 3 });
             var tasks = taggedFiles.Select(tagged => ProcessTaggedFileAsync(tagged)).ToList();
@@ -76,7 +76,7 @@ namespace LASI.Interop
                 OnReport(new Report { Message = task.CompletionMessage, Increment = task.PercentWorkRepresented * 0.5 / numDocs });
             }
 
-            OnReport(new Report { Message = string.Format("{0}: Completing Parse...", fileName), Increment = stepSize });
+            OnReport(new Report { Message = string.Format("{0}: Completing Parse...", fileName), Increment = step });
             return document;
         }
 
@@ -85,7 +85,7 @@ namespace LASI.Interop
         #region Fields
 
         private double numDocs;
-        private double stepSize;
+        private double step;
 
         #endregion
 

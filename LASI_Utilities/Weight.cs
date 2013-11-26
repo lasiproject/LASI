@@ -27,6 +27,59 @@ namespace LASI.Utilities
 
         #endregion
 
+        #region Methods
+        /// <summary>
+        /// Returns a string representation of the Weight.
+        /// </summary>
+        /// <returns>A string representation of the Weight.</returns>
+        public override string ToString() { return string.Format("{0} = raw: {1} multiplier: {2} scaled: {3}", base.ToString(), RawWeight, Multiplier, ScaledWeight); }
+
+        /// <summary>
+        /// Returns the hash code for this instance.
+        /// </summary>
+        /// <returns>A 32-bit signed integer that is the hash code for this instance.</returns>
+        public override int GetHashCode() {
+            return RawWeight.GetHashCode() ^ Multiplier.GetHashCode();
+        }
+        /// <summary>
+        /// Returns a value that indicates whether the specified object is equal to the current Weight.
+        /// </summary>
+        /// <param name="obj">The object to compare with.</param> 
+        /// <returns>True if the specified object is equal to the current Weight, false otherwise.</returns>
+        public override bool Equals(object obj) {
+            return obj is Weight && this == (Weight)obj;
+        }
+        /// <summary>
+        /// Returns a value that indicates whether the specified Weight is equal to the current Weight.
+        /// </summary>
+        /// <param name="other">The Weight to compare with.</param> 
+        /// <returns>True if the specified Weight is equal to the current Weight, false otherwise.</returns>
+        public bool Equals(Weight other) {
+            return this == other;
+        }
+        /// <summary>
+        /// Returns a value that indicates whether the specified Object is equal to the current Weight.
+        /// </summary>
+        /// <param name="obj">The Object to compare with.</param> 
+        /// <returns>True if the specified Object is equal to the current Weight, false otherwise.</returns>
+        public int CompareTo(object obj) {
+            return obj == null ? 1 : obj is Weight ? (int)(this - (Weight)obj) : 1;
+        }
+        /// <summary>
+        /// Compares the current Weight with another Weight.
+        /// </summary>
+        /// <param name="other">A Weight to compare with this Weight.</param>
+        /// <returns>
+        /// A value that indicates the relative order of the Weights being compared.
+        /// The return value has the following meanings: Value Meaning Less than zero This Weight is less than the other parameter.
+        /// Zero This Weight is equal to other. 
+        /// Greater than zero This Weight is greater than other.
+        /// </returns>
+        public int CompareTo(Weight other) {
+            return (int)(this - other);
+        }
+        #endregion
+
         #region Properties
         /// <summary>
         /// Gets the Raw Weight.
@@ -233,58 +286,6 @@ namespace LASI.Utilities
 
         #endregion
 
-        #region Methods
-        /// <summary>
-        /// Returns a string representation of the Weight.
-        /// </summary>
-        /// <returns>A string representation of the Weight.</returns>
-        public override string ToString() { return string.Format("{0} = raw: {1} multiplier: {2} scaled: {3}", base.ToString(), RawWeight, Multiplier, ScaledWeight); }
-
-        /// <summary>
-        /// Returns the hash code for this instance.
-        /// </summary>
-        /// <returns>A 32-bit signed integer that is the hash code for this instance.</returns>
-        public override int GetHashCode() {
-            return RawWeight.GetHashCode() ^ Multiplier.GetHashCode();
-        }
-        /// <summary>
-        /// Returns a value that indicates whether the specified object is equal to the current Weight.
-        /// </summary>
-        /// <param name="obj">The object to compare with.</param> 
-        /// <returns>True if the specified object is equal to the current Weight, false otherwise.</returns>
-        public override bool Equals(object obj) {
-            return obj is Weight && this == (Weight)obj;
-        }
-        /// <summary>
-        /// Returns a value that indicates whether the specified Weight is equal to the current Weight.
-        /// </summary>
-        /// <param name="other">The Weight to compare with.</param> 
-        /// <returns>True if the specified Weight is equal to the current Weight, false otherwise.</returns>
-        public bool Equals(Weight other) {
-            return this == other;
-        }
-        /// <summary>
-        /// Returns a value that indicates whether the specified Object is equal to the current Weight.
-        /// </summary>
-        /// <param name="obj">The Object to compare with.</param> 
-        /// <returns>True if the specified Object is equal to the current Weight, false otherwise.</returns>
-        public int CompareTo(object obj) {
-            return obj == null ? 1 : obj is Weight ? (int)(this - (Weight)obj) : 1;
-        }
-        /// <summary>
-        /// Compares the current Weight with another Weight.
-        /// </summary>
-        /// <param name="other">A Weight to compare with this Weight.</param>
-        /// <returns>
-        /// A value that indicates the relative order of the Weights being compared.
-        /// The return value has the following meanings: Value Meaning Less than zero This Weight is less than the other parameter.
-        /// Zero This Weight is equal to other. 
-        /// Greater than zero This Weight is greater than other.
-        /// </returns>
-        public int CompareTo(Weight other) {
-            return (int)(this - other);
-        }
-        #endregion
 
     }
 }

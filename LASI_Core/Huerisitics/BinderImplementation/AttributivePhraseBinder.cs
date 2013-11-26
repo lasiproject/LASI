@@ -10,7 +10,7 @@ namespace LASI.Core.Binding
     /// <summary>
     /// Binds the attributely related NounPhrase elements within a source together.
     /// </summary>
-      static class AttributivePhraseBinder
+    static class AttributivePhraseBinder
     {
         /// <summary>
         /// Binds the attributely related NounPhrase elements within the given sentence.
@@ -18,7 +18,7 @@ namespace LASI.Core.Binding
         /// <param name="sentence">The sentence to bind within.</param>
         public static void Bind(Sentence sentence) {
             foreach (var cg in FindContiguousNounPhrases(sentence.Phrases)) {
-                ProcessContiguous(cg);      
+                ProcessContiguous(cg);
             }
         }
         /// <summary>
@@ -31,20 +31,20 @@ namespace LASI.Core.Binding
             }
         }
 
-        private static void ProcessContiguous(IEnumerable<Phrase> cnps) {
-            foreach (var prepPhrase in cnps.OfPrepositionalPhrase()) {
+        private static void ProcessContiguous(IEnumerable<Phrase> phrases) {
+            foreach (var prepPhrase in phrases.OfPrepositionalPhrase()) {
                 ProcessLinkingPrepositionalPhrase(prepPhrase);
             }
-            while (cnps.Count(n => n is NounPhrase) > 1) {
-                var npLeft = cnps.First(n => n is NounPhrase) as NounPhrase;
-                var npRight = cnps.Skip(1).First(n => n is NounPhrase) as NounPhrase;
-                var leftNPDeterminer = npLeft != null ? npLeft.GetLeadingDeterminer() : null;
-                var rightNpDeterminer = npRight != null ? npLeft.GetLeadingDeterminer() : null;
+            while (phrases.Count(n => n is NounPhrase) > 1) {
+                var npLeft = phrases.First(n => n is NounPhrase) as NounPhrase;
+                var npRight = phrases.Skip(1).First(n => n is NounPhrase) as NounPhrase;
+                var leftNPDeterminer = npLeft != null ? npLeft.Words.OfDeterminer().FirstOrDefault() : null;
+                var rightNpDeterminer = npRight != null ? npLeft.Words.OfDeterminer().FirstOrDefault() : null;
                 if ((leftNPDeterminer != null && rightNpDeterminer != null) && leftNPDeterminer.DeterminerKind == DeterminerKind.Definite && rightNpDeterminer.DeterminerKind == DeterminerKind.Indefinite) {
                     npLeft.InnerAttributive = npRight;
                     npRight.OuterAttributive = npLeft;
                 }
-                cnps = cnps.SkipWhile(n => n.PreviousPhrase != npRight);
+                phrases = phrases.SkipWhile(n => n.PreviousPhrase != npRight);
             }
         }
 
@@ -74,15 +74,6 @@ namespace LASI.Core.Binding
                    select r;
         }
 
-    }
-
-
-
-    internal static class NounPhraseExtensions
-    {
-        internal static Determiner GetLeadingDeterminer(this NounPhrase nounPhrase) {
-            return nounPhrase.Words.FirstOrDefault(w => w is Determiner) as Determiner;
-        }
     }
 
 }

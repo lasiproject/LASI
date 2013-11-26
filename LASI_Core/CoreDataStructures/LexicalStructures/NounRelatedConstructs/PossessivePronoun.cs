@@ -33,7 +33,7 @@ namespace LASI.Core
             if (PossessesFor != null) {
                 PossessesFor.AddPossession(possession);
             }
-            _possessed.Add(possession);
+            possessed.Add(possession);
         }
         /// <summary>
         /// Returns a string represntation of the PossessivePronoun.
@@ -48,7 +48,7 @@ namespace LASI.Core
         /// </summary>
         public virtual IEnumerable<IPossessable> Possessed {
             get {
-                return _possessed;
+                return possessed;
             }
         }
         /// <summary>
@@ -57,19 +57,19 @@ namespace LASI.Core
         /// </summary>
         public virtual IPossesser PossessesFor {
             get {
-                return _possessesFor;
+                return possessesFor;
             }
             set {
-                _possessesFor = value;
+                possessesFor = value;
                 if (value != null)
-                    foreach (var possession in _possessed)
-                        _possessesFor.AddPossession(possession);
+                    foreach (var possession in possessed)
+                        possessesFor.AddPossession(possession);
             }
         }
 
         #region Fields
-        private HashSet<IPossessable> _possessed = new HashSet<IPossessable>();
-        private IPossesser _possessesFor;
+        private HashSet<IPossessable> possessed = new HashSet<IPossessable>();
+        private IPossesser possessesFor;
         #endregion Fields
     }
 }

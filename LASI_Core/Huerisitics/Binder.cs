@@ -63,37 +63,32 @@ namespace LASI.Core
 
 
         private static void BindAdjectivePhrases(IEnumerable<Sentence> sentences) {
-            sentences.AsParallel().WithDegreeOfParallelism(Concurrency.Max).ForAll(s => AdjectivePhraseBinder.Bind(s));
+            sentences.AsParallel()
+                .WithDegreeOfParallelism(Concurrency.Max)
+                .ForAll(s => AdjectivePhraseBinder.Bind(s));
         }
 
         private static void BindAttributives(IEnumerable<Sentence> sentences) {
-            sentences.AsParallel().WithDegreeOfParallelism(Concurrency.Max).ForAll(s => AttributivePhraseBinder.Bind(s));
+            sentences.AsParallel()
+                .WithDegreeOfParallelism(Concurrency.Max)
+                .ForAll(s => AttributivePhraseBinder.Bind(s));
         }
 
         private static void BindSubjectsAndObjects(IEnumerable<Sentence> sentences) {
             try {
-                sentences.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
+                sentences.AsParallel()
+.WithDegreeOfParallelism(Concurrency.Max)
                     .ForAll(s => {
                         try { new SubjectBinder().Bind(s); }
-                        catch (NullReferenceException e) {
-                            Output.WriteLine(e.Message);
-                        }
+                        catch (NullReferenceException e) { Output.WriteLine(e.Message); }
                         // Sentence did not have a valid structure or was incorrectly identified.
-                        catch (VerblessPhrasalSequenceException e) {
-                            Output.WriteLine(e.Message);
-                        }
+                        catch (VerblessPhrasalSequenceException e) { Output.WriteLine(e.Message); }
                         try { new ObjectBinder().Bind(s); }
                         // A state path within the object binder was undefined for a sequence of types within Sentence
-                        catch (InvalidStateTransitionException e) {
-                            Output.WriteLine(e.Message);
-                        }
+                        catch (InvalidStateTransitionException e) { Output.WriteLine(e.Message); }
                         // Sentence did not have a valid structure or was incorrectly identified.
-                        catch (VerblessPhrasalSequenceException e) {
-                            Output.WriteLine(e.Message);
-                        }
-                        catch (InvalidOperationException e) {
-                            Output.WriteLine(e.Message);
-                        }
+                        catch (VerblessPhrasalSequenceException e) { Output.WriteLine(e.Message); }
+                        catch (InvalidOperationException e) { Output.WriteLine(e.Message); }
                     });
             }
             catch (SystemException e) { Output.WriteLine(e.Message); }

@@ -23,7 +23,7 @@ namespace LASI.Core.Binding.Experimental
 
         protected AggregateNounPhrase(IEnumerable<IEntity> constituents) {
 
-            _constituents = new List<IEntity>(constituents);
+            this.constituents = constituents.ToList();
         }
 
 
@@ -52,11 +52,11 @@ namespace LASI.Core.Binding.Experimental
         public IVerbal IndirectObjectOf { get; set; }
 
         public void BindPronoun(IReferencer pro) {
-            if (!_boundPronouns.Contains(pro)) { _boundPronouns.Add(pro); }
+            if (!boundPronouns.Contains(pro)) { boundPronouns.Add(pro); }
         }
 
         public IEnumerable<IReferencer> Referees {
-            get { return _boundPronouns; }
+            get { return boundPronouns; }
         }
 
         public void BindDescriptor(IDescriptor descriptor) {
@@ -64,15 +64,15 @@ namespace LASI.Core.Binding.Experimental
         }
 
         public IEnumerable<IDescriptor> Descriptors {
-            get { return _descriptors; }
+            get { return descriptors; }
         }
 
         public IEnumerable<IPossessable> Possessed {
-            get { return _possessions; }
+            get { return possessions; }
         }
 
         public void AddPossession(IPossessable possession) {
-            _possessions.Add(possession);
+            possessions.Add(possession);
         }
 
         public IPossesser Possesser {
@@ -82,8 +82,8 @@ namespace LASI.Core.Binding.Experimental
 
 
 
-        public IEnumerable<IEntity> AllConstituents { get { return _constituents; } }
-        public IEnumerable<NounPhrase> PrimaryConstituents { get { return _constituents.OfType<NounPhrase>(); } }
+        public IEnumerable<IEntity> AllConstituents { get { return this.constituents; } }
+        public IEnumerable<NounPhrase> PrimaryConstituents { get { return this.constituents.OfType<NounPhrase>(); } }
         public IPrepositional PrepositionOnLeft { get; set; }
         public IPrepositional PrepositionOnRight { get; set; }
         public string Text {
@@ -96,9 +96,9 @@ namespace LASI.Core.Binding.Experimental
 
         public double MetaWeight { get; set; }
 
-        HashSet<IPossessable> _possessions = new HashSet<IPossessable>();
-        HashSet<IDescriptor> _descriptors = new HashSet<IDescriptor>();
-        HashSet<IReferencer> _boundPronouns = new HashSet<IReferencer>();
-        protected IList<IEntity> _constituents;
+        HashSet<IPossessable> possessions = new HashSet<IPossessable>();
+        HashSet<IDescriptor> descriptors = new HashSet<IDescriptor>();
+        HashSet<IReferencer> boundPronouns = new HashSet<IReferencer>();
+        protected IList<IEntity> constituents;
     }
 }

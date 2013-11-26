@@ -64,7 +64,7 @@ namespace LASI.Core
         /// <param name="pro">The referencer which refers to the InfinitivePhrase Instance.</param>
         public void BindPronoun(IReferencer pro)
         {
-            _boundPronouns.Add(pro);
+            boundPronouns.Add(pro);
             pro.BindAsReference(this);
         }
         /// <summary>
@@ -74,7 +74,7 @@ namespace LASI.Core
         {
             get
             {
-                return _boundPronouns;
+                return boundPronouns;
             }
         }
         /// <summary>
@@ -83,7 +83,7 @@ namespace LASI.Core
         /// <param name="descriptor">The IDescriptor instance which will be added to the InfinitivePhrase' descriptors.</param>
         public void BindDescriptor(IDescriptor descriptor)
         {
-            _descriptors.Add(descriptor);
+            descriptors.Add(descriptor);
             descriptor.Describes = this;
         }
         /// <summary>
@@ -93,7 +93,7 @@ namespace LASI.Core
         {
             get
             {
-                return _descriptors;
+                return descriptors;
             }
         }
         /// <summary>
@@ -103,7 +103,7 @@ namespace LASI.Core
         {
             get
             {
-                return _possessions;
+                return possessions;
             }
         }
         /// <summary>
@@ -114,7 +114,7 @@ namespace LASI.Core
         /// <param name="possession">The possession to add.</param>
         public void AddPossession(IPossessable possession)
         {
-            _possessions.Add(possession);
+            possessions.Add(possession);
         }
         /// <summary>
         /// Gets or sets the Entity which "owns" the instance of the InfinitivePhrase.
@@ -129,9 +129,9 @@ namespace LASI.Core
 
         #region Fields
 
-        ISet<IReferencer> _boundPronouns = new HashSet<IReferencer>();
-        ISet<IPossessable> _possessions = new HashSet<IPossessable>();
-        ISet<IDescriptor> _descriptors = new HashSet<IDescriptor>();
+        ISet<IReferencer> boundPronouns = new HashSet<IReferencer>();
+        ISet<IPossessable> possessions = new HashSet<IPossessable>();
+        ISet<IDescriptor> descriptors = new HashSet<IDescriptor>();
 
         #endregion
     }

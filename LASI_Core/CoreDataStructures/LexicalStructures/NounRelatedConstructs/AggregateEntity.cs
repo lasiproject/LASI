@@ -19,9 +19,9 @@ namespace LASI.Core
         /// <summary>
         /// Initializes a new instance of EntityGroup forming, an aggregate entity composed of the given entities
         /// </summary>
-        /// <param name="members">The Entities aggregated into the group.</param>
-        public AggregateEntity(IEnumerable<IEntity> members) {
-            _members = members.Distinct();
+        /// <param name="entities">The Entities aggregated into the group.</param>
+        public AggregateEntity(IEnumerable<IEntity> entities) {
+            members = entities.Distinct();
             EntityKind = Core.EntityKind.ThingUnknownMultiple;
         }
 
@@ -33,7 +33,7 @@ namespace LASI.Core
         /// </summary>
         /// <param name="possession">The possession to add.</param>
         public void AddPossession(IPossessable possession) {
-            _possessions.Add(possession);
+            possessions.Add(possession);
             possession.Possesser = this;
         }
         /// <summary>
@@ -41,7 +41,7 @@ namespace LASI.Core
         /// </summary>
         /// <param name="descriptor">The IDescriptor instance which will be added to the EntityGroup's descriptors.</param>
         public void BindDescriptor(IDescriptor descriptor) {
-            _descriptors.Add(descriptor);
+            descriptors.Add(descriptor);
 
             descriptor.Describes = this;
         }
@@ -50,7 +50,7 @@ namespace LASI.Core
         /// </summary>
         /// <param name="pro">The referencer which refers to the EntityGroup Instance.</param>
         public void BindPronoun(IReferencer pro) {
-            _boundPronouns.Add(pro);
+            boundPronouns.Add(pro);
             pro.BindAsReference(this);
         }
         /// <summary>
@@ -58,17 +58,17 @@ namespace LASI.Core
         /// </summary>
         /// <returns>An enumerator that iterates through the members of the EntityGroup.</returns>
         public IEnumerator<IEntity> GetEnumerator() {
-            return _members.AsNestedEnumerable().GetEnumerator();
+            return members.AsNestedEnumerable().GetEnumerator();
         }
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() {
-            return _members.AsNestedEnumerable().GetEnumerator();
+            return members.AsNestedEnumerable().GetEnumerator();
         }
         /// <summary>
         /// Returns a string representation of the EntityGroup.
         /// </summary>
         /// <returns>A string representation of the EntityGroup.</returns>
         public override string ToString() {
-            return string.Format("{0}{1}", _members.Count() > 1 ? "[ " + _members.Count() + " ] " : string.Empty, string.Join(" ", _members.AsNestedEnumerable()
+            return string.Format("{0}{1}", members.Count() > 1 ? "[ " + members.Count() + " ] " : string.Empty, string.Join(" ", members.AsNestedEnumerable()
                 .Where(m => !(m is IAggregateEntity))
                 .Select(p => p.Type.Name + " \"" + p.Text + "\"")));
         }
@@ -96,15 +96,15 @@ namespace LASI.Core
         /// <summary>
         /// Gets all of the IPronoun instances, generally Pronouns or PronounPhrases, which refer to the EntityGroup.
         /// </summary>
-        public IEnumerable<IReferencer> Referees { get { return _boundPronouns; } }
+        public IEnumerable<IReferencer> Referees { get { return boundPronouns; } }
         /// <summary>
         /// Gets all of the IDescriptor constructs,generally Adjectives or AdjectivePhrases, which describe the EntityGroup.
         /// </summary>
-        public IEnumerable<IDescriptor> Descriptors { get { return _descriptors; } }
+        public IEnumerable<IDescriptor> Descriptors { get { return descriptors; } }
         /// <summary>
         /// Gets all of the constructs the EntityGroup can be determined to "own" collectively.
         /// </summary>
-        public IEnumerable<IPossessable> Possessed { get { return _possessions; } }
+        public IEnumerable<IPossessable> Possessed { get { return possessions; } }
         /// <summary>
         /// Gets or sets the Entity which is inferred to "own" all members the EntityGroup.
         /// </summary>
@@ -114,7 +114,7 @@ namespace LASI.Core
         /// </summary>
         public string Text {
             get {
-                return string.Join(" , ", _members.AsNestedEnumerable().Select(p => p.Text + (p.PrepositionOnRight != null ? " " + p.PrepositionOnRight.Text : string.Empty)));
+                return string.Join(" , ", members.AsNestedEnumerable().Select(p => p.Text + (p.PrepositionOnRight != null ? " " + p.PrepositionOnRight.Text : string.Empty)));
             }
         }
         //}
@@ -147,13 +147,11 @@ namespace LASI.Core
         /// <summary>
         /// The EnumerableCollection of Entities which compose to form the EntityGroup
         /// </summary>
-        private IEnumerable<IEntity> _members;
-        HashSet<IPossessable> _possessions = new HashSet<IPossessable>();
-        HashSet<IDescriptor> _descriptors = new HashSet<IDescriptor>();
-        HashSet<IReferencer> _boundPronouns = new HashSet<IReferencer>();
+        private IEnumerable<IEntity> members;
+        HashSet<IPossessable> possessions = new HashSet<IPossessable>();
+        HashSet<IDescriptor> descriptors = new HashSet<IDescriptor>();
+        HashSet<IReferencer> boundPronouns = new HashSet<IReferencer>();
 
         #endregion
-
-
     }
 }

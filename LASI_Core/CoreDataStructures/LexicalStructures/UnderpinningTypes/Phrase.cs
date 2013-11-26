@@ -92,9 +92,9 @@ namespace LASI.Core
         /// </summary>
         public string Text {
             get {
-                _text = _text ?? (Words.Count(w => !string.IsNullOrWhiteSpace(w.Text)) > 0 ?
+                text = text ?? (Words.Count(w => !string.IsNullOrWhiteSpace(w.Text)) > 0 ?
                     Words.Aggregate("", (str, word) => str + " " + word.Text).Trim() : string.Empty);
-                return _text;
+                return text;
             }
         }
 
@@ -126,7 +126,7 @@ namespace LASI.Core
 
         #region Fields
 
-        private string _text;
+        private string text;
 
         #endregion
 

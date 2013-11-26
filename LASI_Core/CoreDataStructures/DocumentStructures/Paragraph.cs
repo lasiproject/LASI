@@ -15,11 +15,10 @@ namespace LASI.Core.DocumentStructures
         /// Initializes a new instance of the Paragraph class containing the given sentences and belonging to the given Document.
         /// </summary>
         /// <param name="sentences">The collection of sentences which comprise the Paragraph.</param>
-        ///<param name="paraKind">Argument indicating the kind of parent.</param>
-        public Paragraph(IEnumerable<Sentence> sentences, ParagraphKind paraKind) {
-            ParagraphKind = paraKind;
+        ///<param name="paragraphKind">Argument indicating the kind of parent.</param>
+        public Paragraph(IEnumerable<Sentence> sentences, ParagraphKind paragraphKind) {
+            ParagraphKind = paragraphKind;
             Sentences = sentences;
-            ID = IDNumProvider++;
         }
 
         /// <summary>
@@ -83,12 +82,6 @@ namespace LASI.Core.DocumentStructures
         /// </summary>
         public ParagraphKind ParagraphKind { get; private set; }
 
-
-        /// <summary>
-        /// Returns the document-unique identification number of the Paragraph.
-        /// </summary>
-        public int ID { get; private set; }
-
         /// <summary>
         /// Gets the textual content of the Paragraph.
         /// </summary>
@@ -100,7 +93,6 @@ namespace LASI.Core.DocumentStructures
 
 
         private string text;
-        private static int IDNumProvider;
     }
     /// <summary>
     /// Defines the Various Kinds of Paragraphs which a document may contain.

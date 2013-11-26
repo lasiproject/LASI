@@ -63,7 +63,7 @@ namespace LASI.Core
         }
 
         static void ExecuteTask(Task phase, string documentSpecificMessageText, double numericValue) {
-            var startHandler = WeightingPhaseStarted;
+            var startHandler = PhaseStarted;
             if (startHandler != null) {
                 startHandler(new object(), new WeightingUpdateEventArgs {
                     Message = documentSpecificMessageText,
@@ -71,7 +71,7 @@ namespace LASI.Core
                 });
             };
             phase.Wait();
-            var endHandler = WeightingPhaseFinished;
+            var endHandler = PhaseFinished;
             if (endHandler != null) {
                 endHandler(new object(), new WeightingUpdateEventArgs {
                     Message = documentSpecificMessageText,
@@ -238,12 +238,12 @@ namespace LASI.Core
         /// <summary>
         /// Raised on the start of a step of the overall weighting process.
         /// </summary>
-        public static event EventHandler<WeightingUpdateEventArgs> WeightingPhaseStarted;
+        public static event EventHandler<WeightingUpdateEventArgs> PhaseStarted;
 
         /// <summary>
         /// Raised on the completion of a step of the overall weighting process.
         /// </summary>
-        public static event EventHandler<WeightingUpdateEventArgs> WeightingPhaseFinished;
+        public static event EventHandler<WeightingUpdateEventArgs> PhaseFinished;
         #endregion Events
 
     }

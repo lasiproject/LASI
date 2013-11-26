@@ -49,7 +49,7 @@ namespace LASI.Core
         /// </summary>
         /// <param name="pro">The EntityReferency to Bind.</param>
         public virtual void BindPronoun(IReferencer pro) {
-            _boundPronouns.Add(pro);
+            boundPronouns.Add(pro);
             pro.BindAsReference(this);
         }
 
@@ -58,7 +58,7 @@ namespace LASI.Core
         /// </summary>
         /// <param name="descriptor">The IDescriptor instance which will be added to the Noun's descriptors.</param>
         public virtual void BindDescriptor(IDescriptor descriptor) {
-            _descriptors.Add(descriptor);
+            descriptors.Add(descriptor);
             descriptor.Describes = this;
         }
 
@@ -69,7 +69,7 @@ namespace LASI.Core
         /// </summary>
         /// <param name="possession">The possession to add.</param>
         public void AddPossession(IPossessable possession) {
-            _possessed.Add(possession);
+            possessed.Add(possession);
             possession.Possesser = this;
         }
 
@@ -94,26 +94,26 @@ namespace LASI.Core
         /// <summary>
         /// Gets all of the IEntityReferences instances, generally Pronouns or PronounPhrases, which refer to the Noun Instance.
         /// </summary>
-        public virtual IEnumerable<IReferencer> Referees { get { return _boundPronouns; } }
+        public virtual IEnumerable<IReferencer> Referees { get { return boundPronouns; } }
 
         /// <summary>
         /// Gets all of the IDescriptor constructs,generally Adjectives or AdjectivePhrases, which describe the Noun Instance.
         /// </summary>
-        public virtual IEnumerable<IDescriptor> Descriptors { get { return _descriptors; } }
+        public virtual IEnumerable<IDescriptor> Descriptors { get { return descriptors; } }
 
         /// <summary>
         /// Gets all of the IEntity constructs which the Noun "owns".
         /// </summary>
-        public virtual IEnumerable<IPossessable> Possessed { get { return _possessed; } }
+        public virtual IEnumerable<IPossessable> Possessed { get { return possessed; } }
 
         /// <summary>
         /// Gets or sets the Entity which "owns" the instance of the Noun.
         /// </summary>
         public IPossesser Possesser {
             get {
-                return _possessor is IWeakPossessor ? (_possessor as IWeakPossessor).PossessesFor ?? _possessor : _possessor;
+                return possessor is IWeakPossessor ? (possessor as IWeakPossessor).PossessesFor ?? possessor : possessor;
             }
-            set { _possessor = value; }
+            set { possessor = value; }
         }
 
         /// <summary>
@@ -146,14 +146,14 @@ namespace LASI.Core
         /// </summary>
         public virtual IQuantifier QuantifiedBy {
             get {
-                return _quantity;
+                return quantity;
             }
             set {
-                if (_quantity != null) {
-                    _quantity.QuantifiedBy = value;
-                    value.Quantifies = _quantity;
+                if (quantity != null) {
+                    quantity.QuantifiedBy = value;
+                    value.Quantifies = quantity;
                 } else {
-                    _quantity = value;
+                    quantity = value;
                     value.Quantifies = this;
                 }
             }
@@ -163,11 +163,11 @@ namespace LASI.Core
 
         #region Fields
 
-        private HashSet<IDescriptor> _descriptors = new HashSet<IDescriptor>();
-        private HashSet<IPossessable> _possessed = new HashSet<IPossessable>();
-        private HashSet<IReferencer> _boundPronouns = new HashSet<IReferencer>();
-        private IQuantifier _quantity;
-        private IPossesser _possessor;
+        private HashSet<IDescriptor> descriptors = new HashSet<IDescriptor>();
+        private HashSet<IPossessable> possessed = new HashSet<IPossessable>();
+        private HashSet<IReferencer> boundPronouns = new HashSet<IReferencer>();
+        private IQuantifier quantity;
+        private IPossesser possessor;
 
         #endregion Fields
 

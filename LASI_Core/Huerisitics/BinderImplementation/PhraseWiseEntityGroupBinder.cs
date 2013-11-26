@@ -35,7 +35,7 @@ namespace LASI.Core.Binding
             var aggregateEntities = new List<NounPhrase>();
             foreach (var b in betwixt) {
                 if (b.TillNextNP.OfConjunctionPhrase().Count() + b.TillNextNP.OfType<SymbolPhrase>().Count() != b.TillNextNP.Count() && b.TillNextNP.Count() < 3) {
-                    aggregateEntities.Add(b.NP);
+                    aggregateEntities.Add(b.Np);
                     if (aggregateEntities.Count > 2) {
                         entityGroups.Add(new AggregateEntity(aggregateEntities));
                     }
@@ -68,7 +68,7 @@ namespace LASI.Core.Binding
         {
             internal NpWithBetween(NounPhrase nounPhrase, IEnumerable<Phrase> tillNextNounPhrase)
                 : this() {
-                NP = nounPhrase;
+                Np = nounPhrase;
                 TillNextNP = tillNextNounPhrase;
             }
 
@@ -77,7 +77,7 @@ namespace LASI.Core.Binding
                 private set;
             }
 
-            public NounPhrase NP {
+            public NounPhrase Np {
                 get;
                 private set;
             }
