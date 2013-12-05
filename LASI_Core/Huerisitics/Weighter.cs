@@ -63,12 +63,14 @@ namespace LASI.Core
         }
 
         static void ExecuteTask(Task phase, string documentSpecificMessageText, double numericValue) {
-            PhaseStarted(new object(), new WeightingUpdateEventArgs {
+            PhaseStarted(new object(), new WeightingUpdateEventArgs
+            {
                 Message = documentSpecificMessageText,
                 Increment = numericValue
             });
             phase.Wait();
-            PhaseFinished(new object(), new WeightingUpdateEventArgs {
+            PhaseFinished(new object(), new WeightingUpdateEventArgs
+            {
                 Message = documentSpecificMessageText,
                 Increment = numericValue
             });
@@ -242,16 +244,27 @@ namespace LASI.Core
 
     }
 
+    /// <summary>
+    /// A class containing information regarding a weighting process level status update.
+    /// </summary>
     [Serializable]
     [System.Runtime.InteropServices.ComVisible(true)]
     public class WeightingUpdateEventArgs : EventArgs
     {
+        /// <summary>
+        /// Initializes a new instance of the WeightingUpdateEventArgs class.
+        /// </summary>
         internal WeightingUpdateEventArgs() {
             Message = "";
             Increment = 0;
         }
-
+        /// <summary>
+        /// Gets a value representing the magnitude of the status update. The default value is 0.
+        /// </summary>
         public double Increment { get; internal set; }
+        /// <summary>
+        /// Gets a textual discription of the status update.
+        /// </summary>
         public string Message { get; internal set; }
     }
 

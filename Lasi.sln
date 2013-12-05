@@ -12,7 +12,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "L_App", "LASI_UserInterface\L_App.csproj", "{6C8D6DA8-BD8B-48C8-ACB9-8FDE7E3A672E}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTestProjects", "UnitTestProjects", "{B3482180-A78D-4A20-B744-81620578B79B}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTests", "UnitTests", "{B3482180-A78D-4A20-B744-81620578B79B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WordNet", "WordNet", "{20C3B51F-FF54-4452-B69E-67D596843284}"
 	ProjectSection(SolutionItems) = preProject
@@ -41,7 +41,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SchemaTestFiles", "SchemaTe
 		LASI_FileSystem\XMLFile1.xml = LASI_FileSystem\XMLFile1.xml
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "L_Core_Test", "UnitTests\L_Core_Test.csproj", "{F4ABC10C-0BE9-4195-99E7-DB027757EC6B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "L_CoreTests", "UnitTests\L_CoreTests.csproj", "{F4ABC10C-0BE9-4195-99E7-DB027757EC6B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "L_Interop", "LASI_InteropLayer\L_Interop.csproj", "{06B96679-9758-4B15-8E75-0F46416E68B7}"
 EndProject
@@ -66,6 +66,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "L_Core", "LASI_Core\L_Core.csproj", "{8C562A93-A885-4FE9-8B8C-5CE34CCBAEC1}"
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FSharpExperimentation", "FSharpExperimentation\FSharpExperimentation.fsproj", "{8BC22765-5BE2-4D70-9B4F-6CA3360D8562}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "L_UtilitiesTests", "L_UtilitiesTests\L_UtilitiesTests.csproj", "{61B3F39F-D831-44E6-A8F1-8A7A38206A62}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -196,6 +198,18 @@ Global
 		{8BC22765-5BE2-4D70-9B4F-6CA3360D8562}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{8BC22765-5BE2-4D70-9B4F-6CA3360D8562}.Release|x64.ActiveCfg = Release|Any CPU
 		{8BC22765-5BE2-4D70-9B4F-6CA3360D8562}.Release|x86.ActiveCfg = Release|Any CPU
+		{61B3F39F-D831-44E6-A8F1-8A7A38206A62}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{61B3F39F-D831-44E6-A8F1-8A7A38206A62}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{61B3F39F-D831-44E6-A8F1-8A7A38206A62}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{61B3F39F-D831-44E6-A8F1-8A7A38206A62}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{61B3F39F-D831-44E6-A8F1-8A7A38206A62}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{61B3F39F-D831-44E6-A8F1-8A7A38206A62}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{61B3F39F-D831-44E6-A8F1-8A7A38206A62}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{61B3F39F-D831-44E6-A8F1-8A7A38206A62}.Release|Any CPU.Build.0 = Release|Any CPU
+		{61B3F39F-D831-44E6-A8F1-8A7A38206A62}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{61B3F39F-D831-44E6-A8F1-8A7A38206A62}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{61B3F39F-D831-44E6-A8F1-8A7A38206A62}.Release|x64.ActiveCfg = Release|Any CPU
+		{61B3F39F-D831-44E6-A8F1-8A7A38206A62}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -204,6 +218,7 @@ Global
 		{BB8A5BF2-C41F-4330-B55B-D1097569B529} = {E61EB5D5-494B-437A-A9ED-20756769E139}
 		{B012451A-BCB9-423F-8119-BE8027CA8474} = {E61EB5D5-494B-437A-A9ED-20756769E139}
 		{F4ABC10C-0BE9-4195-99E7-DB027757EC6B} = {B3482180-A78D-4A20-B744-81620578B79B}
+		{61B3F39F-D831-44E6-A8F1-8A7A38206A62} = {B3482180-A78D-4A20-B744-81620578B79B}
 		{8829F489-A966-4321-BD4A-FDC4536D0BBA} = {BB8A5BF2-C41F-4330-B55B-D1097569B529}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution

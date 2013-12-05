@@ -4,7 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 
 
-namespace UnitTests
+namespace LASI.Core.Tests
 {
 
 

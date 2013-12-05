@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace UnitTests
+namespace LASI.Core.Tests
 {
     /// <summary>
     ///This is A test class for FunctionExtensionsTest and is intended

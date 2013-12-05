@@ -1,39 +1,39 @@
-﻿using LASI.Core;
+﻿using LASI.ContentSystem;
+using LASI.Core;
 using LASI.Core.Binding;
+using LASI.Core.DocumentStructures;
 using LASI.Core.Heuristics;
 using LASI.Core.Heuristics.Morphemization;
-using LASI.ContentSystem;
-using System;
 using LASI.Core.Patternization;
+using LASI.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using LASI.Core.DocumentStructures;
-using LASI.Utilities;
 
 namespace LASI.Experimentation.CommandLine
 {
     using VerbalsSet = System.Collections.Generic.IEnumerable<IVerbal>;
+    class Program
+    {
 
+        static void Main(string[] args) {
+            var doc = Tagger.DocumentFromRaw(new[] { "Hello there you fool." });
 
-}
-class Program
-{
+            var d = doc.GetEntities().FirstOrDefault();
+            var k = d.Match()
+                .Yield<string>()
+                .With((IEntity e) => e.Text)
+                .Result();
+            Output.WriteLine(doc);
 
-    static void Main(string[] args) {
-        var doc = Tagger.DocumentFromRaw(new[] { "Hello there you fool." });
+            Output.WriteLine(0.To(10).Format());
 
-         var d = doc.GetEntities().FirstOrDefault();
-        var k = d.Match()
-            .Yield<string>()
-            .With((IEntity e) => e.Text)
-            .Result();
-        Output.WriteLine(doc);
-
-        Output.WriteLine(0.To(10).Format());
-
-        Input.WaitForKey();
+            Input.WaitForKey();
+        }
     }
+
+
 }
 

@@ -5,7 +5,7 @@ using System;
 using System.Linq;
 
 
-namespace UnitTests
+namespace LASI.Core.Tests
 {
 
 
