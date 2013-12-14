@@ -1,12 +1,13 @@
 ﻿using LASI;
 using LASI.Core;
+using LASI.Core.Interop.Reporting;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace LASI.Core.Heuristics
 {
-    internal abstract class WordNetLookup<TWord> where TWord : Word
+    internal abstract class WordNetLookup<TWord> : Progress<ResourceLoadedEventArgs> where TWord : Word
     {
         /// <summary> 
         /// Loads relevant synyonym data and performs additional initialization.
@@ -37,5 +38,6 @@ namespace LASI.Core.Heuristics
             get;
         }
         protected const int HEADER_LENGTH = 29;
+
     }
 }

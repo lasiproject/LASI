@@ -9,7 +9,7 @@
     <ProjectGuid>{F4ABC10C-0BE9-4195-99E7-DB027757EC6B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>UnitTests</RootNamespace>
+    <RootNamespace>L_CoreTests</RootNamespace>
     <AssemblyName>L_Core_Test</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -113,6 +113,7 @@
     <Compile Include="IInderectObjectTakerTest.cs" />
     <Compile Include="ILexicalTest.cs" />
     <Compile Include="IModalityModifiableTest.cs" />
+    <Compile Include="LexicalComparisonAndCategorization\LookupTests.cs" />
     <Compile Include="ModalTest.cs" />
     <Compile Include="NounConjugatorTest.cs" />
     <Compile Include="NounPhraseTest.cs" />

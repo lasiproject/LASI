@@ -132,7 +132,7 @@ namespace LASI.ContentSystem
         /// <summary>
         /// Gets the simple file name of the InputFile. This does not include its extension.
         /// </summary>
-        public string TextSourceName {
+        public string Name {
             get { return NameSansExt; }
         }
     }

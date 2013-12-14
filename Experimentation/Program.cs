@@ -14,23 +14,77 @@ using System.Threading.Tasks;
 
 namespace LASI.Experimentation.CommandLine
 {
-    using VerbalsSet = System.Collections.Generic.IEnumerable<IVerbal>;
     class Program
     {
 
         static void Main(string[] args) {
-            var doc = Tagger.DocumentFromRaw(new[] { "Hello there you fool." });
+            var document = Tagger.DocumentFromRaw(new[] { "Hello there you fool." });
 
-            var d = doc.GetEntities().FirstOrDefault();
-            var k = d.Match()
+            var dd = document.OfEntity().FirstOrDefault();
+            var k = dd.Match()
                 .Yield<string>()
                 .With((IEntity e) => e.Text)
                 .Result();
-            Output.WriteLine(doc);
+            Output.WriteLine(document);
 
             Output.WriteLine(0.To(10).Format());
 
             Input.WaitForKey();
+
+
+
+
+
+
+
+
+
+            var toAttack = new Verb("attack", VerbForm.Base);
+
+            var warlike = new Adjective("warlike");
+
+            var bellicoseDescriptors =
+                from d in document.Words.OfAdjective()
+                where d.IsSimilarTo(warlike)
+                select d;
+
+            var bellicoseVerbals =
+                from act in document.OfAction()
+                where act.IsSimilarTo(toAttack)
+                select act;
+
+            var bellicoseIndividuals =
+                from entity in document.OfEntity().InSubjectRole()
+                where bellicoseDescriptors.Intersect(entity.Descriptors).Any()
+                || bellicoseVerbals.Contains(entity.SubjectOf)
+                select entity;
+
+            var attackerAttackeePairs =
+                from victim in document.OfEntity().InObjectRole()
+                from attacker in bellicoseIndividuals
+                from act in bellicoseVerbals
+                where attacker.IsRelatedTo(victim).On(act)
+                select new { attacker, victim };
+
+            var thoseWhoHaveYetToAttack =
+                bellicoseIndividuals.Except(
+                from pair in attackerAttackeePairs
+                select pair.attacker);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         }
     }
 

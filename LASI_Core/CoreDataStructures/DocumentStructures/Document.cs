@@ -89,7 +89,7 @@ namespace LASI.Core.DocumentStructures
         /// Returns all of the Action identified within the docimument.
         /// </summary>
         /// <returns>all of the Action identified within the docimument.</returns>
-        public IEnumerable<IVerbal> GetActions() {
+        public IEnumerable<IVerbal> OfAction() {
             return from a in words.OfVerb().Concat<IVerbal>(phrases.OfVerbPhrase())
                    select a;
         }
@@ -98,7 +98,7 @@ namespace LASI.Core.DocumentStructures
         /// Returns all of the word and phrase level describables identified in the document.
         /// </summary>
         /// <returns> All of the word and phrase level describables identified in the document.</returns>
-        public IEnumerable<IEntity> GetEntities() {
+        public IEnumerable<IEntity> OfEntity() {
             return from e in words.OfType<IEntity>().Concat(phrases.OfType<IEntity>())
                    select e;
         }

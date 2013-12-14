@@ -44,8 +44,8 @@ namespace LASI.App
         /// <returns>A System.Threading.Tasks.Task representing the asynchronous processing operation.</returns>
         public async Task ParseDocuments() {
 
-            var processController = new ProcessController();
-            processController.ProgressChanged += async (sender, e) => {
+            var analysisProvider = new AnalysisController(FileManager.TextFiles);
+            analysisProvider.ProgressChanged += async (sender, e) => {
                 progressLabel.Content = e.Message;
                 progressBar.ToolTip = e.Message;
                 var animateStep = 0.028 * e.Increment;
@@ -54,17 +54,16 @@ namespace LASI.App
                     await Task.Delay(1);
                 }
             };
-            var analyzedDocuments = await processController.AnalyseAllDocumentsAsync(FileManager.TextFiles);
+            WindowManager.ResultsScreen.Documents = await analysisProvider.ProcessAsync();
 
             progressBar.Value = 100;
             progressLabel.Content = "Complete";
             progressBar.ToolTip = "Complete";
-            WindowManager.ResultsScreen.Documents = analyzedDocuments.ToList();
             proceedtoResultsButton.Visibility = Visibility.Visible;
             NativeMethods.StartFlashing(this);
-            if (ProcessingCompleted != null) {
-                ProcessingCompleted(this, new EventArgs());
-            }
+
+            ProcessingCompleted(this, new EventArgs());
+
             await WindowManager.ResultsScreen.CreateWeightViewsForAllDocumentsAsync();
             await WindowManager.ResultsScreen.BuildTextViewsForAllDocumentsAsync();
 
@@ -182,7 +181,7 @@ namespace LASI.App
         /// <summary>
         /// Raised when processing of all documents has been completed.
         /// </summary>
-        public event EventHandler ProcessingCompleted;
+        public event EventHandler ProcessingCompleted = delegate { };
 
     }
 }

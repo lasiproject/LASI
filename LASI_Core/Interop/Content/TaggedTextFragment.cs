@@ -19,7 +19,7 @@ namespace LASI.Core
         /// <param name="name">The desired name of the TaggedTextFragment. This name does not have to be unique and serves no special purpose. It is simply provided for convenience.</param>
         public TaggedTextFragment(string text, string name) {
             taggedText = text;
-            TextSourceName = name;
+            Name = name;
         }
         /// <summary>
         /// Initializes a new instance of the TaggedTextFragment class containing the provided text and having the provided name.
@@ -28,7 +28,7 @@ namespace LASI.Core
         /// <param name="name">The desired name of the TaggedTextFragment. This name does not have to be unique and serves no special purpose. It is simply provided for convenience.</param>
         public TaggedTextFragment(IEnumerable<string> text, string name) {
             taggedText = string.Join("\n", text);
-            TextSourceName = name;
+            Name = name;
         }
 
         /// <summary>
@@ -48,7 +48,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets the name associated with the TaggedTextFragment.
         /// </summary>
-        public string TextSourceName { get; private set; }
+        public string Name { get; private set; }
 
         private string taggedText;
 

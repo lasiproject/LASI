@@ -25,12 +25,18 @@ namespace LASI.Core.Heuristics
         /// Parses the contents of the underlying WordNet database file.
         /// </summary> 
         internal override void Load() {
-            using (var reader = new StreamReader(new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.None, 10024, FileOptions.SequentialScan))) {
-                var fileLines = reader.ReadToEnd().Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries).Skip(HEADER_LENGTH);
-                foreach (var line in fileLines) {
-                    LinkSynset(CreateSet(line));
-                }
-                reader.BaseStream.Dispose();
+            using (var reader = new StreamReader(filePath)) {
+                OnReport(new ResourceLoadedEventArgs("Parsing File", 0));
+                var sets = reader.ReadToEnd().SplitRemoveEmpty('\n')
+                    .Skip(HEADER_LENGTH)
+                    .AsParallel()
+                    .Select(line => CreateSet(line));
+                OnReport(new ResourceLoadedEventArgs("Mapping Sets", 0));
+
+                foreach (var set in sets)
+                    LinkSynset(set);
+                OnReport(new ResourceLoadedEventArgs("Loaded", 0));
+
             }
         }
 
@@ -54,47 +60,42 @@ namespace LASI.Core.Heuristics
         private void LinkSynset(VerbSynSet synset) {
             setsBySetID[synset.Id] = synset;
             foreach (var word in synset.Words) {
-                if (data.ContainsKey(word)) {
-                    var newSet = new VerbSynSet(
-                        data[word].Id,
-                        data[word].Words.Concat(synset.Words),
-                        data[word].RelatedSetsByRelationKind
-                            .Concat(synset.RelatedSetsByRelationKind)
-                            .SelectMany(grouping => grouping.Select(pointer => new SetReference(grouping.Key, pointer))), data[word].LexicalCategory);
-                    data[word] = newSet;
-                } else {
-                    data[word] = synset;
-                }
+                data[word] = data.ContainsKey(word) ?
+                new VerbSynSet(data[word].Id,
+                    data[word].Words.Concat(synset.Words),
+                    data[word].RelatedSetsByRelationKind
+                    .Concat(synset.RelatedSetsByRelationKind)
+                    .SelectMany(grouping => grouping.Select(pointer => new SetReference(grouping.Key, pointer))), synset.LexicalCategory)
+
+            : data[word] = synset;
             }
         }
 
         private ISet<string> SearchFor(string search) {
-            try {
-                var result = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-                var verbRoots = VerbMorpher.FindRoots(search);
-                VerbSynSet containingSet = null;
-                foreach (var root in verbRoots) {
-                    VerbSynSet tryGetVal;
-                    if (data.TryGetValue(root, out tryGetVal)) { containingSet = tryGetVal; } else {
-                        try {
-                            containingSet = data.First(kv => kv.Value.Words.Contains(root)).Value;
-                        }
-                        catch (InvalidOperationException) { }
-                    }
-                    result.UnionWith(containingSet != null ?
-                        containingSet.ReferencedIndeces
-                             .SelectMany(id => { VerbSynSet temp; return setsBySetID.TryGetValue(id, out temp) ? temp.ReferencedIndeces : Enumerable.Empty<int>(); })
-                             .Select(s => { VerbSynSet temp; return setsBySetID.TryGetValue(s, out temp) ? temp : null; })
-                             .Where(s => s != null)
-                             .Where(s => s.LexicalCategory == containingSet.LexicalCategory)
-                             .SelectMany(s => s.Words.SelectMany(w => VerbMorpher.GetConjugations(w)))
-                             .Append(root) : new[] { search });
-                }
-                return result;
-            }
-            catch (KeyNotFoundException) {
-            }
-            return new HashSet<string>(new[] { search }, StringComparer.OrdinalIgnoreCase);
+
+            var result = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            var verbRoots = VerbMorpher.FindRoots(search);
+
+            result.UnionWith(verbRoots.AsParallel().SelectMany(root => {
+
+                VerbSynSet containingSet;
+                data.TryGetValue(root, out containingSet);
+
+                containingSet = containingSet ??
+                data.Where(kv => kv.Value.Words.Contains(root)).Select(kv => kv.Value).FirstOrDefault();
+
+                return containingSet != null ?
+                    containingSet.ReferencedIndeces
+                         .SelectMany(id => { VerbSynSet temp; return setsBySetID.TryGetValue(id, out temp) ? temp.ReferencedIndeces : Enumerable.Empty<int>(); })
+                         .Select(id => { VerbSynSet temp; return setsBySetID.TryGetValue(id, out temp) ? temp : null; })
+                         .Where(set => set != null)
+                         .Where(set => set.LexicalCategory == containingSet.LexicalCategory)
+                         .SelectMany(set => set.Words.SelectMany(w => VerbMorpher.GetConjugations(w)))
+                         .Append(root) : new[] { search };
+            }));
+            return result;
+
+            //return new HashSet<string>(new[] { search }, StringComparer.OrdinalIgnoreCase);
         }
 
         /// <summary>
@@ -200,5 +201,7 @@ namespace LASI.Core.Heuristics
             /// </summary>
             Weather,
         }
+
+
     }
 }

@@ -112,6 +112,7 @@
     <Compile Include="CoreDataStructures\LexicalStructures\NounRelatedConstructs\Gender.cs" />
     <Compile Include="InterDocumentAnalalysis\CrossDocumentJoiner.cs" />
     <Compile Include="InterDocumentAnalalysis\SVORelationship.cs" />
+    <Compile Include="Interop\Reporting\ReportEventArgs.cs" />
     <Compile Include="LexicalComparisonAndCategorization\AdverbialSimilarityProvider.cs" />
     <Compile Include="LexicalComparisonAndCategorization\RepresentationalDeterminer.cs" />
     <Compile Include="LexicalComparisonAndCategorization\VerbalSimilarityProvider.cs" />

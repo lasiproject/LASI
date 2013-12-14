@@ -272,14 +272,12 @@ namespace LASI.Core.Heuristics
         private static WordNetLookup<TWord> LazyLoad<TWord>(WordNetLookup<TWord> lookup) where TWord : Word {
             var startedHandler = ResourceLoading;
             var resourceName = typeof(TWord).Name + " Thesaurus";
-            if (startedHandler != null) {
-                startedHandler(new object(), resourceName);
-            }
+
+            ResourceLoading(null, new ResourceLoadedEventArgs(resourceName, 0));
+            var timer = System.Diagnostics.Stopwatch.StartNew();
             lookup.Load();
-            var finishedHandler = ResourceLoaded;
-            if (finishedHandler != null) {
-                finishedHandler(new object(), resourceName);
-            }
+            ResourceLoaded(null, new ResourceLoadedEventArgs(resourceName, 1 / 5f) { ElapsedTime = timer.ElapsedMilliseconds });
+
             return lookup;
         }
 
@@ -299,11 +297,12 @@ namespace LASI.Core.Heuristics
         /// <summary>
         /// Raised when a resource starts loading.
         /// </summary>
-        public static event EventHandler<string> ResourceLoading = delegate { };
+        public static event EventHandler<ResourceLoadedEventArgs> ResourceLoading = delegate { };
         /// <summary>
         /// Raised when a data set resource finishes loading.
         /// </summary>
-        public static event EventHandler<string> ResourceLoaded = delegate { };
+        public static event EventHandler<ResourceLoadedEventArgs> ResourceLoaded = delegate { };
+
         #endregion
 
 
@@ -345,16 +344,11 @@ namespace LASI.Core.Heuristics
 
         static Lazy<NameProvider> names = new Lazy<NameProvider>(() => {
             var resourceName = "Name Data";
-            var startedHandler = ResourceLoading;
-            if (startedHandler != null) {
-                startedHandler(new object(), resourceName);
-            }
+            ResourceLoading(null, new ResourceLoadedEventArgs(resourceName, 0));
+            var timer = System.Diagnostics.Stopwatch.StartNew();
             var val = new NameProvider();
             val.Load();
-            var finishedHandler = ResourceLoaded;
-            if (finishedHandler != null) {
-                finishedHandler(new object(), resourceName);
-            }
+            ResourceLoaded(null, new ResourceLoadedEventArgs(resourceName, 0) { ElapsedTime = timer.ElapsedMilliseconds });
             return val;
         }, true);
 
@@ -362,23 +356,23 @@ namespace LASI.Core.Heuristics
             get { return Lookup.names.Value; }
         }
 
-        static Lazy<ISet<string>> scrabbleDictionary = new Lazy<ISet<string>>(() => {
+        private static Lazy<ISet<string>> scrabbleDictionary = new Lazy<ISet<string>>(() => {
             var resourceName = "Scrabble Dictionary";
-            var startedHandler = ResourceLoading;
-            if (startedHandler != null) {
-                startedHandler(new object(), resourceName);
-            }
+
+            ResourceLoading(null, new ResourceLoadedEventArgs(resourceName, 0));
+            var timer = System.Diagnostics.Stopwatch.StartNew();
             ISet<string> dict;
             using (var reader = new StreamReader(scrabbleDictsFilePath)) {
                 dict = reader.ReadToEnd().SplitRemoveEmpty('\r', '\n')
                       .Select(s => s.ToLower())
-                      .Except(Names.AllNameStrings, StringComparer.OrdinalIgnoreCase)
+                      .Except(Names.AllNames, StringComparer.OrdinalIgnoreCase)
                       .ToHashSet(StringComparer.OrdinalIgnoreCase);
             }
-            var finishedHandler = ResourceLoaded;
-            if (finishedHandler != null) {
-                finishedHandler(new object(), resourceName);
-            }
+
+
+            ResourceLoaded(null, new ResourceLoadedEventArgs(resourceName, 0) { ElapsedTime = timer.ElapsedMilliseconds });
+
+            timer.Stop();
             return dict;
         }, true);
 
@@ -468,7 +462,7 @@ namespace LASI.Core.Heuristics
             /// <summary>
             /// Gets a sequence of all known Last Names.
             /// </summary>
-            public IReadOnlyCollection<string> Last {
+            public IReadOnlyCollection<string> LastNames {
                 get {
                     return last.ToList().AsReadOnly();
                 }
@@ -476,7 +470,7 @@ namespace LASI.Core.Heuristics
             /// <summary>
             /// Gets a sequence of all known Female Names.
             /// </summary>
-            public IReadOnlyCollection<string> Female {
+            public IReadOnlyCollection<string> FemaleNames {
                 get {
                     return female.ToList().AsReadOnly();
                 }
@@ -484,7 +478,7 @@ namespace LASI.Core.Heuristics
             /// <summary>
             /// Gets a sequence of all known Male Names.
             /// </summary>
-            public IReadOnlyCollection<string> Male {
+            public IReadOnlyCollection<string> MaleNames {
                 get {
                     return male.ToList().AsReadOnly();
                 }
@@ -492,12 +486,12 @@ namespace LASI.Core.Heuristics
             /// <summary>
             /// Gets a sequence of all known Names which are just as likely to be Female or Male.
             /// </summary>
-            public IReadOnlyCollection<string> GenderAmbiguous {
+            public IReadOnlyCollection<string> GenderAmbiguousNames {
                 get {
                     return genderAmbiguous.ToList().AsReadOnly();
                 }
             }
-            public IReadOnlyCollection<string> AllNameStrings {
+            public IReadOnlyCollection<string> AllNames {
                 get { return last.Union(male, comparer).Union(female, comparer).Union(genderAmbiguous, comparer).ToList().AsReadOnly(); }
             }
 
@@ -518,5 +512,28 @@ namespace LASI.Core.Heuristics
 
         }
         #endregion
+    }
+    [Serializable]
+    [System.Runtime.InteropServices.ComVisible(true)]
+    public class ResourceLoadedEventArgs : LASI.Core.Interop.Reporting.ReportEventArgs
+    {
+        internal ResourceLoadedEventArgs() {
+            ElapsedTime = 0L;
+            Message = string.Empty;
+        }
+
+        public ResourceLoadedEventArgs(string message, double increment) {
+            Message = message;
+            Increment = increment;
+        }
+
+        public override string Message { get; protected set; }
+
+        public long ElapsedTime { get; internal set; }
+
+        public override double Increment {
+            get;
+            protected set;
+        }
     }
 }

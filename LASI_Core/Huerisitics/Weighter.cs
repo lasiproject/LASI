@@ -63,17 +63,10 @@ namespace LASI.Core
         }
 
         static void ExecuteTask(Task phase, string documentSpecificMessageText, double numericValue) {
-            PhaseStarted(new object(), new WeightingUpdateEventArgs
-            {
-                Message = documentSpecificMessageText,
-                Increment = numericValue
-            });
+            PhaseStarted(new object(), new WeightingUpdateEventArgs(documentSpecificMessageText, numericValue)
+            );
             phase.Wait();
-            PhaseFinished(new object(), new WeightingUpdateEventArgs
-            {
-                Message = documentSpecificMessageText,
-                Increment = numericValue
-            });
+            PhaseFinished(new object(), new WeightingUpdateEventArgs(documentSpecificMessageText, numericValue));
         }
 
 
@@ -186,9 +179,9 @@ namespace LASI.Core
 
         }
         private static void WeightSimilarEntities(Document document) {
-            var entities = document.GetEntities().ToList();
+            var entities = document.OfEntity().ToList();
 
-            document.GetEntities().AsParallel().WithDegreeOfParallelism(Concurrency.Max).ForAll(outer => {
+            document.OfEntity().AsParallel().WithDegreeOfParallelism(Concurrency.Max).ForAll(outer => {
                 var groups = from inner in entities.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                              where inner.IsAliasFor(outer) || inner.IsSimilarTo(outer)
                              group inner by outer;
@@ -249,23 +242,23 @@ namespace LASI.Core
     /// </summary>
     [Serializable]
     [System.Runtime.InteropServices.ComVisible(true)]
-    public class WeightingUpdateEventArgs : EventArgs
+    public class WeightingUpdateEventArgs : LASI.Core.Interop.Reporting.ReportEventArgs
     {
         /// <summary>
         /// Initializes a new instance of the WeightingUpdateEventArgs class.
         /// </summary>
-        internal WeightingUpdateEventArgs() {
-            Message = "";
-            Increment = 0;
+        internal WeightingUpdateEventArgs(string message, double increment) {
+            Message = message;
+            Increment = increment;
         }
         /// <summary>
         /// Gets a value representing the magnitude of the status update. The default value is 0.
         /// </summary>
-        public double Increment { get; internal set; }
+        public override double Increment { get; protected set; }
         /// <summary>
         /// Gets a textual discription of the status update.
         /// </summary>
-        public string Message { get; internal set; }
+        public override string Message { get; protected set; }
     }
 
 }

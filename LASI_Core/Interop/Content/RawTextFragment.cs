@@ -19,7 +19,7 @@ namespace LASI.Core
         /// <param name="name">The desired name of the RawTextFragment. This name does not have to be unique and serves no special purpose. It is simply provided for convenience.</param>
         public RawTextFragment(string text, string name) {
             content = text;
-            TextSourceName = name;
+            Name = name;
         }
         /// <summary>
         /// Initializes a new instance of the RawTextFragment class containing the provided text and having the provided name.
@@ -28,7 +28,7 @@ namespace LASI.Core
         /// <param name="name">The desired name of the RawTextFragment. This name does not have to be unique and serves no special purpose. It is simply provided for convenience.</param>
         public RawTextFragment(IEnumerable<string> text, string name) {
             content = string.Join("\n", text);
-            TextSourceName = name;
+            Name = name;
         }
         /// <summary>
         /// Returns a single string containing all of the Raw Text in the RawTextFragment.
@@ -47,7 +47,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets the name associated with the RawTextFragment.
         /// </summary>
-        public string TextSourceName {
+        public string Name {
             get;
             private set;
         }

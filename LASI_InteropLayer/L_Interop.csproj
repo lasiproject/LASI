@@ -53,7 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="PerformanceManager.cs" />
-    <Compile Include="ProcessController.cs" />
+    <Compile Include="AnalysisController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

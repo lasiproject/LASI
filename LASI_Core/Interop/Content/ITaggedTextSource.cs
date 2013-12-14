@@ -24,7 +24,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets the name associated with the ITaggedTextSource.
         /// </summary>
-        string TextSourceName {
+        string Name {
             get;
         }
     }
