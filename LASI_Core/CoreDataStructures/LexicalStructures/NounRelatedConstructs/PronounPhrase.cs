@@ -10,8 +10,8 @@ using System.Threading.Tasks;
 namespace LASI.Core
 {
     /// <summary>
-    /// This class is Experimental! It represents a PronounPhrase. A PronounPhrase is a custom Phrase type introduced by LASI.
-    /// It it corresponds to NounPhrases which either contain almost exclusively Pronoun Words or which can be contextually 
+    /// <para> This class is Experimental! It represents a PronounPhrase. A PronounPhrase is a custom Phrase type introduced by LASI. </para>
+    /// <para> It it corresponds to NounPhrases which either contain almost exclusively Pronoun Words or which can be contextually  </para>
     /// determined to refer to some previously mentioned entity within a constraned scope.
     /// </summary>
     public class PronounPhrase : NounPhrase, IReferencer

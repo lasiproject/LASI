@@ -52,7 +52,7 @@ namespace LASI.Core
         /// Binds another IReferencer, generally another Pronoun but possibly a PronounPhrase, to refer to the Pronoun.
         /// </summary>
         /// <param name="pro">An IReferencer which will be bound to refer to the Pronoun.</param>
-        public virtual void BindPronoun(IReferencer pro) {
+        public virtual void BindReferencer(IReferencer pro) {
             boundPronouns.Add(pro);
             pro.BindAsReference(this);
         }

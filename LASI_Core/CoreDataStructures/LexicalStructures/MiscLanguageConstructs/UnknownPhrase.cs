@@ -7,8 +7,8 @@ using System.Xml.Linq;
 namespace LASI.Core
 {
     /// <summary>
-    /// Represents a Phrase which does not correspond to a known category.
-    /// This may be the result of a Tagging error or a Tag-Parsing error.
+    /// <para> Represents a Phrase which does not correspond to a known category. </para>
+    /// <para> This may be the result of a Tagging error or a Tag-Parsing error. </para>
     /// </summary>
     public class UnknownPhrase : Phrase
     {

@@ -6,8 +6,8 @@ using System.Text;
 namespace LASI.Core
 {
     /// <summary>
-    /// Defines the role requirements for Describable constructs, often Nouns or NounPhrases, which can be be modified by any number of discriptive constructs.
-    /// Along with the other interfaces in the Syntactic Interfaces Library, the IDescribable interface provides for generalization and abstraction over word and Phrase types.
+    /// <para>Defines the role requirements for Describable constructs, often Nouns or NounPhrases, which can be be modified by any number of discriptive constructs.</para>
+    /// <para>Along with the other interfaces in the Syntactic Interfaces Library, the IDescribable interface provides for generalization and abstraction over word and Phrase types.</para>
     /// </summary>
     /// <see cref="IDescriptor"/>
     public interface IDescribable : ILexical

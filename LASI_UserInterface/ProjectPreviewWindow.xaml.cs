@@ -126,7 +126,7 @@ namespace LASI.App
 
         }
         private async void Grid_Drop(object sender, DragEventArgs e) {
-            await SharedFunctionality.HandleDropAddAttemptAsync(this,
+            await SharedWindowFunctionality.HandleDropAddAttemptAsync(this,
                 e,
                 async fi => {
                     DocumentManager.AddDocument(fi.Name, fi.FullName);
@@ -169,7 +169,7 @@ namespace LASI.App
         }
 
         private void MenuItem_Click(object sender, RoutedEventArgs e) {
-            SharedFunctionality.ProcessOpenWebsiteRequest(this);
+            SharedWindowFunctionality.ProcessOpenWebsiteRequest(this);
         }
 
         private void AddDocument_CommandBinding_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e) {
@@ -182,11 +182,11 @@ namespace LASI.App
         }
 
         private void OpenPreferences_CommandBinding_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e) {
-            SharedFunctionality.OpenPreferencesWindow(this);
+            SharedWindowFunctionality.OpenPreferencesWindow(this);
         }
 
         private void OpenManual_CommandBinding_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e) {
-            SharedFunctionality.ProcessOpenManualRequest(this);
+            SharedWindowFunctionality.ProcessOpenManualRequest(this);
         }
 
 

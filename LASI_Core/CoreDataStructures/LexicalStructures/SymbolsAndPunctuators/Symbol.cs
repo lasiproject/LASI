@@ -6,7 +6,8 @@ using System.Text;
 namespace LASI.Core
 {
     /// <summary>
-    /// Represents a symbol existing at the Word level. E.g. in the sentence "They had over $ 100" "$" is symbol acting as a word in that it is a separate token and is modified by 100.
+    /// <para> Represents a symbol existing at the Word level. </para>  
+    /// <para> E.g. in the sentence "They had over $ 100" "$" is symbol acting as a word in that it is a separate token and is modified by 100. </para>
     /// </summary>
     public class Symbol : Word
     {

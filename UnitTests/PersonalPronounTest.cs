@@ -84,7 +84,7 @@ namespace LASI.Core.Tests
             string text = "him";
             PersonalPronoun target = new PersonalPronoun(text);
             Pronoun pro = new PersonalPronoun("them");
-            target.BindPronoun(pro);
+            target.BindReferencer(pro);
             Assert.IsTrue(target.Referees.Contains(pro));
         }
 
@@ -157,7 +157,7 @@ namespace LASI.Core.Tests
             string text = "he";
             PersonalPronoun target = new PersonalPronoun(text);
             Pronoun referencer = new PersonalPronoun("himslef");
-            target.BindPronoun(referencer);
+            target.BindReferencer(referencer);
             Assert.IsTrue(target.Referees.Contains(referencer));
         }
 

@@ -84,7 +84,8 @@ namespace LASI.Core.Heuristics
             return GetNounPhraseGender(name).IsMale();
         }
 
-
+        // TODO: refactor these two methods. their interaction is very opaque and error prone. Although they are private, they make maintaining related algorithms difficult.
+        #region
         private static Gender GetNounPhraseGender(NounPhrase name) {
             var propers = name.Words
                 .OfProperNoun();
@@ -110,6 +111,7 @@ namespace LASI.Core.Heuristics
                 genders.Any() && genders.All(g => g.IsNeutral()) ? Gender.Neutral :
                 Gender.Unknown;
         }
+        #endregion
 
         #endregion
 
@@ -188,6 +190,7 @@ namespace LASI.Core.Heuristics
             return FindSynonyms(adverb);
         }
 
+
         /// <summary>
         /// Determines if two Noun instances are synonymous.
         /// </summary>
@@ -232,8 +235,6 @@ namespace LASI.Core.Heuristics
         public static bool IsSynonymFor(this Adjective word, Adjective other) {
             return FindSynonyms(word).Contains(other.Text);
         }
-
-
         /// <summary>
         /// Determines if two Adverb instances are synonymous.
         /// </summary>
@@ -273,10 +274,10 @@ namespace LASI.Core.Heuristics
             var startedHandler = ResourceLoading;
             var resourceName = typeof(TWord).Name + " Thesaurus";
 
-            ResourceLoading(null, new ResourceLoadedEventArgs(resourceName, 0));
+            ResourceLoading(null, new ResourceLoadEventArgs(resourceName, 0));
             var timer = System.Diagnostics.Stopwatch.StartNew();
             lookup.Load();
-            ResourceLoaded(null, new ResourceLoadedEventArgs(resourceName, 1 / 5f) { ElapsedTime = timer.ElapsedMilliseconds });
+            ResourceLoaded(null, new ResourceLoadEventArgs(resourceName, 1 / 5f) { ElapsedTime = timer.ElapsedMilliseconds });
 
             return lookup;
         }
@@ -297,28 +298,28 @@ namespace LASI.Core.Heuristics
         /// <summary>
         /// Raised when a resource starts loading.
         /// </summary>
-        public static event EventHandler<ResourceLoadedEventArgs> ResourceLoading = delegate { };
+        public static event EventHandler<ResourceLoadEventArgs> ResourceLoading = delegate { };
         /// <summary>
         /// Raised when a data set resource finishes loading.
         /// </summary>
-        public static event EventHandler<ResourceLoadedEventArgs> ResourceLoaded = delegate { };
+        public static event EventHandler<ResourceLoadEventArgs> ResourceLoaded = delegate { };
 
         #endregion
 
 
-        internal static WordNetLookup<Noun> NounLookup {
+        private static WordNetLookup<Noun> NounLookup {
             get { return Lookup.nounLookup.Value; }
         }
 
-        internal static WordNetLookup<Verb> VerbLookup {
+        private static WordNetLookup<Verb> VerbLookup {
             get { return Lookup.verbLookup.Value; }
         }
 
-        internal static WordNetLookup<Adjective> AdjectiveLookup {
+        private static WordNetLookup<Adjective> AdjectiveLookup {
             get { return Lookup.adjectiveLookup.Value; }
         }
 
-        internal static WordNetLookup<Adverb> AdverbLookup {
+        private static WordNetLookup<Adverb> AdverbLookup {
             get { return Lookup.adverbLookup.Value; }
         }
         #region Private Fields
@@ -344,11 +345,11 @@ namespace LASI.Core.Heuristics
 
         static Lazy<NameProvider> names = new Lazy<NameProvider>(() => {
             var resourceName = "Name Data";
-            ResourceLoading(null, new ResourceLoadedEventArgs(resourceName, 0));
+            ResourceLoading(null, new ResourceLoadEventArgs(resourceName, 0));
             var timer = System.Diagnostics.Stopwatch.StartNew();
             var val = new NameProvider();
             val.Load();
-            ResourceLoaded(null, new ResourceLoadedEventArgs(resourceName, 0) { ElapsedTime = timer.ElapsedMilliseconds });
+            ResourceLoaded(null, new ResourceLoadEventArgs(resourceName, 0) { ElapsedTime = timer.ElapsedMilliseconds });
             return val;
         }, true);
 
@@ -359,7 +360,7 @@ namespace LASI.Core.Heuristics
         private static Lazy<ISet<string>> scrabbleDictionary = new Lazy<ISet<string>>(() => {
             var resourceName = "Scrabble Dictionary";
 
-            ResourceLoading(null, new ResourceLoadedEventArgs(resourceName, 0));
+            ResourceLoading(null, new ResourceLoadEventArgs(resourceName, 0));
             var timer = System.Diagnostics.Stopwatch.StartNew();
             ISet<string> dict;
             using (var reader = new StreamReader(scrabbleDictsFilePath)) {
@@ -370,7 +371,7 @@ namespace LASI.Core.Heuristics
             }
 
 
-            ResourceLoaded(null, new ResourceLoadedEventArgs(resourceName, 0) { ElapsedTime = timer.ElapsedMilliseconds });
+            ResourceLoaded(null, new ResourceLoadEventArgs(resourceName, 0) { ElapsedTime = timer.ElapsedMilliseconds });
 
             timer.Stop();
             return dict;
@@ -513,27 +514,10 @@ namespace LASI.Core.Heuristics
         }
         #endregion
     }
-    [Serializable]
-    [System.Runtime.InteropServices.ComVisible(true)]
-    public class ResourceLoadedEventArgs : LASI.Core.Interop.Reporting.ReportEventArgs
-    {
-        internal ResourceLoadedEventArgs() {
-            ElapsedTime = 0L;
-            Message = string.Empty;
-        }
 
-        public ResourceLoadedEventArgs(string message, double increment) {
-            Message = message;
-            Increment = increment;
-        }
 
-        public override string Message { get; protected set; }
 
-        public long ElapsedTime { get; internal set; }
 
-        public override double Increment {
-            get;
-            protected set;
-        }
-    }
+
+
 }

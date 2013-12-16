@@ -51,7 +51,7 @@ namespace LASI.Core.Binding.Experimental
 
         public IVerbal IndirectObjectOf { get; set; }
 
-        public void BindPronoun(IReferencer pro) {
+        public void BindReferencer(IReferencer pro) {
             if (!boundPronouns.Contains(pro)) { boundPronouns.Add(pro); }
         }
 

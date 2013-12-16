@@ -52,7 +52,7 @@ namespace LASI.Core
         /// Binds an EntityReferencer, generall a Pronoun or PronounPhrase to refer to the RelativePronoun.
         /// </summary>
         /// <param name="pro">The EntityReferency to Bind.</param>
-        public void BindPronoun(IReferencer pro) {
+        public void BindReferencer(IReferencer pro) {
             boundPronouns.Add(pro);
             pro.BindAsReference(this);
         }

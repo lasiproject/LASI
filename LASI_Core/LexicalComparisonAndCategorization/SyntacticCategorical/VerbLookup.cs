@@ -26,16 +26,16 @@ namespace LASI.Core.Heuristics
         /// </summary> 
         internal override void Load() {
             using (var reader = new StreamReader(filePath)) {
-                OnReport(new ResourceLoadedEventArgs("Parsing File", 0));
+                OnReport(new ResourceLoadEventArgs("Parsing File", 0));
                 var sets = reader.ReadToEnd().SplitRemoveEmpty('\n')
                     .Skip(HEADER_LENGTH)
                     .AsParallel()
                     .Select(line => CreateSet(line));
-                OnReport(new ResourceLoadedEventArgs("Mapping Sets", 0));
+                OnReport(new ResourceLoadEventArgs("Mapping Sets", 0));
 
                 foreach (var set in sets)
                     LinkSynset(set);
-                OnReport(new ResourceLoadedEventArgs("Loaded", 0));
+                OnReport(new ResourceLoadEventArgs("Loaded", 0));
 
             }
         }

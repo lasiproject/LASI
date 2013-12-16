@@ -6,9 +6,9 @@ using System.Xml.Linq;
 namespace LASI.Core
 {
     /// <summary>
-    /// Represents interjection words, such as "by-jove!"
-    /// Not common in strategic documents, but they are necessary to properly map to the Tagset.
-    /// And its nice to write "by-jove!" in documentation.
+    /// <para> Represents interjection words, such as "by-jove!" </para>
+    /// <para> Not common in strategic documents, but they are necessary to properly map to the Tagset. </para>
+    /// <para> And its nice to write "by-jove!" in documentation. </para>
     /// </summary>
     public class Interjection : Word
     {

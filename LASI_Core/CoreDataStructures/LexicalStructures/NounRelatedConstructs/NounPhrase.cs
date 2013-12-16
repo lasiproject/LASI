@@ -51,7 +51,7 @@ namespace LASI.Core
         /// Binds an IPronoun, generally a Pronoun or PronounPhrase, as a reference to the NounPhrase.
         /// </summary>
         /// <param name="pro">The referencer which refers to the NounPhrase Instance.</param>
-        public virtual void BindPronoun(IReferencer pro) {
+        public virtual void BindReferencer(IReferencer pro) {
             boundPronouns.Add(pro);
             pro.BindAsReference(this);
         }

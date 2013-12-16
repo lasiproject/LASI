@@ -135,7 +135,7 @@ namespace LASI.Core.Tests
                                 new Verb("do", VerbForm.Base)
                             }),new Verb("do", VerbForm.Base)};
             IEnumerable<IVerbal> actual;
-            actual = target.OfAction();
+            actual = target.GetActions();
             foreach (var e in expected) {
                 Assert.IsTrue(actual.Contains(e, new VerbalEquater()));
             }
@@ -184,7 +184,7 @@ namespace LASI.Core.Tests
                             new PersonalPronoun("this")
                         }),  new PersonalPronoun("this")};
             IEnumerable<IEntity> actual;
-            actual = target.OfEntity();
+            actual = target.GetEntities();
             foreach (var e in expected) {
                 Assert.IsTrue(actual.Contains(e, new EntityEquater()));
             }

@@ -6,8 +6,8 @@ using System.Text;
 namespace LASI.Core
 {
     /// <summary>
-    /// Defines the structure of Punctuator elements which are used as bookending delimiters, e.g. '(...)' and '[...], 
-    /// and are thus paired with another instance of the a Punctuator Word of the same type.
+    /// <para> Defines the structure of Punctuator elements which are used as bookending delimiters, e.g. '(...)' and '[...], </para>
+    /// <para> and are thus paired with another instance of the a Punctuator Word of the same type. </para>
     /// </summary>
     /// <typeparam name="TPunctuator">The Type of a Punctution Word. This type must itself implement the
     /// IPairedPunctuator&lt;TPunctuator&gt; interface.</typeparam>

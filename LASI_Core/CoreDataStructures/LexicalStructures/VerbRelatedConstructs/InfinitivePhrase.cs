@@ -62,7 +62,7 @@ namespace LASI.Core
         /// Binds an IPronoun, generally a Pronoun or PronounPhrase, as a reference to the InfinitivePhrase.
         /// </summary>
         /// <param name="pro">The referencer which refers to the InfinitivePhrase Instance.</param>
-        public void BindPronoun(IReferencer pro)
+        public void BindReferencer(IReferencer pro)
         {
             boundPronouns.Add(pro);
             pro.BindAsReference(this);

@@ -16,26 +16,7 @@ namespace LASI.Interop
     /// Provides synchronous and asynchronoun callback based progress reports.
     /// </summary>
     public sealed class AnalysisController : Progress<AnalysisProgressReportEventArgs>
-    {
-        /// <summary>
-        /// Gets a Task&lt;IEnumerable&lt;LASI.Algorithm.Document&gt;&gt; which, when awaited, loads, analyizes, and aggregates all of the provided TextFile instances as individual documents, collecting them as
-        /// a sequence of Bound and Weighted LASI.Algorithm.Document instances. Progress update logic is specified via an asynchronous function parameter.
-        /// </summary>
-        /// <returns>A Task&lt;IEnumerable&lt;LASI.Algorithm.Document&gt;&gt;, when awaited, loads and analyizes, and aggregates all of the provided TextFile instances as individual documents, collecting them as
-        /// a sequence of Bound and Weighted LASI.Algorithm.Document instances.</returns>
-        /// <example>
-        ///Example event registration:
-        ///<code>
-        /// myProcessController.ProgressChanged += async (sender, e) => MsgBox.Show(e.Message + " " + e.Increment);
-        /// </code>
-        /// </example>
-        public async Task<IEnumerable<Document>> ProcessAsync() {
-
-            var taggedFiles = await TagFilesAsync(rawTextSources);
-            var result = await BindAndWeightDocumentsAsync(taggedFiles);
-            return result;
-        }
-        /// <summary>
+    {        /// <summary>
         /// Initializes a new instance of the AnalysisController class.
         /// </summary>
         /// <param name="rawTextSources">A collection of untagged english language written works.</param>
@@ -53,6 +34,29 @@ namespace LASI.Interop
         public AnalysisController(IUntaggedTextSource rawTextSource)
             : this(new[] { rawTextSource }) { }
 
+        /// <summary>
+        /// <para>Gets a Task&lt;IEnumerable&lt;LASI.Algorithm.Document&gt;&gt;</para>
+        /// <para>which, when awaited, loads, analyizes, and aggregates all of the provided TextFile instances as individual documents, collecting them as</para>
+        /// <body>a sequence of Bound and Weighted LASI.Algorithm.Document instances. Progress update logic is specified via an asynchronous function parameter.</body>
+        /// </summary>
+        /// <returns>
+        /// <para>A Task&lt;IEnumerable&lt;LASI.Algorithm.Document&gt;&gt;, when awaited, loads and analyizes, and aggregates all of the provided TextFile instances as individual documents, collecting them as
+        /// a sequence of Bound and Weighted LASI.Algorithm.Document instances.</para>
+        /// </returns>
+        /// <example>
+        ///Example event registration:
+        ///<code>
+        /// myProcessController.ProgressChanged += async (sender, e) => MsgBox.Show(e.Message + " " + e.Increment);
+        /// </code>
+        /// </example>
+        public async Task<IEnumerable<Document>> ProcessAsync() {
+
+            var taggedFiles = await TagFilesAsync(rawTextSources);
+            var result = await BindAndWeightDocumentsAsync(taggedFiles);
+            return result;
+        }
+
+
         private void SetupResourceLoadingNotification() {
             Lookup.ResourceLoading -= lookupResourceLoading;
             Lookup.ResourceLoading -= lookupResourceLoaded;
@@ -61,12 +65,12 @@ namespace LASI.Interop
             Lookup.ResourceLoaded += lookupResourceLoaded;
         }
 
-        private EventHandler<ResourceLoadedEventArgs> lookupResourceLoaded {
+        private EventHandler<ResourceLoadEventArgs> lookupResourceLoaded {
             get {
                 return (s, e) => { OnReport(new AnalysisProgressReportEventArgs("Loaded " + e.Message, 1.5)); };
             }
         }
-        private EventHandler<ResourceLoadedEventArgs> lookupResourceLoading {
+        private EventHandler<ResourceLoadEventArgs> lookupResourceLoading {
             get {
                 return (s, e) => { OnReport(new AnalysisProgressReportEventArgs("Loading " + e.Message, 1.5)); };
             }
@@ -132,30 +136,7 @@ namespace LASI.Interop
 
 
     }
-    #region Helper Types
-    /// <summary>
-    /// Contains event data regarding the current state and progress of analysis.
-    /// </summary>
-    [Serializable]
-    [System.Runtime.InteropServices.ComVisible(true)]
-    public class AnalysisProgressReportEventArgs : LASI.Core.Interop.Reporting.ReportEventArgs
-    {
-        internal AnalysisProgressReportEventArgs(string message, double increment) {
-            Message = message;
-            Increment = increment;
-        }
-        /// <summary>
-        /// Gets a message indicating the phase of analysis underway when they Report was created.
-        /// </summary>
-        public override string Message { get; protected set; }
-        /// <summary>
-        /// Gets a value indicating the amount by which overall progress of analysis has increased since the last Report was created.
-        /// </summary>
-        public override double Increment { get; protected set; }
-    }
-
-    #endregion
-
 }
+
 
 

@@ -114,6 +114,7 @@
     <Compile Include="InterDocumentAnalalysis\SVORelationship.cs" />
     <Compile Include="Interop\Reporting\ReportEventArgs.cs" />
     <Compile Include="LexicalComparisonAndCategorization\AdverbialSimilarityProvider.cs" />
+    <Compile Include="LexicalComparisonAndCategorization\ResourceLoadEventArgs.cs" />
     <Compile Include="LexicalComparisonAndCategorization\RepresentationalDeterminer.cs" />
     <Compile Include="LexicalComparisonAndCategorization\VerbalSimilarityProvider.cs" />
     <Compile Include="LexicalComparisonAndCategorization\EntitySimilarityProvider.cs" />

@@ -279,7 +279,7 @@ namespace LASI.App
         }
 
         private void OpenManualMenuItem_Click_1(object sender, RoutedEventArgs e) {
-            SharedFunctionality.ProcessOpenManualRequest(this);
+            SharedWindowFunctionality.ProcessOpenManualRequest(this);
         }
         private void openLicensesMenuItem_Click_1(object sender, RoutedEventArgs e) {
             var componentsDisplay = new ComponentInfoDialogWindow
@@ -344,10 +344,10 @@ namespace LASI.App
             }
         }
         private async void Grid_Drop(object sender, DragEventArgs e) {
-            await SharedFunctionality.HandleDropAddAttemptAsync(this, e, AddNewDocument);
+            await SharedWindowFunctionality.HandleDropAddAttemptAsync(this, e, AddNewDocument);
         }
         private void openPreferencesMenuItem_Click(object sender, RoutedEventArgs e) {
-            SharedFunctionality.OpenPreferencesWindow(this);
+            SharedWindowFunctionality.OpenPreferencesWindow(this);
         }
 
         #endregion

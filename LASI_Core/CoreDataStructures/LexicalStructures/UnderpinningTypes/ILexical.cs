@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 namespace LASI.Core
 {
     /// <summary>
-    /// Defines the broad role requiements for the weightable, countable textual elements, of a written work.
-    /// Along with the other interfaces in the Syntactic Interfaces Library, the ILexical interface provides for generalization and abstraction over many otherwise disparate element types and type heirarchies.
+    /// <para> Defines the broad role requiements for the weightable, countable textual elements, of a written work. </para>
+    /// <para> Along with the other interfaces in the Syntactic Interfaces Library, the ILexical interface provides for generalization and abstraction over many otherwise disparate element types and type heirarchies. </para>
     /// </summary>
     public interface ILexical
     {

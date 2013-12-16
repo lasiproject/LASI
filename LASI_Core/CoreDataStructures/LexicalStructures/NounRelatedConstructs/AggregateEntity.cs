@@ -8,9 +8,9 @@ using LASI.Core.Heuristics.Morphemization;
 namespace LASI.Core
 {
     /// <summary>
-    /// Represents an collection of usually contiguous entities which combine to form a single subject or object.
-    /// As such it provides both the behaviors of an entity and an Enumerable collection of describables. That is to say that you can use an instance of this class in 
-    /// situtation where an IEntity is Expected, but also enumerate it, via foreach(var in ...) or (from e in ...)
+    /// <para> Represents an collection of usually contiguous entities which combine to form a single subject or object. </para>
+    /// <para> As such it provides both the behaviors of an entity and an Enumerable collection of describables. That is to say that you can use an instance of this class in </para> 
+    /// <para> situtation where an IEntity is Expected, but also enumerate it, via foreach(var in ...) or (from e in ...) </para>
     /// </summary>
     /// <see cref="IAggregateEntity"/>
     /// <seealso cref="IEntity"/>
@@ -49,7 +49,7 @@ namespace LASI.Core
         /// Binds an IPronoun, generally a Pronoun or PronounPhrase, as a reference to the EntityGroup.
         /// </summary>
         /// <param name="pro">The referencer which refers to the EntityGroup Instance.</param>
-        public void BindPronoun(IReferencer pro) {
+        public void BindReferencer(IReferencer pro) {
             boundPronouns.Add(pro);
             pro.BindAsReference(this);
         }

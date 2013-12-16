@@ -99,7 +99,7 @@ namespace LASI.Core.Tests
         public void BindPronounTest() {
             Noun target = CreateNoun();
             Pronoun pro = new PersonalPronoun("it");
-            target.BindPronoun(pro);
+            target.BindReferencer(pro);
             Assert.IsTrue(target.Referees.Contains(pro) && pro.Referent.Any(e => e == target));
         }
 

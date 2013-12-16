@@ -6,8 +6,10 @@ using System.Text;
 namespace LASI.Core
 {
     /// <summary>
-    /// Defines the role requirements for Quantififiable constructs, generally Nouns or NounPhrases e.g. in the sentence "I have 2 apples.", "apples" is Quantifiable.
-    /// Along with the other interfaces in the Syntactic Interfaces Library, the Quantifiable interface provides for generalization and abstraction over many otherwise disparate element types and Type heirarchies.
+    /// <para> Defines the role requirements for Quantififiable constructs, generally Nouns or NounPhrases 
+    /// e.g. in the sentence "I have 2 apples.", "apples" is Quantifiable. </para>
+    /// <para> Along with the other interfaces in the Syntactic Interfaces Library,
+    /// the Quantifiable interface provides for generalization and abstraction over many otherwise disparate element types and Type heirarchies. </para>
     /// </summary>
     public interface IQuantifiable : ILexical
     {

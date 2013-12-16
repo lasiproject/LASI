@@ -22,10 +22,10 @@ namespace LASI.Core
         #region Methods
 
         /// <summary>
-        /// Binds a Pronoun or PronounPhrase to refer to the gerund.
+        /// Binds an IReferencer, e.g. a Pronoun or PronounPhrase, to refer to the gerund.
         /// </summary>
         /// <param name="pro">The Pronoun or PronounPhrase to Bind to the gerund</param>
-        public void BindPronoun(IReferencer pro) {
+        public void BindReferencer(IReferencer pro) {
 
             boundPronouns.Add(pro);
             pro.BindAsReference(this);
@@ -96,6 +96,6 @@ namespace LASI.Core
         private ICollection<IPossessable> possessed = new List<IPossessable>();
         private ICollection<IReferencer> boundPronouns = new List<IReferencer>();
 
-        #endregion 
+        #endregion
     }
 }

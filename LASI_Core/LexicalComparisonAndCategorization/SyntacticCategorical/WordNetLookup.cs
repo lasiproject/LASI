@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace LASI.Core.Heuristics
 {
-    internal abstract class WordNetLookup<TWord> : Progress<ResourceLoadedEventArgs> where TWord : Word
+    internal abstract class WordNetLookup<TWord> : Progress<ResourceLoadEventArgs> where TWord : Word
     {
         /// <summary> 
         /// Loads relevant synyonym data and performs additional initialization.

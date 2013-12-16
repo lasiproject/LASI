@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 namespace LASI.Core
 {
     /// <summary>
-    /// Defines the role requirements for Descriptive constructs which can Describe an instance of any class which implements the IDescribable interface.
-    /// Along with the other interfaces in the Syntactic Interfaces Library, the IDescriptor interface provides for generalization and abstraction over word and Phrase types.
+    /// <para>Defines the role requirements for Descriptive constructs which can Describe an instance of any class which implements the IDescribable interface.</para>
+    /// <para>Along with the other interfaces in the Syntactic Interfaces Library, the IDescriptor interface provides for generalization and abstraction over word and Phrase types.</para>
     /// </summary>
     /// <see cref="IDescribable"/>
     public interface IDescriptor : ILexical

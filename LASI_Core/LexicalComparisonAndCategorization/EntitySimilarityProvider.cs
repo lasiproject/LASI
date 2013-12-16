@@ -143,11 +143,10 @@ namespace LASI.Core.Heuristics
                 outer = second;
                 inner = first;
             }
-
-            if ((outer.Words.OfNoun().Count() != 0) && (inner.Words.OfNoun().Count() != 0)) {
-                foreach (var o in outer.Words.OfNoun()) {
-                    foreach (var i in inner.Words.OfNoun()) {
-                        if (i.IsSimilarTo(o))
+            if (outer.Words.OfNoun().Any() && inner.Words.OfNoun().Any()) {
+                foreach (var outerNoun in outer.Words.OfNoun()) {
+                    foreach (var innerNoun in inner.Words.OfNoun()) {
+                        if (innerNoun.IsSimilarTo(outerNoun))
                             similarCount += 0.7;
                     }
                     var scaleFactor = inner.Words.OfNoun().Count() * outer.Words.OfNoun().Count();

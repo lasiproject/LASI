@@ -179,9 +179,9 @@ namespace LASI.Core
 
         }
         private static void WeightSimilarEntities(Document document) {
-            var entities = document.OfEntity().ToList();
+            var entities = document.GetEntities().ToList();
 
-            document.OfEntity().AsParallel().WithDegreeOfParallelism(Concurrency.Max).ForAll(outer => {
+            document.GetEntities().AsParallel().WithDegreeOfParallelism(Concurrency.Max).ForAll(outer => {
                 var groups = from inner in entities.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                              where inner.IsAliasFor(outer) || inner.IsSimilarTo(outer)
                              group inner by outer;

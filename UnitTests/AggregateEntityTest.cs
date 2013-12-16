@@ -119,7 +119,7 @@ namespace LASI.Core.Tests
             };
             AggregateEntity target = new AggregateEntity(members);
             IReferencer pro = new PersonalPronoun("them");
-            target.BindPronoun(pro);
+            target.BindReferencer(pro);
             Assert.IsTrue(target.Referees.Contains(pro));
             Assert.IsTrue(pro.Referent.Contains(target));
             foreach (IEntity e in members) {
@@ -172,7 +172,7 @@ namespace LASI.Core.Tests
             IEnumerable<IReferencer> actual;
             IEnumerable<IReferencer> expected = new[] { new PersonalPronoun("them") };
             actual = target.Referees;
-            foreach (var pro in expected) { target.BindPronoun(pro); }
+            foreach (var pro in expected) { target.BindReferencer(pro); }
             foreach (var pro in expected) { Assert.IsTrue(actual.Contains(pro)); }
         }
 

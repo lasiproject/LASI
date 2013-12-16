@@ -20,7 +20,7 @@ namespace LASI.Experimentation.CommandLine
         static void Main(string[] args) {
             var document = Tagger.DocumentFromRaw(new[] { "Hello there you fool." });
 
-            var dd = document.OfEntity().FirstOrDefault();
+            var dd = document.GetEntities().FirstOrDefault();
             var k = dd.Match()
                 .Yield<string>()
                 .With((IEntity e) => e.Text)
@@ -49,18 +49,18 @@ namespace LASI.Experimentation.CommandLine
                 select d;
 
             var bellicoseVerbals =
-                from act in document.OfAction()
+                from act in document.GetActions()
                 where act.IsSimilarTo(toAttack)
                 select act;
 
             var bellicoseIndividuals =
-                from entity in document.OfEntity().InSubjectRole()
+                from entity in document.GetEntities().InSubjectRole()
                 where bellicoseDescriptors.Intersect(entity.Descriptors).Any()
                 || bellicoseVerbals.Contains(entity.SubjectOf)
                 select entity;
 
             var attackerAttackeePairs =
-                from victim in document.OfEntity().InObjectRole()
+                from victim in document.GetEntities().InObjectRole()
                 from attacker in bellicoseIndividuals
                 from act in bellicoseVerbals
                 where attacker.IsRelatedTo(victim).On(act)

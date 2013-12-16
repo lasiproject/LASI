@@ -254,6 +254,6 @@ namespace LASI.Core
         bool? possessive = null;
         bool? classifier = null;
 
-        #endregion 
+        #endregion
     }
 }

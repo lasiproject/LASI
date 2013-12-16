@@ -131,7 +131,7 @@
       <DependentUpon>ProjectPreviewWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Settings.cs" />
-    <Compile Include="SharedFunctionality.cs" />
+    <Compile Include="SharedWindowFunctionality.cs" />
     <Compile Include="WindowManager.cs" />
     <Page Include="Dialogs\ComponentInfoDialogWindow.xaml">
       <SubType>Designer</SubType>

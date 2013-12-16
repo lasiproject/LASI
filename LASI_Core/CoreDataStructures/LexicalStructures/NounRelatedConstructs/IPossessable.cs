@@ -6,8 +6,8 @@ using System.Text;
 namespace LASI.Core
 {
     /// <summary>
-    /// Defines the role requirements for constructs; generally Nouns, Nounphrases or Pronouns; which are "possessable" by other Entities.
-    /// Along with the other interfaces in the Syntactic Interfaces Library, the IPossessable interface provides for generalization and abstraction over word and Phrase types.
+    /// <para> Defines the role requirements for constructs; generally Nouns, Nounphrases or Pronouns; which are "possessable" by other Entities. </para> 
+    /// <para> Along with the other interfaces in the Syntactic Interfaces Library, the IPossessable interface provides for generalization and abstraction over word and Phrase types. </para>
     /// </summary>
     public interface IPossessable : ILexical
     {

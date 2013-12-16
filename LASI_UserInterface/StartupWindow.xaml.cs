@@ -149,8 +149,7 @@ namespace LASI.App
 
         private void browseForDocButton_Click(object sender, RoutedEventArgs e) {
             if (DocumentManager.AddingAllowed) {
-                var openDialog = new Microsoft.Win32.OpenFileDialog
-                {
+                var openDialog = new Microsoft.Win32.OpenFileDialog {
                     Filter = "LASI File Types|*.doc; *.docx; *.pdf; *.txt",
                     Multiselect = true
                 };
@@ -204,7 +203,7 @@ namespace LASI.App
 
 
         private void Grid_Drop(object sender, DragEventArgs e) {
-            SharedFunctionality.HandleDropAddAttempt(this, e, fi => DocumentManager.AddDocument(fi.Name, fi.FullName));
+            SharedWindowFunctionality.HandleDropAddAttempt(this, e, fi => DocumentManager.AddDocument(fi.Name, fi.FullName));
         }
 
 

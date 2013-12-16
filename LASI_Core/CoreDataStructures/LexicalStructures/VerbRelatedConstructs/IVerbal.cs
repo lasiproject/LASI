@@ -52,7 +52,6 @@
         /// </summary>
         /// <returns>True if the IVerbal has at least one object, false otherwise.</returns>
         bool HasObject();
-
         /// <summary>
         /// Gets a value indicating if the IVerbal has at least one direct or indirect object matching the provided predicate.
         /// </summary>

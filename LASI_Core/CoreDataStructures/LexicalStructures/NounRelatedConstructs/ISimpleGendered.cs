@@ -3,8 +3,8 @@
 namespace LASI.Core
 {
     /// <summary>
-    /// Represents an Entity which by nature possesses a manifest, trivially computable gender attribute.
-    /// Along with the other interfaces in the Syntactic Interfaces Library, the IEntity interface provides for generalization and abstraction over many otherwise disparate element types and Type heirarchies.
+    /// <para>  Represents an Entity which by nature possesses a manifest, trivially computable gender attribute. </para>
+    /// <para>  Along with the other interfaces in the Syntactic Interfaces Library, the IEntity interface provides for generalization and abstraction over many otherwise disparate element types and Type heirarchies. </para>
     /// </summary>
     public interface IGendered : IEntity
     {

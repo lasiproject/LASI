@@ -98,7 +98,7 @@ namespace LASI.Core.Tests
             IEnumerable<Word> composedWords = new Word[] { new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians") };
             NounPhrase target = new NounPhrase(composedWords);
             Pronoun pro = new PersonalPronoun("they");
-            target.BindPronoun(pro);
+            target.BindReferencer(pro);
             Assert.IsTrue(target.Referees.Contains(pro) && pro.Referent.Any(e => e == target));
         }
 
@@ -166,7 +166,7 @@ namespace LASI.Core.Tests
             NounPhrase target = new NounPhrase(composedWords);
             Assert.IsFalse(target.Referees.Any());
             Pronoun pro = new PersonalPronoun("they");
-            target.BindPronoun(pro);
+            target.BindReferencer(pro);
             Assert.IsTrue(target.Referees.Contains(pro) && pro.Referent.Any(e => e == target));
         }
 

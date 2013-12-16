@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 namespace LASI.Core
 {
     /// <summary>
-    /// Represents a lexically Symbolic element at the phrase level. It will generally contain predominantly word level Symbol instances. 
-    /// For example, in the expression "x + y = (2 / 5) - xy" several of the token would be represented by Symbol instances including: "+", "=", "/", and "-".
+    /// <para> Represents a lexically Symbolic element at the phrase level. It will generally contain predominantly word level Symbol instances. </para> 
+    /// <para> For example, in the expression "x + y = (2 / 5) - xy" several of the token would be represented by Symbol instances including: "+", "=", "/", and "-". </para>
     /// </summary>
     public class SymbolPhrase : Phrase
     {

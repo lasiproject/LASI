@@ -8,7 +8,9 @@ using System.Xml.Linq;
 namespace LASI.Core
 {
     /// <summary>
-    /// Represents a particle such as "about". Note that the distintion between particle and prepositions can sometimes be tricky and is heavily dependent on nuances of grammatical usage.
+    /// <para> Represents a particle construct at the word level. </para>
+    /// <para> For example, the the word (about) in the sentence: "He read a book about abstract erotica." </para>
+    /// <para> Note that the distintion between particle and prepositions can sometimes be tricky and is heavily dependent on nuances of grammatical usage. </para>
     /// </summary>
     public class Particle : Word, IPrepositional
     {

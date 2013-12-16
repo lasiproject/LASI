@@ -23,11 +23,11 @@ namespace LASI.Core
         public VerbPhrase(IEnumerable<Word> composedWords)
             : base(composedWords) {
 
-            Tense = composedWords.OfVerb().Any() ?
-                (from v in composedWords.OfVerb()
-                 group v.Tense by v.Tense into tenseGroup
-                 orderby tenseGroup.Count()
-                 select tenseGroup).First().Key : VerbForm.Base;
+            Tense = (from v in composedWords.OfVerb()
+                     group v.Tense by v.Tense into byTense
+                     select new { Count = byTense.Count(), byTense.Key } into tenseCount
+                     orderby tenseCount.Count
+                     select tenseCount.Key).FirstOrDefault();
         }
 
         #endregion
@@ -43,8 +43,8 @@ namespace LASI.Core
             adv.Modifies = this;
         }
         /// <summary>
-        /// Binds the VerbPhrase to an object via a propisitional construct such as a Prepositon or or PrepositionalPhrase.
-        /// Example: He "ran" to work. where "work" is the object of ran via the prepositional construct "to"
+        /// <para> Binds the VerbPhrase to an object via a propisitional construct such as a Prepositon or or PrepositionalPhrase. </para>
+        /// <para> Example: He "ran" to work. where "work" is the object of ran via the prepositional construct "to" </para>
         /// </summary>
         /// <param name="prepositional">The IPrepositional construct through which the Object is associated.</param>
         public virtual void AttachObjectViaPreposition(IPrepositional prepositional) {

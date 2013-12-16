@@ -3,8 +3,8 @@
 namespace LASI.Core
 {
     /// <summary>
-    /// Defines the role reqirements of Conjunctive constructs which link two Clauses, Phrases, or Words together.
-    /// Along with the other interfaces in the Syntactic Interfaces Library, the IConjunctive interface provides for generalization and abstraction over word and Phrase types.
+    /// <para> Defines the role reqirements of Conjunctive constructs which link two Clauses, Phrases, or Words together. </para>
+    /// <para> Along with the other interfaces in the Syntactic Interfaces Library, the IConjunctive interface provides for generalization and abstraction over word and Phrase types. </para>
     /// </summary>
     public interface IConjunctive : ILexical
     {

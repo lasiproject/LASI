@@ -7,7 +7,7 @@ using System.Windows.Input;
 
 namespace LASI.App
 {
-    static class SharedFunctionality
+    static class SharedWindowFunctionality
     {
         internal static void ProcessOpenWebsiteRequest(Window sourceOfRequest) {
             try {

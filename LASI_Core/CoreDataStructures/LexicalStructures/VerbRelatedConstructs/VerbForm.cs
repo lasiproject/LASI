@@ -13,7 +13,7 @@ namespace LASI.Core
         /// <summary>
         /// The base tense
         /// </summary>
-        Base,
+        Base = 0,
         /// <summary>
         /// The past tense
         /// </summary>

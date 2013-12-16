@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 namespace LASI.Core.DocumentStructures
 {
     /// <summary>
-    /// A data structure containing all of the paragraph, sentence, clause, phrase, and word objects which comprise a single document.
-    /// Provides overalapping direct and indirect access to all of its children, 
-    /// e.g. such as myDoc.Paragraphs.Sentences.Phrases.Words will get all the words in the document in linear order
-    /// comparatively: myDoc.Words; yields the same collection.
+    /// <para> A data structure containing all of the paragraph, sentence, clause, phrase, and word objects which comprise a single document.
+    /// <para> Provides overalapping direct and indirect access to all of its children, </para>
+    /// <para> e.g. such as myDoc.Paragraphs.Sentences.Phrases.Words will get all the words in the document in linear order
+    /// comparatively: myDoc.Words; yields the same collection. </para>
     /// </summary>
     public sealed class Document
     {
@@ -43,15 +43,15 @@ namespace LASI.Core.DocumentStructures
 
         private void AssignMembers() {
             sentences = (from p in this.paragraphs
-                          from s in p.Sentences
-                          where s.Words.OfVerb().Any()
-                          select s).ToList();
+                         from s in p.Sentences
+                         where s.Words.OfVerb().Any()
+                         select s).ToList();
             phrases = (from s in sentences
-                        from r in s.Phrases
-                        select r).ToList();
+                       from r in s.Phrases
+                       select r).ToList();
             words = (from s in sentences
-                      from w in s.Words.Append(s.EndingPunctuation)
-                      select w).ToList();
+                     from w in s.Words.Append(s.EndingPunctuation)
+                     select w).ToList();
         }
 
         #endregion
@@ -89,7 +89,7 @@ namespace LASI.Core.DocumentStructures
         /// Returns all of the Action identified within the docimument.
         /// </summary>
         /// <returns>all of the Action identified within the docimument.</returns>
-        public IEnumerable<IVerbal> OfAction() {
+        public IEnumerable<IVerbal> GetActions() {
             return from a in words.OfVerb().Concat<IVerbal>(phrases.OfVerbPhrase())
                    select a;
         }
@@ -98,7 +98,7 @@ namespace LASI.Core.DocumentStructures
         /// Returns all of the word and phrase level describables identified in the document.
         /// </summary>
         /// <returns> All of the word and phrase level describables identified in the document.</returns>
-        public IEnumerable<IEntity> OfEntity() {
+        public IEnumerable<IEntity> GetEntities() {
             return from e in words.OfType<IEntity>().Concat(phrases.OfType<IEntity>())
                    select e;
         }

@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 namespace LASI.Core
 {
     /// <summary>
-    /// Represents a Word which does not correspond to a known syntactic category.
-    /// This may be the result of a Tagging error or a Tag-Parsing error.
+    /// <para> Represents a Word which does not correspond to a known syntactic category. </para>
+    /// <para> This may be the result of a Tagging error or a Tag-Parsing error. </para>
     /// </summary>
     public class UnknownWord : Word
     {
