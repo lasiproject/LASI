@@ -15,25 +15,24 @@ LASI is implemented in C# 5.0 and targets the .NET framework 4.5
 You are also welcome to extend LASI using any .NET 4.5 compliant language, including Visual Basic and F#, note that use of C++/CLI is supported but discouraged
 
 User - System - Requirements
-- x64 based dual core cpu
+- x64 based dual core CPU
 - 64 bit operating system
 - 4GB RAM
 
 Developer - System - Requirements
 - Intel core i7 quad core CPU
-- 8GB DDR3 1333+ with 7-7-7 timings
+- 8GB DDR3 1333+ with low latency and tight timings.
 - Solid State Disk with 200+ MB/s read
 
 The Preferred IDEs are Visual Studio 2012 and Visual Studio 2013 RC.
 You may use any versions of these IDEs : from Express (free) to Ultimate
 
 
-This project should be built as a project using Visual Studio 2012 and the SLN file should provide you with 
-ideal settings to make sure that this project compiles and performs as expected. 
-This project has also been successfully built using Visual Studio 2013 RC without any need for modifications) 
+Using Visual Studio 2012 or 2013 and the included .sln  file should provide you with 
+ideal settings to make sure that this project compiles and performs as expected.  
 
-To test the standard program, make LASI_UserInterface the startup project in Visual Studio. 
+To test the standard program, make L_App the startup project in Visual Studio. 
 
-The primary application will not run under Mono due to the fact that Mono does not currently implement the Windows Presentation Foundation (WPF) runtime and libraries which are required by the graphical user interface.
+The graphical app will not run under Mono due to the fact that Mono does not currently implement the Windows Presentation Foundation (WPF) runtime and libraries which are required by the graphical user interface. See the Wiki for more details.
 
 LASI is [Open Source Software](http://opensource.org/) Licensed Under the [Lesser GNU Public License v2.1](http://opensource.org/licenses/LGPL-2.1)
