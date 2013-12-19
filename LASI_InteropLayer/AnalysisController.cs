@@ -25,7 +25,8 @@ namespace LASI.Interop
             this.ProgressChanged += delegate { };
             sourceCount = rawTextSources.Count();
             stepMagnitude = 2d / sourceCount;
-            SetupResourceLoadingNotification();
+            Lookup.ResourceLoading += (s, e) => { OnReport(new AnalysisProgressReportEventArgs("Loading " + e.Message, 1.5)); };
+            Lookup.ResourceLoaded += (s, e) => { OnReport(new AnalysisProgressReportEventArgs("Loaded " + e.Message, 1.5)); };
         }
         /// <summary>
         /// Initializes a new instance of the AnalysisController class.
@@ -57,24 +58,8 @@ namespace LASI.Interop
         }
 
 
-        private void SetupResourceLoadingNotification() {
-            Lookup.ResourceLoading -= lookupResourceLoading;
-            Lookup.ResourceLoading -= lookupResourceLoaded;
 
-            Lookup.ResourceLoaded += lookupResourceLoading;
-            Lookup.ResourceLoaded += lookupResourceLoaded;
-        }
 
-        private EventHandler<ResourceLoadEventArgs> lookupResourceLoaded {
-            get {
-                return (s, e) => { OnReport(new AnalysisProgressReportEventArgs("Loaded " + e.Message, 1.5)); };
-            }
-        }
-        private EventHandler<ResourceLoadEventArgs> lookupResourceLoading {
-            get {
-                return (s, e) => { OnReport(new AnalysisProgressReportEventArgs("Loading " + e.Message, 1.5)); };
-            }
-        }
 
         private async Task<ConcurrentBag<ITaggedTextSource>> TagFilesAsync(IEnumerable<LASI.Core.IUntaggedTextSource> rawTextDocuments) {
             OnReport(new AnalysisProgressReportEventArgs("Tagging Documents", 0));
