@@ -38,7 +38,7 @@ namespace LASI.ContentSystem.Serialization.XML
         /// <summary>
         /// Gets the underlying System.Xml.XmlWriter to which all output is written.
         /// </summary>
-        System.Xml.XmlWriter Target {
+        System.Xml.XmlWriter Writer {
             get;
         }
     }

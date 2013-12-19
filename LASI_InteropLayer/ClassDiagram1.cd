@@ -3,7 +3,7 @@
   <Class Name="LASI.Interop.AnalysisController">
     <Position X="4" Y="0.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>QAAAACAAAAAIIgAAAAAIBAAAAAAAAACAAAAACAAAAAE=</HashCode>
+      <HashCode>AAAAACAAAAAIIgAAAAAIBAAAAAAAAACAAAAAAAAAAAA=</HashCode>
       <FileName>AnalysisController.cs</FileName>
     </TypeIdentifier>
   </Class>

@@ -20,13 +20,17 @@ namespace LASI.Interop
         /// Initializes a new instance of the AnalysisController class.
         /// </summary>
         /// <param name="rawTextSources">A collection of untagged english language written works.</param>
-        public AnalysisController(IEnumerable<LASI.Core.IUntaggedTextSource> rawTextSources) {
+        public AnalysisController(IEnumerable<LASI.Core.IUntaggedTextSource> rawTextSources)
+            : base(e => { }) {
             this.rawTextSources = rawTextSources;
-            this.ProgressChanged += delegate { };
             sourceCount = rawTextSources.Count();
             stepMagnitude = 2d / sourceCount;
-            Lookup.ResourceLoading += (s, e) => { OnReport(new AnalysisProgressReportEventArgs("Loading " + e.Message, 1.5)); };
-            Lookup.ResourceLoaded += (s, e) => { OnReport(new AnalysisProgressReportEventArgs("Loaded " + e.Message, 1.5)); };
+            AttachProxyLookupLoadingHandlers();
+        }
+
+        private void AttachProxyLookupLoadingHandlers() {
+            Lookup.ResourceLoading += lookupResourceLoading = (s, e) => { OnReport(new AnalysisProgressReportEventArgs("Loading " + e.Message, 1.5)); };
+            Lookup.ResourceLoaded += lookupResourceLoaded = (s, e) => { OnReport(new AnalysisProgressReportEventArgs("Loaded " + e.Message, 1.5)); };
         }
         /// <summary>
         /// Initializes a new instance of the AnalysisController class.
@@ -53,11 +57,20 @@ namespace LASI.Interop
         public async Task<IEnumerable<Document>> ProcessAsync() {
 
             var taggedFiles = await TagFilesAsync(rawTextSources);
-            var result = await BindAndWeightDocumentsAsync(taggedFiles);
-            return result;
+            var results = await BindAndWeightDocumentsAsync(taggedFiles);
+            DetachProxyLookupLoadingHandlers();
+            return results;
         }
 
-
+        /// <summary>
+        /// Removes the proxy event handlers from the associated LASI.Core.Heuristics.Lookup events.
+        /// This allows the AnalysisController to be garbage collected transparently.
+        /// </summary>
+        /// <see cref="LASI.Core.Heuristics.Lookup"/>
+        private void DetachProxyLookupLoadingHandlers() {
+            Lookup.ResourceLoading -= lookupResourceLoading;
+            Lookup.ResourceLoaded -= lookupResourceLoaded;
+        }
 
 
 
@@ -112,11 +125,11 @@ namespace LASI.Interop
 
 
         #region Fields
-
+        private EventHandler<ResourceLoadEventArgs> lookupResourceLoading;
+        private EventHandler<ResourceLoadEventArgs> lookupResourceLoaded;
         private double sourceCount;
         private double stepMagnitude;
         private IEnumerable<IUntaggedTextSource> rawTextSources;
-
         #endregion
 
 

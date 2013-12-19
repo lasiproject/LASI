@@ -22,21 +22,21 @@ namespace LASI.ContentSystem.Serialization.XML
         /// </summary>
         /// <param name="target">The XmlWriter to which to output.</param>
         public SimpleLexicalSerializer(XmlWriter target) {
-            Target = target;
+            Writer = target;
         }
         /// <summary>
         /// Initializes a new instance of the SimpleLexicalSerializer class which will output to the Uniform Resource Identifier specified by the string.
         /// </summary>
         /// <param name="uri">The string specifying the Uniform Resource Identifier to which to output.</param>
         public SimpleLexicalSerializer(string uri) {
-            Target = XmlWriter.Create(uri);
+            Writer = XmlWriter.Create(uri);
         }
         /// <summary>
         /// Initializes a new instance of the SimpleLexicalSerializer class which will output to the given System.IO.TextWriter.
         /// </summary>
         /// <param name="textWriter">The System.IO.TextWriter to which to output.</param>
         public SimpleLexicalSerializer(System.IO.TextWriter textWriter) {
-            Target = XmlWriter.Create(textWriter);
+            Writer = XmlWriter.Create(textWriter);
         }
         /// <summary>
         /// Serializes the provided sequence of ILexical instances into xml elements and returns a single XElement containing them.
@@ -80,7 +80,7 @@ namespace LASI.ContentSystem.Serialization.XML
         /// <summary>
         /// Gets the XmlWriter object targeted by all Write operations of the SimpleLexicalSerializer.
         /// </summary>
-        public XmlWriter Target {
+        public XmlWriter Writer {
             get;
             private set;
         }
@@ -88,7 +88,7 @@ namespace LASI.ContentSystem.Serialization.XML
         /// Frees any unmanaged resources associated with the SimpleLexicalSerializer.
         /// </summary>
         public void Dispose() {
-            Target.Dispose();
+            Writer.Dispose();
             GC.SuppressFinalize(this);
         }
         /// <summary>
@@ -101,7 +101,7 @@ namespace LASI.ContentSystem.Serialization.XML
 
             var serializedResults =
                 SerializeSequence(source, title, degreeOfOutput);
-            serializedResults.Save(Target);
+            serializedResults.Save(Writer);
 
         }
         /// <summary>
@@ -112,7 +112,7 @@ namespace LASI.ContentSystem.Serialization.XML
         /// <param name="degreeOfOutput">The DegreeOfOutput value specifying the per element amount of detail the serilization will retain.</param>
         /// <returns>A System.Threading.Tasks.Task representing the ongoing asynchronous operation.</returns>
         public async Task WriteAsync(IEnumerable<ILexical> source, string title, DegreeOfOutput degreeOfOutput) {
-            await Target.WriteStringAsync(Serialize(source, title, degreeOfOutput).ToString(SaveOptions.None));
+            await Writer.WriteStringAsync(Serialize(source, title, degreeOfOutput).ToString(SaveOptions.None));
         }
     }
 }
