@@ -79,7 +79,7 @@ namespace LASI.Core.Tests
             Assert.IsTrue(target.DirectObjects.Count() == 0);
             Assert.IsTrue(target.IndirectObjects.Count() == 0);
             Assert.IsTrue(target.Modality == null);
-            Assert.IsTrue(target.Possessive == false);
+            Assert.IsTrue(target.IsPossessive == false);
         }
 
         /// <summary>

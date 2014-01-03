@@ -101,7 +101,7 @@ namespace LASI.Core.Heuristics
         internal static IEnumerable<string> GetLikelyAliases(IEntity entity) {
             return entity.Match().Yield<IEnumerable<string>>()
                 .With<NounPhrase>(n => DefineAliases(n))
-                .When(e => e.SubjectOf.Classifier)
+                .When(e => e.SubjectOf.IsClassifier)
                 .Then<IEntity>(e => e.SubjectOf
                     .DirectObjects
                     .SelectMany(direct => direct.Match().Yield<IEnumerable<string>>()

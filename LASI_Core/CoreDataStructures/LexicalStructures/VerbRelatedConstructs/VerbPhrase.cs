@@ -70,11 +70,11 @@ namespace LASI.Core
             if (directObject != null) {
                 directObjects.Add(directObject);
                 directObject.DirectObjectOf = this;
-                if (Possessive) {
+                if (IsPossessive) {
                     foreach (var subject in this.Subjects) {
                         subject.AddPossession(directObject);
                     }
-                } else if (Classifier) {
+                } else if (IsClassifier) {
                     foreach (var subject in this.Subjects) {
                         AliasLookup.DefineAlias(subject, directObject);
                     }
@@ -105,7 +105,7 @@ namespace LASI.Core
                 result += ObjectOfThePreoposition != null ? "\nVia Preposition Object: " + ObjectOfThePreoposition.Text : string.Empty;
                 result += Modality != null ? "\nModal Aux: " + Modality.Text : string.Empty;
                 result += Modifiers.Any() ? "\nModifiers: " + Modifiers.Format(s => s.Text + '\n') : string.Empty;
-                result += string.Format("\nCharacteristics: Possessive Indicator? [{0}]\nCategorizatizer? [{1}]\nPrevailing Tense: [{2}]", Possessive, Classifier, Tense);
+                result += string.Format("\nCharacteristics: Possessive Indicator? [{0}]\nCategorizatizer? [{1}]\nPrevailing Tense: [{2}]", IsPossessive, IsClassifier, Tense);
             }
             return result;
         }
@@ -117,7 +117,7 @@ namespace LASI.Core
         /// </summary>
         /// <returns>True if the VerbPhrase is a possessive relationship specifier, false otherwise.</returns>
         protected virtual bool DetermineIsPossessive() {
-            possessive = Words.OfVerb().Any() && Words.OfVerb().Last().Possessive;
+            possessive = Words.OfVerb().Any() && Words.OfVerb().Last().IsPossessive;
             return possessive.Value;
         }
         /// <summary>
@@ -125,7 +125,7 @@ namespace LASI.Core
         /// </summary>
         /// <returns>True if the VerbPhrase is a classifier, false otherwise.</returns>
         protected virtual bool DetermineIsClassifier() {
-            return !Possessive && Modality == null && Modifiers.None() && Words.OfVerb().Any() && Words.OfVerb().All(v => v.Classifier);
+            return !IsPossessive && Modality == null && Modifiers.None() && Words.OfVerb().Any() && Words.OfVerb().All(v => v.IsClassifier);
         }
 
 
@@ -242,7 +242,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets a value indicating wether or not the VerbPhrase has possessive semantics. E.g. "A (has) a B"
         /// </summary>
-        public bool Possessive {
+        public bool IsPossessive {
             get {
                 return possessive ?? DetermineIsPossessive();
             }
@@ -251,7 +251,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets a value indicating wether or not the VerbPhrase has classifying semantics. E.g. "A (is) a B"
         /// </summary>
-        public bool Classifier {
+        public bool IsClassifier {
             get {
                 return classifier ?? DetermineIsClassifier();
             }
