@@ -120,7 +120,6 @@
     <Compile Include="CoreDataStructures\LexicalStructures\UnderpinningTypes\IAggregateLexical.cs" />
     <Compile Include="CoreDataStructures\Support\PatternMatching\Generalized\Basis\MatchClause.cs" />
     <Compile Include="CoreDataStructures\Support\PatternMatching\LexicalSpecific\IMatchClause.cs" />
-    <Compile Include="CoreDataStructures\Support\PatternMatching\LexicalSpecific\IPredicatedMatchClause.cs" />
     <Compile Include="CoreDataStructures\Support\PatternMatching\LexicalSpecific\MatchClause.cs" />
     <Compile Include="CoreDataStructures\Support\PatternMatching\LexicalSpecific\PatternMatching.cs" />
     <Compile Include="CoreDataStructures\LexicalStructures\SymbolsAndPunctuators\IPairedPunctuator.cs" />

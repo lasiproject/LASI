@@ -37,15 +37,16 @@ namespace LASI.Core.Binding.Experimental
             return from noun in words.OfNoun()
                    let np = noun.Phrase as NounPhrase
                    let gen = np != null ?
-                   (noun as Word).Match().Yield<char>()
-                       .With<ProperSingularNoun>(n => n.IsGenderEquivalentTo(np) ? n.Gender.IsFemale() ? 'F' : n.Gender.IsMale() ? 'M' : 's' : 'A')
-                       .With<CommonSingularNoun>('s')
-                       .With<IQuantifiable>('p')
+                   (noun as Word)
+                   .Match().Yield<char>()
+                       .With<ProperSingularNoun>(n => n.IsGenderEquivalentTo(np) ? n.Gender.IsFemale() ? 'F' : n.Gender.IsMale() ? 'M' : 'S' : 'A')
+                       .With<CommonSingularNoun>('S')
+                       .With<IQuantifiable>('P')
                    .Result('U') : 'U'
                    let outer = new { noun, gen }
                    join inner in
                        from pro in words.OfPronoun()
-                       let gen = pro.IsFemale() ? 'F' : pro.IsMale() ? 'M' : pro.IsPlural() ? 'p' : pro.IsGenderAmbiguous() ? 'A' : !pro.IsPlural() ? 's' : 'U'
+                       let gen = pro.IsFemale() ? 'F' : pro.IsMale() ? 'M' : pro.IsPlural() ? 'P' : pro.IsGenderAmbiguous() ? 'A' : !pro.IsPlural() ? 'S' : 'U'
                        select new { pro, gen }
                    on outer.gen equals inner.gen
                    let indexProvider = words.ToList()

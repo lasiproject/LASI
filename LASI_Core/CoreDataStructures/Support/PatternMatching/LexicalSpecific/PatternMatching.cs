@@ -18,37 +18,37 @@ namespace LASI.Core.Patternization
         /// </summary> 
         /// <param name="value">The ILexical value to match with.</param>
         /// <returns>The head of a non result yielding Type based Pattern Matching expression over the specified ILexical value.</returns>
-        public static IMatchClause<ILexical> Match(this ILexical value) { return new MatchCase<ILexical>(value); }
+        public static IMatchClause<ILexical> Match(this ILexical value) { return new MatchClause<ILexical>(value); }
         /// <summary>
         /// Begins a non result returning Type based Pattern Matching expression over the specified IEntity value.
         /// </summary> 
         /// <param name="value">The IEntity value to match with.</param>
         /// <returns>The head of a non result yielding Type based Pattern Matching expression over the specified IEntity value.</returns>
-        public static IMatchClause<IEntity> Match(this IEntity value) { return new MatchCase<IEntity>(value); }
+        public static IMatchClause<IEntity> Match(this IEntity value) { return new MatchClause<IEntity>(value); }
         /// <summary>
         /// Begins a non result returning Type based Pattern Matching expression over the specified IVerbal value.
         /// </summary> 
         /// <param name="value">The IVerbal value to match with.</param>
         /// <returns>The head of a non result yielding Type based Pattern Matching expression over the specified IVerbal value.</returns>
-        public static IMatchClause<IVerbal> Match(this IVerbal value) { return new MatchCase<IVerbal>(value); }
+        public static IMatchClause<IVerbal> Match(this IVerbal value) { return new MatchClause<IVerbal>(value); }
         /// <summary>
         /// Begins a non result returning Type based Pattern Matching expression over the specified IDescriptor value.
         /// </summary> 
         /// <param name="value">The IDescriptor value to match with.</param>
         /// <returns>The head of a non result yielding Type based Pattern Matching expression over the specified IDescriptor value.</returns>
-        public static IMatchClause<IDescriptor> Match(this IDescriptor value) { return new MatchCase<IDescriptor>(value); }
+        public static IMatchClause<IDescriptor> Match(this IDescriptor value) { return new MatchClause<IDescriptor>(value); }
         /// <summary>
         /// Begins a non result returning Type based Pattern Matching expression over the specified IAdverbial value.
         /// </summary> 
         /// <param name="value">The IAdverbial value to match with.</param>
         /// <returns>The head of a non result yielding Type based Pattern Matching expression over the specified IAdverbial value.</returns>
-        public static IMatchClause<IAdverbial> Match(this IAdverbial value) { return new MatchCase<IAdverbial>(value); }
+        public static IMatchClause<IAdverbial> Match(this IAdverbial value) { return new MatchClause<IAdverbial>(value); }
         /// <summary>
         /// Begins a non result returning Type based Pattern Matching expression over the specified IPrepositional value.
         /// </summary> 
         /// <param name="value">The IPrepositional value to match with.</param>
         /// <returns>The head of a non result yielding Type based Pattern Matching expression over the specified IPrepositionale value.</returns>
-        public static IMatchClause<IPrepositional> Match(this IPrepositional value) { return new MatchCase<IPrepositional>(value); }
+        public static IMatchClause<IPrepositional> Match(this IPrepositional value) { return new MatchClause<IPrepositional>(value); }
 
     }
 }
