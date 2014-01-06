@@ -8,51 +8,66 @@ namespace LASI.Core.Binding.Experimental
     /// <summary>
     /// An experimental class which uses a variety of binding techniques to infer the likely clause structure of a set of contiguous lexical elements.
     /// </summary>
-    static class ClauseSeperatingBranchingBinder
+    public static class ClauseSeperatingBranchingBinder
     {
         /// <summary>
         /// Binds and identifies Clauses over the provided set of Words. Assumes that the Words supplied begin a sentence (or possibly follow a semicolon).
         /// </summary>
-        /// <param name="elements">The set of Words to bind over.</param>
-        public static void Bind(IEnumerable<Word> elements) {
-            var splitters = elements
-                .Select((e, index) => new { Word = e as Preposition ?? e as Punctuator ?? e as Conjunction as Word, Location = index })
-                .Where(r => r.Word != null)
-                .Select(r => r.Location);
-            if (splitters.Any()) {
-                var branches = splitters.Count() > 1 ?
-                    splitters.Skip(1)
-                    .Select(splitter => elements.Take(splitters.First()).Concat(elements.Skip(splitter))) : Enumerable.Repeat(elements, 1);
-                var bestBranch = branches // for now, we will consider the most fruitful branch to be the best. 
-                    .Select(branch => ImagineBindings(branch))
-                    .OrderByDescending(b => b.Count())
-                    .First();
-                // this should not be parallelized because the binding actions computed above cause, intentionally, stateful changes.
-                foreach (var bindingAction in bestBranch) { bindingAction(); }
+        /// <param name="words">The set of Words to bind over.</param>
+        public static void Bind(IEnumerable<Word> words) {
+            var splitPoints =
+                from e in words.Select((w, i) => new { Word = w, Index = i })
+                where e.Word is Preposition || e.Word is Punctuator || e.Word is Conjunction
+                select e.Index;
+            if (splitPoints.Any()) {
+                var branches = splitPoints.Count() == 1 ? Enumerable.Repeat(words, 1) : splitPoints
+                    .Skip(1)
+                    .Select(splitter => words
+                        .Take(splitPoints.First())
+                        .Concat(words.Skip(splitter)));
+                // for now, we will take the most fruitful branch. That is, the branch which produces the most actions 
+                var actionByBranch = from branch in branches
+                                         //.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
+                                     let actions = GetBranchActions(branch)
+                                     where actions.Any()
+                                     orderby actions.Count() descending
+                                     select actions;
+                if (actionByBranch.Any()) {
+                    actionByBranch.First().ToList().ForEach(a => a());
+                }
             }
         }
 
 
-        private static IEnumerable<Action> ImagineBindings(IEnumerable<Word> words) {
-            return from noun in words.OfNoun()
-                   let np = noun.Phrase as NounPhrase
-                   let gen = np != null ?
-                   (noun as Word)
-                   .Match().Yield<char>()
-                       .With<ProperSingularNoun>(n => n.IsGenderEquivalentTo(np) ? n.Gender.IsFemale() ? 'F' : n.Gender.IsMale() ? 'M' : 'S' : 'A')
-                       .With<CommonSingularNoun>('S')
-                       .With<IQuantifiable>('P')
-                   .Result('U') : 'U'
-                   let outer = new { noun, gen }
-                   join inner in
-                       from pro in words.OfPronoun()
-                       let gen = pro.IsFemale() ? 'F' : pro.IsMale() ? 'M' : pro.IsPlural() ? 'P' : pro.IsGenderAmbiguous() ? 'A' : !pro.IsPlural() ? 'S' : 'U'
-                       select new { pro, gen }
-                   on outer.gen equals inner.gen
-                   let indexProvider = words.ToList()
-                   where indexProvider.IndexOf(outer.noun) < indexProvider.IndexOf(inner.pro)
-                   group new { outer.noun, inner.pro } by inner.pro into byPronoun
-                   select new Action(() => byPronoun.Key.BindAsReference(byPronoun.First().noun));
+        private static IEnumerable<Action> GetBranchActions(IEnumerable<Word> words) {
+            var wordList = words.ToList();
+            var actions =
+                from o in
+                    from noun in wordList.OfNoun()
+                    where noun.Phrase is IEntity
+                    select new
+                    {
+                        Noun = noun,
+                        Kind = noun.Match().Yield<char>()
+                          .With<ProperSingularNoun>(proper => proper.IsGenderEquivalentTo(proper.Phrase as IEntity) ?
+                              proper.Gender.IsFemale() ? 'F' : proper.Gender.IsMale() ? 'M' : 'S' : 'A')
+                          .With<CommonSingularNoun>('S')
+                          .With<IQuantifiable>('P')
+                        .Result('U')
+                    }
+                join i in
+                    from pronoun in words.OfPronoun()
+                    select new
+                    {
+                        Pronoun = pronoun,
+                        Kind = pronoun.IsFemale() ? 'F' : pronoun.IsMale() ? 'M' : pronoun.IsPlural() ? 'P' :
+                        pronoun.IsGenderAmbiguous() ? 'A' : !pronoun.IsPlural() ? 'S' : 'U'
+                    }
+                on o.Kind equals i.Kind
+                where wordList.IndexOf(o.Noun) < wordList.IndexOf(i.Pronoun)//Only those Nouns which precede the Pronoun are considered binding candidates.
+                group o.Noun by i.Pronoun into byPronoun
+                select (Action)(() => byPronoun.Key.BindAsReference(byPronoun.First()));
+            return actions;
         }
     }
 }

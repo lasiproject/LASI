@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 namespace LASI.Core.Heuristics
 {
     using SR = SimilarityResult;
+    using LASI.Utilities;
     public static partial class Lookup
     {
         /// <summary>
@@ -27,7 +28,7 @@ namespace LASI.Core.Heuristics
                     .When(first.Text.ToUpper() == second.Text.ToUpper()).Then(SR.Similar)
                     .With<Verb>(v1 =>
                         second.Match().Yield<SR>()
-                          .With<Verb>(v2 => new SR(v1.IsSynonymFor(v2)))
+                          .With<Verb>(v2 => v1.IsSimilarTo(v2))
                           .With<VerbPhrase>(vp2 => v1.IsSimilarTo(vp2))
                         .Result())
                     .With<VerbPhrase>(vp1 =>
@@ -100,17 +101,17 @@ namespace LASI.Core.Heuristics
 
             bool result = leftHandVerbs.Count == rightHandVerbs.Count;
 
-            if (result) {
-                try {
-                    for (var i = 0; i < leftHandVerbs.Count; ++i) {
-                        result &= leftHandVerbs[i].IsSynonymFor(rightHandVerbs[i]);
-                    }
-                }
-                catch (NullReferenceException) {
-                    return SR.Dissimilar;
-                }
+
+            try {
+                return new SR(result &&
+                    leftHandVerbs
+                        .Zip(rightHandVerbs, (x, y) => x.IsSynonymFor(y))
+                        .Aggregate(result, (folded, r) => folded &= r));
             }
-            return new SR(result);
+            catch (NullReferenceException x) {
+                Output.WriteLine(x.Message);
+                return SR.Dissimilar;
+            }
         }
     }
 }

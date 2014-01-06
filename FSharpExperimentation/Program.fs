@@ -13,19 +13,19 @@ open System.Threading.Tasks
 let main argv = 
     
     let op sr:bool = 
-        SimilarityResult.op_Implicit(sr)
+        SimilarityResult.op_Implicit sr
 
     // Register callbacks to print operation progress to the terminal
-    Lookup.ResourceLoading.Add(fun e-> printfn "Started loading %A" e.Message)
-    Lookup.ResourceLoaded.Add(fun e-> printfn "Finished loading %A ms elapsed: %d" e.Message  e.ElapsedTime)
+    Lookup.ResourceLoading.Add(fun e-> printfn "Started loading %s" e.Message)
+    Lookup.ResourceLoaded.Add(fun e-> printfn "Finished loading %s ms elapsed: %d" e.Message  e.ElapsedTime)
      
     // tag, parse, and construct a Document 
  
     // perform default binding on the Document
  
     // perform default weighting on the Document
-    let controller = AnalysisController(DocXFile @"C:\Users\Aluan\Desktop\documents\sec22.docx")
-    controller.ProgressChanged.Add(fun e->printfn "Update: %A" e.Message)   
+    let controller = AnalysisController(DocXFile @"C:\Users\Aluan\Desktop\unsound.docx")
+    controller.ProgressChanged.Add(fun e->printfn "Update: %s" e.Message)   
     let docTask = async {
         return controller.ProcessAsync(). Result
     }
@@ -57,26 +57,37 @@ let main argv =
         match phrs with
         |head :: tail -> 
             match head with // process the first phrase in the list
-            | Entity np->  
+            | Entity e ->  
                 match head.Paragraph.Phrases with 
-                    | :? IReferencer as pro when pro<> null ->np.BindReferencer pro // bind naively (this is just an example)
+                    | :? IReferencer as pro -> e.BindReferencer pro // bind naively (this is just an example)
                     | _->()
-                printfn "NP Matched %A" np
-            | :? VerbPhrase as vp-> printfn "VP Matched %A" vp        
-            | p -> printfn "Not Matched %A" p
+                printfn "Matched %A" e
+            | Action a -> printfn "Matched %A" a
+            | p -> printfn "Unmatched %A" p
             processPhrases tail // recursive tail call to continue processing
         | [] -> printfn "" // list has been exhausted
     
-    do processPhrases (Seq.toList doc.Phrases) //bind and output the document doings.
-
-    // keep reading from the console until the string "exit" is entered.
-    
+    do processPhrases (Seq.toList doc.Phrases) //bind and output the document.
+//
+//    let svgs = 
+//        query {
+//            for a in doc.GetActions() do 
+//            for a2 in doc.GetActions() do 
+//            where(op(a.IsSimilarTo a2)  && a <> a2)
+//            groupBy a
+//        }
+//    let r= 
+//        seq { 
+//            for x in svgs -> x.Key.Text + x.Select(fun e->(snd e).Text).Distinct().Aggregate(" ",(fun s i->s + i+ "\n\t" )) 
+//        } 
+//    do Seq.iter(fun i-> printfn "Group:  %s" i) r 
+      // keep reading from the console until the string "exit" is entered.
     let rec checkForExit line  = 
         printfn "type quit to exit..."
         match line with
         |"quit" -> ()
         |_ -> checkForExit (stdin.ReadLine())
-    printfn "type quit to exit..."
+    do printfn "type quit to exit..."
     let waitForUser = checkForExit(stdin.ReadLine())
     // the last value computed by the function is the exit code
     0 

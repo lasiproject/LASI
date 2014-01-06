@@ -93,10 +93,11 @@ namespace LASI.Core.Heuristics
         /// Please prefer the second convention.
         /// </remarks>
         public static SimilarityResult IsSimilarTo(this AdjectivePhrase first, AdjectivePhrase second) {
-            var synResults =
-                first.Words.OfAdjective().Zip(second.Words.OfAdjective(), (a, b) => a.IsSynonymFor(b))
-                .Aggregate(new { Trues = 0f, Falses = 0f }, (a, c) => new { Trues = a.Trues + (c ? 1 : 0), Falses = a.Falses + (c ? 0 : 1) });
-            return new SR(first == second || synResults.Trues / (synResults.Falses + synResults.Trues) > Lookup.SIMILARITY_THRESHOLD);
+            var result = first.Words
+                .OfAdjective()
+                .Zip(second.Words.OfAdjective(), (a, b) => a.IsSynonymFor(b))
+                .Aggregate(new { T = 0, F = 0 }, (a, c) => new { T = a.T + (c ? 1 : 0), F = a.F + (c ? 0 : 1) });
+            return new SR(first == second || ((float)(result.T / result.F + result.T) > Lookup.SIMILARITY_THRESHOLD));
         }
     }
 }

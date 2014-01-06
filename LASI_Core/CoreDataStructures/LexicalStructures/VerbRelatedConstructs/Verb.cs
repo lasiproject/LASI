@@ -19,10 +19,10 @@ namespace LASI.Core
         /// Initializes a new instance of the Verb class which represents the base tense form of a verb.
         /// </summary>
         /// <param name="text">The key text content of the verb.</param>
-        /// <param name="tense">The tense of the verb</param>
-        public Verb(string text, VerbForm tense)
+        /// <param name="form">The tense of the verb</param>
+        public Verb(string text, VerbForm form)
             : base(text) {
-            Tense = tense;
+            Tense = form;
         }
         #region Methods
 

@@ -114,7 +114,7 @@ namespace LASI.Core
         /// </summary>
         /// <param name="document">the Document whose noun weights may be modiffied</param>
         private static void ModifyNounWeightsBySynonyms(Document document) {
-            var toConsider = (from e in document.Words
+            var toConsider = from e in document.Words
                                  .AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                                  .OfEntity().InSubjectOrObjectRole() //Currently, include only those nouns which exist in relationships with some IVerbal or IPronoun.
                               let result =
@@ -123,7 +123,7 @@ namespace LASI.Core
                                     .With<IReferencer>(r => r.Referent ?? r as IEntity)
                                 .Result()
                               where result != null
-                              select result).ToList();
+                              select result;
 
             var synonymGroups =
                 from outer in toConsider.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
@@ -142,8 +142,8 @@ namespace LASI.Core
         private static void WeightByLiteralFrequency(IEnumerable<ILexical> syntacticElements) {
             var byTypeAndText = from e in syntacticElements.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                                 group e by new { e.Type, e.Text } into g
-                                select new { Increase = g.Count(), Elements = g.ToList() };
-            byTypeAndText.ForAll(g => g.Elements.ForEach(e => e.Weight += g.Increase));
+                                select g.ToList();
+            byTypeAndText.ForAll(g => g.ForEach(e => e.Weight += g.Count));
 
         }
         /// <summary>
