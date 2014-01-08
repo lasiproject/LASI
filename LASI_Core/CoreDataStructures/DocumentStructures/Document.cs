@@ -14,7 +14,7 @@ namespace LASI.Core.DocumentStructures
     /// <para> e.g. such as myDoc.Paragraphs.Sentences.Phrases.Words will get all the words in the document in linear order
     /// comparatively: myDoc.Words; yields the same collection. </para>
     /// </summary>
-    public sealed class Document
+    public sealed class Document : IFullEnglishStatement
     {
         #region Constructors
         /// <summary>

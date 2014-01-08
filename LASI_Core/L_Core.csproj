@@ -86,6 +86,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CoreDataStructures\DocumentStructures\IDocument.cs" />
     <Compile Include="Huerisitics\Binder.cs" />
     <Compile Include="Huerisitics\BinderImplementation\AttributivePhraseBinder.cs" />
     <Compile Include="Huerisitics\BinderImplementation\AdjectivePhraseBinder.cs" />

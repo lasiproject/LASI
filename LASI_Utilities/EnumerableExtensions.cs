@@ -161,48 +161,49 @@ namespace LASI.Utilities
         /// Generates a sequence of integral numbers within the specified range.
         /// </summary>
         /// <param name="from">The value of the first integer in the sequence.</param>
-        /// <param name="until">The number of sequential integers to generate.</param>
+        /// <param name="to">The number of sequential integers to generate.</param>
         /// <returns>
         /// A lazily evaluated sequence of integral numbers. 
         /// </returns>
         /// <exception cref="System.ArgumentOutOfRangeException">
-        /// count is less than 0.-or-start + count -1 is larger than System.Int32.MaxValue."
+        /// to is less than 0.-or-start + count -1 is larger than System.Int32.MaxValue."
         ///</exception>
-        public static IEnumerable<int> To(this int from, int until) {
-            return Enumerable.Range(from, until - from);
+        public static IEnumerable<int> To(this int from, int to) {
+            if (from - to < 0) { throw new ArgumentOutOfRangeException("to", from - to, "Cannot generate a sequence of fewer than 0 values."); }
+            return Enumerable.Range(from, to - from);
         }
 
         #endregion
 
-        #region Custom Query Operators
+            #region Custom Query Operators
 
         /// <summary>
         /// Determines whether no elements of a sequence satisfy a condition.
         /// </summary>
-        /// <typeparam name="T">The type of the elements of source.</typeparam>
+        /// <typeparam name="TSource">The type of the elements of source.</typeparam>
         /// <param name="source">An System.Collections.Generic.IEnumerable&lt;T&gt; whose elements to apply the predicate to.</param>
         /// <param name="predicate">A function to test each element for a condition.</param>
         /// <returns>False if any elements in the source sequence pass the test in the specified predicate; otherwise, true.</returns>
-        public static bool None<T>(this IEnumerable<T> source, Func<T, bool> predicate) {
+        public static bool None<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate) {
             return !source.Any(predicate);
         }
         /// <summary>
         /// Determines whether no element of a sequence satisfy a condition.
         /// </summary>
-        /// <typeparam name="T">The type of the elements of source.</typeparam>
+        /// <typeparam name="TSource">The type of the elements of source.</typeparam>
         /// <param name="source">An System.Collections.Generic.IEnumerable&lt;T&gt; whose elements to apply the predicate to.</param> 
         /// <returns>False if the source sequence contains any elements; otherwise, true.</returns>
-        public static bool None<T>(this IEnumerable<T> source) {
+        public static bool None<TSource>(this IEnumerable<TSource> source) {
             return !source.Any();
         }
         /// <summary>
         /// Determines in parallel whether no element of a sequence satisfies a condition.
         /// </summary>
-        /// <typeparam name="T">The type of the elements of source.</typeparam>
+        /// <typeparam name="TSource">The type of the elements of source.</typeparam>
         /// <param name="source">An System.Collections.Generic.IEnumerable&lt;T&gt; whose elements to apply the predicate to.</param>
         /// <param name="predicate">A function to test each element for a condition.</param>
         /// <returns>False if any elements in the source sequence pass the test in the specified predicate; otherwise, true.</returns>
-        public static bool None<T>(this ParallelQuery<T> source, Func<T, bool> predicate) {
+        public static bool None<TSource>(this ParallelQuery<TSource> source, Func<TSource, bool> predicate) {
             return !source.Any(predicate);
         }
         /// <summary>
@@ -217,11 +218,11 @@ namespace LASI.Utilities
         /// <summary>
         /// Appends the given element to the sequence, yielding a new sequence consiting of the original sequence followed by the appended element.
         /// </summary>
-        /// <typeparam name="T">The type of elements in the sequence.</typeparam>
+        /// <typeparam name="TSource">The type of elements in the sequence.</typeparam>
         /// <param name="head">The sequence to which the element will be appended.</param>
         /// <param name="tail">The element to append to the sequence.</param>
         /// <returns>A new sequence consiting of the original sequence followed by the appended element..</returns>
-        public static IEnumerable<T> Append<T>(this IEnumerable<T> head, T tail) {
+        public static IEnumerable<TSource> Append<TSource>(this IEnumerable<TSource> head, TSource tail) {
             if (head == null)
                 throw new ArgumentNullException("head");
             foreach (var i in head) { yield return i; }
@@ -230,53 +231,76 @@ namespace LASI.Utilities
         /// <summary>
         /// Prepends the given element to the sequence, yielding a new sequence consiting of the prepended element followed by each element in the original sequence.
         /// </summary>
-        /// <typeparam name="T">The type of elements in the sequence.</typeparam>
+        /// <typeparam name="TSource">The type of elements in the sequence.</typeparam>
         /// <param name="tail">The sequence to which the element will be prepended.</param>
         /// <param name="head">The element to prepend to the sequence.</param>
         /// <returns>A new sequence consiting of the prepended element followed by each element in the original sequence.</returns>
-        public static IEnumerable<T> Prepend<T>(this IEnumerable<T> tail, T head) {
+        public static IEnumerable<TSource> Prepend<TSource>(this IEnumerable<TSource> tail, TSource head) {
             if (tail == null)
                 throw new ArgumentNullException("tail");
             yield return head;
             foreach (var i in tail) { yield return i; }
         }
         /// <summary>
-        /// Returns a set representation of the given sequence using the default IEqualityComparer for the given element type.
+        /// Returns a HashSet representation of the given sequence using the default IEqualityComparer for the given element type.
         /// </summary>
-        /// <typeparam name="T">The type of elements in the sequence.</typeparam>
+        /// <typeparam name="TSource">The type of elements in the sequence.</typeparam>
         /// <param name="source">The sequence whose distinct elements will comprise the resulting set.</param>
-        /// <returns>A set representation of the given sequence using the default System.Collections.Generic.IEqualityComparer for the given element type.</returns>
-        public static HashSet<T> ToHashSet<T>(this IEnumerable<T> source) {
+        /// <returns>A HashSet representation of the given sequence using the default System.Collections.Generic.IEqualityComparer for the given element type.</returns>
+        public static HashSet<TSource> ToHashSet<TSource>(this IEnumerable<TSource> source) {
             if (source == null)
                 throw new ArgumentNullException("source");
-            return new HashSet<T>(source);
+            return new HashSet<TSource>(source);
         }
-        /// <summary>
-        /// Returns a set representation of the given sequence using the specified IEqualityComparer to determine element uniqueness.
+        ///<summary> 
+        /// Returns a HashSet representation of the given sequence using the specified IEqualityComparer to determine element uniqueness.
         /// </summary>
-        /// <typeparam name="T">The type of elements in the sequence.</typeparam>
+        /// <typeparam name="TSource">The type of elements in the sequence.</typeparam>
         /// <param name="source">The sequence whose distinct elements will comprise the resulting set.</param>
         /// <param name="comparer">The System.Collections.Generic.IEqualityComparer implementation which will determine the distinctness of elements.</param>
-        /// <returns>A set representation of the given sequence using the default IEqualityComparer for the given element type.</returns>
-        public static HashSet<T> ToHashSet<T>(this IEnumerable<T> source, IEqualityComparer<T> comparer) {
+        /// <returns>A HashSet representation of the given sequence using the default IEqualityComparer for the given element type.</returns>
+        public static HashSet<TSource> ToHashSet<TSource>(this IEnumerable<TSource> source, IEqualityComparer<TSource> comparer) {
             if (source == null)
                 throw new ArgumentNullException("source");
-            return new HashSet<T>(source, comparer);
+            return new HashSet<TSource>(source, comparer);
         }
-
         /// <summary>
-        /// Returns a set representation of the given sequence using the specified IEqualityComparer to determine element uniqueness.
+        /// Returns a HashSet representation of the given sequence using the specified IEqualityComparer to determine element uniqueness.
         /// </summary>
-        /// <typeparam name="T">The type of elements in the sequence.</typeparam>
+        /// <typeparam name="TSource">The type of elements in the sequence.</typeparam>
         /// <param name="source">The sequence whose distinct elements will comprise the resulting set.</param>
         /// <param name="equals">A function Func&lt;T, T, bool&gt; to which will determine the distinctness of elements.</param>
         /// <param name="getHashCode">The function to extract a hash code from each element.</param>
-        /// <returns>A set representation of the given sequence using the default IEqualityComparer for the given element type.</returns>
-        public static HashSet<T> ToHashSet<T>(this IEnumerable<T> source, Func<T, T, bool> equals, Func<T, int> getHashCode) {
+        /// <returns>A HashSet representation of the given sequence using the default IEqualityComparer for the given element type.</returns>
+        public static HashSet<TSource> ToHashSet<TSource>(this IEnumerable<TSource> source, Func<TSource, TSource, bool> equals, Func<TSource, int> getHashCode) {
             if (source == null)
                 throw new ArgumentNullException("source");
-            return new HashSet<T>(source, new CustomComaparer<T>(equals, getHashCode));
+            return new HashSet<TSource>(source, new CustomComaparer<TSource>(equals, getHashCode));
         }
+        /// <summary>
+        /// Returns a SortedSet representation of the given sequence using the default IEqualityComparer for the given element type.
+        /// </summary>
+        /// <typeparam name="TSource">The type of elements in the sequence.</typeparam>
+        /// <param name="source">The sequence whose distinct elements will comprise the resulting SortedSet.</param>
+        /// <returns>A System.Collections.Generic.SortedSet representation of the given sequence using the default System.Collections.Generic.IEqualityComparer for the given element type.</returns>
+        public static SortedSet<TSource> ToSortedSet<TSource>(this IEnumerable<TSource> source) {
+            if (source == null)
+                throw new ArgumentNullException("source");
+            return new SortedSet<TSource>(source);
+        }
+        /// <summary>
+        /// Returns a SortedSet representation of the given sequence using the default IEqualityComparer for the given element type.
+        /// </summary>
+        /// <typeparam name="TSource">The type of elements in the sequence.</typeparam>
+        /// <param name="source">The sequence whose distinct elements will comprise the resulting SortedSet.</param>
+        /// <param name="comparer">The System.Collections.Generic.IEqualityComparer implementation which will determine the distinctness of elements.</param>
+        /// <returns>A System.Collections.Generic.SortedSet representation of the given sequence using the default System.Collections.Generic.IEqualityComparer for the given element type.</returns>
+        public static SortedSet<TSource> ToSortedSet<TSource>(this IEnumerable<TSource> source, IComparer<TSource> comparer) where TSource : IComparable<TSource> {
+            if (source == null)
+                throw new ArgumentNullException("source");
+            return new SortedSet<TSource>(source, comparer);
+        }
+
         /// <summary>
         /// Splits the sequence into a sequence of sequences based on the provided chunk size.
         /// </summary>
@@ -287,18 +311,19 @@ namespace LASI.Utilities
         public static IEnumerable<IEnumerable<T>> Split<T>(this IEnumerable<T> source, int chunkSize) {
             if (source == null)
                 throw new ArgumentNullException("source");
+            if (chunkSize < 1) { throw new ArgumentOutOfRangeException("chunkSize", chunkSize, "Value must be greater than 0."); }
             var partsToCreate = source.Count() / chunkSize + source.Count() % chunkSize == 0 ? 0 : 1;
             return from partIndex in Enumerable.Range(0, partsToCreate)
                    select source.Skip(partIndex * chunkSize).Take(chunkSize);
         }
 
 
-        static IEnumerable<Tuple<T, T>> PairWise<T>(this IEnumerable<T> source) {
+        static IEnumerable<Tuple<TSource, TSource>> PairWise<TSource>(this IEnumerable<TSource> source) {
             if (source == null)
                 throw new ArgumentNullException("source");
             if (source.None())
                 throw new ArgumentException("Sequence contains no elements", "source");
-            T first = source.First();
+            TSource first = source.First();
             foreach (var element in source.Skip(1)) {
                 yield return Tuple.Create(first, element);
                 first = element;
@@ -317,7 +342,7 @@ namespace LASI.Utilities
                 first = element;
             }
         }
-        static IEnumerable<Tuple<TResult1, TResult2>> PairWise<T, TResult1, TResult2>(this IEnumerable<T> source, Func<T, TResult1> item1Selector, Func<T, TResult2> item2Selector) {
+        static IEnumerable<Tuple<TResult1, TResult2>> PairWise<TSource, TResult1, TResult2>(this IEnumerable<TSource> source, Func<TSource, TResult1> item1Selector, Func<TSource, TResult2> item2Selector) {
             if (source == null)
                 throw new ArgumentNullException("source");
             if (item1Selector == null)
@@ -326,11 +351,126 @@ namespace LASI.Utilities
                 throw new ArgumentNullException("selector2");
             if (source.None())
                 throw new ArgumentException("Sequence contains no elements", "source");
-            T first = source.First();
+            TSource first = source.First();
             foreach (var element in source.Skip(1)) {
                 yield return Tuple.Create(item1Selector(first), item2Selector(element));
                 first = element;
             }
+        }
+        /// <summary>
+        /// Returns the maximal element of the given sequence, based on
+        /// the given projection.
+        /// </summary>
+        /// <typeparam name="TSource">Type of the source sequence</typeparam>
+        /// <typeparam name="TKey">Type of the projected element</typeparam>
+        /// <param name="source">Source sequence</param>
+        /// <param name="selector">Selector to use to pick the results to compare</param>        
+        /// <returns>The maximal element, according to the projection.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> or <paramref name="selector"/> is null</exception>
+        /// <exception cref="InvalidOperationException"><paramref name="source"/> is empty</exception>
+        public static TSource MaxBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> selector) {
+            return source.MaxBy(selector, Comparer<TKey>.Default);
+        }
+
+        /// <summary>
+        /// Returns the maximal element of the given sequence, based on
+        /// the given projection.
+        /// </summary>
+        /// <typeparam name="TSource">Type of the source sequence</typeparam>
+        /// <typeparam name="TKey">Type of the projected element</typeparam>
+        /// <param name="source">Source sequence</param>
+        /// <param name="selector">Selector to use to pick the results to compare</param>        
+        /// <param name="comparer">Comparer to use to compare projected values</param>
+        /// <returns>The maximal element, according to the projection.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> or <paramref name="selector"/> is null</exception>
+        /// <exception cref="InvalidOperationException"><paramref name="source"/> is empty</exception>
+        public static TSource MaxBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> selector, IComparer<TKey> comparer) {
+            if (source == null)
+                throw new ArgumentNullException("source");
+            if (source.None())
+                throw new InvalidCastException("Sequence Contains no elements");
+            if (selector == null)
+                throw new ArgumentNullException("selector");
+            return MinMaxImplementation<TSource, TKey>(source, selector, MinMax.Max);
+        }
+        /// <summary>
+        /// Returns the minimal element of the given sequence, based on
+        /// the given projection.
+        /// </summary>
+        /// <typeparam name="TSource">Type of the source sequence</typeparam>
+        /// <typeparam name="TKey">Type of the projected element</typeparam>
+        /// <param name="source">Source sequence</param>
+        /// <param name="selector">Selector to use to pick the results to compare</param>        
+        /// <returns>The minimal element, according to the projection.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> or <paramref name="selector"/> is null</exception>
+        /// <exception cref="InvalidOperationException"><paramref name="source"/> is empty</exception>
+        public static TSource MinBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> selector) {
+            return source.MinBy(selector, Comparer<TKey>.Default);
+        }
+        /// <summary>
+        /// Returns the minimal element of the given sequence, based on
+        /// the given projection.
+        /// </summary>
+        /// <typeparam name="TSource">Type of the source sequence</typeparam>
+        /// <typeparam name="TKey">Type of the projected element</typeparam>
+        /// <param name="source">Source sequence</param>
+        /// <param name="selector">Selector to use to pick the results to compare</param>        
+        /// <param name="comparer">Comparer to use to compare projected values</param>
+        /// <returns>The minimal element, according to the projection.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> or <paramref name="selector"/> is null</exception>
+        /// <exception cref="InvalidOperationException"><paramref name="source"/> is empty</exception>
+        public static TSource MinBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> selector, IComparer<TKey> comparer) {
+            if (source == null)
+                throw new ArgumentNullException("source");
+            if (source.None())
+                throw new InvalidCastException("Sequence Contains no elements");
+            if (selector == null)
+                throw new ArgumentNullException("selector");
+            return MinMaxImplementation<TSource, TKey>(source, selector, MinMax.Min);
+        }
+        private static TSource MinMaxImplementation<TSource, TMax>(IEnumerable<TSource> source, Func<TSource, TMax> selector, MinMax minmax) {
+            var orderedByProjection =
+                from e in source
+                select new { Element = e, Value = selector(e) } into withMax
+                orderby withMax.Value descending
+                select withMax.Element;
+
+            return minmax == MinMax.Max ? orderedByProjection.First() : orderedByProjection.Last();
+        }
+        private enum MinMax { Min, Max }
+
+
+
+        static IEnumerable<TSource> DistinctBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> selector) where TKey : IEquatable<TKey> {
+            return source.Distinct(
+                new CustomComaparer<TSource>(
+                (x, y) => selector(x).Equals(selector(y)),
+                x => selector(x).GetHashCode()));
+        }
+        static IEnumerable<TSource> ExceptBy<TSource, TKey>(this IEnumerable<TSource> source, IEnumerable<TSource> second, Func<TSource, TKey> selector) where TKey : IEquatable<TKey> {
+            return source.Except(second,
+                new CustomComaparer<TSource>(
+                (x, y) => selector(x).Equals(selector(y)),
+                x => selector(x).GetHashCode()));
+        }
+
+        static IEnumerable<TSource> IntersectBy<TSource, TKey>(this IEnumerable<TSource> source, IEnumerable<TSource> second, Func<TSource, TKey> selector) where TKey : IEquatable<TKey> {
+            return source.Intersect(second,
+                new CustomComaparer<TSource>(
+                (x, y) => selector(x).Equals(selector(y)),
+                x => selector(x).GetHashCode()));
+        }
+        static IEnumerable<TSource> UnionBy<TSource, TKey>(this IEnumerable<TSource> source, IEnumerable<TSource> second, Func<TSource, TKey> selector) where TKey : IEquatable<TKey> {
+            return source.Union(second,
+                new CustomComaparer<TSource>(
+                (x, y) => selector(x).Equals(selector(y)),
+                x => selector(x).GetHashCode()));
+        }
+        static bool SequenceEqualBy<TSource, TKey>(this IEnumerable<TSource> source, IEnumerable<TSource> second, Func<TSource, TKey> selector) where TKey : IEquatable<TKey> {
+            return source.SequenceEqual(second,
+                new CustomComaparer<TSource>(
+                (x, y) => selector(x).Equals(selector(y)),
+                x => selector(x).GetHashCode()));
         }
         #endregion
 
@@ -346,17 +486,16 @@ namespace LASI.Utilities
             public CustomComaparer(Func<T, T, bool> equals) {
                 if (equals == null)
                     throw new ArgumentNullException("equals", "A null equals function was provided.");
-                customEquals = equals;
-                customHasher = o => o == null ? 0 : 1;
+                this.equals = equals;
+                getHashCode = o => o == null ? 0 : 1;
             }
-            public CustomComaparer(Func<T, T, bool> equals, Func<T, int> hasher) {
+            public CustomComaparer(Func<T, T, bool> equals, Func<T, int> getHashCode) {
                 if (equals == null)
                     throw new ArgumentNullException("equals", "A null equals function was provided.");
-                customEquals = equals;
-                if (hasher == null)
-                    throw new ArgumentNullException("hasher", "A null getHashCode function was provided.");
-                customEquals = equals;
-                customHasher = hasher;
+                if (getHashCode == null)
+                    throw new ArgumentNullException("getHashCode", "A null getHashCode function was provided.");
+                this.equals = equals;
+                this.getHashCode = getHashCode;
             }
             #endregion
 
@@ -367,16 +506,16 @@ namespace LASI.Utilities
                 else if (ReferenceEquals(y, null))
                     return ReferenceEquals(x, null);
                 else
-                    return customEquals(x, y);
+                    return equals(x, y);
             }
             public override int GetHashCode(T obj) {
-                return customHasher(obj);
+                return getHashCode(obj);
             }
             #endregion
 
             #region Fields
-            private Func<T, T, bool> customEquals;
-            private Func<T, int> customHasher;
+            private Func<T, T, bool> equals;
+            private Func<T, int> getHashCode;
             #endregion
         }
 

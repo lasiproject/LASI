@@ -73,12 +73,12 @@ namespace LASI.Experimentation.CommandLine
 
 
 
+            var x = document.Paragraphs.SelectMany(p => p.Phrases).ToCommonRepresentation();
 
-
-            Output.WriteLine(bellicoseDescriptors.Format());
-            Output.WriteLine(bellicoseIndividuals.Format());
-            Output.WriteLine(bellicoseVerbals.Format());
-            Output.WriteLine(thoseWhoHaveYetToAttack.Format());
+            //Output.WriteLine(bellicoseDescriptors.Format());
+            //Output.WriteLine(bellicoseIndividuals.Format());
+            //Output.WriteLine(bellicoseVerbals.Format());
+            //Output.WriteLine(thoseWhoHaveYetToAttack.Format());
 
 
 

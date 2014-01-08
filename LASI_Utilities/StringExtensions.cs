@@ -85,5 +85,15 @@ namespace LASI.Utilities
                 throw new ArgumentNullException("value");
             return RemoveElements(value, (from c in remove select c.ToString()).ToArray());
         }
+
+        /// <summary>
+        /// Determines whether two strings should be considered equal when viewed in a case agnoistic manner.
+        /// </summary>
+        /// <param name="value">The first string to compare.</param>
+        /// <param name="other">The second string to compare</param>
+        /// <returns>True if the given strings are equal, false otherwise.</returns>
+        public static bool EqualsIgnoreCase(this string value, string other) {
+            return value.Equals(other, StringComparison.OrdinalIgnoreCase);
+        }
     }
 }

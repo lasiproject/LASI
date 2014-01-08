@@ -75,14 +75,14 @@ namespace LASI.Core.Heuristics
         /// other. Greater than zero This object is greater than other.
         /// </returns>
         public int CompareTo(SimilarityResult other) {
-            return this.rational.CompareTo(other.rational);
+            return this.ActualRatio.CompareTo(other.ActualRatio);
         }
         /// <summary>
         /// Returns the hash code for this instance.
         /// </summary>
         /// <returns>A 32-bit signed integer hash code.</returns>
         public override int GetHashCode() {
-            return rational.GetHashCode() ^ boolean.GetHashCode();
+            return ActualRatio.GetHashCode() ^ boolean.GetHashCode();
         }
         #endregion
 
@@ -90,6 +90,10 @@ namespace LASI.Core.Heuristics
 
         private bool boolean;
         private double rational;
+
+        public double ActualRatio {
+            get { return rational; }
+        }
 
         #endregion
 
@@ -111,7 +115,7 @@ namespace LASI.Core.Heuristics
         /// </summary>
         /// <param name="sr">The SimResult to convert.</param>
         /// <returns>A double with the same value as the conversion target's RatioResult Property.</returns>
-        public static implicit operator double(SimilarityResult sr) { return sr.rational; }
+        public static implicit operator double(SimilarityResult sr) { return sr.ActualRatio; }
 
         #endregion
 
@@ -129,7 +133,7 @@ namespace LASI.Core.Heuristics
         /// <param name="right">The SimRult on the right hand side.</param>
         /// <returns>True if the SimResult on the left is equal to the SimResult on the right.</returns>
         public static bool operator ==(SimilarityResult left, SimilarityResult right) {
-            return left.boolean == right.boolean && Math.Round(left.rational, 5) == Math.Round(right.rational, 5);
+            return left.boolean == right.boolean && Math.Round(left.ActualRatio, 5) == Math.Round(right.ActualRatio, 5);
         }
         /// <summary>
         /// Returns a value that indicates whether the SimResult on the left is not equal to the SimResult on the right.
