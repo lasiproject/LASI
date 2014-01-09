@@ -29,7 +29,7 @@ namespace LASI.App.Dialogs
         /// Opens the file indicated specified by the provided path using the default associated application for the current machine, displaying the provided help URI if an error occurs.
         /// </summary>
         /// <param name="filePath">The location of the file to open. This may be an absolute or relative path.</param>
-        /// <param name="helpURI">The help URI to display if an error occurs.</param>
+        /// <param name="helpURI">The help URI to Display if an error occurs.</param>
         private void OpenFileInDefaultApp(string filePath, string helpURI) {
             try {
                 System.Diagnostics.Process.Start(System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, filePath));

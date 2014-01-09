@@ -1,4 +1,5 @@
-﻿using LASI.Core.DocumentStructures;
+﻿
+using LASI.Core.DocumentStructures;
 using LASI.Core.Heuristics;
 using LASI.Utilities;
 using LASI.Core.Patternization;
@@ -109,6 +110,7 @@ namespace LASI.Core
                 }
             });
         }
+        
         /// <summary>
         /// Increase noun weights in a document by abstracting over synonyms
         /// </summary>

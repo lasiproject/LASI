@@ -63,7 +63,7 @@ namespace LASI.Core.Binding
                         (i as VerbPhrase).BindSubject(i.PreviousPhrase as NounPhrase); //(i.PreviousPhrase as NounPhrase).WasSubjectBound = true;
 
                     }
-                    if ((hasSubjectPronoun(i.PreviousPhrase) || (hasSubjectPronoun(i.PreviousPhrase.PreviousPhrase))) || ((i.PreviousPhrase != null) && (i.PreviousPhrase.PreviousPhrase is NounPhrase) &&
+                    if ((HasSubjectPronoun(i.PreviousPhrase) || (HasSubjectPronoun(i.PreviousPhrase.PreviousPhrase))) || ((i.PreviousPhrase != null) && (i.PreviousPhrase.PreviousPhrase is NounPhrase) &&
                         (i.PreviousPhrase.PreviousPhrase.Sentence == i.Sentence) &&
                          (i.PreviousPhrase.PreviousPhrase as NounPhrase).SubjectOf == null)) {
 
@@ -114,7 +114,7 @@ namespace LASI.Core.Binding
         /// <summary>
         /// Display the current state of the SubjectBinder for debugging purposes.
         /// </summary>
-        public void display() {
+        public void Display() {
 
             for (int i = 0; i < stateList.Count; i++) {
 
@@ -129,7 +129,7 @@ namespace LASI.Core.Binding
         /// </summary>
         /// <param name="p">Any phrase</param>
         /// <returns>Returns true of false if a phrase has a pronoune in it that can only be in the subject of a sentence</returns>
-        private bool hasSubjectPronoun(Phrase p)
+        public bool HasSubjectPronoun(this Phrase p)
         {
             bool val = false;
             foreach (var w in p.Words)

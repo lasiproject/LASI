@@ -14,7 +14,7 @@ namespace LASI.App.Dialogs
         /// <summary>
         /// Initializes a new instance of the CrossJoinSelectDialog in the context of the given results screen.
         /// </summary>
-        /// <param name="owner">The results screen referencing the Documents to display and owning the new dialog window.</param>
+        /// <param name="owner">The results screen referencing the Documents to Display and owning the new dialog window.</param>
         public CrossJoinSelectDialog(ResultsWindow owner) {
             InitializeComponent();
 

@@ -31,14 +31,6 @@ namespace LASI.Experimentation.CommandLine
 
             Input.WaitForKey();
 
-
-
-
-
-
-
-
-
             var toAttack = new Verb("attack", VerbForm.Base);
 
             var warlike = new Adjective("warlike");
@@ -70,21 +62,6 @@ namespace LASI.Experimentation.CommandLine
                 bellicoseIndividuals.Except(
                 from pair in attackerAttackeePairs
                 select pair.attacker);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         }
     }
 

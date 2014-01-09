@@ -2,7 +2,7 @@
 namespace LASI.App
 {
     /// <summary>
-    /// Represents the various kinds of datasets that a Chart can display.
+    /// Represents the various kinds of datasets that a Chart can Display.
     /// </summary>
     public enum ChartKind
     {

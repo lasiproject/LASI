@@ -283,11 +283,11 @@ namespace LASI.App
 
 
         /// <summary>
-        /// Creates and returns a sequence of textual display elements from the given sequence of RelationshipTuple elements.
+        /// Creates and returns a sequence of textual Display elements from the given sequence of RelationshipTuple elements.
         /// The resulting sequence is suitable for direct insertion into a DataGrid.
         /// </summary>
-        /// <param name="elementsToConvert">The sequence of Relationship Tuple to tranform into textual display elements.</param>
-        /// <returns>A sequence of textual display elements from the given sequence of RelationshipTuple elements.</returns>
+        /// <param name="elementsToConvert">The sequence of Relationship Tuple to tranform into textual Display elements.</param>
+        /// <returns>A sequence of textual Display elements from the given sequence of RelationshipTuple elements.</returns>
         internal static IEnumerable<object> TransformToGrid(IEnumerable<SVORelationship> elementsToConvert) {
             return from e in elementsToConvert.Distinct()
                    orderby e.CombinedWeight
