@@ -31,37 +31,9 @@ namespace LASI.Experimentation.CommandLine
 
             Input.WaitForKey();
 
-            var toAttack = new Verb("attack", VerbForm.Base);
-
-            var warlike = new Adjective("warlike");
-
-            var bellicoseDescriptors =
-                from d in document.Words.OfAdjective()
-                where d.IsSimilarTo(warlike)
-                select d;
-
-            var bellicoseVerbals =
-                from act in document.GetActions()
-                where act.IsSimilarTo(toAttack)
-                select act;
-
-            var bellicoseIndividuals =
-                from entity in document.GetEntities().InSubjectRole()
-                where bellicoseDescriptors.Intersect(entity.Descriptors).Any()
-                || bellicoseVerbals.Contains(entity.SubjectOf)
-                select entity;
-
-            var attackerAttackeePairs =
-                from victim in document.GetEntities().InObjectRole()
-                from attacker in bellicoseIndividuals
-                from act in bellicoseVerbals
-                where attacker.IsRelatedTo(victim).On(act)
-                select new { attacker, victim };
-
-            var thoseWhoHaveYetToAttack =
-                bellicoseIndividuals.Except(
-                from pair in attackerAttackeePairs
-                select pair.attacker);
+            var name = new ProperSingularNoun("Dustin");
+            var pron = new PersonalPronoun("he");
+            pron.PronounKind.
         }
     }
 

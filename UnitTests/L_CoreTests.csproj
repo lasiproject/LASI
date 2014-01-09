@@ -107,13 +107,14 @@
     <Compile Include="FunctionExtensionsTest.cs" />
     <Compile Include="GenericPluralNounTest.cs" />
     <Compile Include="GenericSingularNounTest.cs" />
+    <Compile Include="Huerisitics\BinderImplementation\SubjectBinderTests.cs" />
     <Compile Include="IDirectObjectTakerTest.cs" />
     <Compile Include="IEntityTest.cs" />
     <Compile Include="IGenderedTest.cs" />
     <Compile Include="IInderectObjectTakerTest.cs" />
     <Compile Include="ILexicalTest.cs" />
     <Compile Include="IModalityModifiableTest.cs" />
-    <Compile Include="LexicalComparisonAndCategorization\LookupTests.cs" />
+    <Compile Include="LookupTests.cs" />
     <Compile Include="ModalTest.cs" />
     <Compile Include="NounConjugatorTest.cs" />
     <Compile Include="NounPhraseTest.cs" />

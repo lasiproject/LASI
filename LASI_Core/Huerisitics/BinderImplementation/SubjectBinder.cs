@@ -63,7 +63,7 @@ namespace LASI.Core.Binding
                         (i as VerbPhrase).BindSubject(i.PreviousPhrase as NounPhrase); //(i.PreviousPhrase as NounPhrase).WasSubjectBound = true;
 
                     }
-                    if ((HasSubjectPronoun(i.PreviousPhrase) || (HasSubjectPronoun(i.PreviousPhrase.PreviousPhrase))) || ((i.PreviousPhrase != null) && (i.PreviousPhrase.PreviousPhrase is NounPhrase) &&
+                    if ((i.PreviousPhrase.HasSubjectPronoun() || (i.PreviousPhrase.PreviousPhrase.HasSubjectPronoun())) || ((i.PreviousPhrase != null) && (i.PreviousPhrase.PreviousPhrase is NounPhrase) &&
                         (i.PreviousPhrase.PreviousPhrase.Sentence == i.Sentence) &&
                          (i.PreviousPhrase.PreviousPhrase as NounPhrase).SubjectOf == null)) {
 
@@ -124,23 +124,6 @@ namespace LASI.Core.Binding
 
         }
 
-        /// <summary>
-        /// Takes in a phrase and evaluates to see if anything in that phrase is a pronoun that could only be in the subject of a sentence. Will cut down on the number of compares for certian phrases. 
-        /// </summary>
-        /// <param name="p">Any phrase</param>
-        /// <returns>Returns true of false if a phrase has a pronoune in it that can only be in the subject of a sentence</returns>
-        public bool HasSubjectPronoun(this Phrase p)
-        {
-            bool val = false;
-            foreach (var w in p.Words)
-            {
-                if ((w is Pronoun) && (w.Text == "he") || (w.Text == "they") || (w.Text == "she"))
-                {
-                    val = true;
-                }
-            }
-            return val;
-        }
         internal class State
         {
             public State() {
@@ -168,5 +151,26 @@ namespace LASI.Core.Binding
             Final
         }
     }
+    public static class SubjectBinderPhraseExtensions
+    {
+        /// <summary>
+        /// Takes in a phrase and evaluates to see if anything in that phrase is a pronoun that could only be in the subject of a sentence. Will cut down on the number of compares for certian phrases. 
+        /// </summary>
+        /// <param name="p">Any phrase</param>
+        /// <returns>Returns true of false if a phrase has a pronoune in it that can only be in the subject of a sentence</returns>
+        public static bool HasSubjectPronoun(this Phrase p)
+        {
+            bool val = false;
+            foreach (var w in p.Words)
+            {
+                if ((w is Pronoun) && (w.Text == "he") || (w.Text == "they") || (w.Text == "she"))
+                {
+                    val = true;
+                }
+            }
+            return val;
+        }
+    }
 }
+
 
