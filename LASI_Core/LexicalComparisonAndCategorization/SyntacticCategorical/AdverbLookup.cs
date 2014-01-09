@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using LASI.Utilities;
 
 namespace LASI.Core.Heuristics
 {
@@ -53,7 +54,12 @@ namespace LASI.Core.Heuristics
         }
 
         private ISet<string> SearchFor(string word) {
-
+            var containingSet = allSets.FirstOrDefault(s => s.Words.Contains(word));
+            if (containingSet != null) {
+                return (from sw in allSets
+                        where containingSet.ReferencedIndeces.Contains(sw.Id)
+                        select sw.Words).SelectMany(words => words).ToHashSet();
+            } else { return new HashSet<string>(); }
             //gets pointers of searched word
             //var tempResults = from sn in allSets
             //                  where sn.Words.Contains(word)
@@ -85,7 +91,6 @@ namespace LASI.Core.Heuristics
             //}
 
             //return new HashSet<string>(results);
-            throw new NotImplementedException();
         }
 
         internal override ISet<string> this[string search] {

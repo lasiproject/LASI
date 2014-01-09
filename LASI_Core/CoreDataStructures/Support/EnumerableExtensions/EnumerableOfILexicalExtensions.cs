@@ -140,7 +140,7 @@ namespace LASI.Core
         /// </summary>
         /// <param name="elements">The sequence of ILexial instances to filter.</param>
         /// <returns>All IEntity in the sequence</returns>
-        public static IEnumerable<IEntity> OfEntity<TLexical>(this IEnumerable<TLexical> elements) {
+        public static IEnumerable<IEntity> OfEntity<TLexical>(this IEnumerable<TLexical> elements) where TLexical : ILexical {
             return elements.OfType<IEntity>();
         }
         /// <summary>

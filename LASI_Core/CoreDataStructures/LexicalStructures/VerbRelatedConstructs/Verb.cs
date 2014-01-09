@@ -19,10 +19,10 @@ namespace LASI.Core
         /// Initializes a new instance of the Verb class which represents the base tense form of a verb.
         /// </summary>
         /// <param name="text">The key text content of the verb.</param>
-        /// <param name="tense">The tense of the verb</param>
-        public Verb(string text, VerbForm tense)
+        /// <param name="form">The tense of the verb</param>
+        public Verb(string text, VerbForm form)
             : base(text) {
-            Tense = tense;
+            Tense = form;
         }
         #region Methods
 
@@ -64,11 +64,11 @@ namespace LASI.Core
         public virtual void BindDirectObject(IEntity directObject) {
             directObjects.Add(directObject);
             directObject.DirectObjectOf = this;
-            if (Possessive) {
+            if (IsPossessive) {
                 foreach (var subject in this.Subjects) {
                     subject.AddPossession(directObject);
                 }
-            } else if (Classifier) {
+            } else if (IsClassifier) {
                 foreach (var subject in this.Subjects) {
                     LASI.Core.Heuristics.AliasLookup.DefineAlias(subject, directObject);
                 }
@@ -99,7 +99,7 @@ namespace LASI.Core
         /// <returns>True if the Verb is a classifier, false otherwise.</returns>
         protected virtual bool DetermineIsClassifier() {
             var syns = LASI.Core.Heuristics.Lookup.GetSynonyms(this);
-            return !Possessive && Modality == null && Modifiers.None() && syns.Contains("is", caseIgnoringComp);
+            return !IsPossessive && Modality == null && Modifiers.None() && syns.Contains("is", caseIgnoringComp);
         }
 
 
@@ -228,7 +228,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets a value indicating wether or not the Verb has classifying semantics. E.g. "A (is) a B"
         /// </summary>
-        public bool Classifier {
+        public bool IsClassifier {
             get {
                 classifier = classifier ?? DetermineIsClassifier();
                 return classifier.Value;
@@ -237,7 +237,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets a value indicating wether or not the Verb has possessive semantics. E.g. "A (has) a B"
         /// </summary>
-        public bool Possessive {
+        public bool IsPossessive {
             get {
                 possessive = possessive ?? DetermineIsPossessive();
                 return possessive.Value;

@@ -38,5 +38,7 @@ namespace LASI.Core
         /// Gets or sets the numeric Weight of the ILexical construct over the context of some subset of project extant documents.
         /// </summary>
         double MetaWeight { get; set; }
+
+        LASI.Core.DocumentStructures.Document Document { get; }
     }
 }

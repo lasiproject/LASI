@@ -41,7 +41,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets or set the Document instance to which the Clause belongs.
         /// </summary>
-        public Document ParentDocument { get { return Sentence != null ? Sentence.Document : null; } }
+        public Document Document { get { return Sentence != null ? Sentence.Document : null; } }
         /// <summary>
         /// Gets or set the Paragraph instance to which the Clause belongs.
         /// </summary>

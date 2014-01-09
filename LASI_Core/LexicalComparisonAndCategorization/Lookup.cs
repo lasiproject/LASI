@@ -13,7 +13,7 @@ namespace LASI.Core.Heuristics
 
     /// <summary>
     /// Provides Comprehensive static facilities for Synoynm Identification, Word and Phrase Comparison, Gender Stratification, and Named Entity Recognition.
-    /// </summary>
+    /// </summary>w
     public static partial class Lookup
     {
         #region Public Methods
@@ -26,19 +26,20 @@ namespace LASI.Core.Heuristics
         /// <param name="entity">The entity whose gender to lookup.</param>
         /// <returns>A NameGender value indiciating the likely gender of the entity.</returns>
         public static Gender GetGender(this IEntity entity) {
-            return entity.Match().Yield<Gender>().
-                    With<IGendered>(p => p.Gender).
-                    With<IReferencer>(p => GetGender(p)).
-                    With<NounPhrase>(n => GetNounPhraseGender(n)).
-                    With<CommonNoun>(n => Gender.Neutral).
-                    When(e => e.Referees.Any()).
-                    Then<IEntity>(e => (from pro in e.Referees
-                                        let gen = pro.Match().Yield<Gender>().
-                                            With<IGendered>(p => p.Gender)
-                                        .Result()
-                                        group gen by gen into byGen
-                                        orderby byGen.Count() descending
-                                        select byGen.Key).FirstOrDefault()).Result();
+            return entity.Match().Yield<Gender>()
+                    .With<IGendered>(p => p.Gender)
+                    .With<IReferencer>(p => GetGender(p))
+                    .With<NounPhrase>(n => GetNounPhraseGender(n))
+                    .With<CommonNoun>(n => Gender.Neutral)
+                    .When(e => e.Referees.Any())
+                    .Then<IEntity>(e => (
+                        from pro in e.Referees
+                        let gen = pro.Match().Yield<Gender>()
+                            .With<IGendered>(p => p.Gender)
+                        .Result()
+                        group gen by gen into byGen
+                        orderby byGen.Count() descending
+                        select byGen.Key).FirstOrDefault()).Result();
         }
         /// <summary>
         /// Returns a NameGender value indiciating the likely gender of the Pronoun based on its referrent if known, or else its PronounKind.
@@ -51,12 +52,12 @@ namespace LASI.Core.Heuristics
                     .When(referee.Referent != null)
                     .Then((from referent in referee.Referent
                            let gen =
-                           referent.Match().Yield<Gender>().
-                                  With<NounPhrase>(n => GetNounPhraseGender(n)).
-                                  With<Pronoun>(r => r.Gender).
-                                  With<ProperSingularNoun>(r => r.Gender).
-                                  With<CommonNoun>(n => Gender.Neutral).
-                           Result()
+                           referent.Match().Yield<Gender>()
+                            .With<NounPhrase>(n => GetNounPhraseGender(n))
+                            .With<Pronoun>(r => r.Gender)
+                            .With<ProperSingularNoun>(r => r.Gender)
+                            .With<CommonNoun>(n => Gender.Neutral)
+                           .Result()
                            group gen by gen into byGen
                            where byGen.Count() == referee.Referent.Count()
                            select byGen.Key).FirstOrDefault()).
@@ -398,7 +399,7 @@ namespace LASI.Core.Heuristics
                 },
                   results => {
                       genderAmbiguous =
-                          new HashSet<string>(male.Intersect(female, comparer).Union(female.Intersect(male, comparer)), comparer);
+                          new HashSet<string>(male.Intersect(female, caseless).Union(female.Intersect(male, caseless)), caseless);
 
                       var stratified =
                           from m in male.Select((s, i) => new { Rank = (double)i / male.Count, Name = s })
@@ -454,7 +455,7 @@ namespace LASI.Core.Heuristics
             private static async Task<ISet<string>> GetLinesAsync(string fileName) {
                 using (var reader = new StreamReader(fileName)) {
                     string data = await reader.ReadToEndAsync();
-                    return data.SplitRemoveEmpty('\r', '\n').Select(s => s.Trim()).ToHashSet(comparer);
+                    return data.SplitRemoveEmpty('\r', '\n').Select(s => s.Trim()).ToHashSet(caseless);
                 }
             }
 
@@ -493,7 +494,7 @@ namespace LASI.Core.Heuristics
                 }
             }
             public IReadOnlyCollection<string> AllNames {
-                get { return last.Union(male, comparer).Union(female, comparer).Union(genderAmbiguous, comparer).ToList().AsReadOnly(); }
+                get { return last.Union(male, caseless).Union(female, caseless).Union(genderAmbiguous, caseless).ToList().AsReadOnly(); }
             }
 
             #region Fields
@@ -508,7 +509,7 @@ namespace LASI.Core.Heuristics
             private static ISet<string> female;
             private static ISet<string> genderAmbiguous;
 
-            private static StringComparer comparer = StringComparer.OrdinalIgnoreCase;
+            private static StringComparer caseless = StringComparer.OrdinalIgnoreCase;
             #endregion
 
         }
