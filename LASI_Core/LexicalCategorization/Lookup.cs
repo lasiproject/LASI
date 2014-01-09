@@ -13,7 +13,7 @@ namespace LASI.Core.Heuristics
 
     /// <summary>
     /// Provides Comprehensive static facilities for Synoynm Identification, Word and Phrase Comparison, Gender Stratification, and Named Entity Recognition.
-    /// </summary>w
+    /// </summary>
     public static partial class Lookup
     {
         #region Public Methods
