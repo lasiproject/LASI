@@ -1,0 +1,299 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{8C562A93-A885-4FE9-8B8C-5CE34CCBAEC1}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>LASI.Core</RootNamespace>
+    <AssemblyName>Core</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>
+    </DocumentationFile>
+    <PlatformTarget>x64</PlatformTarget>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisIgnoreGeneratedCode>true</CodeAnalysisIgnoreGeneratedCode>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>
+    </DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\Core.XML</DocumentationFile>
+    <PlatformTarget>x64</PlatformTarget>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>
+    </ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <RunPostBuildEvent>Always</RunPostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Configuration.Install" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.SqlServerCe, Version=4.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Runtime.Serialization.Formatters.Soap" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Analysis\Binder.cs" />
+    <Compile Include="Analysis\BinderImplementations\AttributivePhraseBinder.cs" />
+    <Compile Include="Analysis\BinderImplementations\AdjectivePhraseBinder.cs" />
+    <Compile Include="CoreDataStructures\Experimental\PreBinder.cs" />
+    <Compile Include="Analysis\BinderImplementations\ScopedAliasMap.cs" />
+    <Compile Include="Analysis\BinderImplementations\ClauseSeperatingBranchingBinder.cs" />
+    <Compile Include="LexicalStructures\BridgingConstructs\ISubordinator.cs" />
+    <Compile Include="LexicalStructures\ExperimentalTypes\AggregatePhrase.cs" />
+    <Compile Include="CoreDataStructures\Experimental\INestableLexical.cs" />
+    <Compile Include="LexicalStructures\ExperimentalTypes\NestingClause.cs" />
+    <Compile Include="CoreDataStructures\Experimental\ObjectBinderV2.cs" />
+    <Compile Include="Analysis\ProcessingTask.cs" />
+    <Compile Include="Analysis\BinderImplementations\SubordinateClauseIdentifier.cs" />
+    <Compile Include="LexicalStructures\SymbolsAndPunctuators\SingleQuote.cs" />
+    <Compile Include="LexicalStructures\SymbolsAndPunctuators\QuotationMark.cs" />
+    <Compile Include="LexicalStructures\SymbolsAndPunctuators\DoubleQuote.cs" />
+    <Compile Include="LexicalStructures\EnumerableExtensions\EnumerableOfIPronounExtensions.cs" />
+    <Compile Include="LexicalStructures\NounRelatedConstructs\Gender.cs" />
+    <Compile Include="Analysis\InterDocumentAnalalysis\CrossDocumentJoiner.cs" />
+    <Compile Include="Analysis\InterDocumentAnalalysis\SVORelationship.cs" />
+    <Compile Include="InteropBindings\Reporting\ReportEventArgs.cs" />
+    <Compile Include="LookupAndComparison\AdverbialSimilarityProvider.cs" />
+    <Compile Include="LookupAndComparison\ResourceLoadEventArgs.cs" />
+    <Compile Include="LookupAndComparison\RepresentationalDeterminer.cs" />
+    <Compile Include="LookupAndComparison\VerbalSimilarityProvider.cs" />
+    <Compile Include="LookupAndComparison\EntitySimilarityProvider.cs" />
+    <Compile Include="LookupAndComparison\DescriptorSimilarityProvider.cs" />
+    <Compile Include="LookupAndComparison\Support\SimilarityResult.cs" />
+    <Compile Include="LookupAndComparison\SyntacticCategorical\Support\WordMorphers\AdverbMorpher.cs" />
+    <Compile Include="LexicalStructures\MiscLanguageConstructs\UnknownWord.cs" />
+    <Compile Include="LexicalStructures\NounRelatedConstructs\ISimpleGendered.cs" />
+    <Compile Include="LexicalStructures\UnderpinningTypes\IAggregateLexical.cs" />
+    <Compile Include="InteropBindings\Support\PatternMatching\Generalized\Basis\MatchClause.cs" />
+    <Compile Include="InteropBindings\Support\PatternMatching\LexicalSpecific\IMatchClause.cs" />
+    <Compile Include="InteropBindings\Support\PatternMatching\LexicalSpecific\MatchClause.cs" />
+    <Compile Include="InteropBindings\Support\PatternMatching\LexicalSpecific\PatternMatching.cs" />
+    <Compile Include="LexicalStructures\SymbolsAndPunctuators\IPairedPunctuator.cs" />
+    <Compile Include="LookupAndComparison\EntityClassificationExtensions.cs" />
+    <Compile Include="LexicalStructures\EnumerableExtensions\EnumerableOfRecursiveIEnumerableILexicalsExtenstions.cs" />
+    <Compile Include="LexicalStructures\NounRelatedConstructs\RelativePronounKind.cs" />
+    <Compile Include="LexicalStructures\RelationshipLookups\Helpers\ActionReceiverPair.cs" />
+    <Compile Include="LexicalStructures\RelationshipLookups\Helpers\PerformerReceiverPair.cs" />
+    <Compile Include="LexicalStructures\RelationshipLookups\Helpers\ExpressionExtensions.cs" />
+    <Compile Include="LexicalStructures\RelationshipLookups\IRelationshipLookup.cs" />
+    <Compile Include="LexicalStructures\RelationshipLookups\SampleRelationshipLookup.cs" />
+    <Compile Include="LexicalStructures\VerbRelatedConstructs\InfinitivePhrase.cs" />
+    <Compile Include="Analysis\BinderImplementations\IntraPhraseWordBinder.cs" />
+    <Compile Include="Analysis\BinderImplementations\InvalidStateTransitionException.cs" />
+    <Compile Include="Analysis\BinderImplementations\ObjectBinder.cs" />
+    <Compile Include="Analysis\BinderImplementations\PhraseWiseEntityGroupBinder.cs" />
+    <Compile Include="Analysis\BinderImplementations\PronounBinder.cs" />
+    <Compile Include="Analysis\BinderImplementations\SubjectBinder.cs" />
+    <Compile Include="Analysis\Weighter.cs" />
+    <Compile Include="LexicalStructures\UnderpinningTypes\SubordinateClauseBeginPhrase.cs" />
+    <Compile Include="LexicalStructures\RelationshipLookups\AliasDictionary.cs" />
+    <Compile Include="LexicalStructures\EnumerableExtensions\EnumerableOfIEntityExtensions.cs" />
+    <Compile Include="LexicalStructures\EnumerableExtensions\EnumerableOfILexicalExtensions.cs" />
+    <Compile Include="LexicalStructures\BridgingConstructs\PrepositionRole.cs" />
+    <Compile Include="LexicalStructures\NounRelatedConstructs\NounRelatedModifiers\DeterminerKind.cs" />
+    <Compile Include="LexicalStructures\NounRelatedConstructs\NounRelatedModifiers\IDeterminable.cs" />
+    <Compile Include="LexicalStructures\SymbolsAndPunctuators\SymbolPhrase.cs" />
+    <Compile Include="LexicalStructures\MiscLanguageConstructs\UnknownPhrase.cs" />
+    <Compile Include="LexicalStructures\NounRelatedConstructs\IReferencer.cs" />
+    <Compile Include="LexicalStructures\NounRelatedConstructs\AggregateEntity.cs" />
+    <Compile Include="LexicalStructures\NounRelatedConstructs\EntityKind.cs" />
+    <Compile Include="LexicalStructures\NounRelatedConstructs\IWeakPossessor.cs" />
+    <Compile Include="LexicalStructures\NounRelatedConstructs\PronounKind.cs" />
+    <Compile Include="LexicalStructures\NounRelatedConstructs\PronounPhrase.cs" />
+    <Compile Include="LexicalStructures\UnderpinningTypes\ConflictingClauseRoleException.cs" />
+    <Compile Include="LexicalStructures\UnderpinningTypes\SubordinateClause.cs" />
+    <Compile Include="LexicalStructures\MiscLanguageConstructs\InterjectionPhrase.cs" />
+    <Compile Include="LexicalStructures\NounRelatedConstructs\PossessivePronoun.cs" />
+    <Compile Include="LexicalStructures\NounRelatedConstructs\RelativePossessivePronoun.cs" />
+    <Compile Include="LexicalStructures\UnderpinningTypes\ILexical.cs" />
+    <Compile Include="LexicalStructures\EnumerableExtensions\EnumerableOfDocumentStructureExtensions.cs" />
+    <Compile Include="DocumentStructures\Paragraph.cs" />
+    <Compile Include="LexicalStructures\EnumerableExtensions\EnumerableOfPhraseExtensions.cs" />
+    <Compile Include="DocumentStructures\Sentence.cs" />
+    <Compile Include="LexicalStructures\AdverbRelatedConstructs\IAdverbial.cs" />
+    <Compile Include="LexicalStructures\MiscLanguageConstructs\IConflatable.cs" />
+    <Compile Include="LexicalStructures\AdjectiveRelatedConstructs\IDescriptor.cs" />
+    <Compile Include="LexicalStructures\NounRelatedConstructs\IPossessable.cs" />
+    <Compile Include="LexicalStructures\NounRelatedConstructs\IPossesser.cs" />
+    <Compile Include="LexicalStructures\NounRelatedConstructs\IQuantifer.cs" />
+    <Compile Include="LexicalStructures\VerbRelatedConstructs\IModalityModdifiable.cs" />
+    <Compile Include="InteropBindings\Support\Comparers.cs" />
+    <Compile Include="InteropBindings\ResourceManagement\ResourceManagement.cs" />
+    <Compile Include="LookupAndComparison\SyntacticCategorical\AdjectiveLookup.cs" />
+    <Compile Include="LookupAndComparison\SyntacticCategorical\AdverbLookup.cs" />
+    <Compile Include="LookupAndComparison\SyntacticCategorical\Support\WordMorphers\NounMorpher.cs" />
+    <Compile Include="LookupAndComparison\Support\Exceptions\LookupExceptions.cs" />
+    <Compile Include="LexicalStructures\NounRelatedConstructs\RelativePronoun.cs" />
+    <Compile Include="LexicalStructures\NounRelatedConstructs\CommonNoun.cs" />
+    <Compile Include="LexicalStructures\NounRelatedConstructs\ProperNoun.cs" />
+    <Compile Include="LexicalStructures\BridgingConstructs\ConjunctionPhrase.cs" />
+    <Compile Include="LexicalStructures\MiscLanguageConstructs\RoughListPhrase.cs" />
+    <Compile Include="LexicalStructures\BridgingConstructs\ParticlePhrase.cs" />
+    <Compile Include="LexicalStructures\NounRelatedConstructs\NounRelatedModifiers\PreDeterminer.cs" />
+    <Compile Include="LexicalStructures\BridgingConstructs\IConjunctive.cs" />
+    <Compile Include="LexicalStructures\VerbRelatedConstructs\PastParticipleVerb.cs" />
+    <Compile Include="LexicalStructures\VerbRelatedConstructs\PastTenseVerb.cs" />
+    <Compile Include="LexicalStructures\VerbRelatedConstructs\PresentParticipleGerund.cs" />
+    <Compile Include="LexicalStructures\AdjectiveRelatedConstructs\ComparativeAdjective.cs" />
+    <Compile Include="LexicalStructures\AdjectiveRelatedConstructs\SuperlativeAdjective .cs" />
+    <Compile Include="LexicalStructures\MiscLanguageConstructs\PossessiveEnding.cs" />
+    <Compile Include="LookupAndComparison\SyntacticCategorical\NounLookup.cs" />
+    <Compile Include="LookupAndComparison\SyntacticCategorical\Support\SynSet.cs" />
+    <Compile Include="LookupAndComparison\Lookup.cs" />
+    <Compile Include="LexicalStructures\AdjectiveRelatedConstructs\Adjective.cs" />
+    <Compile Include="LexicalStructures\AdjectiveRelatedConstructs\AdjectivePhrase.cs" />
+    <Compile Include="LexicalStructures\AdverbRelatedConstructs\Adverb.cs" />
+    <Compile Include="LexicalStructures\AdverbRelatedConstructs\AdverbPhrase.cs" />
+    <Compile Include="LexicalStructures\UnderpinningTypes\Clause.cs" />
+    <Compile Include="LexicalStructures\AdverbRelatedConstructs\ComparativeAdverb.cs" />
+    <Compile Include="LexicalStructures\BridgingConstructs\Conjunction.cs" />
+    <Compile Include="LexicalStructures\MiscLanguageConstructs\Existential.cs" />
+    <Compile Include="LexicalStructures\MiscLanguageConstructs\ForeignWord.cs" />
+    <Compile Include="LexicalStructures\NounRelatedConstructs\CommonPluralNoun.cs" />
+    <Compile Include="LexicalStructures\NounRelatedConstructs\NounRelatedModifiers\Determiner.cs" />
+    <Compile Include="DocumentStructures\Document.cs" />
+    <Compile Include="LexicalStructures\NounRelatedConstructs\IAggregateEntity.cs" />
+    <Compile Include="LexicalStructures\BridgingConstructs\Interjection.cs" />
+    <Compile Include="LexicalStructures\MiscLanguageConstructs\InterrogativePhrase.cs" />
+    <Compile Include="LexicalStructures\VerbRelatedConstructs\IVerbalObject.cs" />
+    <Compile Include="LexicalStructures\NounRelatedConstructs\IReferenceable.cs" />
+    <Compile Include="LexicalStructures\AdverbRelatedConstructs\IAdverbialModifiable.cs" />
+    <Compile Include="LexicalStructures\AdjectiveRelatedConstructs\IDescribable.cs" />
+    <Compile Include="LexicalStructures\NounRelatedConstructs\IEntity.cs" />
+    <Compile Include="LexicalStructures\VerbRelatedConstructs\IInderectObjectTaker.cs" />
+    <Compile Include="LexicalStructures\NounRelatedConstructs\IQuantifiable.cs" />
+    <Compile Include="LexicalStructures\VerbRelatedConstructs\IVerbalSubject.cs" />
+    <Compile Include="LexicalStructures\VerbRelatedConstructs\ISubjectTaker.cs" />
+    <Compile Include="LexicalStructures\VerbRelatedConstructs\IDirectObjectTaker.cs" />
+    <Compile Include="LexicalStructures\BridgingConstructs\IPrepositional.cs" />
+    <Compile Include="LexicalStructures\NounRelatedConstructs\CommonSingularNoun.cs" />
+    <Compile Include="LexicalStructures\VerbRelatedConstructs\ModalAuxilary.cs" />
+    <Compile Include="LexicalStructures\BridgingConstructs\Particle.cs" />
+    <Compile Include="LexicalStructures\NounRelatedConstructs\ProperPluralNoun.cs" />
+    <Compile Include="LexicalStructures\SymbolsAndPunctuators\Punctuator.cs" />
+    <Compile Include="LexicalStructures\MiscLanguageConstructs\SimpleDeclarativePhrase.cs" />
+    <Compile Include="LexicalStructures\SymbolsAndPunctuators\SentenceEnding.cs" />
+    <Compile Include="LexicalStructures\NounRelatedConstructs\PersonalPronoun.cs" />
+    <Compile Include="LexicalStructures\AdverbRelatedConstructs\SuperlativeAdverb.cs" />
+    <Compile Include="LexicalStructures\SymbolsAndPunctuators\Symbol.cs" />
+    <Compile Include="LookupAndComparison\SyntacticCategorical\WordNetLookup.cs" />
+    <Compile Include="LexicalStructures\VerbRelatedConstructs\IVerbal.cs" />
+    <Compile Include="LexicalStructures\NounRelatedConstructs\Noun.cs" />
+    <Compile Include="LexicalStructures\NounRelatedConstructs\NounPhrase.cs" />
+    <Compile Include="LexicalStructures\NounRelatedConstructs\NounRelatedModifiers\Quantifier.cs" />
+    <Compile Include="LexicalStructures\UnderpinningTypes\Phrase.cs" />
+    <Compile Include="LexicalStructures\BridgingConstructs\Preposition.cs" />
+    <Compile Include="LexicalStructures\BridgingConstructs\PrepositionalPhrase.cs" />
+    <Compile Include="LexicalStructures\NounRelatedConstructs\Pronoun.cs" />
+    <Compile Include="LexicalStructures\NounRelatedConstructs\ProperSingularNoun.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="LexicalStructures\BridgingConstructs\ToLinker.cs" />
+    <Compile Include="LookupAndComparison\SyntacticCategorical\Support\WordMorphers\VerbMorpher.cs" />
+    <Compile Include="LookupAndComparison\SyntacticCategorical\VerbLookup.cs" />
+    <Compile Include="LexicalStructures\VerbRelatedConstructs\Verb.cs" />
+    <Compile Include="LexicalStructures\VerbRelatedConstructs\VerbPhrase.cs" />
+    <Compile Include="LexicalStructures\EnumerableExtensions\EnumerableOfIVerbalExtensions.cs" />
+    <Compile Include="LexicalStructures\VerbRelatedConstructs\VerbForm.cs" />
+    <Compile Include="LexicalStructures\UnderpinningTypes\Word.cs" />
+    <Compile Include="LexicalStructures\EnumerableExtensions\EnumerableOfWordExtensions.cs" />
+    <Compile Include="LookupAndComparison\SyntacticCategorical\Support\WordNetLexCategoryInformation.cs" />
+    <None Include="ClassDiagram1.cd" />
+    <None Include="ClassDiagram2.cd" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="LookupAndComparison\Support\KnownSubordinators.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Utilities\L_Utilities.csproj">
+      <Project>{bc10a8f0-77ff-46d0-9f9a-38e2fda22d21}</Project>
+      <Name>L_Utilities</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.5">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.5 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.SQL.Server.Compact.4.0">
+      <Visible>False</Visible>
+      <ProductName>SQL Server Compact 4.0 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="InteropBindings\Support\PatternMatching\Experimental\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

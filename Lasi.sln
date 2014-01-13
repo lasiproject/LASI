@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21126.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E61EB5D5-494B-437A-A9ED-20756769E139}"
 	ProjectSection(SolutionItems) = preProject
 		LasiClassFramework.vsmdi = LasiClassFramework.vsmdi
@@ -8,9 +10,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		TestSettings.runsettings = TestSettings.runsettings
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "L_App", "LASI_UserInterface\L_App.csproj", "{6C8D6DA8-BD8B-48C8-ACB9-8FDE7E3A672E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "L_App", "App\L_App.csproj", "{6C8D6DA8-BD8B-48C8-ACB9-8FDE7E3A672E}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTests", "UnitTests", "{B3482180-A78D-4A20-B744-81620578B79B}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestProjects", "TestProjects", "{B3482180-A78D-4A20-B744-81620578B79B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WordNet", "WordNet", "{20C3B51F-FF54-4452-B69E-67D596843284}"
 	ProjectSection(SolutionItems) = preProject
@@ -25,7 +27,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WordNet", "WordNet", "{20C3
 		WordNetThesaurusData\index.verb = WordNetThesaurusData\index.verb
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "L_Utilities", "LASI_Utilities\L_Utilities.csproj", "{BC10A8F0-77FF-46D0-9F9A-38E2FDA22D21}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "L_Utilities", "Utilities\L_Utilities.csproj", "{BC10A8F0-77FF-46D0-9F9A-38E2FDA22D21}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "XMLShemas", "XMLShemas", "{BB8A5BF2-C41F-4330-B55B-D1097569B529}"
 	ProjectSection(SolutionItems) = preProject
@@ -41,7 +43,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SchemaTestFiles", "SchemaTe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "L_CoreTests", "UnitTests\L_CoreTests.csproj", "{F4ABC10C-0BE9-4195-99E7-DB027757EC6B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "L_Interop", "LASI_InteropLayer\L_Interop.csproj", "{06B96679-9758-4B15-8E75-0F46416E68B7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "L_Interop", "InteropLayer\L_Interop.csproj", "{06B96679-9758-4B15-8E75-0F46416E68B7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Licenses", "Licenses", "{B012451A-BCB9-423F-8119-BE8027CA8474}"
 	ProjectSection(SolutionItems) = preProject
@@ -53,20 +55,21 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Licenses", "Licenses", "{B0
 		Licences\WPFToolkitLicense.txt = Licences\WPFToolkitLicense.txt
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "L_ContentSystem", "LASI_ContentSystem\L_ContentSystem.csproj", "{F13D6C6D-A004-45BD-8FB8-E044E20F1204}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "L_ContentSystem", "ContentSystem\L_ContentSystem.csproj", "{F13D6C6D-A004-45BD-8FB8-E044E20F1204}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Experimentation", "Experimentation\Experimentation.csproj", "{C5304A4C-A870-4ACF-B3EE-30A789159774}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Experimentation", "ExperimentalClientProjects\Experimentation\Experimentation.csproj", "{C5304A4C-A870-4ACF-B3EE-30A789159774}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExperimentationWPF", "WPFExperimentation\ExperimentationWPF.csproj", "{F57E105E-00CD-429A-8819-FAC415678F84}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExperimentationWPF", "ExperimentalClientProjects\WPFExperimentation\ExperimentationWPF.csproj", "{F57E105E-00CD-429A-8819-FAC415678F84}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "L_Core", "LASI_Core\L_Core.csproj", "{8C562A93-A885-4FE9-8B8C-5CE34CCBAEC1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "L_Core", "Core\L_Core.csproj", "{8C562A93-A885-4FE9-8B8C-5CE34CCBAEC1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "L_UtilitiesTests", "L_UtilitiesTests\L_UtilitiesTests.csproj", "{61B3F39F-D831-44E6-A8F1-8A7A38206A62}"
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FSharpExperimentation", "ExperimentalClientProjects\FSharpExperimentation\FSharpExperimentation.fsproj", "{8BC22765-5BE2-4D70-9B4F-6CA3360D8562}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ExperimentalClientProjects", "ExperimentalClientProjects", "{2F5E64C4-89A9-4B41-942F-97BB85044FE5}"
+EndProject
 Global
-	GlobalSection(TestCaseManagementSettings) = postSolution
-		CategoryFile = LasiClassFramework.vsmdi
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|Mixed Platforms = Debug|Mixed Platforms
@@ -187,6 +190,18 @@ Global
 		{61B3F39F-D831-44E6-A8F1-8A7A38206A62}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{61B3F39F-D831-44E6-A8F1-8A7A38206A62}.Release|x64.ActiveCfg = Release|Any CPU
 		{61B3F39F-D831-44E6-A8F1-8A7A38206A62}.Release|x86.ActiveCfg = Release|Any CPU
+		{8BC22765-5BE2-4D70-9B4F-6CA3360D8562}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8BC22765-5BE2-4D70-9B4F-6CA3360D8562}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8BC22765-5BE2-4D70-9B4F-6CA3360D8562}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{8BC22765-5BE2-4D70-9B4F-6CA3360D8562}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{8BC22765-5BE2-4D70-9B4F-6CA3360D8562}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{8BC22765-5BE2-4D70-9B4F-6CA3360D8562}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{8BC22765-5BE2-4D70-9B4F-6CA3360D8562}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8BC22765-5BE2-4D70-9B4F-6CA3360D8562}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8BC22765-5BE2-4D70-9B4F-6CA3360D8562}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{8BC22765-5BE2-4D70-9B4F-6CA3360D8562}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{8BC22765-5BE2-4D70-9B4F-6CA3360D8562}.Release|x64.ActiveCfg = Release|Any CPU
+		{8BC22765-5BE2-4D70-9B4F-6CA3360D8562}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -194,11 +209,18 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{BB8A5BF2-C41F-4330-B55B-D1097569B529} = {E61EB5D5-494B-437A-A9ED-20756769E139}
 		{B012451A-BCB9-423F-8119-BE8027CA8474} = {E61EB5D5-494B-437A-A9ED-20756769E139}
+		{20C3B51F-FF54-4452-B69E-67D596843284} = {E61EB5D5-494B-437A-A9ED-20756769E139}
 		{F4ABC10C-0BE9-4195-99E7-DB027757EC6B} = {B3482180-A78D-4A20-B744-81620578B79B}
 		{61B3F39F-D831-44E6-A8F1-8A7A38206A62} = {B3482180-A78D-4A20-B744-81620578B79B}
 		{8829F489-A966-4321-BD4A-FDC4536D0BBA} = {BB8A5BF2-C41F-4330-B55B-D1097569B529}
+		{8BC22765-5BE2-4D70-9B4F-6CA3360D8562} = {2F5E64C4-89A9-4B41-942F-97BB85044FE5}
+		{F57E105E-00CD-429A-8819-FAC415678F84} = {2F5E64C4-89A9-4B41-942F-97BB85044FE5}
+		{C5304A4C-A870-4ACF-B3EE-30A789159774} = {2F5E64C4-89A9-4B41-942F-97BB85044FE5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		VisualSVNWorkingCopyRoot = .
+	EndGlobalSection
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = LasiClassFramework.vsmdi
 	EndGlobalSection
 EndGlobal

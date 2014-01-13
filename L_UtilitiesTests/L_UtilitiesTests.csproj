@@ -56,7 +56,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\LASI_Utilities\L_Utilities.csproj">
+    <ProjectReference Include="..\Utilities\L_Utilities.csproj">
       <Project>{BC10A8F0-77FF-46D0-9F9A-38E2FDA22D21}</Project>
       <Name>L_Utilities</Name>
     </ProjectReference>
