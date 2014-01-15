@@ -27,7 +27,7 @@ namespace LASI.Core.Heuristics
         /// <returns>A NameGender value indiciating the likely gender of the entity.</returns>
         public static Gender GetGender(this IEntity entity) {
             return entity.Match().Yield<Gender>()
-                    .With<IGendered>(p => p.Gender)
+                    .With<ISimpleGendered>(p => p.Gender)
                     .With<IReferencer>(p => GetGender(p))
                     .With<NounPhrase>(n => GetNounPhraseGender(n))
                     .With<CommonNoun>(n => Gender.Neutral)
@@ -35,7 +35,7 @@ namespace LASI.Core.Heuristics
                     .Then<IEntity>(e => (
                         from pro in e.Referees
                         let gen = pro.Match().Yield<Gender>()
-                            .With<IGendered>(p => p.Gender)
+                            .With<ISimpleGendered>(p => p.Gender)
                         .Result()
                         group gen by gen into byGen
                         orderby byGen.Count() descending
@@ -61,7 +61,7 @@ namespace LASI.Core.Heuristics
                            group gen by gen into byGen
                            where byGen.Count() == referee.Referent.Count()
                            select byGen.Key).FirstOrDefault()).
-                    With<IGendered>(p => p.Gender)
+                    With<ISimpleGendered>(p => p.Gender)
                 .Result();
         }
 
@@ -104,8 +104,8 @@ namespace LASI.Core.Heuristics
         private static Gender GetPronounPhraseGender(PronounPhrase name) {
             if (name.Words.All(w => w is Determiner))
                 return Gender.Unknown;
-            var genders = name.Words.OfType<IGendered>().Select(w => w.Gender);
-            return name.Words.OfProperNoun().Any(n => !(n is IGendered)) ?
+            var genders = name.Words.OfType<ISimpleGendered>().Select(w => w.Gender);
+            return name.Words.OfProperNoun().Any(n => !(n is ISimpleGendered)) ?
                 GetNounPhraseGender(name) :
                 genders.Any() && genders.All(g => g.IsFemale()) ? Gender.Female :
                 genders.Any() && genders.All(g => g.IsMale()) ? Gender.Male :
