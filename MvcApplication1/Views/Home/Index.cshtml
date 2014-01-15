@@ -1,0 +1,48 @@
+﻿@model MvcExperimentation.Models.LoginModel
+@{
+    ViewBag.Title = "My Todo List";
+}
+@functions{
+    public string GetAntiForgeryToken() {
+        string cookieToken, formToken;
+        AntiForgery.GetTokens(null, out cookieToken, out formToken);
+        return cookieToken + ":" + formToken;
+    }
+}
+
+<header>
+    <h1>@ViewBag.Title</h1>
+</header>
+
+<div id="main-content">
+    @using LASI.Utilities;
+    @{
+
+        System.IO.Directory.SetCurrentDirectory(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Resources));
+    }<div id="documentDisplayDiv">
+
+
+        <table>
+            @{  var doc = new LASI.Interop.AnalysisController(new LASI.ContentSystem.TextFile(@"C:\Users\Aluan\Desktop\documents\ducks.txt")).ProcessAsync().Result.First();
+            <tbody>
+                @foreach (var rowData in doc.Phrases.Split(10)) {
+                    <tr>
+                        @foreach (var phrase in rowData) {
+                            <td>@phrase.Text</td>
+                        }
+                    </tr>
+                }
+            </tbody>
+            }
+        </table>
+    </div>
+
+</div>
+
+@if (@User.Identity.IsAuthenticated) {
+    @section scripts {
+        @Scripts.Render("~/bundles/knockout")
+        @Scripts.Render("~/bundles/jqueryval")
+        @Scripts.Render("~/bundles/todo")
+    }
+}

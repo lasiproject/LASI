@@ -1,0 +1,99 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>TypeScript HTML App</title>
+    <link href="http://code.jquery.com/ui/1.10.1/themes/base/minified/jquery-ui.min.css" rel="stylesheet" type="text/css" />
+    <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet" type="text/css" />
+
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="http://code.jquery.com/ui/1.10.1/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+    
+    <script type="text/javascript" src="Scripts/jquery.elang.common.js"></script>
+    <script type="text/javascript" src="Scripts/jquery.elang.db.js"></script>
+    <script type="text/javascript" src="Scripts/jquery.elang.edit.js"></script>
+    <script type="text/javascript" src="Scripts/jquery.elang.search.js"></script>
+    <script type="text/javascript" src="Scripts/jquery.elang.test.js"></script>
+    <script type="text/javascript" src="Scripts/jquery.elang.lang.en.js"></script>
+    <script type="text/javascript" src="Scripts/jquery.elang.lang.hu.js"></script>
+
+    <!--<script type="text/javascript" src="Scripts/jquery.elang.common.min.js"></script>
+    <script type="text/javascript" src="Scripts/jquery.elang.db.min.js"></script>
+    <script type="text/javascript" src="Scripts/jquery.elang.edit.min.js"></script>
+    <script type="text/javascript" src="Scripts/jquery.elang.search.min.js"></script>
+    <script type="text/javascript" src="Scripts/jquery.elang.test.min.js"></script>
+    <script type="text/javascript" src="Scripts/jquery.elang.lang.en.min.js"></script>
+    <script type="text/javascript" src="Scripts/jquery.elang.lang.hu.min.js"></script>-->
+    
+    <style type="text/css">
+		body              { font-size: 80%; padding: 0 25% 0 25%; }
+        h1                { font-size: 170%; }
+        #accordion div.ui-accordion-content div.content { height: 300px; }
+		.editfield 		  { width: 90%; }
+		div.langdirection, div.testvariant, div.testmode 
+						  { padding: 3px 0px 3px 0px; margin: 10px 5px 0px 5px; }
+		.panel            { padding: 10px 0px 10px 0px; margin: 0px 5px 0px 5px; }
+		.langmenu		  { height: 20px; }
+        form              { margin-top: 3px; }
+        .result           { height: 150px; margin-top: 3px; }
+        .result-head      { padding-top: 1px; padding-bottom: 1px; }
+        .page-header      { padding-top: 1px; padding-bottom: 2px; }
+	</style>
+
+    <script type="text/javascript">
+        jQuery(document).ready(function () {
+            ELang.ELangCommon.setLang("en");
+
+            jQuery("img.lang-hu").click(function () {
+                ELang.ELangCommon.setLang("hu");
+            });
+            jQuery("img.lang-en").click(function () {
+                ELang.ELangCommon.setLang("en");
+            });
+
+            $("h3.search").elangSearch();
+            $("h3.edit").elangEdit();
+            $("h3.test").elangTest();
+
+            $("#accordion")
+                .accordion({
+                    header: "h3",
+                    active: 0,
+                    create: function (event, ui) {
+                        ui.header.find("span[id]").addClass("label-info");
+                    },
+                    beforeActivate: function (event, ui) {
+                        ui.oldHeader.find("span[id]").removeClass("label-info");
+                        ui.newHeader.find("span[id]").addClass("label-info");
+                    }
+                })
+                .removeClass("ui-widget");
+
+        });
+    </script>
+</head>
+<body>
+    <h1>TypeScript HTML App - eLang 0.5.1</h1>
+
+    <div class="content">
+			<div class="ui-widget-content ui-corner-all page-header">
+				<span class="label" id="lblPageHeader">eLang - Nyelvtanulás</span>
+			</div>
+			<div class="langmenu ui-menu">
+				<img src="img/en.png" class="ui-menu-icon ui-button lang-en" alt="en" />
+				<img src="img/hu.png" class="ui-menu-icon ui-button lang-hu" alt="hu" />
+			</div>
+			
+			<div id="accordion">
+				<h3 class="search"></h3>
+				<div></div>
+				<h3 class="edit"></h3>
+				<div></div>
+				<h3 class="test"></h3>
+				<div></div>
+			</div>
+		</div>
+</body>
+</html>

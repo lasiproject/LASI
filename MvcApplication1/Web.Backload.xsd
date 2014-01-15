@@ -1,0 +1,240 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:vs="http://schemas.microsoft.com/Visual-Studio-Intellisense" xmlns:name="urn:backload-schema" >
+  <xs:element name="backload">
+    <xs:annotation>
+      <xs:documentation>Basic settings for the Backload. component library. TIP: You do not need to include any of these setting in your web.config or external config file, if these default settings suit your needs.</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence maxOccurs="unbounded">
+        <xs:element name="cacheManager" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Defines which cache headers are added to the response, and returns a http status 304 (Not Modified), if no files have been uploaded or deleted since the last request. Note: If you manually or by a different application change files, don't use "LastModified=true", because only requests handled by the Backload component will be recognized and a new LastModified date is set.</xs:documentation>
+          </xs:annotation>
+          <xs:complexType>
+            <xs:attribute name="lastModified" type="xs:boolean" default="false" use="optional"><xs:annotation><xs:documentation> If true, a "Last-Modified" header is added to the response. In a subsequent request Backload returns a 304 (Not Modified) if no files have been uploaded or deleted since the last request [Default="false"].</xs:documentation></xs:annotation></xs:attribute>
+            <xs:attribute name="etag" type="xs:boolean" default="false" use="optional"><xs:annotation><xs:documentation>If true, a ETag is returned in the response on a single file request. In the next request for this file a 304 is returned, if the file has not been modified [Default="false"].</xs:documentation></xs:annotation></xs:attribute>
+            <xs:attribute name="expires" type="xs:long" default="0" use="optional"><xs:annotation><xs:documentation>Adds an Expires header to the response, if the value is not 0 (seconds). Example: useExpires="3600" (adds 1 hour to the Expires header) [Default="0"]</xs:documentation></xs:annotation></xs:attribute>
+            <xs:attribute name="mustRevalidate" type="xs:boolean" default="true" use="optional"><xs:annotation><xs:documentation>Sets "must-revalidate" within the Cache-Control header. Caches (e.g. Browser, Proxy) are forced to validate if the request has changed [Default="false"].</xs:documentation></xs:annotation></xs:attribute>
+            <xs:attribute name="location" default="ServerAndPrivate" use="optional"><xs:annotation><xs:documentation>Adds a Cache-Control header to the response (Please refer to the System.Web.HttpCacheability enumeration for more info) [Default="ServerAndPrivate"]</xs:documentation></xs:annotation>
+              <xs:simpleType>
+                <xs:restriction base="xs:string">
+                  <xs:enumeration value="None"><xs:annotation><xs:documentation>Doesn't add a  "Cache-Control" header to the response.</xs:documentation></xs:annotation></xs:enumeration>
+                  <xs:enumeration value="NoCache"><xs:annotation><xs:documentation>Adds a "Cache-Control: no-cache" header to the response</xs:documentation></xs:annotation></xs:enumeration>
+                  <xs:enumeration value="Private"><xs:annotation><xs:documentation>Adds a "Cache-Control: private" header to the response (Response can only be stored in the browser)</xs:documentation></xs:annotation></xs:enumeration>
+                  <xs:enumeration value="Public"><xs:annotation><xs:documentation>Adds a "Cache-Control: public" header to the response (Response can be stored everywhere: server, proxies, browser)</xs:documentation></xs:annotation></xs:enumeration>
+                  <xs:enumeration value="Server"><xs:annotation><xs:documentation>Adds a "Cache-Control: no-cache" header to the response (Response may be stored on the server, but not on proxies or the browser)</xs:documentation></xs:annotation></xs:enumeration>
+                  <xs:enumeration value="ServerAndNoCache"><xs:annotation><xs:documentation>Same as "Server"</xs:documentation></xs:annotation></xs:enumeration>
+                  <xs:enumeration value="ServerAndPrivate"><xs:annotation><xs:documentation>Adds a "Cache-Control: private" header to the response (Response can stored in the browser and on the server)</xs:documentation></xs:annotation></xs:enumeration>
+                </xs:restriction>
+              </xs:simpleType>
+            </xs:attribute>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="clientFiles" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>If the bundeling feature is used (@Render.Scripts(), @Render.Styles()), set the appropriate files folder. TIP: Don't forgat to register the bundeling feature in the global.asax. See example project.</xs:documentation>
+          </xs:annotation>
+          <xs:complexType>
+            <xs:attribute name="scripts" type="xs:string" default="~/Scripts/FileUpload/" use="optional"><xs:annotation><xs:documentation>Scripts folder [Default: "~/Scripts/FileUpload/"]</xs:documentation></xs:annotation></xs:attribute>
+            <xs:attribute name="styles" type="xs:string" default="~/Content/FileUpload/css/" use="optional"><xs:annotation><xs:documentation>Styles folder [Default: "~/Content/FileUpload/css/"]</xs:documentation></xs:annotation></xs:attribute>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="contentTypes" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>ContentTypes has two purposes: First, it is used to send an appropriate thumbnail of the file type back to the browser if it is not an image. Second: on uploads you can define a subfolder for a content-type that matches a regular expression, in order to store any content of this type in this folder (e.g. pdf files in a pdf folder)</xs:documentation>
+          </xs:annotation>
+          <xs:complexType>
+            <xs:sequence maxOccurs="unbounded">
+              <xs:element name="clear" nillable="true" minOccurs="0" maxOccurs="1" ><xs:annotation><xs:documentation>Clears the entire contentType list</xs:documentation></xs:annotation></xs:element>
+              <xs:element name="remove" minOccurs="0" maxOccurs="unbounded" >
+                <xs:annotation>
+                  <xs:documentation>Removes a contentType entry by name</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                  <xs:attribute name="name" type="xs:string" use="required">
+                    <xs:annotation>
+                      <xs:documentation>The name of the entry [required]</xs:documentation>
+                    </xs:annotation>
+                  </xs:attribute>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="add" minOccurs="0" maxOccurs="unbounded"><xs:annotation><xs:documentation>New contentType entry (MS Office, OpenOffice, PDF and text file are included by default. No need to inlude these anymore):</xs:documentation></xs:annotation>
+                <xs:complexType>
+                  <xs:attribute name="name" type="xs:string" use="required"><xs:annotation><xs:documentation>An unique name of the entry</xs:documentation></xs:annotation></xs:attribute>
+                  <xs:attribute name="extFragment" type="xs:string" use="optional"><xs:annotation><xs:documentation>Complete or fragment (.net RegEx string) of the file extension (e.g. .mp finds .mp3, .mp4, etc). Leave it blank, to skip this test.</xs:documentation></xs:annotation></xs:attribute>
+                  <xs:attribute name="typeFragment" type="xs:string" use="optional"><xs:annotation><xs:documentation>Complete or fragment (.net RegEx string) of the content-type (e.g. mpeg or application/pdf). Leave it blank, to skip this test. Content-types matches are preferred over extension matches.</xs:documentation></xs:annotation></xs:attribute>
+                  <xs:attribute name="thumbnail" type="xs:string" default="File.png" use="optional"><xs:annotation><xs:documentation>File name of the thumbnail image within the content-types thumbnail folder.  Special handling of Images: Leave it blank, to send a preview of the uploaded image back, or set a thumbnail if you do not want to return a preview.</xs:documentation></xs:annotation></xs:attribute>
+                  <xs:attribute name="subFolder" type="xs:string" default="" use="optional"><xs:annotation><xs:documentation>Subfolder of the object context folder. Has to be set only if files of this content-type should be stored seperatly from other types (e.g. "movies") [Default: ""]</xs:documentation></xs:annotation></xs:attribute>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+            <xs:attribute name="thumbnailPath" type="xs:string" default="~/Content/Backload/content-types/" use="optional"><xs:annotation><xs:documentation>Path to the content-types thumbnail folder (contains different resolutions) [Default: "~/Content/Backload/content-types"]</xs:documentation></xs:annotation></xs:attribute>
+            <xs:attribute name="thumbnailSize" type="xs:unsignedShort" default="64" use="optional"><xs:annotation><xs:documentation>Size of the thumbnail [Range: 16-500, Default: "64"] (Tip: Use the following sizes to avoid resizing: 16,24,32,48,64,72,96,128)</xs:documentation></xs:annotation></xs:attribute>
+            <xs:attribute name="useThumbnailCanvas" type="xs:boolean" default="true" use="optional"><xs:annotation><xs:documentation>Uses the thumbnail canvas (width, height, canvasColor) and places the content type specific thumbnail in the center of it [Default: "true"]</xs:documentation></xs:annotation></xs:attribute>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="database" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Sets the parameters for the dedicated storage location Filesystem or dataBase [Default: "Filesystem"]</xs:documentation>
+          </xs:annotation>
+          <xs:complexType>
+            <xs:attribute name="assemblyName" type="xs:string" default="" use="optional"><xs:annotation><xs:documentation>Name of the assembly where the DBContext class is defined. You can leave this an empty string, if it is defined in the executing (caller of the file upload handler library) assembly [Default: ""]</xs:documentation></xs:annotation></xs:attribute>
+            <xs:attribute name="dbContext" type="xs:string" default="" use="optional"><xs:annotation><xs:documentation>Full qualified name of the DBContext derived class [Default: ""]</xs:documentation></xs:annotation></xs:attribute>
+            <xs:attribute name="entitySetName" type="xs:string" default="Files" use="optional"><xs:annotation><xs:documentation>Name of the root entity where the files will be stored directly or where the navigation begins (with navigation properties [Default: "Files"]</xs:documentation></xs:annotation></xs:attribute>
+            <xs:attribute name="primaryKeyName" type="xs:string" default="ID" use="optional"><xs:annotation><xs:documentation>Name of the primary key of the root entity (separate multiple keys by comma [Default: "ID"]</xs:documentation></xs:annotation></xs:attribute>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="extensionsManager" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Enables or disables the extensibility feature globally. Extensions are not enabled by default (enabled="false").</xs:documentation>
+          </xs:annotation>
+          <xs:complexType>
+            <xs:attribute name="enabled" type="xs:boolean" default="false" use="optional"><xs:annotation><xs:documentation>Enables/disables extensions [Default="false"]</xs:documentation></xs:annotation></xs:attribute>
+            <xs:attribute name="incomingRequest" type="xs:boolean" default="true" use="optional"><xs:annotation><xs:documentation>If the extensibility feature is enabled (enabled="true") this attribute enables/disables IIncomingRequest extensions [Default="true"].</xs:documentation></xs:annotation></xs:attribute>
+            <xs:attribute name="authorizeRequest" type="xs:boolean" default="true" use="optional"><xs:annotation><xs:documentation>If the extensibility feature is enabled (enabled="true") this attribute enables/disables IAuthorizeRequest extensions [Default="true"].</xs:documentation></xs:annotation></xs:attribute>
+            <xs:attribute name="getFilesRequest" type="xs:boolean" default="true" use="optional"><xs:annotation><xs:documentation>If the extensibility feature is enabled (enabled="true") this attribute enables/disables the core IGetFilesRequest extensions [Default="true"].</xs:documentation></xs:annotation></xs:attribute>
+            <xs:attribute name="storeFileRequest" type="xs:boolean" default="true" use="optional"><xs:annotation><xs:documentation>If the extensibility feature is enabled (enabled="true") this attribute enables/disables the core IStoreFileRequest extensions [Default="true"].</xs:documentation></xs:annotation></xs:attribute>
+            <xs:attribute name="deleteFilesRequest" type="xs:boolean" default="true" use="optional"><xs:annotation><xs:documentation>If the extensibility feature is enabled (enabled="true") this attribute enables/disables the core IDeleteFilesRequest extensions [Default="true"].</xs:documentation></xs:annotation></xs:attribute>
+            <xs:attribute name="outgoingResponse" type="xs:boolean" default="true" use="optional"><xs:annotation><xs:documentation>If the extensibility feature is enabled (enabled="true") this attribute enables/disables IOutgoingResponse extensions [Default="true"].</xs:documentation></xs:annotation></xs:attribute>
+            <xs:attribute name="pipelineException" type="xs:boolean" default="true" use="optional"><xs:annotation><xs:documentation>If the extensibility feature is enabled (enabled="true") this attribute enables/disables IProcessPipelineException extensions [Default="true"].</xs:documentation></xs:annotation></xs:attribute>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="fileSystem" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Sets the parameters for the dedicated storage location Filesystem or dataBase [Default: "Filesystem"]</xs:documentation>
+          </xs:annotation>
+          <xs:complexType>
+            <xs:attribute name="filesRoot" type="xs:string" default="~/Files" use="optional"><xs:annotation><xs:documentation>Root upload folder. If the value starts with '~/' (e.g. ~/files) the path is relative to the web root, otherwise set an absolute local path (e.g. d:/files) [Default: "~/Files"]</xs:documentation></xs:annotation></xs:attribute>
+            <xs:attribute name="usersRoot" type="xs:string" default="Users" use="optional"><xs:annotation><xs:documentation>Special subfolder within the filesRoot to store user related files like photos etc. Set it to usersRoot="" if you do not need this subfolder [Default: ""]</xs:documentation></xs:annotation></xs:attribute>
+            <xs:attribute name="objectsRoot" type="xs:string" default="" use="optional"><xs:annotation><xs:documentation>Subfolder within the filesRoot. Set it to objectsRoot="" if you do not need a subfolder [Default: ""]</xs:documentation></xs:annotation></xs:attribute>
+            <xs:attribute name="copiesRoot" type="xs:string" default="" use="optional"><xs:annotation><xs:documentation>Root of a folder where Backload stores a copy of an uploaded file, if set to a none empty string. If the value is empty ("") not copies are stored. If the value starts with '~/' (e.g. ~/copies) the path is relative to the web root. if the value not starts with '~/' and it isn't an absolute local path, the value will be treated as a subfolder to filesRoot ('copies' -> ~/files/copies). Otherwise set an absolute local path (e.g. d:/backup) [Default: ""]</xs:documentation></xs:annotation></xs:attribute>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="images" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Setting for the handling of uploaded images.</xs:documentation>
+          </xs:annotation>
+          <xs:complexType>
+            <xs:attribute name="width" type="xs:unsignedShort" default="1024" use="optional"><xs:annotation><xs:documentation>Width or max width (depends on resizeMode) of the resulting image [Range: 20-5000, Default: "1024"]</xs:documentation></xs:annotation></xs:attribute>
+            <xs:attribute name="height" type="xs:unsignedShort" default="768" use="optional"><xs:annotation><xs:documentation>Height or max height (depends on resizeMode) of the resulting image [Range: 20-5000, Default: "768"]</xs:documentation></xs:annotation></xs:attribute>
+            <xs:attribute name="dpi" type="xs:unsignedShort" default="96" use="optional"><xs:annotation><xs:documentation>Resolution of the resulting image (dots per inch) [Range: 72-600, Default: "96"]</xs:documentation></xs:annotation></xs:attribute>
+            <xs:attribute name="canvasColor" type="xs:string" default="#ffffffff" use="optional"><xs:annotation><xs:documentation>Background color of the canvas. Only used when resize mode is fit and the image ratio of the source and target image differ. You can also use argb (rgb with alpha channel, e.g. background: #00ffffff (transparent), #80ffffff (white, 50% transparency), #ffffffff (white, opaque))  [Default: #ffffff]</xs:documentation></xs:annotation></xs:attribute>
+            <xs:attribute name="resizeMode" default="none" use="optional"><xs:annotation><xs:documentation>Sets the resize mode if the image should be resized into a max width or height canvas [Default: "none"]</xs:documentation></xs:annotation>
+              <xs:simpleType >
+                <xs:restriction base="xs:string">
+                  <xs:enumeration value="none"><xs:annotation><xs:documentation>Keep original image, no resizing or cropping</xs:documentation></xs:annotation></xs:enumeration>
+                  <xs:enumeration value="ratio"><xs:annotation><xs:documentation>No Canvas, preserves ratio, width and height are max sizes</xs:documentation></xs:annotation></xs:enumeration>
+                  <xs:enumeration value="fit"><xs:annotation><xs:documentation>Fit into canvas, preserves ratio, centered on canvas</xs:documentation></xs:annotation></xs:enumeration>
+                  <xs:enumeration value="crop"><xs:annotation><xs:documentation>Placed on canvas, cropped if neccessary with center of the original image</xs:documentation></xs:annotation></xs:enumeration>
+                </xs:restriction>
+              </xs:simpleType>
+            </xs:attribute>
+            <xs:attribute name="forceImageType" default="none" use="optional" ><xs:annotation><xs:documentation>By default the image type of the original image is used. Set this attribute to always output a different type [Default:none]</xs:documentation></xs:annotation>
+              <xs:simpleType>
+                <xs:restriction base="xs:string">
+                  <xs:enumeration value="none"><xs:annotation><xs:documentation>Use the original image type</xs:documentation></xs:annotation></xs:enumeration>
+                  <xs:enumeration value="image/png"><xs:annotation><xs:documentation>.png (protable network graphics)</xs:documentation></xs:annotation></xs:enumeration>
+                  <xs:enumeration value="image/jpeg"><xs:annotation><xs:documentation>Files with .jpeg or .jpg extension</xs:documentation></xs:annotation></xs:enumeration>
+                  <xs:enumeration value="image/tiff"><xs:annotation><xs:documentation>Files with .tif or .tiff extension</xs:documentation></xs:annotation></xs:enumeration>
+                  <xs:enumeration value="image/gif"><xs:annotation><xs:documentation>Files with .gif extension</xs:documentation></xs:annotation></xs:enumeration>
+                  <xs:enumeration value="image/bmp"><xs:annotation><xs:documentation>Microsoft bitmap format.</xs:documentation></xs:annotation></xs:enumeration>
+                </xs:restriction>
+              </xs:simpleType>
+            </xs:attribute>
+            <xs:attribute name="maxFileSize" type="xs:unsignedLong" default="0" use="optional"><xs:annotation><xs:documentation>Max file size (bytes) of an image to be processed by the image processing sub pipeline. If the file size is bigger, the image is stored directly bypassing image processing [Default: "0" (unlimited)].</xs:documentation></xs:annotation></xs:attribute>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="security" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Security related settings. By default there are no restrictions. If you need a deeper control, set up your own controller to receive the request, do the authentication/authorization and then call the handler.</xs:documentation>
+          </xs:annotation>
+          <xs:complexType>
+            <xs:attribute name="forceObjectContext" type="xs:boolean" default="false" use="optional"><xs:annotation><xs:documentation>A request must always include an none empty objectContext parameter (query or form) to be valid. If you use "objectContext" to store/retirieve user related files, a malicious request could reveal some other users files, if forceObjectContext is false [Default:"false"]</xs:documentation></xs:annotation></xs:attribute>
+            <xs:attribute name="allowAnonymous" type="xs:boolean" default="true" use="optional"><xs:annotation><xs:documentation>True: Anyone is allowed, false: The user must be authenticated [Default: "true"]</xs:documentation></xs:annotation></xs:attribute>
+            <xs:attribute name="allowedDownloadRoles" type="xs:string" default="*" use="optional"><xs:annotation><xs:documentation>By default there are no restrictions on who can download files by a GET request. You can change this by adding a comma separated list of roles [Default: "*"]</xs:documentation></xs:annotation></xs:attribute>
+            <xs:attribute name="allowedUploadRoles" type="xs:string" default="*" use="optional"><xs:annotation><xs:documentation>By default there are no restrictions on who can upload files whithin a POST/PUT request. You can change this by adding a comma separated list of roles [Default: "*"]</xs:documentation></xs:annotation></xs:attribute>
+            <xs:attribute name="allowedDeleteRoles" type="xs:string" default="*" use="optional"><xs:annotation><xs:documentation>By default there are no restrictions on who can delete files by a DELETE request. You can change this by adding a comma separated list of roles [Default: "*"]</xs:documentation></xs:annotation></xs:attribute>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="thumbnails" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Setting for the handling of thumbnails.</xs:documentation>
+          </xs:annotation>
+          <xs:complexType>
+            <xs:attribute name="path" type="xs:string" default="_thumbs" use="optional"><xs:annotation><xs:documentation>Location of the thumbnail subfolder within the folder where the main file is stored (thumbnails only) [Default: "_thumbs"]</xs:documentation></xs:annotation></xs:attribute>
+            <xs:attribute name="width" type="xs:unsignedShort" default="80" use="optional"><xs:annotation><xs:documentation>Width or max width (depends on resizeMode) of the resulting thumbnail [Range: 20-500, Default: "80"]</xs:documentation></xs:annotation></xs:attribute>
+            <xs:attribute name="height" type="xs:unsignedShort" default="60" use="optional"><xs:annotation><xs:documentation>Height or max height (depends on resizeMode) of the resulting thumbnail [Range: 20-500, Default: "60"]</xs:documentation></xs:annotation></xs:attribute>
+            <xs:attribute name="dpi" type="xs:unsignedShort" default="96" use="optional"><xs:annotation><xs:documentation>Resolution of the resulting thumbnail (dots per inch) [Range: 72-600, Default: "96"]</xs:documentation></xs:annotation></xs:attribute>
+            <xs:attribute name="canvasColor" type="xs:string" default="#ffffffff" use="optional"><xs:annotation><xs:documentation>Background color of the canvas. Only used when resize mode is fit and the image ratio of the source and target image differ. You can also use argb (rgb with alpha channel, e.g. background: #00ffffff (transparent), #80ffffff (white, 50% transparency), #ffffffff (white, opaque))  [Default: #ffffff]</xs:documentation></xs:annotation></xs:attribute>
+            <xs:attribute name="resizeMode" default="place" use="optional" ><xs:annotation><xs:documentation>Sets the resize mode if the thumbnail should be resized into a max width or height of a thumbnail canvas [Default: "place"]</xs:documentation></xs:annotation>
+              <xs:simpleType >
+                <xs:restriction base="xs:string">
+                  <xs:enumeration value="none"><xs:annotation><xs:documentation>Keep original image, no resizing or cropping</xs:documentation></xs:annotation></xs:enumeration>
+                  <xs:enumeration value="ratio"><xs:annotation><xs:documentation>No Canvas, preserves ratio, width and height are max sizes</xs:documentation></xs:annotation></xs:enumeration>
+                  <xs:enumeration value="fit"><xs:annotation><xs:documentation>Fit into canvas, preserves ratio, centered on canvas</xs:documentation></xs:annotation></xs:enumeration>
+                  <xs:enumeration value="place"><xs:annotation><xs:documentation>If the source image is bigger than the canvas same as fit. If it is smaller than the canvas, it will be placed in the center of the canvas without resizing</xs:documentation></xs:annotation></xs:enumeration>
+                  <xs:enumeration value="crop"><xs:annotation><xs:documentation>Placed on canvas, cropped if neccessary with center of the original image</xs:documentation></xs:annotation></xs:enumeration>
+                </xs:restriction>
+              </xs:simpleType>
+            </xs:attribute>
+            <xs:attribute name="imageType" default="image/png" use="optional" ><xs:annotation><xs:documentation>Thumnail images must all have the same image type in order the upload handler can find and return the correct thumbnail path [Default: "image/png"]</xs:documentation></xs:annotation>
+              <xs:simpleType>
+                <xs:restriction base="xs:string">
+                  <xs:enumeration value="image/png"><xs:annotation><xs:documentation>.png (protable network graphics)</xs:documentation></xs:annotation></xs:enumeration>
+                  <xs:enumeration value="image/jpeg"><xs:annotation><xs:documentation>Files with .jpeg or .jpg extension</xs:documentation></xs:annotation></xs:enumeration>
+                  <xs:enumeration value="image/gif"><xs:annotation><xs:documentation>Files with .gif extension</xs:documentation></xs:annotation></xs:enumeration>
+                </xs:restriction>
+              </xs:simpleType>
+            </xs:attribute>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute name="configSource" type="xs:string" default="Web.Backload.config" use="optional"><xs:annotation><xs:documentation>Name of an external config file [Default: "Web.Backload.config"]</xs:documentation></xs:annotation></xs:attribute>
+      <xs:attribute name="deleteUrlPattern" type="xs:string" default="{Backload}" use="optional"><xs:annotation><xs:documentation>This attribute sets the pattern of the url for the DELETE request returned back to the client in order to delete the file. You can use the shortcuts described in the config file. If you do not set this attribute, a link to the Backload component is returned by default. If you do not want to return a url, set this to an empty string or use the shortcut {none} (e.g. deleteUrlPattern="{none}" [Default="{Backload}"].</xs:documentation></xs:annotation></xs:attribute>
+      <xs:attribute name="enableIntegratedHandler" type="xs:boolean" default="true" use="optional"><xs:annotation><xs:documentation>By default the internal file upload handler is running and ready to receive incoming files or requests. This enables us zero configuration. If you want to set up your own controller in order to do some business logic, set this to "false". [Default: "true"]</xs:documentation></xs:annotation></xs:attribute>
+      <xs:attribute name="fileNotFoundBehaviour" default="auto" use="optional"><xs:annotation><xs:documentation>This setting determines the behaviour, if a file in a GET or DELETE request is not found [Default: "auto"]</xs:documentation></xs:annotation>
+        <xs:simpleType >
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="none"><xs:annotation><xs:documentation>Returns nothing with an http status 200 (ok). Use this setting, if you do not want to expose internal data.</xs:documentation></xs:annotation></xs:enumeration>
+            <xs:enumeration value="auto"><xs:annotation><xs:documentation>If the output is not file data (e.g. DELETE request), this setting returns an error message. If the output is file data (bytes) it returns a 404 status code [Default].</xs:documentation></xs:annotation></xs:enumeration>
+            <xs:enumeration value="status"><xs:annotation><xs:documentation>Returns a 404 http status code (Not Found).</xs:documentation></xs:annotation></xs:enumeration>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+      <xs:attribute name="filesUrlPattern" default="{url}" use="optional"><xs:annotation><xs:documentation>This attribute sets the pattern of the url (File) returned back to the client in order to download the file. You can use the shortcuts described in the config file. If you do not set this attribute, a direct link is returned by default. If you do not want to return a url, set this to an empty string or use the shortcut {none} (e.g. thumbsUrlPattern="{none}" [Default="{url}"].</xs:documentation></xs:annotation></xs:attribute>
+      <xs:attribute name="getInclSubFolders" type="xs:boolean" default="false" use="optional"><xs:annotation><xs:documentation>On a GET request (return links to uploaded files) only the upload root folder (default filesRoot) is searched for uploaded files. Set to true in order to include subfolders. (Example: A content-type specific subfolder is set to "pdffiles" the search will find files within this subfolder. There are several ways set up subfolders, e.g. uploadContext and objectContext) [Default: "false"]</xs:documentation></xs:annotation></xs:attribute>
+      <xs:attribute name="keepOrgFileNames" type="xs:boolean" default="false" use="optional"><xs:annotation><xs:documentation>Only applies if you use the uniqueFileNames option. If set to true, the original file name will be stored (subfolder: _mappings) [Default: "false"]</xs:documentation></xs:annotation></xs:attribute>
+      <xs:attribute name="plugin" default="JQueryFileUpload" use="optional"><xs:annotation><xs:documentation>Defines the default Json output format. You can overwrite the Json output within your OutgoingResponse extension. See examples [Default: "JQueryFileUpload"]</xs:documentation></xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="JQueryFileUpload"><xs:annotation><xs:documentation>Generates Json for the JQueryFileUpload plugin from blueimp [Default]</xs:documentation></xs:annotation></xs:enumeration>
+            <xs:enumeration value="PlUpload"><xs:annotation><xs:documentation>Generates Json for the PlUpload plugin from Moxiecode</xs:documentation></xs:annotation></xs:enumeration>
+            <xs:enumeration value="FineUploader"><xs:annotation><xs:documentation>Generates Json for the Fine Uploader from Widen Enterprises</xs:documentation></xs:annotation></xs:enumeration>
+            <xs:enumeration value="Auto"><xs:annotation><xs:documentation>Send a (not case sensitive) plugin=[JQueryFileUpload|PlUpload|Custom] querystring with your request (Example: plugin=plupload). This the same as the extensions by convetion based approach to select extensions (See example 09)</xs:documentation></xs:annotation></xs:enumeration>
+            <xs:enumeration value="Custom"><xs:annotation><xs:documentation>Does not generate an output before calling the OutgoingResponse extension manager. You have to generate your own output in an OutgoingResponse extension. Otherwise Backload returns a Json null string to the client.</xs:documentation></xs:annotation></xs:enumeration>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+      <xs:attribute name="returnExtraInfo" default="basic" use="optional"><xs:annotation><xs:documentation>We use this setting, to return internal information for the JQuery File Upload Plugin. If you do not want this, set it to "none" [Default: "basic"]</xs:documentation></xs:annotation>
+        <xs:simpleType >
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="none"><xs:annotation><xs:documentation>No extra infos where send back to the client</xs:documentation></xs:annotation></xs:enumeration>
+            <xs:enumeration value="basic"><xs:annotation><xs:documentation>Returns the original file name as it is send by the upload, upload path and messages from the handler (e.g. file already exists [Default]</xs:documentation></xs:annotation></xs:enumeration>
+            <xs:enumeration value="extended"><xs:annotation><xs:documentation>Returns basic information plus a detailed folder structure.</xs:documentation></xs:annotation></xs:enumeration>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+      <xs:attribute name="storageContext" default="Filesystem" use="optional" ><xs:annotation><xs:documentation>Files may be stored in the file system or in a database (through the Entity Framework) [Default: "Filesystem"]</xs:documentation></xs:annotation>
+        <xs:simpleType >
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="Filesystem"><xs:annotation><xs:documentation>Saves uploaded files in the file system [Default]</xs:documentation></xs:annotation></xs:enumeration>
+            <xs:enumeration value="Database"><xs:annotation><xs:documentation>Saves uploaded files in a Database.</xs:documentation></xs:annotation></xs:enumeration>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+      <xs:attribute name="thumbsUrlPattern" default="{url}" use="optional"><xs:annotation><xs:documentation>This attribute sets the pattern of the url (Thumbnail) returned back to the client in order to download the thumbnail. You can use the shortcuts described in the config file. If you do not set this attribute, a direct link is returned by default. If you do not want to return a url, set this to an empty string or use the shortcut {none} (e.g. thumbsUrlPattern="{none}" [Default="{url}"].</xs:documentation></xs:annotation></xs:attribute>
+      <xs:attribute name="uniqueFileNames" type="xs:boolean" default="false" use="optional"><xs:annotation><xs:documentation>Generates unique file names based on guids [Default: "false"]</xs:documentation></xs:annotation></xs:attribute>
+      <xs:attribute name="webFilesRoot" type="xs:string" default="" use="optional"><xs:annotation><xs:documentation>Leave this an empty string, if filesRoot is relative to the web root (starts with '~/', see filesRoot). If filesRoot is an absolute local path (see filesRoot), the Backload handler cannot calculate a web path. Only in this case you must set an absolute web url to the files root, in order a correct filestpath can returned (e. g. "http://myfiles.filestore.com/files/" [Default: ""]</xs:documentation></xs:annotation></xs:attribute>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
