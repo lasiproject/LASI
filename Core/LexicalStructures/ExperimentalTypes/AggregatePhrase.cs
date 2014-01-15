@@ -95,11 +95,6 @@ namespace LASI.Core.Binding.Experimental
         public double Weight { get; set; }
 
         public double MetaWeight { get; set; }
-        public DocumentStructures.Document Document {
-            get {
-                return constituents.First().Document;
-            }
-        }
 
         HashSet<IPossessable> possessions = new HashSet<IPossessable>();
         HashSet<IDescriptor> descriptors = new HashSet<IDescriptor>();

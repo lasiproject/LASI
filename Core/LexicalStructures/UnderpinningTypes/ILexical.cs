@@ -39,6 +39,5 @@ namespace LASI.Core
         /// </summary>
         double MetaWeight { get; set; }
 
-        LASI.Core.DocumentStructures.Document Document { get; }
     }
 }

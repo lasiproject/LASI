@@ -21,8 +21,7 @@ namespace LASI.Core.Binding
         public void Bind(Sentence s) {
 
             //Handle case of verbless sentence. Needs to be included for the sake of security of the code. 
-            if (s.Phrases.OfVerbPhrase().None())
-            {
+            if (s.Phrases.OfVerbPhrase().None()) {
                 throw new VerblessPhrasalSequenceException();
             }
 
@@ -106,7 +105,7 @@ namespace LASI.Core.Binding
                     s10.StatePhrase = i;
                     stateList.Add(s10);
                 }
-                
+
 
             }
         }
@@ -158,13 +157,10 @@ namespace LASI.Core.Binding
         /// </summary>
         /// <param name="p">Any phrase</param>
         /// <returns>Returns true of false if a phrase has a pronoune in it that can only be in the subject of a sentence</returns>
-        public static bool HasSubjectPronoun(this Phrase p)
-        {
+        public static bool HasSubjectPronoun(this Phrase p) {
             bool val = false;
-            foreach (var w in p.Words)
-            {
-                if ((w is Pronoun) && (w.Text == "he") || (w.Text == "they") || (w.Text == "she"))
-                {
+            foreach (var w in p.Words) {
+                if ((w is Pronoun) && (w.Text == "he") || (w.Text == "they") || (w.Text == "she")) {
                     val = true;
                 }
             }

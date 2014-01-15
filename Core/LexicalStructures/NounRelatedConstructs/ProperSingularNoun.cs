@@ -9,7 +9,7 @@ namespace LASI.Core
     /// <summary>
     /// Represents a Proper Singular Noun.
     /// </summary>
-    public class ProperSingularNoun : ProperNoun, IGendered
+    public class ProperSingularNoun : ProperNoun, ISimpleGendered
     {
         /// <summary>
         /// Initialiazes a new instance of the ProperSingularNoun class.

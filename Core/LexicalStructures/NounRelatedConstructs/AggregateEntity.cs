@@ -153,16 +153,5 @@ namespace LASI.Core
         HashSet<IReferencer> boundPronouns = new HashSet<IReferencer>();
 
         #endregion
-
-
-        public DocumentStructures.Document Document {
-            get {
-                if (members.Select(m => m.Document).Distinct().Count() == 1) {
-                    return members.First().Document;
-                } else {
-                    return new DocumentStructures.Document(members.SelectMany(m => m.Document.Paragraphs), string.Join("|with|", members.Select(m => m.Document.Name)));
-                }
-            }
-        }
     }
 }

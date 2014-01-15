@@ -12,40 +12,27 @@ namespace LASI.Core.Heuristics
     public static class CommonLexicalRepresentationChooser
     {
         public static KeyedByTypeCollection<IEnumerable<ILexical>> ToCommonRepresentation(this IEnumerable<ILexical> source) {
-            var r0 = from o in source.OfEntity()
-                     let simGroups =
-                     from i in source.OfEntity()
-                     group o by o.IsSimilarTo(i) into g
-                     where g.Key
-                     orderby g.Key.ActualRatio
-                     select g.MaxBy(v => v.Document.GetActions().Count(a => a.Text.EqualsIgnoreCase(v.Text)))
-                     select o;
-            var r1 = from o in source.OfType<IVerbal>()
-                     let simGroups =
-                     from i in source.OfType<IVerbal>()
-                     group o by o.IsSimilarTo(i) into g
-                     where g.Key
-                     orderby g.Key.ActualRatio
-                     select g.MaxBy(v => v.Document.GetActions().Count(a => a.Text.EqualsIgnoreCase(v.Text)))
-                     select o;
-            var r2 = from o in source.OfType<IDescriptor>()
-                     let simGroups =
-                     from i in source.OfType<IDescriptor>()
-                     group o by o.IsSimilarTo(i) into g
-                     where g.Key
-                     orderby g.Key.ActualRatio
-                     select g.MaxBy(v => v.Document.GetActions().Count(a => a.Text.EqualsIgnoreCase(v.Text)))
-                     select o;
-            var r3 = from o in source.OfType<IAdverbial>()
-                     let simGroups =
-                     from i in source.OfType<IAdverbial>()
-                     group o by o.IsSimilarTo(i) into g
-                     where g.Key
-                     orderby g.Key.ActualRatio
-                     select g.MaxBy(v => v.Document.GetActions().Count(a => a.Text.EqualsIgnoreCase(v.Text)))
-                     select o;
-            return new KeyedByTypeCollection<IEnumerable<ILexical>> { r0, r1, r2, r3 };
-            //<IEnumerable<ILexical>>(new ILexical[] { r0, r1, r2, r3 });
+
+            return new KeyedByTypeCollection<IEnumerable<ILexical>> { source.AggregatedOnType<IEntity>((x, y) => x.IsSimilarTo(y)),
+                source.AggregatedOnType<IVerbal>((x, y) => x.IsSimilarTo(y)),
+                source.AggregatedOnType<IDescriptor>((x, y) => x.IsSimilarTo(y)),
+                source.AggregatedOnType<IAdverbial>((x, y) => x.IsSimilarTo(y))
+            };
+        }
+
+        //private static DocumentStructures.Document findSourceDocument(ILexical arg) {
+        //    return 
+        //}
+        private static IEnumerable<TResult> AggregatedOnType<TResult>(this IEnumerable<ILexical> source, Func<TResult, TResult, SimilarityResult> aggregator)
+            where TResult : class, ILexical {
+            return from o in source.OfType<TResult>()
+                   let simGroups =
+                   from i in source.OfType<TResult>()
+                   group o by aggregator(o, i) into g
+                   where g.Key
+                   orderby g.Count(), g.Key.ActualRatio descending
+                   select g
+                   select o;
         }
 
         private static SimilarityResult SimV<T>(T o, T i) where T : IVerbal {

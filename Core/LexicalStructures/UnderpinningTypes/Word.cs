@@ -20,8 +20,7 @@ namespace LASI.Core
         /// and behaviors of a word-level grammatical element.
         /// </summary>
         /// <param name="text">The text content of the word.</param>
-        protected Word(string text)
-        {
+        protected Word(string text) {
             Text = text;
             Weight = 1;
             MetaWeight = 1;

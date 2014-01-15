@@ -7,9 +7,17 @@ using System.Threading.Tasks;
 
 namespace LASI.Core.Patternization
 {
-    //[DebuggerStepThrough]
+    /// <summary>
+    /// Represents a type for the representation and free form structuring of Type based Pattern Matching expressions which match with a value of Type T and does not yield a result. 
+    /// </summary>
+    /// <typeparam name="T">The Type of the value which the the Pattern Matching expression will match with.</typeparam> 
+    [DebuggerStepThrough]
     public abstract class MatchBase<T> where T : class, ILexical
     {
+        /// <summary>
+        /// Initializes a new instance of the MatchBase&lt;T&gt; class which will match against the supplied value.
+        /// </summary>
+        /// <param name="value">The value to match against.</param>
         protected MatchBase(T value) { this.value = value; }
         #region Fields
 
@@ -17,13 +25,17 @@ namespace LASI.Core.Patternization
         /// The value indicating if a match was found or if the default value will be yielded by the Result method.
         /// </summary>
         private bool accepted;
-
+        /// <summary>
+        /// Gets or sets the value indicating if a match has succeeded.
+        /// </summary>
         protected bool Accepted {
             get { return accepted; }
             set { accepted = value; }
         }
         private T value;
-
+        /// <summary>
+        /// Gets or sets the value being matched against.
+        /// </summary>
         protected T Value {
             get { return this.value; }
             set { this.value = value; }
@@ -39,7 +51,7 @@ namespace LASI.Core.Patternization
     {
         #region Constructors
         /// <summary>
-        /// Initializes a new instance of the MatchCase&lt;T&gt; class which will match against the supplied value.
+        /// Initializes a new instance of the Match&lt;T&gt; class which will match against the supplied value.
         /// </summary>
         /// <param name="value">The value to match against.</param>
         public Match(T value) : base(value) { }
