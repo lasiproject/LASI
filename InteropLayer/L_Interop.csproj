@@ -53,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AnalysisProgressReportEventArgs.cs" />
+    <Compile Include="ISyntacticColorizer.cs" />
     <Compile Include="PerformanceManager.cs" />
     <Compile Include="AnalysisController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
