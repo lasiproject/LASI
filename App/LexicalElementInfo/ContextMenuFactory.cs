@@ -1,5 +1,6 @@
 ﻿using LASI.Core;
 using LASI.Core.Patternization;
+using LASI.Interop;
 using LASI.Utilities;
 using System.Collections.Generic;
 using System.Linq;
@@ -60,7 +61,7 @@ namespace LASI.App.LexicalElementInfo
                     ResetUnassociatedLabelBrushes(labelsInContext, verbal);
                     var labels = from label in labelsInContext
                                  where label.Tag.Equals(verbal.ObjectOfThePreoposition)
-                                 select new { label, brush = (label.Tag as ILexical).GetSyntacticColorization() };
+                                 select new { label, brush = colorMapping[label.Tag as ILexical] };
                     foreach (var l in labels) {
                         l.label.Foreground = l.brush;
                         l.label.Background = Brushes.Red;
@@ -75,7 +76,7 @@ namespace LASI.App.LexicalElementInfo
                     ResetUnassociatedLabelBrushes(labelsInContext, verbal);
                     var labels = from r in verbal.IndirectObjects
                                  join label in labelsInContext on r equals label.Tag
-                                 select new { label, brush = (label.Tag as ILexical).GetSyntacticColorization() };
+                                 select new { label, brush = colorMapping[label.Tag as ILexical] };
                     foreach (var l in labels) {
                         l.label.Foreground = l.brush;
                         l.label.Background = Brushes.Red;
@@ -90,7 +91,7 @@ namespace LASI.App.LexicalElementInfo
                     ResetUnassociatedLabelBrushes(labelsInContext, verbal);
                     var labels = from r in verbal.DirectObjects
                                  join label in labelsInContext on r equals label.Tag
-                                 select new { label, brush = (label.Tag as ILexical).GetSyntacticColorization() };
+                                 select new { label, brush = colorMapping[label.Tag as ILexical] };
                     foreach (var l in labels) {
                         l.label.Foreground = l.brush;
                         l.label.Background = Brushes.Red;
@@ -134,12 +135,11 @@ namespace LASI.App.LexicalElementInfo
                 return visitBoundEntity;
             }
         }
-
         #endregion
         #region Helper Methods
         static void ResetLabelBrushes(IEnumerable<Label> labelsInContext) {
             foreach (var l in labelsInContext) {
-                l.Foreground = (l.Tag as ILexical).GetSyntacticColorization();
+                l.Foreground = colorMapping[l.Tag as ILexical];
                 l.Background = Brushes.White;
             }
         }
@@ -148,10 +148,13 @@ namespace LASI.App.LexicalElementInfo
                               let e = l.Tag as IEntity
                               where e != null && !verbal.HasSubjectOrObject(i => i == e)
                               select l) {
-                l.Foreground = (l.Tag as ILexical).GetSyntacticColorization();
+                l.Foreground = colorMapping[l.Tag as ILexical];
                 l.Background = Brushes.White;
             }
         }
         #endregion
+
+        private static readonly ISyntacticColorizer<ILexical, Brush> colorMapping = new SyntacticColorMap();
+
     }
 }

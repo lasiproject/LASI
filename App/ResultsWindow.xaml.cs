@@ -93,8 +93,7 @@ namespace LASI.App
 
         private static Label CreateLabelForWeightedView(NounPhrase np) {
             var gender = np.GetGender();
-            var label = new Label
-            {
+            var label = new Label {
                 Tag = np,
                 Content = String.Format("Weight : {0}  \"{1}\"", np.Weight, np.Text),
                 Foreground = Brushes.Black,
@@ -131,11 +130,9 @@ namespace LASI.App
             Phrase.VerboseOutput = true;
             Word.VerboseOutput = true;
             var panel = new WrapPanel();
-            var tab = new TabItem
-            {
+            var tab = new TabItem {
                 Header = document.Name,
-                Content = new ScrollViewer
-                {
+                Content = new ScrollViewer {
                     Content = panel,
                     Background = Brushes.White,
                     OpacityMask = Brushes.White,
@@ -143,12 +140,12 @@ namespace LASI.App
             };
             var elementLabels = new List<Label>();
             var phrases = document.Paginate(50).Select(p => p.Sentences).DefaultIfEmpty(document.Sentences).SelectMany(ss => ss.SelectMany(s => s.Phrases));
+            var colorizer = new SyntacticColorMap();
             foreach (var phrase in phrases) {
-                var label = new Label
-                {
+                var label = new Label {
                     Content = phrase.Text + (phrase is SymbolPhrase ? " " : string.Empty),
                     Tag = phrase,
-                    Foreground = phrase.GetSyntacticColorization(),
+                    Foreground = colorizer[phrase],
                     Background = Brushes.White,
                     OpacityMask = Brushes.White,
                     Padding = new Thickness(1, 1, 1, 1),
@@ -282,8 +279,7 @@ namespace LASI.App
             SharedWindowFunctionality.ProcessOpenManualRequest(this);
         }
         private void openLicensesMenuItem_Click_1(object sender, RoutedEventArgs e) {
-            var componentsDisplay = new ComponentInfoDialogWindow
-            {
+            var componentsDisplay = new ComponentInfoDialogWindow {
                 Left = this.Left,
                 Top = this.Top,
                 Owner = this
@@ -308,8 +304,7 @@ namespace LASI.App
             exportDialog.ShowDialog();
         }
         private async void documentJoinButton_Click(object sender, RoutedEventArgs e) {
-            var dialog = new CrossJoinSelectDialog(this)
-            {
+            var dialog = new CrossJoinSelectDialog(this) {
                 Left = this.Left,
                 Top = this.Top,
             };
@@ -320,8 +315,7 @@ namespace LASI.App
             }
         }
         private async void AddMenuItem_Click(object sender, RoutedEventArgs e) {
-            var openDialog = new Microsoft.Win32.OpenFileDialog
-            {
+            var openDialog = new Microsoft.Win32.OpenFileDialog {
                 Filter = "LASI File Types|*.doc; *.docx; *.pdf; *.txt",
                 Multiselect = true,
 
@@ -334,11 +328,9 @@ namespace LASI.App
                 var file = new FileInfo(openDialog.FileNames[i]);
                 if (DocumentManager.FileNamePresent(file.Name)) {
                     MessageBox.Show(this, string.Format("A document named {0} is already part of the project.", file));
-                }
-                else if (!DocumentManager.FileIsLocked(file)) {
+                } else if (!DocumentManager.FileIsLocked(file)) {
                     await AddNewDocument(file);
-                }
-                else {
+                } else {
                     MessageBox.Show(this, string.Format("The document {0} is in use by another process, please close any applications which may be using the document and try again.", file));
                 }
             }
