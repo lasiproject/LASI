@@ -8,6 +8,7 @@ using System.Net.Http;
 using System.Web.Http;
 using MvcExperimentation.Filters;
 using MvcExperimentation.Models;
+using System.Data.Entity;
 
 namespace MvcExperimentation.Controllers
 {

@@ -1,0 +1,27 @@
+﻿@using LASI.Utilities;
+@using Newtonsoft.Json.Serialization;
+@using MvcApplication2.LexicalElementSerialization;
+@using Newtonsoft.Json;
+@{
+    ViewBag.Title = "Example";
+}
+
+@{var doc = ViewData["doc"] as LASI.Core.DocumentStructures.Document;
+    <h2>@(doc.Name)</h2>
+
+
+    var styleMap = new MvcApplication2.SyntacticStyleMapping();
+
+    foreach (var documentParagraph in doc.Paragraphs) {
+        <p class="lexical-content-block">
+            @Html.ViewContext
+            @foreach (var phrase in documentParagraph.Phrases) {
+                <span class=@styleMap[phrase].CssClass>
+                    @phrase.Text<i hidden="hidden">@phrase.ToJson()</i>
+                </span>
+            }
+
+        </p>
+
+    }
+}

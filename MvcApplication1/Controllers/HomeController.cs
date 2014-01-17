@@ -13,12 +13,12 @@ namespace MvcExperimentation.Controllers
             ViewBag.ReturnUrl = returnUrl;
             return View();
         }
-        public ActionResult DocumentData(string returnUrl) {
-            ViewBag.returnUrl = returnUrl;
+        public ActionResult Document() {
 
-           
-
+            var doc = System.Threading.Tasks.Task.Run(() => new LASI.Interop.AnalysisController(new LASI.ContentSystem.TextFile(@"C:\Users\Aluan\Desktop\documents\ducks.txt")).ProcessAsync().Result.First());
+            ViewData.Add("doc", doc.Result);
             return View();
         }
+
     }
 }

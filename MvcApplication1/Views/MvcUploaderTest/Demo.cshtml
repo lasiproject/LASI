@@ -1,0 +1,87 @@
+﻿@using MvcFileUploader.HtmlHelper
+@using MvcFileUploader.Models
+@{
+    ViewBag.Title = "Demo";
+
+    var showingInline = Model != null && Model == true;
+    
+    //option for inline view only
+    var ui = "jquery".Equals(Request.Params["ui"]) ? UploadUI.JQueryUI : UploadUI.Bootstrap;
+    var toggleUi = ui == UploadUI.Bootstrap ? "jquery" : "bootstrap";
+    
+    //setting layout based on ui
+    Layout = "~/Views/Shared/" + (ui == UploadUI.Bootstrap ? "_MvcFileUploaderLayout.cshtml" : "_MvcFileUploaderLayout_jui.cshtml");
+}
+
+@if(!showingInline)
+{
+    <div class="well">
+        <legend>Upload Dialog</legend> 
+        @(
+        Html.MvcFileUpload()
+        .UploadAt(Url.Action("UploadFile"))
+        .WithFileTypes(@"/(\.|\/)(jpe?g|png)$/i")
+        .WithMaxFileSize(5000000)
+        .AddFormField("entityId", "1234")
+        //.AddFormField("groupId", "grp123")
+        .RenderPopup("Upload", "#dlgFileUpload", new {@class="btn btn-large btn-primary"})
+        )
+    </div>
+
+
+    <div class="well">
+        <legend>Upload Dialog with return url on closing</legend>
+        @(
+        Html.MvcFileUpload()
+        .UploadAt(Url.Action("UploadFile"))        
+        .ReturnAt("/MvcUploaderTest/Demo?inline=True")
+        .WithFileTypes(@"/(\.|\/)(jpe?g|png)$/i")
+        .WithMaxFileSize(5000000) 
+        .RenderPopup("Upload Button Label", "#dlgFileUpload", new {@class="btn btn-large btn-primary"})
+        )
+    </div>
+    
+    <!-- file upload modal dialog -->
+    <div class="modal fade" id="dlgFileUpload" tabindex="-1" role="dialog" aria-hidden="true">
+  
+    </div><!-- /.modal -->           
+    
+     
+}
+
+
+@if(showingInline)
+{
+    <div class="well">
+        <legend>Upload Inline</legend>
+        @(
+        Html.MvcFileUpload()
+        .UploadAt(Url.Action("UploadFile"))
+        .UIStyle(ui)
+        .WithFileTypes(@"/(\.|\/)(jpe?g|png)$/i")
+        .WithMaxFileSize(5000000)
+        .AddFormField("entityId", "1234")
+        .RenderInline("_MvcFileupload")
+        )
+        
+    </div>
+    
+    <div class="well">
+        <legend>Another inline uploader in same page</legend>
+        @(
+        Html.MvcFileUpload()        
+        .UploadAt(Url.Action("UploadFile"))        
+        .WithFileTypes(@"/(\.|\/)(jpe?g|png)$/i")
+        .WithMaxFileSize(5000000)
+        .ExcludeSharedScript()  //this should be called as this page contains another inline widget which loaded shared scripts
+        .RenderInline("_MvcFileupload")
+        )
+    </div>       
+    
+    <p>
+        @Html.ActionLink("Show "+toggleUi+" ui", "Demo", new {inline=true, ui=toggleUi}, new {@class="btn btn-info"})
+    </p>
+}
+
+
+@Html.ActionLink(showingInline?"Show modal dialog demo":"Show inline demo", "Demo", new {inline=!showingInline}, new {@class="btn btn-info"})

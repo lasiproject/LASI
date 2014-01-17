@@ -9,7 +9,7 @@
     <CoffeeScriptGenerateJsFile>true</CoffeeScriptGenerateJsFile>
     <CoffeeScriptMinify>true</CoffeeScriptMinify>
     <CoffeeScriptShowPreviewWindow>true</CoffeeScriptShowPreviewWindow>
-    <CoffeeScriptSourceMaps>false</CoffeeScriptSourceMaps>
+    <CoffeeScriptSourceMaps>true</CoffeeScriptSourceMaps>
     <CoffeeScriptWrapClosure>true</CoffeeScriptWrapClosure>
     <CssEnableGzipping>false</CssEnableGzipping>
     <CssEnableMinification>true</CssEnableMinification>
@@ -28,6 +28,7 @@
     <HtmlEnableMinification>false</HtmlEnableMinification>
     <JavaScriptCamelCaseClassNames>false</JavaScriptCamelCaseClassNames>
     <JavaScriptCamelCasePropertyNames>false</JavaScriptCamelCasePropertyNames>
+    <JavaScriptCommentCompletion>false</JavaScriptCommentCompletion>
     <JavaScriptEnableGzipping>false</JavaScriptEnableGzipping>
     <JavaScriptEnableMinification>true</JavaScriptEnableMinification>
     <JavaScriptGenerateSourceMaps>true</JavaScriptGenerateSourceMaps>

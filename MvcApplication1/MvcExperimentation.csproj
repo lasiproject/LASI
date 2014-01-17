@@ -23,6 +23,8 @@
     <IISExpressUseClassicPipelineMode />
     <TargetFrameworkProfile />
     <TypeScriptToolsVersion>0.9</TypeScriptToolsVersion>
+    <TypeScriptModuleKind>amd</TypeScriptModuleKind>
+    <TypeScriptNoImplicitAny>True</TypeScriptNoImplicitAny>
     <WebGreaseLibPath>..\packages\WebGrease.1.5.2\lib</WebGreaseLibPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -49,21 +51,71 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
-    <Reference Include="Backload">
-      <HintPath>..\packages\Backload.1.9.3.1\lib\net45\Backload.dll</HintPath>
+    <Reference Include="DotNetOpenAuth.AspNet, Version=4.3.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\DotNetOpenAuth.AspNet.4.3.4.13329\lib\net45-full\DotNetOpenAuth.AspNet.dll</HintPath>
     </Reference>
-    <Reference Include="Backload.Contracts">
-      <HintPath>..\packages\Backload.1.9.3.1\lib\net45\Backload.Contracts.dll</HintPath>
+    <Reference Include="DotNetOpenAuth.Core, Version=4.3.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\DotNetOpenAuth.Core.4.3.4.13329\lib\net45-full\DotNetOpenAuth.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.OAuth, Version=4.3.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\DotNetOpenAuth.OAuth.Core.4.3.4.13329\lib\net45-full\DotNetOpenAuth.OAuth.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.OAuth.Consumer, Version=4.3.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\DotNetOpenAuth.OAuth.Consumer.4.3.4.13329\lib\net45-full\DotNetOpenAuth.OAuth.Consumer.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.OpenId, Version=4.3.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\DotNetOpenAuth.OpenId.Core.4.3.4.13329\lib\net45-full\DotNetOpenAuth.OpenId.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.OpenId.RelyingParty, Version=4.3.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\DotNetOpenAuth.OpenId.RelyingParty.4.3.4.13329\lib\net45-full\DotNetOpenAuth.OpenId.RelyingParty.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.0.2\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.0.2\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Data.Edm, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Data.Edm.5.6.0\lib\net40\Microsoft.Data.Edm.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Data.OData, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Data.OData.5.6.0\lib\net40\Microsoft.Data.OData.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.WebPages.OAuth, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.OAuth.3.0.0\lib\net45\Microsoft.Web.WebPages.OAuth.dll</HintPath>
+    </Reference>
+    <Reference Include="MvcFileUploader">
+      <HintPath>..\packages\MvcFileUploader.1.3.4\lib\40\MvcFileUploader.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.5.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Data.Entity" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http.Extensions">
+      <HintPath>..\packages\Microsoft.Net.Http.2.2.18\lib\net45\System.Net.Http.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Formatting, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.0.0\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Primitives">
+      <HintPath>..\packages\Microsoft.Net.Http.2.2.18\lib\net45\System.Net.Http.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Spatial, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Spatial.5.6.0\lib\net40\System.Spatial.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -71,132 +123,80 @@
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Abstractions" />
     <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.0.0\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.0.0\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.OData, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.OData.5.0.0\lib\net45\System.Web.Http.OData.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.Tracing, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Tracing.5.0.0\lib\net45\System.Web.Http.Tracing.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.0.0\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.0.0\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.Optimization, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.2\lib\net40\System.Web.Optimization.dll</HintPath>
     </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.0.0\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.0.0\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.0.0\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.0.0\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Transactions" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
-    <Reference Include="EntityFramework">
-      <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Web.Mvc.FixedDisplayModes, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\packages\Microsoft.AspNet.Mvc.FixedDisplayModes.1.0.0\lib\net40\Microsoft.Web.Mvc.FixedDisplayModes.dll</HintPath>
-    </Reference>
     <Reference Include="System.Net.Http">
-    </Reference>
-    <Reference Include="System.Net.Http.Formatting, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.4.0.30506.0\lib\net40\System.Net.Http.Formatting.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.Http.WebRequest">
     </Reference>
-    <Reference Include="System.Web.Helpers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.30506.0\lib\net40\System.Web.Helpers.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.4.0.30506.0\lib\net40\System.Web.Http.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.Http.WebHost, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.4.0.30506.0\lib\net40\System.Web.Http.WebHost.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\packages\Microsoft.AspNet.Mvc.4.0.30506.0\lib\net40\System.Web.Mvc.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\packages\Microsoft.AspNet.Razor.2.0.30506.0\lib\net40\System.Web.Razor.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.WebPages, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.30506.0\lib\net40\System.Web.WebPages.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.WebPages.Deployment, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.30506.0\lib\net40\System.Web.WebPages.Deployment.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.WebPages.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.30506.0\lib\net40\System.Web.WebPages.Razor.dll</HintPath>
-    </Reference>
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="WebActivatorEx">
-      <HintPath>..\packages\WebActivatorEx.2.0.4\lib\net40\WebActivatorEx.dll</HintPath>
-    </Reference>
     <Reference Include="WebGrease, Version=1.5.2.14234, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
     </Reference>
-    <Reference Include="WebMatrix.Data, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.Data.2.0.30506.0\lib\net40\WebMatrix.Data.dll</HintPath>
+    <Reference Include="WebMatrix.Data, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.Data.3.0.0\lib\net45\WebMatrix.Data.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Web.WebPages.OAuth, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.OAuth.2.0.30506.0\lib\net40\Microsoft.Web.WebPages.OAuth.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.Http.Tracing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\packages\Microsoft.AspNet.WebApi.Tracing.4.0.30506\lib\net40\System.Web.Http.Tracing.dll</HintPath>
-    </Reference>
-    <Reference Include="WebMatrix.WebData, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.WebData.2.0.30506.0\lib\net40\WebMatrix.WebData.dll</HintPath>
-    </Reference>
-    <Reference Include="DotNetOpenAuth.AspNet, Version=4.1.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\packages\DotNetOpenAuth.AspNet.4.1.4.12333\lib\net45-full\DotNetOpenAuth.AspNet.dll</HintPath>
-    </Reference>
-    <Reference Include="DotNetOpenAuth.Core, Version=4.1.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\packages\DotNetOpenAuth.Core.4.1.4.12333\lib\net45-full\DotNetOpenAuth.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="DotNetOpenAuth.OAuth.Consumer, Version=4.1.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\packages\DotNetOpenAuth.OAuth.Consumer.4.1.4.12333\lib\net45-full\DotNetOpenAuth.OAuth.Consumer.dll</HintPath>
-    </Reference>
-    <Reference Include="DotNetOpenAuth.OAuth, Version=4.1.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\packages\DotNetOpenAuth.OAuth.Core.4.1.4.12333\lib\net45-full\DotNetOpenAuth.OAuth.dll</HintPath>
-    </Reference>
-    <Reference Include="DotNetOpenAuth.OpenId, Version=4.1.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\packages\DotNetOpenAuth.OpenId.Core.4.1.4.12333\lib\net45-full\DotNetOpenAuth.OpenId.dll</HintPath>
-    </Reference>
-    <Reference Include="DotNetOpenAuth.OpenId.RelyingParty, Version=4.1.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\packages\DotNetOpenAuth.OpenId.RelyingParty.4.1.4.12333\lib\net45-full\DotNetOpenAuth.OpenId.RelyingParty.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.Http.OData, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\packages\Microsoft.AspNet.WebApi.OData.4.0.30506\lib\net40\System.Web.Http.OData.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Data.Edm, Version=5.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\packages\Microsoft.Data.Edm.5.2.0\lib\net40\Microsoft.Data.Edm.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Data.OData, Version=5.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\packages\Microsoft.Data.OData.5.2.0\lib\net40\Microsoft.Data.OData.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Spatial, Version=5.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\packages\System.Spatial.5.2.0\lib\net40\System.Spatial.dll</HintPath>
+    <Reference Include="WebMatrix.WebData, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.WebData.3.0.0\lib\net45\WebMatrix.WebData.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\AuthConfig.cs" />
-    <Compile Include="App_Start\BackloadConfig.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
@@ -216,8 +216,8 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\BackloadDemoController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MvcUploaderTestController.cs" />
     <Compile Include="Controllers\TodoController.cs" />
     <Compile Include="Controllers\TodoListController.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
@@ -225,6 +225,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="LexicalElementSerialization\ElementSerializer.cs" />
+    <Compile Include="LexicalElementStyling\SyntacticStyleMapping.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\TodoItemDto.cs" />
     <Compile Include="Models\TodoListDto.cs" />
@@ -264,106 +266,23 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Areas\HelpPage\HelpPage.css" />
-    <Content Include="Content\Backload\content-types\128\Excel.png" />
-    <Content Include="Content\Backload\content-types\128\File.png" />
-    <Content Include="Content\Backload\content-types\128\FileNotFound.png" />
-    <Content Include="Content\Backload\content-types\128\Image.png" />
-    <Content Include="Content\Backload\content-types\128\Multimedia.png" />
-    <Content Include="Content\Backload\content-types\128\OpenOffice-Writer.png" />
-    <Content Include="Content\Backload\content-types\128\PDF.png" />
-    <Content Include="Content\Backload\content-types\128\PowerPoint.png" />
-    <Content Include="Content\Backload\content-types\128\Text.png" />
-    <Content Include="Content\Backload\content-types\128\Word.png" />
-    <Content Include="Content\Backload\content-types\16\Excel.png" />
-    <Content Include="Content\Backload\content-types\16\File.png" />
-    <Content Include="Content\Backload\content-types\16\FileNotFound.png" />
-    <Content Include="Content\Backload\content-types\16\Image.png" />
-    <Content Include="Content\Backload\content-types\16\Multimedia.png" />
-    <Content Include="Content\Backload\content-types\16\OpenOffice-Writer.png" />
-    <Content Include="Content\Backload\content-types\16\PDF.png" />
-    <Content Include="Content\Backload\content-types\16\PowerPoint.png" />
-    <Content Include="Content\Backload\content-types\16\Text.png" />
-    <Content Include="Content\Backload\content-types\16\Word.png" />
-    <Content Include="Content\Backload\content-types\24\Excel.png" />
-    <Content Include="Content\Backload\content-types\24\File.png" />
-    <Content Include="Content\Backload\content-types\24\FileNotFound.png" />
-    <Content Include="Content\Backload\content-types\24\Image.png" />
-    <Content Include="Content\Backload\content-types\24\Multimedia.png" />
-    <Content Include="Content\Backload\content-types\24\OpenOffice-Writer.png" />
-    <Content Include="Content\Backload\content-types\24\PDF.png" />
-    <Content Include="Content\Backload\content-types\24\PowerPoint.png" />
-    <Content Include="Content\Backload\content-types\24\Text.png" />
-    <Content Include="Content\Backload\content-types\24\Word.png" />
-    <Content Include="Content\Backload\content-types\32\Excel.png" />
-    <Content Include="Content\Backload\content-types\32\File.png" />
-    <Content Include="Content\Backload\content-types\32\FileNotFound.png" />
-    <Content Include="Content\Backload\content-types\32\Image.png" />
-    <Content Include="Content\Backload\content-types\32\Multimedia.png" />
-    <Content Include="Content\Backload\content-types\32\OpenOffice-Writer.png" />
-    <Content Include="Content\Backload\content-types\32\PDF.png" />
-    <Content Include="Content\Backload\content-types\32\PowerPoint.png" />
-    <Content Include="Content\Backload\content-types\32\Text.png" />
-    <Content Include="Content\Backload\content-types\32\Word.png" />
-    <Content Include="Content\Backload\content-types\48\Excel.png" />
-    <Content Include="Content\Backload\content-types\48\File.png" />
-    <Content Include="Content\Backload\content-types\48\FileNotFound.png" />
-    <Content Include="Content\Backload\content-types\48\Image.png" />
-    <Content Include="Content\Backload\content-types\48\Multimedia.png" />
-    <Content Include="Content\Backload\content-types\48\OpenOffice-Writer.png" />
-    <Content Include="Content\Backload\content-types\48\PDF.png" />
-    <Content Include="Content\Backload\content-types\48\PowerPoint.png" />
-    <Content Include="Content\Backload\content-types\48\Text.png" />
-    <Content Include="Content\Backload\content-types\48\Word.png" />
-    <Content Include="Content\Backload\content-types\64\Excel.png" />
-    <Content Include="Content\Backload\content-types\64\File.png" />
-    <Content Include="Content\Backload\content-types\64\FileNotFound.png" />
-    <Content Include="Content\Backload\content-types\64\Image.png" />
-    <Content Include="Content\Backload\content-types\64\Multimedia.png" />
-    <Content Include="Content\Backload\content-types\64\OpenOffice-Writer.png" />
-    <Content Include="Content\Backload\content-types\64\PDF.png" />
-    <Content Include="Content\Backload\content-types\64\PowerPoint.png" />
-    <Content Include="Content\Backload\content-types\64\Text.png" />
-    <Content Include="Content\Backload\content-types\64\Word.png" />
-    <Content Include="Content\Backload\content-types\72\Excel.png" />
-    <Content Include="Content\Backload\content-types\72\File.png" />
-    <Content Include="Content\Backload\content-types\72\FileNotFound.png" />
-    <Content Include="Content\Backload\content-types\72\Image.png" />
-    <Content Include="Content\Backload\content-types\72\Multimedia.png" />
-    <Content Include="Content\Backload\content-types\72\OpenOffice-Writer.png" />
-    <Content Include="Content\Backload\content-types\72\PDF.png" />
-    <Content Include="Content\Backload\content-types\72\PowerPoint.png" />
-    <Content Include="Content\Backload\content-types\72\Text.png" />
-    <Content Include="Content\Backload\content-types\72\Word.png" />
-    <Content Include="Content\Backload\content-types\96\Excel.png" />
-    <Content Include="Content\Backload\content-types\96\File.png" />
-    <Content Include="Content\Backload\content-types\96\FileNotFound.png" />
-    <Content Include="Content\Backload\content-types\96\Image.png" />
-    <Content Include="Content\Backload\content-types\96\Multimedia.png" />
-    <Content Include="Content\Backload\content-types\96\OpenOffice-Writer.png" />
-    <Content Include="Content\Backload\content-types\96\PDF.png" />
-    <Content Include="Content\Backload\content-types\96\PowerPoint.png" />
-    <Content Include="Content\Backload\content-types\96\Text.png" />
-    <Content Include="Content\Backload\content-types\96\Word.png" />
     <Content Include="Content\bootstrap-responsive.css" />
     <Content Include="Content\bootstrap-responsive.min.css" />
+    <Content Include="Content\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\FileUpload\cors\postmessage.html" />
-    <Content Include="Content\FileUpload\cors\result.html" />
-    <Content Include="Content\FileUpload\css\bootstrap\bootstrap-image-gallery.debug.css" />
-    <Content Include="Content\FileUpload\css\bootstrap\bootstrap-responsive.debug.css" />
-    <Content Include="Content\FileUpload\css\bootstrap\bootstrap.debug.css" />
-    <Content Include="Content\FileUpload\css\jquery.fileupload-ui-noscript.css" />
-    <Content Include="Content\FileUpload\css\jquery.fileupload-ui.css" />
-    <Content Include="Content\FileUpload\css\jquery.image-gallery.debug.css" />
-    <Content Include="Content\FileUpload\css\jqueryui\jquery.fileupload-jui.css" />
-    <Content Include="Content\FileUpload\img\glyphicons-halflings-white.png" />
-    <Content Include="Content\FileUpload\img\glyphicons-halflings.png" />
-    <Content Include="Content\FileUpload\img\loading.gif" />
-    <Content Include="Content\FileUpload\img\progressbar.gif" />
-    <Content Include="Content\FileUpload\img\progressblue.gif" />
-    <Content Include="Content\images\glyphicons-halflings-white.png" />
-    <Content Include="Content\images\glyphicons-halflings.png" />
+    <Content Include="Content\moment-datepicker\datepicker.css" />
+    <Content Include="Content\mvcfileupload\blueimp\jquery.fileupload-noscript.css" />
+    <Content Include="Content\mvcfileupload\blueimp\jquery.fileupload-ui-noscript.css" />
+    <Content Include="Content\mvcfileupload\blueimp\jquery.fileupload-ui.css" />
+    <Content Include="Content\mvcfileupload\blueimp\jquery.fileupload.css" />
+    <Content Include="Content\mvcfileupload\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\mvcfileupload\images\glyphicons-halflings-white.png" />
+    <Content Include="Content\mvcfileupload\images\glyphicons-halflings.png" />
+    <Content Include="Content\mvcfileupload\images\loading.gif" />
+    <Content Include="Content\mvcfileupload\images\progressbar.gif" />
+    <Content Include="Content\mvcfileupload\vendor\bootstrap.min.css" />
     <Content Include="Content\themes\base\images\animated-overlay.gif" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
@@ -426,8 +345,13 @@
     <Content Include="Content\themes\base\minified\jquery.ui.tabs.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.tooltip.min.css" />
+    <Content Include="Content\uploads\readme.txt" />
     <Content Include="favicon.ico" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="Content\mvcfileupload\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Content\mvcfileupload\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Content\mvcfileupload\fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Areas\HelpPage\Views\Web.config" />
     <Content Include="Areas\HelpPage\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\Index.cshtml" />
@@ -439,35 +363,13 @@
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\HelpPageApiModel.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\ApiGroup.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\Api.cshtml" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <None Include="Models\Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="img\en.png" />
     <Content Include="img\hu.png" />
     <Content Include="index.html" />
-    <Content Include="Models\Scripts\FileUpload\angularjs\angular.debug.js" />
-    <Content Include="Models\Scripts\FileUpload\backload.demo.js" />
-    <Content Include="Models\Scripts\FileUpload\bootstrap\bootstrap-image-gallery.debug.js" />
-    <Content Include="Models\Scripts\FileUpload\bootstrap\bootstrap.debug.js" />
-    <Content Include="Models\Scripts\FileUpload\canvas-to-blob.debug.js" />
-    <Content Include="Models\Scripts\FileUpload\cors\jquery.postmessage-transport.js" />
-    <Content Include="Models\Scripts\FileUpload\cors\jquery.xdr-transport.js" />
-    <Content Include="Models\Scripts\FileUpload\jquery.fileupload-angular.js" />
-    <Content Include="Models\Scripts\FileUpload\jquery.fileupload-audio.js" />
-    <Content Include="Models\Scripts\FileUpload\jquery.fileupload-fp.js" />
-    <Content Include="Models\Scripts\FileUpload\jquery.fileupload-image.js" />
-    <Content Include="Models\Scripts\FileUpload\jquery.fileupload-jui.js" />
-    <Content Include="Models\Scripts\FileUpload\jquery.fileupload-process.js" />
-    <Content Include="Models\Scripts\FileUpload\jquery.fileupload-ui.js" />
-    <Content Include="Models\Scripts\FileUpload\jquery.fileupload-validate.js" />
-    <Content Include="Models\Scripts\FileUpload\jquery.fileupload-video.js" />
-    <Content Include="Models\Scripts\FileUpload\jquery.fileupload.js" />
-    <Content Include="Models\Scripts\FileUpload\jquery.iframe-transport.js" />
-    <Content Include="Models\Scripts\FileUpload\jquery.image-gallery.debug.js" />
-    <Content Include="Models\Scripts\FileUpload\jqueryui\jquery.fileupload-jui.js" />
-    <Content Include="Models\Scripts\FileUpload\jqueryui\jquery.fileupload-ui.js" />
-    <Content Include="Models\Scripts\FileUpload\jqueryui\jquery.fileupload.js" />
-    <Content Include="Models\Scripts\FileUpload\jqueryui\jquery.ui.widget.js" />
-    <Content Include="Models\Scripts\FileUpload\load-image.debug.js" />
-    <Content Include="Models\Scripts\FileUpload\tmpl.debug.js" />
     <Content Include="Models\Scripts\jquery-1.8.2.js" />
     <Content Include="Models\Scripts\jquery-1.8.2.min.js" />
     <None Include="Models\Scripts\jquery.validate-vsdoc.js" />
@@ -884,6 +786,34 @@
     </Content>
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\knockout-3.0.0.debug.js" />
+    <Content Include="Scripts\knockout-3.0.0.js" />
+    <Content Include="Scripts\mvcfileupload\blueimp\canvas-to-blob.min.js" />
+    <Content Include="Scripts\mvcfileupload\blueimp\jquery.fileupload-image.js" />
+    <Content Include="Scripts\mvcfileupload\blueimp\jquery.fileupload-jquery-ui.js" />
+    <Content Include="Scripts\mvcfileupload\blueimp\jquery.fileupload-process.js" />
+    <Content Include="Scripts\mvcfileupload\blueimp\jquery.fileupload-ui.js" />
+    <Content Include="Scripts\mvcfileupload\blueimp\jquery.fileupload-validate.js" />
+    <Content Include="Scripts\mvcfileupload\blueimp\jquery.fileupload.js" />
+    <Content Include="Scripts\mvcfileupload\blueimp\jquery.iframe-transport.js" />
+    <Content Include="Scripts\mvcfileupload\blueimp\jquery.ui.widget.js" />
+    <Content Include="Scripts\mvcfileupload\blueimp\load-image.min.js" />
+    <Content Include="Scripts\mvcfileupload\blueimp\tmpl.min.js" />
+    <Content Include="Scripts\mvcfileupload\vendor\bootstrap.min.js" />
+    <Content Include="Scripts\mvcfileupload\vendor\jquery.ui.widget.js" />
+    <Content Include="Views\Shared\_MvcFileUploaderLayout_jui.cshtml" />
+    <Content Include="Views\Shared\_MvcFileUploaderLayout.cshtml" />
+    <Content Include="Views\Shared\_MvcFileUpload.cshtml" />
+    <Content Include="Views\MvcUploaderTest\Demo.cshtml" />
+    <Content Include="Views\Home\Document.cshtml" />
+    <TypeScriptCompile Include="Scripts\Index.ts" />
     <Content Include="Scripts\jquery-2.0.3.js" />
     <Content Include="Scripts\jquery-2.0.3.min.js" />
     <Content Include="Scripts\jquery-ui-1.10.3.js" />
@@ -903,6 +833,14 @@
     <Content Include="Scripts\jquery.elang.test.js" />
     <Content Include="Scripts\jquery.elang.test.min.js" />
     <Content Include="Scripts\modernizr-2.7.1.js" />
+    <Content Include="Scripts\Index.js" />
+    <Content Include="Scripts\moment-datepicker-ko.js" />
+    <Content Include="Scripts\moment-datepicker.js" />
+    <Content Include="Scripts\moment-datepicker.min.js" />
+    <Content Include="Scripts\moment-with-langs.js" />
+    <Content Include="Scripts\moment-with-langs.min.js" />
+    <Content Include="Scripts\moment.js" />
+    <Content Include="Scripts\moment.min.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -943,16 +881,11 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_UserSettings.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Web.config" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\_Login.cshtml" />
     <Content Include="Views\Home\_Register.cshtml" />
     <Content Include="Scripts\jquery-2.0.3.min.map" />
     <Content Include="Views\Home\DocumentData.cshtml" />
-    <None Include="Web.Backload.Default.config" />
-    <None Include="Web.Backload.xsd">
-      <SubType>Designer</SubType>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -979,17 +912,12 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="Models\Scripts\typings\chai-jquery\chai-jquery.d.ts" />
-    <TypeScriptCompile Include="Models\Scripts\typings\chai\chai-assert.d.ts" />
-    <TypeScriptCompile Include="Models\Scripts\typings\chai\chai.d.ts" />
-    <TypeScriptCompile Include="Models\Scripts\typings\jquery.colorbox\jquery.colorbox.d.ts" />
-    <TypeScriptCompile Include="Models\Scripts\typings\jquery.form\jquery.form.d.ts" />
-    <TypeScriptCompile Include="Models\Scripts\typings\jquery.scrollTo\jquery.scrollTo.d.ts" />
-    <TypeScriptCompile Include="Models\Scripts\typings\jquery.simplePagination\jquery.simplePagination.d.ts" />
-    <TypeScriptCompile Include="Models\Scripts\typings\jquery.timepicker\jquery.timepicker.d.ts" />
-    <TypeScriptCompile Include="Models\Scripts\typings\jquery.validation\jquery.validation.d.ts" />
-    <TypeScriptCompile Include="Models\Scripts\typings\jqueryui\jqueryui.d.ts" />
-    <TypeScriptCompile Include="Models\Scripts\typings\jquery\jquery.d.ts" />
+    <TypeScriptCompile Include="Scripts\moment-datepicker.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\jquery.colorpicker\jquery.colorpicker.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\jquery.contextMenu\jquery.contextMenu.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\jquery.cookie\jquery.cookie.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\jqueryui\jqueryui.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\jquery\jquery.d.ts" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -1026,6 +954,11 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
+  <Import Project="..\packages\Microsoft.Bcl.Build.1.0.13\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.13\tools\Microsoft.Bcl.Build.targets')" />
+  <Target Name="EnsureBclBuildImported" BeforeTargets="BeforeBuild" Condition="'$(BclBuildImported)' == ''">
+    <Error Condition="!Exists('..\packages\Microsoft.Bcl.Build.1.0.13\tools\Microsoft.Bcl.Build.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." HelpKeyword="BCLBUILD2001" />
+    <Error Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.13\tools\Microsoft.Bcl.Build.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://go.microsoft.com/fwlink/?LinkID=317568." HelpKeyword="BCLBUILD2002" />
+  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.                                                                                      
        Other similar extension points exist, see Microsoft.Common.targets.                                                                                                                
   <Target Name="BeforeBuild">                                                                                                                                                             

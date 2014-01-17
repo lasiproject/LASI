@@ -1,4 +1,6 @@
-﻿@model MvcExperimentation.Models.LoginModel
+﻿@using LASI.Utilities;
+@using MvcExperimentation.LexicalElementSerialization;
+@model MvcExperimentation.Models.LoginModel
 @{
     ViewBag.Title = "My Todo List";
 }
@@ -13,36 +15,28 @@
 <header>
     <h1>@ViewBag.Title</h1>
 </header>
-
-<div id="main-content">
-    @using LASI.Utilities;
-    @{
-
-        System.IO.Directory.SetCurrentDirectory(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Resources));
-    }<div id="documentDisplayDiv">
+@{
+    <div id="main-content">
+        <div><form method="put" id="uploadform"><input type="file" accept="*.docx" id="fileUploadInput" /></form> </div>
 
 
-        <table>
-            @{  var doc = new LASI.Interop.AnalysisController(new LASI.ContentSystem.TextFile(@"C:\Users\Aluan\Desktop\documents\ducks.txt")).ProcessAsync().Result.First();
-            <tbody>
-                @foreach (var rowData in doc.Phrases.Split(10)) {
-                    <tr>
-                        @foreach (var phrase in rowData) {
-                            <td>@phrase.Text</td>
-                        }
-                    </tr>
-                }
-            </tbody>
-            }
-        </table>
+        @{
+            System.IO.Directory.SetCurrentDirectory(@"C:\Users\Aluan\Documents\GitHub\LASI\MvcApplication1\bin");
+        }
+
+        <div id="documentDisplayDiv">
+            <button id="doNowButton" value="NOW" style="height:20px; width:40px;"></button>
+            Now
+        </div>
     </div>
+    if (@User.Identity.IsAuthenticated) {
+        @section scripts {
+            <script src="/Scripts/Index.js"></script>
+            @Scripts.Render("~/bundles/knockout")
+            @Scripts.Render("~/bundles/jqueryval")
+            @Scripts.Render("~/bundles/todo")
 
-</div>
+        }
 
-@if (@User.Identity.IsAuthenticated) {
-    @section scripts {
-        @Scripts.Render("~/bundles/knockout")
-        @Scripts.Render("~/bundles/jqueryval")
-        @Scripts.Render("~/bundles/todo")
     }
 }
