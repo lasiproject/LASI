@@ -13,29 +13,29 @@ namespace LASI.Core
     public interface ILexical
     {
         /// <summary>
-        /// Gets or sets the IPrepositional instance lexically to the Left of the ILexical.
+        /// Gets or sets the IPrepositional instance lexically to the Left of the Lexical element.
         /// </summary>
         IPrepositional PrepositionOnLeft { get; set; }
         /// <summary>
-        /// Gets or sets the IPrepositional instance lexically to the Right of the ILexical.
+        /// Gets or sets the IPrepositional instance lexically to the Right of the Lexical element.
         /// </summary>
         IPrepositional PrepositionOnRight { get; set; }
 
         /// <summary>
-        /// Gets the text of the ILexical.
+        /// Gets the textual content of the Lexical element.
         /// </summary>
         string Text { get; }
         /// <summary>
-        /// Gets the System.Type of the ILexical.
+        /// Gets the System.Type of the Lexical element.
         /// </summary>
         Type Type { get; }
 
         /// <summary>
-        /// Gets or sets the numeric Weight of the ILexical construct within its document.
+        /// Gets or sets the numeric Weight of the Lexical element construct within its document.
         /// </summary>
         double Weight { get; set; }
         /// <summary>
-        /// Gets or sets the numeric Weight of the ILexical construct over the context of some subset of project extant documents.
+        /// Gets or sets the numeric Weight of the Lexical element construct over the context of some subset of project extant documents.
         /// </summary>
         double MetaWeight { get; set; }
 

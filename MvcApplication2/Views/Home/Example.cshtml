@@ -3,20 +3,14 @@
 @using MvcApplication2.LexicalElementSerialization;
 @using MvcApplication2.LexicalElementInfo;
 @using Newtonsoft.Json;
-@*@{
-        ViewBag.Title = "Example";
-    }*@
+
+
+
+<title>@ViewBag.Title</title>
 
 @{var doc = ViewData["doc"] as LASI.Core.DocumentStructures.Document;
-    <title>@ViewBag.Title</title>
     <h2>@doc.Name</h2>
 
-    Scripts.Render(@".\..\Scripts\jquery-ui-1.10.3.js");
-    <script>
-        var applyMenuContext = function (lexicalElementId) {
-            $("#" + lexicalElementId.toString()).contextmenu("");
-        }
-    </script>
     var styleMap = new MvcApplication2.SyntacticStyleMapping();
     var withIds = ContextMenuBuilder.BindClientSideIds(doc.Phrases);
     foreach (var paragraphElements in from phrase in withIds
@@ -25,16 +19,28 @@
                                       group withMenuData by bare.Paragraph) {
         <p class="lexical-content-block">
             @foreach (var element in paragraphElements) {
-                <span class=@styleMap[element.Element.Element].CssClass id=@element.Element.Id>
+                <span class=@styleMap[element.Element.Element].CssClass title=@element.Element.Element.Type.Name id=@element.Element.Id>
                     @element.Element.Element.Text
-                    @*<em hidden="hidden">@element.Element.Element.ToJson()</em>*@
+                    <span id=@("context"+element.Element.Id)>
+                        @JsonConvert.SerializeObject(element.MenuMappingData,
+
+                    new JsonSerializerSettings {
+                        ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                        ObjectCreationHandling = ObjectCreationHandling.Reuse,
+                        PreserveReferencesHandling = PreserveReferencesHandling.All,
+                        StringEscapeHandling = StringEscapeHandling.EscapeNonAscii,
+                        MaxDepth = 1,
+                    }).Trim(';')
+                    </span>
                 </span>
             }
 
         </p>
 
     }
-    Scripts.Render(@".\..\Scripts\Example.js");
-
+    @section scripts{
+        @Scripts.Render(@".\..\Scripts\jquery-ui-1.10.3.js");
+        @Scripts.Render(@".\..\Scripts\Example.js");
+    }
 
 }
