@@ -1,0 +1,17 @@
+﻿{
+  "output": "Error",
+  "runOnSave": false,
+  "runOnBuild": false,
+  "cancelBuild": false,
+  "ignore": [],
+  "options": {
+    "predef": {
+      "$": false
+    },
+    "browser": true,
+    "newcap": false,
+    "unparam": false,
+    "sloppy": false,
+    "white": false
+  }
+}

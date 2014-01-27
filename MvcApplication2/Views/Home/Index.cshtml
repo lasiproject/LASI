@@ -13,72 +13,32 @@
 <header>
     <h1>@ViewBag.Title</h1>
 </header>
-@Model MvcApplication2.Models.ExampleModel
-@{
 
-    @Html.BeginForm("Example", "Home", FormMethod.Post, new { Id = "FileUploadForm" })
-    <div id="main-content">
-        @if (@User.Identity.IsAuthenticated) {
 
-            <div>
-                <input type="file" accept="*.docx" id="fileUploadInput" />
+<div id="main-content">
 
-                <input type="submit" value="Submit" />
-            </div>
-            <p class="error" data-bind="text: error"></p>
-            <input id="antiForgeryToken" type="hidden" value="@GetAntiForgeryToken()" />
-            <button data-bind="click: addTodoList">Add Todo list</button>
+    @using (Html.BeginForm("Upload", "Home", FormMethod.Post, new { enctype = "multipart/form-data" })) {
+        <input id="file" type="file" name="file" multiple />
+        <script>
+            $(file).addClass("#FileUpload").validate();
+        </script>
+        <input type="submit" id="Submit" name="Submit" value="Upload" />
 
-            <section id="lists" data-bind="foreach: todoLists, visible: todoLists().length > 0">
-                <article class="todoList">
-                    <header>
-                        <form data-bind="validate: true">
-                            <input class="required" data-bind="value: title, selected: isEditingListTitle, blurOnEnter: true" />
-                        </form>
-                    </header>
+    }
 
-                    <a href="#" class="deletelist" data-bind="click: $parent.deleteTodoList">X</a>
+</div>
 
-                    <ul data-bind="foreach: todos">
-                        <li>
-                            <input type="checkbox" data-bind="checked: isDone" />
-                            <input class="todoItemInput" type="text" data-bind="value: title, disable: isDone, blurOnEnter: true" />
-                            <a href="#" data-bind="click: $parent.deleteTodo">X</a>
-                            <p class="error" data-bind="visible: errorMessage, text: errorMessage"></p>
-                        </li>
-                    </ul>
 
-                    <form data-bind="submit: addTodo">
-                        <input class="addTodo" type="text" data-bind="value: newTodoTitle, placeholder: 'Type here to add', blurOnEnter: true, event: { blur: addTodo }" />
-                    </form>
 
-                    <p class="error" data-bind="visible: errorMessage, text: errorMessage"></p>
-                </article>
-            </section>
-        } else {
-            <div class="todoList" id="loginPanel">
-                <section id="localLoginPanel">
-                    <h2>Log in</h2>
-                    @Html.Partial("_Login")
-                </section>
-                <section id="socialLoginPanel">
-                    <h2>Log in using another service</h2>
-                    @Html.Action("ExternalLoginsList", "Account", new { ReturnUrl = ViewBag.ReturnUrl })
-                </section>
-                <p>First time here? <a id="showRegister">Sign up</a></p>
-            </div>
-            <div class="todoList" id="registerPanel">
-                <h2>Sign up</h2>
-                @Html.Partial("_Register")
-                <p>Already signed up? <a id="showLogin">Log in</a></p>
-            </div>
-        }
-    </div>}
-    Html.EndForm()
+
+
+
+
 @if (@User.Identity.IsAuthenticated) {
     @section scripts {
         @Scripts.Render("~/bundles/knockout")
         @Scripts.Render("~/bundles/jqueryval")
         @Scripts.Render("~/bundles/todo")
     }
+
 }

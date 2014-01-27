@@ -1,27 +1,40 @@
 ﻿@using LASI.Utilities;
 @using Newtonsoft.Json.Serialization;
 @using MvcApplication2.LexicalElementSerialization;
+@using MvcApplication2.LexicalElementInfo;
 @using Newtonsoft.Json;
-@{
-    ViewBag.Title = "Example";
-}
+@*@{
+        ViewBag.Title = "Example";
+    }*@
 
 @{var doc = ViewData["doc"] as LASI.Core.DocumentStructures.Document;
-    <h2>@(doc.Name)</h2>
+    <title>@ViewBag.Title</title>
+    <h2>@doc.Name</h2>
 
-
+    Scripts.Render(@".\..\Scripts\jquery-ui-1.10.3.js");
+    <script>
+        var applyMenuContext = function (lexicalElementId) {
+            $("#" + lexicalElementId.toString()).contextmenu("");
+        }
+    </script>
     var styleMap = new MvcApplication2.SyntacticStyleMapping();
-
-    foreach (var documentParagraph in doc.Paragraphs) {
+    var withIds = ContextMenuBuilder.BindClientSideIds(doc.Phrases);
+    foreach (var paragraphElements in from phrase in withIds
+                                      join bare in doc.Phrases on phrase.Element equals bare
+                                      let withMenuData = ContextMenuBuilder.ForLexical(phrase, withIds)
+                                      group withMenuData by bare.Paragraph) {
         <p class="lexical-content-block">
-            @Html.ViewContext
-            @foreach (var phrase in documentParagraph.Phrases) {
-                <span class=@styleMap[phrase].CssClass>
-                    @phrase.Text<i hidden="hidden">@phrase.ToJson()</i>
+            @foreach (var element in paragraphElements) {
+                <span class=@styleMap[element.Element.Element].CssClass id=@element.Element.Id>
+                    @element.Element.Element.Text
+                    @*<em hidden="hidden">@element.Element.Element.ToJson()</em>*@
                 </span>
             }
 
         </p>
 
     }
+    Scripts.Render(@".\..\Scripts\Example.js");
+
+
 }
