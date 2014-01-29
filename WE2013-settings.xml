@@ -110,7 +110,18 @@
     <MarkdownShowPreviewWindow>True</MarkdownShowPreviewWindow>
     <MarkdownStrictBoldItalic>True</MarkdownStrictBoldItalic>
     <PixelPushing_OnByDefault>true</PixelPushing_OnByDefault>
+    <SassCompileOnBuild>false</SassCompileOnBuild>
+    <SassCompileToLocation />
+    <SassGenerateCssFile>false</SassGenerateCssFile>
+    <SassMinify>false</SassMinify>
+    <SassShowPreviewWindow>false</SassShowPreviewWindow>
+    <SassSourceMaps>false</SassSourceMaps>
     <SvgShowPreviewWindow>false</SvgShowPreviewWindow>
+    <TsLintEnable>false</TsLintEnable>
+    <TsLintErrorLocation>-1</TsLintErrorLocation>
+    <TsLintRunOnBuild>false</TsLintRunOnBuild>
+    <TypeScriptBraceCompletion>false</TypeScriptBraceCompletion>
+    <TypeScriptShowPreviewWindow>false</TypeScriptShowPreviewWindow>
     <UnusedCss_IgnorePatterns>bootstrap*; reset.css; normalize.css; jquery*; toastr*; foundation*; animate*; inuit*; elements*; ratchet*; hint*; flat-ui*; 960*; skeleton*</UnusedCss_IgnorePatterns>
     <ValidateVendorSpecifics>false</ValidateVendorSpecifics>
   </settings>

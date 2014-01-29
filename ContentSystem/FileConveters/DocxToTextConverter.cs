@@ -34,7 +34,7 @@ namespace LASI.ContentSystem
         /// Converts the .docx document into zip archive, deleting any preexisting conversion to zip.
         /// </summary>
         /// <returns>An object referring to the newly created zipfile.</returns>
-        protected virtual ZipArchive DocxToZip() {
+        protected virtual void DocxToZip() {
             string zipName = DestinationInfo.Directory + DestinationInfo.FileNameSansExt + ".zip";
             File.Copy(Original.FullPath, zipName, true);
 
@@ -44,7 +44,8 @@ namespace LASI.ContentSystem
             ZipArch = new ZipArchive(new FileStream(zipName, FileMode.Open), ZipArchiveMode.Read, false);
             ZipArch.ExtractToDirectory(DestinationInfo.Directory + DestinationInfo.FileNameSansExt);
             XmlFile = GetRelevantXMLFile(ZipArch);
-            return ZipArch;
+            File.Delete(DestinationInfo.Directory + DestinationInfo.FileNameSansExt + ".zip");
+            File.Delete(zipName);
         }
 
         /// <summary>
@@ -86,6 +87,7 @@ namespace LASI.ContentSystem
                 }
             }
             Converted = new TextFile(Original.PathSansExt + ".txt");
+
             return Converted;
 
         }

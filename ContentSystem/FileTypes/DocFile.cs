@@ -31,7 +31,8 @@ namespace LASI.ContentSystem
             var todocXConverter = new DocToDocXConverter(this);
             try {
                 docx = todocXConverter.ConvertFile() as DocXFile;
-            } catch (Exception e) { throw new FileConversionFailureException(FullPath, "DOC", "DOCX", e); }
+            }
+            catch (Exception e) { throw new FileConversionFailureException(FullPath, "DOC", "DOCX", e); }
             return docx.GetText();
         }
         /// <summary>
@@ -43,7 +44,8 @@ namespace LASI.ContentSystem
             var toDocXConverter = new DocToDocXConverter(this);
             try {
                 docx = await toDocXConverter.ConvertFileAsync() as DocXFile;
-            } catch (Exception e) { throw new FileConversionFailureException(FullPath, "DOC", "DOCX", e); }
+            }
+            catch (Exception e) { throw new FileConversionFailureException(FullPath, "DOC", "DOCX", e); }
             return await docx.GetTextAsync();
         }
     }

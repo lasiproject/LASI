@@ -53,10 +53,16 @@ namespace LASI.Core.Heuristics.Morphemization
             var results = new List<string>();
             for (var i = ENDINGS.Count - 1; i >= 0; --i) {
                 if (verbForm.EndsWith(SUFFICIES[i], StringComparison.OrdinalIgnoreCase)) {
-                    var possibleRoot = verbForm.Substring(0, verbForm.Length - SUFFICIES[i].Length);
-                    if (string.IsNullOrEmpty(ENDINGS[i]) || (possibleRoot).EndsWith(ENDINGS[i])) {
-                        results.Add(possibleRoot);
-                        return results.Select(r => r + afterHyphen);
+                    checked {
+                        try {
+                            var possibleRoot = verbForm.Substring(0, verbForm.Length - SUFFICIES[i].Length);
+
+                            if (string.IsNullOrEmpty(ENDINGS[i]) || (possibleRoot).EndsWith(ENDINGS[i])) {
+                                results.Add(possibleRoot);
+                                return results.Select(r => r + afterHyphen);
+                            }
+                        }
+                        catch (StackOverflowException) { }
                     }
                 }
             }

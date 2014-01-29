@@ -11,8 +11,7 @@ namespace LASI.Core.Heuristics.Tests
     public class LookupTests
     {
         [TestMethod()]
-        public void GetGenderTest()
-        {
+        public void GetGenderTest() {
             var n = new ProperSingularNoun("Patrick");
 
             Assert.AreEqual(n.GetGender(), n.Gender);
@@ -28,8 +27,7 @@ namespace LASI.Core.Heuristics.Tests
         }
 
         [TestMethod()]
-        public void IsFemaleFullTest()
-        {
+        public void IsFemaleFullTest() {
             var np = new NounPhrase(new Word[] { new ProperSingularNoun("Julia"), new ProperPluralNoun("Roberts") });
             Assert.IsTrue(np.IsFemaleFull());
             Assert.IsFalse(np.IsMaleFull());
@@ -39,8 +37,7 @@ namespace LASI.Core.Heuristics.Tests
         }
 
         [TestMethod()]
-        public void IsMaleFullTest()
-        {
+        public void IsMaleFullTest() {
             var np = new NounPhrase(new Word[] { new ProperSingularNoun("Patrick"), new ProperPluralNoun("Roberts") });
             Assert.IsTrue(np.IsMaleFull());
             Assert.IsFalse(np.IsFemaleFull());
@@ -50,15 +47,13 @@ namespace LASI.Core.Heuristics.Tests
         }
 
         [TestMethod()]
-        public void IsFirstNameTest()
-        {
+        public void IsFirstNameTest() {
             Assert.IsTrue(new ProperSingularNoun("Patrick").IsFirstName());
             Assert.IsTrue(new ProperSingularNoun("Rachel").IsFirstName());
         }
 
         [TestMethod()]
-        public void IsLastNameTest()
-        {
+        public void IsLastNameTest() {
             Assert.IsTrue(new ProperSingularNoun("Patrick").IsLastName());
             Assert.IsTrue(new ProperSingularNoun("Williams").IsLastName());
             Assert.IsTrue(new ProperSingularNoun("Roberts").IsLastName());
@@ -66,8 +61,7 @@ namespace LASI.Core.Heuristics.Tests
         }
 
         [TestMethod()]
-        public void IsFemaleFirstTest()
-        {
+        public void IsFemaleFirstTest() {
             var n = new ProperSingularNoun("Rachel");
             Assert.IsTrue(n.IsFemaleFirst());
             Assert.IsFalse(n.IsMaleFirst());
@@ -76,10 +70,9 @@ namespace LASI.Core.Heuristics.Tests
         }
 
         [TestMethod()]
-        public void IsMaleFirstTest()
-        {
+        public void IsMaleFirstTest() {
             var n = new ProperSingularNoun("Patrick");
-            var n1 = new ProperSingularNoun("Jaimie");
+            var n1 = new ProperSingularNoun("James");
 
             Assert.IsTrue(n.IsMaleFirst());
             Assert.IsTrue(n1.IsMaleFirst());
@@ -87,20 +80,17 @@ namespace LASI.Core.Heuristics.Tests
         }
 
         [TestMethod()]
-        public void GetSynonymsTest()
-        {
+        public void GetSynonymsTest() {
             Assert.IsTrue(new CommonSingularNoun("ball").GetSynonyms().Any());
         }
 
         [TestMethod()]
-        public void GetSynonymsTest1()
-        {
+        public void GetSynonymsTest1() {
             Assert.IsTrue(new Verb("heal", VerbForm.Base).GetSynonyms().Any());
         }
 
         [TestMethod()]
-        public void GetSynonymsTest2()
-        {
+        public void GetSynonymsTest2() {
             //Assert.IsTrue(new Adverb("pale").GetSynonyms().Any());
             Assert.IsTrue(new Adverb("slow").GetSynonyms().Any());
             Assert.IsTrue(new Adverb("slowly").GetSynonyms().Any());
@@ -109,32 +99,27 @@ namespace LASI.Core.Heuristics.Tests
         }
 
         [TestMethod()]
-        public void GetSynonymsTest3()
-        {
+        public void GetSynonymsTest3() {
             Assert.IsTrue(new Adjective("pale").GetSynonyms().Any());
         }
 
         [TestMethod()]
-        public void IsSynonymForTest()
-        {
+        public void IsSynonymForTest() {
             Assert.Fail();
         }
 
         [TestMethod()]
-        public void IsSynonymForTest1()
-        {
+        public void IsSynonymForTest1() {
             Assert.Fail();
         }
 
         [TestMethod()]
-        public void IsSynonymForTest2()
-        {
+        public void IsSynonymForTest2() {
             Assert.Fail();
         }
 
         [TestMethod()]
-        public void IsSynonymForTest3()
-        {
+        public void IsSynonymForTest3() {
             Assert.Fail();
         }
     }

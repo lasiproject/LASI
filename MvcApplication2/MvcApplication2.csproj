@@ -377,11 +377,18 @@
     <Content Include="Scripts\jquery-2.1.0.min.js.map">
       <DependentUpon>jquery-2.1.0.js</DependentUpon>
     </Content>
+    <Content Include="Scripts\jquery.ui-contextmenu.min.js">
+      <DependentUpon>jquery.ui-contextmenu.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\jquery.ui-contextmenu.min.js.map">
+      <DependentUpon>jquery.ui-contextmenu.js</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery-ui-1.10.4.js" />
     <Content Include="Scripts\jquery-ui-1.10.4.min.js" />
     <Content Include="Scripts\jquery-ui.unobtrusive-2.1.0.js" />
     <Content Include="Scripts\jquery-ui.unobtrusive-2.1.0.min.js" />
+    <Content Include="Scripts\jquery.ui-contextmenu.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
@@ -437,6 +444,9 @@
     <Content Include="Views\Home\_Login.cshtml" />
     <Content Include="Views\Home\_Register.cshtml" />
     <Content Include="Views\Home\Example.cshtml" />
+    <Content Include="Scripts\jquery.validate.min.js.map">
+      <DependentUpon>jquery.validate.js</DependentUpon>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\SourceFiles\" />

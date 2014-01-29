@@ -126,7 +126,7 @@ namespace LASI.Utilities
                         len = cETS.Length;
                         sum += '\n';
                     }
-                    return sum += cETS;
+                    return sum + cETS;
                 }).TrimEnd(' ', delimsToUse.Item2) + ' ' + delimsToUse.Item3;
         }
         /// <summary>
@@ -169,13 +169,13 @@ namespace LASI.Utilities
         /// to is less than 0.-or-start + count -1 is larger than System.Int32.MaxValue."
         ///</exception>
         public static IEnumerable<int> To(this int from, int to) {
-            if (from - to < 0) { throw new ArgumentOutOfRangeException("to", from - to, "Cannot generate a sequence of fewer than 0 values."); }
-            return Enumerable.Range(from, to - from);
+            if (to - from < 0) { throw new ArgumentOutOfRangeException("to", from - to, "Cannot generate a sequence of fewer than 0 values."); }
+            return Enumerable.Range(from, to + 1 - from);
         }
 
         #endregion
 
-            #region Custom Query Operators
+        #region Custom Query Operators
 
         /// <summary>
         /// Determines whether no elements of a sequence satisfy a condition.
