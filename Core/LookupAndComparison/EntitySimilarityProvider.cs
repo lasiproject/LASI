@@ -64,7 +64,7 @@ namespace LASI.Core.Heuristics
                              select new { byResult.Key, Count };
             return new SR(simResults.Any() && simResults.First().Key,
                 simResults.Any() ?
-                simResults.Skip(1).Aggregate(simResults.First().Count, (ratioSoFar, current) => ratioSoFar /= current.Count) :
+                simResults.Skip(1).Aggregate((float)simResults.First().Count, (ratioSoFar, current) => ratioSoFar / current.Count) :
                 0);
         }
         /// <summary>

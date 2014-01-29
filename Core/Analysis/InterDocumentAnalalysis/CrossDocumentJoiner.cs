@@ -87,7 +87,7 @@ namespace LASI.Core
                                      where (
                                         from verbs in topVerbalsByDoc
                                         select verbs.Contains(v, (x, y) => x.Text == y.Text || y.IsSimilarTo(y)))
-                                     .Aggregate(true, (product, result) => product &= result)
+                                     .Aggregate(true, (product, result) => product && result)
                                      select v;
             return from verbal in verbalCominalities
                    let testPronouns = new Func<IEnumerable<IEntity>, AggregateEntity>(

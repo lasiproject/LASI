@@ -92,7 +92,7 @@ namespace LASI.Core.Heuristics
         /// </summary>
         /// <returns>The hash code for the ActionsRelatedOn instance.</returns>
         public override int GetHashCode() {
-            return RelatedOn.Aggregate(0, (hash, action) => hash ^= action.GetHashCode());
+            return RelatedOn.Aggregate(0, (hash, action) => hash ^ action.GetHashCode());
         }
         internal IEnumerable<IVerbal> RelatedOn {
             get;

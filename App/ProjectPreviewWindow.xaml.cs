@@ -50,7 +50,7 @@ namespace LASI.App
                 return data
                     .SplitRemoveEmpty(new[] { "\r\n\r\n", "<paragraph>", "</paragraph>" })
                     .Select(s => s.Trim())
-                    .Aggregate((sum, current) => sum += "\n\t" + current);
+                    .Aggregate((sum, current) => sum + "\n\t" + current);
             });
             var item = new TabItem {
                 Header = textfile.NameSansExt,

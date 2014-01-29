@@ -59,9 +59,8 @@ namespace LASI.Core.Heuristics
         /// </summary>
         /// <returns>A single string representing the SynSet.</returns>
         public override string ToString() {
-            return "[" + Id + "] " + Words.Aggregate("", (str, code) => {
-                return str + "  " + code;
-            });
+            return "[" + Id + "] " + Words
+                .Aggregate("", (str, code) => str + "  " + code);
         }
         public static bool operator ==(SynSet<TSetRelationship> lhs, SynSet<TSetRelationship> rhs) {
             if (ReferenceEquals(lhs, null))

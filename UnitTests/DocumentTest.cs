@@ -224,7 +224,7 @@ namespace LASI.Core.Tests
             actual = target.Phrases;
             var expectedResult = actual.Zip(
                 new[] { "We", "must attack", "blue team", "!", "We", "must do", "this", "quickly", "!" },
-                (r, s) => r.Text == s).Aggregate(true, (aggr, val) => aggr &= val);
+                (r, s) => r.Text == s).Aggregate(true, (aggr, val) => aggr && val);
             Assert.IsTrue(expectedResult);
         }
 
@@ -283,7 +283,7 @@ namespace LASI.Core.Tests
             actual = target.Words;
             string[] expectedLexicalMatches = new[]{
                 "We", "must", "attack", "blue", "team","!", "We", "must", "do", "this", "quickly","!"};
-            var expectedResult = actual.Zip(expectedLexicalMatches, (w, s) => w.Text == s).Aggregate(true, (aggr, val) => aggr &= val);
+            var expectedResult = actual.Zip(expectedLexicalMatches, (w, s) => w.Text == s).Aggregate(true, (aggr, val) => aggr && val);
             Assert.IsTrue(expectedResult);
         }
 

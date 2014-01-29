@@ -133,7 +133,9 @@ namespace LASI.ContentSystem.TaggerEncapsulation
                 catch (InvalidOperationException) {
                     throw new UnmappedWordTypeException(string.Format("Word constructor\n{0}\nis not mapped by this Tagset.\nFunction Type: {1} => {2}",
                         wordCreator,
-                        wordCreator.Method.GetParameters().Aggregate("", (s, p) => s += p.ParameterType.FullName + ", ").TrimEnd(',', ' '),
+                        wordCreator.Method
+                        .GetParameters()
+                        .Aggregate("", (s, p) => s + p.ParameterType.FullName + ", ").TrimEnd(',', ' '),
                         wordCreator.Method.ReturnType.FullName
                         )
                     );
