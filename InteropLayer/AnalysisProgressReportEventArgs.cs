@@ -13,17 +13,12 @@ namespace LASI.Interop
     [System.Runtime.InteropServices.ComVisible(true)]
     public class AnalysisProgressReportEventArgs : LASI.Core.Interop.Reporting.ReportEventArgs
     {
-        internal AnalysisProgressReportEventArgs(string message, double increment) {
+        internal AnalysisProgressReportEventArgs(string message, double increment)
+        {
             Message = message;
             Increment = increment;
         }
-        /// <summary>
-        /// Gets a message indicating the phase of analysis underway when they Report was created.
-        /// </summary>
-        public override string Message { get; protected set; }
-        /// <summary>
-        /// Gets a value indicating the amount by which overall progress of analysis has increased since the last Report was created.
-        /// </summary>
-        public override double Increment { get; protected set; }
+
+
     }
 }

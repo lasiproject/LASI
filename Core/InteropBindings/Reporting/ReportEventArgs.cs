@@ -10,8 +10,14 @@ namespace LASI.Core.Interop.Reporting
     [System.Runtime.InteropServices.ComVisible(true)]
     public abstract class ReportEventArgs : EventArgs
     {
-        public abstract string Message { get; protected set; }
-        public abstract double Increment { get; protected set; }
+        /// <summary>
+        /// Gets a message indicating the phase of analysis underway when they Report was created.
+        /// </summary>
+        public string Message { get; protected set; }
+        /// <summary>
+        /// Gets a value indicating the amount by which overall progress of analysis has increased since the last Report was created.
+        /// </summary>
+        public double Increment { get; protected set; }
 
     }
 }

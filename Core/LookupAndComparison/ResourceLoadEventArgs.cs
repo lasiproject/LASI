@@ -11,24 +11,20 @@ namespace LASI.Core
     [System.Runtime.InteropServices.ComVisible(true)]
     public class ResourceLoadEventArgs : LASI.Core.Interop.Reporting.ReportEventArgs
     {
-        internal ResourceLoadEventArgs() {
+        internal ResourceLoadEventArgs()
+        {
             ElapsedTime = 0L;
             Message = string.Empty;
         }
 
-        public ResourceLoadEventArgs(string message, double increment) {
+        public ResourceLoadEventArgs(string message, double increment)
+        {
             Message = message;
             Increment = increment;
         }
 
-        public override string Message { get; protected set; }
-
         public long ElapsedTime { get; internal set; }
 
-        public override double Increment {
-            get;
-            protected set;
-        }
 
     }
 }

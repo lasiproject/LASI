@@ -11,9 +11,9 @@ interface JQueryContextMenuOptions {
     trigger?: string;
     autoHide?: boolean;
     delay?: number;
-    determinePosition?: (menu) => void;
-    position?: (opt, x, y) => void;
-    positionSubmenu?: (menu) => void;
+    determinePosition?: (menu:any) => void;
+    position?: (opt:any, x:any, y:any) => void;
+    positionSubmenu?: (menu:any) => void;
     zIndex?: number;
     animation?: {
         duration?: number;

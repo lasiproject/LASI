@@ -28,7 +28,8 @@ namespace LASI.Core.Patternization
         /// <summary>
         /// Gets or sets the value indicating if a match has succeeded.
         /// </summary>
-        protected bool Accepted {
+        protected bool Accepted
+        {
             get { return accepted; }
             set { accepted = value; }
         }
@@ -36,7 +37,8 @@ namespace LASI.Core.Patternization
         /// <summary>
         /// Gets or sets the value being matched against.
         /// </summary>
-        protected T Value {
+        protected T Value
+        {
             get { return this.value; }
             set { this.value = value; }
         }
@@ -46,6 +48,13 @@ namespace LASI.Core.Patternization
     /// Provides for the representation and free form structuring of Type based Pattern Matching expressions which match with a value of Type T and does not yield a result.
     /// </summary>
     /// <typeparam name="T">The Type of the value which the the Pattern Matching expression will match with.</typeparam> 
+    /// <remarks>
+    /// <para>
+    /// 1. Its is important to note that null values are coalesced by the Match process. 
+    /// That is to say that if the value being tested is null it will never match any of the Clauses.
+    /// Because of this a null value will never produce an error.
+    /// </para>
+    /// </remarks>
     [DebuggerStepThrough]
     public sealed class Match<T> : MatchBase<T> where T : class, ILexical
     {
@@ -64,7 +73,8 @@ namespace LASI.Core.Patternization
         /// </summary>
         /// <typeparam name="TResult">The Type of the result which the match expression may now return.</typeparam>
         /// <returns>A Match&lt;T, R&gt; describing the Match expression so far.</returns> 
-        public Match<T, TResult> Yield<TResult>() {
+        public Match<T, TResult> Yield<TResult>()
+        {
             return Match.Create<T, TResult>(Value);
         }
         #endregion
@@ -76,7 +86,8 @@ namespace LASI.Core.Patternization
         /// </summary>
         /// <param name="predicate">The predicate to test the value being matched over.</param>
         /// <returns>The PredicatedMatch&lt;T&gt; describing the Match expression so far. This must be followed by a single Then expression.</returns>
-        public PredicatedMatch<T> When(Func<T, bool> predicate) {
+        public PredicatedMatch<T> When(Func<T, bool> predicate)
+        {
             return Match.Create(predicate(Value), this);
         }
         /// <summary>
@@ -86,7 +97,8 @@ namespace LASI.Core.Patternization
         /// <typeparam name="TPattern">The Type to match with. That the value being matched is of this type is also necessary for the following then expression to be selected.</typeparam>
         /// <param name="predicate">The predicate to test the value being matched over.</param>
         /// <returns>The PredicatedMatch&lt;T&gt; describing the Match expression so far. This must be followed by a single Then expression.</returns>
-        public PredicatedMatch<T> When<TPattern>(Func<TPattern, bool> predicate) where TPattern : class,ILexical {
+        public PredicatedMatch<T> When<TPattern>(Func<TPattern, bool> predicate) where TPattern : class,ILexical
+        {
             var typed = Value as TPattern;
             return Match.Create(typed != null && predicate(typed), this);
         }
@@ -96,7 +108,8 @@ namespace LASI.Core.Patternization
         /// </summary>
         /// <param name="condition">The predicate to test the value being matched.</param>
         /// <returns>The PredicatedMatch&lt;T&gt; describing the Match expression so far. This must be followed by a single Then expression</returns>     
-        public PredicatedMatch<T> When(bool condition) {
+        public PredicatedMatch<T> When(bool condition)
+        {
             return Match.Create(condition, this);
         }
         #endregion
@@ -108,9 +121,11 @@ namespace LASI.Core.Patternization
         /// <typeparam name="TPattern">The Type to match with. If the value being matched is of this type, this With expression will be selected and the provided action invoked.</typeparam>
         /// <param name="action">The Action which, if this With expression is Matched, will be invoked.</param>
         /// <returns>The Match&lt;T, R&gt; describing the Match expression so far.</returns>
-        public Match<T> With<TPattern>(Action action) where TPattern : class ,ILexical {
+        public Match<T> With<TPattern>(Action action) where TPattern : class ,ILexical
+        {
 
-            if (!Accepted && Value is TPattern) {
+            if (!Accepted && Value is TPattern)
+            {
                 Accepted = true;
                 action();
             }
@@ -122,11 +137,15 @@ namespace LASI.Core.Patternization
         /// <typeparam name="TPattern">The Type to match with. If the value being matched is of this type, this With expression will be selected and the provided action invoked.</typeparam>
         /// <param name="action">The Action&lt;TPattern&gt; which, if this With expression is Matched, will be invoked on the value being matched over by the PatternMatching expression.</param>
         /// <returns>The Match&lt;T, R&gt; describing the Match expression so far.</returns>
-        public Match<T> With<TPattern>(Action<TPattern> action) where TPattern : class, ILexical {
-            if (Value != null) {
-                if (!Accepted) {
+        public Match<T> With<TPattern>(Action<TPattern> action) where TPattern : class, ILexical
+        {
+            if (Value != null)
+            {
+                if (!Accepted)
+                {
                     var matched = Value as TPattern;
-                    if (matched != null) {
+                    if (matched != null)
+                    {
                         Accepted = true;
                         action(matched);
                     }
@@ -145,7 +164,8 @@ namespace LASI.Core.Patternization
         /// </summary>
         /// <param name="action">The function to invoke if no matches in the expression succeeded.</param>
 
-        public void Default(Action action) {
+        public void Default(Action action)
+        {
             if (!Accepted)
                 action();
         }
@@ -154,8 +174,10 @@ namespace LASI.Core.Patternization
         /// </summary>
         /// <param name="action">The function to invoke on the match with value if no matches in the expression succeeded.</param>
 
-        public void Default(Action<T> action) {
-            if (!Accepted && Value != null) {
+        public void Default(Action<T> action)
+        {
+            if (!Accepted && Value != null)
+            {
                 action(Value);
             }
         }
@@ -175,11 +197,18 @@ namespace LASI.Core.Patternization
 
     }
     /// <summary>
-    /// Provides for the representation and free form structuring of Type based Pattern Matching expressions from a match with value of Type T to a Result of Type R.
+    /// Provides for the representation and free form structuring of Type based Pattern Matching expressions from a match with value of Type T to a result of Type TResult.
     /// </summary>
     /// <typeparam name="T">The Type of the value which the the Pattern Matching expression will match with.</typeparam>
     /// <typeparam name="TResult">The Type of the result to be yielded by the Pattern Matching expression.</typeparam> 
-    //[DebuggerStepThrough]
+    /// <remarks>
+    /// <para>
+    /// 1. Its is important to note that null values are coalesced by the Match process. 
+    /// That is to say that if the value being tested is null it will never match any of the Clauses.
+    /// Because of this a null value will always yield the default result and never produce an error.
+    /// </para>
+    /// </remarks>
+    [DebuggerStepThrough]
     public sealed class Match<T, TResult> : MatchBase<T> where T : class, ILexical
     {
         #region Constructors
@@ -198,7 +227,8 @@ namespace LASI.Core.Patternization
         /// </summary>
         /// <param name="predicate">The predicate to test the value being matched.</param>
         /// <returns>The PredicatedMatch&lt;T, R&gt; describing the Match expression so far. This must be followed by a single Then expression.</returns>
-        public PredicatedMatch<T, TResult> When(Func<T, bool> predicate) {
+        public PredicatedMatch<T, TResult> When(Func<T, bool> predicate)
+        {
             return Match.Create(predicate(Value), this);
         }
         /// <summary>
@@ -208,7 +238,8 @@ namespace LASI.Core.Patternization
         /// <typeparam name="TPattern">The Type to match with. That the value being matched is of this type is also necessary for the following then expression to be selected.</typeparam>
         /// <param name="predicate">The predicate to test the value being matched.</param>
         /// <returns>The PredicatedMatch&lt;T, R&gt; describing the Match expression so far. This must be followed by a single Then expression.</returns>
-        public PredicatedMatch<T, TResult> When<TPattern>(Func<TPattern, bool> predicate) where TPattern : class, ILexical {
+        public PredicatedMatch<T, TResult> When<TPattern>(Func<TPattern, bool> predicate) where TPattern : class, ILexical
+        {
             var typed = Value as TPattern;
             return Match.Create(typed != null && predicate(typed), this);
         }
@@ -218,7 +249,8 @@ namespace LASI.Core.Patternization
         /// </summary>
         /// <param name="condition">The predicate to test the value being matched.</param>
         /// <returns>The PredicatedMatch&lt;T, R&gt; describing the Match expression so far. This must be followed by a single Then expression.</returns>
-        public PredicatedMatch<T, TResult> When(bool condition) {
+        public PredicatedMatch<T, TResult> When(bool condition)
+        {
             return Match.Create(condition, this);
         }
         #endregion
@@ -230,8 +262,10 @@ namespace LASI.Core.Patternization
         /// <typeparam name="TPattern">The Type to match with. If the value being matched is of this type, this With expression will be selected and executed.</typeparam>
         /// <param name="func">The function which, if this With expression is Matched, will be invoked to produce the corresponding desired result for a Match with TPattern.</param>
         /// <returns>The Match&lt;T, R&gt; describing the Match expression so far.</returns>
-        public Match<T, TResult> With<TPattern>(Func<TResult> func) where TPattern : class, ILexical {
-            if (Value != null && !Accepted && Value is TPattern) {
+        public Match<T, TResult> With<TPattern>(Func<TResult> func) where TPattern : class, ILexical
+        {
+            if (Value != null && !Accepted && Value is TPattern)
+            {
                 result = func();
                 Accepted = true;
             }
@@ -243,10 +277,13 @@ namespace LASI.Core.Patternization
         /// <typeparam name="TPattern">The Type to match with. If the value being matched is of this type, this With expression will be selected and executed.</typeparam>
         /// <param name="func">The function which, if this With expression is Matched, will be invoked on the value being matched with to produce the desired result for a Match with TPattern.</param>
         /// <returns>The Match&lt;T, R&gt; describing the Match expression so far.</returns> 
-        public Match<T, TResult> With<TPattern>(Func<TPattern, TResult> func) where TPattern : class, ILexical {
-            if (!Accepted && Value != null) {
+        public Match<T, TResult> With<TPattern>(Func<TPattern, TResult> func) where TPattern : class, ILexical
+        {
+            if (!Accepted && Value != null)
+            {
                 var matched = Value as TPattern;
-                if (matched != null) {
+                if (matched != null)
+                {
                     result = func(matched);
                     Accepted = true;
                 }
@@ -259,10 +296,13 @@ namespace LASI.Core.Patternization
         /// <typeparam name="TPattern">The Type to match with. If the value being matched is of this type, this With expression will be selected and executed.</typeparam>
         /// <param name="result">The value which, if this With expression is Matched, will be the result of the Pattern Match.</param>
         /// <returns>The Match&lt;T, R&gt; describing the Match expression so far.</returns>
-        public Match<T, TResult> With<TPattern>(TResult result) where TPattern : class, ILexical {
-            if (!Accepted && Value != null) {
+        public Match<T, TResult> With<TPattern>(TResult result) where TPattern : class, ILexical
+        {
+            if (!Accepted && Value != null)
+            {
                 var matched = Value as TPattern;
-                if (matched != null) {
+                if (matched != null)
+                {
                     this.result = result;
                     Accepted = true;
                 }
@@ -280,8 +320,10 @@ namespace LASI.Core.Patternization
         /// <param name="func">The factory function returning a desired default value.</param>
         /// <returns>The Match&lt;T, R&gt; describing the Match expression so far.</returns> 
         /// <remarks>Although not enforced by the compiler, Default should only be used as the last clause in the match expression, never in between With clauses.</remarks>
-        public TResult Result(Func<TResult> func) {
-            if (!Accepted) {
+        public TResult Result(Func<TResult> func)
+        {
+            if (!Accepted)
+            {
                 result = func();
                 Accepted = true;
             }
@@ -293,8 +335,10 @@ namespace LASI.Core.Patternization
         /// </summary>
         /// <param name="func">The factory function returning a desired default value.</param>
         /// <returns>The Match&lt;T, R&gt; describing the Match expression so far.</returns>
-        public TResult Result(Func<T, TResult> func) {
-            if (Value != null && !Accepted) {
+        public TResult Result(Func<T, TResult> func)
+        {
+            if (Value != null && !Accepted)
+            {
                 result = func(Value);
                 Accepted = true;
             }
@@ -306,8 +350,10 @@ namespace LASI.Core.Patternization
         /// </summary>
         /// <param name="defaultValue">The desired default value.</param>
         /// <returns>The Match&lt;T, R&gt; describing the Match expression so far.</returns>
-        public TResult Result(TResult defaultValue) {
-            if (!Accepted) {
+        public TResult Result(TResult defaultValue)
+        {
+            if (!Accepted)
+            {
                 result = defaultValue;
                 Accepted = true;
             }
@@ -344,25 +390,30 @@ namespace LASI.Core.Patternization
     {
 
         public PredicatedMatch(bool accepted, Match<T> inner)
-            : base(accepted) {
+            : base(accepted)
+        {
             this.inner = inner;
         }
 
-        public Match<T> Then<TPattern>(Action action) where TPattern : class, ILexical {
+        public Match<T> Then<TPattern>(Action action) where TPattern : class, ILexical
+        {
             return Accepted ? inner.With<TPattern>(action) : inner;
         }
 
-        public Match<T> Then<TPattern>(Action<TPattern> action) where TPattern : class, ILexical {
+        public Match<T> Then<TPattern>(Action<TPattern> action) where TPattern : class, ILexical
+        {
             return Accepted ? inner.With(action) : inner;
         }
 
 
 
-        public Match<T> Then(Action action) {
+        public Match<T> Then(Action action)
+        {
             return Accepted ? inner.With<T>(action) : inner;
         }
 
-        public Match<T> Then(Action<T> action) {
+        public Match<T> Then(Action<T> action)
+        {
             return Accepted ? inner.With<T>(action) : inner;
         }
         #region Fields
@@ -382,7 +433,8 @@ namespace LASI.Core.Patternization
         #region Constructors
 
         public PredicatedMatch(bool accepted, Match<T, TResult> inner)
-            : base(accepted) {
+            : base(accepted)
+        {
             this.inner = inner;
         }
         #endregion
@@ -390,49 +442,59 @@ namespace LASI.Core.Patternization
         #region Methods
 
         public Match<T, TResult> Then<TPattern>(TResult result)
-             where TPattern : class, ILexical {
+             where TPattern : class, ILexical
+        {
             return Accepted ? inner.With<TPattern>(result) : inner;
         }
 
         public Match<T, TResult> Then<TPattern>(Func<TResult> func)
-            where TPattern : class, ILexical {
+            where TPattern : class, ILexical
+        {
             return Accepted ? inner.With<TPattern>(func) : inner;
         }
 
         public Match<T, TResult> Then<TPattern>(Func<TPattern, TResult> func)
-            where TPattern : class, ILexical {
+            where TPattern : class, ILexical
+        {
             return Accepted ? inner.With<TPattern>(func) : inner;
         }
 
 
-        public Match<T, TResult> Then(Func<T, TResult> func) {
+        public Match<T, TResult> Then(Func<T, TResult> func)
+        {
             return Accepted ? inner.With<T>(func) : inner;
         }
 
 
-        public Match<T, TResult> Then(TResult resultValue) {
+        public Match<T, TResult> Then(TResult resultValue)
+        {
             return Accepted ? inner.With<T>(resultValue) : inner;
         }
 
-        public Match<T, TResult> Then(Func<TResult> func) {
+        public Match<T, TResult> Then(Func<TResult> func)
+        {
             return Accepted ? inner.With<T>(func) : inner;
         }
 
-        public TResult Result() {
+        public TResult Result()
+        {
             return inner.Result();
         }
 
 
-        public TResult Result(TResult defaultValue) {
+        public TResult Result(TResult defaultValue)
+        {
             return inner.Result(defaultValue);
         }
 
-        public TResult Result(Func<TResult> func) {
+        public TResult Result(Func<TResult> func)
+        {
             return inner.Result(func);
         }
 
 
-        public TResult Result(Func<T, TResult> func) {
+        public TResult Result(Func<T, TResult> func)
+        {
             return inner.Result(func);
         }
         #endregion
@@ -444,16 +506,20 @@ namespace LASI.Core.Patternization
     [DebuggerStepThrough]
     internal class Match
     {
-        public static Match<T> Create<T>(T value) where T : class, ILexical {
+        public static Match<T> Create<T>(T value) where T : class, ILexical
+        {
             return new Match<T>(value);
         }
-        public static Match<T, TResult> Create<T, TResult>(T value) where T : class, ILexical {
+        public static Match<T, TResult> Create<T, TResult>(T value) where T : class, ILexical
+        {
             return new Match<T, TResult>(value);
         }
-        public static PredicatedMatch<T> Create<T>(bool accepted, Match<T> inner) where T : class, ILexical {
+        public static PredicatedMatch<T> Create<T>(bool accepted, Match<T> inner) where T : class, ILexical
+        {
             return Match.Create(accepted, inner);
         }
-        public static PredicatedMatch<T, TResult> Create<T, TResult>(bool accepted, Match<T, TResult> inner) where T : class, ILexical {
+        public static PredicatedMatch<T, TResult> Create<T, TResult>(bool accepted, Match<T, TResult> inner) where T : class, ILexical
+        {
             return new PredicatedMatch<T, TResult>(accepted, inner);
         }
     }
