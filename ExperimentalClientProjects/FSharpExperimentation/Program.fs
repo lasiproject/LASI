@@ -1,13 +1,16 @@
 ﻿// Learn more about F# at http://fsharp.net
 // See the 'F# Tutorial' project for more help.
 
-module LASI.FSharpExperimentation.program
 open LASI.Core
 open LASI.Core.Heuristics
 open LASI.ContentSystem
 open LASI.Interop
 open System.Linq
 open System.Threading.Tasks
+
+
+
+
 [<EntryPoint>]
 
 let main argv = 
