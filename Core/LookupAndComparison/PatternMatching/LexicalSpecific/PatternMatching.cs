@@ -18,7 +18,8 @@ namespace LASI.Core.Patternization
         /// </summary> 
         /// <param name="value">The ILexical value to match with.</param>
         /// <returns>The head of a non result yielding Type based Pattern Matching expression over the specified ILexical value.</returns>
-        public static Match<T> Match<T>(this T value) where T : class, ILexical {
+        public static Match<T> Match<T>(this T value) where T : class, ILexical
+        {
             return new Match<T>(value);
         }
 

@@ -118,10 +118,9 @@
     <Compile Include="LexicalStructures\MiscLanguageConstructs\UnknownWord.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\ISimpleGendered.cs" />
     <Compile Include="LexicalStructures\UnderpinningTypes\IAggregateLexical.cs" />
-    <Compile Include="InteropBindings\Support\PatternMatching\Generalized\Basis\MatchClause.cs" />
-    <Compile Include="InteropBindings\Support\PatternMatching\LexicalSpecific\IMatchClause.cs" />
-    <Compile Include="InteropBindings\Support\PatternMatching\LexicalSpecific\MatchClause.cs" />
-    <Compile Include="InteropBindings\Support\PatternMatching\LexicalSpecific\PatternMatching.cs" />
+    <Compile Include="LookupAndComparison\PatternMatching\Generalized\Basis\MatchClause.cs" />
+    <Compile Include="LookupAndComparison\PatternMatching\LexicalSpecific\MatchClause.cs" />
+    <Compile Include="LookupAndComparison\PatternMatching\LexicalSpecific\PatternMatching.cs" />
     <Compile Include="LexicalStructures\SymbolsAndPunctuators\IPairedPunctuator.cs" />
     <Compile Include="LookupAndComparison\EntityClassificationExtensions.cs" />
     <Compile Include="LexicalStructures\EnumerableExtensions\EnumerableOfRecursiveIEnumerableILexicalsExtenstions.cs" />
@@ -171,7 +170,7 @@
     <Compile Include="LexicalStructures\NounRelatedConstructs\IPossesser.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\IQuantifer.cs" />
     <Compile Include="LexicalStructures\VerbRelatedConstructs\IModalityModdifiable.cs" />
-    <Compile Include="InteropBindings\Support\Comparers.cs" />
+    <Compile Include="LookupAndComparison\Support\Exceptions\LexicalComparers.cs" />
     <Compile Include="InteropBindings\ResourceManagement\ResourceManagement.cs" />
     <Compile Include="LookupAndComparison\SyntacticCategorical\AdjectiveLookup.cs" />
     <Compile Include="LookupAndComparison\SyntacticCategorical\AdverbLookup.cs" />
@@ -285,9 +284,7 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="InteropBindings\Support\PatternMatching\Experimental\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
