@@ -13,16 +13,16 @@
 
     var styleMap = new MvcApplication2.SyntacticStyleMapping();
     var withIds = ContextMenuBuilder.BindClientSideIds(doc.Phrases);
-    foreach (var paragraphElements in from phrase in withIds
+    foreach (var annotatedLexicalElements in from phrase in withIds
                                       join bare in doc.Phrases on phrase.Element equals bare
                                       let withMenuData = ContextMenuBuilder.ForLexical(phrase, withIds)
                                       group withMenuData by bare.Paragraph) {
         <p class="lexical-content-block">
-            @foreach (var element in paragraphElements) {
-                <span class=@styleMap[element.Element.Element].CssClass title=@element.Element.Element.Type.Name id=@element.Element.Id>
-                    @element.Element.Element.Text
-                    <span id=@("context"+element.Element.Id)>
-                        @JsonConvert.SerializeObject(element.MenuMappingData,
+            @foreach (var e in annotatedLexicalElements) {
+                <span class=@styleMap[e.Lexical].CssClass title=@e.Lexical.Type.Name id=@e.Id>
+                    @e.Lexical.Text
+                    <span id=@("context"+e.Id)>
+                        @JsonConvert.SerializeObject(e.MenuMappingData,
 
                     new JsonSerializerSettings {
                         ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
