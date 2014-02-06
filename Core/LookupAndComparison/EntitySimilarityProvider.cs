@@ -15,7 +15,7 @@ namespace LASI.Core.Heuristics
         /// </summary>
         /// <param name="first">The first IEntity</param>
         /// <param name="second">The second IEntity</param>
-        /// <returns>True if the given IEntity instances are similar, false otherwise.</returns>
+        /// <returns>True if the given IEntity instances are similar; otherwise, false.</returns>
         /// <remarks>There are two calling conventions for this method. See the following examples
         /// <code>if ( Lookup.IsSimilarTo(e1, e2) ) { ... }</code>
         /// <code>if ( e1.IsSimilarTo(e2) ) { ... }</code>
@@ -48,7 +48,7 @@ namespace LASI.Core.Heuristics
         /// </summary>
         /// <param name="first">The first IAggregateEntity</param>
         /// <param name="second">The second IAggregateEntity</param>
-        /// <returns>True if the given IAggregateEntity instances are similar, false otherwise.</returns>
+        /// <returns>True if the given IAggregateEntity instances are similar; otherwise, false.</returns>
         /// <remarks>There are two calling conventions for this method. See the following examples
         /// <code>if ( Lookup.IsSimilarTo(e1, e2) ) { ... }</code>
         /// <code>if ( e1.IsSimilarTo(e2) ) { ... }</code>
@@ -72,7 +72,7 @@ namespace LASI.Core.Heuristics
         /// </summary>
         /// <param name="first">The Noun.</param>
         /// <param name="second">The NounPhrase.</param>
-        /// <returns>True if the provided Noun is similar to the provided NounPhrase, false otherwise.</returns>
+        /// <returns>True if the provided Noun is similar to the provided NounPhrase; otherwise, false.</returns>
         /// <remarks>There are two calling conventions for this method. See the following examples:
         /// <code>if ( Lookup.IsSimilarTo(n1, np2) ) { ... }</code>
         /// <code>if ( n1.IsSimilarTo(np2) ) { ... }</code>
@@ -87,7 +87,7 @@ namespace LASI.Core.Heuristics
         /// </summary>
         /// <param name="first">The NounPhrase.</param>
         /// <param name="second">The Noun.</param>
-        /// <returns>True if the provided NounPhrase is similar to the provided Noun, false otherwise.</returns>
+        /// <returns>True if the provided NounPhrase is similar to the provided Noun; otherwise, false.</returns>
         /// <remarks>There are two calling conventions for this method. See the following examples:
         /// <code>if ( Lookup.IsSimilarTo(np1, n2) ) { ... }</code>
         /// <code>if ( np1.IsSimilarTo(n2) ) { ... }</code>
@@ -101,7 +101,7 @@ namespace LASI.Core.Heuristics
         /// </summary>
         /// <param name="first">The first NounPhrase</param>
         /// <param name="second">The second NounPhrase</param>
-        /// <returns>True if the given NounPhrases are similar, false otherwise.</returns>
+        /// <returns>True if the given NounPhrases are similar; otherwise, false.</returns>
         /// <remarks>There are two calling conventions for this method. See the following examples:
         /// <code>if ( Lookup.IsSimilarTo(np1, np2) ) { ... }</code>
         /// <code>if ( np1.IsSimilarTo(np2) ) { ... }</code>
@@ -116,7 +116,7 @@ namespace LASI.Core.Heuristics
         /// </summary>
         /// <param name="first">The first Noun.</param>
         /// <param name="second">The second Noun.</param>
-        /// <returns>True if the first Noun is similar to the second, false otherwise.</returns>
+        /// <returns>True if the first Noun is similar to the second; otherwise, false.</returns>
         /// <remarks>There are two calling conventions for this method. See the following examples:
         /// <code>if ( Lookup.IsSimilarTo(n1, n2) ) { ... }</code>
         /// <code>if ( n1.IsSimilarTo(n2) ) { ... }</code>

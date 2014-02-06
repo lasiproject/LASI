@@ -100,7 +100,7 @@ namespace LASI.App
         /// Returns true if the file represented by the given file info is locked by the operating system or another application.
         /// </summary>
         /// <param name="file"></param>
-        /// <returns>true if the file represented by the given file info is locked by the operating system or another application, false otherwise.</returns>
+        /// <returns>true if the file represented by the given file info is locked by the operating system or another application; otherwise, false.</returns>
         public static bool FileIsLocked(FileInfo file) {
             try {
                 using (Stream stream = new FileStream(file.FullName, FileMode.Open)) {

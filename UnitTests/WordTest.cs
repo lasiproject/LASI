@@ -177,5 +177,45 @@ namespace LASI.Core.Tests
 
         }
 
+
+        /// <summary>
+        ///A test for Weight
+        ///</summary>
+        [TestMethod()]
+        public void WeightTest() {
+            Word target = CreateWord(); // TODO: Initialize to an appropriate value
+            double expected = 0F; // TODO: Initialize to an appropriate value
+            double actual;
+            target.Weight = expected;
+            actual = target.Weight;
+            Assert.AreEqual(expected, actual);
+            Assert.Inconclusive("Verify the correctness of this test method.");
+        }
+
+        /// <summary>
+        ///A test for VerboseOutput
+        ///</summary>
+        [TestMethod()]
+        public void VerboseOutputTest() {
+            bool expected = false; // TODO: Initialize to an appropriate value
+            bool actual;
+            Word.VerboseOutput = expected;
+            actual = Word.VerboseOutput;
+            Assert.AreEqual(expected, actual);
+            Assert.Inconclusive("Verify the correctness of this test method.");
+        }
+
+        /// <summary>
+        ///A test for Type
+        ///</summary>
+        [TestMethod()]
+        public void TypeTest() {
+            Word target = CreateWord(); // TODO: Initialize to an appropriate value
+            Type actual;
+            actual = target.Type;
+            Assert.Inconclusive("Verify the correctness of this test method.");
+        }
+
+      
     }
 }

@@ -91,7 +91,7 @@ namespace LASI.Utilities
         /// </summary>
         /// <param name="value">The first string to compare.</param>
         /// <param name="other">The second string to compare</param>
-        /// <returns>True if the given strings are equal, false otherwise.</returns>
+        /// <returns>True if the given strings are equal; otherwise, false.</returns>
         public static bool EqualsIgnoreCase(this string value, string other) {
             return value.Equals(other, StringComparison.OrdinalIgnoreCase);
         }

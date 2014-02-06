@@ -16,7 +16,7 @@ namespace LASI.Core.Heuristics
         /// </summary>
         /// <param name="first">The first IVerbal</param>
         /// <param name="second">The second IVerbal</param>
-        /// <returns>True if the given IVerbal instances are similar, false otherwise.</returns>
+        /// <returns>True if the given IVerbal instances are similar; otherwise, false.</returns>
         /// <remarks>There are two calling conventions for this method. See the following examples
         /// <code>if ( Lookup.IsSimilarTo(v1, v2) ) { ... }</code>
         /// <code>if ( v1.IsSimilarTo(v2) ) { ... }</code> 
@@ -43,7 +43,7 @@ namespace LASI.Core.Heuristics
         /// </summary>
         /// <param name="first">The first Verb.</param>
         /// <param name="second">The second Verb.</param>
-        /// <returns>True if the first Verb is similar to the second, false otherwise.</returns>
+        /// <returns>True if the first Verb is similar to the second; otherwise, false.</returns>
         /// <remarks>There are two calling conventions for this method. See the following examples:
         /// <code>if ( Lookup.IsSimilarTo(v1, v2) ) { ... }</code>
         /// <code>if ( v1.IsSimilarTo(v2) ) { ... }</code>
@@ -57,7 +57,7 @@ namespace LASI.Core.Heuristics
         /// </summary>
         /// <param name="first">The VerbPhrase.</param>
         /// <param name="second">The Verb.</param>
-        /// <returns>True if the provided VerbPhrase is similar to the provided Verb, false otherwise.</returns>
+        /// <returns>True if the provided VerbPhrase is similar to the provided Verb; otherwise, false.</returns>
         /// <remarks>There are two calling conventions for this method. See the following examples:
         /// <code>if ( Lookup.IsSimilarTo(vp1, v2) ) { ... }</code>
         /// <code>if ( vp1.IsSimilarTo(v2) ) { ... }</code>
@@ -71,7 +71,7 @@ namespace LASI.Core.Heuristics
         /// </summary>
         /// <param name="first">The Verb.</param>
         /// <param name="second">The VerbPhrase.</param>
-        /// <returns>True if the provided Verb is similar to the provided VerbPhrase, false otherwise.</returns>
+        /// <returns>True if the provided Verb is similar to the provided VerbPhrase; otherwise, false.</returns>
         /// <remarks>There are two calling conventions for this method. See the following examples:
         /// <code>if ( Lookup.IsSimilarTo(v1, vp2) ) { ... }</code>
         /// <code>if ( v1.IsSimilarTo(vp2) ) { ... }</code>
@@ -87,7 +87,7 @@ namespace LASI.Core.Heuristics
         /// </summary>
         /// <param name="first">The first VerbPhrase</param>
         /// <param name="second">The second VerbPhrase</param>
-        /// <returns>True if the given VerbPhrases are similar, false otherwise.</returns>
+        /// <returns>True if the given VerbPhrases are similar; otherwise, false.</returns>
         /// <remarks>There are two calling conventions for this method. See the following examples:
         /// <code>if ( Lookup.IsSimilarTo(vp1, vp2) ) { ... }</code>
         /// <code>if ( vp1.IsSimilarTo(vp2) ) { ... }</code>

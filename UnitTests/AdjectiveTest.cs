@@ -105,5 +105,19 @@ namespace LASI.Core.Tests
             actual = target.Describes;
             Assert.AreEqual(expected, actual);
         }
+
+        /// <summary>
+        ///A test for Modifiers
+        ///</summary>
+        [TestMethod()]
+        public void ModifiersTest() {
+            string text = string.Empty; // TODO: Initialize to an appropriate value
+            Adjective target = new Adjective(text); // TODO: Initialize to an appropriate value
+            IEnumerable<IAdverbial> actual;
+            actual = target.Modifiers;
+            Assert.Inconclusive("Verify the correctness of this test method.");
+        }
+
+      
     }
 }

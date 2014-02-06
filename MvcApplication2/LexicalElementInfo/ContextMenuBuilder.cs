@@ -31,10 +31,12 @@ namespace MvcApplication2.LexicalElementInfo
     public class ElementWithMenuData
     {
         internal ElementWithMenuData(ElementWithId element, ElementContextMenuMapping menuMappingData) {
-            Element = element;
+            Id = element.Id;
+            Lexical = element.Element;
             MenuMappingData = menuMappingData;
         }
-        public ElementWithId Element { get; private set; }
+        public ILexical Lexical { get; set; }
+        public int Id { get; private set; }
         public ElementContextMenuMapping MenuMappingData { get; private set; }
     }
     public class ElementWithId

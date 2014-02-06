@@ -72,7 +72,7 @@ namespace LASI.Core.Heuristics
         /// Determines if the provided NounPhrase is a known Full Female Name.
         /// </summary>
         /// <param name="name">The NounPhrase to check.</param>
-        /// <returns>True if the provided NounPhrase is a known Full Female Name, false otherwise.</returns>
+        /// <returns>True if the provided NounPhrase is a known Full Female Name; otherwise, false.</returns>
         public static bool IsFemaleFull(this NounPhrase name) {
             return GetNounPhraseGender(name).IsFemale();
         }
@@ -80,7 +80,7 @@ namespace LASI.Core.Heuristics
         /// Determines if the provided NounPhrase is a known Full Male Name.
         /// </summary>
         /// <param name="name">The NounPhrase to check.</param>
-        /// <returns>True if the provided NounPhrase is a known Full Male Name, false otherwise.</returns>
+        /// <returns>True if the provided NounPhrase is a known Full Male Name; otherwise, false.</returns>
         public static bool IsMaleFull(this NounPhrase name) {
             return GetNounPhraseGender(name).IsMale();
         }
@@ -121,7 +121,7 @@ namespace LASI.Core.Heuristics
         /// Determines wether the provided ProperNoun is a FirstName.
         /// </summary>
         /// <param name="proper">The ProperNoun to check.</param>
-        /// <returns>True if the provided ProperNoun is a FirstName, false otherwise.</returns>
+        /// <returns>True if the provided ProperNoun is a FirstName; otherwise, false.</returns>
         public static bool IsFirstName(this ProperNoun proper) {
             return Names.IsFirstName(proper.Text);
         }
@@ -130,7 +130,7 @@ namespace LASI.Core.Heuristics
         /// Lookups are performed in a case insensitive manner and currently do not respect plurality.
         /// </summary>
         /// <param name="proper">The ProperNoun to check.</param>
-        /// <returns>True if the ProperNoun's text corresponds to a last name in the english language, false otherwise.</returns>
+        /// <returns>True if the ProperNoun's text corresponds to a last name in the english language; otherwise, false.</returns>
         public static bool IsLastName(this ProperNoun proper) {
             return Names.IsLastName(proper.Text);
         }
@@ -139,7 +139,7 @@ namespace LASI.Core.Heuristics
         /// Lookups are performed in a case insensitive manner and currently do not respect plurality.
         /// </summary>
         /// <param name="proper">The ProperNoun to test.</param>
-        /// <returns>True if the ProperNoun's text corresponds to a female first name in the english language, false otherwise.</returns>
+        /// <returns>True if the ProperNoun's text corresponds to a female first name in the english language; otherwise, false.</returns>
         public static bool IsFemaleFirst(this ProperNoun proper) {
             return Names.IsFemaleFirst(proper.Text);
         }
@@ -148,7 +148,7 @@ namespace LASI.Core.Heuristics
         /// Lookups are performed in a case insensitive manner and currently do not respect plurality.
         /// </summary>
         /// <param name="proper">The ProperNoun to test.</param>
-        /// <returns>True if the ProperNoun's text corresponds to a male first name in the english language, false otherwise.</returns>
+        /// <returns>True if the ProperNoun's text corresponds to a male first name in the english language; otherwise, false.</returns>
         public static bool IsMaleFirst(this ProperNoun proper) {
             return Names.IsMaleFirst(proper.Text);
         }
@@ -197,7 +197,7 @@ namespace LASI.Core.Heuristics
         /// </summary>
         /// <param name="first">The first Noun.</param>
         /// <param name="second">The second Noun</param>
-        /// <returns>True if the Noun instances are synonymous, false otherwise.</returns>
+        /// <returns>True if the Noun instances are synonymous; otherwise, false.</returns>
         /// <remarks>There are two calling conventions for this method. See the following examples:
         /// <code>if ( Lookup.IsSimilarTo(vp1, vp2) ) { ... }</code>
         /// <code>if ( vp1.IsSimilarTo(vp2) ) { ... }</code>
@@ -211,7 +211,7 @@ namespace LASI.Core.Heuristics
         /// </summary>
         /// <param name="first">The first Verb.</param>
         /// <param name="second">The second Verb</param>
-        /// <returns>True if the Verb instances are synonymous, false otherwise.</returns>
+        /// <returns>True if the Verb instances are synonymous; otherwise, false.</returns>
         /// <remarks>There are two calling conventions for this method. See the following examples:
         /// <code>if ( Lookup.IsSimilarTo(vp1, vp2) ) { ... }</code>
         /// <code>if ( vp1.IsSimilarTo(vp2) ) { ... }</code>
@@ -227,7 +227,7 @@ namespace LASI.Core.Heuristics
         /// </summary>
         /// <param name="word">The first Adjective.</param>
         /// <param name="other">The second Adjective</param>
-        /// <returns>True if the Adjective instances are synonymous, false otherwise.</returns>
+        /// <returns>True if the Adjective instances are synonymous; otherwise, false.</returns>
         /// <remarks>There are two calling conventions for this method. See the following examples:
         /// <code>if ( Lookup.IsSimilarTo(vp1, vp2) ) { ... }</code>
         /// <code>if ( vp1.IsSimilarTo(vp2) ) { ... }</code>
@@ -241,7 +241,7 @@ namespace LASI.Core.Heuristics
         /// </summary>
         /// <param name="word">The first Adverb.</param>
         /// <param name="other">The second Adverb</param>
-        /// <returns>True if the Adverb instances are synonymous, false otherwise.</returns>
+        /// <returns>True if the Adverb instances are synonymous; otherwise, false.</returns>
         public static bool IsSynonymFor(this Adverb word, Adverb other) {
             return FindSynonyms(word).Contains(other.Text);
         }
@@ -417,7 +417,7 @@ namespace LASI.Core.Heuristics
             /// Determines if provided text is in the set of Female or Male first names.
             /// </summary>
             /// <param name="text">The text to check.</param>
-            /// <returns>True if the provided text is in the set of Female or Male first names, false otherwise.</returns>
+            /// <returns>True if the provided text is in the set of Female or Male first names; otherwise, false.</returns>
             public bool IsFirstName(string text) {
                 return female.Count > male.Count ?
                     male.Contains(text) || female.Contains(text) :
@@ -428,7 +428,7 @@ namespace LASI.Core.Heuristics
             /// Lookups are performed in a case insensitive manner and currently do not respect plurality.
             /// </summary>
             /// <param name="text">The Name to lookup</param>
-            /// <returns>True if the provided string corresponds to a common lastname in the english language, false otherwise.</returns>
+            /// <returns>True if the provided string corresponds to a common lastname in the english language; otherwise, false.</returns>
             public bool IsLastName(string text) {
                 return last.Contains(text);
             }
@@ -437,7 +437,7 @@ namespace LASI.Core.Heuristics
             /// Lookups are performed in a case insensitive manner and currently do not respect plurality.
             /// </summary>
             /// <param name="text">The Name to lookup</param>
-            /// <returns>True if the provided string corresponds to a common female name in the english language, false otherwise.</returns>
+            /// <returns>True if the provided string corresponds to a common female name in the english language; otherwise, false.</returns>
             public bool IsFemaleFirst(string text) {
                 return female.Contains(text);
             }
@@ -446,7 +446,7 @@ namespace LASI.Core.Heuristics
             /// Lookups are performed in a case insensitive manner and currently do not respect plurality.
             /// </summary>
             /// <param name="text">The Name to lookup</param>
-            /// <returns>True if the provided string corresponds to a common male name in the english language, false otherwise.</returns>
+            /// <returns>True if the provided string corresponds to a common male name in the english language; otherwise, false.</returns>
             public bool IsMaleFirst(string text) {
                 return male.Contains(text);
             }

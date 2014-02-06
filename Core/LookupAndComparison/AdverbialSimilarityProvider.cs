@@ -14,7 +14,7 @@ namespace LASI.Core.Heuristics
         /// </summary>
         /// <param name="first">The first IAdverbial</param>
         /// <param name="second">The second IAdverbial</param>
-        /// <returns>True if the given IAdverbial instances are similar, false otherwise.</returns>
+        /// <returns>True if the given IAdverbial instances are similar; otherwise, false.</returns>
         /// <remarks>There are two calling conventions for this method. See the following examples
         /// <code>if ( Lookup.IsSimilarTo(d1, d2) ) { ... }</code>
         /// <code>if ( a1.IsSimilarTo(a2) ) { ... }</code> 
@@ -39,7 +39,7 @@ namespace LASI.Core.Heuristics
         /// </summary>
         /// <param name="first">The first Adverb.</param>
         /// <param name="second">The second Adverb.</param>
-        /// <returns>True if the first Adverb is similar to the second, false otherwise.</returns>
+        /// <returns>True if the first Adverb is similar to the second; otherwise, false.</returns>
         /// <remarks>There are two calling conventions for this method. See the following examples:
         /// <code>if ( Lookup.IsSimilarTo(a1, a2) ) { ... }</code>
         /// <code>if ( a1.IsSimilarTo(a2) ) { ... }</code>
@@ -53,7 +53,7 @@ namespace LASI.Core.Heuristics
         /// </summary>
         /// <param name="first">The AdverbPhrase.</param>
         /// <param name="second">The Adjective.</param>
-        /// <returns>True if the provided AdverbPhrase is similar to the provided Adverb, false otherwise.</returns>
+        /// <returns>True if the provided AdverbPhrase is similar to the provided Adverb; otherwise, false.</returns>
         /// <remarks>There are two calling conventions for this method. See the following examples:
         /// <code>if ( Lookup.IsSimilarTo(ap1, a2) ) { ... }</code>
         /// <code>if ( ap1.IsSimilarTo(a2) ) { ... }</code>
@@ -67,7 +67,7 @@ namespace LASI.Core.Heuristics
         /// </summary>
         /// <param name="first">The Adverb.</param>
         /// <param name="second">The AdverbPhrase.</param>
-        /// <returns>True if the provided Adverb is similar to the provided AdverbPhrase, false otherwise.</returns>
+        /// <returns>True if the provided Adverb is similar to the provided AdverbPhrase; otherwise, false.</returns>
         /// <remarks>There are two calling conventions for this method. See the following examples:
         /// <code>if ( Lookup.IsSimilarTo(a1, ap2) ) { ... }</code>
         /// <code>if ( a1.IsSimilarTo(ap2) ) { ... }</code>
@@ -82,7 +82,7 @@ namespace LASI.Core.Heuristics
         /// </summary>
         /// <param name="first">The first AdverbPhrase</param>
         /// <param name="second">The second AdverbPhrase</param>
-        /// <returns>True if the given AdverbPhrases are similar, false otherwise.</returns>
+        /// <returns>True if the given AdverbPhrases are similar; otherwise, false.</returns>
         /// <remarks>There are two calling conventions for this method. See the following examples:
         /// <code>if ( Lookup.IsSimilarTo(ap1, ap2) ) { ... }</code>
         /// <code>if ( ap1.IsSimilarTo(ap2) ) { ... }</code>

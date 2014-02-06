@@ -104,5 +104,14 @@ namespace LASI.Core
 
         private static IEnumerable<string> knownSubordinators;
 
+
+        public ILexical Subordinates {
+            get {
+                throw new NotImplementedException();
+            }
+            set {
+                throw new NotImplementedException();
+            }
+        }
     }
 }

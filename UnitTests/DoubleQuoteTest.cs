@@ -84,5 +84,6 @@ namespace LASI.Core.Tests
             target.PairWith(target);
             Assert.AreNotEqual(target.PairedInstance, target);
         }
+ 
     }
 }

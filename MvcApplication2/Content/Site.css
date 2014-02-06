@@ -28,6 +28,11 @@ button, input[type=submit]
     padding-left: 10px;
 }
 
+div.document-selection-tab
+{
+    display: inline;
+    list-style-type: none;
+}
 /*#region Header */
 
 header
@@ -234,7 +239,7 @@ ol.round
     color: darkred;
 }
 
-.PronounPhrase
+.Referencer
 {
     color: hotpink;
 }
@@ -247,6 +252,11 @@ ol.round
 .Entity
 {
     color: deepskyblue;
+}
+
+.Conjunctive
+{
+    color: chartreuse;
 }
 
 .Prperositional
@@ -278,7 +288,6 @@ ol.round
 {
     color: forestgreen;
 }
-
 /*#region info and errors */
 .error
 {

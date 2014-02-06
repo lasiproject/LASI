@@ -112,9 +112,14 @@ namespace LASI.Core.Heuristics
         /// Returms true only if the given the ActionsRelatedOn? is not null;
         /// </summary>
         /// <param name="actions">The ActionsRelatedOn? structure to test.</param>
+<<<<<<< HEAD
         /// <returns>True if the given the ActionsRelatedOn? is not null, false otherwise.</returns>
         public static bool operator true(ActionsRelatedOn? actions)
         {
+=======
+        /// <returns>True if the given the ActionsRelatedOn? is not null; otherwise, false.</returns>
+        public static bool operator true(ActionsRelatedOn? actions) {
+>>>>>>> origin/BasicWebAppTesting
             return actions != null;
         }
 
@@ -122,9 +127,14 @@ namespace LASI.Core.Heuristics
         /// Returms true only if given the ActionsRelatedOn? is null;
         /// </summary>
         /// <param name="actions">The ActionsRelatedOn? structure to test.</param>
+<<<<<<< HEAD
         /// <returns>True if the given ActionsRelatedOn? is null, false otherwise.</returns>
         public static bool operator false(ActionsRelatedOn? actions)
         {
+=======
+        /// <returns>True if the given ActionsRelatedOn? is null; otherwise, false.</returns>
+        public static bool operator false(ActionsRelatedOn? actions) {
+>>>>>>> origin/BasicWebAppTesting
             return actions == null;
         }
         /// <summary>
@@ -132,14 +142,14 @@ namespace LASI.Core.Heuristics
         /// </summary>
         /// <param name="left">The first ActionsRelatedOn instance.</param>
         /// <param name="right">The second ActionsRelatedOn instance.</param>
-        /// <returns>True if the ActionsRelatedOn instances are equal, false otherwise.</returns>
+        /// <returns>True if the ActionsRelatedOn instances are equal; otherwise, false.</returns>
         public static bool operator ==(ActionsRelatedOn left, ActionsRelatedOn right) { return left.Equals(right); }
         /// <summary>
         /// Determines if two ActionsRelatedOn instances are unequal.
         /// </summary>
         /// <param name="left">The first ActionsRelatedOn instance.</param>
         /// <param name="right">The second ActionsRelatedOn instance.</param>
-        /// <returns>True if the ActionsRelatedOn instances are unequal, false otherwise.</returns>
+        /// <returns>True if the ActionsRelatedOn instances are unequal; otherwise, false.</returns>
         public static bool operator !=(ActionsRelatedOn left, ActionsRelatedOn right) { return !(left == right); }
 
 

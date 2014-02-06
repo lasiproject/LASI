@@ -10,9 +10,13 @@ namespace LASI.Utilities.Tests
     [TestClass()]
     public class CharExtensionsTests
     {
+        private const string CONSONANTS = "bcdfghjklmnpqrstvwxyzBCDFGHJKLMNPQRSTVWXYZ";
+        private const string VOWELS = "aeiouyAEIOUY";
+        private const string ALPHABET = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
         [TestMethod()]
         public void IsConsonantTest() {
-            foreach (var c in "bcdfghjklmnpqrstvwxyzBCDFGHJKLMNPQRSTVWXYZ") {
+            foreach (var c in CONSONANTS) {
                 Assert.IsTrue(c.IsConsonant());
             }
 
@@ -20,7 +24,7 @@ namespace LASI.Utilities.Tests
 
         [TestMethod()]
         public void IsVowelTest() {
-            foreach (var c in "aeiouyAEIOUY") {
+            foreach (var c in VOWELS) {
                 Assert.IsTrue(c.IsVowel());
             }
         }
@@ -28,13 +32,20 @@ namespace LASI.Utilities.Tests
         [TestMethod()]
         public void IsEnglishLetterTest() {
             for (var c = char.MinValue; c < char.MaxValue; ++c) {
-                if ("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".Contains(c)) {
+                if (ALPHABET.Contains(c)) {
                     Assert.IsTrue(c.IsEnglishLetter());
-                }
-                else {
+                } else {
                     Assert.IsFalse(c.IsEnglishLetter());
                 }
             }
+        }
+        [TestMethod()]
+        public void IsUpperTest() {
+            for (char c = char.MinValue; c < char.MaxValue; ++c) { Assert.AreEqual(c.IsUpper(), char.IsUpper(c)); }
+        }
+        [TestMethod()]
+        public void IsLowerTest() {
+            for (char c = char.MinValue; c < char.MaxValue; ++c) { Assert.AreEqual(c.IsLower(), char.IsLower(c)); }
         }
     }
 }

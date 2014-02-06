@@ -32,7 +32,7 @@ namespace LASI.Core.Binding
                 */
 
 
-                /*
+                /*  
                  *  if word prior to LastNoun is also a Noun associate them
                  */
 

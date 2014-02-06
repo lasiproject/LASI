@@ -160,6 +160,62 @@ namespace LASI.Core.Tests
             target[0].EstablishParent(parentDoc);
             Assert.AreEqual(target[0].Document, parentDoc);
         }
+
+        /// <summary>
+        ///A test for Words
+        ///</summary>
+        [TestMethod()]
+        public void WordsTest() {
+            IEnumerable<Sentence> sentences = null; // TODO: Initialize to an appropriate value
+            ParagraphKind paragraphKind = new ParagraphKind(); // TODO: Initialize to an appropriate value
+            Paragraph target = new Paragraph(sentences, paragraphKind); // TODO: Initialize to an appropriate value
+            IEnumerable<Word> actual;
+            actual = target.Words;
+            Assert.Inconclusive("Verify the correctness of this test method.");
+        }
+
+        
+        /// <summary>
+        ///A test for Phrases
+        ///</summary>
+        [TestMethod()]
+        public void PhrasesTest() {
+            IEnumerable<Sentence> sentences = null; // TODO: Initialize to an appropriate value
+            ParagraphKind paragraphKind = new ParagraphKind(); // TODO: Initialize to an appropriate value
+            Paragraph target = new Paragraph(sentences, paragraphKind); // TODO: Initialize to an appropriate value
+            IEnumerable<Phrase> actual;
+            actual = target.Phrases;
+            Assert.Inconclusive("Verify the correctness of this test method.");
+        }
+
+       
+
+        /// <summary>
+        ///A test for GetPhrasesAfter
+        ///</summary>
+        [TestMethod()]
+        public void GetPhrasesAfterTest() {
+            IEnumerable<Sentence> sentences = null; // TODO: Initialize to an appropriate value
+            ParagraphKind paragraphKind = new ParagraphKind(); // TODO: Initialize to an appropriate value
+            Paragraph target = new Paragraph(sentences, paragraphKind); // TODO: Initialize to an appropriate value
+            Phrase start = null; // TODO: Initialize to an appropriate value
+            IEnumerable<Phrase> expected = null; // TODO: Initialize to an appropriate value
+            IEnumerable<Phrase> actual;
+            actual = target.GetPhrasesAfter(start);
+            Assert.AreEqual(expected, actual);
+            Assert.Inconclusive("Verify the correctness of this test method.");
+        }
+ 
+        /// <summary>
+        ///A test for Paragraph Constructor
+        ///</summary>
+        [TestMethod()]
+        public void ParagraphConstructorTest() {
+            IEnumerable<Sentence> sentences = null; // TODO: Initialize to an appropriate value
+            ParagraphKind paragraphKind = new ParagraphKind(); // TODO: Initialize to an appropriate value
+            Paragraph target = new Paragraph(sentences, paragraphKind);
+            Assert.Inconclusive("TODO: Implement code to verify target");
+        }
     }
 
 }

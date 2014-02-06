@@ -52,7 +52,7 @@ namespace LASI.Core.Heuristics
         /// Indicates whether the current object is equal to another object of the same type.
         ///  </summary>
         /// <param name="other">An object to compare with this object.</param>
-        /// <returns>true if the current object is equal to the other parameter, false otherwise.</returns>
+        /// <returns>true if the current object is equal to the other parameter; otherwise, false.</returns>
         public bool Equals(SimilarityResult other) {
             return this == other;
         }
@@ -60,7 +60,7 @@ namespace LASI.Core.Heuristics
         /// Returns a value that indicates whether the specified object is equal to the current SimResult.
         /// </summary>
         /// <param name="obj">The object to compare with.</param> 
-        /// <returns>True if the specified object is equal to the current SimResult, false otherwise.</returns> 
+        /// <returns>True if the specified object is equal to the current SimResult; otherwise, false.</returns> 
         public override bool Equals(object obj) {
             return obj != null && obj is SimilarityResult && this == (SimilarityResult)obj;
         }

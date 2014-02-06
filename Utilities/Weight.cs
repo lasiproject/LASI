@@ -45,7 +45,7 @@ namespace LASI.Utilities
         /// Returns a value that indicates whether the specified object is equal to the current Weight.
         /// </summary>
         /// <param name="obj">The object to compare with.</param> 
-        /// <returns>True if the specified object is equal to the current Weight, false otherwise.</returns>
+        /// <returns>True if the specified object is equal to the current Weight; otherwise, false.</returns>
         public override bool Equals(object obj) {
             return obj is Weight && this == (Weight)obj;
         }
@@ -53,7 +53,7 @@ namespace LASI.Utilities
         /// Returns a value that indicates whether the specified Weight is equal to the current Weight.
         /// </summary>
         /// <param name="other">The Weight to compare with.</param> 
-        /// <returns>True if the specified Weight is equal to the current Weight, false otherwise.</returns>
+        /// <returns>True if the specified Weight is equal to the current Weight; otherwise, false.</returns>
         public bool Equals(Weight other) {
             return this == other;
         }
@@ -61,7 +61,7 @@ namespace LASI.Utilities
         /// Returns a value that indicates whether the specified Object is equal to the current Weight.
         /// </summary>
         /// <param name="obj">The Object to compare with.</param> 
-        /// <returns>True if the specified Object is equal to the current Weight, false otherwise.</returns>
+        /// <returns>True if the specified Object is equal to the current Weight; otherwise, false.</returns>
         public int CompareTo(object obj) {
             return obj == null ? 1 : obj is Weight ? (int)(this - (Weight)obj) : 1;
         }
@@ -110,7 +110,7 @@ namespace LASI.Utilities
         /// </summary>
         /// <param name="left">The first Weight to compare.</param>
         /// <param name="right">The second Weight to compare.</param>
-        /// <returns>True if the specified Weight instances are equal, false otherwise.</returns>
+        /// <returns>True if the specified Weight instances are equal; otherwise, false.</returns>
         public static bool operator ==(Weight left, Weight right) {
             return left.RawWeight * left.Multiplier == right.RawWeight * right.Multiplier;
         }
@@ -119,7 +119,7 @@ namespace LASI.Utilities
         /// </summary>
         /// <param name="left">The first Weight to compare.</param>
         /// <param name="right">The second Weight to compare.</param>
-        /// <returns>True if the specified Weight instances are not equal, false otherwise.</returns>
+        /// <returns>True if the specified Weight instances are not equal; otherwise, false.</returns>
         public static bool operator !=(Weight left, Weight right) {
             return !(left == right);
         }

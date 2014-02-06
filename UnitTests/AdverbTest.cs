@@ -3,6 +3,7 @@ using LASI.Core;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Linq;
+using System.Collections.Generic;
 
 
 namespace LASI.Core.Tests
@@ -87,5 +88,45 @@ namespace LASI.Core.Tests
             Adverb target = new Adverb(text);
             Assert.IsTrue(target.Text == "quickly" && target.Modifies == null);
         }
+
+        /// <summary>
+        ///A test for Modifies
+        ///</summary>
+        [TestMethod()]
+        public void ModifiesTest() {
+            string text = string.Empty; // TODO: Initialize to an appropriate value
+            Adverb target = new Adverb(text); // TODO: Initialize to an appropriate value
+            IAdverbialModifiable expected = null; // TODO: Initialize to an appropriate value
+            IAdverbialModifiable actual;
+            target.Modifies = expected;
+            actual = target.Modifies;
+            Assert.AreEqual(expected, actual);
+            Assert.Inconclusive("Verify the correctness of this test method.");
+        }
+
+        /// <summary>
+        ///A test for Modifiers
+        ///</summary>
+        [TestMethod()]
+        public void ModifiersTest() {
+            string text = string.Empty; // TODO: Initialize to an appropriate value
+            Adverb target = new Adverb(text); // TODO: Initialize to an appropriate value
+            IEnumerable<IAdverbial> actual;
+            actual = target.Modifiers;
+            Assert.Inconclusive("Verify the correctness of this test method.");
+        }
+
+        /// <summary>
+        ///A test for ModifyWith
+        ///</summary>
+        [TestMethod()]
+        public void ModifyWithTest() {
+            string text = string.Empty; // TODO: Initialize to an appropriate value
+            Adverb target = new Adverb(text); // TODO: Initialize to an appropriate value
+            IAdverbial adv = null; // TODO: Initialize to an appropriate value
+            target.ModifyWith(adv);
+            Assert.Inconclusive("A method that does not return a value cannot be verified.");
+        }
+ 
     }
 }

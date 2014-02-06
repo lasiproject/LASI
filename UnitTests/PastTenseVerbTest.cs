@@ -73,5 +73,6 @@ namespace LASI.Core.Tests
             Assert.IsTrue(target.Text == text);
             Assert.IsTrue(target.Tense == past);
         }
+ 
     }
 }

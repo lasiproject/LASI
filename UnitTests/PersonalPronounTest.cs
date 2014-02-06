@@ -175,5 +175,27 @@ namespace LASI.Core.Tests
             Assert.AreEqual(expected, actual);
 
         }
+
+        /// <summary>
+        ///A test for EntityKind
+        ///</summary>
+        [TestMethod()]
+        public void EntityKindTest() {
+            string text = string.Empty; // TODO: Initialize to an appropriate value
+            PersonalPronoun target = new PersonalPronoun(text); // TODO: Initialize to an appropriate value
+            EntityKind actual;
+            actual = target.EntityKind;
+            Assert.Inconclusive("Verify the correctness of this test method.");
+        }
+
+        /// <summary>
+        ///A test for PersonalPronoun Constructor
+        ///</summary>
+        [TestMethod()]
+        public void PersonalPronounConstructorTest() {
+            string text = string.Empty; // TODO: Initialize to an appropriate value
+            PersonalPronoun target = new PersonalPronoun(text);
+            Assert.Inconclusive("TODO: Implement code to verify target");
+        }
     }
 }

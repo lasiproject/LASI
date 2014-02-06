@@ -79,5 +79,7 @@ namespace LASI.Core.Tests
             actual = target.Modality;
             Assert.AreEqual(expected, actual); 
         }
+
+        
     }
 }

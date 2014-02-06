@@ -122,5 +122,64 @@ namespace LASI.Core.Tests
         }
 
 
+
+        /// <summary>
+        ///A test for ToTheRightOf
+        ///</summary>
+        [TestMethod()]
+        public void ToTheRightOfTest() {
+            IEnumerable<Word> composedWords = null; // TODO: Initialize to an appropriate value
+            ParticlePhrase target = new ParticlePhrase(composedWords); // TODO: Initialize to an appropriate value
+            ILexical expected = null; // TODO: Initialize to an appropriate value
+            ILexical actual;
+            target.ToTheRightOf = expected;
+            actual = target.ToTheRightOf;
+            Assert.AreEqual(expected, actual);
+            Assert.Inconclusive("Verify the correctness of this test method.");
+        }
+
+        /// <summary>
+        ///A test for ToTheLeftOf
+        ///</summary>
+        [TestMethod()]
+        public void ToTheLeftOfTest() {
+            IEnumerable<Word> composedWords = null; // TODO: Initialize to an appropriate value
+            ParticlePhrase target = new ParticlePhrase(composedWords); // TODO: Initialize to an appropriate value
+            ILexical expected = null; // TODO: Initialize to an appropriate value
+            ILexical actual;
+            target.ToTheLeftOf = expected;
+            actual = target.ToTheLeftOf;
+            Assert.AreEqual(expected, actual);
+            Assert.Inconclusive("Verify the correctness of this test method.");
+        }
+
+        /// <summary>
+        ///A test for Role
+        ///</summary>
+        [TestMethod()]
+        public void RoleTest() {
+            IEnumerable<Word> composedWords = null; // TODO: Initialize to an appropriate value
+            ParticlePhrase target = new ParticlePhrase(composedWords); // TODO: Initialize to an appropriate value
+            PrepositionRole expected = new PrepositionRole(); // TODO: Initialize to an appropriate value
+            PrepositionRole actual;
+            target.Role = expected;
+            actual = target.Role;
+            Assert.AreEqual(expected, actual);
+            Assert.Inconclusive("Verify the correctness of this test method.");
+        }
+
+        /// <summary>
+        ///A test for BindObject
+        ///</summary>
+        [TestMethod()]
+        public void BindObjectTest() {
+            IEnumerable<Word> composedWords = null; // TODO: Initialize to an appropriate value
+            ParticlePhrase target = new ParticlePhrase(composedWords); // TODO: Initialize to an appropriate value
+            ILexical prepositionalObject = null; // TODO: Initialize to an appropriate value
+            target.BindObject(prepositionalObject);
+            Assert.Inconclusive("A method that does not return a value cannot be verified.");
+        }
+
+      
     }
 }

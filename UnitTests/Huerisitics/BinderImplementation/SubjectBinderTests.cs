@@ -11,20 +11,14 @@ namespace LASI.Core.Binding.Tests
     public class SubjectBinderTests
     {
         [TestMethod()]
-        public void BindTest()
-        {
+        public void BindTest() {
             Assert.Fail();
         }
 
-        [TestMethod()]
-        public void DisplayTest()
-        {
-            Assert.Fail();
-        }
+
 
         [TestMethod()]
-        public void HasSubjectPronounTest()
-        {
+        public void HasSubjectPronounTest() {
             Assert.Fail();
         }
     }

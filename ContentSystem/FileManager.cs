@@ -628,7 +628,7 @@ namespace LASI.ContentSystem
         /// </summary>
         public static IReadOnlyList<DocFile> DocFiles {
             get {
-                return DocFiles;
+                return docFiles;
             }
         }
         /// <summary>

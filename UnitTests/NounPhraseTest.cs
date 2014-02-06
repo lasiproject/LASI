@@ -224,5 +224,104 @@ namespace LASI.Core.Tests
             actual = target.ToString();
             Assert.AreEqual(expected, actual);
         }
+ 
+
+        /// <summary>
+        ///A test for Referees
+        ///</summary>
+        [TestMethod()]
+        public void RefereesTest() {
+            IEnumerable<Word> composed = null; // TODO: Initialize to an appropriate value
+            NounPhrase target = new NounPhrase(composed); // TODO: Initialize to an appropriate value
+            IEnumerable<IReferencer> actual;
+            actual = target.Referees;
+            Assert.Inconclusive("Verify the correctness of this test method.");
+        }
+
+ 
+        /// <summary>
+        ///A test for Possessed
+        ///</summary>
+        [TestMethod()]
+        public void PossessedTest() {
+            IEnumerable<Word> composed = null; // TODO: Initialize to an appropriate value
+            NounPhrase target = new NounPhrase(composed); // TODO: Initialize to an appropriate value
+            IEnumerable<IPossessable> actual;
+            actual = target.Possessed;
+            Assert.Inconclusive("Verify the correctness of this test method.");
+        }
+
+        /// <summary>
+        ///A test for OuterAttributive
+        ///</summary>
+        [TestMethod()]
+        public void OuterAttributiveTest() {
+            IEnumerable<Word> composed = null; // TODO: Initialize to an appropriate value
+            NounPhrase target = new NounPhrase(composed); // TODO: Initialize to an appropriate value
+            NounPhrase expected = null; // TODO: Initialize to an appropriate value
+            NounPhrase actual;
+            target.OuterAttributive = expected;
+            actual = target.OuterAttributive;
+            Assert.AreEqual(expected, actual);
+            Assert.Inconclusive("Verify the correctness of this test method.");
+        }
+
+        /// <summary>
+        ///A test for InnerAttributive
+        ///</summary>
+        [TestMethod()]
+        public void InnerAttributiveTest() {
+            IEnumerable<Word> composed = null; // TODO: Initialize to an appropriate value
+            NounPhrase target = new NounPhrase(composed); // TODO: Initialize to an appropriate value
+            NounPhrase expected = null; // TODO: Initialize to an appropriate value
+            NounPhrase actual;
+            target.InnerAttributive = expected;
+            actual = target.InnerAttributive;
+            Assert.AreEqual(expected, actual);
+            Assert.Inconclusive("Verify the correctness of this test method.");
+        }
+
+ 
+ 
+
+        /// <summary>
+        ///A test for Descriptors
+        ///</summary>
+        [TestMethod()]
+        public void DescriptorsTest() {
+            IEnumerable<Word> composed = null; // TODO: Initialize to an appropriate value
+            NounPhrase target = new NounPhrase(composed); // TODO: Initialize to an appropriate value
+            IEnumerable<IDescriptor> actual;
+            actual = target.Descriptors;
+            Assert.Inconclusive("Verify the correctness of this test method.");
+        }
+
+    
+
+        /// <summary>
+        ///A test for BindReferencer
+        ///</summary>
+        [TestMethod()]
+        public void BindReferencerTest() {
+            IEnumerable<Word> composed = null; // TODO: Initialize to an appropriate value
+            NounPhrase target = new NounPhrase(composed); // TODO: Initialize to an appropriate value
+            IReferencer pro = null; // TODO: Initialize to an appropriate value
+            target.BindReferencer(pro);
+            Assert.Inconclusive("A method that does not return a value cannot be verified.");
+        }
+
+        /// <summary>
+        ///A test for BindDescriptor
+        ///</summary>
+        [TestMethod()]
+        public void BindDescriptorTest() {
+            IEnumerable<Word> composed = null; // TODO: Initialize to an appropriate value
+            NounPhrase target = new NounPhrase(composed); // TODO: Initialize to an appropriate value
+            IDescriptor descriptor = null; // TODO: Initialize to an appropriate value
+            target.BindDescriptor(descriptor);
+            Assert.Inconclusive("A method that does not return a value cannot be verified.");
+        }
+ 
+        
     }
 }

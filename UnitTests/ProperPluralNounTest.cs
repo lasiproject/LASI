@@ -86,5 +86,22 @@ namespace LASI.Core.Tests
             Assert.AreEqual(expected, actual);
 
         }
+
+        /// <summary>
+        ///A test for QuantifiedBy
+        ///</summary>
+        [TestMethod()]
+        public void QuantifiedByTest() {
+            string text = string.Empty; // TODO: Initialize to an appropriate value
+            ProperPluralNoun target = new ProperPluralNoun(text); // TODO: Initialize to an appropriate value
+            IQuantifier expected = null; // TODO: Initialize to an appropriate value
+            IQuantifier actual;
+            target.QuantifiedBy = expected;
+            actual = target.QuantifiedBy;
+            Assert.AreEqual(expected, actual);
+            Assert.Inconclusive("Verify the correctness of this test method.");
+        }
+
+ 
     }
 }

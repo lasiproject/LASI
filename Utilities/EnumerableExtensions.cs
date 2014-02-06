@@ -311,10 +311,34 @@ namespace LASI.Utilities
         public static IEnumerable<IEnumerable<T>> Split<T>(this IEnumerable<T> source, int chunkSize) {
             if (source == null)
                 throw new ArgumentNullException("source");
-            if (chunkSize < 1) { throw new ArgumentOutOfRangeException("chunkSize", chunkSize, "Value must be greater than 0."); }
+            if (chunkSize < 1)
+                throw new ArgumentOutOfRangeException("chunkSize", chunkSize, "Value must be greater than 0.");
             var partsToCreate = source.Count() / chunkSize + source.Count() % chunkSize == 0 ? 0 : 1;
             return from partIndex in Enumerable.Range(0, partsToCreate)
                    select source.Skip(partIndex * chunkSize).Take(chunkSize);
+        }
+        /// <summary>
+        /// Splits the sequence into a sequence of sequences delimited by the provided predicate.
+        /// </summary>
+        /// <typeparam name="T">The type of elements in the sequence.</typeparam>
+        /// <param name="source">The sequence to split into subsequences</param>
+        ///<param name="predicate">A predicate which returns true when an element will subdevide the source sequence.</param>
+        /// <param name="discardDelimiter">True if delimiting elements should be discarded. The default is false.</param>
+        /// <returns>A sequence of sequences based on the provided chunk size.</returns>
+        public static IEnumerable<IEnumerable<T>> Split<T>(this IEnumerable<T> source, Func<T, bool> predicate, bool discardDelimiter = false) {
+            if (source == null)
+                throw new ArgumentNullException("source");
+            if (predicate == null)
+                throw new ArgumentNullException("predicate");
+            var breakPoint = 0;
+
+            var segment = source.TakeWhile((element, index) => {
+                breakPoint = index;
+                return index != 0 && predicate(element);
+            });
+            yield return segment.Skip(discardDelimiter ? 1 : 0);
+            yield return source.Skip(breakPoint + (discardDelimiter ? 1 : 0)).Split(predicate, discardDelimiter).SelectMany(s => s);
+
         }
 
 

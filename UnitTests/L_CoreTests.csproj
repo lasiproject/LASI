@@ -9,7 +9,7 @@
     <ProjectGuid>{F4ABC10C-0BE9-4195-99E7-DB027757EC6B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>L_CoreTests</RootNamespace>
+    <RootNamespace>LASI.Core.Tests</RootNamespace>
     <AssemblyName>L_Core_Test</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -52,7 +52,14 @@
     </ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="itextsharp, Version=4.1.6.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ThirdPartyComponents\FileFormatConversion\itextsharp\itextsharp.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Office.Interop.Word, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="OpenNLP, Version=1.0.2529.39671, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -97,11 +104,15 @@
     <Compile Include="ConjunctionPhraseTest.cs" />
     <Compile Include="ConjunctionTest.cs" />
     <Compile Include="DeterminerTest.cs" />
+    <Compile Include="DocFileTest.cs" />
     <Compile Include="DocToDocXConverterTest.cs" />
     <Compile Include="DocumentTest.cs" />
+    <Compile Include="DocXFileTest.cs" />
     <Compile Include="DocxToTextConverterTest.cs" />
     <Compile Include="DoubleQuoteTest.cs" />
     <Compile Include="ExistentialTest.cs" />
+    <Compile Include="FileConverterTest.cs" />
+    <Compile Include="FileManagerExceptionTest.cs" />
     <Compile Include="FileManagerTest.cs" />
     <Compile Include="ForeignWordTest.cs" />
     <Compile Include="FunctionExtensionsTest.cs" />
@@ -113,8 +124,18 @@
     <Compile Include="IGenderedTest.cs" />
     <Compile Include="IInderectObjectTakerTest.cs" />
     <Compile Include="ILexicalTest.cs" />
+    <Compile Include="ILexicalWriterTest.cs" />
     <Compile Include="IModalityModifiableTest.cs" />
+    <Compile Include="InputFileTest.cs" />
+    <Compile Include="InterjectionPhraseTest.cs" />
+    <Compile Include="InterjectionTest.cs" />
+    <Compile Include="InvertedClauseBeginPhraseTest.cs" />
+    <Compile Include="IQuantifiableTest.cs" />
+    <Compile Include="ISimpleGenderedTest.cs" />
+    <Compile Include="ITaggedTextSourceTest.cs" />
+    <Compile Include="IUntaggedTextSourceTest.cs" />
     <Compile Include="LookupTests.cs" />
+    <Compile Include="ModalAuxilaryTest.cs" />
     <Compile Include="ModalTest.cs" />
     <Compile Include="NounConjugatorTest.cs" />
     <Compile Include="NounPhraseTest.cs" />
@@ -122,17 +143,35 @@
     <Compile Include="ParagraphTest.cs" />
     <Compile Include="ParticlePhraseTest.cs" />
     <Compile Include="ParticleTest.cs" />
+    <Compile Include="PastParticipleVerbTest.cs" />
     <Compile Include="PastPrtcplVerbTest.cs" />
     <Compile Include="PastTenseVerbTest.cs" />
+    <Compile Include="PdfFileTest.cs" />
+    <Compile Include="PdfToTextConverterTest.cs" />
     <Compile Include="PersonalPronounTest.cs" />
+    <Compile Include="PhraseTagsetMapTest.cs" />
+    <Compile Include="PreDeterminerTest.cs" />
     <Compile Include="PrepositionalPhraseTest.cs" />
     <Compile Include="PrepositionTest.cs" />
+    <Compile Include="ProperNounTest.cs" />
     <Compile Include="ProperPluralNounTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PunctuatorTest.cs" />
+    <Compile Include="RawTextFragmentTest.cs" />
+    <Compile Include="RoughListPhraseTest.cs" />
     <Compile Include="SentenceTest.cs" />
     <Compile Include="Settings.cs" />
+    <Compile Include="SimpleDeclarativeClauseBeginPhraseTest.cs" />
+    <Compile Include="SimpleLexicalSerializerTest.cs" />
+    <Compile Include="SingleQuoteTest.cs" />
+    <Compile Include="SuperlativeAdverbTest.cs" />
+    <Compile Include="SymbolTest.cs" />
+    <Compile Include="TaggedFileTest.cs" />
+    <Compile Include="TaggedTextFragmentTest.cs" />
+    <Compile Include="TaggerTest.cs" />
+    <Compile Include="TextFileTest.cs" />
     <Compile Include="TransitiveVerbTest.cs" />
+    <Compile Include="UnknownWordTest.cs" />
     <Compile Include="VerbConjugatorTest.cs" />
     <Compile Include="VerbPhraseTest.cs" />
     <Compile Include="VerbTest.cs" />
