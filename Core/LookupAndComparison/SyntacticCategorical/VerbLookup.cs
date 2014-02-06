@@ -44,12 +44,12 @@ namespace LASI.Core.Heuristics
         private static VerbSynSet CreateSet(string fileLine) {
             var line = fileLine.Substring(0, fileLine.IndexOf('|'));
 
-            var referencedSets = from Match M in Regex.Matches(line, POINTER_REGEX)
+            var referencedSets = from Match M in POINTER_REGEX.Matches(line)
                                  let split = M.Value.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
                                  where split.Count() > 1
                                  select new SetReference(interSetMap[split[0]], Int32.Parse(split[1]));
 
-            var words = from Match ContainedWord in Regex.Matches(line.Substring(17), WORD_REGEX)
+            var words = from Match ContainedWord in WORD_REGEX.Matches(line.Substring(17))
                         select ContainedWord.Value.Replace('_', '-').ToLower();
             var id = Int32.Parse(line.Substring(0, 8));
             var lexCategory = (Category)Int32.Parse(line.Substring(9, 2));
@@ -86,8 +86,7 @@ namespace LASI.Core.Heuristics
 
                 return containingSet != null ?
                     containingSet.ReferencedIndeces
-                         .SelectMany(id => { VerbSynSet temp; return setsBySetID.TryGetValue(id, out temp) ? temp.ReferencedIndeces : Enumerable.Empty<int>(); })
-                         .Select(id => { VerbSynSet temp; return setsBySetID.TryGetValue(id, out temp) ? temp : null; })
+                         .SelectMany(id => { VerbSynSet temp; return setsBySetID.TryGetValue(id, out temp) ? temp.ReferencedIndeces : Enumerable.Empty<int>(); }).Select(id => { VerbSynSet temp; return setsBySetID.TryGetValue(id, out temp) ? temp : null; })
                          .Where(set => set != null)
                          .Where(set => set.LexicalCategory == containingSet.LexicalCategory)
                          .SelectMany(set => set.Words.SelectMany(w => VerbMorpher.GetConjugations(w)))
@@ -122,8 +121,8 @@ namespace LASI.Core.Heuristics
         private string filePath;
         private ConcurrentDictionary<int, VerbSynSet> setsBySetID = new ConcurrentDictionary<int, VerbSynSet>();
         private ConcurrentDictionary<string, VerbSynSet> data = new ConcurrentDictionary<string, VerbSynSet>();
-        private const string WORD_REGEX = @"\b[A-Za-z-_]{2,}";
-        private const string POINTER_REGEX = @"\D{1,2}\s*[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+";
+        private static readonly Regex WORD_REGEX = new Regex(@"\b[A-Za-z-_]{2,}", RegexOptions.Compiled);
+        private static readonly Regex POINTER_REGEX = new Regex(@"\D{1,2}\s*[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+", RegexOptions.Compiled);
 
         // Provides an indexed lookup between the values of the VerbPointerSymbol enum and their corresponding string representation in WordNet data.verb files.
         private static readonly IReadOnlyDictionary<string, VerbSetLink> interSetMap = new Dictionary<string, VerbSetLink> {

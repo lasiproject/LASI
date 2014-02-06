@@ -36,7 +36,7 @@ namespace LASI.App
         }
 
         internal static async Task HandleDropAddAttemptAsync(Window targetWindow, DragEventArgs e, Func<FileInfo, Task> validDocumentProcess) {
-            if (DocumentManager.AddingAllowed) {
+            if (DocumentManager.CanAdd) {
                 var filesInValidFormats = DocumentManager.GetValidFilesInPathList(e.Data.GetData(System.Windows.DataFormats.FileDrop, true) as string[]);
                 if (filesInValidFormats.None()) {
                     MessageBox.Show(targetWindow, string.Format("Only the following file formats are accepted:\n{0}", string.Join(",", DocumentManager.AcceptedFormats)));
@@ -45,7 +45,7 @@ namespace LASI.App
                         if (DocumentManager.FileNamePresent(droppedFile.Name)) {
                             MessageBox.Show(targetWindow, string.Format("A document named {0} is already part of the projects.", droppedFile));
                         } else {
-                            if (DocumentManager.FileIsLocked(droppedFile)) {
+                            if (droppedFile.CanOpen()) {
                                 MessageBox.Show(targetWindow, string.Format("The document {0} is in use by another process, please close any applications which may be using the file and try again.", droppedFile));
                             } else {
                                 await validDocumentProcess(droppedFile);
@@ -54,11 +54,11 @@ namespace LASI.App
                     }
                 }
             } else {
-                MessageBox.Show(targetWindow, string.Format("A single project may only contain {0} documents.", DocumentManager.MaxDocuments));
+                MessageBox.Show(targetWindow, string.Format("A single project may only contain {0} documents.", DocumentManager.MAX_DOCUMENTS));
             }
         }
         internal static void HandleDropAddAttempt(Window targetWindow, DragEventArgs e, Action<FileInfo> validDocumentProcess) {
-            if (DocumentManager.AddingAllowed) {
+            if (DocumentManager.CanAdd) {
                 var filesInValidFormats = DocumentManager.GetValidFilesInPathList(e.Data.GetData(System.Windows.DataFormats.FileDrop, true) as string[]);
                 if (filesInValidFormats.None()) {
                     MessageBox.Show(targetWindow, string.Format("Only the following file formats are accepted:\n{0}", string.Join(",", DocumentManager.AcceptedFormats)));
@@ -67,7 +67,7 @@ namespace LASI.App
                         if (DocumentManager.FileNamePresent(droppedFile.Name)) {
                             MessageBox.Show(targetWindow, string.Format("A document named {0} is already part of the projects.", droppedFile));
                         } else {
-                            if (DocumentManager.FileIsLocked(droppedFile)) {
+                            if (droppedFile.CanOpen()) {
                                 MessageBox.Show(targetWindow, string.Format("The document {0} is in use by another process, please close any applications which may be using the file and try again.", droppedFile));
                             } else {
                                 validDocumentProcess(droppedFile);
@@ -76,7 +76,7 @@ namespace LASI.App
                     }
                 }
             } else {
-                MessageBox.Show(targetWindow, string.Format("A single project may only contain {0} documents.", DocumentManager.MaxDocuments));
+                MessageBox.Show(targetWindow, string.Format("A single project may only contain {0} documents.", DocumentManager.MAX_DOCUMENTS));
             }
         }
 

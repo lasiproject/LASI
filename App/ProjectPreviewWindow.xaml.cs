@@ -93,7 +93,7 @@ namespace LASI.App
         }
 
         private void CheckIfAddingAllowed() {
-            var addingEnabled = DocumentManager.AddingAllowed;
+            var addingEnabled = DocumentManager.CanAdd;
             AddNewDocumentButton.IsEnabled = addingEnabled;
             FileMenuAdd.IsEnabled = addingEnabled;
         }
@@ -147,7 +147,7 @@ namespace LASI.App
                 var file = new FileInfo(openDialog.FileNames[i]);
                 if (DocumentManager.FileNamePresent(file.Name)) {
                     MessageBox.Show(this, string.Format("A document named {0} is already part of the project.", file));
-                } else if (!DocumentManager.FileIsLocked(file)) {
+                } else if (!file.CanOpen()) {
                     DocumentManager.AddDocument(file.Name, file.FullName);
                     await DisplayAddNewDocumentDialog(file.FullName);
                 } else {

@@ -333,7 +333,7 @@
                 Click="proceedtoResultsButton_Click"
                 Visibility="Hidden" />
             <Button
-                x:Name="closeButton"
+                x:Name="closeButton" 
                 Content="X"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Top"

@@ -94,15 +94,11 @@ namespace LASI.Core
             using (var reader = new System.IO.StreamReader(ConfigurationManager.AppSettings["SubordinatingPrepositionalsInfoFile"]))
                 knownSubordinators = reader.ReadToEnd()
                     .SplitRemoveEmpty('\r', '\n')
-                    .AsParallel()
-                    .Select(line => new string(line
-                        .TakeWhile(c => c != '/')
-                        .Where(c => c != ' ')
-                        .ToArray()));
+                    .Select(line => { var len = line.IndexOf('/'); return line.Substring(0, len > 0 ? len : line.Length); }).ToHashSet(StringComparer.OrdinalIgnoreCase);
 
         }
 
-        private static IEnumerable<string> knownSubordinators;
+        private static readonly IEnumerable<string> knownSubordinators;
 
 
         public ILexical Subordinates {

@@ -85,12 +85,10 @@ namespace LASI.App
         }
 
         private void closeButton_Click(object sender, RoutedEventArgs e) {
-            Application.Current.Shutdown();
-        }
-        private void ExitMenuItem_Click_3(object sender, RoutedEventArgs e) {
             this.Close();
             Application.Current.Shutdown();
         }
+
 
 
         private void Window_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
@@ -98,7 +96,6 @@ namespace LASI.App
                 DragMove();
             }
             catch (ArgumentOutOfRangeException) {
-
             }
         }
 

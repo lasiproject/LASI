@@ -9,13 +9,13 @@ namespace LASI.App
     internal static class DocumentManager
     {
         public static void Initialize(ListBox listBox, Panel xbuttons, UIElement browseButton, TextBox lastPathTextBox) {
-            runningListBox = listBox;
+            runningListDisplay = listBox;
             xButtons = xbuttons;
             browseForDocButton = browseButton;
             lastDocumentPathTextBox = lastPathTextBox;
         }
         public static bool FileNamePresent(string documentName) {
-            return (from alreadyAdded in runningListBox.Items.OfType<ListViewItem>()
+            return (from alreadyAdded in runningListDisplay.Items.OfType<ListViewItem>()
                     select alreadyAdded.Content.ToString()).Any(doc => doc.Trim().ToUpper() == documentName.Trim().ToUpper());
         }
         public static IEnumerable<FileInfo> GetValidFilesInPathList(IEnumerable<string> filePaths) {
@@ -24,7 +24,7 @@ namespace LASI.App
                     let dirContentsOrFile = contentsIfDir.Any() ? GetValidFilesInPathList(contentsIfDir) : Enumerable.Repeat(new FileInfo(path), 1)
                     from fi in dirContentsOrFile
                     where AcceptedFormats.Contains(fi.Extension)
-                    select fi).Take(MaxDocuments - numberOfDocuments);
+                    select fi).Take(MAX_DOCUMENTS - documentCount);
 
         }
         public static void RemoveDocument(string fileName) {
@@ -33,59 +33,62 @@ namespace LASI.App
                           select item).FirstOrDefault();
             if (remove != null) {
                 itemsAdded.Remove(remove);
-                runningListBox.Items.Remove(remove);
-                --numberOfDocuments;
+                runningListDisplay.Items.Remove(remove);
+                --documentCount;
             }
             var handler = NumberOfDocumentsChanged;
             if (handler != null) {
-                handler(DocumentManager.runningListBox, new RoutedPropertyChangedEventArgs<double>(numberOfDocuments + 1, numberOfDocuments));
+                handler(DocumentManager.runningListDisplay, new RoutedPropertyChangedEventArgs<double>(documentCount + 1, documentCount));
             }
         }
         public static void AddDocument(string fileName, string filePath) {
             var docEntry = new ListViewItem { Tag = filePath, Content = fileName };
             var button = new Button { Content = "x", Height = 16, Width = 16, Padding = new Thickness(0.5), };
             button.Click += (s, args) => {
-                runningListBox.Items.Remove(docEntry);
+                runningListDisplay.Items.Remove(docEntry);
                 xButtons.Children.Remove(button);
-                --numberOfDocuments;
+                --documentCount;
                 if (IsEmpty) {
-                    runningListBox.Opacity = 0.25;
+                    runningListDisplay.Opacity = 0.25;
                 }
                 browseForDocButton.IsEnabled = true;
             };
             xButtons.Children.Add(button);
-            runningListBox.Items.Add(docEntry);
+            runningListDisplay.Items.Add(docEntry);
 
             itemsAdded.Add(docEntry);
 
 
             lastDocumentPathTextBox.Text = fileName;
-            ++numberOfDocuments;
-            if (AddingAllowed) {
-                runningListBox.Opacity = 1.0;
+            ++documentCount;
+            if (CanAdd) {
+                runningListDisplay.Opacity = 1.0;
             } else {
                 browseForDocButton.IsEnabled = false;
             }
             var handler = NumberOfDocumentsChanged;
             if (handler != null) {
-                handler(DocumentManager.runningListBox, new RoutedPropertyChangedEventArgs<double>(numberOfDocuments - 1, numberOfDocuments));
+                handler(DocumentManager.runningListDisplay, new RoutedPropertyChangedEventArgs<double>(documentCount - 1, documentCount));
             }
         }
-        static ListBox runningListBox;
+        static ListBox runningListDisplay;
         static List<ListViewItem> itemsAdded = new List<ListViewItem>();
 
 
-        private static int numberOfDocuments;
-        public const int MaxDocuments = 10;
+        private static int documentCount;
+        /// <summary>
+        /// The maximum number of documents which can be added by the user.
+        /// </summary>
+        public const int MAX_DOCUMENTS = 10;
         private static Panel xButtons;
         private static UIElement browseForDocButton;
         private static TextBox lastDocumentPathTextBox;
         /// <summary>
         /// Gets a value indicating wether or not there is space for at least one additional document in the DocumentManager's working set.
         /// </summary>
-        public static bool AddingAllowed {
+        public static bool CanAdd {
             get {
-                return MaxDocuments - numberOfDocuments > 0;
+                return MAX_DOCUMENTS - documentCount > 0;
             }
         }
         /// <summary>
@@ -93,7 +96,7 @@ namespace LASI.App
         /// </summary>
         public static bool IsEmpty {
             get {
-                return numberOfDocuments == 0;
+                return documentCount == 0;
             }
         }
         /// <summary>
@@ -101,10 +104,10 @@ namespace LASI.App
         /// </summary>
         /// <param name="file"></param>
         /// <returns>true if the file represented by the given file info is locked by the operating system or another application; otherwise, false.</returns>
-        public static bool FileIsLocked(FileInfo file) {
+        public static bool CanOpen(this FileInfo file) {
             try {
                 using (Stream stream = new FileStream(file.FullName, FileMode.Open)) {
-                    return false;
+                    return !stream.CanRead;
                 }
             }
             catch (IOException) {

@@ -3,19 +3,16 @@
 
 module LASI.FSharpExperimentation.program
 open LASI.Core
-open LASI.Core.Heuristics
+open LASI.Core.Heuristics 
+open LASI.Core.DocumentStructures
 open LASI.Core.Heuristics.Morphemization
 open LASI.ContentSystem
 open LASI.Interop
 open System.Linq
 open System.Threading.Tasks
-<<<<<<< HEAD
-=======
-open LASI.Core.DocumentStructures
+ 
+  
 
-
-
->>>>>>> origin/BasicWebAppTesting
 [<EntryPoint>]
 
 let main argv = 
@@ -30,9 +27,17 @@ let main argv =
     // tag, parse, and construct a Document 
  
     // perform default binding on the Document
- 
+    
     // perform default weighting on the Document
-    let controller = AnalysisController(DocXFile @"C:\Users\Aluan\Desktop\unsound.docx")
+    let fileWrapper (s:string)  =
+        match s.Split('.').Last() with 
+        | "doc" -> new  DocFile(s)  :> InputFile  
+        | "docx" -> new DocXFile(s) :> InputFile  
+        | "txt" -> new  TextFile(s) :> InputFile
+        | "pdf" -> new  PdfFile (s) :> InputFile
+        | _ -> null
+        
+    let controller = AnalysisController(fileWrapper  @"C:\Users\Aluan\Desktop\Documents\ducks.txt" )
     controller.ProgressChanged.Add(fun e->printfn "Update: %s" e.Message)   
     let docTask = async {
         return controller.ProcessAsync(). Result

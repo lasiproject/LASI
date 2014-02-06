@@ -328,7 +328,7 @@ namespace LASI.App
                 var file = new FileInfo(openDialog.FileNames[i]);
                 if (DocumentManager.FileNamePresent(file.Name)) {
                     MessageBox.Show(this, string.Format("A document named {0} is already part of the project.", file));
-                } else if (!DocumentManager.FileIsLocked(file)) {
+                } else if (!file.CanOpen()) {
                     await AddNewDocument(file);
                 } else {
                     MessageBox.Show(this, string.Format("The document {0} is in use by another process, please close any applications which may be using the document and try again.", file));
@@ -345,7 +345,7 @@ namespace LASI.App
         #endregion
 
         private async Task AddNewDocument(FileInfo file) {
-            addDocumentMenuItem.IsEnabled = DocumentManager.AddingAllowed;
+            addDocumentMenuItem.IsEnabled = DocumentManager.CanAdd;
             DocumentManager.AddDocument(file.Name, file.FullName);
             currentOperationLabel.Content = string.Format("Converting {0}...", file.Name);
             currentOperationFeedbackCanvas.Visibility = Visibility.Visible;

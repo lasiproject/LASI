@@ -148,7 +148,7 @@ namespace LASI.App
         }
 
         private void browseForDocButton_Click(object sender, RoutedEventArgs e) {
-            if (DocumentManager.AddingAllowed) {
+            if (DocumentManager.CanAdd) {
                 var openDialog = new Microsoft.Win32.OpenFileDialog {
                     Filter = "LASI File Types|*.doc; *.docx; *.pdf; *.txt",
                     Multiselect = true

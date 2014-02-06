@@ -12,7 +12,7 @@ namespace LASI.Core.Heuristics
         protected SynSet(int id, IEnumerable<string> words, IEnumerable<KeyValuePair<TSetRelationship, int>> pointerRelationships) {
             Id = id;
             Words = new HashSet<string>(words);
-            relatedSetsByRelationKind = pointerRelationships.ToLookup(p => p.Key, p => p.Value);
+            relatedSetsByRelationKindSource = pointerRelationships;
             ReferencedIndeces = new HashSet<int>(pointerRelationships.Select(p => p.Value));
         }
         /// <summary>
@@ -33,15 +33,17 @@ namespace LASI.Core.Heuristics
         /// <param name="relationship">The kind of external set references to relationships to return.</param>
         /// <returns>The IDs of all other SynSets which are referenced from the current SynSet in the indicated fashion.</returns>
         public IEnumerable<int> this[TSetRelationship relationship] {
-            get { return relatedSetsByRelationKind[relationship]; }
+
+            get { if (relatedSetsByRelationKind == null)relatedSetsByRelationKind = relatedSetsByRelationKindSource.ToLookup(p => p.Key, p => p.Value); return relatedSetsByRelationKind[relationship]; }
         }
         private ILookup<TSetRelationship, int> relatedSetsByRelationKind;
+        private IEnumerable<KeyValuePair<TSetRelationship, int>> relatedSetsByRelationKindSource;
         /// <summary>
         /// Returns the IDs of all other SynSets which are referenced from the current SynSet in the indicated fashion. 
         /// </summary>
         /// <returns>The IDs of all other SynSets which are referenced from the current SynSet in the indicated fashion.</returns>
         public ILookup<TSetRelationship, int> RelatedSetsByRelationKind {
-            get { return relatedSetsByRelationKind; }
+            get { if (relatedSetsByRelationKind == null)relatedSetsByRelationKind = relatedSetsByRelationKindSource.ToLookup(p => p.Key, p => p.Value); return relatedSetsByRelationKind; }
         }
 
         public override int GetHashCode() {

@@ -19,10 +19,10 @@ namespace LASI.Core.Heuristics
         /// <param name="path">The path of the WordNet database file containing the synonym data for nouns.</param>
         public NounLookup(string path) {
             filePath = path;
-            InitCategoryGroupsDictionary();
+            //InitCategoryGroupsDictionary();
         }
 
-        SortedDictionary<int, NounSynSet> data = new SortedDictionary<int, NounSynSet>();
+        ConcurrentDictionary<int, NounSynSet> data;
 
         /// <summary>
         /// Parses the contents of the underlying WordNet database file.
@@ -32,14 +32,19 @@ namespace LASI.Core.Heuristics
                 for (int i = 0; i < HEADER_LENGTH; ++i) {
                     reader.ReadLine();
                 }
-                var sets = reader.ReadToEnd().Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries).AsParallel().Select(line => CreateSet(line));
-                foreach (var set in sets) { InsertSetData(set); }
-            }
-        }
 
-        private void InsertSetData(NounSynSet set) {
-            data[set.Id] = set;
-            lexicalGoups[set.LexicalCategory].Add(set);
+                data = new ConcurrentDictionary<int, NounSynSet>(
+                    concurrencyLevel: 100,
+
+                    capacity: 90000);
+                foreach (var item in from line in reader.ReadToEnd().SplitRemoveEmpty('\r', '\n').AsParallel()
+                                     let set = CreateSet(line)
+                                     select new KeyValuePair<int, NounSynSet>(set.Id, set)) {
+                    data[item.Key] = item.Value;
+                }
+
+
+            }
         }
 
         private static NounSynSet CreateSet(string fileLine) {
@@ -47,13 +52,13 @@ namespace LASI.Core.Heuristics
             string line = fileLine.Substring(0, fileLine.IndexOf('|'));
 
             IEnumerable<SetReference> referencedSets =
-                from match in Regex.Matches(line, POINTER_REGEX).Cast<Match>()
+                from Match match in POINTER_REGEX.Matches(line)
                 let split = match.Value.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
                 where split.Count() > 1 && IncludeReference(interSetMap[split[0]])
                 select new SetReference(interSetMap[split[0]], Int32.Parse(split[1], System.Globalization.CultureInfo.InvariantCulture));
 
 
-            IEnumerable<string> words = from Match match in Regex.Matches(line, WORD_REGEX)
+            IEnumerable<string> words = from Match match in WORD_REGEX.Matches(line)
                                         select match.Value.Replace('_', '-');
 
             int id = Int32.Parse(line.Substring(0, 8));
@@ -146,10 +151,10 @@ namespace LASI.Core.Heuristics
                 referenceRelationship == NounSetLink.HypERnym;
         }
 
-        private const string WORD_REGEX = @"(?<word>[A-Za-z_\-\']{3,})";
 
 
-        private const string POINTER_REGEX = @"\D{1,2}\s*\d{8}";
+        private static readonly Regex WORD_REGEX = new Regex(@"(?<word>[A-Za-z_\-\']{3,})", RegexOptions.Compiled);
+        private static readonly Regex POINTER_REGEX = new Regex(@"\D{1,2}\s*\d{8}", RegexOptions.Compiled);
         // Provides an indexed lookup between the values of the Noun enum and their corresponding string representation in WordNet data.noun files.
         private static readonly IReadOnlyDictionary<string, NounSetLink> interSetMap = new Dictionary<string, NounSetLink>{ 
             { "!", NounSetLink.Antonym },
