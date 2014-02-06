@@ -77,5 +77,7 @@ namespace LASI.Core.Tests
             actual = target.EntityKind;
             Assert.AreEqual(actual, target.EntityKind);
         }
+
+ 
     }
 }

@@ -70,5 +70,6 @@ namespace LASI.Core.Tests
             Existential target = new Existential(text);
             Assert.AreEqual(target.Text, text);
         }
+ 
     }
 }

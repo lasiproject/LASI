@@ -61,7 +61,7 @@ namespace LASI.Core.Heuristics
         /// </summary>
         /// <param name="left">The first ActionReceiverPair&lt;TVerbal, TEntity&gt; instance.</param>
         /// <param name="right">The second ActionReceiverPair&lt;TVerbal, TEntity&gt; instance.</param>
-        /// <returns>True if the ActionReceiverPair&lt;TVerbal, TEntity&gt; instances are considered equal, false otherwise.</returns>
+        /// <returns>True if the ActionReceiverPair&lt;TVerbal, TEntity&gt; instances are considered equal; otherwise, false.</returns>
         public static bool operator ==(ActionReceiverPair<TVerbal, TEntity> left, ActionReceiverPair<TVerbal, TEntity> right) {
             return left.Equals(right);
         }
@@ -70,7 +70,7 @@ namespace LASI.Core.Heuristics
         /// </summary>
         /// <param name="left">The first ActionReceiverPair&lt;TVerbal, TEntity&gt; instance.</param>
         /// <param name="right">The second ActionReceiverPair&lt;TVerbal, TEntity&gt; instance.</param>
-        /// <returns>True if the ActionReceiverPair&lt;TVerbal, TEntity&gt; instances are considered unequal, false otherwise.</returns>
+        /// <returns>True if the ActionReceiverPair&lt;TVerbal, TEntity&gt; instances are considered unequal; otherwise, false.</returns>
         public static bool operator !=(ActionReceiverPair<TVerbal, TEntity> left, ActionReceiverPair<TVerbal, TEntity> right) {
             return !(left == right);
         }

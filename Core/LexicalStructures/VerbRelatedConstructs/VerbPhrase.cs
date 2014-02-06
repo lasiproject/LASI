@@ -115,7 +115,7 @@ namespace LASI.Core
         /// Determines if the VerbPhrase implies a possession relationship. E.g. in the senetence 
         /// "They certainly have a lot of ideas." the VerbPhrase "certainly have" asserts a possessor possessee relationship between "They" and "a lot of ideas".
         /// </summary>
-        /// <returns>True if the VerbPhrase is a possessive relationship specifier, false otherwise.</returns>
+        /// <returns>True if the VerbPhrase is a possessive relationship specifier; otherwise, false.</returns>
         protected virtual bool DetermineIsPossessive() {
             possessive = Words.OfVerb().Any() && Words.OfVerb().Last().IsPossessive;
             return possessive.Value;
@@ -123,7 +123,7 @@ namespace LASI.Core
         /// <summary>
         /// Determines if the VerbPhrase acts as a classifier. E.g. in the senetence "Rodents are definitely prey animals." the VerbPhrase "are definitely" acts as a classification tool because it states that rodents are a subset of prey animals.
         /// </summary>
-        /// <returns>True if the VerbPhrase is a classifier, false otherwise.</returns>
+        /// <returns>True if the VerbPhrase is a classifier; otherwise, false.</returns>
         protected virtual bool DetermineIsClassifier() {
             return !IsPossessive && Modality == null && Modifiers.None() && Words.OfVerb().Any() && Words.OfVerb().All(v => v.IsClassifier);
         }
@@ -132,63 +132,63 @@ namespace LASI.Core
         /// <summary>
         /// Return a value indicating if the Verb has any subjects bound to it.
         /// </summary>
-        /// <returns>True if the Verb has any Subjects bound to it, false otherwise.</returns>
+        /// <returns>True if the Verb has any Subjects bound to it; otherwise, false.</returns>
         public bool HasSubject() {
             return subjects.Any();
         }
         /// <summary>
         /// Return a value indicating if the Verb has any subjects bound to it which match the given predicate function.
         /// </summary>
-        /// <returns>True if the Verb has any subjects bound to it which match the given predicate function, false otherwise.</returns>
+        /// <returns>True if the Verb has any subjects bound to it which match the given predicate function; otherwise, false.</returns>
         public bool HasSubject(Func<IEntity, bool> predicate) {
             return Subjects.Any(predicate) || Subjects.OfType<IReferencer>().Any(p => predicate(p.Referent));
         }
         /// <summary>
         /// Return a value indicating if the Verb has any direct objects bound to it.
         /// </summary>
-        /// <returns>True if the Verb has any direct objects bound to it, false otherwise.</returns>
+        /// <returns>True if the Verb has any direct objects bound to it; otherwise, false.</returns>
         public bool HasDirectObject() {
             return DirectObjects.Any();
         }
         /// <summary>
         /// Return a value indicating if the Verb has any direct objects bound to it which match the given predicate function.
         /// </summary>
-        /// <returns>True if the Verb has any direct objects bound to it which match the given predicate function, false otherwise.</returns>
+        /// <returns>True if the Verb has any direct objects bound to it which match the given predicate function; otherwise, false.</returns>
         public bool HasDirectObject(Func<IEntity, bool> predicate) {
             return DirectObjects.Any(predicate) || DirectObjects.OfType<IReferencer>().Any(p => predicate(p.Referent));
         }
         /// <summary>
         /// Return a value indicating if the Verb has any indirect objects bound to it.
         /// </summary>
-        /// <returns>True if the Verb has any direct objects bound to it, false otherwise.</returns>
+        /// <returns>True if the Verb has any direct objects bound to it; otherwise, false.</returns>
         public bool HasIndirectObject() {
             return IndirectObjects.Any();
         }
         /// <summary>
         /// Return a value indicating if the Verb has any indirect objects bound to it which match the given predicate function.
         /// </summary>
-        /// <returns>True if the Verb has any indirect objects bound to it which match the given predicate function, false otherwise.</returns>
+        /// <returns>True if the Verb has any indirect objects bound to it which match the given predicate function; otherwise, false.</returns>
         public bool HasIndirectObject(Func<IEntity, bool> predicate) {
             return IndirectObjects.Any(predicate) || IndirectObjects.OfType<IReferencer>().Any(p => predicate(p.Referent));
         }
         /// <summary>
         /// Return a value indicating if the Verb has any direct OR indirect objects bound to it.
         /// </summary>
-        /// <returns>True if the Verb has any direct OR indirect objects bound to it, false otherwise.</returns>
+        /// <returns>True if the Verb has any direct OR indirect objects bound to it; otherwise, false.</returns>
         public bool HasObject() {
             return HasDirectObject() || HasIndirectObject();
         }
         /// <summary>
         /// Return a value indicating if the Verb has any direct OR indirect objects bound to it which match the given predicate function.
         /// </summary>
-        /// <returns>True if the Verb has any direct OR indirect objects bound to it which match the given predicate function, false otherwise.</returns>
+        /// <returns>True if the Verb has any direct OR indirect objects bound to it which match the given predicate function; otherwise, false.</returns>
         public bool HasObject(Func<IEntity, bool> predicate) {
             return HasDirectObject(predicate) || HasIndirectObject(predicate);
         }
         /// <summary>
         /// Gets a value indicating if the VerbPhrase has at least one subject, direct object, or indirect object.
         /// </summary>
-        /// <returns>True if the VerbPhrase has at least one subject, direct object, or indirect object, false otherwise.</returns>
+        /// <returns>True if the VerbPhrase has at least one subject, direct object, or indirect object; otherwise, false.</returns>
         public bool HasSubjectOrObject() {
             return HasObject() || HasSubject();
         }
@@ -196,7 +196,7 @@ namespace LASI.Core
         /// Gets a value indicating if the VerbPhrase has at least one subject, direct object, or indirect object matching the provided predicate.
         /// </summary>
         /// <param name="predicate">A predicate to test each associated subject, direct object, or indirect object..</param>
-        /// <returns>True if the VerbPhrase has at least one subject, direct object, or indirect object  matching the provided predicate, false otherwise.</returns>
+        /// <returns>True if the VerbPhrase has at least one subject, direct object, or indirect object  matching the provided predicate; otherwise, false.</returns>
         public bool HasSubjectOrObject(Func<IEntity, bool> predicate) {
             return HasObject(predicate) || HasSubject(predicate);
         }

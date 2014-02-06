@@ -10,8 +10,7 @@ namespace MvcApplication2.LexicalElementInfo
 {
     public class RelationshipMenuEntry
     {
-        internal RelationshipMenuEntry(int elementId, string entryText, IEnumerable<int> relatedElementIds)
-        {
+        internal RelationshipMenuEntry(int elementId, string entryText, IEnumerable<int> relatedElementIds) {
             ElementId = elementId;
             EntryText = entryText;
             RelatedElementIds = relatedElementIds;
@@ -23,8 +22,7 @@ namespace MvcApplication2.LexicalElementInfo
     }
     public class ElementContextMenuMapping
     {
-        internal ElementContextMenuMapping(IEnumerable<RelationshipMenuEntry> menuEntries)
-        {
+        internal ElementContextMenuMapping(IEnumerable<RelationshipMenuEntry> menuEntries) {
             MenuEntries = menuEntries;
         }
         public IEnumerable<RelationshipMenuEntry> MenuEntries { get; private set; }
@@ -32,8 +30,7 @@ namespace MvcApplication2.LexicalElementInfo
     }
     public class ElementWithMenuData
     {
-        internal ElementWithMenuData(ElementWithId element, ElementContextMenuMapping menuMappingData)
-        {
+        internal ElementWithMenuData(ElementWithId element, ElementContextMenuMapping menuMappingData) {
             Id = element.Id;
             Lexical = element.Element;
             MenuMappingData = menuMappingData;
@@ -51,14 +48,12 @@ namespace MvcApplication2.LexicalElementInfo
     public static class ContextMenuBuilder
     {
 
-        public static IEnumerable<ElementWithId> BindClientSideIds(IEnumerable<ILexical> elements)
-        {
+        public static IEnumerable<ElementWithId> BindClientSideIds(IEnumerable<ILexical> elements) {
             // Pairs each element with an unique identifier. Assumes that the number of elements supplied is no more than int.MaxValue
             return Enumerable.Range(0, int.MaxValue).Zip(elements, (id, element) => new ElementWithId { Id = id, Element = element });
 
         }
-        static ElementContextMenuMapping ForVerbal(IVerbal verbal, int verbalId, IEnumerable<ElementWithId> elementsWithId)
-        {
+        static ElementContextMenuMapping ForVerbal(IVerbal verbal, int verbalId, IEnumerable<ElementWithId> elementsWithId) {
             return new ElementContextMenuMapping(new[] { 
                 new RelationshipMenuEntry(verbalId, 
                     "View Subjects",
@@ -74,13 +69,11 @@ namespace MvcApplication2.LexicalElementInfo
                     elementsWithId.IdsWhere(e => verbal.ObjectOfThePreoposition == e)) 
             });
         }
-        static IEnumerable<int> IdsWhere(this IEnumerable<ElementWithId> elementsWithId, Func<ILexical, bool> predicate)
-        {
+        static IEnumerable<int> IdsWhere(this IEnumerable<ElementWithId> elementsWithId, Func<ILexical, bool> predicate) {
             return from e in elementsWithId where predicate(e.Element) select e.Id;
         }
 
-        public static ElementWithMenuData ForLexical(ElementWithId e, IEnumerable<ElementWithId> elementsInContext)
-        {
+        public static ElementWithMenuData ForLexical(ElementWithId e, IEnumerable<ElementWithId> elementsInContext) {
             return e.Element.Match().Yield<ElementWithMenuData>()
                 .With<IVerbal>(v => new ElementWithMenuData(e, ForVerbal(v, e.Id, elementsInContext)))
                 //.With<IReferencer>(e => ForReferencer(e, elementsInContext))

@@ -12,31 +12,49 @@ namespace LASI.Utilities
     public static class CharExtensions
     {
         /// <summary>
-        /// Returns a value indicating if the character is a consonant.
+        /// Returns a value indicating whether the character is a consonant.
         /// </summary>
         /// <param name="value">The character to test.</param>
-        /// <returns>True if the character is a consonant, false otherwise.</returns>
+        /// <returns>True if the character is a consonant; otherwise, false.</returns>
         public static bool IsConsonant(this char value) {
             return value == 'y' || value == 'Y' || value.IsEnglishLetter() && !value.IsVowel();
         }
         /// <summary>
-        /// Returns a value indicating if the character is a vowel.
+        /// Returns a value indicating whether the character is a vowel.
         /// </summary>
         /// <param name="value">The character to test.</param>
-        /// <returns>True if the character is a vowel, false otherwise.</returns>
+        /// <returns>True if the character is a vowel; otherwise, false.</returns>
         public static bool IsVowel(this char value) {
-            return vowels.Contains(value);
+            return VOWELS.Contains(value);
 
         }
         /// <summary>
-        /// Returns a value indicating if the character is a letter.
+        /// Returns a value indicating whether the character is a valid English language letter.
         /// </summary>
         /// <param name="value">The character to test.</param>
-        /// <returns>True if the character is a letter, false otherwise.</returns>
+        /// <returns>True if the character is a letter; otherwise, false.</returns>
         public static bool IsEnglishLetter(this char value) {
-            return (value > 96 && value < 123) || (value > 64 && value < 91);
+            return value > 96 && value < 123 || value > 64 && value < 91;
         }
-        private static readonly ISet<char> vowels = new[] { 'a', 'e', 'i', 'o', 'u', 'y', 'A', 'E', 'I', 'O', 'U', 'Y' }.ToHashSet();
+        /// <summary>
+        /// Returns a value indicating whether the character is an uppercase English language letter.
+        /// </summary>
+        /// <param name="value">The character to test.</param>
+        /// <returns>True if the character is an uppercase letter; otherwise, false.</returns>
+        public static bool IsUpper(this char value) {
+            return char.IsUpper(value);
+        }
+        /// <summary>
+        /// Returns a value indicating whether the character is a lowercase English language letter.
+        /// </summary>
+        /// <param name="value">The character to test.</param>
+        /// <returns>True if the character is a lowercase letter; otherwise, false.</returns>
+        public static bool IsLower(this char value) {
+            return char.IsLower(value);
+        }
+        private const string CONSONANTS = "bcdfghjklmnpqrstvwxyzBCDFGHJKLMNPQRSTVWXYZ";
+        private const string VOWELS = "aeiouyAEIOUY";
+        private const string ALPHABET = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
     }
 }
 

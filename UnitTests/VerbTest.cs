@@ -173,5 +173,185 @@ namespace LASI.Core.Tests
         }
 
 
+
+        /// <summary>
+        ///A test for Subjects
+        ///</summary>
+        [TestMethod()]
+        public void SubjectsTest() {
+            string text = "attack";
+            //            VerbForm form = (VerbForm)(new Random(DateTime.Now.Millisecond).Next(0, Enum.GetValues(typeof(VerbForm)).Length)); // TODO: Initialize to an appropriate value
+            VerbForm form = VerbForm.Base;
+            Verb target = new Verb(text, form);
+            IEnumerable<IEntity> actual;
+            actual = target.Subjects;
+            Assert.IsTrue(!actual.Any());
+            IEntity subject = new CommonPluralNoun("chimpanzees");
+            target.BindSubject(subject);
+            actual = target.Subjects;
+            Assert.IsTrue(actual.Contains(subject));
+            Assert.IsTrue(target.AggregateSubject.Contains(subject));
+        }
+
+        /// <summary>
+        ///A test for Modifiers
+        ///</summary>
+        [TestMethod()]
+        public void ModifiersTest() {
+            string text = "attacked";
+            VerbForm form = VerbForm.Past;
+            Verb target = new Verb(text, form);
+            IEnumerable<IAdverbial> actual;
+            actual = target.Modifiers;
+            Assert.IsTrue(!actual.Any());
+            IAdverbial modifier = new Adverb("swiftly");
+            target.ModifyWith(modifier);
+            actual = target.Modifiers;
+            Assert.IsTrue(actual.Contains(modifier));
+            Assert.IsTrue(modifier.Modifies == target);
+        }
+
+
+
+        /// <summary>
+        ///A test for IsPossessive
+        ///</summary>
+        [TestMethod()]
+        public void IsPossessiveTest() {
+            string text = "has";
+            VerbForm form = new VerbForm(); // TODO: Initialize to an appropriate value
+            Verb target = new Verb(text, form); // TODO: Initialize to an appropriate value
+            bool actual;
+            actual = target.IsPossessive;
+            Assert.IsTrue(actual);
+        }
+
+        /// <summary>
+        ///A test for IsClassifier
+        ///</summary>
+        [TestMethod()]
+        public void IsClassifierTest() {
+            string text = "is";
+            VerbForm form = new VerbForm(); // TODO: Initialize to an appropriate value
+            Verb target = new Verb(text, form); // TODO: Initialize to an appropriate value
+            bool actual;
+            actual = target.IsClassifier;
+            Assert.IsTrue(actual);
+        }
+
+        /// <summary>
+        ///A test for IndirectObjects
+        ///</summary>
+        [TestMethod()]
+        public void IndirectObjectsTest() {
+            string text = "attack";
+            VerbForm form = VerbForm.Base;
+            Verb target = new Verb(text, form);
+            IEnumerable<IEntity> actual;
+            actual = target.IndirectObjects;
+            Assert.IsTrue(!actual.Any());
+            IEntity indirectObject = new CommonPluralNoun("allies");
+            target.BindIndirectObject(indirectObject);
+            actual = target.IndirectObjects;
+            Assert.IsTrue(actual.Contains(indirectObject));
+            Assert.IsTrue(target.AggregateIndirectObject.Contains(indirectObject));
+
+        }
+
+        /// <summary>
+        ///A test for DirectObjects
+        ///</summary>
+        [TestMethod()]
+        public void DirectObjectsTest() {
+            string text = "attack";
+            VerbForm form = VerbForm.Base;
+            Verb target = new Verb(text, form);
+            IEnumerable<IEntity> actual;
+            actual = target.IndirectObjects;
+            Assert.IsTrue(!actual.Any());
+            IEntity directObject = new CommonPluralNoun("monkeys");
+            target.BindDirectObject(directObject);
+            actual = target.DirectObjects;
+            Assert.IsTrue(actual.Contains(directObject));
+            Assert.IsTrue(target.AggregateDirectObject.Contains(directObject));
+        }
+
+        /// <summary>
+        ///A test for AggregateSubject
+        ///</summary>
+        [TestMethod()]
+        public void AggregateSubjectTest() {
+            string text = string.Empty; // TODO: Initialize to an appropriate value
+            VerbForm form = new VerbForm(); // TODO: Initialize to an appropriate value
+            Verb target = new Verb(text, form); // TODO: Initialize to an appropriate value
+            IAggregateEntity actual;
+            actual = target.AggregateSubject;
+            Assert.Inconclusive("Verify the correctness of this test method.");
+        }
+
+        /// <summary>
+        ///A test for AggregateIndirectObject
+        ///</summary>
+        [TestMethod()]
+        public void AggregateIndirectObjectTest() {
+            string text = string.Empty; // TODO: Initialize to an appropriate value
+            VerbForm form = new VerbForm(); // TODO: Initialize to an appropriate value
+            Verb target = new Verb(text, form); // TODO: Initialize to an appropriate value
+            IAggregateEntity actual;
+            actual = target.AggregateIndirectObject;
+            Assert.Inconclusive("Verify the correctness of this test method.");
+        }
+
+        /// <summary>
+        ///A test for AggregateDirectObject
+        ///</summary>
+        [TestMethod()]
+        public void AggregateDirectObjectTest() {
+            string text = string.Empty; // TODO: Initialize to an appropriate value
+            VerbForm form = new VerbForm(); // TODO: Initialize to an appropriate value
+            Verb target = new Verb(text, form); // TODO: Initialize to an appropriate value
+            IAggregateEntity actual;
+            actual = target.AggregateDirectObject;
+            Assert.Inconclusive("Verify the correctness of this test method.");
+        }
+
+
+
+
+        /// <summary>
+        ///A test for HasSubjectOrObject
+        ///</summary>
+        [TestMethod()]
+        public void HasSubjectOrObjectTest() {
+            string text = string.Empty; // TODO: Initialize to an appropriate value
+            VerbForm form = new VerbForm(); // TODO: Initialize to an appropriate value
+            Verb target = new Verb(text, form); // TODO: Initialize to an appropriate value
+            Func<IEntity, bool> predicate = null; // TODO: Initialize to an appropriate value
+            bool expected = false; // TODO: Initialize to an appropriate value
+            bool actual;
+            actual = target.HasSubjectOrObject(predicate);
+            Assert.AreEqual(expected, actual);
+            Assert.Inconclusive("Verify the correctness of this test method.");
+        }
+
+
+
+        /// <summary>
+        ///A test for HasSubject
+        ///</summary>
+        [TestMethod()]
+        public void HasSubjectTest() {
+            string text = string.Empty; // TODO: Initialize to an appropriate value
+            VerbForm form = new VerbForm(); // TODO: Initialize to an appropriate value
+            Verb target = new Verb(text, form); // TODO: Initialize to an appropriate value
+            Func<IEntity, bool> predicate = null; // TODO: Initialize to an appropriate value
+            bool expected = false; // TODO: Initialize to an appropriate value
+            bool actual;
+            actual = target.HasSubject(predicate);
+            Assert.AreEqual(expected, actual);
+            Assert.Inconclusive("Verify the correctness of this test method.");
+        }
+
+
     }
 }

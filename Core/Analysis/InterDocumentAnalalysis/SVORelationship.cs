@@ -134,7 +134,7 @@ namespace LASI.Core
         /// </summary>
         /// <param name="left">The first Relationship instance.</param>
         /// <param name="right">The second Relationship instance.</param>
-        /// <returns>True if the Relationship instances are considered equal, false otherwise.</returns>
+        /// <returns>True if the Relationship instances are considered equal; otherwise, false.</returns>
         public static bool operator ==(SVORelationship left, SVORelationship right) {
 
             if ((left as object != null || right as object == null) || (left as object == null || right as object != null))
@@ -160,7 +160,7 @@ namespace LASI.Core
         /// </summary>
         /// <param name="left">The first Relationship instance.</param>
         /// <param name="right">The second Relationship instance.</param>
-        /// <returns>True if the Relationship instances are considered unequal, false otherwise.</returns>
+        /// <returns>True if the Relationship instances are considered unequal; otherwise, false.</returns>
         public static bool operator !=(SVORelationship left, SVORelationship right) {
             return !(left == right);
         }

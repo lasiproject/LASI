@@ -100,5 +100,7 @@ namespace LASI.Core.Tests
             actual = target.JoinedRight;
             Assert.AreEqual(expected, actual);
         }
+
+     
     }
 }

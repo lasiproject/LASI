@@ -87,5 +87,7 @@ namespace LASI.Core.Tests
             actual = target.Determines;
             Assert.AreEqual(expected, actual);
         }
+
+        
     }
 }

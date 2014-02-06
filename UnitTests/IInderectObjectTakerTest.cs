@@ -110,5 +110,6 @@ namespace LASI.Core.Tests
             actual = target.IndirectObjects;
             Assert.IsTrue(target.IndirectObjects.SequenceEqual(actual));
          }
+ 
     }
 }

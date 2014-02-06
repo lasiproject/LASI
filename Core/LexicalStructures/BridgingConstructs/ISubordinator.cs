@@ -12,8 +12,8 @@ namespace LASI.Core
     /// <para> Along with the other interfaces in the Syntactic Interfaces Library, the ISubordinator interface provides for generalization and abstraction over many otherwise disparate element types and Type heirarchies. </para>
     /// </summary>
     /// <see cref="LASI.Core.SubordinateClauseBeginPhrase"/>
-    public interface ISubordinator
+    public interface ISubordinator : ILexical
     {
-
+        ILexical Subordinates { get; set; }
     }
 }

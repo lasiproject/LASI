@@ -100,5 +100,7 @@ namespace LASI.Core.Tests
             actual = target.DirectObjects;
             Assert.AreEqual(target.DirectObjects, actual);
         }
+
+         
     }
 }

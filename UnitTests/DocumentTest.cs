@@ -287,5 +287,67 @@ namespace LASI.Core.Tests
             Assert.IsTrue(expectedResult);
         }
 
+
+     
+
+        /// <summary>
+        ///A test for Name
+        ///</summary>
+        [TestMethod()]
+        public void NameTest() {
+            IEnumerable<Paragraph> content = null; // TODO: Initialize to an appropriate value
+            Document target = new Document(content); // TODO: Initialize to an appropriate value
+            string expected = string.Empty; // TODO: Initialize to an appropriate value
+            string actual;
+            target.Name = expected;
+            actual = target.Name;
+            Assert.AreEqual(expected, actual);
+            Assert.Inconclusive("Verify the correctness of this test method.");
+        }
+
+        /// <summary>
+        ///A test for Clauses
+        ///</summary>
+        [TestMethod()]
+        public void ClausesTest() {
+            IEnumerable<Paragraph> content = null; // TODO: Initialize to an appropriate value
+            Document target = new Document(content); // TODO: Initialize to an appropriate value
+            IEnumerable<Clause> actual;
+            actual = target.Clauses;
+            Assert.Inconclusive("Verify the correctness of this test method.");
+        }
+
+        /// <summary>
+        ///A test for ToString
+        ///</summary>
+        [TestMethod()]
+        public void ToStringTest() {
+            IEnumerable<Paragraph> content = null; // TODO: Initialize to an appropriate value
+            Document target = new Document(content); // TODO: Initialize to an appropriate value
+            string expected = string.Empty; // TODO: Initialize to an appropriate value
+            string actual;
+            actual = target.ToString();
+            Assert.AreEqual(expected, actual);
+            Assert.Inconclusive("Verify the correctness of this test method.");
+        }
+
+        /// <summary>
+        ///A test for Paginate
+        ///</summary>
+        [TestMethod()]
+        public void PaginateTest() {
+            IEnumerable<Paragraph> content = null; // TODO: Initialize to an appropriate value
+            Document target = new Document(content); // TODO: Initialize to an appropriate value
+            int sentencesPerPage = 0; // TODO: Initialize to an appropriate value
+            IEnumerable<Document.Page> expected = null; // TODO: Initialize to an appropriate value
+            IEnumerable<Document.Page> actual;
+            actual = target.Paginate(sentencesPerPage);
+            Assert.AreEqual(expected, actual);
+            Assert.Inconclusive("Verify the correctness of this test method.");
+        }
+         
+    
+
+       
     }
 }

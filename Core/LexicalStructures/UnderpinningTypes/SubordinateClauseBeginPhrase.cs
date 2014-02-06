@@ -28,5 +28,14 @@ namespace LASI.Core
             get;
             set;
         }
+
+        public ILexical Subordinates {
+            get {
+                throw new NotImplementedException();
+            }
+            set {
+                throw new NotImplementedException();
+            }
+        }
     }
 }

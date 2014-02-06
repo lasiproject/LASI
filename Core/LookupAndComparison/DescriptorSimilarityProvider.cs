@@ -16,7 +16,7 @@ namespace LASI.Core.Heuristics
         /// </summary>
         /// <param name="first">The first IDescriptor</param>
         /// <param name="second">The second IDescriptor</param>
-        /// <returns>True if the given IDescriptor instances are similar, false otherwise.</returns>
+        /// <returns>True if the given IDescriptor instances are similar; otherwise, false.</returns>
         /// <remarks>
         /// are two calling conventions for this method. See the following examples
         /// <code>if ( Lookup.IsSimilarTo(d1, d2) ) { ... }</code>
@@ -44,7 +44,7 @@ namespace LASI.Core.Heuristics
         /// </summary>
         /// <param name="first">The first Adjective.</param>
         /// <param name="second">The second Adjective.</param>
-        /// <returns>True if the first Adjective is similar to the second, false otherwise.</returns>
+        /// <returns>True if the first Adjective is similar to the second; otherwise, false.</returns>
         /// <remarks>There are two calling conventions for this method. See the following examples:
         /// <code>if ( Lookup.IsSimilarTo(a1, a2) ) { ... }</code>
         /// <code>if ( a1.IsSimilarTo(a2) ) { ... }</code>
@@ -58,7 +58,7 @@ namespace LASI.Core.Heuristics
         /// </summary>
         /// <param name="first">The AdjectivePhrase.</param>
         /// <param name="second">The Adjective.</param>
-        /// <returns>True if the provided AdjectivePhrase is similar to the provided Adjective, false otherwise.</returns>
+        /// <returns>True if the provided AdjectivePhrase is similar to the provided Adjective; otherwise, false.</returns>
         /// <remarks>There are two calling conventions for this method. See the following examples:
         /// <code>if ( Lookup.IsSimilarTo(ap1, a2) ) { ... }</code>
         /// <code>if ( ap1.IsSimilarTo(a2) ) { ... }</code>
@@ -72,7 +72,7 @@ namespace LASI.Core.Heuristics
         /// </summary>
         /// <param name="first">The Adjective.</param>
         /// <param name="second">The AdjectivePhrase.</param>
-        /// <returns>True if the provided Adjective is similar to the provided AdjectivePhrase, false otherwise.</returns>
+        /// <returns>True if the provided Adjective is similar to the provided AdjectivePhrase; otherwise, false.</returns>
         /// <remarks>There are two calling conventions for this method. See the following examples:
         /// <code>if ( Lookup.IsSimilarTo(a1, ap2) ) { ... }</code>
         /// <code>if ( a1.IsSimilarTo(ap2) ) { ... }</code>
@@ -86,7 +86,7 @@ namespace LASI.Core.Heuristics
         /// </summary>
         /// <param name="first">The first AdjectivePhrase</param>
         /// <param name="second">The second AdjectivePhrase</param>
-        /// <returns>True if the given AdjectivePhrase are similar, false otherwise.</returns>
+        /// <returns>True if the given AdjectivePhrase are similar; otherwise, false.</returns>
         /// <remarks>There are two calling conventions for this method. See the following examples:
         /// <code>if ( Lookup.IsSimilarTo(ap1, ap2) ) { ... }</code>
         /// <code>if ( ap1.IsSimilarTo(ap2) ) { ... }</code>

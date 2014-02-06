@@ -110,7 +110,7 @@ namespace LASI.Core
                 }
             });
         }
-        
+
         /// <summary>
         /// Increase noun weights in a document by abstracting over synonyms
         /// </summary>
@@ -119,13 +119,13 @@ namespace LASI.Core
             var toConsider = from e in document.Words
                                  .AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                                  .OfEntity().InSubjectOrObjectRole() //Currently, include only those nouns which exist in relationships with some IVerbal or IPronoun.
-                              let result =
-                                e.Match().Yield<IEntity>()
-                                    .With<Noun>(e)
-                                    .With<IReferencer>(r => r.Referent ?? r as IEntity)
-                                .Result()
-                              where result != null
-                              select result;
+                             let result =
+                               e.Match().Yield<IEntity>()
+                                   .With<Noun>(e)
+                                   .With<IReferencer>(r => r.Referent ?? r as IEntity)
+                               .Result()
+                             where result != null
+                             select result;
 
             var synonymGroups =
                 from outer in toConsider.AsParallel().WithDegreeOfParallelism(Concurrency.Max)

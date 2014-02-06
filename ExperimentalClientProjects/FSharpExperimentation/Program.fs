@@ -3,11 +3,12 @@
 
 open LASI.Core
 open LASI.Core.Heuristics
+open LASI.Core.Heuristics.Morphemization
 open LASI.ContentSystem
 open LASI.Interop
 open System.Linq
 open System.Threading.Tasks
-
+open LASI.Core.DocumentStructures
 
 
 
@@ -38,11 +39,11 @@ let main argv =
          
  
     let toAttack = Verb("attack",VerbForm.Base)
-    let bellicoseVerbals = doc.GetActions().Where (fun v-> op (v.IsSimilarTo(toAttack)))
-    let bellicoseIndividuals =  doc.GetEntities().Where(fun e-> bellicoseVerbals.Contains(e.SubjectOf))
+    let bellicoseVerbals = doc.GetActions()|>Seq.filter (fun v-> op (v.IsSimilarTo toAttack))
+    let bellicoseIndividuals =  doc.GetEntities()|>Seq.filter (fun e-> bellicoseVerbals.Contains e.SubjectOf)
     
     let attackerAttackeePairs = 
-        bellicoseVerbals .WithDirectObject().WithSubject().Select(fun v->  (v.AggregateSubject, v.AggregateDirectObject ))
+        bellicoseVerbals .WithDirectObject().WithSubject()|>Seq.map(fun v->  (v.AggregateSubject, v.AggregateDirectObject ))
     
 
     do Seq.iter( fun e-> printfn "%A" e) attackerAttackeePairs        

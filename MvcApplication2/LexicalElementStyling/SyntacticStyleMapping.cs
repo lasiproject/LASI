@@ -36,11 +36,12 @@ namespace MvcApplication2
                           .With<IPrepositional>(new Style { CssClass = "Prepositional", })
                           .With<IDescriptor>(new Style { CssClass = "Descriptor", })
                           .With<IAdverbial>(new Style { CssClass = "Adverbial", })
+                          .With<IConjunctive>(new Style { CssClass = "Conjunctive", })
 .Result(new Style { CssClass = "LexicalDefaultStyle", }))
                   .With<Word>(w => w.Match().Yield<Style>()
                           .With<Adjective>(new Style { CssClass = "Adjective", })
                           .With<PresentParticipleGerund>(new Style { CssClass = "PresentParticipleGerund", })
-                          .With<Verb>(new Style { CssClass = "Verbal", })
+                          .With<Verb>(new Style { CssClass = "Verbal", }).With<IConjunctive>(new Style { CssClass = "Conjunctive", })
                       .Result(new Style { CssClass = "LexicalDefaultStyle", }))
                   .Result();
             }

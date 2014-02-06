@@ -10,7 +10,7 @@ namespace LASI.Core
     /// Defines extension methods for sequences of Phrase instances.
     /// </summary>
     /// <see cref="Phrase"/>
-    public static partial class LASIEnumerable
+    public static partial class o
     {
         /// <summary>
         /// Returns all Phrases in the document which are in between the provided Phrases. The range of the resulting sequence is neither upper nor lower inclusive.

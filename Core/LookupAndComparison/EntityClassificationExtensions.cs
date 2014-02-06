@@ -20,7 +20,7 @@ namespace LASI.Core
         /// Determines if the PronounKind is among the semantic categories which are thought of as explicitely male.
         /// </summary>
         /// <param name="kind">The PronounKind to test.</param>
-        /// <returns>True if the PronounKind is among the semantic categories which are thought of as explicitely male, false otherwise.</returns>
+        /// <returns>True if the PronounKind is among the semantic categories which are thought of as explicitely male; otherwise, false.</returns>
         public static bool IsMale(this PronounKind kind) {
             return kind == PronounKind.Male || kind == PronounKind.MaleReflexive;
         }
@@ -28,7 +28,7 @@ namespace LASI.Core
         /// Determines if the PronounKind is among the semantic categories which are thought of as explicitely female.
         /// </summary>
         /// <param name="kind">The PronounKind to test.</param>
-        /// <returns>True if the PronounKind is among the semantic categories which are thought of as explicitely female, false otherwise.</returns>
+        /// <returns>True if the PronounKind is among the semantic categories which are thought of as explicitely female; otherwise, false.</returns>
         public static bool IsFemale(this PronounKind kind) {
             return kind == PronounKind.Female || kind == PronounKind.FemaleReflexive;
         }
@@ -36,7 +36,7 @@ namespace LASI.Core
         /// Determines if the PronounKind is among the semantic categories which are thought of as explicitely gender neutral.
         /// </summary>
         /// <param name="kind">The PronounKind to test.</param>
-        /// <returns>True if the PronounKind is among the semantic categories which are thought of as explicitely gender neutral, false otherwise.</returns>
+        /// <returns>True if the PronounKind is among the semantic categories which are thought of as explicitely gender neutral; otherwise, false.</returns>
         public static bool IsNeutral(this PronounKind kind) {
             return kind == PronounKind.GenderNeurtral || kind == PronounKind.GenderNeurtralReflexive;
         }
@@ -44,7 +44,7 @@ namespace LASI.Core
         /// Determines if the PronounKind is among the semantic categories which are thought of as explicitely gender ambiguous.
         /// </summary>
         /// <param name="kind">The PronounKind to test.</param>
-        /// <returns>True if the PronounKind is among the semantic categories which are thought of as explicitely gender ambiguous, false otherwise.</returns>
+        /// <returns>True if the PronounKind is among the semantic categories which are thought of as explicitely gender ambiguous; otherwise, false.</returns>
         public static bool IsGenderAmbiguous(this PronounKind kind) {
             return !(kind.IsFemale() || kind.IsMale() || kind.IsNeutral());
         }
@@ -52,7 +52,7 @@ namespace LASI.Core
         /// Determines if the PronounKind is among the semantic categories which are thought of as explicitely plural.
         /// </summary>
         /// <param name="kind">The PronounKind to test.</param>
-        /// <returns>True if the PronounKind is among the semantic categories which are thought of as explicitely plural, false otherwise.</returns>
+        /// <returns>True if the PronounKind is among the semantic categories which are thought of as explicitely plural; otherwise, false.</returns>
         public static bool IsPlural(this PronounKind kind) {
             return
                 kind == PronounKind.Plural ||
@@ -84,7 +84,7 @@ namespace LASI.Core
         /// Determines if the PronounKind is among the semantic categories which are first person.
         /// </summary>
         /// <param name="kind">The PronounKind to test.</param>
-        /// <returns>True if the PronounKind is among the semantic categories which are first person, false otherwise.</returns>
+        /// <returns>True if the PronounKind is among the semantic categories which are first person; otherwise, false.</returns>
         public static bool IsFirstPerson(this PronounKind kind) {
             return
                 kind == PronounKind.FirstPersonPlural ||
@@ -95,7 +95,7 @@ namespace LASI.Core
         /// Determines if the PronounKind is among the semantic categories which are second person.
         /// </summary>
         /// <param name="kind">The PronounKind to test.</param>
-        /// <returns>True if the PronounKind is among the semantic categories which are second person, false otherwise.</returns>
+        /// <returns>True if the PronounKind is among the semantic categories which are second person; otherwise, false.</returns>
         public static bool IsSecondPerson(this PronounKind kind) {
             return
                 kind == PronounKind.SecondPerson ||
@@ -106,7 +106,7 @@ namespace LASI.Core
         /// Determines if the PronounKind is among the semantic categories which are third person.
         /// </summary>
         /// <param name="kind">The PronounKind to test.</param>
-        /// <returns>True if the PronounKind is among the semantic categories which are third person, false otherwise.</returns>
+        /// <returns>True if the PronounKind is among the semantic categories which are third person; otherwise, false.</returns>
         public static bool IsThirdPerson(this PronounKind kind) {
             return !(kind.IsFirstPerson() || kind.IsSecondPerson());
         }
@@ -119,7 +119,7 @@ namespace LASI.Core
         /// Determines if the Pronoun is among the semantic categories which are thought of as explicitely male.
         /// </summary>
         /// <param name="pronoun">The Pronoun to test.</param>
-        /// <returns>True if the Pronoun is among the semantic categories which are thought of as explicitely male, false otherwise.</returns>
+        /// <returns>True if the Pronoun is among the semantic categories which are thought of as explicitely male; otherwise, false.</returns>
         public static bool IsMale(this Pronoun pronoun) {
             var kind = pronoun.PronounKind;
             return kind == PronounKind.Male || kind == PronounKind.MaleReflexive;
@@ -128,7 +128,7 @@ namespace LASI.Core
         /// Determines if the Pronoun is among the semantic categories which are thought of as explicitely female.
         /// </summary>
         /// <param name="pronoun">The Pronoun to test.</param>
-        /// <returns>True if the Pronoun is among the semantic categories which are thought of as explicitely female, false otherwise.</returns>
+        /// <returns>True if the Pronoun is among the semantic categories which are thought of as explicitely female; otherwise, false.</returns>
         public static bool IsFemale(this Pronoun pronoun) {
             var kind = pronoun.PronounKind;
             return kind == PronounKind.Female || kind == PronounKind.FemaleReflexive;
@@ -137,7 +137,7 @@ namespace LASI.Core
         /// Determines if the Pronoun is among the semantic categories which are thought of as explicitely gender neutral.
         /// </summary>
         /// <param name="pronoun">The Pronoun to test.</param>
-        /// <returns>True if the Pronoun is among the semantic categories which are thought of as explicitely gender neutral, false otherwise.</returns>
+        /// <returns>True if the Pronoun is among the semantic categories which are thought of as explicitely gender neutral; otherwise, false.</returns>
         public static bool IsNeutral(this Pronoun pronoun) {
             var kind = pronoun.PronounKind;
             //var intSet = new[] { 1, 2, 3, 4, 5, 6, 7 }.ToSet((i, j) => i % 2 == j % 2, i => i.GetHashCode());
@@ -147,7 +147,7 @@ namespace LASI.Core
         /// Determines if the Pronoun is among the semantic categories which are thought of as explicitely gender ambiguous.
         /// </summary>
         /// <param name="pronoun">The Pronoun to test.</param>
-        /// <returns>True if the Pronoun is among the semantic categories which are thought of as explicitely gender ambiguous, false otherwise.</returns>
+        /// <returns>True if the Pronoun is among the semantic categories which are thought of as explicitely gender ambiguous; otherwise, false.</returns>
         public static bool IsGenderAmbiguous(this Pronoun pronoun) {
             var kind = pronoun.PronounKind;
             return !(kind.IsFemale() || kind.IsMale() || kind.IsNeutral());
@@ -156,7 +156,7 @@ namespace LASI.Core
         /// Determines if the Pronoun is among the semantic categories which are thought of as explicitely plural.
         /// </summary>
         /// <param name="pronoun">The Pronoun to test.</param>
-        /// <returns>True if the Pronoun is among the semantic categories which are thought of as explicitely plural, false otherwise.</returns>
+        /// <returns>True if the Pronoun is among the semantic categories which are thought of as explicitely plural; otherwise, false.</returns>
         public static bool IsPlural(this Pronoun pronoun) {
             var kind = pronoun.PronounKind;
             return
@@ -190,7 +190,7 @@ namespace LASI.Core
         /// Determines if the Pronoun is among the semantic categories which are first person.
         /// </summary>
         /// <param name="pronoun">The Pronoun to test.</param>
-        /// <returns>True if the Pronoun is among the semantic categories which are first person, false otherwise.</returns>
+        /// <returns>True if the Pronoun is among the semantic categories which are first person; otherwise, false.</returns>
         public static bool IsFirstPerson(this Pronoun pronoun) {
             var kind = pronoun.PronounKind;
             return
@@ -202,7 +202,7 @@ namespace LASI.Core
         /// Determines if the Pronoun is among the semantic categories which are second person.
         /// </summary>
         /// <param name="pronoun">The Pronoun to test.</param>
-        /// <returns>True if the Pronoun is among the semantic categories which are second person, false otherwise.</returns>
+        /// <returns>True if the Pronoun is among the semantic categories which are second person; otherwise, false.</returns>
         public static bool IsSecondPerson(this Pronoun pronoun) {
             var kind = pronoun.PronounKind;
             return
@@ -214,7 +214,7 @@ namespace LASI.Core
         /// Determines if the Pronoun is among the semantic categories which are third person.
         /// </summary>
         /// <param name="pronoun">The Pronoun to test.</param>
-        /// <returns>True if the Pronoun is among the semantic categories which are third person, false otherwise.</returns>
+        /// <returns>True if the Pronoun is among the semantic categories which are third person; otherwise, false.</returns>
         public static bool IsThirdPerson(this Pronoun pronoun) {
             var kind = pronoun.PronounKind;
             return !(kind.IsFirstPerson() || kind.IsSecondPerson());
@@ -229,7 +229,7 @@ namespace LASI.Core
         /// </summary>
         /// <param name="first">The first Pronoun.</param>
         /// <param name="second">The second Pronoun.</param>
-        /// <returns>True if both Pronouns have the same gender, false otherwise.</returns>
+        /// <returns>True if both Pronouns have the same gender; otherwise, false.</returns>
         public static bool IsGenderEquivalentTo(this Pronoun first, Pronoun second) {
             var kind1 = first.PronounKind;
             var kind2 = second.PronounKind;
@@ -245,7 +245,7 @@ namespace LASI.Core
         /// </summary>
         /// <param name="first">The Pronoun.</param>
         /// <param name="second">The ProperNoun.</param>
-        /// <returns>True if Pronoun and the ProperNoun have the same gender, false otherwise.</returns>
+        /// <returns>True if Pronoun and the ProperNoun have the same gender; otherwise, false.</returns>
         public static bool IsGenderEquivalentTo(this  Pronoun first, ProperNoun second) {
             return first.Gender == second.GetGender();
         }
@@ -254,7 +254,7 @@ namespace LASI.Core
         /// </summary>
         /// <param name="first">The Pronoun.</param>
         /// <param name="second">The ProperNoun.</param>
-        /// <returns>True if Pronoun and the ProperNoun have the same gender, false otherwise.</returns>
+        /// <returns>True if Pronoun and the ProperNoun have the same gender; otherwise, false.</returns>
         public static bool IsGenderEquivalentTo(this  ProperNoun first, Pronoun second) {
             return first.GetGender() == second.Gender;
         }
@@ -263,7 +263,7 @@ namespace LASI.Core
         /// </summary>
         /// <param name="first">The first IEntity instance to compare.</param>
         /// <param name="second">The second IEntity instance to compare.</param>
-        /// <returns>True both IEntity instances have the same gender, false otherwise.
+        /// <returns>True both IEntity instances have the same gender; otherwise, false.
         /// </returns>
         public static bool IsGenderEquivalentTo(this  IEntity first, IEntity second) {
             return first.GetGender() == second.GetGender();
@@ -275,7 +275,7 @@ namespace LASI.Core
         /// Gets a value indicating wether or not the Gender value is male.
         /// </summary>
         /// <param name="gender">The Gender value to test.</param>
-        /// <returns>True if the Gender is male, false otherwise.</returns>
+        /// <returns>True if the Gender is male; otherwise, false.</returns>
         public static bool IsMale(this Gender gender) {
             return gender == Gender.Male;
         }
@@ -283,7 +283,7 @@ namespace LASI.Core
         /// Gets a value indicating wether or not the Gender value is female.
         /// </summary>
         /// <param name="gender">The Gender value to test.</param>
-        /// <returns>True if the Gender is female, false otherwise.</returns>
+        /// <returns>True if the Gender is female; otherwise, false.</returns>
         public static bool IsFemale(this Gender gender) {
             return gender == Gender.Female;
         }
@@ -291,7 +291,7 @@ namespace LASI.Core
         /// Gets a value indicating wether or not the Gender value is male or female.
         /// </summary>
         /// <param name="gender">The Gender value to test.</param>
-        /// <returns>True if the Gender is either male or female, false otherwise.</returns>
+        /// <returns>True if the Gender is either male or female; otherwise, false.</returns>
         public static bool IsMaleOrFemale(this Gender gender) {
             return gender == Gender.Male || gender == Gender.Female;
         }
@@ -299,7 +299,7 @@ namespace LASI.Core
         /// Gets a value indicating wether or not the Gender value is neutral.
         /// </summary>
         /// <param name="gender">The Gender value to test.</param>
-        /// <returns>True if the Gender is neutral, false otherwise.</returns>
+        /// <returns>True if the Gender is neutral; otherwise, false.</returns>
         public static bool IsNeutral(this Gender gender) {
             return gender == Gender.Neutral;
         }
@@ -307,7 +307,7 @@ namespace LASI.Core
         /// Gets a value indicating wether or not the Gender value is either male or neutral.
         /// </summary>
         /// <param name="gender">The Gender value to test.</param>
-        /// <returns>True if the Gender is either male neutral, false otherwise.</returns>
+        /// <returns>True if the Gender is either male neutral; otherwise, false.</returns>
         public static bool IsMaleOrNeutral(this Gender gender) {
             return gender == Gender.Neutral || gender == Gender.Male;
         }
@@ -315,7 +315,7 @@ namespace LASI.Core
         /// Gets a value indicating wether or not the Gender value is either female or neutral.
         /// </summary>
         /// <param name="gender">The Gender value to test.</param>
-        /// <returns>True if the Gender is either female or neutral, false otherwise.</returns>
+        /// <returns>True if the Gender is either female or neutral; otherwise, false.</returns>
         public static bool IsFemaleOrNeutral(this Gender gender) {
             return gender == Gender.Neutral || gender == Gender.Female;
         }
@@ -323,7 +323,7 @@ namespace LASI.Core
         /// Gets a value indicating wether or not the Gender value is either male, female, or neutral or not undefined.
         /// </summary>
         /// <param name="gender">The Gender value to test.</param>
-        /// <returns>True if the Gender is is either male, female, or neutral or not undefined., false otherwise.</returns>
+        /// <returns>True if the Gender is is either male, female, or neutral or not undefined.; otherwise, false.</returns>
         public static bool IsDefined(this Gender gender) {
             return gender != Gender.Unknown;
         }
@@ -331,7 +331,7 @@ namespace LASI.Core
         /// Gets a value indicating wether or not the Gender value is either neutral or undefined.
         /// </summary>
         /// <param name="gender">The Gender value to test.</param>
-        /// <returns>True if the Gender is is either  neutral or undefined., false otherwise.</returns>
+        /// <returns>True if the Gender is is either  neutral or undefined.; otherwise, false.</returns>
         public static bool IsNeutralOrUndefined(this Gender gender) {
             return gender == Gender.Unknown || gender == Gender.Neutral;
         }

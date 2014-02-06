@@ -71,7 +71,7 @@ namespace LASI.ContentSystem
         /// Returns a value that indicates whether the specified object is equal to the current InputFile.
         /// </summary>
         /// <param name="obj">The object to compare with.</param> 
-        /// <returns>True if the specified object is equal to the current InputFile, false otherwise.</returns> 
+        /// <returns>True if the specified object is equal to the current InputFile; otherwise, false.</returns> 
         public override bool Equals(object obj) {
             return this == obj as InputFile;
         }

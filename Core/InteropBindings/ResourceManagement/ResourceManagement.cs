@@ -84,7 +84,7 @@ namespace LASI.Core
         /// Returns a value that indicates whether the specified object is equal to the current MB.
         /// </summary>
         /// <param name="obj">The object to compare with.</param> 
-        /// <returns>True if the specified object is equal to the current MB, false otherwise.</returns> 
+        /// <returns>True if the specified object is equal to the current MB; otherwise, false.</returns> 
         public override bool Equals(object obj) { return obj is MB && this == (MB)obj; }
         /// <summary>
         /// Returns the hash code for this instance.
@@ -314,14 +314,14 @@ namespace LASI.Core
         /// </summary>
         /// <param name="left">The first MB to compare.</param>
         /// <param name="right">The second MB to compare.</param>
-        /// <returns>True if the specified Weight instances are equal, false otherwise.</returns>
+        /// <returns>True if the specified Weight instances are equal; otherwise, false.</returns>
         public static bool operator ==(MB left, MB right) { return left.Quantity == right.Quantity; }
         /// <summary>
         /// Returns a value that indicates whether two specified MB structures are not equal.
         /// </summary>
         /// <param name="left">The first MB to compare.</param>
         /// <param name="right">The second MB to compare.</param>
-        /// <returns>True if the specified Weight instances are not equal, false otherwise.</returns>
+        /// <returns>True if the specified Weight instances are not equal; otherwise, false.</returns>
         public static bool operator !=(MB left, MB right) { return !(left == right); }
         /// <summary>
         /// Returns a value that indicates whether the MB on the left is equal to the uint on the right.

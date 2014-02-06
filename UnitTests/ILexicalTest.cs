@@ -144,5 +144,6 @@ namespace LASI.Core.Tests
             actual = target.Weight;
             Assert.AreEqual(expected, actual);
         }
+ 
     }
 }
