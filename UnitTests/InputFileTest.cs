@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace LASI.Core.Tests
 {
-    
-    
+
+
     /// <summary>
     ///This is a test class for InputFileTest and is intended
     ///to contain all InputFileTest Unit Tests

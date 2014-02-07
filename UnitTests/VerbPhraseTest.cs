@@ -17,7 +17,9 @@ namespace LASI.Core.Tests
     public class VerbPhraseTest
     {
 
-
+        private static VerbPhrase CreateTarget() {
+            return new VerbPhrase(new[] { new Verb("help", VerbForm.Base) });
+        }
         private TestContext testContextInstance;
 
         /// <summary>
@@ -126,7 +128,7 @@ namespace LASI.Core.Tests
         ///A test for Subjects
         ///</summary>
         [TestMethod()]
-        public void SubjectsTest() { 
+        public void SubjectsTest() {
             VerbPhrase target = CreateVerbPhrase();
             IEnumerable<IEntity> actual;
             actual = target.Subjects;
@@ -144,7 +146,7 @@ namespace LASI.Core.Tests
             actual = target.Modifiers;
             Assert.Inconclusive("Verify the correctness of this test method.");
         }
- 
+
 
         /// <summary>
         ///A test for IsPossessive
@@ -258,68 +260,83 @@ namespace LASI.Core.Tests
             Assert.AreEqual(expected, actual);
             Assert.Inconclusive("Verify the correctness of this test method.");
         }
- 
+
 
         /// <summary>
         ///A test for HasSubjectOrObject
         ///</summary>
         [TestMethod()]
         public void HasSubjectOrObjectTest() {
-            IEnumerable<Word> composedWords = null; // TODO: Initialize to an appropriate value
-            VerbPhrase target = new VerbPhrase(composedWords); // TODO: Initialize to an appropriate value
-            Func<IEntity, bool> predicate = null; // TODO: Initialize to an appropriate value
-            bool expected = false; // TODO: Initialize to an appropriate value
+
+            VerbPhrase target = CreateTarget();
+            IEntity entity = new PersonalPronoun("cats");
+            target.BindSubject(entity);
+            Func<IEntity, bool> predicate = e => e.Text == "cats";
+            bool expected = true;
             bool actual;
             actual = target.HasSubjectOrObject(predicate);
             Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
+            target.BindDirectObject(entity);
+            actual = target.HasSubjectOrObject(predicate);
+            Assert.AreEqual(expected, actual);
+            target.BindIndirectObject(entity);
+            actual = target.HasSubjectOrObject(predicate);
+            Assert.AreEqual(expected, actual);
+
         }
 
- 
+
 
         /// <summary>
         ///A test for HasSubject
         ///</summary>
         [TestMethod()]
         public void HasSubjectTest() {
-            IEnumerable<Word> composedWords = null; // TODO: Initialize to an appropriate value
-            VerbPhrase target = new VerbPhrase(composedWords); // TODO: Initialize to an appropriate value
-            bool expected = false; // TODO: Initialize to an appropriate value
+            VerbPhrase target = CreateTarget();
+            IEntity entity = new PersonalPronoun("cats");
+            target.BindSubject(entity);
+            Func<IEntity, bool> predicate = e => e.Text == "cats";
+            bool expected = true;
             bool actual;
-            actual = target.HasSubject();
+            actual = target.HasSubject(predicate);
             Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
         }
- 
+
         /// <summary>
         ///A test for HasObject
         ///</summary>
         [TestMethod()]
         public void HasObjectTest() {
-            IEnumerable<Word> composedWords = null; // TODO: Initialize to an appropriate value
-            VerbPhrase target = new VerbPhrase(composedWords); // TODO: Initialize to an appropriate value
-            bool expected = false; // TODO: Initialize to an appropriate value
+            VerbPhrase target = CreateTarget();
+            IEntity entity = new PersonalPronoun("cats");
+
+            Func<IEntity, bool> predicate = e => e.Text == "cats";
+            bool expected = true;
             bool actual;
-            actual = target.HasObject();
+            target.BindDirectObject(entity);
+            actual = target.HasObject(predicate);
             Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
+            target.BindIndirectObject(entity);
+            actual = target.HasObject(predicate);
+            Assert.AreEqual(expected, actual);
         }
- 
+
 
         /// <summary>
         ///A test for HasIndirectObject
         ///</summary>
         [TestMethod()]
         public void HasIndirectObjectTest() {
-            IEnumerable<Word> composedWords = null; // TODO: Initialize to an appropriate value
-            VerbPhrase target = new VerbPhrase(composedWords); // TODO: Initialize to an appropriate value
-            bool expected = false; // TODO: Initialize to an appropriate value
+            VerbPhrase target = CreateTarget();
+            IEntity entity = new PersonalPronoun("cats");
+            target.BindIndirectObject(entity);
+            Func<IEntity, bool> predicate = e => e.Text == "cats";
+            bool expected = true;
             bool actual;
-            actual = target.HasIndirectObject();
+            actual = target.HasIndirectObject(predicate);
             Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
         }
- 
+
         /// <summary>
         ///A test for HasDirectObject
         ///</summary>
@@ -335,7 +352,7 @@ namespace LASI.Core.Tests
             Assert.Inconclusive("Verify the correctness of this test method.");
         }
 
-      
+
 
         /// <summary>
         ///A test for BindSubject
@@ -385,6 +402,6 @@ namespace LASI.Core.Tests
             Assert.Inconclusive("A method that does not return a value cannot be verified.");
         }
 
- 
+
     }
 }
