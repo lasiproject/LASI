@@ -99,7 +99,6 @@ namespace MvcApplication2.LexicalElementInfo
 
             var data = new
             {
-                Verbal = phrase.ToElementWithId().Id,
                 Subjects = phrase.Subjects.Select(e => e.ToElementWithId().Id).ToArray(),
                 DirectObjects = phrase.DirectObjects.Select(e => e.ToElementWithId().Id).ToArray(),
                 IndrectObjects = phrase.IndirectObjects.Select(e => e.ToElementWithId().Id).ToArray()
@@ -111,13 +110,15 @@ namespace MvcApplication2.LexicalElementInfo
                 PreserveReferencesHandling = PreserveReferencesHandling.All,
                 StringEscapeHandling = StringEscapeHandling.EscapeNonAscii,
             };
-            var jsonData = new
-            {
-                Subject = JsonConvert.SerializeObject(data.Subjects, jsonSerializerSettings).TrimEnd(' ', ';'),
-                DirectObjects = JsonConvert.SerializeObject(data.DirectObjects, jsonSerializerSettings).TrimEnd(' ', ';'),
-                IndrectObjects = JsonConvert.SerializeObject(data.IndrectObjects, jsonSerializerSettings).TrimEnd(' ', ';'),
-            };
-            return jsonData;
+            var jsonData = JsonConvert.SerializeObject(
+           new
+           {
+               Id = phrase.ToElementWithId().Id,
+               Subjects = data.Subjects,
+               DirectObjects = data.DirectObjects,
+               IndrectObjects = data.IndrectObjects
+           }, jsonSerializerSettings);
+            return jsonData.TrimEnd(' ', ';');
 
         }
     }

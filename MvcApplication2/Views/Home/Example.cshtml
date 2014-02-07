@@ -37,10 +37,10 @@
                             @e.Lexical.Text
 
                             <span id="@("context" + e.Id)">
-                            @if (e.Lexical != null && e.Lexical is LASI.Core.IVerbal) {
-                                @((e.Lexical as LASI.Core.IVerbal).GetMenuDataForAsync())
+                                @if (e.Lexical != null && e.Lexical is LASI.Core.IVerbal) {
+                                    @((e.Lexical as LASI.Core.IVerbal).GetMenuDataForAsync())
 
-                            }
+                                }
 
                             </span>
 
