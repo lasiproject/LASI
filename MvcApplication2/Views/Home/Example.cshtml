@@ -2,6 +2,7 @@
 @using Newtonsoft.Json.Serialization;
 @using MvcApplication2.LexicalElementInfo;
 @using Newtonsoft.Json;
+@using MvcApplication2.Controllers;
 
 
 <link rel="stylesheet" href=".\..\scripts\JqueryContextMenu\sunbirst.css" />
@@ -34,9 +35,15 @@
                     @foreach (var e in annotatedLexicalElements) {
                         <span class=@styleMap[e.Lexical].CssClass title="@string.Join("", e.Lexical.Type.Name.Select(c => c.IsUpper() ? " " + c : c.ToString()))" id="@e.Id">
                             @e.Lexical.Text
-                            <span hidden="hidden" id="@("context" + e.Id)">
-                                @e.MenuMappingData.ToJson()
+
+                            <span id="@("context" + e.Id)">
+                            @if (e.Lexical != null && e.Lexical is LASI.Core.IVerbal) {
+                                @((e.Lexical as LASI.Core.IVerbal).GetMenuDataForAsync())
+
+                            }
+
                             </span>
+
                         </span>
 
 

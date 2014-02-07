@@ -48,12 +48,13 @@ namespace MvcApplication2.LexicalElementInfo
 
     public static class ContextMenuBuilder
     {
-
+        private static int idGenerator = 0;
         public static IEnumerable<ElementWithId> BindClientSideIds(IEnumerable<ILexical> elements) {
             // Pairs each element with an unique identifier. Assumes that the number of elements supplied is no more than int.MaxValue
-            return Enumerable.Range(0, int.MaxValue).Zip(elements, (id, element) => new ElementWithId { Id = id, Element = element });
+            return elements.Select(ToElementWithId);
 
         }
+        public static ElementWithId ToElementWithId(this ILexical element) { return new ElementWithId { Id = ++idGenerator, Element = element }; }
         static ElementContextMenuMapping ForVerbal(IVerbal verbal, int verbalId, IEnumerable<ElementWithId> elementsWithId) {
             return new ElementContextMenuMapping(new[] { 
                 new RelationshipMenuEntry(verbalId, 
@@ -91,6 +92,33 @@ namespace MvcApplication2.LexicalElementInfo
                     StringEscapeHandling = StringEscapeHandling.EscapeNonAscii,
                     MaxDepth = 1,
                 }).TrimEnd(' ', ';');
+        }
+        public static dynamic GetMenuDataForAsync(this IVerbal phrase) {
+            if (phrase == null)
+                return null;
+
+            var data = new
+            {
+                Verbal = phrase.ToElementWithId().Id,
+                Subjects = phrase.Subjects.Select(e => e.ToElementWithId().Id).ToArray(),
+                DirectObjects = phrase.DirectObjects.Select(e => e.ToElementWithId().Id).ToArray(),
+                IndrectObjects = phrase.IndirectObjects.Select(e => e.ToElementWithId().Id).ToArray()
+
+            };
+            var jsonSerializerSettings = new JsonSerializerSettings {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                ObjectCreationHandling = ObjectCreationHandling.Reuse,
+                PreserveReferencesHandling = PreserveReferencesHandling.All,
+                StringEscapeHandling = StringEscapeHandling.EscapeNonAscii,
+            };
+            var jsonData = new
+            {
+                Subject = JsonConvert.SerializeObject(data.Subjects, jsonSerializerSettings).TrimEnd(' ', ';'),
+                DirectObjects = JsonConvert.SerializeObject(data.DirectObjects, jsonSerializerSettings).TrimEnd(' ', ';'),
+                IndrectObjects = JsonConvert.SerializeObject(data.IndrectObjects, jsonSerializerSettings).TrimEnd(' ', ';'),
+            };
+            return jsonData;
+
         }
     }
 }

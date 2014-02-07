@@ -2,8 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>@ViewBag.Title - My ASP.NET MVC Application</title>
+    <title>@ViewBag.Title - LASI</title>
     <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    @*<link href="~/favicon.ico" rel="icon" type="image/x-icon" />*@
     <meta name="viewport" content="width=device-width" />
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
@@ -22,11 +23,10 @@
     <footer>
         <nav>
             <ul id="menu">
-                <li>@Html.ActionLink("Todo List", "Index", "Home", new { area = "" }, null)</li>
-                <li>@Html.ActionLink("API", "Index", "Help", new { area = "HelpPage" }, null)</li>
+                <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, null)</li>
             </ul>
         </nav>
-        <p>Learn more about <a href="http://go.microsoft.com/fwlink/?LinkId=273732">Single Page Applications</a></p>
+
         <p>&copy; @DateTime.Now.Year - My ASP.NET MVC Application</p>
     </footer>
 

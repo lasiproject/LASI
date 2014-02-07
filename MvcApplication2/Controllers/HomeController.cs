@@ -9,7 +9,11 @@ using System.Web.UI.WebControls;
 using LASI.Utilities;
 using LASI.ContentSystem;
 using LASI.Interop;
+using LASI;
+using MvcApplication2.LexicalElementInfo;
 using System.Threading.Tasks;
+using LASI.Core;
+using Newtonsoft.Json;
 
 namespace MvcApplication2.Controllers
 {
@@ -52,7 +56,7 @@ namespace MvcApplication2.Controllers
                 { "pdf" , p => new PdfFile(p) },
                 { "zip", p => null}
             };
-            var files = from file in Directory.EnumerateFiles(Server.MapPath(USER_UPLOADED_DOCUMENTS_DIR)) select extensionMap[file.SplitRemoveEmpty('.').Last()](file) into f where f != null select f ;
+            var files = from file in Directory.EnumerateFiles(Server.MapPath(USER_UPLOADED_DOCUMENTS_DIR)) select extensionMap[file.SplitRemoveEmpty('.').Last()](file) into f where f != null select f;
 
 
             var loadingTask = await Task.Run(async () => await new AnalysisController(files).ProcessAsync());
@@ -69,5 +73,6 @@ namespace MvcApplication2.Controllers
             ViewBag.Title = "Example";
             return View();
         }
+
     }
 }
