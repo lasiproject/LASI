@@ -5,6 +5,7 @@ using LASI.ContentSystem;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Newtonsoft.Json;
 
 namespace MvcApplication2.LexicalElementInfo
 {
@@ -80,6 +81,16 @@ namespace MvcApplication2.LexicalElementInfo
                 .Result(new ElementWithMenuData(e, new ElementContextMenuMapping(new RelationshipMenuEntry[] { })));
         }
 
+        public static string ToJson(this ElementContextMenuMapping menuContext) {
+            return JsonConvert.SerializeObject(menuContext.MenuEntries.ToArray(),
 
+                new JsonSerializerSettings {
+                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                    ObjectCreationHandling = ObjectCreationHandling.Reuse,
+                    PreserveReferencesHandling = PreserveReferencesHandling.All,
+                    StringEscapeHandling = StringEscapeHandling.EscapeNonAscii,
+                    MaxDepth = 1,
+                }).TrimEnd(' ', ';');
+        }
     }
 }

@@ -1,26 +1,29 @@
 ﻿@using LASI.Utilities;
 @using Newtonsoft.Json.Serialization;
-@using MvcApplication2.LexicalElementSerialization;
 @using MvcApplication2.LexicalElementInfo;
 @using Newtonsoft.Json;
 
 
-
+<link rel="stylesheet" href=".\..\scripts\JqueryContextMenu\sunbirst.css" />
+<link rel="stylesheet" href=".\..\scripts\JqueryContextMenu\jquery.contextMenu.css" />
 <title>@ViewBag.Title</title>
-@*@{var doc = ViewData["doc"] as LASI.Core.DocumentStructures.Document;*@
-<div id="tabs">
-    <ul id="documentlist">
+<div>
+    <ul id="documentlist" class="documentlist break-after documentselectiontab">
 
         @foreach (var doc in ViewData["docs"] as IEnumerable<LASI.Core.DocumentStructures.Document>) {
-            <li class="document-selection-tab">
+            <li class="documentselectiontab">
                 <a href=@("#"+doc.Name)>
-                    <h2>@doc.Name</h2>
+                    @doc.Name
                 </a>
             </li>
         }
     </ul>
+</div>
+<br />
+<div>
     @foreach (var doc in ViewData["docs"] as IEnumerable<LASI.Core.DocumentStructures.Document>) {
-        <div id=@doc.Name>
+        <div id=@doc.Name class="content-wrapper">
+
             @{var styleMap = new MvcApplication2.SyntacticStyleMapping();
             var withIds = ContextMenuBuilder.BindClientSideIds(doc.Phrases);
             foreach (var annotatedLexicalElements in from phrase in withIds
@@ -29,37 +32,75 @@
                                                      group withMenuData by bare.Paragraph) {
                 <p class="lexical-content-block">
                     @foreach (var e in annotatedLexicalElements) {
-                        <span class=@styleMap[e.Lexical].CssClass title="@string.Join("",e.Lexical.Type.Name.Select(c => c.IsUpper() ? " " +c  : c.ToString()))" id=@e.Id>
+                        <span class=@styleMap[e.Lexical].CssClass title="@string.Join("", e.Lexical.Type.Name.Select(c => c.IsUpper() ? " " + c : c.ToString()))" id="@e.Id">
                             @e.Lexical.Text
-                            <span id=@("context"+e.Id)>
-                                @JsonConvert.SerializeObject(e.MenuMappingData.MenuEntries.ToArray(),
-
-                                new JsonSerializerSettings {
-                                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
-                                    ObjectCreationHandling = ObjectCreationHandling.Reuse,
-                                    PreserveReferencesHandling = PreserveReferencesHandling.All,
-                                    StringEscapeHandling = StringEscapeHandling.EscapeNonAscii,
-                                    MaxDepth = 1,
-                                }).Trim(';')
+                            <span hidden="hidden" id="@("context" + e.Id)">
+                                @e.MenuMappingData.ToJson()
                             </span>
                         </span>
 
 
                     }
-                </p>
+                </p>}
 
 
-
-            }
 
             }
 
         </div>
     }
-</div>            @section scripts{
-    @Scripts.Render(@".\..\Scripts\jquery-ui-contextmenu.js");
-    @Scripts.Render(@".\..\Scripts\jquery-ui-1.10.3.js");
+</div>
+
+<div id="verbalmenus">
+    <div id="subjectonly" class="menuwrapper">
+        <ul class="phrasemenu">
+            <li id="subject" class="phrasemenuitem">
+                View Subjects
+            </li>
+        </ul>
+    </div>
+    <br />
+    <br />
+    <div id="subjectanddirectobject" class="menuwrapper">
+        <ul class="phrasemenu">
+            <li id="subjects" class="phrasemenuitem">
+                View Subjects
+            </li>
+            <li><hr /></li>
+            <li id="directobjects" class="phrasemenuitem">
+                View Direct Objects
+            </li>
+        </ul>
+    </div>
+    <br />
+    <br />
+    <div id="subjectanddirectobjectandindirectobject" class="menuwrapper">
+        <ul class="phrasemenu">
+            <li id="subjects" class="phrasemenuitem">
+                View Subjects
+            </li>
+            <li><hr /></li>
+            <li id="directobjects" class="phrasemenuitem">
+                View Direct Objects
+            </li>
+            <li><hr /></li>
+            <li id="indirectbjects" class="phrasemenuitem">
+                View Indirect Objects
+            </li>
+        </ul>
+    </div>
+</div>
+
+
+
+
+
+@section scripts{
+    @Scripts.Render(@".\..\Scripts\JqueryContextMenu\jquery.contextMenu.js");
+    @Scripts.Render(@".\..Scripts\JqueryContextMenu\jquery-1.8.2.min.js");
+    @Scripts.Render(@".\..Scripts\JqueryContextMenu\jquery.ui.position.js");
     @Scripts.Render(@".\..\Scripts\app\Example\Example.js");
+    @*@Scripts.Render(@".\..\Scripts\app\LexicalContextMenus.js");*@
 }
 
 

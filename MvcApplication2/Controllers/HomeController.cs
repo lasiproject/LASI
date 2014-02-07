@@ -49,9 +49,10 @@ namespace MvcApplication2.Controllers
                 { "txt" , p => new TextFile(p) },
                 { "doc" , p => new DocFile(p) },
                 { "docx" , p => new DocXFile(p) },
-                { "pdf" , p=> new PdfFile(p) }, 
+                { "pdf" , p => new PdfFile(p) },
+                { "zip", p => null}
             };
-            var files = from file in Directory.EnumerateFiles(Server.MapPath(USER_UPLOADED_DOCUMENTS_DIR)) select extensionMap[file.SplitRemoveEmpty('.').Last()](file);
+            var files = from file in Directory.EnumerateFiles(Server.MapPath(USER_UPLOADED_DOCUMENTS_DIR)) select extensionMap[file.SplitRemoveEmpty('.').Last()](file) into f where f != null select f ;
 
 
             var loadingTask = await Task.Run(async () => await new AnalysisController(files).ProcessAsync());

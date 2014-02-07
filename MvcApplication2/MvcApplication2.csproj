@@ -258,7 +258,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="LexicalElementSerialization\ElementSerializer.cs" />
     <Compile Include="LexicalElementStyling\SyntacticStyleMapping.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\TodoItemDto.cs" />
@@ -372,6 +371,8 @@
     <Content Include="Areas\HelpPage\Views\_ViewStart.cshtml" />
     <Content Include="JSLintNet.json" />
     <Content Include="Scripts\app\Example\Example.js" />
+    <Content Include="Scripts\JqueryContextMenu\Index.html" />
+    <Content Include="Scripts\JqueryContextMenu\jquery-1.8.2.min.js" />
     <Content Include="Scripts\jquery-2.0.3.js" />
     <Content Include="Scripts\jquery-2.0.3.min.js" />
     <None Include="Scripts\jquery-2.1.0.intellisense.js" />
@@ -382,8 +383,10 @@
     </Content>
     <Content Include="Scripts\jquery-2.1.0.min.map" />
     <Content Include="Scripts\jquery-2.1.0.min.js.map">
-      <DependentUpon>jquery-2.1.0.js</DependentUpon>
+      <DependentUpon>jquery-2.1.0.min.js</DependentUpon>
     </Content>
+    <Content Include="Scripts\JqueryContextMenu\jquery.contextMenu.css" />
+    <Content Include="Scripts\JqueryContextMenu\jquery.contextMenu.js" />
     <Content Include="Scripts\jquery.ui-contextmenu.min.js">
       <DependentUpon>jquery.ui-contextmenu.js</DependentUpon>
     </Content>
@@ -396,6 +399,7 @@
     <Content Include="Scripts\jquery-ui.unobtrusive-2.1.0.js" />
     <Content Include="Scripts\jquery-ui.unobtrusive-2.1.0.min.js" />
     <Content Include="Scripts\jquery.ui-contextmenu.js" />
+    <Content Include="Scripts\JqueryContextMenu\jquery.ui.position.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
@@ -405,6 +409,9 @@
     <Content Include="Scripts\knockout-3.0.0.debug.js" />
     <Content Include="Scripts\knockout-3.0.0.js" />
     <Content Include="Scripts\modernizr-2.7.1.js" />
+    <Content Include="Scripts\JqueryContextMenu\prettify.sunburst.css" />
+    <Content Include="Scripts\JqueryContextMenu\screen.css" />
+    <Content Include="Scripts\JqueryContextMenu\screen.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -457,6 +464,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\SourceFiles\" />
+    <Folder Include="LexicalElementSerialization\" />
     <Folder Include="Views\Upload\" />
   </ItemGroup>
   <ItemGroup>
@@ -481,7 +489,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="Scripts\app\Example\LexicalContextMenus.ts" />
     <TypeScriptCompile Include="Scripts\typings\jquery.contextMenu\jquery.contextMenu.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\jqueryui\jqueryui.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\jquery\jquery.d.ts" />
   </ItemGroup>
   <PropertyGroup>
