@@ -7,7 +7,7 @@ $(function () {
         // this === item.$node
         var htmlMenuText =
         '<ul class="menuwrapper">';
-        this.arrayProducer().forEach(function (element, index) {
+        item.$node.arrayProducer().forEach(function (element, index) {
             htmlMenuText += '<li class="phrasemenuitem" title="' + element.Name, element.LinkedIds + '">' + element.Name, element.LinkedIds + '</li>';
         });
 
