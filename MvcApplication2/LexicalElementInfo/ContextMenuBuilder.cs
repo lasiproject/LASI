@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
+using System.Collections.Concurrent;
 
 namespace MvcApplication2.LexicalElementInfo
 {
@@ -21,104 +22,44 @@ namespace MvcApplication2.LexicalElementInfo
 
         public IEnumerable<int> RelatedElementIds { get; private set; }
     }
-    public class ElementContextMenuMapping
-    {
-        internal ElementContextMenuMapping(IEnumerable<RelationshipMenuEntry> menuEntries) {
-            MenuEntries = menuEntries;
-        }
-        public IEnumerable<RelationshipMenuEntry> MenuEntries { get; private set; }
 
-    }
-    public class ElementWithMenuData
-    {
-        internal ElementWithMenuData(ElementWithId element, ElementContextMenuMapping menuMappingData) {
-            Id = element.Id;
-            Lexical = element.Element;
-            MenuMappingData = menuMappingData;
-        }
-        public ILexical Lexical { get; set; }
-        public int Id { get; private set; }
-        public ElementContextMenuMapping MenuMappingData { get; private set; }
-    }
-    public class ElementWithId
-    {
-        public ILexical Element { get; set; }
-        public int Id { get; set; }
-    }
 
-    public static class ContextMenuBuilder
+
+
+    public static class SerializationDataProvider
     {
+
         private static int idGenerator = 0;
-        public static IEnumerable<ElementWithId> BindClientSideIds(IEnumerable<ILexical> elements) {
-            // Pairs each element with an unique identifier. Assumes that the number of elements supplied is no more than int.MaxValue
-            return elements.Select(ToElementWithId);
 
-        }
-        public static ElementWithId ToElementWithId(this ILexical element) { return new ElementWithId { Id = ++idGenerator, Element = element }; }
-        static ElementContextMenuMapping ForVerbal(IVerbal verbal, int verbalId, IEnumerable<ElementWithId> elementsWithId) {
-            return new ElementContextMenuMapping(new[] { 
-                new RelationshipMenuEntry(verbalId, 
-                    "View Subjects",
-                    elementsWithId.IdsWhere(e => verbal.HasSubject(s => s == e))), 
-                new RelationshipMenuEntry(verbalId,
-                    "View Direct Objects",
-                    elementsWithId.IdsWhere(e => verbal.HasDirectObject(o => o == e))), 
-                new RelationshipMenuEntry(verbalId, 
-                    "View Indirect Objects"
-                    , elementsWithId.IdsWhere(e => verbal.HasIndirectObject(o => o == e))),
-                new RelationshipMenuEntry(verbalId,
-                    "View Prepositional Ojbects",
-                    elementsWithId.IdsWhere(e => verbal.ObjectOfThePreoposition == e)) 
-            });
-        }
-        static IEnumerable<int> IdsWhere(this IEnumerable<ElementWithId> elementsWithId, Func<ILexical, bool> predicate) {
-            return from e in elementsWithId where predicate(e.Element) select e.Id;
+        private static readonly ConcurrentDictionary<ILexical, int> idCache = new ConcurrentDictionary<ILexical, int>();
+
+        public static int GetSerializationId(this ILexical element) {
+            return idCache.GetOrAdd(element, System.Threading.Interlocked.Increment(ref idGenerator));
         }
 
-        public static ElementWithMenuData ForLexical(ElementWithId e, IEnumerable<ElementWithId> elementsInContext) {
-            return e.Element.Match().Yield<ElementWithMenuData>()
-                .With<IVerbal>(v => new ElementWithMenuData(e, ForVerbal(v, e.Id, elementsInContext)))
-                //.With<IReferencer>(e => ForReferencer(e, elementsInContext))
-                .Result(new ElementWithMenuData(e, new ElementContextMenuMapping(new RelationshipMenuEntry[] { })));
-        }
 
-        public static string ToJson(this ElementContextMenuMapping menuContext) {
-            return JsonConvert.SerializeObject(menuContext.MenuEntries.ToArray(),
 
-                new JsonSerializerSettings {
-                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
-                    ObjectCreationHandling = ObjectCreationHandling.Reuse,
-                    PreserveReferencesHandling = PreserveReferencesHandling.All,
-                    StringEscapeHandling = StringEscapeHandling.EscapeNonAscii,
-                    MaxDepth = 1,
-                }).TrimEnd(' ', ';');
-        }
-        public static dynamic GetMenuDataForAsync(this IVerbal phrase) {
-            if (phrase == null)
-                return null;
 
-            var data = new
-            {
-                Subjects = phrase.Subjects.Select(e => e.ToElementWithId().Id).ToArray(),
-                DirectObjects = phrase.DirectObjects.Select(e => e.ToElementWithId().Id).ToArray(),
-                IndrectObjects = phrase.IndirectObjects.Select(e => e.ToElementWithId().Id).ToArray()
+        public static dynamic GetJsonMenuData(this IVerbal verbal) {
+            if (verbal == null)
+                throw new ArgumentNullException("verbal");
 
-            };
-            var jsonSerializerSettings = new JsonSerializerSettings {
+            var serializerSettings = new JsonSerializerSettings {
                 ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
                 ObjectCreationHandling = ObjectCreationHandling.Reuse,
-                PreserveReferencesHandling = PreserveReferencesHandling.All,
-                StringEscapeHandling = StringEscapeHandling.EscapeNonAscii,
+                NullValueHandling = NullValueHandling.Ignore,
             };
-            var jsonData = JsonConvert.SerializeObject(
-           new
-           {
-               Id = phrase.ToElementWithId().Id,
-               Subjects = data.Subjects,
-               DirectObjects = data.DirectObjects,
-               IndrectObjects = data.IndrectObjects
-           }, jsonSerializerSettings);
-            return jsonData.TrimEnd(' ', ';');
+            var data = new
+            {
+
+                Subjects = verbal.HasSubject() ? verbal.Subjects.Select(e => e.GetSerializationId()).ToArray() : null,
+                DirectObjects = verbal.HasDirectObject() ? verbal.DirectObjects.Select(e => e.GetSerializationId()).ToArray() : null,
+                IndrectObjects = verbal.HasIndirectObject() ? verbal.IndirectObjects.Select(e => e.GetSerializationId()).ToArray() : null,
+
+            };
+
+            return JsonConvert.SerializeObject(data, serializerSettings);
+
 
         }
     }
