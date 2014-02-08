@@ -5,12 +5,15 @@ $(function () {
      **************************************************/
     $.contextMenu.types.label = function (item, opt, root) {
         // this === item.$node
+        var htmlMenuText =
+        '<ul class="menuwrapper">';
+        this.arrayProducer().forEach(function (element, index) {
+            htmlMenuText += '<li class="phrasemenuitem" title="' + element.Name, element.LinkedIds + '">' + element.Name, element.LinkedIds + '</li>';
+        });
 
-        $('<span>Label</span><ul>'
-        + '<li class="phrasemenuitem" title="label 1">label 1</li>'
-        + '<li class="phrasemenuitem" title="label 2">label 2</li>'
-        + '<li class="phrasemenuitem" title="label 3">label 3</li>'
-        + '<li class="phrasemenuitem" title="label 4">label 4</li></ul>')
+        htmlMenuText +=
+         + '</ul>';
+        $(htmlMenuText)
         .appendTo(this)
         .on('click', 'li', function () {
             // do some funky stuff
@@ -31,19 +34,38 @@ $(function () {
     /**************************************************
      * Context-Menu with custom command "label"
      **************************************************/
-    $.contextMenu({
-        selector: 'span.Verbal',
-        callback: function (key, options) {
-            var m = "clicked: " + key;
-            window.console && console.log(m) || alert(m);
-        },
-        items: {
-            open: { name: "Open", callback: $.noop },
-            label: { type: "label", customName: "Label" },
-            edit: { name: "Edit", callback: $.noop },
-        }
+
+    var splitProps = function (elementId) { var d = $.parseJSON($("#" + elementId).children('span').text()); var name = Object.keys(d); return { Name: name, LinkedIds: d[name] }; }
+
+    $('span.Verbal').each(function (index, element) {
+        element.arrayProducer = function () { return splitProps(element.id); };
+        $.contextMenu({
+            selector: '#' + element.id,
+            callback: function (key, options) {
+                var m = "clicked: " + key; alert(m);
+            },
+            items: {
+                //open: { name: "Open", callback: $.noop },
+                label: { type: "label" },
+                //edit: { name: "Edit", callback: $.noop },
+            }
+        });
     });
 });
+
+
+//    $.contextMenu({
+//        selector: 'span.Verbal',
+//        callback: function (key, options) {
+//            var m = "clicked: " + key; alert(m);
+//        },
+//        items: {
+//            //open: { name: "Open", callback: $.noop },
+//            label: { type: "label", customName: $.parseJSON($("#").children('span').text()) },
+//            //edit: { name: "Edit", callback: $.noop },
+//        }
+//    });
+//});
 
 //(function (i) {
 //    //var removePunctuationAndWhiteSpace = function (str) {

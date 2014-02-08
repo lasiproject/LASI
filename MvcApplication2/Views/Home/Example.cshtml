@@ -1,4 +1,6 @@
-﻿@using LASI.Utilities;
+﻿@using LASI.Core;
+@using LASI.Utilities;
+
 @using Newtonsoft.Json.Serialization;
 @using MvcApplication2.LexicalElementInfo;
 @using Newtonsoft.Json;
@@ -26,19 +28,16 @@
         <div id=@doc.Name class="content-wrapper">
 
             @{var styleMap = new MvcApplication2.SyntacticStyleMapping();
-            var withIds = ContextMenuBuilder.BindClientSideIds(doc.Phrases);
-            foreach (var annotatedLexicalElements in from phrase in withIds
-                                                     join bare in doc.Phrases on phrase.Element equals bare
-                                                     let withMenuData = ContextMenuBuilder.ForLexical(phrase, withIds)
-                                                     group withMenuData by bare.Paragraph) {
+            var withIds = doc.Phrases.Select(p => new { Phrase = p, Id = p.GetSerializationId() });
+            foreach (var paragraphData in from ided in withIds group ided by ided.Phrase.Paragraph) {
                 <p class="lexical-content-block">
-                    @foreach (var e in annotatedLexicalElements) {
-                        <span class=@styleMap[e.Lexical].CssClass title="@string.Join("", e.Lexical.Type.Name.Select(c => c.IsUpper() ? " " + c : c.ToString()))" id="@e.Id">
-                            @e.Lexical.Text
+                    @foreach (var e in paragraphData) {
+                        <span class=@styleMap[e.Phrase].CssClass title="@string.Join("", e.Phrase.Type.Name.Select(c => c.IsUpper() ? " " + c : c.ToString()))" id="@e.Id">
+                            @e.Phrase.Text
 
                             <span id="@("context" + e.Id)">
-                                @if (e.Lexical != null && e.Lexical is LASI.Core.IVerbal) {
-                                    @((e.Lexical as LASI.Core.IVerbal).GetMenuDataForAsync())
+                                @if (e.Phrase is IVerbal) {
+                                    @((e.Phrase as IVerbal).GetJsonMenuData())
 
                                 }
 
@@ -107,7 +106,6 @@
     @Scripts.Render(@".\..Scripts\JqueryContextMenu\jquery-1.8.2.min.js");
     @Scripts.Render(@".\..Scripts\JqueryContextMenu\jquery.ui.position.js");
     @Scripts.Render(@".\..\Scripts\app\Example\Example.js");
-    @*@Scripts.Render(@".\..\Scripts\app\LexicalContextMenus.js");*@
 }
 
 
