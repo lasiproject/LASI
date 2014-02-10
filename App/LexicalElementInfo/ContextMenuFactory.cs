@@ -11,6 +11,7 @@ namespace LASI.App.LexicalElementInfo
 {
     static class ContextMenuFactory
     {
+
         public static ContextMenu ForLexical(ILexical element, IEnumerable<Label> labelsInContext) {
             return element.Match().Yield<ContextMenu>()
                 .With<IVerbal>(e => ForVerbal(e, labelsInContext))

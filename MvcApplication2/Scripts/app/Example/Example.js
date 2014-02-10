@@ -7,9 +7,9 @@ $(function () {
         // this === item.$node
         var htmlMenuText =
         '<ul class="menuwrapper">';
-        item.$node.arrayProducer().forEach(function (element, index) {
-            htmlMenuText += '<li class="phrasemenuitem" title="' + element.Name, element.LinkedIds + '">' + element.Name, element.LinkedIds + '</li>';
-        });
+        //item.$node.arrayProducer().forEach(function (element, index) {
+        //    htmlMenuText += '<li class="phrasemenuitem" title="' + element.Name, element.LinkedIds + '">' + element.Name, element.LinkedIds + '</li>';
+        //});
 
         htmlMenuText +=
          + '</ul>';
@@ -35,10 +35,17 @@ $(function () {
      * Context-Menu with custom command "label"
      **************************************************/
 
-    var splitProps = function (elementId) { var d = $.parseJSON($("#" + elementId).children('span').text()); var name = Object.keys(d); return { Name: name, LinkedIds: d[name] }; }
+    var splitProps = function (elementId) {
+        var d = $.parseJSON($("#" + elementId).children('span').text());
+        var name = Object.keys(d);
+        return {
+            ElementId:d.$.Verbal,
+            Name: name,
+            LinkedIds: d[name]
+        };
+    };
 
     $('span.Verbal').each(function (index, element) {
-        element.arrayProducer = function () { return splitProps(element.id); };
         $.contextMenu({
             selector: '#' + element.id,
             callback: function (key, options) {

@@ -16,7 +16,8 @@ namespace LASI.Interop
     /// Provides synchronous and asynchronoun callback based progress reports.
     /// </summary>
     public sealed class AnalysisController : Progress<AnalysisProgressReportEventArgs>
-    {        /// <summary>
+    {
+        /// <summary>
         /// Initializes a new instance of the AnalysisController class.
         /// </summary>
         /// <param name="rawTextSources">A collection of untagged english language written works.</param>
@@ -59,6 +60,7 @@ namespace LASI.Interop
             var taggedFiles = await TagFilesAsync(rawTextSources);
             var results = await BindAndWeightDocumentsAsync(taggedFiles);
             DetachProxyLookupLoadingHandlers();
+
             return results;
         }
 
@@ -88,7 +90,6 @@ namespace LASI.Interop
             OnReport(new AnalysisProgressReportEventArgs("Tagged Documents", 3));
             return taggedFiles;
         }
-
         private async Task<IEnumerable<Document>> BindAndWeightDocumentsAsync(ConcurrentBag<ITaggedTextSource> taggedFiles) {
             var tasks = taggedFiles.Select(tagged => ProcessTaggedFileAsync(tagged)).ToList();
             var documents = new ConcurrentBag<Document>();
@@ -122,14 +123,14 @@ namespace LASI.Interop
             return document;
         }
 
-
-
         #region Fields
+
         private EventHandler<ResourceLoadEventArgs> lookupResourceLoading;
         private EventHandler<ResourceLoadEventArgs> lookupResourceLoaded;
         private double sourceCount;
         private double stepMagnitude;
         private IEnumerable<IUntaggedTextSource> rawTextSources;
+
         #endregion
 
 

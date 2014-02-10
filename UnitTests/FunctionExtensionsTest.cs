@@ -69,8 +69,8 @@ namespace LASI.Core.Tests
             Func<U, R> g = u => default(R);
             Func<U, T> expected = u => default(T);
             Func<U, T> actual;
-            var y = g.Compose(f);
-            actual = FunctionExtensions.Compose(g, f);
+            var y = f.Compose(g);
+            actual = FunctionExtensions.Compose(f, g);
             Assert.AreEqual(expected(default(U)), default(T));
 
         }

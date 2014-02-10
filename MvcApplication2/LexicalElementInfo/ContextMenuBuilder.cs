@@ -8,42 +8,22 @@ using System.Linq;
 using Newtonsoft.Json;
 using System.Collections.Concurrent;
 
-namespace MvcApplication2.LexicalElementInfo
+namespace MvcApplication2
 {
-    public class RelationshipMenuEntry
+    /// <summary>
+    /// Provides static and extension methods for serializing lexical elements and their relationships
+    /// into JSON strings.
+    /// </summary>
+    public static class DataSerializationProvider
     {
-        internal RelationshipMenuEntry(int elementId, string entryText, IEnumerable<int> relatedElementIds) {
-            ElementId = elementId;
-            EntryText = entryText;
-            RelatedElementIds = relatedElementIds;
-        }
-        public int ElementId { get; private set; }
-        public string EntryText { get; private set; }
-
-        public IEnumerable<int> RelatedElementIds { get; private set; }
-    }
-
-
-
-
-    public static class SerializationDataProvider
-    {
-
         private static int idGenerator = 0;
-
         private static readonly ConcurrentDictionary<ILexical, int> idCache = new ConcurrentDictionary<ILexical, int>();
-
         public static int GetSerializationId(this ILexical element) {
             return idCache.GetOrAdd(element, System.Threading.Interlocked.Increment(ref idGenerator));
         }
-
-
-
-
         public static dynamic GetJsonMenuData(this IVerbal verbal) {
             if (verbal == null)
                 throw new ArgumentNullException("verbal");
-
             var serializerSettings = new JsonSerializerSettings {
                 ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
                 ObjectCreationHandling = ObjectCreationHandling.Reuse,
@@ -51,16 +31,12 @@ namespace MvcApplication2.LexicalElementInfo
             };
             var data = new
             {
-
+                Verbal = verbal.GetSerializationId(),
                 Subjects = verbal.HasSubject() ? verbal.Subjects.Select(e => e.GetSerializationId()).ToArray() : null,
                 DirectObjects = verbal.HasDirectObject() ? verbal.DirectObjects.Select(e => e.GetSerializationId()).ToArray() : null,
                 IndrectObjects = verbal.HasIndirectObject() ? verbal.IndirectObjects.Select(e => e.GetSerializationId()).ToArray() : null,
-
             };
-
             return JsonConvert.SerializeObject(data, serializerSettings);
-
-
         }
     }
 }

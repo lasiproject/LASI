@@ -21,8 +21,8 @@ namespace LASI.Utilities
         /// <param name="f">The outer function f, of the composition to perform f(g)</param>
         /// <param name="g">The inner function g, of the composition to perform f(g)</param>
         /// <returns>a new function which when invoked is equivalent to invoking the first function on the result of invoking the second on some arbitrary B, b</returns>
-        public static Func<A, C> Compose<A, B, C>(this Func<A, B> f, Func<B, C> g) {
-            return t => g(f(t));
+        public static Func<A, C> Compose<A, B, C>(this Func<B, C> f, Func<A, B> g) {
+            return t => f(g(t));
         }
 
         static Func<T, TResult2> Select<T, TResult, TResult2>(

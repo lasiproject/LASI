@@ -1,10 +1,8 @@
 ﻿@using LASI.Core;
 @using LASI.Utilities;
-
-@using Newtonsoft.Json.Serialization;
-@using MvcApplication2.LexicalElementInfo;
-@using Newtonsoft.Json;
 @using MvcApplication2.Controllers;
+@using MvcApplication2;
+@using Newtonsoft.Json;
 
 
 <link rel="stylesheet" href=".\..\scripts\JqueryContextMenu\sunbirst.css" />
@@ -26,7 +24,6 @@
 <div>
     @foreach (var doc in ViewData["docs"] as IEnumerable<LASI.Core.DocumentStructures.Document>) {
         <div id=@doc.Name class="content-wrapper">
-
             @{var styleMap = new MvcApplication2.SyntacticStyleMapping();
             var withIds = doc.Phrases.Select(p => new { Phrase = p, Id = p.GetSerializationId() });
             foreach (var paragraphData in from ided in withIds group ided by ided.Phrase.Paragraph) {
@@ -39,18 +36,11 @@
                                 @if (e.Phrase is IVerbal) {
                                     @((e.Phrase as IVerbal).GetJsonMenuData())
 
-                                }
+                                } 
 
                             </span>
-
-                        </span>
-
-
-                    }
+                        </span>    }
                 </p>}
-
-
-
             }
 
         </div>
