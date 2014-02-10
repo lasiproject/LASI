@@ -60,14 +60,16 @@ namespace LASI.Core.Tests
         //}
         //
         //Use TestCleanup to run code after each test has run
-        //[TestCleanup()]
-        //public void MyTestCleanup()
-        //{
-        //}
-        //
+        [TestCleanup()]
+        public void MyTestCleanup() {
+            if (System.IO.File.Exists(OUTPUT_FILE_PATH))
+                System.IO.File.Delete(OUTPUT_FILE_PATH);
+        }
+
         #endregion
 
         const string OUTPUT_FILE_PATH = @".\xmltest\test\data.xml";
+        const string INPUT_FILE_PATH = @"..\..\..\TestDocs\cats.txt";
         internal virtual ILexicalWriter<S, T, W> CreateILexicalWriter<S, T, W>()
             where S : class, IEnumerable<T>
             where T : class,ILexical
@@ -83,7 +85,7 @@ namespace LASI.Core.Tests
             where T : class, ILexical
             where W : XmlWriter {
             ILexicalWriter<S, T, W> target = CreateILexicalWriter<S, T, W>();
-            S elements = (S)Tagger.DocumentFromRaw(new TxtFile(@"..\..\..\TestDocs\cats.txt")).GetAllLexicalConstructs();
+            S elements = (S)Tagger.DocumentFromRaw(new TxtFile(INPUT_FILE_PATH)).GetAllLexicalConstructs();
             string resultSetTitle = "test xml";
             DegreeOfOutput degreeOfOutput = DegreeOfOutput.Comprehensive;
 
@@ -114,7 +116,7 @@ namespace LASI.Core.Tests
             where T : class,ILexical
             where W : XmlWriter {
             ILexicalWriter<S, T, W> target = CreateILexicalWriter<S, T, W>();
-            S elements = (S)Tagger.DocumentFromRaw(new TxtFile(@"..\..\..\TestDocs\cats.txt")).GetAllLexicalConstructs();
+            S elements = (S)Tagger.DocumentFromRaw(new TxtFile(INPUT_FILE_PATH)).GetAllLexicalConstructs();
             string resultSetTitle = "test xml";
             DegreeOfOutput degreeOfOutput = DegreeOfOutput.Comprehensive;
 
