@@ -5,13 +5,15 @@ using System.Xml;
 using System.IO;
 using LASI.Core;
 using System.Collections.Generic;
+using System.Linq;
 using System.Xml.Linq;
 using System.Threading.Tasks;
+using LASI.ContentSystem;
 
 namespace LASI.Core.Tests
 {
-    
-    
+
+
     /// <summary>
     ///This is a test class for SimpleLexicalSerializerTest and is intended
     ///to contain all SimpleLexicalSerializerTest Unit Tests
@@ -20,7 +22,7 @@ namespace LASI.Core.Tests
     public class SimpleLexicalSerializerTest
     {
 
-
+        const string OUTPUT_FILE_PATH = @".\xmltest\test\data.xml";
         private TestContext testContextInstance;
 
         /// <summary>
@@ -147,30 +149,43 @@ namespace LASI.Core.Tests
         ///</summary>
         [TestMethod()]
         public void WriteTest() {
-            XmlWriter target1 = null; // TODO: Initialize to an appropriate value
-            SimpleLexicalSerializer target = new SimpleLexicalSerializer(target1); // TODO: Initialize to an appropriate value
-            IEnumerable<ILexical> source = null; // TODO: Initialize to an appropriate value
-            string title = string.Empty; // TODO: Initialize to an appropriate value
-            DegreeOfOutput degreeOfOutput = new DegreeOfOutput(); // TODO: Initialize to an appropriate value
+            SimpleLexicalSerializer target = new SimpleLexicalSerializer(OUTPUT_FILE_PATH);
+            IEnumerable<ILexical> source = Tagger.DocumentFromRaw(new TxtFile(@"..\..\..\TestDocs\cats.txt")).GetAllLexicalConstructs();
+            string title = "test xml";
+            DegreeOfOutput degreeOfOutput = DegreeOfOutput.Comprehensive;
+
             target.Write(source, title, degreeOfOutput);
-            Assert.Inconclusive("A method that does not return a value cannot be verified.");
+            using (var reader = new System.IO.StreamReader(OUTPUT_FILE_PATH)) {
+                var xd = XDocument.Load(reader);
+                var xml = xd.Descendants().DescendantsAndSelf()
+                    .Where(e => e.FirstAttribute != null).Select(e => new { Name = e.Name, TextAttribute = e.FirstAttribute.Value }).AsParallel();
+                var result = source.AsParallel().All(lex =>
+                        xml.Any(node => lex.Type.Name == node.Name && lex.Text == node.TextAttribute));
+                Assert.IsTrue(result);
+                Assert.IsTrue(xd.Root.Attribute("Title").Value == title);
+            }
         }
 
         /// <summary>
         ///A test for WriteAsync
         ///</summary>
         [TestMethod()]
-        public void WriteAsyncTest() {
-            XmlWriter target1 = null; // TODO: Initialize to an appropriate value
-            SimpleLexicalSerializer target = new SimpleLexicalSerializer(target1); // TODO: Initialize to an appropriate value
-            IEnumerable<ILexical> source = null; // TODO: Initialize to an appropriate value
-            string title = string.Empty; // TODO: Initialize to an appropriate value
-            DegreeOfOutput degreeOfOutput = new DegreeOfOutput(); // TODO: Initialize to an appropriate value
-            Task expected = null; // TODO: Initialize to an appropriate value
-            Task actual;
-            actual = target.WriteAsync(source, title, degreeOfOutput);
-            Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
+        public async void WriteAsyncTest() {
+            SimpleLexicalSerializer target = new SimpleLexicalSerializer(OUTPUT_FILE_PATH);
+            IEnumerable<ILexical> source = Tagger.DocumentFromRaw(new TxtFile(@"..\..\..\TestDocs\cats.txt")).GetAllLexicalConstructs();
+            string title = "test xml";
+            DegreeOfOutput degreeOfOutput = DegreeOfOutput.Comprehensive;
+
+            await target.WriteAsync(source, title, degreeOfOutput);
+            using (var reader = new System.IO.StreamReader(OUTPUT_FILE_PATH)) {
+                var xd = XDocument.Load(reader);
+                var xml = xd.Descendants().DescendantsAndSelf()
+                    .Where(e => e.FirstAttribute != null).Select(e => new { Name = e.Name, TextAttribute = e.FirstAttribute.Value }).AsParallel();
+                var result = source.AsParallel().All(lex =>
+                        xml.Any(node => lex.Type.Name == node.Name && lex.Text == node.TextAttribute));
+                Assert.IsTrue(result);
+                Assert.IsTrue(xd.Root.Attribute("Title").Value == title);
+            }
         }
     }
 }

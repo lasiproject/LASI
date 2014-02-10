@@ -184,7 +184,7 @@ namespace LASI.App
         private async Task<Document> ProcessNewDocDocument(string docName) {
             await StepProgress(2);
             currentOperationLabel.Content = string.Format("Tagging {0}...", docName);
-            var textfile = FileManager.TextFiles.Where(f => f.NameSansExt == docName).First();
+            var textfile = FileManager.TxtFiles.Where(f => f.NameSansExt == docName).First();
 
             var doc = await Tagger.DocumentFromRawAsync(textfile);
             await StepProgress(3);

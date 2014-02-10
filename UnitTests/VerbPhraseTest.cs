@@ -17,7 +17,7 @@ namespace LASI.Core.Tests
     public class VerbPhraseTest
     {
 
-        private static VerbPhrase CreateTarget() {
+        private static VerbPhrase CreateVerbPhrase1() {
             return new VerbPhrase(new[] { new Verb("help", VerbForm.Base) });
         }
         private TestContext testContextInstance;
@@ -80,8 +80,7 @@ namespace LASI.Core.Tests
         ///</summary>
         [TestMethod()]
         public void ModifyWithTest() {
-            IEnumerable<Word> composedWords = new Word[] { new Verb("run", VerbForm.Base), new Adverb("swiftly"), new Preposition("through") };
-            VerbPhrase target = new VerbPhrase(composedWords);
+            VerbPhrase target = CreateVerbPhrase();
             IAdverbial adv = new Adverb("daringly");
             target.ModifyWith(adv);
             Assert.IsTrue(target.Modifiers.Contains(adv));
@@ -92,8 +91,7 @@ namespace LASI.Core.Tests
         ///</summary>
         [TestMethod()]
         public void BoundSubjectTest() {
-            IEnumerable<Word> composedWords = new Word[] { new Verb("ran", VerbForm.Past), new Adverb("swiftly"), new Preposition("through") };
-            VerbPhrase target = new VerbPhrase(composedWords);
+            VerbPhrase target = CreateVerbPhrase();
             IEntity expected = new PersonalPronoun("he");
             IEntity actual;
             target.BindSubject(expected);
@@ -115,7 +113,6 @@ namespace LASI.Core.Tests
         }
 
         private static VerbPhrase CreateVerbPhrase() {
-
             IEnumerable<Word> composedWords = new Word[] { new Verb("run", VerbForm.Base), new Adverb("swiftly"), new Preposition("through") };
             VerbPhrase target = new VerbPhrase(composedWords);
             return target;
@@ -153,8 +150,8 @@ namespace LASI.Core.Tests
         ///</summary>
         [TestMethod()]
         public void IsPossessiveTest() {
-            IEnumerable<Word> composedWords = null; // TODO: Initialize to an appropriate value
-            VerbPhrase target = new VerbPhrase(composedWords); // TODO: Initialize to an appropriate value
+
+            VerbPhrase target = CreateVerbPhrase();
             bool actual;
             actual = target.IsPossessive;
             Assert.Inconclusive("Verify the correctness of this test method.");
@@ -165,8 +162,7 @@ namespace LASI.Core.Tests
         ///</summary>
         [TestMethod()]
         public void IsClassifierTest() {
-            IEnumerable<Word> composedWords = null; // TODO: Initialize to an appropriate value
-            VerbPhrase target = new VerbPhrase(composedWords); // TODO: Initialize to an appropriate value
+            VerbPhrase target = CreateVerbPhrase();
             bool actual;
             actual = target.IsClassifier;
             Assert.Inconclusive("Verify the correctness of this test method.");
@@ -177,8 +173,7 @@ namespace LASI.Core.Tests
         ///</summary>
         [TestMethod()]
         public void IndirectObjectsTest() {
-            IEnumerable<Word> composedWords = null; // TODO: Initialize to an appropriate value
-            VerbPhrase target = new VerbPhrase(composedWords); // TODO: Initialize to an appropriate value
+            VerbPhrase target = CreateVerbPhrase();
             IEnumerable<IEntity> actual;
             actual = target.IndirectObjects;
             Assert.Inconclusive("Verify the correctness of this test method.");
@@ -189,8 +184,7 @@ namespace LASI.Core.Tests
         ///</summary>
         [TestMethod()]
         public void DirectObjectsTest() {
-            IEnumerable<Word> composedWords = null; // TODO: Initialize to an appropriate value
-            VerbPhrase target = new VerbPhrase(composedWords); // TODO: Initialize to an appropriate value
+            VerbPhrase target = CreateVerbPhrase();
             IEnumerable<IEntity> actual;
             actual = target.DirectObjects;
             Assert.Inconclusive("Verify the correctness of this test method.");
@@ -201,8 +195,7 @@ namespace LASI.Core.Tests
         ///</summary>
         [TestMethod()]
         public void AggregateSubjectTest() {
-            IEnumerable<Word> composedWords = null; // TODO: Initialize to an appropriate value
-            VerbPhrase target = new VerbPhrase(composedWords); // TODO: Initialize to an appropriate value
+            VerbPhrase target = CreateVerbPhrase();
             IAggregateEntity actual;
             actual = target.AggregateSubject;
             Assert.Inconclusive("Verify the correctness of this test method.");
@@ -213,8 +206,7 @@ namespace LASI.Core.Tests
         ///</summary>
         [TestMethod()]
         public void AggregateIndirectObjectTest() {
-            IEnumerable<Word> composedWords = null; // TODO: Initialize to an appropriate value
-            VerbPhrase target = new VerbPhrase(composedWords); // TODO: Initialize to an appropriate value
+            VerbPhrase target = CreateVerbPhrase();
             IAggregateEntity actual;
             actual = target.AggregateIndirectObject;
             Assert.Inconclusive("Verify the correctness of this test method.");
@@ -225,11 +217,14 @@ namespace LASI.Core.Tests
         ///</summary>
         [TestMethod()]
         public void AggregateDirectObjectTest() {
-            IEnumerable<Word> composedWords = null; // TODO: Initialize to an appropriate value
-            VerbPhrase target = new VerbPhrase(composedWords); // TODO: Initialize to an appropriate value
+            VerbPhrase target = CreateVerbPhrase();
+            IAggregateEntity expected = new AggregateEntity(new IEntity[]{
+                new NounPhrase(new Word[]{new ProperSingularNoun("John"),new ProperSingularNoun( "Smith")}),
+                new NounPhrase(new Word[]{new PossessivePronoun("his"),new CommonPluralNoun("cats")})
+            });
             IAggregateEntity actual;
             actual = target.AggregateDirectObject;
-            Assert.Inconclusive("Verify the correctness of this test method.");
+            Assert.AreEqual(expected, actual);
         }
 
         /// <summary>
@@ -237,8 +232,7 @@ namespace LASI.Core.Tests
         ///</summary>
         [TestMethod()]
         public void AdjectivalModifierTest() {
-            IEnumerable<Word> composedWords = null; // TODO: Initialize to an appropriate value
-            VerbPhrase target = new VerbPhrase(composedWords); // TODO: Initialize to an appropriate value
+            VerbPhrase target = CreateVerbPhrase();
             IDescriptor expected = null; // TODO: Initialize to an appropriate value
             IDescriptor actual;
             target.AdjectivalModifier = expected;
@@ -252,13 +246,12 @@ namespace LASI.Core.Tests
         ///</summary>
         [TestMethod()]
         public void ToStringTest() {
-            IEnumerable<Word> composedWords = null; // TODO: Initialize to an appropriate value
-            VerbPhrase target = new VerbPhrase(composedWords); // TODO: Initialize to an appropriate value
-            string expected = string.Empty; // TODO: Initialize to an appropriate value
+            IEnumerable<Word> composedWords = new Word[] { new Verb("run", VerbForm.Base), new Adverb("swiftly"), new Preposition("through") };
+            VerbPhrase target = new VerbPhrase(composedWords);
+            string expected = "VerbPhrase \"run swiftly through\"";
             string actual;
             actual = target.ToString();
             Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
         }
 
 
@@ -267,9 +260,8 @@ namespace LASI.Core.Tests
         ///</summary>
         [TestMethod()]
         public void HasSubjectOrObjectTest() {
-
-            VerbPhrase target = CreateTarget();
-            IEntity entity = new PersonalPronoun("cats");
+            VerbPhrase target = CreateVerbPhrase1();
+            IEntity entity = new CommonPluralNoun("cats");
             target.BindSubject(entity);
             Func<IEntity, bool> predicate = e => e.Text == "cats";
             bool expected = true;
@@ -292,8 +284,8 @@ namespace LASI.Core.Tests
         ///</summary>
         [TestMethod()]
         public void HasSubjectTest() {
-            VerbPhrase target = CreateTarget();
-            IEntity entity = new PersonalPronoun("cats");
+            VerbPhrase target = CreateVerbPhrase1();
+            IEntity entity = new CommonPluralNoun("cats");
             target.BindSubject(entity);
             Func<IEntity, bool> predicate = e => e.Text == "cats";
             bool expected = true;
@@ -307,8 +299,8 @@ namespace LASI.Core.Tests
         ///</summary>
         [TestMethod()]
         public void HasObjectTest() {
-            VerbPhrase target = CreateTarget();
-            IEntity entity = new PersonalPronoun("cats");
+            VerbPhrase target = CreateVerbPhrase1();
+            IEntity entity = new CommonPluralNoun("cats");
 
             Func<IEntity, bool> predicate = e => e.Text == "cats";
             bool expected = true;
@@ -327,8 +319,8 @@ namespace LASI.Core.Tests
         ///</summary>
         [TestMethod()]
         public void HasIndirectObjectTest() {
-            VerbPhrase target = CreateTarget();
-            IEntity entity = new PersonalPronoun("cats");
+            VerbPhrase target = CreateVerbPhrase1();
+            IEntity entity = new CommonPluralNoun("cats");
             target.BindIndirectObject(entity);
             Func<IEntity, bool> predicate = e => e.Text == "cats";
             bool expected = true;
@@ -342,14 +334,13 @@ namespace LASI.Core.Tests
         ///</summary>
         [TestMethod()]
         public void HasDirectObjectTest() {
-            IEnumerable<Word> composedWords = null; // TODO: Initialize to an appropriate value
-            VerbPhrase target = new VerbPhrase(composedWords); // TODO: Initialize to an appropriate value
-            Func<IEntity, bool> predicate = null; // TODO: Initialize to an appropriate value
-            bool expected = false; // TODO: Initialize to an appropriate value
+            VerbPhrase target = CreateVerbPhrase();
+            IEntity entity = new CommonPluralNoun("cats");
+            Func<IEntity, bool> predicate = e => e.Text == "cats";
+            bool expected = true;
             bool actual;
             actual = target.HasDirectObject(predicate);
             Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
         }
 
 
@@ -359,11 +350,11 @@ namespace LASI.Core.Tests
         ///</summary>
         [TestMethod()]
         public void BindSubjectTest() {
-            IEnumerable<Word> composedWords = null; // TODO: Initialize to an appropriate value
-            VerbPhrase target = new VerbPhrase(composedWords); // TODO: Initialize to an appropriate value
-            IEntity subject = null; // TODO: Initialize to an appropriate value
+            VerbPhrase target = CreateVerbPhrase1();
+            IEntity subject = new CommonPluralNoun("cats");
             target.BindSubject(subject);
-            Assert.Inconclusive("A method that does not return a value cannot be verified.");
+            Assert.IsTrue(target.HasIndirectObject(e => e == subject));
+
         }
 
         /// <summary>
@@ -371,11 +362,10 @@ namespace LASI.Core.Tests
         ///</summary>
         [TestMethod()]
         public void BindIndirectObjectTest() {
-            IEnumerable<Word> composedWords = null; // TODO: Initialize to an appropriate value
-            VerbPhrase target = new VerbPhrase(composedWords); // TODO: Initialize to an appropriate value
-            IEntity indirectObject = null; // TODO: Initialize to an appropriate value
+            VerbPhrase target = CreateVerbPhrase();
+            IEntity indirectObject = new ProperSingularNoun("John");
             target.BindIndirectObject(indirectObject);
-            Assert.Inconclusive("A method that does not return a value cannot be verified.");
+            Assert.IsTrue(target.HasIndirectObject(e => e == indirectObject));
         }
 
         /// <summary>
@@ -383,11 +373,10 @@ namespace LASI.Core.Tests
         ///</summary>
         [TestMethod()]
         public void BindDirectObjectTest() {
-            IEnumerable<Word> composedWords = null; // TODO: Initialize to an appropriate value
-            VerbPhrase target = new VerbPhrase(composedWords); // TODO: Initialize to an appropriate value
+            VerbPhrase target = CreateVerbPhrase();
             IEntity directObject = null; // TODO: Initialize to an appropriate value
             target.BindDirectObject(directObject);
-            Assert.Inconclusive("A method that does not return a value cannot be verified.");
+            Assert.IsTrue(target.HasDirectObject(e => e == directObject));
         }
 
         /// <summary>
@@ -395,8 +384,7 @@ namespace LASI.Core.Tests
         ///</summary>
         [TestMethod()]
         public void AttachObjectViaPrepositionTest() {
-            IEnumerable<Word> composedWords = null; // TODO: Initialize to an appropriate value
-            VerbPhrase target = new VerbPhrase(composedWords); // TODO: Initialize to an appropriate value
+            VerbPhrase target = CreateVerbPhrase();
             IPrepositional prepositional = null; // TODO: Initialize to an appropriate value
             target.AttachObjectViaPreposition(prepositional);
             Assert.Inconclusive("A method that does not return a value cannot be verified.");

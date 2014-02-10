@@ -68,7 +68,7 @@ namespace MvcApplication2.LexicalElementInfo.Tests
             verbal.BindIndirectObject(indirectObject);
             dynamic result = verbal.GetJsonMenuData();
             // note double {{ escapes to { and does not indicate a nested object literal
-            Assert.IsTrue(result == string.Format("{{\"Subjects\":[{0}],\"DirectObjects\":[{1}],\"IndrectObjects\":[{2}]}}", subjectId, directObjectId, indirectObjectId));
+            Assert.IsTrue(result == string.Format("{{\"Verbal\":" + verbal.GetSerializationId() + ",\"Subjects\":[{0}],\"DirectObjects\":[{1}],\"IndirectObjects\":[{2}]}}", subjectId, directObjectId, indirectObjectId));
         }
         /// <summary>
         /// Tests menu data serialized for a verbal with 1 subject, 1 direct object, and 0 indirect object.
@@ -85,8 +85,9 @@ namespace MvcApplication2.LexicalElementInfo.Tests
             verbal.BindSubject(subject);
             verbal.BindDirectObject(directObject);
             dynamic result = verbal.GetJsonMenuData();
+            string expected = string.Format("{{\"Verbal\":" + verbal.GetSerializationId() + ",\"Subjects\":[{0}],\"DirectObjects\":[{1}]}}", subjectId, directObjectId);
             // note double {{ escapes to { and does not indicate a nested object literal
-            Assert.IsTrue(result == string.Format("{{\"Subjects\":[{0}],\"DirectObjects\":[{1}]}}", subjectId, directObjectId));
+            Assert.IsTrue(result == expected);
         }
         /// <summary>
         /// Tests menu data serialized for a verbal with 1 subject, 0 direct objects, and 0 indirect objects.
@@ -101,7 +102,7 @@ namespace MvcApplication2.LexicalElementInfo.Tests
             verbal.BindSubject(subject);
             dynamic result = verbal.GetJsonMenuData();
             // note double {{ escapes to { and does not indicate a nested object literal
-            Assert.IsTrue(result == string.Format("{{\"Subjects\":[{0}]}}", subjectId));
+            Assert.IsTrue(result == string.Format("{{\"Verbal\":" + verbal.GetSerializationId() + ",\"Subjects\":[{0}]}}", subjectId));
         }
         /// <summary>
         /// Tests menu data serialized for a verbal with 0 subjects, 0 direct objects, and 0 indirect objects.
@@ -114,8 +115,109 @@ namespace MvcApplication2.LexicalElementInfo.Tests
             // Ids for serialization context 
             dynamic result = verbal.GetJsonMenuData();
             // note double {{ escapes to { and does not indicate a nested object literal
-            Assert.IsTrue(result == string.Format("{{}}"));
+            Assert.IsTrue(result == string.Format("{{\"Verbal\":" + verbal.GetSerializationId() + "}}"));
         }
-
+        /// <summary>
+        /// Tests menu data serialized for a verbal with 1 subject, 0 direct objects, and 1 indirect object.
+        /// </summary>
+        [TestMethod()]
+        public void VerbalGetJsonMenuDataTest4() {
+            // Relevant elements from a clause such as "I helped her with him"
+            IEntity subject = new PersonalPronoun("I");
+            IEntity indirectObject = new PersonalPronoun("him");
+            IVerbal verbal = new Verb("helped", VerbForm.Past);
+            // Ids for serialization context
+            int subjectId = subject.GetSerializationId();
+            int indirectObjectId = indirectObject.GetSerializationId();
+            verbal.BindSubject(subject);
+            verbal.BindIndirectObject(indirectObject);
+            dynamic result = verbal.GetJsonMenuData();
+            // note double {{ escapes to { and does not indicate a nested object literal
+            Assert.IsTrue(result == string.Format("{{\"Verbal\":" + verbal.GetSerializationId() + ",\"Subjects\":[{0}],\"IndirectObjects\":[{1}]}}", subjectId, indirectObjectId));
+        }
+        /// <summary>
+        /// Tests menu data serialized for a verbal with 0 subjects, 1 direct object, and 1 indirect object.
+        /// </summary>
+        [TestMethod()]
+        public void VerbalGetJsonMenuDataTest5() {
+            // Relevant elements from a clause such as "I helped her with him"
+            IEntity directObject = new PersonalPronoun("her");
+            IEntity indirectObject = new PersonalPronoun("him");
+            IVerbal verbal = new Verb("helped", VerbForm.Past);
+            // Ids for serialization context
+            int directObjectId = directObject.GetSerializationId();
+            int indirectObjectId = indirectObject.GetSerializationId();
+            verbal.BindDirectObject(directObject);
+            verbal.BindIndirectObject(indirectObject);
+            dynamic result = verbal.GetJsonMenuData();
+            // note double {{ escapes to { and does not indicate a nested object literal
+            Assert.IsTrue(result == string.Format("{{\"Verbal\":" + verbal.GetSerializationId() + ",\"DirectObjects\":[{0}],\"IndirectObjects\":[{1}]}}", directObjectId, indirectObjectId));
+        }
+        /// <summary>
+        /// Tests menu data serialized for a verbal with 1 subject, 1 direct object, and 0 indirect objects.
+        /// </summary>
+        [TestMethod()]
+        public void VerbalGetJsonMenuDataTest6() {
+            // Relevant elements from a clause such as "I helped her with him"
+            IEntity subject = new PersonalPronoun("I");
+            IEntity directObject = new PersonalPronoun("her");
+            IVerbal verbal = new Verb("helped", VerbForm.Past);
+            // Ids for serialization context
+            int subjectId = subject.GetSerializationId();
+            int directObjectId = directObject.GetSerializationId();
+            verbal.BindSubject(subject);
+            verbal.BindDirectObject(directObject);
+            dynamic result = verbal.GetJsonMenuData();
+            // note double {{ escapes to { and does not indicate a nested object literal
+            Assert.IsTrue(result == string.Format("{{\"Verbal\":" + verbal.GetSerializationId() + ",\"Subjects\":[{0}],\"DirectObjects\":[{1}]}}", subjectId, directObjectId));
+        }
+        /// <summary>
+        /// Tests menu data serialized for a verbal with 1 subject, 0 direct objects, and 1 indirect objects.
+        /// </summary>
+        [TestMethod()]
+        public void VerbalGetJsonMenuDataTest7() {
+            // Relevant elements from a clause such as "I helped her with him"
+            IEntity subject = new PersonalPronoun("I");
+            IEntity indirectObject = new PersonalPronoun("her");
+            IVerbal verbal = new Verb("helped", VerbForm.Past);
+            // Ids for serialization context
+            int subjectId = subject.GetSerializationId();
+            int indirectObjectId = indirectObject.GetSerializationId();
+            verbal.BindSubject(subject);
+            verbal.BindIndirectObject(indirectObject);
+            dynamic result = verbal.GetJsonMenuData();
+            // note double {{ escapes to { and does not indicate a nested object literal
+            Assert.IsTrue(result == string.Format("{{\"Verbal\":" + verbal.GetSerializationId() + ",\"Subjects\":[{0}],\"IndirectObjects\":[{1}]}}", subjectId, indirectObjectId));
+        }
+        /// <summary>
+        /// Tests menu data serialized for a verbal with 0 subjects, 1 direct object, and 0 indirect objects.
+        /// </summary>
+        [TestMethod()]
+        public void VerbalGetJsonMenuDataTest8() {
+            // Relevant elements from a clause such as "I helped her with him"
+            IEntity directObject = new PersonalPronoun("her");
+            IVerbal verbal = new Verb("helped", VerbForm.Past);
+            // Ids for serialization context 
+            int directObjectId = directObject.GetSerializationId();
+            verbal.BindDirectObject(directObject);
+            dynamic result = verbal.GetJsonMenuData();
+            // note double {{ escapes to { and does not indicate a nested object literal
+            Assert.IsTrue(result == string.Format("{{\"Verbal\":" + verbal.GetSerializationId() + ",\"DirectObjects\":[{0}]}}", directObjectId));
+        }
+        /// <summary>
+        /// Tests menu data serialized for a verbal with 0 subjects, 0 direct objects, and 1 indirect object.
+        /// </summary>
+        [TestMethod()]
+        public void VerbalGetJsonMenuDataTest9() {
+            // Relevant elements from a clause such as "I helped her with him"
+            IEntity indirectObject = new PersonalPronoun("her");
+            IVerbal verbal = new Verb("helped", VerbForm.Past);
+            // Ids for serialization context 
+            int indirectObjectId = indirectObject.GetSerializationId();
+            verbal.BindIndirectObject(indirectObject);
+            dynamic result = verbal.GetJsonMenuData();
+            // note double {{ escapes to { and does not indicate a nested object literal
+            Assert.IsTrue(result == string.Format("{{\"Verbal\":" + verbal.GetSerializationId() + ",\"IndirectObjects\":[{0}]}}", indirectObjectId));
+        }
     }
 }

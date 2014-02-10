@@ -133,7 +133,7 @@ namespace LASI.Core
                              let result =
                                e.Match().Yield<IEntity>()
                                    .With<Noun>(e)
-                                   .With<IReferencer>(r => r.Referent ?? r as IEntity)
+                                   .With<IReferencer>(r => r.ReferredTo ?? r as IEntity)
                                .Result()
                              where result != null
                              select result;

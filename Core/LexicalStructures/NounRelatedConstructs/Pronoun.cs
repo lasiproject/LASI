@@ -31,20 +31,20 @@ namespace LASI.Core
         /// Binds the Pronoun to refer to the given Entity.
         /// </summary>
         /// <param name="target">The entity to which to bind.</param>
-        public void BindAsReference(IEntity target) {
-            if (Referent == null) {
-                Referent = new AggregateEntity(new[] { target });
+        public void BindAsReferringTo(IEntity target) {
+            if (ReferredTo == null) {
+                ReferredTo = new AggregateEntity(new[] { target });
             } else {
-                Referent = new AggregateEntity(Referent.Append(target));
+                ReferredTo = new AggregateEntity(ReferredTo.Append(target));
             }
-            EntityKind = Referent.EntityKind;
+            EntityKind = ReferredTo.EntityKind;
         }
         /// <summary>   
         /// Returns a string representation of the Pronoun.
         /// </summary>
         /// <returns>A string representation of the Pronoun.</returns>
         public override string ToString() {
-            return Type.Name + " \"" + Text + "\"" + (VerboseOutput ? " " + PronounKind + (Referent != null ? " referring to -> " + Referent.Text : string.Empty) : string.Empty);
+            return Type.Name + " \"" + Text + "\"" + (VerboseOutput ? " " + PronounKind + (ReferredTo != null ? " referring to -> " + ReferredTo.Text : string.Empty) : string.Empty);
 
         }
 
@@ -54,7 +54,7 @@ namespace LASI.Core
         /// <param name="pro">An IReferencer which will be bound to refer to the Pronoun.</param>
         public virtual void BindReferencer(IReferencer pro) {
             boundPronouns.Add(pro);
-            pro.BindAsReference(this);
+            pro.BindAsReferringTo(this);
         }
         /// <summary>
         /// Binds an IDescriptor, generally an Adjective or AdjectivePhrase, as a descriptor of the Pronoun.
@@ -71,8 +71,8 @@ namespace LASI.Core
         /// </summary>
         /// <param name="possession">The possession to add.</param>
         public virtual void AddPossession(IPossessable possession) {
-            if (Referent != null) {
-                Referent.AddPossession(possession);
+            if (ReferredTo != null) {
+                ReferredTo.AddPossession(possession);
             } else {
                 possessed.Add(possession);
                 possession.Possesser = this;
@@ -96,7 +96,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets or sets the Entity which the Pronoun references.
         /// </summary>
-        public virtual IAggregateEntity Referent { get; private set; }
+        public virtual IAggregateEntity ReferredTo { get; private set; }
 
         /// <summary>
         /// Gets or sets the ISubjectTaker instance, generally a Verb or VerbPhrase, which the Pronoun is the subject of.

@@ -86,21 +86,43 @@ namespace LASI.Core.DocumentStructures
         }
 
         /// <summary>
-        /// Returns all of the Action identified within the docimument.
+        /// Returns all of the verbals identified within the docimument.
         /// </summary>
-        /// <returns>all of the Action identified within the docimument.</returns>
-        public IEnumerable<IVerbal> GetActions() {
-            return from a in words.OfVerb().Concat<IVerbal>(phrases.OfVerbPhrase())
-                   select a;
+        /// <returns>all of the verbals identified within the docimument.</returns>
+        public IEnumerable<IVerbal> GetVerbals() {
+            foreach (var action in words.OfType<IVerbal>())
+                yield return action;
+            foreach (var action in phrases.OfType<IVerbal>())
+                yield return action;
+            foreach (var action in Clauses.OfType<IVerbal>())
+                yield return action;
         }
 
         /// <summary>
-        /// Returns all of the word and phrase level describables identified in the document.
+        /// Returns all of the entities identified in the document.
         /// </summary>
-        /// <returns> All of the word and phrase level describables identified in the document.</returns>
+        /// <returns> All of the entities identified in the document.</returns>
         public IEnumerable<IEntity> GetEntities() {
-            return from e in words.OfType<IEntity>().Concat(phrases.OfType<IEntity>())
-                   select e;
+            foreach (var entity in words.OfType<IEntity>())
+                yield return entity;
+            foreach (var entity in phrases.OfType<IEntity>())
+                yield return entity;
+            foreach (var entity in Clauses.OfType<IEntity>())
+                yield return entity;
+
+        }
+        /// <summary>
+        /// Returns all of lexical constructs in the document, including all words, phrases, and clauses.
+        /// </summary>
+        /// <returns>All of lexical constructs in the document, including all words, phrases, and clauses.</returns>
+        public IEnumerable<ILexical> GetAllLexicalConstructs() {
+            foreach (var lexical in words)
+                yield return lexical;
+            foreach (var lexical in phrases)
+                yield return lexical;
+            foreach (var lexical in Clauses)
+                yield return lexical;
+
         }
         /// <summary>
         /// Returns a representation of the Document as sequence of pages based on the given number sentences per page.

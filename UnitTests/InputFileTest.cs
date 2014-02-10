@@ -213,7 +213,7 @@ namespace LASI.Core.Tests
         public void NameTest() {
             InputFile target = CreateInputFile(); // TODO: Initialize to an appropriate value
             string actual;
-            actual = target.Name;
+            actual = target.SourceName;
             Assert.Inconclusive("Verify the correctness of this test method.");
         }
 

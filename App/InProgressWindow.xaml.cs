@@ -44,7 +44,7 @@ namespace LASI.App
         /// <returns>A System.Threading.Tasks.Task representing the asynchronous processing operation.</returns>
         public async Task ParseDocuments() {
 
-            var analysisProvider = new AnalysisController(FileManager.TextFiles);
+            var analysisProvider = new AnalysisController(FileManager.TxtFiles);
             analysisProvider.ProgressChanged += async (sender, e) => {
                 progressLabel.Content = e.Message;
                 progressBar.ToolTip = e.Message;

@@ -21,7 +21,7 @@ namespace LASI.Core
         /// <param name="composed">The words which compose to form the NounPhrase.</param>
         public NounPhrase(IEnumerable<Word> composed)
             : base(composed) {
-            determineEntityType();
+            DetermineEntityType();
         }
         #endregion
 
@@ -31,7 +31,7 @@ namespace LASI.Core
         /// Current,  somewhat sloppy determination of the Noun, person, place, thing etc, of nounphrase by 
         /// selecting the most common Noun between its nouns and from its bound pronouns 
         /// </summary>
-        protected void determineEntityType() {
+        protected void DetermineEntityType() {
 
             var kindsOfNouns = from N in Words.OfType<IEntity>()
                                group N by N.EntityKind into KindGroup
@@ -53,7 +53,7 @@ namespace LASI.Core
         /// <param name="pro">The referencer which refers to the NounPhrase Instance.</param>
         public virtual void BindReferencer(IReferencer pro) {
             boundPronouns.Add(pro);
-            pro.BindAsReference(this);
+            pro.BindAsReferringTo(this);
         }
         /// <summary>
         /// Binds an IDescriptor, generally an Adjective or AdjectivePhrase, as a descriptor of the NounPhrase.
@@ -111,11 +111,11 @@ namespace LASI.Core
         /// <summary>
         /// Gets or sets another NounPhrase, to the left of current instance, which is functions as an Attributor of current instance.
         /// </summary>
-        public NounPhrase OuterAttributive { get; set; }
+        public NounPhrase OuterAttributive { get { return outerAttributive; } set { outerAttributive = value != this ? value : null; } }
         /// <summary>
         /// Gets or sets another NounPhrase, to the right of current instance, which is functions as an Attributor of current instance.
         /// </summary>
-        public NounPhrase InnerAttributive { get; set; }
+        public NounPhrase InnerAttributive { get { return innerAttributive; } set { innerAttributive = value != this ? value : null; } }
         /// <summary>
         /// Gets the Entity PronounKind; Person, Place, Thing, Organization, or Activity; of the NounPhrase.
         /// </summary>
@@ -196,6 +196,8 @@ namespace LASI.Core
         private IVerbal directObjectOf;
         private IVerbal indirecObjectOf;
         private IVerbal subjectOf;
+        private NounPhrase innerAttributive;
+        private NounPhrase outerAttributive;
 
         #endregion
     }

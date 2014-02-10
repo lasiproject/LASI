@@ -28,7 +28,7 @@ namespace LASI.Core
         public void BindReferencer(IReferencer pro) {
 
             boundPronouns.Add(pro);
-            pro.BindAsReference(this);
+            pro.BindAsReferringTo(this);
         }
 
 

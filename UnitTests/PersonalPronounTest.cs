@@ -115,8 +115,8 @@ namespace LASI.Core.Tests
             PersonalPronoun target = new PersonalPronoun(text);
             IEntity expected = new ProperSingularNoun("Aluan");
             IAggregateEntity actual;
-            target.BindAsReference(expected);
-            actual = target.Referent;
+            target.BindAsReferringTo(expected);
+            actual = target.ReferredTo;
             Assert.IsTrue(actual.Contains(expected));
         }
 

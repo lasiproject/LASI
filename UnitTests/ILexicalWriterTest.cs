@@ -5,11 +5,14 @@ using System.Collections.Generic;
 using LASI.Core;
 using System.Xml;
 using System.Threading.Tasks;
+using LASI.ContentSystem;
+using System.Xml.Linq;
+using System.Linq;
 
 namespace LASI.Core.Tests
 {
-    
-    
+
+
     /// <summary>
     ///This is a test class for ILexicalWriterTest and is intended
     ///to contain all ILexicalWriterTest Unit Tests
@@ -64,78 +67,73 @@ namespace LASI.Core.Tests
         //
         #endregion
 
+        const string OUTPUT_FILE_PATH = @".\xmltest\test\data.xml";
+        internal virtual ILexicalWriter<S, T, W> CreateILexicalWriter<S, T, W>()
+            where S : class, IEnumerable<T>
+            where T : class,ILexical
+            where W : XmlWriter {
+            return new SimpleLexicalSerializer(OUTPUT_FILE_PATH) as ILexicalWriter<S, T, W>;
+        }
 
         /// <summary>
         ///A test for Write
         ///</summary>
         public void WriteTestHelper<S, T, W>()
-            where S : IEnumerable<T>
-            where T : ILexical
+            where S : class, IEnumerable<T>
+            where T : class, ILexical
             where W : XmlWriter {
-            ILexicalWriter<S, T, W> target = CreateILexicalWriter<S, T, W>(); // TODO: Initialize to an appropriate value
-            S elements = default(S); // TODO: Initialize to an appropriate value
-            string resultSetTitle = string.Empty; // TODO: Initialize to an appropriate value
-            DegreeOfOutput degreeOfOutput = new DegreeOfOutput(); // TODO: Initialize to an appropriate value
-            target.Write(elements, resultSetTitle, degreeOfOutput);
-            Assert.Inconclusive("A method that does not return a value cannot be verified.");
-        }
+            ILexicalWriter<S, T, W> target = CreateILexicalWriter<S, T, W>();
+            S elements = (S)Tagger.DocumentFromRaw(new TxtFile(@"..\..\..\TestDocs\cats.txt")).GetAllLexicalConstructs();
+            string resultSetTitle = "test xml";
+            DegreeOfOutput degreeOfOutput = DegreeOfOutput.Comprehensive;
 
-        internal virtual ILexicalWriter<S, T, W> CreateILexicalWriter<S, T, W>()
-            where S : IEnumerable<T>
-            where T : ILexical
-            where W : XmlWriter {
-            // TODO: Instantiate an appropriate concrete class.
-            ILexicalWriter<S, T, W> target = null;
-            return target;
+            target.Write(elements, resultSetTitle, degreeOfOutput);
+            using (var reader = new System.IO.StreamReader(OUTPUT_FILE_PATH)) {
+                var xd = XDocument.Load(reader);
+                var xml = xd.Descendants().DescendantsAndSelf()
+                    .Where(e => e.FirstAttribute != null).Select(e => new { Name = e.Name, TextAttribute = e.FirstAttribute.Value }).AsParallel();
+                var result = elements.AsParallel().All(lex =>
+                        xml.Any(node => lex.Type.Name == node.Name && lex.Text == node.TextAttribute));
+                Assert.IsTrue(result);
+                Assert.IsTrue(xd.Root.Attribute("Title").Value == resultSetTitle);
+            }
         }
 
         [TestMethod()]
         public void WriteTest() {
-            Assert.Inconclusive("No appropriate type parameter is found to satisfies the type constraint(s) of S. " +
-                    "Please call WriteTestHelper<S, T, W>() with appropriate type parameters.");
-        }
 
+            WriteTestHelper<IEnumerable<ILexical>, ILexical, XmlWriter>();
+
+
+        }
         /// <summary>
         ///A test for WriteAsync
         ///</summary>
-        public void WriteAsyncTestHelper<S, T, W>()
-            where S : IEnumerable<T>
-            where T : ILexical
+        public async void WriteAsyncTestHelper<S, T, W>()
+            where S : class,IEnumerable<T>
+            where T : class,ILexical
             where W : XmlWriter {
-            ILexicalWriter<S, T, W> target = CreateILexicalWriter<S, T, W>(); // TODO: Initialize to an appropriate value
-            S elements = default(S); // TODO: Initialize to an appropriate value
-            string resultSetTitle = string.Empty; // TODO: Initialize to an appropriate value
-            DegreeOfOutput degreeOfOutput = new DegreeOfOutput(); // TODO: Initialize to an appropriate value
-            Task expected = null; // TODO: Initialize to an appropriate value
-            Task actual;
-            actual = target.WriteAsync(elements, resultSetTitle, degreeOfOutput);
-            Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
+            ILexicalWriter<S, T, W> target = CreateILexicalWriter<S, T, W>();
+            S elements = (S)Tagger.DocumentFromRaw(new TxtFile(@"..\..\..\TestDocs\cats.txt")).GetAllLexicalConstructs();
+            string resultSetTitle = "test xml";
+            DegreeOfOutput degreeOfOutput = DegreeOfOutput.Comprehensive;
+
+            await target.WriteAsync(elements, resultSetTitle, degreeOfOutput);
+            using (var reader = new System.IO.StreamReader(OUTPUT_FILE_PATH)) {
+                var xd = XDocument.Load(reader);
+                var xml = xd.Descendants().DescendantsAndSelf()
+                    .Where(e => e.FirstAttribute != null).Select(e => new { Name = e.Name, TextAttribute = e.FirstAttribute.Value }).AsParallel();
+                var result = elements.AsParallel().All(lex =>
+                        xml.Any(node => lex.Type.Name == node.Name && lex.Text == node.TextAttribute));
+                Assert.IsTrue(result);
+                Assert.IsTrue(xd.Root.Attribute("Title").Value == resultSetTitle);
+            }
         }
 
         [TestMethod()]
         public void WriteAsyncTest() {
-            Assert.Inconclusive("No appropriate type parameter is found to satisfies the type constraint(s) of S. " +
-                    "Please call WriteAsyncTestHelper<S, T, W>() with appropriate type parameters.");
+            WriteAsyncTestHelper<IEnumerable<ILexical>, ILexical, XmlWriter>();
         }
 
-        /// <summary>
-        ///A test for Writer
-        ///</summary>
-        public void WriterTestHelper<S, T, W>()
-            where S : IEnumerable<T>
-            where T : ILexical
-            where W : XmlWriter {
-            ILexicalWriter<S, T, W> target = CreateILexicalWriter<S, T, W>(); // TODO: Initialize to an appropriate value
-            XmlWriter actual;
-            actual = target.Writer;
-            Assert.Inconclusive("Verify the correctness of this test method.");
-        }
-
-        [TestMethod()]
-        public void WriterTest() {
-            Assert.Inconclusive("No appropriate type parameter is found to satisfies the type constraint(s) of S. " +
-                    "Please call WriterTestHelper<S, T, W>() with appropriate type parameters.");
-        }
     }
 }

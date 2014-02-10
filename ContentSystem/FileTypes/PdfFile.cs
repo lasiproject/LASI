@@ -15,10 +15,10 @@ namespace LASI.ContentSystem
         /// <summary>
         /// Initializes a new instance of the PdfFile class for the given path.
         /// </summary>
-        /// <param name="absolutePath">The path to a .pdf file.</param>
+        /// <param name="fullPath">The path to a .pdf file.</param>
         /// <exception cref="FileTypeWrapperMismatchException">Thrown if the provided path does not end in the .pdf extension.</exception>
-        public PdfFile(string absolutePath)
-            : base(absolutePath) {
+        public PdfFile(string fullPath)
+            : base(fullPath) {
             if (!this.Ext.Equals(".pdf", StringComparison.OrdinalIgnoreCase))
                 throw new LASI.ContentSystem.FileTypeWrapperMismatchException(GetType().ToString(), this.Ext);
 
@@ -29,7 +29,7 @@ namespace LASI.ContentSystem
         /// <returns>A string containing all of the text in the PdfFile.</returns>
         public override string GetText() {
             var converter = new PdfToTextConverter(this);
-            return (converter.ConvertFile() as TextFile).GetText();
+            return (converter.ConvertFile() as TxtFile).GetText();
         }
         /// <summary>
         /// Returns a Task&lt;string&gt; which when awaited yields all of the text in the PdfFile.
@@ -37,8 +37,11 @@ namespace LASI.ContentSystem
         /// <returns>A Task&lt;string&gt; which when awaited yields all of the text in the PdfFile.</returns>
         public override async Task<string> GetTextAsync() {
             var converter = new PdfToTextConverter(this);
-            return await (await converter.ConvertFileAsync() as TextFile).GetTextAsync();
+            return await (await converter.ConvertFileAsync() as TxtFile).GetTextAsync();
         }
-
+        /// <summary>
+        /// The file extension, in lower case excluding a '.', of the file type an instance of the class wraps.
+        /// </summary>
+        public const string EXTENSION = "pdf";
     }
 }

@@ -470,7 +470,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\SourceFiles\" />
-    <Folder Include="LexicalElementSerialization\" />
     <Folder Include="Views\Upload\" />
   </ItemGroup>
   <ItemGroup>

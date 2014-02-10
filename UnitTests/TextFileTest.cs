@@ -68,7 +68,7 @@ namespace LASI.Core.Tests
         [TestMethod()]
         public void TextFileConstructorTest() {
             string absolutePath = string.Empty; // TODO: Initialize to an appropriate value
-            TextFile target = new TextFile(absolutePath);
+            TxtFile target = new TxtFile(absolutePath);
             Assert.Inconclusive("TODO: Implement code to verify target");
         }
 
@@ -78,7 +78,7 @@ namespace LASI.Core.Tests
         [TestMethod()]
         public void GetTextTest() {
             string absolutePath = string.Empty; // TODO: Initialize to an appropriate value
-            TextFile target = new TextFile(absolutePath); // TODO: Initialize to an appropriate value
+            TxtFile target = new TxtFile(absolutePath); // TODO: Initialize to an appropriate value
             string expected = string.Empty; // TODO: Initialize to an appropriate value
             string actual;
             actual = target.GetText();
@@ -92,7 +92,7 @@ namespace LASI.Core.Tests
         [TestMethod()]
         public void GetTextAsyncTest() {
             string absolutePath = string.Empty; // TODO: Initialize to an appropriate value
-            TextFile target = new TextFile(absolutePath); // TODO: Initialize to an appropriate value
+            TxtFile target = new TxtFile(absolutePath); // TODO: Initialize to an appropriate value
             Task<string> expected = null; // TODO: Initialize to an appropriate value
             Task<string> actual;
             actual = target.GetTextAsync();

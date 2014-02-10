@@ -49,8 +49,8 @@ namespace LASI.Core.Heuristics
         private static Gender GetGender(IReferencer referee) {
             return referee.Match().Yield<Gender>()
                     .With<PronounPhrase>(p => GetPronounPhraseGender(p))
-                    .When(referee.Referent != null)
-                    .Then((from referent in referee.Referent
+                    .When(referee.ReferredTo != null)
+                    .Then((from referent in referee.ReferredTo
                            let gen =
                            referent.Match().Yield<Gender>()
                             .With<NounPhrase>(n => GetNounPhraseGender(n))
@@ -59,7 +59,7 @@ namespace LASI.Core.Heuristics
                             .With<CommonNoun>(n => Gender.Neutral)
                            .Result()
                            group gen by gen into byGen
-                           where byGen.Count() == referee.Referent.Count()
+                           where byGen.Count() == referee.ReferredTo.Count()
                            select byGen.Key).FirstOrDefault()).
                     With<ISimpleGendered>(p => p.Gender)
                 .Result();

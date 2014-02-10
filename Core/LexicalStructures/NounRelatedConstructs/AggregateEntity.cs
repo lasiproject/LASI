@@ -51,7 +51,7 @@ namespace LASI.Core
         /// <param name="pro">The referencer which refers to the EntityGroup Instance.</param>
         public void BindReferencer(IReferencer pro) {
             boundPronouns.Add(pro);
-            pro.BindAsReference(this);
+            pro.BindAsReferringTo(this);
         }
         /// <summary>
         /// Returns an enumerator that iterates through the members of the EntityGroup.

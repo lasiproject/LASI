@@ -25,12 +25,12 @@ namespace LASI.Core
         /// Binds the RelativePronoun to refer to the given Entity.
         /// </summary>
         /// <param name="target">The entity to which to bind.</param>
-        public void BindAsReference(IEntity target) {
-            if (Referent != null || Referent.None())
-                Referent = new AggregateEntity(new[] { target });
+        public void BindAsReferringTo(IEntity target) {
+            if (ReferredTo != null || ReferredTo.None())
+                ReferredTo = new AggregateEntity(new[] { target });
             else
-                Referent = new AggregateEntity(Referent.Append(target));
-            EntityKind = Referent.EntityKind;
+                ReferredTo = new AggregateEntity(ReferredTo.Append(target));
+            EntityKind = ReferredTo.EntityKind;
         }
 
 
@@ -42,7 +42,7 @@ namespace LASI.Core
         /// <param name="possession">The possession to add.</param>
         public void AddPossession(IPossessable possession) {
             if (IsBound) {
-                Referent.AddPossession(possession);
+                ReferredTo.AddPossession(possession);
             } else {
                 possessed.Add(possession);
                 possession.Possesser = this;
@@ -54,7 +54,7 @@ namespace LASI.Core
         /// <param name="pro">The EntityReferency to Bind.</param>
         public void BindReferencer(IReferencer pro) {
             boundPronouns.Add(pro);
-            pro.BindAsReference(this);
+            pro.BindAsReferringTo(this);
         }
         /// <summary>
         /// Binds an IDescriptor, generally an Adjective or AdjectivePhrase, as a descriptor of the RelativePronoun.
@@ -91,7 +91,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets the Entity which the RelativePronoun references.
         /// </summary>
-        public IAggregateEntity Referent { get; private set; }
+        public IAggregateEntity ReferredTo { get; private set; }
 
         /// <summary>
         /// Gets the EntityKind; Person, Place, Thing, Organization, or Activity;  of the Noun.

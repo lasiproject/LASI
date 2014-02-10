@@ -10,16 +10,16 @@ namespace LASI.Core
     {
 
         /// <summary>
-        /// Gets the Entity which the IPronoun references.
+        /// Gets an an aggregate entity which represents all entities to which the Referencer refers.
         /// </summary>
-        IAggregateEntity Referent {
+        IAggregateEntity ReferredTo {
             get;
         }
         /// <summary>
-        /// Binds the IPronoun to refer to the given Entity.
+        /// Binds the Referencer to refer to the given Entity.
         /// </summary>
         /// <param name="target">The entity to which to bind.</param>
-        void BindAsReference(IEntity target);
+        void BindAsReferringTo(IEntity target);
 
     }
 }

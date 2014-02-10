@@ -161,7 +161,7 @@ namespace LASI.ContentSystem
         /// Sets data about the current contents of the ProjectDirectory at the time the FileManagerException is constructed.
         /// </summary>
         protected void CollectDirInfo() {
-            if (FileManager.Initialized && FileManager.TextFiles.Any())
+            if (FileManager.Initialized && FileManager.TxtFiles.Any())
                 filesInProjectDirectories = new DirectoryInfo(FileManager.ProjectDir).EnumerateFiles("*", SearchOption.AllDirectories)
                                             .Select(di => FileManager.WrapperMap[di.Extension](di.FullName)).DefaultIfEmpty();
         }

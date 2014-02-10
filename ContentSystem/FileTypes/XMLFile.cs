@@ -18,15 +18,15 @@ namespace LASI.ContentSystem
     /// <summary>
     /// A strongly typed wrapper that encapsulates an XML document (.xml).
     /// </summary>
-    sealed class GenericXMLFile : InputFile
+    sealed class XmlFile : InputFile
     {
         /// <summary>
         /// Initializes a new instance of the GenericXMLFile class for the given path.
         /// </summary>
-        /// <param name="filePath">The path to a .xml file.</param>
+        /// <param name="fullPath">The path to a .xml file.</param>
         /// <exception cref="FileTypeWrapperMismatchException">Thrown if the provided path does not end in the .xml extension.</exception>
-        public GenericXMLFile(string filePath)
-            : base(filePath) {
+        public XmlFile(string fullPath)
+            : base(fullPath) {
             if (!this.Ext.Equals(".xml", StringComparison.OrdinalIgnoreCase))
                 throw new FileTypeWrapperMismatchException(GetType().ToString(), this.Ext);
 
@@ -50,5 +50,9 @@ namespace LASI.ContentSystem
                 return await reader.ReadContentAsStringAsync();
             }
         }
+        /// <summary>
+        /// The file extension, in lower case excluding a '.', of the file type an instance of the class wraps.
+        /// </summary>
+        public const string EXTENSION = "xml";
     }
 }

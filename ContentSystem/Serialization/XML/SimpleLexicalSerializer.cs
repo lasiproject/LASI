@@ -1,4 +1,5 @@
 ﻿using LASI;
+using LASI.Utilities;
 using LASI.Core;
 using LASI.Core.Patternization;
 using System;
@@ -29,6 +30,9 @@ namespace LASI.ContentSystem.Serialization.XML
         /// </summary>
         /// <param name="uri">The string specifying the Uniform Resource Identifier to which to output.</param>
         public SimpleLexicalSerializer(string uri) {
+            var segments = uri.SplitRemoveEmpty(System.IO.Path.DirectorySeparatorChar);
+
+
             Writer = XmlWriter.Create(uri);
         }
         /// <summary>
@@ -51,8 +55,10 @@ namespace LASI.ContentSystem.Serialization.XML
                              new XElement("Results",
                                  new XAttribute("Title", parentElementTitle),
                                  new XAttribute("Range", degreeOfOutput),
-                             from l in source
+                             from e in source.Zip(Enumerable.Range(0, Int32.MaxValue), (x, i) => new { Element = x, Id = i })
+                             let l = e.Element
                              select new XElement(l.Type.Name,
+                                 //new XAttribute("Id", e.Id),
                                  new XAttribute("Text", l.Text),
                                  new XElement("Weights",
                                      new XElement("Weight",
@@ -88,9 +94,23 @@ namespace LASI.ContentSystem.Serialization.XML
         /// Frees any unmanaged resources associated with the SimpleLexicalSerializer.
         /// </summary>
         public void Dispose() {
-            Writer.Dispose();
+            Dispose(true);
             GC.SuppressFinalize(this);
         }
+
+        private void Dispose(bool disposing) {
+            if (!disposed) {
+                if (disposing) {
+                    if (Writer != null) {
+                        Writer.Close();
+                        Writer.Dispose();
+                    }
+                }
+                Writer = null;
+                disposed = true;
+            }
+        }
+        private bool disposed;
         /// <summary>
         /// Serializes the provided sequence of ILexical instances into xml elements, writing them to the XmlWriter associated with this instance.
         /// </summary>
@@ -101,7 +121,7 @@ namespace LASI.ContentSystem.Serialization.XML
 
             var serializedResults =
                 SerializeSequence(source, title, degreeOfOutput);
-            serializedResults.Save(Writer);
+            serializedResults.WriteTo(Writer);
 
         }
         /// <summary>
@@ -112,7 +132,12 @@ namespace LASI.ContentSystem.Serialization.XML
         /// <param name="degreeOfOutput">The DegreeOfOutput value specifying the per element amount of detail the serilization will retain.</param>
         /// <returns>A System.Threading.Tasks.Task representing the ongoing asynchronous operation.</returns>
         public async Task WriteAsync(IEnumerable<ILexical> source, string title, DegreeOfOutput degreeOfOutput) {
-            await Writer.WriteStringAsync(Serialize(source, title, degreeOfOutput).ToString(SaveOptions.None));
+            //await Writer.WriteStringAsync(Serialize(source, title, degreeOfOutput).ToString(SaveOptions.None));
+            //Writer.Close();
+
+            await Task.Run(() => Serialize(source, title, degreeOfOutput).WriteTo(Writer));
+
         }
+
     }
 }

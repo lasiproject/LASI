@@ -79,8 +79,8 @@ namespace LASI.Core.Tests
         public void ConvertFileTest() {
             PdfFile infile = null; // TODO: Initialize to an appropriate value
             PdfToTextConverter target = new PdfToTextConverter(infile); // TODO: Initialize to an appropriate value
-            TextFile expected = null; // TODO: Initialize to an appropriate value
-            TextFile actual;
+            TxtFile expected = null; // TODO: Initialize to an appropriate value
+            TxtFile actual;
             actual = target.ConvertFile();
             Assert.AreEqual(expected, actual);
             Assert.Inconclusive("Verify the correctness of this test method.");
@@ -93,8 +93,8 @@ namespace LASI.Core.Tests
         public void ConvertFileAsyncTest() {
             PdfFile infile = null; // TODO: Initialize to an appropriate value
             PdfToTextConverter target = new PdfToTextConverter(infile); // TODO: Initialize to an appropriate value
-            Task<TextFile> expected = null; // TODO: Initialize to an appropriate value
-            Task<TextFile> actual;
+            Task<TxtFile> expected = null; // TODO: Initialize to an appropriate value
+            Task<TxtFile> actual;
             actual = target.ConvertFileAsync();
             Assert.AreEqual(expected, actual);
             Assert.Inconclusive("Verify the correctness of this test method.");

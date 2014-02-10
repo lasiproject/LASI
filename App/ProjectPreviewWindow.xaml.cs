@@ -34,7 +34,7 @@ namespace LASI.App
         /// Loads and displays a text preview tab for each document in the project.
         /// </summary>
         public async void LoadDocumentPreviews() {
-            foreach (var textfile in FileManager.TextFiles) {
+            foreach (var textfile in FileManager.TxtFiles) {
                 await LoadTextandTabAsync(textfile);
             }
             DocumentPreview.SelectedIndex = 0;
@@ -44,7 +44,7 @@ namespace LASI.App
         /// </summary>
         /// <param name="textfile">The Text File from which to load text.</param>
         /// <returns>A System.Threading.Tasks.Task representing the ongoing asynchronous operation.</returns>
-        private async Task LoadTextandTabAsync(TextFile textfile) {
+        private async Task LoadTextandTabAsync(TxtFile textfile) {
             var processedText = await await textfile.GetTextAsync().ContinueWith(async t => {
                 var data = await t;
                 return data
@@ -81,7 +81,7 @@ namespace LASI.App
             catch (FileConversionFailureException e) {
                 MessageBox.Show(this, MakeConversionFailureMessage(e.Message));
             }
-            var textfile = FileManager.TextFiles.Where(f => f.NameSansExt == chosenFile.NameSansExt).First();
+            var textfile = FileManager.TxtFiles.Where(f => f.NameSansExt == chosenFile.NameSansExt).First();
             await LoadTextandTabAsync(textfile);
             CheckIfAddingAllowed();
             startProcessingButton.IsEnabled = true;

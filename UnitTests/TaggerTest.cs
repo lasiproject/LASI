@@ -122,7 +122,7 @@ namespace LASI.Core.Tests
         ///</summary>
         [TestMethod()]
         public void DocumentFromRawTest1() {
-            TextFile txt = null; // TODO: Initialize to an appropriate value
+            TxtFile txt = null; // TODO: Initialize to an appropriate value
             Document expected = null; // TODO: Initialize to an appropriate value
             Document actual;
             actual = Tagger.DocumentFromRaw(txt);
@@ -148,7 +148,7 @@ namespace LASI.Core.Tests
         ///</summary>
         [TestMethod()]
         public void DocumentFromRawAsyncTest() {
-            TextFile txt = null; // TODO: Initialize to an appropriate value
+            TxtFile txt = null; // TODO: Initialize to an appropriate value
             Task<Document> expected = null; // TODO: Initialize to an appropriate value
             Task<Document> actual;
             actual = Tagger.DocumentFromRawAsync(txt);

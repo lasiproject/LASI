@@ -59,7 +59,7 @@ namespace LASI.ContentSystem
             foreach (var docPath in Directory.EnumerateFiles(DocxFilesDir, "*.docx"))
                 docXFiles.Add(new DocXFile(docPath));
             foreach (var docPath in Directory.EnumerateFiles(TextFilesDir, "*.txt"))
-                textFiles.Add(new TextFile(docPath));
+                textFiles.Add(new TxtFile(docPath));
             foreach (var docPath in Directory.EnumerateFiles(PdfFilesDir, "*.pdf"))
                 pdfFiles.Add(new PdfFile(docPath));
             foreach (var docPath in Directory.EnumerateFiles(TaggedFilesDir, "*.tagged"))
@@ -129,7 +129,7 @@ namespace LASI.ContentSystem
             docXFiles.Add(file);
 
         }
-        private static void AddToTypedList(TextFile file) {
+        private static void AddToTypedList(TxtFile file) {
             textFiles.Add(file);
 
         }
@@ -177,7 +177,7 @@ namespace LASI.ContentSystem
                 throw new FileManagerNotInitializedException();
             }
             RemoveAllNotIn(from f in filesToKeep
-                           select f.IndexOf('.') > 0 ? WrapperMap[f.Substring(f.LastIndexOf('.'))](f) : new TextFile(f));
+                           select f.IndexOf('.') > 0 ? WrapperMap[f.Substring(f.LastIndexOf('.'))](f) : new TxtFile(f));
         }
         /// <summary>
         /// Removes all files, regardless of extension, whose names do not match any of the names in the provided collection of InputFile objects.
@@ -232,7 +232,7 @@ namespace LASI.ContentSystem
             RemoveAllAlikeFiles(filePath);
         }
 
-        private static void RemoveFile(TextFile file) {
+        private static void RemoveFile(TxtFile file) {
             textFiles.Remove(file);
         }
         private static void RemoveFile(DocFile file) {
@@ -270,7 +270,7 @@ namespace LASI.ContentSystem
             }
             try {
                 await Task.WhenAll(
-                    ConvertPdfFilesAsync(),
+                    ConvertPdfToTextAsync(),
                     Task.Run(async () => {
                         try {
                             await ConvertDocToTextAsync();
@@ -377,7 +377,7 @@ namespace LASI.ContentSystem
         /// Results are stored in corresponding project directory
         /// </summary>
         /// <param name="files">0 or more instances of the PdfFile class which encapsulate .pdf files.</param>
-        public static async Task ConvertPdfFilesAsync(params PdfFile[] files) {
+        public static async Task ConvertPdfToTextAsync(params PdfFile[] files) {
             if (!Initialized) {
                 throw new FileManagerNotInitializedException();
             }
@@ -446,7 +446,7 @@ namespace LASI.ContentSystem
         /// Results are stored in corresponding project directory
         /// </summary>
         /// <param name="files">0 or more instances of the TextFile class which encapsulate text files</param>
-        public static void TagTextFiles(params TextFile[] files) {
+        public static void TagTextFiles(params TxtFile[] files) {
             if (!Initialized) {
                 throw new FileManagerNotInitializedException();
             }
@@ -470,7 +470,7 @@ namespace LASI.ContentSystem
         /// Results are stored in corresponding project directory
         /// </summary>
         /// <param name="files">0 or more instances of the TextFile class which encapsulate text files</param>
-        public static async Task TagTextFilesAsync(params TextFile[] files) {
+        public static async Task TagTextFilesAsync(params TxtFile[] files) {
             if (!Initialized) {
                 throw new FileManagerNotInitializedException();
             }
@@ -608,7 +608,7 @@ namespace LASI.ContentSystem
         /// Gets the list of TextFile instances which represent all *.txt files which are included in the project. 
         /// TextFile instances are wrapper objects which provide discrete accessors to relevant *.txt file properties.
         /// </summary>
-        public static IReadOnlyList<TextFile> TextFiles {
+        public static IReadOnlyList<TxtFile> TxtFiles {
             get {
                 return textFiles;
             }
@@ -664,7 +664,7 @@ namespace LASI.ContentSystem
         private static List<DocFile> docFiles = new List<DocFile>();
         private static List<DocXFile> docXFiles = new List<DocXFile>();
         private static List<PdfFile> pdfFiles = new List<PdfFile>();
-        private static List<TextFile> textFiles = new List<TextFile>();
+        private static List<TxtFile> textFiles = new List<TxtFile>();
         private static List<TaggedFile> taggedFiles = new List<TaggedFile>();
         #endregion
     }
@@ -675,7 +675,7 @@ namespace LASI.ContentSystem
         internal WrapperDict()
             : base(
             new Dictionary<string, Func<string, InputFile>> {
-                { "txt" , p => new TextFile(p) },
+                { "txt" , p => new TxtFile(p) },
                 { "doc" , p => new DocFile(p) },
                 { "docx" , p => new DocXFile(p) },
                 { "pdf" , p=> new PdfFile(p) },

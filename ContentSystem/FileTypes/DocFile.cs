@@ -13,10 +13,10 @@ namespace LASI.ContentSystem
         /// <summary>
         /// Initializes a new instance of the DocFile class for the given path.
         /// </summary>
-        /// <param name="absolutePath">The path to a .doc file.</param>
+        /// <param name="fullPath">The path to a .doc file.</param>
         /// <exception cref="FileTypeWrapperMismatchException">Thrown if the provided path does not end in the .doc extension.</exception>
-        public DocFile(string absolutePath)
-            : base(absolutePath) {
+        public DocFile(string fullPath)
+            : base(fullPath) {
             if (!this.Ext.Equals(".doc", StringComparison.OrdinalIgnoreCase)) {
                 throw new LASI.ContentSystem.FileTypeWrapperMismatchException(GetType().ToString(), this.Ext);
             }
@@ -48,6 +48,10 @@ namespace LASI.ContentSystem
             catch (Exception e) { throw new FileConversionFailureException(FullPath, "DOC", "DOCX", e); }
             return await docx.GetTextAsync();
         }
+        /// <summary>
+        /// The file extension, in lower case excluding a '.', of the file type an instance of the class wraps.
+        /// </summary>
+        public const string EXTENSION = "doc";
     }
 
 }

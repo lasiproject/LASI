@@ -21,6 +21,10 @@ namespace LASI.Core
         /// </summary>
         /// <param name="text">The text content of the word.</param>
         protected Word(string text) {
+#if DEBUG
+            if (text.Contains(' '))
+                throw new ArgumentException("The text of a word may not contain word seperators (e.g ' '", "text");
+#endif
             Text = text;
             Weight = 1;
             MetaWeight = 1;

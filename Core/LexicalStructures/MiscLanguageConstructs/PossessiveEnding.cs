@@ -46,7 +46,7 @@ namespace LASI.Core
         #region Properties
 
         /// <summary>
-        /// Gets or sets the possessing the Entity the Posssessive ending is attached to.
+        /// Gets or sets the possessing the Entity the PosssessiveEnding is attached to.
         /// When this property is set, ownership of all possessions associated with the PossessiveEnding is tranferred to the target IEntity.
         /// </summary>
         public IPossesser PossessesFor {
@@ -62,7 +62,7 @@ namespace LASI.Core
         }
 
         /// <summary>
-        /// Gets the describables the possessive ending has ownership of.
+        /// Gets the possessables which the PossessiveEnding indicates are owned.
         /// </summary>
         public IEnumerable<IPossessable> Possessed {
             get {

@@ -33,7 +33,7 @@ let main argv =
         match s.Split('.').Last() with 
         | "doc" -> new  DocFile(s)  :> InputFile  
         | "docx" -> new DocXFile(s) :> InputFile  
-        | "txt" -> new  TextFile(s) :> InputFile
+        | "txt" -> new  TxtFile(s) :> InputFile
         | "pdf" -> new  PdfFile (s) :> InputFile
         | _ -> null
         
@@ -48,7 +48,7 @@ let main argv =
          
  
     let toAttack = Verb("attack",VerbForm.Base)
-    let bellicoseVerbals = doc.GetActions()|>Seq.filter (fun v-> op (v.IsSimilarTo toAttack))
+    let bellicoseVerbals = doc. GetVerbals()|>Seq.filter (fun v-> op (v.IsSimilarTo toAttack))
     let bellicoseIndividuals =  doc.GetEntities()|>Seq.filter (fun e-> bellicoseVerbals.Contains e.SubjectOf)
     
     let attackerAttackeePairs = 

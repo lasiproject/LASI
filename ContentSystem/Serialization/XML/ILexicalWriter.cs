@@ -15,9 +15,9 @@ namespace LASI.ContentSystem.Serialization.XML
     /// <typeparam name="S">The Type of the collections generic containing elements to be serialized. This Type parameter is contravariant.</typeparam>
     /// <typeparam name="T">The Type of the elements in the generic collections. This Type parameter is covariant.</typeparam>
     /// <typeparam name="W">The type of the underlying xmlWriter object. This Type parameter is contravariant.</typeparam>
-    public interface ILexicalWriter<in S, out T, in W> : IDisposable
-        where S : IEnumerable<T>
-        where T : ILexical
+    public interface ILexicalWriter<S, out T, in W> : IDisposable
+        where S : class, IEnumerable<T>
+        where T : class, ILexical
         where W : System.Xml.XmlWriter
     {
         /// <summary>

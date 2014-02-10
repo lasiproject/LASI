@@ -22,8 +22,8 @@ namespace LASI.Core
         /// <param name="composedWords">The words which compose to form the PronounPhrase.</param>
         public PronounPhrase(IEnumerable<Word> composedWords)
             : base(composedWords) {
-            if (composedWords.OfPronoun().Any(p => p.Referent != null)) {
-                refersTo = new AggregateEntity(composedWords.OfPronoun().Select(p => p.Referent));
+            if (composedWords.OfPronoun().Any(p => p.ReferredTo != null)) {
+                refersTo = new AggregateEntity(composedWords.OfPronoun().Select(p => p.ReferredTo));
             }
         }
 
@@ -32,17 +32,17 @@ namespace LASI.Core
         /// </summary>
         /// <returns>A string representation of the PronounPhrase</returns>
         public override string ToString() {
-            var result = base.ToString() + (Referent != null && Referent.Any() ? " referring to -> " + Referent.Text : string.Empty);
-            result += (AliasLookup.GetDefinedAliases(Referent ?? this as IEntity).Any() ? "\nClassified as: " + AliasLookup.GetDefinedAliases(Referent ?? this as IEntity).Format() : string.Empty);
+            var result = base.ToString() + (ReferredTo != null && ReferredTo.Any() ? " referring to -> " + ReferredTo.Text : string.Empty);
+            result += (AliasLookup.GetDefinedAliases(ReferredTo ?? this as IEntity).Any() ? "\nClassified as: " + AliasLookup.GetDefinedAliases(ReferredTo ?? this as IEntity).Format() : string.Empty);
             return result;
         }
         private IAggregateEntity refersTo;
         /// <summary>
         /// Gets the Entity which the IPronoun references.
         /// </summary>
-        public IAggregateEntity Referent {
+        public IAggregateEntity ReferredTo {
             get {
-                refersTo = refersTo ?? new AggregateEntity(Words.OfPronoun().Where(p => p.Referent != null).Select(p => p.Referent));
+                refersTo = refersTo ?? new AggregateEntity(Words.OfPronoun().Where(p => p.ReferredTo != null).Select(p => p.ReferredTo));
                 return refersTo;
             }
 
@@ -52,7 +52,7 @@ namespace LASI.Core
         /// Binds the PronounPhrase to refer to the given Entity.
         /// </summary>
         /// <param name="target">The entity to which to bind.</param>
-        public void BindAsReference(IEntity target) {
+        public void BindAsReferringTo(IEntity target) {
             if (refersTo == null) {
                 refersTo = new AggregateEntity(new[] { target });
             } else {

@@ -49,7 +49,7 @@ namespace MvcApplication2.Controllers
         public async Task<ActionResult> Example() {
             ViewBag.ReturnUrl = "Example";
             var extensionMap = new Dictionary<string, Func<string, InputFile>> {
-                { "txt" , p => new TextFile(p) },
+                { "txt" , p => new TxtFile(p) },
                 { "doc" , p => new DocFile(p) },
                 { "docx" , p => new DocXFile(p) },
                 { "pdf" , p => new PdfFile(p) },

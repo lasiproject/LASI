@@ -135,7 +135,7 @@ namespace LASI.Core.Tests
                                 new Verb("do", VerbForm.Base)
                             }),new Verb("do", VerbForm.Base)};
             IEnumerable<IVerbal> actual;
-            actual = target.GetActions();
+            actual = target.GetVerbals();
             foreach (var e in expected) {
                 Assert.IsTrue(actual.Contains(e, new VerbalEquater()));
             }

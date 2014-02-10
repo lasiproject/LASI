@@ -9,15 +9,15 @@ namespace LASI.ContentSystem
     /// <summary>
     /// A strongly typed wrapper that encapsulates a raw text document (.txt).
     /// </summary>
-    public sealed class TextFile : InputFile
+    public sealed class TxtFile : InputFile
     {
         /// <summary>
         /// Initializes a new instance of the TxtFile class for the given path.
         /// </summary>
-        /// <param name="absolutePath">The path to a .txt file.</param>
+        /// <param name="fullPath">The path to a .txt file.</param>
         /// <exception cref="FileTypeWrapperMismatchException">Thrown if the provided path does not end in the .txt extension.</exception>
-        public TextFile(string absolutePath)
-            : base(absolutePath) {
+        public TxtFile(string fullPath)
+            : base(fullPath) {
             if (!this.Ext.Equals(".txt", StringComparison.OrdinalIgnoreCase))
                 throw new FileTypeWrapperMismatchException(GetType().ToString(), this.Ext);
         }
@@ -47,5 +47,9 @@ namespace LASI.ContentSystem
                 return await reader.ReadToEndAsync();
             }
         }
+        /// <summary>
+        /// The file extension, in lower case excluding a '.', of the file type an instance of the class wraps.
+        /// </summary>
+        public const string EXTENSION = "txt";
     }
 }

@@ -13,11 +13,11 @@ namespace LASI.ContentSystem
         /// <summary>
         /// Initializes a new instance of the InputFile class wrapping the provided filepath.
         /// </summary>
-        /// <param name="path">The path to the file</param>
-        protected InputFile(string path) {
-            if (!System.IO.File.Exists(path))
-                throw new System.IO.FileNotFoundException("File Not Found.", path);
-            fileData = new FileData(path);
+        /// <param name="fullPath">The path to the file</param>
+        protected InputFile(string fullPath) {
+            if (!System.IO.File.Exists(fullPath))
+                throw new System.IO.FileNotFoundException("File Not Found.", fullPath);
+            fileData = new FileData(fullPath);
         }
         /// <summary>
         /// Gets the full file path, including the file name and extension of the file.
@@ -132,7 +132,7 @@ namespace LASI.ContentSystem
         /// <summary>
         /// Gets the simple file name of the InputFile. This does not include its extension.
         /// </summary>
-        public string Name {
+        public string SourceName {
             get { return NameSansExt; }
         }
     }

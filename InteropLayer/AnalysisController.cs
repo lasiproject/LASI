@@ -85,7 +85,7 @@ namespace LASI.Interop
                 var tagged = await task;
                 tasks.Remove(task);
                 taggedFiles.Add(tagged);
-                OnReport(new AnalysisProgressReportEventArgs(string.Format("{0}: Tagged", tagged.Name), stepMagnitude + 1.5));
+                OnReport(new AnalysisProgressReportEventArgs(string.Format("{0}: Tagged", tagged.SourceName), stepMagnitude + 1.5));
             }
             OnReport(new AnalysisProgressReportEventArgs("Tagged Documents", 3));
             return taggedFiles;
@@ -102,7 +102,7 @@ namespace LASI.Interop
             return documents;
         }
         private async Task<Document> ProcessTaggedFileAsync(LASI.ContentSystem.ITaggedTextSource tagged) {
-            var fileName = tagged.Name;
+            var fileName = tagged.SourceName;
             OnReport(new AnalysisProgressReportEventArgs(string.Format("{0}: Loading...", fileName), 0));
             var document = await Tagger.DocumentFromTaggedAsync(tagged);
             OnReport(new AnalysisProgressReportEventArgs(string.Format("{0}: Loaded", fileName), 4 / sourceCount));

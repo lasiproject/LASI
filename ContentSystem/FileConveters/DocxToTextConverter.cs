@@ -12,7 +12,7 @@ namespace LASI.ContentSystem
     /// An input file converter specialized to extract the written content from a .docx (Microsoft word 2003+ open XML file format)
     /// and create a text file containing this content as raw text.
     /// </summary>
-    public class DocxToTextConverter : FileConverter<DocXFile, TextFile>
+    public class DocxToTextConverter : FileConverter<DocXFile, TxtFile>
     {
         #region Constructors
 
@@ -52,9 +52,9 @@ namespace LASI.ContentSystem
         /// </summary>
         /// <returns>An input document object representing the newly converted file
         /// Note that both the original and converted document objects can be also be accessed independtly via instance properties</returns>
-        public override TextFile ConvertFile() {
+        public override TxtFile ConvertFile() {
             DocxToZip();
-            XmlFile = new GenericXMLFile(DestinationInfo.Directory + DestinationInfo.FileNameSansExt + @"\word\document.xml");
+            XmlFile = new XmlFile(DestinationInfo.Directory + DestinationInfo.FileNameSansExt + @"\word\document.xml");
             using (XmlReader xmlReader = XmlReader.Create(new FileStream(XmlFile.FullPath, FileMode.Open, FileAccess.Read), new XmlReaderSettings {
                 IgnoreWhitespace = true
             })) {
@@ -85,7 +85,7 @@ namespace LASI.ContentSystem
 
                 }
             }
-            Converted = new TextFile(Original.PathSansExt + ".txt");
+            Converted = new TxtFile(Original.PathSansExt + ".txt");
 
             return Converted;
 
@@ -95,10 +95,10 @@ namespace LASI.ContentSystem
         /// </summary>
         /// <param name="arch">The object which represents the zip file from which to extract.</param>
         /// <returns>An Instance of GenericXMLFile which wraps the extracted .xml.</returns>
-        GenericXMLFile GetRelevantXMLFile(ZipArchive arch) {
+        XmlFile GetRelevantXMLFile(ZipArchive arch) {
             var extractedFile = arch.GetEntry(@"word/document.xml");
             var absolutePath = Original.PathSansExt + @"/" + extractedFile.FullName;
-            return new GenericXMLFile(absolutePath);
+            return new XmlFile(absolutePath);
         }
         /// <summary>
         /// <para>This method invokes the file conversion routine asynchronously, gernerally in a serparate thread.
@@ -107,7 +107,7 @@ namespace LASI.ContentSystem
         /// <returns>A The A Task&lt;TextFile&gt; object which functions as a proxy for the actual InputFile while the conversion routine is in progress.
         /// Access the internal input file encapsulated by the Task by using syntax such as : var file = await myConverter.ConvertFileAsync()
         /// </returns>
-        public async override Task<TextFile> ConvertFileAsync() {
+        public async override Task<TxtFile> ConvertFileAsync() {
             return await Task.Run(() => ConvertFile());
         }
 
@@ -143,7 +143,7 @@ namespace LASI.ContentSystem
         /// This additional method of accessing the new document is primarily provided to facilitate asynchronous programming
         /// and any access attempts before the conversion is complete will raise a NullReferenceException.
         /// </summary>
-        public override TextFile Converted {
+        public override TxtFile Converted {
             get;
             protected set;
         }

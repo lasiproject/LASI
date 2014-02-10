@@ -121,9 +121,9 @@ namespace LASI.Core.Tests
             IReferencer pro = new PersonalPronoun("them");
             target.BindReferencer(pro);
             Assert.IsTrue(target.Referees.Contains(pro));
-            Assert.IsTrue(pro.Referent.Contains(target));
+            Assert.IsTrue(pro.ReferredTo.Contains(target));
             foreach (IEntity e in members) {
-                Assert.IsTrue(pro.Referent.Contains(e));
+                Assert.IsTrue(pro.ReferredTo.Contains(e));
                 e.Referees.Contains(pro);
             }
         }

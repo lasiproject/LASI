@@ -49,7 +49,7 @@ namespace LASI.App.LexicalElementInfo
         /// <returns>A context menu based on the provided IReferencer in the contexxt of the provided labels.</returns>
         static ContextMenu ForReferencer(IReferencer referencer, IEnumerable<Label> labelsInContext) {
             var result = new ContextMenu();
-            if (referencer.Referent != null && referencer.Referent.Any()) {
+            if (referencer.ReferredTo != null && referencer.ReferredTo.Any()) {
                 result.Items.Add(ReferencerMenuItemFactory.ForReferredTo(labelsInContext, referencer));
             }
             return result;
@@ -125,8 +125,8 @@ namespace LASI.App.LexicalElementInfo
                 visitBoundEntity.Click += (sender, e) => {
                     ResetLabelBrushes(labelsInContext);
                     var labels = from l in labelsInContext
-                                 where pro.Referent == l.Tag || l.Tag is NounPhrase &&
-                                 pro.Referent.ToHashSet().Overlaps((l.Tag as NounPhrase).Words.OfEntity())
+                                 where pro.ReferredTo == l.Tag || l.Tag is NounPhrase &&
+                                 pro.ReferredTo.ToHashSet().Overlaps((l.Tag as NounPhrase).Words.OfEntity())
                                  select l;
                     foreach (var l in labels) {
                         l.Foreground = Brushes.White;

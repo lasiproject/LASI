@@ -12,7 +12,7 @@ namespace LASI.ContentSystem
     /// An input file converter specialized to extract the non optical textual content from a .pdf (Adobe Acrobat) document
     /// and create a text file containing this content as raw text.
     /// </summary>
-    public class PdfToTextConverter : FileConverter<PdfFile, TextFile>
+    public class PdfToTextConverter : FileConverter<PdfFile, TxtFile>
     {
         /// <summary>
         /// Constructs a new instance which will govern the conversion of the PdfFile instance provided.
@@ -26,16 +26,16 @@ namespace LASI.ContentSystem
         /// Converts the document governed by this instance from .pdf format to .txt ascii text format.
         /// </summary>
         /// <returns>An InputFile object wrapping the newly created .txt file resulting from the operation.</returns>
-        public override TextFile ConvertFile() {
+        public override TxtFile ConvertFile() {
             var newPath = Original.PathSansExt + ".txt";
             new PDFParser().ExtractText(Original.FullPath, newPath);
-            return new TextFile(newPath);
+            return new TxtFile(newPath);
         }
         /// <summary>
         /// Asynchronously converts the document governed by this instance from .pdf format to .txt ascii text format.
         /// </summary>
         /// <returns>A System.Threading.Tasks.Task&lt;InputFile&gt; which, when awaited yields an InputFile object which wrpas the newly created .txt file.</returns>
-        public override async Task<TextFile> ConvertFileAsync() {
+        public override async Task<TxtFile> ConvertFileAsync() {
             return await Task.Run(() => ConvertFile());
         }
         /// <summary>
@@ -43,7 +43,7 @@ namespace LASI.ContentSystem
         /// This additional method of accessing the new file is primarily provided to facilitate asynchronous programming
         /// and any access attempts before the conversion is complete will raise a NullReferenceException.
         /// </summary>
-        public override TextFile Converted {
+        public override TxtFile Converted {
             get;
             protected set;
         }

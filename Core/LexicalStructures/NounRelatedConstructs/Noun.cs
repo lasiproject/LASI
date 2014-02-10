@@ -50,7 +50,7 @@ namespace LASI.Core
         /// <param name="pro">The EntityReferency to Bind.</param>
         public virtual void BindReferencer(IReferencer pro) {
             boundPronouns.Add(pro);
-            pro.BindAsReference(this);
+            pro.BindAsReferringTo(this);
         }
 
         /// <summary>

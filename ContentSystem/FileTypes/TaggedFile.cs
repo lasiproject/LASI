@@ -15,10 +15,10 @@ namespace LASI.ContentSystem
         /// <summary>
         /// Initializes a new instance of the TaggedFile class for the given path.
         /// </summary>
-        /// <param name="filePath">The path to a .tagged file.</param>
+        /// <param name="fullPath">The path to a .tagged file.</param>
         /// <exception cref="FileTypeWrapperMismatchException">Thrown if the provided path does not end in the .tagged extension.</exception>
-        public TaggedFile(string filePath)
-            : base(filePath) {
+        public TaggedFile(string fullPath)
+            : base(fullPath) {
             if (!this.Ext.Equals(".tagged", StringComparison.OrdinalIgnoreCase))
                 throw new LASI.ContentSystem.FileTypeWrapperMismatchException(GetType().ToString(), this.Ext);
         }
@@ -43,5 +43,9 @@ namespace LASI.ContentSystem
                     FileAccess.Read,
                     FileShare.Read))) { return await reader.ReadToEndAsync(); }
         }
+        /// <summary>
+        /// The file extension, in lower case excluding a '.', of the file type an instance of the class wraps.
+        /// </summary>
+        public const string EXTENSION = "tagged";
     }
 }
