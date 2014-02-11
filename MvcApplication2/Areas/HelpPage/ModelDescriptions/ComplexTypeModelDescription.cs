@@ -1,6 +1,6 @@
 using System.Collections.ObjectModel;
 
-namespace MvcApplication2.Areas.HelpPage.ModelDescriptions
+namespace LASI.WebService.Areas.HelpPage.ModelDescriptions
 {
     public class ComplexTypeModelDescription : ModelDescription
     {

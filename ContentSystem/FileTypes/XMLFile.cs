@@ -37,7 +37,11 @@ namespace LASI.ContentSystem
         /// </summary>
         /// <returns>A string containing all of the text in the PdfFile.</returns>
         public override string GetText() {
-            using (var reader = XmlReader.Create(FullPath)) {
+            using (var reader = XmlReader.Create(new System.IO.StreamReader(new System.IO.FileStream(
+                FullPath,
+                System.IO.FileMode.Open,
+                System.IO.FileAccess.Read,
+                System.IO.FileShare.Read)))) {
                 return reader.ReadContentAsString();
             }
         }
@@ -46,7 +50,11 @@ namespace LASI.ContentSystem
         /// </summary>
         /// <returns>A Task&lt;string&gt; which when awaited yields all of the text in the PdfFile.</returns>
         public override async Task<string> GetTextAsync() {
-            using (var reader = XmlReader.Create(FullPath)) {
+            using (var reader = XmlReader.Create(new System.IO.StreamReader(new System.IO.FileStream(
+                  FullPath,
+                  System.IO.FileMode.Open,
+                  System.IO.FileAccess.Read,
+                  System.IO.FileShare.Read)))) {
                 return await reader.ReadContentAsStringAsync();
             }
         }

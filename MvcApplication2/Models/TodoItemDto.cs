@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 
-namespace MvcApplication2.Models
+namespace LASI.WebService.Models
 {
     public class TodoItemDto
     {

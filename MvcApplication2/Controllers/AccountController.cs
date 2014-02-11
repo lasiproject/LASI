@@ -7,10 +7,10 @@ using System.Web.Security;
 using DotNetOpenAuth.AspNet;
 using Microsoft.Web.WebPages.OAuth;
 using WebMatrix.WebData;
-using MvcApplication2.Filters;
-using MvcApplication2.Models;
+using LASI.WebService.Filters;
+using LASI.WebService.Models;
 
-namespace MvcApplication2.Controllers
+namespace LASI.WebService.Controllers
 {
     [Authorize]
     [InitializeSimpleMembership]

@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MvcApplication2.LexicalElementInfo;
+using WebService.UnitTests.LexicalElementInfo;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using LASI.Core;
 using System.Dynamic;
-namespace MvcApplication2.LexicalElementInfo.Tests
+using LASI.WebService;
+
+namespace WebService.UnitTests.LexicalElementInfo.Tests
 {
     [TestClass()]
     public class ContextMenuDataProviderTests

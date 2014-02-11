@@ -291,14 +291,12 @@ namespace LASI.App
         }
         private async void exportButton_Click(object sender, RoutedEventArgs e) {
             foreach (var doc in documents) {
-                using (
-                    var docWriter = new SimpleLexicalSerializer(
-                    FileManager.ResultsDir + System.IO.Path.DirectorySeparatorChar + new string(
-                    doc.Name.TakeWhile(c => c != '.').ToArray()) + ".xml")) {
-                    await docWriter.WriteAsync(from S in doc.Sentences
-                                               from R in S.Phrases
-                                               select R, doc.Name, DegreeOfOutput.Comprehensive);
-                }
+                await Task.Run(() => SimpleLexicalSerializer.Serialize(from S in doc.Sentences
+                                                                       from R in S.Phrases
+                                                                       select R, doc.Name, DegreeOfOutput.Comprehensive).Save(
+                FileManager.ResultsDir + System.IO.Path.DirectorySeparatorChar + new string(
+                doc.Name.TakeWhile(c => c != '.').ToArray()) + ".xml"));
+
             }
             var exportDialog = new ExportResultsDialog();
             exportDialog.ShowDialog();

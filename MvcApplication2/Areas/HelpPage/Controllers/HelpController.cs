@@ -1,10 +1,10 @@
 using System;
 using System.Web.Http;
 using System.Web.Mvc;
-using MvcApplication2.Areas.HelpPage.ModelDescriptions;
-using MvcApplication2.Areas.HelpPage.Models;
+using LASI.WebService.Areas.HelpPage.ModelDescriptions;
+using LASI.WebService.Areas.HelpPage.Models;
 
-namespace MvcApplication2.Areas.HelpPage.Controllers
+namespace LASI.WebService.Areas.HelpPage.Controllers
 {
     /// <summary>
     /// The controller that will handle requests for the help page.

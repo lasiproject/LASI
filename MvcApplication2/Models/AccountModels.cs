@@ -6,7 +6,7 @@ using System.Data.Entity;
 using System.Globalization;
 using System.Web.Security;
 
-namespace MvcApplication2.Models
+namespace LASI.WebService.Models
 {
     public class UsersContext : DbContext
     {

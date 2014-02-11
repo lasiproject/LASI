@@ -5,7 +5,7 @@ using System.Linq;
 using System.Web;
 using Newtonsoft.Json;
 
-namespace MvcApplication2.Models
+namespace LASI.WebService.Models
 {
     /// <summary>
     /// Data transfer object for <see cref="TodoList"/>

@@ -8,7 +8,7 @@ using System.Linq;
 using Newtonsoft.Json;
 using System.Collections.Concurrent;
 
-namespace MvcApplication2
+namespace LASI.WebService
 {
     /// <summary>
     /// Provides static and extension methods for serializing lexical elements and their relationships

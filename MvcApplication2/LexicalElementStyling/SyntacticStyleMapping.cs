@@ -12,7 +12,7 @@ using System.Web.UI.WebControls;
 using System.Drawing;
 using LASI.Core.Patternization;
 
-namespace MvcApplication2
+namespace LASI.WebService
 {
     public class SyntacticStyleMapping : LASI.Interop.ISyntacticColorizer<ILexical, Style>
     {

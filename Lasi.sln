@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
+VisualStudioVersion = 12.0.30110.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E61EB5D5-494B-437A-A9ED-20756769E139}"
 	ProjectSection(SolutionItems) = preProject
@@ -77,9 +77,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{B46EA31B-E
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Utilities", "Utilities", "{BE3EB7F0-95CA-47B8-87E0-1383D7D7AC47}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MvcApplication2", "MvcApplication2\MvcApplication2.csproj", "{D9E607C7-E135-487C-B1B5-A6D087275B09}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "L_WebService", "MvcApplication2\L_WebService.csproj", "{D9E607C7-E135-487C-B1B5-A6D087275B09}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MvcApplication2Tests", "MvcApplication2Tests\MvcApplication2Tests.csproj", "{8A2A9BA6-8207-48ED-AB6E-F75CCC9DC63A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "L_WebService.UnitTests", "MvcApplication2Tests\L_WebService.UnitTests.csproj", "{8A2A9BA6-8207-48ED-AB6E-F75CCC9DC63A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

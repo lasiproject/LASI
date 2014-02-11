@@ -1,7 +1,7 @@
 ﻿using System.Web;
 using System.Web.Optimization;
 
-namespace MvcApplication2
+namespace LASI.WebService
 {
     public class BundleConfig
     {

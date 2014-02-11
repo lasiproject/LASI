@@ -124,7 +124,6 @@
     <Compile Include="IGenderedTest.cs" />
     <Compile Include="IInderectObjectTakerTest.cs" />
     <Compile Include="ILexicalTest.cs" />
-    <Compile Include="ILexicalWriterTest.cs" />
     <Compile Include="IModalityModifiableTest.cs" />
     <Compile Include="InputFileTest.cs" />
     <Compile Include="InterjectionPhraseTest.cs" />
@@ -162,7 +161,6 @@
     <Compile Include="SentenceTest.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="SimpleDeclarativeClauseBeginPhraseTest.cs" />
-    <Compile Include="SimpleLexicalSerializerTest.cs" />
     <Compile Include="SingleQuoteTest.cs" />
     <Compile Include="SuperlativeAdverbTest.cs" />
     <Compile Include="SymbolTest.cs" />

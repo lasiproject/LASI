@@ -10,15 +10,12 @@ using System.Threading.Tasks;
 namespace LASI.ContentSystem.Serialization.XML
 {
     /// <summary>
-    /// Defines the behavioral requirements for an XML output stream which provides synchronous and asynchronous output functionality for serializing covarient sequences of ILexical elements.
-    /// </summary>
-    /// <typeparam name="S">The Type of the collections generic containing elements to be serialized. This Type parameter is contravariant.</typeparam>
-    /// <typeparam name="T">The Type of the elements in the generic collections. This Type parameter is covariant.</typeparam>
-    /// <typeparam name="W">The type of the underlying xmlWriter object. This Type parameter is contravariant.</typeparam>
-    public interface ILexicalWriter<S, out T, in W> : IDisposable
-        where S : class, IEnumerable<T>
+    /// Defines the behavioral requirements for outputting an XML string from sequences of ILexical elements.
+    /// </summary> 
+    /// <typeparam name="T">The Type of the elements in the generic collections. This Type parameter is covariant.</typeparam> 
+    public interface ILexicalXmlSerializer<in T>
+
         where T : class, ILexical
-        where W : System.Xml.XmlWriter
     {
         /// <summary>
         /// Writes a sequence of elements to the underlying xmlWriter, using the provided title string and Degree of output.
@@ -26,21 +23,8 @@ namespace LASI.ContentSystem.Serialization.XML
         /// <param name="elements">The sequence S&lt;T&gt; containing the values to serialize.</param>
         /// <param name="resultSetTitle">The title string which will represent a parent node of which the serialized elements will be child nodes.</param>
         /// <param name="degreeOfOutput">Controls the level of output detail to which elements will be serialized.</param>
-        void Write(S elements, string resultSetTitle, DegreeOfOutput degreeOfOutput);
-        /// <summary>
-        /// Writes a sequence of elements to the underlying xmlWriter, using the provided title string and Degree of output.
-        /// </summary>
-        /// <param name="elements">The sequence S&lt;T&gt; containing the values to serialize.</param>
-        /// <param name="resultSetTitle">The title string which will represent a parent node of which the serialized elements will be child nodes.</param>
-        /// <param name="degreeOfOutput">Controls the level of output detail to which elements will be serialized.</param>
-        /// <rereturns>A Task representing the ongoing asynchronous operation.</rereturns>
-        Task WriteAsync(S elements, string resultSetTitle, DegreeOfOutput degreeOfOutput);
-        /// <summary>
-        /// Gets the underlying System.Xml.XmlWriter to which all output is written.
-        /// </summary>
-        System.Xml.XmlWriter Writer {
-            get;
-        }
+        System.Xml.Linq.XElement Serialize(IEnumerable<T> elements, string resultSetTitle, DegreeOfOutput degreeOfOutput);
+
     }
     /// <summary>
     /// Controls the quantity and level detail which will be serialized into the XML representations of each lexical element.

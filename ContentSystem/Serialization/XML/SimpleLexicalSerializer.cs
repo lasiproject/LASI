@@ -16,32 +16,11 @@ namespace LASI.ContentSystem.Serialization.XML
     /// <summary>
     /// Provides basic Xml serialization of for various configuration of ILexical elements.
     /// </summary>
-    public sealed class SimpleLexicalSerializer : ILexicalWriter<IEnumerable<ILexical>, ILexical, XmlWriter>
+    public static class SimpleLexicalSerializer
     {
-        /// <summary>
-        /// Initializes a new instance of the SimpleLexicalSerializer class which will output to the given XmlWriter.
-        /// </summary>
-        /// <param name="target">The XmlWriter to which to output.</param>
-        public SimpleLexicalSerializer(XmlWriter target) {
-            Writer = target;
-        }
-        /// <summary>
-        /// Initializes a new instance of the SimpleLexicalSerializer class which will output to the Uniform Resource Identifier specified by the string.
-        /// </summary>
-        /// <param name="uri">The string specifying the Uniform Resource Identifier to which to output.</param>
-        public SimpleLexicalSerializer(string uri) {
-            var segments = uri.SplitRemoveEmpty(System.IO.Path.DirectorySeparatorChar);
 
 
-            Writer = XmlWriter.Create(uri);
-        }
-        /// <summary>
-        /// Initializes a new instance of the SimpleLexicalSerializer class which will output to the given System.IO.TextWriter.
-        /// </summary>
-        /// <param name="textWriter">The System.IO.TextWriter to which to output.</param>
-        public SimpleLexicalSerializer(System.IO.TextWriter textWriter) {
-            Writer = XmlWriter.Create(textWriter);
-        }
+
         /// <summary>
         /// Serializes the provided sequence of ILexical instances into xml elements and returns a single XElement containing them.
         /// </summary>
@@ -49,7 +28,7 @@ namespace LASI.ContentSystem.Serialization.XML
         /// <param name="parentElementTitle">The desired name for the resulting XElement .</param>
         /// <param name="degreeOfOutput">The DegreeOfOutput value specifying the per element amount of detail the serilization will retain.</param>
         /// <returns>A single XElement  containing the serialized representation of the given sequence of elements.</returns>
-        public XElement Serialize(IEnumerable<ILexical> source, string parentElementTitle, DegreeOfOutput degreeOfOutput) {
+        public static XElement Serialize(IEnumerable<ILexical> source, string parentElementTitle, DegreeOfOutput degreeOfOutput) {
 
             return new XElement("Root",
                              new XElement("Results",
@@ -71,73 +50,7 @@ namespace LASI.ContentSystem.Serialization.XML
 
                          );
         }
-        /// <summary>
-        /// Serializes the provided sequence of ILexical instances into xml elements and returns an XDocument containing them.
-        /// </summary>
-        /// <param name="source">The sequence of ILexical instances to serialize into an XDocument.</param>
-        /// <param name="documentTitle">The desired name for the resulting XDocument.</param>
-        /// <param name="degreeOfOutput">The DegreeOfOutput value specifying the per element amount of detail the serilization will retain.</param>
-        /// <returns>An XDocument containing the serialized representation of the given sequence of elements.</returns>
-        public XDocument SerializeSequence(IEnumerable<ILexical> source, string documentTitle, DegreeOfOutput degreeOfOutput) {
-            return new XDocument(new XDeclaration("1.0", "UTF-8", "yes"),
-            Serialize(source, documentTitle, degreeOfOutput)
-                        );
-        }
-        /// <summary>
-        /// Gets the XmlWriter object targeted by all Write operations of the SimpleLexicalSerializer.
-        /// </summary>
-        public XmlWriter Writer {
-            get;
-            private set;
-        }
-        /// <summary>
-        /// Frees any unmanaged resources associated with the SimpleLexicalSerializer.
-        /// </summary>
-        public void Dispose() {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
 
-        private void Dispose(bool disposing) {
-            if (!disposed) {
-                if (disposing) {
-                    if (Writer != null) {
-                        Writer.Close();
-                        Writer.Dispose();
-                    }
-                }
-                Writer = null;
-                disposed = true;
-            }
-        }
-        private bool disposed;
-        /// <summary>
-        /// Serializes the provided sequence of ILexical instances into xml elements, writing them to the XmlWriter associated with this instance.
-        /// </summary>
-        /// <param name="source">The sequence of ILexical instances to serialize.</param>
-        /// <param name="title">The desired name for the parent xml element which will be created as the root element of the source sequence.</param>
-        /// <param name="degreeOfOutput">The DegreeOfOutput value specifying the per element amount of detail the serilization will retain.</param>
-        public void Write(IEnumerable<ILexical> source, string title, DegreeOfOutput degreeOfOutput) {
-
-            var serializedResults =
-                SerializeSequence(source, title, degreeOfOutput);
-            serializedResults.WriteTo(Writer);
-
-        }
-        /// <summary>
-        /// Asynchronously serializes the provided sequence of ILexical instances into xml elements, writing them to the XmlWriter associated with this instance.
-        /// </summary>
-        /// <param name="source">The sequence of ILexical instances to serialize.</param>
-        /// <param name="title">The desired name for the parent xml element which will be created as the root element of the source sequence.</param>
-        /// <param name="degreeOfOutput">The DegreeOfOutput value specifying the per element amount of detail the serilization will retain.</param>
-        /// <returns>A System.Threading.Tasks.Task representing the ongoing asynchronous operation.</returns>
-        public async Task WriteAsync(IEnumerable<ILexical> source, string title, DegreeOfOutput degreeOfOutput) {
-            //await Writer.WriteStringAsync(Serialize(source, title, degreeOfOutput).ToString(SaveOptions.None));
-            //Writer.Close();
-
-            await Task.Run(() => Serialize(source, title, degreeOfOutput).WriteTo(Writer));
-
-        }
 
     }
 }

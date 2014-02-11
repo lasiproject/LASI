@@ -28,7 +28,13 @@ namespace LASI.ContentSystem
         /// </summary>
         /// <returns>A single string containing all of the text in the TextFile.</returns>
         public override string GetText() {
-            using (var reader = new System.IO.StreamReader(this.FullPath)) {
+            using (var reader = new System.IO.StreamReader(
+                new System.IO.FileStream(this.FullPath,
+                    System.IO.FileMode.Open,
+                    System.IO.FileAccess.Read,
+                    System.IO.FileShare.Read)
+                    )
+                ) {
                 return reader.ReadToEnd();
             }
         }

@@ -1,6 +1,6 @@
 using System;
 
-namespace MvcApplication2.Areas.HelpPage.ModelDescriptions
+namespace LASI.WebService.Areas.HelpPage.ModelDescriptions
 {
     public class ParameterAnnotation
     {

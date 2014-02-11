@@ -6,11 +6,11 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using MvcApplication2.Filters;
-using MvcApplication2.Models;
+using LASI.WebService.Filters;
+using LASI.WebService.Models;
 using System.Data.Entity;
 
-namespace MvcApplication2.Controllers
+namespace LASI.WebService.Controllers
 {
     [Authorize]
     public class TodoListController : ApiController

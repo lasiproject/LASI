@@ -1,7 +1,6 @@
-﻿@model MvcApplication2.Models.LoginModel
+﻿@model LASI.WebService.Models.LoginModel
 
-@using (Html.BeginForm("JsonLogin", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { id = "loginForm" }))
-{
+@using (Html.BeginForm("JsonLogin", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { id = "loginForm" })) {
     @Html.AntiForgeryToken()
 
     <fieldset>
@@ -25,6 +24,6 @@
                 <input type="submit" value="Log in" />
             </li>
         </ol>
-        @Html.ValidationSummary() 
+        @Html.ValidationSummary()
     </fieldset>
 }

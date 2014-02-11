@@ -8,7 +8,7 @@ using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
 using System.Web.Mvc;
 
-namespace MvcApplication2.Filters
+namespace LASI.WebService.Filters
 {
     public class ValidateHttpAntiForgeryTokenAttribute : AuthorizationFilterAttribute
     {

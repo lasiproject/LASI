@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 
-namespace MvcApplication2.Models
+namespace LASI.WebService.Models
 {
     // You can add custom code to this file. Changes will not be overwritten.
     // 
@@ -12,7 +12,7 @@ namespace MvcApplication2.Models
     // code to the Application_Start method in your Global.asax file.
     // Note: this will destroy and re-create your database with every model change.
     // 
-    // System.Data.Entity.Database.SetInitializer(new System.Data.Entity.DropCreateDatabaseIfModelChanges<MvcApplication2.Models.TodoItemContext>());
+    // System.Data.Entity.Database.SetInitializer(new System.Data.Entity.DropCreateDatabaseIfModelChanges<LASI.WebService.Models.TodoItemContext>());
     public class TodoItemContext : DbContext
     {
         public TodoItemContext()

@@ -1,4 +1,4 @@
-﻿@model MvcApplication2.Models.RegisterModel
+﻿@model LASI.WebService.Models.RegisterModel
 
 @using (Html.BeginForm("JsonRegister", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { Id = "registerForm" })) {
     @Html.AntiForgeryToken()
@@ -16,7 +16,7 @@
             </li>
             <li>
                 @Html.LabelFor(m => m.ConfirmPassword)
-                @Html.PasswordFor(m => m.ConfirmPassword)
+                @Html.PasswordFor(m => m.ConfirmPassword) 
             </li>
             <li>
                 <input type="submit" value="Sign up" />

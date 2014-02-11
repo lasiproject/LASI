@@ -6,8 +6,8 @@
     <ProjectGuid>{8A2A9BA6-8207-48ED-AB6E-F75CCC9DC63A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MvcApplication2Tests</RootNamespace>
-    <AssemblyName>MvcApplication2Tests</AssemblyName>
+    <RootNamespace>WebService.UnitTests</RootNamespace>
+    <AssemblyName>WebService.UnitTests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -69,9 +69,9 @@
       <Project>{06B96679-9758-4B15-8E75-0F46416E68B7}</Project>
       <Name>L_Interop</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MvcApplication2\MvcApplication2.csproj">
+    <ProjectReference Include="..\MvcApplication2\L_WebService.csproj">
       <Project>{D9E607C7-E135-487C-B1B5-A6D087275B09}</Project>
-      <Name>MvcApplication2</Name>
+      <Name>L_WebService</Name>
     </ProjectReference>
     <ProjectReference Include="..\Utilities\L_Utilities.csproj">
       <Project>{BC10A8F0-77FF-46D0-9F9A-38E2FDA22D21}</Project>

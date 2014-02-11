@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 using LASI.Core;
 using Newtonsoft.Json;
 
-namespace MvcApplication2.Controllers
+namespace LASI.WebService.Controllers
 {
     public class HomeController : Controller
     {

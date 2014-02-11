@@ -1,7 +1,7 @@
 ﻿@using LASI.Core;
 @using LASI.Utilities;
-@using MvcApplication2.Controllers;
-@using MvcApplication2;
+@using LASI.WebService.Controllers;
+@using LASI.WebService;
 @using Newtonsoft.Json;
 
 
@@ -24,7 +24,7 @@
 <div>
     @foreach (var doc in ViewData["docs"] as IEnumerable<LASI.Core.DocumentStructures.Document>) {
         <div id=@doc.Name class="content-wrapper">
-            @{var styleMap = new MvcApplication2.SyntacticStyleMapping();
+            @{var styleMap = new SyntacticStyleMapping();
             var withIds = doc.Phrases.Select(p => new { Phrase = p, Id = p.GetSerializationId() });
             foreach (var paragraphData in from ided in withIds group ided by ided.Phrase.Paragraph) {
                 <p class="lexical-content-block">

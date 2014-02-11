@@ -27,7 +27,12 @@ namespace LASI.ContentSystem
         /// </summary>
         /// <returns>A single string containing all of the text in the TaggedFile.</returns>
         public override string GetText() {
-            using (var reader = new StreamReader(this.FullPath)) {
+            using (var reader = new System.IO.StreamReader(
+                new FileStream(
+                    this.FullPath,
+                    FileMode.Open,
+                    FileAccess.Read,
+                    FileShare.Read))) {
                 return reader.ReadToEnd();
             }
         }
