@@ -146,7 +146,7 @@ namespace LASI.Core.Heuristics
             if (outer.Words.OfNoun().Any() && inner.Words.OfNoun().Any()) {
                 foreach (var outerNoun in outer.Words.OfNoun()) {
                     foreach (var innerNoun in inner.Words.OfNoun()) {
-                        if (innerNoun.IsSimilarTo(outerNoun))
+                        if (innerNoun.IsSynonymFor(outerNoun))
                             similarCount += 0.7;
                     }
                     var scaleFactor = inner.Words.OfNoun().Count() * outer.Words.OfNoun().Count();

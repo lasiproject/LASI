@@ -76,22 +76,29 @@ namespace LASI.Core
 
         private static void BindSubjectsAndObjects(IEnumerable<Sentence> sentences) {
             try {
-                sentences.AsParallel()
-.WithDegreeOfParallelism(Concurrency.Max)
+                sentences
+                    .AsParallel()
+                    .WithDegreeOfParallelism(Concurrency.Max)
                     .ForAll(s => {
                         try { new SubjectBinder().Bind(s); }
-                        catch (NullReferenceException e) { Output.WriteLine(e.Message); }
+                        catch (NullReferenceException e) { LogExceptionIfDebug(e); }
                         // Sentence did not have a valid structure or was incorrectly identified.
-                        catch (VerblessPhrasalSequenceException e) { Output.WriteLine(e.Message); }
+                        catch (VerblessPhrasalSequenceException e) { LogExceptionIfDebug(e); }
                         try { new ObjectBinder().Bind(s); }
                         // A state path within the object binder was undefined for a sequence of types within Sentence
-                        catch (InvalidStateTransitionException e) { Output.WriteLine(e.Message); }
+                        catch (InvalidStateTransitionException e) { LogExceptionIfDebug(e); }
                         // Sentence did not have a valid structure or was incorrectly identified.
-                        catch (VerblessPhrasalSequenceException e) { Output.WriteLine(e.Message); }
-                        catch (InvalidOperationException e) { Output.WriteLine(e.Message); }
+                        catch (VerblessPhrasalSequenceException e) { LogExceptionIfDebug(e); }
+                        catch (InvalidOperationException e) { LogExceptionIfDebug(e); }
                     });
             }
-            catch (SystemException e) { Output.WriteLine(e.Message); }
+            catch (SystemException e) { LogExceptionIfDebug(e); }
+        }
+
+        private static void LogExceptionIfDebug(Exception e) {
+#if DEBUG
+            Output.WriteLine(e.Message);
+#endif
         }
 
         private static void BindIntraPhrase(IEnumerable<Phrase> phrases) {

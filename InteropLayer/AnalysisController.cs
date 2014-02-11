@@ -91,15 +91,17 @@ namespace LASI.Interop
             return taggedFiles;
         }
         private async Task<IEnumerable<Document>> BindAndWeightDocumentsAsync(ConcurrentBag<ITaggedTextSource> taggedFiles) {
-            var tasks = taggedFiles.Select(tagged => ProcessTaggedFileAsync(tagged)).ToList();
-            var documents = new ConcurrentBag<Document>();
-            while (tasks.Any()) {
-                var currentTask = await Task.WhenAny(tasks);
-                var processedDocument = await currentTask;
-                tasks.Remove(currentTask);
-                documents.Add(processedDocument);
-            }
-            return documents;
+            //var tasks = taggedFiles.Select(tagged => ProcessTaggedFileAsync(tagged)).ToList();
+            return await Task.Run(async () => await Task.WhenAll(taggedFiles.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
+                .Select(async f => await ProcessTaggedFileAsync(f))));
+            //var documents = new ConcurrentBag<Document>();
+            //while (tasks.Any()) {
+            //    var currentTask = await Task.WhenAny(tasks);
+            //    var processedDocument = await currentTask;
+            //    tasks.Remove(currentTask);
+            //    documents.Add(processedDocument);
+            //}
+            //return documents;
         }
         private async Task<Document> ProcessTaggedFileAsync(LASI.ContentSystem.ITaggedTextSource tagged) {
             var fileName = tagged.SourceName;
@@ -119,7 +121,7 @@ namespace LASI.Interop
                 OnReport(new AnalysisProgressReportEventArgs(task.CompletionMessage, task.PercentWorkRepresented * 0.5 / sourceCount));
             }
 
-            OnReport(new AnalysisProgressReportEventArgs(string.Format("{0}: Completing Parse...", fileName), stepMagnitude));
+            OnReport(new AnalysisProgressReportEventArgs(string.Format("{0}: Coalescing Results...", fileName), stepMagnitude));
             return document;
         }
 

@@ -28,8 +28,7 @@ namespace LASI.Core
         /// However, to ensure the consistency/determinism of the Weighting process, it is recommended that they be executed (awaited) in the order
         /// in which they are hereby returned.
         /// </remarks>
-        public static IEnumerable<ProcessingTask> GetWeightingTasks(this Document document)
-        {
+        public static IEnumerable<ProcessingTask> GetWeightingTasks(this Document document) {
             yield return new ProcessingTask(() => WeightByLiteralFrequency(document.Words),
                 string.Format("{0}: Aggregating Literals", document.Name),
                 string.Format("{0}: Aggregated Literals", document.Name),
@@ -64,8 +63,7 @@ namespace LASI.Core
                 3);
         }
 
-        static void ExecuteTask(Task phase, string documentSpecificMessageText, double numericValue)
-        {
+        static void ExecuteTask(Task phase, string documentSpecificMessageText, double numericValue) {
             PhaseStarted(new object(), new WeightingUpdateEventArgs(documentSpecificMessageText, numericValue)
             );
             phase.Wait();
@@ -78,44 +76,36 @@ namespace LASI.Core
         /// Assigns numeric Weights to each elemenet in the given Document.
         /// </summary>
         /// <param name="document">The Document whose elements are to be assigned numeric weights.</param>
-        public static void Weight(Document document)
-        {
+        public static void Weight(Document document) {
             Task.WaitAll(document.GetWeightingTasks().Select(t => t.Task).ToArray());
         }
         /// <summary>
         /// Assigns numeric Weights to each elemenet in the given Document.
         /// </summary>
         /// <param name="document">The Document whose elements are to be assigned numeric weights.</param>
-        public static async Task WeightAsync(Document document)
-        {
+        public static async Task WeightAsync(Document document) {
             await Task.WhenAll(document.GetWeightingTasks().Select(t => t.Task).ToArray());
         }
-        private static void NormalizeWeights(Document document)
-        {
-            if (document.Phrases.Any())
-            {
+        private static void NormalizeWeights(Document document) {
+            if (document.Phrases.Any()) {
                 var maxWeight = document.Phrases.Max(p => p.Weight);
                 if (maxWeight != 0)
-                    foreach (var p in document.Phrases)
-                    {
+                    foreach (var p in document.Phrases) {
                         var proportion = p.Weight / maxWeight;
                         proportion *= 100;
                         p.Weight = proportion;
                     }
             }
         }
-        private static void ModifyVerbWeightsBySynonyms(Document document)
-        {
-            var verbsToConsider = document.Words.OfVerb().AsParallel().WithDegreeOfParallelism(Concurrency.Max).WithSubjectOrObject().ToList();
-            var groups = from outer in verbsToConsider.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                         from inner in verbsToConsider.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
+        private static void ModifyVerbWeightsBySynonyms(Document document) {
+            var verbsToConsider = document.Words.OfVerb().AsParallel().WithDegreeOfParallelism(Concurrency.Max).WithSubjectOrObject();
+            var groups = from outer in verbsToConsider.ToList().AsParallel().WithDegreeOfParallelism(Concurrency.Max)
+                         from inner in verbsToConsider.ToList().AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                          where outer.IsSynonymFor(inner)
                          group inner by outer;
-            groups.ForAll(grp =>
-            {
+            groups.ForAll(grp => {
                 var increase = grp.Count();
-                foreach (var e in grp)
-                {
+                foreach (var e in grp) {
                     e.Weight += increase;
                 }
             });
@@ -125,13 +115,11 @@ namespace LASI.Core
         /// Increase noun weights in a document by abstracting over synonyms
         /// </summary>
         /// <param name="document">the Document whose noun weights may be modiffied</param>
-        private static void ModifyNounWeightsBySynonyms(Document document)
-        {
+        private static void ModifyNounWeightsBySynonyms(Document document) {
             var toConsider = from e in document.Words
                                  .AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                                  .OfEntity().InSubjectOrObjectRole() //Currently, include only those nouns which exist in relationships with some IVerbal or IPronoun.
-                             let result =
-                               e.Match().Yield<IEntity>()
+                             let result = e.Match().Yield<IEntity>()
                                    .With<Noun>(e)
                                    .With<IReferencer>(r => r.ReferredTo ?? r as IEntity)
                                .Result()
@@ -139,23 +127,20 @@ namespace LASI.Core
                              select result;
 
             var synonymGroups =
-                from outer in toConsider.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                from inner in toConsider.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
+                from outer in toConsider.ToList().AsParallel().WithDegreeOfParallelism(Concurrency.Max)
+                from inner in toConsider.ToList().AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                 where outer.IsSimilarTo(inner)
                 group inner by outer into grouped
                 select new { SynGroup = grouped, Count = grouped.Count() };
 
-            synonymGroups.ForAll(grp =>
-            {
+            synonymGroups.ForAll(grp => {
                 var increase = grp.Count;
-                foreach (var e in grp.SynGroup)
-                {
+                foreach (var e in grp.SynGroup) {
                     e.Weight += increase;
                 }
             });
         }
-        private static void WeightByLiteralFrequency(IEnumerable<ILexical> syntacticElements)
-        {
+        private static void WeightByLiteralFrequency(IEnumerable<ILexical> syntacticElements) {
             var byTypeAndText = from e in syntacticElements.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                                 group e by new { e.Type, e.Text } into g
                                 select g.ToList();
@@ -166,71 +151,62 @@ namespace LASI.Core
         /// For each noun parent in a document that is similar to another noun parent, increase the weight of that noun
         /// </summary>
         /// <param name="doc">Document containing the componentPhrases to weight</param>
-        private static void WeightSimilarNounPhrases(Document doc)
-        {
+        private static void WeightSimilarNounPhrases(Document doc) {
             //Reify the query source so that it may be queried to form a full self join (cartesian product with itself.
             // in the two subsequent from clauses both query the reified collection in paralllel.
             var npsToConsider = doc.Phrases
                 .AsParallel()
                 .WithDegreeOfParallelism(Concurrency.Max)
                 .OfNounPhrase()
-                .InSubjectOrObjectRole()
-                .ToList();
-            var nps = from outer in npsToConsider.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                      from inner in npsToConsider.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                      where inner.IsAliasFor(outer) || inner.IsSimilarTo(outer)
+                .InSubjectOrObjectRole();
+
+            var nps = from outer in npsToConsider.ToList().AsParallel().WithDegreeOfParallelism(Concurrency.Max)
+                      from inner in npsToConsider.ToList().AsParallel().WithDegreeOfParallelism(Concurrency.Max)
+                      where inner.IsSimilarTo(outer)
                       group inner by outer into grouped
                       select new { WeightIncrease = grouped.Count() * 0.5, Elements = grouped };
             nps.ForAll(grp => { foreach (var e in grp.Elements) { e.Weight += grp.WeightIncrease; } });
         }
-        private static void WeightSimilarVerbPhrases(Document doc)
-        {
+        private static void WeightSimilarVerbPhrases(Document doc) {
             //Reify the query source so that it may be queried to form a full self join (cartesian product with itself.
             // in the two subsequent from clauses both query the reified collection in paralllel.
-            var vpsToConsider = doc.Phrases.AsParallel().WithDegreeOfParallelism(Concurrency.Max).OfVerbPhrase().WithSubjectOrObject().ToList();
-            var vps = from outer in vpsToConsider.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                      from inner in vpsToConsider.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
+            var vpsToConsider = doc.Phrases.AsParallel().WithDegreeOfParallelism(Concurrency.Max).OfVerbPhrase().WithSubjectOrObject();
+            var vps = from outer in vpsToConsider.ToList().AsParallel().WithDegreeOfParallelism(Concurrency.Max)
+                      from inner in vpsToConsider.ToList().AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                       where inner.IsSimilarTo(outer)
                       group inner by outer into grouped
                       select new { WeightIncrease = grouped.Count() * 0.5, Elements = grouped };
             vps.ForAll(grp => { foreach (var e in grp.Elements) { e.Weight += grp.WeightIncrease; } });
 
         }
-        private static void WeightSimilarEntities(Document document)
-        {
+        private static void WeightSimilarEntities(Document document) {
             var entities = document.GetEntities().ToList();
 
-            document.GetEntities().AsParallel().WithDegreeOfParallelism(Concurrency.Max).ForAll(outer =>
-            {
+            document.GetEntities().AsParallel().WithDegreeOfParallelism(Concurrency.Max).ForAll(outer => {
                 var groups = from inner in entities.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                              where inner.IsAliasFor(outer) || inner.IsSimilarTo(outer)
                              group inner by outer;
-                foreach (var group in groups)
-                {
+                foreach (var group in groups) {
                     var weightIncrease = group.Count() * .5;
-                    foreach (var inner in group)
-                    {
+                    foreach (var inner in group) {
                         inner.Weight += weightIncrease;
                     }
                 }
             });
 
         }
-        private static void HackSubjectPropernounImportance(Document document)
-        {
+        private static void HackSubjectPropernounImportance(Document document) {
             document.Phrases.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                 .OfNounPhrase()
                 .Where(np => np.Words.Any(w => w is ProperNoun))
                 .ForAll(np => np.Weight *= 2);
 
         }
-        private static void OldNormalizationProcedure(Document document)
-        {
+        private static void OldNormalizationProcedure(Document document) {
             double TotPhraseWeight = 0.0;
             double MaxWeight = 0.0;
             int NonZeroWghts = 0;
-            foreach (var w in document.Phrases)
-            {
+            foreach (var w in document.Phrases) {
                 TotPhraseWeight += w.Weight;
 
                 if (w.Weight > 0)
@@ -239,12 +215,10 @@ namespace LASI.Core
                 if (w.Weight > MaxWeight)
                     MaxWeight = w.Weight;
             }
-            if (NonZeroWghts != 0)
-            {//Caused a devide by zero exception if document was empty.
+            if (NonZeroWghts != 0) {//Caused a devide by zero exception if document was empty.
                 var ratio = 100 / MaxWeight;
 
-                foreach (var p in document.Phrases)
-                {
+                foreach (var p in document.Phrases) {
                     p.Weight = Math.Round(p.Weight * ratio, 3);
                 }
             }
@@ -274,8 +248,7 @@ namespace LASI.Core
         /// <summary>
         /// Initializes a new instance of the WeightingUpdateEventArgs class.
         /// </summary>
-        internal WeightingUpdateEventArgs(string message, double increment)
-        {
+        internal WeightingUpdateEventArgs(string message, double increment) {
             Message = message;
             Increment = increment;
         }

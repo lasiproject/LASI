@@ -52,8 +52,8 @@ namespace LASI.Core
                               select new { TopNounPhrases = GetTopNounPhrases(doc), Document = doc };
 
             await Task.Yield();
-            var crossReferenced = from o in topNPsByDoc
-                                  from i in topNPsByDoc
+            var crossReferenced = from o in topNPsByDoc.ToList().AsParallel().WithDegreeOfParallelism(Concurrency.Max)
+                                  from i in topNPsByDoc.ToList().AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                                   where i.Document != o.Document
                                   from np in o.TopNounPhrases
                                   where i.TopNounPhrases.Contains(np, CompareNps)
@@ -82,10 +82,10 @@ namespace LASI.Core
         private async Task<IEnumerable<SVORelationship>> GetCommonalitiesByVerbals(IEnumerable<Document> documents) {
             var topVerbalsByDoc = await Task.WhenAll(from doc in documents.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                                                      select GetTopVerbPhrasesAsync(doc));
-            var verbalCominalities = from verbals in topVerbalsByDoc
+            var verbalCominalities = from verbals in topVerbalsByDoc.ToList().AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                                      from v in verbals
                                      where (
-                                        from verbs in topVerbalsByDoc
+                                        from verbs in topVerbalsByDoc.ToList().AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                                         select verbs.Contains(v, (x, y) => x.Text == y.Text || y.IsSimilarTo(y)))
                                      .Aggregate(true, (product, result) => product && result)
                                      select v;

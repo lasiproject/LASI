@@ -64,9 +64,7 @@ namespace LASI.Core.DocumentStructures
         private void LinksAdjacentElements() {
             LinksAdjacentWords();
             LinksAdjacentPhrases();
-        }   
-
-
+        }
         private void LinksAdjacentWords() {
             if (words.Count > 1) {
                 for (int i = 1; i < words.Count(); ++i) {
