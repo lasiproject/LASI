@@ -114,9 +114,15 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for Document Constructor
         ///</summary>
-        //[TestMethod()]
+        [TestMethod()]
         public void DocumentConstructorTest() {
             Document doc = BuildDocumentManually();
+            Assert.IsTrue(doc.Words
+                .Select((x, index) => x.PreviousWord == doc.Words.ElementAtOrDefault(index - 1) && x.NextWord == doc.Words.ElementAtOrDefault(index + 1)
+             ).Aggregate(true, (f, e) => f &= e));
+            Assert.IsTrue(doc.Phrases
+                .Select((x, index) => x.PreviousPhrase == doc.Phrases.ElementAtOrDefault(index - 1) && x.NextPhrase == doc.Phrases.ElementAtOrDefault(index + 1)
+                ).Aggregate(true, (f, e) => f &= e));
             Assert.IsTrue(doc != null);
         }
 
@@ -124,7 +130,7 @@ namespace LASI.UnitTests
         ///A test for GetActions
         ///</summary>
         [TestMethod()]
-        public void GetActionsTest() {
+        public void GetVerbalsTest() {
 
             Document target = BuildDocumentManually();
             IEnumerable<IVerbal> expected = new IVerbal[]{new VerbPhrase(new Word[] { 
@@ -288,7 +294,7 @@ namespace LASI.UnitTests
         }
 
 
-     
+
 
         /// <summary>
         ///A test for Name
@@ -345,9 +351,9 @@ namespace LASI.UnitTests
             Assert.AreEqual(expected, actual);
             Assert.Inconclusive("Verify the correctness of this test method.");
         }
-         
-    
 
-       
+
+
+
     }
 }

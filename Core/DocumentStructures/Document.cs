@@ -38,20 +38,20 @@ namespace LASI.Core.DocumentStructures
             foreach (var p in this.paragraphs) {
                 p.EstablishParent(this);
             }
-            EstablishLexicalLinks();
+            LinksAdjacentElements();
         }
 
         private void AssignMembers() {
             sentences = (from p in this.paragraphs
                          from s in p.Sentences
                          where s.Words.OfVerb().Any()
-                         select s).ToList();
+                         select s).ToList().AsReadOnly();
             phrases = (from s in sentences
                        from r in s.Phrases
-                       select r).ToList();
+                       select r).ToList().AsReadOnly();
             words = (from s in sentences
                      from w in s.Words.Append(s.EndingPunctuation)
-                     select w).ToList();
+                     select w).ToList().AsReadOnly();
         }
 
         #endregion
@@ -59,31 +59,38 @@ namespace LASI.Core.DocumentStructures
         #region Methods
 
         /// <summary>
-        /// Establishes the compositional linkages over all of the structures which comprise the Document.
+        /// Establishes the linear linkages between all adjacent words and phrases in the Document.
         /// </summary>
-        private void EstablishLexicalLinks() {
+        private void LinksAdjacentElements() {
+            LinksAdjacentWords();
+            LinksAdjacentPhrases();
+        }   
+
+
+        private void LinksAdjacentWords() {
             if (words.Count > 1) {
                 for (int i = 1; i < words.Count(); ++i) {
                     words[i].PreviousWord = words[i - 1];
                     words[i - 1].NextWord = words[i];
                 }
-
                 var lastWord = words[words.Count - 1];
-                if (words.IndexOf(lastWord) > 0)
-                    lastWord.PreviousWord = words[words.Count - 1];
-                else
+                if (words.Count - 1 > 0) {
+                    lastWord.PreviousWord = words[words.Count - 2];
+                } else {
                     lastWord.PreviousWord = null;
+                }
                 lastWord.NextWord = null;
             }
-            if (phrases.Count() > 1) {
-
+        }
+        private void LinksAdjacentPhrases() {
+            if (phrases.Count > 1) {
                 for (var i = 1; i < phrases.Count; ++i) {
                     phrases[i].PreviousPhrase = phrases[i - 1];
                     phrases[i - 1].NextPhrase = phrases[i];
                 }
             }
-
         }
+
 
         /// <summary>
         /// Returns all of the verbals identified within the docimument.
@@ -149,7 +156,6 @@ namespace LASI.Core.DocumentStructures
 
         #endregion
 
-
         #region Properties
 
         /// <summary>
@@ -185,16 +191,18 @@ namespace LASI.Core.DocumentStructures
 
         #region Fields
 
-        private IList<Word> words;
-        private IList<Phrase> phrases;
+        private IReadOnlyList<Word> words;
+        private IReadOnlyList<Phrase> phrases;
         //private IList<Clause> _clauses;
-        private IList<Sentence> sentences;
-        private IList<Paragraph> paragraphs;
-        private IList<Paragraph> paragraphsWithBulletsOrHeadings;
+        private IReadOnlyList<Sentence> sentences;
+        private IReadOnlyList<Paragraph> paragraphs;
+        private IReadOnlyList<Paragraph> paragraphsWithBulletsOrHeadings;
 
 
 
         #endregion
+
+
         /// <summary>
         /// Represents a page of a document. Pages are somewhat arbitrary segements of a Document, that contain some subset of its content.
         /// </summary>

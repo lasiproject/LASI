@@ -20,6 +20,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "XMLShemas", "XMLShemas", "{
 	ProjectSection(SolutionItems) = preProject
 		documentStructure.xsd = documentStructure.xsd
 		dotLasiFile.xsd = dotLasiFile.xsd
+		LASILexicalData.xsd = LASILexicalData.xsd
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SchemaTestFiles", "SchemaTestFiles", "{8829F489-A966-4321-BD4A-FDC4536D0BBA}"
