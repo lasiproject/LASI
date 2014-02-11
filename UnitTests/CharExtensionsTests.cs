@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LASI.Utilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-namespace LASI.Utilities.Tests
+namespace LASI.UnitTests
 {
     [TestClass()]
     public class CharExtensionsTests

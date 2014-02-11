@@ -2,7 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 
-namespace LASI.Core.Tests
+namespace LASI.UnitTests
 {
     
     

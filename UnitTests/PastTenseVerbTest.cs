@@ -3,7 +3,7 @@ using LASI.Core;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 
-namespace LASI.Core.Tests
+namespace LASI.UnitTests
 {
 
 
@@ -73,6 +73,6 @@ namespace LASI.Core.Tests
             Assert.IsTrue(target.Text == text);
             Assert.IsTrue(target.Tense == past);
         }
- 
+
     }
 }

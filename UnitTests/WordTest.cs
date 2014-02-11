@@ -6,7 +6,7 @@ using System;
 using System.Xml;
 using System.Xml.Schema;
 
-namespace LASI.Core.Tests
+namespace LASI.UnitTests
 {
 
 

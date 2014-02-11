@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using TaggerInterop;
 
-namespace LASI.Core.Tests
+namespace LASI.UnitTests
 {
     
     

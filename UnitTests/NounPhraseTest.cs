@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace LASI.Core.Tests
+namespace LASI.UnitTests
 {
     /// <summary>
     ///This is A test class for NounPhraseTest and is intended

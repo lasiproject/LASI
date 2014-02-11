@@ -5,7 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 
-namespace LASI.Core.Tests
+namespace LASI.UnitTests
 {
 
 

@@ -4,7 +4,7 @@ using System;
 using LASI.Core;
 using System.Collections.Generic;
 
-namespace LASI.Core.Tests
+namespace LASI.UnitTests
 {
     
     
