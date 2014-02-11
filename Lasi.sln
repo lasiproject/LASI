@@ -5,10 +5,6 @@ VisualStudioVersion = 12.0.30110.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E61EB5D5-494B-437A-A9ED-20756769E139}"
 	ProjectSection(SolutionItems) = preProject
-		LasiClassFramework.vsmdi = LasiClassFramework.vsmdi
-		Performance1.psess = Performance1.psess
-		Performance2.psess = Performance2.psess
-		Performance3.psess = Performance3.psess
 		TestSettings.runsettings = TestSettings.runsettings
 		WE2013-settings.xml = WE2013-settings.xml
 		WebEssentials-Settings.json = WebEssentials-Settings.json
@@ -17,19 +13,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "L_App", "App\L_App.csproj", "{6C8D6DA8-BD8B-48C8-ACB9-8FDE7E3A672E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestProjects", "TestProjects", "{B3482180-A78D-4A20-B744-81620578B79B}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WordNet", "WordNet", "{20C3B51F-FF54-4452-B69E-67D596843284}"
-	ProjectSection(SolutionItems) = preProject
-		WordNetThesaurusData\data.adj = WordNetThesaurusData\data.adj
-		WordNetThesaurusData\data.adv = WordNetThesaurusData\data.adv
-		WordNetThesaurusData\data.noun = WordNetThesaurusData\data.noun
-		WordNetThesaurusData\data.verb = WordNetThesaurusData\data.verb
-		WordNetThesaurusData\index.adj = WordNetThesaurusData\index.adj
-		WordNetThesaurusData\index.adv = WordNetThesaurusData\index.adv
-		WordNetThesaurusData\index.noun = WordNetThesaurusData\index.noun
-		WordNetThesaurusData\index.sense = WordNetThesaurusData\index.sense
-		WordNetThesaurusData\index.verb = WordNetThesaurusData\index.verb
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "L_Utilities", "Utilities\L_Utilities.csproj", "{BC10A8F0-77FF-46D0-9F9A-38E2FDA22D21}"
 EndProject
@@ -243,7 +226,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{20C3B51F-FF54-4452-B69E-67D596843284} = {E61EB5D5-494B-437A-A9ED-20756769E139}
 		{BB8A5BF2-C41F-4330-B55B-D1097569B529} = {E61EB5D5-494B-437A-A9ED-20756769E139}
 		{B012451A-BCB9-423F-8119-BE8027CA8474} = {E61EB5D5-494B-437A-A9ED-20756769E139}
 		{F4ABC10C-0BE9-4195-99E7-DB027757EC6B} = {B3482180-A78D-4A20-B744-81620578B79B}
