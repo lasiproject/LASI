@@ -4,8 +4,8 @@ using System;
 
 namespace LASI.UnitTests
 {
-    
-    
+
+
     /// <summary>
     ///This is a test class for PastParticipleVerbTest and is intended
     ///to contain all PastParticipleVerbTest Unit Tests

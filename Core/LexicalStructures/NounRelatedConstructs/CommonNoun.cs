@@ -19,7 +19,7 @@ namespace LASI.Core
         /// <param name="text">The key text content of the GenericNoun</param>
         protected CommonNoun(string text)
             : base(text) {
-            EntityKind = LASI.Core.EntityKind.ThingUnknown;
+            EntityKind = LASI.Core.EntityKind.Thing;
         }
     }
 }

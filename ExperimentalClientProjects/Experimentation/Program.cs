@@ -14,29 +14,26 @@ using System.Threading.Tasks;
 
 namespace LASI.Experimentation.CommandLine
 {
-    class Program
-    {
+	class Program
+	{
+		static void Main (string[] args)
+		{
+			var document = Tagger.DocumentFromRaw (new[] { "Hello there you fool." });
 
-        static void Main(string[] args) {
-            var document = Tagger.DocumentFromRaw(new[] { "Hello there you fool." });
+			var dd = document.GetEntities ().FirstOrDefault ();
+			dd.Match ()
+                .Yield<string> ()
+                .With ((IEntity e) => e.Text)
+                .Result ();
+			Output.WriteLine (document);
 
-            var dd = document.GetEntities().FirstOrDefault();
-            var k = dd.Match()
-                .Yield<string>()
-                .With((IEntity e) => e.Text)
-                .Result();
-            Output.WriteLine(document);
+ 
 
-            Output.WriteLine(0.To(10).Format());
-
-            Input.WaitForKey();
-
-            var name = new ProperSingularNoun("Dustin");
-            var pron = new PersonalPronoun("he");
-
-        }
-    }
-
-
+ 
+			 
+			Input.WaitForKey (ConsoleKey.NumPad0);
+ 
+		}
+	}
 }
 

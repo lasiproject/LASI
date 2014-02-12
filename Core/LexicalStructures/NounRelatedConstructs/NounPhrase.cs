@@ -21,7 +21,7 @@ namespace LASI.Core
         /// <param name="composed">The words which compose to form the NounPhrase.</param>
         public NounPhrase(IEnumerable<Word> composed)
             : base(composed) {
-            DetermineEntityType();
+            DetermineEntityKind();
         }
         #endregion
 
@@ -31,17 +31,12 @@ namespace LASI.Core
         /// Current,  somewhat sloppy determination of the Noun, person, place, thing etc, of nounphrase by 
         /// selecting the most common Noun between its nouns and from its bound pronouns 
         /// </summary>
-        protected void DetermineEntityType() {
+        private void DetermineEntityKind() {
 
             var kindsOfNouns = from N in Words.OfType<IEntity>()
                                group N by N.EntityKind into KindGroup
                                orderby KindGroup.Count()
                                select KindGroup.Key;
-            /*
-             * I'm not sure why this is causing my program to crash.
-             * But when I comment it out my program works.
-             * - Scott
-             */
 
             EntityKind = kindsOfNouns.FirstOrDefault();
         }
@@ -50,10 +45,10 @@ namespace LASI.Core
         /// <summary>
         /// Binds an IPronoun, generally a Pronoun or PronounPhrase, as a reference to the NounPhrase.
         /// </summary>
-        /// <param name="pro">The referencer which refers to the NounPhrase Instance.</param>
-        public virtual void BindReferencer(IReferencer pro) {
-            boundPronouns.Add(pro);
-            pro.BindAsReferringTo(this);
+        /// <param name="referee">The referencer which refers to the NounPhrase Instance.</param>
+        public virtual void BindReferencer(IReferencer referee) {
+            boundReferences.Add(referee);
+            referee.BindAsReferringTo(this);
         }
         /// <summary>
         /// Binds an IDescriptor, generally an Adjective or AdjectivePhrase, as a descriptor of the NounPhrase.
@@ -100,10 +95,9 @@ namespace LASI.Core
         #region Properties
 
         /// <summary>
-        /// Gets all of the IPronoun instances, generally Pronouns or PronounPhrases, which refer to the NounPhrase.
+        /// Gets all of the IReferencer instances, generally Pronouns or PronounPhrases, which refer to the NounPhrase.
         /// </summary>
-        public IEnumerable<IReferencer> Referees { get { return boundPronouns; } }
-
+        public IEnumerable<IReferencer> Referees { get { return boundReferences; } }
         /// <summary>
         /// Gets all of the IDescriptor constructs,generally Adjectives or AdjectivePhrases, which describe the NounPhrase.
         /// </summary>
@@ -111,11 +105,11 @@ namespace LASI.Core
         /// <summary>
         /// Gets or sets another NounPhrase, to the left of current instance, which is functions as an Attributor of current instance.
         /// </summary>
-        public NounPhrase OuterAttributive { get { return outerAttributive; } set { outerAttributive = value != this ? value : null; } }
+        public NounPhrase OuterAttributive { get { return outerAttributive; } set { outerAttributive = (value != this ? value : null); } }
         /// <summary>
         /// Gets or sets another NounPhrase, to the right of current instance, which is functions as an Attributor of current instance.
         /// </summary>
-        public NounPhrase InnerAttributive { get { return innerAttributive; } set { innerAttributive = value != this ? value : null; } }
+        public NounPhrase InnerAttributive { get { return innerAttributive; } set { innerAttributive = (value != this ? value : null); } }
         /// <summary>
         /// Gets the Entity PronounKind; Person, Place, Thing, Organization, or Activity; of the NounPhrase.
         /// </summary>
@@ -191,7 +185,7 @@ namespace LASI.Core
 
         private HashSet<IDescriptor> descriptors = new HashSet<IDescriptor>();
         private HashSet<IPossessable> possessed = new HashSet<IPossessable>();
-        private HashSet<IReferencer> boundPronouns = new HashSet<IReferencer>();
+        private HashSet<IReferencer> boundReferences = new HashSet<IReferencer>();
         private IPossesser possessor;
         private IVerbal directObjectOf;
         private IVerbal indirecObjectOf;

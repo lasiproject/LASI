@@ -26,9 +26,9 @@ namespace LASI.Core.Heuristics
                 first.Match().Yield<SR>()
                     .When(first.Text.ToUpper() == second.Text.ToUpper())
                         .Then(SR.Similar)
-                    .With<AggregateEntity>(ae1 =>
+                    .With<IAggregateEntity>(ae1 =>
                         second.Match().Yield<SR>()
-                          .With<AggregateEntity>(ae2 => new SR(ae1.IsSimilarTo(ae2)))
+                          .With<IAggregateEntity>(ae2 => new SR(ae1.IsSimilarTo(ae2)))
                           .With<IEntity>(e2 => new SR(ae1.Any(entity => entity.IsSimilarTo(e2))))
                         .Result())
                     .With<Noun>(n1 =>
@@ -64,8 +64,9 @@ namespace LASI.Core.Heuristics
                              select new { byResult.Key, Count };
             return new SR(simResults.Any() && simResults.First().Key,
                 simResults.Any() ?
-                simResults.Skip(1).Aggregate((float)simResults.First().Count, (ratioSoFar, current) => ratioSoFar / current.Count) :
-                0);
+                simResults
+                .Skip(1)
+                .Aggregate((float)simResults.First().Count, (ratioSoFar, current) => ratioSoFar / current.Count) : 0);
         }
         /// <summary>
         /// Determines if the provided Noun is similar to the provided NounPhrase.

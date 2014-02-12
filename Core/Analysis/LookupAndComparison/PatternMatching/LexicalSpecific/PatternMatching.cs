@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Reflection;
 
-namespace LASI.Core.Patternization
+namespace LASI.Core
 {
     /// <summary>
     /// Provides for the construction of flexible Pattern Matching expressions.
@@ -18,9 +18,8 @@ namespace LASI.Core.Patternization
         /// </summary> 
         /// <param name="value">The ILexical value to match with.</param>
         /// <returns>The head of a non result yielding Type based Pattern Matching expression over the specified ILexical value.</returns>
-        public static Match<T> Match<T>(this T value) where T : class, ILexical
-        {
-            return new Match<T>(value);
+        public static LASI.Core.Patternization.Match<T> Match<T>(this T value) where T : class, ILexical {
+            return new LASI.Core.Patternization.Match<T>(value);
         }
 
     }

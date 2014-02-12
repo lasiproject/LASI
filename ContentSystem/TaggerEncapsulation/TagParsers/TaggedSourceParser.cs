@@ -262,7 +262,6 @@ namespace LASI.ContentSystem
             var wordExpressions = new List<Lazy<Word>>();
             var elements = GetTaggedWordStrings(wordData);
             var posExtractor = new TaggedWordExtractor();
-
             var tagParser = new WordFactory(wordTagset);
             foreach (var element in elements) {
                 TextTagPair? textTagPair = posExtractor.Extract(element);

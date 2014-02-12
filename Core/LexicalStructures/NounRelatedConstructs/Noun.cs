@@ -134,12 +134,12 @@ namespace LASI.Core
         /// Catus is the species of the genus Felis,
         /// but Felis also contains the species "Silvestris", commonly called a wildcat.
         /// </summary>
-        public Noun SuperTaxonomicNoun { get; set; }
+        public Noun PrecedingAdjunctNoun { get; set; }
 
         /// <summary>
         /// Gets or sets the single Noun which this Noun directly, in terms of reading order, specifies.
         /// </summary>
-        public Noun SubTaxonomicNoun { get; set; }
+        public Noun FollowingAdjunctNoun { get; set; }
         /// <summary>
         /// Gets or sets the IQunatifier which specifies the number of units of the Noun which are referred to in this occurance.
         /// e.g. "[18] Pinkos"

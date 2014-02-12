@@ -235,7 +235,9 @@ namespace LASI.UnitTests
             NounPhrase target = new NounPhrase(composed);
             IEnumerable<IReferencer> expected = new IReferencer[] { new RelativePronoun("that"), new PersonalPronoun("it") };
             IEnumerable<IReferencer> actual;
-            foreach (var r in expected) { target.BindReferencer(r); }
+            foreach (var r in expected) {
+                target.BindReferencer(r);
+            }
             actual = target.Referees;
             Assert.IsTrue(expected.All(e => actual.Contains(e)));
         }
@@ -303,11 +305,12 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod()]
         public void BindReferencerTest() {
-            IEnumerable<Word> composed = null; // TODO: Initialize to an appropriate value
-            NounPhrase target = new NounPhrase(composed); // TODO: Initialize to an appropriate value
-            IReferencer pro = null; // TODO: Initialize to an appropriate value
+            IEnumerable<Word> composed = new Word[] { new Determiner("the"), new Adjective("large"), new CommonSingularNoun("elephant") };
+            NounPhrase target = new NounPhrase(composed);
+            IReferencer pro = new RelativePronoun("which");
             target.BindReferencer(pro);
-            Assert.Inconclusive("A method that does not return a value cannot be verified.");
+            Assert.IsTrue(target.Referees.All(r => r.ReferredTo.Contains(target)));
+
         }
 
         /// <summary>
@@ -315,11 +318,13 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod()]
         public void BindDescriptorTest() {
-            IEnumerable<Word> composed = null; // TODO: Initialize to an appropriate value
-            NounPhrase target = new NounPhrase(composed); // TODO: Initialize to an appropriate value
-            IDescriptor descriptor = null; // TODO: Initialize to an appropriate value
+            IEnumerable<Word> composed = new Word[] { new Determiner("the"), new Adjective("large"), new CommonSingularNoun("elephants") };
+            NounPhrase target = new NounPhrase(composed);
+            IDescriptor descriptor = new Adjective("hungry");
             target.BindDescriptor(descriptor);
-            Assert.Inconclusive("A method that does not return a value cannot be verified.");
+            Assert.IsTrue(target.Descriptors.Contains(descriptor));
+            Assert.IsTrue(descriptor.Describes == target);
+
         }
 
 

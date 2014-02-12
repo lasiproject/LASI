@@ -67,17 +67,16 @@ namespace LASI.Core.DocumentStructures
         }
         private void LinksAdjacentWords() {
             if (words.Count > 1) {
-                for (int i = 1; i < words.Count(); ++i) {
+                var indexOfLast = 0;
+                for (int i = 1; i < words.Count; ++i) {
                     words[i].PreviousWord = words[i - 1];
                     words[i - 1].NextWord = words[i];
+                    indexOfLast = i;
                 }
-                var lastWord = words[words.Count - 1];
-                if (words.Count - 1 > 0) {
-                    lastWord.PreviousWord = words[words.Count - 2];
-                } else {
-                    lastWord.PreviousWord = null;
+                if (indexOfLast > 0) {
+                    var lastWord = words[indexOfLast];
+                    lastWord.PreviousWord = words[indexOfLast - 1];
                 }
-                lastWord.NextWord = null;
             }
         }
         private void LinksAdjacentPhrases() {

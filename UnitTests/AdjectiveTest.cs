@@ -95,8 +95,8 @@ namespace LASI.UnitTests
         public void DescribesTest() {
             string text = "funny";
             Adjective target = new Adjective(text);
-            IDescribable expected = new CommonSingularNoun("man");
-            IDescribable actual;
+            IEntity expected = new CommonSingularNoun("man");
+            IEntity actual;
             target.Describes = expected;
             actual = target.Describes;
             Assert.AreEqual(expected, actual);
@@ -118,6 +118,6 @@ namespace LASI.UnitTests
             Assert.Inconclusive("Verify the correctness of this test method.");
         }
 
-      
+
     }
 }

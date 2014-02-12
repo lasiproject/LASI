@@ -97,19 +97,6 @@ namespace LASI.Core
                     }
             }
         }
-        private static void ModifyVerbWeightsBySynonyms(Document document) {
-            var verbsToConsider = document.Words.OfVerb().AsParallel().WithDegreeOfParallelism(Concurrency.Max).WithSubjectOrObject();
-            var groups = from outer in verbsToConsider.ToList().AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                         from inner in verbsToConsider.ToList().AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                         where outer.IsSynonymFor(inner)
-                         group inner by outer;
-            groups.ForAll(grp => {
-                var increase = grp.Count();
-                foreach (var e in grp) {
-                    e.Weight += increase;
-                }
-            });
-        }
 
         /// <summary>
         /// Increase noun weights in a document by abstracting over synonyms
@@ -167,12 +154,26 @@ namespace LASI.Core
                       select new { WeightIncrease = grouped.Count() * 0.5, Elements = grouped };
             nps.ForAll(grp => { foreach (var e in grp.Elements) { e.Weight += grp.WeightIncrease; } });
         }
+        private static void ModifyVerbWeightsBySynonyms(Document document) {
+            var verbsToConsider = document.Words.OfVerb().WithSubjectOrObject();
+            var groups = from outer in verbsToConsider.ToList().AsParallel().WithDegreeOfParallelism(Concurrency.Max)
+                         from inner in verbsToConsider.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
+                         where outer.IsSynonymFor(inner)
+                         group inner by outer;
+            groups.ForAll(grp => {
+                var increase = grp.Count();
+                foreach (var e in grp) {
+                    e.Weight += increase;
+                }
+            });
+        }
+
         private static void WeightSimilarVerbPhrases(Document doc) {
             //Reify the query source so that it may be queried to form a full self join (cartesian product with itself.
             // in the two subsequent from clauses both query the reified collection in paralllel.
-            var vpsToConsider = doc.Phrases.AsParallel().WithDegreeOfParallelism(Concurrency.Max).OfVerbPhrase().WithSubjectOrObject();
-            var vps = from outer in vpsToConsider.ToList().AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                      from inner in vpsToConsider.ToList().AsParallel().WithDegreeOfParallelism(Concurrency.Max)
+            var vpsToConsider = doc.Phrases.AsParallel().WithDegreeOfParallelism(Concurrency.Max).OfVerbPhrase().WithSubjectOrObject().ToList();
+            var vps = from outer in vpsToConsider.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
+                      from inner in vpsToConsider.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                       where inner.IsSimilarTo(outer)
                       group inner by outer into grouped
                       select new { WeightIncrease = grouped.Count() * 0.5, Elements = grouped };

@@ -44,19 +44,9 @@ namespace LASI.Core
                     string.Format("{0}: Abstracted References", document.Name), 5);
         }
 
-        private static void PreBind(IEnumerable<Paragraph> enumerable) {
-            foreach (var p in enumerable) {
-                LASI.Core.Binding.Experimental.PreBinder.BindPairedDelimiters(p);
-            }
-        }
 
-        /// <summary>
-        ///  Performs all binding procedures on the given Document.
-        /// </summary>
-        /// <param name="document">The Document to bind within.</param> 
-        public static void Bind(Document document) {
-            Task.WaitAll(document.GetBindingTasks().Select(t => t.Task).ToArray());
-        }
+
+
 
 
         #region Private Static Methods
@@ -65,41 +55,39 @@ namespace LASI.Core
         private static void BindAdjectivePhrases(IEnumerable<Sentence> sentences) {
             sentences.AsParallel()
                 .WithDegreeOfParallelism(Concurrency.Max)
-                .ForAll(s => AdjectivePhraseBinder.Bind(s));
+                .ForAll(sentence => AdjectivePhraseBinder.Bind(sentence));
         }
 
         private static void BindAttributives(IEnumerable<Sentence> sentences) {
             sentences.AsParallel()
                 .WithDegreeOfParallelism(Concurrency.Max)
-                .ForAll(s => AttributivePhraseBinder.Bind(s));
+                .ForAll(sentence => AttributivePhraseBinder.Bind(sentence));
         }
 
         private static void BindSubjectsAndObjects(IEnumerable<Sentence> sentences) {
             try {
-                sentences
-                    .AsParallel()
+                sentences.AsParallel()
                     .WithDegreeOfParallelism(Concurrency.Max)
-                    .ForAll(s => {
-                        try { new SubjectBinder().Bind(s); }
-                        catch (NullReferenceException e) { LogExceptionIfDebug(e); }
-                        // Sentence did not have a valid structure or was incorrectly identified.
-                        catch (VerblessPhrasalSequenceException e) { LogExceptionIfDebug(e); }
-                        try { new ObjectBinder().Bind(s); }
-                        // A state path within the object binder was undefined for a sequence of types within Sentence
-                        catch (InvalidStateTransitionException e) { LogExceptionIfDebug(e); }
-                        // Sentence did not have a valid structure or was incorrectly identified.
-                        catch (VerblessPhrasalSequenceException e) { LogExceptionIfDebug(e); }
-                        catch (InvalidOperationException e) { LogExceptionIfDebug(e); }
+                    .ForAll(sentence => {
+                        try { new SubjectBinder().Bind(sentence); }
+                        catch (Exception x) {
+                            if (x is NullReferenceException ||
+                                x is VerblessPhrasalSequenceException) { x.LogIfDebug(); } else { throw; }
+                        }
+                        try { new ObjectBinder().Bind(sentence); }
+                        catch (Exception x) {
+                            if (x is InvalidStateTransitionException ||
+                                x is VerblessPhrasalSequenceException ||
+                                x is InvalidOperationException) {
+                                x.LogIfDebug();
+                            } else { throw; }
+                        }
                     });
             }
-            catch (SystemException e) { LogExceptionIfDebug(e); }
+            catch (Exception x) { x.LogIfDebug(); }
         }
 
-        private static void LogExceptionIfDebug(Exception e) {
-#if DEBUG
-            Output.WriteLine(e.Message);
-#endif
-        }
+
 
         private static void BindIntraPhrase(IEnumerable<Phrase> phrases) {
             phrases.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
@@ -110,9 +98,9 @@ namespace LASI.Core
 
         private static void BindPronouns(IEnumerable<Sentence> sentences) {
             sentences.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                .ForAll(s => PronounBinder.Bind(s));
+                .ForAll(sentence => PronounBinder.Bind(sentence));
             sentences.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                .ForAll(s => ClauseSeperatingBranchingBinder.Bind(s.Words));
+                .ForAll(sentence => ClauseSeperatingBranchingBinder.Bind(sentence.Words));
 
         }
 

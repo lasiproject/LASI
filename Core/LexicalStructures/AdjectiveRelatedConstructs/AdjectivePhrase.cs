@@ -42,7 +42,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets the Entity which the AdjectivePhrase describes.
         /// </summary>
-        public virtual IDescribable Describes {
+        public virtual IEntity Describes {
             get;
             set;
         }

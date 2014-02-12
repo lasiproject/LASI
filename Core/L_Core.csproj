@@ -26,6 +26,8 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <ProductVersion>12.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -35,11 +37,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>
-    </DocumentationFile>
     <PlatformTarget>x64</PlatformTarget>
-    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
-    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
     <RunCodeAnalysis>false</RunCodeAnalysis>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <CodeAnalysisIgnoreGeneratedCode>true</CodeAnalysisIgnoreGeneratedCode>
@@ -48,25 +46,15 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>
-    </DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Release\Core.XML</DocumentationFile>
     <PlatformTarget>x64</PlatformTarget>
-    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>
-    </ApplicationIcon>
-  </PropertyGroup>
-  <PropertyGroup>
     <RunPostBuildEvent>Always</RunPostBuildEvent>
-  </PropertyGroup>
-  <PropertyGroup>
-    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -165,7 +153,7 @@
     <Compile Include="DocumentStructures\Sentence.cs" />
     <Compile Include="LexicalStructures\AdverbRelatedConstructs\IAdverbial.cs" />
     <Compile Include="LexicalStructures\MiscLanguageConstructs\IConflatable.cs" />
-    <Compile Include="LexicalStructures\AdjectiveRelatedConstructs\IDescriptor.cs" />
+    <Compile Include="LexicalStructures\NounRelatedConstructs\NounRelatedModifiers\IDescriptor.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\IPossessable.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\IPossesser.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\IQuantifer.cs" />
@@ -211,7 +199,7 @@
     <Compile Include="LexicalStructures\VerbRelatedConstructs\IVerbalObject.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\IReferenceable.cs" />
     <Compile Include="LexicalStructures\AdverbRelatedConstructs\IAdverbialModifiable.cs" />
-    <Compile Include="LexicalStructures\AdjectiveRelatedConstructs\IDescribable.cs" />
+    <Compile Include="LexicalStructures\NounRelatedConstructs\IDescribable.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\IEntity.cs" />
     <Compile Include="LexicalStructures\VerbRelatedConstructs\IInderectObjectTaker.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\IQuantifiable.cs" />
@@ -252,13 +240,14 @@
     <Compile Include="Analysis\LookupAndComparison\SyntacticCategorical\Support\WordNetLexCategoryInformation.cs" />
     <None Include="ClassDiagram1.cd" />
     <None Include="ClassDiagram2.cd" />
+    <None Include="ClassDiagram3.cd" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Analysis\LookupAndComparison\Support\KnownSubordinators.txt" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Utilities\L_Utilities.csproj">
-      <Project>{bc10a8f0-77ff-46d0-9f9a-38e2fda22d21}</Project>
+      <Project>{BC10A8F0-77FF-46D0-9F9A-38E2FDA22D21}</Project>
       <Name>L_Utilities</Name>
     </ProjectReference>
   </ItemGroup>

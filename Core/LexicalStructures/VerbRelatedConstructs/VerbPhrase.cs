@@ -59,6 +59,7 @@ namespace LASI.Core
             if (subject != null) {
                 subjects.Add(subject);
                 subject.SubjectOf = this;
+                foreach (var v in Words.OfVerb()) { v.BindSubject(subject); }
             }
         }
 
@@ -70,6 +71,7 @@ namespace LASI.Core
             if (directObject != null) {
                 directObjects.Add(directObject);
                 directObject.DirectObjectOf = this;
+                foreach (var v in Words.OfVerb()) { v.BindDirectObject(directObject); }
                 if (IsPossessive) {
                     foreach (var subject in this.Subjects) {
                         subject.AddPossession(directObject);
@@ -89,6 +91,7 @@ namespace LASI.Core
             if (indirectObject != null) {
                 indirectObjects.Add(indirectObject);
                 indirectObject.IndirectObjectOf = this;
+                foreach (var v in Words.OfVerb()) { v.BindIndirectObject(indirectObject); }
             }
         }
 
@@ -121,7 +124,8 @@ namespace LASI.Core
             return possessive.Value;
         }
         /// <summary>
-        /// Determines if the VerbPhrase acts as a classifier. E.g. in the senetence "Rodents are definitely prey animals." the VerbPhrase "are definitely" acts as a classification tool because it states that rodents are a subset of prey animals.
+        /// Determines if the VerbPhrase acts as a classifier. E.g. in the senetence "Rodents are definitely prey animals." 
+        /// the VerbPhrase "are definitely" acts as a classification tool because it states that rodents are a subset of prey animals.
         /// </summary>
         /// <returns>True if the VerbPhrase is a classifier; otherwise, false.</returns>
         protected virtual bool DetermineIsClassifier() {
@@ -227,7 +231,7 @@ namespace LASI.Core
             }
         }
         /// <summary>
-        /// Gets or sets the IDescriber which may, in certain contexts be bound to the IVerbal itself.
+        /// Gets or sets the IDescriptor which modifies, by way of the Verbal, its Subject.
         /// </summary>
         public IDescriptor AdjectivalModifier { get; set; }
         /// <summary>

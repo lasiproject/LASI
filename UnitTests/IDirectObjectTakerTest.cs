@@ -85,9 +85,13 @@ namespace LASI.UnitTests
         [TestMethod()]
         public void AggregateDirectObjectTest() {
             IDirectObjectTaker target = CreateIDirectObjectTaker();
-            IAggregateEntity actual;
-            actual = target.AggregateDirectObject;
-            Assert.IsTrue(target.AggregateDirectObject.SequenceEqual(actual));
+            IAggregateEntity aggregateObject = new AggregateEntity(new[]{
+                new NounPhrase(new Word[]{new ProperSingularNoun("John"),new ProperSingularNoun( "Smith")}),
+                new NounPhrase(new Word[]{new PossessivePronoun("his"),new CommonPluralNoun("cats")})
+            });
+            target.BindDirectObject(aggregateObject);
+            IAggregateEntity actual = target.AggregateDirectObject;
+            Assert.IsFalse(actual.Except(aggregateObject).Any());
         }
 
         /// <summary>
@@ -101,6 +105,6 @@ namespace LASI.UnitTests
             Assert.AreEqual(target.DirectObjects, actual);
         }
 
-         
+
     }
 }

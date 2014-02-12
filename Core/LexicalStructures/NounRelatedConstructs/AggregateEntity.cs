@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LASI.Core.Heuristics.Morphemization;
+using LASI.Core.Patternization;
+using LASI.Utilities;
 
 namespace LASI.Core
 {
@@ -21,7 +23,12 @@ namespace LASI.Core
         /// </summary>
         /// <param name="entities">The Entities aggregated into the group.</param>
         public AggregateEntity(IEnumerable<IEntity> entities) {
-            members = entities.Distinct();
+            members = from e in entities
+                      let aggregate = e as
+                      IAggregateEntity
+                      select aggregate == null ? new[] { e } : aggregate.AsEnumerable() into ens
+                      from e in ens
+                      select e;
             EntityKind = Core.EntityKind.ThingUnknownMultiple;
         }
 
@@ -58,10 +65,10 @@ namespace LASI.Core
         /// </summary>
         /// <returns>An enumerator that iterates through the members of the EntityGroup.</returns>
         public IEnumerator<IEntity> GetEnumerator() {
-            return members.AsNestedEnumerable().GetEnumerator();
+            return members.GetEnumerator();
         }
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() {
-            return members.AsNestedEnumerable().GetEnumerator();
+            return GetEnumerator();
         }
         /// <summary>
         /// Returns a string representation of the EntityGroup.
@@ -72,7 +79,12 @@ namespace LASI.Core
                 .Where(m => !(m is IAggregateEntity))
                 .Select(p => p.Type.Name + " \"" + p.Text + "\"")));
         }
-
+        //public override bool Equals(object obj) {
+        //    return ReferenceEquals(obj, null) ? false : obj as AggregateEntity == this;
+        //}
+        //public override int GetHashCode() {
+        //    return members.Select(m => m.GetHashCode()).Aggregate((f, c) => f ^ c);
+        //}
         #endregion
 
         #region Properties
@@ -152,6 +164,19 @@ namespace LASI.Core
         HashSet<IDescriptor> descriptors = new HashSet<IDescriptor>();
         HashSet<IReferencer> boundPronouns = new HashSet<IReferencer>();
 
+        #endregion
+
+        #region Operators
+        //public static bool operator ==(AggregateEntity left, IEntity right) {
+        //    return ReferenceEquals(left ?? right, null) ? ReferenceEquals(left, right) :
+        //    right.Match().Yield<bool>()
+        //        .With<IAggregateEntity>((e) => e.Except(left).None())
+        //        .Result(e => left.All(l => l == e));
+        //}
+
+        //public static bool operator !=(AggregateEntity left, IEntity right) {
+        //    return !(left == right);
+        //}
         #endregion
     }
 }

@@ -24,7 +24,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets or sets the Descriabable construct the Adjective describes
         /// </summary>
-        public virtual IDescribable Describes {
+        public virtual IEntity Describes {
             get;
             set;
         }

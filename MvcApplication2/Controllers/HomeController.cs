@@ -26,7 +26,7 @@ namespace LASI.WebService.Controllers
         }
         [HttpPost]
         public ActionResult Upload() {
-
+            if (!Directory.Exists(USER_UPLOADED_DOCUMENTS_DIR)) { Directory.CreateDirectory(USER_UPLOADED_DOCUMENTS_DIR); }
             for (var i = 0; i < Request.Files.Count; ++i) {
 
                 var file = Request.Files[i];// file in Request.Files where file != null && file.ContentLength > 0 select file;

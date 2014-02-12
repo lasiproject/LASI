@@ -37,7 +37,7 @@ let main argv =
         | "pdf" -> new  PdfFile (s) :> InputFile
         | _ -> null
         
-    let controller = AnalysisController(fileWrapper  @"C:\Users\Aluan\Desktop\Documents\ducks.txt" )
+    let controller = AnalysisController(fileWrapper @"C:\Users\Aluan\Desktop\Documents\ducks.txt")
     controller.ProgressChanged.Add(fun e->printfn "Update: %s" e.Message)   
     let docTask = async {
         return controller.ProcessAsync(). Result

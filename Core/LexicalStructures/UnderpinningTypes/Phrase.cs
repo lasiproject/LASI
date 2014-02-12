@@ -1,5 +1,6 @@
 ﻿
 using LASI.Core.DocumentStructures;
+using LASI.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,8 +22,6 @@ namespace LASI.Core
         /// </summary>
         /// <param name="composedWords">The one or more instances of the word class of which the Phrase is composed.</param>
         protected Phrase(IEnumerable<Word> composedWords) {
-            //if (composedWords.Count() == 0)
-            //    throw new EmptyPhraseTagException();
             Words = composedWords;
             Weight = 1;
             MetaWeight = 1;
@@ -37,7 +36,7 @@ namespace LASI.Core
         /// </summary>
         /// <returns>A string containing the Type information of the instance as well as the textual representations of the words it is composed of.</returns>
         public override string ToString() {
-            return GetType().Name + " \"" + Text + "\"";
+            return Type.Name + " \"" + Text + "\"";
         }
         /// <summary>
         /// Establish the nested links between the Phrase, its parent Clause, and the Words comprising it.
@@ -92,9 +91,7 @@ namespace LASI.Core
         /// </summary>
         public string Text {
             get {
-                text = text ?? (Words.Count(w => !string.IsNullOrWhiteSpace(w.Text)) > 0 ?
-                    Words.Aggregate("", (str, word) => str + " " + word.Text).Trim() : string.Empty);
-                return text;
+                return text = text ?? string.Join(" ", Words.Select(w => w.Text));
             }
         }
 
@@ -139,11 +136,6 @@ namespace LASI.Core
         /// Controls the level detail of the information provided by the ToString method of all instances of the Phrase class.
         /// </summary>
         public static bool VerboseOutput { get; set; }
-        #endregion
-
-        #region Static Fields
-
-
         #endregion
 
         #endregion

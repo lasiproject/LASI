@@ -56,7 +56,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets or sets the IDescribable construct which the subordinate clause describes.
         /// </summary>
-        public IDescribable Describes {
+        public IEntity Describes {
 
             get {
                 return described;
@@ -75,7 +75,7 @@ namespace LASI.Core
         #endregion
 
         #region Fields
-        private IDescribable described;
+        private IEntity described;
         private IAdverbialModifiable modifies;
         #endregion
 

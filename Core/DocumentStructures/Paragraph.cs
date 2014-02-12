@@ -54,7 +54,7 @@ namespace LASI.Core.DocumentStructures
 
         /// <summary>
         /// Gets the collection of Words which comprise the Paragraph.
-        /// </summary>
+        /// </summary>Q
         public IEnumerable<Word> Words {
             get {
                 return from S in Sentences
@@ -87,7 +87,7 @@ namespace LASI.Core.DocumentStructures
         /// </summary>
         public string Text {
             get {
-                return text = text ?? Sentences.Aggregate("", (str, sent) => str + " " + sent.Text).Trim();
+                return text = text ?? Sentences.Aggregate("", (folded, sentence) => folded + " " + sentence.Text).Trim();
             }
         }
 

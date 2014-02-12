@@ -196,9 +196,14 @@ namespace LASI.UnitTests
         [TestMethod()]
         public void AggregateSubjectTest() {
             VerbPhrase target = CreateVerbPhrase();
+            var subject = new AggregateEntity(new IEntity[]{
+                new NounPhrase(new Word[]{new ProperSingularNoun("John"),new ProperSingularNoun( "Smith")}),
+                new NounPhrase(new Word[]{new PossessivePronoun("his"),new CommonPluralNoun("cats")})
+            });
+            target.BindSubject(subject);
             IAggregateEntity actual;
             actual = target.AggregateSubject;
-            Assert.Inconclusive("Verify the correctness of this test method.");
+            Assert.IsFalse(actual.Except(subject).Any());
         }
 
         /// <summary>
@@ -207,9 +212,14 @@ namespace LASI.UnitTests
         [TestMethod()]
         public void AggregateIndirectObjectTest() {
             VerbPhrase target = CreateVerbPhrase();
+            var indirectObject = new AggregateEntity(new IEntity[]{
+                new NounPhrase(new Word[]{new ProperSingularNoun("John"),new ProperSingularNoun( "Smith")}),
+                new NounPhrase(new Word[]{new PossessivePronoun("his"),new CommonPluralNoun("cats")})
+            });
+            target.BindIndirectObject(indirectObject);
             IAggregateEntity actual;
             actual = target.AggregateIndirectObject;
-            Assert.Inconclusive("Verify the correctness of this test method.");
+            Assert.IsFalse(actual.Except(indirectObject).Any());
         }
 
         /// <summary>
@@ -218,13 +228,14 @@ namespace LASI.UnitTests
         [TestMethod()]
         public void AggregateDirectObjectTest() {
             VerbPhrase target = CreateVerbPhrase();
-            IAggregateEntity expected = new AggregateEntity(new IEntity[]{
+            IAggregateEntity directObject = new AggregateEntity(new IEntity[]{
                 new NounPhrase(new Word[]{new ProperSingularNoun("John"),new ProperSingularNoun( "Smith")}),
                 new NounPhrase(new Word[]{new PossessivePronoun("his"),new CommonPluralNoun("cats")})
             });
+            target.BindDirectObject(directObject);
             IAggregateEntity actual;
             actual = target.AggregateDirectObject;
-            Assert.AreEqual(expected, actual);
+            Assert.IsFalse(directObject.Except(actual).Any());
         }
 
         /// <summary>
@@ -336,6 +347,7 @@ namespace LASI.UnitTests
         public void HasDirectObjectTest() {
             VerbPhrase target = CreateVerbPhrase();
             IEntity entity = new CommonPluralNoun("cats");
+            target.BindDirectObject(entity);
             Func<IEntity, bool> predicate = e => e.Text == "cats";
             bool expected = true;
             bool actual;

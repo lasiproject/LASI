@@ -16,7 +16,13 @@ namespace LASI.Interop
     /// Provides synchronous and asynchronoun callback based progress reports.
     /// </summary>
     public sealed class AnalysisController : Progress<AnalysisProgressReportEventArgs>
-    {
+    {        /// <summary>
+        /// Initializes a new instance of the AnalysisController class.
+        /// </summary>
+        /// <param name="rawTextSource">An untagged english language written work.</param>
+        public AnalysisController(IUntaggedTextSource rawTextSource)
+            : this(new[] { rawTextSource }) { }
+
         /// <summary>
         /// Initializes a new instance of the AnalysisController class.
         /// </summary>
@@ -33,12 +39,6 @@ namespace LASI.Interop
             Lookup.ResourceLoading += lookupResourceLoading = (s, e) => { OnReport(new AnalysisProgressReportEventArgs("Loading " + e.Message, 1.5)); };
             Lookup.ResourceLoaded += lookupResourceLoaded = (s, e) => { OnReport(new AnalysisProgressReportEventArgs("Loaded " + e.Message, 1.5)); };
         }
-        /// <summary>
-        /// Initializes a new instance of the AnalysisController class.
-        /// </summary>
-        /// <param name="rawTextSource">An untagged english language written work.</param>
-        public AnalysisController(IUntaggedTextSource rawTextSource)
-            : this(new[] { rawTextSource }) { }
 
         /// <summary>
         /// <para>Gets a Task&lt;IEnumerable&lt;LASI.Algorithm.Document&gt;&gt;</para>
@@ -91,17 +91,15 @@ namespace LASI.Interop
             return taggedFiles;
         }
         private async Task<IEnumerable<Document>> BindAndWeightDocumentsAsync(ConcurrentBag<ITaggedTextSource> taggedFiles) {
-            //var tasks = taggedFiles.Select(tagged => ProcessTaggedFileAsync(tagged)).ToList();
-            return await Task.Run(async () => await Task.WhenAll(taggedFiles.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                .Select(async f => await ProcessTaggedFileAsync(f))));
-            //var documents = new ConcurrentBag<Document>();
-            //while (tasks.Any()) {
-            //    var currentTask = await Task.WhenAny(tasks);
-            //    var processedDocument = await currentTask;
-            //    tasks.Remove(currentTask);
-            //    documents.Add(processedDocument);
-            //}
-            //return documents;
+            var tasks = taggedFiles.Select(tagged => ProcessTaggedFileAsync(tagged)).ToList();
+            var documents = new ConcurrentBag<Document>();
+            while (tasks.Any()) {
+                var currentTask = await Task.WhenAny(tasks);
+                var processedDocument = await currentTask;
+                tasks.Remove(currentTask);
+                documents.Add(processedDocument);
+            }
+            return documents;
         }
         private async Task<Document> ProcessTaggedFileAsync(LASI.ContentSystem.ITaggedTextSource tagged) {
             var fileName = tagged.SourceName;

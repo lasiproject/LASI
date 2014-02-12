@@ -75,5 +75,5 @@ namespace LASI.Core
             private set;
         }
     }
-    
+
 }

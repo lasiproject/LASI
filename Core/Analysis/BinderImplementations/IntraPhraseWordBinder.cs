@@ -38,8 +38,8 @@ namespace LASI.Core.Binding
 
                 var previousAsNoun = LastNoun.PreviousWord as Noun;
                 if (previousAsNoun != null) {
-                    LastNoun.SuperTaxonomicNoun = previousAsNoun;
-                    previousAsNoun.SubTaxonomicNoun = LastNoun;
+                    LastNoun.PrecedingAdjunctNoun = previousAsNoun;
+                    previousAsNoun.FollowingAdjunctNoun = LastNoun;
                 }
 
 

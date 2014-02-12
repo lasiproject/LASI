@@ -11,6 +11,8 @@
     <AssemblyName>ContentSystem</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <ProductVersion>12.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -30,8 +32,6 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>
-    </DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x64</PlatformTarget>
@@ -51,18 +51,6 @@
     <Reference Include="Microsoft.Office.Interop.Word, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
-    <Reference Include="OpenNLP, Version=1.0.2529.39671, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\ThirdPartyComponents\SharpNLPDLLs\OpenNLP.dll</HintPath>
-    </Reference>
-    <Reference Include="SharpEntropy, Version=1.0.2529.39670, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\ThirdPartyComponents\SharpNLPDLLs\SharpEntropy.dll</HintPath>
-    </Reference>
-    <Reference Include="SharpWordNet, Version=1.0.2529.39512, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\ThirdPartyComponents\SharpNLPDLLs\SharpWordNet.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
@@ -74,6 +62,15 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="OpenNLP">
+      <HintPath>..\ThirdPartyComponents\SharpNLPDLLs\OpenNLP.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpEntropy">
+      <HintPath>..\ThirdPartyComponents\SharpNLPDLLs\SharpEntropy.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpWordNet">
+      <HintPath>..\ThirdPartyComponents\SharpNLPDLLs\SharpWordNet.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FileConveters\DocToDocXConverter.cs" />
@@ -126,11 +123,11 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Core\L_Core.csproj">
-      <Project>{8c562a93-a885-4fe9-8b8c-5ce34ccbaec1}</Project>
+      <Project>{8C562A93-A885-4FE9-8B8C-5CE34CCBAEC1}</Project>
       <Name>L_Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\Utilities\L_Utilities.csproj">
-      <Project>{bc10a8f0-77ff-46d0-9f9a-38e2fda22d21}</Project>
+      <Project>{BC10A8F0-77FF-46D0-9F9A-38E2FDA22D21}</Project>
       <Name>L_Utilities</Name>
     </ProjectReference>
   </ItemGroup>

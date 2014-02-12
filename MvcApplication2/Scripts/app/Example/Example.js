@@ -6,11 +6,10 @@ $(function () {
     $.contextMenu.types.label = function (item, opt, root) {
         // this === item.$node
         var htmlMenuText =
-        '<ul class="menuwrapper">';
+        '<ul class="menuwrapper phrasemenu">';
         //item.$node.arrayProducer().forEach(function (element, index) {
         //    htmlMenuText += '<li class="phrasemenuitem" title="' + element.Name, element.LinkedIds + '">' + element.Name, element.LinkedIds + '</li>';
         //});
-
         htmlMenuText +=
          + '</ul>';
         $(htmlMenuText)
@@ -37,25 +36,28 @@ $(function () {
 
     var splitProps = function (elementId) {
         var d = $.parseJSON($("#" + elementId).children('span').text());
-        var name = Object.keys(d);
+        var n = Object.keys(d);
         return {
-            ElementId:d.$.Verbal,
-            Name: name,
-            LinkedIds: d[name]
+            data: d,
+            name: n
         };
     };
 
     $('span.Verbal').each(function (index, element) {
+        var i, itemsd = {};
+        var splitUp = splitProps(element.id);
+        for (i = 0; i < splitUp.length; i += 1) {
+            itemsd["element" + i] = { name: "Edit" + i, callback: $.noop };
+        }
         $.contextMenu({
             selector: '#' + element.id,
             callback: function (key, options) {
                 var m = "clicked: " + key; alert(m);
             },
-            items: {
-                //open: { name: "Open", callback: $.noop },
-                label: { type: "label" },
-                //edit: { name: "Edit", callback: $.noop },
-            }
+            items: itemsd
+            //label: { type: "label" },
+            //edit: { name: "Edit", callback: $.noop },
+
         });
     });
 });

@@ -26,7 +26,7 @@ namespace LASI.Core
         /// </summary>
         /// <param name="target">The entity to which to bind.</param>
         public void BindAsReferringTo(IEntity target) {
-            if (ReferredTo != null || ReferredTo.None())
+            if (ReferredTo == null || ReferredTo.None())
                 ReferredTo = new AggregateEntity(new[] { target });
             else
                 ReferredTo = new AggregateEntity(ReferredTo.Append(target));

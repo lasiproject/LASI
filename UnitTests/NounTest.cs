@@ -210,8 +210,8 @@ namespace LASI.UnitTests
         public void SuperTaxonomicNounTest() {
             Noun target = CreateNoun();              Noun expected = new ProperSingularNoun("Highland"); 
             Noun actual;
-            target.SuperTaxonomicNoun = expected;
-            actual = target.SuperTaxonomicNoun;
+            target.PrecedingAdjunctNoun = expected;
+            actual = target.PrecedingAdjunctNoun;
             Assert.AreEqual(expected, actual);
          }
  
@@ -223,8 +223,8 @@ namespace LASI.UnitTests
         public void SubTaxonomicNounTest() {
             Noun target = CreateNoun();              Noun expected = new CommonSingularNoun("food");
             Noun actual;
-            target.SubTaxonomicNoun = expected;
-            actual = target.SubTaxonomicNoun;
+            target.FollowingAdjunctNoun = expected;
+            actual = target.FollowingAdjunctNoun;
             Assert.AreEqual(expected, actual);
          }
 

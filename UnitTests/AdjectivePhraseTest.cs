@@ -91,8 +91,8 @@ namespace LASI.UnitTests
         public void DescribesTest() {
             IEnumerable<Word> composedWords = null; // TODO: Initialize to an appropriate value
             AdjectivePhrase target = new AdjectivePhrase(composedWords); // TODO: Initialize to an appropriate value
-            IDescribable expected = null; // TODO: Initialize to an appropriate value
-            IDescribable actual;
+            IEntity expected = null; // TODO: Initialize to an appropriate value
+            IEntity actual;
             target.Describes = expected;
             actual = target.Describes;
             Assert.AreEqual(expected, actual);
@@ -111,6 +111,6 @@ namespace LASI.UnitTests
             Assert.Inconclusive("A method that does not return a value cannot be verified.");
         }
 
-   
+
     }
 }
