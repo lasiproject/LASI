@@ -32,6 +32,8 @@ namespace LASI
         /// <param name="lineLength">Indicates the number of characters after which a line break is to be inserted.</param>
         /// <returns>A formated string representation of the IEnumerable sequence with the pattern: [ element0, element1, ..., elementN ].</returns>
         public static string Format<T>(this IEnumerable<T> source, long lineLength) {
+            if (lineLength < 1)
+                throw new ArgumentOutOfRangeException("lineLength", lineLength, "Line length must be greater than 0.");
             return source.Format(Tuple.Create('[', ',', ']'), lineLength);
         }
         /// <summary>
@@ -40,94 +42,41 @@ namespace LASI
         /// </summary>
         /// <typeparam name="T">The type of the elements in the generic IEnumerable sequence.</typeparam>
         /// <param name="source">An IEnumerable sequence containing 0 or more Elements of type T.</param>
-        /// <param name="delimsToUse">A value indicating the pair of delimiters to surround the elements.</param>
+        /// <param name="delimiters">A value indicating the pair of delimiters to surround the elements.</param>
         /// <returns>A formated string representation of the IEnumerable sequence with the pattern: [ element0, element1, ..., elementN ].</returns>
-        public static string Format<T>(this IEnumerable<T> source, Tuple<char, char, char> delimsToUse) {
-            return source.Aggregate(new StringBuilder(delimsToUse.Item1 + " "), (sum, current) => sum.Append(current.ToString() + delimsToUse.Item2 + ' ')).ToString().TrimEnd(' ', delimsToUse.Item2) + ' ' + delimsToUse.Item3;
+        public static string Format<T>(this IEnumerable<T> source, Tuple<char, char, char> delimiters) {
+            return source.Aggregate(new StringBuilder(delimiters.Item1 + " "), (sum, current) => sum.Append(current.ToString() + delimiters.Item2 + ' ')).ToString().TrimEnd(' ', delimiters.Item2) + ' ' + delimiters.Item3;
         }
         /// <summary>
-        /// Returns a formated string representation of the IEnumerable sequence with the pattern: [ elementToString(element0), elementToString(element1), ..., elementToString(elementN) ]
+        /// Returns a formated string representation of the IEnumerable sequence with the pattern: [ selector(element0), selector(element1), ..., selector(elementN) ]
+        /// such that the string representation of each element is produced by calling the provided selector function.
+        /// </summary>
+        /// <typeparam name="T">The type of the elements in the generic IEnumerable sequence.</typeparam>
+        /// <param name="source">An IEnumerable sequence containing 0 or more Elements of type T.</param>
+        /// <param name="selector">The function used to produce a string representation for each element.</param>
+        /// <returns>A a formated string representation of the IEnumerable sequence with the pattern: [ selector(element0), selector(element1), ..., selector(elementN) ].</returns>
+        public static string Format<T>(this IEnumerable<T> source, Func<T, string> selector) {
+            if (source == null)
+                throw new ArgumentNullException("source");
+            if (selector == null)
+                throw new ArgumentNullException("selector");
+            return source.Aggregate(new StringBuilder("[ "), (sum, current) => sum.Append(selector(current) + ", ")).ToString().TrimEnd(' ', ',') + " ]";
+        }
+        /// <summary>
+        /// Returns a formated string representation of the IEnumerable sequence with the pattern: [ selector(element0), selector(element1), ..., selector(elementN) ]
         /// such that the string representation of each element is produced by calling the provided elementToString function.
         /// </summary>
         /// <typeparam name="T">The type of the elements in the generic IEnumerable sequence.</typeparam>
         /// <param name="source">An IEnumerable sequence containing 0 or more Elements of type T.</param>
-        /// <param name="stringSelector">The function used to produce a string representation for each element.</param>
-        /// <returns>A formated string representation of the IEnumerable sequence with the pattern: [ element0, element1, ..., elementN ].</returns>
-        public static string Format<T>(this IEnumerable<T> source, Func<T, string> stringSelector) {
+        /// <param name="delimiters">A value indicating the pair of delimiters to surround the elements.</param>
+        /// <param name="selector">The function used to produce a string representation for each element.</param>
+        /// <returns>formated string representation of the IEnumerable sequence with the pattern: [ selector(element0), selector(element1), ..., selector(elementN) ].</returns>
+        public static string Format<T>(this IEnumerable<T> source, Tuple<char, char, char> delimiters, Func<T, string> selector) {
             if (source == null)
                 throw new ArgumentNullException("source");
-            if (stringSelector == null)
-                throw new ArgumentNullException("stringSelector");
-            return source.Aggregate(new StringBuilder("[ "), (sum, current) => sum.Append(stringSelector(current) + ", ")).ToString().TrimEnd(' ', ',') + " ]";
-        }
-        /// <summary>
-        /// Returns a formated string representation of the IEnumerable sequence with the pattern: [ elementToString(element0), elementToString(element1), ..., elementToString(elementN) ]
-        /// such that the string representation of each element is produced by calling the provided elementToString function.
-        /// </summary>
-        /// <typeparam name="T">The type of the elements in the generic IEnumerable sequence.</typeparam>
-        /// <param name="source">An IEnumerable sequence containing 0 or more Elements of type T.</param>
-        /// <param name="delimsToUse">A value indicating the pair of delimiters to surround the elements.</param>
-        /// <param name="stringSelector">The function used to produce a string representation for each element.</param>
-        /// <returns>A formated string representation of the IEnumerable sequence with the pattern: [ element0, element1, ..., elementN ].</returns>
-        public static string Format<T>(this IEnumerable<T> source, Tuple<char, char, char> delimsToUse, Func<T, string> stringSelector) {
-            if (source == null)
-                throw new ArgumentNullException("source");
-            if (stringSelector == null)
-                throw new ArgumentNullException("stringSelector");
-            return source.Select(stringSelector).Format(delimsToUse);
-        }
-        /// <summary>
-        /// Returns a formated string representation of the IEnumerable sequence with the pattern: [ elementToString(element0), elementToString(element1), ..., elementToString(elementN) ]
-        /// such that the string representation of each element is produced by calling the provided elementToString function. The resultant string is line broken based on the provided line length.
-        /// </summary>
-        /// <typeparam name="T">The type of the elements in the generic IEnumerable sequence.</typeparam>
-        /// <param name="source">An IEnumerable sequence containing 0 or more Elements of type T.</param>
-        /// <param name="lineLength">Indicates the number of characters after which a line break is to be inserted.</param>
-        /// <param name="stringSelector">The function used to produce a string representation for each element.</param>
-        /// <returns>A formated string representation of the IEnumerable sequence with the pattern: [ element0, element1, ..., elementN ].</returns>
-        public static string Format<T>(this IEnumerable<T> source, long lineLength, Func<T, string> stringSelector) {
-            if (source == null)
-                throw new ArgumentNullException("source");
-            if (stringSelector == null)
-                throw new ArgumentNullException("stringSelector");
-            int len = 2;
-            return source.Aggregate(new StringBuilder("[ "),
-                (sum, current) => {
-                    var cETS = stringSelector(current) + ", ";
-                    len += cETS.Length;
-                    if (len > lineLength) {
-                        len = cETS.Length;
-                        sum.Append('\n');
-                    }
-                    return sum.Append(cETS);
-                }).ToString().TrimEnd(' ', ',') + " ]";
-        }
-        /// <summary>
-        /// Returns a formated string representation of the IEnumerable sequence with the pattern: [ elementToString(element0), elementToString(element1), ..., elementToString(elementN) ]
-        /// such that the string representation of each element is produced by calling the provided elementToString function. The resultant string is line broken based on the provided line length.
-        /// </summary>
-        /// <typeparam name="T">The type of the elements in the generic IEnumerable sequence.</typeparam>
-        /// <param name="source">An IEnumerable sequence containing 0 or more Elements of type T.</param>
-        /// <param name="delimsToUse">A value indicating the pair of delimiters to surround the elements.</param>
-        /// <param name="lineLength">Indicates the number of characters after which a line break is to be inserted.</param>
-        /// <param name="stringSelector">The function used to produce a string representation for each element.</param>
-        /// <returns>A formated string representation of the IEnumerable sequence with the pattern: [ element0, element1, ..., elementN ].</returns>
-        public static string Format<T>(this IEnumerable<T> source, Tuple<char, char, char> delimsToUse, long lineLength, Func<T, string> stringSelector) {
-            if (source == null)
-                throw new ArgumentNullException("source");
-            if (stringSelector == null)
-                throw new ArgumentNullException("stringSelector");
-            int len = 2;
-            return source.Aggregate(delimsToUse.Item1 + " ",
-                (sum, current) => {
-                    var cETS = stringSelector(current) + delimsToUse.Item2 + ' ';
-                    len += cETS.Length;
-                    if (len > lineLength) {
-                        len = cETS.Length;
-                        sum += '\n';
-                    }
-                    return sum + cETS;
-                }).TrimEnd(' ', delimsToUse.Item2) + ' ' + delimsToUse.Item3;
+            if (selector == null)
+                throw new ArgumentNullException("selector");
+            return source.Select(selector).Format(delimiters);
         }
         /// <summary>
         /// Returns a formated string representation of the IEnumerable sequence with the pattern: [ element0, element1, ..., elementN ]
@@ -135,24 +84,57 @@ namespace LASI
         /// </summary>
         /// <typeparam name="T">The type of the elements in the generic IEnumerable sequence.</typeparam>
         /// <param name="source">An IEnumerable sequence containing 0 or more Elements of type T.</param>
-        /// <param name="delimsToUse">A value indicating the pair of delimiters to surround the elements.</param>
+        /// <param name="delimiters">A value indicating the pair of delimiters to surround the elements.</param>
         /// <param name="lineLength">Indicates the number of characters after which a line break is to be inserted.</param>
         /// <returns>A formated string representation of the IEnumerable sequence with the pattern: [ element0, element1, ..., elementN ].</returns>
-        public static string Format<T>(this IEnumerable<T> source, Tuple<char, char, char> delimsToUse, long lineLength) {
+        public static string Format<T>(this IEnumerable<T> source, Tuple<char, char, char> delimiters, long lineLength) {
+            return source.Format(delimiters, lineLength, x => x.ToString());
+        }
+        /// <summary>
+        /// Returns a formated string representation of the IEnumerable sequence with the pattern: [ selector(element0), selector(element1), ..., selector(elementN) ]
+        /// such that the string representation of each element is produced by calling the provided selector function. The resultant string is line broken based on the provided line length.
+        /// </summary>
+        /// <typeparam name="T">The type of the elements in the generic IEnumerable sequence.</typeparam>
+        /// <param name="source">An IEnumerable sequence containing 0 or more Elements of type T.</param>
+        /// <param name="lineLength">Indicates the number of characters after which a line break is to be inserted.</param>
+        /// <param name="selector">The function used to produce a string representation for each element.</param>
+        /// <returns>A formated string representation of the IEnumerable sequence with the pattern: [ selector(element0), selector(element1), ..., selector(elementN) ].</returns>
+        public static string Format<T>(this IEnumerable<T> source, long lineLength, Func<T, string> selector) {
+            return source.Format(Tuple.Create('[', ',', ']'), lineLength, selector);
+        }
+        /// <summary>
+        /// Returns a formated string representation of the IEnumerable sequence with the pattern: [ elementToString(element0), elementToString(element1), ..., elementToString(elementN) ]
+        /// such that the string representation of each element is produced by calling the provided elementToString function. The resultant string is line broken based on the provided line length.
+        /// </summary>
+        /// <typeparam name="T">The type of the elements in the generic IEnumerable sequence.</typeparam>
+        /// <param name="source">An IEnumerable sequence containing 0 or more Elements of type T.</param>
+        /// <param name="delimiters">A value indicating the pair of delimiters to surround the elements.</param>
+        /// <param name="lineLength">Indicates the number of characters after which a line break is to be inserted.</param>
+        /// <param name="selector">The function used to produce a string representation for each element.</param>
+        /// <returns>A formated string representation of the IEnumerable sequence with the pattern: [ element0, element1, ..., elementN ].</returns>
+        public static string Format<T>(this IEnumerable<T> source, Tuple<char, char, char> delimiters, long lineLength, Func<T, string> selector) {
             if (source == null)
                 throw new ArgumentNullException("source");
+            if (delimiters == null)
+                throw new ArgumentNullException("delimiters");
+            if (lineLength < 1)
+                throw new ArgumentOutOfRangeException("lineLength", lineLength, "Line length must be greater than 0.");
+            if (selector == null)
+                throw new ArgumentNullException("selector");
             int len = 2;
-            return source.Aggregate(new StringBuilder(delimsToUse.Item1 + " "),
-                (sum, current) => {
-                    var cETS = current.ToString() + delimsToUse.Item2 + ' ';
-                    len += cETS.Length;
-                    if (len > lineLength) {
-                        len = cETS.Length;
-                        sum.Append('\n');
-                    }
-                    return sum.Append(cETS);
-                }).ToString().TrimEnd(' ', delimsToUse.Item2) + " " + delimsToUse.Item3;
+            return source.Aggregate(new StringBuilder(delimiters.Item1.ToString()).Append(' '),
+                    (sum, current) => {
+                        var cETS = selector(current) + delimiters.Item2 + " ";
+                        len += cETS.Length;
+                        if (len >= lineLength) {
+                            len = cETS.Length;
+                            sum.Append('\n');
+                            len = 0;
+                        }
+                        return sum.Append(cETS);
+                    }).ToString().TrimEnd(' ', delimiters.Item2) + " " + delimiters.Item3;
         }
+
 
         #endregion
 
@@ -160,17 +142,17 @@ namespace LASI
         /// <summary>
         /// Generates a sequence of integral numbers within the specified range.
         /// </summary>
-        /// <param name="from">The value of the first integer in the sequence.</param>
-        /// <param name="to">The number of sequential integers to generate.</param>
+        /// <param name="start">The value of the first integer in the sequence.</param>
+        /// <param name="count">The number of sequential integers to generate.</param>
         /// <returns>
         /// A lazily evaluated sequence of integral numbers. 
         /// </returns>
         /// <exception cref="System.ArgumentOutOfRangeException">
         /// to is less than 0.-or-start + count -1 is larger than System.Int32.MaxValue."
         ///</exception>
-        public static IEnumerable<int> To(this int from, int to) {
-            if (to - from < 0) { throw new ArgumentOutOfRangeException("to", from - to, "Cannot generate a sequence of fewer than 0 values."); }
-            return Enumerable.Range(from, to + 1 - from);
+        public static IEnumerable<int> To(this int start, int count) {
+            //if (to - from < 0) { throw new ArgumentOutOfRangeException("to", from - to, "Cannot generate a sequence of fewer than 0 values."); }
+            return Enumerable.Range(start, count);
         }
 
         #endregion

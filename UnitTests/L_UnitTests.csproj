@@ -111,6 +111,7 @@
     <Compile Include="DocXFileTest.cs" />
     <Compile Include="DocxToTextConverterTest.cs" />
     <Compile Include="DoubleQuoteTest.cs" />
+    <Compile Include="EnumerableExtensionsTests.cs" />
     <Compile Include="ExistentialTest.cs" />
     <Compile Include="FileConverterTest.cs" />
     <Compile Include="FileManagerExceptionTest.cs" />
