@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace LASI.UnitTests
 {
-    
-    
+
+
     /// <summary>
     ///This is a test class for PdfFileTest and is intended
     ///to contain all PdfFileTest Unit Tests
@@ -67,9 +67,12 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod()]
         public void PdfFileConstructorTest() {
-            string absolutePath = string.Empty; // TODO: Initialize to an appropriate value
-            PdfFile target = new PdfFile(absolutePath);
-            Assert.Inconclusive("TODO: Implement code to verify target");
+            string path = @"..\..\MockUserFiles\Draft_Environmental_Assessment.pdf";
+            PdfFile target = new PdfFile(path);
+            var sfi = new System.IO.FileInfo(path);
+            Assert.AreEqual(sfi.FullName, target.FullPath);
+            Assert.AreEqual(sfi.Name, target.FileName);
+            Assert.AreEqual(sfi.Extension, target.Ext);
         }
 
         /// <summary>
@@ -77,13 +80,12 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod()]
         public void GetTextTest() {
-            string absolutePath = string.Empty; // TODO: Initialize to an appropriate value
-            PdfFile target = new PdfFile(absolutePath); // TODO: Initialize to an appropriate value
-            string expected = string.Empty; // TODO: Initialize to an appropriate value
+            string path = @"..\..\MockUserFiles\Draft_Environmental_Assessment.pdf";
+            PdfFile target = new PdfFile(path);
+            string expected = new System.IO.StreamReader(path).ReadToEnd();
             string actual;
             actual = target.GetText();
             Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
         }
 
         /// <summary>
@@ -91,8 +93,8 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod()]
         public void GetTextAsyncTest() {
-            string absolutePath = string.Empty; // TODO: Initialize to an appropriate value
-            PdfFile target = new PdfFile(absolutePath); // TODO: Initialize to an appropriate value
+            string path = @"..\..\MockUserFiles\Draft_Environmental_Assessment.pdf";
+            PdfFile target = new PdfFile(path);
             Task<string> expected = null; // TODO: Initialize to an appropriate value
             Task<string> actual;
             actual = target.GetTextAsync();

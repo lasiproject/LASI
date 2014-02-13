@@ -120,52 +120,55 @@ namespace LASI.UnitTests
 
 
 
-
-        /// <summary>
-        ///A test for Subjects
-        ///</summary>
-        [TestMethod()]
-        public void SubjectsTest() {
-            VerbPhrase target = CreateVerbPhrase();
-            IEnumerable<IEntity> actual;
-            actual = target.Subjects;
-            Assert.Inconclusive("Verify the correctness of this test method.");
-        }
-
-        /// <summary>
-        ///A test for Modifiers
-        ///</summary>
-        [TestMethod()]
-        public void ModifiersTest() {
-            VerbPhrase target = CreateVerbPhrase();
-
-            IEnumerable<IAdverbial> actual;
-            actual = target.Modifiers;
-            Assert.Inconclusive("Verify the correctness of this test method.");
-        }
-
-
         /// <summary>
         ///A test for IsPossessive
         ///</summary>
         [TestMethod()]
         public void IsPossessiveTest() {
-
-            VerbPhrase target = CreateVerbPhrase();
+            VerbPhrase target = new VerbPhrase(new Word[] {
+                new Adverb("certainly"),
+                new PastTenseVerb("had"),
+                new Quantifier("many")});
             bool actual;
             actual = target.IsPossessive;
-            Assert.Inconclusive("Verify the correctness of this test method.");
+            Assert.IsTrue(actual);
         }
-
+        /// <summary>
+        ///A test for IsPossessive
+        ///</summary>
+        [TestMethod()]
+        public void IsPossessiveTest1() {
+            VerbPhrase target = new VerbPhrase(new Word[] {
+                new Adverb("certainly"),
+                new PastTenseVerb("was")});
+            bool actual;
+            actual = target.IsPossessive;
+            Assert.IsFalse(actual);
+        }
         /// <summary>
         ///A test for IsClassifier
         ///</summary>
         [TestMethod()]
         public void IsClassifierTest() {
-            VerbPhrase target = CreateVerbPhrase();
+            VerbPhrase target = new VerbPhrase(new Word[] {
+                new Adverb("certainly"),
+                new PastTenseVerb("was")});
             bool actual;
             actual = target.IsClassifier;
-            Assert.Inconclusive("Verify the correctness of this test method.");
+            Assert.IsTrue(actual);
+        }
+        /// <summary>
+        ///A test for IsClassifier
+        ///</summary>
+        [TestMethod()]
+        public void IsClassifierTest1() {
+            VerbPhrase target = new VerbPhrase(new Word[] {
+                new Adverb("certainly"),
+                new PastTenseVerb("had"),
+                new Quantifier("many")});
+            bool actual;
+            actual = target.IsClassifier;
+            Assert.IsFalse(actual);
         }
 
         /// <summary>
@@ -365,7 +368,7 @@ namespace LASI.UnitTests
             VerbPhrase target = CreateVerbPhrase1();
             IEntity subject = new CommonPluralNoun("cats");
             target.BindSubject(subject);
-            Assert.IsTrue(target.HasIndirectObject(e => e == subject));
+            Assert.IsTrue(target.HasSubject(e => e == subject));
 
         }
 

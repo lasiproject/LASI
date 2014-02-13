@@ -24,7 +24,7 @@ namespace LASI.Core.Binding.Experimental
                         where i % 2 == 0 && i < singles.Count - 1
                         select new { QStart = singles[i], QEnd = singles[i + 1] };
             foreach (var pair in pairs) {
-                pair.QStart.PairedInstance.PairWith(pair.QEnd);
+                pair.QStart.PairedWith.PairWith(pair.QEnd);
             }
         }
     }

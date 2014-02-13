@@ -4,8 +4,8 @@ using System;
 
 namespace LASI.UnitTests
 {
-    
-    
+
+
     /// <summary>
     ///This is a test class for SingleQuoteTest and is intended
     ///to contain all SingleQuoteTest Unit Tests
@@ -66,10 +66,11 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod()]
         public void PairWithTest() {
-            SingleQuote target = new SingleQuote(); // TODO: Initialize to an appropriate value
-            SingleQuote complement = null; // TODO: Initialize to an appropriate value
+            SingleQuote target = new SingleQuote(); 
+            SingleQuote complement = new SingleQuote();
             target.PairWith(complement);
-            Assert.Inconclusive("A method that does not return a value cannot be verified.");
+            Assert.AreEqual(target, complement.PairedWith);
+            Assert.AreEqual(complement.PairedWith, target);
         }
 
         /// <summary>
@@ -78,7 +79,8 @@ namespace LASI.UnitTests
         [TestMethod()]
         public void SingleQuoteConstructorTest() {
             SingleQuote target = new SingleQuote();
-            Assert.Inconclusive("TODO: Implement code to verify target");
+            Assert.IsTrue(target.Text == "'");
+            Assert.AreEqual(target.ActualCharacter, '\'');
         }
     }
 }

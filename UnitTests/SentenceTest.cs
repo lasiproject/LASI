@@ -1,6 +1,8 @@
 ﻿using LASI;
 using LASI.Core;
+using System.Linq;
 using LASI.Core.DocumentStructures;
+using LASI.UnitTests.TestHelpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -94,12 +96,12 @@ namespace LASI.UnitTests
         [TestMethod()]
         public void WordsTest() {
             Phrase[] phrases = new Phrase[] { new NounPhrase(new Word[] { new ProperSingularNoun("LASI") }), new VerbPhrase(new Word[] { new PastTenseVerb("found") }), new NounPhrase(new Word[] { new ProperPluralNoun("TIMIS") }) };
-            Sentence target = new Sentence(phrases,new SentenceEnding('.'));  
+            Sentence target = new Sentence(phrases, new SentenceEnding('.'));
             IEnumerable<Word> actual;
             actual = target.Words;
-            Assert.Inconclusive("Verify the correctness of this test method.");
+            AssertHelper.AreSequenceEqual(phrases.SelectMany(p => p.Words), actual);
         }
- 
+
 
         /// <summary>
         ///A test for Phrases
@@ -110,7 +112,7 @@ namespace LASI.UnitTests
             Sentence target = new Sentence(phrases, new SentenceEnding('.'));
             IEnumerable<Phrase> actual;
             actual = target.Phrases;
-            Assert.Inconclusive("Verify the correctness of this test method.");
+            AssertHelper.AreSequenceEqual(phrases, actual);
         }
 
         /// <summary>
@@ -140,7 +142,7 @@ namespace LASI.UnitTests
             Assert.Inconclusive("Verify the correctness of this test method.");
         }
 
-        
+
 
         /// <summary>
         ///A test for GetPhrasesAfter
@@ -180,6 +182,6 @@ namespace LASI.UnitTests
             Assert.Inconclusive("TODO: Implement code to verify target");
         }
 
-       
+
     }
 }

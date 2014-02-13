@@ -97,7 +97,6 @@ namespace LASI.UnitTests
             Task<string> actual;
             actual = target.GetTextAsync();
             Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
         }
     }
 }

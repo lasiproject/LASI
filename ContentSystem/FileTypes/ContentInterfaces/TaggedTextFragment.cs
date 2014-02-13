@@ -24,10 +24,10 @@ namespace LASI.ContentSystem
         /// <summary>
         /// Initializes a new instance of the TaggedTextFragment class containing the provided text and having the provided name.
         /// </summary>
-        /// <param name="text">A sequence of strings containing tagged text.</param>
+        /// <param name="lines">A sequence of strings containing tagged text.</param>
         /// <param name="name">The desired name of the TaggedTextFragment. This name does not have to be unique and serves no special purpose. It is simply provided for convenience.</param>
-        public TaggedTextFragment(IEnumerable<string> text, string name) {
-            taggedText = string.Join("\n", text);
+        public TaggedTextFragment(IEnumerable<string> lines, string name) {
+            taggedText = string.Join("\n", lines);
             SourceName = name;
         }
 
@@ -43,7 +43,8 @@ namespace LASI.ContentSystem
         /// </summary>
         /// <returns>A System.Threading.Task.Task which, when awaited, yields a single string containing all of the Tagged Text in the TaggedTextFragment.</returns>
         public async Task<string> GetTextAsync() {
-            return await Task.Run(() => taggedText).ContinueWith(t => t.Result, TaskScheduler.FromCurrentSynchronizationContext());
+            await Task.Yield();
+            return taggedText;
         }
         /// <summary>
         /// Gets the name associated with the TaggedTextFragment.

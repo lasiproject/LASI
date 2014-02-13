@@ -168,6 +168,7 @@
     <Compile Include="TaggedFileTest.cs" />
     <Compile Include="TaggedTextFragmentTest.cs" />
     <Compile Include="TaggerTest.cs" />
+    <Compile Include="TestHelpers\CollectionHelpers.cs" />
     <Compile Include="TextFileTest.cs" />
     <Compile Include="TransitiveVerbTest.cs" />
     <Compile Include="UnknownWordTest.cs" />

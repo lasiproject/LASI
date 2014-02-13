@@ -72,7 +72,7 @@ namespace LASI.UnitTests
             Assert.IsTrue(target.ActualCharacter == puncChar, "Punctuator Character Constructor Works!");
         }
 
-     
+
         /// <summary>
         ///A test for Text
         ///</summary>
@@ -84,16 +84,19 @@ namespace LASI.UnitTests
             string actual;
             actual = target.Text;
             Assert.AreEqual(expected, actual);
-        }
+       } 
 
         /// <summary>
         ///A test for Punctuator Constructor
         ///</summary>
         [TestMethod()]
         public void PunctuatorConstructorTest2() {
-            string punctuation = string.Empty; // TODO: Initialize to an appropriate value
+            string punctuation = "!";
             Punctuator target = new Punctuator(punctuation);
-            Assert.Inconclusive("TODO: Implement code to verify target");
+            string expected = "!";
+            string actual;
+            actual = target.Text;
+            Assert.AreEqual(expected, actual);
         }
 
         /// <summary>
@@ -101,9 +104,11 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod()]
         public void PunctuatorConstructorTest3() {
-            char punctuation = '\0'; // TODO: Initialize to an appropriate value
+            char punctuation = '.';
             Punctuator target = new Punctuator(punctuation);
-            Assert.Inconclusive("TODO: Implement code to verify target");
+            char expected = '.';
+            char actual = target.ActualCharacter;
+            Assert.AreEqual(expected, actual);
         }
     }
 }

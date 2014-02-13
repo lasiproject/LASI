@@ -36,7 +36,7 @@ namespace LASI.ContentSystem
             DocFilesDir = InputFilesDir + @"\doc";
             DocxFilesDir = InputFilesDir + @"\docx";
             PdfFilesDir = InputFilesDir + @"\pdf";
-            TextFilesDir = InputFilesDir + @"\text";
+            TxtFilesDir = InputFilesDir + @"\txt";
             TaggedFilesDir = InputFilesDir + @"\tagged";
             AnalysisDir = ProjectDir + @"\analysis";
             ResultsDir = ProjectDir + @"\results";
@@ -58,8 +58,8 @@ namespace LASI.ContentSystem
                 docFiles.Add(new DocFile(docPath));
             foreach (var docPath in Directory.EnumerateFiles(DocxFilesDir, "*.docx"))
                 docXFiles.Add(new DocXFile(docPath));
-            foreach (var docPath in Directory.EnumerateFiles(TextFilesDir, "*.txt"))
-                textFiles.Add(new TxtFile(docPath));
+            foreach (var docPath in Directory.EnumerateFiles(TxtFilesDir, "*.txt"))
+                txtFiles.Add(new TxtFile(docPath));
             foreach (var docPath in Directory.EnumerateFiles(PdfFilesDir, "*.pdf"))
                 pdfFiles.Add(new PdfFile(docPath));
             foreach (var docPath in Directory.EnumerateFiles(TaggedFilesDir, "*.tagged"))
@@ -78,7 +78,7 @@ namespace LASI.ContentSystem
                 DocxFilesDir, 
                 PdfFilesDir,
                 TaggedFilesDir, 
-                TextFilesDir, 
+                TxtFilesDir, 
             }) {
                 if (!Directory.Exists(path))
                     Directory.CreateDirectory(path);
@@ -104,7 +104,7 @@ namespace LASI.ContentSystem
                 var newPath =
                     ext == ".docx" ? DocxFilesDir :
                     ext == ".doc" ? DocFilesDir :
-                    ext == ".txt" ? TextFilesDir :
+                    ext == ".txt" ? TxtFilesDir :
                     ext == ".pdf" ? PdfFilesDir :
                     ext == ".tagged" ? TaggedFilesDir : "";
 
@@ -130,7 +130,7 @@ namespace LASI.ContentSystem
 
         }
         private static void AddToTypedList(TxtFile file) {
-            textFiles.Add(file);
+            txtFiles.Add(file);
 
         }
         private static void AddToTypedList(PdfFile file) {
@@ -198,7 +198,7 @@ namespace LASI.ContentSystem
         }
 
         private static void RemoveAllAlikeFiles(string fileName) {
-            textFiles.RemoveAll(f => f.NameSansExt == fileName);
+            txtFiles.RemoveAll(f => f.NameSansExt == fileName);
             docFiles.RemoveAll(f => f.NameSansExt == fileName);
             docXFiles.RemoveAll(f => f.NameSansExt == fileName);
             pdfFiles.RemoveAll(f => f.NameSansExt == fileName);
@@ -233,7 +233,7 @@ namespace LASI.ContentSystem
         }
 
         private static void RemoveFile(TxtFile file) {
-            textFiles.Remove(file);
+            txtFiles.Remove(file);
         }
         private static void RemoveFile(DocFile file) {
             docFiles.Remove(file);
@@ -298,7 +298,7 @@ namespace LASI.ContentSystem
             if (files.Length == 0)
                 files = docFiles.ToArray();
             foreach (var doc in from file in files
-                                where !(from dx in textFiles
+                                where !(from dx in txtFiles
                                         where dx.NameSansExt == file.NameSansExt
                                         select dx).Any()
                                 select file) {
@@ -330,7 +330,7 @@ namespace LASI.ContentSystem
             if (files.Length == 0)
                 files = docFiles.ToArray();
             foreach (var doc in from file in files
-                                where !(from dx in textFiles
+                                where !(from dx in txtFiles
                                         where dx.NameSansExt == file.NameSansExt
                                         select dx).Any()
                                 select file) {
@@ -362,7 +362,7 @@ namespace LASI.ContentSystem
             if (files.Length == 0)
                 files = pdfFiles.ToArray();
             foreach (var pdf in from file in files
-                                where !(from dx in textFiles
+                                where !(from dx in txtFiles
                                         where dx.NameSansExt == file.NameSansExt
                                         select dx).Any()
                                 select file) {
@@ -384,7 +384,7 @@ namespace LASI.ContentSystem
             if (files.Length == 0)
                 files = pdfFiles.ToArray();
             foreach (var pdf in from file in files
-                                where !(from dx in textFiles
+                                where !(from dx in txtFiles
                                         where dx.NameSansExt == file.NameSansExt
                                         select dx).Any()
                                 select file) {
@@ -408,7 +408,7 @@ namespace LASI.ContentSystem
             if (files.Length == 0)
                 files = docXFiles.ToArray();
             foreach (var doc in from d in files
-                                where !(from dx in textFiles
+                                where !(from dx in txtFiles
                                         where dx.NameSansExt == d.NameSansExt
                                         select dx).Any()
                                 select d) {
@@ -430,7 +430,7 @@ namespace LASI.ContentSystem
             if (files.Length == 0)
                 files = docXFiles.ToArray();
             foreach (var doc in from d in files
-                                where !(from dx in textFiles
+                                where !(from dx in txtFiles
                                         where dx.NameSansExt == d.NameSansExt
                                         select dx).Any()
                                 select d) {
@@ -451,7 +451,7 @@ namespace LASI.ContentSystem
                 throw new FileManagerNotInitializedException();
             }
             if (files.Length == 0)
-                files = textFiles.ToArray();
+                files = txtFiles.ToArray();
             foreach (var doc in from d in files
                                 where !(from dx in taggedFiles
                                         where dx.NameSansExt == d.NameSansExt
@@ -475,7 +475,7 @@ namespace LASI.ContentSystem
                 throw new FileManagerNotInitializedException();
             }
             if (files.Length == 0)
-                files = textFiles.ToArray();
+                files = txtFiles.ToArray();
             var tasks = (from d in files
                          where !(from dx in taggedFiles
                                  where dx.NameSansExt == d.NameSansExt
@@ -522,6 +522,16 @@ namespace LASI.ContentSystem
             }
             try {
                 Directory.Delete(ProjectDir, true);
+                allFileNames.Clear();
+                docFiles.Clear();
+                docXFiles.Clear();
+                pdfFiles.Clear();
+                txtFiles.Clear();
+                taggedFiles.Clear();
+                ProjectName = null;
+                Initialized = false;
+
+
             }
             catch (IOException e) {
                 Output.WriteLine(e.Message);
@@ -600,7 +610,7 @@ namespace LASI.ContentSystem
         /// <summary>
         /// Gets the .txt files directory
         /// </summary>
-        public static string TextFilesDir {
+        public static string TxtFilesDir {
             get;
             private set;
         }
@@ -610,7 +620,7 @@ namespace LASI.ContentSystem
         /// </summary>
         public static IReadOnlyList<TxtFile> TxtFiles {
             get {
-                return textFiles;
+                return txtFiles;
             }
         }
         /// <summary>
@@ -664,7 +674,7 @@ namespace LASI.ContentSystem
         private static List<DocFile> docFiles = new List<DocFile>();
         private static List<DocXFile> docXFiles = new List<DocXFile>();
         private static List<PdfFile> pdfFiles = new List<PdfFile>();
-        private static List<TxtFile> textFiles = new List<TxtFile>();
+        private static List<TxtFile> txtFiles = new List<TxtFile>();
         private static List<TaggedFile> taggedFiles = new List<TaggedFile>();
         #endregion
     }

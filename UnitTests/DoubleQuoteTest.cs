@@ -67,7 +67,7 @@ namespace LASI.UnitTests
         [TestMethod()]
         public void DoubleQuoteConstructorTest() {
             DoubleQuote target = new DoubleQuote();
-            Assert.AreEqual(target.PairedInstance, null);
+            Assert.AreEqual(target.PairedWith, null);
             Assert.AreEqual(target.Text, "\"");
         }
 
@@ -79,11 +79,11 @@ namespace LASI.UnitTests
             DoubleQuote target = new DoubleQuote();
             DoubleQuote complement = new DoubleQuote();
             target.PairWith(complement);
-            Assert.AreEqual(target.PairedInstance, complement);
-            Assert.AreEqual(target, target.PairedInstance.PairedInstance);
+            Assert.AreEqual(target.PairedWith, complement);
+            Assert.AreEqual(target, target.PairedWith.PairedWith);
             target.PairWith(target);
-            Assert.AreNotEqual(target.PairedInstance, target);
+            Assert.AreNotEqual(target.PairedWith, target);
         }
- 
+
     }
 }

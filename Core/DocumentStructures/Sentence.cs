@@ -86,7 +86,13 @@ namespace LASI.Core.DocumentStructures
         /// Gets the sequence of Phrases which comprise the sentence.
         /// </summary>
         /// 
-        public IEnumerable<Phrase> Phrases { get { return (from C in Clauses from P in C.Phrases select P).Append(new SymbolPhrase(new[] { EndingPunctuation })); } }
+        public IEnumerable<Phrase> Phrases {
+            get {
+                return from clause in Clauses
+                       from phrase in clause.Phrases
+                       select phrase;
+            }
+        }
         /// <summary>
         /// Gets the sequence of Words which comprise the sentence.
         /// </summary>
@@ -96,7 +102,7 @@ namespace LASI.Core.DocumentStructures
         /// </summary>
         public string Text {
             get {
-                return (Phrases.Take(Phrases.Count() - 1).Aggregate("", (sum, currentPhrase) => sum + " " + currentPhrase.Text) + Phrases.Last().Text).Trim();
+                return string.Join(" ", Phrases.Select(e => e.Text)).Trim() + EndingPunctuation.Text;
             }
         }
 

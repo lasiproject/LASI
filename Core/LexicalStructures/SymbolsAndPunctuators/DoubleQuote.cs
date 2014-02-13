@@ -21,8 +21,8 @@ namespace LASI.Core
         /// <param name="complement">A matching DoubleQuote with which to pair.</param>
         public override void PairWith(DoubleQuote complement) {
             if (complement != this) {
-                PairedInstance = complement;
-                complement.PairedInstance = this;
+                PairedWith = complement;
+                complement.PairedWith = this;
             }
         }
 

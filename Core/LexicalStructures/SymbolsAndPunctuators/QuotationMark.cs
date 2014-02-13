@@ -26,7 +26,7 @@ namespace LASI.Core
         /// Gets the QuotationMark 
         /// which, together with the current instance, bookends some lexical content.
         /// </summary>
-        public TQuote PairedInstance {
+        public TQuote PairedWith {
             get;
             protected set;
         }
@@ -35,7 +35,7 @@ namespace LASI.Core
         /// </summary>
         /// <returns>A string representation of the QuotationMark&lt;TQuote&gt;.</returns>
         public override string ToString() {
-            return base.ToString() + " Paired With " + (PairedInstance != null ? (PairedInstance.Text + PairedInstance.ID) : string.Empty);
+            return base.ToString() + " Paired With " + (PairedWith != null ? (PairedWith.Text + PairedWith.ID) : string.Empty);
         }
     }
 }

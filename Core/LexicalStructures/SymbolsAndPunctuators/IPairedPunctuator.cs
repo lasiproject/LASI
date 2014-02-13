@@ -26,7 +26,7 @@ namespace LASI.Core
         /// Gets the IPairedPunctuator&lt;TPunctuator&gt; 
         /// which, together with the current instance, bookends some lexical content.
         /// </summary>
-        TPunctuator PairedInstance { get; }
+        TPunctuator PairedWith { get; }
 
     }
 

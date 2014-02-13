@@ -4,7 +4,6 @@ using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Text;
-using LASI.Utilities;
 using System.Threading.Tasks;
 
 namespace TaggerInterop
@@ -91,7 +90,7 @@ namespace TaggerInterop
                     Encoding.UTF8)) {
                 return string.Join(" ",
                     reader.ReadToEnd()
-                    .SplitRemoveEmpty(' ', '\t', '\n', '\r')
+                    .Split(new[] { ' ', '\t', '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries)
                     .ToList()
                     .Select(s => s.Trim())
                     );
@@ -178,7 +177,7 @@ namespace TaggerInterop
             foreach (var paragraph in paragraphs.AsParallel().AsOrdered().Select(p => StripParentheticals(p))) {
                 string[] sentences = SplitSentences(paragraph);
 
-                foreach (var sentence in sentences.Where(s => s.IsNotWsOrNull())) {
+                foreach (var sentence in sentences.Where(s => !string.IsNullOrWhiteSpace(s))) {
                     string[] tokens = TokenizeSentence(sentence);
                     string[] tags = PosTagTokens(tokens);
                     output.Append(string.Format("<sentence>{0}</sentence>", ChunkSentence(tokens, tags)));

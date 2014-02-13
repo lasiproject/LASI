@@ -208,32 +208,34 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod()]
         public void SuperTaxonomicNounTest() {
-            Noun target = CreateNoun();              Noun expected = new ProperSingularNoun("Highland"); 
+            Noun target = CreateNoun();
+            Noun expected = new ProperSingularNoun("Highland");
             Noun actual;
             target.PrecedingAdjunctNoun = expected;
             actual = target.PrecedingAdjunctNoun;
             Assert.AreEqual(expected, actual);
-         }
- 
+        }
+
 
         /// <summary>
         ///A test for SubTaxonomicNoun
         ///</summary>
         [TestMethod()]
         public void SubTaxonomicNounTest() {
-            Noun target = CreateNoun();              Noun expected = new CommonSingularNoun("food");
+            Noun target = CreateNoun();
+            Noun expected = new CommonSingularNoun("food");
             Noun actual;
             target.FollowingAdjunctNoun = expected;
             actual = target.FollowingAdjunctNoun;
             Assert.AreEqual(expected, actual);
-         }
+        }
 
         /// <summary>
         ///A test for Referees
         ///</summary>
         [TestMethod()]
         public void RefereesTest() {
-            Noun target = CreateNoun(); 
+            Noun target = CreateNoun();
             IEnumerable<IReferencer> actual;
             actual = target.Referees;
             Assert.IsTrue(!actual.Any());
@@ -241,29 +243,29 @@ namespace LASI.UnitTests
             target.BindReferencer(pro);
             Assert.IsTrue(target.Referees.Contains(pro));
             Assert.IsTrue(target.Referees.All(r => r.ReferredTo == target || r.ReferredTo.Contains(target)));
-         }
+        }
 
         /// <summary>
         ///A test for QuantifiedBy
         ///</summary>
         [TestMethod()]
         public void QuantifiedByTest() {
-            Noun target = CreateNoun();  
-            IQuantifier expected = new Quantifier("3"); 
+            Noun target = CreateNoun();
+            IQuantifier expected = new Quantifier("3");
             IQuantifier actual;
             target.QuantifiedBy = expected;
             actual = target.QuantifiedBy;
             Assert.AreEqual(expected, actual);
             Assert.IsTrue(target.QuantifiedBy.Quantifies == target);
         }
-  
+
 
         /// <summary>
         ///A test for Descriptors
         ///</summary>
         [TestMethod()]
         public void DescriptorsTest() {
-            Noun target = CreateNoun();  
+            Noun target = CreateNoun();
             IEnumerable<IDescriptor> actual;
             actual = target.Descriptors;
             Assert.Inconclusive("Verify the correctness of this test method.");
@@ -275,12 +277,12 @@ namespace LASI.UnitTests
         [TestMethod()]
         public void BindReferencerTest() {
             Noun target = CreateNoun(); // TODO: Initialize to an appropriate value
-            IReferencer pro  = new PersonalPronoun("it");
+            IReferencer pro = new PersonalPronoun("it");
             target.BindReferencer(pro);
             Assert.IsTrue(target.Referees.Contains(pro));
             Assert.IsTrue(target.Referees.All(r => r.ReferredTo == target || r.ReferredTo.Contains(target)));
 
-          }
+        }
 
         /// <summary>
         ///A test for BindDeterminer
@@ -304,6 +306,6 @@ namespace LASI.UnitTests
             Assert.Inconclusive("A method that does not return a value cannot be verified.");
         }
 
- 
+
     }
 }

@@ -64,26 +64,31 @@ namespace LASI.UnitTests
         //
         #endregion
 
+        private static PrepositionalPhrase CreatePrepositionPhrase() {
+            var composedWords = new[] { new Preposition("on") };
+            return new PrepositionalPhrase(composedWords);
+        }
 
         /// <summary>
         ///A test for PrepositionalPhrase Constructor
         ///</summary>
         [TestMethod()]
         public void PrepositionalPhraseConstructorTest() {
-            IEnumerable<Word> composedWords = new[] { new Preposition("on") };
+            var composedWords = new[] { new Preposition("on") };
             PrepositionalPhrase target = new PrepositionalPhrase(composedWords);
+
             Assert.IsTrue(target.Words.Count() == composedWords.Count());
             Assert.IsTrue(target.Text == "on" && target.ToTheLeftOf == null && target.ToTheRightOf == null && target.BoundObject == null);
 
         }
+
 
         /// <summary>
         ///A test for BindObjectOfPreposition
         ///</summary>
         [TestMethod()]
         public void BindObjectOfPrepositionTest() {
-            IEnumerable<Word> composedWords = new[] { new ToLinker() };
-            PrepositionalPhrase target = new PrepositionalPhrase(composedWords); // TODO: Initialize to an appropriate value
+            PrepositionalPhrase target = CreatePrepositionPhrase();
             ILexical prepositionalObject = new VerbPhrase(new Word[] { new Verb("have", VerbForm.Base) });
             target.BindObject(prepositionalObject);
             Assert.IsTrue(target.BoundObject == prepositionalObject);
@@ -153,14 +158,13 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod()]
         public void ToTheRightOfTest() {
-            IEnumerable<Word> composedWords = null; // TODO: Initialize to an appropriate value
-            PrepositionalPhrase target = new PrepositionalPhrase(composedWords); // TODO: Initialize to an appropriate value
-            ILexical expected = null; // TODO: Initialize to an appropriate value
+            var composedWords = new[] { new Preposition("on") };
+            PrepositionalPhrase target = new PrepositionalPhrase(composedWords);
+            ILexical expected = new Verb("is", VerbForm.ThirdPersonSingularPresent);
             ILexical actual;
             target.ToTheRightOf = expected;
             actual = target.ToTheRightOf;
             Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
         }
 
         /// <summary>
@@ -168,14 +172,13 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod()]
         public void ToTheLeftOfTest() {
-            IEnumerable<Word> composedWords = null; // TODO: Initialize to an appropriate value
-            PrepositionalPhrase target = new PrepositionalPhrase(composedWords); // TODO: Initialize to an appropriate value
-            ILexical expected = null; // TODO: Initialize to an appropriate value
+            var composedWords = new[] { new Preposition("on") };
+            PrepositionalPhrase target = new PrepositionalPhrase(composedWords);
+            ILexical expected = new NounPhrase(new Word[] { new Determiner("the"), new CommonSingularNoun("table") });
             ILexical actual;
             target.ToTheLeftOf = expected;
             actual = target.ToTheLeftOf;
             Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
         }
 
         /// <summary>
@@ -183,17 +186,17 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod()]
         public void RoleTest() {
-            IEnumerable<Word> composedWords = null; // TODO: Initialize to an appropriate value
-            PrepositionalPhrase target = new PrepositionalPhrase(composedWords); // TODO: Initialize to an appropriate value
-            PrepositionRole expected = new PrepositionRole(); // TODO: Initialize to an appropriate value
+            var composedWords = new[] { new Preposition("on") };
+            PrepositionalPhrase target = new PrepositionalPhrase(composedWords);
+
+            PrepositionRole expected = PrepositionRole.SpatialSpecifier;
             PrepositionRole actual;
             target.Role = expected;
             actual = target.Role;
             Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
         }
 
- 
+
         /// <summary>
         ///A test for BindObject
         ///</summary>
@@ -206,6 +209,6 @@ namespace LASI.UnitTests
             Assert.Inconclusive("A method that does not return a value cannot be verified.");
         }
 
-        
+
     }
 }

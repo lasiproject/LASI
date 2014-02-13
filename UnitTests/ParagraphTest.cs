@@ -174,7 +174,7 @@ namespace LASI.UnitTests
             Assert.Inconclusive("Verify the correctness of this test method.");
         }
 
-        
+
         /// <summary>
         ///A test for Phrases
         ///</summary>
@@ -188,7 +188,7 @@ namespace LASI.UnitTests
             Assert.Inconclusive("Verify the correctness of this test method.");
         }
 
-       
+
 
         /// <summary>
         ///A test for GetPhrasesAfter
@@ -205,7 +205,7 @@ namespace LASI.UnitTests
             Assert.AreEqual(expected, actual);
             Assert.Inconclusive("Verify the correctness of this test method.");
         }
- 
+
         /// <summary>
         ///A test for Paragraph Constructor
         ///</summary>

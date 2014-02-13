@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LASI.Utilities
+namespace LASI
 {
     /// <summary>
     /// Maps standard output operations, providing a common interface for writing to the Console, Debug, and File output streams.
@@ -446,7 +446,7 @@ namespace LASI.Utilities
                     using (var writer = new StreamWriter(fileStream, Encoding.ASCII, 1024, true)) { writer.WriteLine(buffer, index, count); } else if (OutputMode == OutputMode.Console)
                     Console.WriteLine(buffer, index, count);
                 else
-                    Debug.WriteLine(buffer.Skip(index).Take(count).Aggregate("",(sum, c) => sum + c));
+                    Debug.WriteLine(buffer.Skip(index).Take(count).Aggregate("", (sum, c) => sum + c));
             }
         }
         /// <summary>

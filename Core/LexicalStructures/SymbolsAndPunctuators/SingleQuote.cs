@@ -20,8 +20,8 @@ namespace LASI.Core
         /// </summary>
         /// <param name="complement">A matching SingleQuote with which to pair.</param>
         public override void PairWith(SingleQuote complement) {
-            this.PairedInstance = complement;
-            complement.PairedInstance = this;
+            this.PairedWith = complement;
+            complement.PairedWith = this;
         }
 
     }

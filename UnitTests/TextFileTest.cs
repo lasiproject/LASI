@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace LASI.UnitTests
 {
-    
-    
+
+
     /// <summary>
     ///This is a test class for TextFileTest and is intended
     ///to contain all TextFileTest Unit Tests
@@ -67,9 +67,12 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod()]
         public void TextFileConstructorTest() {
-            string absolutePath = string.Empty; // TODO: Initialize to an appropriate value
-            TxtFile target = new TxtFile(absolutePath);
-            Assert.Inconclusive("TODO: Implement code to verify target");
+            string path = @"..\..\MockUserFiles\Draft_Environmental_Assessment.txt";
+            TxtFile target = new TxtFile(path);
+            var sfi = new System.IO.FileInfo(path);
+            Assert.AreEqual(sfi.FullName, target.FullPath);
+            Assert.AreEqual(sfi.Name, target.FileName);
+            Assert.AreEqual(sfi.Extension, target.Ext);
         }
 
         /// <summary>
@@ -77,13 +80,12 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod()]
         public void GetTextTest() {
-            string absolutePath = string.Empty; // TODO: Initialize to an appropriate value
-            TxtFile target = new TxtFile(absolutePath); // TODO: Initialize to an appropriate value
-            string expected = string.Empty; // TODO: Initialize to an appropriate value
+            string path = @"..\..\MockUserFiles\Draft_Environmental_Assessment.txt";
+            TxtFile target = new TxtFile(path);
+            string expected = new System.IO.StreamReader(path).ReadToEnd();
             string actual;
             actual = target.GetText();
             Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
         }
 
         /// <summary>
@@ -91,13 +93,15 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod()]
         public void GetTextAsyncTest() {
-            string absolutePath = string.Empty; // TODO: Initialize to an appropriate value
-            TxtFile target = new TxtFile(absolutePath); // TODO: Initialize to an appropriate value
-            Task<string> expected = null; // TODO: Initialize to an appropriate value
-            Task<string> actual;
-            actual = target.GetTextAsync();
+            string path = @"..\..\MockUserFiles\Draft_Environmental_Assessment.txt";
+            TxtFile target = new TxtFile(path);
+            string expected = string.Empty;
+            string actual = null;
+            Task.WaitAll(Task.Run(
+                async () => expected = await new System.IO.StreamReader(target.FullPath).ReadToEndAsync()),
+                Task.Run(async () => actual = await target.GetTextAsync())
+            );
             Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
         }
     }
 }

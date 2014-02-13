@@ -13,11 +13,12 @@ namespace LASI.ContentSystem
         /// <summary>
         /// Initializes a new instance of the InputFile class wrapping the provided filepath.
         /// </summary>
-        /// <param name="fullPath">The path to the file</param>
-        protected InputFile(string fullPath) {
-            if (!System.IO.File.Exists(fullPath))
-                throw new System.IO.FileNotFoundException("File Not Found.", fullPath);
-            fileData = new FileData(fullPath);
+        /// <param name="full">The absolute or relative path of the file</param>
+        protected InputFile(string full) {
+            var inf = new System.IO.FileInfo(full);
+            if (!inf.Exists)
+                throw new System.IO.FileNotFoundException("File Not Found.", inf.FullName);
+            fileData = new FileData(inf.FullName);
         }
         /// <summary>
         /// Gets the full file path, including the file name and extension of the file.
@@ -87,7 +88,7 @@ namespace LASI.ContentSystem
         /// </summary>
         /// <returns>A string prepsentation of the InputFile, including its full path.</returns>
         public override string ToString() {
-            return this.GetType() + fileData.ToString();
+            return string.Format("{0}: {1} in: {2}", this.GetType(), FileName, Directory);
         }
         /// <summary>
         /// Returns a value that indicates whether the InputFile on the left is equal to the InputFile on the right.

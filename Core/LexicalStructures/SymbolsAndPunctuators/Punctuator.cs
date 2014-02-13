@@ -16,6 +16,7 @@ namespace LASI.Core
         /// <param name="punctuation">The punctuation character symbol.</param>
         public Punctuator(char punctuation)
             : base(punctuation) {
+
             ActualCharacter = punctuation;
             AliasString = PunctuationAliasMap.GetAliasStringForChar(ActualCharacter);
         }
@@ -70,6 +71,19 @@ namespace LASI.Core
                 return alias.Any() ? alias.First() : actual.ToString();
 
             }
+
         }
+        //public override int GetHashCode() {
+        //    return ActualCharacter.GetHashCode();
+        //}
+        //public override bool Equals(object obj) {
+        //    return ReferenceEquals(this, obj) || this == obj as Punctuator;
+        //}
+        //public static bool operator ==(Punctuator first, Punctuator second) {
+        //    return first.ActualCharacter == second.ActualCharacter;
+        //}
+        //public static bool operator !=(Punctuator first, Punctuator second) {
+        //    return !(first == second);
+        //}
     }
 }
