@@ -15,26 +15,36 @@
 </header>
 
 
-<div id="main-content">
+<body onload="$(document).ready(
+                function () {
+                    $('input:submit').attr('disabled', true);
+                    $('input:file').change(
+                        function () {
+                            if ($(this).val()) {
+                                $('input:submit').removeAttr('disabled');
+                            }
+                            else {
+                                $('input:submit').attr('disabled', true);
+                            }
+                        });
+                });">
 
-    @using (Html.BeginForm("Upload", "Home", FormMethod.Post, new { enctype = "multipart/form-data" })) {
+    @using (Html.BeginForm("Upload", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
         <input id="file" type="file" name="file" multiple />
-        <script>
-            $(file).addClass("#FileUpload").validate();
-        </script>
         <input type="submit" id="Submit" name="Submit" value="Upload" />
+        <script>
+        </script>
 
     }
 
-</div>
+</body>
 
 
 
 
-
-
-
-@if (@User.Identity.IsAuthenticated) {
+@if (@User.Identity.IsAuthenticated)
+{
     @section scripts {
         @Scripts.Render("~/bundles/knockout")
         @Scripts.Render("~/bundles/jqueryval")
@@ -42,3 +52,6 @@
     }
 
 }
+
+
+
