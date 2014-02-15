@@ -29,7 +29,7 @@
             foreach (var paragraphData in from ided in withIds group ided by ided.Phrase.Paragraph) {
                 <p class="lexical-content-block">
                     @foreach (var e in paragraphData) {
-                        <span class=@styleMap[e.Phrase].CssClass title="@string.Join("", e.Phrase.Type.Name.Select(c => c.IsUpper() ? " " + c : c.ToString()))" id="@e.Id">
+                        <span class=@styleMap[e.Phrase].CssClass title="@string.Join("", e.Phrase.Type.Name.Select(c => c.IsUpper(this) ? " " + c : c.ToString()))" id="@e.Id">
                             @e.Phrase.Text
 
                             <span id="@("context" + e.Id)">

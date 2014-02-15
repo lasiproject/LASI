@@ -387,6 +387,7 @@
     <Content Include="Areas\HelpPage\Views\_ViewStart.cshtml" />
     <Content Include="JSLintNet.json" />
     <Content Include="Scripts\app\Example\Example.js" />
+    <Content Include="Scripts\app\Index\Index.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\JqueryContextMenu\Index.html" />
