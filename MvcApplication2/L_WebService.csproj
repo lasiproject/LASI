@@ -487,6 +487,7 @@
     <Content Include="Scripts\jquery.validate.min.js.map">
       <DependentUpon>jquery.validate.js</DependentUpon>
     </Content>
+    <Content Include="Views\Home\Homepage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\SourceFiles\" />

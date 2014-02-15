@@ -61,8 +61,6 @@ $(function () {
         });
     });
 });
-
-
 //    $.contextMenu({
 //        selector: 'span.Verbal',
 //        callback: function (key, options) {
@@ -93,8 +91,6 @@ $(function () {
 //        //        */
 //        //    //}
 //        ////});//('open', function (data, fn) {
-
-
 
 //        //    data.preventDefault();
 //        //    $("#verbalmenus.menuwrapper.phrasemenu")
