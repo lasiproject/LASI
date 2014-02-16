@@ -14,10 +14,10 @@ namespace LASI.ContentSystem
         /// <summary>
         /// Initializes a new instance of the TxtFile class for the given path.
         /// </summary>
-        /// <param name="fullPath">The path to a .txt file.</param>
+        /// <param name="path">The path of the .txt file.</param>
         /// <exception cref="FileTypeWrapperMismatchException">Thrown if the provided path does not end in the .txt extension.</exception>
-        public TxtFile(string fullPath)
-            : base(fullPath) {
+        public TxtFile(string path)
+            : base(path) {
             if (!this.Ext.Equals(".txt", StringComparison.OrdinalIgnoreCase))
                 throw new FileTypeWrapperMismatchException(GetType().ToString(), this.Ext);
         }

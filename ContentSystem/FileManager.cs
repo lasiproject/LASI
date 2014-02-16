@@ -666,7 +666,7 @@ namespace LASI.ContentSystem
             get;
             private set;
         }
-        internal static readonly WrapperDict WrapperMap = new WrapperDict();
+        internal static readonly ExtensionWrapperMap WrapperMap = new ExtensionWrapperMap(UnknownFileTypeHandling.DEFAULT);
         #endregion
 
         #region Fields
@@ -679,32 +679,65 @@ namespace LASI.ContentSystem
         #endregion
     }
 
-    #region Helper Types
-    class WrapperDict : Dictionary<string, Func<string, InputFile>>
+    public enum UnknownFileTypeHandling
     {
-        internal WrapperDict()
-            : base(
-            new Dictionary<string, Func<string, InputFile>> {
+        /// <summary>
+        /// Throw an exception when trying to map to an unknown file extension.
+        /// </summary>
+        DEFAULT = 0,
+        /// <summary>
+        /// Return null when trying to map to an unkown file extension.
+        /// </summary>
+        YieldNull,
+        /// <summary>
+        /// Throw an exception when trying to map to an unknown file extension.
+        /// </summary>
+        Throw = DEFAULT,
+
+    }
+    #region Helper Types
+    public class ExtensionWrapperMap
+    {
+        UnknownFileTypeHandling unknownMappingMode;
+        private IDictionary<string, Func<string, InputFile>> mapping;
+        public ExtensionWrapperMap(UnknownFileTypeHandling unknownHandlingMode) {
+
+            this.unknownMappingMode = unknownHandlingMode;
+            mapping = new Dictionary<string, Func<string, InputFile>> {
                 { "txt" , p => new TxtFile(p) },
                 { "doc" , p => new DocFile(p) },
                 { "docx" , p => new DocXFile(p) },
                 { "pdf" , p=> new PdfFile(p) },
-                { "tagged" , p => new TaggedFile(p) }
-        }) {
+                { "tagged" , p => new TaggedFile(p) }, 
+            };
         }
-
-        public new Func<string, InputFile> this[string fileExtension] {
+        public IEnumerable<string> KnownFormats { get { return mapping.Keys; } }
+        public Func<string, InputFile> this[string fileExtension] {
             get {
-                return base[fileExtension.Replace(".", "")];
+                try {
+                    return mapping[fileExtension.Replace(".", "")];
+                }
+                catch (KeyNotFoundException) {
+                    switch (unknownMappingMode) {
+                        case UnknownFileTypeHandling.YieldNull:
+                            return path => null;
+                        case UnknownFileTypeHandling.DEFAULT:
+                            return path => { throw new ArgumentException("unmapped " + path); };
+                        default:
+                            return path => { throw new ArgumentException(); };
+                    }
+                }
+
             }
         }
-
     }
-
     #endregion
 
-
 }
+
+
+
+
 
 
 

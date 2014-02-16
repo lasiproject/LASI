@@ -1,5 +1,5 @@
 ﻿@using LASI.Core;
-@using LASI.Utilities;
+@using LASI;
 @using LASI.WebService.Controllers;
 @using LASI.WebService;
 @using Newtonsoft.Json;
@@ -36,7 +36,7 @@
                                 @if (e.Phrase is IVerbal) {
                                     @((e.Phrase as IVerbal).GetJsonMenuData())
 
-                                } 
+                                }
 
                             </span>
                         </span>    }
