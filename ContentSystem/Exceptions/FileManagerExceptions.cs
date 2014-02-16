@@ -37,7 +37,7 @@ namespace LASI.ContentSystem
         private FileConversionFailureException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
     }
     /// <summary>
-    /// The exception thrown when methods are invoked or preperties accessed on the FilaManager before a call has been made to initialize it.
+    /// The exception thrown when methods are invoked or preperties accessed on the FileManager before a call has been made to initialize it.
     /// </summary>
     [Serializable]
     public class FileManagerNotInitializedException : FileManagerException

@@ -15,7 +15,8 @@
     "GenerateSourceMaps": true,
     "OutputDirectory": null,
     "ShowPreviewPane": true,
-    "WrapClosure": true
+    "WrapClosure": true,
+    "MinifyInPlace": false
   },
   "Css": {
     "AdjustRelativePaths": true,
@@ -75,7 +76,8 @@
     "CompileOnSave": true,
     "GenerateSourceMaps": false,
     "OutputDirectory": "",
-    "ShowPreviewPane": true
+    "ShowPreviewPane": true,
+    "MinifyInPlace": false
   },
   "Markdown": {
     "AutoHyperlink": true,
@@ -87,14 +89,16 @@
     "LinkEmails": true,
     "OutputDirectory": null,
     "ShowPreviewPane": true,
-    "StrictBoldItalic": true
+    "StrictBoldItalic": true,
+    "MinifyInPlace": false
   },
   "Sass": {
     "CompileOnBuild": false,
     "CompileOnSave": false,
     "GenerateSourceMaps": false,
     "OutputDirectory": "",
-    "ShowPreviewPane": false
+    "ShowPreviewPane": false,
+    "MinifyInPlace": false
   },
   "TypeScript": {
     "BraceCompletion": false,

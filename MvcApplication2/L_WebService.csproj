@@ -262,6 +262,7 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\HomepageController.cs" />
     <Compile Include="Controllers\TodoController.cs" />
     <Compile Include="Controllers\TodoListController.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
@@ -488,9 +489,11 @@
       <DependentUpon>jquery.validate.js</DependentUpon>
     </Content>
     <Content Include="Views\Home\Homepage.cshtml" />
+    <Content Include="Views\Test\Homepage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\SourceFiles\" />
+    <Folder Include="Views\Homepage\" />
     <Folder Include="Views\Upload\" />
   </ItemGroup>
   <ItemGroup>
