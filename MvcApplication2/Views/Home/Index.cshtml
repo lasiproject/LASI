@@ -16,20 +16,7 @@
 </header>
 
 
-<body onload="$(document).ready(
-                function () {
-                    $('input:submit').attr('disabled', true);
-                    $('input:file').change(
-                        function () {
-                            if ($(this).val()) {
-                                $('input:submit').removeAttr('disabled');
-                            }
-                            else {
-                                $('input:submit').attr('disabled', true);
-                            }
-                        });
-                });">
-
+<body>
     @using (Html.BeginForm("Upload", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
     {
         <input id="file" type="file" name="file" multiple />
@@ -41,16 +28,13 @@
 
 </body>
 
-
-
-
-
 @section scripts {
         
     @Scripts.Render("~/bundles/knockout")
     @Scripts.Render("~/bundles/jqueryval")
-    @Scripts.Render("~/")
+    @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/todo")
+    @Scripts.Render("~/Scripts/app/Index/index.js")
     }
 
 
