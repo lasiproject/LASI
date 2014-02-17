@@ -396,7 +396,9 @@ namespace LASI.UnitTests
         public void HasSimilarFileTest() {
             foreach (var f in GetAllTestFiles()) { FileManager.AddFile(f.FullPath, overwrite: true); }
             foreach (var f in GetAllTestFiles()) {
+                Assert.IsTrue(FileManager.HasSimilarFile(f.NameSansExt));
                 Assert.IsTrue(FileManager.HasSimilarFile(f));
+
             }
         }
 
@@ -408,20 +410,19 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod()]
         public void RemoveAllNotInTest() {
-            IEnumerable<InputFile> filesToKeep = null; // TODO: Initialize to an appropriate value
+            IEnumerable<InputFile> filesToKeep = GetAllTestFiles().Skip(GetAllTestFiles().Count() / 2);
+            foreach (var f in GetAllTestFiles()) { FileManager.AddFile(f.FullPath, overwrite: true); }
             FileManager.RemoveAllNotIn(filesToKeep);
-            Assert.Inconclusive("A method that does not return a value cannot be verified.");
+            foreach (var f in filesToKeep) {
+                Assert.IsTrue(
+                    FileManager.DocFiles.Contains(f) ||
+                    FileManager.PdfFiles.Contains(f) ||
+                    FileManager.DocXFiles.Contains(f) ||
+                    FileManager.TxtFiles.Contains(f) ||
+                    FileManager.TaggedFiles.Contains(f));
+            }
         }
 
-        /// <summary>
-        ///A test for RemoveAllNotIn
-        ///</summary>
-        [TestMethod()]
-        public void RemoveAllNotInTest1() {
-            IEnumerable<string> filesToKeep = null; // TODO: Initialize to an appropriate value
-            FileManager.RemoveAllNotIn(filesToKeep);
-            Assert.Inconclusive("A method that does not return a value cannot be verified.");
-        }
 
         /// <summary>
         ///A test for RemoveFile
