@@ -1,0 +1,145 @@
+﻿body {
+}
+
+.documentselectiontab {
+    display: inline-block;
+    float: left;
+    margin: 5em;
+    outline-color: azure;
+    list-style-type: none;
+}
+
+.documentlist {
+    border: 1px;
+    border-color: tan;
+    clear: right;
+}
+
+.break-after {
+    break-after: always;
+}
+
+.NounPhrase {
+    color: darkblue;
+}
+
+.Proper {
+    color: darkred;
+}
+
+.Referencer {
+    color: hotpink;
+}
+
+.Infinitive {
+    color: teal;
+}
+
+.Entity {
+    color: deepskyblue;
+}
+
+.Conjunctive {
+    color: chartreuse;
+}
+
+.Prperositional {
+    color: darkorange;
+}
+
+.Descriptror {
+    color: indigo;
+}
+
+.Verbal {
+    color: green;
+}
+
+.Adverbial {
+    color: orange;
+}
+
+.LexicalDefaultStyle {
+    color: black;
+}
+
+.Gerund {
+    color: forestgreen;
+}
+/*#region info and errors */
+.error {
+    float: none;
+    padding-left: .5em;
+    color: red;
+    vertical-align: top;
+}
+
+.validation-summary-errors {
+    width: 220px;
+    color: red;
+    list-style: none;
+    font-size: .8em;
+}
+
+    .validation-summary-errors ul {
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+/*#endregion */
+
+.lexical-content-block span {
+    position: relative;
+}
+
+.phrasemenu {
+    align-items: center;
+    position: static;
+    display: inline-block;
+    float: none;
+    margin: 0.3em;
+    padding: 0.3em;
+    border-radius: 0.25em;
+    background-color: grey;
+    list-style: none;
+    text-align: center;
+}
+
+.phrasemenuitem {
+    -moz-user-select: none;
+    align-self: center;
+    align-items: center;
+    -ms-user-select: none;
+    -webkit-user-select: none;
+    align-content: center;
+    user-select: none;
+    padding: 0.2em;
+    border-radius: 0.2em;
+    color: seashell;
+    list-style: none;
+    list-style-type: none;
+    text-align: center;
+    cursor: pointer;
+}
+
+.menuwrapper {
+    position: absolute;
+    border: 0.1em solid black;
+    border-radius: 0.5em;
+    background-color: #ffffff;
+    text-align: center;
+}
+
+.reconstructed-document {
+
+}
+
+
+.content-wrapper {
+    position: relative;
+    margin: 0 auto;
+    padding-right: 5px;
+    padding-left: 5px;
+    max-width: 960px;
+    border: .1em solid black;
+}
