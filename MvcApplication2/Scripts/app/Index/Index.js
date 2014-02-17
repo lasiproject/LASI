@@ -17,3 +17,17 @@ $(document).ready(
                             }
                         });
                 });
+$(document).ready(
+                function () {
+                    var tId = set(function (event) {
+                        //event.preventDefault();
+                        $.getJSON('home/partialpage/').complete(function (evt) {
+
+                            var data = evt.responseJSON; var $progress = $(".progress-bar");
+                            //$progress.parent().width(data.PercentComplete);
+                            $progress.width(data.PercentComplete);
+                            $progress.text(data.StatusMessage);
+                        });
+
+                    }, 1000);
+                });

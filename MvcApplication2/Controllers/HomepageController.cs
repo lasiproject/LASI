@@ -6,13 +6,12 @@ using System.Web.Mvc;
 
 namespace LASI.WebService.Controllers
 {
-	public class HomepageController : Controller
-	{
-		//
-		// GET: /Homepage/
-		public ActionResult Index()
-		{
-			return View();
-		}
-	}
+    public class HomepageController : Controller
+    {
+        //
+        // GET: /Homepage/
+        public ActionResult Index() {
+            return View();
+        }
+    }
 }

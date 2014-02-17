@@ -3,19 +3,18 @@
 @using LASI.WebService.Controllers;
 @using LASI.WebService;
 @using Newtonsoft.Json;
+@Styles.Render(@"~\Content\App\Example.css")
 
-@Styles.Render("~/Content/bootstrap.css")
-@Styles.Render("~/Content/Results.css")
-@Styles.Render("~/Scripts/JqueryContextMenu/prettify.sunburst.css")
-@Styles.Render("~/Scripts/JqueryContextMenu/jquery.contextMenu.css")
 
+<link rel="stylesheet" href=".\..\scripts\JqueryContextMenu\sunbirst.css" />
+<link rel="stylesheet" href=".\..\scripts\JqueryContextMenu\jquery.contextMenu.css" />
 <title>@ViewBag.Title</title>
 <div>
     <ul id="documentlist" class="documentlist break-after documentselectiontab">
 
         @foreach (var doc in ViewData["docs"] as IEnumerable<LASI.Core.DocumentStructures.Document>) {
             <li class="documentselectiontab">
-                <a href=@("#"+doc.Name)>
+                <a href=@("#" + doc.Name)>
                     @doc.Name
                 </a>
             </li>
@@ -23,7 +22,7 @@
     </ul>
 </div>
 <br />
-<div class="reconstructed-document">
+<div>
     @foreach (var doc in ViewData["docs"] as IEnumerable<LASI.Core.DocumentStructures.Document>) {
         <div id=@doc.Name class="content-wrapper">
             @{var styleMap = new SyntacticStyleMapping();
@@ -88,6 +87,10 @@
         </ul>
     </div>
 </div>
+
+
+
+
 
 @section scripts{
     @Scripts.Render("~/bundles/bootstrap")

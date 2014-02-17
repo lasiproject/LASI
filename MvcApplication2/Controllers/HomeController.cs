@@ -65,7 +65,10 @@ namespace LASI.WebService.Controllers
                 .Where(file => file != null);
 
             var analyzer = new AnalysisController(files);
-            analyzer.ProgressChanged += (s, e) => { percentComplete = e.Increment; statusMessage = e.Message; };
+            analyzer.ProgressChanged += (s, e) => {
+                percentComplete += e.Increment;
+                statusMessage = e.Message;
+            };
             var loadingTask = await Task.Run(async () => await analyzer.ProcessAsync());
 
             ViewData.Add("docs", from task in loadingTask select task);
@@ -73,31 +76,21 @@ namespace LASI.WebService.Controllers
             ViewBag.Title = "Example";
             return View();
         }
-        private static double percentComplete;
+        private double percentComplete;
 
-        public static double PercentComplete {
-            get { return percentComplete; }
-            set { percentComplete = value; }
-        }
-        private static string statusMessage;
 
-        public static string StatusMessage {
-            get { return statusMessage; }
-            set { statusMessage = value; }
-        }
+        private string statusMessage;
 
-        public ContentResult GetAnalysisProgress(string returnUrl) {
-            return new ContentResult { Content = string.Join("", new JsonServicesController().Get()), ContentType = "JSON" };
-            //("api/jsonservices");
-            //var data = JsonConvert.SerializeObject(
-            //        new
-            //        {
-            //            PercentComplete = percentComplete, StatusMessage = statusMessage ?? ""
-            //        }
-            //);
-            //// ViewBag = data;
-            //return View(data);
 
+
+        public ContentResult PartialPage(string returnUrl) {
+            ViewData["update"] = JsonConvert.SerializeObject(new
+            {
+                StatusMessage = statusMessage ?? "Test",
+                PercentComplete = percentComplete.ToString() + "%"
+            });
+
+            return Content(ViewData["update"].ToString(), "application/json");
         }
 
 

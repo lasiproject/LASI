@@ -8,6 +8,11 @@ using System.Web.Security;
 
 namespace LASI.WebService.Models
 {
+    public class ProgressModel
+    {
+        public string Message { get; set; }
+        public double Percentage { get; set; }
+    }
     public class UsersContext : DbContext
     {
         public UsersContext()
