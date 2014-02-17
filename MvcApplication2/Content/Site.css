@@ -20,7 +20,8 @@
 }
 
 body {
-    margin: 1em auto;
+    /*margin: 1em auto;*/
+    margin: 10px;
     max-width: 980px;
     background-color: #fff;
     color: #333;
@@ -335,52 +336,6 @@ footer {
     background-color: #eee;
 }
 
-
-
-
-
-nav {
-    display: inline-block;
-    float: none;
-    clear: both;
-    margin: 1em;
-    padding: 1em;
-}
-
-    nav > ul {
-    }
-
-        nav > ul > li {
-            align-self: center;
-            align-content: center;
-            align-items: center;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            -webkit-user-select: none;
-            user-select: none;
-            position: static;
-            display: block;
-            float: left;
-            margin: 3px;
-            padding: 3px;
-            width: 100%;
-            border: 3px;
-            border-radius: 2em;
-            background-color: lightblue;
-            list-style: none;
-            text-align: center;
-        }
-
-ul > li:hover {
-    background-color: darkcyan;
-    color: white;
-}
-
-li > a {
-    align-content: center;
-    display: inline-block;
-    text-align: center;
-}
 
 .menuwrapper {
     position: absolute;
