@@ -96,13 +96,11 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\DotNetOpenAuth.OpenId.RelyingParty.4.3.4.13329\lib\net45-full\DotNetOpenAuth.OpenId.RelyingParty.dll</HintPath>
     </Reference>
-    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\EntityFramework.6.1.0-alpha1\lib\net45\EntityFramework.dll</HintPath>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.6.1.0-beta1\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
-    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\EntityFramework.6.1.0-alpha1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.1.0-beta1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="JQueryUIHelpers">
       <HintPath>..\packages\jQueryUIHelpers.Mvc3.2.1.0\lib\net40\JQueryUIHelpers.dll</HintPath>
@@ -115,11 +113,11 @@
       <HintPath>..\packages\Microsoft.Data.OData.5.6.0\lib\net40\Microsoft.Data.OData.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Web.Helpers">
-      <HintPath>..\packages\Microsoft.AspNet.WebHelpers.3.1.0\lib\net45\Microsoft.Web.Helpers.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.WebHelpers.3.1.1\lib\net45\Microsoft.Web.Helpers.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Web.WebPages.OAuth, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.OAuth.3.1.0\lib\net45\Microsoft.Web.WebPages.OAuth.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.OAuth.3.1.1\lib\net45\Microsoft.Web.WebPages.OAuth.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -134,7 +132,7 @@
     </Reference>
     <Reference Include="System.Net.Http.Formatting, Version=5.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.1.0\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.1.1\lib\net45\System.Net.Http.Formatting.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.Http.Primitives">
       <HintPath>..\packages\Microsoft.Net.Http.2.2.18\lib\net45\System.Net.Http.Primitives.dll</HintPath>
@@ -150,27 +148,25 @@
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.1.0\lib\net45\System.Web.Helpers.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.1.1\lib\net45\System.Web.Helpers.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Http, Version=5.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.1.0\lib\net45\System.Web.Http.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.1.1\lib\net45\System.Web.Http.dll</HintPath>
     </Reference>
-    <Reference Include="System.Web.Http.OData, Version=5.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.WebApi.OData.5.1.0\lib\net45\System.Web.Http.OData.dll</HintPath>
+    <Reference Include="System.Web.Http.OData">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.OData.5.1.1\lib\net45\System.Web.Http.OData.dll</HintPath>
     </Reference>
-    <Reference Include="System.Web.Http.Tracing, Version=5.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.WebApi.Tracing.5.1.0\lib\net45\System.Web.Http.Tracing.dll</HintPath>
+    <Reference Include="System.Web.Http.Tracing">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Tracing.5.1.1\lib\net45\System.Web.Http.Tracing.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Http.WebHost, Version=5.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.1.0\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.1.1\lib\net45\System.Web.Http.WebHost.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Mvc, Version=5.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.1.0\lib\net45\System.Web.Mvc.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.1.1\lib\net45\System.Web.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Optimization, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -178,23 +174,23 @@
     </Reference>
     <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.Razor.3.1.0\lib\net45\System.Web.Razor.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.1.0\lib\net45\System.Web.WebPages.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.1.0\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.1.0\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.1.1\lib\net45\System.Web.Razor.dll</HintPath>
     </Reference>
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Abstractions" />
     <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.1.1\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.1.1\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.1.1\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Transactions" />
@@ -218,11 +214,11 @@
     </Reference>
     <Reference Include="WebMatrix.Data, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.Data.3.1.0\lib\net45\WebMatrix.Data.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.Data.3.1.1\lib\net45\WebMatrix.Data.dll</HintPath>
     </Reference>
     <Reference Include="WebMatrix.WebData, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.WebData.3.1.0\lib\net45\WebMatrix.WebData.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.WebData.3.1.1\lib\net45\WebMatrix.WebData.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -366,6 +362,26 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="JSLintNet.json" />
+    <Content Include="Scripts\app\Example\Example.js" />
+    <Content Include="Scripts\app\Index\Index.js" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\JqueryContextMenu\Index.html" />
+    <Content Include="Scripts\JqueryContextMenu\jquery-1.8.2.min.js" />
+    <Content Include="Scripts\jquery-2.0.3.js" />
+    <Content Include="Scripts\jquery-2.0.3.min.js">
+      <DependentUpon>jquery-2.0.3.js</DependentUpon>
+    </Content>
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="Content\bootstrap.css.map" />
     <Content Include="Areas\HelpPage\Views\Web.config" />
     <Content Include="Areas\HelpPage\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\ResourceModel.cshtml" />
@@ -386,22 +402,6 @@
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\ApiGroup.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\Api.cshtml" />
     <Content Include="Areas\HelpPage\Views\_ViewStart.cshtml" />
-    <Content Include="JSLintNet.json" />
-    <Content Include="Scripts\app\Example\Example.js" />
-    <Content Include="Scripts\app\Index\Index.js" />
-    <Content Include="Scripts\bootstrap.js" />
-    <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="Scripts\JqueryContextMenu\Index.html" />
-    <Content Include="Scripts\JqueryContextMenu\jquery-1.8.2.min.js" />
-    <Content Include="Scripts\jquery-2.0.3.js" />
-    <Content Include="Scripts\jquery-2.0.3.min.js">
-      <DependentUpon>jquery-2.0.3.js</DependentUpon>
-    </Content>
-    <Content Include="fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="Content\bootstrap-theme.css.map" />
-    <Content Include="Content\bootstrap.css.map" />
     <None Include="Scripts\jquery-2.1.0.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.0.js" />
     <Content Include="Scripts\jquery-2.1.0.min.js" />
@@ -427,18 +427,15 @@
     <Content Include="Scripts\jquery-ui.unobtrusive-2.1.0.min.js" />
     <Content Include="Scripts\jquery.ui-contextmenu.js" />
     <Content Include="Scripts\JqueryContextMenu\jquery.ui.position.js" />
-    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
-    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\knockout-3.0.0.debug.js" />
     <Content Include="Scripts\knockout-3.0.0.js" />
     <Content Include="Scripts\modernizr-2.7.1.js" />
     <Content Include="Scripts\JqueryContextMenu\prettify.sunburst.css" />
     <Content Include="Scripts\JqueryContextMenu\screen.css" />
     <Content Include="Scripts\JqueryContextMenu\screen.js" />
+    <Content Include="Scripts\typings\jquery\jquery.d.ts" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -520,7 +517,6 @@
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\typings\jquery.contextMenu\jquery.contextMenu.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\jqueryui\jqueryui.d.ts" />
-    <TypeScriptCompile Include="Scripts\typings\jquery\jquery.d.ts" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
