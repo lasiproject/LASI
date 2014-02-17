@@ -322,7 +322,7 @@ declare module JQueryUI {
 
     interface MenuEvents {
         blur?: MenuEvent;
-        create?: MenuEvent; 
+        create?: MenuEvent;
         focus?: MenuEvent;
         select?: MenuEvent;
     }
@@ -714,7 +714,7 @@ declare module JQueryUI {
         distance?: number;
     }
 
-    interface keyCode {
+    interface KeyCode {
         BACKSPACE: number;
         COMMA: number;
         DELETE: number;
@@ -751,7 +751,7 @@ declare module JQueryUI {
         buttonset: Button;
         datepicker: Datepicker;
         dialog: Dialog;
-        keyCode: keyCode;
+        keyCode: KeyCode;
         menu: Menu;
         progressbar: Progressbar;
         slider: Slider;
