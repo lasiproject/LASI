@@ -1,7 +1,0 @@
-﻿1>------ Build started: Project: L_FileSystem, Configuration: Debug Any CPU ------
-1>  L_FileSystem -> C:\Users\Aluan\LASI_Repo\LASI_v1\LASI_FileSystem\bin\Debug\FileSystem.dll
-2>------ Build started: Project: L_UserInterface, Configuration: Debug Any CPU ------
-2>C:\Users\Aluan\LASI_Repo\LASI_v1\LASI_UserInterface\ResultsScreen.xaml.cs(522,28,522,46): warning CS1998: This async method lacks 'await' operators and will run synchronously. Consider using the 'await' operator to await non-blocking API calls, or 'await Task.Run(...)' to do CPU-bound work on a background thread.
-2>C:\Users\Aluan\LASI_Repo\LASI_v1\LASI_UserInterface\ResultsScreen.xaml.cs(522,28,522,46): warning CS1998: This async method lacks 'await' operators and will run synchronously. Consider using the 'await' operator to await non-blocking API calls, or 'await Task.Run(...)' to do CPU-bound work on a background thread.
-2>  L_UserInterface -> C:\Users\Aluan\LASI_Repo\LASI_v1\LASI_UserInterface\bin\Debug\LASI.exe
-========== Build: 2 succeeded, 0 failed, 11 up-to-date, 0 skipped ==========
