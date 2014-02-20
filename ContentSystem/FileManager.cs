@@ -666,7 +666,7 @@ namespace LASI.ContentSystem
             get;
             private set;
         }
-        internal static readonly ExtensionWrapperMap WrapperMap = new ExtensionWrapperMap(UnknownFileTypeHandling.DEFAULT);
+        internal static readonly ExtensionWrapperMap WrapperMap = new ExtensionWrapperMap(UnsupportedFileTypeHandling.DEFAULT);
         #endregion
 
         #region Fields
@@ -678,8 +678,11 @@ namespace LASI.ContentSystem
         private static List<TaggedFile> taggedFiles = new List<TaggedFile>();
         #endregion
     }
-
-    public enum UnknownFileTypeHandling
+    /// <summary>
+    /// Defines modes which determine handling attempts to map unsupported file format.
+    /// The default it to Throw.
+    /// </summary>
+    public enum UnsupportedFileTypeHandling
     {
         /// <summary>
         /// Throw an exception when trying to map to an unknown file extension.
@@ -696,32 +699,49 @@ namespace LASI.ContentSystem
 
     }
     #region Helper Types
+    /// <summary>
+    /// Defines mappings between file extensions and functions which construct their respective wrappers.
+    /// </summary>
+    /// <remarks>Wrapper types are format enforcing classes derrived from InputFile</remarks>
+    /// <see cref="LASI.ContentSystem.InputFile"/>
     public class ExtensionWrapperMap
     {
-        UnknownFileTypeHandling unknownMappingMode;
+        UnsupportedFileTypeHandling unsupportedMappingMode;
         private IDictionary<string, Func<string, InputFile>> mapping;
-        public ExtensionWrapperMap(UnknownFileTypeHandling unknownHandlingMode) {
+        /// <summary>
+        /// Initializes a new instance of the ExtensionWrapperMap class.
+        /// </summary>
+        /// <param name="unknownHandlingMode">The specifies the manner in which unsupported extensions are handled.</param>
+        public ExtensionWrapperMap(UnsupportedFileTypeHandling unknownHandlingMode) {
 
-            this.unknownMappingMode = unknownHandlingMode;
-            mapping = new Dictionary<string, Func<string, InputFile>> {
-                { "txt" , p => new TxtFile(p) },
-                { "doc" , p => new DocFile(p) },
-                { "docx" , p => new DocXFile(p) },
-                { "pdf" , p=> new PdfFile(p) },
-                { "tagged" , p => new TaggedFile(p) }, 
+            this.unsupportedMappingMode = unknownHandlingMode;
+            mapping = new Dictionary<string, Func<string, InputFile>>(StringComparer.OrdinalIgnoreCase){
+                { "txt", p => new TxtFile(p) },
+                { "doc", p => new DocFile(p) },
+                { "docx", p => new DocXFile(p) },
+                { "pdf", p => new PdfFile(p) },
+                { "tagged", p => new TaggedFile(p) }, 
             };
         }
-        public IEnumerable<string> KnownFormats { get { return mapping.Keys; } }
+        /// <summary>
+        /// Gets all of the file extensions, which are supported.
+        /// </summary>
+        public IEnumerable<string> SupportedFormats { get { return mapping.Keys; } }
+        /// <summary>
+        /// Returns a function which can be invoked to instantiate an InputFile Wrapper corresponding to the given file extension.
+        /// </summary>
+        /// <param name="fileExtension">The file extension which for which to retrieve the appropriate InputFile instantiator function.</param>
+        /// <returns>A function which can be invoked to instantiate an InputFile Wrapper corresponding to the given file extension.</returns>
         public Func<string, InputFile> this[string fileExtension] {
             get {
                 try {
                     return mapping[fileExtension.Replace(".", "")];
                 }
                 catch (KeyNotFoundException) {
-                    switch (unknownMappingMode) {
-                        case UnknownFileTypeHandling.YieldNull:
+                    switch (unsupportedMappingMode) {
+                        case UnsupportedFileTypeHandling.YieldNull:
                             return path => null;
-                        case UnknownFileTypeHandling.DEFAULT:
+                        case UnsupportedFileTypeHandling.DEFAULT:
                             return path => { throw new ArgumentException("unmapped " + path); };
                         default:
                             return path => { throw new ArgumentException(); };

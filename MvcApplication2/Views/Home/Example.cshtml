@@ -23,8 +23,7 @@
                 <div>
                     <ul id="documentlist" class="documentlist break-after documentselectiontab">
 
-                        @foreach (var doc in ViewData["docs"] as IEnumerable<LASI.Core.DocumentStructures.Document>)
-                        {
+                        @foreach (var doc in ViewData["docs"] as IEnumerable<LASI.Core.DocumentStructures.Document>) {
                             <li class="documentselectiontab">
                                 <a href=@("#"+doc.Name)>
                                     @doc.Name
@@ -35,22 +34,18 @@
                 </div>
                 <br />
                 <div class="reconstructed-document">
-                    @foreach (var doc in ViewData["docs"] as IEnumerable<LASI.Core.DocumentStructures.Document>)
-                    {
+                    @foreach (var doc in ViewData["docs"] as IEnumerable<LASI.Core.DocumentStructures.Document>) {
                         <div id=@doc.Name class="content-wrapper">
                             @{var styleMap = new SyntacticStyleMapping();
                             var withIds = doc.Phrases.Select(p => new { Phrase = p, Id = p.GetSerializationId() });
-                            foreach (var paragraphData in from ided in withIds group ided by ided.Phrase.Paragraph)
-                            {
+                            foreach (var paragraphData in from ided in withIds group ided by ided.Phrase.Paragraph) {
                                 <p class="lexical-content-block">
-                                    @foreach (var e in paragraphData)
-                                    {
+                                    @foreach (var e in paragraphData) {
                                         <span class=@styleMap[e.Phrase].CssClass title="@string.Join("", e.Phrase.Type.Name.Select(c => c.IsUpper() ? " " + c : c.ToString()))" id="@e.Id">
                                             @e.Phrase.Text
 
                                             <span id="@("context" + e.Id)">
-                                                @if (e.Phrase is IVerbal)
-                                                {
+                                                @if (e.Phrase is IVerbal) {
                                                     @((e.Phrase as IVerbal).GetJsonMenuData())
 
                                                 }

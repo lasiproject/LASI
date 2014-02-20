@@ -66,7 +66,7 @@ namespace LASI.ContentSystem
             return string.Format(
                  "Files of type \"{0}\" are not supported. Supported types are {1}",
                  unsupportedFormat,
-                 FileManager.WrapperMap.KnownFormats.Format());
+                 FileManager.WrapperMap.SupportedFormats.Format());
         }
         /// <summary>
         /// Initializes a new instance of the UnsupportedFileTypeAddedException class with its message string set to message.

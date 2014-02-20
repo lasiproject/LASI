@@ -22,8 +22,7 @@ namespace LASI.WebService
             return idCache.GetOrAdd(element, System.Threading.Interlocked.Increment(ref idGenerator));
         }
         public static dynamic GetJsonMenuData(this IVerbal verbal) {
-            if (verbal == null)
-                throw new ArgumentNullException("verbal");
+            if (verbal == null) { throw new ArgumentNullException("verbal"); }
             var serializerSettings = new JsonSerializerSettings {
                 ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
                 ObjectCreationHandling = ObjectCreationHandling.Reuse,

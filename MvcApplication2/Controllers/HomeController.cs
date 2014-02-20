@@ -18,6 +18,7 @@ namespace LASI.WebService.Controllers
 {
     public class HomeController : Controller
     {
+        private static IDictionary<string, dynamic> statusDictionary = new Dictionary<string, dynamic>(comparer: StringComparer.OrdinalIgnoreCase);
         private readonly string USER_UPLOADED_DOCUMENTS_DIR = "~/App_Data/SourceFiles/";
 
         public ActionResult Index(string returnUrl) {
@@ -26,7 +27,7 @@ namespace LASI.WebService.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult Upload() {
+        public async Task<ActionResult> Upload(params object[] args) {
             var SERVER_PATH = Server.MapPath(USER_UPLOADED_DOCUMENTS_DIR);
             if (!Directory.Exists(SERVER_PATH)) {
                 Directory.CreateDirectory(SERVER_PATH);
@@ -48,13 +49,15 @@ namespace LASI.WebService.Controllers
 
                 file.SaveAs(path);
             }
-            return RedirectToAction("Example", "Home");
+            await Example();
+
+            return RedirectToAction("Example");
         }
 
         public async Task<ActionResult> Example() {
             var SERVER_PATH = Server.MapPath(USER_UPLOADED_DOCUMENTS_DIR);
             ViewBag.ReturnUrl = "Example";
-            var extensionMap = new ExtensionWrapperMap(UnknownFileTypeHandling.YieldNull);
+            var extensionMap = new ExtensionWrapperMap(UnsupportedFileTypeHandling.YieldNull);
             var files = Directory.EnumerateFiles(SERVER_PATH)
                 .Select(file => {
                     try {
@@ -76,21 +79,26 @@ namespace LASI.WebService.Controllers
             ViewBag.Title = "Example";
             return View();
         }
-        private double percentComplete;
+        private static double percentComplete;
 
 
-        private string statusMessage;
+        private static string statusMessage;
 
 
+        //static int timesExecuted = 0;
+        [HttpGet]
+        public ContentResult GetJobStatus(string jobId = "", dynamic _ = null) {
 
-        public ContentResult PartialPage(string returnUrl) {
-            ViewData["update"] = JsonConvert.SerializeObject(new
-            {
-                StatusMessage = statusMessage ?? "Test",
-                PercentComplete = percentComplete.ToString() + "%"
-            });
+            //var t = new System.Threading.Timer(dueTime: 0, state: timesExecuted, period: 1000L, callback: (state) => { percentComplete += 0.5; statusMessage = "executed " + state + " times"; });
 
-            return Content(ViewData["update"].ToString(), "application/json");
+            var status = new
+             {
+                 Message = statusMessage ?? "Test",
+                 Percent = percentComplete.ToString() + "%"
+             };
+            //statusDictionary[jobId] = status;
+            percentComplete += 1D;
+            return Content(JsonConvert.SerializeObject(status), "application/json");
         }
 
 
