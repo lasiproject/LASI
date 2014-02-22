@@ -53,6 +53,8 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Controllers\JobTests.cs" />
+    <Compile Include="Controllers\StatusControllerTests.cs" />
     <Compile Include="LexicalElementInfo\ContextMenuDataProviderTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
