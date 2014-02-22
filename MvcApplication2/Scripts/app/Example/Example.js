@@ -1,4 +1,5 @@
-﻿$('#results a').click(function (e) {
+﻿//For the tabs on the example page
+$('#results a').click(function (e) {
     'use strict';
     e.preventDefault()
     $(this).tab('show')
