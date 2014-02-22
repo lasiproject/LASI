@@ -44,7 +44,7 @@ $(document).ready(function () {
 
 $("input:submit").click(function (e) {
     'use strict';// All top level functions should start with this directive. nested functions inherit it.
-    e.preventDefault();
+    //e.preventDefault();
 
     $('input:file').each(function (index, element) {
         var Files = $('input:file').toArray().flatMap(function (item) {

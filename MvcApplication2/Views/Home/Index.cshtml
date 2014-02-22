@@ -25,33 +25,19 @@
     </div>
 
     <div>
-        @* @using (Html.BeginForm(new { action = "Home/Upload" })) {*@
 
-        @FileUpload.GetHtml(name: "upload1", initialNumberOfFiles: 0, includeFormTag: true, addText: "add a file", uploadText: "upload")
-
-        @*@using (Html.BeginForm("", "",
-            new
-            {
-                enctype = "multipart/form-data",
-                action = "/Home/Upload",
-                UpdateElementId = "progress1"
-            })) {
-
-
-                <input id="file" type="file" name="file" multiple />
-                <input type="submit" id="Submit" name="Submit" value="Upload" />
-
-
-            }*@
+        @using (Html.BeginForm("Upload", "Home", FormMethod.Post, new { enctype = "multipart/form-data" })) {
+            @FileUpload.GetHtml(name: "upload1", initialNumberOfFiles: 1, includeFormTag: false, addText: "add a file", uploadText: "upload")
+            <input type="submit" name="submit" value="upload" />
+        }
     </div>
 
 
+    <div>
+        @*@Html.Partial("_Partial1")*@
 
-    @*<div>
-            @{
-                Html.RenderPartial("PartialPage");
-            }
-        </div>*@
+
+    </div>
 
 </div>
 
