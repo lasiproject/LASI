@@ -1,8 +1,4 @@
-﻿@model LASI.WebService.Models.Home.FileUploadModel
-
-
-@using (Html.BeginForm()) {
-    @Html.AntiForgeryToken()
+﻿@modelww LASI.WebService.Models.Home.FileUploadModel
 
     <div class="form-horizontal">
         <hr />
@@ -37,10 +33,9 @@
             </div>
         </div>
     </div>
-}
 
 
 
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }

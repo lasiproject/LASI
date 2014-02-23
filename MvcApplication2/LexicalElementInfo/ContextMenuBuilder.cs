@@ -28,8 +28,7 @@ namespace LASI.WebService
                 ObjectCreationHandling = ObjectCreationHandling.Reuse,
                 NullValueHandling = NullValueHandling.Ignore,
             };
-            var data = new
-            {
+            var data = new {
                 Verbal = verbal.GetSerializationId(),
                 Subjects = verbal.HasSubject() ? verbal.Subjects.Select(e => e.GetSerializationId()).ToArray() : null,
                 DirectObjects = verbal.HasDirectObject() ? verbal.DirectObjects.Select(e => e.GetSerializationId()).ToArray() : null,

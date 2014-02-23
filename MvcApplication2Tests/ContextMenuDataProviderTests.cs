@@ -222,4 +222,4 @@ namespace WebService.UnitTests.LexicalElementInfo.Tests
             Assert.IsTrue(result == string.Format("{{\"Verbal\":" + verbal.GetSerializationId() + ",\"IndirectObjects\":[{0}]}}", indirectObjectId));
         }
     }
-}   
+}

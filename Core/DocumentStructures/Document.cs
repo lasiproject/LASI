@@ -146,11 +146,11 @@ namespace LASI.Core.DocumentStructures
             }
         }
         /// <summary>
-        /// Returns a the contents of the document aggregated into a sequences of Page objects based on the line length and lines per page supplied.
+        /// Returns the contents of the document aggregated into a sequences of Page objects based on the line length and lines per page supplied.
         /// </summary>
-        /// <param name="lineLength">The number of characters a defining the length of a line of text.</param>
+        /// <param name="lineLength">The number of characters defining the length of a line of text.</param>
         /// <param name="linesPerPage">The number of lines of text a page can contain.</param>
-        /// <returns></returns>
+        /// <returns>The contents of the document aggregated into a sequences of Page objects based on the line length and lines per page supplied.</returns>
         public IEnumerable<Page> Paginate(int lineLength, int linesPerPage) {
             if (lineLength < 1) {
                 throw new ArgumentOutOfRangeException(
@@ -164,19 +164,29 @@ namespace LASI.Core.DocumentStructures
                     "The supplied number of lines per page cannot be less than 0"
                 );
             }
-            var charactersAllowed = lineLength * linesPerPage;
-            var sentencesIn = 0;
-            var len = 0;
-            while (sentences.Count > sentencesIn) {
-                yield return new Page(sentences.Skip(sentencesIn).TakeWhile((s, i) => {
-                    sentencesIn = i;
-                    if (len + s.Text.Length < charactersAllowed) { len += s.Text.Length; return true; }
-                    else {
-                        len = 0;
-                        return false;
-                    }
-                }), this);
+
+
+
+            var paras = from p in paragraphs
+                        let lines = p.Text.Length / lineLength + p.Text.Length % lineLength != 0 ? 1 : 0
+                        select new {
+                            Paragraph = p,
+                            LinesUsed = lines
+                        };
+            // note that start is modified within and only within the predicate given to TakeWhile
+            for (int start = 0; start < paragraphs.Count; ) {
+                var totalLines = 0;
+                yield return new Page(paras
+                    .Skip(start)
+                    .TakeWhile((p, index) => {
+                        start = linesPerPage > totalLines ? index : start;
+                        totalLines += p.LinesUsed;
+                        return totalLines <= linesPerPage;
+                    })
+                    .Select(p => p.Paragraph),
+                this);
             }
+
 
         }
 
@@ -252,7 +262,14 @@ namespace LASI.Core.DocumentStructures
                 Document = document;
                 Sentences = sentences;
             }
-
+            internal Page(IEnumerable<Paragraph> paragraphs, Document document)
+                : this(paragraphs.SelectMany(p => p.Sentences), document) {
+                //Paragraphs = paragraphs;
+            }
+            ///// <summary>
+            ///// Gets the Paragraphs which comprise the Page.
+            ///// </summary>
+            //IEnumerable<Paragraph> Paragraphs { get; private set; }
             /// <summary>
             /// Gets the Sentences which comprise the Page.
             /// </summary>

@@ -63,7 +63,7 @@ namespace LASI.App
         }
 
         private async Task CreateWeightViewAsync(Document document) {
-            var page1 = document.Paginate(100).FirstOrDefault();
+            var page1 = document.Paginate(100, 100).FirstOrDefault();
 
             var nounPhraseLabels = from s in page1 != null ? page1.Sentences : document.Paragraphs.SelectMany(p => p.Sentences)
                                         .AsParallel().WithDegreeOfParallelism(Concurrency.Max)
@@ -139,7 +139,7 @@ namespace LASI.App
                 }
             };
             var elementLabels = new List<Label>();
-            var phrases = document.Paginate(50).Select(p => p.Sentences).DefaultIfEmpty(document.Sentences).SelectMany(ss => ss.SelectMany(s => s.Phrases));
+            var phrases = document.Paginate(100, 50).Select(p => p.Sentences).DefaultIfEmpty(document.Sentences).SelectMany(ss => ss.SelectMany(s => s.Phrases));
             var colorizer = new SyntacticColorMap();
             foreach (var phrase in phrases) {
                 var label = new Label {

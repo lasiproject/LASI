@@ -91,11 +91,10 @@ namespace LASI.WebService.Controllers
 
             //var t = new System.Threading.Timer(dueTime: 0, state: timesExecuted, period: 1000L, callback: (state) => { percentComplete += 0.5; statusMessage = "executed " + state + " times"; });
 
-            var status = new
-             {
-                 Message = statusMessage ?? "Test",
-                 Percent = percentComplete.ToString() + "%"
-             };
+            var status = new {
+                Message = statusMessage ?? "Test",
+                Percent = percentComplete.ToString() + "%"
+            };
             //statusDictionary[jobId] = status;
             percentComplete += 1D;
             return Content(JsonConvert.SerializeObject(status), "application/json");
