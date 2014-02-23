@@ -168,25 +168,33 @@ namespace LASI.Core.DocumentStructures
             }
 
 
-            var paras = from p in paragraphs
-                        let lines = (int)Math.Floor(measureText(p.Text) / lineLength)
-                        let actualLines = Math.Round(measureText(p.Text), 1, MidpointRounding.AwayFromZero) % lineLength != 0 ? 1 : 0
-                        select new {
-                            Paragraph = p,
-                            LinesUsed = lines
-                        };
+            var measuredParagraphs =
+                from p in paragraphs
+                let lines = (int)Math.Floor(measureText(p.Text) / lineLength)
+                let actualLines = lines + Math.Round(measureText(p.Text), 1, MidpointRounding.AwayFromZero) % lineLength != 0 ? 1 : 0
+                select new {
+                    Paragraph = p,
+                    LinesUsed = actualLines
+                };
+
+
             // note that start is modified within and only within the predicate given to TakeWhile
-            for (int start = 0; start < paragraphs.Count; ) {
+            var skip = 0;
+            while (skip < measuredParagraphs.Count()) {
                 var totalLines = 0;
-                yield return new Page(paras
-                    .Skip(start)
+                var paras = measuredParagraphs
+                    .Skip(skip)
                     .TakeWhile((p, index) => {
-                        start = linesPerPage > totalLines ? index : start;
+                        bool forceOutput = totalLines == 0 && p.LinesUsed > linesPerPage;
                         totalLines += p.LinesUsed;
-                        return totalLines <= linesPerPage;
+
+                        return (totalLines <= linesPerPage || forceOutput);
                     })
-                    .Select(p => p.Paragraph),
-                this);
+                    .Select(p => p.Paragraph);
+                var page = new Page(paras, this);
+                yield return page;
+                skip += paras.Count() + 1;
+
             }
 
 
@@ -197,7 +205,9 @@ namespace LASI.Core.DocumentStructures
         /// <param name="lineLength">The number of characters defining the length of a line of text.</param>
         /// <param name="linesPerPage">The number of lines of text a page can contain.</param>
         /// <returns>The contents of the document aggregated into a sequences of Page objects based on the line length and lines per page supplied.</returns>
-        public IEnumerable<Page> Paginate(int lineLength, int linesPerPage) { return Paginate(lineLength, linesPerPage, t => t.Length); }
+        public IEnumerable<Page> Paginate(int lineLength, int linesPerPage) {
+            return Paginate(lineLength, linesPerPage, t => t.Length);
+        }
 
 
 
@@ -274,12 +284,18 @@ namespace LASI.Core.DocumentStructures
             }
             internal Page(IEnumerable<Paragraph> paragraphs, Document document)
                 : this(paragraphs.SelectMany(p => p.Sentences), document) {
-                //Paragraphs = paragraphs;
             }
-            ///// <summary>
-            ///// Gets the Paragraphs which comprise the Page.
-            ///// </summary>
-            //IEnumerable<Paragraph> Paragraphs { get; private set; }
+            /// <summary>
+            /// Gets the Paragraphs which comprise the Page.
+            /// </summary>
+            public IEnumerable<Paragraph> Paragraphs {
+                get {
+                    return from s in Sentences.Select((s, i) => new { Sentence = s, Index = i })
+                           group s.Index by s.Sentence.Paragraph into g
+                           orderby g.First()
+                           select g.Key;
+                }
+            }
             /// <summary>
             /// Gets the Sentences which comprise the Page.
             /// </summary>

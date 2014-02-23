@@ -498,6 +498,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\SourceFiles\" />
+    <Folder Include="Models\Example\" />
     <Folder Include="Views\Homepage\" />
     <Folder Include="Views\JobStatus\" />
     <Folder Include="Views\Upload\" />

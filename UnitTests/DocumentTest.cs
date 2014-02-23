@@ -1,6 +1,7 @@
 ﻿using LASI;
 using LASI.Core;
 using LASI.Core.DocumentStructures;
+using LASI.UnitTests.TestHelpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -67,14 +68,14 @@ namespace LASI.UnitTests
 
         #region Testing Helpers
 
-        private static Document BuildDocumentManually() {
+        private static Document CreateUnboundUnweightedTestDocument() {
             IEnumerable<Paragraph> allParagrpahs = BuildParagraphs();
             return new Document(allParagrpahs);
         }
 
         private static IEnumerable<Paragraph> BuildParagraphs() {
-            IEnumerable<Paragraph> allParagrpahs = new Paragraph[] { 
-                new Paragraph(new Sentence[] { 
+            IEnumerable<Paragraph> allParagrpahs = new[] { 
+                new Paragraph(new[] { 
                     new Sentence(new Clause[] {
                         new Clause(new Phrase[] { 
                             new NounPhrase(new Word[] {    
@@ -90,7 +91,7 @@ namespace LASI.UnitTests
                                 )}
                             )}, new SentenceEnding('!')),
                         new Sentence(new Clause[]{new Clause( new Phrase[]{
-                            new NounPhrase(new Word[]{
+                            new PronounPhrase(new Word[]{
                                 new PersonalPronoun("We")}),
                             new VerbPhrase(new Word[] { 
                                 new ModalAuxilary("must"),
@@ -103,7 +104,35 @@ namespace LASI.UnitTests
                             new Adverb("quickly")
                         })
                     })}, new SentenceEnding('!'))
-                },ParagraphKind.Default)
+                }, ParagraphKind.Default),
+                new Paragraph(new[] { 
+                    new Sentence(new Clause[] {
+                        new Clause(new Phrase[] { 
+                            new NounPhrase(new Word[] {    
+                                new PersonalPronoun("We") 
+                            }),
+                            new VerbPhrase(new Word[] {
+                                new Verb("are", VerbForm.Base)
+                            }),
+                            new AdjectivePhrase(new[] {
+                                new Adjective("obligated")
+                            })
+                        }), 
+                        new SubordinateClause(new Phrase[]{
+                            new SubordinateClauseBeginPhrase(new Word[] { 
+                                new Preposition("because") 
+                            }),
+                            new PronounPhrase(new[]{
+                                new PersonalPronoun("they")
+                            }),
+                            new VerbPhrase(new []{
+                                new Verb("are",VerbForm.Base)
+                            }),
+                            new NounPhrase(new []{
+                                new CommonPluralNoun("jerks")
+                            })
+                    })}, new SentenceEnding('!'))  
+                }, ParagraphKind.Default)
             };
             return allParagrpahs;
         }
@@ -116,7 +145,7 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod()]
         public void DocumentConstructorTest() {
-            Document doc = BuildDocumentManually();
+            Document doc = CreateUnboundUnweightedTestDocument();
             Assert.IsTrue(doc.Words
                 .Select((x, index) => x.PreviousWord == doc.Words.ElementAtOrDefault(index - 1) && x.NextWord == doc.Words.ElementAtOrDefault(index + 1)
              ).Aggregate(true, (f, e) => f &= e));
@@ -132,48 +161,35 @@ namespace LASI.UnitTests
         [TestMethod()]
         public void GetVerbalsTest() {
 
-            Document target = BuildDocumentManually();
-            IEnumerable<IVerbal> expected = new IVerbal[]{new VerbPhrase(new Word[] { 
+            Document target = CreateUnboundUnweightedTestDocument();
+            IEnumerable<IVerbal> expected = new IVerbal[]{
+                    new VerbPhrase(new Word[] { 
                                 new ModalAuxilary("must"),
                                 new Verb("attack", VerbForm.Base) 
-                            }),new Verb("attack", VerbForm.Base),  new VerbPhrase(new Word[] { 
+                            }),new Verb("attack", VerbForm.Base),  
+                            new VerbPhrase(new Word[] { 
                                 new ModalAuxilary("must"),
                                 new Verb("do", VerbForm.Base)
-                            }),new Verb("do", VerbForm.Base)};
+                            }),new Verb("do", VerbForm.Base),
+                    new VerbPhrase(new[] {new Verb("are",VerbForm.Base)
+                }),
+                
+            };
             IEnumerable<IVerbal> actual;
             actual = target.GetVerbals();
             foreach (var e in expected) {
-                Assert.IsTrue(actual.Contains(e, new VerbalEquater()));
+                Assert.IsTrue(actual.Contains(e, LexicalComparers.Create<IVerbal>((a, b) => a.Text == b.Text && a.GetType() == b.GetType())));
             }
 
         }
-        private class VerbalEquater : IEqualityComparer<IVerbal>
-        {
-            public bool Equals(IVerbal a, IVerbal b) {
-                return a.Text == b.Text && a.GetType() == b.GetType();
-            }
 
-            public int GetHashCode(IVerbal obj) {
-                throw new NotImplementedException();
-            }
-        }
-        private struct EntityEquater : IEqualityComparer<IEntity>
-        {
-            public bool Equals(IEntity a, IEntity b) {
-                return a.Text == b.Text && a.GetType() == b.GetType();
-            }
-
-            public int GetHashCode(IEntity obj) {
-                throw new NotImplementedException();
-            }
-        }
         /// <summary>
         ///A test for GetEntities
         ///</summary>
         [TestMethod()]
         public void GetEntitiesTest() {
 
-            Document target = BuildDocumentManually();
+            Document target = CreateUnboundUnweightedTestDocument();
             IEnumerable<IEntity> expected = new IEntity[]{
                 new NounPhrase(new Word[] {    
                                 new PersonalPronoun("We") 
@@ -188,11 +204,15 @@ namespace LASI.UnitTests
                             new PersonalPronoun("We"), 
                             new NounPhrase(new Word[]{  
                             new PersonalPronoun("this")
-                        }),  new PersonalPronoun("this")};
+                        }),  new PersonalPronoun("this"),
+                        new PronounPhrase(new []{new PersonalPronoun("We")}),
+                        new PronounPhrase(new []{new PersonalPronoun("they")}),
+                        new NounPhrase(new []{new CommonPluralNoun("jerks")}),
+            };
             IEnumerable<IEntity> actual;
             actual = target.GetEntities();
             foreach (var e in expected) {
-                Assert.IsTrue(actual.Contains(e, new EntityEquater()));
+                Assert.IsTrue(actual.Contains(e, LexicalComparers.Create<IEntity>((a, b) => a.Text == b.Text && a.GetType() == b.GetType())));
             }
         }
 
@@ -225,7 +245,7 @@ namespace LASI.UnitTests
         [TestMethod()]
         public void PhrasesTest() {
 
-            Document target = BuildDocumentManually();
+            Document target = CreateUnboundUnweightedTestDocument();
             IEnumerable<Phrase> actual;
             actual = target.Phrases;
             var expectedResult = actual.Zip(
@@ -284,7 +304,7 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod()]
         public void WordsTest() {
-            Document target = BuildDocumentManually();
+            Document target = CreateUnboundUnweightedTestDocument();
             IEnumerable<Word> actual;
             actual = target.Words;
             string[] expectedLexicalMatches = new[]{
@@ -316,11 +336,43 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod()]
         public void ClausesTest() {
-            IEnumerable<Paragraph> content = null; // TODO: Initialize to an appropriate value
-            Document target = new Document(content); // TODO: Initialize to an appropriate value
+            Sentence[] firstParagraphSentences = new Sentence[] { 
+                    new Sentence(new Clause[] {
+                        new Clause(new Phrase[] { 
+                            new NounPhrase(new Word[] {    
+                                new PersonalPronoun("We") 
+                            }),
+                            new VerbPhrase(new Word[] { 
+                                new ModalAuxilary("must"),
+                                new Verb("attack", VerbForm.Base) 
+                            }),
+                            new NounPhrase(new Word[] { 
+                                new Adjective("blue"), 
+                                new CommonSingularNoun("team") }
+                                )}
+                            )}, new SentenceEnding('!')),
+                        new Sentence(new Clause[]{new Clause( new Phrase[]{
+                            new NounPhrase(new Word[]{
+                                new PersonalPronoun("We")}),
+                            new VerbPhrase(new Word[] { 
+                                new ModalAuxilary("must"),
+                                new Verb("do", VerbForm.Base)
+                            }),
+                        new NounPhrase(new Word[]{  
+                            new PersonalPronoun("this")
+                        }),
+                        new AdverbPhrase(new Word [] {
+                            new Adverb("quickly")
+                        })
+                    })}, new SentenceEnding('!'))
+                };
+
+            Document target = new Document(new[] { new Paragraph(firstParagraphSentences, ParagraphKind.Default) });
+
+            IEnumerable<Clause> expected = firstParagraphSentences.SelectMany(s => s.Clauses);
             IEnumerable<Clause> actual;
             actual = target.Clauses;
-            Assert.Inconclusive("Verify the correctness of this test method.");
+            AssertHelper.AreSetEqual(expected, actual);
         }
 
         /// <summary>
@@ -342,17 +394,40 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod()]
         public void PaginateTest() {
-            IEnumerable<Paragraph> content = null; // TODO: Initialize to an appropriate value
-            Document target = new Document(content); // TODO: Initialize to an appropriate value
-            int lineLength = 0; // TODO: Initialize to an appropriate value
-            int linesPerPage = 0; // TODO: Initialize to an appropriate value
-            IEnumerable<Document.Page> expected = null; // TODO: Initialize to an appropriate value
-            IEnumerable<Document.Page> actual;
-            actual = target.Paginate(lineLength, linesPerPage);
-            Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
-        }
+            Document target = CreateUnboundUnweightedTestDocument();
+            int lineLength = 80;
+            int linesPerPage = 3;
 
+            IEnumerable<Document.Page> actual;
+
+            actual = target.Paginate(lineLength, linesPerPage);
+            foreach (var page in actual) {
+                Assert.IsTrue(string.Join("", page.Paragraphs.Select(p => p.Text)).Length <= lineLength * linesPerPage);
+            }
+            AssertHelper.AreSetEqual(target.Sentences, actual.SelectMany(page => page.Sentences));
+            AssertHelper.AreSetEqual(target.Paragraphs, actual.SelectMany(page => page.Paragraphs));
+            Assert.IsTrue(string.Join("", target.Sentences.Select(s => s.Text)) == string.Join("", actual.SelectMany(p => p.Sentences.Select(s => s.Text))));
+        }
+        /// <summary>
+        ///A test for Paginate
+        ///</summary>
+        [TestMethod()]
+        public void PaginateTest1() {
+            Document target = CreateUnboundUnweightedTestDocument();
+            int lineLength = 80;
+            int linesPerPage = 1;
+
+            IEnumerable<Document.Page> actual;
+
+            actual = target.Paginate(lineLength, linesPerPage);
+            foreach (var page in actual) {
+                Assert.IsTrue(string.Join("", page.Paragraphs.Select(p => p.Text)).Length <= lineLength * linesPerPage);
+            }
+            AssertHelper.AreSetEqual(target.Paragraphs, actual.SelectMany(page => page.Paragraphs));
+            AssertHelper.AreSetEqual(target.Sentences, actual.SelectMany(page => page.Sentences));
+            Assert.IsTrue(string.Join("", target.Sentences.Select(s => s.Text)) == string.Join("", actual.SelectMany(p => p.Sentences.Select(s => s.Text))));
+
+        }
 
 
 
