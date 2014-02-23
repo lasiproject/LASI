@@ -21,6 +21,9 @@
         <div class=" tab-content" id="resultstabs">
             <div class="tab-pane fade in active" id="reconstructeddocuments">
                 <div>
+
+                </div>
+                <div>
                     <ul id="documentlist" class="documentlist break-after documentselectiontab">
 
                         @foreach (var doc in ViewData["docs"] as IEnumerable<LASI.Core.DocumentStructures.Document>) {
@@ -35,9 +38,11 @@
                 <br />
                 <div class="reconstructed-document">
                     @foreach (var doc in ViewData["docs"] as IEnumerable<LASI.Core.DocumentStructures.Document>) {
+                        var pages = doc.Paginate(80, 30);
                         <div id=@doc.Name class="content-wrapper">
                             @{var styleMap = new SyntacticStyleMapping();
                             var withIds = doc.Phrases.Select(p => new { Phrase = p, Id = p.GetSerializationId() });
+
                             foreach (var paragraphData in from ided in withIds group ided by ided.Phrase.Paragraph) {
                                 <p class="lexical-content-block">
                                     @foreach (var e in paragraphData) {

@@ -139,10 +139,48 @@ namespace LASI.Core.DocumentStructures
                     "sentencesPerPage",
                     "The supplied page length was invalid. A page must be allowed to have at least 1 sentence."
                 );
+
             }
-            return from subSequence in Sentences.Split(sentencesPerPage)
-                   select new Page(subSequence, this);
+            foreach (var page in Sentences.Split(sentencesPerPage).Select(sentences => new Page(sentences, this))) {
+                yield return page;
+            }
         }
+        /// <summary>
+        /// Returns a the contents of the document aggregated into a sequences of Page objects based on the line length and lines per page supplied.
+        /// </summary>
+        /// <param name="lineLength">The number of characters a defining the length of a line of text.</param>
+        /// <param name="linesPerPage">The number of lines of text a page can contain.</param>
+        /// <returns></returns>
+        public IEnumerable<Page> Paginate(int lineLength, int linesPerPage) {
+            if (lineLength < 1) {
+                throw new ArgumentOutOfRangeException(
+                    "lineLength",
+                    "The supplied line length cannot be less than 0"
+                );
+            }
+            if (linesPerPage < 1) {
+                throw new ArgumentOutOfRangeException(
+                    "linesPerPage",
+                    "The supplied number of lines per page cannot be less than 0"
+                );
+            }
+            var charactersAllowed = lineLength * linesPerPage;
+            var sentencesIn = 0;
+            var len = 0;
+            while (sentences.Count > sentencesIn) {
+                yield return new Page(sentences.Skip(sentencesIn).TakeWhile((s, i) => {
+                    sentencesIn = i;
+                    if (len + s.Text.Length < charactersAllowed) { len += s.Text.Length; return true; }
+                    else {
+                        len = 0;
+                        return false;
+                    }
+                }), this);
+            }
+
+        }
+
+
         /// <summary>
         /// Returns a string representation of the current document. The result contains the entire textual contents of the Document, thus resulting in the instance's full materialization and reification.
         /// </summary>

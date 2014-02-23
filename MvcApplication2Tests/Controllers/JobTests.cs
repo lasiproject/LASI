@@ -5,6 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using LASI.WebService.Controllers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using LASI.WebService;
+
+
 namespace LASI.WebService.Controllers.Tests
 {
     [TestClass()]
