@@ -1,0 +1,62 @@
+﻿@using LASI.Core;
+@using LASI;
+@using LASI.WebService.Controllers;
+@using LASI.WebService;
+@using Newtonsoft.Json;
+
+@{
+    ViewBag.Title = "CreateAccount";
+}
+@Styles.Render("~/Content/App/CreateAccount.css")
+<div class="col-md-12 container-fluid">
+    <form class="form-horizontal ">
+        <fieldset class=" col-md-4 create-account-form">
+            <h2 class="form-horizontal-heading">Create account</h2>
+            <!-- Text input-->
+            <div class="form-group">
+                <label class="col-md-5 control-label" for="FirstName">First Name</label>
+                <div class="col-md-7 col-md-offset-0">
+                    <input id="FirstName" name="FirstName" placeholder="First name" class="form-control input-md" required="" type="text">
+
+                </div>
+            </div>
+
+            <!-- Text input-->
+            <div class="form-group">
+                <label class="col-md-5 control-label" for="LastName">Last Name</label>
+                <div class="col-md-7 col-md-offset-0">
+                    <input id="LastName" name="LastName" placeholder="Last name" class="form-control input-md" required="" type="text">
+
+                </div>
+            </div>
+
+            <!-- Text input-->
+            <div class="form-group">
+                <label class="col-md-5 control-label" for="EmailAddress">Email Address</label>
+                <div class="col-md-7 col-md-offset-0">
+                    <input id="EmailAddress" name="EmailAddress" placeholder="Email address" class="form-control input-md" required="" type="text">
+
+                </div>
+            </div>
+
+            <!-- Password input-->
+            <div class="form-group">
+                <label class="col-md-5 control-label" for="Password">Password</label>
+                <div class="col-md-7 col-md-offset-0">
+                    <input id="Password" name="Password" placeholder="Password" class="form-control input-md" required="" type="password">
+
+                </div>
+            </div>
+
+            <!-- Button (Double) -->
+            <div class="form-group">
+                <label class="col-md-5 control-label" for="Submit"></label>
+                <div class="col-md-5">
+                    <button id="Submit" name="Submit" class="btn btn-primary">Submit</button>
+                    <button id="Reset" name="Reset" class="btn btn-default">Reset</button>
+                </div>
+            </div>
+
+        </fieldset>
+    </form>
+</div>
