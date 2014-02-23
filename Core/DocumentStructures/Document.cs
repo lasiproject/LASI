@@ -128,30 +128,32 @@ namespace LASI.Core.DocumentStructures
                 yield return lexical;
 
         }
-        /// <summary>
-        /// Returns a representation of the Document as sequence of pages based on the given number sentences per page.
-        /// </summary>
-        /// <param name="sentencesPerPage">The number of sentences each page can contain. This varies inversely with the number of pages in the resulting sequence.</param>
-        /// <returns>A representation of the Document as sequence of pages.</returns>
-        public IEnumerable<Page> Paginate(int sentencesPerPage) {
-            if (sentencesPerPage < 1) {
-                throw new ArgumentOutOfRangeException(
-                    "sentencesPerPage",
-                    "The supplied page length was invalid. A page must be allowed to have at least 1 sentence."
-                );
+        ///// <summary>
+        ///// Returns a representation of the Document as sequence of pages based on the given number sentences per page.
+        ///// </summary>
+        ///// <param name="sentencesPerPage">The number of sentences each page can contain. This varies inversely with the number of pages in the resulting sequence.</param>
+        ///// <returns>A representation of the Document as sequence of pages.</returns>
+        //public IEnumerable<Page> Paginate(int sentencesPerPage) {
+        //    if (sentencesPerPage < 1) {
+        //        throw new ArgumentOutOfRangeException(
+        //            "sentencesPerPage",
+        //            "The supplied page length was invalid. A page must be allowed to have at least 1 sentence."
+        //        );
 
-            }
-            foreach (var page in Sentences.Split(sentencesPerPage).Select(sentences => new Page(sentences, this))) {
-                yield return page;
-            }
-        }
+        //    }
+        //    foreach (var page in Sentences.Split(sentencesPerPage).Select(sentences => new Page(sentences, this))) {
+        //        yield return page;
+        //    }
+        //}
         /// <summary>
         /// Returns the contents of the document aggregated into a sequences of Page objects based on the line length and lines per page supplied.
+        /// The supplied text measurement function is applied to determine the amount of space any piece text takes up relative to a line.
         /// </summary>
         /// <param name="lineLength">The number of characters defining the length of a line of text.</param>
         /// <param name="linesPerPage">The number of lines of text a page can contain.</param>
+        /// <param name="measureText">A function used to measure the length of text.</param>
         /// <returns>The contents of the document aggregated into a sequences of Page objects based on the line length and lines per page supplied.</returns>
-        public IEnumerable<Page> Paginate(int lineLength, int linesPerPage) {
+        public IEnumerable<Page> Paginate(int lineLength, int linesPerPage, Func<string, double> measureText) {
             if (lineLength < 1) {
                 throw new ArgumentOutOfRangeException(
                     "lineLength",
@@ -166,9 +168,9 @@ namespace LASI.Core.DocumentStructures
             }
 
 
-
             var paras = from p in paragraphs
-                        let lines = p.Text.Length / lineLength + p.Text.Length % lineLength != 0 ? 1 : 0
+                        let lines = (int)Math.Floor(measureText(p.Text) / lineLength)
+                        let actualLines = Math.Round(measureText(p.Text), 1, MidpointRounding.AwayFromZero) % lineLength != 0 ? 1 : 0
                         select new {
                             Paragraph = p,
                             LinesUsed = lines
@@ -189,6 +191,14 @@ namespace LASI.Core.DocumentStructures
 
 
         }
+        /// <summary>
+        /// Returns the contents of the document aggregated into a sequences of Page objects based on the line length and lines per page supplied.
+        /// </summary>
+        /// <param name="lineLength">The number of characters defining the length of a line of text.</param>
+        /// <param name="linesPerPage">The number of lines of text a page can contain.</param>
+        /// <returns>The contents of the document aggregated into a sequences of Page objects based on the line length and lines per page supplied.</returns>
+        public IEnumerable<Page> Paginate(int lineLength, int linesPerPage) { return Paginate(lineLength, linesPerPage, t => t.Length); }
+
 
 
         /// <summary>

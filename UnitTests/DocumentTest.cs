@@ -344,10 +344,11 @@ namespace LASI.UnitTests
         public void PaginateTest() {
             IEnumerable<Paragraph> content = null; // TODO: Initialize to an appropriate value
             Document target = new Document(content); // TODO: Initialize to an appropriate value
-            int sentencesPerPage = 0; // TODO: Initialize to an appropriate value
+            int lineLength = 0; // TODO: Initialize to an appropriate value
+            int linesPerPage = 0; // TODO: Initialize to an appropriate value
             IEnumerable<Document.Page> expected = null; // TODO: Initialize to an appropriate value
             IEnumerable<Document.Page> actual;
-            actual = target.Paginate(sentencesPerPage);
+            actual = target.Paginate(lineLength, linesPerPage);
             Assert.AreEqual(expected, actual);
             Assert.Inconclusive("Verify the correctness of this test method.");
         }
