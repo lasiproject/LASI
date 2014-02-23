@@ -266,6 +266,7 @@
     </Compile>
     <Compile Include="Job.cs" />
     <Compile Include="LexicalElementStyling\SyntacticStyleMapping.cs" />
+    <Compile Include="Models\LasiAccountModel.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\Home\FileUploadModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

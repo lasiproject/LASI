@@ -10,25 +10,25 @@
     ViewBag.Title = "Login";
 }
 
-<body>
-    <div class="container">
-        <form class="form-signin">
-            <h2 class="form-signin-heading">Please sign in</h2>
-            <input class="form-control" type="email" autofocus="" required="" placeholder="Email address" />
-            <input class="form-control" type="password" required="" placeholder="Password" />
-        </form>
-        <label class="checkbox">
-            <input type="checkbox" value="remember-me" />
-            Remember me
-        </label>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">
-            Sign in
-        </button>
-    </div>
-</body>
-@section scripts{
-    @Scripts.Render("~/bundles/bootstrap")
-    @Scripts.Render(@".\..\Scripts\JqueryContextMenu\jquery.contextMenu.js")
-    @Scripts.Render(@".\..Scripts\JqueryContextMenu\jquery-1.8.2.min.js")
-    @Scripts.Render(@".\..Scripts\JqueryContextMenu\jquery.ui.position.js")
+@model LASI.WebService.Models.Login.LoginModel
+
+@{Html.LabelFor(m => m.Email);
+  Html.TextBoxFor(m => m.Email);   
 }
+
+<div class="container">
+    <form class="form-signin">
+        <h2 class="form-signin-heading">Please sign in</h2>
+        <input class="form-control" type="email" autofocus="" required="" placeholder="Email address" />
+        <input class="form-control" type="password" required="" placeholder="Password" />
+    </form>
+    <label class="checkbox">
+        <input type="checkbox" value="remember-me" />
+        Remember me
+    </label>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">
+        Sign in
+    </button>
+</div>
+
+
