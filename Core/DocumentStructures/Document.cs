@@ -274,12 +274,18 @@ namespace LASI.Core.DocumentStructures
             }
             internal Page(IEnumerable<Paragraph> paragraphs, Document document)
                 : this(paragraphs.SelectMany(p => p.Sentences), document) {
-                //Paragraphs = paragraphs;
             }
-            ///// <summary>
-            ///// Gets the Paragraphs which comprise the Page.
-            ///// </summary>
-            //IEnumerable<Paragraph> Paragraphs { get; private set; }
+            /// <summary>
+            /// Gets the Paragraphs which comprise the Page.
+            /// </summary>
+            IEnumerable<Paragraph> Paragraphs {
+                get {
+                    return from s in Sentences.Select((s, i) => new { Sentence = s, Index = i })
+                           group s.Index by s.Sentence.Paragraph into g
+                           orderby g.First()
+                           select g.Key;
+                }
+            }
             /// <summary>
             /// Gets the Sentences which comprise the Page.
             /// </summary>
