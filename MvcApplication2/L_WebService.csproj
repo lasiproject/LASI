@@ -259,9 +259,9 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
-    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\DefaultAccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
     <Compile Include="Filters\ValidateHttpAntiForgeryTokenAttribute.cs" />
     <Compile Include="Global.asax.cs">
@@ -269,7 +269,7 @@
     </Compile>
     <Compile Include="JobStatus.cs" />
     <Compile Include="LexicalElementStyling\SyntacticStyleMapping.cs" />
-    <Compile Include="Models\LasiAccountModel.cs" />
+    <Compile Include="Models\UserAccountModels.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\Home\FileUploadModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -277,6 +277,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />
+    <Content Include="Content\App\CreateAccount.css" />
     <Content Include="Content\App\Example.css" />
     <Content Include="Content\App\Login.css" />
     <Content Include="Content\bootstrap-theme.css" />
@@ -411,6 +412,7 @@
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Views\Account\CreateAccount.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -471,13 +473,13 @@
     <Content Include="Images\orderedList8.png" />
     <Content Include="Images\orderedList9.png" />
     <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Account\_ChangePasswordPartial.cshtml" />
-    <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
-    <Content Include="Views\Account\_RemoveExternalLoginsPartial.cshtml" />
-    <Content Include="Views\Account\_SetPasswordPartial.cshtml" />
-    <Content Include="Views\Account\Manage.cshtml" />
-    <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
-    <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
+    <Content Include="Views\DefaultAccount\_ChangePasswordPartial.cshtml" />
+    <Content Include="Views\DefaultAccount\_ExternalLoginsListPartial.cshtml" />
+    <Content Include="Views\DefaultAccount\_RemoveExternalLoginsPartial.cshtml" />
+    <Content Include="Views\DefaultAccount\_SetPasswordPartial.cshtml" />
+    <Content Include="Views\DefaultAccount\Manage.cshtml" />
+    <Content Include="Views\DefaultAccount\ExternalLoginFailure.cshtml" />
+    <Content Include="Views\DefaultAccount\ExternalLoginConfirmation.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_UserSettings.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
@@ -492,7 +494,7 @@
     <Content Include="Views\Home\Homepage.cshtml" />
     <Content Include="Views\Test\Homepage.cshtml" />
     <Content Include="_Partial1.cshtml" />
-    <Content Include="Views\Login\Index.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\SourceFiles\" />
