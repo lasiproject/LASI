@@ -362,6 +362,8 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="Images\ic_launcher-web.png" />
+    <Content Include="Images\ic_launcher-web50x50.png" />
     <Content Include="JSLintNet.json" />
     <Content Include="Scripts\app\Example\Example.js" />
     <Content Include="Scripts\app\Index\Index.js" />
@@ -402,6 +404,15 @@
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\ApiGroup.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\Api.cshtml" />
     <Content Include="Areas\HelpPage\Views\_ViewStart.cshtml" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
     <None Include="Scripts\jquery-2.1.0.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.0.js" />
     <Content Include="Scripts\jquery-2.1.0.min.js" />
@@ -435,15 +446,6 @@
     <Content Include="Scripts\JqueryContextMenu\prettify.sunburst.css" />
     <Content Include="Scripts\JqueryContextMenu\screen.css" />
     <Content Include="Scripts\JqueryContextMenu\screen.js" />
-    <Content Include="Web.config">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="Web.Debug.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </Content>
-    <Content Include="Web.Release.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </Content>
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Scripts\app\ajaxlogin.js" />
@@ -485,7 +487,7 @@
     </Content>
     <Content Include="Views\Home\Homepage.cshtml" />
     <Content Include="Views\Test\Homepage.cshtml" />
-    <Content Include="Views\Shared\_Partial1.cshtml" />
+    <Content Include="_Partial1.cshtml" />
     <Content Include="Views\Login\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
