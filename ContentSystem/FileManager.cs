@@ -112,7 +112,7 @@ namespace LASI.ContentSystem
 
                 File.Copy(originalFile.FullPath, newPath, overwrite);
                 var newFile = WrapperMap[ext](newPath);
-                AllFileNames.Add(newFile.NameSansExt);
+
                 AddToTypedList(newFile as dynamic);
                 return newFile;
             }
@@ -152,12 +152,8 @@ namespace LASI.ContentSystem
         /// <param name="filePath">A partial or full, extensionless or extensionful, file newPath containing the name of the file to check.</param>
         /// <returns>False if a file with the same name, irrespective of its extension, is part of the project. False otherwise.</returns>
         public static bool HasSimilarFile(string filePath) {
-            var fileName = new string(
-                filePath.Reverse().
-                SkipWhile(c => c != '.').
-                Skip(1).TakeWhile(c => c != '\\').
-                Reverse().ToArray());
-            return !AllFileNames.Contains(fileName);
+            var fileName = filePath.Contains('\\') ? System.IO.Path.GetFileNameWithoutExtension(filePath) : filePath.Substring(0, filePath.IndexOf('.') >= 0 ? filePath.IndexOf('.') : filePath.Length);
+            return AllFileNames.Contains(fileName);
         }
         /// <summary>
         /// Returns a value indicating whether a file with the same name as that of the given InputFile, irrespective of its extension, is part of the project. 
@@ -165,7 +161,7 @@ namespace LASI.ContentSystem
         /// <param name="inputFile">An an Instance of the InputFile class or one of its descendents.</param>
         /// <returns>False if a file with the same name, irrespective of it's extension, is part of the project. False otherwise.</returns>
         public static bool HasSimilarFile(InputFile inputFile) {
-            return HasSimilarFile(inputFile.NameSansExt);
+            return HasSimilarFile(inputFile.FullPath);
         }
 
         /// <summary>
@@ -190,7 +186,7 @@ namespace LASI.ContentSystem
             var toRemove = from f in AllFileNames
                            where (from k in filesToKeep
                                   where f == k.NameSansExt
-                                  select k).Any()
+                                  select k).None()
                            select f;
             foreach (var f in toRemove) {
                 RemoveAllAlikeFiles(f);
@@ -202,9 +198,7 @@ namespace LASI.ContentSystem
             docFiles.RemoveAll(f => f.NameSansExt.Contains(fileName));
             docXFiles.RemoveAll(f => f.NameSansExt.Contains(fileName));
             pdfFiles.RemoveAll(f => f.NameSansExt.Contains(fileName));
-            taggedFiles = (from f in taggedFiles
-                           where f.NameSansExt.Contains(fileName)
-                           select f).ToList();
+            taggedFiles.RemoveAll(f => f.NameSansExt.Contains(fileName));
         }
 
 
@@ -522,7 +516,6 @@ namespace LASI.ContentSystem
             }
             try {
                 Directory.Delete(ProjectDir, true);
-                AllFileNames.Clear();
                 docFiles.Clear();
                 docXFiles.Clear();
                 pdfFiles.Clear();

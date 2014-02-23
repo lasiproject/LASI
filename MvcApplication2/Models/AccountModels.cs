@@ -8,13 +8,9 @@ using System.Web.Security;
 using Newtonsoft.Json;
 namespace LASI.WebService.Models
 {
-    public class ProgressModel
-    {
-        public string Message { get; set; }
-        public double Percentage { get; set; }
-    }
 
-    public class SingleDocumentUploadModel
+
+    public class SingleDocumentUploadModele
     {
         [Required]
         [Display(Name = "File Name", AutoGenerateField = true, AutoGenerateFilter = true)]

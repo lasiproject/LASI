@@ -261,7 +261,9 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\AccountControllerTest.cs" />
+    <Compile Include="Models\Experimental\UserAccount.cs" />
+    <Compile Include="Models\Experimental\UserCredentialsModel.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
     <Compile Include="Filters\ValidateHttpAntiForgeryTokenAttribute.cs" />
     <Compile Include="Global.asax.cs">
@@ -269,6 +271,7 @@
     </Compile>
     <Compile Include="JobStatus.cs" />
     <Compile Include="LexicalElementStyling\SyntacticStyleMapping.cs" />
+    <Compile Include="Models\Experimental\JsonProfileProvider.cs" />
     <Compile Include="Models\LasiAccountModel.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\Home\FileUploadModel.cs" />
@@ -411,6 +414,7 @@
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="App_Data\Users\Users.Json" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

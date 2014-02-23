@@ -8,11 +8,11 @@ using Newtonsoft.Json;
 
 namespace LASI.WebService.Controllers
 {
-    public class LoginController : Controller
+    public class AccountControllerTest : Controller
     {
         //
         [HttpPost]
-        public ActionResult Login() {
+        public ActionResult Login(dynamic credentials) {
             //Request.Form["username"]
             return View();
         }
