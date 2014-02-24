@@ -5,15 +5,23 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using System.Globalization;
 using System.Web.Security;
+using Newtonsoft.Json;
 
 namespace LASI.WebService.Models.User
 {
     public class UserModel
     {
+        [Required]
         public string FirstName { get; set; }
+        [Required]
         public string LastName { get; set; }
         public string Organization { get; set; }
+        [Required]
+        [EmailAddress]
+        [DataType(DataType.EmailAddress)]   
         public string Email { get; set; }
+        [Required]
+        [DataType(DataType.Password)]
         public string Password { get; set; }
     }
 }

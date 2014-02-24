@@ -17,7 +17,10 @@
     <div class=" tab-content" id="resultstabs">
         <div class="tab-pane fade in active" id="reconstructeddocuments">
             <div>
-
+                @{
+                    Phrase.VerboseOutput = true;
+                    Word.VerboseOutput = true;
+                }
             </div>
             <div>
                 <ul id="documentlist" class="documentlist break-after documentselectiontab">
