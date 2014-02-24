@@ -20,7 +20,8 @@
         });
     };
 
-
+    //Something about the context menu is off. Links in the Navbar don't work with it enabled. Not sure where the bug is.
+    //We can work together on friday to fix it if you haven't figured it out by then. 
     $(function () {
         var verbals = $("span.Verbal");
         var contextMenu = $("#contextMenu");

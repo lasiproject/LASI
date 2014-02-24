@@ -482,7 +482,6 @@
     <Content Include="Scripts\jquery.validate.min.js.map">
       <DependentUpon>jquery.validate.js</DependentUpon>
     </Content>
-    <Content Include="Views\Home\Homepage.cshtml" />
     <Content Include="Views\Test\Homepage.cshtml" />
     <Content Include="_Partial1.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
