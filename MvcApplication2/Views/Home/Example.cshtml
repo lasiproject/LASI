@@ -10,58 +10,69 @@
 
 <div class="results-pane">
     <ul class="nav nav-tabs" id="results">
-        <li class="active"><a href="#reconstructeddocuments">Reconstructed Documents</a></li>
-        <li><a href="#topresults">Top Results</a></li>
-        <li><a href="#adddocuments">Add Documents</a></li>
+        <li class="active"><a data-toggle="tab" href="#reconstructeddocuments">Reconstructed Documents</a></li>
+        <li><a data-toggle="tab" href="#topresults">Top Results</a></li>
+        <li><a data-toggle="tab" href="#adddocuments">Add Documents</a></li>
     </ul>
-    <div class=" tab-content" id="resultstabs">
+    <div class="tab-content" id="resultstabs">
         <div class="tab-pane fade in active" id="reconstructeddocuments">
             <div>
 
-            </div>
-            <div>
-                <ul id="documentlist" class="documentlist break-after documentselectiontab">
-
-                    @foreach (var doc in ViewData["docs"] as IEnumerable<LASI.Core.DocumentStructures.Document>) {
-                        <li class="documentselectiontab">
-                            <a href=@("#"+doc.Name)>
+                <ul id="documentlist" class="list-group documentselectiontab col-md-3">
+                    @foreach (var doc in ViewData["docs"] as IEnumerable<LASI.Core.DocumentStructures.Document>)
+                    {
+                        <li class="list-group-item">
+                            <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target=@('#'+doc.Name)>
                                 @doc.Name
-                            </a>
+                            </button>
                         </li>
                     }
                 </ul>
             </div>
+            
             <br />
             <div>
-                @foreach (var doc in ViewData["docs"] as IEnumerable<LASI.Core.DocumentStructures.Document>) {
+                @foreach (var doc in ViewData["docs"] as IEnumerable<LASI.Core.DocumentStructures.Document>)
+                {
                     var pages = doc.Paginate(80, 30);
-                    <div id=@doc.Name class="content-wrapper">
-                        @{
+                    <div id=@doc.Name class="modal fade document-modal-lg" tabindex="-1" role="dialog" aria-labelledby="#myModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                    <h4 class="modal-title" id="document-title">@doc.Name</h4>
+                                </div>
+                                <div class="modal-body">
+                                    @{
                     var styleMap = new SyntacticStyleMap();
                     var withIds = doc.Phrases.Select(p => new { Phrase = p, Id = p.GetSerializationId() });
 
-                    foreach (var paragraphData in from ided in withIds group ided by ided.Phrase.Paragraph) {
-                        <p class="lexical-content-block">
-                            @foreach (var e in paragraphData) {
-                                <span class="@styleMap[e.Phrase].CssClass"
-                                      title='@(e.Phrase.ToString()
-                                                  .SplitRemoveEmpty('\n', '\r')
-                                                  .Format(Tuple.Create(' ', ' ', ' '), s => s + "\n"))' id="@e.Id">
-                                    @e.Phrase.Text
+                    foreach (var paragraphData in from ided in withIds group ided by ided.Phrase.Paragraph)
+                    {
+                            <p class="lexical-content-block">
+                                @foreach (var e in paragraphData)
+                                {
+                                    <span class="@styleMap[e.Phrase].CssClass"
+                                          title='@(e.Phrase.ToString()
+                                                              .SplitRemoveEmpty('\n', '\r')
+                                                              .Format(Tuple.Create(' ', ' ', ' '), s => s + "\n"))' id="@e.Id">
+                                        @e.Phrase.Text
+                                        <span id="@("context" + e.Id)" hidden="hidden">
+                                            @if (e.Phrase is IVerbal)
+                                            {
+                                                @((e.Phrase as IVerbal).GetJsonMenuData())
 
-                                    <span id="@("context" + e.Id)" hidden="hidden">
-                                        @if (e.Phrase is IVerbal) {
-                                            @((e.Phrase as IVerbal).GetJsonMenuData())
+                                            }
 
-                                        }
+                                        </span>
+                                    </span>}
+                            </p>}
+                                    }
+                                </div>
 
-                                    </span>
-                                </span>    }
-                        </p>}
-                        }
-
+                            </div>
+                        </div>
                     </div>
-
                 }
 
             </div><div id="contextMenu" class="dropdown clearfix" hidden>
@@ -82,17 +93,9 @@
     </div>
 
 </div>
-
-
-
-
-
-
-
-
 @section scripts{
 
-    @Scripts.Render(@".\..\Scripts\app\Example\Example.js");
+    @Scripts.Render(@".\..\Scripts\app\Example\Example.js")
 }
 
 
