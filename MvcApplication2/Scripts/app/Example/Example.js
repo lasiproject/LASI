@@ -1,66 +1,53 @@
-﻿//For the tabs on the example page
-$('#results a').click(function (e) {
-    'use strict';
-    e.preventDefault()
-    $(this).tab('show')
-})
+﻿(function () {
+    "use strict";
+    var configureRelationshipMenu = function ($controls, relatedElementIds, elementAction) {
+        $controls.each(function (index, element) {
+            if (relatedElementIds) {
+                $(element).show();
+            } else {
+                $(element).hide();
+            }
+        }).click(function (el) {
+            el.preventDefault();
 
-$(function () {
-    'use strict';
-    $.contextMenu.types.label = function (item, opt, root) {
-
-        // this === item.$node
-        var htmlMenuText =
-        '<ul class="menuwrapper phrasemenu">';
-        //item.$node.arrayProducer().forEach(function (element, index) {
-        //    htmlMenuText += '<li class="phrasemenuitem" title="' + element.Name, element.LinkedIds + '">' + element.Name, element.LinkedIds + '</li>';
-        //});
-        htmlMenuText +=
-         + '</ul>';
-        $(htmlMenuText)
-        .appendTo(this)
-        .on('click', 'li', function () {
-            // do some funky stuff
-            console.log('Clicked on ' + $(this).text());
-            // hide the menu
-            root.$menu.trigger('contextmenu:hide');
-        });
-
-        this.addClass('labels').on('contextmenu:focus', function (e) {
-            // setup some awesome stuff
-        }).on('contextmenu:blur', function (e) {
-            // tear down whatever you did
-        }).on('keydown', function (e) {
-            // some funky key handling, maybe?
+            relatedElementIds.map(function (element, index) {
+                return $("#" + element.toString());
+            }).forEach(elementAction);
         });
     };
 
-
-
-    var splitProps = function (elementId) {
-        var d = $.parseJSON($("#" + elementId).children('span').text());
-        var n = Object.keys(d);
-        return {
-            data: d,
-            name: n
+    $(function () {
+        var verbals = $("span.Verbal");
+        var contextMenu = $("#contextMenu");
+        var relatedElementAction = function (element, index) {
+            $(element).addClass('selected');
         };
-    };
+        verbals.on("contextmenu", function (e) {
+            var relationshipInfo;
+            e.preventDefault();
+            $("span").removeClass('selected');
+            relationshipInfo = $.parseJSON($.trim($(e.target).children("span").text()));
+            contextMenu.css({
+                position: "absolute",
+                display: "block",
+                left: e.pageX,
+                top: e.pageY
+            });
+            configureRelationshipMenu(contextMenu.find("ul").children(".view-subects-menu-item"), relationshipInfo.Subjects, relatedElementAction);
+            configureRelationshipMenu(contextMenu.find("ul").children(".view-directobjects-menu-item"), relationshipInfo.DirectObjects, relatedElementAction);
+            configureRelationshipMenu(contextMenu.find("ul").children(".view-indirectobjects-menu-item"), relationshipInfo.IndirectObjects, relatedElementAction);
 
-    $('span.Verbal').each(function (index, element) {
-        var i, itemsd = {};
-        var splitUp = splitProps(element.id);
-        for (i = 0; i < splitUp.length; i += 1) {
-            itemsd["element" + i] = { name: "Edit" + i, callback: $.noop };
-        }
-        $.contextMenu({
-            selector: '#' + element.id,
-            callback: function (key, options) {
-                var m = "clicked: " + key; alert(m);
-            },
-            items: itemsd
-            //label: { type: "label" },
-            //edit: { name: "Edit", callback: $.noop },
+            return false;
+        });
 
+
+
+
+        $(document).click(function (e) {
+            e.preventDefault();
+
+            contextMenu.hide(); contextMenu.find("li").off();
         });
     });
-});
+    //$(".view-subects-menu-item").click(function (data) { })
+}());

@@ -55,10 +55,10 @@ namespace LASI.WebService.Controllers
         }
 
         public async Task<ActionResult> Example() {
-            var SERVER_PATH = Server.MapPath(USER_UPLOADED_DOCUMENTS_DIR);
+            var serverPath = Server.MapPath(USER_UPLOADED_DOCUMENTS_DIR);
             ViewBag.ReturnUrl = "Example";
             var extensionMap = new ExtensionWrapperMap(UnsupportedFileTypeHandling.YieldNull);
-            var files = Directory.EnumerateFiles(SERVER_PATH)
+            var files = Directory.EnumerateFiles(serverPath)
                 .Select(file => {
                     try {
                         return extensionMap[file.SplitRemoveEmpty('.').Last()](file);

@@ -1,126 +1,97 @@
-﻿@using LASI.Core;
-@using LASI;
-@using LASI.WebService.Controllers;
+﻿@using LASI;
+@using LASI.Core;
 @using LASI.WebService;
 @using Newtonsoft.Json;
 
 @Styles.Render("~/Content/Results.css")
 @Styles.Render("~/Content/bootstrap.css")
-@Styles.Render("~/Content/Results.css")
-@Styles.Render("~/Scripts/JqueryContextMenu/prettify.sunburst.css")
-@Styles.Render("~/Scripts/JqueryContextMenu/jquery.contextMenu.css")
 
 <title>@ViewBag.Title</title>
-<body>
-    <div class="results-pane">
-        <ul class="nav nav-tabs" id="results">
-            <li class="active"><a href="#reconstructeddocuments">Reconstructed Documents</a></li>
-            <li><a href="#topresults">Top Results</a></li>
-            <li><a href="#adddocuments">Add Documents</a></li>
-        </ul>
-        <div class=" tab-content" id="resultstabs">
-            <div class="tab-pane fade in active" id="reconstructeddocuments">
-                <div>
 
-                </div>
-                <div>
-                    <ul id="documentlist" class="documentlist break-after documentselectiontab">
+<div class="results-pane">
+    <ul class="nav nav-tabs" id="results">
+        <li class="active"><a href="#reconstructeddocuments">Reconstructed Documents</a></li>
+        <li><a href="#topresults">Top Results</a></li>
+        <li><a href="#adddocuments">Add Documents</a></li>
+    </ul>
+    <div class=" tab-content" id="resultstabs">
+        <div class="tab-pane fade in active" id="reconstructeddocuments">
+            <div>
 
-                        @foreach (var doc in ViewData["docs"] as IEnumerable<LASI.Core.DocumentStructures.Document>) {
-                            <li class="documentselectiontab">
-                                <a href=@("#"+doc.Name)>
-                                    @doc.Name
-                                </a>
-                            </li>
-                        }
-                    </ul>
-                </div>
-                <br />
-                <div class="reconstructed-document">
+            </div>
+            <div>
+                <ul id="documentlist" class="documentlist break-after documentselectiontab">
+
                     @foreach (var doc in ViewData["docs"] as IEnumerable<LASI.Core.DocumentStructures.Document>) {
-                        var pages = doc.Paginate(80, 30);
-                        <div id=@doc.Name class="content-wrapper">
-                            @{var styleMap = new SyntacticStyleMapping();
-                            var withIds = doc.Phrases.Select(p => new { Phrase = p, Id = p.GetSerializationId() });
-
-                            foreach (var paragraphData in from ided in withIds group ided by ided.Phrase.Paragraph) {
-                                <p class="lexical-content-block">
-                                    @foreach (var e in paragraphData) {
-                                        <span class=@styleMap[e.Phrase].CssClass title="@string.Join("", e.Phrase.Type.Name.Select(c => c.IsUpper() ? " " + c : c.ToString()))" id="@e.Id">
-                                            @e.Phrase.Text
-
-                                            <span id="@("context" + e.Id)">
-                                                @if (e.Phrase is IVerbal) {
-                                                    @((e.Phrase as IVerbal).GetJsonMenuData())
-
-                                                }
-
-                                            </span>
-                                        </span>    }
-                                </p>}
-                            }
-
-                        </div>
+                        <li class="documentselectiontab">
+                            <a href=@("#"+doc.Name)>
+                                @doc.Name
+                            </a>
+                        </li>
                     }
-                </div>
+                </ul>
+            </div>
+            <br />
+            <div>
+                @foreach (var doc in ViewData["docs"] as IEnumerable<LASI.Core.DocumentStructures.Document>) {
+                    var pages = doc.Paginate(80, 30);
+                    <div id=@doc.Name class="content-wrapper">
+                        @{
+                    var styleMap = new SyntacticStyleMap();
+                    var withIds = doc.Phrases.Select(p => new { Phrase = p, Id = p.GetSerializationId() });
 
+                    foreach (var paragraphData in from ided in withIds group ided by ided.Phrase.Paragraph) {
+                        <p class="lexical-content-block">
+                            @foreach (var e in paragraphData) {
+                                <span class="@styleMap[e.Phrase].CssClass"
+                                      title='@(e.Phrase.ToString()
+                                                  .SplitRemoveEmpty('\n', '\r')
+                                                  .Format(Tuple.Create(' ', ' ', ' '), s => s + "\n"))' id="@e.Id">
+                                    @e.Phrase.Text
+
+                                    <span id="@("context" + e.Id)" hidden="hidden">
+                                        @if (e.Phrase is IVerbal) {
+                                            @((e.Phrase as IVerbal).GetJsonMenuData())
+
+                                        }
+
+                                    </span>
+                                </span>    }
+                        </p>}
+                        }
+
+                    </div>
+
+                }
+
+            </div><div id="contextMenu" class="dropdown clearfix" hidden>
+                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu" style="display:block;position:static;margin-bottom:5px;">
+                    <li class="view-subects-menu-item"><a href="#">View Subjects</a></li>
+                    <li class="view-directobjects-menu-item"><a href="#">View Direct Objects</a></li>
+                    <li class="view-indirectobjects-menu-item"><a href="#">View Indirect Objects</a></li>
+                </ul>
             </div>
-            <div class="tab-pane fade" id="topresults">
-                top results
-            </div>
-            <div class="tab-pane fade" id="adddocuments">
-                add document
-            </div>
+
+        </div>
+        <div class="tab-pane fade" id="topresults">
+            top results
+        </div>
+        <div class="tab-pane fade" id="adddocuments">
+            add document
         </div>
     </div>
-    @*<div id="verbalmenus">
-            <div id="subjectonly" class="menuwrapper">
-                <ul class="phrasemenu">
-                    <li id="subject" class="phrasemenuitem">
-                        View Subjects
-                    </li>
-                </ul>
-            </div>
-            <br />
-            <br />
-            <div id="subjectanddirectobject" class="menuwrapper">
-                <ul class="phrasemenu">
-                    <li id="subjects" class="phrasemenuitem">
-                        View Subjects
-                    </li>
-                    <li><hr /></li>
-                    <li id="directobjects" class="phrasemenuitem">
-                        View Direct Objects
-                    </li>
-                </ul>
-            </div>
-            <br />
-            <br />
-            <div id="subjectanddirectobjectandindirectobject" class="menuwrapper">
-                <ul class="phrasemenu">
-                    <li id="subjects" class="phrasemenuitem">
-                        View Subjects
-                    </li>
-                    <li><hr /></li>
-                    <li id="directobjects" class="phrasemenuitem">
-                        View Direct Objects
-                    </li>
-                    <li><hr /></li>
-                    <li id="indirectbjects" class="phrasemenuitem">
-                        View Indirect Objects
-                    </li>
-                </ul>
-            </div>
-        </div>*@
-</body>
+
+</div>
+
+
+
+
+
 
 
 
 @section scripts{
-    @Scripts.Render("~/bundles/bootstrap")
-    @Scripts.Render(@".\..\Scripts\JqueryContextMenu\jquery.contextMenu.js");
-    @Scripts.Render(@".\..Scripts\JqueryContextMenu\jquery-1.8.2.min.js");
-    @Scripts.Render(@".\..Scripts\JqueryContextMenu\jquery.ui.position.js");
+
     @Scripts.Render(@".\..\Scripts\app\Example\Example.js");
 }
 

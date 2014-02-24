@@ -10,15 +10,6 @@ namespace LASI.WebService.Models
 {
 
 
-    public class SingleDocumentUploadModele
-    {
-        [Required]
-        [Display(Name = "File Name", AutoGenerateField = true, AutoGenerateFilter = true)]
-        public string FileName { get; set; }
-        //[Display(Name = "Progress")]
-        //public ProgressModel Progress { get; set; }
-    }
-
     public class UsersContext : DbContext
     {
         public UsersContext()
