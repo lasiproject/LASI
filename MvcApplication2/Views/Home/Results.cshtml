@@ -3,8 +3,7 @@
 @using LASI.WebService;
 @using Newtonsoft.Json;
 
-@Styles.Render("~/Content/Results.css")
-@Styles.Render("~/Content/bootstrap.css")
+@Styles.Render("~/Content/App/Home/Results.css")
 
 <title>@ViewBag.Title</title>
 
@@ -114,8 +113,8 @@
 @section scripts{
 
     <!--I can confirm that these Unix Style filepaths work, and are less confusing to deal with. For consistency, I vote we use them to specify these kind of paths.-->
-    @Scripts.Render(@"~/Scripts/app/Example/Example.js")
-    @Scripts.Render("~/Scripts/app/Index/Index.js")
+    @Scripts.Render("~/Scripts/App/Home/Example.js")
+    @Scripts.Render("~/Scripts/App/Home/Index.js")
 }
 
 

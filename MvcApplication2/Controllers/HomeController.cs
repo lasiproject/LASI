@@ -49,14 +49,14 @@ namespace LASI.WebService.Controllers
 
                 file.SaveAs(path);
             }
-            await Example();
+            await Results();
 
-            return RedirectToAction("Example");
+            return RedirectToAction("Results");
         }
 
-        public async Task<ActionResult> Example() {
+        public async Task<ActionResult> Results() {
             var serverPath = Server.MapPath(USER_UPLOADED_DOCUMENTS_DIR);
-            ViewBag.ReturnUrl = "Example";
+            ViewBag.ReturnUrl = "Results";
             var extensionMap = new ExtensionWrapperMap(UnsupportedFileTypeHandling.YieldNull);
             var files = Directory.EnumerateFiles(serverPath)
                 .Select(file => {
@@ -76,7 +76,7 @@ namespace LASI.WebService.Controllers
 
             ViewData.Add("docs", from task in loadingTask select task);
 
-            ViewBag.Title = "Example";
+            ViewBag.Title = "Results";
             return View();
         }
         private static double percentComplete;

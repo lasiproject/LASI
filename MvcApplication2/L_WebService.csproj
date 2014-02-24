@@ -277,16 +277,15 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />
-    <Content Include="Content\App\CreateAccount.css" />
-    <Content Include="Content\App\Example.css" />
-    <Content Include="Content\App\Login.css" />
+    <Content Include="Content\App\Account\CreateAccount.css" />
+    <Content Include="Content\App\Account\Login.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css">
       <DependentUpon>bootstrap-theme.css</DependentUpon>
     </Content>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\Results.css" />
+    <Content Include="Content\App\Home\Results.css" />
     <Content Include="Content\themes\base\images\animated-overlay.gif" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
@@ -370,8 +369,8 @@
     <Content Include="Images\ic_launcher-web.png" />
     <Content Include="Images\ic_launcher-web50x50.png" />
     <Content Include="JSLintNet.json" />
-    <Content Include="Scripts\app\Example\Example.js" />
-    <Content Include="Scripts\app\Index\Index.js" />
+    <Content Include="Scripts\App\Home\Results.js" />
+    <Content Include="Scripts\App\Home\Index.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
@@ -447,10 +446,10 @@
     <Content Include="Scripts\modernizr-2.7.1.js" />
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Scripts\app\ajaxlogin.js" />
-    <Content Include="Scripts\app\todo.viewmodel.js" />
-    <Content Include="Scripts\app\todo.datacontext.js" />
-    <Content Include="Scripts\app\todo.model.js" />
+    <Content Include="Scripts\App\ajaxlogin.js" />
+    <Content Include="Scripts\App\todo.viewmodel.js" />
+    <Content Include="Scripts\App\todo.datacontext.js" />
+    <Content Include="Scripts\App\todo.model.js" />
     <Content Include="Images\accent.png" />
     <Content Include="Images\bullet.png" />
     <Content Include="Images\heroAccent.png" />
@@ -478,7 +477,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\_Login.cshtml" />
     <Content Include="Views\Home\_Register.cshtml" />
-    <Content Include="Views\Home\Example.cshtml" />
+    <Content Include="Views\Home\Results.cshtml" />
     <Content Include="Scripts\jquery.validate.min.js.map">
       <DependentUpon>jquery.validate.js</DependentUpon>
     </Content>
@@ -489,7 +488,6 @@
   <ItemGroup>
     <Folder Include="App_Data\SourceFiles\" />
     <Folder Include="Models\Example\" />
-    <Folder Include="Views\Homepage\" />
     <Folder Include="Views\JobStatus\" />
     <Folder Include="Views\Upload\" />
   </ItemGroup>

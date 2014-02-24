@@ -24,7 +24,7 @@
         </div>
     </div>
 
-    <div>
+    <div class="file-upload">
 
         @using (Html.BeginForm("Upload", "Home", FormMethod.Post, new { enctype = "multipart/form-data" })) {
             @FileUpload.GetHtml(name: "upload1", initialNumberOfFiles: 1, includeFormTag: false, addText: "add a file", uploadText: "upload")
@@ -37,7 +37,7 @@
 
     @Scripts.Render("~/bundles/knockout")
     @Scripts.Render("~/bundles/jqueryval")
-    @Scripts.Render("~/Scripts/app/Index/Index.js")
+    @Scripts.Render("~/ScriptsApp/Home/Index.js")
 }
 
 
