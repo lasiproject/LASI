@@ -26,15 +26,17 @@
             $(element).addClass('selected');
         };
         verbals.on("contextmenu", function (event) {
-            event.preventDefault();
             var relationshipInfo;
-
+            event.preventDefault();
+            // Deselect any elements selected by a previous selection.
             $(".lexical-content-block span").removeClass('selected');
             relationshipInfo = $.parseJSON($.trim($(event.target).children("span").text()));
             contextMenu.css({
+                // get the z-index of the parent modal containing the element and offset it.
                 zIndex: Number($(event.target).parents(".modal").css("z-index")) + 50,
                 position: "absolute",
                 display: "block",
+                // Relocate the context menu div to the position of the click. This needs work to allow keyboard navigation.
                 left: event.pageX,
                 top: event.pageY
             });
@@ -48,6 +50,9 @@
             // The conflic between the menus and the navbar seems to have been caused by this line.
             //e.preventDefault();
 
+
+            // Remove the previously bound event handlers from the items in the context menu so they will
+            // start with an empty invocation list when reused by the next context menu event.
             contextMenu.find("li").off();
             contextMenu.hide();
 
@@ -57,5 +62,4 @@
     //Something about the context menu is off. Links in the Navbar don't work with it enabled. Not sure where the bug is.
     //We can work together on friday to fix it if you haven't figured it out by then. 
 
-    //$(".view-subects-menu-item").click(function (data) { })
 }());
