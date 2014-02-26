@@ -9,41 +9,48 @@
 }
 @Styles.Render("~/Content/App/Account/CreateAccount.css")
 <div class="col-md-12 container-fluid">
-    <form class="form-horizontal ">
+    @using (Html.BeginForm("CreateNew", "Account", FormMethod.Post, new { @class = "form-horizontal" })) {
+        @model LASI.WebService.Models.User.UserModel
         <fieldset class=" col-md-4 create-account-form">
             <h2 class="form-horizontal-heading">Create account</h2>
             <!-- Text input-->
             <div class="form-group">
-                <label class="col-md-5 control-label" for="FirstName">First Name</label>
-                <div class="col-md-7 col-md-offset-0">
-                    <input id="FirstName" name="FirstName" placeholder="First name" class="form-control input-md" required="" type="text">
 
+                @Html.LabelFor(m => m.FirstName, new { @class = "col-md-5 control-label" })
+                <div class="col-md-7 col-md-offset-0">
+
+                    @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control input-md", required = true })
                 </div>
             </div>
 
             <!-- Text input-->
             <div class="form-group">
-                <label class="col-md-5 control-label" for="LastName">Last Name</label>
-                <div class="col-md-7 col-md-offset-0">
-                    <input id="LastName" name="LastName" placeholder="Last name" class="form-control input-md" required="" type="text">
 
+                @Html.LabelFor(m => m.LastName, new { @class = "col-md-5 control-label" })
+                <div class="col-md-7 col-md-offset-0">
+
+                    @Html.TextBoxFor(m => m.LastName, new { @class = "form-control input-md", required = true })
                 </div>
             </div>
 
-            <!-- Text input-->
+            <!-- Email input-->
             <div class="form-group">
-                <label class="col-md-5 control-label" for="EmailAddress">Email Address</label>
+                @Html.LabelFor(m => m.Email, new { @class = "col-md-5 control-label" })
                 <div class="col-md-7 col-md-offset-0">
-                    <input id="EmailAddress" name="EmailAddress" placeholder="Email address" class="form-control input-md" required="" type="text">
+                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control input-md", type = "email", required = true })
+
 
                 </div>
             </div>
 
             <!-- Password input-->
             <div class="form-group">
-                <label class="col-md-5 control-label" for="Password">Password</label>
+
+                @Html.LabelFor(m => m.Password, new { @class = "col-md-5 control-label" })
                 <div class="col-md-7 col-md-offset-0">
-                    <input id="Password" name="Password" placeholder="Password" class="form-control input-md" required="" type="password">
+
+                    @Html.TextBoxFor(m => m.Password, new { @class = "form-control input-md", type = "password", required = true })
+
 
                 </div>
             </div>
@@ -52,11 +59,11 @@
             <div class="form-group">
                 <label class="col-md-5 control-label" for="Submit"></label>
                 <div class="col-md-5">
-                    <button id="Submit" name="Submit" class="btn btn-primary">Submit</button>
+                    <button id="Submit" type="submit" name="Submit" class="btn btn-primary">Submit</button>
                     <button id="Reset" name="Reset" class="btn btn-default">Reset</button>
                 </div>
             </div>
 
         </fieldset>
-    </form>
+    }
 </div>

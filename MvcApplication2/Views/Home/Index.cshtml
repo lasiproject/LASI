@@ -1,6 +1,6 @@
-﻿@model LASI.WebService.Models.LoginModel
+﻿@model LASI.WebService.Models.User.UserModel
 @{
-    ViewBag.Title = "Welcome";
+    ViewBag.Title = "Welcome " + Model.FirstName ?? string.Empty;
 }
 @functions{
     public string GetAntiForgeryToken() {

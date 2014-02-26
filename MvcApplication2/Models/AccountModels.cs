@@ -59,7 +59,9 @@ namespace LASI.WebService.Models
     public class LoginModel
     {
         [Required]
-        [Display(Name = "User name")]
+        [EmailAddress]
+        [DataType(DataType.EmailAddress)]
+        [Display(Name = "Email address")]
         public string UserName { get; set; }
 
         [Required]

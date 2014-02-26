@@ -11,16 +11,16 @@ namespace LASI.WebService.Models.User
 {
     public class UserModel
     {
-        [Required]
+        [Required(AllowEmptyStrings = false)]
         public string FirstName { get; set; }
-        [Required]
+        [Required(AllowEmptyStrings = false)]
         public string LastName { get; set; }
         public string Organization { get; set; }
-        [Required]
+        [Required(AllowEmptyStrings = false)]
         [EmailAddress]
-        [DataType(DataType.EmailAddress)]   
+        [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
-        [Required]
+        [Required(AllowEmptyStrings = false)]
         [DataType(DataType.Password)]
         public string Password { get; set; }
     }

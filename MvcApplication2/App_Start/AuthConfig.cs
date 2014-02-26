@@ -26,6 +26,7 @@ namespace LASI.WebService
             //    appSecret: "");
 
             //OAuthWebSecurity.RegisterGoogleClient();
+
         }
     }
 }

@@ -24,7 +24,8 @@ namespace LASI.WebService.Controllers
         public ActionResult Index(string returnUrl) {
             returnUrl = string.Empty;
             ViewBag.ReturnUrl = returnUrl;
-            return View();
+
+            return View(new LASI.WebService.Models.User.UserModel());
         }
         [HttpPost]
         public async Task<ActionResult> Upload(params object[] args) {
