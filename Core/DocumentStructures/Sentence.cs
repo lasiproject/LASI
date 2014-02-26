@@ -96,7 +96,14 @@ namespace LASI.Core.DocumentStructures
         /// <summary>
         /// Gets the sequence of Words which comprise the sentence.
         /// </summary>
-        public IEnumerable<Word> Words { get { return (from C in Clauses from P in C.Phrases from W in P.Words select W); } }
+        public IEnumerable<Word> Words {
+            get {
+                return from clause in Clauses
+                       from phrase in clause.Phrases
+                       from word in phrase.Words
+                       select word;
+            }
+        }
         /// <summary>
         /// Gets the concatenated text content of all of the Words which compose the Sentence.
         /// </summary>
@@ -123,6 +130,10 @@ namespace LASI.Core.DocumentStructures
 
         /// <summary>
         /// Gets or sets a value indicating whether the Sentence is an inverted sentence.
+        /// That is a sentence in which the Verbal precedes its subject. ex: <para>
+        /// inverted -> "Vastly overblown were the rumors."
+        /// standard -> "The rumors were vastly overblown."
+        /// </para>
         /// </summary>
         public bool IsInverted { get; set; }
 

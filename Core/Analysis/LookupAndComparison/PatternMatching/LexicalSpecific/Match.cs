@@ -18,7 +18,7 @@ namespace LASI.Core.Patternization
         /// Initializes a new instance of the MatchBase&lt;T&gt; class which will match against the supplied value.
         /// </summary>
         /// <param name="value">The value to match against.</param>
-        protected MatchBase(T value) { this.value = value; }
+        protected MatchBase(T value) { Value = value; }
         #region Fields
 
         /// <summary>
@@ -32,13 +32,12 @@ namespace LASI.Core.Patternization
             get { return accepted; }
             set { accepted = value; }
         }
-        private T value;
         /// <summary>
         /// Gets or sets the value being matched against.
         /// </summary>
         protected T Value {
-            get { return this.value; }
-            set { this.value = value; }
+            get;
+            set;
         }
         #endregion
     }
@@ -74,6 +73,8 @@ namespace LASI.Core.Patternization
         public Match<T, TResult> Yield<TResult>() {
             return Match.Create<T, TResult>(Value);
         }
+
+
         #endregion
 
         #region When Expressions
@@ -383,6 +384,8 @@ namespace LASI.Core.Patternization
         private Match<T> inner;
         #endregion
     }
+
+
     public abstract class PredicatedMatchBase<T> where T : class, ILexical
     {
         protected PredicatedMatchBase(bool accepted) { this.Accepted = accepted; }
@@ -456,7 +459,7 @@ namespace LASI.Core.Patternization
 
     }
     [DebuggerStepThrough]
-    internal class Match
+    internal static class Match
     {
         public static Match<T> Create<T>(T value) where T : class, ILexical {
             return new Match<T>(value);
@@ -470,6 +473,7 @@ namespace LASI.Core.Patternization
         public static PredicatedMatch<T, TResult> Create<T, TResult>(bool accepted, Match<T, TResult> inner) where T : class, ILexical {
             return new PredicatedMatch<T, TResult>(accepted, inner);
         }
+
     }
 
 }

@@ -107,7 +107,7 @@
     <Compile Include="LexicalStructures\NounRelatedConstructs\ISimpleGendered.cs" />
     <Compile Include="LexicalStructures\UnderpinningTypes\IAggregateLexical.cs" />
     <Compile Include="Analysis\LookupAndComparison\PatternMatching\Generalized\Basis\MatchClause.cs" />
-    <Compile Include="Analysis\LookupAndComparison\PatternMatching\LexicalSpecific\MatchClause.cs" />
+    <Compile Include="Analysis\LookupAndComparison\PatternMatching\LexicalSpecific\Match.cs" />
     <Compile Include="Analysis\LookupAndComparison\PatternMatching\LexicalSpecific\PatternMatching.cs" />
     <Compile Include="LexicalStructures\SymbolsAndPunctuators\IPairedPunctuator.cs" />
     <Compile Include="Analysis\LookupAndComparison\EntityClassificationExtensions.cs" />

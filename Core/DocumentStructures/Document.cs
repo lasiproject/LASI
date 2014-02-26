@@ -231,7 +231,9 @@ namespace LASI.Core.DocumentStructures
         /// <summary>
         /// Gets the Paragraphs the document contains in linear, left to right order.
         /// </summary>
-        public IEnumerable<Paragraph> Paragraphs { get { return paragraphs.Except(paragraphsWithBulletsOrHeadings); } }
+        public IEnumerable<Paragraph> Paragraphs {
+            get { return paragraphs.Except(paragraphsWithBulletsOrHeadings); }
+        }
 
 
         /// <summary>
