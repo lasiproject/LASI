@@ -46,7 +46,7 @@ namespace LASI.ContentSystem.TaggerEncapsulation
             { "SBAR", ws => new SubordinateClauseBeginPhrase(ws) },
             { "LST", ws => new RoughListPhrase(ws) },
             { "INTJ", ws => new InterjectionPhrase(ws) },
-            { "", ws => { throw new EmptyPhraseTagException(ws.Aggregate("", (s,w) => s + " ").Trim()); } },
+            { "", ws => { throw new EmptyPhraseTagException(string.Join(" ",ws.Select(w=>w.Text))); } },
         };
 
         #endregion
@@ -81,7 +81,8 @@ namespace LASI.ContentSystem.TaggerEncapsulation
                 catch (InvalidOperationException) {
                     throw new UnmappedPhraseTypeException(string.Format("Phrase constructor\n{0}\nis not mapped by this Tagset.\nFunction Type: {1} => {2}",
                         phraseCreatingFunc,
-                        phraseCreatingFunc.Method.GetParameters().Aggregate("", (s, p) => s +p.ParameterType.FullName + ", ").TrimEnd(',', ' '),
+                        string.Join(", ", from param in phraseCreatingFunc.Method.GetParameters()
+                                          select param.ParameterType.FullName),
                         phraseCreatingFunc.Method.ReturnType.FullName
                         )
                     );

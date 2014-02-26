@@ -122,14 +122,18 @@ namespace LASI.Core.Heuristics
         /// <param name="left">The first ActionsRelatedOn instance.</param>
         /// <param name="right">The second ActionsRelatedOn instance.</param>
         /// <returns>True if the ActionsRelatedOn instances are equal; otherwise, false.</returns>
-        public static bool operator ==(ActionsRelatedOn left, ActionsRelatedOn right) { return left.Equals(right); }
+        public static bool operator ==(ActionsRelatedOn left, ActionsRelatedOn right) {
+            return left.Equals(right);
+        }
         /// <summary>
         /// Determines if two ActionsRelatedOn instances are unequal.
         /// </summary>
         /// <param name="left">The first ActionsRelatedOn instance.</param>
         /// <param name="right">The second ActionsRelatedOn instance.</param>
         /// <returns>True if the ActionsRelatedOn instances are unequal; otherwise, false.</returns>
-        public static bool operator !=(ActionsRelatedOn left, ActionsRelatedOn right) { return !(left == right); }
+        public static bool operator !=(ActionsRelatedOn left, ActionsRelatedOn right) {
+            return !(left == right);
+        }
 
 
     }

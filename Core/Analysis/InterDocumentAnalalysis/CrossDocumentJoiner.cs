@@ -83,12 +83,11 @@ namespace LASI.Core
             var topVerbalsByDoc = await Task.WhenAll(from doc in documents.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                                                      select GetTopVerbPhrasesAsync(doc));
             var verbalCominalities = from verbals in topVerbalsByDoc.ToList().AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                                     from v in verbals
-                                     where (
-                                        from verbs in topVerbalsByDoc.ToList().AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                                        select verbs.Contains(v, (x, y) => x.Text == y.Text || y.IsSimilarTo(y)))
-                                     .Aggregate(true, (product, result) => product && result)
-                                     select v;
+                                     from verbal in verbals
+                                     where (from verbs in topVerbalsByDoc.ToList().AsParallel().WithDegreeOfParallelism(Concurrency.Max)
+                                            select verbs.Contains(verbal, (x, y) => x.Text == y.Text || y.IsSimilarTo(y)))
+                                            .All(x => x)
+                                     select verbal;
             return from verbal in verbalCominalities
                    let testPronouns = new Func<IEnumerable<IEntity>, AggregateEntity>(
                    entities => new AggregateEntity(from s in entities let asPro = s as IReferencer select asPro != null ? asPro.ReferredTo.Any() ? asPro.ReferredTo : s : s))

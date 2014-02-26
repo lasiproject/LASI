@@ -106,7 +106,7 @@ namespace LASI.Core.Heuristics
                 return new SR(result &&
                     leftHandVerbs
                         .Zip(rightHandVerbs, (x, y) => x.IsSynonymFor(y))
-                        .Aggregate(result, (folded, r) => folded && r));
+                        .Aggregate(result, (folded, val) => folded && val));
             }
             catch (NullReferenceException x) {
                 Output.WriteLine(x.Message);

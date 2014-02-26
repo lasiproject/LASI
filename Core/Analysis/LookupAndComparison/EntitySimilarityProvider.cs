@@ -63,10 +63,8 @@ namespace LASI.Core.Heuristics
                              orderby Count descending
                              select new { byResult.Key, Count };
             return new SR(simResults.Any() && simResults.First().Key,
-                simResults.Any() ?
-                simResults
-                .Skip(1)
-                .Aggregate((float)simResults.First().Count, (ratioSoFar, current) => ratioSoFar / current.Count) : 0);
+                simResults.Any() ? simResults
+                .Aggregate(0f, (ratioSoFar, current) => ratioSoFar / current.Count) : 0);
         }
         /// <summary>
         /// Determines if the provided Noun is similar to the provided NounPhrase.
@@ -75,8 +73,10 @@ namespace LASI.Core.Heuristics
         /// <param name="second">The NounPhrase.</param>
         /// <returns>True if the provided Noun is similar to the provided NounPhrase; otherwise, false.</returns>
         /// <remarks>There are two calling conventions for this method. See the following examples:
+        /// <example>
         /// <code>if ( Lookup.IsSimilarTo(n1, np2) ) { ... }</code>
         /// <code>if ( n1.IsSimilarTo(np2) ) { ... }</code>
+        /// </example>
         /// Please prefer the second convention.
         /// </remarks>
         public static SimilarityResult IsSimilarTo(this Noun first, NounPhrase second) {
@@ -90,8 +90,10 @@ namespace LASI.Core.Heuristics
         /// <param name="second">The Noun.</param>
         /// <returns>True if the provided NounPhrase is similar to the provided Noun; otherwise, false.</returns>
         /// <remarks>There are two calling conventions for this method. See the following examples:
+        /// <example>
         /// <code>if ( Lookup.IsSimilarTo(np1, n2) ) { ... }</code>
         /// <code>if ( np1.IsSimilarTo(n2) ) { ... }</code>
+        /// </example>
         /// Please prefer the second convention.
         /// </remarks>
         public static SimilarityResult IsSimilarTo(this NounPhrase first, Noun second) {
@@ -104,9 +106,11 @@ namespace LASI.Core.Heuristics
         /// <param name="second">The second NounPhrase</param>
         /// <returns>True if the given NounPhrases are similar; otherwise, false.</returns>
         /// <remarks>There are two calling conventions for this method. See the following examples:
+        /// <example>
         /// <code>if ( Lookup.IsSimilarTo(np1, np2) ) { ... }</code>
         /// <code>if ( np1.IsSimilarTo(np2) ) { ... }</code>
         /// Please prefer the second convention.
+        /// </example>
         /// </remarks>
         public static SimilarityResult IsSimilarTo(this NounPhrase first, NounPhrase second) {
             var ratio = GetSimilarityRatio(first, second);
@@ -119,8 +123,10 @@ namespace LASI.Core.Heuristics
         /// <param name="second">The second Noun.</param>
         /// <returns>True if the first Noun is similar to the second; otherwise, false.</returns>
         /// <remarks>There are two calling conventions for this method. See the following examples:
+        /// <example>
         /// <code>if ( Lookup.IsSimilarTo(n1, n2) ) { ... }</code>
         /// <code>if ( n1.IsSimilarTo(n2) ) { ... }</code>
+        /// </example>
         /// Please prefer the second convention.
         /// </remarks>
         public static SimilarityResult IsSimilarTo(this Noun first, Noun second) {

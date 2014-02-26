@@ -79,12 +79,7 @@ namespace LASI.Core
                 .Where(m => !(m is IAggregateEntity))
                 .Select(p => p.Type.Name + " \"" + p.Text + "\"")));
         }
-        //public override bool Equals(object obj) {
-        //    return ReferenceEquals(obj, null) ? false : obj as AggregateEntity == this;
-        //}
-        //public override int GetHashCode() {
-        //    return members.Select(m => m.GetHashCode()).Aggregate((f, c) => f ^ c);
-        //}
+
         #endregion
 
         #region Properties

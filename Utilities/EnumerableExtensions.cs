@@ -123,15 +123,15 @@ namespace LASI
                 throw new ArgumentNullException("selector");
             int len = 2;
             return source.Aggregate(new StringBuilder(delimiters.Item1.ToString()).Append(' '),
-                    (sum, current) => {
-                        var cETS = selector(current) + delimiters.Item2 + " ";
+                    (sb, e) => {
+                        var cETS = selector(e) + delimiters.Item2 + " ";
                         len += cETS.Length;
                         if (len >= lineLength) {
                             len = cETS.Length;
-                            sum.Append('\n');
+                            sb.Append('\n');
                             len = 0;
                         }
-                        return sum.Append(cETS);
+                        return sb.Append(cETS);
                     }).ToString().TrimEnd(' ', delimiters.Item2) + " " + delimiters.Item3;
         }
 
@@ -150,14 +150,14 @@ namespace LASI
         /// <exception cref="System.ArgumentOutOfRangeException">
         /// to is less than 0.-or-start + count -1 is larger than System.Int32.MaxValue."
         ///</exception>
-        public static IEnumerable<int> To(this int start, int count) {
-            //if (to - from < 0) { throw new ArgumentOutOfRangeException("to", from - to, "Cannot generate a sequence of fewer than 0 values."); }
+        public static IEnumerable<int> Until(this int start, int count) {
+            if (start - count < 0) { throw new ArgumentOutOfRangeException("to", start - count, "Cannot generate a sequence of fewer than 0 values."); }
             return Enumerable.Range(start, count);
         }
 
         #endregion
 
-        #region Custom Query Operators
+        #region Additional Query Operators
 
         /// <summary>
         /// Determines whether no elements of a sequence satisfy a condition.
@@ -324,7 +324,7 @@ namespace LASI
         }
 
 
-        static IEnumerable<Tuple<TSource, TSource>> PairWise<TSource>(this IEnumerable<TSource> source) {
+        public static IEnumerable<Tuple<TSource, TSource>> PairWise<TSource>(this IEnumerable<TSource> source) {
             if (source == null)
                 throw new ArgumentNullException("source");
             if (source.None())
@@ -335,7 +335,7 @@ namespace LASI
                 first = element;
             }
         }
-        static IEnumerable<Tuple<TPairItem, TPairItem>> PairWise<T, TPairItem>(this IEnumerable<T> source, Func<T, TPairItem> itemSelector) {
+        public static IEnumerable<Tuple<TPairItem, TPairItem>> PairWise<T, TPairItem>(this IEnumerable<T> source, Func<T, TPairItem> itemSelector) {
             if (source == null)
                 throw new ArgumentNullException("source");
             if (itemSelector == null)
@@ -348,7 +348,7 @@ namespace LASI
                 first = element;
             }
         }
-        static IEnumerable<Tuple<TResult1, TResult2>> PairWise<TSource, TResult1, TResult2>(this IEnumerable<TSource> source, Func<TSource, TResult1> item1Selector, Func<TSource, TResult2> item2Selector) {
+        public static IEnumerable<Tuple<TResult1, TResult2>> PairWise<TSource, TResult1, TResult2>(this IEnumerable<TSource> source, Func<TSource, TResult1> item1Selector, Func<TSource, TResult2> item2Selector) {
             if (source == null)
                 throw new ArgumentNullException("source");
             if (item1Selector == null)
@@ -426,12 +426,9 @@ namespace LASI
         /// <exception cref="ArgumentNullException"><paramref name="source"/> or <paramref name="selector"/> is null</exception>
         /// <exception cref="InvalidOperationException"><paramref name="source"/> is empty</exception>
         public static TSource MinBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> selector, IComparer<TKey> comparer) {
-            if (source == null)
-                throw new ArgumentNullException("source");
-            if (source.None())
-                throw new InvalidCastException("Sequence Contains no elements");
-            if (selector == null)
-                throw new ArgumentNullException("selector");
+            if (source == null) { throw new ArgumentNullException("source"); }
+            if (source.None()) { throw new InvalidCastException("Sequence Contains no elements"); }
+            if (selector == null) { throw new ArgumentNullException("selector"); }
             return MinMaxImplementation<TSource, TKey>(source, selector, MinMax.Min);
         }
         private static TSource MinMaxImplementation<TSource, TMax>(IEnumerable<TSource> source, Func<TSource, TMax> selector, MinMax minmax) {
@@ -446,8 +443,22 @@ namespace LASI
         private enum MinMax { Min, Max }
 
 
-
-        static IEnumerable<TSource> DistinctBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> selector) where TKey : IEquatable<TKey> {
+        /// <summary>
+        /// Returns the distinct elements of the given of the source sequence by applying the given key selector
+        /// the given projection.
+        /// </summary>
+        /// <typeparam name="TSource">Type of the source sequence</typeparam>
+        /// <typeparam name="TKey">Type of the projected element</typeparam>
+        /// <param name="source">Source sequence</param>
+        /// <param name="selector">Selector which projects each element into a new form by which distinctness is determined.</param>        
+        /// <returns>the distinct elements of the given of the source sequence by applying the given key selector
+        /// the given projection.
+        /// </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> or <paramref name="selector"/> is null</exception>
+        /// <exception cref="InvalidOperationException"><paramref name="source"/> is empty</exception>
+        public static IEnumerable<TSource> DistinctBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> selector) where TKey : IEquatable<TKey> {
+            if (source == null) { throw new ArgumentNullException("source"); }
+            if (selector == null) { throw new ArgumentNullException("selector"); }
             return source.Distinct(
                 new CustomComaparer<TSource>(
                 (x, y) => selector(x).Equals(selector(y)),
@@ -478,15 +489,66 @@ namespace LASI
                 (x, y) => selector(x).Equals(selector(y)),
                 x => selector(x).GetHashCode()));
         }
+        /// <summary>
+        /// Determines if the source collection contains the same exact same elements as the second. Ignores duplicate elements and element order.
+        /// </summary>
+        /// <typeparam name="TSource">Type of the source sequence</typeparam>
+        /// <param name="source">The source sequence</param>
+        /// <param name="second">The sequence to compare against.</param>
+        /// <returns>False if any elements in the source sequence pass the test in the specified predicate; otherwise, true.</returns>
+        public static bool SetEqual<TSource>(this IEnumerable<TSource> source, IEnumerable<TSource> second) {
+            return source.Intersect(second).None();
+        }
+        public static bool SetEqualBy<TSource, TKey>(this IEnumerable<TSource> source, IEnumerable<TSource> second, Func<TSource, TKey> selector) {
+            return source.Select(selector).SetEqual(second.Select(selector));
+        }
+
+        public static IEnumerable<TResult> Zip<T1, T2, T3, TResult>(this IEnumerable<T1> source, IEnumerable<T2> second, IEnumerable<T3> third, Func<T1, T2, T3, TResult> selector) {
+            return source.Zip(second, (x, y) => new { x, y }).Zip(third, (a, b) => selector(a.x, a.y, b));
+        }
+        public static IEnumerable<TResult> Zip<T1, T2, T3, T4, TResult>(this IEnumerable<T1> source,
+            IEnumerable<T2> second, IEnumerable<T3> third, IEnumerable<T4> fourth, Func<T1, T2, T3, T4, TResult> selector) {
+            return source.Zip(second, (x, y) => new { x, y }).Zip(third, (a, b) => new { a.x, a.y, b }).Zip(fourth, (l, r) => selector(l.x, l.y, l.b, r));
+        }
+
+        #region Reductive Operators
+
+        public static bool Sum(this IEnumerable<bool> source) {
+            if (source == null) { throw new ArgumentNullException("source"); }
+            return source.Aggregate(false, (result, b) => result | b);
+        }
+        public static bool? Sum(this IEnumerable<bool?> source) {
+            if (source == null) { throw new ArgumentNullException("source"); }
+            return source.Aggregate(default(bool?), (result, b) => result | b);
+        }
+        public static bool Sum<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> selector) {
+            if (source == null) { throw new ArgumentNullException("source"); }
+            return source.Aggregate(false, (result, b) => result | selector(b));
+        }
+        public static bool? Sum<TSource>(this IEnumerable<TSource> source, Func<TSource, bool?> selector) {
+            if (source == null) { throw new ArgumentNullException("source"); }
+            return source.Aggregate(default(bool?), (result, b) => result | selector(b));
+        }
+
+        public static bool Product(this IEnumerable<bool> source) { return source.Aggregate(false, (result, b) => result | b); }
+        public static bool Product<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> selector) {
+            return source.Aggregate(false, (result, b) => result | selector(b));
+        }
+        public static bool? Product(this IEnumerable<bool?> source) { return source.Aggregate(default(bool?), (result, b) => result | b); }
+        public static bool? Product<TSource>(this IEnumerable<TSource> source, Func<TSource, bool?> selector) {
+            return source.Aggregate(default(bool?), (result, b) => result | selector(b));
+        }
         #endregion
 
-        #region Internal Support Types
+        #endregion
+
+        #region Helpers
 
         /// <summary>
         /// An EqualityComparer{T} whose Equals and GetHashCode implementations are specified by functions provided as constructor arguments.
         /// </summary>
         /// <typeparam name="T">The type of objects to compare.</typeparam>
-        private class CustomComaparer<T> : EqualityComparer<T>
+        public class CustomComaparer<T> : EqualityComparer<T>
         {
             #region Constructors
             public CustomComaparer(Func<T, T, bool> equals) {

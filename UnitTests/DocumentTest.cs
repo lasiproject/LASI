@@ -148,10 +148,10 @@ namespace LASI.UnitTests
             Document doc = CreateUnboundUnweightedTestDocument();
             Assert.IsTrue(doc.Words
                 .Select((x, index) => x.PreviousWord == doc.Words.ElementAtOrDefault(index - 1) && x.NextWord == doc.Words.ElementAtOrDefault(index + 1)
-             ).Aggregate(true, (f, e) => f &= e));
+             ).Aggregate(true, (f, e) => f && e));
             Assert.IsTrue(doc.Phrases
                 .Select((x, index) => x.PreviousPhrase == doc.Phrases.ElementAtOrDefault(index - 1) && x.NextPhrase == doc.Phrases.ElementAtOrDefault(index + 1)
-                ).Aggregate(true, (f, e) => f &= e));
+                ).Aggregate(true, (f, e) => f && e));
             Assert.IsTrue(doc != null);
         }
 

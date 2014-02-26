@@ -81,7 +81,7 @@ namespace LASI.UnitTests
             foreach (var f in actual)
                 Debug.WriteLine(f);
             Assert.IsTrue((from f in expected
-                           select actual.Contains(f)).Aggregate(true, (aggr, tf) => aggr && tf));
+                           select actual.Contains(f)).Aggregate(true, (result, b) => result && b));
 
         }
 
@@ -100,7 +100,7 @@ namespace LASI.UnitTests
 
             }
             Assert.IsTrue((from f in expected
-                           select actual.Contains(f)).Aggregate(true, (aggr, tf) => aggr && tf));
+                           select actual.Contains(f)).Aggregate(true, (result, b) => result && b));
 
 
         }

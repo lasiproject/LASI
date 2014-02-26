@@ -383,7 +383,7 @@ namespace LASI.Core.Heuristics
         /// Similarity threshold for lexical element comparisons. If the computed ration of a similarity comparison is >= the threshold, 
         /// then the similarity comparison will return true.
         /// </summary>
-        public const double SIMILARITY_THRESHOLD = 0.6;
+        const double SIMILARITY_THRESHOLD = 0.6;
 
         #endregion
 

@@ -87,11 +87,9 @@ namespace LASI.Core.DocumentStructures
         /// </summary>
         public string Text {
             get {
-                return text = text ?? Sentences.Aggregate("", (folded, sentence) => folded + " " + sentence.Text).Trim();
+                return text = text ?? string.Join(" ", Sentences.Select(s => s.Text));
             }
         }
-
-
         private string text;
     }
     /// <summary>

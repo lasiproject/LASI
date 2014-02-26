@@ -172,7 +172,7 @@ namespace LASI
                     using (var writer = new StreamWriter(fileStream, Encoding.ASCII, 1024, true)) { writer.Write(buffer, index, count); } else if (OutputMode == OutputMode.Console)
                     Console.Write(buffer, index, count);
                 else
-                    Debug.Write(buffer.Skip(index).Take(count).Aggregate("", (str, c) => str + c));
+                    Debug.Write(buffer.Skip(index).Take(count).Aggregate(string.Empty, (str, c) => str + c));
             }
         }
         /// <summary>
@@ -428,7 +428,7 @@ namespace LASI
                     using (var writer = new StreamWriter(fileStream, Encoding.ASCII, 1024, true)) { writer.WriteLine(buffer); } else if (OutputMode == OutputMode.Console)
                     Console.WriteLine(buffer);
                 else
-                    Debug.WriteLine(buffer.Aggregate("", (sum, c) => sum + c));
+                    Debug.WriteLine(buffer.Aggregate(string.Empty, (sum, c) => sum + c));
             }
         }
         /// <summary>
@@ -443,11 +443,15 @@ namespace LASI
         public static void WriteLine(char[] buffer, int index, int count) {
             if (OutputMode != OutputMode.Silent) {
                 if (OutputMode == OutputMode.File)
-                    using (var writer = new StreamWriter(fileStream, Encoding.ASCII, 1024, true)) { writer.WriteLine(buffer, index, count); } else if (OutputMode == OutputMode.Console)
+                    using (var writer = new StreamWriter(fileStream, Encoding.ASCII, 1024, true)) {
+                        writer.WriteLine(buffer, index, count);
+                    } else if (OutputMode == OutputMode.Console) {
                     Console.WriteLine(buffer, index, count);
-                else
-                    Debug.WriteLine(buffer.Skip(index).Take(count).Aggregate("", (sum, c) => sum + c));
+                }
+            } else {
+                Debug.WriteLine(buffer.Skip(index).Take(count).Aggregate(string.Empty, (sum, c) => sum + c));
             }
+
         }
         /// <summary>
         /// Writes a char to the text output stream.
