@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace LASI.Core
 {
     /// <summary>
-    /// Represents a pronoun which gernerally refers back to a previously defined Entity, such as a Noun or NounPhrase.
+    /// Represents a pronoun which generally refers back to a previously defined Entity, such as a Noun or NounPhrase.
     /// </summary>
     public abstract class Pronoun : Word, IReferencer, ISimpleGendered
     {
@@ -154,7 +154,7 @@ namespace LASI.Core
         #region Static Methods
 
         /// <summary>
-        /// Determines the PronounKind which corresponds to the Plurarility and Gender of the given pronoun.
+        /// Determines the PronounKind which corresponds to the Plurality and Gender of the given pronoun.
         /// </summary>
         /// <param name="pronoun">The pronoun whose gender to is to be checked</param>
         /// <returns>A PronounGenerder enum value representing the gender of the given pronoun.</returns>

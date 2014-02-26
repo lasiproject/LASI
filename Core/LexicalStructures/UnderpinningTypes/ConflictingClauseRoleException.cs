@@ -6,7 +6,7 @@ using System.Text;
 namespace LASI.Core
 {
     /// <summary>
-    /// The Exception to be thrown if and when an attempt is to bind a Subordinate clause as a modifer of some element when it has already been bound as a different kind of modifer.
+    /// The Exception to be thrown if and when an attempt is to bind a Subordinate clause as a modifier of some element when it has already been bound as a different kind of modifier.
     /// </summary>
     [Serializable]
     class ConflictingClauseRoleException : Exception

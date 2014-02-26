@@ -12,7 +12,7 @@ namespace LASI.Core
     public class ProperSingularNoun : ProperNoun, ISimpleGendered
     {
         /// <summary>
-        /// Initialiazes a new instance of the ProperSingularNoun class.
+        /// Initializes a new instance of the ProperSingularNoun class.
         /// </summary>
         /// <param name="text">The key text content of the ProperSingularNoun.</param>
         public ProperSingularNoun(string text)
@@ -21,7 +21,7 @@ namespace LASI.Core
         }
         private Gender? gender = null;
         /// <summary>
-        /// Gets the Gender value indiciating the likely gender of the ProperNoun.
+        /// Gets the Gender value indicating the likely gender of the ProperNoun.
         /// </summary>
         public virtual Gender Gender {
             get {

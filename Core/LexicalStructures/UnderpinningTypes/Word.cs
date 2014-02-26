@@ -10,20 +10,20 @@ using System.Xml.Linq;
 namespace LASI.Core
 {
     /// <summary>
-    /// Provides the base class, properties, and behaviors for all word level gramatical constructs.
+    /// Provides the base class, properties, and behaviors for all word level grammatical constructs.
     /// </summary>
     public abstract class Word : ILexical
     {
         #region Constructors
         /// <summary>
-        /// Initializes a new instance of the word class which represensts the properties
+        /// Initializes a new instance of the word class which represents the properties
         /// and behaviors of a word-level grammatical element.
         /// </summary>
         /// <param name="text">The text content of the word.</param>
         protected Word(string text) {
 #if DEBUG
             if (text.Contains(' '))
-                throw new ArgumentException("The text of a word may not contain word seperators (e.g ' '", "text");
+                throw new ArgumentException("The text of a word may not contain word separators (e.g ' '", "text");
 #endif
             Text = text;
             Weight = 1;

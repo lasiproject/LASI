@@ -6,9 +6,9 @@ using System.Text;
 namespace LASI.Core
 {
     /// <summary>
-    /// <para> Represents an adverb which 'absolutely' specifies a verb or adjective relative to all comparable occurances of that verb or adjective. </para>
+    /// <para> Represents an adverb which 'absolutely' specifies a verb or adjective relative to all comparable occurrences of that verb or adjective. </para>
     /// <para> For Verbs - </para>
-    /// <para> If modifying an instransitive verb it will usually lexically follow the the verb: e.g. "Jane performed BEST. </para>
+    /// <para> If modifying an intransitive verb it will usually lexically follow the the verb: e.g. "Jane performed BEST. </para>
     /// <para> If modifying a transitive verb it will usually lexically follow the verb object: e.g. "Jane played poker BEST. </para>
     /// <para> For Adjectives - </para>
     /// <para> The adverb will usually lexically precede the adjective it modifies: e.g. John's wardrobe is MOST colorful than Jane's. </para>

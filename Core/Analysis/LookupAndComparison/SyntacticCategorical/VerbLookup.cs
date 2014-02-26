@@ -17,7 +17,7 @@ namespace LASI.Core.Heuristics
         /// <summary>
         /// Initializes a new instance of the VerbThesaurus class. 
         /// </summary>
-        /// <param name="path">The path of the WordNet database file containing the sysnonym data for verbals.</param>
+        /// <param name="path">The path of the WordNet database file containing the synonym data for verbals.</param>
         public VerbLookup(string path) {
             filePath = path;
         }

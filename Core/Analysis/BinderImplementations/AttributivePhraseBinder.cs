@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 namespace LASI.Core.Binding
 {
     /// <summary>
-    /// Binds the attributely related NounPhrase elements within a source together.
+    /// Binds the attributively related NounPhrase elements within a source together.
     /// </summary>
     static class AttributivePhraseBinder
     {
         /// <summary>
-        /// Binds the attributely related NounPhrase elements within the given sentence.
+        /// Binds the attributively related NounPhrase elements within the given sentence.
         /// </summary>
         /// <param name="sentence">The sentence to bind within.</param>
         public static void Bind(Sentence sentence) {
@@ -22,7 +22,7 @@ namespace LASI.Core.Binding
             }
         }
         /// <summary>
-        /// Binds the attributely related NounPhrase elements within the given sequence of Phrases.
+        /// Binds the attributively related NounPhrase elements within the given sequence of Phrases.
         /// </summary>
         /// <param name="phrases">The sequence of Phrases to bind within.</param>
         public static void Bind(IEnumerable<Phrase> phrases) {

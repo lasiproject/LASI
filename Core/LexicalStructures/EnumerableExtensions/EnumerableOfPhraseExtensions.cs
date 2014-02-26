@@ -10,7 +10,7 @@ namespace LASI.Core
     /// Defines extension methods for sequences of Phrase instances.
     /// </summary>
     /// <see cref="Phrase"/>
-    public static partial class o
+    public static partial class LASIEnumerable
     {
         /// <summary>
         /// Returns all Phrases in the document which are in between the provided Phrases. The range of the resulting sequence is neither upper nor lower inclusive.
@@ -18,7 +18,7 @@ namespace LASI.Core
         /// <param name="after">The exclusive lower bound of the range to aggregate.</param>
         /// <param name="before">The exclusive upper bound of the range to aggregate.</param>
         /// <returns>All Phrases in the document which are in between the provided Phrases.
-        /// The range of the resulting sequence is neither upper nor lower incluse. 
+        /// The range of the resulting sequence is neither upper nor lower inclusive. 
         /// If the Phrases are improperly ordered, are in different documents or if the given phrases are adjacent, an empty sequence will be returned.</returns>
         public static IEnumerable<Phrase> Between(this Phrase after, Phrase before) {
             return after.Document.Phrases.Contains(before) ?
@@ -32,7 +32,7 @@ namespace LASI.Core
         /// <param name="after">The exclusive lower bound of the range to aggregate.</param>
         /// <param name="endSelector">The function which is used to test each subsequent phrase returning true when a match verbalSelector is found.</param>
         /// <returns>All Phrases in the document which are in between the provided start Phrase and the first Phrase for which the provided predicate function returns true.
-        /// The range of the resulting sequence is neither upper nor lower incluse.
+        /// The range of the resulting sequence is neither upper nor lower inclusive.
         /// If no matching phrase exists after the starting phrase or the given start Phrase is immediately followed by a Phrase matching the end selector function,
         /// an empty sequence will be returned.an empty sequence is returned is returned. 
         /// </returns>

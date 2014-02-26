@@ -28,7 +28,7 @@ namespace LASI.Core
         #region Methods
 
         /// <summary>
-        /// Current,  somewhat sloppy determination of the Noun, person, place, thing etc, of nounphrase by 
+        /// Current,  somewhat sloppy determination of the Noun, person, place, thing etc, of NounPhrase by 
         /// selecting the most common Noun between its nouns and from its bound pronouns 
         /// </summary>
         private void DetermineEntityKind() {
@@ -74,6 +74,7 @@ namespace LASI.Core
         /// <returns>A string representation of the NounPhrase.</returns>
         public override string ToString() {
             var result = base.ToString();
+
             if (Phrase.VerboseOutput) {
                 result += Possessed.Any() ? "\nPossessions: " + Possessed.Format(p => p.Text + '\n') : string.Empty;
                 result += Possesser != null ? "\nOwned By: " + Possesser.Text : string.Empty;

@@ -45,7 +45,7 @@ namespace LASI.Core
         }
 
         /// <summary>
-        /// Binds an EntityReferencer, generall a Pronoun or PronounPhrase to refer to the Noun.
+        /// Binds an EntityReferencer, generally a Pronoun or PronounPhrase to refer to the Noun.
         /// </summary>
         /// <param name="pro">The EntityReferency to Bind.</param>
         public virtual void BindReferencer(IReferencer pro) {
@@ -130,7 +130,7 @@ namespace LASI.Core
         /// Gets or sets the single Noun which directly, in terms of reading order, specifies the current Noun instance.
         /// For example, consider the noun phrase "Felis Catus", the taxonomic nomenclature of the common domestic cat
         /// by its genus and species.
-        /// While both "Felis" and "Catus" are individual nouns, the first implicitelly specifies the second.
+        /// While both "Felis" and "Catus" are individual nouns, the first implicitly specifies the second.
         /// Catus is the species of the genus Felis,
         /// but Felis also contains the species "Silvestris", commonly called a wildcat.
         /// </summary>
@@ -141,7 +141,7 @@ namespace LASI.Core
         /// </summary>
         public Noun FollowingAdjunctNoun { get; set; }
         /// <summary>
-        /// Gets or sets the IQunatifier which specifies the number of units of the Noun which are referred to in this occurance.
+        /// Gets or sets the IQunatifier which specifies the number of units of the Noun which are referred to in this occurrence.
         /// e.g. "[18] Pinkos"
         /// </summary>
         public virtual IQuantifier QuantifiedBy {

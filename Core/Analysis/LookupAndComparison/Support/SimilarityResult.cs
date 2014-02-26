@@ -10,13 +10,13 @@ namespace LASI.Core.Heuristics
     /// <summary>
     /// Encapsulates multiple pieces of information gathered during a similarity comparison into a light weight type.
     /// The structure cannot be created from outside of the Lookup class and is used to convey internal results.
-    /// No special syntax is or code changes are required to manipulate this type. It will implicitely convert to bool
+    /// No special syntax is or code changes are required to manipulate this type. It will implicitly convert to bool
     /// So all code with forms such as:     
     /// </summary>
     /// <remarks>
     /// <code>if ( a.IsSimilarTo(b) ) { ... }</code>
     /// need not and should not be changed. 
-    /// However, If the numeric ratio used to determine similarity is needed and applicable, the type will implcitely convert
+    /// However, If the numeric ratio used to determine similarity is needed and applicable, the type will implicitly convert
     /// to a double. This removes the need for public code such as: 
     /// <code>if ( Lookup.GetSimiliarityRatio(a, b) > 0.7 ) { ... }</code>
     /// Instead one may simple write the same logic as: 
@@ -37,11 +37,11 @@ namespace LASI.Core.Heuristics
             rational = similarityRatio;
         }
         /// <summary>
-        /// intializes a new instance of the SimilarityResult structure from the provided bool value.
+        /// Initializes a new instance of the SimilarityResult structure from the provided bool value.
         /// </summary>
         /// <param name="similar">Indicates the result the true of false result of an IsSimilarTo test.</param>
         /// <remarks>Use this constructor when the ratio itself is not specified or not provided.
-        /// In such cases, the RatioResult property will be automatically set to 1 or 0 based on the truthfullness of the provided similar argument.
+        /// In such cases, the RatioResult property will be automatically set to 1 or 0 based on the truthfulness of the provided similar argument.
         /// </remarks>
         internal SimilarityResult(bool similar) : this(similar, similar ? 1 : 0) { }
 
@@ -100,7 +100,7 @@ namespace LASI.Core.Heuristics
         #region Operators
 
         #region Implcit Conversion Operators
-        // These allow the type to implcitely convert to the desired result type for the condition. 
+        // These allow the type to implicitly convert to the desired result type for the condition. 
         // Thus, refactoring the IsSimilarTo implementations preserves and enhances existing code
         // without the need to rewrite any conditionals or call expensive methods multiple times to get numeric vs boolean results
 

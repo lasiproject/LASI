@@ -15,7 +15,7 @@ namespace LASI.Core
         /// <summary>
         /// Initializes a new Instance of the Processing Task class with the given Task, initialization message, completion message, and percentage of total work represented. 
         /// </summary> 
-        /// <param name="workToPerform">A Task object repsenting an operation over the given document.</param>
+        /// <param name="workToPerform">A Task object repenting an operation over the given document.</param>
         /// <param name="initializationMessage">A message indicating the start of specific the ProcessingTask.</param>
         /// <param name="completionMessage">A message indicating the end of specific the ProcessingTask.</param>
         /// <param name="percentWorkRepresented">An arbitrary double value corresponding to a relative amount of work the ProcessingTask represents.</param>
@@ -32,7 +32,7 @@ namespace LASI.Core
         /// <summary>
         /// Initializes a new Instance of the Processing Task class with the given Action, initialization message, completion message, and percentage of total work represented. 
         /// </summary> 
-        /// <param name="workToPerform">A Task object repsenting an operation over the given document.</param>
+        /// <param name="workToPerform">A Task object repenting an operation over the given document.</param>
         /// <param name="initializationMessage">A message indicating the start of specific the ProcessingTask.</param>
         /// <param name="completionMessage">A message indicating the end of specific the ProcessingTask.</param>
         /// <param name="percentWorkRepresented">An arbitrary double value corresponding to a relative amount of work the ProcessingTask represents.</param>

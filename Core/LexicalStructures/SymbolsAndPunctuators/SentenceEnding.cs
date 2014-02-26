@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace LASI.Core
 {
     /// <summary>
-    /// A specialization of Punctuation which represents character which demarkate the end of a sentence.
+    /// A specialization of Punctuation which represents character which demarcate the end of a sentence.
     /// </summary>
     public class SentenceEnding : Punctuator
     {

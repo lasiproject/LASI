@@ -73,14 +73,14 @@ namespace LASI.Core
 
 
         /// <summary>
-        /// Assigns numeric Weights to each elemenet in the given Document.
+        /// Assigns numeric Weights to each element in the given Document.
         /// </summary>
         /// <param name="document">The Document whose elements are to be assigned numeric weights.</param>
         public static void Weight(Document document) {
             Task.WaitAll(document.GetWeightingTasks().Select(t => t.Task).ToArray());
         }
         /// <summary>
-        /// Assigns numeric Weights to each elemenet in the given Document.
+        /// Assigns numeric Weights to each element in the given Document.
         /// </summary>
         /// <param name="document">The Document whose elements are to be assigned numeric weights.</param>
         public static async Task WeightAsync(Document document) {
@@ -101,7 +101,7 @@ namespace LASI.Core
         /// <summary>
         /// Increase noun weights in a document by abstracting over synonyms
         /// </summary>
-        /// <param name="document">the Document whose noun weights may be modiffied</param>
+        /// <param name="document">the Document whose noun weights may be modified</param>
         private static void ModifyNounWeightsBySynonyms(Document document) {
             var toConsider = from e in document.Words
                                  .AsParallel().WithDegreeOfParallelism(Concurrency.Max)
@@ -139,8 +139,8 @@ namespace LASI.Core
         /// </summary>
         /// <param name="doc">Document containing the componentPhrases to weight</param>
         private static void WeightSimilarNounPhrases(Document doc) {
-            //Reify the query source so that it may be queried to form a full self join (cartesian product with itself.
-            // in the two subsequent from clauses both query the reified collection in paralllel.
+            //Reify the query source so that it may be queried to form a full self join (Cartesian product with itself.
+            // in the two subsequent from clauses both query the reified collection in parallel.
             var npsToConsider = doc.Phrases
                 .AsParallel()
                 .WithDegreeOfParallelism(Concurrency.Max)
@@ -169,8 +169,8 @@ namespace LASI.Core
         }
 
         private static void WeightSimilarVerbPhrases(Document doc) {
-            //Reify the query source so that it may be queried to form a full self join (cartesian product with itself.
-            // in the two subsequent from clauses both query the reified collection in paralllel.
+            //Reify the query source so that it may be queried to form a full self join (Cartesian product with itself.
+            // in the two subsequent from clauses both query the reified collection in parallel.
             var vpsToConsider = doc.Phrases.AsParallel().WithDegreeOfParallelism(Concurrency.Max).OfVerbPhrase().WithSubjectOrObject().ToList();
             var vps = from outer in vpsToConsider.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                       from inner in vpsToConsider.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
@@ -216,7 +216,7 @@ namespace LASI.Core
                 if (w.Weight > MaxWeight)
                     MaxWeight = w.Weight;
             }
-            if (NonZeroWghts != 0) {//Caused a devide by zero exception if document was empty.
+            if (NonZeroWghts != 0) {//Caused a divide by zero exception if document was empty.
                 var ratio = 100 / MaxWeight;
 
                 foreach (var p in document.Phrases) {

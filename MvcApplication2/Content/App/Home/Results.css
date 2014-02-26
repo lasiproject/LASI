@@ -22,6 +22,10 @@
     color: darkblue;
 }
 
+.lexical-content-block span {
+    position: relative;
+}
+
 .Proper {
     color: darkred;
 }
@@ -102,9 +106,7 @@
 .view-empty-menu-item {
 }
 
-.lexical-content-block span {
-    position: relative;
-}
+
 
 /*.phrasemenu {
     align-items: center;
@@ -136,7 +138,7 @@
     cursor: pointer;
 }*/
 
-.menuwrapper {
+/*.menuwrapper {
     position: absolute;
     border: 0.1em solid black;
     border-radius: 0.5em;
@@ -170,4 +172,4 @@
     display: block;
     position: static;
     margin-bottom: 5px;
-}
+}*/

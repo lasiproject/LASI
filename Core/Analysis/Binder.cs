@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 namespace LASI.Core
 {
     /// <summary>
-    /// Provides static acess to a comprehensive set of binding operations which are applicable to a document.
+    /// Provides static access to a comprehensive set of binding operations which are applicable to a document.
     /// </summary>
     public static class Binder
     {

@@ -66,7 +66,7 @@ namespace LASI.Core.Binding
 
 
                 /*
-                 *  Binding first posessive pronoun to last noun
+                 *  Binding first possessive pronoun to last noun
                  */
                 var PosNoun = np.Words.OfType<PossessivePronoun>().FirstOrDefault();
                 if (PosNoun != null) {

@@ -32,14 +32,14 @@ namespace LASI.Core
 
         }
         /// <summary>
-        /// Gets the literal puntuation character.
+        /// Gets the literal punctuation character.
         /// </summary>
         public char ActualCharacter {
             get;
             protected set;
         }
         /// <summary>
-        /// Gets the alias string corresponding to the puntuation symbol.
+        /// Gets the alias string corresponding to the punctuation symbol.
         /// </summary>
         public string AliasString {
             get;

@@ -12,12 +12,12 @@ using System.Threading.Tasks;
 namespace LASI.Core
 {
     /// <summary>
-    /// Facilitates the joining of multiple documents into a single result set based on overlap and intersection tequniques.
+    /// Facilitates the joining of multiple documents into a single result set based on overlap and intersection techniques.
     /// </summary>
     public class CrossDocumentJoiner
     {
         /// <summary>
-        /// Asynchrnously builds and computes the intersection of the given Documents contained and returns the results as a sequence of Relationship instances.
+        /// Asynchronously builds and computes the intersection of the given Documents contained and returns the results as a sequence of Relationship instances.
         /// </summary>
         /// <param name="documents">The Documents to Join.</param>
         /// <returns>A Task&lt;IEnumerable&lt;RelationshipTuple&gt;&gt; corresponding to the intersection of the Documents to be joined .</returns>

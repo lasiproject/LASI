@@ -27,7 +27,7 @@ namespace LASI.Core.Binding
             }
         }
         /// <summary>
-        /// Aggregates and binds the Phrase elvel IEntity constructs within the Sentence into instances aggregate objects which implement IEntityGroup.
+        /// Aggregates and binds the Phrase level IEntity constructs within the Sentence into instances aggregate objects which implement IEntityGroup.
         /// </summary>
         /// <param name="sentence">The Sentence to bind within.</param>
         public void Bind(Sentence sentence) {

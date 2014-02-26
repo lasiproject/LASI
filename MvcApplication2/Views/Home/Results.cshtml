@@ -31,6 +31,7 @@
             
             <br />
             <div>
+                @Phrase.VerboseOutput=true;
                 @foreach (var doc in ViewData["docs"] as IEnumerable<LASI.Core.DocumentStructures.Document>)
                 {
                     var pages = doc.Paginate(80, 30);
@@ -113,6 +114,7 @@
 @section scripts{
 
     <!--I can confirm that these Unix Style filepaths work, and are less confusing to deal with. For consistency, I vote we use them to specify these kind of paths.-->
+    <!--aggreed-->
     @Scripts.Render("~/Scripts/App/Home/Example.js")
     @Scripts.Render("~/Scripts/App/Home/Index.js")
 }

@@ -6,7 +6,7 @@ using System.Text;
 namespace LASI.Core
 {
     /// <summary>
-    /// <para>  Defines the role requirements for constructs; generally Nouns, Nounphrases or Pronouns; which are semantically capable of "possessing" other Entities. </para>
+    /// <para>  Defines the role requirements for constructs; generally Nouns, NounPhrases or Pronouns; which are semantically capable of "possessing" other Entities. </para>
     /// <para> Along with the other interfaces in the Syntactic Interfaces Library, the IPossesser interface provides for generalization and abstraction over word and Phrase types. </para>
     /// </summary>
     public interface IPossesser : ILexical

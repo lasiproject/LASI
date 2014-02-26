@@ -24,8 +24,8 @@ namespace LASI.Core
 
         }
         /// <summary>
-        /// This is the most common beginning of a subordinating clause. It begins with either a subordinating conjuntion or a relative (wh) pronoun. 
-        /// Example, "Dennis, who was a huge dick, ate at Wendy's and harasseed the management.
+        /// This is the most common beginning of a subordinating clause. It begins with either a subordinating conjunction or a relative (wh) pronoun. 
+        /// Example, "Dennis, who was a huge dick, ate at Wendy's and harassed the management.
         /// "who was a huge dick," is the subordinate clause. 
         /// </summary>
         /// <param name="word">Word</param>

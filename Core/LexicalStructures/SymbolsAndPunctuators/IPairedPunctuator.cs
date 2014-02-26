@@ -9,7 +9,7 @@ namespace LASI.Core
     /// <para> Defines the structure of Punctuator elements which are used as bookending delimiters, e.g. '(...)' and '[...], </para>
     /// <para> and are thus paired with another instance of the a Punctuator Word of the same type. </para>
     /// </summary>
-    /// <typeparam name="TPunctuator">The Type of a Punctution Word. This type must itself implement the
+    /// <typeparam name="TPunctuator">The Type of a Punctuation Word. This type must itself implement the
     /// IPairedPunctuator&lt;TPunctuator&gt; interface.</typeparam>
     /// <remarks>Because The Type Parameter, TPunctuator is invariant and must itself implement IPairedPunctuator&lt;TPunctuator&gt; this interface defines a reflexive, recursive Type.
     /// </remarks>

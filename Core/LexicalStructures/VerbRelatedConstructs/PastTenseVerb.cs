@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace LASI.Core
 {
     /// <summary>
-    /// Reprepsents a verb in its simple past-tense form.
+    /// Represents a verb in its simple past-tense form.
     /// </summary>
     public class PastTenseVerb : Verb
     {

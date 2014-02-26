@@ -41,7 +41,7 @@ namespace LASI.Core.Binding
         #region Methods
 
         /// <summary>
-        /// Performance IVerbal :=: IVerbalObject binding between the applicable elements within the provuded sentence.
+        /// Performance IVerbal :=: IVerbalObject binding between the applicable elements within the provided sentence.
         /// </summary>
         /// <param name="sentence">The Sentence to bind within.</param>
         public void Bind(Sentence sentence) {
@@ -52,7 +52,7 @@ namespace LASI.Core.Binding
         }
 
         /// <summary>
-        /// Performs IVerbal :=: IVerbalObject binding between the applicable elements within the provuded sequence of Phrase instances.
+        /// Performs IVerbal :=: IVerbalObject binding between the applicable elements within the provided sequence of Phrase instances.
         /// </summary>
         /// <param name="contiguousPhrases">The sequence of Phrase instances to bind within.</param>
         public void Bind(IEnumerable<Phrase> contiguousPhrases) {

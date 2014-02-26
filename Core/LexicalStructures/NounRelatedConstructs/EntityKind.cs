@@ -60,7 +60,7 @@ namespace LASI.Core
         /// </summary>
         ThingMultiple,
         /// <summary>
-        /// Activitiy: Generally corresonds to a gerund or a gerund-dominated phrase.
+        /// Activity: Generally corresponds to a gerund or a gerund-dominated phrase.
         /// E.g. in the sentence "He really enjoys attacking.", "attacking" refers to a behavior, the act of attacking, and is thus an activity.
         /// </summary>
         Activity,

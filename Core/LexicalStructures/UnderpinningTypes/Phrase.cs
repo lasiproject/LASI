@@ -11,7 +11,7 @@ namespace LASI.Core
 {
 
     /// <summary>
-    /// Provides the base class, properties, and behaviors for all Phrase level gramatical constructs.
+    /// Provides the base class, properties, and behaviors for all Phrase level grammatical constructs.
     /// </summary>
     public abstract class Phrase : ILexical
     {

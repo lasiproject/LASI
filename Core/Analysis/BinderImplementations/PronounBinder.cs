@@ -28,7 +28,7 @@ namespace LASI.Core.Binding
 
 
         /// <summary>
-        /// Binds posessive pronouns located in the sequence of phrases sentence. 
+        /// Binds possessive pronouns located in the sequence of phrases sentence. 
         /// Example Sentence that this applies to:
         /// "LASI binds it's pronouns."
         /// Pronoun "it's" binds to the proper noun "LASI"

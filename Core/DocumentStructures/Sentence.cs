@@ -122,7 +122,7 @@ namespace LASI.Core.DocumentStructures
         }
 
         /// <summary>
-        /// Gets or sets a value indicating wether the Sentence is an inverted sentence.
+        /// Gets or sets a value indicating whether the Sentence is an inverted sentence.
         /// </summary>
         public bool IsInverted { get; set; }
 
@@ -130,11 +130,11 @@ namespace LASI.Core.DocumentStructures
         #endregion
 
         /// <summary>
-        /// Gets a value indicating wether the Sentence is the first Sentence in its Paragraph.
+        /// Gets a value indicating whether the Sentence is the first Sentence in its Paragraph.
         /// </summary>
         public bool BeginsParagraph { get; private set; }
         /// <summary>
-        /// Gets a value indicating wether the Sentence is the Last Sentence in its Paragraph.
+        /// Gets a value indicating whether the Sentence is the Last Sentence in its Paragraph.
         /// </summary>
         public bool EndsParagraph { get; private set; }
     }

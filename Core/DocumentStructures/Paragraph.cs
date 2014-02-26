@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace LASI.Core.DocumentStructures
 {
     /// <summary>
-    /// Represents a paragrph.
+    /// Represents a paragraph.
     /// </summary>
     public sealed class Paragraph
     {
@@ -22,7 +22,7 @@ namespace LASI.Core.DocumentStructures
         }
 
         /// <summary>
-        /// Establish the nested links between the Paragraph, its parent Document, and the sentencies comprising it.
+        /// Establish the nested links between the Paragraph, its parent Document, and the sentences comprising it.
         /// </summary>
         /// <param name="parentDoc">The document instance to identified as the Paragraph's parent.</param>
         public void EstablishParent(Document parentDoc) {
@@ -104,7 +104,7 @@ namespace LASI.Core.DocumentStructures
         /// </summary>
         Default,
         /// <summary>
-        /// A paragraph containing numbered or bulletted content.
+        /// A paragraph containing numbered or bulleted content.
         /// </summary>
         NumberedOrBullettedContent,
         /// <summary>

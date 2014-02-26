@@ -18,7 +18,7 @@
         /// </summary>
         DiscriptiveLinker,
         /// <summary>
-        /// Preposition specifies a physical, or physically expressed relationship between Entities. E.g. "He first the books 'on' the iceburg"
+        /// Preposition specifies a physical, or physically expressed relationship between Entities. E.g. "He first the books 'on' the iceberg"
         /// </summary>
         SpatialSpecifier,//
         /// <summary>
@@ -26,7 +26,7 @@
         /// </summary>
         VerbalToObjectLinker,
         /// <summary>
-        /// Preposition forms a link between the primary Verbial and an explanatory or descriptive Verbial. E.g. "He prevailed 'by' ingesting chemichals"
+        /// Preposition forms a link between the primary Verbal and an explanatory or descriptive Verbal. E.g. "He prevailed 'by' ingesting chemicals"
         /// </summary>
         VerbalViaVerbalExpositor
     }

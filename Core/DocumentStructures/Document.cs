@@ -10,7 +10,7 @@ namespace LASI.Core.DocumentStructures
 {
     /// <summary>
     /// <para> A data structure containing all of the paragraph, sentence, clause, phrase, and word objects which comprise a single document.</para>
-    /// <para> Provides overalapping direct and indirect access to all of its children, </para>
+    /// <para> Provides overlapping direct and indirect access to all of its children, </para>
     /// <para> e.g. such as myDoc.Paragraphs.Sentences.Phrases.Words will get all the words in the document in linear order 
     /// comparatively: myDoc.Words; yields the same collection. </para>
     /// </summary>
@@ -90,9 +90,9 @@ namespace LASI.Core.DocumentStructures
 
 
         /// <summary>
-        /// Returns all of the verbals identified within the docimument.
+        /// Returns all of the verbals identified within the document.
         /// </summary>
-        /// <returns>all of the verbals identified within the docimument.</returns>
+        /// <returns>all of the verbals identified within the document.</returns>
         public IEnumerable<IVerbal> GetVerbals() {
             foreach (var action in words.OfType<IVerbal>())
                 yield return action;
@@ -269,7 +269,7 @@ namespace LASI.Core.DocumentStructures
 
 
         /// <summary>
-        /// Represents a page of a document. Pages are somewhat arbitrary segements of a Document, that contain some subset of its content.
+        /// Represents a page of a document. Pages are somewhat arbitrary segments of a Document, that contain some subset of its content.
         /// </summary>
         public sealed class Page
         {

@@ -12,7 +12,7 @@ namespace LASI.Core
     public class RelativePronoun : Word, IReferencer, ISubordinator
     {
         /// <summary>
-        /// Initialiazes a new instance of the RelativePronoun class.
+        /// Initializes a new instance of the RelativePronoun class.
         /// </summary>
         /// <param name="text">The key text content of the RelativePronoun.</param>
         public RelativePronoun(string text)
@@ -49,7 +49,7 @@ namespace LASI.Core
             }
         }
         /// <summary>
-        /// Binds an EntityReferencer, generall a Pronoun or PronounPhrase to refer to the RelativePronoun.
+        /// Binds an EntityReferencer, generally a Pronoun or PronounPhrase to refer to the RelativePronoun.
         /// </summary>
         /// <param name="pro">The EntityReferency to Bind.</param>
         public void BindReferencer(IReferencer pro) {
@@ -81,7 +81,7 @@ namespace LASI.Core
         /// </summary>
         public IPossesser Possesser { get; set; }
         /// <summary>
-        /// Indicates wether or not the IPronoun is bound to an Entity.
+        /// Indicates whether or not the IPronoun is bound to an Entity.
         /// </summary>
         public bool IsBound { get; private set; }
         /// <summary>

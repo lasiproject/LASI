@@ -153,10 +153,10 @@ namespace LASI.Core.Binding
     public static class SubjectBinderPhraseExtensions
     {
         /// <summary>
-        /// Takes in a phrase and evaluates to see if anything in that phrase is a pronoun that could only be in the subject of a sentence. Will cut down on the number of compares for certian phrases. 
+        /// Takes in a phrase and evaluates to see if anything in that phrase is a pronoun that could only be in the subject of a sentence. Will cut down on the number of compares for certain phrases. 
         /// </summary>
         /// <param name="p">Any phrase</param>
-        /// <returns>Returns true of false if a phrase has a pronoune in it that can only be in the subject of a sentence</returns>
+        /// <returns>Returns true of false if a phrase has a pronoun in it that can only be in the subject of a sentence</returns>
         public static bool HasSubjectPronoun(this Phrase p) {
             bool val = false;
             foreach (var w in p.Words) {

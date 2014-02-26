@@ -10,7 +10,7 @@ namespace LASI.Core
     /// <summary>
     /// <para> Represents a particle construct at the word level. </para>
     /// <para> For example, the the word (about) in the sentence: "He read a book about abstract erotica." </para>
-    /// <para> Note that the distintion between particle and prepositions can sometimes be tricky and is heavily dependent on nuances of grammatical usage. </para>
+    /// <para> Note that the distinction between particle and prepositions can sometimes be tricky and is heavily dependent on nuances of grammatical usage. </para>
     /// </summary>
     public class Particle : Word, IPrepositional
     {
@@ -63,7 +63,7 @@ namespace LASI.Core
             protected set;
         }
         /// <summary>
-        /// Gets or sets the contextually extrapolated Preopositional Role of the Particle.
+        /// Gets or sets the contextually extrapolated Prepositional Role of the Particle.
         /// </summary>
         /// <see cref="PrepositionRole"/>
         public PrepositionRole Role {

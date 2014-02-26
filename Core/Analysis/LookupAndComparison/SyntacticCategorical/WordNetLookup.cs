@@ -10,12 +10,12 @@ namespace LASI.Core.Heuristics
     internal abstract class WordNetLookup<TWord> : Progress<ResourceLoadEventArgs> where TWord : Word
     {
         /// <summary> 
-        /// Loads relevant synyonym data and performs additional initialization.
+        /// Loads relevant synonym data and performs additional initialization.
         /// </summary>
         internal abstract void Load();
 
         /// <summary>
-        ///  Asynchronously loads relevant synyonym data and performs additional initialization.
+        ///  Asynchronously loads relevant synonym data and performs additional initialization.
         /// </summary>
         /// <returns>A Task representing the ongoing asynchronous operation.</returns>
         internal virtual async System.Threading.Tasks.Task LoadAsync() {

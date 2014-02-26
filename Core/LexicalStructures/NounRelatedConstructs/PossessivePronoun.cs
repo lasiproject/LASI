@@ -36,9 +36,9 @@ namespace LASI.Core
             possessed.Add(possession);
         }
         /// <summary>
-        /// Returns a string represntation of the PossessivePronoun.
+        /// Returns a string representation of the PossessivePronoun.
         /// </summary>
-        /// <returns>A string represntation of the PossessivePronoun.</returns>
+        /// <returns>A string representation of the PossessivePronoun.</returns>
         public override string ToString() {
             return base.ToString() +
                 (VerboseOutput ?
@@ -56,7 +56,7 @@ namespace LASI.Core
         }
         /// <summary>
         /// Gets or sets the IEntity which actually, by proxy, owns the things owned by the PossessivePronoun.
-        /// When this property is set, ownership of all possessions associated with the PossessivePronoun is tranferred to the target IEntity.
+        /// When this property is set, ownership of all possessions associated with the PossessivePronoun is transferred to the target IEntity.
         /// </summary>
         public virtual IPossesser PossessesFor {
             get {

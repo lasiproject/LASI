@@ -84,7 +84,7 @@ namespace LASI.Core
         /// </summary>
         public IPossesser Possesser { get; set; }
         /// <summary>
-        /// Gets the Activitiy value of the EntityKind enumeration, the kind always associated with an PresentParticipleGerund.
+        /// Gets the Activity value of the EntityKind enumeration, the kind always associated with an PresentParticipleGerund.
         /// </summary>
         public EntityKind EntityKind { get; private set; }
 

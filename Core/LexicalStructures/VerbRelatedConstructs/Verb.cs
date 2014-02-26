@@ -38,7 +38,7 @@ namespace LASI.Core
 
 
         /// <summary>
-        /// Binds the Verb to an object via a propisitional construct such as a Prepositon or or PrepositionalPhrase.
+        /// Binds the Verb to an object via a prepositional construct such as a Preposition or or PrepositionalPhrase.
         /// Example: He "ran" to work. where "work" is the object of ran via the prepositional construct "to"
         /// </summary>
         /// <param name="prepositional"></param>
@@ -85,7 +85,7 @@ namespace LASI.Core
         }
 
         /// <summary>
-        /// Determines if the Verb implies a possession relationship. E.g. in the senetence 
+        /// Determines if the Verb implies a possession relationship. E.g. in the sentence 
         /// "They have a lot of ideas." the Verb "have" asserts a possessor possessee relationship between "They" and "a lot of ideas".
         /// </summary>
         /// <returns>True if the Verb is a possessive relationship specifier; otherwise, false.</returns>
@@ -94,7 +94,7 @@ namespace LASI.Core
             return syns.Contains("have", caseIgnoringComp);
         }
         /// <summary>
-        /// Determines if the Verb acts as a classifier. E.g. in the senetence "Rodents are prey animals." the Verb "are" acts as a classification tool because it states that rodents are a subset of prey animals.
+        /// Determines if the Verb acts as a classifier. E.g. in the sentence "Rodents are prey animals." the Verb "are" acts as a classification tool because it states that rodents are a subset of prey animals.
         /// </summary>
         /// <returns>True if the Verb is a classifier; otherwise, false.</returns>
         protected virtual bool DetermineIsClassifier() {
@@ -184,11 +184,11 @@ namespace LASI.Core
         /// </summary>
         public IAggregateEntity AggregateSubject { get { return new AggregateEntity(subjects); } }
         /// <summary>
-        /// Gets an IAggregateEntity implementation composed from all of the Verb's directobjects.
+        /// Gets an IAggregateEntity implementation composed from all of the Verb's direct objects.
         /// </summary>
         public IAggregateEntity AggregateDirectObject { get { return new AggregateEntity(directObjects); } }
         /// <summary>
-        /// Gets an IAggregateEntity implementation composed from all of the Verb's indirectobjects.
+        /// Gets an IAggregateEntity implementation composed from all of the Verb's indirect objects.
         /// </summary>
         public IAggregateEntity AggregateIndirectObject { get { return new AggregateEntity(indirectObjects); } }
         /// <summary>
@@ -226,7 +226,7 @@ namespace LASI.Core
         public IPrepositional PrepositionalToObject { get; protected set; }
 
         /// <summary>
-        /// Gets a value indicating wether or not the Verb has classifying semantics. E.g. "A (is) a B"
+        /// Gets a value indicating whether or not the Verb has classifying semantics. E.g. "A (is) a B"
         /// </summary>
         public bool IsClassifier {
             get {
@@ -235,7 +235,7 @@ namespace LASI.Core
             }
         }
         /// <summary>
-        /// Gets a value indicating wether or not the Verb has possessive semantics. E.g. "A (has) a B"
+        /// Gets a value indicating whether or not the Verb has possessive semantics. E.g. "A (has) a B"
         /// </summary>
         public bool IsPossessive {
             get {

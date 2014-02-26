@@ -43,7 +43,7 @@ namespace LASI.Core
             adv.Modifies = this;
         }
         /// <summary>
-        /// <para> Binds the VerbPhrase to an object via a propisitional construct such as a Prepositon or or PrepositionalPhrase. </para>
+        /// <para> Binds the VerbPhrase to an object via a prepositional construct such as a Preposition or or PrepositionalPhrase. </para>
         /// <para> Example: He "ran" to work. where "work" is the object of ran via the prepositional construct "to" </para>
         /// </summary>
         /// <param name="prepositional">The IPrepositional construct through which the Object is associated.</param>
@@ -115,7 +115,7 @@ namespace LASI.Core
 
 
         /// <summary>
-        /// Determines if the VerbPhrase implies a possession relationship. E.g. in the senetence 
+        /// Determines if the VerbPhrase implies a possession relationship. E.g. in the sentence 
         /// "They certainly have a lot of ideas." the VerbPhrase "certainly have" asserts a possessor possessee relationship between "They" and "a lot of ideas".
         /// </summary>
         /// <returns>True if the VerbPhrase is a possessive relationship specifier; otherwise, false.</returns>
@@ -124,7 +124,7 @@ namespace LASI.Core
             return possessive.Value;
         }
         /// <summary>
-        /// Determines if the VerbPhrase acts as a classifier. E.g. in the senetence "Rodents are definitely prey animals." 
+        /// Determines if the VerbPhrase acts as a classifier. E.g. in the sentence "Rodents are definitely prey animals." 
         /// the VerbPhrase "are definitely" acts as a classification tool because it states that rodents are a subset of prey animals.
         /// </summary>
         /// <returns>True if the VerbPhrase is a classifier; otherwise, false.</returns>
@@ -215,11 +215,11 @@ namespace LASI.Core
         /// </summary>
         public IAggregateEntity AggregateSubject { get { return new AggregateEntity(subjects); } }
         /// <summary>
-        /// Gets an IAggregateEntity implementation composed from all of the VerbPhrase's directobjects.
+        /// Gets an IAggregateEntity implementation composed from all of the VerbPhrase's direct objects.
         /// </summary>
         public IAggregateEntity AggregateDirectObject { get { return new AggregateEntity(directObjects); } }
         /// <summary>
-        /// Gets an IAggregateEntity implementation composed from all of the VerbPhrase's indirectobjects.
+        /// Gets an IAggregateEntity implementation composed from all of the VerbPhrase's indirect objects.
         /// </summary>
         public IAggregateEntity AggregateIndirectObject { get { return new AggregateEntity(indirectObjects); } }
         /// <summary>
@@ -244,7 +244,7 @@ namespace LASI.Core
         /// </summary>
         public ModalAuxilary Modality { get; set; }
         /// <summary>
-        /// Gets a value indicating wether or not the VerbPhrase has possessive semantics. E.g. "A (has) a B"
+        /// Gets a value indicating whether or not the VerbPhrase has possessive semantics. E.g. "A (has) a B"
         /// </summary>
         public bool IsPossessive {
             get {
@@ -253,7 +253,7 @@ namespace LASI.Core
         }
 
         /// <summary>
-        /// Gets a value indicating wether or not the VerbPhrase has classifying semantics. E.g. "A (is) a B"
+        /// Gets a value indicating whether or not the VerbPhrase has classifying semantics. E.g. "A (is) a B"
         /// </summary>
         public bool IsClassifier {
             get {
