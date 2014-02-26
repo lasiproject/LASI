@@ -18,8 +18,7 @@
             <div>
 
                 <ul id="documentlist" class="list-group documentselectiontab col-md-3">
-                    @foreach (var doc in ViewData["docs"] as IEnumerable<LASI.Core.DocumentStructures.Document>)
-                    {
+                    @foreach (var doc in ViewData["docs"] as IEnumerable<LASI.Core.DocumentStructures.Document>) {
                         <li class="list-group-item">
                             <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target=@('#'+doc.Name)>
                                 @doc.Name
@@ -28,12 +27,13 @@
                     }
                 </ul>
             </div>
-            
+
             <br />
             <div>
-                @Phrase.VerboseOutput=true;
-                @foreach (var doc in ViewData["docs"] as IEnumerable<LASI.Core.DocumentStructures.Document>)
-                {
+                @{
+                    Phrase.VerboseOutput = true;
+                }
+                @foreach (var doc in ViewData["docs"] as IEnumerable<LASI.Core.DocumentStructures.Document>) {
                     var pages = doc.Paginate(80, 30);
                     <div id=@doc.Name class="modal fade document-modal-lg" tabindex="-1" role="dialog" aria-labelledby="#myModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-lg">
@@ -47,41 +47,38 @@
                     var styleMap = new SyntacticStyleMap();
                     var withIds = doc.Phrases.Select(p => new { Phrase = p, Id = p.GetSerializationId() });
 
-                    foreach (var paragraphData in from ided in withIds group ided by ided.Phrase.Paragraph)
-                    {
-                            <p class="lexical-content-block">
-                                @foreach (var e in paragraphData)
-                                {
-                                    <span class="@styleMap[e.Phrase].CssClass"
-                                          title='@(e.Phrase.ToString()
+                    foreach (var paragraphData in from ided in withIds group ided by ided.Phrase.Paragraph) {
+                        <p class="lexical-content-block">
+                            @foreach (var e in paragraphData) {
+                                <span class="@styleMap[e.Phrase].CssClass"
+                                      title='@(e.Phrase.ToString()
                                                               .SplitRemoveEmpty('\n', '\r')
                                                               .Format(Tuple.Create(' ', ' ', ' '), s => s + "\n"))' id="@e.Id">
-                                        @e.Phrase.Text
-                                        <span id="@("context" + e.Id)" hidden="hidden">
-                                            @if (e.Phrase is IVerbal)
-                                            {
-                                                @((e.Phrase as IVerbal).GetJsonMenuData())
+                                    @e.Phrase.Text
+                                    <span id="@("context" + e.Id)" hidden="hidden">
+                                        @if (e.Phrase is IVerbal) {
+                                            @((e.Phrase as IVerbal).GetJsonMenuData())
 
-                                            }
+                                        }
 
-                                        </span>
-                                    </span>}
-                            </p>}
+                                    </span>
+                                </span>}
+                        </p>}
                                     }
-                                    <div id="contextMenu" class="dropdown clearfix" hidden>
-                                        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu" style="display:block;position:static;margin-bottom:5px;">
-                                            <li class="view-subects-menu-item"><a href="#">View Subjects</a></li>
-                                            <li class="view-directobjects-menu-item"><a href="#">View Direct Objects</a></li>
-                                            <li class="view-indirectobjects-menu-item"><a href="#">View Indirect Objects</a></li>
-                                        </ul>
-                                    </div>
+
                                 </div>
 
                             </div>
                         </div>
                     </div>
                 }
-                
+                <div id="verbalContextMenu" class="dropdown clearfix" hidden>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu" style="display:block;position:static;margin-bottom:5px;">
+                        <li class="view-subects-menu-item"><a href="#">View Subjects</a></li>
+                        <li class="view-directobjects-menu-item"><a href="#">View Direct Objects</a></li>
+                        <li class="view-indirectobjects-menu-item"><a href="#">View Indirect Objects</a></li>
+                    </ul>
+                </div>
             </div>
 
         </div>
@@ -99,8 +96,7 @@
                     </div>
 
                     <div>
-                        @using (Html.BeginForm("Upload", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
-                        {
+                        @using (Html.BeginForm("Upload", "Home", FormMethod.Post, new { enctype = "multipart/form-data" })) {
                             @FileUpload.GetHtml(name: "upload1", initialNumberOfFiles: 1, includeFormTag: false, addText: "add a file", uploadText: "upload")
                             <input type="submit" name="submit" value="upload" />
                         }
@@ -115,7 +111,7 @@
 
     <!--I can confirm that these Unix Style filepaths work, and are less confusing to deal with. For consistency, I vote we use them to specify these kind of paths.-->
     <!--aggreed-->
-    @Scripts.Render("~/Scripts/App/Home/Example.js")
+    @Scripts.Render("~/Scripts/App/Home/Results.js")
     @Scripts.Render("~/Scripts/App/Home/Index.js")
 }
 

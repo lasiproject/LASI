@@ -18,13 +18,14 @@
     break-after: always;
 }
 
+.lexical-content-block span {
+    position: relative;
+}
+
 .NounPhrase {
     color: darkblue;
 }
 
-.lexical-content-block span {
-    position: relative;
-}
 
 .Proper {
     color: darkred;
@@ -90,7 +91,7 @@
     }
 
 /*#endregion */
-.selected {
+.lexical-content-block span.selected {
     background-color: aqua;
 }
 
@@ -105,71 +106,3 @@
 
 .view-empty-menu-item {
 }
-
-
-
-/*.phrasemenu {
-    align-items: center;
-    position: static;
-    display: inline-block;
-    float: none;
-    margin: 0.3em;
-    padding: 0.3em;
-    border-radius: 0.25em;
-    background-color: grey;
-    list-style: none;
-    text-align: center;
-}
-
-.phrasemenuitem {
-    -moz-user-select: none;
-    align-self: center;
-    align-items: center;
-    -ms-user-select: none;
-    -webkit-user-select: none;
-    align-content: center;
-    user-select: none;
-    padding: 0.2em;
-    border-radius: 0.2em;
-    color: seashell;
-    list-style: none;
-    list-style-type: none;
-    text-align: center;
-    cursor: pointer;
-}*/
-
-/*.menuwrapper {
-    position: absolute;
-    border: 0.1em solid black;
-    border-radius: 0.5em;
-    background-color: #ffffff;
-    text-align: center;
-}
-
-
-.content-wrapper {
-    position: relative;
-    margin: 0 auto;
-    padding-right: 5px;
-    padding-left: 5px;
-    max-width: 960px;
-    border: .1em solid black;
-}
-
-.results-pane {
-    padding-left: 3em;
-    padding-right: 3em;
-}
-
-.tab-content {
-    border-left: 1px black;
-    border-right: 1px black;
-    border-bottom: 1px black;
-    border-radius: 5px;
-}
-
-.lexical-context-menu {
-    display: block;
-    position: static;
-    margin-bottom: 5px;
-}*/

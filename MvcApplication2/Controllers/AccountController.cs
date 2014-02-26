@@ -16,8 +16,6 @@ namespace LASI.WebService.Controllers
         public ActionResult Login() {
             return View();
         }
-        [AllowAnonymous]
-        [HttpPost]
 
 
         public ActionResult CreateAccount() {

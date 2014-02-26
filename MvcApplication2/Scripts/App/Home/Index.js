@@ -62,12 +62,13 @@ $("input:submit").click(function (e) {
     });
 });
 var jobIds = (function () {
+    var serverJobs = [];
+
     $(document).ready(function () {
         'use strict';
-        $.ajaxSetup({ cache: false })
+        $.ajaxSetup({ cache: false });
         (function () {
             'use strict';
-            var serverJobs = [];
             var jobId = setInterval(function (event) {
                 $.getJSON('\\Home\\GetJobStatus?jobId=' + jobId).success(function (data) {
 
