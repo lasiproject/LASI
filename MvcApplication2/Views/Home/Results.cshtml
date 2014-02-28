@@ -4,6 +4,8 @@
 @using Newtonsoft.Json;
 
 @Styles.Render("~/Content/App/Home/Results.css")
+<!--Load the AJAX API-->
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
 
 <title>@ViewBag.Title</title>
 
@@ -83,11 +85,36 @@
 
         </div>
         <div class="tab-pane fade" id="topresults">
-            top results
+            <ul id="documentlist" class="list-group documentselectiontab col-md-3">
+                @foreach (var doc in ViewData["docs"] as IEnumerable<LASI.Core.DocumentStructures.Document>)
+                {
+                    <li class="list-group-item">
+                        <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target=@('#'+doc.Name+"_topresults")>
+                            @doc.Name
+                        </button>
+                    </li>
+                }
+            </ul>
+            @foreach (var doc in ViewData["docs"] as IEnumerable<LASI.Core.DocumentStructures.Document>)
+            {
+                <div id=@(doc.Name+"_topresults") class="modal fade top-results-modal" tabindex="-1" role="dialog" aria-labelledby="#topResultsModal" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <h4 class="modal-title" id="document-title">@doc.Name</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="container" id="top-results-graph"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
         </div>
         <div class="tab-pane fade" id="adddocuments">
-            <h1>Add documents</h1>
             <div class="container add-document-container">
+                <h1>Add documents</h1>
                 <div id="main-content">
                     <div class="progress">
                         <div id="progress1" class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 0%; max-width:100%;">
