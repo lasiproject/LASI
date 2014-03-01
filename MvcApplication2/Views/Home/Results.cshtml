@@ -105,48 +105,7 @@
                                 <h4 class="modal-title" id="document-title">@doc.Name</h4>
                             </div>
                             <div class="modal-body">
-                                <div class="container" id=@(doc.Name+"_topresults")>
-                                    <script>
-
-                                        // Load the Visualization API and the piechart package.
-                                        google.load('visualization', '1.0', { 'packages': ['corechart'] });
-
-                                        // Set a callback to run when the Google Visualization API is loaded.
-                                        google.setOnLoadCallback(drawChart);
-
-                                        //on('shown', function () {
-                                        //    google.maps.event.trigger(map, "resize");
-                                        //});
-                                        // Callback that creates and populates a data table,
-                                        // instantiates the pie chart, passes in the data and
-                                        // draws it.
-                                        function drawChart() {
-
-                                            // Create the data table.
-                                            var data = new google.visualization.DataTable();
-                                            data.addColumn('string', 'Topping');
-                                            data.addColumn('number', 'Slices');
-                                            data.addRows([
-                                              ['Mushrooms', 3],
-                                              ['Onions', 1],
-                                              ['Olives', 1],
-                                              ['Zucchini', 1],
-                                              ['Pepperoni', 2]
-                                            ]);
-
-                                            // Set chart options
-                                            var options = {
-                                                'title': 'Top Results',
-                                                'width': 500,
-                                                'height': 500
-                                            };
-
-                                            // Instantiate and draw our chart, passing in some options.
-                                            var chart = new google.visualization.BarChart(document.getElementById(@(doc.Name.ToString()+"_topresults")));
-                                            chart.draw(data, options);
-                                        }
-                                    </script>
-                                </div>
+                                <div class="container chart-container" id=@(doc.Name+"_resultschart")></div>
                             </div>
                         </div>
                     </div>
