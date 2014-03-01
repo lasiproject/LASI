@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -6,12 +7,17 @@ using System.Web.Mvc;
 using LASI.WebService.Models;
 using LASI.WebService.Models.User;
 using Newtonsoft.Json;
+using MongoDB.Bson;
+using MongoDB.Driver;
 
 namespace LASI.WebService.Controllers
 {
     public class AccountController : Controller
     {
-
+        //public MongoDBEntities() : base("name=connectionString") { }
+        static MongoServer server = MongoServer.Create
+            (ConfigurationManager.ConnectionStrings["connectionString"].ConnectionString.ToString());
+        MongoDatabase MyDB = server.GetDatabase("test");
 
         public ActionResult Login() {
             return View();
