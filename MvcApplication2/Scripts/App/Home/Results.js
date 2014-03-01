@@ -1,9 +1,9 @@
 ﻿(function () {
     "use strict";
     $('#myTab a').click(function (e) {
-        e.preventDefault()
-        $(this).tab('show')
-    })
+        e.preventDefault();
+        $(this).tab('show');
+    });
     var configureRelationshipMenu = function ($controls, relatedElementIds, elementAction) {
         $controls.each(function (index, element) {
             if (relatedElementIds) {
@@ -49,8 +49,6 @@
         $(document).click(function (e) {
             // The conflic between the menus and the navbar seems to have been caused by this line.
             //e.preventDefault();
-
-
             // Remove the previously bound event handlers from the items in the context menu so they will
             // start with an empty invocation list when reused by the next context menu event.
             contextMenu.find("li").off();
@@ -58,43 +56,4 @@
 
         });
     });
-
-    //Something about the context menu is off. Links in the Navbar don't work with it enabled. Not sure where the bug is.
-    //We can work together on friday to fix it if you haven't figured it out by then. 
-
 }());
-
-// Load the Visualization API and the piechart package.
-google.load('visualization', '1.0', { 'packages': ['corechart'] });
-
-// Set a callback to run when the Google Visualization API is loaded.
-google.setOnLoadCallback(drawChart);
-
-// Callback that creates and populates a data table,
-// instantiates the pie chart, passes in the data and
-// draws it.
-function drawChart() {
-
-    // Create the data table.
-    var data = new google.visualization.DataTable();
-    data.addColumn('string', 'Topping');
-    data.addColumn('number', 'Slices');
-    data.addRows([
-      ['Mushrooms', 3],
-      ['Onions', 1],
-      ['Olives', 1],
-      ['Zucchini', 1],
-      ['Pepperoni', 2]
-    ]);
-
-    // Set chart options
-    var options = {
-        'title': 'Top Results',
-        'width': 500,
-        'height': 1500
-    };
-
-    // Instantiate and draw our chart, passing in some options.
-    var chart = new google.visualization.BarChart(document.getElementById("top-results-graph"));
-    chart.draw(data, options);
-}

@@ -12,7 +12,9 @@
 
 @model LASI.WebService.Models.User.UserModel
 
-
+@{
+    Response.OutputCache(60);
+}
 
 <div class="container">
     <form class="form-signin">
