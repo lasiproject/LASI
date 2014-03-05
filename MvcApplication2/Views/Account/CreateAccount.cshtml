@@ -1,7 +1,7 @@
 ﻿@using LASI.Core;
 @using LASI;
-@using LASI.WebService.Controllers;
-@using LASI.WebService;
+@using LASI.WebApp.Controllers;
+@using LASI.WebApp;
 @using Newtonsoft.Json;
 
 @{
@@ -13,7 +13,7 @@
 }
 <div class="col-md-12 container-fluid">
     @using (Html.BeginForm("CreateNew", "Account", FormMethod.Post, new { @class = "form-horizontal" })) {
-        @model LASI.WebService.Models.User.UserModel
+        @model LASI.WebApp.Models.User.UserModel
         <fieldset class=" col-md-4 create-account-form">
             <h2 class="form-horizontal-heading">Create account</h2>
             <!-- Text input-->

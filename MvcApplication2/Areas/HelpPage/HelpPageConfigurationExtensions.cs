@@ -10,10 +10,10 @@ using System.Net.Http.Headers;
 using System.Web.Http;
 using System.Web.Http.Controllers;
 using System.Web.Http.Description;
-using LASI.WebService.Areas.HelpPage.ModelDescriptions;
-using LASI.WebService.Areas.HelpPage.Models;
+using LASI.WebApp.Areas.HelpPage.ModelDescriptions;
+using LASI.WebApp.Areas.HelpPage.Models;
 
-namespace LASI.WebService.Areas.HelpPage
+namespace LASI.WebApp.Areas.HelpPage
 {
     public static class HelpPageConfigurationExtensions
     {

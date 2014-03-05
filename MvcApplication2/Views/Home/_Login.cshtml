@@ -1,4 +1,4 @@
-﻿@model LASI.WebService.Models.LoginModel
+﻿@model LASI.WebApp.Models.LoginModel
 
 @using (Html.BeginForm("JsonLogin", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { id = "loginForm" })) {
     @Html.AntiForgeryToken()

@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 
-namespace LASI.WebService.Areas.HelpPage.ModelDescriptions
+namespace LASI.WebApp.Areas.HelpPage.ModelDescriptions
 {
     internal static class ModelNameHelper
     {

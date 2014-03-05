@@ -2,9 +2,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Net.Http.Headers;
 using System.Web.Http.Description;
-using LASI.WebService.Areas.HelpPage.ModelDescriptions;
+using LASI.WebApp.Areas.HelpPage.ModelDescriptions;
 
-namespace LASI.WebService.Areas.HelpPage.Models
+namespace LASI.WebApp.Areas.HelpPage.Models
 {
     /// <summary>
     /// The model that represents an API displayed on the help page.

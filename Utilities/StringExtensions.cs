@@ -94,5 +94,13 @@ namespace LASI
         public static bool EqualsIgnoreCase(this string value, string other) {
             return value.Equals(other, StringComparison.OrdinalIgnoreCase);
         }
+        /// <summary>
+        /// Returns a new string in which all characters which are invalid in CSS selector strings have been replaced by the unserscore character.
+        /// </summary>
+        /// <param name="value">The string to transform.</param>
+        /// <returns>A new string in which all characters which are invalid in CSS selector strings have been replaced by the unserscore character.</returns>
+        public static string ToCssSelectorSafeName(this string value) {
+            return System.Text.RegularExpressions.Regex.Replace(value, @"[+]{1,}", "_");
+        }
     }
 }

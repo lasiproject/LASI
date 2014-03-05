@@ -1,6 +1,6 @@
 ﻿@using LASI;
 @using LASI.Core;
-@using LASI.WebService;
+@using LASI.WebApp;
 @using Newtonsoft.Json;
 
 @Styles.Render("~/Content/App/Home/Results.css")
@@ -86,8 +86,7 @@
         </div>
         <div class="tab-pane fade" id="topresults">
             <ul id="documentlist" class="list-group documentselectiontab col-md-3">
-                @foreach (var doc in ViewData["docs"] as IEnumerable<LASI.Core.DocumentStructures.Document>)
-                {
+                @foreach (var doc in ViewData["docs"] as IEnumerable<LASI.Core.DocumentStructures.Document>) {
                     <li class="list-group-item">
                         <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target=@('#'+doc.Name+"_topresults")>
                             @doc.Name
@@ -95,8 +94,7 @@
                     </li>
                 }
             </ul>
-            @foreach (var doc in ViewData["docs"] as IEnumerable<LASI.Core.DocumentStructures.Document>)
-            {
+            @foreach (var doc in ViewData["docs"] as IEnumerable<LASI.Core.DocumentStructures.Document>) {
                 <div id=@(doc.Name+"_topresults") class="modal fade top-results-modal" tabindex="-1" role="dialog" aria-labelledby="#topResultsModal" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">

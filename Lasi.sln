@@ -55,9 +55,9 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FSharpExperimentation", "Ex
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Experimentation", "ExperimentalClientProjects\Experimentation\Experimentation.csproj", "{C5304A4C-A870-4ACF-B3EE-30A789159774}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "L_WebService", "MvcApplication2\L_WebService.csproj", "{D9E607C7-E135-487C-B1B5-A6D087275B09}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "L_WebApp", "MvcApplication2\L_WebApp.csproj", "{D9E607C7-E135-487C-B1B5-A6D087275B09}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "L_WebService.UnitTests", "MvcApplication2Tests\L_WebService.UnitTests.csproj", "{8A2A9BA6-8207-48ED-AB6E-F75CCC9DC63A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "L_WebApp.UnitTests", "MvcApplication2Tests\L_WebApp.UnitTests.csproj", "{8A2A9BA6-8207-48ED-AB6E-F75CCC9DC63A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

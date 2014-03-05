@@ -5,9 +5,9 @@ using System.Reflection;
 using System.Web.Http.Controllers;
 using System.Web.Http.Description;
 using System.Xml.XPath;
-using LASI.WebService.Areas.HelpPage.ModelDescriptions;
+using LASI.WebApp.Areas.HelpPage.ModelDescriptions;
 
-namespace LASI.WebService.Areas.HelpPage
+namespace LASI.WebApp.Areas.HelpPage
 {
     /// <summary>
     /// A custom <see cref="IDocumentationProvider"/> that reads the API documentation from an XML documentation file.

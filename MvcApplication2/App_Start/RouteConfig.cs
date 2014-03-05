@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 
-namespace LASI.WebService
+namespace LASI.WebApp
 {
     public class RouteConfig
     {

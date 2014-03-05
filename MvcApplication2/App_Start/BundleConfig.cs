@@ -2,7 +2,7 @@
 using System.Web.Optimization;
 using LASI.ContentSystem;
 
-namespace LASI.WebService
+namespace LASI.WebApp
 {
     public class BundleConfig
     {

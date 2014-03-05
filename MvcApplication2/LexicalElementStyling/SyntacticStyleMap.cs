@@ -12,7 +12,7 @@ using System.Web.UI.WebControls;
 using System.Drawing;
 using LASI.Core.Patternization;
 
-namespace LASI.WebService
+namespace LASI.WebApp
 {
     public class SyntacticStyleMap : LASI.Interop.ISyntacticColorizer<ILexical, Style>
     {
@@ -25,24 +25,24 @@ namespace LASI.WebService
             get {
                 return syntacticElement.Match().Yield<Style>()
                   .With<Phrase>(px => px.Match().Yield<Style>()
-                          .With<PronounPhrase>(new Style { CssClass = "Referencer" })
+                          .With<PronounPhrase>(new Style { CssClass = "referencer" })
                           .When<NounPhrase>(n => n.Words.OfProperNoun().Any())
-                          .Then(new Style { CssClass = "NounPhrase Proper" })
-                          .With<NounPhrase>(new Style { CssClass = "NounPhrase", })
-                          .With<InfinitivePhrase>(new Style { CssClass = "Infinitive", })
-                          .With<IReferencer>(new Style { CssClass = "Referencer", })
-                          .With<IEntity>(new Style { CssClass = "Entity", })
-                          .With<IVerbal>(new Style { CssClass = "Verbal", })
-                          .With<IPrepositional>(new Style { CssClass = "Prepositional", })
-                          .With<IDescriptor>(new Style { CssClass = "Descriptor", })
-                          .With<IAdverbial>(new Style { CssClass = "Adverbial", })
-                          .With<IConjunctive>(new Style { CssClass = "Conjunctive", })
-.Result(new Style { CssClass = "LexicalDefaultStyle", }))
+                          .Then(new Style { CssClass = "nounphrase proper" })
+                          .With<NounPhrase>(new Style { CssClass = "nounphrase", })
+                          .With<InfinitivePhrase>(new Style { CssClass = "infinitive", })
+                          .With<IReferencer>(new Style { CssClass = "referencer", })
+                          .With<IEntity>(new Style { CssClass = "entity", })
+                          .With<IVerbal>(new Style { CssClass = "verbal", })
+                          .With<IPrepositional>(new Style { CssClass = "prepositional", })
+                          .With<IDescriptor>(new Style { CssClass = "descriptor", })
+                          .With<IAdverbial>(new Style { CssClass = "adverbial", })
+                          .With<IConjunctive>(new Style { CssClass = "conjunctive", })
+.Result(new Style { CssClass = "lexical-default-style", }))
                   .With<Word>(w => w.Match().Yield<Style>()
-                          .With<Adjective>(new Style { CssClass = "Adjective", })
-                          .With<PresentParticipleGerund>(new Style { CssClass = "PresentParticipleGerund", })
-                          .With<Verb>(new Style { CssClass = "Verbal", }).With<IConjunctive>(new Style { CssClass = "Conjunctive", })
-                      .Result(new Style { CssClass = "LexicalDefaultStyle", }))
+                          .With<Adjective>(new Style { CssClass = "adjective", })
+                          .With<PresentParticipleGerund>(new Style { CssClass = "presentparticiplegerund", })
+                          .With<Verb>(new Style { CssClass = "verbal", }).With<IConjunctive>(new Style { CssClass = "conjunctive", })
+                      .Result(new Style { CssClass = "lexical-default-style", }))
                   .Result();
             }
         }

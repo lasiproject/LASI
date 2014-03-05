@@ -1,8 +1,8 @@
 using System.Web.Optimization;
 
-[assembly: WebActivatorEx.PostApplicationStartMethod(typeof(LASI.WebService.App_Start.BootstrapBundleConfig), "RegisterBundles")]
+[assembly: WebActivatorEx.PostApplicationStartMethod(typeof(LASI.WebApp.App_Start.BootstrapBundleConfig), "RegisterBundles")]
 
-namespace LASI.WebService.App_Start
+namespace LASI.WebApp.App_Start
 {
 	public class BootstrapBundleConfig
 	{

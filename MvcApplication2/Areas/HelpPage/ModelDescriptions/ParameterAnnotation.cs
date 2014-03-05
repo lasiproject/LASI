@@ -1,6 +1,6 @@
 using System;
 
-namespace LASI.WebService.Areas.HelpPage.ModelDescriptions
+namespace LASI.WebApp.Areas.HelpPage.ModelDescriptions
 {
     public class ParameterAnnotation
     {

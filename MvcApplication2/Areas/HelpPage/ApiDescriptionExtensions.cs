@@ -3,7 +3,7 @@ using System.Text;
 using System.Web;
 using System.Web.Http.Description;
 
-namespace LASI.WebService.Areas.HelpPage
+namespace LASI.WebApp.Areas.HelpPage
 {
     public static class ApiDescriptionExtensions
     {

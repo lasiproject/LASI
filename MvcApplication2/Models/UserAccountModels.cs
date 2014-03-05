@@ -8,7 +8,7 @@ using System.Web.Security;
 using Newtonsoft.Json;
 using MongoDB.Bson;
 
-namespace LASI.WebService.Models.User
+namespace LASI.WebApp.Models.User
 {
     public class UserModel
     {

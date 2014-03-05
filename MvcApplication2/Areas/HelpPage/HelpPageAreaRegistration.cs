@@ -1,7 +1,7 @@
 using System.Web.Http;
 using System.Web.Mvc;
 
-namespace LASI.WebService.Areas.HelpPage
+namespace LASI.WebApp.Areas.HelpPage
 {
     public class HelpPageAreaRegistration : AreaRegistration
     {

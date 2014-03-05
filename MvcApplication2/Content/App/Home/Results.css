@@ -22,52 +22,52 @@
     position: relative;
 }
 
-.NounPhrase {
+.nounphrase {
     color: darkblue;
 }
 
 
-.Proper {
+.proper {
     color: darkred;
 }
 
-.Referencer {
+.referencer {
     color: hotpink;
 }
 
-.Infinitive {
+.infinitive {
     color: teal;
 }
 
-.Entity {
+.entity {
     color: deepskyblue;
 }
 
-.Conjunctive {
+.conjunctive {
     color: chartreuse;
 }
 
-.Prperositional {
+.prperositional {
     color: darkorange;
 }
 
-.Descriptror {
+.descriptror {
     color: indigo;
 }
 
-.Verbal {
+.verbal {
     color: green;
 }
 
-.Adverbial {
+.adverbial {
     color: orange;
 }
 
-.LexicalDefaultStyle {
+.lexical-default-style {
     color: black;
 }
 
-.Gerund {
+.present-participle-gerund {
     color: forestgreen;
 }
 /*#region info and errors */

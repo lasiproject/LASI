@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using System.Globalization;
 
-namespace LASI.WebService.Models.Home
+namespace LASI.WebApp.Models.Home
 {
     public class FileUploadModel
     {

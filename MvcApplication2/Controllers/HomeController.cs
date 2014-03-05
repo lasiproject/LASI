@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 using LASI.Core;
 using Newtonsoft.Json;
 
-namespace LASI.WebService.Controllers
+namespace LASI.WebApp.Controllers
 {
     public class HomeController : Controller
     {
@@ -25,7 +25,7 @@ namespace LASI.WebService.Controllers
             returnUrl = string.Empty;
             ViewBag.ReturnUrl = returnUrl;
 
-            return View(new LASI.WebService.Models.User.UserModel());
+            return View(new LASI.WebApp.Models.User.UserModel());
         }
         [HttpPost]
         public async Task<ActionResult> Upload(params object[] args) {

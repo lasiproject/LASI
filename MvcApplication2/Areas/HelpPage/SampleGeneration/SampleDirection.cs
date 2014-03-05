@@ -1,4 +1,4 @@
-namespace LASI.WebService.Areas.HelpPage
+namespace LASI.WebApp.Areas.HelpPage
 {
     /// <summary>
     /// Indicates whether the sample is used for request or response

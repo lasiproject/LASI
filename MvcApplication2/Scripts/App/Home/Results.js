@@ -22,7 +22,7 @@ google.load('visualization', '1.0', { 'packages': ['corechart'] });
         });
     };
     $(function () {
-        var verbals = $(".lexical-content-block span.Verbal");
+        var verbals = $(".lexical-content-block span.verbal");
         var contextMenu = $("div#verbalContextMenu");
         var relatedElementAction = function (element, index) {
             $(element).addClass('selected');
@@ -34,7 +34,7 @@ google.load('visualization', '1.0', { 'packages': ['corechart'] });
             $(".lexical-content-block span").removeClass('selected');
             relationshipInfo = $.parseJSON($.trim($(event.target).children("span").text()));
             contextMenu.css({
-                // get the z-index of the parent modal containing the element and offset it.
+                // get the z-index of the parent modal containing the element and offset it by 50.
                 zIndex: Number($(event.target).parents(".modal").css("z-index")) + 50,
                 position: "absolute",
                 display: "block",
@@ -50,18 +50,17 @@ google.load('visualization', '1.0', { 'packages': ['corechart'] });
         });
         $(document).click(function (e) {
             // The conflic between the menus and the navbar seems to have been caused by this line.
-            //e.preventDefault();
             // Remove the previously bound event handlers from the items in the context menu so they will
             // start with an empty invocation list when reused by the next context menu event.
             contextMenu.find("li").off();
             contextMenu.hide();
 
         });
-        var drawChart = function (id) {
+        var drawChart = function (targetElement) {
             return function () {
                 // Create the data table.
                 var data = new google.visualization.DataTable();
-                data.addColumn('string', 'Topping');
+                data.addColumn('string', 'Entity');
                 data.addColumn('number', 'Slices');
                 data.addRows([
                   ['Mushrooms', 3],
@@ -79,13 +78,13 @@ google.load('visualization', '1.0', { 'packages': ['corechart'] });
                 };
 
                 // Instantiate and draw our chart, passing in some options.
-                var chart = new google.visualization.BarChart(document.getElementById(id));
+                var chart = new google.visualization.BarChart(targetElement);
                 chart.draw(data, options);
             };
         };
         var charts = $(".chart-container");
         charts.each(function (index, element) {
-            google.setOnLoadCallback(drawChart(element.id))
+            google.setOnLoadCallback(drawChart(element))
         });
     });
     // Set a callback to run when the Google Visualization API is loaded.

@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using LASI.WebService.Controllers;
+using LASI.WebApp.Controllers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using LASI.WebService;
+using LASI.WebApp;
 using System.Reflection;
 
 
-namespace LASI.WebService.Controllers.Tests
+namespace LASI.WebApp.Controllers.Tests
 {
     [TestClass()]
     public class JobStatusTests

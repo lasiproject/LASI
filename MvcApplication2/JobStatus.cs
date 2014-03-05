@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace LASI.WebService
+namespace LASI.WebApp
 {
     /// <summary>
     /// Represents a unit of processing delegated to an asynchronous agent.
@@ -14,7 +14,11 @@ namespace LASI.WebService
     {
 
 
-        public JobStatus(int jobId, string currentOperation, double percentComplete) { JobId = jobId; CurrentOperation = currentOperation; PercentComplete = percentComplete; }
+        public JobStatus(int jobId, string currentOperation, double percentComplete) {
+            JobId = jobId;
+            CurrentOperation = currentOperation;
+            PercentComplete = percentComplete;
+        }
         public int JobId { get; private set; }
         /// <summary>
         /// Gets a textual description of the ongoing work. 

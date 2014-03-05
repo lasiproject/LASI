@@ -1,7 +1,7 @@
 ﻿@using LASI.Core;
 @using LASI;
-@using LASI.WebService.Controllers;
-@using LASI.WebService;
+@using LASI.WebApp.Controllers;
+@using LASI.WebApp;
 @using Newtonsoft.Json;
 
 @Styles.Render("~/Content/App/Account/Login.css")
@@ -10,7 +10,7 @@
     ViewBag.Title = "Login";
 }
 
-@model LASI.WebService.Models.User.UserModel
+@model LASI.WebApp.Models.User.UserModel
 
 @{
     Response.OutputCache(60);

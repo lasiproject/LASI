@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web.Http;
 using Newtonsoft.Json.Serialization;
 
-namespace LASI.WebService
+namespace LASI.WebApp
 {
     public static class WebApiConfig
     {
