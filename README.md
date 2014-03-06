@@ -24,7 +24,7 @@ Developer - System - Requirements
 - 8GB DDR3 1333+ with low latency and tight timings.
 - Solid State Disk with 200+ MB/s read
 
-The Preferred IDEs are Visual Studio 2012 and Visual Studio 2013 RC.
+The Preferred IDEs are Visual Studio 2012 and Visual Studio 2013.
 You may use any versions of these IDEs : from Express (free) to Ultimate
 
 
