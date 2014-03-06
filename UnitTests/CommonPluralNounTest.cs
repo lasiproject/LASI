@@ -1,14 +1,15 @@
-﻿using LASI.Core;
+﻿using LASI;
+using LASI.Core;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 
-namespace L_CoreTests
+namespace LASI.UnitTests
 {
-    
-    
+
+
     /// <summary>
-    ///This is a test class for CommonPluralNounTest and is intended
-    ///to contain all CommonPluralNounTest Unit Tests
+    ///This is A test class for GenericPluralNounTest and is intended
+    ///to contain all GenericPluralNounTest Unit Tests
     ///</summary>
     [TestClass()]
     public class CommonPluralNounTest
@@ -40,7 +41,7 @@ namespace L_CoreTests
         //{
         //}
         //
-        //Use ClassCleanup to run code after all tests in a class have run
+        //Use ClassCleanup to run code after all tests in A class have run
         //[ClassCleanup()]
         //public static void MyClassCleanup()
         //{
@@ -62,28 +63,27 @@ namespace L_CoreTests
 
 
         /// <summary>
-        ///A test for QuantifiedBy
-        ///</summary>
-        [TestMethod()]
-        public void QuantifiedByTest() {
-            string text = string.Empty; // TODO: Initialize to an appropriate value
-            CommonPluralNoun target = new CommonPluralNoun(text); // TODO: Initialize to an appropriate value
-            IQuantifier expected = null; // TODO: Initialize to an appropriate value
-            IQuantifier actual;
-            target.QuantifiedBy = expected;
-            actual = target.QuantifiedBy;
-            Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
-        }
-
-        /// <summary>
         ///A test for CommonPluralNoun Constructor
         ///</summary>
         [TestMethod()]
         public void CommonPluralNounConstructorTest() {
-            string text = string.Empty; // TODO: Initialize to an appropriate value
+            string text = "clowns";
             CommonPluralNoun target = new CommonPluralNoun(text);
-            Assert.Inconclusive("TODO: Implement code to verify target");
+            Assert.IsTrue(target.Text == text);
+        }
+
+        /// <summary>
+        ///A test for QuantifiedBy
+        ///</summary>
+        [TestMethod()]
+        public void QuantifiedByTest() {
+            string text = "clowns";
+            CommonPluralNoun target = new CommonPluralNoun(text);
+            IQuantifier expected = new Quantifier("all");
+            IQuantifier actual;
+            target.QuantifiedBy = expected;
+            actual = target.QuantifiedBy;
+            Assert.AreEqual(expected, actual);
         }
     }
 }

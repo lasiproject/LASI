@@ -33,10 +33,10 @@ namespace LASI.Core.DocumentStructures
         /// <summary>
         /// Gets the sequence of Phrases which come after the given phrase through to the end of the Paragraph.
         /// </summary>
-        /// <param name="start">The Phrase which bounds the sequence.</param>
+        /// <param name="startAfter">The Phrase which bounds the sequence.</param>
         /// <returns>The sequence of Phrases which come after the given phrase through to the end of the Paragraph.</returns>
-        public IEnumerable<Phrase> GetPhrasesAfter(Phrase start) {
-            return Phrases.SkipWhile(r => r != start).Skip(1);
+        public IEnumerable<Phrase> GetPhrasesAfter(Phrase startAfter) {
+            return Phrases.SkipWhile(r => r != startAfter).Skip(1);
         }
 
         /// <summary>

@@ -1,8 +1,10 @@
 ﻿using LASI;
 using LASI.Core;
 using LASI.Core.DocumentStructures;
+using LASI.UnitTests.TestHelpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 
 namespace LASI.UnitTests
@@ -166,12 +168,41 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod()]
         public void WordsTest() {
-            IEnumerable<Sentence> sentences = null; // TODO: Initialize to an appropriate value
-            ParagraphKind paragraphKind = new ParagraphKind(); // TODO: Initialize to an appropriate value
-            Paragraph target = new Paragraph(sentences, paragraphKind); // TODO: Initialize to an appropriate value
+            IEnumerable<Sentence> sentences = new Sentence[] { 
+                    new Sentence(new Clause[] {
+                        new Clause(new Phrase[] { 
+                            new NounPhrase(new Word[] {    
+                                new PersonalPronoun("We") 
+                            }),
+                            new VerbPhrase(new Word[] { 
+                                new ModalAuxilary("must"),
+                                new Verb("attack", VerbForm.Base) 
+                            }),
+                            new NounPhrase(new Word[] { 
+                                new Adjective("blue"), 
+                                new CommonSingularNoun("team") }
+                                )}
+                            )}, new SentenceEnding('!')),
+                        new Sentence(new Clause[]{new Clause( new Phrase[]{
+                            new NounPhrase(new Word[]{
+                                new PersonalPronoun("We")}),
+                            new VerbPhrase(new Word[] { 
+                                new ModalAuxilary("must"),
+                                new Verb("do", VerbForm.Base)
+                            }),
+                        new NounPhrase(new Word[]{  
+                            new PersonalPronoun("this")
+                        }),
+                        new AdverbPhrase(new Word [] {
+                            new Adverb("quickly")
+                        })
+                    })}, new SentenceEnding('!'))
+                };
+            ParagraphKind paragraphKind = ParagraphKind.Default;
+            Paragraph target = new Paragraph(sentences, paragraphKind);
             IEnumerable<Word> actual;
             actual = target.Words;
-            Assert.Inconclusive("Verify the correctness of this test method.");
+            AssertHelper.AreSequenceEqual(sentences.AllWords(), actual);
         }
 
 
@@ -180,12 +211,41 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod()]
         public void PhrasesTest() {
-            IEnumerable<Sentence> sentences = null; // TODO: Initialize to an appropriate value
-            ParagraphKind paragraphKind = new ParagraphKind(); // TODO: Initialize to an appropriate value
-            Paragraph target = new Paragraph(sentences, paragraphKind); // TODO: Initialize to an appropriate value
+            IEnumerable<Sentence> sentences = new Sentence[] { 
+                    new Sentence(new Clause[] {
+                        new Clause(new Phrase[] { 
+                            new NounPhrase(new Word[] {    
+                                new PersonalPronoun("We") 
+                            }),
+                            new VerbPhrase(new Word[] { 
+                                new ModalAuxilary("must"),
+                                new Verb("attack", VerbForm.Base) 
+                            }),
+                            new NounPhrase(new Word[] { 
+                                new Adjective("blue"), 
+                                new CommonSingularNoun("team") }
+                                )}
+                            )}, new SentenceEnding('!')),
+                        new Sentence(new Clause[]{new Clause( new Phrase[]{
+                            new NounPhrase(new Word[]{
+                                new PersonalPronoun("We")}),
+                            new VerbPhrase(new Word[] { 
+                                new ModalAuxilary("must"),
+                                new Verb("do", VerbForm.Base)
+                            }),
+                        new NounPhrase(new Word[]{  
+                            new PersonalPronoun("this")
+                        }),
+                        new AdverbPhrase(new Word [] {
+                            new Adverb("quickly")
+                        })
+                    })}, new SentenceEnding('!'))
+                };
+            ParagraphKind paragraphKind = ParagraphKind.Default;
+            Paragraph target = new Paragraph(sentences, paragraphKind);
             IEnumerable<Phrase> actual;
             actual = target.Phrases;
-            Assert.Inconclusive("Verify the correctness of this test method.");
+            AssertHelper.AreSequenceEqual(sentences.AllPhrases(), actual);
         }
 
 
@@ -195,15 +255,42 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod()]
         public void GetPhrasesAfterTest() {
-            IEnumerable<Sentence> sentences = null; // TODO: Initialize to an appropriate value
-            ParagraphKind paragraphKind = new ParagraphKind(); // TODO: Initialize to an appropriate value
-            Paragraph target = new Paragraph(sentences, paragraphKind); // TODO: Initialize to an appropriate value
-            Phrase start = null; // TODO: Initialize to an appropriate value
-            IEnumerable<Phrase> expected = null; // TODO: Initialize to an appropriate value
+            var startAfter = new NounPhrase(new Word[] { 
+                                new Adjective("blue"), 
+                                new CommonSingularNoun("team") });
+            IEnumerable<Sentence> sentences = new Sentence[] { 
+                    new Sentence(new Clause[] {
+                        new Clause(new Phrase[] { 
+                            new NounPhrase(new Word[] {    
+                                new PersonalPronoun("We") 
+                            }),
+                            new VerbPhrase(new Word[] { 
+                                new ModalAuxilary("must"),
+                                new Verb("attack", VerbForm.Base) 
+                            }),
+                            startAfter}
+                            )}, new SentenceEnding('!')),
+                        new Sentence(new Clause[]{new Clause( new Phrase[]{
+                            new NounPhrase(new Word[]{
+                                new PersonalPronoun("We")}),
+                            new VerbPhrase(new Word[] { 
+                                new ModalAuxilary("must"),
+                                new Verb("do", VerbForm.Base)
+                            }),
+                        new NounPhrase(new Word[]{  
+                            new PersonalPronoun("this")
+                        }),
+                        new AdverbPhrase(new Word [] {
+                            new Adverb("quickly")
+                        })
+                    })}, new SentenceEnding('!'))
+                };
+            ParagraphKind paragraphKind = ParagraphKind.Default;
+            Paragraph target = new Paragraph(sentences, paragraphKind);
+            IEnumerable<Phrase> expected = sentences.AllPhrases().SkipWhile(p => p != startAfter).Skip(1);
             IEnumerable<Phrase> actual;
-            actual = target.GetPhrasesAfter(start);
-            Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
+            actual = target.GetPhrasesAfter(startAfter);
+            AssertHelper.AreSequenceEqual(expected, actual);
         }
 
         /// <summary>
@@ -211,10 +298,40 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod()]
         public void ParagraphConstructorTest() {
-            IEnumerable<Sentence> sentences = null; // TODO: Initialize to an appropriate value
-            ParagraphKind paragraphKind = new ParagraphKind(); // TODO: Initialize to an appropriate value
+            IEnumerable<Sentence> sentences = new Sentence[] { 
+                    new Sentence(new Clause[] {
+                        new Clause(new Phrase[] { 
+                            new NounPhrase(new Word[] {    
+                                new PersonalPronoun("We") 
+                            }),
+                            new VerbPhrase(new Word[] { 
+                                new ModalAuxilary("must"),
+                                new Verb("attack", VerbForm.Base) 
+                            }),
+                            new NounPhrase(new Word[] { 
+                                new Adjective("blue"), 
+                                new CommonSingularNoun("team") }
+                                )}
+                            )}, new SentenceEnding('!')),
+                        new Sentence(new Clause[]{new Clause( new Phrase[]{
+                            new NounPhrase(new Word[]{
+                                new PersonalPronoun("We")}),
+                            new VerbPhrase(new Word[] { 
+                                new ModalAuxilary("must"),
+                                new Verb("do", VerbForm.Base)
+                            }),
+                        new NounPhrase(new Word[]{  
+                            new PersonalPronoun("this")
+                        }),
+                        new AdverbPhrase(new Word [] {
+                            new Adverb("quickly")
+                        })
+                    })}, new SentenceEnding('!'))
+                };
+            ParagraphKind paragraphKind = ParagraphKind.Default;
             Paragraph target = new Paragraph(sentences, paragraphKind);
-            Assert.Inconclusive("TODO: Implement code to verify target");
+            Assert.AreEqual(paragraphKind, target.ParagraphKind);
+            AssertHelper.AreSequenceEqual(sentences, target.Sentences);
         }
     }
 

@@ -102,8 +102,8 @@ namespace LASI.ContentSystem
             try {
                 var originalFile = FileManager.WrapperMap[ext](path);
                 var newPath =
-                    ext == ".docx" ? DocxFilesDir :
                     ext == ".doc" ? DocFilesDir :
+                    ext == ".docx" ? DocxFilesDir :
                     ext == ".txt" ? TxtFilesDir :
                     ext == ".pdf" ? PdfFilesDir :
                     ext == ".tagged" ? TaggedFilesDir : "";
@@ -334,6 +334,7 @@ namespace LASI.ContentSystem
                         var txt = await new DocxToTextConverter(docx as DocXFile).ConvertFileAsync();
                         AddFile(txt.FullPath, true);
                         File.Delete(txt.FullPath);
+                        File.Delete(docx.FullPath);
                     }
                     catch (Exception e) { Output.WriteLine(e.Message); throw new FileConversionFailureException(doc.NameSansExt, ".doc", ".txt"); }
                 }
@@ -528,7 +529,7 @@ namespace LASI.ContentSystem
             }
             catch (IOException e) {
                 Output.WriteLine(e.Message);
-                Output.WriteLine("Directory could not be found for forced cleabup");
+                Output.WriteLine("Directory could not be found for forced cleanup");
             }
         }
         #endregion

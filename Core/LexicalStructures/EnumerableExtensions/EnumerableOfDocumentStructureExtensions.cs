@@ -22,7 +22,7 @@ namespace LASI.Core
         /// </summary>
         /// <param name="paragraphs">A sequence of Paragraph instances.</param>
         /// <returns>The linear aggregation of all Phrase instances contained within the sequence of Paragraph instances.</returns>
-        public static IEnumerable<Phrase> OfPhrase(this IEnumerable<Paragraph> paragraphs) {
+        public static IEnumerable<Phrase> AllPhrases(this IEnumerable<Paragraph> paragraphs) {
             return from p in paragraphs
                    from s in p.Sentences
                    from r in s.Phrases
@@ -33,7 +33,7 @@ namespace LASI.Core
         /// </summary>
         /// <param name="paragraphs">A sequence of Paragraph instances.</param>
         /// <returns>The linear aggregation of all Word instances contained within the sequence of Paragraph instances.</returns>
-        public static IEnumerable<Word> OfWord(this IEnumerable<Paragraph> paragraphs) {
+        public static IEnumerable<Word> AllWords(this IEnumerable<Paragraph> paragraphs) {
             return from p in paragraphs
                    from s in p.Sentences
                    from w in s.Words
@@ -44,7 +44,7 @@ namespace LASI.Core
         /// </summary>
         /// <param name="sentences">A sequence of Sentence instances.</param>
         /// <returns>The linear aggregation of all Phrase instances contained within the sequence of Sentence instances.</returns>
-        public static IEnumerable<Phrase> OfPhrase(this IEnumerable<Sentence> sentences) {
+        public static IEnumerable<Phrase> AllPhrases(this IEnumerable<Sentence> sentences) {
             return from s in sentences
                    from r in s.Phrases
                    select r;
@@ -54,7 +54,7 @@ namespace LASI.Core
         /// </summary>
         /// <param name="sentences">A sequence of Sentence instances.</param>
         /// <returns>The linear aggregation of all Word instances contained within the sequence of Sentence instances.</returns>
-        public static IEnumerable<Word> OfWord(this IEnumerable<Sentence> sentences) {
+        public static IEnumerable<Word> AllWords(this IEnumerable<Sentence> sentences) {
             return from s in sentences
                    from w in s.Words
                    select w;
@@ -68,7 +68,7 @@ namespace LASI.Core
         /// </summary>
         /// <param name="paragraphs">A sequence of Paragraph instances.</param>
         /// <returns>The parallel aggregation of all Phrase instances contained within the sequence of Paragraph instances.</returns>
-        public static ParallelQuery<Phrase> OfPhrase(this ParallelQuery<Paragraph> paragraphs) {
+        public static ParallelQuery<Phrase> AllPhrases(this ParallelQuery<Paragraph> paragraphs) {
             return from p in paragraphs
                    from s in p.Sentences
                    from r in s.Phrases
@@ -79,7 +79,7 @@ namespace LASI.Core
         /// </summary>
         /// <param name="paragraphs">A sequence of Paragraph instances.</param>
         /// <returns>The parallel aggregation of all Word instances contained within the sequence of Paragraph instances.</returns>
-        public static ParallelQuery<Word> OfWord(this ParallelQuery<Paragraph> paragraphs) {
+        public static ParallelQuery<Word> AllWords(this ParallelQuery<Paragraph> paragraphs) {
             return from p in paragraphs
                    from s in p.Sentences
                    from w in s.Words
@@ -90,7 +90,7 @@ namespace LASI.Core
         /// </summary>
         /// <param name="sentences">A sequence of Sentence instances.</param>
         /// <returns>The parallel aggregation of all Phrase instances contained within the sequence of Sentence instances.</returns>
-        public static ParallelQuery<Phrase> OfPhrase(this ParallelQuery<Sentence> sentences) {
+        public static ParallelQuery<Phrase> AllPhrases(this ParallelQuery<Sentence> sentences) {
             return from s in sentences
                    from r in s.Phrases
                    select r;
@@ -100,7 +100,7 @@ namespace LASI.Core
         /// </summary>
         /// <param name="sentences">A sequence of Sentence instances.</param>
         /// <returns>The parallel aggregation of all Word instances contained within the sequence of Sentence instances.</returns>
-        public static ParallelQuery<Word> OfWord(this ParallelQuery<Sentence> sentences) {
+        public static ParallelQuery<Word> AllWords(this ParallelQuery<Sentence> sentences) {
             return from s in sentences
                    from w in s.Words
                    select w;

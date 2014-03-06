@@ -43,7 +43,7 @@ namespace LASI.Core
             adv.Modifies = this;
         }
         /// <summary>
-        /// <para> Binds the VerbPhrase to an object via a prepositional construct such as a Preposition or or PrepositionalPhrase. </para>
+        /// <para> Binds the VerbPhrase to an object via a prepositional construct such as a Preposition or PrepositionalPhrase. </para>
         /// <para> Example: He "ran" to work. where "work" is the object of ran via the prepositional construct "to" </para>
         /// </summary>
         /// <param name="prepositional">The IPrepositional construct through which the Object is associated.</param>

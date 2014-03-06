@@ -8,8 +8,8 @@ using TaggerInterop;
 
 namespace LASI.UnitTests
 {
-    
-    
+
+
     /// <summary>
     ///This is a test class for TaggerTest and is intended
     ///to contain all TaggerTest Unit Tests

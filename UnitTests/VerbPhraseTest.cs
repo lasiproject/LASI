@@ -260,6 +260,7 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod()]
         public void ToStringTest() {
+            VerbPhrase.VerboseOutput = false;
             IEnumerable<Word> composedWords = new Word[] { new Verb("run", VerbForm.Base), new Adverb("swiftly"), new Preposition("through") };
             VerbPhrase target = new VerbPhrase(composedWords);
             string expected = "VerbPhrase \"run swiftly through\"";
@@ -389,7 +390,7 @@ namespace LASI.UnitTests
         [TestMethod()]
         public void BindDirectObjectTest() {
             VerbPhrase target = CreateVerbPhrase();
-            IEntity directObject = null; // TODO: Initialize to an appropriate value
+            IEntity directObject = new NounPhrase(new Word[] { new Determiner("the"), new CommonSingularNoun("forest") });
             target.BindDirectObject(directObject);
             Assert.IsTrue(target.HasDirectObject(e => e == directObject));
         }
@@ -399,10 +400,12 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod()]
         public void AttachObjectViaPrepositionTest() {
-            VerbPhrase target = CreateVerbPhrase();
-            IPrepositional prepositional = null; // TODO: Initialize to an appropriate value
+            VerbPhrase target = new VerbPhrase(new Word[] { new Verb("consume", VerbForm.Base) });
+            IPrepositional prepositional = new Preposition("with");
+            ILexical prepositionalObject = new NounPhrase(new Word[] { new Adjective("great"), new CommonSingularNoun("haste") });
+            prepositional.BindObject(prepositionalObject);
             target.AttachObjectViaPreposition(prepositional);
-            Assert.Inconclusive("A method that does not return a value cannot be verified.");
+            Assert.AreEqual(target.ObjectOfThePreoposition, prepositionalObject);
         }
 
 

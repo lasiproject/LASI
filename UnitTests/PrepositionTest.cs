@@ -93,7 +93,7 @@ namespace LASI.UnitTests
         [TestMethod()]
         public void OnLeftSideTest() {
             string text = "into";
-            Preposition target = new Preposition(text); // TODO: Initialize to an appropriate value
+            Preposition target = new Preposition(text);
             ILexical expected = new PastTenseVerb("gazed");
             ILexical actual;
             target.ToTheLeftOf = expected;
@@ -107,41 +107,30 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod()]
         public void OnRightSideTest() {
-            string text = "inside";
+            string text = "into";
             Preposition target = new Preposition(text);
-            ILexical expected = new NounPhrase(new Word[] { new PossessivePronoun("your"), new CommonSingularNoun("soul") });
+            ILexical expected = new NounPhrase(new Word[] {
+                new PossessivePronoun("your"), new CommonSingularNoun("soul") });
             ILexical actual;
             target.ToTheRightOf = expected;
             actual = target.ToTheRightOf;
             Assert.AreEqual(expected, actual);
 
         }
-        /// <summary>
-        ///A test for PrepositionalRole
-        ///</summary>
-        [TestMethod()]
-        public void PrepositionalRoleTest() {
-            string text = "inside";
-            Particle target = new Particle(text);
-            PrepositionRole expected = PrepositionRole.Undetermined;
-            PrepositionRole actual;
-            actual = target.Role;
-            Assert.AreEqual(expected, actual);
-        }
+
 
         /// <summary>
         ///A test for ToTheRightOf
         ///</summary>
         [TestMethod()]
         public void ToTheRightOfTest() {
-            string text = string.Empty; // TODO: Initialize to an appropriate value
-            Preposition target = new Preposition(text); // TODO: Initialize to an appropriate value
-            ILexical expected = null; // TODO: Initialize to an appropriate value
+            string text = "into";
+            Preposition target = new Preposition(text);
+            ILexical expected = new PastTenseVerb("gazed");
             ILexical actual;
             target.ToTheRightOf = expected;
             actual = target.ToTheRightOf;
             Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
         }
 
         /// <summary>
@@ -149,14 +138,14 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod()]
         public void ToTheLeftOfTest() {
-            string text = string.Empty; // TODO: Initialize to an appropriate value
-            Preposition target = new Preposition(text); // TODO: Initialize to an appropriate value
-            ILexical expected = null; // TODO: Initialize to an appropriate value
+            string text = "inside";
+            Preposition target = new Preposition(text);
+            ILexical expected = new NounPhrase(new Word[] {
+                new PossessivePronoun("your"), new CommonSingularNoun("soul") });
             ILexical actual;
             target.ToTheLeftOf = expected;
             actual = target.ToTheLeftOf;
             Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
         }
 
         /// <summary>
@@ -179,14 +168,13 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod()]
         public void RoleTest() {
-            string text = string.Empty; // TODO: Initialize to an appropriate value
-            Preposition target = new Preposition(text); // TODO: Initialize to an appropriate value
-            PrepositionRole expected = new PrepositionRole(); // TODO: Initialize to an appropriate value
+            string text = "over";
+            Preposition target = new Preposition(text);
+            PrepositionRole expected = PrepositionRole.SpatialSpecifier;
             PrepositionRole actual;
             target.Role = expected;
             actual = target.Role;
             Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
         }
 
         /// <summary>
@@ -194,13 +182,12 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod()]
         public void ToStringTest() {
-            string text = string.Empty; // TODO: Initialize to an appropriate value
-            Preposition target = new Preposition(text); // TODO: Initialize to an appropriate value
-            string expected = string.Empty; // TODO: Initialize to an appropriate value
+            string text = "with";
+            Preposition target = new Preposition(text);
+            string expected = "Preposition \"with\"";
             string actual;
             actual = target.ToString();
             Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
         }
 
         /// <summary>
@@ -208,13 +195,13 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod()]
         public void BindObjectTest() {
-            string text = string.Empty; // TODO: Initialize to an appropriate value
-            Preposition target = new Preposition(text); // TODO: Initialize to an appropriate value
-            ILexical prepositionalObject = null; // TODO: Initialize to an appropriate value
+            string text = "with";
+            Preposition target = new Preposition(text);
+            ILexical prepositionalObject = new PersonalPronoun("them");
             target.BindObject(prepositionalObject);
-            Assert.Inconclusive("A method that does not return a value cannot be verified.");
+            Assert.AreEqual(prepositionalObject, target.BoundObject);
         }
 
-       
+
     }
 }

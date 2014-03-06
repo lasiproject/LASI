@@ -124,7 +124,7 @@ namespace LASI.Core
         /// </summary>
         /// <param name="elements">The source sequence of ILexical instances.</param>
         /// <returns>all of the word instances in the sequence of ILexicals.</returns>
-        public static IEnumerable<Word> OfWord(this IEnumerable<Phrase> elements) {
+        public static IEnumerable<Word> AllWords(this IEnumerable<Phrase> elements) {
             return elements.SelectMany(p => p.Words);
         }
         /// <summary>
@@ -132,7 +132,7 @@ namespace LASI.Core
         /// </summary>
         /// <param name="elements">The source sequence of ILexical instances.</param>
         /// <returns>all of the Phrase instances in the sequence of ILexicals.</returns>
-        public static IEnumerable<Phrase> OfPhrase(this IEnumerable<Clause> elements) {
+        public static IEnumerable<Phrase> AllPhrases(this IEnumerable<Clause> elements) {
             return elements.SelectMany(c => c.Phrases);
         }
         /// <summary>
@@ -263,7 +263,7 @@ namespace LASI.Core
         /// </summary>
         /// <param name="elements">The source sequence of ILexical instances.</param>
         /// <returns>all of the word instances in the sequence of ILexicals.</returns>
-        public static ParallelQuery<Word> OfWord(this ParallelQuery<Phrase> elements) {
+        public static ParallelQuery<Word> AllWords(this ParallelQuery<Phrase> elements) {
             return elements.SelectMany(p => p.Words);
         }
         /// <summary>
@@ -271,7 +271,7 @@ namespace LASI.Core
         /// </summary>
         /// <param name="elements">The source sequence of ILexical instances.</param>
         /// <returns>all of the Phrase instances in the sequence of ILexicals.</returns>
-        static ParallelQuery<Phrase> OfPhrase(this ParallelQuery<Clause> elements) {
+        static ParallelQuery<Phrase> AllPhrases(this ParallelQuery<Clause> elements) {
             return elements.SelectMany(c => c.Phrases);
         }
         /// <summary>

@@ -47,7 +47,7 @@ namespace LASI.UnitTests
         [ClassInitialize()]
         public static void MyClassInitialize(TestContext testContext) {
 
-            //FileManager.Initialize(TEST_PROJECT_RELATIVE_PATH);
+            FileManager.Initialize(TEST_PROJECT_RELATIVE_PATH);
 
         }
 
@@ -68,32 +68,32 @@ namespace LASI.UnitTests
             return new DirectoryInfo(TEST_MOCK_FILES_RELATIVE_PATH).EnumerateFiles().Where(fi => fi.Extension == ".txt").Select(fi => new TxtFile(fi.FullName)).ToArray();
         }
         private static IEnumerable<InputFile> GetAllTestFiles() {
-            foreach (var f in GetTestDocFiles())
-                yield return f;
-            foreach (var f in GetTestDocXFiles())
-                yield return f;
-            foreach (var f in GetTestPdfFiles())
-                yield return f;
-            foreach (var f in GetTestTxtFiles())
-                yield return f;
+            foreach (var file in GetTestDocFiles())
+                yield return file;
+            foreach (var file in GetTestDocXFiles())
+                yield return file;
+            foreach (var file in GetTestPdfFiles())
+                yield return file;
+            foreach (var file in GetTestTxtFiles())
+                yield return file;
         }
 
         ////  Use ClassCleanup to run code after all tests in A class have run
-        //[ClassCleanup()]
-        //public static void MyClassCleanup() {
-
-        //}
-        //Use TestInitialize to run code before running each test
-        [TestInitialize()]
-        public void MyTestInitialize() {
-            FileManager.Initialize(TEST_PROJECT_RELATIVE_PATH);
+        [ClassCleanup()]
+        public static void MyClassCleanup() {
+            FileManager.DecimateProject();
         }
+        //Use TestInitialize to run code before running each test
+        //[TestInitialize()]
+        //public void MyTestInitialize() {
+        //    FileManager.Initialize(TEST_PROJECT_RELATIVE_PATH);
+        //}
         //
         //Use TestCleanup to run code after each test has run
-        [TestCleanup()]
-        public void MyTestCleanup() {
+        //[TestCleanup()]
+        //public void MyTestCleanup() {
 
-        }
+        //}
 
         #endregion
 
@@ -351,8 +351,8 @@ namespace LASI.UnitTests
                 Assert.Inconclusive();
             FileManager.ConvertDocToText(files);
 
-            foreach (var F in files)
-                Assert.IsTrue(File.Exists(FileManager.TaggedFilesDir + "\\" + F.NameSansExt + ".tagged"));
+            foreach (var file in files)
+                Assert.IsTrue(File.Exists(FileManager.TaggedFilesDir + "\\" + file.NameSansExt + ".tagged"));
         }
 
 
@@ -364,8 +364,8 @@ namespace LASI.UnitTests
             DocFile[] files = GetTestDocFiles();
             Task.Run(async () => await FileManager.ConvertDocToTextAsync(files)).Wait();
             Assert.IsTrue(files.Any());
-            foreach (var F in files)
-                Assert.IsTrue(File.Exists(FileManager.TaggedFilesDir + "\\" + F.NameSansExt + ".txt"));
+            foreach (var file in files)
+                Assert.IsTrue(File.Exists(FileManager.TaggedFilesDir + "\\" + file.NameSansExt + ".txt"));
         }
 
 
@@ -377,8 +377,8 @@ namespace LASI.UnitTests
             PdfFile[] files = GetTestPdfFiles();
             FileManager.ConvertPdfToText(files);
             Assert.IsTrue(files.Any());
-            foreach (var F in files)
-                Assert.IsTrue(File.Exists(FileManager.TaggedFilesDir + "\\" + F.NameSansExt + ".txt"));
+            foreach (var file in files)
+                Assert.IsTrue(File.Exists(FileManager.TaggedFilesDir + "\\" + file.NameSansExt + ".txt"));
         }
 
         /// <summary>
@@ -389,8 +389,8 @@ namespace LASI.UnitTests
             PdfFile[] files = GetTestPdfFiles();
             Task.Run(async () => await FileManager.ConvertPdfToTextAsync(files)).Wait();
             Assert.IsTrue(files.Any());
-            foreach (var F in files)
-                Assert.IsTrue(File.Exists(FileManager.TaggedFilesDir + "\\" + F.NameSansExt + ".pdf"));
+            foreach (var file in files)
+                Assert.IsTrue(File.Exists(FileManager.TaggedFilesDir + "\\" + file.NameSansExt + ".txt"));
         }
 
 
@@ -408,10 +408,12 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod()]
         public void HasSimilarFileTest() {
-            foreach (var f in GetAllTestFiles()) { FileManager.AddFile(f.FullPath, overwrite: true); }
-            foreach (var f in GetAllTestFiles()) {
-                Assert.IsTrue(FileManager.HasSimilarFile(f.NameSansExt));
-                Assert.IsTrue(FileManager.HasSimilarFile(f));
+            foreach (var file in GetAllTestFiles()) {
+                FileManager.AddFile(file.FullPath, overwrite: true);
+            }
+            foreach (var file in GetAllTestFiles()) {
+                Assert.IsTrue(FileManager.HasSimilarFile(file.NameSansExt));
+                Assert.IsTrue(FileManager.HasSimilarFile(file));
 
             }
         }
@@ -424,15 +426,15 @@ namespace LASI.UnitTests
         [TestMethod()]
         public void RemoveAllNotInTest() {
             IEnumerable<InputFile> filesToKeep = GetAllTestFiles().Skip(GetAllTestFiles().Count() / 2);
-            foreach (var f in GetAllTestFiles()) { FileManager.AddFile(f.FullPath, overwrite: true); }
+            foreach (var file in GetAllTestFiles()) { FileManager.AddFile(file.FullPath, overwrite: true); }
             FileManager.RemoveAllNotIn(filesToKeep);
-            foreach (var f in filesToKeep) {
+            foreach (var file in filesToKeep) {
                 Assert.IsTrue(
-                    FileManager.DocFiles.Select(x => x.NameSansExt).Contains(f.NameSansExt) ||
-                    FileManager.PdfFiles.Select(x => x.NameSansExt).Contains(f.NameSansExt) ||
-                    FileManager.DocXFiles.Select(x => x.NameSansExt).Contains(f.NameSansExt) ||
-                    FileManager.TxtFiles.Select(x => x.NameSansExt).Contains(f.NameSansExt) ||
-                    FileManager.TaggedFiles.Select(x => x.NameSansExt).Contains(f.NameSansExt));
+                    FileManager.DocFiles.Select(x => x.NameSansExt).Contains(file.NameSansExt) ||
+                    FileManager.PdfFiles.Select(x => x.NameSansExt).Contains(file.NameSansExt) ||
+                    FileManager.DocXFiles.Select(x => x.NameSansExt).Contains(file.NameSansExt) ||
+                    FileManager.TxtFiles.Select(x => x.NameSansExt).Contains(file.NameSansExt) ||
+                    FileManager.TaggedFiles.Select(x => x.NameSansExt).Contains(file.NameSansExt));
             }
         }
 

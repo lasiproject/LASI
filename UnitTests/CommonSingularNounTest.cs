@@ -1,14 +1,15 @@
-﻿using LASI.Core;
+﻿using LASI;
+using LASI.Core;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 
-namespace L_CoreTests
+namespace LASI.UnitTests
 {
-    
-    
+
+
     /// <summary>
-    ///This is a test class for CommonSingularNounTest and is intended
-    ///to contain all CommonSingularNounTest Unit Tests
+    ///This is A test class for GenericSingularNounTest and is intended
+    ///to contain all GenericSingularNounTest Unit Tests
     ///</summary>
     [TestClass()]
     public class CommonSingularNounTest
@@ -40,7 +41,7 @@ namespace L_CoreTests
         //{
         //}
         //
-        //Use ClassCleanup to run code after all tests in a class have run
+        //Use ClassCleanup to run code after all tests in A class have run
         //[ClassCleanup()]
         //public static void MyClassCleanup()
         //{
@@ -66,9 +67,9 @@ namespace L_CoreTests
         ///</summary>
         [TestMethod()]
         public void CommonSingularNounConstructorTest() {
-            string text = string.Empty; // TODO: Initialize to an appropriate value
+            string text = "LASI"; // TODO: Initialize to an appropriate value
             CommonSingularNoun target = new CommonSingularNoun(text);
-            Assert.Inconclusive("TODO: Implement code to verify target");
+            Assert.AreEqual(target.Text, text);
         }
     }
 }

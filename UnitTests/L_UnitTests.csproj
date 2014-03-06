@@ -117,8 +117,8 @@
     <Compile Include="FileManagerTest.cs" />
     <Compile Include="ForeignWordTest.cs" />
     <Compile Include="FunctionExtensionsTest.cs" />
-    <Compile Include="GenericPluralNounTest.cs" />
-    <Compile Include="GenericSingularNounTest.cs" />
+    <Compile Include="CommonPluralNounTest.cs" />
+    <Compile Include="CommonSingularNounTest.cs" />
     <Compile Include="SubjectBinderTests.cs" />
     <Compile Include="IDirectObjectTakerTest.cs" />
     <Compile Include="IEntityTest.cs" />

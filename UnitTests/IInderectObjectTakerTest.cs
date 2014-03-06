@@ -94,7 +94,7 @@ namespace LASI.UnitTests
                 });
             actual = target.AggregateIndirectObject;
             Assert.IsTrue(target.AggregateIndirectObject.SequenceEqual(actual));
-         }
+        }
 
         /// <summary>
         ///A test for IndirectObjects
@@ -109,7 +109,7 @@ namespace LASI.UnitTests
                 };
             actual = target.IndirectObjects;
             Assert.IsTrue(target.IndirectObjects.SequenceEqual(actual));
-         }
- 
+        }
+
     }
 }
