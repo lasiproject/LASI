@@ -1,8 +1,11 @@
 ﻿using LASI.ContentSystem.TaggerEncapsulation;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Linq;
 using LASI.Core;
 using System.Collections.Generic;
+using System.Reflection;
+using LASI.ContentSystem;
 
 namespace LASI.UnitTests
 {
@@ -61,11 +64,44 @@ namespace LASI.UnitTests
         //}
         //
         #endregion
+        class TestPhraseTagsetMap : PhraseTagsetMap
+        {
 
+            public override Func<IEnumerable<Word>, Phrase> this[string tag] {
+                get {
+                    try { return mapping[tag]; }
+                    catch (KeyNotFoundException) { throw new UnknownPhraseTagException(tag); }
+                }
+            }
+
+            public override string this[Func<IEnumerable<Word>, Phrase> mappedConstructor] {
+                get {
+                    return (from tm in mapping
+                            where tm.Value.GetMethodInfo().ReturnType == mappedConstructor.GetMethodInfo().ReturnType
+                            select tm.Key).Single();
+                }
+            }
+
+            public override string this[Phrase phrase] {
+                get {
+                    return (from tm in mapping
+                            where tm.Value.GetMethodInfo().ReturnType == phrase.GetType()
+                            select tm.Key).First();
+                }
+            }
+            protected override IReadOnlyDictionary<string, Func<IEnumerable<Word>, Phrase>> TypeDictionary {
+                get { return mapping; }
+            }
+            private static readonly IReadOnlyDictionary<string, Func<IEnumerable<Word>, Phrase>> mapping = new Dictionary<string, Func<IEnumerable<Word>, Phrase>> {
+                { "NP", ws => new NounPhrase(ws) },
+                { "VP", ws => new VerbPhrase(ws) },
+            };
+
+        }
 
         internal virtual PhraseTagsetMap CreatePhraseTagsetMap() {
             // TODO: Instantiate an appropriate concrete class.
-            PhraseTagsetMap target = null;
+            PhraseTagsetMap target = new TestPhraseTagsetMap();
             return target;
         }
 
@@ -74,11 +110,12 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod()]
         public void ItemTest() {
-            PhraseTagsetMap target = CreatePhraseTagsetMap(); // TODO: Initialize to an appropriate value
-            string tag = string.Empty; // TODO: Initialize to an appropriate value
+            PhraseTagsetMap target = CreatePhraseTagsetMap();
+            string tag = "NP";
             Func<IEnumerable<Word>, Phrase> actual;
             actual = target[tag];
-            Assert.Inconclusive("Verify the correctness of this test method.");
+            var phrase = actual(new Word[] { new PersonalPronoun("he") });
+            Assert.IsTrue(target[actual] == target[phrase]);
         }
 
         /// <summary>

@@ -14,6 +14,9 @@ namespace LASI.Core
     /// <see cref="LASI.Core.SubordinateClauseBeginPhrase"/>
     public interface ISubordinator : ILexical
     {
+        /// <summary>
+        /// Gets or sets the Lexical construct which is subordinated by the Subordinator.
+        /// </summary>
         ILexical Subordinates { get; set; }
     }
 }

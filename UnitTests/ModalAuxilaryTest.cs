@@ -4,8 +4,8 @@ using System;
 
 namespace LASI.UnitTests
 {
-    
-    
+
+
     /// <summary>
     ///This is a test class for ModalAuxilaryTest and is intended
     ///to contain all ModalAuxilaryTest Unit Tests
@@ -66,14 +66,13 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod()]
         public void ModifiesTest() {
-            string text = string.Empty; // TODO: Initialize to an appropriate value
-            ModalAuxilary target = new ModalAuxilary(text); // TODO: Initialize to an appropriate value
-            IModalityModifiable expected = null; // TODO: Initialize to an appropriate value
+            string text = "can";
+            ModalAuxilary target = new ModalAuxilary(text);
+            IModalityModifiable expected = new Verb("do", VerbForm.Base);
             IModalityModifiable actual;
             target.Modifies = expected;
             actual = target.Modifies;
             Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
         }
 
         /// <summary>
@@ -81,9 +80,10 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod()]
         public void ModalAuxilaryConstructorTest() {
-            string text = string.Empty; // TODO: Initialize to an appropriate value
+            string text = "cannot";
             ModalAuxilary target = new ModalAuxilary(text);
-            Assert.Inconclusive("TODO: Implement code to verify target");
+            Assert.IsTrue(target.Text == text);
+            Assert.IsTrue(target.Modifies == null);
         }
     }
 }

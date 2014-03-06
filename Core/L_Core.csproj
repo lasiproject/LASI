@@ -109,7 +109,7 @@
     <Compile Include="LexicalStructures\UnderpinningTypes\IAggregateLexical.cs" />
     <Compile Include="Analysis\LookupAndComparison\PatternMatching\Generalized\Basis\MatchClause.cs" />
     <Compile Include="Analysis\LookupAndComparison\PatternMatching\LexicalSpecific\Match.cs" />
-    <Compile Include="Analysis\LookupAndComparison\PatternMatching\LexicalSpecific\PatternMatching.cs" />
+    <Compile Include="Analysis\LookupAndComparison\PatternMatching\LexicalSpecific\Matcher.cs" />
     <Compile Include="LexicalStructures\SymbolsAndPunctuators\IPairedPunctuator.cs" />
     <Compile Include="Analysis\LookupAndComparison\EntityClassificationExtensions.cs" />
     <Compile Include="LexicalStructures\EnumerableExtensions\EnumerableOfRecursiveIEnumerableILexicalsExtenstions.cs" />
@@ -239,9 +239,7 @@
     <Compile Include="LexicalStructures\UnderpinningTypes\Word.cs" />
     <Compile Include="LexicalStructures\EnumerableExtensions\EnumerableOfWordExtensions.cs" />
     <Compile Include="Analysis\LookupAndComparison\SyntacticCategorical\Support\WordNetLexCategoryInformation.cs" />
-    <None Include="ClassDiagram1.cd" />
-    <None Include="ClassDiagram2.cd" />
-    <None Include="ClassDiagram3.cd" />
+    <None Include="ClassDiagram5.cd" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Analysis\LookupAndComparison\Support\KnownSubordinators.txt" />

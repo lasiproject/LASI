@@ -1,11 +1,13 @@
 ﻿using LASI.Core;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace LASI.UnitTests
 {
-    
-    
+
+
     /// <summary>
     ///This is a test class for ProperNounTest and is intended
     ///to contain all ProperNounTest Unit Tests
@@ -61,10 +63,11 @@ namespace LASI.UnitTests
         #endregion
 
 
-        internal virtual ProperNoun CreateProperNoun() {
-            // TODO: Instantiate an appropriate concrete class.
-            ProperNoun target = null;
-            return target;
+        internal virtual IEnumerable<ProperNoun> CreateProperNouns() {
+            yield return new ProperSingularNoun("Patrick");
+            yield return new ProperPluralNoun("Roberts");
+            yield return new ProperPluralNoun("James");
+            yield return new ProperPluralNoun("Rachels");
         }
 
         /// <summary>
@@ -72,10 +75,11 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod()]
         public void IsPersonalNameTest() {
-            ProperNoun target = CreateProperNoun(); // TODO: Initialize to an appropriate value
-            bool actual;
-            actual = target.IsPersonalName;
-            Assert.Inconclusive("Verify the correctness of this test method.");
+            foreach (ProperNoun target in CreateProperNouns()) {
+                bool actual;
+                actual = target.IsPersonalName;
+                Assert.IsTrue(actual);
+            }
         }
     }
 }

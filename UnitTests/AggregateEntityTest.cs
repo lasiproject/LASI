@@ -121,10 +121,10 @@ namespace LASI.UnitTests
             IReferencer pro = new PersonalPronoun("them");
             target.BindReferencer(pro);
             Assert.IsTrue(target.Referees.Contains(pro));
-            Assert.IsTrue(pro.ReferredTo.Contains(target));
+            Assert.IsTrue(pro.ReferredTo.Contains(target) || pro.ReferredTo == target || pro.ReferredTo.SetEqual(target));
             foreach (IEntity e in members) {
-                Assert.IsTrue(pro.ReferredTo.Contains(e));
-                e.Referees.Contains(pro);
+                Assert.IsTrue(pro.ReferredTo.Contains(e) || pro.ReferredTo == e);
+
             }
         }
 

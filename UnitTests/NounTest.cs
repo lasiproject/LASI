@@ -1,5 +1,6 @@
 ﻿using LASI;
 using LASI.Core;
+using LASI.UnitTests.TestHelpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -103,19 +104,6 @@ namespace LASI.UnitTests
             Assert.IsTrue(target.Referees.Contains(pro) && pro.ReferredTo.Any(e => e == target));
         }
 
-        ///// <summary>
-        /////A test for Equals
-        /////</summary>
-        //[TestMethod()]
-        //public void EqualsTest() {
-        //    Noun from = CreateNoun(); // TODO: Initialize to an appropriate value
-        //    IEntity second = null; // TODO: Initialize to an appropriate value
-        //    bool expected = false; // TODO: Initialize to an appropriate value
-        //    bool actual;
-        //    actual = from.Equals(second);
-        //    Assert.AreEqual(expected, actual);
-        //    Assert.Inconclusive("Verify the correctness of this test method.");
-        //}
 
         /// <summary>
         ///A test for Descriptors
@@ -266,9 +254,16 @@ namespace LASI.UnitTests
         [TestMethod()]
         public void DescriptorsTest() {
             Noun target = CreateNoun();
+
             IEnumerable<IDescriptor> actual;
             actual = target.Descriptors;
-            Assert.Inconclusive("Verify the correctness of this test method.");
+            Assert.IsTrue(actual.None());
+            IEnumerable<IDescriptor> descriptors = new[] { new Adjective("red"), new Adjective("slow") };
+
+            foreach (var d in descriptors) { target.BindDescriptor(d); }
+            actual = target.Descriptors;
+
+            AssertHelper.AreSetEqual(actual, descriptors);
         }
 
         /// <summary>
@@ -289,10 +284,11 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod()]
         public void BindDeterminerTest() {
-            Noun target = CreateNoun(); // TODO: Initialize to an appropriate value
-            Determiner determiner = null; // TODO: Initialize to an appropriate value
+            Noun target = CreateNoun();
+            Determiner determiner = new Determiner("the");
             target.BindDeterminer(determiner);
-            Assert.Inconclusive("A method that does not return a value cannot be verified.");
+            Assert.AreEqual(target.Determiner, determiner);
+            Assert.AreEqual(determiner.Determines, target);
         }
 
         /// <summary>
@@ -300,10 +296,11 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod()]
         public void BindDescriptorTest() {
-            Noun target = CreateNoun(); // TODO: Initialize to an appropriate value
-            IDescriptor descriptor = null; // TODO: Initialize to an appropriate value
+            Noun target = CreateNoun();
+            IDescriptor descriptor = new Adjective("red");
             target.BindDescriptor(descriptor);
-            Assert.Inconclusive("A method that does not return a value cannot be verified.");
+            Assert.IsTrue(target.Descriptors.Contains(descriptor));
+            Assert.AreEqual(descriptor.Describes, target);
         }
 
 

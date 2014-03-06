@@ -55,7 +55,7 @@ namespace LASI.ContentSystem
         /// Initializes a new instance of the UnknownPhraseTypeException class with its message string set to message.
         /// </summary>
         /// <param name="posTagString">A description of the error. The content of message is intended to be understood by humans.</param>
-        internal UnknownPhraseTagException(string posTagString)
+        public UnknownPhraseTagException(string posTagString)
             : base(string.Format("The phrase tag {0}\nis not defined by the TagSet", posTagString)) {
         }
         /// <summary>

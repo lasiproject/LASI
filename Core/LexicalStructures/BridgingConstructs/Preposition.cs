@@ -100,14 +100,12 @@ namespace LASI.Core
 
         private static readonly IEnumerable<string> knownSubordinators;
 
-
+        /// <summary>
+        /// Gets or sets the Lexical construct which is subordinated by the Preposition.
+        /// </summary>
         public ILexical Subordinates {
-            get {
-                throw new NotImplementedException();
-            }
-            set {
-                throw new NotImplementedException();
-            }
+            get;
+            set;
         }
     }
 }
