@@ -77,6 +77,7 @@
     <Compile Include="Analysis\Binder.cs" />
     <Compile Include="Analysis\BinderImplementations\AttributivePhraseBinder.cs" />
     <Compile Include="Analysis\BinderImplementations\AdjectivePhraseBinder.cs" />
+    <Compile Include="Analysis\ResultAnalalysis\NaiveResultSelector.cs" />
     <Compile Include="LexicalStructures\Experimental\PreBinder.cs" />
     <Compile Include="Analysis\BinderImplementations\ScopedAliasMap.cs" />
     <Compile Include="Analysis\BinderImplementations\ClauseSeperatingBranchingBinder.cs" />
@@ -92,8 +93,8 @@
     <Compile Include="LexicalStructures\SymbolsAndPunctuators\DoubleQuote.cs" />
     <Compile Include="LexicalStructures\EnumerableExtensions\EnumerableOfIPronounExtensions.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\Gender.cs" />
-    <Compile Include="Analysis\InterDocumentAnalalysis\CrossDocumentJoiner.cs" />
-    <Compile Include="Analysis\InterDocumentAnalalysis\SVORelationship.cs" />
+    <Compile Include="Analysis\ResultAnalalysis\CrossDocumentJoiner.cs" />
+    <Compile Include="Analysis\ResultAnalalysis\SVORelationship.cs" />
     <Compile Include="InteropBindings\Reporting\ReportEventArgs.cs" />
     <Compile Include="Analysis\LookupAndComparison\AdverbialSimilarityProvider.cs" />
     <Compile Include="Analysis\LookupAndComparison\ResourceLoadEventArgs.cs" />
