@@ -16,9 +16,7 @@ open System.Threading.Tasks
 [<EntryPoint>]
 
 let main argv = 
-    
-    let op sr:bool = 
-        SimilarityResult.op_Implicit sr
+
 
     // Register callbacks to print operation progress to the terminal
     Lookup.ResourceLoading.Add(fun e-> printfn "Started loading %s" e.Message)
@@ -48,7 +46,7 @@ let main argv =
          
  
     let toAttack = Verb("attack",VerbForm.Base)
-    let bellicoseVerbals = doc. GetVerbals()|>Seq.filter (fun v-> op (v.IsSimilarTo toAttack))
+    let bellicoseVerbals = doc. GetVerbals()|>Seq.filter (fun v-> SimilarityResult.op_Implicit (v.IsSimilarTo toAttack))
     let bellicoseIndividuals =  doc.GetEntities()|>Seq.filter (fun e-> bellicoseVerbals.Contains e.SubjectOf)
     
     let attackerAttackeePairs = 

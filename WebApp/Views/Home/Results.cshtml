@@ -47,9 +47,8 @@
                                 </div>
                                 <div class="modal-body">
                                     @{
-                    var styleMap = new SyntacticStyleMap();
                     var withIds = doc.Phrases.Select(p => new { Phrase = p, Id = p.GetSerializationId() });
-
+                    var styleMap = new SyntacticStyleMap();
                     foreach (var paragraphData in from ided in withIds group ided by ided.Phrase.Paragraph) {
                         <p class="lexical-content-block">
                             @foreach (var e in paragraphData) {

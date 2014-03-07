@@ -59,8 +59,20 @@ namespace LASI.WebApp.Controllers
         private const short CHART_ITEM_MAX = 5;
 
         public async Task<ActionResult> Results() {
+            var documents = await LoadResults();
+
+            ViewData["docs"] = documents;
+            ViewData["charts"] = (from document in documents
+                                  let naiveTopResults = NaiveResultSelector.GetTopResultsByEntity(document).Take(CHART_ITEM_MAX)
+                                  from r in naiveTopResults
+                                  orderby r.Value descending
+                                  group new object[] { r.Key, r.Value } by document).ToDictionary(g => g.Key, g => JsonConvert.SerializeObject(g.ToArray().Take(CHART_ITEM_MAX)));
+            ViewBag.Title = "Results";
+            return View();
+        }
+
+        private async Task<IEnumerable<Core.DocumentStructures.Document>> LoadResults() {
             var serverPath = Server.MapPath(USER_UPLOADED_DOCUMENTS_DIR);
-            ViewBag.ReturnUrl = "Results";
             var extensionMap = new ExtensionWrapperMap(UnsupportedFileTypeHandling.YieldNull);
             var files = Directory.EnumerateFiles(serverPath)
                 .Select(file => {
@@ -77,15 +89,7 @@ namespace LASI.WebApp.Controllers
                 statusMessage = e.Message;
             };
             var documents = await Task.Run(async () => await analyzer.ProcessAsync());
-
-            ViewData["docs"] = documents;
-            ViewData["charts"] = (from document in documents
-                                  let naiveTopResults = NaiveResultSelector.GetTopResultsByEntity(document).Take(CHART_ITEM_MAX)
-                                  from r in naiveTopResults
-                                  orderby r.Value descending
-                                  group new object[] { r.Key, r.Value } by document).ToDictionary(g => g.Key, g => JsonConvert.SerializeObject(g.ToArray().Take(CHART_ITEM_MAX)));
-            ViewBag.Title = "Results";
-            return View();
+            return documents;
         }
         private static double percentComplete;
 
@@ -99,7 +103,8 @@ namespace LASI.WebApp.Controllers
 
             //var t = new System.Threading.Timer(dueTime: 0, state: timesExecuted, period: 1000L, callback: (state) => { percentComplete += 0.5; statusMessage = "executed " + state + " times"; });
 
-            var status = new {
+            var status = new
+            {
                 Message = statusMessage ?? "Test",
                 Percent = percentComplete.ToString() + "%"
             };
