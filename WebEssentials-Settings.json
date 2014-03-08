@@ -66,7 +66,7 @@
     ]
   },
   "JavaScript": {
-    "AutoMinify": false,
+    "AutoMinify": true,
     "BlockCommentCompletion": true,
     "GenerateSourceMaps": true,
     "GzipMinifiedFiles": false,
