@@ -1,1 +1,1 @@
-﻿declare var google: any;
+﻿

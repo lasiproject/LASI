@@ -498,6 +498,7 @@
     <Content Include="Views\Test\Homepage.cshtml" />
     <Content Include="_Partial1.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
+    <TypeScriptCompile Include="Scripts\typings\google.visualization\google.visualization.d.ts" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\SourceFiles\" />

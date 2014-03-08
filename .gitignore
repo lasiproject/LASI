@@ -220,34 +220,4 @@ WebEssentials-Settings.json
 ## Mono Develop/Xamarin Studio
 #############
 .userprefs
-/LightExperimentation.Web/LightExperimentation.Web.csproj
-/LightExperimentation.Web/LightExperimentationTestPage.aspx
-/LightExperimentation.Web/LightExperimentationTestPage.html
-/LightExperimentation.Web/Properties/AssemblyInfo.cs
-/LightExperimentation.Web/Properties/Resources.Designer.cs
-/LightExperimentation.Web/Properties/Resources.resx
-/LightExperimentation.Web/Silverlight.js
-/LightExperimentation.Web/Web.config
-/LightExperimentation.Web/Web.Debug.config
-/LightExperimentation.Web/Web.Release.config
-/LightExperimentation/App.xaml
-/LightExperimentation/App.xaml.cs
-/LightExperimentation/Assets/Styles.xaml
-/LightExperimentation/LightExperimentation.csproj
-/LightExperimentation/MainPage.xaml
-/LightExperimentation/MainPage.xaml.cs
-/LightExperimentation/Properties/AppManifest.xml
-/LightExperimentation/Properties/AssemblyInfo.cs
-/LightExperimentation/Views/About.xaml
-/LightExperimentation/Views/About.xaml.cs
-/LightExperimentation/Views/ErrorWindow.xaml
-/LightExperimentation/Views/ErrorWindow.xaml.cs
-/LightExperimentation/Views/Home.xaml
-/LightExperimentation/Views/Home.xaml.cs
-/XamarinStudio_FSharpExperimentation/LASI_FSharpExperimentation.sln
-/XamarinStudio_FSharpExperimentation/LASI_FSharpExperimentation.userprefs
-/XamarinStudio_FSharpExperimentation/LASI_FSharpExperimentation/AssemblyInfo.fs
-/XamarinStudio_FSharpExperimentation/LASI_FSharpExperimentation/LASI_FSharpExperimentation.fsproj
-/MvcApplication2/App_Data/SourceFiles/cats - Copy.txt
-/MvcApplication2/App_Data/SourceFiles/cats.txt
-/MvcApplication2/App_Data/SourceFiles/ducks.txt
+

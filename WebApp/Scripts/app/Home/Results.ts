@@ -1,16 +1,14 @@
-﻿// Load the Visualization API and the piechart package.
-declare var google;
-
-(function () {
+﻿(function () {
+    // Load the Visualization API and the piechart package.
     google.load('visualization', '1.0', { 'packages': ['corechart'] });
     "use strict";
-    $('#myTab a').click(function (e) {
-        e.preventDefault();
+    $('#myTab a').click(function (event) {
+        event.preventDefault();
         $(this).tab('show');
     });
 
 
-    var drawChart = function (targetElement, rowData) {
+    var drawChart = function (targetElement: Element, rowData) {
         return function () {
             // Create the data table.
             var data = new google.visualization.DataTable();
