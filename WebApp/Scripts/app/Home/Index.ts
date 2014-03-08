@@ -1,21 +1,15 @@
 ﻿/*This file will contain all the javascript and jquery functions for Index.cshtml.
 Keeping the functions will help with organization and will allow us to create classes
-with collections of javascript functions and that way we can load those classes,
+ with collections of javascript functions and that way we can load those classes,
 which will optimize page load time.
 */
 (function () {
+
     // All top level functions should start with this directive. nested functions inherit it.
     "use strict";
 
-    var y = [[1, 2, 3, 4], [53, 556]].flatMap(function (e) {
-        return e.map(function (a) {
-            return a;
-        });
-    }, function (e) {
-        return e.toString();
-    });
-
-    //This function disables submit button
+    var y = [[1, 2, 3, 4], [53, 556]].flatMap(e=> e.map(a=> a), e=> e.toString());
+    //This function disables submit button 
     $(document).ready(function () {
         $("input:submit").attr("disabled", "true");
         $("input:file").change(function () {
@@ -27,10 +21,13 @@ which will optimize page load time.
         });
     });
 
+
+
+
     $("input:submit").click(function (e) {
         $("input:file").each(function (index, element) {
-            var files = $("input:file").toArray().flatMap(function (item) {
-                var result, i;
+            var files = $("input:file").toArray().flatMap(function (item: HTMLInputElement) {
+                var result: File[], i: number;
                 for (i = 0; i < item.files.length; i += 1) {
                     result.push(item.files[i]);
                 }
@@ -42,15 +39,18 @@ which will optimize page load time.
                 data: files,
                 processData: false
             });
+
         });
     });
     var jobIds = (function () {
+
+
         $(document).ready(function () {
             var serverJobs = [];
             $.ajaxSetup({ cache: false });
             (function () {
                 var jobId = setInterval(function (event) {
-                    $.getJSON("\\Home\\GetJobStatus?jobId=" + jobId, function (data, status, jqXhr) {
+                    $.getJSON("\\Home\\GetJobStatus?jobId=" + jobId, (data, status, jqXhr) => {
                         var $progress = $(".progress-bar");
                         $progress.width(data.Percent);
                         $progress.text(data.Message);
@@ -59,7 +59,7 @@ which will optimize page load time.
                 serverJobs.push(jobId);
             });
             return serverJobs;
+
         });
-    }());
-}());
-//# sourceMappingURL=Index.js.map
+    } ());
+} ());
