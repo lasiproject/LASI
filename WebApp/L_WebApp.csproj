@@ -379,6 +379,8 @@
     <Content Include="Images\ic_launcher-web.png" />
     <Content Include="Images\ic_launcher-web50x50.png" />
     <Content Include="JSLintNet.json" />
+    <TypeScriptCompile Include="Scripts\App\Home\ReconstructedDocumentInteraction.ts" />
+    <TypeScriptCompile Include="Scripts\App\Home\Results.ts" />
     <Content Include="Scripts\App\Home\Results.js" />
     <Content Include="Scripts\App\Home\Index.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -414,7 +416,6 @@
     <Content Include="Scripts\knockout-3.1.0.debug.js" />
     <Content Include="Scripts\knockout-3.1.0.js" />
     <Content Include="Scripts\modernizr-2.7.2.js" />
-    <Content Include="Scripts\qunit.js" />
     <Content Include="Scripts\typings\jquery\jquery.d.ts" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -529,7 +530,6 @@
     <TypeScriptCompile Include="Scripts\App\Home\Index.ts" />
     <TypeScriptCompile Include="Scripts\App\Home\Initialize.ts" />
     <TypeScriptCompile Include="Scripts\typings\bootstrap\bootstrap.d.ts" />
-    <TypeScriptCompile Include="Scripts\typings\qunit\qunit.d.ts" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

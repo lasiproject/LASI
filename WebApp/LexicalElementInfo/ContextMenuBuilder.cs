@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
 using System.Collections.Concurrent;
+using Newtonsoft.Json.Serialization;
 
 namespace LASI.WebApp
 {
@@ -27,8 +28,10 @@ namespace LASI.WebApp
                 ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
                 ObjectCreationHandling = ObjectCreationHandling.Reuse,
                 NullValueHandling = NullValueHandling.Ignore,
+                ContractResolver = new CamelCasePropertyNamesContractResolver()
             };
-            var data = new {
+            var data = new
+            {
                 Verbal = verbal.GetSerializationId(),
                 Subjects = verbal.HasSubject() ? verbal.Subjects.Select(e => e.GetSerializationId()).ToArray() : null,
                 DirectObjects = verbal.HasDirectObject() ? verbal.DirectObjects.Select(e => e.GetSerializationId()).ToArray() : null,

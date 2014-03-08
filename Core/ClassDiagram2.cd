@@ -1,0 +1,1337 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="LASI.Core.Binding.AdjectivePhraseBinder" Collapsed="true">
+    <Position X="69.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>BindingAndWeighting\Binders\AdjectivePhraseBinder.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Core.Binding.AttributivePhraseBinder" Collapsed="true">
+    <Position X="78" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAAQAAAAAAAAAAAABAAAAAAAAAAAAIAAA=</HashCode>
+      <FileName>BindingAndWeighting\Binders\AttributivePhraseBinder.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Core.Binding.NounPhraseExtensions" Collapsed="true">
+    <Position X="74.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>BindingAndWeighting\Binders\AttributivePhraseBinder.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Core.Binding.Binder" Collapsed="true">
+    <Position X="79.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAiAAAAAgAAAAAAAoAAAAAAAAAAAAAAQAAAAAAAEA=</HashCode>
+      <FileName>BindingAndWeighting\Binders\Binder.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Core.Binding.IntraPhraseWordBinder" Collapsed="true">
+    <Position X="81.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>BindingAndWeighting\Binders\IntraPhraseWordBinder.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Core.Binding.InvalidStateTransitionException" Collapsed="true">
+    <Position X="69.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>BindingAndWeighting\Binders\InvalidStateTransitionException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Core.Binding.VerblessPhrasalSequenceException" Collapsed="true">
+    <Position X="69.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>BindingAndWeighting\Binders\InvalidStateTransitionException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Core.Binding.ObjectBinder" Collapsed="true">
+    <Position X="76.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAgCABAAAAAAIIABAAAAEAIQAAAwAAABBQAAAAAAA=</HashCode>
+      <FileName>BindingAndWeighting\Binders\ObjectBinder.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Core.Binding.PhraseWiseEntityGroupBinder" Collapsed="true">
+    <Position X="69.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAEAAAAAAAAAAAAAAAACAAAAAAAAAQAAAAAAA=</HashCode>
+      <FileName>BindingAndWeighting\Binders\PhraseWiseEntityGroupBinder.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Core.Binding.PronounBinder" Collapsed="true">
+    <Position X="76.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>BindingAndWeighting\Binders\PronounBinder.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Core.Binding.ScopedAliasMap" Collapsed="true">
+    <Position X="71" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAAAAACAACAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>BindingAndWeighting\Binders\ScopedAliasMap.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Core.Binding.SubjectBinder" Collapsed="true">
+    <Position X="74.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAAAAAAAAAAAAAAAEAAAAAAEAAAABAAAA=</HashCode>
+      <FileName>BindingAndWeighting\Binders\SubjectBinder.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Core.Binding.Experimental.ClauseSeperatingBranchingBinder" Collapsed="true">
+    <Position X="81.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAA=</HashCode>
+      <FileName>BindingAndWeighting\Binders\Experimental\ClauseSeperatingBranchingBinder.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Core.Binding.Experimental.ObjectBinderV2" Collapsed="true">
+    <Position X="78" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAA=</HashCode>
+      <FileName>BindingAndWeighting\Binders\Experimental\ObjectBinderV2.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Core.Binding.Experimental.PreBinder" Collapsed="true">
+    <Position X="71" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>BindingAndWeighting\Binders\Experimental\PreBinder.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Core.Binding.Experimental.AggregateNounPhrase" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="74.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EABKCAAAEAAQAgAAlCAAEAAAQCAAAAAACQIACAQAAAA=</HashCode>
+      <FileName>Experimental\AggregatePhrase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="LASI.Core.Binding.Experimental.NestableClause" Collapsed="true">
+    <Position X="0.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAFQAAAABAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Experimental\NestingClause.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="LASI.Core.ComparativeHeuristics.AliasLookup" Collapsed="true">
+    <Position X="76.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BgAAAQAAAABAAAAAEAAARAgAAAAAAAEAAAAAAAAAAAA=</HashCode>
+      <FileName>BindingAndWeighting\Binders\Experimental\RelationshipLookups\AliasDictionary.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Core.ComparativeHeuristics.ExpressionExtensions" Collapsed="true">
+    <Position X="79.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAAAIAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAIA=</HashCode>
+      <FileName>BindingAndWeighting\Binders\Experimental\RelationshipLookups\Helpers\ExpressionExtensions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Core.ComparativeHeuristics.SampleRelationshipLookup" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="69.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAACAAAAAAIAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>BindingAndWeighting\Binders\Experimental\RelationshipLookups\SampleRelationshipLookup.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="LASI.Core.ComparativeHeuristics.Lookup" Collapsed="true">
+    <Position X="74.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QgmqRABIABAgAAAAIGISCMpEQCAAyJAIyCjgCCqAAEw=</HashCode>
+      <FileName>Lookup\AdverbialSimilarityProvider.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Core.ComparativeHeuristics.NoSynonymLookupForTypeException" Collapsed="true">
+    <Position X="71" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Lookup\Support\Exceptions\LookupExceptions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Core.ComparativeHeuristics.WordDataNotLoadedException" Collapsed="true">
+    <Position X="23.5" Y="17.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Lookup\Support\Exceptions\LookupExceptions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Core.ComparativeHeuristics.NounDataNotLoadedException" Collapsed="true">
+    <Position X="20" Y="19" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Lookup\Support\Exceptions\LookupExceptions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Core.ComparativeHeuristics.VerbDataNotLoadedException" Collapsed="true">
+    <Position X="22.25" Y="19" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Lookup\Support\Exceptions\LookupExceptions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Core.ComparativeHeuristics.AdjectiveDataNotLoadedException" Collapsed="true">
+    <Position X="24.5" Y="19" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Lookup\Support\Exceptions\LookupExceptions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Core.ComparativeHeuristics.AdverbDataNotLoadedException" Collapsed="true">
+    <Position X="26.75" Y="19" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Lookup\Support\Exceptions\LookupExceptions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Core.ComparativeHeuristics.AdjectiveLookup" Collapsed="true">
+    <Position X="3.25" Y="16.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAgAAAAAABAAAIDEAAAAAAAEAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>Lookup\SyntacticCategorical\AdjectiveLookup.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Core.ComparativeHeuristics.AdverbLookup" Collapsed="true">
+    <Position X="5.5" Y="16.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAgAAAAAABAAAIDEAAAAAAAEAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>Lookup\SyntacticCategorical\AdverbLookup.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Core.ComparativeHeuristics.NounLookup" Collapsed="true">
+    <Position X="7.75" Y="16.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BCAAhAAABAAAAAEACEAAAAAAAEAAAEAAAAQQQCggAAA=</HashCode>
+      <FileName>Lookup\SyntacticCategorical\NounLookup.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Core.ComparativeHeuristics.SynSet&lt;TSetRelationship&gt;" Collapsed="true">
+    <Position X="4.5" Y="18.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAEiAAABAAAAAAAAICAAAAABAAgAiA=</HashCode>
+      <FileName>Lookup\SyntacticCategorical\Support\SynSet.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="LASI.Core.ComparativeHeuristics.NounSynSet" Collapsed="true">
+    <Position X="3.25" Y="19.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAA=</HashCode>
+      <FileName>Lookup\SyntacticCategorical\Support\SynSet.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Core.ComparativeHeuristics.VerbSynSet" Collapsed="true">
+    <Position X="5.5" Y="19.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAA=</HashCode>
+      <FileName>Lookup\SyntacticCategorical\Support\SynSet.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Core.ComparativeHeuristics.AdjectiveSynSet" Collapsed="true">
+    <Position X="7.75" Y="19.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAA=</HashCode>
+      <FileName>Lookup\SyntacticCategorical\Support\SynSet.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Core.ComparativeHeuristics.AdverbSynSet" Collapsed="true">
+    <Position X="1" Y="19.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAA=</HashCode>
+      <FileName>Lookup\SyntacticCategorical\Support\SynSet.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Core.ComparativeHeuristics.VerbLookup" Collapsed="true">
+    <Position X="1" Y="16.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAgAAABAAAAAAACEAAAAAQAEAAAEAAAAAQACAAAAA=</HashCode>
+      <FileName>Lookup\SyntacticCategorical\VerbLookup.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Core.ComparativeHeuristics.WordNetLookup&lt;TWord&gt;" Collapsed="true">
+    <Position X="4.5" Y="15.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAgAAAAAAAACAAAAAAAAAAAAAAAAABAAAAAAAA=</HashCode>
+      <FileName>Lookup\SyntacticCategorical\WordNetLookup.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Core.ProcessingTask" Collapsed="true">
+    <Position X="72.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAAAAQAQAAAAAAAAAAAAAAAEAAAAAAAAA=</HashCode>
+      <FileName>BindingAndWeighting\ProcessingTask.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Core.ProcessingTask&lt;T&gt;" Collapsed="true">
+    <Position X="74.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAAAAQAQAAAAAAAAAAAAAAAEAAAAAAAAA=</HashCode>
+      <FileName>BindingAndWeighting\ProcessingTask.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Core.SubordinateClauseIdentifier" Collapsed="true">
+    <Position X="76.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAIAAAAAAAAAAABAAAAAAAAAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>BindingAndWeighting\SubordinateClauseIdentifier.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Core.Weighter" Collapsed="true">
+    <Position X="72.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAQAABAIAAAAAAAAAAIACMAAAAAAEAAAAAgIAI=</HashCode>
+      <FileName>BindingAndWeighting\Weighter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Core.Adjective" Collapsed="true">
+    <Position X="56.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABAABAAAAAAgAAAAAAAAAAAAAAgAAAAAAAAAAAAA=</HashCode>
+      <FileName>CoreDataStructures\LexicalStructures\AdjectiveRelatedConstructs\Adjective.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="LASI.Core.AdjectivePhrase" Collapsed="true">
+    <Position X="29.25" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABAABAAAAAAgAAAAAAAAAAAAAAgAAAAAAAAAAAAA=</HashCode>
+      <FileName>CoreDataStructures\LexicalStructures\AdjectiveRelatedConstructs\AdjectivePhrase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="LASI.Core.ComparativeAdjective" Collapsed="true">
+    <Position X="57.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CoreDataStructures\LexicalStructures\AdjectiveRelatedConstructs\ComparativeAdjective.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Core.SuperlativeAdjective" Collapsed="true">
+    <Position X="55.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CoreDataStructures\LexicalStructures\AdjectiveRelatedConstructs\SuperlativeAdjective .cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Core.Adverb" Collapsed="true">
+    <Position X="18.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABAABAAAAAAAAAAAAAAIAAAAAAgAAAAAAAAAAAAA=</HashCode>
+      <FileName>CoreDataStructures\LexicalStructures\AdverbRelatedConstructs\Adverb.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="LASI.Core.AdverbPhrase" Collapsed="true">
+    <Position X="13.5" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CoreDataStructures\LexicalStructures\AdverbRelatedConstructs\AdverbPhrase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="LASI.Core.ComparativeAdverb" Collapsed="true">
+    <Position X="17.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CoreDataStructures\LexicalStructures\AdverbRelatedConstructs\ComparativeAdverb.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Core.SuperlativeAdverb" Collapsed="true">
+    <Position X="19.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CoreDataStructures\LexicalStructures\AdverbRelatedConstructs\SuperlativeAdverb.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Core.Conjunction" Collapsed="true">
+    <Position X="51" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAA=</HashCode>
+      <FileName>CoreDataStructures\LexicalStructures\BridgingConstructs\Conjunction.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="LASI.Core.ConjunctionPhrase" Collapsed="true">
+    <Position X="22.5" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAA=</HashCode>
+      <FileName>CoreDataStructures\LexicalStructures\BridgingConstructs\ConjunctionPhrase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="LASI.Core.Interjection" Collapsed="true">
+    <Position X="62.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CoreDataStructures\LexicalStructures\BridgingConstructs\Interjection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Core.Particle" Collapsed="true">
+    <Position X="3.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIABAAAEAAAAEAAAAAAAAAAgAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CoreDataStructures\LexicalStructures\BridgingConstructs\Particle.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="LASI.Core.ParticlePhrase" Collapsed="true">
+    <Position X="4.5" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIABAAAEAAAAEAAAAAAAAAAgAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CoreDataStructures\LexicalStructures\BridgingConstructs\ParticlePhrase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="LASI.Core.Preposition" Collapsed="true">
+    <Position X="12.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQAIABAAAEgAAEEAAAAAAAAAAgAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CoreDataStructures\LexicalStructures\BridgingConstructs\Preposition.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="LASI.Core.PrepositionalPhrase" Collapsed="true">
+    <Position X="11.25" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIABAAAEAAAEEAAAAAAAAAAgAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CoreDataStructures\LexicalStructures\BridgingConstructs\PrepositionalPhrase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="LASI.Core.ToLinker" Collapsed="true">
+    <Position X="33" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIABAAAEAAAAEAAAAAAAAAAgAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CoreDataStructures\LexicalStructures\BridgingConstructs\ToLinker.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="LASI.Core.Existential" Collapsed="true">
+    <Position X="35.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CoreDataStructures\LexicalStructures\MiscLanguageConstructs\Existential.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Core.ForeignWord" Collapsed="true">
+    <Position X="42" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CoreDataStructures\LexicalStructures\MiscLanguageConstructs\ForeignWord.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Core.InterjectionPhrase" Collapsed="true">
+    <Position X="20.25" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CoreDataStructures\LexicalStructures\MiscLanguageConstructs\InterjectionPhrase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Core.InterrogativePhrase" Collapsed="true">
+    <Position X="24.75" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CoreDataStructures\LexicalStructures\MiscLanguageConstructs\InterrogativePhrase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Core.PossessiveEnding" Collapsed="true">
+    <Position X="60" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEkAAAAAAAAACAAAAEAAAQAAAAAAA=</HashCode>
+      <FileName>CoreDataStructures\LexicalStructures\MiscLanguageConstructs\PossessiveEnding.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="LASI.Core.RoughListPhrase" Collapsed="true">
+    <Position X="31.5" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CoreDataStructures\LexicalStructures\MiscLanguageConstructs\RoughListPhrase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Core.SimpleDeclarativeClauseBeginPhrase" Collapsed="true">
+    <Position X="33.75" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CoreDataStructures\LexicalStructures\MiscLanguageConstructs\SimpleDeclarativePhrase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Core.InvertedClauseBeginPhrase" Collapsed="true">
+    <Position X="2.25" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CoreDataStructures\LexicalStructures\MiscLanguageConstructs\SimpleDeclarativePhrase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Core.UnknownPhrase" Collapsed="true">
+    <Position X="6.75" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CoreDataStructures\LexicalStructures\MiscLanguageConstructs\UnknownPhrase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Core.UnknownWord" Collapsed="true">
+    <Position X="15" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CoreDataStructures\LexicalStructures\MiscLanguageConstructs\UnknownWord.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Core.AggregateEntity" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="72.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ECACCAAAEAAAAhBElCAAEAAAQCAAAAAACQIACAQAAAA=</HashCode>
+      <FileName>CoreDataStructures\LexicalStructures\NounRelatedConstructs\AggregateEntity.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="LASI.Core.CommonNoun" Collapsed="true">
+    <Position X="27.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CoreDataStructures\LexicalStructures\NounRelatedConstructs\CommonNoun.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Core.CommonPluralNoun" Collapsed="true">
+    <Position X="26.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CoreDataStructures\LexicalStructures\NounRelatedConstructs\CommonPluralNoun.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="LASI.Core.CommonSingularNoun" Collapsed="true">
+    <Position X="28.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CoreDataStructures\LexicalStructures\NounRelatedConstructs\CommonSingularNoun.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Core.Noun" Collapsed="true">
+    <Position X="25.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACKAAAEAAAAgABkAAAMAAiQgCAAAgACQIAAAQIAAA=</HashCode>
+      <FileName>CoreDataStructures\LexicalStructures\NounRelatedConstructs\Noun.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="LASI.Core.NounPhrase" Collapsed="true">
+    <Position X="15.75" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACCCAAEAAAAgAEkAAQEAAQYgCAAAAAGQIAIAQAAAA=</HashCode>
+      <FileName>CoreDataStructures\LexicalStructures\NounRelatedConstructs\NounPhrase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="LASI.Core.Determiner" Collapsed="true">
+    <Position X="37.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAQA=</HashCode>
+      <FileName>CoreDataStructures\LexicalStructures\NounRelatedConstructs\NounRelatedModifiers\Determiner.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Core.PreDeterminer" Collapsed="true">
+    <Position X="53.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CoreDataStructures\LexicalStructures\NounRelatedConstructs\NounRelatedModifiers\PreDeterminer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Core.Quantifier" Collapsed="true">
+    <Position X="53.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAA=</HashCode>
+      <FileName>CoreDataStructures\LexicalStructures\NounRelatedConstructs\NounRelatedModifiers\Quantifier.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="LASI.Core.PersonalPronoun" Collapsed="true">
+    <Position X="66.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CoreDataStructures\LexicalStructures\NounRelatedConstructs\PersonalPronoun.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Core.PossessivePronoun" Collapsed="true">
+    <Position X="64.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEkAAAAAAAAACAAAAEAAAQAAAAAAA=</HashCode>
+      <FileName>CoreDataStructures\LexicalStructures\NounRelatedConstructs\PossessivePronoun.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="LASI.Core.Pronoun" Collapsed="true">
+    <Position X="66.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACCAAAGAEAQoCEkkoAGEAAQICBAEAgiQIAAQQBACA=</HashCode>
+      <FileName>CoreDataStructures\LexicalStructures\NounRelatedConstructs\Pronoun.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="LASI.Core.PronounPhrase" Collapsed="true">
+    <Position X="15.75" Y="10.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAIIAEAAAAAEAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CoreDataStructures\LexicalStructures\NounRelatedConstructs\PronounPhrase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="LASI.Core.ProperNoun" Collapsed="true">
+    <Position X="23" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABAAAAAAAAAAAAAAQAIAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CoreDataStructures\LexicalStructures\NounRelatedConstructs\ProperNoun.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Core.ProperPluralNoun" Collapsed="true">
+    <Position X="21.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CoreDataStructures\LexicalStructures\NounRelatedConstructs\ProperPluralNoun.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="LASI.Core.ProperSingularNoun" Collapsed="true">
+    <Position X="24" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAACAAAAAgAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CoreDataStructures\LexicalStructures\NounRelatedConstructs\ProperSingularNoun.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="LASI.Core.RelativePossessivePronoun" Collapsed="true">
+    <Position X="64.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CoreDataStructures\LexicalStructures\NounRelatedConstructs\RelativePossessivePronoun.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Core.RelativePronoun" Collapsed="true">
+    <Position X="39.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAAEAAAApAEkAgAEUABUACAAAIEGQIAAAQAAAA=</HashCode>
+      <FileName>CoreDataStructures\LexicalStructures\NounRelatedConstructs\RelativePronoun.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="LASI.Core.DoubleQuote" Collapsed="true">
+    <Position X="6" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CoreDataStructures\LexicalStructures\SymbolsAndPunctuators\DoubleQuote.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Core.Punctuator" Collapsed="true">
+    <Position X="8.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAgAAAAAAAA=</HashCode>
+      <FileName>CoreDataStructures\LexicalStructures\SymbolsAndPunctuators\Punctuator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Core.QuotationMark&lt;TQuote&gt;" Collapsed="true">
+    <Position X="7.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAEEAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CoreDataStructures\LexicalStructures\SymbolsAndPunctuators\QuotationMark.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="LASI.Core.SentenceEnding" Collapsed="true">
+    <Position X="10.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CoreDataStructures\LexicalStructures\SymbolsAndPunctuators\SentenceEnding.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Core.SingleQuote" Collapsed="true">
+    <Position X="8.25" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CoreDataStructures\LexicalStructures\SymbolsAndPunctuators\SingleQuote.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Core.Symbol" Collapsed="true">
+    <Position X="8.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CoreDataStructures\LexicalStructures\SymbolsAndPunctuators\Symbol.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Core.SymbolPhrase" Collapsed="true">
+    <Position X="9" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CoreDataStructures\LexicalStructures\SymbolsAndPunctuators\SymbolPhrase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Core.Clause" Collapsed="true">
+    <Position X="2" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EgQQAAgAAAgAgAAEBCAAAAAAACAAAAAAIQAACAAgAAA=</HashCode>
+      <FileName>CoreDataStructures\LexicalStructures\UnderpinningTypes\Clause.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="LASI.Core.ConflictingClauseRoleException" Collapsed="true">
+    <Position X="71" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CoreDataStructures\LexicalStructures\UnderpinningTypes\ConflictingClauseRoleException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Core.Phrase" Collapsed="true">
+    <Position X="18" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EhAAABAAAAAAAAAEBCgCAAgAACAAAAAKIQAACAAgAAA=</HashCode>
+      <FileName>CoreDataStructures\LexicalStructures\UnderpinningTypes\Phrase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="LASI.Core.SubordinateClause" Collapsed="true">
+    <Position X="3" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAgAAAAAEAIAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>CoreDataStructures\LexicalStructures\UnderpinningTypes\SubordinateClause.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="LASI.Core.SubordinateClauseBeginPhrase" Collapsed="true">
+    <Position X="18" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAEAAAACAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CoreDataStructures\LexicalStructures\UnderpinningTypes\SubordinateClauseBeginPhrase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Core.Word" Collapsed="true">
+    <Position X="35.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EgAQABAAQAAAgAAEBCAAAAAAACAAAAACIRAACAAAAAA=</HashCode>
+      <FileName>CoreDataStructures\LexicalStructures\UnderpinningTypes\Word.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="LASI.Core.InfinitivePhrase" Collapsed="true">
+    <Position X="27" Y="10.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACCAAAEAAAAgAAkAAAEAAAQAAAAAAACQIAAAQAAAA=</HashCode>
+      <FileName>CoreDataStructures\LexicalStructures\VerbRelatedConstructs\InfinitivePhrase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="LASI.Core.ModalAuxilary" Collapsed="true">
+    <Position X="30.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CoreDataStructures\LexicalStructures\VerbRelatedConstructs\ModalAuxilary.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Core.PastParticipleVerb" Collapsed="true">
+    <Position X="44.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CoreDataStructures\LexicalStructures\VerbRelatedConstructs\PastParticipleVerb.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Core.PastTenseVerb" Collapsed="true">
+    <Position X="46.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CoreDataStructures\LexicalStructures\VerbRelatedConstructs\PastTenseVerb.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Core.PresentParticipleGerund" Collapsed="true">
+    <Position X="48.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACCAAAEAAAAgAAkAAAEAAAQACAAAAACQIAAAQAAAA=</HashCode>
+      <FileName>CoreDataStructures\LexicalStructures\VerbRelatedConstructs\PresentParticipleGerund.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="LASI.Core.Verb" Collapsed="true">
+    <Position X="46.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAABEERBQAAAICBABACihACAqAAAggEGAAAQECABAg=</HashCode>
+      <FileName>CoreDataStructures\LexicalStructures\VerbRelatedConstructs\Verb.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="LASI.Core.VerbPhrase" Collapsed="true">
+    <Position X="27" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAABEERBQAAAICFABAGihACAqAAAggEGAAAQACABAg=</HashCode>
+      <FileName>CoreDataStructures\LexicalStructures\VerbRelatedConstructs\VerbPhrase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="LASI.Core.LexicalComparer" Collapsed="true">
+    <Position X="72.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAEAAAAAAA=</HashCode>
+      <FileName>CoreDataStructures\Support\Comparers.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Core.CustomComparer&lt;T&gt;" Collapsed="true">
+    <Position X="74.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAACAAAAAgAAAAAAAAAAAAMAAAACAAAAAAAA=</HashCode>
+      <FileName>CoreDataStructures\Support\Comparers.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Core.LASIEnumerable" Collapsed="true">
+    <Position X="71" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAGQZAIEAQQGAAQAghEEIAQAQhAAgiEEShHAQEQgCA=</HashCode>
+      <FileName>CoreDataStructures\Support\EnumerableExtensions\EnumerableOfDocumentStructureExtensions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Core.CrossDocumentJoiner" Collapsed="true">
+    <Position X="72.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAgAAAAAAAAAAgAGAAAAAAAAAABAAAEAAAAAA=</HashCode>
+      <FileName>CrossAnalysis\CrossDocumentJoiner.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Core.Relationship" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="79.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAgAEBAIABBAEgIAQAACAAAAAAIAAAAAAAAAAAiI=</HashCode>
+      <FileName>CrossAnalysis\Relationship.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="LASI.Core.RawTextFragment" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="78" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABCIAAAAAAAAAAIAAAAAAAAAAAAAAgAAAAAAAAAAAA=</HashCode>
+      <FileName>Interop\Content\RawTextFragment.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="LASI.Core.TaggedTextFragment" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="78" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAAAAAAAAAIAAAAAAAAQAAAAAgAAAAAAAAAAAA=</HashCode>
+      <FileName>Interop\Content\TaggedTextFragment.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="LASI.Core.Concurrency" Collapsed="true">
+    <Position X="69.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAABAAAAAAAAAAIgAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Interop\ResourceManagement\CPUandRAMUsageControl.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Core.Memory" Collapsed="true">
+    <Position X="69.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAABAAAAAAIAAAAAAAAAgAAAAAAAAAAAA=</HashCode>
+      <FileName>Interop\ResourceManagement\CPUandRAMUsageControl.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Core.EntityClassificationExtensions" Collapsed="true">
+    <Position X="78" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQRAAAAAAAAAAAAAAAAAAIAIAIAiAAIIAEEAAAIAAA=</HashCode>
+      <FileName>Lookup\SyntacticCategorical\Support\EntityClassificationExtensions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Core.DocumentStructures.Document" Collapsed="true">
+    <Position X="76.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAABAgAIAAAAQAEAAAIAAQAAAIgAAEAAABFAAAgCEA=</HashCode>
+      <FileName>CoreDataStructures\DocumentStructures\Document.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Core.DocumentStructures.Paragraph" Collapsed="true">
+    <Position X="79.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAgAAAAQoAAEAAAAAAAAAAAAAAAKIAACCAAgAAA=</HashCode>
+      <FileName>CoreDataStructures\DocumentStructures\Paragraph.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Core.DocumentStructures.Sentence" Collapsed="true">
+    <Position X="72.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABQAAAgAAAAAAQAEAAAAAAQAAAAAAAACAAACCAAgUEA=</HashCode>
+      <FileName>CoreDataStructures\DocumentStructures\Sentence.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Core.Patternization.Generalized.MatchCase&lt;TResult&gt;" Collapsed="true">
+    <Position X="76.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAACAAAAAAQAAABAAAAAAABAAAAAAAA=</HashCode>
+      <FileName>CoreDataStructures\Support\PatternMatching\Generalized\Basis\MatchCase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Core.Patternization.Generalized.MatchCase" Collapsed="true">
+    <Position X="78" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABCAAAAAAAAAAgAAAAAAAAAAAABAAAAAAAAAAQAAAAA=</HashCode>
+      <FileName>CoreDataStructures\Support\PatternMatching\Generalized\Basis\MatchCase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Core.Patternization.MatchCase&lt;T&gt;" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="81.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABCAAAAAACAAAAAAAAAAIAAAAABAAAAAAAAAAQAAAAA=</HashCode>
+      <FileName>CoreDataStructures\Support\PatternMatching\LexicalSpecific\MatchCase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="LASI.Core.Patternization.MatchCase&lt;T, TResult&gt;" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="79.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABCAAAAAACAAAAACAAAAAAQAAABAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CoreDataStructures\Support\PatternMatching\LexicalSpecific\MatchCase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="LASI.Core.Patternization.TestedMatchCase&lt;T&gt;" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="79.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAACAAAAAQAAgAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CoreDataStructures\Support\PatternMatching\LexicalSpecific\MatchCase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="LASI.Core.Patternization.TestedMatchCase&lt;T, TResult&gt;" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="81.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAACAAAAAQAAgAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CoreDataStructures\Support\PatternMatching\LexicalSpecific\MatchCase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="LASI.Core.Patternization.PatternMatching" Collapsed="true">
+    <Position X="81.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CoreDataStructures\Support\PatternMatching\LexicalSpecific\PatternMatching.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Core.ComparativeHeuristics.Morphemization.AdverbMorpher" Collapsed="true">
+    <Position X="71" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAAAAAAAAAAAAAAABAAADIUAAAAMAAAAAQAAAAA=</HashCode>
+      <FileName>Lookup\Morphemization\AdverbMorpher.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Core.ComparativeHeuristics.Morphemization.NounMorpher" Collapsed="true">
+    <Position X="72.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAAAAAAAAAAAAAAABAAADIUAAAAMAAAAAQAAAAA=</HashCode>
+      <FileName>Lookup\Morphemization\NounMorpher.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Core.ComparativeHeuristics.Morphemization.VerbMorpher" Collapsed="true">
+    <Position X="71" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAAAAAAAAAAAAAAABAAgCAEAAAAIAAAAASAAAAA=</HashCode>
+      <FileName>Lookup\Morphemization\VerbMorpher.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Core.Lookup.RepresentationalDeterminer" Collapsed="true">
+    <Position X="81.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Lookup\RepresentationalDeterminer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="LASI.Core.ComparativeHeuristics.ActionReceiverPair&lt;TVerbal, TEntity&gt;" Collapsed="true">
+    <Position X="69.25" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAgAAAAAAAAAAEAIAAAAAAAAAAAiQ=</HashCode>
+      <FileName>BindingAndWeighting\Binders\Experimental\RelationshipLookups\Helpers\ActionReceiverPair.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="LASI.Core.ComparativeHeuristics.ActionsRelatedOn" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="71" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAgAAAAAAAAAIAAJAAAABAAAAAAiA=</HashCode>
+      <FileName>BindingAndWeighting\Binders\Experimental\RelationshipLookups\Helpers\ExpressionExtensions.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Struct>
+  <Struct Name="LASI.Core.ComparativeHeuristics.PerformerReceiverPair&lt;TPerformer, TReceiver&gt;" Collapsed="true">
+    <Position X="74.5" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAgAAAAAAAAQAEAIAAAAAAAAAAAiA=</HashCode>
+      <FileName>BindingAndWeighting\Binders\Experimental\RelationshipLookups\Helpers\PerformerReceiverPair.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="LASI.Core.ComparativeHeuristics.SimilarityResult" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="76.25" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQBAAAAAAAAAAQAgAAABAAACAAAQIgAAAAAQAAEAiA=</HashCode>
+      <FileName>Lookup\Support\SimilarityResult.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Struct>
+  <Struct Name="LASI.Core.MB" Collapsed="true">
+    <Position X="72.75" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAE4AWAAwAAAAAAAIAAAAAAgAAAByA=</HashCode>
+      <FileName>Interop\ResourceManagement\CPUandRAMUsageControl.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Interface Name="LASI.Core.Binding.Experimental.INestableLexical&lt;TLexical&gt;" Collapsed="true">
+    <Position X="25.75" Y="12.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAFQAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>BindingAndWeighting\Binders\Experimental\INestableLexical.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="LASI.Core.Binding.Experimental.IAggregateLexical&lt;TPrimary, TBase&gt;" Collapsed="true">
+    <Position X="12.25" Y="12.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Experimental\AggregatePhrase.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="LASI.Core.ComparativeHeuristics.IRelationshipLookup&lt;TEntity, TVerbal&gt;" Collapsed="true">
+    <Position X="81.5" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>BindingAndWeighting\Binders\Experimental\RelationshipLookups\IRelationshipLookup.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="LASI.Core.IDescribable" Collapsed="true">
+    <Position X="5.5" Y="12.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAACAAAAAAAAAA=</HashCode>
+      <FileName>CoreDataStructures\LexicalStructures\AdjectiveRelatedConstructs\IDescribable.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="LASI.Core.IDescriptor" Collapsed="true">
+    <Position X="7.75" Y="12.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CoreDataStructures\LexicalStructures\AdjectiveRelatedConstructs\IDescriptor.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="LASI.Core.IAdverbial" Collapsed="true">
+    <Position X="16.75" Y="12.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CoreDataStructures\LexicalStructures\AdverbRelatedConstructs\IAdverbial.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="LASI.Core.IAdverbialModifiable" Collapsed="true">
+    <Position X="37.5" Y="13.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAA=</HashCode>
+      <FileName>CoreDataStructures\LexicalStructures\AdverbRelatedConstructs\IAdverbialModifiable.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="LASI.Core.IConjunctive" Collapsed="true">
+    <Position X="21.25" Y="12.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAA=</HashCode>
+      <FileName>CoreDataStructures\LexicalStructures\BridgingConstructs\IConjunctive.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="LASI.Core.IPrepositional" Collapsed="true">
+    <Position X="28" Y="12.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIABAAAEAAAAEAAAAAAAAAAgAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CoreDataStructures\LexicalStructures\BridgingConstructs\IPrepositional.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="LASI.Core.IConflatable" Collapsed="true">
+    <Position X="69.25" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CoreDataStructures\LexicalStructures\MiscLanguageConstructs\IConflatable.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="LASI.Core.IAggregateEntity" Collapsed="true">
+    <Position X="15" Y="19.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CoreDataStructures\LexicalStructures\NounRelatedConstructs\IAggregateEntity.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="LASI.Core.IEntity" Collapsed="true">
+    <Position X="15.5" Y="15.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CoreDataStructures\LexicalStructures\NounRelatedConstructs\IEntity.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="LASI.Core.IPossessable" Collapsed="true">
+    <Position X="19" Y="12.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CoreDataStructures\LexicalStructures\NounRelatedConstructs\IPossessable.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="LASI.Core.IPossesser" Collapsed="true">
+    <Position X="23.5" Y="12.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAkAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CoreDataStructures\LexicalStructures\NounRelatedConstructs\IPossesser.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="LASI.Core.IQuantifier" Collapsed="true">
+    <Position X="30.25" Y="14.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAA=</HashCode>
+      <FileName>CoreDataStructures\LexicalStructures\NounRelatedConstructs\IQuantifer.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="LASI.Core.IQuantifiable" Collapsed="true">
+    <Position X="30.25" Y="12.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CoreDataStructures\LexicalStructures\NounRelatedConstructs\IQuantifiable.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="LASI.Core.IReferenceable" Collapsed="true">
+    <Position X="3.25" Y="14" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CoreDataStructures\LexicalStructures\NounRelatedConstructs\IReferenceable.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="LASI.Core.IReferencer" Collapsed="true">
+    <Position X="14.5" Y="17.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAIAAAAAAAEAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CoreDataStructures\LexicalStructures\NounRelatedConstructs\IReferencer.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="LASI.Core.IGendered" Collapsed="true">
+    <Position X="16.75" Y="17.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CoreDataStructures\LexicalStructures\NounRelatedConstructs\ISimpleGendered.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="LASI.Core.IWeakPossessor" Collapsed="true">
+    <Position X="23.5" Y="14.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAA=</HashCode>
+      <FileName>CoreDataStructures\LexicalStructures\NounRelatedConstructs\IWeakPossessor.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="LASI.Core.IDeterminable" Collapsed="true">
+    <Position X="71" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAIAAA=</HashCode>
+      <FileName>CoreDataStructures\LexicalStructures\NounRelatedConstructs\NounRelatedModifiers\IDeterminable.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="LASI.Core.IPairedPunctuator&lt;TPunctuator&gt;" Collapsed="true">
+    <Position X="76.25" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAEEAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CoreDataStructures\LexicalStructures\SymbolsAndPunctuators\IPairedPunctuator.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="LASI.Core.IAggregateLexical&lt;TLexical&gt;" Collapsed="true">
+    <Position X="14.5" Y="12.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CoreDataStructures\LexicalStructures\UnderpinningTypes\IAggregateLexical.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="LASI.Core.ILexical" Collapsed="true">
+    <Position X="16.75" Y="11.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAAAAAAAABCAAAAAAACAAAAAAAQAACAAAAAA=</HashCode>
+      <FileName>CoreDataStructures\LexicalStructures\UnderpinningTypes\ILexical.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="LASI.Core.IDirectObjectTaker" Collapsed="true">
+    <Position X="39.75" Y="13.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAABAAAAAAAAAAAAAACAAAQAAAAAA=</HashCode>
+      <FileName>CoreDataStructures\LexicalStructures\VerbRelatedConstructs\IDirectObjectTaker.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="LASI.Core.IInderectObjectTaker" Collapsed="true">
+    <Position X="10" Y="13.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAABAA=</HashCode>
+      <FileName>CoreDataStructures\LexicalStructures\VerbRelatedConstructs\IInderectObjectTaker.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="LASI.Core.IModalityModifiable" Collapsed="true">
+    <Position X="42.25" Y="13.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CoreDataStructures\LexicalStructures\VerbRelatedConstructs\IModalityModdifiable.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="LASI.Core.ISubjectTaker" Collapsed="true">
+    <Position X="35.25" Y="13.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAAAAAAAAAAAAAgACAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CoreDataStructures\LexicalStructures\VerbRelatedConstructs\ISubjectTaker.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="LASI.Core.IVerbal" Collapsed="true">
+    <Position X="17.75" Y="14.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAERAQAAAICAAAAAABAAAoAAAAAAAAAAAACAAAA=</HashCode>
+      <FileName>CoreDataStructures\LexicalStructures\VerbRelatedConstructs\IVerbal.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="LASI.Core.IVerbalObject" Collapsed="true">
+    <Position X="0.5" Y="14" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQIAAAAAAAA=</HashCode>
+      <FileName>CoreDataStructures\LexicalStructures\VerbRelatedConstructs\IVerbalObject.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="LASI.Core.IVerbalSubject" Collapsed="true">
+    <Position X="32.75" Y="14" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CoreDataStructures\LexicalStructures\VerbRelatedConstructs\IVerbalSubject.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="LASI.Core.ITaggedTextSource" Collapsed="true">
+    <Position X="69.25" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAAAAAAAAAIAAAAAAAAAAAAAAgAAAAAAAAAAAA=</HashCode>
+      <FileName>Interop\Content\ITaggedTextSource.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="LASI.Core.IUntaggedTextSource" Collapsed="true">
+    <Position X="71" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAAAAAAAAAIAAAAAAAAAAAAAAgAAAAAAAAAAAA=</HashCode>
+      <FileName>Interop\Content\IUntaggedTextSource.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="LASI.Core.Patternization.IMatchCase&lt;T&gt;" Collapsed="true">
+    <Position X="72.75" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAACAAAAAAAAAAIAAAAAAAAAAAAAAAAQAAAAA=</HashCode>
+      <FileName>CoreDataStructures\Support\PatternMatching\LexicalSpecific\IMatchCase.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="LASI.Core.Patternization.IMatchCase&lt;T, TResult&gt;" Collapsed="true">
+    <Position X="74.5" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAACAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CoreDataStructures\Support\PatternMatching\LexicalSpecific\IMatchCase.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="LASI.Core.Patternization.IPredicatedMatchCase&lt;T, TResult&gt;" Collapsed="true">
+    <Position X="78" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAQAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CoreDataStructures\Support\PatternMatching\LexicalSpecific\IPredicatedMatchCase.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="LASI.Core.Patternization.IPredicatedMatchCase&lt;T&gt;" Collapsed="true">
+    <Position X="79.75" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CoreDataStructures\Support\PatternMatching\LexicalSpecific\IPredicatedMatchCase.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="LASI.Core.ComparativeHeuristics.Gender" Collapsed="true">
+    <Position X="76.25" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAIAABA=</HashCode>
+      <FileName>CoreDataStructures\LexicalStructures\NounRelatedConstructs\Gender.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="LASI.Core.ComparativeHeuristics.NounSetLink" Collapsed="true">
+    <Position X="78" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>A1ACAAEAAIACAAAAQAAAAAAAAAAAQFAAEKCgAAICACA=</HashCode>
+      <FileName>Lookup\SyntacticCategorical\Support\WordNetLexCategoryInformation.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="LASI.Core.ComparativeHeuristics.VerbSetLink" Collapsed="true">
+    <Position X="76.25" Y="11.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAEAAAIAAAAAAAAABAAAAAAAgQAAgASAAAAACgCA=</HashCode>
+      <FileName>Lookup\SyntacticCategorical\Support\WordNetLexCategoryInformation.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="LASI.Core.ComparativeHeuristics.AdjectiveSetLink" Collapsed="true">
+    <Position X="69.25" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAACAAAAAIACAAAAAIABAAAAAAAAQAAAACAAAAAQACA=</HashCode>
+      <FileName>Lookup\SyntacticCategorical\Support\WordNetLexCategoryInformation.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="LASI.Core.ComparativeHeuristics.AdverbSetLink" Collapsed="true">
+    <Position X="71" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAIAAAAAAAAAAAAAAAAAAQAAAACAAAAAAASA=</HashCode>
+      <FileName>Lookup\SyntacticCategorical\Support\WordNetLexCategoryInformation.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="LASI.Core.PrepositionRole" Collapsed="true">
+    <Position X="81.5" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAAAQAAAAAAgAAAAAAACAAEABAAAAAAAAAAA=</HashCode>
+      <FileName>CoreDataStructures\LexicalStructures\BridgingConstructs\PrepositionRole.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="LASI.Core.EntityKind" Collapsed="true">
+    <Position X="74.5" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAQAAAAUAAAAAAAAAIQAACAAAAAAAAAAAAAAEIAICA=</HashCode>
+      <FileName>CoreDataStructures\LexicalStructures\NounRelatedConstructs\EntityKind.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="LASI.Core.DeterminerKind" Collapsed="true">
+    <Position X="72.75" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAIAAAAAAAABAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CoreDataStructures\LexicalStructures\NounRelatedConstructs\NounRelatedModifiers\DeterminerKind.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="LASI.Core.PronounKind" Collapsed="true">
+    <Position X="69.25" Y="11.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAABAAAICAQAEAAAACAAAQgQgSAAAFAAAoAACA=</HashCode>
+      <FileName>CoreDataStructures\LexicalStructures\NounRelatedConstructs\PronounKind.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="LASI.Core.RelativePronounKind" Collapsed="true">
+    <Position X="71" Y="11.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAQAAAAAAAAAgAAEAAACAAAAAAAAAAAAAAAAAEAA=</HashCode>
+      <FileName>CoreDataStructures\LexicalStructures\NounRelatedConstructs\RelativePronounKind.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="LASI.Core.VerbForm" Collapsed="true">
+    <Position X="74.5" Y="11.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAAAIAAAEAAAAAAAAAAAAAAAAQAAAAAAAACAQAA=</HashCode>
+      <FileName>CoreDataStructures\LexicalStructures\VerbRelatedConstructs\VerbForm.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="LASI.Core.DocumentStructures.ParagraphKind" Collapsed="true">
+    <Position X="79.75" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAACAAAAA=</HashCode>
+      <FileName>CoreDataStructures\DocumentStructures\Paragraph.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="LASI.Core.Interop.ResourceMode" Collapsed="true">
+    <Position X="72.75" Y="11.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAgAAAAAAAAgIAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Interop\ResourceManagement\ResourceMode.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
