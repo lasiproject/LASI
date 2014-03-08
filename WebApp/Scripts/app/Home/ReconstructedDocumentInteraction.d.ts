@@ -1,7 +1,12 @@
-﻿/// <reference path="../../typings/jquery/jquery.d.ts" />
-interface VerbalContextInfo {
-    subjects: number[];
-    directObjects: number[];
-    indirectObjects: number[];
+﻿declare module LASI.Results.ContextProviders {
+    interface VerbalContext {
+        subjects: number[];
+        directObjects: number[];
+        indirectObjects: number[];
+    }
+    interface RefencerContext {
+        referredTo: number[];
+    }
 }
-declare var GetInfoForVerbal: (rawData: string) => VerbalContextInfo;
+declare module LASI.Results {
+}

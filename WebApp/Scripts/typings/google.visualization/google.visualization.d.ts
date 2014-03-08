@@ -244,9 +244,12 @@ declare module google {
         }
 
         export interface ChartAxis {
-            baseline?: number; // This option is only supported for a continuous axis. https://google-developers.appspot.com/chart/interactive/docs/customizing_axes#Terminology
-            baselineColor?: string; // google's documentation on this is wrong, specifies it as a number. The color of the baseline for the horizontal axis. Can be any HTML color string, for example: 'red' or '#00cc00'
-            direction?: number; // The direction in which the values along the horizontal axis grow. Specify -1 to reverse the order of the values.
+            baseline?: number; // This option is only supported for a continuous axis.
+            // https://google-developers.appspot.com/chart/interactive/docs/customizing_axes#Terminology
+            baselineColor?: string; // google's documentation on this is wrong, specifies it as a number.
+            // The color of the baseline for the horizontal axis.Can be any HTML color string, for example: 'red' or '#00cc00'
+            direction?: number;
+            // The direction in which the values along the horizontal axis grow. Specify -1 to reverse the order of the values.
             format?: string; // icu pattern set http://icu-project.org/apiref/icu4c/classDecimalFormat.html#_details
             gridlines?: ChartGridlines;
             logScale?: boolean;
@@ -346,7 +349,7 @@ declare module google {
             isStacked?: boolean;
             legend?: ChartLegend;
             reverseCategories?: boolean;
-            selectionMode?: string // single / multiple
+            selectionMode?: string; // single / multiple
             series?: any;
             theme?: string;
             title?: string;
@@ -398,7 +401,7 @@ declare module google {
             lineWidth?: number;
             pointSize?: number;
             reverseCategories?: boolean;
-            selectionMode?: string // single / multiple
+            selectionMode?: string; // single / multiple
             series?: any;
             theme?: string;
             title?: string;
