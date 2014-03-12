@@ -290,6 +290,7 @@
     <Content Include="Areas\HelpPage\HelpPage.css" />
     <Content Include="Content\App\Account\CreateAccount.css" />
     <Content Include="Content\App\Account\Login.css" />
+    <Content Include="Content\App\Account\Settings.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -381,6 +382,7 @@
     <Content Include="JSLintNet.json" />
     <TypeScriptCompile Include="Scripts\App\Home\ReconstructedDocumentInteraction.ts" />
     <TypeScriptCompile Include="Scripts\App\Home\Results.ts" />
+    <Content Include="Scripts\App\Home\Progress.js" />
     <Content Include="Scripts\App\Home\Results.js" />
     <Content Include="Scripts\App\Home\Index.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -427,6 +429,8 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Views\Account\Settings.cshtml" />
+    <Content Include="Views\Home\Progress.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

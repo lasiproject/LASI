@@ -58,6 +58,10 @@ namespace LASI.WebApp.Controllers
 
         private const short CHART_ITEM_MAX = 5;
 
+        public ActionResult Progress() {
+            return View();
+        }
+
         public async Task<ActionResult> Results() {
             var documents = await LoadResults();
 

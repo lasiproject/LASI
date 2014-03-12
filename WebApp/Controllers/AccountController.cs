@@ -27,6 +27,7 @@ namespace LASI.WebApp.Controllers
         public ActionResult CreateAccount() {
             return View(new UserModel());
         }
+
         [HttpPost]
         public ActionResult CreateNew(UserModel model) {
             var settings = new JsonSerializerSettings {
@@ -37,10 +38,10 @@ namespace LASI.WebApp.Controllers
             using (var writer = new JsonTextWriter(new System.IO.StreamWriter(userDataFile, append: true)) { Formatting = Formatting.Indented }) {
                 JsonSerializer.Create(settings).Serialize(writer, model);
             }
-
-
             return RedirectToAction("Index", "Home");
         }
-
+        public ActionResult Settings() {
+            return View();
+        }
     }
 }
