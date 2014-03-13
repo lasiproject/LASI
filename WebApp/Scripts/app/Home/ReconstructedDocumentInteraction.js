@@ -10,7 +10,6 @@
     })(LASI.Results || (LASI.Results = {}));
     var Results = LASI.Results;
 })(LASI || (LASI = {}));
-;
 
 var LASI;
 (function (LASI) {

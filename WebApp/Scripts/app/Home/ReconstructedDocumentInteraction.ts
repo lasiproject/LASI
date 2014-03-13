@@ -9,7 +9,7 @@ module LASI.Results.ContextProviders {
     export interface RefencerContext {
         referredTo: number[];
     };
-};
+ }
 
 module LASI.Results {
     "use strict";

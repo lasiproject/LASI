@@ -1,25 +1,25 @@
 ﻿(function () {
     // Load the Visualization API and the piechart package.
-    google.load('visualization', '1.0', { 'packages': ['corechart'] });
+    google.load("visualization", "1.0", { "packages": ["corechart"] });
     "use strict";
-    $('#myTab a').click(function (event) {
+    $("#myTab a").click(function (event) {
         event.preventDefault();
-        $(this).tab('show');
+        $(this).tab("show");
     });
 
     var drawChart = function (targetElement, rowData) {
         return function () {
             // Create the data table.
             var data = new google.visualization.DataTable();
-            data.addColumn('string', 'Entity');
-            data.addColumn('number', 'Weight');
+            data.addColumn("string", "Entity");
+            data.addColumn("number", "Weight");
             data.addRows(rowData);
 
             // Set chart options
             var options = {
-                'title': 'Top Results',
-                'width': 500,
-                'height': 500
+                "title": "Top Results",
+                "width": 500,
+                "height": 500
             };
 
             // Instantiate and draw our chart, passing in some options.

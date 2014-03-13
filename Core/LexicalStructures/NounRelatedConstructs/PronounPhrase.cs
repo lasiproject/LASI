@@ -22,9 +22,9 @@ namespace LASI.Core
         /// <param name="composedWords">The words which compose to form the PronounPhrase.</param>
         public PronounPhrase(IEnumerable<Word> composedWords)
             : base(composedWords) {
-            if (composedWords.OfPronoun().Any(p => p.ReferredTo != null)) {
-                refersTo = new AggregateEntity(composedWords.OfPronoun().Select(p => p.ReferredTo));
-            }
+            referredTo = new AggregateEntity(composedWords
+                .OfPronoun()
+                .Where(p => p.ReferredTo != null));
         }
 
         /// <summary>
@@ -36,14 +36,14 @@ namespace LASI.Core
             result += (AliasLookup.GetDefinedAliases(ReferredTo ?? this as IEntity).Any() ? "\nClassified as: " + AliasLookup.GetDefinedAliases(ReferredTo ?? this as IEntity).Format() : string.Empty);
             return result;
         }
-        private IAggregateEntity refersTo;
+        private IAggregateEntity referredTo;
         /// <summary>
         /// Gets the Entity which the IPronoun references.
         /// </summary>
         public IAggregateEntity ReferredTo {
             get {
-                refersTo = refersTo ?? new AggregateEntity(Words.OfPronoun().Where(p => p.ReferredTo != null).Select(p => p.ReferredTo));
-                return refersTo;
+                referredTo = referredTo ?? new AggregateEntity(Words.OfPronoun().Where(p => p.ReferredTo != null).Select(p => p.ReferredTo));
+                return referredTo;
             }
 
         }
@@ -53,12 +53,12 @@ namespace LASI.Core
         /// </summary>
         /// <param name="target">The entity to which to bind.</param>
         public void BindAsReferringTo(IEntity target) {
-            if (refersTo == null) {
-                refersTo = new AggregateEntity(new[] { target });
+            if (referredTo == null) {
+                referredTo = new AggregateEntity(new[] { target });
             } else {
-                refersTo = new AggregateEntity(refersTo.Append(target));
+                referredTo = new AggregateEntity(referredTo.Append(target));
             }
-            EntityKind = refersTo.EntityKind;
+            EntityKind = referredTo.EntityKind;
         }
 
 
